@@ -55,3 +55,9 @@ docs/_build/
 
 # PyBuilder
 target/
+
+# VIM Swap Files
+*.sw[op]
+
+# SQLITE3 Test database
+db.*
