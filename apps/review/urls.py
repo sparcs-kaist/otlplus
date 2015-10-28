@@ -18,5 +18,5 @@ from django.contrib import admin
 from django.http import HttpResponseRedirect
 
 urlpatterns = [
-    url(r'^$', 'session.views.home'),
+    url(r'^$', 'apps.review.views.home'),
 ]
