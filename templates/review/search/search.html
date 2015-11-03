@@ -1,0 +1,179 @@
+{% extends "review/layout.html" %}
+{% load staticfiles %}
+
+{% block title %}
+  {{ block.super }}
+{% endblock %}
+
+{% block metatags %}
+  {{ block.super }}
+{% endblock %}
+
+{% block stylesheets %}
+  {{ block.super }}
+{% endblock %}
+
+{% block javascripts %}
+  {{ block.super }}
+  <script type="text/javascript">
+    $('#category').on('focus', function() {
+      $('#m-category').modal('show');
+    });
+  </script>
+{% endblock %}
+
+{% block header %}
+  {{ block.super }}
+{% endblock %}
+
+{% block contents %}
+  <div class="row" style="margin-top: 50px;">
+    <div class="col-xs-24 text-center">
+      <img src="https://placeholdit.imgix.net/~text?txtsize=33&txt=logo&w=300&h=150">
+    </div>
+  </div>
+  <div class="row" style="margin-top: 50px;">
+    <div class="col-xs-6">
+
+    </div>
+    <div class="col-xs-6">
+      <form role="form" class="form" >
+        <input id="category" type="text" class="form-control">
+      </form>
+    </div>
+    <div class="col-xs-6">
+      <form role="form" class="form" method="get" action="result/">
+        <input type="text" class="form-control">
+      </form>
+    </div>
+    <div class="col-xs-6">
+
+    </div>
+  </div>
+  <div class="row" style="margin-top: 50px;">
+    <div class="col-xs-3"></div>
+    <div class="col-xs-6">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          BEST 후기1 - CS101
+        </div>
+        <div class="panel-body">
+          CS101 매우 재밌어요
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-6">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          BEST 후기2 - CS101
+        </div>
+        <div class="panel-body">
+          CS101 매우 재밌어요
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-6">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          BEST 후기3 - CS101
+        </div>
+        <div class="panel-body">
+          CS101 매우 재밌어요
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-3">
+
+    </div>
+  </div>
+{% endblock %}
+
+{% block modals %}
+  {{ block.super }}
+  <div id="m-category" class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form role="form" class="form" method="get" action="result/">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Category 검색</h4>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-xs-24">
+                <p>학과</p>
+                <div class="btn-group" data-toggle="buttons">
+                  <label class="btn btn-primary">
+                    <input type="checkbox" autocomplete="off"> 전산과
+                  </label>
+                  <label class="btn btn-primary">
+                    <input type="checkbox" autocomplete="off"> 전자과
+                  </label>
+                  <label class="btn btn-primary">
+                    <input type="checkbox" autocomplete="off"> 기계과
+                  </label>
+                  <label class="btn btn-primary">
+                    <input type="checkbox" autocomplete="off"> 전산과
+                  </label>
+                  <label class="btn btn-primary">
+                    <input type="checkbox" autocomplete="off"> 전자과
+                  </label>
+                  <label class="btn btn-primary">
+                    <input type="checkbox" autocomplete="off"> 기계과
+                  </label>
+                  <label class="btn btn-primary">
+                    <input type="checkbox" autocomplete="off"> 전산과
+                  </label>
+                  <label class="btn btn-primary">
+                    <input type="checkbox" autocomplete="off"> 전자과
+                  </label>
+                  <label class="btn btn-primary">
+                    <input type="checkbox" autocomplete="off"> 기계과
+                  </label>
+                </div>
+                <p>구분</p>
+                <div class="btn-group" data-toggle="buttons">
+                  <label class="btn btn-primary">
+                    <input type="checkbox" autocomplete="off"> 기필
+                  </label>
+                  <label class="btn btn-primary">
+                    <input type="checkbox" autocomplete="off"> 전필
+                  </label>
+                  <label class="btn btn-primary">
+                    <input type="checkbox" autocomplete="off"> 전선
+                  </label>
+                  <label class="btn btn-primary">
+                    <input type="checkbox" autocomplete="off"> 자선
+                  </label>
+                </div>
+                <p>학점</p>
+                <div class="btn-group" data-toggle="buttons">
+                  <label class="btn btn-primary">
+                    <input type="checkbox" autocomplete="off"> 1학점
+                  </label>
+                  <label class="btn btn-primary">
+                    <input type="checkbox" autocomplete="off"> 2학점
+                  </label>
+                  <label class="btn btn-primary">
+                    <input type="checkbox" autocomplete="off"> 3학점
+                  </label>
+                  <label class="btn btn-primary">
+                    <input type="checkbox" autocomplete="off"> 4학점
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+            <input type="submit" class="btn btn-primary" value="검색">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block footer %}
+  {{ block.super }}
+{% endblock %}
