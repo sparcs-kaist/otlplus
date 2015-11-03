@@ -1,7 +1,18 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+# -*- coding:utf-8 -*-
 
-# Create your views here.
+from django.views.generic import *
 
-def home(request):
-    return HttpResponse("review!")
+
+class SearchView(TemplateView):
+    # TODO change class-based view to function view
+    template_name = 'review/search/search.html'
+
+
+class SearchResultView(TemplateView):
+    # TODO change class-based view to function view
+    template_name = 'review/search/result.html'
+
+
+class ReviewInsertView(TemplateView):
+    # TODO change class-based view to function view
+    template_name = 'review/review/insert.html'
