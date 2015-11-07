@@ -83,6 +83,9 @@ def ReviewInsertView(request):
         lecture_object = {}
 	lecture_object["title"]=single_lecture.title;
 	lecture_object["old_code"]=single_lecture.old_code;
+	#print "ids"
+	#print single_lecture.id
+	lecture_object["lecid"]=str(single_lecture.id);
 	professor_str="";
 	prof_list = single_lecture.professor.all();
 	for single_prof_index in range(len(prof_list)):
@@ -109,8 +112,9 @@ def ReviewInsertAdd(request):
    #     else:
 #	    comment=request.POST['content']
     sid_var = "20150390"
-    course = Course.objects.get(old_code = request.POST['lecturechoice'])
-    lecture = Lecture.objects.get(old_code = request.POST['lecturechoice']) # 하나로 특정되지않음, 변경요망
+    lecid = int(request.POST['lecturechoice'])
+    course = Course.objects.get(id = lecid)
+    lecture = Lecture.objects.get(id = lecid) # 하나로 특정되지않음, 변경요망
     comment = request.POST['content'] # 항목 선택 안했을시 반응 추가 요망 grade, load도
     grade = int(request.POST['gradescore'])
     load = int(request.POST['loadscore'])
