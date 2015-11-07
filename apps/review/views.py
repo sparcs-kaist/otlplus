@@ -97,11 +97,14 @@ def ReviewLike(request):
     comment_vote.save()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
-def ReviewInsertView(request):
+def ReviewInsertView(request,lecture_id=-1):
     sid_var = "20150390"
     user=UserProfile.objects.get(student_id=sid_var) #session 완성시 변경
     return_object = []
     lecture_list = user.take_lecture_list.all()
+    if len(lecture_list) == 0:
+	return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+	    
     for single_lecture in lecture_list:
         lecture_object = {}
 	lecture_object["title"]=single_lecture.title;
@@ -117,16 +120,24 @@ def ReviewInsertView(request):
 		professor_str = professor_str + ", "
 	lecture_object["professor"]=professor_str
 	return_object.append(lecture_object)
+    gradelist=["A","B","C","D","F"]
     pre_comment =""
     p_holder=""
+    saved_grade=""
+    saved_load=""
+    saved_speech=""
+    if lecture_id==-1:
+	return HttpResponseRedirect('./' + str(lecture_list[0].id) )    
+    now_lecture = Lecture.objects.get(id=lecture_id)
     try : 
-	temp = Comment.objects.get(writer=user)
+	temp = Comment.objects.filter(writer=user)
+	temp = temp.get(lecture=now_lecture)
         pre_comment = temp.comment
-    except : p_holder = '여기에 입력하세요'
-    ctx = {'object':return_object, 'comment':pre_comment,'p_holder':p_holder}
+    except : pre_comment = '여기에 입력하세요'
+    ctx = {'object':return_object, 'comment':pre_comment}
     return render(request, 'review/review/insert.html',ctx)
 
-def ReviewInsertAdd(request):
+def ReviewInsertAdd(request,lecture_id):
 #    if request.POST.has_key('content') == False:
  #       return HttpResponse('후기를 입력해주세요.')
   #  else:
@@ -135,18 +146,17 @@ def ReviewInsertAdd(request):
    #     else:
 #	    comment=request.POST['content']
     sid_var = "20150390"
-    lecid = int(request.POST['lecturechoice'])
-    course = Course.objects.get(id = lecid)
+    lecid = int(lecture_id)
     lecture = Lecture.objects.get(id = lecid) # 하나로 특정되지않음, 변경요망
+    course = Course.objects.get(old_code=lecture.old_code)
     comment = request.POST['content'] # 항목 선택 안했을시 반응 추가 요망 grade, load도
     grade = int(request.POST['gradescore'])
     load = int(request.POST['loadscore'])
     speech = int(request.POST['speechscore'])
-    total = (grade+load+speech)//3 #현재 float 불가
+    total = grade+load+speech #현재 float 불가
     writer = UserProfile.objects.get(student_id=sid_var) #session 완성시 변경
     try :
-	user=UserProfile.objects.get(student_id=sid_var) #session 완성시 변경
-	temp = Comment.objects.filter(writer=user)
+	temp = Comment.objects.filter(writer=writer)
 	temp = temp.get(lecture=lecture)
 	change_before_grade = temp.grade;
         change_before_load = temp.load;
