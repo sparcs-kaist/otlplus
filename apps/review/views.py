@@ -66,14 +66,17 @@ def ReviewDelete(request):
 def ReviewLike(request):
     target_review = Comment.objects.get(writer=request.POST['writer'],lecture=Lecture.objects.get(old_code=request.POST['lecturechoice']));
     target_review.like += 1;
-    comment_vote=CommentVote(userprofile=UserProfile.objects.get(userid=1),comment=target_review.comment) #session 완성시 변경
+    sid_var = "20150390"
+    user = UserProfile.objects.get(student_id=sid_var)
+    comment_vote=CommentVote(userprofile=user,comment=target_review.comment) #session 완성시 변경
     comment_vote.is_up =  True;
     target_review.save()
     comment_vote.save()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 def ReviewInsertView(request):
-    user=UserProfile.objects.get(user_id=1) #session 완성시 변경
+    sid_var = "20150390"
+    user=UserProfile.objects.get(student_id=sid_var) #session 완성시 변경
     lecture_list = user.take_lecture_list.all()
     try : 
 	temp = Comment.objects.get(writer=user)
@@ -90,6 +93,7 @@ def ReviewInsertAdd(request):
    #         return HttpResponse('1글자 이상 입력해주세요.')
    #     else:
 #	    comment=request.POST['content']
+    sid_var = "20150390"
     course = Course.objects.get(old_code = request.POST['lecturechoice'])
     lecture = Lecture.objects.get(old_code = request.POST['lecturechoice']) # 하나로 특정되지않음, 변경요망
     comment = request.POST['content'] # 항목 선택 안했을시 반응 추가 요망 grade, load도
@@ -97,20 +101,34 @@ def ReviewInsertAdd(request):
     load = int(request.POST['loadscore'])
     speech = int(request.POST['speechscore'])
     total = (grade+load+speech)//3 #현재 float 불가
-    writer = UserProfile.objects.get(user_id=1) #session 완성시 변경
+    writer = UserProfile.objects.get(student_id=sid_var) #session 완성시 변경
     try :
-	user=UserProfile.objects.get(user_id=1) #session 완성시 변경
+	user=UserProfile.objects.get(student_id=sid_var) #session 완성시 변경
 	temp = Comment.objects.filter(writer=user)
 	temp = temp.get(lecture=lecture)
+	change_before_grade = temp.grade;
+        change_before_load = temp.load;
+        change_before_speech = temp.speech;
+        change_before_total = temp.total;
 	temp.comment = comment
 	temp.grade = grade
 	temp.load = load
 	temp.speech = speech
 	temp.total = total
+	lecture.grade_sum += (grade-change_before_grade);
+        lecture.load_sum += (load-change_before_load);
+        lecture.speech_sum += (speech-change_before_speech);
+        lecture.total_sum += (total-change_before_total);
+        lecture.save()
 	temp.save()
     except :
 	new_comment = Comment(course=course, lecture=lecture, comment=comment, grade=grade, load=load, speech=speech, total=total, writer=writer)
         new_comment.save()
+        lecture.grade_sum += grade;
+        lecture.load_sum += load;
+        lecture.speech_sum += speech;
+        lecture.total_sum += total;
+        lecture.save()
     return HttpResponseRedirect('../')
 
 
