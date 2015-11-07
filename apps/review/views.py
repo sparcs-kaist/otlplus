@@ -23,7 +23,7 @@ def SearchResultView(request):
                 speech = 0
                 total = 0
                 comment_num = 0
-                lectures = Lecture.objects.filter(Q(course=course) | Q(professor=professor))
+                lectures = Lecture.objects.filter(Q(course=course) & Q(professor=professor))
                 for lecture in lectures:
                     grade += lecture.grade_sum
                     load += lecture.load_sum
