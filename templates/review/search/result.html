@@ -46,7 +46,7 @@
     </div>
   </div>
   <div class="row" style="margin-top: 50px;">
-    <div class="col-xs-24 text-right">
+      <div class="col-xs-24 text-left">
       <div class="btn-group" data-toggle="buttons">
         <label class="btn btn-primary">
           <input type="checkbox" autocomplete="off"> 교수 별로 보기
@@ -82,12 +82,14 @@
           {% endif %}
             </br>
           {% if result.2 != 0 %}
-            grade : {{ result.1.0 }}</br>
-            load : {{ result.1.1 }}</br>
-            speech : {{ result.1.2 }}</br>
+            grade : {{ result.1.0 }}
+            load : {{ result.1.1 }}
+            speech : {{ result.1.2 }}
             total : {{ result.1.3 }}</br>
+            {{ result.2 }}개의 평가
           {% else %}
-            평가 없음</br></br></br></br>
+            -</br>
+            평가 없음</br>
           {% endif %}
           </a>
         </li>
