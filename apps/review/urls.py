@@ -18,6 +18,6 @@ from django.conf.urls import url
 urlpatterns = [
     url(r'^$', 'apps.review.views.SearchView'),
     url(r'^result/$', 'apps.review.views.SearchResultView'),
-	url(r'^review/insert/$', 'apps.review.views.ReviewInsertView'),
-	url(r'^review/insert/add/$', 'apps.review.views.ReviewInsertAdd'),
+    url(r'^review/insert/$', 'apps.review.views.ReviewInsertView'),
+    url(r'^review/insert/add/$', 'apps.review.views.ReviewInsertAdd'),
 ]

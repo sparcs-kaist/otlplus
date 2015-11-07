@@ -24,6 +24,12 @@ class Lecture(models.Model):
 
     course = models.ForeignKey('Course', related_name='lecture_course')
 
+    grade_sum = models.IntegerField(default=0)
+    load_sum = models.IntegerField(default=0)
+    speech_sum = models.IntegerField(default=0)
+    total_sum = models.IntegerField(default=0)
+    comment_num = models.IntegerField(default=0)
+
 class Department(models.Model):
     id = models.IntegerField(primary_key=True, db_index=True)
     num_id = models.CharField(max_length=4, db_index=True)
@@ -40,11 +46,6 @@ class Course(models.Model):
     title = models.CharField(max_length=100, db_index=True)
     title_en = models.CharField(max_length=200, db_index=True)
     
-    grade_average = models.FloatField()
-    load_average = models.FloatField()
-    speech_average = models.FloatField()
-    total_average = models.FloatField()
-
 class Professor(models.Model):
     professor_name = models.CharField(max_length=100, db_index=True)
     professor_name_en = models.CharField(max_length=100, blank=True, null=True)

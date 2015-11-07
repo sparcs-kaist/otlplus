@@ -12,7 +12,43 @@ def SearchView(request):
 
 
 def SearchResultView(request):
-    return render(request, 'review/search/result.html')
+    by_professor = True     #나중에 변경
+    results = []
+    ###### 이 부분에 검색 구현 ######
+    courses = Course.objects
+    #################################
+    if by_professor:
+        for course in courses:
+            grade_sum = 0
+            load_sum = 0
+            speech_sum = 0
+            total_sum = 0
+            comment_num = 0
+            for professor in course.professors:
+                lectures = Lecture.objects.filter(Q(course=course) | Q(professor=professor))
+                for lecture in lectures:
+                    grade_sum += lecture.grade_sum
+                    load_sum += lecture.load_sum
+                    speech_sum += lecture.speech_sum
+                    total_sum += lecture.speech_sum
+                    comment_num += lecture.comment_num
+                results.append([course, [grade_sum, load_sum, speech_sum, total_sum], comment_num])
+    else:
+        for course in courses:
+            grade_sum = 0
+            load_sum = 0
+            speech_sum = 0
+            total_sum = 0
+            comment_num = 0
+            lectures = Lecture.objects.filter(course=course)
+            for lecture in lectures:
+                grade_sum += lecture.grade_sum
+                load_sum += lecture.load_sum
+                speech_sum += lecture.speech_sum
+                total_sum += lecture.speech_sum
+                comment_num += lecture.comment_num
+            results.append([course, [grade_sum, load_sum, speech_sum, total_sum], comment_num])
+    return render(request, 'review/search/result.html', {'results':results})
 
 def ReviewDelete(request):
     target_review = Comment.objects.get(writer=request.POST['writer'],lecture=Lecture.objects.get(old_code=request.POST['lecturechoice']));
