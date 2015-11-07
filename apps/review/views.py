@@ -77,14 +77,27 @@ def ReviewLike(request):
 def ReviewInsertView(request):
     sid_var = "20150390"
     user=UserProfile.objects.get(student_id=sid_var) #session 완성시 변경
+    return_object = []
     lecture_list = user.take_lecture_list.all()
+    for single_lecture in lecture_list:
+        lecture_object = {}
+	lecture_object["title"]=single_lecture.title;
+	lecture_object["old_code"]=single_lecture.old_code;
+	professor_str="";
+	prof_list = single_lecture.professor.all();
+	for single_prof_index in range(len(prof_list)):
+	    professor_str = professor_str + prof_list[single_prof_index].professor_name
+	    if(single_prof_index+1<len(prof_list)):
+		professor_str = professor_str + ", "
+	lecture_object["professor"]=professor_str
+	return_object.append(lecture_object)
     pre_comment =""
     p_holder=""
     try : 
 	temp = Comment.objects.get(writer=user)
         pre_comment = temp.comment
     except : p_holder = '여기에 입력하세요'
-    ctx = {'object':lecture_list, 'comment':pre_comment,'p_holder':p_holder}
+    ctx = {'object':return_object, 'comment':pre_comment,'p_holder':p_holder}
     return render(request, 'review/review/insert.html',ctx)
 
 def ReviewInsertAdd(request):

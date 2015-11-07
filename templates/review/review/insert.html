@@ -32,7 +32,7 @@
       </div>
       <select class="form-control" name="lecturechoice">
 		{% for lecture in object %}
-		<option class="list-group-item" value={{lecture.old_code}}>{{lecture.title}}</option>
+		<option class="list-group-item" value={{lecture.old_code}}>{{lecture.title}}({{lecture.professor}})</option>
 		{% endfor%}
       </select>
     </div>
