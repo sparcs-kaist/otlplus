@@ -120,8 +120,7 @@ def ReviewInsertView(request,lecture_id=-1):
 		professor_str = professor_str + ", "
 	lecture_object["professor"]=professor_str
 	return_object.append(lecture_object)
-    gradelist=['F','D','C','B','A']
-    forrange=[4,3,2,1,0]
+    gradelist=['A','B','C','D','F']
     pre_comment =""
     pre_grade="A"
     pre_load="A"
@@ -133,11 +132,11 @@ def ReviewInsertView(request,lecture_id=-1):
 	temp = Comment.objects.filter(writer=user)
 	temp = temp.get(lecture=now_lecture)
         pre_comment = temp.comment
-	pre_grade = gradelist[(temp.grade)]
-	pre_load = gradelist[(temp.load)]
-	pre_speech = gradelist[(temp.speech)]
+	pre_grade = gradelist[(temp.grade)*(-1)+4]
+	pre_load = gradelist[(temp.load)*(-1)+4]
+	pre_speech = gradelist[(temp.speech)*(-1)+4]
     except : pre_comment = ''
-    ctx = {'lecture_id':str(lecture_id), 'object':return_object, 'comment':pre_comment, 'gradelist': gradelist,'grade': pre_grade,'load':pre_load,'speech':pre_speech,'forrange':forrange }
+    ctx = {'lecture_id':str(lecture_id), 'object':return_object, 'comment':pre_comment, 'gradelist': gradelist,'grade': pre_grade,'load':pre_load,'speech':pre_speech }
     return render(request, 'review/review/insert.html',ctx)
 
 def ReviewInsertAdd(request,lecture_id):
@@ -153,9 +152,9 @@ def ReviewInsertAdd(request,lecture_id):
     lecture = Lecture.objects.get(id = lecid) # 하나로 특정되지않음, 변경요망
     course = Course.objects.get(old_code=lecture.old_code)
     comment = request.POST['content'] # 항목 선택 안했을시 반응 추가 요망 grade, load도
-    grade = int(request.POST['gradescore'])
-    load = int(request.POST['loadscore'])
-    speech = int(request.POST['speechscore'])
+    grade = int(request.POST['gradescore'])*(-1)+5
+    load = int(request.POST['loadscore'])*(-1)+5
+    speech = int(request.POST['speechscore'])*(-1)+5
     total = grade+load+speech #현재 float 불가
     writer = UserProfile.objects.get(student_id=sid_var) #session 완성시 변경
     try :
