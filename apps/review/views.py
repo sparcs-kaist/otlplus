@@ -78,11 +78,13 @@ def ReviewInsertView(request):
     sid_var = "20150390"
     user=UserProfile.objects.get(student_id=sid_var) #session 완성시 변경
     lecture_list = user.take_lecture_list.all()
+    pre_comment =""
+    p_holder=""
     try : 
 	temp = Comment.objects.get(writer=user)
         pre_comment = temp.comment
-    except : pre_comment = '여기에 입력하세요'
-    ctx = {'object':lecture_list, 'comment':pre_comment}
+    except : p_holder = '여기에 입력하세요'
+    ctx = {'object':lecture_list, 'comment':pre_comment,'p_holder':p_holder}
     return render(request, 'review/review/insert.html',ctx)
 
 def ReviewInsertAdd(request):
