@@ -9,8 +9,6 @@ from django.http import HttpResponse, HttpResponseRedirect
 def SearchView(request):
     return render(request, 'review/search/search.html')
 
-
-
 def SearchResultView(request):
     by_professor = True     #나중에 변경
     results = []
@@ -55,8 +53,16 @@ def ReviewDelete(request):
     target_review.delete()
     return HttpResponseRedirect('../')
 
+def ReviewLike(request):
+    target_review = Comment.objects.get(writer=request.POST['writer'],lecture=Lecture.objects.get(old_code=request.POST['lecturechoice']));
+    target_review.like += 1;
+    comment_vote=CommentVote(userprofile=UserProfile.objects.get(userid=1),comment=target_review.comment) #session 완성시 변경
+    comment_vote.is_up =  True;
+    target_review.save()
+    comment_vote.save()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
 def ReviewInsertView(request):
-    
     user=UserProfile.objects.get(user_id=1) #session 완성시 변경
     lecture_list = user.take_lecture_list.all()
     try : 
