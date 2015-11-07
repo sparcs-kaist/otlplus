@@ -5,12 +5,13 @@ from apps.session.models import UserProfile
 from apps.subject.models import Course, Lecture, Department
 from apps.review.models import Comment
 from django.http import HttpResponse, HttpResponseRedirect
+from django.db.models import Q
 
 def SearchView(request):
     return render(request, 'review/search/search.html')
 
 def SearchResultView(request):
-    by_professor = False     #나중에 변경
+    by_professor = False    #나중에 변경
     
     courses = Course.objects.all()
 

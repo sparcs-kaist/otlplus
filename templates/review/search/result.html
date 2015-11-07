@@ -83,7 +83,7 @@ $('#search').click(function() {
           <a href="#lecture1" aria-controls="home" role="tab" data-toggle="tab">
             {{ result.0.0.title }}
           {% if result.0.1 != None %}
-            &nbsp;: {{ result.0.1.professor_name }}
+            : {{ result.0.1.professor_name }}
           {% endif %}
             </br>
           {% if result.2 != 0 %}
