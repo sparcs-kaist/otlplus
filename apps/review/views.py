@@ -14,6 +14,10 @@ def SearchView(request):
 def SearchResultView(request):
     return render(request, 'review/search/result.html')
 
+def ReviewDelete(request):
+    target_review = Comment.objects.get(writer=request.POST['writer'],lecture=Lecture.objects.get(old_code=request.POST['lecturechoice']));
+    target_review.delete()
+    return HttpResponseRedirect('../')
 
 def ReviewInsertView(request):
     
