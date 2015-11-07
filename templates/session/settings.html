@@ -1,0 +1,19 @@
+{% extends "session/base.html" %}
+
+{% block content %}
+<h1> OTL Settings </h1>
+<form action="" method="post"> 
+    <h2>Language:</h2>
+    <input type="radio" name="language" value="ko" {% if usr_lang  == 'ko' %}checked{% endif %}>한국어</input> 
+    <br>
+    <input type="radio" name="language" value="en" {% if usr_lang  == 'en' %}checked{% endif %}>English</input>
+    <br>
+    <select name="favorites">
+        <option value="전산학과">전산학과</option>
+        {% for dpt in department %}
+        <option value="{{ dpt.name }}">{{ dpt.name }}</option>
+        {% endfor %}
+    </select>
+    <input type="submit" value="Change"> 
+</form>
+{% endblock %}
