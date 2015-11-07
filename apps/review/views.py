@@ -50,7 +50,7 @@ def SearchResultView(request):
                     grade += lecture.grade_sum
                     load += lecture.load_sum
                     speech += lecture.speech_sum
-                    total += lecture.speech_sum
+                    total += lecture.total_sum
                     comment_num += lecture.comment_num
                 if comment_num != 0:
                     grade = float(grade)/comment_num
@@ -70,7 +70,7 @@ def SearchResultView(request):
                 grade += lecture.grade_sum
                 load += lecture.load_sum
                 speech += lecture.speech_sum
-                total += lecture.speech_sum
+                total += lecture.total_sum
                 comment_num += lecture.comment_num
             if comment_num != 0:
                 grade = float(grade)/comment_num
