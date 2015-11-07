@@ -120,12 +120,12 @@ def ReviewInsertView(request,lecture_id=-1):
 		professor_str = professor_str + ", "
 	lecture_object["professor"]=professor_str
 	return_object.append(lecture_object)
-    gradelist=["A","B","C","D","F"]
+    gradelist=['F','D','C','B','A']
+    forrange=[4,3,2,1,0]
     pre_comment =""
-    p_holder=""
-    saved_grade=""
-    saved_load=""
-    saved_speech=""
+    pre_grade="A"
+    pre_load="A"
+    pre_speech="A"
     if lecture_id==-1:
 	return HttpResponseRedirect('./' + str(lecture_list[0].id) )    
     now_lecture = Lecture.objects.get(id=lecture_id)
@@ -133,8 +133,11 @@ def ReviewInsertView(request,lecture_id=-1):
 	temp = Comment.objects.filter(writer=user)
 	temp = temp.get(lecture=now_lecture)
         pre_comment = temp.comment
-    except : pre_comment = '여기에 입력하세요'
-    ctx = {'object':return_object, 'comment':pre_comment}
+	pre_grade = gradelist[(temp.grade)]
+	pre_load = gradelist[(temp.load)]
+	pre_speech = gradelist[(temp.speech)]
+    except : pre_comment = ''
+    ctx = {'lecture_id':str(lecture_id), 'object':return_object, 'comment':pre_comment, 'gradelist': gradelist,'grade': pre_grade,'load':pre_load,'speech':pre_speech,'forrange':forrange }
     return render(request, 'review/review/insert.html',ctx)
 
 def ReviewInsertAdd(request,lecture_id):

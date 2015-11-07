@@ -32,7 +32,7 @@
       </div>
       <div class="list-group">
 		{% for lecture in object %}
-		<a href="/review/review/insert/{{lecture.lecid}}" class="list-group-item" }>{{lecture.title}}({{lecture.old_code}} {{lecture.professor}})</a>
+		<a href="/review/review/insert/{{lecture.lecid}}" class="list-group-item {%ifequal lecture.lecid lecture_id %}active{% endifequal %}" }>{{lecture.title}}({{lecture.old_code}} {{lecture.professor}})</a>
 		{% endfor%}
       </div>
     </div>
@@ -41,58 +41,60 @@
         <form class="form-inline">
           <label>학점</label>
           <select class="form-control" name="gradescore">
-            <option value=4>
+	    <option value=4 {% ifequal grade "A" %}selected{%endifequal%}>
               A
             </option>
-            <option value=3>
+            <option value=3 {% ifequal grade "B" %}selected{%endifequal%}> 
               B
             </option>
-            <option value=2>
+	    <option value=2 {% ifequal grade "C" %}selected{%endifequal%}>
               C
             </option>
-            <option value=1>
+	    <option value=1 {% ifequal grade "D" %}selected{%endifequal%}>
               D
             </option>
-            <option value=0>
+	    <option value=0 {% ifequal grade "F" %}selected{%endifequal%}>
               F
             </option>
           </select>
           <label>로드</label>
           <select class="form-control" name="loadscore">
-            <option value=4>
+            <option value=4 {% ifequal load "A" %}selected{%endifequal%}>
               A
             </option>
-            <option value=3>
+            <option value=3 {% ifequal load "B" %}selected{%endifequal%}> 
               B
             </option>
-            <option value=2>
+	    <option value=2 {% ifequal load "C" %}selected{%endifequal%}>
               C
             </option>
-            <option value=1>
+	    <option value=1 {% ifequal load "D" %}selected{%endifequal%}>
               D
             </option>
-            <option value=0>
+	    <option value=0 {% ifequal load "F" %}selected{%endifequal%}>
               F
             </option>
+
           </select>
           <label>강의</label>
           <select class="form-control" name="speechscore">
-            <option value=4>
+	    <option value=4 {% ifequal speech "A" %}selected{%endifequal%}>
               A
             </option>
-            <option value=3>
+            <option value=3 {% ifequal speech "B" %}selected{%endifequal%}> 
               B
             </option>
-            <option value=2>
+	    <option value=2 {% ifequal speech "C" %}selected{%endifequal%}>
               C
             </option>
-            <option value=1>
+	    <option value=1 {% ifequal speech "D" %}selected{%endifequal%}>
               D
             </option>
-            <option value=0>
+	    <option value=0 {% ifequal speech "F" %}selected{%endifequal%}>
               F
             </option>
-          </select>
+ 
+	  </select>
         </form>
       </div>
       <div style="margin-top: 25px;">
