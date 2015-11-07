@@ -10,14 +10,14 @@ def SearchView(request):
     return render(request, 'review/search/search.html')
 
 def SearchResultView(request):
-    by_professor = True     #나중에 변경
+    by_professor = False     #나중에 변경
     results = []
     ###### 이 부분에 검색 구현 ######
     courses = Course.objects.all()
     #################################
     if by_professor:
         for course in courses:
-            for professor in course.professors:
+            for professor in course.professors.all():
                 grade = 0
                 load = 0
                 speech = 0
