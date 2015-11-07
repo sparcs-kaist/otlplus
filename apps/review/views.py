@@ -82,9 +82,16 @@ def SearchResultView(request):
     return render(request, 'review/search/result.html', {'results':results})
 
 def ReviewDelete(request):
-    target_review = Comment.objects.get(writer=request.POST['writer'],lecture=Lecture.objects.get(old_code=request.POST['lecturechoice']));
-    target_review.delete()
-    return HttpResponseRedirect('../')
+    user = UserProfile.objects.get(student_id=request.POST['sid'])
+    lec = Lecture.objects.get(id=request.POST['lectureid'])
+    target = Comment.objects.get(writer=user,lecture=lec);
+    lec.grade_sum -= target.grade
+    lec.load_sum -= target.load
+    lec.speech_sum -= target.speech
+    lec.total_sum -= target.total
+    target.delete()
+    lec.save()
+    return HttpResponseRedirect('/review/review/insert/'+str(request.POST['lectureid']))
 
 def ReviewLike(request):
     target_review = Comment.objects.get(writer=request.POST['writer'],lecture=Lecture.objects.get(old_code=request.POST['lecturechoice']));
@@ -120,7 +127,8 @@ def ReviewInsertView(request,lecture_id=-1):
 		professor_str = professor_str + ", "
 	lecture_object["professor"]=professor_str
 	return_object.append(lecture_object)
-    gradelist=['A','B','C','D','F']
+    gradelist=['F','D','C','B','A']
+    forrange=[4,3,2,1,0]
     pre_comment =""
     pre_grade="A"
     pre_load="A"
@@ -132,11 +140,11 @@ def ReviewInsertView(request,lecture_id=-1):
 	temp = Comment.objects.filter(writer=user)
 	temp = temp.get(lecture=now_lecture)
         pre_comment = temp.comment
-	pre_grade = gradelist[(temp.grade)*(-1)+4]
-	pre_load = gradelist[(temp.load)*(-1)+4]
-	pre_speech = gradelist[(temp.speech)*(-1)+4]
+	pre_grade = gradelist[(temp.grade)]
+	pre_load = gradelist[(temp.load)]
+	pre_speech = gradelist[(temp.speech)]
     except : pre_comment = ''
-    ctx = {'lecture_id':str(lecture_id), 'object':return_object, 'comment':pre_comment, 'gradelist': gradelist,'grade': pre_grade,'load':pre_load,'speech':pre_speech }
+    ctx = {'lecture_id':str(lecture_id), 'object':return_object, 'comment':pre_comment, 'gradelist': gradelist,'grade': pre_grade,'load':pre_load,'speech':pre_speech,'forrange':forrange, 'sid':sid_var }
     return render(request, 'review/review/insert.html',ctx)
 
 def ReviewInsertAdd(request,lecture_id):
@@ -152,9 +160,9 @@ def ReviewInsertAdd(request,lecture_id):
     lecture = Lecture.objects.get(id = lecid) # 하나로 특정되지않음, 변경요망
     course = Course.objects.get(old_code=lecture.old_code)
     comment = request.POST['content'] # 항목 선택 안했을시 반응 추가 요망 grade, load도
-    grade = int(request.POST['gradescore'])*(-1)+5
-    load = int(request.POST['loadscore'])*(-1)+5
-    speech = int(request.POST['speechscore'])*(-1)+5
+    grade = int(request.POST['gradescore'])
+    load = int(request.POST['loadscore'])
+    speech = int(request.POST['speechscore'])
     total = grade+load+speech #현재 float 불가
     writer = UserProfile.objects.get(student_id=sid_var) #session 완성시 변경
     try :
@@ -184,6 +192,3 @@ def ReviewInsertAdd(request,lecture_id):
         lecture.total_sum += total;
         lecture.save()
     return HttpResponseRedirect('../')
-
-
-
