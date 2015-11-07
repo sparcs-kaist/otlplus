@@ -13,39 +13,49 @@ def SearchResultView(request):
     by_professor = True     #나중에 변경
     results = []
     ###### 이 부분에 검색 구현 ######
-    courses = Course.objects
+    courses = Course.objects.all()
     #################################
     if by_professor:
         for course in courses:
-            grade_sum = 0
-            load_sum = 0
-            speech_sum = 0
-            total_sum = 0
-            comment_num = 0
             for professor in course.professors:
+                grade = 0
+                load = 0
+                speech = 0
+                total = 0
+                comment_num = 0
                 lectures = Lecture.objects.filter(Q(course=course) | Q(professor=professor))
                 for lecture in lectures:
-                    grade_sum += lecture.grade_sum
-                    load_sum += lecture.load_sum
-                    speech_sum += lecture.speech_sum
-                    total_sum += lecture.speech_sum
+                    grade += lecture.grade_sum
+                    load += lecture.load_sum
+                    speech += lecture.speech_sum
+                    total += lecture.speech_sum
                     comment_num += lecture.comment_num
-                results.append([course, [grade_sum, load_sum, speech_sum, total_sum], comment_num])
+                if comment_num != 0:
+                    grade = float(grade)/comment_num
+                    load = float(load)/comment_num
+                    speech = float(speech)/comment_num
+                    total = float(total)/comment_num
+                results.append([[course, professor], [grade, load, speech, total], comment_num])
     else:
         for course in courses:
-            grade_sum = 0
-            load_sum = 0
-            speech_sum = 0
-            total_sum = 0
+            grade = 0
+            load = 0
+            speech = 0
+            total = 0
             comment_num = 0
             lectures = Lecture.objects.filter(course=course)
             for lecture in lectures:
-                grade_sum += lecture.grade_sum
-                load_sum += lecture.load_sum
-                speech_sum += lecture.speech_sum
-                total_sum += lecture.speech_sum
+                grade += lecture.grade_sum
+                load += lecture.load_sum
+                speech += lecture.speech_sum
+                total += lecture.speech_sum
                 comment_num += lecture.comment_num
-            results.append([course, [grade_sum, load_sum, speech_sum, total_sum], comment_num])
+            if comment_num != 0:
+                grade = float(grade)/comment_num
+                load = float(load)/comment_num
+                speech = float(speech)/comment_num
+                total = float(total)/comment_num
+            results.append([[course, None], [grade, load, speech, total], comment_num])
     return render(request, 'review/search/result.html', {'results':results})
 
 def ReviewDelete(request):

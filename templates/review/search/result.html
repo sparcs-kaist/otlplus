@@ -51,6 +51,8 @@
         <label class="btn btn-primary">
           <input type="checkbox" autocomplete="off"> 교수 별로 보기
         </label>
+      </div>
+      <div class="btn-group" data-toggle="buttons">
         <label class="btn btn-primary">
           <input type="checkbox" autocomplete="off"> 학점 잘 주는 순서대로 보기
         </label>
@@ -66,18 +68,30 @@
   <div class="row" style="margin-top: 50px;">
     <div class="col-xs-12">
       <ul class="list-group" role="tablist">
+      {% if result|length == 0 %}  
         <li class="list-group-item">
-          <a href="#lecture1" aria-controls="home" role="tab" data-toggle="tab">CS101</a>
+          검색 결과가 없습니다.
         </li>
+      {% endif %}
+      {% for result in results %}
         <li class="list-group-item">
-          <a href="#lecture2" aria-controls="home" role="tab" data-toggle="tab">CS101 배두환</a>
+          <a href="#lecture1" aria-controls="home" role="tab" data-toggle="tab">
+            {{ result.0.0.title }}
+          {% if result.0.1 != None %}
+            &nbsp;: {{ result.0.1.professor_name }}
+          {% endif %}
+            </br>
+          {% if result.2 != 0 %}
+            grade : {{ result.1.0 }}</br>
+            load : {{ result.1.1 }}</br>
+            speech : {{ result.1.2 }}</br>
+            total : {{ result.1.3 }}</br>
+          {% else %}
+            평가 없음</br></br></br></br>
+          {% endif %}
+          </a>
         </li>
-        <li class="list-group-item">
-          <a href="#lecture3" aria-controls="home" role="tab" data-toggle="tab">CS101 이기혁</a>
-        </li>
-        <li class="list-group-item">
-          <a href="#lecture4" aria-controls="home" role="tab" data-toggle="tab">CS101 류석영</a>
-        </li>
+      {% endfor %}
       </ul>
     </div>
     <div class="col-xs-12 tab-content">
