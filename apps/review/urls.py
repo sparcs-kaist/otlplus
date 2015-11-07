@@ -21,5 +21,5 @@ urlpatterns = [
     url(r'^review/insert/$', 'apps.review.views.ReviewInsertView'),
     url(r'^review/insert/([^/]+)/add/$', 'apps.review.views.ReviewInsertAdd'),
     url(r'^review/insert/([^/]+)/$', 'apps.review.views.ReviewInsertView'),
-
+    url(r'^review/delete/$','apps.review.views.ReviewDelete'),
 ]
