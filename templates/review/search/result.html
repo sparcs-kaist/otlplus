@@ -19,6 +19,11 @@
     $('#category').on('focus', function() {
       $('#m-category').modal('show');
     });
+$('#search').click(function() {
+      selected_departments = $('#department>label.activate');
+      for (i=0 ; i<selected_departments.length; i++)
+        console.log(selected_departments[i]);
+    });
   </script>
 {% endblock %}
 
@@ -54,13 +59,13 @@
       </div>
       <div class="btn-group" data-toggle="buttons">
         <label class="btn btn-primary">
-          <input type="checkbox" autocomplete="off"> 학점 잘 주는 순서대로 보기
+          <input type="radio" autocomplete="off"> 학점 잘 주는 순서대로 보기
         </label>
         <label class="btn btn-primary">
-          <input type="checkbox" autocomplete="off"> 수업 잘 하는 순서대로 보기
+          <input type="radio" autocomplete="off"> 수업 잘 하는 순서대로 보기
         </label>
         <label class="btn btn-primary">
-          <input type="checkbox" autocomplete="off"> 로드 덜 빡센 순서대로 보기
+          <input type="radio" autocomplete="off"> 로드 덜 빡센 순서대로 보기
         </label>
       </div>
     </div>
@@ -132,7 +137,7 @@
   <div id="m-category" class="modal fade">
     <div class="modal-dialog">
       <div class="modal-content">
-        <form role="form" class="form" method="get" action="result/">
+        <form role="form" class="form" method="get">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <h4 class="modal-title">Category 검색</h4>
@@ -143,61 +148,38 @@
                 <p>학과</p>
                 <div class="btn-group" data-toggle="buttons">
                   <label class="btn btn-primary">
-                    <input type="checkbox" autocomplete="off"> 전산과
+                    <input type="checkbox" autocomplete="off" name="CS"> 전산과
                   </label>
                   <label class="btn btn-primary">
-                    <input type="checkbox" autocomplete="off"> 전자과
+                    <input type="checkbox" autocomplete="off" name="EE"> 전자과
                   </label>
                   <label class="btn btn-primary">
-                    <input type="checkbox" autocomplete="off"> 기계과
+                    <input type="checkbox" autocomplete="off" name="MAE"> 기계과
                   </label>
                   <label class="btn btn-primary">
-                    <input type="checkbox" autocomplete="off"> 전산과
-                  </label>
-                  <label class="btn btn-primary">
-                    <input type="checkbox" autocomplete="off"> 전자과
-                  </label>
-                  <label class="btn btn-primary">
-                    <input type="checkbox" autocomplete="off"> 기계과
-                  </label>
-                  <label class="btn btn-primary">
-                    <input type="checkbox" autocomplete="off"> 전산과
-                  </label>
-                  <label class="btn btn-primary">
-                    <input type="checkbox" autocomplete="off"> 전자과
-                  </label>
-                  <label class="btn btn-primary">
-                    <input type="checkbox" autocomplete="off"> 기계과
+                    <input type="checkbox" autocomplete="off" name="HSS"> 인문사회과학부
                   </label>
                 </div>
                 <p>구분</p>
                 <div class="btn-group" data-toggle="buttons">
                   <label class="btn btn-primary">
-                    <input type="checkbox" autocomplete="off"> 기필
+                    <input type="checkbox" autocomplete="off" name="BR"> 기필
                   </label>
                   <label class="btn btn-primary">
-                    <input type="checkbox" autocomplete="off"> 전필
+                    <input type="checkbox" autocomplete="off" name="BE"> 기선
+                  </label>
+
+                  <label class="btn btn-primary">
+                    <input type="checkbox" autocomplete="off" name="MR"> 전필
                   </label>
                   <label class="btn btn-primary">
-                    <input type="checkbox" autocomplete="off"> 전선
+                    <input type="checkbox" autocomplete="off" name="ME"> 전선
                   </label>
                   <label class="btn btn-primary">
-                    <input type="checkbox" autocomplete="off"> 자선
-                  </label>
-                </div>
-                <p>학점</p>
-                <div class="btn-group" data-toggle="buttons">
-                  <label class="btn btn-primary">
-                    <input type="checkbox" autocomplete="off"> 1학점
+                    <input type="checkbox" autocomplete="off" name="MGC"> 교필
                   </label>
                   <label class="btn btn-primary">
-                    <input type="checkbox" autocomplete="off"> 2학점
-                  </label>
-                  <label class="btn btn-primary">
-                    <input type="checkbox" autocomplete="off"> 3학점
-                  </label>
-                  <label class="btn btn-primary">
-                    <input type="checkbox" autocomplete="off"> 4학점
+                    <input type="checkbox" autocomplete="off" name="HSE"> 인문사회선택
                   </label>
                 </div>
               </div>
@@ -205,7 +187,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
-            <input type="submit" class="btn btn-primary" value="검색">
+            <input type="submit" class="btn btn-primary" value="검색" id="search">
           </div>
         </form>
       </div>

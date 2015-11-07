@@ -2,7 +2,7 @@
 
 from django.shortcuts import render, redirect
 from apps.session.models import UserProfile
-from apps.subject.models import Course, Lecture
+from apps.subject.models import Course, Lecture, Department
 from apps.review.models import Comment
 from django.http import HttpResponse, HttpResponseRedirect
 
@@ -11,10 +11,31 @@ def SearchView(request):
 
 def SearchResultView(request):
     by_professor = False     #나중에 변경
-    results = []
-    ###### 이 부분에 검색 구현 ######
+    
     courses = Course.objects.all()
-    #################################
+
+    no_department_selected = True
+    temp_courses = courses[:]
+    for department in Department.objects.all():
+        if not(department.code in request.GET):
+            courses = courses.exclude(department=department)
+        else:
+            no_department_selected = False
+    if no_department_selected:
+        courses = temp_courses
+
+    no_course_type_selected = True
+    temp_courses = courses[:]
+    course_types = ['BR', 'BE', 'MR', 'ME', 'MGC', 'HSE']
+    for course_type in course_types:
+        if not(course_type in request.GET):
+            courses = courses.exclude(type=course_type)
+        else:
+            no_course_type_selected = False
+    if no_course_type_selected:
+        courses = temp_courses
+
+    results=[]
     if by_professor:
         for course in courses:
             for professor in course.professors.all():
@@ -56,6 +77,7 @@ def SearchResultView(request):
                 speech = float(speech)/comment_num
                 total = float(total)/comment_num
             results.append([[course, None], [grade, load, speech, total], comment_num])
+
     return render(request, 'review/search/result.html', {'results':results})
 
 def ReviewDelete(request):
