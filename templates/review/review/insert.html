@@ -38,68 +38,33 @@
     </div>
     <div class="col-xs-18">
       <div class="text-right">
-        <form class="form-inline">
-          <label>학점</label>
-          <select class="form-control" name="gradescore">
-	    <option value=4 {% ifequal grade "A" %}selected{%endifequal%}>
-              A
-            </option>
-            <option value=3 {% ifequal grade "B" %}selected{%endifequal%}> 
-              B
-            </option>
-	    <option value=2 {% ifequal grade "C" %}selected{%endifequal%}>
-              C
-            </option>
-	    <option value=1 {% ifequal grade "D" %}selected{%endifequal%}>
-              D
-            </option>
-	    <option value=0 {% ifequal grade "F" %}selected{%endifequal%}>
-              F
-            </option>
-          </select>
-          <label>로드</label>
-          <select class="form-control" name="loadscore">
-            <option value=4 {% ifequal load "A" %}selected{%endifequal%}>
-              A
-            </option>
-            <option value=3 {% ifequal load "B" %}selected{%endifequal%}> 
-              B
-            </option>
-	    <option value=2 {% ifequal load "C" %}selected{%endifequal%}>
-              C
-            </option>
-	    <option value=1 {% ifequal load "D" %}selected{%endifequal%}>
-              D
-            </option>
-	    <option value=0 {% ifequal load "F" %}selected{%endifequal%}>
-              F
-            </option>
-
-          </select>
-          <label>강의</label>
-          <select class="form-control" name="speechscore">
-	    <option value=4 {% ifequal speech "A" %}selected{%endifequal%}>
-              A
-            </option>
-            <option value=3 {% ifequal speech "B" %}selected{%endifequal%}> 
-              B
-            </option>
-	    <option value=2 {% ifequal speech "C" %}selected{%endifequal%}>
-              C
-            </option>
-	    <option value=1 {% ifequal speech "D" %}selected{%endifequal%}>
-              D
-            </option>
-	    <option value=0 {% ifequal speech "F" %}selected{%endifequal%}>
-              F
-            </option>
- 
-	  </select>
+        <form>
+          <label>학점
+            <select class="form-control" name="gradescore">
+  	    {% for single_grade in gradelist %}
+	    <option value={{forloop.counter}} {% ifequal grade single_grade %}selected{%endifequal%}>{{single_grade}}</option>
+	    {% endfor %}
+            </select>
+          </label>
+          <label>로드
+	    <select class="form-control" name="loadscore">
+  	    {% for single_grade in gradelist %}
+	    <option value={{forloop.counter}} {% ifequal load single_grade %}selected{%endifequal%}>{{single_grade}}</option>
+	    {% endfor %}
+            </select>
+          </label>
+          <label>강의
+            <select class="form-control" name="speechscore">
+            {% for single_grade in gradelist %}
+	    <option value={{forloop.counter}} {% ifequal speech single_grade %}selected{%endifequal%}>{{single_grade}}</option>
+	    {% endfor %}
+            </select>
+          </label>
         </form>
       </div>
       <div style="margin-top: 25px;">
           {% csrf_token %}
-          <textarea class="form-control" name="content" placeholder = "Write a review">{{comment}}</textarea>
+          <textarea class="form-control" name="content" rows= "10" placeholder = "Write a review">{{comment}}</textarea>
 	  <input type="hidden" name = "sid" value = {{sid}} />
 	  <input type="hidden" name = "lectureid" value = {{lecture_id}} />
           <div class="text-right" style="margin-top: 25px;">

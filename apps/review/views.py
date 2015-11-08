@@ -110,41 +110,38 @@ def ReviewInsertView(request,lecture_id=-1):
     return_object = []
     lecture_list = user.take_lecture_list.all()
     if len(lecture_list) == 0:
-	return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 	    
     for single_lecture in lecture_list:
         lecture_object = {}
-	lecture_object["title"]=single_lecture.title;
-	lecture_object["old_code"]=single_lecture.old_code;
-	#print "ids"
-	#print single_lecture.id
-	lecture_object["lecid"]=str(single_lecture.id);
-	professor_str="";
-	prof_list = single_lecture.professor.all();
-	for single_prof_index in range(len(prof_list)):
-	    professor_str = professor_str + prof_list[single_prof_index].professor_name
-	    if(single_prof_index+1<len(prof_list)):
-		professor_str = professor_str + ", "
-	lecture_object["professor"]=professor_str
-	return_object.append(lecture_object)
-    gradelist=['F','D','C','B','A']
-    forrange=[4,3,2,1,0]
+        lecture_object["title"]=single_lecture.title;
+        lecture_object["old_code"]=single_lecture.old_code;
+        lecture_object["lecid"]=str(single_lecture.id);
+        professor_str="";
+        prof_list = single_lecture.professor.all();
+        for single_prof_index in range(len(prof_list)):
+            professor_str = professor_str + prof_list[single_prof_index].professor_name
+            if(single_prof_index+1<len(prof_list)):
+                professor_str = professor_str + ", "
+        lecture_object["professor"]=professor_str
+        return_object.append(lecture_object)
+    gradelist=['A','B','C','D','F']
     pre_comment =""
     pre_grade="A"
     pre_load="A"
     pre_speech="A"
     if lecture_id==-1:
-	return HttpResponseRedirect('./' + str(lecture_list[0].id) )    
+        return HttpResponseRedirect('./' + str(lecture_list[0].id) )    
     now_lecture = Lecture.objects.get(id=lecture_id)
     try : 
-	temp = Comment.objects.filter(writer=user)
-	temp = temp.get(lecture=now_lecture)
+        temp = Comment.objects.filter(writer=user)
+        temp = temp.get(lecture=now_lecture)
         pre_comment = temp.comment
-	pre_grade = gradelist[(temp.grade)]
-	pre_load = gradelist[(temp.load)]
-	pre_speech = gradelist[(temp.speech)]
+        pre_grade = gradelist[4-(temp.grade)]
+        pre_load = gradelist[4-(temp.load)]
+        pre_speech = gradelist[4-(temp.speech)]
     except : pre_comment = ''
-    ctx = {'lecture_id':str(lecture_id), 'object':return_object, 'comment':pre_comment, 'gradelist': gradelist,'grade': pre_grade,'load':pre_load,'speech':pre_speech,'forrange':forrange, 'sid':sid_var }
+    ctx = {'lecture_id':str(lecture_id), 'object':return_object, 'comment':pre_comment, 'gradelist': gradelist,'grade': pre_grade,'load':pre_load,'speech':pre_speech, 'sid':sid_var }
     return render(request, 'review/review/insert.html',ctx)
 
 def ReviewInsertAdd(request,lecture_id):
@@ -160,31 +157,31 @@ def ReviewInsertAdd(request,lecture_id):
     lecture = Lecture.objects.get(id = lecid) # 하나로 특정되지않음, 변경요망
     course = Course.objects.get(old_code=lecture.old_code)
     comment = request.POST['content'] # 항목 선택 안했을시 반응 추가 요망 grade, load도
-    grade = int(request.POST['gradescore'])
-    load = int(request.POST['loadscore'])
-    speech = int(request.POST['speechscore'])
+    grade = 5-int(request.POST['gradescore'])
+    load = 5-int(request.POST['loadscore'])
+    speech = 5-int(request.POST['speechscore'])
     total = grade+load+speech #현재 float 불가
     writer = UserProfile.objects.get(student_id=sid_var) #session 완성시 변경
     try :
-	temp = Comment.objects.filter(writer=writer)
-	temp = temp.get(lecture=lecture)
-	change_before_grade = temp.grade;
+        temp = Comment.objects.filter(writer=writer)
+        temp = temp.get(lecture=lecture)
+        change_before_grade = temp.grade;
         change_before_load = temp.load;
         change_before_speech = temp.speech;
         change_before_total = temp.total;
-	temp.comment = comment
-	temp.grade = grade
-	temp.load = load
-	temp.speech = speech
-	temp.total = total
-	lecture.grade_sum += (grade-change_before_grade);
+        temp.comment = comment
+        temp.grade = grade
+        temp.load = load
+        temp.speech = speech
+        temp.total = total
+        lecture.grade_sum += (grade-change_before_grade);
         lecture.load_sum += (load-change_before_load);
         lecture.speech_sum += (speech-change_before_speech);
         lecture.total_sum += (total-change_before_total);
         lecture.save()
-	temp.save()
+        temp.save()
     except :
-	new_comment = Comment(course=course, lecture=lecture, comment=comment, grade=grade, load=load, speech=speech, total=total, writer=writer)
+        new_comment = Comment(course=course, lecture=lecture, comment=comment, grade=grade, load=load, speech=speech, total=total, writer=writer)
         new_comment.save()
         lecture.grade_sum += grade;
         lecture.load_sum += load;
