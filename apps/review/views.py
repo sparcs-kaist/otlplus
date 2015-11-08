@@ -83,8 +83,8 @@ def SearchResultView(request):
 
 def ReviewDelete(request):
     user = UserProfile.objects.get(student_id=request.POST['sid'])
-    lec = Lecture.objects.get(id=request.POST['lectureid'])
-    target = Comment.objects.get(writer=user,lecture=lec);
+    lec = user.take_lecture_list.get(id=request.POST['lectureid'])
+    target = user.comment_set.get(lecture=lec);
     lec.grade_sum -= target.grade
     lec.load_sum -= target.load
     lec.speech_sum -= target.speech
@@ -132,9 +132,9 @@ def ReviewInsertView(request,lecture_id=-1):
     pre_speech="A"
     if lecture_id==-1:
         return HttpResponseRedirect('./' + str(lecture_list[0].id) )    
-    now_lecture = Lecture.objects.get(id=lecture_id)
+    now_lecture = user.take_lecture_list.get(id=lecture_id)
     try : 
-        temp = Comment.objects.filter(writer=user)
+        temp = user.comment_set.all()
         temp = temp.get(lecture=now_lecture)
         pre_comment = temp.comment
         pre_grade = gradelist[4-(temp.grade)]
@@ -154,16 +154,18 @@ def ReviewInsertAdd(request,lecture_id):
 #	    comment=request.POST['content']
     sid_var = "20150390"
     lecid = int(lecture_id)
-    lecture = Lecture.objects.get(id = lecid) # 하나로 특정되지않음, 변경요망
-    course = Course.objects.get(old_code=lecture.old_code)
+    user = UserProfile.objects.get(student_id=sid_var) #session 완성시 변경
+
+    lecture = user.take_lecture_list.get(id = lecid) # 하나로 특정되지않음, 변경요망
+    course = lecture.course
     comment = request.POST['content'] # 항목 선택 안했을시 반응 추가 요망 grade, load도
     grade = 5-int(request.POST['gradescore'])
     load = 5-int(request.POST['loadscore'])
     speech = 5-int(request.POST['speechscore'])
     total = grade+load+speech #현재 float 불가
-    writer = UserProfile.objects.get(student_id=sid_var) #session 완성시 변경
+    writer = user #session 완성시 변경
     try :
-        temp = Comment.objects.filter(writer=writer)
+        temp = user.comment_set.all()
         temp = temp.get(lecture=lecture)
         change_before_grade = temp.grade;
         change_before_load = temp.load;
