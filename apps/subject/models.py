@@ -30,12 +30,23 @@ class Lecture(models.Model):
     total_sum = models.IntegerField(default=0)
     comment_num = models.IntegerField(default=0)
 
+    def __unicode__(self):
+	professors_list=self.professor.all()
+	re_str=u"%s(%s %s"%(self.title,self.old_code,professors_list[0].professor_name)
+	for i in range(1,len(professors_list)):
+            re_str+=", %s"%(professors_list[i].professor_name)
+	re_str+=")"
+	return re_str
+
 class Department(models.Model):
     id = models.IntegerField(primary_key=True, db_index=True)
     num_id = models.CharField(max_length=4, db_index=True)
     code = models.CharField(max_length=5, db_index=True)
     name = models.CharField(max_length=60, db_index=True)
     name_en = models.CharField(max_length=60, null=True, db_index=True)
+
+    def __unicode__(self):
+	return self.code
 
 class Course(models.Model):
     old_code = models.CharField(max_length=10, db_index=True)
@@ -45,6 +56,9 @@ class Course(models.Model):
     type_en = models.CharField(max_length=36)
     title = models.CharField(max_length=100, db_index=True)
     title_en = models.CharField(max_length=200, db_index=True)
+
+    def __unicode__(self):
+	return u"%s(%s)"%(self.title,self.old_code)
     
 class Professor(models.Model):
     professor_name = models.CharField(max_length=100, db_index=True)
@@ -52,5 +66,6 @@ class Professor(models.Model):
     professor_id = models.IntegerField()
     major = models.CharField(max_length=30)
     course_list = models.ManyToManyField('Course', db_index=True)
-
-
+    
+    def __unicode__(self):
+	    return u"%s(id:%d)"%(self.professor_name,self.professor_id)

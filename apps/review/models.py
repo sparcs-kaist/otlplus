@@ -16,6 +16,9 @@ class Comment(models.Model):
     written_datetime = models.DateTimeField(auto_now=True, db_index=True)
     like = models.IntegerField(default=0)
 
+    def __unicode__(self):
+	return u"%s(%s)"%(self.lecture,self.writer)
+
 class CommentVote(models.Model):
     comment = models.ForeignKey(Comment, related_name="comment_vote", null=False)
     userprofile = models.ForeignKey(UserProfile, related_name="comment_vote")
