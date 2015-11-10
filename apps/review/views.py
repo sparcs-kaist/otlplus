@@ -11,10 +11,12 @@ def SearchView(request):
     return render(request, 'review/search/search.html')
 
 def SearchResultView(request):
-    by_professor = False    #나중에 변경
+    if 'by_professor' in request.GET:
+        by_professor = True
+    else:
+        by_professor = False
     
     courses = Course.objects.all()
-
     no_department_selected = True
     temp_courses = courses[:]
     for department in Department.objects.all():
@@ -24,7 +26,6 @@ def SearchResultView(request):
             no_department_selected = False
     if no_department_selected:
         courses = temp_courses
-
     no_course_type_selected = True
     temp_courses = courses[:]
     course_types = ['BR', 'BE', 'MR', 'ME', 'MGC', 'HSE']
@@ -79,7 +80,7 @@ def SearchResultView(request):
                 total = float(total)/comment_num
             results.append([[course, None], [grade, load, speech, total], comment_num])
 
-    return render(request, 'review/search/result.html', {'results':results})
+    return render(request, 'review/search/result.html', {'results':results, 'gets':request.GET})
 
 def ReviewDelete(request):
     user = UserProfile.objects.get(student_id=request.POST['sid'])
