@@ -10,6 +10,16 @@ from django.db.models import Q
 def SearchView(request):
     return render(request, 'review/search/search.html')
 
+def GetDepartmentFilterList():
+    list = []
+    for department in Department.objects.all():
+        list.append(department.code)
+    return list
+
+def GetCourseTypeFilterList():
+    # 개선 필요
+    return ['BR', 'BE', 'MR', 'ME', 'MGC', 'HSE']
+
 def SearchResultView(request):
     if 'by_professor' in request.GET:
         by_professor = True
@@ -17,56 +27,34 @@ def SearchResultView(request):
         by_professor = False
     
     courses = Course.objects.all()
-    no_department_selected = True
-    temp_courses = courses[:]
-    for department in Department.objects.all():
-        if not(department.code in request.GET):
+    all_filters = GetDepartmentFilterList()
+    unchecked_filters = list(set(all_filters)-set(request.GET))
+    if len(unchecked_filters) != len(all_filters):
+        for filter_name in unchecked_filters:
+            department = Department.objects.get(code=filter_name)
             courses = courses.exclude(department=department)
-        else:
-            no_department_selected = False
-    if no_department_selected:
-        courses = temp_courses
-    no_course_type_selected = True
-    temp_courses = courses[:]
-    course_types = ['BR', 'BE', 'MR', 'ME', 'MGC', 'HSE']
-    for course_type in course_types:
-        if not(course_type in request.GET):
-            courses = courses.exclude(type=course_type)
-        else:
-            no_course_type_selected = False
-    if no_course_type_selected:
-        courses = temp_courses
+    all_filters = GetCourseTypeFilterList()
+    unchecked_filters = list(set(all_filters)-set(request.GET))
+    if len(unchecked_filters) != len(all_filters):
+        for filter_name in unchecked_filters:
+            courses = courses.exclude(type=filter_name)
 
     results=[]
-    if by_professor:
-        for course in courses:
-            for professor in course.professors.all():
-                grade = 0
-                load = 0
-                speech = 0
-                total = 0
-                comment_num = 0
-                lectures = Lecture.objects.filter(Q(course=course) & Q(professor=professor))
-                for lecture in lectures:
-                    grade += lecture.grade_sum
-                    load += lecture.load_sum
-                    speech += lecture.speech_sum
-                    total += lecture.total_sum
-                    comment_num += lecture.comment_num
-                if comment_num != 0:
-                    grade = float(grade)/comment_num
-                    load = float(load)/comment_num
-                    speech = float(speech)/comment_num
-                    total = float(total)/comment_num
-                results.append([[course, professor], [grade, load, speech, total], comment_num])
-    else:
-        for course in courses:
+    for course in courses:
+        if by_professor:
+            professors = course.professors.all()
+        else:
+            professors = [None]
+        for professor in professors:
             grade = 0
             load = 0
             speech = 0
             total = 0
             comment_num = 0
-            lectures = Lecture.objects.filter(course=course)
+            if by_professor:
+                lectures = Lecture.objects.filter(Q(course=course) & Q(professor=professor))
+            else:
+                lectures = Lecture.objects.filter(course=course)
             for lecture in lectures:
                 grade += lecture.grade_sum
                 load += lecture.load_sum
@@ -78,7 +66,7 @@ def SearchResultView(request):
                 load = float(load)/comment_num
                 speech = float(speech)/comment_num
                 total = float(total)/comment_num
-            results.append([[course, None], [grade, load, speech, total], comment_num])
+            results.append([[course, professor], [grade, load, speech, total], comment_num])
 
     return render(request, 'review/search/result.html', {'results':results, 'gets':request.GET})
 
