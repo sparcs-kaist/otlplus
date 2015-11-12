@@ -50,40 +50,33 @@
 
     </div>
   </div>
-  <div class="row" style="margin-top: 50px;">
-    <div class="col-xs-3"></div>
-    <div class="col-xs-6">
+  <div class="row" style="margin-top: 40px;">
+    <div class="col-xs-6"></div>
+    <div class = "col-xs-6"><center>사랑받는 교양과목</center>
+    {% for comment in liberal_comment %}
       <div class="panel panel-default">
         <div class="panel-heading">
-          BEST 후기1 - CS101
+		{{comment.lecture}}
         </div>
         <div class="panel-body">
-          CS101 매우 재밌어요
+		{{comment.comment}}<br>
+		|grade({{comment.grade}}) | load({{comment.load}}) | speech({{comment.speech}}) | total({{comment.total}}) |
         </div>
       </div>
+    {% endfor %}
     </div>
-    <div class="col-xs-6">
+    <div class = "col-xs-6"><center>사랑받는 전공과목</center>
+    {% for comment in major_comment %}
       <div class="panel panel-default">
         <div class="panel-heading">
-          BEST 후기2 - CS101
+		{{comment.lecture}}
         </div>
         <div class="panel-body">
-          CS101 매우 재밌어요
+		{{comment.comment}}<br>
+		|grade({{comment.grade}}) | load({{comment.load}}) | speech({{comment.speech}}) | total({{comment.total}}) |
         </div>
       </div>
-    </div>
-    <div class="col-xs-6">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          BEST 후기3 - CS101
-        </div>
-        <div class="panel-body">
-          CS101 매우 재밌어요
-        </div>
-      </div>
-    </div>
-    <div class="col-xs-3">
-
+    {% endfor %}
     </div>
   </div>
 {% endblock %}

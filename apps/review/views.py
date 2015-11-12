@@ -6,9 +6,58 @@ from apps.subject.models import Course, Lecture, Department
 from apps.review.models import Comment
 from django.http import HttpResponse, HttpResponseRedirect
 from django.db.models import Q
-
+from datetime import datetime, timedelta, time, date
+from django.utils import timezone
+from math import exp
 def SearchView(request):
-    return render(request, 'review/search/search.html')
+    sid_var = "20150390"
+    sid_default = "00000000"
+    user = UserProfile.objects.get(student_id=sid_var) 
+
+    last_date = timezone.now()
+    first_date = timezone.now() - timedelta(days = 180 )
+
+    Comment_liberal = Comment.objects.filter(Q(course__department__code="HSS"))
+    Comment_liberal = list(Comment_liberal.filter(written_datetime__range=(first_date, last_date)))
+    
+    if sid_var == sid_default :
+        Comment_major = Comment.objects.filter(~Q(course__department__code="HSS"))
+    else :
+	Comment_major = Comment.objects.filter(course__department__in = user.favorite_departments.all())
+    Comment_major = list(Comment_major.filter(written_datetime__range=(first_date, last_date)))
+
+
+    def SelectBest(Comment_list):
+	Best_Comment = Comment_list[0]
+	for comment in Comment_list:
+	    if Best_Comment.like/float(Best_Comment.lecture.audience)< comment.like/float(comment.lecture.audience):
+		Best_Comment = comment
+	return Best_Comment
+    
+    liberal_comment = []
+    major_comment = []
+
+    for i in range(3):
+        try :
+            Best_Comment = SelectBest(Comment_liberal)
+            Comment_liberal.remove(Best_Comment)
+	    liberal_comment.append(Best_Comment)
+        except:
+	    pass
+    
+    for i in range(3):
+        try:
+            Best_Comment = SelectBest(Comment_major)
+            Comment_major.remove(Best_Comment)
+	    major_comment.append(Best_Comment)
+        except:
+	    pass
+
+    ctx = {'liberal_comment':liberal_comment, 'major_comment':major_comment}
+
+
+
+    return render(request, 'review/search/search.html',ctx)
 
 def GetDepartmentFilterList():
     list = []
@@ -151,7 +200,7 @@ def ReviewInsertAdd(request,lecture_id):
     grade = 5-int(request.POST['gradescore'])
     load = 5-int(request.POST['loadscore'])
     speech = 5-int(request.POST['speechscore'])
-    total = grade+load+speech #현재 float 불가
+    total = (grade+load+speech+2)//3 #현재 float 불가
     writer = user #session 완성시 변경
     try :
         temp = user.comment_set.all()
