@@ -117,7 +117,19 @@ def SearchResultView(request):
                 total = float(total)/comment_num
             results.append([[course, professor], [grade, load, speech, total], comment_num])
 
-    return render(request, 'review/search/result.html', {'results':results, 'gets':request.GET})
+    def getgrade(item):
+        return item[1][0]
+    def getload(item):
+        return item[1][1]
+    def getspeech(item):
+        return item[1][2]
+    def gettotal(item):
+        return item[1][3]
+    results_grade=sorted(results,key=getgrade,reverse=True)
+    results_load=sorted(results,key=getload,reverse=True)
+    results_speech=sorted(results,key=getspeech,reverse=True)
+    results_total=sorted(results,key=gettotal,reverse=True)
+    return render(request, 'review/search/result.html', {'results':results, 'results_grade':results_grade, 'results_load':results_load, 'results_speech':results_speech, 'results_total':results_total, 'gets':request.GET})
 
 def ReviewDelete(request):
     user = UserProfile.objects.get(student_id=request.POST['sid'])

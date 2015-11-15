@@ -49,6 +49,54 @@
           filters[i].checked = false;
       $('#filter_form').submit()
     });
+
+    $('#sort_default').show();
+    $('#sort_grade').hide();
+    $('#sort_speech').hide();
+    $('#sort_load').hide();
+    $('#sort_total').hide();
+ 
+    $('.btn-sort').click(function(){
+        $('#name').change(function(){
+            $('#sort_default').show();
+            $('#sort_grade').hide();
+            $('#sort_speech').hide();
+            $('#sort_load').hide();
+            $('#sort_total').hide();
+            });
+        $('#grade').change(function(){
+            $('#sort_default').hide();
+            $('#sort_grade').show();
+            $('#sort_speech').hide();
+            $('#sort_load').hide();
+            $('#sort_total').hide();
+            });
+        $('#speech').change(function(){
+            $('#sort_default').hide();
+            $('#sort_grade').hide();
+            $('#sort_speech').show();
+            $('#sort_load').hide();
+            $('#sort_total').hide();
+            });
+        $('#load').change(function(){
+            $('#sort_default').hide();
+            $('#sort_grade').hide();
+            $('#sort_speech').hide();
+            $('#sort_load').show();
+            $('#sort_total').hide();
+            });
+        $('#total').change(function(){
+            $('#sort_default').hide();
+            $('#sort_grade').hide();
+            $('#sort_speech').hide();
+            $('#sort_load').hide();
+            $('#sort_total').show();
+            });
+ 
+    });
+
+
+
   </script>
 {% endblock %}
 
@@ -135,15 +183,21 @@
             <input type="checkbox" autocomplete="off" name="by_professor"> 교수 별로 보기
           </label>
         </div>
-        <div class="btn-group" data-toggle="buttons">
-          <label class="btn btn-primary">
-            <input type="radio" autocomplete="off"> 학점 잘 주는 순서대로 보기
+        <div class="btn-group btn-sort" data-toggle="buttons">
+          <label class="btn btn-primary active">
+            <input type="radio" id="name" autocomplete="off" checked>과목코드 순서대로 보기
           </label>
           <label class="btn btn-primary">
-            <input type="radio" autocomplete="off"> 수업 잘 하는 순서대로 보기
+            <input type="radio" id="grade" autocomplete="off"> 학점 잘 주는 순서대로 보기
           </label>
           <label class="btn btn-primary">
-            <input type="radio" autocomplete="off"> 로드 덜 빡센 순서대로 보기
+            <input type="radio" id="speech" autocomplete="off"> 수업 잘 하는 순서대로 보기
+          </label>
+          <label class="btn btn-primary">
+            <input type="radio" id="load" autocomplete="off"> 로드 덜 빡센 순서대로 보기
+          </label>
+          <label class="btn btn-primary">
+            <input type="radio" id="total" autocomplete="off"> 전체적인 평가 순서대로 보기
           </label>
         </div>
       </div>
@@ -152,7 +206,7 @@
 
 
   <div class="row" style="margin-top: 50px;">
-    <div class="col-xs-12">
+    <div class="col-xs-12" id="sort_default">
       <ul class="list-group" role="tablist">
       {% if results|length == 0 %}  
         <li class="list-group-item">
@@ -160,6 +214,126 @@
         </li>
       {% endif %}
       {% for result in results %}
+        <li class="list-group-item">
+          <a href="#lecture1" aria-controls="home" role="tab" data-toggle="tab">
+            {{ result.0.0.title }}
+          {% if result.0.1 != None %}
+            : {{ result.0.1.professor_name }}
+          {% endif %}
+            </br>
+          {% if result.2 != 0 %}
+            grade : {{ result.1.0 }}
+            load : {{ result.1.1 }}
+            speech : {{ result.1.2 }}
+            total : {{ result.1.3 }}</br>
+            {{ result.2 }}개의 평가
+          {% else %}
+            -</br>
+            평가 없음</br>
+          {% endif %}
+          </a>
+        </li>
+      {% endfor %}
+      </ul>
+    </div>
+    <div class="col-xs-12" id="sort_grade">
+      <ul class="list-group" role="tablist">
+      {% if results|length == 0 %}  
+        <li class="list-group-item">
+          검색 결과가 없습니다.
+        </li>
+      {% endif %}
+      {% for result in results_grade %}
+        <li class="list-group-item">
+          <a href="#lecture1" aria-controls="home" role="tab" data-toggle="tab">
+            {{ result.0.0.title }}
+          {% if result.0.1 != None %}
+            : {{ result.0.1.professor_name }}
+          {% endif %}
+            </br>
+          {% if result.2 != 0 %}
+            grade : {{ result.1.0 }}
+            load : {{ result.1.1 }}
+            speech : {{ result.1.2 }}
+            total : {{ result.1.3 }}</br>
+            {{ result.2 }}개의 평가
+          {% else %}
+            -</br>
+            평가 없음</br>
+          {% endif %}
+          </a>
+        </li>
+      {% endfor %}
+      </ul>
+    </div>
+    <div class="col-xs-12" id="sort_speech">
+      <ul class="list-group" role="tablist">
+      {% if results|length == 0 %}  
+        <li class="list-group-item">
+          검색 결과가 없습니다.
+        </li>
+      {% endif %}
+      {% for result in results_speech %}
+        <li class="list-group-item">
+          <a href="#lecture1" aria-controls="home" role="tab" data-toggle="tab">
+            {{ result.0.0.title }}
+          {% if result.0.1 != None %}
+            : {{ result.0.1.professor_name }}
+          {% endif %}
+            </br>
+          {% if result.2 != 0 %}
+            grade : {{ result.1.0 }}
+            load : {{ result.1.1 }}
+            speech : {{ result.1.2 }}
+            total : {{ result.1.3 }}</br>
+            {{ result.2 }}개의 평가
+          {% else %}
+            -</br>
+            평가 없음</br>
+          {% endif %}
+          </a>
+        </li>
+      {% endfor %}
+      </ul>
+    </div>
+    <div class="col-xs-12" id="sort_load">
+      <ul class="list-group" role="tablist">
+      {% if results|length == 0 %}  
+        <li class="list-group-item">
+          검색 결과가 없습니다.
+        </li>
+      {% endif %}
+      {% for result in results_load %}
+        <li class="list-group-item">
+          <a href="#lecture1" aria-controls="home" role="tab" data-toggle="tab">
+            {{ result.0.0.title }}
+          {% if result.0.1 != None %}
+            : {{ result.0.1.professor_name }}
+          {% endif %}
+            </br>
+          {% if result.2 != 0 %}
+            grade : {{ result.1.0 }}
+            load : {{ result.1.1 }}
+            speech : {{ result.1.2 }}
+            total : {{ result.1.3 }}</br>
+            {{ result.2 }}개의 평가
+          {% else %}
+            -</br>
+            평가 없음</br>
+          {% endif %}
+          </a>
+        </li>
+      {% endfor %}
+      </ul>
+    </div>
+    <div class="col-xs-12" id="sort_total">
+      <ul class="list-group" role="tablist">
+      {% if results|length == 0 %}  
+        <li class="list-group-item">
+          검색 결과가 없습니다.
+        </li>
+      {% endif %}
+      {% for result in results_total %}
         <li class="list-group-item">
           <a href="#lecture1" aria-controls="home" role="tab" data-toggle="tab">
             {{ result.0.0.title }}
