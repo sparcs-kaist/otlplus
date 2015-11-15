@@ -50,51 +50,21 @@
       $('#filter_form').submit()
     });
 
-    $('#sort_default').show();
+    $('#sort_name').show();
     $('#sort_grade').hide();
     $('#sort_speech').hide();
     $('#sort_load').hide();
     $('#sort_total').hide();
- 
-    $('.btn-sort').click(function(){
-        $('#name').change(function(){
-            $('#sort_default').show();
-            $('#sort_grade').hide();
-            $('#sort_speech').hide();
-            $('#sort_load').hide();
-            $('#sort_total').hide();
-            });
-        $('#grade').change(function(){
-            $('#sort_default').hide();
-            $('#sort_grade').show();
-            $('#sort_speech').hide();
-            $('#sort_load').hide();
-            $('#sort_total').hide();
-            });
-        $('#speech').change(function(){
-            $('#sort_default').hide();
-            $('#sort_grade').hide();
-            $('#sort_speech').show();
-            $('#sort_load').hide();
-            $('#sort_total').hide();
-            });
-        $('#load').change(function(){
-            $('#sort_default').hide();
-            $('#sort_grade').hide();
-            $('#sort_speech').hide();
-            $('#sort_load').show();
-            $('#sort_total').hide();
-            });
-        $('#total').change(function(){
-            $('#sort_default').hide();
-            $('#sort_grade').hide();
-            $('#sort_speech').hide();
-            $('#sort_load').hide();
-            $('#sort_total').show();
-            });
- 
-    });
 
+    
+
+    $(document).ready(function(){
+            $("input[name='sorting']").on("change",function(){
+                var test=$(this).val();
+                $(".sort_result").hide();
+                $("#sort_"+test).show();
+                });
+            });
 
 
   </script>
@@ -185,19 +155,19 @@
         </div>
         <div class="btn-group btn-sort" data-toggle="buttons">
           <label class="btn btn-primary active">
-            <input type="radio" id="name" autocomplete="off" checked>과목코드 순서대로 보기
+            <input type="radio" id="name" name="sorting" value="name" autocomplete="off" checked>과목코드 순서대로 보기
           </label>
           <label class="btn btn-primary">
-            <input type="radio" id="grade" autocomplete="off"> 학점 잘 주는 순서대로 보기
+            <input type="radio" id="grade" name="sorting" value="grade" autocomplete="off"> 학점 잘 주는 순서대로 보기
           </label>
           <label class="btn btn-primary">
-            <input type="radio" id="speech" autocomplete="off"> 수업 잘 하는 순서대로 보기
+            <input type="radio" id="speech" name="sorting" value="speech" autocomplete="off"> 수업 잘 하는 순서대로 보기
           </label>
           <label class="btn btn-primary">
-            <input type="radio" id="load" autocomplete="off"> 로드 덜 빡센 순서대로 보기
+            <input type="radio" id="load" name="sorting" value="load" autocomplete="off"> 로드 덜 빡센 순서대로 보기
           </label>
           <label class="btn btn-primary">
-            <input type="radio" id="total" autocomplete="off"> 전체적인 평가 순서대로 보기
+            <input type="radio" id="total" name="sorting" value="total" autocomplete="off"> 전체적인 평가 순서대로 보기
           </label>
         </div>
       </div>
@@ -206,7 +176,7 @@
 
 
   <div class="row" style="margin-top: 50px;">
-    <div class="col-xs-12" id="sort_default">
+    <div class="col-xs-12 sort_result" id="sort_name">
       <ul class="list-group" role="tablist">
       {% if results|length == 0 %}  
         <li class="list-group-item">
@@ -236,7 +206,7 @@
       {% endfor %}
       </ul>
     </div>
-    <div class="col-xs-12" id="sort_grade">
+    <div class="col-xs-12 sort_result" id="sort_grade">
       <ul class="list-group" role="tablist">
       {% if results|length == 0 %}  
         <li class="list-group-item">
@@ -266,7 +236,7 @@
       {% endfor %}
       </ul>
     </div>
-    <div class="col-xs-12" id="sort_speech">
+    <div class="col-xs-12 sort_result" id="sort_speech">
       <ul class="list-group" role="tablist">
       {% if results|length == 0 %}  
         <li class="list-group-item">
@@ -296,7 +266,7 @@
       {% endfor %}
       </ul>
     </div>
-    <div class="col-xs-12" id="sort_load">
+    <div class="col-xs-12 sort_result" id="sort_load">
       <ul class="list-group" role="tablist">
       {% if results|length == 0 %}  
         <li class="list-group-item">
@@ -326,7 +296,7 @@
       {% endfor %}
       </ul>
     </div>
-    <div class="col-xs-12" id="sort_total">
+    <div class="col-xs-12 sort_result" id="sort_total">
       <ul class="list-group" role="tablist">
       {% if results|length == 0 %}  
         <li class="list-group-item">
