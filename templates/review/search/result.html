@@ -19,12 +19,14 @@
     $('#category').on('focus', function() {
       $('#m-category').modal('show');
     });
+
     $(document).ready(function() {
       {% if 'by_professor' in gets %}
         $('#by_professor').addClass('active');
         $("input:checkbox[name='by_professor']").attr("checked", true);
       {% endif %}
-      });
+    });
+
     $('#by_professor').click(function() {
       if ($("input:checkbox[name='by_professor']").is(":checked"))
       {
@@ -55,17 +57,26 @@
     $('#sort_speech').hide();
     $('#sort_load').hide();
     $('#sort_total').hide();
-
     
-
     $(document).ready(function(){
-            $("input[name='sorting']").on("change",function(){
-                var test=$(this).val();
-                $(".sort_result").hide();
-                $("#sort_"+test).show();
-                });
-            });
+      $("input[name='sorting']").on("change",function(){
+        var test=$(this).val();
+        $(".sort_result").hide();
+        $("#sort_"+test).show();
+      });
+    });
 
+    $('ul.resultlist>li>a').click(function(){
+      lis = $('ul.resultlist>li');
+      for (i=0; i<lis.length; i++)
+        if (lis[i].children[0] != this)
+        {
+          if (lis[i].children[0].href == this.href)
+            lis[i].classList.add("active");
+          else
+            lis[i].classList.remove("active");
+        }
+    });
 
   </script>
 {% endblock %}
@@ -177,15 +188,15 @@
 
   <div class="row" style="margin-top: 50px;">
     <div class="col-xs-12 sort_result" id="sort_name">
-      <ul class="list-group" role="tablist">
-      {% if results|length == 0 %}  
+      <ul class="list-group resultlist" role="tablist">
+      {% if results|length == 0 %}
         <li class="list-group-item">
           검색 결과가 없습니다.
         </li>
       {% endif %}
       {% for result in results %}
         <li class="list-group-item">
-          <a href="#lecture1" aria-controls="home" role="tab" data-toggle="tab">
+          <a href="{{ "#lecture"|add:result.3 }}" aria-controls="home" role="tab" data-toggle="tab">
             {{ result.0.0.title }}
           {% if result.0.1 != None %}
             : {{ result.0.1.professor_name }}
@@ -207,7 +218,7 @@
       </ul>
     </div>
     <div class="col-xs-12 sort_result" id="sort_grade">
-      <ul class="list-group" role="tablist">
+      <ul class="list-group resultlist" role="tablist">
       {% if results|length == 0 %}  
         <li class="list-group-item">
           검색 결과가 없습니다.
@@ -215,7 +226,7 @@
       {% endif %}
       {% for result in results_grade %}
         <li class="list-group-item">
-          <a href="#lecture1" aria-controls="home" role="tab" data-toggle="tab">
+          <a href="{{ "#lecture"|add:result.3 }}" aria-controls="home" role="tab" data-toggle="tab">
             {{ result.0.0.title }}
           {% if result.0.1 != None %}
             : {{ result.0.1.professor_name }}
@@ -237,7 +248,7 @@
       </ul>
     </div>
     <div class="col-xs-12 sort_result" id="sort_speech">
-      <ul class="list-group" role="tablist">
+      <ul class="list-group resultlist" role="tablist">
       {% if results|length == 0 %}  
         <li class="list-group-item">
           검색 결과가 없습니다.
@@ -245,7 +256,7 @@
       {% endif %}
       {% for result in results_speech %}
         <li class="list-group-item">
-          <a href="#lecture1" aria-controls="home" role="tab" data-toggle="tab">
+          <a href="{{ "#lecture"|add:result.3 }}" aria-controls="home" role="tab" data-toggle="tab">
             {{ result.0.0.title }}
           {% if result.0.1 != None %}
             : {{ result.0.1.professor_name }}
@@ -267,7 +278,7 @@
       </ul>
     </div>
     <div class="col-xs-12 sort_result" id="sort_load">
-      <ul class="list-group" role="tablist">
+      <ul class="list-group resultlist" role="tablist">
       {% if results|length == 0 %}  
         <li class="list-group-item">
           검색 결과가 없습니다.
@@ -275,7 +286,7 @@
       {% endif %}
       {% for result in results_load %}
         <li class="list-group-item">
-          <a href="#lecture1" aria-controls="home" role="tab" data-toggle="tab">
+          <a href="{{ "#lecture"|add:result.3 }}" aria-controls="home" role="tab" data-toggle="tab">
             {{ result.0.0.title }}
           {% if result.0.1 != None %}
             : {{ result.0.1.professor_name }}
@@ -297,7 +308,7 @@
       </ul>
     </div>
     <div class="col-xs-12 sort_result" id="sort_total">
-      <ul class="list-group" role="tablist">
+      <ul class="list-group resultlist" role="tablist">
       {% if results|length == 0 %}  
         <li class="list-group-item">
           검색 결과가 없습니다.
@@ -305,7 +316,7 @@
       {% endif %}
       {% for result in results_total %}
         <li class="list-group-item">
-          <a href="#lecture1" aria-controls="home" role="tab" data-toggle="tab">
+          <a href="{{ "#lecture"|add:result.3 }}" aria-controls="home" role="tab" data-toggle="tab">
             {{ result.0.0.title }}
           {% if result.0.1 != None %}
             : {{ result.0.1.professor_name }}
@@ -327,34 +338,27 @@
       </ul>
     </div>
     <div class="col-xs-12 tab-content">
-      <div id="lecture1" role="tabpanel" class="tab-pane panel panel-default active">
-        <ul class="list-group">
-          <li class="list-group-item">
-            후기1
-          </li>
-          <li class="list-group-item">
-            후기2
-          </li>
-          <li class="list-group-item">
-            후기3
-          </li>
-          <li class="list-group-item">
-            후기4
-          </li>
-          <li class="list-group-item">
-            후기5
-          </li>
-        </ul>
+    {% for result in results %}
+      <div id="{{"lecture"|add:result.3 }}" role="tabpanel" class="tab-pane panel">
+        <div class="panel-default">
+          <ul class="list-group">
+          {% for review in result.4 %}
+            <li class="list-group-item">
+            {{ review.lecture.year }}년 {{ review.lecture.semester }}학기 - {{ review.writer.user.id }}</br>
+              {{ review.comment }}</br>
+              grade : {{ review.grade }}
+              load : {{ review.load }}
+              speech : {{ review.speech }}
+              total : {{ review.total }}</br>
+              <button class="btn btn-default">
+                좋아요 {{ review.like }}
+              </button>
+            </li>
+          {% endfor %}
+          </ul>
+        </div>
       </div>
-      <div id="lecture2" role="tabpanel" class="tab-pane panel panel-default">
-        b
-      </div>
-      <div id="lecture3" role="tabpanel" class="tab-pane panel panel-default">
-        c
-      </div>
-      <div id="lecture4" role="tabpanel" class="tab-pane panel panel-default">
-        d
-      </div>
+    {% endfor %}
     </div>
   </div>
 {% endblock %}

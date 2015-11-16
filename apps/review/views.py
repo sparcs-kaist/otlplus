@@ -88,13 +88,15 @@ def SearchResultView(request):
         for filter_name in unchecked_filters:
             courses = courses.exclude(type=filter_name)
 
-    results=[]
+    results = []
+    id = 0
     for course in courses:
         if by_professor:
             professors = course.professors.all()
         else:
             professors = [None]
         for professor in professors:
+            comments = []
             grade = 0
             load = 0
             speech = 0
@@ -110,12 +112,14 @@ def SearchResultView(request):
                 speech += lecture.speech_sum
                 total += lecture.total_sum
                 comment_num += lecture.comment_num
+                comments.extend(Comment.objects.filter(lecture=lecture))
             if comment_num != 0:
                 grade = float(grade)/comment_num
                 load = float(load)/comment_num
                 speech = float(speech)/comment_num
                 total = float(total)/comment_num
-            results.append([[course, professor], [grade, load, speech, total], comment_num])
+            id += 1
+            results.append([[course, professor], [grade, load, speech, total], comment_num, str(id), comments])
 
     def getgrade(item):
         return item[1][0]
