@@ -24,3 +24,7 @@ class CommentVote(models.Model):
     userprofile = models.ForeignKey(UserProfile, related_name="comment_vote")
     is_up = models.BooleanField(null=False)
 
+class BestComment(models.Model):
+    comment = models.ForeignKey(Comment, related_name="best_comment", null=False)
+    def __unicode__(self):
+	return u"%s(%s)"%(self.comment.lecture,self.comment.writer)

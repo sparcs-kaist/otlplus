@@ -3,7 +3,7 @@
 from django.shortcuts import render, redirect
 from apps.session.models import UserProfile
 from apps.subject.models import Course, Lecture, Department
-from apps.review.models import Comment
+from apps.review.models import Comment, BestComment
 from django.http import HttpResponse, HttpResponseRedirect
 from django.db.models import Q
 from datetime import datetime, timedelta, time, date
@@ -17,39 +17,30 @@ def SearchView(request):
     last_date = timezone.now()
     first_date = timezone.now() - timedelta(days = 180 )
 
-    Comment_liberal = Comment.objects.filter(Q(course__department__code="HSS"))
-    Comment_liberal = list(Comment_liberal.filter(written_datetime__range=(first_date, last_date)))
+    Comment_liberal = BestComment.objects.filter(Q(comment__course__department__code="HSS"))
+    Comment_liberal = list(Comment_liberal.filter(comment__written_datetime__range=(first_date, last_date)))
     
     if sid_var == sid_default :
-        Comment_major = Comment.objects.filter(~Q(course__department__code="HSS"))
+        Comment_major = BestComment.objects.filter(~Q(comment__course__department__code="HSS"))
     else :
-	Comment_major = Comment.objects.filter(course__department__in = user.favorite_departments.all())
-    Comment_major = list(Comment_major.filter(written_datetime__range=(first_date, last_date)))
+	Comment_major = BestComment.objects.filter(comment__course__department__in = user.favorite_departments.all())
+    Comment_major = list(Comment_major.filter(comment__written_datetime__range=(first_date, last_date)))
 
 
-    def SelectBest(Comment_list):
-	Best_Comment = Comment_list[0]
-	for comment in Comment_list:
-	    if Best_Comment.like/float(Best_Comment.lecture.audience)< comment.like/float(comment.lecture.audience):
-		Best_Comment = comment
-	return Best_Comment
+    
     
     liberal_comment = []
     major_comment = []
 
     for i in range(3):
         try :
-            Best_Comment = SelectBest(Comment_liberal)
-            Comment_liberal.remove(Best_Comment)
-	    liberal_comment.append(Best_Comment)
+	    liberal_comment.append(Comment_liberal[i].comment)
         except:
 	    pass
     
     for i in range(3):
         try:
-            Best_Comment = SelectBest(Comment_major)
-            Comment_major.remove(Best_Comment)
-	    major_comment.append(Best_Comment)
+	    major_comment.append(Comment_major[i].comment)
         except:
 	    pass
 

@@ -60,8 +60,9 @@
         </div>
         <div class="panel-body">
 		{{comment.comment}}<br>
-		|grade({{comment.grade}}) | load({{comment.load}}) | speech({{comment.speech}}) | total({{comment.total}}) |
-        </div>
+		grade : {{comment.grade}} load : {{comment.load}} speech : {{comment.speech}} total : {{comment.total}}<br>
+		<button class="btn btn-default"> 좋아요 {{ comment.like }} </buttion>	
+	</div>
       </div>
     {% endfor %}
     </div>
@@ -73,7 +74,8 @@
         </div>
         <div class="panel-body">
 		{{comment.comment}}<br>
-		|grade({{comment.grade}}) | load({{comment.load}}) | speech({{comment.speech}}) | total({{comment.total}}) |
+		grade : {{comment.grade}} load : {{comment.load}} speech : {{comment.speech}} total : {{comment.total}} 
+		<button class="btn btn-default"> 좋아요 {{ comment.like }} </buttion>	
         </div>
       </div>
     {% endfor %}
