@@ -23,11 +23,11 @@ def user_login(request):
 def login_callback(request):
     if request.method == "GET":
         nexturl = request.GET.get('next', '/')
-        uid = request.GET['uid']
+        tokenid = request.GET['tokenid']
         sso_profile = urllib.urlopen('https://sso.sparcs.org/' + \
-                'oauth/info?uid='+uid)
+                                     'oauth/info?tokenid='+tokenid)
         sso_profile = json.load(sso_profile)
-        username = sso_profile['username']
+        username = sso_profile['first_name']
         user_list = User.objects.filter(username=username)
         if len(user_list) == 0:
             user = User.objects.create_user(username=sso_profile['username'],
@@ -50,17 +50,23 @@ def logout(request):
         logout(request)
     return redirect("/session/login")
 
-@login_required(login_url='/session/login/')
+#@login_required(login_url='/session/login/')
 def settings(request):
-    #user = request.user
-    #user_profile = UserProfile.objects.get(user = user)
-    if request.method == 'POST':
-        language = request.POST['language']
-        return render(request, 'session/settings.html', {'errors': "hi"})
+    user = request.user
+    user_profile = UserProfile.objects.get(user = user)
     department = Department.objects.all() 
-    return render(request, 'session/settings.html',
-            {'department': department,
-             'usr_lang': 'ko'})
-
-
+    fav_department = user_profile.favorite_departments.all()
+    ctx = { 'department': department,
+            'fav_department': fav_department,
+            'usr_lang': user_profile.language}
+    if request.method == 'POST':
+        user_profile.language = request.POST['language']
+        for dpt_name in request.POST.get('fav_department', []):
+            dpt = Department.objects.get(name=dpt)
+            user_profile.favorite_departments.add(dpt)
+        user_profile.save()
+        ctx['fav_department'] = user_profile.favorite_departments 
+        ctx['usr_lang'] = user_profile.language
+        return render(request, 'session/settings.html', ctx) 
+    return render(request, 'session/settings.html', ctx)
 
