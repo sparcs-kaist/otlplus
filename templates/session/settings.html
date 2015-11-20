@@ -1,19 +1,29 @@
 {% extends "session/base.html" %}
 
+{% block title %}OTL Settings Page{% endblock %}
 {% block content %}
-<h1> OTL Settings </h1>
+<div class="container">
+<h1> 내 정보 </h1>
 <form action="" method="post"> 
-    <h2>Language:</h2>
-    <input type="radio" name="language" value="ko" {% if usr_lang  == 'ko' %}checked{% endif %}>한국어</input> 
+    {% csrf_token %}
+    <h2>언어</h2>
+    <label>
+        <input type="radio" name="language" value="ko" {% if usr_lang  == 'ko' %}checked{% endif %}> 한국어 
+    </label>
     <br>
-    <input type="radio" name="language" value="en" {% if usr_lang  == 'en' %}checked{% endif %}>English</input>
+    <label>
+        <input type="radio" name="language" value="en" {% if usr_lang  == 'en' %}checked{% endif %}> English
+    </label>
     <br>
-    <select name="favorites">
-        <option value="전산학과">전산학과</option>
+    <h2>관심 학과 </h2>
+    <div id="favorites">
         {% for dpt in department %}
-        <option value="{{ dpt.name }}">{{ dpt.name }}</option>
+        <label class="checkbox-inline">
+            <input type="checkbox" name="fav_department" value="{{ dpt.name }}" {% if fav_department.name == dpt.name %} checked {% endif %}> {{ dpt.name }} 
+        </label>
         {% endfor %}
-    </select>
-    <input type="submit" value="Change"> 
+    </div>
+    <input class="btn btn-primary" type="submit" value="수정하기"></input> 
 </form>
+</div>
 {% endblock %}
