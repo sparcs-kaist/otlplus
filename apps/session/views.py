@@ -26,13 +26,7 @@ def login_callback(request):
         tokenid = request.GET['tokenid']
         sso_profile = urllib.urlopen('https://sso.sparcs.org/' + \
                                      'oauth/info?tokenid='+tokenid)
-        
-        try:
-            sso_profile = json.load(sso_profile)
-        except Exception, e:
-            print e
-            return HttpResponse(sso_profile.read())
-
+        sso_profile = json.load(sso_profile)
         username = sso_profile['first_name']
         user_list = User.objects.filter(username=username)
         if len(user_list) == 0:
@@ -46,7 +40,7 @@ def login_callback(request):
             user_profile.save()
             return redirect(nexturl)
         else:
-           user = authenticate(username = user_list[0].username) 
+           user = authenticate(username=user_list[0].username) 
            login(request, user)
            return redirect(nexturl)
     return render('/session/login.html', {'error': "Invalid login"})
@@ -68,7 +62,7 @@ def settings(request):
     if request.method == 'POST':
         user_profile.language = request.POST['language']
         for dpt_name in request.POST.get('fav_department', []):
-            dpt = Department.objects.get(name=dpt)
+            dpt = Department.objects.get(name=dpt_name)
             user_profile.favorite_departments.add(dpt)
         user_profile.save()
         ctx['fav_department'] = user_profile.favorite_departments 
