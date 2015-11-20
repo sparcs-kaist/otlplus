@@ -30,7 +30,7 @@ def login_callback(request):
         username = sso_profile['first_name']
         user_list = User.objects.filter(username=username)
         if len(user_list) == 0:
-            user = User.objects.create_user(username=sso_profile['username'],
+            user = User.objects.create_user(username=sso_profile['first_name'],
                         email=sso_profile['email'],
                         password=str(random.getrandbits(32)),
                         first_name=sso_profile['first_name'],
@@ -40,7 +40,7 @@ def login_callback(request):
             user_profile.save()
             return redirect(nexturl)
         else:
-           user = authenticate(username = user_list[0].username) 
+           user = authenticate(username=user_list[0].username) 
            login(request, user)
            return redirect(nexturl)
     return render('/session/login.html', {'error': "Invalid login"})
@@ -53,7 +53,7 @@ def logout(request):
 #@login_required(login_url='/session/login/')
 def settings(request):
     user = request.user
-    user_profile = UserProfile.objects.get(user = user)
+    user_profile = UserProfile.objects.get(user=user)
     department = Department.objects.all() 
     fav_department = user_profile.favorite_departments.all()
     ctx = { 'department': department,
@@ -62,7 +62,7 @@ def settings(request):
     if request.method == 'POST':
         user_profile.language = request.POST['language']
         for dpt_name in request.POST.get('fav_department', []):
-            dpt = Department.objects.get(name=dpt)
+            dpt = Department.objects.get(name=dpt_name)
             user_profile.favorite_departments.add(dpt)
         user_profile.save()
         ctx['fav_department'] = user_profile.favorite_departments 
