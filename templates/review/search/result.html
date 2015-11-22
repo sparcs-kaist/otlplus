@@ -25,6 +25,20 @@
         $('#by_professor').addClass('active');
         $("input:checkbox[name='by_professor']").attr("checked", true);
       {% endif %}
+      {% if 'sorting' in gets %}
+        sorting = '{{ gets.sorting }}';
+      {% else %}
+        sorting = 'name';
+      {% endif %}
+      sorts = $('#sorts>label>input');
+      for (i=0; i<sorts.length; i++)
+        if (sorts[i].value==sorting)
+        {
+          sorts[i].checked = true;
+          sorts[i].parentElement.classList.add('active');
+        }
+      $(".sort_result").hide();
+      $("#sort_"+sorting).show();
     });
 
     $('#by_professor').click(function() {
@@ -52,22 +66,14 @@
       $('#filter_form').submit()
     });
 
-    $('#sort_name').show();
-    $('#sort_grade').hide();
-    $('#sort_speech').hide();
-    $('#sort_load').hide();
-    $('#sort_total').hide();
-    
-    $(document).ready(function(){
-      $("input[name='sorting']").on("change",function(){
-        var test=$(this).val();
-        $(".sort_result").hide();
-        $("#sort_"+test).show();
-      });
+    $("input[name='sorting']").on("change", function(){
+      var test = $(this).val();
+      $(".sort_result").hide();
+      $("#sort_"+test).show();
     });
 
-    $('div.resultlist>a').click(function(){
-      lis = $('div.resultlist>a');
+    $('div.sort_result>a').click(function(){
+      lis = $('div.sort_result>a');
       for (i=0; i<lis.length; i++)
         if (lis[i].href == this.href)
           lis[i].classList.add("active");
@@ -96,40 +102,19 @@
               <div class="col-xs-24" id="filters">
                 <p>학과</p>
                 <div class="btn-group" data-toggle="buttons">
+                {% for i in "1234" %}
                   <label class="btn btn-primary">
-                    <input type="checkbox" autocomplete="off" name="CS"> 전산과
+                    <input type="checkbox" autocomplete="off" name="{% cycle "CS" "EE" "MAE" "HSS" %}">{% cycle "전산과" "전자과" "기계과" "인문사회과학부" %}
                   </label>
-                  <label class="btn btn-primary">
-                    <input type="checkbox" autocomplete="off" name="EE"> 전자과
-                  </label>
-                  <label class="btn btn-primary">
-                    <input type="checkbox" autocomplete="off" name="MAE"> 기계과
-                  </label>
-                  <label class="btn btn-primary">
-                    <input type="checkbox" autocomplete="off" name="HSS"> 인문사회과학부
-                  </label>
+                {% endfor %}
                 </div>
                 <p>구분</p>
                 <div class="btn-group" data-toggle="buttons">
+                {% for i in "123456" %}
                   <label class="btn btn-primary">
-                    <input type="checkbox" autocomplete="off" name="BR"> 기필
+                    <input type="checkbox" autocomplete="off" name="{% cycle "BR" "BE" "MR" "ME" "MGC" "HSE" %}"> {% cycle "기필" "기선" "전필" "전선" "교필" "인문사회선택" %}
                   </label>
-                  <label class="btn btn-primary">
-                    <input type="checkbox" autocomplete="off" name="BE"> 기선
-                  </label>
-
-                  <label class="btn btn-primary">
-                    <input type="checkbox" autocomplete="off" name="MR"> 전필
-                  </label>
-                  <label class="btn btn-primary">
-                    <input type="checkbox" autocomplete="off" name="ME"> 전선
-                  </label>
-                  <label class="btn btn-primary">
-                    <input type="checkbox" autocomplete="off" name="MGC"> 교필
-                  </label>
-                  <label class="btn btn-primary">
-                    <input type="checkbox" autocomplete="off" name="HSE"> 인문사회선택
-                  </label>
+                {% endfor %}
                 </div>
               </div>
             </div>
@@ -154,6 +139,7 @@
         <input type="submit" class="btn btn-primary" value="검색" id="search">
       </div>
     </div>
+
     <div class="row" style="margin-top: 50px;">
       <div class="col-xs-24 text-left">
         <div class="btn-group" data-toggle="buttons">
@@ -161,18 +147,19 @@
             <input type="checkbox" autocomplete="off" name="by_professor"> 교수 별로 보기
           </label>
         </div>
-        <div class="btn-group btn-sort" data-toggle="buttons">
-          <label class="btn btn-primary active">
-            <input type="radio" id="name" name="sorting" value="name" autocomplete="off" checked>과목코드 순서대로 보기
+        </br></br>
+        <div class="btn-group btn-sort" id="sorts" data-toggle="buttons">
+          <label class="btn btn-primary">
+            <input type="radio" id="name" name="sorting" value="name" autocomplete="off"> 과목코드 순서대로 보기
           </label>
           <label class="btn btn-primary">
             <input type="radio" id="grade" name="sorting" value="grade" autocomplete="off"> 학점 잘 주는 순서대로 보기
           </label>
           <label class="btn btn-primary">
-            <input type="radio" id="speech" name="sorting" value="speech" autocomplete="off"> 수업 잘 하는 순서대로 보기
+            <input type="radio" id="load" name="sorting" value="load" autocomplete="off"> 로드 덜 빡센 순서대로 보기
           </label>
           <label class="btn btn-primary">
-            <input type="radio" id="load" name="sorting" value="load" autocomplete="off"> 로드 덜 빡센 순서대로 보기
+            <input type="radio" id="speech" name="sorting" value="speech" autocomplete="off"> 수업 잘 하는 순서대로 보기
           </label>
           <label class="btn btn-primary">
             <input type="radio" id="total" name="sorting" value="total" autocomplete="off"> 전체적인 평가 순서대로 보기
@@ -184,146 +171,40 @@
 
 
   <div class="row" style="margin-top: 50px;">
-    <div class="col-xs-12 sort_result" id="sort_name">
-      <div class="list-group resultlist" role="tablist">
+    <div class="col-xs-12">
+    {% for i in "12345" %}
+      {% cycle results results_grade results_load results_speech results_total as results_sorted silent %}
+      {% cycle 'sort_name' 'sort_grade' 'sort_load' 'sort_speech' 'sort_total' as sort_id silent %}     
+      <div class="list-group sort_result" id="{{ sort_id }}" role="tablist">
       {% if results|length == 0 %}
         <div class="list-group-item">
           검색 결과가 없습니다.
         </div>
       {% endif %}
-      {% for result in results %}
-          <a href="{{ "#lecture"|add:result.3 }}" class="list-group-item" aria-controls="home" role="tab" data-toggle="tab">
-            {{ result.0.0.title }}
-          {% if result.0.1 != None %}
-            : {{ result.0.1.professor_name }}
-          {% endif %}
-            </br>
-          {% if result.2 != 0 %}
-            grade : {{ result.1.0 }}
-            load : {{ result.1.1 }}
-            speech : {{ result.1.2 }}
-            total : {{ result.1.3 }}</br>
-            {{ result.2 }}개의 평가
-          {% else %}
-            -</br>
-            평가 없음</br>
-          {% endif %}
-          </a>
-      {% endfor %}
-      </div>
-    </div>
-    <div class="col-xs-12 sort_result" id="sort_grade">
-      <div class="list-group resultlist" role="tablist">
-      {% if results|length == 0 %}  
-        <div class="list-group-item">
-          검색 결과가 없습니다.
-        </div>
-      {% endif %}
-      {% for result in results_grade %}
+      {% for result in results_sorted %}
         <a href="{{ "#lecture"|add:result.3 }}" class="list-group-item" aria-controls="home" role="tab" data-toggle="tab">
-            {{ result.0.0.title }}
-          {% if result.0.1 != None %}
-            : {{ result.0.1.professor_name }}
-          {% endif %}
-            </br>
-          {% if result.2 != 0 %}
-            grade : {{ result.1.0 }}
-            load : {{ result.1.1 }}
-            speech : {{ result.1.2 }}
-            total : {{ result.1.3 }}</br>
-            {{ result.2 }}개의 평가
-          {% else %}
-            -</br>
-            평가 없음</br>
-          {% endif %}
-          </a>
-      {% endfor %}
-      </div>
-    </div>
-    <div class="col-xs-12 sort_result" id="sort_speech">
-      <div class="list-group resultlist" role="tablist">
-      {% if results|length == 0 %}  
-        <div class="list-group-item">
-          검색 결과가 없습니다.
-        </div>
-      {% endif %}
-      {% for result in results_speech %}
-        <a href="{{ "#lecture"|add:result.3 }}" class="list-group-item" aria-controls="home" role="tab" data-toggle="tab">
-           {{ result.0.0.title }}
-          {% if result.0.1 != None %}
-            : {{ result.0.1.professor_name }}
-          {% endif %}
-            </br>
-          {% if result.2 != 0 %}
-            grade : {{ result.1.0 }}
-            load : {{ result.1.1 }}
-            speech : {{ result.1.2 }}
-            total : {{ result.1.3 }}</br>
-            {{ result.2 }}개의 평가
-          {% else %}
-            -</br>
-            평가 없음</br>
-          {% endif %}
+          {{ result.0.0.title }}
+        {% if result.0.1 != None %}
+          : {{ result.0.1.professor_name }}
+        {% endif %}
+          </br>
+        {% if result.2 != 0 %}
+          grade : {{ result.1.0|floatformat:2 }}&nbsp;&nbsp;
+          load : {{ result.1.1|floatformat:2 }}&nbsp;&nbsp;
+          speech : {{ result.1.2|floatformat:2 }}&nbsp;&nbsp;
+          total : {{ result.1.3|floatformat:2 }}</br>
+          {{ result.2 }}개의 평가
+        {% else %}
+          -</br>
+          평가 없음</br>
+        {% endif %}
         </a>
       {% endfor %}
       </div>
+    {% endfor %}
     </div>
-    <div class="col-xs-12 sort_result" id="sort_load">
-      <div class="list-group resultlist" role="tablist">
-      {% if results|length == 0 %}  
-        <div class="list-group-item">
-          검색 결과가 없습니다.
-        </div>
-      {% endif %}
-      {% for result in results_load %}
-        <a href="{{ "#lecture"|add:result.3 }}" class="list-group-item" aria-controls="home" role="tab" data-toggle="tab">
-            {{ result.0.0.title }}
-          {% if result.0.1 != None %}
-            : {{ result.0.1.professor_name }}
-          {% endif %}
-            </br>
-          {% if result.2 != 0 %}
-            grade : {{ result.1.0 }}
-            load : {{ result.1.1 }}
-            speech : {{ result.1.2 }}
-            total : {{ result.1.3 }}</br>
-            {{ result.2 }}개의 평가
-          {% else %}
-            -</br>
-            평가 없음</br>
-          {% endif %}
-          </a>
-      {% endfor %}
-      </div>
-    </div>
-    <div class="col-xs-12 sort_result" id="sort_total">
-      <div class="list-group resultlist" role="tablist">
-      {% if results|length == 0 %}  
-        <div class="list-group-item">
-          검색 결과가 없습니다.
-        </div>
-      {% endif %}
-      {% for result in results_total %}
-        <a href="{{ "#lecture"|add:result.3 }}" class="list-group-item" aria-controls="home" role="tab" data-toggle="tab">
-            {{ result.0.0.title }}
-          {% if result.0.1 != None %}
-            : {{ result.0.1.professor_name }}
-          {% endif %}
-            </br>
-          {% if result.2 != 0 %}
-            grade : {{ result.1.0 }}
-            load : {{ result.1.1 }}
-            speech : {{ result.1.2 }}
-            total : {{ result.1.3 }}</br>
-            {{ result.2 }}개의 평가
-          {% else %}
-            -</br>
-            평가 없음</br>
-          {% endif %}
-          </a>
-      {% endfor %}
-      </div>
-    </div>
+
+
     <div class="col-xs-12 tab-content">
     {% for result in results %}
       <div id="{{"lecture"|add:result.3 }}" role="tabpanel" class="tab-pane panel">
@@ -331,11 +212,11 @@
           <ul class="list-group">
           {% for review in result.4 %}
             <li class="list-group-item">
-            {{ review.lecture.year }}년 {{ review.lecture.semester }}학기 - {{ review.writer.user.id }}</br>
+              {{ review.lecture.year }}년 {{ review.lecture.semester }}학기 - {{ review.writer.user.id }}</br>
               {{ review.comment }}</br>
-              grade : {{ review.grade }}
-              load : {{ review.load }}
-              speech : {{ review.speech }}
+              grade : {{ review.grade }}&nbsp;&nbsp;
+              load : {{ review.load }}&nbsp;&nbsp;
+              speech : {{ review.speech }}&nbsp;&nbsp;
               total : {{ review.total }}</br>
               <button class="btn btn-default">
                 좋아요 {{ review.like }}
