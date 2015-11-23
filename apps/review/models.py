@@ -24,7 +24,14 @@ class CommentVote(models.Model):
     userprofile = models.ForeignKey(UserProfile, related_name="comment_vote")
     is_up = models.BooleanField(null=False)
 
-class BestComment(models.Model):
-    comment = models.ForeignKey(Comment, related_name="best_comment", null=False)
+class MajorBestComment(models.Model):
+    comment = models.OneToOneField(Comment, related_name="major_best_comment", null=False, primary_key=True)
     def __unicode__(self):
 	return u"%s(%s)"%(self.comment.lecture,self.comment.writer)
+
+class LiberalBestComment(models.Model):
+    comment = models.OneToOneField(Comment, related_name="liberal_best_comment", null=False, primary_key=True)
+    def __unicode__(self):
+	return u"%s(%s)"%(self.comment.lecture,self.comment.writer)
+
+

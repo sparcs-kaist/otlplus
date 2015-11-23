@@ -3,44 +3,39 @@
 from django.shortcuts import render, redirect
 from apps.session.models import UserProfile
 from apps.subject.models import Course, Lecture, Department
-from apps.review.models import Comment, BestComment
+from apps.review.models import Comment, MajorBestComment, LiberalBestComment
 from django.http import HttpResponse, HttpResponseRedirect
 from django.db.models import Q
 from datetime import datetime, timedelta, time, date
 from django.utils import timezone
 from math import exp
+import random
 def SearchView(request):
     sid_var = "20150390"
     sid_default = "00000000"
     user = UserProfile.objects.get(student_id=sid_var) 
 
-    last_date = timezone.now()
-    first_date = timezone.now() - timedelta(days = 180 )
-
-    Comment_liberal = BestComment.objects.filter(Q(comment__course__department__code="HSS"))
-    Comment_liberal = list(Comment_liberal.filter(comment__written_datetime__range=(first_date, last_date)))
     
-    if sid_var == sid_default :
-        Comment_major = BestComment.objects.filter(~Q(comment__course__department__code="HSS"))
-    else :
-	Comment_major = BestComment.objects.filter(comment__course__department__in = user.favorite_departments.all())
-    Comment_major = list(Comment_major.filter(comment__written_datetime__range=(first_date, last_date)))
+    Comment_liberal = list(LiberalBestComment.objects.all())
+    Comment_major = list(MajorBestComment.objects.all())
 
-
-    
-    
     liberal_comment = []
     major_comment = []
 
     for i in range(3):
         try :
-	    liberal_comment.append(Comment_liberal[i].comment)
+            j = random.randint(0,len(Comment_liberal)-1)
+            liberal_comment.append(Comment_liberal[j].comment)
+            Comment_liberal.pop(j)
         except:
 	    pass
     
     for i in range(3):
         try:
-	    major_comment.append(Comment_major[i].comment)
+            j = random.randint(0,len(Comment_major)-1)
+            major_comment.append(Comment_major[j].comment)
+            Comment_major.pop(j)
+
         except:
 	    pass
 
