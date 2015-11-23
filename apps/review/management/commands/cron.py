@@ -24,7 +24,7 @@ class Command(BaseCommand):
         
 
         try :
-            bComment_liberal=list(LiberalBestComment.objcets.all())
+            bComment_liberal=list(LiberalBestComment.objects.all())
         except:
             bComment_liberal=[]
 
