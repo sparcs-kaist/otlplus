@@ -68,16 +68,13 @@ def SearchResultView(request):
     
     courses = Course.objects.all()
     all_filters = GetDepartmentFilterList()
-    unchecked_filters = list(set(all_filters)-set(request.GET))
-    if len(unchecked_filters) != len(all_filters):
-        for filter_name in unchecked_filters:
-            department = Department.objects.get(code=filter_name)
-            courses = courses.exclude(department=department)
+    checked_filters = list(set(all_filters)&set(request.GET))
+    if len(checked_filters) != 0:
+        courses = courses.filter(department__code__in=checked_filters)
     all_filters = GetCourseTypeFilterList()
-    unchecked_filters = list(set(all_filters)-set(request.GET))
-    if len(unchecked_filters) != len(all_filters):
-        for filter_name in unchecked_filters:
-            courses = courses.exclude(type=filter_name)
+    checked_filters = list(set(all_filters)&set(request.GET))
+    if len(checked_filters) != 0:
+        courses = courses.filter(type__in=checked_filters)
 
     results = []
     id = 0
