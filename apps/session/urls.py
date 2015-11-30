@@ -21,7 +21,7 @@ urlpatterns = [
     url(r'^$', 'apps.session.views.home'),
     url(r'^login/$', 'apps.session.views.user_login'),
     url(r'^login/callback/$', 'apps.session.views.login_callback'),
-    url(r'^logout/$', 'apps.session.views.logout'),
+    url(r'^logout/$', 'apps.session.views.user_logout'),
 
     # User Preferences (e.g Favorite Department, Language)
     url(r'^settings$', 'apps.session.views.settings'),

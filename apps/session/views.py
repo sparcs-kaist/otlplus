@@ -20,6 +20,7 @@ def user_login(request):
         redirect('/')
     return redirect('https://sso.sparcs.org/oauth/require/?url=' + \
                      request.build_absolute_uri('/session/login/callback/')) 
+
 def login_callback(request):
     if request.method == "GET":
         nexturl = request.GET.get('next', '/')
@@ -45,10 +46,10 @@ def login_callback(request):
            return redirect(nexturl)
     return render('/session/login.html', {'error': "Invalid login"})
 
-def logout(request):
+def user_logout(request):
     if request.user.is_authenticated():
         logout(request)
-    return redirect("/session/login")
+    return redirect("/main")
 
 @login_required(login_url='/session/login/')
 def settings(request):
