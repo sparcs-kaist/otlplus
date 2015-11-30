@@ -12,14 +12,15 @@ import random
 # Create your views here.
 
 def home(request):
-    return HttpResponse("session!")
+    return render(request, './session/session.html')
 
 def user_login(request):
     user = request.user
     if user is not None and user.is_authenticated():
         redirect('/')
-    return redirect('https://sso.sparcs.org/oauth/require/?url=' + \
-                     request.build_absolute_uri('/session/login/callback/')) 
+    return render(request, './session/login.html', 
+        {'login_url': 'https://sso.sparcs.org/oauth/require/?url=' + \
+                     request.build_absolute_uri('/session/login/callback/')})
 
 def login_callback(request):
     if request.method == "GET":

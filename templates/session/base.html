@@ -20,6 +20,12 @@
 {% endblock %}
     </head>
     <body>
+        {% if user.is_authenticated %}
+        <span>Hello, {{ user }}!</span>
+        <a href="/session/logout/">logout</a>
+        {% else %}
+        <a href="/session/login/">login</a>
+        {% endif %}
         {% block content %}
         {% endblock %}
     </body>
