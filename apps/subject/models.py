@@ -49,7 +49,7 @@ class Professor(models.Model):
     professor_name = models.CharField(max_length=100, db_index=True)
     professor_name_en = models.CharField(max_length=100, blank=True, null=True)
     professor_id = models.IntegerField()
-    major = models.CharField(max_length=30)
+    major = models.CharField(max_length=30, blank=True, null=True)
     course_list = models.ManyToManyField('Course', db_index=True)
 
 
