@@ -30,6 +30,7 @@ class Department(models.Model):
     code = models.CharField(max_length=5, db_index=True)
     name = models.CharField(max_length=60, db_index=True)
     name_en = models.CharField(max_length=60, null=True, db_index=True)
+    visible = models.BooleanField(default=True)
 
 class Course(models.Model):
     old_code = models.CharField(max_length=10, db_index=True)
@@ -49,7 +50,7 @@ class Professor(models.Model):
     professor_name = models.CharField(max_length=100, db_index=True)
     professor_name_en = models.CharField(max_length=100, blank=True, null=True)
     professor_id = models.IntegerField()
-    major = models.CharField(max_length=30, blank=True, null=True)
+    major = models.CharField(max_length=30)
     course_list = models.ManyToManyField('Course', db_index=True)
 
 

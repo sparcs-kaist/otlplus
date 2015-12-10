@@ -7,11 +7,13 @@ from apps.subject.models import Department, Professor, Lecture, Course
 from optparse import make_option
 from datetime import time
 import sys, getpass, re
-import Sybase
+#import Sybase
+import pyodbc
 
 class Command(BaseCommand):
     option_list = BaseCommand.option_list + (
         make_option('--host', dest='host', help=u'Specifies server address.'),
+        make_option('--port', dest='port', help=u'Specifies server potr.'),
         make_option('--user', dest='user', help=u'Specifies user name to log in.'),
         make_option('--password', dest='password', help=u'Specifies passowrd to log in.'),
         make_option('--encoding', dest='encoding', help=u'Sepcifies character encoding to decode strings from database. (default is cp949)', default='cp949'),
@@ -26,21 +28,25 @@ class Command(BaseCommand):
 
         rx_dept_code = re.compile(ur'([a-zA-Z]+)(\d+)')
         host = options.get('host', None)
+        port = options.get('port', None)
         user = options.get('user', None)
         password = options.get('password', None)
         encoding = options.get('encoding', 'cp949')
         exclude_lecture = options.get('exclude_lecture', False)
         lecture_count = 0
+        
         try:
             if password is None:
                 password = getpass.getpass()
         except (KeyboardInterrupt, EOFError):
             print
             return
-
+        
         try:
-            db = Sybase.connect(host, user, password, 'scholar')
-        except Sybase.DatabaseError:
+            #db = Sybase.connect(host, user, password, 'scholar')
+            db = pyodbc.connect('DRIVER=FreeTDS;TDS_Version=4.2;SERVER=%s;PORT=%s;DATABASE=%s;UID=%s;PWD=%s;CHARSET=%s'
+                                % (host, port, 'scholar', user, password, 'UTF8'))
+        except pyodbc.DatabaseError:
             print>>sys.stderr, 'Connection failed. Check username and password.'
             return
         c = db.cursor()
