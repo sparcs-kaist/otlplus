@@ -1,12 +1,11 @@
 #contents {
   margin-top: -60px; }
   #contents > .row:nth-of-type(1) {
-    height: 500px;
-    background: url("https://klms.kaist.ac.kr/theme/ubstrap/pix/login/login_image_7.jpg");
-    background-position: center center; }
+    background: url("/media/img/review/search/bg.jpg");
+    background-size: 100% auto;
+    background-position: center 0; }
     #contents > .row:nth-of-type(1) form {
       position: absolute;
-      top: 250px;
       width: 100%; }
       #contents > .row:nth-of-type(1) form > div {
         padding-left: 5px;
@@ -21,6 +20,27 @@
         @media (max-width: 767px) {
           #contents > .row:nth-of-type(1) form > div input[type="text"] {
             margin-bottom: 10px; } }
+    @media (max-width: 767px) {
+      #contents > .row:nth-of-type(1) {
+        height: 250px !important;
+        margin-top: 50px; }
+        #contents > .row:nth-of-type(1) form {
+          top: 100px; } }
+    @media (min-width: 768px) {
+      #contents > .row:nth-of-type(1) {
+        height: 350px; }
+        #contents > .row:nth-of-type(1) form {
+          top: 150px; } }
+    @media (min-width: 992px) {
+      #contents > .row:nth-of-type(1) {
+        height: 450px; }
+        #contents > .row:nth-of-type(1) form {
+          top: 200px; } }
+    @media (min-width: 1200px) {
+      #contents > .row:nth-of-type(1) {
+        height: 550px; }
+        #contents > .row:nth-of-type(1) form {
+          top: 250px; } }
   #contents > .row:nth-of-type(2) {
     background-color: #f9f0f0; }
     #contents > .row:nth-of-type(2) > div > h2 {
