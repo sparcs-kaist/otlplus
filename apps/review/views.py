@@ -11,38 +11,39 @@ from django.utils import timezone
 from math import exp
 import random
 
-def SearchView(request):
+
+def search_view(request):
     sid_var = "20150390"
     sid_default = "00000000"
     user = UserProfile.objects.get(student_id=sid_var) 
 
-    
-    Comment_liberal = list(LiberalBestComment.objects.all())
-    Comment_major = list(MajorBestComment.objects.all())
+    comment_liberal = list(LiberalBestComment.objects.all())
+    comment_major = list(MajorBestComment.objects.all())
 
     liberal_comment = []
     major_comment = []
 
     for i in range(3):
         try :
-            j = random.randint(0,len(Comment_liberal)-1)
-            liberal_comment.append(Comment_liberal[j].comment)
-            Comment_liberal.pop(j)
-        except:
-	    pass
+            j = random.randint(0,len(comment_liberal)-1)
+            liberal_comment.append(comment_liberal[j].comment)
+            comment_liberal.pop(j)
+
+        except Exception, e:
+            print e
+            pass
     
     for i in range(3):
         try:
-            j = random.randint(0,len(Comment_major)-1)
-            major_comment.append(Comment_major[j].comment)
-            Comment_major.pop(j)
+            j = random.randint(0,len(comment_major)-1)
+            major_comment.append(comment_major[j].comment)
+            comment_major.pop(j)
 
-        except:
-	    pass
+        except Exception, e:
+            print e
+            pass
 
     ctx = {'liberal_comment':liberal_comment, 'major_comment':major_comment}
-
-
 
     return render(request, 'review/search/search.html',ctx)
 
