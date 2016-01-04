@@ -13,35 +13,12 @@
   {{ block.super }}
   <link rel="stylesheet" type="text/css" href="/media/css/components/header.css">
   <link rel="stylesheet" type="text/css" href="/media/css/review/search/search.css">
-  <style>
-
-  </style>
 {% endblock %}
 
 {% block javascripts %}
   {{ block.super }}
-  <script type="text/javascript">
-    function checkScroll(){
-        var startY = $('.navbar').height() * 2; //The point where the navbar changes in px
-
-        if($(window).scrollTop() > startY){
-            $('.navbar').addClass("scrolled");
-        }else{
-            $('.navbar').removeClass("scrolled");
-        }
-    }
-
-    if($('.navbar').length > 0){
-        $(window).on("scroll load resize", function(){
-            checkScroll();
-        });
-    }
-  </script>
-  <script type="text/javascript">
-    $('#category').on('focus', function() {
-      $('#m-category').modal('show');
-    });
-  </script>
+  <script type="text/javascript" src="/media/js/components/header.js"></script>
+  <script type="text/javascript" src="/media/js/review/search/search.js"></script>
 {% endblock %}
 
 {% block header %}
@@ -74,7 +51,7 @@
       </h2>
       {% for comment in liberal_comment %}
         <div class="panel panel-default review">
-          <button class="likes">
+          <button class="likes" disabled>
             +{{ comment.like }}
           </button>
           <div class="panel-header">
@@ -87,19 +64,19 @@
               {{ comment|safe }}
             </p>
           </div>
-          <div class="panel-footer text-right">
-            <span>
-              성적 <span class="grade">{{ comment.grade }}</span>
-            </span>
-            <span>
-              널널 <span class="grade">{{ comment.load }}</span>
-            </span>
-            <span>
-              강의 <span class="grade">{{ comment.speech }}</span>
-            </span>
-            <span>
-              종합 <span class="grade">{{ comment.total }}</span>
-            </span>
+          <div class="panel-footer row">
+            <div class="col-xs-12 col-md-5 col-md-offset-4 text-right">
+              성적 <span class="grade">A+</span>
+            </div>
+            <div class="col-xs-12 col-md-5 text-right">
+              널널 <span class="grade">A+</span>
+            </div>
+            <div class="col-xs-12 col-md-5 text-right">
+              강의 <span class="grade">A+</span>
+            </div>
+            <div class="col-xs-12 col-md-5 text-right">
+              종합 <span class="grade">A+</span>
+            </div>
           </div>
         </div>
       {% endfor %}
@@ -110,7 +87,7 @@
       </h2>
       {% for comment in major_comment %}
         <div class="panel panel-default review">
-          <button class="likes">
+          <button class="likes" disabled>
             +{{ comment.like }}
           </button>
           <div class="panel-header">
@@ -123,19 +100,19 @@
               {{ comment|safe }}
             </p>
           </div>
-          <div class="panel-footer text-right">
-            <span>
-              성적 <span class="grade">{{ comment.grade }}</span>
-            </span>
-            <span>
-              널널 <span class="grade">{{ comment.load }}</span>
-            </span>
-            <span>
-              강의 <span class="grade">{{ comment.speech }}</span>
-            </span>
-            <span>
-              종합 <span class="grade">{{ comment.total }}</span>
-            </span>
+          <div class="panel-footer row">
+            <div class="col-xs-12 col-md-5 col-md-offset-4 text-right">
+              성적 <span class="grade">A+</span>
+            </div>
+            <div class="col-xs-12 col-md-5 text-right">
+              널널 <span class="grade">A+</span>
+            </div>
+            <div class="col-xs-12 col-md-5 text-right">
+              강의 <span class="grade">A+</span>
+            </div>
+            <div class="col-xs-12 col-md-5 text-right">
+              종합 <span class="grade">A+</span>
+            </div>
           </div>
         </div>
       {% endfor %}
@@ -148,7 +125,7 @@
         사랑받는 교양 후기
       </h2>
       <div class="panel panel-default review">
-        <button class="likes">
+        <button class="likes" disabled>
           +{{ comment.like }}31
         </button>
         <div class="panel-header">
@@ -162,24 +139,24 @@
             이 텔스트들을 함께 읽으며 수업을 들으면 정말 많은 생각을 해볼 수 있는 수업이 되는 듯 하고 이 텍스트들을 읽지 않고 수업을 들으면 정말 별로 남는게 없는 수업인 듯 합니다.
           </p>
 	      </div>
-        <div class="panel-footer text-right">
-          <span>
+        <div class="panel-footer row">
+          <div class="col-xs-12 col-md-5 col-md-offset-4 text-right">
             성적 <span class="grade">A+</span>
-          </span>
-          <span>
+          </div>
+          <div class="col-xs-12 col-md-5 text-right">
             널널 <span class="grade">A+</span>
-          </span>
-          <span>
+          </div>
+          <div class="col-xs-12 col-md-5 text-right">
             강의 <span class="grade">A+</span>
-          </span>
-          <span>
+          </div>
+          <div class="col-xs-12 col-md-5 text-right">
             종합 <span class="grade">A+</span>
-          </span>
+          </div>
         </div>
       </div>
 
       <div class="panel panel-default review">
-        <button class="likes">
+        <button class="likes" disabled>
           +{{ comment.like }}31
         </button>
         <div class="panel-header">
@@ -193,24 +170,24 @@
             이 텔스트들을 함께 읽으며 수업을 들으면 정말 많은 생각을 해볼 수 있는 수업이 되는 듯 하고 이 텍스트들을 읽지 않고 수업을 들으면 정말 별로 남는게 없는 수업인 듯 합니다.
           </p>
 	      </div>
-        <div class="panel-footer text-right">
-          <span>
+        <div class="panel-footer row">
+          <div class="col-xs-12 col-md-5 col-md-offset-4 text-right">
             성적 <span class="grade">A+</span>
-          </span>
-          <span>
+          </div>
+          <div class="col-xs-12 col-md-5 text-right">
             널널 <span class="grade">A+</span>
-          </span>
-          <span>
+          </div>
+          <div class="col-xs-12 col-md-5 text-right">
             강의 <span class="grade">A+</span>
-          </span>
-          <span>
+          </div>
+          <div class="col-xs-12 col-md-5 text-right">
             종합 <span class="grade">A+</span>
-          </span>
+          </div>
         </div>
       </div>
 
       <div class="panel panel-default review">
-        <button class="likes">
+        <button class="likes" disabled>
           +{{ comment.like }}31
         </button>
         <div class="panel-header">
@@ -224,19 +201,19 @@
             이 텔스트들을 함께 읽으며 수업을 들으면 정말 많은 생각을 해볼 수 있는 수업이 되는 듯 하고 이 텍스트들을 읽지 않고 수업을 들으면 정말 별로 남는게 없는 수업인 듯 합니다.
           </p>
 	      </div>
-        <div class="panel-footer text-right">
-          <span>
+        <div class="panel-footer row">
+          <div class="col-xs-12 col-md-5 col-md-offset-4 text-right">
             성적 <span class="grade">A+</span>
-          </span>
-          <span>
+          </div>
+          <div class="col-xs-12 col-md-5 text-right">
             널널 <span class="grade">A+</span>
-          </span>
-          <span>
+          </div>
+          <div class="col-xs-12 col-md-5 text-right">
             강의 <span class="grade">A+</span>
-          </span>
-          <span>
+          </div>
+          <div class="col-xs-12 col-md-5 text-right">
             종합 <span class="grade">A+</span>
-          </span>
+          </div>
         </div>
       </div>
 
@@ -246,7 +223,7 @@
         사랑받는 전공 후기
       </h2>
       <div class="panel panel-default review">
-        <button class="likes">
+        <button class="likes" disabled>
           +{{ comment.like }}31
         </button>
         <div class="panel-header">
@@ -260,24 +237,24 @@
             이 텔스트들을 함께 읽으며 수업을 들으면 정말 많은 생각을 해볼 수 있는 수업이 되는 듯 하고 이 텍스트들을 읽지 않고 수업을 들으면 정말 별로 남는게 없는 수업인 듯 합니다.
           </p>
 	      </div>
-        <div class="panel-footer text-right">
-          <span>
+        <div class="panel-footer row">
+          <div class="col-xs-12 col-md-5 col-md-offset-4 text-right">
             성적 <span class="grade">A+</span>
-          </span>
-          <span>
+          </div>
+          <div class="col-xs-12 col-md-5 text-right">
             널널 <span class="grade">A+</span>
-          </span>
-          <span>
+          </div>
+          <div class="col-xs-12 col-md-5 text-right">
             강의 <span class="grade">A+</span>
-          </span>
-          <span>
+          </div>
+          <div class="col-xs-12 col-md-5 text-right">
             종합 <span class="grade">A+</span>
-          </span>
+          </div>
         </div>
       </div>
 
       <div class="panel panel-default review">
-        <button class="likes">
+        <button class="likes" disabled>
           +{{ comment.like }}31
         </button>
         <div class="panel-header">
@@ -291,24 +268,24 @@
             이 텔스트들을 함께 읽으며 수업을 들으면 정말 많은 생각을 해볼 수 있는 수업이 되는 듯 하고 이 텍스트들을 읽지 않고 수업을 들으면 정말 별로 남는게 없는 수업인 듯 합니다.
           </p>
 	      </div>
-        <div class="panel-footer text-right">
-          <span>
+        <div class="panel-footer row">
+          <div class="col-xs-12 col-md-5 col-md-offset-4 text-right">
             성적 <span class="grade">A+</span>
-          </span>
-          <span>
+          </div>
+          <div class="col-xs-12 col-md-5 text-right">
             널널 <span class="grade">A+</span>
-          </span>
-          <span>
+          </div>
+          <div class="col-xs-12 col-md-5 text-right">
             강의 <span class="grade">A+</span>
-          </span>
-          <span>
+          </div>
+          <div class="col-xs-12 col-md-5 text-right">
             종합 <span class="grade">A+</span>
-          </span>
+          </div>
         </div>
       </div>
 
       <div class="panel panel-default review">
-        <button class="likes">
+        <button class="likes" disabled>
           +{{ comment.like }}31
         </button>
         <div class="panel-header">
@@ -322,19 +299,19 @@
             이 텔스트들을 함께 읽으며 수업을 들으면 정말 많은 생각을 해볼 수 있는 수업이 되는 듯 하고 이 텍스트들을 읽지 않고 수업을 들으면 정말 별로 남는게 없는 수업인 듯 합니다.
           </p>
 	      </div>
-        <div class="panel-footer text-right">
-          <span>
+        <div class="panel-footer row">
+          <div class="col-xs-12 col-md-5 col-md-offset-4 text-right">
             성적 <span class="grade">A+</span>
-          </span>
-          <span>
+          </div>
+          <div class="col-xs-12 col-md-5 text-right">
             널널 <span class="grade">A+</span>
-          </span>
-          <span>
+          </div>
+          <div class="col-xs-12 col-md-5 text-right">
             강의 <span class="grade">A+</span>
-          </span>
-          <span>
+          </div>
+          <div class="col-xs-12 col-md-5 text-right">
             종합 <span class="grade">A+</span>
-          </span>
+          </div>
         </div>
       </div>
 

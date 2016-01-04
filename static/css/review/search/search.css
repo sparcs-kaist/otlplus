@@ -39,6 +39,7 @@
         border-radius: 20px;
         padding-top: 4px;
         padding-left: 7px;
+        cursor: default;
         color: #ffffff;
         font-weight: bold;
         text-align: justify;
@@ -51,14 +52,14 @@
         border-top: none;
         background-color: transparent;
         padding-bottom: 15px; }
-        #contents > .row:nth-of-type(2) .review .panel-footer > span {
+        #contents > .row:nth-of-type(2) .review .panel-footer > div {
           position: relative;
-          padding-left: 16px;
-          padding-right: 32px; }
-          #contents > .row:nth-of-type(2) .review .panel-footer > span .grade {
+          padding-left: 0;
+          padding-right: 48px; }
+          #contents > .row:nth-of-type(2) .review .panel-footer > div .grade {
             position: absolute;
-            top: -7px;
-            right: 0;
+            top: -5px;
+            right: 12px;
             width: 30px;
             height: 30px;
             padding-top: 3px;
@@ -68,5 +69,8 @@
             color: #e64c65;
             text-align: center;
             font-weight: bold; }
+          @media (max-width: 991px) {
+            #contents > .row:nth-of-type(2) .review .panel-footer > div:nth-of-type(1), #contents > .row:nth-of-type(2) .review .panel-footer > div:nth-of-type(2) {
+              margin-bottom: 20px; } }
 
 /*# sourceMappingURL=search.css.map */
