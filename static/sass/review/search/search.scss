@@ -8,21 +8,23 @@
             position: absolute;
             top: 250px;
             width: 100%;
-            input {
-                width: 100%;
-            }
-            input[type="text"] {
-                border: none;
-                border-radius: 10px;
-            }
-            input[type="submit"] {
-                border: none;
-                border-radius: 10px;
-                background-color: rgb(230, 76, 101);
-            }
             >div {
                 padding-left: 5px;
                 padding-right: 5px;
+                * {
+                    width: 100%;
+                    height: 46px;
+                    border: none;
+                    border-radius: 10px;
+                }
+                button, input[type="submit"] {
+                    background-color: rgb(230, 76, 101);
+                }
+                @media (max-width: 767px) {
+                    input[type="text"] {
+                        margin-bottom: 10px;
+                    }
+                }
             }
         }
     }

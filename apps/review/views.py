@@ -25,7 +25,7 @@ def search_view(request):
 
     for i in range(3):
         try :
-            j = random.randint(0,len(comment_liberal)-1)
+            j = random.randint(0, len(comment_liberal)-1)
             liberal_comment.append(comment_liberal[j].comment)
             comment_liberal.pop(j)
 
@@ -230,7 +230,3 @@ def ReviewInsertAdd(request,lecture_id):
         lecture.total_sum += total;
         lecture.save()
     return HttpResponseRedirect('../')
-
-
-def view1(request):
-    return render(request, 'review/template/view1.html')
