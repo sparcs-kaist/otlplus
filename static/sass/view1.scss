@@ -1,0 +1,87 @@
+#contents {
+    margin-top: -60px;
+    >.row:nth-of-type(1) {
+        height: 500px;
+        background: url('https://klms.kaist.ac.kr/theme/ubstrap/pix/login/login_image_7.jpg');
+        background-position: center center;
+        form {
+            position: absolute;
+            top: 250px;
+            width: 100%;
+            input {
+                width: 100%;
+            }
+            input[type="text"] {
+                border: none;
+                border-radius: 10px;
+            }
+            input[type="submit"] {
+                border: none;
+                border-radius: 10px;
+                background-color: rgb(230, 76, 101);
+            }
+            >div {
+                padding-left: 5px;
+                padding-right: 5px;
+            }
+        }
+    }
+    >.row:nth-of-type(2) {
+        background-color: rgb(249, 240, 240);
+        >div {
+            >h2 {
+                margin-top: 40px;
+                margin-bottom: 40px;
+            }
+        }
+        .review {
+            position: relative;
+            margin-bottom: 45px;
+            .likes {
+                position: absolute;
+                top: -20px;
+                right: -20px;
+                width: 40px;
+                height: 40px;
+                border: none;
+                border-radius: 20px;
+                padding-top: 4px;
+                padding-left: 7px;
+                color: #ffffff;
+                font-weight: bold;
+                text-align: justify;
+                background-color: rgb(230, 76, 101);
+            }
+            .panel-header {
+                padding: 10px 15px;
+            }
+            .panel-body {
+                padding: 0 15px;
+            }
+            .panel-footer {
+                border-top: none;
+                background-color: transparent;
+                padding-bottom: 15px;
+                >span {
+                    position: relative;
+                    padding-left: 16px;
+                    padding-right: 32px;
+                    .grade {
+                        position: absolute;
+                        top: -7px;
+                        right: 0;
+                        width: 30px;
+                        height: 30px;
+                        padding-top: 3px;
+                        padding-left: 1px;
+                        border: 2px solid rgb(230, 76, 101);
+                        border-radius: 15px;
+                        color: rgb(230, 76, 101);
+                        text-align: center;
+                        font-weight: bold;
+                    }
+                }
+            }
+        }
+    }
+}

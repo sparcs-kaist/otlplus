@@ -1,0 +1,33 @@
+.navbar {
+    border: none;
+    margin-bottom: 0;
+    border-bottom: none;
+    background: transparent;
+    * {
+        background: transparent;
+    }
+    .navbar-header {
+        .navbar-brand {
+            color: #ffffff;
+            font-weight: bolder;
+        }
+    }
+    .navbar-collapse {
+        ul.navbar-nav {
+            a {
+                color: #ffffff;
+            }
+            li.active {
+                a {
+                    background-color: transparent;
+                }
+            }
+        }
+        ul.navbar-nav.navbar-right {
+            .img-circle {
+                width: 30px;
+                height: 30px;
+            }
+        }
+    }
+}

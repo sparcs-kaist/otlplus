@@ -10,6 +10,7 @@ from datetime import datetime, timedelta, time, date
 from django.utils import timezone
 from math import exp
 import random
+
 def SearchView(request):
     sid_var = "20150390"
     sid_default = "00000000"
@@ -228,3 +229,7 @@ def ReviewInsertAdd(request,lecture_id):
         lecture.total_sum += total;
         lecture.save()
     return HttpResponseRedirect('../')
+
+
+def view1(request):
+    return render(request, 'review/template/view1.html')

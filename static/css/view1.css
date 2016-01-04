@@ -1,0 +1,71 @@
+#contents {
+  margin-top: -60px; }
+  #contents > .row:nth-of-type(1) {
+    height: 500px;
+    background: url("https://klms.kaist.ac.kr/theme/ubstrap/pix/login/login_image_7.jpg");
+    background-position: center center; }
+    #contents > .row:nth-of-type(1) form {
+      position: absolute;
+      top: 250px;
+      width: 100%; }
+      #contents > .row:nth-of-type(1) form input {
+        width: 100%; }
+      #contents > .row:nth-of-type(1) form input[type="text"] {
+        border: none;
+        border-radius: 10px; }
+      #contents > .row:nth-of-type(1) form input[type="submit"] {
+        border: none;
+        border-radius: 10px;
+        background-color: #e64c65; }
+      #contents > .row:nth-of-type(1) form > div {
+        padding-left: 5px;
+        padding-right: 5px; }
+  #contents > .row:nth-of-type(2) {
+    background-color: #f9f0f0; }
+    #contents > .row:nth-of-type(2) > div > h2 {
+      margin-top: 40px;
+      margin-bottom: 40px; }
+    #contents > .row:nth-of-type(2) .review {
+      position: relative;
+      margin-bottom: 45px; }
+      #contents > .row:nth-of-type(2) .review .likes {
+        position: absolute;
+        top: -20px;
+        right: -20px;
+        width: 40px;
+        height: 40px;
+        border: none;
+        border-radius: 20px;
+        padding-top: 4px;
+        padding-left: 7px;
+        color: #ffffff;
+        font-weight: bold;
+        text-align: justify;
+        background-color: #e64c65; }
+      #contents > .row:nth-of-type(2) .review .panel-header {
+        padding: 10px 15px; }
+      #contents > .row:nth-of-type(2) .review .panel-body {
+        padding: 0 15px; }
+      #contents > .row:nth-of-type(2) .review .panel-footer {
+        border-top: none;
+        background-color: transparent;
+        padding-bottom: 15px; }
+        #contents > .row:nth-of-type(2) .review .panel-footer > span {
+          position: relative;
+          padding-left: 16px;
+          padding-right: 32px; }
+          #contents > .row:nth-of-type(2) .review .panel-footer > span .grade {
+            position: absolute;
+            top: -7px;
+            right: 0;
+            width: 30px;
+            height: 30px;
+            padding-top: 3px;
+            padding-left: 1px;
+            border: 2px solid #e64c65;
+            border-radius: 15px;
+            color: #e64c65;
+            text-align: center;
+            font-weight: bold; }
+
+/*# sourceMappingURL=view1.css.map */
