@@ -5,21 +5,68 @@
     background-size: 100% auto;
     background-position: center 0; }
     #contents > .row:nth-of-type(1) form {
-      position: absolute;
+      position: relative;
+      margin: 0;
       width: 100%; }
       #contents > .row:nth-of-type(1) form > div {
         padding-left: 5px;
         padding-right: 5px; }
-        #contents > .row:nth-of-type(1) form > div * {
+        #contents > .row:nth-of-type(1) form > div > * {
           width: 100%;
           height: 46px;
           border: none;
           border-radius: 10px; }
-        #contents > .row:nth-of-type(1) form > div button, #contents > .row:nth-of-type(1) form > div input[type="submit"] {
+        #contents > .row:nth-of-type(1) form > div [type="button"], #contents > .row:nth-of-type(1) form > div input[type="submit"] {
           background-color: #e64c65; }
         @media (max-width: 767px) {
           #contents > .row:nth-of-type(1) form > div input[type="text"] {
             margin-bottom: 10px; } }
+      #contents > .row:nth-of-type(1) form #options {
+        display: none;
+        position: absolute;
+        z-index: 1;
+        margin: 75px 5px 0;
+        border: none;
+        border-radius: 10px;
+        padding: 15px;
+        font-size: 18px;
+        text-align: left;
+        background: rgba(255, 255, 255, 0.95); }
+        #contents > .row:nth-of-type(1) form #options.active {
+          display: block; }
+        @media (max-width: 767px) {
+          #contents > .row:nth-of-type(1) form #options {
+            margin-top: 115px;
+            padding: 10px; } }
+        #contents > .row:nth-of-type(1) form #options .form-group {
+          height: auto;
+          margin-bottom: 10px; }
+          #contents > .row:nth-of-type(1) form #options .form-group:nth-last-of-type(1) {
+            margin-bottom: 0; }
+          #contents > .row:nth-of-type(1) form #options .form-group label.control-label {
+            padding-top: 0;
+            border-right: 2px solid #aaaaaa; }
+          #contents > .row:nth-of-type(1) form #options .form-group .checkbox {
+            padding-top: 0; }
+            #contents > .row:nth-of-type(1) form #options .form-group .checkbox label {
+              padding-right: 10px; }
+              #contents > .row:nth-of-type(1) form #options .form-group .checkbox label input[type="checkbox"] {
+                display: none; }
+              #contents > .row:nth-of-type(1) form #options .form-group .checkbox label span.fa-lg {
+                width: 1em;
+                height: 1em;
+                color: #aaaaaa;
+                font-size: 1em;
+                line-height: 1em; }
+                #contents > .row:nth-of-type(1) form #options .form-group .checkbox label span.fa-lg i.fa-stack-2x {
+                  font-size: 1em; }
+                #contents > .row:nth-of-type(1) form #options .form-group .checkbox label span.fa-lg i.fa-stack-1x {
+                  display: none;
+                  font-size: 0.5em; }
+              #contents > .row:nth-of-type(1) form #options .form-group .checkbox label.active span.fa-lg {
+                color: #e64c65; }
+                #contents > .row:nth-of-type(1) form #options .form-group .checkbox label.active span.fa-lg i.fa-stack-1x {
+                  display: inline-block; }
     @media (max-width: 767px) {
       #contents > .row:nth-of-type(1) {
         height: 250px !important;
