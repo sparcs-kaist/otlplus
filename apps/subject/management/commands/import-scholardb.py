@@ -13,7 +13,7 @@ import pyodbc
 class Command(BaseCommand):
     option_list = BaseCommand.option_list + (
         make_option('--host', dest='host', help=u'Specifies server address.'),
-        make_option('--port', dest='port', help=u'Specifies server potr.'),
+        make_option('--port', dest='port', help=u'Specifies server port.'),
         make_option('--user', dest='user', help=u'Specifies user name to log in.'),
         make_option('--password', dest='password', help=u'Specifies passowrd to log in.'),
         make_option('--encoding', dest='encoding', help=u'Sepcifies character encoding to decode strings from database. (default is cp949)', default='cp949'),
