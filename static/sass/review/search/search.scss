@@ -1,0 +1,181 @@
+#contents {
+    margin-top: -60px;
+    >.row:nth-of-type(1) {
+        background: url('/media/img/review/search/bg.jpg');
+        background-size: 100% auto;
+        background-position: center 0;
+        form {
+            position: relative;
+            margin: 0;
+            width: 100%;
+            >div {
+                padding-left: 5px;
+                padding-right: 5px;
+                >* {
+                    width: 100%;
+                    height: 46px;
+                    border: none;
+                    border-radius: 10px;
+                }
+                [type="button"], input[type="submit"] {
+                    background-color: rgb(230, 76, 101);
+                }
+                @media (max-width: 767px) {
+                    input[type="text"] {
+                        margin-bottom: 10px;
+                    }
+                }
+            }
+            #options {
+                display: none;
+                position: absolute;
+                z-index: 1;
+                margin: 75px 5px 0;
+                border: none;
+                border-radius: 10px;
+                padding: 15px;
+                font-size: 18px;
+                text-align: left;
+                background: rgba(255, 255, 255, 0.95);
+                &.active {
+                    display: block;
+                }
+                @media (max-width: 767px) {
+                    margin-top: 115px;
+                    padding: 10px;
+                }
+                .form-group {
+                    height: auto;
+                    margin-bottom: 10px;
+                    &:nth-last-of-type(1) {
+                        margin-bottom: 0;
+                    }
+                    label.control-label {
+                        padding-top: 0;
+                        border-right: 2px solid #aaaaaa;
+                    }
+                    .checkbox {
+                        padding-top: 0;
+                        label {
+                            padding-right: 10px;
+                            input[type="checkbox"] {
+                                display: none;
+                            }
+                            span.fa-lg {
+                                width: 1em;
+                                height: 1em;
+                                color: #aaaaaa;
+                                font-size: 1em;
+                                line-height: 1em;
+                                i.fa-stack-2x {
+                                    font-size: 1em;
+                                }
+                                i.fa-stack-1x {
+                                    display: none;
+                                    font-size: 0.5em;
+                                }
+                            }
+                            &.active {
+                                span.fa-lg {
+                                    color: #e64c65;
+                                    i.fa-stack-1x {
+                                        display: inline-block;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        @media (max-width: 767px) {
+            height: 250px !important;
+            margin-top: 50px;
+            form {
+                top: 100px;
+            }
+        }
+        @media (min-width: 768px) {
+            height: 350px;
+            form {
+                top: 150px;
+            }
+        }
+        @media (min-width: 992px) {
+            height: 450px;
+            form {
+                top: 200px;
+            }
+        }
+        @media (min-width: 1200px) {
+            height: 550px;
+            form {
+                top: 250px;
+            }
+        }
+    }
+    >.row:nth-of-type(2) {
+        background-color: rgb(249, 240, 240);
+        >div {
+            >h2 {
+                margin-top: 40px;
+                margin-bottom: 40px;
+            }
+        }
+        .review {
+            position: relative;
+            margin-bottom: 45px;
+            .likes {
+                position: absolute;
+                top: -20px;
+                right: -20px;
+                width: 40px;
+                height: 40px;
+                border: none;
+                border-radius: 20px;
+                padding-top: 4px;
+                padding-left: 7px;
+                cursor: default;
+                color: #ffffff;
+                font-weight: bold;
+                text-align: justify;
+                background-color: rgb(230, 76, 101);
+            }
+            .panel-header {
+                padding: 10px 15px;
+            }
+            .panel-body {
+                padding: 0 15px;
+            }
+            .panel-footer {
+                border-top: none;
+                background-color: transparent;
+                padding-bottom: 15px;
+                >div {
+                    position: relative;
+                    padding-left: 0;
+                    padding-right: 48px;
+                    .grade {
+                        position: absolute;
+                        top: -5px;
+                        right: 12px;
+                        width: 30px;
+                        height: 30px;
+                        padding-top: 3px;
+                        padding-left: 1px;
+                        border: 2px solid rgb(230, 76, 101);
+                        border-radius: 15px;
+                        color: rgb(230, 76, 101);
+                        text-align: center;
+                        font-weight: bold;
+                    }
+                    @media (max-width: 991px) {
+                        &:nth-of-type(1), &:nth-of-type(2) {
+                            margin-bottom: 20px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
