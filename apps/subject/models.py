@@ -44,6 +44,7 @@ class Department(models.Model):
     code = models.CharField(max_length=5, db_index=True)
     name = models.CharField(max_length=60, db_index=True)
     name_en = models.CharField(max_length=60, null=True, db_index=True)
+    visible = models.BooleanField(default=True)
 
     def __unicode__(self):
 	return self.code
