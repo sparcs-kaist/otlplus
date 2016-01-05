@@ -1,0 +1,29 @@
+{% extends "session/base.html" %}
+
+{% block title %}OTL Settings Page{% endblock %}
+{% block content %}
+<div class="container">
+<h1> 내 정보 </h1>
+<form action="" method="post"> 
+    {% csrf_token %}
+    <h2>언어</h2>
+    <label>
+        <input type="radio" name="language" value="ko" {% if usr_lang  == 'ko' %}checked{% endif %}> 한국어 
+    </label>
+    <br>
+    <label>
+        <input type="radio" name="language" value="en" {% if usr_lang  == 'en' %}checked{% endif %}> English
+    </label>
+    <br>
+    <h2>관심 학과 </h2>
+    <div id="favorites">
+        {% for dpt in department %}
+        <label class="checkbox-inline">
+            <input type="checkbox" name="fav_department" value="{{ dpt.name }}" {% if fav_department.name == dpt.name %} checked {% endif %}> {{ dpt.name }} 
+        </label>
+        {% endfor %}
+    </div>
+    <input class="btn btn-primary" type="submit" value="수정하기"></input> 
+</form>
+</div>
+{% endblock %}

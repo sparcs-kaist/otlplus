@@ -1,0 +1,15 @@
+{% extends "session/base.html" %}
+
+{% block title %}OTL Settings Page{% endblock %}
+{% block content %}
+<div class="container">
+{% if error %}
+<h1> 로그인 실패 </h1>
+<p>{{ error }}</p>
+</div>
+{% else %}
+<h1> 로그인 </h1>
+<a href="{{ login_url }}" type="button" class="btn btn-primary btn-lg btn-block">SPARCSSSO로 로그인하기</a>
+</div>
+{% endif %}
+{% endblock %}

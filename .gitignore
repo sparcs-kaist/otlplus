@@ -64,3 +64,8 @@ target/
 
 # SQLITE3 Test database
 db.*
+
+# VirutalEnv Files
+bin/
+include/
+pip-selfcheck.json

@@ -109,3 +109,8 @@ STATIC_URL = '/media/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
+
+AUTHENTICATION_BACKENDS = (
+'apps.session.auth_backend.PasswordlessModelBackend',
+'django.contrib.auth.backends.ModelBackend',
+)
