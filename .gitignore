@@ -67,3 +67,6 @@ db.*
 bin/
 include/
 pip-selfcheck.json
+
+# Secret Key
+keys/

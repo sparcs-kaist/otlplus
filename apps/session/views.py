@@ -1,8 +1,9 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.conf import settings
 from apps.subject.models import Department
 from apps.session.models import UserProfile
 import urllib
@@ -18,7 +19,7 @@ def user_login(request):
     user = request.user
     if user is not None and user.is_authenticated():
         redirect('/')
-    return render(request, './session/login.html', 
+    return render(request, './session/login.html',
         {'login_url': 'https://sso.sparcs.org/oauth/require/?url=' + \
                      request.build_absolute_uri('/session/login/callback/')})
 
@@ -29,20 +30,22 @@ def login_callback(request):
         sso_profile = urllib.urlopen('https://sso.sparcs.org/' + \
                                      'oauth/info?tokenid='+tokenid)
         sso_profile = json.load(sso_profile)
-        username = sso_profile['first_name']
+        username = sso_profile['first_name'] + "_" + sso_profile['sid']
+        username = username[:30]
         user_list = User.objects.filter(username=username)
         if len(user_list) == 0:
-            user = User.objects.create_user(username=sso_profile['first_name'],
+            user = User.objects.create_user(username=username,
                         email=sso_profile['email'],
                         password=str(random.getrandbits(32)),
                         first_name=sso_profile['first_name'],
-                        last_name=sso_profile['last_name']) 
+                        last_name=sso_profile['last_name'])
             user.save()
             user_profile = UserProfile(user=user)
+            user_profile.sid = sso_profile['sid']
             user_profile.save()
             return redirect(nexturl)
         else:
-           user = authenticate(username=user_list[0].username) 
+           user = authenticate(username=user_list[0].username)
            login(request, user)
            return redirect(nexturl)
     return render('/session/login.html', {'error': "Invalid login"})
@@ -56,7 +59,7 @@ def user_logout(request):
 def settings(request):
     user = request.user
     user_profile = UserProfile.objects.get(user = user)
-    department = Department.objects.all() 
+    department = Department.objects.all()
     fav_department = user_profile.favorite_departments.all()
     ctx = { 'department': department,
             'fav_department': fav_department,
@@ -67,8 +70,22 @@ def settings(request):
             dpt = Department.objects.get(name=dpt_name)
             user_profile.favorite_departments.add(dpt)
         user_profile.save()
-        ctx['fav_department'] = user_profile.favorite_departments 
+        ctx['fav_department'] = user_profile.favorite_departments
         ctx['usr_lang'] = user_profile.language
         return render(request, 'session/settings.html', ctx)
     return render(request, 'session/settings.html', ctx)
 
+def unregister(request):
+    return redirect("https://sparcssso.kaist.ac.kr/oauth/service/")
+
+def unregister_callback(request):
+    sid = request.GET['sid']
+    key = request.GET['key']
+    if key != settings.SECRET_KEY:
+        return JsonResponse({"status": 1})
+    user_profile = UserProfile.objects.get(sid=sid)
+    if user_profile is None:
+        return JsonResponse({"status": 1})
+    user_profile.user.delete()
+    user_profile.delete()
+    return JsonResponse({"status": 0})
