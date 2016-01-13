@@ -23,7 +23,6 @@ def search_view(request):
     liberal_comment = []
     major_comment = []
     gradelist=['F','D','C','B','A']
-    zerotofour=[0,1,2,3,4]
 
     for i in range(3):
         try :
@@ -45,7 +44,7 @@ def search_view(request):
             print e
             pass
 
-    ctx = {'liberal_comment':liberal_comment, 'major_comment':major_comment, 'gradelist':gradelist, 'zerotofour':zerotofour}
+    ctx = {'liberal_comment':liberal_comment, 'major_comment':major_comment, 'gradelist':gradelist}
 
     return render(request, 'review/search/search.html',ctx)
 
