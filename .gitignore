@@ -76,3 +76,6 @@ pip-selfcheck.json
 
 # sass-cache
 .sass-cache
+
+# Secret Key
+keys/
