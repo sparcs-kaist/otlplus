@@ -14,12 +14,14 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
 """
 from django.conf.urls import url
+from django.http import HttpResponseRedirect
+
 
 urlpatterns = [
-    url(r'^$', 'apps.review.views.search_view'),
+    url(r'^$', lambda x: HttpResponseRedirect('../main/')),
     url(r'^result/$', 'apps.review.views.SearchResultView'),
-    url(r'^review/insert/$', 'apps.review.views.ReviewInsertView'),
-    url(r'^review/insert/([^/]+)/add/$', 'apps.review.views.ReviewInsertAdd'),
-    url(r'^review/insert/([^/]+)/$', 'apps.review.views.ReviewInsertView'),
-    url(r'^review/delete/$','apps.review.views.ReviewDelete'),
+    url(r'^insert/$', 'apps.review.views.ReviewInsertView'),
+    url(r'^insert/([^/]+)/add/$', 'apps.review.views.ReviewInsertAdd'),
+    url(r'^insert/([^/]+)/$', 'apps.review.views.ReviewInsertView'),
+    url(r'^delete/$','apps.review.views.ReviewDelete'),
 ]

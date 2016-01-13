@@ -14,7 +14,7 @@ class Command(BaseCommand):
         Comment_major = list(Comment_latest.filter(~Q(course__department__code="HSS")))
         
         def cmp1(a,b):
-            r =(b.comment.like/float(b.comment.lecture.audience) - a.comment.like/float(a.comment.lecture.audience))
+            r =(b.comment.like/float(b.comment.lecture.audience+1) - a.comment.like/float(a.comment.lecture.audience+1))
             if r>0.0 :
                 return 1
             elif r<0.0:

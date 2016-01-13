@@ -24,12 +24,11 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
 
     # OTLplus Apps
-    url(r'^main/', include('apps.main.urls')),
+    url(r'^main', 'apps.review.views.search_view'),
     url(r'^$', lambda x: HttpResponseRedirect('main/')),
     url(r'^session/', include('apps.session.urls')),
     url(r'^review/', include('apps.review.urls')),
     url(r'^subject/', include('apps.subject.urls')),
-
     # Media Root
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve',
         {'document_root': os.path.join(BASE_DIR, 'static')}),

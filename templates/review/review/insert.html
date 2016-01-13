@@ -32,7 +32,7 @@
       </div>
       <div class="list-group">
 		{% for lecture in object %}
-		<a href="/review/review/insert/{{lecture.lecid}}" class="list-group-item {%ifequal lecture.lecid lecture_id %}active{% endifequal %}" }>{{lecture.title}}({{lecture.old_code}} {{lecture.professor}})</a>
+		<a href="/review/insert/{{lecture.lecid}}" class="list-group-item {%ifequal lecture.lecid lecture_id %}active{% endifequal %}" }>{{lecture.title}}({{lecture.old_code}} {{lecture.professor}})</a>
 		{% endfor%}
       </div>
     </div>

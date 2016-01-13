@@ -22,6 +22,8 @@ def search_view(request):
 
     liberal_comment = []
     major_comment = []
+    gradelist=['F','D','C','B','A']
+    zerotofour=[0,1,2,3,4]
 
     for i in range(3):
         try :
@@ -43,7 +45,7 @@ def search_view(request):
             print e
             pass
 
-    ctx = {'liberal_comment':liberal_comment, 'major_comment':major_comment}
+    ctx = {'liberal_comment':liberal_comment, 'major_comment':major_comment, 'gradelist':gradelist, 'zerotofour':zerotofour}
 
     return render(request, 'review/search/search.html',ctx)
 
@@ -130,7 +132,7 @@ def ReviewDelete(request):
     lec.total_sum -= target.total
     target.delete()
     lec.save()
-    return HttpResponseRedirect('/review/review/insert/'+str(request.POST['lectureid']))
+    return HttpResponseRedirect('/review/insert/'+str(request.POST['lectureid']))
 
 def ReviewLike(request):
     target_review = Comment.objects.get(writer=request.POST['writer'],lecture=Lecture.objects.get(old_code=request.POST['lecturechoice']));

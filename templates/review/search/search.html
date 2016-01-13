@@ -44,279 +44,132 @@
       </form>
     </div>
   </div>
-<!-- Uncomment this area if you want to render template with real context data.
+
   <div class="row">
     <div class="col-xs-22 col-xs-offset-1 col-sm-10 col-sm-offset-2 col-md-9 col-md-offset-3 col-lg-8 col-lg-offset-4">
       <h2 class="text-center">
         사랑받는 교양 후기
       </h2>
       {% for comment in liberal_comment %}
-        <div class="panel panel-default review">
-          <button class="likes" disabled>
-            +{{ comment.like }}
-          </button>
-          <div class="panel-header">
-            <h4>
+
+      <div class="panel panel-default review">
+        <button class="likes" disabled>
+          +{{ comment.like }}
+        </button>
+        <div class="panel-header">
+          <h4>
               {{ comment.lecture.title }}
-            </h4>
+          </h4>
+        </div>
+        <div class="panel-body">
+          <p class="text-muted">
+            {{ comment|safe }}
+          </p>
+	      </div>
+        <div class="panel-footer row">
+          <div class="col-xs-12 col-md-5 col-md-offset-4 text-right">
+           성적 
+           {% ifequal 0 comment.grade %}<span class="grade"> {{gradelist.0}} </span>{% endifequal %}
+           {% ifequal 1 comment.grade %}<span class="grade"> {{gradelist.1}} </span>{% endifequal %}
+           {% ifequal 2 comment.grade %}<span class="grade"> {{gradelist.2}} </span>{% endifequal %}
+           {% ifequal 3 comment.grade %}<span class="grade"> {{gradelist.3}} </span>{% endifequal %}
+           {% ifequal 4 comment.grade %}<span class="grade"> {{gradelist.4}} </span>{% endifequal %}
+                             
           </div>
-          <div class="panel-body">
-            <p class="text-muted">
-              {{ comment|safe }}
-            </p>
+          <div class="col-xs-12 col-md-5 text-right">
+           널널 
+           {% ifequal 0 comment.load %}<span class="grade"> {{gradelist.0}} </span>{% endifequal %}
+           {% ifequal 1 comment.load %}<span class="grade"> {{gradelist.1}} </span>{% endifequal %}
+           {% ifequal 2 comment.load %}<span class="grade"> {{gradelist.2}} </span>{% endifequal %}
+           {% ifequal 3 comment.load %}<span class="grade"> {{gradelist.3}} </span>{% endifequal %}
+           {% ifequal 4 comment.load %}<span class="grade"> {{gradelist.4}} </span>{% endifequal %}
           </div>
-          <div class="panel-footer row">
-            <div class="col-xs-12 col-md-5 col-md-offset-4 text-right">
-              성적 <span class="grade">A+</span>
-            </div>
-            <div class="col-xs-12 col-md-5 text-right">
-              널널 <span class="grade">A+</span>
-            </div>
-            <div class="col-xs-12 col-md-5 text-right">
-              강의 <span class="grade">A+</span>
-            </div>
-            <div class="col-xs-12 col-md-5 text-right">
-              종합 <span class="grade">A+</span>
-            </div>
+          <div class="col-xs-12 col-md-5 text-right">
+            강의 
+           {% ifequal 0 comment.speech %}<span class="grade"> {{gradelist.0}} </span>{% endifequal %}
+           {% ifequal 1 comment.speech %}<span class="grade"> {{gradelist.1}} </span>{% endifequal %}
+           {% ifequal 2 comment.speech %}<span class="grade"> {{gradelist.2}} </span>{% endifequal %}
+           {% ifequal 3 comment.speech %}<span class="grade"> {{gradelist.3}} </span>{% endifequal %}
+           {% ifequal 4 comment.speech %}<span class="grade"> {{gradelist.4}} </span>{% endifequal %}
+          </div>
+          <div class="col-xs-12 col-md-5 text-right">
+            종합 
+           {% ifequal 0 comment.total %}<span class="grade"> {{gradelist.0}} </span>{% endifequal %}
+           {% ifequal 1 comment.total %}<span class="grade"> {{gradelist.1}} </span>{% endifequal %}
+           {% ifequal 2 comment.total %}<span class="grade"> {{gradelist.2}} </span>{% endifequal %}
+           {% ifequal 3 comment.total %}<span class="grade"> {{gradelist.3}} </span>{% endifequal %}
+           {% ifequal 4 comment.total %}<span class="grade"> {{gradelist.4}} </span>{% endifequal %}
+
           </div>
         </div>
+      </div>
       {% endfor %}
     </div>
+
+
+
+
+
+
     <div class="col-xs-22 col-xs-offset-1 col-sm-10 col-sm-offset-0 col-md-9 col-md-offset-0 col-lg-8 col-lg-offset-0">
       <h2 class="text-center">
         사랑받는 전공 후기
       </h2>
       {% for comment in major_comment %}
-        <div class="panel panel-default review">
-          <button class="likes" disabled>
-            +{{ comment.like }}
-          </button>
-          <div class="panel-header">
-            <h4>
+      <div class="panel panel-default review">
+        <button class="likes" disabled>
+          +{{ comment.like }}
+        </button>
+        <div class="panel-header">
+          <h4>
               {{ comment.lecture.title }}
-            </h4>
+          </h4>
+        </div>
+        <div class="panel-body">
+          <p class="text-muted">
+          {{ comment|safe }}
+          </p>
+	    </div>
+        <div class="panel-footer row">
+          <div class="col-xs-12 col-md-5 col-md-offset-4 text-right">
+           성적 
+           {% ifequal 0 comment.grade %}<span class="grade"> {{gradelist.0}} </span>{% endifequal %}
+           {% ifequal 1 comment.grade %}<span class="grade"> {{gradelist.1}} </span>{% endifequal %}
+           {% ifequal 2 comment.grade %}<span class="grade"> {{gradelist.2}} </span>{% endifequal %}
+           {% ifequal 3 comment.grade %}<span class="grade"> {{gradelist.3}} </span>{% endifequal %}
+           {% ifequal 4 comment.grade %}<span class="grade"> {{gradelist.4}} </span>{% endifequal %}
+                             
           </div>
-          <div class="panel-body">
-            <p class="text-muted">
-              {{ comment|safe }}
-            </p>
+          <div class="col-xs-12 col-md-5 text-right">
+           널널 
+           {% ifequal 0 comment.load %}<span class="grade"> {{gradelist.0}} </span>{% endifequal %}
+           {% ifequal 1 comment.load %}<span class="grade"> {{gradelist.1}} </span>{% endifequal %}
+           {% ifequal 2 comment.load %}<span class="grade"> {{gradelist.2}} </span>{% endifequal %}
+           {% ifequal 3 comment.load %}<span class="grade"> {{gradelist.3}} </span>{% endifequal %}
+           {% ifequal 4 comment.load %}<span class="grade"> {{gradelist.4}} </span>{% endifequal %}
           </div>
-          <div class="panel-footer row">
-            <div class="col-xs-12 col-md-5 col-md-offset-4 text-right">
-              성적 <span class="grade">A+</span>
-            </div>
-            <div class="col-xs-12 col-md-5 text-right">
-              널널 <span class="grade">A+</span>
-            </div>
-            <div class="col-xs-12 col-md-5 text-right">
-              강의 <span class="grade">A+</span>
-            </div>
-            <div class="col-xs-12 col-md-5 text-right">
-              종합 <span class="grade">A+</span>
-            </div>
+          <div class="col-xs-12 col-md-5 text-right">
+            강의 
+           {% ifequal 0 comment.speech %}<span class="grade"> {{gradelist.0}} </span>{% endifequal %}
+           {% ifequal 1 comment.speech %}<span class="grade"> {{gradelist.1}} </span>{% endifequal %}
+           {% ifequal 2 comment.speech %}<span class="grade"> {{gradelist.2}} </span>{% endifequal %}
+           {% ifequal 3 comment.speech %}<span class="grade"> {{gradelist.3}} </span>{% endifequal %}
+           {% ifequal 4 comment.speech %}<span class="grade"> {{gradelist.4}} </span>{% endifequal %}
+          </div>
+          <div class="col-xs-12 col-md-5 text-right">
+            종합 
+           {% ifequal 0 comment.total %}<span class="grade"> {{gradelist.0}} </span>{% endifequal %}
+           {% ifequal 1 comment.total %}<span class="grade"> {{gradelist.1}} </span>{% endifequal %}
+           {% ifequal 2 comment.total %}<span class="grade"> {{gradelist.2}} </span>{% endifequal %}
+           {% ifequal 3 comment.total %}<span class="grade"> {{gradelist.3}} </span>{% endifequal %}
+           {% ifequal 4 comment.total %}<span class="grade"> {{gradelist.4}} </span>{% endifequal %}
           </div>
         </div>
-      {% endfor %}
     </div>
-  </div>
--->
-  <div class="row">
-    <div class="col-xs-22 col-xs-offset-1 col-sm-10 col-sm-offset-2 col-md-9 col-md-offset-3 col-lg-8 col-lg-offset-4">
-      <h2 class="text-center">
-        사랑받는 교양 후기
-      </h2>
-      <div class="panel panel-default review">
-        <button class="likes" disabled>
-          +{{ comment.like }}31
-        </button>
-        <div class="panel-header">
-          <h4>
-            Special Lecture on Art [사랑의 담론]
-          </h4>
-        </div>
-        <div class="panel-body">
-          <p class="text-muted">
-            수업을 통해 읽어야 할 텍스트가 20여권이 됩니다.<br>
-            이 텔스트들을 함께 읽으며 수업을 들으면 정말 많은 생각을 해볼 수 있는 수업이 되는 듯 하고 이 텍스트들을 읽지 않고 수업을 들으면 정말 별로 남는게 없는 수업인 듯 합니다.
-          </p>
-	      </div>
-        <div class="panel-footer row">
-          <div class="col-xs-12 col-md-5 col-md-offset-4 text-right">
-            성적 <span class="grade">A+</span>
-          </div>
-          <div class="col-xs-12 col-md-5 text-right">
-            널널 <span class="grade">A+</span>
-          </div>
-          <div class="col-xs-12 col-md-5 text-right">
-            강의 <span class="grade">A+</span>
-          </div>
-          <div class="col-xs-12 col-md-5 text-right">
-            종합 <span class="grade">A+</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="panel panel-default review">
-        <button class="likes" disabled>
-          +{{ comment.like }}31
-        </button>
-        <div class="panel-header">
-          <h4>
-            Special Lecture on Art [사랑의 담론]
-          </h4>
-        </div>
-        <div class="panel-body">
-          <p class="text-muted">
-            수업을 통해 읽어야 할 텍스트가 20여권이 됩니다.<br>
-            이 텔스트들을 함께 읽으며 수업을 들으면 정말 많은 생각을 해볼 수 있는 수업이 되는 듯 하고 이 텍스트들을 읽지 않고 수업을 들으면 정말 별로 남는게 없는 수업인 듯 합니다.
-          </p>
-	      </div>
-        <div class="panel-footer row">
-          <div class="col-xs-12 col-md-5 col-md-offset-4 text-right">
-            성적 <span class="grade">A+</span>
-          </div>
-          <div class="col-xs-12 col-md-5 text-right">
-            널널 <span class="grade">A+</span>
-          </div>
-          <div class="col-xs-12 col-md-5 text-right">
-            강의 <span class="grade">A+</span>
-          </div>
-          <div class="col-xs-12 col-md-5 text-right">
-            종합 <span class="grade">A+</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="panel panel-default review">
-        <button class="likes" disabled>
-          +{{ comment.like }}31
-        </button>
-        <div class="panel-header">
-          <h4>
-            Special Lecture on Art [사랑의 담론]
-          </h4>
-        </div>
-        <div class="panel-body">
-          <p class="text-muted">
-            수업을 통해 읽어야 할 텍스트가 20여권이 됩니다.<br>
-            이 텔스트들을 함께 읽으며 수업을 들으면 정말 많은 생각을 해볼 수 있는 수업이 되는 듯 하고 이 텍스트들을 읽지 않고 수업을 들으면 정말 별로 남는게 없는 수업인 듯 합니다.
-          </p>
-	      </div>
-        <div class="panel-footer row">
-          <div class="col-xs-12 col-md-5 col-md-offset-4 text-right">
-            성적 <span class="grade">A+</span>
-          </div>
-          <div class="col-xs-12 col-md-5 text-right">
-            널널 <span class="grade">A+</span>
-          </div>
-          <div class="col-xs-12 col-md-5 text-right">
-            강의 <span class="grade">A+</span>
-          </div>
-          <div class="col-xs-12 col-md-5 text-right">
-            종합 <span class="grade">A+</span>
-          </div>
-        </div>
-      </div>
-
+    {% endfor %}
     </div>
-    <div class="col-xs-22 col-xs-offset-1 col-sm-10 col-sm-offset-0 col-md-9 col-md-offset-0 col-lg-8 col-lg-offset-0">
-      <h2 class="text-center">
-        사랑받는 전공 후기
-      </h2>
-      <div class="panel panel-default review">
-        <button class="likes" disabled>
-          +{{ comment.like }}31
-        </button>
-        <div class="panel-header">
-          <h4>
-            Special Lecture on Art [사랑의 담론]
-          </h4>
-        </div>
-        <div class="panel-body">
-          <p class="text-muted">
-            수업을 통해 읽어야 할 텍스트가 20여권이 됩니다.<br>
-            이 텔스트들을 함께 읽으며 수업을 들으면 정말 많은 생각을 해볼 수 있는 수업이 되는 듯 하고 이 텍스트들을 읽지 않고 수업을 들으면 정말 별로 남는게 없는 수업인 듯 합니다.
-          </p>
-	      </div>
-        <div class="panel-footer row">
-          <div class="col-xs-12 col-md-5 col-md-offset-4 text-right">
-            성적 <span class="grade">A+</span>
-          </div>
-          <div class="col-xs-12 col-md-5 text-right">
-            널널 <span class="grade">A+</span>
-          </div>
-          <div class="col-xs-12 col-md-5 text-right">
-            강의 <span class="grade">A+</span>
-          </div>
-          <div class="col-xs-12 col-md-5 text-right">
-            종합 <span class="grade">A+</span>
-          </div>
-        </div>
-      </div>
 
-      <div class="panel panel-default review">
-        <button class="likes" disabled>
-          +{{ comment.like }}31
-        </button>
-        <div class="panel-header">
-          <h4>
-            Special Lecture on Art [사랑의 담론]
-          </h4>
-        </div>
-        <div class="panel-body">
-          <p class="text-muted">
-            수업을 통해 읽어야 할 텍스트가 20여권이 됩니다.<br>
-            이 텔스트들을 함께 읽으며 수업을 들으면 정말 많은 생각을 해볼 수 있는 수업이 되는 듯 하고 이 텍스트들을 읽지 않고 수업을 들으면 정말 별로 남는게 없는 수업인 듯 합니다.
-          </p>
-	      </div>
-        <div class="panel-footer row">
-          <div class="col-xs-12 col-md-5 col-md-offset-4 text-right">
-            성적 <span class="grade">A+</span>
-          </div>
-          <div class="col-xs-12 col-md-5 text-right">
-            널널 <span class="grade">A+</span>
-          </div>
-          <div class="col-xs-12 col-md-5 text-right">
-            강의 <span class="grade">A+</span>
-          </div>
-          <div class="col-xs-12 col-md-5 text-right">
-            종합 <span class="grade">A+</span>
-          </div>
-        </div>
-      </div>
 
-      <div class="panel panel-default review">
-        <button class="likes" disabled>
-          +{{ comment.like }}31
-        </button>
-        <div class="panel-header">
-          <h4>
-            Special Lecture on Art [사랑의 담론]
-          </h4>
-        </div>
-        <div class="panel-body">
-          <p class="text-muted">
-            수업을 통해 읽어야 할 텍스트가 20여권이 됩니다.<br>
-            이 텔스트들을 함께 읽으며 수업을 들으면 정말 많은 생각을 해볼 수 있는 수업이 되는 듯 하고 이 텍스트들을 읽지 않고 수업을 들으면 정말 별로 남는게 없는 수업인 듯 합니다.
-          </p>
-	      </div>
-        <div class="panel-footer row">
-          <div class="col-xs-12 col-md-5 col-md-offset-4 text-right">
-            성적 <span class="grade">A+</span>
-          </div>
-          <div class="col-xs-12 col-md-5 text-right">
-            널널 <span class="grade">A+</span>
-          </div>
-          <div class="col-xs-12 col-md-5 text-right">
-            강의 <span class="grade">A+</span>
-          </div>
-          <div class="col-xs-12 col-md-5 text-right">
-            종합 <span class="grade">A+</span>
-          </div>
-        </div>
-      </div>
-
-    </div>
   </div>
 
 {% endblock %}
