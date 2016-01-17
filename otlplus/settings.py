@@ -20,9 +20,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-#SECRET_KEY = '3v!tm87e%bwa6dq=+1#+u@w^3s#7cl(5i8$pcy^$8z(9-q0)d7'
+
 with open(os.path.join(BASE_DIR, 'keys/django_secret')) as f:
         SECRET_KEY = f.read().strip()
+
+with open(os.path.join(BASE_DIR, 'keys/sso_secret')) as f:
+        SSO_KEY = f.read().strip()
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -115,3 +119,6 @@ AUTHENTICATION_BACKENDS = (
 'apps.session.auth_backend.PasswordlessModelBackend',
 'django.contrib.auth.backends.ModelBackend',
 )
+
+LOGIN_URL = '/session/login/'
+LOGOUT_URL = '/session/logout/'

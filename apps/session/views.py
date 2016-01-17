@@ -18,20 +18,25 @@ def home(request):
 def user_login(request):
     user = request.user
     if user is not None and user.is_authenticated():
-        redirect('/')
+        next = request.session.get('next', '/')
+        redirect(next)
+    request.session['next'] = request.GET.get('next', '/')
     return render(request, './session/login.html',
-        {'login_url': 'https://sso.sparcs.org/oauth/require/?url=' + \
+        {'login_url': 'https://sparcssso.kaist.ac.kr/oauth/require/?url=' + \
                      request.build_absolute_uri('/session/login/callback/')})
 
 def login_callback(request):
     if request.method == "GET":
-        nexturl = request.GET.get('next', '/')
+        try:
+            next = request.session.get('next', '/')
+            del request.session['next']
+        except KeyError:
+            pass
         tokenid = request.GET['tokenid']
-        sso_profile = urllib.urlopen('https://sso.sparcs.org/' + \
+        sso_profile = urllib.urlopen('https://sparcssso.kaist.ac.kr/' + \
                                      'oauth/info?tokenid='+tokenid)
         sso_profile = json.load(sso_profile)
-        username = sso_profile['first_name'] + "_" + sso_profile['sid']
-        username = username[:30]
+        username = sso_profile['sid']
         user_list = User.objects.filter(username=username)
         if len(user_list) == 0:
             user = User.objects.create_user(username=username,
@@ -43,11 +48,11 @@ def login_callback(request):
             user_profile = UserProfile(user=user)
             user_profile.sid = sso_profile['sid']
             user_profile.save()
-            return redirect(nexturl)
+            return redirect(next)
         else:
            user = authenticate(username=user_list[0].username)
            login(request, user)
-           return redirect(nexturl)
+           return redirect(next)
     return render('/session/login.html', {'error': "Invalid login"})
 
 def user_logout(request):
@@ -75,13 +80,14 @@ def settings(request):
         return render(request, 'session/settings.html', ctx)
     return render(request, 'session/settings.html', ctx)
 
+@login_required(login_url='/session/login/')
 def unregister(request):
     return redirect("https://sparcssso.kaist.ac.kr/oauth/service/")
 
 def unregister_callback(request):
     sid = request.GET['sid']
     key = request.GET['key']
-    if key != settings.SECRET_KEY:
+    if key != settings.SSO_KEY:
         return JsonResponse({"status": 1})
     user_profile = UserProfile.objects.get(sid=sid)
     if user_profile is None:
