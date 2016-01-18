@@ -48,15 +48,23 @@ def search_view(request):
 
     return render(request, 'review/search/search.html',ctx)
 
-def GetDepartmentFilterList():
-    list = []
+def DepartmentFilters(gets):
+    department_list = []
     for department in Department.objects.all():
-        list.append(department.code)
-    return list
+        department_list.append(department.code)
+    filters = list(set(department_list) & set(gets))
+    if len(filters) == 0:
+        filters = department_list
+    return filters
+    
 
-def GetCourseTypeFilterList():
-    # 개선 필요
-    return ['BR', 'BE', 'MR', 'ME', 'MGC', 'HSE']
+def TypeFilters(gets):
+    type_list = ['BR', 'BE', 'MR', 'ME', 'MGC', 'HSE']
+    filters = list(set(type_list) & set(gets))
+    if len(filters) == 0:
+        filters = type_list
+    return filters
+
 
 def SearchResultView(request):
     if 'by_professor' in request.GET:
@@ -64,15 +72,9 @@ def SearchResultView(request):
     else:
         by_professor = False
     
-    courses = Course.objects.all()
-    all_filters = GetDepartmentFilterList()
-    checked_filters = list(set(all_filters)&set(request.GET))
-    if len(checked_filters) != 0:
-        courses = courses.filter(department__code__in=checked_filters)
-    all_filters = GetCourseTypeFilterList()
-    checked_filters = list(set(all_filters)&set(request.GET))
-    if len(checked_filters) != 0:
-        courses = courses.filter(type__in=checked_filters)
+    department_filters = DepartmentFilters(request.GET)
+    type_filters = TypeFilters(request.GET)
+    courses = Course.objects.filter(department__code__in=department_filters, type__in=type_filters)
 
     results = []
     id = 0
