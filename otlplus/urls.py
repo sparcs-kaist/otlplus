@@ -24,8 +24,8 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
 
     # OTLplus Apps
-    url(r'^main', 'apps.review.views.search_view'),
-    url(r'^$', lambda x: HttpResponseRedirect('main/')),
+    url(r'^main/$', 'apps.review.views.search_view'),
+    url(r'^$', lambda x: HttpResponseRedirect('/main/')),
     url(r'^session/', include('apps.session.urls')),
     url(r'^review/', include('apps.review.urls')),
     url(r'^subject/', include('apps.subject.urls')),

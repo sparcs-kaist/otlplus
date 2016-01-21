@@ -58,6 +58,12 @@ class Course(models.Model):
     title = models.CharField(max_length=100, db_index=True)
     title_en = models.CharField(max_length=200, db_index=True)
 
+    grade_sum = models.IntegerField(default=0)
+    load_sum = models.IntegerField(default=0)
+    speech_sum = models.IntegerField(default=0)
+    total_sum = models.IntegerField(default=0)
+    comment_num = models.IntegerField(default=0)
+
     def __unicode__(self):
 	return u"%s(%s)"%(self.title,self.old_code)
     
@@ -67,6 +73,13 @@ class Professor(models.Model):
     professor_id = models.IntegerField()
     major = models.CharField(max_length=30)
     course_list = models.ManyToManyField('Course', db_index=True)
+
+    grade_sum = models.IntegerField(default=0)
+    load_sum = models.IntegerField(default=0)
+    speech_sum = models.IntegerField(default=0)
+    total_sum = models.IntegerField(default=0)
+    comment_num = models.IntegerField(default=0)
+
     
     def __unicode__(self):
 	    return u"%s(id:%d)"%(self.professor_name,self.professor_id)
