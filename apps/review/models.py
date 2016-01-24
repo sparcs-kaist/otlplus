@@ -4,7 +4,7 @@ from apps.session.models import UserProfile
 
 class Comment(models.Model):
     course = models.ForeignKey(Course, db_index=True)
-    lecture = models.ForeignKey(Lecture, null=True, blank=True, db_index=True)
+    lecture = models.ForeignKey(Lecture, db_index=True)
     
     comment = models.CharField(max_length=65536)
     grade = models.SmallIntegerField()
