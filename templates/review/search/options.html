@@ -1,72 +1,18 @@
+<form role="form" class="form" method="get" id="filter_form">
 <div id="options" class="form-horizontal">
   <div class="form-group">
     <label class="col-xs-6 col-sm-4 col-md-3 col-lg-3 control-label">분류</label>
     <div class="col-xs-18 col-sm-20 col-md-21 col-lg-21">
       <div class="checkbox">
+        {% for i in "123456" %}
         <label>
-          전체
-          <input type="checkbox">
+          <input type="checkbox" autocomplete="off" name="type" value="{% cycle "MR" "ME" "BR" "BE" "HSE" "OE" %}">{% cycle "전필" "전선" "기필" "기선" "교양" "자선" %}
           <span class="fa-stack fa-lg">
             <i class="fa fa-circle-o fa-stack-2x"></i>
             <i class="fa fa-check fa-stack-1x"></i>
           </span>
         </label>
-        <label>
-          전필
-          <input type="checkbox">
-          <span class="fa-stack fa-lg">
-            <i class="fa fa-circle-o fa-stack-2x"></i>
-            <i class="fa fa-check fa-stack-1x"></i>
-          </span>
-        </label>
-        <label>
-          전선
-          <input type="checkbox">
-          <span class="fa-stack fa-lg">
-            <i class="fa fa-circle-o fa-stack-2x"></i>
-            <i class="fa fa-check fa-stack-1x"></i>
-          </span>
-        </label>
-        <label>
-          기필
-          <input type="checkbox">
-          <span class="fa-stack fa-lg">
-            <i class="fa fa-circle-o fa-stack-2x"></i>
-            <i class="fa fa-check fa-stack-1x"></i>
-          </span>
-        </label>
-        <label>
-          기선
-          <input type="checkbox">
-          <span class="fa-stack fa-lg">
-            <i class="fa fa-circle-o fa-stack-2x"></i>
-            <i class="fa fa-check fa-stack-1x"></i>
-          </span>
-        </label>
-        <label>
-          교양
-          <input type="checkbox">
-          <span class="fa-stack fa-lg">
-            <i class="fa fa-circle-o fa-stack-2x"></i>
-            <i class="fa fa-check fa-stack-1x"></i>
-          </span>
-        </label>
-        <label>
-          자선
-          <input type="checkbox">
-          <span class="fa-stack fa-lg">
-            <i class="fa fa-circle-o fa-stack-2x"></i>
-            <i class="fa fa-check fa-stack-1x"></i>
-          </span>
-        </label>
-        <label>
-          기타
-          <input type="checkbox">
-          <span class="fa-stack fa-lg">
-            <i class="fa fa-circle-o fa-stack-2x"></i>
-            <i class="fa fa-check fa-stack-1x"></i>
-          </span>
-        </label>
+        {% endfor %}
       </div>
     </div>
   </div>
@@ -74,150 +20,15 @@
     <label class="col-xs-6 col-sm-4 col-md-3 col-lg-3 control-label">학과</label>
     <div class="col-xs-18 col-sm-20 col-md-21 col-lg-21">
       <div class="checkbox">
+        {% for i in "1234" %}
         <label>
-          전체
-          <input type="checkbox">
+          <input type="checkbox" autocomplete="off" name="department" value="{% cycle "CS" "EE" "MAE" "HSS" %}">{% cycle "전산" "전자" "기계" "인문" %}
           <span class="fa-stack fa-lg">
             <i class="fa fa-circle-o fa-stack-2x"></i>
             <i class="fa fa-check fa-stack-1x"></i>
           </span>
         </label>
-        <label>
-          건환
-          <input type="checkbox">
-          <span class="fa-stack fa-lg">
-            <i class="fa fa-circle-o fa-stack-2x"></i>
-            <i class="fa fa-check fa-stack-1x"></i>
-          </span>
-        </label>
-        <label>
-          기경
-          <input type="checkbox">
-          <span class="fa-stack fa-lg">
-            <i class="fa fa-circle-o fa-stack-2x"></i>
-            <i class="fa fa-check fa-stack-1x"></i>
-          </span>
-        </label>
-        <label>
-          기계
-          <input type="checkbox">
-          <span class="fa-stack fa-lg">
-            <i class="fa fa-circle-o fa-stack-2x"></i>
-            <i class="fa fa-check fa-stack-1x"></i>
-          </span>
-        </label>
-        <label>
-          물리
-          <input type="checkbox">
-          <span class="fa-stack fa-lg">
-            <i class="fa fa-circle-o fa-stack-2x"></i>
-            <i class="fa fa-check fa-stack-1x"></i>
-          </span>
-        </label>
-        <label>
-          바공
-          <input type="checkbox">
-          <span class="fa-stack fa-lg">
-            <i class="fa fa-circle-o fa-stack-2x"></i>
-            <i class="fa fa-check fa-stack-1x"></i>
-          </span>
-        </label>
-        <label>
-          산공
-          <input type="checkbox">
-          <span class="fa-stack fa-lg">
-            <i class="fa fa-circle-o fa-stack-2x"></i>
-            <i class="fa fa-check fa-stack-1x"></i>
-          </span>
-        </label>
-        <label>
-          산디
-          <input type="checkbox">
-          <span class="fa-stack fa-lg">
-            <i class="fa fa-circle-o fa-stack-2x"></i>
-            <i class="fa fa-check fa-stack-1x"></i>
-          </span>
-        </label>
-        <label>
-          생명
-          <input type="checkbox">
-          <span class="fa-stack fa-lg">
-            <i class="fa fa-circle-o fa-stack-2x"></i>
-            <i class="fa fa-check fa-stack-1x"></i>
-          </span>
-        </label>
-        <label>
-          생화공
-          <input type="checkbox">
-          <span class="fa-stack fa-lg">
-            <i class="fa fa-circle-o fa-stack-2x"></i>
-            <i class="fa fa-check fa-stack-1x"></i>
-          </span>
-        </label>
-        <label>
-          수리
-          <input type="checkbox">
-          <span class="fa-stack fa-lg">
-            <i class="fa fa-circle-o fa-stack-2x"></i>
-            <i class="fa fa-check fa-stack-1x"></i>
-          </span>
-        </label>
-        <label>
-          신소재
-          <input type="checkbox">
-          <span class="fa-stack fa-lg">
-            <i class="fa fa-circle-o fa-stack-2x"></i>
-            <i class="fa fa-check fa-stack-1x"></i>
-          </span>
-        </label>
-        <label>
-          원양
-          <input type="checkbox">
-          <span class="fa-stack fa-lg">
-            <i class="fa fa-circle-o fa-stack-2x"></i>
-            <i class="fa fa-check fa-stack-1x"></i>
-          </span>
-        </label>
-        <label>
-          전자
-          <input type="checkbox">
-          <span class="fa-stack fa-lg">
-            <i class="fa fa-circle-o fa-stack-2x"></i>
-            <i class="fa fa-check fa-stack-1x"></i>
-          </span>
-        </label>
-        <label>
-          전산
-          <input type="checkbox">
-          <span class="fa-stack fa-lg">
-            <i class="fa fa-circle-o fa-stack-2x"></i>
-            <i class="fa fa-check fa-stack-1x"></i>
-          </span>
-        </label>
-        <label>
-          항공
-          <input type="checkbox">
-          <span class="fa-stack fa-lg">
-            <i class="fa fa-circle-o fa-stack-2x"></i>
-            <i class="fa fa-check fa-stack-1x"></i>
-          </span>
-        </label>
-        <label>
-          화학
-          <input type="checkbox">
-          <span class="fa-stack fa-lg">
-            <i class="fa fa-circle-o fa-stack-2x"></i>
-            <i class="fa fa-check fa-stack-1x"></i>
-          </span>
-        </label>
-        <label>
-          기타
-          <input type="checkbox">
-          <span class="fa-stack fa-lg">
-            <i class="fa fa-circle-o fa-stack-2x"></i>
-            <i class="fa fa-check fa-stack-1x"></i>
-          </span>
-        </label>
+        {% endfor %}
       </div>
     </div>
   </div>
@@ -225,62 +36,15 @@
     <label class="col-xs-6 col-sm-4 col-md-3 col-lg-3 control-label">학년</label>
     <div class="col-xs-18 col-sm-20 col-md-21 col-lg-21">
       <div class="checkbox">
+        {% for i in "01234567" %}
         <label>
-          전체
-          <input type="checkbox">
+          <input type="checkbox" autocomplete="off" name="grade" value="{% cycle "tt" "1" "2" "3" "4" "5" "6" "7"%}">{% cycle "전체" "100번대" "200번대" "300번대" "400번대" "500번대" "석사" "박사"%}
           <span class="fa-stack fa-lg">
             <i class="fa fa-circle-o fa-stack-2x"></i>
             <i class="fa fa-check fa-stack-1x"></i>
           </span>
         </label>
-        <label>
-          1학년
-          <input type="checkbox">
-          <span class="fa-stack fa-lg">
-            <i class="fa fa-circle-o fa-stack-2x"></i>
-            <i class="fa fa-check fa-stack-1x"></i>
-          </span>
-        </label>
-        <label>
-          2학년
-          <input type="checkbox">
-          <span class="fa-stack fa-lg">
-            <i class="fa fa-circle-o fa-stack-2x"></i>
-            <i class="fa fa-check fa-stack-1x"></i>
-          </span>
-        </label>
-        <label>
-          3학년
-          <input type="checkbox">
-          <span class="fa-stack fa-lg">
-            <i class="fa fa-circle-o fa-stack-2x"></i>
-            <i class="fa fa-check fa-stack-1x"></i>
-          </span>
-        </label>
-        <label>
-          4학년
-          <input type="checkbox">
-          <span class="fa-stack fa-lg">
-            <i class="fa fa-circle-o fa-stack-2x"></i>
-            <i class="fa fa-check fa-stack-1x"></i>
-          </span>
-        </label>
-        <label>
-          석사
-          <input type="checkbox">
-          <span class="fa-stack fa-lg">
-            <i class="fa fa-circle-o fa-stack-2x"></i>
-            <i class="fa fa-check fa-stack-1x"></i>
-          </span>
-        </label>
-        <label>
-          박사
-          <input type="checkbox">
-          <span class="fa-stack fa-lg">
-            <i class="fa fa-circle-o fa-stack-2x"></i>
-            <i class="fa fa-check fa-stack-1x"></i>
-          </span>
-        </label>
+        {% endfor %}
       </div>
     </div>
   </div>
@@ -288,55 +52,18 @@
     <label class="col-xs-6 col-sm-4 col-md-3 col-lg-3 control-label">학기</label>
     <div class="col-xs-18 col-sm-20 col-md-21 col-lg-21">
       <div class="checkbox">
+        {% for i in "tsfsfa" %}
         <label>
-          전체
-          <input type="checkbox">
+            <input type="checkbox" autocomplete="off" name="semester" value="{% cycle "tt" "s16" "f16" "s15" "f15" "ancient" %}">{% cycle "전체" "16봄" "15가을" "15봄" "14가을" "고대"%}
           <span class="fa-stack fa-lg">
             <i class="fa fa-circle-o fa-stack-2x"></i>
             <i class="fa fa-check fa-stack-1x"></i>
           </span>
         </label>
-        <label>
-          16봄
-          <input type="checkbox">
-          <span class="fa-stack fa-lg">
-            <i class="fa fa-circle-o fa-stack-2x"></i>
-            <i class="fa fa-check fa-stack-1x"></i>
-          </span>
-        </label>
-        <label>
-          15가을
-          <input type="checkbox">
-          <span class="fa-stack fa-lg">
-            <i class="fa fa-circle-o fa-stack-2x"></i>
-            <i class="fa fa-check fa-stack-1x"></i>
-          </span>
-        </label>
-        <label>
-          15봄
-          <input type="checkbox">
-          <span class="fa-stack fa-lg">
-            <i class="fa fa-circle-o fa-stack-2x"></i>
-            <i class="fa fa-check fa-stack-1x"></i>
-          </span>
-        </label>
-        <label>
-          14가을
-          <input type="checkbox">
-          <span class="fa-stack fa-lg">
-            <i class="fa fa-circle-o fa-stack-2x"></i>
-            <i class="fa fa-check fa-stack-1x"></i>
-          </span>
-        </label>
-        <label>
-          고대
-          <input type="checkbox">
-          <span class="fa-stack fa-lg">
-            <i class="fa fa-circle-o fa-stack-2x"></i>
-            <i class="fa fa-check fa-stack-1x"></i>
-          </span>
-        </label>
+        {% endfor %}
+
       </div>
     </div>
   </div>
 </div>
+</form>

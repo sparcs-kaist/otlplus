@@ -12,6 +12,28 @@ from math import exp
 import random
 
 
+
+def DepartmentFilters(raw_filters):
+    department_list = []
+    for department in Department.objects.all():
+        department_list.append(department.code)
+    filters = list(set(department_list) & set(raw_filters))
+    if len(filters) == 0:
+        filters = department_list
+    return filters
+
+
+def TypeFilters(raw_filters):
+    acronym_dic = {'BR':'Basic Required', 'BE':'Basic Elective', 'MR':'Major Required', 'ME':'Major Elective', 'HSE':'Humanities & Social Elective', 'OE':'Other Elective'}
+    type_list = acronym_dic.keys()
+    acronym_filters = list(set(type_list) & set(raw_filters))
+    if len(acronym_filters) == 0:
+        acronym_filters = type_list
+    filters = [acronym_dic[i] for i in acronym_filters if acronym_dic.has_key(i)]
+    return filters
+
+
+
 def search_view(request):
     sid_var = "20150390"
     sid_default = "00000000"
@@ -47,26 +69,6 @@ def search_view(request):
     ctx = {'liberal_comment':liberal_comment, 'major_comment':major_comment, 'gradelist':gradelist}
 
     return render(request, 'review/search/search.html',ctx)
-
-def DepartmentFilters(raw_filters):
-    department_list = []
-    for department in Department.objects.all():
-        department_list.append(department.code)
-    filters = list(set(department_list) & set(raw_filters))
-    if len(filters) == 0:
-        filters = department_list
-    return filters
-
-
-def TypeFilters(raw_filters):
-    acronym_dic = {'BR':'Basic Required', 'BE':'Basic Elective', 'MR':'Major Required', 'ME':'Major Elective', 'HSE':'Humanities & Social Elective', 'OE':'Other Elective'}
-    type_list = acronym_dic.keys()
-    acronym_filters = list(set(type_list) & set(raw_filters))
-    if len(acronym_filters) == 0:
-        acronym_filters = type_list
-    filters = [acronym_dic[i] for i in acronym_filters if acronym_dic.has_key(i)]
-    return filters
-
 
 def SearchResultView(request):
     if 'by_professor' in request.GET:
