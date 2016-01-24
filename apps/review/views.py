@@ -15,7 +15,7 @@ import random
 def search_view(request):
     sid_var = "20150390"
     sid_default = "00000000"
-    user = UserProfile.objects.get(student_id=sid_var) 
+    user = UserProfile.objects.get(student_id=sid_var)
 
     comment_liberal = list(LiberalBestComment.objects.all())
     comment_major = list(MajorBestComment.objects.all())
@@ -33,7 +33,7 @@ def search_view(request):
         except Exception, e:
             print e
             pass
-    
+
     for i in range(3):
         try:
             j = random.randint(0,len(comment_major)-1)
@@ -56,7 +56,7 @@ def DepartmentFilters(raw_filters):
     if len(filters) == 0:
         filters = department_list
     return filters
-    
+
 
 def TypeFilters(raw_filters):
     acronym_dic = {'BR':'Basic Required', 'BE':'Basic Elective', 'MR':'Major Required', 'ME':'Major Elective', 'HSE':'Humanities & Social Elective', 'OE':'Other Elective'}
@@ -73,10 +73,13 @@ def SearchResultView(request):
         by_professor = True
     else:
         by_professor = False
-    
+
     department_filters = DepartmentFilters(request.GET.getlist('department'))
     type_filters = TypeFilters(request.GET.getlist('type'))
     courses = Course.objects.filter(department__code__in=department_filters, type_en__in=type_filters)
+
+    if 'q' in request.GET:
+        courses = courses.filter(title__icontains=request.GET['q'])
 
     results = []
     id = 0
@@ -155,7 +158,7 @@ def ReviewInsertView(request,lecture_id=-1):
     lecture_list = user.take_lecture_list.all()
     if len(lecture_list) == 0:
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-	    
+
     for single_lecture in lecture_list:
         lecture_object = {}
         lecture_object["title"]=single_lecture.title;
@@ -175,9 +178,9 @@ def ReviewInsertView(request,lecture_id=-1):
     pre_load="A"
     pre_speech="A"
     if lecture_id==-1:
-        return HttpResponseRedirect('./' + str(lecture_list[0].id) )    
+        return HttpResponseRedirect('./' + str(lecture_list[0].id) )
     now_lecture = user.take_lecture_list.get(id=lecture_id)
-    try : 
+    try :
         temp = user.comment_set.all()
         temp = temp.get(lecture=now_lecture)
         pre_comment = temp.comment
