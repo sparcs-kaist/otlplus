@@ -26,7 +26,7 @@
         $("input:checkbox[name='by_professor']").attr("checked", true);
       {% endif %}
       {% if 'sorting' in gets %}
-        sorting = '{{ gets.sorting }}';
+        sorting = '{{ gets.sorting.0 }}';
       {% else %}
         sorting = 'name';
       {% endif %}
@@ -52,17 +52,21 @@
         $('#by_professor').addClass('active');
         $("input:checkbox[name='by_professor']").attr("checked", true);
       }
-      
-      gets = []
-      {% for get in gets %}
-        gets.push('{{get}}');
+    
+      {% for i in "12" %}
+        {% cycle "department" "type" as filtername silent %}
+        {% cycle gets.department gets.type as get_filter silent %}
+        get_filter = [];
+        {% for i in get_filter %}
+          get_filter.push('{{i}}');
+        {% endfor %}
+        filters = $("input[name='{{filtername}}']");
+        for (i=0; i<filters.length; i++)
+          if (get_filter.indexOf(filters[i].value)!=-1)
+            filters[i].checked = true;
+          else
+            filters[i].checked = false;
       {% endfor %}
-      filters = $('#filters>div>label>input');
-      for (i=0; i<filters.length; i++)
-        if (gets.indexOf(filters[i].name)!=-1)
-          filters[i].checked = true;
-        else
-          filters[i].checked = false;
       $('#filter_form').submit()
     });
 
@@ -104,7 +108,7 @@
                 <div class="btn-group" data-toggle="buttons">
                 {% for i in "1234" %}
                   <label class="btn btn-primary">
-                    <input type="checkbox" autocomplete="off" name="{% cycle "CS" "EE" "MAE" "HSS" %}">{% cycle "전산과" "전자과" "기계과" "인문사회과학부" %}
+                    <input type="checkbox" autocomplete="off" name="department" value="{% cycle "CS" "EE" "MAE" "HSS" %}">{% cycle "전산과" "전자과" "기계과" "인문사회과학부" %}
                   </label>
                 {% endfor %}
                 </div>
@@ -112,7 +116,7 @@
                 <div class="btn-group" data-toggle="buttons">
                 {% for i in "123456" %}
                   <label class="btn btn-primary">
-                    <input type="checkbox" autocomplete="off" name="{% cycle "BR" "BE" "MR" "ME" "MGC" "HSE" %}"> {% cycle "기필" "기선" "전필" "전선" "교필" "인문사회선택" %}
+                    <input type="checkbox" autocomplete="off" name="type" value="{% cycle "MR" "ME" "BR" "BE" "HSE" "OE" %}"> {% cycle "전필" "전선" "기필" "기선" "교양" "자선" %}
                   </label>
                 {% endfor %}
                 </div>

@@ -48,21 +48,23 @@ def search_view(request):
 
     return render(request, 'review/search/search.html',ctx)
 
-def DepartmentFilters(gets):
+def DepartmentFilters(raw_filters):
     department_list = []
     for department in Department.objects.all():
         department_list.append(department.code)
-    filters = list(set(department_list) & set(gets))
+    filters = list(set(department_list) & set(raw_filters))
     if len(filters) == 0:
         filters = department_list
     return filters
     
 
-def TypeFilters(gets):
-    type_list = ['BR', 'BE', 'MR', 'ME', 'MGC', 'HSE']
-    filters = list(set(type_list) & set(gets))
-    if len(filters) == 0:
-        filters = type_list
+def TypeFilters(raw_filters):
+    acronym_dic = {'BR':'Basic Required', 'BE':'Basic Elective', 'MR':'Major Required', 'ME':'Major Elective', 'HSE':'Humanities & Social Elective', 'OE':'Other Elective'}
+    type_list = acronym_dic.keys()
+    acronym_filters = list(set(type_list) & set(raw_filters))
+    if len(acronym_filters) == 0:
+        acronym_filters = type_list
+    filters = [acronym_dic[i] for i in acronym_filters if acronym_dic.has_key(i)]
     return filters
 
 
@@ -72,9 +74,9 @@ def SearchResultView(request):
     else:
         by_professor = False
     
-    department_filters = DepartmentFilters(request.GET)
-    type_filters = TypeFilters(request.GET)
-    courses = Course.objects.filter(department__code__in=department_filters, type__in=type_filters)
+    department_filters = DepartmentFilters(request.GET.getlist('department'))
+    type_filters = TypeFilters(request.GET.getlist('type'))
+    courses = Course.objects.filter(department__code__in=department_filters, type_en__in=type_filters)
 
     results = []
     id = 0
@@ -121,7 +123,7 @@ def SearchResultView(request):
     results_load=sorted(results,key=getload,reverse=True)
     results_speech=sorted(results,key=getspeech,reverse=True)
     results_total=sorted(results,key=gettotal,reverse=True)
-    return render(request, 'review/search/result.html', {'results':results, 'results_grade':results_grade, 'results_load':results_load, 'results_speech':results_speech, 'results_total':results_total, 'gets':request.GET})
+    return render(request, 'review/search/result.html', {'results':results, 'results_grade':results_grade, 'results_load':results_load, 'results_speech':results_speech, 'results_total':results_total, 'gets':dict(request.GET.iterlists())})
 
 def ReviewDelete(request):
     user = UserProfile.objects.get(student_id=request.POST['sid'])
