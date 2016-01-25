@@ -30,7 +30,7 @@
     <div class="col-xs-22 col-xs-offset-1 col-sm-20 col-sm-offset-2 col-md-18 col-md-offset-3 col-lg-16 col-lg-offset-4 text-center">
       <form role="form" class="form-inline row">
         <div class="col-xs-24 col-sm-12 col-md-16 col-lg-18">
-            <input type="text" name="q" class="form-control">
+            <input type="text" name="q" autocomplete="on" class="form-control">
         </div>
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
           <div id="option" type="button" class="btn btn-lg btn-block btn-danger">
@@ -46,11 +46,13 @@
   </div>
 
   <div class="row">
-    <div class="col-xs-22 col-xs-offset-1 col-sm-10 col-sm-offset-2 col-md-9 col-md-offset-3 col-lg-8 col-lg-offset-4">
+    {% for i in "12" %}
+    <div class="col-xs-22 col-xs-offset-1 col-sm-10 col-sm-offset-{% cycle "2" "0" %} col-md-9 col-md-offset-{% cycle "3" "0" %} col-lg-8 col-lg-offset-{% cycle "4" "0" %}">
       <h2 class="text-center">
-        사랑받는 교양 후기
+        {% cycle "사랑받는 교양 후기" "사랑받는 전공 후기" %}
       </h2>
-      {% for comment in liberal_comment %}
+      {% cycle liberal_comment major_comment as cbestcomment silent %}
+      {% for comment in cbestcomment %}
 
       <div class="panel panel-default review">
         <button class="likes" disabled>
@@ -67,108 +69,21 @@
           </p>
 	      </div>
         <div class="panel-footer row">
-          <div class="col-xs-12 col-md-5 col-md-offset-4 text-right">
-           성적 
-           {% ifequal 0 comment.grade %}<span class="grade"> {{gradelist.0}} </span>{% endifequal %}
-           {% ifequal 1 comment.grade %}<span class="grade"> {{gradelist.1}} </span>{% endifequal %}
-           {% ifequal 2 comment.grade %}<span class="grade"> {{gradelist.2}} </span>{% endifequal %}
-           {% ifequal 3 comment.grade %}<span class="grade"> {{gradelist.3}} </span>{% endifequal %}
-           {% ifequal 4 comment.grade %}<span class="grade"> {{gradelist.4}} </span>{% endifequal %}
-                             
-          </div>
+          <div class="col-md-4"></div>
+          {% for i in "1234" %}
           <div class="col-xs-12 col-md-5 text-right">
-           널널 
-           {% ifequal 0 comment.load %}<span class="grade"> {{gradelist.0}} </span>{% endifequal %}
-           {% ifequal 1 comment.load %}<span class="grade"> {{gradelist.1}} </span>{% endifequal %}
-           {% ifequal 2 comment.load %}<span class="grade"> {{gradelist.2}} </span>{% endifequal %}
-           {% ifequal 3 comment.load %}<span class="grade"> {{gradelist.3}} </span>{% endifequal %}
-           {% ifequal 4 comment.load %}<span class="grade"> {{gradelist.4}} </span>{% endifequal %}
+           {% cycle "성적" "널널" "강의" "종합" %}
+           {% cycle comment.grade comment.load comment.speech comment.total as whichgrade silent %}
+             {% for numbergrade, lettergrade in gradelist %}
+               {% ifequal numbergrade whichgrade %} <span class="grade">{{ lettergrade }}</span>{% endifequal %}
+             {% endfor %}
           </div>
-          <div class="col-xs-12 col-md-5 text-right">
-            강의 
-           {% ifequal 0 comment.speech %}<span class="grade"> {{gradelist.0}} </span>{% endifequal %}
-           {% ifequal 1 comment.speech %}<span class="grade"> {{gradelist.1}} </span>{% endifequal %}
-           {% ifequal 2 comment.speech %}<span class="grade"> {{gradelist.2}} </span>{% endifequal %}
-           {% ifequal 3 comment.speech %}<span class="grade"> {{gradelist.3}} </span>{% endifequal %}
-           {% ifequal 4 comment.speech %}<span class="grade"> {{gradelist.4}} </span>{% endifequal %}
-          </div>
-          <div class="col-xs-12 col-md-5 text-right">
-            종합 
-           {% ifequal 0 comment.total %}<span class="grade"> {{gradelist.0}} </span>{% endifequal %}
-           {% ifequal 1 comment.total %}<span class="grade"> {{gradelist.1}} </span>{% endifequal %}
-           {% ifequal 2 comment.total %}<span class="grade"> {{gradelist.2}} </span>{% endifequal %}
-           {% ifequal 3 comment.total %}<span class="grade"> {{gradelist.3}} </span>{% endifequal %}
-           {% ifequal 4 comment.total %}<span class="grade"> {{gradelist.4}} </span>{% endifequal %}
-
-          </div>
+          {% endfor %}
         </div>
       </div>
       {% endfor %}
     </div>
-
-
-
-
-
-
-    <div class="col-xs-22 col-xs-offset-1 col-sm-10 col-sm-offset-0 col-md-9 col-md-offset-0 col-lg-8 col-lg-offset-0">
-      <h2 class="text-center">
-        사랑받는 전공 후기
-      </h2>
-      {% for comment in major_comment %}
-      <div class="panel panel-default review">
-        <button class="likes" disabled>
-          +{{ comment.like }}
-        </button>
-        <div class="panel-header">
-          <h4>
-              {{ comment.lecture.title }}
-          </h4>
-        </div>
-        <div class="panel-body">
-          <p class="text-muted">
-          {{ comment.comment|safe }}
-          </p>
-	    </div>
-        <div class="panel-footer row">
-          <div class="col-xs-12 col-md-5 col-md-offset-4 text-right">
-           성적 
-           {% ifequal 0 comment.grade %}<span class="grade"> {{gradelist.0}} </span>{% endifequal %}
-           {% ifequal 1 comment.grade %}<span class="grade"> {{gradelist.1}} </span>{% endifequal %}
-           {% ifequal 2 comment.grade %}<span class="grade"> {{gradelist.2}} </span>{% endifequal %}
-           {% ifequal 3 comment.grade %}<span class="grade"> {{gradelist.3}} </span>{% endifequal %}
-           {% ifequal 4 comment.grade %}<span class="grade"> {{gradelist.4}} </span>{% endifequal %}
-                             
-          </div>
-          <div class="col-xs-12 col-md-5 text-right">
-           널널 
-           {% ifequal 0 comment.load %}<span class="grade"> {{gradelist.0}} </span>{% endifequal %}
-           {% ifequal 1 comment.load %}<span class="grade"> {{gradelist.1}} </span>{% endifequal %}
-           {% ifequal 2 comment.load %}<span class="grade"> {{gradelist.2}} </span>{% endifequal %}
-           {% ifequal 3 comment.load %}<span class="grade"> {{gradelist.3}} </span>{% endifequal %}
-           {% ifequal 4 comment.load %}<span class="grade"> {{gradelist.4}} </span>{% endifequal %}
-          </div>
-          <div class="col-xs-12 col-md-5 text-right">
-            강의 
-           {% ifequal 0 comment.speech %}<span class="grade"> {{gradelist.0}} </span>{% endifequal %}
-           {% ifequal 1 comment.speech %}<span class="grade"> {{gradelist.1}} </span>{% endifequal %}
-           {% ifequal 2 comment.speech %}<span class="grade"> {{gradelist.2}} </span>{% endifequal %}
-           {% ifequal 3 comment.speech %}<span class="grade"> {{gradelist.3}} </span>{% endifequal %}
-           {% ifequal 4 comment.speech %}<span class="grade"> {{gradelist.4}} </span>{% endifequal %}
-          </div>
-          <div class="col-xs-12 col-md-5 text-right">
-            종합 
-           {% ifequal 0 comment.total %}<span class="grade"> {{gradelist.0}} </span>{% endifequal %}
-           {% ifequal 1 comment.total %}<span class="grade"> {{gradelist.1}} </span>{% endifequal %}
-           {% ifequal 2 comment.total %}<span class="grade"> {{gradelist.2}} </span>{% endifequal %}
-           {% ifequal 3 comment.total %}<span class="grade"> {{gradelist.3}} </span>{% endifequal %}
-           {% ifequal 4 comment.total %}<span class="grade"> {{gradelist.4}} </span>{% endifequal %}
-          </div>
-        </div>
-    </div>
     {% endfor %}
-    </div>
-
 
   </div>
 

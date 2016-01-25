@@ -44,7 +44,7 @@ def search_view(request):
 
     liberal_comment = []
     major_comment = []
-    gradelist=['F','D','C','B','A']
+    gradelist=[(0,'F'),(1,'D'),(2,'C'),(3,'B'),(4,'A')]
 
     for i in range(3):
         try :
