@@ -81,7 +81,8 @@ def SearchResultView(request):
     courses = Course.objects.filter(department__code__in=department_filters, type_en__in=type_filters)
 
     if 'q' in request.GET:
-        courses = courses.filter(title__icontains=request.GET['q'])
+        keyword = request.GET['q']
+        courses = courses.filter(Q(title__icontains=keyword) | Q(old_code__icontains=keyword) | Q(title_en__icontains=keyword))
 
     results = []
     id = 0
