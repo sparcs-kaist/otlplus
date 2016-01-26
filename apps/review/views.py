@@ -17,25 +17,41 @@ def DepartmentFilters(raw_filters):
     department_list = []
     for department in Department.objects.all():
         department_list.append(department.code)
+    major_list = ["CE", "MSB", "MAE", "PH", "BiS", "IE", "ID", "BS", "CBE", "MAS", "MS", "NQE","HSS" "EE", "CS", "MAE", "CH"]
+    etc_list = list(set(department_list)^set(major_list))
+    if "ALL" in raw_filters:
+        return department_list
     filters = list(set(department_list) & set(raw_filters))
-    if len(filters) == 0:
-        filters = department_list
+    if "ETC" in raw_filters:
+        filters += etc_list
     return filters
 
 
 def TypeFilters(raw_filters):
-    acronym_dic = {'GR':'General Required', 'MGC':'Mandatory General Courses', 'BE':'Basic Elective', 'BR':'Basic Required', 'EG':'Elective(Graduate)', 'HSE':'Humanities & Social Elective', 'OE':'Other Elective', 'ME':'Major Elective', 'MR':'Major Required'}
+    acronym_dic = {'GR':'General Required', 'MGC':'Mandatory General Courses', 'BE':'Basic Elective', 'BR':'Basic Required', 'EG':'Elective(Graduate)', 'HSE':'Humanities & Social Elective', 'OE':'Other Elective', 'ME':'Major Elective', 'MR':'Major Required', 'S':'Seminar', 'I':'Interdisciplinary', 'FP':'Field Practice'}
     type_list = acronym_dic.keys()
+    if 'ALL' in raw_filters :
+        filters = [acronym_dic[i] for i in type_list if acronym_dic.has_key(i)]
+        return filters
     acronym_filters = list(set(type_list) & set(raw_filters))
-    if len(acronym_filters) == 0:
-        acronym_filters = type_list
     filters = [acronym_dic[i] for i in acronym_filters if acronym_dic.has_key(i)]
+    if 'ETC' in raw_filters:
+        filters +=["Seminar", "Interdisciplinary", "Field Practice"]
     return filters
 
-def GradeFilter(raw_filters):
-    pass
+def GradeFilters(raw_filters):
+    acronym_dic = {'ALL':"", '100':"1", '200':"2", '300':"3", '400':"4", '500':"5", 'HIGH':"6"}
+    grade_list = acronym_dic.keys()
+    acronym_filters = list(set(grade_list) & set(raw_filters))
+    filters = [acronym_dic[i] for i in acronym_filters if acronym_dic.has_key(i)]
+    if 'HIGH' in raw_filters:
+        filters+=["7", "8", "9"]
+    if 'ALL' in raw_filters:
+        filters=["0","1","2","3","4","5","6","7","8","9"]
+    return filters
 
-def SemesterFilter(raw_filters):
+
+def SemesterFilters(raw_filters):
     pass
 
 def search_view(request):
@@ -82,8 +98,14 @@ def SearchResultView(request):
 
     department_filters = DepartmentFilters(request.GET.getlist('department'))
     type_filters = TypeFilters(request.GET.getlist('type'))
+    grade_filters = GradeFilters(request.GET.getlist('grade'))
     courses = Course.objects.filter(department__code__in=department_filters, type_en__in=type_filters)
-
+    if(len(grade_filters)<10):
+        course_list=[]
+        for course in courses:
+            if course.old_code[-3] in grade_filters :
+                course_list.append(course.id)
+        courses = courses.filter(id__in=course_list)
     if 'q' in request.GET:
         keyword = request.GET['q']
         courses = courses.filter(Q(title__icontains=keyword) | Q(old_code__icontains=keyword) | Q(title_en__icontains=keyword))

@@ -15,9 +15,9 @@
           </span>
         </label>
 
-        {% for i in "123456" %}
+        {% for i in "1234567890" %}
         <label>
-            <input class="chkelem" type="checkbox" autocomplete="off" name="type" value="{% cycle "MR" "ME" "BR" "BE" "HSE" "OE" %}" checked="checked">{% cycle "전필" "전선" "기필" "기선" "교양" "자선" %}
+            <input class="chkelem" type="checkbox" autocomplete="off" name="type" value="{% cycle "GR" "MGC" "BE" "BR" "EG" "HSE" "OE" "ME" "MR" "ETC" %}" checked="checked">{% cycle "공통" "교필" "기선" "기필" "석박" "인선" "자선" "전선" "전필" "기타" %}
           <span class="fa-stack fa-lg">
             <i class="fa fa-circle-o fa-stack-2x"></i>
             <i class="fa fa-check fa-stack-1x"></i>
@@ -44,9 +44,9 @@
         </label>
 
 
-        {% for i in "1234" %}
+        {% for i in "123456789012345678" %}
         <label>
-          <input class="chkelem" type="checkbox" autocomplete="off" name="department" value="{% cycle "CS" "EE" "MAE" "HSS" %}" checked="checked">{% cycle "전산" "전자" "기계" "인문" %}
+          <input class="chkelem" type="checkbox" autocomplete="off" name="department" value="{% cycle "HSS" "CE" "MSB" "MAE" "PH" "BiS" "IE" "ID" "BS" "CBE" "MAS" "MS" "NQE" "EE" "CS" "MAE" "CH" "ETC" %}" checked="checked">{% cycle "인문" "건환" "기경" "기계" "물리" "바공" "산공" "산디" "생명" "생화공" "수리" "신소재" "원양" "전자" "전산" "항공" "화학" "기타"%}
           <span class="fa-stack fa-lg">
             <i class="fa fa-circle-o fa-stack-2x"></i>
             <i class="fa fa-check fa-stack-1x"></i>
@@ -73,9 +73,9 @@
         </label>
 
 
-        {% for i in "01234567" %}
+        {% for i in "123456" %}
         <label>
-          <input class="chkelem" type="checkbox" autocomplete="off" name="grade" value="{% cycle "tt" "1" "2" "3" "4" "5" "6" "7"%}" checked="checked">{% cycle "전체" "100번대" "200번대" "300번대" "400번대" "500번대" "석사" "박사"%}
+          <input class="chkelem" type="checkbox" autocomplete="off" name="grade" value="{% cycle "100" "200" "300" "400" "500" "HIGH"%}" checked="checked">{% cycle "100번대" "200번대" "300번대" "400번대" "500번대" "석박사"%}
           <span class="fa-stack fa-lg">
             <i class="fa fa-circle-o fa-stack-2x"></i>
             <i class="fa fa-check fa-stack-1x"></i>
@@ -101,9 +101,9 @@
           </span>
         </label>
 
-        {% for i in "tsfsfa" %}
+        {% for i in "12345" %}
         <label>
-            <input class="chkelem" type="checkbox" autocomplete="off" name="semester" value="{% cycle "tt" "s16" "f16" "s15" "f15" "ancient" %}" checked="checked">{% cycle "전체" "16봄" "15가을" "15봄" "14가을" "고대"%}
+            <input class="chkelem" type="checkbox" autocomplete="off" name="semester" value="{% cycle "tt" "s16" "f16" "s15" "f15" "ancient" %}" checked="checked">{% cycle "16봄" "15가을" "15봄" "14가을" "고대"%}
           <span class="fa-stack fa-lg">
             <i class="fa fa-circle-o fa-stack-2x"></i>
             <i class="fa fa-check fa-stack-1x"></i>
