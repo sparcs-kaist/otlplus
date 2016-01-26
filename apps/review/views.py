@@ -9,6 +9,7 @@ from django.db.models import Q
 from datetime import datetime, timedelta, time, date
 from django.utils import timezone
 from math import exp
+from datetime import datetime, timedelta, time, date
 import random
 
 
@@ -52,7 +53,35 @@ def GradeFilters(raw_filters):
 
 
 def SemesterFilters(raw_filters):
-    pass
+    if 'ALL' in raw_filters:
+        return (False,)
+    acronym_dic = {'ALL':[] ,'NEXT':[1], 'NOW':[0], 'PREV':[-1], 'RECENT':[-1,-2,-3,-4]}
+    def PeriodToYearSemester(num):
+        now_year = timezone.now().year
+        now_semester = ((timezone.now()-timedelta(days=365/12*2)).month+2)/3
+        result_year = now_year
+        if timezone.now().month<3:
+            result_year-=1
+        result_semester = now_semester + num
+        if result_semester < 1 or result_semester > 4 :
+            result_year += (result_semester-1)/4
+            result_semester = (result_semester-1)%4+1
+        return (result_year, result_semester)
+
+
+    semester_list = acronym_dic.keys()
+    acronym_filters = list(set(semester_list) & set(raw_filters))
+    contraction_filters = [acronym_dic[i] for i in acronym_filters if acronym_dic.has_key(i)]
+    
+    filters=[]
+    for ilist in contraction_filters:
+        for i in ilist:
+            filters.append(PeriodToYearSemester(i))
+
+    return (True,filters)
+    
+
+
 
 def search_view(request):
     sid_var = "20150390"
@@ -100,15 +129,39 @@ def SearchResultView(request):
     type_filters = TypeFilters(request.GET.getlist('type'))
     grade_filters = GradeFilters(request.GET.getlist('grade'))
     courses = Course.objects.filter(department__code__in=department_filters, type_en__in=type_filters)
+
     if(len(grade_filters)<10):
         course_list=[]
         for course in courses:
             if course.old_code[-3] in grade_filters :
                 course_list.append(course.id)
         courses = courses.filter(id__in=course_list)
+
+
     if 'q' in request.GET:
         keyword = request.GET['q']
         courses = courses.filter(Q(title__icontains=keyword) | Q(old_code__icontains=keyword) | Q(title_en__icontains=keyword))
+
+    if SemesterFilters(request.GET.getlist('semester'))[0]:
+        course_list=[]
+        loop_counter=0
+        for course in courses:
+            for lecture in course.lecture_course.all():
+                tempval=False
+                for ifilter in SemesterFilters(request.GET.getlist('semester'))[1]:
+                    print ifilter, lecture.year, lecture.semester
+                    if lecture.year==ifilter[0] and lecture.semester==ifilter[1]:
+                        tempval=True
+                        break
+                if tempval:
+                    course_list.append(course.id)
+                    break
+            loop_counter+=1
+            if loop_counter>200:
+                break
+        courses = courses.filter(id__in=course_list)
+
+
 
     results = []
     id = 0

@@ -101,9 +101,9 @@
           </span>
         </label>
 
-        {% for i in "12345" %}
+        {% for i in "1234" %}
         <label>
-            <input class="chkelem" type="checkbox" autocomplete="off" name="semester" value="{% cycle "tt" "s16" "f16" "s15" "f15" "ancient" %}" checked="checked">{% cycle "16봄" "15가을" "15봄" "14가을" "고대"%}
+            <input class="chkelem" type="checkbox" autocomplete="off" name="semester" value="{% cycle "NEXT" "NOW" "PREV" "RECENT" %}" checked="checked">{% cycle "다음" "현재" "이전" "최근" %}
           <span class="fa-stack fa-lg">
             <i class="fa fa-circle-o fa-stack-2x"></i>
             <i class="fa fa-check fa-stack-1x"></i>
