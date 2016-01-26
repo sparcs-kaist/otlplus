@@ -1,60 +1,23 @@
 <form role="form" class="form" method="get" id="filter_form">
 <div id="options" class="form-horizontal">
+
+
   <div class="form-group">
     <label class="col-xs-6 col-sm-4 col-md-3 col-lg-3 control-label">분류</label>
     <div class="col-xs-18 col-sm-20 col-md-21 col-lg-21">
       <div class="checkbox">
+
+        <label>
+          <input class="chkall" type="checkbox" autocomplete="off" name="type" value="ALL" checked="checked">전체
+          <span class="fa-stack fa-lg">
+            <i class="fa fa-circle-o fa-stack-2x"></i>
+            <i class="fa fa-check fa-stack-1x"></i>
+          </span>
+        </label>
+
         {% for i in "123456" %}
         <label>
-          <input type="checkbox" autocomplete="off" name="type" value="{% cycle "MR" "ME" "BR" "BE" "HSE" "OE" %}">{% cycle "전필" "전선" "기필" "기선" "교양" "자선" %}
-          <span class="fa-stack fa-lg">
-            <i class="fa fa-circle-o fa-stack-2x"></i>
-            <i class="fa fa-check fa-stack-1x"></i>
-          </span>
-        </label>
-        {% endfor %}
-      </div>
-    </div>
-  </div>
-  <div class="form-group">
-    <label class="col-xs-6 col-sm-4 col-md-3 col-lg-3 control-label">학과</label>
-    <div class="col-xs-18 col-sm-20 col-md-21 col-lg-21">
-      <div class="checkbox">
-        {% for i in "1234" %}
-        <label>
-          <input type="checkbox" autocomplete="off" name="department" value="{% cycle "CS" "EE" "MAE" "HSS" %}">{% cycle "전산" "전자" "기계" "인문" %}
-          <span class="fa-stack fa-lg">
-            <i class="fa fa-circle-o fa-stack-2x"></i>
-            <i class="fa fa-check fa-stack-1x"></i>
-          </span>
-        </label>
-        {% endfor %}
-      </div>
-    </div>
-  </div>
-  <div class="form-group">
-    <label class="col-xs-6 col-sm-4 col-md-3 col-lg-3 control-label">학년</label>
-    <div class="col-xs-18 col-sm-20 col-md-21 col-lg-21">
-      <div class="checkbox">
-        {% for i in "01234567" %}
-        <label>
-          <input type="checkbox" autocomplete="off" name="grade" value="{% cycle "tt" "1" "2" "3" "4" "5" "6" "7"%}">{% cycle "전체" "100번대" "200번대" "300번대" "400번대" "500번대" "석사" "박사"%}
-          <span class="fa-stack fa-lg">
-            <i class="fa fa-circle-o fa-stack-2x"></i>
-            <i class="fa fa-check fa-stack-1x"></i>
-          </span>
-        </label>
-        {% endfor %}
-      </div>
-    </div>
-  </div>
-  <div class="form-group">
-    <label class="col-xs-6 col-sm-4 col-md-3 col-lg-3 control-label">학기</label>
-    <div class="col-xs-18 col-sm-20 col-md-21 col-lg-21">
-      <div class="checkbox">
-        {% for i in "tsfsfa" %}
-        <label>
-            <input type="checkbox" autocomplete="off" name="semester" value="{% cycle "tt" "s16" "f16" "s15" "f15" "ancient" %}">{% cycle "전체" "16봄" "15가을" "15봄" "14가을" "고대"%}
+            <input class="chkelem" type="checkbox" autocomplete="off" name="type" value="{% cycle "MR" "ME" "BR" "BE" "HSE" "OE" %}" checked="checked">{% cycle "전필" "전선" "기필" "기선" "교양" "자선" %}
           <span class="fa-stack fa-lg">
             <i class="fa fa-circle-o fa-stack-2x"></i>
             <i class="fa fa-check fa-stack-1x"></i>
@@ -65,5 +28,93 @@
       </div>
     </div>
   </div>
+  <div class="form-group">
+
+
+    <label class="col-xs-6 col-sm-4 col-md-3 col-lg-3 control-label">학과</label>
+    <div class="col-xs-18 col-sm-20 col-md-21 col-lg-21">
+      <div class="checkbox">
+
+        <label>
+          <input class="chkall" type="checkbox" autocomplete="off" name="department" value="ALL" checked="checked">전체
+          <span class="fa-stack fa-lg">
+            <i class="fa fa-circle-o fa-stack-2x"></i>
+            <i class="fa fa-check fa-stack-1x"></i>
+          </span>
+        </label>
+
+
+        {% for i in "1234" %}
+        <label>
+          <input class="chkelem" type="checkbox" autocomplete="off" name="department" value="{% cycle "CS" "EE" "MAE" "HSS" %}" checked="checked">{% cycle "전산" "전자" "기계" "인문" %}
+          <span class="fa-stack fa-lg">
+            <i class="fa fa-circle-o fa-stack-2x"></i>
+            <i class="fa fa-check fa-stack-1x"></i>
+          </span>
+        </label>
+        {% endfor %}
+
+      </div>
+    </div>
+  </div>
+
+
+  <div class="form-group">
+    <label class="col-xs-6 col-sm-4 col-md-3 col-lg-3 control-label">학년</label>
+    <div class="col-xs-18 col-sm-20 col-md-21 col-lg-21">
+      <div class="checkbox">
+
+        <label>
+          <input class="chkall" type="checkbox" autocomplete="off" name="grade" value="ALL" checked="checked">전체
+          <span class="fa-stack fa-lg">
+            <i class="fa fa-circle-o fa-stack-2x"></i>
+            <i class="fa fa-check fa-stack-1x"></i>
+          </span>
+        </label>
+
+
+        {% for i in "01234567" %}
+        <label>
+          <input class="chkelem" type="checkbox" autocomplete="off" name="grade" value="{% cycle "tt" "1" "2" "3" "4" "5" "6" "7"%}" checked="checked">{% cycle "전체" "100번대" "200번대" "300번대" "400번대" "500번대" "석사" "박사"%}
+          <span class="fa-stack fa-lg">
+            <i class="fa fa-circle-o fa-stack-2x"></i>
+            <i class="fa fa-check fa-stack-1x"></i>
+          </span>
+        </label>
+        {% endfor %}
+
+      </div>
+    </div>
+  </div>
+
+
+  <div class="form-group">
+    <label class="col-xs-6 col-sm-4 col-md-3 col-lg-3 control-label">학기</label>
+    <div class="col-xs-18 col-sm-20 col-md-21 col-lg-21">
+      <div class="checkbox">
+
+        <label>
+          <input class="chkall" type="checkbox" autocomplete="off" name="semester" value="ALL" checked="checked">전체
+          <span class="fa-stack fa-lg">
+            <i class="fa fa-circle-o fa-stack-2x"></i>
+            <i class="fa fa-check fa-stack-1x"></i>
+          </span>
+        </label>
+
+        {% for i in "tsfsfa" %}
+        <label>
+            <input class="chkelem" type="checkbox" autocomplete="off" name="semester" value="{% cycle "tt" "s16" "f16" "s15" "f15" "ancient" %}" checked="checked">{% cycle "전체" "16봄" "15가을" "15봄" "14가을" "고대"%}
+          <span class="fa-stack fa-lg">
+            <i class="fa fa-circle-o fa-stack-2x"></i>
+            <i class="fa fa-check fa-stack-1x"></i>
+          </span>
+        </label>
+        {% endfor %}
+
+      </div>
+    </div>
+  </div>
+
+
 </div>
 </form>

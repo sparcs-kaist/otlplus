@@ -24,7 +24,7 @@ def DepartmentFilters(raw_filters):
 
 
 def TypeFilters(raw_filters):
-    acronym_dic = {'BR':'Basic Required', 'BE':'Basic Elective', 'MR':'Major Required', 'ME':'Major Elective', 'HSE':'Humanities & Social Elective', 'OE':'Other Elective'}
+    acronym_dic = {'GR':'General Required', 'MGC':'Mandatory General Courses', 'BE':'Basic Elective', 'BR':'Basic Required', 'EG':'Elective(Graduate)', 'HSE':'Humanities & Social Elective', 'OE':'Other Elective', 'ME':'Major Elective', 'MR':'Major Required'}
     type_list = acronym_dic.keys()
     acronym_filters = list(set(type_list) & set(raw_filters))
     if len(acronym_filters) == 0:
@@ -32,7 +32,11 @@ def TypeFilters(raw_filters):
     filters = [acronym_dic[i] for i in acronym_filters if acronym_dic.has_key(i)]
     return filters
 
+def GradeFilter(raw_filters):
+    pass
 
+def SemesterFilter(raw_filters):
+    pass
 
 def search_view(request):
     sid_var = "20150390"
