@@ -6,6 +6,8 @@ __pycache__/
 *.so
 
 cronlog
+*.swp
+update_scholardb.py
 
 # Distribution / packaging
 .Python

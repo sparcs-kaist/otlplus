@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.db import models
 from apps.subject.models import Course, Lecture
 from apps.session.models import UserProfile
@@ -7,12 +8,13 @@ class Comment(models.Model):
     lecture = models.ForeignKey(Lecture, db_index=True)
     
     comment = models.CharField(max_length=65536)
-    grade = models.SmallIntegerField()
-    load = models.SmallIntegerField()
-    speech = models.SmallIntegerField()
-    total = models.SmallIntegerField()
+    grade = models.SmallIntegerField(default=-1)
+    load = models.SmallIntegerField(default=-1)
+    speech = models.SmallIntegerField(default=-1)
+    total = models.SmallIntegerField(default=-1)
 
     writer = models.ForeignKey(UserProfile, related_name='comment_set', db_index=True)
+    writer_label = models.CharField(max_length=200, default=u"무학과 넙죽이")
     written_datetime = models.DateTimeField(auto_now=True, db_index=True)
     like = models.IntegerField(default=0)
 
