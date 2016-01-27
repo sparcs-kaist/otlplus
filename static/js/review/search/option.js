@@ -44,6 +44,11 @@ $("#options .chkelem").on('change', function(){
     });
 });
 
+$("#options .chkone").click(function(){
+   $(".chkone").prop("checked",false);
+   $(this).prop("checked",true);
+});
+
 $("#options input[type='checkbox']").on("change", function() {
     $("input[type='checkbox']").each(function(){
       target = $(this);

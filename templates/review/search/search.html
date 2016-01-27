@@ -70,11 +70,16 @@
           </p>
 	      </div>
         <div class="panel-footer row">
-          <div class="col-md-4"></div>
-          {% for i in "1234" %}
+          <div class="col-xs-12 col-md-5 col-md-offset-4 text-right">
+              성적
+            {% for numbergrade, lettergrade in gradelist %}
+              {% ifequal numbergrade comment.grade %} <span class="grade">{{ lettergrade }}</span>{% endifequal %}
+            {% endfor %}  
+          </div>
+          {% for i in "123" %}
           <div class="col-xs-12 col-md-5 text-right">
-           {% cycle "성적" "널널" "강의" "종합" %}
-           {% cycle comment.grade comment.load comment.speech comment.total as whichgrade silent %}
+           {% cycle "널널" "강의" "종합" %}
+           {% cycle comment.load comment.speech comment.total as whichgrade silent %}
              {% for numbergrade, lettergrade in gradelist %}
                {% ifequal numbergrade whichgrade %} <span class="grade">{{ lettergrade }}</span>{% endifequal %}
              {% endfor %}

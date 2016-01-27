@@ -73,9 +73,9 @@
         </label>
 
 
-        {% for i in "123456" %}
+        {% for i in "0123456" %}
         <label>
-          <input class="chkelem" type="checkbox" autocomplete="off" name="grade" value="{% cycle "100" "200" "300" "400" "500" "HIGH"%}" checked="checked">{% cycle "100번대" "200번대" "300번대" "400번대" "500번대" "석박사"%}
+          <input class="chkelem" type="checkbox" autocomplete="off" name="grade" value="{% cycle "000" "100" "200" "300" "400" "500" "HIGH"%}" checked="checked">{% cycle "000번대" "100번대" "200번대" "300번대" "400번대" "500번대" "석박사"%}
           <span class="fa-stack fa-lg">
             <i class="fa fa-circle-o fa-stack-2x"></i>
             <i class="fa fa-check fa-stack-1x"></i>
@@ -94,7 +94,7 @@
       <div class="checkbox">
 
         <label>
-          <input class="chkall" type="checkbox" autocomplete="off" name="semester" value="ALL" checked="checked">전체
+            <input class="chkall chkone" type="checkbox" autocomplete="off" name="semester" value="ALL" checked="checked" >전체
           <span class="fa-stack fa-lg">
             <i class="fa fa-circle-o fa-stack-2x"></i>
             <i class="fa fa-check fa-stack-1x"></i>
@@ -103,7 +103,7 @@
 
         {% for i in "1234" %}
         <label>
-            <input class="chkelem" type="checkbox" autocomplete="off" name="semester" value="{% cycle "NEXT" "NOW" "PREV" "RECENT" %}" checked="checked">{% cycle "다음" "현재" "이전" "최근" %}
+            <input class="chkelem chkone" type="checkbox" autocomplete="off" name="semester" value="{% cycle "NEXT" "NOW" "PREV" "RECENT" %}" checked="checked">{% cycle "다음" "현재" "이전" "최근" %}
           <span class="fa-stack fa-lg">
             <i class="fa fa-circle-o fa-stack-2x"></i>
             <i class="fa fa-check fa-stack-1x"></i>

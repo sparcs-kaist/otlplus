@@ -51,13 +51,14 @@ class Department(models.Model):
 
 class Course(models.Model):
     old_code = models.CharField(max_length=10, db_index=True)
+    code_num = models.CharField(max_length=10, db_index=True, default = 'D')
     department = models.ForeignKey('Department', db_index=True)
     professors = models.ManyToManyField('Professor', db_index=True)
     type = models.CharField(max_length=12)
     type_en = models.CharField(max_length=36)
     title = models.CharField(max_length=100, db_index=True)
     title_en = models.CharField(max_length=200, db_index=True)
-
+    
     grade_sum = models.IntegerField(default=0)
     load_sum = models.IntegerField(default=0)
     speech_sum = models.IntegerField(default=0)
@@ -83,3 +84,9 @@ class Professor(models.Model):
     
     def __unicode__(self):
 	    return u"%s(id:%d)"%(self.professor_name,self.professor_id)
+
+class CourseFiltered(models.Model):
+    title = models.CharField(max_length=100, default="", db_index=True, unique=True)
+    courses = models.ManyToManyField('Course', db_index=True)
+    def __unicode__(self):
+        return self.title

@@ -81,3 +81,6 @@ pip-selfcheck.json
 
 # Secret Key
 keys/
+
+# test file
+test1.py

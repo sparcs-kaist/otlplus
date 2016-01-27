@@ -2,14 +2,13 @@
 
 from django.shortcuts import render, redirect
 from apps.session.models import UserProfile
-from apps.subject.models import Course, Lecture, Department
+from apps.subject.models import Course, Lecture, Department, CourseFiltered
 from apps.review.models import Comment, MajorBestComment, LiberalBestComment
 from django.http import HttpResponse, HttpResponseRedirect
 from django.db.models import Q
 from datetime import datetime, timedelta, time, date
 from django.utils import timezone
 from math import exp
-from datetime import datetime, timedelta, time, date
 import random
 
 
@@ -41,7 +40,7 @@ def TypeFilters(raw_filters):
     return filters
 
 def GradeFilters(raw_filters):
-    acronym_dic = {'ALL':"", '100':"1", '200':"2", '300':"3", '400':"4", '500':"5", 'HIGH':"6"}
+    acronym_dic = {'ALL':"", '000':"0", '100':"1", '200':"2", '300':"3", '400':"4", '500':"5", 'HIGH':"6"}
     grade_list = acronym_dic.keys()
     acronym_filters = list(set(grade_list) & set(raw_filters))
     filters = [acronym_dic[i] for i in acronym_filters if acronym_dic.has_key(i)]
@@ -50,36 +49,6 @@ def GradeFilters(raw_filters):
     if 'ALL' in raw_filters:
         filters=["0","1","2","3","4","5","6","7","8","9"]
     return filters
-
-
-def SemesterFilters(raw_filters):
-    if 'ALL' in raw_filters:
-        return (False,)
-    acronym_dic = {'ALL':[] ,'NEXT':[1], 'NOW':[0], 'PREV':[-1], 'RECENT':[-1,-2,-3,-4]}
-    def PeriodToYearSemester(num):
-        now_year = timezone.now().year
-        now_semester = ((timezone.now()-timedelta(days=365/12*2)).month+2)/3
-        result_year = now_year
-        if timezone.now().month<3:
-            result_year-=1
-        result_semester = now_semester + num
-        if result_semester < 1 or result_semester > 4 :
-            result_year += (result_semester-1)/4
-            result_semester = (result_semester-1)%4+1
-        return (result_year, result_semester)
-
-
-    semester_list = acronym_dic.keys()
-    acronym_filters = list(set(semester_list) & set(raw_filters))
-    contraction_filters = [acronym_dic[i] for i in acronym_filters if acronym_dic.has_key(i)]
-    
-    filters=[]
-    for ilist in contraction_filters:
-        for i in ilist:
-            filters.append(PeriodToYearSemester(i))
-
-    return (True,filters)
-    
 
 
 
@@ -125,43 +94,25 @@ def SearchResultView(request):
     else:
         by_professor = False
 
+    semester_filters = request.GET.getlist('semester')
     department_filters = DepartmentFilters(request.GET.getlist('department'))
     type_filters = TypeFilters(request.GET.getlist('type'))
     grade_filters = GradeFilters(request.GET.getlist('grade'))
-    courses = Course.objects.filter(department__code__in=department_filters, type_en__in=type_filters)
-
-    if(len(grade_filters)<10):
-        course_list=[]
-        for course in courses:
-            if course.old_code[-3] in grade_filters :
-                course_list.append(course.id)
-        courses = courses.filter(id__in=course_list)
-
+    print "semesterF :", semester_filters
+    print "departmentF :", department_filters
+    print "typeF :", type_filters
+    print "gradeF :", grade_filters
+    if len(semester_filters)==0 or semester_filters[0]=="ALL":
+        courses = Course.objects.filter(department__code__in=department_filters, type_en__in=type_filters, code_num__in=grade_filters)
+    else :
+        courses = CourseFiltered.objects.get(title=semester_filters[0]).courses.filter(department__code__in=department_filters, type_en__in=type_filters, code_num__in=grade_filters)
 
     if 'q' in request.GET:
         keyword = request.GET['q']
         courses = courses.filter(Q(title__icontains=keyword) | Q(old_code__icontains=keyword) | Q(title_en__icontains=keyword))
-
-    if SemesterFilters(request.GET.getlist('semester'))[0]:
-        course_list=[]
-        loop_counter=0
-        for course in courses:
-            for lecture in course.lecture_course.all():
-                tempval=False
-                for ifilter in SemesterFilters(request.GET.getlist('semester'))[1]:
-                    print ifilter, lecture.year, lecture.semester
-                    if lecture.year==ifilter[0] and lecture.semester==ifilter[1]:
-                        tempval=True
-                        break
-                if tempval:
-                    course_list.append(course.id)
-                    break
-            loop_counter+=1
-            if loop_counter>200:
-                break
-        courses = courses.filter(id__in=course_list)
-
-
+    print "keyword :",keyword
+    print "result_num :", (len(courses))
+    
 
     results = []
     id = 0
