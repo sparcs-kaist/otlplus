@@ -17,7 +17,7 @@ def DepartmentFilters(raw_filters):
     department_list = []
     for department in Department.objects.all():
         department_list.append(department.code)
-    major_list = ["CE", "MSB", "MAE", "PH", "BiS", "IE", "ID", "BS", "CBE", "MAS", "MS", "NQE","HSS" "EE", "CS", "MAE", "CH"]
+    major_list = ["CE", "MSB", "MAE", "PH", "BiS", "IE", "ID", "BS", "CBE", "MAS", "MS", "NQE", "HSS", "EE", "CS", "MAE", "CH"]
     etc_list = list(set(department_list)^set(major_list))
     if "ALL" in raw_filters:
         return department_list
