@@ -6,36 +6,43 @@ from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from apps.subject.models import Department
 from apps.session.models import UserProfile
+from apps.session.sparcssso import Client
 import urllib
 import json
 import random
 
-# Create your views here.
+
+# TESTING #
+sso_client = Client(is_test=True)
+
+# PRODUCTION #
+# sso_client = Client(is_test=False,
+#                     app_name='otlplus',
+#                     secret_key=settings.SSO_KEY)
+
 
 def home(request):
     return render(request, './session/session.html')
 
+
 def user_login(request):
     user = request.user
-    if user is not None and user.is_authenticated():
-        next = request.session.get('next', '/')
-        redirect(next)
+    if user and user.is_authenticated():
+        return request.session.pop('next', '/')
+
     request.session['next'] = request.GET.get('next', '/')
-    return render(request, './session/login.html',
-        {'login_url': 'https://sparcssso.kaist.ac.kr/oauth/require/?url=' + \
-                     request.build_absolute_uri('/session/login/callback/')})
+
+    callback_url = request.build_absolute_uri('/session/login/callback/')
+    login_url = sso_client.get_login_url(callback_url)
+    return render(request, './session/login.html', {'login_url': login_url})
+
 
 def login_callback(request):
     if request.method == "GET":
-        try:
-            next = request.session.get('next', '/')
-            del request.session['next']
-        except KeyError:
-            pass
-        tokenid = request.GET['tokenid']
-        sso_profile = urllib.urlopen('https://sparcssso.kaist.ac.kr/' + \
-                                     'oauth/info?tokenid='+tokenid)
-        sso_profile = json.load(sso_profile)
+        next = request.session.pop('next', '/')
+        tokenid = request.GET.get('tokenid', '')
+
+        sso_profile = sso_client.get_user_info(tokenid)
         username = sso_profile['sid']
         user_list = User.objects.filter(username=username)
         if len(user_list) == 0:
@@ -55,10 +62,12 @@ def login_callback(request):
            return redirect(next)
     return render('/session/login.html', {'error': "Invalid login"})
 
+
 def user_logout(request):
     if request.user.is_authenticated():
         logout(request)
     return redirect("/main")
+
 
 @login_required(login_url='/session/login/')
 def settings(request):
@@ -80,18 +89,23 @@ def settings(request):
         return render(request, 'session/settings.html', ctx)
     return render(request, 'session/settings.html', ctx)
 
+
 @login_required(login_url='/session/login/')
 def unregister(request):
-    return redirect("https://sparcssso.kaist.ac.kr/oauth/service/")
+    return redirect("https://sparcssso.kaist.ac.kr/account/service/")
+
 
 def unregister_callback(request):
     sid = request.GET['sid']
     key = request.GET['key']
     if key != settings.SSO_KEY:
         return JsonResponse({"status": 1})
-    user_profile = UserProfile.objects.get(sid=sid)
-    if user_profile is None:
+
+    user = User.objects.filter(username=sid).first()
+    if not user:
         return JsonResponse({"status": 1})
-    user_profile.user.delete()
-    user_profile.delete()
+
+    user.profile.delete()
+    user.delete()
+
     return JsonResponse({"status": 0})

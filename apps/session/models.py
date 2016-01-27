@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from apps.subject.models import Department, Lecture
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(User)
+    user = models.OneToOneField(User, related_name='profile')
     student_id = models.CharField(max_length=10)
     sid = models.CharField(max_length=30) #서비스에 대해 고유하게 부여받은 ID
     language = models.CharField(max_length=15)
