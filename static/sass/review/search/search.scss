@@ -133,13 +133,30 @@
                 height: 40px;
                 border: none;
                 border-radius: 20px;
-                padding-top: 4px;
-                padding-left: 7px;
+                padding-top: 3px;
                 cursor: default;
                 color: #ffffff;
                 font-weight: bold;
-                text-align: justify;
+                text-align: center;
                 background-color: rgb(230, 76, 101);
+                span:nth-of-type(1) {
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    left: 0;
+                    bottom: 0;
+                    padding-right: 22px;
+                    padding-bottom: 2px;
+                    line-height: 38px;
+                }
+                span:nth-of-type(2) {
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    left: 0;
+                    bottom: 0;
+                    line-height: 40px;
+                }
             }
             .panel-header {
                 padding: 10px 15px;
