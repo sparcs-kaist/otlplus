@@ -11,8 +11,6 @@
   @media (max-width: 767px) {
     .navbar {
       background: #e54c65; } }
-  .navbar.scrolled {
-    background: #e54c65; }
   .navbar * {
     background: transparent; }
   .navbar .navbar-header .navbar-brand {
@@ -23,10 +21,14 @@
   .navbar .navbar-header .navbar-toggle .icon-bar {
     background-color: #ffffff; }
   .navbar .navbar-collapse ul.navbar-nav a {
-    color: #ffffff; }
-    .navbar .navbar-collapse ul.navbar-nav a:hover {
-      color: #dddddd; }
-  .navbar .navbar-collapse ul.navbar-nav li.active a {
+    color: #ffffff !important; }
+    .navbar .navbar-collapse ul.navbar-nav a:hover, .navbar .navbar-collapse ul.navbar-nav a:focus {
+      color: #dddddd !important; }
+  .navbar .navbar-collapse ul.navbar-nav li.active a, .navbar .navbar-collapse ul.navbar-nav li.dropdown a {
+    background: transparent; }
+    .navbar .navbar-collapse ul.navbar-nav li.active a:hover, .navbar .navbar-collapse ul.navbar-nav li.active a:focus, .navbar .navbar-collapse ul.navbar-nav li.dropdown a:hover, .navbar .navbar-collapse ul.navbar-nav li.dropdown a:focus {
+      background: transparent; }
+  .navbar .navbar-collapse ul.navbar-nav li.active li.divider, .navbar .navbar-collapse ul.navbar-nav li.dropdown li.divider {
     background: transparent; }
   .navbar .navbar-collapse ul.navbar-nav.navbar-right li {
     position: relative; }
@@ -39,6 +41,14 @@
       margin-right: 5px; }
   @media (max-width: 767px) {
     .navbar .navbar-collapse {
-      background: #e54c65; } }
+      background: #e54c65; }
+      .navbar .navbar-collapse li.divider {
+        background: #e5e5e5 !important; } }
+  .navbar.scrolled {
+    background: #e54c65; }
+    .navbar.scrolled .dropdown * {
+      background: #e54c65 !important; }
+    .navbar.scrolled .dropdown li.divider {
+      background: #e5e5e5 !important; }
 
 /*# sourceMappingURL=header.css.map */

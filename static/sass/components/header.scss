@@ -11,9 +11,6 @@
     @media (max-width: 767px) {
         background: rgb(229, 076, 101);
     }
-    &.scrolled {
-        background: rgb(229, 076, 101);
-    }
     * {
         background: transparent;
     }
@@ -34,13 +31,19 @@
     .navbar-collapse {
         ul.navbar-nav {
             a {
-                color: #ffffff;
-                &:hover {
-                    color: #dddddd;
+                color: #ffffff !important;
+                &:hover, &:focus {
+                    color: #dddddd !important;
                 }
             }
-            li.active {
+            li.active, li.dropdown {
                 a {
+                    background: transparent;
+                    &:hover, &:focus {
+                        background: transparent;
+                    }
+                }
+                li.divider {
                     background: transparent;
                 }
             }
@@ -60,6 +63,20 @@
         }
         @media (max-width: 767px) {
             background: rgb(229, 076, 101);
+            li.divider {
+                background: #e5e5e5 !important;
+            }
+        }
+    }
+    &.scrolled {
+        background: rgb(229, 076, 101);
+        .dropdown {
+            * {
+                background: rgb(229, 076, 101) !important;
+            }
+            li.divider {
+                background: #e5e5e5 !important;
+            }
         }
     }
 }
