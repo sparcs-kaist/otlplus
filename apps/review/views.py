@@ -19,7 +19,7 @@ def DepartmentFilters(raw_filters):
         department_list.append(department.code)
     major_list = ["CE", "MSB", "MAE", "PH", "BiS", "IE", "ID", "BS", "CBE", "MAS", "MS", "NQE", "HSS", "EE", "CS", "MAE", "CH"]
     etc_list = list(set(department_list)^set(major_list))
-    if "ALL" in raw_filters:
+    if ("ALL" in raw_filters) or len(raw_filters)==0 :
         return department_list
     filters = list(set(department_list) & set(raw_filters))
     if "ETC" in raw_filters:
@@ -27,10 +27,11 @@ def DepartmentFilters(raw_filters):
     return filters
 
 
+
 def TypeFilters(raw_filters):
     acronym_dic = {'GR':'General Required', 'MGC':'Mandatory General Courses', 'BE':'Basic Elective', 'BR':'Basic Required', 'EG':'Elective(Graduate)', 'HSE':'Humanities & Social Elective', 'OE':'Other Elective', 'ME':'Major Elective', 'MR':'Major Required', 'S':'Seminar', 'I':'Interdisciplinary', 'FP':'Field Practice'}
     type_list = acronym_dic.keys()
-    if 'ALL' in raw_filters :
+    if ('ALL' in raw_filters) or len(raw_filters)==0 :
         filters = [acronym_dic[i] for i in type_list if acronym_dic.has_key(i)]
         return filters
     acronym_filters = list(set(type_list) & set(raw_filters))
@@ -39,6 +40,8 @@ def TypeFilters(raw_filters):
         filters +=["Seminar", "Interdisciplinary", "Field Practice"]
     return filters
 
+
+
 def GradeFilters(raw_filters):
     acronym_dic = {'ALL':"", '000':"0", '100':"1", '200':"2", '300':"3", '400':"4", '500':"5", 'HIGH':"6"}
     grade_list = acronym_dic.keys()
@@ -46,7 +49,7 @@ def GradeFilters(raw_filters):
     filters = [acronym_dic[i] for i in acronym_filters if acronym_dic.has_key(i)]
     if 'HIGH' in raw_filters:
         filters+=["7", "8", "9"]
-    if 'ALL' in raw_filters:
+    if ('ALL' in raw_filters) or len(raw_filters)==0 :
         filters=["0","1","2","3","4","5","6","7","8","9"]
     return filters
 
@@ -88,6 +91,8 @@ def search_view(request):
 
     return render(request, 'review/search/search.html',ctx)
 
+
+
 def SearchResultView(request):
     if 'by_professor' in request.GET:
         by_professor = True
@@ -102,18 +107,17 @@ def SearchResultView(request):
     print "departmentF :", department_filters
     print "typeF :", type_filters
     print "gradeF :", grade_filters
-    if len(semester_filters)==0 or semester_filters[0]=="ALL":
+    if len(semester_filters)==0 or ("ALL" in semester_filters):
         courses = Course.objects.filter(department__code__in=department_filters, type_en__in=type_filters, code_num__in=grade_filters)
     else :
         courses = CourseFiltered.objects.get(title=semester_filters[0]).courses.filter(department__code__in=department_filters, type_en__in=type_filters, code_num__in=grade_filters)
 
-    if 'q' in request.GET:
+    if ('q' in request.GET) and len(request.GET['q'])>0:
         keyword = request.GET['q']
-        courses = courses.filter(Q(title__icontains=keyword) | Q(old_code__icontains=keyword) | Q(title_en__icontains=keyword))
-    print "keyword :",keyword
+        courses = courses.filter(Q(title__icontains=keyword) | Q(title_en__icontains=keyword) | Q(old_code__icontains=keyword) | Q(department__name__icontains=keyword) | Q(department__name_en__icontains=keyword))
+        print "keyword :",keyword
     print "result_num :", (len(courses))
     
-
     results = []
     id = 0
     for course in courses:
@@ -161,6 +165,8 @@ def SearchResultView(request):
     results_total=sorted(results,key=gettotal,reverse=True)
     return render(request, 'review/search/result.html', {'results':results, 'results_grade':results_grade, 'results_load':results_load, 'results_speech':results_speech, 'results_total':results_total, 'gets':dict(request.GET.iterlists())})
 
+
+
 def ReviewDelete(request):
     user = UserProfile.objects.get(student_id=request.POST['sid'])
     lec = user.take_lecture_list.get(id=request.POST['lectureid'])
@@ -172,6 +178,8 @@ def ReviewDelete(request):
     target.delete()
     lec.save()
     return HttpResponseRedirect('/review/insert/'+str(request.POST['lectureid']))
+
+
 
 def ReviewLike(request):
     target_review = Comment.objects.get(writer=request.POST['writer'],lecture=Lecture.objects.get(old_code=request.POST['lecturechoice']));
@@ -223,6 +231,8 @@ def ReviewInsertView(request,lecture_id=-1):
     except : pre_comment = ''
     ctx = {'lecture_id':str(lecture_id), 'object':return_object, 'comment':pre_comment, 'gradelist': gradelist,'grade': pre_grade,'load':pre_load,'speech':pre_speech, 'sid':sid_var }
     return render(request, 'review/review/insert.html',ctx)
+
+
 
 def ReviewInsertAdd(request,lecture_id):
 #    if request.POST.has_key('content') == False:
