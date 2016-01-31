@@ -1,0 +1,57 @@
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">OTL PLUS</a>
+    </div>
+    <div class="collapse navbar-collapse" id="header">
+      <ul class="nav navbar-nav">
+        <li>
+          <a href="/review/result/">
+            과목 후기 찾아보기
+          </a>
+        </li>
+        <li>
+          <a href="/review/insert/">
+            과목 후기 작성하기
+          </a>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        {% if request.user.is_authenticated %}
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+            <img class="img-circle" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xfa1/v/t1.0-1/432012_304047929649454_123168203_n.jpg?oh=2ce13a532977f37b491ecd66fe5011d9&oe=56F77F2F&__gda__=1454696926_e158cb4c902de3d59e065ce2f1a78c5e">
+            {{ request.user }}
+            <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <a href="/session/">
+                마이페이지
+              </a>
+            </li>
+            <li role="separator" class="divider"></li>
+            <li>
+              <a href="/session/logout/">
+                로그아웃
+              </a>
+            </li>
+          </ul>
+        </li>
+        {% else %}
+        <li>
+          <a href="/session/">
+            로그인
+          </a>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
