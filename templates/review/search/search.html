@@ -11,7 +11,9 @@
 
 {% block stylesheets %}
   {{ block.super }}
-  <link rel="stylesheet" type="text/css" href="/media/css/components/header.css">
+  <link rel="stylesheet" type="text/css" href="/media/css/components/header/search.css">
+  <link rel="stylesheet" type="text/css" href="/media/css/review/components/option.css">
+  <link rel="stylesheet" type="text/css" href="/media/css/review/components/review.css">
   <link rel="stylesheet" type="text/css" href="/media/css/review/search/search.css">
 {% endblock %}
 
@@ -23,7 +25,7 @@
 {% endblock %}
 
 {% block header %}
-  {% include 'components/header.html' %}
+  {% include 'components/header/search.html' %}
 {% endblock %}
 
 {% block contents %}
@@ -41,7 +43,7 @@
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
           <input type="submit" class="btn btn-lg btn-block btn-danger" formaction = "/review/result" value="검색">
         </div>
-        {% include 'review/search/options.html' %}
+        {% include 'review/search/option.html' %}
       </form>
     </div>
   </div>
@@ -54,46 +56,11 @@
       </h2>
       {% cycle liberal_comment major_comment as cbestcomment silent %}
       {% for comment in cbestcomment %}
-
-      <div class="panel panel-default review">
-        <button class="likes" disabled>
-          <span>+</span>
-          <span>{{ comment.like }}</span>
-        </button>
-        <div class="panel-header">
-          <h4>
-              {{ comment.lecture.title }}
-          </h4>
-        </div>
-        <div class="panel-body">
-          <p class="text-muted">
-            {{ comment.comment|safe }}
-          </p>
-	      </div>
-        <div class="panel-footer row">
-          <div class="col-xs-12 col-md-5 col-md-offset-4 text-right">
-              성적
-            {% for numbergrade, lettergrade in gradelist %}
-              {% ifequal numbergrade comment.grade %} <span class="grade">{{ lettergrade }}</span>{% endifequal %}
-            {% endfor %}  
-          </div>
-          {% for i in "123" %}
-          <div class="col-xs-12 col-md-5 text-right">
-           {% cycle "널널" "강의" "종합" %}
-           {% cycle comment.load comment.speech comment.total as whichgrade silent %}
-             {% for numbergrade, lettergrade in gradelist %}
-               {% ifequal numbergrade whichgrade %} <span class="grade">{{ lettergrade }}</span>{% endifequal %}
-             {% endfor %}
-          </div>
-          {% endfor %}
-        </div>
-      </div>
+        {% include 'review/components/review.html' %}
       {% endfor %}
     </div>
     {% endfor %}
-
   </div>
-
 {% endblock %}
 
 {% block modals %}

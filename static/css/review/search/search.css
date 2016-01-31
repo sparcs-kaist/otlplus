@@ -21,52 +21,6 @@
         @media (max-width: 767px) {
           #contents > .row:nth-of-type(1) form > div input[type="text"] {
             margin-bottom: 10px; } }
-      #contents > .row:nth-of-type(1) form #options {
-        display: none;
-        position: absolute;
-        z-index: 1;
-        margin: 75px 5px 0;
-        border: none;
-        border-radius: 10px;
-        padding: 15px;
-        font-size: 18px;
-        text-align: left;
-        background: rgba(255, 255, 255, 0.95); }
-        #contents > .row:nth-of-type(1) form #options.active {
-          display: block; }
-        @media (max-width: 767px) {
-          #contents > .row:nth-of-type(1) form #options {
-            margin-top: 115px;
-            padding: 10px; } }
-        #contents > .row:nth-of-type(1) form #options .form-group {
-          height: auto;
-          margin-bottom: 10px; }
-          #contents > .row:nth-of-type(1) form #options .form-group:nth-last-of-type(1) {
-            margin-bottom: 0; }
-          #contents > .row:nth-of-type(1) form #options .form-group label.control-label {
-            padding-top: 0;
-            border-right: 2px solid #aaaaaa; }
-          #contents > .row:nth-of-type(1) form #options .form-group .checkbox {
-            padding-top: 0; }
-            #contents > .row:nth-of-type(1) form #options .form-group .checkbox label {
-              padding-right: 10px; }
-              #contents > .row:nth-of-type(1) form #options .form-group .checkbox label input[type="checkbox"] {
-                display: none; }
-              #contents > .row:nth-of-type(1) form #options .form-group .checkbox label span.fa-lg {
-                width: 1em;
-                height: 1em;
-                color: #aaaaaa;
-                font-size: 1em;
-                line-height: 1em; }
-                #contents > .row:nth-of-type(1) form #options .form-group .checkbox label span.fa-lg i.fa-stack-2x {
-                  font-size: 1em; }
-                #contents > .row:nth-of-type(1) form #options .form-group .checkbox label span.fa-lg i.fa-stack-1x {
-                  display: none;
-                  font-size: 0.5em; }
-              #contents > .row:nth-of-type(1) form #options .form-group .checkbox label.active span.fa-lg {
-                color: #e64c65; }
-                #contents > .row:nth-of-type(1) form #options .form-group .checkbox label.active span.fa-lg i.fa-stack-1x {
-                  display: inline-block; }
     @media (max-width: 767px) {
       #contents > .row:nth-of-type(1) {
         height: 250px !important;
@@ -93,66 +47,5 @@
     #contents > .row:nth-of-type(2) > div > h2 {
       margin-top: 40px;
       margin-bottom: 40px; }
-    #contents > .row:nth-of-type(2) .review {
-      position: relative;
-      margin-bottom: 45px; }
-      #contents > .row:nth-of-type(2) .review .likes {
-        position: absolute;
-        top: -20px;
-        right: -20px;
-        width: 40px;
-        height: 40px;
-        border: none;
-        border-radius: 20px;
-        padding-top: 3px;
-        cursor: default;
-        color: #ffffff;
-        font-weight: bold;
-        text-align: center;
-        background-color: #e64c65; }
-        #contents > .row:nth-of-type(2) .review .likes span:nth-of-type(1) {
-          position: absolute;
-          top: 0;
-          right: 0;
-          left: 0;
-          bottom: 0;
-          padding-right: 22px;
-          padding-bottom: 2px;
-          line-height: 38px; }
-        #contents > .row:nth-of-type(2) .review .likes span:nth-of-type(2) {
-          position: absolute;
-          top: 0;
-          right: 0;
-          left: 0;
-          bottom: 0;
-          line-height: 40px; }
-      #contents > .row:nth-of-type(2) .review .panel-header {
-        padding: 10px 15px; }
-      #contents > .row:nth-of-type(2) .review .panel-body {
-        padding: 0 15px; }
-      #contents > .row:nth-of-type(2) .review .panel-footer {
-        border-top: none;
-        background-color: transparent;
-        padding-bottom: 15px; }
-        #contents > .row:nth-of-type(2) .review .panel-footer > div {
-          position: relative;
-          padding-left: 0;
-          padding-right: 48px; }
-          #contents > .row:nth-of-type(2) .review .panel-footer > div .grade {
-            position: absolute;
-            top: -5px;
-            right: 12px;
-            width: 30px;
-            height: 30px;
-            padding-top: 3px;
-            padding-left: 1px;
-            border: 2px solid #e64c65;
-            border-radius: 15px;
-            color: #e64c65;
-            text-align: center;
-            font-weight: bold; }
-          @media (max-width: 991px) {
-            #contents > .row:nth-of-type(2) .review .panel-footer > div:nth-of-type(1), #contents > .row:nth-of-type(2) .review .panel-footer > div:nth-of-type(2) {
-              margin-bottom: 20px; } }
 
 /*# sourceMappingURL=search.css.map */
