@@ -29,6 +29,15 @@
       height: 30px;
       margin-top: -10px;
       margin-right: 5px; }
+  .navbar .navbar-collapse form.navbar-form input {
+    background: #ffffff; }
+  .navbar .navbar-collapse form.navbar-form button {
+    border: none;
+    color: #ffffff;
+    background: #ce1c3a; }
+    .navbar .navbar-collapse form.navbar-form button.active {
+      color: #000000;
+      background: #ffffff; }
   @media (max-width: 767px) {
     .navbar .navbar-collapse {
       background: #e54c65; }

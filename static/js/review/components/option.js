@@ -9,6 +9,17 @@ $(document).ready(function(){
           target.removeClass("active");
       }
     });
+
+    $("input[type='radio']").each(function(){
+      target = $(this);
+      target = target.closest('label');
+      if($(this).is(':checked')){
+          target.addClass("active");
+      }
+      else{
+          target.removeClass("active");
+      }
+    });
 });
 
 $("#options .chkall").on('change', function(){

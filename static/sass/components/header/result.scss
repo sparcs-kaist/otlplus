@@ -50,6 +50,20 @@
                 }
             }
         }
+        form.navbar-form {
+            input {
+                background: #ffffff;
+            }
+            button {
+                border: none;
+                color: #ffffff;
+                background: #ce1c3a;
+                &.active {
+                    color: #000000;
+                    background: #ffffff;
+                }
+            }
+        }
         @media (max-width: 767px) {
             background: rgb(229, 076, 101);
             li.divider {

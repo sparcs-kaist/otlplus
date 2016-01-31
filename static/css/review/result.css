@@ -2,7 +2,9 @@
   margin-top: 50px;
   background-color: #f9f0f0; }
   #contents #options {
-    display: block;
-    position: relative; }
+    position: relative;
+    margin-top: 20px; }
+    #contents #options:active {
+      display: block; }
 
 /*# sourceMappingURL=result.css.map */

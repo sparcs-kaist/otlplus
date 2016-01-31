@@ -26,11 +26,11 @@
             padding-top: 0;
             border-right: 2px solid #aaaaaa;
         }
-        .checkbox {
+        .controls {
             padding-top: 0;
             label {
                 padding-right: 10px;
-                input[type="checkbox"] {
+                input[type="checkbox"], input[type="radio"] {
                     display: none;
                 }
                 span.fa-lg {

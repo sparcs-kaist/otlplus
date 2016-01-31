@@ -1,6 +1,6 @@
 {
 "version": 3,
-"mappings": "AAAA,SAAU;EACN,UAAU,EAAE,IAAI;EAChB,gBAAgB,EAAE,OAAO;EACzB,kBAAS;IACL,OAAO,EAAE,KAAK;IACd,QAAQ,EAAE,QAAQ",
+"mappings": "AAAA,SAAU;EACN,UAAU,EAAE,IAAI;EAChB,gBAAgB,EAAE,OAAO;EACzB,kBAAS;IACT,QAAQ,EAAE,QAAQ;IACd,UAAU,EAAE,IAAI;IAChB,yBAAS;MACL,OAAO,EAAE,KAAK",
 "sources": ["../../sass/review/result.scss"],
 "names": [],
 "file": "result.css"

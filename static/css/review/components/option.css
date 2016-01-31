@@ -23,26 +23,26 @@
     #options .form-group label.control-label {
       padding-top: 0;
       border-right: 2px solid #aaaaaa; }
-    #options .form-group .checkbox {
+    #options .form-group .controls {
       padding-top: 0; }
-      #options .form-group .checkbox label {
+      #options .form-group .controls label {
         padding-right: 10px; }
-        #options .form-group .checkbox label input[type="checkbox"] {
+        #options .form-group .controls label input[type="checkbox"], #options .form-group .controls label input[type="radio"] {
           display: none; }
-        #options .form-group .checkbox label span.fa-lg {
+        #options .form-group .controls label span.fa-lg {
           width: 1em;
           height: 1em;
           color: #aaaaaa;
           font-size: 1em;
           line-height: 1em; }
-          #options .form-group .checkbox label span.fa-lg i.fa-stack-2x {
+          #options .form-group .controls label span.fa-lg i.fa-stack-2x {
             font-size: 1em; }
-          #options .form-group .checkbox label span.fa-lg i.fa-stack-1x {
+          #options .form-group .controls label span.fa-lg i.fa-stack-1x {
             display: none;
             font-size: 0.5em; }
-        #options .form-group .checkbox label.active span.fa-lg {
+        #options .form-group .controls label.active span.fa-lg {
           color: #e64c65; }
-          #options .form-group .checkbox label.active span.fa-lg i.fa-stack-1x {
+          #options .form-group .controls label.active span.fa-lg i.fa-stack-1x {
             display: inline-block; }
 
 /*# sourceMappingURL=option.css.map */
