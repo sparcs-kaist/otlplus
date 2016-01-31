@@ -13,84 +13,17 @@
   {{ block.super }}
   <link rel="stylesheet" type="text/css" href="/media/css/components/header/result.css">
   <link rel="stylesheet" type="text/css" href="/media/css/review/components/option.css">
+  <link rel="stylesheet" type="text/css" href="/media/css/review/components/course.css">
   <link rel="stylesheet" type="text/css" href="/media/css/review/components/review.css">
   <link rel="stylesheet" type="text/css" href="/media/css/review/result.css">
 {% endblock %}
 
 {% block javascripts %}
   {{ block.super }}
+  {% include 'review/components/filter.js.html' %}
   <script type="text/javascript" src="/media/js/review/result.js"></script>
   <script type="text/javascript" src="/media/js/review/components/option.js"></script>
-  <script type="text/javascript">
-    $('#category').on('focus', function() {
-      $('#m-category').modal('show');
-    });
-
-    $(document).ready(function() {
-      {% if 'by_professor' in gets %}
-        $('#by_professor').addClass('active');
-        $("input:checkbox[name='by_professor']").attr("checked", true);
-      {% endif %}
-      {% if 'sorting' in gets %}
-        sorting = '{{ gets.sorting.0 }}';
-      {% else %}
-        sorting = 'name';
-      {% endif %}
-      sorts = $('#sorts>label>input');
-      for (i=0; i<sorts.length; i++)
-        if (sorts[i].value==sorting)
-        {
-          sorts[i].checked = true;
-          sorts[i].parentElement.classList.add('active');
-        }
-      $(".sort_result").hide();
-      $("#sort_"+sorting).show();
-    });
-
-    $('#by_professor').click(function() {
-      if ($("input:checkbox[name='by_professor']").is(":checked"))
-      {
-        $('#by_professor').removeClass('active');
-        $("input:checkbox[name='by_professor']").attr("checked", false);
-      }
-      else
-      {
-        $('#by_professor').addClass('active');
-        $("input:checkbox[name='by_professor']").attr("checked", true);
-      }
-    
-      {% for i in "12" %}
-        {% cycle "department" "type" as filtername silent %}
-        {% cycle gets.department gets.type as get_filter silent %}
-        get_filter = [];
-        {% for i in get_filter %}
-          get_filter.push('{{i}}');
-        {% endfor %}
-        filters = $("input[name='{{filtername}}']");
-        for (i=0; i<filters.length; i++)
-          if (get_filter.indexOf(filters[i].value)!=-1)
-            filters[i].checked = true;
-          else
-            filters[i].checked = false;
-      {% endfor %}
-      $('#filter_form').submit()
-    });
-
-    $("input[name='sorting']").on("change", function(){
-      var test = $(this).val();
-      $(".sort_result").hide();
-      $("#sort_"+test).show();
-    });
-
-    $('div.sort_result>a').click(function(){
-      lis = $('div.sort_result>a');
-      for (i=0; i<lis.length; i++)
-        if (lis[i].href == this.href)
-          lis[i].classList.add("active");
-        else
-          lis[i].classList.remove("active");
-    });
-  </script>
+  <script type="text/javascript" src="/media/js/review/components/course.js"></script>
 {% endblock %}
 
 {% block header %}
