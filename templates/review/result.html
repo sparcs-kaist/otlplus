@@ -19,6 +19,8 @@
 
 {% block javascripts %}
   {{ block.super }}
+  <script type="text/javascript" src="/media/js/review/result.js"></script>
+  <script type="text/javascript" src="/media/js/review/components/option.js"></script>
   <script type="text/javascript">
     $('#category').on('focus', function() {
       $('#m-category').modal('show');
@@ -88,7 +90,6 @@
         else
           lis[i].classList.remove("active");
     });
-
   </script>
 {% endblock %}
 
@@ -99,90 +100,12 @@
 {% block contents %}
   <div class="row">
     <div class="col-xs-22 col-xs-offset-1 col-sm-20 col-sm-offset-2 col-md-18 col-md-offset-3 col-lg-16 col-lg-offset-4">
-      {% include 'review/search/option.html' %}
+      {% include 'review/components/option.html' with with_filter=True %}
+    </div>
+    <div class="col-xs-22 col-xs-offset-1 col-sm-20 col-sm-offset-2 col-md-18 col-md-offset-3 col-lg-16 col-lg-offset-4">
+      {% include 'review/components/course.html' %}
     </div>
   </div>
-
-  <form role="form" class="form" method="get" id="filter_form">
-    <div id="m-category" class="modal fade">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">Category 검색</h4>
-          </div>
-          <div class="modal-body">
-            <div class="row">
-              <div class="col-xs-24" id="filters">
-                <p>학과</p>
-                <div class="btn-group" data-toggle="buttons">
-                {% for i in "1234" %}
-                  <label class="btn btn-primary">
-                    <input type="checkbox" autocomplete="off" name="department" value="{% cycle "CS" "EE" "MAE" "HSS" %}">{% cycle "전산과" "전자과" "기계과" "인문사회과학부" %}
-                  </label>
-                {% endfor %}
-                </div>
-                <p>구분</p>
-                <div class="btn-group" data-toggle="buttons">
-                {% for i in "123456" %}
-                  <label class="btn btn-primary">
-                    <input type="checkbox" autocomplete="off" name="type" value="{% cycle "MR" "ME" "BR" "BE" "HSE" "OE" %}"> {% cycle "전필" "전선" "기필" "기선" "교양" "자선" %}
-                  </label>
-                {% endfor %}
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-primary" data-dismiss="modal">확인</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row" style="margin-top: 50px;">
-      <div class="col-xs-6">
-      </div>
-      <div class="col-xs-6">
-        <input id="category" type="text" class="form-control">
-      </div>
-      <div class="col-xs-6">
-        <input type="text" name="q" class="form-control">
-      </div>
-      <div class="col-xs-6">
-        <input type="submit" class="btn btn-primary" value="검색" id="search">
-      </div>
-    </div>
-
-    <div class="row" style="margin-top: 50px;">
-      <div class="col-xs-24 text-left">
-        <div class="btn-group" data-toggle="buttons">
-          <label class="btn btn-primary" id="by_professor">
-            <input type="checkbox" autocomplete="off" name="by_professor"> 교수 별로 보기
-          </label>
-        </div>
-        </br></br>
-        <div class="btn-group btn-sort" id="sorts" data-toggle="buttons">
-          <label class="btn btn-primary">
-            <input type="radio" id="name" name="sorting" value="name" autocomplete="off"> 과목코드 순서대로 보기
-          </label>
-          <label class="btn btn-primary">
-            <input type="radio" id="grade" name="sorting" value="grade" autocomplete="off"> 학점 잘 주는 순서대로 보기
-          </label>
-          <label class="btn btn-primary">
-            <input type="radio" id="load" name="sorting" value="load" autocomplete="off"> 로드 덜 빡센 순서대로 보기
-          </label>
-          <label class="btn btn-primary">
-            <input type="radio" id="speech" name="sorting" value="speech" autocomplete="off"> 수업 잘 하는 순서대로 보기
-          </label>
-          <label class="btn btn-primary">
-            <input type="radio" id="total" name="sorting" value="total" autocomplete="off"> 전체적인 평가 순서대로 보기
-          </label>
-        </div>
-      </div>
-    </div>
-  </form>
-
 
   <div class="row" style="margin-top: 50px;">
     <div class="col-xs-12">

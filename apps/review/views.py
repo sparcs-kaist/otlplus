@@ -89,7 +89,7 @@ def search_view(request):
 
     ctx = {'liberal_comment':liberal_comment, 'major_comment':major_comment, 'gradelist':gradelist}
 
-    return render(request, 'review/search/search.html',ctx)
+    return render(request, 'review/search.html',ctx)
 
 
 
@@ -163,7 +163,7 @@ def SearchResultView(request):
     results_load=sorted(results,key=getload,reverse=True)
     results_speech=sorted(results,key=getspeech,reverse=True)
     results_total=sorted(results,key=gettotal,reverse=True)
-    return render(request, 'review/search/result.html', {'results':results, 'results_grade':results_grade, 'results_load':results_load, 'results_speech':results_speech, 'results_total':results_total, 'gets':dict(request.GET.iterlists())})
+    return render(request, 'review/result.html', {'results':results, 'results_grade':results_grade, 'results_load':results_load, 'results_speech':results_speech, 'results_total':results_total, 'gets':dict(request.GET.iterlists())})
 
 
 

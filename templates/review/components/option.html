@@ -1,11 +1,82 @@
 <form role="form" class="form" method="get" id="filter_form">
   <div id="options" class="form-horizontal">
 
+    {% if with_filter %}
+    <div class="form-group">
+      <label class="col-xs-6 col-sm-4 col-md-3 col-lg-3 control-label">정렬</label>
+
+      <div class="col-xs-18 col-sm-20 col-md-21 col-lg-21">
+        <div class="controls">
+          <!-- TODO: sorting with js -->
+          <label>
+            <input type="radio" id="recent" name="sorting" value="recent" autocomplete="off"> 최신순
+            <span class="fa-stack fa-lg">
+              <i class="fa fa-circle-o fa-stack-2x"></i>
+              <i class="fa fa-check fa-stack-1x"></i>
+            </span>
+          </label>
+
+          <!-- TODO: sorting with js -->
+          <label>
+            <input type="radio" id="like" name="sorting" value="like" autocomplete="off"> 추천순
+            <span class="fa-stack fa-lg">
+              <i class="fa fa-circle-o fa-stack-2x"></i>
+              <i class="fa fa-check fa-stack-1x"></i>
+            </span>
+          </label>
+
+          <label>
+            <input type="radio" id="name" name="sorting" value="name" autocomplete="off"> 코드순<!--과목코드 순서대로 보기-->
+            <span class="fa-stack fa-lg">
+              <i class="fa fa-circle-o fa-stack-2x"></i>
+              <i class="fa fa-check fa-stack-1x"></i>
+            </span>
+          </label>
+
+          <label>
+            <input type="radio" id="total" name="sorting" value="total" autocomplete="off"> 종합순<!--전체적인 평가 순서대로 보기-->
+            <span class="fa-stack fa-lg">
+              <i class="fa fa-circle-o fa-stack-2x"></i>
+              <i class="fa fa-check fa-stack-1x"></i>
+            </span>
+          </label>
+
+          <label>
+            <input type="radio" id="grade" name="sorting" value="grade" autocomplete="off"> 성적순<!--학점 잘 주는 순서대로 보기-->
+            <span class="fa-stack fa-lg">
+              <i class="fa fa-circle-o fa-stack-2x"></i>
+              <i class="fa fa-check fa-stack-1x"></i>
+            </span>
+          </label>
+
+          <label>
+            <input type="radio" id="load" name="sorting" value="load" autocomplete="off"> 널널순<!--로드 덜 빡센 순서대로 보기-->
+            <span class="fa-stack fa-lg">
+              <i class="fa fa-circle-o fa-stack-2x"></i>
+              <i class="fa fa-check fa-stack-1x"></i>
+            </span>
+          </label>
+
+          <label>
+            <input type="radio" id="speech" name="sorting" value="speech" autocomplete="off"> 강의순<!--수업 잘 하는 순서대로 보기-->
+            <span class="fa-stack fa-lg">
+              <i class="fa fa-circle-o fa-stack-2x"></i>
+              <i class="fa fa-check fa-stack-1x"></i>
+            </span>
+          </label>
+
+
+
+        </div>
+      </div>
+
+    </div>
+    {% endif %}
 
     <div class="form-group">
       <label class="col-xs-6 col-sm-4 col-md-3 col-lg-3 control-label">분류</label>
       <div class="col-xs-18 col-sm-20 col-md-21 col-lg-21">
-        <div class="checkbox">
+        <div class="controls">
 
           <label>
             <input class="chkall" type="checkbox" autocomplete="off" name="type" value="ALL" checked="checked">전체
@@ -17,7 +88,7 @@
 
           {% for i in "1234567890" %}
           <label>
-              <input class="chkelem" type="checkbox" autocomplete="off" name="type" value="{% cycle "GR" "MGC" "BE" "BR" "EG" "HSE" "OE" "ME" "MR" "ETC" %}" checked="checked">{% cycle "공통" "교필" "기선" "기필" "석박" "인선" "자선" "전선" "전필" "기타" %}
+            <input class="chkelem" type="checkbox" autocomplete="off" name="type" value="{% cycle "GR" "MGC" "BE" "BR" "EG" "HSE" "OE" "ME" "MR" "ETC" %}" checked="checked">{% cycle "공통" "교필" "기선" "기필" "석박" "인선" "자선" "전선" "전필" "기타" %}
             <span class="fa-stack fa-lg">
               <i class="fa fa-circle-o fa-stack-2x"></i>
               <i class="fa fa-check fa-stack-1x"></i>
@@ -33,7 +104,7 @@
 
       <label class="col-xs-6 col-sm-4 col-md-3 col-lg-3 control-label">학과</label>
       <div class="col-xs-18 col-sm-20 col-md-21 col-lg-21">
-        <div class="checkbox">
+        <div class="controls">
 
           <label>
             <input class="chkall" type="checkbox" autocomplete="off" name="department" value="ALL" checked="checked">전체
@@ -62,7 +133,7 @@
     <div class="form-group">
       <label class="col-xs-6 col-sm-4 col-md-3 col-lg-3 control-label">학년</label>
       <div class="col-xs-18 col-sm-20 col-md-21 col-lg-21">
-        <div class="checkbox">
+        <div class="controls">
 
           <label>
             <input class="chkall" type="checkbox" autocomplete="off" name="grade" value="ALL" checked="checked">전체
@@ -91,7 +162,7 @@
     <div class="form-group">
       <label class="col-xs-6 col-sm-4 col-md-3 col-lg-3 control-label">학기</label>
       <div class="col-xs-18 col-sm-20 col-md-21 col-lg-21">
-        <div class="checkbox">
+        <div class="controls">
 
           <label>
               <input class="chkall chkone" type="checkbox" autocomplete="off" name="semester" value="ALL" checked="checked" >전체
