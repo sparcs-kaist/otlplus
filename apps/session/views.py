@@ -28,7 +28,7 @@ def home(request):
 def user_login(request):
     user = request.user
     if user and user.is_authenticated():
-        return request.session.pop('next', '/')
+        return redirect(request.GET.get('next', '/'))
 
     request.session['next'] = request.GET.get('next', '/')
 
@@ -44,7 +44,13 @@ def login_callback(request):
 
         sso_profile = sso_client.get_user_info(tokenid)
         username = sso_profile['sid']
+
         user_list = User.objects.filter(username=username)
+        try:
+            kaist_info = json.loads(sso_profile['kaist_info'])
+            student_id = kaist_info.get('ku_std_no')
+        except:
+            student_id = ''
         if len(user_list) == 0:
             user = User.objects.create_user(username=username,
                         email=sso_profile['email'],
@@ -52,12 +58,16 @@ def login_callback(request):
                         first_name=sso_profile['first_name'],
                         last_name=sso_profile['last_name'])
             user.save()
-            user_profile = UserProfile(user=user)
+            user_profile = UserProfile(user=user, student_id=student_id)
             user_profile.sid = sso_profile['sid']
             user_profile.save()
+            user = authenticate(username=username)
+            login(request, user)
             return redirect(next)
         else:
            user = authenticate(username=user_list[0].username)
+           user_profile = UserProfile.objects.get(user=user)
+           user_profile.student_id = student_id
            login(request, user)
            return redirect(next)
     return render('/session/login.html', {'error': "Invalid login"})
@@ -72,7 +82,7 @@ def user_logout(request):
 @login_required(login_url='/session/login/')
 def settings(request):
     user = request.user
-    user_profile = UserProfile.objects.get(user = user)
+    user_profile = UserProfile.objects.get(user=user)
     department = Department.objects.all()
     fav_department = user_profile.favorite_departments.all()
     ctx = { 'department': department,

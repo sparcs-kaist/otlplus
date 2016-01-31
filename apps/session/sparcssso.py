@@ -80,4 +80,3 @@ class Client:
 
     def get_notice(self):
         return json.load(urllib.urlopen(self.NOTICE_BASE_URL))
-
