@@ -1,0 +1,33 @@
+<div class="panel panel-default review">
+  <button class="likes" disabled>
+    <span>+</span>
+    <span>{{ comment.like }}</span>
+  </button>
+  <div class="panel-header">
+    <h4>
+        {{ comment.lecture.title }}
+    </h4>
+  </div>
+  <div class="panel-body">
+    <p class="text-muted">
+      {{ comment.comment|safe }}
+    </p>
+  </div>
+  <div class="panel-footer row">
+    <div class="col-xs-12 col-md-5 col-md-offset-4 text-right">
+        성적
+      {% for numbergrade, lettergrade in gradelist %}
+        {% ifequal numbergrade comment.grade %} <span class="grade">{{ lettergrade }}</span>{% endifequal %}
+      {% endfor %}
+    </div>
+    {% for i in "123" %}
+    <div class="col-xs-12 col-md-5 text-right">
+     {% cycle "널널" "강의" "종합" %}
+     {% cycle comment.load comment.speech comment.total as whichgrade silent %}
+       {% for numbergrade, lettergrade in gradelist %}
+         {% ifequal numbergrade whichgrade %} <span class="grade">{{ lettergrade }}</span>{% endifequal %}
+       {% endfor %}
+    </div>
+    {% endfor %}
+  </div>
+</div>

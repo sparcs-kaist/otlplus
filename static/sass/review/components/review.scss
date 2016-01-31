@@ -1,0 +1,72 @@
+.review {
+    position: relative;
+    margin-bottom: 45px;
+    .likes {
+        position: absolute;
+        top: -20px;
+        right: -20px;
+        width: 40px;
+        height: 40px;
+        border: none;
+        border-radius: 20px;
+        padding-top: 3px;
+        cursor: default;
+        color: #ffffff;
+        font-weight: bold;
+        text-align: center;
+        background-color: rgb(230, 76, 101);
+        span:nth-of-type(1) {
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+            bottom: 0;
+            padding-right: 22px;
+            padding-bottom: 2px;
+            line-height: 38px;
+        }
+        span:nth-of-type(2) {
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+            bottom: 0;
+            line-height: 40px;
+        }
+    }
+    .panel-header {
+        padding: 10px 15px;
+    }
+    .panel-body {
+        padding: 0 15px;
+    }
+    .panel-footer {
+        border-top: none;
+        background-color: transparent;
+        padding-bottom: 15px;
+        >div {
+            position: relative;
+            padding-left: 0;
+            padding-right: 48px;
+            .grade {
+                position: absolute;
+                top: -5px;
+                right: 12px;
+                width: 30px;
+                height: 30px;
+                padding-top: 3px;
+                padding-left: 1px;
+                border: 2px solid rgb(230, 76, 101);
+                border-radius: 15px;
+                color: rgb(230, 76, 101);
+                text-align: center;
+                font-weight: bold;
+            }
+            @media (max-width: 991px) {
+                &:nth-of-type(1), &:nth-of-type(2) {
+                    margin-bottom: 20px;
+                }
+            }
+        }
+    }
+}
