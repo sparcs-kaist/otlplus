@@ -1,0 +1,21 @@
+.expect {
+    .panel-heading {
+        border-bottom: none;
+        padding: 30px;
+        padding-bottom: 20px;
+        background: #ffffff;
+    }
+    .panel-body {
+        padding: 30px;
+        padding-top: 0;
+        .h4 {
+            display: inline-block;
+            margin: 0;
+            margin-right: 0;
+            margin-bottom: 15px;
+            a.label {
+                background: #e44e68;
+            }
+        }
+    }
+}
