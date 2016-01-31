@@ -12,8 +12,9 @@
 {% block stylesheets %}
   {{ block.super }}
   <link rel="stylesheet" type="text/css" href="/media/css/components/header/result.css">
-  <link rel="stylesheet" type="text/css" href="/media/css/review/search/option.css">
-  <link rel="stylesheet" type="text/css" href="/media/css/review/search/result.css">
+  <link rel="stylesheet" type="text/css" href="/media/css/review/components/option.css">
+  <link rel="stylesheet" type="text/css" href="/media/css/review/components/review.css">
+  <link rel="stylesheet" type="text/css" href="/media/css/review/result.css">
 {% endblock %}
 
 {% block javascripts %}
@@ -99,9 +100,6 @@
   <div class="row">
     <div class="col-xs-22 col-xs-offset-1 col-sm-20 col-sm-offset-2 col-md-18 col-md-offset-3 col-lg-16 col-lg-offset-4">
       {% include 'review/search/option.html' %}
-    </div>
-    <div class="col-xs-22 col-xs-offset-1 col-sm-20 col-sm-offset-2 col-md-18 col-md-offset-3 col-lg-16 col-lg-offset-4">
-      {% include 'review/result/components/course.html' %}
     </div>
   </div>
 
