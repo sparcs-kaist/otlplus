@@ -64,7 +64,7 @@
       </div>
       <div style="margin-top: 25px;">
           {% csrf_token %}
-          <textarea class="form-control" name="content" rows= "10" placeholder = "Write a review">{{comment}}</textarea>
+          <textarea class="form-control" name="content" rows= "10" placeholder = "{{reviewguideline}}">{{comment}}</textarea>
 	  <input type="hidden" name = "sid" value = {{sid}} />
 	  <input type="hidden" name = "lectureid" value = {{lecture_id}} />
           <div class="text-right" style="margin-top: 25px;">
