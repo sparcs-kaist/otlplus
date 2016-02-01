@@ -7,46 +7,56 @@
   <div class="panel-body">
     <div class="row">
       <div class="col-xs-24">
-        <span class="h4">
-          <a href="" class="label label-default">
-            세상끝에 홀로 남겨져가고
-          </a>
-        </span>
-        <span class="h4">
-          <a href="" class="label label-default">
-            혼자였나요
-          </a>
-        </span>
-        <span class="h4">
-          <a href="" class="label label-default">
-            아주 오랫도록 내가 지켜낼
-          </a>
-        </span>
-        <span class="h4">
-          <a href="" class="label label-default">
-            사랑이니까
-          </a>
-        </span>
-        <span class="h4">
-          <a href="" class="label label-default">
-            Love In The Ice
-          </a>
-        </span>
-        <span class="h4">
-          <a href="" class="label label-default">
-            넌 나를 원해 넌 내게 빠져 넌 내게 미쳐
-          </a>
-        </span>
-        <span class="h4">
-          <a href="" class="label label-default">
-            I got you, under my skin
-          </a>
-        </span>
-        <span class="h4">
-          <a href="" class="label label-default">
-            주문(Mirotic)
-          </a>
-        </span>
+        {% if expectations|length == 0 %}
+            <span class="h4">
+              <a href="" class="label label-default">
+                세상끝에 홀로 남겨져가고
+              </a>
+            </span>
+            <span class="h4">
+              <a href="" class="label label-default">
+                혼자였나요
+              </a>
+            </span>
+            <span class="h4">
+              <a href="" class="label label-default">
+                아주 오랫도록 내가 지켜낼
+              </a>
+            </span>
+            <span class="h4">
+              <a href="" class="label label-default">
+                사랑이니까
+              </a>
+            </span>
+            <span class="h4">
+              <a href="" class="label label-default">
+                Love In The Ice
+              </a>
+            </span>
+            <span class="h4">
+              <a href="" class="label label-default">
+                넌 나를 원해 넌 내게 빠져 넌 내게 미쳐
+              </a>
+            </span>
+            <span class="h4">
+              <a href="" class="label label-default">
+                I got you, under my skin
+              </a>
+            </span>
+            <span class="h4">
+              <a href="" class="label label-default">
+                주문(Mirotic)
+              </a>
+            </span>
+        {% else %}
+            {% for e in expectations %}
+                <span class="h4">
+                  <a href="" class="label label-default">
+                      {{e}}
+                  </a>
+                </span>
+            {% endfor %}
+        {% endif %}
       </div>
     </div>
   </div>

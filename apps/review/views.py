@@ -2,7 +2,7 @@
 
 from django.shortcuts import render, redirect
 from apps.session.models import UserProfile
-from apps.subject.models import Course, Lecture, Department, CourseFiltered
+from apps.subject.models import Course, Lecture, Department, CourseFiltered, Professor
 from apps.review.models import Comment, MajorBestComment, LiberalBestComment
 from django.http import HttpResponse, HttpResponseRedirect
 from django.db.models import Q
@@ -91,6 +91,14 @@ def search_view(request):
 
     return render(request, 'review/search.html',ctx)
 
+def isKorean(word):
+    if len(word) <= 0:
+        return False
+    # UNICODE RANGE OF KOREAN: 0xAC00 ~ 0xD7A3
+    for c in range(len(word)):
+        if word[c] < u"\uac00" or word[c] > u"\ud7a3":
+            return False
+    return True
 
 
 def SearchResultView(request):
@@ -116,8 +124,19 @@ def SearchResultView(request):
         keyword = request.GET['q']
         courses = courses.filter(Q(title__icontains=keyword) | Q(title_en__icontains=keyword) | Q(old_code__icontains=keyword) | Q(department__name__icontains=keyword) | Q(department__name_en__icontains=keyword) | Q(professors__professor_name__icontains=keyword) | Q(professors__professor_name_en__icontains=keyword))
         print "keyword :",keyword
+
+    expectations = Professor.objects.filter(Q(professor_name__icontains=keyword) | Q(professor_name_en__icontains=keyword))
+    expect_temp=[]
+    if isKorean(keyword):
+        for profobj in expectations:
+            expect_temp.append(profobj.professor_name)
+    else:
+        for profobj in expectations:
+            expect_temp.append(profobj.professor_name_en)
+    expectations = expect_temp
+
     print "result_num :", (len(courses))
-    
+
     results = []
     id = 0
     for course in courses:
@@ -163,7 +182,7 @@ def SearchResultView(request):
     results_load=sorted(results,key=getload,reverse=True)
     results_speech=sorted(results,key=getspeech,reverse=True)
     results_total=sorted(results,key=gettotal,reverse=True)
-    return render(request, 'review/result.html', {'results':results, 'results_grade':results_grade, 'results_load':results_load, 'results_speech':results_speech, 'results_total':results_total, 'gets':dict(request.GET.iterlists())})
+    return render(request, 'review/result.html', {'results':results, 'results_grade':results_grade, 'results_load':results_load, 'results_speech':results_speech, 'results_total':results_total, 'gets':dict(request.GET.iterlists()), 'expectations':expectations})
 
 
 
