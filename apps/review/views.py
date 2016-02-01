@@ -230,7 +230,7 @@ def ReviewInsertView(request,lecture_id=-1):
         pre_speech = gradelist[4-(temp.speech)]
     except : pre_comment = ''
     ctx = {'lecture_id':str(lecture_id), 'object':return_object, 'comment':pre_comment, 'gradelist': gradelist,'grade': pre_grade,'load':pre_load,'speech':pre_speech, 'sid':sid_var }
-    return render(request, 'review/review/insert.html',ctx)
+    return render(request, 'review/insert.html',ctx)
 
 
 
@@ -281,3 +281,19 @@ def ReviewInsertAdd(request,lecture_id):
         lecture.total_sum += total;
         lecture.save()
     return HttpResponseRedirect('../')
+
+def ReviewView(request, comment_id):
+    try :
+        comment = Comment.objects.get(id=comment_id)
+        isExist = 1
+        print type(comment)
+    except :
+        comment = ''
+        isExist = 0
+
+    return render(request, 'review/review_view.html',
+                            {
+                                'comment': comment,
+                                'isExist' : isExist,
+                            })
+
