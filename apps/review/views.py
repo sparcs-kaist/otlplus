@@ -114,7 +114,7 @@ def SearchResultView(request):
 
     if ('q' in request.GET) and len(request.GET['q'])>0:
         keyword = request.GET['q']
-        courses = courses.filter(Q(title__icontains=keyword) | Q(title_en__icontains=keyword) | Q(old_code__icontains=keyword) | Q(department__name__icontains=keyword) | Q(department__name_en__icontains=keyword))
+        courses = courses.filter(Q(title__icontains=keyword) | Q(title_en__icontains=keyword) | Q(old_code__icontains=keyword) | Q(department__name__icontains=keyword) | Q(department__name_en__icontains=keyword) | Q(professors__professor_name__icontains=keyword) | Q(professors__professor_name_en__icontains=keyword))
         print "keyword :",keyword
     print "result_num :", (len(courses))
     
