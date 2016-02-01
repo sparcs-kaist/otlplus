@@ -218,6 +218,7 @@ def ReviewInsertView(request,lecture_id=-1):
     pre_grade="A"
     pre_load="A"
     pre_speech="A"
+    guideline=open("guideline","r")
     if lecture_id==-1:
         return HttpResponseRedirect('./' + str(lecture_list[0].id) )
     now_lecture = user.take_lecture_list.get(id=lecture_id)
@@ -229,7 +230,7 @@ def ReviewInsertView(request,lecture_id=-1):
         pre_load = gradelist[4-(temp.load)]
         pre_speech = gradelist[4-(temp.speech)]
     except : pre_comment = ''
-    ctx = {'lecture_id':str(lecture_id), 'object':return_object, 'comment':pre_comment, 'gradelist': gradelist,'grade': pre_grade,'load':pre_load,'speech':pre_speech, 'sid':sid_var }
+    ctx = {'lecture_id':str(lecture_id), 'object':return_object, 'comment':pre_comment, 'gradelist': gradelist,'grade': pre_grade,'load':pre_load,'speech':pre_speech, 'sid':sid_var, 'reviewguideline':guideline }
     return render(request, 'review/insert.html',ctx)
 
 
