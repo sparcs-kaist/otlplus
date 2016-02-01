@@ -124,16 +124,18 @@ def SearchResultView(request):
         keyword = request.GET['q']
         courses = courses.filter(Q(title__icontains=keyword) | Q(title_en__icontains=keyword) | Q(old_code__icontains=keyword) | Q(department__name__icontains=keyword) | Q(department__name_en__icontains=keyword) | Q(professors__professor_name__icontains=keyword) | Q(professors__professor_name_en__icontains=keyword))
         print "keyword :",keyword
-
-    expectations = Professor.objects.filter(Q(professor_name__icontains=keyword) | Q(professor_name_en__icontains=keyword))
-    expect_temp=[]
-    if isKorean(keyword):
-        for profobj in expectations:
-            expect_temp.append(profobj.professor_name)
-    else:
-        for profobj in expectations:
-            expect_temp.append(profobj.professor_name_en)
-    expectations = expect_temp
+    if len(request.GET['q'])>0 :
+        expectations = Professor.objects.filter(Q(professor_name__icontains=keyword) | Q(professor_name_en__icontains=keyword))
+        expect_temp=[]
+        if isKorean(keyword):
+            for profobj in expectations:
+                expect_temp.append(profobj.professor_name)
+        else:
+            for profobj in expectations:
+                expect_temp.append(profobj.professor_name_en)
+        expectations = expect_temp
+    else :
+        expectations = []
 
     print "result_num :", (len(courses))
 
