@@ -22,7 +22,7 @@ urlpatterns = [
     url(r'^result/([1-9][0-9]*)/$', 'apps.review.views.ReviewView'),
     url(r'^result/$', 'apps.review.views.SearchResultView'),
     url(r'^insert/$', 'apps.review.views.ReviewInsertView'),
-    url(r'^insert/([^/]+)/add/$', 'apps.review.views.ReviewInsertAdd'),
-    url(r'^insert/([^/]+)/$', 'apps.review.views.ReviewInsertView'),
+    url(r'^insert/([^/]+)/([^/]+)/add/$', 'apps.review.views.ReviewInsertAdd'),
+    url(r'^insert/([^/]+)/([^/]+)/$', 'apps.review.views.ReviewInsertView'),
     url(r'^delete/$','apps.review.views.ReviewDelete'),
 ]

@@ -198,9 +198,7 @@ def ReviewDelete(request):
     lec.total_sum -= target.total
     target.delete()
     lec.save()
-    return HttpResponseRedirect('/review/insert/'+str(request.POST['lectureid']))
-
-
+    return HttpResponseRedirect('/review/insert/'+str(request.POST['lectureid'])+'/'+str(request.POST['semester']))
 
 def ReviewLike(request):
     target_review = Comment.objects.get(writer=request.POST['writer'],lecture=Lecture.objects.get(old_code=request.POST['lecturechoice']));
@@ -213,19 +211,35 @@ def ReviewLike(request):
     comment_vote.save()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
-def ReviewInsertView(request,lecture_id=-1):
+def ReviewInsertView(request,lecture_id=-1,semester=0):
     sid_var = "20150390"
+    semchar=[None,"봄","여름","가을","겨울"]
     user=UserProfile.objects.get(student_id=sid_var) #session 완성시 변경
     return_object = []
-    lecture_list = user.take_lecture_list.all()
+    semester=int(semester)
+    lec_year = (semester/10)+2000
+    lec_sem = semester%10
+    if semester % 10 > 4 or semester < 0 or semester > 1000: 
+        return HttpResponseRedirect('../0')
+    if semester == 0:
+        lecture_list = user.take_lecture_list.all()
+    else:
+        lecture_list = user.take_lecture_list.filter(year=lec_year,semester=lec_sem)
     if len(lecture_list) == 0:
-        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        if semester == 0:
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        else:
+            return HttpResponseRedirect('../0')
 
     for single_lecture in lecture_list:
         lecture_object = {}
         lecture_object["title"]=single_lecture.title;
         lecture_object["old_code"]=single_lecture.old_code;
         lecture_object["lecid"]=str(single_lecture.id);
+        lecture_object["semester"]=single_lecture.semester;
+        lecture_object["sem_char"]=semchar[lecture_object["semester"]]
+        lecture_object["year"]=single_lecture.year;
+        lecture_object["lectime"]=(lecture_object["year"]-2000)*10+lecture_object["semester"]
         professor_str="";
         prof_list = single_lecture.professor.all();
         for single_prof_index in range(len(prof_list)):
@@ -244,24 +258,31 @@ def ReviewInsertView(request,lecture_id=-1):
     guideline=guideline+"2) 최대한 본인의 감정을 배제해주시면 감사하겠습니다.\n"
     guideline=guideline+"ex) 교수님이 저를 맘에 안 들어하시는 것 같아요 (X) / 시험기간에 플젝 내준건 좀 너무하다싶었음 (X)\n"
     guideline=guideline+"3) 나중에 이 수업을 들을 학생들을 위해 여러 조언들을 해 주세요.\n"
-    guideline=guideline+"ex) 이 수업을 들으시려면 먼저 이산구조와 데이타구조를 먼저 듣고 오시는 것을 추천합니다. / 교수님이 수업하실 때 열심히 참여하시면 좋을 것 같아요."
-    if lecture_id==-1:
-        return HttpResponseRedirect('./' + str(lecture_list[0].id) )
-    now_lecture = user.take_lecture_list.get(id=lecture_id)
-    try :
-        temp = user.comment_set.all()
-        temp = temp.get(lecture=now_lecture)
-        pre_comment = temp.comment
-        pre_grade = gradelist[4-(temp.grade)]
-        pre_load = gradelist[4-(temp.load)]
-        pre_speech = gradelist[4-(temp.speech)]
-    except : pre_comment = ''
-    ctx = {'lecture_id':str(lecture_id), 'object':return_object, 'comment':pre_comment, 'gradelist': gradelist,'grade': pre_grade,'load':pre_load,'speech':pre_speech, 'sid':sid_var, 'reviewguideline':guideline }
+    guideline=guideline+"ex) 이 수업을 들으시려면 먼저 이산구조와 데이타구조를 먼저 듣고 오시는 것을 추천합니다. / 교수님이 수업하실 때 열심히 참여하시면 좋을 것 같아요.\n"
+    print lecture_id, semester
+    print lecture_id == -1
+    print semester > 0
+    if str(lecture_id)==str(-1) and semester > 0:
+        return HttpResponseRedirect('../../' + str(lecture_list[0].id) + '/'+str(return_object[0]["lectime"]))
+    if semester > 0:
+        print lecture_id
+        now_lecture = user.take_lecture_list.get(id=lecture_id,year=lec_year,semester=lec_sem)
+        try :
+            temp = user.comment_set.all()
+            temp = temp.get(lecture=now_lecture)
+            pre_comment = temp.comment
+            pre_grade = gradelist[4-(temp.grade)]
+            pre_load = gradelist[4-(temp.load)]
+            pre_speech = gradelist[4-(temp.speech)]
+        except : pre_comment = ''
+    else:
+        guideline="왼쪽 탭에서 과목을 선택해 주세요.\n"
+    ctx = {'semester':str(semester), 'lecture_id':str(lecture_id), 'object':return_object, 'comment':pre_comment, 'gradelist': gradelist,'grade': pre_grade,'load':pre_load,'speech':pre_speech, 'sid':sid_var, 'reviewguideline':guideline }
     return render(request, 'review/insert.html',ctx)
 
 
 
-def ReviewInsertAdd(request,lecture_id):
+def ReviewInsertAdd(request,lecture_id,semester):
 #    if request.POST.has_key('content') == False:
  #       return HttpResponse('후기를 입력해주세요.')
   #  else:

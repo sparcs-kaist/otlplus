@@ -32,7 +32,7 @@
       </div>
       <div class="list-group">
 		{% for lecture in object %}
-		<a href="/review/insert/{{lecture.lecid}}" class="list-group-item {%ifequal lecture.lecid lecture_id %}active{% endifequal %}" }>{{lecture.title}}({{lecture.old_code}} {{lecture.professor}})</a>
+                <a href="/review/insert/{{lecture.lecid}}/{{lecture.lectime}}/" class="list-group-item {%ifnotequal semester "0"%}{%ifequal lecture.lecid lecture_id %}active{% endifequal %}{%endifnotequal%}" }>{{lecture.title}}({{lecture.old_code}} {{lecture.professor}})({{lecture.year}} {{lecture.sem_char}})</a>
 		{% endfor%}
       </div>
     </div>
@@ -40,21 +40,21 @@
       <div class="text-right">
         <form>
           <label>학점
-            <select class="form-control" name="gradescore">
+              <select {%ifequal semester "0"%}disabled="disabled"{%endifequal%} class="form-control" name="gradescore">
   	    {% for single_grade in gradelist %}
 	    <option value={{forloop.counter}} {% ifequal grade single_grade %}selected{%endifequal%}>{{single_grade}}</option>
 	    {% endfor %}
             </select>
           </label>
           <label>로드
-	    <select class="form-control" name="loadscore">
+	    <select {%ifequal semester "0"%}disabled="disabled"{%endifequal%} class="form-control" name="loadscore">
   	    {% for single_grade in gradelist %}
 	    <option value={{forloop.counter}} {% ifequal load single_grade %}selected{%endifequal%}>{{single_grade}}</option>
 	    {% endfor %}
             </select>
           </label>
           <label>강의
-            <select class="form-control" name="speechscore">
+            <select {%ifequal semester "0"%}disabled="disabled"{%endifequal%} class="form-control" name="speechscore">
             {% for single_grade in gradelist %}
 	    <option value={{forloop.counter}} {% ifequal speech single_grade %}selected{%endifequal%}>{{single_grade}}</option>
 	    {% endfor %}
@@ -64,12 +64,13 @@
       </div>
       <div style="margin-top: 25px;">
           {% csrf_token %}
-          <textarea class="form-control" name="content" rows= "10" placeholder = "{{reviewguideline}}">{{comment}}</textarea>
+          <textarea {%ifequal semester "0"%}disabled="disabled"{%endifequal%} class="form-control" name="content" rows= "10" placeholder = "{{reviewguideline}}">{{comment}}</textarea>
 	  <input type="hidden" name = "sid" value = {{sid}} />
-	  <input type="hidden" name = "lectureid" value = {{lecture_id}} />
+          <input type="hidden" name = "lectureid" value = {{lecture_id}} />
+          <input type="hidden" name = "semester" value = {{semester}} />
           <div class="text-right" style="margin-top: 25px;">
-            {%ifnotequal comment ""%}<input type="submit" class="btn btn-danger" formaction = "../../delete/" value="clear">{%endifnotequal%}
-            <input type="submit" class="btn btn-primary" formaction = "./add/" value="저장하기">
+            {%ifnotequal comment ""%}<input type="submit" class="btn btn-danger" formaction = "../../../delete/" value="clear">{%endifnotequal%}
+            <input type="submit" {%ifequal semester "0"%}disabled="disabled"{%endifequal%} class="btn btn-primary" formaction = "./add/" value="저장하기">
           </div>
       </div>
     </div>
