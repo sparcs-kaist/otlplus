@@ -4,15 +4,20 @@ from django.shortcuts import render, redirect
 from apps.session.models import UserProfile
 from apps.subject.models import Course, Lecture, Department, CourseFiltered, Professor
 from apps.review.models import Comment, MajorBestComment, LiberalBestComment
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.db.models import Q
 from datetime import datetime, timedelta, time, date
 from django.utils import timezone
 from math import exp
+#test
+from django.core.paginator import Paginator, InvalidPage
+from django.core import serializers
+import json
+#testend
 import random
 
 
-
+#Filter Functions################################################################
 def DepartmentFilters(raw_filters):
     department_list = []
     for department in Department.objects.all():
@@ -26,8 +31,6 @@ def DepartmentFilters(raw_filters):
         filters += etc_list
     return filters
 
-
-
 def TypeFilters(raw_filters):
     acronym_dic = {'GR':'General Required', 'MGC':'Mandatory General Courses', 'BE':'Basic Elective', 'BR':'Basic Required', 'EG':'Elective(Graduate)', 'HSE':'Humanities & Social Elective', 'OE':'Other Elective', 'ME':'Major Elective', 'MR':'Major Required', 'S':'Seminar', 'I':'Interdisciplinary', 'FP':'Field Practice'}
     type_list = acronym_dic.keys()
@@ -40,8 +43,6 @@ def TypeFilters(raw_filters):
         filters +=["Seminar", "Interdisciplinary", "Field Practice"]
     return filters
 
-
-
 def GradeFilters(raw_filters):
     acronym_dic = {'ALL':"", '000':"0", '100':"1", '200':"2", '300':"3", '400':"4", '500':"5", 'HIGH':"6"}
     grade_list = acronym_dic.keys()
@@ -52,8 +53,6 @@ def GradeFilters(raw_filters):
     if ('ALL' in raw_filters) or len(raw_filters)==0 :
         filters=["0","1","2","3","4","5","6","7","8","9"]
     return filters
-
-
 
 def search_view(request):
     sid_var = "20150390"
@@ -86,10 +85,11 @@ def search_view(request):
         except Exception, e:
             print e
             pass
-
     ctx = {'liberal_comment':liberal_comment, 'major_comment':major_comment, 'gradelist':gradelist}
 
     return render(request, 'review/search.html',ctx)
+#####################################################################################################
+
 
 def isKorean(word):
     if len(word) <= 0:
@@ -100,31 +100,39 @@ def isKorean(word):
             return False
     return True
 
-
-def SearchResultView(request):
-    if 'by_professor' in request.GET:
-        by_professor = True
-    else:
-        by_professor = False
-
-    semester_filters = request.GET.getlist('semester')
-    department_filters = DepartmentFilters(request.GET.getlist('department'))
-    type_filters = TypeFilters(request.GET.getlist('type'))
-    grade_filters = GradeFilters(request.GET.getlist('grade'))
+def GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters, keyword=""):
     print "semesterF :", semester_filters
     print "departmentF :", department_filters
     print "typeF :", type_filters
     print "gradeF :", grade_filters
+    
     if len(semester_filters)==0 or ("ALL" in semester_filters):
         courses = Course.objects.filter(department__code__in=department_filters, type_en__in=type_filters, code_num__in=grade_filters)
     else :
         courses = CourseFiltered.objects.get(title=semester_filters[0]).courses.filter(department__code__in=department_filters, type_en__in=type_filters, code_num__in=grade_filters)
 
-    if ('q' in request.GET) and len(request.GET['q'])>0:
-        keyword = request.GET['q']
+    #keyword search
+    if len(keyword)>0:
         courses = courses.filter(Q(title__icontains=keyword) | Q(title_en__icontains=keyword) | Q(old_code__icontains=keyword) | Q(department__name__icontains=keyword) | Q(department__name_en__icontains=keyword) | Q(professors__professor_name__icontains=keyword) | Q(professors__professor_name_en__icontains=keyword))
         print "keyword :",keyword
-    if len(request.GET['q'])>0 :
+    return courses
+
+
+#MainPage#################################################################################################
+def SearchResultView(request):
+    
+    #filter search
+    semester_filters = request.GET.getlist('semester')
+    department_filters = DepartmentFilters(request.GET.getlist('department'))
+    type_filters = TypeFilters(request.GET.getlist('type'))
+    grade_filters = GradeFilters(request.GET.getlist('grade'))
+    if 'q' in request.GET :
+        keyword = request.GET['q']
+    else :
+        keyword = ""
+    courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters, keyword)
+
+    if len(keyword)>0 :
         expectations = Professor.objects.filter(Q(professor_name__icontains=keyword) | Q(professor_name_en__icontains=keyword))
         expect_temp=[]
         if isKorean(keyword):
@@ -141,36 +149,30 @@ def SearchResultView(request):
 
     results = []
     id = 0
+    """
     for course in courses:
-        if by_professor:
-            professors = course.professors.all()
-        else:
-            professors = [None]
-        for professor in professors:
-            comments = []
-            grade = 0
-            load = 0
-            speech = 0
-            total = 0
-            comment_num = 0
-            if by_professor:
-                lectures = Lecture.objects.filter(Q(course=course) & Q(professor=professor))
-            else:
-                lectures = Lecture.objects.filter(course=course)
-            for lecture in lectures:
-                grade += lecture.grade_sum
-                load += lecture.load_sum
-                speech += lecture.speech_sum
-                total += lecture.total_sum
-                comment_num += lecture.comment_num
-                comments.extend(Comment.objects.filter(lecture=lecture))
-            if comment_num != 0:
-                grade = float(grade)/comment_num
-                load = float(load)/comment_num
-                speech = float(speech)/comment_num
-                total = float(total)/comment_num
-            id += 1
-            results.append([[course, professor], [grade, load, speech, total], comment_num, str(id), comments])
+        professors = [None]
+        comments = []
+        grade = 0
+        load = 0
+        speech = 0
+        total = 0
+        comment_num = 0
+        lectures = Lecture.objects.filter(course=course)
+        for lecture in lectures:
+            grade += lecture.grade_sum
+            load += lecture.load_sum
+            speech += lecture.speech_sum
+            total += lecture.total_sum
+            comment_num += lecture.comment_num
+            comments.extend(Comment.objects.filter(lecture=lecture))
+        if comment_num != 0:
+            grade = float(grade)/comment_num
+            load = float(load)/comment_num
+            speech = float(speech)/comment_num
+            total = float(total)/comment_num
+        id += 1
+        results.append([[course], [grade, load, speech, total], comment_num, str(id), comments])
 
     def getgrade(item):
         return item[1][0]
@@ -184,10 +186,39 @@ def SearchResultView(request):
     results_load=sorted(results,key=getload,reverse=True)
     results_speech=sorted(results,key=getspeech,reverse=True)
     results_total=sorted(results,key=gettotal,reverse=True)
-    return render(request, 'review/result.html', {'results':results, 'results_grade':results_grade, 'results_load':results_load, 'results_speech':results_speech, 'results_total':results_total, 'gets':dict(request.GET.iterlists()), 'expectations':expectations})
+    """
+    paginator = Paginator(courses,100)
+    page_obj = paginator.page(1)
+    context = {
+            "results": page_obj.object_list,
+            "page":page_obj.number,
+            "expectations":expectations,
+    }
+    return render(request, 'review/result.html', context)
 
+def SearchResultView_json(request, page):
+    semester_filters = request.GET.getlist('semester')
+    department_filters = DepartmentFilters(request.GET.getlist('department'))
+    type_filters = TypeFilters(request.GET.getlist('type'))
+    grade_filters = GradeFilters(request.GET.getlist('grade'))
+    if 'q' in request.GET :
+        keyword = request.GET['q']
+    else :
+        keyword = ""
+    courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters, keyword)
+    paginator = Paginator(courses,100)
+    try:
+        page_obj = paginator.page(page)
+    except InvalidPage:
+        raise Http404
 
+    context = {
+            "results":[1,23,4,5],
+    }
+    print json.dumps(context)
+    return JsonResponse(json.dumps(context),safe=False) 
 
+#Review Control Function#############################################################################################
 def ReviewDelete(request):
     user = UserProfile.objects.get(student_id=request.POST['sid'])
     lec = user.take_lecture_list.get(id=request.POST['lectureid'])
@@ -210,6 +241,8 @@ def ReviewLike(request):
     target_review.save()
     comment_vote.save()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+#ReviewWritingPage#################################################################################################
 
 def ReviewInsertView(request,lecture_id=-1,semester=0):
     sid_var = "20150390"
@@ -272,7 +305,7 @@ def ReviewInsertView(request,lecture_id=-1,semester=0):
     return render(request, 'review/insert.html',ctx)
 
 
-
+#ReviewAddingFunctionPage#######################################################################################
 def ReviewInsertAdd(request,lecture_id,semester):
 #    if request.POST.has_key('content') == False:
  #       return HttpResponse('후기를 입력해주세요.')

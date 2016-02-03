@@ -25,6 +25,41 @@
   <script type="text/javascript" src="/media/js/review/result.js"></script>
   <script type="text/javascript" src="/media/js/review/components/option.js"></script>
   <script type="text/javascript" src="/media/js/review/components/course.js"></script>
+<script>
+$(document).ready(function(){     
+    $(window).bind('scroll', loadOnScroll);
+});
+var pageNum = {{page}};
+var hasNextPage = true;
+
+
+var loadOnScroll = function() {
+    if ($(window).scrollTop() > $(document).height() - ($(window).height()*2)) {
+        $(window).unbind();
+        loadItems();
+    }
+};
+
+var loadItems = function() {
+    if (hasNextPage === false) {
+        alert("hasnoNextPage");
+        return false
+    }
+    pageNum = pageNum + 1;
+    var url = "/review/result/json/"+pageNum.toString() + "/?" + window.location.href.split("?").pop()
+    $.ajax({
+        type:"GET",
+        url: url, 
+        success: function(responseData) {
+            var data = JSON.parse(responseData);
+        },
+        complete: function(data){
+            $(window).bind('scroll', loadOnScroll);
+        }
+    });
+};   
+</script>
+
 {% endblock %}
 
 {% block header %}
@@ -45,60 +80,22 @@
   </div>
 
   <div class="row" style="margin-top: 50px;">
-    <div class="col-xs-12">
+    <div class="col-xs-22 col-xs-offset-1 col-sm-20 col-sm-offset-2 col-md-18 col-md-offset-3 col-lg-16 col-lg-offset-4">
     {% for i in "12345" %}
-      {% cycle results results_grade results_load results_speech results_total as results_sorted silent %}
       {% cycle 'sort_name' 'sort_grade' 'sort_load' 'sort_speech' 'sort_total' as sort_id silent %}     
       <div class="list-group sort_result" id="{{ sort_id }}" role="tablist">
       {% if results|length == 0 %}
-        <div class="list-group-item">
+        <div class="list-group-item" >
           검색 결과가 없습니다.
         </div>
       {% endif %}
-      {% for result in results_sorted %}
-        <a href="{{ "#lecture"|add:result.3 }}" class="list-group-item" aria-controls="home" role="tab" data-toggle="tab">
-          {{ result.0.0.title }}
-        {% if result.0.1 != None %}
-          : {{ result.0.1.professor_name }}
-        {% endif %}
-          </br>
-        {% if result.2 != 0 %}
-          grade : {{ result.1.0|floatformat:2 }}&nbsp;&nbsp;
-          load : {{ result.1.1|floatformat:2 }}&nbsp;&nbsp;
-          speech : {{ result.1.2|floatformat:2 }}&nbsp;&nbsp;
-          total : {{ result.1.3|floatformat:2 }}</br>
-          {{ result.2 }}개의 평가
-        {% else %}
-          -</br>
-          평가 없음</br>
-        {% endif %}
-        </a>
+
+      {% for result in results %}
+      <div id="datacall"></div>
+      <li  class="list-group-item" >
+          {{ result.title}}
+      </li>
       {% endfor %}
-      </div>
-    {% endfor %}
-    </div>
-
-
-    <div class="col-xs-12 tab-content">
-    {% for result in results %}
-      <div id="{{"lecture"|add:result.3 }}" role="tabpanel" class="tab-pane panel">
-        <div class="panel-default">
-          <ul class="list-group">
-          {% for review in result.4 %}
-            <li class="list-group-item">
-              {{ review.lecture.year }}년 {{ review.lecture.semester }}학기 - {{ review.writer.user.id }}</br>
-              {{ review.comment }}</br>
-              grade : {{ review.grade }}&nbsp;&nbsp;
-              load : {{ review.load }}&nbsp;&nbsp;
-              speech : {{ review.speech }}&nbsp;&nbsp;
-              total : {{ review.total }}</br>
-              <button class="btn btn-default">
-                좋아요 {{ review.like }}
-              </button>
-            </li>
-          {% endfor %}
-          </ul>
-        </div>
       </div>
     {% endfor %}
     </div>
