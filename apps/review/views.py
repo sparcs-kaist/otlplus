@@ -117,6 +117,42 @@ def GetFilteredCourses(semester_filters, department_filters, type_filters, grade
         print "keyword :",keyword
     return courses
 
+def SearchCourse(courses):
+    results = []
+    for course in courses:
+        lecture_list=[]
+        for lecture in course.lecture_course.all():
+            professor_name = " "
+            for professor in lecture.professor.all():
+                professor_name+=professor.professor_name + " "
+            lecture_list.append({
+                "id" : lecture.id,    
+                "professor_name" : professor_name
+            })
+        grade = 0
+        load = 0
+        speech = 0
+        total = 0
+        comment_num = course.comment_num
+        
+        if comment_num !=0:
+            grade = course.grade_sum/comment_num
+            load = course.load_sum/comment_num
+            speech = course.speech_sum/comment_num
+            total = course.total_sum/comment_num
+
+        results.append({
+            "id":course.id,
+            "title":course.title,
+            "lecture_list":lecture_list,
+            "score":{"grade":grade, "load":load, "speech":speech, "total":total,},
+
+        })
+    return results
+def SearchComment(comments):
+    pass
+def SearchProfessor(professors):
+    pass
 
 #MainPage#################################################################################################
 def SearchResultView(request):
@@ -147,50 +183,10 @@ def SearchResultView(request):
 
     print "result_num :", (len(courses))
 
-    results = []
-    id = 0
-    """
-    for course in courses:
-        professors = [None]
-        comments = []
-        grade = 0
-        load = 0
-        speech = 0
-        total = 0
-        comment_num = 0
-        lectures = Lecture.objects.filter(course=course)
-        for lecture in lectures:
-            grade += lecture.grade_sum
-            load += lecture.load_sum
-            speech += lecture.speech_sum
-            total += lecture.total_sum
-            comment_num += lecture.comment_num
-            comments.extend(Comment.objects.filter(lecture=lecture))
-        if comment_num != 0:
-            grade = float(grade)/comment_num
-            load = float(load)/comment_num
-            speech = float(speech)/comment_num
-            total = float(total)/comment_num
-        id += 1
-        results.append([[course], [grade, load, speech, total], comment_num, str(id), comments])
-
-    def getgrade(item):
-        return item[1][0]
-    def getload(item):
-        return item[1][1]
-    def getspeech(item):
-        return item[1][2]
-    def gettotal(item):
-        return item[1][3]
-    results_grade=sorted(results,key=getgrade,reverse=True)
-    results_load=sorted(results,key=getload,reverse=True)
-    results_speech=sorted(results,key=getspeech,reverse=True)
-    results_total=sorted(results,key=gettotal,reverse=True)
-    """
-    paginator = Paginator(courses,100)
+    paginator = Paginator(courses,10)
     page_obj = paginator.page(1)
     context = {
-            "results": page_obj.object_list,
+            "results": SearchCourse(page_obj.object_list),
             "page":page_obj.number,
             "expectations":expectations,
     }
@@ -206,14 +202,14 @@ def SearchResultView_json(request, page):
     else :
         keyword = ""
     courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters, keyword)
-    paginator = Paginator(courses,100)
+    paginator = Paginator(courses,10)
     try:
         page_obj = paginator.page(page)
     except InvalidPage:
         raise Http404
 
     context = {
-            "results":[1,23,4,5],
+            "results":SearchCourse(page_obj.object_list),
     }
     print json.dumps(context)
     return JsonResponse(json.dumps(context),safe=False) 
