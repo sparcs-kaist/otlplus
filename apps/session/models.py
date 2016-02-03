@@ -1,7 +1,20 @@
 # -*- coding: utf-8
+from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
+from apps.session.sparcssso import Client
 from apps.subject.models import Department, Lecture
+
+
+# TESTING #
+sso_client = Client(is_test=True)
+
+# PRODUCTION #
+# sso_client = Client(is_test=False,
+#                     app_name='otlplus',
+#                     secret_key=settings.SSO_KEY)
+
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, related_name='profile')
@@ -10,6 +23,29 @@ class UserProfile(models.Model):
     language = models.CharField(max_length=15)
     favorite_departments = models.ManyToManyField('subject.Department', related_name='favoredby_set')
     take_lecture_list = models.ManyToManyField('subject.Lecture', related_name='take_lecture_list', blank=True)
+    point = 0
+    point_updated_time = None
+
+    def get_point(self, update=False):
+        if not self.point_updated_time or update:
+            self.sync_point()
+        return self.point, self.point_updated_time
+
+    def sync_point(self):
+        if sso_client.is_test:
+            self.point = 0
+        else:
+            self.point = sso_client.get_point(self.sid)
+        self.point_updated_time = timezone.now()
+
+    def add_point(self, delta, action):
+        if sso_client.is_test or delta <= 0:
+            return False
+
+        changed, point = sso_client.modify_point(self.sid, delta, action)
+        self.point = point
+        self.point_updated_time = timezone.now()
+        return changed
 
     def __unicode__(self):
         return u'%s %s' % (self.user.username, self.student_id)
