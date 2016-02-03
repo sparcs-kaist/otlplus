@@ -101,10 +101,6 @@ def isKorean(word):
     return True
 
 def GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters, keyword=""):
-    print "semesterF :", semester_filters
-    print "departmentF :", department_filters
-    print "typeF :", type_filters
-    print "gradeF :", grade_filters
     
     if len(semester_filters)==0 or ("ALL" in semester_filters):
         courses = Course.objects.filter(department__code__in=department_filters, type_en__in=type_filters, code_num__in=grade_filters)
@@ -181,10 +177,11 @@ def SearchResultView(request):
     else :
         expectations = []
 
-    print "result_num :", (len(courses))
-
     paginator = Paginator(courses,10)
     page_obj = paginator.page(1)
+
+    print "result_num :", (len(courses))
+    print "NextPage :", page_obj.has_next(), page_obj
     context = {
             "results": SearchCourse(page_obj.object_list),
             "page":page_obj.number,
@@ -207,11 +204,11 @@ def SearchResultView_json(request, page):
         page_obj = paginator.page(page)
     except InvalidPage:
         raise Http404
-
+    print "NextPage :", page_obj.has_next(), page_obj
     context = {
             "results":SearchCourse(page_obj.object_list),
+            "hasNext":page_obj.has_next(),
     }
-    print json.dumps(context)
     return JsonResponse(json.dumps(context),safe=False) 
 
 #Review Control Function#############################################################################################

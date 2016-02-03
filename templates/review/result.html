@@ -42,7 +42,6 @@ var loadOnScroll = function() {
 
 var loadItems = function() {
     if (hasNextPage === false) {
-        alert("hasnoNextPage");
         return false
     }
     pageNum = pageNum + 1;
@@ -52,6 +51,7 @@ var loadItems = function() {
         url: url, 
         success: function(responseData) {
             var data = JSON.parse(responseData);
+            hasNextPage=data.hasNext;
             var html = [];
             $.each(data.results, function(index, result){
                 html.push('<div class="panel panel-default course">') 
