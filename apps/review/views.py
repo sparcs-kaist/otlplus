@@ -179,7 +179,7 @@ def SearchResultView(request):
         else:
             for profobj in expect_prof:
                 expect_temp.append(profobj.professor_name_en)
-            for couseobj in expect_course:
+            for courseobj in expect_course:
                 expect_temp.append(courseobj.title_en)
         expectations = expect_temp
     else :
