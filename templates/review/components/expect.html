@@ -51,9 +51,9 @@
         {% else %}
             {% for e in expectations %}
                 <span class="h4">
-                  <a href="" class="label label-default">
-                      {{e}}
-                  </a>
+                    <a href="/review/result/?q={{e}}" class="label label-default">
+                        {{e}}
+                    </a>
                 </span>
             {% endfor %}
         {% endif %}
