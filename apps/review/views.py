@@ -101,7 +101,7 @@ def isKorean(word):
     return True
 
 def GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters, keyword=""):
-    
+
     if len(semester_filters)==0 or ("ALL" in semester_filters):
         courses = Course.objects.filter(department__code__in=department_filters, type_en__in=type_filters, code_num__in=grade_filters)
     else :
@@ -122,7 +122,7 @@ def SearchCourse(courses):
             for professor in lecture.professor.all():
                 professor_name+=professor.professor_name + " "
             lecture_list.append({
-                "id" : lecture.id,    
+                "id" : lecture.id,
                 "professor_name" : professor_name
             })
         grade = 0
@@ -130,7 +130,7 @@ def SearchCourse(courses):
         speech = 0
         total = 0
         comment_num = course.comment_num
-        
+
         if comment_num !=0:
             grade = course.grade_sum/comment_num
             load = course.load_sum/comment_num
@@ -152,7 +152,7 @@ def SearchProfessor(professors):
 
 #MainPage#################################################################################################
 def SearchResultView(request):
-    
+
     #filter search
     semester_filters = request.GET.getlist('semester')
     department_filters = DepartmentFilters(request.GET.getlist('department'))
@@ -164,19 +164,24 @@ def SearchResultView(request):
         keyword = ""
     courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters, keyword)
 
+    expectations=[]
     if len(keyword)>0 :
-        expectations = Professor.objects.filter(Q(professor_name__icontains=keyword) | Q(professor_name_en__icontains=keyword))
+        expect_prof = Professor.objects.filter(Q(professor_name__icontains=keyword) | Q(professor_name_en__icontains=keyword))
+        expect_course += Course.objects.filter(Q(title__icontains=keyword) | Q(title_en__icontains=keyword))
         expect_temp=[]
         if isKorean(keyword):
-            for profobj in expectations:
+            for profobj in expect_prof:
                 expect_temp.append(profobj.professor_name)
+            for courseobj in expect_courseobj:
+                expect_temp.append(courseobj.title)
         else:
-            for profobj in expectations:
+            for profobj in expect_prof:
                 expect_temp.append(profobj.professor_name_en)
+            for couseobj in expect_courseobj:
+                expect_temp.append(courseobj.title_en)
         expectations = expect_temp
     else :
-        expectations = []
-
+        pass
     paginator = Paginator(courses,10)
     page_obj = paginator.page(1)
 
@@ -209,7 +214,7 @@ def SearchResultView_json(request, page):
             "results":SearchCourse(page_obj.object_list),
             "hasNext":page_obj.has_next(),
     }
-    return JsonResponse(json.dumps(context),safe=False) 
+    return JsonResponse(json.dumps(context),safe=False)
 
 #Review Control Function#############################################################################################
 def ReviewDelete(request):
@@ -245,7 +250,7 @@ def ReviewInsertView(request,lecture_id=-1,semester=0):
     semester=int(semester)
     lec_year = (semester/10)+2000
     lec_sem = semester%10
-    if semester % 10 > 4 or semester < 0 or semester > 1000: 
+    if semester % 10 > 4 or semester < 0 or semester > 1000:
         return HttpResponseRedirect('../0')
     if semester == 0:
         lecture_list = user.take_lecture_list.all()
