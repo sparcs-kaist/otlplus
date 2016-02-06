@@ -268,13 +268,8 @@ def ReviewInsertView(request,lecture_id=-1,semester=0):
         lecture_object["sem_char"]=semchar[lecture_object["semester"]]
         lecture_object["year"]=single_lecture.year;
         lecture_object["lectime"]=(lecture_object["year"]-2000)*10+lecture_object["semester"]
-        professor_str="";
         prof_list = single_lecture.professor.all();
-        for single_prof_index in range(len(prof_list)):
-            professor_str = professor_str + prof_list[single_prof_index].professor_name
-            if(single_prof_index+1<len(prof_list)):
-                professor_str = professor_str + ", "
-        lecture_object["professor"]=professor_str
+        lecture_object["professor"]=", ".join([i.professor_name for i in prof_list])
         return_object.append(lecture_object)
     gradelist=['A','B','C','D','F']
     pre_comment =""
