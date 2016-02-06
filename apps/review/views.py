@@ -165,19 +165,21 @@ def SearchResultView(request):
     courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters, keyword)
 
     expectations=[]
+    expect_prof=[]
+    expect_course=[]
     if len(keyword)>0 :
         expect_prof = Professor.objects.filter(Q(professor_name__icontains=keyword) | Q(professor_name_en__icontains=keyword))
-        expect_course += Course.objects.filter(Q(title__icontains=keyword) | Q(title_en__icontains=keyword))
+        expect_course = Course.objects.filter(Q(title__icontains=keyword) | Q(title_en__icontains=keyword))
         expect_temp=[]
         if isKorean(keyword):
             for profobj in expect_prof:
                 expect_temp.append(profobj.professor_name)
-            for courseobj in expect_courseobj:
+            for courseobj in expect_course:
                 expect_temp.append(courseobj.title)
         else:
             for profobj in expect_prof:
                 expect_temp.append(profobj.professor_name_en)
-            for couseobj in expect_courseobj:
+            for couseobj in expect_course:
                 expect_temp.append(courseobj.title_en)
         expectations = expect_temp
     else :
