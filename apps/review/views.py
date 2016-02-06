@@ -221,14 +221,9 @@ def SearchResultView_json(request, page):
 #Review Control Function#############################################################################################
 def ReviewDelete(request):
     user = UserProfile.objects.get(student_id=request.POST['sid'])
-    lec = user.take_lecture_list.get(id=request.POST['lectureid'])
-    target = user.comment_set.get(lecture=lec);
-    lec.grade_sum -= target.grade
-    lec.load_sum -= target.load
-    lec.speech_sum -= target.speech
-    lec.total_sum -= target.total
-    target.delete()
-    lec.save()
+    lecture = user.take_lecture_list.get(id=request.POST['lectureid'])
+    target_comment = user.comment_set.get(lecture=lecture);
+    target_comment.u_delete()
     return HttpResponseRedirect('/review/insert/'+str(request.POST['lectureid'])+'/'+str(request.POST['semester']))
 
 def ReviewLike(request):
@@ -327,31 +322,10 @@ def ReviewInsertAdd(request,lecture_id,semester):
     total = (grade+load+speech+2)//3 #현재 float 불가
     writer = user #session 완성시 변경
     try :
-        temp = user.comment_set.all()
-        temp = temp.get(lecture=lecture)
-        change_before_grade = temp.grade;
-        change_before_load = temp.load;
-        change_before_speech = temp.speech;
-        change_before_total = temp.total;
-        temp.comment = comment
-        temp.grade = grade
-        temp.load = load
-        temp.speech = speech
-        temp.total = total
-        lecture.grade_sum += (grade-change_before_grade);
-        lecture.load_sum += (load-change_before_load);
-        lecture.speech_sum += (speech-change_before_speech);
-        lecture.total_sum += (total-change_before_total);
-        lecture.save()
-        temp.save()
+        target_comment = user.comment_set.get(lecture=lecture)
+        target_comment.u_update(grade=grade, load=load, speech=speech, total=total, comment=comment)
     except :
-        new_comment = Comment(course=course, lecture=lecture, comment=comment, grade=grade, load=load, speech=speech, total=total, writer=writer)
-        new_comment.save()
-        lecture.grade_sum += grade;
-        lecture.load_sum += load;
-        lecture.speech_sum += speech;
-        lecture.total_sum += total;
-        lecture.save()
+        Comment.u_create(course=course, lecture=lecture, comment=comment, grade=grade, load=load, speech=speech, total=total, writer=writer)
     return HttpResponseRedirect('../')
 
 def ReviewView(request, comment_id):
