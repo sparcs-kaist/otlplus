@@ -4,6 +4,29 @@
       <h4>혹시 이 과목(교수)을 검색하셨나요?</h4>
     </div>
   </div>
+  {% if view == 'insert' %}
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-xs-24">
+        <span class="h4">
+          <a href="/review/insert/" class="label label-default">
+            전체 학기
+          </a>
+        </span>
+        <span class="h4">
+          <a href="/review/insert/-1/153/" class="label label-default">
+            2015년 가을
+          </a>
+        </span>
+        <span class="h4">
+          <a href="/review/insert/-1/151/" class="label label-default">
+            2015년 봄
+          </a>
+        </span>
+      </div>
+    </div>
+  </div>
+  {% endif %}
   <div class="panel-body">
     <div class="row">
       <div class="col-xs-24">
