@@ -1,3 +1,18 @@
+.ellipsis-wrapper {
+  position: relative;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-wrap: break-word;
+  word-break: break-all; }
 
+.ellipsis-content {
+  left: 0;
+  right: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-wrap: break-word;
+  word-break: break-all; }
 
 /*# sourceMappingURL=global.css.map */
