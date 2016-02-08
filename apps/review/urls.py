@@ -20,9 +20,10 @@ from django.http import HttpResponseRedirect
 urlpatterns = [
     url(r'^$', lambda x: HttpResponseRedirect('../main/')),
     url(r'^result/([1-9][0-9]*)/$', 'apps.review.views.ReviewView'),
-    url(r'^result/$', 'apps.review.views.SearchResultView'),
+    url(r'^result/$', 'apps.review.views.SearchResultView', name="search_result_page"),
+    url(r'^result/json/(?P<page>[0-9]+)/$', 'apps.review.views.SearchResultView_json'),
     url(r'^insert/$', 'apps.review.views.ReviewInsertView'),
-    url(r'^insert/([^/]+)/add/$', 'apps.review.views.ReviewInsertAdd'),
-    url(r'^insert/([^/]+)/$', 'apps.review.views.ReviewInsertView'),
+    url(r'^insert/([^/]+)/([^/]+)/add/$', 'apps.review.views.ReviewInsertAdd'),
+    url(r'^insert/([^/]+)/([^/]+)/$', 'apps.review.views.ReviewInsertView'),
     url(r'^delete/$','apps.review.views.ReviewDelete'),
 ]

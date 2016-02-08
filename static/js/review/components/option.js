@@ -27,15 +27,14 @@ $("#options .chkall").on('change', function(){
     if($(this).is(':checked')){
         $(".chkelem").each(function(){
             if(this.name==name){
-                $(this).prop("checked",true);
+                $(this).prop("checked",false);
             }
             
         });
     }
     else {
-        $(".chkelem").each(function(){
-        if(this.name==name) $(this).prop("checked",false);
-        });
+        $(this).prop("checked",true);
+        
     }
 });
 
@@ -49,7 +48,14 @@ $("#options .chkelem").on('change', function(){
     
     $(".chkall").each(function(){
         if(this.name==name){
-            if(count==0) $(this).prop("checked",true);
+            if(count==0){
+                $(this).prop("checked",true);
+                $(".chkelem").each(function(){
+                    if(this.name==name){
+                        $(this).prop("checked",false);
+                    }
+                });
+            }
             else $(this).prop("checked",false);
         }
     });

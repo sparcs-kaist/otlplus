@@ -25,6 +25,104 @@
   <script type="text/javascript" src="/media/js/review/result.js"></script>
   <script type="text/javascript" src="/media/js/review/components/option.js"></script>
   <script type="text/javascript" src="/media/js/review/components/course.js"></script>
+<script>
+$(document).ready(function(){     
+    $(window).bind('scroll', loadOnScroll);
+});
+var pageNum = {{page}};
+var hasNextPage = true;
+
+
+var loadOnScroll = function() {
+    if ($(window).scrollTop() > $(document).height() - ($(window).height()*2)) {
+        $(window).unbind();
+        loadItems();
+    }
+};
+
+var loadItems = function() {
+    if (hasNextPage === false) {
+        return false
+    }
+    pageNum = pageNum + 1;
+    var url = "/review/result/json/"+pageNum.toString() + "/?" + window.location.href.split("?").pop()
+    $.ajax({
+        type:"GET",
+        url: url, 
+        success: function(responseData) {
+            var data = JSON.parse(responseData);
+            hasNextPage=data.hasNext;
+            var html = [];
+            $.each(data.results, function(index, result){
+                html.push('<div class="panel panel-default course">') 
+                    html.push('<div class="panel-body">') 
+                        html.push('<div class="row">') 
+                            html.push('<div class="col-xs-24 col-sm-18">') 
+                                html.push('<div class="panel-title">') 
+                                    html.push('<h4>',result.title,'</h4>') 
+                                html.push('</div>') 
+                                html.push('<div>') 
+                                    html.push('<span class="label-title">담당교수</span>') 
+                                    html.push('<span class="label-description">') 
+                                        html.push('<div class="professors">') 
+                                            for(i=0; i<result.lecture_list.length;i++){
+                                            html.push('<label>') 
+                                                html.push('<input class="professor" type="checkbox" autocomplete="off" name="type">') 
+                                                html.push('<span class="label label-default">',result.lecture_list[i].professor_name , '</span>') 
+                                            html.push('</label>') 
+                                            }
+                                        html.push('</div>') 
+                                    html.push('</span>') 
+                                html.push('</div>') 
+                                html.push('<div>') 
+                                    html.push('<span class="label-title">한줄 요약</span>') 
+                                    html.push('<span class="label-description">') 
+                                        html.push('등록되지 않았습니다. <i class="fa fa-pencil"></i>') 
+                                    html.push('</span>') 
+                                html.push('</div>') 
+                                html.push('<div>') 
+                                    html.push('<span class="label-title">주 교재</span>') 
+                                    html.push('<span class="label-description">') 
+                                        html.push('등록되지 않았습니다. <i class="fa fa-pencil"></i>') 
+                                    html.push('</span>') 
+                                html.push('</div>') 
+                            html.push('</div>') 
+                            html.push('<div class="col-xs-24 col-sm-6">') 
+                                html.push('<h4 class="text-center">') 
+                                    html.push('<span class="label label-danger">평균 점수</span>') 
+                                html.push('</h4>') 
+                                html.push('<div>') 
+                                    html.push('<div class="col-xs-12">') 
+                                        html.push('<p class="clearfix">') 
+                                        html.push('성적 <span>',result.score.grade,'</span>') 
+                                        html.push('</p>') 
+                                        html.push('<p class="clearfix">') 
+                                        html.push('널널 <span>',result.score.load,'</span>') 
+                                        html.push('</p>') 
+                                        html.push('<p class="clearfix">') 
+                                        html.push('강의 <span>',result.score.speech,'</span>') 
+                                        html.push('</p>') 
+                                    html.push('</div>') 
+                                    html.push('<div class="col-xs-12">') 
+                                        html.push('<div>') 
+                                            html.push('<span>',result.score.total,'</span>') 
+                                        html.push('</div>') 
+                                    html.push('</div>') 
+                                html.push('</div>') 
+                            html.push('</div>') 
+                        html.push('</div>') 
+                    html.push('</div>') 
+                html.push('</div>') 
+            });
+        $("#datacall").before(html.join(""));
+        },
+        complete: function(data){
+            $(window).bind('scroll', loadOnScroll);
+        }
+    });
+};   
+</script>
+
 {% endblock %}
 
 {% block header %}
@@ -35,9 +133,6 @@
   <div class="row">
     <div class="col-xs-22 col-xs-offset-1 col-sm-20 col-sm-offset-2 col-md-18 col-md-offset-3 col-lg-16 col-lg-offset-4">
       {% include 'review/components/option.html' with with_filter=True %}
-    </div>
-    <div class="col-xs-22 col-xs-offset-1 col-sm-20 col-sm-offset-2 col-md-18 col-md-offset-3 col-lg-16 col-lg-offset-4">
-      {% include 'review/components/course.html' with expectations=expectations %}
     </div>
     <div class="col-xs-22 col-xs-offset-1 col-sm-20 col-sm-offset-2 col-md-18 col-md-offset-3 col-lg-16 col-lg-offset-4">
       {% include 'review/components/expect.html' %}
@@ -51,60 +146,88 @@
   </div>
 
   <div class="row" style="margin-top: 50px;">
-    <div class="col-xs-12">
+    <div class="col-xs-22 col-xs-offset-1 col-sm-20 col-sm-offset-2 col-md-18 col-md-offset-3 col-lg-16 col-lg-offset-4">
     {% for i in "12345" %}
-      {% cycle results results_grade results_load results_speech results_total as results_sorted silent %}
       {% cycle 'sort_name' 'sort_grade' 'sort_load' 'sort_speech' 'sort_total' as sort_id silent %}     
       <div class="list-group sort_result" id="{{ sort_id }}" role="tablist">
       {% if results|length == 0 %}
-        <div class="list-group-item">
+        <div class="list-group-item" >
           검색 결과가 없습니다.
         </div>
       {% endif %}
-      {% for result in results_sorted %}
-        <a href="{{ "#lecture"|add:result.3 }}" class="list-group-item" aria-controls="home" role="tab" data-toggle="tab">
-          {{ result.0.0.title }}
-        {% if result.0.1 != None %}
-          : {{ result.0.1.professor_name }}
-        {% endif %}
-          </br>
-        {% if result.2 != 0 %}
-          grade : {{ result.1.0|floatformat:2 }}&nbsp;&nbsp;
-          load : {{ result.1.1|floatformat:2 }}&nbsp;&nbsp;
-          speech : {{ result.1.2|floatformat:2 }}&nbsp;&nbsp;
-          total : {{ result.1.3|floatformat:2 }}</br>
-          {{ result.2 }}개의 평가
-        {% else %}
-          -</br>
-          평가 없음</br>
-        {% endif %}
-        </a>
-      {% endfor %}
-      </div>
-    {% endfor %}
-    </div>
 
+      {% for result in results %}
 
-    <div class="col-xs-12 tab-content">
-    {% for result in results %}
-      <div id="{{"lecture"|add:result.3 }}" role="tabpanel" class="tab-pane panel">
-        <div class="panel-default">
-          <ul class="list-group">
-          {% for review in result.4 %}
-            <li class="list-group-item">
-              {{ review.lecture.year }}년 {{ review.lecture.semester }}학기 - {{ review.writer.user.id }}</br>
-              {{ review.comment }}</br>
-              grade : {{ review.grade }}&nbsp;&nbsp;
-              load : {{ review.load }}&nbsp;&nbsp;
-              speech : {{ review.speech }}&nbsp;&nbsp;
-              total : {{ review.total }}</br>
-              <button class="btn btn-default">
-                좋아요 {{ review.like }}
-              </button>
-            </li>
-          {% endfor %}
-          </ul>
+<div class="panel panel-default course">
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-xs-24 col-sm-18">
+        <div class="panel-title">
+            <h4>{{result.title}}</h4>
         </div>
+        <div>
+          <span class="label-title">
+            담당 교수
+          </span>
+          <span class="label-description">
+            <div class="professors">
+              {% for lecture in result.lecture_list %}
+              <label>
+                <input class="professor" type="checkbox" autocomplete="off" name="type">
+                <span class="label label-default">{{lecture.professor_name}}</span>
+              </label>
+              {% endfor %}
+            </div>
+          </span>
+        </div>
+        <div>
+          <span class="label-title">
+            한줄 요약
+          </span>
+          <span class="label-description">
+            등록되지 않았습니다. <i class="fa fa-pencil"></i>
+          </span>
+        </div>
+        <div>
+          <span class="label-title">
+            주 교재
+          </span>
+          <span class="label-description">
+            등록되지 않았습니다. <i class="fa fa-pencil"></i>
+          </span>
+        </div>
+      </div>
+      <div class="col-xs-24 col-sm-6">
+        <h4 class="text-center">
+          <span class="label label-danger">
+            평균 점수
+          </span>
+        </h4>
+        <div>
+          <div class="col-xs-12">
+            <p class="clearfix">
+            성적 <span>{{result.score.grade}}</span>
+            </p>
+            <p class="clearfix">
+            널널 <span>{{result.score.load}}</span>
+            </p>
+            <p class="clearfix">
+            강의 <span>{{result.score.speech}}</span>
+            </p>
+          </div>
+          <div class="col-xs-12">
+            <div>
+                <span>{{result.score.total}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+      {% endfor %}
+<div id="datacall"></div>
       </div>
     {% endfor %}
     </div>
