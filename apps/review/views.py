@@ -279,12 +279,17 @@ def ReviewInsertView(request,lecture_id=-1,semester=0):
     pre_grade="A"
     pre_load="A"
     pre_speech="A"
-    guideline="".join(open("apps/review/guideline","r").readlines())
+    subjectname=""
+    try:
+        guideline="".join(open("apps/review/guideline","r").readlines())
+    except:
+        guideline="Guideline Loading Error..."
     if str(lecture_id)==str(-1) and semester > 0:
         return HttpResponseRedirect('../../' + str(lecture_list[0].id) + '/'+str(return_object[0]["lectime"]))
     if semester > 0:
         now_lecture = user.take_lecture_list.get(id=lecture_id,year=lec_year,semester=lec_sem)
         try :
+            subjectname = now_lecture.title
             temp = user.comment_set.all()
             temp = temp.get(lecture=now_lecture)
             pre_comment = temp.comment
@@ -294,7 +299,7 @@ def ReviewInsertView(request,lecture_id=-1,semester=0):
         except : pre_comment = ''
     else:
         guideline="왼쪽 탭에서 과목을 선택해 주세요.\n"
-    ctx = {'semester':str(semester), 'lecture_id':str(lecture_id), 'reviewmsg':reviewmsg, 'object':return_object, 'comment':pre_comment, 'gradelist': gradelist,'grade': pre_grade,'load':pre_load,'speech':pre_speech, 'sid':sid_var, 'reviewguideline':guideline }
+    ctx = {'semester':str(semester), 'lecture_id':str(lecture_id), 'subjectname':subjectname, 'reviewmsg':reviewmsg, 'object':return_object, 'comment':pre_comment, 'gradelist': gradelist,'grade': pre_grade,'load':pre_load,'speech':pre_speech, 'sid':sid_var, 'reviewguideline':guideline }
     return render(request, 'review/insert.html',ctx)
 
 
