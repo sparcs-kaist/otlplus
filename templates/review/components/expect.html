@@ -1,10 +1,15 @@
+{% if view == 'insert' %}
+{% ifnotequal reviewmsg "" %}
+<div class="alert alert-info">
+  {{reviewmsg}}
+</div>
+{% endifnotequal %}
 <div class="panel panel-default expect">
   <div class="panel-heading">
     <div class="panel-title">
-      <h4>혹시 이 과목(교수)을 검색하셨나요?</h4>
+      <h4>학기를 선택해 주세요</h4>
     </div>
   </div>
-  {% if view == 'insert' %}
   <div class="panel-body">
     <div class="row">
       <div class="col-xs-24">
@@ -26,7 +31,14 @@
       </div>
     </div>
   </div>
-  {% endif %}
+</div>
+{% endif %}
+<div class="panel panel-default expect">
+  <div class="panel-heading">
+    <div class="panel-title">
+      <h4>혹시 이 과목(교수)을 검색하셨나요?</h4>
+    </div>
+  </div>
   <div class="panel-body">
     <div class="row">
       <div class="col-xs-24">
@@ -76,7 +88,7 @@
             {% if view == 'insert' %}
               <span class="h4">
                 <a href="/review/insert/{{ lecture.lecid }}/{{ lecture.lectime }}/" class="label label-default">
-                  {{ lecture.title }}({{ lecture.old_code }} {{ lecture.professor }})({{ lecture.year }} {{ lecture.sem_char }})
+                  {{ lecture.title }}({{ lecture.old_code }} {{ lecture.professor }}){% ifequal semester "0"%}({{ lecture.year }} {{ lecture.sem_char }}){% endifequal %}
                 </a>
               </span>
             {% else %}
