@@ -1,33 +1,34 @@
 <div class="panel panel-default review">
   <button class="likes" disabled>
-    <span>+</span>
-    <span>{{ comment.like }}</span>
+    <span>
+      <i class="fa fa-plus"></i> <span>{{ comment.like }}</span>
+    </span>
   </button>
-  <div class="panel-header">
-    <h4>
-        {{ comment.lecture.title }}
-    </h4>
-  </div>
-  <div class="panel-body">
-    <p class="text-muted">
-      {{ comment.comment|safe }}
-    </p>
-  </div>
-  <div class="panel-footer row">
-    <div class="col-xs-12 col-md-5 col-md-offset-4 text-right">
-        성적
-      {% for numbergrade, lettergrade in gradelist %}
-        {% ifequal numbergrade comment.grade %} <span class="grade">{{ lettergrade }}</span>{% endifequal %}
-      {% endfor %}
+  <div class="panel-body container-fluid">
+    <div class="row">
+      <div class="col-xs-24 lecture ellipsis-wrapper">
+        <h4 class="ellipsis-content">{{ comment.lecture.title }} <small class="text-muted">{{ comment.lecture.year }}</small></h4>
+      </div>
+      <div class="col-xs-24 comment text-muted">
+        {{ comment.comment|linebreaks }}
+      </div>
+      <div class="col-xs-24 statics text-right">
+        <span class="text-left clearfix">
+          성적
+          {% for numbergrade, lettergrade in gradelist %}
+            {% ifequal numbergrade comment.grade %} <span class="grade pull-right">{{ lettergrade }}</span>{% endifequal %}
+          {% endfor %}
+        </span>
+        {% for i in "123" %}
+        <span class="text-left clearfix">
+         {% cycle "널널" "강의" "종합" %}
+         {% cycle comment.load comment.speech comment.total as whichgrade silent %}
+           {% for numbergrade, lettergrade in gradelist %}
+             {% ifequal numbergrade whichgrade %} <span class="grade pull-right">{{ lettergrade }}</span>{% endifequal %}
+           {% endfor %}
+        </span>
+        {% endfor %}
+      </div>
     </div>
-    {% for i in "123" %}
-    <div class="col-xs-12 col-md-5 text-right">
-     {% cycle "널널" "강의" "종합" %}
-     {% cycle comment.load comment.speech comment.total as whichgrade silent %}
-       {% for numbergrade, lettergrade in gradelist %}
-         {% ifequal numbergrade whichgrade %} <span class="grade">{{ lettergrade }}</span>{% endifequal %}
-       {% endfor %}
-    </div>
-    {% endfor %}
   </div>
 </div>
