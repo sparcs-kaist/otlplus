@@ -4,9 +4,8 @@
   background-color: #f9f0f0; }
   #contents #options {
     position: relative;
-    margin-top: 0;
-    margin-bottom: 25px; }
+    margin-top: 20px; }
     #contents #options:active {
       display: block; }
 
-/*# sourceMappingURL=result.css.map */
+/*# sourceMappingURL=insert.css.map */

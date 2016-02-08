@@ -1,17 +1,19 @@
-.expect .panel-heading {
-  border-bottom: none;
-  padding: 30px;
-  padding-bottom: 20px;
-  background: #ffffff; }
-.expect .panel-body {
-  padding: 30px;
-  padding-top: 0; }
-  .expect .panel-body .h4 {
-    display: inline-block;
-    margin: 0;
-    margin-right: 0;
-    margin-bottom: 15px; }
-    .expect .panel-body .h4 a.label {
-      background: #e44e68; }
+.expect {
+  margin-bottom: 0; }
+  .expect .panel-heading {
+    border-bottom: none;
+    padding: 30px;
+    padding-bottom: 20px;
+    background: #ffffff; }
+  .expect .panel-body {
+    padding: 30px;
+    padding-top: 0; }
+    .expect .panel-body .h4 {
+      display: inline-block;
+      margin: 0;
+      margin-right: 0;
+      margin-bottom: 15px; }
+      .expect .panel-body .h4 a.label {
+        background: #e44e68; }
 
 /*# sourceMappingURL=expect.css.map */
