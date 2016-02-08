@@ -242,6 +242,7 @@ def ReviewLike(request):
 def ReviewInsertView(request,lecture_id=-1,semester=0):
     sid_var = "20150390"
     semchar=[None,"봄","여름","가을","겨울"]
+    reviewmsg=""
     user=UserProfile.objects.get(student_id=sid_var) #session 완성시 변경
     return_object = []
     semester=int(semester)
@@ -257,7 +258,9 @@ def ReviewInsertView(request,lecture_id=-1,semester=0):
         if semester == 0:
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
         else:
-            return HttpResponseRedirect('../0')
+            lecture_list = user.take_lecture_list.all()
+            reviewmsg = "<strong>에러!</strong> 원하시는 학기 또는 강의가 존재하지 않습니다"
+            lecture_id,semester=-1,0
 
     for single_lecture in lecture_list:
         lecture_object = {}
@@ -291,7 +294,7 @@ def ReviewInsertView(request,lecture_id=-1,semester=0):
         except : pre_comment = ''
     else:
         guideline="왼쪽 탭에서 과목을 선택해 주세요.\n"
-    ctx = {'semester':str(semester), 'lecture_id':str(lecture_id), 'object':return_object, 'comment':pre_comment, 'gradelist': gradelist,'grade': pre_grade,'load':pre_load,'speech':pre_speech, 'sid':sid_var, 'reviewguideline':guideline }
+    ctx = {'semester':str(semester), 'lecture_id':str(lecture_id), 'reviewmsg':reviewmsg, 'object':return_object, 'comment':pre_comment, 'gradelist': gradelist,'grade': pre_grade,'load':pre_load,'speech':pre_speech, 'sid':sid_var, 'reviewguideline':guideline }
     return render(request, 'review/insert.html',ctx)
 
 
