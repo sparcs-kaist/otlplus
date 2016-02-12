@@ -94,18 +94,18 @@ var loadItems = function() {
                                 html.push('<div>') 
                                     html.push('<div class="col-xs-12">') 
                                         html.push('<p class="clearfix">') 
-                                        html.push('성적 <span>',result.score.grade,'</span>') 
+                                        html.push('성적 <span>',result.score.grade.toFixed(1),'</span>')
                                         html.push('</p>') 
                                         html.push('<p class="clearfix">') 
-                                        html.push('널널 <span>',result.score.load,'</span>') 
+                                        html.push('널널 <span>',result.score.load.toFixed(1),'</span>') 
                                         html.push('</p>') 
                                         html.push('<p class="clearfix">') 
-                                        html.push('강의 <span>',result.score.speech,'</span>') 
+                                        html.push('강의 <span>',result.score.speech.toFixed(1),'</span>') 
                                         html.push('</p>') 
                                     html.push('</div>') 
                                     html.push('<div class="col-xs-12">') 
                                         html.push('<div>') 
-                                            html.push('<span>',result.score.total,'</span>') 
+                                            html.push('<span>',result.score.total.toFixed(1),'</span>') 
                                         html.push('</div>') 
                                     html.push('</div>') 
                                 html.push('</div>') 
@@ -200,18 +200,18 @@ var loadItems = function() {
         <div>
           <div class="col-xs-12">
             <p class="clearfix">
-            성적 <span>{{result.score.grade}}</span>
+            성적 <span>{{result.score.grade|floatformat:1}}</span>
             </p>
             <p class="clearfix">
-            널널 <span>{{result.score.load}}</span>
+            널널 <span>{{result.score.load|floatformat:1}}</span>
             </p>
             <p class="clearfix">
-            강의 <span>{{result.score.speech}}</span>
+            강의 <span>{{result.score.speech|floatformat:1}}</span>
             </p>
           </div>
           <div class="col-xs-12">
             <div>
-                <span>{{result.score.total}}</span>
+                <span>{{result.score.total|floatformat:1}}</span>
             </div>
           </div>
         </div>

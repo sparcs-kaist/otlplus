@@ -101,7 +101,6 @@ def isKorean(word):
     return True
 
 def GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters, keyword=""):
-
     if len(semester_filters)==0 or ("ALL" in semester_filters):
         courses = Course.objects.filter(department__code__in=department_filters, type_en__in=type_filters, code_num__in=grade_filters)
     else :
@@ -118,24 +117,22 @@ def SearchCourse(courses):
     for course in courses:
         lecture_list=[]
         for lecture in course.lecture_course.all():
-            professor_name = " "
-            for professor in lecture.professor.all():
-                professor_name+=professor.professor_name + " "
+            professors = lecture.professor.all()
+            professor_name = " " + " ".join([i.professor_name for i in professors]) + " "
             lecture_list.append({
                 "id" : lecture.id,
                 "professor_name" : professor_name
             })
-        grade = 0
-        load = 0
-        speech = 0
-        total = 0
         comment_num = course.comment_num
-
-        if comment_num !=0:
-            grade = course.grade_sum/comment_num
-            load = course.load_sum/comment_num
-            speech = course.speech_sum/comment_num
-            total = course.total_sum/comment_num
+        grade = 0.0
+        load = 0.0
+        speech = 0.0
+        total = 0.0
+        if comment_num != 0:
+            grade = float(course.grade_sum) / comment_num
+            load = float(course.load_sum) / comment_num
+            speech = float(course.speech_sum) / comment_num
+            total = float(course.total_sum) / comment_num
 
         results.append({
             "id":course.id,
@@ -152,7 +149,6 @@ def SearchProfessor(professors):
 
 #MainPage#################################################################################################
 def SearchResultView(request):
-
     #filter search
     semester_filters = request.GET.getlist('semester')
     department_filters = DepartmentFilters(request.GET.getlist('department'))
