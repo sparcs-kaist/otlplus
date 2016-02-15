@@ -26,6 +26,6 @@ urlpatterns = [
     url(r'^unregister/callback/$', 'apps.session.views.unregister_callback'),
 
     # User Preferences (e.g Favorite Department, Language)
-    url(r'^settings$', 'apps.session.views.settings'),
+    url(r'^settings/$', 'apps.session.views.settings'),
     #url(r'^set/language$', 'apps.session.views.set_language'),
 ]
