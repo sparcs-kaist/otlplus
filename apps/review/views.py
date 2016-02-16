@@ -160,8 +160,33 @@ def SearchComment(comments):
     return results
 
 
-def SearchProfessor(professors):
-    pass
+def SearchProfessor(professor):
+    lecture_list=[]
+    for lecture in professor.lecture_professor.all():
+        lecture_list.append({
+            "id" : lecture.id,
+            "title" : lecture.title,
+            "old_code" : lecture.old_code,
+        })
+    comment_num = professor.comment_num
+    grade = 0.0
+    load = 0.0
+    speech = 0.0
+    total = 0.0
+    if comment_num != 0:
+        grade = float(professor.grade_sum) / comment_num
+        load = float(professor.load_sum) / comment_num
+        speech = float(professor.speech_sum) / comment_num
+        total = float(professor.total_sum) / comment_num
+    result={
+        "type":"professor",
+        "id":professor.id,
+        "professor_name":professor.professor_name,
+        "lecture_list":lecture_list,
+        "score":{"grade":grade, "load":load, "speech":speech, "total":total,},
+
+    }
+    return result
 
 def Expectations(keyword):
     if not keyword :
@@ -223,7 +248,7 @@ def SearchResultView(request):
         expectations = Expectations(keyword)
         comments = Comment.objects.filter(Q(lecture__title__icontains=keyword) | Q(lecture__professor__professor_name__icontains=keyword) | Q(lecture__old_code__icontains=keyword))
 
-        paginator = Paginator(comments,5)
+        paginator = Paginator(comments,10)
         page_obj = paginator.page(1)
 
         results = SearchComment(page_obj.object_list)
@@ -263,7 +288,7 @@ def SearchResultView_json(request, page):
     else :
         comments = Comment.objects.filter(Q(lecture__title__icontains=keyword) | Q(lecture__professor__professor_name__icontains=keyword) | Q(lecture__old_code__icontains=keyword))
 
-        paginator = Paginator(comments,5)
+        paginator = Paginator(comments,10)
         try:
             page_obj = paginator.page(page)
         except InvalidPage:
@@ -279,6 +304,77 @@ def SearchResultView_json(request, page):
             "keyword":keyword,
     }
     return JsonResponse(json.dumps(context),safe=False)
+
+def SearchResultProfessorView(request,id=-1):
+    professor = Professor.objects.get(id=id)
+    comments = Comment.objects.filter(lecture__professor__id=id)
+    paginator = Paginator(comments,10)
+    page_obj = paginator.page(1)
+    results = SearchComment(page_obj.object_list)
+
+    print "result_num :", (len(comments))
+    print "NextPage :", page_obj.has_next(), page_obj
+
+    context = {
+            "mainbox":SearchProfessor(professor),
+            "results": results,
+            "page":page_obj.number,
+    }
+    return render(request, 'review/sresult.html', context)
+
+def SearchResultProfessorView_json(request, id,page):
+    comments = Comment.objects.filter(lecture__professor__id=id)
+    paginator = Paginator(comments,10)
+    try:
+        page_obj = paginator.page(page)
+    except InvalidPage:
+        raise Http404
+    results = SearchComment(page_obj.object_list)
+
+    print "NextPage :", page_obj.has_next(), page_obj
+
+    context = {
+            "results":results,
+            "hasNext":page_obj.has_next(),
+    }
+    return JsonResponse(json.dumps(context),safe=False)
+
+
+def SearchResultCourseView(request,id=-1):
+    course = [Course.objects.get(id=id)]
+    comments = Comment.objects.filter(course__id=id)
+
+    paginator = Paginator(comments,10)
+    page_obj = paginator.page(1)
+    results = SearchComment(page_obj.object_list)
+
+    print "result_num :", (len(comments))
+    print "NextPage :", page_obj.has_next(), page_obj
+
+    context = {
+            "mainbox":SearchCourse(course)[0],
+            "results": results,
+            "page":page_obj.number,
+    }
+    return render(request, 'review/sresult.html', context)
+
+def SearchResultCourseView_json(request, id,page):
+    comments = Comment.objects.filter(course__id=id)
+    paginator = Paginator(comments,10)
+    try:
+        page_obj = paginator.page(page)
+    except InvalidPage:
+        raise Http404
+    results = SearchComment(page_obj.object_list)
+
+    print "NextPage :", page_obj.has_next(), page_obj
+
+    context = {
+            "results":results,
+            "hasNext":page_obj.has_next(),
+    }
+    return JsonResponse(json.dumps(context),safe=False)
+
 
 #Review Control Function#############################################################################################
 def ReviewDelete(request):

@@ -22,7 +22,7 @@ $(document).ready(function(){
     });
 });
 
-$("#options .chkall").on('change', function(){
+$(".chkall").on('change', function(){
     name = this.name;
     if($(this).is(':checked')){
         $(".chkelem").each(function(){
@@ -38,7 +38,7 @@ $("#options .chkall").on('change', function(){
     }
 });
 
-$("#options .chkelem").on('change', function(){
+$(".chkelem").on('change', function(){
     name = this.name;
     count = 0
     $(".chkelem").each(function(){
@@ -61,12 +61,29 @@ $("#options .chkelem").on('change', function(){
     });
 });
 
-$("#options .chkone").click(function(){
-   $(".chkone").prop("checked",false);
+$(".chkone").click(function(){
+    var group = "input:checkbox[name='"+$(this).attr("name")+"']";
+   $(group).prop("checked",false);
    $(this).prop("checked",true);
 });
 
-$("#options input[type='checkbox']").on("change", function() {
+$(document).scroll(function() {
+    $("input[type='checkbox']").each(function(){
+      target = $(this);
+      target = target.closest('label');
+      if($(this).is(':checked')){
+          target.addClass("active");
+      }
+      else{
+          target.removeClass("active");
+      }
+
+
+    })
+});
+
+
+$(document).on("change", function() {
     $("input[type='checkbox']").each(function(){
       target = $(this);
       target = target.closest('label');

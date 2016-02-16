@@ -27,7 +27,7 @@
           <input type="text" name="q" class="form-control" placeholder="Search">
         </div>
         <button id="option" class="btn btn-default" type="button">옵션</button>
-        <button id="search" class="btn btn-default" type="submit">검색</button>
+        <button id="search" class="btn btn-default" type="submit" formaction="/review/result/">검색</button>
       </form>
       <ul class="nav navbar-nav navbar-right">
         {% if request.user.is_authenticated %}

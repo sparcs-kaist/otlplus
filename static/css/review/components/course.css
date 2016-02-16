@@ -19,7 +19,7 @@
         position: relative;
         top: -2px;
         margin-bottom: 0; }
-        .course .panel-body div.row > div:nth-of-type(1) > div .professors label input[type="checkbox"] {
+        .course .panel-body div.row > div:nth-of-type(1) > div .professors label input[type="checkbox"], .course .panel-body div.row > div:nth-of-type(1) > div .professors label input[type="radio"] {
           display: none; }
         .course .panel-body div.row > div:nth-of-type(1) > div .professors label span.label {
           background: #a7a7a7; }

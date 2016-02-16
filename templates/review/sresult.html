@@ -24,6 +24,7 @@
   {% include 'review/components/filter.js.html' %}
   <script type="text/javascript" src="/media/js/review/result.js"></script>
   <script type="text/javascript" src="/media/js/review/components/option.js"></script>
+  <script type="text/javascript" src="/media/js/review/components/course.js"></script>
 <script>
 $(document).ready(function(){     
     $(window).bind('scroll', loadOnScroll);
@@ -44,7 +45,7 @@ var loadItems = function() {
         return false
     }
     pageNum = pageNum + 1;
-    var url = "/review/result/json/"+pageNum.toString() + "/?" + window.location.href.split("?").pop()
+    var url = window.location.href +"json/"+pageNum.toString()
     $.ajax({
         type:"GET",
         url: url, 
@@ -53,74 +54,7 @@ var loadItems = function() {
             hasNextPage=data.hasNext;
             var html = [];
             $.each(data.results, function(index, result){
-                if(result.type == "course"){
-                html.push('<div class="panel panel-default course">') 
-                    html.push('<div class="panel-body">') 
-                        html.push('<div class="row">') 
-                            html.push('<div class="col-xs-24 col-sm-18">') 
-                                html.push('<div class="panel-title">') 
-                                    html.push('<h4>',result.title,'</h4>') 
-                                html.push('</div>') 
-                                html.push('<div>') 
-                                    html.push('<span class="label-title">담당교수</span>') 
-                                    html.push('<span class="label-description">') 
-                                        html.push('<div class="professors">') 
-                                            html.push('<label>') 
-                                                html.push('<input class="professor chkone" type="checkbox"  name="',result.id,'" checked="checked">') 
-                                                html.push('<span class="label label-default">','ALL', '</span>') 
-                                            html.push('</label>') 
-
-                                            for(i=0; i<result.lecture_list.length;i++){
-                                            html.push('<label>') 
-                                                html.push('<input class="professor chkone" type="checkbox" name="',result.id,'" >') 
-                                                html.push('<span class="label label-default">',result.lecture_list[i].professor_name , '</span>') 
-                                            html.push('</label>') 
-                                            }
-                                        html.push('</div>') 
-                                    html.push('</span>') 
-                                html.push('</div>') 
-                                html.push('<div>') 
-                                    html.push('<span class="label-title">한줄 요약</span>') 
-                                    html.push('<span class="label-description">') 
-                                        html.push('등록되지 않았습니다. <i class="fa fa-pencil"></i>') 
-                                    html.push('</span>') 
-                                html.push('</div>') 
-                                html.push('<div>') 
-                                    html.push('<span class="label-title">주 교재</span>') 
-                                    html.push('<span class="label-description">') 
-                                        html.push('등록되지 않았습니다. <i class="fa fa-pencil"></i>') 
-                                    html.push('</span>') 
-                                html.push('</div>') 
-                            html.push('</div>') 
-                            html.push('<div class="col-xs-24 col-sm-6">') 
-                                html.push('<h4 class="text-center">') 
-                                    html.push('<span class="label label-danger">평균 점수</span>') 
-                                html.push('</h4>') 
-                                html.push('<div>') 
-                                    html.push('<div class="col-xs-12">') 
-                                        html.push('<p class="clearfix">') 
-                                        html.push('성적 <span>',result.score.grade.toFixed(1),'</span>')
-                                        html.push('</p>') 
-                                        html.push('<p class="clearfix">') 
-                                        html.push('널널 <span>',result.score.load.toFixed(1),'</span>') 
-                                        html.push('</p>') 
-                                        html.push('<p class="clearfix">') 
-                                        html.push('강의 <span>',result.score.speech.toFixed(1),'</span>') 
-                                        html.push('</p>') 
-                                    html.push('</div>') 
-                                    html.push('<div class="col-xs-12">') 
-                                        html.push('<div>') 
-                                            html.push('<span>',result.score.total.toFixed(1),'</span>') 
-                                        html.push('</div>') 
-                                    html.push('</div>') 
-                                html.push('</div>') 
-                            html.push('</div>') 
-                        html.push('</div>') 
-                    html.push('</div>') 
-                html.push('</div>') 
-                }
                 if(result.type == "comment"){
-                    
                     html.push('<div class="panel panel-default review">') 
                         html.push('<button class="likes" disabled>') 
                             html.push('<span>') 
@@ -162,9 +96,9 @@ var loadItems = function() {
                     html.push('</div>') 
                 }
             });
-        $("#datacall").before(html.join(""));
-        },
-        error:function(){
+            $("#datacall").before(html.join(""));
+        }, 
+        error: function(){
             hasNextPage=false;
         },
         complete: function(data){
@@ -202,15 +136,14 @@ var loadItems = function() {
           검색 결과가 없습니다.
         </div>
       {% endif %}
-
-      {% for result in results %}
-        {% if result.type == "course" %}
+    
+      {% if mainbox.type == "course" %}
 <div class="panel panel-default course">
   <div class="panel-body">
     <div class="row">
       <div class="col-xs-24 col-sm-18">
         <div class="panel-title">
-            <h4>{{result.title}}</h4>
+            <h4>{{mainbox.title}}</h4>
         </div>
         <div>
           <span class="label-title">
@@ -219,12 +152,13 @@ var loadItems = function() {
           <span class="label-description">
             <div class="professors">
               <label>
-                  <input class="professor chkone" type="checkbox" name="{{result.id}}" value="ALL" checked="checked">
+                <input class="professor chkall chkone" type="checkbox" autocomplete="off" name="selected_professor" checked="checked">
                 <span class="label label-default">ALL</span>
               </label>
-              {% for lecture in result.lecture_list %}
+
+              {% for lecture in mainbox.lecture_list %}
               <label>
-                  <input class="professor chkone" type="checkbox" name="{{result.id}}">
+                <input class="professor chkelem chkone" type="checkbox" autocomplete="off" name="selected_professor">
                 <span class="label label-default">{{lecture.professor_name}}</span>
               </label>
               {% endfor %}
@@ -257,18 +191,18 @@ var loadItems = function() {
         <div>
           <div class="col-xs-12">
             <p class="clearfix">
-            성적 <span>{{result.score.grade|floatformat:1}}</span>
+            성적 <span>{{mainbox.score.grade|floatformat:1}}</span>
             </p>
             <p class="clearfix">
-            널널 <span>{{result.score.load|floatformat:1}}</span>
+            널널 <span>{{mainbox.score.load|floatformat:1}}</span>
             </p>
             <p class="clearfix">
-            강의 <span>{{result.score.speech|floatformat:1}}</span>
+            강의 <span>{{mainbox.score.speech|floatformat:1}}</span>
             </p>
           </div>
           <div class="col-xs-12">
             <div>
-                <span>{{result.score.total|floatformat:1}}</span>
+                <span>{{mainbox.score.total|floatformat:1}}</span>
             </div>
           </div>
         </div>
@@ -276,9 +210,87 @@ var loadItems = function() {
     </div>
   </div>
 </div>
-        {% endif %}
+      {% endif %}
 
-        {% if result.type == "comment" %}
+      {% if mainbox.type == "professor" %}
+<div class="panel panel-default course">
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-xs-24 col-sm-18">
+        <div class="panel-title">
+            <h4>{{mainbox.professor_name}}</h4>
+        </div>
+        <div>
+          <span class="label-title">
+            담당 과목
+          </span>
+          <span class="label-description">
+            <div class="professors">
+              <label>
+                <input class="professor chkall chkone" type="checkbox" autocomplete="off" name="selected_lecture" checked="checked">
+                <span class="label label-default">ALL</span>
+              </label>
+
+              {% for lecture in mainbox.lecture_list %}
+              <label>
+                <input class="professor chkelem chkone" type="checkbox" autocomplete="off" name="selected_lecture">
+                <span class="label label-default">{{lecture.title}}</span>
+              </label>
+              {% endfor %}
+            </div>
+          </span>
+        </div>
+        <div>
+          <span class="label-title">
+            한줄 요약
+          </span>
+          <span class="label-description">
+            등록되지 않았습니다. <i class="fa fa-pencil"></i>
+          </span>
+        </div>
+        <div>
+          <span class="label-title">
+            주 교재
+          </span>
+          <span class="label-description">
+            등록되지 않았습니다. <i class="fa fa-pencil"></i>
+          </span>
+        </div>
+      </div>
+      <div class="col-xs-24 col-sm-6">
+        <h4 class="text-center">
+          <span class="label label-danger">
+            평균 점수
+          </span>
+        </h4>
+        <div>
+          <div class="col-xs-12">
+            <p class="clearfix">
+            성적 <span>{{mainbox.score.grade|floatformat:1}}</span>
+            </p>
+            <p class="clearfix">
+            널널 <span>{{mainbox.score.load|floatformat:1}}</span>
+            </p>
+            <p class="clearfix">
+            강의 <span>{{mainbox.score.speech|floatformat:1}}</span>
+            </p>
+          </div>
+          <div class="col-xs-12">
+            <div>
+                <span>{{mainbox.score.total|floatformat:1}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      {% endif %}
+
+
+    
+
+      {% for result in results %}
 <div class="panel panel-default review">
   <button class="likes" disabled>
     <span>
@@ -313,7 +325,6 @@ var loadItems = function() {
     </div>
   </div>
 </div>
-        {% endif%}
 
       {% endfor %}
 <div id="datacall"></div>
