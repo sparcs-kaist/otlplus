@@ -129,7 +129,7 @@ def SearchCourse(courses):
             if len(names) == 1:
                 name_string = names[0]
             elif len(names) == 2:
-                name_string = names[0] + ' ' + names[1]
+                name_string = names[0] + ', ' + names[1]
             elif len(names) > 2:
                 name_string = names[0] + u' 외 %d명'%(len(names)-1)
             else:
