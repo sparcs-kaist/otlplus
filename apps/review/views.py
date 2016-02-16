@@ -100,16 +100,12 @@ def isKorean(word):
             return False
     return True
 
-def GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters, keyword=""):
+def GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters):
     if len(semester_filters)==0 or ("ALL" in semester_filters):
         courses = Course.objects.filter(department__code__in=department_filters, type_en__in=type_filters, code_num__in=grade_filters)
     else :
         courses = CourseFiltered.objects.get(title=semester_filters[0]).courses.filter(department__code__in=department_filters, type_en__in=type_filters, code_num__in=grade_filters)
 
-    #keyword search
-    if len(keyword)>0:
-        courses = courses.filter(Q(title__icontains=keyword) | Q(title_en__icontains=keyword) | Q(old_code__icontains=keyword) | Q(department__name__icontains=keyword) | Q(department__name_en__icontains=keyword) | Q(professors__professor_name__icontains=keyword) | Q(professors__professor_name_en__icontains=keyword))
-        print "keyword :",keyword
     return courses
 
 def SearchCourse(courses):
@@ -135,6 +131,7 @@ def SearchCourse(courses):
             total = float(course.total_sum) / comment_num
 
         results.append({
+            "type":"course",
             "id":course.id,
             "title":course.title,
             "lecture_list":lecture_list,
@@ -142,75 +139,144 @@ def SearchCourse(courses):
 
         })
     return results
+
 def SearchComment(comments):
-    pass
+    results = []
+    for comment in comments:
+        professors = comment.lecture.professor.all()
+        professor_name = " " + " ".join([i.professor_name for i in professors]) + " "
+        results.append({
+            "type":"comment",
+            "id":comment.id,
+            "lecture_title":comment.lecture.title,
+            "lecture_year":comment.lecture.year,
+            "professor_name":professor_name,
+            "writer":comment.writer_label, 
+            "comment":comment.comment,
+            "like":comment.like,
+            "score":{"grade":comment.grade, "load":comment.load, "speech":comment.speech, "total":comment.total,},
+            "gradelist": [(-1,'?'),(0,'F'),(1,'D'),(2,'C'),(3,'B'),(4,'A')],
+        })
+    return results
+
+
 def SearchProfessor(professors):
     pass
 
+def Expectations(keyword):
+    if not keyword :
+        return
+    expectations=[]
+    expect_prof=[]
+    expect_course=[]
+    expect_prof = Professor.objects.filter(Q(professor_name__icontains=keyword) | Q(professor_name_en__icontains=keyword))
+    expect_course = Course.objects.filter(Q(title__icontains=keyword) | Q(title_en__icontains=keyword) | Q(old_code__icontains=keyword))
+    expect_temp=[]
+    if isKorean(keyword):
+        for profobj in expect_prof:
+            expect_temp.append(profobj.professor_name)
+        for courseobj in expect_course:
+            expect_temp.append(courseobj.title)
+    else:
+        for profobj in expect_prof:
+            expect_temp.append(profobj.professor_name_en)
+        for courseobj in expect_course:
+            expect_temp.append(courseobj.title_en)
+    expectations = expect_temp
+    return expectations
+    
+
 #MainPage#################################################################################################
 def SearchResultView(request):
-    #filter search
-    semester_filters = request.GET.getlist('semester')
-    department_filters = DepartmentFilters(request.GET.getlist('department'))
-    type_filters = TypeFilters(request.GET.getlist('type'))
-    grade_filters = GradeFilters(request.GET.getlist('grade'))
     if 'q' in request.GET :
         keyword = request.GET['q']
     else :
         keyword = ""
-    courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters, keyword)
 
-    expectations=[]
-    expect_prof=[]
-    expect_course=[]
-    if len(keyword)>0 :
-        expect_prof = Professor.objects.filter(Q(professor_name__icontains=keyword) | Q(professor_name_en__icontains=keyword))
-        expect_course = Course.objects.filter(Q(title__icontains=keyword) | Q(title_en__icontains=keyword))
-        expect_temp=[]
-        if isKorean(keyword):
-            for profobj in expect_prof:
-                expect_temp.append(profobj.professor_name)
-            for courseobj in expect_course:
-                expect_temp.append(courseobj.title)
-        else:
-            for profobj in expect_prof:
-                expect_temp.append(profobj.professor_name_en)
-            for courseobj in expect_course:
-                expect_temp.append(courseobj.title_en)
-        expectations = expect_temp
+    if keyword == "":
+        expectations=[]
+        semester_filters = request.GET.getlist('semester')
+        department_filters = DepartmentFilters(request.GET.getlist('department'))
+        type_filters = TypeFilters(request.GET.getlist('type'))
+        grade_filters = GradeFilters(request.GET.getlist('grade'))
+        courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters)
+
+        paginator = Paginator(courses,10)
+        page_obj = paginator.page(1)
+
+        results = SearchCourse(page_obj.object_list)
+
+        print "result_num :", (len(courses))
+        print "NextPage :", page_obj.has_next(), page_obj
+
+    elif Course.objects.filter(title__iexact=keyword).exists():
+        return HttpResponseRedirect('/review/result/course/'+str(Course.objects.filter(title__iexact=keyword)[0].id))
+    elif Course.objects.filter(title_en__iexact=keyword).exists():
+        return HttpResponseRedirect('/review/result/course/'+str(Course.objects.filter(title_en__iexact=keyword)[0].id))
+    elif Course.objects.filter(old_code__iexact=keyword).exists():
+        return HttpResponseRedirect('/review/result/course/'+str(Course.objects.filter(old_code__iexact=keyword)[0].id))
+    elif Professor.objects.filter(professor_name__iexact=keyword).exists():
+        return HttpResponseRedirect('/review/result/professor/'+str(Professor.objects.filter(professor_name__iexact=keyword)[0].id))
+    elif Professor.objects.filter(professor_name_en__iexact=keyword).exists():
+        return HttpResponseRedirect('/review/result/professor/'+str(Professor.objects.filter(professor_name_en__iexact=keyword)[0].id))
     else :
-        pass
-    paginator = Paginator(courses,10)
-    page_obj = paginator.page(1)
+        expectations = Expectations(keyword)
+        comments = Comment.objects.filter(Q(lecture__title__icontains=keyword) | Q(lecture__professor__professor_name__icontains=keyword) | Q(lecture__old_code__icontains=keyword))
 
-    print "result_num :", (len(courses))
-    print "NextPage :", page_obj.has_next(), page_obj
+        paginator = Paginator(comments,5)
+        page_obj = paginator.page(1)
+
+        results = SearchComment(page_obj.object_list)
+
+        print "result_num :", (len(comments))
+        print "NextPage :", page_obj.has_next(), page_obj
+
     context = {
-            "results": SearchCourse(page_obj.object_list),
+            "results": results,
             "page":page_obj.number,
             "expectations":expectations,
+            "keyword": keyword,
     }
     return render(request, 'review/result.html', context)
 
 def SearchResultView_json(request, page):
-    semester_filters = request.GET.getlist('semester')
-    department_filters = DepartmentFilters(request.GET.getlist('department'))
-    type_filters = TypeFilters(request.GET.getlist('type'))
-    grade_filters = GradeFilters(request.GET.getlist('grade'))
     if 'q' in request.GET :
         keyword = request.GET['q']
     else :
         keyword = ""
-    courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters, keyword)
-    paginator = Paginator(courses,10)
-    try:
-        page_obj = paginator.page(page)
-    except InvalidPage:
-        raise Http404
+    
+    if keyword =="":
+        semester_filters = request.GET.getlist('semester')
+        department_filters = DepartmentFilters(request.GET.getlist('department'))
+        type_filters = TypeFilters(request.GET.getlist('type'))
+        grade_filters = GradeFilters(request.GET.getlist('grade'))
+        courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters)
+
+        paginator = Paginator(courses,10)
+        try:
+            page_obj = paginator.page(page)
+        except InvalidPage:
+            raise Http404
+
+        results = SearchCourse(page_obj.object_list)
+
+    else :
+        comments = Comment.objects.filter(Q(lecture__title__icontains=keyword) | Q(lecture__professor__professor_name__icontains=keyword) | Q(lecture__old_code__icontains=keyword))
+
+        paginator = Paginator(comments,5)
+        try:
+            page_obj = paginator.page(page)
+        except InvalidPage:
+            raise Http404
+
+        results = SearchComment(page_obj.object_list)
+
     print "NextPage :", page_obj.has_next(), page_obj
+
     context = {
-            "results":SearchCourse(page_obj.object_list),
+            "results":results,
             "hasNext":page_obj.has_next(),
+            "keyword":keyword,
     }
     return JsonResponse(json.dumps(context),safe=False)
 

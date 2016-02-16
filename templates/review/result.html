@@ -132,10 +132,12 @@ var loadItems = function() {
 {% block contents %}
   <div class="row">
     <div class="col-xs-22 col-xs-offset-1 col-sm-20 col-sm-offset-2 col-md-18 col-md-offset-3 col-lg-16 col-lg-offset-4">
-      {% include 'review/components/option.html' with with_filter=True %}
+        {% include 'review/components/option.html' with with_filter=True %}
     </div>
     <div class="col-xs-22 col-xs-offset-1 col-sm-20 col-sm-offset-2 col-md-18 col-md-offset-3 col-lg-16 col-lg-offset-4">
-      {% include 'review/components/expect.html' with lectures=expectations %}
+      {% if expectations %}
+        {% include 'review/components/expect.html' with lectures=expectations %}
+      {% endif %}
     </div>
   </div>
 
@@ -151,7 +153,7 @@ var loadItems = function() {
       {% endif %}
 
       {% for result in results %}
-
+        {% if result.type == "course" %}
 <div class="panel panel-default course">
   <div class="panel-body">
     <div class="row">
@@ -219,6 +221,44 @@ var loadItems = function() {
     </div>
   </div>
 </div>
+        {% endif %}
+
+        {% if result.type == "comment" %}
+<div class="panel panel-default review">
+  <button class="likes" disabled>
+    <span>
+      <i class="fa fa-plus"></i> <span>{{ result.like }}</span>
+    </span>
+  </button>
+  <div class="panel-body container-fluid">
+    <div class="row">
+      <div class="col-xs-24 lecture ellipsis-wrapper">
+        <h4 class="ellipsis-content">{{ result.lecture_title }} <small class="text-muted">{{ result.lecture_year }}</small></h4>
+      </div>
+      <div class="col-xs-24 comment text-muted">
+        {{ result.comment|linebreaks }}
+      </div>
+      <div class="col-xs-24 statics text-right">
+        <span class="text-left clearfix">
+          성적
+          {% for numbergrade, lettergrade in result.gradelist %}
+            {% ifequal numbergrade result.score.grade %} <span class="grade pull-right">{{ lettergrade }}</span>{% endifequal %}
+          {% endfor %}
+        </span>
+        {% for i in "123" %}
+        <span class="text-left clearfix">
+         {% cycle "널널" "강의" "종합" %}
+         {% cycle result.score.load result.score.speech result.score.total as whichgrade silent %}
+           {% for numbergrade, lettergrade in result.gradelist %}
+             {% ifequal numbergrade whichgrade %} <span class="grade pull-right">{{ lettergrade }}</span>{% endifequal %}
+           {% endfor %}
+        </span>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+        {% endif%}
 
       {% endfor %}
 <div id="datacall"></div>
