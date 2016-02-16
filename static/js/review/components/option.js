@@ -82,11 +82,13 @@ $("#options input[type='checkbox']").on("change", function() {
 });
 
 $("form.navbar-form").submit(function(){
-    var filters = $("#options input");
-    for (i=0; i<filters.length; i++)
-    {
-        var target = filters[i];
-        if (filters[i].checked == true)
-            $("<input>").attr("type","hydden").attr("name",target.name).attr("value",target.value).appendTo("form.navbar-form");
-    }
+    var form = $(this);
+    $("#options input").each(function(){
+        if ($(this).is(":checked"))
+        {
+            name = $(this).attr("name");
+            value = $(this).attr("value");
+            $("<input>").attr("type","hidden").attr("name",name).attr("value",value).appendTo(form);
+        }
+    })
 });
