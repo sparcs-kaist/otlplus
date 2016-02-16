@@ -70,10 +70,10 @@ var loadItems = function() {
                                                 html.push('<span class="label label-default">','ALL', '</span>') 
                                             html.push('</label>') 
 
-                                            for(i=0; i<result.lecture_list.length;i++){
+                                            for(i=0; i<result.prof_info.length;i++){
                                             html.push('<label>') 
-                                                html.push('<input class="professor chkone" type="checkbox" name="',result.id,'" >') 
-                                                html.push('<span class="label label-default">',result.lecture_list[i].professor_name , '</span>') 
+                                                html.push('<input class="professor chkone" type="checkbox" autocomplete="off" name="',result.id,'">') 
+                                                html.push('<span class="label label-default">',result.prof_info[i].name , '</span>') 
                                             html.push('</label>') 
                                             }
                                         html.push('</div>') 
@@ -222,10 +222,10 @@ var loadItems = function() {
                   <input class="professor chkone" type="checkbox" name="{{result.id}}" value="ALL" checked="checked">
                 <span class="label label-default">ALL</span>
               </label>
-              {% for lecture in result.lecture_list %}
+              {% for pinfo in result.prof_info %}
               <label>
-                  <input class="professor chkone" type="checkbox" name="{{result.id}}">
-                <span class="label label-default">{{lecture.professor_name}}</span>
+                  <input class="professor chkone" type="checkbox" autocomplete="off" name="{{result.id}}">
+                <span class="label label-default">{{pinfo.name}}</span>
               </label>
               {% endfor %}
             </div>
