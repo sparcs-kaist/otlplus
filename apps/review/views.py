@@ -9,6 +9,7 @@ from django.db.models import Q
 from datetime import datetime, timedelta, time, date
 from django.utils import timezone
 from math import exp
+from itertools import groupby
 #test
 from django.core.paginator import Paginator, InvalidPage
 from django.core import serializers
@@ -118,7 +119,25 @@ def SearchCourse(courses):
             lecture_list.append({
                 "id" : lecture.id,
                 "professor_name" : professor_name
+            })      # 수정 예정
+        
+        lectures = course.lecture_course.all()
+        lec_by_prof = [(i,j) for i,j in groupby(lectures, lambda x:set(x.professor.all()))]
+        prof_info = []
+        for professor, lectures in lec_by_prof:
+            names = [i.professor_name for i in professor]
+            if len(names) == 1:
+                name_string = names[0]
+            elif len(names) == 2:
+                name_string = names[0] + ' ' + names[1]
+            elif len(names) > 2:
+                name_string = names[0] + u' 외 %d명'%(len(names)-1)
+            else:
+                name_string = 'error'
+            prof_info.append({
+                "name" : name_string
             })
+
         comment_num = course.comment_num
         grade = 0.0
         load = 0.0
@@ -136,7 +155,7 @@ def SearchCourse(courses):
             "title":course.title,
             "lecture_list":lecture_list,
             "score":{"grade":grade, "load":load, "speech":speech, "total":total,},
-
+            "prof_info":prof_info,
         })
     return results
 
