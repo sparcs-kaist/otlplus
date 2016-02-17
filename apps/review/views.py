@@ -133,11 +133,15 @@ def isKorean(word):
             return False
     return True
 
-def GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters):
+def GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters, keyword):
     if len(semester_filters)==0 or ("ALL" in semester_filters):
         courses = Course.objects.filter(department__code__in=department_filters, type_en__in=type_filters, code_num__in=grade_filters)
     else :
         courses = CourseFiltered.objects.get(title=semester_filters[0]).courses.filter(department__code__in=department_filters, type_en__in=type_filters, code_num__in=grade_filters)
+
+    if len(keyword)>0:
+        courses = courses.filter(Q(title__icontains=keyword) | Q(title_en__icontains=keyword) | Q(old_code__icontains=keyword) | Q(department__name__icontains=keyword) | Q(department__name_en__icontains=keyword))
+
     return courses
 
 def KeyLecByProf(lecture):
@@ -277,39 +281,7 @@ def SearchResultView(request):
     else :
         keyword = ""
 
-    if keyword == "":
-        expectations=[]
-        semester_filters = request.GET.getlist('semester')
-        department_filters = DepartmentFilters(request.GET.getlist('department'))
-        type_filters = TypeFilters(request.GET.getlist('type'))
-        grade_filters = GradeFilters(request.GET.getlist('grade'))
-        if 'sort' in request.GET :
-            if request.GET['sort']=='name':
-                courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters).order_by('title','old_code')
-            elif request.GET['sort']=='total':
-                courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters).order_by('-total','old_code')
-            elif request.GET['sort']=='grade':
-                courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters).order_by('-grade','old_code')
-            elif request.GET['sort']=='load':
-                courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters).order_by('-load','old_code')
-            elif request.GET['sort']=='speech':
-                courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters).order_by('-speech','old_code')
-            else:
-                courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters).order_by('old_code')
-
-        else :
-            courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters).order_by('old_code')
-
-
-        paginator = Paginator(courses,10)
-        page_obj = paginator.page(1)
-
-        results = SearchCourse(page_obj.object_list)
-
-        print "result_num :", (len(courses))
-        print "NextPage :", page_obj.has_next(), page_obj
-
-    elif Course.objects.filter(title__iexact=keyword).exists():
+    if Course.objects.filter(title__iexact=keyword).exists():
         return HttpResponseRedirect('/review/result/course/'+str(Course.objects.filter(title__iexact=keyword)[0].id))
     elif Course.objects.filter(title_en__iexact=keyword).exists():
         return HttpResponseRedirect('/review/result/course/'+str(Course.objects.filter(title_en__iexact=keyword)[0].id))
@@ -319,16 +291,41 @@ def SearchResultView(request):
         return HttpResponseRedirect('/review/result/professor/'+str(Professor.objects.filter(professor_name__iexact=keyword)[0].id))
     elif Professor.objects.filter(professor_name_en__iexact=keyword).exists():
         return HttpResponseRedirect('/review/result/professor/'+str(Professor.objects.filter(professor_name_en__iexact=keyword)[0].id))
-    else :
-        expectations = Expectations(keyword)
-        comments = Comment.objects.filter(Q(lecture__title__icontains=keyword) | Q(lecture__professor__professor_name__icontains=keyword) | Q(lecture__old_code__icontains=keyword))
+    else:
+        semester_filters = request.GET.getlist('semester')
+        department_filters = DepartmentFilters(request.GET.getlist('department'))
+        type_filters = TypeFilters(request.GET.getlist('type'))
+        grade_filters = GradeFilters(request.GET.getlist('grade'))
+        courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters, keyword)
 
-        paginator = Paginator(comments,10)
+        if 'sort' in request.GET :
+            if request.GET['sort']=='name':
+                courses = courses.order_by('title','old_code')
+            elif request.GET['sort']=='total':
+                courses = courses.order_by('total','old_code')
+            elif request.GET['sort']=='grade':
+                courses = courses.order_by('grade','old_code')
+            elif request.GET['sort']=='load':
+                courses = courses.order_by('load','old_code')
+            elif request.GET['sort']=='speech':
+                courses = courses.order_by('speech','old_code')
+            else:
+                courses = courses.order_by('old_code')
+        else :
+            courses = courses.order_by('old_code')
+
+        if len(keyword)>0:
+            expectations = Professor.objects.filter(Q(professor_name__icontains=keyword)|Q(professor_name_en__icontains=keyword))
+            expectations = [{"name":i.professor_name,"id":i.id} for i in expectations]
+        else:
+            expectations = []
+
+        paginator = Paginator(courses,10)
         page_obj = paginator.page(1)
 
-        results = SearchComment(page_obj.object_list)
+        results = SearchCourse(page_obj.object_list)
 
-        print "result_num :", (len(comments))
+        print "result_num :", (len(courses))
         print "NextPage :", page_obj.has_next(), page_obj
 
     context = {
@@ -345,48 +342,35 @@ def SearchResultView_json(request, page):
     else :
         keyword = ""
     
-    if keyword =="":
-        semester_filters = request.GET.getlist('semester')
-        department_filters = DepartmentFilters(request.GET.getlist('department'))
-        type_filters = TypeFilters(request.GET.getlist('type'))
-        grade_filters = GradeFilters(request.GET.getlist('grade'))
-        if 'sort' in request.GET :
-            if request.GET['sort']=='name':
-                courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters).order_by('title','old_code')
-            elif request.GET['sort']=='total':
-                courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters).order_by('total','old_code')
-            elif request.GET['sort']=='grade':
-                courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters).order_by('grade','old_code')
-            elif request.GET['sort']=='load':
-                courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters).order_by('load','old_code')
-            elif request.GET['sort']=='speech':
-                courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters).order_by('speech','old_code')
-            else:
-                courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters).order_by('old_code')
-
-        else :
-            courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters).order_by('old_code')
-
-
-
-        paginator = Paginator(courses,10)
-        try:
-            page_obj = paginator.page(page)
-        except InvalidPage:
-            raise Http404
-
-        results = SearchCourse(page_obj.object_list)
-
+    semester_filters = request.GET.getlist('semester')
+    department_filters = DepartmentFilters(request.GET.getlist('department'))
+    type_filters = TypeFilters(request.GET.getlist('type'))
+    grade_filters = GradeFilters(request.GET.getlist('grade'))
+    courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters, keyword)
+    
+    if 'sort' in request.GET :
+        if request.GET['sort']=='name':
+            courses = courses.order_by('title','old_code')
+        elif request.GET['sort']=='total':
+            courses = courses.order_by('total','old_code')
+        elif request.GET['sort']=='grade':
+            courses = courses.order_by('grade','old_code')
+        elif request.GET['sort']=='load':
+            courses = courses.order_by('load','old_code')
+        elif request.GET['sort']=='speech':
+            courses = courses.order_by('speech','old_code')
+        else:
+            courses = courses.order_by('old_code')
     else :
-        comments = Comment.objects.filter(Q(lecture__title__icontains=keyword) | Q(lecture__professor__professor_name__icontains=keyword) | Q(lecture__old_code__icontains=keyword))
+        courses = courses.order_by('old_code')
 
-        paginator = Paginator(comments,10)
-        try:
-            page_obj = paginator.page(page)
-        except InvalidPage:
-            raise Http404
+    paginator = Paginator(courses,10)
+    try:
+        page_obj = paginator.page(page)
+    except InvalidPage:
+        raise Http404
 
-        results = SearchComment(page_obj.object_list)
+    results = SearchCourse(page_obj.object_list)
 
     print "NextPage :", page_obj.has_next(), page_obj
 
