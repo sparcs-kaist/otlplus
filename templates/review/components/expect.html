@@ -93,8 +93,8 @@
               </span>
             {% else %}
               <span class="h4">
-                <a href="/review/result/?q={{ lecture }}" class="label label-default">
-                  {{ lecture }}
+                <a href="/review/result/professor/{{ lecture.id }}" class="label label-default">
+                  {{ lecture.name }}
                 </a>
               </span>
             {% endif %}
