@@ -281,52 +281,42 @@ def SearchResultView(request):
     else :
         keyword = ""
 
-    if Course.objects.filter(title__iexact=keyword).exists():
-        return HttpResponseRedirect('/review/result/course/'+str(Course.objects.filter(title__iexact=keyword)[0].id))
-    elif Course.objects.filter(title_en__iexact=keyword).exists():
-        return HttpResponseRedirect('/review/result/course/'+str(Course.objects.filter(title_en__iexact=keyword)[0].id))
-    elif Course.objects.filter(old_code__iexact=keyword).exists():
-        return HttpResponseRedirect('/review/result/course/'+str(Course.objects.filter(old_code__iexact=keyword)[0].id))
-    elif Professor.objects.filter(professor_name__iexact=keyword).exists():
-        return HttpResponseRedirect('/review/result/professor/'+str(Professor.objects.filter(professor_name__iexact=keyword)[0].id))
-    elif Professor.objects.filter(professor_name_en__iexact=keyword).exists():
-        return HttpResponseRedirect('/review/result/professor/'+str(Professor.objects.filter(professor_name_en__iexact=keyword)[0].id))
-    else:
-        semester_filters = request.GET.getlist('semester')
-        department_filters = DepartmentFilters(request.GET.getlist('department'))
-        type_filters = TypeFilters(request.GET.getlist('type'))
-        grade_filters = GradeFilters(request.GET.getlist('grade'))
-        courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters, keyword)
+    
+    semester_filters = request.GET.getlist('semester')
+    department_filters = DepartmentFilters(request.GET.getlist('department'))
+    type_filters = TypeFilters(request.GET.getlist('type'))
+    grade_filters = GradeFilters(request.GET.getlist('grade'))
+    courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters, keyword)
 
-        if 'sort' in request.GET :
-            if request.GET['sort']=='name':
-                courses = courses.order_by('title','old_code')
-            elif request.GET['sort']=='total':
-                courses = courses.order_by('total','old_code')
-            elif request.GET['sort']=='grade':
-                courses = courses.order_by('grade','old_code')
-            elif request.GET['sort']=='load':
-                courses = courses.order_by('load','old_code')
-            elif request.GET['sort']=='speech':
-                courses = courses.order_by('speech','old_code')
-            else:
-                courses = courses.order_by('old_code')
-        else :
-            courses = courses.order_by('old_code')
-
-        if len(keyword)>0:
-            expectations = Professor.objects.filter(Q(professor_name__icontains=keyword)|Q(professor_name_en__icontains=keyword))
-            expectations = [{"name":i.professor_name,"id":i.id} for i in expectations]
+    if 'sort' in request.GET :
+        if request.GET['sort']=='name':
+            courses = courses.order_by('title','old_code')
+        elif request.GET['sort']=='total':
+            courses = courses.order_by('total','old_code')
+        elif request.GET['sort']=='grade':
+            courses = courses.order_by('grade','old_code')
+        elif request.GET['sort']=='load':
+            courses = courses.order_by('load','old_code')
+        elif request.GET['sort']=='speech':
+            courses = courses.order_by('speech','old_code')
         else:
-            expectations = []
+            courses = courses.order_by('old_code')
+    else :
+        courses = courses.order_by('old_code')
 
-        paginator = Paginator(courses,10)
-        page_obj = paginator.page(1)
+    if len(keyword)>0:
+        expectations = Professor.objects.filter(Q(professor_name__icontains=keyword)|Q(professor_name_en__icontains=keyword))
+        expectations = [{"name":i.professor_name,"id":i.id} for i in expectations]
+    else:
+        expectations = []
 
-        results = SearchCourse(page_obj.object_list)
+    paginator = Paginator(courses,10)
+    page_obj = paginator.page(1)
 
-        print "result_num :", (len(courses))
-        print "NextPage :", page_obj.has_next(), page_obj
+    results = SearchCourse(page_obj.object_list)
+
+    print "result_num :", (len(courses))
+    print "NextPage :", page_obj.has_next(), page_obj
 
     context = {
             "results": results,
