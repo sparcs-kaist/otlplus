@@ -21,7 +21,6 @@
 
 {% block javascripts %}
   {{ block.super }}
-  {% include 'review/components/filter.js.html' %}
   <script type="text/javascript" src="/media/js/review/result.js"></script>
   <script type="text/javascript" src="/media/js/review/components/option.js"></script>
 <script>
@@ -200,8 +199,6 @@ var loadItems = function() {
 
   <div class="row">
     <div class="col-xs-22 col-xs-offset-1 col-sm-20 col-sm-offset-2 col-md-18 col-md-offset-3 col-lg-16 col-lg-offset-4">
-    {% for i in "12345" %}
-      {% cycle 'sort_name' 'sort_grade' 'sort_load' 'sort_speech' 'sort_total' as sort_id silent %}     
       <div class="list-group sort_result" id="{{ sort_id }}" role="tablist">
       {% if results|length == 0 %}
         <div class="list-group-item" >
@@ -221,7 +218,6 @@ var loadItems = function() {
       {% endfor %}
 <div id="datacall"></div>
       </div>
-    {% endfor %}
     </div>
   </div>
 {% endblock %}
