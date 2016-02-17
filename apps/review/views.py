@@ -168,6 +168,12 @@ def SearchCourse(courses):
         lectures = list( course.lecture_course.all() )
         lec_by_prof = GetLecByProf(lectures)
         prof_info = []
+        prof_info.append({
+            "name" : "ALL",
+            "id" : -1,
+            "score":{"grade":course.grade, "load":course.load, "speech":course.speech, "total":course.total,},
+        })
+
         for lectures in lec_by_prof:
             names = [i.professor_name for i in lectures[0].professor.all()]
             if len(names) == 1:
@@ -178,27 +184,42 @@ def SearchCourse(courses):
                 name_string = names[0] + u' 외 %d명'%(len(names)-1)
             else:
                 name_string = 'error'
-            prof_info.append({
-                "name" : name_string
-            })
 
-        comment_num = course.comment_num
-        grade = 0.0
-        load = 0.0
-        speech = 0.0
-        total = 0.0
-        if comment_num != 0:
-            grade = float(course.grade_sum) / comment_num
-            load = float(course.load_sum) / comment_num
-            speech = float(course.speech_sum) / comment_num
-            total = float(course.total_sum) / comment_num
+            comment_num = 0
+            grade_sum = 0.0
+            load_sum = 0.0
+            speech_sum = 0.0
+            total_sum = 0.0
+            grade = 0.0
+            load = 0.0
+            speech = 0.0
+            total = 0.0
+
+            for lecture in course.lecture_course.filter(professor__id = lectures[0].professor.all()[0].id):
+                comment_num += lecture.comment_num
+                grade_sum += lecture.grade_sum
+                load_sum += lecture.load_sum
+                speech_sum += lecture.speech_sum
+                total_sum += lecture.total_sum
+
+            if comment_num != 0:
+                grade = float(grade_sum) / comment_num
+                load = float(load_sum) / comment_num
+                speech = float(speech_sum) / comment_num
+                total = float(total_sum) / comment_num
+
+            
+            prof_info.append({
+                "name" : name_string,
+                "id" : lectures[0].professor.all()[0].id,
+                "score":{"grade":grade, "load":load, "speech":speech, "total":total,},
+            })
 
         results.append({
             "type":"course",
             "id":course.id,
             "title":course.title,
             "lecture_list":lecture_list,
-            "score":{"grade":grade, "load":load, "speech":speech, "total":total,},
             "prof_info":prof_info,
         })
     return results
@@ -292,13 +313,13 @@ def SearchResultView(request):
         if request.GET['sort']=='name':
             courses = courses.order_by('title','old_code')
         elif request.GET['sort']=='total':
-            courses = courses.order_by('total','old_code')
+            courses = courses.order_by('-total','old_code')
         elif request.GET['sort']=='grade':
-            courses = courses.order_by('grade','old_code')
+            courses = courses.order_by('-grade','old_code')
         elif request.GET['sort']=='load':
-            courses = courses.order_by('load','old_code')
+            courses = courses.order_by('-load','old_code')
         elif request.GET['sort']=='speech':
-            courses = courses.order_by('speech','old_code')
+            courses = courses.order_by('-speech','old_code')
         else:
             courses = courses.order_by('old_code')
     else :
@@ -342,13 +363,13 @@ def SearchResultView_json(request, page):
         if request.GET['sort']=='name':
             courses = courses.order_by('title','old_code')
         elif request.GET['sort']=='total':
-            courses = courses.order_by('total','old_code')
+            courses = courses.order_by('-total','old_code')
         elif request.GET['sort']=='grade':
-            courses = courses.order_by('grade','old_code')
+            courses = courses.order_by('-grade','old_code')
         elif request.GET['sort']=='load':
-            courses = courses.order_by('load','old_code')
+            courses = courses.order_by('-load','old_code')
         elif request.GET['sort']=='speech':
-            courses = courses.order_by('speech','old_code')
+            courses = courses.order_by('-speech','old_code')
         else:
             courses = courses.order_by('old_code')
     else :
@@ -371,9 +392,11 @@ def SearchResultView_json(request, page):
     }
     return JsonResponse(json.dumps(context),safe=False)
 
-def SearchResultProfessorView(request,id=-1):
+def SearchResultProfessorView(request,id=-1,course_id=-1):
     professor = Professor.objects.get(id=id)
     comments = Comment.objects.filter(lecture__professor__id=id)
+    if int(course_id) != -1:
+        comments = comments.filter(lecture__course__id=course_id)
     paginator = Paginator(comments,10)
     page_obj = paginator.page(1)
     results = SearchComment(page_obj.object_list)
@@ -388,8 +411,10 @@ def SearchResultProfessorView(request,id=-1):
     }
     return render(request, 'review/sresult.html', context)
 
-def SearchResultProfessorView_json(request, id,page):
+def SearchResultProfessorView_json(request, id=-1,course_id=-1,page=-1):
     comments = Comment.objects.filter(lecture__professor__id=id)
+    if int(course_id) != -1:
+        comments = comments.filter(lecture__course__id=course_id)
     paginator = Paginator(comments,10)
     try:
         page_obj = paginator.page(page)
@@ -406,10 +431,11 @@ def SearchResultProfessorView_json(request, id,page):
     return JsonResponse(json.dumps(context),safe=False)
 
 
-def SearchResultCourseView(request,id=-1):
+def SearchResultCourseView(request,id=-1,professor_id=-1):
     course = [Course.objects.get(id=id)]
     comments = Comment.objects.filter(course__id=id)
-
+    if int(professor_id) != -1:
+        comments = comments.filter(lecture__professor__id=professor_id)
     paginator = Paginator(comments,10)
     page_obj = paginator.page(1)
     results = SearchComment(page_obj.object_list)
@@ -424,8 +450,10 @@ def SearchResultCourseView(request,id=-1):
     }
     return render(request, 'review/sresult.html', context)
 
-def SearchResultCourseView_json(request, id,page):
+def SearchResultCourseView_json(request, id=-1,professor_id=-1,page=-1):
     comments = Comment.objects.filter(course__id=id)
+    if int(professor_id) != -1:
+        comments = comments.filter(lecture__professor__id=professor_id)
     paginator = Paginator(comments,10)
     try:
         page_obj = paginator.page(page)
@@ -546,7 +574,7 @@ def ReviewInsertAdd(request,lecture_id,semester):
     grade = 5-int(request.POST['gradescore'])
     load = 5-int(request.POST['loadscore'])
     speech = 5-int(request.POST['speechscore'])
-    total = (grade+load+speech+2)//3 #현재 float 불가
+    total = (grade+load+speech)/3.0 #현재 float 불가
     writer = user #session 완성시 변경
     try :
         target_comment = user.comment_set.get(lecture=lecture)

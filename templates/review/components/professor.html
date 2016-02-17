@@ -3,22 +3,23 @@
     <div class="row">
       <div class="col-xs-24 col-sm-18">
         <div class="panel-title">
-            <h4>{{result.professor_name}}</h4>
+            <h4><a>{{result.professor_name}}<a></h4>
         </div>
         <div>
           <span class="label-title">
             담당 과목
           </span>
+          <input type="hidden" name="professor_id" value="result.id">
           <span class="label-description">
             <div class="professors">
               <label>
-                <input class="professor chkall chkone" type="checkbox" name="selected_lecture" checked="checked">
+                  <input class="professor chkall chkone" type="checkbox" name="{{result.id}}" value="-1" checked="checked">
                 <span class="label label-default">ALL</span>
               </label>
 
               {% for lecture in result.lecture_list %}
               <label>
-                <input class="professor chkelem chkone" type="checkbox" name="selected_lecture">
+                  <input class="professor chkelem chkone" type="checkbox" name="{{result.id}}" value="{{lecture.course.id}}">
                 <span class="label label-default">{{lecture.title}}</span>
               </label>
               {% endfor %}

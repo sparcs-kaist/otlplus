@@ -21,6 +21,7 @@
 
 {% block javascripts %}
   {{ block.super }}
+  <script type="text/javascript" src="/media/js/review/components/course.js"></script>
   <script type="text/javascript" src="/media/js/review/result.js"></script>
   <script type="text/javascript" src="/media/js/review/components/option.js"></script>
 <script>
@@ -174,6 +175,13 @@ var loadItems = function() {
 };   
 </script>
 
+<script>
+    $(".chkone").each(function(){
+        if($(this).val()==="-1"){
+            $(this).prop("checked",true);
+        }
+    });
+</script>
 {% endblock %}
 
 {% block header %}

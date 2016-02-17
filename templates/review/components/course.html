@@ -3,21 +3,18 @@
     <div class="row">
       <div class="col-xs-24 col-sm-18">
         <div class="panel-title">
-            <h4>{{result.title}}</h4>
+            <h4><a>{{result.title}}</a></h4>
         </div>
         <div>
           <span class="label-title">
             담당 교수
           </span>
+          <input type="hidden" name="course_id" value="{{result.id}}">
           <span class="label-description">
             <div class="professors">
-              <label>
-                  <input class="professor chkone" type="checkbox" name="{{result.id}}" value="ALL" checked="checked">
-                <span class="label label-default">ALL</span>
-              </label>
               {% for pinfo in result.prof_info %}
               <label>
-                  <input class="professor chkone" type="checkbox" autocomplete="off" name="{{result.id}}">
+                  <input class="professor chkone" type="checkbox" autocomplete="off" name="{{result.id}}" value="{{pinfo.id}}">
                 <span class="label label-default">{{pinfo.name}}</span>
               </label>
               {% endfor %}
@@ -50,18 +47,29 @@
         <div>
           <div class="col-xs-12">
             <p class="clearfix">
-            성적 <span>{{result.score.grade|floatformat:1}}</span>
+            성적{% for pinfo in result.prof_info %}
+                    <span class="score {{result.id}} {{pinfo.id}} {{pinfo.name}}" >{{pinfo.score.grade|floatformat:1}}</span>
+                {% endfor %}
+
             </p>
             <p class="clearfix">
-            널널 <span>{{result.score.load|floatformat:1}}</span>
+            널널{% for pinfo in result.prof_info %}
+                    <span class="score {{result.id}} {{pinfo.id}} {{pinfo.name}}" >{{pinfo.score.load|floatformat:1}}</span>
+                {% endfor %}
+
             </p>
             <p class="clearfix">
-            강의 <span>{{result.score.speech|floatformat:1}}</span>
+            강의{% for pinfo in result.prof_info %}
+                    <span class="score {{result.id}} {{pinfo.id}} {{pinfo.name}}" >{{pinfo.score.speech|floatformat:1}}</span>
+                {% endfor %}
+
             </p>
           </div>
           <div class="col-xs-12">
             <div>
-                <span>{{result.score.total|floatformat:1}}</span>
+                {% for pinfo in result.prof_info %}
+                    <span class="score {{result.id}} {{pinfo.id}} {{pinfo.name}}" >{{pinfo.score.total|floatformat:1}}</span>
+                {% endfor %}
             </div>
           </div>
         </div>

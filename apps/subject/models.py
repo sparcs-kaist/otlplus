@@ -28,9 +28,16 @@ class Lecture(models.Model):
     load_sum = models.IntegerField(default=0)
     speech_sum = models.IntegerField(default=0)
     total_sum = models.IntegerField(default=0)
+ 
+    grade = models.FloatField(default=0.0)
+    load = models.FloatField(default=0.0)
+    speech = models.FloatField(default=0.0)
+    total = models.FloatField(default=0.0)
+
     comment_num = models.IntegerField(default=0)
 
     def avg_update(self):
+        self.total_sum = (self.grade_sum+self.load_sum+self.speech_sum)/3.0
         self.grade = (self.grade_sum + 0.0)/self.comment_num
         self.load = (self.load_sum + 0.0)/self.comment_num
         self.speech = (self.speech_sum + 0.0)/self.comment_num
@@ -78,6 +85,7 @@ class Course(models.Model):
     total = models.FloatField(default=0.0)
 
     def avg_update(self):
+        self.total_sum = (self.grade_sum+self.load_sum+self.speech_sum)/3.0
         self.grade = (self.grade_sum + 0.0)/self.comment_num
         self.load = (self.load_sum + 0.0)/self.comment_num
         self.speech = (self.speech_sum + 0.0)/self.comment_num
@@ -105,6 +113,7 @@ class Professor(models.Model):
     total = models.FloatField(default=0.0)
 
     def avg_update(self):
+        self.total_sum = (self.grade_sum+self.load_sum+self.speech_sum)/3.0
         self.grade = (self.grade_sum + 0.0)/self.comment_num
         self.load = (self.load_sum + 0.0)/self.comment_num
         self.speech = (self.speech_sum + 0.0)/self.comment_num

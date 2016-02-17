@@ -5,8 +5,7 @@ $(document).ready(function(){
         $("input[type='checkbox'][name='sort']").prop("checked",false);
         $("input[type='checkbox'][name='sort'][value="+sort_value+"]").prop("checked",true);
     }
-
-
+    
     $("input[type='checkbox']").each(function(){
       target = $(this);
       target = target.closest('label');

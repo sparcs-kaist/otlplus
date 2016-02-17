@@ -11,7 +11,7 @@ class Comment(models.Model):
     grade = models.SmallIntegerField(default=-1)
     load = models.SmallIntegerField(default=-1)
     speech = models.SmallIntegerField(default=-1)
-    total = models.SmallIntegerField(default=-1)
+    total = models.FloatField(default=-1.0)
 
     writer = models.ForeignKey(UserProfile, related_name='comment_set', db_index=True)
     writer_label = models.CharField(max_length=200, default=u"무학과 넙죽이")
@@ -29,7 +29,6 @@ class Comment(models.Model):
             related.grade_sum += grade
             related.load_sum += load
             related.speech_sum += speech
-            related.total_sum += total
             related.comment_num += 1
             related.avg_update()
             related.save()
@@ -53,7 +52,6 @@ class Comment(models.Model):
         self.grade = grade
         self.load = load
         self.speech = speech
-        self.total = total
         self.save()
 
     def u_delete(self):
@@ -65,7 +63,6 @@ class Comment(models.Model):
             related.grade_sum -= self.grade
             related.load_sum -= self.load
             related.speech_sum -= self.speech
-            related.total_sum -= self.total
             related.comment_num -= 1
             related.avg_update()
             related.save()
