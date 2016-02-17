@@ -138,8 +138,16 @@ def GetFilteredCourses(semester_filters, department_filters, type_filters, grade
         courses = Course.objects.filter(department__code__in=department_filters, type_en__in=type_filters, code_num__in=grade_filters)
     else :
         courses = CourseFiltered.objects.get(title=semester_filters[0]).courses.filter(department__code__in=department_filters, type_en__in=type_filters, code_num__in=grade_filters)
-
     return courses
+
+def KeyLecByProf(lecture):
+    return sorted([i.id for i in lecture.professor.all()])
+
+def GetLecByProf(lectures):
+    lectures.sort(key = KeyLecByProf)
+    lec_by_prof = groupby(lectures, KeyLecByProf)
+    lec_by_prof = [ list(i[1]) for i in lec_by_prof ]
+    return lec_by_prof
 
 def SearchCourse(courses):
     results = []
@@ -153,11 +161,11 @@ def SearchCourse(courses):
                 "professor_name" : professor_name
             })      # 수정 예정
         
-        lectures = course.lecture_course.all()
-        lec_by_prof = [(i,j) for i,j in groupby(lectures, lambda x:set(x.professor.all()))]
+        lectures = list( course.lecture_course.all() )
+        lec_by_prof = GetLecByProf(lectures)
         prof_info = []
-        for professor, lectures in lec_by_prof:
-            names = [i.professor_name for i in professor]
+        for lectures in lec_by_prof:
+            names = [i.professor_name for i in lectures[0].professor.all()]
             if len(names) == 1:
                 name_string = names[0]
             elif len(names) == 2:
