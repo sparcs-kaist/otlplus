@@ -55,7 +55,7 @@
         {% cycle "사랑받는 교양 후기" "사랑받는 전공 후기" %}
       </h2>
       {% cycle liberal_comment major_comment as cbestcomment silent %}
-      {% for comment in cbestcomment %}
+      {% for result in cbestcomment %}
         {% include 'review/components/review.html' %}
       {% endfor %}
     </div>

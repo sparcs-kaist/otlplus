@@ -65,12 +65,26 @@ def search_view(request):
 
     liberal_comment = []
     major_comment = []
-    gradelist=[(-1,'?'),(0,'F'),(1,'D'),(2,'C'),(3,'B'),(4,'A')]
 
     for i in range(3):
         try :
             j = random.randint(0, len(comment_liberal)-1)
-            liberal_comment.append(comment_liberal[j].comment)
+            comment = comment_liberal[j].comment
+            professors = comment.lecture.professor.all()
+            professor_name = " " + " ".join([i.professor_name for i in professors]) + " "
+            context = {
+                "type":"comment",
+                "id":comment.id,
+                "lecture_title":comment.lecture.title,
+                "lecture_year":comment.lecture.year,
+                "professor_name":professor_name,
+                "writer":comment.writer_label, 
+                "comment":comment.comment,
+                "like":comment.like,
+                "score":{"grade":comment.grade, "load":comment.load, "speech":comment.speech, "total":comment.total,},
+                "gradelist": [(-1,'?'),(0,'F'),(1,'D'),(2,'C'),(3,'B'),(4,'A')],
+            }
+            liberal_comment.append(context)
             comment_liberal.pop(j)
 
         except Exception, e:
@@ -80,13 +94,31 @@ def search_view(request):
     for i in range(3):
         try:
             j = random.randint(0,len(comment_major)-1)
-            major_comment.append(comment_major[j].comment)
+
+
+            comment = comment_major[j].comment
+            professors = comment.lecture.professor.all()
+            professor_name = " " + " ".join([i.professor_name for i in professors]) + " "
+            context = {
+                "type":"comment",
+                "id":comment.id,
+                "lecture_title":comment.lecture.title,
+                "lecture_year":comment.lecture.year,
+                "professor_name":professor_name,
+                "writer":comment.writer_label, 
+                "comment":comment.comment,
+                "like":comment.like,
+                "score":{"grade":comment.grade, "load":comment.load, "speech":comment.speech, "total":comment.total,},
+                "gradelist": [(-1,'?'),(0,'F'),(1,'D'),(2,'C'),(3,'B'),(4,'A')],
+            }
+            major_comment.append(context)
             comment_major.pop(j)
 
         except Exception, e:
             print e
             pass
-    ctx = {'liberal_comment':liberal_comment, 'major_comment':major_comment, 'gradelist':gradelist}
+
+    ctx = {'liberal_comment':liberal_comment, 'major_comment':major_comment}
 
     return render(request, 'review/search.html',ctx)
 #####################################################################################################
@@ -335,7 +367,7 @@ def SearchResultProfessorView(request,id=-1):
     print "NextPage :", page_obj.has_next(), page_obj
 
     context = {
-            "mainbox":SearchProfessor(professor),
+            "result":SearchProfessor(professor),
             "results": results,
             "page":page_obj.number,
     }
@@ -371,7 +403,7 @@ def SearchResultCourseView(request,id=-1):
     print "NextPage :", page_obj.has_next(), page_obj
 
     context = {
-            "mainbox":SearchCourse(course)[0],
+            "result":SearchCourse(course)[0],
             "results": results,
             "page":page_obj.number,
     }

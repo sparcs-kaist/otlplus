@@ -207,114 +207,11 @@ var loadItems = function() {
 
       {% for result in results %}
         {% if result.type == "course" %}
-<div class="panel panel-default course">
-  <div class="panel-body">
-    <div class="row">
-      <div class="col-xs-24 col-sm-18">
-        <div class="panel-title">
-            <h4>{{result.title}}</h4>
-        </div>
-        <div>
-          <span class="label-title">
-            담당 교수
-          </span>
-          <span class="label-description">
-            <div class="professors">
-              <label>
-                  <input class="professor chkone" type="checkbox" name="{{result.id}}" value="ALL" checked="checked">
-                <span class="label label-default">ALL</span>
-              </label>
-              {% for pinfo in result.prof_info %}
-              <label>
-                  <input class="professor chkone" type="checkbox" autocomplete="off" name="{{result.id}}">
-                <span class="label label-default">{{pinfo.name}}</span>
-              </label>
-              {% endfor %}
-            </div>
-          </span>
-        </div>
-        <div>
-          <span class="label-title">
-            한줄 요약
-          </span>
-          <span class="label-description">
-            등록되지 않았습니다. <i class="fa fa-pencil"></i>
-          </span>
-        </div>
-        <div>
-          <span class="label-title">
-            주 교재
-          </span>
-          <span class="label-description">
-            등록되지 않았습니다. <i class="fa fa-pencil"></i>
-          </span>
-        </div>
-      </div>
-      <div class="col-xs-24 col-sm-6">
-        <h4 class="text-center">
-          <span class="label label-danger">
-            평균 점수
-          </span>
-        </h4>
-        <div>
-          <div class="col-xs-12">
-            <p class="clearfix">
-            성적 <span>{{result.score.grade|floatformat:1}}</span>
-            </p>
-            <p class="clearfix">
-            널널 <span>{{result.score.load|floatformat:1}}</span>
-            </p>
-            <p class="clearfix">
-            강의 <span>{{result.score.speech|floatformat:1}}</span>
-            </p>
-          </div>
-          <div class="col-xs-12">
-            <div>
-                <span>{{result.score.total|floatformat:1}}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+            {% include 'review/components/course.html' %}
         {% endif %}
 
         {% if result.type == "comment" %}
-<div class="panel panel-default review">
-  <button class="likes" disabled>
-    <span>
-      <i class="fa fa-plus"></i> <span>{{ result.like }}</span>
-    </span>
-  </button>
-  <div class="panel-body container-fluid">
-    <div class="row">
-      <div class="col-xs-24 lecture ellipsis-wrapper">
-          <h4 class="ellipsis-content">{{ result.lecture_title }} <small class="text-muted">{{ result.professor_name }} {{ result.lecture_year }}</small></h4>
-      </div>
-      <div class="col-xs-24 comment text-muted">
-        {{ result.comment|linebreaks }}
-      </div>
-      <div class="col-xs-24 statics text-right">
-        <span class="text-left clearfix">
-          성적
-          {% for numbergrade, lettergrade in result.gradelist %}
-            {% ifequal numbergrade result.score.grade %} <span class="grade pull-right">{{ lettergrade }}</span>{% endifequal %}
-          {% endfor %}
-        </span>
-        {% for i in "123" %}
-        <span class="text-left clearfix">
-         {% cycle "널널" "강의" "종합" %}
-         {% cycle result.score.load result.score.speech result.score.total as whichgrade silent %}
-           {% for numbergrade, lettergrade in result.gradelist %}
-             {% ifequal numbergrade whichgrade %} <span class="grade pull-right">{{ lettergrade }}</span>{% endifequal %}
-           {% endfor %}
-        </span>
-        {% endfor %}
-      </div>
-    </div>
-  </div>
-</div>
+            {% include 'review/components/review.html' %}
         {% endif%}
 
       {% endfor %}
