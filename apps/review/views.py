@@ -285,15 +285,15 @@ def SearchResultView(request):
         grade_filters = GradeFilters(request.GET.getlist('grade'))
         if 'sort' in request.GET :
             if request.GET['sort']=='name':
-                courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters).order_by('title')
+                courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters).order_by('title','old_code')
             elif request.GET['sort']=='total':
-                courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters).order_by('total')
+                courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters).order_by('-total','old_code')
             elif request.GET['sort']=='grade':
-                courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters).order_by('grade')
+                courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters).order_by('-grade','old_code')
             elif request.GET['sort']=='load':
-                courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters).order_by('load')
+                courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters).order_by('-load','old_code')
             elif request.GET['sort']=='speech':
-                courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters).order_by('speech')
+                courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters).order_by('-speech','old_code')
             else:
                 courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters).order_by('old_code')
 
@@ -352,15 +352,15 @@ def SearchResultView_json(request, page):
         grade_filters = GradeFilters(request.GET.getlist('grade'))
         if 'sort' in request.GET :
             if request.GET['sort']=='name':
-                courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters).order_by('title')
+                courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters).order_by('title','old_code')
             elif request.GET['sort']=='total':
-                courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters).order_by('total')
+                courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters).order_by('total','old_code')
             elif request.GET['sort']=='grade':
-                courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters).order_by('grade')
+                courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters).order_by('grade','old_code')
             elif request.GET['sort']=='load':
-                courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters).order_by('load')
+                courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters).order_by('load','old_code')
             elif request.GET['sort']=='speech':
-                courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters).order_by('speech')
+                courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters).order_by('speech','old_code')
             else:
                 courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters).order_by('old_code')
 

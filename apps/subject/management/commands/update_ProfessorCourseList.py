@@ -7,6 +7,5 @@ class Command(BaseCommand):
         for aCourse in list(Course.objects.all()):
             for aProfessor in list(aCourse.professors.all()):
                 aProfessor.course_list.add(aCourse)
-                print "%s %s"%(aCourse, aProfessor)
         print "Professors' course_list changed"
     

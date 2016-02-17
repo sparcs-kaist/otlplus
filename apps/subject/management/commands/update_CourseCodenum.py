@@ -9,5 +9,4 @@ class Command(BaseCommand):
         for course in Course.objects.all():
             course.code_num = course.old_code[-3]
             course.save()
-            print course.title, course.code_num
         print "update course_codenum ended!"

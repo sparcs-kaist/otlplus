@@ -30,13 +30,20 @@ class Lecture(models.Model):
     total_sum = models.IntegerField(default=0)
     comment_num = models.IntegerField(default=0)
 
+    def avg_update(self):
+        self.grade = (self.grade_sum + 0.0)/self.comment_num
+        self.load = (self.load_sum + 0.0)/self.comment_num
+        self.speech = (self.speech_sum + 0.0)/self.comment_num
+        self.total = (self.total_sum + 0.0)/self.comment_num
+
+
     def __unicode__(self):
-	professors_list=self.professor.all()
-	re_str=u"%s(%s %s"%(self.title,self.old_code,professors_list[0].professor_name)
-	for i in range(1,len(professors_list)):
+        professors_list=self.professor.all()
+        re_str=u"%s(%s %s"%(self.title,self.old_code,professors_list[0].professor_name)
+        for i in range(1,len(professors_list)):
             re_str+=", %s"%(professors_list[i].professor_name)
-	re_str+=")"
-	return re_str
+        re_str+=")"
+        return re_str
 
 class Department(models.Model):
     id = models.IntegerField(primary_key=True, db_index=True)
@@ -47,7 +54,7 @@ class Department(models.Model):
     visible = models.BooleanField(default=True)
 
     def __unicode__(self):
-	return self.code
+        return self.code
 
 class Course(models.Model):
     old_code = models.CharField(max_length=10, db_index=True)
@@ -65,8 +72,19 @@ class Course(models.Model):
     total_sum = models.IntegerField(default=0)
     comment_num = models.IntegerField(default=0)
 
+    grade = models.FloatField(default=0.0)
+    load = models.FloatField(default=0.0)
+    speech = models.FloatField(default=0.0)
+    total = models.FloatField(default=0.0)
+
+    def avg_update(self):
+        self.grade = (self.grade_sum + 0.0)/self.comment_num
+        self.load = (self.load_sum + 0.0)/self.comment_num
+        self.speech = (self.speech_sum + 0.0)/self.comment_num
+        self.total = (self.total_sum + 0.0)/self.comment_num
+
     def __unicode__(self):
-	return u"%s(%s)"%(self.title,self.old_code)
+        return u"%s(%s)"%(self.title,self.old_code)
     
 class Professor(models.Model):
     professor_name = models.CharField(max_length=100, db_index=True)
@@ -81,6 +99,16 @@ class Professor(models.Model):
     total_sum = models.IntegerField(default=0)
     comment_num = models.IntegerField(default=0)
 
+    grade = models.FloatField(default=0.0)
+    load = models.FloatField(default=0.0)
+    speech = models.FloatField(default=0.0)
+    total = models.FloatField(default=0.0)
+
+    def avg_update(self):
+        self.grade = (self.grade_sum + 0.0)/self.comment_num
+        self.load = (self.load_sum + 0.0)/self.comment_num
+        self.speech = (self.speech_sum + 0.0)/self.comment_num
+        self.total = (self.total_sum + 0.0)/self.comment_num
     
     def __unicode__(self):
 	    return u"%s(id:%d)"%(self.professor_name,self.professor_id)

@@ -38,7 +38,6 @@ class Command(BaseCommand):
                 thissemester_courses=list(set(thissemester_courses))
                 for course in thissemester_courses:
                     thissemester_coursefiltered.courses.add(course)
-            print "%s CourseFiltered was created"%(title,)        
 
 
         MakeCourseFilteredBySemester("NEXT", [1])

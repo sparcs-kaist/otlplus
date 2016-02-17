@@ -31,6 +31,7 @@ class Comment(models.Model):
             related.speech_sum += speech
             related.total_sum += total
             related.comment_num += 1
+            related.avg_update()
             related.save()
         new = cls(course=course, lecture=lecture, comment=comment, grade=grade, load=load, speech=speech, total=total, writer=writer)
         new.save()
@@ -46,6 +47,7 @@ class Comment(models.Model):
             related.load_sum += load - self.load
             related.speech_sum += speech - self.speech
             related.total_sum += total - self.total
+            related.avg_update()
             related.save()
         self.comment = comment
         self.grade = grade
@@ -65,6 +67,7 @@ class Comment(models.Model):
             related.speech_sum -= self.speech
             related.total_sum -= self.total
             related.comment_num -= 1
+            related.avg_update()
             related.save()
         self.delete()
    
