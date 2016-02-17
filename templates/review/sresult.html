@@ -152,13 +152,13 @@ var loadItems = function() {
           <span class="label-description">
             <div class="professors">
               <label>
-                <input class="professor chkall chkone" type="checkbox" autocomplete="off" name="selected_professor" checked="checked">
+                <input class="professor chkall chkone" type="checkbox" name="selected_professor" checked="checked">
                 <span class="label label-default">ALL</span>
               </label>
 
               {% for lecture in mainbox.lecture_list %}
               <label>
-                <input class="professor chkelem chkone" type="checkbox" autocomplete="off" name="selected_professor">
+                <input class="professor chkelem chkone" type="checkbox" name="selected_professor">
                 <span class="label label-default">{{lecture.professor_name}}</span>
               </label>
               {% endfor %}
@@ -227,13 +227,13 @@ var loadItems = function() {
           <span class="label-description">
             <div class="professors">
               <label>
-                <input class="professor chkall chkone" type="checkbox" autocomplete="off" name="selected_lecture" checked="checked">
+                <input class="professor chkall chkone" type="checkbox" name="selected_lecture" checked="checked">
                 <span class="label label-default">ALL</span>
               </label>
 
               {% for lecture in mainbox.lecture_list %}
               <label>
-                <input class="professor chkelem chkone" type="checkbox" autocomplete="off" name="selected_lecture">
+                <input class="professor chkelem chkone" type="checkbox" name="selected_lecture">
                 <span class="label label-default">{{lecture.title}}</span>
               </label>
               {% endfor %}

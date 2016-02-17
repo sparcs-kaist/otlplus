@@ -52,6 +52,7 @@ var loadItems = function() {
             var data = JSON.parse(responseData);
             hasNextPage=data.hasNext;
             var html = [];
+            html.push('<script type="text/javascript" src="/media/js/review/components/option.js"></s','cript>')
             $.each(data.results, function(index, result){
                 if(result.type == "course"){
                 html.push('<div class="panel panel-default course">') 
@@ -66,13 +67,13 @@ var loadItems = function() {
                                     html.push('<span class="label-description">') 
                                         html.push('<div class="professors">') 
                                             html.push('<label>') 
-                                                html.push('<input class="professor chkone" type="checkbox"  name="',result.id,'" checked="checked">') 
+                                                html.push('<input class="professor chkone" type="checkbox" name="',result.id,'" value="ALL" checked="checked">') 
                                                 html.push('<span class="label label-default">','ALL', '</span>') 
                                             html.push('</label>') 
 
                                             for(i=0; i<result.prof_info.length;i++){
                                             html.push('<label>') 
-                                                html.push('<input class="professor chkone" type="checkbox" autocomplete="off" name="',result.id,'">') 
+                                                html.push('<input class="professor chkone" type="checkbox" name="',result.id,'">') 
                                                 html.push('<span class="label label-default">',result.prof_info[i].name , '</span>') 
                                             html.push('</label>') 
                                             }
@@ -181,6 +182,7 @@ var loadItems = function() {
 {% endblock %}
 
 {% block contents %}
+
   <div class="row">
     <div class="col-xs-22 col-xs-offset-1 col-sm-20 col-sm-offset-2 col-md-18 col-md-offset-3 col-lg-16 col-lg-offset-4">
         {% include 'review/components/option.html' with with_filter=True %}

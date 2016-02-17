@@ -8,65 +8,15 @@
       <div class="col-xs-18 col-sm-20 col-md-21 col-lg-21">
         <div class="controls">
           <!-- TODO: sorting with js -->
+          {% for i in "1234567" %}
           <label>
-            <input type="radio" id="recent" name="sorting" value="recent" autocomplete="off"> 최신순
+            <input class="chkone" type="checkbox" autocomplete="off" name="sorting" value="{% cycle "recent" "like" "name" "total" "grade" "load" "speech"%}" >{% cycle "최신순" "추천순" "코드순" "종합순" "성적순" "널널순" "강의순"%}
             <span class="fa-stack fa-lg">
               <i class="fa fa-circle-o fa-stack-2x"></i>
               <i class="fa fa-check fa-stack-1x"></i>
             </span>
           </label>
-
-          <!-- TODO: sorting with js -->
-          <label>
-            <input type="radio" id="like" name="sorting" value="like" autocomplete="off"> 추천순
-            <span class="fa-stack fa-lg">
-              <i class="fa fa-circle-o fa-stack-2x"></i>
-              <i class="fa fa-check fa-stack-1x"></i>
-            </span>
-          </label>
-
-          <label>
-            <input type="radio" id="name" name="sorting" value="name" autocomplete="off"> 코드순<!--과목코드 순서대로 보기-->
-            <span class="fa-stack fa-lg">
-              <i class="fa fa-circle-o fa-stack-2x"></i>
-              <i class="fa fa-check fa-stack-1x"></i>
-            </span>
-          </label>
-
-          <label>
-            <input type="radio" id="total" name="sorting" value="total" autocomplete="off"> 종합순<!--전체적인 평가 순서대로 보기-->
-            <span class="fa-stack fa-lg">
-              <i class="fa fa-circle-o fa-stack-2x"></i>
-              <i class="fa fa-check fa-stack-1x"></i>
-            </span>
-          </label>
-
-          <label>
-            <input type="radio" id="grade" name="sorting" value="grade" autocomplete="off"> 성적순<!--학점 잘 주는 순서대로 보기-->
-            <span class="fa-stack fa-lg">
-              <i class="fa fa-circle-o fa-stack-2x"></i>
-              <i class="fa fa-check fa-stack-1x"></i>
-            </span>
-          </label>
-
-          <label>
-            <input type="radio" id="load" name="sorting" value="load" autocomplete="off"> 널널순<!--로드 덜 빡센 순서대로 보기-->
-            <span class="fa-stack fa-lg">
-              <i class="fa fa-circle-o fa-stack-2x"></i>
-              <i class="fa fa-check fa-stack-1x"></i>
-            </span>
-          </label>
-
-          <label>
-            <input type="radio" id="speech" name="sorting" value="speech" autocomplete="off"> 강의순<!--수업 잘 하는 순서대로 보기-->
-            <span class="fa-stack fa-lg">
-              <i class="fa fa-circle-o fa-stack-2x"></i>
-              <i class="fa fa-check fa-stack-1x"></i>
-            </span>
-          </label>
-
-
-
+          {% endfor %}
         </div>
       </div>
 
