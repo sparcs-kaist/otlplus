@@ -8,9 +8,18 @@
       <div class="col-xs-18 col-sm-20 col-md-21 col-lg-21">
         <div class="controls">
           <!-- TODO: sorting with js -->
-          {% for i in "1234567" %}
+
           <label>
-            <input class="chkone" type="checkbox" autocomplete="off" name="sorting" value="{% cycle "recent" "like" "name" "total" "grade" "load" "speech"%}" >{% cycle "최신순" "추천순" "코드순" "종합순" "성적순" "널널순" "강의순"%}
+            <input class="chkone sort_button" type="checkbox" autocomplete="off" name="sort" value="code" checked="checked">코드순
+            <span class="fa-stack fa-lg">
+              <i class="fa fa-circle-o fa-stack-2x"></i>
+              <i class="fa fa-check fa-stack-1x"></i>
+            </span>
+          </label>
+
+          {% for i in "12345" %}
+          <label>
+            <input class="chkone sort_button" type="checkbox" autocomplete="off" name="sort" value="{% cycle "name" "total" "grade" "load" "speech"%}" >{% cycle "이름순" "평점순" "성적순" "널널순" "강의순"%}
             <span class="fa-stack fa-lg">
               <i class="fa fa-circle-o fa-stack-2x"></i>
               <i class="fa fa-check fa-stack-1x"></i>

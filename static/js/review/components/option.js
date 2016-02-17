@@ -1,4 +1,12 @@
 $(document).ready(function(){
+    now_url = window.location.href.split("&sort=")
+    if(now_url.length>1){
+        var sort_value = now_url.pop().split("&").shift();
+        $("input[type='checkbox'][name='sort']").prop("checked",false);
+        $("input[type='checkbox'][name='sort'][value="+sort_value+"]").prop("checked",true);
+    }
+
+
     $("input[type='checkbox']").each(function(){
       target = $(this);
       target = target.closest('label');
@@ -20,6 +28,7 @@ $(document).ready(function(){
           target.removeClass("active");
       }
     });
+
 });
 
 $(".chkall").on('change', function(){
@@ -109,3 +118,21 @@ $("form.navbar-form").submit(function(){
         }
     })
 });
+
+
+$("input[type='checkbox'][name='sort']").click(function(){
+    var pre_url =  window.location.href.split("&");
+    var url = pre_url.shift()
+    limit = pre_url.length
+    for(i=0;i<limit;i++){
+        temp = pre_url.shift()
+        if(temp.substring(0,4)!="sort"){
+            url += "&" + temp
+        }    
+    }
+    url += "&sort=" + $(this).val()
+    
+    window.location=url;    
+});
+
+
