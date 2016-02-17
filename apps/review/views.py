@@ -300,19 +300,19 @@ def SearchResultView(request):
 
         if 'sort' in request.GET :
             if request.GET['sort']=='name':
-                courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters).order_by('title')
+                courses = courses.order_by('title')
             elif request.GET['sort']=='total':
-                courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters).order_by('total')
+                courses = courses.order_by('total')
             elif request.GET['sort']=='grade':
-                courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters).order_by('grade')
+                courses = courses.order_by('grade')
             elif request.GET['sort']=='load':
-                courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters).order_by('load')
+                courses = courses.order_by('load')
             elif request.GET['sort']=='speech':
-                courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters).order_by('speech')
+                courses = courses.order_by('speech')
             else:
-                courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters).order_by('old_code')
+                courses = courses.order_by('old_code')
         else :
-            courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters).order_by('old_code')
+            courses = courses.order_by('old_code')
 
         if len(keyword)>0:
             expectations = Professor.objects.filter(Q(professor_name__icontains=keyword)|Q(professor_name_en__icontains=keyword))
@@ -349,20 +349,20 @@ def SearchResultView_json(request, page):
     courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters, keyword)
     
     if 'sort' in request.GET :
-            if request.GET['sort']=='name':
-                courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters).order_by('title')
-            elif request.GET['sort']=='total':
-                courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters).order_by('total')
-            elif request.GET['sort']=='grade':
-                courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters).order_by('grade')
-            elif request.GET['sort']=='load':
-                courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters).order_by('load')
-            elif request.GET['sort']=='speech':
-                courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters).order_by('speech')
-            else:
-                courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters).order_by('old_code')
-        else :
-            courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters).order_by('old_code')
+        if request.GET['sort']=='name':
+            courses = courses.order_by('title')
+        elif request.GET['sort']=='total':
+            courses = courses.order_by('total')
+        elif request.GET['sort']=='grade':
+            courses = courses.order_by('grade')
+        elif request.GET['sort']=='load':
+            courses = courses.order_by('load')
+        elif request.GET['sort']=='speech':
+            courses = courses.order_by('speech')
+        else:
+            courses = courses.order_by('old_code')
+    else :
+        courses = courses.order_by('old_code')
 
     paginator = Paginator(courses,10)
     try:
