@@ -71,7 +71,7 @@ var loadItems = function() {
                                 html.push('<div class="col-xs-24 statics text-right">') 
                                     html.push('<span class="text-left clearfix">') 
                                         html.push('성적') 
-                                        gradelist = [[-1,'?'],[0,'F'],[1,'D'],[2,'C'],[3,'B'],[4,'A']]
+                                        gradelist = [[0,'?'],[1,'F'],[2,'D'],[3,'C'],[4,'B'],[5,'A']]
                                         for(i=0;i<gradelist.length;i++){
                                             if(gradelist[i][0]==result.score.grade){
                                                 html.push('<span class="grade pull-right">',gradelist[i][1],'</span>')

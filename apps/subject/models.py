@@ -38,11 +38,16 @@ class Lecture(models.Model):
 
     def avg_update(self):
         self.total_sum = (self.grade_sum+self.load_sum+self.speech_sum)/3.0
-        self.grade = (self.grade_sum + 0.0)/self.comment_num
-        self.load = (self.load_sum + 0.0)/self.comment_num
-        self.speech = (self.speech_sum + 0.0)/self.comment_num
-        self.total = (self.total_sum + 0.0)/self.comment_num
-
+        if self.comment_num>0:
+            self.grade = (self.grade_sum + 0.0)/self.comment_num
+            self.load = (self.load_sum + 0.0)/self.comment_num
+            self.speech = (self.speech_sum + 0.0)/self.comment_num
+            self.total = (self.total_sum + 0.0)/self.comment_num
+        else:
+            self.grade = 0.0
+            self.load = 0.0
+            self.speech = 0.0
+            self.total = 0.0
 
     def __unicode__(self):
         professors_list=self.professor.all()
@@ -86,10 +91,16 @@ class Course(models.Model):
 
     def avg_update(self):
         self.total_sum = (self.grade_sum+self.load_sum+self.speech_sum)/3.0
-        self.grade = (self.grade_sum + 0.0)/self.comment_num
-        self.load = (self.load_sum + 0.0)/self.comment_num
-        self.speech = (self.speech_sum + 0.0)/self.comment_num
-        self.total = (self.total_sum + 0.0)/self.comment_num
+        if self.comment_num>0:
+            self.grade = (self.grade_sum + 0.0)/self.comment_num
+            self.load = (self.load_sum + 0.0)/self.comment_num
+            self.speech = (self.speech_sum + 0.0)/self.comment_num
+            self.total = (self.total_sum + 0.0)/self.comment_num
+        else:
+            self.grade = 0.0
+            self.load = 0.0
+            self.speech = 0.0
+            self.total = 0.0
 
     def __unicode__(self):
         return u"%s(%s)"%(self.title,self.old_code)
@@ -114,10 +125,16 @@ class Professor(models.Model):
 
     def avg_update(self):
         self.total_sum = (self.grade_sum+self.load_sum+self.speech_sum)/3.0
-        self.grade = (self.grade_sum + 0.0)/self.comment_num
-        self.load = (self.load_sum + 0.0)/self.comment_num
-        self.speech = (self.speech_sum + 0.0)/self.comment_num
-        self.total = (self.total_sum + 0.0)/self.comment_num
+        if self.comment_num>0:
+            self.grade = (self.grade_sum + 0.0)/self.comment_num
+            self.load = (self.load_sum + 0.0)/self.comment_num
+            self.speech = (self.speech_sum + 0.0)/self.comment_num
+            self.total = (self.total_sum + 0.0)/self.comment_num
+        else:
+            self.grade = 0.0
+            self.load = 0.0
+            self.speech = 0.0
+            self.total = 0.0
     
     def __unicode__(self):
 	    return u"%s(id:%d)"%(self.professor_name,self.professor_id)

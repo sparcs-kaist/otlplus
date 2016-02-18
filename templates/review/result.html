@@ -103,25 +103,37 @@ var loadItems = function() {
                                         html.push('<p class="clearfix">') 
                                         html.push('성적')
                                             for(i=0; i<result.prof_info.length;i++){
+                                                for(j=0;j<result.gradelist.length;j++){
+                                                    if(result.gradelist[j][0]===result.prof_info[i].score.grade){
                                                 html.push('<span class="score ',result.id,' ',result.prof_info[i].id,' ',result.prof_info[i].name,'">')
-                                                html.push(result.prof_info[i].score.grade.toFixed(1))
+                                                html.push(result.gradelist[j][1])
                                                 html.push('</span>')
+                                                    }
+                                                }
                                             }
                                         html.push('</p>') 
                                         html.push('<p class="clearfix">') 
                                         html.push('널널') 
                                             for(i=0; i<result.prof_info.length;i++){
+                                                for(j=0;j<result.gradelist.length;j++){
+                                                    if(result.gradelist[j][0]===result.prof_info[i].score.load){
                                                 html.push('<span class="score ',result.id,' ',result.prof_info[i].id,' ',result.prof_info[i].name,'">')
-                                                html.push(result.prof_info[i].score.load.toFixed(1))
+                                                html.push(result.gradelist[j][1])
                                                 html.push('</span>')
+                                                    }
+                                                }
                                             }
                                         html.push('</p>') 
                                         html.push('<p class="clearfix">') 
                                         html.push('강의') 
                                             for(i=0; i<result.prof_info.length;i++){
+                                                for(j=0;j<result.gradelist.length;j++){
+                                                    if(result.gradelist[j][0]===result.prof_info[i].score.speech){
                                                 html.push('<span class="score ',result.id,' ',result.prof_info[i].id,' ',result.prof_info[i].name,'">')
-                                                html.push(result.prof_info[i].score.speech.toFixed(1))
+                                                html.push(result.gradelist[j][1])
                                                 html.push('</span>')
+                                                    }
+                                                }
                                             }
 
                                         html.push('</p>') 
@@ -129,9 +141,13 @@ var loadItems = function() {
                                     html.push('<div class="col-xs-12">') 
                                         html.push('<div>') 
                                             for(i=0; i<result.prof_info.length;i++){
+                                                for(j=0;j<result.gradelist.length;j++){
+                                                    if(result.gradelist[j][0]===result.prof_info[i].score.total){
                                                 html.push('<span class="score ',result.id,' ',result.prof_info[i].id,' ',result.prof_info[i].name,'">')
-                                                html.push(result.prof_info[i].score.total.toFixed(1))
+                                                html.push(result.gradelist[j][1])
                                                 html.push('</span>')
+                                                    }
+                                                }
                                             }
                                         html.push('</div>') 
                                     html.push('</div>') 

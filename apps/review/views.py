@@ -82,7 +82,7 @@ def search_view(request):
                 "comment":comment.comment,
                 "like":comment.like,
                 "score":{"grade":comment.grade, "load":comment.load, "speech":comment.speech, "total":comment.total,},
-                "gradelist": [(-1,'?'),(0,'F'),(1,'D'),(2,'C'),(3,'B'),(4,'A')],
+                "gradelist": [(0,'?'),(1,'F'),(2,'D'),(3,'C'),(4,'B'),(5,'A')],
             }
             liberal_comment.append(context)
             comment_liberal.pop(j)
@@ -109,7 +109,7 @@ def search_view(request):
                 "comment":comment.comment,
                 "like":comment.like,
                 "score":{"grade":comment.grade, "load":comment.load, "speech":comment.speech, "total":comment.total,},
-                "gradelist": [(-1,'?'),(0,'F'),(1,'D'),(2,'C'),(3,'B'),(4,'A')],
+                "gradelist": [(0,'?'),(1,'F'),(2,'D'),(3,'C'),(4,'B'),(5,'A')],
             }
             major_comment.append(context)
             comment_major.pop(j)
@@ -171,7 +171,7 @@ def SearchCourse(courses):
         prof_info.append({
             "name" : "ALL",
             "id" : -1,
-            "score":{"grade":course.grade, "load":course.load, "speech":course.speech, "total":course.total,},
+            "score":{"grade":int(round(course.grade)), "load":int(round(course.load)), "speech":int(round(course.speech)), "total":int(round(course.total)),},
         })
 
         for lectures in lec_by_prof:
@@ -212,7 +212,7 @@ def SearchCourse(courses):
             prof_info.append({
                 "name" : name_string,
                 "id" : lectures[0].professor.all()[0].id,
-                "score":{"grade":grade, "load":load, "speech":speech, "total":total,},
+                "score":{"grade":int(round(grade)), "load":int(round(load)), "speech":int(round(speech)), "total":int(round(total)),},
             })
 
         results.append({
@@ -221,6 +221,7 @@ def SearchCourse(courses):
             "title":course.title,
             "lecture_list":lecture_list,
             "prof_info":prof_info,
+            "gradelist": [(0,'?'),(1,'F'),(2,'D'),(3,'C'),(4,'B'),(5,'A')],
         })
     return results
 
@@ -239,7 +240,7 @@ def SearchComment(comments):
             "comment":comment.comment,
             "like":comment.like,
             "score":{"grade":comment.grade, "load":comment.load, "speech":comment.speech, "total":comment.total,},
-            "gradelist": [(-1,'?'),(0,'F'),(1,'D'),(2,'C'),(3,'B'),(4,'A')],
+            "gradelist": [(0,'?'),(1,'F'),(2,'D'),(3,'C'),(4,'B'),(5,'A')],
         })
     return results
 
@@ -543,9 +544,9 @@ def ReviewInsertView(request,lecture_id=-1,semester=0):
             temp = user.comment_set.all()
             temp = temp.get(lecture=now_lecture)
             pre_comment = temp.comment
-            pre_grade = gradelist[4-(temp.grade)]
-            pre_load = gradelist[4-(temp.load)]
-            pre_speech = gradelist[4-(temp.speech)]
+            pre_grade = gradelist[5-(temp.grade)]
+            pre_load = gradelist[5-(temp.load)]
+            pre_speech = gradelist[5-(temp.speech)]
         except : pre_comment = ''
     else:
         guideline="왼쪽 탭에서 과목을 선택해 주세요.\n"
@@ -569,11 +570,12 @@ def ReviewInsertAdd(request,lecture_id,semester):
     lecture = user.take_lecture_list.get(id = lecid) # 하나로 특정되지않음, 변경요망
     course = lecture.course
     comment = request.POST['content'] # 항목 선택 안했을시 반응 추가 요망 grade, load도
-    grade = 5-int(request.POST['gradescore'])
-    load = 5-int(request.POST['loadscore'])
-    speech = 5-int(request.POST['speechscore'])
-    total = (grade+load+speech)/3.0 #현재 float 불가
+    grade = 6-int(request.POST['gradescore'])
+    load = 6-int(request.POST['loadscore'])
+    speech = 6-int(request.POST['speechscore'])
+    total = (grade+load+speech)/3.0 
     writer = user #session 완성시 변경
+
     try :
         target_comment = user.comment_set.get(lecture=lecture)
         target_comment.u_update(grade=grade, load=load, speech=speech, total=total, comment=comment)
