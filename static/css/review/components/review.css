@@ -34,7 +34,10 @@
     .review .panel-body .comment {
       padding: 15px 15px; }
       .review .panel-body .comment p:last-child {
-        margin-bottom: 0; }
+        margin-bottom: 0;} 
+      .review .panel-body .comment p{
+        word-break:break-all;
+        white-space:normal ;}
     .review .panel-body .statics > span {
       display: inline-block;
       position: relative;
