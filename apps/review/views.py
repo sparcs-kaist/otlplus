@@ -70,20 +70,7 @@ def search_view(request):
         try :
             j = random.randint(0, len(comment_liberal)-1)
             comment = comment_liberal[j].comment
-            professors = comment.lecture.professor.all()
-            professor_name = " " + " ".join([i.professor_name for i in professors]) + " "
-            context = {
-                "type":"comment",
-                "id":comment.id,
-                "lecture_title":comment.lecture.title,
-                "lecture_year":comment.lecture.year,
-                "professor_name":professor_name,
-                "writer":comment.writer_label, 
-                "comment":comment.comment,
-                "like":comment.like,
-                "score":{"grade":comment.grade, "load":comment.load, "speech":comment.speech, "total":comment.total,},
-                "gradelist": [(0,'?'),(1,'F'),(2,'D'),(3,'C'),(4,'B'),(5,'A')],
-            }
+            context = SearchComment([comment]).pop()
             liberal_comment.append(context)
             comment_liberal.pop(j)
 
@@ -97,20 +84,7 @@ def search_view(request):
 
 
             comment = comment_major[j].comment
-            professors = comment.lecture.professor.all()
-            professor_name = " " + " ".join([i.professor_name for i in professors]) + " "
-            context = {
-                "type":"comment",
-                "id":comment.id,
-                "lecture_title":comment.lecture.title,
-                "lecture_year":comment.lecture.year,
-                "professor_name":professor_name,
-                "writer":comment.writer_label, 
-                "comment":comment.comment,
-                "like":comment.like,
-                "score":{"grade":comment.grade, "load":comment.load, "speech":comment.speech, "total":comment.total,},
-                "gradelist": [(0,'?'),(1,'F'),(2,'D'),(3,'C'),(4,'B'),(5,'A')],
-            }
+            context = SearchComment([comment]).pop()
             major_comment.append(context)
             comment_major.pop(j)
 
@@ -233,6 +207,7 @@ def SearchComment(comments):
         results.append({
             "type":"comment",
             "id":comment.id,
+            "course_id":comment.course.id,
             "lecture_title":comment.lecture.title,
             "lecture_year":comment.lecture.year,
             "professor_name":professor_name,
@@ -585,7 +560,7 @@ def ReviewInsertAdd(request,lecture_id,semester):
 
 def ReviewView(request, comment_id):
     try :
-        comment = Comment.objects.get(id=comment_id)
+        comment = SearchComment([Comment.objects.get(id=comment_id)])[0]
         isExist = 1
         print type(comment)
     except :
@@ -594,7 +569,7 @@ def ReviewView(request, comment_id):
 
     return render(request, 'review/review_view.html',
                             {
-                                'comment': comment,
+                                'result': comment,
                                 'isExist' : isExist,
                             })
 

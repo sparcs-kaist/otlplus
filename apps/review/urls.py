@@ -19,7 +19,7 @@ from django.http import HttpResponseRedirect
 
 urlpatterns = [
     url(r'^$', lambda x: HttpResponseRedirect('../main/')),
-    url(r'^result/([1-9][0-9]*)/$', 'apps.review.views.ReviewView'),
+    url(r'^result/comment/([1-9][0-9]*)/$', 'apps.review.views.ReviewView'),
     url(r'^result/professor/([1-9][0-9]*)/$', lambda x,y :HttpResponseRedirect('./-1/')),
     url(r'^result/professor/([1-9][0-9]*)/([^/]+)/$', 'apps.review.views.SearchResultProfessorView'),
     url(r'^result/professor/([^/]+)/json/([^/]+)/([^/]+)/$', 'apps.review.views.SearchResultProfessorView_json'),
