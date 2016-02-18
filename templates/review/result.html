@@ -55,7 +55,6 @@ var loadItems = function() {
             html.push('<script type="text/javascript" src="/media/js/review/components/course.js"></s','cript>')
             html.push('<script type="text/javascript" src="/media/js/review/result.js"></s','cript>')
             html.push('<script type="text/javascript" src="/media/js/review/components/option.js"></s','cript>')
-       html.push('<script> $(".chkone").each(function(){ if($(this).val()==="-1"){ $(this).prop("checked",true); } });</s', 'cript>')
 
             $.each(data.results, function(index, result){
                 html.push('<div class="panel panel-default course">') 
@@ -63,7 +62,7 @@ var loadItems = function() {
                         html.push('<div class="row">') 
                             html.push('<div class="col-xs-24 col-sm-18">') 
                                 html.push('<div class="panel-title">') 
-                                html.push('<h4><a>',result.title,'</a></h4>') 
+                                html.push('<h4>',result.title,'</h4>') 
                                 html.push('</div>') 
                                 html.push('<div>') 
                                     html.push('<span class="label-title">담당교수</span>') 
@@ -169,13 +168,6 @@ var loadItems = function() {
 };   
 </script>
 
-<script>
-    $(".chkone").each(function(){
-        if($(this).val()==="-1"){
-            $(this).prop("checked",true);
-        }
-    });
-</script>
 {% endblock %}
 
 {% block header %}
