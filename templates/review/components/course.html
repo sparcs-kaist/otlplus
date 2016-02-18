@@ -15,7 +15,7 @@
               {% for pinfo in result.prof_info %}
               <label>
                   <input class="professor chkone" type="checkbox" autocomplete="off" name="{{result.id}}" value="{{pinfo.id}}">
-                <span class="label label-default">{{pinfo.name}}</span>
+                  <a href="/review/result/course/{{result.id}}/{{pinfo.id}}"><span class="label label-default">{{pinfo.name}}</span></a>
               </label>
               {% endfor %}
             </div>

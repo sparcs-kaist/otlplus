@@ -52,29 +52,30 @@ var loadItems = function() {
             var data = JSON.parse(responseData);
             hasNextPage=data.hasNext;
             var html = [];
+            html.push('<script type="text/javascript" src="/media/js/review/components/course.js"></s','cript>')
+            html.push('<script type="text/javascript" src="/media/js/review/result.js"></s','cript>')
             html.push('<script type="text/javascript" src="/media/js/review/components/option.js"></s','cript>')
+       html.push('<script> $(".chkone").each(function(){ if($(this).val()==="-1"){ $(this).prop("checked",true); } });</s', 'cript>')
+
             $.each(data.results, function(index, result){
-                if(result.type == "course"){
                 html.push('<div class="panel panel-default course">') 
                     html.push('<div class="panel-body">') 
                         html.push('<div class="row">') 
                             html.push('<div class="col-xs-24 col-sm-18">') 
                                 html.push('<div class="panel-title">') 
-                                    html.push('<h4>',result.title,'</h4>') 
+                                html.push('<h4><a>',result.title,'</a></h4>') 
                                 html.push('</div>') 
                                 html.push('<div>') 
                                     html.push('<span class="label-title">담당교수</span>') 
+                                    html.push('<input type="hidden" name="course_id" value="',result.id,'">')
                                     html.push('<span class="label-description">') 
                                         html.push('<div class="professors">') 
-                                            html.push('<label>') 
-                                                html.push('<input class="professor chkone" type="checkbox" name="',result.id,'" value="ALL" checked="checked">') 
-                                                html.push('<span class="label label-default">','ALL', '</span>') 
-                                            html.push('</label>') 
-
                                             for(i=0; i<result.prof_info.length;i++){
                                             html.push('<label>') 
-                                                html.push('<input class="professor chkone" type="checkbox" name="',result.id,'">') 
-                                                html.push('<span class="label label-default">',result.prof_info[i].name , '</span>') 
+                                            html.push('<input class="professor chkone" type="checkbox" name="',result.id,'" value="',result.prof_info[i].id ,'">') 
+                                            html.push('<a href="/review/result/course/',result.id,'/',result.prof_info[i].id,'">')
+                                            html.push('<span class="label label-default">',result.prof_info[i].name , '</span>') 
+                                            html.push('</a>')
                                             html.push('</label>') 
                                             }
                                         html.push('</div>') 
@@ -100,18 +101,38 @@ var loadItems = function() {
                                 html.push('<div>') 
                                     html.push('<div class="col-xs-12">') 
                                         html.push('<p class="clearfix">') 
-                                        html.push('성적 <span>',result.score.grade.toFixed(1),'</span>')
+                                        html.push('성적')
+                                            for(i=0; i<result.prof_info.length;i++){
+                                                html.push('<span class="score ',result.id,' ',result.prof_info[i].id,' ',result.prof_info[i].name,'">')
+                                                html.push(result.prof_info[i].score.grade.toFixed(1))
+                                                html.push('</span>')
+                                            }
                                         html.push('</p>') 
                                         html.push('<p class="clearfix">') 
-                                        html.push('널널 <span>',result.score.load.toFixed(1),'</span>') 
+                                        html.push('널널') 
+                                            for(i=0; i<result.prof_info.length;i++){
+                                                html.push('<span class="score ',result.id,' ',result.prof_info[i].id,' ',result.prof_info[i].name,'">')
+                                                html.push(result.prof_info[i].score.load.toFixed(1))
+                                                html.push('</span>')
+                                            }
                                         html.push('</p>') 
                                         html.push('<p class="clearfix">') 
-                                        html.push('강의 <span>',result.score.speech.toFixed(1),'</span>') 
+                                        html.push('강의') 
+                                            for(i=0; i<result.prof_info.length;i++){
+                                                html.push('<span class="score ',result.id,' ',result.prof_info[i].id,' ',result.prof_info[i].name,'">')
+                                                html.push(result.prof_info[i].score.speech.toFixed(1))
+                                                html.push('</span>')
+                                            }
+
                                         html.push('</p>') 
                                     html.push('</div>') 
                                     html.push('<div class="col-xs-12">') 
                                         html.push('<div>') 
-                                            html.push('<span>',result.score.total.toFixed(1),'</span>') 
+                                            for(i=0; i<result.prof_info.length;i++){
+                                                html.push('<span class="score ',result.id,' ',result.prof_info[i].id,' ',result.prof_info[i].name,'">')
+                                                html.push(result.prof_info[i].score.total.toFixed(1))
+                                                html.push('</span>')
+                                            }
                                         html.push('</div>') 
                                     html.push('</div>') 
                                 html.push('</div>') 
@@ -119,49 +140,6 @@ var loadItems = function() {
                         html.push('</div>') 
                     html.push('</div>') 
                 html.push('</div>') 
-                }
-                if(result.type == "comment"){
-                    
-                    html.push('<div class="panel panel-default review">') 
-                        html.push('<button class="likes" disabled>') 
-                            html.push('<span>') 
-                                html.push('<i class="fa fa-plus"></i> <span>',result.like,'</span>') 
-                            html.push('</span>') 
-                        html.push('</button>') 
-                        html.push('<div class="panel-body container-fluid">') 
-                            html.push('<div class="row">') 
-                                html.push('<div class="col-xs-24 lecture ellipsis-wrapper">') 
-                                    html.push('<h4 class="ellipsis-content">',result.lecture_title,' <small class="text-muted">',result.professor_name, result.lecture_year,'</small></h4>') 
-                                html.push('</div>') 
-                                html.push('<div class="col-xs-24 comment text-muted">') 
-                                    html.push(result.comment.replace(/\n/g , "<br>")) 
-                                html.push('</div>') 
-                                html.push('<div class="col-xs-24 statics text-right">') 
-                                    html.push('<span class="text-left clearfix">') 
-                                        html.push('성적') 
-                                        gradelist = [[-1,'?'],[0,'F'],[1,'D'],[2,'C'],[3,'B'],[4,'A']]
-                                        for(i=0;i<gradelist.length;i++){
-                                            if(gradelist[i][0]==result.score.grade){
-                                                html.push('<span class="grade pull-right">',gradelist[i][1],'</span>')
-                                            }
-                                        }
-                                    html.push('</span>') 
-                                scoretype=[['널널',result.score.load],['강의',result.score.speech],['종합',result.score.total]]
-                                for(i=0;i<scoretype.length;i++){
-                                    html.push('<span class="text-left clearfix">',scoretype[i][0])
-                                    for(j=0;j<gradelist.length;j++){
-                                            if(gradelist[j][0]==scoretype[i][1]){
-                                                html.push('<span class="grade pull-right">',gradelist[j][1],'</span>')
-                                            }
-                                        }
-                                    html.push('</span>') 
-                                }
-
-                                html.push('</div>') 
-                            html.push('</div>') 
-                        html.push('</div>') 
-                    html.push('</div>') 
-                }
             });
         $("#datacall").before(html.join(""));
         },

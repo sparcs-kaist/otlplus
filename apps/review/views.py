@@ -358,7 +358,6 @@ def SearchResultView_json(request, page):
     type_filters = TypeFilters(request.GET.getlist('type'))
     grade_filters = GradeFilters(request.GET.getlist('grade'))
     courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters, keyword)
-    
     if 'sort' in request.GET :
         if request.GET['sort']=='name':
             courses = courses.order_by('title','old_code')
@@ -382,7 +381,6 @@ def SearchResultView_json(request, page):
         raise Http404
 
     results = SearchCourse(page_obj.object_list)
-
     print "NextPage :", page_obj.has_next(), page_obj
 
     context = {
