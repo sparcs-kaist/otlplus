@@ -148,7 +148,7 @@ def SearchCourse(courses):
             "score":{"grade":int(round(course.grade)), "load":int(round(course.load)), "speech":int(round(course.speech)), "total":int(round(course.total)),},
         })
 
-        for lectures in lec_by_prof:
+        for idx, lectures in enumerate(lec_by_prof):
             names = [i.professor_name for i in lectures[0].professor.all()]
             if len(names) == 1:
                 name_string = names[0]
@@ -168,8 +168,8 @@ def SearchCourse(courses):
             load = 0.0
             speech = 0.0
             total = 0.0
-
-            for lecture in course.lecture_course.filter(professor__id = lectures[0].professor.all()[0].id):
+            
+            for lecture in lectures:
                 comment_num += lecture.comment_num
                 grade_sum += lecture.grade_sum
                 load_sum += lecture.load_sum
@@ -185,7 +185,7 @@ def SearchCourse(courses):
             
             prof_info.append({
                 "name" : name_string,
-                "id" : lectures[0].professor.all()[0].id,
+                "id" : idx,
                 "score":{"grade":int(round(grade)), "load":int(round(load)), "speech":int(round(speech)), "total":int(round(total)),},
             })
 
@@ -406,10 +406,15 @@ def SearchResultProfessorView_json(request, id=-1,course_id=-1,page=-1):
 
 
 def SearchResultCourseView(request,id=-1,professor_id=-1):
+    professor_id = int(professor_id)
     course = [Course.objects.get(id=id)]
-    comments = Comment.objects.filter(course__id=id)
-    if int(professor_id) != -1:
-        comments = comments.filter(lecture__professor__id=professor_id)
+    comments = Comment.objects.filter(course=course[0])
+    if professor_id != -1:
+        lectures = list(course[0].lecture_course.all())
+        lec_by_prof = GetLecByProf(lectures)
+        target_lectures = lec_by_prof[professor_id]
+        comments = comments.filter(lecture__in=target_lectures)
+
     paginator = Paginator(comments,10)
     page_obj = paginator.page(1)
     results = SearchComment(page_obj.object_list)
@@ -425,9 +430,15 @@ def SearchResultCourseView(request,id=-1,professor_id=-1):
     return render(request, 'review/sresult.html', context)
 
 def SearchResultCourseView_json(request, id=-1,professor_id=-1,page=-1):
-    comments = Comment.objects.filter(course__id=id)
-    if int(professor_id) != -1:
-        comments = comments.filter(lecture__professor__id=professor_id)
+    professor_id = int(professor_id)
+    course = [Course.objects.get(id=id)]
+    comments = Comment.objects.filter(course = course[0])
+    if professor_id != -1:
+        lectures = list(course[0].lecture_course.all())
+        lec_by_prof = GetLecByProf(lectures)
+        target_lectures = lec_by_prof[professor_id]
+        comments = comments.filter(lecture__in=target_lectures)
+
     paginator = Paginator(comments,10)
     try:
         page_obj = paginator.page(page)

@@ -1,23 +1,18 @@
 $(document).ready(function(){
     url = window.location.href.split("/");
-    selected = url.pop();
-    selected = url.pop();
+    url.pop();
+    professor_id = url.pop();
+    course_id = url.pop();
     $(".course .chkone").each(function(){
-        if($(this).val()===selected){
-            var group = "input:checkbox[name='"+$(this).attr("name")+"']";
+        if($(this).val()===professor_id){
+            var group = "input:checkbox[name='"+course_id+"']";
             $(group).prop("checked",false);
             $(this).prop("checked",true);
         }
     });
 
-    $("span.score").hide();
-    $("span.score.ALL").show();
-
-});
-
-$(".professor[type='checkbox']").click(function(){
-    var group = "span.score."+$(this).attr("name");
+    var group = "span.score."+course_id;
     $(group).hide();
-    $(group+"."+$(this).attr("value")).show();
+    $(group+"."+professor_id).show();
 
 });
