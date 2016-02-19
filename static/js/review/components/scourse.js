@@ -11,8 +11,8 @@ $(document).ready(function(){
         }
     });
 
-    var group = "span.score."+course_id;
+    var group = "span.score.c"+course_id;
     $(group).hide();
-    $(group+"."+professor_id).show();
+    $(group+".p"+professor_id).show();
 
 });

@@ -50,7 +50,7 @@
             성적{% for pinfo in result.prof_info %}
                 {% for numbergrade, lettergrade in result.gradelist %}
                 {% ifequal numbergrade pinfo.score.grade %}
-                <span class="score {{result.id}} {{pinfo.id}} {{pinfo.name}}" >{{lettergrade}}</span>
+                <span class="score c{{result.id}} p{{pinfo.id}} {{pinfo.name}}" >{{lettergrade}}</span>
                 {% endifequal %}
                 {% endfor %}
                 {% endfor %}
@@ -60,7 +60,7 @@
             널널{% for pinfo in result.prof_info %}
                 {% for numbergrade, lettergrade in result.gradelist %}
                 {% ifequal numbergrade pinfo.score.load %}
-                <span class="score {{result.id}} {{pinfo.id}} {{pinfo.name}}" >{{lettergrade}}</span>
+                <span class="score c{{result.id}} p{{pinfo.id}} {{pinfo.name}}" >{{lettergrade}}</span>
                 {% endifequal %}
                 {% endfor %}
                 {% endfor %}
@@ -70,7 +70,7 @@
             강의{% for pinfo in result.prof_info %}
                 {% for numbergrade, lettergrade in result.gradelist %}
                 {% ifequal numbergrade pinfo.score.speech %}
-                <span class="score {{result.id}} {{pinfo.id}} {{pinfo.name}}" >{{lettergrade}}</span>
+                <span class="score c{{result.id}} p{{pinfo.id}} {{pinfo.name}}" >{{lettergrade}}</span>
                 {% endifequal %}
                 {% endfor %}
                 {% endfor %}
@@ -83,7 +83,7 @@
                 {% for pinfo in result.prof_info %}
                 {% for numbergrade, lettergrade in result.gradelist %}
                 {% ifequal numbergrade pinfo.score.total %}
-                <span class="score {{result.id}} {{pinfo.id}} {{pinfo.name}}" >{{lettergrade}}</span>
+                <span class="score c{{result.id}} p{{pinfo.id}} {{pinfo.name}}" >{{lettergrade}}</span>
                 {% endifequal %}
                 {% endfor %}
                 {% endfor %}
