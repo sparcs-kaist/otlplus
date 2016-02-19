@@ -180,6 +180,7 @@ def SearchCourse(course):
         "id":course.id,
         "title":course.title,
         "prof_info":prof_info,
+        "gradelist": [(0,'?'),(1,'F'),(2,'D'),(3,'C'),(4,'B'),(5,'A')],
     }
     return result
 
@@ -196,7 +197,8 @@ def SearchComment(comment):
         "writer":comment.writer_label, 
         "comment":comment.comment,
         "like":comment.like,
-        "score":{"grade":comment.grade, "load":comment.load, "speech":comment.speech, "total":comment.total,},
+        "score":{"grade":comment.grade, "load":comment.load, "speech":comment.speech, "total":int(round(comment.total)),},
+        "gradelist": [(0,'?'),(1,'F'),(2,'D'),(3,'C'),(4,'B'),(5,'A')],
     }
     return result
 
@@ -224,6 +226,7 @@ def SearchProfessor(professor):
         "professor_name":professor.professor_name,
         "lecture_list":lecture_list,
         "score":{"grade":grade, "load":load, "speech":speech, "total":total,},
+        "gradelist": [(0,'?'),(1,'F'),(2,'D'),(3,'C'),(4,'B'),(5,'A')],
     }
     return result
 
@@ -297,7 +300,6 @@ def SearchResultView(request):
             "page":page_obj.number,
             "expectations":expectations,
             "keyword": keyword,
-            "gradelist": [(0,'?'),(1,'F'),(2,'D'),(3,'C'),(4,'B'),(5,'A')],
     }
     return render(request, 'review/result.html', context)
 
@@ -360,8 +362,6 @@ def SearchResultProfessorView(request,id=-1,course_id=-1):
             "result":SearchProfessor(professor),
             "results": results,
             "page":page_obj.number,
-            "gradelist": [(0,'?'),(1,'F'),(2,'D'),(3,'C'),(4,'B'),(5,'A')],
- 
     }
     return render(request, 'review/sresult.html', context)
 
@@ -406,7 +406,6 @@ def SearchResultCourseView(request,id=-1,professor_id=-1):
             "result":SearchCourse(course),
             "results": results,
             "page":page_obj.number,
-            "gradelist": [(0,'?'),(1,'F'),(2,'D'),(3,'C'),(4,'B'),(5,'A')],
     }
     return render(request, 'review/sresult.html', context)
 
