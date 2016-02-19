@@ -27,7 +27,7 @@ class Lecture(models.Model):
     grade_sum = models.IntegerField(default=0)
     load_sum = models.IntegerField(default=0)
     speech_sum = models.IntegerField(default=0)
-    total_sum = models.IntegerField(default=0)
+    total_sum = models.FloatField(default=0.0)
  
     grade = models.FloatField(default=0.0)
     load = models.FloatField(default=0.0)
@@ -81,7 +81,7 @@ class Course(models.Model):
     grade_sum = models.IntegerField(default=0)
     load_sum = models.IntegerField(default=0)
     speech_sum = models.IntegerField(default=0)
-    total_sum = models.IntegerField(default=0)
+    total_sum = models.FloatField(default=0.0)
     comment_num = models.IntegerField(default=0)
 
     grade = models.FloatField(default=0.0)
@@ -115,7 +115,7 @@ class Professor(models.Model):
     grade_sum = models.IntegerField(default=0)
     load_sum = models.IntegerField(default=0)
     speech_sum = models.IntegerField(default=0)
-    total_sum = models.IntegerField(default=0)
+    total_sum = models.FloatField(default=0.0)
     comment_num = models.IntegerField(default=0)
 
     grade = models.FloatField(default=0.0)
