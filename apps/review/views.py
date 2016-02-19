@@ -70,7 +70,7 @@ def search_view(request):
         try :
             j = random.randint(0, len(comment_liberal)-1)
             comment = comment_liberal[j].comment
-            context = SearchComment([comment]).pop()
+            context = SearchComment(comment)
             liberal_comment.append(context)
             comment_liberal.pop(j)
 
@@ -84,7 +84,7 @@ def search_view(request):
 
 
             comment = comment_major[j].comment
-            context = SearchComment([comment]).pop()
+            context = SearchComment(comment)
             major_comment.append(context)
             comment_major.pop(j)
 
@@ -107,6 +107,19 @@ def isKorean(word):
             return False
     return True
 
+def CalcAvgScore(grade_sum, load_sum, speech_sum, total_sum, comment_num):
+    if comment_num == 0:
+        grade = 0.0
+        load = 0.0
+        speech = 0.0
+        total = 0.0
+    else:
+        grade = float(grade_sum)/comment_num
+        load = float(load_sum)/comment_num
+        speech = float(speech_sum)/comment_num
+        total = float(total_sum)/comment_num
+    return grade, load, speech, total
+
 def GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters, keyword):
     if len(semester_filters)==0 or ("ALL" in semester_filters):
         courses = Course.objects.filter(department__code__in=department_filters, type_en__in=type_filters, code_num__in=grade_filters)
@@ -127,98 +140,65 @@ def GetLecByProf(lectures):
     lec_by_prof = [ list(i[1]) for i in lec_by_prof ]
     return lec_by_prof
 
-def SearchCourse(courses):
-    results = []
-    for course in courses:
-        lecture_list=[]
-        for lecture in course.lecture_course.all():
-            professors = lecture.professor.all()
-            professor_name = " " + " ".join([i.professor_name for i in professors]) + " "
-            lecture_list.append({
-                "id" : lecture.id,
-                "professor_name" : professor_name
-            })      # 수정 예정
-        
-        lectures = list( course.lecture_course.all() )
-        lec_by_prof = GetLecByProf(lectures)
-        prof_info = []
+def SearchCourse(course):
+    lectures = list( course.lecture_course.all() )
+    lec_by_prof = GetLecByProf(lectures)
+
+    prof_info = []
+    prof_info.append({
+        "name" : "ALL",
+        "id" : -1,
+        "score":{"grade":int(round(course.grade)), "load":int(round(course.load)), "speech":int(round(course.speech)), "total":int(round(course.total)),},
+    })
+
+    for idx, lectures in enumerate(lec_by_prof):
+        names = [i.professor_name for i in lectures[0].professor.all()]
+        if len(names) == 1:
+            name_string = names[0]
+        elif len(names) == 2:
+            name_string = names[0] + ', ' + names[1]
+        elif len(names) > 2:
+            name_string = names[0] + u' 외 %d명'%(len(names)-1)
+        else:
+            name_string = 'error'
+
+        grade_sum = sum(i.grade_sum for i in lectures)
+        load_sum = sum(i.load_sum for i in lectures)
+        speech_sum = sum(i.speech_sum for i in lectures)
+        total_sum = sum(i.total_sum for i in lectures)
+        comment_num = sum(i.comment_num for i in lectures)
+        grade, load, speech, total = CalcAvgScore(grade_sum, load_sum, speech_sum, total_sum, comment_num)
+
         prof_info.append({
-            "name" : "ALL",
-            "id" : -1,
-            "score":{"grade":int(round(course.grade)), "load":int(round(course.load)), "speech":int(round(course.speech)), "total":int(round(course.total)),},
+            "name" : name_string,
+            "id" : idx,
+            "score":{"grade":int(round(grade)), "load":int(round(load)), "speech":int(round(speech)), "total":int(round(total)),},
         })
 
-        for idx, lectures in enumerate(lec_by_prof):
-            names = [i.professor_name for i in lectures[0].professor.all()]
-            if len(names) == 1:
-                name_string = names[0]
-            elif len(names) == 2:
-                name_string = names[0] + ', ' + names[1]
-            elif len(names) > 2:
-                name_string = names[0] + u' 외 %d명'%(len(names)-1)
-            else:
-                name_string = 'error'
+    result = {
+        "type":"course",
+        "id":course.id,
+        "title":course.title,
+        "prof_info":prof_info,
+    }
+    return result
 
-            comment_num = 0
-            grade_sum = 0.0
-            load_sum = 0.0
-            speech_sum = 0.0
-            total_sum = 0.0
-            grade = 0.0
-            load = 0.0
-            speech = 0.0
-            total = 0.0
-            
-            for lecture in lectures:
-                comment_num += lecture.comment_num
-                grade_sum += lecture.grade_sum
-                load_sum += lecture.load_sum
-                speech_sum += lecture.speech_sum
-                total_sum += lecture.total_sum
-
-            if comment_num != 0:
-                grade = float(grade_sum) / comment_num
-                load = float(load_sum) / comment_num
-                speech = float(speech_sum) / comment_num
-                total = float(total_sum) / comment_num
-
-            
-            prof_info.append({
-                "name" : name_string,
-                "id" : idx,
-                "score":{"grade":int(round(grade)), "load":int(round(load)), "speech":int(round(speech)), "total":int(round(total)),},
-            })
-
-        results.append({
-            "type":"course",
-            "id":course.id,
-            "title":course.title,
-            "lecture_list":lecture_list,
-            "prof_info":prof_info,
-            "gradelist": [(0,'?'),(1,'F'),(2,'D'),(3,'C'),(4,'B'),(5,'A')],
-        })
-    return results
-
-def SearchComment(comments):
-    results = []
-    for comment in comments:
-        professors = comment.lecture.professor.all()
-        professor_name = " " + " ".join([i.professor_name for i in professors]) + " "
-        results.append({
-            "type":"comment",
-            "id":comment.id,
-            "course_id":comment.course.id,
-            "lecture_title":comment.lecture.title,
-            "lecture_year":comment.lecture.year,
-            "professor_name":professor_name,
-            "writer":comment.writer_label, 
-            "comment":comment.comment,
-            "like":comment.like,
-            "score":{"grade":comment.grade, "load":comment.load, "speech":comment.speech, "total":comment.total,},
-            "gradelist": [(0,'?'),(1,'F'),(2,'D'),(3,'C'),(4,'B'),(5,'A')],
-        })
-    return results
-
+def SearchComment(comment):
+    professors = comment.lecture.professor.all()
+    professor_name = " " + ", ".join([i.professor_name for i in professors]) + " "
+    result = {
+        "type":"comment",
+        "id":comment.id,
+        "course_id":comment.course.id,
+        "lecture_title":comment.lecture.title,
+        "lecture_year":comment.lecture.year,
+        "professor_name":professor_name,
+        "writer":comment.writer_label, 
+        "comment":comment.comment,
+        "like":comment.like,
+        "score":{"grade":comment.grade, "load":comment.load, "speech":comment.speech, "total":comment.total,},
+    }
+    return result
 
 def SearchProfessor(professor):
     lecture_list=[]
@@ -244,7 +224,6 @@ def SearchProfessor(professor):
         "professor_name":professor.professor_name,
         "lecture_list":lecture_list,
         "score":{"grade":grade, "load":load, "speech":speech, "total":total,},
-
     }
     return result
 
@@ -269,7 +248,6 @@ def Expectations(keyword):
             expect_temp.append(courseobj.title_en)
     expectations = expect_temp
     return expectations
-    
 
 #MainPage#################################################################################################
 def SearchResultView(request):
@@ -278,7 +256,6 @@ def SearchResultView(request):
     else :
         keyword = ""
 
-    
     semester_filters = request.GET.getlist('semester')
     department_filters = DepartmentFilters(request.GET.getlist('department'))
     type_filters = TypeFilters(request.GET.getlist('type'))
@@ -310,7 +287,7 @@ def SearchResultView(request):
     paginator = Paginator(courses,10)
     page_obj = paginator.page(1)
 
-    results = SearchCourse(page_obj.object_list)
+    results = [SearchCourse(i) for i in page_obj.object_list]
 
     print "result_num :", (len(courses))
     print "NextPage :", page_obj.has_next(), page_obj
@@ -320,6 +297,7 @@ def SearchResultView(request):
             "page":page_obj.number,
             "expectations":expectations,
             "keyword": keyword,
+            "gradelist": [(0,'?'),(1,'F'),(2,'D'),(3,'C'),(4,'B'),(5,'A')],
     }
     return render(request, 'review/result.html', context)
 
@@ -356,7 +334,7 @@ def SearchResultView_json(request, page):
     except InvalidPage:
         raise Http404
 
-    results = SearchCourse(page_obj.object_list)
+    results = [SearchCourse(i) for i in page_obj.object_list]
     print "NextPage :", page_obj.has_next(), page_obj
 
     context = {
@@ -373,7 +351,7 @@ def SearchResultProfessorView(request,id=-1,course_id=-1):
         comments = comments.filter(lecture__course__id=course_id)
     paginator = Paginator(comments,10)
     page_obj = paginator.page(1)
-    results = SearchComment(page_obj.object_list)
+    results = [SearchComment(i) for i in page_obj.object_list]
 
     print "result_num :", (len(comments))
     print "NextPage :", page_obj.has_next(), page_obj
@@ -382,6 +360,8 @@ def SearchResultProfessorView(request,id=-1,course_id=-1):
             "result":SearchProfessor(professor),
             "results": results,
             "page":page_obj.number,
+            "gradelist": [(0,'?'),(1,'F'),(2,'D'),(3,'C'),(4,'B'),(5,'A')],
+ 
     }
     return render(request, 'review/sresult.html', context)
 
@@ -394,7 +374,7 @@ def SearchResultProfessorView_json(request, id=-1,course_id=-1,page=-1):
         page_obj = paginator.page(page)
     except InvalidPage:
         raise Http404
-    results = SearchComment(page_obj.object_list)
+    results = [SearchComment(i) for i in page_obj.object_list]
 
     print "NextPage :", page_obj.has_next(), page_obj
 
@@ -407,34 +387,35 @@ def SearchResultProfessorView_json(request, id=-1,course_id=-1,page=-1):
 
 def SearchResultCourseView(request,id=-1,professor_id=-1):
     professor_id = int(professor_id)
-    course = [Course.objects.get(id=id)]
-    comments = Comment.objects.filter(course=course[0])
+    course = Course.objects.get(id=id)
+    comments = Comment.objects.filter(course=course)
     if professor_id != -1:
-        lectures = list(course[0].lecture_course.all())
+        lectures = list(course.lecture_course.all())
         lec_by_prof = GetLecByProf(lectures)
         target_lectures = lec_by_prof[professor_id]
         comments = comments.filter(lecture__in=target_lectures)
 
     paginator = Paginator(comments,10)
     page_obj = paginator.page(1)
-    results = SearchComment(page_obj.object_list)
+    results = [SearchComment(i) for i in page_obj.object_list]
 
     print "result_num :", (len(comments))
     print "NextPage :", page_obj.has_next(), page_obj
 
     context = {
-            "result":SearchCourse(course)[0],
+            "result":SearchCourse(course),
             "results": results,
             "page":page_obj.number,
+            "gradelist": [(0,'?'),(1,'F'),(2,'D'),(3,'C'),(4,'B'),(5,'A')],
     }
     return render(request, 'review/sresult.html', context)
 
 def SearchResultCourseView_json(request, id=-1,professor_id=-1,page=-1):
     professor_id = int(professor_id)
-    course = [Course.objects.get(id=id)]
-    comments = Comment.objects.filter(course = course[0])
+    course = Course.objects.get(id=id)
+    comments = Comment.objects.filter(course = course)
     if professor_id != -1:
-        lectures = list(course[0].lecture_course.all())
+        lectures = list(course.lecture_course.all())
         lec_by_prof = GetLecByProf(lectures)
         target_lectures = lec_by_prof[professor_id]
         comments = comments.filter(lecture__in=target_lectures)
@@ -444,7 +425,7 @@ def SearchResultCourseView_json(request, id=-1,professor_id=-1,page=-1):
         page_obj = paginator.page(page)
     except InvalidPage:
         raise Http404
-    results = SearchComment(page_obj.object_list)
+    results = [SearchComment(i) for i in page_obj.object_list]
 
     print "NextPage :", page_obj.has_next(), page_obj
 
@@ -571,7 +552,7 @@ def ReviewInsertAdd(request,lecture_id,semester):
 
 def ReviewView(request, comment_id):
     try :
-        comment = SearchComment([Comment.objects.get(id=comment_id)])[0]
+        comment = SearchComment(Comment.objects.get(id=comment_id))
         isExist = 1
         print type(comment)
     except :
