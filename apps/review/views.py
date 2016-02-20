@@ -544,9 +544,9 @@ def ReviewInsertAdd(request,lecture_id,semester):
 
     try :
         target_comment = user.comment_set.get(lecture=lecture)
-        target_comment.u_update(grade=grade, load=load, speech=speech, total=total, comment=comment)
+        target_comment.u_update(grade=grade, load=load, speech=speech, comment=comment)
     except :
-        Comment.u_create(course=course, lecture=lecture, comment=comment, grade=grade, load=load, speech=speech, total=total, writer=writer)
+        Comment.u_create(course=course, lecture=lecture, comment=comment, grade=grade, load=load, speech=speech, writer=writer)
     return HttpResponseRedirect('../')
 
 def ReviewView(request, comment_id):

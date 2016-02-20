@@ -22,7 +22,7 @@ class Comment(models.Model):
 	return u"%s(%s)"%(self.lecture,self.writer)
     
     @classmethod
-    def u_create(cls, course, lecture, comment, grade, load, speech, total, writer):
+    def u_create(cls, course, lecture, comment, grade, load, speech, writer):
         professors = lecture.professor.all()
         related_list = [course]+[lecture]+list(professors)
         for related in related_list:
@@ -32,11 +32,11 @@ class Comment(models.Model):
             related.comment_num += 1
             related.avg_update()
             related.save()
-        new = cls(course=course, lecture=lecture, comment=comment, grade=grade, load=load, speech=speech, total=total, writer=writer)
+        new = cls(course=course, lecture=lecture, comment=comment, grade=grade, load=load, speech=speech, total=(grade+load+speech)/3.0, writer=writer)
         new.save()
         return new
 
-    def u_update(self, comment, grade, load, speech, total):
+    def u_update(self, comment, grade, load, speech):
         course = self.course
         lecture = self.lecture
         professors = lecture.professor.all()
@@ -45,13 +45,13 @@ class Comment(models.Model):
             related.grade_sum += grade - self.grade
             related.load_sum += load - self.load
             related.speech_sum += speech - self.speech
-            related.total_sum += total - self.total
             related.avg_update()
             related.save()
         self.comment = comment
         self.grade = grade
         self.load = load
         self.speech = speech
+        self.total = (grade+load+speech)/3.0
         self.save()
 
     def u_delete(self):
