@@ -194,7 +194,7 @@ def SearchComment(comment):
         "lecture_title":comment.lecture.title,
         "lecture_year":comment.lecture.year,
         "professor_name":professor_name,
-        "writer":comment.writer_label, 
+        "writer":comment.writer_label,
         "comment":comment.comment,
         "like":comment.like,
         "score":{"grade":comment.grade, "load":comment.load, "speech":comment.speech, "total":int(round(comment.total)),},
@@ -254,6 +254,10 @@ def Expectations(keyword):
 
 #MainPage#################################################################################################
 def SearchResultView(request):
+    course_source = Course.objects.all()
+    professor_source = Professor.objects.all()
+    auto_source = [i.title for i in course_source] + [i.title_en for i in course_source] + [i.professor_name for i in professor_source] + [i.professor_name_en for i in professor_source]
+    auto_source = ','.join(auto_source)
     if 'q' in request.GET :
         keyword = request.GET['q']
     else :
@@ -300,6 +304,7 @@ def SearchResultView(request):
             "page":page_obj.number,
             "expectations":expectations,
             "keyword": keyword,
+            "auto_source": auto_source
     }
     return render(request, 'review/result.html', context)
 
@@ -308,7 +313,7 @@ def SearchResultView_json(request, page):
         keyword = request.GET['q']
     else :
         keyword = ""
-    
+
     semester_filters = request.GET.getlist('semester')
     department_filters = DepartmentFilters(request.GET.getlist('department'))
     type_filters = TypeFilters(request.GET.getlist('type'))
@@ -539,7 +544,7 @@ def ReviewInsertAdd(request,lecture_id,semester):
     grade = 6-int(request.POST['gradescore'])
     load = 6-int(request.POST['loadscore'])
     speech = 6-int(request.POST['speechscore'])
-    total = (grade+load+speech)/3.0 
+    total = (grade+load+speech)/3.0
     writer = user #session 완성시 변경
 
     try :
