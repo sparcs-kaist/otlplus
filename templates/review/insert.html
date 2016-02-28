@@ -52,7 +52,7 @@
                 </select>
                 </label>
                 <label>
-                로드
+                널널
                 <select {%ifequal semester "0"%}disabled="disabled"{%endifequal%} class="form-control" name="loadscore">
                   {% for single_grade in gradelist %}
                     <option value={{forloop.counter}} {% ifequal load single_grade %}selected{%endifequal%}>{{single_grade}}</option>
