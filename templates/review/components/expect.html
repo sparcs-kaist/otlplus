@@ -12,22 +12,14 @@
   </div>
   <div class="panel-body">
     <div class="row">
-      <div class="col-xs-24">
-        <span class="h4">
-          <a href="/review/insert/" class="label label-default">
-            전체 학기
-          </a>
+        <div class="col-xs-24">
+        {%for sem_num,sem_korstr in semesters%}
+        <span class="h4">   
+            <a href="/review/insert/-1/{{sem_num}}/" class="label label-default">
+                {{sem_korstr}}
+            </a>
         </span>
-        <span class="h4">
-          <a href="/review/insert/-1/153/" class="label label-default">
-            2015년 가을
-          </a>
-        </span>
-        <span class="h4">
-          <a href="/review/insert/-1/151/" class="label label-default">
-            2015년 봄
-          </a>
-        </span>
+        {%endfor%}
       </div>
     </div>
   </div>
@@ -36,7 +28,11 @@
 <div class="panel panel-default expect" style="margin-bottom:20px">
   <div class="panel-heading">
     <div class="panel-title">
-      <h4>혹시 이 교수님을 검색하셨나요?</h4>
+      {% if view == 'insert' %}
+        <h4>과목을 선택해 주세요</h4>
+      {% else %}
+        <h4>혹시 이 교수님을 검색하셨나요?</h4>
+      {% endif %}
     </div>
   </div>
   <div class="panel-body">
