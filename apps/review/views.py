@@ -471,7 +471,7 @@ def ReviewInsertView(request,lecture_id=-1,semester=0):
     lec_year = (semester/10)+2000
     lec_sem = semester%10
     if semester % 10 > 4 or semester < 0 or semester > 1000:
-        return HttpResponseRedirect('../0')
+        raise Http404
     if semester == 0:
         lecture_list = user.take_lecture_list.all()
     else:
@@ -480,10 +480,12 @@ def ReviewInsertView(request,lecture_id=-1,semester=0):
         if semester == 0:
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
         else:
+            raise Http404
             lecture_list = user.take_lecture_list.all()
             reviewmsg = "<strong>에러!</strong> 원하시는 학기 또는 강의가 존재하지 않습니다"
             lecture_id,semester=-1,0
-
+    recent_semester=0
+    semesters=[]
     for single_lecture in lecture_list:
         lecture_object = {}
         lecture_object["title"]=single_lecture.title;
@@ -493,6 +495,11 @@ def ReviewInsertView(request,lecture_id=-1,semester=0):
         lecture_object["sem_char"]=semchar[lecture_object["semester"]]
         lecture_object["year"]=single_lecture.year;
         lecture_object["lectime"]=(lecture_object["year"]-2000)*10+lecture_object["semester"]
+        korstr = str(lecture_object["year"])+"년 "+lecture_object["sem_char"]
+        if recent_semester < lecture_object["lectime"]:
+            recent_semester = lecture_object["lectime"]
+        if not (lecture_object["lectime"],korstr) in semesters:
+            semesters.append((lecture_object["lectime"],korstr))
         prof_list = single_lecture.professor.all();
         lecture_object["professor"]=", ".join([i.professor_name for i in prof_list])
         return_object.append(lecture_object)
@@ -502,6 +509,9 @@ def ReviewInsertView(request,lecture_id=-1,semester=0):
     pre_load="A"
     pre_speech="A"
     subjectname=""
+    semesters.sort(reverse=True)
+    if semester == 0:
+        return HttpResponseRedirect("/review/insert/-1/"+ str(recent_semester))
     try:
         guideline="".join(open("apps/review/guideline","r").readlines())
     except:
@@ -521,9 +531,8 @@ def ReviewInsertView(request,lecture_id=-1,semester=0):
         except : pre_comment = ''
     else:
         guideline="왼쪽 탭에서 과목을 선택해 주세요.\n"
-    ctx = {'semester':str(semester), 'lecture_id':str(lecture_id), 'subjectname':subjectname, 'reviewmsg':reviewmsg, 'object':return_object, 'comment':pre_comment, 'gradelist': gradelist,'grade': pre_grade,'load':pre_load,'speech':pre_speech, 'sid':sid_var, 'reviewguideline':guideline }
+    ctx = {'semester':str(semester), 'lecture_id':str(lecture_id), 'subjectname':subjectname, 'reviewmsg':reviewmsg, 'object':return_object, 'comment':pre_comment, 'gradelist': gradelist,'grade': pre_grade,'load':pre_load,'speech':pre_speech, 'sid':sid_var, 'reviewguideline':guideline, 'semesters':semesters }
     return render(request, 'review/insert.html',ctx)
-
 
 #ReviewAddingFunctionPage#######################################################################################
 def ReviewInsertAdd(request,lecture_id,semester):
