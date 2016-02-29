@@ -17,6 +17,23 @@
   <link rel="stylesheet" type="text/css" href="/media/css/review/components/course.css">
   <link rel="stylesheet" type="text/css" href="/media/css/review/components/review.css">
   <link rel="stylesheet" type="text/css" href="/media/css/review/result.css">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <style>
+  .ui-autocomplete {
+    max-height: 300px;
+    overflow-y: auto;
+    /* prevent horizontal scrollbar */
+    overflow-x: hidden;
+  }
+  /* IE 6 doesn't support max-height
+   * we use height instead, but this forces the menu to always be this tall
+   */
+  * html .ui-autocomplete {
+    height: 300px;
+  }
+  </style>
+
 {% endblock %}
 
 {% block javascripts %}
@@ -24,8 +41,18 @@
   <script type="text/javascript" src="/media/js/review/components/scourse.js"></script>
   <script type="text/javascript" src="/media/js/review/result.js"></script>
   <script type="text/javascript" src="/media/js/review/components/option.js"></script>
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 <script>
+var auto_source = "{{auto_source}}"
+var auto_source = auto_source.split(',')
 $(document).ready(function(){     
+    $( "#keyword" ).autocomplete({
+        source: auto_source,
+        focus: function(){
+            return false
+        },
+    });
     $(window).bind('scroll', loadOnScroll);
 });
 var pageNum = {{page}};

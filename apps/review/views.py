@@ -399,6 +399,11 @@ def SearchResultProfessorView_json(request, id=-1,course_id=-1,page=-1):
 
 
 def SearchResultCourseView(request,id=-1,professor_id=-1):
+    course_source = Course.objects.all()
+    professor_source = Professor.objects.all()
+    auto_source = [i.title for i in course_source] + [i.title_en for i in course_source] + [i.professor_name for i in professor_source] + [i.professor_name_en for i in professor_source]
+    auto_source = ','.join(auto_source)
+
     professor_id = int(professor_id)
     course = Course.objects.get(id=id)
     comments = Comment.objects.filter(course=course)
@@ -419,6 +424,7 @@ def SearchResultCourseView(request,id=-1,professor_id=-1):
             "result":SearchCourse(course),
             "results": results,
             "page":page_obj.number,
+            "auto_source":auto_source
     }
     return render(request, 'review/sresult.html', context)
 
