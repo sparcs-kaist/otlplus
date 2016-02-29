@@ -15,6 +15,23 @@
   <link rel="stylesheet" type="text/css" href="/media/css/review/components/option.css">
   <link rel="stylesheet" type="text/css" href="/media/css/review/components/review.css">
   <link rel="stylesheet" type="text/css" href="/media/css/review/search.css">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <style>
+  .ui-autocomplete {
+    max-height: 300px;
+    overflow-y: auto;
+    /* prevent horizontal scrollbar */
+    overflow-x: hidden;
+  }
+  /* IE 6 doesn't support max-height
+   * we use height instead, but this forces the menu to always be this tall
+   */
+  * html .ui-autocomplete {
+    height: 300px;
+  }
+  </style> 
+
 {% endblock %}
 
 {% block javascripts %}
@@ -23,6 +40,22 @@
   <script type="text/javascript" src="/media/js/review/search.js"></script>
   <script type="text/javascript" src="/media/js/review/components/option.js"></script>
   <script type="text/javascript" src="/media/js/review/components/review.js"></script>
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+  <script>
+    var auto_source = "{{auto_source}}"
+    var auto_source = auto_source.split(',')
+    $(document).ready(function(){     
+        $( "#keyword" ).autocomplete({
+            source: auto_source,
+            //source: availableTags,
+            focus: function(){
+                return false
+            },
+        });
+    });
+  </script>
+
 {% endblock %}
 
 {% block header %}
@@ -34,7 +67,7 @@
     <div class="col-xs-22 col-xs-offset-1 col-sm-20 col-sm-offset-2 col-md-18 col-md-offset-3 col-lg-16 col-lg-offset-4 text-center">
       <form role="form" class="form-inline row">
         <div class="col-xs-24 col-sm-12 col-md-16 col-lg-18">
-            <input type="text" name="q" autocomplete="on" class="form-control">
+            <input id="keyword" type="text" name="q" autocomplete="on" class="form-control">
         </div>
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
           <div id="option" type="button" class="btn btn-lg btn-block btn-danger">

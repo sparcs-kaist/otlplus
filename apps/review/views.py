@@ -56,6 +56,11 @@ def GradeFilters(raw_filters):
     return filters
 
 def search_view(request):
+    course_source = Course.objects.all()
+    professor_source = Professor.objects.all()
+    auto_source = [i.title for i in course_source] + [i.title_en for i in course_source] + [i.professor_name for i in professor_source] + [i.professor_name_en for i in professor_source]
+    auto_source = ','.join(auto_source)
+
     sid_var = "20150390"
     sid_default = "00000000"
     user = UserProfile.objects.get(student_id=sid_var)
@@ -91,8 +96,11 @@ def search_view(request):
         except Exception, e:
             print e
             pass
-
-    ctx = {'liberal_comment':liberal_comment, 'major_comment':major_comment}
+    ctx = {
+            'liberal_comment':liberal_comment,
+            'major_comment':major_comment,
+            'auto_source':auto_source
+    }
 
     return render(request, 'review/search.html',ctx)
 #####################################################################################################
