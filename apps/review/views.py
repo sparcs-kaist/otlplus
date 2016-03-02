@@ -592,3 +592,54 @@ def ReviewView(request, comment_id):
                                 'isExist' : isExist,
                             })
 
+
+def LastCommentView(request):
+    course_source = Course.objects.all()
+    professor_source = Professor.objects.all()
+    auto_source = [i.title for i in course_source] + [i.title_en for i in course_source] + [i.professor_name for i in professor_source] + [i.professor_name_en for i in professor_source]
+    auto_source = ','.join(auto_source)
+
+    department_filters = DepartmentFilters(request.GET.getlist('filter'))
+    comments = Comment.objects.filter(course__department__code__in=department_filters)
+
+    paginator = Paginator(comments,10)
+    page_obj = paginator.page(1)
+
+    results = [SearchComment(i) for i in page_obj.object_list]
+
+    print "result_num :", (len(comments))
+    print "NextPage :", page_obj.has_next(), page_obj
+
+    context = {
+            "results": results,
+            "page":page_obj.number,
+            "auto_source": auto_source
+    }
+    return render(request, 'review/lastcomment.html', context)
+
+
+def LastCommentView_json(request, page=-1):
+    course_source = Course.objects.all()
+    professor_source = Professor.objects.all()
+    auto_source = [i.title for i in course_source] + [i.title_en for i in course_source] + [i.professor_name for i in professor_source] + [i.professor_name_en for i in professor_source]
+    auto_source = ','.join(auto_source)
+
+    department_filters = DepartmentFilters(request.GET.getlist('filter'))
+    comments = Comment.objects.filter(course__department__code__in=department_filters)
+
+    paginator = Paginator(comments,10)
+    try:
+        page_obj = paginator.page(page)
+    except InvalidPage:
+        raise Http404
+    results = [SearchComment(i) for i in page_obj.object_list]
+
+    print "NextPage :", page_obj.has_next(), page_obj
+
+    context = {
+            "results":results,
+            "hasNext":page_obj.has_next(),
+    }
+    return JsonResponse(json.dumps(context),safe=False)
+
+

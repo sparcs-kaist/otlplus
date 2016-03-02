@@ -15,5 +15,10 @@
       margin-bottom: 15px; }
       .expect .panel-body .h4 a.label {
         background: #e44e68; }
+  .expect .panel-sort {
+    border-bottom: none;
+    padding: 0px;
+    padding-bottom: 0px;
+    background: #ffffff; }
 
 /*# sourceMappingURL=expect.css.map */

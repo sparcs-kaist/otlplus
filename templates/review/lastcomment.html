@@ -1,0 +1,218 @@
+{% extends "review/layout.html" %}
+{% load staticfiles %}
+
+{% block title %}
+  {{ block.super }}
+{% endblock %}
+
+{% block metatags %}
+  {{ block.super }}
+{% endblock %}
+
+{% block stylesheets %}
+  {{ block.super }}
+  <link rel="stylesheet" type="text/css" href="/media/css/components/header/result.css">
+  <link rel="stylesheet" type="text/css" href="/media/css/review/components/filter.css">
+  <link rel="stylesheet" type="text/css" href="/media/css/review/components/option.css">
+  <link rel="stylesheet" type="text/css" href="/media/css/review/components/expect.css">
+  <link rel="stylesheet" type="text/css" href="/media/css/review/components/course.css">
+  <link rel="stylesheet" type="text/css" href="/media/css/review/components/review.css">
+  <link rel="stylesheet" type="text/css" href="/media/css/review/result.css">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <style>
+  .ui-autocomplete {
+    max-height: 300px;
+    overflow-y: auto;
+    /* prevent horizontal scrollbar */
+    overflow-x: hidden;
+  }
+  /* IE 6 doesn't support max-height
+   * we use height instead, but this forces the menu to always be this tall
+   */
+  * html .ui-autocomplete {
+    height: 300px;
+  }
+  </style>
+
+{% endblock %}
+
+{% block javascripts %}
+  {{ block.super }}
+  <script type="text/javascript" src="/media/js/review/components/scourse.js"></script>
+  <script type="text/javascript" src="/media/js/review/result.js"></script>
+  <script type="text/javascript" src="/media/js/review/components/option.js"></script>
+  <script type="text/javascript" src="/media/js/review/components/filter.js"></script>
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script>
+var auto_source = "{{auto_source}}"
+var auto_source = auto_source.split(',')
+$(document).ready(function(){     
+    $( "#keyword" ).autocomplete({
+        source: auto_source,
+        focus: function(){
+            return false
+        },
+    });
+    $(window).bind('scroll', loadOnScroll);
+});
+var pageNum = {{page}};
+var hasNextPage = true;
+
+
+var loadOnScroll = function() {
+    if ($(window).scrollTop() > $(document).height() - ($(window).height()*2)) {
+        $(window).unbind();
+        loadItems();
+    }
+};
+
+var loadItems = function() {
+    if (hasNextPage === false) {
+        return false
+    }
+    pageNum = pageNum + 1;
+    var url = window.location.href.split("?q=").join("json/"+pageNum.toString()+"?q=")
+    $.ajax({
+        type:"GET",
+        url: url, 
+        success: function(responseData) {
+            var data = JSON.parse(responseData);
+            hasNextPage=data.hasNext;
+            var html = [];
+            $.each(data.results, function(index, result){
+                if(result.type == "comment"){
+                    html.push('<div class="panel panel-default review">') 
+                        html.push('<button class="likes" disabled>') 
+                            html.push('<span>') 
+                                html.push('<i class="fa fa-plus"></i> <span>',result.like,'</span>') 
+                            html.push('</span>') 
+                        html.push('</button>') 
+                        html.push('<div class="panel-body container-fluid">') 
+                            html.push('<div class="row">') 
+                                html.push('<div class="col-xs-24 lecture ellipsis-wrapper">') 
+                                    html.push('<h4 class="ellipsis-content">',result.lecture_title,' <small class="text-muted">',result.professor_name, result.lecture_year,'</small></h4>') 
+                                html.push('</div>') 
+                                html.push('<div class="col-xs-24 comment text-muted">') 
+                                    html.push(result.comment.replace(/\n/g , "<br>")) 
+                                html.push('</div>') 
+                                html.push('<div class="col-xs-24 statics text-right">') 
+                                    html.push('<span class="text-left clearfix">') 
+                                        html.push('성적') 
+                                        gradelist = [[0,'?'],[1,'F'],[2,'D'],[3,'C'],[4,'B'],[5,'A']]
+                                        for(i=0;i<gradelist.length;i++){
+                                            if(gradelist[i][0]==result.score.grade){
+                                                html.push('<span class="grade pull-right">',gradelist[i][1],'</span>')
+                                            }
+                                        }
+                                    html.push('</span>') 
+                                scoretype=[['널널',result.score.load],['강의',result.score.speech],['종합',result.score.total]]
+                                for(i=0;i<scoretype.length;i++){
+                                    html.push('<span class="text-left clearfix">',scoretype[i][0])
+                                    for(j=0;j<gradelist.length;j++){
+                                            if(gradelist[j][0]==scoretype[i][1]){
+                                                html.push('<span class="grade pull-right">',gradelist[j][1],'</span>')
+                                            }
+                                        }
+                                    html.push('</span>') 
+                                }
+
+                                html.push('</div>') 
+                            html.push('</div>') 
+                        html.push('</div>') 
+                    html.push('</div>') 
+                }
+            });
+            $("#datacall").before(html.join(""));
+        }, 
+        error: function(){
+            hasNextPage=false;
+        },
+        complete: function(data){
+            $(window).bind('scroll', loadOnScroll);
+        }
+    });
+};   
+</script>
+
+{% endblock %}
+
+{% block header %}
+  {% include 'components/header/result.html' %}
+{% endblock %}
+
+{% block contents %}
+  <div class="row">
+    <div class="col-xs-22 col-xs-offset-1 col-sm-20 col-sm-offset-2 col-md-18 col-md-offset-3 col-lg-16 col-lg-offset-4">
+        {% include 'review/components/option.html' %}
+    </div>
+  </div>
+
+ <div class="row">
+    <div class="col-xs-22 col-xs-offset-1 col-sm-20 col-sm-offset-2 col-md-18 col-md-offset-3 col-lg-16 col-lg-offset-4">
+  
+<div class="panel panel-default expect" style="margin-bottom:45px">
+  <div class="panel-sort" >
+
+<form role="form" class="form" method="get" id="filter_form">
+  <div id="filter" class="form-horizontal">
+
+    <div class="form-group">
+      <label class="col-xs-6 col-sm-4 col-md-3 col-lg-3 control-label">필터</label>
+
+      <div class="col-xs-18 col-sm-20 col-md-21 col-lg-21">
+        <div class="controls">
+          <label>
+              <input class="chkone sort_button" type="checkbox" autocomplete="off" name="filter" checked value="ALL" > 전체
+            <span class="fa-stack fa-lg">
+              <i class="fa fa-circle-o fa-stack-2x"></i>
+              <i class="fa fa-check fa-stack-1x"></i>
+            </span>
+          </label>
+
+          {% for i in "12" %}
+          <label>
+              <input class="chkone sort_button" type="checkbox" autocomplete="off" name="filter" value="{% cycle "HSS" "CS"%}" >{% cycle "교양" "관심"%}
+            <span class="fa-stack fa-lg">
+              <i class="fa fa-circle-o fa-stack-2x"></i>
+              <i class="fa fa-check fa-stack-1x"></i>
+            </span>
+          </label>
+          {% endfor %}
+        </div>
+      </div>
+
+    </div>
+  </div>
+</form>
+
+
+
+</div>
+</div>
+</div>
+</div>
+
+
+  <div class="row">
+    <div class="col-xs-22 col-xs-offset-1 col-sm-20 col-sm-offset-2 col-md-18 col-md-offset-3 col-lg-16 col-lg-offset-4">
+      <div class="list-group sort_result" id="{{ sort_id }}" role="tablist">
+      {% if results|length == 0 %}
+        <div class="list-group-item" >
+          등록된 후기가 없습니다.
+        </div>
+      {% endif %}
+
+      {% for result in results %}
+        {% include 'review/components/review.html' %}
+      {% endfor %}
+<div id="datacall"></div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block footer %}
+  {{ block.super }}
+{% endblock %}

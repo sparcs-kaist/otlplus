@@ -18,7 +18,8 @@ from django.http import HttpResponseRedirect
 
 
 urlpatterns = [
-    url(r'^$', lambda x: HttpResponseRedirect('../main/')),
+    url(r'^$', 'apps.review.views.LastCommentView'),
+    url(r'^json/(?P<page>[0-9]+)/$', 'apps.review.views.LastCommentView_json'),
     url(r'^result/comment/([1-9][0-9]*)/$', 'apps.review.views.ReviewView'),
     url(r'^result/professor/([1-9][0-9]*)/$', lambda x,y :HttpResponseRedirect('./-1/')),
     url(r'^result/professor/([1-9][0-9]*)/([^/]+)/$', 'apps.review.views.SearchResultProfessorView'),
@@ -32,4 +33,5 @@ urlpatterns = [
     url(r'^insert/([^/]+)/([^/]+)/add/$', 'apps.review.views.ReviewInsertAdd'),
     url(r'^insert/([^/]+)/([^/]+)/$', 'apps.review.views.ReviewInsertView'),
     url(r'^delete/$','apps.review.views.ReviewDelete'),
+
 ]
