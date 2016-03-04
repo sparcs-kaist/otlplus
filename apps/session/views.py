@@ -1,4 +1,4 @@
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
@@ -34,7 +34,8 @@ def user_login(request):
 
     callback_url = request.build_absolute_uri('/session/login/callback/')
     login_url = sso_client.get_login_url(callback_url)
-    return render(request, './session/login.html', {'login_url': login_url})
+    # return render(request, './session/login.html', {'login_url': login_url})
+    return HttpResponseRedirect(login_url)
 
 
 def login_callback(request):
