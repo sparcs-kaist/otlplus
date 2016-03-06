@@ -18,6 +18,10 @@ import json
 import random
 
 
+#global val###
+
+gradelist = [(0,'?'),(1,'F'),(2,'F'),(3,'F'),(4,'F'),(5,'D-'),(6,'D0'),(7,'D+'),(8,'C-'),(9,'C0'),(10,'C+'),(11,'B-'),(12,'B0'),(13,'B+'),(14,'A-'),(15,'A0'),(16,'A+')]
+
 #Filter Functions################################################################
 def DepartmentFilters(raw_filters):
     department_list = []
@@ -188,7 +192,7 @@ def SearchCourse(course):
         "id":course.id,
         "title":course.title,
         "prof_info":prof_info,
-        "gradelist": [(0,'?'),(1,'F'),(2,'D'),(3,'C'),(4,'B'),(5,'A')],
+        "gradelist":gradelist,
     }
     return result
 
@@ -206,7 +210,7 @@ def SearchComment(comment):
         "comment":comment.comment,
         "like":comment.like,
         "score":{"grade":comment.grade, "load":comment.load, "speech":comment.speech, "total":int(round(comment.total)),},
-        "gradelist": [(0,'?'),(1,'F'),(2,'D'),(3,'C'),(4,'B'),(5,'A')],
+        "gradelist":[(0,"?"),(1,"F"),(2,"D"),(3,"C"),(4,"B"),(5,"A")],
     }
     return result
 
@@ -234,7 +238,7 @@ def SearchProfessor(professor):
         "professor_name":professor.professor_name,
         "lecture_list":lecture_list,
         "score":{"grade":grade, "load":load, "speech":speech, "total":total,},
-        "gradelist": [(0,'?'),(1,'F'),(2,'D'),(3,'C'),(4,'B'),(5,'A')],
+        "gradelist":gradelist,
     }
     return result
 

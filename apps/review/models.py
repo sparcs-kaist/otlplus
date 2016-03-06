@@ -26,9 +26,9 @@ class Comment(models.Model):
         professors = lecture.professor.all()
         related_list = [course]+[lecture]+list(professors)
         for related in related_list:
-            related.grade_sum += grade
-            related.load_sum += load
-            related.speech_sum += speech
+            related.grade_sum += grade*3
+            related.load_sum += load*3
+            related.speech_sum += speech*3
             related.comment_num += 1
             related.avg_update()
             related.save()
@@ -42,9 +42,9 @@ class Comment(models.Model):
         professors = lecture.professor.all()
         related_list = [course]+[lecture]+list(professors)
         for related in related_list:
-            related.grade_sum += grade - self.grade
-            related.load_sum += load - self.load
-            related.speech_sum += speech - self.speech
+            related.grade_sum += (grade - self.grade)*3
+            related.load_sum += (load - self.load)*3
+            related.speech_sum += (speech - self.speech)*3
             related.avg_update()
             related.save()
         self.comment = comment
@@ -60,9 +60,9 @@ class Comment(models.Model):
         professors = lecture.professor.all()
         related_list = [course]+[lecture]+list(professors)
         for related in related_list:
-            related.grade_sum -= self.grade
-            related.load_sum -= self.load
-            related.speech_sum -= self.speech
+            related.grade_sum -= self.grade*3
+            related.load_sum -= self.load*3
+            related.speech_sum -= self.speech*3
             related.comment_num -= 1
             related.avg_update()
             related.save()
