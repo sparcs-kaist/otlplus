@@ -34,7 +34,6 @@ def user_login(request):
 
     callback_url = request.build_absolute_uri('/session/login/callback/')
     login_url = sso_client.get_login_url(callback_url)
-    # return render(request, './session/login.html', {'login_url': login_url})
     return HttpResponseRedirect(login_url)
 
 
