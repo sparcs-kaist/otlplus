@@ -22,7 +22,7 @@ sso_client = Client(is_test=True)
 
 
 def home(request):
-    return render(request, './session/session.html')
+    return HttpResponseRedirect('./login/')
 
 
 def user_login(request):
