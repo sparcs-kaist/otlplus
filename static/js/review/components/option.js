@@ -1,11 +1,32 @@
 $(document).ready(function(){
-    now_url = window.location.href.split("&sort=")
-    if(now_url.length>1){
-        var sort_value = now_url.pop().split("&").shift();
-        $("input[type='checkbox'][name='sort']").prop("checked",false);
-        $("input[type='checkbox'][name='sort'][value="+sort_value+"]").prop("checked",true);
+    sort_a = window.location.href.split("&sort=")
+    semester_a = window.location.href.split("&semester=")
+    grade_a = window.location.href.split("&grade=")
+    department_a = window.location.href.split("&department=")
+    type = window.location.href.split("&type=")
+    var check_checked_elm = function(str){
+        check_exist = window.location.href.split("&"+str+"=")
+        if(check_exist.length>1){
+            check_exist.shift();
+            elm_array = check_exist
+            $("input[type='checkbox'][name='"+str+"']").prop("checked",false);
+            if(elm_array.constructor===Array){
+                for(i=0;i<elm_array.length;i++){
+                   $("input[type='checkbox'][name='"+str+"'][value="+elm_array[i].split("&").shift()+"]").prop("checked",true);
+                }
+            }
+            else{
+                $("input[type='checkbox'][name='"+str+"'][value="+elm_array+"]").prop("checked",true);
+            }
+        }
     }
-    
+
+    check_checked_elm('sort');
+    check_checked_elm('semester');
+    check_checked_elm('grade');
+    check_checked_elm('department');
+    check_checked_elm('type');
+
     $("input[type='checkbox']").each(function(){
       target = $(this);
       target = target.closest('label');
