@@ -43,6 +43,7 @@
   <script type="text/javascript" src="/media/js/review/result.js"></script>
   <script type="text/javascript" src="/media/js/review/components/option.js"></script>
   <script type="text/javascript" src="/media/js/review/components/filter.js"></script>
+  <script type="text/javascript" src="/media/js/review/components/review.js"></script>
   <script src="//code.jquery.com/jquery-1.10.2.js"></script>
   <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 <script>
@@ -81,6 +82,7 @@ var loadItems = function() {
             var data = JSON.parse(responseData);
             hasNextPage=data.hasNext;
             var html = [];
+            html.push('<script type="text/javascript" src="/media/js/review/components/review.js"></s','cript>')
             $.each(data.results, function(index, result){
                 if(result.type == "comment"){
                     html.push('<div class="panel panel-default review">') 
@@ -91,10 +93,12 @@ var loadItems = function() {
                         html.push('</button>') 
                         html.push('<div class="panel-body container-fluid">') 
                             html.push('<div class="row">') 
-                                html.push('<div class="col-xs-24 lecture ellipsis-wrapper">') 
+                                html.push('<div class="col-xs-24 lecture ellipsis-wrapper" id="',result.id,'">')
+                                    html.push('<input type="hidden" name="',result.id,'" value="',result.course_id,'">')
                                     html.push('<h4 class="ellipsis-content">',result.lecture_title,' <small class="text-muted">',result.professor_name, result.lecture_year,'</small></h4>') 
                                 html.push('</div>') 
-                                html.push('<div class="col-xs-24 comment text-muted">') 
+                                html.push('<div class="col-xs-24 comment text-muted" id="',result.id,'">') 
+                                html.push('<input type="hidden" name="',result.id,'" value="',result.id,'">') 
                                     html.push(result.comment.replace(/\n/g , "<br>")) 
                                 html.push('</div>') 
                                 html.push('<div class="col-xs-24 statics text-right">') 

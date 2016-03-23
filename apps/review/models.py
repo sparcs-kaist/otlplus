@@ -8,10 +8,10 @@ class Comment(models.Model):
     lecture = models.ForeignKey(Lecture, db_index=True)
     
     comment = models.CharField(max_length=65536)
-    grade = models.SmallIntegerField(default=-1)
-    load = models.SmallIntegerField(default=-1)
-    speech = models.SmallIntegerField(default=-1)
-    total = models.FloatField(default=-1.0)
+    grade = models.SmallIntegerField(default=0)
+    load = models.SmallIntegerField(default=0)
+    speech = models.SmallIntegerField(default=0)
+    total = models.FloatField(default=0.0)
 
     writer = models.ForeignKey(UserProfile, related_name='comment_set', db_index=True)
     writer_label = models.CharField(max_length=200, default=u"무학과 넙죽이")

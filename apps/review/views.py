@@ -604,7 +604,7 @@ def LastCommentView(request):
     auto_source = ','.join(auto_source)
 
     department_filters = DepartmentFilters(request.GET.getlist('filter'))
-    comments = Comment.objects.filter(course__department__code__in=department_filters)
+    comments = Comment.objects.filter(course__department__code__in=department_filters).order_by('-written_datetime')
 
     paginator = Paginator(comments,10)
     page_obj = paginator.page(1)
@@ -629,7 +629,7 @@ def LastCommentView_json(request, page=-1):
     auto_source = ','.join(auto_source)
 
     department_filters = DepartmentFilters(request.GET.getlist('filter'))
-    comments = Comment.objects.filter(course__department__code__in=department_filters)
+    comments = Comment.objects.filter(course__department__code__in=department_filters).order_by('-written_datetime')
 
     paginator = Paginator(comments,10)
     try:
