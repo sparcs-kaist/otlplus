@@ -10,12 +10,13 @@ from datetime import datetime, timedelta, time, date
 from django.utils import timezone
 from math import exp
 from itertools import groupby
-#test
 from django.core.paginator import Paginator, InvalidPage
 from django.core import serializers
 import json
 #testend
 import random
+from django.contrib.auth.decorators import login_required
+
 
 
 #global val###
@@ -65,9 +66,9 @@ def search_view(request):
     auto_source = [i.title for i in course_source] + [i.title_en for i in course_source] + [i.professor_name for i in professor_source] + [i.professor_name_en for i in professor_source]
     auto_source = ','.join(auto_source)
 
-    sid_var = "20150390"
-    sid_default = "00000000"
-    user = UserProfile.objects.get(student_id=sid_var)
+    if request.user.is_authenticated():
+        user = request.user
+        user_profile = UserProfile.objects.get(user=user)
 
     comment_liberal = list(LiberalBestComment.objects.all())
     comment_major = list(MajorBestComment.objects.all())
@@ -459,18 +460,22 @@ def SearchResultCourseView_json(request, id=-1,professor_id=-1,page=-1):
 
 
 #Review Control Function#############################################################################################
+@login_required(login_url='/session/login/')
 def ReviewDelete(request):
-    user = UserProfile.objects.get(student_id=request.POST['sid'])
-    lecture = user.take_lecture_list.get(id=request.POST['lectureid'])
-    target_comment = user.comment_set.get(lecture=lecture);
+    user = request.user
+    user_profile = UserProfile.objects.get(user=user)
+
+    lecture = user_profile.take_lecture_list.get(id=request.POST['lectureid'])
+    target_comment = user_profile.comment_set.get(lecture=lecture);
     target_comment.u_delete()
     return HttpResponseRedirect('/review/insert/'+str(request.POST['lectureid'])+'/'+str(request.POST['semester']))
-
+@login_required(login_url='/session/login/')
 def ReviewLike(request):
+    user = request.user
+    user_profile = UserProfile.objects.get(user=user)
+
     target_review = Comment.objects.get(writer=request.POST['writer'],lecture=Lecture.objects.get(old_code=request.POST['lecturechoice']));
     target_review.like += 1;
-    sid_var = "20150390"
-    user = UserProfile.objects.get(student_id=sid_var)
     comment_vote=CommentVote(userprofile=user,comment=target_review.comment) #session 완성시 변경
     comment_vote.is_up =  True;
     target_review.save()
@@ -478,12 +483,13 @@ def ReviewLike(request):
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 #ReviewWritingPage#################################################################################################
-
+@login_required(login_url='/session/login/')
 def ReviewInsertView(request,lecture_id=-1,semester=0):
-    sid_var = "20150390"
+    user = request.user
+    user_profile = UserProfile.objects.get(user=user)
+
     semchar=[None,"봄","여름","가을","겨울"]
     reviewmsg=""
-    user=UserProfile.objects.get(student_id=sid_var) #session 완성시 변경
     return_object = []
     semester=int(semester)
     lec_year = (semester/10)+2000
@@ -491,15 +497,15 @@ def ReviewInsertView(request,lecture_id=-1,semester=0):
     if semester % 10 > 4 or semester < 0 or semester > 1000:
         raise Http404
     if semester == 0:
-        lecture_list = user.take_lecture_list.all()
+        lecture_list = user_profile.take_lecture_list.all()
     else:
-        lecture_list = user.take_lecture_list.filter(year=lec_year,semester=lec_sem)
+        lecture_list = user_profile.take_lecture_list.filter(year=lec_year,semester=lec_sem)
     if len(lecture_list) == 0:
         if semester == 0:
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
         else:
             raise Http404
-            lecture_list = user.take_lecture_list.all()
+            lecture_list = user_profile.take_lecture_list.all()
             reviewmsg = "<strong>에러!</strong> 원하시는 학기 또는 강의가 존재하지 않습니다"
             lecture_id,semester=-1,0
     recent_semester=0
@@ -537,10 +543,10 @@ def ReviewInsertView(request,lecture_id=-1,semester=0):
     if str(lecture_id)==str(-1) and semester > 0:
         return HttpResponseRedirect('../../' + str(lecture_list[0].id) + '/'+str(return_object[0]["lectime"]))
     if semester > 0:
-        now_lecture = user.take_lecture_list.get(id=lecture_id,year=lec_year,semester=lec_sem)
+        now_lecture = user_profile.take_lecture_list.get(id=lecture_id,year=lec_year,semester=lec_sem)
         try :
             subjectname = now_lecture.title
-            temp = user.comment_set.all()
+            temp = user_profile.comment_set.all()
             temp = temp.get(lecture=now_lecture)
             pre_comment = temp.comment
             pre_grade = gradelist[5-(temp.grade)]
@@ -549,10 +555,11 @@ def ReviewInsertView(request,lecture_id=-1,semester=0):
         except : pre_comment = ''
     else:
         guideline="왼쪽 탭에서 과목을 선택해 주세요.\n"
-    ctx = {'semester':str(semester), 'lecture_id':str(lecture_id), 'subjectname':subjectname, 'reviewmsg':reviewmsg, 'object':return_object, 'comment':pre_comment, 'gradelist': gradelist,'grade': pre_grade,'load':pre_load,'speech':pre_speech, 'sid':sid_var, 'reviewguideline':guideline, 'semesters':semesters }
+    ctx = {'semester':str(semester), 'lecture_id':str(lecture_id), 'subjectname':subjectname, 'reviewmsg':reviewmsg, 'object':return_object, 'comment':pre_comment, 'gradelist': gradelist,'grade': pre_grade,'load':pre_load,'speech':pre_speech, 'reviewguideline':guideline, 'semesters':semesters }
     return render(request, 'review/insert.html',ctx)
 
 #ReviewAddingFunctionPage#######################################################################################
+@login_required(login_url='/session/login/')
 def ReviewInsertAdd(request,lecture_id,semester):
 #    if request.POST.has_key('content') == False:
  #       return HttpResponse('후기를 입력해주세요.')
@@ -561,18 +568,19 @@ def ReviewInsertAdd(request,lecture_id,semester):
    #         return HttpResponse('1글자 이상 입력해주세요.')
    #     else:
 #	    comment=request.POST['content']
-    sid_var = "20150390"
-    lecid = int(lecture_id)
-    user = UserProfile.objects.get(student_id=sid_var) #session 완성시 변경
 
-    lecture = user.take_lecture_list.get(id = lecid) # 하나로 특정되지않음, 변경요망
+    user = request.user
+    user_profile = UserProfile.objects.get(user=user)
+
+    lecid = int(lecture_id)
+    lecture = user_profile.take_lecture_list.get(id = lecid) # 하나로 특정되지않음, 변경요망
     course = lecture.course
     comment = request.POST['content'] # 항목 선택 안했을시 반응 추가 요망 grade, load도
     grade = 6-int(request.POST['gradescore'])
     load = 6-int(request.POST['loadscore'])
     speech = 6-int(request.POST['speechscore'])
     total = (grade+load+speech)/3.0
-    writer = user #session 완성시 변경
+    writer = user_profile #session 완성시 변경
 
     try :
         target_comment = user.comment_set.get(lecture=lecture)
