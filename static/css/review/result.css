@@ -1,12 +1,14 @@
 #contents {
-  margin-top: 50px;
-  padding-top: 25px;
-  background-color: #f9f0f0; }
-  #contents #options {
+    margin-top: 50px;
+    padding-top: 25px;
+    background-color: #f9f0f0;
+}
+#contents #options {
     position: relative;
     margin-top: 0;
-    margin-bottom: 25px; }
-    #contents #options:active {
-      display: block; }
-
+    margin-bottom: 25px;
+}
+#contents #options:active {
+    display: block;
+}
 /*# sourceMappingURL=result.css.map */

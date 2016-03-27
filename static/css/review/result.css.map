@@ -1,7 +1,0 @@
-{
-"version": 3,
-"mappings": "AAAA,SAAU;EACN,UAAU,EAAE,IAAI;EAChB,WAAW,EAAE,IAAI;EACjB,gBAAgB,EAAE,OAAO;EACzB,kBAAS;IACL,QAAQ,EAAE,QAAQ;IAClB,UAAU,EAAE,CAAC;IACb,aAAa,EAAE,IAAI;IACnB,yBAAS;MACL,OAAO,EAAE,KAAK",
-"sources": ["../../sass/review/result.scss"],
-"names": [],
-"file": "result.css"
-}

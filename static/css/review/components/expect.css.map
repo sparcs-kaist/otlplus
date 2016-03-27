@@ -1,7 +1,0 @@
-{
-"version": 3,
-"mappings": "AAAA,OAAQ;EACJ,aAAa,EAAE,CAAC;EAChB,sBAAe;IACX,aAAa,EAAE,IAAI;IACnB,OAAO,EAAE,IAAI;IACb,cAAc,EAAE,IAAI;IACpB,UAAU,EAAE,OAAO;EAEvB,mBAAY;IACR,OAAO,EAAE,IAAI;IACb,WAAW,EAAE,CAAC;IACd,uBAAI;MACA,OAAO,EAAE,YAAY;MACrB,MAAM,EAAE,CAAC;MACT,YAAY,EAAE,CAAC;MACf,aAAa,EAAE,IAAI;MACnB,+BAAQ;QACJ,UAAU,EAAE,OAAO",
-"sources": ["../../../sass/review/components/expect.scss"],
-"names": [],
-"file": "expect.css"
-}
