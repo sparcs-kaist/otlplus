@@ -3,65 +3,101 @@
     border: 2px solid #e54c65;
     -webkit-box-shadow: 0 1px 1px rgba(229, 76, 101, 0.5);
     box-shadow: 0 4px 4px rgba(229, 76, 101, 0.5);
+    min-width: 260px;
 }
 .course .panel-body {
     padding: 30px;
 }
-.course .panel-body div.row > div:nth-of-type(1) > div {
-    margin-bottom: 10px;
+
+.course .panel-body div.row > div:nth-of-type(1) > table h4{ 
+    margin-bottom: 15px;
 }
-.course .panel-body div.row > div:nth-of-type(1) > div span.label-title {
+.course .panel-body div.row > div:nth-of-type(1) > table th{
+    vertical-align: top;
+} 
+.course .panel-body div.row > div:nth-of-type(1) > table span{
+    margin-bottom: 15px;
+}
+.course .panel-body div.row > div:nth-of-type(1) > table span.label-title {
     display: inline-block;
     width: 65px;
     font-weight: normal;
     border-right: 2px solid #aaaaaa;
+    margin-right: 15px;
 }
-.course .panel-body div.row > div:nth-of-type(1) > div span.label-description {
+.course .panel-body div.row > div:nth-of-type(1) > table span.label-description {
     display: inline-block;
-    margin-left: 15px;
 }
-.course .panel-body div.row > div:nth-of-type(1) > div .professors label {
+.course .panel-body div.row > div:nth-of-type(1) > table .professors label {
     position: relative;
     top: -2px;
     margin-bottom: 0;
 }
-.course .panel-body div.row > div:nth-of-type(1) > div .professors label input[type="checkbox"],
-.course .panel-body div.row > div:nth-of-type(1) > div .professors label input[type="radio"] {
+.course .panel-body div.row > div:nth-of-type(1) > table .professors label input[type="checkbox"],
+.course .panel-body div.row > div:nth-of-type(1) > table .professors label input[type="radio"] {
     display: none;
 }
-.course .panel-body div.row > div:nth-of-type(1) > div .professors label span.label {
+.course .panel-body div.row > div:nth-of-type(1) > table .professors label span.label {
     background: #a7a7a7;
 }
-.course .panel-body div.row > div:nth-of-type(1) > div .professors label.active span.label {
+.course .panel-body div.row > div:nth-of-type(1) > table .professors label.active span.label {
     background: #e44e68;
 }
-.course .panel-body div.row > div:nth-of-type(1) > div.panel-title {
+.course .panel-body div.row > div:nth-of-type(1) > table .panel-title {
     margin-bottom: 20px;
 }
-.course .panel-body div.row > div:nth-of-type(2) h4 {
-    margin-bottom: 20px;
+.course .panel-body div.row > div:nth-of-type(2) div h4 {
+    margin-top: 5px;
+    margin-bottom: 15px;
 }
-.course .panel-body div.row > div:nth-of-type(2) h4 span.label {
+.course .panel-body div.row > div:nth-of-type(2) div h4 span.label {
     background: #e44e68;
 }
-.course .panel-body div.row > div:nth-of-type(2) > div > div:nth-of-type(1) p span {
-    float: right;
+.course .panel-body div.row > div:nth-of-type(2) > div div > div:nth-of-type(1) {
+    height: 88px;
+}
+.score_letter{
+    float: left;
+    font-weight: bold;
     color: #db6c7c;
 }
-.course .panel-body div.row > div:nth-of-type(2) > div > div:nth-of-type(2) div {
+.course .panel-body div.row > div:nth-of-type(2) > div div > div:nth-of-type(2) {
+    height: 88px;
+}
+
+.course .panel-body div.row > div:nth-of-type(2) > div div > div:nth-of-type(2) div {
+    display: block;
+    margin-top: 4px;
     width: 80px;
     height: 80px;
     border-radius: 50%;
     background: #e44e68;
 }
-.course .panel-body div.row > div:nth-of-type(2) > div > div:nth-of-type(2) div span {
+.course .panel-body div.row > div:nth-of-type(2) > div div > div:nth-of-type(2) div span {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-top: -20px;
-    margin-left: -15px;
+    margin-top: 19px;
     color: #ffffff;
     font-size: 30px;
     font-weight: bolder;
+    width: 80px;
+    height: 80px;
+    text-align: center;
+}
+.score_table tbody tr td, .table-borderless tbody tr th, .table-borderless thead tr th {
+    border: none;
+}
+.score_table{
+    float:right;
+}
+.score_total {
+    display: table-cell;
+    vertical-align: middle;
+    float: none;
+}
+
+.score_box{
+    float:right;
+    height:130px;
+    width:200px;
 }
 /*# sourceMappingURL=course.css.map */
