@@ -204,21 +204,7 @@ var loadItems = function() {
 
 {% block contents %}
 
-  <div class="row">
-    <div class="col-xs-22 col-xs-offset-1 col-sm-20 col-sm-offset-2 col-md-18 col-md-offset-3 col-lg-16 col-lg-offset-4">
-        {% if keyword|length == 0 %}
-          {% include 'review/components/option.html' with with_filter=True %}
-        {% else %}
-          {% include 'review/components/option.html' %}
-        {% endif %}
-    </div>
-    <div class="col-xs-22 col-xs-offset-1 col-sm-20 col-sm-offset-2 col-md-18 col-md-offset-3 col-lg-16 col-lg-offset-4">
-      {% if expectations %}
-        {% include 'review/components/expect.html' with lectures=expectations %}
-      {% endif %}
-    </div>
-  </div>
-
+      
   <div class="row">
     <div class="col-xs-22 col-xs-offset-1 col-sm-20 col-sm-offset-2 col-md-18 col-md-offset-3 col-lg-16 col-lg-offset-4">
       <div class="list-group sort_result" id="{{ sort_id }}" role="tablist">
@@ -226,6 +212,15 @@ var loadItems = function() {
         <div class="list-group-item" >
           검색 결과가 없습니다.
         </div>
+      {% endif %}
+
+      {% if keyword|length == 0 %}
+          {% include 'review/components/option.html' with with_filter=True %}
+        {% else %}
+          {% include 'review/components/option.html' %}
+        {% endif %}
+      {% if expectations %}
+        {% include 'review/components/expect.html' with lectures=expectations %}
       {% endif %}
 
       {% for result in results %}

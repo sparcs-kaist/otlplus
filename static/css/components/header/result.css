@@ -65,5 +65,86 @@
     .navbar .navbar-collapse li.divider {
         background: #e5e5e5 !important;
     }
+    .header_hide{
+        display:inline-block !important;
+    }
+}
+@media (max-width: 992px) {
+    .header_hide{
+        display:none;
+    }
+}
+
+@media (min-width: 768px){
+    .navbar-header{
+        white-space: nowrap;
+        width:8.33%;
+        position: relative;
+        min-height: 1px;
+        padding-left: 15px;
+        padding-right: 15px;
+
+    }
+    .header-middle{
+        width:83.33%;
+        position: relative;
+        min-height: 1px;
+        padding-left: 15px;
+        padding-right: 15px;
+        margin-left:8.33%;
+
+    }
+    .header-end{
+        margin-top: -50px;
+        float: right !important;
+        margin-right: 15px;
+
+    }
+    .hid{
+        display: none;
+    }
+    .float-right{
+        float:right !important;
+    }
+
+
+}
+@media (min-width: 992px){
+    .navbar-header{
+        width:12.5%;
+        position: relative;
+        min-height: 1px;
+        padding-left: 15px;
+        padding-right: 15px;
+
+    }
+    .header-middle{
+        width:75%;
+        position: relative;
+        min-height: 1px;
+        padding-left: 15px;
+        padding-right: 15px;
+        margin-left:12.5%;
+
+    }
+}
+@media (min-width: 1200px){
+    .navbar-header{
+        width:16.66%;
+        position: relative;
+        min-height: 1px;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    .header-middle{
+        width:66.66%;
+        position: relative;
+        min-height: 1px;
+        padding-left: 15px;
+        padding-right: 15px;
+        margin-left:16.66666667%;
+
+    }
+
 }
 /*# sourceMappingURL=result.css.map */

@@ -47,14 +47,18 @@
     word-break: break-all;
     white-space: normal;
 }
+.review .panel-body .statics{
+    margin-top: -30px;
+}
 .review .panel-body .statics > span {
     display: inline-block;
     position: relative;
     width: 60px;
-    margin-right: 15px;
+    margin-left: 15px;
+    margin-top: 20px;
 }
-.review .panel-body .statics > span:last-child {
-    margin-right: 0;
+.review .panel-body .statics > span:first-child {
+    margin-left: 0;
 }
 .review .panel-body .statics > span .grade {
     position: absolute;
