@@ -1,37 +1,5 @@
 <form role="form" class="form" method="get" id="filter_form">
   <div id="options" class="form-horizontal">
-
-    {% if with_filter %}
-    <div class="form-group">
-      <label class="col-xs-6 col-sm-4 col-md-3 col-lg-3 control-label">정렬</label>
-
-      <div class="col-xs-18 col-sm-20 col-md-21 col-lg-21">
-        <div class="controls">
-          <!-- TODO: sorting with js -->
-
-          <label>
-            <input class="chkone sort_button" type="checkbox" autocomplete="off" name="sort" value="code" checked="checked">코드순
-            <span class="fa-stack fa-lg">
-              <i class="fa fa-circle-o fa-stack-2x"></i>
-              <i class="fa fa-check fa-stack-1x"></i>
-            </span>
-          </label>
-
-          {% for i in "12345" %}
-          <label>
-            <input class="chkone sort_button" type="checkbox" autocomplete="off" name="sort" value="{% cycle "name" "total" "grade" "load" "speech"%}" >{% cycle "이름순" "평점순" "성적순" "널널순" "강의순"%}
-            <span class="fa-stack fa-lg">
-              <i class="fa fa-circle-o fa-stack-2x"></i>
-              <i class="fa fa-check fa-stack-1x"></i>
-            </span>
-          </label>
-          {% endfor %}
-        </div>
-      </div>
-
-    </div>
-    {% endif %}
-
     <div class="form-group">
       <label class="col-xs-6 col-sm-4 col-md-3 col-lg-3 control-label">분류</label>
       <div class="col-xs-18 col-sm-20 col-md-21 col-lg-21">

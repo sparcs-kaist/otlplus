@@ -68,6 +68,9 @@
     .header_hide{
         display:inline-block !important;
     }
+    .hid-r{
+      display:none;
+    }
 }
 @media (max-width: 992px) {
     .header_hide{
