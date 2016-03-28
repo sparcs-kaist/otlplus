@@ -6,7 +6,7 @@
           <thead>
             <tr>
               <th class="panel-title" colspan=2>
-                <h4>{{result.title}}</h4>
+                <h4 style="margin-top:6px">{{result.title}}</h4>
                 <input type="hidden" name="course_id" value="{{result.id}}">
               </th>
             </tr>
@@ -47,20 +47,10 @@
         </table>
       </div>
       <div class="col-xs-24 col-sm-10 col-md-9 col-lg-8 " style="min-width:230px">
-          <div class="score_box">
-        <h4 class="text-center">
-          <span class="label label-danger">
-            평균 점수
-          </span>
-        </h4>
-        <div>
-          <div class="col-xs-12">
-              <table class="score_table table-condensed text-right">
+              <table class="score_table table-condensed text-left" width="250" align="left">
                   <tr>
                       <td>
-                          성적
-                      </td>
-                      <td>
+                          성적&nbsp 
                           {% for pinfo in result.prof_info %}
                           {% for numbergrade, lettergrade in result.gradelist %}
                           {% ifequal numbergrade pinfo.score.grade %}
@@ -69,12 +59,8 @@
                           {% endfor %}
                           {% endfor %}
                       </td>
-                  </tr>
-                  <tr>
                       <td>
-                          널널
-                      </td>
-                      <td>
+                          널널&nbsp
                           {% for pinfo in result.prof_info %}
                           {% for numbergrade, lettergrade in result.gradelist %}
                           {% ifequal numbergrade pinfo.score.load %}
@@ -83,12 +69,8 @@
                           {% endfor %}
                           {% endfor %}
                       </td>
-                  </tr>
-                  <tr>
                       <td>
-                          강의
-                      </td>
-                      <td>
+                          강의&nbsp
                           {% for pinfo in result.prof_info %}
                           {% for numbergrade, lettergrade in result.gradelist %}
                           {% ifequal numbergrade pinfo.score.speech %}
@@ -97,22 +79,18 @@
                           {% endfor %}
                           {% endfor %}
                       </td>
-                  </tr>
-              </table>
-          </div>
-          <div class="col-xs-12 text-center" style="position:absolute; margin-left:90px">
-            <div>
+                      <td>
+                        종합&nbsp
                 {% for pinfo in result.prof_info %}
                 {% for numbergrade, lettergrade in result.gradelist %}
                 {% ifequal numbergrade pinfo.score.total %}
-                <span class="score score_total c{{result.id}} p{{pinfo.id}} {{pinfo.name}}" >{{lettergrade}}</span>
+                <span class="score score_letter c{{result.id}} p{{pinfo.id}} {{pinfo.name}}" >{{lettergrade}}</span>
                 {% endifequal %}
                 {% endfor %}
                 {% endfor %}
-            </div>
-        </div>
-        </div>
-    </div>
+            </td>
+                  </tr>
+              </table>
       </div>
     </div>
   </div>

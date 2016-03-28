@@ -1,12 +1,11 @@
 .course {
     margin-top: 20px;
-    border: 2px solid #e54c65;
-    -webkit-box-shadow: 0 1px 1px rgba(229, 76, 101, 0.5);
-    box-shadow: 0 4px 4px rgba(229, 76, 101, 0.5);
+    border: 0px solid #ffffff;
+    -webkit-box-shadow: 0 3px 0px rgba(229, 76, 101, 0.3);
     min-width: 260px;
 }
 .course .panel-body {
-    padding: 30px;
+    padding: 10px 0px 10px 25px;
 }
 
 .course .panel-body div.row > div:nth-of-type(1) > table h4{ 
@@ -46,58 +45,15 @@
 .course .panel-body div.row > div:nth-of-type(1) > table .panel-title {
     margin-bottom: 20px;
 }
-.course .panel-body div.row > div:nth-of-type(2) div h4 {
-    margin-top: 5px;
-    margin-bottom: 15px;
-}
-.course .panel-body div.row > div:nth-of-type(2) div h4 span.label {
-    background: #e44e68;
-}
-.course .panel-body div.row > div:nth-of-type(2) > div div > div:nth-of-type(1) {
-    height: 88px;
-}
 .score_letter{
-    float: left;
-    font-weight: bold;
     color: #db6c7c;
-}
-.course .panel-body div.row > div:nth-of-type(2) > div div > div:nth-of-type(2) {
-    height: 88px;
-}
-
-.course .panel-body div.row > div:nth-of-type(2) > div div > div:nth-of-type(2) div {
-    display: block;
-    margin-top: 4px;
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    background: #e44e68;
-}
-.course .panel-body div.row > div:nth-of-type(2) > div div > div:nth-of-type(2) div span {
-    position: absolute;
-    margin-top: 19px;
-    color: #ffffff;
-    font-size: 30px;
-    font-weight: bolder;
-    width: 80px;
-    height: 80px;
-    text-align: center;
 }
 .score_table tbody tr td, .table-borderless tbody tr th, .table-borderless thead tr th {
     border: none;
+    padding: 3px;
+    width:56px;
 }
 .score_table{
-    float:right;
-}
-.score_total {
-    display: table-cell;
-    vertical-align: middle;
-    float: none;
-}
-
-.score_box{
-    float:right;
-    height:130px;
-    width:200px;
+  float:right;
 }
 /*# sourceMappingURL=course.css.map */
