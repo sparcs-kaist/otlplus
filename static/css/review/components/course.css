@@ -5,55 +5,89 @@
     min-width: 260px;
 }
 .course .panel-body {
-    padding: 10px 0px 10px 25px;
+    padding: 10px 25px 10px 25px;
 }
 
-.course .panel-body div.row > div:nth-of-type(1) > table h4{ 
+.course .panel-body div.row > div:nth-of-type(1) > h4{ 
     margin-bottom: 15px;
 }
-.course .panel-body div.row > div:nth-of-type(1) > table th{
-    vertical-align: top;
-} 
-.course .panel-body div.row > div:nth-of-type(1) > table span{
-    margin-bottom: 15px;
+.course .panel-body div.row > div:nth-of-type(2) > span{
+    margin-bottom: 10px;
+    margin-right:1px;
 }
-.course .panel-body div.row > div:nth-of-type(1) > table span.label-title {
+.course .panel-body div.row div.label-row{
+    margin-bottom: 5px;
+    padding-right: 25px;
+}
+.course .panel-body div.row span.label-title {
     display: inline-block;
     width: 65px;
     font-weight: normal;
     border-right: 2px solid #aaaaaa;
     margin-right: 15px;
+    margin-top: 2px;
 }
-.course .panel-body div.row > div:nth-of-type(1) > table span.label-description {
+.course .panel-body div.row div span.label-description {
     display: inline-block;
+    margin-bottom: 4px;
+    margin-top: 3px;
 }
-.course .panel-body div.row > div:nth-of-type(1) > table .professors label {
+.course .panel-body div.row div .professors label {
     position: relative;
     top: -2px;
     margin-bottom: 0;
 }
-.course .panel-body div.row > div:nth-of-type(1) > table .professors label input[type="checkbox"],
-.course .panel-body div.row > div:nth-of-type(1) > table .professors label input[type="radio"] {
+.course .panel-body div.row div .professors label input[type="checkbox"],
+.course .panel-body div.row div .professors label input[type="radio"] {
     display: none;
 }
-.course .panel-body div.row > div:nth-of-type(1) > table .professors label span.label {
+.course .panel-body div.row div .professors label span.label {
     background: #a7a7a7;
 }
-.course .panel-body div.row > div:nth-of-type(1) > table .professors label.active span.label {
+.course .panel-body div.row div .professors label.active span.label {
     background: #e44e68;
 }
-.course .panel-body div.row > div:nth-of-type(1) > table .panel-title {
+.course .panel-body div.row div .panel-title {
     margin-bottom: 20px;
 }
 .score_letter{
     color: #db6c7c;
+    display:none;
 }
 .score_table tbody tr td, .table-borderless tbody tr th, .table-borderless thead tr th {
     border: none;
     padding: 3px;
     width:56px;
 }
-.score_table{
-  float:right;
+.score_table, .score_div{
+    float:right;
+    margin-right:-20px;
+    padding:0px;
 }
+.score_table{
+    max-width:280px;
+    display:inline-block;
+}
+@media(max-width:370px){
+.score_table_bottom{
+    margin-left:-23px;
+    max-width: 140px;
+    float:left;
+}
+}
+@media(min-width:370px){
+.score_table_bottom{
+    min-width:280px;
+    margin-left:-23px;
+    float:left;
+}
+.score-elem{
+    width:25%;
+}
+}
+
+.score-elem{
+    display:inline-block;
+    padding:3px;
+    float:left;
 /*# sourceMappingURL=course.css.map */

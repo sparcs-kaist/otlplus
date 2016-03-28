@@ -58,7 +58,7 @@
     color: #000000;
     background: #ffffff;
 }
-@media (max-width: 767px) {
+@media (max-width: 768px) {
     .navbar .navbar-collapse {
         background: #e54c65;
     }

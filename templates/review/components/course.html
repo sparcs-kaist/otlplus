@@ -1,97 +1,68 @@
 <div class="panel panel-default course">
-  <div class="panel-body">
-    <div class="row">
-      <div class="col-xs-24 col-sm-14 col-md-15 col-lg-16">
-        <table>
-          <thead>
-            <tr>
-              <th class="panel-title" colspan=2>
-                <h4 style="margin-top:6px">{{result.title}}</h4>
+    <div class="panel-body">
+        <div class="row">
+            <div class="label-title ellipsis-wrapper col-xs-24 col-sm-12 col-md-13 col-lg-14">
+                <h4 style="margin-top:6px" class="ellipsis-content">{{result.title}}</h4>
+            </div>
+            <div class="col-xs-24 col-sm-12 col-md-11 col-lg-10">
                 <input type="hidden" name="course_id" value="{{result.id}}">
-              </th>
-            </tr>
-          </thead>
-        <tbody>
-            <tr>
-              <th>
+                <span class="hid-r">
+                {% include 'review/components/score_table.html'%}
+                </span>
+            </div>
+            <div class="label-row col-xs-24" >
+                <table>
+                <tr>
+                    <td style="vertical-align:top">
                 <span class="label-title">
-                  담당 교수
+                담당 교수
                 </span>
-              </th>
-              <td>
-              {% for pinfo in result.prof_info %}
-                <span class="label-description">
-                  <span class="professors">
-                    <label>
-                      <input class="professor chkone" type="checkbox" autocomplete="off" name="{{result.id}}" value="{{pinfo.id}}">
-                      <a href="/review/result/course/{{result.id}}/{{pinfo.id}}"><span class="label label-default">{{pinfo.name}}</span></a>
-                    </label>
-                  </span>
-                </span>
-              {% endfor %}
-              </td>
-            </tr>
-            <tr>
-              <th>
-                <span class="label-title">
-                  한줄 요약
-                </span>
-              </th>
-              <td>
-                <span class="label-description">
-                  등록되지 않았습니다. <i class="fa fa-pencil"></i>
-                </span>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="col-xs-24 col-sm-10 col-md-9 col-lg-8 " style="min-width:230px">
-              <table class="score_table table-condensed text-left" width="250" align="left">
-                  <tr>
-                      <td>
-                          성적&nbsp 
-                          {% for pinfo in result.prof_info %}
-                          {% for numbergrade, lettergrade in result.gradelist %}
-                          {% ifequal numbergrade pinfo.score.grade %}
-                           <span class="score score_letter c{{result.id}} p{{pinfo.id}} {{pinfo.name}}" >{{lettergrade}}</span>
-                          {% endifequal %}
-                          {% endfor %}
-                          {% endfor %}
-                      </td>
-                      <td>
-                          널널&nbsp
-                          {% for pinfo in result.prof_info %}
-                          {% for numbergrade, lettergrade in result.gradelist %}
-                          {% ifequal numbergrade pinfo.score.load %}
-                           <span class="score score_letter c{{result.id}} p{{pinfo.id}} {{pinfo.name}}" >{{lettergrade}}</span>
-                          {% endifequal %}
-                          {% endfor %}
-                          {% endfor %}
-                      </td>
-                      <td>
-                          강의&nbsp
-                          {% for pinfo in result.prof_info %}
-                          {% for numbergrade, lettergrade in result.gradelist %}
-                          {% ifequal numbergrade pinfo.score.speech %}
-                           <span class="score score_letter c{{result.id}} p{{pinfo.id}} {{pinfo.name}}" >{{lettergrade}}</span>
-                          {% endifequal %}
-                          {% endfor %}
-                          {% endfor %}
-                      </td>
-                      <td>
-                        종합&nbsp
+                    </td>
+                    <td>
+<div>
                 {% for pinfo in result.prof_info %}
-                {% for numbergrade, lettergrade in result.gradelist %}
-                {% ifequal numbergrade pinfo.score.total %}
-                <span class="score score_letter c{{result.id}} p{{pinfo.id}} {{pinfo.name}}" >{{lettergrade}}</span>
-                {% endifequal %}
+                <span class="label-description">
+                   <span class="professors">
+                        <label>
+                            <input class="professor chkone" type="checkbox" autocomplete="off" name="{{result.id}}" value="{{pinfo.id}}">
+                            <a href="/review/result/course/{{result.id}}/{{pinfo.id}}"><span class="label label-default">{{pinfo.name}}</span></a>
+                        </label>
+                    </span>
+                </span>
                 {% endfor %}
-                {% endfor %}
+</div>
+                    </td>
+                </tr>
+                </table>
+            </div>
+            <div class="label-row col-xs-24">
+                <table>
+                    <tr>
+                        <td style="vertical-align:top">
+                <span class="label-title">
+                한줄 요약
+                </span>
             </td>
-                  </tr>
-              </table>
-      </div>
+    </tr>
+</table>
+<div class="table-responsive" style="margin-top: -31.6px; width: auto; border: 0px;margin-left: 70px;">
+          <table class="table">
+              <tr>
+                  <td style="border-top: 0px;">
+                <span class="label-description" style="line-height: 23px;">
+                    분산데이타베이스의 개념과 설계기법 등이 취급된다. 데이타분산기법, 분산질의 처리의 최적화, 분산트랜잭션관리, 병행 수행제어와 신뢰도 등 데이타베이스의 분산 시 고려되어야하는 문제들이 취급되며, 고성능 분산 데이타베이스 설계 기법이 연구된다.연구된다
+                </span>
+            </td>
+        </tr>
+    </table>
+</div>
+            </div>
+            <div class="col-xs-24">
+                <span class="score_table_bottom hid">
+                {% include 'review/components/score_table.html'%}
+                </span>
+            </div>
+
+        </div>
     </div>
-  </div>
 </div>
