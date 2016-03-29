@@ -4,9 +4,6 @@
     background-color: #f9f0f0;
 }
 #contents #options {
-    position: relative;
-    margin-top: 25px;
-    margin-bottom: 25px;
 }
 #contents #options:active {
     display: block;

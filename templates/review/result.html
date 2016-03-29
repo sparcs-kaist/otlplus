@@ -232,15 +232,20 @@ var loadItems = function() {
 
       {% if keyword|length == 0 %}
           {% include 'review/components/option.html' with with_filter=True %}
-  <div id="filter" class="form-horizontal">
 
+
+
+<div id="filter">
     <div class="form-group">
-      <label class="col-xs-6 col-sm-4 col-md-3 col-lg-3 control-label">정렬</label>
-
-      <div class="col-xs-18 col-sm-20 col-md-21 col-lg-21">
-        <div class="controls">
-          <!-- TODO: sorting with js -->
-
+        <div class="row">
+            <div class="label-row col-xs-24 controls" >
+                <table>
+                <tr>
+                    <td style="vertical-align:top">
+                        <label class="sort-title control-label">정렬</label>
+                    </td>
+                    <td>
+<div>
           <label>
             <input class="chkone sort_button" type="checkbox" autocomplete="off" name="sort" value="code" checked="checked">코드순
             <span class="fa-stack fa-lg">
@@ -258,11 +263,17 @@ var loadItems = function() {
             </span>
           </label>
           {% endfor %}
-        </div>
-      </div>
 
+</div>
+                    </td>
+                </tr>
+                </table>
+            </div>
+
+        </div>
     </div>
-  </div>
+</div>
+
 
         {% else %}
           {% include 'review/components/option.html' %}

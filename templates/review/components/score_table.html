@@ -1,0 +1,43 @@
+<div class="score_table text-left col-xs-24">
+          <div class="col-xs-12 col-sm-6 score-elem">
+              성적&nbsp 
+              {% for pinfo in result.prof_info %}
+              {% for numbergrade, lettergrade in result.gradelist %}
+              {% ifequal numbergrade pinfo.score.grade %}
+               <span class="score score_letter c{{result.id}} p{{pinfo.id}} {{pinfo.name}}" >{{lettergrade}}</span>
+              {% endifequal %}
+              {% endfor %}
+              {% endfor %}
+      </div>
+          <div class="col-xs-12 col-sm-6 score-elem">
+              널널&nbsp
+              {% for pinfo in result.prof_info %}
+              {% for numbergrade, lettergrade in result.gradelist %}
+              {% ifequal numbergrade pinfo.score.load %}
+               <span class="score score_letter c{{result.id}} p{{pinfo.id}} {{pinfo.name}}" >{{lettergrade}}</span>
+              {% endifequal %}
+              {% endfor %}
+              {% endfor %}
+      </div>
+          <div class="col-xs-12 col-sm-6 score-elem">
+              강의&nbsp
+              {% for pinfo in result.prof_info %}
+              {% for numbergrade, lettergrade in result.gradelist %}
+              {% ifequal numbergrade pinfo.score.speech %}
+               <span class="score score_letter c{{result.id}} p{{pinfo.id}} {{pinfo.name}}" >{{lettergrade}}</span>
+              {% endifequal %}
+              {% endfor %}
+              {% endfor %}
+      </div>
+          <div class="col-xs-12 col-sm-6 score-elem">
+                    종합&nbsp
+            {% for pinfo in result.prof_info %}
+            {% for numbergrade, lettergrade in result.gradelist %}
+            {% ifequal numbergrade pinfo.score.total %}
+            <span class="score score_letter c{{result.id}} p{{pinfo.id}} {{pinfo.name}}" >{{lettergrade}}</span>
+            {% endifequal %}
+            {% endfor %}
+            {% endfor %}
+      </div>
+</div>
+

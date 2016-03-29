@@ -14,5 +14,8 @@
   white-space: nowrap;
   word-wrap: break-word;
   word-break: break-all; }
+html{
+    background-color: #f9f0f0;
+}
 
 /*# sourceMappingURL=global.css.map */

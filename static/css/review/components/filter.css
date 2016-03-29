@@ -1,11 +1,12 @@
 #filter {
     z-index: 1;
     border: none;
-    border-radius: 10px;
+    border-radius: 4px;
     padding: 15px;
     font-size: 18px;
     text-align: left;
     background: rgba(255, 255, 255, 0.95);
+    -webkit-box-shadow: 0 3px 0px rgba(0, 0, 0, 0.2);
 }
 #filter.active {
     display: block;
@@ -32,6 +33,7 @@
 }
 #filter .form-group .controls label {
     padding-right: 10px;
+    font-size: 16px;
 }
 #filter .form-group .controls label input[type="checkbox"],
 #options .form-group .controls label input[type="radio"] {

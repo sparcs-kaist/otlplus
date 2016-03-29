@@ -1,17 +1,10 @@
-
 <form role="form" class="form" method="get" id="filter_form">
-<div id="options">
-
+  <div id="options" class="form-horizontal">
     <div class="form-group">
-        <div class="row">
-            <div class="label-row col-xs-24 controls" >
-                <table>
-                <tr>
-                    <td style="vertical-align:top">
-                        <label class="sort-title control-label">분류</label>
-                    </td>
-                    <td>
-<div>
+      <label class="col-xs-6 col-sm-4 col-md-3 col-lg-3 control-label">분류</label>
+      <div class="col-xs-18 col-sm-20 col-md-21 col-lg-21">
+        <div class="controls">
+
           <label>
             <input class="chkall" type="checkbox" autocomplete="off" name="type" value="ALL" checked="checked">전체
             <span class="fa-stack fa-lg">
@@ -30,25 +23,16 @@
           </label>
           {% endfor %}
 
-</div>
-                    </td>
-                </tr>
-                </table>
-            </div>
-
         </div>
+      </div>
     </div>
-
     <div class="form-group">
-        <div class="row">
-            <div class="label-row col-xs-24 controls" >
-                <table>
-                <tr>
-                    <td style="vertical-align:top">
-                        <label class="sort-title control-label">학과</label>
-                    </td>
-                    <td>
-<div>
+
+
+      <label class="col-xs-6 col-sm-4 col-md-3 col-lg-3 control-label">학과</label>
+      <div class="col-xs-18 col-sm-20 col-md-21 col-lg-21">
+        <div class="controls">
+
           <label>
             <input class="chkall" type="checkbox" autocomplete="off" name="department" value="ALL" checked="checked">전체
             <span class="fa-stack fa-lg">
@@ -56,6 +40,7 @@
               <i class="fa fa-check fa-stack-1x"></i>
             </span>
           </label>
+
 
           {% for i in "123456789012345678" %}
           <label>
@@ -67,25 +52,16 @@
           </label>
           {% endfor %}
 
-</div>
-                    </td>
-                </tr>
-                </table>
-            </div>
-
         </div>
+      </div>
     </div>
 
+
     <div class="form-group">
-        <div class="row">
-            <div class="label-row col-xs-24 controls" >
-                <table>
-                <tr>
-                    <td style="vertical-align:top">
-                        <label class="sort-title control-label">학년</label>
-                    </td>
-                    <td>
-<div>
+      <label class="col-xs-6 col-sm-4 col-md-3 col-lg-3 control-label">학년</label>
+      <div class="col-xs-18 col-sm-20 col-md-21 col-lg-21">
+        <div class="controls">
+
           <label>
             <input class="chkall" type="checkbox" autocomplete="off" name="grade" value="ALL" checked="checked">전체
             <span class="fa-stack fa-lg">
@@ -94,7 +70,8 @@
             </span>
           </label>
 
-          {% for i in "12345678" %}
+
+          {% for i in "0123456" %}
           <label>
             <input class="chkelem" type="checkbox" autocomplete="off" name="grade" value="{% cycle "000" "100" "200" "300" "400" "500" "HIGH"%}" >{% cycle "000번대" "100번대" "200번대" "300번대" "400번대" "500번대" "석박사"%}
             <span class="fa-stack fa-lg">
@@ -104,26 +81,16 @@
           </label>
           {% endfor %}
 
-</div>
-                    </td>
-                </tr>
-                </table>
-            </div>
-
         </div>
+      </div>
     </div>
 
 
     <div class="form-group">
-        <div class="row">
-            <div class="label-row col-xs-24 controls" >
-                <table>
-                <tr>
-                    <td style="vertical-align:top">
-                        <label class="sort-title control-label">학기</label>
-                    </td>
-                    <td>
-<div>
+      <label class="col-xs-6 col-sm-4 col-md-3 col-lg-3 control-label">학기</label>
+      <div class="col-xs-18 col-sm-20 col-md-21 col-lg-21">
+        <div class="controls">
+
           <label>
               <input class="chkall chkone" type="checkbox" autocomplete="off" name="semester" value="ALL" checked="checked" >전체
             <span class="fa-stack fa-lg">
@@ -142,18 +109,10 @@
           </label>
           {% endfor %}
 
-</div>
-                    </td>
-                </tr>
-                </table>
-            </div>
-
         </div>
+      </div>
     </div>
 
 
-</div>
+  </div>
 </form>
-
-
-

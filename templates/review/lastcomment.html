@@ -154,19 +154,21 @@ var loadItems = function() {
     <div class="col-xs-22 col-xs-offset-1 col-sm-20 col-sm-offset-2 col-md-18 col-md-offset-3 col-lg-16 col-lg-offset-4">
 
          {% include 'review/components/option.html' %}
-<div class="panel panel-default expect" style="margin-bottom:45px">
-  <div class="panel-sort" >
 
-<form role="form" class="form" method="get" id="filter_form">
-  <div id="filter" class="form-horizontal">
 
+<div id="filter" style="margin-bottom:25px;">
     <div class="form-group">
-      <label class="col-xs-6 col-sm-4 col-md-3 col-lg-3 control-label">필터</label>
-
-      <div class="col-xs-18 col-sm-20 col-md-21 col-lg-21">
-        <div class="controls">
+        <div class="row">
+            <div class="label-row col-xs-24 controls" >
+                <table>
+                <tr>
+                    <td style="vertical-align:top">
+                        <label class="sort-title control-label">정렬</label>
+                    </td>
+                    <td>
+<div>
           <label>
-              <input class="chkone sort_button" type="checkbox" autocomplete="off" name="filter" checked value="ALL" > 전체
+            <input class="chkone sort_button" type="checkbox" autocomplete="off" name="filter" checked value="ALL" > 전체
             <span class="fa-stack fa-lg">
               <i class="fa fa-circle-o fa-stack-2x"></i>
               <i class="fa fa-check fa-stack-1x"></i>
@@ -175,24 +177,25 @@ var loadItems = function() {
 
           {% for i in "12" %}
           <label>
-              <input class="chkone sort_button" type="checkbox" autocomplete="off" name="filter" value="{% cycle "HSS" "CS"%}" >{% cycle "교양" "관심"%}
+            <input class="chkone sort_button" type="checkbox" autocomplete="off" name="filter" value="{% cycle "HSS" "CS"%}" >{% cycle "교양" "관심"%}
             <span class="fa-stack fa-lg">
               <i class="fa fa-circle-o fa-stack-2x"></i>
               <i class="fa fa-check fa-stack-1x"></i>
             </span>
           </label>
           {% endfor %}
+
+</div>
+                    </td>
+                </tr>
+                </table>
+            </div>
+
         </div>
-      </div>
-
     </div>
-  </div>
-</form>
-
-
-
 </div>
-</div>
+
+
 
      <div class="list-group sort_result" id="{{ sort_id }}" role="tablist">
       {% if results|length == 0 %}
