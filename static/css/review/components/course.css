@@ -44,6 +44,9 @@
 .course .panel-body div.row div .professors label span.label {
     background: #a7a7a7;
 }
+.course .panel-body div.row div .professors label span.label a {
+    text-decoration: none !important;
+}
 .course .panel-body div.row div .professors label.active span.label {
     background: #e44e68;
 }
@@ -53,6 +56,9 @@
 .score_letter{
     color: #db6c7c;
     display:none;
+}
+.score_letter-review{
+    color: #db6c7c;
 }
 .score_table tbody tr td, .table-borderless tbody tr th, .table-borderless thead tr th {
     border: none;
@@ -71,7 +77,6 @@
 @media(max-width:370px){
 .score_table_bottom{
     margin-left:-23px;
-    max-width: 140px;
     float:left;
 }
 }
@@ -84,10 +89,20 @@
 .score-elem{
     width:25%;
 }
-}
 
-.score-elem{
+}
+@media(min-width:768px){
+    .course .table-responsive .table{
+        margin-bottom:0px;
+    }
+}
+.score-elem, .score-elem-review{
     display:inline-block;
     padding:3px;
     float:left;
+}
+.score-elem-review{
+    width:65px;
+}
 /*# sourceMappingURL=course.css.map */
+

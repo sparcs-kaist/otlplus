@@ -13,7 +13,7 @@
   {{ block.super }}
   <link rel="stylesheet" type="text/css" href="/media/css/components/header/search.css">
   <link rel="stylesheet" type="text/css" href="/media/css/review/components/option-main.css">
-  <link rel="stylesheet" type="text/css" href="/media/css/review/components/review.css">
+  <link rel="stylesheet" type="text/css" href="/media/css/review/components/review-main.css">
   <link rel="stylesheet" type="text/css" href="/media/css/review/search.css">
   <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
   <link rel="stylesheet" href="/resources/demos/style.css">
@@ -90,7 +90,7 @@
       </h2>
       {% cycle liberal_comment major_comment as cbestcomment silent %}
       {% for result in cbestcomment %}
-        {% include 'review/components/review.html' %}
+        {% include 'review/components/review-main.html' %}
       {% endfor %}
     </div>
     {% endfor %}

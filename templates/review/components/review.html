@@ -1,36 +1,79 @@
 <div class="panel panel-default review">
-  <button class="likes" disabled>
-    <span>
-      <i class="fa fa-plus"></i> <span>{{ result.like }}</span>
-    </span>
-  </button>
-  <div class="panel-body container-fluid">
-    <div class="row">
-        <div class="col-xs-24 lecture ellipsis-wrapper" id="{{result.id}}">
-            <input type="hidden" name="{{result.id}}" value="{{result.course_id}}">
-          <h4 class="ellipsis-content">{{ result.lecture_title }} <small class="text-muted">{{ result.professor_name }} {{ result.lecture_year }}</small></h4>
-      </div>
-      <div class="col-xs-24 comment text-muted" id="{{result.id}}">
+    <div class="panel-body">
+        <div class="row">
+            <div id="{{result.id}}" class="label-title lecture ellipsis-wrapper col-xs-24 col-sm-24 col-md-12">
+               <input type="hidden" id="csrf_token" value="{{csrf_token}}">
+               <h4 style="margin-top:6px;" class="ellipsis-content">{{ result.lecture_title }} <small class="text-muted">{{ result.professor_name }}     {{ result.lecture_year }}</small></h4>
+            </div>
+            <div class="col-xs-24 col-sm-24 col-md-12">
+                <input type="hidden" name="course_id" value="{{result.id}}">
+                <span class="hidr-r">
+                {% include 'review/components/score_table-review.html'%}
+                </span>
+            </div>
+      <div class="col-xs-24 comment text-muted " id="{{result.id}}">
          <input type="hidden" name="{{result.id}}" value="{{result.id}}">
         <p>{{ result.comment|linebreaks }}</p>
       </div>
-      <div class="col-xs-24 statics text-right">
-        <span class="text-left clearfix">
-          성적
-          {% for numbergrade, lettergrade in result.gradelist %}
-            {% ifequal numbergrade result.score.grade %} <span class="grade pull-right">{{ lettergrade }}</span>{% endifequal %}
-          {% endfor %}
-        </span>
-        {% for i in "123" %}
-        <span class="text-left clearfix">
-         {% cycle "널널" "강의" "종합" %}
-         {% cycle result.score.load result.score.speech result.score.total as whichgrade silent %}
-           {% for numbergrade, lettergrade in result.gradelist %}
-             {% ifequal numbergrade whichgrade %} <span class="grade pull-right">{{ lettergrade }}</span>{% endifequal %}
-           {% endfor %}
-        </span>
-        {% endfor %}
+            <div class="col-xs-24">
+
+                <span class="score_table_bottomr hidr" style="width:210px">
+
+<div class="score_table-bottomr text-left col-xs-24" style="min-width:210px; padding:0px; display:inline-block" >
+          <div class="score-elem-review">
+              성적&nbsp
+              {% for numbergrade, lettergrade in result.gradelist %}
+              {% ifequal numbergrade result.score.grade %}
+               <span class="score_letter-review" >{{lettergrade}}</span>
+              {% endifequal %}
+              {% endfor %}
       </div>
+          <div class="score-elem-review">
+              널널&nbsp
+              {% for numbergrade, lettergrade in result.gradelist %}
+              {% ifequal numbergrade result.score.load %}
+               <span class="score_letter-review" >{{lettergrade}}</span>
+              {% endifequal %}
+              {% endfor %}
+      </div>
+          <div class="score-elem-review">
+              강의&nbsp
+              {% for numbergrade, lettergrade in result.gradelist %}
+              {% ifequal numbergrade result.score.speech %}
+               <span class="score_letter-review" >{{lettergrade}}</span>
+              {% endifequal %}
+              {% endfor %}
+      </div>
+          <div class="score-elem-review">
+                    종합&nbsp
+            {% for numbergrade, lettergrade in result.gradelist %}
+            {% ifequal numbergrade result.score.total %}
+            <span class="score_letter-review" >{{lettergrade}}</span>
+            {% endifequal %}
+            {% endfor %}
+      </div>
+       <div class="score-elem-review">
+                    추천
+                <span class="score_letter-review like_num {{result.id}}" >{{result.like}}</span>
+      </div>
+
+</div>
+                </span>
+
+<div class="col-xs-24 button-box-review">
+    <a class="declaration-button not-active">
+        <i class="fa fa-exclamation-circle"></i>
+        신고하기
+    </a>
+    <a class="like-button" id="{{result.id}}" style="padding-right:0px">
+        <i class="fa fa-thumbs-up"></i>
+        좋아요
+    </a>
     </div>
-  </div>
+
+
+            </div>
+
+        </div>
+    </div>
 </div>

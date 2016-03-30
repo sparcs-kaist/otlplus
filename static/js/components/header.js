@@ -14,7 +14,7 @@ if($('.navbar').length > 0){
     });
 }
 
-$('#logout').click(function(){
+$('.logout').click(function(){
     logoutWindow = window.open("https://sparcssso.kaist.ac.kr/account/logout/","logoutWindow","width=1, height=1" );
     setTimeout(function(){
         logoutWindow.close();

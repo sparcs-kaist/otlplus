@@ -225,9 +225,11 @@ var loadItems = function() {
 
       <div class="list-group sort_result" id="{{ sort_id }}" role="tablist">
       {% if results|length == 0 %}
-        <div class="list-group-item" >
+      {% if not expectations %}
+        <div class="list-group-item" style="border-radius:4px" >
           검색 결과가 없습니다.
         </div>
+      {% endif %}
       {% endif %}
 
       {% if keyword|length == 0 %}

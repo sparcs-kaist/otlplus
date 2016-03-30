@@ -1,73 +1,70 @@
 <div class="panel panel-default course">
-  <div class="panel-body">
-    <div class="row">
-      <div class="col-xs-24 col-sm-18">
-        <div class="panel-title">
-            <h4><a>{{result.professor_name}}<a></h4>
-        </div>
-        <div>
-          <span class="label-title">
-            담당 과목
-          </span>
-          <input type="hidden" name="professor_id" value="result.id">
-          <span class="label-description">
-            <div class="professors">
-              <label>
-                  <input class="professor chkall chkone" type="checkbox" name="{{result.id}}" value="-1" checked="checked">
-                <span class="label label-default">ALL</span>
-              </label>
-
-              {% for lecture in result.lecture_list %}
-              <label>
-                  <input class="professor chkelem chkone" type="checkbox" name="{{result.id}}" value="{{lecture.course.id}}">
-                <span class="label label-default">{{lecture.title}}</span>
-              </label>
-              {% endfor %}
+    <div class="panel-body">
+        <div class="row">
+            <div class="label-title ellipsis-wrapper col-xs-24 col-sm-12 col-md-13 col-lg-14">
+                <h4 style="margin-top:6px" class="ellipsis-content">{{result.title}}</h4>
             </div>
-          </span>
-        </div>
-        <div>
-          <span class="label-title">
-            한줄 요약
-          </span>
-          <span class="label-description">
-            등록되지 않았습니다. <i class="fa fa-pencil"></i>
-          </span>
-        </div>
-        <div>
-          <span class="label-title">
-            주 교재
-          </span>
-          <span class="label-description">
-            등록되지 않았습니다. <i class="fa fa-pencil"></i>
-          </span>
-        </div>
-      </div>
-      <div class="col-xs-24 col-sm-6">
-        <h4 class="text-center">
-          <span class="label label-danger">
-            평균 점수
-          </span>
-        </h4>
-        <div>
-          <div class="col-xs-12">
-            <p class="clearfix">
-            성적 <span>{{result.score.grade|floatformat:1}}</span>
-            </p>
-            <p class="clearfix">
-            널널 <span>{{result.score.load|floatformat:1}}</span>
-            </p>
-            <p class="clearfix">
-            강의 <span>{{result.score.speech|floatformat:1}}</span>
-            </p>
-          </div>
-          <div class="col-xs-12">
-            <div>
-                <span>{{result.score.total|floatformat:1}}</span>
+            <div class="col-xs-24 col-sm-12 col-md-11 col-lg-10">
+                <input type="hidden" name="course_id" value="{{result.id}}">
+                <span class="hid-r">
+                {% include 'review/components/score_table.html'%}
+                </span>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+            <div class="label-row col-xs-24" >
+                <table>
+                <tr>
+                    <td style="vertical-align:top">
+                <span class="label-title">
+                담당 과목
+                </span>
+                    </td>
+                    <td>
+<div>
+                {% for pinfo in result.prof_info %}
+                <span class="label-description">
+                   <span class="professors">
+                        <label>
+                            <input class="professor chkone" type="checkbox" autocomplete="off" name="{{result.id}}" value="{{pinfo.id}}">
+                            <a href="/review/result/professor/{{result.id}}/{{pinfo.id}}"><span class="label label-default">{{pinfo.name}}</span></a>
+                        </label>
+                    </span>
+                </span>
+                {% endfor %}
 </div>
+                    </td>
+                </tr>
+                </table>
+            </div>
+            <div class="label-row col-xs-24">
+                <table>
+                    <tr>
+                        <td style="vertical-align:top">
+                <span class="label-title">
+                소속 학과
+                </span>
+            </td>
+    </tr>
+</table>
+<div class="table-responsive" style="margin-top: -31.6px; margin-bottom:-10px; width: auto; border: 0px;margin-left: 82px;">
+          <table class="table">
+              <tr>
+                  <td style="border-top: 0px;">
+                <span class="label-description" style="line-height: 23px;">
+                    인문사회학과
+                </span>
+            </td>
+        </tr>
+    </table>
+</div>
+            </div>
+            <div class="col-xs-24">
+                <span class="score_table_bottom hid">
+                {% include 'review/components/score_table.html'%}
+                </span>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+

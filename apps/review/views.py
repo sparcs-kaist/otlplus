@@ -3,7 +3,7 @@
 from django.shortcuts import render, redirect
 from apps.session.models import UserProfile
 from apps.subject.models import Course, Lecture, Department, CourseFiltered, Professor
-from apps.review.models import Comment, MajorBestComment, LiberalBestComment
+from apps.review.models import Comment,CommentVote, MajorBestComment, LiberalBestComment
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.db.models import Q
 from datetime import datetime, timedelta, time, date
@@ -16,7 +16,7 @@ import json
 #testend
 import random
 from django.contrib.auth.decorators import login_required
-
+from django.views.decorators.http import require_POST
 
 
 #global val###
@@ -217,28 +217,27 @@ def SearchComment(comment):
 
 def SearchProfessor(professor):
     lecture_list=[]
+    lecture_list.append({
+        "name": "ALL",
+        "id": -1,
+        "score":{"grade":int(round(professor.grade)), "load":int(round(professor.load)), "speech":int(round(professor.speech)), "total":int(round(professor.total)),},
+    })
     for lecture in professor.lecture_professor.all():
+        grade = int(round(lecture.grade))
+        load = int(round(lecture.load))
+        speech = int(round(lecture.speech))
+        total = int(round(lecture.total))
+
         lecture_list.append({
             "id" : lecture.id,
-            "title" : lecture.title,
-            "old_code" : lecture.old_code,
+            "name" : lecture.title,
+            "score" : {"grade":grade, "load":load, "speech":speech, "total":total,},
         })
-    comment_num = professor.comment_num
-    grade = 0.0
-    load = 0.0
-    speech = 0.0
-    total = 0.0
-    if comment_num != 0:
-        grade = float(professor.grade_sum) / comment_num
-        load = float(professor.load_sum) / comment_num
-        speech = float(professor.speech_sum) / comment_num
-        total = float(professor.total_sum) / comment_num
     result={
         "type":"professor",
         "id":professor.id,
-        "professor_name":professor.professor_name,
-        "lecture_list":lecture_list,
-        "score":{"grade":grade, "load":load, "speech":speech, "total":total,},
+        "title":professor.professor_name,
+        "prof_info":lecture_list,
         "gradelist":gradelist,
     }
     return result
@@ -364,10 +363,11 @@ def SearchResultView_json(request, page):
     }
     return JsonResponse(json.dumps(context),safe=False)
 
-def SearchResultProfessorView(request,id=-1,course_id=-1):
+def SearchResultProfessorView(request,id=-1,lecture_id=-1):
     professor = Professor.objects.get(id=id)
     comments = Comment.objects.filter(lecture__professor__id=id)
-    if int(course_id) != -1:
+    if int(lecture_id) != -1:
+        course_id = Lecture.objects.get(id=lecture_id).course.id
         comments = comments.filter(lecture__course__id=course_id)
     paginator = Paginator(comments,10)
     page_obj = paginator.page(1)
@@ -469,18 +469,31 @@ def ReviewDelete(request):
     target_comment = user_profile.comment_set.get(lecture=lecture);
     target_comment.u_delete()
     return HttpResponseRedirect('/review/insert/'+str(request.POST['lectureid'])+'/'+str(request.POST['semester']))
-@login_required(login_url='/session/login/')
+#@login_required
+#login_required(login_url='/session/login/')
 def ReviewLike(request):
-    user = request.user
-    user_profile = UserProfile.objects.get(user=user)
-
-    target_review = Comment.objects.get(writer=request.POST['writer'],lecture=Lecture.objects.get(old_code=request.POST['lecturechoice']));
-    target_review.like += 1;
-    comment_vote=CommentVote(userprofile=user,comment=target_review.comment) #session 완성시 변경
-    comment_vote.is_up =  True;
-    target_review.save()
-    comment_vote.save()
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    is_login = False
+    already_up = False
+    likes_count = -1
+    comment_id = -1
+    if request.user.is_authenticated():
+        is_login = True
+        if request.method == 'POST':
+            user = request.user
+            user_profile = UserProfile.objects.get(user=user)
+            print user_profile
+            target_review = Comment.objects.get(id=request.POST['commentid']);
+            if CommentVote.objects.filter(comment = target_review, userprofile = user_profile).exists():
+                already_up = True
+            else:
+                target_review.like += 1;
+                comment_vote=CommentVote(userprofile=user_profile,comment=target_review) #session 완성시 변경
+                comment_vote.is_up =  True;
+                target_review.save()
+                comment_vote.save()
+                likes_count = target_review.like
+    ctx = {'likes_count': likes_count, 'already_up': already_up, 'is_login':is_login, 'id': request.POST['commentid']}
+    return JsonResponse(json.dumps(ctx),safe=False)
 
 #ReviewWritingPage#################################################################################################
 @login_required(login_url='/session/login/')

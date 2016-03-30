@@ -1,0 +1,76 @@
+.review {
+    position: relative;
+    margin-bottom: 45px;
+}
+.review .likes {
+    position: absolute;
+    top: -22px;
+    right: -22px;
+    width: 44px;
+    height: 44px;
+    border: none;
+    border-radius: 50%;
+    cursor: default;
+    background-color: #e64c65;
+}
+.review .likes > span {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: bold;
+    line-height: 44px;
+    text-align: center;
+}
+.review .likes > span > span {
+    margin-left: -2px;
+    font-size: 16px;
+    line-height: 16px;
+}
+.review .panel-body {
+    padding: 15px;
+}
+.review .panel-body .lecture {
+    font-size: 20px;
+    font-weight: bold;
+}
+.review .panel-body .comment {
+    padding: 15px 15px;
+}
+.review .panel-body .comment p:last-child {
+    margin-bottom: 0;
+}
+.review .panel-body .comment p {
+    word-break: break-all;
+    white-space: normal;
+}
+.review .panel-body .statics{
+    margin-top: -30px;
+}
+.review .panel-body .statics > span {
+    display: inline-block;
+    position: relative;
+    width: 60px;
+    margin-left: 15px;
+    margin-top: 20px;
+}
+.review .panel-body .statics > span:first-child {
+    margin-left: 0;
+}
+.review .panel-body .statics > span .grade {
+    position: absolute;
+    top: -5px;
+    right: 0;
+    width: 30px;
+    height: 30px;
+    padding-top: 3px;
+    padding-left: 1px;
+    border: 2px solid #e64c65;
+    border-radius: 15px;
+    color: #e64c65;
+    text-align: center;
+    font-weight: bold;
+}
