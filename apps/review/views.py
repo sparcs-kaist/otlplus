@@ -497,7 +497,6 @@ def ReviewLike(request):
 def ReviewInsertView(request,lecture_id=-1,semester=0):
     user = request.user
     user_profile = UserProfile.objects.get(user=user)
-
     semchar=[None,"봄","여름","가을","겨울"]
     reviewmsg=""
     return_object = []
@@ -506,20 +505,22 @@ def ReviewInsertView(request,lecture_id=-1,semester=0):
     lec_sem = semester%10
     if semester % 10 > 4 or semester < 0 or semester > 1000:
         raise Http404
-    if semester == 0:
-        lecture_list = user_profile.take_lecture_list.all()
-    else:
-        lecture_list = user_profile.take_lecture_list.filter(year=lec_year,semester=lec_sem)
+    lecture_list = user_profile.take_lecture_list.all()
     if len(lecture_list) == 0:
+        raise Http404
+        """
         if semester == 0:
+            raise Http404
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
         else:
             raise Http404
             lecture_list = user_profile.take_lecture_list.all()
             reviewmsg = "<strong>에러!</strong> 원하시는 학기 또는 강의가 존재하지 않습니다"
             lecture_id,semester=-1,0
+        """
     recent_semester=0
     semesters=[]
+    thissem_lec = -1
     for single_lecture in lecture_list:
         lecture_object = {}
         lecture_object["title"]=single_lecture.title;
@@ -536,7 +537,10 @@ def ReviewInsertView(request,lecture_id=-1,semester=0):
             semesters.append((lecture_object["lectime"],korstr))
         prof_list = single_lecture.professor.all();
         lecture_object["professor"]=", ".join([i.professor_name for i in prof_list])
-        return_object.append(lecture_object)
+        if semester == lecture_object["lectime"]:
+                if thissem_lec < 0: thissem_lec = lecture_object["lecid"]
+                return_object.append(lecture_object)
+    print semesters
     gradelist=['A','B','C','D','F']
     pre_comment =""
     pre_grade="A"
@@ -551,7 +555,10 @@ def ReviewInsertView(request,lecture_id=-1,semester=0):
     except:
         guideline="Guideline Loading Error..."
     if str(lecture_id)==str(-1) and semester > 0:
-        return HttpResponseRedirect('../../' + str(lecture_list[0].id) + '/'+str(return_object[0]["lectime"]))
+        if thissem_lec<0:
+            raise Http404
+        else:
+            return HttpResponseRedirect('../../' + str(thissem_lec) + '/'+str(semester))
     if semester > 0:
         now_lecture = user_profile.take_lecture_list.get(id=lecture_id,year=lec_year,semester=lec_sem)
         try :
