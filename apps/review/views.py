@@ -486,11 +486,7 @@ def ReviewLike(request):
             if CommentVote.objects.filter(comment = target_review, userprofile = user_profile).exists():
                 already_up = True
             else:
-                target_review.like += 1;
-                comment_vote=CommentVote(userprofile=user_profile,comment=target_review) #session 완성시 변경
-                comment_vote.is_up =  True;
-                target_review.save()
-                comment_vote.save()
+                CommentVote.cv_create(target_review,user_profile) #session 완성시 변경
                 likes_count = target_review.like
     ctx = {'likes_count': likes_count, 'already_up': already_up, 'is_login':is_login, 'id': request.POST['commentid']}
     return JsonResponse(json.dumps(ctx),safe=False)
