@@ -23,8 +23,8 @@ class Command(BaseCommand):
     args = u'--host=143.248.X.Y:PORT --user=USERNAME'
 
     def handle(self, *args, **options):
-        next_year = 2015
-        next_semester = 3
+        next_year = 2016
+        next_semester = 1
 
         rx_dept_code = re.compile(ur'([a-zA-Z]+)(\d+)')
         host = options.get('host', None)
@@ -209,6 +209,10 @@ class Command(BaseCommand):
                                 prof_name_en = ''
                             else:
                                 prof_name_en = unicode(i[8].strip(),'cp949')
+                            if i[4] is None or i[4]=='':
+                                prof_major = ''
+                            else:
+                                prof_major = i[4]
                             professor = Professor.objects.get(professor_id=prof_id)
                             if professor.professor_name != prof_name and prof_id !=830:
                                 professor.professor_name = prof_name
@@ -216,11 +220,15 @@ class Command(BaseCommand):
                             if professor.professor_name_en != prof_name_en and prof_id != 830 and prof_name_en!='':
                                 professor.professor_name_en = prof_name_en
                                 professor.save()
+                            if professor.major != prof_major and prof_id != 830:
+                                professor.major = prof_major
+                                professor.save()
                             professors_not_updated.remove(professor.id)
                         except Professor.DoesNotExist:
                             professor = Professor.objects.create(professor_id=prof_id)
                             professor.professor_name = prof_name
                             professor.professor_name_en = prof_name_en
+                            professor.major = prof_major
                             professor.save()
 #                            print "Making new Professor ... %s" % professor.professor_name
                         except KeyError:
