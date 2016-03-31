@@ -19,6 +19,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 
 
+
 #global val###
 
 gradelist = [(0,'?'),(1,'F'),(2,'F'),(3,'F'),(4,'F'),(5,'D-'),(6,'D'),(7,'D+'),(8,'C-'),(9,'C'),(10,'C+'),(11,'B-'),(12,'B'),(13,'B+'),(14,'A-'),(15,'A'),(16,'A+')]
