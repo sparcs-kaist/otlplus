@@ -4,40 +4,31 @@
     {{reviewmsg|safe|escape}}
 </div>
 {% endifnotequal %}
-<div class="panel panel-default expect" style="margin-bottom:20px">
-  <div class="panel-heading">
-    <div class="panel-title">
-      <h4>학기를 선택해 주세요</h4>
+<div class="panel expect" style="display:inline-block;padding-right:5px">
+    <div class="panel-title" style="display:inline-block">
+      <h4 style="display:inline-block">학기 선택</h4>
     </div>
-  </div>
-  <div class="panel-body">
-    <div class="row">
-        <div class="col-xs-24">
+  <div class="panel-body" style="padding-left:0px; padding-right:0px ;padding-bottom:0px;display:inline-block">
         {%for sem_num,sem_korstr in semesters%}
-        <span class="h4">   
-            <a href="/review/insert/-1/{{sem_num}}/" class="label label-default">
+        <span class="label-a">
+            <a href="/review/insert/-1/{{sem_num}}/" id="{{sem_num}}" class="label deactive">
                 {{sem_korstr}}
             </a>
-        </span>
+         <span>
         {%endfor%}
-      </div>
-    </div>
   </div>
 </div>
 {% endif %}
-<div class="panel panel-default expect" style="margin-bottom:20px">
-  <div class="panel-heading">
+<div class="panel-b col-xs-24 expect" >
     <div class="panel-title">
       {% if view == 'insert' %}
-        <h4>과목을 선택해 주세요</h4>
+        <h4>어떤 과목의 후기를 쓰실건가요?</h4>
       {% else %}
         <h4>혹시 이 교수님을 검색하셨나요?</h4>
       {% endif %}
     </div>
-  </div>
   <div class="panel-body">
-    <div class="row">
-      <div class="col-xs-24">
+      <div class="col-xs-24" style="padding:0px">
         {% if lectures|length == 0 %}
           <span class="h4">
             <a href="" class="label label-default">
@@ -82,8 +73,8 @@
         {% else %}
           {% for lecture in lectures %}
             {% if view == 'insert' %}
-              <span class="h4">
-                <a href="/review/insert/{{ lecture.lecid }}/{{ lecture.lectime }}/" class="label label-default">
+              <span class="label-b">
+                <a href="/review/insert/{{ lecture.lecid }}/{{ lecture.lectime }}/" class="label">
                   {{ lecture.title }}({{ lecture.old_code }} {{ lecture.professor }}){% ifequal semester "0"%}({{ lecture.year }} {{ lecture.sem_char }}){% endifequal %}
                 </a>
               </span>
@@ -96,7 +87,6 @@
             {% endif %}
           {% endfor %}
         {% endif %}
-      </div>
     </div>
   </div>
 </div>
