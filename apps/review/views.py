@@ -530,7 +530,7 @@ def ReviewInsertView(request,lecture_id=-1,semester=0):
         lecture_object["sem_char"]=semchar[lecture_object["semester"]]
         lecture_object["year"]=single_lecture.year;
         lecture_object["lectime"]=(lecture_object["year"]-2000)*10+lecture_object["semester"]
-        korstr = str(lecture_object["year"])+"년 "+lecture_object["sem_char"]
+        korstr = str((lecture_object["year"]%100))+lecture_object["sem_char"]
         if recent_semester < lecture_object["lectime"]:
             recent_semester = lecture_object["lectime"]
         if not (lecture_object["lectime"],korstr) in semesters:
@@ -563,16 +563,33 @@ def ReviewInsertView(request,lecture_id=-1,semester=0):
         now_lecture = user_profile.take_lecture_list.get(id=lecture_id,year=lec_year,semester=lec_sem)
         try :
             subjectname = now_lecture.title
-            temp = user_profile.comment_set.all()
-            temp = temp.get(lecture=now_lecture)
+            temp = user_profile.comment_set.all().get(lecture=now_lecture)
             pre_comment = temp.comment
             pre_grade = gradelist[5-(temp.grade)]
             pre_load = gradelist[5-(temp.load)]
             pre_speech = gradelist[5-(temp.speech)]
-        except : pre_comment = ''
+            pre_like = temp.like
+        except :
+            pre_comment = ''
+            pre_like = -1
+
     else:
         guideline="왼쪽 탭에서 과목을 선택해 주세요.\n"
-    ctx = {'semester':str(semester), 'lecture_id':str(lecture_id), 'subjectname':subjectname, 'reviewmsg':reviewmsg, 'object':return_object, 'comment':pre_comment, 'gradelist': gradelist,'grade': pre_grade,'load':pre_load,'speech':pre_speech, 'reviewguideline':guideline, 'semesters':semesters }
+    ctx ={ 
+            'semester':str(semester),
+            'lecture_id':str(lecture_id),
+            'subjectname':subjectname,
+            'reviewmsg':reviewmsg,
+            'object':return_object,
+            'comment':pre_comment,
+            'gradelist': gradelist,
+            'grade': pre_grade,
+            'load':pre_load,
+            'speech':pre_speech,
+            'like':pre_like,
+            'reviewguideline':guideline,
+            'semesters':semesters,
+        }
     return render(request, 'review/insert.html',ctx)
 
 #ReviewAddingFunctionPage#######################################################################################

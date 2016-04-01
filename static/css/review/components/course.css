@@ -1,7 +1,7 @@
 .course {
     margin-top: 20px;
     border: 0px solid #ffffff;
-    -webkit-box-shadow: 0 3px 0px rgba(229, 76, 101, 0.3);
+    box-shadow: 0 3px 0px rgba(229, 76, 101, 0.3);
     min-width: 260px;
 }
 .course .panel-body {
