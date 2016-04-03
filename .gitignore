@@ -8,7 +8,7 @@ __pycache__/
 cronlog
 *.swp
 update_scholardb.py
-
+update_taken_lecture.py
 # Distribution / packaging
 .Python
 env/
