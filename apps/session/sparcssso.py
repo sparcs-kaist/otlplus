@@ -1,9 +1,7 @@
-import json
 import requests
-import urllib
 
-# SPARCS SSO Client Version 0.9.0 (BETA)
-# VALID ONLY AFTER 2016-01-28T12:59+09:00
+# SPARCS SSO Client Version 0.9.1 (BETA)
+# VALID ONLY AFTER 2016-03-19T20:45+09:00
 # Made by SPARCS SSO Team
 
 class Client:
@@ -22,7 +20,7 @@ class Client:
         self.secret_key = secret_key
 
     def _post_data(self, url, data):
-        r = requests.post(url, data)
+        r = requests.post(url, data, verify=True)
         if r.status_code == 403:
             raise ValueError('Invalid secret key')
         elif r.status_code == 404:
@@ -31,7 +29,7 @@ class Client:
             raise RuntimeError('Unknown server error')
 
         try:
-            return json.loads(r.text)
+            return r.json()
         except:
             raise RuntimeError('Json decode error')
 
@@ -79,4 +77,6 @@ class Client:
         return result['changed'], result['point']
 
     def get_notice(self):
-        return json.load(urllib.urlopen(self.NOTICE_BASE_URL))
+        r = requests.get(self.NOTICE_BASE_URL, verify=True)
+        return r.json()
+
