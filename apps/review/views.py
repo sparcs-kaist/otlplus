@@ -240,6 +240,7 @@ def SearchProfessor(professor):
         "title":professor.professor_name,
         "prof_info":lecture_list,
         "gradelist":gradelist,
+        "major":Department.objects.get(id = professor.major).name,
     }
     return result
 
