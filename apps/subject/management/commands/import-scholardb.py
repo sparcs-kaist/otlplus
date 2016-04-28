@@ -23,8 +23,8 @@ class Command(BaseCommand):
     args = u'--host=143.248.X.Y:PORT --user=USERNAME'
 
     def handle(self, *args, **options):
-        next_year = 2016
-        next_semester = 1
+        next_year = 2015
+        next_semester = 3
 
         rx_dept_code = re.compile(ur'([a-zA-Z]+)(\d+)')
         host = options.get('host', None)
