@@ -1,4 +1,4 @@
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
@@ -85,9 +85,15 @@ def settings(request):
     user_profile = UserProfile.objects.get(user=user)
     department = Department.objects.all()
     fav_department = user_profile.favorite_departments.all()
+
+    if len(user_profile.language) == 0:
+        user_profile.language = 'ko'
+        user_profile.save()
+
     ctx = { 'department': department,
             'fav_department': fav_department,
             'usr_lang': user_profile.language}
+
     if request.method == 'POST':
         user_profile.language = request.POST['language']
         for dpt_name in request.POST.get('fav_department', []):

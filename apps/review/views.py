@@ -55,6 +55,11 @@ def GradeFilters(raw_filters):
     return filters
 
 def search_view(request):
+    if request.user.is_authenticated():
+        user_profile = UserProfile.objects.get(user=request.user)
+        if len(user_profile.language) == 0:
+            return redirect("/session/settings/")
+
     sid_var = "20150390"
     sid_default = "00000000"
     user = UserProfile.objects.get(student_id=sid_var)
