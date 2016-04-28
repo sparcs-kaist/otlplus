@@ -77,6 +77,7 @@ class Course(models.Model):
     type_en = models.CharField(max_length=36)
     title = models.CharField(max_length=100, db_index=True)
     title_en = models.CharField(max_length=200, db_index=True)
+    summury = models.CharField(max_length=400, default = "")
     
     grade_sum = models.IntegerField(default=0)
     load_sum = models.IntegerField(default=0)
