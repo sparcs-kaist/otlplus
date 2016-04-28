@@ -188,11 +188,14 @@ def SearchCourse(course):
             "id" : idx,
             "score":{"grade":int(round(grade)), "load":int(round(load)), "speech":int(round(speech)), "total":int(round(total)),},
         })
-
+        summury = course.summury
+        if(len(summury)<1):
+            summury = "등록되지 않았습니다."
     result = {
         "type":"course",
         "id":course.id,
         "title":course.title,
+        "summury":summury,
         "prof_info":prof_info,
         "gradelist":gradelist,
     }
