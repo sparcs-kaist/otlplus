@@ -62,6 +62,12 @@ def GradeFilters(raw_filters):
     return filters
 
 def search_view(request):
+
+    if request.user.is_authenticated():
+        user_profile = UserProfile.objects.get(user=request.user)
+        if len(user_profile.language) == 0:
+            return redirect("/session/settings/")
+
     course_source = Course.objects.all()
     professor_source = Professor.objects.all()
     auto_source = [i.title for i in course_source] + [i.title_en for i in course_source] + [i.professor_name for i in professor_source] + [i.professor_name_en for i in professor_source]
