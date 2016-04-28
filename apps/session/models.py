@@ -17,8 +17,8 @@ sso_client = Client(is_test=True)
 
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(User, related_name='profile')
-    student_id = models.CharField(max_length=10)
+    user = models.ForeignKey(User)
+    student_id = models.CharField(max_length=10, db_index = True)
     sid = models.CharField(max_length=30) #서비스에 대해 고유하게 부여받은 ID
     language = models.CharField(max_length=15)
     favorite_departments = models.ManyToManyField('subject.Department', related_name='favoredby_set')
