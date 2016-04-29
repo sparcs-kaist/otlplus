@@ -17,6 +17,7 @@ class Command(BaseCommand):
         make_option('--port', dest='port', help=u'Specifies server port.'),
         make_option('--user', dest='user', help=u'Specifies user name to log in.'),
         make_option('--year', dest='year', help=u''),
+        make_option('--student_no', dest='student_no', help=u''),
         make_option('--semester', dest='semester', help=u''),
         make_option('--password', dest='password', help=u'Specifies passowrd to log in.'),
         make_option('--encoding', dest='encoding', help=u'Sepcifies character encoding to decode strings from database. (default is cp949)', default='cp949'),
@@ -28,10 +29,9 @@ class Command(BaseCommand):
         host = options.get('host', None)
         port = options.get('port', None)
         user = options.get('user', None)
-        year = int(options.get('year', None))
-        semester = int(options.get('semester', None))
         password = options.get('password', None)
         encoding = options.get('encoding', 'cp949')
+        student_no = options.get('student_no', None)
         try:
             if password is None:
                 password = getpass.getpass()
@@ -46,21 +46,23 @@ class Command(BaseCommand):
         except pyodbc.DatabaseError:
             print>>sys.stderr, 'Connection failed. Check username and password.'
             return
-        
+
+        user = UserProfile.objects.filter(student_id=student_no).first()
+        if not user:
+            return
+
         c = db.cursor()
-        print year, semester
-        c.execute('SELECT * FROM view_OTL_attend WHERE lecture_year = %d AND lecture_term = %d' % (year, semester))
+        c.execute('SELECT * FROM view_OTL_attend WHERE student_no = %s' % student_no)
         rows = c.fetchall()
 
         c.close()
         db.close()
-        lectures = Lecture.objects.filter(year = year, semester = semester,deleted=False)
+
+        lectures = Lecture.objects.filter(deleted=False)
         for a in rows:
-            users = UserProfile.objects.filter(student_id = a[5])
-            for user in users:
-                lecture = lectures.filter(code = a[2], class_no = a[3].strip())
-                if len(lecture) == 1:
-                    user.take_lecture_list.add(lecture[0])
-                else:
-                    print>>sys.stderr, str(a[0]) + " " + str(a[1]) + " " + a[2] + " " + a[3] + "는 왜 개수가 " + str(len(lecture)) + " 지?"
+            lecture = lectures.filter(year=a[0], semester=a[1], code=a[2], class_no = a[3].strip())
+            if len(lecture) == 1:
+                user.take_lecture_list.add(lecture[0])
+            else:
+                print>>sys.stderr, str(a[0]) + " " + str(a[1]) + " " + a[2] + " " + a[3] + "는 왜 개수가 " + str(len(lecture)) + " 지?"
 

@@ -561,7 +561,7 @@ def ReviewInsertView(request,lecture_id=-1,semester=0):
     if semester == 0:
         return HttpResponseRedirect("/review/insert/-1/"+ str(recent_semester))
     try:
-        guideline="".join(open("apps/review/guideline","r").readlines())
+        guideline="1) 학점, 로드 등의 평가에 대하여 왜 그렇게 평가를 했는지 간단히 서술해주세요.\nex) 진도를 빠르고 많이 나가는 경향이 있습니다 / 학점은 절대평가로 주셔서 열심히 공부하면 잘 나오는 것 같아요 / 과제는 6번 주어졌고, 각 과제마다 시간이 약 6 ~ 8 시간 소요된 것 같습니다.\n2) 최대한 본인의 감정을 배제해주시면 감사하겠습니다.\nex) 교수님이 저를 맘에 안 들어하시는 것 같아요 (X) / 시험기간에 플젝 내준건 좀 너무하다싶었음 (X)\n3) 나중에 이 수업을 들을 학생들을 위해 여러 조언들을 해주세요.\nex) 이 수업을 들으시려면 먼저 이산구조와 데이타구조를 먼저 듣고 오시는 것을 추천합니다. / 교수님이 수업하실 때 열심히 참여하시면 좋을 것 같아요."
     except:
         guideline="Guideline Loading Error..."
     if str(lecture_id)==str(-1) and semester > 0:
@@ -585,7 +585,7 @@ def ReviewInsertView(request,lecture_id=-1,semester=0):
 
     else:
         guideline="왼쪽 탭에서 과목을 선택해 주세요.\n"
-    ctx ={ 
+    ctx ={
             'semester':str(semester),
             'lecture_id':str(lecture_id),
             'subjectname':subjectname,
@@ -627,7 +627,7 @@ def ReviewInsertAdd(request,lecture_id,semester):
     writer = user_profile #session 완성시 변경
 
     try :
-        target_comment = user.comment_set.get(lecture=lecture)
+        target_comment = user_profile.comment_set.get(lecture=lecture)
         target_comment.u_update(grade=grade, load=load, speech=speech, comment=comment)
     except :
         Comment.u_create(course=course, lecture=lecture, comment=comment, grade=grade, load=load, speech=speech, writer=writer)

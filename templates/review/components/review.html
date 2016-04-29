@@ -3,11 +3,11 @@
         <div class="row">
             <div id="{{result.id}}" class="label-title lecture ellipsis-wrapper col-xs-24 col-sm-24 col-md-12">
                <input type="hidden" id="csrf_token" value="{{csrf_token}}">
+               <input type="hidden" name="{{result.id}}" value="{{result.course_id}}">
+               <input type="hidden" name="course_id" value="{{result.id}}">
                <h4 style="margin-top:6px;" class="ellipsis-content">{{ result.lecture_title }} <small class="text-muted">{{ result.professor_name }}     {{ result.lecture_year }}</small></h4>
             </div>
-            <div class="lecture col-xs-24 col-sm-24 col-md-12">
-                <input type="hidden" name="{{result.id}}" value="{{result.course_id}}">
-                <input type="hidden" name="course_id" value="{{result.id}}">
+            <div class="col-xs-24 col-sm-24 col-md-12">
                 <span class="hidr-r">
                 {% include 'review/components/score_table-review.html'%}
                 </span>

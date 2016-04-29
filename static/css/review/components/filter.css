@@ -1,4 +1,5 @@
 #filter, box-black {
+    margin-top:20px;
     min-width: 260px;
     z-index: 1;
     border: none;

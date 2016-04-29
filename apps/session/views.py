@@ -10,7 +10,9 @@ from apps.session.sparcssso import Client
 import urllib
 import json
 import random
-
+import os
+import datetime
+import subprocess
 
 # TESTING #
 sso_client = Client(is_test=True)
@@ -44,7 +46,7 @@ def login_callback(request):
         tokenid = request.GET.get('tokenid', '')
 
         sso_profile = sso_client.get_user_info(tokenid)
-        username = sso_profile['first_name'] + sso_profile['last_name'] 
+        username = sso_profile['first_name'] + sso_profile['last_name']
 
         user_list = User.objects.filter(username=username)
         try:
@@ -59,10 +61,19 @@ def login_callback(request):
                         first_name=sso_profile['first_name'],
                         last_name=sso_profile['last_name'])
             user.save()
-            user_profile = UserProfile.objects.get(student_id=student_id)
-            user_profile.user = user
+
+            try:
+                user_profile = UserProfile.objects.get(student_id=student_id)
+                user_profile.user = user
+            except:
+                user_profile = UserProfile(student_id=student_id, user = user)
+
             user_profile.sid = sso_profile['sid']
             user_profile.save()
+
+            os.chdir('/var/www/otlplus/')
+            os.system('python update_taken_lecture_user.py %s' % student_id)
+
             user = authenticate(username=username)
             login(request, user)
             return redirect(next)
@@ -90,19 +101,30 @@ def settings(request):
 
     if len(user_profile.language) == 0:
         user_profile.language = 'ko'
-        user_profile.save() 
+        user_profile.save()
 
     ctx = { 'department': department,
             'fav_department': fav_department,
             'usr_lang': user_profile.language}
 
     if request.method == 'POST':
+
         user_profile.language = request.POST['language']
-        for dpt_name in request.POST.get('fav_department', []):
-            dpt = Department.objects.get(name=dpt_name)
+
+        favorite_departments = []
+        for dpt_id in request.POST.getlist('fav_department', []):
+            dpt = Department.objects.get(id=dpt_id)
             user_profile.favorite_departments.add(dpt)
+        for dpt in user_profile.favorite_departments.all():
+            favorite_departments.append(dpt.id)
+            if str(dpt.id) not in request.POST.getlist('fav_department', []):
+               user_profile.favorite_departments.remove(dpt)
+
         user_profile.save()
-        ctx['fav_department'] = user_profile.favorite_departments
+
+
+
+        ctx['fav_department'] = favorite_departments
         ctx['usr_lang'] = user_profile.language
         return render(request, 'session/settings.html', ctx)
     return render(request, 'session/settings.html', ctx)

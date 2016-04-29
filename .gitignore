@@ -1,13 +1,12 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
-
+settings.py
 # C extensions
 *.so
 
 cronlog
 *.swp
-update_scholardb.py
 
 # Distribution / packaging
 .Python
@@ -86,3 +85,7 @@ keys/
 test1.py
 #database update file
 update_taken_lecture.py
+db_update_script.sh
+update_taken_lecture_user.py
+update_scholardb.py
+db_update_script.log

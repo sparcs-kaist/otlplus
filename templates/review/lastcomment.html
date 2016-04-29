@@ -85,47 +85,128 @@ var loadItems = function() {
             html.push('<script type="text/javascript" src="/media/js/review/components/review.js"></s','cript>')
             $.each(data.results, function(index, result){
                 if(result.type == "comment"){
-                    html.push('<div class="panel panel-default review">') 
-                        html.push('<button class="likes" disabled>') 
-                            html.push('<span>') 
-                                html.push('<i class="fa fa-plus"></i> <span>',result.like,'</span>') 
-                            html.push('</span>') 
-                        html.push('</button>') 
-                        html.push('<div class="panel-body container-fluid">') 
-                            html.push('<div class="row">') 
-                                html.push('<div class="col-xs-24 lecture ellipsis-wrapper" id="',result.id,'">')
-                                    html.push('<input type="hidden" name="',result.id,'" value="',result.course_id,'">')
-                                    html.push('<h4 class="ellipsis-content">',result.lecture_title,' <small class="text-muted">',result.professor_name, result.lecture_year,'</small></h4>') 
-                                html.push('</div>') 
-                                html.push('<div class="col-xs-24 comment text-muted" id="',result.id,'">') 
-                                html.push('<input type="hidden" name="',result.id,'" value="',result.id,'">') 
-                                    html.push(result.comment.replace(/\n/g , "<br>")) 
-                                html.push('</div>') 
-                                html.push('<div class="col-xs-24 statics text-right">') 
-                                    html.push('<span class="text-left clearfix">') 
-                                        html.push('성적') 
-                                        gradelist = [[0,'?'],[1,'F'],[2,'D'],[3,'C'],[4,'B'],[5,'A']]
-                                        for(i=0;i<gradelist.length;i++){
-                                            if(gradelist[i][0]==result.score.grade){
-                                                html.push('<span class="grade pull-right">',gradelist[i][1],'</span>')
-                                            }
-                                        }
-                                    html.push('</span>') 
-                                scoretype=[['널널',result.score.load],['강의',result.score.speech],['종합',result.score.total]]
-                                for(i=0;i<scoretype.length;i++){
-                                    html.push('<span class="text-left clearfix">',scoretype[i][0])
-                                    for(j=0;j<gradelist.length;j++){
-                                            if(gradelist[j][0]==scoretype[i][1]){
-                                                html.push('<span class="grade pull-right">',gradelist[j][1],'</span>')
-                                            }
-                                        }
-                                    html.push('</span>') 
-                                }
 
-                                html.push('</div>') 
-                            html.push('</div>') 
-                        html.push('</div>') 
-                    html.push('</div>') 
+
+
+
+
+
+
+html.push('<div class="panel panel-default review"><div class="panel-body"><div class="row">')
+html.push('<div id="',result.id,'" class="label-title lecture ellipsis-wrapper col-xs-24 col-sm-24 col-md-12">')
+html.push('<h4 style="margin-top:6px;" class="ellipsis-content">',result.lecture_title,'<small class="text-muted">',result.professor_name, result.lecture_year,'</small></h4>')
+html.push('</div><div class="lecture col-xs-24 col-sm-24 col-md-12">')
+html.push('<input type="hidden" name="',result.id,'" value="',result.course_id,'">')
+html.push('<input type="hidden" name="course_id" value="',result.id,'">')
+html.push('<span class="hidr-r">')
+html.push('<div class="score_table text-left col-xs-24" style="margin-right:-40px; min-width:350px; display:inline-block" >')
+                    html.push('<div class="score-elem-review">')
+                    html.push('성적&nbsp ')
+                                for(j=0;j<result.gradelist.length;j++){
+                                    if(result.gradelist[j][0]===result.score.grade){
+                                html.push('<span class="score_letter-review">')
+                                html.push(result.gradelist[j][1])
+                                html.push('</span>')
+                                    }
+                                }
+                    html.push('</div>')
+                    html.push('<div class="score-elem-review">')
+                        html.push('널널&nbsp ')
+                                for(j=0;j<result.gradelist.length;j++){
+                                    if(result.gradelist[j][0]===result.score.load){
+                                html.push('<span class="score_letter-review">')
+                                html.push(result.gradelist[j][1])
+                                html.push('</span>')
+                                    }
+                                }
+                    html.push('</div>')
+                    html.push('<div class="score-elem-review">')
+                        html.push('강의&nbsp ')
+                                for(j=0;j<result.gradelist.length;j++){
+                                    if(result.gradelist[j][0]===result.score.speech){
+                                html.push('<span class="score_letter-review">')
+                                html.push(result.gradelist[j][1])
+                                html.push('</span>')
+                                    }
+                                }
+                    html.push('</div>')
+                    html.push('<div class="score-elem-review">')
+                        html.push('종합&nbsp ')
+                                for(j=0;j<result.gradelist.length;j++){
+                                    if(result.gradelist[j][0]===result.score.total){
+                                html.push('<span class="score_letter-review">')
+                                html.push(result.gradelist[j][1])
+                                html.push('</span>')
+                                    }
+                                }
+                    html.push('</div>')
+                    html.push('<div class="score-elem-review">')
+                        html.push('추천&nbsp ')
+                                html.push('<span class="score_letter-review like_num')
+                                html.push(result.id,'">')
+                                html.push(result.like)
+                                html.push('</span>')
+                    html.push('</div>')
+                html.push('</div>')
+
+                html.push('</span></div><div class="col-xs-24 comment text-muted " id="')
+                html.push(result.id)
+                html.push('"><input type="hidden" name="')
+                html.push(result.id)
+                html.push('" value="')
+                html.push(result.id)
+                html.push('"><p></p><p>')
+                html.push(result.comment.replace(/\n/g , "<br>"))
+                html.push('</p><p></p></div><div class="col-xs-24"><span class="score_table_bottomr hidr" style="width:210px">')
+                html.push('<div class="score_table-bottomr text-left col-xs-24" style="min-width:210px; padding:0px; display:inline-block" >')
+                    html.push('<div class="score-elem-review">')
+                    html.push('성적&nbsp ')
+                                for(j=0;j<result.gradelist.length;j++){
+                                    if(result.gradelist[j][0]===result.score.grade){
+                                html.push('<span class="score_letter-review">')
+                                html.push(result.gradelist[j][1])
+                                html.push('</span>')
+                                    }
+                            }
+                    html.push('</div>')
+                    html.push('<div class="score-elem-review">')
+                        html.push('널널&nbsp ')
+                                for(j=0;j<result.gradelist.length;j++){
+                                    if(result.gradelist[j][0]===result.score.load){
+                                html.push('<span class="score_letter-review">')
+                                html.push(result.gradelist[j][1])
+                                html.push('</span>')
+                                    }
+                            }
+                    html.push('</div>')
+                    html.push('<div class="score-elem-review">')
+                        html.push('강의&nbsp ')
+                                for(j=0;j<result.gradelist.length;j++){
+                                    if(result.gradelist[j][0]===result.score.speech){
+                                html.push('<span class="score_letter-review">')
+                                html.push(result.gradelist[j][1])
+                                html.push('</span>')
+                                    }
+                            }
+                    html.push('</div>')
+                    html.push('<div class="score-elem-review">')
+                        html.push('종합&nbsp ')
+                                for(j=0;j<result.gradelist.length;j++){
+                                    if(result.gradelist[j][0]===result.score.total){
+                                html.push('<span class="score_letter-review">')
+                                html.push(result.gradelist[j][1])
+                                html.push('</span>')
+                                    }
+                                }
+                    html.push('</div>')
+                html.push('</div>')
+                html.push('</span><div class="col-xs-24 button-box-review"><a class="declaration-button not-active"><i class="fa fa-exclamation-circle"></i>신고하기</a><a class="like-button" id="')
+                html.push(result.id)
+                html.push('" style="padding-right:0px"><i class="fa fa-thumbs-up"></i>좋아요</a></div></div></div></div></div></div>')
+
+
+
+
                 }
             });
             $("#datacall").before(html.join(""));
@@ -171,6 +252,7 @@ var loadItems = function() {
          {% include 'review/components/option.html' %}
 
 
+         {% if results|length > 0 %}
 <div id="filter">
     <div class="form-group">
         <div class="row">
@@ -190,15 +272,22 @@ var loadItems = function() {
             </span>
           </label>
 
-          {% for i in "12" %}
           <label>
-            <input class="chkone sort_button" type="checkbox" autocomplete="off" name="filter" value="{% cycle "HSS" "CS"%}" >{% cycle "교양" "관심"%}
+            <input class="chkone sort_button" type="checkbox" autocomplete="off" name="filter" value="HSS" >교양
             <span class="fa-stack fa-lg">
               <i class="fa fa-circle-o fa-stack-2x"></i>
               <i class="fa fa-check fa-stack-1x"></i>
             </span>
           </label>
-          {% endfor %}
+
+          <label>
+              <input class="chkone sort_button" type="checkbox" autocomplete="off" name="filter" value="CS" >관심
+            <span class="fa-stack fa-lg">
+              <i class="fa fa-circle-o fa-stack-2x"></i>
+              <i class="fa fa-check fa-stack-1x"></i>
+            </span>
+          </label>
+
 
 </div>
                     </td>
@@ -210,11 +299,12 @@ var loadItems = function() {
     </div>
 </div>
 
+        {% endif %}
 
 
      <div class="list-group sort_result" id="{{ sort_id }}" role="tablist">
       {% if results|length == 0 %}
-        <div class="list-group-item" >
+        <div class="list-group-item" style="border-radius:4px; margin-top:20px" >
           등록된 후기가 없습니다.
         </div>
       {% endif %}
