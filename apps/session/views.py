@@ -104,12 +104,23 @@ def settings(request):
             'usr_lang': user_profile.language}
 
     if request.method == 'POST':
+
         user_profile.language = request.POST['language']
-        for dpt_name in request.POST.get('fav_department', []):
-            dpt = Department.objects.get(num_id=dpt_name)
+
+        favorite_departments = []
+        for dpt_id in request.POST.getlist('fav_department', []):
+            dpt = Department.objects.get(id=dpt_id)
             user_profile.favorite_departments.add(dpt)
+        for dpt in user_profile.favorite_departments.all():
+            favorite_departments.append(dpt.id)
+            if str(dpt.id) not in request.POST.getlist('fav_department', []):
+               user_profile.favorite_departments.remove(dpt)
+
         user_profile.save()
-        ctx['fav_department'] = user_profile.favorite_departments
+
+
+
+        ctx['fav_department'] = favorite_departments
         ctx['usr_lang'] = user_profile.language
         return render(request, 'session/settings.html', ctx)
     return render(request, 'session/settings.html', ctx)

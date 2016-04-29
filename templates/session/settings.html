@@ -19,7 +19,7 @@
     <div id="favorites">
         {% for dpt in department %}
         <label class="checkbox-inline">
-            <input type="checkbox" name="fav_department" value="{{ dpt.id }}" {% if fav_department.id == dpt.id %} checked {% endif %}> {{ dpt.name }} 
+            <input type="checkbox" name="fav_department" value="{{ dpt.id }}" {% if dpt.id in fav_department %} checked {% endif %}> {{ dpt.name }} 
         </label>
         {% endfor %}
     </div>
