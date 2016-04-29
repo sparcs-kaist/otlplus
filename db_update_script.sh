@@ -9,6 +9,6 @@ python manage.py delete-needlessLecture >> db_update_script.log
 python manage.py update_ProfessorCourseList >> db_update_script.log
 python manage.py update_CourseCodenum >> db_update_script.log
 python manage.py update_CourseFiltered >> db_update_script.log
-python update_taken_lecture.py >> db_update_script.log
+#python update_taken_lecture.py >> db_update_script.log
 
 echo "Done!"

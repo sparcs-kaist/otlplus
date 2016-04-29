@@ -171,6 +171,7 @@ var loadItems = function() {
          {% include 'review/components/option.html' %}
 
 
+         {% if results|length > 0 %}
 <div id="filter">
     <div class="form-group">
         <div class="row">
@@ -210,11 +211,12 @@ var loadItems = function() {
     </div>
 </div>
 
+        {% endif %}
 
 
      <div class="list-group sort_result" id="{{ sort_id }}" role="tablist">
       {% if results|length == 0 %}
-        <div class="list-group-item" >
+        <div class="list-group-item" style="border-radius:4px; margin-top:20px" >
           등록된 후기가 없습니다.
         </div>
       {% endif %}

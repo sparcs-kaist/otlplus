@@ -10,6 +10,7 @@ from apps.session.sparcssso import Client
 import urllib
 import json
 import random
+import os
 
 
 # TESTING #
@@ -59,10 +60,16 @@ def login_callback(request):
                         first_name=sso_profile['first_name'],
                         last_name=sso_profile['last_name'])
             user.save()
-            user_profile = UserProfile.objects.get(student_id=student_id)
-            user_profile.user = user
+
+            try:
+                user_profile = UserProfile.objects.get(student_id=student_id)
+                user_profile.user = user
+            except:
+                user_profile = UserProfile(student_id=student_id, user = user)
+
             user_profile.sid = sso_profile['sid']
             user_profile.save()
+            os.system('python update_taken_lecture.py')
             user = authenticate(username=username)
             login(request, user)
             return redirect(next)

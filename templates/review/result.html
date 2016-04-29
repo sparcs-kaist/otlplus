@@ -209,66 +209,65 @@ var loadItems = function() {
       </form>
 
 
-      <div class="list-group sort_result" id="{{ sort_id }}" role="tablist">
-      {% if results|length == 0 %}
-      {% if not expectations %}
-        <div class="list-group-item" style="border-radius:4px" >
-          검색 결과가 없습니다.
-        </div>
-      {% endif %}
-      {% endif %}
-
       {% if keyword|length == 0 %}
           {% include 'review/components/option.html' with with_filter=True %}
+      {% else %}
+          {% include 'review/components/option.html' %}
+      {% endif %}
 
 
-
-<div id="filter">
-    <div class="form-group">
-        <div class="row">
-            <div class="label-row col-xs-24 controls" >
-                <table>
-                <tr>
-                    <td style="vertical-align:top">
-                        <label class="sort-title control-label">정렬</label>
-                    </td>
-                    <td>
-<div>
-          <label>
-            <input class="chkone sort_button" type="checkbox" autocomplete="off" name="sort" value="code" checked="checked">코드순
-            <span class="fa-stack fa-lg">
-              <i class="fa fa-circle-o fa-stack-2x"></i>
-              <i class="fa fa-check fa-stack-1x"></i>
-            </span>
-          </label>
-
-          {% for i in "12345" %}
-          <label>
-            <input class="chkone sort_button" type="checkbox" autocomplete="off" name="sort" value="{% cycle "name" "total" "grade" "load" "speech"%}" >{% cycle "이름순" "평점순" "성적순" "널널순" "강의순"%}
-            <span class="fa-stack fa-lg">
-              <i class="fa fa-circle-o fa-stack-2x"></i>
-              <i class="fa fa-check fa-stack-1x"></i>
-            </span>
-          </label>
-          {% endfor %}
-
-</div>
-                    </td>
-                </tr>
-                </table>
+      <div class="list-group sort_result" id="{{ sort_id }}" role="tablist">
+      {% if results|length == 0 %}
+        {% if not expectations %}
+            <div class="list-group-item" style="border-radius:4px; margin-top:20px" >
+                검색 결과가 없습니다.
             </div>
+        {% endif %}
+      {% else %}
+        <div id="filter">
+            <div class="form-group">
+                <div class="row">
+                    <div class="label-row col-xs-24 controls" >
+                        <table>
+                        <tr>
+                            <td style="vertical-align:top">
+                                <label class="sort-title control-label">정렬</label>
+                            </td>
+                            <td>
+        <div>
+                  <label>
+                    <input class="chkone sort_button" type="checkbox" autocomplete="off" name="sort" value="code" checked="checked">코드순
+                    <span class="fa-stack fa-lg">
+                      <i class="fa fa-circle-o fa-stack-2x"></i>
+                      <i class="fa fa-check fa-stack-1x"></i>
+                    </span>
+                  </label>
+
+                  {% for i in "12345" %}
+                  <label>
+                    <input class="chkone sort_button" type="checkbox" autocomplete="off" name="sort" value="{% cycle "name" "total" "grade" "load" "speech"%}" >{% cycle "이름순" "평점순" "성적순" "널널순" "강의순"%}
+                    <span class="fa-stack fa-lg">
+                      <i class="fa fa-circle-o fa-stack-2x"></i>
+                      <i class="fa fa-check fa-stack-1x"></i>
+                    </span>
+                  </label>
+                  {% endfor %}
 
         </div>
-    </div>
-</div>
+                            </td>
+                        </tr>
+                        </table>
+                    </div>
 
+                </div>
+            </div>
+        </div>
+      {% endif %}
 
-        {% else %}
-          {% include 'review/components/option.html' %}
-        {% endif %}
       {% if expectations %}
         {% include 'review/components/expect.html' with lectures=expectations %}
       {% endif %}
+      <div class="clearfix"></div>
 
       {% for result in results %}
         {% if result.type == "course" %}
