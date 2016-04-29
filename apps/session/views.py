@@ -106,7 +106,7 @@ def settings(request):
     if request.method == 'POST':
         user_profile.language = request.POST['language']
         for dpt_name in request.POST.get('fav_department', []):
-            dpt = Department.objects.get(name=dpt_name)
+            dpt = Department.objects.get(num_id=dpt_name)
             user_profile.favorite_departments.add(dpt)
         user_profile.save()
         ctx['fav_department'] = user_profile.favorite_departments
