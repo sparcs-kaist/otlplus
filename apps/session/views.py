@@ -11,7 +11,7 @@ import urllib
 import json
 import random
 import os
-
+import datetime
 
 # TESTING #
 sso_client = Client(is_test=True)
@@ -69,7 +69,14 @@ def login_callback(request):
 
             user_profile.sid = sso_profile['sid']
             user_profile.save()
-            os.system('python update_taken_lecture.py')
+            
+            now_year = datetime.datetime.now().year
+            now_semester = ((datetime.datetime.now().month+9)%12)/3+1
+            for year in range(int(student_id[:4]),now_year+1):
+                for semester in range(1,5):
+                    os.system('python update_taken_lecture.py '+str(year)+' '+str(semester))
+                    if year == now_year and semester == now_semester:
+                        break
             user = authenticate(username=username)
             login(request, user)
             return redirect(next)
