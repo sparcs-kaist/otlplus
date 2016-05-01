@@ -25,7 +25,10 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         next_year = datetime.datetime.now().year
-        next_semester = ((datetime.datetime.now().month+9)%12)/3+1
+        next_semester = ((datetime.datetime.now().month+9)%12)/3+2
+        if next_semester > 4:
+            next_year +=1
+            next_semester = next_semester % 4
 
         rx_dept_code = re.compile(ur'([a-zA-Z]+)(\d+)')
         host = options.get('host', None)
@@ -35,14 +38,14 @@ class Command(BaseCommand):
         encoding = options.get('encoding', 'cp949')
         exclude_lecture = options.get('exclude_lecture', False)
         lecture_count = 0
-        
+
         try:
             if password is None:
                 password = getpass.getpass()
         except (KeyboardInterrupt, EOFError):
             print
             return
-        
+
         try:
             #db = Sybase.connect(host, user, password, 'scholar')
             db = pyodbc.connect('DRIVER=FreeTDS;TDS_Version=4.2;SERVER=%s;PORT=%s;DATABASE=%s;UID=%s;PWD=%s;CHARSET=%s'

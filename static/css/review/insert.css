@@ -51,12 +51,14 @@
     background-color: #f9f0f0;
     color: #e64c65; 
     font-weight: bold;
+    margin-top:15px;
 }
 #contents .btn-review-upload{
     width:70px;
     background-color: #e64c65;
     color: #f9f0f0; 
     font-weight: bold;
+    margin-top:15px;
 }
 
 #contents .btn-review-upload:hover, #contents .btn-review-delete:hover{

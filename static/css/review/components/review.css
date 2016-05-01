@@ -134,7 +134,7 @@
     text-decoration:none !important;
     cursor:pointer;
 }
-@media(min-width:580px){
+@media(min-width:620px){
     .button-box-review{
         position:absolute !important;
         padding-top:3px;
