@@ -12,6 +12,7 @@ import json
 import random
 import os
 import datetime
+import subprocess
 
 # TESTING #
 sso_client = Client(is_test=True)
@@ -45,7 +46,7 @@ def login_callback(request):
         tokenid = request.GET.get('tokenid', '')
 
         sso_profile = sso_client.get_user_info(tokenid)
-        username = sso_profile['first_name'] + sso_profile['last_name'] 
+        username = sso_profile['first_name'] + sso_profile['last_name']
 
         user_list = User.objects.filter(username=username)
         try:
@@ -69,14 +70,10 @@ def login_callback(request):
 
             user_profile.sid = sso_profile['sid']
             user_profile.save()
-            
-            now_year = datetime.datetime.now().year
-            now_semester = ((datetime.datetime.now().month+9)%12)/3+1
-            for year in range(int(student_id[:4]),now_year+1):
-                for semester in range(1,5):
-                    os.system('python update_taken_lecture.py '+str(year)+' '+str(semester))
-                    if year == now_year and semester == now_semester:
-                        break
+
+            os.chdir('/var/www/otlplus/')
+            os.system('python update_taken_lecture_user.py %s' % student_id)
+
             user = authenticate(username=username)
             login(request, user)
             return redirect(next)
@@ -104,7 +101,7 @@ def settings(request):
 
     if len(user_profile.language) == 0:
         user_profile.language = 'ko'
-        user_profile.save() 
+        user_profile.save()
 
     ctx = { 'department': department,
             'fav_department': fav_department,
