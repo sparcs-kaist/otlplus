@@ -132,7 +132,7 @@ var loadItems = function() {
 
                 html.push('</span></div><div class="label-row col-xs-24"><table><tr><td style="vertical-align:top"><span class="label-title">담당 교수</span></td><td><div>')
                     for(i=0; i<result.prof_info.length;i++){
-                        html.push('<span class="label-description"><span class="professors"><label>') 
+                        html.push('<span class="label-description" style="margin-right:5px"><span class="professors"><label>') 
                         html.push('<input class="professor chkone" type="checkbox" autocomplete="off" name="',result.id,'" value="',result.prof_info[i].id ,'">') 
                         html.push('<a href="/review/result/course/',result.id,'/',result.prof_info[i].id,'">')
                         html.push('<span class="label label-default">',result.prof_info[i].name , '</span>') 

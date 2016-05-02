@@ -19,5 +19,5 @@ $('.logout').click(function(){
     setTimeout(function(){
         logoutWindow.close();
         window.location = '/session/logout/';
-    },50);
+    },100);
 });

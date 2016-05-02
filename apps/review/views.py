@@ -585,7 +585,7 @@ def ReviewInsertView(request,lecture_id=-1,semester=0):
 
     else:
         guideline="왼쪽 탭에서 과목을 선택해 주세요.\n"
-    ctx ={ 
+    ctx ={
             'semester':str(semester),
             'lecture_id':str(lecture_id),
             'subjectname':subjectname,
@@ -627,7 +627,7 @@ def ReviewInsertAdd(request,lecture_id,semester):
     writer = user_profile #session 완성시 변경
 
     try :
-        target_comment = user.comment_set.get(lecture=lecture)
+        target_comment = user_profile.comment_set.get(lecture=lecture)
         target_comment.u_update(grade=grade, load=load, speech=speech, comment=comment)
     except :
         Comment.u_create(course=course, lecture=lecture, comment=comment, grade=grade, load=load, speech=speech, writer=writer)
