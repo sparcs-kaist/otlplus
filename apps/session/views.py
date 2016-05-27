@@ -96,7 +96,7 @@ def user_logout(request):
 def settings(request):
     user = request.user
     user_profile = UserProfile.objects.get(user=user)
-    department = Department.objects.all()
+    department = Department.objects.all().order_by('name')
     fav_department = user_profile.favorite_departments.all()
 
     if len(user_profile.language) == 0:
