@@ -15,6 +15,7 @@ from django.core import serializers
 import json
 #testend
 import random
+import os
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 
@@ -632,6 +633,16 @@ def ReviewInsertAdd(request,lecture_id,semester):
     except :
         Comment.u_create(course=course, lecture=lecture, comment=comment, grade=grade, load=load, speech=speech, writer=writer)
     return HttpResponseRedirect('../')
+
+#ReviewRefreshFunctionPage#######################################################################################
+@login_required(login_url='/session/login/')
+def ReviewRefresh(request):
+    user = request.user
+    user_profile = UserProfile.objects.get(user=user)
+    student_id = user_profile.student_id
+    if not student_id == '':
+        os.system('python update_taken_lecture_user.py %s' % student_id)
+    return HttpResponseRedirect('../insert')
 
 def ReviewView(request, comment_id):
     try :
