@@ -1,6 +1,7 @@
 # -*- coding:utf-8 -*-
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, render_to_response
+from django.template import RequestContext
 from apps.session.models import UserProfile
 from apps.subject.models import Course, Lecture, Department, CourseFiltered, Professor
 from apps.review.models import Comment,CommentVote, MajorBestComment, LiberalBestComment
@@ -15,6 +16,7 @@ from django.core import serializers
 import json
 #testend
 import random
+import os
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 
@@ -633,6 +635,17 @@ def ReviewInsertAdd(request,lecture_id,semester):
         Comment.u_create(course=course, lecture=lecture, comment=comment, grade=grade, load=load, speech=speech, writer=writer)
     return HttpResponseRedirect('../')
 
+#ReviewRefreshFunctionPage#######################################################################################
+@login_required(login_url='/session/login/')
+def ReviewRefresh(request):
+    user = request.user
+    user_profile = UserProfile.objects.get(user=user)
+    student_id = user_profile.student_id
+    if not student_id == '':
+        os.chdir('/var/www/otlplus/')
+        os.system('python update_taken_lecture_user.py %s' % student_id)
+    return HttpResponseRedirect('../insert')
+
 def ReviewView(request, comment_id):
     try :
         comment = SearchComment(Comment.objects.get(id=comment_id))
@@ -698,4 +711,22 @@ def LastCommentView_json(request, page=-1):
     }
     return JsonResponse(json.dumps(context),safe=False)
 
+def page_not_found(request):
+    response = render_to_response(
+        'review/404.html',
+        context_instance=RequestContext(request)
+    )
 
+    response.status_code = 404
+
+    return response
+
+def server_error(request):
+    response = render_to_response(
+        'review/500.html',
+        context_instance=RequestContext(request)
+    )
+
+    response.status_code = 500
+
+    return response

@@ -18,6 +18,14 @@ from django.contrib import admin
 from django.http import HttpResponseRedirect
 from settings import BASE_DIR
 import os
+from django.conf.urls import (
+    handler400, handler403, handler404, handler500
+)
+
+handler400 = 'apps.review.views.bad_request'
+handler403 = 'apps.review.views.permission_denied'
+handler404 = 'apps.review.views.page_not_found'
+handler500 = 'apps.review.views.server_error'
 
 urlpatterns = [
     # Admin Page

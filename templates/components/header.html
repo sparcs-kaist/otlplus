@@ -16,11 +16,13 @@
             따끈따끈 과목후기
           </a>
         </li>
+        {% if request.user.is_authenticated %}
         <li>
           <a href="/review/insert/">
             과목 후기 작성하기
           </a>
         </li>
+        {% endif %}
       </ul>
       <ul class="nav navbar-nav navbar-right">
         {% if request.user.is_authenticated %}
