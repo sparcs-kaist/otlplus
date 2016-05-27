@@ -17,5 +17,15 @@
 html{
     background-color: #f9f0f0;
 }
+.btn:focus{
+    outline:none !important;
+}
+
+a:hover{
+    text-decoration:none !important;
+}
+a:focus{
+    text-decoration:none !important;
+}
 
 /*# sourceMappingURL=global.css.map */
