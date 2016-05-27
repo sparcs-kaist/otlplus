@@ -669,8 +669,18 @@ def LastCommentView(request):
     professor_source = Professor.objects.all()
     auto_source = [i.title for i in course_source] + [i.title_en for i in course_source] + [i.professor_name for i in professor_source] + [i.professor_name_en for i in professor_source]
     auto_source = ','.join(auto_source)
-
-    department_filters = DepartmentFilters(request.GET.getlist('filter'))
+    
+    if request.GET.getlist('filter') == ['F']:
+        if request.user.is_authenticated():
+            user_profile = UserProfile.objects.get(user=request.user)
+            favorite_departments_code = []
+            for department in user_profile.favorite_departments.all():
+                favorite_departments_code.append(department.code)
+            department_filters = DepartmentFilters(favorite_departments_code)
+        else:
+            department_filters = ["CE", "MSB", "MAE", "PH", "BiS", "IE", "ID", "BS", "CBE", "MAS", "MS", "NQE", "EE", "CS", "MAE", "CH"]
+    else:
+        department_filters = DepartmentFilters(request.GET.getlist('filter'))
     comments = Comment.objects.filter(course__department__code__in=department_filters).order_by('-written_datetime')
 
     paginator = Paginator(comments,10)
@@ -695,7 +705,14 @@ def LastCommentView_json(request, page=-1):
     auto_source = [i.title for i in course_source] + [i.title_en for i in course_source] + [i.professor_name for i in professor_source] + [i.professor_name_en for i in professor_source]
     auto_source = ','.join(auto_source)
 
-    department_filters = DepartmentFilters(request.GET.getlist('filter'))
+    if request.GET.getlist('filter') == "F":
+        if request.user.is_authenticated():
+            user_profile = UserProfile.objects.get(user=request.user)
+            department_filters = DepartmentFilters(user_profile.favorite_departments.all())
+        else:
+            department_filters = []
+    else:
+        department_filters = DepartmentFilters(request.GET.getlist('filter'))
     comments = Comment.objects.filter(course__department__code__in=department_filters).order_by('-written_datetime')
 
     paginator = Paginator(comments,10)
