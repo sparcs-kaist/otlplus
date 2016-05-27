@@ -34,5 +34,5 @@ urlpatterns = [
     url(r'^insert/([^/]+)/([^/]+)/$', 'apps.review.views.ReviewInsertView'),
     url(r'^delete/$','apps.review.views.ReviewDelete'),
     url(r'^like/$','apps.review.views.ReviewLike'),
-
+    url(r'^refresh/$','apps.review.views.ReviewRefresh'),
 ]
