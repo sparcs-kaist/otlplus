@@ -515,21 +515,12 @@ def ReviewInsertView(request,lecture_id=-1,semester=0):
     semester=int(semester)
     lec_year = (semester/10)+2000
     lec_sem = semester%10
+    ctx = {'errttle':'수강한 과목이 없습니다!','errmsg':'만약 수강한 과목이 있다면, <a href="/review/refresh/">여기</a>를 눌러 갱신해주세요!'}
     if semester % 10 > 4 or semester < 0 or semester > 1000:
-        raise Http404
+        return render(request, 'review/error.html',ctx)
     lecture_list = user_profile.take_lecture_list.all()
     if len(lecture_list) == 0:
-        raise Http404
-        """
-        if semester == 0:
-            raise Http404
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-        else:
-            raise Http404
-            lecture_list = user_profile.take_lecture_list.all()
-            reviewmsg = "<strong>에러!</strong> 원하시는 학기 또는 강의가 존재하지 않습니다"
-            lecture_id,semester=-1,0
-        """
+        return render(request, 'review/error.html',ctx)
     recent_semester=0
     semesters=[]
     thissem_lec = -1
@@ -568,7 +559,7 @@ def ReviewInsertView(request,lecture_id=-1,semester=0):
         guideline="Guideline Loading Error..."
     if str(lecture_id)==str(-1) and semester > 0:
         if thissem_lec<0:
-            raise Http404
+            return render(request, 'review/error.html',ctx)
         else:
             return HttpResponseRedirect('../../' + str(thissem_lec) + '/'+str(semester))
     if semester > 0:
