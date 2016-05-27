@@ -1,7 +1,7 @@
 <div class="panel panel-default review">
     <div class="panel-body">
         <div class="row">
-            <div id="{{result.id}}" class="label-title lecture ellipsis-wrapper col-xs-24 col-sm-24 col-md-12">
+            <div id="{{result.id}}" style="cursor:Pointer" class="label-title lecture ellipsis-wrapper col-xs-24 col-sm-24 col-md-12">
                <input type="hidden" id="csrf_token" value="{{csrf_token}}">
                <input type="hidden" name="{{result.id}}" value="{{result.course_id}}">
                <input type="hidden" name="course_id" value="{{result.id}}">
@@ -12,10 +12,10 @@
                 {% include 'review/components/score_table-review.html'%}
                 </span>
             </div>
-            <div class="col-xs-24 comment text-muted " id="{{result.id}}">
-                <input type="hidden" name="{{result.id}}" value="{{result.id}}">
-                <p>{{ result.comment|linebreaks }}</p>
-            </div>
+      <div class="col-xs-24 comment text-muted " style="cursor:Pointer" id="{{result.id}}">
+         <input type="hidden" name="{{result.id}}" value="{{result.id}}">
+        <p>{{ result.comment|linebreaks }}</p>
+      </div>
             <div class="col-xs-24">
                 <span class="score_table_bottomr hidr" style="width:210px">
                     <div class="score_table-bottomr text-left col-xs-24" style="min-width:210px; padding:0px; display:inline-block" >

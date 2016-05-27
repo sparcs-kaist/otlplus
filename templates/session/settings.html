@@ -49,7 +49,7 @@
         <div id="favorites">
             {% for dpt in department %}
             <div class="col-xs-12 col-lg-8">
-                <input type="checkbox" style="display:inline-block"name="fav_department" value="{{ dpt.id }}" {% if dpt.id in fav_department %} checked {% endif %}>
+                <input type="checkbox" style="display:inline-block"name="fav_department" value="{{ dpt.id }}" {% if dpt in fav_department %} checked {% endif %}>
                 <p style="display:inline-block;margin:1px">{{ dpt.name }} </p>
             </div>
             {% endfor %}

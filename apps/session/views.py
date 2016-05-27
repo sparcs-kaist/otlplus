@@ -18,7 +18,7 @@ import subprocess
 sso_client = Client(is_test=True)
 
 # PRODUCTION #
-# sso_client = Client(is_test=False,
+#sso_client = Client(is_test=False,
 #                     app_name='otlplus',
 #                     secret_key=settings.SSO_KEY)
 
@@ -116,7 +116,7 @@ def settings(request):
             dpt = Department.objects.get(id=dpt_id)
             user_profile.favorite_departments.add(dpt)
         for dpt in user_profile.favorite_departments.all():
-            favorite_departments.append(dpt.id)
+            favorite_departments.append(dpt)
             if str(dpt.id) not in request.POST.getlist('fav_department', []):
                user_profile.favorite_departments.remove(dpt)
 

@@ -4,6 +4,9 @@
     -webkit-box-shadow: 0 3px 0px rgba(0, 0, 0, 0.2);
     min-width: 260px;
 }
+.review:hover{
+    -webkit-box-shadow: 0 3px 0px rgba(229, 78, 101, 0.3);
+}
 .review .panel-body {
     padding: 10px 25px 10px 25px;
 }
@@ -153,6 +156,12 @@
 .not-active{
     pointer-events:none;
     cursor:default;
+}
+.review .panel-body .lecture:hover {
+    color:#999;
+}
+.review .panel-body .comment:hover {
+    color:#999;
 }
 /*# sourceMappingURL=course.css.map */
 

@@ -6,15 +6,15 @@
   </button>
   <div class="panel-body container-fluid">
     <div class="row">
-        <div class="col-xs-24 lecture ellipsis-wrapper" id="{{result.id}}">
+        <div class="col-xs-24 lecture ellipsis-wrapper" style="cursor:Pointer" id="{{result.id}}">
             <input type="hidden" name="{{result.id}}" value="{{result.course_id}}">
-          <h4 class="ellipsis-content">{{ result.lecture_title }} <small class="text-muted">{{ result.professor_name }} {{ result.lecture_year }}</small></h4>
+          <h4 class="ellipsis-content" >{{ result.lecture_title }} <small class="text-muted">{{ result.professor_name }} {{ result.lecture_year }}</small></h4>
       </div>
-      <div class="col-xs-24 comment text-muted" id="{{result.id}}">
+      <div class="col-xs-24 comment text-muted" style="cursor:Pointer" id="{{result.id}}">
          <input type="hidden" name="{{result.id}}" value="{{result.id}}">
         <p>{{ result.comment|linebreaks }}</p>
       </div>
-      <div class="col-xs-24 statics text-right">
+      <div class="col-xs-24 statics text-right" style="cursor:default">
         <span class="text-left clearfix">
           성적
           {% for numbergrade, lettergrade in result.gradelist %}

@@ -1,8 +1,11 @@
 .course {
     margin-top: 20px;
     border: 0px solid #ffffff;
-    box-shadow: 0 3px 0px rgba(229, 76, 101, 0.3);
+    box-shadow: 0 3px 0px rgba(0, 0, 0, 0.2);
     min-width: 260px;
+}
+.course:hover {
+    box-shadow: 0 3px 0px rgba(229, 76, 101, 0.3);
 }
 .course .panel-body {
     padding: 10px 25px 10px 25px;
