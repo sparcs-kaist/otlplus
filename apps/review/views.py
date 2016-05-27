@@ -1,6 +1,7 @@
 # -*- coding:utf-8 -*-
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, render_to_response
+from django.template import RequestContext
 from apps.session.models import UserProfile
 from apps.subject.models import Course, Lecture, Department, CourseFiltered, Professor
 from apps.review.models import Comment,CommentVote, MajorBestComment, LiberalBestComment
@@ -710,4 +711,22 @@ def LastCommentView_json(request, page=-1):
     }
     return JsonResponse(json.dumps(context),safe=False)
 
+def page_not_found(request):
+    response = render_to_response(
+        'review/404.html',
+        context_instance=RequestContext(request)
+    )
 
+    response.status_code = 404
+
+    return response
+
+def server_error(request):
+    response = render_to_response(
+        'review/500.html',
+        context_instance=RequestContext(request)
+    )
+
+    response.status_code = 500
+
+    return response
