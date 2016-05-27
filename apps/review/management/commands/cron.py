@@ -3,12 +3,15 @@ from apps.review.models import MajorBestComment, LiberalBestComment,Comment
 from datetime import datetime, timedelta, time, date
 from django.utils import timezone
 from django.db.models import Q
+from apps.subject.models import Department
 class Command(BaseCommand):
     help = 'BestComment Changer'
     def handle(self, *args, **options):
         print "BestComment changing start!"
         last_date = timezone.now()
-        first_date = timezone.now() - timedelta(hours = 2 )
+        first_date = timezone.now() - timedelta(days = 1 )
+        last_date_all = timezone.now()
+        first_date_all = timezone.now() - timedelta(days = 600)
         Comment_latest = Comment.objects.filter(written_datetime__range=(first_date, last_date))
         Comment_liberal = list(Comment_latest.filter(Q(course__department__code="HSS")))
         Comment_major = list(Comment_latest.filter(~Q(course__department__code="HSS")))
@@ -24,7 +27,7 @@ class Command(BaseCommand):
         
 
         try :
-            bComment_liberal=list(LiberalBestComment.objects.all())
+            bComment_liberal=list(LiberalBestComment.objects.filter(written_datetime__range=(first_date_all, last_date_all)))
         except:
             bComment_liberal=[]
 
@@ -41,7 +44,7 @@ class Command(BaseCommand):
 
 
         try :
-            bComment_major=list(MajorBestComment.objects.all())
+            bComment_major=list(MajorBestComment.objects.filter(written_datetime__range=(first_date_all, last_date_all)))
         except:
             bComment_major=[]
 
@@ -50,11 +53,16 @@ class Command(BaseCommand):
         bComment_major.sort(cmp1)
         mbcl = MajorBestComment.objects.all()
         mbcl.delete()
-        for i in range(50):
-            try :
-                bComment_major[i].save()
-            except:
-                continue
+        for department in Department.objects.all():
+            comment_d = []
+            for i in range(len(bComment_major)):
+                if bComment_major[i].comment.course.department.code == department.code:
+                    comment_d.append(bComment_major[i])
+                for i in range(15):
+                    try :
+                        comment_d[i].save()
+                    except:
+                        continue
 
                 
         print "BestComment was changed"

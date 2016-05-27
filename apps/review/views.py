@@ -75,12 +75,14 @@ def search_view(request):
     auto_source = [i.title for i in course_source] + [i.title_en for i in course_source] + [i.professor_name for i in professor_source] + [i.professor_name_en for i in professor_source]
     auto_source = ','.join(auto_source)
 
+
+    comment_liberal = list(LiberalBestComment.objects.all())
     if request.user.is_authenticated():
         user = request.user
         user_profile = UserProfile.objects.get(user=user)
-
-    comment_liberal = list(LiberalBestComment.objects.all())
-    comment_major = list(MajorBestComment.objects.all())
+        comment_major = list(MajorBestComment.objects.filter(comment__course__department = user_profile.favorite_departments.all()))
+    else:
+        comment_major = list(MajorBestComment.objects.all())
 
     liberal_comment = []
     major_comment = []
