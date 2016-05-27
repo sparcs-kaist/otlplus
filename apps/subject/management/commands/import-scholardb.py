@@ -25,7 +25,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         next_year = datetime.datetime.now().year
-        next_semester = ((datetime.datetime.now().month+9)%12)/3+2
+        next_semester = ((datetime.datetime.now().month+9)%12)/3+1
         if next_semester > 4:
             next_year +=1
             next_semester = next_semester % 4
