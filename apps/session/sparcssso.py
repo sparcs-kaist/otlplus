@@ -1,11 +1,14 @@
+import hmac
 import requests
+import time
 
-# SPARCS SSO Client Version 0.9.1 (BETA)
-# VALID ONLY AFTER 2016-03-19T20:45+09:00
+# SPARCS SSO Client Version 0.9.5 (BETA)
+# VALID ONLY AFTER 2016-05-18T23:59+09:00
 # Made by SPARCS SSO Team
 
 class Client:
     API_BASE_URL = 'https://sparcssso.kaist.ac.kr/api/v1/'
+    LOGOUT_BASE_URL = '%slogout/' % API_BASE_URL
     REQUIRE_BASE_URL = '%stoken/require/' % API_BASE_URL
     INFO_BASE_URL = '%stoken/info/' % API_BASE_URL
     POINT_BASE_URL = '%spoint/' % API_BASE_URL
@@ -32,6 +35,17 @@ class Client:
             return r.json()
         except:
             raise RuntimeError('Json decode error')
+
+    def get_logout_url(self, sid):
+        if self.is_test:
+            raise AssertionError('Not supported on test mode')
+
+        timestamp = int(time.time())
+        m = hmac.new(str(self.secret_key),
+                     str('%s:%s' % (timestamp, sid))).hexdigest()
+        return '%s?app=%s&time=%s&m=%s' % (self.LOGOUT_BASE_URL, self.app_name,
+                                           timestamp, m)
+
 
     def get_login_url(self, callback_url=''):
         if self.is_test and not callback_url:
@@ -79,4 +93,3 @@ class Client:
     def get_notice(self):
         r = requests.get(self.NOTICE_BASE_URL, verify=True)
         return r.json()
-
