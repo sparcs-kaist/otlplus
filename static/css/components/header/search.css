@@ -48,6 +48,9 @@
 .navbar .navbar-collapse ul.navbar-nav li.dropdown a:focus {
     background: transparent;
 }
+a:hover{
+    cursor:Pointer;
+}
 .navbar .navbar-collapse ul.navbar-nav li.active li.divider,
 .navbar .navbar-collapse ul.navbar-nav li.dropdown li.divider {
     background: transparent;

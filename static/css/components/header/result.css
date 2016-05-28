@@ -40,7 +40,9 @@
     background: transparent;
 
 }
-
+a:hover{
+    cursor:Pointer;
+}
 .navbar .navbar-collapse ul.navbar-nav.navbar-right li {
     position: relative;
 }
