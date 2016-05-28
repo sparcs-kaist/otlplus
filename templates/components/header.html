@@ -29,7 +29,7 @@
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
             <img class="img-circle" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xfa1/v/t1.0-1/432012_304047929649454_123168203_n.jpg?oh=2ce13a532977f37b491ecd66fe5011d9&oe=56F77F2F&__gda__=1454696926_e158cb4c902de3d59e065ce2f1a78c5e">
-            {{ request.user }}
+            {{ request.user.first_name }}{{request.user.last_name}}
             <span class="caret"></span>
           </a>
           <ul class="dropdown-menu">
