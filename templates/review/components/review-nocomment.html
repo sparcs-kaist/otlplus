@@ -1,0 +1,31 @@
+<div class="panel panel-default review">
+  <button class="likes" disabled>
+    <span>
+      <i class="fa fa-plus"></i> <span>?</span>
+    </span>
+  </button>
+  <div class="panel-body container-fluid">
+    <div class="row">
+      <div class="col-xs-24 ellipsis-wrapper">
+        <h4>강의명 <small>교수명 개설년도</small></h4>
+      </div>
+      <div class="col-xs-24 comment text-muted" onclick="location.href='/review/insert'" style="cursor:Pointer">
+        <p></p>
+        <p>관심 학과를 설정하지 않았거나 관심학과의 후기가 아직 없습니다. 여기를 클릭해서 사랑받을 새 후기를 작성해주세요!</p>
+        <br>
+      </div>
+      <div class="col-xs-24 statics text-right" style="cursor:default">
+        <span class="text-left clearfix">
+          성적
+          <span class="grade pull-right">?</span>
+        </span>
+        {% for i in "123" %}
+        <span class="text-left clearfix">
+         {% cycle "널널" "강의" "종합" %}
+         <span class="grade pull-right">?</span>
+        </span>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>

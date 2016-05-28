@@ -95,6 +95,8 @@
       {% cycle liberal_comment major_comment as cbestcomment silent %}
       {% for result in cbestcomment %}
         {% include 'review/components/review-main.html' %}
+      {% empty %}
+        {% include 'review/components/review-nocomment.html' %}
       {% endfor %}
     </div>
     {% endfor %}
