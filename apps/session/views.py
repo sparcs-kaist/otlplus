@@ -46,7 +46,7 @@ def login_callback(request):
         tokenid = request.GET.get('tokenid', '')
 
         sso_profile = sso_client.get_user_info(tokenid)
-        username = sso_profile['first_name'] + sso_profile['last_name']
+        username = sso_profile['sid']
 
         user_list = User.objects.filter(username=username)
         try:
