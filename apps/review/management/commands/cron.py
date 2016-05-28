@@ -27,7 +27,7 @@ class Command(BaseCommand):
         
 
         try :
-            bComment_liberal=list(LiberalBestComment.objects.filter(written_datetime__range=(first_date_all, last_date_all)))
+            bComment_liberal=list(LiberalBestComment.objects.filter(comment__written_datetime__range=(first_date_all, last_date_all)))
         except:
             bComment_liberal=[]
 
@@ -44,7 +44,7 @@ class Command(BaseCommand):
 
 
         try :
-            bComment_major=list(MajorBestComment.objects.filter(written_datetime__range=(first_date_all, last_date_all)))
+            bComment_major=list(MajorBestComment.objects.filter(comment__written_datetime__range=(first_date_all, last_date_all)))
         except:
             bComment_major=[]
 
