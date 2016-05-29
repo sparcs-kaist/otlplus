@@ -15,12 +15,12 @@ import datetime
 import subprocess
 
 # TESTING #
-sso_client = Client(is_test=True)
+#sso_client = Client(is_test=True)
 
 # PRODUCTION #
-#sso_client = Client(is_test=False,
-#                     app_name='otlplus',
-#                     secret_key=settings.SSO_KEY)
+sso_client = Client(is_test=False,
+                     app_name='otlplus',
+                     secret_key=settings.SSO_KEY)
 
 
 def home(request):
@@ -96,7 +96,7 @@ def user_logout(request):
 def settings(request):
     user = request.user
     user_profile = UserProfile.objects.get(user=user)
-    department = Department.objects.all().order_by('name')
+    department = Department.objects.filter(code__in = ["CE", "MSB", "MAE", "PH", "BiS", "IE", "ID", "BS", "CBE", "MAS", "MS", "NQE", "HSS", "EE", "CS", "MAE", "CH"]).order_by('name')
     fav_department = user_profile.favorite_departments.all()
 
     if len(user_profile.language) == 0:

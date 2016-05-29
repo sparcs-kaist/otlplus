@@ -14,7 +14,7 @@
             <a href="/review/insert/-1/{{sem_num}}/" id="{{sem_num}}" class="label deactive">
                 {{sem_korstr}}
             </a>
-         <span>
+         </span>
         {%endfor%}
   </div>
 </div>
@@ -32,7 +32,7 @@
           {% for lecture in lectures %}
             {% if view == 'insert' %}
               <span class="label-b">
-                <a href="/review/insert/{{ lecture.lecid }}/{{ lecture.lectime }}/" class="label">
+                  <a href="/review/insert/{{ lecture.lecid }}/{{ lecture.lectime }}/" class="label {% if lecture.comment == "" %}deactive{% endif %}">
                   {{ lecture.title }}({{ lecture.old_code }} {{ lecture.professor }}){% ifequal semester "0"%}({{ lecture.year }} {{ lecture.sem_char }}){% endifequal %}
                 </a>
               </span>
