@@ -64,7 +64,6 @@ def GradeFilters(raw_filters):
     return filters
 
 def search_view(request):
-
     if request.user.is_authenticated():
         user_profile = UserProfile.objects.get(user=request.user)
         if len(user_profile.language) == 0:
@@ -74,7 +73,6 @@ def search_view(request):
     professor_source = Professor.objects.all()
     auto_source = [i.title for i in course_source] + [i.title_en for i in course_source] + [i.professor_name for i in professor_source] + [i.professor_name_en for i in professor_source]
     auto_source = ','.join(auto_source)
-
 
     comment_liberal = list(LiberalBestComment.objects.all())
     if request.user.is_authenticated():
@@ -306,7 +304,6 @@ def SearchResultView(request):
     type_filters = TypeFilters(request.GET.getlist('type'))
     grade_filters = GradeFilters(request.GET.getlist('grade'))
     courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters, keyword)
-
     if 'sort' in request.GET :
         if request.GET['sort']=='name':
             courses = courses.order_by('title','old_code')
@@ -344,6 +341,7 @@ def SearchResultView(request):
             "keyword": keyword,
             "auto_source": auto_source
     }
+
     return render(request, 'review/result.html', context)
 
 def SearchResultView_json(request, page):
