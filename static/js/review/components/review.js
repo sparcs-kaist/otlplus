@@ -19,12 +19,13 @@ $(".review .like-button").click(function(){
                 alert("로그인이 필요합니다");
             else{
                 if(data.already_up){
-                    alert("이미 추천한 리뷰입니다");
                 }
                 else{
-                    alert("추천완료!");
                     target = "."+JSON.stringify(data.id).replace(/\"/g,"")+".like_num";
                     $(target).text(data.likes_count);
+                    target = "a."+JSON.stringify(data.id).replace(/\"/g,"");
+                    $(target).addClass("not-active declaration-button");
+                    $(target).removeClass("like-button");
                 }
             }
         },

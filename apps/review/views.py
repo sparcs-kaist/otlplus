@@ -91,7 +91,7 @@ def search_view(request):
         try :
             j = random.randint(0, len(comment_liberal)-1)
             comment = comment_liberal[j].comment
-            context = SearchComment(comment)
+            context = SearchComment(request, comment)
             liberal_comment.append(context)
             comment_liberal.pop(j)
 
@@ -105,7 +105,7 @@ def search_view(request):
 
 
             comment = comment_major[j].comment
-            context = SearchComment(comment)
+            context = SearchComment(request, comment)
             major_comment.append(context)
             comment_major.pop(j)
 
@@ -211,7 +211,17 @@ def SearchCourse(course):
     }
     return result
 
-def SearchComment(comment):
+def SearchComment(request, comment):
+    is_login = False
+    already_up = False
+    comment_id = -1
+    if request.user.is_authenticated():
+        is_login = True
+        user = request.user
+        user_profile = UserProfile.objects.get(user=user)
+        target_review = Comment.objects.get(id=comment.id);
+        if CommentVote.objects.filter(comment = target_review, userprofile = user_profile).exists():
+            already_up = True
     professors = comment.lecture.professor.all()
     professor_name = " " + ", ".join([i.professor_name for i in professors]) + " "
     result = {
@@ -224,6 +234,7 @@ def SearchComment(comment):
         "writer":comment.writer_label,
         "comment":comment.comment,
         "like":comment.like,
+        "already_up":already_up,
         "score":{"grade":comment.grade, "load":comment.load, "speech":comment.speech, "total":int(round(comment.total)),},
         "gradelist":[(0,"?"),(1,"F"),(2,"D"),(3,"C"),(4,"B"),(5,"A")],
     }
@@ -380,13 +391,13 @@ def SearchResultView_json(request, page):
 
 def SearchResultProfessorView(request,id=-1,lecture_id=-1):
     professor = Professor.objects.get(id=id)
-    comments = Comment.objects.filter(lecture__professor__id=id)
+    comments = Comment.objects.filter(lecture__professor__id=id).order_by('-lecture__year','-written_datetime')
     if int(lecture_id) != -1:
         course_id = Lecture.objects.get(id=lecture_id).course.id
         comments = comments.filter(lecture__course__id=course_id)
     paginator = Paginator(comments,10)
     page_obj = paginator.page(1)
-    results = [SearchComment(i) for i in page_obj.object_list]
+    results = [SearchComment(request,i) for i in page_obj.object_list]
 
     print "result_num :", (len(comments))
     print "NextPage :", page_obj.has_next(), page_obj
@@ -399,7 +410,7 @@ def SearchResultProfessorView(request,id=-1,lecture_id=-1):
     return render(request, 'review/sresult.html', context)
 
 def SearchResultProfessorView_json(request, id=-1,course_id=-1,page=-1):
-    comments = Comment.objects.filter(lecture__professor__id=id)
+    comments = Comment.objects.filter(lecture__professor__id=id).order_by('-lecture__year','-written_datetime')
     if int(course_id) != -1:
         comments = comments.filter(lecture__course__id=course_id)
     paginator = Paginator(comments,10)
@@ -407,7 +418,7 @@ def SearchResultProfessorView_json(request, id=-1,course_id=-1,page=-1):
         page_obj = paginator.page(page)
     except InvalidPage:
         raise Http404
-    results = [SearchComment(i) for i in page_obj.object_list]
+    results = [SearchComment(request,i) for i in page_obj.object_list]
 
     print "NextPage :", page_obj.has_next(), page_obj
 
@@ -426,7 +437,7 @@ def SearchResultCourseView(request,id=-1,professor_id=-1):
 
     professor_id = int(professor_id)
     course = Course.objects.get(id=id)
-    comments = Comment.objects.filter(course=course)
+    comments = Comment.objects.filter(course=course).order_by('-lecture__year','-written_datetime')
     if professor_id != -1:
         lectures = list(course.lecture_course.all())
         lec_by_prof = GetLecByProf(lectures)
@@ -435,7 +446,7 @@ def SearchResultCourseView(request,id=-1,professor_id=-1):
 
     paginator = Paginator(comments,10)
     page_obj = paginator.page(1)
-    results = [SearchComment(i) for i in page_obj.object_list]
+    results = [SearchComment(request,i) for i in page_obj.object_list]
 
     print "result_num :", (len(comments))
     print "NextPage :", page_obj.has_next(), page_obj
@@ -451,7 +462,7 @@ def SearchResultCourseView(request,id=-1,professor_id=-1):
 def SearchResultCourseView_json(request, id=-1,professor_id=-1,page=-1):
     professor_id = int(professor_id)
     course = Course.objects.get(id=id)
-    comments = Comment.objects.filter(course = course)
+    comments = Comment.objects.filter(course = course).order_by('-lecture__year','-written_datetime')
     if professor_id != -1:
         lectures = list(course.lecture_course.all())
         lec_by_prof = GetLecByProf(lectures)
@@ -463,7 +474,7 @@ def SearchResultCourseView_json(request, id=-1,professor_id=-1,page=-1):
         page_obj = paginator.page(page)
     except InvalidPage:
         raise Http404
-    results = [SearchComment(i) for i in page_obj.object_list]
+    results = [SearchComment(request,i) for i in page_obj.object_list]
 
     print "NextPage :", page_obj.has_next(), page_obj
 
@@ -641,7 +652,7 @@ def ReviewRefresh(request):
 
 def ReviewView(request, comment_id):
     try :
-        comment = SearchComment(Comment.objects.get(id=comment_id))
+        comment = SearchComment(request,Comment.objects.get(id=comment_id))
         isExist = 1
         print type(comment)
     except :
@@ -660,7 +671,7 @@ def LastCommentView(request):
     professor_source = Professor.objects.all()
     auto_source = [i.title for i in course_source] + [i.title_en for i in course_source] + [i.professor_name for i in professor_source] + [i.professor_name_en for i in professor_source]
     auto_source = ','.join(auto_source)
-    
+
     if request.GET.getlist('filter') == ['F']:
         if request.user.is_authenticated():
             user_profile = UserProfile.objects.get(user=request.user)
@@ -677,7 +688,7 @@ def LastCommentView(request):
     paginator = Paginator(comments,10)
     page_obj = paginator.page(1)
 
-    results = [SearchComment(i) for i in page_obj.object_list]
+    results = [SearchComment(request,i) for i in page_obj.object_list]
 
     print "result_num :", (len(comments))
     print "NextPage :", page_obj.has_next(), page_obj
@@ -711,7 +722,7 @@ def LastCommentView_json(request, page=-1):
         page_obj = paginator.page(page)
     except InvalidPage:
         raise Http404
-    results = [SearchComment(i) for i in page_obj.object_list]
+    results = [SearchComment(request,i) for i in page_obj.object_list]
 
     print "NextPage :", page_obj.has_next(), page_obj
 

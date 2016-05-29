@@ -15,7 +15,7 @@ class Command(BaseCommand):
         Comment_latest = Comment.objects.filter(written_datetime__range=(first_date, last_date))
         Comment_liberal = list(Comment_latest.filter(Q(course__department__code="HSS")))
         Comment_major = list(Comment_latest.filter(~Q(course__department__code="HSS")))
-        
+
         def cmp1(a,b):
             r =(b.comment.like/float(b.comment.lecture.audience+1) - a.comment.like/float(a.comment.lecture.audience+1))
             if r>0.0 :
@@ -24,10 +24,10 @@ class Command(BaseCommand):
                 return -1
             else :
                 return 0
-        
+
 
         try :
-            bComment_liberal=list(LiberalBestComment.objects.filter(written_datetime__range=(first_date_all, last_date_all)))
+            bComment_liberal=list(LiberalBestComment.objects.filter(comment__written_datetime__range=(first_date_all, last_date_all)))
         except:
             bComment_liberal=[]
 
@@ -44,7 +44,7 @@ class Command(BaseCommand):
 
 
         try :
-            bComment_major=list(MajorBestComment.objects.filter(written_datetime__range=(first_date_all, last_date_all)))
+            bComment_major=list(MajorBestComment.objects.filter(comment__written_datetime__range=(first_date_all, last_date_all)))
         except:
             bComment_major=[]
 
@@ -64,5 +64,5 @@ class Command(BaseCommand):
                     except:
                         continue
 
-                
+
         print "BestComment was changed"

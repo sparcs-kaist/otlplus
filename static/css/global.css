@@ -29,4 +29,12 @@ a:focus{
     text-decoration:none !important;
 }
 
+span.label:hover{
+    background: #C53C50 !important;
+}
+
+.fa-stack:hover{
+    cursor:Pointer
+}
+
 /*# sourceMappingURL=global.css.map */
