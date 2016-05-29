@@ -36,7 +36,6 @@ def user_login(request):
 
     callback_url = request.build_absolute_uri('/session/login/callback/')
     login_url = sso_client.get_login_url(callback_url)
-    # return render(request, './session/login.html', {'login_url': login_url})
     return HttpResponseRedirect(login_url)
 
 
@@ -88,7 +87,10 @@ def login_callback(request):
 
 def user_logout(request):
     if request.user.is_authenticated():
+        user_profile = UserProfile.objects.get(user=request.user)
+        print sso_client.get_logout_url(user_profile.sid)
         logout(request)
+        return redirect(sso_client.get_logout_url(user_profile.sid))
     return redirect("/main")
 
 

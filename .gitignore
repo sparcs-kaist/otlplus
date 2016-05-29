@@ -7,7 +7,8 @@ settings.py
 
 cronlog
 *.swp
-/otlplus/settings.py
+update_scholardb.py
+update_taken_lecture.py
 # Distribution / packaging
 .Python
 env/
