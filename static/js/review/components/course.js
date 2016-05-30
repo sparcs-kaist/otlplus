@@ -2,10 +2,6 @@ $(document).ready(function(){
     $(".professor").each(function(){
         $(this).prop("checked",true);
     });
-
-    $("span.score").hide();
-    $("span.score.ALL").show();
-
 });
 
 $(".course").click(function(){

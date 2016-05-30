@@ -128,7 +128,7 @@ def settings(request):
 
         ctx['fav_department'] = favorite_departments
         ctx['usr_lang'] = user_profile.language
-        return render(request, 'session/settings.html', ctx)
+        return HttpResponseRedirect('/main/')
     return render(request, 'session/settings.html', ctx)
 
 

@@ -37,4 +37,8 @@ span.label:hover{
     cursor:Pointer
 }
 
+.label-title > h4{
+    line-height:1.2 !important;
+}
+
 /*# sourceMappingURL=global.css.map */

@@ -69,11 +69,6 @@ def search_view(request):
         if len(user_profile.language) == 0:
             return redirect("/session/settings/")
 
-    course_source = Course.objects.all()
-    professor_source = Professor.objects.all()
-    auto_source = [i.title for i in course_source] + [i.title_en for i in course_source] + [i.professor_name for i in professor_source] + [i.professor_name_en for i in professor_source]
-    auto_source = ','.join(auto_source)
-
     comment_liberal = list(LiberalBestComment.objects.all())
     if request.user.is_authenticated():
         user = request.user
@@ -113,7 +108,6 @@ def search_view(request):
     ctx = {
             'liberal_comment':liberal_comment,
             'major_comment':major_comment,
-            'auto_source':auto_source
     }
 
     return render(request, 'review/search.html',ctx)
@@ -162,7 +156,7 @@ def GetLecByProf(lectures):
     lec_by_prof = [ list(i[1]) for i in lec_by_prof ]
     return lec_by_prof
 
-def SearchCourse(course):
+def SearchCourse(course,id=-1):
     lectures = list( course.lecture_course.all() )
     lec_by_prof = GetLecByProf(lectures)
 
@@ -170,8 +164,8 @@ def SearchCourse(course):
     prof_info.append({
         "name" : "ALL",
         "id" : -1,
-        "score":{"grade":int(round(course.grade)), "load":int(round(course.load)), "speech":int(round(course.speech)), "total":int(round(course.total)),},
     })
+    score = {"grade":int(round(course.grade)), "load":int(round(course.load)), "speech":int(round(course.speech)), "total":int(round(course.total)),}
 
     for idx, lectures in enumerate(lec_by_prof):
         names = [i.professor_name for i in lectures[0].professor.all()]
@@ -184,17 +178,18 @@ def SearchCourse(course):
         else:
             name_string = 'error'
 
-        grade_sum = sum(i.grade_sum for i in lectures)
-        load_sum = sum(i.load_sum for i in lectures)
-        speech_sum = sum(i.speech_sum for i in lectures)
-        total_sum = sum(i.total_sum for i in lectures)
-        comment_num = sum(i.comment_num for i in lectures)
-        grade, load, speech, total = CalcAvgScore(grade_sum, load_sum, speech_sum, total_sum, comment_num)
+        if int(idx) == int(id):
+            grade_sum = sum(i.grade_sum for i in lectures)
+            load_sum = sum(i.load_sum for i in lectures)
+            speech_sum = sum(i.speech_sum for i in lectures)
+            total_sum = sum(i.total_sum for i in lectures)
+            comment_num = sum(i.comment_num for i in lectures)
+            grade, load, speech, total = CalcAvgScore(grade_sum, load_sum, speech_sum, total_sum, comment_num)
+            score = {"grade":grade, "load":load, "speech":speech, "total":total,}
 
         prof_info.append({
             "name" : name_string,
             "id" : idx,
-            "score":{"grade":int(round(grade)), "load":int(round(load)), "speech":int(round(speech)), "total":int(round(total)),},
         })
         summury = course.summury
         if(len(summury)<1):
@@ -204,8 +199,9 @@ def SearchCourse(course):
         "id":course.id,
         "title":course.title,
         "summury":summury,
-        "prof_info":prof_info,
+        "prof_info":sorted(prof_info, key = lambda x : x['name']),
         "gradelist":gradelist,
+        "score":score,
     }
     return result
 
@@ -238,24 +234,41 @@ def SearchComment(request, comment):
     }
     return result
 
-def SearchProfessor(professor):
+def SearchProfessor(professor,id=-1):
     lecture_list=[]
     lecture_list.append({
         "name": "ALL",
         "id": -1,
-        "score":{"grade":int(round(professor.grade)), "load":int(round(professor.load)), "speech":int(round(professor.speech)), "total":int(round(professor.total)),},
     })
-    for lecture in professor.lecture_professor.all():
-        grade = int(round(lecture.grade))
-        load = int(round(lecture.load))
-        speech = int(round(lecture.speech))
-        total = int(round(lecture.total))
+
+    score = {"grade":int(round(professor.grade)), "load":int(round(professor.load)), "speech":int(round(professor.speech)), "total":int(round(professor.total)),}
+
+    for course in professor.course_list.all().order_by('title','old_code'):
 
         lecture_list.append({
-            "id" : lecture.id,
-            "name" : lecture.title,
-            "score" : {"grade":grade, "load":load, "speech":speech, "total":total,},
+            "id" : course.id,
+            "name" : course.title,
         })
+
+        if int(course.id) == int(id) :
+            lectures = professor.lecture_professor.filter(course = course)
+            grade_sum = sum(i.grade_sum for i in lectures)
+            load_sum = sum(i.load_sum for i in lectures)
+            speech_sum = sum(i.speech_sum for i in lectures)
+            total_sum = sum(i.total_sum for i in lectures)
+            comment_num = sum(i.comment_num for i in lectures)
+            grade, load, speech, total = CalcAvgScore(grade_sum, load_sum, speech_sum, total_sum, comment_num)
+            score = {"grade":grade, "load":load, "speech":speech, "total":total,}
+
+            """
+            grade = int(round(lecture.grade))
+            load = int(round(lecture.load))
+            speech = int(round(lecture.speech))
+            total = int(round(lecture.total))
+            score = {"grade":grade, "load":load, "speech":speech, "total":total,}
+            """
+
+
     result={
         "type":"professor",
         "id":professor.id,
@@ -263,6 +276,7 @@ def SearchProfessor(professor):
         "prof_info":lecture_list,
         "gradelist":gradelist,
         "major":Department.objects.get(id = professor.major).name,
+        "score":score,
     }
     return result
 
@@ -290,10 +304,6 @@ def Expectations(keyword):
 
 #MainPage#################################################################################################
 def SearchResultView(request):
-    course_source = Course.objects.all()
-    professor_source = Professor.objects.all()
-    auto_source = [i.title for i in course_source] + [i.title_en for i in course_source] + [i.professor_name for i in professor_source] + [i.professor_name_en for i in professor_source]
-    auto_source = ','.join(auto_source)
     if 'q' in request.GET :
         keyword = request.GET['q']
     else :
@@ -331,15 +341,11 @@ def SearchResultView(request):
 
     results = [SearchCourse(i) for i in page_obj.object_list]
 
-    print "result_num :", (len(courses))
-    print "NextPage :", page_obj.has_next(), page_obj
-
     context = {
             "results": results,
             "page":page_obj.number,
             "expectations":expectations,
             "keyword": keyword,
-            "auto_source": auto_source
     }
 
     return render(request, 'review/result.html', context)
@@ -378,7 +384,6 @@ def SearchResultView_json(request, page):
         raise Http404
 
     results = [SearchCourse(i) for i in page_obj.object_list]
-    print "NextPage :", page_obj.has_next(), page_obj
 
     context = {
             "results":results,
@@ -387,21 +392,17 @@ def SearchResultView_json(request, page):
     }
     return JsonResponse(json.dumps(context),safe=False)
 
-def SearchResultProfessorView(request,id=-1,lecture_id=-1):
+def SearchResultProfessorView(request,id=-1,course_id=-1):
     professor = Professor.objects.get(id=id)
     comments = Comment.objects.filter(lecture__professor__id=id).order_by('-lecture__year','-written_datetime')
-    if int(lecture_id) != -1:
-        course_id = Lecture.objects.get(id=lecture_id).course.id
+    if int(course_id) != -1:
         comments = comments.filter(lecture__course__id=course_id)
     paginator = Paginator(comments,10)
     page_obj = paginator.page(1)
     results = [SearchComment(request,i) for i in page_obj.object_list]
 
-    print "result_num :", (len(comments))
-    print "NextPage :", page_obj.has_next(), page_obj
-
     context = {
-            "result":SearchProfessor(professor),
+            "result":SearchProfessor(professor,course_id),
             "results": results,
             "page":page_obj.number,
     }
@@ -418,8 +419,6 @@ def SearchResultProfessorView_json(request, id=-1,course_id=-1,page=-1):
         raise Http404
     results = [SearchComment(request,i) for i in page_obj.object_list]
 
-    print "NextPage :", page_obj.has_next(), page_obj
-
     context = {
             "results":results,
             "hasNext":page_obj.has_next(),
@@ -428,11 +427,6 @@ def SearchResultProfessorView_json(request, id=-1,course_id=-1,page=-1):
 
 
 def SearchResultCourseView(request,id=-1,professor_id=-1):
-    course_source = Course.objects.all()
-    professor_source = Professor.objects.all()
-    auto_source = [i.title for i in course_source] + [i.title_en for i in course_source] + [i.professor_name for i in professor_source] + [i.professor_name_en for i in professor_source]
-    auto_source = ','.join(auto_source)
-
     professor_id = int(professor_id)
     course = Course.objects.get(id=id)
     comments = Comment.objects.filter(course=course).order_by('-lecture__year','-written_datetime')
@@ -446,14 +440,10 @@ def SearchResultCourseView(request,id=-1,professor_id=-1):
     page_obj = paginator.page(1)
     results = [SearchComment(request,i) for i in page_obj.object_list]
 
-    print "result_num :", (len(comments))
-    print "NextPage :", page_obj.has_next(), page_obj
-
     context = {
-            "result":SearchCourse(course),
+            "result":SearchCourse(course,professor_id),
             "results": results,
             "page":page_obj.number,
-            "auto_source":auto_source
     }
     return render(request, 'review/sresult.html', context)
 
@@ -473,8 +463,6 @@ def SearchResultCourseView_json(request, id=-1,professor_id=-1,page=-1):
     except InvalidPage:
         raise Http404
     results = [SearchComment(request,i) for i in page_obj.object_list]
-
-    print "NextPage :", page_obj.has_next(), page_obj
 
     context = {
             "results":results,
@@ -505,7 +493,6 @@ def ReviewLike(request):
         if request.method == 'POST':
             user = request.user
             user_profile = UserProfile.objects.get(user=user)
-            print user_profile
             target_review = Comment.objects.get(id=request.POST['commentid']);
             if CommentVote.objects.filter(comment = target_review, userprofile = user_profile).exists():
                 already_up = True
@@ -558,7 +545,6 @@ def ReviewInsertView(request,lecture_id=-1,semester=0):
         if semester == lecture_object["lectime"]:
                 if thissem_lec < 0: thissem_lec = lecture_object["lecid"]
                 return_object.append(lecture_object)
-    print semesters
     gradelist=['A','B','C','D','F']
     pre_comment =""
     pre_grade="A"
@@ -656,7 +642,6 @@ def ReviewView(request, comment_id):
     try :
         comment = SearchComment(request,Comment.objects.get(id=comment_id))
         isExist = 1
-        print type(comment)
     except :
         comment = ''
         isExist = 0
@@ -669,10 +654,6 @@ def ReviewView(request, comment_id):
 
 
 def LastCommentView(request):
-    course_source = Course.objects.all()
-    professor_source = Professor.objects.all()
-    auto_source = [i.title for i in course_source] + [i.title_en for i in course_source] + [i.professor_name for i in professor_source] + [i.professor_name_en for i in professor_source]
-    auto_source = ','.join(auto_source)
 
     if request.GET.getlist('filter') == ['F']:
         if request.user.is_authenticated():
@@ -692,22 +673,14 @@ def LastCommentView(request):
 
     results = [SearchComment(request,i) for i in page_obj.object_list]
 
-    print "result_num :", (len(comments))
-    print "NextPage :", page_obj.has_next(), page_obj
-
     context = {
             "results": results,
             "page":page_obj.number,
-            "auto_source": auto_source
     }
     return render(request, 'review/lastcomment.html', context)
 
 
 def LastCommentView_json(request, page=-1):
-    course_source = Course.objects.all()
-    professor_source = Professor.objects.all()
-    auto_source = [i.title for i in course_source] + [i.title_en for i in course_source] + [i.professor_name for i in professor_source] + [i.professor_name_en for i in professor_source]
-    auto_source = ','.join(auto_source)
 
     if request.GET.getlist('filter') == "F":
         if request.user.is_authenticated():
@@ -725,8 +698,6 @@ def LastCommentView_json(request, page=-1):
     except InvalidPage:
         raise Http404
     results = [SearchComment(request,i) for i in page_obj.object_list]
-
-    print "NextPage :", page_obj.has_next(), page_obj
 
     context = {
             "results":results,

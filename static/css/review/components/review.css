@@ -42,7 +42,6 @@
 }
 .score_letter{
     color: #db6c7c;
-    display:none;
 }
 .score_table tbody tr td, .table-borderless tbody tr th, .table-borderless thead tr th {
     border: none;
