@@ -9,7 +9,7 @@
     -webkit-box-shadow: 0 3px 0px rgba(0, 0, 0, 0.2);
     display: none;
     position: relative;
-    margin-bottom: 25px;
+    margin-bottom: 10px;
 }
 #options.active {
     display: block;
