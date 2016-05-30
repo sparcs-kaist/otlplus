@@ -44,6 +44,11 @@
 #contents .insert-box:focus{
     border-color: #e64c65;
 }
+#contents .insert-div{
+    width:calc(100% - 240px);
+    display:inline-block;
+}
+
 
 
 #contents .btn-review-delete{
@@ -72,3 +77,10 @@
 
 
 /*# sourceMappingURL=insert.css.map */
+
+@media(max-width:600px){
+    #contents .insert-div{
+        width:100%;
+    }
+    
+}

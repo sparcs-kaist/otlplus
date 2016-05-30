@@ -8,10 +8,11 @@ from apps.subject.models import Course
 class Command(BaseCommand):
     def handle(self, *args, **options):
 
-        f = open("/home/hood/otlplus/otlplus/GC2014.txt","r")
+        f = open("/var/www/GC2014.txt","r")
         a = f.readlines();
         p = re.compile('^[a-zA-Z]{2,}[0-9]{3}\s')
         for i in range(len(a)):
+            print i
             if(p.match(a[i])):
                 course_code = p.match(a[i]).group()[:-1]
                 i+=1
@@ -23,6 +24,7 @@ class Command(BaseCommand):
                     course = Course.objects.get(old_code = course_code)
                     course.summury = course_summury
                     course.save()
+                    print course.summury
                 except:
                     pass
         f.close()

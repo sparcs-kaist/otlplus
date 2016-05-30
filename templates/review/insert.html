@@ -45,15 +45,13 @@
             <div class="panel-body">  
 
               <div style="margin-top: 15px;">
-                <table style="width:100%">
-                   <tr>
-                       <td>
+                <div class="insert-div">
                 {% csrf_token %}
                 <textarea {%ifequal semester "0"%}disabled="disabled"{%endifequal%} class="form-control insert-box" name="content" rows= "10" placeholder = "{{reviewguideline}}">{{comment}}</textarea>
                 <input type="hidden" name = "lectureid" value = {{lecture_id}} />
                 <input type="hidden" name = "semester" value = {{semester}} />
-                    </td>
-                    <td style="width:230px;vertical-align:top">
+            </div>
+            <div style="width:230px;vertical-align:top;display:inline-block">
             <table class="col-xs-24">
                 <tr>
                 <td class="radio-head">
@@ -112,13 +110,10 @@
                     </label>
                 </div>
             </td>
-
                 </tr>
                 {% endifnotequal %}
             </table>
-                </td>
-                </tr>
-                </table>
+                </div>
         
            </div>
            </div>

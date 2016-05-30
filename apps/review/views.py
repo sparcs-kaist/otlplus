@@ -165,6 +165,7 @@ def SearchCourse(course,id=-1):
         "name" : "ALL",
         "id" : -1,
     })
+    summury = "등록되지 않았습니다."
     score = {"grade":int(round(course.grade)), "load":int(round(course.load)), "speech":int(round(course.speech)), "total":int(round(course.total)),}
 
     for idx, lectures in enumerate(lec_by_prof):
