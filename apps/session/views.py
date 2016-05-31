@@ -77,11 +77,19 @@ def login_callback(request):
             login(request, user)
             return redirect(next)
         else:
-           user = authenticate(username=user_list[0].username)
-           user_profile = UserProfile.objects.get(user=user)
-           user_profile.student_id = student_id
-           login(request, user)
-           return redirect(next)
+            user = authenticate(username=user_list[0].username)
+            user.first_name=sso_profile['first_name']
+            user.last_name=sso_profile['last_name']
+            user.save()
+            user_profile = UserProfile.objects.get(user=user)
+            previous_student_id = user_profile.student_id
+            user_profile.student_id = student_id
+            user_profile.save()
+            if previous_student_id != student_id:
+                os.chdir('/var/www/otlplus/')
+                os.system('python update_taken_lecture_user.py %s' % student_id)
+            login(request, user)
+            return redirect(next)
     return render('/session/login.html', {'error': "Invalid login"})
 
 

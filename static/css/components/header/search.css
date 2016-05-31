@@ -87,7 +87,7 @@ a:hover{
 .navbar.scrolled .dropdown li.divider {
     background: #e5e5e5 !important;
 }
-@media (max-width: 992px) {
+@media (max-width: 1140px) {
     .header_hide{
         display:none;
     }

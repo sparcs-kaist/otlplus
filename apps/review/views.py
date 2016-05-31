@@ -505,16 +505,30 @@ def ReviewLike(request):
 
 #ReviewWritingPage#################################################################################################
 @login_required(login_url='/session/login/')
+def ReviewPortal(request):
+    user = request.user
+    user_profile = UserProfile.objects.get(user=user)
+    user_profile.portal_check =1
+    user_profile.save()
+    return HttpResponseRedirect('https://sparcssso.kaist.ac.kr/account/profile/')
+@login_required(login_url='/session/login/')
 def ReviewInsertView(request,lecture_id=-1,semester=0):
     user = request.user
     user_profile = UserProfile.objects.get(user=user)
+    if user_profile.portal_check == 1:
+        user_profile.portal_check =0
+        user_profile.save()
+        return HttpResponseRedirect('/session/logout/')
     semchar=[None,"봄","여름","가을","겨울"]
     reviewmsg=""
     return_object = []
     semester=int(semester)
     lec_year = (semester/10)+2000
     lec_sem = semester%10
-    ctx = {'errttle':'수강한 과목이 없습니다!','errmsg':'만약 수강한 과목이 있다면, <a href="/review/refresh/">여기</a>를 눌러 갱신해주세요!'}
+    if len(user_profile.student_id) < 1:
+        ctx = {'errttle':'포탈 연동이 되어있지 않습니다!','errmsg':'<a href="/review/portal/">여기</a>를 눌러 연동주세요!'}
+    else:
+        ctx = {'errttle':'수강한 과목이 없습니다!','errmsg':'만약 수강한 과목이 있다면, <a href="/review/refresh/">여기</a>를 눌러 갱신해주세요!'}
     if semester % 10 > 4 or semester < 0 or semester > 1000:
         return render(request, 'review/error.html',ctx)
     lecture_list = user_profile.take_lecture_list.all()
