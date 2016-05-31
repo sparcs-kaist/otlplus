@@ -26,8 +26,8 @@
   {{ block.super }}
   <script type="text/javascript" src="/media/js/components/header.js"></script>
   <script type="text/javascript" src="/media/js/review/components/course.js"></script>
-  <script type="text/javascript" src="/media/js/review/result.js"></script>
   <script type="text/javascript" src="/media/js/review/components/option.js"></script>
+  <script type="text/javascript" src="/media/js/review/result.js"></script>
   <script src="//code.jquery.com/jquery-1.10.2.js"></script>
   <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 
@@ -184,6 +184,10 @@ var loadItems = function() {
         },
         complete: function(data){
             $(window).bind('scroll', loadOnScroll);
+            $("#option, #option2").on("click", function() {
+                $("#option").toggleClass("active");
+                $('#options').toggleClass("active");
+            });
         }
     });
 };   

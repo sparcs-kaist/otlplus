@@ -73,7 +73,7 @@ def search_view(request):
     if request.user.is_authenticated():
         user = request.user
         user_profile = UserProfile.objects.get(user=user)
-        comment_major = list(MajorBestComment.objects.filter(comment__course__department = user_profile.favorite_departments.all()))
+        comment_major = list(MajorBestComment.objects.filter(comment__course__department__code__in = [d.code for d in user_profile.favorite_departments.all()]))
     else:
         comment_major = list(MajorBestComment.objects.all())
 

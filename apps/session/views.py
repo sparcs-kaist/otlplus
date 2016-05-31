@@ -13,6 +13,7 @@ import random
 import os
 import datetime
 import subprocess
+from django.db.models import Q
 
 # TESTING #
 #sso_client = Client(is_test=True)
@@ -106,7 +107,7 @@ def user_logout(request):
 def settings(request):
     user = request.user
     user_profile = UserProfile.objects.get(user=user)
-    department = Department.objects.filter(code__in = ["CE", "MSB", "MAE", "PH", "BiS", "IE", "ID", "BS", "CBE", "MAS", "MS", "NQE", "HSS", "EE", "CS", "MAE", "CH"]).order_by('name')
+    department = Department.objects.filter(Q(code__in = ["CE", "MSB", "MAE", "PH", "BiS", "IE", "ID", "BS", "CBE", "MAS", "MS", "NQE", "HSS", "EE", "CS", "MAE", "CH"]) & Q(visible = True)).order_by('name')
     fav_department = user_profile.favorite_departments.all()
 
     if len(user_profile.language) == 0:

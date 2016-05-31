@@ -223,6 +223,11 @@ html.push('<div class="score_table text-left col-xs-24" style="margin-right:-40p
         },
         complete: function(data){
             $(window).bind('scroll', loadOnScroll);
+            $("#option, #option2").on("click", function() {
+                $("#option").toggleClass("active");
+                $('#options').toggleClass("active");
+            });
+
         }
     });
 };   
@@ -262,6 +267,7 @@ html.push('<div class="score_table text-left col-xs-24" style="margin-right:-40p
       {% endif %}
 
       {% include 'review/components/option.html' %}
+      <div class="clearfix"></div>
       {% if expectations %}
         {% include 'review/components/expect.html' with lectures=expectations %}
       {% endif %}

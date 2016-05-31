@@ -138,6 +138,11 @@
 .review .panel-body .comment:hover {
     color:#999;
 }
+
+.col-md-12 {
+    width:100% !important;
+}
+
 /*# sourceMappingURL=course.css.map */
 
 

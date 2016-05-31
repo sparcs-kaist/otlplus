@@ -3,8 +3,6 @@
     padding-top: 5px;
     background-color: #f9f0f0;
 }
-#contents #options {
-}
 #contents #options:active {
     display: block;
 }

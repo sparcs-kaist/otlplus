@@ -31,8 +31,13 @@
 }
 #contents > .row:nth-of-type(1) form > div [type="button"].active{
     color: #000000;
-    background: #ffffff;
+    background: #ffffff !important;
 
+}
+
+#contents #options {
+    overflow-y:overlay;
+    margin-bottom:-1000px;
 }
 
 @media (max-width: 767px) {
