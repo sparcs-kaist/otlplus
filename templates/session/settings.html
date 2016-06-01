@@ -23,7 +23,7 @@
 
 {% block header %}
   {{ block.super }}
-  {% include 'components/header/insert.html' %}
+  {% include 'components/header.html' %}
 {% endblock %}
 
 {% block contents %}
@@ -47,13 +47,11 @@
     <div class="col-xs-24">
         <h3>관심 학과 </h3>
         <div id="favorites" class="col-xs-24">
-            <select multiple="multiple" style="width:300px;height:200px" name="fav_department">
             {% for dpt in department %}
-            <div class="col-xs-12 col-lg-8">
-                <option type="checkbox" name="fav_department" value="{{ dpt.id }}" {% if dpt in fav_department %} selected {% endif %}>{{ dpt.name }}({{dpt.code}})</option>
+            <div class="col-xs-24 col-sm-12 col-md-8">
+                <input type="checkbox" name="fav_department" value="{{ dpt.id }}" {% if dpt in fav_department %} checked {% endif %}>{{ dpt.name }}({{dpt.code}})&nbsp;
             </div>
             {% endfor %}
-        </select>
         </div>
 
     </div>
