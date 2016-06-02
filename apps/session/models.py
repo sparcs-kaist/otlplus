@@ -8,12 +8,12 @@ from apps.subject.models import Department, Lecture
 
 
 # TESTING #
-#sso_client = Client(is_test=True)
+sso_client = Client(is_test=True)
 
 # PRODUCTION #
-sso_client = Client(is_test=False,
-        app_name='otlplus',
-        secret_key=settings.SSO_KEY)
+#sso_client = Client(is_test=False,
+#        app_name='otlplus',
+#        secret_key=settings.SSO_KEY)
 
 
 class UserProfile(models.Model):

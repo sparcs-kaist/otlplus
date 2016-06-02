@@ -122,3 +122,4 @@ AUTHENTICATION_BACKENDS = (
 
 LOGIN_URL = '/session/login/'
 LOGOUT_URL = '/session/logout/'
+
