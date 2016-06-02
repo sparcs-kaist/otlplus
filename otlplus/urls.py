@@ -33,6 +33,11 @@ urlpatterns = [
 
     # OTLplus Apps
     url(r'^main/$', 'apps.review.views.search_view'),
+    url(r'^tutorial_again/$', 'apps.review.views.search_view_first_again'),
+    url(r'^tutorial/$', 'apps.review.views.search_view_first'),
+    url(r'^tutorial2/$', 'apps.review.views.search_view_first2'),
+    url(r'^tutorial3/$', 'apps.review.views.search_view_first3'),
+    url(r'^tutorial4/$', 'apps.review.views.search_view_first4'),
     url(r'^$', lambda x: HttpResponseRedirect('/main/')),
     url(r'^session/', include('apps.session.urls')),
     url(r'^review/', include('apps.review.urls')),

@@ -16,12 +16,12 @@ import subprocess
 from django.db.models import Q
 
 # TESTING #
-#sso_client = Client(is_test=True)
+sso_client = Client(is_test=True)
 
 # PRODUCTION #
-sso_client = Client(is_test=False,
-                     app_name='otlplus',
-                     secret_key=settings.SSO_KEY)
+#sso_client = Client(is_test=False,
+#                     app_name='otlplus',
+#                     secret_key=settings.SSO_KEY)
 
 
 def home(request):
@@ -71,7 +71,7 @@ def login_callback(request):
             user_profile.sid = sso_profile['sid']
             user_profile.save()
 
-            os.chdir('/var/www/otlplus/')
+            os.chdir('~/otlplus/')
             os.system('python update_taken_lecture_user.py %s' % student_id)
 
             user = authenticate(username=username)
@@ -97,9 +97,10 @@ def login_callback(request):
 def user_logout(request):
     if request.user.is_authenticated():
         user_profile = UserProfile.objects.get(user=request.user)
-        print sso_client.get_logout_url(user_profile.sid)
+        #print sso_client.get_logout_url(user_profile.sid)
         logout(request)
-        return redirect(sso_client.get_logout_url(user_profile.sid))
+        if not sso_client.is_test:
+            return redirect(sso_client.get_logout_url(user_profile.sid))
     return redirect("/main")
 
 

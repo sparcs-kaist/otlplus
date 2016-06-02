@@ -64,6 +64,9 @@ def GradeFilters(raw_filters):
     return filters
 
 def search_view(request):
+    if not request.session.get('visited'):
+        request.session['visited'] = True
+        return HttpResponseRedirect("/tutorial/")
     if request.user.is_authenticated():
         user_profile = UserProfile.objects.get(user=request.user)
         if len(user_profile.language) == 0:
@@ -111,6 +114,30 @@ def search_view(request):
     }
 
     return render(request, 'review/search.html',ctx)
+
+def search_view_first(request):
+    return render(request, 'review/tutorial-main.html')
+
+def search_view_first_again(request):
+    drugs = [
+        "하하! 다시보니 반갑군요!",
+        "튜토리얼의 협곡에 오신 것을 환영합니다.",
+        "안뇽! 튜토리얼에 온 걸...화녕행!!!!",
+        "안녕! 친구들! 튜토리얼이 왔어!",
+        "튜토리얼이 진다..",
+        "어서 와요! 꽤 보고싶었다구요?",
+        "아이고, 이게 누구신가!",
+            ]
+    return render(request, 'review/tutorial-main-2.html', {'hello_message': drugs[random.randint(0, len(drugs)-1)],})
+
+def search_view_first2(request):
+    return render(request, 'review/tutorial-sparcssso.html')
+
+def search_view_first3(request):
+    return render(request, 'review/tutorial-write.html')
+
+def search_view_first4(request):
+    return render(request, 'review/tutorial-comeagain.html')
 #####################################################################################################
 
 
