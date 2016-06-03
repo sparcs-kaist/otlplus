@@ -40,6 +40,8 @@
     box-shadow: none !important;
     padding: 10px 15px;
     overflow: hidden;
+    resize: none;
+    overflow-y: auto;
 }
 #contents .insert-box:focus{
     border-color: #e64c65;
