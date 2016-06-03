@@ -38,6 +38,8 @@ urlpatterns = [
     url(r'^tutorial2/$', 'apps.review.views.search_view_first2'),
     url(r'^tutorial3/$', 'apps.review.views.search_view_first3'),
     url(r'^tutorial4/$', 'apps.review.views.search_view_first4'),
+    url(r'^credits/$', 'apps.review.views.credits'),
+    url(r'^licenses/$', 'apps.review.views.licenses'),
     url(r'^$', lambda x: HttpResponseRedirect('/main/')),
     url(r'^session/', include('apps.session.urls')),
     url(r'^review/', include('apps.review.urls')),

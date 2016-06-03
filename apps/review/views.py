@@ -766,3 +766,18 @@ def server_error(request):
     response.status_code = 500
 
     return response
+
+
+def licenses(request):
+    return render(request, 'licenses.html')
+
+
+def credits(request):
+    return render(request, 'credits.html')
+
+def dictionary(request, course_code):
+    courses = Course.objects.filter(old_code = str(course_code))
+    if len(courses)>0:
+        return HttpResponseRedirect('/review/result/course/'+str(courses[0].id))
+    raise Http404
+
