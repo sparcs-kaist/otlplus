@@ -63,7 +63,7 @@ def login_callback(request):
             user.save()
 
             try:
-                user_profile = UserProfile.objects.get(student_id=student_id)
+                user_profile = UserProfile.objects.get(student_id=sso_profile['sid'])
                 user_profile.user = user
             except:
                 user_profile = UserProfile(student_id=student_id, user = user)
