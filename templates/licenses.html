@@ -1,0 +1,74 @@
+{% extends "review/layout.html" %}
+{% load staticfiles %}
+
+{% block title %}
+  {{ block.super }}
+{% endblock %}
+
+{% block metatags %}
+  {{ block.super }}
+{% endblock %}
+
+{% block stylesheets %}
+  {{ block.super }}
+  <link rel="stylesheet" type="text/css" href="/media/css/components/header/result.css">
+  <link rel="stylesheet" type="text/css" href="/media/css/review/components/option.css">
+  <link rel="stylesheet" type="text/css" href="/media/css/review/components/filter.css">
+  <link rel="stylesheet" type="text/css" href="/media/css/review/components/expect.css">
+  <link rel="stylesheet" type="text/css" href="/media/css/review/result.css">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
+{% endblock %}
+
+{% block javascripts %}
+  {{ block.super }}
+  <script type="text/javascript" src="/media/js/components/header.js"></script>
+  <script type="text/javascript" src="/media/js/review/components/course.js"></script>
+  <script type="text/javascript" src="/media/js/review/components/option.js"></script>
+  <script type="text/javascript" src="/media/js/review/result.js"></script>
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+
+{% endblock %}
+
+{% block header %}
+  {% include 'components/header.html' %}
+{% endblock %}
+
+{% block contents %}
+
+      
+  <div class="row">
+    <div class="col-xs-22 col-xs-offset-1 col-sm-20 col-sm-offset-2 col-md-18 col-md-offset-3 col-lg-16 col-lg-offset-4">
+
+      <div class="list-group sort_result" >
+            <div class="list-group-item" style="border-radius:4px; margin-top:20px;text-align:center;padding:20px 50px 20px 50px" >
+                <h2> Licenses </h2>
+                <p style="border-top:1px solid #eee;margin:20px;">
+                    <h4>ZURB In Tutorial</h4>
+                    ====<br/>
+                    </br>
+                    Joyride was made by [ZURB](http://www.zurb.com), a product design company in Campbell, CA.</br>
+                    </br>
+                    If Joyride knocks your socks off the way we hope it does and you want more, why not check out [our jobs](http://www.zurb.com/talent/jobs)?</br>
+                    </br>
+                    MIT Open Source License</br>
+                    =======================</br>
+                    </br>
+                    Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</br>
+                    </br>
+                    The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</br>
+                    </br>
+                THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+                </p>
+
+            </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block footer %}
+  {{ block.super }}
+{% endblock %}
