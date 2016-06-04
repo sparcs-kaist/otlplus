@@ -124,13 +124,13 @@ var loadItems = function() {
                 html.push('</span></div><div class="label-row col-xs-24"><table><tr><td style="vertical-align:top"><span class="label-title">담당 교수</span></td><td><div>')
                     for(i=0; i<result.prof_info.length;i++){
                         html.push('<span class="label-description" style="margin-right:5px"><span class="professors"><label>') 
-                        html.push('<input class="professor chkone" type="checkbox" autocomplete="off" name="',result.id,'" value="',result.prof_info[i].id ,'">') 
+                        html.push('<input class="professor chkone" type="checkbox" autocomplete="off" checked name="',result.id,'" value="',result.prof_info[i].id ,'">') 
                         html.push('<a href="/review/result/course/',result.id,'/',result.prof_info[i].id,'">')
                         html.push('<span class="label label-default">',result.prof_info[i].name , '</span>') 
                         html.push('</a>')
                         html.push('</label></span></span>') 
                     }
-                html.push(' </div></td></tr></table></div><div class="label-row col-xs-24" style="overflow-x: hidden;"><table><tr><td style="vertical-align:top"><span class="label-title">한줄 요약</span></td></tr></table><div class="table-responsive" style="margin-top: -31.6px; margin-bottom:-11px; width: auto; border: 0px;margin-left: 82px;"><table class="table"><tr><td style="border-top: 0px;"><span class="label-description" style="line-height: 23px;">')
+                html.push(' </div></td></tr></table></div><div class="label-row col-xs-24" style="overflow-x: hidden;overflow-y:hidden"><table><tr><td style="vertical-align:top"><span class="label-title">한줄 요약</span></td></tr></table><div class="table-responsive" style="margin-top: -31.6px; margin-bottom:-11px; width: auto; border: 0px;margin-left: 82px;"><table class="table"><tr><td style="border-top: 0px;"><span class="label-description" style="line-height: 23px;">')
                 html.push(result.summury)
                 html.push('</span></td></tr></table></div></div><div class="col-xs-24"><span class="score_table_bottom hid">')
                 html.push('<div class="score_table text-left col-xs-24">')
