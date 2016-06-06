@@ -54,4 +54,12 @@
    
 }
 
+
+.expect a.label.written{
+     background: #24bd1b;
+     color: #ffffff;
+     font-size:14px ;
+     border: 2px solid #24bd1b;
+}
+
 /*# sourceMappingURL=expect.css.map */
