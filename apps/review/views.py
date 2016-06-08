@@ -744,6 +744,7 @@ def LastCommentView_json(request, page=-1):
     context = {
             "results":results,
             "hasNext":page_obj.has_next(),
+            "is_login":request.user.is_authenticated(),
     }
     return JsonResponse(json.dumps(context),safe=False)
 

@@ -81,6 +81,7 @@ var loadItems = function() {
         success: function(responseData) {
             var data = JSON.parse(responseData);
             hasNextPage=data.hasNext;
+            var is_login = data.is_login;
             var html = [];
             html.push('<script type="text/javascript" src="/media/js/review/components/review.js"></s','cript>')
             $.each(data.results, function(index, result){
@@ -208,18 +209,22 @@ html.push('<div class="score_table text-left col-xs-24" style="margin-right:-40p
                     html.push('</div>')
 
                 html.push('</div>')
-                html.push('</span><div class="col-xs-24 button-box-review"><a class="declaration-button not-active"><i class="fa fa-exclamation-circle"></i>신고하기</a><a class="')
-                        if(result.already_up){
-                            html.push('declaration-button not-active ')
-                            html.push(result.id)
-                        }
-                        else{
-                            html.push('like-button ')
-                            html.push(result.id)
-                        }
-                html.push('" id="')
-                html.push(result.id)
-                html.push('" style="padding-right:0px"><i class="fa fa-thumbs-up"></i>좋아요</a></div></div></div></div></div></div>')
+                html.push('</span>')
+                if(is_login){
+                    html.push('<div class="col-xs-24 button-box-review"><a class="declaration-button not-active"><i class="fa fa-exclamation-circle"></i>신고하기</a><a class="')
+                            if(result.already_up){
+                                html.push('declaration-button not-active ')
+                                html.push(result.id)
+                            }
+                            else{
+                                html.push('like-button ')
+                                html.push(result.id)
+                            }
+                    html.push('" id="')
+                    html.push(result.id)
+                    html.push('" style="padding-right:0px"><i class="fa fa-thumbs-up"></i>좋아요</a></div>')
+                }
+                html.push('</div></div></div></div></div>')
 
 
 
