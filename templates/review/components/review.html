@@ -5,13 +5,17 @@
                <input type="hidden" id="csrf_token" value="{{csrf_token}}">
                <input type="hidden" name="{{result.id}}" value="{{result.course_id}}">
                <input type="hidden" name="course_id" value="{{result.id}}">
-               <h4 style="margin-top:6px; line-height:1.2" class="ellipsis-content">{{ result.lecture_title }} <small class="text-muted">{{ result.professor_name }}     {{ result.lecture_year }}</small></h4>
+               <h4 style="margin-top:6px; margin-bottom:0px;line-height:1.2" class="ellipsis-content">{{ result.lecture_title }}</h4>
             </div>
             <div class="col-xs-24 col-sm-24 col-md-12">
                 <span class="hidr-r">
                 {% include 'review/components/score_table-review.html'%}
                 </span>
             </div>
+           <div id="{{result.id}}" style="cursor:Pointer" class="label-title lecture ellipsis-wrapper col-xs-24">
+               <h4 style="margin-top:3px; line-height:1.2" class="ellipsis-content"><small class="text-muted">{{ result.professor_name }}     {{ result.lecture_year }}</small></h4>
+            </div>
+
       <div class="col-xs-24 comment text-muted " style="cursor:Pointer" id="{{result.id}}">
          <input type="hidden" name="{{result.id}}" value="{{result.id}}">
         <p>{{ result.comment|linebreaks }}</p>
