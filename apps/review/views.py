@@ -225,6 +225,7 @@ def SearchCourse(course,id=-1):
     result = {
         "type":"course",
         "id":course.id,
+        "code":course.old_code,
         "title":course.title,
         "summury":summury,
         "prof_info":sorted(prof_info, key = lambda x : x['name']),
@@ -250,6 +251,7 @@ def SearchComment(request, comment):
         "type":"comment",
         "id":comment.id,
         "course_id":comment.course.id,
+        "course_code":comment.course.old_code,
         "lecture_title":comment.lecture.title,
         "lecture_year":comment.lecture.year,
         "professor_name":professor_name,

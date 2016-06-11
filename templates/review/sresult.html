@@ -84,7 +84,7 @@ var loadItems = function() {
 
 html.push('<div class="panel panel-default review"><div class="panel-body"><div class="row">')
 html.push('<div id="',result.id,'" class="label-title lecture ellipsis-wrapper col-xs-24 col-sm-24 col-md-12">')
-html.push('<h4 style="margin-top:6px;" class="ellipsis-content">',result.lecture_title,'<small class="text-muted">',result.professor_name, result.lecture_year,'</small></h4>')
+html.push('<h4 style="margin-top:6px;margin-bottom:0px;line-height:1.2" class="ellipsis-content">',result.course_code,' : ',result.lecture_title,'</h4>')
 html.push('</div><div class="lecture col-xs-24 col-sm-24 col-md-12">')
 html.push('<input type="hidden" name="',result.id,'" value="',result.course_id,'">')
 html.push('<input type="hidden" name="course_id" value="',result.id,'">')
@@ -138,8 +138,11 @@ html.push('<div class="score_table text-left col-xs-24" style="margin-right:-40p
                                 html.push('</span>')
                     html.push('</div>')
                 html.push('</div>')
-
-                html.push('</span></div><div class="col-xs-24 comment text-muted " id="')
+                html.push('</span></div>')
+                html.push('<div id="',result.id,'" class="label-title lecture ellipsis-wrapper col-xs-24">')
+                html.push('<h4 style="margin-top:3px;line-height:1.2" class="ellipsis-content"><small class="text-muted">',result.professor_name, result.lecture_year,'</small></h4>')
+                html.push('</div>')
+                html.push('<div class="col-xs-24 comment text-muted " id="')
                 html.push(result.id)
                 html.push('"><input type="hidden" name="')
                 html.push(result.id)

@@ -78,7 +78,7 @@ var loadItems = function() {
             $.each(data.results, function(index, result){
                 html.push('<div class="panel panel-default course"><div class="panel-body"><div class="row"><div class="label-title ellipsis-wrapper col-xs-24 col-sm-12 col-md-13 col-lg-14">')
                 html.push('<h4 style="margin-top:6px" class="ellipsis-content">')
-                html.push(result.title)
+                html.push(result.code,' : ',result.title)
                 html.push('</h4></div><div class="col-xs-24 col-sm-12 col-md-11 col-lg-10">')
                 html.push('<input type="hidden" name="course_id" value="',result.id,'">')
                 html.push('<span class="hid-r">')
