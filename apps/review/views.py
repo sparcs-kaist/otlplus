@@ -678,7 +678,7 @@ def ReviewRefresh(request):
     user_profile = UserProfile.objects.get(user=user)
     student_id = user_profile.student_id
     if not student_id == '':
-        os.chdir('/var/www/otlplus/')
+#    os.chdir('/var/www/otlplus/')
         os.system('python update_taken_lecture_user.py %s' % student_id)
     return HttpResponseRedirect('../insert')
 
