@@ -25,11 +25,15 @@ $(".review .like-button").click(function(){
                 if(data.already_up){
                 }
                 else{
+					//alert(JSON.stringify(data.id).replace(/\"/g,""))
                     target = "."+JSON.stringify(data.id).replace(/\"/g,"")+".like_num";
                     $(target).text(data.likes_count);
                     target = "a."+JSON.stringify(data.id).replace(/\"/g,"");
                     $(target).addClass("not-active declaration-button");
                     $(target).removeClass("like-button");
+					target = "i."+JSON.stringify(data.id).replace(/\"/g,"");
+					$(target).addClass("fa-check");
+					$(target).removeClass("fa-thumbs-up");
                 }
             }
         },

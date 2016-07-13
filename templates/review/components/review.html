@@ -69,8 +69,12 @@
                     </a>
                     <a class="{% if result.already_up %}declaration-button not-active{% else %}like-button{% endif %} {{result.id}}" id="{{result.id}}" style="padding-right:0px">
 
-                        <i class="fa fa-thumbs-up"></i>
-                        좋아요
+						{% if result.already_up %}
+						<i class="fa fa-check {{result.id}}"></i>
+						{% else %}
+						<i class="fa fa-thumbs-up {{result.id}}"></i>
+						{% endif %}
+						 좋아요
                     </a>
                 </div>
                 {% endif %}
