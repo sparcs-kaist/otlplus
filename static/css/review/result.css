@@ -1,9 +1,7 @@
 #contents {
     position:relative;
-    padding-top: 25px;
+    padding-top: 5px;
     background-color: #f9f0f0;
-}
-#contents #options {
 }
 #contents #options:active {
     display: block;
@@ -13,6 +11,7 @@
     margin: 0px;
     margin-bottom: 20px;
     width: 100%;
+    min-width: 260px;
 }
 #contents > .row:nth-of-type(1) form.row > div {
     position: relative;
@@ -39,5 +38,11 @@
         display: none;
   }
 }
+@media (max-width: 390px) {
+    .course .score_table .col-xs-12{
+        width:50% !important;
+    }
+}
+
 
 /*# sourceMappingURL=result.css.map */

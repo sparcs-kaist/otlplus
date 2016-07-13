@@ -1,0 +1,148 @@
+.review {
+    margin-top: 20px;
+    border: 0px solid #ffffff;
+    -webkit-box-shadow: 0 3px 0px rgba(0, 0, 0, 0.2);
+    min-width: 260px;
+}
+.review .panel-body {
+    padding: 10px 25px 10px 25px;
+}
+.review .panel-body .comment p {
+    word-break: break-all;
+    white-space: normal;
+}
+
+.review .panel-body div.row > div:nth-of-type(1) > h4{ 
+    margin-bottom: 15px;
+}
+.review .panel-body div.row > div:nth-of-type(2) > span{
+    margin-bottom: 10px;
+    margin-right:1px;
+}
+.review .panel-body div.row div.label-row{
+    margin-bottom: 5px;
+    padding-right: 25px;
+}
+.review .panel-body div.row span.label-title {
+    display: inline-block;
+    width: 75px;
+    font-weight: normal;
+    border-right: 2px solid #aaaaaa;
+    margin-right: 15px;
+    margin-top: 2px;
+}
+.review .panel-body div.comment {
+    margin-top: -10px;
+    padding: 0px 17px 0px 17px;
+}
+    background: #e44e68;
+}
+.review .panel-body div.row div .panel-title {
+    margin-bottom: 20px;
+}
+.score_letter{
+    color: #db6c7c;
+}
+.score_table tbody tr td, .table-borderless tbody tr th, .table-borderless thead tr th {
+    border: none;
+    padding: 3px;
+    width:56px;
+}
+@media(max-width:370px){
+.score_table_bottom{
+    margin-left:-23px;
+    float:left;
+}
+}
+@media(min-width:370px){
+.score_table_bottom{
+    min-width:280px;
+    margin-left:-23px;
+    float:left;
+}
+}
+
+@media(max-width:440px){
+.score_table_bottomr{
+    margin-left:-1px;
+    margin-right:-20px;
+    max-width: 210px;
+    float:right;
+}
+}
+
+
+@media(min-width:441px) and (max-width:767px){
+.score_table_bottomr{
+    min-width:350px;
+    margin-right:-20px;
+    margin-left:-1px;
+    float:right;
+}
+}
+
+@media (min-width:768px) and (max-width:1030px){
+.score_table_bottomr{
+    margin-left:-1px;
+    margin-right:-20px;
+    max-width: 210px;
+    float:right;
+}
+}
+
+
+@media(min-width:1031px){
+.score_table_bottomr{
+    min-width:350px;
+    margin-right:-20px;
+    margin-left:-1px;
+    float:right;
+}
+}
+
+
+.score-elem{
+    width:25%;
+}
+}
+@media(min-width:768px){
+    .course .table-responsive .table{
+        margin-bottom:0px;
+    }
+}
+.score-elem{
+    display:inline-block;
+    padding:3px;
+}
+
+.score-elem-review{
+    float:right !important;
+}
+    
+.hidr-r{
+    display:none;
+}
+
+.like-button, .declaration-button{
+    display: none;
+}
+
+
+.not-active{
+    pointer-events:none;
+    cursor:default;
+}
+.review .panel-body .lecture:hover {
+    color:#999;
+}
+.review .panel-body .comment:hover {
+    color:#999;
+}
+
+.col-md-12 {
+    width:100% !important;
+}
+
+/*# sourceMappingURL=course.css.map */
+
+

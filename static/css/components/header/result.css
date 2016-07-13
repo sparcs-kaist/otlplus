@@ -19,21 +19,29 @@
     background-color: #ffffff;
 }
 .navbar .navbar-collapse ul.navbar-nav a {
-    color: #ffffff !important;
+    color: #ffffff ;
 }
-.navbar .navbar-collapse ul.navbar-nav a:hover,
-.navbar .navbar-collapse ul.navbar-nav a:focus {
+.navbar .navbar-collapse ul.navbar-nav a:hover{
     color: #dddddd !important;
+}
+.navbar .navbar-collapse ul.navbar-nav li.divider{
+     margin: 4px 0;
 }
 .navbar .navbar-collapse ul.navbar-nav li.active a,
 .navbar .navbar-collapse ul.navbar-nav li.dropdown a {
+    color: #ffffff;
     background: transparent;
 }
+
 .navbar .navbar-collapse ul.navbar-nav li.active a:hover,
 .navbar .navbar-collapse ul.navbar-nav li.active a:focus,
 .navbar .navbar-collapse ul.navbar-nav li.dropdown a:hover,
 .navbar .navbar-collapse ul.navbar-nav li.dropdown a:focus {
     background: transparent;
+
+}
+a:hover{
+    cursor:Pointer;
 }
 .navbar .navbar-collapse ul.navbar-nav.navbar-right li {
     position: relative;
@@ -49,16 +57,23 @@
 .navbar .navbar-collapse form.navbar-form input {
     background: #ffffff;
 }
+
 .navbar .navbar-collapse form.navbar-form button {
+    outline: 0px;
     border: none;
     color: #ffffff;
     background: #ce1c3a;
 }
+.navbar .navbar-collapse form.navbar-form button:hover {
+    color: #ffffff;
+    background: #BD1330;
+}
+
 .navbar .navbar-collapse form.navbar-form button.active {
     color: #000000;
     background: #ffffff;
 }
-@media (max-width: 768px) {
+@media (max-width: 767px) {
     .navbar .navbar-collapse {
         background: #e54c65;
     }
@@ -72,7 +87,7 @@
       display:none;
     }
 }
-@media (max-width: 992px) {
+@media (max-width: 1140px) {
     .header_hide{
         display:none;
     }
@@ -108,6 +123,25 @@
     }
     .float-right{
         float:right !important;
+    }
+    .navbar-nav>li>.dropdown-menu {
+        border: 0px solid #ffffff;
+        -webkit-box-shadow: 0 3px 0px rgba(0, 0, 0, 0.2);
+        background-color: white;
+        border-radius: 4px;
+        min-width: 80px;
+        margin: 5px 14px;
+        text-align: center;
+    }
+    .navbar .navbar-collapse ul.navbar-nav li.active li a,
+    .navbar .navbar-collapse ul.navbar-nav li.dropdown li a {
+        color:black;
+        background-color: white;
+    }
+    .navbar .navbar-collapse ul.navbar-nav li.active li a:hover,
+    .navbar .navbar-collapse ul.navbar-nav li.dropdown li a:hover{
+        background-color: white;
+        color: #888888 !important;
     }
 
 

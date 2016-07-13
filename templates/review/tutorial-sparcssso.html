@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    
+    <!-- Attach Joyride CSS -->
+    <link rel="stylesheet" href="/media/js/joyride-master/joyride-2.1.css">
+
+    <title>SPARCS SSO 튜토리얼 
+    </title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <script src="//code.jquery.com/jquery-1.11.2.min.js">
+    </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js">
+    </script>
+    <link rel="stylesheet" type="text/css" href="/static/css/main.css">
+    <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.11.3/jquery-ui.min.js">
+    </script>
+    <script src="/static/js/validator.min.js">
+    </script>
+  </head>
+  <body>
+    <nav class="navbar navbar-default">
+      <div class="container-fluid container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+            <span class="icon-bar">
+            </span>
+            <span class="icon-bar">
+            </span>
+            <span class="icon-bar">
+            </span>
+          </button>
+          <a class="navbar-brand" href="/">SPARCS SSO
+          </a>
+        </div>
+        <div class="collapse navbar-collapse" id="navbar">
+          <ul class="nav navbar-nav">
+            <li>
+              <a href="/stats/">Stats
+              </a>
+            </li>
+            <li>
+              <a href="/help/">Help
+              </a>
+            </li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li>
+              <a href="/account/signup/">회원가입
+              </a>
+            </li>
+            <li>
+              <a href="/account/login/">로그인
+              </a>
+            </li>
+            <li>
+              <a href="/account/password/reset/">비밀번호 재설정
+              </a>
+            </li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">한국어 
+                <span class="caret">
+                </span>
+              </a>
+              <ul class="dropdown-menu" role="menu">
+                <li>
+                  <a href="/lang/ko/">한국어
+                  </a>
+                </li>
+                <li>
+                  <a href="/lang/en/">English
+                  </a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <section class="container">
+      <h1>SPARCS SSO 로그인
+      </h1>
+      <p>SPARCS SSO에 오신 것을 환영합니다!
+      </p>
+      <form class="form-horizontal" action="/account/login/" method="post">
+        <fieldset>
+          <input type='hidden' name='csrfmiddlewaretoken' value='nyG65s5fzplTP6KocClXuKGbaoJWD6nT' />
+          <div class="row">
+          </div>
+          <div class="row">
+            <p>OTL Plus를 사용하기 위해서는 SPARCS SSO 계정이 필요합니다.
+            </p>
+            <p>
+              <a href="/help/">도움말
+              </a> 페이지에서 더 자세한 정보를 확인할 수 있습니다.
+            </p>
+          </div>
+          <div class="row">
+            <div class="col-sm-6 col-md-offset-1 col-md-5">
+              <h4>이메일로 로그인 / 회원가입
+              </h4>
+              <div class="form-group">
+                <div class="col-xs-offset-1 col-xs-10 col-sm-offset-0 col-sm-12">
+                  <input type="email" class="form-control" name="email" placeholder="Email" required="required">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-xs-offset-1 col-xs-10 col-sm-offset-0 col-sm-12">
+                  <input type="password" class="form-control" name="password" placeholder="Password" required="required">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-xs-12">
+                  <button type="submit" class="btn btn-primary">로그인
+                  </button>
+                  <a class="btn btn-warning" href="/account/signup/">회원가입
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6 col-md-5">
+              <h4>소셜 계정으로 로그인 / 회원가입
+              </h4>
+              <p>
+                <a class="social-icon" href="/account/login/fb/">
+                  <img src="https://sparcssso.kaist.ac.kr/static/img/fb.png" alt="Facebook Login" width="83" height="83">
+                </a> &nbsp; &nbsp; &nbsp;
+                <a class="social-icon" href="/account/login/tw/">
+                  <img src="https://sparcssso.kaist.ac.kr/static/img/tw.png" alt="Facebook Login" width="83" height="83">
+                </a> &nbsp; &nbsp; &nbsp;
+                <a class="social-icon" href="/account/login/kaist/">
+                  <img id="nupjook" src="https://sparcssso.kaist.ac.kr/static/img/kaist.png" alt="Facebook Login" width="83" height="83">
+                </a>
+              </p>
+            </div>
+          </div>
+        </fieldset>
+      </form>
+    </section>
+    <footer class="container">
+      <p class="info">
+        <a href="/credits/">만든 사람들
+        </a> |
+        <a href="/terms/">이용 약관
+        </a> |
+        <a href="/privacy/">개인정보취급방침
+        </a>
+      </p>
+      <p class="info">
+        <a href="#">개발팀 (sso@sparcs.org)
+        </a> |
+        <a href="#">관리자 (sso.sysop@sparcs.org)
+        </a>
+      </p>
+      <p class="copyright">
+        Copyright © 2016,
+        <a href="http://sparcs.kaist.ac.kr">
+          <span style="color:#FF3399">S
+          </span>
+          <span style="color:#33CC66">P
+          </span>
+          <span style="color:#00CCFF">A
+          </span>
+          <span style="color:#FF9900">R
+          </span>
+          <span style="color:#33CCCC">C
+          </span>
+          <span style="color:#9966FF">S
+          </span>
+        </a>
+        SSO Team
+      </p>
+    </footer>
+    <ol id="joyRideTipContent">
+      <li data-id="nupjook" data-text="Next" class="custom">
+        <h2>KAIST 포탈 인증</h2>
+        <p>OTL에서 후기를 작성하려면 포탈 인증이 필요합니다. 넙죽이를 눌러 포탈 인증을 통한 SPARCS SSO 가입이 가능합니다. 넙죽이를 기억해주세요!</p>
+      </li>
+    </ol>
+    <!-- Run the plugin -->
+     <script type="text/javascript" src="/media/js/joyride-master/jquery-1.10.1.js"></script>
+     <script type="text/javascript" src="/media/js/joyride-master/jquery.cookie.js"></script>
+     <script type="text/javascript" src="/media/js/joyride-master/modernizr.mq.js"></script>
+     <script type="text/javascript" src="/media/js/joyride-master/jquery.joyride-2.1.js"></script>
+     <script>
+       $(window).load(function() {
+         $('#joyRideTipContent').joyride({
+           autoStart : true,
+           postStepCallback : function (index, tip) {
+           /*
+           if (index == 2) {
+             $(this).joyride('set_li', false, 1);
+           }
+           */
+         },
+         modal:true,
+         expose: true
+         });
+        });
+        $(document).on("click",".joyride-next-tip:eq(0)", function() {
+            $(location).attr('href', "../tutorial3")
+        });
+    $(window).resize(function() {
+        if ($(window).width()<768){
+            $(location).attr('href', "/main")
+        };
+    });
+      $(document).ready(function(){
+        if ($(window).width()<768){
+          $(location).attr('href', "/main")
+        };
+      });
+
+     </script>
+        </body>
+</html>
+

@@ -5,7 +5,7 @@ class Lecture(models.Model):
     old_code = models.CharField(max_length=10, db_index=True)
     year = models.IntegerField(db_index=True)
     semester = models.SmallIntegerField(db_index=True)
-    department = models.ForeignKey('Department') 
+    department = models.ForeignKey('Department')
     class_no = models.CharField(max_length=4, blank=True)
     title = models.CharField(max_length=100, db_index=True)
     title_en = models.CharField(max_length=200, db_index=True)
@@ -28,7 +28,7 @@ class Lecture(models.Model):
     load_sum = models.IntegerField(default=0)
     speech_sum = models.IntegerField(default=0)
     total_sum = models.FloatField(default=0.0)
- 
+
     grade = models.FloatField(default=0.0)
     load = models.FloatField(default=0.0)
     speech = models.FloatField(default=0.0)
@@ -77,7 +77,8 @@ class Course(models.Model):
     type_en = models.CharField(max_length=36)
     title = models.CharField(max_length=100, db_index=True)
     title_en = models.CharField(max_length=200, db_index=True)
-    
+    summury = models.CharField(max_length=4000, default = "")
+
     grade_sum = models.IntegerField(default=0)
     load_sum = models.IntegerField(default=0)
     speech_sum = models.IntegerField(default=0)
@@ -104,7 +105,7 @@ class Course(models.Model):
 
     def __unicode__(self):
         return u"%s(%s)"%(self.title,self.old_code)
-    
+
 class Professor(models.Model):
     professor_name = models.CharField(max_length=100, db_index=True)
     professor_name_en = models.CharField(max_length=100, blank=True, null=True)
@@ -135,7 +136,7 @@ class Professor(models.Model):
             self.load = 0.0
             self.speech = 0.0
             self.total = 0.0
-    
+
     def __unicode__(self):
 	    return u"%s(id:%d)"%(self.professor_name,self.professor_id)
 

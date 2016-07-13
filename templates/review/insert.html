@@ -18,69 +18,115 @@
 
 {% block javascripts %}
   <script type="text/javascript" src="/media/js/components/header.js"></script>
+  <script type="text/javascript" src="/media/js/review/components/option.js"></script>
+  <script type="text/javascript" src="/media/js/review/insert.js"></script>
   {{ block.super }}
 {% endblock %}
 
 {% block header %}
   {{ block.super }}
-  {% include 'components/header/insert.html' %}
+  {% include 'components/header.html' with is_main=True %}
 {% endblock %}
 
 {% block contents %}
   <div class="row">
     <div class="col-xs-22 col-xs-offset-1 col-sm-20 col-sm-offset-2 col-md-18 col-md-offset-3 col-lg-16 col-lg-offset-4">
+
+
+
+
       {% include 'review/components/expect.html' with view='insert' lectures=object %}
     </div>
     <form id="contact" method="post" class="col-xs-22 col-xs-offset-1 col-sm-20 col-sm-offset-2 col-md-18 col-md-offset-3 col-lg-16 col-lg-offset-4">
-        <div class="panel panel-default expect">
-            <div class="panel-heading">
-                <div class="panel-title">
-                    {%ifnotequal subjectname ""%}
-                        <h4>{{subjectname}}</h4>
-                    {%else%}
-                        <h4>과목을 선택해 주세요</h4>
-                    {%endifnotequal%}
-                </div>
+        <div class="panel-b col-xs-24 expect">
+            <div class="select_menu panel-title">
+                {%ifnotequal subjectname ""%}
+                    <h4>{{subjectname}}</h4>
+                {%else%}
+                    <h4>과목을 선택해 주세요</h4>
+                {%endifnotequal%}
             </div>
             <div class="panel-body">  
-              <div class="text-right">
-                <label>
-                 학점
-                <select {%ifequal semester "0"%}disabled="disabled"{%endifequal%} class="form-control" name="gradescore">
-                  {% for single_grade in gradelist %}
-                    <option value={{forloop.counter}} {% ifequal grade single_grade %}selected{%endifequal%}>{{single_grade}}</option>
-                  {% endfor %}
-                </select>
-                </label>
-                <label>
-                널널
-                <select {%ifequal semester "0"%}disabled="disabled"{%endifequal%} class="form-control" name="loadscore">
-                  {% for single_grade in gradelist %}
-                    <option value={{forloop.counter}} {% ifequal load single_grade %}selected{%endifequal%}>{{single_grade}}</option>
-                  {% endfor %}
-                </select>
-                </label>
-                <label>
-                강의
-                <select {%ifequal semester "0"%}disabled="disabled"{%endifequal%} class="form-control" name="speechscore">
-                  {% for single_grade in gradelist %}
-                    <option value={{forloop.counter}} {% ifequal speech single_grade %}selected{%endifequal%}>{{single_grade}}</option>
-                  {% endfor %}
-                </select>
-                </label>
-              </div>
-              <div style="margin-top: 25px;">
+
+              <div style="margin-top: 15px;">
+                <div class="insert-div">
                 {% csrf_token %}
-                <textarea {%ifequal semester "0"%}disabled="disabled"{%endifequal%} class="form-control" name="content" rows= "10" placeholder = "{{reviewguideline}}">{{comment}}</textarea>
+                <textarea {%ifequal semester "0"%}disabled="disabled"{%endifequal%} class="form-control insert-box" name="content" rows= "10" placeholder = "{{reviewguideline}}">{{comment}}</textarea>
                 <input type="hidden" name = "lectureid" value = {{lecture_id}} />
                 <input type="hidden" name = "semester" value = {{semester}} />
-                <div class="text-right" style="margin-top: 25px;">
-                  {%ifnotequal comment ""%}<input type="submit" class="btn btn-danger" formaction = "../../../delete/" value="clear">{%endifnotequal%}
-                  <input type="submit" {%ifequal semester "0"%}disabled="disabled"{%endifequal%} class="btn btn-primary" formaction = "./add/" value="저장하기">
-                </div>
             </div>
-        </div>
+            <div style="width:230px;vertical-align:top;display:inline-block">
+            <table class="col-xs-24">
+                <tr>
+                <td class="radio-head">
+                 성적
+             </td>
+             <td>
+                <div class="col-xs-24" style="padding:0px">
+                  {% for single_grade in gradelist %}
+                    <label class="label-radio text-left">
+                        <input type="radio" name="gradescore" class="hidden chkone" value={{forloop.counter}} {% ifequal grade single_grade %}checked{%endifequal%}>
+                        {{single_grade}}
+                    </label>
+                  {% endfor %}
+                </div>
+            </td>
+                </tr>
+                 <tr >
+                <td class="radio-head">
+                 널널
+             </td>
+             <td>
+                <div class="col-xs-24" style="padding:0px">
+                  {% for single_grade in gradelist %}
+                    <label class="label-radio text-left">
+                        <input type="radio" name="loadscore" class="hidden chkone" value={{forloop.counter}} {% ifequal load single_grade %}checked{%endifequal%}>
+                        {{single_grade}}
+                    </label>
+                  {% endfor %}
+                </div>
+            </td>
+                </tr>
+                  <tr >
+                <td class="radio-head">
+                 강의
+             </td>
+             <td>
+                <div class="col-xs-24" style="padding:0px">
+                  {% for single_grade in gradelist %}
+                    <label class="label-radio text-left">
+                        <input type="radio" name="speechscore" class="hidden chkone" value={{forloop.counter}} {% ifequal speech single_grade %}checked{%endifequal%}>
+                        {{single_grade}}
+                    </label>
+                  {% endfor %}
+                </div>
+            </td>
+                </tr>
+                {% ifnotequal -1 like %}
+                <tr>
+                <td class="radio-head">
+                 추천
+             </td>
+             <td>
+                <div class="col-xs-24" style="padding:0px">
+                    <label class="label-radio text-left">
+                    {{like}}
+                    </label>
+                </div>
+            </td>
+                </tr>
+                {% endifnotequal %}
+            </table>
+                </div>
+        
+           </div>
+           </div>
     </div>
+                <div class="text-right" style="margin-top: 25px;">
+                  {%ifnotequal comment ""%}<input type="submit" class="btn btn-review-delete" formaction = "../../../delete/" value="삭제">{%endifnotequal%}
+                  <input type="submit" {%ifequal semester "0"%}disabled="disabled"{%endifequal%} class="btn btn-review-upload" formaction = "./add/" value="업로드">
+                </div>
+ 
   </form>
 {% endblock %}
 

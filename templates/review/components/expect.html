@@ -4,86 +4,35 @@
     {{reviewmsg|safe|escape}}
 </div>
 {% endifnotequal %}
-<div class="panel panel-default expect" style="margin-bottom:20px">
-  <div class="panel-heading">
-    <div class="panel-title">
-      <h4>학기를 선택해 주세요</h4>
+<div class="panel expect" style="display:inline-block;padding-right:5px">
+    <div class="panel-title" style="display:inline-block">
+      <h4 style="display:inline-block">학기 선택</h4>
     </div>
-  </div>
-  <div class="panel-body">
-    <div class="row">
-        <div class="col-xs-24">
+  <div class="panel-body" style="line-height:2.3;padding-left:0px; padding-right:0px ;padding-bottom:5px;display:inline-block">
         {%for sem_num,sem_korstr in semesters%}
-        <span class="h4">   
-            <a href="/review/insert/-1/{{sem_num}}/" class="label label-default">
+        <span class="label-a">
+            <a href="/review/insert/-1/{{sem_num}}/" id="{{sem_num}}" class="label deactive">
                 {{sem_korstr}}
             </a>
-        </span>
+         </span>
         {%endfor%}
-      </div>
-    </div>
   </div>
 </div>
 {% endif %}
-<div class="panel panel-default expect" style="margin-bottom:20px">
-  <div class="panel-heading">
+<div class="panel-b col-xs-24 expect" >
     <div class="panel-title">
       {% if view == 'insert' %}
-        <h4>과목을 선택해 주세요</h4>
+        <h4>어떤 과목의 후기를 쓰실건가요?</h4>
       {% else %}
         <h4>혹시 이 교수님을 검색하셨나요?</h4>
       {% endif %}
     </div>
-  </div>
   <div class="panel-body">
-    <div class="row">
-      <div class="col-xs-24">
-        {% if lectures|length == 0 %}
-          <span class="h4">
-            <a href="" class="label label-default">
-              세상끝에 홀로 남겨져가고
-            </a>
-          </span>
-          <span class="h4">
-            <a href="" class="label label-default">
-              혼자였나요
-            </a>
-          </span>
-          <span class="h4">
-            <a href="" class="label label-default">
-              아주 오랫도록 내가 지켜낼
-            </a>
-          </span>
-          <span class="h4">
-            <a href="" class="label label-default">
-              사랑이니까
-            </a>
-          </span>
-          <span class="h4">
-            <a href="" class="label label-default">
-              Love In The Ice
-            </a>
-          </span>
-          <span class="h4">
-            <a href="" class="label label-default">
-              넌 나를 원해 넌 내게 빠져 넌 내게 미쳐
-            </a>
-          </span>
-          <span class="h4">
-            <a href="" class="label label-default">
-              I got you, under my skin
-            </a>
-          </span>
-          <span class="h4">
-            <a href="" class="label label-default">
-              주문(Mirotic)
-            </a>
-          </span>
-        {% else %}
+      <div class="col-xs-24" style="padding:0px">
           {% for lecture in lectures %}
             {% if view == 'insert' %}
-              <span class="h4">
-                <a href="/review/insert/{{ lecture.lecid }}/{{ lecture.lectime }}/" class="label label-default">
+              <span class="label-b">
+                  <a id="l{{lecture.lecid}}" href="/review/insert/{{ lecture.lecid }}/{{ lecture.lectime }}/" class="label deactive {% if lecture.comment != "" %}written{% endif %}">
                   {{ lecture.title }}({{ lecture.old_code }} {{ lecture.professor }}){% ifequal semester "0"%}({{ lecture.year }} {{ lecture.sem_char }}){% endifequal %}
                 </a>
               </span>
@@ -95,8 +44,6 @@
               </span>
             {% endif %}
           {% endfor %}
-        {% endif %}
-      </div>
     </div>
   </div>
 </div>

@@ -19,7 +19,7 @@ class Command(BaseCommand):
 
             def PeriodToYearSemester(num):
                 now_year = timezone.now().year
-                now_semester = ((timezone.now()-timedelta(days=365/12*2)).month+2)/3
+                now_semester = ((timezone.now()-timedelta(days=61)).month+2)/3
                 result_year = now_year
                 if timezone.now().month<3:
                     result_year-=1
@@ -40,9 +40,9 @@ class Command(BaseCommand):
                     thissemester_coursefiltered.courses.add(course)
 
 
-        MakeCourseFilteredBySemester("NEXT", [1])
-        MakeCourseFilteredBySemester("NOW", [0])
-        MakeCourseFilteredBySemester("PREV", [-1])
+        MakeCourseFilteredBySemester("NEXT", [2,1])
+        MakeCourseFilteredBySemester("NOW", [1,0,-1])
+        MakeCourseFilteredBySemester("PREV", [-1,-2])
         MakeCourseFilteredBySemester("RECENT", [-1,-2,-3,-4])
 
         print "update coursefiltered ended!"

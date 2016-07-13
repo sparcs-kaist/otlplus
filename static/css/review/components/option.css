@@ -9,14 +9,14 @@
     -webkit-box-shadow: 0 3px 0px rgba(0, 0, 0, 0.2);
     display: none;
     position: relative;
-    margin-bottom: 25px;
+    margin-bottom: 10px;
 }
 #options.active {
     display: block;
 }
 @media (max-width: 767px) {
     #options {
-        margin-top: 115px;
+        margin-top:20px !important;
         padding: 10px;
     }
 }
@@ -35,6 +35,7 @@
     padding-top: 0;
 }
 #options .form-group .controls label {
+    font-size:16px;
     padding-right: 10px;
 }
 #options .form-group .controls label input[type="checkbox"],
@@ -68,4 +69,3 @@
     font-size: 16px;
     text-align: center; 
 }
-/*# sourceMappingURL=option.css.map */

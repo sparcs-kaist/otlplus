@@ -6,7 +6,7 @@ from apps.session.models import UserProfile
 class Comment(models.Model):
     course = models.ForeignKey(Course, db_index=True)
     lecture = models.ForeignKey(Lecture, db_index=True)
-    
+
     comment = models.CharField(max_length=65536)
     grade = models.SmallIntegerField(default=0)
     load = models.SmallIntegerField(default=0)
@@ -20,7 +20,7 @@ class Comment(models.Model):
 
     def __unicode__(self):
 	return u"%s(%s)"%(self.lecture,self.writer)
-    
+
     @classmethod
     def u_create(cls, course, lecture, comment, grade, load, speech, writer):
         professors = lecture.professor.all()
@@ -42,9 +42,9 @@ class Comment(models.Model):
         professors = lecture.professor.all()
         related_list = [course]+[lecture]+list(professors)
         for related in related_list:
-            related.grade_sum += (grade - self.grade)*3
-            related.load_sum += (load - self.load)*3
-            related.speech_sum += (speech - self.speech)*3
+            related.grade_sum += (self.like+1)*(grade - self.grade)*3
+            related.load_sum += (self.like+1)*(load - self.load)*3
+            related.speech_sum += (self.like+1)*(speech - self.speech)*3
             related.avg_update()
             related.save()
         self.comment = comment
@@ -52,6 +52,7 @@ class Comment(models.Model):
         self.load = load
         self.speech = speech
         self.total = (grade+load+speech)/3.0
+        self.like = 0
         self.save()
 
     def u_delete(self):
@@ -60,21 +61,40 @@ class Comment(models.Model):
         professors = lecture.professor.all()
         related_list = [course]+[lecture]+list(professors)
         for related in related_list:
-            related.grade_sum -= self.grade*3
-            related.load_sum -= self.load*3
-            related.speech_sum -= self.speech*3
-            related.comment_num -= 1
+            related.grade_sum -= (self.like+1)*self.grade*3
+            related.load_sum -= (self.like+1)*self.load*3
+            related.speech_sum -= (self.like+1)*self.speech*3
+            related.comment_num -= (self.like+1)
             related.avg_update()
             related.save()
         self.delete()
-   
 
-        
+
+
 
 class CommentVote(models.Model):
     comment = models.ForeignKey(Comment, related_name="comment_vote", null=False)
     userprofile = models.ForeignKey(UserProfile, related_name="comment_vote")
     is_up = models.BooleanField(null=False)
+
+    @classmethod
+    def cv_create(cls, comment, userprofile):
+        professors = comment.lecture.professor.all()
+        related_list = [comment.course]+[comment.lecture]+list(professors)
+        if comment.grade > 0 and comment.load > 0 and comment.speech > 0 :
+            for related in related_list:
+                related.grade_sum += comment.grade*3
+                related.load_sum += comment.load*3
+                related.speech_sum += comment.speech*3
+                related.comment_num += 1
+                related.avg_update()
+                related.save()
+        comment.like +=1
+        comment.save()
+        new = cls(userprofile=userprofile, comment=comment, is_up = True)
+        new.save()
+        return new
+
 
 class MajorBestComment(models.Model):
     comment = models.OneToOneField(Comment, related_name="major_best_comment", null=False, primary_key=True)

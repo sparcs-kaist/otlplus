@@ -1,5 +1,6 @@
-<nav class="navbar navbar-default navbar-fixed-top">
+<nav class="navbar navbar-default navbar-fixed-top" style="position:relative">
   <div class="container-fluid">
+      <div class="row">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header" aria-expanded="false">
         <span class="sr-only">Toggle navigation</span>
@@ -7,33 +8,48 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="/">OTL PLUS</a>
+      <a class="navbar-brand" href="/">OTL <span class="header_hide">Dictionary</span></a>
     </div>
-    <div class="collapse navbar-collapse" id="header">
+    <div class="header-middle collapse navbar-collapse" id="header">
       <ul class="nav navbar-nav">
         <li>
-          <a href="/review/result/">
+          <a href="/review/">
             따끈따끈 과목후기
           </a>
         </li>
         <li>
-          <a href="/review/insert/">
-            과목 후기 작성하기
+          <a href="/review/insert/" style="padding-right:0px">
+            과목후기 작성하기
           </a>
         </li>
       </ul>
-      <ul class="nav navbar-nav navbar-right">
+      {% if not is_main %}
+      <form class="hid-r navbar-form navbar-left float-right" role="search">
+        <div class="form-group">
+          <input id="keyword" type="text" name="q" class="form-control" placeholder="Search">
+        </div>
+        <button id="option" class="btn btn-default" type="button">필터</button>
+        <button id="search" class="btn btn-default" type="submit" formaction="/review/result/">검색</button>
+      </form>
+      {% endif %}
+      <ul class="nav navbar-nav navbar-right hid">
         {% if request.user.is_authenticated %}
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-            <img class="img-circle" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xfa1/v/t1.0-1/432012_304047929649454_123168203_n.jpg?oh=2ce13a532977f37b491ecd66fe5011d9&oe=56F77F2F&__gda__=1454696926_e158cb4c902de3d59e065ce2f1a78c5e">
-            {{ request.user }}
+              <span class="header_hide">
+                  {{request.user.last_name}}{{ request.user.first_name }}
+        </span>
             <span class="caret"></span>
           </a>
           <ul class="dropdown-menu">
             <li>
-              <a href="/session/">
+              <a href="/session/settings">
                 마이페이지
+              </a>
+             <li role="separator" class="divider"></li>
+            <li>
+              <a href="https://sparcssso.kaist.ac.kr/account/profile/">
+                SPARCSSSO
               </a>
             </li>
             <li role="separator" class="divider"></li>
@@ -52,6 +68,51 @@
         </li>
         {% endif %}
       </ul>
+  </div>
+
+  </div>
+    <div class="header-end collapse navbar-collapse" id="header">
+      <ul class="nav navbar-nav navbar-right">
+        {% if request.user.is_authenticated %}
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+
+              <span class="glyphicon glyphicon-user"></span>
+              <span class="header_hide">
+                  {{ request.user.last_name }}{{request.user.first_name}}
+        </span>
+            <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <a href="/session/settings">
+                마이페이지
+              </a>
+            </li>
+            <li role="separator" class="divider"></li>
+            <li>
+              <a href="https://sparcssso.kaist.ac.kr/account/profile/">
+                SPARCSSSO
+              </a>
+            </li>
+
+            <li role="separator" class="divider"></li>
+            <li>
+              <a href="/session/logout/">
+                로그아웃
+              </a>
+            </li>
+          </ul>
+        </li>
+        {% else %}
+        <li>
+          <a href="/session/">
+            로그인
+          </a>
+        </li>
+        {% endif %}
+      </ul>
+  </div>
     </div>
   </div>
 </nav>

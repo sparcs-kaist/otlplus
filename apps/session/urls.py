@@ -27,5 +27,4 @@ urlpatterns = [
 
     # User Preferences (e.g Favorite Department, Language)
     url(r'^settings/$', 'apps.session.views.settings'),
-    #url(r'^set/language$', 'apps.session.views.set_language'),
 ]

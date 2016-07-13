@@ -27,6 +27,8 @@ $(document).ready(function(){
     check_checked_elm('department');
     check_checked_elm('type');
 
+    $('input,textarea').attr('autocomplete','off');
+
     $("input[type='checkbox']").each(function(){
       target = $(this);
       target = target.closest('label');
@@ -70,14 +72,18 @@ $(".chkall").on('change', function(){
 $(".chkelem").on('change', function(){
     name = this.name;
     count = 0
+    count2 = 0
     $(".chkelem").each(function(){
         if(this.name==name && !$(this).is(':checked')) count +=1;
+    });
+    $(".chkelem").each(function(){
+        if(this.name==name && $(this).is(':checked')) count2 +=1;
     });
 
     
     $(".chkall").each(function(){
         if(this.name==name){
-            if(count==0){
+            if(count==0 || count2==0){
                 $(this).prop("checked",true);
                 $(".chkelem").each(function(){
                     if(this.name==name){
@@ -88,12 +94,25 @@ $(".chkelem").on('change', function(){
             else $(this).prop("checked",false);
         }
     });
+
 });
 
 $(".chkone").click(function(){
+    /*
     var group = "input:checkbox[name='"+$(this).attr("name")+"']";
    $(group).prop("checked",false);
    $(this).prop("checked",true);
+   */
+    name = this.name;
+    temp = $(this)
+    $(".chkone").each(function(){
+        if(this.name==name){
+            $(this).removeClass("active");
+        }
+    });
+    temp.addClass("active");
+
+
 });
 
 $(document).scroll(function() {
@@ -113,7 +132,7 @@ $(document).scroll(function() {
 
 
 $(document).on("change", function() {
-    $("input[type='checkbox']").each(function(){
+    $("input[type='checkbox'], input[type='radio']").each(function(){
       target = $(this);
       target = target.closest('label');
       if($(this).is(':checked')){
