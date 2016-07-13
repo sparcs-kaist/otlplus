@@ -555,9 +555,9 @@ def ReviewInsertView(request,lecture_id=-1,semester=0):
     lec_year = (semester/10)+2000
     lec_sem = semester%10
     if len(user_profile.student_id) < 1:
-        ctx = {'errttle':'포탈 연동이 되어있지 않습니다!','errmsg':'<a href="/review/portal/">여기</a>를 눌러 연동주세요!'}
+        ctx = {'errttle':'포탈 연동이 되어있지 않습니다!','errmsg':'<a href="/review/portal/">포탈 연동하러가기!</a>'}
     else:
-        ctx = {'errttle':'수강한 과목이 없습니다!','errmsg':'만약 수강한 과목이 있다면, <a href="/review/refresh/">여기</a>를 눌러 갱신해주세요!'}
+        ctx = {'errttle':'수강한 과목이 없습니다!','errmsg':'만약 수강한 과목이 있다면, <a href="/review/refresh/">여기를 눌러 갱신해주세요!</a>'}
     if semester % 10 > 4 or semester < 0 or semester > 1000:
         return render(request, 'review/error.html',ctx)
     lecture_list = user_profile.take_lecture_list.all()
