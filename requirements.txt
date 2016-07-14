@@ -1,4 +1,4 @@
-Django==1.8.2
+Django==1.9.7
 Pillow==2.8.2
 wheel==0.24.0
 pyodbc==3.0.10
