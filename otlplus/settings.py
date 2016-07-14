@@ -46,6 +46,7 @@ INSTALLED_APPS = (
     'apps.session',
     'apps.review',
     'apps.subject',
+	'apps.timetable',
 )
 
 MIDDLEWARE_CLASSES = (
