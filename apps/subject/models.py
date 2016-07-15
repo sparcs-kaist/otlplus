@@ -1,5 +1,5 @@
 from django.db import models
-from apps.common import * #for enum type (for choices)
+from apps.enum.common import * #for enum type (for choices)
 
 class Lecture(models.Model):
     code = models.CharField(max_length=10,db_index=True)
@@ -38,7 +38,7 @@ class Lecture(models.Model):
     comment_num = models.IntegerField(default=0)
 
 	syllabus = models.CharField(max_length=260,blank=True,null=True) #실라부스 url저장
-#TODO syllabus url 만드는 method만들기.
+	#TODO syllabus url 만드는 method만들기.
 
     def avg_update(self):
         self.total_sum = (self.grade_sum+self.load_sum+self.speech_sum)/3.0
@@ -71,7 +71,7 @@ class ExamTime(models.Model):
 	def __unicode__(self):
 		return u'[%s] %s, %s-%s' % (self.lecture.code, self.get_day_disply, self.begin.strftime('%H:%M'), self.begin.strftime('%H:%M')
 				)
-#TODO ExamTime method 더 필요한거 같이 구현하기
+	#TODO ExamTime method 더 필요한거 같이 구현하기
 
 class ClassTime(models.Model):
 	"""Lecture에 배정된강의시간, 보통 하나의  Lecture가 여러개의 강의시간을 가진다."""
@@ -86,7 +86,7 @@ class ClassTime(models.Model):
 	roomNum = models.IntegerField(null=True) #강의실 호실(숫자, ex> 304 or 1104)
 	unit_time = models.SmallIntegerField(null=True) #수업 교시
 
-#TODO ClassTime method 구현 같이하기!
+	#TODO ClassTime method 구현 같이하기!
 
 
 

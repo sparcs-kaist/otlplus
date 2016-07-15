@@ -8,7 +8,7 @@ class CourseFilteredAdmin(admin.ModelAdmin):
 
 class ExamTimeAdmin(admin.ModelAdmin):
 	list_display = ('lecture', 'day', 'begin', 'end')
-	ordering = ('lectur',)
+	ordering = ('lecture',)
 
 class ClassTimeAdmin(admin.ModelAdmin):
 	list_display = ('lecture', 'day', 'begin', 'end', 'roomNum', 'roomName_ko', 'roomName_en')

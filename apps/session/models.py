@@ -19,7 +19,6 @@ sso_client = Client(is_test=True)
 class UserProfile(models.Model):
     user = models.ForeignKey(User)
 
-	timetable = models.ForeignKey(TimeTable,related_name="take_user")
 	major = models.CharField(max_length=20, blank=True, null=True) #전공
 	minor = models.CharField(max_length=20, blank=True, null=True) #부전공
 	email = models.EmailField(max_length=255, blank=True, null=True) #Email
