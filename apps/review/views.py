@@ -5,7 +5,7 @@ from django.template import RequestContext
 from apps.session.models import UserProfile
 from apps.subject.models import Course, Lecture, Department, CourseFiltered, Professor
 from apps.review.models import Comment,CommentVote, MajorBestComment, LiberalBestComment
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, Http404
 from django.db.models import Q
 from datetime import datetime, timedelta, time, date
 from django.utils import timezone
