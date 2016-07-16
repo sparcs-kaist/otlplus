@@ -30,7 +30,7 @@ with open(os.path.join(BASE_DIR, 'keys/sso_secret')) as f:
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -123,3 +123,7 @@ AUTHENTICATION_BACKENDS = (
 LOGIN_URL = '/session/login/'
 LOGOUT_URL = '/session/logout/'
 
+try:
+     from settings_local import *
+except ImportError:
+     pass
