@@ -19,8 +19,7 @@ sso_client = Client(is_test=True)
 class UserProfile(models.Model):
     user = models.ForeignKey(User)
 
-	major = models.CharField(max_length=20, blank=True, null=True) #전공
-	minor = models.CharField(max_length=20, blank=True, null=True) #부전공
+	majors = models.ManyToManyField(Department, related_name='user_set') #학과들..(전공,부전공, 복수전공등등)
 	email = models.EmailField(max_length=255, blank=True, null=True) #Email
 	
     student_id = models.CharField(max_length=10, db_index = True)
@@ -55,3 +54,4 @@ class UserProfile(models.Model):
 
     def __unicode__(self):
         return u'%s %s' % (self.user.username, self.student_id)
+
