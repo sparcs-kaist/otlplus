@@ -2,7 +2,7 @@ from django.db import models
 from apps.enum.common import * #for enum type (for choices)
 
 class Lecture(models.Model):
-    code = models.CharField(max_length=10,db_index=True)
+    code = models.CharField(max_length=10, db_index=True)
     old_code = models.CharField(max_length=10, db_index=True)
     year = models.IntegerField(db_index=True)
     semester = models.SmallIntegerField(db_index=True)
@@ -37,7 +37,7 @@ class Lecture(models.Model):
 
     comment_num = models.IntegerField(default=0)
 
-	syllabus = models.CharField(max_length=260,blank=True,null=True) #실라부스 url저장
+	syllabus = models.CharField(max_length=260, blank=True, null=True) #실라부스 url저장
 	#TODO syllabus url 만드는 method만들기.
 
     def avg_update(self):
@@ -55,7 +55,7 @@ class Lecture(models.Model):
 
     def __unicode__(self):
         professors_list=self.professor.all()
-        re_str=u"%s(%s %s"%(self.title,self.old_code,professors_list[0].professor_name)
+        re_str=u"%s(%s %s"%(self.title, self.old_code, professors_list[0].professor_name)
         for i in range(1,len(professors_list)):
             re_str+=", %s"%(professors_list[i].professor_name)
         re_str+=")"
@@ -63,7 +63,7 @@ class Lecture(models.Model):
 
 class ExamTime(models.Model):
 	"""Lecture에 배정된 시험시간 """
-	lecture = models.ForeignKey(Lecture,related_name="examtime_set")
+	lecture = models.ForeignKey(Lecture, related_name="examtime_set")
 	day = models.SmallIntegerField(choices=WEEKDAYS) #시험요일
 	begin = models.TimeField() # hh:mm 형태의 시험시작시간 (24시간제)
 	end = models.TimeField() # hh:mm 형태의 시험시작시간 (24시간 제)
