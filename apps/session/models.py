@@ -1,10 +1,10 @@
-# -*- coding: utf-8
+# -*- coding: utf-8 -*- #
 from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 from apps.session.sparcssso import Client
-from apps.subject.models import Department, Lecture
+from apps.subject.models import Department, Lecture, Course
 
 
 # TESTING #
@@ -50,3 +50,11 @@ class UserProfile(models.Model):
 
     def __unicode__(self):
         return u'%s %s' % (self.user.username, self.student_id)
+
+
+class BlockColor(models.Model):
+    user = models.ForeignKey(User)
+    course = models.ForeignKey('subject.Course', on_delete=models.CASCADE)
+    year = models.IntegerField()
+    semester = models.SmallIntegerField()
+    color = models.IntegerField()
