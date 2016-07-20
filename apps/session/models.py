@@ -17,13 +17,14 @@ sso_client = Client(is_test=True)
 
 
 class UserProfile(models.Model):
-    user = models.ForeignKey(User)
-    student_id = models.CharField(max_length=10, db_index = True)
-    sid = models.CharField(max_length=30) #서비스에 대해 고유하게 부여받은 ID
+    user = models.ForeignKey(User)  # Django 기본 유저
+    student_id = models.CharField(max_length=10, db_index = True) # 학번
+    sid = models.CharField(max_length=30)  # 서비스에 대해 고유하게 부여받은 ID
     language = models.CharField(max_length=15)
     favorite_departments = models.ManyToManyField('subject.Department', related_name='favoredby_set')
     take_lecture_list = models.ManyToManyField('subject.Lecture', related_name='take_lecture_list', blank=True)
     portal_check = models.IntegerField(default=0)
+    google_calendar_id = models.TextField(null=True, blank=True)
     point = 0
     point_updated_time = None
 
