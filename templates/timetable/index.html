@@ -1,0 +1,265 @@
+{% extends 'timetable/layout.html' %}
+{% block content %}
+<!--한글로 된 부분은 trans가 적용되어 있던 부분이나 현 장고 버전에서는 따로 설정을 해야 사용 가능하므로 일단 적용하지 않았다.--> 
+<div id="page-container">
+	<div id="left-side">
+		<div style="margin-bottom:10px">
+			<div id="lecturelist-filter">
+				<label>학과&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:11px">(<a href="/accounts/myinfo/">관심학과 설정</a>)</span></label>
+				<select id="department">
+					<optgroup label="소속학과/관심학과">
+						<option>인문사회과학부</option>
+						<option>전산학부</option>
+					</optgroup>
+					<optgroup label="전체 목록">
+						<option>무학과</option>
+						<option>인문사회과학부</option>
+						<option>전산학부</option>
+					</optgroup>
+				</select>
+				<br />
+				<label>과목구분</label>
+				<select id="classification" style="width:100%">
+					<option value="전체보기">전체보기</option>
+					<option value="전체보기">기초필수</option>
+					<option value="전체보기">기초선택</option>
+					<option value="전체보기">전공필수</option>
+					<option value="전체보기">전공선택</option>
+					<option value="전체보기">교양필수</option>
+					<option value="교양필수(체육)">교양필수(체육)</option>
+					<option value="교양선택">교양선택</option>
+					<option value="자유선택">자유선택</option>
+					<option value="공통필수">공통필수</option>
+					<option value="인문사회선택">인문사회선택</option>
+					<option value="선택(석/박사)">선택(석/박사)</option>
+					<option value="개별연구">개별연구</option>
+					<option value="졸업연구">졸업연구</option>
+					<option value="세미나">세미나</option>
+					<option value="논문세미나">논문세미나</option>
+					<option value="현장실습및연구">현장실습및연구</option>
+				</select>
+				<br />
+				<label>키워드</label>
+				<input type="text" id="keyword" autocomplete="off" style="width:97%">
+				<br />
+				<div style="text-align:right; margin-top:10px;">
+					<input type="button" id="clear" name="clear" value="초기화" style="text-align:right;">
+					<input type="button" id="apply" name="apply" value="적용" style="text-align:right;">
+				</div>
+			</div>
+			<div id="lecturelist-notice">※ 강의시간이 없는 과목들은 제외됩니다. (예: 졸업연구, 논문연구)</div>
+		</div>
+		<div id="lecture-container">
+			<div class="left" style="width:15%;padding:0;margin:0;">
+				<div id="lecture-tabs"></div>
+			</div>
+			<div class="left" style="width:85%;padding:0;margin:0;">
+				<div id="lecture-contents"></div>
+			</div>
+		</div>
+	</div>
+	<div id="center">
+		<div id="center-top">
+			<table class="lecture-info">
+				<thead>
+					<tr>
+						<th>강의장소</th>
+						<th>시험시간</th>
+						<th>언어</th>
+						<th><!--<img src="{{MEDIA_URL}}images/refresh.png" id="refresh" title="새로고침" alt="새로고침" onclick="onRefreshCompRates();">-->경쟁률</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td id="DS-classroom">&nbsp;</td>
+						<td id="DS-examtime">&nbsp;</td>
+						<td id="DS-remarks">&nbsp;</td>
+						<td id="DS-comp-rate">&nbsp;</td>
+					</tr>
+				</tbody>
+			</table>
+			<table class="lecture-info">
+				<thead>
+					<tr>
+						<th>과목코드</th>
+						<th>분반</th>
+						<th>과목명</th>
+						<th>교수님</th>
+						<th>강의</th>
+						<th>실험</th>
+						<th>학점</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td id="DS-course-no">&nbsp;</td>
+						<td id="DS-class-no">&nbsp;</td>
+						<td id="DS-title">&nbsp;</td>
+						<td id="DS-prof">&nbsp;</td>
+						<td id="DS-lec-time">&nbsp;</td>
+						<td id="DS-lab-time">&nbsp;</td>
+						<td id="DS-credit">&nbsp;</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div style="margin-bottom:10px">
+			<div class="left" id="indicator"></div>
+			<div class="left" id="message-wrap">
+				<div class="br"><div class="bl">
+						<div id="message">안녕하세요 이 서비스는 <strong>SPARCS</strong>에서 제공하고 있습니다.</div>
+				</div></div>
+			</div>
+		</div>
+		<div id="timetable-menu">
+			<div class="left">
+				<div class="left">
+					<select>
+						<option>2016 가을</option>
+					</select>
+				</div>
+				<div id="timetable-tabs">
+					<div class="timetable-tab active"><a>시간표 1</a></div>
+					<div class="timetable-tab"><a>시간표 2</a></div>
+					<div class="right">+</div>
+				</div>
+			</div>
+			<!--시간표 공유 관련 버튼 넣어야됨-->
+		</div>
+		<div id="timetable">
+			<div id="timetable-wrap">
+				<div id="colheaders">
+					<div class="chead"><span>월</span></div>
+					<div class="chead"><span>화</span></div>
+					<div class="chead"><span>수</span></div>
+					<div class="chead"><span>목</span></div>
+					<div class="chead"><span>금</span></div>
+				</div>
+				<div id="tablebody">
+					<div id="rowheaders">
+						<div class="rhead"><span class="rheadtext">오전 8시</span></div>
+						<div class="rhead"><span class="rheadtext">오전 9시</span></div>
+						<div class="rhead"><span class="rheadtext">오전 10시</span></div>
+						<div class="rhead"><span class="rheadtext">오전 11시</span></div>
+						<div class="rhead"><span class="rheadtext">오전 12시</span></div>
+						<div class="rhead"><span class="rheadtext">오후 1시</span></div>
+						<div class="rhead"><span class="rheadtext">오후 2시</span></div>
+						<div class="rhead"><span class="rheadtext">오후 3시</span></div>
+						<div class="rhead"><span class="rheadtext">오후 4시</span></div>
+						<div class="rhead"><span class="rheadtext">오후 5시</span></div>
+						<div class="rhead"><span class="rheadtext">오후 6시</span></div>
+						<div class="rhead"><span class="rheadtext">오후 7시</span></div>
+						<div class="rhead"><span class="rheadtext">오후 8시</span></div>
+						<div class="rhead"><span class="rheadtext">오후 9시</span></div>
+						<div class="rhead"><span class="rheadtext">오후 10시</span></div>
+						<div class="rhead"><span class="rheadtext">오후 11시</span></div>
+					</div>
+					<div id="grid-wrap">
+						<div id="grid">
+							<div id="timetable-contents">
+							</div>
+							<div id="cellselected"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="right-side">
+		<div id="map" style="margin-bottom:10px">
+			<h4>강의실 장소</h4>
+			<div id="map-wrap">
+				<div id="map-drag-container">
+					<div id="dragmap">
+						<div> 지도</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="info">
+			<table cellspacing="0" cellpadding="0" border="0">
+				<tr>
+					<th style="width:50%">학점</th>
+					<th>AU</th>
+				</tr>
+				<tr>
+					<td style="text-align:left;">
+						&nbsp;&nbsp;&nbsp;&nbsp;
+						<span id="total_credit">0</span>&nbsp;
+						<span id="add_credit" class="green"></span>
+					</td>
+					<td style="text-align:left"; class="end">
+						&nbsp;&nbsp;&nbsp;&nbsp;
+						<span id="total_au">0</span>&nbsp;
+						<span id="add_au" class="blue"></span>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div id="table-score">
+			<table cellspacing="0" cellpadding="0" border="0">
+				<tr>
+					<th colspan=3 style="width:100%">시간표평가</th>
+				</tr>
+				<tr>
+					<th style="width:33%">강의</th>
+					<th style="width:33%">로드</th>
+					<th style="width:33%">성적</th>
+				</tr>
+				<tr>
+					<td style="text-align:center;">
+						<span id="speech-average">0</span>
+					</td>
+					<td style="text-align:center;">
+						<span id="load-sum">0</span>
+					</td>
+					<td style="text-align:center;">
+						<span id="grade-average">0</span>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div id="examtable">
+			<table cellspacing="0" cellpadding="0" border="0">
+				<colgroup>
+					<col class="day"/>
+					<col class="examtime"/>
+				</colgroup>
+				<tr>
+					<th colspan="2">시험시간표</th>
+				</tr>
+				<tr>
+					<td>월</td>
+					<td>
+						<span id="examtime1"><ul id="examlist1"></ul></span>
+					</td>
+				</tr>
+				<tr>
+					<td>화</td>
+					<td>
+						<span id="examtime2"><ul id="examlist2"></ul></span>
+					</td>
+				</tr>
+				<tr>
+					<td>수</td>
+					<td>
+						<span id="examtime3"><ul id="examlist3"></ul></span>
+					</td>
+				</tr>
+				<tr>
+					<td>목</td>
+					<td>
+						<span id="examtime4"><ul id="examlist4"></ul></span>
+					</td>
+				</tr>
+				<tr>
+					<td>금</td>
+					<td>
+						<span id="examtime5"><ul id="examlist5"></ul></span>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</div>
+{% endblock %}
