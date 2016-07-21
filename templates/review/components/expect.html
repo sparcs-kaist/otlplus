@@ -29,6 +29,7 @@
     </div>
   <div class="panel-body">
       <div class="col-xs-24" style="padding:0px">
+          <!-- lecture is NOT lecture lecture can be both lecture(case 1) and professor(case 2) -->
           {% for lecture in lectures %}
             {% if view == 'insert' %}
               <span class="label-b">
@@ -37,6 +38,7 @@
                 </a>
               </span>
             {% else %}
+            <!--in this case, lecture means professor. -->
               <span class="h4">
                 <a href="/review/result/professor/{{ lecture.id }}" class="label label-default">
                   {{ lecture.name }}
