@@ -51,7 +51,16 @@
     display:inline-block;
 }
 
-
+#insert-complete-message{
+    display:none;
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+    color:blue;
+    background:lightblue;
+    font-weight:bolder;
+}
 
 #contents .btn-review-delete{
     width:70px;
