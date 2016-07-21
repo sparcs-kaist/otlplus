@@ -19,7 +19,10 @@ sso_client = Client(is_test=True)
 class UserProfile(models.Model):
     user = models.ForeignKey(User)
 
-	majors = models.ManyToManyField(Department, related_name='user_set') #학과들..(전공,부전공, 복수전공등등)
+    department = models.ForeignKey(Department)
+	majors = models.ManyToManyField(Department, related_name='user_set') #복수전공들 index 0가 
+	minors = models.ManyToManyField(Department) #부전공.
+    specialized_major = models.ManyToManyField(Department) #심화전공.
 	email = models.EmailField(max_length=255, blank=True, null=True) #Email
 	
     student_id = models.CharField(max_length=10, db_index = True)
