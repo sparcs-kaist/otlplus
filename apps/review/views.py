@@ -264,50 +264,58 @@ def SearchComment(request, comment):
     }
     return result
 
-def SearchProfessor(professor,id=-1):
+# set first argument type: professor -> listof professor
+# 김광년 이슈의 경우 course_id=-1이다.
+def SearchProfessor(professor_list,id=-1):
     lecture_list=[]
     lecture_list.append({
         "name": "ALL",
         "id": -1,
     })
 
-    score = {"grade":int(round(professor.grade)), "load":int(round(professor.load)), "speech":int(round(professor.speech)), "total":int(round(professor.total)),}
+    # what if professor's grade is '?'? i dunno so i just use first professor's.
+    score = {"grade":int(round(professor_list[0].grade)), "load":int(round(professor_list[0].load)), "speech":int(round(professor_list[0].speech)), "total":int(round(professor_list[0].total)),}
 
-    for course in professor.course_list.all().order_by('title','old_code'):
+    for professor in professor_list:
 
-        lecture_list.append({
-            "id" : course.id,
-            "name" : course.title,
-        })
+        for course in professor.course_list.all().order_by('title','old_code'):
 
-        if int(course.id) == int(id) :
-            lectures = professor.lecture_professor.filter(course = course)
-            grade_sum = sum(i.grade_sum for i in lectures)
-            load_sum = sum(i.load_sum for i in lectures)
-            speech_sum = sum(i.speech_sum for i in lectures)
-            total_sum = sum(i.total_sum for i in lectures)
-            comment_num = sum(i.comment_num for i in lectures)
-            grade, load, speech, total = CalcAvgScore(grade_sum, load_sum, speech_sum, total_sum, comment_num)
-            score = {"grade":grade, "load":load, "speech":speech, "total":total,}
+            # append only if course is not already there.
+            if {"id" : course.id, "name" : course.title} not in lecture_list:
+                lecture_list.append({
+                    "id" : course.id,
+                    "name" : course.title,
+                })
 
-            """
-            grade = int(round(lecture.grade))
-            load = int(round(lecture.load))
-            speech = int(round(lecture.speech))
-            total = int(round(lecture.total))
-            score = {"grade":grade, "load":load, "speech":speech, "total":total,}
-            """
+            # DEAD END HERE OH NO T.T
+            if int(course.id) == int(id) :
+                lectures = professor.lecture_professor.filter(course = course)
+                grade_sum = sum(i.grade_sum for i in lectures)
+                load_sum = sum(i.load_sum for i in lectures)
+                speech_sum = sum(i.speech_sum for i in lectures)
+                total_sum = sum(i.total_sum for i in lectures)
+                comment_num = sum(i.comment_num for i in lectures)
+                grade, load, speech, total = CalcAvgScore(grade_sum, load_sum, speech_sum, total_sum, comment_num)
+                score = {"grade":grade, "load":load, "speech":speech, "total":total,}
+
+                """
+                grade = int(round(lecture.grade))
+                load = int(round(lecture.load))
+                speech = int(round(lecture.speech))
+                total = int(round(lecture.total))
+                score = {"grade":grade, "load":load, "speech":speech, "total":total,}
+                """
 
 
-    result={
-        "type":"professor",
-        "id":professor.id,
-        "title":professor.professor_name,
-        "prof_info":lecture_list,
-        "gradelist":gradelist,
-        "major":Department.objects.get(id = professor.major).name,
-        "score":score,
-    }
+        result={
+            "type":"professor",
+            "id":professor.id,
+            "title":professor.professor_name,
+            "prof_info":lecture_list,
+            "gradelist":gradelist,
+            "major":Department.objects.get(id = professor.major).name,
+            "score":score,
+        }
     return result
 
 def Expectations(keyword):
