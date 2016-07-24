@@ -1,3 +1,4 @@
+#-*- coding: utf-8 -*-
 from django.db import models
 from apps.enum.common import * #for enum type (for choices)
 
@@ -37,8 +38,8 @@ class Lecture(models.Model):
 
     comment_num = models.IntegerField(default=0)
 
-	syllabus = models.CharField(max_length=260, blank=True, null=True) #실라부스 url저장
-	#TODO syllabus url 만드는 method만들기.
+    syllabus = models.CharField(max_length=260, blank=True, null=True) #실라부스 url저장
+    #TODO syllabus url 만드는 method만들기.
 
     def avg_update(self):
         self.total_sum = (self.grade_sum+self.load_sum+self.speech_sum)/3.0
@@ -62,31 +63,31 @@ class Lecture(models.Model):
         return re_str
 
 class ExamTime(models.Model):
-	"""Lecture에 배정된 시험시간 """
-	lecture = models.ForeignKey(Lecture, related_name="examtime_set")
-	day = models.SmallIntegerField(choices=WEEKDAYS) #시험요일
-	begin = models.TimeField() # hh:mm 형태의 시험시작시간 (24시간제)
-	end = models.TimeField() # hh:mm 형태의 시험시작시간 (24시간 제)
+    """Lecture에 배정된 시험시간 """
+    lecture = models.ForeignKey(Lecture, related_name="examtime_set")
+    day = models.SmallIntegerField(choices=WEEKDAYS) #시험요일
+    begin = models.TimeField() # hh:mm 형태의 시험시작시간 (24시간제)
+    end = models.TimeField() # hh:mm 형태의 시험시작시간 (24시간 제)
 
-	def __unicode__(self):
-		return u'[%s] %s, %s-%s' % (self.lecture.code, self.get_day_disply, self.begin.strftime('%H:%M'), self.begin.strftime('%H:%M')
-				)
-	#TODO ExamTime method 더 필요한거 같이 구현하기
+    def __unicode__(self):
+        return u'[%s] %s, %s-%s' % (self.lecture.code, self.get_day_disply, self.begin.strftime('%H:%M'), self.begin.strftime('%H:%M')
+                )
+        #TODO ExamTime method 더 필요한거 같이 구현하기
 
 class ClassTime(models.Model):
-	"""Lecture에 배정된강의시간, 보통 하나의  Lecture가 여러개의 강의시간을 가진다."""
-	lecture = models.ForeignKey(Lecture,related_name="classtime_set")
-	day = models.SmallIntegerField(choices=WEEKDAYS) #강의 요일
-	begin = models.TimeField() # hh:mm 형태의 강의 시작시각 (24시간제)
-	end = models.TimeField() # hh:mm 형태의 강의 끝나는 시각 (24시간 제)
-	type = models.CharField(max_length =1, choices=CLASS_TYPES) #강의 or 실험
-	building = models.CharField(max_length=10, blank=True, null=True) #건물 고유 ID
-	roomName_ko = models.CharField(max_length=60, blank=True, null=True) #강의실 이름(한글, ex> 터만홀)
-	roomName_en = models.CharField(max_length=60, blank=True, null=True) #강의실 이름(영문, ex> TermanHall)
-	roomNum = models.IntegerField(null=True) #강의실 호실(숫자, ex> 304 or 1104)
-	unit_time = models.SmallIntegerField(null=True) #수업 교시
+    """Lecture에 배정된강의시간, 보통 하나의  Lecture가 여러개의 강의시간을 가진다."""
+    lecture = models.ForeignKey(Lecture,related_name="classtime_set")
+    day = models.SmallIntegerField(choices=WEEKDAYS) #강의 요일
+    begin = models.TimeField() # hh:mm 형태의 강의 시작시각 (24시간제)
+    end = models.TimeField() # hh:mm 형태의 강의 끝나는 시각 (24시간 제)
+    type = models.CharField(max_length =1, choices=CLASS_TYPES) #강의 or 실험
+    building = models.CharField(max_length=10, blank=True, null=True) #건물 고유 ID
+    roomName_ko = models.CharField(max_length=60, blank=True, null=True) #강의실 이름(한글, ex> 터만홀)
+    roomName_en = models.CharField(max_length=60, blank=True, null=True) #강의실 이름(영문, ex> TermanHall)
+    roomNum = models.IntegerField(null=True) #강의실 호실(숫자, ex> 304 or 1104)
+    unit_time = models.SmallIntegerField(null=True) #수업 교시
 
-	#TODO ClassTime method 구현 같이하기!
+    #TODO ClassTime method 구현 같이하기!
 
 
 
@@ -172,7 +173,7 @@ class Professor(models.Model):
             self.total = 0.0
 
     def __unicode__(self):
-	    return u"%s(id:%d)"%(self.professor_name,self.professor_id)
+        return u"%s(id:%d)"%(self.professor_name,self.professor_id)
 
 class CourseFiltered(models.Model):
     title = models.CharField(max_length=100, default="", db_index=True, unique=True)
