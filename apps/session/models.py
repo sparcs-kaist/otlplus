@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 from apps.session.sparcssso import Client
 from apps.subject.models import Department, Lecture
-from apps.timetable.models import TimeTable
+#from apps.timetable.models import TimeTable
 
 # TESTING #
 sso_client = Client(is_test=True)
@@ -20,10 +20,10 @@ class UserProfile(models.Model):
     user = models.ForeignKey(User)
 
     department = models.ForeignKey(Department)
-	majors = models.ManyToManyField(Department, related_name='user_set') #복수전공들 index 0가
-	minors = models.ManyToManyField(Department) #부전공.
-    specialized_major = models.ManyToManyField(Department) #심화전공.
-	email = models.EmailField(max_length=255, blank=True, null=True) #Email
+    majors = models.ManyToManyField(Department, related_name = 'major_user_set') #복수전공들 index 0가
+    minors = models.ManyToManyField(Department, related_name = 'minor_user_set') #부전공.
+    specialized_major = models.ManyToManyField(Department, related_name = 'specialized_major_user_set') #심화전공.
+    email = models.EmailField(max_length=255, blank=True, null=True) #Email
 
     student_id = models.CharField(max_length=10, db_index = True)
     sid = models.CharField(max_length=30) #서비스에 대해 고유하게 부여받은 ID
