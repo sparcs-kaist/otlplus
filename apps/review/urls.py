@@ -37,4 +37,5 @@ urlpatterns = [
     url(r'^refresh/$','apps.review.views.ReviewRefresh'),
     url(r'^portal/$','apps.review.views.ReviewPortal'),
     url(r'^dictionary/([^/]+)/$', 'apps.review.views.dictionary'),
+    url(r'^search/json/$', 'apps.review.views.AutocompleteSearch'),
 ]

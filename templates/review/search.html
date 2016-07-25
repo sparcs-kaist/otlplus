@@ -49,18 +49,31 @@
   <script src="//code.jquery.com/jquery-1.10.2.js"></script>
   <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
   <script>
-    var auto_source = "{{auto_source}}"
-    var auto_source = auto_source.split(',')
-    $(document).ready(function(){     
-        $( "#keyword" ).autocomplete({
-            source: auto_source,
-            //source: availableTags,
-            focus: function(){
-                return false
-            },
-        });
+  $(document).ready(function(){
+    for(var i =0; i< 10; i++)
+      $("#keyword_search").append('<option value="">');
+    array2 = [] 
+    $('#keyword').keyup(function(){
+      var str = $(this).val();
+      if (str != "")
+      {
+        $.ajax({
+            url: '/review/search/json/',
+            type: 'GET',
+            data : {the_post : str},
+            success : function(data){
+              var array1 = data.split(',');
+              for(var i=0; i< array1.length; i++){
+                if(array2[i] != array1[i])
+                  $($("option")[i]).attr("value",array1[i]);
+              }
+                array2 = array1;
+              }
+          });
+      }
     });
-  </script>
+  });
+     </script>
 
 {% endblock %}
 
@@ -73,7 +86,8 @@
     <div class="col-xs-22 col-xs-offset-1 col-sm-20 col-sm-offset-2 col-md-18 col-md-offset-3 col-lg-16 col-lg-offset-4 text-center">
       <form role="form" class="row">
         <div class="search_bar col-xs-24 col-sm-14 col-md-16 col-lg-18">
-            <input id="keyword" type="text" name="q" autocomplete="on" class="form-control" placeholder="Search">
+            <input id="keyword" list="keyword_search" type="text" name="q" class="form-control" placeholder="Search">
+            <datalist id="keyword_search"></datalist>
         </div>
         <div class="search_bar col-xs-12 col-sm-5 col-md-4 col-lg-3">
           <div id="option" type="button" class="btn btn-lg btn-block btn-danger">

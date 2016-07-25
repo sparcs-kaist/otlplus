@@ -63,6 +63,13 @@ def GradeFilters(raw_filters):
         filters=["0","1","2","3","4","5","6","7","8","9"]
     return filters
 
+def AutocompleteSearch(request):
+    post_text = request.GET['the_post']
+    course_source = Course.objects.filter(title__startswith=post_text).order_by('title')[:5]
+    professor_source = Professor.objects.filter(professor_name__startswith=post_text).order_by('professor_name')[:5]
+    auto_source = [i.title for i in course_source] + [i.title_en for i in course_source] + [i.professor_name for i in professor_source] + [i.professor_name_en for i in professor_source]
+    auto_source = ','.join(auto_source)
+    return HttpResponse(auto_source)
 def search_view(request):
     if not request.session.get('visited'):
         request.session['visited'] = True
