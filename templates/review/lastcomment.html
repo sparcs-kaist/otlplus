@@ -152,7 +152,7 @@ html.push('<div class="score_table text-left col-xs-24" style="margin-right:-40p
                 html.push('</div>')
                 html.push('</span></div>')
                 html.push('<div id="',result.id,'" class="label-title lecture ellipsis-wrapper col-xs-24">')
-                html.push('<h4 style="margin-top:3px;line-height:1.2" class="ellipsis-content"><small class="text-muted">',result.professor_name, result.lecture_year,'</small></h4>')
+                html.push('<h4 style="margin-top:3px;line-height:1.2" class="ellipsis-content"><small class="text-muted">',result.professor_name,result.lecture_year," ",result.lecture_semester, '</small></h4>') // added semester info
                 html.push('</div>')
                 html.push('<div class="col-xs-24 comment text-muted" style="cursor:Pointer" id="')
                 html.push(result.id)
