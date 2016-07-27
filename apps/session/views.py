@@ -13,6 +13,8 @@ import random
 import os
 import datetime
 import subprocess
+import urlparse
+import requests
 from django.db.models import Q
 
 # TESTING #
@@ -38,7 +40,10 @@ def user_login(request):
 
     callback_url = request.build_absolute_uri('/session/login/callback/')
     login_url = sso_client.get_login_url(callback_url)
-    return HttpResponseRedirect(login_url)
+    if _is_online(login_url):
+        return HttpResponseRedirect(login_url)
+    else:
+        return redirect(request.GET.get('next', '/'))
 
 
 def login_callback(request):
@@ -101,8 +106,9 @@ def user_logout(request):
         #print sso_client.get_logout_url(user_profile.sid)
         logout(request)
         request.session['visited'] = True
-        if not sso_client.is_test:
-            return redirect(sso_client.get_logout_url(user_profile.sid))
+        url = sso_client.get_logout_url(user_profile.sid)
+        if not sso_client.is_test and _is_online(url):
+            return redirect(url)
     return redirect("/main")
 
 
@@ -163,3 +169,15 @@ def unregister_callback(request):
     user.delete()
 
     return JsonResponse({"status": 0})
+
+def _is_online(url):
+    url = urlparse.urlparse(url)
+    domain = "%s://%s" % (url.scheme, url.netloc)
+    
+    try:
+        r = requests.head(domain)
+        return True
+    except requests.exceptions.ConnectionError:
+        return False
+    except requests.exceptions.Timeout:
+        return False
