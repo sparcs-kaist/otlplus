@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>필터필터필터</title>
+    </head>
+    <body>
+        <form method="POST">
+            {% csrf_token %}
+                <select style="width: 200px; float: left;" onchange="this.nextElementSibling.value=this.value">
+                <option>ALL</option>
+                <option>전산학부</option>
+                <option>산업디자인학과</option>
+                <option>전기및전자공학과</option> 
+                <option>수리과학과</option> 
+                <option>화학과</option> 
+            </select>
+            <input name="keyword" style="width: 180px; margin-left: -199px; margin-top: 1px; border: none; float: left;" placeholder="(직접입력가능)" /> 
+            <button type="submit"> 적용 </button>
+        </form>
+        {% if results %}
+            {{results}}
+        {% endif %}
+    </body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>OTLPLUS 필터검색 </title>
+    </head>
+    <body>
+        <!--
+        <input type="text" id="theinput" name="theinput" />
+        <select name="thelist" onChange="combo(this, 'theinput')">
+            <option>one</option>
+            <option>two</option>
+            <option>three</option>
+        </select>
+
+
+        function combo(thelist, theinput) {
+            theinput = document.getElementById(theinput);
+            var idx = thelist.selectedIndex;
+            var content = thelist.options[idx].innerHTML;
+            theinput.value = content;
+        }
+        -->
+        <form method="POST">
+            {% csrf_token %}
+            <div id="selectBox0" class="selectBox" style="width: 186px; position: relative; z-index: 10000;">
+            <input type="text" name="keyword" value="학과선택(직접입력가능)" selectboxoptions="산업디자인학과;전산학부;전기및전자공학부;수리과학과;건설및환경공학과;바이오및뇌공학과;산업및시스템공학과;생명과학과;물리학과;화학과;생명화학공학과;원자력및양자공학과;기계공학과;인문사회과학부" class="selectBoxInput">
+            <img src="http://www.dhtmlgoodies.com/scripts/form_widget_editable_select/images/select_arrow_over.gif" class="selectBoxArrow" id="arrowSelectBox0">
+            <div id="selectBoxOptions0" class="selectBoxOptionContainer" style="width: 186px; display: none; visibility: visible;">
+                <div class="selectBoxAnOption" style="width: 164px;">산업디자인학과</div>
+                <div class="selectBoxAnOption" style="width: 164px;">전산학부</div>
+                <div class="selectBoxAnOption" style="width: 164px;">전기및전자공학부</div>
+                <div class="selectBoxAnOption" style="width: 164px;">수리과학과</div>
+                <div class="selectBoxAnOption" style="width: 164px;">건설및환경공학과</div>
+                <div class="selectBoxAnOption" style="width: 164px;">바이오및뇌공학과</div>
+                <div class="selectBoxAnOption" style="width: 164px;">산업및시스템공학과</div>
+                <div class="selectBoxAnOption" style="width: 164px;">생명과학과</div>
+                <div class="selectBoxAnOption" style="width: 164px;">물리학과</div>
+                <div class="selectBoxAnOption" style="width: 164px;">화학과</div>
+                <div class="selectBoxAnOption" style="width: 164px;">생명화학공학과</div>
+                <div class="selectBoxAnOption" style="width: 164px;">원자력및양자공학과</div>
+                <div class="selectBoxAnOption" style="width: 164px;">기계공학과</div>
+                <div class="selectBoxAnOption" style="width: 164px;">인문사회과학부</div>
+            </div>
+            <!--
+            <datalist id="browsers">
+                <option value="생명과학과">
+                <option value="물리학과">
+                <option value="화학과">
+                <option value="생명화학공학과">
+                <option value="원자력및양자공학과">
+                <option value="기계공학과">
+                <option value="인문사회과학부">
+            </datalist>  
+            -->
+            <button type="submit"> 적용 </button>
+        </form>
+        {% if results %}
+            {{results}}
+        {% endif %}
+    </body>
+</html>

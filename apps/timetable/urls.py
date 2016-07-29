@@ -19,4 +19,5 @@ from django.http import HttpResponseRedirect
 
 urlpatterns = [
     url(r'^$', 'apps.timetable.views.main'),
+    url(r'^filter$', 'apps.timetable.views.search_by_filter'),
 ]
