@@ -3,7 +3,7 @@ from django.shortcuts import render
 
 def get_courses(department_name):
     department_name = department_name.encode('utf-8')
-    dic = {'산업디자인학과':'발상과 표현', '전산학부':'운영체제 및 실험', '전기및전자공학부':'회로이론', '수리과학과':'해석학I', '건설및환경공학과':'재료역학', '바이오및뇌공학과':'Anatomy and Physiology', '산업및시스템공학과':'OR II','생명과학과':'세포생물학','원자력및양자공학과':'양자역학','기계공학과':'유체역학','인문사회과학부':'Introduction to Psycology', '물리학과':'고전물리학', '화학과':'물리화학'}
+    dic = {'전체': '운영체제 및 실험, 발상과 표현, 회로이론, 해석학I, 물리화학', '산업디자인학과':'발상과 표현', '전산학부':'운영체제 및 실험', '전기및전자공학부':'회로이론', '수리과학과':'해석학I', '건설및환경공학과':'재료역학', '바이오및뇌공학과':'Anatomy and Physiology', '산업및시스템공학과':'OR II','생명과학과':'세포생물학','원자력및양자공학과':'양자역학','기계공학과':'유체역학','인문사회과학부':'Introduction to Psycology', '물리학과':'고전물리학', '화학과':'물리화학'}
     return dic[department_name]
 
 def my_encode(string):
