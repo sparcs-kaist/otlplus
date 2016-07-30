@@ -8,12 +8,7 @@ from apps.subject.models import Department, Lecture
 #from apps.timetable.models import TimeTable
 
 # TESTING #
-sso_client = Client(is_test=True)
-
-# PRODUCTION #
-#sso_client = Client(is_test=False,
-#        app_name='otlplus',
-#        secret_key=settings.SSO_KEY)
+sso_client = Client('wow client id', 'so secret key', is_beta=True)
 
 
 class UserProfile(models.Model):
@@ -35,25 +30,15 @@ class UserProfile(models.Model):
     point_updated_time = None
 
     def get_point(self, update=False):
-        if not self.point_updated_time or update:
-            self.sync_point()
-        return self.point, self.point_updated_time
+        self.point = sso_client.get_point(self.sid)
+        return self.point
 
-    def sync_point(self):
-        if sso_client.is_test:
-            self.point = 0
-        else:
-            self.point = sso_client.get_point(self.sid)
-        self.point_updated_time = timezone.now()
-
-    def add_point(self, delta, action):
-        if sso_client.is_test or delta <= 0:
-            return False
-
-        changed, point = sso_client.modify_point(self.sid, delta, action)
-        self.point = point
-        self.point_updated_time = timezone.now()
-        return changed
+    def add_point(self, delta, message):
+        result = sso_client.modify_point(self.sid, delta, message, 0)
+        # print result['point']         # 포인트
+        # print result['modified']      # 변경되었는지 여부
+        # print result['last_modified'] # 마지막으로 변경된 시간의 isoformat 문자열
+        return result
 
     def __unicode__(self):
         return u'%s %s' % (self.user.username, self.student_id)
