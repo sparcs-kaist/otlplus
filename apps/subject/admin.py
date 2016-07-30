@@ -12,7 +12,7 @@ class ExamTimeAdmin(admin.ModelAdmin):
 
 class ClassTimeAdmin(admin.ModelAdmin):
 	list_display = ('lecture', 'day', 'begin', 'end', 'roomNum', 'roomName_ko', 'roomName_en')
-	ordering('lecture',)
+	ordering = ('lecture',)
 
 
 admin.site.register(Lecture, LectureAdmin)
