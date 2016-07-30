@@ -58,3 +58,10 @@ class UserProfile(models.Model):
     def __unicode__(self):
         return u'%s %s' % (self.user.username, self.student_id)
 
+
+class BlockColor(models.Model):
+    user = models.ForeignKey(User)
+    course = models.ForeignKey('subject.Course', on_delete=models.CASCADE)
+    year = models.IntegerField()
+    semester = models.SmallIntegerField()
+    color = models.IntegerField()
