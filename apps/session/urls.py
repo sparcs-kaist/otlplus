@@ -17,14 +17,16 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from django.http import HttpResponseRedirect
 
+from . import views
+
 urlpatterns = [
-    url(r'^$', 'apps.session.views.home'),
-    url(r'^login/$', 'apps.session.views.user_login'),
-    url(r'^login/callback/$', 'apps.session.views.login_callback'),
-    url(r'^logout/$', 'apps.session.views.user_logout'),
-    url(r'^unregister/$', 'apps.session.views.unregister'),
-    url(r'^unregister/callback/$', 'apps.session.views.unregister_callback'),
+    url(r'^$', views.home),
+    url(r'^login/$', views.user_login),
+    url(r'^login/callback/$', views.login_callback),
+    url(r'^logout/$', views.user_logout),
+    url(r'^unregister/$', views.unregister),
+    url(r'^unregister/callback/$', views.unregister_callback),
 
     # User Preferences (e.g Favorite Department, Language)
-    url(r'^settings/$', 'apps.session.views.settings'),
+    url(r'^settings/$', views.settings),
 ]

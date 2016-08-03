@@ -15,8 +15,8 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.http import HttpResponseRedirect
-
+from . import views
 
 urlpatterns = [
-    url(r'^$', 'apps.timetable.views.main'),
+    url(r'^$', views.main),
 ]
