@@ -48,6 +48,11 @@
   <script type="text/javascript" src="/media/js/review/components/review.js"></script>
   <script src="//code.jquery.com/jquery-1.10.2.js"></script>
   <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+  <!--
+  bootstrap-notify.js for like-alarm
+  if designer change the template with different library, this one should be deleted
+  --!>
+  <script type="text/javascript" src="/media/js/bootstrap-notify.min.js"></script>
   <script>
     var auto_source = "{{auto_source}}"
     var auto_source = auto_source.split(',')
@@ -59,6 +64,29 @@
                 return false
             },
         });
+    });
+    $(document).ready(function(){
+      if('{{like_alarm_activate}}' == 'True')
+      {
+          //this section, designer can change the template of alarm
+          console.log('like alarm activated')
+          $.notify({ 
+              icon: 'glyphicon glyphicon-warning-sign',
+              message: "~글이 좋아요를 받았습니다",
+              target: '_blank'
+          },{
+              delay: 2000,
+              offset: 30,
+              spacing: 20,
+              type: 'success'
+          });
+
+          $.ajax({
+            url: '/review/search/likeAlarmChecked'
+            type: 'GET'
+            data : {like_checked : True}
+          });
+      }
     });
   </script>
 

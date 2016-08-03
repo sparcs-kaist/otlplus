@@ -26,6 +26,7 @@ class UserProfile(models.Model):
     portal_check = models.IntegerField(default=0)
     point = 0
     point_updated_time = None
+    like_alarm_activate = False
 
     def get_point(self, update=False):
         if not self.point_updated_time or update:

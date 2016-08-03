@@ -108,9 +108,17 @@ def search_view(request):
         except Exception, e:
             print e
             pass
+    #for like-alarm
+    like_alarm_activate = False
+    if request.user.is_authenticated():
+        user = request.user
+        user_profile = UserProfile.objects.get(user=user)
+        like_alarm_activate = user_profile.like_alarm_activate
+   
     ctx = {
             'liberal_comment':liberal_comment,
             'major_comment':major_comment,
+            'like_alarm_activate':like_alarm_activate,
     }
 
     return render(request, 'review/search.html',ctx)
@@ -514,6 +522,11 @@ def ReviewDelete(request):
 #@login_required
 #login_required(login_url='/session/login/')
 def ReviewLike(request):
+    #for like-alarm
+    comment_id = request.POST['commentid']
+    comment1 = Comment.objects.get(id=comment_id)
+    comment1.writer.like_alarm_activate = True
+
     is_login = False
     already_up = False
     likes_count = -1
@@ -531,6 +544,13 @@ def ReviewLike(request):
                 likes_count = target_review.like
     ctx = {'likes_count': likes_count, 'already_up': already_up, 'is_login':is_login, 'id': request.POST['commentid']}
     return JsonResponse(json.dumps(ctx),safe=False)
+
+def likeAlarmChecked(request):
+    like_checked = request.POST['like_checked']
+    if like_checked == True:
+        user = request.user
+        user_profile = UserProfile.objects.get(user=user)
+        user_profile.like_alarm_activate = False
 
 #ReviewWritingPage#################################################################################################
 @login_required(login_url='/session/login/')
