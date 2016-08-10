@@ -27,6 +27,7 @@ from django.conf.urls.static import static
 
 from apps.review import views as review_views
 from django import views as django_views
+from django.views import static as django_static
 
 handler400 = 'apps.review.views.bad_request'
 handler403 = 'apps.review.views.permission_denied'
@@ -51,5 +52,7 @@ urlpatterns = [
     url(r'^review/', include('apps.review.urls')),
     url(r'^subject/', include('apps.subject.urls')),
     url(r'^timetable/', include('apps.timetable.urls')),
-] + static(r'^media/(?P<path>.*)$', document_root = os.path.join(BASE_DIR, 'static'))
-    # Media Root
+	# Media Root
+	url(r'^media/(?P<path>.*)$',django_static.serve,
+			{'document_root': os.path.join(BASE_DIR, 'static')}),
+]
