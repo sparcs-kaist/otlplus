@@ -7,19 +7,15 @@ from apps.session.sparcssso import Client
 from apps.subject.models import Department, Lecture
 #from apps.timetable.models import TimeTable
 
-# TESTING #
-sso_client = Client(is_test=True)
 
-# PRODUCTION #
-#sso_client = Client(is_test=False,
-#        app_name='otlplus',
-#        secret_key=settings.SSO_KEY)
+sso_client = Client(settings.SSO_CLIENT_ID, settings.SSO_SECRET_KEY, is_beta=settings.SSO_IS_BETA)
 
 
 class UserProfile(models.Model):
     user = models.ForeignKey(User)
 
-    department = models.ForeignKey(Department)
+    department = models.ForeignKey(Department, blank=True, null=True)
+
     majors = models.ManyToManyField(Department, related_name = 'major_user_set') #복수전공들 index 0가
     minors = models.ManyToManyField(Department, related_name = 'minor_user_set') #부전공.
     specialized_major = models.ManyToManyField(Department, related_name = 'specialized_major_user_set') #심화전공.
@@ -34,26 +30,16 @@ class UserProfile(models.Model):
     point = 0
     point_updated_time = None
 
-    def get_point(self, update=False):
-        if not self.point_updated_time or update:
-            self.sync_point()
-        return self.point, self.point_updated_time
+    def get_point(self):
+        self.point = sso_client.get_point(self.sid)
+        return self.point
 
-    def sync_point(self):
-        if sso_client.is_test:
-            self.point = 0
-        else:
-            self.point = sso_client.get_point(self.sid)
-        self.point_updated_time = timezone.now()
-
-    def add_point(self, delta, action):
-        if sso_client.is_test or delta <= 0:
-            return False
-
-        changed, point = sso_client.modify_point(self.sid, delta, action)
-        self.point = point
-        self.point_updated_time = timezone.now()
-        return changed
+    def add_point(self, delta, message):
+        result = sso_client.modify_point(self.sid, delta, message, 0)
+        # print result['point']         # 포인트
+        # print result['modified']      # 변경되었는지 여부
+        # print result['last_modified'] # 마지막으로 변경된 시간의 isoformat 문자열
+        return result
 
     def __unicode__(self):
         return u'%s %s' % (self.user.username, self.student_id)
