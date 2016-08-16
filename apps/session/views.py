@@ -43,9 +43,6 @@ def login_callback(request):
     state_before = request.session.get('sso_state', 'default before state')
     state = request.GET.get('state', 'default state')
 
-    print state
-    print state_before
-
     if state_before != state:
         return render(request, 'session/login_error.html',
                       {'error_title': "Login Error",
