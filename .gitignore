@@ -1,7 +1,7 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
-settings.py
+#settings.py
 settings_local.py
 #credit images
 img/credit/
