@@ -1,0 +1,32 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="ivewport" content="width=device-width, intial-scale=1">
+        <title>{% block title %}Settings page{% endblock %}</title>
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static "css/session.css" %}"> 
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" integrity="sha384-aUGj/X2zp5rLCbBxumKTCw2Z50WgIr1vs/PFN4praOTvYXWlVyh2UtNUU0KAUhAX" crossorigin="anonymous">
+
+{% endblock %}
+<!-- Latest compiled and minified JavaScript -->
+{% block script %}
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+{% endblock %}
+    </head>
+    <body>
+        {% if user.is_authenticated %}
+        <span>Hello, {{ user }}!</span>
+        <a href="/session/logout/">logout</a>
+        {% else %}
+        <a href="/session/login/">login</a>
+        {% endif %}
+        {% block content %}
+        {% endblock %}
+    </body>
+</html>

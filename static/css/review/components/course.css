@@ -1,0 +1,110 @@
+.course {
+    margin-top: 20px;
+    border: 0px solid #ffffff;
+    box-shadow: 0 3px 0px rgba(0, 0, 0, 0.2);
+    min-width: 260px;
+}
+.course:hover {
+    box-shadow: 0 3px 0px rgba(229, 76, 101, 0.3);
+}
+.course .panel-body {
+    padding: 10px 25px 10px 25px;
+}
+
+.course .panel-body div.row > div:nth-of-type(1) > h4{ 
+    margin-bottom: 15px;
+}
+.course .panel-body div.row > div:nth-of-type(2) > span{
+    margin-bottom: 10px;
+    margin-right:1px;
+}
+.course .panel-body div.row div.label-row{
+    margin-bottom: 5px;
+    padding-right: 25px;
+}
+.course .panel-body div.row span.label-title {
+    display: inline-block;
+    width: 75px;
+    font-weight: normal;
+    border-right: 2px solid #aaaaaa;
+    margin-right: 15px;
+    margin-top: 2px;
+}
+.course .panel-body div.row div span.label-description {
+    display: inline-block;
+    margin-bottom: 4px;
+    margin-top: 3px;
+}
+.course .panel-body div.row div .professors label {
+    position: relative;
+    top: -2px;
+    margin-bottom: 0;
+}
+.course .panel-body div.row div .professors label input[type="checkbox"],
+.course .panel-body div.row div .professors label input[type="radio"] {
+    display: none;
+}
+.course .panel-body div.row div .professors label span.label {
+    background: #a7a7a7;
+}
+.course .panel-body div.row div .professors label span.label a {
+    text-decoration: none !important;
+}
+.course .panel-body div.row div .professors label.active span.label {
+    background: #e44e68;
+}
+.course .panel-body div.row div .panel-title {
+    margin-bottom: 20px;
+}
+.score_letter{
+    color: #db6c7c;
+}
+.score_letter-review{
+    color: #db6c7c;
+}
+.score_table tbody tr td, .table-borderless tbody tr th, .table-borderless thead tr th {
+    border: none;
+    padding: 3px;
+    width:56px;
+}
+.score_table, .score_div{
+    float:right;
+    margin-right:-20px;
+    padding:0px;
+}
+.score_table{
+    max-width:280px;
+    display:inline-block;
+}
+@media(max-width:370px){
+.score_table_bottom{
+    margin-left:-23px;
+    float:left;
+}
+}
+@media(min-width:370px){
+.score_table_bottom{
+    min-width:280px;
+    margin-left:-23px;
+    float:left;
+}
+.score-elem{
+    width:25%;
+}
+
+}
+@media(min-width:768px){
+    .course .table-responsive .table{
+        margin-bottom:0px;
+    }
+}
+.score-elem, .score-elem-review{
+    display:inline-block;
+    padding:3px;
+    float:left;
+}
+.score-elem-review{
+    width:65px;
+}
+/*# sourceMappingURL=course.css.map */
+

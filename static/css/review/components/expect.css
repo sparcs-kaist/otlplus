@@ -1,0 +1,65 @@
+.expect.panel {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    border: 0px solid #ffffff;
+    box-shadow: 0 3px 0px rgba(229, 76, 101, 0.3);
+    min-width: 260px;
+    background-color: #fff;
+    border-radius: 4px;
+    padding:5px 15px 5px 25px;
+}
+.expect.panel-b {
+    margin-top: 20px;
+    border: 0px solid #ffffff;
+    box-shadow: 0 3px 0px rgba(0, 0, 0, 0.2);
+    min-width: 260px;
+    background-color: #fff;
+    border-radius: 4px;
+    padding:5px 15px 20px 25px;
+}
+
+.expect .label-b{
+    display: inline-block;
+    margin: 8px 5px 10px 0px;
+
+}
+.expect .label-a{
+    margin: 10px;
+}
+.expect {
+    margin-bottom: 20;
+}
+.expect .panel-body {
+    padding: 0;
+}
+.expect .panel-body .h4 {
+    display: inline-block;
+    margin: 0;
+    margin-right: 0;
+    margin-bottom: 15px;
+}
+.expect a.label, .expect a.label.deactive:hover {
+    background: #e44e68;
+    color: #ffffff;
+    font-size:14px ;
+    border: 2px solid #e44e68;
+}
+.expect a.label:hover{
+    background: #DE2F4D;
+    border: 2px solid #DE2F4D;
+}
+.expect a.label.deactive{
+   background: #ffffff; 
+   color: #e44e68;
+   
+}
+
+
+.expect a.label.written{
+     background: #24bd1b;
+     color: #ffffff;
+     font-size:14px ;
+     border: 2px solid #24bd1b;
+}
+
+/*# sourceMappingURL=expect.css.map */

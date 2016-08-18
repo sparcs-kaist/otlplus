@@ -1,0 +1,88 @@
+#contents {
+    margin-top: -50px;
+}
+#contents > .row:nth-of-type(1) {
+    background: url("/media/img/review/search/bg.jpg");
+    background-size: 100% auto;
+    background-position: center 0;
+}
+#contents > .row:nth-of-type(1) form {
+    position: relative;
+    margin: 0px;
+    width: 100%;
+}
+#contents > .row:nth-of-type(1) form > div {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+#contents > .row:nth-of-type(1) form > div > * {
+    width: 100%;
+    height: 46px;
+    border: none;
+    border-radius: 10px;
+}
+#contents > .row:nth-of-type(1) form > div [type="button"],
+#contents > .row:nth-of-type(1) form > div input[type="submit"] {
+    background-color: #e64c65;
+}
+#contents > .row:nth-of-type(1) form > div [type="button"]:hover,
+#contents > .row:nth-of-type(1) form > div input[type="submit"]:hover {
+    background-color: #E0425C;
+}
+#contents > .row:nth-of-type(1) form > div [type="button"].active{
+    color: #000000;
+    background: #ffffff !important;
+
+}
+
+#contents #options {
+    overflow-y:overlay;
+    margin-bottom:-1000px;
+}
+
+@media (max-width: 767px) {
+    #contents > .row:nth-of-type(1) form > div input[type="text"] {
+        margin-bottom: 10px;
+    }
+}
+@media (max-width: 767px) {
+    #contents > .row:nth-of-type(1) {
+        height: 200px !important;
+        margin-top: 50px;
+    }
+    #contents > .row:nth-of-type(1) form {
+        top: 50px;
+    }
+}
+@media (min-width: 768px) {
+    #contents > .row:nth-of-type(1) {
+        height: 300px;
+    }
+    #contents > .row:nth-of-type(1) form {
+        top: 100px;
+    }
+}
+@media (min-width: 992px) {
+    #contents > .row:nth-of-type(1) {
+        height: 400px;
+    }
+    #contents > .row:nth-of-type(1) form {
+        top: 150px;
+    }
+}
+@media (min-width: 1200px) {
+    #contents > .row:nth-of-type(1) {
+        height: 500px;
+    }
+    #contents > .row:nth-of-type(1) form {
+        top: 200px;
+    }
+}
+#contents > .row:nth-of-type(2) {
+    background-color: #f9f0f0;
+}
+#contents > .row:nth-of-type(2) > div > h2 {
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+/*# sourceMappingURL=search.css.map */

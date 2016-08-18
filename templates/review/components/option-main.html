@@ -1,0 +1,118 @@
+<form role="form" class="form" method="get" id="filter_form">
+  <div id="options" class="form-horizontal row">
+    <div class="form-group">
+      <label class="col-xs-6 col-sm-4 col-md-3 col-lg-3 control-label">분류</label>
+      <div class="col-xs-18 col-sm-20 col-md-21 col-lg-21">
+        <div class="controls">
+
+          <label>
+            <input class="chkall" type="checkbox" autocomplete="off" name="type" value="ALL" checked="checked">전체
+            <span class="fa-stack fa-lg">
+              <i class="fa fa-circle-o fa-stack-2x"></i>
+              <i class="fa fa-check fa-stack-1x"></i>
+            </span>
+          </label>
+
+          {% for i in "1234567890" %}
+          <label>
+            <input class="chkelem" type="checkbox" autocomplete="off" name="type" value="{% cycle "GR" "MGC" "BE" "BR" "EG" "HSE" "OE" "ME" "MR" "ETC" %}" >{% cycle "공통" "교필" "기선" "기필" "석박" "인선" "자선" "전선" "전필" "기타" %}
+            <span class="fa-stack fa-lg">
+              <i class="fa fa-circle-o fa-stack-2x"></i>
+              <i class="fa fa-check fa-stack-1x"></i>
+            </span>
+          </label>
+          {% endfor %}
+
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+
+
+      <label class="col-xs-6 col-sm-4 col-md-3 col-lg-3 control-label">학과</label>
+      <div class="col-xs-18 col-sm-20 col-md-21 col-lg-21">
+        <div class="controls">
+
+          <label>
+            <input class="chkall" type="checkbox" autocomplete="off" name="department" value="ALL" checked="checked">전체
+            <span class="fa-stack fa-lg">
+              <i class="fa fa-circle-o fa-stack-2x"></i>
+              <i class="fa fa-check fa-stack-1x"></i>
+            </span>
+          </label>
+
+
+          {% for i in "123456789012345678" %}
+          <label>
+            <input class="chkelem" type="checkbox" autocomplete="off" name="department" value="{% cycle "HSS" "CE" "MSB" "MAE" "PH" "BiS" "IE" "ID" "BS" "MAS" "NQE" "EE" "CS" "MAE" "CH" "ETC" "CBE" "MS"%}">{% cycle "인문" "건환" "기경" "기계" "물리" "바공" "산공" "산디" "생명" "수리" "원양" "전자" "전산" "항공" "화학" "기타" "생화공" "신소재"%}
+            <span class="fa-stack fa-lg">
+              <i class="fa fa-circle-o fa-stack-2x"></i>
+              <i class="fa fa-check fa-stack-1x"></i>
+            </span>
+          </label>
+          {% endfor %}
+
+        </div>
+      </div>
+    </div>
+
+
+    <div class="form-group">
+      <label class="col-xs-6 col-sm-4 col-md-3 col-lg-3 control-label">학년</label>
+      <div class="col-xs-18 col-sm-20 col-md-21 col-lg-21">
+        <div class="controls">
+
+          <label>
+            <input class="chkall" type="checkbox" autocomplete="off" name="grade" value="ALL" checked="checked">전체
+            <span class="fa-stack fa-lg">
+              <i class="fa fa-circle-o fa-stack-2x"></i>
+              <i class="fa fa-check fa-stack-1x"></i>
+            </span>
+          </label>
+
+
+          {% for i in "0123456" %}
+          <label>
+            <input class="chkelem" type="checkbox" autocomplete="off" name="grade" value="{% cycle "000" "100" "200" "300" "400" "500" "HIGH"%}" >{% cycle "000번대" "100번대" "200번대" "300번대" "400번대" "500번대" "석박사"%}
+            <span class="fa-stack fa-lg">
+              <i class="fa fa-circle-o fa-stack-2x"></i>
+              <i class="fa fa-check fa-stack-1x"></i>
+            </span>
+          </label>
+          {% endfor %}
+
+        </div>
+      </div>
+    </div>
+
+
+    <div class="form-group">
+      <label class="col-xs-6 col-sm-4 col-md-3 col-lg-3 control-label">학기</label>
+      <div class="col-xs-18 col-sm-20 col-md-21 col-lg-21">
+        <div class="controls">
+
+          <label>
+              <input class="chkall chkone" type="radio" autocomplete="off" name="semester" value="ALL" checked="checked" >전체
+            <span class="fa-stack fa-lg">
+              <i class="fa fa-circle-o fa-stack-2x"></i>
+              <i class="fa fa-check fa-stack-1x"></i>
+            </span>
+          </label>
+
+          {% for i in "1234" %}
+          <label>
+              <input class="chkelem chkone" type="radio" autocomplete="off" name="semester" value="{% cycle "NEXT" "NOW" "PREV" "RECENT" %}" >{% cycle "다음" "현재" "이전" "최근" %}
+            <span class="fa-stack fa-lg">
+              <i class="fa fa-circle-o fa-stack-2x"></i>
+              <i class="fa fa-check fa-stack-1x"></i>
+            </span>
+          </label>
+          {% endfor %}
+
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</form>

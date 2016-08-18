@@ -1,0 +1,177 @@
+.navbar {
+    border: none;
+    margin-bottom: 0;
+    border-bottom: none;
+    -webkit-transition: all 0.25s ease-out;
+    -moz-transition: all 0.25s ease-out;
+    -ms-transition: all 0.25s ease-out;
+    -o-transition: all 0.25s ease-out;
+    transition: all 0.25s ease-out;
+    background: transparent;
+}
+@media (max-width: 767px) {
+    .navbar {
+        background: #e54c65;
+    }
+}
+.navbar * {
+    background: transparent;
+}
+.navbar .navbar-header .navbar-brand {
+    color: #ffffff;
+    font-weight: bolder;
+}
+.navbar .navbar-header .navbar-toggle:hover,
+.navbar .navbar-header .navbar-toggle:focus {
+    background: transparent;
+}
+.navbar .navbar-header .navbar-toggle .icon-bar {
+    background-color: #ffffff;
+}
+.navbar .navbar-collapse ul.navbar-nav a {
+    color: #ffffff;
+}
+.navbar .navbar-collapse ul.navbar-nav a:hover{
+    color: #dddddd !important;
+}
+.navbar .navbar-collapse ul.navbar-nav li.divider{
+    margin: 4px 0;
+}
+.navbar .navbar-collapse ul.navbar-nav li.active a,
+.navbar .navbar-collapse ul.navbar-nav li.dropdown a {
+    color: #ffffff;
+    background: transparent;
+}
+.navbar .navbar-collapse ul.navbar-nav li.active a:hover,
+.navbar .navbar-collapse ul.navbar-nav li.active a:focus,
+.navbar .navbar-collapse ul.navbar-nav li.dropdown a:hover,
+.navbar .navbar-collapse ul.navbar-nav li.dropdown a:focus {
+    background: transparent;
+}
+a:hover{
+    cursor:Pointer;
+}
+.navbar .navbar-collapse ul.navbar-nav li.active li.divider,
+.navbar .navbar-collapse ul.navbar-nav li.dropdown li.divider {
+    background: transparent;
+}
+.navbar .navbar-collapse ul.navbar-nav.navbar-right li {
+    position: relative;
+}
+.navbar .navbar-collapse ul.navbar-nav.navbar-right li .img-circle {
+    position: relative;
+    top: 5px;
+    width: 30px;
+    height: 30px;
+    margin-top: -10px;
+    margin-right: 5px;
+}
+@media (max-width: 767px) {
+    .navbar .navbar-collapse {
+        background: #e54c65;
+    }
+    .navbar .navbar-collapse li.divider {
+        background: #e5e5e5 !important;
+    }
+    .header_hide{
+        display:inline-block !important;
+    }
+
+}
+.navbar.scrolled {
+    background: #e54c65;
+}
+.navbar.scrolled .dropdown * {
+    background: #e54c65 !important;
+}
+.navbar.scrolled .dropdown li.divider {
+    background: #e5e5e5 !important;
+}
+@media (max-width: 1140px) {
+    .header_hide{
+        display:none;
+    }
+}
+
+@media (min-width: 768px){
+    .navbar-header{
+        white-space: nowrap;
+        width:8.33%;
+        position: relative;
+        min-height: 1px;
+        padding-left: 15px;
+        padding-right: 15px;
+
+    }
+    .header-middle{
+        width:83.33%;
+        position: relative;
+        min-height: 1px;
+        padding-left: 15px;
+        padding-right: 15px;
+        margin-left:8.33%;
+
+    }
+    .header-end{
+        margin-top: -50px;
+        float: right !important;
+        margin-right: 15px;
+
+    }
+    .hid{
+        display: none;
+    }
+    .float-right{
+        float:right !important;
+    }
+    .navbar-nav>li>.dropdown-menu {
+        border: 0px solid #ffffff;
+        -webkit-box-shadow: 0 3px 0px rgba(0, 0, 0, 0.2);
+        background-color: rgba(256,256,256,0.02);
+        border-radius: 4px;
+        min-width: 80px;
+        margin: 5px 14px;
+        text-align: center;
+    }
+
+}
+@media (min-width: 992px){
+    .navbar-header{
+        width:12.5%;
+        position: relative;
+        min-height: 1px;
+        padding-left: 15px;
+        padding-right: 15px;
+
+    }
+    .header-middle{
+        width:75%;
+        position: relative;
+        min-height: 1px;
+        padding-left: 15px;
+        padding-right: 15px;
+        margin-left:12.5%;
+
+    }
+}
+@media (min-width: 1200px){
+    .navbar-header{
+        width:16.66%;
+        position: relative;
+        min-height: 1px;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    .header-middle{
+        width:66.66%;
+        position: relative;
+        min-height: 1px;
+        padding-left: 15px;
+        padding-right: 15px;
+        margin-left:16.66666667%;
+
+    }
+
+}
+
+/*# sourceMappingURL=search.css.map */

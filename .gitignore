@@ -1,0 +1,96 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+settings.py
+#credit images
+img/credit/
+# C extensions
+*.so
+
+cronlog
+*.swp
+update_scholardb.py
+update_taken_lecture.py
+import_old-comment.py
+# Distribution / packaging
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+.DS_Store
+
+# PyInstaller
+#  Usually these files are written by a python script from a template
+#  before PyInstaller builds the exe, so as to inject date/other infos into it.
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*,cover
+
+# Translations
+*.mo
+*.pot
+
+# Django stuff:
+*.log
+migrations/
+
+# Sphinx documentation
+docs/_build/
+
+# PyBuilder
+target/
+
+# VIM Swap Files
+*.sw[op]
+
+# SQLITE3 Test database
+db.*
+# VirutalEnv Files
+bin/
+include/
+pip-selfcheck.json
+# IDE Cache
+.idea
+
+# autoenv
+.env
+
+# sass-cache
+.sass-cache
+
+# Secret Key
+keys/
+
+# test file
+test1.py
+#database update file
+update_taken_lecture.py
+db_update_script.sh
+update_taken_lecture_user.py
+update_scholardb.py
+db_update_script.log

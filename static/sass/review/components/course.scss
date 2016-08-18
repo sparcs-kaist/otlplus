@@ -1,0 +1,83 @@
+.course {
+    margin-top: 20px;
+    border: 2px solid #e54c65;
+    -webkit-box-shadow: 0 1px 1px rgba(229, 076, 101, 0.5);
+    box-shadow: 0 4px 4px rgba(229, 076, 101, 0.5);
+    .panel-body {
+        padding: 30px;
+        div.row {
+            >div:nth-of-type(1) {
+                >div {
+                    margin-bottom: 10px;
+                    span.label-title {
+                        display: inline-block;
+                        width: 65px;
+                        font-weight: normal;
+                        border-right: 2px solid #aaaaaa;
+                    }
+                    span.label-description {
+                        display: inline-block;
+                        margin-left: 15px;
+                    }
+                    .professors {
+                        label {
+                            position: relative;
+                            top: -2px;
+                            margin-bottom: 0;
+                            input[type="checkbox"] {
+                                display: none;
+                            }
+                            span.label {
+                                background: #a7a7a7;
+                            }
+                            &.active {
+                                span.label {
+                                    background: #e44e68;
+                                }
+                            }
+                        }
+                    }
+                    &.panel-title {
+                        margin-bottom: 20px;
+                    }
+                }
+            }
+            >div:nth-of-type(2) {
+                h4 {
+                    margin-bottom: 20px;
+                    span.label {
+                        background: #e44e68;
+                    }
+                }
+                >div {
+                    >div:nth-of-type(1) {
+                        p {
+                            span {
+                                float: right;
+                                color: #db6c7c;
+                            }
+                        }
+                    }
+                    >div:nth-of-type(2) {
+                        div {
+                            width: 80px;
+                            height: 8px;
+                            border-radius: 50%;
+                            background: #e44e68;
+                            span {
+                                position: absolute;
+                                top: 50%;
+                                left: 50%;
+                                margin-top: -20px;
+                                margin-left: -15px;
+                                color: #ffffff;
+                                font-size: 30px;
+                                font-weight: bolder;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

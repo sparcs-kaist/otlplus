@@ -1,0 +1,50 @@
+.ellipsis-wrapper {
+  position: relative;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-wrap: break-word;
+  word-break: break-all; }
+
+.ellipsis-content {
+  left: 0;
+  right: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-wrap: break-word;
+  word-break: break-all; }
+html{
+    background-color: #f9f0f0;
+}
+body{
+    background-color: #f9f0f0;
+}
+.btn:focus{
+    outline:none !important;
+}
+
+a{
+    color:#000;
+}
+a:hover{
+    text-decoration:none !important;
+}
+
+a:focus{
+    text-decoration:none !important;
+}
+
+span.label:hover{
+    background: #C53C50 !important;
+}
+
+.fa-stack:hover{
+    cursor:Pointer
+}
+
+.label-title > h4{
+    line-height:1.2 !important;
+}
+
+/*# sourceMappingURL=global.css.map */
