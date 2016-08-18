@@ -50,71 +50,74 @@
 		</div>
 		<div id="search-container">
 			<div id="search-colheaders">
-				<div class="search-chead search active"><span class="scheadtext">Q</span></div>
-				<div class="search-chead result"><span class="scheadtext">1</span></div>
-				<div class="search-chead result"><span class="scheadtext">2</span></div>
-				<div class="search-chead result"><span class="scheadtext">3</span></div>
-				<div class="search-chead result"><span class="scheadtext">4</span></div>
+				<button class="search-chead search active"><span class="scheadtext">Q</span></button>
+				<button class="search-chead result"><span class="scheadtext">1</span></button>
+				<button class="search-chead result"><span class="scheadtext">2</span></button>
+				<button class="search-chead result"><span class="scheadtext">3</span></button>
+				<button class="search-chead result"><span class="scheadtext">4</span></button>
 			</div>
-			<div id="search-page" style="visibility:hidden">
-				<div id="lecturelist-filter">
-					<label>학과&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:11px">(<a href="/accounts/myinfo/">관심학과 설정</a>)</span></label>
-					<select id="department">
-						<optgroup label="소속학과/관심학과">
-							<option>인문사회과학부</option>
-							<option>전산학부</option>
-						</optgroup>
-						<optgroup label="전체 목록">
-							<option>무학과</option>
-							<option>인문사회과학부</option>
-							<option>전산학부</option>
-						</optgroup>
-					</select>
-					<br />
-					<label>과목구분</label>
-					<select id="classification" style="width:100%">
-						<option value="전체보기">전체보기</option>
-						<option value="전체보기">기초필수</option>
-						<option value="전체보기">기초선택</option>
-						<option value="전체보기">전공필수</option>
-						<option value="전체보기">전공선택</option>
-						<option value="전체보기">교양필수</option>
-						<option value="교양필수(체육)">교양필수(체육)</option>
-						<option value="교양선택">교양선택</option>
-						<option value="자유선택">자유선택</option>
-						<option value="공통필수">공통필수</option>
-						<option value="인문사회선택">인문사회선택</option>
-						<option value="선택(석/박사)">선택(석/박사)</option>
-						<option value="개별연구">개별연구</option>
-						<option value="졸업연구">졸업연구</option>
-						<option value="세미나">세미나</option>
-						<option value="논문세미나">논문세미나</option>
-						<option value="현장실습및연구">현장실습및연구</option>
-					</select>
-					<br />
-					<label>키워드</label>
-					<input type="text" id="keyword" autocomplete="off" style="width:97%">
-					<br />
-					<div style="text-align:right; margin-top:10px;">
-						<input type="button" id="clear" name="clear" value="초기화" style="text-align:right;">
-						<input type="button" id="apply" name="apply" value="적용" style="text-align:right;">
+			<div id="result-pages">
+				<div class="search-page none">
+					<div id="lecturelist-filter">
+						<label>학과&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:11px">(<a href="/accounts/myinfo/">관심학과 설정</a>)</span></label>
+						<select id="department">
+							<optgroup label="소속학과/관심학과">
+								<option>인문사회과학부</option>
+								<option>전산학부</option>
+							</optgroup>
+							<optgroup label="전체 목록">
+								<option>무학과</option>
+								<option>인문사회과학부</option>
+								<option>전산학부</option>
+							</optgroup>
+						</select>
+						<br />
+						<label>과목구분</label>
+						<select id="classification" style="width:100%">
+							<option value="전체보기">전체보기</option>
+							<option value="전체보기">기초필수</option>
+							<option value="전체보기">기초선택</option>
+							<option value="전체보기">전공필수</option>
+							<option value="전체보기">전공선택</option>
+							<option value="전체보기">교양필수</option>
+							<option value="교양필수(체육)">교양필수(체육)</option>
+							<option value="교양선택">교양선택</option>
+							<option value="자유선택">자유선택</option>
+							<option value="공통필수">공통필수</option>
+							<option value="인문사회선택">인문사회선택</option>
+							<option value="선택(석/박사)">선택(석/박사)</option>
+							<option value="개별연구">개별연구</option>
+							<option value="졸업연구">졸업연구</option>
+							<option value="세미나">세미나</option>
+							<option value="논문세미나">논문세미나</option>
+							<option value="현장실습및연구">현장실습및연구</option>
+						</select>
+						<br />
+						<label>키워드</label>
+						<input type="text" id="keyword" autocomplete="off" style="width:97%">
+						<br />
+						<div style="text-align:right; margin-top:10px;">
+							<input type="button" id="clear" name="clear" value="초기화" style="text-align:right;">
+							<input type="button" id="apply" name="apply" value="적용" style="text-align:right;">
+						</div>
 					</div>
+					<div id="lecturelist-notice">※ 강의시간이 없는 과목들은 제외됩니다. (예: 졸업연구, 논문연구)</div>
+					<!--<div id="lecture-container">
+						<div style="width:15%;padding:0;margin:0;float:left;">
+							<div id="lecture-tabs"></div>
+						</div>
+						<div style="width:85%;padding:0;margin:0;float:left;">
+							<div id="lecture-contents"></div>
+						</div>
+					</div>-->
 				</div>
-				<div id="lecturelist-notice">※ 강의시간이 없는 과목들은 제외됩니다. (예: 졸업연구, 논문연구)</div>
-				<!--<div id="lecture-container">
-					<div style="width:15%;padding:0;margin:0;float:left;">
-						<div id="lecture-tabs"></div>
+				<div class="result-page">
+					<div class="result-message">
+						<span>(전산학부), (전공필수, 전공선택)에 대한 검색 결과입니다.</span>
 					</div>
-					<div style="width:85%;padding:0;margin:0;float:left;">
-						<div id="lecture-contents"></div>
+					<div class="lecture-list">
+
 					</div>
-				</div>-->
-			</div>
-			<div class="result-page">
-				<div id="result-message">
-					<span>(전산학부), (전공필수, 전공선택)에 대한 검색 결과입니다.</span>
-				</div>
-				<div>
 				</div>
 			</div>
 		</div><!--div search-container-->
@@ -127,11 +130,11 @@
 				</select>
 			</div>-->
 			<div id="timetable-tabs" style="clear:both;">
-				<div class="timetable-tab active"><span class="timetable-num">시간표 1</span></div>
-				<div class="timetable-tab"><span class="timetable-num">시간표 2</span></div>
-				<div class="timetable-tab"><span class="timetable-num">시간표 3</span></div>
-				<div class="timetable-tab"><span class="timetable-num">시간표 4</span></div>
-				<div class="timetable-tab timetable-add"><span class="timetable-num">+</span></div>
+				<button class="timetable-tab active"><span class="timetable-num">시간표 1</span></button>
+				<button class="timetable-tab"><span class="timetable-num">시간표 2</span></button>
+				<button class="timetable-tab"><span class="timetable-num">시간표 3</span></button>
+				<button class="timetable-tab"><span class="timetable-num">시간표 4</span></button>
+				<button class="timetable-tab timetable-add"><span class="timetable-num">+</span></button>
 			</div>
 		</div>
 		<div id="timetable">
@@ -165,12 +168,183 @@
 					<div id="grid-wrap">
 						<div id="grid">
 							<div id="timetable-contents">
+								<div class="cellcolumn">
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2 cell-bottom"></div>
+								</div>
+								<div class="cellcolumn">
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2 cell-bottom"></div>
+								</div>
+								<div class="cellcolumn">
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2 cell-bottom"></div>
+								</div>
+								<div class="cellcolumn">
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2 cell-bottom"></div>
+								</div>
+								<div class="cellcolumn">
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2 cell-bottom"></div>
+								</div>
 							</div>
 							<div id="cellselected"></div>
 						</div>
 					</div>
 				</div>
 			</div><!--div timetable-wrap-->
+			<div style="height:3px;"></div>
 			<div id="right-side">
 				<div id="map" style="margin-bottom:10px">
 					<div id="map-wrap">
