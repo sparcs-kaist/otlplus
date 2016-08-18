@@ -2,6 +2,7 @@
 __pycache__/
 *.py[cod]
 settings.py
+settings_local.py
 #credit images
 img/credit/
 # C extensions
@@ -94,6 +95,3 @@ db_update_script.sh
 update_taken_lecture_user.py
 update_scholardb.py
 db_update_script.log
-
-#otlplus settings.py
-otlplus/settings_local.py
