@@ -2,7 +2,7 @@
 from django.core.management.base import BaseCommand
 from django.conf import settings
 from django.core.exceptions import *
-from apps.subject.models import Department, Professor, Lecture, Course
+from apps.subject.models import Department, Professor, Lecture, Course, ClassTime, ExamTime
 #from otl.apps.timetable.models import ClassTime, ExamTime, Syllabus
 from optparse import make_option
 from datetime import time
@@ -255,7 +255,7 @@ class Command(BaseCommand):
             c.close()
 
         # Extract exam-time, class-time info.
-        '''
+        
         print 'Extracting exam time information...'
         c = db.cursor()
         c.execute('SELECT * FROM view_OTL_exam_time WHERE lecture_year = %d AND lecture_term = %d' % (next_year, next_semester))
@@ -287,9 +287,9 @@ class Command(BaseCommand):
                 print 'Exam-time for non-existing lecture %s; skip it...' % myrow[2]
 
 
-        '''
+        
         # Extract class-time.
-        '''
+        
         print 'Extracting class time information...'
         c = db.cursor()
         c.execute('SELECT * FROM view_OTL_time WHERE lecture_year = %d AND lecture_term = %d' % (next_year, next_semester))
@@ -328,7 +328,7 @@ class Command(BaseCommand):
                 class_time.save()
             except Lecture.DoesNotExist:
                 print 'Class-time for non-existing lecture %s; skip it...' % myrow[2]
-        '''
+        
         # Extract Syllabus info.
         '''
         c = db.cursor()
