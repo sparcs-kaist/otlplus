@@ -58,6 +58,7 @@ def login_callback(request):
         student_id = kaist_info.get('ku_std_no')
     except:
         student_id = ''
+
     if len(user_list) == 0:
         user = User.objects.create_user(username=username,
                     email=sso_profile['email'],
@@ -150,12 +151,13 @@ def user_settings(request):
 
 @login_required(login_url='/session/login/')
 def unregister(request):
-    sid = UserProfile.objects.get(user=request.user).sid
-    unregister_url = sso_client.get_unregister_url(sid)
-
     user = request.user
+
+    sid = UserProfile.objects.get(user=user).sid
+    unregister_url = sso_client.get_unregister_url(sid)
 
     user.profile.delete()
     user.delete()
+    logout(request)
 
     return redirect(unregister_url)
