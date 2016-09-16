@@ -4,7 +4,8 @@ from django.conf import settings
 from django.core.exceptions import *
 from apps.subject.models import Department, Professor, Lecture, Course, ClassTime, ExamTime
 #from otl.apps.timetable.models import ClassTime, ExamTime, Syllabus
-from optparse import make_option
+#from optparse import make_option
+#import argparse
 from datetime import time
 import sys, getpass, re
 #import Sybase
@@ -12,17 +13,16 @@ import pyodbc
 import datetime
 
 class Command(BaseCommand):
-    option_list = BaseCommand.option_list + (
-        make_option('--host', dest='host', help=u'Specifies server address.'),
-        make_option('--port', dest='port', help=u'Specifies server port.'),
-        make_option('--user', dest='user', help=u'Specifies user name to log in.'),
-        make_option('--password', dest='password', help=u'Specifies passowrd to log in.'),
-        make_option('--encoding', dest='encoding', help=u'Sepcifies character encoding to decode strings from database. (default is cp949)', default='cp949'),
-        make_option('--exclude-lecture', action='store_true', dest='exclude_lecture', help=u'Don\'t update lecture information when you want to update time information only.', default=False),
-    )
-    help = u'Imports KAIST scholar database.'
-    args = u'--host=143.248.X.Y:PORT --user=USERNAME'
-
+    def add_arguments(self,parser): # from Django 1.10, we don't use OptionParser! So I changed it to ArgumentParser 
+        parser.add_argument('--host', dest='host', help=u'Specifies server address.')
+        parser.add_argument('--port', dest='port', help=u'Specifies server port.')
+        parser.add_argument('--user', dest='user', help=u'Specifies user name to log in.')
+        parser.add_argument('--password', dest='password', help=u'Specifies passowrd to log in.')
+        parser.add_argument('--encoding', dest='encoding', help=u'Sepcifies character encoding to decode strings from database. (default is cp949)', default='cp949')
+        parser.add_argument('--exclude-lecture', action='store_true', dest='exclude_lecture', help=u'Don\'t update lecture information when you want to update time information only.', default=False)
+        help = u'Imports KAIST scholar database.'
+        args = u'--host=143.248.X.Y:PORT --user=USERNAME'
+        
     def handle(self, *args, **options):
         next_year = datetime.datetime.now().year
         next_semester = ((datetime.datetime.now().month+9)%12)/3+1
