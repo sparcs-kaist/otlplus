@@ -70,7 +70,7 @@ class ExamTime(models.Model):
     end = models.TimeField() # hh:mm 형태의 시험시작시간 (24시간 제)
 
     def __unicode__(self):
-        return u'[%s] %s, %s-%s' % (self.lecture.code, self.get_day_disply, self.begin.strftime('%H:%M'), self.begin.strftime('%H:%M')
+        return u'[%s] %s, %s-%s' % (self.lecture.code, self.get_day_display(), self.begin.strftime('%H:%M'), self.end.strftime('%H:%M')
                 )
         #TODO ExamTime method 더 필요한거 같이 구현하기
 
