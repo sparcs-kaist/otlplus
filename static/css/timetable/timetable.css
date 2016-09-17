@@ -457,7 +457,7 @@ html, body
     
 }
 
-#examtime1, #examtime2, #examtime3, #examtime4, #examtime5
+.examtime, #examtime1, #examtime2, #examtime3, #examtime4, #examtime5
 {
     display:flex;
     flex-direction:row;
@@ -465,7 +465,7 @@ html, body
     text-align:left;
 }
 
-#examlist1, #examlist2, #examlist3, #examlist4, #examlist5
+.examlist, #examlist1, #examlist2, #examlist3, #examlist4, #examlist5
 {
     list-style:none;
     padding-left:0;
