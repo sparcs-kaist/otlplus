@@ -54,7 +54,7 @@
             </li>
             <li role="separator" class="divider"></li>
             <li>
-              <a href="/session/logout/">
+              <a class="logout">
                 로그아웃
               </a>
             </li>
@@ -62,7 +62,7 @@
         </li>
         {% else %}
         <li>
-          <a href="/session/">
+          <a class="login">
             로그인
           </a>
         </li>
@@ -98,7 +98,7 @@
 
             <li role="separator" class="divider"></li>
             <li>
-              <a href="/session/logout/">
+              <a class="logout">
                 로그아웃
               </a>
             </li>
@@ -106,7 +106,7 @@
         </li>
         {% else %}
         <li>
-          <a href="/session/">
+          <a class="login">
             로그인
           </a>
         </li>
@@ -116,3 +116,7 @@
     </div>
   </div>
 </nav>
+{% block javascripts %}
+  <script type="text/javascript" src="/media/js/jquery.min.js"></script>
+  <script type="text/javascript" src="/media/js/components/header.js"></script>
+{% endblock %}

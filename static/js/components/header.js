@@ -14,3 +14,10 @@ if($('.navbar').length > 0){
     });
 }
 
+$('.login').click(function() {
+    location.href = "/session/login/?next="+location.href;
+});
+$('.logout').click(function() {
+    location.href = "/session/logout/?next="+location.href;
+});
+

@@ -247,6 +247,14 @@ def SearchComment(request, comment):
             already_up = True
     professors = comment.lecture.professor.all()
     professor_name = " " + ", ".join([i.professor_name for i in professors]) + " "
+    semester_int = comment.lecture.semester # get semester info from subject/models.py
+    semester_char = ""
+    # 1 : spring, 2 : summer, 3 : fall, 4 : winter
+    if semester_int == 1: semester_char = "봄"
+    elif semester_int == 2: semester_char = "여름"
+    elif semester_int == 3: semester_char = "가을"
+    elif semester_int == 4: semester_char = "겨울"
+    else: semester_char = "Error"
     result = {
         "type":"comment",
         "id":comment.id,
@@ -254,6 +262,7 @@ def SearchComment(request, comment):
         "course_code":comment.course.old_code,
         "lecture_title":comment.lecture.title,
         "lecture_year":comment.lecture.year,
+        "lecture_semester":semester_char,
         "professor_name":professor_name,
         "writer":comment.writer_label,
         "comment":comment.comment,
@@ -562,6 +571,7 @@ def ReviewInsertView(request,lecture_id=-1,semester=0):
         return render(request, 'review/error.html',ctx)
     lecture_list = user_profile.take_lecture_list.all()
     if len(lecture_list) == 0:
+        print user_profile.student_id
         return render(request, 'review/error.html',ctx)
     recent_semester=0
     semesters=[]
@@ -678,7 +688,7 @@ def ReviewRefresh(request):
     user_profile = UserProfile.objects.get(user=user)
     student_id = user_profile.student_id
     if not student_id == '':
-        os.chdir('/var/www/otlplus/')
+        #os.chdir('/var/www/otlplus/')
         os.system('python update_taken_lecture_user.py %s' % student_id)
     return HttpResponseRedirect('../insert')
 

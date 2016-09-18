@@ -24,8 +24,8 @@ class Command(BaseCommand):
     args = u'--host=143.248.X.Y:PORT --user=USERNAME'
 
     def handle(self, *args, **options):
-        for next_year in range(2008,2009):
-            for next_semester in range(1,2):
+        for next_year in range(2014,2017):
+            for next_semester in range(1,4):
                 rx_dept_code = re.compile(ur'([a-zA-Z]+)(\d+)')
                 host = options.get('host', None)
                 port = options.get('port', None)
