@@ -3,263 +3,458 @@
 <!--한글로 된 부분은 trans가 적용되어 있던 부분이나 현 장고 버전에서는 따로 설정을 해야 사용 가능하므로 일단 적용하지 않았다.--> 
 <div id="page-container">
 	<div id="left-side">
-		<div style="margin-bottom:10px">
-			<div id="lecturelist-filter">
-				<label>학과&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:11px">(<a href="/accounts/myinfo/">관심학과 설정</a>)</span></label>
-				<select id="department">
-					<optgroup label="소속학과/관심학과">
-						<option>인문사회과학부</option>
-						<option>전산학부</option>
-					</optgroup>
-					<optgroup label="전체 목록">
-						<option>무학과</option>
-						<option>인문사회과학부</option>
-						<option>전산학부</option>
-					</optgroup>
-				</select>
-				<br />
-				<label>과목구분</label>
-				<select id="classification" style="width:100%">
-					<option value="전체보기">전체보기</option>
-					<option value="전체보기">기초필수</option>
-					<option value="전체보기">기초선택</option>
-					<option value="전체보기">전공필수</option>
-					<option value="전체보기">전공선택</option>
-					<option value="전체보기">교양필수</option>
-					<option value="교양필수(체육)">교양필수(체육)</option>
-					<option value="교양선택">교양선택</option>
-					<option value="자유선택">자유선택</option>
-					<option value="공통필수">공통필수</option>
-					<option value="인문사회선택">인문사회선택</option>
-					<option value="선택(석/박사)">선택(석/박사)</option>
-					<option value="개별연구">개별연구</option>
-					<option value="졸업연구">졸업연구</option>
-					<option value="세미나">세미나</option>
-					<option value="논문세미나">논문세미나</option>
-					<option value="현장실습및연구">현장실습및연구</option>
-				</select>
-				<br />
-				<label>키워드</label>
-				<input type="text" id="keyword" autocomplete="off" style="width:97%">
-				<br />
-				<div style="text-align:right; margin-top:10px;">
-					<input type="button" id="clear" name="clear" value="초기화" style="text-align:right;">
-					<input type="button" id="apply" name="apply" value="적용" style="text-align:right;">
+		<div id="lecture-info">
+			<div style="padding:1em 1.2em;">
+				<div style="text-align:center;"><span id="course-title">프로그래밍기초</span></div>
+				<div style="text-align:center;margin-top:1px;"><span id="course-no">CS101(B)</span></div>
+				<div class="lecture-options">
+					<span id="color-option" style="float:left";i>색상 변경</span>
+					<span id="syllabus-option">실라버스&nbsp</span>
+					<span id="dictionary-option">과목 후기</span>
+				</div>
+				<div class="basic-info"><span style="font-weight:700">학과&nbsp&nbsp</span><span id="department">전산학부</span></div>
+				<div class="basic-info"><span style="font-weight:700">구분&nbsp&nbsp</span><span id="course-type">기초필수</span></div>
+				<div class="basic-info"><span style="font-weight:700">교수&nbsp&nbsp</span><span id="instructor">김순태</span></div>
+				<div class="basic-info"><span style="font-weight:700">장소&nbsp&nbsp</span><span id="classroom">E11 창의학습관 303호</span></div>
+				<div class="basic-info"><span style="font-weight:700">정원&nbsp&nbsp</span><span id="class-size">45</span></div>
+				<div class="basic-info"><span style="font-weight:700">시험&nbsp&nbsp</span><span id="exam-time">금요일 9:00 ~ 12:00</span></div>
+				<div class="lecture-scores">
+					<div class="lecture-score">
+						<span id="language">Eng</span><br/>
+						<span>언어</span>
+					</div>
+					<div class="lecture-score">
+						<span id="credit">3</span><br/>
+						<span>학점</span>
+					</div>
+					<div class="lecture-score">
+						<span id="rate">1.2:1</span><br/>
+						<span>경쟁률</span>
+					</div>
+				</div>
+				<div class="lecture-scores">
+					<div class="lecture-score" style="clear:both;">
+						<span id="grade">B</span><br/>
+						<span>성적</span>
+					</div>
+					<div class="lecture-score">
+						<span id="load">B-</span><br/>
+						<span>널널</span>
+					</div>
+					<div class="lecture-score">
+						<span id="speech">B-</span><br/>
+						<span>강의</span>
+					</div>
 				</div>
 			</div>
-			<div id="lecturelist-notice">※ 강의시간이 없는 과목들은 제외됩니다. (예: 졸업연구, 논문연구)</div>
 		</div>
-		<div id="lecture-container">
-			<div class="left" style="width:15%;padding:0;margin:0;">
-				<div id="lecture-tabs"></div>
+		<div id="search-container">
+			<div id="search-colheaders">
+				<button class="search-chead search active"><span class="scheadtext">Q</span></button>
+				<button class="search-chead result"><span class="scheadtext">1</span></button>
+				<button class="search-chead result"><span class="scheadtext">2</span></button>
+				<button class="search-chead result"><span class="scheadtext">3</span></button>
+				<button class="search-chead result"><span class="scheadtext">4</span></button>
 			</div>
-			<div class="left" style="width:85%;padding:0;margin:0;">
-				<div id="lecture-contents"></div>
+			<div id="result-pages">
+				<div class="search-page none">
+					<div id="lecturelist-filter">
+						<label>학과&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:11px">(<a href="/accounts/myinfo/">관심학과 설정</a>)</span></label>
+						<select id="department">
+							<optgroup label="소속학과/관심학과">
+								<option>인문사회과학부</option>
+								<option>전산학부</option>
+							</optgroup>
+							<optgroup label="전체 목록">
+								<option>무학과</option>
+								<option>인문사회과학부</option>
+								<option>전산학부</option>
+							</optgroup>
+						</select>
+						<br />
+						<label>과목구분</label>
+						<select id="classification" style="width:100%">
+							<option value="전체보기">전체보기</option>
+							<option value="전체보기">기초필수</option>
+							<option value="전체보기">기초선택</option>
+							<option value="전체보기">전공필수</option>
+							<option value="전체보기">전공선택</option>
+							<option value="전체보기">교양필수</option>
+							<option value="교양필수(체육)">교양필수(체육)</option>
+							<option value="교양선택">교양선택</option>
+							<option value="자유선택">자유선택</option>
+							<option value="공통필수">공통필수</option>
+							<option value="인문사회선택">인문사회선택</option>
+							<option value="선택(석/박사)">선택(석/박사)</option>
+							<option value="개별연구">개별연구</option>
+							<option value="졸업연구">졸업연구</option>
+							<option value="세미나">세미나</option>
+							<option value="논문세미나">논문세미나</option>
+							<option value="현장실습및연구">현장실습및연구</option>
+						</select>
+						<br />
+						<label>키워드</label>
+						<input type="text" id="keyword" autocomplete="off" style="width:97%">
+						<br />
+						<div style="text-align:right; margin-top:10px;">
+							<input type="button" id="clear" name="clear" value="초기화" style="text-align:right;">
+							<input type="button" id="apply" name="apply" value="적용" style="text-align:right;">
+						</div>
+					</div>
+					<div id="lecturelist-notice">※ 강의시간이 없는 과목들은 제외됩니다. (예: 졸업연구, 논문연구)</div>
+					<!--<div id="lecture-container">
+						<div style="width:15%;padding:0;margin:0;float:left;">
+							<div id="lecture-tabs"></div>
+						</div>
+						<div style="width:85%;padding:0;margin:0;float:left;">
+							<div id="lecture-contents"></div>
+						</div>
+					</div>-->
+				</div>
+				<div class="result-page">
+					<div class="result-message">
+						<span>(전산학부), (전공필수, 전공선택)에 대한 검색 결과입니다.</span>
+					</div>
+					<div class="lecture-list">
+
+					</div>
+				</div>
 			</div>
-		</div>
-	</div>
+		</div><!--div search-container-->
+	</div><!--div left-side-->	
 	<div id="center">
-		<div id="center-top">
-			<table class="lecture-info">
-				<thead>
-					<tr>
-						<th>강의장소</th>
-						<th>시험시간</th>
-						<th>언어</th>
-						<th><!--<img src="{{MEDIA_URL}}images/refresh.png" id="refresh" title="새로고침" alt="새로고침" onclick="onRefreshCompRates();">-->경쟁률</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td id="DS-classroom">&nbsp;</td>
-						<td id="DS-examtime">&nbsp;</td>
-						<td id="DS-remarks">&nbsp;</td>
-						<td id="DS-comp-rate">&nbsp;</td>
-					</tr>
-				</tbody>
-			</table>
-			<table class="lecture-info">
-				<thead>
-					<tr>
-						<th>과목코드</th>
-						<th>분반</th>
-						<th>과목명</th>
-						<th>교수님</th>
-						<th>강의</th>
-						<th>실험</th>
-						<th>학점</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td id="DS-course-no">&nbsp;</td>
-						<td id="DS-class-no">&nbsp;</td>
-						<td id="DS-title">&nbsp;</td>
-						<td id="DS-prof">&nbsp;</td>
-						<td id="DS-lec-time">&nbsp;</td>
-						<td id="DS-lab-time">&nbsp;</td>
-						<td id="DS-credit">&nbsp;</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-		<div style="margin-bottom:10px">
-			<div class="left" id="indicator"></div>
-			<div class="left" id="message-wrap">
-				<div class="br"><div class="bl">
-						<div id="message">안녕하세요 이 서비스는 <strong>SPARCS</strong>에서 제공하고 있습니다.</div>
-				</div></div>
-			</div>
-		</div>
 		<div id="timetable-menu">
-			<div class="left">
-				<div class="left">
-					<select>
-						<option>2016 가을</option>
-					</select>
-				</div>
-				<div id="timetable-tabs">
-					<div class="timetable-tab active"><a>시간표 1</a></div>
-					<div class="timetable-tab"><a>시간표 2</a></div>
-					<div class="right">+</div>
-				</div>
+			<!--<div style="float:left;">
+				<select>
+					<option>2016 가을</option>
+				</select>
+			</div>-->
+			<div id="timetable-tabs" style="clear:both;">
+				<button class="timetable-tab active"><span class="timetable-num">시간표 1</span></button>
+				<button class="timetable-tab"><span class="timetable-num">시간표 2</span></button>
+				<button class="timetable-tab"><span class="timetable-num">시간표 3</span></button>
+				<button class="timetable-tab"><span class="timetable-num">시간표 4</span></button>
+				<button class="timetable-tab timetable-add"><span class="timetable-num">+</span></button>
 			</div>
-			<!--시간표 공유 관련 버튼 넣어야됨-->
 		</div>
 		<div id="timetable">
 			<div id="timetable-wrap">
 				<div id="colheaders">
-					<div class="chead"><span>월</span></div>
-					<div class="chead"><span>화</span></div>
-					<div class="chead"><span>수</span></div>
-					<div class="chead"><span>목</span></div>
-					<div class="chead"><span>금</span></div>
+					<div class="chead"><span>월요일</span></div>
+					<div class="chead"><span>화요일</span></div>
+					<div class="chead"><span>수요일</span></div>
+					<div class="chead"><span>목요일</span></div>
+					<div class="chead"><span>금요일</span></div>
 				</div>
 				<div id="tablebody">
 					<div id="rowheaders">
-						<div class="rhead"><span class="rheadtext">오전 8시</span></div>
-						<div class="rhead"><span class="rheadtext">오전 9시</span></div>
-						<div class="rhead"><span class="rheadtext">오전 10시</span></div>
-						<div class="rhead"><span class="rheadtext">오전 11시</span></div>
-						<div class="rhead"><span class="rheadtext">오전 12시</span></div>
-						<div class="rhead"><span class="rheadtext">오후 1시</span></div>
-						<div class="rhead"><span class="rheadtext">오후 2시</span></div>
-						<div class="rhead"><span class="rheadtext">오후 3시</span></div>
-						<div class="rhead"><span class="rheadtext">오후 4시</span></div>
-						<div class="rhead"><span class="rheadtext">오후 5시</span></div>
-						<div class="rhead"><span class="rheadtext">오후 6시</span></div>
-						<div class="rhead"><span class="rheadtext">오후 7시</span></div>
-						<div class="rhead"><span class="rheadtext">오후 8시</span></div>
-						<div class="rhead"><span class="rheadtext">오후 9시</span></div>
-						<div class="rhead"><span class="rheadtext">오후 10시</span></div>
-						<div class="rhead"><span class="rheadtext">오후 11시</span></div>
+						<div class="rhead"></div><!--8시~9시-->
+						<div class="rhead"><span class="rheadtext">9</span></div>
+						<div class="rhead"><span class="rheadtext">10</span></div>
+						<div class="rhead"><span class="rheadtext">11</span></div>
+						<div class="rhead"><span class="rheadtext">12</span></div>
+						<div class="rhead"><span class="rheadtext">1</span></div>
+						<div class="rhead"><span class="rheadtext">2</span></div>
+						<div class="rhead"><span class="rheadtext">3</span></div>
+						<div class="rhead"><span class="rheadtext">4</span></div>
+						<div class="rhead"><span class="rheadtext">5</span></div>
+						<div class="rhead"><span class="rheadtext">6</span></div>
+						<div class="rhead"><span class="rheadtext">7</span></div>
+						<div class="rhead"><span class="rheadtext">8</span></div>
+						<div class="rhead"><span class="rheadtext">9</span></div>
+						<div class="rhead"><span class="rheadtext">10</span></div>
+						<div class="rhead"><span class="rheadtext">11</span></div>
 					</div>
 					<div id="grid-wrap">
 						<div id="grid">
 							<div id="timetable-contents">
+								<div class="cellcolumn">
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2 cell-bottom"></div>
+								</div>
+								<div class="cellcolumn">
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2 cell-bottom"></div>
+								</div>
+								<div class="cellcolumn">
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2 cell-bottom"></div>
+								</div>
+								<div class="cellcolumn">
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2 cell-bottom"></div>
+								</div>
+								<div class="cellcolumn">
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2"></div>
+									<div class="cell1"></div>
+									<div class="cell2 cell-bottom"></div>
+								</div>
 							</div>
 							<div id="cellselected"></div>
 						</div>
 					</div>
 				</div>
-			</div>
-		</div>
-	</div>
-	<div id="right-side">
-		<div id="map" style="margin-bottom:10px">
-			<h4>강의실 장소</h4>
-			<div id="map-wrap">
-				<div id="map-drag-container">
-					<div id="dragmap">
-						<div> 지도</div>
+			</div><!--div timetable-wrap-->
+			<div style="height:3px;"></div>
+			<div id="right-side">
+				<div id="map" style="margin-bottom:10px">
+					<div id="map-wrap">
+						<div id="map-container">
+							<div id="map-img">
+								<div> 지도</div>
+							</div>
+						</div>
 					</div>
 				</div>
-			</div>
-		</div>
-		<div id="info">
-			<table cellspacing="0" cellpadding="0" border="0">
-				<tr>
-					<th style="width:50%">학점</th>
-					<th>AU</th>
-				</tr>
-				<tr>
-					<td style="text-align:left;">
-						&nbsp;&nbsp;&nbsp;&nbsp;
-						<span id="total_credit">0</span>&nbsp;
-						<span id="add_credit" class="green"></span>
-					</td>
-					<td style="text-align:left"; class="end">
-						&nbsp;&nbsp;&nbsp;&nbsp;
-						<span id="total_au">0</span>&nbsp;
-						<span id="add_au" class="blue"></span>
-					</td>
-				</tr>
-			</table>
-		</div>
-		<div id="table-score">
-			<table cellspacing="0" cellpadding="0" border="0">
-				<tr>
-					<th colspan=3 style="width:100%">시간표평가</th>
-				</tr>
-				<tr>
-					<th style="width:33%">강의</th>
-					<th style="width:33%">로드</th>
-					<th style="width:33%">성적</th>
-				</tr>
-				<tr>
-					<td style="text-align:center;">
-						<span id="speech-average">0</span>
-					</td>
-					<td style="text-align:center;">
-						<span id="load-sum">0</span>
-					</td>
-					<td style="text-align:center;">
-						<span id="grade-average">0</span>
-					</td>
-				</tr>
-			</table>
-		</div>
-		<div id="examtable">
-			<table cellspacing="0" cellpadding="0" border="0">
-				<colgroup>
-					<col class="day"/>
-					<col class="examtime"/>
-				</colgroup>
-				<tr>
-					<th colspan="2">시험시간표</th>
-				</tr>
-				<tr>
-					<td>월</td>
-					<td>
-						<span id="examtime1"><ul id="examlist1"></ul></span>
-					</td>
-				</tr>
-				<tr>
-					<td>화</td>
-					<td>
-						<span id="examtime2"><ul id="examlist2"></ul></span>
-					</td>
-				</tr>
-				<tr>
-					<td>수</td>
-					<td>
-						<span id="examtime3"><ul id="examlist3"></ul></span>
-					</td>
-				</tr>
-				<tr>
-					<td>목</td>
-					<td>
-						<span id="examtime4"><ul id="examlist4"></ul></span>
-					</td>
-				</tr>
-				<tr>
-					<td>금</td>
-					<td>
-						<span id="examtime5"><ul id="examlist5"></ul></span>
-					</td>
-				</tr>
-			</table>
-		</div>
-	</div>
+				<div id="info">
+					<div id="type-credits">
+						<div class="lecture-type">
+							<span class="lecture-type-span">기필&nbsp&nbsp</span><span id="basic-required">10</span>
+						</div>
+						<div class="lecture-type-right">
+							<span class="lecture-type-span">기선&nbsp&nbsp</span><span id="basic-elective">3</span>
+						</div>
+						<div class="lecture-type" style="clear:both;">
+							<span class="lecture-type-span">전필&nbsp&nbsp</span><span id="major-required">3</span>
+						</div>
+						<div class="lecture-type-right">
+							<span class="lecture-type-span">전선&nbsp&nbsp</span><span id="major-eletive">0</span>
+						</div>
+						<div class="lecture-type" style="clear:both;">
+							<span class="lecture-type-span">인문&nbsp&nbsp</span><span id="humanities">0</span>
+						</div>
+						<div class="lecture-type-right">
+							<span class="lecture-type-span">기타&nbsp&nbsp</span><span id="other-lectures">2</span>
+						</div>
+					</div>
+					<div id="total-credits">
+						<div class="total-credit" style="margin-left:3em;">
+							<span id="credits">18</span><br/>
+							<span>학점</span>
+						</div>
+						<div class="total-credit" style="margin:1em 3em;">
+							<span id="au">2</span><br/>
+							<span>AU</span>
+						</div>
+					</div>
+					<div id="table-scores">
+						<div class="table-score">
+							<span id="grades">A-</span><br/>
+							<span>성적</span>
+						</div>
+						<div class="table-score">
+							<span id="loads">B+</span><br/>
+							<span>널널</span>
+						</div>
+						<div class="table-score">
+							<span id="speeches">B</span><br/>
+							<span>강의</span>
+						</div>
+					</div>
+				</div>
+				<div style="text-align:center"><span>시험시간표</span></div>
+				<div id="examtable">
+					<div id="examtime1">
+						<div class="exam-chead"><span>월</span></div>
+						<div class="exam-body">
+							<ul id="examlist1">
+								<li>aa</li>
+								<li>bb</li>
+							</ul>
+						</div>
+					</div>
+					<div id="examtime2">
+						<div class="exam-chead"><span>화</span></div>
+						<div class="exam-body">
+							<ul id="examlist2">
+							</ul>
+						</div>
+					</div>
+					<div id="examtime3">
+						<div class="exam-chead"><span>수</span></div>
+						<div class="exam-body">
+							<ul id="examlist3">
+							</ul>
+						</div>
+					</div>
+					<div id="examtime4">
+						<div class="exam-chead"><span>목</span></div>
+						<div class="exam-body">
+							<ul id="examlist4">
+							</ul>
+						</div>
+					</div>
+					<div id="examtime5">
+						<div class="exam-chead"><span>금</span></div>
+						<div class="exam-body">
+							<ul id="examlist5">
+							</ul>
+						</div>
+					</div>
+				</div><!--div exam-table-->
+				<div id="small-buttons">
+					<div id="facebook">
+					</div>
+					<div id="twiter">
+					</div>
+					<div id="image">
+					</div>
+					<div id="calendar">
+					</div>
+					<div id="copy">
+					</div>
+				</div>
+			</div><!--div right-side-->
+		</div><!--div timetable-->
+	</div><!--div center-->
 </div>
 {% endblock %}

@@ -1,78 +1,292 @@
+html, body
+{
+}
+
+.none
+{
+    display:none !important;
+}
+
+#page-container
+{
+    display:flex;
+    position:relative;
+    flex-direction:row;
+    margin-top: 1em;
+    margin-left:auto;
+    margin-right:auto;
+    width:86em;
+    height:50em;
+    font-family:sans-serif;
+}
+
+@media (min-height: 901px)
+{
+    #page-container
+    {
+        height:62em !important;
+    }
+}
+
 #left-side
 {
+    display:flex;
+    flex-direction:column;
     float:left;
-    margin-right:10px;
-    width:15em;
+    margin-top:2em;
+    width:19.5em;
 }
 
 #center
 {
-    margin:0 10px;
+    margin-left:0.8em;
     float:left;
-    width:50em;
+    height:100%;
+    flex:auto;
 }
 
 #right-side
 {
-    float:left;
-    margin-left:10px;
-    width:25em;
+    display:flex;
+    flex-direction:column;
+    flex:auto;
+    position:relative;
+    margin-bottom:1em;
+    margin-left:1em;
+    margin-right:1em;
+    margin-top:0.5em;
+    padding-left:1em;
+    height: -moz-calc(100% - (1em + 3px));
+    height: -webkit-calc(100% - (1em + 3px));
+    height: calc(100% - (1em + 3px));
+    border-left:2px solid #EDD1DC;
 }
 
-.left
+#lecture-info
 {
-    float:left;
+    font-size:0.9em;
+    background-color:#FFFFFF;
+    margin-left:2.22em;
+    margin-bottom:1em;
+    border-radius:0.4em 0.4em 0.4em 0.4em;
+    box-shadow: 0em 3px 0px 0em #F3BEC6;
 }
 
-.right
+#course-title
 {
-    float:right;
+    font-size:1.2em;
+    font-weight:bold;
 }
 
-#timetable
+.lecture-options
 {
+    text-align:right;
+    margin:3px 0;
+    font-size:0.9em;
+    color:#DB6C7C;
+}
+
+.basic-info
+{
+    margin:3px 0;
     clear:both;
-    margin:0;
-    padding:0;
+}
+
+#department, #course-type, #instructor, #classroom, #class-size, #exam-time
+{
+}
+
+.lecture-scores
+{
+    text-align:center;
+}
+
+.lecture-score
+{
+    display:inline-block;
+    text-align:center;
+    width:4.5em;
+}
+
+#language, #credit, #rate, #grade, #load, #speech
+{
+    font-size:2em;
+    font-weight:lighter;
+}
+
+#search-container
+{
+    display:flex;
+    flex:auto;
+}
+
+#search-colheaders
+{
+    display:inline-block;
+    width:2em;
+}
+
+.search-chead
+{
+    background-color:#E2E2E2;
+    margin-left:0;
+    margin-right:0;
+    margin-bottom:0.3em;
+    width:2em;
+    height:2em;
+    text-align:center;
+    vertical-align:middle;
+    line-height:2em;
+    border:none;
+    outline:none;
+    text-decoration:none;
+}
+
+.search-chead.active
+{
+    background-color:#FFFFFF;
+}
+
+.scheadtext
+{
+}
+
+#result-pages
+{
+    display:flex;
+    flex:auto;
+    flex-direction:column;
+}
+
+.search-page
+{
+    display:flex;
+    padding:1em;
+    background-color:#FFFFFF;
+    border-radius:0 0.45em 0.45em 0.45em;
+    box-shadow: 0em 3px 0px 0em #F3BEC6;
+    flex-direction:column;
+    flex:auto;
+}
+
+.result-page
+{
+    display:flex;
+    padding:1em 0.5em;
+    background-color:#FFFFFF;
+    border-radius:0 0.45em 0.45em 0.45em;
+    box-shadow: 0em 3px 0px 0em #F3BEC6;
+    flex-direction:column;
+    flex:auto;
+}
+
+.result-message
+{
+    height:3.5em;
+    border-bottom:1px solid #EDD1DC;
+}
+
+.lecture-list
+{
+    flex:auto;
 }
 
 #timetable-menu
 {
-    height:37px;
+    height:2em;
+}
+
+#timetable-tabs
+{
+    width:46em;
+    height:2em;
+}
+
+.timetable-tab
+{
+    background-color:#E2E2E2;
+    display:inline-block;
+    height:2em;
+    width:5em;
+    margin-right:0.15em;
+    text-align:center;
+    line-height:2em;
+    border-radius:0.2em 0.2em 0 0;
+    border:none;
+    outline:none;
+    text-decoration:none;
+}
+
+.timetable-tab.active
+{
+    background-color:#FFFFFF;
+}
+
+.timetable-add
+{
+    width:2em;
+}
+
+.timetable-num
+{
+}
+
+#timetable
+{
+    position:relative;
+    clear:both;
+    margin:0;
+    padding:0;
+    background-color:#FFFFFF;
+    height: -moz-calc(100% - 2em);
+    height: -webkit-calc(100% - 2em);
+    height: calc(100% - 2em);
+    border-radius:0 0.45em 0.45em 0.45em;
+    box-shadow: 0em 3px 0px 0em #F3BEC6;
+}
+
+#timetable-wrap
+{
+    position:relative;
+    float:left;
+    display:inline-block;
+    width:46em;
+    height:100%;
+    margin-right:1.5em;
 }
 
 #colheaders
 {
-    position:relative;
-    height:24px;
-    width:50em;
-    margin-left:5em;
-    margin-right:0;
+    height:2.7em;
+    width:46em;
+    margin-left:3em;
 }
 
 .chead
 {
     float:left;
-    width:9em;
+    width:8.25em;
     text-align:center;
-    line-height:24px;
+    line-height:2em;
     font-size:14px;
+    margin-top:0.7em;
+    margin-left:0.15em;
+    margin-right:0.15em;
 }
 
 #tablebody
 {
     position:relative;
-    width:50em !important;
-    width:51em;
-    height:62em !important;
-    height:63em;
-    border:1px solid #A2BBDD;
+    width:46em !important;
+    height: -moz-calc(100% - 2.7em);
+    height: -webkit-calc(100% - 2.7em);
+    height: calc(100% - 2.7em);
 }
 
 #rowheaders
 {
     position:absolute;
-    width:5em;
+    width:3em;
     height:100%;
     left:0pt;
     top:0pt;
@@ -83,19 +297,21 @@
     position:relative;
     width:100%;
     height:6.25%;
-    background:#E8EEF7;
 }
 
 .rheadtext
 {
+    position:absolute;
+    left:60%;
+    transform:translate(-50%,-50%);
 }
 
 #grid-wrap
 {
     position:absolute;
     top:0;
-    left:5em;
-    width:45em;
+    left:3em;
+    width:43em;
     height:100%;
 }
 
@@ -108,13 +324,180 @@
     height:100%;
 }
 
-#map-drag-container
+#timetable-contents
 {
-    width:25em;
-    height:25em;
-    border:1px solid #DDD;
+    display:flex;
+    flex-direction:row;
+    height: -moz-calc(100% - 1em);
+    height: -webkit-calc(100% - 1em);
+    height: calc(100% - 1em);
+}
+
+.cellcolumn
+{
+    display:flex;
+    flex-direction:column;
+    margin-left:0.15em;
+    margin-right:0.15em;
+    width:8.25em;
+    height:100%;
+    flex:auto;
+}
+
+.cell1
+{
+    flex:auto;
+    width:100%;
+    border-top:1px solid #E2E2E2;
+}
+
+.cell2
+{
+    flex:auto;
+    width:100%;
+    border-top:1px dashed #E2E2E2;
+}
+
+.cell2.cell-bottom
+{
+    border-bottom:1px solid #E2E2E2;
+}
+
+#map
+{
+    padding-bottom:0.8em;
+    margin-bottom:2em;
+    border-bottom:1px solid #EDD1DC;
+}
+
+#map-container
+{
+    width:16em;
+    height:15em;
+    border:1px;
+    background-color:black;
     overflow:hidden;
-    cursor:move;
+}
+
+#info
+{
+    padding-bottom:1em;
+    border-bottom:1px solid #EDD1DC;
+    margin-bottom:1em;
+}
+
+#type-credits
+{
+    width:15em;
+}
+
+.lecture-type
+{
+    display:inline-block;
+    width:6em;
+    margin-left:1em;
+    text-align:left;
+}
+
+.lecture-type-right
+{
+    display:inline-block;
+    width:6em;
+    margin-left:1.5em;
+    text-align:left;
+}
+
+.lecture-type-span
+{
+    font-weight:900;
+}
+
+#total-credits
+{
+    text-align:center;
+    font-size:0.8em;
+}
+
+.total-credit
+{
+    display:inline-block;
+    width:3em;
+}
+
+#credits, #au, #grades, #loads, #speeches
+{
+    font-size:2em;
+    font-weight:lighter;
+}
+
+#table-scores
+{
+    margin-bottom:0.5em;
+    text-align:center;
+    font-size:0.8em;
+}
+
+.table-score
+{
+    display:inline-block;
+    width:3em;
+    margin-left:1em;
+    margin-right:1em;
+}
+
+#examtable
+{
+    flex:auto;
+    margin-top:1em;
+    margin-bottom:0.5em;
+    padding-bottom:1em;
+    padding-left:0.5em;
+    border-bottom:1px solid #EDD1DC;
+    overflow:auto;
+    
+}
+
+#examtime1, #examtime2, #examtime3, #examtime4, #examtime5
+{
+    display:flex;
+    flex-direction:row;
+    width:12em;
+    text-align:left;
+}
+
+#examlist1, #examlist2, #examlist3, #examlist4, #examlist5
+{
+    list-style:none;
+    padding-left:0;
+    margin-left:1em;
+}
+
+.exam-chead
+{
+    display:flex;
+    width:1.5em;
+    text-align:center;
+}
+
+.exam-body
+{
+    display:flex;
+    width:9em;
+    text-align:left;
+}
+
+#small-buttons
+{
+    margin-left:0.5em;
+}
+
+#facebook, #twiter, #image, #calendar, #copy
+{
+    display:inline-block;
+    height:2.4em;
+    width:2.4em;
+    margin:0.5em 0.1em;
+    background-color:black;
 }
 
 #lecture-tabs
@@ -145,10 +528,4 @@
     width:100%;
 }
 
-#page-container
-{
-    margin:auto;
-    width:95em;
-    margin-top: 20px;
-    float:center;
-}
+
