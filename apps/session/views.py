@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_http_methods
 from django.conf import settings
 from apps.subject.models import Department
 from apps.session.models import UserProfile
@@ -15,15 +16,9 @@ import datetime
 import subprocess
 from django.db.models import Q
 
-# TESTING #
-sso_client = Client(is_test=True)
 
-"""
-# PRODUCTION #
-sso_client = Client(is_test=False,
-                     app_name='otlplus',
-                     secret_key=settings.SSO_KEY)
-"""
+sso_client = Client(settings.SSO_CLIENT_ID, settings.SSO_SECRET_KEY, is_beta=settings.SSO_IS_BETA)
+
 
 def home(request):
     return HttpResponseRedirect('./login/')
@@ -36,78 +31,90 @@ def user_login(request):
 
     request.session['next'] = request.GET.get('next', '/')
 
-    callback_url = request.build_absolute_uri('/session/login/callback/')
-    login_url = sso_client.get_login_url(callback_url)
+    login_url, state = sso_client.get_login_params()
+    request.session['sso_state'] = state
+
     return HttpResponseRedirect(login_url)
 
 
+@require_http_methods(['GET'])
 def login_callback(request):
-    if request.method == "GET":
-        next = request.session.pop('next', '/')
-        tokenid = request.GET.get('tokenid', '')
+    next = request.session.pop('next', '/')
+    state_before = request.session.get('sso_state', 'default before state')
+    state = request.GET.get('state', 'default state')
 
-        sso_profile = sso_client.get_user_info(tokenid)
-        username = sso_profile['sid']
+    if state_before != state:
+        return render(request, 'session/login_error.html',
+                      {'error_title': "Login Error",
+                       'error_message': "Invalid login"})
 
-        user_list = User.objects.filter(username=username)
+    code = request.GET.get('code')
+    sso_profile = sso_client.get_user_info(code)
+    username = sso_profile['sid']
+
+    user_list = User.objects.filter(username=username)
+    try:
+        kaist_info = json.loads(sso_profile['kaist_info'])
+        student_id = kaist_info.get('ku_std_no')
+    except:
+        student_id = ''
+
+    if len(user_list) == 0:
+        user = User.objects.create_user(username=username,
+                    email=sso_profile['email'],
+                    password=str(random.getrandbits(32)),
+                    first_name=sso_profile['first_name'],
+                    last_name=sso_profile['last_name'])
+        user.save()
+
         try:
-            kaist_info = json.loads(sso_profile['kaist_info'])
-            student_id = kaist_info.get('ku_std_no')
+            user_profile = UserProfile.objects.get(student_id=sso_profile['sid'])
+            user_profile.user = user
         except:
-            student_id = ''
-        if len(user_list) == 0:
-            user = User.objects.create_user(username=username,
-                        email=sso_profile['email'],
-                        password=str(random.getrandbits(32)),
-                        first_name=sso_profile['first_name'],
-                        last_name=sso_profile['last_name'])
-            user.save()
+            user_profile = UserProfile(student_id=student_id, user = user)
 
-            try:
-                user_profile = UserProfile.objects.get(student_id=sso_profile['sid'])
-                user_profile.user = user
-            except:
-                user_profile = UserProfile(student_id=student_id, user = user)
+        user_profile.sid = sso_profile['sid']
+        user_profile.save()
 
-            user_profile.sid = sso_profile['sid']
-            user_profile.save()
+        # os.chdir('/var/www/otlplus/')
+        os.system('python update_taken_lecture_user.py %s' % student_id)
 
-#os.chdir('/var/www/otlplus/')
+        user = authenticate(username=username)
+        login(request, user)
+        return redirect(next)
+    else:
+        user = authenticate(username=user_list[0].username)
+        user.first_name=sso_profile['first_name']
+        user.last_name=sso_profile['last_name']
+        user.save()
+        user_profile = UserProfile.objects.get(user=user)
+        previous_student_id = user_profile.student_id
+        user_profile.student_id = student_id
+        user_profile.save()
+        if previous_student_id != student_id:
+            # os.chdir('/var/www/otlplus/')
             os.system('python update_taken_lecture_user.py %s' % student_id)
+        login(request, user)
+        return redirect(next)
+    return render(request, 'session/login_error.html',
+                  {'error_title': "Login Error",
+                   'error_message': "No such that user"})
 
-            user = authenticate(username=username)
-            login(request, user)
-            return redirect(next)
-        else:
-            user = authenticate(username=user_list[0].username)
-            user.first_name=sso_profile['first_name']
-            user.last_name=sso_profile['last_name']
-            user.save()
-            user_profile = UserProfile.objects.get(user=user)
-            previous_student_id = user_profile.student_id
-            user_profile.student_id = student_id
-            user_profile.save()
-            if previous_student_id != student_id:
-#                os.chdir('/var/www/otlplus/')
-                os.system('python update_taken_lecture_user.py %s' % student_id)
-            login(request, user)
-            return redirect(next)
-    return render('/session/login.html', {'error': "Invalid login"})
 
 
 def user_logout(request):
     if request.user.is_authenticated():
-        user_profile = UserProfile.objects.get(user=request.user)
-        #print sso_client.get_logout_url(user_profile.sid)
+        sid = UserProfile.objects.get(user=request.user).sid
+        redirect_url = request.GET.get('next', '/')
+        logout_url = sso_client.get_logout_url(sid, redirect_url)
         logout(request)
         request.session['visited'] = True
-        if not sso_client.is_test:
-            return redirect(sso_client.get_logout_url(user_profile.sid))
+        return redirect(logout_url)
     return redirect("/main")
 
 
 @login_required(login_url='/session/login/')
-def settings(request):
+def user_settings(request):
     user = request.user
     user_profile = UserProfile.objects.get(user=user)
     department = Department.objects.filter(Q(code__in = ["CE", "MSB", "MAE", "PH", "BiS", "IE", "ID", "BS", "CBE", "MAS", "MS", "NQE", "HSS", "EE", "CS", "MAE", "CH"]) & Q(visible = True)).order_by('name')
@@ -136,8 +143,6 @@ def settings(request):
 
         user_profile.save()
 
-
-
         ctx['fav_department'] = favorite_departments
         ctx['usr_lang'] = user_profile.language
         return HttpResponseRedirect('/main/')
@@ -146,20 +151,13 @@ def settings(request):
 
 @login_required(login_url='/session/login/')
 def unregister(request):
-    return redirect("https://sparcssso.kaist.ac.kr/account/service/")
+    user = request.user
 
-
-def unregister_callback(request):
-    sid = request.GET['sid']
-    key = request.GET['key']
-    if key != settings.SSO_KEY:
-        return JsonResponse({"status": 1})
-
-    user = User.objects.filter(username=sid).first()
-    if not user:
-        return JsonResponse({"status": 1})
+    sid = UserProfile.objects.get(user=user).sid
+    unregister_url = sso_client.get_unregister_url(sid)
 
     user.profile.delete()
     user.delete()
+    logout(request)
 
-    return JsonResponse({"status": 0})
+    return redirect(unregister_url)
