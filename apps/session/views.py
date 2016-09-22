@@ -26,6 +26,7 @@ sso_client = Client(settings.SSO_CLIENT_ID, settings.SSO_SECRET_KEY, is_beta=set
 def home(request):
     return HttpResponseRedirect('./login/')
 
+
 def user_login(request):
     user = request.user
     if user and user.is_authenticated():
@@ -37,6 +38,7 @@ def user_login(request):
     request.session['sso_state'] = state
 
     return HttpResponseRedirect(login_url)
+
 
 @require_http_methods(['GET'])
 def login_callback(request):
@@ -77,7 +79,7 @@ def login_callback(request):
         user_profile.sid = sso_profile['sid']
         user_profile.save()
 
-        #os.chdir('/var/www/otlplus/')
+        # os.chdir('/var/www/otlplus/')
         os.system('python update_taken_lecture_user.py %s' % student_id)
 
         user = authenticate(username=username)
@@ -93,13 +95,15 @@ def login_callback(request):
         user_profile.student_id = student_id
         user_profile.save()
         if previous_student_id != student_id:
-            #os.chdir('/var/www/otlplus/')
+            # os.chdir('/var/www/otlplus/')
             os.system('python update_taken_lecture_user.py %s' % student_id)
         login(request, user)
         return redirect(next)
     return render(request, 'session/login_error.html',
                   {'error_title': "Login Error",
                    'error_message': "No such that user"})
+
+
 
 def user_logout(request):
     if request.user.is_authenticated():
@@ -142,8 +146,6 @@ def user_settings(request):
 
         user_profile.save()
 
-
-
         ctx['fav_department'] = favorite_departments
         ctx['usr_lang'] = user_profile.language
         return HttpResponseRedirect('/main/')
@@ -152,29 +154,18 @@ def user_settings(request):
 
 @login_required(login_url='/session/login/')
 def unregister(request):
-    return redirect("https://sparcssso.kaist.ac.kr/account/service/")
-
-
-def unregister_callback(request):
-
     user = request.user
+    user_profile = UserProfile.objects.get(user=user)
 
-    sid = UserProfile.objects.get(user=user).sid
-    unregister_url = sso_client.get_unregister_url(sid)
-    user.profile.delete()
+    sid = user_profile.sid
+    result = sso_client.do_unregister(sid)
+    if not result:
+        return render(request, 'session/login_error.html',
+                      {'error_title': "Unregister Error",
+                       'error_message': "please try again"})
+
+    user_profile.delete()
     user.delete()
     logout(request)
 
-    return redirect(unregister_url)
-
-def _is_online(url):
-    url = urlparse.urlparse(url)
-    domain = "%s://%s" % (url.scheme, url.netloc)
-
-    try:
-        r = requests.head(domain)
-        return True
-    except requests.exceptions.ConnectionError:
-        return False
-    except requests.exceptions.Timeout:
-        return False
+    return redirect('/main/')

@@ -22,11 +22,11 @@ class UserProfile(models.Model):
     point = 0
     point_updated_time = None
 
-    def get_point(self, update=False):
+    def get_point(self):
         self.point = sso_client.get_point(self.sid)
         return self.point
 
-    def add_point(self, delta, action):
+    def add_point(self, delta, message):
         result = sso_client.modify_point(self.sid, delta, message, 0)
         return result
 
