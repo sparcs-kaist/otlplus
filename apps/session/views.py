@@ -157,6 +157,11 @@ def user_settings(request):
 
 @login_required(login_url='/session/login/')
 def unregister(request):
+    if request.method != 'POST':
+        return render(request, 'session/login_error.html',
+                      {'error_title': "Unregister Error",
+                       'error_message': "please try again"})
+
     user = request.user
     user_profile = UserProfile.objects.get(user=user)
 
@@ -171,4 +176,4 @@ def unregister(request):
     user.delete()
     logout(request)
 
-    return redirect('/main/')
+    return JsonResponse(status=200, data={})
