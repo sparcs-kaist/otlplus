@@ -15,6 +15,7 @@ import os
 import datetime
 import subprocess
 from django.db.models import Q
+from django.conf import settings
 
 
 import urlparse
@@ -79,7 +80,8 @@ def login_callback(request):
         user_profile.sid = sso_profile['sid']
         user_profile.save()
 
-        # os.chdir('/var/www/otlplus/')
+        if not settings.DEBUG:
+            os.chdir('/var/www/otlplus/')
         os.system('python update_taken_lecture_user.py %s' % student_id)
 
         user = authenticate(username=username)
@@ -95,7 +97,8 @@ def login_callback(request):
         user_profile.student_id = student_id
         user_profile.save()
         if previous_student_id != student_id:
-            # os.chdir('/var/www/otlplus/')
+            if not settings.DEBUG:
+                os.chdir('/var/www/otlplus/')
             os.system('python update_taken_lecture_user.py %s' % student_id)
         login(request, user)
         return redirect(next)
