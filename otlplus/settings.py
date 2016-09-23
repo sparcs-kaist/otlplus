@@ -28,9 +28,9 @@ with open(os.path.join(BASE_DIR, 'keys/sso_secret')) as f:
         SSO_KEY = f.read().strip()
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['otlplus.sparcs.org']
+ALLOWED_HOSTS = []
 
 
 # Application definition
