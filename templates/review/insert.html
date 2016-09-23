@@ -35,10 +35,14 @@
 				data:data,
 				dataType:"json"
 			})
-			message.style.display = "block";
+            $("#insert-complete-message").fadeIn(500, function() {
+                setTimeout(function() {
+                    $("#insert-complete-message").fadeOut(500);
+                }, 666);    
+            });
 			deletebtn.style.display = "inline-block";
-			window.setTimeout("document.getElementById('insert-complete-message').style.display='none'", 1000);
-		})
+			//window.setTimeout("document.getElementById('insert-complete-message').style.display='none'", 1000);
+        })
 				
 				
 	</script>
@@ -62,7 +66,7 @@
     <form id="contact" method="post" class="col-xs-22 col-xs-offset-1 col-sm-20 col-sm-offset-2 col-md-18 col-md-offset-3 col-lg-16 col-lg-offset-4">
 		<div class="panel-b col-xs-24 expect">
 			<div id="insert-complete-message">
-				후기가 업로드되었습니다.
+                <p>후기가 업로드되었습니다.</p>
 			</div>
             <div class="select_menu panel-title">
                 {%ifnotequal subjectname ""%}

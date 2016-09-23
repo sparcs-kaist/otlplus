@@ -57,9 +57,18 @@
     left:50%;
     top:50%;
     transform:translate(-50%,-50%);
-    color:blue;
-    background:lightblue;
+    width: 18em;
+    height: 3em;
+    text-align: center;
+    border-radius: 5px;
+    color: white;
+    background: rgba(0,0,0, 0.6);
     font-weight:bolder;
+    
+}
+
+#insert-complete-message p{
+    line-height: 3em;
 }
 
 #contents .btn-review-delete{
