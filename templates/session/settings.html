@@ -18,6 +18,7 @@
 
 {% block javascripts %}
   <script type="text/javascript" src="/media/js/components/header.js"></script>
+  <script type="text/javascript">csrf_token = "{{ csrf_token }}";</script>
   {{ block.super }}
 {% endblock %}
 
@@ -62,9 +63,7 @@
     </a>
            </div>
         <div style="margin-top: 25px;">
-            <a href="/session/unregister/" class="text-left">
-                <button type="button" class="btn btn-review-delete" style="width: 90px">회원 탈퇴</button>
-            </a>
+            <button id="unregister" type="button" class="btn btn-review-delete" style="width: 90px">회원 탈퇴</button>
             <div class="text-right" style="float:right;">
                 <input type="submit" class="btn btn-review-upload" value="업로드">
             </div>
