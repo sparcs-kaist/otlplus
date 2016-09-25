@@ -16,7 +16,8 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 from django.http import HttpResponseRedirect
+from . import views
 
 urlpatterns = [
-    url(r'^$', 'apps.subject.views.home'),
+    url(r'^$', views.home),
 ]

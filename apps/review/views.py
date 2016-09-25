@@ -761,10 +761,8 @@ def LastCommentView_json(request, page=-1):
 
 # 404 ERROR HANDLING
 def page_not_found(request):
-    response = render_to_response(
-        'review/404.html',
-        context_instance=RequestContext(request)
-    )
+    response = render(
+        request,'review/404.html')
 
     response.status_code = 404
 
@@ -794,10 +792,8 @@ def permisson_denied(request):
 
 # 500 ERROR HANDLING
 def server_error(request):
-    response = render_to_response(
-        'review/500.html',
-        context_instance=RequestContext(request)
-    )
+    response = render(
+        request,'review/500.html')
 
     response.status_code = 500
 
