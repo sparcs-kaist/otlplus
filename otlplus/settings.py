@@ -92,7 +92,6 @@ DATABASES = {
     }
 }
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
@@ -122,3 +121,8 @@ AUTHENTICATION_BACKENDS = (
 
 LOGIN_URL = '/session/login/'
 LOGOUT_URL = '/session/logout/'
+
+try:
+     from settings_local import *
+except ImportError:
+     pass

@@ -13,16 +13,23 @@
   {{ block.super }}
   <link rel="stylesheet" type="text/css" href="/media/css/components/header/search.css">
   <link rel="stylesheet" type="text/css" href="/media/css/review/components/option-main.css">
-  <link rel="stylesheet" type="text/css" href="/media/css/review/components/review.css">
+  <link rel="stylesheet" type="text/css" href="/media/css/review/components/expect.css">
+  <link rel="stylesheet" type="text/css" href="/media/css/review/components/review-main.css">
   <link rel="stylesheet" type="text/css" href="/media/css/review/search.css">
   <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
   <link rel="stylesheet" href="/resources/demos/style.css">
+  <link rel="stylesheet" type="text/css" href="/media/css/review/result.css">
+  <link rel="stylesheet" type="text/css" href="/media/css/review/components/course.css">
   <style>
   .ui-autocomplete {
     max-height: 300px;
     overflow-y: auto;
     /* prevent horizontal scrollbar */
     overflow-x: hidden;
+    border-radius: 10px;
+  }
+  .ui-autocomplete .ui-menu-item.ui-state-focus{
+    background: #F0F0F0;
   }
   /* IE 6 doesn't support max-height
    * we use height instead, but this forces the menu to always be this tall
@@ -36,7 +43,6 @@
 
 {% block javascripts %}
   {{ block.super }}
-  <script type="text/javascript" src="/media/js/components/header.js"></script>
   <script type="text/javascript" src="/media/js/review/search.js"></script>
   <script type="text/javascript" src="/media/js/review/components/option.js"></script>
   <script type="text/javascript" src="/media/js/review/components/review.js"></script>
@@ -59,11 +65,11 @@
 {% endblock %}
 
 {% block header %}
-  {% include 'components/header/search.html' %}
+  {% include 'components/header.html' with is_main=True %}
 {% endblock %}
 
 {% block contents %}
-  <div class="row">
+  <div class="row" style="margin-top:-5px">
     <div class="col-xs-22 col-xs-offset-1 col-sm-20 col-sm-offset-2 col-md-18 col-md-offset-3 col-lg-16 col-lg-offset-4 text-center">
       <form role="form" class="row">
         <div class="search_bar col-xs-24 col-sm-14 col-md-16 col-lg-18">
@@ -85,12 +91,14 @@
   <div class="row">
     {% for i in "12" %}
     <div class="col-xs-22 col-xs-offset-1 col-sm-10 col-sm-offset-{% cycle "2" "0" %} col-md-9 col-md-offset-{% cycle "3" "0" %} col-lg-8 col-lg-offset-{% cycle "4" "0" %}">
-      <h2 class="text-center">
+      <h2 class="text-center" style="cursor:default">
         {% cycle "사랑받는 교양 후기" "사랑받는 전공 후기" %}
       </h2>
       {% cycle liberal_comment major_comment as cbestcomment silent %}
       {% for result in cbestcomment %}
         {% include 'review/components/review.html' %}
+      {% empty %}
+        {% include 'review/components/review-nocomment.html' %}
       {% endfor %}
     </div>
     {% endfor %}

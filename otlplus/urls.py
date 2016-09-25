@@ -18,6 +18,14 @@ from django.contrib import admin
 from django.http import HttpResponseRedirect
 from settings import BASE_DIR
 import os
+from django.conf.urls import (
+    handler400, handler403, handler404, handler500
+)
+
+handler400 = 'apps.review.views.bad_request'
+handler403 = 'apps.review.views.permission_denied'
+handler404 = 'apps.review.views.page_not_found'
+handler500 = 'apps.review.views.server_error'
 
 urlpatterns = [
     # Admin Page
@@ -25,6 +33,13 @@ urlpatterns = [
 
     # OTLplus Apps
     url(r'^main/$', 'apps.review.views.search_view'),
+    url(r'^tutorial_again/$', 'apps.review.views.search_view_first_again'),
+    url(r'^tutorial/$', 'apps.review.views.search_view_first'),
+    url(r'^tutorial2/$', 'apps.review.views.search_view_first2'),
+    url(r'^tutorial3/$', 'apps.review.views.search_view_first3'),
+    url(r'^tutorial4/$', 'apps.review.views.search_view_first4'),
+    url(r'^credits/$', 'apps.review.views.credits'),
+    url(r'^licenses/$', 'apps.review.views.licenses'),
     url(r'^$', lambda x: HttpResponseRedirect('/main/')),
     url(r'^session/', include('apps.session.urls')),
     url(r'^review/', include('apps.review.urls')),

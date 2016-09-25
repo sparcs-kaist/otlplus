@@ -10,12 +10,16 @@ from django.core.exceptions import *
 from apps.subject.models import Lecture
 from apps.session.models import UserProfile
 from optparse import make_option
+from datetime import datetime, timedelta, time, date
+from django.utils import timezone
 
 class Command(BaseCommand):
     option_list = BaseCommand.option_list + (
         make_option('--host', dest='host', help=u'Specifies server address.'),
         make_option('--port', dest='port', help=u'Specifies server port.'),
         make_option('--user', dest='user', help=u'Specifies user name to log in.'),
+        make_option('--year', dest='year', help=u''),
+        make_option('--semester', dest='semester', help=u''),
         make_option('--password', dest='password', help=u'Specifies passowrd to log in.'),
         make_option('--encoding', dest='encoding', help=u'Sepcifies character encoding to decode strings from database. (default is cp949)', default='cp949'),
     )
@@ -26,6 +30,8 @@ class Command(BaseCommand):
         host = options.get('host', None)
         port = options.get('port', None)
         user = options.get('user', None)
+        year = datetime.now().year
+        semester = ((datetime.now().month+9)%12)/3+1
         password = options.get('password', None)
         encoding = options.get('encoding', 'cp949')
         try:
@@ -42,10 +48,9 @@ class Command(BaseCommand):
         except pyodbc.DatabaseError:
             print>>sys.stderr, 'Connection failed. Check username and password.'
             return
-        
+
         c = db.cursor()
-        year = 2015
-        semester = 3 
+        print year, semester
         c.execute('SELECT * FROM view_OTL_attend WHERE lecture_year = %d AND lecture_term = %d' % (year, semester))
         rows = c.fetchall()
 

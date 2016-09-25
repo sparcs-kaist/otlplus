@@ -1,7 +1,7 @@
 #options {
     display: none;
-    position: absolute;
     z-index: 1;
+    position:absolute;
     margin: 75px 5px 0;
     border: none;
     border-radius: 10px;
@@ -37,6 +37,7 @@
     padding-top: 0;
 }
 #options .form-group .controls label {
+    font-size:16px;
     padding-right: 10px;
 }
 #options .form-group .controls label input[type="checkbox"],

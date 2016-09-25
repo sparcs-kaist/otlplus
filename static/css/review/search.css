@@ -25,6 +25,21 @@
 #contents > .row:nth-of-type(1) form > div input[type="submit"] {
     background-color: #e64c65;
 }
+#contents > .row:nth-of-type(1) form > div [type="button"]:hover,
+#contents > .row:nth-of-type(1) form > div input[type="submit"]:hover {
+    background-color: #E0425C;
+}
+#contents > .row:nth-of-type(1) form > div [type="button"].active{
+    color: #000000;
+    background: #ffffff !important;
+
+}
+
+#contents #options {
+    overflow-y:overlay;
+    margin-bottom:-1000px;
+}
+
 @media (max-width: 767px) {
     #contents > .row:nth-of-type(1) form > div input[type="text"] {
         margin-bottom: 10px;

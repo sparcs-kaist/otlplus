@@ -1,0 +1,40 @@
+<div class="score_table text-left col-xs-24" style="cursor:default important!; margin-right:-40px; min-width:350px; display:inline-block" >
+          <div class="score-elem-review">
+              성적&nbsp 
+              {% for numbergrade, lettergrade in result.gradelist %}
+              {% ifequal numbergrade result.score.grade %}
+               <span class="score_letter-review" >{{lettergrade}}</span>
+              {% endifequal %}
+              {% endfor %}
+      </div>
+          <div class="score-elem-review">
+              널널&nbsp
+              {% for numbergrade, lettergrade in result.gradelist %}
+              {% ifequal numbergrade result.score.load %}
+               <span class="score_letter-review" >{{lettergrade}}</span>
+              {% endifequal %}
+              {% endfor %}
+      </div>
+          <div class="score-elem-review">
+              강의&nbsp
+              {% for numbergrade, lettergrade in result.gradelist %}
+              {% ifequal numbergrade result.score.speech %}
+               <span class="score_letter-review" >{{lettergrade}}</span>
+              {% endifequal %}
+              {% endfor %}
+      </div>
+          <div class="score-elem-review">
+                    종합&nbsp
+            {% for numbergrade, lettergrade in result.gradelist %}
+            {% ifequal numbergrade result.score.total %}
+            <span class="score_letter-review" >{{lettergrade}}</span>
+            {% endifequal %}
+            {% endfor %}
+      </div>
+       <div class="score-elem-review">
+                    추천&nbsp
+           <span class="score_letter-review like_num {{result.id}}" >{{result.like}}</span>
+      </div>
+
+</div>
+
