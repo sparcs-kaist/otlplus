@@ -18,6 +18,7 @@
 
 {% block javascripts %}
   <script type="text/javascript" src="/media/js/components/header.js"></script>
+  <script type="text/javascript">csrf_token = "{{ csrf_token }}";</script>
   {{ block.super }}
 {% endblock %}
 
@@ -31,13 +32,13 @@
     <form id="contact" action="" method="post" class="form-inline col-xs-22 col-xs-offset-1 col-sm-20 col-sm-offset-2 col-md-18 col-md-offset-3 col-lg-16 col-lg-offset-4">
         {% csrf_token %}
         <div class="panel-b col-xs-24 expect">
-            <div class="panel-body">  
+            <div class="panel-body">
     <div class="col-xs-24">
         <h3 >언어</h3>
 
     <div class="col-xs-24">
         <label class="radio-inline">
-            <input type="radio" name="language" value="ko" {% if usr_lang  == 'ko' %}checked{% endif %}> 한국어 
+            <input type="radio" name="language" value="ko" {% if usr_lang  == 'ko' %}checked{% endif %}> 한국어
         </label>
         <label class="radio-inline">
             <input type="radio" name="language" value="en" {% if usr_lang  == 'en' %}checked{% endif %}> English
@@ -56,15 +57,18 @@
 
     </div>
     <a href="../../tutorial_again" style="color: #000">
-    <div class="col-xs-24">
+      <div class="col-xs-24">
         <h3>튜토리얼 다시보기</h3>
-    </div>
+      </div>
     </a>
            </div>
-        <div class="text-right" style="margin-top: 25px;">
-          <input type="submit" class="btn btn-review-upload" value="업로드">
+        <div style="margin-top: 25px;">
+            <button id="unregister" type="button" class="btn btn-review-delete" style="width: 90px">회원 탈퇴</button>
+            <div class="text-right" style="float:right;">
+                <input type="submit" class="btn btn-review-upload" value="업로드">
+            </div>
         </div>
- 
+
   </form>
 {% endblock %}
 

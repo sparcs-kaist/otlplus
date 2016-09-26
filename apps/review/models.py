@@ -13,7 +13,7 @@ class Comment(models.Model):
     speech = models.SmallIntegerField(default=0)
     total = models.FloatField(default=0.0)
 
-    writer = models.ForeignKey(UserProfile, related_name='comment_set', db_index=True)
+    writer = models.ForeignKey(UserProfile, related_name='comment_set', db_index=True, on_delete=models.SET_NULL, null=True)
     writer_label = models.CharField(max_length=200, default=u"무학과 넙죽이")
     written_datetime = models.DateTimeField(auto_now=True, db_index=True)
     like = models.IntegerField(default=0)
@@ -74,7 +74,7 @@ class Comment(models.Model):
 
 class CommentVote(models.Model):
     comment = models.ForeignKey(Comment, related_name="comment_vote", null=False)
-    userprofile = models.ForeignKey(UserProfile, related_name="comment_vote")
+    userprofile = models.ForeignKey(UserProfile, related_name="comment_vote", on_delete=models.SET_NULL, null=True)
     is_up = models.BooleanField(null=False)
 
     @classmethod
