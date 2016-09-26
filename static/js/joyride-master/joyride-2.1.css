@@ -14,7 +14,7 @@ body {
   background: rgba(0,0,0,0.8);
   display: none;
   color: #fff;
-  width: 300px;
+  width: 40em;
   z-index: 1500;
   top: 0; /* keeps the page from scrolling when calculating position */
   left: 0;
