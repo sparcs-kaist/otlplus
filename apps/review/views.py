@@ -19,6 +19,7 @@ import random
 import os
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
+from django.conf import settings
 
 
 
@@ -687,7 +688,8 @@ def ReviewRefresh(request):
     user_profile = UserProfile.objects.get(user=user)
     student_id = user_profile.student_id
     if not student_id == '':
-#    os.chdir('/var/www/otlplus/')
+        if not settings.DEBUG:
+            os.chdir('/var/www/otlplus/')
         os.system('python update_taken_lecture_user.py %s' % student_id)
     return HttpResponseRedirect('../insert')
 
