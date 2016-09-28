@@ -11,6 +11,7 @@ sso_client = Client(settings.SSO_CLIENT_ID, settings.SSO_SECRET_KEY, is_beta=set
 
 
 class UserProfile(models.Model):
+
     user = models.ForeignKey(User)
 
     department = models.ForeignKey(Department, blank=True, null=True)
@@ -25,6 +26,7 @@ class UserProfile(models.Model):
     favorite_departments = models.ManyToManyField('subject.Department', related_name='favoredby_set')
     take_lecture_list = models.ManyToManyField('subject.Lecture', related_name='take_lecture_list', blank=True)
     portal_check = models.IntegerField(default=0)
+    google_calendar_id = models.TextField(null=True, blank=True)
     point = 0
     point_updated_time = None
 
