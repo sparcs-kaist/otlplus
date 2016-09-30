@@ -191,6 +191,64 @@ html, body
     flex:auto;
 }
 
+.lecture-lists-element
+{
+    background-color: #eeeeee;
+    border-radius: 0.4em 0.4em 0.4em 0.4em;
+}
+
+.lecture-name
+{
+    padding: 0.4em 0.8em;
+    margin-top: 0.5em;
+}
+
+.lecture-name span:first-child
+{
+    font-weight:700;
+    font-size:1.1em;
+}
+
+.lecture-name span
+{
+    font-size:1em;
+}
+
+.lecture-selection-list .footer
+{
+    padding-bottom:3px;
+}
+
+.lecture-selection
+{
+    padding: 0 1.5em;
+    margin: 4px 0;
+    font-size: 0.9em;
+}
+
+.cell3
+{
+    margin: 0 1.2em;
+    border-top: 1px solid #c2c2c2;
+}
+
+.lecture-selection span:first-child
+{
+  font-weight: 700;
+  padding-left: 0;
+}
+
+.lecture-selection a
+{
+  padding-left: 0.8em;
+}
+
+.lecture-selection span
+{
+  padding-left: 8em;
+}
+
+
 #timetable-menu
 {
     height:2em;
