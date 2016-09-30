@@ -95,3 +95,9 @@ db_update_script.sh
 update_taken_lecture_user.py
 update_scholardb.py
 db_update_script.log
+
+# React js files
+webpack.config.js
+node_modules/
+bundle.js
+bundle.js.map
