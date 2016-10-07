@@ -82,6 +82,7 @@ TEMPLATES = [
                     'django.template.loaders.app_directories.Loader',
                 ))
             ],
+            'builtins': ['pyjade.ext.django.templatetags'],
         },
     },
 ]

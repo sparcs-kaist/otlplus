@@ -25,7 +25,7 @@ urlpatterns = [
     url(r'^login/callback/$', views.login_callback),
     url(r'^logout/$', views.user_logout),
     url(r'^unregister/$', views.unregister),
-    url(r'^unregister/callback/$', views.unregister_callback),
+    #url(r'^unregister/callback/$', views.unregister_callback),
 
     # User Preferences (e.g Favorite Department, Language)
     url(r'^settings/$', views.settings),
