@@ -1,5 +1,14 @@
 {% extends 'timetable/layout.html' %}
 {% block content %}
+mixin lecture-score(title, id, text)
+  .lecture-score(style='clear:both;')
+    span(id=id) #{text}
+      br
+    span #{title}
+mixin basic-info(title, id, text)
+  .basic-info
+    span(style='font-weight:700') #{title}&nbsp&nbsp
+    span(id=id) #{text}
 #page-container
   #left-side
     #lecture-info
@@ -13,10 +22,6 @@
           span#color-option(style='float:left;') 색상 변경
           span#syllabus-option 실라버스&nbsp&nbsp
           span#dictionary-option 과목 후기
-        mixin basic-info(title, id, text)
-          .basic-info
-            span(style='font-weight:700') #{title}&nbsp&nbsp
-            span(id=id) #{text}
         mixin basic-info('학과', 'department', '전산학부')
         mixin basic-info('구분', 'course-type', '기초필수')
         mixin basic-info('교수', 'instructor', '김순태')
@@ -24,11 +29,6 @@
         mixin basic-info('정원', 'class-size', '45')
         mixin basic-info('시험', 'exam-time', '금요일 9:00 ~ 12:00')
 
-        mixin lecture-score(title, id, text)
-          .lecture-score(style='clear:both;')
-            span(id=id) #{text}
-              br
-            span #{title}
         .lecture-scores
           mixin lecture-score('언어', 'language', 'Eng')
           mixin lecture-score('학점', 'credit', '3')
