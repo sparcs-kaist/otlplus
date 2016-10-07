@@ -12,7 +12,7 @@ class TimeTable(models.Model):
     table_id = models.SmallIntegerField(null=True) # 몇번째 타임테이블인지 0,1,2,3
 
 class ResearchLecture(models.Model):
-	    code = models.CharField(max_length=10,db_index=True)
+	    	code = models.CharField(max_length=10,db_index=True)
 		old_code = models.CharField(max_length=10, db_index=True)
 		year = models.IntegerField(db_index=True)
 		semester = models.SmallIntegerField(db_index=True)
