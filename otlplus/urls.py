@@ -26,6 +26,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 from apps.review import views as review_views
+from apps.timetable import views as timetable_views
 from django import views as django_views
 from django.views import static as django_static
 
@@ -52,6 +53,7 @@ urlpatterns = [
     url(r'^review/', include('apps.review.urls')),
     url(r'^subject/', include('apps.subject.urls')),
     url(r'^timetable/', include('apps.timetable.urls')),
+    url(r'^test/$', timetable_views.test),
     # Media Root
     url(r'^media/(?P<path>.*)$',django_static.serve,{'document_root': os.path.join(BASE_DIR, 'static')}),
 ]

@@ -7,24 +7,26 @@ from apps.session.models import UserProfile
 from django.core.exceptions import *
 from django.http import *
 from django.contrib.auth.decorators import login_required
-from otl.utils.decorators import login_required_ajax
+from utils.decorators import login_required_ajax
 from django.conf import settings
-from django.shortcuts import render  
+from django.shortcuts import render
 # For google calender
 from apiclient import discovery
 import oauth2client
 from oauth2client import client
 from oauth2client import tools
 from oauth2client.client import OAuth2WebServerFlow
-from oauth2client.tools import run
 import datetime
 import httplib2
 
 # Misc
 import os
+def test(request):
+    context = {'pagetTitle': 'JADE 사용', 'youAreUsingJade': True}
+    return render(request, 'test.jade', context)
 
 def main(request):
-   return render(request, 'timetable/index.jade') 
+    return render(request, 'timetable/index.jade')
 
 @login_required_ajax
 def calendar(request):
@@ -57,7 +59,7 @@ def calendar(request):
     store = oauth2client.file.Storage(path)
     credentials = store.get()
     if credentials is None or credentials.invalid:
-        credentials = run(FLOW, store)
+        credentials = tools.run_flow(FLOW, store)
 
     http = credentials.authorize(httplib2.Http())
     service = discovery.build(serviceName='calender', version='v3', http=http, developerKey='blah')
@@ -74,7 +76,8 @@ def calendar(request):
         except:
             pass
 
-   if calendar == None:
+   #if calendar == None:
        # Make a new calender
 
    # TODO: Add calendar entry
+
