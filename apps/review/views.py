@@ -94,7 +94,6 @@ def search_view(request):
 
         except Exception, e:
             print e
-            pass
 
     for i in range(3):
         try:
@@ -108,7 +107,6 @@ def search_view(request):
 
         except Exception, e:
             print e
-            pass
     ctx = {
             'liberal_comment':liberal_comment,
             'major_comment':major_comment,
