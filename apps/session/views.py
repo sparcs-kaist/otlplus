@@ -15,8 +15,6 @@ import os
 import datetime
 import subprocess
 from django.db.models import Q
-from django.conf import settings
-
 
 import urlparse
 import requests
@@ -43,7 +41,7 @@ def user_login(request):
 
 @require_http_methods(['GET'])
 def login_callback(request):
-    next = request.session.pop('next', '/')
+    redirect_url = request.session.pop('next', '/')
     state_before = request.session.get('sso_state', 'default before state')
     state = request.GET.get('state', 'default state')
 
@@ -86,7 +84,7 @@ def login_callback(request):
 
         user = authenticate(username=username)
         login(request, user)
-        return redirect(next)
+        return redirect(redirect_url)
     else:
         user = authenticate(username=user_list[0].username)
         user.first_name=sso_profile['first_name']
@@ -101,7 +99,7 @@ def login_callback(request):
                 os.chdir('/var/www/otlplus/')
             os.system('python update_taken_lecture_user.py %s' % student_id)
         login(request, user)
-        return redirect(next)
+        return redirect(redirect_url)
     return render(request, 'session/login_error.html',
                   {'error_title': "Login Error",
                    'error_message': "No such that user"})
@@ -115,8 +113,8 @@ def user_logout(request):
         logout_url = sso_client.get_logout_url(sid, redirect_url)
         logout(request)
         request.session['visited'] = True
-        return redirect(logout_url)
-    return redirect("/main")
+        return HttpResponseRedirect(logout_url)
+    return HttpResponseRedirect("/main")
 
 
 @login_required(login_url='/session/login/')
