@@ -28,5 +28,5 @@ urlpatterns = [
     #url(r'^unregister/callback/$', views.unregister_callback),
 
     # User Preferences (e.g Favorite Department, Language)
-    url(r'^settings/$', views.settings),
+    url(r'^settings/$', views.user_settings),
 ]
