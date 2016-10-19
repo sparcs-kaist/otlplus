@@ -14,6 +14,13 @@ if($('.navbar').length > 0){
     });
 }
 
+$('.login').click(function() {
+    location.href = "/session/login/?next="+location.href;
+});
+$('.logout').click(function() {
+    location.href = "/session/logout/?next="+location.href;
+});
+
 $('#unregister').click(function() {
     if (confirm("정말로 OTLPLUS에서 탈퇴하시겠습니까?\n\n" +
             "* SPARCS SSO는 회원 탈퇴 되지 않습니다.\n*" +
