@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
 from django.conf import settings
 from apps.subject.models import Department
+from apps.review.models import Comment
 from apps.session.models import UserProfile
 from apps.session.sparcssso import Client
 import urllib
@@ -105,7 +106,6 @@ def login_callback(request):
                    'error_message': "No such that user"})
 
 
-
 def user_logout(request):
     if request.user.is_authenticated():
         sid = UserProfile.objects.get(user=request.user).sid
@@ -151,6 +151,18 @@ def user_settings(request):
         ctx['usr_lang'] = user_profile.language
         return HttpResponseRedirect('/main/')
     return render(request, 'session/settings.html', ctx)
+
+
+@login_required(login_url='/session/login/')
+def my_comments(request):
+    user = request.user
+    user_profile = UserProfile.objects.get(user=user)
+    user_comments = Comment.objects.filter(writer = user_profile)
+
+    print type(user_comments)
+    print type(user_comments[0])
+
+    return HttpResponse(user_comments)
 
 
 @login_required(login_url='/session/login/')
