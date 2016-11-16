@@ -121,6 +121,7 @@ def user_logout(request):
 def user_settings(request):
     user = request.user
     user_profile = UserProfile.objects.get(user=user)
+
     department = Department.objects.filter(Q(code__in = ["CE", "MSB", "MAE", "PH", "BiS", "IE", "ID", "BS", "CBE", "MAS", "MS", "NQE", "HSS", "EE", "CS", "MAE", "CH"]) & Q(visible = True)).order_by('name')
     fav_department = user_profile.favorite_departments.all()
 
@@ -150,19 +151,8 @@ def user_settings(request):
         ctx['fav_department'] = favorite_departments
         ctx['usr_lang'] = user_profile.language
         return HttpResponseRedirect('/main/')
+
     return render(request, 'session/settings.html', ctx)
-
-
-@login_required(login_url='/session/login/')
-def my_comments(request):
-    user = request.user
-    user_profile = UserProfile.objects.get(user=user)
-    user_comments = Comment.objects.filter(writer = user_profile)
-
-    print type(user_comments)
-    print type(user_comments[0])
-
-    return HttpResponse(user_comments)
 
 
 @login_required(login_url='/session/login/')

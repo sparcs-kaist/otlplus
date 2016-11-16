@@ -1,70 +1,14 @@
-{% extends "review/layout.html" %}
-{% load staticfiles %}
-
-{% block title %}
-  {{ block.super }}
-{% endblock %}
-
-{% block metatags %}
-  {{ block.super }}
-{% endblock %}
-
-{% block stylesheets %}
-  {{ block.super }}
-  <link rel="stylesheet" type="text/css" href="/media/css/components/header/result.css">
-  <link rel="stylesheet" type="text/css" href="/media/css/review/components/filter.css">
-  <link rel="stylesheet" type="text/css" href="/media/css/review/components/option.css">
-  <link rel="stylesheet" type="text/css" href="/media/css/review/components/expect.css">
-  <link rel="stylesheet" type="text/css" href="/media/css/review/components/course.css">
-  <link rel="stylesheet" type="text/css" href="/media/css/review/components/review.css">
-  <link rel="stylesheet" type="text/css" href="/media/css/review/result.css">
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-  <link rel="stylesheet" href="/resources/demos/style.css">
-  <style>
-  .ui-autocomplete {
-    max-height: 300px;
-    overflow-y: auto;
-    /* prevent horizontal scrollbar */
-    overflow-x: hidden;
-  }
-  /* IE 6 doesn't support max-height
-   * we use height instead, but this forces the menu to always be this tall
-   */
-  * html .ui-autocomplete {
-    height: 300px;
-  }
-  </style>
-
-{% endblock %}
-
-{% block javascripts %}
-  {{ block.super }}
-  <script type="text/javascript" src="/media/js/components/header.js"></script>
-  <script type="text/javascript" src="/media/js/review/result.js"></script>
-  <script type="text/javascript" src="/media/js/review/components/option.js"></script>
-  <script type="text/javascript" src="/media/js/review/components/filter.js"></script>
-  <script type="text/javascript" src="/media/js/review/components/review.js"></script>
-  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
-  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-<script>
-var auto_source = "{{auto_source}}"
-var auto_source = auto_source.split(',')
-$(document).ready(function(){     
-    $( "#keyword" ).autocomplete({
-        source: auto_source,
-        focus: function(){
-            return false
-        },
-    });
-    $(window).bind('scroll', loadOnScroll);
+$(document).ready(function(){
+    loadItems();
 });
-var pageNum = {{page}};
+var pageNum = 0;
 var hasNextPage = true;
+var conainer = $('#my-comments');
 
 
 var loadOnScroll = function() {
-    if ($(window).scrollTop() > $(document).height() - ($(window).height()*2)) {
-        $(window).unbind();
+    if (conainer[0].scrollHeight - conainer.scrollTop() == conainer.outerHeight()) {
+        conainer.unbind('scroll');
         loadItems();
     }
 };
@@ -73,20 +17,21 @@ var loadItems = function() {
     if (hasNextPage === false) {
         return false
     }
+
     pageNum = pageNum + 1;
-    var url = window.location.href.split("?q=").join("json/"+pageNum.toString()+"?q=")
+    var url = "/review/user/json/" + pageNum;
+
     $.ajax({
         type:"GET",
-        url: url, 
+        url: url,
         success: function(responseData) {
             var data = JSON.parse(responseData);
-            hasNextPage=data.hasNext;
-            var is_login = data.is_login;
+            hasNextPage = data.hasNext;
             var html = [];
+
             html.push('<script type="text/javascript" src="/media/js/review/components/review.js"></s','cript>')
             $.each(data.results, function(index, result){
                 if(result.type == "comment"){
-
 
                     html.push('<div class="panel panel-default review"><div class="panel-body"><div class="row">')
                     html.push('<div id="',result.id,'" class="label-title lecture ellipsis-wrapper col-xs-24 col-sm-24 col-md-12">')
@@ -209,141 +154,32 @@ var loadItems = function() {
 
                 html.push('</div>')
                 html.push('</span>')
-                if(is_login){
-                    html.push('<div class="col-xs-24 button-box-review"><a class="declaration-button not-active"><i class="fa fa-exclamation-circle"></i> 신고하기</a><a class="')
-                    if(result.already_up){
-                        html.push('declaration-button not-active ')
-                        html.push(result.id)
-                        html.push('" id="')
-                        html.push(result.id)
-                        html.push('" style="padding-right:0px"><i class="fa fa-check '+result.id+'"></i> 좋아요</a></div>')
-                    }
-                    else{
-                        html.push('like-button ')
-                        html.push(result.id)
-                        html.push('" id="')
-                        html.push(result.id)
-                        html.push('" style="padding-right:0px"><i class="fa fa-thumbs-up '+result.id +'"></i> 좋아요</a></div>')
-                    }
+                html.push('<div class="col-xs-24 button-box-review"><a class="declaration-button not-active"><i class="fa fa-exclamation-circle"></i> 신고하기</a><a class="')
+                if(result.already_up){
+                    html.push('declaration-button not-active ')
+                    html.push(result.id)
+                    html.push('" id="')
+                    html.push(result.id)
+                    html.push('" style="padding-right:0px"><i class="fa fa-check '+result.id+'"></i> 좋아요</a></div>')
+                }
+                else{
+                    html.push('like-button ')
+                    html.push(result.id)
+                    html.push('" id="')
+                    html.push(result.id)
+                    html.push('" style="padding-right:0px"><i class="fa fa-thumbs-up '+result.id +'"></i> 좋아요</a></div>')
                 }
                 html.push('</div></div></div></div></div>')
 
                 }
             });
             $("#datacall").before(html.join(""));
-        }, 
+        },
         error: function(){
             hasNextPage=false;
         },
         complete: function(data){
-            $(window).bind('scroll', loadOnScroll);
-            $("#option, #option2").on("click", function() {
-                $("#option").toggleClass("active");
-                $('#options').toggleClass("active");
-            });
+            conainer.bind('scroll', loadOnScroll);
         }
     });
-};   
-</script>
-
-{% endblock %}
-
-{% block header %}
-  {% include 'components/header.html' %}
-{% endblock %}
-
-{% block contents %}
-
-  
-
-  <div class="row">
-    <div class="col-xs-22 col-xs-offset-1 col-sm-20 col-sm-offset-2 col-md-18 col-md-offset-3 col-lg-16 col-lg-offset-4">
-
-    <form role="form" class="hid row search_form" style="min-width:260px">
-        <div class="search_bar col-xs-24 col-sm-14 col-md-16 col-lg-18">
-            <input id="keyword2" type="text" name="q" autocomplete="on" class="form-control" placeholder="Search">
-        </div>
-        <div class="search_bar col-xs-12 col-sm-5 col-md-4 col-lg-3">
-          <div id="option2" type="button" class="btn btn-lg btn-block btn-danger">
-            필터
-          </div>
-        </div>
-        <div class="search_bar col-xs-12 col-sm-5 col-md-4 col-lg-3">
-          <input type="submit" class="btn btn-lg btn-block btn-danger" formaction = "/review/result" value="검색">
-        </div>
-      </form>
-
-
-         {% include 'review/components/option.html' %}
-         <div class="clearfix"></div>
-
-
-         {% if results|length > 0 %}
-<div id="filter">
-    <div class="form-group">
-        <div class="row">
-            <div class="label-row col-xs-24 controls" >
-                <table>
-                <tr>
-                    <td style="vertical-align:top">
-                        <label class="sort-title control-label">정렬</label>
-                    </td>
-                    <td>
-<div>
-          <label>
-            <input class="chkone sort_button" type="checkbox" autocomplete="off" name="filter" checked value="ALL" > 전체
-            <span class="fa-stack fa-lg">
-              <i class="fa fa-circle-o fa-stack-2x"></i>
-              <i class="fa fa-check fa-stack-1x"></i>
-            </span>
-          </label>
-
-          <label>
-            <input class="chkone sort_button" type="checkbox" autocomplete="off" name="filter" value="HSS" >교양
-            <span class="fa-stack fa-lg">
-              <i class="fa fa-circle-o fa-stack-2x"></i>
-              <i class="fa fa-check fa-stack-1x"></i>
-            </span>
-          </label>
-
-          <label>
-              <input class="chkone sort_button" type="checkbox" autocomplete="off" name="filter" value="F" >관심
-            <span class="fa-stack fa-lg">
-              <i class="fa fa-circle-o fa-stack-2x"></i>
-              <i class="fa fa-check fa-stack-1x"></i>
-            </span>
-          </label>
-
-
-</div>
-                    </td>
-                </tr>
-                </table>
-            </div>
-
-        </div>
-    </div>
-</div>
-
-        {% endif %}
-
-
-     <div class="list-group sort_result" id="{{ sort_id }}" role="tablist">
-      {% if results|length == 0 %}
-        <div class="list-group-item" style="border-radius:4px; margin-top:20px" >
-          등록된 후기가 없습니다.
-        </div>
-      {% endif %}
-
-      {% for result in results %}
-        {% include 'review/components/review.html' %}
-      {% endfor %}
-<div id="datacall"></div>
-      </div>
-    </div>
-  </div>
-{% endblock %}
-
-{% block footer %}
-  {{ block.super }}
-{% endblock %}
+};
