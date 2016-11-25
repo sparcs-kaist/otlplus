@@ -84,6 +84,28 @@ mixin basic-info(title, id, text)
           .result-message
             span (전산학부), (전공필수, 전공선택)에 대한 검색 결과입니다.
           .lecture-list
+            #app
+            .lecture-lists-element
+              .lecture-name
+                span 데이타구조 
+                span  CS206
+              .lecture-selection-list
+                .cell3
+                .lecture-selection
+                  span A
+                  a 정지원
+                  span +
+                .cell3
+                .lecture-selection
+                  span B
+                  a 오혜연
+                  span +
+                .cell3
+                .lecture-selection
+                  span C
+                  a 정지원
+                  span +
+                .footer
   #center
     #timetable-menu
       #timetable-tabs(style='clear:both;')
