@@ -33,7 +33,6 @@ html, body
     display:flex;
     flex-direction:column;
     float:left;
-    margin-top:2em;
     width:19.5em;
 }
 
@@ -138,6 +137,7 @@ html, body
     vertical-align:middle;
     line-height:2em;
     border:none;
+    border-radius:0.2em 0 0 0.2em;
     outline:none;
     text-decoration:none;
 }
@@ -287,7 +287,9 @@ html, body
 {
     position:absolute;
     width:3em;
-    height:100%;
+    height: -moz-calc(100% - 1em);
+    height: -webkit-calc(100% - 1em);
+    height: calc(100% - 1em);
     left:0pt;
     top:0pt;
 }
@@ -333,13 +335,12 @@ html, body
     height: calc(100% - 1em);
 }
 
-.cellcolumn
+.day
 {
     display:flex;
     flex-direction:column;
-    margin-left:0.15em;
-    margin-right:0.15em;
-    width:8.25em;
+    padding-left:0.15em;
+    padding-right:0.15em;
     height:100%;
     flex:auto;
 }
@@ -361,6 +362,16 @@ html, body
 .cell2.cell-bottom
 {
     border-bottom:1px solid #E2E2E2;
+}
+
+.half.clicked
+{
+    background-color:blue;
+}
+
+.half.selected
+{
+    background-color:tomato;
 }
 
 #map
