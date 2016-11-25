@@ -19,4 +19,5 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.main),
+    url(r'^show$', views.show_table),
 ]
