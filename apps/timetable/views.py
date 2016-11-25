@@ -26,7 +26,7 @@ def test(request):
     return render(request, 'test.jade', context)
 
 def main(request):
-    return render(request, 'timetable/index.jade')
+    return render(request, 'timetable/index.html')
 
 @login_required_ajax
 def calendar(request):
