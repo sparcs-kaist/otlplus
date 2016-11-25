@@ -15,7 +15,6 @@ import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
@@ -130,6 +129,11 @@ AUTHENTICATION_BACKENDS = (
 
 LOGIN_URL = '/session/login/'
 LOGOUT_URL = '/session/logout/'
+
+CURRENT_YEAR = 2016
+CURRENT_SEMESTER = 3
+NEXT_YEAR = 2016
+NEXT_SEMESTER = 4
 
 try:
      from settings_local import *
