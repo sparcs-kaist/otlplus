@@ -19,4 +19,5 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.main),
+    url(r'^lecture/$', views.get_lecture_info),
 ]
