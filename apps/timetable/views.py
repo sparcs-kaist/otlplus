@@ -7,21 +7,13 @@ from apps.subject.models import ExamTime, ClassTime, Lecture
 
 # Django modules
 from django.core.exceptions import *
-<<<<<<< HEAD
 from wsgiref.util import FileWrapper
-=======
-from django.core.servers.basehttp import FileWrapper
->>>>>>> 31e0c2e799e159aff87ba703aef0839d488ad9c2
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.http import *
 from django.shortcuts import render
 from django.template.loader import render_to_string
-<<<<<<< HEAD
 from django.http.response import HttpResponseBadRequest
-=======
-from otl.utils.decorators import login_required_ajax
->>>>>>> 31e0c2e799e159aff87ba703aef0839d488ad9c2
 
 # For google calender
 from apiclient import discovery
@@ -191,19 +183,19 @@ def save_as_pdf(request):
 @login_required
 def save_as_image(request):
    ''' Serve png file based on request and temlplate '''
-    table_id = int(request.GET.get('id', 0))
-    view_year = int(request.GET.get('view_year', settings.NEXT_YEAR))
-    view_semester = int(request.GET.get('view_semester', settings.NEXT_SEMESTER))
-    old_lang = request.session.get('django_language', 'ko')
+   table_id = int(request.GET.get('id', 0))
+   view_year = int(request.GET.get('view_year', settings.NEXT_YEAR))
+   view_semester = int(request.GET.get('view_semester', settings.NEXT_SEMESTER))
+   old_lang = request.session.get('django_language', 'ko')
 
-    f = open(_get_image(_render_html(request)), 'rb')
+   f = open(_get_image(_render_html(request)), 'rb')
 
-    response = HttpResponse(FileWrapper(f), content_type='image/png')
-    activate('en')
-    response['Content-Disposition'] = 'attachment; filename=timetable%d_%d_%d.png' % (table_id + 1, view_year, view_semester)
-    activate(old_lang)
+   response = HttpResponse(FileWrapper(f), content_type='image/png')
+   activate('en')
+   response['Content-Disposition'] = 'attachment; filename=timetable%d_%d_%d.png' % (table_id + 1, view_year, view_semester)
+   activate(old_lang)
 
-    return response
+   return response
 
 
 
