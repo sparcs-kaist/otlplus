@@ -2,6 +2,8 @@
 
 # Django apps
 from apps.session.models import UserProfile
+from apps.timetable.models import TimeTable
+from django.contrib.auth.models import User
 
 # Django modules
 from django.core.exceptions import *
@@ -18,15 +20,41 @@ from oauth2client import tools
 from oauth2client.client import OAuth2WebServerFlow
 import datetime
 import httplib2
-
 # Misc
 import os
+
+
 def test(request):
     context = {'pagetTitle': 'JADE 사용', 'youAreUsingJade': True}
     return render(request, 'test.jade', context)
 
+
 def main(request):
     return render(request, 'timetable/index.html')
+
+
+def show_table(request):
+    seasons = ['봄', '여름', '가을', '겨울']
+    u1 = User.objects.filter(username='ashe')[0]
+    up1 = UserProfile.objects.filter(user=u1)[0]
+    t1 = TimeTable.objects.filter(user=up1)[0]
+
+    lecture_list = list(t1.lecture.all())
+    table_of = u1.username
+    year = t1.year
+    season = seasons[t1.semester-1]
+    table_id = t1.table_id
+    table_name = "시간표 " + str(table_id+1)
+
+    context = {
+        "lecture_list": lecture_list,
+        "table_of": table_of,
+        "year": year,
+        "season": season,
+        "table_name": table_name,
+    }
+    return render(request, 'timetable/show.html', context)
+
 
 @login_required_ajax
 def calendar(request):
@@ -67,10 +95,10 @@ def calendar(request):
     calendar_name = "[OTL]" + str(user) + "'s calendar"
     calendar = None
 
-    if userprofile.calendar_id != None:
+    if userprofile.calendar_id is not None:
         try:
             calendar = service.calendars().get(calendarId = userprofile.calendar_id).execute()
-            if calendar != None and calendar['summary'] != calendar_name:
+            if calendar is not None and calendar['summary'] != calendar_name:
                 calendar['summary'] = calendar_name
                 calendar = service.calendars().update(calendarId = calendar['id'], body = calendar).execute()
         except:
@@ -80,4 +108,3 @@ def calendar(request):
        # Make a new calender
 
    # TODO: Add calendar entry
-
