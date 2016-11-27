@@ -6,10 +6,11 @@ from apps.session.models import *
 
 class TimeTable(models.Model):
     lecture = models.ManyToManyField(Lecture)
-    user = models.ForeignKey(UserProfile, related_name="timetable_set") # 'UserProfile' 이부분이 좀 불안함 by ashe.
-    year = models.IntegerField(null=True) # 몇넌도의 타임테이블인지
-    semester = models.SmallIntegerField(null=True) # 어떤학기의 타임테이블인지
-    table_id = models.SmallIntegerField(null=True) # 몇번째 타임테이블인지 0,1,2,3
+    user = models.ForeignKey(UserProfile, related_name="timetable_set")  # 'UserProfile' 이부분이 좀 불안함 by ashe.
+    year = models.IntegerField(null=True)  # 몇넌도의 타임테이블인지
+    semester = models.SmallIntegerField(null=True)  # 어떤학기의 타임테이블인지
+    table_id = models.SmallIntegerField(null=True)  # 몇번째 타임테이블인지 0,1,2,3
+
 
 class ResearchLecture(models.Model):
     code = models.CharField(max_length=10,db_index=True)
