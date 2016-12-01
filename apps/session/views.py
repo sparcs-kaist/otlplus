@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
 from django.conf import settings
 from apps.subject.models import Department
+from apps.review.models import Comment
 from apps.session.models import UserProfile
 from apps.session.sparcssso import Client
 import urllib
@@ -105,7 +106,6 @@ def login_callback(request):
                    'error_message': "No such that user"})
 
 
-
 def user_logout(request):
     if request.user.is_authenticated():
         sid = UserProfile.objects.get(user=request.user).sid
@@ -121,6 +121,7 @@ def user_logout(request):
 def user_settings(request):
     user = request.user
     user_profile = UserProfile.objects.get(user=user)
+
     department = Department.objects.filter(Q(code__in = ["CE", "MSB", "MAE", "PH", "BiS", "IE", "ID", "BS", "CBE", "MAS", "MS", "NQE", "HSS", "EE", "CS", "MAE", "CH"]) & Q(visible = True)).order_by('name')
     fav_department = user_profile.favorite_departments.all()
 
@@ -150,6 +151,7 @@ def user_settings(request):
         ctx['fav_department'] = favorite_departments
         ctx['usr_lang'] = user_profile.language
         return HttpResponseRedirect('/main/')
+
     return render(request, 'session/settings.html', ctx)
 
 
