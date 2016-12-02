@@ -229,6 +229,7 @@ html, body
 
 .timetable-num
 {
+    color:#000000;
 }
 
 #timetable
@@ -539,4 +540,9 @@ html, body
     width:100%;
 }
 
-
+.lecture-block
+{
+    position:absolute;
+    flex:auto;
+    background-color:#8888FF;
+}
