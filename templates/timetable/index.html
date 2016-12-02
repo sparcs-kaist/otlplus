@@ -130,11 +130,11 @@
 				</select>
 			</div>-->
 			<div id="timetable-tabs" style="clear:both;">
-				<button class="timetable-tab active"><span class="timetable-num">시간표 1</span></button>
-				<button class="timetable-tab"><span class="timetable-num">시간표 2</span></button>
-				<button class="timetable-tab"><span class="timetable-num">시간표 3</span></button>
-				<button class="timetable-tab"><span class="timetable-num">시간표 4</span></button>
-				<button class="timetable-tab timetable-add"><span class="timetable-num">+</span></button>
+				<a href="#/1" class="timetable-tab active"><span class="timetable-num">시간표 1</span></a>
+				<a href="#/2" class="timetable-tab"><span class="timetable-num">시간표 2</span></a>
+				<a href="#/3" class="timetable-tab"><span class="timetable-num">시간표 3</span></a>
+				<a href="#/4" class="timetable-tab"><span class="timetable-num">시간표 4</span></a>
+				<a class="timetable-tab timetable-add"><span class="timetable-num">+</span></a>
 			</div>
 		</div>
 		<div id="timetable">
@@ -457,4 +457,9 @@
 		</div><!--div timetable-->
 	</div><!--div center-->
 </div>
+<script type="text/template" id="timetable-lecture-template">
+  <div class="lecture-block">
+    <p class="timetable-lecture-name"><%= title %></p>
+  </div>
+
 {% endblock %}
