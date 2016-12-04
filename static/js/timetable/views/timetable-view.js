@@ -143,6 +143,7 @@ var app = app || {};
       _.bindAll(this,"render");
       this.render();
       //app.timetables.bind("reset", this.render);
+      $(window).on('resize', this.render);
       console.log("view");
     },
 
@@ -165,7 +166,7 @@ var app = app || {};
         var w = block.width();
         var h = block.height()+1;
         block.html(this.template({title: child.attributes.name}));
-        $(this.el).find('.lecture-block').css('height', h*time);
+        $(this.el).find('.lecture-block').css('height', h*time-1);
         $(this.el).find('.lecture-block').css('width', w);
         timetable.cleanHalfs();
       }
