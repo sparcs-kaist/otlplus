@@ -13,6 +13,15 @@ var app = app || {};
     model: app.Timetable,
     url: '/media/js/timetable/timetable1.json',
 
+    getUserLectures: function() {
+      var self = this;
+      this.fetch({
+        success: function() {
+          self.trigger("successOnFetch");
+        }
+      });
+    }
+
   });
 
   // Create
