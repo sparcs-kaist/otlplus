@@ -4,10 +4,10 @@ var app = app || {};
 (function ($) {
   'use strict';
 
-  // Timetable Model
+  // Timetable View
   // ---------------
 
-  app.TimetableSearchView = Backbone.View.extend({
+  app.TimetableClickSearchView = Backbone.View.extend({
     initialize: function (opt) {
       this.isLookingTable = false;
       this.isBubbling = false;
@@ -113,7 +113,7 @@ var app = app || {};
     }
   })
 
-  app.lecturelistView = Backbone.View.extend({
+  app.lectureListView = Backbone.View.extend({
     el: '.lecture-list',
     initialize: function (opt) {
       // this.isLookingTable = false;
@@ -128,7 +128,7 @@ var app = app || {};
     }
   })
 
-  app.TimetableLectureView = Backbone.View.extend({
+  app.TimetableLectureBlocksView = Backbone.View.extend({
     //el: '#timetable-contents',
     el: '#center',
     tagName: 'div',
@@ -143,7 +143,8 @@ var app = app || {};
       _.bindAll(this,"render");
       this.render();
       //app.timetables.bind("reset", this.render);
-      $(window).on('resize', this.render);
+      $(window).on("resize", this.render);
+      this.listenTo(app.timetables, "successOnFetch", this.render);
       console.log("view");
     },
 
@@ -174,11 +175,7 @@ var app = app || {};
   })
 })(jQuery);
 
-var timetable;
-var lectureList;
-var userLectureList;
-app.timetables.fetch().done(function() {
-  timetable = new app.TimetableSearchView();
-  lectureList = new app.lecturelistView();
-  userLectureList = new app.TimetableLectureView();
-});
+var timetable = new app.TimetableClickSearchView();
+var lectureList = new app.lectureListView();
+var userLectureList = new app.TimetableLectureBlocksView();
+app.timetables.getUserLectures();
