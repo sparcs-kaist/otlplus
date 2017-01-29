@@ -116,8 +116,10 @@ def search_view(request):
 
     return render(request, 'review/search.html',ctx)
 
+
 def search_view_first(request):
     return render(request, 'review/tutorial-main.html')
+
 
 def search_view_first_again(request):
     drugs = [
@@ -125,17 +127,31 @@ def search_view_first_again(request):
         "튜토리얼의 협곡에 오신 것을 환영합니다.",
         "안뇽! 튜토리얼에 온 걸...화녕행!!!!",
         "안녕! 친구들! 튜토리얼이 왔어!",
-        "튜토리얼이 진다..",
+        "그대의 튜토리얼은 그대 스스로 클릭한 것이다.",
+        "첫사랑이었다. 저 제비꽃같은 튜토리얼이 첫사랑이었다.",
+        "너의 이름은? 튜토리얼! 나의 이름은 튜토리얼!",
+        "그것도, 튜토리얼. 물도, 쌀도, 술도, 사람의 몸에 들어가서 영혼과 이어지는 것도 튜토리얼.",
         "어서 와요! 꽤 보고싶었다구요?",
         "아이고, 이게 누구신가!",
             ]
     return render(request, 'review/tutorial-main-2.html', {'hello_message': drugs[random.randint(0, len(drugs)-1)],})
 
+
 def search_view_first2(request):
     return render(request, 'review/tutorial-sparcssso.html')
 
+
+def search_view_first2_auth(request):
+    return render(request, 'review/tutorial-sparcssso-auth.html')
+
+
+def search_view_first2_connect(request):
+    return render(request, 'review/tutorial-sparcssso-connect.html')
+
+
 def search_view_first3(request):
     return render(request, 'review/tutorial-write.html')
+
 
 def search_view_first4(request):
     return render(request, 'review/tutorial-comeagain.html')
@@ -151,6 +167,7 @@ def isKorean(word):
             return False
     return True
 
+
 def CalcAvgScore(grade_sum, load_sum, speech_sum, total_sum, comment_num):
     if comment_num == 0:
         grade = 0.0
@@ -164,6 +181,7 @@ def CalcAvgScore(grade_sum, load_sum, speech_sum, total_sum, comment_num):
         total = float(total_sum)/comment_num
     return grade, load, speech, total
 
+
 def GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters, keyword):
     if len(semester_filters)==0 or ("ALL" in semester_filters):
         courses = Course.objects.filter(department__code__in=department_filters, type_en__in=type_filters, code_num__in=grade_filters)
@@ -175,14 +193,17 @@ def GetFilteredCourses(semester_filters, department_filters, type_filters, grade
 
     return courses
 
+
 def KeyLecByProf(lecture):
     return sorted([i.id for i in lecture.professor.all()])
+
 
 def GetLecByProf(lectures):
     lectures.sort(key = KeyLecByProf)
     lec_by_prof = groupby(lectures, KeyLecByProf)
     lec_by_prof = [ list(i[1]) for i in lec_by_prof ]
     return lec_by_prof
+
 
 def SearchCourse(course,id=-1):
     lectures = list( course.lecture_course.all() )
@@ -235,6 +256,7 @@ def SearchCourse(course,id=-1):
     }
     return result
 
+
 def SearchComment(request, comment):
     is_login = False
     already_up = False
@@ -274,6 +296,7 @@ def SearchComment(request, comment):
     }
     return result
 
+
 def SearchProfessor(professor,id=-1):
     lecture_list=[]
     lecture_list.append({
@@ -308,20 +331,20 @@ def SearchProfessor(professor,id=-1):
             score = {"grade":grade, "load":load, "speech":speech, "total":total,}
             """
 
-
-    result={
-        "type":"professor",
-        "id":professor.id,
-        "title":professor.professor_name,
-        "prof_info":lecture_list,
-        "gradelist":gradelist,
-        "major":Department.objects.get(id = professor.major).name,
-        "score":score,
+    result = {
+        "type": "professor",
+        "id": professor.id,
+        "title": professor.professor_name,
+        "prof_info": lecture_list,
+        "gradelist": gradelist,
+        "major": Department.objects.get(id = professor.major).name,
+        "score": score,
     }
     return result
 
+
 def Expectations(keyword):
-    if not keyword :
+    if not keyword:
         return
     expectations=[]
     expect_prof=[]
@@ -342,7 +365,8 @@ def Expectations(keyword):
     expectations = expect_temp
     return expectations
 
-#MainPage#################################################################################################
+
+# MainPage#################################################################################################
 def SearchResultView(request):
     if 'q' in request.GET :
         keyword = request.GET['q']
@@ -354,20 +378,20 @@ def SearchResultView(request):
     type_filters = TypeFilters(request.GET.getlist('type'))
     grade_filters = GradeFilters(request.GET.getlist('grade'))
     courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters, keyword)
-    if 'sort' in request.GET :
-        if request.GET['sort']=='name':
+    if 'sort' in request.GET:
+        if request.GET['sort'] == 'name':
             courses = courses.order_by('title','old_code')
-        elif request.GET['sort']=='total':
+        elif request.GET['sort'] == 'total':
             courses = courses.order_by('-total','old_code')
-        elif request.GET['sort']=='grade':
+        elif request.GET['sort'] == 'grade':
             courses = courses.order_by('-grade','old_code')
-        elif request.GET['sort']=='load':
+        elif request.GET['sort'] == 'load':
             courses = courses.order_by('-load','old_code')
-        elif request.GET['sort']=='speech':
+        elif request.GET['sort'] == 'speech':
             courses = courses.order_by('-speech','old_code')
         else:
             courses = courses.order_by('old_code')
-    else :
+    else:
         courses = courses.order_by('old_code')
 
     if len(keyword)>0:
@@ -389,6 +413,7 @@ def SearchResultView(request):
     }
 
     return render(request, 'review/result.html', context)
+
 
 def SearchResultView_json(request, page):
     if 'q' in request.GET :
