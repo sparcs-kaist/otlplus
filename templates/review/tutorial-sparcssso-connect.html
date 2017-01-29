@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <title>SPARCS SSO 회원가입 튜토리얼</title>
+    <title>SPARCS SSO 연동 튜토리얼</title>
 
     <!-- Attach Joyride CSS -->
     <link rel="stylesheet" href="/media/js/joyride-master/joyride-2.1.css">
@@ -15,14 +15,12 @@
 
     <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-
+    
 <link rel="stylesheet" type="text/css" href="/media/css/sso_register.css">
 <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.11.3/jquery-ui.min.js"></script>
 <script src="/static/js/validator.min.js"></script>
 
-
-<script src='https://www.google.com/recaptcha/api.js'></script>
 
 
 </head>
@@ -42,15 +40,29 @@
                 <ul class="nav navbar-nav">
                     <li><a href="/stats/">통계</a></li>
                     <li><a href="/help/">도움말</a></li>
-
-
+                    
+                    <li><a href="/dev/main">Dev Center</a></li>
+                    
+                    
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-
-                    <li><a href="/account/signup/">회원가입</a></li>
-                    <li><a href="/account/login/">로그인</a></li>
-                    <li><a href="/account/password/reset/">비밀번호 재설정</a></li>
-
+                    
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Robert <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="/account/profile/">프로필 / 연결</a></li>
+                            <li><a href="/account/service/">서비스 관리</a></li>
+                            <li><a href="/account/log/">활동 로그</a></li>
+                            <li><a href="/account/point/">포인트</a></li>
+                            
+                            <li><a href="/account/password/change/">비밀번호 변경</a></li>
+                            <li><a href="/account/deactivate/">비활성화</a></li>
+                            
+                        </ul>
+                    </li>
+                    <li><a href="#" id="logout-link">로그아웃</a></li>
+                    <form id="logout-form" action="/account/logout/" method="post" style="display:none"><input type='hidden' name='csrfmiddlewaretoken' value='NmBFLY9zk6egfhT3sLuKP4GyHg7Q4PDivOhpYDhK3X3ZDOMRB9KcHSlZR0mp47vl' /></form>
+                    
                     <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">한국어 <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
@@ -63,44 +75,42 @@
         </div>
     </nav>
     <section class="container">
-
-<h1>회원가입
-<small id="stop-register">
-    (이메일)
-</small></h1>
-<p>다음 내용을 작성해주세요.</p>
-<p>서비스를 사용하기 위해서는 이메일을 인증해야 합니다.</p>
-<form id="signup" class="form-horizontal" action="/account/signup/" method="post" enctype="multipart/form-data">
+        
+<h1>프로필 및 SNS 계정</h1>
+<p>프로필 정보를 수정하거나 소셜 계정을 연결 및 연결 해제할 수 있습니다.</p>
+<p>수정된 정보는 다른 SPARCS 서비스에 적용되지 않을 수 있습니다.</p>
+<p>이메일을 변경하면 다시 인증을 받아야 합니다.</p>
+<form id="profile" class="form-horizontal" action="/account/profile/" method="post" enctype="multipart/form-data">
     <fieldset>
-        <input type='hidden' name='csrfmiddlewaretoken' value='T4TqNO1NdbZ84IVVJBzLQmAUmsT7JEWeA6h8s4w7RPGczDvFZdEXSLISxb3BLoTI' />
+        <div class="form-group">
+            <div class="col-xs-offset-1 col-xs-10 col-sm-offset-2 col-sm-8">
+                
+            </div>
+        </div>
+        <input type='hidden' name='csrfmiddlewaretoken' value='NmBFLY9zk6egfhT3sLuKP4GyHg7Q4PDivOhpYDhK3X3ZDOMRB9KcHSlZR0mp47vl' />
         <div class="form-group">
             <label class="col-sm-2 control-label">이메일 <span class="required"></span></label>
-            <div class="col-xs-offset-1 col-xs-10 col-sm-offset-0 col-sm-8">
-                <input type="email" class="form-control" name="email" placeholder="asdf@example.com" required="required" maxlength="50" data-remote="/api/v2/email/" data-error="잘못되었거나 이미 가입된 이메일입니다.">
-                <div class="help-block with-errors"></div>
+            <div class="col-xs-offset-1 col-xs-8 col-sm-offset-0 col-sm-6">
+                <input type="email" class="form-control" name="email" required="required" maxlength="50" data-remote="/api/v2/email/?exclude=ashe@sparcs.org" data-error="잘못되었거나 이미 가입된 이메일입니다." value="ashe@sparcs.org">
+                <span class="help-block with-errors"></span>
+            </div>
+            <div class="col-xs-2 col-sm-2">
+                
+                <a href="#" disabled class="btn btn-success" style="width:100%">인증됨</a>
+                
             </div>
         </div>
-        <div class="form-group">
-            <label class="col-sm-2 control-label">비밀번호 <span class="required"></span></label>
-            <div class="col-xs-offset-1 col-xs-10 col-sm-offset-0 col-sm-4">
-                <input type="password" class="form-control" name="password" placeholder="pAss0wd!" id="password" required="required" maxlength="50" data-minlength="7">
-                <span class="help-block">비밀번호는 최소 7자리 이상이어야 합니다.</span>
-            </div>
-            <div class="col-xs-offset-1 col-xs-10 col-sm-offset-0 col-sm-4">
-                <input type="password" class="form-control" name="password2" placeholder="Re-type password" data-match="#password" data-match-error="Not match!" required="required" maxlength="50">
-                <div class="help-block with-errors"></div>
-            </div>
-        </div>
+        <input type="hidden" name="password" value="qwerty1234">
         <div class="form-group">
             <label class="col-sm-2 control-label">이름 <span class="required"></span></label>
             <div class="col-xs-offset-1 col-xs-6 col-sm-offset-0 col-sm-5">
-                <input type="text" class="form-control" name="first_name" placeholder="First Name" required="required" maxlength="30">
+                <input type="text" class="form-control" name="first_name" placeholder="First Name" required="required" maxlength="30" value="Robert">
             </div>
             <div class="col-xs-4 col-sm-3">
-                <input type="text" class="form-control" name="last_name" placeholder="Last Name" required="required" maxlength="30">
+                <input type="text" class="form-control" name="last_name" placeholder="Last Name" required="required" maxlength="30" value="Kim">
             </div>
         </div>
-        <div class="form-group" style="margin-bottom:0">
+        <div class="form-group">
             <label class="col-sm-2 control-label">성별 및 생일</label>
             <div class="col-xs-offset-1 col-xs-4 col-sm-offset-0 col-sm-3">
                 <select class="form-control" name="gender">
@@ -111,22 +121,14 @@
                 </select>
             </div>
             <div class="col-xs-6 col-sm-5">
-                <input type="text" class="form-control" name="birthday" placeholder="Birthday (YYYY-MM-DD)" data-vbirth="vbirth">
+                <input type="text" class="form-control" name="birthday" placeholder="Birthday (YYYY-MM-DD)" data-vbirth="vbirth" value="1995-11-02">
             </div>
-        </div>
-        <div class="form-group" style="margin-top:5px">
-            By clicking on the signup button, you agree to <a href="/terms/" target="_blank">SPARCS SSO's terms of use</a> and <a href="/privacy/" target="_blank">privacy policy</a>
-        </div>
-
-        <input type="text" name="captcha" style="margin-left: -99999px !important" required>
-        <div class="form-group" style="margin-top:-20px">
-            <div class="g-recaptcha" style="display:inline-block" data-callback="captcha_check" data-expired-callback="captcha_expired" data-sitekey="6LdKJiQTAAAAAE03DTaBYonGRVuGdurgcLmpnjA2"></div>
         </div>
 
         <div class="form-group">
             <div class="col-xs-12">
-                <button id="stop-register-button" type="button" class="btn btn-warning">회원가입</button>
-                <a class="btn btn-default" href="#">로그인 페이지</a>
+                <button type="submit" class="btn btn-primary">수정</button>
+                <a class="btn btn-default" href="/account/profile/">초기화</a>
             </div>
         </div>
     </fieldset>
@@ -148,72 +150,67 @@
         </div>
     </div>
 </div>
+
+<h3>SNS 계정</h3>
+
+
+<p class="text-info">KAIST 구성원 인증을 하려면 KAIST SSO와 연결해야 합니다.</p>
+<p class="text-danger">한번 KAIST SSO에 연결하면, 해제 할 수 없습니다.</p>
+
+
+
+<div class="row">
+    <div class="col-sm-offset-2 col-sm-3 social-panel">
+        <div class="social-icon">
+            <img class="disabled" src="/media/img/fb.png" alt="Facebook">
+        </div>
+        
+        <form class="social-form" action="#" method="post">
+            <input type='hidden' name='csrfmiddlewaretoken' value='NmBFLY9zk6egfhT3sLuKP4GyHg7Q4PDivOhpYDhK3X3ZDOMRB9KcHSlZR0mp47vl' />
+            <button type="submit" class="btn btn-primary">연결</button>
+        </form>
+        
+    </div>
+    <div class="col-sm-2 social-panel">
+        <div class="social-icon">
+            <img class="disabled" src="/media/img/tw.png" alt="Twitter">
+        </div>
+        
+        <form class="social-form" action="#" method="post">
+            <input type='hidden' name='csrfmiddlewaretoken' value='NmBFLY9zk6egfhT3sLuKP4GyHg7Q4PDivOhpYDhK3X3ZDOMRB9KcHSlZR0mp47vl' />
+            <button type="submit" class="btn btn-primary">연결</button>
+        </form>
+        
+    </div>
+    <div class="col-sm-3 social-panel">
+        <div id="stop-connect-kaist" class="social-icon">
+            <img class="disabled" src="/media/img/kaist.png" alt="KAIST">
+        </div>
+        
+        <form class="social-form" action="#" method="post">
+            <input type='hidden' name='csrfmiddlewaretoken' value='NmBFLY9zk6egfhT3sLuKP4GyHg7Q4PDivOhpYDhK3X3ZDOMRB9KcHSlZR0mp47vl' />
+            <button type="submit" class="btn btn-primary ">연결</button>
+        </form>
+        
+    </div>
+</div>
+
 <!-- Tip Content -->
 <ol id="joyRideTipContent">
-   <li data-id="stop-register" data-button="Next" data-prev-text="Prev" data-options="tipLocation:right;tipAnimation:fade;prev_button:true">
-     <h2>회원가입</h2>
-     <p>상단 헤더의 회원가입 메뉴를 클릭하시면 나오는 페이지입니다. 내용을 작성하신 후 회원가입 버튼을 누르시면 인증 이메일이 전송됩니다.</p>
-   </li>
-   <li data-id="stop-register-button" data-button="Next" data-prev-text="Prev" data-options="tipLocation:top;tipAnimation:fade;prev_button:true">
-     <h2>다음 단계: 이메일 인증</h2>
-     <p>노란색 회원가입 버튼을 누르면 인증 이메일이 전송됩니다.</p>
+   <li data-id="stop-connect-kaist" data-button="Next" data-prev-text="Prev" data-options="tipLocation:right;tipAnimation:fade;prev_button:true">
+     <h2>포탈 연동</h>
+     <p>카이스트 포탈 연동을 하셔야만 OTLPLUS 후기 작성이 가능합니다. 넙죽이 버튼을 기억해주세요!</p>
    </li>
 </ol>
 
-<!-- Run the plugin -->
- <script type="text/javascript" src="/media/js/joyride-master/jquery-1.10.1.js"></script>
- <script type="text/javascript" src="/media/js/joyride-master/jquery.cookie.js"></script>
- <script type="text/javascript" src="/media/js/joyride-master/modernizr.mq.js"></script>
- <script type="text/javascript" src="/media/js/joyride-master/jquery.joyride-2.1.js"></script>
- <script>
-   $(window).load(function() {
-     $('#joyRideTipContent').joyride({
-       autoStart : true,
-       postStepCallback : function (index, tip) {
-       /*
-       if (index == 2) {
-         $(this).joyride('set_li', false, 1);
-       }
-       */
-     },
-     modal:true,
-     expose: true
-     });
-    });
-    $(document).on("click",".joyride-close-tip", function() {
-        $(location).attr('href', "../")
-    });
-    $(document).on("click",".joyride-next-tip:eq(1)", function() {
-        $(location).attr('href', "../tutorial2_auth")
-    });
-    $(window).resize(function() {
-        if ($(window).width()<768){
-            $(location).attr('href', "/main")
-        };
-    });
-  $(document).ready(function(){
-    if ($(window).width()<768){
-      $(location).attr('href', "/main")
-    };
-  });
- </script>
-
 
 <script type="text/javascript">
-var captcha_check = function() {
-    $('input[name=captcha]').val('captcha');
-};
-
-var captcha_expired = function() {
-    $('input[name=captcha]').val('');
-};
-
 $(function() {
     var common_gender = function(g) {
         return g == '*H' || g == '*M' || g == '*F' || g == '*E';
     };
 
-    var g = '';
+    var g = '*M';
     if (common_gender(g))
         $("select[name=gender]").val(g);
     else if (g != '') {
@@ -252,13 +249,13 @@ $(function() {
             vbirth: function(el) { var re = /^\d{4}-\d{2}-\d{2}$/; return el.val().trim() == '' || re.test(el.val()); }
         },
         errors: {
-            vbirth: 'Format should be YYYY-MM-DD'
+            vbirth: "Format should be YYYY-MM-DD"
         }
     };
-    $('#signup').validator(option);
-
-    $('input[name=birthday]').datepicker({
-        dateFormat: 'yy-mm-dd',
+    $('#profile').validator(option);
+    
+    $("input[name=birthday]").datepicker({
+        dateFormat: "yy-mm-dd",
         changeMonth: true,
         changeYear: true,
         yearRange: "1930:-00",
@@ -299,5 +296,42 @@ $(function() {
             $("#logout-form").submit();
         });
     </script>
+<!-- Run the plugin -->
+ <script type="text/javascript" src="/media/js/joyride-master/jquery-1.10.1.js"></script>
+ <script type="text/javascript" src="/media/js/joyride-master/jquery.cookie.js"></script>
+ <script type="text/javascript" src="/media/js/joyride-master/modernizr.mq.js"></script>
+ <script type="text/javascript" src="/media/js/joyride-master/jquery.joyride-2.1.js"></script>
+ <script>
+   $(window).load(function() {
+     $('#joyRideTipContent').joyride({
+       autoStart : true,
+       postStepCallback : function (index, tip) {
+       /*
+       if (index == 2) {
+         $(this).joyride('set_li', false, 1);
+       }
+       */
+     },
+     modal:true,
+     expose: true
+     });
+    });
+    $(document).on("click",".joyride-close-tip", function() {
+        $(location).attr('href', "../")
+    });
+    $(document).on("click",".joyride-next-tip:eq(0)", function() {
+        $(location).attr('href', "../tutorial3")
+    });
+    $(window).resize(function() {
+        if ($(window).width()<768){
+            $(location).attr('href', "/main")
+        };
+    });
+  $(document).ready(function(){
+    if ($(window).width()<768){
+      $(location).attr('href', "/main")
+    };
+  });
+ </script>
 </body>
 </html>

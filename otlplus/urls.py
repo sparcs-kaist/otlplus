@@ -36,6 +36,8 @@ urlpatterns = [
     url(r'^tutorial_again/$', 'apps.review.views.search_view_first_again'),
     url(r'^tutorial/$', 'apps.review.views.search_view_first'),
     url(r'^tutorial2/$', 'apps.review.views.search_view_first2'),
+    url(r'^tutorial2_auth/$', 'apps.review.views.search_view_first2_auth'),
+    url(r'^tutorial2_connect/$', 'apps.review.views.search_view_first2_connect'),
     url(r'^tutorial3/$', 'apps.review.views.search_view_first3'),
     url(r'^tutorial4/$', 'apps.review.views.search_view_first4'),
     url(r'^credits/$', 'apps.review.views.credits'),

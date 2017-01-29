@@ -115,14 +115,14 @@ STATICFILES_DIRS = (
 )
 
 AUTHENTICATION_BACKENDS = (
-'apps.session.auth_backend.PasswordlessModelBackend',
-'django.contrib.auth.backends.ModelBackend',
+    'apps.session.auth_backend.PasswordlessModelBackend',
+    'django.contrib.auth.backends.ModelBackend',
 )
 
 LOGIN_URL = '/session/login/'
 LOGOUT_URL = '/session/logout/'
 
 try:
-     from settings_local import *
+    from settings_local import *
 except ImportError:
-     pass
+    pass
