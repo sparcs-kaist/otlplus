@@ -46,7 +46,7 @@ INSTALLED_APPS = (
     'apps.session',
     'apps.review',
     'apps.subject',
-	'apps.timetable',
+    'apps.timetable',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -123,15 +123,15 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
 
-AUTHENTICATION_BACKENDS = (
-'apps.session.auth_backend.PasswordlessModelBackend',
-'django.contrib.auth.backends.ModelBackend',
-)
 
+AUTHENTICATION_BACKENDS = (
+    'apps.session.auth_backend.PasswordlessModelBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
 LOGIN_URL = '/session/login/'
 LOGOUT_URL = '/session/logout/'
 
 try:
-     from settings_local import *
+    from settings_local import *
 except ImportError:
-     pass
+    pass
