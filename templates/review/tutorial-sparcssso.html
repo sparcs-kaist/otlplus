@@ -6,24 +6,17 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <title>SPARCS SSO 회원가입 튜토리얼</title>
-
-    <!-- Attach Joyride CSS -->
-    <link rel="stylesheet" href="/media/js/joyride-master/joyride-2.1.css">
+    <title>SPARCS SSO</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 
     <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 
-<link rel="stylesheet" type="text/css" href="/media/css/sso_register.css">
-<link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css">
-<script src="https://code.jquery.com/ui/1.11.3/jquery-ui.min.js"></script>
-<script src="/static/js/validator.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/media/css/sso_register.css">
 
-
-<script src='https://www.google.com/recaptcha/api.js'></script>
-
+    <!-- Attach Joyride CSS -->
+    <link rel="stylesheet" href="/media/js/joyride-master/joyride-2.1.css">
 
 </head>
 <body>
@@ -47,9 +40,9 @@
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
 
-                    <li><a href="/account/signup/">회원가입</a></li>
-                    <li><a href="/account/login/">로그인</a></li>
-                    <li><a href="/account/password/reset/">비밀번호 재설정</a></li>
+                    <li><a href="#">회원가입</a></li>
+                    <li><a id="stop-login-menu" href="#">로그인</a></li>
+                    <li><a href="#">비밀번호 재설정</a></li>
 
                     <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">한국어 <span class="caret"></span></a>
@@ -64,103 +57,51 @@
     </nav>
     <section class="container">
 
-<h1>회원가입
-<small id="stop-register">
-    (이메일)
-</small></h1>
-<p>다음 내용을 작성해주세요.</p>
-<p>서비스를 사용하기 위해서는 이메일을 인증해야 합니다.</p>
-<form id="signup" class="form-horizontal" action="/account/signup/" method="post" enctype="multipart/form-data">
-    <fieldset>
-        <input type='hidden' name='csrfmiddlewaretoken' value='T4TqNO1NdbZ84IVVJBzLQmAUmsT7JEWeA6h8s4w7RPGczDvFZdEXSLISxb3BLoTI' />
-        <div class="form-group">
-            <label class="col-sm-2 control-label">이메일 <span class="required"></span></label>
-            <div class="col-xs-offset-1 col-xs-10 col-sm-offset-0 col-sm-8">
-                <input type="email" class="form-control" name="email" placeholder="asdf@example.com" required="required" maxlength="50" data-remote="/api/v2/email/" data-error="잘못되었거나 이미 가입된 이메일입니다.">
-                <div class="help-block with-errors"></div>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-sm-2 control-label">비밀번호 <span class="required"></span></label>
-            <div class="col-xs-offset-1 col-xs-10 col-sm-offset-0 col-sm-4">
-                <input type="password" class="form-control" name="password" placeholder="pAss0wd!" id="password" required="required" maxlength="50" data-minlength="7">
-                <span class="help-block">비밀번호는 최소 7자리 이상이어야 합니다.</span>
-            </div>
-            <div class="col-xs-offset-1 col-xs-10 col-sm-offset-0 col-sm-4">
-                <input type="password" class="form-control" name="password2" placeholder="Re-type password" data-match="#password" data-match-error="Not match!" required="required" maxlength="50">
-                <div class="help-block with-errors"></div>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-sm-2 control-label">이름 <span class="required"></span></label>
-            <div class="col-xs-offset-1 col-xs-6 col-sm-offset-0 col-sm-5">
-                <input type="text" class="form-control" name="first_name" placeholder="First Name" required="required" maxlength="30">
-            </div>
-            <div class="col-xs-4 col-sm-3">
-                <input type="text" class="form-control" name="last_name" placeholder="Last Name" required="required" maxlength="30">
-            </div>
-        </div>
-        <div class="form-group" style="margin-bottom:0">
-            <label class="col-sm-2 control-label">성별 및 생일</label>
-            <div class="col-xs-offset-1 col-xs-4 col-sm-offset-0 col-sm-3">
-                <select class="form-control" name="gender">
-                    <option id="gender-H" value="*H">숨김</option>
-                    <option id="gender-M" value="*M">남자</option>
-                    <option id="gender-F" value="*F">여자</option>
-                    <option id="gender-E" value="*E">기타</option>
-                </select>
-            </div>
-            <div class="col-xs-6 col-sm-5">
-                <input type="text" class="form-control" name="birthday" placeholder="Birthday (YYYY-MM-DD)" data-vbirth="vbirth">
-            </div>
-        </div>
-        <div class="form-group" style="margin-top:5px">
-            By clicking on the signup button, you agree to <a href="/terms/" target="_blank">SPARCS SSO's terms of use</a> and <a href="/privacy/" target="_blank">privacy policy</a>
+
+
+<div class="jumbotron" style="margin-top:20px">
+    <h1>SPARCS SSO</h1>
+    <p>SPARCS 통합 인증에 오신 것을 환영합니다!</p>
+    <p>현재 SPARCS SSO를 통해 다음 서비스를 사용할 수 있습니다.</p>
+    <div class="service-row">
+
+        <div class="service">
+            <a href="https://otlplus.sparcs.org/"><img src="/media/otl.jpg" alt="otlplus"></a>
+            <p>OTL Plus</p>
         </div>
 
-        <input type="text" name="captcha" style="margin-left: -99999px !important" required>
-        <div class="form-group" style="margin-top:-20px">
-            <div class="g-recaptcha" style="display:inline-block" data-callback="captcha_check" data-expired-callback="captcha_expired" data-sitekey="6LdKJiQTAAAAAE03DTaBYonGRVuGdurgcLmpnjA2"></div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-xs-12">
-                <button id="stop-register-button" type="button" class="btn btn-warning">회원가입</button>
-                <a class="btn btn-default" href="#">로그인 페이지</a>
-            </div>
-        </div>
-    </fieldset>
-</form>
-
-<div class="modal fade" tabindex="-1" id="gender-type" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">성별 입력</h4>
-            </div>
-            <div class="text-center modal-body">
-                <input type="text" class="form-control" name="custom-gender" maxlength="30" placeholder="type here...">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
-            </div>
-        </div>
     </div>
 </div>
-<!-- Tip Content -->
-<ol id="joyRideTipContent">
-   <li data-id="stop-register" data-button="Next" data-prev-text="Prev" data-options="tipLocation:right;tipAnimation:fade;prev_button:true">
-     <h2>회원가입</h2>
-     <p>상단 헤더의 회원가입 메뉴를 클릭하시면 나오는 페이지입니다. 내용을 작성하신 후 회원가입 버튼을 누르시면 인증 이메일이 전송됩니다.</p>
-   </li>
-   <li data-id="stop-register-button" data-button="Next" data-prev-text="Prev" data-options="tipLocation:top;tipAnimation:fade;prev_button:true">
-     <h2>다음 단계: 이메일 인증</h2>
-     <p>노란색 회원가입 버튼을 누르면 인증 이메일이 전송됩니다.</p>
-   </li>
-</ol>
 
-<!-- Run the plugin -->
+    </section>
+    <footer class="container">
+        <p class="info">
+            <a href="/credits/">만든 사람들</a> |
+            <a href="/contact/">연락하기</a> |
+            <a href="/terms/">이용 약관</a> |
+            <a href="/privacy/">개인정보취급방침</a>
+        </p>
+        <p class="info">
+            <a href="#">개발팀 (sso (at) sparcs.org)</a> |
+            <a href="#">관리자 (sso.sysop (at) sparcs.org)</a>
+        </p>
+        <p class="copyright">
+            Copyright © 2017,
+            <a href="http://sparcs.org/">
+                <span style="color:#FF3399">S</span><span style="color:#33CC66">P</span><span style="color:#00CCFF">A</span><span style="color:#FF9900">R</span><span style="color:#33CCCC">C</span><span style="color:#9966FF">S</span>
+            </a>
+            SSO Team</p>
+    </footer>
+
+    <!-- Tip Content -->
+<ol id="joyRideTipContent">
+   <li data-id="stop-login-menu" data-button="Next" data-prev-text="Prev" data-options="tipLocation:left;tipAnimation:fade;prev_button:true">
+     <h2>로그인 메뉴</h2>
+     <p>가입하지 않으셨더라도 상단의 로그인 메뉴로 들어가주세요.</p>
+   </li>
+ </ol>
+
+    <!-- Run the plugin -->
  <script type="text/javascript" src="/media/js/joyride-master/jquery-1.10.1.js"></script>
  <script type="text/javascript" src="/media/js/joyride-master/jquery.cookie.js"></script>
  <script type="text/javascript" src="/media/js/joyride-master/modernizr.mq.js"></script>
@@ -183,7 +124,7 @@
     $(document).on("click",".joyride-close-tip", function() {
         $(location).attr('href', "../")
     });
-    $(document).on("click",".joyride-next-tip:eq(1)", function() {
+    $(document).on("click",".joyride-next-tip:eq(0)", function() {
         $(location).attr('href', "../tutorial2_auth")
     });
     $(window).resize(function() {
@@ -197,107 +138,5 @@
     };
   });
  </script>
-
-
-<script type="text/javascript">
-var captcha_check = function() {
-    $('input[name=captcha]').val('captcha');
-};
-
-var captcha_expired = function() {
-    $('input[name=captcha]').val('');
-};
-
-$(function() {
-    var common_gender = function(g) {
-        return g == '*H' || g == '*M' || g == '*F' || g == '*E';
-    };
-
-    var g = '';
-    if (common_gender(g))
-        $("select[name=gender]").val(g);
-    else if (g != '') {
-        $("#gender-E").text("기타 (" + g + ")");
-        $("#gender-E").attr("value", g);
-        $("#gender-E").attr("selected", true);
-        $("input[name=custom-gender]").val(g);
-    }
-
-    $("select[name=gender]").change(function() {
-        var id = $("select[name=gender] option:selected").attr("id");
-        if (id == 'gender-E')
-            $("#gender-type").modal('show');
-    });
-
-    $("#gender-type").on('hide.bs.modal', function (e) {
-        var g = $("input[name='custom-gender']").val().trim();
-        var custom_option = $("#gender-E");
-        if (common_gender(g)) {
-            custom_option.attr("value", '*E');
-            custom_option.text("기타");
-            $("select[name=gender]").val(g);
-            $("input[name=custom-gender]").val("");
-        } else if (g == '') {
-            custom_option.attr("value", '*E');
-            custom_option.text("기타");
-        } else {
-            custom_option.attr("value", g);
-            custom_option.text("기타 (" + g + ")");
-        }
-    });
-
-    var option = {
-        disable: true,
-        custom: {
-            vbirth: function(el) { var re = /^\d{4}-\d{2}-\d{2}$/; return el.val().trim() == '' || re.test(el.val()); }
-        },
-        errors: {
-            vbirth: 'Format should be YYYY-MM-DD'
-        }
-    };
-    $('#signup').validator(option);
-
-    $('input[name=birthday]').datepicker({
-        dateFormat: 'yy-mm-dd',
-        changeMonth: true,
-        changeYear: true,
-        yearRange: "1930:-00",
-    });
-});
-</script>
-
-    </section>
-    <footer class="container">
-        <p class="info">
-            <a href="/credits/">만든 사람들</a> |
-            <a href="/contact/">연락하기</a> |
-            <a href="/terms/">이용 약관</a> |
-            <a href="/privacy/">개인정보취급방침</a>
-        </p>
-        <p class="info">
-            <a href="#">개발팀 (sso (at) sparcs.org)</a> |
-            <a href="#">관리자 (sso.sysop (at) sparcs.org)</a>
-        </p>
-        <p class="copyright">
-            Copyright © 2017,
-            <a href="http://sparcs.org/">
-                <span style="color:#FF3399">S</span><span style="color:#33CC66">P</span><span style="color:#00CCFF">A</span><span style="color:#FF9900">R</span><span style="color:#33CCCC">C</span><span style="color:#9966FF">S</span>
-            </a>
-            SSO Team</p>
-    </footer>
-
-    <script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-        ga('create', 'UA-71710431-1', 'auto');
-        ga('send', 'pageview');
-
-        $("#logout-link").click(function() {
-            $("#logout-form").submit();
-        });
-    </script>
 </body>
 </html>

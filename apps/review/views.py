@@ -149,10 +149,6 @@ def search_view_first2_auth(request):
     return render(request, 'review/tutorial-sparcssso-auth.html')
 
 
-def search_view_first2_connect(request):
-    return render(request, 'review/tutorial-sparcssso-connect.html')
-
-
 def search_view_first3(request):
     return render(request, 'review/tutorial-write.html')
 
