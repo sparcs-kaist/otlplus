@@ -4,6 +4,9 @@
 from apps.session.models import UserProfile
 from apps.timetable.models import TimeTable
 from django.contrib.auth.models import User
+from apps.subject.models import Lecture, ClassTime, ExamTime
+from django.http.response import HttpResponseNotAllowed, HttpResponseBadRequest
+from django.http import JsonResponse
 
 # Django modules
 from django.core.exceptions import *
@@ -12,6 +15,8 @@ from django.contrib.auth.decorators import login_required
 from utils.decorators import login_required_ajax
 from django.conf import settings
 from django.shortcuts import render
+from django.forms.models import model_to_dict
+
 # For google calender
 from apiclient import discovery
 import oauth2client
@@ -22,6 +27,7 @@ import datetime
 import httplib2
 # Misc
 import os
+import json
 
 
 def test(request):
@@ -54,6 +60,62 @@ def show_table(request):
         "table_name": table_name,
     }
     return render(request, 'timetable/show.html', context)
+
+
+def update_my_lectures(request):
+    ''' Add/delete lecture to users lecture list
+    '''
+    if request.method != 'POST':
+        return HttpResponseNotAllowed('POST')
+
+    try:
+        userprofile = UserProfile.objects.get(user=request.user)
+    except:
+        raise ValidationError('no user profile')
+
+    if 'table_id' not in request.POST or 'code' not in request.POST:
+        return HttpResponseBadRequest()
+
+    table_id = int(request.POST['table_id'])
+    code = int(request.POST['code'])
+
+    # Find the right timetable
+    timetables = list(TimeTable.objects.filter(user=userprofile, table_id=table_id))
+    # Find the right lecture
+    lecture = Lecture.object.filter(code=code)
+
+    if len(lecture) == 0:
+        return HttpResponseBadRequest()
+
+    if len(timetables) == 0:
+        # Create new timetable if no timetable exists
+        t = TimeTable(user=uesrprofile, year=2017, semester=1, table_id=table_id)
+    else:
+        t = timetables[0]
+
+    t.lecture.add(lecture)
+    t.save()
+
+
+def show_my_lectures(request):
+    ''' Returns all the lectures the user is listening
+    '''
+    try:
+        userprofile = UserProfile.objects.get(user=request.user)
+    except:
+        raise ValidationError('no user profile')
+
+    timetables = list(TimeTable.objects.filter(user=userprofile))
+
+    ctx = {
+        'timetables': [],
+    }
+
+    for t in timetables:
+        timetable = model_to_dict(t)
+        ctx['timetables'].append(timetable)
+
+    return JsonResponse(ctx, safe=False)
 
 
 @login_required_ajax
