@@ -3,9 +3,11 @@
 # Django apps
 from apps.session.models import UserProfile
 from apps.timetable.models import TimeTable
+from apps.subject.models import Lecture
 from django.contrib.auth.models import User
 
 # Django modules
+from django.core import serializers
 from django.core.exceptions import *
 from django.http import *
 from django.contrib.auth.decorators import login_required
@@ -54,6 +56,18 @@ def show_table(request):
         "table_name": table_name,
     }
     return render(request, 'timetable/show.html', context)
+
+
+def search_temp(request):
+    return render(request, 'timetable/search_temp.html')
+
+
+def search_temp_ajax(request):
+    if request.method == 'POST':
+        keyword = request.POST['keyword']
+        result = Lecture.objects.filter(title__icontains=keyword).filter(year=2016)
+        json_result = serializers.serialize('json', result)
+        return HttpResponse(json_result, content_type="application/json")
 
 
 @login_required_ajax
