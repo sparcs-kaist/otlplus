@@ -278,6 +278,9 @@ def SearchComment(request, comment):
     elif semester_int == 3: semester_char = "가을"
     elif semester_int == 4: semester_char = "겨울"
     else: semester_char = "Error"
+    result_of_comment = ""
+    if comment.is_deleted == 0: result_of_comment = comment.comment
+    else: result_of_comment = "관리자에 의해 삭제된 코멘트입니다."
     result = {
         "type":"comment",
         "id":comment.id,
@@ -288,7 +291,7 @@ def SearchComment(request, comment):
         "lecture_semester":semester_char,
         "professor_name":professor_name,
         "writer":comment.writer_label,
-        "comment":comment.comment,
+        "comment":result_of_comment,
         "like":comment.like,
         "already_up":already_up,
         "score":{"grade":comment.grade, "load":comment.load, "speech":comment.speech, "total":int(round(comment.total)),},
@@ -648,15 +651,18 @@ def ReviewInsertView(request,lecture_id=-1,semester=0):
         try :
             subjectname = now_lecture.title
             temp = user_profile.comment_set.get(lecture=now_lecture)
-            pre_comment = temp.comment
+            pre_comment = ''
+            if temp.is_deleted == 0: pre_comment = temp.comment
+            else: pre_comment = "관리자에 의해 삭제된 코멘트로, 수정 및 접근이 불가능합니다."
             pre_grade = gradelist[5-(temp.grade)]
             pre_load = gradelist[5-(temp.load)]
             pre_speech = gradelist[5-(temp.speech)]
             pre_like = temp.like
+            pre_is_deleted = temp.is_deleted
         except :
             pre_comment = ''
             pre_like = -1
-
+            pre_is_deleted = 0
     else:
         guideline="왼쪽 탭에서 과목을 선택해 주세요.\n"
     ctx ={
@@ -671,6 +677,7 @@ def ReviewInsertView(request,lecture_id=-1,semester=0):
             'load':pre_load,
             'speech':pre_speech,
             'like':pre_like,
+            'isdeleted':pre_is_deleted,
             'reviewguideline':guideline,
             'semesters':semesters,
         }
