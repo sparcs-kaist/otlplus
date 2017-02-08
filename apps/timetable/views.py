@@ -61,6 +61,10 @@ def show_table(request):
     }
     return render(request, 'timetable/show.html', context)
 
+def update_table(request):
+    if request.method == 'GET':
+        return render(request, 'timetable/update_table.html')
+        
 
 def update_my_lectures(request):
     ''' Add/delete lecture to users lecture list
@@ -77,24 +81,25 @@ def update_my_lectures(request):
         return HttpResponseBadRequest()
 
     table_id = int(request.POST['table_id'])
-    code = int(request.POST['code'])
+    code = request.POST['code']
 
     # Find the right timetable
     timetables = list(TimeTable.objects.filter(user=userprofile, table_id=table_id))
     # Find the right lecture
-    lecture = Lecture.object.filter(code=code)
+    lecture = Lecture.objects.filter(code=code)
 
     if len(lecture) == 0:
-        return HttpResponseBadRequest()
+        return JsonResponse({ 'success': False, 'reason': 'No matching lecture found' });
 
     if len(timetables) == 0:
         # Create new timetable if no timetable exists
-        t = TimeTable(user=uesrprofile, year=2017, semester=1, table_id=table_id)
+        t = TimeTable(user=userprofile, year=2017, semester=1, table_id=table_id)
+        t.save()
     else:
         t = timetables[0]
 
-    t.lecture.add(lecture)
-    t.save()
+    t.lecture.add(lecture[0])
+    return JsonResponse({ 'success': True });
 
 
 def show_my_lectures(request):
