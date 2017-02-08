@@ -116,11 +116,17 @@ def show_my_lectures(request):
         'timetables': [],
     }
 
-    for t in timetables:
-        timetable = model_to_dict(t)
+    for i, t in enumerate(timetables):
+        timetable = model_to_dict(t, exclude='lecture')
+        lects = []
+        for l in t.lecture.all():
+            lects.append(model_to_dict(l))
         ctx['timetables'].append(timetable)
+        ctx['timetables'][i]['lecture'] = lects
+        
 
-    return JsonResponse(ctx, safe=False)
+    return JsonResponse(ctx, safe=False, json_dumps_params= \
+                        { 'ensure_ascii': False })
 
 
 @login_required_ajax
