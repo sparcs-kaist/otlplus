@@ -1,0 +1,40 @@
+{% extends 'timetable/layout.html' %}
+{% block content %}
+<form>
+  <input type="hidden", id='_csrf', value="{{csrf_token}}" />
+  <label for="table_id"> 몇 번째 시간표? (1, 2, 3) </label>
+  <input id="table_id" name="table_id" type="text" />
+  <label for="code"> 과목 코드(12.123 형식) </label>
+  <input id="code" name="code" type="text" />
+  <button type="button" id="add_course" class="btn btn-default"> 추가 </button>
+  <a href="/timetable/api/show" class="btn btn-default"> 확인하기 </a>
+</form>
+{% endblock %}
+
+{% block javascripts %}
+<script>
+$(function() {
+  var csrf_token = $('#_csrf').val();
+  $('button').click(function() {
+    $.ajax({
+      type: 'POST',
+      url: '/timetable/api/update',
+      data: { table_id: $('#table_id').val(), code: $('#code').val(),
+              'csrfmiddlewaretoken': csrf_token },
+      dataType: 'json',
+      success: function(res) {
+        if (res.success) {
+          alert('Success');
+        } else {
+          alert('Error?');
+        }
+      },
+      error: function(res, e) {
+        alert(res.responseText);
+      }
+    });
+  });
+});
+</script>
+{% endblock %}
+

@@ -20,6 +20,7 @@ from . import views
 urlpatterns = [
     url(r'^$', views.main),
     url(r'^show$', views.show_table),
-    url(r'^api/update', vies.update_my_lectures)
-    url(r'^api/show$', views.show_my_lectures)
+    url(r'^api/update$', views.update_my_lectures),
+    url(r'^api/show$', views.show_my_lectures),
+    url(r'^update$', views.update_table),
 ]
