@@ -12,6 +12,7 @@ html, body
     display:-webkit-box;
     display:-ms-flexbox;
     display:flex;
+    display:-webkit-flex;
     position:relative;
     -webkit-box-orient:horizontal;
     -webkit-box-direction:normal;
@@ -38,6 +39,7 @@ html, body
     display:-webkit-box;
     display:-ms-flexbox;
     display:flex;
+    display:-webkit-flex;
     -webkit-box-orient:vertical;
     -webkit-box-direction:normal;
         -ms-flex-direction:column;
@@ -61,6 +63,7 @@ html, body
     display:-webkit-box;
     display:-ms-flexbox;
     display:flex;
+    display:-webkit-flex;
     -webkit-box-orient:vertical;
     -webkit-box-direction:normal;
         -ms-flex-direction:column;
@@ -135,6 +138,7 @@ html, body
     display:-webkit-box;
     display:-ms-flexbox;
     display:flex;
+    display:-webkit-flex;
     -webkit-box-flex:1;
         -ms-flex:auto;
             flex:auto;
@@ -181,6 +185,7 @@ html, body
     display:-webkit-box;
     display:-ms-flexbox;
     display:flex;
+    display:-webkit-flex;
     -webkit-box-orient:vertical;
     -webkit-box-direction:normal;
         -ms-flex-direction:column;
@@ -192,6 +197,7 @@ html, body
     display:-webkit-box;
     display:-ms-flexbox;
     display:flex;
+    display:-webkit-flex;
     padding:1em;
     background-color:#FFFFFF;
     border-radius:0 0.45em 0.45em 0.45em;
@@ -210,6 +216,7 @@ html, body
     display:-webkit-box;
     display:-ms-flexbox;
     display:flex;
+    display:-webkit-flex;
     padding:1em 0.5em;
     background-color:#FFFFFF;
     border-radius:0 0.45em 0.45em 0.45em;
@@ -372,6 +379,7 @@ html, body
     display:-webkit-box;
     display:-ms-flexbox;
     display:flex;
+    display:-webkit-flex;
     -webkit-box-orient:horizontal;
     -webkit-box-direction:normal;
         -ms-flex-direction:row;
@@ -384,6 +392,7 @@ html, body
     display:-webkit-box;
     display:-ms-flexbox;
     display:flex;
+    display:-webkit-flex;
     -webkit-box-orient:vertical;
     -webkit-box-direction:normal;
         -ms-flex-direction:column;
@@ -530,6 +539,7 @@ html, body
     display:-webkit-box;
     display:-ms-flexbox;
     display:flex;
+    display:-webkit-flex;
     -webkit-box-orient:horizontal;
     -webkit-box-direction:normal;
         -ms-flex-direction:row;
@@ -550,6 +560,7 @@ html, body
     display:-webkit-box;
     display:-ms-flexbox;
     display:flex;
+    display:-webkit-flex;
     width:1.5em;
     text-align:center;
 }
@@ -559,6 +570,7 @@ html, body
     display:-webkit-box;
     display:-ms-flexbox;
     display:flex;
+    display:-webkit-flex;
     width:9em;
     text-align:left;
 }
