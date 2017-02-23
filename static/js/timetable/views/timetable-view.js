@@ -172,8 +172,8 @@ var app = app || {};
     searchLecture: function () {
       var fBDay = this.indexOfDay(this.firstBlock.day) + 1;
       var sBDay = this.indexOfDay(this.secondBlock.day) + 1;
-      var fBTime = this.indexOfTime(this.firstBlock.time) + 1 ;
-      var sBTime = this.indexOfTime(this.secondBlock.time) + 1 ;
+      var fBTime = this.indexOfTime(this.firstBlock.time) + 1;
+      var sBTime = this.indexOfTime(this.secondBlock.time) + 1;
       var temp;
       if (fBDay > sBDay) {
         temp = fBDay;
