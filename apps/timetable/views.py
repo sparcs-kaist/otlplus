@@ -16,6 +16,7 @@ from utils.decorators import login_required_ajax
 from django.conf import settings
 from django.shortcuts import render
 from django.forms.models import model_to_dict
+from django.db.models import Max
 
 # For google calender
 from apiclient import discovery
@@ -63,12 +64,27 @@ def show_table(request):
 
 def update_table(request):
     if request.method == 'GET':
-        return render(request, 'timetable/update_table.html')
-        
+        year, semester = _year_semester()
+        ctx = { 'year': year, 'semester': semester }
+        return render(request, 'timetable/update_table.html', ctx)
+
+
+def _year_semester():
+    '''Get current year and semester.
+
+       If lectures are updated, we can get latest year and semester
+       from its year and semester fields. Its quite naaive way of determining, so
+       if models aren't updated we can't get current year and semester info
+    '''
+    year = Lecture.objects.aggregate(Max('year'))['year__max']
+    semester = Lecture.objects.filter(year=year) \
+                              .aggregate(Max('semester'))['semester__max']
+    return (year, semester)
+    
 
 def update_my_lectures(request):
-    ''' Add/delete lecture to users lecture list
-    '''
+    '''Add/delete lecture to users lecture list.
+    ''' 
     if request.method != 'POST':
         return HttpResponseNotAllowed('POST')
 
@@ -77,14 +93,20 @@ def update_my_lectures(request):
     except:
         raise ValidationError('no user profile')
 
-    if 'table_id' not in request.POST or 'code' not in request.POST:
+    if 'table_id' not in request.POST or 'code' not in request.POST or \
+       'year' not in request.POST or 'semester' not in reqeust.POST or \
+       'delete' not in request.POST:
         return HttpResponseBadRequest()
 
     table_id = int(request.POST['table_id'])
+    year = int(request.POST['year'])
+    semester = int(request.POST['semester'])
     code = request.POST['code']
+    delete = request.POST['delete']
 
     # Find the right timetable
-    timetables = list(TimeTable.objects.filter(user=userprofile, table_id=table_id))
+    timetables = list(TimeTable.objects.filter(user=userprofile, table_id=table_id,
+                                               year=year, semester=semester))
     # Find the right lecture
     lecture = Lecture.objects.filter(code=code)
 
@@ -93,18 +115,85 @@ def update_my_lectures(request):
 
     if len(timetables) == 0:
         # Create new timetable if no timetable exists
-        t = TimeTable(user=userprofile, year=2017, semester=1, table_id=table_id)
+        t = TimeTable(user=userprofile, year=year, semester=semester, table_id=table_id)
         t.save()
     else:
         t = timetables[0]
 
-    t.lecture.add(lecture[0])
+    if not delete:
+        t.lecture.add(lecture[0])
+    else:
+        t.lecture.remove(lecture[0])
+        
     return JsonResponse({ 'success': True });
 
 
+def copy_my_timetable(request):
+    '''Copy the contents of user timetable'''
+    if request.method != 'POST':
+        return HttpResponseNotAllowed('POST')
+
+    try:
+        userprofile = UserProfile.object.get(user=request.user)
+    except:
+        raise validationerror('no user profile')
+
+    if 'table_to' not in request.POST or 'table_from' not in request.POST or \
+       'year' not in request.POST or 'semester' not in request.POST:
+        return HttpResponseBadRequest()
+
+    table_from = int(request.POST['table_from'])
+    table_to = int(request.POST['table_to'])
+    year = int(request.POST['year'])
+    semester = int(request.POST['semester'])
+    
+    # Find the right timetable
+    tables_from = list(TimeTable.objects.filter(user=userprofile, table_id=table_from,
+                                               year=year, semester=semester))
+    if len(tables_from) == 0:
+        return JsonResponse({ 'success': False, 'reason': 'No matching table found' })
+
+    # Check if dst exists, if exists delete and copy else, just make an copy
+    tables_to = list(TimeTable.objects.filter(user=userprofile, table_id=table_to,
+                                              year=year, semester=semester))
+    if len(tables_to) != 0:
+        tablles_to[0].delete()
+
+    table = tables_to[0]
+    table.pk = None
+    table.table_id = table_to
+    table.save()
+
+    return JsonResponse({ 'success': True })
+
+
+def delete_my_timetable(request):
+    '''Deletes(clears) user timetable '''
+    if request.method != 'POST':
+        return HttpResponseNotAllowed('POST')
+
+    try:
+        userprofile = UserProfile.object.get(user=request.user)
+    except:
+        raise validationerror('no user profile')
+
+    if 'table_id' not in request.POST or 'yearr' not in request.POST or \
+       'semester' not in request.POST:
+        return HttpResponseBadRequest()
+
+    table_id = int(request.POST['table_id'])
+    
+    tables = list(TimeTable.objects.filter(user=userprofile, table_id=table_id,
+                                           year=year, semester=semester))
+    if len(tables) == 0:
+        return JsonResponse({ 'success': False, 'reason': 'No such timetable exist' })
+
+    tables[0].delete()
+    return JsonResponse({ 'scucess': True })
+   
+    
 def show_my_lectures(request):
-    ''' Returns all the lectures the user is listening
-    '''
+    '''Returns all the lectures the user is listening'''
     try:
         userprofile = UserProfile.objects.get(user=request.user)
     except:
