@@ -94,7 +94,7 @@ def update_my_lectures(request):
         raise ValidationError('no user profile')
 
     if 'table_id' not in request.POST or 'code' not in request.POST or \
-       'year' not in request.POST or 'semester' not in reqeust.POST or \
+       'year' not in request.POST or 'semester' not in request.POST or \
        'delete' not in request.POST:
         return HttpResponseBadRequest()
 
@@ -102,7 +102,7 @@ def update_my_lectures(request):
     year = int(request.POST['year'])
     semester = int(request.POST['semester'])
     code = request.POST['code']
-    delete = request.POST['delete']
+    delete = request.POST['delete'] == u'true'
 
     # Find the right timetable
     timetables = list(TimeTable.objects.filter(user=userprofile, table_id=table_id,

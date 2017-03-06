@@ -27,6 +27,8 @@ $(function() {
       type: 'POST',
       url: '/timetable/api/update',
       data: { table_id: $('#table_id').val(), code: $('#code').val(),
+              year: $('#year').val(), semester: $('#semester').val(),
+              delete: $('input:checkbox[name="delete"]').is(":checked"),
               'csrfmiddlewaretoken': csrf_token },
       dataType: 'json',
       success: function(res) {
