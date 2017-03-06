@@ -2,6 +2,11 @@ html, body
 {
 }
 
+#content
+{
+    margin-top: 50px;
+}
+
 .none
 {
     display:none !important;

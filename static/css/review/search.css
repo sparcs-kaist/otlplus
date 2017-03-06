@@ -1,5 +1,5 @@
 #contents {
-    margin-top: -50px;
+    margin-top: 0px !important;
 }
 #contents > .row:nth-of-type(1) {
     background: url("/media/img/review/search/bg.jpg");
