@@ -2,11 +2,6 @@ html, body
 {
 }
 
-#content
-{
-    margin-top: 50px;
-}
-
 .none
 {
     display:none !important;
@@ -14,15 +9,9 @@ html, body
 
 #page-container
 {
-    display:-webkit-box;
-    display:-ms-flexbox;
     display:flex;
-    display:-webkit-flex;
     position:relative;
-    -webkit-box-orient:horizontal;
-    -webkit-box-direction:normal;
-        -ms-flex-direction:row;
-            flex-direction:row;
+    flex-direction:row;
     margin-top: 1em;
     margin-left:auto;
     margin-right:auto;
@@ -41,14 +30,8 @@ html, body
 
 #left-side
 {
-    display:-webkit-box;
-    display:-ms-flexbox;
     display:flex;
-    display:-webkit-flex;
-    -webkit-box-orient:vertical;
-    -webkit-box-direction:normal;
-        -ms-flex-direction:column;
-            flex-direction:column;
+    flex-direction:column;
     float:left;
     width:19.5em;
 }
@@ -58,30 +41,22 @@ html, body
     margin-left:0.8em;
     float:left;
     height:100%;
-    -webkit-box-flex:1;
-        -ms-flex:auto;
-            flex:auto;
+    flex:auto;
 }
 
 #right-side
 {
-    display:-webkit-box;
-    display:-ms-flexbox;
     display:flex;
-    display:-webkit-flex;
-    -webkit-box-orient:vertical;
-    -webkit-box-direction:normal;
-        -ms-flex-direction:column;
-            flex-direction:column;
-    -webkit-box-flex:1;
-        -ms-flex:auto;
-            flex:auto;
+    flex-direction:column;
+    flex:auto;
     position:relative;
     margin-bottom:1em;
     margin-left:1em;
     margin-right:1em;
     margin-top:0.5em;
     padding-left:1em;
+    height: -moz-calc(100% - (1em + 3px));
+    height: -webkit-calc(100% - (1em + 3px));
     height: calc(100% - (1em + 3px));
     border-left:2px solid #EDD1DC;
 }
@@ -140,13 +115,8 @@ html, body
 
 #search-container
 {
-    display:-webkit-box;
-    display:-ms-flexbox;
     display:flex;
-    display:-webkit-flex;
-    -webkit-box-flex:1;
-        -ms-flex:auto;
-            flex:auto;
+    flex:auto;
 }
 
 #search-colheaders
@@ -183,56 +153,31 @@ html, body
 
 #result-pages
 {
-    width:17.5em;
-    -webkit-box-flex:1;
-        -ms-flex:auto;
-            flex:auto;
-    display:-webkit-box;
-    display:-ms-flexbox;
     display:flex;
-    display:-webkit-flex;
-    -webkit-box-orient:vertical;
-    -webkit-box-direction:normal;
-        -ms-flex-direction:column;
-            flex-direction:column;
+    flex:auto;
+    flex-direction:column;
 }
 
 .search-page
 {
-    display:-webkit-box;
-    display:-ms-flexbox;
     display:flex;
-    display:-webkit-flex;
     padding:1em;
     background-color:#FFFFFF;
     border-radius:0 0.45em 0.45em 0.45em;
     box-shadow: 0em 3px 0px 0em #F3BEC6;
-    -webkit-box-orient:vertical;
-    -webkit-box-direction:normal;
-        -ms-flex-direction:column;
-            flex-direction:column;
-    -webkit-box-flex:1;
-        -ms-flex:auto;
-            flex:auto;
+    flex-direction:column;
+    flex:auto;
 }
 
 .result-page
 {
-    display:-webkit-box;
-    display:-ms-flexbox;
     display:flex;
-    display:-webkit-flex;
     padding:1em 0.5em;
     background-color:#FFFFFF;
     border-radius:0 0.45em 0.45em 0.45em;
     box-shadow: 0em 3px 0px 0em #F3BEC6;
-    -webkit-box-orient:vertical;
-    -webkit-box-direction:normal;
-        -ms-flex-direction:column;
-            flex-direction:column;
-    -webkit-box-flex:1;
-        -ms-flex:auto;
-            flex:auto;
+    flex-direction:column;
+    flex:auto;
 }
 
 .result-message
@@ -243,9 +188,7 @@ html, body
 
 .lecture-list
 {
-    -webkit-box-flex:1;
-        -ms-flex:auto;
-            flex:auto;
+    flex:auto;
 }
 
 #timetable-menu
@@ -296,6 +239,8 @@ html, body
     margin:0;
     padding:0;
     background-color:#FFFFFF;
+    height: -moz-calc(100% - 2em);
+    height: -webkit-calc(100% - 2em);
     height: calc(100% - 2em);
     border-radius:0 0.45em 0.45em 0.45em;
     box-shadow: 0em 3px 0px 0em #F3BEC6;
@@ -334,6 +279,8 @@ html, body
 {
     position:relative;
     width:46em !important;
+    height: -moz-calc(100% - 2.7em);
+    height: -webkit-calc(100% - 2.7em);
     height: calc(100% - 2.7em);
 }
 
@@ -341,6 +288,8 @@ html, body
 {
     position:absolute;
     width:3em;
+    height: -moz-calc(100% - 1em);
+    height: -webkit-calc(100% - 1em);
     height: calc(100% - 1em);
     left:0pt;
     top:0pt;
@@ -357,8 +306,7 @@ html, body
 {
     position:absolute;
     left:60%;
-    -webkit-transform:translate(-50%,-50%);
-            transform:translate(-50%,-50%);
+    transform:translate(-50%,-50%);
 }
 
 #grid-wrap
@@ -381,49 +329,33 @@ html, body
 
 #timetable-contents
 {
-    display:-webkit-box;
-    display:-ms-flexbox;
     display:flex;
-    display:-webkit-flex;
-    -webkit-box-orient:horizontal;
-    -webkit-box-direction:normal;
-        -ms-flex-direction:row;
-            flex-direction:row;
+    flex-direction:row;
+    height: -moz-calc(100% - 1em);
+    height: -webkit-calc(100% - 1em);
     height: calc(100% - 1em);
 }
 
 .day
 {
-    display:-webkit-box;
-    display:-ms-flexbox;
     display:flex;
-    display:-webkit-flex;
-    -webkit-box-orient:vertical;
-    -webkit-box-direction:normal;
-        -ms-flex-direction:column;
-            flex-direction:column;
+    flex-direction:column;
     padding-left:0.15em;
     padding-right:0.15em;
     height:100%;
-    -webkit-box-flex:1;
-        -ms-flex:auto;
-            flex:auto;
+    flex:auto;
 }
 
 .cell1
 {
-    -webkit-box-flex:1;
-        -ms-flex:auto;
-            flex:auto;
+    flex:auto;
     width:100%;
     border-top:1px solid #E2E2E2;
 }
 
 .cell2
 {
-    -webkit-box-flex:1;
-        -ms-flex:auto;
-            flex:auto;
+    flex:auto;
     width:100%;
     border-top:1px dashed #E2E2E2;
 }
@@ -527,9 +459,7 @@ html, body
 
 #examtable
 {
-    -webkit-box-flex:1;
-        -ms-flex:auto;
-            flex:auto;
+    flex:auto;
     margin-top:1em;
     margin-bottom:0.5em;
     padding-bottom:1em;
@@ -541,14 +471,8 @@ html, body
 
 .examtime, #examtime1, #examtime2, #examtime3, #examtime4, #examtime5
 {
-    display:-webkit-box;
-    display:-ms-flexbox;
     display:flex;
-    display:-webkit-flex;
-    -webkit-box-orient:horizontal;
-    -webkit-box-direction:normal;
-        -ms-flex-direction:row;
-            flex-direction:row;
+    flex-direction:row;
     width:12em;
     text-align:left;
 }
@@ -562,20 +486,14 @@ html, body
 
 .exam-chead
 {
-    display:-webkit-box;
-    display:-ms-flexbox;
     display:flex;
-    display:-webkit-flex;
     width:1.5em;
     text-align:center;
 }
 
 .exam-body
 {
-    display:-webkit-box;
-    display:-ms-flexbox;
     display:flex;
-    display:-webkit-flex;
     width:9em;
     text-align:left;
 }
@@ -625,8 +543,6 @@ html, body
 .lecture-block
 {
     position:absolute;
-    -webkit-box-flex:1;
-        -ms-flex:auto;
-            flex:auto;
+    flex:auto;
     background-color:#8888FF;
 }
