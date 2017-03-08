@@ -709,7 +709,7 @@ def ReviewInsertAdd(request,lecture_id,semester):
 
     try :
         target_comment = user_profile.comment_set.get(lecture=lecture)
-        target_comment.u_update(grade=grade, load=load, speech=speech, comment=comment)
+		if target_comment.is_deleted == 0: target_comment.u_update(grade=grade, load=load, speech=speech, comment=comment)
     except :
         Comment.u_create(course=course, lecture=lecture, comment=comment, grade=grade, load=load, speech=speech, writer=writer)
     return HttpResponseRedirect('../')
