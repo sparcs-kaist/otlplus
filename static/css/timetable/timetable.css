@@ -157,15 +157,18 @@ html, body
 
 .search-chead
 {
+    display:-webkit-box;
+    display:-ms-flexbox;
+    display:flex;
+    display:-webkit-flex;
+    align-items: center;
+    justify-content: center;
     background-color:#E2E2E2;
     margin-left:0;
     margin-right:0;
     margin-bottom:0.3em;
     width:2em;
     height:2em;
-    text-align:center;
-    vertical-align:middle;
-    line-height:2em;
     border:none;
     border-radius:0.2em 0 0 0.2em;
     outline:none;
@@ -175,10 +178,6 @@ html, body
 .search-chead.active
 {
     background-color:#FFFFFF;
-}
-
-.scheadtext
-{
 }
 
 #result-pages
@@ -203,7 +202,9 @@ html, body
     display:-ms-flexbox;
     display:flex;
     display:-webkit-flex;
-    padding:1em;
+    padding-left:0.8em;
+    padding-right:0.8em;
+    padding-top:0.7em;
     background-color:#FFFFFF;
     border-radius:0 0.45em 0.45em 0.45em;
     box-shadow: 0em 3px 0px 0em #F3BEC6;
@@ -214,6 +215,112 @@ html, body
     -webkit-box-flex:1;
         -ms-flex:auto;
             flex:auto;
+}
+
+#search-button
+{
+    width:3.5em;
+    height:2em;
+    color:#FFFFFF;
+    font-weight:normal;
+    white-space:nowrap;
+    border:none;
+    border-radius: 0.3em 0.3em 0.3em 0.3em;
+    background-color:#e54c65;
+    float:right;
+}
+
+.search-page > form
+{
+    padding-bottom:0.7em;
+    border-bottom:1px solid #EDD1DC;
+}
+
+.search-field
+{
+    display:-webkit-box;
+    display:-ms-flexbox;
+    display:flex;
+    display:-webkit-flex;
+    width: 100%;
+    height: 1.5em;
+    background-color:#eeeeee;
+    border-radius: 3px 3px 3px 3px;
+}
+
+.search-image
+{
+    display:-webkit-box;
+    display:-ms-flexbox;
+    display:flex;
+    display:-webkit-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.0em;
+}
+
+.search-text
+{
+    background: none;
+    height:100%;
+    border:none;
+    -webkit-box-flex:1;
+        -ms-flex:auto;
+            flex:auto;
+}
+
+.type-elem > label
+{
+    font-weight:normal;
+}
+
+.filters
+{
+    width:100%;
+}
+
+#lecturelist-filter
+{
+    margin-top: 0.7em;
+    font-size:12.5px;
+}
+
+#lecturelist-filter input[type="checkbox"] 
+{
+    display:none !important;
+}
+
+.type-name
+{
+    font-weight:bold;
+}
+
+.type-elem
+{
+    margin-left: -5px;
+}
+
+.fa-circle-o 
+{
+    color: #aaaaaa;
+}
+
+.fa-check-circle-o 
+{
+    color: #e64c65;
+}
+
+.lecture-list
+{
+    -webkit-box-flex:1;
+        -ms-flex:auto;
+            flex:auto;
+}
+
+[class*="col"]
+{
+    padding-left:0px;
+    padding-right:0px;
 }
 
 .result-page
@@ -239,13 +346,6 @@ html, body
 {
     height:3.5em;
     border-bottom:1px solid #EDD1DC;
-}
-
-.lecture-list
-{
-    -webkit-box-flex:1;
-        -ms-flex:auto;
-            flex:auto;
 }
 
 #timetable-menu

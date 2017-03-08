@@ -50,16 +50,77 @@
 		</div>
 		<div id="search-container">
 			<div id="search-colheaders">
-				<button class="search-chead search active"><span class="scheadtext">Q</span></button>
-				<button class="search-chead result"><span class="scheadtext">1</span></button>
-				<button class="search-chead result"><span class="scheadtext">2</span></button>
-				<button class="search-chead result"><span class="scheadtext">3</span></button>
-				<button class="search-chead result"><span class="scheadtext">4</span></button>
+				<button class="search-chead search active"><i class="fa fa-search"></i></button>
+        <button class="search-chead result"><i class="fa fa-cart-plus fa-1x"></i></button>
+        <button class="search-chead result"><i class="fa fa-cart-plus fa-1x"></i></button>
+        <button class="search-chead result"><i class="fa fa-cart-plus fa-1x"></i></button>
+        <button class="search-chead result"><i class="fa fa-cart-plus fa-1x"></i></button>
 			</div>
 			<div id="result-pages">
-				<div class="search-page none">
-					<div id="lecturelist-filter">
-						<label>학과&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:11px;">(<a href="/accounts/myinfo/">관심학과 설정</a>)</span></label>
+				<div class="search-page">
+          <form>
+            <!-- ajax call -->
+            <div class="search-field">
+              <div class="search-image"><i class="fa fa-search"></i></div>
+              <input class="search-text" type="text" name="keyword" autocomplete="off" placeholder="Search" />
+            </div>
+            <div id="lecturelist-filter">
+              <div class="filters">
+                <label class="type-name col-xs-4">분류</label>
+                <div class="type-elem col-xs-20">
+                  <label>
+                    <input class="chkall" type="checkbox" autocomplete="off" name="type" value="ALL" checked="checked" />전체
+                    <i class="fa fa-circle-o fa-1x none"></i>
+                    <i class="fa fa-check-circle-o fa-1x"></i>
+                  </label>
+                  {% for i in "1234567890" %}
+                  <label>
+                    <input class="chkelem" type="checkbox" autocomplete="off" name="type" value="{% cycle "GR" "MGC" "BE" "BR" "EG" "HSE" "OE" "ME" "MR" "ETC" %}" />{% cycle "공통" "교필" "기선" "기필" "석박" "인선" "자선" "전선" "전필" "기타" %}
+                    <i class="fa fa-circle-o fa-1x"></i>
+                    <i class="fa fa-check-circle-o fa-ix none"></i>
+                  </label>
+                  {% endfor %}
+                </div>
+              </div>
+              <div class="filters">
+                <label class="type-name col-xs-4">학과</label>
+                <div class="type-elem col-xs-20">
+                  <label>
+                    <input class="chkall" type="checkbox" autocomplete="off" name="department" value="ALL" checked="checked" />전체
+                    <i class="fa fa-circle-o fa-1x none"></i>
+                    <i class="fa fa-check-circle-o fa-1x"></i>
+                  </label>
+                  {% for i in "123456789012345678" %}
+                  <label>
+                    <input class="chkelem" type="checkbox" autocomplete="off" name="department" value="{% cycle "HSS" "CE" "MSB" "ME" "PH" "BiS" "IE" "ID" "BS" "MAS" "NQE" "EE" "CS" "MA" "CH" "ETC" "CBE" "NS" %}" />{% cycle "인문" "건환" "기경" "기계" "물리" "바공" "산공" "산디" "생명" "수리" "원양" "전자" "전산" "항공" "화학" "기타" "생화공" "신소재" %}
+                    <i class="fa fa-circle-o fa-1x"></i>
+                    <i class="fa fa-check-circle-o fa-ix none"></i>
+                  </label>
+                  {% endfor %}
+                </div>
+              </div>
+              <div class="filters">
+                <label class="type-name col-xs-4">학년</label>
+                <div class="type-elem col-xs-20">
+                  <label>
+                    <input class="chkall" type="checkbox" autocomplete="off" name="grade" value="ALL" checked="checked" />전체
+                    <i class="fa fa-circle-o fa-1x none"></i>
+                    <i class="fa fa-check-circle-o fa-1x"></i>
+                  </label>
+                  {% for i in "012345" %}
+                  <label>
+                    <input class="chkelem" type="checkbox" autocomplete="off" name="grade" value="{% cycle "000" "100" "200" "300" "400" "ETC" %}" />{% cycle "000번대" "100번대" "200번대" "300번대" "400번대" "기타"%}
+                    <i class="fa fa-circle-o fa-1x"></i>
+                    <i class="fa fa-check-circle-o fa-ix none"></i>
+                  </label>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+            <button type="button" id="search-button">검색</button>
+          </form>
+            <!--
+						<label>학과&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:11px;">(<a href="/session/settings/">관심학과 설정</a>)</span></label>
 						<select id="department">
 							<optgroup label="소속학과/관심학과">
 								<option>인문사회과학부</option>
@@ -100,8 +161,7 @@
 							<input type="button" id="clear" name="clear" value="초기화" style="text-align:right;">
 							<input type="button" id="apply" name="apply" value="적용" style="text-align:right;">
 						</div>
-					</div>
-					<div id="lecturelist-notice">※ 강의시간이 없는 과목들은 제외됩니다. (예: 졸업연구, 논문연구)</div>
+          </div>-->
 					<!--<div id="lecture-container">
 						<div style="width:15%;padding:0;margin:0;float:left;">
 							<div id="lecture-tabs"></div>
@@ -109,9 +169,9 @@
 						<div style="width:85%;padding:0;margin:0;float:left;">
 							<div id="lecture-contents"></div>
 						</div>
-					</div>-->
-				</div>
-				<div class="result-page">
+          </div>-->
+        </div>
+				<div class="result-page none">
 					<div class="result-message">
 						<span>(전산학부), (전공필수, 전공선택)에 대한 검색 결과입니다.</span>
 					</div>
