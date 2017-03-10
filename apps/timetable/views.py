@@ -4,6 +4,7 @@
 from apps.session.models import UserProfile
 from apps.timetable.models import TimeTable
 from apps.subject.models import Lecture
+from apps.review.models import Comment
 from django.contrib.auth.models import User
 from apps.subject.models import Lecture, ClassTime, ExamTime
 from django.http.response import HttpResponseNotAllowed, HttpResponseBadRequest
@@ -219,6 +220,13 @@ def show_my_lectures(request):
     return JsonResponse(ctx, safe=False, json_dumps_params= \
                         { 'ensure_ascii': False })
 
+def show_lecture_comments(request):
+    '''Returns comment of selected lecture'''
+    if request.method != 'POST':
+        return HttpResponseNotAllowed('POST')
+
+    code = request.POST['code']
+    comments = Comment.objects.filter(code = code)
 
 def search_temp(request):
     return render(request, 'timetable/search_temp.html')
