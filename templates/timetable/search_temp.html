@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Timetable Search</title>
+</head>
+<body>
+    <form>
+        <input id="keyword" type="text" name="keyword">
+        <input id="search-button" type="button" value="Search">
+    </form>
+    <p id="search-result">search result</p>
+    <script src="https://code.jquery.com/jquery-3.1.1.js"></script>
+    <script type="text/javascript">
+        $('#search-button').click(function () {
+            $('#searching-message').show();
+            $.ajax({
+                type: 'POST',
+                url: 'ajax/search_temp',
+                data: {
+                    'keyword': document.getElementById('keyword').value,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function(response){
+                    // do something with response
+                    document.getElementById('search-result').innerHTML = '';
+                    var i;
+                    for (i=0; i < response.length; i++) {
+                        document.getElementById('search-result').innerHTML += JSON.stringify(response[i].fields)+'<br>';
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
