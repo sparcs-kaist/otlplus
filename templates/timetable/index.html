@@ -4,13 +4,13 @@
 <div id="page-container">
 	<div id="left-side">
 		<div id="lecture-info">
-			<div style="padding:1em 1.2em;">
+      <!--<div class="lecture-detail">
 				<div style="text-align:center;"><span id="course-title">프로그래밍기초</span></div>
 				<div style="text-align:center;margin-top:1px;"><span id="course-no">CS101(B)</span></div>
 				<div class="lecture-options">
 					<span id="color-option" style="float:left;">색상 변경</span>
 					<span id="syllabus-option">실라버스&nbsp;</span>
-					<span id="dictionary-option">과목 후기</span>
+					<span id="dictionary-option">과목사전</span>
 				</div>
 				<div class="basic-info"><span style="font-weight:700;">학과&nbsp;&nbsp;</span><span id="department">전산학부</span></div>
 				<div class="basic-info"><span style="font-weight:700;">구분&nbsp;&nbsp;</span><span id="course-type">기초필수</span></div>
@@ -46,7 +46,11 @@
 						<span>강의</span>
 					</div>
 				</div>
-			</div>
+        <div class="dictionary-preview"style="margin-top:0.3em;">
+          <span style="font-weight:700;">과목 후기</span>
+          <i style="color:#888" class="fa fa-chevron-down"></i>
+        </div>
+      </div>-->
 		</div>
 		<div id="search-container">
 			<div id="search-colheaders">
@@ -521,6 +525,56 @@
   <div class="lecture-block">
     <p class="timetable-lecture-name"><%= title %></p>
   </div>
+</script>
+<script type="text/template" id="lecture-detail-template">
+  <div class="lecture-detail">
+    <div style="text-align:center;"><span id="course-title"><%= lecturetitle %></span></div>
+    <div style="text-align:center;margin-top:1px;"><span id="course-no"><%= lecturecode %></span></div>
+    <div class="lecture-options">
+      <span id="color-option" style="float:left;">색상 변경</span>
+      <span id="syllabus-option">실라버스&nbsp;</span>
+      <span id="dictionary-option">과목사전</span>
+    </div>
+    <div class="basic-info"><span style="font-weight:700;">학과&nbsp;&nbsp;</span><span id="department"><%= department %></span></div>
+    <div class="basic-info"><span style="font-weight:700;">구분&nbsp;&nbsp;</span><span id="course-type"><%= type %></span></div>
+    <div class="basic-info"><span style="font-weight:700;">교수&nbsp;&nbsp;</span><span id="instructor"><%= professor %></span></div>
+    <div class="basic-info"><span style="font-weight:700;">장소&nbsp;&nbsp;</span><span id="classroom"><%= classroom %></span></div>
+    <div class="basic-info"><span style="font-weight:700;">정원&nbsp;&nbsp;</span><span id="class-size"><%= classsize %></span></div>
+    <div class="basic-info"><span style="font-weight:700;">시험&nbsp;&nbsp;</span><span id="exam-time"><%= examtime %></span></div>
+    <div class="lecture-scores">
+      <div class="lecture-score">
+        <span id="language"><%= language %></span><br/>
+        <span>언어</span>
+      </div>
+      <div class="lecture-score">
+        <span id="credit"><%= credit %></span><br/>
+        <span>학점</span>
+      </div>
+      <div class="lecture-score">
+        <span id="rate"><%= rate %></span><br/>
+        <span>경쟁률</span>
+      </div>
+    </div>
+    <div class="lecture-scores">
+      <div class="lecture-score" style="clear:both;">
+        <span id="grade"><%= grade %></span><br/>
+        <span>성적</span>
+      </div>
+      <div class="lecture-score">
+        <span id="load"><%= load %></span><br/>
+        <span>널널</span>
+      </div>
+      <div class="lecture-score">
+        <span id="speech"><%= speech %></span><br/>
+        <span>강의</span>
+      </div>
+    </div>
+    <div class="dictionary-preview"style="margin-top:0.3em;">
+      <span style="font-weight:700;">과목 후기</span>
+      <i style="color:#888" class="fa fa-chevron-down"></i>
+    </div>
+  </div>
+
 </script>
 
 {% endblock %}

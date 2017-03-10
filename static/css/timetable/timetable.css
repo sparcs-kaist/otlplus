@@ -94,6 +94,12 @@ html, body
     margin-bottom:1em;
     border-radius:0.4em 0.4em 0.4em 0.4em;
     box-shadow: 0em 3px 0px 0em #F3BEC6;
+    height:326px;
+}
+
+.lecture-detail
+{
+    padding:0.8em 1em;
 }
 
 #course-title
@@ -136,6 +142,10 @@ html, body
 {
     font-size:2em;
     font-weight:lighter;
+}
+
+#dictionary-preview
+{
 }
 
 #search-container
