@@ -31,7 +31,23 @@ var app = app || {};
 
     blockHover: function (e) {
       if (!lectureInfo.isBlockClick) {
-        lectureInfo.render(e);
+        var query = {
+          "lecturetitle":"a",
+          "lecturecode":"b",
+          "department":"c",
+          "type":"d",
+          "professor":"e",
+          "classroom":"f",
+          "classsize":"g",
+          "examtime":"h",
+          "language":"i",
+          "credit":"j",
+          "rate":"k",
+          "grade":"l",
+          "load":"m",
+          "speech":"n"
+        };
+        lectureInfo.render(e, query);
       }
     },
 
@@ -43,7 +59,23 @@ var app = app || {};
 
     blockClick: function (e) {
       lectureInfo.isBlockClick = true;
-      lectureInfo.render(e);
+      var query = {
+        "lecturetitle":"a",
+        "lecturecode":"b",
+        "department":"c",
+        "type":"d",
+        "professor":"e",
+        "classroom":"f",
+        "classsize":"g",
+        "examtime":"h",
+        "language":"i",
+        "credit":"j",
+        "rate":"k",
+        "grade":"l",
+        "load":"m",
+        "speech":"n"
+      };
+      lectureInfo.render(e, query);
     },
 
     dragStart: function (e) {
@@ -310,26 +342,10 @@ var app = app || {};
       this.isHover = false;
     },
 
-    render: function (e) {
+    render: function (e, query) {
       var target = $(e.target);
       var block = $(this.el);
-      console.log("aaaaaaa");
-      var query = {
-        "lecturetitle":"a",
-        "lecturecode":"b",
-        "department":"c",
-        "type":"d",
-        "professor":"e",
-        "classroom":"f",
-        "classsize":"g",
-        "examtime":"h",
-        "language":"i",
-        "credit":"j",
-        "rate":"k",
-        "grade":"l",
-        "load":"m",
-        "speech":"n"
-      };
+      console.log("aaaaaaa"); 
       block.html(this.template(query));
     },
 
