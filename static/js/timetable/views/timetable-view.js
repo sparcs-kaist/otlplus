@@ -12,6 +12,7 @@ var app = app || {};
       this.isLookingTable = false;
       this.isBubbling = false;
       this.isDragging = false; 
+      this.isBlockClick = false;
     },
     el: '#timetable-contents',
     events: {
@@ -23,6 +24,26 @@ var app = app || {};
       'mousemove .half': "dragMove",
       'mouseup': "dragEnd",
       'mousedown .lecture-block': "clickBlock",
+      'mouseover .lecture-block': "blockHover",
+      'mouseout .lecture-block': "blockOut",
+      'click .lecture-block': "blockClick",
+    },
+
+    blockHover: function (e) {
+      if (!lectureInfo.isBlockClick) {
+        lectureInfo.render(e);
+      }
+    },
+
+    blockOut: function () {     
+      if (!lectureInfo.isBlockClick) {
+        lectureInfo.deleteInfo();
+      }
+    },
+
+    blockClick: function (e) {
+      lectureInfo.isBlockClick = true;
+      lectureInfo.render(e);
     },
 
     dragStart: function (e) {
@@ -277,8 +298,48 @@ var app = app || {};
       }
     }
   })
+
+  app.LectureInfoView = Backbone.View.extend({
+    el: '#lecture-info',
+    tagName: 'div',
+
+    template: _.template($('#lecture-detail-template').html()),
+
+    initialize: function () {
+      this.isBlockClick = false;
+      this.isHover = false;
+    },
+
+    render: function (e) {
+      var target = $(e.target);
+      var block = $(this.el);
+      console.log("aaaaaaa");
+      var query = {
+        "lecturetitle":"a",
+        "lecturecode":"b",
+        "department":"c",
+        "type":"d",
+        "professor":"e",
+        "classroom":"f",
+        "classsize":"g",
+        "examtime":"h",
+        "language":"i",
+        "credit":"j",
+        "rate":"k",
+        "grade":"l",
+        "load":"m",
+        "speech":"n"
+      };
+      block.html(this.template(query));
+    },
+
+    deleteInfo: function (e) {
+      $(this.el).find('.lecture-detail').remove();
+    },
+  })
 })(jQuery);
 
+var lectureInfo = new app.LectureInfoView();
 var timetable = new app.TimetableClickSearchView();
 var lectureList = new app.lectureListView();
 var userLectureList = new app.TimetableLectureBlocksView();
