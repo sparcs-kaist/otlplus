@@ -4,6 +4,7 @@
 from apps.session.models import UserProfile
 from apps.timetable.models import TimeTable
 from apps.subject.models import Lecture, Professor, Course
+from apps.review.models import Comment
 from django.contrib.auth.models import User
 from apps.subject.models import Lecture, ClassTime, ExamTime
 from django.http.response import HttpResponseNotAllowed, HttpResponseBadRequest
@@ -253,6 +254,27 @@ def search_temp_ajax(request):
                     continue
 
         json_result = serializers.serialize('json', result_from_lecture + result_from_professor)
+        return HttpResponse(json_result, content_type="application/json")
+
+
+def fetch_temp(request):
+    return render(request, 'timetable/fetch_temp.html')
+
+
+def fetch_temp_ajax(request):
+    if request.method == 'POST':
+        code = request.POST['old_code']
+        class_no = request.POST['class_no']
+        # year = request.POST['year']
+        # semester = request.POST['semester']
+        year = 2015
+        semester = 3
+        lecture = Lecture.objects.filter(year=year).filter(semester=semester)\
+            .filter(old_code=code).filter(class_no=class_no)[0]
+        print lecture
+        comments = Comment.objects.filter(lecture=lecture)
+        print comments
+        json_result = serializers.serialize('json', comments)
         return HttpResponse(json_result, content_type="application/json")
 
 
