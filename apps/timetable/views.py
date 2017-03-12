@@ -3,10 +3,11 @@
 # Django apps
 from apps.session.models import UserProfile
 from apps.timetable.models import TimeTable
-from apps.subject.models import Lecture
+from apps.subject.models import Lecture, Professor, Course
 from django.contrib.auth.models import User
 
 # Django modules
+from django.db.models import Q
 from django.core import serializers
 from django.core.exceptions import *
 from django.http import *
@@ -65,8 +66,31 @@ def search_temp(request):
 def search_temp_ajax(request):
     if request.method == 'POST':
         keyword = request.POST['keyword']
-        result = Lecture.objects.filter(title__icontains=keyword).filter(year=2016)
-        json_result = serializers.serialize('json', result)
+        # year = request.POST['year']
+        # semester = request.POST['semester']
+        year = 2016
+        semester = 3
+        lecture_at_that_time = Lecture.objects.filter(year=year).filter(semester=semester)
+        result_from_lecture = lecture_at_that_time.filter(
+                Q(title__icontains=keyword) |
+                Q(title_en__icontains=keyword) |
+                Q(old_code__icontains=keyword)
+            )
+        result_from_lecture = list(result_from_lecture)
+        professors = Professor.objects.filter(
+                Q(professor_name__icontains=keyword) |
+                Q(professor_name_en__icontains=keyword)
+            )
+        professors = list(professors)
+        result_from_professor = list()
+        for lec in lecture_at_that_time:
+            lec_professor = list(lec.professor.all())
+            for prof in professors:
+                if prof in lec_professor:
+                    result_from_professor.append(lec)
+                    continue
+
+        json_result = serializers.serialize('json', result_from_lecture + result_from_professor)
         return HttpResponse(json_result, content_type="application/json")
 
 
