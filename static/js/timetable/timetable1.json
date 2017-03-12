@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "name": "l1",
+    "day": "mon",
+    "starttime": "1100",
+    "endtime": "1230"
+  },
+  {
+    "id": 2,
+    "name": "l2",
+    "day": "tue",
+    "starttime": "1000",
+    "endtime": "1130"
+  },
+  {
+    "id": 3,
+    "name": "l3",
+    "day": "thu",
+    "starttime": "1300",
+    "endtime": "1430"
+  }
+]

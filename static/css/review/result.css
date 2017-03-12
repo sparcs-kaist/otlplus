@@ -1,7 +1,7 @@
 #contents {
     position:relative;
-    padding-top: 5px;
     background-color: #f9f0f0;
+    margin-top: 50px;
 }
 #contents #options:active {
     display: block;
@@ -28,7 +28,10 @@
 #contents > .row:nth-of-type(1) form.row > div input[type="submit"] {
     background-color: #e64c65;
 }
-@media (max-width: 768px) {
+@media (max-width: 767px) {
+    #contents {
+        padding-top: 5px;
+    }
     #contents > .row:nth-of-type(1) form.row > div input[type="text"] {
         margin-bottom: 10px;
     }
