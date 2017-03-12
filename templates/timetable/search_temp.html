@@ -5,18 +5,16 @@
     <title>Timetable Search</title>
 </head>
 <body>
-    <form>
-        <input id="keyword" type="text" name="keyword">
-        <input id="search-button" type="button" value="Search">
-    </form>
+    <input id="keyword" type="text" name="keyword">
+    <input id="submit-button" type="button" value="Search">
     <p id="search-result">search result</p>
     <script src="https://code.jquery.com/jquery-3.1.1.js"></script>
     <script type="text/javascript">
-        $('#search-button').click(function () {
+        function keywordSubmit(e) {
             $('#searching-message').show();
             $.ajax({
                 type: 'POST',
-                url: 'ajax/search_temp',
+                url: '/timetable/ajax/search_temp/',
                 data: {
                     'keyword': document.getElementById('keyword').value,
                     'csrfmiddlewaretoken': '{{ csrf_token }}'
@@ -30,7 +28,15 @@
                     }
                 }
             });
+        }
+        $('#keyword').on('keypress', function (e) {
+            if (e.which === 13) {
+                keywordSubmit(e);
+            }
         });
+        $('#submit-button').click(function (e) {
+            keywordSubmit(e);
+        })
     </script>
 </body>
 </html>
