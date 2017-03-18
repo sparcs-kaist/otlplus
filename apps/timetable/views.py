@@ -37,11 +37,6 @@ import os
 import json
 
 
-def test(request):
-    context = {'pagetTitle': 'JADE 사용', 'youAreUsingJade': True}
-    return render(request, 'test.jade', context)
-
-
 def main(request):
     return render(request, 'timetable/index.html')
 
@@ -87,11 +82,11 @@ def _year_semester():
     semester = Lecture.objects.filter(year=year) \
                               .aggregate(Max('semester'))['semester__max']
     return (year, semester)
-    
+
 
 def update_my_lectures(request):
     '''Add/delete lecture to users lecture list.
-    ''' 
+    '''
     if request.method != 'POST':
         return HttpResponseNotAllowed('POST')
 
@@ -131,7 +126,7 @@ def update_my_lectures(request):
         t.lecture.add(lecture[0])
     else:
         t.lecture.remove(lecture[0])
-        
+
     return JsonResponse({ 'success': True });
 
 
@@ -153,7 +148,7 @@ def copy_my_timetable(request):
     table_to = int(request.POST['table_to'])
     year = int(request.POST['year'])
     semester = int(request.POST['semester'])
-    
+
     # Find the right timetable
     tables_from = list(TimeTable.objects.filter(user=userprofile, table_id=table_from,
                                                year=year, semester=semester))
@@ -189,7 +184,7 @@ def delete_my_timetable(request):
         return HttpResponseBadRequest()
 
     table_id = int(request.POST['table_id'])
-    
+
     tables = list(TimeTable.objects.filter(user=userprofile, table_id=table_id,
                                            year=year, semester=semester))
     if len(tables) == 0:
@@ -197,8 +192,8 @@ def delete_my_timetable(request):
 
     tables[0].delete()
     return JsonResponse({ 'scucess': True })
-   
-    
+
+
 def show_my_lectures(request):
     '''Returns all the lectures the user is listening'''
     try:
@@ -219,7 +214,7 @@ def show_my_lectures(request):
             lects.append(model_to_dict(l))
         ctx['timetables'].append(timetable)
         ctx['timetables'][i]['lecture'] = lects
-        
+
 
     return JsonResponse(ctx, safe=False, json_dumps_params= \
                         { 'ensure_ascii': False })
