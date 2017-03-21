@@ -20,4 +20,11 @@ from . import views
 urlpatterns = [
     url(r'^$', views.main),
     url(r'^show$', views.show_table),
+    url(r'^search_temp$', views.search_temp),
+    url(r'^ajax/search_temp$', views.search_temp_ajax),
+    url(r'^api/update$', views.update_my_lectures),
+    url(r'^api/table_delete', views.delete_my_timetable),
+    url(r'^api/table_copy', views.copy_my_timetable),
+    url(r'^api/show$', views.show_my_lectures),
+    url(r'^update$', views.update_table),
 ]
