@@ -5,6 +5,8 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 from apps.session.sparcssso import Client
 from apps.subject.models import Department, Lecture
+from oauth2client.contrib.django_util.models import CredentialsField
+#from apps.timetable.models import TimeTable
 
 sso_client = Client(settings.SSO_CLIENT_ID, settings.SSO_SECRET_KEY, is_beta=settings.SSO_IS_BETA)
 
@@ -26,6 +28,7 @@ class UserProfile(models.Model):
     take_lecture_list = models.ManyToManyField('subject.Lecture', related_name='take_lecture_list', blank=True)
     portal_check = models.IntegerField(default=0)
     google_calendar_id = models.TextField(null=True, blank=True)
+    google_credential = CredentialsField()
     point = 0
     point_updated_time = None
 
