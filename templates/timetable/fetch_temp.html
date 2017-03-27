@@ -2,23 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Timetable Search</title>
+    <title>Review Fetch</title>
 </head>
 <body>
-    <input id="old_code" type="text" name="old_code">
-    <input id="class_no" type="text" name="class_no">
+    Lecture name: <input id="lecture_name" type="text" name="lecture_name">
+    Professor id: <input id="professor_id" type="text" name="professor_id">
     <input id="submit-button" type="button" value="Search">
+
     <p id="fetch-result">fetch result</p>
     <script src="https://code.jquery.com/jquery-3.1.1.js"></script>
     <script type="text/javascript">
-        function keywordSubmit(e) {
+        function infoSubmit(e) {
             $('#fetching-message').show();
             $.ajax({
                 type: 'POST',
                 url: '/timetable/ajax/fetch_temp/',
                 data: {
-                    'old_code': document.getElementById('old_code').value,
-                    'class_no': document.getElementById('class_no').value,
+                    'lecture_name': document.getElementById('lecture_name').value,
+                    'professor_id': document.getElementById('professor_id').value,
                     'csrfmiddlewaretoken': '{{ csrf_token }}'
                 },
                 success: function(response){
@@ -26,18 +27,22 @@
                     document.getElementById('fetch-result').innerHTML = '';
                     var i;
                     for (i=0; i < response.length; i++) {
-                        document.getElementById('fetch-result').innerHTML += JSON.stringify(response[i].fields)+'<br>';
+                        var comment_json = {};
+                        comment_json.info = response[i].fields;
+                        comment_json.link = "https://otlplus.sparcs.org/review/result/comment/"+ response[i].pk.toString() + "/";
+                        console.log(comment_json);
+                        document.getElementById('fetch-result').innerHTML += JSON.stringify(comment_json)+'<br>';
                     }
                 }
             });
         }
-        $('#old_code').on('keypress', function (e) {
+        $('#professor_id').on('keypress', function (e) {
             if (e.which === 13) {
-                keywordSubmit(e);
+                infoSubmit(e);
             }
         });
         $('#submit-button').click(function (e) {
-            keywordSubmit(e);
+            infoSubmit(e);
         })
     </script>
 </body>
