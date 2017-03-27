@@ -15,6 +15,7 @@ import_old-comment.py
 # Distribution / packaging
 .Python
 env/
+venv/
 build/
 develop-eggs/
 dist/
@@ -58,7 +59,6 @@ coverage.xml
 
 # Django stuff:
 *.log
-migrations/
 
 # Sphinx documentation
 docs/_build/
