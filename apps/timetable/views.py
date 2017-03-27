@@ -2,17 +2,19 @@
 
 # Django apps
 from apps.session.models import UserProfile
-from apps.timetable.models import TimeTable
+# from apps.timetable.models import TimeTable
 from apps.subject.models import Lecture, Professor, Course
 from apps.review.models import Comment
 from django.contrib.auth.models import User
-from apps.subject.models import Lecture, ClassTime, ExamTime
+from apps.subject.models import Lecture
+# from apps.subject.models import ClassTime, ExamTime
 from django.http.response import HttpResponseNotAllowed, HttpResponseBadRequest
 from django.http import JsonResponse
 
 # Django modules
 from django.db.models import Q
 from django.core import serializers
+from django.forms.models import model_to_dict
 from django.core.exceptions import *
 from django.http import *
 from django.contrib.auth.decorators import login_required
@@ -65,6 +67,7 @@ def show_table(request):
         "table_name": table_name,
     }
     return render(request, 'timetable/show.html', context)
+
 
 def update_table(request):
     if request.method == 'GET':
@@ -252,8 +255,20 @@ def search_temp_ajax(request):
                 if prof in lec_professor:
                     result_from_professor.append(lec)
                     continue
-
-        json_result = serializers.serialize('json', result_from_lecture + result_from_professor)
+        result_lectures = result_from_lecture + result_from_professor
+        # result_lectures_and_times = []
+        # for res_lec in result_lectures:
+        #     result_lectures_and_times.append({
+        #         'lecture': model_to_dict(res_lec),
+        #         'classtime': res_lec.examtime_set.all(),
+        #         'examtime': res_lec.classtime_set.all()
+        #     })
+        # for i in range(len(result)):
+        #     result[i]['classtime'] = result[i].classtime_set.all()
+        #     result[i]['examtime'] = result[i].classtime_set.all()
+        json_result = serializers.serialize('json', result_lectures)
+        # json_result = json.dumps(result_lectures_and_times)
+        print json_result
         return HttpResponse(json_result, content_type="application/json")
 
 
@@ -263,17 +278,23 @@ def fetch_temp(request):
 
 def fetch_temp_ajax(request):
     if request.method == 'POST':
-        code = request.POST['old_code']
-        class_no = request.POST['class_no']
-        # year = request.POST['year']
-        # semester = request.POST['semester']
+        lecture_name = request.POST['lecture_name']
+        professor_id = request.POST['professor_id']
         year = 2015
         semester = 3
-        lecture = Lecture.objects.filter(year=year).filter(semester=semester)\
-            .filter(old_code=code).filter(class_no=class_no)[0]
-        print lecture
+        professor = Professor.objects.get(professor_id=professor_id)
+        print professor
+        lecture_candidate = Lecture.objects.filter(year=year).filter(semester=semester)\
+            .filter(title__icontains=lecture_name)
+        lectures = list()
+        print lecture_candidate
+        for candidate in lecture_candidate:
+            if professor in candidate.professor.all():
+                lectures.append(candidate)
+        lecture = lectures[0]
+        # print lecture
         comments = Comment.objects.filter(lecture=lecture)
-        print comments
+        # print comments
         json_result = serializers.serialize('json', comments)
         return HttpResponse(json_result, content_type="application/json")
 
@@ -292,7 +313,6 @@ def calendar(request):
     if email is None:
         return JsonResponse({'result': 'EMPTY'},
                             json_dumps_params={'ensure_ascii': False, 'indent': 4})
-
 
     with open(os.path.join(settings.BASE_DIR), 'keys/client_secrets.json') as f:
         data = json.load(f.read())
@@ -326,7 +346,7 @@ def calendar(request):
         except:
             pass
 
-   #if calendar == None:
-       # Make a new calender
+    # if calendar == None:
+        # Make a new calender
 
-   # TODO: Add calendar entry
+    # TODO: Add calendar entry
