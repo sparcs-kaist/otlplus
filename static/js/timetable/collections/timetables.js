@@ -26,15 +26,4 @@ var app = app || {};
 
   // Create
   app.timetables = new Timetables();
-  //app.timetables.fetch();
-  //app.timetables.fetch({
-  //  success: function() {
-  //    console.log("JSON file load was successful");
-  //    for (var child of app.timetables.models) {
-  //      //console.log(app.timetables.models[0].attributes));
-  //      console.log(child.attributes);
-  //    }
-  //  }
-  //});
-  //console.log('app.timetables',app.timetables.models);
 })();
