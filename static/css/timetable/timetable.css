@@ -94,6 +94,12 @@ html, body
     margin-bottom:1em;
     border-radius:0.4em 0.4em 0.4em 0.4em;
     box-shadow: 0em 3px 0px 0em #F3BEC6;
+    height:326px;
+}
+
+.lecture-detail
+{
+    padding:0.8em 1em;
 }
 
 #course-title
@@ -138,6 +144,10 @@ html, body
     font-weight:lighter;
 }
 
+#dictionary-preview
+{
+}
+
 #search-container
 {
     display:-webkit-box;
@@ -157,15 +167,18 @@ html, body
 
 .search-chead
 {
+    display:-webkit-box;
+    display:-ms-flexbox;
+    display:flex;
+    display:-webkit-flex;
+    align-items: center;
+    justify-content: center;
     background-color:#E2E2E2;
     margin-left:0;
     margin-right:0;
     margin-bottom:0.3em;
     width:2em;
     height:2em;
-    text-align:center;
-    vertical-align:middle;
-    line-height:2em;
     border:none;
     border-radius:0.2em 0 0 0.2em;
     outline:none;
@@ -175,10 +188,6 @@ html, body
 .search-chead.active
 {
     background-color:#FFFFFF;
-}
-
-.scheadtext
-{
 }
 
 #result-pages
@@ -203,7 +212,9 @@ html, body
     display:-ms-flexbox;
     display:flex;
     display:-webkit-flex;
-    padding:1em;
+    padding-left:0.8em;
+    padding-right:0.8em;
+    padding-top:0.7em;
     background-color:#FFFFFF;
     border-radius:0 0.45em 0.45em 0.45em;
     box-shadow: 0em 3px 0px 0em #F3BEC6;
@@ -214,6 +225,118 @@ html, body
     -webkit-box-flex:1;
         -ms-flex:auto;
             flex:auto;
+}
+
+#search-button
+{
+    width:3.5em;
+    height:2em;
+    color:#FFFFFF;
+    font-weight:normal;
+    white-space:nowrap;
+    border:none;
+    border-radius: 0.3em 0.3em 0.3em 0.3em;
+    background-color:#e54c65;
+    float:right;
+}
+
+.search-page > form
+{
+    padding-bottom:0.7em;
+    border-bottom:1px solid #EDD1DC;
+}
+
+.search-field
+{
+    display:-webkit-box;
+    display:-ms-flexbox;
+    display:flex;
+    display:-webkit-flex;
+    width: 100%;
+    height: 1.7em;
+    background-color:#eeeeee;
+    border-radius: 3px 3px 3px 3px;
+}
+
+.search-image
+{
+    display:-webkit-box;
+    display:-ms-flexbox;
+    display:flex;
+    display:-webkit-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.0em;
+}
+
+.search-text
+{
+    background: none;
+    height:100%;
+    border:none;
+    -webkit-box-flex:1;
+        -ms-flex:auto;
+            flex:auto;
+}
+
+.search-text:focus 
+{
+    outline: none;
+}
+
+.type-elem > label
+{
+    font-weight:normal;
+    cursor:pointer;
+}
+
+.filters
+{
+    width:100%;
+}
+
+#lecturelist-filter
+{
+    margin-top: 0.7em;
+    font-size:12.5px;
+}
+
+#lecturelist-filter input[type="checkbox"] 
+{
+    display:none !important;
+}
+
+.type-name
+{
+    font-weight:bold;
+}
+
+.type-elem
+{
+    margin-left: -5px;
+}
+
+.fa-circle-o 
+{
+    color: #aaaaaa;
+}
+
+.fa-check-circle-o 
+{
+    color: #e64c65;
+}
+
+.lecture-list
+{
+    -webkit-box-flex:1;
+        -ms-flex:auto;
+            flex:auto;
+}
+
+[class*="col"]
+{
+    padding-left:0px;
+    padding-right:0px;
 }
 
 .result-page
@@ -239,13 +362,6 @@ html, body
 {
     height:3.5em;
     border-bottom:1px solid #EDD1DC;
-}
-
-.lecture-list
-{
-    -webkit-box-flex:1;
-        -ms-flex:auto;
-            flex:auto;
 }
 
 #timetable-menu
@@ -276,7 +392,19 @@ html, body
 
 .timetable-tab.active
 {
+    width:7em;
     background-color:#FFFFFF;
+}
+
+.timetable-tab>.hidden-option
+{
+    display:none;
+}
+
+.timetable-tab.active>.hidden-option
+{
+    display:inline-block;
+    color:#000000;
 }
 
 .timetable-add
@@ -306,34 +434,32 @@ html, body
     position:relative;
     float:left;
     display:inline-block;
-    width:46em;
+    width:43em;
     height:100%;
-    margin-right:1.5em;
+    margin-right:1em;
 }
 
 #colheaders
 {
     height:2.7em;
-    width:46em;
+    width:43em;
     margin-left:3em;
 }
 
 .chead
 {
     float:left;
-    width:8.25em;
+    width:8em;
     text-align:center;
     line-height:2em;
     font-size:14px;
     margin-top:0.7em;
-    margin-left:0.15em;
-    margin-right:0.15em;
 }
 
 #tablebody
 {
     position:relative;
-    width:46em !important;
+    width:43em !important;
     height: calc(100% - 2.7em);
 }
 
@@ -366,7 +492,7 @@ html, body
     position:absolute;
     top:0;
     left:3em;
-    width:43em;
+    width:40em;
     height:100%;
 }
 
@@ -492,6 +618,11 @@ html, body
     font-weight:900;
 }
 
+.active-credit
+{
+    color:#e64c65;
+}
+
 #total-credits
 {
     text-align:center;
@@ -508,6 +639,11 @@ html, body
 {
     font-size:2em;
     font-weight:lighter;
+}
+
+#credits.active, #au.active
+{
+    color:#e64c65;
 }
 
 #table-scores
@@ -606,7 +742,6 @@ html, body
     padding:5px;
 }
 
-
 #department
 {
     width:100%;
@@ -628,5 +763,32 @@ html, body
     -webkit-box-flex:1;
         -ms-flex:auto;
             flex:auto;
-    background-color:#8888FF;
+    display:-webkit-box;
+    display:-ms-flexbox;
+    display:flex;
+    display:-webkit-flex;
+    align-items:center;
+    padding:0 0.6em;
+    border-radius:2px;
+    background-color:#BEEDD7;
+    font-size:0.75em;
+    border-top:1px white solid;
+    border-bottom:1px white solid;
+}
+
+.lecture-block.active
+{
+    background-color:#E54C65;
+    color:#FFFFFF;
+}
+
+.lecture-block.click
+{
+    border:1px #E54C65 solid;
+    padding:0 0.5em;
+}
+
+.timetable-lecture-name
+{
+    margin:0;
 }
