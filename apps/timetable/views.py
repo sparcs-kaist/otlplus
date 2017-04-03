@@ -240,6 +240,12 @@ def search_temp_ajax(request):
         return HttpResponse(json_result, content_type="application/json")
 
 
+def search_keyword(request):
+    if request.method == 'POST':
+        print request.POST;
+        return JsonResponse({'success': True})
+
+
 @login_required_ajax
 def calendar(request):
     """Exports otl timetable to google calender
