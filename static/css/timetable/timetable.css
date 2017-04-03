@@ -392,7 +392,19 @@ html, body
 
 .timetable-tab.active
 {
+    width:7em;
     background-color:#FFFFFF;
+}
+
+.timetable-tab>.hidden-option
+{
+    display:none;
+}
+
+.timetable-tab.active>.hidden-option
+{
+    display:inline-block;
+    color:#000000;
 }
 
 .timetable-add
@@ -422,34 +434,32 @@ html, body
     position:relative;
     float:left;
     display:inline-block;
-    width:46em;
+    width:43em;
     height:100%;
-    margin-right:1.5em;
+    margin-right:1em;
 }
 
 #colheaders
 {
     height:2.7em;
-    width:46em;
+    width:43em;
     margin-left:3em;
 }
 
 .chead
 {
     float:left;
-    width:8.25em;
+    width:8em;
     text-align:center;
     line-height:2em;
     font-size:14px;
     margin-top:0.7em;
-    margin-left:0.15em;
-    margin-right:0.15em;
 }
 
 #tablebody
 {
     position:relative;
-    width:46em !important;
+    width:43em !important;
     height: calc(100% - 2.7em);
 }
 
@@ -482,7 +492,7 @@ html, body
     position:absolute;
     top:0;
     left:3em;
-    width:43em;
+    width:40em;
     height:100%;
 }
 
@@ -608,6 +618,11 @@ html, body
     font-weight:900;
 }
 
+.active-credit
+{
+    color:#e64c65;
+}
+
 #total-credits
 {
     text-align:center;
@@ -624,6 +639,11 @@ html, body
 {
     font-size:2em;
     font-weight:lighter;
+}
+
+#credits.active, #au.active
+{
+    color:#e64c65;
 }
 
 #table-scores
@@ -722,7 +742,6 @@ html, body
     padding:5px;
 }
 
-
 #department
 {
     width:100%;
@@ -744,5 +763,32 @@ html, body
     -webkit-box-flex:1;
         -ms-flex:auto;
             flex:auto;
-    background-color:#8888FF;
+    display:-webkit-box;
+    display:-ms-flexbox;
+    display:flex;
+    display:-webkit-flex;
+    align-items:center;
+    padding:0 0.6em;
+    border-radius:2px;
+    background-color:#BEEDD7;
+    font-size:0.75em;
+    border-top:1px white solid;
+    border-bottom:1px white solid;
+}
+
+.lecture-block.active
+{
+    background-color:#E54C65;
+    color:#FFFFFF;
+}
+
+.lecture-block.click
+{
+    border:1px #E54C65 solid;
+    padding:0 0.5em;
+}
+
+.timetable-lecture-name
+{
+    margin:0;
 }
