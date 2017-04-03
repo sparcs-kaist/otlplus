@@ -62,7 +62,8 @@
 			</div>
 			<div id="result-pages">
 				<div class="search-page">
-          <form>
+          <form method="post">
+            {% csrf_token %}
             <!-- ajax call -->
             <div class="search-field">
               <div class="search-image"><i class="fa fa-search"></i></div>
@@ -96,7 +97,7 @@
                   </label>
                   {% for i in "123456789012345678" %}
                   <label>
-                    <input class="chkelem" type="checkbox" autocomplete="off" name="department" value="{% cycle "HSS" "CE" "MSB" "ME" "PH" "BiS" "IE" "ID" "BS" "MAS" "NQE" "EE" "CS" "MA" "CH" "ETC" "CBE" "NS" %}" />{% cycle "인문" "건환" "기경" "기계" "물리" "바공" "산공" "산디" "생명" "수리" "원양" "전자" "전산" "항공" "화학" "기타" "생화공" "신소재" %}
+                    <input class="chkelem" type="checkbox" autocomplete="off" name="department" value="{% cycle "HSS" "CE" "MSB" "ME" "PH" "BiS" "IE" "ID" "BS" "MAS" "NQE" "EE" "CS" "AE" "CH" "ETC" "CBE" "NS" %}" />{% cycle "인문" "건환" "기경" "기계" "물리" "바공" "산공" "산디" "생명" "수리" "원양" "전자" "전산" "항공" "화학" "기타" "생화공" "신소재" %}
                     <i class="fa fa-circle-o fa-1x"></i>
                     <i class="fa fa-check-circle-o fa-ix none"></i>
                   </label>
@@ -123,57 +124,6 @@
             </div>
             <button type="button" id="search-button">검색</button>
           </form>
-            <!--
-						<label>학과&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:11px;">(<a href="/session/settings/">관심학과 설정</a>)</span></label>
-						<select id="department">
-							<optgroup label="소속학과/관심학과">
-								<option>인문사회과학부</option>
-								<option>전산학부</option>
-							</optgroup>
-							<optgroup label="전체 목록">
-								<option>무학과</option>
-								<option>인문사회과학부</option>
-								<option>전산학부</option>
-							</optgroup>
-						</select>
-						<br />
-						<label>과목구분</label>
-						<select id="classification" style="width:100%;">
-							<option value="전체보기">전체보기</option>
-							<option value="전체보기">기초필수</option>
-							<option value="전체보기">기초선택</option>
-							<option value="전체보기">전공필수</option>
-							<option value="전체보기">전공선택</option>
-							<option value="전체보기">교양필수</option>
-							<option value="교양필수(체육)">교양필수(체육)</option>
-							<option value="교양선택">교양선택</option>
-							<option value="자유선택">자유선택</option>
-							<option value="공통필수">공통필수</option>
-							<option value="인문사회선택">인문사회선택</option>
-							<option value="선택(석/박사)">선택(석/박사)</option>
-							<option value="개별연구">개별연구</option>
-							<option value="졸업연구">졸업연구</option>
-							<option value="세미나">세미나</option>
-							<option value="논문세미나">논문세미나</option>
-							<option value="현장실습및연구">현장실습및연구</option>
-						</select>
-						<br />
-						<label>키워드</label>
-						<input type="text" id="keyword" autocomplete="off" style="width:97%;">
-						<br />
-						<div style="text-align:right; margin-top:10px;">
-							<input type="button" id="clear" name="clear" value="초기화" style="text-align:right;">
-							<input type="button" id="apply" name="apply" value="적용" style="text-align:right;">
-						</div>
-          </div>-->
-					<!--<div id="lecture-container">
-						<div style="width:15%;padding:0;margin:0;float:left;">
-							<div id="lecture-tabs"></div>
-						</div>
-						<div style="width:85%;padding:0;margin:0;float:left;">
-							<div id="lecture-contents"></div>
-						</div>
-          </div>-->
         </div>
 				<div class="result-page none">
 					<div class="result-message">
@@ -194,10 +144,10 @@
 				</select>
 			</div>-->
 			<div id="timetable-tabs" style="clear:both;">
-				<a href="#/1" class="timetable-tab active"><span class="timetable-num">시간표 1</span></a>
-				<a href="#/2" class="timetable-tab"><span class="timetable-num">시간표 2</span></a>
-				<a href="#/3" class="timetable-tab"><span class="timetable-num">시간표 3</span></a>
-				<a href="#/4" class="timetable-tab"><span class="timetable-num">시간표 4</span></a>
+        <a href="#/1" class="timetable-tab active"><span class="timetable-num">시간표 1</span><span class="hidden-option">abc</span></a>
+				<a href="#/2" class="timetable-tab"><span class="timetable-num">시간표 2</span><p class="hidden-option">abc</p></a>
+				<a href="#/3" class="timetable-tab"><span class="timetable-num">시간표 3</span><p class="hidden-option">abc</p></a>
+				<a href="#/4" class="timetable-tab"><span class="timetable-num">시간표 4</span><p class="hidden-option">abc</p></a>
 				<a class="timetable-tab timetable-add"><span class="timetable-num">+</span></a>
 			</div>
 		</div>
@@ -423,21 +373,27 @@
 					<div id="type-credits">
 						<div class="lecture-type">
 							<span class="lecture-type-span">기필&nbsp;&nbsp;</span><span id="basic-required">10</span>
+              <span class="active-credit"></span>
 						</div>
 						<div class="lecture-type-right">
 							<span class="lecture-type-span">기선&nbsp;&nbsp;</span><span id="basic-elective">3</span>
+              <span class="active-credit"></span>
 						</div>
 						<div class="lecture-type" style="clear:both;">
 							<span class="lecture-type-span">전필&nbsp;&nbsp;</span><span id="major-required">3</span>
+              <span class="active-credit"></span>
 						</div>
 						<div class="lecture-type-right">
 							<span class="lecture-type-span">전선&nbsp;&nbsp;</span><span id="major-eletive">0</span>
+              <span class="active-credit"></span>
 						</div>
 						<div class="lecture-type" style="clear:both;">
 							<span class="lecture-type-span">인문&nbsp;&nbsp;</span><span id="humanities">0</span>
+              <span class="active-credit"></span>
 						</div>
 						<div class="lecture-type-right">
 							<span class="lecture-type-span">기타&nbsp;&nbsp;</span><span id="other-lectures">2</span>
+              <span class="active-credit"></span>
 						</div>
 					</div>
 					<div id="total-credits">
@@ -528,8 +484,8 @@
 </script>
 <script type="text/template" id="lecture-detail-template">
   <div class="lecture-detail">
-    <div style="text-align:center;"><span id="course-title"><%= lecturetitle %></span></div>
-    <div style="text-align:center;margin-top:1px;"><span id="course-no"><%= lecturecode %></span></div>
+    <div style="text-align:center;"><span id="course-title"><%= title %></span></div>
+    <div style="text-align:center;margin-top:1px;"><span id="course-no"><%= old_code %></span></div>
     <div class="lecture-options">
       <span id="color-option" style="float:left;">색상 변경</span>
       <span id="syllabus-option">실라버스&nbsp;</span>
