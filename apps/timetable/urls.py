@@ -20,6 +20,10 @@ from . import views
 urlpatterns = [
     url(r'^$', views.main),
     url(r'^show$', views.show_table),
+    url(r'^search_temp/$', views.search_temp),
+    url(r'^ajax/search_temp/$', views.search_temp_ajax),
+    url(r'^fetch_temp/$', views.fetch_temp),
+    url(r'^ajax/fetch_temp/$', views.fetch_temp_ajax),
     url(r'^search_temp$', views.search_temp),
     url(r'^ajax/search_temp$', views.search_temp_ajax),
     url(r'^api/update$', views.update_my_lectures),
