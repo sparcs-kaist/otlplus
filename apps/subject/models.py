@@ -2,6 +2,7 @@
 from django.db import models
 from apps.enum.common import * #for enum type (for choices)
 
+
 class Lecture(models.Model):
     code = models.CharField(max_length=10, db_index=True)
     old_code = models.CharField(max_length=10, db_index=True)
@@ -39,7 +40,7 @@ class Lecture(models.Model):
     comment_num = models.IntegerField(default=0)
 
     syllabus = models.CharField(max_length=260, blank=True, null=True) #실라부스 url저장
-    #TODO syllabus url 만드는 method만들기.
+    # TODO syllabus url 만드는 method만들기.
 
     def avg_update(self):
         self.total_sum = (self.grade_sum+self.load_sum+self.speech_sum)/3.0
@@ -62,6 +63,7 @@ class Lecture(models.Model):
         re_str+=")"
         return re_str
 
+
 class ExamTime(models.Model):
     """Lecture에 배정된 시험시간 """
     lecture = models.ForeignKey(Lecture, related_name="examtime_set")
@@ -72,11 +74,12 @@ class ExamTime(models.Model):
     def __unicode__(self):
         return u'[%s] %s, %s-%s' % (self.lecture.code, self.get_day_display(), self.begin.strftime('%H:%M'), self.end.strftime('%H:%M')
                 )
-        #TODO ExamTime method 더 필요한거 같이 구현하기
+         # TODO ExamTime method 더 필요한거 같이 구현하기
+
 
 class ClassTime(models.Model):
     """Lecture에 배정된강의시간, 보통 하나의  Lecture가 여러개의 강의시간을 가진다."""
-    lecture = models.ForeignKey(Lecture,related_name="classtime_set")
+    lecture = models.ForeignKey(Lecture, related_name="classtime_set", null=True)
     day = models.SmallIntegerField(choices=WEEKDAYS) #강의 요일
     begin = models.TimeField() # hh:mm 형태의 강의 시작시각 (24시간제)
     end = models.TimeField() # hh:mm 형태의 강의 끝나는 시각 (24시간 제)
@@ -87,9 +90,7 @@ class ClassTime(models.Model):
     roomNum = models.IntegerField(null=True) #강의실 호실(숫자, ex> 304 or 1104)
     unit_time = models.SmallIntegerField(null=True) #수업 교시
 
-    #TODO ClassTime method 구현 같이하기!
-
-
+    # TODO ClassTime method 구현 같이하기!
 
 
 class Department(models.Model):
@@ -102,6 +103,7 @@ class Department(models.Model):
 
     def __unicode__(self):
         return self.code
+
 
 class Course(models.Model):
     old_code = models.CharField(max_length=10, db_index=True)
@@ -141,6 +143,7 @@ class Course(models.Model):
     def __unicode__(self):
         return u"%s(%s)"%(self.title,self.old_code)
 
+
 class Professor(models.Model):
     professor_name = models.CharField(max_length=100, db_index=True)
     professor_name_en = models.CharField(max_length=100, blank=True, null=True)
@@ -175,8 +178,10 @@ class Professor(models.Model):
     def __unicode__(self):
         return u"%s(id:%d)"%(self.professor_name,self.professor_id)
 
+
 class CourseFiltered(models.Model):
     title = models.CharField(max_length=100, default="", db_index=True, unique=True)
     courses = models.ManyToManyField('Course', db_index=True)
+
     def __unicode__(self):
         return self.title
