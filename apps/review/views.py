@@ -763,10 +763,13 @@ def LastCommentView(request):
 
 def LastCommentView_json(request, page=-1):
 
-    if request.GET.getlist('filter') == "F":
+    if request.GET.getlist('filter') == [u"F"]:
         if request.user.is_authenticated():
             user_profile = UserProfile.objects.get(user=request.user)
-            department_filters = DepartmentFilters(user_profile.favorite_departments.all())
+            favorite_departments_code = []
+            for department in user_profile.favorite_departments.all():
+                favorite_departments_code.append(department.code)
+            department_filters = DepartmentFilters(favorite_departments_code)
         else:
             department_filters = []
     else:
