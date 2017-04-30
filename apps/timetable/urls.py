@@ -31,4 +31,5 @@ urlpatterns = [
     url(r'^api/table_copy', views.copy_my_timetable),
     url(r'^api/show$', views.show_my_lectures),
     url(r'^update$', views.update_table),
+    url(r'^search/keyword$', views.search_keyword),
 ]

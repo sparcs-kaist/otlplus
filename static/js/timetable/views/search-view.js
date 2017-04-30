@@ -57,7 +57,30 @@ var app = app || {};
         target.prop('checked', true);
       }
     },
-    searchStart: function() {
+    searchStart: function(e) {
+      var target = $(e.target);
+      var data = {};
+			target.parent().serializeArray().map(function(x){
+        if (x.name === "keyword") {
+          data[x.name] = x.value;
+        } else {
+          if (data[x.name]) {
+            data[x.name].push(x.value);
+          } else {
+            data[x.name] = [x.value];
+          }
+        }
+      });
+
+      app.SearchKeyword.set(data);
+      app.SearchKeyword.save(null, {
+        success: function(model, resp, options) {
+          console.log("success");
+        },
+        error: function(model, resp, options) {
+          console.log("error" + resp.status);
+        }
+      });
     }
   })
 })(jQuery);
