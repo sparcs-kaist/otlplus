@@ -404,11 +404,11 @@ def calendar(request):
                 event = {
                     'summary': _trans(lecture.title, lecture.title_en, lang),
                     'location': _trans(classtime.room_ko, classtime.room_en, lang) + " " + (classtime.room or ''),
-                    'start' {
+                    'start': {
                         'dateTime' : datetime.combine(class_date, classtime.begin).isoformat(),
                         'timeZone' : 'Asia/Seoul'
                         },
-                    'end' {
+                    'end': {
                         'dateTime' : atetime.combine(class_date, classtime.end).isoformat(),
                         'timeZone' : 'Asia/Seoul'
                         },
