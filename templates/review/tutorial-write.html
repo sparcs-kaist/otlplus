@@ -407,6 +407,11 @@
           $(location).attr('href', "/main")
         };
       });
+      $(document).keydown(function(e) {
+		  if (e.keyCode == 27) {
+		     window.location.replace("/");
+	      }
+      });
     
      </script>
   </body>

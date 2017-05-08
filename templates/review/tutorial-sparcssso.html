@@ -132,11 +132,17 @@
             $(location).attr('href', "/main")
         };
     });
-  $(document).ready(function(){
-    if ($(window).width()<768){
-      $(location).attr('href', "/main")
-    };
-  });
- </script>
-</body>
+      $(document).ready(function(){
+        if ($(window).width()<768){
+          $(location).attr('href', "/main")
+        };
+      });
+   $(document).keydown(function(e) {
+      if (e.keyCode == 27) {
+	     window.location.replace("/");
+      }
+   });
+
+     </script>
+        </body>
 </html>
