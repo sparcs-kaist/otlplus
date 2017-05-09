@@ -107,7 +107,7 @@ class Department(models.Model):
 
 class Course(models.Model):
     old_code = models.CharField(max_length=10, db_index=True)
-    code_num = models.CharField(max_length=10, db_index=True, default = 'D')
+    code_num = models.CharField(max_length=10, db_index=True, default='D')
     department = models.ForeignKey('Department', db_index=True)
     professors = models.ManyToManyField('Professor', db_index=True)
     type = models.CharField(max_length=12)

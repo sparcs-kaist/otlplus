@@ -6,7 +6,7 @@ from apps.session.models import UserProfile
 from apps.subject.models import Lecture, Professor, Course
 from apps.review.models import Comment
 from django.contrib.auth.models import User
-from apps.subject.models import Lecture
+from apps.subject.models import *
 # from apps.subject.models import ClassTime, ExamTime
 from django.http.response import HttpResponseNotAllowed, HttpResponseBadRequest
 from django.http import JsonResponse
@@ -36,10 +36,89 @@ import httplib2
 import os
 import json
 
+from django.views.decorators.csrf import csrf_exempt
 
-def test(request):
-    context = {'pagetTitle': 'JADE 사용', 'youAreUsingJade': True}
-    return render(request, 'test.jade', context)
+# type_map = {'공통': '공통필수', '교필': '교양필수', '기선': '기초선택',
+#             '기필': '기초필수', '석박': '석/박사', '인선': '인문사회선택',
+#             '자선': '자유선택', '전선': '전공선택', '전필': '전공필수',
+#             '기타': '기타'}
+
+# type_map = {'GR':' General Required', 'MGC': 'Mandatory General Courses', 'BE': 'Basic Elective',
+#             'BR': 'Basic Required', 'EG': 'Elective(Graduate)', 'HSE': 'Humanities & Social Elective',
+#             'OE': 'Other Elective', 'ME': 'Major Elective', 'MR': 'Major Required',
+#             'S': 'Seminar', 'I': 'Interdisciplinary', 'FP': 'Field Practice'}
+#
+# department_map = {'인문': Department.objects.get(name='인문사회과학부'), '건환': Department.objects.get(name='건설및환경공학과'), '기경': Department.objects.get(name='기술경영학부'), '기계': Department.objects.get(name='기계공학과'), '물리': Department.objects.get(name='물리학과'), '바공': Department.objects.get(name='바이오및뇌공학과'), '산공': Department.objects.get(name='산업및시스템공학과'), '산디': Department.objects.get(name='산업디자인학과'), '생명': Department.objects.get(name='생명과학과'), '수리': Department.objects.get(name='수리과학과'), '원양': Department.objects.get(name='원자력및양자공학과'), '전자': Department.objects.get(name='전기및전자공학부'), '전산': Department.objects.get(name='전산학부'), '항공': Department.objects.get(name='항공우주공학과'), '화학': Department.objects.get(name='화학과'), '생화공': Department.objects.get(name='생명화학공학과'), '신소재': Department.objects.get(name='신소재공학과')}
+
+
+# Filter Functions
+def get_department_filter(raw_filters):
+    department_list = []
+    for department in Department.objects.all():
+        department_list.append(department.code)
+    major_list = ["CE", "MSB", "MAE", "PH", "BiS", "IE", "ID", "BS", "CBE", "MAS",
+                  "MS", "NQE", "HSS", "EE", "CS", "MAE", "CH"]
+    etc_list = list(set(department_list) ^ set(major_list))
+    if ("ALL" in raw_filters) or len(raw_filters) == 0:
+        return department_list
+    filters = list(set(department_list) & set(raw_filters))
+    if "ETC" in raw_filters:
+        filters += etc_list
+    return filters
+
+
+def get_type_filter(raw_filters):
+    acronym_dic = {'GR': 'General Required', 'MGC': 'Mandatory General Courses', 'BE': 'Basic Elective',
+                   'BR': 'Basic Required', 'EG': 'Elective(Graduate)', 'HSE': 'Humanities & Social Elective',
+                   'OE': 'Other Elective', 'ME': 'Major Elective', 'MR': 'Major Required',
+                   'S': 'Seminar', 'I': 'Interdisciplinary', 'FP': 'Field Practice'}
+    type_list = acronym_dic.keys()
+    if ('ALL' in raw_filters) or len(raw_filters)==0 :
+        filters = [acronym_dic[i] for i in type_list if acronym_dic.has_key(i)]
+        return filters
+    acronym_filters = list(set(type_list) & set(raw_filters))
+    filters = [acronym_dic[i] for i in acronym_filters if acronym_dic.has_key(i)]
+    if 'ETC' in raw_filters:
+        filters += ["Seminar", "Interdisciplinary", "Field Practice"]
+    return filters
+
+
+def get_level_filter(raw_filters):
+    acronym_dic = {'ALL':"", '000':"0", '100':"1", '200':"2", '300':"3", '400':"4", '500':"5", 'HIGH':"6"}
+    grade_list = acronym_dic.keys()
+    acronym_filters = list(set(grade_list) & set(raw_filters))
+    filters = [acronym_dic[i] for i in acronym_filters if acronym_dic.has_key(i)]
+    if 'HIGH' in raw_filters:
+        filters+=["7", "8", "9"]
+    if ('ALL' in raw_filters) or len(raw_filters)==0 :
+        filters=["0","1","2","3","4","5","6","7","8","9"]
+    return filters
+
+
+def get_filtered_courses(department_filters, type_filters, level_filters, keyword):
+    courses = Course.objects.filter(
+        department__code__in=department_filters,
+        type_en__in=type_filters,
+        code_num__in=level_filters
+    )
+
+    # language 에 따라서 구별해주는게 나으려나.. 영어이름만 있는 경우에는? 그러면 그냥 name 필드도 영어로 들어가나.
+    if len(keyword) > 0:
+        courses = courses.filter(
+            Q(title__icontains=keyword) |
+            Q(title_en__icontains=keyword) |
+            Q(old_code__iexact=keyword) |
+            Q(department__name__iexact=keyword) |
+            Q(department__name_en__iexact=keyword) |
+            Q(professor__in=Professor.objects.filter(name__icontains=keyword)) |
+            Q(professor__in=Professor.objects.filter(name_en__icontains=keyword))
+        )
+
+    return list(courses)
+
+
+def get_filtered_lectures(year, semester_filters, courses):
+    return [[model_to_dict(lecture) for lecture in course.lecture_course.all()] for course in courses]
 
 
 def main(request):
@@ -219,10 +298,10 @@ def show_my_lectures(request):
             lects.append(model_to_dict(l))
         ctx['timetables'].append(timetable)
         ctx['timetables'][i]['lecture'] = lects
-        
 
-    return JsonResponse(ctx, safe=False, json_dumps_params= \
-                        { 'ensure_ascii': False })
+    return JsonResponse(ctx, safe=False, json_dumps_params=
+                        {'ensure_ascii': False})
+
 
 def show_lecture_comments(request):
     '''Returns comment of selected lecture'''
@@ -232,51 +311,45 @@ def show_lecture_comments(request):
     code = request.POST['code']
     comments = Comment.objects.filter(code = code)
 
-def search_temp(request):
-    return render(request, 'timetable/search_temp.html')
 
-
-def search_temp_ajax(request):
+# RESTFUL search view function. Test with programs like postman. csrf_exempt is for testing.
+# Input example:
+# Output example:
+@csrf_exempt
+def search(request):
     if request.method == 'POST':
-        keyword = request.POST['keyword']
-        # year = request.POST['year']
-        # semester = request.POST['semester']
-        year = 2016
-        semester = 3
-        lecture_at_that_time = Lecture.objects.filter(year=year).filter(semester=semester)
-        result_from_lecture = lecture_at_that_time.filter(
-                Q(title__icontains=keyword) |
-                Q(title_en__icontains=keyword) |
-                Q(old_code__icontains=keyword)
-            )
-        result_from_lecture = list(result_from_lecture)
-        professors = Professor.objects.filter(
-                Q(professor_name__icontains=keyword) |
-                Q(professor_name_en__icontains=keyword)
-            )
-        professors = list(professors)
-        result_from_professor = list()
-        for lec in lecture_at_that_time:
-            lec_professor = list(lec.professor.all())
-            for prof in professors:
-                if prof in lec_professor:
-                    result_from_professor.append(lec)
-                    continue
-        result_lectures = result_from_lecture + result_from_professor
-        # result_lectures_and_times = []
-        # for res_lec in result_lectures:
-        #     result_lectures_and_times.append({
-        #         'lecture': model_to_dict(res_lec),
-        #         'classtime': res_lec.examtime_set.all(),
-        #         'examtime': res_lec.classtime_set.all()
-        #     })
-        # for i in range(len(result)):
-        #     result[i]['classtime'] = result[i].classtime_set.all()
-        #     result[i]['examtime'] = result[i].classtime_set.all()
-        json_result = serializers.serialize('json', result_lectures)
-        # json_result = json.dumps(result_lectures_and_times)
-        print json_result
-        return HttpResponse(json_result, content_type="application/json")
+
+        request_json = json.loads(request.body)
+
+        year = request_json['year']
+        semester_filters = request_json['semester']
+        department_filters = get_department_filter(request_json['department'])
+        type_filters = get_type_filter(request_json['type'])
+        level_filters = get_level_filter(request_json['level'])
+        keyword = request_json['keyword']
+        courses = get_filtered_courses(
+            department_filters,
+            type_filters,
+            level_filters,
+            keyword
+        )
+        result_course_lecture = get_filtered_lectures(year, semester_filters, courses)
+
+        return HttpResponse(json.JSONEncoder().encode(result_course_lecture))
+
+
+@csrf_exempt
+def fetch(request):
+    if request.method == 'POST':
+        request_json = json.loads(request.body)
+        lecture_name = request_json['lecture_name']
+        professor_id = request_json['professor_id']
+        comments = Comment.objects.filter(
+            lecture__title=lecture_name,
+            lecture__professor__in=Professor.objects.filter(professor_id=professor_id),
+        )
+        comments = [model_to_dict(x) for x in comments]
+        return HttpResponse(json.JSONEncoder().encode(comments))
 
 
 def fetch_temp(request):
@@ -304,12 +377,6 @@ def fetch_temp_ajax(request):
         # print comments
         json_result = serializers.serialize('json', comments)
         return HttpResponse(json_result, content_type="application/json")
-
-
-def search_keyword(request):
-    if request.method == 'POST':
-        print request.POST;
-        return JsonResponse({'success': True})
 
 
 @login_required_ajax
