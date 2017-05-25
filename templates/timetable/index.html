@@ -47,18 +47,16 @@
 				    </div>
 				</div>
         <div class="basic-info dictionary-preview">
-          <span style="font-weight:700;">과목 후기</span>
-          <i style="color:#888" class="fa fa-chevron-down"></i>
+          <span style="font-weight:700;">과목 후기</span><i class="open-dic-preview"></i>
         </div>
       </div>-->
 		</div>
 		<div id="search-container">
 			<div id="search-colheaders">
-				<button class="search-chead search active"><i class="fa fa-search"></i></button>
-        <button class="search-chead result"><i class="fa fa-cart-plus fa-1x"></i></button>
-        <button class="search-chead result"><i class="fa fa-cart-plus fa-1x"></i></button>
-        <button class="search-chead result"><i class="fa fa-cart-plus fa-1x"></i></button>
-        <button class="search-chead result"><i class="fa fa-cart-plus fa-1x"></i></button>
+				<button class="search-chead search active"><i class="search-tab-icon"></i></button>
+				<button class="search-chead cart"><i class="search-tab-icon"></i></button>
+				<button class="search-chead major"><i class="search-tab-icon"></i></button>
+				<button class="search-chead humanity"><i class="search-tab-icon"></i></button>
 			</div>
 			<div id="result-pages">
 				<div class="search-page">
@@ -66,7 +64,7 @@
             {% csrf_token %}
             <!-- ajax call -->
             <div class="search-field">
-              <div class="search-image"><i class="fa fa-search"></i></div>
+              <i class="search-icon"></i>
               <input class="search-text" type="text" name="keyword" autocomplete="off" placeholder="Search" />
             </div>
             <div id="lecturelist-filter">
@@ -141,11 +139,11 @@
 				</select>
 			</div>-->
 			<div id="timetable-tabs" style="clear:both;">
-        <a href="#/1" class="timetable-tab active"><span class="timetable-num">시간표 1</span><span class="hidden-option">abc</span></a>
-				<a href="#/2" class="timetable-tab"><span class="timetable-num">시간표 2</span><p class="hidden-option">abc</p></a>
-				<a href="#/3" class="timetable-tab"><span class="timetable-num">시간표 3</span><p class="hidden-option">abc</p></a>
-				<a href="#/4" class="timetable-tab"><span class="timetable-num">시간표 4</span><p class="hidden-option">abc</p></a>
-				<a class="timetable-tab timetable-add"><span class="timetable-num">+</span></a>
+				<a href="#/1" class="timetable-tab active"><span class="timetable-num">시간표 1</span><span class="hidden-option"><i class="duplicate-table"></i><i class="delete-table"></i></span></a><!--
+			 --><a href="#/2" class="timetable-tab"><span class="timetable-num">시간표 2</span><p class="hidden-option"><i class="duplicate-table"></i><i class="delete-table"></i></p></a><!--
+			 --><a href="#/3" class="timetable-tab"><span class="timetable-num">시간표 3</span><p class="hidden-option"><i class="duplicate-table"></i><i class="delete-table"></i></p></a><!--
+			 --><a href="#/4" class="timetable-tab"><span class="timetable-num">시간표 4</span><p class="hidden-option"><i class="duplicate-table"></i><i class="delete-table"></i></p></a><!--
+			 --><a class="timetable-tab timetable-add"><span class="timetable-num"><i class="add-table"></i></span></a>
 			</div>
 		</div>
 		<div id="timetable">
@@ -529,8 +527,7 @@
       </div>
     </div>
     <div class="basic-info dictionary-preview">
-      <span style="font-weight:700;">과목 후기</span>
-      <i style="color:#888" class="fa fa-chevron-down"></i>
+      <span style="font-weight:700;">과목 후기</span><i class="open-dic-preview"></i>
     </div>
   </div>
 
