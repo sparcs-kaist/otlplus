@@ -114,7 +114,7 @@ i
 #lecture-info
 {
     background-color:#FFFFFF;
-    margin-bottom:9px;
+    margin-bottom:12px;
     border-radius:6px;
     box-shadow:0em 3px 0px 0em #F3BEC6;
 	height:311px;
@@ -218,6 +218,8 @@ i
 	width:calc(100% + 27px);
 	margin-left:-27px;
 	margin-bottom:3px;
+	height: 585px;
+	height: calc(94.4vh - 359px);
 }
 
 #search-colheaders
