@@ -22,6 +22,11 @@ html, body
     display:none !important;
 }
 
+i
+{
+	vertical-align:top;
+}
+
 #page-container
 {
     display:-webkit-box;
@@ -64,6 +69,7 @@ html, body
     float:left;
 	width:276px;
 	width:calc(20vh + 76px);
+	height:100%
 }
 
 #center
@@ -99,6 +105,12 @@ html, body
     border-left:1px solid #EDD1DC;
 }
 
+
+
+
+
+/* Lecture in top-left side */
+
 #lecture-info
 {
     background-color:#FFFFFF;
@@ -107,30 +119,49 @@ html, body
     box-shadow:0em 3px 0px 0em #F3BEC6;
 	height:311px;
 	height:calc(5.6vh + 255px);
+    padding:10px;
+	overflow:hidden;
 }
 
 .lecture-detail
 {
-    padding:0.8em 1em;
 }
 
 #course-title
 {
-    font-size:1.2em;
+    font-size:13px;
+	line-height:12px;
     font-weight:bold;
+	margin-bottom:3px;
+}
+
+#course-no
+{
+    font-size:12px;
+	line-height:11px;
+	margin-bottom:6px;
 }
 
 .lecture-options
 {
     text-align:right;
     margin:3px 0;
-    font-size:0.9em;
+    font-size:11px;
+    line-height:10px;
     color:#DB6C7C;
+	margin-bottom:8px
+}
+.lecture-options > span:hover
+{
+	cursor:pointer;
+    color:#963246;
 }
 
 .basic-info
 {
-    margin:3px 0;
+	font-size:12px;
+	line-height:11px;
+    margin-bottom:10px;
     clear:both;
 }
 
@@ -140,25 +171,40 @@ html, body
 
 .lecture-scores
 {
+	margin-top: calc(1.4vh + 2px);
+	margin-bottom: calc(1.4vh + 2px);
     text-align:center;
 }
 
 .lecture-score
 {
+	width:69px;
+	width: calc(3.5vh + 34px);
     display:inline-block;
-    text-align:center;
-    width:4.5em;
+	vertical-align:top;
 }
 
-#language, #credit, #rate, #grade, #load, #speech
+.score-text
 {
-    font-size:2em;
-    font-weight:lighter;
+	font-size: calc(0.7vh + 15px);
+	line-height: calc(0.7vh + 12px);
+	height: calc(0.7vh + 12px);
+    font-weight:300;
+	font-family:"Helvetica Neue", "Helvetica", "Arial";
+	margin-bottom:4px;
 }
 
-#dictionary-preview
+.score-label
 {
+	font-size: 11px;
+	line-height: 10px;
 }
+
+
+
+
+
+/* Search at bottom-left side */
 
 #search-container
 {
@@ -241,21 +287,30 @@ html, body
             flex:auto;
 }
 
-#search-button
+#search-button, #search-cancel
 {
-    width:3.5em;
-    height:2em;
-    color:#FFFFFF;
+    color:#e54c65;
     font-weight:normal;
     white-space:nowrap;
     border:none;
-    border-radius: 0.3em 0.3em 0.3em 0.3em;
-    background-color:#e54c65;
+    background-color:transparent;
     float:right;
+	font-size:12px;
+	line-height:11px;
+	padding:0px;
+	margin:0px 0px 0px 8px;
+	height:11px;
+}
+
+#search-button:hover, #search-cancel:hover
+{
+	cursor:pointer;
+    color:#963246;
 }
 
 .search-page > form
 {
+	background-color:#FFFFFF;
     padding-bottom:0.7em;
     border-bottom:1px solid #EDD1DC;
 }
@@ -267,9 +322,8 @@ html, body
     display:flex;
     display:-webkit-flex;
     width: 100%;
-    height: 1.7em;
-    background-color:#eeeeee;
-    border-radius: 3px 3px 3px 3px;
+	height:12px;
+    background-color:transparent;
 }
 
 .search-image
@@ -280,17 +334,22 @@ html, body
     display:-webkit-flex;
     align-items: center;
     justify-content: center;
-    width: 2.0em;
+    height: 12px;
+	vertical-align:top;
 }
 
 .search-text
 {
     background: none;
-    height:100%;
     border:none;
+	padding:0px;
+	margin:0px;
+	font-size:13px;
+	line-height:12px;
     -webkit-box-flex:1;
         -ms-flex:auto;
             flex:auto;
+	vertical-align:top;
 }
 
 .search-text:focus 
@@ -298,21 +357,17 @@ html, body
     outline: none;
 }
 
-.type-elem > label
-{
-    font-weight:normal;
-    cursor:pointer;
-}
-
 .filters
 {
     width:100%;
+	margin-bottom:4px;
 }
 
 #lecturelist-filter
 {
-    margin-top: 0.7em;
-    font-size:12.5px;
+    margin-top: 10px;
+    font-size:12px;
+    line-height:11px;
 }
 
 #lecturelist-filter input[type="checkbox"] 
@@ -322,8 +377,8 @@ html, body
 
 .type-name
 {
-	width:calc(30px);
-	display:inline;
+	width:26px;
+	display:inline-block;
 	vertical-align:top;
     font-weight:bold;
 }
@@ -335,14 +390,26 @@ html, body
 	vertical-align:top;
 }
 
+.type-elem > label
+{
+    font-weight:normal;
+    cursor:pointer;
+	margin-bottom:6px;
+	margin-right:2px;
+}
+
 .fa-circle-o 
 {
+	margin-left:2px;
     color: #aaaaaa;
+	vertical-align:top;
 }
 
 .fa-check-circle-o 
 {
+	margin-left:2px;
     color: #e64c65;
+	vertical-align:top;
 }
 
 .lecture-list
@@ -383,6 +450,12 @@ html, body
     border-bottom:1px solid #EDD1DC;
 }
 
+
+
+
+
+/* Timetable at center */
+
 #timetable-menu
 {
     height:25px;
@@ -398,26 +471,33 @@ html, body
 {
     background-color:#E2E2E2;
     display:inline-block;
-    height:2em;
-    width:5em;
+    height:25px;
     margin-right:0.15em;
     text-align:center;
     line-height:2em;
     border-radius:4px 4px 0 0;
     border:none;
     outline:none;
+	font-size:11px;
+	line-height:10px;
+	padding:8px 10px 7px 10px;
     text-decoration:none;
 }
 
 .timetable-tab.active
 {
-    width:7em;
     background-color:#FFFFFF;
 }
 
 .timetable-tab>.hidden-option
 {
     display:none;
+}
+
+.timetable-tab:not(.active):hover
+{
+	cursor:pointer;
+	background-color:#D8D8D8;
 }
 
 .timetable-tab.active>.hidden-option
@@ -428,7 +508,7 @@ html, body
 
 .timetable-add
 {
-    width:2em;
+    width:27px;
 }
 
 .timetable-num
@@ -457,14 +537,15 @@ html, body
 	width:calc(60vh + 8px);
     height:100%;
     margin-right:10px;
+	padding:10px 0 10px 10px;
 }
 
 #colheaders
 {
-    height:2.7em;
+    height:19px;
 	width:608px;
-	width:calc(60vh + 8px - 3em);
-    margin-left:3em;
+	width:calc(60vh + 8px - 19px - 10px);
+    margin-left:19px;
 }
 
 .chead
@@ -472,9 +553,8 @@ html, body
     float:left;
     width:20%;
     text-align:center;
-    line-height:2em;
-    font-size:14px;
-    margin-top:0.7em;
+    font-size:11px;
+    line-height:10px;
 }
 
 #tablebody
@@ -482,14 +562,14 @@ html, body
     position:relative;
 	width:608px;
 	width:calc(60vh + 8px);
-    height: calc(100% - 2.7em);
+    height: calc(100% - 19px);
 }
 
 #rowheaders
 {
     position:absolute;
-    width:3em;
-    height: calc(100% - 1em);
+    width:19px;
+    height:100%;
     left:0pt;
     top:0pt;
 }
@@ -503,19 +583,20 @@ html, body
 
 .rheadtext
 {
+	width:100%;
+	text-align:right;
+	font-size:10px;
     position:absolute;
-    left:60%;
-    -webkit-transform:translate(-50%,-50%);
-            transform:translate(-50%,-50%);
+    -webkit-transform:translate(-8px,-50%);
+            transform:translate(-8px,-50%);
 }
 
 #grid-wrap
 {
     position:absolute;
     top:0;
-    left:3em;
-	width:608px;
-	width:calc(60vh + 8px - 3em);
+    left:19px;
+	width:calc(100% - 19px - 10px);
     height:100%;
 }
 
@@ -538,7 +619,7 @@ html, body
     -webkit-box-direction:normal;
         -ms-flex-direction:row;
             flex-direction:row;
-    height: calc(100% - 1em);
+    height: 100%;
 }
 
 .day
@@ -592,6 +673,12 @@ html, body
     background-color:tomato;
 }
 
+
+
+
+
+/* Map at right side */
+
 #map
 {
     padding-bottom:10px;
@@ -609,23 +696,31 @@ html, body
     overflow:hidden;
 }
 
+
+
+
+
+/* Info at right side */
+
 #info
 {
-    padding-top:10px;
     padding-bottom:10px;
     border-bottom:1px solid #EDD1DC;
 }
 
 #type-credits
 {
+	font-size: 12px;
+	line-height: 11px;
 }
 
 .lecture-type
 {
     display:inline-block;
     width:40%;
-	margin-left:10%;
     text-align:left;
+	margin-left:10%;
+	margin-top:10px;
 }
 
 .lecture-type-right
@@ -647,20 +742,18 @@ html, body
 
 #total-credits
 {
+	margin-top: calc(1.4vh + 2px);
+	margin-bottom: calc(1.4vh + 2px);
     text-align:center;
     font-size:0.8em;
 }
 
 .total-credit
 {
+	width:69px;
+	width: calc(3.5vh + 34px);
     display:inline-block;
-    width:3em;
-}
-
-#credits, #au, #grades, #loads, #speeches
-{
-    font-size:2em;
-    font-weight:lighter;
+	vertical-align:top;
 }
 
 #credits.active, #au.active
@@ -670,16 +763,32 @@ html, body
 
 #table-scores
 {
+	margin-top: calc(1.4vh + 2px);
     text-align:center;
     font-size:0.8em;
 }
 
 .table-score
 {
+	width:69px;
+	width: calc(3.5vh + 34px);
     display:inline-block;
-    width:3em;
-    margin-left:1em;
-    margin-right:1em;
+	vertical-align:top;
+}
+
+
+
+
+
+/* Exam at right side */
+
+#examtitle
+{
+	text-align:center;
+	font-size:13px;
+	line-height:12px;
+	padding-top:10px;
+	padding-bottom:10px;
 }
 
 #examtable
@@ -690,7 +799,8 @@ html, body
     padding-bottom:10px;
     border-bottom:1px solid #EDD1DC;
     overflow:auto;
-    
+	font-size:12px;
+	line-height:11px;
 }
 
 .examtime, #examtime1, #examtime2, #examtime3, #examtime4, #examtime5
@@ -703,15 +813,27 @@ html, body
     -webkit-box-direction:normal;
         -ms-flex-direction:row;
             flex-direction:row;
-    width:12em;
+    width:100%;
     text-align:left;
+	margin-bottom:2px;
 }
 
-.examlist, #examlist1, #examlist2, #examlist3, #examlist4, #examlist5
+.examlist
 {
     list-style:none;
     padding-left:0;
-    margin-left:1em;
+	margin-bottom:0;
+}
+
+.examlist > li
+{
+	margin-bottom:8px;
+}
+
+.exam-course
+{
+	font-weight:bold;
+	margin-bottom:3px;
 }
 
 .exam-chead
@@ -721,6 +843,7 @@ html, body
     display:flex;
     display:-webkit-flex;
     width:1.5em;
+	margin-bottom:8px;
     text-align:center;
 }
 
@@ -733,6 +856,12 @@ html, body
     width:9em;
     text-align:left;
 }
+
+
+
+
+
+/* Share at right side*/
 
 #small-buttons
 {

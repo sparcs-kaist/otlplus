@@ -5,48 +5,48 @@
 	<div id="left-side">
 		<div id="lecture-info">
       <!--<div class="lecture-detail">
-				<div style="text-align:center;"><span id="course-title">프로그래밍기초</span></div>
-				<div style="text-align:center;margin-top:1px;"><span id="course-no">CS101(B)</span></div>
+				<div id="course-title" style="text-align:center;"><span>프로그래밍기초</span></div>
+				<div id="course-no" style="text-align:center;"><span>CS101(B)</span></div>
 				<div class="lecture-options">
 					<span id="color-option" style="float:left;">색상 변경</span>
-					<span id="syllabus-option">실라버스&nbsp;</span>
+					<span id="syllabus-option">실라버스</span>&nbsp;
 					<span id="dictionary-option">과목사전</span>
 				</div>
 				<div class="basic-info"><span style="font-weight:700;">학과&nbsp;&nbsp;</span><span id="department">전산학부</span></div>
 				<div class="basic-info"><span style="font-weight:700;">구분&nbsp;&nbsp;</span><span id="course-type">기초필수</span></div>
 				<div class="basic-info"><span style="font-weight:700;">교수&nbsp;&nbsp;</span><span id="instructor">김순태</span></div>
-				<div class="basic-info"><span style="font-weight:700;">장소&nbsp;&nbsp;</span><span id="classroom">E11 창f의학습관 303호</span></div>
+				<div class="basic-info"><span style="font-weight:700;">장소&nbsp;&nbsp;</span><span id="classroom">E11 창의학습관 303호</span></div>
 				<div class="basic-info"><span style="font-weight:700;">정원&nbsp;&nbsp;</span><span id="class-size">45</span></div>
 				<div class="basic-info"><span style="font-weight:700;">시험&nbsp;&nbsp;</span><span id="exam-time">금요일 9:00 ~ 12:00</span></div>
 				<div class="lecture-scores">
 					<div class="lecture-score">
-						<span id="language">Eng</span><br/>
-						<span>언어</span>
+						<div id="language" class="score-text">Eng</div>
+						<div class="score-label">언어</div>
 					</div>
 					<div class="lecture-score">
-						<span id="credit">3</span><br/>
-						<span>학점</span>
+						<div id="credit" class="score-text">3</div>
+						<div class="score-label">학점</div>
 					</div>
 					<div class="lecture-score">
-						<span id="rate">1.2:1</span><br/>
-						<span>경쟁률</span>
+						<div id="rate" class="score-text">1.2:1</div>
+						<div class="score-label">경쟁률</div>
 					</div>
 				</div>
 				<div class="lecture-scores">
-					<div class="lecture-score" style="clear:both;">
-						<span id="grade">B</span><br/>
-						<span>성적</span>
-					</div>
-					<div class="lecture-score">
-						<span id="load">B-</span><br/>
-						<span>널널</span>
-					</div>
-					<div class="lecture-score">
-						<span id="speech">B-</span><br/>
-						<span>강의</span>
-					</div>
+				    <div class="lecture-score" style="clear:both;">
+				  	  <div id="grade" class="score-text">B</div>
+					  <div class="score-label">성적</div>
+				    </div>
+				    <div class="lecture-score">
+					  <div id="load" class="score-text">B-</div>
+		              div class="score-label">널널</div>
+				    </div>
+			 		<div class="lecture-score">
+					  <div id="speech" class="score-text">B-</div>
+					  <div class="score-label">강의</div>
+				    </div>
 				</div>
-        <div class="dictionary-preview"style="margin-top:0.3em;">
+        <div class="basic-info dictionary-preview">
           <span style="font-weight:700;">과목 후기</span>
           <i style="color:#888" class="fa fa-chevron-down"></i>
         </div>
@@ -71,58 +71,55 @@
             </div>
             <div id="lecturelist-filter">
               <div class="filters">
-                <label class="type-name">분류</label>
-                <div class="type-elem">
+                <label class="type-name">분류</label><!--
+             --><div class="type-elem">
                   <label>
-                    <input class="chkall" type="checkbox" autocomplete="off" name="type" value="ALL" />전체
-                    <i class="fa fa-circle-o fa-1x none"></i>
-                    <i class="fa fa-check-circle-o fa-1x"></i>
+                    <input class="chkall" type="checkbox" autocomplete="off" name="type" value="ALL" />전체<i class="fa fa-circle-o fa-1x none"></i><i class="fa fa-check-circle-o fa-1x"></i>
                   </label>
                   {% for i in "1234567890" %}
                   <label>
-                    <input class="chkelem" type="checkbox" autocomplete="off" name="type" value="{% cycle "GR" "MGC" "BE" "BR" "EG" "HSE" "OE" "ME" "MR" "ETC" %}" />{% cycle "공통" "교필" "기선" "기필" "석박" "인선" "자선" "전선" "전필" "기타" %}
-                    <i class="fa fa-circle-o fa-1x"></i>
-                    <i class="fa fa-check-circle-o fa-ix none"></i>
+                    <input class="chkelem" type="checkbox" autocomplete="off" name="type" value="{% cycle "GR" "MGC" "BE" "BR" "EG" "HSE" "OE" "ME" "MR" "ETC" %}" />{% cycle "공통" "교필" "기선" "기필" "석박" "인선" "자선" "전선" "전필" "기타" %}<i class="fa fa-circle-o fa-1x"></i><i class="fa fa-check-circle-o fa-ix none"></i>
                   </label>
                   {% endfor %}
                 </div>
               </div>
               <div class="filters">
-                <label class="type-name">학과</label>
-                <div class="type-elem">
+                <label class="type-name">학과</label><!--
+             --><div class="type-elem">
                   <label>
-                    <input class="chkall" type="checkbox" autocomplete="off" name="department" value="ALL" />전체
-                    <i class="fa fa-circle-o fa-1x none"></i>
-                    <i class="fa fa-check-circle-o fa-1x"></i>
+                    <input class="chkall" type="checkbox" autocomplete="off" name="department" value="ALL" />전체<i class="fa fa-circle-o fa-1x none"></i><i class="fa fa-check-circle-o fa-1x"></i>
                   </label>
                   {% for i in "123456789012345678" %}
                   <label>
-                    <input class="chkelem" type="checkbox" autocomplete="off" name="department" value="{% cycle "HSS" "CE" "MSB" "ME" "PH" "BiS" "IE" "ID" "BS" "MAS" "NQE" "EE" "CS" "AE" "CH" "ETC" "CBE" "NS" %}" />{% cycle "인문" "건환" "기경" "기계" "물리" "바공" "산공" "산디" "생명" "수리" "원양" "전자" "전산" "항공" "화학" "기타" "생화공" "신소재" %}
-                    <i class="fa fa-circle-o fa-1x"></i>
-                    <i class="fa fa-check-circle-o fa-ix none"></i>
+                    <input class="chkelem" type="checkbox" autocomplete="off" name="department" value="{% cycle "HSS" "CE" "MSB" "ME" "PH" "BiS" "IE" "ID" "BS" "MAS" "NQE" "EE" "CS" "AE" "CH" "ETC" "CBE" "NS" %}" />{% cycle "인문" "건환" "기경" "기계" "물리" "바공" "산공" "산디" "생명" "수리" "원양" "전자" "전산" "항공" "화학" "기타" "생화공" "신소재" %}<i class="fa fa-circle-o fa-1x"></i><i class="fa fa-check-circle-o fa-ix none"></i>
                   </label>
                   {% endfor %}
                 </div>
               </div>
               <div class="filters">
-                <label class="type-name">학년</label>
-                <div class="type-elem">
+                <label class="type-name">학년</label><!--
+             --><div class="type-elem">
                   <label>
-                    <input class="chkall" type="checkbox" autocomplete="off" name="grade" value="ALL" />전체
-                    <i class="fa fa-circle-o fa-1x none"></i>
-                    <i class="fa fa-check-circle-o fa-1x"></i>
+                    <input class="chkall" type="checkbox" autocomplete="off" name="grade" value="ALL" />전체<i class="fa fa-circle-o fa-1x none"></i><i class="fa fa-check-circle-o fa-1x"></i>
                   </label>
                   {% for i in "012345" %}
                   <label>
-                    <input class="chkelem" type="checkbox" autocomplete="off" name="grade" value="{% cycle "000" "100" "200" "300" "400" "ETC" %}" />{% cycle "000번대" "100번대" "200번대" "300번대" "400번대" "기타"%}
-                    <i class="fa fa-circle-o fa-1x"></i>
-                    <i class="fa fa-check-circle-o fa-ix none"></i>
+                    <input class="chkelem" type="checkbox" autocomplete="off" name="grade" value="{% cycle "000" "100" "200" "300" "400" "ETC" %}" />{% cycle "000번대" "100번대" "200번대" "300번대" "400번대" "기타"%}<i class="fa fa-circle-o fa-1x"></i><i class="fa fa-check-circle-o fa-ix none"></i>
                   </label>
                   {% endfor %}
                 </div>
               </div>
+              <div class="filters filter-time">
+                <label class="type-name">시간</label><!--
+             --><div class="type-elem">
+                  <label>
+                    선택하기
+                  </label>
+                </div>
+              </div>
             </div>
-            <button type="button" id="search-button">검색</button>
+            <span type="button" id="search-button">검색</span>
+            <span type="button" id="search-cancel">취소</span>
           </form>
         </div>
 				<div class="result-page none">
@@ -130,7 +127,7 @@
 						<span>(전산학부), (전공필수, 전공선택)에 대한 검색 결과입니다.</span>
 					</div>
 					<div class="lecture-list">
-
+					
 					</div>
 				</div>
 			</div>
@@ -397,66 +394,72 @@
 						</div>
 					</div>
 					<div id="total-credits">
-						<div class="total-credit" style="margin-left:3em;">
-							<span id="credits">18</span><br/>
-							<span>학점</span>
+						<div class="total-credit">
+							<div id="credits" class="score-text">18</div>
+							<div class="score-label">학점</div>
 						</div>
-						<div class="total-credit" style="margin:1em 3em;">
-							<span id="au">2</span><br/>
-							<span>AU</span>
+						<div class="total-credit">
+							<div id="au" class="score-text">2</div>
+							<div class="score-label">AU</div>
 						</div>
 					</div>
 					<div id="table-scores">
 						<div class="table-score">
-							<span id="grades">A-</span><br/>
-							<span>성적</span>
+							<div id="grades" class="score-text">A-</div>
+							<div class="score-label">성적</div>
 						</div>
 						<div class="table-score">
-							<span id="loads">B+</span><br/>
-							<span>널널</span>
+							<div id="loads" class="score-text">B+</div>
+							<div class="score-label">널널</div>
 						</div>
 						<div class="table-score">
-							<span id="speeches">B</span><br/>
-							<span>강의</span>
+							<div id="speeches" class="score-text">B</div>
+							<div class="score-label">강의</div>
 						</div>
 					</div>
 				</div>
-				<div style="text-align:center;"><span>시험시간표</span></div>
+				<div id="examtitle"><span>시험시간표</span></div>
 				<div id="examtable">
 					<div id="examtime1">
 						<div class="exam-chead"><span>월</span></div>
 						<div class="exam-body">
-							<ul id="examlist1">
-								<li>aa</li>
-								<li>bb</li>
+							<ul id="examlist1" class="examlist">
+								<li>
+									<div class="exam-course">프로그래밍언어</div>
+									<div class="exam-time">13:00 ~ 16:00</div>
+								</li>
+								<li>
+									<div class="exam-course">프로그래밍기초</div>
+									<div class="exam-time">19:00 ~ 22:00</div>
+								</li>
 							</ul>
 						</div>
 					</div>
 					<div id="examtime2">
 						<div class="exam-chead"><span>화</span></div>
 						<div class="exam-body">
-							<ul id="examlist2">
+							<ul id="examlist2" class="examlist">
 							</ul>
 						</div>
 					</div>
 					<div id="examtime3">
 						<div class="exam-chead"><span>수</span></div>
 						<div class="exam-body">
-							<ul id="examlist3">
+							<ul id="examlist3" class="examlist">
 							</ul>
 						</div>
 					</div>
 					<div id="examtime4">
 						<div class="exam-chead"><span>목</span></div>
 						<div class="exam-body">
-							<ul id="examlist4">
+							<ul id="examlist4" class="examlist">
 							</ul>
 						</div>
 					</div>
 					<div id="examtime5">
 						<div class="exam-chead"><span>금</span></div>
 						<div class="exam-body">
-							<ul id="examlist5">
+							<ul id="examlist5" class="examlist">
 							</ul>
 						</div>
 					</div>
@@ -484,11 +487,11 @@
 </script>
 <script type="text/template" id="lecture-detail-template">
   <div class="lecture-detail">
-    <div style="text-align:center;"><span id="course-title"><%= title %></span></div>
-    <div style="text-align:center;margin-top:1px;"><span id="course-no"><%= old_code %></span></div>
+    <div id="course-title" style="text-align:center;"><span><%= title %></span></div>
+    <div id="course-no" style="text-align:center;"><span><%= old_code %></span></div>
     <div class="lecture-options">
       <span id="color-option" style="float:left;">색상 변경</span>
-      <span id="syllabus-option">실라버스&nbsp;</span>
+      <span id="syllabus-option">실라버스</span>&nbsp;
       <span id="dictionary-option">과목사전</span>
     </div>
     <div class="basic-info"><span style="font-weight:700;">학과&nbsp;&nbsp;</span><span id="department"><%= department %></span></div>
@@ -499,33 +502,33 @@
     <div class="basic-info"><span style="font-weight:700;">시험&nbsp;&nbsp;</span><span id="exam-time"><%= examtime %></span></div>
     <div class="lecture-scores">
       <div class="lecture-score">
-        <span id="language"><%= language %></span><br/>
-        <span>언어</span>
-      </div>
-      <div class="lecture-score">
-        <span id="credit"><%= credit %></span><br/>
-        <span>학점</span>
-      </div>
-      <div class="lecture-score">
-        <span id="rate"><%= rate %></span><br/>
-        <span>경쟁률</span>
+        <div id="language" class="score-text"><%= language %></div>
+        <div class="score-label">언어</div>
+      </div><!--
+   --><div class="lecture-score">
+        <div id="credit" class="score-text"><%= credit %></div>
+        <div class="score-label">학점</div>
+      </div><!--
+   --><div class="lecture-score">
+        <div id="rate" class="score-text"><%= rate %></div>
+        <div class="score-label">경쟁률</div>
       </div>
     </div>
     <div class="lecture-scores">
       <div class="lecture-score" style="clear:both;">
-        <span id="grade"><%= grade %></span><br/>
-        <span>성적</span>
-      </div>
-      <div class="lecture-score">
-        <span id="load"><%= load %></span><br/>
-        <span>널널</span>
-      </div>
-      <div class="lecture-score">
-        <span id="speech"><%= speech %></span><br/>
-        <span>강의</span>
+        <div id="grade" class="score-text"><%= grade %></div>
+        <div class="score-label">성적</div>
+      </div><!--
+   --><div class="lecture-score">
+        <div id="load" class="score-text"><%= load %></div>
+        <div class="score-label">널널</div>
+      </div><!--
+   --><div class="lecture-score">
+        <div id="speech" class="score-text"><%= speech %></div>
+        <div class="score-label">강의</div>
       </div>
     </div>
-    <div class="dictionary-preview"style="margin-top:0.3em;">
+    <div class="basic-info dictionary-preview">
       <span style="font-weight:700;">과목 후기</span>
       <i style="color:#888" class="fa fa-chevron-down"></i>
     </div>
