@@ -200,6 +200,20 @@ i
 	line-height: 10px;
 }
 
+.open-dic-preview
+{
+	background: url(/media/icons/lecture_downarrow.svg) no-repeat center center;
+	width:14px;
+	height:11px;
+	display:inline-block;
+	vertical-align:top;
+	margin-left:5px;
+}
+
+.dictionary-preview:hover .open-dic-preview
+{
+	background-image: url(/media/icons/lecture_downarrow_hover.svg);
+}
 
 
 
@@ -240,6 +254,7 @@ i
     margin-left:0;
     margin-right:0;
     margin-bottom:0.3em;
+	padding:0px;
     width:2em;
     height:2em;
     border:none;
@@ -248,9 +263,43 @@ i
     text-decoration:none;
 }
 
+.search-chead.search .search-tab-icon
+{
+	background: url(/media/icons/block_search.svg) no-repeat center center;
+	width:13px;
+	height:13px;
+}
+
+.search-chead.cart .search-tab-icon
+{
+	background: url(/media/icons/block_cart.svg) no-repeat center center;
+	width:13px;
+	height:13px;
+}
+
+.search-chead.major .search-tab-icon
+{
+	background: url(/media/icons/block_major.svg) no-repeat center center;
+	width:13px;
+	height:13px;
+}
+
+.search-chead.humanity .search-tab-icon
+{
+	background: url(/media/icons/block_humanity.svg) no-repeat center center;
+	width:13px;
+	height:13px;
+}
+
 .search-chead.active
 {
     background-color:#FFFFFF;
+}
+
+.search-chead:not(.active):hover
+{
+	cursor:pointer;
+	background-color:#D8D8D8;
 }
 
 #result-pages
@@ -328,16 +377,23 @@ i
     background-color:transparent;
 }
 
-.search-image
+.search-field:hover 
 {
-    display:-webkit-box;
-    display:-ms-flexbox;
-    display:flex;
-    display:-webkit-flex;
-    align-items: center;
-    justify-content: center;
+	cursor:pointer;
+}
+
+.search-icon
+{
+	background: url(/media/icons/search.svg) no-repeat center center;
+	width:12px;
     height: 12px;
 	vertical-align:top;
+	margin-right:6px;
+}
+
+.search-field:hover > .search-icon
+{
+	background-image: url(/media/icons/search_hover.svg);
 }
 
 .search-text
@@ -456,7 +512,7 @@ i
 
 
 
-/* Timetable at center */
+/* Timetable tab at center */
 
 #timetable-menu
 {
@@ -473,8 +529,9 @@ i
 {
     background-color:#E2E2E2;
     display:inline-block;
+	vertical-align:top;
     height:25px;
-    margin-right:0.15em;
+    margin-right:6px;
     text-align:center;
     line-height:2em;
     border-radius:4px 4px 0 0;
@@ -510,6 +567,7 @@ i
 
 .timetable-add
 {
+	padding:7px 0 0 0;
     width:27px;
 }
 
@@ -517,6 +575,49 @@ i
 {
     color:#000000;
 }
+
+.duplicate-table
+{
+	background: url(/media/icons/duplicate_table.svg) no-repeat center center;
+	width:8px;
+	height:10px;
+	display:inline-block;
+	vertical-align:top;
+	margin-left:4px;
+}
+
+.duplicate-table:hover
+{
+	background-image: url(/media/icons/duplicate_table_hover.svg);
+}
+
+.delete-table
+{
+	background: url(/media/icons/delete_table.svg) no-repeat center center;
+	width:9px;
+	height:10px;
+	display:inline-block;
+	vertical-align:top;
+	margin-left:4px;
+}
+
+.delete-table:hover
+{
+	background-image: url(/media/icons/delete_table_hover.svg);
+}
+
+.add-table
+{
+	background: url(/media/icons/add_table.svg) no-repeat center center;
+	width:11px;
+	height:11px;
+	display:inline-block;
+	vertical-align:top;
+}
+
+
+
+/* Timetable at center */
 
 #timetable
 {
