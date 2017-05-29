@@ -48,14 +48,6 @@ i
     font-family:sans-serif;
 }
 
-@media (min-height: 901px)
-{
-    #page-container
-    {
-        height:62em !important;
-    }
-}
-
 #left-side
 {
     display:-webkit-box;
@@ -504,8 +496,131 @@ i
 
 .result-message
 {
-    height:3.5em;
+    font-size:13px;
+    line-height:12px;
+    color:#DB6C7C;
+    margin-bottom:10px;
+}
+
+.result-message:hover
+{
+    color:#963246;
+    cursor:pointer;
+}
+
+.result-icon
+{
+	background: url(/media/icons/search.svg) no-repeat center center;
+	width:12px;
+    height: 12px;
+    display:inline-block;
+	vertical-align:top;
+	margin-right:6px;
+}
+
+.result-message:hover > .result-icon
+{
+	background-image: url(/media/icons/search_hover.svg);
+}
+
+.result-text
+{
+    display:inline-block;
+}
+
+
+.list-scroll
+{
+    -webkit-box-flex:1;
+        -ms-flex:auto;
+            flex:auto;
+    padding-bottom:10px;
     border-bottom:1px solid #EDD1DC;
+    overflow:auto;
+	font-size:12px;
+	line-height:11px;
+}
+
+.list-elem
+{
+    background-color:#EEEEEE;
+    border-radius:4px;
+    margin-bottom:6px;
+}
+
+.list-elem-title
+{
+    padding:8px 10px 6px 10px;
+}
+
+.list-elem-body-wrap
+{
+    padding:0px 10px 0px 18px;
+}
+
+.list-elem-body-wrap:hover
+{
+	background-color:#DDDDDD;
+}
+
+.list-elem-body
+{
+	text-align:right;
+    border-top:1px solid #C9C9C9;
+    padding:6px 0px 6px 0px;
+}
+
+.list-elem-body-wrap:last-child > .list-elem-body
+{
+    padding-bottom:8px;
+}
+
+.add-to-cart
+{
+	background:url(/media/icons/add_cart.svg) no-repeat center center;
+	width:12px;
+	height:13px;
+	display:inline-block;
+	vertical-align:top;
+	margin:-1px 0px -1px 0px;
+}
+
+.add-to-cart:hover
+{
+	background-image:url(/media/icons/add_cart_hover.svg);
+	cursor:pointer;
+}
+
+.add-to-table
+{
+	background:url(/media/icons/add_table.svg) no-repeat center center;
+	width:9px;
+	height:11px;
+	display:inline-block;
+	vertical-align:top;
+	margin-left:6px;
+}
+
+.add-to-table:hover
+{
+	background-image:url(/media/icons/add_table_hover.svg);
+	cursor:pointer;
+}
+
+.delete-from-cart
+{
+	background:url(/media/icons/delete_cart.svg) no-repeat center center;
+	width:12px;
+	height:13px;
+	display:inline-block;
+	vertical-align:top;
+	margin:-1px 0px -1px 0px;
+}
+
+.delete-from-cart:hover
+{
+	background-image:url(/media/icons/delete_cart_hover.svg);
+	cursor:pointer;
 }
 
 
