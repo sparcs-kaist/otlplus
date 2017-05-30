@@ -60,190 +60,190 @@
 			</div>
 			<div id="result-pages">
 				<div class="search-page">
-                   <div class="search-extend none">
-         <div class="search-form-wrap">
-          <form method="post">
-            {% csrf_token %}
-            <!-- ajax call -->
-            <div class="search-field">
-              <i class="search-icon"></i>
-              <input class="search-text" type="text" name="keyword" autocomplete="off" placeholder="검색" />
-            </div>
-            <div id="lecturelist-filter">
-              <div class="filters">
-                <label class="type-name">분류</label><!--
-             --><div class="type-elem">
-                  <label>
-                    <input class="chkall" type="checkbox" autocomplete="off" name="type" value="ALL" />전체<i class="fa fa-circle-o fa-1x none"></i><i class="fa fa-check-circle-o fa-1x"></i>
-                  </label>
-                  {% for i in "1234567890" %}
-                  <label>
-                    <input class="chkelem" type="checkbox" autocomplete="off" name="type" value="{% cycle "GR" "MGC" "BE" "BR" "EG" "HSE" "OE" "ME" "MR" "ETC" %}" />{% cycle "공통" "교필" "기선" "기필" "석박" "인선" "자선" "전선" "전필" "기타" %}<i class="fa fa-circle-o fa-1x"></i><i class="fa fa-check-circle-o fa-ix none"></i>
-                  </label>
-                  {% endfor %}
-                </div>
-              </div>
-              <div class="filters">
-                <label class="type-name">학과</label><!--
-             --><div class="type-elem">
-                  <label>
-                    <input class="chkall" type="checkbox" autocomplete="off" name="department" value="ALL" />전체<i class="fa fa-circle-o fa-1x none"></i><i class="fa fa-check-circle-o fa-1x"></i>
-                  </label>
-                  {% for i in "123456789012345678" %}
-                  <label>
-                    <input class="chkelem" type="checkbox" autocomplete="off" name="department" value="{% cycle "HSS" "CE" "MSB" "ME" "PH" "BiS" "IE" "ID" "BS" "MAS" "NQE" "EE" "CS" "AE" "CH" "ETC" "CBE" "NS" %}" />{% cycle "인문" "건환" "기경" "기계" "물리" "바공" "산공" "산디" "생명" "수리" "원양" "전자" "전산" "항공" "화학" "기타" "생화공" "신소재" %}<i class="fa fa-circle-o fa-1x"></i><i class="fa fa-check-circle-o fa-ix none"></i>
-                  </label>
-                  {% endfor %}
-                </div>
-              </div>
-              <div class="filters">
-                <label class="type-name">학년</label><!--
-             --><div class="type-elem">
-                  <label>
-                    <input class="chkall" type="checkbox" autocomplete="off" name="grade" value="ALL" />전체<i class="fa fa-circle-o fa-1x none"></i><i class="fa fa-check-circle-o fa-1x"></i>
-                  </label>
-                  {% for i in "012345" %}
-                  <label>
-                    <input class="chkelem" type="checkbox" autocomplete="off" name="grade" value="{% cycle "000" "100" "200" "300" "400" "ETC" %}" />{% cycle "000번대" "100번대" "200번대" "300번대" "400번대" "기타"%}<i class="fa fa-circle-o fa-1x"></i><i class="fa fa-check-circle-o fa-ix none"></i>
-                  </label>
-                  {% endfor %}
-                </div>
-              </div>
-              <div class="filters filter-time">
-                <label class="type-name">시간</label><!--
-             --><div class="type-elem">
-                  <label>
-                    선택하기
-                  </label>
-                </div>
-              </div>
-            </div>
-            <div style="height:11px">
-				<span type="button" id="search-button">검색</span>
-				<span type="button" id="search-cancel">취소</span>
-			</div>
-          </form>
-		</div>
-        </div>
-                    <div class="result-message">
-                        <i class="result-icon"></i><div class="result-text">전산학부, 전공필수+전공선택</div>
-                    </div>
-                    <div class="list-scroll">
-                        <div class="list-elem">
-                            <div class="list-elem-title"><strong>문제해결기법</strong> CS202</div>
+					<div class="search-extend none">
+						<div class="search-form-wrap">
+							<form method="post">
+								{% csrf_token %}
+								<!-- ajax call -->
+								<div class="search-field">
+									<i class="search-icon"></i>
+									<input class="search-text" type="text" name="keyword" autocomplete="off" placeholder="검색" />
+								</div>
+								<div id="lecturelist-filter">
+									<div class="filters">
+										<label class="type-name">분류</label><!--
+								 --><div class="type-elem">
+											<label>
+												<input class="chkall" type="checkbox" autocomplete="off" name="type" value="ALL" />전체<i class="fa fa-circle-o fa-1x none"></i><i class="fa fa-check-circle-o fa-1x"></i>
+											</label>
+											{% for i in "1234567890" %}
+											<label>
+												<input class="chkelem" type="checkbox" autocomplete="off" name="type" value="{% cycle "GR" "MGC" "BE" "BR" "EG" "HSE" "OE" "ME" "MR" "ETC" %}" />{% cycle "공통" "교필" "기선" "기필" "석박" "인선" "자선" "전선" "전필" "기타" %}<i class="fa fa-circle-o fa-1x"></i><i class="fa fa-check-circle-o fa-ix none"></i>
+											</label>
+											{% endfor %}
+										</div>
+									</div>
+									<div class="filters">
+										<label class="type-name">학과</label><!--
+								 --><div class="type-elem">
+											<label>
+												<input class="chkall" type="checkbox" autocomplete="off" name="department" value="ALL" />전체<i class="fa fa-circle-o fa-1x none"></i><i class="fa fa-check-circle-o fa-1x"></i>
+											</label>
+											{% for i in "123456789012345678" %}
+											<label>
+												<input class="chkelem" type="checkbox" autocomplete="off" name="department" value="{% cycle "HSS" "CE" "MSB" "ME" "PH" "BiS" "IE" "ID" "BS" "MAS" "NQE" "EE" "CS" "AE" "CH" "ETC" "CBE" "NS" %}" />{% cycle "인문" "건환" "기경" "기계" "물리" "바공" "산공" "산디" "생명" "수리" "원양" "전자" "전산" "항공" "화학" "기타" "생화공" "신소재" %}<i class="fa fa-circle-o fa-1x"></i><i class="fa fa-check-circle-o fa-ix none"></i>
+											</label>
+											{% endfor %}
+										</div>
+									</div>
+									<div class="filters">
+										<label class="type-name">학년</label><!--
+								 --><div class="type-elem">
+											<label>
+												<input class="chkall" type="checkbox" autocomplete="off" name="grade" value="ALL" />전체<i class="fa fa-circle-o fa-1x none"></i><i class="fa fa-check-circle-o fa-1x"></i>
+											</label>
+											{% for i in "012345" %}
+											<label>
+												<input class="chkelem" type="checkbox" autocomplete="off" name="grade" value="{% cycle "000" "100" "200" "300" "400" "ETC" %}" />{% cycle "000번대" "100번대" "200번대" "300번대" "400번대" "기타"%}<i class="fa fa-circle-o fa-1x"></i><i class="fa fa-check-circle-o fa-ix none"></i>
+											</label>
+											{% endfor %}
+										</div>
+									</div>
+									<div class="filters filter-time">
+										<label class="type-name">시간</label><!--
+								 --><div class="type-elem">
+											<label>
+												선택하기
+											</label>
+										</div>
+									</div>
+								</div>
+								<div style="height:11px">
+									<span type="button" id="search-button">검색</span>
+									<span type="button" id="search-cancel">취소</span>
+								</div>
+							</form>
+						</div>
+					</div>
+					<div class="result-message">
+						<i class="result-icon"></i><div class="result-text">전산학부, 전공필수+전공선택</div>
+					</div>
+					<div class="list-scroll">
+						<div class="list-elem">
+							<div class="list-elem-title"><strong>문제해결기법</strong> CS202</div>
 							<div class="list-elem-body-wrap"><div class="list-elem-body"><div style="float:left"><strong>A</strong> 신성용</div><i class="add-to-cart"></i><i class="add-to-table"></i></div></div>
-                        </div>
-                        <div class="list-elem">
-                            <div class="list-elem-title"><strong>이산구조</strong> CS204</div>
+						</div>
+						<div class="list-elem">
+							<div class="list-elem-title"><strong>이산구조</strong> CS204</div>
 							<div class="list-elem-body-wrap"><div class="list-elem-body"><div style="float:left"><strong>A</strong> 박진아</div><i class="add-to-cart"></i><i class="add-to-table"></i></div></div>
 							<div class="list-elem-body-wrap"><div class="list-elem-body"><div style="float:left"><strong>B</strong> 강성원</div><i class="add-to-cart"></i><i class="add-to-table"></i></div></div>
-                        </div>
-                        <div class="list-elem">
-                            <div class="list-elem-title"><strong>데이타구조</strong> CS206</div>
+						</div>
+						<div class="list-elem">
+							<div class="list-elem-title"><strong>데이타구조</strong> CS206</div>
 							<div class="list-elem-body-wrap"><div class="list-elem-body"><div style="float:left"><strong>A</strong> 정지원</div><i class="add-to-cart"></i><i class="add-to-table"></i></div></div>
 							<div class="list-elem-body-wrap"><div class="list-elem-body"><div style="float:left"><strong>B</strong> 오혜연</div><i class="add-to-cart"></i><i class="add-to-table"></i></div></div>
 							<div class="list-elem-body-wrap"><div class="list-elem-body"><div style="float:left"><strong>C</strong> 정지원</div><i class="add-to-cart"></i><i class="add-to-table"></i></div></div>
-                        </div>
-                        <div class="list-elem">
-                            <div class="list-elem-title"><strong>시스템프로그래밍</strong> CS230</div>
+						</div>
+						<div class="list-elem">
+							<div class="list-elem-title"><strong>시스템프로그래밍</strong> CS230</div>
 							<div class="list-elem-body-wrap"><div class="list-elem-body"><div style="float:left"><strong>A</strong> 허재혁</div><i class="add-to-cart"></i><i class="add-to-table"></i></div></div>
-                        </div>
-                        <div class="list-elem">
-                            <div class="list-elem-title"><strong>문제해결기법</strong> CS202</div>
+						</div>
+						<div class="list-elem">
+							<div class="list-elem-title"><strong>문제해결기법</strong> CS202</div>
 							<div class="list-elem-body-wrap"><div class="list-elem-body"><div style="float:left"><strong>A</strong> 신성용</div><i class="add-to-cart"></i><i class="add-to-table"></i></div></div>
-                        </div>
-                        <div class="list-elem">
-                            <div class="list-elem-title"><strong>이산구조</strong> CS204</div>
+						</div>
+						<div class="list-elem">
+							<div class="list-elem-title"><strong>이산구조</strong> CS204</div>
 							<div class="list-elem-body-wrap"><div class="list-elem-body"><div style="float:left"><strong>A</strong> 박진아</div><i class="add-to-cart"></i><i class="add-to-table"></i></div></div>
 							<div class="list-elem-body-wrap"><div class="list-elem-body"><div style="float:left"><strong>B</strong> 강성원</div><i class="add-to-cart"></i><i class="add-to-table"></i></div></div>
-                        </div>
-                        <div class="list-elem">
-                            <div class="list-elem-title"><strong>데이타구조</strong> CS206</div>
+						</div>
+						<div class="list-elem">
+							<div class="list-elem-title"><strong>데이타구조</strong> CS206</div>
 							<div class="list-elem-body-wrap"><div class="list-elem-body"><div style="float:left"><strong>A</strong> 정지원</div><i class="add-to-cart"></i><i class="add-to-table"></i></div></div>
 							<div class="list-elem-body-wrap"><div class="list-elem-body"><div style="float:left"><strong>B</strong> 오혜연</div><i class="add-to-cart"></i><i class="add-to-table"></i></div></div>
 							<div class="list-elem-body-wrap"><div class="list-elem-body"><div style="float:left"><strong>C</strong> 정지원</div><i class="add-to-cart"></i><i class="add-to-table"></i></div></div>
-                        </div>
-                        <div class="list-elem">
-                            <div class="list-elem-title"><strong>시스템프로그래밍</strong> CS230</div>
+						</div>
+						<div class="list-elem">
+							<div class="list-elem-title"><strong>시스템프로그래밍</strong> CS230</div>
 							<div class="list-elem-body-wrap"><div class="list-elem-body"><div style="float:left"><strong>A</strong> 허재혁</div><i class="add-to-cart"></i><i class="add-to-table"></i></div></div>
-                        </div>
-                        <div class="list-elem">
-                            <div class="list-elem-title"><strong>문제해결기법</strong> CS202</div>
+						</div>
+						<div class="list-elem">
+							<div class="list-elem-title"><strong>문제해결기법</strong> CS202</div>
 							<div class="list-elem-body-wrap"><div class="list-elem-body"><div style="float:left"><strong>A</strong> 신성용</div><i class="add-to-cart"></i><i class="add-to-table"></i></div></div>
-                        </div>
-                        <div class="list-elem">
-                            <div class="list-elem-title"><strong>이산구조</strong> CS204</div>
+						</div>
+						<div class="list-elem">
+							<div class="list-elem-title"><strong>이산구조</strong> CS204</div>
 							<div class="list-elem-body-wrap"><div class="list-elem-body"><div style="float:left"><strong>A</strong> 박진아</div><i class="add-to-cart"></i><i class="add-to-table"></i></div></div>
 							<div class="list-elem-body-wrap"><div class="list-elem-body"><div style="float:left"><strong>B</strong> 강성원</div><i class="add-to-cart"></i><i class="add-to-table"></i></div></div>
-                        </div>
-                        <div class="list-elem">
-                            <div class="list-elem-title"><strong>데이타구조</strong> CS206</div>
+						</div>
+						<div class="list-elem">
+							<div class="list-elem-title"><strong>데이타구조</strong> CS206</div>
 							<div class="list-elem-body-wrap"><div class="list-elem-body"><div style="float:left"><strong>A</strong> 정지원</div><i class="add-to-cart"></i><i class="add-to-table"></i></div></div>
 							<div class="list-elem-body-wrap"><div class="list-elem-body"><div style="float:left"><strong>B</strong> 오혜연</div><i class="add-to-cart"></i><i class="add-to-table"></i></div></div>
 							<div class="list-elem-body-wrap"><div class="list-elem-body"><div style="float:left"><strong>C</strong> 정지원</div><i class="add-to-cart"></i><i class="add-to-table"></i></div></div>
-                        </div>
-                        <div class="list-elem">
-                            <div class="list-elem-title"><strong>시스템프로그래밍</strong> CS230</div>
+						</div>
+						<div class="list-elem">
+							<div class="list-elem-title"><strong>시스템프로그래밍</strong> CS230</div>
 							<div class="list-elem-body-wrap"><div class="list-elem-body"><div style="float:left"><strong>A</strong> 허재혁</div><i class="add-to-cart"></i><i class="add-to-table"></i></div></div>
-                        </div>
-                        <div class="list-elem">
-                            <div class="list-elem-title"><strong>문제해결기법</strong> CS202</div>
+						</div>
+						<div class="list-elem">
+							<div class="list-elem-title"><strong>문제해결기법</strong> CS202</div>
 							<div class="list-elem-body-wrap"><div class="list-elem-body"><div style="float:left"><strong>A</strong> 신성용</div><i class="add-to-cart"></i><i class="add-to-table"></i></div></div>
-                        </div>
-                        <div class="list-elem">
-                            <div class="list-elem-title"><strong>이산구조</strong> CS204</div>
+						</div>
+						<div class="list-elem">
+							<div class="list-elem-title"><strong>이산구조</strong> CS204</div>
 							<div class="list-elem-body-wrap"><div class="list-elem-body"><div style="float:left"><strong>A</strong> 박진아</div><i class="add-to-cart"></i><i class="add-to-table"></i></div></div>
 							<div class="list-elem-body-wrap"><div class="list-elem-body"><div style="float:left"><strong>B</strong> 강성원</div><i class="add-to-cart"></i><i class="add-to-table"></i></div></div>
-                        </div>
-                        <div class="list-elem">
-                            <div class="list-elem-title"><strong>데이타구조</strong> CS206</div>
+						</div>
+						<div class="list-elem">
+							<div class="list-elem-title"><strong>데이타구조</strong> CS206</div>
 							<div class="list-elem-body-wrap"><div class="list-elem-body"><div style="float:left"><strong>A</strong> 정지원</div><i class="add-to-cart"></i><i class="add-to-table"></i></div></div>
 							<div class="list-elem-body-wrap"><div class="list-elem-body"><div style="float:left"><strong>B</strong> 오혜연</div><i class="add-to-cart"></i><i class="add-to-table"></i></div></div>
 							<div class="list-elem-body-wrap"><div class="list-elem-body"><div style="float:left"><strong>C</strong> 정지원</div><i class="add-to-cart"></i><i class="add-to-table"></i></div></div>
-                        </div>
-                        <div class="list-elem">
-                            <div class="list-elem-title"><strong>시스템프로그래밍</strong> CS230</div>
+						</div>
+						<div class="list-elem">
+							<div class="list-elem-title"><strong>시스템프로그래밍</strong> CS230</div>
 							<div class="list-elem-body-wrap"><div class="list-elem-body"><div style="float:left"><strong>A</strong> 허재혁</div><i class="add-to-cart"></i><i class="add-to-table"></i></div></div>
-                        </div>
-                    </div>
+						</div>
+					</div>
 				</div>
-                <div class="cart-page none">
-                    <div class="page-title">
-                    	장바구니
-                    </div>
-                    <div class="list-scroll">
-                        <div class="list-elem">
-                            <div class="list-elem-title"><strong>시스템프로그래밍</strong> CS230</div>
+				<div class="cart-page none">
+					<div class="page-title">
+						장바구니
+					</div>
+					<div class="list-scroll">
+						<div class="list-elem">
+							<div class="list-elem-title"><strong>시스템프로그래밍</strong> CS230</div>
 							<div class="list-elem-body-wrap"><div class="list-elem-body"><div style="float:left"><strong>A</strong> 허재혁</div><i class="delete-from-cart"></i><i class="add-to-table"></i></div></div>
-                        </div>
-                        <div class="list-elem">
-                            <div class="list-elem-title"><strong>데이타구조</strong> CS206</div>
+						</div>
+						<div class="list-elem">
+							<div class="list-elem-title"><strong>데이타구조</strong> CS206</div>
 							<div class="list-elem-body-wrap"><div class="list-elem-body"><div style="float:left"><strong>A</strong> 정지원</div><i class="add-to-cart"></i><i class="add-to-table"></i></div></div>
 							<div class="list-elem-body-wrap"><div class="list-elem-body"><div style="float:left"><strong>C</strong> 정지원</div><i class="add-to-cart"></i><i class="add-to-table"></i></div></div>
-                        </div>
-                    </div>
+						</div>
+					</div>
 				</div>
-                <div class="major-page none">
-                    <div class="page-title">
-                    	전산학부 전공
-                    </div>
-                    <div class="list-scroll">
-                        <div class="list-elem">
-                            <div class="list-elem-title"><strong>시스템프로그래밍</strong> CS230</div>
+				<div class="major-page none">
+					<div class="page-title">
+						전산학부 전공
+					</div>
+					<div class="list-scroll">
+						<div class="list-elem">
+							<div class="list-elem-title"><strong>시스템프로그래밍</strong> CS230</div>
 							<div class="list-elem-body-wrap"><div class="list-elem-body"><div style="float:left"><strong>A</strong> 허재혁</div><i class="add-to-cart"></i><i class="add-to-table"></i></div></div>
-                        </div>
-                    </div>
+						</div>
+					</div>
 				</div>
-                <div class="humanity-page none">
-                    <div class="page-title">
-                    	인문사회선택
-                    </div>
-                    <div class="list-scroll">
-                        <div class="list-elem">
-                            <div class="list-elem-title"><strong>문제해결기법</strong> CS202</div>
+				<div class="humanity-page none">
+					<div class="page-title">
+						인문사회선택
+					</div>
+					<div class="list-scroll">
+						<div class="list-elem">
+							<div class="list-elem-title"><strong>문제해결기법</strong> CS202</div>
 							<div class="list-elem-body-wrap"><div class="list-elem-body"><div style="float:left"><strong>A</strong> 신성용</div><i class="add-to-cart"></i><i class="add-to-table"></i></div></div>
-                        </div>
-                    </div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div><!--div search-container-->
@@ -257,10 +257,10 @@
 			</div>-->
 			<div id="timetable-tabs" style="clear:both;">
 				<a href="#/1" class="timetable-tab active"><span class="timetable-num">시간표 1</span><span class="hidden-option"><i class="duplicate-table"></i><i class="delete-table"></i></span></a><!--
-			 --><a href="#/2" class="timetable-tab"><span class="timetable-num">시간표 2</span><p class="hidden-option"><i class="duplicate-table"></i><i class="delete-table"></i></p></a><!--
-			 --><a href="#/3" class="timetable-tab"><span class="timetable-num">시간표 3</span><p class="hidden-option"><i class="duplicate-table"></i><i class="delete-table"></i></p></a><!--
-			 --><a href="#/4" class="timetable-tab"><span class="timetable-num">시간표 4</span><p class="hidden-option"><i class="duplicate-table"></i><i class="delete-table"></i></p></a><!--
-			 --><a class="timetable-tab timetable-add"><span class="timetable-num"><i class="add-table"></i></span></a>
+		 --><a href="#/2" class="timetable-tab"><span class="timetable-num">시간표 2</span><p class="hidden-option"><i class="duplicate-table"></i><i class="delete-table"></i></p></a><!--
+		 --><a href="#/3" class="timetable-tab"><span class="timetable-num">시간표 3</span><p class="hidden-option"><i class="duplicate-table"></i><i class="delete-table"></i></p></a><!--
+		 --><a href="#/4" class="timetable-tab"><span class="timetable-num">시간표 4</span><p class="hidden-option"><i class="duplicate-table"></i><i class="delete-table"></i></p></a><!--
+		 --><a class="timetable-tab timetable-add"><span class="timetable-num"><i class="add-table"></i></span></a>
 			</div>
 		</div>
 		<div id="timetable">
@@ -485,27 +485,27 @@
 					<div id="type-credits">
 						<div class="lecture-type">
 							<span class="lecture-type-span">기필&nbsp;&nbsp;</span><span id="basic-required">10</span>
-              <span class="active-credit"></span>
+							<span class="active-credit"></span>
 						</div>
 						<div class="lecture-type-right">
 							<span class="lecture-type-span">기선&nbsp;&nbsp;</span><span id="basic-elective">3</span>
-              <span class="active-credit"></span>
+							<span class="active-credit"></span>
 						</div>
 						<div class="lecture-type" style="clear:both;">
 							<span class="lecture-type-span">전필&nbsp;&nbsp;</span><span id="major-required">3</span>
-              <span class="active-credit"></span>
+							<span class="active-credit"></span>
 						</div>
 						<div class="lecture-type-right">
 							<span class="lecture-type-span">전선&nbsp;&nbsp;</span><span id="major-eletive">0</span>
-              <span class="active-credit"></span>
+							<span class="active-credit"></span>
 						</div>
 						<div class="lecture-type" style="clear:both;">
 							<span class="lecture-type-span">인문&nbsp;&nbsp;</span><span id="humanities">0</span>
-              <span class="active-credit"></span>
+							<span class="active-credit"></span>
 						</div>
 						<div class="lecture-type-right">
 							<span class="lecture-type-span">기타&nbsp;&nbsp;</span><span id="other-lectures">2</span>
-              <span class="active-credit"></span>
+							<span class="active-credit"></span>
 						</div>
 					</div>
 					<div id="total-credits">
