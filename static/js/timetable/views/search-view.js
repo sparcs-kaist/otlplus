@@ -13,16 +13,35 @@ var app = app || {};
     },
 
     events: {
-      'click .search-chead.search': "toggleSearch",
+      'click .result-message': "showSearch",
+      'click #search-cancel': "hideSearch",
+      'click .search-chead': "changeTab",
       'click .chkall': "toggleType",
       'click .chkelem': "toggleType",
       'click #search-button': "searchStart",
     },
 
-    toggleSearch: function (e) {
-      $(this.el).find(".result-page").toggleClass('none');
-      $(this.el).find(".search-page").toggleClass('none');
+    showSearch: function (e) {
+      $(this.el).find(".search-extend").removeClass('none');
+	  $(this.el).find(".search-text").focus();
     },
+	
+	hideSearch: function (e) {
+      $(this.el).find(".search-extend").addClass('none');
+    },
+	  
+	changeTab: function (e) {
+		var tabName = $(e.currentTarget).attr('class').split(' ')[1];
+		
+		if ($(e.currentTarget).hasClass('active'))
+			return;
+		
+		$(this.el).find(".search-chead").removeClass('active');
+		$(e.currentTarget).addClass('active');
+		$(this.el).find(".search-extend").addClass("none");
+		$(this.el).find("#result-pages").children().addClass("none");
+		$(this.el).find("." + tabName + "-page").removeClass("none");
+	},
 
     toggleType: function (e) {
       var target = $(e.target);

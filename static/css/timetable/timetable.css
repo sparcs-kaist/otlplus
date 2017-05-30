@@ -286,6 +286,7 @@ i
 .search-chead.active
 {
     background-color:#FFFFFF;
+	cursor:auto;
 }
 
 .search-chead:not(.active):hover
@@ -303,20 +304,6 @@ i
     display:-ms-flexbox;
     display:flex;
     display:-webkit-flex;
-    -webkit-box-orient:vertical;
-    -webkit-box-direction:normal;
-        -ms-flex-direction:column;
-            flex-direction:column;
-	width:276px;
-	width:calc(20vh + 76px);
-}
-
-.search-page
-{
-    display:-webkit-box;
-    display:-ms-flexbox;
-    display:flex;
-    display:-webkit-flex;
 	padding:10px;
     background-color:#FFFFFF;
     border-radius:0 6px 6px 6px;
@@ -328,6 +315,26 @@ i
     -webkit-box-flex:1;
         -ms-flex:auto;
             flex:auto;
+	position:relative;
+	width:276px;
+	width:calc(20vh + 76px);
+}
+
+.search-extend
+{
+    -webkit-box-flex:1;
+        -ms-flex:auto;
+            flex:auto;
+    display:-webkit-box;
+    display:-ms-flexbox;
+    display:flex;
+    display:-webkit-flex;
+    -webkit-box-orient:vertical;
+    -webkit-box-direction:normal;
+        -ms-flex-direction:column;
+            flex-direction:column;
+	height:0;
+	z-index:1;
 }
 
 #search-button, #search-cancel
@@ -351,10 +358,17 @@ i
     color:#963246;
 }
 
-.search-page > form
+.search-form-wrap
 {
+	margin:-10px -10px 0 -10px;
+	padding:10px 10px 0 10px;
+	border-top-right-radius:6px;
 	background-color:#FFFFFF;
-    padding-bottom:0.7em;
+}
+
+.search-form-wrap > form
+{
+    padding-bottom:10px;
     border-bottom:1px solid #EDD1DC;
 }
 
@@ -475,23 +489,20 @@ i
     padding-right:0px;
 }
 
-.result-page
+.search-page
 {
+    -webkit-box-flex:1;
+        -ms-flex:auto;
+            flex:auto;
     display:-webkit-box;
     display:-ms-flexbox;
     display:flex;
     display:-webkit-flex;
-    padding: 10px;
-    background-color:#FFFFFF;
-    border-radius:0 6px 6px 6px;
-    box-shadow: 0em 3px 0px 0em #F3BEC6;
     -webkit-box-orient:vertical;
     -webkit-box-direction:normal;
         -ms-flex-direction:column;
             flex-direction:column;
-    -webkit-box-flex:1;
-        -ms-flex:auto;
-            flex:auto;
+	height:100%;
 }
 
 .result-message
@@ -528,6 +539,12 @@ i
     display:inline-block;
 }
 
+.page-title
+{
+    font-size:13px;
+    line-height:12px;
+    margin-bottom:10px;
+}
 
 .list-scroll
 {
