@@ -20,8 +20,21 @@ var app = app || {};
       'click .chkelem': "toggleType",
       'click #search-button': "searchStart",
     },
+		
+		clearSearch: function () {
+			$(this.el).find(".search-text").val('');
+			
+			$(this.el).find(".chkall").prop('checked', true);
+			$(this.el).find(".chkall").parent().find('.fa-check-circle-o').removeClass('none');
+			$(this.el).find(".chkall").parent().find('.fa-circle-o').addClass('none');
+			
+			$(this.el).find(".chkelem").prop('checked', false);
+			$(this.el).find(".chkelem").parent().find('.fa-check-circle-o').addClass('none');
+			$(this.el).find(".chkelem").parent().find('.fa-circle-o').removeClass('none');
+		},
 
     showSearch: function (e) {
+			this.clearSearch();
       $(this.el).find(".search-extend").removeClass('none');
 	  $(this.el).find(".search-text").focus();
     },
