@@ -35,6 +35,7 @@ import httplib2
 # Misc
 import os
 import json
+import urllib
 
 from django.views.decorators.csrf import csrf_exempt
 
@@ -117,8 +118,8 @@ def get_filtered_courses(department_filters, type_filters, level_filters, keywor
     return list(courses)
 
 
-def get_filtered_lectures(year, semester_filters, courses):
-    return [[model_to_dict(lecture) for lecture in course.lecture_course.all()] for course in courses]
+def get_filtered_lectures(year, semester, courses):
+    return [[model_to_dict(lecture) for lecture in course.lecture_course.filter(year=year, semester=semester)] for course in courses]
 
 
 def main(request):
@@ -318,14 +319,16 @@ def show_lecture_comments(request):
 @csrf_exempt
 def search(request):
     if request.method == 'POST':
-
-        request_json = json.loads(request.body)
+        decoded_request = urllib.unquote(request.body)
+        decoded_request = decoded_request[decoded_request.find("{"):]
+        decoded_request = decoded_request[:decoded_request.rfind("}")+1]
+        request_json = json.loads(decoded_request)
 
         year = request_json['year']
-        semester_filters = request_json['semester']
+        semester = request_json['semester']
         department_filters = get_department_filter(request_json['department'])
         type_filters = get_type_filter(request_json['type'])
-        level_filters = get_level_filter(request_json['level'])
+        level_filters = get_level_filter(request_json['grade'])
         keyword = request_json['keyword']
         courses = get_filtered_courses(
             department_filters,
@@ -333,7 +336,12 @@ def search(request):
             level_filters,
             keyword
         )
-        result_course_lecture = get_filtered_lectures(year, semester_filters, courses)
+        result_course_lecture = get_filtered_lectures(year, semester, courses)
+        
+        # Sort sub-list by its class_no(A, B, C, ...) and remove empty sub-list
+        result_course_lecture = [sorted(x, key = (lambda x:x['class_no'])) for x in result_course_lecture if len(x)>0]
+        # Sort list by its old_code(CS101, CS204, ...)
+        result_course_lecture.sort(key = (lambda x:x[0]['old_code']))
 
         return HttpResponse(json.JSONEncoder().encode(result_course_lecture))
 
