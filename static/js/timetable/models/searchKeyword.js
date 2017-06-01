@@ -8,7 +8,7 @@ var app = app || {};
   // -------------
   
   var searchKeyword = Backbone.Model.extend({
-    url: '/timetable/search/keyword',
+    url: '/timetable/search/',
   });
 
   app.SearchKeyword = new searchKeyword;
