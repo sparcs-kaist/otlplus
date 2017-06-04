@@ -132,7 +132,14 @@ def _lecture_to_dict(lecture):
     return result
   
 def _group_lecture_dict(lectures):
-    common_title = _lcs_front([l['title'] for l in lectures])
+    if len (lectures) == 1:
+      title = lectures[0]['title']
+      if title[-1] == '>':
+        common_title = title[:title.find('<')]
+      else:
+        common_title = title
+    else:
+      common_title = _lcs_front([l['title'] for l in lectures])
     for l in lectures:
       l['_common_title'] = common_title
       if l['title'] != common_title:
