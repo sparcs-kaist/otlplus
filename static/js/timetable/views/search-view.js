@@ -113,9 +113,9 @@ var app = app || {};
           console.log(resp);
           var block = $(".search-page").find(".list-scroll");
           var template = _.template($('#timetable-lecture-template').html());
-          console.log(resp[0][0]);
           block.children().remove();
-          block.html(template({courses:resp}));
+          block.html(template(resp));
+          $(".result-text").text(resp.search_text);
           $(".search-extend").addClass('none');
         },
         error: function(model, resp, options) {

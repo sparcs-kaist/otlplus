@@ -348,12 +348,17 @@ def search(request):
         )
         result_course_lecture = get_filtered_lectures(year, semester, courses)
         
+        search_text = u"TODO-Search text"
+        
         # Sort sub-list by its class_no(A, B, C, ...) and remove empty sub-list
         result_course_lecture = [sorted(x, key = (lambda x:x['class_no'])) for x in result_course_lecture if len(x)>0]
         # Sort list by its old_code(CS101, CS204, ...)
         result_course_lecture.sort(key = (lambda x:x[0]['old_code']))
 
-        return JsonResponse(result_course_lecture, safe=False, json_dumps_params={'ensure_ascii': False})
+        return JsonResponse({'courses':result_course_lecture,
+                             'search_text':search_text},
+                            safe=False,
+                            json_dumps_params={'ensure_ascii': False})
 
 
 @csrf_exempt
