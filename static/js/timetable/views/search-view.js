@@ -110,9 +110,13 @@ var app = app || {};
       app.SearchKeyword.save(null, {
         success: function(model, resp, options) {
           console.log("success");
-					console.log(model);
-					console.log(resp);
-					console.log(options);
+          console.log(resp);
+          var block = $(".search-page").find(".list-scroll");
+          var template = _.template($('#timetable-lecture-template').html());
+          console.log(resp[0][0]);
+          block.children().remove();
+          block.html(template({courses:resp}));
+          $(".search-extend").addClass('none');
         },
         error: function(model, resp, options) {
           console.log("error" + resp.status);
