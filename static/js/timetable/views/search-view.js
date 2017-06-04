@@ -112,7 +112,7 @@ var app = app || {};
           console.log("success");
           console.log(resp);
           var block = $(".search-page").find(".list-scroll");
-          var template = _.template($('#timetable-lecture-template').html());
+          var template = _.template($('#list-template').html());
           block.children().remove();
           block.html(template(resp));
           $(".result-text").text(resp.search_text);
