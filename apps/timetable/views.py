@@ -119,7 +119,17 @@ def get_filtered_courses(department_filters, type_filters, level_filters, keywor
 
 
 def get_filtered_lectures(year, semester, courses):
-    return [[model_to_dict(lecture) for lecture in course.lecture_course.filter(year=year, semester=semester)] for course in courses]
+    raw_result = [course.lecture_course.filter(year=year, semester=semester) for course in courses]
+    result = [[model_to_dict(lecture) for lecture in course] for course in raw_result]
+    for i in range(len(raw_result)):
+      for j in range(len(raw_result[i])):
+        result[i][j]['professor'] = [model_to_dict(professor) for professor in raw_result[i][j].professor.all()]
+        prof_name_list = [professor['professor_name'] for professor in result[i][j]['professor']]
+        if len(prof_name_list) <= 2:
+          result[i][j]['_professor_str'] = u", ".join(prof_name_list)
+        else:
+          result[i][j]['_professor_str'] = u"%s 외 %d명" % (prof_name_list[0], len(prof_name_list)-1)
+    return result
 
 
 def main(request):
@@ -343,7 +353,7 @@ def search(request):
         # Sort list by its old_code(CS101, CS204, ...)
         result_course_lecture.sort(key = (lambda x:x[0]['old_code']))
 
-        return HttpResponse(json.JSONEncoder().encode(result_course_lecture))
+        return JsonResponse(result_course_lecture, safe=False, json_dumps_params={'ensure_ascii': False})
 
 
 @csrf_exempt
