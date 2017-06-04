@@ -526,12 +526,12 @@
 <script type="text/template" id="timetable-lecture-template">
 <% _.each(courses, function(course) {%>
 <div class="list-elem">
-  <div class="list-elem-title"><strong><%= course[0].title %></strong> <%= course[0].old_code %></div>
+  <div class="list-elem-title"><strong><%= course[0]._common_title %></strong> <%= course[0].old_code %></div>
   <% _.each(course, function(lecture) { %>
   <div class="list-elem-body-wrap">
     <div class="list-elem-body">
       <div style="float:left">
-        <strong><%= lecture.class_no %></strong> <%= lecture._professor_str %></div>
+        <strong><%= lecture._class_title %></strong> <%= lecture._professor_str %></div>
       <i class="delete-from-cart"></i>
       <i class="add-to-table"></i>
     </div>

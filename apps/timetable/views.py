@@ -118,17 +118,44 @@ def get_filtered_courses(department_filters, type_filters, level_filters, keywor
     return list(courses)
 
 
-def get_filtered_lectures(year, semester, courses):
-    raw_result = [course.lecture_course.filter(year=year, semester=semester) for course in courses]
-    result = [[model_to_dict(lecture) for lecture in course] for course in raw_result]
-    for i in range(len(raw_result)):
-      for j in range(len(raw_result[i])):
-        result[i][j]['professor'] = [model_to_dict(professor) for professor in raw_result[i][j].professor.all()]
-        prof_name_list = [professor['professor_name'] for professor in result[i][j]['professor']]
-        if len(prof_name_list) <= 2:
-          result[i][j]['_professor_str'] = u", ".join(prof_name_list)
-        else:
-          result[i][j]['_professor_str'] = u"%s 외 %d명" % (prof_name_list[0], len(prof_name_list)-1)
+def get_filtered_lectures(year, semester, course):
+    return course.lecture_course.filter(year=year, semester=semester)
+
+def _lecture_to_dict(lecture):
+    result = model_to_dict(lecture)
+    result['professor'] = [model_to_dict(professor) for professor in lecture.professor.all()]
+    prof_name_list = [p['professor_name'] for p in result['professor']]
+    if len(prof_name_list) <= 2:
+      result['_professor_str'] = u", ".join(prof_name_list)
+    else:
+      result['_professor_str'] = u"%s 외 %d명" % (prof_name_list[0], len(prof_name_list)-1)
+    return result
+  
+def _group_lecture_dict(lectures):
+    common_title = _lcs_front([l['title'] for l in lectures])
+    for l in lectures:
+      l['_common_title'] = common_title
+      if l['title'] != common_title:
+        l['_class_title'] = l['title'][len(common_title):]
+      elif len(l['class_no']) > 0:
+        l['_class_title'] = l['class_no']
+      else:
+        l['_class_title'] = u'A'
+    return lectures
+
+def _lcs_front(ls):
+    if len(ls)==0:
+      return ""
+    for i in range(len(ls[0]), 0, -1): # [len(ls[0]),...,2,1]
+      flag = True
+      for l in ls:
+        if l[0:i] != ls[0][0:i]:
+          flag = False
+      if flag:
+        result = l[0:i]
+        break
+    while (len(result) > 0) and (result[-1] in ['<', '(', '[', '{']):
+      result = result[:-1]
     return result
 
 
@@ -340,22 +367,25 @@ def search(request):
         type_filters = get_type_filter(request_json['type'])
         level_filters = get_level_filter(request_json['grade'])
         keyword = request_json['keyword']
-        courses = get_filtered_courses(
-            department_filters,
-            type_filters,
-            level_filters,
-            keyword
-        )
-        result_course_lecture = get_filtered_lectures(year, semester, courses)
         
         search_text = u"TODO-Search text"
         
+        courses = get_filtered_courses(department_filters, type_filters, level_filters, keyword)
+        result = [get_filtered_lectures(year, semester, c) for c in courses]
+        # Convert elements from model to dict
+        result = [[_lecture_to_dict(y) for y in x] for x in result]
+        # Group each lecture-list by lecture title
+        # This is for lectures with different name in same courses
+        result = [_group_lecture_dict(x) for x in result]
         # Sort sub-list by its class_no(A, B, C, ...) and remove empty sub-list
-        result_course_lecture = [sorted(x, key = (lambda x:x['class_no'])) for x in result_course_lecture if len(x)>0]
+        result = [sorted(x, key = (lambda x:x['class_no'])) for x in result if len(x)>0]
+        # Sort list by its first class_no(CS101, CS204, ...)
+        # This is for lectures with different name in same courses
+        result.sort(key = (lambda x:x[0]['class_no']))
         # Sort list by its old_code(CS101, CS204, ...)
-        result_course_lecture.sort(key = (lambda x:x[0]['old_code']))
+        result.sort(key = (lambda x:x[0]['old_code']))
 
-        return JsonResponse({'courses':result_course_lecture,
+        return JsonResponse({'courses':result,
                              'search_text':search_text},
                             safe=False,
                             json_dumps_params={'ensure_ascii': False})
