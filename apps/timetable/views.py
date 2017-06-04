@@ -108,12 +108,14 @@ def get_filtered_courses(department_filters, type_filters, level_filters, keywor
         courses = courses.filter(
             Q(title__icontains=keyword) |
             Q(title_en__icontains=keyword) |
+            Q(lecture_course__title__icontains=keyword) |
+            Q(lecture_course__title_en__icontains=keyword) |
             Q(old_code__iexact=keyword) |
             Q(department__name__iexact=keyword) |
             Q(department__name_en__iexact=keyword) |
-            Q(professor__in=Professor.objects.filter(name__icontains=keyword)) |
-            Q(professor__in=Professor.objects.filter(name_en__icontains=keyword))
-        )
+            Q(professor__professor_name__icontains=keyword) |
+            Q(professor__professor_name_en__icontains=keyword)
+        ).distinct()
 
     return list(courses)
 
