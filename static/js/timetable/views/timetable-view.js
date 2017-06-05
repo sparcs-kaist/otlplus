@@ -322,11 +322,9 @@ var app = app || {};
     },
 
     listHover: function (e) {
-			console.log(e);
       if (!app.LectureActive.get("click")) {
         var ct = $(e.currentTarget);
         var title = ct.parent().find('.list-elem-title').find('strong').text();
-				console.log(title);
         for (var i = 0, child; child = app.timetables.models[i]; i++) {
           if (child.attributes.title === title) {
             app.LectureActive.set(child.attributes);
@@ -410,13 +408,11 @@ var app = app || {};
     },
 	  
 	openDictPreview: function(e) {
-		console.log(123);
 		$(this.el).find('.detail-top').addClass('none');
 		$(this.el).find('.detail-bottom').removeClass('none');
 	},
 	  
 	closeDictPreview: function(e) {
-		console.log(123);
 		$(this.el).find('.detail-bottom').addClass('none');
 		$(this.el).find('.detail-top').removeClass('none');
 	},
