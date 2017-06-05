@@ -140,7 +140,7 @@ i
     margin:3px 0;
     font-size:11px;
     line-height:10px;
-    color:#DB6C7C;
+    color:#E54C65;
 	margin-bottom:8px
 }
 .lecture-options > span:hover
@@ -246,7 +246,7 @@ i
     margin-left:0;
     margin-right:0;
     margin-bottom:0.3em;
-	padding:0px;
+	padding:7px;
     width:2em;
     height:2em;
     border:none;
@@ -430,7 +430,7 @@ i
 
 .type-name
 {
-	width:26px;
+	width:23px;
 	display:inline-block;
 	vertical-align:top;
     font-weight:bold;
@@ -438,7 +438,7 @@ i
 
 .type-elem
 {
-	width:calc(100% - 30px);
+	width:calc(100% - 25px);
 	display:inline-block;
 	vertical-align:top;
 }
@@ -448,7 +448,18 @@ i
     font-weight:normal;
     cursor:pointer;
 	margin-bottom:6px;
-	margin-right:2px;
+	margin-left:2px;
+}
+
+.filter-time > .type-elem > label
+{ 
+	color:#E54C65;
+}
+
+.filter-time > .type-elem > label:hover
+{
+	cursor:pointer;
+	color:#963246;
 }
 
 .fa-circle-o 
@@ -498,7 +509,7 @@ i
 {
     font-size:13px;
     line-height:12px;
-    color:#DB6C7C;
+    color:#E54C65;
     margin-bottom:10px;
 }
 
@@ -540,8 +551,8 @@ i
     -webkit-box-flex:1;
         -ms-flex:auto;
             flex:auto;
-    padding-bottom:10px;
-    border-bottom:1px solid #EDD1DC;
+	margin-bottom:-10px;
+    padding-bottom:4px;
     overflow:auto;
 	font-size:12px;
 	line-height:11px;
