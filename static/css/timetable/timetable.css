@@ -1,5 +1,6 @@
 html, body
 {
+	color:#000000;
 }
 
 #header
@@ -117,6 +118,18 @@ i
 
 .lecture-detail
 {
+    -webkit-box-flex:1;
+        -ms-flex:auto;
+            flex:auto;
+    display:-webkit-box;
+    display:-ms-flexbox;
+    display:flex;
+    display:-webkit-flex;
+    -webkit-box-orient:vertical;
+    -webkit-box-direction:normal;
+        -ms-flex-direction:column;
+            flex-direction:column;
+	height:100%;
 }
 
 #course-title
@@ -140,7 +153,7 @@ i
     margin:3px 0;
     font-size:11px;
     line-height:10px;
-    color:#DB6C7C;
+    color:#E54C65;
 	margin-bottom:8px
 }
 .lecture-options > span:hover
@@ -192,7 +205,7 @@ i
 	line-height: 10px;
 }
 
-.open-dic-preview
+.open-dict-preview
 {
 	background: url(/media/icons/lecture_downarrow.svg) no-repeat center center;
 	width:14px;
@@ -200,14 +213,73 @@ i
 	display:inline-block;
 	vertical-align:top;
 	margin-left:5px;
+	cursor:pointer;
 }
 
-.dictionary-preview:hover .open-dic-preview
+.dictionary-preview:hover .open-dict-preview
 {
 	background-image: url(/media/icons/lecture_downarrow_hover.svg);
 }
 
+.close-dict-preview
+{
+	background: url(/media/icons/lecture_uparrow.svg) no-repeat center center;
+	width:14px;
+	height:11px;
+	display:inline-block;
+	vertical-align:top;
+	margin-left:5px;
+}
 
+.dictionary-preview:hover .close-dict-preview
+{
+	background-image: url(/media/icons/lecture_uparrow_hover.svg);
+}
+
+.detail-bottom{
+    -webkit-box-flex:1;
+        -ms-flex:auto;
+            flex:auto;
+    display:-webkit-box;
+    display:-ms-flexbox;
+    display:flex;
+    display:-webkit-flex;
+    -webkit-box-orient:vertical;
+    -webkit-box-direction:normal;
+        -ms-flex-direction:column;
+            flex-direction:column;
+}
+
+.review-elem{
+	background-color:#EEEEEE;
+	border-radius:4px;
+	margin-bottom:6px;
+	padding:8px 10px 8px 10px;
+	font-size:11px;
+	line-height:10px;
+	cursor:pointer;
+}
+
+.review-body{
+	line-height:normal;
+	margin-bottom:6px;
+}
+
+.review-score-wrap{
+	text-align:right;
+}
+
+.review-score{
+	margin-left:10px;
+}
+
+.review-more{
+	color:#888888;
+}
+
+.review-elem:hover .review-more{
+	color:#333333;
+}
 
 
 /* Search at bottom-left side */
@@ -246,7 +318,7 @@ i
     margin-left:0;
     margin-right:0;
     margin-bottom:0.3em;
-	padding:0px;
+	padding:7px;
     width:2em;
     height:2em;
     border:none;
@@ -322,17 +394,6 @@ i
 
 .search-extend
 {
-    -webkit-box-flex:1;
-        -ms-flex:auto;
-            flex:auto;
-    display:-webkit-box;
-    display:-ms-flexbox;
-    display:flex;
-    display:-webkit-flex;
-    -webkit-box-orient:vertical;
-    -webkit-box-direction:normal;
-        -ms-flex-direction:column;
-            flex-direction:column;
 	height:0;
 	z-index:1;
 }
@@ -441,7 +502,7 @@ i
 
 .type-name
 {
-	width:26px;
+	width:23px;
 	display:inline-block;
 	vertical-align:top;
     font-weight:bold;
@@ -449,7 +510,7 @@ i
 
 .type-elem
 {
-	width:calc(100% - 30px);
+	width:calc(100% - 25px);
 	display:inline-block;
 	vertical-align:top;
 }
@@ -459,7 +520,18 @@ i
     font-weight:normal;
     cursor:pointer;
 	margin-bottom:6px;
-	margin-right:2px;
+	margin-left:2px;
+}
+
+.filter-time > .type-elem > label
+{ 
+	color:#E54C65;
+}
+
+.filter-time > .type-elem > label:hover
+{
+	cursor:pointer;
+	color:#963246;
 }
 
 .fa-circle-o 
@@ -489,7 +561,7 @@ i
     padding-right:0px;
 }
 
-.search-page
+.search-page, .cart-page, .major-page, .humanity-page
 {
     -webkit-box-flex:1;
         -ms-flex:auto;
@@ -509,7 +581,7 @@ i
 {
     font-size:13px;
     line-height:12px;
-    color:#DB6C7C;
+    color:#E54C65;
     margin-bottom:10px;
 }
 
@@ -551,9 +623,9 @@ i
     -webkit-box-flex:1;
         -ms-flex:auto;
             flex:auto;
-    padding-bottom:10px;
-    border-bottom:1px solid #EDD1DC;
-    overflow:auto;
+	margin-bottom:-10px;
+    padding-bottom:4px;
+    overflow-y:scroll;
 	font-size:12px;
 	line-height:11px;
 }

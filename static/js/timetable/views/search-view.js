@@ -92,7 +92,7 @@ var app = app || {};
     searchStart: function(e) {
       var target = $(e.target);
       var data = {};
-			target.parent().serializeArray().map(function(x){
+			target.parent().parent().serializeArray().map(function(x){
         if (x.name === "keyword") {
           data[x.name] = x.value;
         } else {
@@ -103,11 +103,20 @@ var app = app || {};
           }
         }
       });
+        data["year"] = 2016; // TODO : Change this to actual semester settings
+        data["semester"] = 1; // TODO : Change this to actual semester settings
 
       app.SearchKeyword.set(data);
       app.SearchKeyword.save(null, {
         success: function(model, resp, options) {
           console.log("success");
+          console.log(resp);
+          var block = $(".search-page").find(".list-scroll");
+          var template = _.template($('#list-template').html());
+          block.children().remove();
+          block.html(template(resp));
+          $(".result-text").text(resp.search_text);
+          $(".search-extend").addClass('none');
         },
         error: function(model, resp, options) {
           console.log("error" + resp.status);

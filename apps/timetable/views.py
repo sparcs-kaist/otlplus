@@ -35,6 +35,7 @@ import httplib2
 # Misc
 import os
 import json
+import urllib
 
 from django.views.decorators.csrf import csrf_exempt
 
@@ -107,22 +108,109 @@ def get_filtered_courses(department_filters, type_filters, level_filters, keywor
         courses = courses.filter(
             Q(title__icontains=keyword) |
             Q(title_en__icontains=keyword) |
+            Q(lecture_course__title__icontains=keyword) |
+            Q(lecture_course__title_en__icontains=keyword) |
             Q(old_code__iexact=keyword) |
             Q(department__name__iexact=keyword) |
             Q(department__name_en__iexact=keyword) |
-            Q(professor__in=Professor.objects.filter(name__icontains=keyword)) |
-            Q(professor__in=Professor.objects.filter(name_en__icontains=keyword))
-        )
+            Q(professor__professor_name__icontains=keyword) |
+            Q(professor__professor_name_en__icontains=keyword)
+        ).distinct()
 
     return list(courses)
 
 
-def get_filtered_lectures(year, semester_filters, courses):
-    return [[model_to_dict(lecture) for lecture in course.lecture_course.all()] for course in courses]
+def get_filtered_lectures(year, semester, course):
+    return course.lecture_course.filter(year=year, semester=semester)
+
+
+# List(Lecture) -> List[dict-Lecture]
+# Format raw result from models into javascript-understandable form
+def _lecture_result_format(ls):
+    result = [x for x in ls if len(x)>0]
+    result = [[_lecture_to_dict(y) for y in x] for x in result]
+    result = [_add_title_format(x) for x in result]
+    result = [sorted(x, key = (lambda y:y['class_no'])) for x in result]
+    result.sort(key = (lambda x:x[0]['old_code']))
+    
+    return result
+
+
+# Lecture -> dict-Lecture
+def _lecture_to_dict(lecture):
+    result = model_to_dict(lecture)
+    result['professor'] = [model_to_dict(professor) for professor in lecture.professor.all()]
+    prof_name_list = [p['professor_name'] for p in result['professor']]
+    if len(prof_name_list) <= 2:
+      result['format_professor_str'] = u", ".join(prof_name_list)
+    else:
+      result['format_professor_str'] = u"%s 외 %d명" % (prof_name_list[0], len(prof_name_list)-1)
+    return result
+
+
+# List[dict-Lecture] -> List[dict-Lecture]
+def _add_title_format(lectures):
+    if len (lectures) == 1:
+      title = lectures[0]['title']
+      if title[-1] == '>':
+        common_title = title[:title.find('<')]
+      else:
+        common_title = title
+    else:
+      common_title = _lcs_front([l['title'] for l in lectures])
+
+    for l in lectures:
+      l['format_common_title'] = common_title
+      if l['title'] != common_title:
+        l['format_class_title'] = l['title'][len(common_title):]
+      elif len(l['class_no']) > 0:
+        l['format_class_title'] = l['class_no']
+      else:
+        l['format_class_title'] = u'A'
+
+    return lectures
+
+
+# List[str] -> str
+# Helper function of _add_title_format
+def _lcs_front(ls):
+    if len(ls)==0:
+      return ""
+    for i in range(len(ls[0]), 0, -1): # [len(ls[0]),...,2,1]
+      flag = True
+      for l in ls:
+        if l[0:i] != ls[0][0:i]:
+          flag = False
+      if flag:
+        result = l[0:i]
+        break
+    while (len(result) > 0) and (result[-1] in ['<', '(', '[', '{']):
+      result = result[:-1]
+    return result
 
 
 def main(request):
-    return render(request, 'timetable/index.html')
+    """
+    TODO
+    if not login or user is freshmen:
+        course_type = ["Basic Required", "Basic Elective"]
+    else:
+        department = get user's department
+        course_type = ["Major Required", "Major Elective"]
+    """
+    department = "전산학부"
+    course_type = ["Major Required", "Major Elective"]
+    major1_course = Course.objects.filter(department__name__iexact=department, type_en__in=course_type)
+    major1_cl = [get_filtered_lectures(2016, 1, c) for c in major1_course]
+    major1_result = _lecture_result_format(major1_cl)
+    
+    humanity_course = Course.objects.filter(type_en="Humanities & Social Elective")
+    humanity_cl = [get_filtered_lectures(2016, 1, c) for c in humanity_course]
+    humanity_result = _lecture_result_format(humanity_cl)
+    
+    print(major1_course)
+    
+    return render(request,'timetable/index.html',{'major1':major1_result,'humanity':humanity_result})
 
 
 def show_table(request):
@@ -318,24 +406,28 @@ def show_lecture_comments(request):
 @csrf_exempt
 def search(request):
     if request.method == 'POST':
-
-        request_json = json.loads(request.body)
+        decoded_request = urllib.unquote(request.body)
+        decoded_request = decoded_request[decoded_request.find("{"):]
+        decoded_request = decoded_request[:decoded_request.rfind("}")+1]
+        request_json = json.loads(decoded_request)
 
         year = request_json['year']
-        semester_filters = request_json['semester']
+        semester = request_json['semester']
         department_filters = get_department_filter(request_json['department'])
         type_filters = get_type_filter(request_json['type'])
-        level_filters = get_level_filter(request_json['level'])
+        level_filters = get_level_filter(request_json['grade'])
         keyword = request_json['keyword']
-        courses = get_filtered_courses(
-            department_filters,
-            type_filters,
-            level_filters,
-            keyword
-        )
-        result_course_lecture = get_filtered_lectures(year, semester_filters, courses)
+        
+        search_text = u"TODO-Search text"
+        
+        courses = get_filtered_courses(department_filters, type_filters, level_filters, keyword)
+        result = [get_filtered_lectures(year, semester, c) for c in courses]
+        result = _lecture_result_format(result)
 
-        return HttpResponse(json.JSONEncoder().encode(result_course_lecture))
+        return JsonResponse({'courses':result,
+                             'search_text':search_text},
+                            safe=False,
+                            json_dumps_params={'ensure_ascii': False})
 
 
 @csrf_exempt
