@@ -322,17 +322,6 @@ i
 
 .search-extend
 {
-    -webkit-box-flex:1;
-        -ms-flex:auto;
-            flex:auto;
-    display:-webkit-box;
-    display:-ms-flexbox;
-    display:flex;
-    display:-webkit-flex;
-    -webkit-box-orient:vertical;
-    -webkit-box-direction:normal;
-        -ms-flex-direction:column;
-            flex-direction:column;
 	height:0;
 	z-index:1;
 }
@@ -489,7 +478,7 @@ i
     padding-right:0px;
 }
 
-.search-page
+.search-page, .cart-page, .major-page, .humanity-page
 {
     -webkit-box-flex:1;
         -ms-flex:auto;
