@@ -870,6 +870,14 @@ i
 
 #timetable-wrap
 {
+    display:-webkit-box;
+    display:-ms-flexbox;
+    display:flex;
+    display:-webkit-flex;
+    -webkit-box-orient:horizontal;
+    -webkit-box-direction:normal;
+        -ms-flex-direction:row;
+            flex-direction:row;
     position:relative;
     float:left;
     display:inline-block;
@@ -880,45 +888,48 @@ i
 	padding:10px 0 10px 10px;
 }
 
-#colheaders
-{
-    height:19px;
-	width:608px;
-	width:calc(60vh + 8px - 19px - 10px);
-    margin-left:19px;
-}
-
 .chead
 {
-    float:left;
-    width:20%;
+    height:17px;
     text-align:center;
     font-size:11px;
     line-height:10px;
 }
 
-#tablebody
+.chead.chead-middle
 {
-    position:relative;
-	width:608px;
-	width:calc(60vh + 8px);
-    height: calc(100% - 19px);
+    height:27px;
+    padding-top:10px;
 }
 
 #rowheaders
 {
-    position:absolute;
-    width:19px;
+    display:-webkit-box;
+    display:-ms-flexbox;
+    display:flex;
+    display:-webkit-flex;
+    -webkit-box-orient:vertical;
+    -webkit-box-direction:normal;
+        -ms-flex-direction:column;
+            flex-direction:column;
+    width:11px;
+    margin-right:5px;
     height:100%;
-    left:0pt;
-    top:0pt;
 }
 
 .rhead
 {
+    -webkit-box-flex:1;
+        -ms-flex:auto;
+            flex:auto;
     position:relative;
+    margin-top:1px;
     width:100%;
-    height:6.25%;
+}
+
+.rhead-bottom
+{
+    margin-bottom:1px;
 }
 
 .rheadtext
@@ -927,26 +938,8 @@ i
 	text-align:right;
 	font-size:10px;
     position:absolute;
-    -webkit-transform:translate(-8px,-50%);
-            transform:translate(-8px,-50%);
-}
-
-#grid-wrap
-{
-    position:absolute;
-    top:0;
-    left:19px;
-	width:calc(100% - 19px - 10px);
-    height:100%;
-}
-
-#grid
-{
-    position:absolute;
-    left:0;
-    right:0;
-    width:100%;
-    height:100%;
+    -webkit-transform:translate(0,-50%);
+            transform:translate(0,-50%);
 }
 
 #timetable-contents
@@ -972,8 +965,9 @@ i
     -webkit-box-direction:normal;
         -ms-flex-direction:column;
             flex-direction:column;
-    padding-left:0.15em;
-    padding-right:0.15em;
+    padding-left:3px;
+    padding-right:3px;
+    width:0;
     height:100%;
     -webkit-box-flex:1;
         -ms-flex:auto;
