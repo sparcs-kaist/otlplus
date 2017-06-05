@@ -308,6 +308,73 @@ var app = app || {};
       timetable.cleanHalfs();
     }
   })
+	
+	app.ListLectureBlocksView = Backbone.View.extend({
+    el: '#result-pages',
+
+    events: {
+      'mouseover .list-elem-body-wrap': "listHover",
+      'mouseout .list-elem-body-wrap': "listOut",
+      //'click': "blockClick",
+    },
+    
+    initialize: function() {
+    },
+
+    listHover: function (e) {
+			console.log(e);
+      if (!app.LectureActive.get("click")) {
+        var ct = $(e.currentTarget);
+        var title = ct.parent().find('.list-elem-title').find('strong').text();
+				console.log(title);
+        for (var i = 0, child; child = app.timetables.models[i]; i++) {
+          if (child.attributes.title === title) {
+            app.LectureActive.set(child.attributes);
+            break;
+          }
+        }
+        app.LectureActive.set("click", false);
+        app.LectureActive.set("hover", true);
+      }
+    },
+
+    listOut: function () {     
+      if (!app.LectureActive.get("click")) {
+        app.LectureActive.clear();
+        app.LectureActive.set({
+          "click":false,
+          "hover":false,
+        })
+      }
+    },
+
+    listClick: function (e) {
+      var target = $(e.target);
+      console.log(target);
+      $(this.el).find('.lecture-block').removeClass('active').removeClass('click');
+      if (target.hasClass("half") || target.hasClass('day') || target.is('#timetable-contents')) {
+        app.LectureActive.clear();
+        app.LectureActive.set({
+          "click":false,
+          "hover":false,
+        })
+        return;
+      } else if (target.hasClass('lecture-block')) {
+        target.addClass('click').removeClass('active');
+      } else {
+        target.parent().parent().find('.lecture-block').addClass('click').removeClass('active');
+      }
+      var title = target.parent().find('.timetable-lecture-name').text();
+      for (var i = 0, child; child = app.timetables.models[i]; i++) {
+        if (child.attributes.title === title) {
+          app.LectureActive.set(child.attributes);
+          break;
+        }
+      }
+      app.LectureActive.set("click", true);
+      app.LectureActive.set("hover", false);
+    },
+  })
 
   app.LectureInfoView = Backbone.View.extend({
     el: '#lecture-info',
@@ -320,6 +387,8 @@ var app = app || {};
     },
 
     events: {
+      'click .open-dict-button': "openDictPreview",
+      'click .close-dict-button': "closeDictPreview",
     },
 
     changeInfo: function () {
@@ -339,6 +408,18 @@ var app = app || {};
     deleteInfo: function () {
       $(this.el).find('.lecture-detail').remove();
     },
+	  
+	openDictPreview: function(e) {
+		console.log(123);
+		$(this.el).find('.detail-top').addClass('none');
+		$(this.el).find('.detail-bottom').removeClass('none');
+	},
+	  
+	closeDictPreview: function(e) {
+		console.log(123);
+		$(this.el).find('.detail-bottom').addClass('none');
+		$(this.el).find('.detail-top').removeClass('none');
+	},
   })
   
   app.TimetableInfoView = Backbone.View.extend({
@@ -389,5 +470,6 @@ var lectureInfo = new app.LectureInfoView();
 var timetable = new app.TimetableClickSearchView();
 var lectureList = new app.lectureListView();
 var userLectureList = new app.TimetableLectureBlocksView();
+var userLectureList2 = new app.ListLectureBlocksView();
 var timetableInfo = new app.TimetableInfoView();
 app.timetables.getUserLectures();
