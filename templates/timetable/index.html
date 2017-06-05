@@ -94,12 +94,12 @@
 					<div class="list-scroll">
 						<div class="list-elem">
 							<div class="list-elem-title"><strong>시스템프로그래밍</strong> CS230</div>
-							<div class="list-elem-body-wrap"><div class="list-elem-body"><div style="float:left; text-align:left"><strong>A</strong> 허재혁</div><i class="delete-from-cart"></i><i class="add-to-table"></i></div></div>
+							<div class="list-elem-body-wrap"><div class="list-elem-body"><div class="list-elem-body-text"><strong>A</strong> 허재혁</div><i class="delete-from-cart"></i><i class="add-to-table"></i></div></div>
 						</div>
 						<div class="list-elem">
 							<div class="list-elem-title"><strong>데이타구조</strong> CS206</div>
-							<div class="list-elem-body-wrap"><div class="list-elem-body"><div style="float:left; text-align:left"><strong>A</strong> 정지원</div><i class="add-to-cart"></i><i class="add-to-table"></i></div></div>
-							<div class="list-elem-body-wrap"><div class="list-elem-body"><div style="float:left; text-align:left"><strong>C</strong> 정지원</div><i class="add-to-cart"></i><i class="add-to-table"></i></div></div>
+							<div class="list-elem-body-wrap"><div class="list-elem-body"><div class="list-elem-body-text"><strong>A</strong> 정지원</div><i class="add-to-cart"></i><i class="add-to-table"></i></div></div>
+							<div class="list-elem-body-wrap"><div class="list-elem-body"><div class="list-elem-body-text"><strong>C</strong> 정지원</div><i class="add-to-cart"></i><i class="add-to-table"></i></div></div>
 						</div>
 					</div>
 				</div>
@@ -114,7 +114,7 @@
 							{% for lecture in course %}
 							<div class="list-elem-body-wrap">
 								<div class="list-elem-body">
-									<div style="float:left; text-align:left"><strong>{{ lecture.format_class_title }}</strong> {{ lecture.format_professor_str }}</div><i class="add-to-cart"></i><i class="add-to-table"></i>
+									<div class="list-elem-body-text"><strong>{{ lecture.format_class_title }}</strong> {{ lecture.format_professor_str }}</div><i class="add-to-cart"></i><i class="add-to-table"></i>
 								</div>
 							</div>
 							{% endfor %}
@@ -133,7 +133,7 @@
 							{% for lecture in course %}
 							<div class="list-elem-body-wrap">
 								<div class="list-elem-body">
-									<div style="float:left; text-align:left"><strong>{{ lecture.format_class_title }}</strong> {{ lecture.format_professor_str }}</div><i class="add-to-cart"></i><i class="add-to-table"></i>
+									<div class="list-elem-body-text"><strong>{{ lecture.format_class_title }}</strong> {{ lecture.format_professor_str }}</div><i class="add-to-cart"></i><i class="add-to-table"></i>
 								</div>
 							</div>
 							{% endfor %}
@@ -505,7 +505,7 @@
   <% _.each(course, function(lecture) { %>
   <div class="list-elem-body-wrap">
     <div class="list-elem-body">
-      <div style="float:left; text-align:left"><strong><%- lecture.format_class_title %></strong> <%- lecture.format_professor_str %></div><i class="add-to-cart"></i><i class="add-to-table"></i>
+      <div class="list-elem-body-text"><strong><%- lecture.format_class_title %></strong> <%- lecture.format_professor_str %></div><i class="add-to-cart"></i><i class="add-to-table"></i>
     </div>
   </div>
   <% }); %>

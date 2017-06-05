@@ -488,6 +488,14 @@ i
 
 .filters
 {
+    display:-webkit-box;
+    display:-ms-flexbox;
+    display:flex;
+    display:-webkit-flex;
+    -webkit-box-orient:horizontal;
+    -webkit-box-direction:normal;
+        -ms-flex-direction:row;
+            flex-direction:row;
     width:100%;
 	margin-bottom:4px;
 }
@@ -506,7 +514,6 @@ i
 
 .type-name
 {
-	width:23px;
 	display:inline-block;
 	vertical-align:top;
     font-weight:bold;
@@ -514,9 +521,13 @@ i
 
 .type-elem
 {
+    -webkit-box-flex:1;
+        -ms-flex:auto;
+            flex:auto;
 	width:calc(100% - 25px);
 	display:inline-block;
 	vertical-align:top;
+	font-size:0px;
 }
 
 .type-elem > label
@@ -524,7 +535,8 @@ i
     font-weight:normal;
     cursor:pointer;
 	margin-bottom:6px;
-	margin-left:2px;
+	margin-left:4px;
+	font-size:12px;
 }
 
 .filter-time > .type-elem > label
@@ -658,9 +670,25 @@ i
 
 .list-elem-body
 {
+    display:-webkit-box;
+    display:-ms-flexbox;
+    display:flex;
+    display:-webkit-flex;
+    -webkit-box-orient:horizontal;
+    -webkit-box-direction:normal;
+        -ms-flex-direction:row;
+            flex-direction:row;
 	text-align:right;
     border-top:1px solid #C9C9C9;
     padding:6px 0px 6px 0px;
+}
+
+.list-elem-body-text
+{
+    -webkit-box-flex:1;
+        -ms-flex:1;
+            flex:1;
+	text-align:left;
 }
 
 .list-elem-body-wrap:last-child > .list-elem-body
@@ -675,7 +703,7 @@ i
 	height:13px;
 	display:inline-block;
 	vertical-align:top;
-	margin:-1px 0px -1px 0px;
+	margin:-1px 0px -1px 6px;
 }
 
 .add-to-cart:hover
