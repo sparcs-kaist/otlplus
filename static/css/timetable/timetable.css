@@ -205,6 +205,10 @@ i
 	line-height: 10px;
 }
 
+.dictionary-preview{
+	cursor:pointer;
+}
+
 .open-dict-preview
 {
 	background: url(/media/icons/lecture_downarrow.svg) no-repeat center center;
@@ -213,7 +217,6 @@ i
 	display:inline-block;
 	vertical-align:top;
 	margin-left:5px;
-	cursor:pointer;
 }
 
 .dictionary-preview:hover .open-dict-preview
@@ -280,6 +283,7 @@ i
 .review-elem:hover .review-more{
 	color:#333333;
 }
+
 
 
 /* Search at bottom-left side */
