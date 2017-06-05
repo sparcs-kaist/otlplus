@@ -651,6 +651,7 @@ i
     background-color:#EEEEEE;
     border-radius:4px;
     margin-bottom:6px;
+		overflow:hidden;
 }
 
 .list-elem-title
