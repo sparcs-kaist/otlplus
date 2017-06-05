@@ -515,50 +515,115 @@
 
 <script type="text/template" id="lecture-detail-template">
   <div class="lecture-detail">
-    <div id="course-title" style="text-align:center;"><span><%- title %></span></div>
-    <div id="course-no" style="text-align:center;"><span><%- old_code %></span></div>
-    <div class="lecture-options">
-      <span id="color-option" style="float:left;">색상 변경</span>
-      <span id="syllabus-option">실라버스</span>&nbsp;
-      <span id="dictionary-option">과목사전</span>
-    </div>
-    <div class="basic-info"><span style="font-weight:700;">학과&nbsp;&nbsp;</span><span id="department"><%- department %></span></div>
-    <div class="basic-info"><span style="font-weight:700;">구분&nbsp;&nbsp;</span><span id="course-type"><%- type %></span></div>
-    <div class="basic-info"><span style="font-weight:700;">교수&nbsp;&nbsp;</span><span id="instructor"><%- professor %></span></div>
-    <div class="basic-info"><span style="font-weight:700;">장소&nbsp;&nbsp;</span><span id="classroom"><%- classroom %></span></div>
-    <div class="basic-info"><span style="font-weight:700;">정원&nbsp;&nbsp;</span><span id="class-size"><%- classsize %></span></div>
-    <div class="basic-info"><span style="font-weight:700;">시험&nbsp;&nbsp;</span><span id="exam-time"><%- examtime %></span></div>
-    <div class="lecture-scores">
-      <div class="lecture-score">
-        <div id="language" class="score-text"><%- language %></div>
-        <div class="score-label">언어</div>
-      </div><!--
-   --><div class="lecture-score">
-        <div id="credit" class="score-text"><%- credit %></div>
-        <div class="score-label">학점</div>
-      </div><!--
-   --><div class="lecture-score">
-        <div id="rate" class="score-text"><%- rate %></div>
-        <div class="score-label">경쟁률</div>
-      </div>
-    </div>
-    <div class="lecture-scores">
-      <div class="lecture-score" style="clear:both;">
-        <div id="grade" class="score-text"><%- grade %></div>
-        <div class="score-label">성적</div>
-      </div><!--
-   --><div class="lecture-score">
-        <div id="load" class="score-text"><%- load %></div>
-        <div class="score-label">널널</div>
-      </div><!--
-   --><div class="lecture-score">
-        <div id="speech" class="score-text"><%- speech %></div>
-        <div class="score-label">강의</div>
-      </div>
-    </div>
-    <div class="basic-info dictionary-preview">
-      <span style="font-weight:700;">과목 후기</span><i class="open-dic-preview"></i>
-    </div>
+		<div id="course-title" style="text-align:center;"><span><%- title %></span></div>
+		<div id="course-no" style="text-align:center;"><span><%- old_code %></span></div>
+		<div class="lecture-options">
+			<span id="color-option" style="float:left;">색상 변경</span>
+			<span id="syllabus-option">실라버스</span>&nbsp;
+			<span id="dictionary-option">과목사전</span>
+		</div>
+		<div class="detail-top">
+			<div class="basic-info"><span style="font-weight:700;">학과&nbsp;&nbsp;</span><span id="department"><%- department %></span></div>
+			<div class="basic-info"><span style="font-weight:700;">구분&nbsp;&nbsp;</span><span id="course-type"><%- type %></span></div>
+			<div class="basic-info"><span style="font-weight:700;">교수&nbsp;&nbsp;</span><span id="instructor"><%- professor %></span></div>
+			<div class="basic-info"><span style="font-weight:700;">장소&nbsp;&nbsp;</span><span id="classroom"><%- classroom %></span></div>
+			<div class="basic-info"><span style="font-weight:700;">정원&nbsp;&nbsp;</span><span id="class-size"><%- classsize %></span></div>
+			<div class="basic-info"><span style="font-weight:700;">시험&nbsp;&nbsp;</span><span id="exam-time"><%- examtime %></span></div>
+			<div class="lecture-scores">
+				<div class="lecture-score">
+					<div id="language" class="score-text"><%- language %></div>
+					<div class="score-label">언어</div>
+				</div><!--
+		 --><div class="lecture-score">
+					<div id="credit" class="score-text"><%- credit %></div>
+					<div class="score-label">학점</div>
+				</div><!--
+		 --><div class="lecture-score">
+					<div id="rate" class="score-text"><%- rate %></div>
+					<div class="score-label">경쟁률</div>
+				</div>
+			</div>
+			<div class="lecture-scores">
+				<div class="lecture-score" style="clear:both;">
+					<div id="grade" class="score-text"><%- grade %></div>
+					<div class="score-label">성적</div>
+				</div><!--
+		 --><div class="lecture-score">
+					<div id="load" class="score-text"><%- load %></div>
+					<div class="score-label">널널</div>
+				</div><!--
+		 --><div class="lecture-score">
+					<div id="speech" class="score-text"><%- speech %></div>
+					<div class="score-label">강의</div>
+				</div>
+			</div>
+			<div class="basic-info dictionary-preview open-dict-button">
+				<span style="font-weight:700;">과목 후기</span><i class="open-dict-preview"></i>
+			</div>
+		</div>
+		<div class="detail-bottom none">
+			<div class="basic-info dictionary-preview close-dict-button">
+				<span style="font-weight:700;">과목 후기</span><i class="close-dict-preview"></i>
+			</div>
+			<div class="list-scroll">
+				<div class="review-elem">
+					<div class="review-body">
+						1) 성적: 출석과 과제와 랩 task는 모두 포인트를 쌓을 뿐(시험 응시 자격용) 성적과는 무관하기 때문에 적당히 <span class="review-more">...더보기</span>
+					</div>
+					<div class="review-score-wrap">
+						<span class="review-score">학점 <strong>A</strong></span><span class="review-score">성적 <strong>A</strong></span><span class="review-score">널널 <strong>A</strong></span>
+					</div>
+				</div>
+				<div class="review-elem">
+					<div class="review-body">
+						1) 성적: 출석과 과제와 랩 task는 모두 포인트를 쌓을 뿐(시험 응시 자격용) 성적과는 무관하기 때문에 적당히 <span class="review-more">...더보기</span>
+					</div>
+					<div class="review-score-wrap">
+						<span class="review-score">학점 <strong>A</strong></span><span class="review-score">성적 <strong>A</strong></span><span class="review-score">널널 <strong>A</strong></span>
+					</div>
+				</div>
+				<div class="review-elem">
+					<div class="review-body">
+						1) 성적: 출석과 과제와 랩 task는 모두 포인트를 쌓을 뿐(시험 응시 자격용) 성적과는 무관하기 때문에 적당히 <span class="review-more">...더보기</span>
+					</div>
+					<div class="review-score-wrap">
+						<span class="review-score">학점 <strong>A</strong></span><span class="review-score">성적 <strong>A</strong></span><span class="review-score">널널 <strong>A</strong></span>
+					</div>
+				</div>
+				<div class="review-elem">
+					<div class="review-body">
+						1) 성적: 출석과 과제와 랩 task는 모두 포인트를 쌓을 뿐(시험 응시 자격용) 성적과는 무관하기 때문에 적당히 <span class="review-more">...더보기</span>
+					</div>
+					<div class="review-score-wrap">
+						<span class="review-score">학점 <strong>A</strong></span><span class="review-score">성적 <strong>A</strong></span><span class="review-score">널널 <strong>A</strong></span>
+					</div>
+				</div>
+				<div class="review-elem">
+					<div class="review-body">
+						1) 성적: 출석과 과제와 랩 task는 모두 포인트를 쌓을 뿐(시험 응시 자격용) 성적과는 무관하기 때문에 적당히 <span class="review-more">...더보기</span>
+					</div>
+					<div class="review-score-wrap">
+						<span class="review-score">학점 <strong>A</strong></span><span class="review-score">성적 <strong>A</strong></span><span class="review-score">널널 <strong>A</strong></span>
+					</div>
+				</div>
+				<div class="review-elem">
+					<div class="review-body">
+						1) 성적: 출석과 과제와 랩 task는 모두 포인트를 쌓을 뿐(시험 응시 자격용) 성적과는 무관하기 때문에 적당히 <span class="review-more">...더보기</span>
+					</div>
+					<div class="review-score-wrap">
+						<span class="review-score">학점 <strong>A</strong></span><span class="review-score">성적 <strong>A</strong></span><span class="review-score">널널 <strong>A</strong></span>
+					</div>
+				</div>
+				<div class="review-elem">
+					<div class="review-body">
+						1) 성적: 출석과 과제와 랩 task는 모두 포인트를 쌓을 뿐(시험 응시 자격용) 성적과는 무관하기 때문에 적당히 <span class="review-more">...더보기</span>
+					</div>
+					<div class="review-score-wrap">
+						<span class="review-score">학점 <strong>A</strong></span><span class="review-score">성적 <strong>A</strong></span><span class="review-score">널널 <strong>A</strong></span>
+					</div>
+				</div>
+			</div>
+		</div>
   </div>
 </script>
 

@@ -387,6 +387,8 @@ var app = app || {};
     },
 
     events: {
+      'click .open-dict-button': "openDictPreview",
+      'click .close-dict-button': "closeDictPreview",
     },
 
     changeInfo: function () {
@@ -406,6 +408,18 @@ var app = app || {};
     deleteInfo: function () {
       $(this.el).find('.lecture-detail').remove();
     },
+	  
+	openDictPreview: function(e) {
+		console.log(123);
+		$(this.el).find('.detail-top').addClass('none');
+		$(this.el).find('.detail-bottom').removeClass('none');
+	},
+	  
+	closeDictPreview: function(e) {
+		console.log(123);
+		$(this.el).find('.detail-bottom').addClass('none');
+		$(this.el).find('.detail-top').removeClass('none');
+	},
   })
   
   app.TimetableInfoView = Backbone.View.extend({
