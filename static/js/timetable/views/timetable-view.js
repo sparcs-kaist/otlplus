@@ -16,9 +16,9 @@ var app = app || {};
     },
     el: '#timetable-contents',
     events: {
-      'touchstart .half': "dragStart",
-      'touchmove .half': "dragMoveM",
-      'touchend .half': "dragEndM",
+      'touchstart .half.table-drag': "dragStart",
+      'touchmove .half.table-drag': "dragMoveM",
+      'touchend .half.table-drag': "dragEndM",
       'touchstart .lecture-block': "clickBlock",
       'mousedown .half': "dragStart",
       'mousemove .half': "dragMove",
@@ -32,9 +32,9 @@ var app = app || {};
       } else {
         e.stopPropagation();
         e.preventDefault();
-        this.cellHeight = ($("div.half:last").offset().top - $("div.half:first").offset().top + $("div.half:last").height()) / 32;
-        this.cellWidth = ($("div.half:last").offset().left - $("div.half:first").offset().left + $("div.half:last").width()) / 5;
-        this.timetableOffset = $("div#timetable-contents").offset();
+        this.cellHeight = ($("div.half.table-drag:last").offset().top - $("div.half.table-drag:first").offset().top + $("div.half.table-drag:last").height()) / 32;
+        this.cellWidth = ($("div.half.table-drag:last").offset().left - $("div.half.table-drag:first").offset().left + $("div.half.table-drag:last").width()) / 5;
+        this.timetableOffset = $("div.half.table-drag:first").offset();
         this.cleanHalfs();
         this.isDragging = true;
 
@@ -66,8 +66,8 @@ var app = app || {};
 
     dragMove: function (e) {
       if (this.isDragging) {
-        var indexDay = parseInt((e.pageX - this.timetableOffset.left) / this.cellWidth) + 1;
-        var indexTime = parseInt((e.pageY - this.timetableOffset.top) / this.cellHeight) + 1;
+        var indexDay = parseInt((e.pageX - this.timetableOffset.left) / this.cellWidth) + 2;
+        var indexTime = parseInt((e.pageY - this.timetableOffset.top) / this.cellHeight) + 2;
         
         var day = $(this.el).find('.day:nth-child(' + indexDay + ')');
         var cell = day.find('.half:nth-child(' + indexTime + ')');
@@ -84,8 +84,8 @@ var app = app || {};
 
     dragMoveM: function (e) {
       if (this.isDragging) {
-        var indexDay = parseInt((e.targetTouches[0].pageX - this.timetableOffset.left) / this.cellWidth) + 1;
-        var indexTime = parseInt((e.targetTouches[0].pageY - this.timetableOffset.top) / this.cellHeight) + 1;
+        var indexDay = parseInt((e.targetTouches[0].pageX - this.timetableOffset.left) / this.cellWidth) + 2;
+        var indexTime = parseInt((e.targetTouches[0].pageY - this.timetableOffset.top) / this.cellHeight) + 2;
         
         var day = $(this.el).find('.day:nth-child(' + indexDay + ')');
         var cell = day.find('.half:nth-child(' + indexTime + ')');
@@ -113,10 +113,10 @@ var app = app || {};
     },
     
     dragTable: function (e) {
-      var fBDay = this.indexOfDay(this.firstBlock.day) + 1;
-      var sBDay = this.indexOfDay(this.secondBlock.day) + 1;
-      var fBTime = this.indexOfTime(this.firstBlock.time) + 1 ;
-      var sBTime = this.indexOfTime(this.secondBlock.time) + 1 ;
+      var fBDay = this.indexOfDay(this.firstBlock.day) + 2;
+      var sBDay = this.indexOfDay(this.secondBlock.day) + 2;
+      var fBTime = this.indexOfTime(this.firstBlock.time) + 2;
+      var sBTime = this.indexOfTime(this.secondBlock.time) + 2;
       var temp;
       if (fBDay > sBDay) {
         temp = fBDay;
@@ -142,10 +142,10 @@ var app = app || {};
     },
     
     searchLecture: function () {
-      var fBDay = this.indexOfDay(this.firstBlock.day) + 1;
-      var sBDay = this.indexOfDay(this.secondBlock.day) + 1;
-      var fBTime = this.indexOfTime(this.firstBlock.time) + 1;
-      var sBTime = this.indexOfTime(this.secondBlock.time) + 1;
+      var fBDay = this.indexOfDay(this.firstBlock.day) + 2;
+      var sBDay = this.indexOfDay(this.secondBlock.day) + 2;
+      var fBTime = this.indexOfTime(this.firstBlock.time) + 2;
+      var sBTime = this.indexOfTime(this.secondBlock.time) + 2;
       var temp;
       if (fBDay > sBDay) {
         temp = fBDay;
