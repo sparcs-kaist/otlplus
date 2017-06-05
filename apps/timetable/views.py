@@ -123,17 +123,33 @@ def get_filtered_courses(department_filters, type_filters, level_filters, keywor
 def get_filtered_lectures(year, semester, course):
     return course.lecture_course.filter(year=year, semester=semester)
 
+
+# List(Lecture) -> List[dict-Lecture]
+# Format raw result from models into javascript-understandable form
+def _lecture_result_format(ls):
+    result = [x for x in ls if len(x)>0]
+    result = [[_lecture_to_dict(y) for y in x] for x in result]
+    result = [_add_title_format(x) for x in result]
+    result = [sorted(x, key = (lambda y:y['class_no'])) for x in result]
+    result.sort(key = (lambda x:x[0]['old_code']))
+    
+    return result
+
+
+# Lecture -> dict-Lecture
 def _lecture_to_dict(lecture):
     result = model_to_dict(lecture)
     result['professor'] = [model_to_dict(professor) for professor in lecture.professor.all()]
     prof_name_list = [p['professor_name'] for p in result['professor']]
     if len(prof_name_list) <= 2:
-      result['_professor_str'] = u", ".join(prof_name_list)
+      result['format_professor_str'] = u", ".join(prof_name_list)
     else:
-      result['_professor_str'] = u"%s 외 %d명" % (prof_name_list[0], len(prof_name_list)-1)
+      result['format_professor_str'] = u"%s 외 %d명" % (prof_name_list[0], len(prof_name_list)-1)
     return result
-  
-def _group_lecture_dict(lectures):
+
+
+# List[dict-Lecture] -> List[dict-Lecture]
+def _add_title_format(lectures):
     if len (lectures) == 1:
       title = lectures[0]['title']
       if title[-1] == '>':
@@ -142,16 +158,21 @@ def _group_lecture_dict(lectures):
         common_title = title
     else:
       common_title = _lcs_front([l['title'] for l in lectures])
+
     for l in lectures:
-      l['_common_title'] = common_title
+      l['format_common_title'] = common_title
       if l['title'] != common_title:
-        l['_class_title'] = l['title'][len(common_title):]
+        l['format_class_title'] = l['title'][len(common_title):]
       elif len(l['class_no']) > 0:
-        l['_class_title'] = l['class_no']
+        l['format_class_title'] = l['class_no']
       else:
-        l['_class_title'] = u'A'
+        l['format_class_title'] = u'A'
+
     return lectures
 
+
+# List[str] -> str
+# Helper function of _add_title_format
 def _lcs_front(ls):
     if len(ls)==0:
       return ""
@@ -169,7 +190,27 @@ def _lcs_front(ls):
 
 
 def main(request):
-    return render(request, 'timetable/index.html')
+    """
+    TODO
+    if not login or user is freshmen:
+        course_type = ["Basic Required", "Basic Elective"]
+    else:
+        department = get user's department
+        course_type = ["Major Required", "Major Elective"]
+    """
+    department = "전산학부"
+    course_type = ["Major Required", "Major Elective"]
+    major1_course = Course.objects.filter(department__name__iexact=department, type_en__in=course_type)
+    major1_cl = [get_filtered_lectures(2016, 1, c) for c in major1_course]
+    major1_result = _lecture_result_format(major1_cl)
+    
+    humanity_course = Course.objects.filter(type_en="Humanities & Social Elective")
+    humanity_cl = [get_filtered_lectures(2016, 1, c) for c in humanity_course]
+    humanity_result = _lecture_result_format(humanity_cl)
+    
+    print(major1_course)
+    
+    return render(request,'timetable/index.html',{'major1':major1_result,'humanity':humanity_result})
 
 
 def show_table(request):
@@ -381,18 +422,7 @@ def search(request):
         
         courses = get_filtered_courses(department_filters, type_filters, level_filters, keyword)
         result = [get_filtered_lectures(year, semester, c) for c in courses]
-        # Convert elements from model to dict
-        result = [[_lecture_to_dict(y) for y in x] for x in result]
-        # Group each lecture-list by lecture title
-        # This is for lectures with different name in same courses
-        result = [_group_lecture_dict(x) for x in result]
-        # Sort sub-list by its class_no(A, B, C, ...) and remove empty sub-list
-        result = [sorted(x, key = (lambda x:x['class_no'])) for x in result if len(x)>0]
-        # Sort list by its first class_no(CS101, CS204, ...)
-        # This is for lectures with different name in same courses
-        result.sort(key = (lambda x:x[0]['class_no']))
-        # Sort list by its old_code(CS101, CS204, ...)
-        result.sort(key = (lambda x:x[0]['old_code']))
+        result = _lecture_result_format(result)
 
         return JsonResponse({'courses':result,
                              'search_text':search_text},
