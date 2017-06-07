@@ -679,6 +679,8 @@ i
     -webkit-box-direction:normal;
         -ms-flex-direction:row;
             flex-direction:row;
+	-webkit-align-items: center;
+			align-items: center;
 	text-align:right;
     border-top:1px solid #C9C9C9;
     padding:6px 0px 6px 0px;
