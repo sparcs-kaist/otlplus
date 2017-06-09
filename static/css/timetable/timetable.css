@@ -1009,6 +1009,18 @@ i
     background-color:tomato;
 }
 
+#drag-cell
+{
+	display:none;
+	position:absolute;
+	top:50px;
+	left:50px;
+	width:100px;
+	height:100px;
+    background-color:tomato;
+	pointer-events:none;
+	z-index:1;
+}
 
 
 
@@ -1256,6 +1268,7 @@ i
     font-size:0.75em;
     border-top:1px white solid;
     border-bottom:1px white solid;
+	z-index:2;
 }
 
 .lecture-block.active
