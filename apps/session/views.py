@@ -63,6 +63,9 @@ def login_callback(request):
     except:
         student_id = ''
 
+    if student_id is None:
+        student_id= ''
+
     if len(user_list) == 0:
         user = User.objects.create_user(username=username,
                     email=sso_profile['email'],
