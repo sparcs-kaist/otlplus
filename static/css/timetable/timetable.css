@@ -1011,16 +1011,69 @@ i
 
 #drag-cell
 {
-	display:none;
+    display:-webkit-box;
+    display:-ms-flexbox;
+    display:flex;
+    display:-webkit-flex;
+    -webkit-box-orient:vertical;
+    -webkit-box-direction:normal;
+        -ms-flex-direction:column;
+            flex-direction:column;
+    justify-content:center;
 	position:absolute;
-	top:50px;
-	left:50px;
-	width:100px;
-	height:100px;
-    background-color:tomato;
+    background-color:#E54C65;
+    border-radius:2px;
 	pointer-events:none;
 	z-index:1;
 }
+
+.drag-text
+{
+    font-size:10px;
+    line-height:9px;
+    margin:4px 0px 4px 0px;
+    text-align:center;
+    color:#FFFFFF;
+    pointer-events:auto;
+}
+
+.drag-text:hover
+{
+    color:#dddddd;
+    pointer-events:auto;
+}
+
+.drag-close
+{
+    background: url(/media/icons/delete_lecture.svg) no-repeat center center;
+    width:8px;
+    height:8px;
+    top:4px;
+    right:4px;
+    position:absolute;
+    pointer-events:auto;
+}
+
+.drag-close:hover
+{
+    background: url(/media/icons/delete_lecture_hover.svg) no-repeat center center;
+}
+
+.drag-icon
+{
+    background: url(/media/icons/drag_add.svg) no-repeat center center;
+    width:7px;
+    height:9px;
+    margin-right:4px;
+    display:inline-block;
+    vertical-align:top;
+}
+
+.drag-text:hover > .drag-icon
+{
+    background-image: url(/media/icons/drag_add_hover.svg);
+}
+
 
 
 

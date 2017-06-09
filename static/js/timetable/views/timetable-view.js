@@ -36,7 +36,8 @@ var app = app || {};
         e.stopPropagation();
         e.preventDefault();
         this.isDragging = true;
-        $(this.dragCell).css('display', 'block');
+        $(this.dragCell).removeClass('none');
+        $(this.dragCell).children().addClass('none');
 
         this.firstBlock = $(e.currentTarget);
         this.secondBlock = $(e.currentTarget);
@@ -55,10 +56,11 @@ var app = app || {};
       if (this.isDragging) {
         this.isDragging = false;
         if (this.firstBlock[0] == this.secondBlock[0]) {
-          $(this.dragCell).css('display', 'none');
+          $(this.dragCell).addClass('none');
         }
         else {
           this.searchLecture();
+          $(this.dragCell).children().removeClass('none');
         }
       }
     },
@@ -116,10 +118,10 @@ var app = app || {};
     },
 
     render: function () {
-      var left = Math.min(this.firstBlock.offset().left, this.secondBlock.offset().left) - $(this.el).offset().left + 10;
-      var width = Math.abs(this.firstBlock.offset().left - this.secondBlock.offset().left) + this.firstBlock.width();
-      var top = Math.min(this.firstBlock.offset().top, this.secondBlock.offset().top) - $(this.el).offset().top + 11;
-      var height = Math.abs(this.firstBlock.offset().top - this.secondBlock.offset().top) + this.firstBlock.height();
+      var left = Math.min(this.firstBlock.offset().left, this.secondBlock.offset().left) - $(this.el).offset().left + 9;
+      var width = Math.abs(this.firstBlock.offset().left - this.secondBlock.offset().left) + this.firstBlock.width() + 2;
+      var top = Math.min(this.firstBlock.offset().top, this.secondBlock.offset().top) - $(this.el).offset().top + 12;
+      var height = Math.abs(this.firstBlock.offset().top - this.secondBlock.offset().top) + this.firstBlock.height() -2;
 
       $(this.dragCell).css('left', left+'px');
       $(this.dragCell).css('width', width+'px');
