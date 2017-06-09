@@ -95,3 +95,6 @@ db_update_script.sh
 update_taken_lecture_user.py
 update_scholardb.py
 db_update_script.log
+
+# file for atom editor remote ftp plugin. contains confidential(ssh account info)
+.ftpconfig
