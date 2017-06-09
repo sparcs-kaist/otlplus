@@ -248,8 +248,8 @@ var app = app || {};
       lectureBlock.css({left: "+=" + dif});
     }
   })
-	
-	app.ListLectureBlocksView = Backbone.View.extend({
+
+  app.ListLectureBlocksView = Backbone.View.extend({
     el: '#result-pages',
 
     events: {
@@ -346,16 +346,16 @@ var app = app || {};
     deleteInfo: function () {
       $(this.el).find('.lecture-detail').remove();
     },
-	  
-	openDictPreview: function(e) {
-		$(this.el).find('.detail-top').addClass('none');
-		$(this.el).find('.detail-bottom').removeClass('none');
-	},
-	  
-	closeDictPreview: function(e) {
-		$(this.el).find('.detail-bottom').addClass('none');
-		$(this.el).find('.detail-top').removeClass('none');
-	},
+
+    openDictPreview: function(e) {
+      $(this.el).find('.detail-top').addClass('none');
+      $(this.el).find('.detail-bottom').removeClass('none');
+    },
+
+    closeDictPreview: function(e) {
+      $(this.el).find('.detail-bottom').addClass('none');
+      $(this.el).find('.detail-top').removeClass('none');
+    },
   })
   
   app.TimetableInfoView = Backbone.View.extend({

@@ -20,41 +20,41 @@ var app = app || {};
       'click .chkelem': "toggleType",
       'click #search-button': "searchStart",
     },
-		
-		clearSearch: function () {
-			$(this.el).find(".search-text").val('');
-			
-			$(this.el).find(".chkall").prop('checked', true);
-			$(this.el).find(".chkall").parent().find('.fa-check-circle-o').removeClass('none');
-			$(this.el).find(".chkall").parent().find('.fa-circle-o').addClass('none');
-			
-			$(this.el).find(".chkelem").prop('checked', false);
-			$(this.el).find(".chkelem").parent().find('.fa-check-circle-o').addClass('none');
-			$(this.el).find(".chkelem").parent().find('.fa-circle-o').removeClass('none');
-		},
+
+    clearSearch: function () {
+      $(this.el).find(".search-text").val('');
+
+      $(this.el).find(".chkall").prop('checked', true);
+      $(this.el).find(".chkall").parent().find('.fa-check-circle-o').removeClass('none');
+      $(this.el).find(".chkall").parent().find('.fa-circle-o').addClass('none');
+
+      $(this.el).find(".chkelem").prop('checked', false);
+      $(this.el).find(".chkelem").parent().find('.fa-check-circle-o').addClass('none');
+      $(this.el).find(".chkelem").parent().find('.fa-circle-o').removeClass('none');
+    },
 
     showSearch: function (e) {
-			this.clearSearch();
+      this.clearSearch();
       $(this.el).find(".search-extend").removeClass('none');
-	  $(this.el).find(".search-text").focus();
+      $(this.el).find(".search-text").focus();
     },
-	
-	hideSearch: function (e) {
-      $(this.el).find(".search-extend").addClass('none');
+
+    hideSearch: function (e) {
+        $(this.el).find(".search-extend").addClass('none');
+      },
+
+    changeTab: function (e) {
+      var tabName = $(e.currentTarget).attr('class').split(' ')[1];
+
+      if ($(e.currentTarget).hasClass('active'))
+        return;
+
+      $(this.el).find(".search-chead").removeClass('active');
+      $(e.currentTarget).addClass('active');
+      $(this.el).find(".search-extend").addClass("none");
+      $(this.el).find("#result-pages").children().addClass("none");
+      $(this.el).find("." + tabName + "-page").removeClass("none");
     },
-	  
-	changeTab: function (e) {
-		var tabName = $(e.currentTarget).attr('class').split(' ')[1];
-		
-		if ($(e.currentTarget).hasClass('active'))
-			return;
-		
-		$(this.el).find(".search-chead").removeClass('active');
-		$(e.currentTarget).addClass('active');
-		$(this.el).find(".search-extend").addClass("none");
-		$(this.el).find("#result-pages").children().addClass("none");
-		$(this.el).find("." + tabName + "-page").removeClass("none");
-	},
 
     toggleType: function (e) {
       var target = $(e.target);
@@ -92,7 +92,7 @@ var app = app || {};
     searchStart: function(e) {
       var target = $(e.target);
       var data = {};
-			target.parent().parent().serializeArray().map(function(x){
+      target.parent().parent().serializeArray().map(function(x){
         if (x.name === "keyword") {
           data[x.name] = x.value;
         } else {
@@ -103,8 +103,8 @@ var app = app || {};
           }
         }
       });
-        data["year"] = 2016; // TODO : Change this to actual semester settings
-        data["semester"] = 1; // TODO : Change this to actual semester settings
+      data["year"] = 2016; // TODO : Change this to actual semester settings
+      data["semester"] = 1; // TODO : Change this to actual semester settings
 
       app.SearchKeyword.set(data);
       app.SearchKeyword.save(null, {
