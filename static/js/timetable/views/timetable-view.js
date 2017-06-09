@@ -13,6 +13,7 @@ var app = app || {};
       this.isBubbling = false;
       this.isDragging = false; 
       this.isBlockClick = false;
+      $(window).on("resize", this.render);
     },
 
     el: '#timetable-contents',
@@ -118,15 +119,17 @@ var app = app || {};
     },
 
     render: function () {
-      var left = Math.min(this.firstBlock.offset().left, this.secondBlock.offset().left) - $(this.el).offset().left + 9;
-      var width = Math.abs(this.firstBlock.offset().left - this.secondBlock.offset().left) + this.firstBlock.width() + 2;
-      var top = Math.min(this.firstBlock.offset().top, this.secondBlock.offset().top) - $(this.el).offset().top + 12;
-      var height = Math.abs(this.firstBlock.offset().top - this.secondBlock.offset().top) + this.firstBlock.height() -2;
+      if(timetable.firstBlock) {
+        var left = Math.min(timetable.firstBlock.offset().left, timetable.secondBlock.offset().left) - $(timetable.el).offset().left + 9;
+        var width = Math.abs(timetable.firstBlock.offset().left - timetable.secondBlock.offset().left) + timetable.firstBlock.width() + 2;
+        var top = Math.min(timetable.firstBlock.offset().top, timetable.secondBlock.offset().top) - $(timetable.el).offset().top + 12;
+        var height = Math.abs(timetable.firstBlock.offset().top - timetable.secondBlock.offset().top) + timetable.firstBlock.height() -2;
 
-      $(this.dragCell).css('left', left+'px');
-      $(this.dragCell).css('width', width+'px');
-      $(this.dragCell).css('top', top+'px');
-      $(this.dragCell).css('height', height+'px');
+        $(timetable.dragCell).css('left', left+'px');
+        $(timetable.dragCell).css('width', width+'px');
+        $(timetable.dragCell).css('top', top+'px');
+        $(timetable.dragCell).css('height', height+'px');
+      }
     }
   })
 
