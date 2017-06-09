@@ -54,7 +54,12 @@ var app = app || {};
     dragEnd: function (e) {
       if (this.isDragging) {
         this.isDragging = false;
-        this.searchLecture();
+        if (this.firstBlock[0] == this.secondBlock[0]) {
+          $(this.dragCell).css('display', 'none');
+        }
+        else {
+          this.searchLecture();
+        }
       }
     },
 
