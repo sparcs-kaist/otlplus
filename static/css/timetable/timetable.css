@@ -5,12 +5,12 @@ html, body
 
 #header
 {
-	margin-left:calc(50vw - 50vh - 90.5px) !important;
+    margin-left:calc(50vw - 50vh - 90.5px) !important;
 }
 
 #header > ul > li:first-child > a
 {
-	padding-left:0px;
+    padding-left:0px;
 }
 
 #content
@@ -25,7 +25,7 @@ html, body
 
 i
 {
-	vertical-align:top;
+    vertical-align:top;
 }
 
 #page-container
@@ -42,9 +42,9 @@ i
     margin-top: 10px;
     margin-left:auto;
     margin-right:auto;
-	width:1181px;
-	width:calc(100vh + 181px);
-	height:931px;
+    width:1181px;
+    width:calc(100vh + 181px);
+    height:931px;
     height:calc(100vh - 69px);
     font-family:sans-serif;
 }
@@ -60,16 +60,16 @@ i
         -ms-flex-direction:column;
             flex-direction:column;
     float:left;
-	width:276px;
-	width:calc(20vh + 76px);
-	height:100%
+    width:276px;
+    width:calc(20vh + 76px);
+    height:100%
 }
 
 #center
 {
     margin-left:10px;
     float:left;
-	width: calc(80vh + 95px);
+    width: calc(80vh + 95px);
     height:100%;
     -webkit-box-flex:1;
         -ms-flex:auto;
@@ -90,13 +90,13 @@ i
         -ms-flex:auto;
             flex:auto;
     position:relative;
-	margin-top:7px;
-	margin-bottom:10px;
-	padding-left:10px;
-	padding-right:10px;
-	height:calc(100% - 20px);
+    margin-top:7px;
+    margin-bottom:10px;
+    padding-left:10px;
+    padding-right:10px;
+    height:calc(100% - 20px);
     border-left:1px solid #EDD1DC;
-}
+    }
 
 
 
@@ -110,8 +110,8 @@ i
     margin-bottom:12px;
     border-radius:6px;
     box-shadow:0em 3px 0px 0em #F3BEC6;
-	height:311px;
-	height:calc(5.6vh + 255px);
+    height:311px;
+    height:calc(5.6vh + 255px);
     padding:10px;
 	overflow:hidden;
 }
@@ -1020,11 +1020,11 @@ i
         -ms-flex-direction:column;
             flex-direction:column;
     justify-content:center;
-	position:absolute;
+    position:absolute;
     background-color:#E54C65;
     border-radius:2px;
-	pointer-events:none;
-	z-index:1;
+    pointer-events:none;
+    z-index:1;
 }
 
 .drag-text
@@ -1111,8 +1111,8 @@ i
 
 #type-credits
 {
-	font-size: 12px;
-	line-height: 11px;
+    font-size: 12px;
+    line-height: 11px;
 }
 
 .lecture-type
@@ -1120,8 +1120,8 @@ i
     display:inline-block;
     width:40%;
     text-align:left;
-	margin-left:10%;
-	margin-top:10px;
+    margin-left:10%;
+    margin-top:10px;
 }
 
 .lecture-type-right
@@ -1143,18 +1143,18 @@ i
 
 #total-credits
 {
-	margin-top: calc(1.4vh + 2px);
-	margin-bottom: calc(1.4vh + 2px);
+    margin-top: calc(1.4vh + 2px);
+    margin-bottom: calc(1.4vh + 2px);
     text-align:center;
     font-size:0.8em;
 }
 
 .total-credit
 {
-	width:69px;
-	width: calc(3.5vh + 34px);
+    width:69px;
+    width: calc(3.5vh + 34px);
     display:inline-block;
-	vertical-align:top;
+    vertical-align:top;
 }
 
 #credits.active, #au.active
@@ -1164,17 +1164,17 @@ i
 
 #table-scores
 {
-	margin-top: calc(1.4vh + 2px);
+    margin-top: calc(1.4vh + 2px);
     text-align:center;
     font-size:0.8em;
 }
 
 .table-score
 {
-	width:69px;
-	width: calc(3.5vh + 34px);
+    width:69px;
+    width: calc(3.5vh + 34px);
     display:inline-block;
-	vertical-align:top;
+    vertical-align:top;
 }
 
 
@@ -1185,11 +1185,11 @@ i
 
 #examtitle
 {
-	text-align:center;
-	font-size:13px;
-	line-height:12px;
-	padding-top:10px;
-	padding-bottom:10px;
+    text-align:center;
+    font-size:13px;
+    line-height:12px;
+    padding-top:10px;
+    padding-bottom:10px;
 }
 
 #examtable
@@ -1200,8 +1200,8 @@ i
     padding-bottom:10px;
     border-bottom:1px solid #EDD1DC;
     overflow:auto;
-	font-size:12px;
-	line-height:11px;
+    font-size:12px;
+    line-height:11px;
 }
 
 .examtime, #examtime1, #examtime2, #examtime3, #examtime4, #examtime5
@@ -1216,25 +1216,25 @@ i
             flex-direction:row;
     width:100%;
     text-align:left;
-	margin-bottom:2px;
+    margin-bottom:2px;
 }
 
 .examlist
 {
     list-style:none;
     padding-left:0;
-	margin-bottom:0;
+    margin-bottom:0;
 }
 
 .examlist > li
 {
-	margin-bottom:8px;
+    margin-bottom:8px;
 }
 
 .exam-course
 {
-	font-weight:bold;
-	margin-bottom:3px;
+    font-weight:bold;
+    margin-bottom:3px;
 }
 
 .exam-chead
@@ -1244,12 +1244,12 @@ i
     display:flex;
     display:-webkit-flex;
     width:1.5em;
-	margin-bottom:8px;
+    margin-bottom:8px;
     text-align:center;
-}
+    }
 
 .exam-body
-{
+    {
     display:-webkit-box;
     display:-ms-flexbox;
     display:flex;
@@ -1321,7 +1321,7 @@ i
     font-size:0.75em;
     border-top:1px white solid;
     border-bottom:1px white solid;
-	z-index:2;
+    z-index:2;
 }
 
 .lecture-block.active
