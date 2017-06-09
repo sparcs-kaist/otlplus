@@ -14,14 +14,17 @@ var app = app || {};
       this.isDragging = false; 
       this.isBlockClick = false;
     },
+
     el: '#timetable-contents',
+    dragCell : '#drag-cell',
+
     events: {
       'touchstart .half.table-drag': "dragStart",
-      'touchmove .half.table-drag': "dragMoveM",
-      'touchend .half.table-drag': "dragEndM",
+      'touchmove .half.table-drag': "dragMove",
+      'touchend': "dragEnd",
       'touchstart .lecture-block': "clickBlock",
-      'mousedown .half': "dragStart",
-      'mousemove .half': "dragMove",
+      'mousedown .half.table-drag': "dragStart",
+      'mousemove .half.table-drag': "dragMove",
       'mouseup': "dragEnd",
       'mousedown .lecture-block': "clickBlock",
     },
@@ -32,21 +35,19 @@ var app = app || {};
       } else {
         e.stopPropagation();
         e.preventDefault();
-        this.cellHeight = ($("div.half.table-drag:last").offset().top - $("div.half.table-drag:first").offset().top + $("div.half.table-drag:last").height()) / 32;
-        this.cellWidth = ($("div.half.table-drag:last").offset().left - $("div.half.table-drag:first").offset().left + $("div.half.table-drag:last").width()) / 5;
-        this.timetableOffset = $("div.half.table-drag:first").offset();
-        this.cleanHalfs();
         this.isDragging = true;
+        $(this.dragCell).css('display', 'block');
 
-        $(e.target).addClass('clicked');
-        this.firstBlock = {
-          day: $(e.target).data('day'),
-          time: $(e.target).data('time')
-        };
-        this.secondBlock = {
-          day: $(e.target).data('day'),
-          time: $(e.target).data('time')
-        };
+        this.firstBlock = $(e.currentTarget);
+        this.secondBlock = $(e.currentTarget);
+        this.render();
+      }
+    },
+
+    dragMove: function (e) {
+      if (this.isDragging) {
+        this.secondBlock = $(e.currentTarget);
+        this.render();
       }
     },
 
@@ -57,87 +58,9 @@ var app = app || {};
       }
     },
 
-    dragEndM: function (e) {
-      if (this.isDragging) {
-        this.isDragging = false;
-        this.searchLecture();
-      }
-    },
-
-    dragMove: function (e) {
-      if (this.isDragging) {
-        var indexDay = parseInt((e.pageX - this.timetableOffset.left) / this.cellWidth) + 2;
-        var indexTime = parseInt((e.pageY - this.timetableOffset.top) / this.cellHeight) + 2;
-        
-        var day = $(this.el).find('.day:nth-child(' + indexDay + ')');
-        var cell = day.find('.half:nth-child(' + indexTime + ')');
-
-        if (cell) {
-          this.secondBlock = {
-            day: $(cell).data('day'),
-            time: $(cell).data('time')
-          }
-          this.dragTable();
-        }
-      }
-    },
-
-    dragMoveM: function (e) {
-      if (this.isDragging) {
-        var indexDay = parseInt((e.targetTouches[0].pageX - this.timetableOffset.left) / this.cellWidth) + 2;
-        var indexTime = parseInt((e.targetTouches[0].pageY - this.timetableOffset.top) / this.cellHeight) + 2;
-        
-        var day = $(this.el).find('.day:nth-child(' + indexDay + ')');
-        var cell = day.find('.half:nth-child(' + indexTime + ')');
-
-        if (cell) {
-          this.secondBlock = {
-            day: $(cell).data('day'),
-            time: $(cell).data('time')
-          }
-          this.dragTable();
-        }
-      }
-    },
-
     clickBlock: function () {
       if (!this.isDragging) {
         this.isBubbling = true;
-        this.cleanHalfs();
-      }
-    },
-
-    cleanHalfs: function () {
-      $(this.el).find('.half').removeClass('clicked').removeClass('selected');
-      this.isLookingTable = false;
-    },
-    
-    dragTable: function (e) {
-      var fBDay = this.indexOfDay(this.firstBlock.day) + 2;
-      var sBDay = this.indexOfDay(this.secondBlock.day) + 2;
-      var fBTime = this.indexOfTime(this.firstBlock.time) + 2;
-      var sBTime = this.indexOfTime(this.secondBlock.time) + 2;
-      var temp;
-      if (fBDay > sBDay) {
-        temp = fBDay;
-        fBDay = sBDay;
-        sBDay = temp;
-      }
-      
-      if (fBTime > sBTime) {
-        temp = fBTime;
-        fBTime = sBTime;
-        sBTime = temp;
-      }
-      
-      $(this.el).find('.half').removeClass('clicked');
-      var days = $(this.el)
-        .find(
-        '.day:nth-child(n+' + fBDay + '):nth-child(-n+' + sBDay + ')');
-      for (var i = 0, day; day = days[i]; i++) {
-        for (var j = fBTime; j < sBTime + 1; j++) {
-          $(day).find('.half:nth-child(' + j + ')').addClass('clicked');
-        }
       }
     },
     
@@ -162,7 +85,6 @@ var app = app || {};
       var days = $(this.el)
         .find(
         '.day:nth-child(n+' + fBDay + '):nth-child(-n+' + sBDay + ')');
-      this.cleanHalfs();
       for (var i = 0, day; day = days[i]; i++) {
         for (var j = fBTime; j < sBTime + 1; j++) {
           $(day).find('.half:nth-child(' + j + ')').addClass('selected');
@@ -186,6 +108,18 @@ var app = app || {};
       var min = time - hour * 100;
 
       return hour*2 + min/30;
+    },
+
+    render: function () {
+      var left = Math.min(this.firstBlock.offset().left, this.secondBlock.offset().left) - $(this.el).offset().left + 10;
+      var width = Math.abs(this.firstBlock.offset().left - this.secondBlock.offset().left) + this.firstBlock.width();
+      var top = Math.min(this.firstBlock.offset().top, this.secondBlock.offset().top) - $(this.el).offset().top + 11;
+      var height = Math.abs(this.firstBlock.offset().top - this.secondBlock.offset().top) + this.firstBlock.height();
+
+      $(this.dragCell).css('left', left+'px');
+      $(this.dragCell).css('width', width+'px');
+      $(this.dragCell).css('top', top+'px');
+      $(this.dragCell).css('height', height+'px');
     }
   })
 
@@ -305,7 +239,6 @@ var app = app || {};
       //var left = lectureBlock.left() - 1;
       var dif = -1;
       lectureBlock.css({left: "+=" + dif});
-      timetable.cleanHalfs();
     }
   })
 	
