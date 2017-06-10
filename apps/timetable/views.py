@@ -208,8 +208,6 @@ def main(request):
     humanity_cl = [get_filtered_lectures(2016, 1, c) for c in humanity_course]
     humanity_result = _lecture_result_format(humanity_cl)
     
-    print(major1_course)
-    
     return render(request,'timetable/index.html',{'major1':major1_result,'humanity':humanity_result})
 
 
