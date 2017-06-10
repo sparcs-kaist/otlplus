@@ -1035,12 +1035,12 @@ i
     text-align:center;
     color:#FFFFFF;
     pointer-events:auto;
+    cursor:pointer;
 }
 
 .drag-text:hover
 {
     color:#dddddd;
-    pointer-events:auto;
 }
 
 .drag-close
@@ -1052,6 +1052,7 @@ i
     right:4px;
     position:absolute;
     pointer-events:auto;
+    cursor:pointer;
 }
 
 .drag-close:hover
