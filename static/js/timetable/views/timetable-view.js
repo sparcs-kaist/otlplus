@@ -13,17 +13,22 @@ var app = app || {};
       this.isBubbling = false;
       this.isDragging = false; 
       this.isBlockClick = false;
+      $(window).on("resize", this.render);
     },
-    el: '#timetable-contents',
+
+    el: '#timetable-wrap',
+    dragCell : '#drag-cell',
+
     events: {
-      'touchstart .half': "dragStart",
-      'touchmove .half': "dragMoveM",
-      'touchend .half': "dragEndM",
+      'touchstart .half.table-drag': "dragStart",
+      'touchmove .half.table-drag': "dragMove",
+      'touchend': "dragEnd",
       'touchstart .lecture-block': "clickBlock",
-      'mousedown .half': "dragStart",
-      'mousemove .half': "dragMove",
+      'mousedown .half.table-drag': "dragStart",
+      'mousemove .half.table-drag': "dragMove",
       'mouseup': "dragEnd",
       'mousedown .lecture-block': "clickBlock",
+      'click .drag-close': "dragClose",
     },
 
     dragStart: function (e) {
@@ -32,70 +37,32 @@ var app = app || {};
       } else {
         e.stopPropagation();
         e.preventDefault();
-        this.cellHeight = ($("div.half:last").offset().top - $("div.half:first").offset().top + $("div.half:last").height()) / 32;
-        this.cellWidth = ($("div.half:last").offset().left - $("div.half:first").offset().left + $("div.half:last").width()) / 5;
-        this.timetableOffset = $("div#timetable-contents").offset();
-        this.cleanHalfs();
         this.isDragging = true;
+        $(this.dragCell).removeClass('none');
+        $(this.dragCell).children().addClass('none');
 
-        $(e.target).addClass('clicked');
-        this.firstBlock = {
-          day: $(e.target).data('day'),
-          time: $(e.target).data('time')
-        };
-        this.secondBlock = {
-          day: $(e.target).data('day'),
-          time: $(e.target).data('time')
-        };
+        this.firstBlock = $(e.currentTarget);
+        this.secondBlock = $(e.currentTarget);
+        this.render();
+      }
+    },
+
+    dragMove: function (e) {
+      if (this.isDragging) {
+        this.secondBlock = $(e.currentTarget);
+        this.render();
       }
     },
 
     dragEnd: function (e) {
       if (this.isDragging) {
         this.isDragging = false;
-        this.searchLecture();
-      }
-    },
-
-    dragEndM: function (e) {
-      if (this.isDragging) {
-        this.isDragging = false;
-        this.searchLecture();
-      }
-    },
-
-    dragMove: function (e) {
-      if (this.isDragging) {
-        var indexDay = parseInt((e.pageX - this.timetableOffset.left) / this.cellWidth) + 1;
-        var indexTime = parseInt((e.pageY - this.timetableOffset.top) / this.cellHeight) + 1;
-        
-        var day = $(this.el).find('.day:nth-child(' + indexDay + ')');
-        var cell = day.find('.half:nth-child(' + indexTime + ')');
-
-        if (cell) {
-          this.secondBlock = {
-            day: $(cell).data('day'),
-            time: $(cell).data('time')
-          }
-          this.dragTable();
+        if (this.firstBlock[0] == this.secondBlock[0]) {
+          $(this.dragCell).addClass('none');
         }
-      }
-    },
-
-    dragMoveM: function (e) {
-      if (this.isDragging) {
-        var indexDay = parseInt((e.targetTouches[0].pageX - this.timetableOffset.left) / this.cellWidth) + 1;
-        var indexTime = parseInt((e.targetTouches[0].pageY - this.timetableOffset.top) / this.cellHeight) + 1;
-        
-        var day = $(this.el).find('.day:nth-child(' + indexDay + ')');
-        var cell = day.find('.half:nth-child(' + indexTime + ')');
-
-        if (cell) {
-          this.secondBlock = {
-            day: $(cell).data('day'),
-            time: $(cell).data('time')
-          }
-          this.dragTable();
+        else {
+          this.searchLecture();
+          $(this.dragCell).children().removeClass('none');
         }
       }
     },
@@ -103,49 +70,18 @@ var app = app || {};
     clickBlock: function () {
       if (!this.isDragging) {
         this.isBubbling = true;
-        this.cleanHalfs();
       }
     },
 
-    cleanHalfs: function () {
-      $(this.el).find('.half').removeClass('clicked').removeClass('selected');
-      this.isLookingTable = false;
-    },
-    
-    dragTable: function (e) {
-      var fBDay = this.indexOfDay(this.firstBlock.day) + 1;
-      var sBDay = this.indexOfDay(this.secondBlock.day) + 1;
-      var fBTime = this.indexOfTime(this.firstBlock.time) + 1 ;
-      var sBTime = this.indexOfTime(this.secondBlock.time) + 1 ;
-      var temp;
-      if (fBDay > sBDay) {
-        temp = fBDay;
-        fBDay = sBDay;
-        sBDay = temp;
-      }
-      
-      if (fBTime > sBTime) {
-        temp = fBTime;
-        fBTime = sBTime;
-        sBTime = temp;
-      }
-      
-      $(this.el).find('.half').removeClass('clicked');
-      var days = $(this.el)
-        .find(
-        '.day:nth-child(n+' + fBDay + '):nth-child(-n+' + sBDay + ')');
-      for (var i = 0, day; day = days[i]; i++) {
-        for (var j = fBTime; j < sBTime + 1; j++) {
-          $(day).find('.half:nth-child(' + j + ')').addClass('clicked');
-        }
-      }
+    dragClose: function (e) {
+      $(this.dragCell).addClass('none');
     },
     
     searchLecture: function () {
-      var fBDay = this.indexOfDay(this.firstBlock.day) + 1;
-      var sBDay = this.indexOfDay(this.secondBlock.day) + 1;
-      var fBTime = this.indexOfTime(this.firstBlock.time) + 1;
-      var sBTime = this.indexOfTime(this.secondBlock.time) + 1;
+      var fBDay = this.indexOfDay(this.firstBlock.day) + 2;
+      var sBDay = this.indexOfDay(this.secondBlock.day) + 2;
+      var fBTime = this.indexOfTime(this.firstBlock.time) + 2;
+      var sBTime = this.indexOfTime(this.secondBlock.time) + 2;
       var temp;
       if (fBDay > sBDay) {
         temp = fBDay;
@@ -162,7 +98,6 @@ var app = app || {};
       var days = $(this.el)
         .find(
         '.day:nth-child(n+' + fBDay + '):nth-child(-n+' + sBDay + ')');
-      this.cleanHalfs();
       for (var i = 0, day; day = days[i]; i++) {
         for (var j = fBTime; j < sBTime + 1; j++) {
           $(day).find('.half:nth-child(' + j + ')').addClass('selected');
@@ -186,6 +121,20 @@ var app = app || {};
       var min = time - hour * 100;
 
       return hour*2 + min/30;
+    },
+
+    render: function () {
+      if(timetable.firstBlock) {
+        var left = Math.min(timetable.firstBlock.offset().left, timetable.secondBlock.offset().left) - $(timetable.el).offset().left - 1;
+        var width = Math.abs(timetable.firstBlock.offset().left - timetable.secondBlock.offset().left) + timetable.firstBlock.width() + 2;
+        var top = Math.min(timetable.firstBlock.offset().top, timetable.secondBlock.offset().top) - $(timetable.el).offset().top + 2;
+        var height = Math.abs(timetable.firstBlock.offset().top - timetable.secondBlock.offset().top) + timetable.firstBlock.height() -2;
+
+        $(timetable.dragCell).css('left', left+'px');
+        $(timetable.dragCell).css('width', width+'px');
+        $(timetable.dragCell).css('top', top+'px');
+        $(timetable.dragCell).css('height', height+'px');
+      }
     }
   })
 
@@ -305,11 +254,10 @@ var app = app || {};
       //var left = lectureBlock.left() - 1;
       var dif = -1;
       lectureBlock.css({left: "+=" + dif});
-      timetable.cleanHalfs();
     }
   })
-	
-	app.ListLectureBlocksView = Backbone.View.extend({
+
+  app.ListLectureBlocksView = Backbone.View.extend({
     el: '#result-pages',
 
     events: {
@@ -322,11 +270,9 @@ var app = app || {};
     },
 
     listHover: function (e) {
-			console.log(e);
       if (!app.LectureActive.get("click")) {
         var ct = $(e.currentTarget);
         var title = ct.parent().find('.list-elem-title').find('strong').text();
-				console.log(title);
         for (var i = 0, child; child = app.timetables.models[i]; i++) {
           if (child.attributes.title === title) {
             app.LectureActive.set(child.attributes);
@@ -408,18 +354,16 @@ var app = app || {};
     deleteInfo: function () {
       $(this.el).find('.lecture-detail').remove();
     },
-	  
-	openDictPreview: function(e) {
-		console.log(123);
-		$(this.el).find('.detail-top').addClass('none');
-		$(this.el).find('.detail-bottom').removeClass('none');
-	},
-	  
-	closeDictPreview: function(e) {
-		console.log(123);
-		$(this.el).find('.detail-bottom').addClass('none');
-		$(this.el).find('.detail-top').removeClass('none');
-	},
+
+    openDictPreview: function(e) {
+      $(this.el).find('.detail-top').addClass('none');
+      $(this.el).find('.detail-bottom').removeClass('none');
+    },
+
+    closeDictPreview: function(e) {
+      $(this.el).find('.detail-bottom').addClass('none');
+      $(this.el).find('.detail-top').removeClass('none');
+    },
   })
   
   app.TimetableInfoView = Backbone.View.extend({

@@ -5,12 +5,12 @@ html, body
 
 #header
 {
-	margin-left:calc(50vw - 50vh - 90.5px) !important;
+    margin-left:calc(50vw - 50vh - 90.5px) !important;
 }
 
 #header > ul > li:first-child > a
 {
-	padding-left:0px;
+    padding-left:0px;
 }
 
 #content
@@ -25,7 +25,7 @@ html, body
 
 i
 {
-	vertical-align:top;
+    vertical-align:top;
 }
 
 #page-container
@@ -42,9 +42,9 @@ i
     margin-top: 10px;
     margin-left:auto;
     margin-right:auto;
-	width:1181px;
-	width:calc(100vh + 181px);
-	height:931px;
+    width:1181px;
+    width:calc(100vh + 181px);
+    height:931px;
     height:calc(100vh - 69px);
     font-family:sans-serif;
 }
@@ -60,16 +60,16 @@ i
         -ms-flex-direction:column;
             flex-direction:column;
     float:left;
-	width:276px;
-	width:calc(20vh + 76px);
-	height:100%
+    width:276px;
+    width:calc(20vh + 76px);
+    height:100%
 }
 
 #center
 {
     margin-left:10px;
     float:left;
-	width: calc(80vh + 95px);
+    width: calc(80vh + 95px);
     height:100%;
     -webkit-box-flex:1;
         -ms-flex:auto;
@@ -90,13 +90,13 @@ i
         -ms-flex:auto;
             flex:auto;
     position:relative;
-	margin-top:7px;
-	margin-bottom:10px;
-	padding-left:10px;
-	padding-right:10px;
-	height:calc(100% - 20px);
+    margin-top:7px;
+    margin-bottom:10px;
+    padding-left:10px;
+    padding-right:10px;
+    height:calc(100% - 20px);
     border-left:1px solid #EDD1DC;
-}
+    }
 
 
 
@@ -110,8 +110,8 @@ i
     margin-bottom:12px;
     border-radius:6px;
     box-shadow:0em 3px 0px 0em #F3BEC6;
-	height:311px;
-	height:calc(5.6vh + 255px);
+    height:311px;
+    height:calc(5.6vh + 255px);
     padding:10px;
 	overflow:hidden;
 }
@@ -205,6 +205,10 @@ i
 	line-height: 10px;
 }
 
+.dictionary-preview{
+	cursor:pointer;
+}
+
 .open-dict-preview
 {
 	background: url(/media/icons/lecture_downarrow.svg) no-repeat center center;
@@ -213,7 +217,6 @@ i
 	display:inline-block;
 	vertical-align:top;
 	margin-left:5px;
-	cursor:pointer;
 }
 
 .dictionary-preview:hover .open-dict-preview
@@ -280,6 +283,7 @@ i
 .review-elem:hover .review-more{
 	color:#333333;
 }
+
 
 
 /* Search at bottom-left side */
@@ -484,6 +488,14 @@ i
 
 .filters
 {
+    display:-webkit-box;
+    display:-ms-flexbox;
+    display:flex;
+    display:-webkit-flex;
+    -webkit-box-orient:horizontal;
+    -webkit-box-direction:normal;
+        -ms-flex-direction:row;
+            flex-direction:row;
     width:100%;
 	margin-bottom:4px;
 }
@@ -502,7 +514,6 @@ i
 
 .type-name
 {
-	width:23px;
 	display:inline-block;
 	vertical-align:top;
     font-weight:bold;
@@ -510,9 +521,13 @@ i
 
 .type-elem
 {
+    -webkit-box-flex:1;
+        -ms-flex:auto;
+            flex:auto;
 	width:calc(100% - 25px);
 	display:inline-block;
 	vertical-align:top;
+	font-size:0px;
 }
 
 .type-elem > label
@@ -520,7 +535,8 @@ i
     font-weight:normal;
     cursor:pointer;
 	margin-bottom:6px;
-	margin-left:2px;
+	margin-left:4px;
+	font-size:12px;
 }
 
 .filter-time > .type-elem > label
@@ -635,6 +651,7 @@ i
     background-color:#EEEEEE;
     border-radius:4px;
     margin-bottom:6px;
+		overflow:hidden;
 }
 
 .list-elem-title
@@ -654,9 +671,27 @@ i
 
 .list-elem-body
 {
+    display:-webkit-box;
+    display:-ms-flexbox;
+    display:flex;
+    display:-webkit-flex;
+    -webkit-box-orient:horizontal;
+    -webkit-box-direction:normal;
+        -ms-flex-direction:row;
+            flex-direction:row;
+	-webkit-align-items: center;
+			align-items: center;
 	text-align:right;
     border-top:1px solid #C9C9C9;
     padding:6px 0px 6px 0px;
+}
+
+.list-elem-body-text
+{
+    -webkit-box-flex:1;
+        -ms-flex:1;
+            flex:1;
+	text-align:left;
 }
 
 .list-elem-body-wrap:last-child > .list-elem-body
@@ -671,7 +706,7 @@ i
 	height:13px;
 	display:inline-block;
 	vertical-align:top;
-	margin:-1px 0px -1px 0px;
+	margin:-1px 0px -1px 6px;
 }
 
 .add-to-cart:hover
@@ -837,6 +872,14 @@ i
 
 #timetable-wrap
 {
+    display:-webkit-box;
+    display:-ms-flexbox;
+    display:flex;
+    display:-webkit-flex;
+    -webkit-box-orient:horizontal;
+    -webkit-box-direction:normal;
+        -ms-flex-direction:row;
+            flex-direction:row;
     position:relative;
     float:left;
     display:inline-block;
@@ -847,45 +890,48 @@ i
 	padding:10px 0 10px 10px;
 }
 
-#colheaders
-{
-    height:19px;
-	width:608px;
-	width:calc(60vh + 8px - 19px - 10px);
-    margin-left:19px;
-}
-
 .chead
 {
-    float:left;
-    width:20%;
+    height:17px;
     text-align:center;
     font-size:11px;
     line-height:10px;
 }
 
-#tablebody
+.chead.chead-middle
 {
-    position:relative;
-	width:608px;
-	width:calc(60vh + 8px);
-    height: calc(100% - 19px);
+    height:27px;
+    padding-top:10px;
 }
 
 #rowheaders
 {
-    position:absolute;
-    width:19px;
+    display:-webkit-box;
+    display:-ms-flexbox;
+    display:flex;
+    display:-webkit-flex;
+    -webkit-box-orient:vertical;
+    -webkit-box-direction:normal;
+        -ms-flex-direction:column;
+            flex-direction:column;
+    width:11px;
+    margin-right:5px;
     height:100%;
-    left:0pt;
-    top:0pt;
 }
 
 .rhead
 {
+    -webkit-box-flex:1;
+        -ms-flex:auto;
+            flex:auto;
     position:relative;
+    margin-top:1px;
     width:100%;
-    height:6.25%;
+}
+
+.rhead-bottom
+{
+    margin-bottom:1px;
 }
 
 .rheadtext
@@ -894,26 +940,8 @@ i
 	text-align:right;
 	font-size:10px;
     position:absolute;
-    -webkit-transform:translate(-8px,-50%);
-            transform:translate(-8px,-50%);
-}
-
-#grid-wrap
-{
-    position:absolute;
-    top:0;
-    left:19px;
-	width:calc(100% - 19px - 10px);
-    height:100%;
-}
-
-#grid
-{
-    position:absolute;
-    left:0;
-    right:0;
-    width:100%;
-    height:100%;
+    -webkit-transform:translate(0,-50%);
+            transform:translate(0,-50%);
 }
 
 #timetable-contents
@@ -939,8 +967,9 @@ i
     -webkit-box-direction:normal;
         -ms-flex-direction:column;
             flex-direction:column;
-    padding-left:0.15em;
-    padding-right:0.15em;
+    padding-left:3px;
+    padding-right:3px;
+    width:0;
     height:100%;
     -webkit-box-flex:1;
         -ms-flex:auto;
@@ -980,6 +1009,72 @@ i
     background-color:tomato;
 }
 
+#drag-cell
+{
+    display:-webkit-box;
+    display:-ms-flexbox;
+    display:flex;
+    display:-webkit-flex;
+    -webkit-box-orient:vertical;
+    -webkit-box-direction:normal;
+        -ms-flex-direction:column;
+            flex-direction:column;
+    justify-content:center;
+    position:absolute;
+    background-color:#E54C65;
+    border-radius:2px;
+    pointer-events:none;
+    z-index:1;
+}
+
+.drag-text
+{
+    font-size:10px;
+    line-height:9px;
+    margin:4px 0px 4px 0px;
+    text-align:center;
+    color:#FFFFFF;
+    pointer-events:auto;
+    cursor:pointer;
+}
+
+.drag-text:hover
+{
+    color:#dddddd;
+}
+
+.drag-close
+{
+    background: url(/media/icons/delete_lecture.svg) no-repeat center center;
+    width:8px;
+    height:8px;
+    top:4px;
+    right:4px;
+    position:absolute;
+    pointer-events:auto;
+    cursor:pointer;
+}
+
+.drag-close:hover
+{
+    background: url(/media/icons/delete_lecture_hover.svg) no-repeat center center;
+}
+
+.drag-icon
+{
+    background: url(/media/icons/drag_add.svg) no-repeat center center;
+    width:7px;
+    height:9px;
+    margin-right:4px;
+    display:inline-block;
+    vertical-align:top;
+}
+
+.drag-text:hover > .drag-icon
+{
+    background-image: url(/media/icons/drag_add_hover.svg);
+}
+
 
 
 
@@ -1017,8 +1112,8 @@ i
 
 #type-credits
 {
-	font-size: 12px;
-	line-height: 11px;
+    font-size: 12px;
+    line-height: 11px;
 }
 
 .lecture-type
@@ -1026,8 +1121,8 @@ i
     display:inline-block;
     width:40%;
     text-align:left;
-	margin-left:10%;
-	margin-top:10px;
+    margin-left:10%;
+    margin-top:10px;
 }
 
 .lecture-type-right
@@ -1049,18 +1144,18 @@ i
 
 #total-credits
 {
-	margin-top: calc(1.4vh + 2px);
-	margin-bottom: calc(1.4vh + 2px);
+    margin-top: calc(1.4vh + 2px);
+    margin-bottom: calc(1.4vh + 2px);
     text-align:center;
     font-size:0.8em;
 }
 
 .total-credit
 {
-	width:69px;
-	width: calc(3.5vh + 34px);
+    width:69px;
+    width: calc(3.5vh + 34px);
     display:inline-block;
-	vertical-align:top;
+    vertical-align:top;
 }
 
 #credits.active, #au.active
@@ -1070,17 +1165,17 @@ i
 
 #table-scores
 {
-	margin-top: calc(1.4vh + 2px);
+    margin-top: calc(1.4vh + 2px);
     text-align:center;
     font-size:0.8em;
 }
 
 .table-score
 {
-	width:69px;
-	width: calc(3.5vh + 34px);
+    width:69px;
+    width: calc(3.5vh + 34px);
     display:inline-block;
-	vertical-align:top;
+    vertical-align:top;
 }
 
 
@@ -1091,11 +1186,11 @@ i
 
 #examtitle
 {
-	text-align:center;
-	font-size:13px;
-	line-height:12px;
-	padding-top:10px;
-	padding-bottom:10px;
+    text-align:center;
+    font-size:13px;
+    line-height:12px;
+    padding-top:10px;
+    padding-bottom:10px;
 }
 
 #examtable
@@ -1106,8 +1201,8 @@ i
     padding-bottom:10px;
     border-bottom:1px solid #EDD1DC;
     overflow:auto;
-	font-size:12px;
-	line-height:11px;
+    font-size:12px;
+    line-height:11px;
 }
 
 .examtime, #examtime1, #examtime2, #examtime3, #examtime4, #examtime5
@@ -1122,25 +1217,25 @@ i
             flex-direction:row;
     width:100%;
     text-align:left;
-	margin-bottom:2px;
+    margin-bottom:2px;
 }
 
 .examlist
 {
     list-style:none;
     padding-left:0;
-	margin-bottom:0;
+    margin-bottom:0;
 }
 
 .examlist > li
 {
-	margin-bottom:8px;
+    margin-bottom:8px;
 }
 
 .exam-course
 {
-	font-weight:bold;
-	margin-bottom:3px;
+    font-weight:bold;
+    margin-bottom:3px;
 }
 
 .exam-chead
@@ -1150,12 +1245,12 @@ i
     display:flex;
     display:-webkit-flex;
     width:1.5em;
-	margin-bottom:8px;
+    margin-bottom:8px;
     text-align:center;
-}
+    }
 
 .exam-body
-{
+    {
     display:-webkit-box;
     display:-ms-flexbox;
     display:flex;
@@ -1227,6 +1322,7 @@ i
     font-size:0.75em;
     border-top:1px white solid;
     border-bottom:1px white solid;
+    z-index:2;
 }
 
 .lecture-block.active
