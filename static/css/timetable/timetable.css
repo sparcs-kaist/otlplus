@@ -328,30 +328,54 @@ i
 
 .search-chead.search .search-tab-icon
 {
-	background: url(/media/icons/block_search.svg) no-repeat center center;
+	background: url(/media/icons/block_search_inactive.svg) no-repeat center center;
 	width:13px;
 	height:13px;
 }
 
 .search-chead.cart .search-tab-icon
 {
-	background: url(/media/icons/block_cart.svg) no-repeat center center;
+	background: url(/media/icons/block_cart_inactive.svg) no-repeat center center;
 	width:13px;
 	height:13px;
 }
 
 .search-chead.major .search-tab-icon
 {
-	background: url(/media/icons/block_major.svg) no-repeat center center;
+	background: url(/media/icons/block_major_inactive.svg) no-repeat center center;
 	width:13px;
 	height:13px;
 }
 
 .search-chead.humanity .search-tab-icon
 {
-	background: url(/media/icons/block_humanity.svg) no-repeat center center;
+	background: url(/media/icons/block_humanity_inactive.svg) no-repeat center center;
 	width:13px;
 	height:13px;
+}
+
+.search-chead.search.active .search-tab-icon,
+.search-chead.search:hover .search-tab-icon
+{
+    background-image: url(/media/icons/block_search.svg);
+}
+
+.search-chead.cart.active .search-tab-icon,
+.search-chead.cart:hover .search-tab-icon
+{
+    background-image: url(/media/icons/block_cart.svg);
+}
+
+.search-chead.major.active .search-tab-icon,
+.search-chead.major:hover .search-tab-icon
+{
+    background-image: url(/media/icons/block_major.svg);
+}
+
+.search-chead.humanity.active .search-tab-icon,
+.search-chead.humanity:hover .search-tab-icon
+{
+    background-image: url(/media/icons/block_humanity.svg);
 }
 
 .search-chead.active
@@ -804,9 +828,14 @@ i
     width:27px;
 }
 
-.timetable-num:not(.active)>.timetable-num
+.timetable-num
 {
     color:#555;
+}
+
+.timetable-num.active
+{
+    color:#333;
 }
 
 .duplicate-table
@@ -1335,6 +1364,6 @@ i
 
 .timetable-lecture-name
 {
-    color:rgba(0,0,0,0.2);
+    color:rgba(0,0,0,0.8);
     margin:0;
 }
