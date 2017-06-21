@@ -29,4 +29,6 @@ urlpatterns = [
     url(r'^update$', views.update_table),
     url(r'^search/', views.search),
     url(r'^fetch/', views.fetch),
+    url(r'^list/major/', views.major_list),
+    url(r'^list/humanity/', views.humanity_list),
 ]
