@@ -113,8 +113,17 @@ var app = app || {};
           console.log(resp);
           var block = $(".search-page").find(".list-scroll");
           var template = _.template($('#list-template').html());
+
+          app.searchLectureList.reset();
+          for (var i=0; i<resp.courses.length; i++) {
+            for (var j=0; j<resp.courses[i].length; j++) {
+              app.searchLectureList.create(resp.courses[i][j]);
+            }
+          }
+
           block.children().remove();
           block.html(template(resp));
+
           $(".result-text").text(resp.search_text);
           $(".search-extend").addClass('none');
         },

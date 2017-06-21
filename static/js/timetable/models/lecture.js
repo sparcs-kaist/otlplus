@@ -13,6 +13,8 @@ var app = app || {};
       "click": false,
       "hover": false,
     },
+    sync : function(){},
+    save : function(){},
   });
 
   app.LectureActive = new app.Lecture;
