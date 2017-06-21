@@ -8,12 +8,12 @@ var app = app || {};
   // -------------
   
   //app.LectureActive = Backbone.Model.extend({
-  var lectureActive = Backbone.Model.extend({
+  app.Lecture = Backbone.Model.extend({
     defaults: {
       "click": false,
       "hover": false,
-    }
+    },
   });
 
-  app.LectureActive = new lectureActive;
+  app.LectureActive = new app.Lecture;
 })();

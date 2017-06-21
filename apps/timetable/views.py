@@ -520,3 +520,20 @@ def calendar(request):
         # Make a new calender
 
     # TODO: Add calendar entry
+
+
+def major_list(request):
+    department = "전산학부"
+    course_type = ["Major Required", "Major Elective"]
+    major1_course = Course.objects.filter(department__name__iexact=department, type_en__in=course_type)
+    major1_cl = [get_filtered_lectures(2016, 1, c) for c in major1_course]
+    major1_result = _lecture_result_format(major1_cl)
+    major1_result = [y for x in major1_result for y in x] # Flatten nested list
+    return JsonResponse(major1_result, safe=False)
+
+def humanity_list(request):
+    humanity_course = Course.objects.filter(type_en="Humanities & Social Elective")
+    humanity_cl = [get_filtered_lectures(2016, 1, c) for c in humanity_course]
+    humanity_result = _lecture_result_format(humanity_cl)
+    humanity_result = [y for x in humanity_result for y in x] # Flatten nested list
+    return JsonResponse(humanity_result, safe=False)
