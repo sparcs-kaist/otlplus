@@ -112,7 +112,7 @@
 						<div class="list-elem">
 							<div class="list-elem-title"><strong>{{ course.0.format_common_title }}</strong> {{ course.0.old_code }}</div>
 							{% for lecture in course %}
-							<div class="list-elem-body-wrap">
+							<div class="list-elem-body-wrap" data-id="{{ lecture.id }}">
 								<div class="list-elem-body">
 									<div class="list-elem-body-text"><strong>{{ lecture.format_class_title }}</strong> {{ lecture.format_professor_str }}</div><i class="add-to-cart"></i><i class="add-to-table"></i>
 								</div>
@@ -131,7 +131,7 @@
 						<div class="list-elem">
 							<div class="list-elem-title"><strong>{{ course.0.format_common_title }}</strong> {{ course.0.old_code }}</div>
 							{% for lecture in course %}
-							<div class="list-elem-body-wrap">
+							<div class="list-elem-body-wrap" data-id="{{ lecture.id }}">
 								<div class="list-elem-body">
 									<div class="list-elem-body-text"><strong>{{ lecture.format_class_title }}</strong> {{ lecture.format_professor_str }}</div><i class="add-to-cart"></i><i class="add-to-table"></i>
 								</div>
@@ -540,7 +540,7 @@
 <div class="list-elem">
   <div class="list-elem-title"><strong><%- course[0].format_common_title %></strong> <%- course[0].old_code %></div>
   <% _.each(course, function(lecture) { %>
-  <div class="list-elem-body-wrap">
+  <div class="list-elem-body-wrap" data-id="<%- lecture.id %>">
     <div class="list-elem-body">
       <div class="list-elem-body-text"><strong><%- lecture.format_class_title %></strong> <%- lecture.format_professor_str %></div><i class="add-to-cart"></i><i class="add-to-table"></i>
     </div>
@@ -553,22 +553,26 @@
 <script type="text/template" id="lecture-detail-template">
   <div class="lecture-detail">
 		<div id="course-title" style="text-align:center;"><span><%- title %></span></div>
-		<div id="course-no" style="text-align:center;"><span><%- old_code %></span></div>
+		<div id="course-no" style="text-align:center;"><span><%- old_code %><% if(class_no.length>0) { %> (<%- class_no %>)<% } %></span></div>
 		<div class="lecture-options">
 			<span id="color-option" style="float:left;">색상 변경</span>
 			<span id="syllabus-option">실라버스</span>&nbsp;
 			<span id="dictionary-option">과목사전</span>
 		</div>
 		<div class="detail-top">
-			<div class="basic-info"><span style="font-weight:700;">학과&nbsp;&nbsp;</span><span id="department"><%- department %></span></div>
+			<div class="basic-info"><span style="font-weight:700;">학과&nbsp;&nbsp;</span><span id="department"><%- format_dept_name %></span></div>
 			<div class="basic-info"><span style="font-weight:700;">구분&nbsp;&nbsp;</span><span id="course-type"><%- type %></span></div>
-			<div class="basic-info"><span style="font-weight:700;">교수&nbsp;&nbsp;</span><span id="instructor"><%- professor %></span></div>
-			<div class="basic-info"><span style="font-weight:700;">장소&nbsp;&nbsp;</span><span id="classroom"><%- classroom %></span></div>
-			<div class="basic-info"><span style="font-weight:700;">정원&nbsp;&nbsp;</span><span id="class-size"><%- classsize %></span></div>
-			<div class="basic-info"><span style="font-weight:700;">시험&nbsp;&nbsp;</span><span id="exam-time"><%- examtime %></span></div>
+			<div class="basic-info"><span style="font-weight:700;">교수&nbsp;&nbsp;</span><span id="instructor"><%- format_professor_str %></span></div>
+			<div class="basic-info"><span style="font-weight:700;">장소&nbsp;&nbsp;</span><span id="classroom"><%- format_classroom %></span></div>
+			<div class="basic-info"><span style="font-weight:700;">정원&nbsp;&nbsp;</span><span id="class-size"><%- limit %></span></div>
+			<div class="basic-info"><span style="font-weight:700;">시험&nbsp;&nbsp;</span><span id="exam-time"><%- format_exam %></span></div>
 			<div class="lecture-scores">
 				<div class="lecture-score">
-					<div id="language" class="score-text"><%- language %></div>
+					<% if (is_english) { %>
+					<div id="language" class="score-text">Eng</div>
+					<% } else { %>
+					<div id="language" class="score-text" style="">한</div>
+					<% } %>
 					<div class="score-label">언어</div>
 				</div><!--
 		 --><div class="lecture-score">
@@ -576,21 +580,27 @@
 					<div class="score-label">학점</div>
 				</div><!--
 		 --><div class="lecture-score">
-					<div id="rate" class="score-text"><%- rate %></div>
+					<div id="rate" class="score-text">
+						<% if (limit == 0) { %>
+						0.0:1
+						<% } else { %>
+						<%- (num_people/limit).toFixed(1) %>:1
+						<% } %>
+					</div>
 					<div class="score-label">경쟁률</div>
 				</div>
 			</div>
 			<div class="lecture-scores">
 				<div class="lecture-score" style="clear:both;">
-					<div id="grade" class="score-text"><%- grade %></div>
+					<div id="grade" class="score-text"><%- format_grade %></div>
 					<div class="score-label">성적</div>
 				</div><!--
 		 --><div class="lecture-score">
-					<div id="load" class="score-text"><%- load %></div>
+					<div id="load" class="score-text"><%- format_load %></div>
 					<div class="score-label">널널</div>
 				</div><!--
 		 --><div class="lecture-score">
-					<div id="speech" class="score-text"><%- speech %></div>
+					<div id="speech" class="score-text"><%- format_speech %></div>
 					<div class="score-label">강의</div>
 				</div>
 			</div>

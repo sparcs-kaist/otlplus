@@ -138,13 +138,35 @@ def _lecture_result_format(ls):
 
 # Lecture -> dict-Lecture
 def _lecture_to_dict(lecture):
+    # Convert lecture into dict
     result = model_to_dict(lecture)
+
+    # Convert relations into dict
     result['professor'] = [model_to_dict(professor) for professor in lecture.professor.all()]
+    result['classtime_set'] = [model_to_dict(ct) for ct in lecture.classtime_set.all()]
+    result['examtime_set'] = [model_to_dict(et) for et in lecture.examtime_set.all()]
+    
+    # Add formatted professor name
     prof_name_list = [p['professor_name'] for p in result['professor']]
     if len(prof_name_list) <= 2:
       result['format_professor_str'] = u", ".join(prof_name_list)
     else:
       result['format_professor_str'] = u"%s 외 %d명" % (prof_name_list[0], len(prof_name_list)-1)
+
+    # Add formatted department name
+    result['format_dept_name'] = lecture.department.name
+
+    # Add formatted score
+    # TODO
+    result['format_grade'] = u'B+'
+    result['format_load'] = u'B'
+    result['format_speech'] = u'A-'
+
+    # Add formatted classroom
+    # TODO
+    result['format_classroom'] = u'(E11) 창의학습관 101호'
+    result['format_exam'] = u'월요일 9:00 ~ 24:00'
+
     return result
 
 

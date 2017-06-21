@@ -272,13 +272,21 @@ var app = app || {};
     listHover: function (e) {
       if (!app.LectureActive.get("click")) {
         var ct = $(e.currentTarget);
-        var title = ct.parent().find('.list-elem-title').find('strong').text();
-        for (var i = 0, child; child = app.timetables.models[i]; i++) {
-          if (child.attributes.title === title) {
-            app.LectureActive.set(child.attributes);
+        var id = Number(ct.attr('data-id'));
+        var lecList;
+        switch (ct.parent().parent().parent().attr('class').split()[0]) {
+          case 'search-page':
+            lecList = app.searchLectureList;
             break;
-          }
+          case 'major-page':
+            lecList = app.majorLectureList;
+            break;
+          case 'humanity-page':
+            lecList = app.humanityLectureList;
+            break;
         }
+        var lecture = lecList.models.find(function(x){return x.attributes.id===id});
+        app.LectureActive.set(lecture.attributes);
         app.LectureActive.set("click", false);
         app.LectureActive.set("hover", true);
       }
