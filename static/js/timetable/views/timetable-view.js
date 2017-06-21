@@ -395,24 +395,41 @@ var app = app || {};
 
     deleteInfo: function () {
       $(this.el).find('.active-credit').html("");
-      $(this.el).find('#credits').removeClass("active");
-      $(this.el).find('#au').removeClass("active");
+      $(this.el).find('#credits .normal').removeClass("none");
+      $(this.el).find('#credits .active').addClass("none");
+      $(this.el).find('#au .normal').removeClass("none");
+      $(this.el).find('#au .active').addClass("none");
     },
 
     render: function () {
-      var target = $(this.el).find("span:contains(" + app.LectureActive.attributes.type + ")");
-      if (!target.hasClass('lecture-type-span')) {
-        target = $(this.el).find("span#other-lectures").parent().find(".lecture-type-span");
+      var typeDiv = $(this.el).find("[data-type='" + app.LectureActive.attributes.type_en + "']");
+      if (typeDiv.length === 0) {
+        typeDiv = $(this.el).find("[data-type='Etc']");
       }
-      var credit = app.LectureActive.attributes.credit 
-      var au = app.LectureActive.attributes.au 
-      target.parent().find('.active-credit').html("(" + app.LectureActive.attributes.credit + ")");
+      var credit = Number(app.LectureActive.attributes.credit);
+      var au = Number(app.LectureActive.attributes.credit_au);
 
-      if (credit !== "0") {
-        $(this.el).find("#credits").addClass("active")
+      var type_text, credit_text, au_text;
+      if (false) {    // Lecture in timetable : TODO
+        type_text = "(" + (credit+au) + ")";
+        credit_text = Number($(this.el).find("#credits .normal").html());
+        au_text = Number($(this.el).find("#au .normal").html());
+      } else {         // Lecture not in timetable
+        type_text = "+" + (credit + au);
+        credit_text = Number($(this.el).find("#credits .normal").html()) + credit;
+        au_text = Number($(this.el).find("#au .normal").html()) + au;
       }
-      if (au !== "0") {
-        $(this.el).find("#au").addClass("active") 
+
+      typeDiv.find('.active-credit').html(type_text);
+      if (credit !== 0) {
+        $(this.el).find("#credits .active").html(String(credit_text));
+        $(this.el).find("#credits .normal").addClass("none");
+        $(this.el).find("#credits .active").removeClass("none");
+      }
+      if (au !== 0) {
+        $(this.el).find("#au .active").html(au_text);
+        $(this.el).find("#au .normal").addClass("none");
+        $(this.el).find("#au .active").removeClass("none");
       }
     },
   })

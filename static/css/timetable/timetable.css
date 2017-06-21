@@ -1183,7 +1183,8 @@ i
     vertical-align:top;
 }
 
-#credits.active, #au.active
+#credits>.active,
+#au>.active
 {
     color:#e64c65;
 }
