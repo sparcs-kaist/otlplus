@@ -154,6 +154,46 @@ var app = app || {};
       }
     }
   })
+
+
+
+  app.YearSemesterView = Backbone.View.extend({
+    el: '#semester',
+
+    events: {
+      'click #semester-prev': 'semesterPrev',
+      'click #semester-next': 'semesterNext',
+    },
+
+    semesterPrev: function(e) {
+      var year = app.YearSemester.get('year');
+      var semester = app.YearSemester.get('semester');
+      var semText = ['', '봄','', '가을'];
+      if (semester === 1) {
+        year = year - 1;
+        semester = 3;
+      } else {
+        semester = 1;
+      }
+      app.YearSemester.set({year:year, semester:semester});
+      $(this.el).find("#semester-text").html(year+' '+semText[semester]);
+    },
+
+    semesterNext: function(e) {
+      var year = app.YearSemester.get('year');
+      var semester = app.YearSemester.get('semester');
+      var semText = ['', '봄','', '가을'];
+      if (semester === 3) {
+        year = year + 1;
+        semester = 1;
+      } else {
+        semester = 3;
+      }
+      app.YearSemester.set({year:year, semester:semester});
+      $(this.el).find("#semester-text").html(year+' '+semText[semester]);
+    },
+  })
 })(jQuery);
 
 var search = new app.LectureSearchView();
+var yearSemesterView = new app.YearSemesterView();
