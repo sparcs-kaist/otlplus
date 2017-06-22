@@ -108,18 +108,7 @@
 						전산학부 전공
 					</div>
 					<div class="list-scroll">
-						{% for course in major1 %}
-						<div class="list-elem">
-							<div class="list-elem-title"><strong>{{ course.0.format_common_title }}</strong> {{ course.0.old_code }}</div>
-							{% for lecture in course %}
-							<div class="list-elem-body-wrap" data-id="{{ lecture.id }}">
-								<div class="list-elem-body">
-									<div class="list-elem-body-text"><strong>{{ lecture.format_class_title }}</strong> {{ lecture.format_professor_str }}</div><i class="add-to-cart"></i><i class="add-to-table"></i>
-								</div>
-							</div>
-							{% endfor %}
-						</div>
-						{% endfor %}
+						<!-- Lecture list inserted here -->
 					</div>
 				</div>
 				<div class="humanity-page none">
@@ -127,18 +116,7 @@
 						인문사회선택
 					</div>
 					<div class="list-scroll">
-						{% for course in humanity %}
-						<div class="list-elem">
-							<div class="list-elem-title"><strong>{{ course.0.format_common_title }}</strong> {{ course.0.old_code }}</div>
-							{% for lecture in course %}
-							<div class="list-elem-body-wrap" data-id="{{ lecture.id }}">
-								<div class="list-elem-body">
-									<div class="list-elem-body-text"><strong>{{ lecture.format_class_title }}</strong> {{ lecture.format_professor_str }}</div><i class="add-to-cart"></i><i class="add-to-table"></i>
-								</div>
-							</div>
-							{% endfor %}
-						</div>
-						{% endfor %}
+						<!-- Lecture list inserted here -->
 					</div>
 				</div>
 			</div>
@@ -538,11 +516,11 @@
 <script type="text/template" id="list-template">
 <% _.each(courses, function(course) { %>
 <div class="list-elem">
-  <div class="list-elem-title"><strong><%- course[0].format_common_title %></strong> <%- course[0].old_code %></div>
+  <div class="list-elem-title"><strong><%- course[0].get('format_common_title') %></strong> <%- course[0].get('old_code') %></div>
   <% _.each(course, function(lecture) { %>
-  <div class="list-elem-body-wrap" data-id="<%- lecture.id %>">
+  <div class="list-elem-body-wrap" data-id="<%- lecture.get('id') %>">
     <div class="list-elem-body">
-      <div class="list-elem-body-text"><strong><%- lecture.format_class_title %></strong> <%- lecture.format_professor_str %></div><i class="add-to-cart"></i><i class="add-to-table"></i>
+      <div class="list-elem-body-text"><strong><%- lecture.get('format_class_title') %></strong> <%- lecture.get('format_professor_str') %></div><i class="add-to-cart"></i><i class="add-to-table"></i>
     </div>
   </div>
   <% }); %>
