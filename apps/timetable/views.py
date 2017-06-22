@@ -132,6 +132,7 @@ def _lecture_result_format(ls):
     result = [_add_title_format(x) for x in result]
     result = [sorted(x, key = (lambda y:y['class_no'])) for x in result]
     result.sort(key = (lambda x:x[0]['old_code']))
+    result = [y for x in result for y in x] # Flatten nested list
     
     return result
 
@@ -220,17 +221,8 @@ def main(request):
         department = get user's department
         course_type = ["Major Required", "Major Elective"]
     """
-    department = "전산학부"
-    course_type = ["Major Required", "Major Elective"]
-    major1_course = Course.objects.filter(department__name__iexact=department, type_en__in=course_type)
-    major1_cl = [get_filtered_lectures(2016, 1, c) for c in major1_course]
-    major1_result = _lecture_result_format(major1_cl)
     
-    humanity_course = Course.objects.filter(type_en="Humanities & Social Elective")
-    humanity_cl = [get_filtered_lectures(2016, 1, c) for c in humanity_course]
-    humanity_result = _lecture_result_format(humanity_cl)
-    
-    return render(request,'timetable/index.html',{'major1':major1_result,'humanity':humanity_result})
+    return render(request,'timetable/index.html')
 
 
 def show_table(request):
@@ -545,17 +537,27 @@ def calendar(request):
 
 
 def major_list(request):
-    department = "전산학부"
-    course_type = ["Major Required", "Major Elective"]
-    major1_course = Course.objects.filter(department__name__iexact=department, type_en__in=course_type)
-    major1_cl = [get_filtered_lectures(2016, 1, c) for c in major1_course]
-    major1_result = _lecture_result_format(major1_cl)
-    major1_result = [y for x in major1_result for y in x] # Flatten nested list
-    return JsonResponse(major1_result, safe=False)
+    if request.method == "POST":
+        department = "전산학부"
+        course_type = ["Major Required", "Major Elective"]
+        year = request.POST["year"]
+        semester = request.POST["semester"]
+    
+        major1_course = Course.objects.filter(department__name__iexact=department, type_en__in=course_type)
+        major1_cl = [get_filtered_lectures(year, semester, c) for c in major1_course]
+        major1_result = _lecture_result_format(major1_cl)
+
+        return JsonResponse(major1_result, safe=False)
+
+
 
 def humanity_list(request):
-    humanity_course = Course.objects.filter(type_en="Humanities & Social Elective")
-    humanity_cl = [get_filtered_lectures(2016, 1, c) for c in humanity_course]
-    humanity_result = _lecture_result_format(humanity_cl)
-    humanity_result = [y for x in humanity_result for y in x] # Flatten nested list
-    return JsonResponse(humanity_result, safe=False)
+    if request.method == "POST":
+        year = request.POST["year"]
+        semester = request.POST["semester"]
+
+        humanity_course = Course.objects.filter(type_en="Humanities & Social Elective")
+        humanity_cl = [get_filtered_lectures(year, semester, c) for c in humanity_course]
+        humanity_result = _lecture_result_format(humanity_cl)
+
+        return JsonResponse(humanity_result, safe=False)

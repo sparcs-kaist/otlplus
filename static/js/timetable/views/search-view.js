@@ -10,6 +10,17 @@ var app = app || {};
     el: '#search-container',
     initialize: function (opt) {
       $(this.el).find(".chkall").prop('checked', true);
+      this.listenTo(app.searchLectureList,
+                    'update',
+                    this.genListRender(app.searchLectureList, 'search'));
+      this.listenTo(app.majorLectureList,
+                    'update',
+                    this.genListRender(app.majorLectureList, 'major'));
+      this.listenTo(app.humanityLectureList,
+                    'update',
+                    this.genListRender(app.humanityLectureList, 'humanity'));
+      this.listenTo(app.YearSemester, 'change', this.fetchLists);
+      app.YearSemester.set({year:2016, semester:1});
     },
 
     events: {
@@ -103,26 +114,17 @@ var app = app || {};
           }
         }
       });
-      data["year"] = 2016; // TODO : Change this to actual semester settings
-      data["semester"] = 1; // TODO : Change this to actual semester settings
+      data["year"] = app.YearSemester.attributes.year;
+      data["semester"] = app.YearSemester.attributes.semester;
 
       app.SearchKeyword.set(data);
       app.SearchKeyword.save(null, {
         success: function(model, resp, options) {
-          console.log("success");
-          console.log(resp);
-          var block = $(".search-page").find(".list-scroll");
-          var template = _.template($('#list-template').html());
-
           app.searchLectureList.reset();
-          for (var i=0; i<resp.courses.length; i++) {
-            for (var j=0; j<resp.courses[i].length; j++) {
-              app.searchLectureList.create(resp.courses[i][j]);
-            }
-          }
 
-          block.children().remove();
-          block.html(template(resp));
+          var lectures = [].concat.apply([], resp.courses); // Flatten double array to single array
+          app.searchLectureList.reset();
+          app.searchLectureList.add(lectures);
 
           $(".result-text").text(resp.search_text);
           $(".search-extend").addClass('none');
@@ -131,6 +133,27 @@ var app = app || {};
           console.log("error" + resp.status);
         }
       });
+    },
+
+    fetchLists: function() {
+      var blocks = $(this.el).find(".list-scroll");
+      var options = {data: {year: app.YearSemester.get('year'),
+                            semester: app.YearSemester.get('semester')},
+                     type: 'POST'};
+
+      blocks.html('');
+      app.majorLectureList.fetch(options);
+      app.humanityLectureList.fetch(options);
+    },
+ 
+    genListRender: function(lecList, name) {
+    // Generates function that renders lecture list
+      return function() {
+        var template = _.template($('#list-template').html());
+        var courses = _.groupBy(lecList.models, function(x){return x.get('old_code')});
+        var block = $('.'+name+'-page').find('.list-scroll');
+        block.html(template({courses:courses}));
+      }
     }
   })
 })(jQuery);

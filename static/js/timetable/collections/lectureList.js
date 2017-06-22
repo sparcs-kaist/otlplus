@@ -15,7 +15,5 @@ var app = app || {};
   // Create
   app.searchLectureList = new SomeLectureList('');
   app.majorLectureList = new SomeLectureList('/timetable/list/major/');
-  app.majorLectureList.fetch();
   app.humanityLectureList = new SomeLectureList('/timetable/list/humanity/');
-  app.humanityLectureList.fetch();
 })();
