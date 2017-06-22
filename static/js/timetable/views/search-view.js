@@ -120,8 +120,6 @@ var app = app || {};
       app.SearchKeyword.set(data);
       app.SearchKeyword.save(null, {
         success: function(model, resp, options) {
-          app.searchLectureList.reset();
-
           var lectures = [].concat.apply([], resp.courses); // Flatten double array to single array
           app.searchLectureList.reset();
           app.searchLectureList.add(lectures);
