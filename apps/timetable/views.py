@@ -386,9 +386,19 @@ def show_my_lectures(request):
     except:
         raise ValidationError('no user profile')
 
-    timetables = list(TimeTable.objects.filter(user=userprofile))
+    year = int(request.POST['year'])
+    semester = int(request.POST['semester'])
+    print(year, semester)
+    timetables = list(TimeTable.objects.filter(user=userprofile, year=year, semester=semester))
+    print(timetables)
 
     ctx = []
+
+    if len(timetables) == 0:
+        # Create new timetable if no timetable exists
+        t = TimeTable(user=userprofile, year=year, semester=semester)
+        t.save()
+        timetables = [t]
 
     for i, t in enumerate(timetables):
         timetable = model_to_dict(t, exclude='lecture')
