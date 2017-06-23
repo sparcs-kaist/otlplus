@@ -125,11 +125,8 @@
 	<div id="center">
 		<div id="timetable-menu">
 			<div id="timetable-tabs" style="clear:both;">
-				<a href="#/1" class="timetable-tab active"><span class="timetable-num">시간표 1</span><span class="hidden-option"><i class="duplicate-table"></i><i class="delete-table"></i></span></a><!--
-		 --><a href="#/2" class="timetable-tab"><span class="timetable-num">시간표 2</span><p class="hidden-option"><i class="duplicate-table"></i><i class="delete-table"></i></p></a><!--
-		 --><a href="#/3" class="timetable-tab"><span class="timetable-num">시간표 3</span><p class="hidden-option"><i class="duplicate-table"></i><i class="delete-table"></i></p></a><!--
-		 --><a href="#/4" class="timetable-tab"><span class="timetable-num">시간표 4</span><p class="hidden-option"><i class="duplicate-table"></i><i class="delete-table"></i></p></a><!--
-		 --><a class="timetable-tab timetable-add"><span class="timetable-num"><i class="add-table"></i></span></a>
+				<a href="#/1" class="timetable-tab active"><span class="timetable-num">시간표 1</span><span class="hidden-option"><i class="duplicate-table"></i><i class="delete-table"></i></span></a>
+				<a class="timetable-tab timetable-add"><span class="timetable-num"><i class="add-table"></i></span></a>
 			</div>
                         <div id="semester">
 				<i id="semester-prev"></i>
@@ -655,6 +652,13 @@
 			</div>
 		</div>
   </div>
+</script>
+
+<script type="text/template" id="timetable-tab-template">
+<% _.each(ids, function(id, idx){ %>
+<a href="#/<%- idx+1 %>" class="timetable-tab" data-id="<%- id %>"><span class="timetable-num">시간표 <%- idx+1 %></span><span class="hidden-option"><i class="duplicate-table"></i><i class="delete-table"></i></span></a>
+<% }); %>
+<a class="timetable-tab timetable-add"><span class="timetable-num"><i class="add-table"></i></span></a>
 </script>
 
 {% endblock %}

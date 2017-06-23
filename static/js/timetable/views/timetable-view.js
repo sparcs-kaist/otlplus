@@ -161,7 +161,6 @@ var app = app || {};
     template: _.template($('#timetable-lecture-template').html()),
 
     events: {
-      'click .timetable-tab': "render",
       'mouseover .lecture-block': "blockHover",
       'mouseout .lecture-block': "blockOut",
       'click': "blockClick",
@@ -173,17 +172,6 @@ var app = app || {};
       $(window).on("resize", this.render);
 
       this.listenTo(app.CurrentTimetable, 'change', this.render);
-      this.listenTo(app.timetables,
-                    'update',
-                    function(){app.CurrentTimetable.set(app.timetables.models[0].attributes);});
-      this.listenTo(app.YearSemester,
-                    'change',
-                    function(){
-                      var options = {data: {year: app.YearSemester.get('year'),
-                                            semester: app.YearSemester.get('semester')},
-                                    type: 'POST'};
-                      app.timetables.fetch(options);
-                    });
     },
 
     blockHover: function (e) {
@@ -442,6 +430,43 @@ var app = app || {};
       }
     },
   })
+
+  app.TimetableTabView = Backbone.View.extend({
+    el: '#timetable-tabs',
+
+    events: {
+      'click .timetable-tab': "changeTab",
+    },
+
+    initialize: function() {
+      this.listenTo(app.timetables,
+                    'update',
+                    this.makeTab);
+      this.listenTo(app.YearSemester,
+                    'change',
+                    function(){
+                      var options = {data: {year: app.YearSemester.get('year'),
+                                            semester: app.YearSemester.get('semester')},
+                                    type: 'POST'};
+                      app.timetables.fetch(options);
+                    });
+    },
+
+    makeTab: function() {
+      app.CurrentTimetable.set(app.timetables.models[0].attributes);
+
+      var template = _.template($('#timetable-tab-template').html());
+      var block = $('#timetable-tabs');
+      block.html(template({ids : app.timetables.pluck('id')}));
+      block.children().first().addClass('active');
+    },
+
+    changeTab: function(e) {
+      var id = Number($(e.currentTarget).attr('data-id'));
+      var timetable = app.timetables.models.find(function(x){return x.get('id')===id});
+      app.CurrentTimetable.set(timetable.attributes);
+    },
+  })
 })(jQuery);
 
 var lectureInfo = new app.LectureInfoView();
@@ -450,3 +475,4 @@ var lectureList = new app.lectureListView();
 var userLectureList = new app.TimetableLectureBlocksView();
 var userLectureList2 = new app.ListLectureBlocksView();
 var timetableInfo = new app.TimetableInfoView();
+var timetableTabView = new app.TimetableTabView();
