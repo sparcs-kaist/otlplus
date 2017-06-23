@@ -172,11 +172,18 @@ var app = app || {};
       //app.timetables.bind("reset", this.render);
       $(window).on("resize", this.render);
 
+      this.listenTo(app.CurrentTimetable, 'change', this.render);
       this.listenTo(app.timetables,
                     'update',
-                    function(){app.CurrentTimetable.set(app.timetables.models[0].attributes)});
-      this.listenTo(app.CurrentTimetable, 'change', this.render);
-      app.timetables.fetch();
+                    function(){app.CurrentTimetable.set(app.timetables.models[0].attributes);});
+      this.listenTo(app.YearSemester,
+                    'change',
+                    function(){
+                      var options = {data: {year: app.YearSemester.get('year'),
+                                            semester: app.YearSemester.get('semester')},
+                                    type: 'POST'};
+                      app.timetables.fetch(options);
+                    });
     },
 
     blockHover: function (e) {
@@ -229,6 +236,7 @@ var app = app || {};
     },
 
     render: function() {
+      $(this.el).find('.lecture-block').remove();
       var lectures = app.CurrentTimetable.get('lectures')
       for (var i = 0, child; child = lectures[i]; i++) {
         child['day'] = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'][i%7];
