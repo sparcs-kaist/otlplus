@@ -391,6 +391,7 @@ var app = app || {};
       $(this.el).find('#credits .active').addClass("none");
       $(this.el).find('#au .normal').removeClass("none");
       $(this.el).find('#au .active').addClass("none");
+      $('.lecture-block').removeClass('active');
     },
 
     render: function () {
@@ -400,12 +401,17 @@ var app = app || {};
       }
       var credit = Number(app.LectureActive.attributes.credit);
       var au = Number(app.LectureActive.attributes.credit_au);
-
+      var id = Number(app.LectureActive.get('id'));
+      var inTimetable = app.CurrentTimetable.get('lectures').find(function(x){return x.id===id});
       var type_text, credit_text, au_text;
-      if (false) {    // Lecture in timetable : TODO
+
+      if (inTimetable) {    // Lecture in timetable
         type_text = "(" + (credit+au) + ")";
         credit_text = Number($(this.el).find("#credits .normal").html());
         au_text = Number($(this.el).find("#au .normal").html());
+        if (!app.LectureActive.get('click')) {
+          $('.lecture-block[data-id=' + id + ']').addClass('active');
+        }
       } else {         // Lecture not in timetable
         type_text = "+" + (credit + au);
         credit_text = Number($(this.el).find("#credits .normal").html()) + credit;
