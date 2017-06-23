@@ -780,6 +780,7 @@ i
 #timetable-tabs
 {
     float:left;
+    font-size:0px;
 }
 
 .timetable-tab
