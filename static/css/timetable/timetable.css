@@ -1046,6 +1046,7 @@ i
 
 .cell1
 {
+    position: relative;
     -webkit-box-flex:1;
         -ms-flex:auto;
             flex:auto;
@@ -1055,6 +1056,7 @@ i
 
 .cell2
 {
+    position: relative;
     -webkit-box-flex:1;
         -ms-flex:auto;
             flex:auto;
@@ -1392,6 +1394,7 @@ i
     border-top:1px white solid;
     border-bottom:1px white solid;
     z-index:2;
+    left: -1px;
 }
 
 .lecture-block.active

@@ -229,7 +229,7 @@ var app = app || {};
       for (var i = 0, child; child = lectures[i]; i++) {
         child['day'] = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'][i%7];
         child['starttime'] = (Math.floor(i / 7) * 3 + 9) + '00';
-        child['endtime'] = (Math.floor(i / 7) * 3 + 12) + '00';
+        child['endtime'] = (Math.floor(i) * 3 + 12) + '00';
 
         var day = timetable.indexOfDay(child.day) + 2;
         var startTime = timetable.indexOfTime(child.starttime) + 2;
@@ -242,15 +242,10 @@ var app = app || {};
         var w = block.width();
         var h = block.height()+1;
         block.html(this.template({title: child.title,
-                                  id: child.id}));
+                                  id: child.id,
+                                  width: w+2,
+                                  height: h*time-1}));
       }
-      var lectureBlock = $(this.el).find('.lecture-block');
-      console.log(lectureBlock);
-      lectureBlock.css('height', h*time-1);
-      lectureBlock.css('width', w+2);
-      //var left = lectureBlock.left() - 1;
-      var dif = -1;
-      lectureBlock.css({left: "+=" + dif});
     }
   })
 
