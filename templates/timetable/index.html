@@ -381,12 +381,19 @@
 			<div style="height:3px;"></div>
 			<div id="right-side">
 				<div id="map">
-					<div id="map-wrap">
-						<div id="map-container">
-							<div id="map-img">
-								<div> 지도</div>
+					<div id="map-container">
+						<img id="map-img" src="/media/img/timetable/kaist_map.jpg">
+					  {% for i in "1234" %}
+						<div class="map-location {% cycle 'E11' 'N1' 'N4' 'N25'%}" data-building="{% cycle 'E11' 'N1' 'N4' 'N25'%}" data-id="1234">
+							<div class="map-location-box">
+								<span class="map-location-text">{% cycle 'E11' 'N1' 'N4' 'N25'%}</span>
+								<span class="map-location-circle"></span>
+								<span class="map-location-circle"></span>
 							</div>
+							<div class="map-location-arrow-shadow"></div>
+							<div class="map-location-arrow"></div>
 						</div>
+						{% endfor %}
 					</div>
 				</div>
 				<div id="info">
