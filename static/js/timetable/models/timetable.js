@@ -9,4 +9,6 @@ var app = app || {};
   
   app.Timetable = Backbone.Model.extend({
   });
+
+  app.CurrentTimetable = new app.Timetable;
 })();

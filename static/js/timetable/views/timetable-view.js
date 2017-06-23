@@ -169,27 +169,26 @@ var app = app || {};
     
     initialize: function() {
       _.bindAll(this,"render");
-      this.render();
       //app.timetables.bind("reset", this.render);
       $(window).on("resize", this.render);
-      this.listenTo(app.timetables, "successOnFetch", this.render);
+
+      this.listenTo(app.timetables,
+                    'update',
+                    function(){app.CurrentTimetable.set(app.timetables.models[0].attributes)});
+      this.listenTo(app.CurrentTimetable, 'change', this.render);
+      app.timetables.fetch();
     },
 
     blockHover: function (e) {
       if (!app.LectureActive.get("click")) {
-        var target = $(e.target);
-        if (target.hasClass('lecture-block')) {
-          target.addClass('active');
-        } else {
-          target.parent().parent().find('.lecture-block').addClass('active').removeClass('click');
-        }
-        var title = target.parent().find('.timetable-lecture-name').text();
-        for (var i = 0, child; child = app.timetables.models[i]; i++) {
-          if (child.attributes.title === title) {
-            app.LectureActive.set(child.attributes);
-            break;
-          }
-        }
+        var ct = $(e.currentTarget);
+        var id = Number(ct.attr('data-id'));
+        var lecList = app.CurrentTimetable.get('lectures');
+
+        ct.addClass('active');
+
+        var lecture = lecList.find(function(x){return x.id===id});
+        app.LectureActive.set(lecture);
         app.LectureActive.set("click", false);
         app.LectureActive.set("hover", true);
       }
@@ -208,7 +207,6 @@ var app = app || {};
 
     blockClick: function (e) {
       var target = $(e.target);
-      console.log(target);
       $(this.el).find('.lecture-block').removeClass('active').removeClass('click');
       if (target.hasClass("half") || target.hasClass('day') || target.is('#timetable-contents')) {
         app.LectureActive.clear();
@@ -222,22 +220,24 @@ var app = app || {};
       } else {
         target.parent().parent().find('.lecture-block').addClass('click').removeClass('active');
       }
-      var title = target.parent().find('.timetable-lecture-name').text();
-      for (var i = 0, child; child = app.timetables.models[i]; i++) {
-        if (child.attributes.title === title) {
-          app.LectureActive.set(child.attributes);
-          break;
-        }
-      }
+      var id = Number(target.parent().find('.lecture-block').attr('data-id'));
+      var lecList = app.CurrentTimetable.get('lectures');
+      var lecture = lecList.find(function(x){return x.id===id});
+      app.LectureActive.set(lecture);
       app.LectureActive.set("click", true);
       app.LectureActive.set("hover", false);
     },
 
     render: function() {
-      for (var i = 0, child; child = app.timetables.models[i]; i++) {
-        var day = timetable.indexOfDay(child.attributes.day) + 1;
-        var startTime = timetable.indexOfTime(child.attributes.starttime) + 1;
-        var endTime = timetable.indexOfTime(child.attributes.endtime) + 1;
+      var lectures = app.CurrentTimetable.get('lectures')
+      for (var i = 0, child; child = lectures[i]; i++) {
+        child['day'] = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'][i%7];
+        child['starttime'] = (Math.floor(i / 7) * 3 + 9) + '00';
+        child['endtime'] = (Math.floor(i / 7) * 3 + 12) + '00';
+
+        var day = timetable.indexOfDay(child.day) + 2;
+        var startTime = timetable.indexOfTime(child.starttime) + 2;
+        var endTime = timetable.indexOfTime(child.endtime) + 2;
         var time = endTime-startTime;
         var block = $(this.el)
           .find(
@@ -245,7 +245,8 @@ var app = app || {};
           .find('.half:nth-child(n+' + startTime + '):nth-child(-n+' + startTime + ')')
         var w = block.width();
         var h = block.height()+1;
-        block.html(this.template({title: child.attributes.title}));
+        block.html(this.template({title: child.title,
+                                  id: child.id}));
       }
       var lectureBlock = $(this.el).find('.lecture-block');
       console.log(lectureBlock);
@@ -441,4 +442,3 @@ var lectureList = new app.lectureListView();
 var userLectureList = new app.TimetableLectureBlocksView();
 var userLectureList2 = new app.ListLectureBlocksView();
 var timetableInfo = new app.TimetableInfoView();
-app.timetables.getUserLectures();

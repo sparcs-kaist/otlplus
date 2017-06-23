@@ -2,7 +2,7 @@
 
 # Django apps
 from apps.session.models import UserProfile
-# from apps.timetable.models import TimeTable
+from apps.timetable.models import TimeTable
 from apps.subject.models import Lecture, Professor, Course
 from apps.review.models import Comment
 from django.contrib.auth.models import User
@@ -199,6 +199,7 @@ def _add_title_format(lectures):
 def _lcs_front(ls):
     if len(ls)==0:
       return ""
+    result = ""
     for i in range(len(ls[0]), 0, -1): # [len(ls[0]),...,2,1]
       flag = True
       for l in ls:
@@ -387,17 +388,12 @@ def show_my_lectures(request):
 
     timetables = list(TimeTable.objects.filter(user=userprofile))
 
-    ctx = {
-        'timetables': [],
-    }
+    ctx = []
 
     for i, t in enumerate(timetables):
         timetable = model_to_dict(t, exclude='lecture')
-        lects = []
-        for l in t.lecture.all():
-            lects.append(model_to_dict(l))
-        ctx['timetables'].append(timetable)
-        ctx['timetables'][i]['lecture'] = lects
+        ctx.append(timetable)
+        ctx[i]['lectures'] = _lecture_result_format([t.lecture.all()])
 
     return JsonResponse(ctx, safe=False, json_dumps_params=
                         {'ensure_ascii': False})
