@@ -202,20 +202,20 @@ var app = app || {};
 
     blockClick: function (e) {
       var target = $(e.target);
+      var block = target.closest('.lecture-block');
       $(this.el).find('.lecture-block').removeClass('active').removeClass('click');
-      if (target.hasClass("half") || target.hasClass('day') || target.is('#timetable-contents')) {
+      if (block.length === 0) {
+        // Click target is not child(or itself) of lecture block
         app.LectureActive.clear();
         app.LectureActive.set({
           "click":false,
           "hover":false,
         })
         return;
-      } else if (target.hasClass('lecture-block')) {
-        target.addClass('click').removeClass('active');
       } else {
-        target.parent().parent().find('.lecture-block').addClass('click').removeClass('active');
+        block.addClass('click').removeClass('active');
       }
-      var id = Number(target.parent().find('.lecture-block').attr('data-id'));
+      var id = Number(block.attr('data-id'));
       var lecList = app.CurrentTimetable.get('lectures');
       var lecture = lecList.find(function(x){return x.id===id});
       app.LectureActive.set(lecture);
