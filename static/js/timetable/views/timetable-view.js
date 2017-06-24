@@ -441,7 +441,8 @@ var app = app || {};
     },
 
     render: function() {
-      $(this.el).find('.lecture-block').remove();
+      // Make timetable blocks
+      $('#timetable-contents .lecture-block').remove();
       var lectures = app.CurrentTimetable.get('lectures')
       for (var i = 0, child; child = lectures[i]; i++) {
         console.log(lectures);
@@ -464,6 +465,46 @@ var app = app || {};
                                   width: w+2,
                                   height: h*time-1}));
       }
+
+      // Update credit info
+      var credit=0, au=0;
+      var byType=[0,0,0,0,0,0];
+      for (var i = 0, child; child = lectures[i]; i++) {
+        credit += child.credit;
+        au += child.credit_au;
+        switch (child.type_en) {
+          case ('Basic Required'):
+            byType[0] += child.credit+child.credit_au;
+            break;
+          case ('Basic Required'):
+            byType[1] += child.credit+child.credit_au;
+            break;
+          case ('Major Required'):
+            byType[2] += child.credit+child.credit_au;
+            break;
+          case ('Major Elective'):
+            byType[3] += child.credit+child.credit_au;
+            break;
+          case ('Humanities & Sociel Elective'):
+            byType[4] += child.credit+child.credit_au;
+            break;
+          default:
+            byType[5] += child.credit+child.credit_au;
+        }
+      }
+      $('#credits .normal').html(credit);
+      $('#au .normal').html(au);
+      $('.lecture-type[data-type="Basic Required"').find('.credit-text').html(byType[0]);
+      $('.lecture-type-right[data-type="Basic Elective"').find('.credit-text').html(byType[1]);
+      $('.lecture-type[data-type="Major Required"').find('.credit-text').html(byType[2]);
+      $('.lecture-type-right[data-type="Major Elective"').find('.credit-text').html(byType[3]);
+      $('.lecture-type[data-type="Humanities & Sociel Elective"').find('.credit-text').html(byType[4]);
+      $('.lecture-type-right[data-type="Etc"').find('.credit-text').html(byType[5]);
+
+
+      // Update map : TODO
+
+      // Update exam info : TODO
     }
   })
 })(jQuery);
