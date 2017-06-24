@@ -248,8 +248,6 @@ $.ajaxSetup({
         var id = Number(ct.attr('data-id'));
         var lecList = app.CurrentTimetable.get('lectures');
 
-        ct.addClass('active');
-
         var lecture = lecList.find(function(x){return x.id===id});
         app.LectureActive.set(lecture);
         app.LectureActive.set("click", false);
@@ -280,9 +278,8 @@ $.ajaxSetup({
           "hover":false,
         })
         return;
-      } else {
-        block.addClass('click').removeClass('active');
       }
+
       var id = Number(block.attr('data-id'));
       var lecList = app.CurrentTimetable.get('lectures');
       var lecture = lecList.find(function(x){return x.id===id});
@@ -472,6 +469,7 @@ $.ajaxSetup({
       $(this.el).find('#au .normal').removeClass("none");
       $(this.el).find('#au .active').addClass("none");
       $('.lecture-block').removeClass('active');
+      $('.lecture-block').removeClass('click');
     },
 
     render: function () {
@@ -489,9 +487,6 @@ $.ajaxSetup({
         type_text = "(" + (credit+au) + ")";
         credit_text = Number($(this.el).find("#credits .normal").html());
         au_text = Number($(this.el).find("#au .normal").html());
-        if (!app.LectureActive.get('click')) {
-          $('.lecture-block[data-id=' + id + ']').addClass('active');
-        }
       } else {         // Lecture not in timetable
         type_text = "+" + (credit + au);
         credit_text = Number($(this.el).find("#credits .normal").html()) + credit;
@@ -525,6 +520,7 @@ $.ajaxSetup({
     initialize: function() {
       _.bindAll(this,"render");
       $(window).on("resize", this.render);
+      this.listenTo(app.LectureActive, 'change', this.highlightBlocks);
       this.listenTo(app.CurrentTimetable, 'change', this.render);
       this.listenTo(app.timetables, 'update', this.makeTab);
       this.listenTo(app.YearSemester, 'change', this.fetchTab);
@@ -554,30 +550,48 @@ $.ajaxSetup({
       // this.render is automatically called here
     },
 
+    highlightBlocks: function() {
+      if (app.LectureActive.get('hover')) {
+        $('.lecture-block[data-id=' + app.LectureActive.get('id') + ']').addClass('active');
+      }
+      if (app.LectureActive.get('click')) {
+        $('.lecture-block[data-id=' + app.LectureActive.get('id') + ']').addClass('click');
+      }
+    },
+
     render: function() {
+      console.log('render');
       // Make timetable blocks
       $('#timetable-contents .lecture-block').remove();
       var lectures = app.CurrentTimetable.get('lectures')
       for (var i = 0, child; child = lectures[i]; i++) {
-        child['day'] = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'][i%7];
-        child['starttime'] = (Math.floor(i / 7) * 3 + 9) + '00';
-        child['endtime'] = (Math.floor(i) * 3 + 12) + '00';
+        for (var j=0; j<2; j++) {
+          child['day'] = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'][i%2 + 2*j];
+          if (Math.floor(i/2)%2 == 0) {
+            child['starttime'] = (Math.floor(i / 4) * 3 + 9) + '00';
+            child['endtime'] = (Math.floor(i / 4) * 3 + 10) + '30';
+          } else {
+            child['starttime'] = (Math.floor(i / 4) * 3 + 10) + '30';
+            child['endtime'] = (Math.floor(i / 4) * 3 + 12) + '00';
+          }
 
-        var day = timetable.indexOfDay(child.day) + 2;
-        var startTime = timetable.indexOfTime(child.starttime) + 2;
-        var endTime = timetable.indexOfTime(child.endtime) + 2;
-        var time = endTime-startTime;
-        var block = $('#timetable-contents')
-          .find(
-          '.day:nth-child(n+' + day + '):nth-child(-n+' + day + ')')
-          .find('.half:nth-child(n+' + startTime + '):nth-child(-n+' + startTime + ')')
-        var w = block.width();
-        var h = block.height()+1;
-        block.html(this.template({title: child.title,
-                                  id: child.id,
-                                  width: w+2,
-                                  height: h*time-1}));
+          var day = timetable.indexOfDay(child.day) + 2;
+          var startTime = timetable.indexOfTime(child.starttime) + 2;
+          var endTime = timetable.indexOfTime(child.endtime) + 2;
+          var time = endTime-startTime;
+          var block = $('#timetable-contents')
+            .find(
+            '.day:nth-child(n+' + day + '):nth-child(-n+' + day + ')')
+            .find('.half:nth-child(n+' + startTime + '):nth-child(-n+' + startTime + ')')
+          var w = block.width();
+          var h = block.height()+1;
+          block.html(this.template({title: child.title,
+                                    id: child.id,
+                                    width: w+2,
+                                    height: h*time-1}));
+        }
       }
+      this.highlightBlocks();
 
       // Update credit info
       var credit=0, au=0;
