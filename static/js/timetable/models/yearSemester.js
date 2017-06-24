@@ -4,11 +4,11 @@ var app = app || {};
 (function () {
   'use strict';
 
-  // Timetable Model
+  // YearSemester Model
   // ---------------
   
-  app.Timetable = Backbone.Model.extend({
+  var yearSemester = Backbone.Model.extend({
   });
 
-  app.CurrentTimetable = new app.Timetable;
+  app.YearSemester = new yearSemester();
 })();
