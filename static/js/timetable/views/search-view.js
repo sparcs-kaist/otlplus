@@ -151,6 +151,15 @@ var app = app || {};
         var courses = _.groupBy(lecList.models, function(x){return x.get('old_code')});
         var block = $('.'+name+'-page').find('.list-scroll');
         block.html(template({courses:courses}));
+
+        // Disable add buttons
+        block.find('.add-to-table').removeClass('disable');
+        var lectures = app.CurrentTimetable.get('lectures');
+        for (var i = 0, child; child = lectures[i]; i++) {
+          $('[data-id='+child.id+'] .add-to-table').addClass('disable');
+        }
+
+        // Disable cart buttons : TODO
       }
     }
   })
