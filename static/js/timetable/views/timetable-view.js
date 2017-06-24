@@ -217,15 +217,14 @@ $.ajaxSetup({
               break;
           }
           var lecture = lecList.find(function(x){return x.get("id")===lecture_id});
-          var timetableLectures = _.clone(app.CurrentTimetable.get('lectures'));
-          timetableLectures.push(lecture.attributes);
 
           // Update app.CurrentTimetable
-          app.CurrentTimetable.set('lectures', timetableLectures);
+          app.CurrentTimetable.get('lectures').push(lecture.attributes);
+          app.CurrentTimetable.trigger('change');
 
           // Update app.timetables
           var timetableModel = app.timetables.models.find(function(x){return x.get('id')===timetable_id});
-          timetableModel.set('lectures', timetableLectures);
+          timetableModel.get('lectures').push(lecture.attributes);
         },
       });
     },
