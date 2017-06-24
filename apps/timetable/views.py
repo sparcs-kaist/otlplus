@@ -36,6 +36,7 @@ import httplib2
 import os
 import json
 import urllib
+import random
 
 from django.views.decorators.csrf import csrf_exempt
 
@@ -312,7 +313,7 @@ def copy_my_timetable(request):
     try:
         userprofile = UserProfile.objects.get(user=request.user)
     except:
-        raise ValidationError('no user profile')
+        return JsonResponse({'id':random.randrange(1,100000000)})
 
     if 'table_id' not in request.POST or \
        'year' not in request.POST or 'semester' not in request.POST:
@@ -346,7 +347,7 @@ def delete_my_timetable(request):
     try:
         userprofile = UserProfile.objects.get(user=request.user)
     except:
-        raise validationerror('no user profile')
+        return JsonResponse({})
 
     if 'table_id' not in request.POST or 'year' not in request.POST or \
        'semester' not in request.POST:
@@ -373,7 +374,7 @@ def create_timetable(request):
     try:
         userprofile = UserProfile.objects.get(user=request.user)
     except:
-        raise ValidationError('no user profile')
+        return JsonResponse({'id':random.randrange(1,100000000)})
 
     if 'year' not in request.POST or 'semester' not in request.POST:
         return HttpResponseBadRequest()
@@ -398,7 +399,7 @@ def show_my_lectures(request):
     except:
         ctx = [{'year':int(request.POST['year']),
                 'semester':int(request.POST['semester']),
-                'id':-1,
+                'id':random.randrange(1,100000000),
                 'lectures':[]}]
         return JsonResponse(ctx, safe=False, json_dumps_params=
                             {'ensure_ascii': False})
