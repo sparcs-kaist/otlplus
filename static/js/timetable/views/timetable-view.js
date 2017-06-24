@@ -619,6 +619,11 @@ $.ajaxSetup({
       $('.lecture-type[data-type="Humanities & Sociel Elective"').find('.credit-text').html(byType[4]);
       $('.lecture-type-right[data-type="Etc"').find('.credit-text').html(byType[5]);
 
+      // Disable add buttons
+      $('.add-to-table').removeClass('disable');
+      for (var i = 0, child; child = lectures[i]; i++) {
+        $('[data-id='+child.id+'] .add-to-table').addClass('disable');
+      }
 
       // Update map : TODO
 
