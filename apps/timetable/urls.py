@@ -23,6 +23,7 @@ urlpatterns = [
     url(r'^fetch_temp/$', views.fetch_temp),
     url(r'^ajax/fetch_temp/$', views.fetch_temp_ajax),
     url(r'^api/update$', views.update_my_lectures),
+    url(r'^api/table_create', views.create_timetable),
     url(r'^api/table_delete', views.delete_my_timetable),
     url(r'^api/table_copy', views.copy_my_timetable),
     url(r'^api/show$', views.show_my_lectures),

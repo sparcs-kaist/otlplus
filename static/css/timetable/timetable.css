@@ -842,6 +842,19 @@ i
 
 .timetable-add
 {
+    background-color:#E2E2E2;
+    display:inline-block;
+    vertical-align:top;
+    height:25px;
+    margin-right:6px;
+    text-align:center;
+    line-height:2em;
+    border-radius:4px 4px 0 0;
+    border:none;
+    outline:none;
+    font-size:11px;
+    line-height:10px;
+    text-decoration:none;
 	padding:7px 0 0 0;
     width:27px;
 }

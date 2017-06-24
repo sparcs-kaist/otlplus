@@ -126,7 +126,7 @@
 		<div id="timetable-menu">
 			<div id="timetable-tabs" style="clear:both;">
 				<a href="#/1" class="timetable-tab active"><span class="timetable-num">시간표 1</span><span class="hidden-option"><i class="duplicate-table"></i><i class="delete-table"></i></span></a>
-				<a class="timetable-tab timetable-add"><span class="timetable-num"><i class="add-table"></i></span></a>
+				<a class="timetable-add"><span class="timetable-num"><i class="add-table"></i></span></a>
 			</div>
                         <div id="semester">
 				<i id="semester-prev"></i>
@@ -672,7 +672,7 @@
 <% _.each(ids, function(id, idx){ %>
 <a href="#/<%- idx+1 %>" class="timetable-tab" data-id="<%- id %>"><span class="timetable-num">시간표 <%- idx+1 %></span><span class="hidden-option"><i class="duplicate-table"></i><i class="delete-table"></i></span></a>
 <% }); %>
-<a class="timetable-tab timetable-add"><span class="timetable-num"><i class="add-table"></i></span></a>
+<a class="timetable-add"><span class="timetable-num"><i class="add-table"></i></span></a>
 </script>
 
 {% endblock %}
