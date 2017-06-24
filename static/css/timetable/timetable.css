@@ -734,9 +734,15 @@ i
 	cursor:pointer;
 }
 
+.add-to-cart.disable
+{
+    background-image:url(/media/icons/add_cart_disabled.svg);
+    pointer-events:none;
+}
+
 .add-to-table
 {
-	background:url(/media/icons/add_table.svg) no-repeat center center;
+	background:url(/media/icons/add_lecture.svg) no-repeat center center;
 	width:9px;
 	height:11px;
 	display:inline-block;
@@ -746,8 +752,14 @@ i
 
 .add-to-table:hover
 {
-	background-image:url(/media/icons/add_table_hover.svg);
+	background-image:url(/media/icons/add_lecture_hover.svg);
 	cursor:pointer;
+}
+
+.add-to-table.disable
+{
+    background-image:url(/media/icons/add_lecture_disabled.svg);
+    pointer-events:none;
 }
 
 .delete-from-cart
@@ -764,6 +776,12 @@ i
 {
 	background-image:url(/media/icons/delete_cart_hover.svg);
 	cursor:pointer;
+}
+
+.delete-from-cart.disable
+{
+    background-image:url(/media/icons/delete_cart_disabled.svg);
+    pointer-events:none;
 }
 
 
