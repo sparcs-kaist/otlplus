@@ -695,8 +695,11 @@ def ReviewInsertAdd(request,lecture_id,semester):
     course = lecture.course
     comment = request.POST['content'] # 항목 선택 안했을시 반응 추가 요망 grade, load도
     grade = 6-int(request.POST['gradescore'])
+    if not 0<=grade<=5: grade=0
     load = 6-int(request.POST['loadscore'])
+    if not 0<=load<=5: load=0
     speech = 6-int(request.POST['speechscore'])
+    if not 0<=speech<=5: speech=0
     total = (grade+load+speech)/3.0
     writer = user_profile #session 완성시 변경
 
