@@ -445,7 +445,6 @@ var app = app || {};
       $('#timetable-contents .lecture-block').remove();
       var lectures = app.CurrentTimetable.get('lectures')
       for (var i = 0, child; child = lectures[i]; i++) {
-        console.log(lectures);
         child['day'] = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'][i%7];
         child['starttime'] = (Math.floor(i / 7) * 3 + 9) + '00';
         child['endtime'] = (Math.floor(i) * 3 + 12) + '00';
@@ -476,7 +475,7 @@ var app = app || {};
           case ('Basic Required'):
             byType[0] += child.credit+child.credit_au;
             break;
-          case ('Basic Required'):
+          case ('Basic Elective'):
             byType[1] += child.credit+child.credit_au;
             break;
           case ('Major Required'):
