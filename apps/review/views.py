@@ -235,7 +235,7 @@ def SearchCourse(course,id=-1):
             total_sum = sum(i.total_sum for i in lectures)
             comment_num = sum(i.comment_num for i in lectures)
             grade, load, speech, total = CalcAvgScore(grade_sum, load_sum, speech_sum, total_sum, comment_num)
-            score = {"grade":grade, "load":load, "speech":speech, "total":total,}
+            score = {"grade":int(round(grade)), "load":int(round(load)), "speech":int(round(speech)), "total":int(round(total)),}
 
         prof_info.append({
             "name" : name_string,
@@ -321,7 +321,7 @@ def SearchProfessor(professor,id=-1):
             total_sum = sum(i.total_sum for i in lectures)
             comment_num = sum(i.comment_num for i in lectures)
             grade, load, speech, total = CalcAvgScore(grade_sum, load_sum, speech_sum, total_sum, comment_num)
-            score = {"grade":grade, "load":load, "speech":speech, "total":total,}
+            score = {"grade":int(round(grade)), "load":int(round(load)), "speech":int(round(speech)), "total":int(round(total)),}
 
             """
             grade = int(round(lecture.grade))
@@ -695,8 +695,11 @@ def ReviewInsertAdd(request,lecture_id,semester):
     course = lecture.course
     comment = request.POST['content'] # 항목 선택 안했을시 반응 추가 요망 grade, load도
     grade = 6-int(request.POST['gradescore'])
+    if not 0<=grade<=5: grade=0
     load = 6-int(request.POST['loadscore'])
+    if not 0<=load<=5: load=0
     speech = 6-int(request.POST['speechscore'])
+    if not 0<=speech<=5: speech=0
     total = (grade+load+speech)/3.0
     writer = user_profile #session 완성시 변경
 
