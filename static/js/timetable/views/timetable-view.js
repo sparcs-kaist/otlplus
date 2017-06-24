@@ -1,12 +1,44 @@
 /* global Backbone */
 var app = app || {};
 
+
+// Set csrf token for ajax
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+function csrfSafeMethod(method) {
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+var csrftoken = getCookie('csrftoken');
+$.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+    }
+});
+
+
+
 (function ($) {
   'use strict';
 
   // Timetable View
   // ---------------
 
+  // Dragging timetable
   app.TimetableClickSearchView = Backbone.View.extend({
     initialize: function (opt) {
       this.isLookingTable = false;
@@ -138,21 +170,64 @@ var app = app || {};
     }
   })
 
+  // Adding lectures to timetable and cart from lecture lists
   app.lectureListView = Backbone.View.extend({
-    el: '.lecture-list',
+    el: '#result-pages',
     initialize: function (opt) {
-      // this.isLookingTable = false;
     },
       
     events: {
-      'click .close': "closeView"
+      'click .add-to-table': "addToTable",
     },
-    
-    closeView: function () {
-      this.$el.addClass('closed');
-    }
+
+    addToTable: function (e) {
+      var ct = $(e.currentTarget);
+      var lecture_id = Number(ct.closest('.list-elem-body-wrap').attr('data-id'));
+      var timetable_id = Number(app.CurrentTimetable.get('id'));
+
+      // If class time overlaps : TODO
+      if (false) {
+        return;
+      }
+      // If lecture is already in timetable
+      if (app.CurrentTimetable.get('lectures').find(function(x){return x.id===lecture_id})) {
+        console.log(123);
+        return;
+      }
+
+      $.ajax({
+        url: "/timetable/api/update",
+        type: "POST",
+        data: {
+          table_id: timetable_id,
+          lecture_id: lecture_id,
+          delete: false,
+        },
+        success: function(result) {
+          var lecList;
+          switch (ct.parent().parent().parent().parent().parent().attr('class').split()[0]) {
+            case 'search-page':
+              lecList = app.searchLectureList;
+              break;
+            case 'major-page':
+              lecList = app.majorLectureList;
+              break;
+            case 'humanity-page':
+              lecList = app.humanityLectureList;
+              break;
+          }
+          var lecture = lecList.find(function(x){return x.get("id")===lecture_id});
+
+          // Update app.CurrentTimetable
+          // app.timetables is automaticall updated because it has same array pointers
+          app.CurrentTimetable.get('lectures').push(lecture.attributes);
+          app.CurrentTimetable.trigger('change');
+        },
+      });
+    },
   })
 
+  // Targetting lecture in timetable blocks
   app.TimetableLectureBlocksView = Backbone.View.extend({
     el: '#timetable-contents',
     //el: '#center',
@@ -162,6 +237,7 @@ var app = app || {};
       'mouseover .lecture-block': "blockHover",
       'mouseout .lecture-block': "blockOut",
       'click': "blockClick",
+      'click .lecture-delete': "deleteLecture",
     },
     
     initialize: function() {},
@@ -171,8 +247,6 @@ var app = app || {};
         var ct = $(e.currentTarget);
         var id = Number(ct.attr('data-id'));
         var lecList = app.CurrentTimetable.get('lectures');
-
-        ct.addClass('active');
 
         var lecture = lecList.find(function(x){return x.id===id});
         app.LectureActive.set(lecture);
@@ -204,9 +278,8 @@ var app = app || {};
           "hover":false,
         })
         return;
-      } else {
-        block.addClass('click').removeClass('active');
       }
+
       var id = Number(block.attr('data-id'));
       var lecList = app.CurrentTimetable.get('lectures');
       var lecture = lecList.find(function(x){return x.id===id});
@@ -214,8 +287,43 @@ var app = app || {};
       app.LectureActive.set("click", true);
       app.LectureActive.set("hover", false);
     },
+
+    deleteLecture: function (e) {
+      var ct = $(e.currentTarget);
+      var lecture_id = Number(ct.closest('.lecture-block').attr('data-id'));
+      var timetable_id = Number(app.CurrentTimetable.get('id'));
+
+      // If lecture is not in timetable
+      if (!(app.CurrentTimetable.get('lectures').find(function(x){return x.id===lecture_id}))) {
+        return;
+      }
+
+      $.ajax({
+        url: "/timetable/api/update",
+        type: "POST",
+        data: {
+          table_id: timetable_id,
+          lecture_id: lecture_id,
+          delete: true,
+        },
+        success: function(result) {
+          var lecList = app.CurrentTimetable.get('lectures');
+          var lecture = lecList.find(function(x){return x.id===lecture_id});
+
+          // Update app.CurrentTimetable
+          var timetableLectures = app.CurrentTimetable.get('lectures');
+          timetableLectures = timetableLectures.filter(function(x){return x.id!==lecture_id});
+          app.CurrentTimetable.set('lectures', timetableLectures);
+
+          // Update app.timetables
+          var timetableModel = app.timetables.models.find(function(x){return x.get('id')===timetable_id});
+          timetableModel.set('lectures', timetableLectures)
+        },
+      });
+    },
   })
 
+  // Targetting lecture in from lecture lists
   app.ListLectureBlocksView = Backbone.View.extend({
     el: '#result-pages',
 
@@ -289,6 +397,7 @@ var app = app || {};
     },
   })
 
+  // Showing lecture detail of target lecture
   app.LectureInfoView = Backbone.View.extend({
     el: '#lecture-info',
     tagName: 'div',
@@ -333,6 +442,7 @@ var app = app || {};
     },
   })
   
+  // Showing timetable info of target lecture
   app.TimetableInfoView = Backbone.View.extend({
     el: '#info',
 
@@ -359,6 +469,7 @@ var app = app || {};
       $(this.el).find('#au .normal').removeClass("none");
       $(this.el).find('#au .active').addClass("none");
       $('.lecture-block').removeClass('active');
+      $('.lecture-block').removeClass('click');
     },
 
     render: function () {
@@ -376,9 +487,6 @@ var app = app || {};
         type_text = "(" + (credit+au) + ")";
         credit_text = Number($(this.el).find("#credits .normal").html());
         au_text = Number($(this.el).find("#au .normal").html());
-        if (!app.LectureActive.get('click')) {
-          $('.lecture-block[data-id=' + id + ']').addClass('active');
-        }
       } else {         // Lecture not in timetable
         type_text = "+" + (credit + au);
         credit_text = Number($(this.el).find("#credits .normal").html()) + credit;
@@ -399,6 +507,7 @@ var app = app || {};
     },
   })
 
+  // Fetching and changing timetable tabs
   app.TimetableTabView = Backbone.View.extend({
     el: '#timetable-tabs',
 
@@ -411,6 +520,7 @@ var app = app || {};
     initialize: function() {
       _.bindAll(this,"render");
       $(window).on("resize", this.render);
+      this.listenTo(app.LectureActive, 'change', this.highlightBlocks);
       this.listenTo(app.CurrentTimetable, 'change', this.render);
       this.listenTo(app.timetables, 'update', this.makeTab);
       this.listenTo(app.YearSemester, 'change', this.fetchTab);
@@ -440,30 +550,48 @@ var app = app || {};
       // this.render is automatically called here
     },
 
+    highlightBlocks: function() {
+      if (app.LectureActive.get('hover')) {
+        $('.lecture-block[data-id=' + app.LectureActive.get('id') + ']').addClass('active');
+      }
+      if (app.LectureActive.get('click')) {
+        $('.lecture-block[data-id=' + app.LectureActive.get('id') + ']').addClass('click');
+      }
+    },
+
     render: function() {
+      console.log('render');
       // Make timetable blocks
       $('#timetable-contents .lecture-block').remove();
       var lectures = app.CurrentTimetable.get('lectures')
       for (var i = 0, child; child = lectures[i]; i++) {
-        child['day'] = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'][i%7];
-        child['starttime'] = (Math.floor(i / 7) * 3 + 9) + '00';
-        child['endtime'] = (Math.floor(i) * 3 + 12) + '00';
+        for (var j=0; j<2; j++) {
+          child['day'] = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'][i%2 + 2*j];
+          if (Math.floor(i/2)%2 == 0) {
+            child['starttime'] = (Math.floor(i / 4) * 3 + 9) + '00';
+            child['endtime'] = (Math.floor(i / 4) * 3 + 10) + '30';
+          } else {
+            child['starttime'] = (Math.floor(i / 4) * 3 + 10) + '30';
+            child['endtime'] = (Math.floor(i / 4) * 3 + 12) + '00';
+          }
 
-        var day = timetable.indexOfDay(child.day) + 2;
-        var startTime = timetable.indexOfTime(child.starttime) + 2;
-        var endTime = timetable.indexOfTime(child.endtime) + 2;
-        var time = endTime-startTime;
-        var block = $('#timetable-contents')
-          .find(
-          '.day:nth-child(n+' + day + '):nth-child(-n+' + day + ')')
-          .find('.half:nth-child(n+' + startTime + '):nth-child(-n+' + startTime + ')')
-        var w = block.width();
-        var h = block.height()+1;
-        block.html(this.template({title: child.title,
-                                  id: child.id,
-                                  width: w+2,
-                                  height: h*time-1}));
+          var day = timetable.indexOfDay(child.day) + 2;
+          var startTime = timetable.indexOfTime(child.starttime) + 2;
+          var endTime = timetable.indexOfTime(child.endtime) + 2;
+          var time = endTime-startTime;
+          var block = $('#timetable-contents')
+            .find(
+            '.day:nth-child(n+' + day + '):nth-child(-n+' + day + ')')
+            .find('.half:nth-child(n+' + startTime + '):nth-child(-n+' + startTime + ')')
+          var w = block.width();
+          var h = block.height()+1;
+          block.html(this.template({title: child.title,
+                                    id: child.id,
+                                    width: w+2,
+                                    height: h*time-1}));
+        }
       }
+      this.highlightBlocks();
 
       // Update credit info
       var credit=0, au=0;
@@ -500,6 +628,17 @@ var app = app || {};
       $('.lecture-type[data-type="Humanities & Sociel Elective"').find('.credit-text').html(byType[4]);
       $('.lecture-type-right[data-type="Etc"').find('.credit-text').html(byType[5]);
 
+      var activeID = app.LectureActive.get('id')
+      if (lectures.find(function(x){return x.id===activeID}) === undefined) {
+        app.LectureActive.set({'hover': false,
+                               'click': false});
+      }
+
+      // Disable add buttons
+      $('.add-to-table').removeClass('disable');
+      for (var i = 0, child; child = lectures[i]; i++) {
+        $('[data-id='+child.id+'] .add-to-table').addClass('disable');
+      }
 
       // Update map : TODO
 

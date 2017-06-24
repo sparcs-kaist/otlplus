@@ -278,39 +278,28 @@ def update_my_lectures(request):
     try:
         userprofile = UserProfile.objects.get(user=request.user)
     except:
-        raise ValidationError('no user profile')
+        return JsonResponse({'success':True})
 
-    if 'table_id' not in request.POST or 'code' not in request.POST or \
-       'year' not in request.POST or 'semester' not in request.POST or \
+    if 'table_id' not in request.POST or 'lecture_id' not in request.POST or \
        'delete' not in request.POST:
         return HttpResponseBadRequest()
 
     table_id = int(request.POST['table_id'])
-    year = int(request.POST['year'])
-    semester = int(request.POST['semester'])
-    code = request.POST['code']
+    lecture_id = request.POST['lecture_id']
     delete = request.POST['delete'] == u'true'
 
     # Find the right timetable
-    timetables = list(TimeTable.objects.filter(user=userprofile, table_id=table_id,
-                                               year=year, semester=semester))
+    timetable = TimeTable.objects.get(user=userprofile, id=table_id)
     # Find the right lecture
-    lecture = Lecture.objects.filter(code=code)
+    lecture = Lecture.objects.get(id=lecture_id)
 
-    if len(lecture) == 0:
-        return JsonResponse({ 'success': False, 'reason': 'No matching lecture found' });
-
-    if len(timetables) == 0:
-        # Create new timetable if no timetable exists
-        t = TimeTable(user=userprofile, year=year, semester=semester, table_id=table_id)
-        t.save()
-    else:
-        t = timetables[0]
+    if timetable.year!=lecture.year or timetable.semester!=lecture.semester:
+        return HttpResponseBadRequest()
 
     if not delete:
-        t.lecture.add(lecture[0])
+        timetable.lecture.add(lecture)
     else:
-        t.lecture.remove(lecture[0])
+        timetable.lecture.remove(lecture)
         
     return JsonResponse({ 'success': True });
 
@@ -384,13 +373,16 @@ def show_my_lectures(request):
     try:
         userprofile = UserProfile.objects.get(user=request.user)
     except:
-        raise ValidationError('no user profile')
+        ctx = [{'year':int(request.POST['year']),
+                'semester':int(request.POST['semester']),
+                'id':-1,
+                'lectures':[]}]
+        return JsonResponse(ctx, safe=False, json_dumps_params=
+                            {'ensure_ascii': False})
 
     year = int(request.POST['year'])
     semester = int(request.POST['semester'])
-    print(year, semester)
     timetables = list(TimeTable.objects.filter(user=userprofile, year=year, semester=semester))
-    print(timetables)
 
     ctx = []
 
@@ -544,12 +536,16 @@ def calendar(request):
 
 def major_list(request):
     if request.method == "POST":
-        department = "전산학부"
-        course_type = ["Major Required", "Major Elective"]
+        if request.user.is_authenticated():
+            department = "전산학부"
+            course_type = ["Major Required", "Major Elective"]
+            major1_course = Course.objects.filter(department__name__iexact=department, type_en__in=course_type)
+        else:
+            course_type = ["Basic Required", "Basic Elective"]
+            major1_course = Course.objects.filter(type_en__in=course_type)
+
         year = request.POST["year"]
         semester = request.POST["semester"]
-    
-        major1_course = Course.objects.filter(department__name__iexact=department, type_en__in=course_type)
         major1_cl = [get_filtered_lectures(year, semester, c) for c in major1_course]
         major1_result = _lecture_result_format(major1_cl)
 
