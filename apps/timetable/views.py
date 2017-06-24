@@ -278,7 +278,7 @@ def update_my_lectures(request):
     try:
         userprofile = UserProfile.objects.get(user=request.user)
     except:
-        raise ValidationError('no user profile')
+        return JsonResponse({'success':True})
 
     if 'table_id' not in request.POST or 'lecture_id' not in request.POST or \
        'delete' not in request.POST:
@@ -373,13 +373,16 @@ def show_my_lectures(request):
     try:
         userprofile = UserProfile.objects.get(user=request.user)
     except:
-        raise ValidationError('no user profile')
+        ctx = [{'year':int(request.POST['year']),
+                'semester':int(request.POST['semester']),
+                'id':-1,
+                'lectures':[]}]
+        return JsonResponse(ctx, safe=False, json_dumps_params=
+                            {'ensure_ascii': False})
 
     year = int(request.POST['year'])
     semester = int(request.POST['semester'])
-    print(year, semester)
     timetables = list(TimeTable.objects.filter(user=userprofile, year=year, semester=semester))
-    print(timetables)
 
     ctx = []
 
@@ -533,12 +536,16 @@ def calendar(request):
 
 def major_list(request):
     if request.method == "POST":
-        department = "전산학부"
-        course_type = ["Major Required", "Major Elective"]
+        if request.user.is_authenticated():
+            department = "전산학부"
+            course_type = ["Major Required", "Major Elective"]
+            major1_course = Course.objects.filter(department__name__iexact=department, type_en__in=course_type)
+        else:
+            course_type = ["Basic Required", "Basic Elective"]
+            major1_course = Course.objects.filter(type_en__in=course_type)
+
         year = request.POST["year"]
         semester = request.POST["semester"]
-    
-        major1_course = Course.objects.filter(department__name__iexact=department, type_en__in=course_type)
         major1_cl = [get_filtered_lectures(year, semester, c) for c in major1_course]
         major1_result = _lecture_result_format(major1_cl)
 
