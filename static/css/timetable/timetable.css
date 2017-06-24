@@ -1493,3 +1493,24 @@ i
     color:rgba(0,0,0,0.8);
     margin:0;
 }
+
+.lecture-delete
+{
+    background: url(/media/icons/delete_lecture.svg) no-repeat center center;
+    width:8px;
+    height:8px;
+    top:4px;
+    right:4px;
+    position:absolute;
+    cursor:pointer;
+}
+
+.lecture-delete:hover
+{
+    background: url(/media/icons/delete_lecture_hover.svg) no-repeat center center;
+}
+
+.lecture-block:not(:hover) .lecture-delete
+{
+    display:none;
+}

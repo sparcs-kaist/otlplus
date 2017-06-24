@@ -240,6 +240,7 @@ $.ajaxSetup({
       'mouseover .lecture-block': "blockHover",
       'mouseout .lecture-block': "blockOut",
       'click': "blockClick",
+      'click .lecture-delete': "deleteLecture",
     },
     
     initialize: function() {},
@@ -291,6 +292,42 @@ $.ajaxSetup({
       app.LectureActive.set(lecture);
       app.LectureActive.set("click", true);
       app.LectureActive.set("hover", false);
+    },
+
+    deleteLecture: function (e) {
+      var ct = $(e.currentTarget);
+      var lecture_id = Number(ct.closest('.lecture-block').attr('data-id'));
+      var timetable_id = Number(app.CurrentTimetable.get('id'));
+
+      // If lecture is not in timetable
+      if (!(app.CurrentTimetable.get('lectures').find(function(x){return x.id===lecture_id}))) {
+        return;
+      }
+
+      $.ajax({
+        url: "/timetable/api/update",
+        type: "POST",
+        data: {
+          table_id: timetable_id,
+          lecture_id: lecture_id,
+          delete: true,
+        },
+        success: function(result) {
+          var lecList = app.CurrentTimetable.get('lectures');
+          var lecture = lecList.find(function(x){return x.id===lecture_id});
+
+          // Update app.CurrentTimetable
+          var lectures1 = app.CurrentTimetable.get('lectures');
+          lectures1 = lectures1.filter(function(x){return x.id!==lecture_id});
+          app.CurrentTimetable.set('lectures', lectures1);
+
+          // Update app.timetables
+          var timetableModel = app.timetables.models.find(function(x){return x.get('id')===timetable_id});
+          var lectures2 = timetableModel.get('lectures');
+          lectures2 = lectures2.filter(function(x){return x.id!==lecture_id});
+          timetableModel.set('lectures', lectures2)
+        },
+      });
     },
   })
 
