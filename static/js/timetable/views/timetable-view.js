@@ -158,21 +158,13 @@ var app = app || {};
     //el: '#center',
     tagName: 'div',
 
-    template: _.template($('#timetable-lecture-template').html()),
-
     events: {
       'mouseover .lecture-block': "blockHover",
       'mouseout .lecture-block': "blockOut",
       'click': "blockClick",
     },
     
-    initialize: function() {
-      _.bindAll(this,"render");
-      //app.timetables.bind("reset", this.render);
-      $(window).on("resize", this.render);
-
-      this.listenTo(app.CurrentTimetable, 'change', this.render);
-    },
+    initialize: function() {},
 
     blockHover: function (e) {
       if (!app.LectureActive.get("click")) {
@@ -222,31 +214,6 @@ var app = app || {};
       app.LectureActive.set("click", true);
       app.LectureActive.set("hover", false);
     },
-
-    render: function() {
-      $(this.el).find('.lecture-block').remove();
-      var lectures = app.CurrentTimetable.get('lectures')
-      for (var i = 0, child; child = lectures[i]; i++) {
-        child['day'] = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'][i%7];
-        child['starttime'] = (Math.floor(i / 7) * 3 + 9) + '00';
-        child['endtime'] = (Math.floor(i) * 3 + 12) + '00';
-
-        var day = timetable.indexOfDay(child.day) + 2;
-        var startTime = timetable.indexOfTime(child.starttime) + 2;
-        var endTime = timetable.indexOfTime(child.endtime) + 2;
-        var time = endTime-startTime;
-        var block = $(this.el)
-          .find(
-          '.day:nth-child(n+' + day + '):nth-child(-n+' + day + ')')
-          .find('.half:nth-child(n+' + startTime + '):nth-child(-n+' + startTime + ')')
-        var w = block.width();
-        var h = block.height()+1;
-        block.html(this.template({title: child.title,
-                                  id: child.id,
-                                  width: w+2,
-                                  height: h*time-1}));
-      }
-    }
   })
 
   app.ListLectureBlocksView = Backbone.View.extend({
@@ -435,26 +402,30 @@ var app = app || {};
   app.TimetableTabView = Backbone.View.extend({
     el: '#timetable-tabs',
 
+    template: _.template($('#timetable-lecture-template').html()),
+
     events: {
       'click .timetable-tab': "changeTab",
     },
 
     initialize: function() {
-      this.listenTo(app.timetables,
-                    'update',
-                    this.makeTab);
-      this.listenTo(app.YearSemester,
-                    'change',
-                    function(){
-                      var options = {data: {year: app.YearSemester.get('year'),
-                                            semester: app.YearSemester.get('semester')},
-                                    type: 'POST'};
-                      app.timetables.fetch(options);
-                    });
+      _.bindAll(this,"render");
+      $(window).on("resize", this.render);
+      this.listenTo(app.CurrentTimetable, 'change', this.render);
+      this.listenTo(app.timetables, 'update', this.makeTab);
+      this.listenTo(app.YearSemester, 'change', this.fetchTab);
+    },
+
+    fetchTab: function() {
+      var options = {data: {year: app.YearSemester.get('year'),
+                            semester: app.YearSemester.get('semester')},
+                    type: 'POST'};
+      app.timetables.fetch(options);
     },
 
     makeTab: function() {
       app.CurrentTimetable.set(app.timetables.models[0].attributes);
+      // this.render is automatically called here
 
       var template = _.template($('#timetable-tab-template').html());
       var block = $('#timetable-tabs');
@@ -466,7 +437,34 @@ var app = app || {};
       var id = Number($(e.currentTarget).attr('data-id'));
       var timetable = app.timetables.models.find(function(x){return x.get('id')===id});
       app.CurrentTimetable.set(timetable.attributes);
+      // this.render is automatically called here
     },
+
+    render: function() {
+      $(this.el).find('.lecture-block').remove();
+      var lectures = app.CurrentTimetable.get('lectures')
+      for (var i = 0, child; child = lectures[i]; i++) {
+        console.log(lectures);
+        child['day'] = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'][i%7];
+        child['starttime'] = (Math.floor(i / 7) * 3 + 9) + '00';
+        child['endtime'] = (Math.floor(i) * 3 + 12) + '00';
+
+        var day = timetable.indexOfDay(child.day) + 2;
+        var startTime = timetable.indexOfTime(child.starttime) + 2;
+        var endTime = timetable.indexOfTime(child.endtime) + 2;
+        var time = endTime-startTime;
+        var block = $('#timetable-contents')
+          .find(
+          '.day:nth-child(n+' + day + '):nth-child(-n+' + day + ')')
+          .find('.half:nth-child(n+' + startTime + '):nth-child(-n+' + startTime + ')')
+        var w = block.width();
+        var h = block.height()+1;
+        block.html(this.template({title: child.title,
+                                  id: child.id,
+                                  width: w+2,
+                                  height: h*time-1}));
+      }
+    }
   })
 })(jQuery);
 
