@@ -280,37 +280,26 @@ def update_my_lectures(request):
     except:
         raise ValidationError('no user profile')
 
-    if 'table_id' not in request.POST or 'code' not in request.POST or \
-       'year' not in request.POST or 'semester' not in request.POST or \
+    if 'table_id' not in request.POST or 'lecture_id' not in request.POST or \
        'delete' not in request.POST:
         return HttpResponseBadRequest()
 
     table_id = int(request.POST['table_id'])
-    year = int(request.POST['year'])
-    semester = int(request.POST['semester'])
-    code = request.POST['code']
+    lecture_id = request.POST['lecture_id']
     delete = request.POST['delete'] == u'true'
 
     # Find the right timetable
-    timetables = list(TimeTable.objects.filter(user=userprofile, table_id=table_id,
-                                               year=year, semester=semester))
+    timetable = TimeTable.objects.get(user=userprofile, id=table_id)
     # Find the right lecture
-    lecture = Lecture.objects.filter(code=code)
+    lecture = Lecture.objects.get(id=lecture_id)
 
-    if len(lecture) == 0:
-        return JsonResponse({ 'success': False, 'reason': 'No matching lecture found' });
-
-    if len(timetables) == 0:
-        # Create new timetable if no timetable exists
-        t = TimeTable(user=userprofile, year=year, semester=semester, table_id=table_id)
-        t.save()
-    else:
-        t = timetables[0]
+    if timetable.year!=lecture.year or timetable.semester!=lecture.semester:
+        return HttpResponseBadRequest()
 
     if not delete:
-        t.lecture.add(lecture[0])
+        timetable.lecture.add(lecture)
     else:
-        t.lecture.remove(lecture[0])
+        timetable.lecture.remove(lecture)
         
     return JsonResponse({ 'success': True });
 

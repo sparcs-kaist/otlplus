@@ -1,12 +1,44 @@
 /* global Backbone */
 var app = app || {};
 
+
+// Set csrf token for ajax
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+function csrfSafeMethod(method) {
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+var csrftoken = getCookie('csrftoken');
+$.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+    }
+});
+
+
+
 (function ($) {
   'use strict';
 
   // Timetable View
   // ---------------
 
+  // Dragging timetable
   app.TimetableClickSearchView = Backbone.View.extend({
     initialize: function (opt) {
       this.isLookingTable = false;
@@ -138,21 +170,68 @@ var app = app || {};
     }
   })
 
+  // Adding lectures to timetable and cart from lecture lists
   app.lectureListView = Backbone.View.extend({
-    el: '.lecture-list',
+    el: '#result-pages',
     initialize: function (opt) {
-      // this.isLookingTable = false;
     },
       
     events: {
-      'click .close': "closeView"
+      'click .add-to-table': "addToTable",
     },
-    
-    closeView: function () {
-      this.$el.addClass('closed');
-    }
+
+    addToTable: function (e) {
+      var ct = $(e.currentTarget);
+      var lecture_id = Number(ct.closest('.list-elem-body-wrap').attr('data-id'));
+      var timetable_id = Number(app.CurrentTimetable.get('id'));
+
+      // If class time overlaps : TODO
+      if (false) {
+        return;
+      }
+      // If lecture is already in timetable
+      if (app.CurrentTimetable.get('lectures').find(function(x){return x.id===lecture_id})) {
+        console.log(123);
+        return;
+      }
+
+      $.ajax({
+        url: "/timetable/api/update",
+        type: "POST",
+        data: {
+          table_id: timetable_id,
+          lecture_id: lecture_id,
+          delete: false,
+        },
+        success: function(result) {
+          var lecList;
+          switch (ct.parent().parent().parent().parent().parent().attr('class').split()[0]) {
+            case 'search-page':
+              lecList = app.searchLectureList;
+              break;
+            case 'major-page':
+              lecList = app.majorLectureList;
+              break;
+            case 'humanity-page':
+              lecList = app.humanityLectureList;
+              break;
+          }
+          var lecture = lecList.find(function(x){return x.get("id")===lecture_id});
+          var timetableLectures = _.clone(app.CurrentTimetable.get('lectures'));
+          timetableLectures.push(lecture.attributes);
+
+          // Update app.CurrentTimetable
+          app.CurrentTimetable.set('lectures', timetableLectures);
+
+          // Update app.timetables
+          var timetableModel = app.timetables.models.find(function(x){return x.get('id')===timetable_id});
+          timetableModel.set('lectures', timetableLectures);
+        },
+      });
+    },
   })
 
+  // Targetting lecture in timetable blocks
   app.TimetableLectureBlocksView = Backbone.View.extend({
     el: '#timetable-contents',
     //el: '#center',
@@ -216,6 +295,7 @@ var app = app || {};
     },
   })
 
+  // Targetting lecture in from lecture lists
   app.ListLectureBlocksView = Backbone.View.extend({
     el: '#result-pages',
 
@@ -289,6 +369,7 @@ var app = app || {};
     },
   })
 
+  // Showing lecture detail of target lecture
   app.LectureInfoView = Backbone.View.extend({
     el: '#lecture-info',
     tagName: 'div',
@@ -333,6 +414,7 @@ var app = app || {};
     },
   })
   
+  // Showing timetable info of target lecture
   app.TimetableInfoView = Backbone.View.extend({
     el: '#info',
 
@@ -399,6 +481,7 @@ var app = app || {};
     },
   })
 
+  // Fetching and changing timetable tabs
   app.TimetableTabView = Backbone.View.extend({
     el: '#timetable-tabs',
 
