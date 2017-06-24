@@ -2,7 +2,7 @@
 
 # Django apps
 from apps.session.models import UserProfile
-# from apps.timetable.models import TimeTable
+from apps.timetable.models import TimeTable
 from apps.subject.models import Lecture, Professor, Course
 from apps.review.models import Comment
 from django.contrib.auth.models import User
@@ -132,19 +132,42 @@ def _lecture_result_format(ls):
     result = [_add_title_format(x) for x in result]
     result = [sorted(x, key = (lambda y:y['class_no'])) for x in result]
     result.sort(key = (lambda x:x[0]['old_code']))
+    result = [y for x in result for y in x] # Flatten nested list
     
     return result
 
 
 # Lecture -> dict-Lecture
 def _lecture_to_dict(lecture):
+    # Convert lecture into dict
     result = model_to_dict(lecture)
+
+    # Convert relations into dict
     result['professor'] = [model_to_dict(professor) for professor in lecture.professor.all()]
+    result['classtime_set'] = [model_to_dict(ct) for ct in lecture.classtime_set.all()]
+    result['examtime_set'] = [model_to_dict(et) for et in lecture.examtime_set.all()]
+    
+    # Add formatted professor name
     prof_name_list = [p['professor_name'] for p in result['professor']]
     if len(prof_name_list) <= 2:
       result['format_professor_str'] = u", ".join(prof_name_list)
     else:
       result['format_professor_str'] = u"%s 외 %d명" % (prof_name_list[0], len(prof_name_list)-1)
+
+    # Add formatted department name
+    result['format_dept_name'] = lecture.department.name
+
+    # Add formatted score
+    # TODO
+    result['format_grade'] = u'B+'
+    result['format_load'] = u'B'
+    result['format_speech'] = u'A-'
+
+    # Add formatted classroom
+    # TODO
+    result['format_classroom'] = u'(E11) 창의학습관 101호'
+    result['format_exam'] = u'월요일 9:00 ~ 24:00'
+
     return result
 
 
@@ -176,6 +199,7 @@ def _add_title_format(lectures):
 def _lcs_front(ls):
     if len(ls)==0:
       return ""
+    result = ""
     for i in range(len(ls[0]), 0, -1): # [len(ls[0]),...,2,1]
       flag = True
       for l in ls:
@@ -198,17 +222,8 @@ def main(request):
         department = get user's department
         course_type = ["Major Required", "Major Elective"]
     """
-    department = "전산학부"
-    course_type = ["Major Required", "Major Elective"]
-    major1_course = Course.objects.filter(department__name__iexact=department, type_en__in=course_type)
-    major1_cl = [get_filtered_lectures(2016, 1, c) for c in major1_course]
-    major1_result = _lecture_result_format(major1_cl)
     
-    humanity_course = Course.objects.filter(type_en="Humanities & Social Elective")
-    humanity_cl = [get_filtered_lectures(2016, 1, c) for c in humanity_course]
-    humanity_result = _lecture_result_format(humanity_cl)
-    
-    return render(request,'timetable/index.html',{'major1':major1_result,'humanity':humanity_result})
+    return render(request,'timetable/index.html')
 
 
 def show_table(request):
@@ -371,19 +386,24 @@ def show_my_lectures(request):
     except:
         raise ValidationError('no user profile')
 
-    timetables = list(TimeTable.objects.filter(user=userprofile))
+    year = int(request.POST['year'])
+    semester = int(request.POST['semester'])
+    print(year, semester)
+    timetables = list(TimeTable.objects.filter(user=userprofile, year=year, semester=semester))
+    print(timetables)
 
-    ctx = {
-        'timetables': [],
-    }
+    ctx = []
+
+    if len(timetables) == 0:
+        # Create new timetable if no timetable exists
+        t = TimeTable(user=userprofile, year=year, semester=semester)
+        t.save()
+        timetables = [t]
 
     for i, t in enumerate(timetables):
         timetable = model_to_dict(t, exclude='lecture')
-        lects = []
-        for l in t.lecture.all():
-            lects.append(model_to_dict(l))
-        ctx['timetables'].append(timetable)
-        ctx['timetables'][i]['lecture'] = lects
+        ctx.append(timetable)
+        ctx[i]['lectures'] = _lecture_result_format([t.lecture.all()])
 
     return JsonResponse(ctx, safe=False, json_dumps_params=
                         {'ensure_ascii': False})
@@ -520,3 +540,30 @@ def calendar(request):
         # Make a new calender
 
     # TODO: Add calendar entry
+
+
+def major_list(request):
+    if request.method == "POST":
+        department = "전산학부"
+        course_type = ["Major Required", "Major Elective"]
+        year = request.POST["year"]
+        semester = request.POST["semester"]
+    
+        major1_course = Course.objects.filter(department__name__iexact=department, type_en__in=course_type)
+        major1_cl = [get_filtered_lectures(year, semester, c) for c in major1_course]
+        major1_result = _lecture_result_format(major1_cl)
+
+        return JsonResponse(major1_result, safe=False)
+
+
+
+def humanity_list(request):
+    if request.method == "POST":
+        year = request.POST["year"]
+        semester = request.POST["semester"]
+
+        humanity_course = Course.objects.filter(type_en="Humanities & Social Elective")
+        humanity_cl = [get_filtered_lectures(year, semester, c) for c in humanity_course]
+        humanity_result = _lecture_result_format(humanity_cl)
+
+        return JsonResponse(humanity_result, safe=False)

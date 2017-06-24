@@ -1,8 +1,3 @@
-html, body
-{
-	color:#000000;
-}
-
 #header
 {
     margin-left:calc(50vw - 50vh - 90.5px) !important;
@@ -333,30 +328,54 @@ i
 
 .search-chead.search .search-tab-icon
 {
-	background: url(/media/icons/block_search.svg) no-repeat center center;
+	background: url(/media/icons/block_search_inactive.svg) no-repeat center center;
 	width:13px;
 	height:13px;
 }
 
 .search-chead.cart .search-tab-icon
 {
-	background: url(/media/icons/block_cart.svg) no-repeat center center;
+	background: url(/media/icons/block_cart_inactive.svg) no-repeat center center;
 	width:13px;
 	height:13px;
 }
 
 .search-chead.major .search-tab-icon
 {
-	background: url(/media/icons/block_major.svg) no-repeat center center;
+	background: url(/media/icons/block_major_inactive.svg) no-repeat center center;
 	width:13px;
 	height:13px;
 }
 
 .search-chead.humanity .search-tab-icon
 {
-	background: url(/media/icons/block_humanity.svg) no-repeat center center;
+	background: url(/media/icons/block_humanity_inactive.svg) no-repeat center center;
 	width:13px;
 	height:13px;
+}
+
+.search-chead.search.active .search-tab-icon,
+.search-chead.search:hover .search-tab-icon
+{
+    background-image: url(/media/icons/block_search.svg);
+}
+
+.search-chead.cart.active .search-tab-icon,
+.search-chead.cart:hover .search-tab-icon
+{
+    background-image: url(/media/icons/block_cart.svg);
+}
+
+.search-chead.major.active .search-tab-icon,
+.search-chead.major:hover .search-tab-icon
+{
+    background-image: url(/media/icons/block_major.svg);
+}
+
+.search-chead.humanity.active .search-tab-icon,
+.search-chead.humanity:hover .search-tab-icon
+{
+    background-image: url(/media/icons/block_humanity.svg);
 }
 
 .search-chead.active
@@ -760,8 +779,8 @@ i
 
 #timetable-tabs
 {
-    width:46em;
-    height:2em;
+    float:left;
+    font-size:0px;
 }
 
 .timetable-tab
@@ -801,7 +820,6 @@ i
 .timetable-tab.active>.hidden-option
 {
     display:inline-block;
-    color:#000000;
 }
 
 .timetable-add
@@ -812,7 +830,12 @@ i
 
 .timetable-num
 {
-    color:#000000;
+    color:#555;
+}
+
+.timetable-num.active
+{
+    color:#333;
 }
 
 .duplicate-table
@@ -854,6 +877,49 @@ i
 	vertical-align:top;
 }
 
+#semester
+{
+	width:84px;
+	height:21px;
+	float:right;
+	background-color:#fff;
+	font-size:11px;
+	line-height:10px;
+	border-radius:6px;
+	padding:6px 7px 5px 7px;
+	box-shadow:0em 3px 0px 0em #F3BEC6; 
+	text-align:center;
+}
+
+#semester-prev
+{
+	background: url(/media/icons/semester_prev.svg) no-repeat center center;
+	float:left;
+	width:6px;
+	height:10px;
+	cursor:pointer;
+}
+
+#semester-prev:hover
+{
+	background-image: url(/media/icons/semester_prev_hover.svg);
+}
+
+#semester-next
+{
+	background: url(/media/icons/semester_next.svg) no-repeat center center;
+	float:right;
+	width:6px;
+	height:10px;
+	cursor:pointer;
+}
+
+#semester-next:hover
+{
+	background-image: url(/media/icons/semester_next_hover.svg);
+}
+
+
 
 
 /* Timetable at center */
@@ -892,15 +958,16 @@ i
 
 .chead
 {
-    height:17px;
+    height:16px;
     text-align:center;
-    font-size:11px;
-    line-height:10px;
+    font-size:10px;
+    line-height:9px;
+    color:#555;
 }
 
 .chead.chead-middle
 {
-    height:27px;
+    height:26px;
     padding-top:10px;
 }
 
@@ -938,7 +1005,8 @@ i
 {
 	width:100%;
 	text-align:right;
-	font-size:10px;
+    color:#555;
+	font-size:9px;
     position:absolute;
     -webkit-transform:translate(0,-50%);
             transform:translate(0,-50%);
@@ -978,6 +1046,7 @@ i
 
 .cell1
 {
+    position: relative;
     -webkit-box-flex:1;
         -ms-flex:auto;
             flex:auto;
@@ -987,6 +1056,7 @@ i
 
 .cell2
 {
+    position: relative;
     -webkit-box-flex:1;
         -ms-flex:auto;
             flex:auto;
@@ -1089,15 +1159,94 @@ i
 
 #map-container
 {
-	width:256px;
-	width:calc(20vh + 56px);
-	height:256px;
-	height: calc(20vh + 56px);
+    position:relative;
     border:1px;
-    background-color:black;
-    overflow:hidden;
 }
 
+#map-img
+{
+    width:100%;
+}
+
+.map-location
+{
+    position:absolute;
+    margin-left:-5px;
+    margin-top:-14px;
+    margin-right:-100px;
+}
+
+.map-location-box
+{
+    background-color:#eeeeee;
+    height:11px;
+    font-size:8px;
+    line-height:7px;
+    border-radius:2px;
+    padding:2px 3px;
+    box-shadow:0em 1px 0px 0em #888888;
+}
+
+.map-location-arrow
+{
+    position:relative;
+    top:-3px;
+    left:3px;
+    width:0;
+    height:0;
+    border-left:2px solid transparent;
+    border-right:2px solid transparent;
+    border-top:3px solid #eeeeee;
+}
+
+.map-location-arrow-shadow
+{
+    position:relative;
+    top:1px;
+    left:3px;
+    width:0;
+    height:0;
+    border-left:2px solid transparent;
+    border-right:2px solid transparent;
+    border-top:3px solid #888888;
+}
+
+.map-location-circle
+{
+    display:inline-block;
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background-color:#ff8888;
+}
+
+.map-location.E11
+{
+    left:53%;
+    top:57%;
+    z-index:57;
+}
+
+.map-location.N1
+{
+    left:88%;
+    top:38%;
+    z-index:38;
+}
+
+.map-location.N4
+{
+    left:62%;
+    top:40%;
+    z-index:40;
+}
+
+.map-location.N25
+{
+    left:59%;
+    top:34%;
+    z-index:34;
+}
 
 
 
@@ -1158,7 +1307,8 @@ i
     vertical-align:top;
 }
 
-#credits.active, #au.active
+#credits>.active,
+#au>.active
 {
     color:#e64c65;
 }
@@ -1200,7 +1350,7 @@ i
             flex:auto;
     padding-bottom:10px;
     border-bottom:1px solid #EDD1DC;
-    overflow:auto;
+    overflow-y:scroll;
     font-size:12px;
     line-height:11px;
 }
@@ -1316,13 +1466,14 @@ i
     display:flex;
     display:-webkit-flex;
     align-items:center;
-    padding:0 0.6em;
+    padding:0 6px;
     border-radius:2px;
     background-color:#BEEDD7;
     font-size:0.75em;
     border-top:1px white solid;
     border-bottom:1px white solid;
     z-index:2;
+    left: -1px;
 }
 
 .lecture-block.active
@@ -1334,10 +1485,11 @@ i
 .lecture-block.click
 {
     border:1px #E54C65 solid;
-    padding:0 0.5em;
+    padding:0 5px;
 }
 
 .timetable-lecture-name
 {
+    color:rgba(0,0,0,0.8);
     margin:0;
 }

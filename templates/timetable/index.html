@@ -108,18 +108,7 @@
 						전산학부 전공
 					</div>
 					<div class="list-scroll">
-						{% for course in major1 %}
-						<div class="list-elem">
-							<div class="list-elem-title"><strong>{{ course.0.format_common_title }}</strong> {{ course.0.old_code }}</div>
-							{% for lecture in course %}
-							<div class="list-elem-body-wrap">
-								<div class="list-elem-body">
-									<div class="list-elem-body-text"><strong>{{ lecture.format_class_title }}</strong> {{ lecture.format_professor_str }}</div><i class="add-to-cart"></i><i class="add-to-table"></i>
-								</div>
-							</div>
-							{% endfor %}
-						</div>
-						{% endfor %}
+						<!-- Lecture list inserted here -->
 					</div>
 				</div>
 				<div class="humanity-page none">
@@ -127,18 +116,7 @@
 						인문사회선택
 					</div>
 					<div class="list-scroll">
-						{% for course in humanity %}
-						<div class="list-elem">
-							<div class="list-elem-title"><strong>{{ course.0.format_common_title }}</strong> {{ course.0.old_code }}</div>
-							{% for lecture in course %}
-							<div class="list-elem-body-wrap">
-								<div class="list-elem-body">
-									<div class="list-elem-body-text"><strong>{{ lecture.format_class_title }}</strong> {{ lecture.format_professor_str }}</div><i class="add-to-cart"></i><i class="add-to-table"></i>
-								</div>
-							</div>
-							{% endfor %}
-						</div>
-						{% endfor %}
+						<!-- Lecture list inserted here -->
 					</div>
 				</div>
 			</div>
@@ -146,18 +124,15 @@
 	</div><!--div left-side-->	
 	<div id="center">
 		<div id="timetable-menu">
-			<!--<div style="float:left;">
-				<select>
-					<option>2016 가을</option>
-				</select>
-			</div>-->
 			<div id="timetable-tabs" style="clear:both;">
-				<a href="#/1" class="timetable-tab active"><span class="timetable-num">시간표 1</span><span class="hidden-option"><i class="duplicate-table"></i><i class="delete-table"></i></span></a><!--
-		 --><a href="#/2" class="timetable-tab"><span class="timetable-num">시간표 2</span><p class="hidden-option"><i class="duplicate-table"></i><i class="delete-table"></i></p></a><!--
-		 --><a href="#/3" class="timetable-tab"><span class="timetable-num">시간표 3</span><p class="hidden-option"><i class="duplicate-table"></i><i class="delete-table"></i></p></a><!--
-		 --><a href="#/4" class="timetable-tab"><span class="timetable-num">시간표 4</span><p class="hidden-option"><i class="duplicate-table"></i><i class="delete-table"></i></p></a><!--
-		 --><a class="timetable-tab timetable-add"><span class="timetable-num"><i class="add-table"></i></span></a>
+				<a href="#/1" class="timetable-tab active"><span class="timetable-num">시간표 1</span><span class="hidden-option"><i class="duplicate-table"></i><i class="delete-table"></i></span></a>
+				<a class="timetable-tab timetable-add"><span class="timetable-num"><i class="add-table"></i></span></a>
 			</div>
+                        <div id="semester">
+				<i id="semester-prev"></i>
+				<span id="semester-text">2016 봄</span>
+				<i id="semester-next"></i>
+                        </div>
 		</div>
 		<div id="timetable">
 			<div id="timetable-wrap">
@@ -406,48 +381,61 @@
 			<div style="height:3px;"></div>
 			<div id="right-side">
 				<div id="map">
-					<div id="map-wrap">
-						<div id="map-container">
-							<div id="map-img">
-								<div> 지도</div>
+					<div id="map-container">
+						<img id="map-img" src="/media/img/timetable/kaist_map.jpg">
+					  {% for i in "1234" %}
+						<div class="map-location {% cycle 'E11' 'N1' 'N4' 'N25'%}" data-building="{% cycle 'E11' 'N1' 'N4' 'N25'%}" data-id="1234">
+							<div class="map-location-box">
+								<span class="map-location-text">{% cycle 'E11' 'N1' 'N4' 'N25'%}</span>
+								<span class="map-location-circle"></span>
+								<span class="map-location-circle"></span>
 							</div>
+							<div class="map-location-arrow-shadow"></div>
+							<div class="map-location-arrow"></div>
 						</div>
+						{% endfor %}
 					</div>
 				</div>
 				<div id="info">
 					<div id="type-credits">
-						<div class="lecture-type">
-							<span class="lecture-type-span">기필&nbsp;&nbsp;</span><span id="basic-required">10</span>
+						<div class="lecture-type" data-type="Basic Required">
+							<span class="lecture-type-span">기필&nbsp;&nbsp;</span>
+							<span class="credit-text">0</span>
 							<span class="active-credit"></span>
 						</div>
-						<div class="lecture-type-right">
-							<span class="lecture-type-span">기선&nbsp;&nbsp;</span><span id="basic-elective">3</span>
+						<div class="lecture-type-right" data-type="Basic Elective">
+							<span class="lecture-type-span">기선&nbsp;&nbsp;</span>
+							<span class="credit-text">0</span>
 							<span class="active-credit"></span>
 						</div>
-						<div class="lecture-type" style="clear:both;">
-							<span class="lecture-type-span">전필&nbsp;&nbsp;</span><span id="major-required">3</span>
+						<div class="lecture-type" style="clear:both;" data-type="Major Required">
+							<span class="lecture-type-span">전필&nbsp;&nbsp;</span>
+							<span class="credit-text">0</span>
 							<span class="active-credit"></span>
 						</div>
-						<div class="lecture-type-right">
-							<span class="lecture-type-span">전선&nbsp;&nbsp;</span><span id="major-eletive">0</span>
+						<div class="lecture-type-right" data-type="Major Elective">
+							<span class="lecture-type-span">전선&nbsp;&nbsp;</span>
+							<span class="credit-text">0</span>
 							<span class="active-credit"></span>
 						</div>
-						<div class="lecture-type" style="clear:both;">
-							<span class="lecture-type-span">인문&nbsp;&nbsp;</span><span id="humanities">0</span>
+						<div class="lecture-type" style="clear:both;" data-type="Humanities & Sociel Elective">
+							<span class="lecture-type-span">인문&nbsp;&nbsp;</span>
+							<span class="credit-text">0</span>
 							<span class="active-credit"></span>
 						</div>
-						<div class="lecture-type-right">
-							<span class="lecture-type-span">기타&nbsp;&nbsp;</span><span id="other-lectures">2</span>
+						<div class="lecture-type-right" data-type="Etc">
+							<span class="lecture-type-span">기타&nbsp;&nbsp;</span>
+							<span class="credit-text">0</span>
 							<span class="active-credit"></span>
 						</div>
 					</div>
 					<div id="total-credits">
 						<div class="total-credit">
-							<div id="credits" class="score-text">18</div>
+							<div id="credits" class="score-text"><span class="normal">0</span><span class="active none">0</span></div>
 							<div class="score-label">학점</div>
 						</div>
 						<div class="total-credit">
-							<div id="au" class="score-text">2</div>
+							<div id="au" class="score-text"><span class="normal">0</span><span class="active none">0</span></div>
 							<div class="score-label">AU</div>
 						</div>
 					</div>
@@ -530,7 +518,7 @@
 </div>
 
 <script type="text/template" id="timetable-lecture-template">
-<div class="lecture-block">
+<div class="lecture-block" style="width:<%- width %>px; height:<%- height %>px;" data-id="<%- id %>">
   <p class="timetable-lecture-name"><%- title %></p>
 </div>
 </script>
@@ -538,11 +526,11 @@
 <script type="text/template" id="list-template">
 <% _.each(courses, function(course) { %>
 <div class="list-elem">
-  <div class="list-elem-title"><strong><%- course[0].format_common_title %></strong> <%- course[0].old_code %></div>
+  <div class="list-elem-title"><strong><%- course[0].get('format_common_title') %></strong> <%- course[0].get('old_code') %></div>
   <% _.each(course, function(lecture) { %>
-  <div class="list-elem-body-wrap">
+  <div class="list-elem-body-wrap" data-id="<%- lecture.get('id') %>">
     <div class="list-elem-body">
-      <div class="list-elem-body-text"><strong><%- lecture.format_class_title %></strong> <%- lecture.format_professor_str %></div><i class="add-to-cart"></i><i class="add-to-table"></i>
+      <div class="list-elem-body-text"><strong><%- lecture.get('format_class_title') %></strong> <%- lecture.get('format_professor_str') %></div><i class="add-to-cart"></i><i class="add-to-table"></i>
     </div>
   </div>
   <% }); %>
@@ -553,44 +541,59 @@
 <script type="text/template" id="lecture-detail-template">
   <div class="lecture-detail">
 		<div id="course-title" style="text-align:center;"><span><%- title %></span></div>
-		<div id="course-no" style="text-align:center;"><span><%- old_code %></span></div>
+		<div id="course-no" style="text-align:center;"><span><%- old_code %><% if(class_no.length>0) { %> (<%- class_no %>)<% } %></span></div>
 		<div class="lecture-options">
 			<span id="color-option" style="float:left;">색상 변경</span>
 			<span id="syllabus-option">실라버스</span>&nbsp;
 			<span id="dictionary-option">과목사전</span>
 		</div>
 		<div class="detail-top">
-			<div class="basic-info"><span style="font-weight:700;">학과&nbsp;&nbsp;</span><span id="department"><%- department %></span></div>
+			<div class="basic-info"><span style="font-weight:700;">학과&nbsp;&nbsp;</span><span id="department"><%- format_dept_name %></span></div>
 			<div class="basic-info"><span style="font-weight:700;">구분&nbsp;&nbsp;</span><span id="course-type"><%- type %></span></div>
-			<div class="basic-info"><span style="font-weight:700;">교수&nbsp;&nbsp;</span><span id="instructor"><%- professor %></span></div>
-			<div class="basic-info"><span style="font-weight:700;">장소&nbsp;&nbsp;</span><span id="classroom"><%- classroom %></span></div>
-			<div class="basic-info"><span style="font-weight:700;">정원&nbsp;&nbsp;</span><span id="class-size"><%- classsize %></span></div>
-			<div class="basic-info"><span style="font-weight:700;">시험&nbsp;&nbsp;</span><span id="exam-time"><%- examtime %></span></div>
+			<div class="basic-info"><span style="font-weight:700;">교수&nbsp;&nbsp;</span><span id="instructor"><%- format_professor_str %></span></div>
+			<div class="basic-info"><span style="font-weight:700;">장소&nbsp;&nbsp;</span><span id="classroom"><%- format_classroom %></span></div>
+			<div class="basic-info"><span style="font-weight:700;">정원&nbsp;&nbsp;</span><span id="class-size"><%- limit %></span></div>
+			<div class="basic-info"><span style="font-weight:700;">시험&nbsp;&nbsp;</span><span id="exam-time"><%- format_exam %></span></div>
 			<div class="lecture-scores">
 				<div class="lecture-score">
-					<div id="language" class="score-text"><%- language %></div>
+					<% if (is_english) { %>
+					<div id="language" class="score-text">Eng</div>
+					<% } else { %>
+					<div id="language" class="score-text" style="">한</div>
+					<% } %>
 					<div class="score-label">언어</div>
 				</div><!--
 		 --><div class="lecture-score">
+					<% if ((credit > 0) && (credit_au == 0)) { %>
 					<div id="credit" class="score-text"><%- credit %></div>
 					<div class="score-label">학점</div>
+					<% } else { %>
+					<div id="credit" class="score-text"><%-credit_au %></div>
+					<div class="score-label">AU</div>
+					<% } %>
 				</div><!--
 		 --><div class="lecture-score">
-					<div id="rate" class="score-text"><%- rate %></div>
+					<div id="rate" class="score-text">
+						<% if (limit == 0) { %>
+						0.0:1
+						<% } else { %>
+						<%- (num_people/limit).toFixed(1) %>:1
+						<% } %>
+					</div>
 					<div class="score-label">경쟁률</div>
 				</div>
 			</div>
 			<div class="lecture-scores">
 				<div class="lecture-score" style="clear:both;">
-					<div id="grade" class="score-text"><%- grade %></div>
+					<div id="grade" class="score-text"><%- format_grade %></div>
 					<div class="score-label">성적</div>
 				</div><!--
 		 --><div class="lecture-score">
-					<div id="load" class="score-text"><%- load %></div>
+					<div id="load" class="score-text"><%- format_load %></div>
 					<div class="score-label">널널</div>
 				</div><!--
 		 --><div class="lecture-score">
-					<div id="speech" class="score-text"><%- speech %></div>
+					<div id="speech" class="score-text"><%- format_speech %></div>
 					<div class="score-label">강의</div>
 				</div>
 			</div>
@@ -662,6 +665,13 @@
 			</div>
 		</div>
   </div>
+</script>
+
+<script type="text/template" id="timetable-tab-template">
+<% _.each(ids, function(id, idx){ %>
+<a href="#/<%- idx+1 %>" class="timetable-tab" data-id="<%- id %>"><span class="timetable-num">시간표 <%- idx+1 %></span><span class="hidden-option"><i class="duplicate-table"></i><i class="delete-table"></i></span></a>
+<% }); %>
+<a class="timetable-tab timetable-add"><span class="timetable-num"><i class="add-table"></i></span></a>
 </script>
 
 {% endblock %}
