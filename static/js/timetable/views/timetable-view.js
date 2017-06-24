@@ -515,6 +515,9 @@ $.ajaxSetup({
 
     events: {
       'click .timetable-tab': "changeTab",
+      'click .timetable-add': "createTable",
+      'click .duplicate-table': "copyTable",
+      'click .delete-table': "deleteTable",
     },
 
     initialize: function() {
@@ -550,6 +553,78 @@ $.ajaxSetup({
       // this.render is automatically called here
     },
 
+    deleteTable: function(e) {
+      if (app.timetables.length <= 1){
+        alert("마지막 시간표는 삭제할 수 없습니다");
+        return;
+      }
+      if (!confirm("정말 삭제하시겠습니까?\n이 동작은 취소하거나 되돌릴 수 없습니다.")){
+        return;
+      }
+
+      var block = $(e.currentTarget).closest('.timetable-tab');
+      var id = Number(block.attr('data-id'));
+
+      $.ajax({
+        url: "/timetable/api/table_delete",
+        type: "POST",
+        data: {
+          table_id: id,
+          year: app.YearSemester.get('year'),
+          semester: app.YearSemester.get('semester'),
+        },
+        success: function(result) {
+          var timetables = app.timetables.models.filter(function(x){return x.get('id')!==id});
+          app.timetables.reset(timetables);
+          app.timetables.trigger('update');
+        },
+      });
+    },
+
+    createTable: function(e) {
+      $.ajax({
+        url: "/timetable/api/table_create",
+        type: "POST",
+        data: {
+          year: app.YearSemester.get('year'),
+          semester: app.YearSemester.get('semester'),
+        },
+        success: function(result) {
+          app.timetables.create({id: result.id,
+                                 year: app.YearSemester.get('year'),
+                                 semester: app.YearSemester.get('semester'),
+                                 lectures: []});
+          var newTable = app.timetables.find(function(x){return x.get('id')===result.id});
+          app.CurrentTimetable.set(newTable.attributes);
+        },
+      });
+    },
+
+    copyTable: function(e) {
+      var block = $(e.currentTarget).closest('.timetable-tab');
+      var id = Number(block.attr('data-id'));
+
+      $.ajax({
+        url: "/timetable/api/table_copy",
+        type: "POST",
+        data: {
+          table_id: id,
+          year: app.YearSemester.get('year'),
+          semester: app.YearSemester.get('semester'),
+        },
+        success: function(result) {
+          var oldTable = app.timetables.models.find(function(x){return x.get('id')===id});
+          app.timetables.create({id: result.id,
+                                 year: app.YearSemester.get('year'),
+                                 semester: app.YearSemester.get('semester'),
+                                 lectures: _.clone(oldTable.get('lectures')),
+                               });
+          var newTable = app.timetables.find(function(x){return x.get('id')===result.id});
+          app.CurrentTimetable.set(newTable.attributes);
+        },
+      });
+    },
+
     highlightBlocks: function() {
       if (app.LectureActive.get('hover')) {
         $('.lecture-block[data-id=' + app.LectureActive.get('id') + ']').addClass('active');
@@ -561,6 +636,12 @@ $.ajaxSetup({
 
     render: function() {
       console.log('render');
+
+      // Highlight selected timetable tab
+      var id = app.CurrentTimetable.get('id');
+      $('.timetable-tab').removeClass('active');
+      $('.timetable-tab[data-id='+id+']').addClass('active');
+
       // Make timetable blocks
       $('#timetable-contents .lecture-block').remove();
       var lectures = app.CurrentTimetable.get('lectures')

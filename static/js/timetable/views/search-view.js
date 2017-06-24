@@ -155,9 +155,10 @@ var app = app || {};
         // Disable add buttons
         block.find('.add-to-table').removeClass('disable');
         var lectures = app.CurrentTimetable.get('lectures');
-        for (var i = 0, child; child = lectures[i]; i++) {
-          $('[data-id='+child.id+'] .add-to-table').addClass('disable');
-        }
+        if (lectures)
+          for (var i = 0, child; child = lectures[i]; i++) {
+            $('[data-id='+child.id+'] .add-to-table').addClass('disable');
+          }
 
         // Disable cart buttons : TODO
       }

@@ -294,7 +294,7 @@ def update_my_lectures(request):
     lecture = Lecture.objects.get(id=lecture_id)
 
     if timetable.year!=lecture.year or timetable.semester!=lecture.semester:
-        return HttpResponseBadRequest()
+        raise ValidationError('Semester not matching')
 
     if not delete:
         timetable.lecture.add(lecture)
@@ -310,37 +310,32 @@ def copy_my_timetable(request):
         return HttpResponseNotAllowed('POST')
 
     try:
-        userprofile = UserProfile.object.get(user=request.user)
+        userprofile = UserProfile.objects.get(user=request.user)
     except:
-        raise validationerror('no user profile')
+        raise ValidationError('no user profile')
 
-    if 'table_to' not in request.POST or 'table_from' not in request.POST or \
+    if 'table_id' not in request.POST or \
        'year' not in request.POST or 'semester' not in request.POST:
         return HttpResponseBadRequest()
 
-    table_from = int(request.POST['table_from'])
-    table_to = int(request.POST['table_to'])
+    table_id = int(request.POST['table_id'])
     year = int(request.POST['year'])
     semester = int(request.POST['semester'])
     
     # Find the right timetable
-    tables_from = list(TimeTable.objects.filter(user=userprofile, table_id=table_from,
-                                               year=year, semester=semester))
-    if len(tables_from) == 0:
-        return JsonResponse({ 'success': False, 'reason': 'No matching table found' })
+    target_table = TimeTable.objects.get(user=userprofile, id=table_id,
+                                         year=year, semester=semester)
 
-    # Check if dst exists, if exists delete and copy else, just make an copy
-    tables_to = list(TimeTable.objects.filter(user=userprofile, table_id=table_to,
-                                              year=year, semester=semester))
-    if len(tables_to) != 0:
-        tablles_to[0].delete()
+    lectures = target_table.lecture.all()
 
-    table = tables_to[0]
-    table.pk = None
-    table.table_id = table_to
-    table.save()
+    t = TimeTable(user=userprofile, year=year, semester=semester)
+    t.save()
+    for l in lectures:
+        t.lecture.add(l)
+    t.save()
 
-    return JsonResponse({ 'success': True })
+    return JsonResponse({'scucess': True,
+                         'id':t.id})
 
 
 def delete_my_timetable(request):
@@ -349,25 +344,53 @@ def delete_my_timetable(request):
         return HttpResponseNotAllowed('POST')
 
     try:
-        userprofile = UserProfile.object.get(user=request.user)
+        userprofile = UserProfile.objects.get(user=request.user)
     except:
         raise validationerror('no user profile')
 
-    if 'table_id' not in request.POST or 'yearr' not in request.POST or \
+    if 'table_id' not in request.POST or 'year' not in request.POST or \
        'semester' not in request.POST:
         return HttpResponseBadRequest()
 
     table_id = int(request.POST['table_id'])
+    year = int(request.POST['year'])
+    semester = int(request.POST['semester'])
     
-    tables = list(TimeTable.objects.filter(user=userprofile, table_id=table_id,
+    tables = list(TimeTable.objects.filter(user=userprofile, id=table_id,
                                            year=year, semester=semester))
     if len(tables) == 0:
         return JsonResponse({ 'success': False, 'reason': 'No such timetable exist' })
 
     tables[0].delete()
     return JsonResponse({ 'scucess': True })
-   
+
+
+def create_timetable(request):
+    '''Create user timetable '''
+    if request.method != 'POST':
+        return HttpResponseNotAllowed('POST')
+
+    try:
+        userprofile = UserProfile.objects.get(user=request.user)
+    except:
+        raise ValidationError('no user profile')
+
+    if 'year' not in request.POST or 'semester' not in request.POST:
+        return HttpResponseBadRequest()
+
+    year = int(request.POST['year'])
+    semester = int(request.POST['semester'])
+
+    if semester!=1 and semester!=3:
+        raise ValidationError('Invalid semester')
     
+    t = TimeTable(user=userprofile, year=year, semester=semester)
+    t.save()
+
+    return JsonResponse({'scucess': True,
+                         'id':t.id})
+
+
 def show_my_lectures(request):
     '''Returns all the lectures the user is listening'''
     try:
