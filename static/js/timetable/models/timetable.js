@@ -8,6 +8,8 @@ var app = app || {};
   // ---------------
   
   app.Timetable = Backbone.Model.extend({
+    sync : function(){},
+    save : function(){},
   });
 
   app.CurrentTimetable = new app.Timetable;
