@@ -219,12 +219,9 @@ $.ajaxSetup({
           var lecture = lecList.find(function(x){return x.get("id")===lecture_id});
 
           // Update app.CurrentTimetable
+          // app.timetables is automaticall updated because it has same array pointers
           app.CurrentTimetable.get('lectures').push(lecture.attributes);
           app.CurrentTimetable.trigger('change');
-
-          // Update app.timetables
-          var timetableModel = app.timetables.models.find(function(x){return x.get('id')===timetable_id});
-          timetableModel.get('lectures').push(lecture.attributes);
         },
       });
     },
@@ -317,15 +314,13 @@ $.ajaxSetup({
           var lecture = lecList.find(function(x){return x.id===lecture_id});
 
           // Update app.CurrentTimetable
-          var lectures1 = app.CurrentTimetable.get('lectures');
-          lectures1 = lectures1.filter(function(x){return x.id!==lecture_id});
-          app.CurrentTimetable.set('lectures', lectures1);
+          var timetableLectures = app.CurrentTimetable.get('lectures');
+          timetableLectures = timetableLectures.filter(function(x){return x.id!==lecture_id});
+          app.CurrentTimetable.set('lectures', timetableLectures);
 
           // Update app.timetables
           var timetableModel = app.timetables.models.find(function(x){return x.get('id')===timetable_id});
-          var lectures2 = timetableModel.get('lectures');
-          lectures2 = lectures2.filter(function(x){return x.id!==lecture_id});
-          timetableModel.set('lectures', lectures2)
+          timetableModel.set('lectures', timetableLectures)
         },
       });
     },
