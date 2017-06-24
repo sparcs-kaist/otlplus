@@ -614,6 +614,12 @@ $.ajaxSetup({
       $('.lecture-type[data-type="Humanities & Sociel Elective"').find('.credit-text').html(byType[4]);
       $('.lecture-type-right[data-type="Etc"').find('.credit-text').html(byType[5]);
 
+      var activeID = app.LectureActive.get('id')
+      if (lectures.find(function(x){return x.id===activeID}) === undefined) {
+        app.LectureActive.set({'hover': false,
+                               'click': false});
+      }
+
       // Disable add buttons
       $('.add-to-table').removeClass('disable');
       for (var i = 0, child; child = lectures[i]; i++) {
