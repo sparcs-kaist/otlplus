@@ -1195,7 +1195,7 @@ i
 {
     position:absolute;
     margin-left:-5px;
-    margin-top:-14px;
+    margin-top:calc(0.7vh - 19px);
     margin-right:-100px;
 }
 
@@ -1203,7 +1203,7 @@ i
 {
     background-color:#eeeeee;
     font-size:0;
-    height:11px;
+    height:calc(0.7vh + 6px);
     border-radius:2px;
     padding:2px 3px;
     box-shadow:0em 1px 0px 0em #888888;
@@ -1215,8 +1215,8 @@ i
 
 .map-location-text
 {
-    font-size:8px;
-    line-height:7px;
+    font-size:calc(0.7vh + 3px);
+    line-height:calc(0.7vh + 2px);
     margin-right:1px;
 }
 .map-location-box.active .map-location-text
@@ -1255,8 +1255,8 @@ i
 .map-location-circle
 {
     display:inline-block;
-    width:7px;
-    height:7px;
+    width:calc(0.7vh + 2px);
+    height:calc(0.7vh + 2px);
     margin-left:1px;
     border-radius:50%;
     background-color:#ff8888;
