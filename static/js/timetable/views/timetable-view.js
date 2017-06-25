@@ -433,8 +433,9 @@ $.ajaxSetup({
     initialize: function() {},
 
     clear: function() {
-      if (!app.LectureActive.get('click')) {
+      if (!app.LectureActive.get('hover') && !app.LectureActive.get('click')) {
         $(".map-location-box").removeClass('active');
+        $('.map-location-circle').removeClass('active');
 
         $(".lecture-detail").remove();
         $(".lecture-block").removeClass("active");
@@ -475,6 +476,7 @@ $.ajaxSetup({
 
         // Highlight target
         $(e.currentTarget).addClass('active');
+        $(e.currentTarget).find('.map-location-circle').addClass('active');
 
         $(this.block).html(this.semesterTemplate({title: title,
                                                   lectures: lectures,}));
@@ -603,6 +605,7 @@ $.ajaxSetup({
 
       // Delete map info : TODO
       $('#map-container').find('.map-location-circle').removeClass("active");
+      $('#map-container').find(".map-location-box").removeClass("active");
       var blocks = $('#map-container').find('.map-location-circle.temp').closest('.map-location');
       $('#map-container').find('.map-location-circle.temp').remove();
       for (var i=0, block; block=blocks[i]; i++)
@@ -692,13 +695,17 @@ $.ajaxSetup({
 
       // Update map
       if (inTimetable) {
-        $('#map-container').find(".map-location-circle[data-id="+id+"]").addClass("active");
+        var circle = $('#map-container').find(".map-location-circle[data-id="+id+"]");
+        circle.addClass("active");
+        circle.closest(".map-location-box").addClass("active");
       } else {
         for (var j=0; j<1; j++) { // TODO : Change this with real classtime
           var location = ['E11', 'N4', 'N1', 'N25'][idx%4];
-          var block = $('#map-container').find('.map-location.'+location);
-          block.removeClass('none');
-          block.find('.map-location-box').append('<span class="map-location-circle color'+(child.course%16+1)+' active temp" data-id='+child.id+'></span>');
+          var cont = $('#map-container').find('.map-location.'+location);
+          var box = cont.find('.map-location-box');
+          cont.removeClass('none');
+          box.addClass('active');
+          box.append('<span class="map-location-circle color'+(child.course%16+1)+' active temp" data-id='+child.id+'></span>');
         }
       }
 

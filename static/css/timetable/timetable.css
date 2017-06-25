@@ -1208,12 +1208,20 @@ i
     padding:2px 3px;
     box-shadow:0em 1px 0px 0em #888888;
 }
+.map-location-box.active
+{
+    background-color:#f9f0f0;
+}
 
 .map-location-text
 {
     font-size:8px;
     line-height:7px;
     margin-right:1px;
+}
+.map-location-box.active .map-location-text
+{
+    color:#e64c65;
 }
 
 .map-location-arrow
@@ -1226,6 +1234,10 @@ i
     border-left:2px solid transparent;
     border-right:2px solid transparent;
     border-top:3px solid #eeeeee;
+}
+.map-location-box.active~.map-location-arrow
+{
+    border-top-color:#f9f0f0;
 }
 
 .map-location-arrow-shadow
