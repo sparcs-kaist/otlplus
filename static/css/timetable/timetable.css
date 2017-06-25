@@ -1382,6 +1382,11 @@ i
     font-weight:900;
 }
 
+.credit-text.active
+{
+    color:#e64c65;
+}
+
 .active-credit
 {
     color:#e64c65;

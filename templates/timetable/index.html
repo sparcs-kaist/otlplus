@@ -424,7 +424,7 @@
 							<span class="credit-text">0</span>
 							<span class="active-credit"></span>
 						</div>
-						<div class="lecture-type" style="clear:both;" data-type="Humanities & Sociel Elective">
+						<div class="lecture-type" style="clear:both;" data-type="Humanities & Social Elective">
 							<span class="lecture-type-span">인문&nbsp;&nbsp;</span>
 							<span class="credit-text">0</span>
 							<span class="active-credit"></span>
@@ -686,6 +686,23 @@
 	<div class="exam-course"><%- title %></div>
 	<div class="exam-time"><%- examTime %></div>
 </li>
+</script>
+
+<script type="text/template" id="semester-lecture-template">
+<div class="lecture-detail">
+	<div id="course-title" style="text-align:center;"><span><%- title %></span></div>
+	<div id="course-no" style="text-align:center;"><span><%- lectures.length %>개의 과목</span></div>
+	<div class="lecture-options">
+		<span id="color-option" style="float:left;">색상 변경</span>
+		<span id="syllabus-option">실라버스</span>&nbsp;
+		<span id="dictionary-option">과목사전</span>
+	</div>
+	<div class="detail-top">
+		<% _.each(lectures, function(lecture){ %>
+		<div class="basic-info"><span style="font-weight:700;"><%- lecture.title %>&nbsp;&nbsp;</span><span id="department"><%- lecture.info %></span></div>
+		<% }); %>
+	</div>
+</div>
 </script>
 
 {% endblock %}

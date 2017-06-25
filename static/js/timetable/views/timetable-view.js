@@ -397,6 +397,126 @@ $.ajaxSetup({
     },
   })
 
+  
+  app.SemesterLectureView = Backbone.View.extend({
+    el: "#right-side",
+    block: "#lecture-info",
+    semesterTemplate: _.template($('#semester-lecture-template').html()),
+    typeDict: {"Basic Required": "기초필수",
+               "Basic Elective": "기초선택",
+               "Major Required": "전공필수",
+               "Major Elective": "전공선택",
+               "Humanities & Social Elective": "인문사회선택",},
+
+    events: {
+      'mouseover .map-location-box': "buildingInfo",
+      'mouseout .map-location-box': "clear",
+      'mouseover .lecture-type': "typeInfo",
+      'mouseout .lecture-type': "clear",
+      'mouseover .lecture-type-right': "typeInfo",
+      'mouseout .lecture-type-right': "clear",
+      'mouseover .total-credit': "creditInfo",
+      'mouseout .total-credit': "clear",
+    },
+
+    initialize: function() {},
+
+    clear: function() {
+      if (!app.LectureActive.get('hover') && !app.LectureActive.get('click')) {
+        $(".lecture-detail").remove();
+        $(".lecture-block").removeClass("active");
+
+        $('.credit-text').removeClass('active');
+
+        $('.total-credit .normal').removeClass('none');
+        $('.total-credit .active').addClass('none');
+      }
+    },
+
+    _formatLectures: function(lectureIDs, getInfo) {
+      var timetable = app.CurrentTimetable.get('lectures');
+      var lectures = [];
+      for (var i=0, id; id=lectureIDs[i]; i++) {
+        var lecture = timetable.find(function(x){return x.id===id});
+        lectures.push({title: lecture.title,
+                       info: getInfo(lecture)});
+        $(".lecture-block[data-id="+id+"]").addClass('active');
+      }
+      return lectures;
+    },
+
+    buildingInfo: function(e) {
+      if (!app.LectureActive.get('hover') && !app.LectureActive.get('click')) {
+        var buildingNo = $(e.currentTarget).closest(".map-location").attr("data-building");
+        var title = buildingNo;
+        var lectureIDs = $.map($(e.currentTarget).find(".map-location-circle"),
+                               function(x){return Number($(x).attr("data-id"))});
+        var lectures = this._formatLectures(lectureIDs,
+                          function(x){return '101호'});
+        $(this.block).html(this.semesterTemplate({title: title,
+                                                  lectures: lectures,}));
+      }
+    },
+
+    typeInfo: function(e) {
+      if (!app.LectureActive.get('hover') && !app.LectureActive.get('click')) {
+        var type = $(e.currentTarget).attr('data-type');
+        if (type !== "Etc") {
+          var title = this.typeDict[type];
+          var raw_lectures = app.CurrentTimetable.get('lectures').filter(function(x){return x.type_en===type});
+          var lectureIDs = raw_lectures.map(function(x){return x.id});
+          var lectures = this._formatLectures(lectureIDs,
+                            function(x){return (x.credit? x.credit+"학점" : "") + (x.credit_au? x.credit_au+"AU" : "")});
+
+          // Highlight target
+          $(e.currentTarget).find('.credit-text').addClass('active');
+        } else {
+          var title = "기타";
+          var raw_lectures = app.CurrentTimetable.get('lectures').filter(function(x){return !semesterLectureView.typeDict[x.type_en]});
+          var lectureIDs = raw_lectures.map(function(x){return x.id});
+          var lectures = this._formatLectures(lectureIDs,
+                            function(x){return (x.credit? x.credit+"학점" : "") + (x.credit_au? x.credit_au+"AU" : "")});
+
+          // Highlight target
+          $(e.currentTarget).find('.credit-text').addClass('active');
+        }
+        $(this.block).html(this.semesterTemplate({title: title,
+                                                  lectures: lectures,}));
+      }
+    },
+
+    creditInfo: function(e) {
+      if (!app.LectureActive.get('hover') && !app.LectureActive.get('click')) {
+        var type = $(e.currentTarget).find('.score-text').attr('id');
+        if (type === "au") {
+          var title = "AU";
+          var raw_lectures = app.CurrentTimetable.get('lectures').filter(function(x){return x.credit_au>0});
+          var lectureIDs = raw_lectures.map(function(x){return x.id});
+          var lectures = this._formatLectures(lectureIDs,
+                            function(x){return x.credit_au+"AU"});
+
+          // Highlight target
+          $('#au .active').html($('#au .normal').html());
+          $('#au .normal').addClass('none');
+          $('#au .active').removeClass('none');
+        } else {
+          var title = "학점";
+          var raw_lectures = app.CurrentTimetable.get('lectures').filter(function(x){return x.credit>0});
+          var lectureIDs = raw_lectures.map(function(x){return x.id});
+          var lectures = this._formatLectures(lectureIDs,
+                            function(x){return x.credit+"학점"});
+
+          // Highlight target
+          $('#credits .active').html($('#credits .normal').html());
+          $('#credits .normal').addClass('none');
+          $('#credits .active').removeClass('none');
+        }
+        $(this.block).html(this.semesterTemplate({title: title,
+                                                  lectures: lectures,}));
+      }
+    },
+  })
+
   // Showing informations of target lecture
   app.LectureActiveView = Backbone.View.extend({
     el: '#lecture-info',
@@ -761,7 +881,7 @@ $.ajaxSetup({
           case ('Major Elective'):
             byType[3] += child.credit+child.credit_au;
             break;
-          case ('Humanities & Sociel Elective'):
+          case ('Humanities & Social Elective'):
             byType[4] += child.credit+child.credit_au;
             break;
           default:
@@ -774,7 +894,7 @@ $.ajaxSetup({
       $('.lecture-type-right[data-type="Basic Elective"').find('.credit-text').html(byType[1]);
       $('.lecture-type[data-type="Major Required"').find('.credit-text').html(byType[2]);
       $('.lecture-type-right[data-type="Major Elective"').find('.credit-text').html(byType[3]);
-      $('.lecture-type[data-type="Humanities & Sociel Elective"').find('.credit-text').html(byType[4]);
+      $('.lecture-type[data-type="Humanities & Social Elective"').find('.credit-text').html(byType[4]);
       $('.lecture-type-right[data-type="Etc"').find('.credit-text').html(byType[5]);
 
       // Delete lectureactive if not in new timetable
@@ -830,5 +950,6 @@ var timetable = new app.TimetableClickSearchView();
 var lectureList = new app.lectureListView();
 var userLectureList = new app.TimetableLectureBlocksView();
 var userLectureList2 = new app.ListLectureBlocksView();
+var semesterLectureView = new app.SemesterLectureView();
 var lectureActiveView = new app.LectureActiveView();
 var timetableTabView = new app.TimetableTabView();
