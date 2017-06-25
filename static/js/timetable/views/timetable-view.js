@@ -402,7 +402,8 @@ $.ajaxSetup({
     el: '#lecture-info',
     tagName: 'div',
 
-    template: _.template($('#lecture-detail-template').html()),
+    detailTemplate: _.template($('#lecture-detail-template').html()),
+    blockTemplate: _.template($('#timetable-lecture-template').html()),
 
     initialize: function () {
       this.listenTo(app.LectureActive, 'change', this.changeInfo);
@@ -436,6 +437,7 @@ $.ajaxSetup({
       // Delete timetable blocks
       $('.lecture-block').removeClass('active');
       $('.lecture-block').removeClass('click');
+      $('.lecture-block-temp').remove();
 
       // Delete exam info : TODO
 
@@ -443,8 +445,11 @@ $.ajaxSetup({
     },
 
     render: function () {
+      var id = Number(app.LectureActive.get('id'));
+      var inTimetable = app.CurrentTimetable.get('lectures').find(function(x){return x.id===id});
+
       // Show lecture detail
-      $('#lecture-info').html(this.template(app.LectureActive.attributes));
+      $('#lecture-info').html(this.detailTemplate(app.LectureActive.attributes));
 
       // Update credit info
       var typeDiv = $('#info').find("[data-type='" + app.LectureActive.attributes.type_en + "']");
@@ -453,8 +458,6 @@ $.ajaxSetup({
       }
       var credit = Number(app.LectureActive.attributes.credit);
       var au = Number(app.LectureActive.attributes.credit_au);
-      var id = Number(app.LectureActive.get('id'));
-      var inTimetable = app.CurrentTimetable.get('lectures').find(function(x){return x.id===id});
       var type_text, credit_text, au_text;
       if (inTimetable) {    // Lecture in timetable
         type_text = "(" + (credit+au) + ")";
@@ -472,17 +475,47 @@ $.ajaxSetup({
         $('#info').find("#credits .active").removeClass("none");
       }
       if (au !== 0) {
-        $('#info').find("#au .active").html(au_text);
+        $('#info').find("#au .active").html(String(au_text));
         $('#info').find("#au .normal").addClass("none");
         $('#info').find("#au .active").removeClass("none");
       }
 
       // Highlight timetable blocks
-      if (app.LectureActive.get('hover')) {
-        $('.lecture-block[data-id=' + app.LectureActive.get('id') + ']').addClass('active');
-      }
-      if (app.LectureActive.get('click')) {
-        $('.lecture-block[data-id=' + app.LectureActive.get('id') + ']').addClass('click');
+      if (inTimetable) {
+        if (app.LectureActive.get('hover')) {
+          $('.lecture-block[data-id=' + app.LectureActive.get('id') + ']').addClass('active');
+        }
+        if (app.LectureActive.get('click')) {
+          $('.lecture-block[data-id=' + app.LectureActive.get('id') + ']').addClass('click');
+        }
+      } else {
+        var i = app.CurrentTimetable.get('lectures').length;
+        console.log(i);
+        var child = _.clone(app.LectureActive.attributes);
+        for (var j=0; j<2; j++) { // TODO : Change this with real classtime
+          child['day'] = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'][i%2 + 2*j];
+          if (Math.floor(i/2)%2 == 0) {
+            child['starttime'] = (Math.floor(i / 4) * 3 + 9) + '00';
+            child['endtime'] = (Math.floor(i / 4) * 3 + 10) + '30';
+          } else {
+            child['starttime'] = (Math.floor(i / 4) * 3 + 10) + '30';
+            child['endtime'] = (Math.floor(i / 4) * 3 + 12) + '00';
+          }
+
+          var day = timetable.indexOfDay(child.day) + 2;
+          var startTime = timetable.indexOfTime(child.starttime) + 2;
+          var endTime = timetable.indexOfTime(child.endtime) + 2;
+          var time = endTime-startTime;
+          var block = $('#timetable-contents')
+            .find(
+            '.day:nth-child(n+' + day + '):nth-child(-n+' + day + ')')
+            .find('.half:nth-child(n+' + startTime + '):nth-child(-n+' + startTime + ')')
+          block.html(this.blockTemplate({title: child.title,
+                                    id: child.id,
+                                    cells: time,
+                                    temp: true,}));
+        }
+        timetableTabView.resize();
       }
 
       // Update exam info : TODO
@@ -641,7 +674,7 @@ $.ajaxSetup({
       $('#timetable-contents .lecture-block').remove();
       var lectures = app.CurrentTimetable.get('lectures')
       for (var i = 0, child; child = lectures[i]; i++) {
-        for (var j=0; j<2; j++) {
+        for (var j=0; j<2; j++) { // TODO : Change this with real classtime
           child['day'] = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'][i%2 + 2*j];
           if (Math.floor(i/2)%2 == 0) {
             child['starttime'] = (Math.floor(i / 4) * 3 + 9) + '00';
@@ -661,7 +694,8 @@ $.ajaxSetup({
             .find('.half:nth-child(n+' + startTime + '):nth-child(-n+' + startTime + ')')
           block.html(this.template({title: child.title,
                                     id: child.id,
-                                    cells: time}));
+                                    cells: time,
+                                    temp: false,}));
         }
       }
       this.resize();
