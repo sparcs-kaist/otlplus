@@ -249,16 +249,15 @@ $.ajaxSetup({
         var lecList = app.CurrentTimetable.get('lectures');
 
         var lecture = lecList.find(function(x){return x.id===id});
+        lecture.click = false;
+        lecture.hover = true;
         app.LectureActive.set(lecture);
-        app.LectureActive.set("click", false);
-        app.LectureActive.set("hover", true);
       }
     },
 
     blockOut: function () {     
       if (!app.LectureActive.get("click")) {
         $(this.el).find('.lecture-block').removeClass('active').removeClass('click');
-        app.LectureActive.clear();
         app.LectureActive.set({
           "click":false,
           "hover":false,
@@ -272,7 +271,6 @@ $.ajaxSetup({
       $(this.el).find('.lecture-block').removeClass('active').removeClass('click');
       if (block.length === 0) {
         // Click target is not child(or itself) of lecture block
-        app.LectureActive.clear();
         app.LectureActive.set({
           "click":false,
           "hover":false,
@@ -283,9 +281,9 @@ $.ajaxSetup({
       var id = Number(block.attr('data-id'));
       var lecList = app.CurrentTimetable.get('lectures');
       var lecture = lecList.find(function(x){return x.id===id});
+      lecture.click = true;
+      lecture.hover = false;
       app.LectureActive.set(lecture);
-      app.LectureActive.set("click", true);
-      app.LectureActive.set("hover", false);
     },
 
     deleteLecture: function (e) {
@@ -353,15 +351,13 @@ $.ajaxSetup({
             break;
         }
         var lecture = lecList.models.find(function(x){return x.attributes.id===id});
+        lecture.set({click: false, hover: true});
         app.LectureActive.set(lecture.attributes);
-        app.LectureActive.set("click", false);
-        app.LectureActive.set("hover", true);
       }
     },
 
     listOut: function () {     
       if (!app.LectureActive.get("click")) {
-        app.LectureActive.clear();
         app.LectureActive.set({
           "click":false,
           "hover":false,
@@ -374,7 +370,6 @@ $.ajaxSetup({
       console.log(target);
       $(this.el).find('.lecture-block').removeClass('active').removeClass('click');
       if (target.hasClass("half") || target.hasClass('day') || target.is('#timetable-contents')) {
-        app.LectureActive.clear();
         app.LectureActive.set({
           "click":false,
           "hover":false,
@@ -388,12 +383,174 @@ $.ajaxSetup({
       var title = target.parent().find('.timetable-lecture-name').text();
       for (var i = 0, child; child = app.timetables.models[i]; i++) {
         if (child.attributes.title === title) {
+          child.set({click: true, hover:false});
           app.LectureActive.set(child.attributes);
           break;
         }
       }
-      app.LectureActive.set("click", true);
-      app.LectureActive.set("hover", false);
+    },
+  })
+
+  // Showing lectures info of the semester
+  app.SemesterLectureView = Backbone.View.extend({
+    el: "#right-side",
+    block: "#lecture-info",
+    semesterTemplate: _.template($('#semester-lecture-template').html()),
+    lectureTemplate: _.template($('#lecture-detail-template').html()),
+
+    typeDict: {"Basic Required": "기초필수",
+               "Basic Elective": "기초선택",
+               "Major Required": "전공필수",
+               "Major Elective": "전공선택",
+               "Humanities & Social Elective": "인문사회선택",},
+    dateDict: {"mon": "월요일",
+               "tue": "화요일",
+               "wed": "수요일",
+               "thu": "목요일",
+               "fri": "금요일",
+               "sat": "토요일",
+               "sun": "일요일",},
+
+    events: {
+      'mouseover .map-location-box': "buildingInfo",
+      'mouseout .map-location-box': "clear",
+      'mouseover .lecture-type': "typeInfo",
+      'mouseout .lecture-type': "clear",
+      'mouseover .lecture-type-right': "typeInfo",
+      'mouseout .lecture-type-right': "clear",
+      'mouseover .total-credit': "creditInfo",
+      'mouseout .total-credit': "clear",
+      'mouseover .examtime': "examInfo",
+      'mouseout .examtime': "clear",
+    },
+
+    initialize: function() {},
+
+    clear: function() {
+      if (!app.LectureActive.get('hover') && !app.LectureActive.get('click')) {
+        $(".map-location-box").removeClass('active');
+        $('.map-location-circle').removeClass('active');
+
+        $(".lecture-detail").remove();
+        $(".lecture-block").removeClass("active");
+
+        $('.credit-text').removeClass('active');
+
+        $('.total-credit .normal').removeClass('none');
+        $('.total-credit .active').addClass('none');
+
+        $('.exam-box').removeClass('active');
+      }
+    },
+
+    _formatLectures: function(lectureIDs, getInfo) {
+      var timetable = app.CurrentTimetable.get('lectures');
+      var lectures = [];
+      for (var i=0, id; id=lectureIDs[i]; i++) {
+        var lecture = timetable.find(function(x){return x.id===id});
+        lectures.push({title: lecture.title,
+                       info: getInfo(lecture)});
+        $(".lecture-block[data-id="+id+"]").addClass('active');
+      }
+      return lectures;
+    },
+
+    buildingInfo: function(e) {
+      if ($(e.target).hasClass('map-location-circle')) {
+        return;
+      }
+      if (!app.LectureActive.get('hover') && !app.LectureActive.get('click')) {
+        var buildingNo = $(e.currentTarget).closest(".map-location").attr("data-building");
+        var title = buildingNo;
+        var circles = $(e.currentTarget).find(".map-location-circle");
+        var lectureIDs = $.map(circles,
+                               function(x){return Number($(x).attr("data-id"))});
+        var lectures = this._formatLectures(lectureIDs,
+                          function(x){return '101호'});
+
+        // Highlight target
+        $(e.currentTarget).addClass('active');
+        $(e.currentTarget).find('.map-location-circle').addClass('active');
+
+        $(this.block).html(this.semesterTemplate({title: title,
+                                                  lectures: lectures,}));
+      }
+    },
+
+    typeInfo: function(e) {
+      if (!app.LectureActive.get('hover') && !app.LectureActive.get('click')) {
+        var type = $(e.currentTarget).attr('data-type');
+        if (type !== "Etc") {
+          var title = this.typeDict[type];
+          var raw_lectures = app.CurrentTimetable.get('lectures').filter(function(x){return x.type_en===type});
+          var lectureIDs = raw_lectures.map(function(x){return x.id});
+          var lectures = this._formatLectures(lectureIDs,
+                            function(x){return (x.credit? x.credit+"학점" : "") + (x.credit_au? x.credit_au+"AU" : "")});
+
+          // Highlight target
+          $(e.currentTarget).find('.credit-text').addClass('active');
+        } else {
+          var title = "기타";
+          var raw_lectures = app.CurrentTimetable.get('lectures').filter(function(x){return !semesterLectureView.typeDict[x.type_en]});
+          var lectureIDs = raw_lectures.map(function(x){return x.id});
+          var lectures = this._formatLectures(lectureIDs,
+                            function(x){return (x.credit? x.credit+"학점" : "") + (x.credit_au? x.credit_au+"AU" : "")});
+
+          // Highlight target
+          $(e.currentTarget).find('.credit-text').addClass('active');
+        }
+        $(this.block).html(this.semesterTemplate({title: title,
+                                                  lectures: lectures,}));
+      }
+    },
+
+    creditInfo: function(e) {
+      if (!app.LectureActive.get('hover') && !app.LectureActive.get('click')) {
+        var type = $(e.currentTarget).find('.score-text').attr('id');
+        if (type === "au") {
+          var title = "AU";
+          var raw_lectures = app.CurrentTimetable.get('lectures').filter(function(x){return x.credit_au>0});
+          var lectureIDs = raw_lectures.map(function(x){return x.id});
+          var lectures = this._formatLectures(lectureIDs,
+                            function(x){return x.credit_au+"AU"});
+
+          // Highlight target
+          $('#au .active').html($('#au .normal').html());
+          $('#au .normal').addClass('none');
+          $('#au .active').removeClass('none');
+        } else {
+          var title = "학점";
+          var raw_lectures = app.CurrentTimetable.get('lectures').filter(function(x){return x.credit>0});
+          var lectureIDs = raw_lectures.map(function(x){return x.id});
+          var lectures = this._formatLectures(lectureIDs,
+                            function(x){return x.credit+"학점"});
+
+          // Highlight target
+          $('#credits .active').html($('#credits .normal').html());
+          $('#credits .normal').addClass('none');
+          $('#credits .active').removeClass('none');
+        }
+        $(this.block).html(this.semesterTemplate({title: title,
+                                                  lectures: lectures,}));
+      }
+    },
+
+    examInfo: function(e) {
+      if (!app.LectureActive.get('hover') && !app.LectureActive.get('click')) {
+        var date = $(e.currentTarget).attr('data-date');
+        var title = this.dateDict[date] + " 시험";
+        var boxes = $(e.currentTarget).find('.exam-box');
+        var lectureIDs = $.map(boxes,
+                               function(x){return Number($(x).attr("data-id"))});
+        var lectures = this._formatLectures(lectureIDs,
+                          function(x){return x.format_exam});
+
+        // Highlight target
+        boxes.addClass("active");
+
+        $(this.block).html(this.semesterTemplate({title: title,
+                                                  lectures: lectures,}));
+      }
     },
   })
 
@@ -442,6 +599,7 @@ $.ajaxSetup({
 
       // Delete map info : TODO
       $('#map-container').find('.map-location-circle').removeClass("active");
+      $('#map-container').find(".map-location-box").removeClass("active");
       var blocks = $('#map-container').find('.map-location-circle.temp').closest('.map-location');
       $('#map-container').find('.map-location-circle.temp').remove();
       for (var i=0, block; block=blocks[i]; i++)
@@ -520,6 +678,9 @@ $.ajaxSetup({
             .find('.half:nth-child(n+' + startTime + '):nth-child(-n+' + startTime + ')')
           block.html(this.blockTemplate({title: child.title,
                                     id: child.id,
+                                    professor: child.format_professor_str,
+                                    classroom: child.format_classroom_short,
+                                    color: child.course%16+1, // TODO : get real color
                                     cells: time,
                                     temp: true,}));
         }
@@ -528,13 +689,17 @@ $.ajaxSetup({
 
       // Update map
       if (inTimetable) {
-        $('#map-container').find(".map-location-circle[data-id="+id+"]").addClass("active");
+        var circle = $('#map-container').find(".map-location-circle[data-id="+id+"]");
+        circle.addClass("active");
+        circle.closest(".map-location-box").addClass("active");
       } else {
         for (var j=0; j<1; j++) { // TODO : Change this with real classtime
           var location = ['E11', 'N4', 'N1', 'N25'][idx%4];
-          var block = $('#map-container').find('.map-location.'+location);
-          block.removeClass('none');
-          block.find('.map-location-box').append('<span class="map-location-circle active temp" data-id='+child.id+'></span>');
+          var cont = $('#map-container').find('.map-location.'+location);
+          var box = cont.find('.map-location-box');
+          cont.removeClass('none');
+          box.addClass('active');
+          box.append('<span class="map-location-circle color'+(child.course%16+1)+' active temp" data-id='+child.id+'></span>');
         }
       }
 
@@ -695,7 +860,7 @@ $.ajaxSetup({
         var h = cell.height()+1;
         var time = block.attr('data-cells');
         block.css({width: w+2,
-                   height: h*time-1});
+                   height: h*time-3});
       }
     },
 
@@ -730,6 +895,9 @@ $.ajaxSetup({
             .find('.half:nth-child(n+' + startTime + '):nth-child(-n+' + startTime + ')')
           block.html(this.template({title: child.title,
                                     id: child.id,
+                                    professor: child.format_professor_str,
+                                    classroom: child.format_classroom_short,
+                                    color: child.course%16+1, // TODO : get real color
                                     cells: time,
                                     temp: false,}));
         }
@@ -755,7 +923,7 @@ $.ajaxSetup({
           case ('Major Elective'):
             byType[3] += child.credit+child.credit_au;
             break;
-          case ('Humanities & Sociel Elective'):
+          case ('Humanities & Social Elective'):
             byType[4] += child.credit+child.credit_au;
             break;
           default:
@@ -764,12 +932,12 @@ $.ajaxSetup({
       }
       $('#credits .normal').html(credit);
       $('#au .normal').html(au);
-      $('.lecture-type[data-type="Basic Required"').find('.credit-text').html(byType[0]);
-      $('.lecture-type-right[data-type="Basic Elective"').find('.credit-text').html(byType[1]);
-      $('.lecture-type[data-type="Major Required"').find('.credit-text').html(byType[2]);
-      $('.lecture-type-right[data-type="Major Elective"').find('.credit-text').html(byType[3]);
-      $('.lecture-type[data-type="Humanities & Sociel Elective"').find('.credit-text').html(byType[4]);
-      $('.lecture-type-right[data-type="Etc"').find('.credit-text').html(byType[5]);
+      $('.lecture-type[data-type="Basic Required"]').find('.credit-text').html(byType[0]);
+      $('.lecture-type-right[data-type="Basic Elective"]').find('.credit-text').html(byType[1]);
+      $('.lecture-type[data-type="Major Required"]').find('.credit-text').html(byType[2]);
+      $('.lecture-type-right[data-type="Major Elective"]').find('.credit-text').html(byType[3]);
+      $('.lecture-type[data-type="Humanities & Social Elective"]').find('.credit-text').html(byType[4]);
+      $('.lecture-type-right[data-type="Etc"]').find('.credit-text').html(byType[5]);
 
       // Delete lectureactive if not in new timetable
       var activeID = app.LectureActive.get('id')
@@ -792,7 +960,7 @@ $.ajaxSetup({
           var location = ['E11', 'N4', 'N1', 'N25'][i%4];
           var block = $('#map-container').find('.map-location.'+location);
           block.removeClass('none');
-          block.find('.map-location-box').append('<span class="map-location-circle" data-id='+child.id+'></span>');
+          block.find('.map-location-box').append('<span class="map-location-circle color'+(child.course%16+1)+'" data-id='+child.id+'></span>');
         }
       }
 
@@ -824,5 +992,6 @@ var timetable = new app.TimetableClickSearchView();
 var lectureList = new app.lectureListView();
 var userLectureList = new app.TimetableLectureBlocksView();
 var userLectureList2 = new app.ListLectureBlocksView();
+var semesterLectureView = new app.SemesterLectureView();
 var lectureActiveView = new app.LectureActiveView();
 var timetableTabView = new app.TimetableTabView();

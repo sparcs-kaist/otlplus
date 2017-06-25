@@ -167,6 +167,7 @@ def _lecture_to_dict(lecture):
     # Add formatted classroom
     # TODO
     result['format_classroom'] = u'(E11) 창의학습관 101호'
+    result['format_classroom_short'] = u'(E11) 101호'
     result['format_exam'] = u'월요일 9:00 ~ 24:00'
 
     return result
