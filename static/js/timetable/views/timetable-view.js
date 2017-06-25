@@ -504,6 +504,14 @@ $.ajaxSetup({
         $(this.el).find("#au .normal").addClass("none");
         $(this.el).find("#au .active").removeClass("none");
       }
+
+      // Highlight blocks
+      if (app.LectureActive.get('hover')) {
+        $('.lecture-block[data-id=' + app.LectureActive.get('id') + ']').addClass('active');
+      }
+      if (app.LectureActive.get('click')) {
+        $('.lecture-block[data-id=' + app.LectureActive.get('id') + ']').addClass('click');
+      }
     },
   })
 
@@ -522,8 +530,7 @@ $.ajaxSetup({
 
     initialize: function() {
       _.bindAll(this,"render");
-      $(window).on("resize", this.render);
-      this.listenTo(app.LectureActive, 'change', this.highlightBlocks);
+      $(window).on("resize", this.resize);
       this.listenTo(app.CurrentTimetable, 'change', this.render);
       this.listenTo(app.timetables, 'update', this.makeTab);
       this.listenTo(app.YearSemester, 'change', this.fetchTab);
@@ -625,18 +632,20 @@ $.ajaxSetup({
       });
     },
 
-    highlightBlocks: function() {
-      if (app.LectureActive.get('hover')) {
-        $('.lecture-block[data-id=' + app.LectureActive.get('id') + ']').addClass('active');
-      }
-      if (app.LectureActive.get('click')) {
-        $('.lecture-block[data-id=' + app.LectureActive.get('id') + ']').addClass('click');
+    resize: function() {
+      var blocks = $('.lecture-block');
+      for (var i=0, block; block=blocks[i]; i++) {
+        block = $(block);
+        var cell = $(block.closest('.half'));
+        var w = cell.width();
+        var h = cell.height()+1;
+        var time = block.attr('data-cells');
+        block.css({width: w+2,
+                   height: h*time-1});
       }
     },
 
     render: function() {
-      console.log('render');
-
       // Highlight selected timetable tab
       var id = app.CurrentTimetable.get('id');
       $('.timetable-tab').removeClass('active');
@@ -664,15 +673,12 @@ $.ajaxSetup({
             .find(
             '.day:nth-child(n+' + day + '):nth-child(-n+' + day + ')')
             .find('.half:nth-child(n+' + startTime + '):nth-child(-n+' + startTime + ')')
-          var w = block.width();
-          var h = block.height()+1;
           block.html(this.template({title: child.title,
                                     id: child.id,
-                                    width: w+2,
-                                    height: h*time-1}));
+                                    cells: time}));
         }
       }
-      this.highlightBlocks();
+      this.resize();
 
       // Update credit info
       var credit=0, au=0;
@@ -724,6 +730,9 @@ $.ajaxSetup({
       // Update map : TODO
 
       // Update exam info : TODO
+
+      // Update active lecture
+      app.LectureActive.trigger("change");
     }
   })
 })(jQuery);
