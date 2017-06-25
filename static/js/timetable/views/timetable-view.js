@@ -404,6 +404,7 @@ $.ajaxSetup({
 
     detailTemplate: _.template($('#lecture-detail-template').html()),
     blockTemplate: _.template($('#timetable-lecture-template').html()),
+    examTemplate: _.template($('#exam-template').html()),
 
     initialize: function () {
       this.listenTo(app.LectureActive, 'change', this.changeInfo);
@@ -439,14 +440,23 @@ $.ajaxSetup({
       $('.lecture-block').removeClass('click');
       $('.lecture-block-temp').remove();
 
-      // Delete exam info : TODO
-
       // Delete map info : TODO
+      $('#map-container').find('.map-location-circle').removeClass("active");
+      var blocks = $('#map-container').find('.map-location-circle.temp').closest('.map-location');
+      $('#map-container').find('.map-location-circle.temp').remove();
+      for (var i=0, block; block=blocks[i]; i++)
+        if ($(block).children().children().length <= 1)
+          $(block).addClass('none');
+
+      // Delete exam info : TODO
+      $('#examtable').find('.exam-box').removeClass('active');
+      $('#examtable').find('.exam-box.temp').remove();
     },
 
     render: function () {
       var id = Number(app.LectureActive.get('id'));
       var inTimetable = app.CurrentTimetable.get('lectures').find(function(x){return x.id===id});
+      var idx = app.CurrentTimetable.get('lectures').length;
 
       // Show lecture detail
       $('#lecture-info').html(this.detailTemplate(app.LectureActive.attributes));
@@ -489,17 +499,15 @@ $.ajaxSetup({
           $('.lecture-block[data-id=' + app.LectureActive.get('id') + ']').addClass('click');
         }
       } else {
-        var i = app.CurrentTimetable.get('lectures').length;
-        console.log(i);
         var child = _.clone(app.LectureActive.attributes);
         for (var j=0; j<2; j++) { // TODO : Change this with real classtime
-          child['day'] = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'][i%2 + 2*j];
-          if (Math.floor(i/2)%2 == 0) {
-            child['starttime'] = (Math.floor(i / 4) * 3 + 9) + '00';
-            child['endtime'] = (Math.floor(i / 4) * 3 + 10) + '30';
+          child['day'] = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'][idx%2 + 2*j];
+          if (Math.floor(idx/2)%2 == 0) {
+            child['starttime'] = (Math.floor(idx / 4) * 3 + 9) + '00';
+            child['endtime'] = (Math.floor(idx / 4) * 3 + 10) + '30';
           } else {
-            child['starttime'] = (Math.floor(i / 4) * 3 + 10) + '30';
-            child['endtime'] = (Math.floor(i / 4) * 3 + 12) + '00';
+            child['starttime'] = (Math.floor(idx / 4) * 3 + 10) + '30';
+            child['endtime'] = (Math.floor(idx / 4) * 3 + 12) + '00';
           }
 
           var day = timetable.indexOfDay(child.day) + 2;
@@ -518,9 +526,35 @@ $.ajaxSetup({
         timetableTabView.resize();
       }
 
-      // Update exam info : TODO
+      // Update map
+      if (inTimetable) {
+        $('#map-container').find(".map-location-circle[data-id="+id+"]").addClass("active");
+      } else {
+        for (var j=0; j<1; j++) { // TODO : Change this with real classtime
+          var location = ['E11', 'N4', 'N1', 'N25'][idx%4];
+          var block = $('#map-container').find('.map-location.'+location);
+          block.removeClass('none');
+          block.find('.map-location-box').append('<span class="map-location-circle active temp" data-id='+child.id+'></span>');
+        }
+      }
 
-      // Delete map info : TODO
+      // Update exam info
+      if (inTimetable) {
+        $('#examtable').find('.exam-box[data-id='+id+']').addClass('active');
+      } else {
+        for (var j=0; j<1; j++) { // TODO : Change this with real examtime
+          var date = ['mon', 'tue', 'wed', 'thu', 'fri'][idx%5];
+          var block = $('#examtable').find('.examtime[data-date="'+date+'"] .examlist');
+          var startTime = Math.floor(idx/5) * 3 + 6;
+          var endTime = Math.floor(idx/5) * 3 + 9;
+          var examTime = startTime + ':00 ~ ' + endTime + ':00';
+          block.append(this.examTemplate({id: child.id,
+                                          title: child.title,
+                                          examTime: examTime,
+                                          startTime: startTime,
+                                          temp: true,}));
+        }
+      }
     },
 
     openDictPreview: function(e) {
@@ -539,6 +573,7 @@ $.ajaxSetup({
     el: '#timetable-tabs',
 
     template: _.template($('#timetable-lecture-template').html()),
+    examTemplate: _.template($('#exam-template').html()),
 
     events: {
       'click .timetable-tab': "changeTab",
@@ -665,6 +700,8 @@ $.ajaxSetup({
     },
 
     render: function() {
+      var lectures = app.CurrentTimetable.get('lectures')
+
       // Highlight selected timetable tab
       var id = app.CurrentTimetable.get('id');
       $('.timetable-tab').removeClass('active');
@@ -672,7 +709,6 @@ $.ajaxSetup({
 
       // Make timetable blocks
       $('#timetable-contents .lecture-block').remove();
-      var lectures = app.CurrentTimetable.get('lectures')
       for (var i = 0, child; child = lectures[i]; i++) {
         for (var j=0; j<2; j++) { // TODO : Change this with real classtime
           child['day'] = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'][i%2 + 2*j];
@@ -748,9 +784,35 @@ $.ajaxSetup({
         $('[data-id='+child.id+'] .add-to-table').addClass('disable');
       }
 
-      // Update map : TODO
+      // Update map
+      $('#map-container').find('.map-location-circle').remove();
+      $('#map-container').find('.map-location').addClass('none');
+      for (var i = 0, child; child = lectures[i]; i++) {
+        for (var j=0; j<1; j++) { // TODO : Change this with real classtime
+          var location = ['E11', 'N4', 'N1', 'N25'][i%4];
+          var block = $('#map-container').find('.map-location.'+location);
+          block.removeClass('none');
+          block.find('.map-location-box').append('<span class="map-location-circle" data-id='+child.id+'></span>');
+        }
+      }
 
-      // Update exam info : TODO
+      // Update exam info
+      $('#examtable').find('.exam-box').remove();
+      for (var i = 0, child; child = lectures[i]; i++) {
+        for (var j=0; j<1; j++) { // TODO : Change this with real examtime
+          var date = ['mon', 'tue', 'wed', 'thu', 'fri'][i%5];
+          var block = $('#examtable').find('.examtime[data-date="'+date+'"] .examlist');
+          var startTime = Math.floor(i/5) * 3 + 6;
+          var endTime = Math.floor(i/5) * 3 + 9;
+          var examTime = startTime + ':00 ~ ' + endTime + ':00';
+          console.log(examTime);
+          block.append(this.examTemplate({id: child.id,
+                                          title: child.title,
+                                          examTime: examTime,
+                                          startTime: startTime,
+                                          temp: false,}));
+        }
+      }
 
       // Update active lecture
       app.LectureActive.trigger("change");
