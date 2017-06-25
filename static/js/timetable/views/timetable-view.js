@@ -249,16 +249,15 @@ $.ajaxSetup({
         var lecList = app.CurrentTimetable.get('lectures');
 
         var lecture = lecList.find(function(x){return x.id===id});
+        lecture.click = false;
+        lecture.hover = true;
         app.LectureActive.set(lecture);
-        app.LectureActive.set("click", false);
-        app.LectureActive.set("hover", true);
       }
     },
 
     blockOut: function () {     
       if (!app.LectureActive.get("click")) {
         $(this.el).find('.lecture-block').removeClass('active').removeClass('click');
-        app.LectureActive.clear();
         app.LectureActive.set({
           "click":false,
           "hover":false,
@@ -272,7 +271,6 @@ $.ajaxSetup({
       $(this.el).find('.lecture-block').removeClass('active').removeClass('click');
       if (block.length === 0) {
         // Click target is not child(or itself) of lecture block
-        app.LectureActive.clear();
         app.LectureActive.set({
           "click":false,
           "hover":false,
@@ -283,9 +281,9 @@ $.ajaxSetup({
       var id = Number(block.attr('data-id'));
       var lecList = app.CurrentTimetable.get('lectures');
       var lecture = lecList.find(function(x){return x.id===id});
+      lecture.click = true;
+      lecture.hover = false;
       app.LectureActive.set(lecture);
-      app.LectureActive.set("click", true);
-      app.LectureActive.set("hover", false);
     },
 
     deleteLecture: function (e) {
@@ -353,15 +351,13 @@ $.ajaxSetup({
             break;
         }
         var lecture = lecList.models.find(function(x){return x.attributes.id===id});
+        lecture.set({click: false, hover: true});
         app.LectureActive.set(lecture.attributes);
-        app.LectureActive.set("click", false);
-        app.LectureActive.set("hover", true);
       }
     },
 
     listOut: function () {     
       if (!app.LectureActive.get("click")) {
-        app.LectureActive.clear();
         app.LectureActive.set({
           "click":false,
           "hover":false,
@@ -374,7 +370,6 @@ $.ajaxSetup({
       console.log(target);
       $(this.el).find('.lecture-block').removeClass('active').removeClass('click');
       if (target.hasClass("half") || target.hasClass('day') || target.is('#timetable-contents')) {
-        app.LectureActive.clear();
         app.LectureActive.set({
           "click":false,
           "hover":false,
@@ -388,12 +383,11 @@ $.ajaxSetup({
       var title = target.parent().find('.timetable-lecture-name').text();
       for (var i = 0, child; child = app.timetables.models[i]; i++) {
         if (child.attributes.title === title) {
+          child.set({click: true, hover:false});
           app.LectureActive.set(child.attributes);
           break;
         }
       }
-      app.LectureActive.set("click", true);
-      app.LectureActive.set("hover", false);
     },
   })
 
