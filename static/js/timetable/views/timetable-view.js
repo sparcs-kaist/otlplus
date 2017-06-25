@@ -397,16 +397,25 @@ $.ajaxSetup({
     },
   })
 
-  
+  // Showing lectures info of the semester
   app.SemesterLectureView = Backbone.View.extend({
     el: "#right-side",
     block: "#lecture-info",
     semesterTemplate: _.template($('#semester-lecture-template').html()),
+    lectureTemplate: _.template($('#lecture-detail-template').html()),
+
     typeDict: {"Basic Required": "기초필수",
                "Basic Elective": "기초선택",
                "Major Required": "전공필수",
                "Major Elective": "전공선택",
                "Humanities & Social Elective": "인문사회선택",},
+    dateDict: {"mon": "월요일",
+               "tue": "화요일",
+               "wed": "수요일",
+               "thu": "목요일",
+               "fri": "금요일",
+               "sat": "토요일",
+               "sun": "일요일",},
 
     events: {
       'mouseover .map-location-box': "buildingInfo",
@@ -417,12 +426,16 @@ $.ajaxSetup({
       'mouseout .lecture-type-right': "clear",
       'mouseover .total-credit': "creditInfo",
       'mouseout .total-credit': "clear",
+      'mouseover .examtime': "examInfo",
+      'mouseout .examtime': "clear",
     },
 
     initialize: function() {},
 
     clear: function() {
-      if (!app.LectureActive.get('hover') && !app.LectureActive.get('click')) {
+      if (!app.LectureActive.get('click')) {
+        $(".map-location-box").removeClass('active');
+
         $(".lecture-detail").remove();
         $(".lecture-block").removeClass("active");
 
@@ -430,6 +443,8 @@ $.ajaxSetup({
 
         $('.total-credit .normal').removeClass('none');
         $('.total-credit .active').addClass('none');
+
+        $('.exam-box').removeClass('active');
       }
     },
 
@@ -446,13 +461,21 @@ $.ajaxSetup({
     },
 
     buildingInfo: function(e) {
+      if ($(e.target).hasClass('map-location-circle')) {
+        return;
+      }
       if (!app.LectureActive.get('hover') && !app.LectureActive.get('click')) {
         var buildingNo = $(e.currentTarget).closest(".map-location").attr("data-building");
         var title = buildingNo;
-        var lectureIDs = $.map($(e.currentTarget).find(".map-location-circle"),
+        var circles = $(e.currentTarget).find(".map-location-circle");
+        var lectureIDs = $.map(circles,
                                function(x){return Number($(x).attr("data-id"))});
         var lectures = this._formatLectures(lectureIDs,
                           function(x){return '101호'});
+
+        // Highlight target
+        $(e.currentTarget).addClass('active');
+
         $(this.block).html(this.semesterTemplate({title: title,
                                                   lectures: lectures,}));
       }
@@ -511,6 +534,24 @@ $.ajaxSetup({
           $('#credits .normal').addClass('none');
           $('#credits .active').removeClass('none');
         }
+        $(this.block).html(this.semesterTemplate({title: title,
+                                                  lectures: lectures,}));
+      }
+    },
+
+    examInfo: function(e) {
+      if (!app.LectureActive.get('hover') && !app.LectureActive.get('click')) {
+        var date = $(e.currentTarget).attr('data-date');
+        var title = this.dateDict[date] + " 시험";
+        var boxes = $(e.currentTarget).find('.exam-box');
+        var lectureIDs = $.map(boxes,
+                               function(x){return Number($(x).attr("data-id"))});
+        var lectures = this._formatLectures(lectureIDs,
+                          function(x){return x.format_exam});
+
+        // Highlight target
+        boxes.addClass("active");
+
         $(this.block).html(this.semesterTemplate({title: title,
                                                   lectures: lectures,}));
       }
