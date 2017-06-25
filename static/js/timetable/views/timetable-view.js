@@ -932,12 +932,12 @@ $.ajaxSetup({
       }
       $('#credits .normal').html(credit);
       $('#au .normal').html(au);
-      $('.lecture-type[data-type="Basic Required"').find('.credit-text').html(byType[0]);
-      $('.lecture-type-right[data-type="Basic Elective"').find('.credit-text').html(byType[1]);
-      $('.lecture-type[data-type="Major Required"').find('.credit-text').html(byType[2]);
-      $('.lecture-type-right[data-type="Major Elective"').find('.credit-text').html(byType[3]);
-      $('.lecture-type[data-type="Humanities & Social Elective"').find('.credit-text').html(byType[4]);
-      $('.lecture-type-right[data-type="Etc"').find('.credit-text').html(byType[5]);
+      $('.lecture-type[data-type="Basic Required"]').find('.credit-text').html(byType[0]);
+      $('.lecture-type-right[data-type="Basic Elective"]').find('.credit-text').html(byType[1]);
+      $('.lecture-type[data-type="Major Required"]').find('.credit-text').html(byType[2]);
+      $('.lecture-type-right[data-type="Major Elective"]').find('.credit-text').html(byType[3]);
+      $('.lecture-type[data-type="Humanities & Social Elective"]').find('.credit-text').html(byType[4]);
+      $('.lecture-type-right[data-type="Etc"]').find('.credit-text').html(byType[5]);
 
       // Delete lectureactive if not in new timetable
       var activeID = app.LectureActive.get('id')
