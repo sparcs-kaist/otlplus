@@ -1210,12 +1210,18 @@ i
 .map-location-box
 {
     background-color:#eeeeee;
+    font-size:0;
     height:11px;
-    font-size:8px;
-    line-height:7px;
     border-radius:2px;
     padding:2px 3px;
     box-shadow:0em 1px 0px 0em #888888;
+}
+
+.map-location-text
+{
+    font-size:8px;
+    line-height:7px;
+    margin-right:1px;
 }
 
 .map-location-arrow
@@ -1247,8 +1253,14 @@ i
     display:inline-block;
     width:7px;
     height:7px;
+    margin-left:1px;
     border-radius:50%;
     background-color:#ff8888;
+}
+
+.map-location-circle.active
+{
+    background-color:#e64c65;
 }
 
 .map-location.E11
@@ -1386,7 +1398,7 @@ i
     line-height:11px;
 }
 
-.examtime, #examtime1, #examtime2, #examtime3, #examtime4, #examtime5
+.examtime
 {
     display:-webkit-box;
     display:-ms-flexbox;
@@ -1411,6 +1423,10 @@ i
 .examlist > li
 {
     margin-bottom:8px;
+}
+
+.exam-box.active {
+    color:#E54C65;
 }
 
 .exam-course
