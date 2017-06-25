@@ -384,7 +384,7 @@
 					<div id="map-container">
 						<img id="map-img" src="/media/img/timetable/kaist_map.jpg">
 					  {% for i in "1234" %}
-						<div class="map-location {% cycle 'E11' 'N1' 'N4' 'N25'%}" data-building="{% cycle 'E11' 'N1' 'N4' 'N25'%}" data-id="1234">
+						<div class="map-location {% cycle 'E11' 'N1' 'N4' 'N25'%} none" data-building="{% cycle 'E11' 'N1' 'N4' 'N25'%}" data-id="1234">
 							<div class="map-location-box">
 								<span class="map-location-text">{% cycle 'E11' 'N1' 'N4' 'N25'%}</span>
 								<span class="map-location-circle"></span>
@@ -456,46 +456,43 @@
 				</div>
 				<div id="examtitle"><span>시험시간표</span></div>
 				<div id="examtable">
-					<div id="examtime1">
+					<div class="examtime" data-date="mon">
 						<div class="exam-chead"><span>월</span></div>
 						<div class="exam-body">
 							<ul id="examlist1" class="examlist">
-								<li>
-									<div class="exam-course">프로그래밍언어</div>
-									<div class="exam-time">13:00 ~ 16:00</div>
-								</li>
-								<li>
-									<div class="exam-course">프로그래밍기초</div>
-									<div class="exam-time">19:00 ~ 22:00</div>
-								</li>
+								<!-- Exams inserted here -->
 							</ul>
 						</div>
 					</div>
-					<div id="examtime2">
+					<div class="examtime" data-date="tue">
 						<div class="exam-chead"><span>화</span></div>
 						<div class="exam-body">
 							<ul id="examlist2" class="examlist">
+								<!-- Exams inserted here -->
 							</ul>
 						</div>
 					</div>
-					<div id="examtime3">
+					<div class="examtime" data-date="wed">
 						<div class="exam-chead"><span>수</span></div>
 						<div class="exam-body">
 							<ul id="examlist3" class="examlist">
+								<!-- Exams inserted here -->
 							</ul>
 						</div>
 					</div>
-					<div id="examtime4">
+					<div class="examtime" data-date="thu">
 						<div class="exam-chead"><span>목</span></div>
 						<div class="exam-body">
 							<ul id="examlist4" class="examlist">
+								<!-- Exams inserted here -->
 							</ul>
 						</div>
 					</div>
-					<div id="examtime5">
+					<div class="examtime" data-date="fri">
 						<div class="exam-chead"><span>금</span></div>
 						<div class="exam-body">
 							<ul id="examlist5" class="examlist">
+								<!-- Exams inserted here -->
 							</ul>
 						</div>
 					</div>
@@ -673,6 +670,14 @@
 <a href="#/<%- idx+1 %>" class="timetable-tab" data-id="<%- id %>"><span class="timetable-num">시간표 <%- idx+1 %></span><span class="hidden-option"><i class="duplicate-table"></i><i class="delete-table"></i></span></a>
 <% }); %>
 <a class="timetable-add"><span class="timetable-num"><i class="add-table"></i></span></a>
+</script>
+
+
+<script type="text/template" id="exam-template">
+<li class="exam-box <% if (temp) { %>temp active<% } %>" data-id=<%- id %> data-start=<%- startTime %>>
+	<div class="exam-course"><%- title %></div>
+	<div class="exam-time"><%- examTime %></div>
+</li>
 </script>
 
 {% endblock %}
