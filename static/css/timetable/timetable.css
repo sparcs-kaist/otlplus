@@ -156,6 +156,10 @@ i
 	cursor:pointer;
     color:#963246;
 }
+.lecture-options a
+{
+    color:inherit;
+}
 
 .basic-info
 {
