@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
 from django.conf import settings
+from django.utils import translation
 from apps.subject.models import Department
 from apps.review.models import Comment
 from apps.session.models import UserProfile
@@ -177,3 +178,20 @@ def unregister(request):
     logout(request)
 
     return JsonResponse(status=200, data={})
+
+
+def language(request):
+    from_lang = request.session[translation.LANGUAGE_SESSION_KEY]
+    
+    if translation.LANGUAGE_SESSION_KEY not in request.session:
+        to_lang = 'ko'
+    elif from_lang == 'ko':
+        to_lang = 'en'
+    else:
+        to_lang = 'ko'
+
+    request.session[translation.LANGUAGE_SESSION_KEY] = to_lang
+    translation.activate(to_lang)
+
+    return HttpResponseRedirect('/')
+

@@ -1,3 +1,4 @@
+{% load i18n %}
 <nav class="navbar navbar-default navbar-fixed-top">
   <div class="container-fluid">
       <div class="row">
@@ -38,6 +39,11 @@
       </form>
       {% endif %}
       <ul class="nav navbar-nav navbar-right hid">
+        <li>
+          <a href="/session/language">
+            한글/English
+          </a>
+        </li>
 	{% if request.user.is_authenticated %}
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
@@ -67,7 +73,7 @@
         </li>
         {% else %}
         <li>
-        <a class="login">
+          <a class="login">
             로그인
           </a>
         </li>
@@ -78,6 +84,11 @@
   </div>
     <div class="header-end collapse navbar-collapse" id="header">
       <ul class="nav navbar-nav navbar-right">
+        <li>
+          <a href="/session/language">
+            한글/English
+          </a>
+        </li>
 	{% if request.user.is_authenticated %}
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
