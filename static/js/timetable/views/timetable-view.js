@@ -31,6 +31,16 @@ $.ajaxSetup({
 });
 
 
+function findLecture(lectures, id) {
+  if(lectures.length === 0){
+    return undefined;
+  } else if (lectures[0].attributes) {
+    return _.find(lectures, (x)=>(x.get('id')===id));
+  } else {
+    return _.find(lectures, (x)=>(x.id===id));
+  }
+}
+
 
 (function ($) {
   'use strict';
@@ -190,7 +200,7 @@ $.ajaxSetup({
         return;
       }
       // If lecture is already in timetable
-      if (_.find(app.CurrentTimetable.get('lectures'), function(x){return x.id===lecture_id})) {
+      if (findLecture(app.CurrentTimetable.get('lectures'), lecture_id)) {
         console.log(123);
         return;
       }
@@ -247,7 +257,7 @@ $.ajaxSetup({
         var ct = $(e.currentTarget);
         var id = Number(ct.attr('data-id'));
         var lecList = app.CurrentTimetable.get('lectures');
-        var lecture = _.find(lecList, function(x){return x.id===id});
+        var lecture = findLecture(lecList, id);
 
         app.LectureActive.set({type: "hover",
                                from: "table",
@@ -272,7 +282,7 @@ $.ajaxSetup({
       else {
         var id = Number(block.attr('data-id'));
         var lecList = app.CurrentTimetable.get('lectures');
-        var lecture = _.find(lecList, function(x){return x.id===id});
+        var lecture = findLecture(lecList, id);
 
         app.LectureActive.set({type: "click",
                                from: "table",
@@ -286,7 +296,7 @@ $.ajaxSetup({
       var timetable_id = Number(app.CurrentTimetable.get('id'));
 
       // If lecture is not in timetable
-      if (!(_.find(app.CurrentTimetable.get('lectures'), function(x){return x.id===lecture_id}))) {
+      if (!findLecture(app.CurrentTimetable.get('lectures'), lecture_id)) {
         return;
       }
 
@@ -300,7 +310,7 @@ $.ajaxSetup({
         },
         success: function(result) {
           var lecList = app.CurrentTimetable.get('lectures');
-          var lecture = _.find(lecList, function(x){return x.id===lecture_id});
+          var lecture = findLecture(lecList, lecture_id);
 
           // Update app.CurrentTimetable
           var timetableLectures = app.CurrentTimetable.get('lectures');
@@ -344,7 +354,7 @@ $.ajaxSetup({
             lecList = app.humanityLectureList;
             break;
         }
-        var lecture = _.find(lecList.models, function(x){return x.attributes.id===id});
+        var lecture = findLecture(lecList.models, id);
 
         app.LectureActive.set({type: "hover",
                                from: "list",
@@ -373,7 +383,7 @@ $.ajaxSetup({
           lecList = app.humanityLectureList;
           break;
       }
-      var lecture = _.find(lecList.models, function(x){return x.get("id")===id});
+      var lecture = findLecture(lecList.models, id);
 
       app.LectureActive.set({type: "click",
                              from: "list",
@@ -434,15 +444,15 @@ $.ajaxSetup({
     },
 
     _formatLectures: function(lectureIDs, getInfo) {
-      var timetable = app.CurrentTimetable.get('lectures');
-      var lectures = [];
+      var lectures = app.CurrentTimetable.get('lectures');
+      var result = [];
       for (var i=0, id; id=lectureIDs[i]; i++) {
-        var lecture = _.find(timetable, function(x){return x.id===id});
-        lectures.push({title: lecture.title,
-                       info: getInfo(lecture)});
+        var lecture = findLecture(lectures, id);
+        result.push({title: lecture.title,
+                     info: getInfo(lecture)});
         $(".lecture-block[data-id="+id+"]").addClass('active');
       }
-      return lectures;
+      return result;
     },
 
     buildingInfo: function(e) {
@@ -563,7 +573,6 @@ $.ajaxSetup({
     },
 
     changeInfo: function () {
-      console.log(app.LectureActive.attributes);
       if (app.LectureActive.get("type") === "none") {
         this.deleteInfo();
       } else {
@@ -610,7 +619,7 @@ $.ajaxSetup({
       var lecture = app.LectureActive.get('lecture');
 
       var id = Number(lecture.id);
-      var inTimetable = _.find(app.CurrentTimetable.get('lectures'), function(x){return x.id===id});
+      var inTimetable = findLecture(app.CurrentTimetable.get('lectures'), id);
       var idx = app.CurrentTimetable.get('lectures').length;
 
       // Show lecture detail
@@ -781,7 +790,7 @@ $.ajaxSetup({
 
     changeTab: function(e) {
       var id = Number($(e.currentTarget).attr('data-id'));
-      var timetable = _.find(app.timetables.models, function(x){return x.get('id')===id});
+      var timetable = findLecture(app.timetables.models, id);
       app.CurrentTimetable.set(timetable.attributes);
       // this.render is automatically called here
     },
@@ -948,7 +957,7 @@ $.ajaxSetup({
 
       // Delete lectureactive if not in new timetable
       var activeID = app.LectureActive.get('id')
-      if (_.find(lectures, function(x){return x.id===activeID}) === undefined) {
+      if (!findLecture(lectures, activeID)) {
         app.LectureActive.set({'hover': false,
                                'click': false});
       }
