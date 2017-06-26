@@ -637,6 +637,7 @@ function findLecture(lectures, id) {
       $('#lecture-info').html(this.detailTemplate(lecture));
       if (app.LectureActive.get('type') === 'click') {
         $(".lecture-options #fix-option").removeClass('disable');
+        this.openDictPreview();
       }
 
       // Update credit info
@@ -754,13 +755,13 @@ function findLecture(lectures, id) {
     },
 
     openDictPreview: function(e) {
-      $(this.el).find('.detail-top').addClass('none');
       $(this.el).find('.detail-bottom').removeClass('none');
+      $(this.el).find('.detail-top').addClass('none');
     },
 
     closeDictPreview: function(e) {
-      $(this.el).find('.detail-bottom').addClass('none');
       $(this.el).find('.detail-top').removeClass('none');
+      $(this.el).find('.detail-bottom').addClass('none');
     },
 
     unfix: function(e) {
