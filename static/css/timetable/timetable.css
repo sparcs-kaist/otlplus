@@ -1182,6 +1182,7 @@ i
 {
     padding-bottom:10px;
     border-bottom:1px solid #EDD1DC;
+    flex:0 0 auto;
 }
 
 #map-container
