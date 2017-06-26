@@ -274,6 +274,7 @@ function findLecture(lectures, id) {
     blockClick: function (e) {
       var target = $(e.target);
       var block = target.closest('.lecture-block');
+      var id = Number(block.attr('data-id'));
 
       if (block.length === 0) {
         // Click target is not child(or itself) of lecture block
@@ -283,7 +284,6 @@ function findLecture(lectures, id) {
                  && app.LectureActive.get('lecture').id === id) {
         app.LectureActive.set({type: "none"});
       } else {
-        var id = Number(block.attr('data-id'));
         var lecList = app.CurrentTimetable.get('lectures');
         var lecture = findLecture(lecList, id);
 
