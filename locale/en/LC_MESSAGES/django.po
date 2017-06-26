@@ -1,0 +1,9 @@
+
+msgid "title"
+msgstr "title_en"
+
+msgid "type"
+msgstr "type_en"
+
+msgid "professor_name"
+msgstr "professor_name_en"

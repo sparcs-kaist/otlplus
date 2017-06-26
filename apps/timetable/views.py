@@ -22,6 +22,9 @@ from utils.decorators import login_required_ajax
 from django.conf import settings
 from django.shortcuts import render
 from django.db.models import Max
+from django.utils.translation import ugettext as _
+from django.template import RequestContext
+from django.utils import translation
 
 # For google calender
 from apiclient import discovery
@@ -142,14 +145,14 @@ def _lecture_to_dict(lecture):
     # Convert lecture into dict
     # Don't change this into model_to_dict: for security and performance
     result = {"id": lecture.id,
-              "title": lecture.title,
+              "title": getattr(lecture, _("title")),
               "course": lecture.course.id,
               "old_code": lecture.old_code,
               "class_no": lecture.class_no,
               "year": lecture.year,
               "code": lecture.code,
               "department": lecture.department.id,
-              "type": lecture.type,
+              "type": getattr(lecture, _("type")),
               "type_en": lecture.type_en,
               "limit": lecture.limit,
               "num_people": lecture.num_people,
@@ -162,7 +165,7 @@ def _lecture_to_dict(lecture):
     result['examtime_set'] = [model_to_dict(et) for et in lecture.examtime_set.all()]
     
     # Add formatted professor name
-    prof_name_list = [p.professor_name for p in lecture.professor.all()]
+    prof_name_list = [getattr(p, _("professor_name")) for p in lecture.professor.all()]
     if len(prof_name_list) <= 2:
       result['format_professor_str'] = u", ".join(prof_name_list)
     else:
@@ -229,15 +232,6 @@ def _lcs_front(ls):
 
 
 def main(request):
-    """
-    TODO
-    if not login or user is freshmen:
-        course_type = ["Basic Required", "Basic Elective"]
-    else:
-        department = get user's department
-        course_type = ["Major Required", "Major Elective"]
-    """
-    
     return render(request,'timetable/index.html')
 
 
