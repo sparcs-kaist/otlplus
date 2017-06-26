@@ -331,13 +331,21 @@ def SearchProfessor(professor,id=-1):
             score = {"grade":grade, "load":load, "speech":speech, "total":total,}
             """
 
+    try:
+        if len(professor.major) > 0:
+            major = Department.objects.get(id = professor.major).name
+        else:
+            major = u"정보 없음"
+    except Department.DoesNotExist:
+        major = u"정보 없음"
+
     result = {
         "type": "professor",
         "id": professor.id,
         "title": professor.professor_name,
         "prof_info": lecture_list,
         "gradelist": gradelist,
-        "major": Department.objects.get(id = professor.major).name,
+        "major": major,
         "score": score,
     }
     return result
