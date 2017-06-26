@@ -151,11 +151,17 @@ i
     color:#E54C65;
 	margin-bottom:8px
 }
+.lecture-options > span.disable
+{
+    pointer-events:none;
+    color:#cccccc;
+}
 .lecture-options > span:hover
 {
 	cursor:pointer;
     color:#963246;
 }
+
 .lecture-options a
 {
     color:inherit;
