@@ -65,6 +65,10 @@ var app = app || {};
       $(this.el).find(".search-extend").addClass("none");
       $(this.el).find("#result-pages").children().addClass("none");
       $(this.el).find("." + tabName + "-page").removeClass("none");
+
+      if (app.LectureActive.get("from") === "list") {
+        app.LectureActive.set({type: "none"});
+      }
     },
 
     toggleType: function (e) {
@@ -100,6 +104,7 @@ var app = app || {};
         target.prop('checked', true);
       }
     },
+
     searchStart: function(e) {
       var target = $(e.target);
       var data = {};
@@ -126,6 +131,10 @@ var app = app || {};
 
           $(".result-text").text(resp.search_text);
           $(".search-extend").addClass('none');
+          
+          if (app.LectureActive.get("from") === "list") {
+            app.LectureActive.set({type: "none"});
+          }
         },
         error: function(model, resp, options) {
           console.log("error" + resp.status);

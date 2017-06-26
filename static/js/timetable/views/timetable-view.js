@@ -31,6 +31,16 @@ $.ajaxSetup({
 });
 
 
+function findLecture(lectures, id) {
+  if(lectures.length === 0){
+    return undefined;
+  } else if (lectures[0].attributes) {
+    return _.find(lectures, (x)=>(x.get('id')===id));
+  } else {
+    return _.find(lectures, (x)=>(x.id===id));
+  }
+}
+
 
 (function ($) {
   'use strict';
@@ -190,7 +200,7 @@ $.ajaxSetup({
         return;
       }
       // If lecture is already in timetable
-      if (_.find(app.CurrentTimetable.get('lectures'), function(x){return x.id===lecture_id})) {
+      if (findLecture(app.CurrentTimetable.get('lectures'), lecture_id)) {
         console.log(123);
         return;
       }
@@ -243,47 +253,44 @@ $.ajaxSetup({
     initialize: function() {},
 
     blockHover: function (e) {
-      if (!app.LectureActive.get("click")) {
+      if (app.LectureActive.get("type") !== "click") {
         var ct = $(e.currentTarget);
         var id = Number(ct.attr('data-id'));
         var lecList = app.CurrentTimetable.get('lectures');
+        var lecture = findLecture(lecList, id);
 
-        var lecture = _.find(lecList, function(x){return x.id===id});
-        lecture.click = false;
-        lecture.hover = true;
-        app.LectureActive.set(lecture);
+        app.LectureActive.set({type: "hover",
+                               from: "table",
+                               lecture: lecture,});
       }
     },
 
     blockOut: function () {     
-      if (!app.LectureActive.get("click")) {
-        $(this.el).find('.lecture-block').removeClass('active').removeClass('click');
-        app.LectureActive.set({
-          "click":false,
-          "hover":false,
-        })
+      if (app.LectureActive.get("type") !== "click") {
+        app.LectureActive.set({type: "none"});
       }
     },
 
     blockClick: function (e) {
       var target = $(e.target);
       var block = target.closest('.lecture-block');
-      $(this.el).find('.lecture-block').removeClass('active').removeClass('click');
+      var id = Number(block.attr('data-id'));
+
       if (block.length === 0) {
         // Click target is not child(or itself) of lecture block
-        app.LectureActive.set({
-          "click":false,
-          "hover":false,
-        })
-        return;
-      }
+        app.LectureActive.set({type: "none"});
+      } else if (app.LectureActive.get('type') === 'click'
+                 && app.LectureActive.get('from') === 'table'
+                 && app.LectureActive.get('lecture').id === id) {
+        app.LectureActive.set({type: "none"});
+      } else {
+        var lecList = app.CurrentTimetable.get('lectures');
+        var lecture = findLecture(lecList, id);
 
-      var id = Number(block.attr('data-id'));
-      var lecList = app.CurrentTimetable.get('lectures');
-      var lecture = _.find(lecList, function(x){return x.id===id});
-      lecture.click = true;
-      lecture.hover = false;
-      app.LectureActive.set(lecture);
+        app.LectureActive.set({type: "click",
+                               from: "table",
+                               lecture: lecture,});
+      }
     },
 
     deleteLecture: function (e) {
@@ -292,7 +299,7 @@ $.ajaxSetup({
       var timetable_id = Number(app.CurrentTimetable.get('id'));
 
       // If lecture is not in timetable
-      if (!(_.find(app.CurrentTimetable.get('lectures'), function(x){return x.id===lecture_id}))) {
+      if (!findLecture(app.CurrentTimetable.get('lectures'), lecture_id)) {
         return;
       }
 
@@ -306,7 +313,7 @@ $.ajaxSetup({
         },
         success: function(result) {
           var lecList = app.CurrentTimetable.get('lectures');
-          var lecture = _.find(lecList, function(x){return x.id===lecture_id});
+          var lecture = findLecture(lecList, lecture_id);
 
           // Update app.CurrentTimetable
           var timetableLectures = app.CurrentTimetable.get('lectures');
@@ -328,14 +335,14 @@ $.ajaxSetup({
     events: {
       'mouseover .list-elem-body-wrap': "listHover",
       'mouseout .list-elem-body-wrap': "listOut",
-      //'click': "blockClick",
+      'click .list-elem-body-wrap': "listClick",
     },
     
     initialize: function() {
     },
 
     listHover: function (e) {
-      if (!app.LectureActive.get("click")) {
+      if (app.LectureActive.get("type") !== "click") {
         var ct = $(e.currentTarget);
         var id = Number(ct.attr('data-id'));
         var lecList;
@@ -350,43 +357,46 @@ $.ajaxSetup({
             lecList = app.humanityLectureList;
             break;
         }
-        var lecture = _.find(lecList.models, function(x){return x.attributes.id===id});
-        lecture.set({click: false, hover: true});
-        app.LectureActive.set(lecture.attributes);
+        var lecture = findLecture(lecList.models, id);
+
+        app.LectureActive.set({type: "hover",
+                               from: "list",
+                               lecture: lecture.attributes,});
       }
     },
 
-    listOut: function () {     
-      if (!app.LectureActive.get("click")) {
-        app.LectureActive.set({
-          "click":false,
-          "hover":false,
-        })
+    listOut: function (e) {     
+      if (app.LectureActive.get("type") !== "click") {
+        app.LectureActive.set({type: "none"});
       }
     },
 
     listClick: function (e) {
-      var target = $(e.target);
-      console.log(target);
-      $(this.el).find('.lecture-block').removeClass('active').removeClass('click');
-      if (target.hasClass("half") || target.hasClass('day') || target.is('#timetable-contents')) {
-        app.LectureActive.set({
-          "click":false,
-          "hover":false,
-        })
-        return;
-      } else if (target.hasClass('lecture-block')) {
-        target.addClass('click').removeClass('active');
+      var ct = $(e.currentTarget);
+      var id = Number(ct.attr('data-id'));
+
+      if (app.LectureActive.get('type') === 'click'
+          && app.LectureActive.get('from') === 'list'
+          && app.LectureActive.get('lecture').id === id) {
+        app.LectureActive.set({type: "none"});
       } else {
-        target.parent().parent().find('.lecture-block').addClass('click').removeClass('active');
-      }
-      var title = target.parent().find('.timetable-lecture-name').text();
-      for (var i = 0, child; child = app.timetables.models[i]; i++) {
-        if (child.attributes.title === title) {
-          child.set({click: true, hover:false});
-          app.LectureActive.set(child.attributes);
-          break;
+        var lecList;
+        switch (ct.parent().parent().parent().attr('class').split()[0]) {
+          case 'search-page':
+            lecList = app.searchLectureList;
+            break;
+          case 'major-page':
+            lecList = app.majorLectureList;
+            break;
+          case 'humanity-page':
+            lecList = app.humanityLectureList;
+            break;
         }
+        var lecture = findLecture(lecList.models, id);
+
+        app.LectureActive.set({type: "click",
+                               from: "list",
+                               lecture: lecture.attributes,});
       }
     },
   })
@@ -427,7 +437,7 @@ $.ajaxSetup({
     initialize: function() {},
 
     clear: function() {
-      if (!app.LectureActive.get('hover') && !app.LectureActive.get('click')) {
+      if (app.LectureActive.get("type") === "none") {
         $(".map-location-box").removeClass('active');
         $('.map-location-circle').removeClass('active');
 
@@ -444,22 +454,22 @@ $.ajaxSetup({
     },
 
     _formatLectures: function(lectureIDs, getInfo) {
-      var timetable = app.CurrentTimetable.get('lectures');
-      var lectures = [];
+      var lectures = app.CurrentTimetable.get('lectures');
+      var result = [];
       for (var i=0, id; id=lectureIDs[i]; i++) {
-        var lecture = _.find(timetable, function(x){return x.id===id});
-        lectures.push({title: lecture.title,
-                       info: getInfo(lecture)});
+        var lecture = findLecture(lectures, id);
+        result.push({title: lecture.title,
+                     info: getInfo(lecture)});
         $(".lecture-block[data-id="+id+"]").addClass('active');
       }
-      return lectures;
+      return result;
     },
 
     buildingInfo: function(e) {
       if ($(e.target).hasClass('map-location-circle')) {
         return;
       }
-      if (!app.LectureActive.get('hover') && !app.LectureActive.get('click')) {
+      if (app.LectureActive.get("type") === "none") {
         var buildingNo = $(e.currentTarget).closest(".map-location").attr("data-building");
         var title = buildingNo;
         var circles = $(e.currentTarget).find(".map-location-circle");
@@ -478,7 +488,7 @@ $.ajaxSetup({
     },
 
     typeInfo: function(e) {
-      if (!app.LectureActive.get('hover') && !app.LectureActive.get('click')) {
+      if (app.LectureActive.get("type") === "none") {
         var type = $(e.currentTarget).attr('data-type');
         if (type !== "Etc") {
           var title = this.typeDict[type];
@@ -505,7 +515,7 @@ $.ajaxSetup({
     },
 
     creditInfo: function(e) {
-      if (!app.LectureActive.get('hover') && !app.LectureActive.get('click')) {
+      if (app.LectureActive.get("type") === "none") {
         var type = $(e.currentTarget).find('.score-text').attr('id');
         if (type === "au") {
           var title = "AU";
@@ -536,7 +546,7 @@ $.ajaxSetup({
     },
 
     examInfo: function(e) {
-      if (!app.LectureActive.get('hover') && !app.LectureActive.get('click')) {
+      if (app.LectureActive.get("type") === "none") {
         var date = $(e.currentTarget).attr('data-date');
         var title = this.dateDict[date] + " 시험";
         var boxes = $(e.currentTarget).find('.exam-box');
@@ -570,10 +580,11 @@ $.ajaxSetup({
     events: {
       'click .open-dict-button': "openDictPreview",
       'click .close-dict-button': "closeDictPreview",
+      'click #fix-option': "unfix",
     },
 
     changeInfo: function () {
-      if ((!app.LectureActive.get("click") && !app.LectureActive.get("hover")) || !app.LectureActive.has("title")) {
+      if (app.LectureActive.get("type") === "none") {
         this.deleteInfo();
       } else {
         this.deleteInfo();
@@ -592,12 +603,16 @@ $.ajaxSetup({
       $('#info').find('#au .normal').removeClass("none");
       $('#info').find('#au .active').addClass("none");
 
-      // Delete timetable blocks
+      // Clear list highlight
+      $('.list-elem-body-wrap').removeClass('active');
+      $('.list-elem-body-wrap').removeClass('click');
+
+      // clear timetable blocks highlight
       $('.lecture-block').removeClass('active');
       $('.lecture-block').removeClass('click');
       $('.lecture-block-temp').remove();
 
-      // Delete map info : TODO
+      // Delete map info
       $('#map-container').find('.map-location-circle').removeClass("active");
       $('#map-container').find(".map-location-box").removeClass("active");
       var blocks = $('#map-container').find('.map-location-circle.temp').closest('.map-location');
@@ -606,26 +621,31 @@ $.ajaxSetup({
         if ($(block).children().children().length <= 1)
           $(block).addClass('none');
 
-      // Delete exam info : TODO
+      // Delete exam info
       $('#examtable').find('.exam-box').removeClass('active');
       $('#examtable').find('.exam-box.temp').remove();
     },
 
     render: function () {
-      var id = Number(app.LectureActive.get('id'));
-      var inTimetable = _.find(app.CurrentTimetable.get('lectures'), function(x){return x.id===id});
+      var lecture = _.clone(app.LectureActive.get('lecture'));
+      var child = lecture;
+      var id = Number(lecture.id);
+      var inTimetable = findLecture(app.CurrentTimetable.get('lectures'), id);
       var idx = app.CurrentTimetable.get('lectures').length;
 
       // Show lecture detail
-      $('#lecture-info').html(this.detailTemplate(app.LectureActive.attributes));
+      $('#lecture-info').html(this.detailTemplate(lecture));
+      if (app.LectureActive.get('type') === 'click') {
+        $(".lecture-options #fix-option").removeClass('disable');
+      }
 
       // Update credit info
-      var typeDiv = $('#info').find("[data-type='" + app.LectureActive.attributes.type_en + "']");
+      var typeDiv = $('#info').find("[data-type='" + lecture.type_en + "']");
       if (typeDiv.length === 0) {
         typeDiv = $('#info').find("[data-type='Etc']");
       }
-      var credit = Number(app.LectureActive.attributes.credit);
-      var au = Number(app.LectureActive.attributes.credit_au);
+      var credit = Number(lecture.credit);
+      var au = Number(lecture.credit_au);
       var type_text, credit_text, au_text;
       if (inTimetable) {    // Lecture in timetable
         type_text = "(" + (credit+au) + ")";
@@ -648,16 +668,27 @@ $.ajaxSetup({
         $('#info').find("#au .active").removeClass("none");
       }
 
-      // Highlight timetable blocks
-      if (inTimetable) {
-        if (app.LectureActive.get('hover')) {
-          $('.lecture-block[data-id=' + app.LectureActive.get('id') + ']').addClass('active');
+      // Highlight list
+      if (app.LectureActive.get('from') === 'list') {
+        if (app.LectureActive.get('type')==='hover') {
+          $('.list-elem-body-wrap[data-id=' + lecture.id + ']').addClass('active');
         }
-        if (app.LectureActive.get('click')) {
-          $('.lecture-block[data-id=' + app.LectureActive.get('id') + ']').addClass('click');
+        if (app.LectureActive.get('type')==='click') {
+          $('.list-elem-body-wrap[data-id=' + lecture.id + ']').addClass('click');
+        }
+      }
+
+      // Highlight timetable blocks
+      if (app.LectureActive.get('type')==='click' && app.LectureActive.get('from')==='list') {
+        // Do nothing
+      } else if (inTimetable) {
+        if (app.LectureActive.get('type')==='hover') {
+          $('.lecture-block[data-id=' + lecture.id + ']').addClass('active');
+        }
+        if (app.LectureActive.get('type')==='click') {
+          $('.lecture-block[data-id=' + lecture.id + ']').addClass('click');
         }
       } else {
-        var child = _.clone(app.LectureActive.attributes);
         for (var j=0; j<2; j++) { // TODO : Change this with real classtime
           child['day'] = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'][idx%2 + 2*j];
           if (Math.floor(idx/2)%2 == 0) {
@@ -731,6 +762,10 @@ $.ajaxSetup({
       $(this.el).find('.detail-bottom').addClass('none');
       $(this.el).find('.detail-top').removeClass('none');
     },
+
+    unfix: function(e) {
+      app.LectureActive.set({type: "none"});
+    }
   })
 
   // Fetching and changing timetable tabs
@@ -774,7 +809,7 @@ $.ajaxSetup({
 
     changeTab: function(e) {
       var id = Number($(e.currentTarget).attr('data-id'));
-      var timetable = _.find(app.timetables.models, function(x){return x.get('id')===id});
+      var timetable = findLecture(app.timetables.models, id);
       app.CurrentTimetable.set(timetable.attributes);
       // this.render is automatically called here
     },
@@ -941,9 +976,8 @@ $.ajaxSetup({
 
       // Delete lectureactive if not in new timetable
       var activeID = app.LectureActive.get('id')
-      if (_.find(lectures, function(x){return x.id===activeID}) === undefined) {
-        app.LectureActive.set({'hover': false,
-                               'click': false});
+      if (!findLecture(lectures, activeID)) {
+        app.LectureActive.set({'type': 'none'});
       }
 
       // Disable add buttons
