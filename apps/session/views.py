@@ -193,5 +193,5 @@ def language(request):
     request.session[translation.LANGUAGE_SESSION_KEY] = to_lang
     translation.activate(to_lang)
 
-    return HttpResponseRedirect('/')
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
