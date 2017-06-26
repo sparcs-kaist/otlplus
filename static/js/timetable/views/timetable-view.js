@@ -969,8 +969,7 @@ function findLecture(lectures, id) {
       // Delete lectureactive if not in new timetable
       var activeID = app.LectureActive.get('id')
       if (!findLecture(lectures, activeID)) {
-        app.LectureActive.set({'hover': false,
-                               'click': false});
+        app.LectureActive.set({'type': 'none'});
       }
 
       // Disable add buttons
