@@ -151,11 +151,17 @@ i
     color:#E54C65;
 	margin-bottom:8px
 }
+.lecture-options > span.disable
+{
+    pointer-events:none;
+    color:#cccccc;
+}
 .lecture-options > span:hover
 {
 	cursor:pointer;
     color:#963246;
 }
+
 .lecture-options a
 {
     color:inherit;
@@ -686,10 +692,20 @@ i
 {
     padding:0px 10px 0px 18px;
 }
-
-.list-elem-body-wrap:hover
+.list-elem-body-wrap.active
 {
 	background-color:#DDDDDD;
+}
+.list-elem-body-wrap.click
+{
+    border:1px #E54C65 solid;
+    padding:0px 9px 0px 17px;
+}
+
+.list-elem-body-wrap:last-child
+{
+    padding-bottom: 2px;
+    border-radius:0px 0px 4px 4px;
 }
 
 .list-elem-body
@@ -709,6 +725,11 @@ i
     padding:6px 0px 6px 0px;
     pointer-events:none;
 }
+.list-elem-body-wrap.click .list-elem-body
+{
+    border-top-width:0px;
+    padding-bottom:5px;
+}
 
 .list-elem-body-text
 {
@@ -717,12 +738,6 @@ i
             flex:1;
 	text-align:left;
 }
-
-.list-elem-body-wrap:last-child > .list-elem-body
-{
-    padding-bottom:8px;
-}
-
 .add-to-cart
 {
 	background:url(/media/icons/add_cart.svg) no-repeat center center;
