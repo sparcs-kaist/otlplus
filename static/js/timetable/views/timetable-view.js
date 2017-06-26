@@ -580,6 +580,7 @@ function findLecture(lectures, id) {
     events: {
       'click .open-dict-button': "openDictPreview",
       'click .close-dict-button': "closeDictPreview",
+      'click #fix-option': "unfix",
     },
 
     changeInfo: function () {
@@ -634,6 +635,9 @@ function findLecture(lectures, id) {
 
       // Show lecture detail
       $('#lecture-info').html(this.detailTemplate(lecture));
+      if (app.LectureActive.get('type') === 'click') {
+        $(".lecture-options #fix-option").removeClass('disable');
+      }
 
       // Update credit info
       var typeDiv = $('#info').find("[data-type='" + lecture.type_en + "']");
@@ -758,6 +762,10 @@ function findLecture(lectures, id) {
       $(this.el).find('.detail-bottom').addClass('none');
       $(this.el).find('.detail-top').removeClass('none');
     },
+
+    unfix: function(e) {
+      app.LectureActive.set({type: "none"});
+    }
   })
 
   // Fetching and changing timetable tabs

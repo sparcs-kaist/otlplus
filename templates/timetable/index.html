@@ -549,7 +549,7 @@
 		<div id="course-title" style="text-align:center;"><span><%- title %></span></div>
 		<div id="course-no" style="text-align:center;"><span><%- old_code %><% if(class_no.length>0) { %> (<%- class_no %>)<% } %></span></div>
 		<div class="lecture-options">
-			<span id="color-option" style="float:left;">색상 변경</span>
+			<span id="fix-option" class="disable" style="float:left;">고정해제</span>
 			<span id="syllabus-option"><a href="https://cais.kaist.ac.kr/syllabusInfo?year=<%- year %>&term=<%- semester %>&subject_no=<%- code %>&lecture_class=<%- class_no %>&dept_id=<%- department %>" target="_blank">실라버스</a></span>&nbsp;
 			<span id="dictionary-option"><a href="/review/dictionary/<%- old_code %>" target="_blank">과목사전</a></span>
 		</div>
