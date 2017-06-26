@@ -268,6 +268,7 @@ $.ajaxSetup({
     blockClick: function (e) {
       var target = $(e.target);
       var block = target.closest('.lecture-block');
+      $('.list-elem-body-wrap').removeClass('active').removeClass('click');
       $(this.el).find('.lecture-block').removeClass('active').removeClass('click');
       if (block.length === 0) {
         // Click target is not child(or itself) of lecture block
@@ -328,7 +329,7 @@ $.ajaxSetup({
     events: {
       'mouseover .list-elem-body-wrap': "listHover",
       'mouseout .list-elem-body-wrap': "listOut",
-      //'click': "blockClick",
+      'click .list-elem-body-wrap': "listClick",
     },
     
     initialize: function() {
@@ -351,13 +352,15 @@ $.ajaxSetup({
             break;
         }
         var lecture = _.find(lecList.models, function(x){return x.attributes.id===id});
+        ct.addClass("active");
         lecture.set({click: false, hover: true});
         app.LectureActive.set(lecture.attributes);
       }
     },
 
-    listOut: function () {     
+    listOut: function (e) {     
       if (!app.LectureActive.get("click")) {
+        $(e.currentTarget).removeClass("active");
         app.LectureActive.set({
           "click":false,
           "hover":false,
@@ -366,28 +369,25 @@ $.ajaxSetup({
     },
 
     listClick: function (e) {
-      var target = $(e.target);
-      console.log(target);
-      $(this.el).find('.lecture-block').removeClass('active').removeClass('click');
-      if (target.hasClass("half") || target.hasClass('day') || target.is('#timetable-contents')) {
-        app.LectureActive.set({
-          "click":false,
-          "hover":false,
-        })
-        return;
-      } else if (target.hasClass('lecture-block')) {
-        target.addClass('click').removeClass('active');
-      } else {
-        target.parent().parent().find('.lecture-block').addClass('click').removeClass('active');
-      }
-      var title = target.parent().find('.timetable-lecture-name').text();
-      for (var i = 0, child; child = app.timetables.models[i]; i++) {
-        if (child.attributes.title === title) {
-          child.set({click: true, hover:false});
-          app.LectureActive.set(child.attributes);
+      var ct = $(e.currentTarget);
+      var id = Number(ct.attr('data-id'));
+      var lecList;
+      switch (ct.parent().parent().parent().attr('class').split()[0]) {
+        case 'search-page':
+          lecList = app.searchLectureList;
           break;
-        }
+        case 'major-page':
+          lecList = app.majorLectureList;
+          break;
+        case 'humanity-page':
+          lecList = app.humanityLectureList;
+          break;
       }
+      var lecture = _.find(lecList.models, function(x){return x.get("id")===id});
+      $('.list-elem-body-wrap').removeClass('active').removeClass('click');
+      ct.addClass("click");
+      lecture.set({click: true, hover: false});
+      app.LectureActive.set(lecture.attributes);
     },
   })
 
