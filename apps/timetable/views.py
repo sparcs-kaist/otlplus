@@ -21,7 +21,6 @@ from django.contrib.auth.decorators import login_required
 from utils.decorators import login_required_ajax
 from django.conf import settings
 from django.shortcuts import render
-from django.forms.models import model_to_dict
 from django.db.models import Max
 
 # For google calender
@@ -141,15 +140,29 @@ def _lecture_result_format(ls):
 # Lecture -> dict-Lecture
 def _lecture_to_dict(lecture):
     # Convert lecture into dict
-    result = model_to_dict(lecture)
+    # Don't change this into model_to_dict: for security and performance
+    result = {"id": lecture.id,
+              "title": lecture.title,
+              "course": lecture.course.id,
+              "old_code": lecture.old_code,
+              "class_no": lecture.class_no,
+              "year": lecture.year,
+              "code": lecture.code,
+              "department": lecture.department.id,
+              "type": lecture.type,
+              "type_en": lecture.type_en,
+              "limit": lecture.limit,
+              "num_people": lecture.num_people,
+              "is_english": lecture.is_english,
+              "credit": lecture.credit,
+              "credit_au": lecture.credit_au,}
 
     # Convert relations into dict
-    result['professor'] = [model_to_dict(professor) for professor in lecture.professor.all()]
     result['classtime_set'] = [model_to_dict(ct) for ct in lecture.classtime_set.all()]
     result['examtime_set'] = [model_to_dict(et) for et in lecture.examtime_set.all()]
     
     # Add formatted professor name
-    prof_name_list = [p['professor_name'] for p in result['professor']]
+    prof_name_list = [p.professor_name for p in lecture.professor.all()]
     if len(prof_name_list) <= 2:
       result['format_professor_str'] = u", ".join(prof_name_list)
     else:
