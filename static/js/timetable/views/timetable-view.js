@@ -279,6 +279,8 @@ function findLecture(lectures, id) {
       if (block.length === 0) {
         // Click target is not child(or itself) of lecture block
         app.LectureActive.set({type: "none"});
+      } else if (target.hasClass("lecture-delete")) {
+        // Do nothing
       } else if (app.LectureActive.get('type') === 'click'
                  && app.LectureActive.get('from') === 'table'
                  && app.LectureActive.get('lecture').id === id) {
@@ -372,10 +374,15 @@ function findLecture(lectures, id) {
     },
 
     listClick: function (e) {
+      var target = $(e.target);
       var ct = $(e.currentTarget);
       var id = Number(ct.attr('data-id'));
 
-      if (app.LectureActive.get('type') === 'click'
+      if (target.hasClass("add-to-table")
+          || target.hasClass("add-to-cart")
+          || target.hasClass("delete-from-cart")) {
+        // Do nothing
+      } else if (app.LectureActive.get('type') === 'click'
           && app.LectureActive.get('from') === 'list'
           && app.LectureActive.get('lecture').id === id) {
         app.LectureActive.set({type: "none"});

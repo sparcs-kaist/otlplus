@@ -1617,6 +1617,10 @@ i
     background-color:#E54C65 !important;
     color:#FFFFFF;
 }
+.lecture-block.lecture-block-temp
+{
+    opacity: 0.8;
+}
 .lecture-block.click
 {
     border:1px #E54C65 solid;
