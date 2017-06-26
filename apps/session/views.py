@@ -181,11 +181,9 @@ def unregister(request):
 
 
 def language(request):
-    from_lang = request.session[translation.LANGUAGE_SESSION_KEY]
-    
     if translation.LANGUAGE_SESSION_KEY not in request.session:
         to_lang = 'ko'
-    elif from_lang == 'ko':
+    elif request.session[translation.LANGUAGE_SESSION_KEY] == 'ko':
         to_lang = 'en'
     else:
         to_lang = 'ko'
