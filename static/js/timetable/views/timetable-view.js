@@ -190,7 +190,7 @@ $.ajaxSetup({
         return;
       }
       // If lecture is already in timetable
-      if (app.CurrentTimetable.get('lectures').find(function(x){return x.id===lecture_id})) {
+      if (_.find(app.CurrentTimetable.get('lectures'), function(x){return x.id===lecture_id})) {
         console.log(123);
         return;
       }
@@ -216,7 +216,7 @@ $.ajaxSetup({
               lecList = app.humanityLectureList;
               break;
           }
-          var lecture = lecList.find(function(x){return x.get("id")===lecture_id});
+          var lecture = _.find(lecList.models, function(x){return x.get("id")===lecture_id});
 
           // Update app.CurrentTimetable
           // app.timetables is automaticall updated because it has same array pointers
@@ -248,7 +248,7 @@ $.ajaxSetup({
         var id = Number(ct.attr('data-id'));
         var lecList = app.CurrentTimetable.get('lectures');
 
-        var lecture = lecList.find(function(x){return x.id===id});
+        var lecture = _.find(lecList, function(x){return x.id===id});
         lecture.click = false;
         lecture.hover = true;
         app.LectureActive.set(lecture);
@@ -280,7 +280,7 @@ $.ajaxSetup({
 
       var id = Number(block.attr('data-id'));
       var lecList = app.CurrentTimetable.get('lectures');
-      var lecture = lecList.find(function(x){return x.id===id});
+      var lecture = _.find(lecList, function(x){return x.id===id});
       lecture.click = true;
       lecture.hover = false;
       app.LectureActive.set(lecture);
@@ -292,7 +292,7 @@ $.ajaxSetup({
       var timetable_id = Number(app.CurrentTimetable.get('id'));
 
       // If lecture is not in timetable
-      if (!(app.CurrentTimetable.get('lectures').find(function(x){return x.id===lecture_id}))) {
+      if (!(_.find(app.CurrentTimetable.get('lectures'), function(x){return x.id===lecture_id}))) {
         return;
       }
 
@@ -306,15 +306,15 @@ $.ajaxSetup({
         },
         success: function(result) {
           var lecList = app.CurrentTimetable.get('lectures');
-          var lecture = lecList.find(function(x){return x.id===lecture_id});
+          var lecture = _.find(lecList, function(x){return x.id===lecture_id});
 
           // Update app.CurrentTimetable
           var timetableLectures = app.CurrentTimetable.get('lectures');
-          timetableLectures = timetableLectures.filter(function(x){return x.id!==lecture_id});
+          timetableLectures = _.filter(timetableLectures, function(x){return x.id!==lecture_id});
           app.CurrentTimetable.set('lectures', timetableLectures);
 
           // Update app.timetables
-          var timetableModel = app.timetables.models.find(function(x){return x.get('id')===timetable_id});
+          var timetableModel = _.find(app.timetables.models, function(x){return x.get('id')===timetable_id});
           timetableModel.set('lectures', timetableLectures)
         },
       });
@@ -350,7 +350,7 @@ $.ajaxSetup({
             lecList = app.humanityLectureList;
             break;
         }
-        var lecture = lecList.models.find(function(x){return x.attributes.id===id});
+        var lecture = _.find(lecList.models, function(x){return x.attributes.id===id});
         lecture.set({click: false, hover: true});
         app.LectureActive.set(lecture.attributes);
       }
@@ -447,7 +447,7 @@ $.ajaxSetup({
       var timetable = app.CurrentTimetable.get('lectures');
       var lectures = [];
       for (var i=0, id; id=lectureIDs[i]; i++) {
-        var lecture = timetable.find(function(x){return x.id===id});
+        var lecture = _.find(timetable, function(x){return x.id===id});
         lectures.push({title: lecture.title,
                        info: getInfo(lecture)});
         $(".lecture-block[data-id="+id+"]").addClass('active');
@@ -482,7 +482,7 @@ $.ajaxSetup({
         var type = $(e.currentTarget).attr('data-type');
         if (type !== "Etc") {
           var title = this.typeDict[type];
-          var raw_lectures = app.CurrentTimetable.get('lectures').filter(function(x){return x.type_en===type});
+          var raw_lectures = _.filter(app.CurrentTimetable.get('lectures'), function(x){return x.type_en===type});
           var lectureIDs = raw_lectures.map(function(x){return x.id});
           var lectures = this._formatLectures(lectureIDs,
                             function(x){return (x.credit? x.credit+"학점" : "") + (x.credit_au? x.credit_au+"AU" : "")});
@@ -491,7 +491,7 @@ $.ajaxSetup({
           $(e.currentTarget).find('.credit-text').addClass('active');
         } else {
           var title = "기타";
-          var raw_lectures = app.CurrentTimetable.get('lectures').filter(function(x){return !semesterLectureView.typeDict[x.type_en]});
+          var raw_lectures = _.filter(app.CurrentTimetable.get('lectures'), function(x){return !semesterLectureView.typeDict[x.type_en]});
           var lectureIDs = raw_lectures.map(function(x){return x.id});
           var lectures = this._formatLectures(lectureIDs,
                             function(x){return (x.credit? x.credit+"학점" : "") + (x.credit_au? x.credit_au+"AU" : "")});
@@ -509,7 +509,7 @@ $.ajaxSetup({
         var type = $(e.currentTarget).find('.score-text').attr('id');
         if (type === "au") {
           var title = "AU";
-          var raw_lectures = app.CurrentTimetable.get('lectures').filter(function(x){return x.credit_au>0});
+          var raw_lectures = _.filter(app.CurrentTimetable.get('lectures'), function(x){return x.credit_au>0});
           var lectureIDs = raw_lectures.map(function(x){return x.id});
           var lectures = this._formatLectures(lectureIDs,
                             function(x){return x.credit_au+"AU"});
@@ -520,7 +520,7 @@ $.ajaxSetup({
           $('#au .active').removeClass('none');
         } else {
           var title = "학점";
-          var raw_lectures = app.CurrentTimetable.get('lectures').filter(function(x){return x.credit>0});
+          var raw_lectures = _.filter(app.CurrentTimetable.get('lectures'), function(x){return x.credit>0});
           var lectureIDs = raw_lectures.map(function(x){return x.id});
           var lectures = this._formatLectures(lectureIDs,
                             function(x){return x.credit+"학점"});
@@ -613,7 +613,7 @@ $.ajaxSetup({
 
     render: function () {
       var id = Number(app.LectureActive.get('id'));
-      var inTimetable = app.CurrentTimetable.get('lectures').find(function(x){return x.id===id});
+      var inTimetable = _.find(app.CurrentTimetable.get('lectures'), function(x){return x.id===id});
       var idx = app.CurrentTimetable.get('lectures').length;
 
       // Show lecture detail
@@ -774,7 +774,7 @@ $.ajaxSetup({
 
     changeTab: function(e) {
       var id = Number($(e.currentTarget).attr('data-id'));
-      var timetable = app.timetables.models.find(function(x){return x.get('id')===id});
+      var timetable = _.find(app.timetables.models, function(x){return x.get('id')===id});
       app.CurrentTimetable.set(timetable.attributes);
       // this.render is automatically called here
     },
@@ -800,7 +800,7 @@ $.ajaxSetup({
           semester: app.YearSemester.get('semester'),
         },
         success: function(result) {
-          var timetables = app.timetables.models.filter(function(x){return x.get('id')!==id});
+          var timetables = _.filter(app.timetables.models, function(x){return x.get('id')!==id});
           app.timetables.reset(timetables);
           app.timetables.trigger('update');
         },
@@ -820,7 +820,7 @@ $.ajaxSetup({
                                  year: app.YearSemester.get('year'),
                                  semester: app.YearSemester.get('semester'),
                                  lectures: []});
-          var newTable = app.timetables.find(function(x){return x.get('id')===result.id});
+          var newTable = _.find(app.timetables, function(x){return x.get('id')===result.id});
           app.CurrentTimetable.set(newTable.attributes);
         },
       });
@@ -839,13 +839,13 @@ $.ajaxSetup({
           semester: app.YearSemester.get('semester'),
         },
         success: function(result) {
-          var oldTable = app.timetables.models.find(function(x){return x.get('id')===id});
+          var oldTable = _.find(app.timetables.models, function(x){return x.get('id')===id});
           app.timetables.create({id: result.id,
                                  year: app.YearSemester.get('year'),
                                  semester: app.YearSemester.get('semester'),
                                  lectures: _.clone(oldTable.get('lectures')),
                                });
-          var newTable = app.timetables.find(function(x){return x.get('id')===result.id});
+          var newTable = _.find(app.timetables, function(x){return x.get('id')===result.id});
           app.CurrentTimetable.set(newTable.attributes);
         },
       });
@@ -941,7 +941,7 @@ $.ajaxSetup({
 
       // Delete lectureactive if not in new timetable
       var activeID = app.LectureActive.get('id')
-      if (lectures.find(function(x){return x.id===activeID}) === undefined) {
+      if (_.find(lectures, function(x){return x.id===activeID}) === undefined) {
         app.LectureActive.set({'hover': false,
                                'click': false});
       }
