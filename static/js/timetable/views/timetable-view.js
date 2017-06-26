@@ -278,8 +278,11 @@ function findLecture(lectures, id) {
       if (block.length === 0) {
         // Click target is not child(or itself) of lecture block
         app.LectureActive.set({type: "none"});
-      }
-      else {
+      } else if (app.LectureActive.get('type') === 'click'
+                 && app.LectureActive.get('from') === 'table'
+                 && app.LectureActive.get('lecture').id === id) {
+        app.LectureActive.set({type: "none"});
+      } else {
         var id = Number(block.attr('data-id'));
         var lecList = app.CurrentTimetable.get('lectures');
         var lecture = findLecture(lecList, id);
@@ -371,23 +374,30 @@ function findLecture(lectures, id) {
     listClick: function (e) {
       var ct = $(e.currentTarget);
       var id = Number(ct.attr('data-id'));
-      var lecList;
-      switch (ct.parent().parent().parent().attr('class').split()[0]) {
-        case 'search-page':
-          lecList = app.searchLectureList;
-          break;
-        case 'major-page':
-          lecList = app.majorLectureList;
-          break;
-        case 'humanity-page':
-          lecList = app.humanityLectureList;
-          break;
-      }
-      var lecture = findLecture(lecList.models, id);
 
-      app.LectureActive.set({type: "click",
-                             from: "list",
-                             lecture: lecture.attributes,});
+      if (app.LectureActive.get('type') === 'click'
+          && app.LectureActive.get('from') === 'list'
+          && app.LectureActive.get('lecture').id === id) {
+        app.LectureActive.set({type: "none"});
+      } else {
+        var lecList;
+        switch (ct.parent().parent().parent().attr('class').split()[0]) {
+          case 'search-page':
+            lecList = app.searchLectureList;
+            break;
+          case 'major-page':
+            lecList = app.majorLectureList;
+            break;
+          case 'humanity-page':
+            lecList = app.humanityLectureList;
+            break;
+        }
+        var lecture = findLecture(lecList.models, id);
+
+        app.LectureActive.set({type: "click",
+                               from: "list",
+                               lecture: lecture.attributes,});
+      }
     },
   })
 
