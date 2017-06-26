@@ -616,8 +616,8 @@ function findLecture(lectures, id) {
     },
 
     render: function () {
-      var lecture = app.LectureActive.get('lecture');
-
+      var lecture = _.clone(app.LectureActive.get('lecture'));
+      var child = lecture;
       var id = Number(lecture.id);
       var inTimetable = findLecture(app.CurrentTimetable.get('lectures'), id);
       var idx = app.CurrentTimetable.get('lectures').length;
@@ -665,7 +665,9 @@ function findLecture(lectures, id) {
       }
 
       // Highlight timetable blocks
-      if (inTimetable) {
+      if (app.LectureActive.get('type')==='click' && app.LectureActive.get('from')==='list') {
+        // Do nothing
+      } else if (inTimetable) {
         if (app.LectureActive.get('type')==='hover') {
           $('.lecture-block[data-id=' + lecture.id + ']').addClass('active');
         }
@@ -673,7 +675,6 @@ function findLecture(lectures, id) {
           $('.lecture-block[data-id=' + lecture.id + ']').addClass('click');
         }
       } else {
-        var child = _.clone(lecture);
         for (var j=0; j<2; j++) { // TODO : Change this with real classtime
           child['day'] = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'][idx%2 + 2*j];
           if (Math.floor(idx/2)%2 == 0) {
