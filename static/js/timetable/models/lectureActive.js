@@ -11,7 +11,7 @@ var app = app || {};
     defaults: {
       "type": "none",     // "none", "hover", "click"
       "from": "",         // "list", "table"
-      "lecture": null,    // lecture model
+      "lecture": null,    // lecture object
     },
     sync : function(){},
     save : function(){},
