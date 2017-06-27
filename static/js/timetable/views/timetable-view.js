@@ -219,6 +219,9 @@ function findLecture(lectures, id) {
             case 'search-page':
               lecList = app.searchLectureList;
               break;
+            case 'cart-page':
+              lecList = app.cartLectureList;
+              break;
             case 'major-page':
               lecList = app.majorLectureList;
               break;
@@ -352,6 +355,9 @@ function findLecture(lectures, id) {
           case 'search-page':
             lecList = app.searchLectureList;
             break;
+          case 'cart-page':
+            lecList = app.cartLectureList;
+            break;
           case 'major-page':
             lecList = app.majorLectureList;
             break;
@@ -391,6 +397,9 @@ function findLecture(lectures, id) {
         switch (ct.parent().parent().parent().attr('class').split()[0]) {
           case 'search-page':
             lecList = app.searchLectureList;
+            break;
+          case 'cart-page':
+            lecList = app.cartLectureList;
             break;
           case 'major-page':
             lecList = app.majorLectureList;
