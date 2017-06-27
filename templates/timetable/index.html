@@ -179,7 +179,7 @@
 						<div class="rhead rhead-last"></div>
 					</div>
 					<div class="day">
-						<div class="chead">월요일</div>
+						<div class="chead">{% trans "월요일" %}</div>
 						<div class="cell1 half table-drag" data-day='mon' data-time='800'></div>
 						<div class="cell2 half table-drag" data-day='mon' data-time='830'></div>
 						<div class="cell1 half table-drag" data-day='mon' data-time='900'></div>
@@ -219,7 +219,7 @@
 						<div class="cell2 half cell-last"></div>
 					</div>
 					<div class="day">
-						<div class="chead">화요일</div>
+						<div class="chead">{% trans "화요일" %}</div>
 						<div class="cell1 half table-drag" data-day='tue' data-time='800'></div>
 						<div class="cell2 half table-drag" data-day='tue' data-time='830'></div>
 						<div class="cell1 half table-drag" data-day='tue' data-time='900'></div>
@@ -259,7 +259,7 @@
 						<div class="cell2 half cell-last"></div>
 					</div>
 					<div class="day">
-						<div class="chead">수요일</div>
+						<div class="chead">{% trans "수요일" %}</div>
 						<div class="cell1 half table-drag" data-day='wed' data-time='800'></div>
 						<div class="cell2 half table-drag" data-day='wed' data-time='830'></div>
 						<div class="cell1 half table-drag" data-day='wed' data-time='900'></div>
@@ -299,7 +299,7 @@
 						<div class="cell2 half cell-last"></div>
 					</div>
 					<div class="day">
-						<div class="chead">목요일</div>
+						<div class="chead">{% trans "목요일" %}</div>
 						<div class="cell1 half table-drag" data-day='thu' data-time='800'></div>
 						<div class="cell2 half table-drag" data-day='thu' data-time='830'></div>
 						<div class="cell1 half table-drag" data-day='thu' data-time='900'></div>
@@ -339,7 +339,7 @@
 						<div class="cell2 half cell-last"></div>
 					</div>
 					<div class="day">
-						<div class="chead">금요일</div>
+						<div class="chead">{% trans "금요일" %}</div>
 						<div class="cell1 half table-drag" data-day='fri' data-time='800'></div>
 						<div class="cell2 half table-drag" data-day='fri' data-time='830'></div>
 						<div class="cell1 half table-drag" data-day='fri' data-time='900'></div>
@@ -381,8 +381,8 @@
 				</div>
 				<div id="drag-cell" class="none">
 					<i class="drag-close"></i>
-					<div class="drag-text"><i class="drag-icon"></i>과목 검색</div>
-					<div class="drag-text"><i class="drag-icon"></i>일정 추가</div>
+					<div class="drag-text"><i class="drag-icon"></i>{% trans "과목 검색" %}</div>
+					<div class="drag-text"><i class="drag-icon"></i>{% trans "일정 추가" %}</div>
 				</div>
 			</div><!--div timetable-wrap-->
 			<div style="height:3px;"></div>
@@ -406,32 +406,32 @@
 				<div id="info">
 					<div id="type-credits">
 						<div class="lecture-type" data-type="Basic Required">
-							<span class="lecture-type-span">기필&nbsp;&nbsp;</span>
+							<span class="lecture-type-span">{% trans "기필" %}&nbsp;&nbsp;</span>
 							<span class="credit-text">0</span>
 							<span class="active-credit"></span>
 						</div>
 						<div class="lecture-type-right" data-type="Basic Elective">
-							<span class="lecture-type-span">기선&nbsp;&nbsp;</span>
+							<span class="lecture-type-span">{% trans "기선" %}&nbsp;&nbsp;</span>
 							<span class="credit-text">0</span>
 							<span class="active-credit"></span>
 						</div>
 						<div class="lecture-type" style="clear:both;" data-type="Major Required">
-							<span class="lecture-type-span">전필&nbsp;&nbsp;</span>
+							<span class="lecture-type-span">{% trans "전필" %}&nbsp;&nbsp;</span>
 							<span class="credit-text">0</span>
 							<span class="active-credit"></span>
 						</div>
 						<div class="lecture-type-right" data-type="Major Elective">
-							<span class="lecture-type-span">전선&nbsp;&nbsp;</span>
+							<span class="lecture-type-span">{% trans "전선" %}&nbsp;&nbsp;</span>
 							<span class="credit-text">0</span>
 							<span class="active-credit"></span>
 						</div>
 						<div class="lecture-type" style="clear:both;" data-type="Humanities & Social Elective">
-							<span class="lecture-type-span">인문&nbsp;&nbsp;</span>
+							<span class="lecture-type-span">{% trans "인문" %}&nbsp;&nbsp;</span>
 							<span class="credit-text">0</span>
 							<span class="active-credit"></span>
 						</div>
 						<div class="lecture-type-right" data-type="Etc">
-							<span class="lecture-type-span">기타&nbsp;&nbsp;</span>
+							<span class="lecture-type-span">{% trans "기타" %}&nbsp;&nbsp;</span>
 							<span class="credit-text">0</span>
 							<span class="active-credit"></span>
 						</div>
@@ -439,32 +439,32 @@
 					<div id="total-credits">
 						<div class="total-credit">
 							<div id="credits" class="score-text"><span class="normal">0</span><span class="active none">0</span></div>
-							<div class="score-label">학점</div>
+							<div class="score-label">{% trans "학점" %}</div>
 						</div>
 						<div class="total-credit">
 							<div id="au" class="score-text"><span class="normal">0</span><span class="active none">0</span></div>
-							<div class="score-label">AU</div>
+							<div class="score-label">{% trans "AU" %}</div>
 						</div>
 					</div>
 					<div id="table-scores">
 						<div class="table-score">
 							<div id="grades" class="score-text">A-</div>
-							<div class="score-label">성적</div>
+							<div class="score-label">{% trans "성적" %}</div>
 						</div>
 						<div class="table-score">
 							<div id="loads" class="score-text">B+</div>
-							<div class="score-label">널널</div>
+							<div class="score-label">{% trans "널널" %}</div>
 						</div>
 						<div class="table-score">
 							<div id="speeches" class="score-text">B</div>
-							<div class="score-label">강의</div>
+							<div class="score-label">{% trans "강의" %}</div>
 						</div>
 					</div>
 				</div>
-				<div id="examtitle"><span>시험시간표</span></div>
+				<div id="examtitle"><span>{% trans "시험시간표" %}</span></div>
 				<div id="examtable">
 					<div class="examtime" data-date="mon">
-						<div class="exam-chead"><span>월</span></div>
+						<div class="exam-chead"><span>{% trans "월" %}</span></div>
 						<div class="exam-body">
 							<ul id="examlist1" class="examlist">
 								<!-- Exams inserted here -->
@@ -472,7 +472,7 @@
 						</div>
 					</div>
 					<div class="examtime" data-date="tue">
-						<div class="exam-chead"><span>화</span></div>
+						<div class="exam-chead"><span>{% trans "화" %}</span></div>
 						<div class="exam-body">
 							<ul id="examlist2" class="examlist">
 								<!-- Exams inserted here -->
@@ -480,7 +480,7 @@
 						</div>
 					</div>
 					<div class="examtime" data-date="wed">
-						<div class="exam-chead"><span>수</span></div>
+						<div class="exam-chead"><span>{% trans "수" %}</span></div>
 						<div class="exam-body">
 							<ul id="examlist3" class="examlist">
 								<!-- Exams inserted here -->
@@ -488,7 +488,7 @@
 						</div>
 					</div>
 					<div class="examtime" data-date="thu">
-						<div class="exam-chead"><span>목</span></div>
+						<div class="exam-chead"><span>{% trans "목" %}</span></div>
 						<div class="exam-body">
 							<ul id="examlist4" class="examlist">
 								<!-- Exams inserted here -->
@@ -496,7 +496,7 @@
 						</div>
 					</div>
 					<div class="examtime" data-date="fri">
-						<div class="exam-chead"><span>금</span></div>
+						<div class="exam-chead"><span>{% trans "금" %}</span></div>
 						<div class="exam-body">
 							<ul id="examlist5" class="examlist">
 								<!-- Exams inserted here -->
@@ -550,17 +550,17 @@
 		<div id="course-title" style="text-align:center;"><span><%- title %></span></div>
 		<div id="course-no" style="text-align:center;"><span><%- old_code %><% if(class_no.length>0) { %> (<%- class_no %>)<% } %></span></div>
 		<div class="lecture-options">
-			<span id="fix-option" class="disable" style="float:left;">고정해제</span>
-			<span id="syllabus-option"><a href="https://cais.kaist.ac.kr/syllabusInfo?year=<%- year %>&term=<%- semester %>&subject_no=<%- code %>&lecture_class=<%- class_no %>&dept_id=<%- department %>" target="_blank">실라버스</a></span>&nbsp;
-			<span id="dictionary-option"><a href="/review/dictionary/<%- old_code %>" target="_blank">과목사전</a></span>
+			<span id="fix-option" class="disable" style="float:left;">{% trans "고정해제" %}</span>
+			<span id="syllabus-option"><a href="https://cais.kaist.ac.kr/syllabusInfo?year=<%- year %>&term=<%- semester %>&subject_no=<%- code %>&lecture_class=<%- class_no %>&dept_id=<%- department %>" target="_blank">{% trans "실라버스" %}</a></span>&nbsp;
+			<span id="dictionary-option"><a href="/review/dictionary/<%- old_code %>" target="_blank">{% trans "과목사전" %}</a></span>
 		</div>
 		<div class="detail-top">
-			<div class="basic-info"><span style="font-weight:700;">학과&nbsp;&nbsp;</span><span id="department"><%- format_dept_name %></span></div>
-			<div class="basic-info"><span style="font-weight:700;">구분&nbsp;&nbsp;</span><span id="course-type"><%- type %></span></div>
-			<div class="basic-info"><span style="font-weight:700;">교수&nbsp;&nbsp;</span><span id="instructor"><%- format_professor_str %></span></div>
-			<div class="basic-info"><span style="font-weight:700;">장소&nbsp;&nbsp;</span><span id="classroom"><%- format_classroom %></span></div>
-			<div class="basic-info"><span style="font-weight:700;">정원&nbsp;&nbsp;</span><span id="class-size"><%- limit %></span></div>
-			<div class="basic-info"><span style="font-weight:700;">시험&nbsp;&nbsp;</span><span id="exam-time"><%- format_exam %></span></div>
+			<div class="basic-info"><span style="font-weight:700;">{% trans "학과" %}&nbsp;&nbsp;</span><span id="department"><%- format_dept_name %></span></div>
+			<div class="basic-info"><span style="font-weight:700;">{% trans "구분" %}&nbsp;&nbsp;</span><span id="course-type"><%- type %></span></div>
+			<div class="basic-info"><span style="font-weight:700;">{% trans "교수" %}&nbsp;&nbsp;</span><span id="instructor"><%- format_professor_str %></span></div>
+			<div class="basic-info"><span style="font-weight:700;">{% trans "장소" %}&nbsp;&nbsp;</span><span id="classroom"><%- format_classroom %></span></div>
+			<div class="basic-info"><span style="font-weight:700;">{% trans "정원" %}&nbsp;&nbsp;</span><span id="class-size"><%- limit %></span></div>
+			<div class="basic-info"><span style="font-weight:700;">{% trans "시험" %}&nbsp;&nbsp;</span><span id="exam-time"><%- format_exam %></span></div>
 			<div class="lecture-scores">
 				<div class="lecture-score">
 					<% if (is_english) { %>
@@ -568,12 +568,12 @@
 					<% } else { %>
 					<div id="language" class="score-text" style="">한</div>
 					<% } %>
-					<div class="score-label">언어</div>
+					<div class="score-label">{% trans "언어" %}</div>
 				</div><!--
 		 --><div class="lecture-score">
 					<% if ((credit > 0) && (credit_au == 0)) { %>
 					<div id="credit" class="score-text"><%- credit %></div>
-					<div class="score-label">학점</div>
+					<div class="score-label">{% trans "학점" %}</div>
 					<% } else { %>
 					<div id="credit" class="score-text"><%-credit_au %></div>
 					<div class="score-label">AU</div>
@@ -587,86 +587,86 @@
 						<%- (num_people/limit).toFixed(1) %>:1
 						<% } %>
 					</div>
-					<div class="score-label">경쟁률</div>
+					<div class="score-label">{% trans "경쟁률" %}</div>
 				</div>
 			</div>
 			<div class="lecture-scores">
 				<div class="lecture-score" style="clear:both;">
 					<div id="grade" class="score-text"><%- format_grade %></div>
-					<div class="score-label">성적</div>
+					<div class="score-label">{% trans "성적" %}</div>
 				</div><!--
 		 --><div class="lecture-score">
 					<div id="load" class="score-text"><%- format_load %></div>
-					<div class="score-label">널널</div>
+					<div class="score-label">{% trans "널널" %}</div>
 				</div><!--
 		 --><div class="lecture-score">
 					<div id="speech" class="score-text"><%- format_speech %></div>
-					<div class="score-label">강의</div>
+					<div class="score-label">{% trans "강의" %}</div>
 				</div>
 			</div>
 			<div class="basic-info dictionary-preview open-dict-button">
-				<span style="font-weight:700;">과목 후기</span><i class="open-dict-preview"></i>
+				<span style="font-weight:700;">{% trans "과목 후기" %}</span><i class="open-dict-preview"></i>
 			</div>
 		</div>
 		<div class="detail-bottom none">
 			<div class="basic-info dictionary-preview close-dict-button">
-				<span style="font-weight:700;">과목 후기</span><i class="close-dict-preview"></i>
+				<span style="font-weight:700;">{% trans "과목 후기" %}</span><i class="close-dict-preview"></i>
 			</div>
 			<div class="list-scroll">
 				<div class="review-elem">
 					<div class="review-body">
-						1) 성적: 출석과 과제와 랩 task는 모두 포인트를 쌓을 뿐(시험 응시 자격용) 성적과는 무관하기 때문에 적당히 <span class="review-more">...더보기</span>
+						1) 성적: 출석과 과제와 랩 task는 모두 포인트를 쌓을 뿐(시험 응시 자격용) 성적과는 무관하기 때문에 적당히 <span class="review-more">...{% trans "더 보기" %}</span>
 					</div>
 					<div class="review-score-wrap">
-						<span class="review-score">학점 <strong>A</strong></span><span class="review-score">성적 <strong>A</strong></span><span class="review-score">널널 <strong>A</strong></span>
+						<span class="review-score">{% trans "성적" %} <strong>A</strong></span><span class="review-score">{% trans "널널" %} <strong>A</strong></span><span class="review-score">{% trans "강의" %} <strong>A</strong></span>
 					</div>
 				</div>
 				<div class="review-elem">
 					<div class="review-body">
-						1) 성적: 출석과 과제와 랩 task는 모두 포인트를 쌓을 뿐(시험 응시 자격용) 성적과는 무관하기 때문에 적당히 <span class="review-more">...더보기</span>
+						1) 성적: 출석과 과제와 랩 task는 모두 포인트를 쌓을 뿐(시험 응시 자격용) 성적과는 무관하기 때문에 적당히 <span class="review-more">...{% trans "더 보기" %}</span>
 					</div>
 					<div class="review-score-wrap">
-						<span class="review-score">학점 <strong>A</strong></span><span class="review-score">성적 <strong>A</strong></span><span class="review-score">널널 <strong>A</strong></span>
+						<span class="review-score">{% trans "성적" %} <strong>A</strong></span><span class="review-score">{% trans "널널" %} <strong>A</strong></span><span class="review-score">{% trans "강의" %} <strong>A</strong></span>
 					</div>
 				</div>
 				<div class="review-elem">
 					<div class="review-body">
-						1) 성적: 출석과 과제와 랩 task는 모두 포인트를 쌓을 뿐(시험 응시 자격용) 성적과는 무관하기 때문에 적당히 <span class="review-more">...더보기</span>
+						1) 성적: 출석과 과제와 랩 task는 모두 포인트를 쌓을 뿐(시험 응시 자격용) 성적과는 무관하기 때문에 적당히 <span class="review-more">...{% trans "더 보기" %}</span>
 					</div>
 					<div class="review-score-wrap">
-						<span class="review-score">학점 <strong>A</strong></span><span class="review-score">성적 <strong>A</strong></span><span class="review-score">널널 <strong>A</strong></span>
+						<span class="review-score">{% trans "성적" %} <strong>A</strong></span><span class="review-score">{% trans "널널" %} <strong>A</strong></span><span class="review-score">{% trans "강의" %} <strong>A</strong></span>
 					</div>
 				</div>
 				<div class="review-elem">
 					<div class="review-body">
-						1) 성적: 출석과 과제와 랩 task는 모두 포인트를 쌓을 뿐(시험 응시 자격용) 성적과는 무관하기 때문에 적당히 <span class="review-more">...더보기</span>
+						1) 성적: 출석과 과제와 랩 task는 모두 포인트를 쌓을 뿐(시험 응시 자격용) 성적과는 무관하기 때문에 적당히 <span class="review-more">...{% trans "더 보기" %}</span>
 					</div>
 					<div class="review-score-wrap">
-						<span class="review-score">학점 <strong>A</strong></span><span class="review-score">성적 <strong>A</strong></span><span class="review-score">널널 <strong>A</strong></span>
+						<span class="review-score">{% trans "성적" %} <strong>A</strong></span><span class="review-score">{% trans "널널" %} <strong>A</strong></span><span class="review-score">{% trans "강의" %} <strong>A</strong></span>
 					</div>
 				</div>
 				<div class="review-elem">
 					<div class="review-body">
-						1) 성적: 출석과 과제와 랩 task는 모두 포인트를 쌓을 뿐(시험 응시 자격용) 성적과는 무관하기 때문에 적당히 <span class="review-more">...더보기</span>
+						1) 성적: 출석과 과제와 랩 task는 모두 포인트를 쌓을 뿐(시험 응시 자격용) 성적과는 무관하기 때문에 적당히 <span class="review-more">...{% trans "더 보기" %}</span>
 					</div>
 					<div class="review-score-wrap">
-						<span class="review-score">학점 <strong>A</strong></span><span class="review-score">성적 <strong>A</strong></span><span class="review-score">널널 <strong>A</strong></span>
+						<span class="review-score">{% trans "성적" %} <strong>A</strong></span><span class="review-score">{% trans "널널" %} <strong>A</strong></span><span class="review-score">{% trans "강의" %} <strong>A</strong></span>
 					</div>
 				</div>
 				<div class="review-elem">
 					<div class="review-body">
-						1) 성적: 출석과 과제와 랩 task는 모두 포인트를 쌓을 뿐(시험 응시 자격용) 성적과는 무관하기 때문에 적당히 <span class="review-more">...더보기</span>
+						1) 성적: 출석과 과제와 랩 task는 모두 포인트를 쌓을 뿐(시험 응시 자격용) 성적과는 무관하기 때문에 적당히 <span class="review-more">...{% trans "더 보기" %}</span>
 					</div>
 					<div class="review-score-wrap">
-						<span class="review-score">학점 <strong>A</strong></span><span class="review-score">성적 <strong>A</strong></span><span class="review-score">널널 <strong>A</strong></span>
+						<span class="review-score">{% trans "성적" %} <strong>A</strong></span><span class="review-score">{% trans "널널" %} <strong>A</strong></span><span class="review-score">{% trans "강의" %} <strong>A</strong></span>
 					</div>
 				</div>
 				<div class="review-elem">
 					<div class="review-body">
-						1) 성적: 출석과 과제와 랩 task는 모두 포인트를 쌓을 뿐(시험 응시 자격용) 성적과는 무관하기 때문에 적당히 <span class="review-more">...더보기</span>
+						1) 성적: 출석과 과제와 랩 task는 모두 포인트를 쌓을 뿐(시험 응시 자격용) 성적과는 무관하기 때문에 적당히 <span class="review-more">...{% trans "더 보기" %}</span>
 					</div>
 					<div class="review-score-wrap">
-						<span class="review-score">학점 <strong>A</strong></span><span class="review-score">성적 <strong>A</strong></span><span class="review-score">널널 <strong>A</strong></span>
+						<span class="review-score">{% trans "성적" %} <strong>A</strong></span><span class="review-score">{% trans "널널" %} <strong>A</strong></span><span class="review-score">{% trans "강의" %} <strong>A</strong></span>
 					</div>
 				</div>
 			</div>
@@ -676,7 +676,7 @@
 
 <script type="text/template" id="timetable-tab-template">
 <% _.each(ids, function(id, idx){ %>
-<a href="#/<%- idx+1 %>" class="timetable-tab" data-id="<%- id %>"><span class="timetable-num">시간표 <%- idx+1 %></span><span class="hidden-option"><i class="duplicate-table"></i><i class="delete-table"></i></span></a>
+<a href="#/<%- idx+1 %>" class="timetable-tab" data-id="<%- id %>"><span class="timetable-num">{% trans "시간표" %} <%- idx+1 %></span><span class="hidden-option"><i class="duplicate-table"></i><i class="delete-table"></i></span></a>
 <% }); %>
 <a class="timetable-add"><span class="timetable-num"><i class="add-table"></i></span></a>
 </script>
@@ -692,11 +692,11 @@
 <script type="text/template" id="semester-lecture-template">
 <div class="lecture-detail">
 	<div id="course-title" style="text-align:center;"><span><%- title %></span></div>
-	<div id="course-no" style="text-align:center;"><span><%- lectures.length %>개의 과목</span></div>
+	<div id="course-no" style="text-align:center;"><span><%- lectures.length %>{% trans "개의 과목" %}</span></div>
 	<div class="lecture-options">
-		<span id="color-option" style="float:left;">색상 변경</span>
-		<span id="syllabus-option">실라버스</span>&nbsp;
-		<span id="dictionary-option">과목사전</span>
+		<span id="color-option" style="float:left;">{% trans "색상 변경" %}</span>
+		<span id="syllabus-option">{% trans "실라버스" %}</span>&nbsp;
+		<span id="dictionary-option">{% trans "과목사전" %}</span>
 	</div>
 	<div class="detail-top">
 		<% _.each(lectures, function(lecture){ %>

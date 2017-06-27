@@ -41,7 +41,7 @@
       <ul class="nav navbar-nav navbar-right hid">
         <li>
           <a href="/session/language">
-            한글/English
+            {% trans "toggleLang" %}
           </a>
         </li>
 	{% if request.user.is_authenticated %}
@@ -86,7 +86,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
           <a href="/session/language">
-            한글/English
+            {% trans "toggleLang" %}
           </a>
         </li>
 	{% if request.user.is_authenticated %}
