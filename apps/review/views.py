@@ -22,12 +22,12 @@ from django.views.decorators.http import require_POST
 from django.conf import settings
 
 
-
-#global val###
+# global val###
 
 gradelist = [(0,'?'),(1,'F'),(2,'F'),(3,'F'),(4,'F'),(5,'D-'),(6,'D'),(7,'D+'),(8,'C-'),(9,'C'),(10,'C+'),(11,'B-'),(12,'B'),(13,'B+'),(14,'A-'),(15,'A'),(16,'A+')]
 
-#Filter Functions################################################################
+
+# Filter Functions################################################################
 def DepartmentFilters(raw_filters):
     department_list = []
     for department in Department.objects.all():
@@ -41,6 +41,7 @@ def DepartmentFilters(raw_filters):
         filters += etc_list
     return filters
 
+
 def TypeFilters(raw_filters):
     acronym_dic = {'GR':'General Required', 'MGC':'Mandatory General Courses', 'BE':'Basic Elective', 'BR':'Basic Required', 'EG':'Elective(Graduate)', 'HSE':'Humanities & Social Elective', 'OE':'Other Elective', 'ME':'Major Elective', 'MR':'Major Required', 'S':'Seminar', 'I':'Interdisciplinary', 'FP':'Field Practice'}
     type_list = acronym_dic.keys()
@@ -53,6 +54,7 @@ def TypeFilters(raw_filters):
         filters +=["Seminar", "Interdisciplinary", "Field Practice"]
     return filters
 
+
 def GradeFilters(raw_filters):
     acronym_dic = {'ALL':"", '000':"0", '100':"1", '200':"2", '300':"3", '400':"4", '500':"5", 'HIGH':"6"}
     grade_list = acronym_dic.keys()
@@ -63,6 +65,7 @@ def GradeFilters(raw_filters):
     if ('ALL' in raw_filters) or len(raw_filters)==0 :
         filters=["0","1","2","3","4","5","6","7","8","9"]
     return filters
+
 
 def search_view(request):
     if not request.session.get('visited'):
@@ -99,7 +102,6 @@ def search_view(request):
         try:
             j = random.randint(0,len(comment_major)-1)
 
-
             comment = comment_major[j].comment
             context = SearchComment(request, comment)
             major_comment.append(context)
@@ -114,8 +116,10 @@ def search_view(request):
 
     return render(request, 'review/search.html',ctx)
 
+
 def search_view_first(request):
     return render(request, 'review/tutorial-main.html')
+
 
 def search_view_first_again(request):
     drugs = [
@@ -129,11 +133,14 @@ def search_view_first_again(request):
             ]
     return render(request, 'review/tutorial-main-2.html', {'hello_message': drugs[random.randint(0, len(drugs)-1)],})
 
+
 def search_view_first2(request):
     return render(request, 'review/tutorial-sparcssso.html')
 
+
 def search_view_first3(request):
     return render(request, 'review/tutorial-write.html')
+
 
 def search_view_first4(request):
     return render(request, 'review/tutorial-comeagain.html')
@@ -149,6 +156,7 @@ def isKorean(word):
             return False
     return True
 
+
 def CalcAvgScore(grade_sum, load_sum, speech_sum, total_sum, comment_num):
     if comment_num == 0:
         grade = 0.0
@@ -162,6 +170,7 @@ def CalcAvgScore(grade_sum, load_sum, speech_sum, total_sum, comment_num):
         total = float(total_sum)/comment_num
     return grade, load, speech, total
 
+
 def GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters, keyword):
     if len(semester_filters)==0 or ("ALL" in semester_filters):
         courses = Course.objects.filter(department__code__in=department_filters, type_en__in=type_filters, code_num__in=grade_filters)
@@ -173,14 +182,17 @@ def GetFilteredCourses(semester_filters, department_filters, type_filters, grade
 
     return courses
 
+
 def KeyLecByProf(lecture):
     return sorted([i.id for i in lecture.professor.all()])
+
 
 def GetLecByProf(lectures):
     lectures.sort(key = KeyLecByProf)
     lec_by_prof = groupby(lectures, KeyLecByProf)
     lec_by_prof = [ list(i[1]) for i in lec_by_prof ]
     return lec_by_prof
+
 
 def SearchCourse(course,id=-1):
     lectures = list( course.lecture_course.all() )
@@ -233,6 +245,7 @@ def SearchCourse(course,id=-1):
     }
     return result
 
+
 def SearchComment(request, comment):
     is_login = False
     already_up = False
@@ -271,6 +284,7 @@ def SearchComment(request, comment):
         "gradelist":[(0,"?"),(1,"F"),(2,"D"),(3,"C"),(4,"B"),(5,"A")],
     }
     return result
+
 
 def SearchProfessor(professor,id=-1):
     lecture_list=[]
@@ -318,6 +332,7 @@ def SearchProfessor(professor,id=-1):
     }
     return result
 
+
 def Expectations(keyword):
     if not keyword :
         return
@@ -340,7 +355,8 @@ def Expectations(keyword):
     expectations = expect_temp
     return expectations
 
-#MainPage#################################################################################################
+
+# MainPage#################################################################################################
 def SearchResultView(request):
     if 'q' in request.GET :
         keyword = request.GET['q']
@@ -388,6 +404,7 @@ def SearchResultView(request):
 
     return render(request, 'review/result.html', context)
 
+
 def SearchResultView_json(request, page):
     if 'q' in request.GET :
         keyword = request.GET['q']
@@ -430,6 +447,7 @@ def SearchResultView_json(request, page):
     }
     return JsonResponse(json.dumps(context),safe=False)
 
+
 def SearchResultProfessorView(request,id=-1,course_id=-1):
     professor = Professor.objects.get(id=id)
     comments = Comment.objects.filter(lecture__professor__id=id).order_by('-lecture__year','-written_datetime')
@@ -445,6 +463,7 @@ def SearchResultProfessorView(request,id=-1,course_id=-1):
             "page":page_obj.number,
     }
     return render(request, 'review/sresult.html', context)
+
 
 def SearchResultProfessorView_json(request, id=-1,course_id=-1,page=-1):
     comments = Comment.objects.filter(lecture__professor__id=id).order_by('-lecture__year','-written_datetime')
@@ -485,6 +504,7 @@ def SearchResultCourseView(request,id=-1,professor_id=-1):
     }
     return render(request, 'review/sresult.html', context)
 
+
 def SearchResultCourseView_json(request, id=-1,professor_id=-1,page=-1):
     professor_id = int(professor_id)
     course = Course.objects.get(id=id)
@@ -508,6 +528,7 @@ def SearchResultCourseView_json(request, id=-1,professor_id=-1,page=-1):
     }
     return JsonResponse(json.dumps(context),safe=False)
 
+
 @login_required(login_url='/session/login/')
 def SearchUserComment_json(request, page=1):
     user = request.user
@@ -529,7 +550,7 @@ def SearchUserComment_json(request, page=1):
     return JsonResponse(json.dumps(context), safe=False)
 
 
-    #Review Control Function#############################################################################################
+# Review Control Function#############################################################################################
 @login_required(login_url='/session/login/')
 def ReviewDelete(request):
     user = request.user
@@ -539,8 +560,10 @@ def ReviewDelete(request):
     target_comment = user_profile.comment_set.get(lecture=lecture);
     target_comment.u_delete()
     return HttpResponseRedirect('/review/insert/'+str(request.POST['lectureid'])+'/'+str(request.POST['semester']))
-#@login_required
-#login_required(login_url='/session/login/')
+
+
+# @login_required
+# login_required(login_url='/session/login/')
 def ReviewLike(request):
     is_login = False
     already_up = False
@@ -560,7 +583,8 @@ def ReviewLike(request):
     ctx = {'likes_count': likes_count, 'already_up': already_up, 'is_login':is_login, 'id': request.POST['commentid']}
     return JsonResponse(json.dumps(ctx),safe=False)
 
-#ReviewWritingPage#################################################################################################
+
+# ReviewWritingPage#################################################################################################
 @login_required(login_url='/session/login/')
 def ReviewPortal(request):
     user = request.user
@@ -568,6 +592,8 @@ def ReviewPortal(request):
     user_profile.portal_check =1
     user_profile.save()
     return HttpResponseRedirect('https://sparcssso.kaist.ac.kr/account/profile/')
+
+
 @login_required(login_url='/session/login/')
 def ReviewInsertView(request,lecture_id=-1,semester=0):
     user = request.user
@@ -668,16 +694,17 @@ def ReviewInsertView(request,lecture_id=-1,semester=0):
         }
     return render(request, 'review/insert.html',ctx)
 
+
 #ReviewAddingFunctionPage#######################################################################################
 @login_required(login_url='/session/login/')
 def ReviewInsertAdd(request,lecture_id,semester):
-#    if request.POST.has_key('content') == False:
- #       return HttpResponse('후기를 입력해주세요.')
-  #  else:
-  #      if len(request.POST['content'])==0:
-   #         return HttpResponse('1글자 이상 입력해주세요.')
-   #     else:
-#	    comment=request.POST['content']
+    if request.POST.has_key('content') == False:
+        return HttpResponse('후기를 입력해주세요.')
+    else:
+        if len(request.POST['content']) == 0:
+            return HttpResponse('1글자 이상 입력해주세요.')
+        else:
+            comment = request.POST['content']
 
     user = request.user
     user_profile = UserProfile.objects.get(user=user)
@@ -699,7 +726,8 @@ def ReviewInsertAdd(request,lecture_id,semester):
         Comment.u_create(course=course, lecture=lecture, comment=comment, grade=grade, load=load, speech=speech, writer=writer)
     return HttpResponseRedirect('../')
 
-#ReviewRefreshFunctionPage#######################################################################################
+
+# ReviewRefreshFunctionPage#######################################################################################
 @login_required(login_url='/session/login/')
 def ReviewRefresh(request):
     user = request.user
@@ -710,6 +738,7 @@ def ReviewRefresh(request):
             os.chdir('/var/www/otlplus/')
         os.system('python update_taken_lecture_user.py %s' % student_id)
     return HttpResponseRedirect('../insert')
+
 
 def ReviewView(request, comment_id):
     try :
@@ -779,6 +808,7 @@ def LastCommentView_json(request, page=-1):
     }
     return JsonResponse(json.dumps(context),safe=False)
 
+
 # 404 ERROR HANDLING
 def page_not_found(request):
     response = render(
@@ -787,6 +817,7 @@ def page_not_found(request):
     response.status_code = 404
 
     return response
+
 
 # 400 ERROR HANDLING
 def bad_request(request):
@@ -799,6 +830,7 @@ def bad_request(request):
 
     return response
 
+
 # 403 ERROR HANDLING
 def permisson_denied(request):
     response = render_to_response(
@@ -809,6 +841,7 @@ def permisson_denied(request):
     response.status_code = 403
 
     return response
+
 
 # 500 ERROR HANDLING
 def server_error(request):
@@ -826,6 +859,7 @@ def licenses(request):
 
 def credits(request):
     return render(request, 'credits.html')
+
 
 def dictionary(request, course_code):
     courses = Course.objects.filter(old_code = str(course_code))
