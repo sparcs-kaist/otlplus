@@ -101,6 +101,7 @@ i
 
 #lecture-info
 {
+    flex:none;
     background-color:#FFFFFF;
     margin-bottom:12px;
     border-radius:6px;
@@ -111,11 +112,52 @@ i
 	overflow:hidden;
 }
 
-.lecture-detail
+#info-placeholder
 {
+    display:-webkit-box;
+    display:-ms-flexbox;
+    display:flex;
+    display:-webkit-flex;
+    -webkit-box-orient:vertical;
+    -webkit-box-direction:normal;
+        -ms-flex-direction:column;
+            flex-direction:column;
     -webkit-box-flex:1;
         -ms-flex:auto;
             flex:auto;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    color: #999;
+}
+#info-placeholder:not(:only-child)
+{
+    display:none;
+}
+
+.otlplus-title
+{
+    font-size: 20px;
+}
+
+.otlplus-content
+{
+    font-size: 12px;
+    margin-top: 8px;
+}
+
+.otlplus-content a
+{
+    color:#999;
+}
+.otlplus-content a:hover
+{
+    color:#333;
+}
+
+.lecture-detail
+{
     display:-webkit-box;
     display:-ms-flexbox;
     display:flex;
@@ -687,6 +729,14 @@ i
     overflow-y:scroll;
 	font-size:12px;
 	line-height:11px;
+}
+
+.list-loading
+{
+    font-size: 16px;
+    color: #999;
+    margin-top: calc(47.2vh - 200px);
+    text-align: center;
 }
 
 .list-elem
