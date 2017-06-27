@@ -549,7 +549,11 @@
         <%- lecture.get('format_professor_str') %>
       	</span>
        </div>
+       <% if (!cart) { %>
        <i class="add-to-cart"></i>
+       <% } else { %>
+       <i class="delete-from-cart"></i>
+       <% } %>
        <i class="add-to-table"></i>
     </div>
   </div>

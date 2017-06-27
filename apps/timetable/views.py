@@ -623,7 +623,6 @@ def wishlist(request):
         lectures.sort(key = lambda x: x.course)
         result = itertools.groupby(lectures, key = lambda x: x.course)
         result = [[x for x in value] for key,value in result]
-        print(result)
         result = _lecture_result_format(result)
 
         return JsonResponse(result, safe=False, json_dumps_params=

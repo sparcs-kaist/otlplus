@@ -189,6 +189,7 @@ function findLecture(lectures, id) {
     events: {
       'click .add-to-table': "addToTable",
       'click .add-to-cart': "addToCart",
+      'click .delete-from-cart': "deleteFromCart",
     },
 
     addToTable: function (e) {
@@ -273,14 +274,43 @@ function findLecture(lectures, id) {
           }
           var lecture = _.find(lecList.models, function(x){return x.get("id")===lecture_id});
 
-          // Update app.CurrentTimetable
-          // app.timetables is automaticall updated because it has same array pointers
+          // Update app.CartLectureList
           app.cartLectureList.create(lecture.attributes);
           app.cartLectureList.trigger('change');
 
 
-          // Disable add buttons
+          // Disable cart buttons
           $('[data-id='+lecture_id+'] .add-to-cart').addClass('disable');
+        },
+      });
+    },
+
+    deleteFromCart: function (e) {
+      var ct = $(e.currentTarget);
+      var lecture_id = Number(ct.closest('.list-elem-body-wrap').attr('data-id'));
+
+      // If lecture is not in wishlist
+      if (!findLecture(app.cartLectureList.models, lecture_id)) {
+        return;
+      }
+
+      $.ajax({
+        url: "/timetable/wishlist_update/",
+        type: "POST",
+        data: {
+          lecture_id: lecture_id,
+          delete: true,
+        },
+        success: function(result) {
+          console.log(result);
+          var lecList = app.cartLectureList;
+          var lecture = _.find(lecList.models, function(x){return x.get("id")===lecture_id});
+
+          // Update app.cartLectureList
+          app.cartLectureList.remove(lecture);
+
+          // Enable cart buttons
+          $('[data-id='+lecture_id+'] .add-to-cart').removeClass('disable');
         },
       });
     },
