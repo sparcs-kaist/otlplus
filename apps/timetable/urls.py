@@ -32,4 +32,5 @@ urlpatterns = [
     url(r'^fetch/', views.fetch),
     url(r'^list/major/', views.major_list),
     url(r'^list/humanity/', views.humanity_list),
+	  url(r'^wishlist$', views.wishlist),
 ]

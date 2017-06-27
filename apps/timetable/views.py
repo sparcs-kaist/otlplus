@@ -10,6 +10,7 @@ from apps.subject.models import *
 # from apps.subject.models import ClassTime, ExamTime
 from django.http.response import HttpResponseNotAllowed, HttpResponseBadRequest
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
 # Django modules
 from django.db.models import Q
@@ -595,3 +596,21 @@ def humanity_list(request):
         humanity_result = _lecture_result_format(humanity_cl)
 
         return JsonResponse(humanity_result, safe=False)
+
+
+
+# update wishlist
+@csrf_exempt
+def wishlist(request):
+	if request.method == 'POST':
+		data = json.loads(request.body)
+		lecture_name = data['lecture_name'].encode('utf-8')
+		print lecture_name
+		class_no = data['class_no']
+		lectures = list(Lecture.objects.filter(year=2015, semester=3, title=lecture_name, class_no=class_no))
+		if len(lectures) == 0:
+			return JsonResponse({'success': False, 'error_message': 'Lecture not found'})
+		elif len(lectures) > 1:
+			return JsonResponse({'success': False, 'error_message': 'Lecture too many'})
+		else:
+			return JsonResponse({'success': True})				
