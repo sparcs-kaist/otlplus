@@ -114,7 +114,7 @@ def login_callback(request):
 def user_logout(request):
     if request.user.is_authenticated():
         sid = UserProfile.objects.get(user=request.user).sid
-        redirect_url = request.GET.get('next', '/')
+        redirect_url = request.GET.get('next', request.build_absolute_uri('/'))
         logout_url = sso_client.get_logout_url(sid, redirect_url)
         logout(request)
         request.session['visited'] = True
