@@ -289,15 +289,13 @@ class Command(BaseCommand):
             except Lecture.DoesNotExist:
                 print 'Exam-time for non-existing lecture %s; skip it...' % myrow[2]
 
-
-        
-        # Extract class-time.
+        # Extract class time.
         
         print 'Extracting class time information...'
         c = db.cursor()
         c.execute('SELECT * FROM view_OTL_time WHERE lecture_year = %d AND lecture_term = %d' % (next_year, next_semester))
         class_times = c.fetchall()
-        print class_times
+        # print class_times
         c.close()
         ClassTime.objects.filter(lecture__year__exact=next_year, lecture__semester=next_semester).delete()
         for row in class_times:
@@ -310,7 +308,7 @@ class Command(BaseCommand):
                 'code': myrow[2],
                 'year': int(myrow[0]),
                 'semester': int(myrow[1]),
-                'department': Department.objects.filter(id = int(myrow[4]))[0],
+                'department': Department.objects.filter(id=int(myrow[4]))[0],
                 'class_no': myrow[3].strip(),
             }
             try:
