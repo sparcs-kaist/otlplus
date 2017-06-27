@@ -22,6 +22,8 @@ var app = app || {};
       this.listenTo(app.YearSemester, 'change', this.fetchLists);
       app.YearSemester.set({year:2016, semester:1});
     },
+    loadingMessage: '<div class="list-loading">불러오는 중</div>',
+    noResultMessage: '<div class="list-loading">결과 없음</div>',
 
     events: {
       'click .result-message': "showSearch",
@@ -62,9 +64,12 @@ var app = app || {};
 
       $(this.el).find(".search-chead").removeClass('active');
       $(e.currentTarget).addClass('active');
-      $(this.el).find(".search-extend").addClass("none");
       $(this.el).find("#result-pages").children().addClass("none");
       $(this.el).find("." + tabName + "-page").removeClass("none");
+
+      if(tabName==="search" && $('.search-page .list-scroll').length===0) {
+
+      }
 
       if (app.LectureActive.get("from") === "list") {
         app.LectureActive.set({type: "none"});
@@ -122,12 +127,15 @@ var app = app || {};
       data["year"] = app.YearSemester.attributes.year;
       data["semester"] = app.YearSemester.attributes.semester;
 
+      $(".search-page .list-scroll").html(this.loadingMessage);
+      this.hideSearch();
+
       app.SearchKeyword.set(data);
       app.SearchKeyword.save(null, {
         success: function(model, resp, options) {
           var lectures = [].concat.apply([], resp.courses); // Flatten double array to single array
-          app.searchLectureList.reset();
-          app.searchLectureList.add(lectures);
+          app.searchLectureList.reset(lectures);
+          app.searchLectureList.trigger("update");
 
           $(".result-text").text(resp.search_text);
           $(".search-extend").addClass('none');
@@ -143,13 +151,16 @@ var app = app || {};
     },
 
     fetchLists: function() {
-      var blocks = $(this.el).find(".list-scroll");
       var options = {data: {year: app.YearSemester.get('year'),
                             semester: app.YearSemester.get('semester')},
                      type: 'POST'};
 
-      blocks.html('');
+      $(".search-page .list-scroll").html('');
+      this.showSearch();
+      $(".result-text").text("검색");
+      $(".major-page .list-scroll").html(this.loadingMessage);
       app.majorLectureList.fetch(options);
+      $(".humanity-page .list-scroll").html(this.loadingMessage);
       app.humanityLectureList.fetch(options);
     },
  
@@ -159,7 +170,11 @@ var app = app || {};
         var template = _.template($('#list-template').html());
         var courses = _.groupBy(lecList.models, function(x){return x.get('old_code')});
         var block = $('.'+name+'-page').find('.list-scroll');
-        block.html(template({courses:courses}));
+        if (lecList.length > 0) {
+          block.html(template({courses:courses}));
+        } else {
+          block.html(this.noResultMessage);
+        }
 
         // Disable add buttons
         block.find('.add-to-table').removeClass('disable');
