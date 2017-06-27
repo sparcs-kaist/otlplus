@@ -188,6 +188,7 @@ function findLecture(lectures, id) {
       
     events: {
       'click .add-to-table': "addToTable",
+      'click .add-to-cart': "addToCart",
     },
 
     addToTable: function (e) {
@@ -201,7 +202,6 @@ function findLecture(lectures, id) {
       }
       // If lecture is already in timetable
       if (findLecture(app.CurrentTimetable.get('lectures'), lecture_id)) {
-        console.log(123);
         return;
       }
 
@@ -235,6 +235,52 @@ function findLecture(lectures, id) {
           // app.timetables is automaticall updated because it has same array pointers
           app.CurrentTimetable.get('lectures').push(lecture.attributes);
           app.CurrentTimetable.trigger('change');
+        },
+      });
+    },
+
+    addToCart: function (e) {
+      var ct = $(e.currentTarget);
+      var lecture_id = Number(ct.closest('.list-elem-body-wrap').attr('data-id'));
+
+      // If lecture is already in wishlist
+      if (findLecture(app.cartLectureList.models, lecture_id)) {
+        return;
+      }
+
+      $.ajax({
+        url: "/timetable/wishlist_update/",
+        type: "POST",
+        data: {
+          lecture_id: lecture_id,
+          delete: false,
+        },
+        success: function(result) {
+          var lecList;
+          switch (ct.parent().parent().parent().parent().parent().attr('class').split()[0]) {
+            case 'search-page':
+              lecList = app.searchLectureList;
+              break;
+            case 'cart-page':
+              lecList = app.cartLectureList;
+              break;
+            case 'major-page':
+              lecList = app.majorLectureList;
+              break;
+            case 'humanity-page':
+              lecList = app.humanityLectureList;
+              break;
+          }
+          var lecture = _.find(lecList.models, function(x){return x.get("id")===lecture_id});
+
+          // Update app.CurrentTimetable
+          // app.timetables is automaticall updated because it has same array pointers
+          app.cartLectureList.create(lecture.attributes);
+          app.cartLectureList.trigger('change');
+
+
+          // Disable add buttons
+          $('[data-id='+lecture_id+'] .add-to-cart').addClass('disable');
         },
       });
     },

@@ -186,10 +186,16 @@ var app = app || {};
         var lectures = app.CurrentTimetable.get('lectures');
         if (lectures)
           for (var i = 0, child; child = lectures[i]; i++) {
-            $('[data-id='+child.id+'] .add-to-table').addClass('disable');
+            $('.'+name+'-page [data-id='+child.id+'] .add-to-table').addClass('disable');
           }
 
         // Disable cart buttons : TODO
+        block.find('.add-to-cart').removeClass('disable');
+        var lectures = app.cartLectureList.models;
+        if (lectures)
+          for (var i = 0, child; child = lectures[i]; i++) {
+            $('.'+name+'-page [data-id='+child.id+'] .add-to-cart').addClass('disable');
+          }
       }
     }
   })
