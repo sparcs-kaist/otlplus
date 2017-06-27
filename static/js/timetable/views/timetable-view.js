@@ -413,7 +413,6 @@ function findLecture(lectures, id) {
     el: "#right-side",
     block: "#lecture-info",
     semesterTemplate: _.template($('#semester-lecture-template').html()),
-    lectureTemplate: _.template($('#lecture-detail-template').html()),
 
     typeDict: {"Basic Required": "기초필수",
                "Basic Elective": "기초선택",
@@ -489,7 +488,7 @@ function findLecture(lectures, id) {
         $(e.currentTarget).addClass('active');
         $(e.currentTarget).find('.map-location-circle').addClass('active');
 
-        $(this.block).html(this.semesterTemplate({title: title,
+        $(this.block).append(this.semesterTemplate({title: title,
                                                   lectures: lectures,}));
       }
     },
@@ -516,7 +515,7 @@ function findLecture(lectures, id) {
           // Highlight target
           $(e.currentTarget).find('.credit-text').addClass('active');
         }
-        $(this.block).html(this.semesterTemplate({title: title,
+        $(this.block).append(this.semesterTemplate({title: title,
                                                   lectures: lectures,}));
       }
     },
@@ -547,7 +546,7 @@ function findLecture(lectures, id) {
           $('#credits .normal').addClass('none');
           $('#credits .active').removeClass('none');
         }
-        $(this.block).html(this.semesterTemplate({title: title,
+        $(this.block).append(this.semesterTemplate({title: title,
                                                   lectures: lectures,}));
       }
     },
@@ -565,7 +564,7 @@ function findLecture(lectures, id) {
         // Highlight target
         boxes.addClass("active");
 
-        $(this.block).html(this.semesterTemplate({title: title,
+        $(this.block).append(this.semesterTemplate({title: title,
                                                   lectures: lectures,}));
       }
     },
@@ -641,7 +640,7 @@ function findLecture(lectures, id) {
       var idx = app.CurrentTimetable.get('lectures').length;
 
       // Show lecture detail
-      $('#lecture-info').html(this.detailTemplate(lecture));
+      $('#lecture-info').append(this.detailTemplate(lecture));
       if (app.LectureActive.get('type') === 'click') {
         $(".lecture-options #fix-option").removeClass('disable');
         this.openDictPreview();
@@ -802,6 +801,7 @@ function findLecture(lectures, id) {
       var options = {data: {year: app.YearSemester.get('year'),
                             semester: app.YearSemester.get('semester')},
                     type: 'POST'};
+      $('#timetable-tabs').html('<a href="#/1" class="timetable-tab" style="pointer-events:none;"><span class="timetable-num">불러오는 중</span></a>');
       app.timetables.fetch(options);
     },
 
