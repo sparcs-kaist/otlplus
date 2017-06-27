@@ -2,7 +2,7 @@
 
 # Django apps
 from apps.session.models import UserProfile
-from apps.timetable.models import TimeTable
+from apps.timetable.models import TimeTable, Wishlist
 from apps.subject.models import Lecture, Professor, Course
 from apps.review.models import Comment
 from django.contrib.auth.models import User
@@ -599,18 +599,29 @@ def humanity_list(request):
 
 
 
-# update wishlist
-@csrf_exempt
+# fetch wishlist
 def wishlist(request):
-	if request.method == 'POST':
-		data = json.loads(request.body)
-		lecture_name = data['lecture_name'].encode('utf-8')
-		print lecture_name
-		class_no = data['class_no']
-		lectures = list(Lecture.objects.filter(year=2015, semester=3, title=lecture_name, class_no=class_no))
-		if len(lectures) == 0:
-			return JsonResponse({'success': False, 'error_message': 'Lecture not found'})
-		elif len(lectures) > 1:
-			return JsonResponse({'success': False, 'error_message': 'Lecture too many'})
-		else:
-			return JsonResponse({'success': True})				
+    if request.method == 'POST':
+        try:
+            userprofile = UserProfile.objects.get(user=request.user)
+        except:
+            return JsonResponse([], safe=False, json_dumps_params=
+                                {'ensure_ascii': False})
+
+
+        year = int(request.POST['year'])
+        semester = int(request.POST['semester'])
+
+        try:
+            w = Wishlist.objects.get(user=userprofile)
+        except Wishlist.DoesNotExist:
+            w = Wishlist(user=userprofile)
+            w.save()
+
+        lectures = w.lectures.filter(year=year, semester=semester)
+        result = _lecture_result_format([lectures])
+
+        return JsonResponse(result, safe=False, json_dumps_params=
+                            {'ensure_ascii': False})
+
+

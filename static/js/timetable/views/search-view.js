@@ -13,6 +13,9 @@ var app = app || {};
       this.listenTo(app.searchLectureList,
                     'update',
                     this.genListRender(app.searchLectureList, 'search'));
+      this.listenTo(app.cartLectureList,
+                    'update',
+                    this.genListRender(app.cartLectureList, 'cart'));
       this.listenTo(app.majorLectureList,
                     'update',
                     this.genListRender(app.majorLectureList, 'major'));
@@ -158,6 +161,8 @@ var app = app || {};
       $(".search-page .list-scroll").html('');
       this.showSearch();
       $(".result-text").text("검색");
+      $(".cart-page .list-scroll").html(this.loadingMessage);
+      app.cartLectureList.fetch(options);
       $(".major-page .list-scroll").html(this.loadingMessage);
       app.majorLectureList.fetch(options);
       $(".humanity-page .list-scroll").html(this.loadingMessage);
