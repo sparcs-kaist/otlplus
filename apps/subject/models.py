@@ -1,6 +1,7 @@
 #-*- coding: utf-8 -*-
 from django.db import models
 from apps.enum.common import * #for enum type (for choices)
+from datetime import date, time
 
 
 class Lecture(models.Model):
@@ -72,13 +73,31 @@ class ExamTime(models.Model):
     end = models.TimeField() # hh:mm 형태의 시험시작시간 (24시간 제)
 
     def __unicode__(self):
-        return u'[%s] %s, %s-%s' % (self.lecture.code, self.get_day_display(), self.begin.strftime('%H:%M'), self.end.strftime('%H:%M')
-                )
-         # TODO ExamTime method 더 필요한거 같이 구현하기
+        return u'[%s] %s, %s-%s' % (
+            self.lecture.code,
+            self.get_day_display(),
+            self.begin.strftime('%H:%M'),
+            self.end.strftime('%H:%M')
+        )
+
+    def get_begin_numeric(self):
+        """0시 0분을 기준으로 분 단위로 계산된 시작 시간을 반환한다."""
+        t = self.begin.hour * 60 + self.begin.minute
+        if t % 30 != 0:
+            t = t + (30 - (t % 30))
+        return t
+
+    def get_end_numeric(self):
+        """0시 0분을 기준으로 분 단위로 계산된 종료 시간을 반환한다."""
+        t = self.end.hour * 60 + self.end.minute
+        if t % 30 != 0:
+            t = t + (30 - (t % 30))
+        return t
 
 
 class ClassTime(models.Model):
-    """Lecture에 배정된강의시간, 보통 하나의  Lecture가 여러개의 강의시간을 가진다."""
+    """Lecture 에 배정된강의시간, 보통 하나의  Lecture 가 여러개의 강의시간을 가진다."""
+    """스크립트 짤 때 주의해야 할 부분은 호실 필드이다!!!!"""
     lecture = models.ForeignKey(Lecture, related_name="classtime_set", null=True)
     day = models.SmallIntegerField(choices=WEEKDAYS) #강의 요일
     begin = models.TimeField() # hh:mm 형태의 강의 시작시각 (24시간제)
@@ -90,7 +109,45 @@ class ClassTime(models.Model):
     roomNum = models.IntegerField(null=True) #강의실 호실(숫자, ex> 304 or 1104)
     unit_time = models.SmallIntegerField(null=True) #수업 교시
 
-    # TODO ClassTime method 구현 같이하기!
+    def get_begin_numeric(self):
+        """0시 0분을 기준으로 분 단위로 계산된 시작 시간을 반환한다."""
+        t = self.begin.hour * 60 + self.begin.minute
+        if t % 30 != 0:
+            t = t + (30 - (t % 30))
+        return t
+
+    def get_end_numeric(self):
+        """0시 0분을 기준으로 분 단위로 계산된 종료 시간을 반환한다."""
+        t = self.end.hour * 60 + self.end.minute
+        if t % 30 != 0:
+            t = t + (30 - (t % 30))
+        return t
+
+    def get_location(self):
+        if self.roomNum is None:
+            return u'%s' % (self.roomName_ko)
+        try:
+            int(self.roomNum)
+            return u'%s %s호' % (self.roomName_ko, self.roomNum)
+        except ValueError:
+            return u'%s %s' % (self.roomName_ko, self.roomNum)
+
+    def get_location_en(self):
+        if self.roomNum is None:
+            return u'%s' % (self.roomName_en)
+        try:
+            int(self.roomNum)
+            return u'%s %s' % (self.roomName_en, self.roomNum)
+        except ValueError:
+            return u'%s %s' % (self.roomName_en, self.roomNum)
+
+    @staticmethod
+    def numeric_time_to_str(numeric_time):
+        return u'%s:%s' % (numeric_time // 60, numeric_time % 60)
+
+    @staticmethod
+    def numeric_time_to_obj(numeric_time):
+        return time(hour=numeric_time // 60, minute=numeric_time % 60)
 
 
 class Department(models.Model):
@@ -114,7 +171,7 @@ class Course(models.Model):
     type_en = models.CharField(max_length=36)
     title = models.CharField(max_length=100, db_index=True)
     title_en = models.CharField(max_length=200, db_index=True)
-    summury = models.CharField(max_length=4000, default = "")
+    summury = models.CharField(max_length=4000, default="")
 
     grade_sum = models.IntegerField(default=0)
     load_sum = models.IntegerField(default=0)
