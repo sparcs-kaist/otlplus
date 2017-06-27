@@ -12,6 +12,12 @@ class TimeTable(models.Model):
     table_id = models.SmallIntegerField(null=True)  # 몇번째 타임테이블인지 0,1,2,3
 
 
+class Wishlist(models.Model):
+    lectures = models.ManyToManyField(Lecture)
+    user = models.OneToOneField(UserProfile, related_name="wishlist_set")
+
+
+
 # class ResearchLecture(models.Model):
 #     code = models.CharField(max_length=10,db_index=True)
 #     old_code = models.CharField(max_length=10, db_index=True)
