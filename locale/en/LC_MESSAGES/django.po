@@ -1,0 +1,142 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "title"
+msgstr "title_en"
+
+msgid "type"
+msgstr "type_en"
+
+msgid "professor_name"
+msgstr "professor_name_en"
+
+msgid "name"
+msgstr "name_en"
+
+
+
+
+
+msgid "toggleLang"
+msgstr "한글"
+
+
+
+
+
+msgid "고정해제"
+msgstr "Unfix"
+
+msgid "실라버스"
+msgstr "Syllabus"
+
+msgid "과목사전"
+msgstr "Dictionary"
+
+msgid "학과"
+msgstr "Dept."
+
+msgid "구분"
+msgstr "Type"
+
+msgid "교수"
+msgstr "Prof."
+
+msgid "장소"
+msgstr "Room"
+
+msgid "정원"
+msgstr "Limit"
+
+msgid "시험"
+msgstr "Exam"
+
+msgid "언어"
+msgstr "Language"
+
+msgid "학점"
+msgstr "Credit"
+
+msgid "경쟁률"
+msgstr "Competition"
+
+msgid "성적"
+msgstr "Grade"
+
+msgid "널널"
+msgstr "Load"
+
+msgid "강의"
+msgstr "Speech"
+
+msgid "과목 후기"
+msgstr "Reviews"
+
+msgid "더 보기"
+msgstr "See more"
+
+msgid "개의 과목"
+msgstr " lectures"
+
+
+
+msgid "시간표"
+msgstr "Table"
+
+msgid "월요일"
+msgstr "Monday"
+
+msgid "화요일"
+msgstr "Tuesday"
+
+msgid "수요일"
+msgstr "Wednesday"
+
+msgid "목요일"
+msgstr "Thursday"
+
+msgid "금요일"
+msgstr "Friday"
+
+msgid "토/일/시간없음"
+msgstr "Sat/Sun/None"
+
+
+
+msgid "시험시간표"
+msgstr "Exam Time"
+
+msgid "기필"
+msgstr "BR"
+
+msgid "기선"
+msgstr "BE"
+
+msgid "전필"
+msgstr "MR"
+
+msgid "전선"
+msgstr "ME"
+
+msgid "인문"
+msgstr "HS"
+
+msgid "기타"
+msgstr "ETC"
+
+msgid "월"
+msgstr "Mon"
+
+msgid "화"
+msgstr "Tue"
+
+msgid "수"
+msgstr "Wed"
+
+msgid "목"
+msgstr "Thu"
+
+msgid "금"
+msgstr "Fri"
