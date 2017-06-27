@@ -18,9 +18,9 @@
 		<div id="search-container">
 			<div id="search-colheaders">
 				<button class="search-chead search active"><i class="search-tab-icon"></i></button>
-				<button class="search-chead cart"><i class="search-tab-icon"></i></button>
 				<button class="search-chead major"><i class="search-tab-icon"></i></button>
 				<button class="search-chead humanity"><i class="search-tab-icon"></i></button>
+				<button class="search-chead cart"><i class="search-tab-icon"></i></button>
 			</div>
 			<div id="result-pages">
 				<div class="search-page">
@@ -549,7 +549,11 @@
         <%- lecture.get('format_professor_str') %>
       	</span>
        </div>
+       <% if (!cart) { %>
        <i class="add-to-cart"></i>
+       <% } else { %>
+       <i class="delete-from-cart"></i>
+       <% } %>
        <i class="add-to-table"></i>
     </div>
   </div>

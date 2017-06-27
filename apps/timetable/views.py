@@ -40,6 +40,7 @@ import os
 import json
 import urllib
 import random
+import itertools
 
 from django.views.decorators.csrf import csrf_exempt
 
@@ -618,10 +619,40 @@ def wishlist(request):
             w = Wishlist(user=userprofile)
             w.save()
 
-        lectures = w.lectures.filter(year=year, semester=semester)
-        result = _lecture_result_format([lectures])
+        lectures = list(w.lectures.filter(year=year, semester=semester))
+        lectures.sort(key = lambda x: x.course)
+        result = itertools.groupby(lectures, key = lambda x: x.course)
+        result = [[x for x in value] for key,value in result]
+        result = _lecture_result_format(result)
 
         return JsonResponse(result, safe=False, json_dumps_params=
                             {'ensure_ascii': False})
+
+
+def wishlist_update(request):
+    '''Add/delete lecture to users lecture list.
+    ''' 
+    if request.method != 'POST':
+        return HttpResponseNotAllowed('POST')
+
+    try:
+        userprofile = UserProfile.objects.get(user=request.user)
+    except:
+        return JsonResponse({'success':True})
+
+    if 'lecture_id' not in request.POST:
+        return HttpResponseBadRequest()
+
+    lecture_id = request.POST['lecture_id']
+    delete = request.POST['delete'] == u'true'
+    w = Wishlist.objects.get(user=userprofile)
+    lecture = Lecture.objects.get(id=lecture_id)
+
+    if not delete:
+        w.lectures.add(lecture)
+    else:
+        w.lectures.remove(lecture)
+        
+    return JsonResponse({ 'success': True });
 
 

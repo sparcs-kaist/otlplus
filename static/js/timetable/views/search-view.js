@@ -176,7 +176,7 @@ var app = app || {};
         var courses = _.groupBy(lecList.models, function(x){return x.get('old_code')});
         var block = $('.'+name+'-page').find('.list-scroll');
         if (lecList.length > 0) {
-          block.html(template({courses:courses}));
+          block.html(template({courses:courses, cart:name==="cart"}));
         } else {
           block.html(this.noResultMessage);
         }
@@ -186,10 +186,16 @@ var app = app || {};
         var lectures = app.CurrentTimetable.get('lectures');
         if (lectures)
           for (var i = 0, child; child = lectures[i]; i++) {
-            $('[data-id='+child.id+'] .add-to-table').addClass('disable');
+            $('.'+name+'-page [data-id='+child.id+'] .add-to-table').addClass('disable');
           }
 
-        // Disable cart buttons : TODO
+        // Disable cart buttons
+        block.find('.add-to-cart').removeClass('disable');
+        var lectures = app.cartLectureList.models;
+        if (lectures)
+          for (var i = 0, child; child = lectures[i]; i++) {
+            $('.'+name+'-page [data-id='+child.id+'] .add-to-cart').addClass('disable');
+          }
       }
     }
   })
