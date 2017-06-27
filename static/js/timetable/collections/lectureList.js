@@ -7,9 +7,14 @@ var app = app || {};
   var SomeLectureList = Backbone.Collection.extend({
     // Reference to this collection's model.
     model: app.Lecture,
+
     initialize: function(url) {
       this.url = url;
     },
+
+    comparator: function(item) {
+      return [item.get('old_code'), item.get('class_no')];
+    }
   });
 
   // Create
