@@ -172,7 +172,7 @@ def _lecture_to_dict(lecture):
       result['format_professor_str'] = u"%s 외 %d명" % (prof_name_list[0], len(prof_name_list)-1)
 
     # Add formatted department name
-    result['format_dept_name'] = lecture.department.name
+    result['format_dept_name'] = getattr(lecture.department, _("name"))
 
     # Add formatted score
     # TODO
