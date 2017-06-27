@@ -983,9 +983,11 @@ function findLecture(lectures, id) {
       $('.lecture-type-right[data-type="Etc"]').find('.credit-text').html(byType[5]);
 
       // Delete lectureactive if not in new timetable
-      var activeID = app.LectureActive.get('id')
-      if (!findLecture(lectures, activeID)) {
-        app.LectureActive.set({'type': 'none'});
+      if (app.LectureActive.get('from')==='table') {
+        var activeID = app.LectureActive.get('lecture').id
+         if (!findLecture(lectures, activeID)) {
+          app.LectureActive.set({'type': 'none'});
+        }
       }
 
       // Disable add buttons
