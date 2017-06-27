@@ -2,6 +2,8 @@
 {% load i18n %}
 {% block content %}
 <!--한글로 된 부분은 trans가 적용되어 있던 부분이나 현 장고 버전에서는 따로 설정을 해야 사용 가능하므로 일단 적용하지 않았다.--> 
+{% get_current_language as LANGUAGE_CODE %}
+{% get_available_languages as LANGUAGES %}
 <div id="page-container">
 	<div id="left-side">
 		<div id="lecture-info">
@@ -293,7 +295,7 @@
 						<div class="cell1 half table-drag" data-day='wed' data-time='2300'></div>
 						<div class="cell2 half table-drag" data-day='wed' data-time='2330'></div>
 						<div class="cell-bold cell1 half"></div>
-						<div class="chead">토/일/시간없음</div>
+						<div class="chead">{% trans "토/일/시간없음" %}</div>
 						<div class="cell1 half"></div>
 						<div class="cell2 half"></div>
 						<div class="cell2 half cell-last"></div>
@@ -406,32 +408,32 @@
 				<div id="info">
 					<div id="type-credits">
 						<div class="lecture-type" data-type="Basic Required">
-							<span class="lecture-type-span">{% trans "기필" %}&nbsp;&nbsp;</span>
+							<span class="lecture-type-span fixed-{{ LANGUAGE_CODE }}">{% trans "기필" %}&nbsp;&nbsp;</span>
 							<span class="credit-text">0</span>
 							<span class="active-credit"></span>
 						</div>
 						<div class="lecture-type-right" data-type="Basic Elective">
-							<span class="lecture-type-span">{% trans "기선" %}&nbsp;&nbsp;</span>
+							<span class="lecture-type-span fixed-{{ LANGUAGE_CODE }}">{% trans "기선" %}&nbsp;&nbsp;</span>
 							<span class="credit-text">0</span>
 							<span class="active-credit"></span>
 						</div>
 						<div class="lecture-type" style="clear:both;" data-type="Major Required">
-							<span class="lecture-type-span">{% trans "전필" %}&nbsp;&nbsp;</span>
+							<span class="lecture-type-span fixed-{{ LANGUAGE_CODE }}">{% trans "전필" %}&nbsp;&nbsp;</span>
 							<span class="credit-text">0</span>
 							<span class="active-credit"></span>
 						</div>
 						<div class="lecture-type-right" data-type="Major Elective">
-							<span class="lecture-type-span">{% trans "전선" %}&nbsp;&nbsp;</span>
+							<span class="lecture-type-span fixed-{{ LANGUAGE_CODE }}">{% trans "전선" %}&nbsp;&nbsp;</span>
 							<span class="credit-text">0</span>
 							<span class="active-credit"></span>
 						</div>
 						<div class="lecture-type" style="clear:both;" data-type="Humanities & Social Elective">
-							<span class="lecture-type-span">{% trans "인문" %}&nbsp;&nbsp;</span>
+							<span class="lecture-type-span fixed-{{ LANGUAGE_CODE }}">{% trans "인문" %}&nbsp;&nbsp;</span>
 							<span class="credit-text">0</span>
 							<span class="active-credit"></span>
 						</div>
 						<div class="lecture-type-right" data-type="Etc">
-							<span class="lecture-type-span">{% trans "기타" %}&nbsp;&nbsp;</span>
+							<span class="lecture-type-span fixed-{{ LANGUAGE_CODE }}">{% trans "기타" %}&nbsp;&nbsp;</span>
 							<span class="credit-text">0</span>
 							<span class="active-credit"></span>
 						</div>
@@ -464,7 +466,7 @@
 				<div id="examtitle"><span>{% trans "시험시간표" %}</span></div>
 				<div id="examtable">
 					<div class="examtime" data-date="mon">
-						<div class="exam-chead"><span>{% trans "월" %}</span></div>
+						<div class="exam-chead fixed-{{ LANGUAGE_CODE }}"><span>{% trans "월" %}</span></div>
 						<div class="exam-body">
 							<ul id="examlist1" class="examlist">
 								<!-- Exams inserted here -->
@@ -472,7 +474,7 @@
 						</div>
 					</div>
 					<div class="examtime" data-date="tue">
-						<div class="exam-chead"><span>{% trans "화" %}</span></div>
+						<div class="exam-chead fixed-{{ LANGUAGE_CODE }}"><span>{% trans "화" %}</span></div>
 						<div class="exam-body">
 							<ul id="examlist2" class="examlist">
 								<!-- Exams inserted here -->
@@ -480,7 +482,7 @@
 						</div>
 					</div>
 					<div class="examtime" data-date="wed">
-						<div class="exam-chead"><span>{% trans "수" %}</span></div>
+						<div class="exam-chead fixed-{{ LANGUAGE_CODE }}"><span>{% trans "수" %}</span></div>
 						<div class="exam-body">
 							<ul id="examlist3" class="examlist">
 								<!-- Exams inserted here -->
@@ -488,7 +490,7 @@
 						</div>
 					</div>
 					<div class="examtime" data-date="thu">
-						<div class="exam-chead"><span>{% trans "목" %}</span></div>
+						<div class="exam-chead fixed-{{ LANGUAGE_CODE }}"><span>{% trans "목" %}</span></div>
 						<div class="exam-body">
 							<ul id="examlist4" class="examlist">
 								<!-- Exams inserted here -->
@@ -496,7 +498,7 @@
 						</div>
 					</div>
 					<div class="examtime" data-date="fri">
-						<div class="exam-chead"><span>{% trans "금" %}</span></div>
+						<div class="exam-chead fixed-{{ LANGUAGE_CODE }}"><span>{% trans "금" %}</span></div>
 						<div class="exam-body">
 							<ul id="examlist5" class="examlist">
 								<!-- Exams inserted here -->
@@ -537,7 +539,20 @@
   <% _.each(course, function(lecture) { %>
   <div class="list-elem-body-wrap" data-id="<%- lecture.get('id') %>">
     <div class="list-elem-body">
-      <div class="list-elem-body-text"><strong><%- lecture.get('format_class_title') %></strong> <%- lecture.get('format_professor_str') %></div><i class="add-to-cart"></i><i class="add-to-table"></i>
+      <div class="list-elem-body-text">
+      	<% switch (lecture.get('format_class_title').length) { case 1: %>
+        <strong class="class-title fixed-1" ><%- lecture.get('format_class_title') %></strong>
+        <% break; case 2: %>
+        <strong class="class-title fixed-2" ><%- lecture.get('format_class_title') %></strong>
+      	<% break; default: %>
+        <strong class="class-title" ><%- lecture.get('format_class_title') %></strong>
+      	<% } %>
+      	<span class="class-prof">
+        <%- lecture.get('format_professor_str') %>
+      	</span>
+       </div>
+       <i class="add-to-cart"></i>
+       <i class="add-to-table"></i>
     </div>
   </div>
   <% }); %>
@@ -555,12 +570,12 @@
 			<span id="dictionary-option"><a href="/review/dictionary/<%- old_code %>" target="_blank">{% trans "과목사전" %}</a></span>
 		</div>
 		<div class="detail-top">
-			<div class="basic-info"><span style="font-weight:700;">{% trans "학과" %}&nbsp;&nbsp;</span><span id="department"><%- format_dept_name %></span></div>
-			<div class="basic-info"><span style="font-weight:700;">{% trans "구분" %}&nbsp;&nbsp;</span><span id="course-type"><%- type %></span></div>
-			<div class="basic-info"><span style="font-weight:700;">{% trans "교수" %}&nbsp;&nbsp;</span><span id="instructor"><%- format_professor_str %></span></div>
-			<div class="basic-info"><span style="font-weight:700;">{% trans "장소" %}&nbsp;&nbsp;</span><span id="classroom"><%- format_classroom %></span></div>
-			<div class="basic-info"><span style="font-weight:700;">{% trans "정원" %}&nbsp;&nbsp;</span><span id="class-size"><%- limit %></span></div>
-			<div class="basic-info"><span style="font-weight:700;">{% trans "시험" %}&nbsp;&nbsp;</span><span id="exam-time"><%- format_exam %></span></div>
+			<div class="basic-info"><span class="basic-info-name fixed-{{ LANGUAGE_CODE }}">{% trans "학과" %}</span><span id="department"><%- format_dept_name %></span></div>
+			<div class="basic-info"><span class="basic-info-name fixed-{{ LANGUAGE_CODE }}">{% trans "구분" %}</span><span id="course-type"><%- type %></span></div>
+			<div class="basic-info"><span class="basic-info-name fixed-{{ LANGUAGE_CODE }}">{% trans "교수" %}</span><span id="instructor"><%- format_professor_str %></span></div>
+			<div class="basic-info"><span class="basic-info-name fixed-{{ LANGUAGE_CODE }}">{% trans "장소" %}</span><span id="classroom"><%- format_classroom %></span></div>
+			<div class="basic-info"><span class="basic-info-name fixed-{{ LANGUAGE_CODE }}">{% trans "정원" %}</span><span id="class-size"><%- limit %></span></div>
+			<div class="basic-info"><span class="basic-info-name fixed-{{ LANGUAGE_CODE }}">{% trans "시험" %}</span><span id="exam-time"><%- format_exam %></span></div>
 			<div class="lecture-scores">
 				<div class="lecture-score">
 					<% if (is_english) { %>

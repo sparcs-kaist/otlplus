@@ -78,7 +78,7 @@ msgid "더 보기"
 msgstr "See more"
 
 msgid "개의 과목"
-msgstr "lectures"
+msgstr " lectures"
 
 
 
@@ -121,7 +121,7 @@ msgid "전선"
 msgstr "ME"
 
 msgid "인문"
-msgstr "HSE"
+msgstr "HS"
 
 msgid "기타"
 msgstr "ETC"

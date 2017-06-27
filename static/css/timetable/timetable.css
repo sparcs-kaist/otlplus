@@ -175,6 +175,20 @@ i
     clear:both;
 }
 
+.basic-info-name
+{
+    display: inline-block;
+    font-weight: bold;
+}
+.basic-info-name.fixed-ko
+{
+    width: 3.5ch;
+}
+.basic-info-name.fixed-en
+{
+    width: 4.5ch;
+}
+
 #department, #course-type, #instructor, #classroom, #class-size, #exam-time
 {
 }
@@ -737,7 +751,30 @@ i
         -ms-flex:1;
             flex:1;
 	text-align:left;
+    margin-bottom: -2px;
 }
+
+.class-title
+{
+    display: inline-block;
+    margin-bottom: 2px;
+}
+.class-title.fixed-1
+{
+    width: 1.3ch;
+}
+.class-title.fixed-2
+{
+    width: 2.3ch;
+}
+
+.class-prof
+{
+    display: inline-block;
+    margin-bottom: 2px;
+}
+
+
 .add-to-cart
 {
 	background:url(/media/icons/add_cart.svg) no-repeat center center;
@@ -748,13 +785,11 @@ i
 	margin:-1px 0px -1px 6px;
     pointer-events:auto;
 }
-
 .add-to-cart:hover
 {
 	background-image:url(/media/icons/add_cart_hover.svg);
 	cursor:pointer;
 }
-
 .add-to-cart.disable
 {
     background-image:url(/media/icons/add_cart_disabled.svg);
@@ -771,13 +806,11 @@ i
 	margin-left:6px;
     pointer-events:auto;
 }
-
 .add-to-table:hover
 {
 	background-image:url(/media/icons/add_lecture_hover.svg);
 	cursor:pointer;
 }
-
 .add-to-table.disable
 {
     background-image:url(/media/icons/add_lecture_disabled.svg);
@@ -794,13 +827,11 @@ i
 	margin:-1px 0px -1px 0px;
     pointer-events:auto;
 }
-
 .delete-from-cart:hover
 {
 	background-image:url(/media/icons/delete_cart_hover.svg);
 	cursor:pointer;
 }
-
 .delete-from-cart.disable
 {
     background-image:url(/media/icons/delete_cart_disabled.svg);
@@ -1400,18 +1431,37 @@ i
     text-align:left;
     margin-left:10%;
     margin-top:10px;
+    font-size:0px;
 }
-
 .lecture-type-right
 {
     display:inline-block;
     width:40%;
     text-align:left;
+    font-size:0px;
+}
+
+.lecture-type span
+{
+    font-size:12px;
+}
+.lecture-type-right span
+{
+    font-size:12px;
 }
 
 .lecture-type-span
 {
-    font-weight:900;
+    font-weight: bold;
+    display: inline-block;
+}
+.lecture-type-span.fixed-ko
+{
+    width: 3.5ch;
+}
+.lecture-type-span.fixed-en
+{
+    width: 3.5ch;
 }
 
 .credit-text.active
@@ -1421,6 +1471,7 @@ i
 
 .active-credit
 {
+    margin-left: 4px;
     color:#e64c65;
 }
 
@@ -1534,6 +1585,14 @@ i
     margin-bottom:8px;
     margin-right:10px;
     text-align:center;
+}
+.exam-chead.fixed-ko
+{
+    width:1.5ch;
+}
+.exam-chead.fixed-en
+{
+    width:2.5ch;
 }
 
 .exam-body
