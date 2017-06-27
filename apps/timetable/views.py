@@ -21,8 +21,10 @@ from django.contrib.auth.decorators import login_required
 from utils.decorators import login_required_ajax
 from django.conf import settings
 from django.shortcuts import render
-from django.forms.models import model_to_dict
 from django.db.models import Max
+from django.utils.translation import ugettext as _
+from django.template import RequestContext
+from django.utils import translation
 
 # For google calender
 from apiclient import discovery
@@ -141,22 +143,36 @@ def _lecture_result_format(ls):
 # Lecture -> dict-Lecture
 def _lecture_to_dict(lecture):
     # Convert lecture into dict
-    result = model_to_dict(lecture)
+    # Don't change this into model_to_dict: for security and performance
+    result = {"id": lecture.id,
+              "title": getattr(lecture, _("title")),
+              "course": lecture.course.id,
+              "old_code": lecture.old_code,
+              "class_no": lecture.class_no,
+              "year": lecture.year,
+              "code": lecture.code,
+              "department": lecture.department.id,
+              "type": getattr(lecture, _("type")),
+              "type_en": lecture.type_en,
+              "limit": lecture.limit,
+              "num_people": lecture.num_people,
+              "is_english": lecture.is_english,
+              "credit": lecture.credit,
+              "credit_au": lecture.credit_au,}
 
     # Convert relations into dict
-    result['professor'] = [model_to_dict(professor) for professor in lecture.professor.all()]
     result['classtime_set'] = [model_to_dict(ct) for ct in lecture.classtime_set.all()]
     result['examtime_set'] = [model_to_dict(et) for et in lecture.examtime_set.all()]
     
     # Add formatted professor name
-    prof_name_list = [p['professor_name'] for p in result['professor']]
+    prof_name_list = [getattr(p, _("professor_name")) for p in lecture.professor.all()]
     if len(prof_name_list) <= 2:
       result['format_professor_str'] = u", ".join(prof_name_list)
     else:
       result['format_professor_str'] = u"%s 외 %d명" % (prof_name_list[0], len(prof_name_list)-1)
 
     # Add formatted department name
-    result['format_dept_name'] = lecture.department.name
+    result['format_dept_name'] = getattr(lecture.department, _("name"))
 
     # Add formatted score
     # TODO
@@ -216,15 +232,6 @@ def _lcs_front(ls):
 
 
 def main(request):
-    """
-    TODO
-    if not login or user is freshmen:
-        course_type = ["Basic Required", "Basic Elective"]
-    else:
-        department = get user's department
-        course_type = ["Major Required", "Major Elective"]
-    """
-    
     return render(request,'timetable/index.html')
 
 
