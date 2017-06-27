@@ -12,8 +12,9 @@ import sys, getpass, re
 import pyodbc
 import datetime
 
+
 class Command(BaseCommand):
-    def add_arguments(self,parser): # from Django 1.10, we don't use OptionParser! So I changed it to ArgumentParser 
+    def add_arguments(self,parser):  # from Django 1.10, we don't use OptionParser! So I changed it to ArgumentParser
         parser.add_argument('--host', dest='host', help=u'Specifies server address.')
         parser.add_argument('--port', dest='port', help=u'Specifies server port.')
         parser.add_argument('--user', dest='user', help=u'Specifies user name to log in.')
@@ -27,8 +28,10 @@ class Command(BaseCommand):
         next_year = datetime.datetime.now().year
         next_semester = ((datetime.datetime.now().month+9)%12)/3+1
         if next_semester > 4:
-            next_year +=1
+            next_year += 1
             next_semester = next_semester % 4
+        next_year = 2017
+        next_semester = 3
 
         rx_dept_code = re.compile(ur'([a-zA-Z]+)(\d+)')
         host = options.get('host', None)
@@ -64,7 +67,7 @@ class Command(BaseCommand):
             departments = {}
             lectures_not_updated = set()
 
-            for lecture in Lecture.objects.filter(year = next_year, semester = next_semester):
+            for lecture in Lecture.objects.filter(year=next_year, semester=next_semester):
                 lectures_not_updated.add(lecture.id)
             # Make Staff Professor with ID 830
             try:
@@ -294,6 +297,7 @@ class Command(BaseCommand):
         c = db.cursor()
         c.execute('SELECT * FROM view_OTL_time WHERE lecture_year = %d AND lecture_term = %d' % (next_year, next_semester))
         class_times = c.fetchall()
+        print class_times
         c.close()
         ClassTime.objects.filter(lecture__year__exact=next_year, lecture__semester=next_semester).delete()
         for row in class_times:
@@ -310,6 +314,7 @@ class Command(BaseCommand):
                 'class_no': myrow[3].strip(),
             }
             try:
+                print (myrow[5], myrow[6], myrow[7], myrow[8], myrow[9], myrow[10], myrow[12], myrow[13])
                 lecture = Lecture.objects.get(**lecture_key)
                 class_time = ClassTime(lecture=lecture)
                 class_time.day = int(myrow[5]) - 1
@@ -317,9 +322,9 @@ class Command(BaseCommand):
                 class_time.end = time(hour=myrow[7].hour, minute=myrow[7].minute)
                 class_time.type = myrow[8]
                 class_time.building = myrow[9]
-                class_time.room = myrow[10]
-                class_time.room_ko = myrow[12]
-                class_time.room_en = myrow[13]
+                class_time.roomNum = myrow[10]
+                class_time.roomName_ko = myrow[12]
+                class_time.roomName_en = myrow[13]
                 try:
                     class_time.unit_time = int(myrow[11])
                 except (ValueError, TypeError):
