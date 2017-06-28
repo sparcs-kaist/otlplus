@@ -976,7 +976,7 @@ function findLecture(lectures, id) {
                                  year: app.YearSemester.get('year'),
                                  semester: app.YearSemester.get('semester'),
                                  lectures: []});
-          var newTable = _.find(app.timetables, function(x){return x.get('id')===result.id});
+          var newTable = _.find(app.timetables.models, function(x){return x.get('id')===result.id});
           app.CurrentTimetable.set(newTable.attributes);
         },
       });
@@ -1001,7 +1001,7 @@ function findLecture(lectures, id) {
                                  semester: app.YearSemester.get('semester'),
                                  lectures: _.clone(oldTable.get('lectures')),
                                });
-          var newTable = _.find(app.timetables, function(x){return x.get('id')===result.id});
+          var newTable = _.find(app.timetables.models, function(x){return x.get('id')===result.id});
           app.CurrentTimetable.set(newTable.attributes);
         },
       });
