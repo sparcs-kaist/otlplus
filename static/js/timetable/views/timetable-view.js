@@ -551,7 +551,7 @@ function findLecture(lectures, id) {
         var lectureIDs = $.map(circles,
                                function(x){return Number($(x).attr("data-id"))});
         var lectures = this._formatLectures(lectureIDs,
-                          function(x){return '101호'});
+                          function(x){return x.format_classroom});
 
         // Highlight target
         $(e.currentTarget).addClass('active');
@@ -806,15 +806,13 @@ function findLecture(lectures, id) {
         var circle = $('#map-container').find(".map-location-circle[data-id="+id+"]");
         circle.addClass("active");
         circle.closest(".map-location-box").addClass("active");
-      } else {
-        for (var j=0; j<1; j++) { // TODO : Change this with real classtime
-          var location = ['E11', 'N4', 'N1', 'N25'][idx%4];
-          var cont = $('#map-container').find('.map-location.'+location);
-          var box = cont.find('.map-location-box');
-          cont.removeClass('none');
-          box.addClass('active');
-          box.append('<span class="map-location-circle color'+(child.course%16+1)+' active temp" data-id='+child.id+'></span>');
-        }
+      } else if (lecture.building) {
+        var location = lecture.building;
+        var cont = $('#map-container').find('.map-location.'+location);
+        var box = cont.find('.map-location-box');
+        cont.removeClass('none');
+        box.addClass('active');
+        box.append('<span class="map-location-circle color'+(child.course%16+1)+' active temp" data-id='+child.id+'></span>');
       }
 
       // Update exam info
@@ -1083,8 +1081,8 @@ function findLecture(lectures, id) {
       $('#map-container').find('.map-location-circle').remove();
       $('#map-container').find('.map-location').addClass('none');
       for (var i = 0, child; child = lectures[i]; i++) {
-        for (var j=0; j<1; j++) { // TODO : Change this with real classtime
-          var location = ['E11', 'N4', 'N1', 'N25'][i%4];
+        if (child.building) {
+          var location = child.building;
           var block = $('#map-container').find('.map-location.'+location);
           block.removeClass('none');
           block.find('.map-location-box').append('<span class="map-location-circle color'+(child.course%16+1)+'" data-id='+child.id+'></span>');

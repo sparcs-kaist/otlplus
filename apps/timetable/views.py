@@ -145,18 +145,18 @@ def _lecture_result_format(ls):
 def _classtime_to_dict(ct):
     bldg = getattr(ct, _("roomName_ko"))
     if bldg != None:
-        bldg_no = bldg[:bldg.find(")")+1]
-        bldg_name = bldg[len(bldg_no):]
+        bldg_no = bldg[1:bldg.find(")")]
+        bldg_name = bldg[len(bldg_no)+2:]
         room = getattr(ct, _("roomNum"))
         if room == None: room=""
-        classroom = bldg_no + " " + bldg_name + " " + room
-        classroom_short = bldg_no + " " + room
+        classroom = "(" + bldg_no + ") " + bldg_name + " " + room
+        classroom_short = "(" + bldg_no + ") " + room
     else:
         bldg_no = ""
         classroom = _(u"정보 없음")
         classroom_short = _(u"정보 없음")
 
-    return {"building_no": bldg_no,
+    return {"building": bldg_no,
             "classroom": classroom,
             "classroom_short": classroom_short,
             "day": ct.day,
@@ -214,9 +214,11 @@ def _lecture_to_dict(lecture):
 
     # Add formatted classroom
     if len(result['classtimes']) > 0:
+        result['building'] = result['classtimes'][0]['building']
         result['format_classroom'] = result['classtimes'][0]['classroom']
         result['format_classroom_short'] = result['classtimes'][0]['classroom_short']
     else:
+        result['building'] = ''
         result['format_classroom'] = _(u'정보 없음')
         result['format_classroom_short'] = _(u'정보 없음')
     result['format_exam'] = u'월요일 9:00 ~ 24:00' #TODO
