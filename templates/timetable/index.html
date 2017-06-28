@@ -131,7 +131,7 @@
 			</div>
                         <div id="semester">
 				<i id="semester-prev"></i>
-				<span id="semester-text">2016 봄</span>
+				<span id="semester-text">2017 봄</span>
 				<i id="semester-next"></i>
                         </div>
 		</div>
@@ -703,7 +703,7 @@
 
 
 <script type="text/template" id="exam-template">
-<li class="exam-box <% if (temp) { %>temp active<% } %>" data-id=<%- id %> data-start=<%- startTime %>>
+<li class="exam-box <% if (temp) { %>temp active<% } %>" data-id=<%- id %> style="order:<%- startTime %>;">
 	<div class="exam-course"><%- title %></div>
 	<div class="exam-time"><%- examTime %></div>
 </li>
