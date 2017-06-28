@@ -1851,3 +1851,15 @@ i
 {
     display:none;
 }
+
+.lecture-occupied
+{
+    background-color: #888;
+    position: absolute;
+    left: 0;
+    width: calc(100%);
+    z-index: -1;
+    border-radius: 2px;
+}
+
+
