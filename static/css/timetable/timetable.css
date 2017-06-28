@@ -1720,6 +1720,7 @@ i
     z-index:2;
     top: 1px;
     left: -1px;
+    width: calc(100% + 2px);
 }
 .lecture-block.active
 {
@@ -1729,6 +1730,7 @@ i
 .lecture-block.lecture-block-temp
 {
     opacity: 0.8;
+    z-index: 3;
 }
 .lecture-block.click
 {
@@ -1849,3 +1851,15 @@ i
 {
     display:none;
 }
+
+.lecture-occupied
+{
+    background-color: #888;
+    position: absolute;
+    left: 0;
+    width: calc(100%);
+    z-index: -1;
+    border-radius: 2px;
+}
+
+
