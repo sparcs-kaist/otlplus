@@ -522,7 +522,7 @@
 </div>
 
 <script type="text/template" id="timetable-lecture-template">
-<div class="lecture-block color<%- color %> <% if (temp) {%>lecture-block-temp active<% } %>" data-id="<%- id %>" data-cells="<%- cells %>">
+<div class="lecture-block color<%- color %> <% if (temp) {%>lecture-block-temp active<% } %>" style = "height:calc(<%- cells*100 %>% + <%- cells-3 %>px)" data-id="<%- id %>">
   <i class="lecture-delete"></i>
   <p class="timetable-lecture-name"><%- title %></p>
   <p class="timetable-lecture-info"><%- professor %></p>

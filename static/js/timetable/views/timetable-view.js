@@ -798,7 +798,6 @@ function findLecture(lectures, id) {
                                            cells: 3,
                                            temp: true,}));
         }
-        timetableTabView.resize();
       }
 
       // Update map
@@ -968,19 +967,6 @@ function findLecture(lectures, id) {
       });
     },
 
-    resize: function() {
-      var blocks = $('.lecture-block');
-      for (var i=0, block; block=blocks[i]; i++) {
-        block = $(block);
-        var cell = $(block.closest('.half'));
-        var w = cell.width();
-        var h = cell.height()+1;
-        var time = block.attr('data-cells');
-        block.css({width: w+2,
-                   height: h*time-3});
-      }
-    },
-
     render: function() {
       var lectures = app.CurrentTimetable.get('lectures')
 
@@ -1026,7 +1012,6 @@ function findLecture(lectures, id) {
                                       temp: false,}));
         }
       }
-      this.resize();
 
       // Update credit info
       var credit=0, au=0;

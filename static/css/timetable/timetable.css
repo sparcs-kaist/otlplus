@@ -1720,6 +1720,7 @@ i
     z-index:2;
     top: 1px;
     left: -1px;
+    width: calc(100% + 2px);
 }
 .lecture-block.active
 {
