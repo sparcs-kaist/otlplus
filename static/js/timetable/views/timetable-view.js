@@ -149,22 +149,6 @@ function findLecture(lectures, id) {
       lectureList.$el.removeClass('closed');
     },
 
-    indexOfDay: function (day) {
-      var days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
-      return days.indexOf(day);
-    },
-    
-    indexOfTime: function (time) {
-      var time = parseInt(time);
-      var firstTime = 800;
-      time -= firstTime;
-      
-      var hour = Math.round(time / 100);
-      var min = time - hour * 100;
-
-      return hour*2 + min/30;
-    },
-
     render: function () {
       if(timetable.firstBlock) {
         var left = Math.min(timetable.firstBlock.offset().left, timetable.secondBlock.offset().left) - $(timetable.el).offset().left - 1;
@@ -781,31 +765,38 @@ function findLecture(lectures, id) {
           $('.lecture-block[data-id=' + lecture.id + ']').addClass('click');
         }
       } else {
-        for (var j=0; j<2; j++) { // TODO : Change this with real classtime
-          child['day'] = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'][idx%2 + 2*j];
-          if (Math.floor(idx/2)%2 == 0) {
-            child['starttime'] = (Math.floor(idx / 4) * 3 + 9) + '00';
-            child['endtime'] = (Math.floor(idx / 4) * 3 + 10) + '30';
-          } else {
-            child['starttime'] = (Math.floor(idx / 4) * 3 + 10) + '30';
-            child['endtime'] = (Math.floor(idx / 4) * 3 + 12) + '00';
-          }
+        var noTime = _.filter(app.CurrentTimetable.get('lectures'), x => x.classtimes.length===0).length;
+        if (child.classtimes.length > 0) {
+          for (var j=0, classtime; classtime=child.classtimes[j]; j++) {
+            var dayVal = classtime.day + 2;
+            var beginVal = (classtime.begin - 480) / 30 + 2;
+            var endVal = (classtime.end - 480) / 30 + 2;
+            var time = endVal - beginVal;
 
-          var day = timetable.indexOfDay(child.day) + 2;
-          var startTime = timetable.indexOfTime(child.starttime) + 2;
-          var endTime = timetable.indexOfTime(child.endtime) + 2;
-          var time = endTime-startTime;
+            var block = $('#timetable-contents')
+              .find(
+              '.day:nth-child(n+' + dayVal + '):nth-child(-n+' + dayVal + ')')
+              .find('.half:nth-child(n+' + beginVal + '):nth-child(-n+' + beginVal + ')');
+            block.append(this.blockTemplate({title: child.title,
+                                             id: child.id,
+                                             professor: child.format_professor_str,
+                                             classroom: classtime.classroom_short,
+                                             color: child.course%16+1, // TODO : get real color
+                                             cells: time,
+                                             temp: true,}));
+          }
+        } else {
           var block = $('#timetable-contents')
-            .find(
-            '.day:nth-child(n+' + day + '):nth-child(-n+' + day + ')')
-            .find('.half:nth-child(n+' + startTime + '):nth-child(-n+' + startTime + ')')
-          block.html(this.blockTemplate({title: child.title,
-                                    id: child.id,
-                                    professor: child.format_professor_str,
-                                    classroom: child.format_classroom_short,
-                                    color: child.course%16+1, // TODO : get real color
-                                    cells: time,
-                                    temp: true,}));
+                        .find('.day:nth-child('+(noTime+2)+')')
+                        .find('.half.no-time');
+          noTime++;
+          block.append(this.blockTemplate({title: child.title,
+                                           id: child.id,
+                                           professor: child.format_professor_str,
+                                           classroom: child.format_classroom_short,
+                                           color: child.course%16+1, // TODO : get real color
+                                           cells: 3,
+                                           temp: true,}));
         }
         timetableTabView.resize();
       }
@@ -1002,32 +993,39 @@ function findLecture(lectures, id) {
 
       // Make timetable blocks
       $('#timetable-contents .lecture-block').remove();
+      var noTime = 0;
       for (var i = 0, child; child = lectures[i]; i++) {
-        for (var j=0; j<2; j++) { // TODO : Change this with real classtime
-          child['day'] = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'][i%2 + 2*j];
-          if (Math.floor(i/2)%2 == 0) {
-            child['starttime'] = (Math.floor(i / 4) * 3 + 9) + '00';
-            child['endtime'] = (Math.floor(i / 4) * 3 + 10) + '30';
-          } else {
-            child['starttime'] = (Math.floor(i / 4) * 3 + 10) + '30';
-            child['endtime'] = (Math.floor(i / 4) * 3 + 12) + '00';
-          }
+        if (child.classtimes.length > 0) {
+          for (var j=0, classtime; classtime=child.classtimes[j]; j++) {
+            var dayVal = classtime.day + 2;
+            var beginVal = (classtime.begin - 480) / 30 + 2;
+            var endVal = (classtime.end - 480) / 30 + 2;
+            var time = endVal - beginVal;
 
-          var day = timetable.indexOfDay(child.day) + 2;
-          var startTime = timetable.indexOfTime(child.starttime) + 2;
-          var endTime = timetable.indexOfTime(child.endtime) + 2;
-          var time = endTime-startTime;
+            var block = $('#timetable-contents')
+              .find(
+              '.day:nth-child(n+' + dayVal + '):nth-child(-n+' + dayVal + ')')
+              .find('.half:nth-child(n+' + beginVal + '):nth-child(-n+' + beginVal + ')');
+            block.append(this.template({title: child.title,
+                                        id: child.id,
+                                        professor: child.format_professor_str,
+                                        classroom: classtime.classroom_short,
+                                        color: child.course%16+1, // TODO : get real color
+                                        cells: time,
+                                        temp: false,}));
+          }
+        } else {
           var block = $('#timetable-contents')
-            .find(
-            '.day:nth-child(n+' + day + '):nth-child(-n+' + day + ')')
-            .find('.half:nth-child(n+' + startTime + '):nth-child(-n+' + startTime + ')')
-          block.html(this.template({title: child.title,
-                                    id: child.id,
-                                    professor: child.format_professor_str,
-                                    classroom: child.format_classroom_short,
-                                    color: child.course%16+1, // TODO : get real color
-                                    cells: time,
-                                    temp: false,}));
+                        .find('.day:nth-child('+(noTime+2)+')')
+                        .find('.half.no-time');
+          noTime++;
+          block.append(this.template({title: child.title,
+                                      id: child.id,
+                                      professor: child.format_professor_str,
+                                      classroom: child.format_classroom_short,
+                                      color: child.course%16+1, // TODO : get real color
+                                      cells: 3,
+                                      temp: false,}));
         }
       }
       this.resize();

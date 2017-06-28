@@ -142,6 +142,36 @@ def _lecture_result_format(ls):
     return result
 
 
+def _classtime_to_dict(ct):
+    bldg = getattr(ct, _("roomName_ko"))
+    if bldg != None:
+        bldg_no = bldg[:bldg.find(")")+1]
+        bldg_name = bldg[len(bldg_no):]
+        room = getattr(ct, _("roomNum"))
+        if room == None: room=""
+        classroom = bldg_no + " " + bldg_name + " " + room
+        classroom_short = bldg_no + " " + room
+    else:
+        bldg_no = ""
+        classroom = _(u"정보 없음")
+        classroom_short = _(u"정보 없음")
+
+    return {"building_no": bldg_no,
+            "classroom": classroom,
+            "classroom_short": classroom_short,
+            "day": ct.day,
+            "begin": ct.get_begin_numeric(),
+            "end": ct.get_end_numeric(),}
+
+
+
+def _examtime_to_dict(ct):
+    return {"day": ct.day,
+            "begin": str(ct.begin),
+            "end": str(ct.end),}
+
+
+
 # Lecture -> dict-Lecture
 def _lecture_to_dict(lecture):
     # Convert lecture into dict
@@ -163,8 +193,8 @@ def _lecture_to_dict(lecture):
               "credit_au": lecture.credit_au,}
 
     # Convert relations into dict
-    result['classtime_set'] = [model_to_dict(ct) for ct in lecture.classtime_set.all()]
-    result['examtime_set'] = [model_to_dict(et) for et in lecture.examtime_set.all()]
+    result['classtimes'] = [_classtime_to_dict(ct) for ct in lecture.classtime_set.all()]
+    result['examtimes'] = [_examtime_to_dict(et) for et in lecture.examtime_set.all()]
     
     # Add formatted professor name
     prof_name_list = [getattr(p, _("professor_name")) for p in lecture.professor.all()]
@@ -183,10 +213,13 @@ def _lecture_to_dict(lecture):
     result['format_speech'] = u'A-'
 
     # Add formatted classroom
-    # TODO
-    result['format_classroom'] = u'(E11) 창의학습관 101호'
-    result['format_classroom_short'] = u'(E11) 101호'
-    result['format_exam'] = u'월요일 9:00 ~ 24:00'
+    if len(result['classtimes']) > 0:
+        result['format_classroom'] = result['classtimes'][0]['classroom']
+        result['format_classroom_short'] = result['classtimes'][0]['classroom_short']
+    else:
+        result['format_classroom'] = _(u'정보 없음')
+        result['format_classroom_short'] = _(u'정보 없음')
+    result['format_exam'] = u'월요일 9:00 ~ 24:00' #TODO
 
     return result
 
