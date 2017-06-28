@@ -1729,6 +1729,7 @@ i
 .lecture-block.lecture-block-temp
 {
     opacity: 0.8;
+    z-index: 3;
 }
 .lecture-block.click
 {
