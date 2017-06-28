@@ -196,9 +196,32 @@ function findLecture(lectures, id) {
       var ct = $(e.currentTarget);
       var lecture_id = Number(ct.closest('.list-elem-body-wrap').attr('data-id'));
       var timetable_id = Number(app.CurrentTimetable.get('id'));
+      var lecList;
+      switch (ct.parent().parent().parent().parent().parent().attr('class').split()[0]) {
+        case 'search-page':
+          lecList = app.searchLectureList;
+          break;
+        case 'cart-page':
+          lecList = app.cartLectureList;
+          break;
+        case 'major-page':
+          lecList = app.majorLectureList;
+          break;
+        case 'humanity-page':
+          lecList = app.humanityLectureList;
+          break;
+      }
+      var lecture = _.find(lecList.models, function(x){return x.get("id")===lecture_id});
 
       // If class time overlaps : TODO
-      if (false) {
+      var overlap = false;
+      for (var i=0, classtime; classtime=lecture.get('classtimes')[i]; i++) {
+        var dayBlock = $('#timetable-contents').find('.day:nth-child('+ (classtime.day+2) + ')');
+        var blocks = dayBlock.find('.half').slice((classtime.begin-480)/30, (classtime.end-480)/30);
+        overlap = overlap || blocks.hasClass('occupied');
+      }
+      if (overlap) {
+        alert('시간표가 겹치는 과목은 신청할 수 없습니다.');
         return;
       }
       // If lecture is already in timetable
@@ -215,22 +238,6 @@ function findLecture(lectures, id) {
           delete: false,
         },
         success: function(result) {
-          var lecList;
-          switch (ct.parent().parent().parent().parent().parent().attr('class').split()[0]) {
-            case 'search-page':
-              lecList = app.searchLectureList;
-              break;
-            case 'cart-page':
-              lecList = app.cartLectureList;
-              break;
-            case 'major-page':
-              lecList = app.majorLectureList;
-              break;
-            case 'humanity-page':
-              lecList = app.humanityLectureList;
-              break;
-          }
-          var lecture = _.find(lecList.models, function(x){return x.get("id")===lecture_id});
 
           // Update app.CurrentTimetable
           // app.timetables is automaticall updated because it has same array pointers
@@ -567,7 +574,7 @@ function findLecture(lectures, id) {
         var lectureIDs = $.map(circles,
                                function(x){return Number($(x).attr("data-id"))});
         var lectures = this._formatLectures(lectureIDs,
-                          function(x){return '101호'});
+                          function(x){return x.format_classroom});
 
         // Highlight target
         $(e.currentTarget).addClass('active');
@@ -781,33 +788,56 @@ function findLecture(lectures, id) {
           $('.lecture-block[data-id=' + lecture.id + ']').addClass('click');
         }
       } else {
-        for (var j=0; j<2; j++) { // TODO : Change this with real classtime
-          child['day'] = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'][idx%2 + 2*j];
-          if (Math.floor(idx/2)%2 == 0) {
-            child['starttime'] = (Math.floor(idx / 4) * 3 + 9) + '00';
-            child['endtime'] = (Math.floor(idx / 4) * 3 + 10) + '30';
-          } else {
-            child['starttime'] = (Math.floor(idx / 4) * 3 + 10) + '30';
-            child['endtime'] = (Math.floor(idx / 4) * 3 + 12) + '00';
-          }
+        var noTime = _.filter(app.CurrentTimetable.get('lectures'), x => x.classtimes.length===0).length;
+        if (child.classtimes.length > 0) {
+          for (var j=0, classtime; classtime=child.classtimes[j]; j++) {
+            var dayVal = classtime.day + 2;
+            var beginVal = (classtime.begin - 480) / 30;
+            var endVal = (classtime.end - 480) / 30;
+            var time = endVal - beginVal;
 
-          var day = timetable.indexOfDay(child.day) + 2;
-          var startTime = timetable.indexOfTime(child.starttime) + 2;
-          var endTime = timetable.indexOfTime(child.endtime) + 2;
-          var time = endTime-startTime;
+            var dayBlock = $('#timetable-contents').find('.day:nth-child('+ dayVal + ')');
+            var blocks = dayBlock.find('.half').slice(beginVal, endVal);
+
+            var occupied = [];
+            var start = 0;
+            for (var i=0, block; block=blocks[i]; i++) {
+              if ($(block).hasClass("occupied")) {
+                start = start || i+1;
+              } else{
+                if (start) {
+                  occupied.push([start-1, i-start+1]);
+                }
+                start = 0;
+              }
+            }
+            if (start) {
+              occupied.push([start-1, time-start+1]);
+            }
+
+            $(blocks[0]).append(this.blockTemplate({title: child.title,
+                                        id: child.id,
+                                        professor: child.format_professor_str,
+                                        classroom: classtime.classroom_short,
+                                        color: child.course%16+1, // TODO : get real color
+                                        cells: time,
+                                        occupied: occupied,
+                                        temp: true,}));
+          }
+        } else {
           var block = $('#timetable-contents')
-            .find(
-            '.day:nth-child(n+' + day + '):nth-child(-n+' + day + ')')
-            .find('.half:nth-child(n+' + startTime + '):nth-child(-n+' + startTime + ')')
-          block.html(this.blockTemplate({title: child.title,
-                                    id: child.id,
-                                    professor: child.format_professor_str,
-                                    classroom: child.format_classroom_short,
-                                    color: child.course%16+1, // TODO : get real color
-                                    cells: time,
-                                    temp: true,}));
+                        .find('.day:nth-child('+(noTime+2)+')')
+                        .find('.half.no-time');
+          noTime++;
+          block.append(this.blockTemplate({title: child.title,
+                                           id: child.id,
+                                           professor: child.format_professor_str,
+                                           classroom: child.format_classroom_short,
+                                           color: child.course%16+1, // TODO : get real color
+                                           cells: 3,
+                                           occupied: [],
+                                           temp: true,}));
         }
-        timetableTabView.resize();
       }
 
       // Update map
@@ -815,15 +845,13 @@ function findLecture(lectures, id) {
         var circle = $('#map-container').find(".map-location-circle[data-id="+id+"]");
         circle.addClass("active");
         circle.closest(".map-location-box").addClass("active");
-      } else {
-        for (var j=0; j<1; j++) { // TODO : Change this with real classtime
-          var location = ['E11', 'N4', 'N1', 'N25'][idx%4];
-          var cont = $('#map-container').find('.map-location.'+location);
-          var box = cont.find('.map-location-box');
-          cont.removeClass('none');
-          box.addClass('active');
-          box.append('<span class="map-location-circle color'+(child.course%16+1)+' active temp" data-id='+child.id+'></span>');
-        }
+      } else if (lecture.building) {
+        var location = lecture.building;
+        var cont = $('#map-container').find('.map-location.'+location);
+        var box = cont.find('.map-location-box');
+        cont.removeClass('none');
+        box.addClass('active');
+        box.append('<span class="map-location-circle color'+(child.course%16+1)+' active temp" data-id='+child.id+'></span>');
       }
 
       // Update exam info
@@ -948,7 +976,7 @@ function findLecture(lectures, id) {
                                  year: app.YearSemester.get('year'),
                                  semester: app.YearSemester.get('semester'),
                                  lectures: []});
-          var newTable = _.find(app.timetables, function(x){return x.get('id')===result.id});
+          var newTable = _.find(app.timetables.models, function(x){return x.get('id')===result.id});
           app.CurrentTimetable.set(newTable.attributes);
         },
       });
@@ -973,23 +1001,10 @@ function findLecture(lectures, id) {
                                  semester: app.YearSemester.get('semester'),
                                  lectures: _.clone(oldTable.get('lectures')),
                                });
-          var newTable = _.find(app.timetables, function(x){return x.get('id')===result.id});
+          var newTable = _.find(app.timetables.models, function(x){return x.get('id')===result.id});
           app.CurrentTimetable.set(newTable.attributes);
         },
       });
-    },
-
-    resize: function() {
-      var blocks = $('.lecture-block');
-      for (var i=0, block; block=blocks[i]; i++) {
-        block = $(block);
-        var cell = $(block.closest('.half'));
-        var w = cell.width();
-        var h = cell.height()+1;
-        var time = block.attr('data-cells');
-        block.css({width: w+2,
-                   height: h*time-3});
-      }
     },
 
     render: function() {
@@ -1002,35 +1017,43 @@ function findLecture(lectures, id) {
 
       // Make timetable blocks
       $('#timetable-contents .lecture-block').remove();
+      $('#timetable-contents .half').removeClass('occupied');
+      var noTime = 0;
       for (var i = 0, child; child = lectures[i]; i++) {
-        for (var j=0; j<2; j++) { // TODO : Change this with real classtime
-          child['day'] = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'][i%2 + 2*j];
-          if (Math.floor(i/2)%2 == 0) {
-            child['starttime'] = (Math.floor(i / 4) * 3 + 9) + '00';
-            child['endtime'] = (Math.floor(i / 4) * 3 + 10) + '30';
-          } else {
-            child['starttime'] = (Math.floor(i / 4) * 3 + 10) + '30';
-            child['endtime'] = (Math.floor(i / 4) * 3 + 12) + '00';
-          }
+        if (child.classtimes.length > 0) {
+          for (var j=0, classtime; classtime=child.classtimes[j]; j++) {
+            var dayVal = classtime.day + 2;
+            var beginVal = (classtime.begin - 480) / 30;
+            var endVal = (classtime.end - 480) / 30;
+            var time = endVal - beginVal;
 
-          var day = timetable.indexOfDay(child.day) + 2;
-          var startTime = timetable.indexOfTime(child.starttime) + 2;
-          var endTime = timetable.indexOfTime(child.endtime) + 2;
-          var time = endTime-startTime;
+            var dayBlock = $('#timetable-contents').find('.day:nth-child('+ dayVal + ')');
+            var blocks = dayBlock.find('.half').slice(beginVal, endVal);
+            $(blocks[0]).append(this.template({title: child.title,
+                                        id: child.id,
+                                        professor: child.format_professor_str,
+                                        classroom: classtime.classroom_short,
+                                        color: child.course%16+1, // TODO : get real color
+                                        cells: time,
+                                        occupied: [],
+                                        temp: false,}));
+            blocks.addClass('occupied');
+          }
+        } else {
           var block = $('#timetable-contents')
-            .find(
-            '.day:nth-child(n+' + day + '):nth-child(-n+' + day + ')')
-            .find('.half:nth-child(n+' + startTime + '):nth-child(-n+' + startTime + ')')
-          block.html(this.template({title: child.title,
-                                    id: child.id,
-                                    professor: child.format_professor_str,
-                                    classroom: child.format_classroom_short,
-                                    color: child.course%16+1, // TODO : get real color
-                                    cells: time,
-                                    temp: false,}));
+                        .find('.day:nth-child('+(noTime+2)+')')
+                        .find('.half.no-time');
+          noTime++;
+          block.append(this.template({title: child.title,
+                                      id: child.id,
+                                      professor: child.format_professor_str,
+                                      classroom: child.format_classroom_short,
+                                      color: child.course%16+1, // TODO : get real color
+                                      cells: 3,
+                                      occupied: [],
+                                      temp: false,}));
         }
       }
-      this.resize();
 
       // Update credit info
       var credit=0, au=0;
@@ -1085,8 +1108,8 @@ function findLecture(lectures, id) {
       $('#map-container').find('.map-location-circle').remove();
       $('#map-container').find('.map-location').addClass('none');
       for (var i = 0, child; child = lectures[i]; i++) {
-        for (var j=0; j<1; j++) { // TODO : Change this with real classtime
-          var location = ['E11', 'N4', 'N1', 'N25'][i%4];
+        if (child.building) {
+          var location = child.building;
           var block = $('#map-container').find('.map-location.'+location);
           block.removeClass('none');
           block.find('.map-location-box').append('<span class="map-location-circle color'+(child.course%16+1)+'" data-id='+child.id+'></span>');
