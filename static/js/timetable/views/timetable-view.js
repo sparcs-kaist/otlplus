@@ -149,6 +149,22 @@ function findLecture(lectures, id) {
       lectureList.$el.removeClass('closed');
     },
 
+    indexOfDay: function (day) {
+      var days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+      return days.indexOf(day);
+    },
+    
+    indexOfTime: function (time) {
+      var time = parseInt(time);
+      var firstTime = 800;
+      time -= firstTime;
+      
+      var hour = Math.round(time / 100);
+      var min = time - hour * 100;
+
+      return hour*2 + min/30;
+    },
+
     render: function () {
       if(timetable.firstBlock) {
         var left = Math.min(timetable.firstBlock.offset().left, timetable.secondBlock.offset().left) - $(timetable.el).offset().left - 1;
