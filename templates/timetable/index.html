@@ -527,6 +527,9 @@
   <p class="timetable-lecture-name"><%- title %></p>
   <p class="timetable-lecture-info"><%- professor %></p>
   <p class="timetable-lecture-info"><%- classroom %></p>
+  <% for (var i=0, occ; occ=occupied[i]; i++) { %>
+  <div class="lecture-occupied" style="top:<%- occ[0]/cells*100 %>%; height:<%- occ[1]/cells*100 %>%;"></div>
+  <% } %>
 </div>
 </script>
 
