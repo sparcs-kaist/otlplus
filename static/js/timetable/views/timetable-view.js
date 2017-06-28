@@ -221,7 +221,7 @@ function findLecture(lectures, id) {
         overlap = overlap || blocks.hasClass('occupied');
       }
       if (overlap) {
-        alert('시간표가 겹치는 과목은 신청할 수 없습니다.');
+        alert('시간표가 겹치는 과목은 추가할 수 없습니다.');
         return;
       }
       // If lecture is already in timetable

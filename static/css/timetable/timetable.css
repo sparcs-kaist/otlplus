@@ -1606,6 +1606,14 @@ i
 
 .examlist
 {
+    display:-webkit-box;
+    display:-ms-flexbox;
+    display:flex;
+    display:-webkit-flex;
+    -webkit-box-orient:vertical;
+    -webkit-box-direction:normal;
+        -ms-flex-direction:column;
+            flex-direction:column;
     list-style:none;
     padding-left:0;
     margin-bottom:0;
@@ -1613,6 +1621,9 @@ i
 
 .examlist > li
 {
+    -webkit-box-flex:0;
+        -ms-flex:none;
+            flex:none;
     margin-bottom:8px;
 }
 
