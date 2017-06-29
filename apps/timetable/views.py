@@ -150,6 +150,7 @@ def _classtime_to_dict(ct):
     bldg = getattr(ct, _("roomName_ko"))
     # No classroom info
     if bldg == None:
+        room = ""
         bldg_no = ""
         classroom = _(u"정보 없음")
         classroom_short = _(u"정보 없음")
@@ -237,7 +238,7 @@ def _lecture_to_dict(lecture):
         result['building'] = ''
         result['format_classroom'] = _(u'정보 없음')
         result['format_classroom_short'] = _(u'정보 없음')
-        result['room'] = result['classtimes'][0]['room']
+        result['room'] = ''
 
     # Add exam info
     if len(result['examtimes']) > 1:
