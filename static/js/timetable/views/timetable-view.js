@@ -842,7 +842,7 @@ function findLecture(lectures, id) {
         circle.addClass("active");
         circle.closest(".map-location-box").addClass("active");
       } else if (lecture.building) {
-        var location = lecture.building;
+        var location = child.building.split('-')[0];
         var cont = $('#map-container').find('.map-location.'+location);
         var box = cont.find('.map-location-box');
         cont.removeClass('none');
@@ -1102,7 +1102,7 @@ function findLecture(lectures, id) {
       $('#map-container').find('.map-location').addClass('none');
       for (var i = 0, child; child = lectures[i]; i++) {
         if (child.building) {
-          var location = child.building;
+          var location = child.building.split('-')[0];
           var block = $('#map-container').find('.map-location.'+location);
           block.removeClass('none');
           block.find('.map-location-box').append('<span class="map-location-circle color'+(child.course%16+1)+'" data-id='+child.id+'></span>');

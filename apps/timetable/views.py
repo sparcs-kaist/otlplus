@@ -148,17 +148,25 @@ def _lecture_result_format(ls):
 
 def _classtime_to_dict(ct):
     bldg = getattr(ct, _("roomName_ko"))
-    if bldg != None:
+    # No classroom info
+    if bldg == None:
+        bldg_no = ""
+        classroom = _(u"정보 없음")
+        classroom_short = _(u"정보 없음")
+    # Building name has form of "(N1) xxxxx"
+    elif bldg[0] == "(":
         bldg_no = bldg[1:bldg.find(")")]
         bldg_name = bldg[len(bldg_no)+2:]
         room = getattr(ct, _("roomNum"))
         if room == None: room=""
         classroom = "(" + bldg_no + ") " + bldg_name + " " + room
         classroom_short = "(" + bldg_no + ") " + room
+    # Building name has form of "xxxxx"
     else:
-        bldg_no = ""
-        classroom = _(u"정보 없음")
-        classroom_short = _(u"정보 없음")
+        bldg_no=""
+        room = getattr(ct, _("roomNum"))
+        classroom = bldg + " " + room
+        classroom_short = bldg + " " + room
 
     return {"building": bldg_no,
             "classroom": classroom,
