@@ -717,9 +717,9 @@
 	<div id="course-title" style="text-align:center;"><span><%- title %></span></div>
 	<div id="course-no" style="text-align:center;"><span><%- lectures.length %>{% trans "개의 과목" %}</span></div>
 	<div class="lecture-options">
-		<span id="color-option" style="float:left;">{% trans "색상 변경" %}</span>
-		<span id="syllabus-option">{% trans "실라버스" %}</span>&nbsp;
-		<span id="dictionary-option">{% trans "과목사전" %}</span>
+		<span id="fix-option" class="disable" style="float:left;">{% trans "고정해제" %}</span>
+		<span id="syllabus-option" class="disable">{% trans "실라버스" %}</span>&nbsp;
+		<span id="dictionary-option" class="disable">{% trans "과목사전" %}</span>
 	</div>
 	<div class="detail-top">
 		<% _.each(lectures, function(lecture){ %>
