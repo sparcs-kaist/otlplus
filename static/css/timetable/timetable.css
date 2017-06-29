@@ -624,6 +624,11 @@ i
 	font-size:12px;
 }
 
+.filter-time input
+{ 
+    display:none;
+}
+
 .filter-time > .type-elem > label
 { 
 	color:#E54C65;

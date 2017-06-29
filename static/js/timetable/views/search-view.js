@@ -47,17 +47,22 @@ var app = app || {};
       $(this.el).find(".chkelem").prop('checked', false);
       $(this.el).find(".chkelem").parent().find('.fa-check-circle-o').addClass('none');
       $(this.el).find(".chkelem").parent().find('.fa-circle-o').removeClass('none');
+
+      $("#filter-time-day").val('');
+      $("#filter-time-begin").val('');
+      $("#filter-time-end").val('');
+      $(".filter-time .type-elem label").html("선택하기");
     },
 
     showSearch: function (e) {
-      this.clearSearch();
       $(this.el).find(".search-extend").removeClass('none');
       $(this.el).find(".search-text").focus();
     },
 
     hideSearch: function (e) {
-        $(this.el).find(".search-extend").addClass('none');
-      },
+      this.clearSearch();
+      $(this.el).find(".search-extend").addClass('none');
+    },
 
     changeTab: function (e) {
       var tabName = $(e.currentTarget).attr('class').split(' ')[1];
@@ -70,8 +75,10 @@ var app = app || {};
       $(this.el).find("#result-pages").children().addClass("none");
       $(this.el).find("." + tabName + "-page").removeClass("none");
 
-      if(tabName==="search" && $('.search-page .list-scroll').length===0) {
-
+      if(tabName==="search" && $('.search-page .list-scroll .list-elem').length===0) {
+        this.showSearch()
+      } else {
+        this.hideSearch()
       }
 
       if (app.LectureActive.get("from") === "list") {
@@ -117,7 +124,8 @@ var app = app || {};
       var target = $(e.target);
       var data = {};
       target.parent().parent().serializeArray().map(function(x){
-        if (x.name === "keyword") {
+        if (x.name==="keyword" || x.name==="day" |
+            x.name==="begin" || x.name==="end") {
           data[x.name] = x.value;
         } else {
           if (data[x.name]) {

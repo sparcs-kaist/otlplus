@@ -71,6 +71,7 @@ function findLecture(lectures, id) {
       'mouseup': "dragEnd",
       'mousedown .lecture-block': "clickBlock",
       'click .drag-close': "dragClose",
+      'click .drag-search': "searchLecture",
     },
 
     dragStart: function (e) {
@@ -103,7 +104,6 @@ function findLecture(lectures, id) {
           $(this.dragCell).addClass('none');
         }
         else {
-          this.searchLecture();
           $(this.dragCell).children().removeClass('none');
         }
       }
@@ -120,55 +120,51 @@ function findLecture(lectures, id) {
     },
     
     searchLecture: function () {
-      var fBDay = this.indexOfDay(this.firstBlock.day) + 2;
-      var sBDay = this.indexOfDay(this.secondBlock.day) + 2;
-      var fBTime = this.indexOfTime(this.firstBlock.time) + 2;
-      var sBTime = this.indexOfTime(this.secondBlock.time) + 2;
-      var temp;
-      if (fBDay > sBDay) {
-        temp = fBDay;
-        fBDay = sBDay;
-        sBDay = temp;
-      }
-      
+      var day = this.indexOfDay(this.firstBlock.attr("data-day"));
+      var fBTime = this.indexOfTime(this.firstBlock.attr("data-time"));
+      var sBTime = this.indexOfTime(this.secondBlock.attr("data-time"));
       if (fBTime > sBTime) {
-        temp = fBTime;
+        var temp = fBTime;
         fBTime = sBTime;
         sBTime = temp;
       }
-      
-      var days = $(this.el)
-        .find(
-        '.day:nth-child(n+' + fBDay + '):nth-child(-n+' + sBDay + ')');
-      for (var i = 0, day; day = days[i]; i++) {
-        for (var j = fBTime; j < sBTime + 1; j++) {
-          $(day).find('.half:nth-child(' + j + ')').addClass('selected');
-        }
-      }
-      
-      lectureList.$el.removeClass('closed');
+      sBTime += 1;
+      var dayStr = ['월요일', '화요일', '수요일', '목요일', '금요일'][day];
+      var fBStr = (Math.floor(fBTime/2)+8)+":"+(fBTime%2 ? "30" : "00")
+      var sBStr = (Math.floor(sBTime/2)+8)+":"+(sBTime%2 ? "30" : "00")
+
+      $("#filter-time-day").val(day);
+      $("#filter-time-begin").val(fBTime);
+      $("#filter-time-end").val(sBTime);
+      $(".filter-time .type-elem label").html(dayStr+" "+fBStr+" ~ "+sBStr);
+      search.showSearch();
+      this.dragClose();
     },
 
+    // Return index of day
+    // 'mon':0, 'tue':1, ..., 'sun':6
     indexOfDay: function (day) {
       var days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
       return days.indexOf(day);
     },
     
+    // Return index of time
+    // '800':0, '830':1, ..., '2330':31
     indexOfTime: function (time) {
       var time = parseInt(time);
       var firstTime = 800;
       time -= firstTime;
       
-      var hour = Math.round(time / 100);
-      var min = time - hour * 100;
+      var hour = Math.floor(time / 100);
+      var min = time % 100;
 
       return hour*2 + min/30;
     },
 
     render: function () {
       if(timetable.firstBlock) {
-        var left = Math.min(timetable.firstBlock.offset().left, timetable.secondBlock.offset().left) - $(timetable.el).offset().left - 1;
-        var width = Math.abs(timetable.firstBlock.offset().left - timetable.secondBlock.offset().left) + timetable.firstBlock.width() + 2;
+        var left = timetable.firstBlock.offset().left - $(timetable.el).offset().left - 1;
+        var width = timetable.firstBlock.width() + 2;
         var top = Math.min(timetable.firstBlock.offset().top, timetable.secondBlock.offset().top) - $(timetable.el).offset().top + 2;
         var height = Math.abs(timetable.firstBlock.offset().top - timetable.secondBlock.offset().top) + timetable.firstBlock.height() -2;
 

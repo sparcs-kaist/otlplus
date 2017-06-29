@@ -80,6 +80,9 @@
 												선택하기
 											</label>
 										</div>
+										<input id="filter-time-day" name="day" type="text"></input>
+										<input id="filter-time-begin" name="begin" type="text"></input>
+										<input id="filter-time-end" name="end" type="text"></input>
 									</div>
 								</div>
 								<div style="height:11px">
@@ -381,8 +384,8 @@
 				</div>
 				<div id="drag-cell" class="none">
 					<i class="drag-close"></i>
-					<div class="drag-text"><i class="drag-icon"></i>{% trans "과목 검색" %}</div>
-					<div class="drag-text"><i class="drag-icon"></i>{% trans "일정 추가" %}</div>
+					<div class="drag-text drag-search"><i class="drag-icon"></i>{% trans "과목 검색" %}</div>
+					<div class="drag-text drag-schedule"><i class="drag-icon"></i>{% trans "일정 추가" %}</div>
 				</div>
 			</div><!--div timetable-wrap-->
 			<div style="height:3px;"></div>
