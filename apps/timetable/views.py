@@ -196,6 +196,7 @@ def _lecture_to_dict(lecture):
               "old_code": lecture.old_code,
               "class_no": lecture.class_no,
               "year": lecture.year,
+              "semester": lecture.semester,
               "code": lecture.code,
               "department": lecture.department.id,
               "type": getattr(lecture, _("type")),
