@@ -23,7 +23,7 @@ var app = app || {};
                     'update',
                     this.genListRender(app.humanityLectureList, 'humanity'));
       this.listenTo(app.YearSemester, 'change', this.fetchLists);
-      app.YearSemester.set({year:2016, semester:1});
+      app.YearSemester.set({year:2017, semester:1});
     },
     loadingMessage: '<div class="list-loading">불러오는 중</div>',
     noResultMessage: '<div class="list-loading">결과 없음</div>',

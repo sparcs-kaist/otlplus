@@ -221,7 +221,7 @@ function findLecture(lectures, id) {
         overlap = overlap || blocks.hasClass('occupied');
       }
       if (overlap) {
-        alert('시간표가 겹치는 과목은 신청할 수 없습니다.');
+        alert('시간표가 겹치는 과목은 추가할 수 없습니다.');
         return;
       }
       // If lecture is already in timetable
@@ -858,16 +858,13 @@ function findLecture(lectures, id) {
       if (inTimetable) {
         $('#examtable').find('.exam-box[data-id='+id+']').addClass('active');
       } else {
-        for (var j=0; j<1; j++) { // TODO : Change this with real examtime
-          var date = ['mon', 'tue', 'wed', 'thu', 'fri'][idx%5];
+        for (var j=0, exam; exam=child.examtimes[j]; j++) {
+          var date = ['mon', 'tue', 'wed', 'thu', 'fri'][exam.day];
           var block = $('#examtable').find('.examtime[data-date="'+date+'"] .examlist');
-          var startTime = Math.floor(idx/5) * 3 + 6;
-          var endTime = Math.floor(idx/5) * 3 + 9;
-          var examTime = startTime + ':00 ~ ' + endTime + ':00';
           block.append(this.examTemplate({id: child.id,
                                           title: child.title,
-                                          examTime: examTime,
-                                          startTime: startTime,
+                                          examTime: exam.str,
+                                          startTime: exam.begin,
                                           temp: true,}));
         }
       }
@@ -1119,17 +1116,13 @@ function findLecture(lectures, id) {
       // Update exam info
       $('#examtable').find('.exam-box').remove();
       for (var i = 0, child; child = lectures[i]; i++) {
-        for (var j=0; j<1; j++) { // TODO : Change this with real examtime
-          var date = ['mon', 'tue', 'wed', 'thu', 'fri'][i%5];
+        for (var j=0, exam; exam=child.examtimes[j]; j++) {
+          var date = ['mon', 'tue', 'wed', 'thu', 'fri'][exam.day];
           var block = $('#examtable').find('.examtime[data-date="'+date+'"] .examlist');
-          var startTime = Math.floor(i/5) * 3 + 6;
-          var endTime = Math.floor(i/5) * 3 + 9;
-          var examTime = startTime + ':00 ~ ' + endTime + ':00';
-          console.log(examTime);
           block.append(this.examTemplate({id: child.id,
                                           title: child.title,
-                                          examTime: examTime,
-                                          startTime: startTime,
+                                          examTime: exam.str,
+                                          startTime: exam.begin,
                                           temp: false,}));
         }
       }

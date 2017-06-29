@@ -167,8 +167,9 @@ def _classtime_to_dict(ct):
 
 def _examtime_to_dict(ct):
     return {"day": ct.day,
-            "begin": str(ct.begin),
-            "end": str(ct.end),}
+            "str": ct.begin.strftime("%H:%M") + " ~ " + ct.end.strftime("%H:%M"),
+            "begin": ct.get_begin_numeric(),
+            "end": ct.get_end_numeric(),}
 
 
 

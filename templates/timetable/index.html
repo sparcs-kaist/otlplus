@@ -131,7 +131,7 @@
 			</div>
                         <div id="semester">
 				<i id="semester-prev"></i>
-				<span id="semester-text">2016 봄</span>
+				<span id="semester-text">2017 봄</span>
 				<i id="semester-next"></i>
                         </div>
 		</div>
@@ -528,7 +528,7 @@
   <p class="timetable-lecture-info"><%- professor %></p>
   <p class="timetable-lecture-info"><%- classroom %></p>
   <% for (var i=0, occ; occ=occupied[i]; i++) { %>
-  <div class="lecture-occupied" style="top:<%- occ[0]/cells*100 %>%; height:<%- occ[1]/cells*100 %>%;"></div>
+  <div class="lecture-occupied" style="top:calc((100% + 3px) * <%- occ[0]/cells %>); height:calc((100% + 3px) * <%- occ[1]/cells %> - 3px);"></div>
   <% } %>
 </div>
 </script>
@@ -703,7 +703,7 @@
 
 
 <script type="text/template" id="exam-template">
-<li class="exam-box <% if (temp) { %>temp active<% } %>" data-id=<%- id %> data-start=<%- startTime %>>
+<li class="exam-box <% if (temp) { %>temp active<% } %>" data-id=<%- id %> style="order:<%- startTime %>;">
 	<div class="exam-course"><%- title %></div>
 	<div class="exam-time"><%- examTime %></div>
 </li>
