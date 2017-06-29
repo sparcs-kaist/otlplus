@@ -513,13 +513,10 @@ def search(request):
             begin = None
             end = None
         
-        search_text = u"TODO-Search text"
-        
         result = get_filtered_lectures(year, semester, department_filters, type_filters, level_filters, keyword, day, begin, end)
         result = _lecture_result_format(result)
 
-        return JsonResponse({'courses':result,
-                             'search_text':search_text},
+        return JsonResponse({'courses':result},
                             safe=False,
                             json_dumps_params={'ensure_ascii': False})
 
