@@ -652,62 +652,7 @@
 				<span style="font-weight:700;">{% trans "과목 후기" %}</span><i class="close-dict-preview"></i>
 			</div>
 			<div class="list-scroll">
-				<div class="review-elem">
-					<div class="review-body">
-						1) 성적: 출석과 과제와 랩 task는 모두 포인트를 쌓을 뿐(시험 응시 자격용) 성적과는 무관하기 때문에 적당히 <span class="review-more">...{% trans "더 보기" %}</span>
-					</div>
-					<div class="review-score-wrap">
-						<span class="review-score">{% trans "성적" %} <strong>A</strong></span><span class="review-score">{% trans "널널" %} <strong>A</strong></span><span class="review-score">{% trans "강의" %} <strong>A</strong></span>
-					</div>
-				</div>
-				<div class="review-elem">
-					<div class="review-body">
-						1) 성적: 출석과 과제와 랩 task는 모두 포인트를 쌓을 뿐(시험 응시 자격용) 성적과는 무관하기 때문에 적당히 <span class="review-more">...{% trans "더 보기" %}</span>
-					</div>
-					<div class="review-score-wrap">
-						<span class="review-score">{% trans "성적" %} <strong>A</strong></span><span class="review-score">{% trans "널널" %} <strong>A</strong></span><span class="review-score">{% trans "강의" %} <strong>A</strong></span>
-					</div>
-				</div>
-				<div class="review-elem">
-					<div class="review-body">
-						1) 성적: 출석과 과제와 랩 task는 모두 포인트를 쌓을 뿐(시험 응시 자격용) 성적과는 무관하기 때문에 적당히 <span class="review-more">...{% trans "더 보기" %}</span>
-					</div>
-					<div class="review-score-wrap">
-						<span class="review-score">{% trans "성적" %} <strong>A</strong></span><span class="review-score">{% trans "널널" %} <strong>A</strong></span><span class="review-score">{% trans "강의" %} <strong>A</strong></span>
-					</div>
-				</div>
-				<div class="review-elem">
-					<div class="review-body">
-						1) 성적: 출석과 과제와 랩 task는 모두 포인트를 쌓을 뿐(시험 응시 자격용) 성적과는 무관하기 때문에 적당히 <span class="review-more">...{% trans "더 보기" %}</span>
-					</div>
-					<div class="review-score-wrap">
-						<span class="review-score">{% trans "성적" %} <strong>A</strong></span><span class="review-score">{% trans "널널" %} <strong>A</strong></span><span class="review-score">{% trans "강의" %} <strong>A</strong></span>
-					</div>
-				</div>
-				<div class="review-elem">
-					<div class="review-body">
-						1) 성적: 출석과 과제와 랩 task는 모두 포인트를 쌓을 뿐(시험 응시 자격용) 성적과는 무관하기 때문에 적당히 <span class="review-more">...{% trans "더 보기" %}</span>
-					</div>
-					<div class="review-score-wrap">
-						<span class="review-score">{% trans "성적" %} <strong>A</strong></span><span class="review-score">{% trans "널널" %} <strong>A</strong></span><span class="review-score">{% trans "강의" %} <strong>A</strong></span>
-					</div>
-				</div>
-				<div class="review-elem">
-					<div class="review-body">
-						1) 성적: 출석과 과제와 랩 task는 모두 포인트를 쌓을 뿐(시험 응시 자격용) 성적과는 무관하기 때문에 적당히 <span class="review-more">...{% trans "더 보기" %}</span>
-					</div>
-					<div class="review-score-wrap">
-						<span class="review-score">{% trans "성적" %} <strong>A</strong></span><span class="review-score">{% trans "널널" %} <strong>A</strong></span><span class="review-score">{% trans "강의" %} <strong>A</strong></span>
-					</div>
-				</div>
-				<div class="review-elem">
-					<div class="review-body">
-						1) 성적: 출석과 과제와 랩 task는 모두 포인트를 쌓을 뿐(시험 응시 자격용) 성적과는 무관하기 때문에 적당히 <span class="review-more">...{% trans "더 보기" %}</span>
-					</div>
-					<div class="review-score-wrap">
-						<span class="review-score">{% trans "성적" %} <strong>A</strong></span><span class="review-score">{% trans "널널" %} <strong>A</strong></span><span class="review-score">{% trans "강의" %} <strong>A</strong></span>
-					</div>
-				</div>
+				<!-- Reviews inserted here -->
 			</div>
 		</div>
   </div>
@@ -743,6 +688,19 @@
 		<% }); %>
 	</div>
 </div>
+</script>
+
+<script type="text/template" id="comment-template">
+<% _.each(comments, function(c){ %>
+<div class="review-elem">
+	<div class="review-body">
+		<%- c.comment %> <span class="review-more">...{% trans "더 보기" %}</span>
+	</div>
+	<div class="review-score-wrap">
+		<span class="review-score">{% trans "성적" %} <strong><%- c.rade %></strong></span><span class="review-score">{% trans "널널" %} <strong><%- c.load %></strong></span><span class="review-score">{% trans "강의" %} <strong><%- c.speech %></strong></span>
+	</div>
+</div>
+<% }); %>
 </script>
 
 {% endblock %}

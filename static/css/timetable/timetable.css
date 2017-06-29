@@ -314,6 +314,14 @@ i
             flex-direction:column;
 }
 
+.review-loading
+{
+    font-size: 16px;
+    color: #999;
+    margin-top: calc(2.8vh + 75px);
+    text-align: center;
+}
+
 .review-elem{
 	background-color:#EEEEEE;
 	border-radius:4px;
@@ -1957,7 +1965,8 @@ i
     background: url(/media/icons/delete_lecture_hover.svg) no-repeat center center;
 }
 
-.lecture-block:not(:hover) .lecture-delete
+.lecture-block:not(:hover) .lecture-delete,
+.lecture-block:not(.active) .lecture-delete
 {
     display:none;
 }
