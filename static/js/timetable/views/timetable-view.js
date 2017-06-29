@@ -570,7 +570,7 @@ function findLecture(lectures, id) {
         var lectureIDs = $.map(circles,
                                function(x){return Number($(x).attr("data-id"))});
         var lectures = this._formatLectures(lectureIDs,
-                          function(x){return x.format_classroom});
+                          function(x){return x.room});
 
         // Highlight target
         $(e.currentTarget).addClass('active');
@@ -647,7 +647,7 @@ function findLecture(lectures, id) {
         var lectureIDs = $.map(boxes,
                                function(x){return Number($(x).attr("data-id"))});
         var lectures = this._formatLectures(lectureIDs,
-                          function(x){return x.format_exam});
+                          function(x){return x.exam.substr(x.exam.indexOf(" ") + 1)});
 
         // Highlight target
         boxes.addClass("active");
