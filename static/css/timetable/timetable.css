@@ -330,11 +330,23 @@ i
 	font-size:11px;
 	line-height:10px;
 	cursor:pointer;
+    color:#333;
+}
+.review-elem:hover{
+    background-color:#DDDDDD;
 }
 
 .review-body{
+    display:block;
+    display:-webkit-box;
 	line-height:normal;
 	margin-bottom:6px;
+    line-height:14px;
+    max-height:42px;
+    overflow:hidden;
+    -webkit-line-clamp:3;
+    -webkit-box-orient:vertical;
+    text-overflow:ellipsis;
 }
 
 .review-score-wrap{

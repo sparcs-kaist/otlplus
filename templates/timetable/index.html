@@ -692,14 +692,16 @@
 
 <script type="text/template" id="comment-template">
 <% _.each(comments, function(c){ %>
-<div class="review-elem">
-	<div class="review-body">
-		<%- c.comment %> <span class="review-more">...{% trans "더 보기" %}</span>
+<a href="/review/result/comment/<%- c.id %>" target="_blank">
+	<div class="review-elem">
+		<div class="review-body">
+			<%- c.comment %>
+		</div>
+		<div class="review-score-wrap">
+			<span class="review-score">{% trans "성적" %} <strong><%- c.grade %></strong></span><span class="review-score">{% trans "널널" %} <strong><%- c.load %></strong></span><span class="review-score">{% trans "강의" %} <strong><%- c.speech %></strong></span>
+		</div>
 	</div>
-	<div class="review-score-wrap">
-		<span class="review-score">{% trans "성적" %} <strong><%- c.rade %></strong></span><span class="review-score">{% trans "널널" %} <strong><%- c.load %></strong></span><span class="review-score">{% trans "강의" %} <strong><%- c.speech %></strong></span>
-	</div>
-</div>
+</a>
 <% }); %>
 </script>
 

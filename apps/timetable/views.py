@@ -582,8 +582,13 @@ def fetch(request):
         comments = Comment.objects.filter(
             lecture__course=lecture.course,
             lecture__professor__in=lecture.professor.all(),
-        )
-        comments = [model_to_dict(x) for x in comments]
+        ).order_by('-id')
+        score_dict = ['?', 'F', 'D', 'C', 'B', 'A']
+        comments = [{'grade': score_dict[x.grade],
+                     'load': score_dict[x.load],
+                     'speech': score_dict[x.speech],
+                     'comment': x.comment[:200],
+                     'id': x.id} for x in comments]
         return JsonResponse(comments, safe=False)
 
 
