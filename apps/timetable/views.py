@@ -101,20 +101,20 @@ def get_level_filter(raw_filters):
     return filters
 
 
-def get_filtered_courses(department_filters, type_filters, level_filters, keyword):
-    courses = Course.objects.filter(
+def get_filtered_lectures(year, semester, department_filters, type_filters, level_filters, keyword):
+    lectures = Lecture.objects.filter(
+        year=year,
+        semester=semester,
         department__code__in=department_filters,
         type_en__in=type_filters,
-        code_num__in=level_filters
+        course__code_num__in=level_filters
     )
 
     # language 에 따라서 구별해주는게 나으려나.. 영어이름만 있는 경우에는? 그러면 그냥 name 필드도 영어로 들어가나.
     if len(keyword) > 0:
-        courses = courses.filter(
+        lectures = lectures.filter(
             Q(title__icontains=keyword) |
             Q(title_en__icontains=keyword) |
-            Q(lecture_course__title__icontains=keyword) |
-            Q(lecture_course__title_en__icontains=keyword) |
             Q(old_code__iexact=keyword) |
             Q(department__name__iexact=keyword) |
             Q(department__name_en__iexact=keyword) |
@@ -122,19 +122,20 @@ def get_filtered_courses(department_filters, type_filters, level_filters, keywor
             Q(professor__professor_name_en__icontains=keyword)
         ).distinct()
 
-    return list(courses)
-
-
-def get_filtered_lectures(year, semester, course):
-    return course.lecture_course.filter(year=year, semester=semester)
+    return list(lectures)
 
 
 # List(Lecture) -> List[dict-Lecture]
 # Format raw result from models into javascript-understandable form
 def _lecture_result_format(ls):
-    result = [x for x in ls if len(x)>0]
+    result = list(ls)
+    result.sort(key = lambda x: x.course)
+    result = itertools.groupby(result, key = lambda x: x.course)
+
+    result = [[x for x in value] for key,value in result]
     result = [[_lecture_to_dict(y) for y in x] for x in result]
     result = [_add_title_format(x) for x in result]
+
     result = [sorted(x, key = (lambda y:y['class_no'])) for x in result]
     result.sort(key = (lambda x:x[0]['old_code']))
     result = [y for x in result for y in x] # Flatten nested list
@@ -465,7 +466,7 @@ def show_my_lectures(request):
     for i, t in enumerate(timetables):
         timetable = model_to_dict(t, exclude='lecture')
         ctx.append(timetable)
-        ctx[i]['lectures'] = _lecture_result_format([t.lecture.all()])
+        ctx[i]['lectures'] = _lecture_result_format(t.lecture.all())
 
     return JsonResponse(ctx, safe=False, json_dumps_params=
                         {'ensure_ascii': False})
@@ -500,8 +501,7 @@ def search(request):
         
         search_text = u"TODO-Search text"
         
-        courses = get_filtered_courses(department_filters, type_filters, level_filters, keyword)
-        result = [get_filtered_lectures(year, semester, c) for c in courses]
+        result = get_filtered_lectures(year, semester, department_filters, type_filters, level_filters, keyword)
         result = _lecture_result_format(result)
 
         return JsonResponse({'courses':result,
@@ -606,17 +606,17 @@ def calendar(request):
 
 def major_list(request):
     if request.method == "POST":
+        year = request.POST["year"]
+        semester = request.POST["semester"]
+
         if request.user.is_authenticated():
             department = "전산학부"
             course_type = ["Major Required", "Major Elective"]
-            major1_course = Course.objects.filter(department__name__iexact=department, type_en__in=course_type)
+            major1_cl = Lecture.objects.filter(year=year, semester=semester, department__name__iexact=department, type_en__in=course_type)
         else:
             course_type = ["Basic Required", "Basic Elective"]
-            major1_course = Course.objects.filter(type_en__in=course_type)
+            major1_cl = Lecture.objects.filter(year=year, semester=semester, type_en__in=course_type)
 
-        year = request.POST["year"]
-        semester = request.POST["semester"]
-        major1_cl = [get_filtered_lectures(year, semester, c) for c in major1_course]
         major1_result = _lecture_result_format(major1_cl)
 
         return JsonResponse(major1_result, safe=False)
@@ -628,8 +628,7 @@ def humanity_list(request):
         year = request.POST["year"]
         semester = request.POST["semester"]
 
-        humanity_course = Course.objects.filter(type_en="Humanities & Social Elective")
-        humanity_cl = [get_filtered_lectures(year, semester, c) for c in humanity_course]
+        humanity_cl = Lecture.objects.filter(year=year, semester=semester, type_en="Humanities & Social Elective")
         humanity_result = _lecture_result_format(humanity_cl)
 
         return JsonResponse(humanity_result, safe=False)
@@ -655,11 +654,8 @@ def wishlist(request):
             w = Wishlist(user=userprofile)
             w.save()
 
-        lectures = list(w.lectures.filter(year=year, semester=semester))
-        lectures.sort(key = lambda x: x.course)
-        result = itertools.groupby(lectures, key = lambda x: x.course)
-        result = [[x for x in value] for key,value in result]
-        result = _lecture_result_format(result)
+        lectures = w.lectures.filter(year=year, semester=semester)
+        result = _lecture_result_format(lectures)
 
         return JsonResponse(result, safe=False, json_dumps_params=
                             {'ensure_ascii': False})
