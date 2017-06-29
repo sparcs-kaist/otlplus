@@ -18,7 +18,9 @@
 		<div id="search-container">
 			<div id="search-colheaders">
 				<button class="search-chead search active"><i class="search-tab-icon"></i></button>
-				<button class="search-chead major"><i class="search-tab-icon"></i></button>
+				{% for dept in departments %}
+				<button class="search-chead major" data-code="{{ dept.code }}"><i class="search-tab-icon"></i></button>
+				{% endfor %}
 				<button class="search-chead humanity"><i class="search-tab-icon"></i></button>
 				<button class="search-chead cart"><i class="search-tab-icon"></i></button>
 			</div>
@@ -119,14 +121,16 @@
 						<!-- Search Result Inserted Here -->
 					</div>
 				</div>
-				<div class="major-page none">
+				{% for dept in departments %}
+				<div class="major-page none" data-code="{{ dept.code }}">
 					<div class="page-title">
-						전산학부 {% trans "전공" %}
+						{{ dept.name }}
 					</div>
 					<div class="list-scroll">
 						<!-- Lecture list inserted here -->
 					</div>
 				</div>
+				{% endfor %}
 				<div class="humanity-page none">
 					<div class="page-title">
 						{% trans "인문사회선택" %}

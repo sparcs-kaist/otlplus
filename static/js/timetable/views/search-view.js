@@ -85,7 +85,11 @@ var app = app || {};
       $(this.el).find(".search-chead").removeClass('active');
       $(e.currentTarget).addClass('active');
       $(this.el).find("#result-pages").children().addClass("none");
-      $(this.el).find("." + tabName + "-page").removeClass("none");
+      if (tabName !== "major")
+        $(this.el).find("." + tabName + "-page").removeClass("none");
+      else
+        $(this.el).find("." + tabName + "-page[data-code='" + $(e.currentTarget).attr('data-code') + "']").removeClass("none");
+
 
       if(tabName==="search" && $('.search-page .list-scroll .list-elem').length===0) {
         this.showSearch()
@@ -192,12 +196,40 @@ var app = app || {};
     // Generates function that renders lecture list
       return function() {
         var template = _.template($('#list-template').html());
-        var courses = _.groupBy(lecList.models, function(x){return x.get('old_code')});
-        var block = $('.'+name+'-page').find('.list-scroll');
-        if (lecList.length > 0) {
-          block.html(template({courses:courses, cart:name==="cart"}));
+        var models = lecList.models;
+        var block;
+        var courses;
+        if (name !== 'major') {
+          block = $('.'+name+'-page').find('.list-scroll');
+
+          courses = _.groupBy(models, function(x){return x.get('old_code')});
+          if (models.length > 0) {
+            block.html(template({courses:courses, cart:name==="cart"}));
+          } else {
+            block.html(this.noResultMessage);
+          }
         } else {
-          block.html(this.noResultMessage);
+          var majors = $.map($('.search-chead.major'), x => $(x).attr('data-code'))
+          for (var i=0,code; code=majors[i]; i++) {
+            block = $('.'+name+'-page[data-code="'+code+'"]').find('.list-scroll');
+            if (code === 'Basic') {
+              models = _.filter(lecList.models,
+                                x => (x.get('type_en')==='Basic Required')
+                                      ||(x.get('type_en')==='Basic Elective'));
+            } else {
+              models = _.filter(lecList.models,
+                                x => (x.get('department_code')===code)
+                                      &&((x.get('type_en')==='Major Required')
+                                         ||(x.get('type_en')==='Major Elective')));
+            }
+
+            courses = _.groupBy(models, function(x){return x.get('old_code')});
+            if (models.length > 0) {
+              block.html(template({courses:courses, cart:name==="cart"}));
+            } else {
+              block.html(this.noResultMessage);
+            }
+          }
         }
 
         // Disable add buttons

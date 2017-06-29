@@ -200,6 +200,7 @@ def _lecture_to_dict(lecture):
               "semester": lecture.semester,
               "code": lecture.code,
               "department": lecture.department.id,
+              "department_code": lecture.department.code,
               "type": getattr(lecture, _("type")),
               "type_en": lecture.type_en,
               "limit": lecture.limit,
@@ -293,8 +294,40 @@ def _lcs_front(ls):
     return result
 
 
+def _user_department(user):
+    u = UserProfile.objects.get(user=user)
+
+    if (u.department==None) or (u.department.code in ['AA', 'ICE']):
+        departments = [{'code':'Basic', 'name':_(u' 기초 과목')}]
+    else:
+        departments = [{'code':u.department.code, 'name':getattr(u.department,_('name'))+_(u' 전공')}]
+
+    for d in u.majors.all():
+        if d.code not in departments:
+            departments.append({'code':d.code, 'name':getattr(d,_('name'))+_(u' 전공')})
+
+    for d in u.minors.all():
+        if d.code not in departments:
+            departments.append({'code':d.code, 'name':getattr(d,_('name'))+_(u' 전공')})
+
+    for d in u.specialized_major.all():
+        if d.code not in departments:
+            departments.append({'code':d.code, 'name':getattr(d,_('name'))+_(u' 전공')})
+
+    for d in u.favorite_departments.all():
+        if d.code not in departments:
+            departments.append({'code':d.code, 'name':getattr(d,_('name'))+_(u' 전공')})
+
+    return departments
+
+
 def main(request):
-    return render(request,'timetable/index.html')
+    if request.user.is_authenticated():
+        departments = _user_department(request.user)
+    else:
+        departments = [{'code':'Basic', 'name':'기초 과목'}]
+
+    return render(request,'timetable/index.html', {'departments': departments})
 
 
 def show_table(request):
@@ -640,17 +673,23 @@ def major_list(request):
         year = request.POST["year"]
         semester = request.POST["semester"]
 
-        if request.user.is_authenticated():
-            department = "전산학부"
-            course_type = ["Major Required", "Major Elective"]
-            major1_cl = Lecture.objects.filter(year=year, semester=semester, department__name__iexact=department, type_en__in=course_type)
+        if not request.user.is_authenticated():
+            departments = ["Basic"]
         else:
-            course_type = ["Basic Required", "Basic Elective"]
-            major1_cl = Lecture.objects.filter(year=year, semester=semester, type_en__in=course_type)
+            departments = [x['code'] for x in _user_department(request.user)]
 
-        major1_result = _lecture_result_format(major1_cl)
+        lectures = []
+        if departments[0] == 'Basic':
+            basic_type = ["Basic Required", "Basic Elective"]
+            basic_lectures = Lecture.objects.filter(year=year, semester=semester, type_en__in=basic_type)
+            lectures += _lecture_result_format(basic_lectures)
+            departments = departments[1:]
 
-        return JsonResponse(major1_result, safe=False)
+        major_type = ["Major Required", "Major Elective"]
+        major_lectures = Lecture.objects.filter(year=year, semester=semester, department__code__in=departments, type_en__in=major_type)
+        lectures += _lecture_result_format(major_lectures)
+
+        return JsonResponse(lectures, safe=False)
 
 
 

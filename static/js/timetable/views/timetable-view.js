@@ -305,7 +305,6 @@ function findLecture(lectures, id) {
           delete: true,
         },
         success: function(result) {
-          console.log(result);
           var lecList = app.cartLectureList;
           var lecture = _.find(lecList.models, function(x){return x.get("id")===lecture_id});
 
