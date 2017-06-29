@@ -54,6 +54,18 @@ var app = app || {};
       $(".filter-time .type-elem label").html("선택하기");
     },
 
+    searchTab: function (e) {
+      $(this.el).find(".search-chead").removeClass('active');
+      $(this.el).find(".search-chead.search").addClass('active');
+      $(this.el).find("#result-pages").children().addClass("none");
+      $(this.el).find(".search-page").removeClass("none");
+
+      if (app.LectureActive.get("from") === "list") {
+        app.LectureActive.set({type: "none"});
+      }
+      this.showSearch();
+    },
+
     showSearch: function (e) {
       $(this.el).find(".search-extend").removeClass('none');
       $(this.el).find(".search-text").focus();
