@@ -25,8 +25,8 @@ var app = app || {};
       this.listenTo(app.YearSemester, 'change', this.fetchLists);
       app.YearSemester.set({year:2017, semester:1});
     },
-    loadingMessage: '<div class="list-loading">불러오는 중</div>',
-    noResultMessage: '<div class="list-loading">결과 없음</div>',
+    loadingMessage: '<div class="list-loading">'+(LANGUAGE_CODE==="en" ? "Loading" : "불러오는 중")+'</div>',
+    noResultMessage: '<div class="list-loading">'+(LANGUAGE_CODE==="en" ? "No search results" : "결과 없음")+'</div>',
 
     events: {
       'click .result-message': "showSearch",
@@ -51,7 +51,7 @@ var app = app || {};
       $("#filter-time-day").val('');
       $("#filter-time-begin").val('');
       $("#filter-time-end").val('');
-      $(".filter-time .type-elem label").html("선택하기");
+      $(".filter-time .type-elem label").html((LANGUAGE_CODE==="en" ? "Select" : "선택하기"));
     },
 
     searchTab: function (e) {
@@ -232,7 +232,7 @@ var app = app || {};
     semesterPrev: function(e) {
       var year = app.YearSemester.get('year');
       var semester = app.YearSemester.get('semester');
-      var semText = ['', '봄','', '가을'];
+      var semText = ['', (LANGUAGE_CODE==="en" ? "Spring" : "봄"),'', (LANGUAGE_CODE==="en" ? "Fall" : "가을")];
       if (semester === 1) {
         year = year - 1;
         semester = 3;
@@ -246,7 +246,7 @@ var app = app || {};
     semesterNext: function(e) {
       var year = app.YearSemester.get('year');
       var semester = app.YearSemester.get('semester');
-      var semText = ['', '봄','', '가을'];
+      var semText = ['', (LANGUAGE_CODE==="en" ? "Spring" : "봄"),'', (LANGUAGE_CODE==="en" ? "Fall" : "가을")];
       if (semester === 3) {
         year = year + 1;
         semester = 1;

@@ -507,13 +507,13 @@ function findLecture(lectures, id) {
                "Major Required": "전공필수",
                "Major Elective": "전공선택",
                "Humanities & Social Elective": "인문사회선택",},
-    dateDict: {"mon": "월요일",
-               "tue": "화요일",
-               "wed": "수요일",
-               "thu": "목요일",
-               "fri": "금요일",
-               "sat": "토요일",
-               "sun": "일요일",},
+    dateDict: {"mon": (LANGUAGE_CODE==="en" ? "Monday" : "월요일"),
+               "tue": (LANGUAGE_CODE==="en" ? "Tuesday" : "화요일"),
+               "wed": (LANGUAGE_CODE==="en" ? "Wednesday" : "수요일"),
+               "thu": (LANGUAGE_CODE==="en" ? "Thursday" : "목요일"),
+               "fri": (LANGUAGE_CODE==="en" ? "Friday" : "금요일"),
+               "sat": (LANGUAGE_CODE==="en" ? "Saturday" : "토요일"),
+               "sun": (LANGUAGE_CODE==="en" ? "Sunday" : "일요일"),},
 
     events: {
       'mouseover .map-location-box': "buildingInfo",
@@ -585,20 +585,20 @@ function findLecture(lectures, id) {
       if (app.LectureActive.get("type") === "none") {
         var type = $(e.currentTarget).attr('data-type');
         if (type !== "Etc") {
-          var title = this.typeDict[type];
+          var title = (LANGUAGE_CODE==="en" ? type : this.typeDict[type]);
           var raw_lectures = _.filter(app.CurrentTimetable.get('lectures'), function(x){return x.type_en===type});
           var lectureIDs = raw_lectures.map(function(x){return x.id});
           var lectures = this._formatLectures(lectureIDs,
-                            function(x){return (x.credit? x.credit+"학점" : "") + (x.credit_au? x.credit_au+"AU" : "")});
+                            function(x){return (x.credit? x.credit+(LANGUAGE_CODE==="en" ? " credits" : "학점") : "") + (x.credit_au? x.credit_au+"AU" : "")});
 
           // Highlight target
           $(e.currentTarget).find('.credit-text').addClass('active');
         } else {
-          var title = "기타";
+          var title = (LANGUAGE_CODE==="en" ? "Others" : "기타");
           var raw_lectures = _.filter(app.CurrentTimetable.get('lectures'), function(x){return !semesterLectureView.typeDict[x.type_en]});
           var lectureIDs = raw_lectures.map(function(x){return x.id});
           var lectures = this._formatLectures(lectureIDs,
-                            function(x){return (x.credit? x.credit+"학점" : "") + (x.credit_au? x.credit_au+"AU" : "")});
+                            function(x){return (x.credit? x.credit+(LANGUAGE_CODE==="en" ? " credits" : "학점") : "") + (x.credit_au? x.credit_au+"AU" : "")});
 
           // Highlight target
           $(e.currentTarget).find('.credit-text').addClass('active');
@@ -623,11 +623,11 @@ function findLecture(lectures, id) {
           $('#au .normal').addClass('none');
           $('#au .active').removeClass('none');
         } else {
-          var title = "학점";
+          var title = (LANGUAGE_CODE==="en" ? " Credits" : "학점");
           var raw_lectures = _.filter(app.CurrentTimetable.get('lectures'), function(x){return x.credit>0});
           var lectureIDs = raw_lectures.map(function(x){return x.id});
           var lectures = this._formatLectures(lectureIDs,
-                            function(x){return x.credit+"학점"});
+                            function(x){return x.credit+(LANGUAGE_CODE==="en" ? " credits" : "학점")});
 
           // Highlight target
           $('#credits .active').html($('#credits .normal').html());
@@ -642,7 +642,7 @@ function findLecture(lectures, id) {
     examInfo: function(e) {
       if (app.LectureActive.get("type") === "none") {
         var date = $(e.currentTarget).attr('data-date');
-        var title = this.dateDict[date] + " 시험";
+        var title = this.dateDict[date] + (LANGUAGE_CODE==="en" ? " Exam" : " 시험");
         var boxes = $(e.currentTarget).find('.exam-box');
         var lectureIDs = $.map(boxes,
                                function(x){return Number($(x).attr("data-id"))});

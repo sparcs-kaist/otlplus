@@ -1,5 +1,6 @@
 {% extends "review/base.html" %}
 {% load staticfiles %}
+{% load i18n %}
 
 {% block title %}
   {{ block.super }}
@@ -36,8 +37,8 @@
   
     <footer class="container" style="border-top:1px solid #d9d0d0; text-align:center;margin-top:20px;padding-top:10px">
         <p class="info">
-            <a href="/credits/">만든 사람들</a> |
-            <a href="/licenses/">Licenses</a>
+            <a href="/credits/">{% trans "만든 사람들" %}</a> |
+            <a href="/licenses/">{% trans "라이선스" %}</a>
         </p>
         <p class="info">
             <a href="mailto:otlplus@sparcs.org">FeedBack(otlplus@sparcs.org)</a>

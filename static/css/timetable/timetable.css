@@ -603,6 +603,14 @@ i
 	vertical-align:top;
     font-weight:bold;
 }
+.type-name.fixed-ko
+{
+    width: 3.5ch;
+}
+.type-name.fixed-en
+{
+    width: 4.0ch;
+}
 
 .type-elem
 {
