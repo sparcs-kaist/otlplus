@@ -209,7 +209,7 @@ function findLecture(lectures, id) {
       }
       var lecture = _.find(lecList.models, function(x){return x.get("id")===lecture_id});
 
-      // If class time overlaps : TODO
+      // If class time overlaps
       var overlap = false;
       for (var i=0, classtime; classtime=lecture.get('classtimes')[i]; i++) {
         var dayBlock = $('#timetable-contents').find('.day:nth-child('+ (classtime.day+2) + ')');
@@ -815,7 +815,7 @@ function findLecture(lectures, id) {
                                         id: child.id,
                                         professor: child.format_professor_str,
                                         classroom: classtime.classroom_short,
-                                        color: child.course%16+1, // TODO : get real color
+                                        color: child.course%16+1,
                                         cells: time,
                                         occupied: occupied,
                                         temp: true,}));
@@ -829,7 +829,7 @@ function findLecture(lectures, id) {
                                            id: child.id,
                                            professor: child.format_professor_str,
                                            classroom: child.format_classroom_short,
-                                           color: child.course%16+1, // TODO : get real color
+                                           color: child.course%16+1,
                                            cells: 3,
                                            occupied: [],
                                            temp: true,}));
@@ -1026,7 +1026,7 @@ function findLecture(lectures, id) {
                                         id: child.id,
                                         professor: child.format_professor_str,
                                         classroom: classtime.classroom_short,
-                                        color: child.course%16+1, // TODO : get real color
+                                        color: child.course%16+1,
                                         cells: time,
                                         occupied: [],
                                         temp: false,}));
@@ -1041,7 +1041,7 @@ function findLecture(lectures, id) {
                                       id: child.id,
                                       professor: child.format_professor_str,
                                       classroom: child.format_classroom_short,
-                                      color: child.course%16+1, // TODO : get real color
+                                      color: child.course%16+1,
                                       cells: 3,
                                       occupied: [],
                                       temp: false,}));

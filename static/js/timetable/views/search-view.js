@@ -148,7 +148,6 @@ var app = app || {};
           app.searchLectureList.reset(lectures);
           app.searchLectureList.trigger("update");
 
-          $(".result-text").text(resp.search_text);
           $(".search-extend").addClass('none');
           
           if (app.LectureActive.get("from") === "list") {
