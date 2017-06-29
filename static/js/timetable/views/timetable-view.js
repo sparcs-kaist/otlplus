@@ -859,7 +859,7 @@ function findLecture(lectures, id) {
           var block = $('#examtable').find('.examtime[data-date="'+date+'"] .examlist');
           block.append(this.examTemplate({id: child.id,
                                           title: child.title,
-                                          examTime: exam.str,
+                                          examTime: exam.str.substr(exam.str.indexOf(" ") + 1),
                                           startTime: exam.begin,
                                           temp: true,}));
         }
@@ -1117,7 +1117,7 @@ function findLecture(lectures, id) {
           var block = $('#examtable').find('.examtime[data-date="'+date+'"] .examlist');
           block.append(this.examTemplate({id: child.id,
                                           title: child.title,
-                                          examTime: exam.str,
+                                          examTime: exam.str.substr(exam.str.indexOf(" ") + 1),
                                           startTime: exam.begin,
                                           temp: false,}));
         }
