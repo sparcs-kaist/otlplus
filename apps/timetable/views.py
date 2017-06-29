@@ -101,7 +101,7 @@ def get_level_filter(raw_filters):
     return filters
 
 
-def get_filtered_lectures(year, semester, department_filters, type_filters, level_filters, keyword):
+def get_filtered_lectures(year, semester, department_filters, type_filters, level_filters, keyword, day, begin, end):
     lectures = Lecture.objects.filter(
         year=year,
         semester=semester,
@@ -109,6 +109,9 @@ def get_filtered_lectures(year, semester, department_filters, type_filters, leve
         type_en__in=type_filters,
         course__code_num__in=level_filters
     )
+
+    if day!=None and begin!=None and end!=None:
+        lectures = lectures.filter(classtime_set__day=day, classtime_set__begin__gte=begin, classtime_set__end__lte=end)
 
     # language 에 따라서 구별해주는게 나으려나.. 영어이름만 있는 경우에는? 그러면 그냥 name 필드도 영어로 들어가나.
     if len(keyword) > 0:
@@ -498,10 +501,21 @@ def search(request):
         type_filters = get_type_filter(request_json['type'])
         level_filters = get_level_filter(request_json['grade'])
         keyword = request_json['keyword']
+
+        if len(request_json["day"])>0 and len(request_json["begin"])>0 and len(request_json["end"])>0:
+            day = int(request_json["day"])
+            beginIdx = int(request_json["begin"])
+            begin = datetime.time(beginIdx/2+8, (beginIdx%2)*30)
+            endIdx = int(request_json["end"])
+            end = datetime.time(endIdx/2+8, (endIdx%2)*30)
+        else:
+            day = None
+            begin = None
+            end = None
         
         search_text = u"TODO-Search text"
         
-        result = get_filtered_lectures(year, semester, department_filters, type_filters, level_filters, keyword)
+        result = get_filtered_lectures(year, semester, department_filters, type_filters, level_filters, keyword, day, begin, end)
         result = _lecture_result_format(result)
 
         return JsonResponse({'courses':result,
