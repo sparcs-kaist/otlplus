@@ -171,6 +171,7 @@ def _classtime_to_dict(ct):
     return {"building": bldg_no,
             "classroom": classroom,
             "classroom_short": classroom_short,
+            "room": room,
             "day": ct.day,
             "begin": ct.get_begin_numeric(),
             "end": ct.get_end_numeric(),}
@@ -179,7 +180,7 @@ def _classtime_to_dict(ct):
 
 def _examtime_to_dict(ct):
     return {"day": ct.day,
-            "str": ct.begin.strftime("%H:%M") + " ~ " + ct.end.strftime("%H:%M"),
+            "str": [_(u"월요일"), _(u"화요일"), _(u"수요일"), _(u"목요일"), _(u"금요일"), _(u"토요일"), _(u"일요일")][ct.day] + " " + ct.begin.strftime("%H:%M") + " ~ " + ct.end.strftime("%H:%M"),
             "begin": ct.get_begin_numeric(),
             "end": ct.get_end_numeric(),}
 
@@ -225,16 +226,25 @@ def _lecture_to_dict(lecture):
     result['format_load'] = u'B'
     result['format_speech'] = u'A-'
 
-    # Add formatted classroom
+    # Add classroom info
     if len(result['classtimes']) > 0:
         result['building'] = result['classtimes'][0]['building']
         result['format_classroom'] = result['classtimes'][0]['classroom']
         result['format_classroom_short'] = result['classtimes'][0]['classroom_short']
+        result['room'] = result['classtimes'][0]['room']
     else:
         result['building'] = ''
         result['format_classroom'] = _(u'정보 없음')
         result['format_classroom_short'] = _(u'정보 없음')
-    result['format_exam'] = u'월요일 9:00 ~ 24:00' #TODO
+        result['room'] = result['classtimes'][0]['room']
+
+    # Add exam info
+    if len(result['examtimes']) > 1:
+        result['exam'] = u"%s 외 %개" % (result['examtimes'][0]['str'], len(result['examtimes']-1))
+    elif len(result['examtimes']) == 1:
+        result['exam'] = result['examtimes'][0]['str']
+    else:
+        result['exam'] = _(u'정보 없음')
 
     return result
 
