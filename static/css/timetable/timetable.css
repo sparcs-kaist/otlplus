@@ -1191,20 +1191,20 @@ i
 
 .cell1
 {
-    border-top:1px solid #DDDDDD;
+    border-top:1px solid #E8E8E8;
 }
 .cell1.cell-bold
 {
-    border-top:1px solid #BBBBBB;
+    border-top:1px solid #CCCCCC;
 }
 
 .cell2
 {
-    border-top:1px dashed #DDDDDD;
+    border-top:1px dashed #E8E8E8;
 }
 .cell2.cell-last
 {
-    border-bottom:1px solid #BBBBBB;
+    border-bottom:1px solid #CCCCCC;
 }
 
 #drag-cell
