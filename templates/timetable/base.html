@@ -1,4 +1,6 @@
 {% load staticfiles %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
 <!DOCTYPE html>
 <!--[if lt IE 7]>
   <html class="no-js lt-ie9 lt-ie8 lt-ie7">
@@ -45,6 +47,7 @@
     {% block modals %}
     {% endblock %}
 
+    <script type="text/javascript">var LANGUAGE_CODE = '{{ LANGUAGE_CODE }}'; </script>
     <script type="text/javascript" src="/media/js/jquery.min.js"></script>
     <script type="text/javascript" src="/media/js/bootstrap.min.js"></script>
     <script src="/media/js/underscore.js"></script>
