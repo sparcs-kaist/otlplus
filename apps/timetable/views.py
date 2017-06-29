@@ -148,21 +148,31 @@ def _lecture_result_format(ls):
 
 def _classtime_to_dict(ct):
     bldg = getattr(ct, _("roomName_ko"))
-    if bldg != None:
+    # No classroom info
+    if bldg == None:
+        room = ""
+        bldg_no = ""
+        classroom = _(u"정보 없음")
+        classroom_short = _(u"정보 없음")
+    # Building name has form of "(N1) xxxxx"
+    elif bldg[0] == "(":
         bldg_no = bldg[1:bldg.find(")")]
         bldg_name = bldg[len(bldg_no)+2:]
         room = getattr(ct, _("roomNum"))
         if room == None: room=""
         classroom = "(" + bldg_no + ") " + bldg_name + " " + room
         classroom_short = "(" + bldg_no + ") " + room
+    # Building name has form of "xxxxx"
     else:
-        bldg_no = ""
-        classroom = _(u"정보 없음")
-        classroom_short = _(u"정보 없음")
+        bldg_no=""
+        room = getattr(ct, _("roomNum"))
+        classroom = bldg + " " + room
+        classroom_short = bldg + " " + room
 
     return {"building": bldg_no,
             "classroom": classroom,
             "classroom_short": classroom_short,
+            "room": room,
             "day": ct.day,
             "begin": ct.get_begin_numeric(),
             "end": ct.get_end_numeric(),}
@@ -171,7 +181,7 @@ def _classtime_to_dict(ct):
 
 def _examtime_to_dict(ct):
     return {"day": ct.day,
-            "str": ct.begin.strftime("%H:%M") + " ~ " + ct.end.strftime("%H:%M"),
+            "str": [_(u"월요일"), _(u"화요일"), _(u"수요일"), _(u"목요일"), _(u"금요일"), _(u"토요일"), _(u"일요일")][ct.day] + " " + ct.begin.strftime("%H:%M") + " ~ " + ct.end.strftime("%H:%M"),
             "begin": ct.get_begin_numeric(),
             "end": ct.get_end_numeric(),}
 
@@ -187,8 +197,10 @@ def _lecture_to_dict(lecture):
               "old_code": lecture.old_code,
               "class_no": lecture.class_no,
               "year": lecture.year,
+              "semester": lecture.semester,
               "code": lecture.code,
               "department": lecture.department.id,
+              "department_code": lecture.department.code,
               "type": getattr(lecture, _("type")),
               "type_en": lecture.type_en,
               "limit": lecture.limit,
@@ -217,16 +229,25 @@ def _lecture_to_dict(lecture):
     result['format_load'] = u'B'
     result['format_speech'] = u'A-'
 
-    # Add formatted classroom
+    # Add classroom info
     if len(result['classtimes']) > 0:
         result['building'] = result['classtimes'][0]['building']
         result['format_classroom'] = result['classtimes'][0]['classroom']
         result['format_classroom_short'] = result['classtimes'][0]['classroom_short']
+        result['room'] = result['classtimes'][0]['room']
     else:
         result['building'] = ''
         result['format_classroom'] = _(u'정보 없음')
         result['format_classroom_short'] = _(u'정보 없음')
-    result['format_exam'] = u'월요일 9:00 ~ 24:00' #TODO
+        result['room'] = ''
+
+    # Add exam info
+    if len(result['examtimes']) > 1:
+        result['exam'] = u"%s 외 %개" % (result['examtimes'][0]['str'], len(result['examtimes']-1))
+    elif len(result['examtimes']) == 1:
+        result['exam'] = result['examtimes'][0]['str']
+    else:
+        result['exam'] = _(u'정보 없음')
 
     return result
 
@@ -273,8 +294,40 @@ def _lcs_front(ls):
     return result
 
 
+def _user_department(user):
+    u = UserProfile.objects.get(user=user)
+
+    if (u.department==None) or (u.department.code in ['AA', 'ICE']):
+        departments = [{'code':'Basic', 'name':_(u' 기초 과목')}]
+    else:
+        departments = [{'code':u.department.code, 'name':getattr(u.department,_('name'))+_(u' 전공')}]
+
+    for d in u.majors.all():
+        if d.code not in departments:
+            departments.append({'code':d.code, 'name':getattr(d,_('name'))+_(u' 전공')})
+
+    for d in u.minors.all():
+        if d.code not in departments:
+            departments.append({'code':d.code, 'name':getattr(d,_('name'))+_(u' 전공')})
+
+    for d in u.specialized_major.all():
+        if d.code not in departments:
+            departments.append({'code':d.code, 'name':getattr(d,_('name'))+_(u' 전공')})
+
+    for d in u.favorite_departments.all():
+        if d.code not in departments:
+            departments.append({'code':d.code, 'name':getattr(d,_('name'))+_(u' 전공')})
+
+    return departments
+
+
 def main(request):
-    return render(request,'timetable/index.html')
+    if request.user.is_authenticated():
+        departments = _user_department(request.user)
+    else:
+        departments = [{'code':'Basic', 'name':'기초 과목'}]
+
+    return render(request,'timetable/index.html', {'departments': departments})
 
 
 def show_table(request):
@@ -620,17 +673,23 @@ def major_list(request):
         year = request.POST["year"]
         semester = request.POST["semester"]
 
-        if request.user.is_authenticated():
-            department = "전산학부"
-            course_type = ["Major Required", "Major Elective"]
-            major1_cl = Lecture.objects.filter(year=year, semester=semester, department__name__iexact=department, type_en__in=course_type)
+        if not request.user.is_authenticated():
+            departments = ["Basic"]
         else:
-            course_type = ["Basic Required", "Basic Elective"]
-            major1_cl = Lecture.objects.filter(year=year, semester=semester, type_en__in=course_type)
+            departments = [x['code'] for x in _user_department(request.user)]
 
-        major1_result = _lecture_result_format(major1_cl)
+        lectures = []
+        if departments[0] == 'Basic':
+            basic_type = ["Basic Required", "Basic Elective"]
+            basic_lectures = Lecture.objects.filter(year=year, semester=semester, type_en__in=basic_type)
+            lectures += _lecture_result_format(basic_lectures)
+            departments = departments[1:]
 
-        return JsonResponse(major1_result, safe=False)
+        major_type = ["Major Required", "Major Elective"]
+        major_lectures = Lecture.objects.filter(year=year, semester=semester, department__code__in=departments, type_en__in=major_type)
+        lectures += _lecture_result_format(major_lectures)
+
+        return JsonResponse(lectures, safe=False)
 
 
 
