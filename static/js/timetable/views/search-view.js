@@ -25,8 +25,8 @@ var app = app || {};
       this.listenTo(app.YearSemester, 'change', this.fetchLists);
       app.YearSemester.set({year:2017, semester:1});
     },
-    loadingMessage: '<div class="list-loading">불러오는 중</div>',
-    noResultMessage: '<div class="list-loading">결과 없음</div>',
+    loadingMessage: '<div class="list-loading">'+(LANGUAGE_CODE==="en" ? "Loading" : "불러오는 중")+'</div>',
+    noResultMessage: '<div class="list-loading">'+(LANGUAGE_CODE==="en" ? "No search results" : "결과 없음")+'</div>',
 
     events: {
       'click .result-message': "showSearch",
@@ -51,7 +51,19 @@ var app = app || {};
       $("#filter-time-day").val('');
       $("#filter-time-begin").val('');
       $("#filter-time-end").val('');
-      $(".filter-time .type-elem label").html("선택하기");
+      $(".filter-time .type-elem label").html((LANGUAGE_CODE==="en" ? "Select" : "선택하기"));
+    },
+
+    searchTab: function (e) {
+      $(this.el).find(".search-chead").removeClass('active');
+      $(this.el).find(".search-chead.search").addClass('active');
+      $(this.el).find("#result-pages").children().addClass("none");
+      $(this.el).find(".search-page").removeClass("none");
+
+      if (app.LectureActive.get("from") === "list") {
+        app.LectureActive.set({type: "none"});
+      }
+      this.showSearch();
     },
 
     showSearch: function (e) {
@@ -73,7 +85,11 @@ var app = app || {};
       $(this.el).find(".search-chead").removeClass('active');
       $(e.currentTarget).addClass('active');
       $(this.el).find("#result-pages").children().addClass("none");
-      $(this.el).find("." + tabName + "-page").removeClass("none");
+      if (tabName !== "major")
+        $(this.el).find("." + tabName + "-page").removeClass("none");
+      else
+        $(this.el).find("." + tabName + "-page[data-code='" + $(e.currentTarget).attr('data-code') + "']").removeClass("none");
+
 
       if(tabName==="search" && $('.search-page .list-scroll .list-elem').length===0) {
         this.showSearch()
@@ -180,12 +196,40 @@ var app = app || {};
     // Generates function that renders lecture list
       return function() {
         var template = _.template($('#list-template').html());
-        var courses = _.groupBy(lecList.models, function(x){return x.get('old_code')});
-        var block = $('.'+name+'-page').find('.list-scroll');
-        if (lecList.length > 0) {
-          block.html(template({courses:courses, cart:name==="cart"}));
+        var models = lecList.models;
+        var block;
+        var courses;
+        if (name !== 'major') {
+          block = $('.'+name+'-page').find('.list-scroll');
+
+          courses = _.groupBy(models, function(x){return x.get('old_code')});
+          if (models.length > 0) {
+            block.html(template({courses:courses, cart:name==="cart"}));
+          } else {
+            block.html(this.noResultMessage);
+          }
         } else {
-          block.html(this.noResultMessage);
+          var majors = $.map($('.search-chead.major'), x => $(x).attr('data-code'))
+          for (var i=0,code; code=majors[i]; i++) {
+            block = $('.'+name+'-page[data-code="'+code+'"]').find('.list-scroll');
+            if (code === 'Basic') {
+              models = _.filter(lecList.models,
+                                x => (x.get('type_en')==='Basic Required')
+                                      ||(x.get('type_en')==='Basic Elective'));
+            } else {
+              models = _.filter(lecList.models,
+                                x => (x.get('department_code')===code)
+                                      &&((x.get('type_en')==='Major Required')
+                                         ||(x.get('type_en')==='Major Elective')));
+            }
+
+            courses = _.groupBy(models, function(x){return x.get('old_code')});
+            if (models.length > 0) {
+              block.html(template({courses:courses, cart:name==="cart"}));
+            } else {
+              block.html(this.noResultMessage);
+            }
+          }
         }
 
         // Disable add buttons
@@ -220,7 +264,7 @@ var app = app || {};
     semesterPrev: function(e) {
       var year = app.YearSemester.get('year');
       var semester = app.YearSemester.get('semester');
-      var semText = ['', '봄','', '가을'];
+      var semText = ['', (LANGUAGE_CODE==="en" ? "Spring" : "봄"),'', (LANGUAGE_CODE==="en" ? "Fall" : "가을")];
       if (semester === 1) {
         year = year - 1;
         semester = 3;
@@ -234,7 +278,7 @@ var app = app || {};
     semesterNext: function(e) {
       var year = app.YearSemester.get('year');
       var semester = app.YearSemester.get('semester');
-      var semText = ['', '봄','', '가을'];
+      var semText = ['', (LANGUAGE_CODE==="en" ? "Spring" : "봄"),'', (LANGUAGE_CODE==="en" ? "Fall" : "가을")];
       if (semester === 3) {
         year = year + 1;
         semester = 1;

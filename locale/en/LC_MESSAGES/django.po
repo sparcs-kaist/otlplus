@@ -15,12 +15,26 @@ msgstr "professor_name_en"
 msgid "name"
 msgstr "name_en"
 
+msgid " 기초 과목"
+msgstr " Basic Course"
+
+msgid " 전공"
+msgstr " Major"
 
 
 
+
+msgid "모의시간표"
+msgstr "Timetable"
 
 msgid "toggleLang"
 msgstr "한글"
+
+msgid "만든 사람들"
+msgstr "Credit"
+
+msgid "라이선스"
+msgstr "Licenses"
 
 
 
@@ -82,6 +96,39 @@ msgstr " lectures"
 
 
 
+msgid "검색"
+msgstr "Search"
+
+msgid "전공"
+msgstr "Major"
+
+msgid "인문사회선택"
+msgstr "Humanities & Social Elective"
+
+msgid "장바구니"
+msgstr "Wishlist"
+
+msgid "학년"
+msgstr "Level"
+
+msgid "시간"
+msgstr "Time"
+
+msgid "전체"
+msgstr "ALL"
+
+msgid "취소"
+msgstr "Cancel"
+
+
+
+
+msgid "봄"
+msgstr "Spring"
+
+msgid "가을"
+msgstr "Fall"
+
 msgid "시간표"
 msgstr "Table"
 
@@ -103,10 +150,16 @@ msgstr "Friday"
 msgid "토/일/시간없음"
 msgstr "Sat/Sun/None"
 
+msgid "과목 검색"
+msgstr "Search"
+
+msgid "일정 추가"
+msgstr "Schedule"
+
 
 
 msgid "시험시간표"
-msgstr "Exam Time"
+msgstr "Exams"
 
 msgid "기필"
 msgstr "BR"
@@ -121,7 +174,7 @@ msgid "전선"
 msgstr "ME"
 
 msgid "인문"
-msgstr "HS"
+msgstr "HSE"
 
 msgid "기타"
 msgstr "ETC"

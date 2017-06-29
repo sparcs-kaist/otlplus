@@ -9,7 +9,7 @@
 		<div id="lecture-info">
 			<div id="info-placeholder">
 				<div class="otlplus-title">OTL PLUS</div>
-				<div class="otlplus-content"><a href="/credits/">만든 사람들</a> | <a href="/licenses/">Licenses</a></div>
+				<div class="otlplus-content"><a href="/credits/">{% trans "만든 사람들" %}</a> | <a href="/licenses/">{% trans "라이선스" %}</a></div>
 				<div class="otlplus-content"><a href="mailto:otlplus@sparcs.org">otlplus@sparcs.org</a></div>
 				<div class="otlplus-content">© 2017, <a href="http://sparcs.kaist.ac.kr">SPARCS</a> OTL Team</div>
 			</div>
@@ -18,7 +18,9 @@
 		<div id="search-container">
 			<div id="search-colheaders">
 				<button class="search-chead search active"><i class="search-tab-icon"></i></button>
-				<button class="search-chead major"><i class="search-tab-icon"></i></button>
+				{% for dept in departments %}
+				<button class="search-chead major" data-code="{{ dept.code }}"><i class="search-tab-icon"></i></button>
+				{% endfor %}
 				<button class="search-chead humanity"><i class="search-tab-icon"></i></button>
 				<button class="search-chead cart"><i class="search-tab-icon"></i></button>
 			</div>
@@ -31,53 +33,65 @@
 								<!-- ajax call -->
 								<div class="search-field">
 									<i class="search-icon"></i>
-									<input class="search-text" type="text" name="keyword" autocomplete="off" placeholder="검색" />
+									<input class="search-text" type="text" name="keyword" autocomplete="off" placeholder="{% trans '검색' %}" />
 								</div>
 								<div id="lecturelist-filter">
 									<div class="filters">
-										<label class="type-name">분류</label><!--
+										<label class="type-name fixed-{{ LANGUAGE_CODE }}">{% trans "구분" %}</label><!--
 								 --><div class="type-elem">
 											<label>
-												<input class="chkall" type="checkbox" autocomplete="off" name="type" value="ALL" />전체<i class="fa fa-circle-o fa-1x none"></i><i class="fa fa-check-circle-o fa-1x"></i>
+												<input class="chkall" type="checkbox" autocomplete="off" name="type" value="ALL" />{% trans "전체" %}<i class="fa fa-circle-o fa-1x none"></i><i class="fa fa-check-circle-o fa-1x"></i>
 											</label>
 											{% for i in "1234567890" %}
 											<label>
+												{% if LANGUAGE_CODE == "en" %}
+												<input class="chkelem" type="checkbox" autocomplete="off" name="type" value="{% cycle "GR" "MGC" "BE" "BR" "EG" "HSE" "OE" "ME" "MR" "ETC" %}" />{% cycle "GR" "MGC" "BE" "BR" "EG" "HSE" "OE" "ME" "MR" "ETC" %}<i class="fa fa-circle-o fa-1x"></i><i class="fa fa-check-circle-o fa-ix none"></i>
+												{% else %}
 												<input class="chkelem" type="checkbox" autocomplete="off" name="type" value="{% cycle "GR" "MGC" "BE" "BR" "EG" "HSE" "OE" "ME" "MR" "ETC" %}" />{% cycle "공통" "교필" "기선" "기필" "석박" "인선" "자선" "전선" "전필" "기타" %}<i class="fa fa-circle-o fa-1x"></i><i class="fa fa-check-circle-o fa-ix none"></i>
+												{% endif %}
 											</label>
 											{% endfor %}
 										</div>
 									</div>
 									<div class="filters">
-										<label class="type-name">학과</label><!--
+										<label class="type-name fixed-{{ LANGUAGE_CODE }}">{% trans "학과" %}</label><!--
 								 --><div class="type-elem">
 											<label>
-												<input class="chkall" type="checkbox" autocomplete="off" name="department" value="ALL" />전체<i class="fa fa-circle-o fa-1x none"></i><i class="fa fa-check-circle-o fa-1x"></i>
+												<input class="chkall" type="checkbox" autocomplete="off" name="department" value="ALL" />{% trans "전체" %}<i class="fa fa-circle-o fa-1x none"></i><i class="fa fa-check-circle-o fa-1x"></i>
 											</label>
 											{% for i in "123456789012345678" %}
 											<label>
-												<input class="chkelem" type="checkbox" autocomplete="off" name="department" value="{% cycle "HSS" "CE" "MSB" "ME" "PH" "BiS" "IE" "ID" "BS" "MAS" "NQE" "EE" "CS" "AE" "CH" "ETC" "CBE" "NS" %}" />{% cycle "인문" "건환" "기경" "기계" "물리" "바공" "산공" "산디" "생명" "수리" "원양" "전자" "전산" "항공" "화학" "기타" "생화공" "신소재" %}<i class="fa fa-circle-o fa-1x"></i><i class="fa fa-check-circle-o fa-ix none"></i>
+												{% if LANGUAGE_CODE == "en" %}
+												<input class="chkelem" type="checkbox" autocomplete="off" name="department" value="{% cycle "HSS" "AE" "BiS" "BS" "CBE" "CE" "CH" "CS" "EE" "ID" "IE" "MAS" "ME" "NQE" "MSB" "NS" "PH" "ETC" %}" />{% cycle "HSS" "AE" "BiS" "BS" "CBE" "CE" "CH" "CS" "EE" "ID" "IE" "MAS" "ME" "NQE" "MSB" "NS" "PH" "ETC" %}<i class="fa fa-circle-o fa-1x"></i><i class="fa fa-check-circle-o fa-ix none"></i>
+												{% else %}
+												<input class="chkelem" type="checkbox" autocomplete="off" name="department" value="{% cycle "HSS" "CE" "MSB" "ME" "PH" "BiS" "IE" "ID" "BS" "MAS" "NQE" "EE" "CS" "AE" "CH" "CBE" "NS" "ETC" %}" />{% cycle "인문" "건환" "기경" "기계" "물리" "바공" "산공" "산디" "생명" "수리" "원양" "전자" "전산" "항공" "화학" "생화공" "신소재" "기타" %}<i class="fa fa-circle-o fa-1x"></i><i class="fa fa-check-circle-o fa-ix none"></i>
+												{% endif %}
 											</label>
 											{% endfor %}
 										</div>
 									</div>
 									<div class="filters">
-										<label class="type-name">학년</label><!--
+										<label class="type-name fixed-{{ LANGUAGE_CODE }}">{% trans "학년" %}</label><!--
 								 --><div class="type-elem">
 											<label>
-												<input class="chkall" type="checkbox" autocomplete="off" name="grade" value="ALL" />전체<i class="fa fa-circle-o fa-1x none"></i><i class="fa fa-check-circle-o fa-1x"></i>
+												<input class="chkall" type="checkbox" autocomplete="off" name="grade" value="ALL" />{% trans "전체" %}<i class="fa fa-circle-o fa-1x none"></i><i class="fa fa-check-circle-o fa-1x"></i>
 											</label>
 											{% for i in "012345" %}
 											<label>
-												<input class="chkelem" type="checkbox" autocomplete="off" name="grade" value="{% cycle "000" "100" "200" "300" "400" "ETC" %}" />{% cycle "000번대" "100번대" "200번대" "300번대" "400번대" "기타"%}<i class="fa fa-circle-o fa-1x"></i><i class="fa fa-check-circle-o fa-ix none"></i>
+												{% if LANGUAGE_CODE == "en" %}
+												<input class="chkelem" type="checkbox" autocomplete="off" name="grade" value="{% cycle "000" "100" "200" "300" "400" "ETC" %}" />{% cycle "000s" "100s" "200s" "300s" "400s" "ETC" %}<i class="fa fa-circle-o fa-1x"></i><i class="fa fa-check-circle-o fa-ix none"></i>
+												{% else %}
+												<input class="chkelem" type="checkbox" autocomplete="off" name="grade" value="{% cycle "000" "100" "200" "300" "400" "ETC" %}" />{% cycle "000번대" "100번대" "200번대" "300번대" "400번대" "기타" %}<i class="fa fa-circle-o fa-1x"></i><i class="fa fa-check-circle-o fa-ix none"></i>
+												{% endif %}
 											</label>
 											{% endfor %}
 										</div>
 									</div>
 									<div class="filters filter-time">
-										<label class="type-name">시간</label><!--
+										<label class="type-name fixed-{{ LANGUAGE_CODE }}">{% trans "시간" %}</label><!--
 								 --><div class="type-elem">
 											<label>
-												선택하기
+												{% trans "선택하기" %}
 											</label>
 										</div>
 										<input id="filter-time-day" name="day" type="text"></input>
@@ -86,14 +100,14 @@
 									</div>
 								</div>
 								<div style="height:11px">
-									<span type="button" id="search-button">검색</span>
-									<span type="button" id="search-cancel">취소</span>
+									<span type="button" id="search-button">{% trans '검색' %}</span>
+									<span type="button" id="search-cancel">{% trans '취소' %}</span>
 								</div>
 							</form>
 						</div>
 					</div>
 					<div class="result-message">
-						<i class="result-icon"></i><div class="result-text">검색</div>
+						<i class="result-icon"></i><div class="result-text">{% trans '검색' %}</div>
 					</div>
 					<div class="list-scroll">
 						<!-- Search Result Inserted Here -->
@@ -101,23 +115,25 @@
 				</div>
 				<div class="cart-page none">
 					<div class="page-title">
-						장바구니
+						{% trans "장바구니" %}
 					</div>
 					<div class="list-scroll">
 						<!-- Search Result Inserted Here -->
 					</div>
 				</div>
-				<div class="major-page none">
+				{% for dept in departments %}
+				<div class="major-page none" data-code="{{ dept.code }}">
 					<div class="page-title">
-						전산학부 전공
+						{{ dept.name }}
 					</div>
 					<div class="list-scroll">
 						<!-- Lecture list inserted here -->
 					</div>
 				</div>
+				{% endfor %}
 				<div class="humanity-page none">
 					<div class="page-title">
-						인문사회선택
+						{% trans "인문사회선택" %}
 					</div>
 					<div class="list-scroll">
 						<!-- Lecture list inserted here -->
@@ -134,7 +150,7 @@
 			</div>
                         <div id="semester">
 				<i id="semester-prev"></i>
-				<span id="semester-text">2017 봄</span>
+				<span id="semester-text">2017 {% trans "봄" %}</span>
 				<i id="semester-next"></i>
                         </div>
 		</div>
@@ -217,7 +233,7 @@
 						<div class="cell2 half table-drag" data-day='mon' data-time='2330'></div>
 						<div class="cell-bold cell1 half"></div>
 						<div class="chead"></div>
-						<div class="cell1 half no-time"></div>
+						<div class="cell-bold cell1 half no-time"></div>
 						<div class="cell2 half"></div>
 						<div class="cell2 half cell-last"></div>
 					</div>
@@ -257,7 +273,7 @@
 						<div class="cell2 half table-drag" data-day='tue' data-time='2330'></div>
 						<div class="cell-bold cell1 half"></div>
 						<div class="chead"></div>
-						<div class="cell1 half no-time"></div>
+						<div class="cell-bold cell1 half no-time"></div>
 						<div class="cell2 half"></div>
 						<div class="cell2 half cell-last"></div>
 					</div>
@@ -297,7 +313,7 @@
 						<div class="cell2 half table-drag" data-day='wed' data-time='2330'></div>
 						<div class="cell-bold cell1 half"></div>
 						<div class="chead">{% trans "토/일/시간없음" %}</div>
-						<div class="cell1 half no-time"></div>
+						<div class="cell-bold cell1 half no-time"></div>
 						<div class="cell2 half"></div>
 						<div class="cell2 half cell-last"></div>
 					</div>
@@ -337,7 +353,7 @@
 						<div class="cell2 half table-drag" data-day='thu' data-time='2330'></div>
 						<div class="cell-bold cell1 half"></div>
 						<div class="chead"></div>
-						<div class="cell1 half no-time"></div>
+						<div class="cell-bold cell1 half no-time"></div>
 						<div class="cell2 half"></div>
 						<div class="cell2 half cell-last"></div>
 					</div>
@@ -377,7 +393,7 @@
 						<div class="cell2 half table-drag" data-day='fri' data-time='2330'></div>
 						<div class="cell-bold cell1 half"></div>
 						<div class="chead"></div>
-						<div class="cell1 half no-time"></div>
+						<div class="cell-bold cell1 half no-time"></div>
 						<div class="cell2 half"></div>
 						<div class="cell2 half cell-last"></div>
 					</div>
@@ -393,10 +409,10 @@
 				<div id="map">
 					<div id="map-container">
 						<img id="map-img" src="/media/img/timetable/kaist_map.jpg">
-					  {% for i in "1234" %}
-						<div class="map-location {% cycle 'E11' 'N1' 'N4' 'N25'%} none" data-building="{% cycle 'E11' 'N1' 'N4' 'N25'%}" data-id="1234">
+					  {% for i in "123456789012345678" %}
+						<div class="map-location {% cycle 'E2' 'E3' 'E6' 'E7' 'E11' 'E16' 'N1' 'N3' 'N4' 'N5' 'N7' 'N22' 'N24' 'N25' 'N27' 'W1' 'W16' 'W8' %} none" data-building="{% cycle 'E2' 'E3' 'E6' 'E7' 'E11' 'E16' 'N1' 'N3' 'N4' 'N5' 'N7' 'N22' 'N24' 'N25' 'N27' 'W1' 'W16' 'W8' %}" data-id="1234">
 							<div class="map-location-box">
-								<span class="map-location-text">{% cycle 'E11' 'N1' 'N4' 'N25'%}</span>
+								<span class="map-location-text">{% cycle 'E2' 'E3' 'E6' 'E7' 'E11' 'E16' 'N1' 'N3' 'N4' 'N5' 'N7' 'N22' 'N24' 'N25' 'N27' 'W1' 'W16' 'W8' %}</span>
 								<span class="map-location-circle"></span>
 								<span class="map-location-circle"></span>
 							</div>
@@ -578,12 +594,12 @@
 			<span id="dictionary-option"><a href="/review/dictionary/<%- old_code %>" target="_blank">{% trans "과목사전" %}</a></span>
 		</div>
 		<div class="detail-top">
-			<div class="basic-info"><span class="basic-info-name fixed-{{ LANGUAGE_CODE }}">{% trans "학과" %}</span><span id="department"><%- format_dept_name %></span></div>
 			<div class="basic-info"><span class="basic-info-name fixed-{{ LANGUAGE_CODE }}">{% trans "구분" %}</span><span id="course-type"><%- type %></span></div>
+			<div class="basic-info"><span class="basic-info-name fixed-{{ LANGUAGE_CODE }}">{% trans "학과" %}</span><span id="department"><%- format_dept_name %></span></div>
 			<div class="basic-info"><span class="basic-info-name fixed-{{ LANGUAGE_CODE }}">{% trans "교수" %}</span><span id="instructor"><%- format_professor_str %></span></div>
 			<div class="basic-info"><span class="basic-info-name fixed-{{ LANGUAGE_CODE }}">{% trans "장소" %}</span><span id="classroom"><%- format_classroom %></span></div>
 			<div class="basic-info"><span class="basic-info-name fixed-{{ LANGUAGE_CODE }}">{% trans "정원" %}</span><span id="class-size"><%- limit %></span></div>
-			<div class="basic-info"><span class="basic-info-name fixed-{{ LANGUAGE_CODE }}">{% trans "시험" %}</span><span id="exam-time"><%- format_exam %></span></div>
+			<div class="basic-info"><span class="basic-info-name fixed-{{ LANGUAGE_CODE }}">{% trans "시험" %}</span><span id="exam-time"><%- exam %></span></div>
 			<div class="lecture-scores">
 				<div class="lecture-score">
 					<% if (is_english) { %>
@@ -717,9 +733,9 @@
 	<div id="course-title" style="text-align:center;"><span><%- title %></span></div>
 	<div id="course-no" style="text-align:center;"><span><%- lectures.length %>{% trans "개의 과목" %}</span></div>
 	<div class="lecture-options">
-		<span id="color-option" style="float:left;">{% trans "색상 변경" %}</span>
-		<span id="syllabus-option">{% trans "실라버스" %}</span>&nbsp;
-		<span id="dictionary-option">{% trans "과목사전" %}</span>
+		<span id="fix-option" class="disable" style="float:left;">{% trans "고정해제" %}</span>
+		<span id="syllabus-option" class="disable">{% trans "실라버스" %}</span>&nbsp;
+		<span id="dictionary-option" class="disable">{% trans "과목사전" %}</span>
 	</div>
 	<div class="detail-top">
 		<% _.each(lectures, function(lecture){ %>
