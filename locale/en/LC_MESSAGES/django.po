@@ -15,6 +15,12 @@ msgstr "professor_name_en"
 msgid "name"
 msgstr "name_en"
 
+msgid " 기초 과목"
+msgstr " Basic Course"
+
+msgid " 전공"
+msgstr " Major"
+
 
 
 
