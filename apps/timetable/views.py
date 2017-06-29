@@ -577,15 +577,14 @@ def search(request):
 @csrf_exempt
 def fetch(request):
     if request.method == 'POST':
-        request_json = json.loads(request.body)
-        lecture_name = request_json['lecture_name']
-        professor_id = request_json['professor_id']
+        lecture_id = request.POST['lecture_id']
+        lecture = Lecture.objects.get(id=lecture_id)
         comments = Comment.objects.filter(
-            lecture__title=lecture_name,
-            lecture__professor__in=Professor.objects.filter(professor_id=professor_id),
+            lecture__course=lecture.course,
+            lecture__professor__in=lecture.professor.all(),
         )
         comments = [model_to_dict(x) for x in comments]
-        return HttpResponse(json.JSONEncoder().encode(comments))
+        return JsonResponse(comments, safe=False)
 
 
 def fetch_temp(request):
