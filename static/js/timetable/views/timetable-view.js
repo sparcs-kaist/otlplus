@@ -35,9 +35,9 @@ function findLecture(lectures, id) {
   if(lectures.length === 0){
     return undefined;
   } else if (lectures[0].attributes) {
-    return _.find(lectures, (x)=>(x.get('id')===id));
+    return _.find(lectures, function(x){return x.get('id')===id});
   } else {
-    return _.find(lectures, (x)=>(x.id===id));
+    return _.find(lectures, function(x){return x.id===id});
   }
 }
 
@@ -783,7 +783,7 @@ function findLecture(lectures, id) {
           $('.lecture-block[data-id=' + lecture.id + ']').addClass('click');
         }
       } else {
-        var noTime = _.filter(app.CurrentTimetable.get('lectures'), x => x.classtimes.length===0).length;
+        var noTime = _.filter(app.CurrentTimetable.get('lectures'), function(x){x.classtimes.length===0}).length;
         if (child.classtimes.length > 0) {
           for (var j=0, classtime; classtime=child.classtimes[j]; j++) {
             var dayVal = classtime.day + 2;
