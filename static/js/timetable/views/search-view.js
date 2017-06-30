@@ -220,9 +220,9 @@ var app = app || {};
             } else {
               models = _.filter(lecList.models,
                                 function(x) {
-                                  (x.get('department_code')===code)
-                                  &&((x.get('type_en')==='Major Required')
-                                     ||(x.get('type_en')==='Major Elective'))});
+                                  return (x.get('department_code')===code)
+                                         &&((x.get('type_en')==='Major Required')
+                                            ||(x.get('type_en')==='Major Elective'))});
             }
 
             courses = _.groupBy(models, function(x){return x.get('old_code')});
