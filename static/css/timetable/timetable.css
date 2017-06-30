@@ -221,14 +221,16 @@ i
 {
     display: inline-block;
     font-weight: bold;
+    margin-right: 4px;
+    white-space: nowrap;
 }
 .basic-info-name.fixed-ko
 {
-    width: 3.5ch;
+    width: 23px;
 }
 .basic-info-name.fixed-en
 {
-    width: 4.5ch;
+    width: 30px;
 }
 
 #department, #course-type, #instructor, #classroom, #class-size, #exam-time
@@ -622,14 +624,15 @@ i
 	display:inline-block;
 	vertical-align:top;
     font-weight:bold;
+    white-space:nowrap;
 }
 .type-name.fixed-ko
 {
-    width: 3.5ch;
+    width: 23px;
 }
 .type-name.fixed-en
 {
-    width: 4.0ch;
+    width: 30px;
 }
 
 .type-elem
@@ -844,11 +847,11 @@ i
 }
 .class-title.fixed-1
 {
-    width: 1.3ch;
+    width: 9px;
 }
 .class-title.fixed-2
 {
-    width: 2.3ch;
+    width: 16px;
 }
 
 .class-prof
@@ -1623,14 +1626,16 @@ i
 {
     font-weight: bold;
     display: inline-block;
+    margin-right: 4px;
+    white-space: nowrap;
 }
 .lecture-type-span.fixed-ko
 {
-    width: 3.5ch;
+    width: 23px;
 }
 .lecture-type-span.fixed-en
 {
-    width: 3.5ch;
+    width: 23px;
 }
 
 .credit-text.active
@@ -1763,16 +1768,17 @@ i
     display:flex;
     display:-webkit-flex;
     margin-bottom:8px;
-    margin-right:10px;
+    margin-right:4px;
     text-align:center;
+    white-space:nowrap;
 }
 .exam-chead.fixed-ko
 {
-    width:1.5ch;
+    width:12px;
 }
 .exam-chead.fixed-en
 {
-    width:2.5ch;
+    width:23px;
 }
 
 .exam-body
