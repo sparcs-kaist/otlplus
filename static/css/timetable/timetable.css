@@ -1600,6 +1600,7 @@ i
 
 #info
 {
+    flex:none;
     padding-bottom:10px;
     border-bottom:1px solid #EDD1DC;
 }
