@@ -578,8 +578,8 @@ i
 {
     background: none;
     border:none;
-	padding:0px;
-	margin:0px;
+	padding:1px 0px 0px 0px;
+	margin:-1px 0px 0px 0px;
 	font-size:13px;
 	line-height:12px;
     -webkit-box-flex:1;
@@ -773,7 +773,7 @@ i
 }
 .nano-pane {
     width: 4px !important;
-    margin: 0px 3px 10px 3px !important;
+    margin: 0px 3px 10px 3px;
     background-color:transparent !important;
 }
 .nano-slider {
@@ -1064,7 +1064,7 @@ i
 
 #semester
 {
-	width:84px;
+	width:88px;
 	height:21px;
 	float:right;
 	background-color:#fff;
@@ -1713,6 +1713,19 @@ i
     line-height:12px;
     padding-top:10px;
     padding-bottom:10px;
+}
+
+#examtable.nano
+{
+    margin-top: -1px;
+}
+#examtable.nano > .nano-content
+{
+    padding-top: 1px;
+}
+#examtable.nano > .nano-pane
+{
+    margin-top: 1px;
 }
 
 .examtime
