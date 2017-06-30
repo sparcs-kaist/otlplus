@@ -868,6 +868,24 @@ function findLecture(lectures, id) {
     openDictPreview: function(e) {
       $(this.el).find('.detail-bottom').removeClass('none');
       $(this.el).find('.detail-top').addClass('none');
+
+      var block = $('.detail-bottom .list-scroll');
+      block.html('<div class="review-loading">'+(LANGUAGE_CODE==="en" ? "Loading" : "불러오는 중")+'</div>');
+      $.ajax({
+        url: "/timetable/fetch/",
+        type: "POST",
+        data: {
+          lecture_id: app.LectureActive.get('lecture').id,
+        },
+        success: function(result) {
+          if (result.length == 0) {
+            block.html('<div class="review-loading">'+(LANGUAGE_CODE==="en" ? "No search results" : "결과 없음")+'</div>');
+          } else {
+            var template = _.template($('#comment-template').html());
+            block.html(template({comments:result}));
+          }
+        },
+      });
     },
 
     closeDictPreview: function(e) {
