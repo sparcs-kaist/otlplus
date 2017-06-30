@@ -209,18 +209,20 @@ var app = app || {};
             block.html(this.noResultMessage);
           }
         } else {
-          var majors = $.map($('.search-chead.major'), x => $(x).attr('data-code'))
+          var majors = $.map($('.search-chead.major'), function(x){return $(x).attr('data-code')});
           for (var i=0,code; code=majors[i]; i++) {
             block = $('.'+name+'-page[data-code="'+code+'"]').find('.list-scroll');
             if (code === 'Basic') {
               models = _.filter(lecList.models,
-                                x => (x.get('type_en')==='Basic Required')
-                                      ||(x.get('type_en')==='Basic Elective'));
+                                function(x) {
+                                  return (x.get('type_en')==='Basic Required')
+                                         ||(x.get('type_en')==='Basic Elective')});
             } else {
               models = _.filter(lecList.models,
-                                x => (x.get('department_code')===code)
-                                      &&((x.get('type_en')==='Major Required')
-                                         ||(x.get('type_en')==='Major Elective')));
+                                function(x) {
+                                  (x.get('department_code')===code)
+                                  &&((x.get('type_en')==='Major Required')
+                                     ||(x.get('type_en')==='Major Elective'))});
             }
 
             courses = _.groupBy(models, function(x){return x.get('old_code')});
