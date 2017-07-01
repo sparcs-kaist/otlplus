@@ -31,7 +31,7 @@ class Command(BaseCommand):
             next_year += 1
             next_semester = next_semester % 4
         next_year = 2017
-        next_semester = 3
+        next_semester = 1
 
         rx_dept_code = re.compile(ur'([a-zA-Z]+)(\d+)')
         host = options.get('host', None)
@@ -86,7 +86,7 @@ class Command(BaseCommand):
                         try:
                             elem = elem.decode(encoding)
                         except UnicodeDecodeError:
-                            eleme = u'%s (???)' % row[20]
+                            elem = u'%s (???)' % row[20]
                             print>>sys.stderr, 'ERROR: parsing error on lecture %s' % row[20]
                             print>>sys.stderr, '       cannot read "%s" in cp949.' % elem
                     myrow.append(elem)
@@ -263,13 +263,19 @@ class Command(BaseCommand):
         c = db.cursor()
         c.execute('SELECT * FROM view_OTL_exam_time WHERE lecture_year = %d AND lecture_term = %d' % (next_year, next_semester))
         exam_times = c.fetchall()
+        print exam_times
         c.close()
         ExamTime.objects.filter(lecture__year__exact=next_year, lecture__semester=next_semester).delete()
         for row in exam_times:
+            print row
             myrow = []
             for elem in row:
                 if isinstance(elem, str):
-                    elem = elem.decode(encoding)
+                    try:
+                        elem = elem.decode(encoding)
+                    except UnicodeDecodeError:
+                        elem = u'???'
+                        print>> sys.stderr, 'ERROR: parsing error on lecture. cannot read in cp949.'
                 myrow.append(elem)
             lecture_key = {
                 'code': myrow[2],
@@ -299,10 +305,15 @@ class Command(BaseCommand):
         c.close()
         ClassTime.objects.filter(lecture__year__exact=next_year, lecture__semester=next_semester).delete()
         for row in class_times:
+            print row
             myrow = []
             for elem in row:
                 if isinstance(elem, str):
-                    elem = elem.decode(encoding)
+                    try:
+                        elem = elem.decode(encoding)
+                    except UnicodeDecodeError:
+                        elem = u'???'
+                        print>> sys.stderr, 'ERROR: parsing error on lecture. cannot read in cp949.'
                 myrow.append(elem)
             lecture_key = {
                 'code': myrow[2],
