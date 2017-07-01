@@ -583,13 +583,16 @@ def fetch(request):
             lecture__course=lecture.course,
             lecture__professor__in=lecture.professor.all(),
         ).order_by('-id')
-        score_dict = ['?', 'F', 'D', 'C', 'B', 'A']
-        comments = [{'grade': score_dict[x.grade],
-                     'load': score_dict[x.load],
-                     'speech': score_dict[x.speech],
-                     'comment': x.comment[:200],
-                     'id': x.id} for x in comments]
-        return JsonResponse(comments, safe=False)
+
+        result = []
+        for c in comments:
+            grade, load, speech, total = c.alphabet_score()
+            result.append({'grade': grade,
+                           'load': load,
+                           'speech': speech,
+                           'comment': c.comment[:200],
+                           'id': c.id})
+        return JsonResponse(result, safe=False)
 
 
 def fetch_temp(request):
