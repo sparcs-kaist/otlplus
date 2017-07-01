@@ -17,7 +17,7 @@ class ExamTimeAdmin(admin.ModelAdmin):
 
 
 class ClassTimeAdmin(admin.ModelAdmin):
-    list_display = ('lecture', 'day', 'begin', 'end', 'roomNum', 'roomName_ko', 'roomName_en')
+    list_display = ('lecture', 'day', 'begin', 'end', 'roomNum', 'roomName', 'roomName_en')
     ordering = ('lecture',)
 
 

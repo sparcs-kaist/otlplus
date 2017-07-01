@@ -1101,6 +1101,29 @@ function findLecture(lectures, id) {
       $('.lecture-type[data-type="Humanities & Social Elective"]').find('.credit-text').html(byType[4]);
       $('.lecture-type-right[data-type="Etc"]').find('.credit-text').html(byType[5]);
 
+      // Update score
+      var grade=0.0, load=0.0, speech=0.0;
+      var targetNum=0;
+      for (var i = 0, child; child = lectures[i]; i++) {
+        if (child.has_review) {
+          var num = child.credit + child.credit_au;
+          targetNum += num;
+          grade += child.grade * num;
+          load += child.load * num;
+          speech += child.speech * num;
+        }
+      }
+      if (targetNum > 0) {
+        var letters = ['?', '?', '?', 'F', 'F', 'F', 'D-', 'D', 'D+', 'C-', 'C', 'C+', 'B-', 'B', 'B+', 'A-', 'A', 'A+'];
+        $('#grades.score-text').html(letters[Math.round(grade/targetNum)]);
+        $('#loads.score-text').html(letters[Math.round(load/targetNum)]);
+        $('#speeches.score-text').html(letters[Math.round(speech/targetNum)]);
+      } else {
+        $('#grades.score-text').html('?');
+        $('#loads.score-text').html('?');
+        $('#speeches.score-text').html('?');
+      }
+
       // Delete lectureactive if not in new timetable
       if (app.LectureActive.get('from')==='table') {
         var activeID = app.LectureActive.get('lecture').id
