@@ -147,7 +147,7 @@ def _lecture_result_format(ls):
 
 
 def _classtime_to_dict(ct):
-    bldg = getattr(ct, _("roomName_ko"))
+    bldg = getattr(ct, _("roomName"))
     # No classroom info
     if bldg == None:
         room = ""
