@@ -365,7 +365,7 @@ function findLecture(lectures, id) {
       } else if (app.LectureActive.get('type') === 'click'
                  && app.LectureActive.get('from') === 'table'
                  && app.LectureActive.get('lecture').id === id) {
-        app.LectureActive.set({type: "none"});
+        app.LectureActive.set({type: "hover"});
       } else {
         var lecList = app.CurrentTimetable.get('lectures');
         var lecture = findLecture(lecList, id);
@@ -469,7 +469,7 @@ function findLecture(lectures, id) {
       } else if (app.LectureActive.get('type') === 'click'
           && app.LectureActive.get('from') === 'list'
           && app.LectureActive.get('lecture').id === id) {
-        app.LectureActive.set({type: "none"});
+        app.LectureActive.set({type: "hover"});
       } else {
         var lecList;
         switch (ct.closest('.list-page').attr('class').split(' ')[1]) {
@@ -559,9 +559,6 @@ function findLecture(lectures, id) {
     },
 
     buildingInfo: function(e) {
-      if ($(e.target).hasClass('map-location-circle')) {
-        return;
-      }
       if (app.LectureActive.get("type") === "none") {
         var buildingNo = $(e.currentTarget).closest(".map-location").attr("data-building");
         var title = buildingNo;
