@@ -23,7 +23,6 @@ var app = app || {};
                     'update',
                     this.genListRender(app.humanityLectureList, 'humanity'));
       this.listenTo(app.YearSemester, 'change', this.fetchLists);
-      app.YearSemester.set({year:2017, semester:1});
     },
     loadingMessage: '<div class="list-loading">'+(LANGUAGE_CODE==="en" ? "Loading" : "불러오는 중")+'</div>',
     noResultMessage: '<div class="list-loading">'+(LANGUAGE_CODE==="en" ? "No search results" : "결과 없음")+'</div>',
@@ -157,6 +156,7 @@ var app = app || {};
 
       $(".search-page .list-scroll").html(this.loadingMessage);
       this.hideSearch();
+      $(".nano").nanoScroller();
 
       app.SearchKeyword.set(data);
       app.SearchKeyword.save(null, {
@@ -191,6 +191,7 @@ var app = app || {};
       app.majorLectureList.fetch(options);
       $(".humanity-page .list-scroll").html(this.loadingMessage);
       app.humanityLectureList.fetch(options);
+      $(".nano").nanoScroller();
     },
  
     genListRender: function(lecList, name) {
