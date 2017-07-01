@@ -35,9 +35,9 @@ function findLecture(lectures, id) {
   if(lectures.length === 0){
     return undefined;
   } else if (lectures[0].attributes) {
-    return _.find(lectures, (x)=>(x.get('id')===id));
+    return _.find(lectures, function(x){return x.get('id')===id});
   } else {
-    return _.find(lectures, (x)=>(x.id===id));
+    return _.find(lectures, function(x){return x.id===id});
   }
 }
 
@@ -193,7 +193,7 @@ function findLecture(lectures, id) {
       var lecture_id = Number(ct.closest('.list-elem-body-wrap').attr('data-id'));
       var timetable_id = Number(app.CurrentTimetable.get('id'));
       var lecList;
-      switch (ct.parent().parent().parent().parent().parent().attr('class').split()[0]) {
+      switch (ct.closest('.list-page').attr('class').split(' ')[1]) {
         case 'search-page':
           lecList = app.searchLectureList;
           break;
@@ -261,7 +261,7 @@ function findLecture(lectures, id) {
         },
         success: function(result) {
           var lecList;
-          switch (ct.parent().parent().parent().parent().parent().attr('class').split()[0]) {
+          switch (ct.closest('.list-page').attr('class').split(' ')[1]) {
             case 'search-page':
               lecList = app.searchLectureList;
               break;
@@ -429,7 +429,7 @@ function findLecture(lectures, id) {
         var ct = $(e.currentTarget);
         var id = Number(ct.attr('data-id'));
         var lecList;
-        switch (ct.parent().parent().parent().attr('class').split()[0]) {
+        switch (ct.closest('.list-page').attr('class').split(' ')[1]) {
           case 'search-page':
             lecList = app.searchLectureList;
             break;
@@ -472,7 +472,7 @@ function findLecture(lectures, id) {
         app.LectureActive.set({type: "none"});
       } else {
         var lecList;
-        switch (ct.parent().parent().parent().attr('class').split()[0]) {
+        switch (ct.closest('.list-page').attr('class').split(' ')[1]) {
           case 'search-page':
             lecList = app.searchLectureList;
             break;
@@ -783,7 +783,7 @@ function findLecture(lectures, id) {
           $('.lecture-block[data-id=' + lecture.id + ']').addClass('click');
         }
       } else {
-        var noTime = _.filter(app.CurrentTimetable.get('lectures'), x => x.classtimes.length===0).length;
+        var noTime = _.filter(app.CurrentTimetable.get('lectures'), function(x){x.classtimes.length===0}).length;
         if (child.classtimes.length > 0) {
           for (var j=0, classtime; classtime=child.classtimes[j]; j++) {
             var dayVal = classtime.day + 2;
@@ -884,6 +884,7 @@ function findLecture(lectures, id) {
             var template = _.template($('#comment-template').html());
             block.html(template({comments:result}));
           }
+          $(".nano").nanoScroller();
         },
       });
     },

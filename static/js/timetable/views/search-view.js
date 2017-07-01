@@ -100,6 +100,7 @@ var app = app || {};
       if (app.LectureActive.get("from") === "list") {
         app.LectureActive.set({type: "none"});
       }
+      $(".nano").nanoScroller();
     },
 
     toggleType: function (e) {
@@ -200,7 +201,7 @@ var app = app || {};
         var block;
         var courses;
         if (name !== 'major') {
-          block = $('.'+name+'-page').find('.list-scroll');
+          block = $('.'+name+'-page').find('.nano-content');
 
           courses = _.groupBy(models, function(x){return x.get('old_code')});
           if (models.length > 0) {
@@ -209,18 +210,20 @@ var app = app || {};
             block.html(this.noResultMessage);
           }
         } else {
-          var majors = $.map($('.search-chead.major'), x => $(x).attr('data-code'))
+          var majors = $.map($('.search-chead.major'), function(x){return $(x).attr('data-code')});
           for (var i=0,code; code=majors[i]; i++) {
-            block = $('.'+name+'-page[data-code="'+code+'"]').find('.list-scroll');
+            block = $('.'+name+'-page[data-code="'+code+'"]').find('.nano-content');
             if (code === 'Basic') {
               models = _.filter(lecList.models,
-                                x => (x.get('type_en')==='Basic Required')
-                                      ||(x.get('type_en')==='Basic Elective'));
+                                function(x) {
+                                  return (x.get('type_en')==='Basic Required')
+                                         ||(x.get('type_en')==='Basic Elective')});
             } else {
               models = _.filter(lecList.models,
-                                x => (x.get('department_code')===code)
-                                      &&((x.get('type_en')==='Major Required')
-                                         ||(x.get('type_en')==='Major Elective')));
+                                function(x) {
+                                  return (x.get('department_code')===code)
+                                         &&((x.get('type_en')==='Major Required')
+                                            ||(x.get('type_en')==='Major Elective'))});
             }
 
             courses = _.groupBy(models, function(x){return x.get('old_code')});
@@ -247,6 +250,8 @@ var app = app || {};
           for (var i = 0, child; child = lectures[i]; i++) {
             $('.'+name+'-page [data-id='+child.id+'] .add-to-cart').addClass('disable');
           }
+
+        $(".nano").nanoScroller();
       }
     }
   })
