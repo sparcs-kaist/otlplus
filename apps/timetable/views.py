@@ -187,6 +187,19 @@ def _examtime_to_dict(ct):
 
 
 
+def _get_scores(lecture):
+    related = Lecture.objects.filter(course=lecture.course, professor__in=lecture.professor.all())
+    comment_num = sum(r.comment_num for r in related)
+    if comment_num == 0:
+        return False, False, False
+    else:
+        grade = float(sum(r.grade_sum for r in related))
+        load = float(sum(r.grade_sum for r in related))
+        speech = float(sum(r.speech_sum for r in related))
+        return grade/comment_num, load/comment_num, speech/comment_num
+
+
+
 # Lecture -> dict-Lecture
 def _lecture_to_dict(lecture):
     # Convert lecture into dict
@@ -224,10 +237,24 @@ def _lecture_to_dict(lecture):
     result['format_dept_name'] = getattr(lecture.department, _("name"))
 
     # Add formatted score
-    # TODO
-    result['format_grade'] = u'B+'
-    result['format_load'] = u'B'
-    result['format_speech'] = u'A-'
+    grade, load, speech = _get_scores(lecture)
+    if grade == False:
+        result['has_review'] = False
+        result['grade'] = 0
+        result['load'] = 0
+        result['speech'] = 0
+        result['grade_letter'] = '?'
+        result['load_letter'] = '?'
+        result['speech_letter'] = '?'
+    else:
+        letters = ['?', '?', '?', 'F', 'F', 'F', 'D-', 'D', 'D+', 'C-', 'C', 'C+', 'B-', 'B', 'B+', 'A-', 'A', 'A+']
+        result['has_review'] = True
+        result['grade'] = grade
+        result['load'] = load
+        result['speech'] = speech
+        result['grade_letter'] = letters[int(round(grade))]
+        result['load_letter'] = letters[int(round(load))]
+        result['speech_letter'] = letters[int(round(speech))]
 
     # Add classroom info
     if len(result['classtimes']) > 0:
