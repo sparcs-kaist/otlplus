@@ -7,13 +7,8 @@ var app = app || {};
   // Lecture Model
   // -------------
   
-  //app.LectureActive = Backbone.Model.extend({
-  var lectureActive = Backbone.Model.extend({
-    defaults: {
-      "click": false,
-      "hover": false,
-    }
+  app.Lecture = Backbone.Model.extend({
+    sync : function(){},
+    save : function(){},
   });
-
-  app.LectureActive = new lectureActive;
 })();
