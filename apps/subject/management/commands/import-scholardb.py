@@ -312,7 +312,7 @@ class Command(BaseCommand):
                 'class_no': myrow[3].strip(),
             }
             try:
-                print (myrow[5], myrow[6], myrow[7], myrow[8], myrow[9], myrow[10], myrow[12], myrow[13])
+                print (myrow)
                 lecture = Lecture.objects.get(**lecture_key)
                 class_time = ClassTime(lecture=lecture)
                 class_time.day = int(myrow[5]) - 1
@@ -321,7 +321,7 @@ class Command(BaseCommand):
                 class_time.type = myrow[8]
                 class_time.building = myrow[9]
                 class_time.roomNum = myrow[10]
-                class_time.roomName_ko = myrow[12]
+                class_time.roomName = myrow[12]
                 class_time.roomName_en = myrow[13]
                 try:
                     class_time.unit_time = int(myrow[11])
