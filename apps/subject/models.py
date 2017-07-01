@@ -102,7 +102,7 @@ class ClassTime(models.Model):
     building = models.CharField(max_length=10, blank=True, null=True) #건물 고유 ID
     roomName_ko = models.CharField(max_length=60, blank=True, null=True) #강의실 이름(한글, ex> 터만홀)
     roomName_en = models.CharField(max_length=60, blank=True, null=True) #강의실 이름(영문, ex> TermanHall)
-    roomNum = models.CharField(max_length=10, null=True) #강의실 호실(ex> 304, 1104, 1209-1)
+    roomNum = models.CharField(max_length=20, null=True) #강의실 호실(ex> 304, 1104, 1209-1)
     unit_time = models.SmallIntegerField(null=True) #수업 교시
 
     def get_begin_numeric(self):
