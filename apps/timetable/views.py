@@ -355,7 +355,7 @@ def main(request):
     else:
         departments = [{'code':'Basic', 'name':'기초 과목'}]
 
-    return render(request,'timetable/index.html', {'departments': departments})
+    return render(request,'timetable/index.html', {'departments': departments, 'year':2017, 'semester':3})
 
 
 def show_table(request):
