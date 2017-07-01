@@ -62,8 +62,8 @@ def get_department_filter(raw_filters):
     department_list = []
     for department in Department.objects.all():
         department_list.append(department.code)
-    major_list = ["CE", "MSB", "MAE", "PH", "BiS", "IE", "ID", "BS", "CBE", "MAS",
-                  "MS", "NQE", "HSS", "EE", "CS", "MAE", "CH"]
+    major_list = ["CE", "MSB", "ME", "PH", "BiS", "IE", "ID", "BS", "CBE", "MAS",
+                  "MS", "NQE", "HSS", "EE", "CS", "AE", "CH"]
     etc_list = list(set(department_list) ^ set(major_list))
     if ("ALL" in raw_filters) or len(raw_filters) == 0:
         return department_list
@@ -166,6 +166,7 @@ def _classtime_to_dict(ct):
     else:
         bldg_no=""
         room = getattr(ct, _("roomNum"))
+        if room == None: room=""
         classroom = bldg + " " + room
         classroom_short = bldg + " " + room
 

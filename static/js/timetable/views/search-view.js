@@ -157,6 +157,7 @@ var app = app || {};
 
       $(".search-page .list-scroll").html(this.loadingMessage);
       this.hideSearch();
+      $(".nano").nanoScroller();
 
       app.SearchKeyword.set(data);
       app.SearchKeyword.save(null, {
@@ -191,6 +192,7 @@ var app = app || {};
       app.majorLectureList.fetch(options);
       $(".humanity-page .list-scroll").html(this.loadingMessage);
       app.humanityLectureList.fetch(options);
+      $(".nano").nanoScroller();
     },
  
     genListRender: function(lecList, name) {
