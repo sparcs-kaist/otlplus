@@ -221,14 +221,16 @@ i
 {
     display: inline-block;
     font-weight: bold;
+    margin-right: 4px;
+    white-space: nowrap;
 }
 .basic-info-name.fixed-ko
 {
-    width: 3.5ch;
+    width: 23px;
 }
 .basic-info-name.fixed-en
 {
-    width: 4.5ch;
+    width: 30px;
 }
 
 #department, #course-type, #instructor, #classroom, #class-size, #exam-time
@@ -576,8 +578,8 @@ i
 {
     background: none;
     border:none;
-	padding:0px;
-	margin:0px;
+	padding:1px 0px 0px 0px;
+	margin:-1px 0px 0px 0px;
 	font-size:13px;
 	line-height:12px;
     -webkit-box-flex:1;
@@ -622,14 +624,15 @@ i
 	display:inline-block;
 	vertical-align:top;
     font-weight:bold;
+    white-space:nowrap;
 }
 .type-name.fixed-ko
 {
-    width: 3.5ch;
+    width: 23px;
 }
 .type-name.fixed-en
 {
-    width: 4.0ch;
+    width: 30px;
 }
 
 .type-elem
@@ -752,16 +755,30 @@ i
     margin-bottom:10px;
 }
 
-.list-scroll
-{
+.nano {
     -webkit-box-flex:1;
         -ms-flex:auto;
             flex:auto;
-	margin-bottom:-10px;
+    margin: 0px -10px -10px 0px;
+    width: auto !important;
+    font-size:12px;
+    line-height:11px;
+}
+.nano-content {
     padding-bottom:4px;
-    overflow-y:scroll;
-	font-size:12px;
-	line-height:11px;
+    margin-right: 0px;
+}
+.nano-content > *{
+    margin-right: 10px;
+}
+.nano-pane {
+    width: 4px !important;
+    margin: 0px 3px 10px 3px;
+    background-color:transparent !important;
+}
+.nano-slider {
+    margin:0px !important;
+    background-color:#ccc !important;
 }
 
 .list-loading
@@ -844,11 +861,11 @@ i
 }
 .class-title.fixed-1
 {
-    width: 1.3ch;
+    width: 9px;
 }
 .class-title.fixed-2
 {
-    width: 2.3ch;
+    width: 16px;
 }
 
 .class-prof
@@ -1047,7 +1064,7 @@ i
 
 #semester
 {
-	width:84px;
+	width:88px;
 	height:21px;
 	float:right;
 	background-color:#fff;
@@ -1583,6 +1600,7 @@ i
 
 #info
 {
+    flex:none;
     padding-bottom:10px;
     border-bottom:1px solid #EDD1DC;
 }
@@ -1623,14 +1641,16 @@ i
 {
     font-weight: bold;
     display: inline-block;
+    margin-right: 4px;
+    white-space: nowrap;
 }
 .lecture-type-span.fixed-ko
 {
-    width: 3.5ch;
+    width: 23px;
 }
 .lecture-type-span.fixed-en
 {
-    width: 3.5ch;
+    width: 23px;
 }
 
 .credit-text.active
@@ -1696,16 +1716,17 @@ i
     padding-bottom:10px;
 }
 
-#examtable
+#examtable.nano
 {
-    -webkit-box-flex:1;
-        -ms-flex:auto;
-            flex:auto;
-    padding-bottom:10px;
-    border-bottom:1px solid #EDD1DC;
-    overflow-y:scroll;
-    font-size:12px;
-    line-height:11px;
+    margin-top: -1px;
+}
+#examtable.nano > .nano-content
+{
+    padding-top: 1px;
+}
+#examtable.nano > .nano-pane
+{
+    margin-top: 1px;
 }
 
 .examtime
@@ -1763,16 +1784,17 @@ i
     display:flex;
     display:-webkit-flex;
     margin-bottom:8px;
-    margin-right:10px;
+    margin-right:4px;
     text-align:center;
+    white-space:nowrap;
 }
 .exam-chead.fixed-ko
 {
-    width:1.5ch;
+    width:12px;
 }
 .exam-chead.fixed-en
 {
-    width:2.5ch;
+    width:23px;
 }
 
 .exam-body
@@ -1792,6 +1814,8 @@ i
 
 #small-buttons
 {
+    margin-top:10px;
+    border-top:1px solid #EDD1DC;
 	padding-top:10px;
 }
 
