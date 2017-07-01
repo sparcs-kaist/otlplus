@@ -8,5 +8,13 @@ var app = app || {};
   // ---------------
   
   app.Timetable = Backbone.Model.extend({
+    defaults: {
+      "lectures": [],
+    },
+
+    sync : function(){},
+    save : function(){},
   });
+
+  app.CurrentTimetable = new app.Timetable;
 })();
