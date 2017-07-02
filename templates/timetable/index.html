@@ -607,69 +607,61 @@
 			<span id="syllabus-option"><a href="https://cais.kaist.ac.kr/syllabusInfo?year=<%- year %>&term=<%- semester %>&subject_no=<%- code %>&lecture_class=<%- class_no %>&dept_id=<%- department %>" target="_blank">{% trans "실라버스" %}</a></span>&nbsp;
 			<span id="dictionary-option"><a href="/review/dictionary/<%- old_code %>" target="_blank">{% trans "과목사전" %}</a></span>
 		</div>
-		<div class="detail-top">
-			<div class="basic-info"><span class="basic-info-name fixed-{{ LANGUAGE_CODE }}">{% trans "구분" %}</span><span id="course-type"><%- type %></span></div>
-			<div class="basic-info"><span class="basic-info-name fixed-{{ LANGUAGE_CODE }}">{% trans "학과" %}</span><span id="department"><%- format_dept_name %></span></div>
-			<div class="basic-info"><span class="basic-info-name fixed-{{ LANGUAGE_CODE }}">{% trans "교수" %}</span><span id="instructor"><%- format_professor_str %></span></div>
-			<div class="basic-info"><span class="basic-info-name fixed-{{ LANGUAGE_CODE }}">{% trans "장소" %}</span><span id="classroom"><%- format_classroom %></span></div>
-			<div class="basic-info"><span class="basic-info-name fixed-{{ LANGUAGE_CODE }}">{% trans "정원" %}</span><span id="class-size"><%- limit %></span></div>
-			<div class="basic-info"><span class="basic-info-name fixed-{{ LANGUAGE_CODE }}">{% trans "시험" %}</span><span id="exam-time"><%- exam %></span></div>
-			<div class="lecture-scores">
-				<div class="lecture-score">
-					<% if (is_english) { %>
-					<div id="language" class="score-text">Eng</div>
-					<% } else { %>
-					<div id="language" class="score-text" style="">한</div>
-					<% } %>
-					<div class="score-label">{% trans "언어" %}</div>
-				</div><!--
-		 --><div class="lecture-score">
-					<% if ((credit > 0) && (credit_au == 0)) { %>
-					<div id="credit" class="score-text"><%- credit %></div>
-					<div class="score-label">{% trans "학점" %}</div>
-					<% } else { %>
-					<div id="credit" class="score-text"><%-credit_au %></div>
-					<div class="score-label">AU</div>
-					<% } %>
-				</div><!--
-		 --><div class="lecture-score">
-					<div id="rate" class="score-text">
-						<% if (limit == 0) { %>
-						0.0:1
+		<div class="nano">
+			<div class="list-scroll nano-content">
+				<div class="basic-info"><span class="basic-info-name fixed-{{ LANGUAGE_CODE }}">{% trans "구분" %}</span><span id="course-type"><%- type %></span></div>
+				<div class="basic-info"><span class="basic-info-name fixed-{{ LANGUAGE_CODE }}">{% trans "학과" %}</span><span id="department"><%- format_dept_name %></span></div>
+				<div class="basic-info"><span class="basic-info-name fixed-{{ LANGUAGE_CODE }}">{% trans "교수" %}</span><span id="instructor"><%- format_professor_str %></span></div>
+				<div class="basic-info"><span class="basic-info-name fixed-{{ LANGUAGE_CODE }}">{% trans "장소" %}</span><span id="classroom"><%- format_classroom %></span></div>
+				<div class="basic-info"><span class="basic-info-name fixed-{{ LANGUAGE_CODE }}">{% trans "정원" %}</span><span id="class-size"><%- limit %></span></div>
+				<div class="basic-info"><span class="basic-info-name fixed-{{ LANGUAGE_CODE }}">{% trans "시험" %}</span><span id="exam-time"><%- exam %></span></div>
+				<div class="lecture-scores">
+					<div class="lecture-score">
+						<% if (is_english) { %>
+						<div id="language" class="score-text">Eng</div>
 						<% } else { %>
-						<%- (num_people/limit).toFixed(1) %>:1
+						<div id="language" class="score-text" style="">한</div>
 						<% } %>
-					</div>
-					<div class="score-label">{% trans "경쟁률" %}</div>
-				</div>
-			</div>
-			<div class="lecture-scores">
-				<div class="lecture-score" style="clear:both;">
-					<div id="grade" class="score-text"><%- grade_letter %></div>
-					<div class="score-label">{% trans "성적" %}</div>
-				</div><!--
-		 --><div class="lecture-score">
-					<div id="load" class="score-text"><%- load_letter %></div>
-					<div class="score-label">{% trans "널널" %}</div>
-				</div><!--
-		 --><div class="lecture-score">
-					<div id="speech" class="score-text"><%- speech_letter %></div>
-					<div class="score-label">{% trans "강의" %}</div>
-				</div>
-			</div>
-			<div class="basic-info dictionary-preview open-dict-button">
-				<span style="font-weight:700;">{% trans "과목 후기" %}</span><i class="open-dict-preview"></i>
-			</div>
-		</div>
-		<div class="detail-bottom none">
-			<div class="basic-info dictionary-preview close-dict-button">
-				<span style="font-weight:700;">{% trans "과목 후기" %}</span><i class="close-dict-preview"></i>
-			</div>
-				<div class="nano">
-					<div class="list-scroll nano-content">
-						<!-- Reviews inserted here -->
+						<div class="score-label">{% trans "언어" %}</div>
+					</div><!--
+			 --><div class="lecture-score">
+						<% if ((credit > 0) && (credit_au == 0)) { %>
+						<div id="credit" class="score-text"><%- credit %></div>
+						<div class="score-label">{% trans "학점" %}</div>
+						<% } else { %>
+						<div id="credit" class="score-text"><%-credit_au %></div>
+						<div class="score-label">AU</div>
+						<% } %>
+					</div><!--
+			 --><div class="lecture-score">
+						<div id="rate" class="score-text">
+							<% if (limit == 0) { %>
+							0.0:1
+							<% } else { %>
+							<%- (num_people/limit).toFixed(1) %>:1
+							<% } %>
+						</div>
+						<div class="score-label">{% trans "경쟁률" %}</div>
 					</div>
 				</div>
+				<div class="lecture-scores">
+					<div class="lecture-score" style="clear:both;">
+						<div id="grade" class="score-text"><%- grade_letter %></div>
+						<div class="score-label">{% trans "성적" %}</div>
+					</div><!--
+			 --><div class="lecture-score">
+						<div id="load" class="score-text"><%- load_letter %></div>
+						<div class="score-label">{% trans "널널" %}</div>
+					</div><!--
+			 --><div class="lecture-score">
+						<div id="speech" class="score-text"><%- speech_letter %></div>
+						<div class="score-label">{% trans "강의" %}</div>
+					</div>
+				</div>
+				<div class="basic-info dictionary-preview open-dict-button">
+					<span style="font-weight:700;">{% trans "과목 후기" %}</span><i class="dict-arrow"></i>
+				</div>
+				<!-- Reviews inserted here -->
 			</div>
 		</div>
   </div>

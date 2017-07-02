@@ -671,6 +671,7 @@ function findLecture(lectures, id) {
       'click .open-dict-button': "openDictPreview",
       'click .close-dict-button': "closeDictPreview",
       'click #fix-option': "unfix",
+      'scroll': "scrollInfo",
     },
 
     changeInfo: function () {
@@ -727,8 +728,12 @@ function findLecture(lectures, id) {
       $('#lecture-info').append(this.detailTemplate(lecture));
       if (app.LectureActive.get('type') === 'click') {
         $(".lecture-options #fix-option").removeClass('disable');
+        $('.lecture-detail .nano-content').append('<div class="review-loading">'+(LANGUAGE_CODE==="en" ? "Loading" : "불러오는 중")+'</div>');
+        this.fetchDict();
         this.openDictPreview();
       }
+      $(".nano").nanoScroller();
+      $(this.el).find(".nano-content").bind("scroll", this.scrollChange);
 
       // Update credit info
       var typeDiv = $('#info').find("[data-type='" + lecture.type_en + "']");
@@ -858,16 +863,22 @@ function findLecture(lectures, id) {
                                           examTime: exam.str.substr(exam.str.indexOf(" ") + 1),
                                           startTime: exam.begin,
                                           temp: true,}));
+          $('.nano').nanoScroller();
         }
       }
     },
 
     openDictPreview: function(e) {
-      $(this.el).find('.detail-bottom').removeClass('none');
-      $(this.el).find('.detail-top').addClass('none');
+      $('.lecture-detail .nano').nanoScroller({scrollTop: $('.dictionary-preview').position().top - $('.basic-info:first-child').position().top});
+    },
 
-      var block = $('.detail-bottom .list-scroll');
-      block.html('<div class="review-loading">'+(LANGUAGE_CODE==="en" ? "Loading" : "불러오는 중")+'</div>');
+    closeDictPreview: function(e) {
+      $('.lecture-detail .nano').nanoScroller({scrollTop: 0});
+    },
+
+    fetchDict: function(e) {
+      var block = $('.lecture-detail .list-scroll');
+
       $.ajax({
         url: "/timetable/fetch/",
         type: "POST",
@@ -875,25 +886,29 @@ function findLecture(lectures, id) {
           lecture_id: app.LectureActive.get('lecture').id,
         },
         success: function(result) {
+          $('.lecture-detail .review-loading').remove();
           if (result.length == 0) {
-            block.html('<div class="review-loading">'+(LANGUAGE_CODE==="en" ? "No search results" : "결과 없음")+'</div>');
+            block.append('<div class="review-loading">'+(LANGUAGE_CODE==="en" ? "No search results" : "결과 없음")+'</div>');
           } else {
             var template = _.template($('#comment-template').html());
-            block.html(template({comments:result}));
+            block.append(template({comments:result}));
           }
-          $(".nano").nanoScroller();
+          $('.nano').nanoScroller();
         },
       });
     },
 
-    closeDictPreview: function(e) {
-      $(this.el).find('.detail-top').removeClass('none');
-      $(this.el).find('.detail-bottom').addClass('none');
+    scrollChange: function(e) {
+      if($('.dictionary-preview').position().top <= 5) {
+        $('.dictionary-preview').addClass('close-dict-button').removeClass('open-dict-button');
+      } else {
+        $('.dictionary-preview').addClass('open-dict-button').removeClass('close-dict-button');
+      }
     },
 
     unfix: function(e) {
       app.LectureActive.set({type: "none"});
-    }
+    },
   })
 
   // Fetching and changing timetable tabs

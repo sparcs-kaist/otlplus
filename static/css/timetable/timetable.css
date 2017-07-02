@@ -272,7 +272,7 @@ i
 	cursor:pointer;
 }
 
-.open-dict-preview
+.open-dict-button .dict-arrow
 {
 	background: url(/media/icons/lecture_downarrow.svg) no-repeat center center;
 	width:14px;
@@ -282,12 +282,12 @@ i
 	margin-left:5px;
 }
 
-.dictionary-preview:hover .open-dict-preview
+.open-dict-button:hover .dict-arrow
 {
 	background-image: url(/media/icons/lecture_downarrow_hover.svg);
 }
 
-.close-dict-preview
+.close-dict-button .dict-arrow
 {
 	background: url(/media/icons/lecture_uparrow.svg) no-repeat center center;
 	width:14px;
@@ -297,30 +297,17 @@ i
 	margin-left:5px;
 }
 
-.dictionary-preview:hover .close-dict-preview
+.close-dict-button:hover .dict-arrow
 {
 	background-image: url(/media/icons/lecture_uparrow_hover.svg);
-}
-
-.detail-bottom{
-    -webkit-box-flex:1;
-        -ms-flex:auto;
-            flex:auto;
-    display:-webkit-box;
-    display:-ms-flexbox;
-    display:flex;
-    display:-webkit-flex;
-    -webkit-box-orient:vertical;
-    -webkit-box-direction:normal;
-        -ms-flex-direction:column;
-            flex-direction:column;
 }
 
 .review-loading
 {
     font-size: 16px;
     color: #999;
-    margin-top: calc(2.8vh + 75px);
+    height:calc(5.6vh + 164px);
+    padding-top: calc(2.8vh + 75px);
     text-align: center;
 }
 
