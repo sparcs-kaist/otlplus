@@ -607,6 +607,11 @@
 			<span id="syllabus-option"><a href="https://cais.kaist.ac.kr/syllabusInfo?year=<%- year %>&term=<%- semester %>&subject_no=<%- code %>&lecture_class=<%- class_no %>&dept_id=<%- department %>" target="_blank">{% trans "실라버스" %}</a></span>&nbsp;
 			<span id="dictionary-option"><a href="/review/dictionary/<%- old_code %>" target="_blank">{% trans "과목사전" %}</a></span>
 		</div>
+		<div class="dict-fixed none">
+			<div class="basic-info dictionary-preview close-dict-button">
+				<span style="font-weight:700;">{% trans "과목 후기" %}</span><i class="dict-arrow"></i>
+			</div>
+		</div>
 		<div class="nano">
 			<div class="list-scroll nano-content">
 				<div class="basic-info"><span class="basic-info-name fixed-{{ LANGUAGE_CODE }}">{% trans "구분" %}</span><span id="course-type"><%- type %></span></div>

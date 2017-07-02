@@ -271,6 +271,16 @@ i
 .dictionary-preview{
 	cursor:pointer;
 }
+.dictionary-preview.close-dict-button{
+    padding-bottom: 10px;
+    margin-bottom: 0px;
+    background-color: #fff;
+}
+
+.dict-fixed{
+    height:0;
+    z-index:10;
+}
 
 .open-dict-button .dict-arrow
 {
@@ -306,7 +316,7 @@ i
 {
     font-size: 16px;
     color: #999;
-    height:calc(5.6vh + 164px);
+    height:calc(5.6vh + 168px);
     padding-top: calc(2.8vh + 75px);
     text-align: center;
 }

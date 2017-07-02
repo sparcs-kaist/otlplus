@@ -869,7 +869,7 @@ function findLecture(lectures, id) {
     },
 
     openDictPreview: function(e) {
-      $('.lecture-detail .nano').nanoScroller({scrollTop: $('.dictionary-preview').position().top - $('.basic-info:first-child').position().top});
+      $('.lecture-detail .nano').nanoScroller({scrollTop: $('.open-dict-button').position().top - $('.nano-content > .basic-info:first-child').position().top + 1});
     },
 
     closeDictPreview: function(e) {
@@ -899,10 +899,11 @@ function findLecture(lectures, id) {
     },
 
     scrollChange: function(e) {
-      if($('.dictionary-preview').position().top <= 5) {
-        $('.dictionary-preview').addClass('close-dict-button').removeClass('open-dict-button');
+      console.log($('.open-dict-button').position().top);
+      if($('.open-dict-button').position().top <= 0) {
+        $('.dict-fixed').removeClass('none');
       } else {
-        $('.dictionary-preview').addClass('open-dict-button').removeClass('close-dict-button');
+        $('.dict-fixed').addClass('none');
       }
     },
 
