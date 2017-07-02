@@ -273,6 +273,8 @@ i
 }
 .dictionary-preview.close-dict-button{
     padding-bottom: 10px;
+    margin-top: -1px;
+    padding-top: 1px;
     margin-bottom: 0px;
     background-color: #fff;
 }
@@ -776,6 +778,19 @@ i
 .nano-slider {
     margin:0px !important;
     background-color:#ccc !important;
+}
+
+.lecture-detail .nano
+{
+    margin-top: -1px;
+}
+.lecture-detail .nano-content
+{
+    padding-top: 1px;
+}
+.lecture-detail .nano-pane
+{
+    margin-top: 1px;
 }
 
 .list-loading

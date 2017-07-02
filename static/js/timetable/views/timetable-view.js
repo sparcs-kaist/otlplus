@@ -899,8 +899,7 @@ function findLecture(lectures, id) {
     },
 
     scrollChange: function(e) {
-      console.log($('.open-dict-button').position().top);
-      if($('.open-dict-button').position().top <= 0) {
+      if($('.open-dict-button').position().top <= 1) {
         $('.dict-fixed').removeClass('none');
       } else {
         $('.dict-fixed').addClass('none');
