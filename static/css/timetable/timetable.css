@@ -1,6 +1,6 @@
 #header
 {
-    margin-left:calc(50vw - 50vh - 90.5px) !important;
+    margin-left:calc(50vw - 40vh - 190.5px) !important;
 }
 
 #header > ul > li:first-child > a
@@ -38,7 +38,7 @@ i
     margin-left:auto;
     margin-right:auto;
     width:1181px;
-    width:calc(100vh + 181px);
+    width:calc(80vh + 381px);
     height:928px;
     height:calc(100vh - 72px);
     font-family:sans-serif;
@@ -56,7 +56,7 @@ i
             flex-direction:column;
     float:left;
     width:276px;
-    width:calc(20vh + 76px);
+    width:calc(15vh + 126px);
     height:100%
 }
 
@@ -89,7 +89,7 @@ i
     padding-left:10px;
     padding-right:10px;
     width:276px;
-    width:calc(20vh + 77px);
+    width:calc(15vh + 127px);
     border-left:1px solid #EDD1DC;
     flex: none;
 }
