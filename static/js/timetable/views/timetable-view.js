@@ -728,7 +728,7 @@ function findLecture(lectures, id) {
       $('#lecture-info').append(this.detailTemplate(lecture));
       if (app.LectureActive.get('type') === 'click') {
         $(".lecture-options #fix-option").removeClass('disable');
-        $('.lecture-detail .nano-content').append('<div class="review-loading">'+(LANGUAGE_CODE==="en" ? "Loading" : "불러오는 중")+'</div>');
+        $('.lecture-detail #reviews').html('<div class="review-loading">'+(LANGUAGE_CODE==="en" ? "Loading" : "불러오는 중")+'</div>');
         this.fetchDict();
         this.openDictPreview();
       }
@@ -877,7 +877,7 @@ function findLecture(lectures, id) {
     },
 
     fetchDict: function(e) {
-      var block = $('.lecture-detail .list-scroll');
+      var block = $('.lecture-detail #reviews');
 
       $.ajax({
         url: "/timetable/fetch/",
@@ -888,10 +888,10 @@ function findLecture(lectures, id) {
         success: function(result) {
           $('.lecture-detail .review-loading').remove();
           if (result.length == 0) {
-            block.append('<div class="review-loading">'+(LANGUAGE_CODE==="en" ? "No search results" : "결과 없음")+'</div>');
+            block.html('<div class="review-loading">'+(LANGUAGE_CODE==="en" ? "No search results" : "결과 없음")+'</div>');
           } else {
             var template = _.template($('#comment-template').html());
-            block.append(template({comments:result}));
+            block.html(template({comments:result}));
           }
           $('.nano').nanoScroller();
         },

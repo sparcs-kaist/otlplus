@@ -291,7 +291,6 @@ i
 	vertical-align:top;
 	margin-left:5px;
 }
-
 .open-dict-button:hover .dict-arrow
 {
 	background-image: url(/media/icons/lecture_downarrow_hover.svg);
@@ -306,17 +305,19 @@ i
 	vertical-align:top;
 	margin-left:5px;
 }
-
 .close-dict-button:hover .dict-arrow
 {
 	background-image: url(/media/icons/lecture_uparrow_hover.svg);
 }
 
+#reviews {
+    min-height:calc(5.6vh + 162px);
+    margin-bottom: 6px;
+}
 .review-loading
 {
     font-size: 16px;
     color: #999;
-    height:calc(5.6vh + 168px);
     padding-top: calc(2.8vh + 75px);
     text-align: center;
 }
