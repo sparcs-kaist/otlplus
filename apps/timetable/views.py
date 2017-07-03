@@ -234,7 +234,7 @@ def _lecture_to_dict(lecture):
     if len(prof_name_list) <= 2:
       result['professor_short'] = result['professor']
     else:
-      result['professor_short'] = u"%s 외 %d명" % (prof_name_list[0], len(prof_name_list)-1)
+      result['professor_short'] = prof_name_list[0] + _(u" 외 ") + str(len(prof_name_list)-1) + _(u"명")
 
     # Add formatted department name
     result['dept_name'] = getattr(lecture.department, _("name"))
@@ -273,7 +273,7 @@ def _lecture_to_dict(lecture):
 
     # Add exam info
     if len(result['examtimes']) > 1:
-        result['exam'] = u"%s 외 %개" % (result['examtimes'][0]['str'], len(result['examtimes']-1))
+        result['exam'] = result['examtimes'][0]['str'] + _(u" 외 ") + str(len(result['examtimes']-1)) + _("개")
     elif len(result['examtimes']) == 1:
         result['exam'] = result['examtimes'][0]['str']
     else:

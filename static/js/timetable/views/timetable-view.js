@@ -888,7 +888,7 @@ function findLecture(lectures, id) {
         success: function(result) {
           $('.lecture-detail .review-loading').remove();
           if (result.length == 0) {
-            block.html('<div class="review-loading">'+(LANGUAGE_CODE==="en" ? "No search results" : "결과 없음")+'</div>');
+            block.html('<div class="review-loading">'+(LANGUAGE_CODE==="en" ? "No results" : "결과 없음")+'</div>');
           } else {
             var template = _.template($('#comment-template').html());
             block.html(template({comments:result}));

@@ -25,7 +25,7 @@ var app = app || {};
       this.listenTo(app.YearSemester, 'change', this.fetchLists);
     },
     loadingMessage: '<div class="list-loading">'+(LANGUAGE_CODE==="en" ? "Loading" : "불러오는 중")+'</div>',
-    noResultMessage: '<div class="list-loading">'+(LANGUAGE_CODE==="en" ? "No search results" : "결과 없음")+'</div>',
+    noResultMessage: '<div class="list-loading">'+(LANGUAGE_CODE==="en" ? "No results" : "결과 없음")+'</div>',
 
     events: {
       'click .result-message': "showSearch",
@@ -166,7 +166,9 @@ var app = app || {};
           app.searchLectureList.trigger("update");
 
           if (resp.too_many)
-            alert("검색 결과가 너무 많습니다. "+lectures.length+"개만 표시됩니다.");
+            alert((LANGUAGE_CODE==="en" ? "Too many search results are found. Only " : "검색 결과가 너무 많습니다. ")
+                  +lectures.length
+                  +(LANGUAGE_CODE==="en" ? " lectures are shown." : "개만 표시됩니다."));
 
           $(".search-extend").addClass('none');
           
@@ -187,7 +189,6 @@ var app = app || {};
 
       $(".search-page .list-scroll").html('');
       this.showSearch();
-      $(".result-text").text("검색");
       $(".cart-page .list-scroll").html(this.loadingMessage);
       app.cartLectureList.fetch(options);
       $(".major-page .list-scroll").html(this.loadingMessage);
