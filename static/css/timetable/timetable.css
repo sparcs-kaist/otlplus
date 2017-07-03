@@ -1,6 +1,6 @@
 #header
 {
-    margin-left:calc(50vw - 50vh - 90.5px) !important;
+    margin-left:calc(50vw - 40vh - 190.5px) !important;
 }
 
 #header > ul > li:first-child > a
@@ -38,9 +38,9 @@ i
     margin-left:auto;
     margin-right:auto;
     width:1181px;
-    width:calc(100vh + 181px);
-    height:931px;
-    height:calc(100vh - 69px);
+    width:calc(80vh + 381px);
+    height:928px;
+    height:calc(100vh - 72px);
     font-family:sans-serif;
 }
 
@@ -56,7 +56,7 @@ i
             flex-direction:column;
     float:left;
     width:276px;
-    width:calc(20vh + 76px);
+    width:calc(15vh + 126px);
     height:100%
 }
 
@@ -64,7 +64,6 @@ i
 {
     margin-left:10px;
     float:left;
-    width: calc(80vh + 95px);
     height:100%;
     -webkit-box-flex:1;
         -ms-flex:auto;
@@ -85,13 +84,15 @@ i
         -ms-flex:auto;
             flex:auto;
     position:relative;
-    margin-top:7px;
+    margin-top:10px;
     margin-bottom:10px;
     padding-left:10px;
     padding-right:10px;
-    height:calc(100% - 20px);
+    width:276px;
+    width:calc(15vh + 127px);
     border-left:1px solid #EDD1DC;
-    }
+    flex: none;
+}
 
 
 
@@ -271,8 +272,20 @@ i
 .dictionary-preview{
 	cursor:pointer;
 }
+.dictionary-preview.close-dict-button{
+    padding-bottom: 10px;
+    margin-top: -1px;
+    padding-top: 1px;
+    margin-bottom: 0px;
+    background-color: #fff;
+}
 
-.open-dict-preview
+.dict-fixed{
+    height:0;
+    z-index:10;
+}
+
+.open-dict-button .dict-arrow
 {
 	background: url(/media/icons/lecture_downarrow.svg) no-repeat center center;
 	width:14px;
@@ -281,13 +294,12 @@ i
 	vertical-align:top;
 	margin-left:5px;
 }
-
-.dictionary-preview:hover .open-dict-preview
+.open-dict-button:hover .dict-arrow
 {
 	background-image: url(/media/icons/lecture_downarrow_hover.svg);
 }
 
-.close-dict-preview
+.close-dict-button .dict-arrow
 {
 	background: url(/media/icons/lecture_uparrow.svg) no-repeat center center;
 	width:14px;
@@ -296,31 +308,20 @@ i
 	vertical-align:top;
 	margin-left:5px;
 }
-
-.dictionary-preview:hover .close-dict-preview
+.close-dict-button:hover .dict-arrow
 {
 	background-image: url(/media/icons/lecture_uparrow_hover.svg);
 }
 
-.detail-bottom{
-    -webkit-box-flex:1;
-        -ms-flex:auto;
-            flex:auto;
-    display:-webkit-box;
-    display:-ms-flexbox;
-    display:flex;
-    display:-webkit-flex;
-    -webkit-box-orient:vertical;
-    -webkit-box-direction:normal;
-        -ms-flex-direction:column;
-            flex-direction:column;
+#reviews {
+    min-height:calc(5.6vh + 162px);
+    margin-bottom: 10px;
 }
-
 .review-loading
 {
     font-size: 16px;
     color: #999;
-    margin-top: calc(2.8vh + 75px);
+    padding-top: calc(2.8vh + 75px);
     text-align: center;
 }
 
@@ -382,7 +383,6 @@ i
             flex:auto;
 	width:calc(100% + 27px);
 	margin-left:-27px;
-	margin-bottom:3px;
 	height: 585px;
 	height: calc(94.4vh - 359px);
 }
@@ -765,7 +765,6 @@ i
     line-height:11px;
 }
 .nano-content {
-    padding-bottom:4px;
     margin-right: 0px;
 }
 .nano-content > *{
@@ -779,6 +778,19 @@ i
 .nano-slider {
     margin:0px !important;
     background-color:#ccc !important;
+}
+
+.lecture-detail .nano
+{
+    margin-top: -1px;
+}
+.lecture-detail .nano-content
+{
+    padding-top: 1px;
+}
+.lecture-detail .nano-pane
+{
+    margin-top: 1px;
 }
 
 .list-loading
@@ -795,6 +807,10 @@ i
     border-radius:4px;
     margin-bottom:6px;
 		overflow:hidden;
+}
+.list-elem:last-child
+{
+    margin-bottom:10px;
 }
 
 .list-elem-title
@@ -1116,9 +1132,10 @@ i
     margin:0;
     padding:0;
     background-color:#FFFFFF;
-    height:calc(100% - 2em);
+    height:calc(100% - 25px);
     border-radius:0 6px 6px 6px;
     box-shadow: 0em 3px 0px 0em #F3BEC6;
+    display: flex;
 }
 
 #timetable-wrap
@@ -1131,11 +1148,10 @@ i
     -webkit-box-direction:normal;
         -ms-flex-direction:row;
             flex-direction:row;
+    flex:1 1 auto;
     position:relative;
     float:left;
     display:inline-block;
-	width:608px;
-	width:calc(60vh + 8px);
     height:100%;
     margin-right:10px;
 	padding:10px 0 10px 10px;
@@ -1869,7 +1885,7 @@ i
         -ms-flex-direction:column;
             flex-direction:column;
     justify-content:center;
-    padding:0 calc(0.7vh + 1px);
+    padding:0px calc(0.7vh + 1px);
     border-radius:2px;
     z-index:2;
     top: 1px;
@@ -1955,6 +1971,16 @@ i
 .lecture-block.color16
 {
     background-color: #f4badb;
+}
+
+.lecture-block-content
+{
+    padding: 3px 0px;
+    overflow-y:hidden;
+}
+.lecture-block.click .lecture-block-content
+{
+    padding: 2px 0px;
 }
 
 .timetable-lecture-name

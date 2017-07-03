@@ -365,7 +365,7 @@ function findLecture(lectures, id) {
       } else if (app.LectureActive.get('type') === 'click'
                  && app.LectureActive.get('from') === 'table'
                  && app.LectureActive.get('lecture').id === id) {
-        app.LectureActive.set({type: "none"});
+        app.LectureActive.set({type: "hover"});
       } else {
         var lecList = app.CurrentTimetable.get('lectures');
         var lecture = findLecture(lecList, id);
@@ -469,7 +469,7 @@ function findLecture(lectures, id) {
       } else if (app.LectureActive.get('type') === 'click'
           && app.LectureActive.get('from') === 'list'
           && app.LectureActive.get('lecture').id === id) {
-        app.LectureActive.set({type: "none"});
+        app.LectureActive.set({type: "hover"});
       } else {
         var lecList;
         switch (ct.closest('.list-page').attr('class').split(' ')[1]) {
@@ -559,9 +559,6 @@ function findLecture(lectures, id) {
     },
 
     buildingInfo: function(e) {
-      if ($(e.target).hasClass('map-location-circle')) {
-        return;
-      }
       if (app.LectureActive.get("type") === "none") {
         var buildingNo = $(e.currentTarget).closest(".map-location").attr("data-building");
         var title = buildingNo;
@@ -674,6 +671,7 @@ function findLecture(lectures, id) {
       'click .open-dict-button': "openDictPreview",
       'click .close-dict-button': "closeDictPreview",
       'click #fix-option': "unfix",
+      'scroll': "scrollInfo",
     },
 
     changeInfo: function () {
@@ -730,8 +728,12 @@ function findLecture(lectures, id) {
       $('#lecture-info').append(this.detailTemplate(lecture));
       if (app.LectureActive.get('type') === 'click') {
         $(".lecture-options #fix-option").removeClass('disable');
+        $('.lecture-detail #reviews').html('<div class="review-loading">'+(LANGUAGE_CODE==="en" ? "Loading" : "불러오는 중")+'</div>');
+        this.fetchDict();
         this.openDictPreview();
       }
+      $(".nano").nanoScroller();
+      $(this.el).find(".nano-content").bind("scroll", this.scrollChange);
 
       // Update credit info
       var typeDiv = $('#info').find("[data-type='" + lecture.type_en + "']");
@@ -812,7 +814,7 @@ function findLecture(lectures, id) {
 
             $(blocks[0]).append(this.blockTemplate({title: child.title,
                                         id: child.id,
-                                        professor: child.format_professor_str,
+                                        professor: child.professor_str_short,
                                         classroom: classtime.classroom_short,
                                         color: child.course%16+1,
                                         cells: time,
@@ -826,7 +828,7 @@ function findLecture(lectures, id) {
           noTime++;
           block.append(this.blockTemplate({title: child.title,
                                            id: child.id,
-                                           professor: child.format_professor_str,
+                                           professor: child.professor_str_short,
                                            classroom: child.format_classroom_short,
                                            color: child.course%16+1,
                                            cells: 3,
@@ -861,16 +863,22 @@ function findLecture(lectures, id) {
                                           examTime: exam.str.substr(exam.str.indexOf(" ") + 1),
                                           startTime: exam.begin,
                                           temp: true,}));
+          $('.nano').nanoScroller();
         }
       }
     },
 
     openDictPreview: function(e) {
-      $(this.el).find('.detail-bottom').removeClass('none');
-      $(this.el).find('.detail-top').addClass('none');
+      $('.lecture-detail .nano').nanoScroller({scrollTop: $('.open-dict-button').position().top - $('.nano-content > .basic-info:first-child').position().top + 1});
+    },
 
-      var block = $('.detail-bottom .list-scroll');
-      block.html('<div class="review-loading">'+(LANGUAGE_CODE==="en" ? "Loading" : "불러오는 중")+'</div>');
+    closeDictPreview: function(e) {
+      $('.lecture-detail .nano').nanoScroller({scrollTop: 0});
+    },
+
+    fetchDict: function(e) {
+      var block = $('.lecture-detail #reviews');
+
       $.ajax({
         url: "/timetable/fetch/",
         type: "POST",
@@ -878,25 +886,29 @@ function findLecture(lectures, id) {
           lecture_id: app.LectureActive.get('lecture').id,
         },
         success: function(result) {
+          $('.lecture-detail .review-loading').remove();
           if (result.length == 0) {
             block.html('<div class="review-loading">'+(LANGUAGE_CODE==="en" ? "No search results" : "결과 없음")+'</div>');
           } else {
             var template = _.template($('#comment-template').html());
             block.html(template({comments:result}));
           }
-          $(".nano").nanoScroller();
+          $('.nano').nanoScroller();
         },
       });
     },
 
-    closeDictPreview: function(e) {
-      $(this.el).find('.detail-top').removeClass('none');
-      $(this.el).find('.detail-bottom').addClass('none');
+    scrollChange: function(e) {
+      if($('.open-dict-button').position().top <= 1) {
+        $('.dict-fixed').removeClass('none');
+      } else {
+        $('.dict-fixed').addClass('none');
+      }
     },
 
     unfix: function(e) {
       app.LectureActive.set({type: "none"});
-    }
+    },
   })
 
   // Fetching and changing timetable tabs
@@ -1042,7 +1054,7 @@ function findLecture(lectures, id) {
             var blocks = dayBlock.find('.half').slice(beginVal, endVal);
             $(blocks[0]).append(this.template({title: child.title,
                                         id: child.id,
-                                        professor: child.format_professor_str,
+                                        professor: child.professor_str_short,
                                         classroom: classtime.classroom_short,
                                         color: child.course%16+1,
                                         cells: time,
@@ -1057,7 +1069,7 @@ function findLecture(lectures, id) {
           noTime++;
           block.append(this.template({title: child.title,
                                       id: child.id,
-                                      professor: child.format_professor_str,
+                                      professor: child.professor_str_short,
                                       classroom: child.format_classroom_short,
                                       color: child.course%16+1,
                                       cells: 3,
