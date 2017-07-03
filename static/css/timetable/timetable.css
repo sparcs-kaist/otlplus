@@ -255,12 +255,21 @@ i
 
 .score-text
 {
-	font-size: calc(0.7vh + 15px);
-	line-height: calc(0.7vh + 12px);
 	height: calc(0.7vh + 12px);
     font-weight:300;
-	font-family:"Helvetica Neue", "Helvetica", "Arial";
 	margin-bottom:4px;
+}
+.score-text:not(.score-korean)
+{
+    font-size: calc(0.7vh + 15px);
+    line-height: calc(0.7vh + 12px);
+    font-family:"Helvetica Neue", "Helvetica", "Arial";
+}
+.score-text.score-korean
+{
+    font-size: calc(0.7vh + 14px);
+    line-height: calc(0.7vh + 11px);
+    padding-top: 3px;
 }
 
 .score-label
