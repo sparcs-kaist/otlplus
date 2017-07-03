@@ -107,7 +107,8 @@ def get_filtered_lectures(year, semester, department_filters, type_filters, leve
         semester=semester,
         department__code__in=department_filters,
         type_en__in=type_filters,
-        course__code_num__in=level_filters
+        course__code_num__in=level_filters,
+        deleted=False
     )
 
     if day!=None and begin!=None and end!=None:
@@ -229,10 +230,11 @@ def _lecture_to_dict(lecture):
     
     # Add formatted professor name
     prof_name_list = [getattr(p, _("professor_name")) for p in lecture.professor.all()]
+    result['professor_str'] = u", ".join(prof_name_list)
     if len(prof_name_list) <= 2:
-      result['format_professor_str'] = u", ".join(prof_name_list)
+      result['professor_str_short'] = result['professor_str']
     else:
-      result['format_professor_str'] = u"%s 외 %d명" % (prof_name_list[0], len(prof_name_list)-1)
+      result['professor_str_short'] = u"%s 외 %d명" % (prof_name_list[0], len(prof_name_list)-1)
 
     # Add formatted department name
     result['format_dept_name'] = getattr(lecture.department, _("name"))
@@ -423,7 +425,7 @@ def update_my_lectures(request):
     # Find the right timetable
     timetable = TimeTable.objects.get(user=userprofile, id=table_id)
     # Find the right lecture
-    lecture = Lecture.objects.get(id=lecture_id)
+    lecture = Lecture.objects.get(id=lecture_id, deleted=False)
 
     if timetable.year!=lecture.year or timetable.semester!=lecture.semester:
         raise ValidationError('Semester not matching')
@@ -550,7 +552,7 @@ def show_my_lectures(request):
     for i, t in enumerate(timetables):
         timetable = model_to_dict(t, exclude='lecture')
         ctx.append(timetable)
-        ctx[i]['lectures'] = _lecture_result_format(t.lecture.all())
+        ctx[i]['lectures'] = _lecture_result_format(t.lecture.filter(deleted=False))
 
     return JsonResponse(ctx, safe=False, json_dumps_params=
                         {'ensure_ascii': False})
@@ -716,12 +718,15 @@ def major_list(request):
         lectures = []
         if departments[0] == 'Basic':
             basic_type = ["Basic Required", "Basic Elective"]
-            basic_lectures = Lecture.objects.filter(year=year, semester=semester, type_en__in=basic_type)
+            basic_lectures = Lecture.objects.filter(year=year, semester=semester,
+                                                    type_en__in=basic_type, deleted=False)
             lectures += _lecture_result_format(basic_lectures)
             departments = departments[1:]
 
         major_type = ["Major Required", "Major Elective"]
-        major_lectures = Lecture.objects.filter(year=year, semester=semester, department__code__in=departments, type_en__in=major_type)
+        major_lectures = Lecture.objects.filter(year=year, semester=semester,
+                                                department__code__in=departments, type_en__in=major_type,
+                                                deleted=False)
         lectures += _lecture_result_format(major_lectures)
 
         return JsonResponse(lectures, safe=False)
@@ -733,7 +738,8 @@ def humanity_list(request):
         year = request.POST["year"]
         semester = request.POST["semester"]
 
-        humanity_cl = Lecture.objects.filter(year=year, semester=semester, type_en="Humanities & Social Elective")
+        humanity_cl = Lecture.objects.filter(year=year, semester=semester,
+                                             type_en="Humanities & Social Elective", deleted=False)
         humanity_result = _lecture_result_format(humanity_cl)
 
         return JsonResponse(humanity_result, safe=False)
@@ -759,7 +765,7 @@ def wishlist(request):
             w = Wishlist(user=userprofile)
             w.save()
 
-        lectures = w.lectures.filter(year=year, semester=semester)
+        lectures = w.lectures.filter(year=year, semester=semester, deleted=False)
         result = _lecture_result_format(lectures)
 
         return JsonResponse(result, safe=False, json_dumps_params=
@@ -783,7 +789,7 @@ def wishlist_update(request):
     lecture_id = request.POST['lecture_id']
     delete = request.POST['delete'] == u'true'
     w = Wishlist.objects.get(user=userprofile)
-    lecture = Lecture.objects.get(id=lecture_id)
+    lecture = Lecture.objects.get(id=lecture_id, deleted=False)
 
     if not delete:
         w.lectures.add(lecture)
