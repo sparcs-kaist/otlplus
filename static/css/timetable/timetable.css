@@ -1885,7 +1885,7 @@ i
         -ms-flex-direction:column;
             flex-direction:column;
     justify-content:center;
-    padding:0 calc(0.7vh + 1px);
+    padding:0px calc(0.7vh + 1px);
     border-radius:2px;
     z-index:2;
     top: 1px;
@@ -1971,6 +1971,12 @@ i
 .lecture-block.color16
 {
     background-color: #f4badb;
+}
+
+.lecture-block-content
+{
+    padding: 3px 0px;
+    overflow-y:hidden;
 }
 
 .timetable-lecture-name
