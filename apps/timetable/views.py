@@ -597,9 +597,14 @@ def search(request):
             end = None
         
         result = get_filtered_lectures(year, semester, department_filters, type_filters, level_filters, keyword, day, begin, end)
+        if len(result) > 500:
+            too_many = True
+            result = result[:500]
+        else:
+            too_many = False
         result = _lecture_result_format(result)
 
-        return JsonResponse({'courses':result},
+        return JsonResponse({'courses':result, 'too_many':too_many},
                             safe=False,
                             json_dumps_params={'ensure_ascii': False})
 
