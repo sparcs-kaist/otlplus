@@ -1978,6 +1978,10 @@ i
     padding: 3px 0px;
     overflow-y:hidden;
 }
+.lecture-block.click .lecture-block-content
+{
+    padding: 2px 0px;
+}
 
 .timetable-lecture-name
 {
