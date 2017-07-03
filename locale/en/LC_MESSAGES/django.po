@@ -19,6 +19,18 @@ msgid "roomName"
 msgstr "roomName_en"
 
 
+msgid "정보 없음"
+msgstr "Unknown"
+
+msgid " 외 "
+msgstr " and "
+
+msgid "명"
+msgstr " others"
+
+msgid "개"
+msgstr " others"
+
 msgid " 기초 과목"
 msgstr " Basic Course"
 
