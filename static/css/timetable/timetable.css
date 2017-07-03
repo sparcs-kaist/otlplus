@@ -940,7 +940,7 @@ i
 	height:13px;
 	display:inline-block;
 	vertical-align:top;
-	margin:-1px 0px -1px 0px;
+    margin:-1px 0px -1px 6px;
     pointer-events:auto;
 }
 .delete-from-cart:hover
