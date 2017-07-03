@@ -161,9 +161,12 @@ var app = app || {};
       app.SearchKeyword.set(data);
       app.SearchKeyword.save(null, {
         success: function(model, resp, options) {
-          var lectures = [].concat.apply([], resp.courses); // Flatten double array to single array
+          var lectures = resp.courses; // Flatten double array to single array
           app.searchLectureList.reset(lectures);
           app.searchLectureList.trigger("update");
+
+          if (resp.too_many)
+            alert("검색 결과가 너무 많습니다. "+lectures.length+"개만 표시됩니다.");
 
           $(".search-extend").addClass('none');
           
