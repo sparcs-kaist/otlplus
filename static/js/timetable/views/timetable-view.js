@@ -814,7 +814,7 @@ function findLecture(lectures, id) {
 
             $(blocks[0]).append(this.blockTemplate({title: child.title,
                                         id: child.id,
-                                        professor: child.professor_str_short,
+                                        professor: child.professor_short,
                                         classroom: classtime.classroom_short,
                                         color: child.course%16+1,
                                         cells: time,
@@ -828,8 +828,8 @@ function findLecture(lectures, id) {
           noTime++;
           block.append(this.blockTemplate({title: child.title,
                                            id: child.id,
-                                           professor: child.professor_str_short,
-                                           classroom: child.format_classroom_short,
+                                           professor: child.professor_short,
+                                           classroom: child.classroom_short,
                                            color: child.course%16+1,
                                            cells: 3,
                                            occupied: [],
@@ -1054,7 +1054,7 @@ function findLecture(lectures, id) {
             var blocks = dayBlock.find('.half').slice(beginVal, endVal);
             $(blocks[0]).append(this.template({title: child.title,
                                         id: child.id,
-                                        professor: child.professor_str_short,
+                                        professor: child.professor_short,
                                         classroom: classtime.classroom_short,
                                         color: child.course%16+1,
                                         cells: time,
@@ -1069,8 +1069,8 @@ function findLecture(lectures, id) {
           noTime++;
           block.append(this.template({title: child.title,
                                       id: child.id,
-                                      professor: child.professor_str_short,
-                                      classroom: child.format_classroom_short,
+                                      professor: child.professor_short,
+                                      classroom: child.classroom_short,
                                       color: child.course%16+1,
                                       cells: 3,
                                       occupied: [],
