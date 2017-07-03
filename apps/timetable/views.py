@@ -230,14 +230,14 @@ def _lecture_to_dict(lecture):
     
     # Add formatted professor name
     prof_name_list = [getattr(p, _("professor_name")) for p in lecture.professor.all()]
-    result['professor_str'] = u", ".join(prof_name_list)
+    result['professor'] = u", ".join(prof_name_list)
     if len(prof_name_list) <= 2:
-      result['professor_str_short'] = result['professor_str']
+      result['professor_short'] = result['professor']
     else:
-      result['professor_str_short'] = u"%s 외 %d명" % (prof_name_list[0], len(prof_name_list)-1)
+      result['professor_short'] = u"%s 외 %d명" % (prof_name_list[0], len(prof_name_list)-1)
 
     # Add formatted department name
-    result['format_dept_name'] = getattr(lecture.department, _("name"))
+    result['dept_name'] = getattr(lecture.department, _("name"))
 
     # Add formatted score
     grade, load, speech = _get_scores(lecture)
@@ -262,13 +262,13 @@ def _lecture_to_dict(lecture):
     # Add classroom info
     if len(result['classtimes']) > 0:
         result['building'] = result['classtimes'][0]['building']
-        result['format_classroom'] = result['classtimes'][0]['classroom']
-        result['format_classroom_short'] = result['classtimes'][0]['classroom_short']
+        result['classroom'] = result['classtimes'][0]['classroom']
+        result['classroom_short'] = result['classtimes'][0]['classroom_short']
         result['room'] = result['classtimes'][0]['room']
     else:
         result['building'] = ''
-        result['format_classroom'] = _(u'정보 없음')
-        result['format_classroom_short'] = _(u'정보 없음')
+        result['classroom'] = _(u'정보 없음')
+        result['classroom_short'] = _(u'정보 없음')
         result['room'] = ''
 
     # Add exam info
@@ -294,13 +294,13 @@ def _add_title_format(lectures):
       common_title = _lcs_front([l['title'] for l in lectures])
 
     for l in lectures:
-      l['format_common_title'] = common_title
+      l['common_title'] = common_title
       if l['title'] != common_title:
-        l['format_class_title'] = l['title'][len(common_title):]
+        l['class_title'] = l['title'][len(common_title):]
       elif len(l['class_no']) > 0:
-        l['format_class_title'] = l['class_no']
+        l['class_title'] = l['class_no']
       else:
-        l['format_class_title'] = u'A'
+        l['class_title'] = u'A'
 
     return lectures
 
