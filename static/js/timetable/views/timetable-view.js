@@ -49,7 +49,7 @@ function findLecture(lectures, id) {
   // ---------------
 
   // Dragging timetable
-  app.TimetableClickSearchView = Backbone.View.extend({
+  app.TimetableDragView = Backbone.View.extend({
     initialize: function (opt) {
       this.isLookingTable = false;
       this.isBubbling = false;
@@ -155,16 +155,16 @@ function findLecture(lectures, id) {
     },
 
     render: function () {
-      if(timetable.firstBlock) {
-        var left = timetable.firstBlock.offset().left - $(timetable.el).offset().left - 1;
-        var width = timetable.firstBlock.width() + 2;
-        var top = Math.min(timetable.firstBlock.offset().top, timetable.secondBlock.offset().top) - $(timetable.el).offset().top + 2;
-        var height = Math.abs(timetable.firstBlock.offset().top - timetable.secondBlock.offset().top) + timetable.firstBlock.height() -2;
+      if(timetableDragView.firstBlock) {
+        var left = timetableDragView.firstBlock.offset().left - $(timetableDragView.el).offset().left - 1;
+        var width = timetableDragView.firstBlock.width() + 2;
+        var top = Math.min(timetableDragView.firstBlock.offset().top, timetableDragView.secondBlock.offset().top) - $(timetableDragView.el).offset().top + 2;
+        var height = Math.abs(timetableDragView.firstBlock.offset().top - timetableDragView.secondBlock.offset().top) + timetableDragView.firstBlock.height() -2;
 
-        $(timetable.dragCell).css('left', left+'px');
-        $(timetable.dragCell).css('width', width+'px');
-        $(timetable.dragCell).css('top', top+'px');
-        $(timetable.dragCell).css('height', height+'px');
+        $(timetableDragView.dragCell).css('left', left+'px');
+        $(timetableDragView.dragCell).css('width', width+'px');
+        $(timetableDragView.dragCell).css('top', top+'px');
+        $(timetableDragView.dragCell).css('height', height+'px');
       }
     }
   })
@@ -327,7 +327,7 @@ function findLecture(lectures, id) {
     initialize: function() {},
 
     blockHover: function (e) {
-      if (app.LectureActive.get("type") !== "click") {
+      if (app.LectureActive.get("type") !== "click" && !timetableDragView.isDragging) {
         var ct = $(e.currentTarget);
         var id = Number(ct.attr('data-id'));
         var lecList = app.CurrentTimetable.get('lectures');
@@ -340,7 +340,7 @@ function findLecture(lectures, id) {
     },
 
     blockOut: function () {     
-      if (app.LectureActive.get("type") !== "click") {
+      if (app.LectureActive.get("type") !== "click" && !timetableDragView.isDragging) {
         app.LectureActive.set({type: "none"});
       }
     },
@@ -1175,7 +1175,7 @@ function findLecture(lectures, id) {
   })
 })(jQuery);
 
-var timetable = new app.TimetableClickSearchView();
+var timetableDragView = new app.TimetableDragView();
 var lectureList = new app.lectureListView();
 var userLectureList = new app.TimetableLectureBlocksView();
 var userLectureList2 = new app.ListLectureBlocksView();
