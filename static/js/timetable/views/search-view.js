@@ -50,7 +50,7 @@ var app = app || {};
       $("#filter-time-day").val('');
       $("#filter-time-begin").val('');
       $("#filter-time-end").val('');
-      $(".filter-time .type-elem label").html((LANGUAGE_CODE==="en" ? "Select" : "선택하기"));
+      $(".filter-time .type-elem label").html((LANGUAGE_CODE==="en" ? "Drag timetable" : "시간표에서 드래그"));
     },
 
     searchTab: function (e) {

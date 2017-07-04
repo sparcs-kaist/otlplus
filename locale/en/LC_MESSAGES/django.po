@@ -130,6 +130,9 @@ msgstr "Level"
 msgid "시간"
 msgstr "Time"
 
+msgid "시간표에서 드래그"
+msgstr "Drag timetable"
+
 msgid "전체"
 msgstr "ALL"
 
