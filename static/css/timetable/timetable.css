@@ -1292,7 +1292,7 @@ i
             flex-direction:column;
     justify-content:center;
     position:absolute;
-    background-color:#E54C65;
+    background-color:#E56C85;
     border-radius:2px;
     pointer-events:none;
     z-index:1;
@@ -1904,14 +1904,14 @@ i
     left: -1px;
     width: calc(100% + 2px);
 }
-.lecture-block.active
+body .lecture-block.active
 {
-    background-color:#E54C65 !important;
+    background-color:#E0546F;
     color:#FFFFFF;
 }
-.lecture-block.lecture-block-temp
+body .lecture-block.active.lecture-block-temp
 {
-    opacity: 0.8;
+    background-color:#E56C85;
     z-index: 3;
 }
 .lecture-block.click
