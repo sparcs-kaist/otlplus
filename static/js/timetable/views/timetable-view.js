@@ -70,8 +70,6 @@ function findLecture(lectures, id) {
       'mousemove .half.table-drag': "dragMove",
       'mouseup': "dragEnd",
       'mousedown .lecture-block': "clickBlock",
-      'click .drag-close': "dragClose",
-      'click .drag-search': "searchLecture",
     },
 
     dragStart: function (e) {
@@ -82,7 +80,6 @@ function findLecture(lectures, id) {
         e.preventDefault();
         this.isDragging = true;
         $(this.dragCell).removeClass('none');
-        $(this.dragCell).children().addClass('none');
 
         this.firstBlock = $(e.currentTarget);
         this.secondBlock = $(e.currentTarget);
@@ -104,7 +101,8 @@ function findLecture(lectures, id) {
           $(this.dragCell).addClass('none');
         }
         else {
-          $(this.dragCell).children().removeClass('none');
+          this.searchLecture();
+          $(this.dragCell).addClass('none');
         }
       }
     },
@@ -115,10 +113,6 @@ function findLecture(lectures, id) {
       }
     },
 
-    dragClose: function (e) {
-      $(this.dragCell).addClass('none');
-    },
-    
     searchLecture: function () {
       var day = this.indexOfDay(this.firstBlock.attr("data-day"));
       var fBTime = this.indexOfTime(this.firstBlock.attr("data-time"));
@@ -138,7 +132,6 @@ function findLecture(lectures, id) {
       $("#filter-time-end").val(sBTime);
       $(".filter-time .type-elem label").html(dayStr+" "+fBStr+" ~ "+sBStr);
       search.searchTab();
-      this.dragClose();
     },
 
     // Return index of day
