@@ -263,13 +263,13 @@ i
 {
     font-size: calc(0.7vh + 15px);
     line-height: calc(0.7vh + 12px);
-    font-family:"Helvetica Neue", "Helvetica", "Arial";
+    font-family:"Helvetica Neue", "Calibri", "Arial";
 }
 .score-text.score-korean
 {
-    font-size: calc(0.7vh + 14px);
-    line-height: calc(0.7vh + 11px);
-    padding-top: 3px;
+    font-size: calc(0.7vh + 13px);
+    line-height: calc(0.7vh + 14px);
+    padding-top: 1px;
 }
 
 .score-label
