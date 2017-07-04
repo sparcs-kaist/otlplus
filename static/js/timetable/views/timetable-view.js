@@ -134,6 +134,7 @@ function findLecture(lectures, id) {
       $("#filter-time-begin").val(fBTime);
       $("#filter-time-end").val(sBTime);
       $(".filter-time .type-elem label").html(dayStr+" "+fBStr+" ~ "+sBStr);
+      $(".filter-time .type-elem label").addClass('time-active');
       search.searchTab();
     },
 

@@ -33,6 +33,7 @@ var app = app || {};
       'click .search-chead': "changeTab",
       'click .chkall': "toggleType",
       'click .chkelem': "toggleType",
+      'click .time-active': "clearTime",
       'click #search-button': "searchStart",
     },
 
@@ -47,10 +48,15 @@ var app = app || {};
       $(this.el).find(".chkelem").parent().find('.fa-check-circle-o').addClass('none');
       $(this.el).find(".chkelem").parent().find('.fa-circle-o').removeClass('none');
 
+      this.clearTime();
+    },
+
+    clearTime: function() {
       $("#filter-time-day").val('');
       $("#filter-time-begin").val('');
       $("#filter-time-end").val('');
       $(".filter-time .type-elem label").html((LANGUAGE_CODE==="en" ? "Drag timetable" : "시간표에서 드래그"));
+      $(".filter-time .type-elem label").removeClass('time-active');
     },
 
     searchTab: function (e) {
