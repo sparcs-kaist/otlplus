@@ -123,7 +123,10 @@ function findLecture(lectures, id) {
         sBTime = temp;
       }
       sBTime += 1;
-      var dayStr = ['월요일', '화요일', '수요일', '목요일', '금요일'][day];
+      if (LANGUAGE_CODE==="en")
+        var dayStr = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"][day]
+      else 
+        var dayStr = ['월요일', '화요일', '수요일', '목요일', '금요일'][day]
       var fBStr = (Math.floor(fBTime/2)+8)+":"+(fBTime%2 ? "30" : "00")
       var sBStr = (Math.floor(sBTime/2)+8)+":"+(sBTime%2 ? "30" : "00")
 
