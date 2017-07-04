@@ -669,14 +669,17 @@ i
     display:none;
 }
 
-.filter-time > .type-elem > label
+.filter-time label
+{
+    cursor: auto;
+}
+.filter-time label.time-active
 { 
+    cursor:pointer;
 	color:#E54C65;
 }
-
-.filter-time > .type-elem > label:hover
+.filter-time label.time-active:hover
 {
-	cursor:pointer;
 	color:#963246;
 }
 
