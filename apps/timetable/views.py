@@ -360,36 +360,6 @@ def main(request):
     return render(request,'timetable/index.html', {'departments': departments, 'year':2017, 'semester':3})
 
 
-def show_table(request):
-    seasons = ['봄', '여름', '가을', '겨울']
-    u1 = User.objects.filter(username='ashe')[0]
-    up1 = UserProfile.objects.filter(user=u1)[0]
-    t1 = TimeTable.objects.filter(user=up1)[0]
-
-    lecture_list = list(t1.lecture.all())
-    table_of = u1.username
-    year = t1.year
-    season = seasons[t1.semester-1]
-    table_id = t1.table_id
-    table_name = "시간표 " + str(table_id+1)
-
-    context = {
-        "lecture_list": lecture_list,
-        "table_of": table_of,
-        "year": year,
-        "season": season,
-        "table_name": table_name,
-    }
-    return render(request, 'timetable/show.html', context)
-
-
-def update_table(request):
-    if request.method == 'GET':
-        year, semester = _year_semester()
-        ctx = { 'year': year, 'semester': semester }
-        return render(request, 'timetable/update_table.html', ctx)
-
-
 def _year_semester():
     '''Get current year and semester.
 
@@ -628,33 +598,6 @@ def fetch(request):
                            'comment': c.comment[:200],
                            'id': c.id})
         return JsonResponse(result, safe=False)
-
-
-def fetch_temp(request):
-    return render(request, 'timetable/fetch_temp.html')
-
-
-def fetch_temp_ajax(request):
-    if request.method == 'POST':
-        lecture_name = request.POST['lecture_name']
-        professor_id = request.POST['professor_id']
-        year = 2015
-        semester = 3
-        professor = Professor.objects.get(professor_id=professor_id)
-        print professor
-        lecture_candidate = Lecture.objects.filter(year=year).filter(semester=semester)\
-            .filter(title__icontains=lecture_name)
-        lectures = list()
-        print lecture_candidate
-        for candidate in lecture_candidate:
-            if professor in candidate.professor.all():
-                lectures.append(candidate)
-        lecture = lectures[0]
-        # print lecture
-        comments = Comment.objects.filter(lecture=lecture)
-        # print comments
-        json_result = serializers.serialize('json', comments)
-        return HttpResponse(json_result, content_type="application/json")
 
 
 @login_required_ajax
