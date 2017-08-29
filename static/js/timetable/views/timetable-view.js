@@ -223,7 +223,7 @@ function findLecture(lectures, id) {
       }
 
       $.ajax({
-        url: "/timetable/api/update",
+        url: "/timetable/api/table_update/",
         type: "POST",
         data: {
           table_id: timetable_id,
@@ -250,7 +250,7 @@ function findLecture(lectures, id) {
       }
 
       $.ajax({
-        url: "/timetable/wishlist_update/",
+        url: "/timetable/api/wishlist_update/",
         type: "POST",
         data: {
           lecture_id: lecture_id,
@@ -295,7 +295,7 @@ function findLecture(lectures, id) {
       }
 
       $.ajax({
-        url: "/timetable/wishlist_update/",
+        url: "/timetable/api/wishlist_update/",
         type: "POST",
         data: {
           lecture_id: lecture_id,
@@ -384,7 +384,7 @@ function findLecture(lectures, id) {
       }
 
       $.ajax({
-        url: "/timetable/api/update",
+        url: "/timetable/api/table_update/",
         type: "POST",
         data: {
           table_id: timetable_id,
@@ -877,7 +877,7 @@ function findLecture(lectures, id) {
       var block = $('.lecture-detail #reviews');
 
       $.ajax({
-        url: "/timetable/fetch/",
+        url: "/timetable/api/comment_load/",
         type: "POST",
         data: {
           lecture_id: app.LectureActive.get('lecture').id,
@@ -968,7 +968,7 @@ function findLecture(lectures, id) {
       var id = Number(block.attr('data-id'));
 
       $.ajax({
-        url: "/timetable/api/table_delete",
+        url: "/timetable/api/table_delete/",
         type: "POST",
         data: {
           table_id: id,
@@ -985,7 +985,7 @@ function findLecture(lectures, id) {
 
     createTable: function(e) {
       $.ajax({
-        url: "/timetable/api/table_create",
+        url: "/timetable/api/table_create/",
         type: "POST",
         data: {
           year: app.YearSemester.get('year'),
@@ -1007,7 +1007,7 @@ function findLecture(lectures, id) {
       var id = Number(block.attr('data-id'));
 
       $.ajax({
-        url: "/timetable/api/table_copy",
+        url: "/timetable/api/table_copy/",
         type: "POST",
         data: {
           table_id: id,

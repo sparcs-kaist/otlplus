@@ -58,7 +58,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 
 # Filter Functions
-def get_department_filter(raw_filters):
+def _get_department_filter(raw_filters):
     department_list = []
     for department in Department.objects.all():
         department_list.append(department.code)
@@ -73,7 +73,8 @@ def get_department_filter(raw_filters):
     return filters
 
 
-def get_type_filter(raw_filters):
+
+def _get_type_filter(raw_filters):
     acronym_dic = {'GR': 'General Required', 'MGC': 'Mandatory General Courses', 'BE': 'Basic Elective',
                    'BR': 'Basic Required', 'EG': 'Elective(Graduate)', 'HSE': 'Humanities & Social Elective',
                    'OE': 'Other Elective', 'ME': 'Major Elective', 'MR': 'Major Required',
@@ -89,7 +90,8 @@ def get_type_filter(raw_filters):
     return filters
 
 
-def get_level_filter(raw_filters):
+
+def _get_level_filter(raw_filters):
     acronym_dic = {'ALL':"", '000':"0", '100':"1", '200':"2", '300':"3", '400':"4", '500':"5", 'HIGH':"6"}
     grade_list = acronym_dic.keys()
     acronym_filters = list(set(grade_list) & set(raw_filters))
@@ -101,7 +103,8 @@ def get_level_filter(raw_filters):
     return filters
 
 
-def get_filtered_lectures(year, semester, department_filters, type_filters, level_filters, keyword, day, begin, end):
+
+def _get_filtered_lectures(year, semester, department_filters, type_filters, level_filters, keyword, day, begin, end):
     lectures = Lecture.objects.filter(
         year=year,
         semester=semester,
@@ -129,6 +132,7 @@ def get_filtered_lectures(year, semester, department_filters, type_filters, leve
     return list(lectures)
 
 
+
 # List(Lecture) -> List[dict-Lecture]
 # Format raw result from models into javascript-understandable form
 def _lecture_result_format(ls):
@@ -145,6 +149,7 @@ def _lecture_result_format(ls):
     result = [y for x in result for y in x] # Flatten nested list
     
     return result
+
 
 
 def _classtime_to_dict(ct):
@@ -282,6 +287,7 @@ def _lecture_to_dict(lecture):
     return result
 
 
+
 # List[dict-Lecture] -> List[dict-Lecture]
 def _add_title_format(lectures):
     if len (lectures) == 1:
@@ -305,6 +311,7 @@ def _add_title_format(lectures):
     return lectures
 
 
+
 # List[str] -> str
 # Helper function of _add_title_format
 def _lcs_front(ls):
@@ -322,6 +329,7 @@ def _lcs_front(ls):
     while (len(result) > 0) and (result[-1] in ['<', '(', '[', '{']):
       result = result[:-1]
     return result
+
 
 
 def _user_department(user):
@@ -351,6 +359,7 @@ def _user_department(user):
     return departments
 
 
+
 def main(request):
     if request.user.is_authenticated():
         departments = _user_department(request.user)
@@ -358,6 +367,7 @@ def main(request):
         departments = [{'code':'Basic', 'name':'기초 과목'}]
 
     return render(request,'timetable/index.html', {'departments': departments, 'year':2017, 'semester':3})
+
 
 
 def _year_semester():
@@ -373,7 +383,8 @@ def _year_semester():
     return (year, semester)
     
 
-def update_my_lectures(request):
+
+def table_update(request):
     '''Add/delete lecture to users lecture list.
     ''' 
     if request.method != 'POST':
@@ -408,7 +419,8 @@ def update_my_lectures(request):
     return JsonResponse({ 'success': True });
 
 
-def copy_my_timetable(request):
+
+def table_copy(request):
     '''Copy the contents of user timetable'''
     if request.method != 'POST':
         return HttpResponseNotAllowed('POST')
@@ -442,7 +454,8 @@ def copy_my_timetable(request):
                          'id':t.id})
 
 
-def delete_my_timetable(request):
+
+def table_delete(request):
     '''Deletes(clears) user timetable '''
     if request.method != 'POST':
         return HttpResponseNotAllowed('POST')
@@ -469,7 +482,8 @@ def delete_my_timetable(request):
     return JsonResponse({ 'scucess': True })
 
 
-def create_timetable(request):
+
+def table_create(request):
     '''Create user timetable '''
     if request.method != 'POST':
         return HttpResponseNotAllowed('POST')
@@ -495,7 +509,8 @@ def create_timetable(request):
                          'id':t.id})
 
 
-def show_my_lectures(request):
+
+def table_load(request):
     '''Returns all the lectures the user is listening'''
     try:
         userprofile = UserProfile.objects.get(user=request.user)
@@ -528,6 +543,7 @@ def show_my_lectures(request):
                         {'ensure_ascii': False})
 
 
+
 def show_lecture_comments(request):
     '''Returns comment of selected lecture'''
     if request.method != 'POST':
@@ -535,6 +551,7 @@ def show_lecture_comments(request):
 
     code = request.POST['code']
     comments = Comment.objects.filter(code = code)
+
 
 
 # RESTFUL search view function. Test with programs like postman. csrf_exempt is for testing.
@@ -550,9 +567,9 @@ def search(request):
 
         year = request_json['year']
         semester = request_json['semester']
-        department_filters = get_department_filter(request_json['department'])
-        type_filters = get_type_filter(request_json['type'])
-        level_filters = get_level_filter(request_json['grade'])
+        department_filters = _get_department_filter(request_json['department'])
+        type_filters = _get_type_filter(request_json['type'])
+        level_filters = _get_level_filter(request_json['grade'])
         keyword = request_json['keyword']
 
         if len(request_json["day"])>0 and len(request_json["begin"])>0 and len(request_json["end"])>0:
@@ -566,7 +583,7 @@ def search(request):
             begin = None
             end = None
         
-        result = get_filtered_lectures(year, semester, department_filters, type_filters, level_filters, keyword, day, begin, end)
+        result = _get_filtered_lectures(year, semester, department_filters, type_filters, level_filters, keyword, day, begin, end)
         if len(result) > 500:
             too_many = True
             result = result[:500]
@@ -579,8 +596,9 @@ def search(request):
                             json_dumps_params={'ensure_ascii': False})
 
 
+
 @csrf_exempt
-def fetch(request):
+def comment_load(request):
     if request.method == 'POST':
         lecture_id = request.POST['lecture_id']
         lecture = Lecture.objects.get(id=lecture_id)
@@ -598,6 +616,7 @@ def fetch(request):
                            'comment': c.comment[:200],
                            'id': c.id})
         return JsonResponse(result, safe=False)
+
 
 
 @login_required_ajax
@@ -653,7 +672,8 @@ def calendar(request):
     # TODO: Add calendar entry
 
 
-def major_list(request):
+
+def list_load_major(request):
     if request.method == "POST":
         year = request.POST["year"]
         semester = request.POST["semester"]
@@ -681,7 +701,7 @@ def major_list(request):
 
 
 
-def humanity_list(request):
+def list_load_humanity(request):
     if request.method == "POST":
         year = request.POST["year"]
         semester = request.POST["semester"]
@@ -695,7 +715,7 @@ def humanity_list(request):
 
 
 # fetch wishlist
-def wishlist(request):
+def wishlist_load(request):
     if request.method == 'POST':
         try:
             userprofile = UserProfile.objects.get(user=request.user)
@@ -718,6 +738,7 @@ def wishlist(request):
 
         return JsonResponse(result, safe=False, json_dumps_params=
                             {'ensure_ascii': False})
+
 
 
 def wishlist_update(request):
