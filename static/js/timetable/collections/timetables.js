@@ -11,7 +11,7 @@ var app = app || {};
   var Timetables = Backbone.Collection.extend({
     // Reference to this collection's model.
     model: app.Timetable,
-    url: '/timetable/api/show',
+    url: '/timetable/api/table_load/',
   });
 
   // Create
