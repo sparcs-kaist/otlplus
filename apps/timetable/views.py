@@ -44,20 +44,9 @@ import itertools
 
 from django.views.decorators.csrf import csrf_exempt
 
-# type_map = {'공통': '공통필수', '교필': '교양필수', '기선': '기초선택',
-#             '기필': '기초필수', '석박': '석/박사', '인선': '인문사회선택',
-#             '자선': '자유선택', '전선': '전공선택', '전필': '전공필수',
-#             '기타': '기타'}
-
-# type_map = {'GR':' General Required', 'MGC': 'Mandatory General Courses', 'BE': 'Basic Elective',
-#             'BR': 'Basic Required', 'EG': 'Elective(Graduate)', 'HSE': 'Humanities & Social Elective',
-#             'OE': 'Other Elective', 'ME': 'Major Elective', 'MR': 'Major Required',
-#             'S': 'Seminar', 'I': 'Interdisciplinary', 'FP': 'Field Practice'}
-#
-# department_map = {'인문': Department.objects.get(name='인문사회과학부'), '건환': Department.objects.get(name='건설및환경공학과'), '기경': Department.objects.get(name='기술경영학부'), '기계': Department.objects.get(name='기계공학과'), '물리': Department.objects.get(name='물리학과'), '바공': Department.objects.get(name='바이오및뇌공학과'), '산공': Department.objects.get(name='산업및시스템공학과'), '산디': Department.objects.get(name='산업디자인학과'), '생명': Department.objects.get(name='생명과학과'), '수리': Department.objects.get(name='수리과학과'), '원양': Department.objects.get(name='원자력및양자공학과'), '전자': Department.objects.get(name='전기및전자공학부'), '전산': Department.objects.get(name='전산학부'), '항공': Department.objects.get(name='항공우주공학과'), '화학': Department.objects.get(name='화학과'), '생화공': Department.objects.get(name='생명화학공학과'), '신소재': Department.objects.get(name='신소재공학과')}
 
 
-# Filter Functions
+# Convert given depertment filter into DB-understandable form
 def _get_department_filter(raw_filters):
     department_list = []
     for department in Department.objects.all():
@@ -74,6 +63,7 @@ def _get_department_filter(raw_filters):
 
 
 
+# Convert given type filter into DB-understandable form
 def _get_type_filter(raw_filters):
     acronym_dic = {'GR': 'General Required', 'MGC': 'Mandatory General Courses', 'BE': 'Basic Elective',
                    'BR': 'Basic Required', 'EG': 'Elective(Graduate)', 'HSE': 'Humanities & Social Elective',
@@ -91,6 +81,7 @@ def _get_type_filter(raw_filters):
 
 
 
+# Convert given level filter into DB-understandable form
 def _get_level_filter(raw_filters):
     acronym_dic = {'ALL':"", '000':"0", '100':"1", '200':"2", '300':"3", '400':"4", '500':"5", 'HIGH':"6"}
     grade_list = acronym_dic.keys()
@@ -104,6 +95,7 @@ def _get_level_filter(raw_filters):
 
 
 
+# Yield lectures from DB
 def _get_filtered_lectures(year, semester, department_filters, type_filters, level_filters, keyword, day, begin, end):
     lectures = Lecture.objects.filter(
         year=year,
@@ -152,6 +144,7 @@ def _lecture_result_format(ls):
 
 
 
+# Convert a classtime model into dict
 def _classtime_to_dict(ct):
     bldg = getattr(ct, _("roomName"))
     # No classroom info
@@ -186,9 +179,11 @@ def _classtime_to_dict(ct):
 
 
 
+# Convert a examtime model into dict
 def _examtime_to_dict(ct):
+    day_str = [_(u"월요일"), _(u"화요일"), _(u"수요일"), _(u"목요일"), _(u"금요일"), _(u"토요일"), _(u"일요일")]
     return {"day": ct.day,
-            "str": [_(u"월요일"), _(u"화요일"), _(u"수요일"), _(u"목요일"), _(u"금요일"), _(u"토요일"), _(u"일요일")][ct.day] + " " + ct.begin.strftime("%H:%M") + " ~ " + ct.end.strftime("%H:%M"),
+            "str": day_str[ct.day] + " " + ct.begin.strftime("%H:%M") + " ~ " + ct.end.strftime("%H:%M"),
             "begin": ct.get_begin_numeric(),
             "end": ct.get_end_numeric(),}
 
@@ -208,8 +203,8 @@ def _get_scores(lecture):
 
 
 # Lecture -> dict-Lecture
+# Convert a lecture model into dict
 def _lecture_to_dict(lecture):
-    # Convert lecture into dict
     # Don't change this into model_to_dict: for security and performance
     result = {"id": lecture.id,
               "title": getattr(lecture, _("title")),
@@ -289,6 +284,7 @@ def _lecture_to_dict(lecture):
 
 
 # List[dict-Lecture] -> List[dict-Lecture]
+# Add common and class title for lectures like 'XXX<AAA>', 'XXX<BBB>'
 def _add_title_format(lectures):
     if len (lectures) == 1:
       title = lectures[0]['title']
@@ -313,7 +309,7 @@ def _add_title_format(lectures):
 
 
 # List[str] -> str
-# Helper function of _add_title_format
+# Finds logest common string from front of given strings
 def _lcs_front(ls):
     if len(ls)==0:
       return ""
@@ -370,13 +366,11 @@ def main(request):
 
 
 
+# Get current year and semester.
+# If lectures are updated, we can get latest year and semester
+# from its year and semester fields. Its quite naaive way of determining, so
+# if models aren't updated we can't get current year and semester info
 def _year_semester():
-    '''Get current year and semester.
-
-       If lectures are updated, we can get latest year and semester
-       from its year and semester fields. Its quite naaive way of determining, so
-       if models aren't updated we can't get current year and semester info
-    '''
     year = Lecture.objects.aggregate(Max('year'))['year__max']
     semester = Lecture.objects.filter(year=year) \
                               .aggregate(Max('semester'))['semester__max']
@@ -384,9 +378,8 @@ def _year_semester():
     
 
 
+# Add/Delete lecture to timetable
 def table_update(request):
-    '''Add/delete lecture to users lecture list.
-    ''' 
     if request.method != 'POST':
         return HttpResponseNotAllowed('POST')
 
@@ -420,8 +413,8 @@ def table_update(request):
 
 
 
+# Copy timetable
 def table_copy(request):
-    '''Copy the contents of user timetable'''
     if request.method != 'POST':
         return HttpResponseNotAllowed('POST')
 
@@ -455,8 +448,8 @@ def table_copy(request):
 
 
 
+# Delete timetable
 def table_delete(request):
-    '''Deletes(clears) user timetable '''
     if request.method != 'POST':
         return HttpResponseNotAllowed('POST')
 
@@ -483,8 +476,8 @@ def table_delete(request):
 
 
 
+# Create timetable
 def table_create(request):
-    '''Create user timetable '''
     if request.method != 'POST':
         return HttpResponseNotAllowed('POST')
 
@@ -510,8 +503,8 @@ def table_create(request):
 
 
 
+# Fetch timetable
 def table_load(request):
-    '''Returns all the lectures the user is listening'''
     try:
         userprofile = UserProfile.objects.get(user=request.user)
     except:
@@ -544,8 +537,9 @@ def table_load(request):
 
 
 
+
+# Returns comment of selected lecture
 def show_lecture_comments(request):
-    '''Returns comment of selected lecture'''
     if request.method != 'POST':
         return HttpResponseNotAllowed('POST')
 
@@ -619,10 +613,9 @@ def comment_load(request):
 
 
 
+# Export OTL timetable to google calender
 @login_required_ajax
 def calendar(request):
-    """Exports otl timetable to google calender
-    """
     user = request.user
     try:
         userprofile = UserProfile.objects.get(user=user)
@@ -714,7 +707,7 @@ def list_load_humanity(request):
 
 
 
-# fetch wishlist
+# Fetch wishlist
 def wishlist_load(request):
     if request.method == 'POST':
         try:
@@ -741,9 +734,8 @@ def wishlist_load(request):
 
 
 
+# Add/delete lecture to wishlist.
 def wishlist_update(request):
-    '''Add/delete lecture to users lecture list.
-    ''' 
     if request.method != 'POST':
         return HttpResponseNotAllowed('POST')
 
