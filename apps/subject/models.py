@@ -161,22 +161,27 @@ class Department(models.Model):
 
 
 class Course(models.Model):
+    # Fields below are fetched from KAIST Scholar DB
     old_code = models.CharField(max_length=10, db_index=True)
-    code_num = models.CharField(max_length=10, db_index=True, default='D')
     department = models.ForeignKey('Department', db_index=True)
     professors = models.ManyToManyField('Professor', db_index=True)
     type = models.CharField(max_length=12)
     type_en = models.CharField(max_length=36)
     title = models.CharField(max_length=100, db_index=True)
     title_en = models.CharField(max_length=200, db_index=True)
+
+    # Fields below are updated by update_course_summary
     summury = models.CharField(max_length=4000, default="")
 
+    # Fields below are updated by update_CourseCodeNum
+    code_num = models.CharField(max_length=10, db_index=True, default='D')
+
+    # Fields below are updated when comments are added/deleted/modified
     grade_sum = models.IntegerField(default=0)
     load_sum = models.IntegerField(default=0)
     speech_sum = models.IntegerField(default=0)
     total_sum = models.FloatField(default=0.0)
     comment_num = models.IntegerField(default=0)
-
     grade = models.FloatField(default=0.0)
     load = models.FloatField(default=0.0)
     speech = models.FloatField(default=0.0)
@@ -200,6 +205,7 @@ class Course(models.Model):
 
 
 class Professor(models.Model):
+    # Fields below are fetched from KAIST Scholar DB
     professor_name = models.CharField(max_length=100, db_index=True)
     professor_name_en = models.CharField(max_length=100, blank=True, null=True)
     professor_id = models.IntegerField()
