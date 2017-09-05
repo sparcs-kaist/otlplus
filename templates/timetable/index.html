@@ -91,7 +91,7 @@
 										<label class="type-name fixed-{{ LANGUAGE_CODE }}">{% trans "시간" %}</label><!--
 								 --><div class="type-elem">
 											<label>
-												{% trans "선택하기" %}
+												{% trans "시간표에서 드래그" %}
 											</label>
 										</div>
 										<input id="filter-time-day" name="day" type="text">
@@ -411,9 +411,6 @@
 					</div>
 				</div>
 				<div id="drag-cell" class="none">
-					<i class="drag-close"></i>
-					<div class="drag-text drag-search"><i class="drag-icon"></i>{% trans "과목 검색" %}</div>
-					<div class="drag-text drag-schedule"><i class="drag-icon"></i>{% trans "일정 추가" %}</div>
 				</div>
 			</div><!--div timetable-wrap-->
 			<div id="right-side">
@@ -570,20 +567,20 @@
 <script type="text/template" id="list-template">
 <% _.each(courses, function(course) { %>
 <div class="list-elem">
-  <div class="list-elem-title"><strong><%- course[0].get('format_common_title') %></strong> <%- course[0].get('old_code') %></div>
+  <div class="list-elem-title"><strong><%- course[0].get('common_title') %></strong> <%- course[0].get('old_code') %></div>
   <% _.each(course, function(lecture) { %>
   <div class="list-elem-body-wrap" data-id="<%- lecture.get('id') %>">
     <div class="list-elem-body">
       <div class="list-elem-body-text">
-      	<% switch (lecture.get('format_class_title').length) { case 1: %>
-        <strong class="class-title fixed-1" ><%- lecture.get('format_class_title') %></strong>
+      	<% switch (lecture.get('class_title').length) { case 1: %>
+        <strong class="class-title fixed-1" ><%- lecture.get('class_title') %></strong>
         <% break; case 2: %>
-        <strong class="class-title fixed-2" ><%- lecture.get('format_class_title') %></strong>
+        <strong class="class-title fixed-2" ><%- lecture.get('class_title') %></strong>
       	<% break; default: %>
-        <strong class="class-title" ><%- lecture.get('format_class_title') %></strong>
+        <strong class="class-title" ><%- lecture.get('class_title') %></strong>
       	<% } %>
       	<span class="class-prof">
-        <%- lecture.get('professor_str_short') %>
+        <%- lecture.get('professor_short') %>
       	</span>
        </div>
        <% if (!cart) { %>
@@ -616,9 +613,9 @@
 		<div class="nano">
 			<div class="list-scroll nano-content">
 				<div class="basic-info"><span class="basic-info-name fixed-{{ LANGUAGE_CODE }}">{% trans "구분" %}</span><span id="course-type"><%- type %></span></div>
-				<div class="basic-info"><span class="basic-info-name fixed-{{ LANGUAGE_CODE }}">{% trans "학과" %}</span><span id="department"><%- format_dept_name %></span></div>
-				<div class="basic-info"><span class="basic-info-name fixed-{{ LANGUAGE_CODE }}">{% trans "교수" %}</span><span id="instructor"><%- professor_str %></span></div>
-				<div class="basic-info"><span class="basic-info-name fixed-{{ LANGUAGE_CODE }}">{% trans "장소" %}</span><span id="classroom"><%- format_classroom %></span></div>
+				<div class="basic-info"><span class="basic-info-name fixed-{{ LANGUAGE_CODE }}">{% trans "학과" %}</span><span id="department"><%- dept_name %></span></div>
+				<div class="basic-info"><span class="basic-info-name fixed-{{ LANGUAGE_CODE }}">{% trans "교수" %}</span><span id="instructor"><%- professor %></span></div>
+				<div class="basic-info"><span class="basic-info-name fixed-{{ LANGUAGE_CODE }}">{% trans "장소" %}</span><span id="classroom"><%- classroom %></span></div>
 				<div class="basic-info"><span class="basic-info-name fixed-{{ LANGUAGE_CODE }}">{% trans "정원" %}</span><span id="class-size"><%- limit %></span></div>
 				<div class="basic-info"><span class="basic-info-name fixed-{{ LANGUAGE_CODE }}">{% trans "시험" %}</span><span id="exam-time"><%- exam %></span></div>
 				<div class="lecture-scores">
@@ -626,7 +623,7 @@
 						<% if (is_english) { %>
 						<div id="language" class="score-text">Eng</div>
 						<% } else { %>
-						<div id="language" class="score-text" style="">한</div>
+						<div id="language" class="score-text score-korean" style="">한</div>
 						<% } %>
 						<div class="score-label">{% trans "언어" %}</div>
 					</div><!--

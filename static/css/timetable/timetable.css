@@ -255,12 +255,21 @@ i
 
 .score-text
 {
-	font-size: calc(0.7vh + 15px);
-	line-height: calc(0.7vh + 12px);
 	height: calc(0.7vh + 12px);
     font-weight:300;
-	font-family:"Helvetica Neue", "Helvetica", "Arial";
 	margin-bottom:4px;
+}
+.score-text:not(.score-korean)
+{
+    font-size: calc(0.7vh + 15px);
+    line-height: calc(0.7vh + 12px);
+    font-family:"Helvetica Neue", "Calibri", "Arial";
+}
+.score-text.score-korean
+{
+    font-size: calc(0.7vh + 13px);
+    line-height: calc(0.7vh + 14px);
+    padding-top: 1px;
 }
 
 .score-label
@@ -660,14 +669,17 @@ i
     display:none;
 }
 
-.filter-time > .type-elem > label
+.filter-time label
+{
+    cursor: auto;
+}
+.filter-time label.time-active
 { 
+    cursor:pointer;
 	color:#E54C65;
 }
-
-.filter-time > .type-elem > label:hover
+.filter-time label.time-active:hover
 {
-	cursor:pointer;
 	color:#963246;
 }
 
@@ -940,7 +952,7 @@ i
 	height:13px;
 	display:inline-block;
 	vertical-align:top;
-	margin:-1px 0px -1px 0px;
+    margin:-1px 0px -1px 6px;
     pointer-events:auto;
 }
 .delete-from-cart:hover
@@ -1280,7 +1292,7 @@ i
             flex-direction:column;
     justify-content:center;
     position:absolute;
-    background-color:#E54C65;
+    background-color:#E56C85;
     border-radius:2px;
     pointer-events:none;
     z-index:1;
@@ -1892,14 +1904,14 @@ i
     left: -1px;
     width: calc(100% + 2px);
 }
-.lecture-block.active
+body .lecture-block.active
 {
-    background-color:#E54C65 !important;
+    background-color:#E0546F;
     color:#FFFFFF;
 }
-.lecture-block.lecture-block-temp
+body .lecture-block.active.lecture-block-temp
 {
-    opacity: 0.8;
+    background-color:#E56C85;
     z-index: 3;
 }
 .lecture-block.click

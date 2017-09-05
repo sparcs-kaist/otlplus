@@ -49,7 +49,7 @@ function findLecture(lectures, id) {
   // ---------------
 
   // Dragging timetable
-  app.TimetableClickSearchView = Backbone.View.extend({
+  app.TimetableDragView = Backbone.View.extend({
     initialize: function (opt) {
       this.isLookingTable = false;
       this.isBubbling = false;
@@ -70,8 +70,6 @@ function findLecture(lectures, id) {
       'mousemove .half.table-drag': "dragMove",
       'mouseup': "dragEnd",
       'mousedown .lecture-block': "clickBlock",
-      'click .drag-close': "dragClose",
-      'click .drag-search': "searchLecture",
     },
 
     dragStart: function (e) {
@@ -82,7 +80,6 @@ function findLecture(lectures, id) {
         e.preventDefault();
         this.isDragging = true;
         $(this.dragCell).removeClass('none');
-        $(this.dragCell).children().addClass('none');
 
         this.firstBlock = $(e.currentTarget);
         this.secondBlock = $(e.currentTarget);
@@ -104,7 +101,8 @@ function findLecture(lectures, id) {
           $(this.dragCell).addClass('none');
         }
         else {
-          $(this.dragCell).children().removeClass('none');
+          this.searchLecture();
+          $(this.dragCell).addClass('none');
         }
       }
     },
@@ -115,10 +113,6 @@ function findLecture(lectures, id) {
       }
     },
 
-    dragClose: function (e) {
-      $(this.dragCell).addClass('none');
-    },
-    
     searchLecture: function () {
       var day = this.indexOfDay(this.firstBlock.attr("data-day"));
       var fBTime = this.indexOfTime(this.firstBlock.attr("data-time"));
@@ -129,7 +123,10 @@ function findLecture(lectures, id) {
         sBTime = temp;
       }
       sBTime += 1;
-      var dayStr = ['월요일', '화요일', '수요일', '목요일', '금요일'][day];
+      if (LANGUAGE_CODE==="en")
+        var dayStr = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"][day]
+      else 
+        var dayStr = ['월요일', '화요일', '수요일', '목요일', '금요일'][day]
       var fBStr = (Math.floor(fBTime/2)+8)+":"+(fBTime%2 ? "30" : "00")
       var sBStr = (Math.floor(sBTime/2)+8)+":"+(sBTime%2 ? "30" : "00")
 
@@ -137,8 +134,8 @@ function findLecture(lectures, id) {
       $("#filter-time-begin").val(fBTime);
       $("#filter-time-end").val(sBTime);
       $(".filter-time .type-elem label").html(dayStr+" "+fBStr+" ~ "+sBStr);
+      $(".filter-time .type-elem label").addClass('time-active');
       search.searchTab();
-      this.dragClose();
     },
 
     // Return index of day
@@ -162,16 +159,16 @@ function findLecture(lectures, id) {
     },
 
     render: function () {
-      if(timetable.firstBlock) {
-        var left = timetable.firstBlock.offset().left - $(timetable.el).offset().left - 1;
-        var width = timetable.firstBlock.width() + 2;
-        var top = Math.min(timetable.firstBlock.offset().top, timetable.secondBlock.offset().top) - $(timetable.el).offset().top + 2;
-        var height = Math.abs(timetable.firstBlock.offset().top - timetable.secondBlock.offset().top) + timetable.firstBlock.height() -2;
+      if(timetableDragView.firstBlock) {
+        var left = timetableDragView.firstBlock.offset().left - $(timetableDragView.el).offset().left - 1;
+        var width = timetableDragView.firstBlock.width() + 2;
+        var top = Math.min(timetableDragView.firstBlock.offset().top, timetableDragView.secondBlock.offset().top) - $(timetableDragView.el).offset().top + 2;
+        var height = Math.abs(timetableDragView.firstBlock.offset().top - timetableDragView.secondBlock.offset().top) + timetableDragView.firstBlock.height() -2;
 
-        $(timetable.dragCell).css('left', left+'px');
-        $(timetable.dragCell).css('width', width+'px');
-        $(timetable.dragCell).css('top', top+'px');
-        $(timetable.dragCell).css('height', height+'px');
+        $(timetableDragView.dragCell).css('left', left+'px');
+        $(timetableDragView.dragCell).css('width', width+'px');
+        $(timetableDragView.dragCell).css('top', top+'px');
+        $(timetableDragView.dragCell).css('height', height+'px');
       }
     }
   })
@@ -226,7 +223,7 @@ function findLecture(lectures, id) {
       }
 
       $.ajax({
-        url: "/timetable/api/update",
+        url: "/timetable/api/table_update/",
         type: "POST",
         data: {
           table_id: timetable_id,
@@ -253,7 +250,7 @@ function findLecture(lectures, id) {
       }
 
       $.ajax({
-        url: "/timetable/wishlist_update/",
+        url: "/timetable/api/wishlist_update/",
         type: "POST",
         data: {
           lecture_id: lecture_id,
@@ -298,7 +295,7 @@ function findLecture(lectures, id) {
       }
 
       $.ajax({
-        url: "/timetable/wishlist_update/",
+        url: "/timetable/api/wishlist_update/",
         type: "POST",
         data: {
           lecture_id: lecture_id,
@@ -334,7 +331,7 @@ function findLecture(lectures, id) {
     initialize: function() {},
 
     blockHover: function (e) {
-      if (app.LectureActive.get("type") !== "click") {
+      if (app.LectureActive.get("type") !== "click" && !timetableDragView.isDragging) {
         var ct = $(e.currentTarget);
         var id = Number(ct.attr('data-id'));
         var lecList = app.CurrentTimetable.get('lectures');
@@ -347,7 +344,7 @@ function findLecture(lectures, id) {
     },
 
     blockOut: function () {     
-      if (app.LectureActive.get("type") !== "click") {
+      if (app.LectureActive.get("type") !== "click" && !timetableDragView.isDragging) {
         app.LectureActive.set({type: "none"});
       }
     },
@@ -387,7 +384,7 @@ function findLecture(lectures, id) {
       }
 
       $.ajax({
-        url: "/timetable/api/update",
+        url: "/timetable/api/table_update/",
         type: "POST",
         data: {
           table_id: timetable_id,
@@ -814,7 +811,7 @@ function findLecture(lectures, id) {
 
             $(blocks[0]).append(this.blockTemplate({title: child.title,
                                         id: child.id,
-                                        professor: child.professor_str_short,
+                                        professor: child.professor_short,
                                         classroom: classtime.classroom_short,
                                         color: child.course%16+1,
                                         cells: time,
@@ -828,8 +825,8 @@ function findLecture(lectures, id) {
           noTime++;
           block.append(this.blockTemplate({title: child.title,
                                            id: child.id,
-                                           professor: child.professor_str_short,
-                                           classroom: child.format_classroom_short,
+                                           professor: child.professor_short,
+                                           classroom: child.classroom_short,
                                            color: child.course%16+1,
                                            cells: 3,
                                            occupied: [],
@@ -880,7 +877,7 @@ function findLecture(lectures, id) {
       var block = $('.lecture-detail #reviews');
 
       $.ajax({
-        url: "/timetable/fetch/",
+        url: "/timetable/api/comment_load/",
         type: "POST",
         data: {
           lecture_id: app.LectureActive.get('lecture').id,
@@ -888,7 +885,7 @@ function findLecture(lectures, id) {
         success: function(result) {
           $('.lecture-detail .review-loading').remove();
           if (result.length == 0) {
-            block.html('<div class="review-loading">'+(LANGUAGE_CODE==="en" ? "No search results" : "결과 없음")+'</div>');
+            block.html('<div class="review-loading">'+(LANGUAGE_CODE==="en" ? "No results" : "결과 없음")+'</div>');
           } else {
             var template = _.template($('#comment-template').html());
             block.html(template({comments:result}));
@@ -971,7 +968,7 @@ function findLecture(lectures, id) {
       var id = Number(block.attr('data-id'));
 
       $.ajax({
-        url: "/timetable/api/table_delete",
+        url: "/timetable/api/table_delete/",
         type: "POST",
         data: {
           table_id: id,
@@ -988,7 +985,7 @@ function findLecture(lectures, id) {
 
     createTable: function(e) {
       $.ajax({
-        url: "/timetable/api/table_create",
+        url: "/timetable/api/table_create/",
         type: "POST",
         data: {
           year: app.YearSemester.get('year'),
@@ -1010,7 +1007,7 @@ function findLecture(lectures, id) {
       var id = Number(block.attr('data-id'));
 
       $.ajax({
-        url: "/timetable/api/table_copy",
+        url: "/timetable/api/table_copy/",
         type: "POST",
         data: {
           table_id: id,
@@ -1054,7 +1051,7 @@ function findLecture(lectures, id) {
             var blocks = dayBlock.find('.half').slice(beginVal, endVal);
             $(blocks[0]).append(this.template({title: child.title,
                                         id: child.id,
-                                        professor: child.professor_str_short,
+                                        professor: child.professor_short,
                                         classroom: classtime.classroom_short,
                                         color: child.course%16+1,
                                         cells: time,
@@ -1069,8 +1066,8 @@ function findLecture(lectures, id) {
           noTime++;
           block.append(this.template({title: child.title,
                                       id: child.id,
-                                      professor: child.professor_str_short,
-                                      classroom: child.format_classroom_short,
+                                      professor: child.professor_short,
+                                      classroom: child.classroom_short,
                                       color: child.course%16+1,
                                       cells: 3,
                                       occupied: [],
@@ -1182,7 +1179,7 @@ function findLecture(lectures, id) {
   })
 })(jQuery);
 
-var timetable = new app.TimetableClickSearchView();
+var timetableDragView = new app.TimetableDragView();
 var lectureList = new app.lectureListView();
 var userLectureList = new app.TimetableLectureBlocksView();
 var userLectureList2 = new app.ListLectureBlocksView();
