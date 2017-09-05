@@ -24,6 +24,9 @@ msgstr "name_en"
 msgid "roomName"
 msgstr "roomName_en"
 
+msgid "ko"
+msgstr "en"
+
 
 msgid "정보 없음"
 msgstr "Unknown"
