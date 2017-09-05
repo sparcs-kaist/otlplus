@@ -128,17 +128,9 @@ def _get_filtered_lectures(year, semester, department_filters, type_filters, lev
 # List(Lecture) -> List[dict-Lecture]
 # Format raw result from models into javascript-understandable form
 def _lecture_result_format(ls):
-    result = list(ls)
-    result.sort(key = lambda x: x.course)
-    result = itertools.groupby(result, key = lambda x: x.course)
-
-    result = [[x for x in value] for key,value in result]
-    result = [[_lecture_to_dict(y) for y in x] for x in result]
-    result = [_add_title_format(x) for x in result]
-
-    result = [sorted(x, key = (lambda y:y['class_no'])) for x in result]
-    result.sort(key = (lambda x:x[0]['old_code']))
-    result = [y for x in result for y in x] # Flatten nested list
+    result = [_lecture_to_dict(x) for x in ls]
+    result.sort(key = (lambda x:x['class_no']))
+    result.sort(key = (lambda x:x['old_code']))
     
     return result
 
@@ -222,8 +214,10 @@ def _lecture_to_dict(lecture):
               "num_people": lecture.num_people,
               "is_english": lecture.is_english,
               "credit": lecture.credit,
-              "credit_au": lecture.credit_au,}
-
+              "credit_au": lecture.credit_au,
+              "common_title": getattr(lecture, _("common_title")),
+              "class_title": getattr(lecture, _("class_title")),}
+    
     # Convert relations into dict
     result['classtimes'] = [_classtime_to_dict(ct) for ct in lecture.classtime_set.all()]
     result['examtimes'] = [_examtime_to_dict(et) for et in lecture.examtime_set.all()]
@@ -278,52 +272,7 @@ def _lecture_to_dict(lecture):
         result['exam'] = result['examtimes'][0]['str']
     else:
         result['exam'] = _(u'정보 없음')
-
-    return result
-
-
-
-# List[dict-Lecture] -> List[dict-Lecture]
-# Add common and class title for lectures like 'XXX<AAA>', 'XXX<BBB>'
-def _add_title_format(lectures):
-    if len (lectures) == 1:
-      title = lectures[0]['title']
-      if title[-1] == '>':
-        common_title = title[:title.find('<')]
-      else:
-        common_title = title
-    else:
-      common_title = _lcs_front([l['title'] for l in lectures])
-
-    for l in lectures:
-      l['common_title'] = common_title
-      if l['title'] != common_title:
-        l['class_title'] = l['title'][len(common_title):]
-      elif len(l['class_no']) > 0:
-        l['class_title'] = l['class_no']
-      else:
-        l['class_title'] = u'A'
-
-    return lectures
-
-
-
-# List[str] -> str
-# Finds logest common string from front of given strings
-def _lcs_front(ls):
-    if len(ls)==0:
-      return ""
-    result = ""
-    for i in range(len(ls[0]), 0, -1): # [len(ls[0]),...,2,1]
-      flag = True
-      for l in ls:
-        if l[0:i] != ls[0][0:i]:
-          flag = False
-      if flag:
-        result = l[0:i]
-        break
-    while (len(result) > 0) and (result[-1] in ['<', '(', '[', '{']):
-      result = result[:-1]
+    
     return result
 
 
@@ -668,6 +617,9 @@ def calendar(request):
 
 def list_load_major(request):
     if request.method == "POST":
+        import time
+        t = time.time()
+
         year = request.POST["year"]
         semester = request.POST["semester"]
 
@@ -690,6 +642,7 @@ def list_load_major(request):
                                                 deleted=False)
         lectures += _lecture_result_format(major_lectures)
 
+        print(time.time()-t)
         return JsonResponse(lectures, safe=False)
 
 
