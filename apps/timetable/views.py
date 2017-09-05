@@ -26,6 +26,7 @@ from django.db.models import Max
 from django.utils.translation import ugettext as _
 from django.template import RequestContext
 from django.utils import translation
+from django.core.cache import cache
 
 # For google calender
 from apiclient import discovery
@@ -121,7 +122,7 @@ def _get_filtered_lectures(year, semester, department_filters, type_filters, lev
             Q(professor__professor_name_en__icontains=keyword)
         ).distinct()
 
-    return list(lectures)
+    return lectures
 
 
 
@@ -214,6 +215,11 @@ def _get_scores(lecture):
 # Lecture -> dict-Lecture
 # Convert a lecture model into dict
 def _lecture_to_dict(lecture):
+    cache_id = "lecture:%s:%d" % (_(u"ko"), lecture.id)
+    result_cached = cache.get(cache_id)
+    if result_cached != None:
+        return result_cached
+
     # Don't change this into model_to_dict: for security and performance
     result = {"id": lecture.id,
               "title": getattr(lecture, _("title")),
@@ -225,6 +231,7 @@ def _lecture_to_dict(lecture):
               "code": lecture.code,
               "department": lecture.department.id,
               "department_code": lecture.department.code,
+              "department_name": getattr(lecture.department, _("name")),
               "type": getattr(lecture, _("type")),
               "type_en": lecture.type_en,
               "limit": lecture.limit,
@@ -233,11 +240,9 @@ def _lecture_to_dict(lecture):
               "credit": lecture.credit,
               "credit_au": lecture.credit_au,
               "common_title": getattr(lecture, _("common_title")),
-              "class_title": getattr(lecture, _("class_title")),}
-    
-    # Convert relations into dict
-    result['classtimes'] = [_classtime_to_dict(ct) for ct in lecture.classtime_set.all()]
-    result['examtimes'] = [_examtime_to_dict(et) for et in lecture.examtime_set.all()]
+              "class_title": getattr(lecture, _("class_title")),
+              "classtimes": [_classtime_to_dict(ct) for ct in lecture.classtime_set.all()],
+              "examtimes": [_examtime_to_dict(et) for et in lecture.examtime_set.all()],}
     
     # Add formatted professor name
     prof_name_list = [getattr(p, _("professor_name")) for p in lecture.professor.all()]
@@ -246,9 +251,6 @@ def _lecture_to_dict(lecture):
       result['professor_short'] = result['professor']
     else:
       result['professor_short'] = prof_name_list[0] + _(u" 외 ") + str(len(prof_name_list)-1) + _(u"명")
-
-    # Add formatted department name
-    result['dept_name'] = getattr(lecture.department, _("name"))
 
     # Add formatted score
     grade, load, speech = _get_scores(lecture)
@@ -289,7 +291,8 @@ def _lecture_to_dict(lecture):
         result['exam'] = result['examtimes'][0]['str']
     else:
         result['exam'] = _(u'정보 없음')
-    
+
+    cache.set(cache_id, result, 60*60)
     return result
 
 
@@ -640,8 +643,8 @@ def list_load_major(request):
         import time
         t = time.time()
 
-        year = request.POST["year"]
-        semester = request.POST["semester"]
+        year = int(request.POST["year"])
+        semester = int(request.POST["semester"])
 
         departments = [x['code'] for x in _user_department(request.user)]
         lectures_nested = [_get_preset_lectures(year, semester, x) for x in departments]
@@ -655,8 +658,8 @@ def list_load_major(request):
 
 def list_load_humanity(request):
     if request.method == "POST":
-        year = request.POST["year"]
-        semester = request.POST["semester"]
+        year = int(request.POST["year"])
+        semester = int(request.POST["semester"])
 
         lectures = _get_preset_lectures(year, semester, "Humanity")
         result = _lecture_result_format(lectures)
