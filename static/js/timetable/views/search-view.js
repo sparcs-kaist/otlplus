@@ -25,7 +25,7 @@ var app = app || {};
       this.listenTo(app.YearSemester, 'change', this.fetchLists);
     },
     loadingMessage: '<div class="list-loading">'+(LANGUAGE_CODE==="en" ? "Loading" : "불러오는 중")+'</div>',
-    noResultMessage: '<div class="list-loading">'+(LANGUAGE_CODE==="en" ? "No search results" : "결과 없음")+'</div>',
+    noResultMessage: '<div class="list-loading">'+(LANGUAGE_CODE==="en" ? "No results" : "결과 없음")+'</div>',
 
     events: {
       'click .result-message': "showSearch",
@@ -33,6 +33,7 @@ var app = app || {};
       'click .search-chead': "changeTab",
       'click .chkall': "toggleType",
       'click .chkelem': "toggleType",
+      'click .time-active': "clearTime",
       'click #search-button': "searchStart",
     },
 
@@ -47,10 +48,15 @@ var app = app || {};
       $(this.el).find(".chkelem").parent().find('.fa-check-circle-o').addClass('none');
       $(this.el).find(".chkelem").parent().find('.fa-circle-o').removeClass('none');
 
+      this.clearTime();
+    },
+
+    clearTime: function() {
       $("#filter-time-day").val('');
       $("#filter-time-begin").val('');
       $("#filter-time-end").val('');
-      $(".filter-time .type-elem label").html((LANGUAGE_CODE==="en" ? "Select" : "선택하기"));
+      $(".filter-time .type-elem label").html((LANGUAGE_CODE==="en" ? "Drag timetable" : "시간표에서 드래그"));
+      $(".filter-time .type-elem label").removeClass('time-active');
     },
 
     searchTab: function (e) {
@@ -161,9 +167,14 @@ var app = app || {};
       app.SearchKeyword.set(data);
       app.SearchKeyword.save(null, {
         success: function(model, resp, options) {
-          var lectures = [].concat.apply([], resp.courses); // Flatten double array to single array
+          var lectures = resp.courses; // Flatten double array to single array
           app.searchLectureList.reset(lectures);
           app.searchLectureList.trigger("update");
+
+          if (resp.too_many)
+            alert((LANGUAGE_CODE==="en" ? "Too many search results are found. Only " : "검색 결과가 너무 많습니다. ")
+                  +lectures.length
+                  +(LANGUAGE_CODE==="en" ? " lectures are shown." : "개만 표시됩니다."));
 
           $(".search-extend").addClass('none');
           
@@ -184,7 +195,6 @@ var app = app || {};
 
       $(".search-page .list-scroll").html('');
       this.showSearch();
-      $(".result-text").text("검색");
       $(".cart-page .list-scroll").html(this.loadingMessage);
       app.cartLectureList.fetch(options);
       $(".major-page .list-scroll").html(this.loadingMessage);

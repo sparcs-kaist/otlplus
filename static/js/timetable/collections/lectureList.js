@@ -19,7 +19,7 @@ var app = app || {};
 
   // Create
   app.searchLectureList = new SomeLectureList('');
-  app.cartLectureList = new SomeLectureList('/timetable/wishlist/');
-  app.majorLectureList = new SomeLectureList('/timetable/list/major/');
-  app.humanityLectureList = new SomeLectureList('/timetable/list/humanity/');
+  app.cartLectureList = new SomeLectureList('/timetable/api/wishlist_load/');
+  app.majorLectureList = new SomeLectureList('/timetable/api/list_load_major/');
+  app.humanityLectureList = new SomeLectureList('/timetable/api/list_load_humanity/');
 })();

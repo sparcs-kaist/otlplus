@@ -44,21 +44,10 @@ import itertools
 
 from django.views.decorators.csrf import csrf_exempt
 
-# type_map = {'공통': '공통필수', '교필': '교양필수', '기선': '기초선택',
-#             '기필': '기초필수', '석박': '석/박사', '인선': '인문사회선택',
-#             '자선': '자유선택', '전선': '전공선택', '전필': '전공필수',
-#             '기타': '기타'}
-
-# type_map = {'GR':' General Required', 'MGC': 'Mandatory General Courses', 'BE': 'Basic Elective',
-#             'BR': 'Basic Required', 'EG': 'Elective(Graduate)', 'HSE': 'Humanities & Social Elective',
-#             'OE': 'Other Elective', 'ME': 'Major Elective', 'MR': 'Major Required',
-#             'S': 'Seminar', 'I': 'Interdisciplinary', 'FP': 'Field Practice'}
-#
-# department_map = {'인문': Department.objects.get(name='인문사회과학부'), '건환': Department.objects.get(name='건설및환경공학과'), '기경': Department.objects.get(name='기술경영학부'), '기계': Department.objects.get(name='기계공학과'), '물리': Department.objects.get(name='물리학과'), '바공': Department.objects.get(name='바이오및뇌공학과'), '산공': Department.objects.get(name='산업및시스템공학과'), '산디': Department.objects.get(name='산업디자인학과'), '생명': Department.objects.get(name='생명과학과'), '수리': Department.objects.get(name='수리과학과'), '원양': Department.objects.get(name='원자력및양자공학과'), '전자': Department.objects.get(name='전기및전자공학부'), '전산': Department.objects.get(name='전산학부'), '항공': Department.objects.get(name='항공우주공학과'), '화학': Department.objects.get(name='화학과'), '생화공': Department.objects.get(name='생명화학공학과'), '신소재': Department.objects.get(name='신소재공학과')}
 
 
-# Filter Functions
-def get_department_filter(raw_filters):
+# Convert given depertment filter into DB-understandable form
+def _get_department_filter(raw_filters):
     department_list = []
     for department in Department.objects.all():
         department_list.append(department.code)
@@ -73,7 +62,9 @@ def get_department_filter(raw_filters):
     return filters
 
 
-def get_type_filter(raw_filters):
+
+# Convert given type filter into DB-understandable form
+def _get_type_filter(raw_filters):
     acronym_dic = {'GR': 'General Required', 'MGC': 'Mandatory General Courses', 'BE': 'Basic Elective',
                    'BR': 'Basic Required', 'EG': 'Elective(Graduate)', 'HSE': 'Humanities & Social Elective',
                    'OE': 'Other Elective', 'ME': 'Major Elective', 'MR': 'Major Required',
@@ -89,7 +80,9 @@ def get_type_filter(raw_filters):
     return filters
 
 
-def get_level_filter(raw_filters):
+
+# Convert given level filter into DB-understandable form
+def _get_level_filter(raw_filters):
     acronym_dic = {'ALL':"", '000':"0", '100':"1", '200':"2", '300':"3", '400':"4", '500':"5", 'HIGH':"6"}
     grade_list = acronym_dic.keys()
     acronym_filters = list(set(grade_list) & set(raw_filters))
@@ -101,7 +94,9 @@ def get_level_filter(raw_filters):
     return filters
 
 
-def get_filtered_lectures(year, semester, department_filters, type_filters, level_filters, keyword, day, begin, end):
+
+# Yield lectures from DB
+def _get_filtered_lectures(year, semester, department_filters, type_filters, level_filters, keyword, day, begin, end):
     lectures = Lecture.objects.filter(
         year=year,
         semester=semester,
@@ -129,6 +124,7 @@ def get_filtered_lectures(year, semester, department_filters, type_filters, leve
     return list(lectures)
 
 
+
 # List(Lecture) -> List[dict-Lecture]
 # Format raw result from models into javascript-understandable form
 def _lecture_result_format(ls):
@@ -147,6 +143,8 @@ def _lecture_result_format(ls):
     return result
 
 
+
+# Convert a classtime model into dict
 def _classtime_to_dict(ct):
     bldg = getattr(ct, _("roomName"))
     # No classroom info
@@ -181,9 +179,11 @@ def _classtime_to_dict(ct):
 
 
 
+# Convert a examtime model into dict
 def _examtime_to_dict(ct):
+    day_str = [_(u"월요일"), _(u"화요일"), _(u"수요일"), _(u"목요일"), _(u"금요일"), _(u"토요일"), _(u"일요일")]
     return {"day": ct.day,
-            "str": [_(u"월요일"), _(u"화요일"), _(u"수요일"), _(u"목요일"), _(u"금요일"), _(u"토요일"), _(u"일요일")][ct.day] + " " + ct.begin.strftime("%H:%M") + " ~ " + ct.end.strftime("%H:%M"),
+            "str": day_str[ct.day] + " " + ct.begin.strftime("%H:%M") + " ~ " + ct.end.strftime("%H:%M"),
             "begin": ct.get_begin_numeric(),
             "end": ct.get_end_numeric(),}
 
@@ -203,8 +203,8 @@ def _get_scores(lecture):
 
 
 # Lecture -> dict-Lecture
+# Convert a lecture model into dict
 def _lecture_to_dict(lecture):
-    # Convert lecture into dict
     # Don't change this into model_to_dict: for security and performance
     result = {"id": lecture.id,
               "title": getattr(lecture, _("title")),
@@ -230,14 +230,14 @@ def _lecture_to_dict(lecture):
     
     # Add formatted professor name
     prof_name_list = [getattr(p, _("professor_name")) for p in lecture.professor.all()]
-    result['professor_str'] = u", ".join(prof_name_list)
+    result['professor'] = u", ".join(prof_name_list)
     if len(prof_name_list) <= 2:
-      result['professor_str_short'] = result['professor_str']
+      result['professor_short'] = result['professor']
     else:
-      result['professor_str_short'] = u"%s 외 %d명" % (prof_name_list[0], len(prof_name_list)-1)
+      result['professor_short'] = prof_name_list[0] + _(u" 외 ") + str(len(prof_name_list)-1) + _(u"명")
 
     # Add formatted department name
-    result['format_dept_name'] = getattr(lecture.department, _("name"))
+    result['dept_name'] = getattr(lecture.department, _("name"))
 
     # Add formatted score
     grade, load, speech = _get_scores(lecture)
@@ -262,18 +262,18 @@ def _lecture_to_dict(lecture):
     # Add classroom info
     if len(result['classtimes']) > 0:
         result['building'] = result['classtimes'][0]['building']
-        result['format_classroom'] = result['classtimes'][0]['classroom']
-        result['format_classroom_short'] = result['classtimes'][0]['classroom_short']
+        result['classroom'] = result['classtimes'][0]['classroom']
+        result['classroom_short'] = result['classtimes'][0]['classroom_short']
         result['room'] = result['classtimes'][0]['room']
     else:
         result['building'] = ''
-        result['format_classroom'] = _(u'정보 없음')
-        result['format_classroom_short'] = _(u'정보 없음')
+        result['classroom'] = _(u'정보 없음')
+        result['classroom_short'] = _(u'정보 없음')
         result['room'] = ''
 
     # Add exam info
     if len(result['examtimes']) > 1:
-        result['exam'] = u"%s 외 %개" % (result['examtimes'][0]['str'], len(result['examtimes']-1))
+        result['exam'] = result['examtimes'][0]['str'] + _(u" 외 ") + str(len(result['examtimes']-1)) + _("개")
     elif len(result['examtimes']) == 1:
         result['exam'] = result['examtimes'][0]['str']
     else:
@@ -282,7 +282,9 @@ def _lecture_to_dict(lecture):
     return result
 
 
+
 # List[dict-Lecture] -> List[dict-Lecture]
+# Add common and class title for lectures like 'XXX<AAA>', 'XXX<BBB>'
 def _add_title_format(lectures):
     if len (lectures) == 1:
       title = lectures[0]['title']
@@ -294,19 +296,20 @@ def _add_title_format(lectures):
       common_title = _lcs_front([l['title'] for l in lectures])
 
     for l in lectures:
-      l['format_common_title'] = common_title
+      l['common_title'] = common_title
       if l['title'] != common_title:
-        l['format_class_title'] = l['title'][len(common_title):]
+        l['class_title'] = l['title'][len(common_title):]
       elif len(l['class_no']) > 0:
-        l['format_class_title'] = l['class_no']
+        l['class_title'] = l['class_no']
       else:
-        l['format_class_title'] = u'A'
+        l['class_title'] = u'A'
 
     return lectures
 
 
+
 # List[str] -> str
-# Helper function of _add_title_format
+# Finds logest common string from front of given strings
 def _lcs_front(ls):
     if len(ls)==0:
       return ""
@@ -322,6 +325,7 @@ def _lcs_front(ls):
     while (len(result) > 0) and (result[-1] in ['<', '(', '[', '{']):
       result = result[:-1]
     return result
+
 
 
 def _user_department(user):
@@ -351,6 +355,7 @@ def _user_department(user):
     return departments
 
 
+
 def main(request):
     if request.user.is_authenticated():
         departments = _user_department(request.user)
@@ -360,52 +365,21 @@ def main(request):
     return render(request,'timetable/index.html', {'departments': departments, 'year':2017, 'semester':3})
 
 
-def show_table(request):
-    seasons = ['봄', '여름', '가을', '겨울']
-    u1 = User.objects.filter(username='ashe')[0]
-    up1 = UserProfile.objects.filter(user=u1)[0]
-    t1 = TimeTable.objects.filter(user=up1)[0]
 
-    lecture_list = list(t1.lecture.all())
-    table_of = u1.username
-    year = t1.year
-    season = seasons[t1.semester-1]
-    table_id = t1.table_id
-    table_name = "시간표 " + str(table_id+1)
-
-    context = {
-        "lecture_list": lecture_list,
-        "table_of": table_of,
-        "year": year,
-        "season": season,
-        "table_name": table_name,
-    }
-    return render(request, 'timetable/show.html', context)
-
-
-def update_table(request):
-    if request.method == 'GET':
-        year, semester = _year_semester()
-        ctx = { 'year': year, 'semester': semester }
-        return render(request, 'timetable/update_table.html', ctx)
-
-
+# Get current year and semester.
+# If lectures are updated, we can get latest year and semester
+# from its year and semester fields. Its quite naaive way of determining, so
+# if models aren't updated we can't get current year and semester info
 def _year_semester():
-    '''Get current year and semester.
-
-       If lectures are updated, we can get latest year and semester
-       from its year and semester fields. Its quite naaive way of determining, so
-       if models aren't updated we can't get current year and semester info
-    '''
     year = Lecture.objects.aggregate(Max('year'))['year__max']
     semester = Lecture.objects.filter(year=year) \
                               .aggregate(Max('semester'))['semester__max']
     return (year, semester)
     
 
-def update_my_lectures(request):
-    '''Add/delete lecture to users lecture list.
-    ''' 
+
+# Add/Delete lecture to timetable
+def table_update(request):
     if request.method != 'POST':
         return HttpResponseNotAllowed('POST')
 
@@ -438,8 +412,9 @@ def update_my_lectures(request):
     return JsonResponse({ 'success': True });
 
 
-def copy_my_timetable(request):
-    '''Copy the contents of user timetable'''
+
+# Copy timetable
+def table_copy(request):
     if request.method != 'POST':
         return HttpResponseNotAllowed('POST')
 
@@ -472,8 +447,9 @@ def copy_my_timetable(request):
                          'id':t.id})
 
 
-def delete_my_timetable(request):
-    '''Deletes(clears) user timetable '''
+
+# Delete timetable
+def table_delete(request):
     if request.method != 'POST':
         return HttpResponseNotAllowed('POST')
 
@@ -499,8 +475,9 @@ def delete_my_timetable(request):
     return JsonResponse({ 'scucess': True })
 
 
-def create_timetable(request):
-    '''Create user timetable '''
+
+# Create timetable
+def table_create(request):
     if request.method != 'POST':
         return HttpResponseNotAllowed('POST')
 
@@ -525,8 +502,9 @@ def create_timetable(request):
                          'id':t.id})
 
 
-def show_my_lectures(request):
-    '''Returns all the lectures the user is listening'''
+
+# Fetch timetable
+def table_load(request):
     try:
         userprofile = UserProfile.objects.get(user=request.user)
     except:
@@ -558,13 +536,16 @@ def show_my_lectures(request):
                         {'ensure_ascii': False})
 
 
+
+
+# Returns comment of selected lecture
 def show_lecture_comments(request):
-    '''Returns comment of selected lecture'''
     if request.method != 'POST':
         return HttpResponseNotAllowed('POST')
 
     code = request.POST['code']
     comments = Comment.objects.filter(code = code)
+
 
 
 # RESTFUL search view function. Test with programs like postman. csrf_exempt is for testing.
@@ -580,9 +561,9 @@ def search(request):
 
         year = request_json['year']
         semester = request_json['semester']
-        department_filters = get_department_filter(request_json['department'])
-        type_filters = get_type_filter(request_json['type'])
-        level_filters = get_level_filter(request_json['grade'])
+        department_filters = _get_department_filter(request_json['department'])
+        type_filters = _get_type_filter(request_json['type'])
+        level_filters = _get_level_filter(request_json['grade'])
         keyword = request_json['keyword']
 
         if len(request_json["day"])>0 and len(request_json["begin"])>0 and len(request_json["end"])>0:
@@ -596,16 +577,22 @@ def search(request):
             begin = None
             end = None
         
-        result = get_filtered_lectures(year, semester, department_filters, type_filters, level_filters, keyword, day, begin, end)
+        result = _get_filtered_lectures(year, semester, department_filters, type_filters, level_filters, keyword, day, begin, end)
+        if len(result) > 500:
+            too_many = True
+            result = result[:500]
+        else:
+            too_many = False
         result = _lecture_result_format(result)
 
-        return JsonResponse({'courses':result},
+        return JsonResponse({'courses':result, 'too_many':too_many},
                             safe=False,
                             json_dumps_params={'ensure_ascii': False})
 
 
+
 @csrf_exempt
-def fetch(request):
+def comment_load(request):
     if request.method == 'POST':
         lecture_id = request.POST['lecture_id']
         lecture = Lecture.objects.get(id=lecture_id)
@@ -625,37 +612,10 @@ def fetch(request):
         return JsonResponse(result, safe=False)
 
 
-def fetch_temp(request):
-    return render(request, 'timetable/fetch_temp.html')
 
-
-def fetch_temp_ajax(request):
-    if request.method == 'POST':
-        lecture_name = request.POST['lecture_name']
-        professor_id = request.POST['professor_id']
-        year = 2015
-        semester = 3
-        professor = Professor.objects.get(professor_id=professor_id)
-        print professor
-        lecture_candidate = Lecture.objects.filter(year=year).filter(semester=semester)\
-            .filter(title__icontains=lecture_name)
-        lectures = list()
-        print lecture_candidate
-        for candidate in lecture_candidate:
-            if professor in candidate.professor.all():
-                lectures.append(candidate)
-        lecture = lectures[0]
-        # print lecture
-        comments = Comment.objects.filter(lecture=lecture)
-        # print comments
-        json_result = serializers.serialize('json', comments)
-        return HttpResponse(json_result, content_type="application/json")
-
-
+# Export OTL timetable to google calender
 @login_required_ajax
 def calendar(request):
-    """Exports otl timetable to google calender
-    """
     user = request.user
     try:
         userprofile = UserProfile.objects.get(user=user)
@@ -705,7 +665,8 @@ def calendar(request):
     # TODO: Add calendar entry
 
 
-def major_list(request):
+
+def list_load_major(request):
     if request.method == "POST":
         year = request.POST["year"]
         semester = request.POST["semester"]
@@ -733,7 +694,7 @@ def major_list(request):
 
 
 
-def humanity_list(request):
+def list_load_humanity(request):
     if request.method == "POST":
         year = request.POST["year"]
         semester = request.POST["semester"]
@@ -746,8 +707,8 @@ def humanity_list(request):
 
 
 
-# fetch wishlist
-def wishlist(request):
+# Fetch wishlist
+def wishlist_load(request):
     if request.method == 'POST':
         try:
             userprofile = UserProfile.objects.get(user=request.user)
@@ -772,9 +733,9 @@ def wishlist(request):
                             {'ensure_ascii': False})
 
 
+
+# Add/delete lecture to wishlist.
 def wishlist_update(request):
-    '''Add/delete lecture to users lecture list.
-    ''' 
     if request.method != 'POST':
         return HttpResponseNotAllowed('POST')
 
