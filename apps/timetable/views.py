@@ -125,6 +125,23 @@ def _get_filtered_lectures(year, semester, department_filters, type_filters, lev
 
 
 
+# Yield preset lectures from DB
+def _get_preset_lectures(year, semester, code):
+    if code == 'Basic':
+        filter_type = ["Basic Required", "Basic Elective"]
+        return Lecture.objects.filter(year=year, semester=semester,
+                                      type_en__in=filter_type, deleted=False)
+    elif code == 'Humanity':
+        return Lecture.objects.filter(year=year, semester=semester,
+                                      type_en="Humanities & Social Elective", deleted=False)
+    else:
+        filter_type = ["Major Required", "Major Elective"]
+        return Lecture.objects.filter(year=year, semester=semester,
+                                      department__code=code, type_en__in=filter_type,
+                                      deleted=False)
+
+
+
 # List(Lecture) -> List[dict-Lecture]
 # Format raw result from models into javascript-understandable form
 def _lecture_result_format(ls):
@@ -278,6 +295,9 @@ def _lecture_to_dict(lecture):
 
 
 def _user_department(user):
+    if not user.is_authenticated():
+        return [{'code':'Basic', 'name':_(u' 기초 과목')}]
+
     u = UserProfile.objects.get(user=user)
 
     if (u.department==None) or (u.department.code in ['AA', 'ICE']):
@@ -623,27 +643,13 @@ def list_load_major(request):
         year = request.POST["year"]
         semester = request.POST["semester"]
 
-        if not request.user.is_authenticated():
-            departments = ["Basic"]
-        else:
-            departments = [x['code'] for x in _user_department(request.user)]
-
-        lectures = []
-        if departments[0] == 'Basic':
-            basic_type = ["Basic Required", "Basic Elective"]
-            basic_lectures = Lecture.objects.filter(year=year, semester=semester,
-                                                    type_en__in=basic_type, deleted=False)
-            lectures += _lecture_result_format(basic_lectures)
-            departments = departments[1:]
-
-        major_type = ["Major Required", "Major Elective"]
-        major_lectures = Lecture.objects.filter(year=year, semester=semester,
-                                                department__code__in=departments, type_en__in=major_type,
-                                                deleted=False)
-        lectures += _lecture_result_format(major_lectures)
+        departments = [x['code'] for x in _user_department(request.user)]
+        lectures_nested = [_get_preset_lectures(year, semester, x) for x in departments]
+        lectures = [y for x in lectures_nested for y in x]
+        result = _lecture_result_format(lectures)
 
         print(time.time()-t)
-        return JsonResponse(lectures, safe=False)
+        return JsonResponse(result, safe=False)
 
 
 
@@ -652,11 +658,10 @@ def list_load_humanity(request):
         year = request.POST["year"]
         semester = request.POST["semester"]
 
-        humanity_cl = Lecture.objects.filter(year=year, semester=semester,
-                                             type_en="Humanities & Social Elective", deleted=False)
-        humanity_result = _lecture_result_format(humanity_cl)
+        lectures = _get_preset_lectures(year, semester, "Humanity")
+        result = _lecture_result_format(lectures)
 
-        return JsonResponse(humanity_result, safe=False)
+        return JsonResponse(result, safe=False)
 
 
 
