@@ -5,6 +5,7 @@ from datetime import date, time
 
 
 class Lecture(models.Model):
+    # Fields below are fetched from KAIST Scholar DB
     code = models.CharField(max_length=10, db_index=True)
     old_code = models.CharField(max_length=10, db_index=True)
     year = models.IntegerField(db_index=True)
@@ -28,16 +29,21 @@ class Lecture(models.Model):
 
     course = models.ForeignKey('Course', related_name='lecture_course')
 
+    # Fields below are updated by update_lecture_title
+    common_title = models.CharField(max_length=100, null=True)
+    common_title_en = models.CharField(max_length=100, null=True)
+    class_title = models.CharField(max_length=100, null=True)
+    class_title_en = models.CharField(max_length=100, null=True)
+
+    # Fields below are updated when comments are added/deleted/modified
     grade_sum = models.IntegerField(default=0)
     load_sum = models.IntegerField(default=0)
     speech_sum = models.IntegerField(default=0)
     total_sum = models.FloatField(default=0.0)
-
     grade = models.FloatField(default=0.0)
     load = models.FloatField(default=0.0)
     speech = models.FloatField(default=0.0)
     total = models.FloatField(default=0.0)
-
     comment_num = models.IntegerField(default=0)
 
     syllabus = models.CharField(max_length=260, blank=True, null=True) #실라부스 url저장

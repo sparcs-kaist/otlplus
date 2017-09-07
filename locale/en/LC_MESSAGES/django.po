@@ -6,6 +6,12 @@ msgstr ""
 msgid "title"
 msgstr "title_en"
 
+msgid "common_title"
+msgstr "common_title_en"
+
+msgid "class_title"
+msgstr "class_title_en"
+
 msgid "type"
 msgstr "type_en"
 
@@ -17,6 +23,9 @@ msgstr "name_en"
 
 msgid "roomName"
 msgstr "roomName_en"
+
+msgid "ko"
+msgstr "en"
 
 
 msgid "정보 없음"
