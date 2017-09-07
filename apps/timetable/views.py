@@ -26,6 +26,7 @@ from django.db.models import Max
 from django.utils.translation import ugettext as _
 from django.template import RequestContext
 from django.utils import translation
+from django.core.cache import cache
 
 # For google calender
 from apiclient import discovery
@@ -121,24 +122,33 @@ def _get_filtered_lectures(year, semester, department_filters, type_filters, lev
             Q(professor__professor_name_en__icontains=keyword)
         ).distinct()
 
-    return list(lectures)
+    return lectures
+
+
+
+# Yield preset lectures from DB
+def _get_preset_lectures(year, semester, code):
+    if code == 'Basic':
+        filter_type = ["Basic Required", "Basic Elective"]
+        return Lecture.objects.filter(year=year, semester=semester,
+                                      type_en__in=filter_type, deleted=False)
+    elif code == 'Humanity':
+        return Lecture.objects.filter(year=year, semester=semester,
+                                      type_en="Humanities & Social Elective", deleted=False)
+    else:
+        filter_type = ["Major Required", "Major Elective"]
+        return Lecture.objects.filter(year=year, semester=semester,
+                                      department__code=code, type_en__in=filter_type,
+                                      deleted=False)
 
 
 
 # List(Lecture) -> List[dict-Lecture]
 # Format raw result from models into javascript-understandable form
 def _lecture_result_format(ls):
-    result = list(ls)
-    result.sort(key = lambda x: x.course)
-    result = itertools.groupby(result, key = lambda x: x.course)
-
-    result = [[x for x in value] for key,value in result]
-    result = [[_lecture_to_dict(y) for y in x] for x in result]
-    result = [_add_title_format(x) for x in result]
-
-    result = [sorted(x, key = (lambda y:y['class_no'])) for x in result]
-    result.sort(key = (lambda x:x[0]['old_code']))
-    result = [y for x in result for y in x] # Flatten nested list
+    result = [_lecture_to_dict(x) for x in ls]
+    result.sort(key = (lambda x:x['class_no']))
+    result.sort(key = (lambda x:x['old_code']))
     
     return result
 
@@ -205,6 +215,11 @@ def _get_scores(lecture):
 # Lecture -> dict-Lecture
 # Convert a lecture model into dict
 def _lecture_to_dict(lecture):
+    cache_id = "lecture:%s:%d" % (_(u"ko"), lecture.id)
+    result_cached = cache.get(cache_id)
+    if result_cached != None:
+        return result_cached
+
     # Don't change this into model_to_dict: for security and performance
     result = {"id": lecture.id,
               "title": getattr(lecture, _("title")),
@@ -216,17 +231,18 @@ def _lecture_to_dict(lecture):
               "code": lecture.code,
               "department": lecture.department.id,
               "department_code": lecture.department.code,
+              "department_name": getattr(lecture.department, _("name")),
               "type": getattr(lecture, _("type")),
               "type_en": lecture.type_en,
               "limit": lecture.limit,
               "num_people": lecture.num_people,
               "is_english": lecture.is_english,
               "credit": lecture.credit,
-              "credit_au": lecture.credit_au,}
-
-    # Convert relations into dict
-    result['classtimes'] = [_classtime_to_dict(ct) for ct in lecture.classtime_set.all()]
-    result['examtimes'] = [_examtime_to_dict(et) for et in lecture.examtime_set.all()]
+              "credit_au": lecture.credit_au,
+              "common_title": getattr(lecture, _("common_title")),
+              "class_title": getattr(lecture, _("class_title")),
+              "classtimes": [_classtime_to_dict(ct) for ct in lecture.classtime_set.all()],
+              "examtimes": [_examtime_to_dict(et) for et in lecture.examtime_set.all()],}
     
     # Add formatted professor name
     prof_name_list = [getattr(p, _("professor_name")) for p in lecture.professor.all()]
@@ -235,9 +251,6 @@ def _lecture_to_dict(lecture):
       result['professor_short'] = result['professor']
     else:
       result['professor_short'] = prof_name_list[0] + _(u" 외 ") + str(len(prof_name_list)-1) + _(u"명")
-
-    # Add formatted department name
-    result['dept_name'] = getattr(lecture.department, _("name"))
 
     # Add formatted score
     grade, load, speech = _get_scores(lecture)
@@ -279,56 +292,15 @@ def _lecture_to_dict(lecture):
     else:
         result['exam'] = _(u'정보 없음')
 
-    return result
-
-
-
-# List[dict-Lecture] -> List[dict-Lecture]
-# Add common and class title for lectures like 'XXX<AAA>', 'XXX<BBB>'
-def _add_title_format(lectures):
-    if len (lectures) == 1:
-      title = lectures[0]['title']
-      if title[-1] == '>':
-        common_title = title[:title.find('<')]
-      else:
-        common_title = title
-    else:
-      common_title = _lcs_front([l['title'] for l in lectures])
-
-    for l in lectures:
-      l['common_title'] = common_title
-      if l['title'] != common_title:
-        l['class_title'] = l['title'][len(common_title):]
-      elif len(l['class_no']) > 0:
-        l['class_title'] = l['class_no']
-      else:
-        l['class_title'] = u'A'
-
-    return lectures
-
-
-
-# List[str] -> str
-# Finds logest common string from front of given strings
-def _lcs_front(ls):
-    if len(ls)==0:
-      return ""
-    result = ""
-    for i in range(len(ls[0]), 0, -1): # [len(ls[0]),...,2,1]
-      flag = True
-      for l in ls:
-        if l[0:i] != ls[0][0:i]:
-          flag = False
-      if flag:
-        result = l[0:i]
-        break
-    while (len(result) > 0) and (result[-1] in ['<', '(', '[', '{']):
-      result = result[:-1]
+    cache.set(cache_id, result, 60*60)
     return result
 
 
 
 def _user_department(user):
+    if not user.is_authenticated():
+        return [{'code':'Basic', 'name':_(u' 기초 과목')}]
+
     u = UserProfile.objects.get(user=user)
 
     if (u.department==None) or (u.department.code in ['AA', 'ICE']):
@@ -668,42 +640,31 @@ def calendar(request):
 
 def list_load_major(request):
     if request.method == "POST":
-        year = request.POST["year"]
-        semester = request.POST["semester"]
+        import time
+        t = time.time()
 
-        if not request.user.is_authenticated():
-            departments = ["Basic"]
-        else:
-            departments = [x['code'] for x in _user_department(request.user)]
+        year = int(request.POST["year"])
+        semester = int(request.POST["semester"])
 
-        lectures = []
-        if departments[0] == 'Basic':
-            basic_type = ["Basic Required", "Basic Elective"]
-            basic_lectures = Lecture.objects.filter(year=year, semester=semester,
-                                                    type_en__in=basic_type, deleted=False)
-            lectures += _lecture_result_format(basic_lectures)
-            departments = departments[1:]
+        departments = [x['code'] for x in _user_department(request.user)]
+        lectures_nested = [_get_preset_lectures(year, semester, x) for x in departments]
+        lectures = [y for x in lectures_nested for y in x]
+        result = _lecture_result_format(lectures)
 
-        major_type = ["Major Required", "Major Elective"]
-        major_lectures = Lecture.objects.filter(year=year, semester=semester,
-                                                department__code__in=departments, type_en__in=major_type,
-                                                deleted=False)
-        lectures += _lecture_result_format(major_lectures)
-
-        return JsonResponse(lectures, safe=False)
+        print(time.time()-t)
+        return JsonResponse(result, safe=False)
 
 
 
 def list_load_humanity(request):
     if request.method == "POST":
-        year = request.POST["year"]
-        semester = request.POST["semester"]
+        year = int(request.POST["year"])
+        semester = int(request.POST["semester"])
 
-        humanity_cl = Lecture.objects.filter(year=year, semester=semester,
-                                             type_en="Humanities & Social Elective", deleted=False)
-        humanity_result = _lecture_result_format(humanity_cl)
+        lectures = _get_preset_lectures(year, semester, "Humanity")
+        result = _lecture_result_format(lectures)
 
-        return JsonResponse(humanity_result, safe=False)
+        return JsonResponse(result, safe=False)
 
 
 
