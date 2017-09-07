@@ -10,7 +10,6 @@ from apps.subject.models import *
 # from apps.subject.models import ClassTime, ExamTime
 from django.http.response import HttpResponseNotAllowed, HttpResponseBadRequest
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
 
 # Django modules
 from django.db.models import Q
@@ -20,6 +19,7 @@ from django.core.exceptions import *
 from django.http import *
 from django.contrib.auth.decorators import login_required
 from utils.decorators import login_required_ajax
+from django.views.decorators.http import require_POST
 from django.conf import settings
 from django.shortcuts import render
 from django.db.models import Max
@@ -42,8 +42,6 @@ import json
 import urllib
 import random
 import itertools
-
-from django.views.decorators.csrf import csrf_exempt
 
 
 
@@ -351,10 +349,8 @@ def _year_semester():
 
 
 # Add/Delete lecture to timetable
+@require_POST
 def table_update(request):
-    if request.method != 'POST':
-        return HttpResponseNotAllowed('POST')
-
     try:
         userprofile = UserProfile.objects.get(user=request.user)
     except:
@@ -386,10 +382,8 @@ def table_update(request):
 
 
 # Copy timetable
+@require_POST
 def table_copy(request):
-    if request.method != 'POST':
-        return HttpResponseNotAllowed('POST')
-
     try:
         userprofile = UserProfile.objects.get(user=request.user)
     except:
@@ -421,10 +415,8 @@ def table_copy(request):
 
 
 # Delete timetable
+@require_POST
 def table_delete(request):
-    if request.method != 'POST':
-        return HttpResponseNotAllowed('POST')
-
     try:
         userprofile = UserProfile.objects.get(user=request.user)
     except:
@@ -449,10 +441,8 @@ def table_delete(request):
 
 
 # Create timetable
+@require_POST
 def table_create(request):
-    if request.method != 'POST':
-        return HttpResponseNotAllowed('POST')
-
     try:
         userprofile = UserProfile.objects.get(user=request.user)
     except:
@@ -476,6 +466,7 @@ def table_create(request):
 
 
 # Fetch timetable
+@require_POST
 def table_load(request):
     try:
         userprofile = UserProfile.objects.get(user=request.user)
@@ -511,77 +502,73 @@ def table_load(request):
 
 
 # Returns comment of selected lecture
+@require_POST
 def show_lecture_comments(request):
-    if request.method != 'POST':
-        return HttpResponseNotAllowed('POST')
-
     code = request.POST['code']
     comments = Comment.objects.filter(code = code)
 
 
 
-# RESTFUL search view function. Test with programs like postman. csrf_exempt is for testing.
+# RESTFUL search view function.
 # Input example:
 # Output example:
-@csrf_exempt
+@require_POST
 def search(request):
-    if request.method == 'POST':
-        decoded_request = urllib.unquote(request.body)
-        decoded_request = decoded_request[decoded_request.find("{"):]
-        decoded_request = decoded_request[:decoded_request.rfind("}")+1]
-        request_json = json.loads(decoded_request)
+    decoded_request = urllib.unquote(request.body)
+    decoded_request = decoded_request[decoded_request.find("{"):]
+    decoded_request = decoded_request[:decoded_request.rfind("}")+1]
+    request_json = json.loads(decoded_request)
 
-        year = request_json['year']
-        semester = request_json['semester']
-        department_filters = _get_department_filter(request_json['department'])
-        type_filters = _get_type_filter(request_json['type'])
-        level_filters = _get_level_filter(request_json['grade'])
-        keyword = request_json['keyword']
+    year = request_json['year']
+    semester = request_json['semester']
+    department_filters = _get_department_filter(request_json['department'])
+    type_filters = _get_type_filter(request_json['type'])
+    level_filters = _get_level_filter(request_json['grade'])
+    keyword = request_json['keyword']
 
-        if len(request_json["day"])>0 and len(request_json["begin"])>0 and len(request_json["end"])>0:
-            day = int(request_json["day"])
-            beginIdx = int(request_json["begin"])
-            begin = datetime.time(beginIdx/2+8, (beginIdx%2)*30)
-            endIdx = int(request_json["end"])
-            end = datetime.time(endIdx/2+8, (endIdx%2)*30)
-        else:
-            day = None
-            begin = None
-            end = None
-        
-        result = _get_filtered_lectures(year, semester, department_filters, type_filters, level_filters, keyword, day, begin, end)
-        if len(result) > 500:
-            too_many = True
-            result = result[:500]
-        else:
-            too_many = False
-        result = _lecture_result_format(result)
+    if len(request_json["day"])>0 and len(request_json["begin"])>0 and len(request_json["end"])>0:
+        day = int(request_json["day"])
+        beginIdx = int(request_json["begin"])
+        begin = datetime.time(beginIdx/2+8, (beginIdx%2)*30)
+        endIdx = int(request_json["end"])
+        end = datetime.time(endIdx/2+8, (endIdx%2)*30)
+    else:
+        day = None
+        begin = None
+        end = None
+    
+    result = _get_filtered_lectures(year, semester, department_filters, type_filters, level_filters, keyword, day, begin, end)
+    if len(result) > 500:
+        too_many = True
+        result = result[:500]
+    else:
+        too_many = False
+    result = _lecture_result_format(result)
 
-        return JsonResponse({'courses':result, 'too_many':too_many},
-                            safe=False,
-                            json_dumps_params={'ensure_ascii': False})
-
+    return JsonResponse({'courses':result, 'too_many':too_many},
+                        safe=False,
+                        json_dumps_params={'ensure_ascii': False})
 
 
-@csrf_exempt
+
+@require_POST
 def comment_load(request):
-    if request.method == 'POST':
-        lecture_id = request.POST['lecture_id']
-        lecture = Lecture.objects.get(id=lecture_id)
-        comments = Comment.objects.filter(
-            lecture__course=lecture.course,
-            lecture__professor__in=lecture.professor.all(),
-        ).order_by('-id')
+    lecture_id = request.POST['lecture_id']
+    lecture = Lecture.objects.get(id=lecture_id)
+    comments = Comment.objects.filter(
+        lecture__course=lecture.course,
+        lecture__professor__in=lecture.professor.all(),
+    ).order_by('-id')
 
-        result = []
-        for c in comments:
-            grade, load, speech, total = c.alphabet_score()
-            result.append({'grade': grade,
-                           'load': load,
-                           'speech': speech,
-                           'comment': c.comment[:200],
-                           'id': c.id})
-        return JsonResponse(result, safe=False)
+    result = []
+    for c in comments:
+        grade, load, speech, total = c.alphabet_score()
+        result.append({'grade': grade,
+                       'load': load,
+                       'speech': speech,
+                       'comment': c.comment[:200],
+                       'id': c.id})
+    return JsonResponse(result, safe=False)
 
 
 
@@ -638,68 +625,65 @@ def calendar(request):
 
 
 
+@require_POST
 def list_load_major(request):
-    if request.method == "POST":
-        import time
-        t = time.time()
+    import time
+    t = time.time()
 
-        year = int(request.POST["year"])
-        semester = int(request.POST["semester"])
+    year = int(request.POST["year"])
+    semester = int(request.POST["semester"])
 
-        departments = [x['code'] for x in _user_department(request.user)]
-        lectures_nested = [_get_preset_lectures(year, semester, x) for x in departments]
-        lectures = [y for x in lectures_nested for y in x]
-        result = _lecture_result_format(lectures)
+    departments = [x['code'] for x in _user_department(request.user)]
+    lectures_nested = [_get_preset_lectures(year, semester, x) for x in departments]
+    lectures = [y for x in lectures_nested for y in x]
+    result = _lecture_result_format(lectures)
 
-        print(time.time()-t)
-        return JsonResponse(result, safe=False)
-
+    print(time.time()-t)
+    return JsonResponse(result, safe=False)
 
 
+
+@require_POST
 def list_load_humanity(request):
-    if request.method == "POST":
-        year = int(request.POST["year"])
-        semester = int(request.POST["semester"])
+    year = int(request.POST["year"])
+    semester = int(request.POST["semester"])
 
-        lectures = _get_preset_lectures(year, semester, "Humanity")
-        result = _lecture_result_format(lectures)
+    lectures = _get_preset_lectures(year, semester, "Humanity")
+    result = _lecture_result_format(lectures)
 
-        return JsonResponse(result, safe=False)
+    return JsonResponse(result, safe=False)
 
 
 
 # Fetch wishlist
+@require_POST
 def wishlist_load(request):
-    if request.method == 'POST':
-        try:
-            userprofile = UserProfile.objects.get(user=request.user)
-        except:
-            return JsonResponse([], safe=False, json_dumps_params=
-                                {'ensure_ascii': False})
-
-
-        year = int(request.POST['year'])
-        semester = int(request.POST['semester'])
-
-        try:
-            w = Wishlist.objects.get(user=userprofile)
-        except Wishlist.DoesNotExist:
-            w = Wishlist(user=userprofile)
-            w.save()
-
-        lectures = w.lectures.filter(year=year, semester=semester, deleted=False)
-        result = _lecture_result_format(lectures)
-
-        return JsonResponse(result, safe=False, json_dumps_params=
+    try:
+        userprofile = UserProfile.objects.get(user=request.user)
+    except:
+        return JsonResponse([], safe=False, json_dumps_params=
                             {'ensure_ascii': False})
+
+    year = int(request.POST['year'])
+    semester = int(request.POST['semester'])
+
+    try:
+        w = Wishlist.objects.get(user=userprofile)
+    except Wishlist.DoesNotExist:
+        w = Wishlist(user=userprofile)
+        w.save()
+
+    lectures = w.lectures.filter(year=year, semester=semester, deleted=False)
+    result = _lecture_result_format(lectures)
+
+    return JsonResponse(result, safe=False, json_dumps_params=
+                        {'ensure_ascii': False})
 
 
 
 # Add/delete lecture to wishlist.
+@require_POST
 def wishlist_update(request):
-    if request.method != 'POST':
-        return HttpResponseNotAllowed('POST')
-
     try:
         userprofile = UserProfile.objects.get(user=request.user)
     except:
