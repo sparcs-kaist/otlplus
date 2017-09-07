@@ -136,6 +136,18 @@ AUTHENTICATION_BACKENDS = (
 LOGIN_URL = '/session/login/'
 LOGOUT_URL = '/session/logout/'
 
+
+
+# Semester settings
+START_YEAR = 1900
+START_SEMESTER = 1
+CURRENT_YEAR = 2017
+CURRENT_SEMESTER = 3
+END_YEAR = 2017
+END_SEMESTER = 3
+
+
+
 try:
     from settings_local import *
 except ImportError:
