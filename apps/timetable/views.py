@@ -10,7 +10,6 @@ from apps.subject.models import *
 # from apps.subject.models import ClassTime, ExamTime
 from django.http.response import HttpResponseNotAllowed, HttpResponseBadRequest
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
 
 # Django modules
 from django.db.models import Q
@@ -42,8 +41,6 @@ import json
 import urllib
 import random
 import itertools
-
-from django.views.decorators.csrf import csrf_exempt
 
 
 
@@ -520,10 +517,9 @@ def show_lecture_comments(request):
 
 
 
-# RESTFUL search view function. Test with programs like postman. csrf_exempt is for testing.
+# RESTFUL search view function.
 # Input example:
 # Output example:
-@csrf_exempt
 def search(request):
     if request.method == 'POST':
         decoded_request = urllib.unquote(request.body)
@@ -563,7 +559,6 @@ def search(request):
 
 
 
-@csrf_exempt
 def comment_load(request):
     if request.method == 'POST':
         lecture_id = request.POST['lecture_id']
