@@ -326,26 +326,30 @@ def _user_department(user):
 
 
 
+def _validate_year_semester(year, semester):
+    if semester!=1 and semester!=3:
+        return False
+
+    start_c = settings.START_YEAR * 4 + settings.START_SEMESTER
+    end_c = settings.END_YEAR * 4 + settings.END_YEAR
+    given_c = year * 4 + semester
+    if given_c<start_c or given_c>end_c:
+        return False
+
+    return True
+
+
+
 def main(request):
     if request.user.is_authenticated():
         departments = _user_department(request.user)
     else:
         departments = [{'code':'Basic', 'name':'기초 과목'}]
 
-    return render(request,'timetable/index.html', {'departments': departments, 'year':2017, 'semester':3})
+    return render(request,'timetable/index.html', {'departments': departments,
+                                                   'year':settings.CURRENT_YEAR,
+                                                   'semester':settings.CURRENT_SEMESTER})
 
-
-
-# Get current year and semester.
-# If lectures are updated, we can get latest year and semester
-# from its year and semester fields. Its quite naaive way of determining, so
-# if models aren't updated we can't get current year and semester info
-def _year_semester():
-    year = Lecture.objects.aggregate(Max('year'))['year__max']
-    semester = Lecture.objects.filter(year=year) \
-                              .aggregate(Max('semester'))['semester__max']
-    return (year, semester)
-    
 
 
 # Add/Delete lecture to timetable
@@ -454,7 +458,7 @@ def table_create(request):
     year = int(request.POST['year'])
     semester = int(request.POST['semester'])
 
-    if semester!=1 and semester!=3:
+    if not _validate_year_semester(year, semester):
         raise ValidationError('Invalid semester')
     
     t = TimeTable(user=userprofile, year=year, semester=semester)
@@ -480,6 +484,10 @@ def table_load(request):
 
     year = int(request.POST['year'])
     semester = int(request.POST['semester'])
+
+    if not _validate_year_semester(year, semester):
+        raise ValidationError('Invalid semester')
+
     timetables = list(TimeTable.objects.filter(user=userprofile, year=year, semester=semester))
 
     ctx = []
@@ -501,14 +509,6 @@ def table_load(request):
 
 
 
-# Returns comment of selected lecture
-@require_POST
-def show_lecture_comments(request):
-    code = request.POST['code']
-    comments = Comment.objects.filter(code = code)
-
-
-
 # RESTFUL search view function.
 # Input example:
 # Output example:
@@ -525,6 +525,9 @@ def search(request):
     type_filters = _get_type_filter(request_json['type'])
     level_filters = _get_level_filter(request_json['grade'])
     keyword = request_json['keyword']
+
+    if not _validate_year_semester(year, semester):
+        raise ValidationError('Invalid semester')
 
     if len(request_json["day"])>0 and len(request_json["begin"])>0 and len(request_json["end"])>0:
         day = int(request_json["day"])
@@ -633,6 +636,9 @@ def list_load_major(request):
     year = int(request.POST["year"])
     semester = int(request.POST["semester"])
 
+    if not _validate_year_semester(year, semester):
+        raise ValidationError('Invalid semester')
+
     departments = [x['code'] for x in _user_department(request.user)]
     lectures_nested = [_get_preset_lectures(year, semester, x) for x in departments]
     lectures = [y for x in lectures_nested for y in x]
@@ -647,6 +653,9 @@ def list_load_major(request):
 def list_load_humanity(request):
     year = int(request.POST["year"])
     semester = int(request.POST["semester"])
+
+    if not _validate_year_semester(year, semester):
+        raise ValidationError('Invalid semester')
 
     lectures = _get_preset_lectures(year, semester, "Humanity")
     result = _lecture_result_format(lectures)
@@ -666,6 +675,9 @@ def wishlist_load(request):
 
     year = int(request.POST['year'])
     semester = int(request.POST['semester'])
+
+    if not _validate_year_semester(year, semester):
+        raise ValidationError('Invalid semester')
 
     try:
         w = Wishlist.objects.get(user=userprofile)
