@@ -21,17 +21,18 @@ class Command(BaseCommand):
         parser.add_argument('--password', dest='password', help=u'Specifies passowrd to log in.')
         parser.add_argument('--encoding', dest='encoding', help=u'Sepcifies character encoding to decode strings from database. (default is cp949)', default='cp949')
         parser.add_argument('--exclude-lecture', action='store_true', dest='exclude_lecture', help=u'Don\'t update lecture information when you want to update time information only.', default=False)
+        parser.add_argument('--year', dest='year', type=int)
+        parser.add_argument('--semester', dest='semester', type=int)
         help = u'Imports KAIST scholar database.'
         args = u'--host=143.248.X.Y:PORT --user=USERNAME'
         
     def handle(self, *args, **options):
-        next_year = datetime.datetime.now().year
-        next_semester = ((datetime.datetime.now().month+9)%12)/3+1
-        if next_semester > 4:
-            next_year += 1
-            next_semester = next_semester % 4
-        next_year = 2017
-        next_semester = 1
+        if options['year']!=None and options['semester']!=None:
+            next_year = options['year']
+            next_semester = options['semester']
+        else:
+            next_year = settings.CURRENT_YEAR
+            next_semester = settings.CURRENT_SEMESTER
 
         rx_dept_code = re.compile(ur'([a-zA-Z]+)(\d+)')
         host = options.get('host', None)
