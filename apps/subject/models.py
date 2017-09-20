@@ -5,7 +5,7 @@ from datetime import date, time
 
 
 class Lecture(models.Model):
-    # Fields below are fetched from KAIST Scholar DB
+    # Fetched from KAIST Scholar DB
     code = models.CharField(max_length=10, db_index=True)
     old_code = models.CharField(max_length=10, db_index=True)
     year = models.IntegerField(db_index=True)
@@ -22,20 +22,22 @@ class Lecture(models.Model):
     num_labs = models.IntegerField(default=0)
     credit_au = models.IntegerField(default=0)
     limit = models.IntegerField(default=0)
-    num_people = models.IntegerField(default=0, blank=True, null=True)
     professor = models.ManyToManyField('Professor', related_name='lecture_professor', blank=True)
     is_english = models.BooleanField()
     deleted = models.BooleanField(default=False)
 
     course = models.ForeignKey('Course', related_name='lecture_course')
 
-    # Fields below are updated by update_lecture_title
+    # Updated by signal timetable_lecture_saved, timetable_deleted
+    num_people = models.IntegerField(default=0, blank=True, null=True)
+
+    # Updated by command update_lecture_title
     common_title = models.CharField(max_length=100, null=True)
     common_title_en = models.CharField(max_length=100, null=True)
     class_title = models.CharField(max_length=100, null=True)
     class_title_en = models.CharField(max_length=100, null=True)
 
-    # Fields below are updated when comments are added/deleted/modified
+    # Updated by view when comments are added/deleted/modified
     grade_sum = models.IntegerField(default=0)
     load_sum = models.IntegerField(default=0)
     speech_sum = models.IntegerField(default=0)
@@ -167,7 +169,7 @@ class Department(models.Model):
 
 
 class Course(models.Model):
-    # Fields below are fetched from KAIST Scholar DB
+    # Fetched from KAIST Scholar DB
     old_code = models.CharField(max_length=10, db_index=True)
     department = models.ForeignKey('Department', db_index=True)
     professors = models.ManyToManyField('Professor', db_index=True)
@@ -176,13 +178,13 @@ class Course(models.Model):
     title = models.CharField(max_length=100, db_index=True)
     title_en = models.CharField(max_length=200, db_index=True)
 
-    # Fields below are updated by update_course_summary
+    # Updated by command update_course_summary
     summury = models.CharField(max_length=4000, default="")
 
-    # Fields below are updated by update_CourseCodeNum
+    # Updated by command update_CourseCodeNum
     code_num = models.CharField(max_length=10, db_index=True, default='D')
 
-    # Fields below are updated when comments are added/deleted/modified
+    # Updated by view when comments are added/deleted/modified
     grade_sum = models.IntegerField(default=0)
     load_sum = models.IntegerField(default=0)
     speech_sum = models.IntegerField(default=0)
@@ -211,19 +213,19 @@ class Course(models.Model):
 
 
 class Professor(models.Model):
-    # Fields below are fetched from KAIST Scholar DB
+    # Fetched from KAIST Scholar DB
     professor_name = models.CharField(max_length=100, db_index=True)
     professor_name_en = models.CharField(max_length=100, blank=True, null=True)
     professor_id = models.IntegerField()
     major = models.CharField(max_length=30)
     course_list = models.ManyToManyField('Course', db_index=True)
 
+    # Updated by view when comments are added/deleted/modified
     grade_sum = models.IntegerField(default=0)
     load_sum = models.IntegerField(default=0)
     speech_sum = models.IntegerField(default=0)
     total_sum = models.FloatField(default=0.0)
     comment_num = models.IntegerField(default=0)
-
     grade = models.FloatField(default=0.0)
     load = models.FloatField(default=0.0)
     speech = models.FloatField(default=0.0)
