@@ -484,7 +484,6 @@ function findLecture(lectures, id) {
       'click .open-dict-button': "openDictPreview",
       'click .close-dict-button': "closeDictPreview",
       'click #fix-option': "unfix",
-      'scroll': "scrollChange",
     },
 
     openDictPreview: function(e) {
@@ -1292,7 +1291,7 @@ function findLecture(lectures, id) {
         lectureDetailView.openDictPreview();
       }
       $(".nano").nanoScroller();
-      $(this.el).find(".nano-content").bind("scroll", this.scrollChange);
+      $(this.el).find(".nano-content").bind("scroll", lectureDetailView.scrollChange);
 
       // Update credit info
       var typeDiv = $('#info').find("[data-type='" + lecture.type_en + "']");
