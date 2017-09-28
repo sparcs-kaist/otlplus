@@ -331,11 +331,24 @@ function findLecture(lectures, id) {
 
   // Actions in lecture list
   app.LectureListView = Backbone.View.extend({
-    el: '#result-pages',
+    el: '#search-container',
 
     loadingMessage: '<div class="list-loading">'+(LANGUAGE_CODE==="en" ? "Loading" : "불러오는 중")+'</div>',
-    
+    noResultMessage: '<div class="list-loading">'+(LANGUAGE_CODE==="en" ? "No results" : "결과 없음")+'</div>',
+
     initialize: function (opt) {
+      this.listenTo(app.searchLectureList,
+                    'update',
+                    this._genListRender(app.searchLectureList, 'search'));
+      this.listenTo(app.cartLectureList,
+                    'update',
+                    this._genListRender(app.cartLectureList, 'cart'));
+      this.listenTo(app.majorLectureList,
+                    'update',
+                    this._genListRender(app.majorLectureList, 'major'));
+      this.listenTo(app.humanityLectureList,
+                    'update',
+                    this._genListRender(app.humanityLectureList, 'humanity'));
     },
       
     events: {
@@ -346,6 +359,7 @@ function findLecture(lectures, id) {
       'mouseover .list-elem-body-wrap': "listHover",
       'mouseout .list-elem-body-wrap': "listOut",
       'click .list-elem-body-wrap': "listClick",
+      'click .search-chead': "changeTab",
     },
 
     addToTable: function (e) {
@@ -548,6 +562,33 @@ function findLecture(lectures, id) {
       }
     },
 
+    changeTab: function (e) {
+      var tabName = $(e.currentTarget).attr('class').split(' ')[1];
+
+      if ($(e.currentTarget).hasClass('active'))
+        return;
+
+      $(this.el).find(".search-chead").removeClass('active');
+      $(e.currentTarget).addClass('active');
+      $(this.el).find("#result-pages").children().addClass("none");
+      if (tabName !== "major")
+        $(this.el).find("." + tabName + "-page").removeClass("none");
+      else
+        $(this.el).find("." + tabName + "-page[data-code='" + $(e.currentTarget).attr('data-code') + "']").removeClass("none");
+
+
+      if(tabName==="search" && $('.search-page .list-scroll .list-elem').length===0) {
+        searchView.showSearch()
+      } else {
+        searchView.hideSearch()
+      }
+
+      if (app.LectureActive.get("from") === "list") {
+        app.LectureActive.set({type: "none"});
+      }
+      $(".nano").nanoScroller();
+    },
+
     _highlight: function(lecture, isClick) {
       if (isClick) {
         $('.list-elem-body-wrap[data-id=' + lecture.id + ']').addClass('click');
@@ -576,6 +617,68 @@ function findLecture(lectures, id) {
       $(".humanity-page .list-scroll").html(this.loadingMessage);
       app.humanityLectureList.fetch(options);
       $(".nano").nanoScroller();
+    },
+ 
+    _genListRender: function(lecList, name) {
+    // Generates function that renders lecture list
+      return function() {
+        var template = _.template($('#list-template').html());
+        var models = lecList.models;
+        var block;
+        var courses;
+        if (name !== 'major') {
+          block = $('.'+name+'-page').find('.nano-content');
+
+          courses = _.groupBy(models, function(x){return x.get('old_code')});
+          if (models.length > 0) {
+            block.html(template({courses:courses, cart:name==="cart"}));
+          } else {
+            block.html(this.noResultMessage);
+          }
+        } else {
+          var majors = $.map($('.search-chead.major'), function(x){return $(x).attr('data-code')});
+          for (var i=0,code; code=majors[i]; i++) {
+            block = $('.'+name+'-page[data-code="'+code+'"]').find('.nano-content');
+            if (code === 'Basic') {
+              models = _.filter(lecList.models,
+                                function(x) {
+                                  return (x.get('type_en')==='Basic Required')
+                                         ||(x.get('type_en')==='Basic Elective')});
+            } else {
+              models = _.filter(lecList.models,
+                                function(x) {
+                                  return (x.get('department_code')===code)
+                                         &&((x.get('type_en')==='Major Required')
+                                            ||(x.get('type_en')==='Major Elective'))});
+            }
+
+            courses = _.groupBy(models, function(x){return x.get('old_code')});
+            if (models.length > 0) {
+              block.html(template({courses:courses, cart:name==="cart"}));
+            } else {
+              block.html(this.noResultMessage);
+            }
+          }
+        }
+
+        // Disable add buttons
+        block.find('.add-to-table').removeClass('disable');
+        var lectures = app.CurrentTimetable.get('lectures');
+        if (lectures)
+          for (var i = 0, child; child = lectures[i]; i++) {
+            $('.'+name+'-page [data-id='+child.id+'] .add-to-table').addClass('disable');
+          }
+
+        // Disable cart buttons
+        block.find('.add-to-cart').removeClass('disable');
+        var lectures = app.cartLectureList.models;
+        if (lectures)
+          for (var i = 0, child; child = lectures[i]; i++) {
+            $('.'+name+'-page [data-id='+child.id+'] .add-to-cart').addClass('disable');
+          }
+
+        $(".nano").nanoScroller();
+      }
     },
   })
 
@@ -1133,26 +1236,11 @@ function findLecture(lectures, id) {
     el: '#search-container',
     initialize: function (opt) {
       $(this.el).find(".chkall").prop('checked', true);
-      this.listenTo(app.searchLectureList,
-                    'update',
-                    this.genListRender(app.searchLectureList, 'search'));
-      this.listenTo(app.cartLectureList,
-                    'update',
-                    this.genListRender(app.cartLectureList, 'cart'));
-      this.listenTo(app.majorLectureList,
-                    'update',
-                    this.genListRender(app.majorLectureList, 'major'));
-      this.listenTo(app.humanityLectureList,
-                    'update',
-                    this.genListRender(app.humanityLectureList, 'humanity'));
     },
-    loadingMessage: '<div class="list-loading">'+(LANGUAGE_CODE==="en" ? "Loading" : "불러오는 중")+'</div>',
-    noResultMessage: '<div class="list-loading">'+(LANGUAGE_CODE==="en" ? "No results" : "결과 없음")+'</div>',
 
     events: {
       'click .result-message': "showSearch",
       'click #search-cancel': "hideSearch",
-      'click .search-chead': "changeTab",
       'click .chkall': "toggleType",
       'click .chkelem': "toggleType",
       'click .time-active': "clearTime",
@@ -1201,33 +1289,6 @@ function findLecture(lectures, id) {
     hideSearch: function (e) {
       this.clearSearch();
       $(this.el).find(".search-extend").addClass('none');
-    },
-
-    changeTab: function (e) {
-      var tabName = $(e.currentTarget).attr('class').split(' ')[1];
-
-      if ($(e.currentTarget).hasClass('active'))
-        return;
-
-      $(this.el).find(".search-chead").removeClass('active');
-      $(e.currentTarget).addClass('active');
-      $(this.el).find("#result-pages").children().addClass("none");
-      if (tabName !== "major")
-        $(this.el).find("." + tabName + "-page").removeClass("none");
-      else
-        $(this.el).find("." + tabName + "-page[data-code='" + $(e.currentTarget).attr('data-code') + "']").removeClass("none");
-
-
-      if(tabName==="search" && $('.search-page .list-scroll .list-elem').length===0) {
-        this.showSearch()
-      } else {
-        this.hideSearch()
-      }
-
-      if (app.LectureActive.get("from") === "list") {
-        app.LectureActive.set({type: "none"});
-      }
-      $(".nano").nanoScroller();
     },
 
     toggleType: function (e) {
@@ -1309,68 +1370,6 @@ function findLecture(lectures, id) {
         }
       });
     },
- 
-    genListRender: function(lecList, name) {
-    // Generates function that renders lecture list
-      return function() {
-        var template = _.template($('#list-template').html());
-        var models = lecList.models;
-        var block;
-        var courses;
-        if (name !== 'major') {
-          block = $('.'+name+'-page').find('.nano-content');
-
-          courses = _.groupBy(models, function(x){return x.get('old_code')});
-          if (models.length > 0) {
-            block.html(template({courses:courses, cart:name==="cart"}));
-          } else {
-            block.html(this.noResultMessage);
-          }
-        } else {
-          var majors = $.map($('.search-chead.major'), function(x){return $(x).attr('data-code')});
-          for (var i=0,code; code=majors[i]; i++) {
-            block = $('.'+name+'-page[data-code="'+code+'"]').find('.nano-content');
-            if (code === 'Basic') {
-              models = _.filter(lecList.models,
-                                function(x) {
-                                  return (x.get('type_en')==='Basic Required')
-                                         ||(x.get('type_en')==='Basic Elective')});
-            } else {
-              models = _.filter(lecList.models,
-                                function(x) {
-                                  return (x.get('department_code')===code)
-                                         &&((x.get('type_en')==='Major Required')
-                                            ||(x.get('type_en')==='Major Elective'))});
-            }
-
-            courses = _.groupBy(models, function(x){return x.get('old_code')});
-            if (models.length > 0) {
-              block.html(template({courses:courses, cart:name==="cart"}));
-            } else {
-              block.html(this.noResultMessage);
-            }
-          }
-        }
-
-        // Disable add buttons
-        block.find('.add-to-table').removeClass('disable');
-        var lectures = app.CurrentTimetable.get('lectures');
-        if (lectures)
-          for (var i = 0, child; child = lectures[i]; i++) {
-            $('.'+name+'-page [data-id='+child.id+'] .add-to-table').addClass('disable');
-          }
-
-        // Disable cart buttons
-        block.find('.add-to-cart').removeClass('disable');
-        var lectures = app.cartLectureList.models;
-        if (lectures)
-          for (var i = 0, child; child = lectures[i]; i++) {
-            $('.'+name+'-page [data-id='+child.id+'] .add-to-cart').addClass('disable');
-          }
-
-        $(".nano").nanoScroller();
-      }
-    }
   })
 
   // Showing informations of target lecture
