@@ -332,6 +332,9 @@ function findLecture(lectures, id) {
   // Actions in lecture list
   app.LectureListView = Backbone.View.extend({
     el: '#result-pages',
+
+    loadingMessage: '<div class="list-loading">'+(LANGUAGE_CODE==="en" ? "Loading" : "불러오는 중")+'</div>',
+    
     initialize: function (opt) {
     },
       
@@ -557,6 +560,22 @@ function findLecture(lectures, id) {
     _unhighlight: function(e) {
       $('.list-elem-body-wrap').removeClass('active');
       $('.list-elem-body-wrap').removeClass('click');
+    },
+
+    _fetchLists: function(year, semester) {
+      var options = {data: {year: year,
+                            semester: semester},
+                     type: 'POST'};
+
+      $(".search-page .list-scroll").html('');
+      searchView.showSearch();
+      $(".cart-page .list-scroll").html(this.loadingMessage);
+      app.cartLectureList.fetch(options);
+      $(".major-page .list-scroll").html(this.loadingMessage);
+      app.majorLectureList.fetch(options);
+      $(".humanity-page .list-scroll").html(this.loadingMessage);
+      app.humanityLectureList.fetch(options);
+      $(".nano").nanoScroller();
     },
   })
 
@@ -888,12 +907,11 @@ function findLecture(lectures, id) {
       _.bindAll(this,"render");
       this.listenTo(app.CurrentTimetable, 'change', this.render);
       this.listenTo(app.timetables, 'update', this.makeTab);
-      this.listenTo(app.YearSemester, 'change', this.fetchTab);
     },
 
-    fetchTab: function() {
-      var options = {data: {year: app.YearSemester.get('year'),
-                            semester: app.YearSemester.get('semester')},
+    _fetchTab: function(year, semester) {
+      var options = {data: {year: year,
+                            semester: semester},
                     type: 'POST'};
       $('#timetable-tabs').html('<a href="#/1" class="timetable-tab" style="pointer-events:none;"><span class="timetable-num">불러오는 중</span></a>');
       app.timetables.fetch(options);
@@ -1127,7 +1145,6 @@ function findLecture(lectures, id) {
       this.listenTo(app.humanityLectureList,
                     'update',
                     this.genListRender(app.humanityLectureList, 'humanity'));
-      this.listenTo(app.YearSemester, 'change', this.fetchLists);
     },
     loadingMessage: '<div class="list-loading">'+(LANGUAGE_CODE==="en" ? "Loading" : "불러오는 중")+'</div>',
     noResultMessage: '<div class="list-loading">'+(LANGUAGE_CODE==="en" ? "No results" : "결과 없음")+'</div>',
@@ -1292,22 +1309,6 @@ function findLecture(lectures, id) {
         }
       });
     },
-
-    fetchLists: function() {
-      var options = {data: {year: app.YearSemester.get('year'),
-                            semester: app.YearSemester.get('semester')},
-                     type: 'POST'};
-
-      $(".search-page .list-scroll").html('');
-      this.showSearch();
-      $(".cart-page .list-scroll").html(this.loadingMessage);
-      app.cartLectureList.fetch(options);
-      $(".major-page .list-scroll").html(this.loadingMessage);
-      app.majorLectureList.fetch(options);
-      $(".humanity-page .list-scroll").html(this.loadingMessage);
-      app.humanityLectureList.fetch(options);
-      $(".nano").nanoScroller();
-    },
  
     genListRender: function(lecList, name) {
     // Generates function that renders lecture list
@@ -1439,12 +1440,17 @@ function findLecture(lectures, id) {
     },
   })
 
-  app.YearSemesterListenerView = Backbone.View.extend({
+  // Changing semester
+  app.YearSemesterView = Backbone.View.extend({
     el: '#semester',
 
     events: {
       'click #semester-prev': 'semesterPrev',
       'click #semester-next': 'semesterNext',
+    },
+
+    initialize: function (opt) {
+      this.listenTo(app.YearSemester, 'change', this.semesterChange);
     },
 
     semesterPrev: function(e) {
@@ -1474,6 +1480,13 @@ function findLecture(lectures, id) {
       app.YearSemester.set({year:year, semester:semester});
       $(this.el).find("#semester-text").html(year+' '+semText[semester]);
     },
+
+    semesterChange: function(e) {
+      lectureListView._fetchLists(app.YearSemester.get('year'),
+                                  app.YearSemester.get('semester'));
+      timetableTabView._fetchTab(app.YearSemester.get('year'),
+                                 app.YearSemester.get('semester'));
+    }
   })
 })(jQuery);
 
@@ -1484,5 +1497,5 @@ var semesterInfoView = new app.SemesterInfoView();
 var timetableTabView = new app.TimetableTabView();
 var searchView = new app.SearchView();
 var lectureActiveListenerView = new app.LectureActiveListenerView();
-var yearSemesterListenerView = new app.YearSemesterListenerView();
+var yearSemesterView = new app.YearSemesterView();
 
