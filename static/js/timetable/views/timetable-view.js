@@ -282,6 +282,9 @@ function findLecture(lectures, id) {
             occupied.push([start-1, time-start+1]);
           }
         }
+        else {
+          blocks.addClass('occupied');
+        }
 
         $(blocks[0]).append(this.blockTemplate({title: lecture.title,
                                     id: lecture.id,
