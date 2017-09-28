@@ -48,7 +48,7 @@ function findLecture(lectures, id) {
   // Timetable View
   // ---------------
 
-  // Dragging timetable
+  // Actions in timetable
   app.TimetableView = Backbone.View.extend({
     initialize: function (opt) {
       this.isLookingTable = false;
@@ -60,6 +60,7 @@ function findLecture(lectures, id) {
 
     el: '#timetable-wrap',
     dragCell : '#drag-cell',
+    blockTemplate: _.template($('#timetable-lecture-template').html()),
 
     events: {
       'touchstart .half.table-drag': "dragStart",
@@ -252,6 +253,64 @@ function findLecture(lectures, id) {
           timetableModel.set('lectures', timetableLectures)
         },
       });
+    },
+
+    _addBlockWithTime: function(lecture, isTemp) {
+      for (var j=0, classtime; classtime=lecture.classtimes[j]; j++) {
+        var dayVal = classtime.day + 2;
+        var beginVal = (classtime.begin - 480) / 30;
+        var endVal = (classtime.end - 480) / 30;
+        var time = endVal - beginVal;
+
+        var dayBlock = $('#timetable-contents').find('.day:nth-child('+ dayVal + ')');
+        var blocks = dayBlock.find('.half').slice(beginVal, endVal);
+
+        var occupied = [];
+        if (isTemp) {
+          var start = 0;
+          for (var i=0, block; block=blocks[i]; i++) {
+            if ($(block).hasClass("occupied")) {
+              start = start || i+1;
+            } else{
+              if (start) {
+                occupied.push([start-1, i-start+1]);
+              }
+              start = 0;
+            }
+          }
+          if (start) {
+            occupied.push([start-1, time-start+1]);
+          }
+        }
+
+        $(blocks[0]).append(this.blockTemplate({title: lecture.title,
+                                    id: lecture.id,
+                                    professor: lecture.professor_short,
+                                    classroom: classtime.classroom_short,
+                                    color: lecture.course%16+1,
+                                    cells: time,
+                                    occupied: occupied,
+                                    temp: isTemp,}));
+      }
+    },
+
+    _addBlockWithoutTime: function(lecture, isTemp, idx) {
+      var block = $('#timetable-contents')
+                    .find('.day:nth-child('+(idx+2)+')')
+                    .find('.half.no-time');
+      block.append(this.blockTemplate({title: lecture.title,
+                                       id: lecture.id,
+                                       professor: lecture.professor_short,
+                                       classroom: lecture.classroom_short,
+                                       color: lecture.course%16+1,
+                                       cells: 3,
+                                       occupied: [],
+                                       temp: isTemp,}));
+    },
+
+    _removeAllBlocks: function() {
+      $('#timetable-contents .lecture-block').remove();
+      $('#timetable-contents .half').removeClass('occupied');
     },
 
     _highlight: function(lecture, isClick) {
@@ -816,7 +875,6 @@ function findLecture(lectures, id) {
   app.TimetableTabView = Backbone.View.extend({
     el: '#timetable-tabs',
 
-    template: _.template($('#timetable-lecture-template').html()),
     examTemplate: _.template($('#exam-template').html()),
 
     events: {
@@ -828,7 +886,6 @@ function findLecture(lectures, id) {
 
     initialize: function() {
       _.bindAll(this,"render");
-      $(window).on("resize", this.resize);
       this.listenTo(app.CurrentTimetable, 'change', this.render);
       this.listenTo(app.timetables, 'update', this.makeTab);
       this.listenTo(app.YearSemester, 'change', this.fetchTab);
@@ -940,42 +997,14 @@ function findLecture(lectures, id) {
       $('.timetable-tab[data-id='+id+']').addClass('active');
 
       // Make timetable blocks
-      $('#timetable-contents .lecture-block').remove();
-      $('#timetable-contents .half').removeClass('occupied');
+      timetableView._removeAllBlocks();
       var noTime = 0;
       for (var i = 0, child; child = lectures[i]; i++) {
         if (child.classtimes.length > 0) {
-          for (var j=0, classtime; classtime=child.classtimes[j]; j++) {
-            var dayVal = classtime.day + 2;
-            var beginVal = (classtime.begin - 480) / 30;
-            var endVal = (classtime.end - 480) / 30;
-            var time = endVal - beginVal;
-
-            var dayBlock = $('#timetable-contents').find('.day:nth-child('+ dayVal + ')');
-            var blocks = dayBlock.find('.half').slice(beginVal, endVal);
-            $(blocks[0]).append(this.template({title: child.title,
-                                        id: child.id,
-                                        professor: child.professor_short,
-                                        classroom: classtime.classroom_short,
-                                        color: child.course%16+1,
-                                        cells: time,
-                                        occupied: [],
-                                        temp: false,}));
-            blocks.addClass('occupied');
-          }
+          timetableView._addBlockWithTime(child, false);
         } else {
-          var block = $('#timetable-contents')
-                        .find('.day:nth-child('+(noTime+2)+')')
-                        .find('.half.no-time');
+          timetableView._addBlockWithoutTime(child, false, noTime);
           noTime++;
-          block.append(this.template({title: child.title,
-                                      id: child.id,
-                                      professor: child.professor_short,
-                                      classroom: child.classroom_short,
-                                      color: child.course%16+1,
-                                      cells: 3,
-                                      occupied: [],
-                                      temp: false,}));
         }
       }
 
@@ -1388,59 +1417,21 @@ function findLecture(lectures, id) {
       // Highlight timetable blocks
       if (app.LectureActive.get('type')==='click' && app.LectureActive.get('from')==='list') {
         // Do nothing
-      } else if (inTimetable) {
+      }
+      else if (inTimetable) {
+        // Highlight existing block
         timetableView._highlight(lecture, (app.LectureActive.get('type')==='click'));
-      } else {
-        var noTime = _.filter(app.CurrentTimetable.get('lectures'), function(x){x.classtimes.length===0}).length;
-        if (child.classtimes.length > 0) {
-          for (var j=0, classtime; classtime=child.classtimes[j]; j++) {
-            var dayVal = classtime.day + 2;
-            var beginVal = (classtime.begin - 480) / 30;
-            var endVal = (classtime.end - 480) / 30;
-            var time = endVal - beginVal;
-
-            var dayBlock = $('#timetable-contents').find('.day:nth-child('+ dayVal + ')');
-            var blocks = dayBlock.find('.half').slice(beginVal, endVal);
-
-            var occupied = [];
-            var start = 0;
-            for (var i=0, block; block=blocks[i]; i++) {
-              if ($(block).hasClass("occupied")) {
-                start = start || i+1;
-              } else{
-                if (start) {
-                  occupied.push([start-1, i-start+1]);
-                }
-                start = 0;
-              }
-            }
-            if (start) {
-              occupied.push([start-1, time-start+1]);
-            }
-
-            $(blocks[0]).append(this.blockTemplate({title: child.title,
-                                        id: child.id,
-                                        professor: child.professor_short,
-                                        classroom: classtime.classroom_short,
-                                        color: child.course%16+1,
-                                        cells: time,
-                                        occupied: occupied,
-                                        temp: true,}));
-          }
-        } else {
-          var block = $('#timetable-contents')
-                        .find('.day:nth-child('+(noTime+2)+')')
-                        .find('.half.no-time');
-          noTime++;
-          block.append(this.blockTemplate({title: child.title,
-                                           id: child.id,
-                                           professor: child.professor_short,
-                                           classroom: child.classroom_short,
-                                           color: child.course%16+1,
-                                           cells: 3,
-                                           occupied: [],
-                                           temp: true,}));
-        }
+      }
+      else if (child.classtimes.length > 0) {
+        // Make new block and highlight
+        timetableView._addBlockWithTime(child, true);
+        timetableView._highlight(lecture, (app.LectureActive.get('type')==='click'));
+      }
+      else {
+        // Make new block and highlight
+        var noTime = _.filter(app.CurrentTimetable.get('lectures'), function(x){return x.classtimes.length===0}).length;
+        timetableView._addBlockWithoutTime(child, true, noTime);
+        timetableView._highlight(lecture, (app.LectureActive.get('type')==='click'));
       }
 
       // Update semester info
