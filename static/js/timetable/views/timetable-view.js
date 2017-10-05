@@ -783,21 +783,21 @@ function findLecture(lectures, id) {
                "sun": (LANGUAGE_CODE==="en" ? "Sunday" : "일요일"),},
 
     events: {
-      'mouseover .map-location-box': "buildingInfo",
-      'mouseout .map-location-box': "clear",
-      'mouseover .lecture-type': "typeInfo",
-      'mouseout .lecture-type': "clear",
-      'mouseover .lecture-type-right': "typeInfo",
-      'mouseout .lecture-type-right': "clear",
-      'mouseover .total-credit': "creditInfo",
-      'mouseout .total-credit': "clear",
-      'mouseover .examtime': "examInfo",
-      'mouseout .examtime': "clear",
+      'mouseover .map-location-box': "buildingFocus",
+      'mouseout .map-location-box': "clearFocus",
+      'mouseover .lecture-type': "typeFocus",
+      'mouseout .lecture-type': "clearFocus",
+      'mouseover .lecture-type-right': "typeFocus",
+      'mouseout .lecture-type-right': "clearFocus",
+      'mouseover .total-credit': "creditFocus",
+      'mouseout .total-credit': "clearFocus",
+      'mouseover .examtime': "examFocus",
+      'mouseout .examtime': "clearFocus",
     },
 
     initialize: function() {},
 
-    clear: function() {
+    clearFocus: function() {
       if (app.LectureActive.get("type") === "none") {
         lectureDetailView._clear();
         timetableView._unhighlight();
@@ -817,7 +817,7 @@ function findLecture(lectures, id) {
       return result;
     },
 
-    buildingInfo: function(e) {
+    buildingFocus: function(e) {
       if (app.LectureActive.get("type") === "none") {
         var buildingNo = $(e.currentTarget).closest(".map-location").attr("data-building");
         var title = buildingNo;
@@ -835,7 +835,7 @@ function findLecture(lectures, id) {
       }
     },
 
-    typeInfo: function(e) {
+    typeFocus: function(e) {
       if (app.LectureActive.get("type") === "none") {
         var type = $(e.currentTarget).attr('data-type');
         if (type !== "Etc") {
@@ -862,7 +862,7 @@ function findLecture(lectures, id) {
       }
     },
 
-    creditInfo: function(e) {
+    creditFocus: function(e) {
       if (app.LectureActive.get("type") === "none") {
         var type = $(e.currentTarget).find('.score-text').attr('id');
         if (type === "au") {
@@ -893,7 +893,7 @@ function findLecture(lectures, id) {
       }
     },
 
-    examInfo: function(e) {
+    examFocus: function(e) {
       if (app.LectureActive.get("type") === "none") {
         var date = $(e.currentTarget).attr('data-date');
         var title = this.dateDict[date] + (LANGUAGE_CODE==="en" ? " Exam" : " 시험");
@@ -993,6 +993,35 @@ function findLecture(lectures, id) {
       $('#examtable').find('.exam-box').removeClass('active');
       $('#examtable').find('.exam-box.temp').remove();
       $('#examtable').find('.exam-box').removeClass('active');
+    },
+
+    _removeInfo: function() {
+      // Remove map
+      $('#map-container').find('.map-location-circle').remove();
+      $('#map-container').find('.map-location').addClass('none');
+
+      // Remove credit info
+      $('#credits .normal').html('-');
+      $('#au .normal').html('-');
+      $('.lecture-type[data-type="Basic Required"]').find('.credit-text').html('-');
+      $('.lecture-type-right[data-type="Basic Elective"]').find('.credit-text').html('-');
+      $('.lecture-type[data-type="Major Required"]').find('.credit-text').html('-');
+      $('.lecture-type-right[data-type="Major Elective"]').find('.credit-text').html('-');
+      $('.lecture-type[data-type="Humanities & Social Elective"]').find('.credit-text').html('-');
+      $('.lecture-type-right[data-type="Etc"]').find('.credit-text').html('-');
+
+      // Remove score
+      $('#grades.score-text').html('-');
+      $('#loads.score-text').html('-');
+      $('#speeches.score-text').html('-');
+
+      // Remove exam info
+      $('#examtable').find('.exam-box').remove();
+      for (var i = 0; i<5; i++) {
+        var date = ['mon', 'tue', 'wed', 'thu', 'fri'][i];
+        var block = $('#examtable').find('.examtime[data-date="'+date+'"] .examlist');
+        block.html('');
+      }
     },
   })
 
@@ -1488,6 +1517,9 @@ function findLecture(lectures, id) {
                                   app.YearSemester.get('semester'));
       timetableTabView._fetchTab(app.YearSemester.get('year'),
                                  app.YearSemester.get('semester'));
+      timetableView._removeAllBlocks();
+      semesterInfoView._removeInfo();
+      app.LectureActive.set({'type': 'none'});
     }
   })
 })(jQuery);
