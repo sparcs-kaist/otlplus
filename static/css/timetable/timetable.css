@@ -530,10 +530,10 @@ i
     background-color:transparent;
     float:right;
 	font-size:12px;
-	line-height:11px;
+	line-height:13px;
 	padding:0px;
-	margin:0px 0px 0px 8px;
-	height:11px;
+	margin:0px 0px -1px 8px;
+	height:13px;
 }
 
 #search-button:hover, #search-cancel:hover
@@ -563,8 +563,9 @@ i
     display:flex;
     display:-webkit-flex;
     width: 100%;
-	height:12px;
+	height:14px;
     background-color:transparent;
+	margin-top:-1px;
 }
 
 .search-field:hover 
@@ -579,6 +580,7 @@ i
     height: 12px;
 	vertical-align:top;
 	margin-right:6px;
+	margin-top:1px;
 }
 
 .search-field:hover > .search-icon
@@ -590,10 +592,10 @@ i
 {
     background: none;
     border:none;
-	padding:1px 0px 0px 0px;
-	margin:-1px 0px 0px 0px;
+	padding:0px;
+	margin:0px;
 	font-size:13px;
-	line-height:12px;
+	line-height:14px;
     -webkit-box-flex:1;
         -ms-flex:auto;
             flex:auto;
@@ -621,9 +623,9 @@ i
 
 #lecturelist-filter
 {
-    margin-top: 10px;
+    margin-top: 8px;
     font-size:12px;
-    line-height:11px;
+    line-height:13px;
 }
 
 #lecturelist-filter input[type="checkbox"] 
@@ -637,6 +639,7 @@ i
 	vertical-align:top;
     font-weight:bold;
     white-space:nowrap;
+	margin:0;
 }
 .type-name.fixed-ko
 {
@@ -662,7 +665,7 @@ i
 {
     font-weight:normal;
     cursor:pointer;
-	margin-bottom:6px;
+	margin-bottom:4px;
 	margin-left:4px;
 	font-size:12px;
 }
@@ -732,9 +735,10 @@ i
 .result-message
 {
     font-size:13px;
-    line-height:12px;
+    line-height:14px;
     color:#E54C65;
-    margin-bottom:10px;
+    margin-top:-1px;
+    margin-bottom:9px;
 }
 
 .result-message:hover
@@ -751,6 +755,7 @@ i
     display:inline-block;
 	vertical-align:top;
 	margin-right:6px;
+	margin-top:1px;
 }
 
 .result-message:hover > .result-icon
@@ -766,8 +771,9 @@ i
 .page-title
 {
     font-size:13px;
-    line-height:12px;
-    margin-bottom:10px;
+    line-height:14px;
+    margin-top:-1px;
+    margin-bottom:9px;
 }
 
 .nano {
@@ -822,6 +828,8 @@ i
     border-radius:4px;
     margin-bottom:6px;
 		overflow:hidden;
+	font-size:12px;
+	line-height:13px;
 }
 .list-elem:last-child
 {
@@ -830,7 +838,7 @@ i
 
 .list-elem-title
 {
-    padding:8px 10px 6px 10px;
+    padding:7px 10px 5px 10px;
 }
 
 .list-elem-body-wrap
@@ -867,7 +875,7 @@ i
 			align-items: center;
 	text-align:right;
     border-top:1px solid #C9C9C9;
-    padding:6px 0px 6px 0px;
+    padding:5px 0px 5px 0px;
     pointer-events:none;
 }
 .list-elem-body-wrap.click .list-elem-body
@@ -913,7 +921,7 @@ i
 	height:13px;
 	display:inline-block;
 	vertical-align:top;
-	margin:-1px 0px -1px 6px;
+	margin-left:6px;
     pointer-events:auto;
 }
 .add-to-cart:hover
@@ -955,7 +963,7 @@ i
 	height:13px;
 	display:inline-block;
 	vertical-align:top;
-    margin:-1px 0px -1px 6px;
+	margin-left:6px;
     pointer-events:auto;
 }
 .delete-from-cart:hover
