@@ -173,26 +173,26 @@ i
 #course-title
 {
     font-size:13px;
-	line-height:12px;
+	line-height:14px;
     font-weight:bold;
-	margin-bottom:3px;
+    margin-top:-1px;
+	margin-bottom:1px;
 }
 
 #course-no
 {
     font-size:12px;
-	line-height:11px;
-	margin-bottom:6px;
+	line-height:13px;
+	margin-bottom:4px;
 }
 
 .lecture-options
 {
     text-align:right;
-    margin:3px 0;
     font-size:11px;
-    line-height:10px;
+    line-height:12px;
     color:#E54C65;
-	margin-bottom:8px
+    margin-bottom: 6px;
 }
 .lecture-options > span.disable
 {
@@ -213,8 +213,8 @@ i
 .basic-info
 {
 	font-size:12px;
-	line-height:11px;
-    margin-bottom:10px;
+	line-height:13px;
+    margin-bottom:8px;
     clear:both;
 }
 
@@ -240,8 +240,8 @@ i
 
 .lecture-scores
 {
-	margin-top: calc(1.4vh + 2px);
-	margin-bottom: calc(1.4vh + 2px);
+	margin-top: calc(1.4vh);
+	margin-bottom: calc(1.4vh);
     text-align:center;
 }
 
@@ -255,27 +255,27 @@ i
 
 .score-text
 {
-	height: calc(0.7vh + 12px);
+	height: calc(0.7vh + 14px);
     font-weight:300;
-	margin-bottom:4px;
+	margin-bottom:2px;
 }
 .score-text:not(.score-korean)
 {
     font-size: calc(0.7vh + 15px);
-    line-height: calc(0.7vh + 12px);
+    line-height: calc(0.7vh + 14px);
     font-family:"Helvetica Neue", "Calibri", "Arial";
 }
 .score-text.score-korean
 {
     font-size: calc(0.7vh + 13px);
-    line-height: calc(0.7vh + 14px);
+    line-height: calc(0.7vh + 16px);
     padding-top: 1px;
 }
 
 .score-label
 {
 	font-size: 11px;
-	line-height: 10px;
+	line-height: 12px;
 }
 
 .dictionary-preview{
@@ -302,6 +302,7 @@ i
 	display:inline-block;
 	vertical-align:top;
 	margin-left:5px;
+	margin-top:1px;
 }
 .open-dict-button:hover .dict-arrow
 {
@@ -316,6 +317,7 @@ i
 	display:inline-block;
 	vertical-align:top;
 	margin-left:5px;
+	margin-top:1px;
 }
 .close-dict-button:hover .dict-arrow
 {
@@ -340,7 +342,7 @@ i
 	margin-bottom:6px;
 	padding:8px 10px 8px 10px;
 	font-size:11px;
-	line-height:10px;
+	line-height:12px;
 	cursor:pointer;
     color:#333;
 }
@@ -352,7 +354,7 @@ i
     display:block;
     display:-webkit-box;
 	line-height:normal;
-	margin-bottom:6px;
+	margin-bottom:4px;
     line-height:14px;
     max-height:42px;
     overflow:hidden;
@@ -363,6 +365,7 @@ i
 
 .review-score-wrap{
 	text-align:right;
+	margin-bottom:-1px;
 }
 
 .review-score{
