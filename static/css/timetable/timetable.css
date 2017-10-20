@@ -281,10 +281,11 @@ i
 .dictionary-preview{
 	cursor:pointer;
 }
+.dictionary-preview.open-dict-button{
+    margin-bottom: 9px;
+}
 .dictionary-preview.close-dict-button{
-    padding-bottom: 10px;
-    margin-top: -1px;
-    padding-top: 1px;
+    padding-bottom: 9px;
     margin-bottom: 0px;
     background-color: #fff;
 }
@@ -325,14 +326,14 @@ i
 }
 
 #reviews {
-    min-height:calc(5.6vh + 162px);
+    min-height:calc(5.6vh + 164px);
     margin-bottom: 10px;
 }
 .review-loading
 {
     font-size: 16px;
     color: #999;
-    padding-top: calc(2.8vh + 75px);
+    padding-top: calc(2.8vh + 76px);
     text-align: center;
 }
 
