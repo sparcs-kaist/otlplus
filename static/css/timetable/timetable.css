@@ -106,7 +106,7 @@ i
     background-color:#FFFFFF;
     margin-bottom:12px;
     border-radius:6px;
-    box-shadow:0em 3px 0px 0em #F3BEC6;
+    box-shadow:0 3px 0 0 #F3BEC6;
     height:311px;
     height:calc(5.6vh + 255px);
     padding:10px;
@@ -353,7 +353,6 @@ i
 .review-body{
     display:block;
     display:-webkit-box;
-	line-height:normal;
 	margin-bottom:4px;
     line-height:14px;
     max-height:42px;
@@ -416,10 +415,10 @@ i
     background-color:#E2E2E2;
     margin-left:0;
     margin-right:0;
-    margin-bottom:0.3em;
+    margin-bottom:6px;
 	padding:7px;
-    width:2em;
-    height:2em;
+    width:27px;
+    height:27px;
     border:none;
     border-radius:4px 0 0 4px;
     outline:none;
@@ -502,7 +501,7 @@ i
 	padding:10px;
     background-color:#FFFFFF;
     border-radius:0 6px 6px 6px;
-    box-shadow: 0em 3px 0px 0em #F3BEC6;
+    box-shadow: 0 3px 0 0 #F3BEC6;
     -webkit-box-orient:vertical;
     -webkit-box-direction:normal;
         -ms-flex-direction:column;
@@ -1002,7 +1001,6 @@ i
     height:25px;
     margin-right:6px;
     text-align:center;
-    line-height:2em;
     border-radius:4px 4px 0 0;
     border:none;
     outline:none;
@@ -1041,7 +1039,6 @@ i
     height:25px;
     margin-right:6px;
     text-align:center;
-    line-height:2em;
     border-radius:4px 4px 0 0;
     border:none;
     outline:none;
@@ -1111,7 +1108,7 @@ i
 	line-height:10px;
 	border-radius:6px;
 	padding:6px 7px 5px 7px;
-	box-shadow:0em 3px 0px 0em #F3BEC6; 
+	box-shadow:0 3px 0 0 #F3BEC6;
 	text-align:center;
 }
 
@@ -1157,7 +1154,7 @@ i
     background-color:#FFFFFF;
     height:calc(100% - 25px);
     border-radius:0 6px 6px 6px;
-    box-shadow: 0em 3px 0px 0em #F3BEC6;
+    box-shadow: 0 3px 0 0 #F3BEC6;
     display: flex;
 }
 
@@ -1396,7 +1393,7 @@ i
     height:calc(0.7vh + 6px);
     border-radius:2px;
     padding:2px 3px;
-    box-shadow:0em 1px 0px 0em #888888;
+    box-shadow:0 1px 0 0 #888888;
 }
 .map-location-box.active
 {
@@ -1709,7 +1706,6 @@ i
     margin-top: calc(1.4vh);
     margin-bottom: calc(1.4vh);
     text-align:center;
-    font-size:0.8em;
 }
 
 .total-credit
@@ -1730,7 +1726,6 @@ i
 {
     margin-top: calc(1.4vh);
     text-align:center;
-    font-size:0.8em;
 }
 
 .table-score
