@@ -1644,8 +1644,8 @@ i
 #type-credits
 {
     margin-top:1px;
-    font-size: 12px;
-    line-height: 13px;
+    font-size: 0;
+    line-height: 0;
 }
 
 .lecture-type
@@ -1653,32 +1653,30 @@ i
     display:inline-block;
     width:40%;
     text-align:left;
-    margin-left:10%;
     margin-top:8px;
-    font-size:0px;
+}
+.lecture-type-left
+{
+    margin-left:10%;
+    clear:both;
+
 }
 .lecture-type-right
 {
-    display:inline-block;
-    width:40%;
-    text-align:left;
-    font-size:0px;
 }
 
 .lecture-type span
 {
-    font-size:12px;
-}
-.lecture-type-right span
-{
-    font-size:12px;
+    display:inline-block;
+    font-size: 12px;
+    line-height: 13px;
+    margin-right: 4px;
 }
 
 .lecture-type-span
 {
     font-weight: bold;
     display: inline-block;
-    margin-right: 4px;
     white-space: nowrap;
 }
 .lecture-type-span.fixed-ko
@@ -1697,7 +1695,6 @@ i
 
 .active-credit
 {
-    margin-left: 4px;
     color:#e64c65;
 }
 
