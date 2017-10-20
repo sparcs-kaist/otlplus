@@ -531,7 +531,7 @@ i
 	font-size:12px;
 	line-height:13px;
 	padding:0px;
-	margin:0px 0px -1px 8px;
+	margin:0 0 0 8px;
 	height:13px;
 }
 
@@ -551,7 +551,7 @@ i
 
 .search-form-wrap > form
 {
-    padding-bottom:10px;
+    padding-bottom:9px;
     border-bottom:1px solid #EDD1DC;
 }
 
@@ -798,19 +798,6 @@ i
 .nano-slider {
     margin:0px !important;
     background-color:#ccc !important;
-}
-
-.lecture-detail .nano
-{
-    margin-top: -1px;
-}
-.lecture-detail .nano-content
-{
-    padding-top: 1px;
-}
-.lecture-detail .nano-pane
-{
-    margin-top: 1px;
 }
 
 .list-loading
@@ -1746,19 +1733,6 @@ i
     line-height:14px;
     padding-top:9px;
     padding-bottom:8px;
-}
-
-#examtable.nano
-{
-    margin-top: -1px;
-}
-#examtable.nano > .nano-content
-{
-    padding-top: 1px;
-}
-#examtable.nano > .nano-pane
-{
-    margin-top: 1px;
 }
 
 .examtime
