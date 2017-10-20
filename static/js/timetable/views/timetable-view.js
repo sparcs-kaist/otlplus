@@ -787,8 +787,6 @@ function findLecture(lectures, id) {
       'mouseout .map-location-box': "clearFocus",
       'mouseover .lecture-type': "typeFocus",
       'mouseout .lecture-type': "clearFocus",
-      'mouseover .lecture-type-right': "typeFocus",
-      'mouseout .lecture-type-right': "clearFocus",
       'mouseover .total-credit': "creditFocus",
       'mouseout .total-credit': "clearFocus",
       'mouseover .examtime': "examFocus",
@@ -1004,11 +1002,11 @@ function findLecture(lectures, id) {
       $('#credits .normal').html('-');
       $('#au .normal').html('-');
       $('.lecture-type[data-type="Basic Required"]').find('.credit-text').html('-');
-      $('.lecture-type-right[data-type="Basic Elective"]').find('.credit-text').html('-');
+      $('.lecture-type[data-type="Basic Elective"]').find('.credit-text').html('-');
       $('.lecture-type[data-type="Major Required"]').find('.credit-text').html('-');
-      $('.lecture-type-right[data-type="Major Elective"]').find('.credit-text').html('-');
+      $('.lecture-type[data-type="Major Elective"]').find('.credit-text').html('-');
       $('.lecture-type[data-type="Humanities & Social Elective"]').find('.credit-text').html('-');
-      $('.lecture-type-right[data-type="Etc"]').find('.credit-text').html('-');
+      $('.lecture-type[data-type="Etc"]').find('.credit-text').html('-');
 
       // Remove score
       $('#grades.score-text').html('-');
@@ -1190,11 +1188,11 @@ function findLecture(lectures, id) {
       $('#credits .normal').html(credit);
       $('#au .normal').html(au);
       $('.lecture-type[data-type="Basic Required"]').find('.credit-text').html(byType[0]);
-      $('.lecture-type-right[data-type="Basic Elective"]').find('.credit-text').html(byType[1]);
+      $('.lecture-type[data-type="Basic Elective"]').find('.credit-text').html(byType[1]);
       $('.lecture-type[data-type="Major Required"]').find('.credit-text').html(byType[2]);
-      $('.lecture-type-right[data-type="Major Elective"]').find('.credit-text').html(byType[3]);
+      $('.lecture-type[data-type="Major Elective"]').find('.credit-text').html(byType[3]);
       $('.lecture-type[data-type="Humanities & Social Elective"]').find('.credit-text').html(byType[4]);
-      $('.lecture-type-right[data-type="Etc"]').find('.credit-text').html(byType[5]);
+      $('.lecture-type[data-type="Etc"]').find('.credit-text').html(byType[5]);
 
       // Update score
       var grade=0.0, load=0.0, speech=0.0;

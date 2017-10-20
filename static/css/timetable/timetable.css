@@ -106,7 +106,7 @@ i
     background-color:#FFFFFF;
     margin-bottom:12px;
     border-radius:6px;
-    box-shadow:0em 3px 0px 0em #F3BEC6;
+    box-shadow:0 3px 0 0 #F3BEC6;
     height:311px;
     height:calc(5.6vh + 255px);
     padding:10px;
@@ -173,26 +173,26 @@ i
 #course-title
 {
     font-size:13px;
-	line-height:12px;
+	line-height:14px;
     font-weight:bold;
-	margin-bottom:3px;
+    margin-top:-1px;
+	margin-bottom:1px;
 }
 
 #course-no
 {
     font-size:12px;
-	line-height:11px;
-	margin-bottom:6px;
+	line-height:13px;
+	margin-bottom:4px;
 }
 
 .lecture-options
 {
     text-align:right;
-    margin:3px 0;
     font-size:11px;
-    line-height:10px;
+    line-height:12px;
     color:#E54C65;
-	margin-bottom:8px
+    margin-bottom: 6px;
 }
 .lecture-options > span.disable
 {
@@ -213,8 +213,8 @@ i
 .basic-info
 {
 	font-size:12px;
-	line-height:11px;
-    margin-bottom:10px;
+	line-height:13px;
+    margin-bottom:8px;
     clear:both;
 }
 
@@ -240,8 +240,8 @@ i
 
 .lecture-scores
 {
-	margin-top: calc(1.4vh + 2px);
-	margin-bottom: calc(1.4vh + 2px);
+	margin-top: calc(1.4vh);
+	margin-bottom: calc(1.4vh);
     text-align:center;
 }
 
@@ -255,27 +255,27 @@ i
 
 .score-text
 {
-	height: calc(0.7vh + 12px);
+	height: calc(0.7vh + 14px);
     font-weight:300;
-	margin-bottom:4px;
+	margin-bottom:2px;
 }
 .score-text:not(.score-korean)
 {
     font-size: calc(0.7vh + 15px);
-    line-height: calc(0.7vh + 12px);
+    line-height: calc(0.7vh + 14px);
     font-family:"Helvetica Neue", "Calibri", "Arial";
 }
 .score-text.score-korean
 {
     font-size: calc(0.7vh + 13px);
-    line-height: calc(0.7vh + 14px);
+    line-height: calc(0.7vh + 16px);
     padding-top: 1px;
 }
 
 .score-label
 {
 	font-size: 11px;
-	line-height: 10px;
+	line-height: 12px;
 }
 
 .dictionary-preview{
@@ -302,6 +302,7 @@ i
 	display:inline-block;
 	vertical-align:top;
 	margin-left:5px;
+	margin-top:1px;
 }
 .open-dict-button:hover .dict-arrow
 {
@@ -316,6 +317,7 @@ i
 	display:inline-block;
 	vertical-align:top;
 	margin-left:5px;
+	margin-top:1px;
 }
 .close-dict-button:hover .dict-arrow
 {
@@ -340,7 +342,7 @@ i
 	margin-bottom:6px;
 	padding:8px 10px 8px 10px;
 	font-size:11px;
-	line-height:10px;
+	line-height:12px;
 	cursor:pointer;
     color:#333;
 }
@@ -351,8 +353,7 @@ i
 .review-body{
     display:block;
     display:-webkit-box;
-	line-height:normal;
-	margin-bottom:6px;
+	margin-bottom:4px;
     line-height:14px;
     max-height:42px;
     overflow:hidden;
@@ -363,6 +364,7 @@ i
 
 .review-score-wrap{
 	text-align:right;
+	margin-bottom:-1px;
 }
 
 .review-score{
@@ -413,10 +415,10 @@ i
     background-color:#E2E2E2;
     margin-left:0;
     margin-right:0;
-    margin-bottom:0.3em;
+    margin-bottom:6px;
 	padding:7px;
-    width:2em;
-    height:2em;
+    width:27px;
+    height:27px;
     border:none;
     border-radius:4px 0 0 4px;
     outline:none;
@@ -499,7 +501,7 @@ i
 	padding:10px;
     background-color:#FFFFFF;
     border-radius:0 6px 6px 6px;
-    box-shadow: 0em 3px 0px 0em #F3BEC6;
+    box-shadow: 0 3px 0 0 #F3BEC6;
     -webkit-box-orient:vertical;
     -webkit-box-direction:normal;
         -ms-flex-direction:column;
@@ -527,10 +529,10 @@ i
     background-color:transparent;
     float:right;
 	font-size:12px;
-	line-height:11px;
+	line-height:13px;
 	padding:0px;
-	margin:0px 0px 0px 8px;
-	height:11px;
+	margin:0 0 0 8px;
+	height:13px;
 }
 
 #search-button:hover, #search-cancel:hover
@@ -549,7 +551,7 @@ i
 
 .search-form-wrap > form
 {
-    padding-bottom:10px;
+    padding-bottom:9px;
     border-bottom:1px solid #EDD1DC;
 }
 
@@ -560,8 +562,9 @@ i
     display:flex;
     display:-webkit-flex;
     width: 100%;
-	height:12px;
+	height:14px;
     background-color:transparent;
+	margin-top:-1px;
 }
 
 .search-field:hover 
@@ -576,6 +579,7 @@ i
     height: 12px;
 	vertical-align:top;
 	margin-right:6px;
+	margin-top:1px;
 }
 
 .search-field:hover > .search-icon
@@ -587,10 +591,10 @@ i
 {
     background: none;
     border:none;
-	padding:1px 0px 0px 0px;
-	margin:-1px 0px 0px 0px;
+	padding:0px;
+	margin:0px;
 	font-size:13px;
-	line-height:12px;
+	line-height:14px;
     -webkit-box-flex:1;
         -ms-flex:auto;
             flex:auto;
@@ -618,9 +622,9 @@ i
 
 #lecturelist-filter
 {
-    margin-top: 10px;
+    margin-top: 8px;
     font-size:12px;
-    line-height:11px;
+    line-height:13px;
 }
 
 #lecturelist-filter input[type="checkbox"] 
@@ -634,6 +638,7 @@ i
 	vertical-align:top;
     font-weight:bold;
     white-space:nowrap;
+	margin:0;
 }
 .type-name.fixed-ko
 {
@@ -659,7 +664,7 @@ i
 {
     font-weight:normal;
     cursor:pointer;
-	margin-bottom:6px;
+	margin-bottom:4px;
 	margin-left:4px;
 	font-size:12px;
 }
@@ -729,9 +734,10 @@ i
 .result-message
 {
     font-size:13px;
-    line-height:12px;
+    line-height:14px;
     color:#E54C65;
-    margin-bottom:10px;
+    margin-top:-1px;
+    margin-bottom:9px;
 }
 
 .result-message:hover
@@ -748,6 +754,7 @@ i
     display:inline-block;
 	vertical-align:top;
 	margin-right:6px;
+	margin-top:1px;
 }
 
 .result-message:hover > .result-icon
@@ -763,8 +770,9 @@ i
 .page-title
 {
     font-size:13px;
-    line-height:12px;
-    margin-bottom:10px;
+    line-height:14px;
+    margin-top:-1px;
+    margin-bottom:9px;
 }
 
 .nano {
@@ -774,7 +782,7 @@ i
     margin: 0px -10px -10px 0px;
     width: auto !important;
     font-size:12px;
-    line-height:11px;
+    line-height:13px;
 }
 .nano-content {
     margin-right: 0px;
@@ -792,19 +800,6 @@ i
     background-color:#ccc !important;
 }
 
-.lecture-detail .nano
-{
-    margin-top: -1px;
-}
-.lecture-detail .nano-content
-{
-    padding-top: 1px;
-}
-.lecture-detail .nano-pane
-{
-    margin-top: 1px;
-}
-
 .list-loading
 {
     font-size: 16px;
@@ -819,6 +814,8 @@ i
     border-radius:4px;
     margin-bottom:6px;
 		overflow:hidden;
+	font-size:12px;
+	line-height:13px;
 }
 .list-elem:last-child
 {
@@ -827,7 +824,7 @@ i
 
 .list-elem-title
 {
-    padding:8px 10px 6px 10px;
+    padding:7px 10px 5px 10px;
 }
 
 .list-elem-body-wrap
@@ -864,13 +861,13 @@ i
 			align-items: center;
 	text-align:right;
     border-top:1px solid #C9C9C9;
-    padding:6px 0px 6px 0px;
+    padding:5px 0px 5px 0px;
     pointer-events:none;
 }
 .list-elem-body-wrap.click .list-elem-body
 {
     border-top-width:0px;
-    padding-bottom:5px;
+    padding-bottom:4px;
 }
 
 .list-elem-body-text
@@ -910,7 +907,7 @@ i
 	height:13px;
 	display:inline-block;
 	vertical-align:top;
-	margin:-1px 0px -1px 6px;
+	margin-left:6px;
     pointer-events:auto;
 }
 .add-to-cart:hover
@@ -952,7 +949,7 @@ i
 	height:13px;
 	display:inline-block;
 	vertical-align:top;
-    margin:-1px 0px -1px 6px;
+	margin-left:6px;
     pointer-events:auto;
 }
 .delete-from-cart:hover
@@ -991,7 +988,6 @@ i
     height:25px;
     margin-right:6px;
     text-align:center;
-    line-height:2em;
     border-radius:4px 4px 0 0;
     border:none;
     outline:none;
@@ -1030,7 +1026,6 @@ i
     height:25px;
     margin-right:6px;
     text-align:center;
-    line-height:2em;
     border-radius:4px 4px 0 0;
     border:none;
     outline:none;
@@ -1100,7 +1095,7 @@ i
 	line-height:10px;
 	border-radius:6px;
 	padding:6px 7px 5px 7px;
-	box-shadow:0em 3px 0px 0em #F3BEC6; 
+	box-shadow:0 3px 0 0 #F3BEC6;
 	text-align:center;
 }
 
@@ -1146,7 +1141,7 @@ i
     background-color:#FFFFFF;
     height:calc(100% - 25px);
     border-radius:0 6px 6px 6px;
-    box-shadow: 0em 3px 0px 0em #F3BEC6;
+    box-shadow: 0 3px 0 0 #F3BEC6;
     display: flex;
 }
 
@@ -1385,7 +1380,7 @@ i
     height:calc(0.7vh + 6px);
     border-radius:2px;
     padding:2px 3px;
-    box-shadow:0em 1px 0px 0em #888888;
+    box-shadow:0 1px 0 0 #888888;
 }
 .map-location-box.active
 {
@@ -1629,14 +1624,15 @@ i
 #info
 {
     flex:none;
-    padding-bottom:10px;
+    padding-bottom:9px;
     border-bottom:1px solid #EDD1DC;
 }
 
 #type-credits
 {
-    font-size: 12px;
-    line-height: 11px;
+    margin-top:1px;
+    font-size: 0;
+    line-height: 0;
 }
 
 .lecture-type
@@ -1644,32 +1640,30 @@ i
     display:inline-block;
     width:40%;
     text-align:left;
+    margin-top:8px;
+}
+.lecture-type-left
+{
     margin-left:10%;
-    margin-top:10px;
-    font-size:0px;
+    clear:both;
+
 }
 .lecture-type-right
 {
-    display:inline-block;
-    width:40%;
-    text-align:left;
-    font-size:0px;
 }
 
 .lecture-type span
 {
-    font-size:12px;
-}
-.lecture-type-right span
-{
-    font-size:12px;
+    display:inline-block;
+    font-size: 12px;
+    line-height: 13px;
+    margin-right: 4px;
 }
 
 .lecture-type-span
 {
     font-weight: bold;
     display: inline-block;
-    margin-right: 4px;
     white-space: nowrap;
 }
 .lecture-type-span.fixed-ko
@@ -1688,16 +1682,14 @@ i
 
 .active-credit
 {
-    margin-left: 4px;
     color:#e64c65;
 }
 
 #total-credits
 {
-    margin-top: calc(1.4vh + 2px);
-    margin-bottom: calc(1.4vh + 2px);
+    margin-top: calc(1.4vh);
+    margin-bottom: calc(1.4vh);
     text-align:center;
-    font-size:0.8em;
 }
 
 .total-credit
@@ -1716,9 +1708,8 @@ i
 
 #table-scores
 {
-    margin-top: calc(1.4vh + 2px);
+    margin-top: calc(1.4vh);
     text-align:center;
-    font-size:0.8em;
 }
 
 .table-score
@@ -1739,22 +1730,9 @@ i
 {
     text-align:center;
     font-size:13px;
-    line-height:12px;
-    padding-top:10px;
-    padding-bottom:10px;
-}
-
-#examtable.nano
-{
-    margin-top: -1px;
-}
-#examtable.nano > .nano-content
-{
-    padding-top: 1px;
-}
-#examtable.nano > .nano-pane
-{
-    margin-top: 1px;
+    line-height:14px;
+    padding-top:9px;
+    padding-bottom:8px;
 }
 
 .examtime
@@ -1792,7 +1770,7 @@ i
     -webkit-box-flex:0;
         -ms-flex:none;
             flex:none;
-    margin-bottom:8px;
+    margin-bottom:6px;
 }
 
 .exam-box.active {
@@ -1802,7 +1780,7 @@ i
 .exam-course
 {
     font-weight:bold;
-    margin-bottom:3px;
+    margin-bottom:1px;
 }
 
 .exam-chead
@@ -1811,7 +1789,7 @@ i
     display:-ms-flexbox;
     display:flex;
     display:-webkit-flex;
-    margin-bottom:8px;
+    margin-bottom:6px;
     margin-right:4px;
     text-align:center;
     white-space:nowrap;
@@ -1998,7 +1976,7 @@ body .lecture-block.active.lecture-block-temp
 .timetable-lecture-name
 {
     font-size:calc(0.7vh + 5px);
-    line-height:calc(0.7vh + 5px);
+    line-height:calc(0.7vh + 6px);
     color:rgba(0,0,0,0.8);
     margin:0;
     margin-bottom:1px;
@@ -2012,7 +1990,7 @@ body .lecture-block.active.lecture-block-temp
 .timetable-lecture-info
 {
     font-size:calc(0.7vh + 4px);
-    line-height:calc(0.7vh + 4px);
+    line-height:calc(0.7vh + 5px);
     color:rgba(0,0,0,0.6);
     margin:0;
     margin-top:2px;
