@@ -783,7 +783,7 @@ i
     margin: 0px -10px -10px 0px;
     width: auto !important;
     font-size:12px;
-    line-height:11px;
+    line-height:13px;
 }
 .nano-content {
     margin-right: 0px;
@@ -1640,14 +1640,15 @@ i
 #info
 {
     flex:none;
-    padding-bottom:10px;
+    padding-bottom:9px;
     border-bottom:1px solid #EDD1DC;
 }
 
 #type-credits
 {
+    margin-top:1px;
     font-size: 12px;
-    line-height: 11px;
+    line-height: 13px;
 }
 
 .lecture-type
@@ -1656,7 +1657,7 @@ i
     width:40%;
     text-align:left;
     margin-left:10%;
-    margin-top:10px;
+    margin-top:8px;
     font-size:0px;
 }
 .lecture-type-right
@@ -1705,8 +1706,8 @@ i
 
 #total-credits
 {
-    margin-top: calc(1.4vh + 2px);
-    margin-bottom: calc(1.4vh + 2px);
+    margin-top: calc(1.4vh);
+    margin-bottom: calc(1.4vh);
     text-align:center;
     font-size:0.8em;
 }
@@ -1727,7 +1728,7 @@ i
 
 #table-scores
 {
-    margin-top: calc(1.4vh + 2px);
+    margin-top: calc(1.4vh);
     text-align:center;
     font-size:0.8em;
 }
@@ -1750,9 +1751,9 @@ i
 {
     text-align:center;
     font-size:13px;
-    line-height:12px;
-    padding-top:10px;
-    padding-bottom:10px;
+    line-height:14px;
+    padding-top:9px;
+    padding-bottom:8px;
 }
 
 #examtable.nano
@@ -1803,7 +1804,7 @@ i
     -webkit-box-flex:0;
         -ms-flex:none;
             flex:none;
-    margin-bottom:8px;
+    margin-bottom:6px;
 }
 
 .exam-box.active {
@@ -1813,7 +1814,7 @@ i
 .exam-course
 {
     font-weight:bold;
-    margin-bottom:3px;
+    margin-bottom:1px;
 }
 
 .exam-chead
@@ -1822,7 +1823,7 @@ i
     display:-ms-flexbox;
     display:flex;
     display:-webkit-flex;
-    margin-bottom:8px;
+    margin-bottom:6px;
     margin-right:4px;
     text-align:center;
     white-space:nowrap;
