@@ -136,11 +136,11 @@ function findLecture(lectures, id) {
       var fBStr = (Math.floor(fBTime/2)+8)+":"+(fBTime%2 ? "30" : "00")
       var sBStr = (Math.floor(sBTime/2)+8)+":"+(sBTime%2 ? "30" : "00")
 
-      $("#filter-time-day").val(day);
-      $("#filter-time-begin").val(fBTime);
-      $("#filter-time-end").val(sBTime);
-      $(".filter-time .type-elem label").html(dayStr+" "+fBStr+" ~ "+sBStr);
-      $(".filter-time .type-elem label").addClass('time-active');
+      $("#search-filter-time-day").val(day);
+      $("#search-filter-time-begin").val(fBTime);
+      $("#search-filter-time-end").val(sBTime);
+      $(".search-filter-time .search-filter-elem label").html(dayStr+" "+fBStr+" ~ "+sBStr);
+      $(".search-filter-time .search-filter-elem label").addClass('search-filter-time-active');
       searchView.searchTab();
     },
 
@@ -334,7 +334,7 @@ function findLecture(lectures, id) {
 
   // Actions in lecture list
   app.LectureListView = Backbone.View.extend({
-    el: '#search-container',
+    el: '#lecture-lists',
 
     loadingMessage: '<div class="list-loading">'+(LANGUAGE_CODE==="en" ? "Loading" : "불러오는 중")+'</div>',
     noResultMessage: '<div class="list-loading">'+(LANGUAGE_CODE==="en" ? "No results" : "결과 없음")+'</div>',
@@ -362,7 +362,7 @@ function findLecture(lectures, id) {
       'mouseover .list-elem-body-wrap': "listHover",
       'mouseout .list-elem-body-wrap': "listOut",
       'click .list-elem-body-wrap': "listClick",
-      'click .search-chead': "changeTab",
+      'click .list-tab': "changeTab",
     },
 
     addToTable: function (e) {
@@ -571,9 +571,9 @@ function findLecture(lectures, id) {
       if ($(e.currentTarget).hasClass('active'))
         return;
 
-      $(this.el).find(".search-chead").removeClass('active');
+      $(this.el).find(".list-tab").removeClass('active');
       $(e.currentTarget).addClass('active');
-      $(this.el).find("#result-pages").children().addClass("none");
+      $(this.el).find(".list-page").addClass("none");
       if (tabName !== "major")
         $(this.el).find("." + tabName + "-page").removeClass("none");
       else
@@ -639,7 +639,7 @@ function findLecture(lectures, id) {
             block.html(this.noResultMessage);
           }
         } else {
-          var majors = $.map($('.search-chead.major'), function(x){return $(x).attr('data-code')});
+          var majors = $.map($('.list-tab.major'), function(x){return $(x).attr('data-code')});
           for (var i=0,code; code=majors[i]; i++) {
             block = $('.'+name+'-page[data-code="'+code+'"]').find('.nano-content');
             if (code === 'Basic') {
@@ -1263,22 +1263,22 @@ function findLecture(lectures, id) {
   })
 
   app.SearchView = Backbone.View.extend({
-    el: '#search-container',
+    el: '#lecture-lists',
     initialize: function (opt) {
       $(this.el).find(".chkall").prop('checked', true);
     },
 
     events: {
-      'click .result-message': "showSearch",
+      'click .search-page-title': "showSearch",
       'click #search-cancel': "hideSearch",
       'click .chkall': "toggleType",
       'click .chkelem': "toggleType",
-      'click .time-active': "clearTime",
+      'click .search-filter-time-active': "clearTime",
       'click #search-button': "searchStart",
     },
 
     clearSearch: function () {
-      $(this.el).find(".search-text").val('');
+      $(this.el).find(".search-keyword-text").val('');
 
       $(this.el).find(".chkall").prop('checked', true);
       $(this.el).find(".chkall").parent().find('.fa-check-circle-o').removeClass('none');
@@ -1292,17 +1292,17 @@ function findLecture(lectures, id) {
     },
 
     clearTime: function() {
-      $("#filter-time-day").val('');
-      $("#filter-time-begin").val('');
-      $("#filter-time-end").val('');
-      $(".filter-time .type-elem label").html((LANGUAGE_CODE==="en" ? "Drag timetable" : "시간표에서 드래그"));
-      $(".filter-time .type-elem label").removeClass('time-active');
+      $("#search-filter-time-day").val('');
+      $("#search-filter-time-begin").val('');
+      $("#search-filter-time-end").val('');
+      $(".search-filter-time .search-filter-elem label").html((LANGUAGE_CODE==="en" ? "Drag timetable" : "시간표에서 드래그"));
+      $(".search-filter-time .search-filter-elem label").removeClass('search-filter-time-active');
     },
 
     searchTab: function (e) {
-      $(this.el).find(".search-chead").removeClass('active');
-      $(this.el).find(".search-chead.search").addClass('active');
-      $(this.el).find("#result-pages").children().addClass("none");
+      $(this.el).find(".list-tab").removeClass('active');
+      $(this.el).find(".list-tab.search").addClass('active');
+      $(this.el).find(".list-page").addClass("none");
       $(this.el).find(".search-page").removeClass("none");
 
       if (app.LectureActive.get("from") === "list") {
@@ -1313,7 +1313,7 @@ function findLecture(lectures, id) {
 
     showSearch: function (e) {
       $(this.el).find(".search-extend").removeClass('none');
-      $(this.el).find(".search-text").focus();
+      $(this.el).find(".search-keyword-text").focus();
     },
 
     hideSearch: function (e) {
