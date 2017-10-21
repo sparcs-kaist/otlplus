@@ -150,9 +150,9 @@
 	</div><!--div left-side-->	
 	<div id="center">
 		<div id="timetable-menu">
-			<div id="timetable-tabs" style="clear:both;">
+			<div id="timetable-tabs">
 				<!-- Timetable Tabs Inserted Here -->
-				<a href="#/1" class="timetable-tab" style="pointer-events:none;"><span class="timetable-num">불러오는 중</span></a>
+				<div class="timetable-tab" style="pointer-events:none;"><span class="timetable-num">불러오는 중</span></div>
 			</div>
                         <div id="semester">
 				<i id="semester-prev"></i>
@@ -672,9 +672,13 @@
 
 <script type="text/template" id="timetable-tab-template">
 	<% _.each(ids, function(id, idx){ %>
-	<a href="#/<%- idx+1 %>" class="timetable-tab" data-id="<%- id %>"><span class="timetable-num">{% trans "시간표" %} <%- idx+1 %></span><span class="hidden-option"><i class="duplicate-table"></i><i class="delete-table"></i></span></a>
+	<div class="timetable-tab" data-id="<%- id %>">
+		<span class="timetable-num">{% trans "시간표" %} <%- idx+1 %></span><span class="hidden-option"><i class="duplicate-table"></i><i class="delete-table"></i></span>
+	</div>
 	<% }); %>
-	<a class="timetable-add"><span class="timetable-num"><i class="add-table"></i></span></a>
+	<div class="timetable-add">
+		<span class="timetable-num"><i class="add-table"></i></span>
+	</div>
 </script>
 
 
