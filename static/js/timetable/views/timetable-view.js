@@ -1264,6 +1264,9 @@ function findLecture(lectures, id) {
 
   app.SearchView = Backbone.View.extend({
     el: '#lecture-lists',
+
+    loadingMessage: '<div class="list-loading">'+(LANGUAGE_CODE==="en" ? "Loading" : "불러오는 중")+'</div>',
+
     initialize: function (opt) {
       $(this.el).find(".chkall").prop('checked', true);
     },
