@@ -1046,7 +1046,7 @@ function findLecture(lectures, id) {
       var options = {data: {year: year,
                             semester: semester},
                     type: 'POST'};
-      $('#timetable-tabs').html('<a href="#/1" class="timetable-tab" style="pointer-events:none;"><span class="timetable-num">불러오는 중</span></a>');
+      $('#timetable-tabs').html('<div class="timetable-tab" style="pointer-events:none;"><span class="timetable-num">불러오는 중</span></divs>');
       app.timetables.fetch(options);
     },
 

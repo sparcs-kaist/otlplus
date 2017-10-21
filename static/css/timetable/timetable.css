@@ -956,45 +956,7 @@ i
     font-size:0px;
 }
 
-.timetable-tab
-{
-    background-color:#E2E2E2;
-    display:inline-block;
-	vertical-align:top;
-    height:25px;
-    margin-right:6px;
-    text-align:center;
-    border-radius:4px 4px 0 0;
-    border:none;
-    outline:none;
-	font-size:11px;
-	line-height:10px;
-	padding:8px 10px 7px 10px;
-    text-decoration:none;
-}
-
-.timetable-tab.active
-{
-    background-color:#FFFFFF;
-}
-
-.timetable-tab>.hidden-option
-{
-    display:none;
-}
-
-.timetable-tab:not(.active):hover
-{
-	cursor:pointer;
-	background-color:#D8D8D8;
-}
-
-.timetable-tab.active>.hidden-option
-{
-    display:inline-block;
-}
-
-.timetable-add
+#timetable-tabs > div
 {
     background-color:#E2E2E2;
     display:inline-block;
@@ -1008,18 +970,43 @@ i
     font-size:11px;
     line-height:10px;
     text-decoration:none;
-	padding:7px 0 0 0;
+}
+#timetable-tabs > div.active
+{
+    background-color:#FFFFFF;
+}
+#timetable-tabs > div:not(.active):hover
+{
+    cursor:pointer;
+    background-color:#D8D8D8;
+}
+#timetable-tabs > div.timetable-tab
+{
+	padding:8px 10px 7px 10px;
+}
+#timetable-tabs > div.timetable-add
+{
+    padding:7px 0 0 0;
     width:27px;
 }
 
-.timetable-num
+.timetable-tab .timetable-num
 {
     color:#555;
 }
-
-.timetable-num.active
+.timetable-tab.active .timetable-num,
+.timetable-tab:hover .timetable-num
 {
     color:#333;
+}
+
+.timetable-tab>.hidden-option
+{
+    display:none;
+}
+.timetable-tab.active>.hidden-option
+{
+    display:inline-block;
 }
 
 .duplicate-table
@@ -1031,7 +1018,6 @@ i
 	vertical-align:top;
 	margin-left:4px;
 }
-
 .duplicate-table:hover
 {
 	background-image: url(/media/icons/duplicate_table_hover.svg);
@@ -1046,19 +1032,22 @@ i
 	vertical-align:top;
 	margin-left:4px;
 }
-
 .delete-table:hover
 {
 	background-image: url(/media/icons/delete_table_hover.svg);
 }
 
-.add-table
+.timetable-add .add-table
 {
 	background: url(/media/icons/add_table.svg) no-repeat center center;
 	width:11px;
 	height:11px;
 	display:inline-block;
 	vertical-align:top;
+}
+.timetable-add:hover .add-table
+{
+    background-image: url(/media/icons/add_table_hover.svg);
 }
 
 #semester
@@ -1083,7 +1072,6 @@ i
 	height:10px;
 	cursor:pointer;
 }
-
 #semester-prev:hover
 {
 	background-image: url(/media/icons/semester_prev_hover.svg);
@@ -1097,7 +1085,6 @@ i
 	height:10px;
 	cursor:pointer;
 }
-
 #semester-next:hover
 {
 	background-image: url(/media/icons/semester_next_hover.svg);
