@@ -486,48 +486,38 @@
 						</div>
 					</div>
 				</div>
-				<div id="examtitle"><span>{% trans "시험시간표" %}</span></div>
+				<div id="exam-title"><span>{% trans "시험시간표" %}</span></div>
 				<div id="examtable" class="nano">
 					<div class="list-scroll nano-content">
-						<div class="examtime" data-date="mon">
-							<div class="exam-chead fixed-{{ LANGUAGE_CODE }}"><span>{% trans "월" %}</span></div>
-							<div class="exam-body">
-								<ul id="examlist1" class="examlist">
-									<!-- Exams inserted here -->
-								</ul>
-							</div>
+						<div class="exam-day" data-date="mon">
+							<div class="exam-day-title fixed-{{ LANGUAGE_CODE }}"><span>{% trans "월" %}</span></div>
+							<ul class="exam-day-body">
+								<!-- Exams inserted here -->
+							</ul>
 						</div>
-						<div class="examtime" data-date="tue">
-							<div class="exam-chead fixed-{{ LANGUAGE_CODE }}"><span>{% trans "화" %}</span></div>
-							<div class="exam-body">
-								<ul id="examlist2" class="examlist">
-									<!-- Exams inserted here -->
-								</ul>
-							</div>
+						<div class="exam-day" data-date="tue">
+							<div class="exam-day-title fixed-{{ LANGUAGE_CODE }}"><span>{% trans "화" %}</span></div>
+							<ul class="exam-day-body">
+								<!-- Exams inserted here -->
+							</ul>
 						</div>
-						<div class="examtime" data-date="wed">
-							<div class="exam-chead fixed-{{ LANGUAGE_CODE }}"><span>{% trans "수" %}</span></div>
-							<div class="exam-body">
-								<ul id="examlist3" class="examlist">
-									<!-- Exams inserted here -->
-								</ul>
-							</div>
+						<div class="exam-day" data-date="wed">
+							<div class="exam-day-title fixed-{{ LANGUAGE_CODE }}"><span>{% trans "수" %}</span></div>
+							<ul class="exam-day-body">
+								<!-- Exams inserted here -->
+							</ul>
 						</div>
-						<div class="examtime" data-date="thu">
-							<div class="exam-chead fixed-{{ LANGUAGE_CODE }}"><span>{% trans "목" %}</span></div>
-							<div class="exam-body">
-								<ul id="examlist4" class="examlist">
-									<!-- Exams inserted here -->
-								</ul>
-							</div>
+						<div class="exam-day" data-date="thu">
+							<div class="exam-day-title fixed-{{ LANGUAGE_CODE }}"><span>{% trans "목" %}</span></div>
+							<ul class="exam-day-body">
+								<!-- Exams inserted here -->
+							</ul>
 						</div>
-						<div class="examtime" data-date="fri">
-							<div class="exam-chead fixed-{{ LANGUAGE_CODE }}"><span>{% trans "금" %}</span></div>
-							<div class="exam-body">
-								<ul id="examlist5" class="examlist">
-									<!-- Exams inserted here -->
-								</ul>
-							</div>
+						<div class="exam-day" data-date="fri">
+							<div class="exam-day-title fixed-{{ LANGUAGE_CODE }}"><span>{% trans "금" %}</span></div>
+							<ul  class="exam-day-body">
+								<!-- Exams inserted here -->
+							</ul>
 						</div>
 					</div>
 				</div><!--div exam-table-->
@@ -683,9 +673,9 @@
 
 
 <script type="text/template" id="exam-template">
-	<li class="exam-box <% if (temp) { %>temp active<% } %>" data-id=<%- id %> style="order:<%- startTime %>;">
-		<div class="exam-course"><%- title %></div>
-		<div class="exam-time"><%- examTime %></div>
+	<li class="exam-elem <% if (temp) { %>temp active<% } %>" data-id=<%- id %> style="order:<%- startTime %>;">
+		<div class="exam-elem-title"><%- title %></div>
+		<div class="exam-elem-body"><%- examTime %></div>
 	</li>
 </script>
 
