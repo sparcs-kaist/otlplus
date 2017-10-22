@@ -789,8 +789,8 @@ function findLecture(lectures, id) {
       'mouseout .lecture-type': "clearFocus",
       'mouseover .total-credit': "creditFocus",
       'mouseout .total-credit': "clearFocus",
-      'mouseover .examtime': "examFocus",
-      'mouseout .examtime': "clearFocus",
+      'mouseover .exam-day': "examFocus",
+      'mouseout .exam-day': "clearFocus",
     },
 
     initialize: function() {},
@@ -895,7 +895,7 @@ function findLecture(lectures, id) {
       if (app.LectureActive.get("type") === "none") {
         var date = $(e.currentTarget).attr('data-date');
         var title = this.dateDict[date] + (LANGUAGE_CODE==="en" ? " Exam" : " 시험");
-        var boxes = $(e.currentTarget).find('.exam-box');
+        var boxes = $(e.currentTarget).find('.exam-elem');
         var lectureIDs = $.map(boxes,
                                function(x){return Number($(x).attr("data-id"))});
         var lectures = this._formatLectures(lectureIDs,
@@ -954,11 +954,11 @@ function findLecture(lectures, id) {
 
       // Highlight exam
       if (inTimetable) {
-        $('#examtable').find('.exam-box[data-id='+lecture.id+']').addClass('active');
+        $('#examtable').find('.exam-elem[data-id='+lecture.id+']').addClass('active');
       } else {
         for (var j=0, exam; exam=lecture.examtimes[j]; j++) {
           var date = ['mon', 'tue', 'wed', 'thu', 'fri'][exam.day];
-          var block = $('#examtable').find('.examtime[data-date="'+date+'"] .examlist');
+          var block = $('#examtable').find('.exam-day[data-date="'+date+'"] .exam-day-body');
           block.append(this.examTemplate({id: lecture.id,
                                           title: lecture.title,
                                           examTime: exam.str.substr(exam.str.indexOf(" ") + 1),
@@ -988,9 +988,9 @@ function findLecture(lectures, id) {
       $('#info').find('.credit-text').removeClass('active');
 
       // Unhighlight exam
-      $('#examtable').find('.exam-box').removeClass('active');
-      $('#examtable').find('.exam-box.temp').remove();
-      $('#examtable').find('.exam-box').removeClass('active');
+      $('#examtable').find('.exam-elem').removeClass('active');
+      $('#examtable').find('.exam-elem.temp').remove();
+      $('#examtable').find('.exam-elem').removeClass('active');
     },
 
     _removeInfo: function() {
@@ -1014,10 +1014,10 @@ function findLecture(lectures, id) {
       $('#speeches.score-text').html('-');
 
       // Remove exam info
-      $('#examtable').find('.exam-box').remove();
+      $('#examtable').find('.exam-elem').remove();
       for (var i = 0; i<5; i++) {
         var date = ['mon', 'tue', 'wed', 'thu', 'fri'][i];
-        var block = $('#examtable').find('.examtime[data-date="'+date+'"] .examlist');
+        var block = $('#examtable').find('.exam-day[data-date="'+date+'"] .exam-day-body');
         block.html('');
       }
     },
@@ -1244,11 +1244,11 @@ function findLecture(lectures, id) {
       }
 
       // Update exam info
-      $('#examtable').find('.exam-box').remove();
+      $('#examtable').find('.exam-elem').remove();
       for (var i = 0, child; child = lectures[i]; i++) {
         for (var j=0, exam; exam=child.examtimes[j]; j++) {
           var date = ['mon', 'tue', 'wed', 'thu', 'fri'][exam.day];
-          var block = $('#examtable').find('.examtime[data-date="'+date+'"] .examlist');
+          var block = $('#examtable').find('.exam-day[data-date="'+date+'"] .exam-day-body');
           block.append(this.examTemplate({id: child.id,
                                           title: child.title,
                                           examTime: exam.str.substr(exam.str.indexOf(" ") + 1),

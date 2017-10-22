@@ -1698,7 +1698,7 @@ i
     padding-bottom:8px;
 }
 
-.examtime
+.exam-day
 {
     display:-webkit-box;
     display:-ms-flexbox;
@@ -1711,68 +1711,44 @@ i
     width:100%;
     text-align:left;
     margin-bottom:2px;
+    padding-right:10px;
 }
 
-.examlist
+.exam-day-title
 {
-    display:-webkit-box;
-    display:-ms-flexbox;
-    display:flex;
-    display:-webkit-flex;
-    -webkit-box-orient:vertical;
-    -webkit-box-direction:normal;
-        -ms-flex-direction:column;
-            flex-direction:column;
-    list-style:none;
-    padding-left:0;
-    margin-bottom:0;
-}
-
-.examlist > li
-{
-    -webkit-box-flex:0;
-        -ms-flex:none;
-            flex:none;
-    margin-bottom:6px;
-}
-
-.exam-box.active {
-    color:#E54C65;
-}
-
-.exam-course
-{
-    font-weight:bold;
-    margin-bottom:1px;
-}
-
-.exam-chead
-{
-    display:-webkit-box;
-    display:-ms-flexbox;
-    display:flex;
-    display:-webkit-flex;
     margin-bottom:6px;
     margin-right:4px;
     text-align:center;
     white-space:nowrap;
 }
-.exam-chead.fixed-ko
+.exam-day-title.fixed-ko
 {
     width:12px;
 }
-.exam-chead.fixed-en
+.exam-day-title.fixed-en
 {
     width:23px;
 }
 
-.exam-body
-    {
-    display:-webkit-box;
-    display:-ms-flexbox;
-    display:flex;
-    display:-webkit-flex;
-    text-align:left;
+.exam-day-body
+{
+    list-style:none;
+    padding-left:0;
+    margin-bottom:0;
+}
+
+.exam-elem
+{
+    margin-bottom:6px;
+}
+.exam-elem.active {
+    color:#E54C65;
+}
+
+.exam-elem-title
+{
+    font-weight:bold;
+    margin-bottom:1px;
 }
 
 
