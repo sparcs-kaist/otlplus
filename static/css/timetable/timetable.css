@@ -1582,40 +1582,40 @@ i
 
 
 
-/* Info at right side */
+/* Summary at right side */
 
-#info
+#summary
 {
     flex:none;
     padding-bottom:9px;
     border-bottom:1px solid #EDD1DC;
 }
 
-#type-credits
+#summary-type
 {
     margin-top:1px;
     font-size: 0;
     line-height: 0;
 }
 
-.lecture-type
+.summary-type-elem
 {
     display:inline-block;
     width:40%;
     text-align:left;
     margin-top:8px;
 }
-.lecture-type-left
+.summary-type-elem-left
 {
     margin-left:10%;
     clear:both;
 
 }
-.lecture-type-right
+.summary-type-elem-right
 {
 }
 
-.lecture-type span
+.summary-type-elem span
 {
     display:inline-block;
     font-size: 12px;
@@ -1623,39 +1623,39 @@ i
     margin-right: 4px;
 }
 
-.lecture-type-span
+.summary-type-elem-title
 {
     font-weight: bold;
     display: inline-block;
     white-space: nowrap;
 }
-.lecture-type-span.fixed-ko
+.summary-type-elem-title.fixed-ko
 {
     width: 23px;
 }
-.lecture-type-span.fixed-en
+.summary-type-elem-title.fixed-en
 {
     width: 23px;
 }
 
-.credit-text.active
+.summary-type-elem-body.active
 {
     color:#e64c65;
 }
 
-.active-credit
+.summary-type-elem-additional
 {
     color:#e64c65;
 }
 
-#total-credits
+#summary-credit
 {
     margin-top: calc(1.4vh);
     margin-bottom: calc(1.4vh);
     text-align:center;
 }
 
-.total-credit
+.summary-credit-elem
 {
     width:69px;
     width: calc(3.5vh + 34px);
@@ -1669,13 +1669,13 @@ i
     color:#e64c65;
 }
 
-#table-scores
+#summary-score
 {
     margin-top: calc(1.4vh);
     text-align:center;
 }
 
-.table-score
+.summary-score-elem
 {
     width:69px;
     width: calc(3.5vh + 34px);

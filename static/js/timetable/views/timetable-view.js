@@ -785,10 +785,10 @@ function findLecture(lectures, id) {
     events: {
       'mouseover .map-location-box': "buildingFocus",
       'mouseout .map-location-box': "clearFocus",
-      'mouseover .lecture-type': "typeFocus",
-      'mouseout .lecture-type': "clearFocus",
-      'mouseover .total-credit': "creditFocus",
-      'mouseout .total-credit': "clearFocus",
+      'mouseover .summary-type-elem': "typeFocus",
+      'mouseout .summary-type-elem': "clearFocus",
+      'mouseover .summary-credit-elem': "creditFocus",
+      'mouseout .summary-credit-elem': "clearFocus",
       'mouseover .exam-day': "examFocus",
       'mouseout .exam-day': "clearFocus",
     },
@@ -844,7 +844,7 @@ function findLecture(lectures, id) {
                             function(x){return (x.credit? x.credit+(LANGUAGE_CODE==="en" ? " credits" : "학점") : "") + (x.credit_au? x.credit_au+"AU" : "")});
 
           // Highlight target
-          $(e.currentTarget).find('.credit-text').addClass('active');
+          $(e.currentTarget).find('.summary-type-elem-body').addClass('active');
         } else {
           var title = (LANGUAGE_CODE==="en" ? "Others" : "기타");
           var raw_lectures = _.filter(app.CurrentTimetable.get('lectures'), function(x){return !semesterInfoView.typeDict[x.type_en]});
@@ -853,7 +853,7 @@ function findLecture(lectures, id) {
                             function(x){return (x.credit? x.credit+(LANGUAGE_CODE==="en" ? " credits" : "학점") : "") + (x.credit_au? x.credit_au+"AU" : "")});
 
           // Highlight target
-          $(e.currentTarget).find('.credit-text').addClass('active');
+          $(e.currentTarget).find('.summary-type-elem-body').addClass('active');
         }
 
         lectureDetailView._showSemesterInfo(title, lectures);
@@ -924,32 +924,32 @@ function findLecture(lectures, id) {
       }
 
       // Highlight credit
-      var typeDiv = $('#info').find("[data-type='" + lecture.type_en + "']");
+      var typeDiv = $('#summary').find("[data-type='" + lecture.type_en + "']");
       if (typeDiv.length === 0) {
-        typeDiv = $('#info').find("[data-type='Etc']");
+        typeDiv = $('#summary').find("[data-type='Etc']");
       }
       var credit = Number(lecture.credit);
       var au = Number(lecture.credit_au);
       var type_text, credit_text, au_text;
       if (inTimetable) {
         type_text = "(" + (credit+au) + ")";
-        credit_text = Number($('#info').find("#credits .normal").html());
-        au_text = Number($('#info').find("#au .normal").html());
+        credit_text = Number($('#summary').find("#credits .normal").html());
+        au_text = Number($('#summary').find("#au .normal").html());
       } else {
         type_text = "+" + (credit + au);
-        credit_text = Number($('#info').find("#credits .normal").html()) + credit;
-        au_text = Number($('#info').find("#au .normal").html()) + au;
+        credit_text = Number($('#summary').find("#credits .normal").html()) + credit;
+        au_text = Number($('#summary').find("#au .normal").html()) + au;
       }
-      typeDiv.find('.active-credit').html(type_text);
+      typeDiv.find('.summary-type-elem-additional').html(type_text);
       if (credit !== 0) {
-        $('#info').find("#credits .active").html(String(credit_text));
-        $('#info').find("#credits .normal").addClass("none");
-        $('#info').find("#credits .active").removeClass("none");
+        $('#summary').find("#credits .active").html(String(credit_text));
+        $('#summary').find("#credits .normal").addClass("none");
+        $('#summary').find("#credits .active").removeClass("none");
       }
       if (au !== 0) {
-        $('#info').find("#au .active").html(String(au_text));
-        $('#info').find("#au .normal").addClass("none");
-        $('#info').find("#au .active").removeClass("none");
+        $('#summary').find("#au .active").html(String(au_text));
+        $('#summary').find("#au .normal").addClass("none");
+        $('#summary').find("#au .active").removeClass("none");
       }
 
       // Highlight exam
@@ -980,12 +980,12 @@ function findLecture(lectures, id) {
           $(block).addClass('none');
 
       // Unhighlight credit
-      $('#info').find('.active-credit').html("");
-      $('#info').find('#credits .normal').removeClass("none");
-      $('#info').find('#credits .active').addClass("none");
-      $('#info').find('#au .normal').removeClass("none");
-      $('#info').find('#au .active').addClass("none");
-      $('#info').find('.credit-text').removeClass('active');
+      $('#summary').find('.summary-type-elem-additional').html("");
+      $('#summary').find('#credits .normal').removeClass("none");
+      $('#summary').find('#credits .active').addClass("none");
+      $('#summary').find('#au .normal').removeClass("none");
+      $('#summary').find('#au .active').addClass("none");
+      $('#summary').find('.summary-type-elem-body').removeClass('active');
 
       // Unhighlight exam
       $('#examtable').find('.exam-elem').removeClass('active');
@@ -1001,12 +1001,12 @@ function findLecture(lectures, id) {
       // Remove credit info
       $('#credits .normal').html('-');
       $('#au .normal').html('-');
-      $('.lecture-type[data-type="Basic Required"]').find('.credit-text').html('-');
-      $('.lecture-type[data-type="Basic Elective"]').find('.credit-text').html('-');
-      $('.lecture-type[data-type="Major Required"]').find('.credit-text').html('-');
-      $('.lecture-type[data-type="Major Elective"]').find('.credit-text').html('-');
-      $('.lecture-type[data-type="Humanities & Social Elective"]').find('.credit-text').html('-');
-      $('.lecture-type[data-type="Etc"]').find('.credit-text').html('-');
+      $('.summary-type-elem[data-type="Basic Required"]').find('.summary-type-elem-body').html('-');
+      $('.summary-type-elem[data-type="Basic Elective"]').find('.summary-type-elem-body').html('-');
+      $('.summary-type-elem[data-type="Major Required"]').find('.summary-type-elem-body').html('-');
+      $('.summary-type-elem[data-type="Major Elective"]').find('.summary-type-elem-body').html('-');
+      $('.summary-type-elem[data-type="Humanities & Social Elective"]').find('.summary-type-elem-body').html('-');
+      $('.summary-type-elem[data-type="Etc"]').find('.summary-type-elem-body').html('-');
 
       // Remove score
       $('#grades.score-text').html('-');
@@ -1187,12 +1187,12 @@ function findLecture(lectures, id) {
       }
       $('#credits .normal').html(credit);
       $('#au .normal').html(au);
-      $('.lecture-type[data-type="Basic Required"]').find('.credit-text').html(byType[0]);
-      $('.lecture-type[data-type="Basic Elective"]').find('.credit-text').html(byType[1]);
-      $('.lecture-type[data-type="Major Required"]').find('.credit-text').html(byType[2]);
-      $('.lecture-type[data-type="Major Elective"]').find('.credit-text').html(byType[3]);
-      $('.lecture-type[data-type="Humanities & Social Elective"]').find('.credit-text').html(byType[4]);
-      $('.lecture-type[data-type="Etc"]').find('.credit-text').html(byType[5]);
+      $('.summary-type-elem[data-type="Basic Required"]').find('.summary-type-elem-body').html(byType[0]);
+      $('.summary-type-elem[data-type="Basic Elective"]').find('.summary-type-elem-body').html(byType[1]);
+      $('.summary-type-elem[data-type="Major Required"]').find('.summary-type-elem-body').html(byType[2]);
+      $('.summary-type-elem[data-type="Major Elective"]').find('.summary-type-elem-body').html(byType[3]);
+      $('.summary-type-elem[data-type="Humanities & Social Elective"]').find('.summary-type-elem-body').html(byType[4]);
+      $('.summary-type-elem[data-type="Etc"]').find('.summary-type-elem-body').html(byType[5]);
 
       // Update score
       var grade=0.0, load=0.0, speech=0.0;

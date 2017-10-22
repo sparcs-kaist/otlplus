@@ -428,59 +428,59 @@
 						{% endfor %}
 					</div>
 				</div>
-				<div id="info">
-					<div id="type-credits">
-						<div class="lecture-type lecture-type-left" data-type="Basic Required">
-							<span class="lecture-type-span fixed-{{ LANGUAGE_CODE }}">{% trans "기필" %}</span>
-							<span class="credit-text">0</span>
-							<span class="active-credit"></span>
+				<div id="summary">
+					<div id="summary-type">
+						<div class="summary-type-elem summary-type-elem-left" data-type="Basic Required">
+							<span class="summary-type-elem-title fixed-{{ LANGUAGE_CODE }}">{% trans "기필" %}</span>
+							<span class="summary-type-elem-body">0</span>
+							<span class="summary-type-elem-additional"></span>
 						</div>
-						<div class="lecture-type lecture-type-right" data-type="Basic Elective">
-							<span class="lecture-type-span fixed-{{ LANGUAGE_CODE }}">{% trans "기선" %}</span>
-							<span class="credit-text">0</span>
-							<span class="active-credit"></span>
+						<div class="summary-type-elem summary-type-elem-right" data-type="Basic Elective">
+							<span class="summary-type-elem-title fixed-{{ LANGUAGE_CODE }}">{% trans "기선" %}</span>
+							<span class="summary-type-elem-body">0</span>
+							<span class="summary-type-elem-additional"></span>
 						</div>
-						<div class="lecture-type lecture-type-left" data-type="Major Required">
-							<span class="lecture-type-span fixed-{{ LANGUAGE_CODE }}">{% trans "전필" %}</span>
-							<span class="credit-text">0</span>
-							<span class="active-credit"></span>
+						<div class="summary-type-elem summary-type-elem-left" data-type="Major Required">
+							<span class="summary-type-elem-title fixed-{{ LANGUAGE_CODE }}">{% trans "전필" %}</span>
+							<span class="summary-type-elem-body">0</span>
+							<span class="summary-type-elem-additional"></span>
 						</div>
-						<div class="lecture-type lecture-type-right" data-type="Major Elective">
-							<span class="lecture-type-span fixed-{{ LANGUAGE_CODE }}">{% trans "전선" %}</span>
-							<span class="credit-text">0</span>
-							<span class="active-credit"></span>
+						<div class="summary-type-elem summary-type-elem-right" data-type="Major Elective">
+							<span class="summary-type-elem-title fixed-{{ LANGUAGE_CODE }}">{% trans "전선" %}</span>
+							<span class="summary-type-elem-body">0</span>
+							<span class="summary-type-elem-additional"></span>
 						</div>
-						<div class="lecture-type lecture-type-left" data-type="Humanities & Social Elective">
-							<span class="lecture-type-span fixed-{{ LANGUAGE_CODE }}">{% trans "인문" %}</span>
-							<span class="credit-text">0</span>
-							<span class="active-credit"></span>
+						<div class="summary-type-elem summary-type-elem-left" data-type="Humanities & Social Elective">
+							<span class="summary-type-elem-title fixed-{{ LANGUAGE_CODE }}">{% trans "인문" %}</span>
+							<span class="summary-type-elem-body">0</span>
+							<span class="summary-type-elem-additional"></span>
 						</div>
-						<div class="lecture-type lecture-type-right" data-type="Etc">
-							<span class="lecture-type-span fixed-{{ LANGUAGE_CODE }}">{% trans "기타" %}</span>
-							<span class="credit-text">0</span>
-							<span class="active-credit"></span>
+						<div class="summary-type-elem summary-type-elem-right" data-type="Etc">
+							<span class="summary-type-elem-title fixed-{{ LANGUAGE_CODE }}">{% trans "기타" %}</span>
+							<span class="summary-type-elem-body">0</span>
+							<span class="summary-type-elem-additional"></span>
 						</div>
 					</div>
-					<div id="total-credits">
-						<div class="total-credit">
+					<div id="summary-credit">
+						<div class="summary-credit-elem">
 							<div id="credits" class="score-text"><span class="normal">0</span><span class="active none">0</span></div>
 							<div class="score-label">{% trans "학점" %}</div>
 						</div>
-						<div class="total-credit">
+						<div class="summary-credit-elem">
 							<div id="au" class="score-text"><span class="normal">0</span><span class="active none">0</span></div>
 							<div class="score-label">{% trans "AU" %}</div>
 						</div>
 					</div>
-					<div id="table-scores">
-						<div class="table-score">
+					<div id="summary-score">
+						<div class="summary-score-elem">
 							<div id="grades" class="score-text">A-</div>
 							<div class="score-label">{% trans "성적" %}</div>
 						</div>
-						<div class="table-score">
+						<div class="summary-score-elem">
 							<div id="loads" class="score-text">B+</div>
 							<div class="score-label">{% trans "널널" %}</div>
 						</div>
-						<div class="table-score">
+						<div class="summary-score-elem">
 							<div id="speeches" class="score-text">B</div>
 							<div class="score-label">{% trans "강의" %}</div>
 						</div>
