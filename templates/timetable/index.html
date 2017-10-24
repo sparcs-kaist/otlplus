@@ -15,89 +15,87 @@
 			</div>
 			<!-- Lecture Detail Inserted Here -->
 		</div>
-		<div id="search-container">
-			<div id="search-colheaders">
-				<button class="search-chead search active"><i class="search-tab-icon"></i></button>
+		<div id="lecture-lists">
+			<div id="list-tab-wrap">
+				<button class="list-tab search active"><i class="list-tab-icon"></i></button>
 				{% for dept in departments %}
-				<button class="search-chead major" data-code="{{ dept.code }}"><i class="search-tab-icon"></i></button>
+				<button class="list-tab major" data-code="{{ dept.code }}"><i class="list-tab-icon"></i></button>
 				{% endfor %}
-				<button class="search-chead humanity"><i class="search-tab-icon"></i></button>
-				<button class="search-chead cart"><i class="search-tab-icon"></i></button>
+				<button class="list-tab humanity"><i class="list-tab-icon"></i></button>
+				<button class="list-tab cart"><i class="list-tab-icon"></i></button>
 			</div>
-			<div id="result-pages">
+			<div id="list-page-wrap">
 				<div class="list-page search-page">
 					<div class="search-extend">
 						<div class="search-form-wrap">
 							<form method="post">
 								{% csrf_token %}
 								<!-- ajax call -->
-								<div class="search-field">
-									<i class="search-icon"></i>
-									<input class="search-text" type="text" name="keyword" autocomplete="off" placeholder="{% trans '검색' %}" />
+								<div class="search-keyword">
+									<i class="search-keyword-icon"></i>
+									<input class="search-keyword-text" type="text" name="keyword" autocomplete="off" placeholder="{% trans '검색' %}" />
 								</div>
-								<div id="lecturelist-filter">
-									<div class="filters">
-										<label class="type-name fixed-{{ LANGUAGE_CODE }}">{% trans "구분" %}</label><!--
-								 --><div class="type-elem">
-											<label>
-												<input class="chkall" type="checkbox" autocomplete="off" name="type" value="ALL" />{% trans "전체" %}<i class="fa fa-circle-o fa-1x none"></i><i class="fa fa-check-circle-o fa-1x"></i>
-											</label>
-											{% for i in "1234567890" %}
-											<label>
-												{% if LANGUAGE_CODE == "en" %}
-												<input class="chkelem" type="checkbox" autocomplete="off" name="type" value="{% cycle "GR" "MGC" "BE" "BR" "EG" "HSE" "OE" "ME" "MR" "ETC" %}" />{% cycle "GR" "MGC" "BE" "BR" "EG" "HSE" "OE" "ME" "MR" "ETC" %}<i class="fa fa-circle-o fa-1x"></i><i class="fa fa-check-circle-o fa-ix none"></i>
-												{% else %}
-												<input class="chkelem" type="checkbox" autocomplete="off" name="type" value="{% cycle "GR" "MGC" "BE" "BR" "EG" "HSE" "OE" "ME" "MR" "ETC" %}" />{% cycle "공통" "교필" "기선" "기필" "석박" "인선" "자선" "전선" "전필" "기타" %}<i class="fa fa-circle-o fa-1x"></i><i class="fa fa-check-circle-o fa-ix none"></i>
-												{% endif %}
-											</label>
-											{% endfor %}
-										</div>
+								<div class="search-filter">
+									<label class="search-filter-title fixed-{{ LANGUAGE_CODE }}">{% trans "구분" %}</label><!--
+							 --><div class="search-filter-elem">
+										<label>
+											<input class="chkall" type="checkbox" autocomplete="off" name="type" value="ALL" />{% trans "전체" %}<i class="fa fa-circle-o fa-1x none"></i><i class="fa fa-check-circle-o fa-1x"></i>
+										</label>
+										{% for i in "1234567890" %}
+										<label>
+											{% if LANGUAGE_CODE == "en" %}
+											<input class="chkelem" type="checkbox" autocomplete="off" name="type" value="{% cycle "GR" "MGC" "BE" "BR" "EG" "HSE" "OE" "ME" "MR" "ETC" %}" />{% cycle "GR" "MGC" "BE" "BR" "EG" "HSE" "OE" "ME" "MR" "ETC" %}<i class="fa fa-circle-o fa-1x"></i><i class="fa fa-check-circle-o fa-ix none"></i>
+											{% else %}
+											<input class="chkelem" type="checkbox" autocomplete="off" name="type" value="{% cycle "GR" "MGC" "BE" "BR" "EG" "HSE" "OE" "ME" "MR" "ETC" %}" />{% cycle "공통" "교필" "기선" "기필" "석박" "인선" "자선" "전선" "전필" "기타" %}<i class="fa fa-circle-o fa-1x"></i><i class="fa fa-check-circle-o fa-ix none"></i>
+											{% endif %}
+										</label>
+										{% endfor %}
 									</div>
-									<div class="filters">
-										<label class="type-name fixed-{{ LANGUAGE_CODE }}">{% trans "학과" %}</label><!--
-								 --><div class="type-elem">
-											<label>
-												<input class="chkall" type="checkbox" autocomplete="off" name="department" value="ALL" />{% trans "전체" %}<i class="fa fa-circle-o fa-1x none"></i><i class="fa fa-check-circle-o fa-1x"></i>
-											</label>
-											{% for i in "123456789012345678" %}
-											<label>
-												{% if LANGUAGE_CODE == "en" %}
-												<input class="chkelem" type="checkbox" autocomplete="off" name="department" value="{% cycle "HSS" "AE" "BiS" "BS" "CBE" "CE" "CH" "CS" "EE" "ID" "IE" "MAS" "ME" "NQE" "MSB" "NS" "PH" "ETC" %}" />{% cycle "HSS" "AE" "BiS" "BS" "CBE" "CE" "CH" "CS" "EE" "ID" "IE" "MAS" "ME" "NQE" "MSB" "NS" "PH" "ETC" %}<i class="fa fa-circle-o fa-1x"></i><i class="fa fa-check-circle-o fa-ix none"></i>
-												{% else %}
-												<input class="chkelem" type="checkbox" autocomplete="off" name="department" value="{% cycle "HSS" "CE" "MSB" "ME" "PH" "BiS" "IE" "ID" "BS" "MAS" "NQE" "EE" "CS" "AE" "CH" "CBE" "NS" "ETC" %}" />{% cycle "인문" "건환" "기경" "기계" "물리" "바공" "산공" "산디" "생명" "수리" "원양" "전자" "전산" "항공" "화학" "생화공" "신소재" "기타" %}<i class="fa fa-circle-o fa-1x"></i><i class="fa fa-check-circle-o fa-ix none"></i>
-												{% endif %}
-											</label>
-											{% endfor %}
-										</div>
+								</div>
+								<div class="search-filter">
+									<label class="search-filter-title fixed-{{ LANGUAGE_CODE }}">{% trans "학과" %}</label><!--
+							 --><div class="search-filter-elem">
+										<label>
+											<input class="chkall" type="checkbox" autocomplete="off" name="department" value="ALL" />{% trans "전체" %}<i class="fa fa-circle-o fa-1x none"></i><i class="fa fa-check-circle-o fa-1x"></i>
+										</label>
+										{% for i in "123456789012345678" %}
+										<label>
+											{% if LANGUAGE_CODE == "en" %}
+											<input class="chkelem" type="checkbox" autocomplete="off" name="department" value="{% cycle "HSS" "AE" "BiS" "BS" "CBE" "CE" "CH" "CS" "EE" "ID" "IE" "MAS" "ME" "NQE" "MSB" "NS" "PH" "ETC" %}" />{% cycle "HSS" "AE" "BiS" "BS" "CBE" "CE" "CH" "CS" "EE" "ID" "IE" "MAS" "ME" "NQE" "MSB" "NS" "PH" "ETC" %}<i class="fa fa-circle-o fa-1x"></i><i class="fa fa-check-circle-o fa-ix none"></i>
+											{% else %}
+											<input class="chkelem" type="checkbox" autocomplete="off" name="department" value="{% cycle "HSS" "CE" "MSB" "ME" "PH" "BiS" "IE" "ID" "BS" "MAS" "NQE" "EE" "CS" "AE" "CH" "CBE" "NS" "ETC" %}" />{% cycle "인문" "건환" "기경" "기계" "물리" "바공" "산공" "산디" "생명" "수리" "원양" "전자" "전산" "항공" "화학" "생화공" "신소재" "기타" %}<i class="fa fa-circle-o fa-1x"></i><i class="fa fa-check-circle-o fa-ix none"></i>
+											{% endif %}
+										</label>
+										{% endfor %}
 									</div>
-									<div class="filters">
-										<label class="type-name fixed-{{ LANGUAGE_CODE }}">{% trans "학년" %}</label><!--
-								 --><div class="type-elem">
-											<label>
-												<input class="chkall" type="checkbox" autocomplete="off" name="grade" value="ALL" />{% trans "전체" %}<i class="fa fa-circle-o fa-1x none"></i><i class="fa fa-check-circle-o fa-1x"></i>
-											</label>
-											{% for i in "012345" %}
-											<label>
-												{% if LANGUAGE_CODE == "en" %}
-												<input class="chkelem" type="checkbox" autocomplete="off" name="grade" value="{% cycle "000" "100" "200" "300" "400" "ETC" %}" />{% cycle "000s" "100s" "200s" "300s" "400s" "ETC" %}<i class="fa fa-circle-o fa-1x"></i><i class="fa fa-check-circle-o fa-ix none"></i>
-												{% else %}
-												<input class="chkelem" type="checkbox" autocomplete="off" name="grade" value="{% cycle "000" "100" "200" "300" "400" "ETC" %}" />{% cycle "000번대" "100번대" "200번대" "300번대" "400번대" "기타" %}<i class="fa fa-circle-o fa-1x"></i><i class="fa fa-check-circle-o fa-ix none"></i>
-												{% endif %}
-											</label>
-											{% endfor %}
-										</div>
+								</div>
+								<div class="search-filter">
+									<label class="search-filter-title fixed-{{ LANGUAGE_CODE }}">{% trans "학년" %}</label><!--
+							 --><div class="search-filter-elem">
+										<label>
+											<input class="chkall" type="checkbox" autocomplete="off" name="grade" value="ALL" />{% trans "전체" %}<i class="fa fa-circle-o fa-1x none"></i><i class="fa fa-check-circle-o fa-1x"></i>
+										</label>
+										{% for i in "012345" %}
+										<label>
+											{% if LANGUAGE_CODE == "en" %}
+											<input class="chkelem" type="checkbox" autocomplete="off" name="grade" value="{% cycle "000" "100" "200" "300" "400" "ETC" %}" />{% cycle "000s" "100s" "200s" "300s" "400s" "ETC" %}<i class="fa fa-circle-o fa-1x"></i><i class="fa fa-check-circle-o fa-ix none"></i>
+											{% else %}
+											<input class="chkelem" type="checkbox" autocomplete="off" name="grade" value="{% cycle "000" "100" "200" "300" "400" "ETC" %}" />{% cycle "000번대" "100번대" "200번대" "300번대" "400번대" "기타" %}<i class="fa fa-circle-o fa-1x"></i><i class="fa fa-check-circle-o fa-ix none"></i>
+											{% endif %}
+										</label>
+										{% endfor %}
 									</div>
-									<div class="filters filter-time">
-										<label class="type-name fixed-{{ LANGUAGE_CODE }}">{% trans "시간" %}</label><!--
-								 --><div class="type-elem">
-											<label>
-												{% trans "시간표에서 드래그" %}
-											</label>
-										</div>
-										<input id="filter-time-day" name="day" type="text">
-										<input id="filter-time-begin" name="begin" type="text">
-										<input id="filter-time-end" name="end" type="text">
+								</div>
+								<div class="search-filter search-filter-time">
+									<label class="search-filter-title fixed-{{ LANGUAGE_CODE }}">{% trans "시간" %}</label><!--
+							 --><div class="search-filter-elem">
+										<label>
+											{% trans "시간표에서 드래그" %}
+										</label>
 									</div>
+									<input id="search-filter-time-day" name="day" type="text">
+									<input id="search-filter-time-begin" name="begin" type="text">
+									<input id="search-filter-time-end" name="end" type="text">
 								</div>
 								<div style="height:13px">
 									<span type="button" id="search-button">{% trans '검색' %}</span>
@@ -106,8 +104,8 @@
 							</form>
 						</div>
 					</div>
-					<div class="result-message">
-						<i class="result-icon"></i><div class="result-text">{% trans '검색' %}</div>
+					<div class="list-page-title search-page-title">
+						<i class="search-page-title-icon"></i><div class="search-page-title-text">{% trans '검색' %}</div>
 					</div>
 					<div class="nano">
 						<div class="list-scroll nano-content">
@@ -116,7 +114,7 @@
 					</div>
 				</div>
 				<div class="list-page cart-page none">
-					<div class="page-title">
+					<div class="list-page-title">
 						{% trans "장바구니" %}
 					</div>
 					<div class="nano">
@@ -127,7 +125,7 @@
 				</div>
 				{% for dept in departments %}
 				<div class="list-page major-page none" data-code="{{ dept.code }}">
-					<div class="page-title">
+					<div class="list-page-title">
 						{{ dept.name }}
 					</div>
 					<div class="nano">
@@ -138,7 +136,7 @@
 				</div>
 				{% endfor %}
 				<div class="list-page humanity-page none">
-					<div class="page-title">
+					<div class="list-page-title">
 						{% trans "인문사회선택" %}
 					</div>
 					<div class="nano">
@@ -148,13 +146,13 @@
 					</div>
 				</div>
 			</div>
-		</div><!--div search-container-->
+		</div><!--div lecture-lists-->
 	</div><!--div left-side-->	
 	<div id="center">
 		<div id="timetable-menu">
-			<div id="timetable-tabs" style="clear:both;">
+			<div id="timetable-tabs">
 				<!-- Timetable Tabs Inserted Here -->
-				<a href="#/1" class="timetable-tab" style="pointer-events:none;"><span class="timetable-num">불러오는 중</span></a>
+				<div class="timetable-tab" style="pointer-events:none;"><span class="timetable-num">불러오는 중</span></div>
 			</div>
                         <div id="semester">
 				<i id="semester-prev"></i>
@@ -430,59 +428,59 @@
 						{% endfor %}
 					</div>
 				</div>
-				<div id="info">
-					<div id="type-credits">
-						<div class="lecture-type lecture-type-left" data-type="Basic Required">
-							<span class="lecture-type-span fixed-{{ LANGUAGE_CODE }}">{% trans "기필" %}</span>
-							<span class="credit-text">0</span>
-							<span class="active-credit"></span>
+				<div id="summary">
+					<div id="summary-type">
+						<div class="summary-type-elem summary-type-elem-left" data-type="Basic Required">
+							<span class="summary-type-elem-title fixed-{{ LANGUAGE_CODE }}">{% trans "기필" %}</span>
+							<span class="summary-type-elem-body">0</span>
+							<span class="summary-type-elem-additional"></span>
 						</div>
-						<div class="lecture-type lecture-type-right" data-type="Basic Elective">
-							<span class="lecture-type-span fixed-{{ LANGUAGE_CODE }}">{% trans "기선" %}</span>
-							<span class="credit-text">0</span>
-							<span class="active-credit"></span>
+						<div class="summary-type-elem summary-type-elem-right" data-type="Basic Elective">
+							<span class="summary-type-elem-title fixed-{{ LANGUAGE_CODE }}">{% trans "기선" %}</span>
+							<span class="summary-type-elem-body">0</span>
+							<span class="summary-type-elem-additional"></span>
 						</div>
-						<div class="lecture-type lecture-type-left" data-type="Major Required">
-							<span class="lecture-type-span fixed-{{ LANGUAGE_CODE }}">{% trans "전필" %}</span>
-							<span class="credit-text">0</span>
-							<span class="active-credit"></span>
+						<div class="summary-type-elem summary-type-elem-left" data-type="Major Required">
+							<span class="summary-type-elem-title fixed-{{ LANGUAGE_CODE }}">{% trans "전필" %}</span>
+							<span class="summary-type-elem-body">0</span>
+							<span class="summary-type-elem-additional"></span>
 						</div>
-						<div class="lecture-type lecture-type-right" data-type="Major Elective">
-							<span class="lecture-type-span fixed-{{ LANGUAGE_CODE }}">{% trans "전선" %}</span>
-							<span class="credit-text">0</span>
-							<span class="active-credit"></span>
+						<div class="summary-type-elem summary-type-elem-right" data-type="Major Elective">
+							<span class="summary-type-elem-title fixed-{{ LANGUAGE_CODE }}">{% trans "전선" %}</span>
+							<span class="summary-type-elem-body">0</span>
+							<span class="summary-type-elem-additional"></span>
 						</div>
-						<div class="lecture-type lecture-type-left" data-type="Humanities & Social Elective">
-							<span class="lecture-type-span fixed-{{ LANGUAGE_CODE }}">{% trans "인문" %}</span>
-							<span class="credit-text">0</span>
-							<span class="active-credit"></span>
+						<div class="summary-type-elem summary-type-elem-left" data-type="Humanities & Social Elective">
+							<span class="summary-type-elem-title fixed-{{ LANGUAGE_CODE }}">{% trans "인문" %}</span>
+							<span class="summary-type-elem-body">0</span>
+							<span class="summary-type-elem-additional"></span>
 						</div>
-						<div class="lecture-type lecture-type-right" data-type="Etc">
-							<span class="lecture-type-span fixed-{{ LANGUAGE_CODE }}">{% trans "기타" %}</span>
-							<span class="credit-text">0</span>
-							<span class="active-credit"></span>
+						<div class="summary-type-elem summary-type-elem-right" data-type="Etc">
+							<span class="summary-type-elem-title fixed-{{ LANGUAGE_CODE }}">{% trans "기타" %}</span>
+							<span class="summary-type-elem-body">0</span>
+							<span class="summary-type-elem-additional"></span>
 						</div>
 					</div>
-					<div id="total-credits">
-						<div class="total-credit">
+					<div id="summary-credit">
+						<div class="summary-credit-elem">
 							<div id="credits" class="score-text"><span class="normal">0</span><span class="active none">0</span></div>
 							<div class="score-label">{% trans "학점" %}</div>
 						</div>
-						<div class="total-credit">
+						<div class="summary-credit-elem">
 							<div id="au" class="score-text"><span class="normal">0</span><span class="active none">0</span></div>
 							<div class="score-label">{% trans "AU" %}</div>
 						</div>
 					</div>
-					<div id="table-scores">
-						<div class="table-score">
+					<div id="summary-score">
+						<div class="summary-score-elem">
 							<div id="grades" class="score-text">A-</div>
 							<div class="score-label">{% trans "성적" %}</div>
 						</div>
-						<div class="table-score">
+						<div class="summary-score-elem">
 							<div id="loads" class="score-text">B+</div>
 							<div class="score-label">{% trans "널널" %}</div>
 						</div>
-						<div class="table-score">
+						<div class="summary-score-elem">
 							<div id="speeches" class="score-text">B</div>
 							<div class="score-label">{% trans "강의" %}</div>
 						</div>
@@ -491,45 +489,35 @@
 				<div id="examtitle"><span>{% trans "시험시간표" %}</span></div>
 				<div id="examtable" class="nano">
 					<div class="list-scroll nano-content">
-						<div class="examtime" data-date="mon">
-							<div class="exam-chead fixed-{{ LANGUAGE_CODE }}"><span>{% trans "월" %}</span></div>
-							<div class="exam-body">
-								<ul id="examlist1" class="examlist">
-									<!-- Exams inserted here -->
-								</ul>
-							</div>
+						<div class="exam-day" data-date="mon">
+							<div class="exam-day-title fixed-{{ LANGUAGE_CODE }}"><span>{% trans "월" %}</span></div>
+							<ul class="exam-day-body">
+								<!-- Exams inserted here -->
+							</ul>
 						</div>
-						<div class="examtime" data-date="tue">
-							<div class="exam-chead fixed-{{ LANGUAGE_CODE }}"><span>{% trans "화" %}</span></div>
-							<div class="exam-body">
-								<ul id="examlist2" class="examlist">
-									<!-- Exams inserted here -->
-								</ul>
-							</div>
+						<div class="exam-day" data-date="tue">
+							<div class="exam-day-title fixed-{{ LANGUAGE_CODE }}"><span>{% trans "화" %}</span></div>
+							<ul class="exam-day-body">
+								<!-- Exams inserted here -->
+							</ul>
 						</div>
-						<div class="examtime" data-date="wed">
-							<div class="exam-chead fixed-{{ LANGUAGE_CODE }}"><span>{% trans "수" %}</span></div>
-							<div class="exam-body">
-								<ul id="examlist3" class="examlist">
-									<!-- Exams inserted here -->
-								</ul>
-							</div>
+						<div class="exam-day" data-date="wed">
+							<div class="exam-day-title fixed-{{ LANGUAGE_CODE }}"><span>{% trans "수" %}</span></div>
+							<ul class="exam-day-body">
+								<!-- Exams inserted here -->
+							</ul>
 						</div>
-						<div class="examtime" data-date="thu">
-							<div class="exam-chead fixed-{{ LANGUAGE_CODE }}"><span>{% trans "목" %}</span></div>
-							<div class="exam-body">
-								<ul id="examlist4" class="examlist">
-									<!-- Exams inserted here -->
-								</ul>
-							</div>
+						<div class="exam-day" data-date="thu">
+							<div class="exam-day-title fixed-{{ LANGUAGE_CODE }}"><span>{% trans "목" %}</span></div>
+							<ul class="exam-day-body">
+								<!-- Exams inserted here -->
+							</ul>
 						</div>
-						<div class="examtime" data-date="fri">
-							<div class="exam-chead fixed-{{ LANGUAGE_CODE }}"><span>{% trans "금" %}</span></div>
-							<div class="exam-body">
-								<ul id="examlist5" class="examlist">
-									<!-- Exams inserted here -->
-								</ul>
-							</div>
+						<div class="exam-day" data-date="fri">
+							<div class="exam-day-title fixed-{{ LANGUAGE_CODE }}"><span>{% trans "금" %}</span></div>
+							<ul  class="exam-day-body">
+								<!-- Exams inserted here -->
+							</ul>
 						</div>
 					</div>
 				</div><!--div exam-table-->
@@ -551,53 +539,53 @@
 </div>
 
 <script type="text/template" id="timetable-lecture-template">
-<div class="lecture-block color<%- color %> <% if (temp) {%>lecture-block-temp active<% } %>" style = "height:calc(<%- cells*100 %>% + <%- cells-3 %>px)" data-id="<%- id %>">
-  <i class="lecture-delete"></i>
-  <div class="lecture-block-content">
-    <p class="timetable-lecture-name"><%- title %></p>
-    <p class="timetable-lecture-info"><%- professor %></p>
-    <p class="timetable-lecture-info"><%- classroom %></p>
-  </div>
-  <% for (var i=0, occ; occ=occupied[i]; i++) { %>
-  <div class="lecture-occupied" style="top:calc((100% + 3px) * <%- occ[0]/cells %>); height:calc((100% + 3px) * <%- occ[1]/cells %> - 3px);"></div>
+  <div class="lecture-block color<%- color %> <% if (temp) {%>lecture-block-temp active<% } %>" style = "height:calc(<%- cells*100 %>% + <%- cells-3 %>px)" data-id="<%- id %>">
+    <i class="lecture-delete"></i>
+    <div class="lecture-block-content">
+      <p class="timetable-lecture-name"><%- title %></p>
+      <p class="timetable-lecture-info"><%- professor %></p>
+      <p class="timetable-lecture-info"><%- classroom %></p>
+    </div>
+    <% for (var i=0, occ; occ=occupied[i]; i++) { %>
+    <div class="lecture-occupied" style="top:calc((100% + 3px) * <%- occ[0]/cells %>); height:calc((100% + 3px) * <%- occ[1]/cells %> - 3px);"></div>
   <% } %>
-</div>
+  </div>
 </script>
 
 <script type="text/template" id="list-template">
-<% _.each(courses, function(course) { %>
-<div class="list-elem">
-  <div class="list-elem-title"><strong><%- course[0].get('common_title') %></strong> <%- course[0].get('old_code') %></div>
-  <% _.each(course, function(lecture) { %>
-  <div class="list-elem-body-wrap" data-id="<%- lecture.get('id') %>">
-    <div class="list-elem-body">
-      <div class="list-elem-body-text">
-      	<% switch (lecture.get('class_title').length) { case 1: %>
-        <strong class="class-title fixed-1" ><%- lecture.get('class_title') %></strong>
-        <% break; case 2: %>
-        <strong class="class-title fixed-2" ><%- lecture.get('class_title') %></strong>
-      	<% break; default: %>
-        <strong class="class-title" ><%- lecture.get('class_title') %></strong>
-      	<% } %>
-      	<span class="class-prof">
-        <%- lecture.get('professor_short') %>
-      	</span>
-       </div>
-       <% if (!cart) { %>
-       <i class="add-to-cart"></i>
-       <% } else { %>
-       <i class="delete-from-cart"></i>
-       <% } %>
-       <i class="add-to-table"></i>
+  <% _.each(courses, function(course) { %>
+  <div class="list-elem">
+    <div class="list-elem-title"><strong><%- course[0].get('common_title') %></strong> <%- course[0].get('old_code') %></div>
+    <% _.each(course, function(lecture) { %>
+    <div class="list-elem-body-wrap" data-id="<%- lecture.get('id') %>">
+      <div class="list-elem-body">
+        <div class="list-elem-body-text">
+      	  <% switch (lecture.get('class_title').length) { case 1: %>
+          <strong class="class-title fixed-1" ><%- lecture.get('class_title') %></strong>
+          <% break; case 2: %>
+          <strong class="class-title fixed-2" ><%- lecture.get('class_title') %></strong>
+      	  <% break; default: %>
+          <strong class="class-title" ><%- lecture.get('class_title') %></strong>
+      	  <% } %>
+      	  <span class="class-prof">
+          <%- lecture.get('professor_short') %>
+      	  </span>
+         </div>
+         <% if (!cart) { %>
+         <i class="add-to-cart"></i>
+         <% } else { %>
+         <i class="delete-from-cart"></i>
+         <% } %>
+         <i class="add-to-table"></i>
+      </div>
     </div>
+    <% }); %>
   </div>
   <% }); %>
-</div>
-<% }); %>
 </script>
 
 <script type="text/template" id="lecture-detail-template">
-  <div class="lecture-detail">
+	<div class="lecture-detail">
 		<div id="course-title" style="text-align:center;"><span><%- title %></span></div>
 		<div id="course-no" style="text-align:center;"><span><%- old_code %><% if(class_no.length>0) { %> (<%- class_no %>)<% } %></span></div>
 		<div class="lecture-options">
@@ -669,54 +657,58 @@
 				</div>
 			</div>
 		</div>
-  </div>
+	</div>
 </script>
 
 <script type="text/template" id="timetable-tab-template">
-<% _.each(ids, function(id, idx){ %>
-<a href="#/<%- idx+1 %>" class="timetable-tab" data-id="<%- id %>"><span class="timetable-num">{% trans "시간표" %} <%- idx+1 %></span><span class="hidden-option"><i class="duplicate-table"></i><i class="delete-table"></i></span></a>
-<% }); %>
-<a class="timetable-add"><span class="timetable-num"><i class="add-table"></i></span></a>
+	<% _.each(ids, function(id, idx){ %>
+	<div class="timetable-tab" data-id="<%- id %>">
+		<span class="timetable-num">{% trans "시간표" %} <%- idx+1 %></span><span class="hidden-option"><i class="duplicate-table"></i><i class="delete-table"></i></span>
+	</div>
+	<% }); %>
+	<div class="timetable-add">
+		<span class="timetable-num"><i class="add-table"></i></span>
+	</div>
 </script>
 
 
 <script type="text/template" id="exam-template">
-<li class="exam-box <% if (temp) { %>temp active<% } %>" data-id=<%- id %> style="order:<%- startTime %>;">
-	<div class="exam-course"><%- title %></div>
-	<div class="exam-time"><%- examTime %></div>
-</li>
+	<li class="exam-elem <% if (temp) { %>temp active<% } %>" data-id=<%- id %> style="order:<%- startTime %>;">
+		<div class="exam-elem-title"><%- title %></div>
+		<div class="exam-elem-body"><%- examTime %></div>
+	</li>
 </script>
 
 <script type="text/template" id="semester-lecture-template">
-<div class="lecture-detail">
-	<div id="course-title" style="text-align:center;"><span><%- title %></span></div>
-	<div id="course-no" style="text-align:center;"><span><%- lectures.length %>{% trans "개의 과목" %}</span></div>
-	<div class="lecture-options">
-		<span id="fix-option" class="disable" style="float:left;">{% trans "고정해제" %}</span>
-		<span id="syllabus-option" class="disable">{% trans "실라버스" %}</span>&nbsp;
-		<span id="dictionary-option" class="disable">{% trans "과목사전" %}</span>
+	<div class="lecture-detail">
+		<div id="course-title" style="text-align:center;"><span><%- title %></span></div>
+		<div id="course-no" style="text-align:center;"><span><%- lectures.length %>{% trans "개의 과목" %}</span></div>
+		<div class="lecture-options">
+			<span id="fix-option" class="disable" style="float:left;">{% trans "고정해제" %}</span>
+			<span id="syllabus-option" class="disable">{% trans "실라버스" %}</span>&nbsp;
+			<span id="dictionary-option" class="disable">{% trans "과목사전" %}</span>
+		</div>
+		<div class="detail-top">
+			<% _.each(lectures, function(lecture){ %>
+			<div class="basic-info"><span style="font-weight:700;"><%- lecture.title %>&nbsp;&nbsp;</span><span id="department"><%- lecture.info %></span></div>
+			<% }); %>
+		</div>
 	</div>
-	<div class="detail-top">
-		<% _.each(lectures, function(lecture){ %>
-		<div class="basic-info"><span style="font-weight:700;"><%- lecture.title %>&nbsp;&nbsp;</span><span id="department"><%- lecture.info %></span></div>
-		<% }); %>
-	</div>
-</div>
 </script>
 
 <script type="text/template" id="comment-template">
-<% _.each(comments, function(c){ %>
-<a href="/review/result/comment/<%- c.id %>" target="_blank" style="display:block;">
-	<div class="review-elem">
-		<div class="review-body">
-			<%- c.comment %>
+	<% _.each(comments, function(c){ %>
+	<a href="/review/result/comment/<%- c.id %>" target="_blank" style="display:block;">
+		<div class="review-elem">
+			<div class="review-body">
+				<%- c.comment %>
+			</div>
+			<div class="review-score-wrap">
+				<span class="review-score">{% trans "성적" %} <strong><%- c.grade %></strong></span><span class="review-score">{% trans "널널" %} <strong><%- c.load %></strong></span><span class="review-score">{% trans "강의" %} <strong><%- c.speech %></strong></span>
+			</div>
 		</div>
-		<div class="review-score-wrap">
-			<span class="review-score">{% trans "성적" %} <strong><%- c.grade %></strong></span><span class="review-score">{% trans "널널" %} <strong><%- c.load %></strong></span><span class="review-score">{% trans "강의" %} <strong><%- c.speech %></strong></span>
-		</div>
-	</div>
-</a>
-<% }); %>
+	</a>
+	<% }); %>
 </script>
 {% endblock %}
 
