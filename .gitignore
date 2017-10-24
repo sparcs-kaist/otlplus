@@ -1,6 +1,7 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
+#settings.py
 settings_local.py
 #credit images
 img/credit/
@@ -31,7 +32,6 @@ var/
 .installed.cfg
 *.egg
 .DS_Store
-settings_local.py
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -94,3 +94,6 @@ db_update_script.sh
 update_taken_lecture_user.py
 update_scholardb.py
 db_update_script.log
+
+# file for atom editor remote ftp plugin. contains confidential(ssh account info)
+.ftpconfig

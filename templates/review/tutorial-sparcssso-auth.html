@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <title>SPARCS SSO</title>
+    <title>SPARCS SSO 로그인</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 
@@ -14,9 +14,13 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 
     <link rel="stylesheet" type="text/css" href="/media/css/sso_register.css">
-
     <!-- Attach Joyride CSS -->
     <link rel="stylesheet" href="/media/js/joyride-master/joyride-2.1.css">
+    <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.11.3/jquery-ui.min.js"></script>
+    <script src="/static/js/validator.min.js"></script>
+
+
 
 </head>
 <body>
@@ -28,27 +32,27 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/">SPARCS SSO</a>
+                <a class="navbar-brand" href="#">SPARCS SSO</a>
             </div>
 
             <div class="collapse navbar-collapse" id="navbar">
                 <ul class="nav navbar-nav">
-                    <li><a href="/stats/">통계</a></li>
-                    <li><a href="/help/">도움말</a></li>
+                    <li><a href="#">통계</a></li>
+                    <li><a href="#">도움말</a></li>
 
 
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
 
                     <li><a href="#">회원가입</a></li>
-                    <li><a id="stop-login-menu" href="#">로그인</a></li>
+                    <li><a href="#">로그인</a></li>
                     <li><a href="#">비밀번호 재설정</a></li>
 
                     <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">한국어 <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="/lang/ko/">한국어</a></li>
-                            <li><a href="/lang/en/">English</a></li>
+                            <li><a href="#">한국어</a></li>
+                            <li><a href="#">English</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -57,29 +61,62 @@
     </nav>
     <section class="container">
 
+<div class="alert-wrap">
+
+</div>
+
+<h1>SPARCS SSO 로그인</h1>
+<p>SPARCS SSO에 오신 것을 환영합니다!</p>
 
 
-<div class="jumbotron" style="margin-top:20px">
-    <h1>SPARCS SSO</h1>
-    <p>SPARCS 통합 인증에 오신 것을 환영합니다!</p>
-    <p>현재 SPARCS SSO를 통해 다음 서비스를 사용할 수 있습니다.</p>
-    <div class="service-row">
+<div class="row login-form">
+    <div class="col col-wrap">
 
-        <div class="service">
-            <a href="https://otlplus.sparcs.org/"><img src="/media/otl.jpg" alt="otlplus"></a>
-            <p>OTL Plus</p>
+
+
+
+    <form class="form-horizontal" action="/account/login/" method="post">
+        <input type='hidden' name='csrfmiddlewaretoken' value='lHRL6giOxkqw459iWe2tGBzz2KXcL8EtnRLNm74QIOQnWXlNZiCzcku79istGyyc' />
+        <div class="form-group">
+            <div class="col-xs-12">
+                <input type="email" class="form-control" name="email" placeholder="이메일" required="required">
+            </div>
         </div>
-
+        <div class="form-group">
+            <div class="col-xs-12">
+                <input type="password" class="form-control" name="password" placeholder="비밀번호" required="required">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-xs-12">
+                <button type="submit" class="btn btn-default btn-block btn-login">이메일로 로그인</button>
+            </div>
+            <div class="col-xs-12 login-email-links">
+                <a href="#">회원가입</a> / <a href="#">비밀번호 재설정</a>
+            </div>
+        </div>
+    </form>
+    <hr/>
+    <div class="login-social-wrap">
+        <button id="stop-auth-kaist" class="btn btn-default btn-block btn-login btn-kaist ">
+            카이스트 통합인증으로 로그인 / 가입
+        </button>
+        <button class="btn btn-default btn-block btn-login btn-facebook">
+            <img src="/media/img/fb.png" alt="Facebook Logo">페이스북으로 로그인 / 가입
+        </button>
+        <button class="btn btn-default btn-block btn-login btn-twitter">
+            <img src="/media/img/tw-white.png" alt="Twitter Logo">트위터로 로그인 / 가입
+        </button>
     </div>
 </div>
 
     </section>
     <footer class="container">
         <p class="info">
-            <a href="/credits/">만든 사람들</a> |
-            <a href="/contact/">연락하기</a> |
-            <a href="/terms/">이용 약관</a> |
-            <a href="/privacy/">개인정보취급방침</a>
+            <a href="#">만든 사람들</a> |
+            <a href="#">연락하기</a> |
+            <a href="#">이용 약관</a> |
+            <a href="#">개인정보취급방침</a>
         </p>
         <p class="info">
             <a href="#">개발팀 (sso (at) sparcs.org)</a> |
@@ -95,9 +132,9 @@
 
     <!-- Tip Content -->
 <ol id="joyRideTipContent">
-   <li data-id="stop-login-menu" data-button="Next" data-prev-text="Prev" data-options="tipLocation:left;tipAnimation:fade;prev_button:true">
-     <h2>로그인 메뉴</h2>
-     <p>가입하지 않으셨더라도 상단의 로그인 메뉴로 들어가주세요.</p>
+   <li data-id="stop-auth-kaist" data-button="Next" data-prev-text="Prev" data-options="tipLocation:right;tipAnimation:fade;prev_button:true">
+     <h2>카이스트 포탈 인증</h2>
+     <p>카이스트 통합인증으로 로그인/가입을 누르시면 포탈 인증이 진행됩니다. 다음으로 후기 작성에 대해 알아보겠습니다.</p>
    </li>
  </ol>
 
@@ -125,24 +162,18 @@
         $(location).attr('href', "../")
     });
     $(document).on("click",".joyride-next-tip:eq(0)", function() {
-        $(location).attr('href', "../tutorial2_auth")
+        $(location).attr('href', "../tutorial3")
     });
     $(window).resize(function() {
         if ($(window).width()<768){
             $(location).attr('href', "/main")
         };
     });
-      $(document).ready(function(){
-        if ($(window).width()<768){
-          $(location).attr('href', "/main")
-        };
-      });
-   $(document).keydown(function(e) {
-      if (e.keyCode == 27) {
-	     window.location.replace("/");
-      }
-   });
-
-     </script>
-        </body>
+  $(document).ready(function(){
+    if ($(window).width()<768){
+      $(location).attr('href', "/main")
+    };
+  });
+ </script>
+</body>
 </html>

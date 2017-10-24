@@ -32,7 +32,10 @@ class Client:
 
         BASE_URL = '%s%s%s' % (self.DOMAIN, self.API_PREFIX, self.VERSION_PREFIX)
 
-        self.URLS = {k: '%s%s' % (BASE_URL, v) for k, v in self.URLS.iteritems()}
+        tmp_URLS = dict()
+        for k in self.URLS:
+            tmp_URLS[k] = '%s%s' % (BASE_URL, self.URLS[k])
+        self.URLS = tmp_URLS
 
         self.client_id = client_id
         self.secret_key = secret_key
