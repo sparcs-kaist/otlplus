@@ -184,4 +184,7 @@ a:hover{
     }
 
 }
+.btn:focus{
+	outline:0 !important;
+}
 /*# sourceMappingURL=result.css.map */

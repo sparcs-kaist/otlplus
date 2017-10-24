@@ -17,6 +17,7 @@ import os
 import datetime
 import subprocess
 from django.db.models import Q
+from django.conf import settings
 
 import urlparse
 import requests
@@ -43,7 +44,7 @@ def user_login(request):
 
 @require_http_methods(['GET'])
 def login_callback(request):
-    redirect_url = request.session.pop('next', '/')
+    next = request.session.pop('next', '/')
     state_before = request.session.get('sso_state', 'default before state')
     state = request.GET.get('state', 'default state')
 
@@ -62,6 +63,9 @@ def login_callback(request):
         student_id = kaist_info.get('ku_std_no')
     except:
         student_id = ''
+
+    if student_id is None:
+        student_id= ''
 
     if len(user_list) == 0:
         user = User.objects.create_user(username=username,
@@ -86,7 +90,7 @@ def login_callback(request):
 
         user = authenticate(username=username)
         login(request, user)
-        return redirect(redirect_url)
+        return redirect(next)
     else:
         user = authenticate(username=user_list[0].username)
         user.first_name=sso_profile['first_name']
@@ -101,7 +105,7 @@ def login_callback(request):
                 os.chdir('/var/www/otlplus/')
             os.system('python update_taken_lecture_user.py %s' % student_id)
         login(request, user)
-        return redirect(redirect_url)
+        return redirect(next)
     return render(request, 'session/login_error.html',
                   {'error_title': "Login Error",
                    'error_message': "No such that user"})
@@ -110,12 +114,12 @@ def login_callback(request):
 def user_logout(request):
     if request.user.is_authenticated():
         sid = UserProfile.objects.get(user=request.user).sid
-        redirect_url = request.GET.get('next', '/')
+        redirect_url = request.GET.get('next', request.build_absolute_uri('/'))
         logout_url = sso_client.get_logout_url(sid, redirect_url)
         logout(request)
         request.session['visited'] = True
-        return HttpResponseRedirect(logout_url)
-    return HttpResponseRedirect("/main")
+        return redirect(logout_url)
+    return redirect("/main")
 
 
 @login_required(login_url='/session/login/')
