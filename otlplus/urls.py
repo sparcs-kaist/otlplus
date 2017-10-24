@@ -44,6 +44,7 @@ urlpatterns = [
     url(r'^tutorial_again/$', review_views.search_view_first_again),
     url(r'^tutorial/$', review_views.search_view_first),
     url(r'^tutorial2/$', review_views.search_view_first2),
+    url(r'^tutorial2_auth/$', review_views.search_view_first2_auth),
     url(r'^tutorial3/$', review_views.search_view_first3),
     url(r'^tutorial4/$', review_views.search_view_first4),
     url(r'^credits/$', review_views.credits),
