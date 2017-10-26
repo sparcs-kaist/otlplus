@@ -183,7 +183,6 @@ function findLecture(lectures, id) {
     _sizeBlock: function(blocks) {
       var cell = $("#timetable-wrap").find(".half").first();
       var cellHeight = cell.height()+1;
-      console.log(cellHeight);
 
       blocks.each(function() {
         var block = $(this);
