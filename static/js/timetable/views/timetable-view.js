@@ -55,7 +55,7 @@ function findLecture(lectures, id) {
       this.isBubbling = false;
       this.isDragging = false;
       this.isBlockClick = false;
-      $(window).on("resize", this.render);
+      $(window).on("resize", this.resize);
     },
 
     el: '#timetable-wrap',
@@ -89,14 +89,14 @@ function findLecture(lectures, id) {
 
         this.firstBlock = $(e.currentTarget);
         this.secondBlock = $(e.currentTarget);
-        this.render();
+        this.resize();
       }
     },
 
     dragMove: function (e) {
       if (this.isDragging) {
         this.secondBlock = $(e.currentTarget);
-        this.render();
+        this.resize();
       }
     },
 
@@ -164,7 +164,7 @@ function findLecture(lectures, id) {
       return hour*2 + min/30;
     },
 
-    render: function () {
+    resize: function () {
       if(timetableView.firstBlock) {
         var left = timetableView.firstBlock.offset().left - $(timetableView.el).offset().left - 1;
         var width = timetableView.firstBlock.width() + 2;
@@ -176,6 +176,20 @@ function findLecture(lectures, id) {
         $(timetableView.dragCell).css('top', top+'px');
         $(timetableView.dragCell).css('height', height+'px');
       }
+
+      var cell = $("#timetable-wrap").find(".half").first();
+      var cellHeight = cell.height()+1;
+      console.log(cellHeight);
+
+      $(".lecture-block").each(function() {
+        var block = $(this);
+        block.css('height', (cellHeight * block.attr('data-size') - 3) + 'px');
+        block.find(".lecture-occupied").each(function() {
+          var occBlock = $(this);
+          occBlock.css('top', (cellHeight * occBlock.attr('data-pos')) + 'px');
+          occBlock.css('height', (cellHeight * occBlock.attr('data-size') - 3) + 'px');
+        });
+      })
     },
 
     blockHover: function (e) {
@@ -295,6 +309,8 @@ function findLecture(lectures, id) {
                                     occupied: occupied,
                                     temp: isTemp,}));
       }
+
+      this.resize();
     },
 
     _addBlockWithoutTime: function(lecture, isTemp, idx) {
@@ -309,6 +325,8 @@ function findLecture(lectures, id) {
                                        cells: 3,
                                        occupied: [],
                                        temp: isTemp,}));
+
+      this.resize();
     },
 
     _removeAllBlocks: function() {
