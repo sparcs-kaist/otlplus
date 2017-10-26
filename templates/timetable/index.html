@@ -539,7 +539,7 @@
 </div>
 
 <script type="text/template" id="timetable-lecture-template">
-  <div class="lecture-block color<%- color %> <% if (temp) {%>lecture-block-temp active<% } %>" style = "height:calc(<%- cells*100 %>% + <%- cells-3 %>px)" data-id="<%- id %>">
+  <div class="lecture-block color<%- color %> <% if (temp) {%>lecture-block-temp active<% } %>" data-size="<%- cells %>" data-id="<%- id %>">
     <i class="lecture-delete"></i>
     <div class="lecture-block-content">
       <p class="timetable-lecture-name"><%- title %></p>
@@ -547,7 +547,7 @@
       <p class="timetable-lecture-info"><%- classroom %></p>
     </div>
     <% for (var i=0, occ; occ=occupied[i]; i++) { %>
-    <div class="lecture-occupied" style="top:calc((100% + 3px) * <%- occ[0]/cells %>); height:calc((100% + 3px) * <%- occ[1]/cells %> - 3px);"></div>
+    <div class="lecture-occupied" data-pos="<%- occ[0] %>" data-size="<%- occ[1] %>"></div>
   <% } %>
   </div>
 </script>
