@@ -177,11 +177,15 @@ function findLecture(lectures, id) {
         $(timetableView.dragCell).css('height', height+'px');
       }
 
+      timetableView._sizeBlock($(".lecture-block"));
+    },
+
+    _sizeBlock: function(blocks) {
       var cell = $("#timetable-wrap").find(".half").first();
       var cellHeight = cell.height()+1;
       console.log(cellHeight);
 
-      $(".lecture-block").each(function() {
+      blocks.each(function() {
         var block = $(this);
         block.css('height', (cellHeight * block.attr('data-size') - 3) + 'px');
         block.find(".lecture-occupied").each(function() {
@@ -300,7 +304,7 @@ function findLecture(lectures, id) {
           blocks.addClass('occupied');
         }
 
-        $(blocks[0]).append(this.blockTemplate({title: lecture.title,
+        var lectureBlock = $(this.blockTemplate({title: lecture.title,
                                     id: lecture.id,
                                     professor: lecture.professor_short,
                                     classroom: classtime.classroom_short,
@@ -308,16 +312,16 @@ function findLecture(lectures, id) {
                                     cells: time,
                                     occupied: occupied,
                                     temp: isTemp,}));
+        $(blocks[0]).append(lectureBlock);
+        timetableView._sizeBlock(lectureBlock);
       }
-
-      this.resize();
     },
 
     _addBlockWithoutTime: function(lecture, isTemp, idx) {
       var block = $('#timetable-contents')
                     .find('.day:nth-child('+(idx+2)+')')
                     .find('.half.no-time');
-      block.append(this.blockTemplate({title: lecture.title,
+      var lectureBlock = block.append(this.blockTemplate({title: lecture.title,
                                        id: lecture.id,
                                        professor: lecture.professor_short,
                                        classroom: lecture.classroom_short,
@@ -326,7 +330,8 @@ function findLecture(lectures, id) {
                                        occupied: [],
                                        temp: isTemp,}));
 
-      this.resize();
+      $(blocks[0]).append(lectureBlock);
+      timetableView._sizeBlock(lectureBlock);
     },
 
     _removeAllBlocks: function() {
