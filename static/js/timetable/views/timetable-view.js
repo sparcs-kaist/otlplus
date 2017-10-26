@@ -55,7 +55,7 @@ function findLecture(lectures, id) {
       this.isBubbling = false;
       this.isDragging = false;
       this.isBlockClick = false;
-      $(window).on("resize", this.render);
+      $(window).on("resize", this.resize);
     },
 
     el: '#timetable-wrap',
@@ -89,14 +89,14 @@ function findLecture(lectures, id) {
 
         this.firstBlock = $(e.currentTarget);
         this.secondBlock = $(e.currentTarget);
-        this.render();
+        this.resize();
       }
     },
 
     dragMove: function (e) {
       if (this.isDragging) {
         this.secondBlock = $(e.currentTarget);
-        this.render();
+        this.resize();
       }
     },
 
@@ -164,7 +164,7 @@ function findLecture(lectures, id) {
       return hour*2 + min/30;
     },
 
-    render: function () {
+    resize: function () {
       if(timetableView.firstBlock) {
         var left = timetableView.firstBlock.offset().left - $(timetableView.el).offset().left - 1;
         var width = timetableView.firstBlock.width() + 2;
@@ -176,6 +176,23 @@ function findLecture(lectures, id) {
         $(timetableView.dragCell).css('top', top+'px');
         $(timetableView.dragCell).css('height', height+'px');
       }
+
+      timetableView._sizeBlock($(".lecture-block"));
+    },
+
+    _sizeBlock: function(blocks) {
+      var cell = $("#timetable-wrap").find(".half").first();
+      var cellHeight = cell.height()+1;
+
+      blocks.each(function() {
+        var block = $(this);
+        block.css('height', (cellHeight * block.attr('data-size') - 3) + 'px');
+        block.find(".lecture-occupied").each(function() {
+          var occBlock = $(this);
+          occBlock.css('top', (cellHeight * occBlock.attr('data-pos')) + 'px');
+          occBlock.css('height', (cellHeight * occBlock.attr('data-size') - 3) + 'px');
+        });
+      })
     },
 
     blockHover: function (e) {
@@ -286,7 +303,7 @@ function findLecture(lectures, id) {
           blocks.addClass('occupied');
         }
 
-        $(blocks[0]).append(this.blockTemplate({title: lecture.title,
+        var lectureBlock = $(this.blockTemplate({title: lecture.title,
                                     id: lecture.id,
                                     professor: lecture.professor_short,
                                     classroom: classtime.classroom_short,
@@ -294,6 +311,8 @@ function findLecture(lectures, id) {
                                     cells: time,
                                     occupied: occupied,
                                     temp: isTemp,}));
+        $(blocks[0]).append(lectureBlock);
+        timetableView._sizeBlock(lectureBlock);
       }
     },
 
@@ -301,7 +320,7 @@ function findLecture(lectures, id) {
       var block = $('#timetable-contents')
                     .find('.day:nth-child('+(idx+2)+')')
                     .find('.half.no-time');
-      block.append(this.blockTemplate({title: lecture.title,
+      var lectureBlock = block.append(this.blockTemplate({title: lecture.title,
                                        id: lecture.id,
                                        professor: lecture.professor_short,
                                        classroom: lecture.classroom_short,
@@ -309,6 +328,9 @@ function findLecture(lectures, id) {
                                        cells: 3,
                                        occupied: [],
                                        temp: isTemp,}));
+
+      $(blocks[0]).append(lectureBlock);
+      timetableView._sizeBlock(lectureBlock);
     },
 
     _removeAllBlocks: function() {
