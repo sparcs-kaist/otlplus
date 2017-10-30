@@ -27,6 +27,7 @@ from django.utils.translation import ugettext as _
 from django.template import RequestContext
 from django.utils import translation
 from django.core.cache import cache
+from django.contrib.staticfiles.templatetags.staticfiles import static
 
 # For google calender
 from apiclient import discovery
@@ -42,6 +43,9 @@ import json
 import urllib
 import random
 import itertools
+
+# Pillow
+from PIL import Image, ImageDraw, ImageFont
 
 
 
@@ -717,3 +721,91 @@ def wishlist_update(request):
     return JsonResponse({ 'success': True });
 
 
+def _rounded_rectangle(draw, points, radius, color):
+    draw.pieslice([points[0], points[1], points[0]+radius*2, points[1]+radius*2], 180, 270, color)
+    draw.pieslice([points[2]-radius*2, points[1], points[2], points[1]+radius*2], 270, 0, color)
+    draw.pieslice([points[2]-radius*2, points[3]-radius*2, points[2], points[3]], 0, 90, color)
+    draw.pieslice([points[0], points[3]-radius*2, points[0]+radius*2, points[3]], 90, 180, color)
+    draw.rectangle([points[0], points[1]+radius, points[2], points[3]-radius], color)
+    draw.rectangle([points[0]+radius, points[1], points[2]-radius, points[3]], color)
+
+
+
+def _sliceText(text, width, font):
+    sliced = []
+    slStart = 0
+
+    for i in range(len(text)):
+        if font.getsize(text[slStart:i+1])[0] > width:
+            sliced.append(text[slStart:i])
+            slStart = i
+    sliced.append(text[slStart:])
+
+    return sliced
+
+
+
+def _textbox(draw, points, title, prof, loc, titleFont, contentFont, color):
+
+    width = points[2] - points[0]
+    height = points[3] - points[1]
+
+    ts = _sliceText(title, width, titleFont)
+    ps = _sliceText(prof, width, contentFont)
+    ls = _sliceText(loc, width, contentFont)
+
+    sliced = []
+    textHeight = 0
+
+    for i in range(len(ts)+len(ps)+len(ls)):
+        if i == len(ts):
+            sliced.append(("", 4, contentFont))
+            textHeight += 4
+        elif i == len(ts)+len(ps):
+            sliced.append(("", 4, contentFont))
+            textHeight += 4
+
+        if i < len(ts):
+            sliced.append((ts[i], 26, titleFont))
+            textHeight += 26
+        elif i < len(ts)+len(ps):
+            sliced.append((ps[i-len(ts)], 24, contentFont))
+            textHeight += 24
+        else:
+            sliced.append((ls[i-len(ts)-len(ps)], 24, contentFont))
+            textHeight += 24
+
+        if textHeight > height:
+            textHeight -= sliced.pop()[1]
+            break
+
+    topPad = (height - textHeight) / 2 - 2
+
+    textPosition = 0
+    for s in sliced:
+        draw.text((points[0], points[1]+topPad+textPosition), s[0], fill=color, font=s[2])
+        textPosition += s[1]
+
+
+
+def share_image(request):
+    #image = Image.new("RGBA", (1200, 1800))
+    image = Image.open("static/img/Image_template.png")
+    draw = ImageDraw.Draw(image)
+    titleFont = ImageFont.truetype("static/fonts/NanumBarunGothicBold.ttf", 24)
+    contentFont = ImageFont.truetype("static/fonts/NanumBarunGothic.ttf", 22)
+
+    for i in range(5):
+        for j in range(10):
+            points = (222*i+66, 132*j+150, 222*(i+1)+59, 132*(j+1)+143)
+            _rounded_rectangle(draw, points, 4, (128,128,128,255))
+
+            points = (points[0]+14, points[1]+6, points[2]-14, points[3]-6)
+            _textbox(draw, points, u"디자인특강 V<영상 디자인>", u"Staff", u"(N25) 414호", titleFont, contentFont, (255, 255, 255, 255))
+
+    #image.thumbnail((600,900))
+
+    response = HttpResponse(content_type="image/png")
+    image.save(response, 'PNG')
+
+    return response
