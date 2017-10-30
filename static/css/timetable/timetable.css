@@ -1759,16 +1759,21 @@ i
 
 #small-buttons
 {
+    flex:none;
     margin-top:10px;
     border-top:1px solid #EDD1DC;
 	padding-top:10px;
+    font-size:0px;
+    display:flex;
+    justify-content:space-between;
 }
 
 #facebook, #twiter, #image, #calendar, #copy
 {
+    flex:none;
     display:inline-block;
-    height:2.4em;
-    width:2.4em;
+    height:26px;
+    width:26px;
     background-color:black;
 }
 
