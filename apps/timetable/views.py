@@ -745,7 +745,7 @@ def _sliceText(text, width, font):
 
 
 
-def _textbox(draw, points, title, prof, loc, titleFont, contentFont, color):
+def _textbox(draw, points, title, prof, loc, titleFont, contentFont):
 
     width = points[2] - points[0]
     height = points[3] - points[1]
@@ -783,7 +783,7 @@ def _textbox(draw, points, title, prof, loc, titleFont, contentFont, color):
 
     textPosition = 0
     for s in sliced:
-        draw.text((points[0], points[1]+topPad+textPosition), s[0], fill=color, font=s[2])
+        draw.text((points[0], points[1]+topPad+textPosition), s[0], fill=(0,0,0), font=s[2])
         textPosition += s[1]
 
 
@@ -800,16 +800,20 @@ def share_image(request):
 
     for l in timetable.lecture.all():
         lDict = _lecture_to_dict(l)
+        color = ['#F2CECE','#F4AEAE','#F2BCA0','#F1D6B2',
+                 '#F1E1A9','#f4f2b3','#dbf4be','#beedd7',
+                 '#b7e2de','#c9eaf4','#b4c9ed','#b4bbef',
+                 '#c4c3e5','#bcabef','#e1caef','#f4badb'][lDict['course']%16]
         for c in lDict['classtimes']:
             day = c['day']
             begin = c['begin'] / 30 - 16
             end = c['end'] / 30 - 16
-            
+
             points = (222*day+66, 44*begin+150, 222*(day+1)+59, 44*end+143)
-            _rounded_rectangle(draw, points, 4, (128,128,128,255))
+            _rounded_rectangle(draw, points, 4, color)
 
             points = (points[0]+14, points[1]+6, points[2]-14, points[3]-6)
-            _textbox(draw, points, lDict['title'], lDict['professor'], c['classroom_short'], titleFont, contentFont, (255, 255, 255, 255))
+            _textbox(draw, points, lDict['title'], lDict['professor'], c['classroom_short'], titleFont, contentFont)
 
     #image.thumbnail((600,900))
 
