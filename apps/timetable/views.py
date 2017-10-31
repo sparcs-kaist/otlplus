@@ -789,19 +789,27 @@ def _textbox(draw, points, title, prof, loc, titleFont, contentFont, color):
 
 
 def share_image(request):
-    #image = Image.new("RGBA", (1200, 1800))
+    userprofile = UserProfile.objects.get(user=request.user)
+    table_id = request.GET['table_id']
+    timetable = TimeTable.objects.get(user=userprofile, id=table_id)
+
     image = Image.open("static/img/Image_template.png")
     draw = ImageDraw.Draw(image)
     titleFont = ImageFont.truetype("static/fonts/NanumBarunGothicBold.ttf", 24)
     contentFont = ImageFont.truetype("static/fonts/NanumBarunGothic.ttf", 22)
 
-    for i in range(5):
-        for j in range(10):
-            points = (222*i+66, 132*j+150, 222*(i+1)+59, 132*(j+1)+143)
+    for l in timetable.lecture.all():
+        lDict = _lecture_to_dict(l)
+        for c in lDict['classtimes']:
+            day = c['day']
+            begin = c['begin'] / 30 - 16
+            end = c['end'] / 30 - 16
+            
+            points = (222*day+66, 44*begin+150, 222*(day+1)+59, 44*end+143)
             _rounded_rectangle(draw, points, 4, (128,128,128,255))
 
             points = (points[0]+14, points[1]+6, points[2]-14, points[3]-6)
-            _textbox(draw, points, u"디자인특강 V<영상 디자인>", u"Staff", u"(N25) 414호", titleFont, contentFont, (255, 255, 255, 255))
+            _textbox(draw, points, lDict['title'], lDict['professor'], c['classroom_short'], titleFont, contentFont, (255, 255, 255, 255))
 
     #image.thumbnail((600,900))
 
