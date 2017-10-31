@@ -759,20 +759,20 @@ def _textbox(draw, points, title, prof, loc, titleFont, contentFont):
 
     for i in range(len(ts)+len(ps)+len(ls)):
         if i == len(ts):
-            sliced.append(("", 4, contentFont))
+            sliced.append(("", 4, contentFont, (0,0,0,153)))
             textHeight += 4
         elif i == len(ts)+len(ps):
-            sliced.append(("", 4, contentFont))
+            sliced.append(("", 4, contentFont, (0,0,0,153)))
             textHeight += 4
 
         if i < len(ts):
-            sliced.append((ts[i], 26, titleFont))
+            sliced.append((ts[i], 26, titleFont, (0,0,0,204)))
             textHeight += 26
         elif i < len(ts)+len(ps):
-            sliced.append((ps[i-len(ts)], 24, contentFont))
+            sliced.append((ps[i-len(ts)], 24, contentFont, (0,0,0,153)))
             textHeight += 24
         else:
-            sliced.append((ls[i-len(ts)-len(ps)], 24, contentFont))
+            sliced.append((ls[i-len(ts)-len(ps)], 24, contentFont, (0,0,0,153)))
             textHeight += 24
 
         if textHeight > height:
@@ -783,7 +783,7 @@ def _textbox(draw, points, title, prof, loc, titleFont, contentFont):
 
     textPosition = 0
     for s in sliced:
-        draw.text((points[0], points[1]+topPad+textPosition), s[0], fill=(0,0,0), font=s[2])
+        draw.text((points[0], points[1]+topPad+textPosition), s[0], fill=s[3], font=s[2])
         textPosition += s[1]
 
 
@@ -795,6 +795,8 @@ def share_image(request):
 
     image = Image.open("static/img/Image_template.png")
     draw = ImageDraw.Draw(image)
+    textImage = Image.new("RGBA", image.size)
+    textDraw = ImageDraw.Draw(textImage)
     titleFont = ImageFont.truetype("static/fonts/NanumBarunGothicBold.ttf", 24)
     contentFont = ImageFont.truetype("static/fonts/NanumBarunGothic.ttf", 22)
 
@@ -813,10 +815,11 @@ def share_image(request):
             _rounded_rectangle(draw, points, 4, color)
 
             points = (points[0]+14, points[1]+6, points[2]-14, points[3]-6)
-            _textbox(draw, points, lDict['title'], lDict['professor'], c['classroom_short'], titleFont, contentFont)
+            _textbox(textDraw, points, lDict['title'], lDict['professor'], c['classroom_short'], titleFont, contentFont)
 
     #image.thumbnail((600,900))
 
+    image.paste(textImage, mask=textImage)
     response = HttpResponse(content_type="image/png")
     image.save(response, 'PNG')
 
