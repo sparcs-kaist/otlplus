@@ -797,7 +797,7 @@ def share_image(request):
     draw = ImageDraw.Draw(image)
     textImage = Image.new("RGBA", image.size)
     textDraw = ImageDraw.Draw(textImage)
-    titleFont = ImageFont.truetype("static/fonts/NanumBarunGothicBold.ttf", 24)
+    titleFont = ImageFont.truetype("static/fonts/NanumBarunGothic.ttf", 24)
     contentFont = ImageFont.truetype("static/fonts/NanumBarunGothic.ttf", 22)
 
     for l in timetable.lecture.all():
