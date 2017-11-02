@@ -609,89 +609,60 @@ def share_calendar(request):
     http = credential.authorize(httplib2.Http())
     service = discovery.build('calendar', 'v3', http=http)
 
-    calendar_name = "[OTL]" + str(user) + "'s calendar"
-    calendar = None
+    calendar_name = "[OTL] %d %s" % (year, ["Spring", "Summer", "Fall", "Winter"][semester-1])
 
-    # Get calendar for otlplus
-    if userprofile.google_calendar_id is not None:
-        try:
-            calendar = service.calendars().get(calendarId=userprofile.google_calendar_id).execute()
-            if calendar is not None and calendar['summary'] != calendar_name:
-                calendar['summary'] = calendar_name
-                calendar = service.calendars().update(calendarId=calendar['id'], body=calendar).execute()
-        except:
-            print "fuct"
     # Create new calendar
-    else:
-        calendar = {
-            'summary': calendar_name,
-            'timeZone': 'Asia/Seoul'
-        }
-
-        created_calendar = service.calendars().insert(body=calendar).execute()
-        c_id = created_calendar['id']
-        userprofile.google_calendar_id = created_calendar['id']
-        userprofile.save()
-
-        # Customize Calendars
-        calendar_list = service.calendarList().get(calendarId=c_id).execute()
-        calendar_list['backgroundColor'] = '#004191'  # Kaist Dark Blue
-        calendar_list['defaultReminders'] = [{
+    calendar = {
+        'summary': calendar_name,
+        'timeZone': 'Asia/Seoul',
+        'defaultReminders': [{
             'method': 'popup',
             'minutes': 10
         }]
-        service.calendarList().update(calendarId=c_id, body=calendar_list).execute()
+    }
 
-        userprofile.google_calendar_id = c_id
-        userprofile.save()
+    created_calendar = service.calendars().insert(body=calendar).execute()
+    c_id = created_calendar['id']
 
+    # Find the right timetable
+    try:
+        timetable = TimeTable.objects.get(user=userprofile, id=table_id,
+                                          year=year, semester=semester)
+    except:
+        return HttpResponseBadRequest()
 
-    # Add calendar event
-    if calendar is None:
-        return HttpResponseServerError()
-    else:
-        # Find the right timetable
-        try:
-            timetable = TimeTable.objects.get(user=userprofile, id=table_id,
-                                                   year=year, semester=semester)
-        except:
-            return HttpResponseBadRequest()
-
-        start = settings.SEMESTER_RANGES[(year,semester)][0]
-        end = settings.SEMESTER_RANGES[(year,semester)][1] + datetime.timedelta(days=1)
-        c_id = userprofile.google_calendar_id
+    start = settings.SEMESTER_RANGES[(year,semester)][0]
+    end = settings.SEMESTER_RANGES[(year,semester)][1] + datetime.timedelta(days=1)
  
-        for lecture in timetable.lecture.all():
-            lDict = _lecture_to_dict(lecture)
+    for lecture in timetable.lecture.all():
+        lDict = _lecture_to_dict(lecture)
 
-            for classtime in lDict['classtimes']:
-                print(classtime)
-                days_ahead = classtime['day'] - start.weekday()
-                if days_ahead < 0:
-                    days_ahead += 7
-                class_date = start + datetime.timedelta(days=days_ahead)
-                begin_time = datetime.time(int(classtime['begin']/60),
-                                           int(classtime['begin']%60))
-                end_time = datetime.time(int(classtime['end']/60),
-                                         int(classtime['end']%60))
-                print(class_date)
-                print(begin_time, end_time)
+        for classtime in lDict['classtimes']:
+            days_ahead = classtime['day'] - start.weekday()
+            if days_ahead < 0:
+                days_ahead += 7
 
-                event = {
-                    'summary': lDict['title'],
-                    'location': classtime['classroom'],
-                    'start': {
-                        'dateTime' : datetime.datetime.combine(class_date, begin_time).isoformat(),
-                        'timeZone' : 'Asia/Seoul'
-                        },
-                    'end': {
-                        'dateTime' : datetime.datetime.combine(class_date, end_time).isoformat(),
-                        'timeZone' : 'Asia/Seoul'
-                        },
-                    'recurrence' : ['RRULE:FREQ=WEEKLY;UNTIL=' + end.strftime("%Y%m%d")]
-                }
+            class_date = start + datetime.timedelta(days=days_ahead)
+            begin_time = datetime.time(int(classtime['begin']/60),
+                                       int(classtime['begin']%60))
+            end_time = datetime.time(int(classtime['end']/60),
+                                     int(classtime['end']%60))
 
-                service.events().insert(calendarId=c_id, body=event).execute()
+            event = {
+                'summary': lDict['title'],
+                'location': classtime['classroom'],
+                'start': {
+                    'dateTime' : datetime.datetime.combine(class_date, begin_time).isoformat(),
+                    'timeZone' : 'Asia/Seoul'
+                    },
+                'end': {
+                    'dateTime' : datetime.datetime.combine(class_date, end_time).isoformat(),
+                    'timeZone' : 'Asia/Seoul'
+                    },
+                'recurrence' : ['RRULE:FREQ=WEEKLY;UNTIL=' + end.strftime("%Y%m%d")]
+            }
+
+            service.events().insert(calendarId=c_id, body=event).execute()
 
     return JsonResponse({'result': 'OK'})
 
