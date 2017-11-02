@@ -593,16 +593,9 @@ def share_calendar(request):
     except:
         return HttpResponseServerError("userprofile not found")
 
-    if reqeust.method != POST:
-        return HttpResposneNotAllowed()
-
-    if table_id not in request.POST or year not in request.POST or \
-       semester not in request.POST:
-        return HttpResponseBadRequest()
-
-    semester = request.POST['table_id']
-    year = request.POST['year']
-    semester = reuqest.POST['semester']
+    semester = request.GET['table_id']
+    year = request.GET['year']
+    semester = request.GET['semester']
 
     storage = DjangoORMStorage(UserProfile, 'user', request.user, 'google_credential')
     credential = storage.get()
@@ -610,7 +603,7 @@ def share_calendar(request):
     if credential is None or credential.invalid == True:
         FLOW.params['state'] = xsrfutil.generate_token(settings.SECRET_KEY,
                                                        request.user)
-        authorize_url = FLOW.step1_get_authorize_url()
+        authorize_url = FLOW.step1_get_authorize_url(redirect_uri = request.build_absolute_uri("/timetable/google_auth_return"))
         return HttpResponseRedirect(authorize_url)
 
     http = credential.authorize(httplib2.Http())
