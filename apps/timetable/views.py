@@ -35,6 +35,9 @@ import oauth2client
 from oauth2client import client
 from oauth2client import tools
 from oauth2client.client import OAuth2WebServerFlow
+from oauth2client.contrib import xsrfutil
+from oauth2client.contrib.django_util.storage import DjangoORMStorage
+
 import datetime
 import httplib2
 # Misc
@@ -404,7 +407,7 @@ def table_copy(request):
     table_id = int(request.POST['table_id'])
     year = int(request.POST['year'])
     semester = int(request.POST['semester'])
-    
+
     # Find the right timetable
     target_table = TimeTable.objects.get(user=userprofile, id=table_id,
                                          year=year, semester=semester)
@@ -510,6 +513,8 @@ def table_load(request):
     return JsonResponse(ctx, safe=False, json_dumps_params=
                         {'ensure_ascii': False})
 
+FLOW = client.flow_from_clientsecrets(settings.GOOGLE_OAUTH2_CLIENT_SECRETS_JSON,
+                                      scope='https://www.googleapis.com/auth/calendar')
 
 
 
@@ -586,48 +591,122 @@ def calendar(request):
     try:
         userprofile = UserProfile.objects.get(user=user)
     except:
-        raise ValidationError('no user profile')
+        return HttpResponseServerError("userprofile not found")
 
-    email = user.email
-    if email is None:
-        return JsonResponse({'result': 'EMPTY'},
-                            json_dumps_params={'ensure_ascii': False, 'indent': 4})
+    if reqeust.method != POST:
+        return HttpResposneNotAllowed()
 
-    with open(os.path.join(settings.BASE_DIR), 'keys/client_secrets.json') as f:
-        data = json.load(f.read())
-        client_id = data['installed']['client_id']
-        client_secret = data['installed']['client_secret']
-        api_key = data['api_key']
+    if table_id not in request.POST or year not in request.POST or \
+       semester not in request.POST:
+        return HttpResponseBadRequest()
 
-    FLOW = OAuth2WebServerFlow(
-        client_id=client_id,
-        client_secret=client_secret,
-        scope='https://www.googleapis.com/auth/calendar',
-        user_agent='')
+    semester = request.POST['table_id']
+    year = request.POST['year']
+    semester = reuqest.POST['semester']
 
-    store = oauth2client.file.Storage(path)
-    credentials = store.get()
-    if credentials is None or credentials.invalid:
-        credentials = tools.run_flow(FLOW, store)
+    storage = DjangoORMStorage(UserProfile, 'user', request.user, 'google_credential')
+    credential = storage.get()
 
-    http = credentials.authorize(httplib2.Http())
-    service = discovery.build(serviceName='calender', version='v3', http=http, developerKey='blah')
+    if credential is None or credential.invalid == True:
+        FLOW.params['state'] = xsrfutil.generate_token(settings.SECRET_KEY,
+                                                       request.user)
+        authorize_url = FLOW.step1_get_authorize_url()
+        return HttpResponseRedirect(authorize_url)
+
+    http = credential.authorize(httplib2.Http())
+    service = discovery.build('calender', 'v3', http=http)
 
     calendar_name = "[OTL]" + str(user) + "'s calendar"
     calendar = None
 
+    # Get calender for otlplus
     if userprofile.calendar_id is not None:
         try:
-            calendar = service.calendars().get(calendarId = userprofile.calendar_id).execute()
+            calendar = service.calendars().get(calendarId=userprofile.calendar_id).execute()
             if calendar is not None and calendar['summary'] != calendar_name:
                 calendar['summary'] = calendar_name
-                calendar = service.calendars().update(calendarId = calendar['id'], body = calendar).execute()
+                calendar = service.calendars().update(calendarId=calendar['id'], body=calendar).execute()
         except:
-            pass
+            print "fuct"
+    # Create new calender
+    else:
+        calendar = {
+            'summary': calendar_name,
+            'timeZone': 'Asia/Seoul'
+        }
 
-    # if calendar == None:
-        # Make a new calender
+        created_calendar = service.calendars().insert(body=calendar).execute()
+        c_id = created_calendar['id']
+        userprofile.calender_id = created_calender['id']
+        userprofile.save()
 
+        # Customize Calendars
+        calendar_list = service.calendarList().get(calendarId=c_id).execute()
+        calendar_list['backgroundColor'] = '#004191'  # Kaist Dark Blue
+        calendar_list['defaultReminders'] = [{
+            'method': 'popup',
+            'minutes': 10
+        }]
+        service.calendarList().update(calendarId=c_id).execute()
+
+        userprofile.calender_id = c_id
+        userprofile.save()
+
+    # Add calendar event
+    if calendar is None:
+        return HttpResponseServerError()
+    else:
+        # Find the right timetable
+        try:
+            timetable = TimeTable.objects.get(user=userprofile, table_id=table_id,
+                                                   year=year, semester=semester)
+            start = settings.SEMESTER_RANGES[(year,semester)][0]
+            end = settings.SEMESTER_RANGES[(year,semester)][1] + timedelta(days=1)
+        except:
+            return HttpResponseBadRequest()
+
+        for lecture in timetable.lecture.all():
+            for classtime in ClassTime.objects.filter(lecture=lecture):
+                days_ahead = classtime.day - start.weekday()
+                if days_ahead < 0:
+                    days_ahead += 7
+                class_date = start + timedelta(days=days_ahead)
+
+                event = {
+                    'summary': _trans(lecture.title, lecture.title_en, lang),
+                    'location': _trans(classtime.room_ko, classtime.room_en, lang) + " " + (classtime.room or ''),
+                    'start': {
+                        'dateTime' : datetime.combine(class_date, classtime.begin).isoformat(),
+                        'timeZone' : 'Asia/Seoul'
+                        },
+                    'end': {
+                        'dateTime' : atetime.combine(class_date, classtime.end).isoformat(),
+                        'timeZone' : 'Asia/Seoul'
+                        },
+                    'recurrence' : ['RRULE:FREQ=WEEKLY;UNTIL=' + end.strftime("%Y%m%d")]
+                }
+
+                service.events().insert(calendar_id=c_id, body=event).execute()
+
+    return JsonResponse({'result': 'OK'})
+
+
+
+def _trans(ko_message, en_message, lang):
+    if en_message == None or lang == 'ko':
+        return ko_message
+    else:
+        return en_message
+
+@login_required
+def google_auth_return(request):
+    if not xsrfutil.validate_token(settings.SECRET_KEY, request.REQUEST['state'],
+                                   request.user):
+        return HttpResponseBadRequest()
+    credential = FLOW.step2_exchange(request.REQUEST)
+    storage = DjangoORMStorage(UserProfile, 'user', request.user, 'google_credential')
+    storage.put(credential)
+    return HttpResponseRedirect("/")
     # TODO: Add calendar entry
 
 
