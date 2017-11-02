@@ -29,7 +29,7 @@ from django.utils import translation
 from django.core.cache import cache
 from django.contrib.staticfiles.templatetags.staticfiles import static
 
-# For google calender
+# For google calendar
 from apiclient import discovery
 import oauth2client
 from oauth2client import client
@@ -584,7 +584,7 @@ def comment_load(request):
 
 
 
-# Export OTL timetable to google calender
+# Export OTL timetable to google calendar
 @login_required_ajax
 def share_calendar(request):
     user = request.user
@@ -593,9 +593,9 @@ def share_calendar(request):
     except:
         return HttpResponseServerError("userprofile not found")
 
-    semester = request.GET['table_id']
-    year = request.GET['year']
-    semester = request.GET['semester']
+    table_id = int(request.GET['table_id'])
+    year = int(request.GET['year'])
+    semester = int(request.GET['semester'])
 
     storage = DjangoORMStorage(UserProfile, 'user', request.user, 'google_credential')
     credential = storage.get()
@@ -607,21 +607,21 @@ def share_calendar(request):
         return HttpResponseRedirect(authorize_url)
 
     http = credential.authorize(httplib2.Http())
-    service = discovery.build('calender', 'v3', http=http)
+    service = discovery.build('calendar', 'v3', http=http)
 
     calendar_name = "[OTL]" + str(user) + "'s calendar"
     calendar = None
 
-    # Get calender for otlplus
-    if userprofile.calendar_id is not None:
+    # Get calendar for otlplus
+    if userprofile.google_calendar_id is not None:
         try:
-            calendar = service.calendars().get(calendarId=userprofile.calendar_id).execute()
+            calendar = service.calendars().get(calendarId=userprofile.google_calendar_id).execute()
             if calendar is not None and calendar['summary'] != calendar_name:
                 calendar['summary'] = calendar_name
                 calendar = service.calendars().update(calendarId=calendar['id'], body=calendar).execute()
         except:
             print "fuct"
-    # Create new calender
+    # Create new calendar
     else:
         calendar = {
             'summary': calendar_name,
@@ -630,7 +630,7 @@ def share_calendar(request):
 
         created_calendar = service.calendars().insert(body=calendar).execute()
         c_id = created_calendar['id']
-        userprofile.calender_id = created_calender['id']
+        userprofile.google_calendar_id = created_calendar['id']
         userprofile.save()
 
         # Customize Calendars
@@ -640,10 +640,11 @@ def share_calendar(request):
             'method': 'popup',
             'minutes': 10
         }]
-        service.calendarList().update(calendarId=c_id).execute()
+        service.calendarList().update(calendarId=c_id, body=calendar_list).execute()
 
-        userprofile.calender_id = c_id
+        userprofile.google_calendar_id = c_id
         userprofile.save()
+
 
     # Add calendar event
     if calendar is None:
@@ -651,55 +652,60 @@ def share_calendar(request):
     else:
         # Find the right timetable
         try:
-            timetable = TimeTable.objects.get(user=userprofile, table_id=table_id,
+            timetable = TimeTable.objects.get(user=userprofile, id=table_id,
                                                    year=year, semester=semester)
-            start = settings.SEMESTER_RANGES[(year,semester)][0]
-            end = settings.SEMESTER_RANGES[(year,semester)][1] + timedelta(days=1)
         except:
             return HttpResponseBadRequest()
 
+        start = settings.SEMESTER_RANGES[(year,semester)][0]
+        end = settings.SEMESTER_RANGES[(year,semester)][1] + datetime.timedelta(days=1)
+        c_id = userprofile.google_calendar_id
+ 
         for lecture in timetable.lecture.all():
-            for classtime in ClassTime.objects.filter(lecture=lecture):
-                days_ahead = classtime.day - start.weekday()
+            lDict = _lecture_to_dict(lecture)
+
+            for classtime in lDict['classtimes']:
+                print(classtime)
+                days_ahead = classtime['day'] - start.weekday()
                 if days_ahead < 0:
                     days_ahead += 7
-                class_date = start + timedelta(days=days_ahead)
+                class_date = start + datetime.timedelta(days=days_ahead)
+                begin_time = datetime.time(int(classtime['begin']/60),
+                                           int(classtime['begin']%60))
+                end_time = datetime.time(int(classtime['end']/60),
+                                         int(classtime['end']%60))
+                print(class_date)
+                print(begin_time, end_time)
 
                 event = {
-                    'summary': _trans(lecture.title, lecture.title_en, lang),
-                    'location': _trans(classtime.room_ko, classtime.room_en, lang) + " " + (classtime.room or ''),
+                    'summary': lDict['title'],
+                    'location': classtime['classroom'],
                     'start': {
-                        'dateTime' : datetime.combine(class_date, classtime.begin).isoformat(),
+                        'dateTime' : datetime.datetime.combine(class_date, begin_time).isoformat(),
                         'timeZone' : 'Asia/Seoul'
                         },
                     'end': {
-                        'dateTime' : atetime.combine(class_date, classtime.end).isoformat(),
+                        'dateTime' : datetime.datetime.combine(class_date, end_time).isoformat(),
                         'timeZone' : 'Asia/Seoul'
                         },
                     'recurrence' : ['RRULE:FREQ=WEEKLY;UNTIL=' + end.strftime("%Y%m%d")]
                 }
 
-                service.events().insert(calendar_id=c_id, body=event).execute()
+                service.events().insert(calendarId=c_id, body=event).execute()
 
     return JsonResponse({'result': 'OK'})
 
 
 
-def _trans(ko_message, en_message, lang):
-    if en_message == None or lang == 'ko':
-        return ko_message
-    else:
-        return en_message
-
 @login_required
 def google_auth_return(request):
-    if not xsrfutil.validate_token(settings.SECRET_KEY, request.REQUEST['state'],
+    if not xsrfutil.validate_token(settings.SECRET_KEY, str(request.GET['state']),
                                    request.user):
         return HttpResponseBadRequest()
-    credential = FLOW.step2_exchange(request.REQUEST)
+    credential = FLOW.step2_exchange(request.GET)
     storage = DjangoORMStorage(UserProfile, 'user', request.user, 'google_credential')
     storage.put(credential)
-    return HttpResponseRedirect("/")
+    return HttpResponseRedirect("/timetable")
     # TODO: Add calendar entry
 
 
