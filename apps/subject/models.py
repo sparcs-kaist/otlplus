@@ -1,9 +1,11 @@
 #-*- coding: utf-8 -*-
 from django.db import models
 from apps.enum.common import * #for enum type (for choices)
+from datetime import date, time
 
 
 class Lecture(models.Model):
+    # Fetched from KAIST Scholar DB
     code = models.CharField(max_length=10, db_index=True)
     old_code = models.CharField(max_length=10, db_index=True)
     year = models.IntegerField(db_index=True)
@@ -20,23 +22,30 @@ class Lecture(models.Model):
     num_labs = models.IntegerField(default=0)
     credit_au = models.IntegerField(default=0)
     limit = models.IntegerField(default=0)
-    num_people = models.IntegerField(default=0, blank=True, null=True)
     professor = models.ManyToManyField('Professor', related_name='lecture_professor', blank=True)
     is_english = models.BooleanField()
     deleted = models.BooleanField(default=False)
 
     course = models.ForeignKey('Course', related_name='lecture_course')
 
+    # Updated by signal timetable_lecture_saved, timetable_deleted
+    num_people = models.IntegerField(default=0, blank=True, null=True)
+
+    # Updated by command update_lecture_title
+    common_title = models.CharField(max_length=100, null=True)
+    common_title_en = models.CharField(max_length=100, null=True)
+    class_title = models.CharField(max_length=100, null=True)
+    class_title_en = models.CharField(max_length=100, null=True)
+
+    # Updated by view when comments are added/deleted/modified
     grade_sum = models.IntegerField(default=0)
     load_sum = models.IntegerField(default=0)
     speech_sum = models.IntegerField(default=0)
     total_sum = models.FloatField(default=0.0)
-
     grade = models.FloatField(default=0.0)
     load = models.FloatField(default=0.0)
     speech = models.FloatField(default=0.0)
     total = models.FloatField(default=0.0)
-
     comment_num = models.IntegerField(default=0)
 
     syllabus = models.CharField(max_length=260, blank=True, null=True) #실라부스 url저장
@@ -72,25 +81,79 @@ class ExamTime(models.Model):
     end = models.TimeField() # hh:mm 형태의 시험시작시간 (24시간 제)
 
     def __unicode__(self):
-        return u'[%s] %s, %s-%s' % (self.lecture.code, self.get_day_display(), self.begin.strftime('%H:%M'), self.end.strftime('%H:%M')
-                )
-         # TODO ExamTime method 더 필요한거 같이 구현하기
+        return u'[%s] %s, %s-%s' % (
+            self.lecture.code,
+            self.get_day_display(),
+            self.begin.strftime('%H:%M'),
+            self.end.strftime('%H:%M')
+        )
+
+    def get_begin_numeric(self):
+        """0시 0분을 기준으로 분 단위로 계산된 시작 시간을 반환한다."""
+        t = self.begin.hour * 60 + self.begin.minute
+        return t
+
+    def get_end_numeric(self):
+        """0시 0분을 기준으로 분 단위로 계산된 종료 시간을 반환한다."""
+        t = self.end.hour * 60 + self.end.minute
+        return t
 
 
 class ClassTime(models.Model):
-    """Lecture에 배정된강의시간, 보통 하나의  Lecture가 여러개의 강의시간을 가진다."""
+    """Lecture 에 배정된강의시간, 보통 하나의  Lecture 가 여러개의 강의시간을 가진다."""
+    """스크립트 짤 때 주의해야 할 부분은 호실 필드이다!!!!"""
     lecture = models.ForeignKey(Lecture, related_name="classtime_set", null=True)
     day = models.SmallIntegerField(choices=WEEKDAYS) #강의 요일
     begin = models.TimeField() # hh:mm 형태의 강의 시작시각 (24시간제)
     end = models.TimeField() # hh:mm 형태의 강의 끝나는 시각 (24시간 제)
     type = models.CharField(max_length =1, choices=CLASS_TYPES) #강의 or 실험
     building = models.CharField(max_length=10, blank=True, null=True) #건물 고유 ID
-    roomName_ko = models.CharField(max_length=60, blank=True, null=True) #강의실 이름(한글, ex> 터만홀)
-    roomName_en = models.CharField(max_length=60, blank=True, null=True) #강의실 이름(영문, ex> TermanHall)
-    roomNum = models.IntegerField(null=True) #강의실 호실(숫자, ex> 304 or 1104)
+    roomName = models.CharField(max_length=60, blank=True, null=True) #건물 이름(ex> (E11)창의학습관)
+    roomName_en = models.CharField(max_length=60, blank=True, null=True) #건물 이름(ex> (E11)Creative learning Bldg.)
+    roomNum = models.CharField(max_length=20, null=True) #강의실 호실(ex> 304, 1104, 1209-1, 터만홀)
     unit_time = models.SmallIntegerField(null=True) #수업 교시
 
-    # TODO ClassTime method 구현 같이하기!
+    def get_begin_numeric(self):
+        """0시 0분을 기준으로 분 단위로 계산된 시작 시간을 반환한다."""
+        """30분 단위로 내림한다"""
+        t = self.begin.hour * 60 + self.begin.minute
+        if t % 30 != 0:
+            t = t - (t % 30)
+        return t
+
+    def get_end_numeric(self):
+        """0시 0분을 기준으로 분 단위로 계산된 종료 시간을 반환한다."""
+        """30분 단위로 올림한다"""
+        t = self.end.hour * 60 + self.end.minute
+        if t % 30 != 0:
+            t = t + (30 - (t % 30))
+        return t
+
+    def get_location(self):
+        if self.roomNum is None:
+            return u'%s' % (self.roomName_ko)
+        try:
+            int(self.roomNum)
+            return u'%s %s호' % (self.roomName_ko, self.roomNum)
+        except ValueError:
+            return u'%s %s' % (self.roomName_ko, self.roomNum)
+
+    def get_location_en(self):
+        if self.roomNum is None:
+            return u'%s' % (self.roomName_en)
+        try:
+            int(self.roomNum)
+            return u'%s %s' % (self.roomName_en, self.roomNum)
+        except ValueError:
+            return u'%s %s' % (self.roomName_en, self.roomNum)
+
+    @staticmethod
+    def numeric_time_to_str(numeric_time):
+        return u'%s:%s' % (numeric_time // 60, numeric_time % 60)
+
+    @staticmethod
+    def numeric_time_to_obj(numeric_time):
+        return time(hour=numeric_time // 60, minute=numeric_time % 60)
 
 
 class Department(models.Model):
@@ -106,22 +169,27 @@ class Department(models.Model):
 
 
 class Course(models.Model):
+    # Fetched from KAIST Scholar DB
     old_code = models.CharField(max_length=10, db_index=True)
-    code_num = models.CharField(max_length=10, db_index=True, default = 'D')
     department = models.ForeignKey('Department', db_index=True)
     professors = models.ManyToManyField('Professor', db_index=True)
     type = models.CharField(max_length=12)
     type_en = models.CharField(max_length=36)
     title = models.CharField(max_length=100, db_index=True)
     title_en = models.CharField(max_length=200, db_index=True)
-    summury = models.CharField(max_length=4000, default = "")
 
+    # Updated by command update_course_summary
+    summury = models.CharField(max_length=4000, default="")
+
+    # Updated by command update_CourseCodeNum
+    code_num = models.CharField(max_length=10, db_index=True, default='D')
+
+    # Updated by view when comments are added/deleted/modified
     grade_sum = models.IntegerField(default=0)
     load_sum = models.IntegerField(default=0)
     speech_sum = models.IntegerField(default=0)
     total_sum = models.FloatField(default=0.0)
     comment_num = models.IntegerField(default=0)
-
     grade = models.FloatField(default=0.0)
     load = models.FloatField(default=0.0)
     speech = models.FloatField(default=0.0)
@@ -145,18 +213,19 @@ class Course(models.Model):
 
 
 class Professor(models.Model):
+    # Fetched from KAIST Scholar DB
     professor_name = models.CharField(max_length=100, db_index=True)
     professor_name_en = models.CharField(max_length=100, blank=True, null=True)
     professor_id = models.IntegerField()
     major = models.CharField(max_length=30)
     course_list = models.ManyToManyField('Course', db_index=True)
 
+    # Updated by view when comments are added/deleted/modified
     grade_sum = models.IntegerField(default=0)
     load_sum = models.IntegerField(default=0)
     speech_sum = models.IntegerField(default=0)
     total_sum = models.FloatField(default=0.0)
     comment_num = models.IntegerField(default=0)
-
     grade = models.FloatField(default=0.0)
     load = models.FloatField(default=0.0)
     speech = models.FloatField(default=0.0)

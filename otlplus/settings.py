@@ -54,6 +54,7 @@ INSTALLED_APPS = (
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -68,10 +69,10 @@ ROOT_URLCONF = 'otlplus.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'APP_DIRS': True,
         'DIRS': [
             os.path.join(BASE_DIR, 'templates'),
         ],
-        'APP_DIRS': False,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
@@ -79,10 +80,10 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
-                    
-	},
+        },
     },
 ]
+
 
 WSGI_APPLICATION = 'otlplus.wsgi.application'
 
@@ -102,6 +103,16 @@ DATABASES = {
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
 LANGUAGE_CODE = 'ko-KR'
+
+ugettext = lambda s: s
+LANGUAGES = (
+    ('ko', ugettext('Korean')),
+    ('en', ugettext('English')),
+)
+
+LOCALE_PATHS = (
+    os.path.join(BASE_DIR, 'locale'),
+)
 
 TIME_ZONE = 'Asia/Seoul'
 
@@ -136,6 +147,18 @@ AUTHENTICATION_BACKENDS = (
 )
 LOGIN_URL = '/session/login/'
 LOGOUT_URL = '/session/logout/'
+
+
+
+# Semester settings
+START_YEAR = 1900
+START_SEMESTER = 1
+CURRENT_YEAR = 2017
+CURRENT_SEMESTER = 3
+END_YEAR = 2017
+END_SEMESTER = 3
+
+
 
 try:
     from settings_local import *
