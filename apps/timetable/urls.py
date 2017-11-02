@@ -31,4 +31,5 @@ urlpatterns = [
     url(r'^api/wishlist_load/$', views.wishlist_load),
     url(r'^api/wishlist_update/$', views.wishlist_update),
     url(r'^api/share_image/$', views.share_image),
+    url(r'^api/share_calendar/$', views.share_calendar),
 ]
