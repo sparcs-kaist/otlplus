@@ -586,7 +586,7 @@ def comment_load(request):
 
 # Export OTL timetable to google calender
 @login_required_ajax
-def calendar(request):
+def share_calendar(request):
     user = request.user
     try:
         userprofile = UserProfile.objects.get(user=user)
