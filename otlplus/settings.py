@@ -22,10 +22,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 
 with open(os.path.join(BASE_DIR, 'keys/django_secret')) as f:
-        SECRET_KEY = f.read().strip()
+    SECRET_KEY = f.read().strip()
 
 with open(os.path.join(BASE_DIR, 'keys/sso_secret')) as f:
-        SSO_KEY = f.read().strip()
+    SSO_KEY = f.read().strip()
+
+GOOGLE_OAUTH2_CLIENT_SECRETS_JSON = os.path.join(BASE_DIR, 'keys/google_client_secrets.json')
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -118,6 +121,15 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+#  Semester INFO
+from datetime import date
+CURRENT_YEAR = 2017
+CURRENT_SEMESTER = 3
+SEMESTER_RANGES = {
+    (2017, 1): (date(2017, 2, 27), date(2017, 6, 16)),
+    (2017, 3): (date(2017, 8, 28), date(2017, 12, 15))
+}
 
 
 # Static files (CSS, JavaScript, Images)
