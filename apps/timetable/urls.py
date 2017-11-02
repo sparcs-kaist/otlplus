@@ -30,4 +30,7 @@ urlpatterns = [
     url(r'^api/list_load_humanity/$', views.list_load_humanity),
     url(r'^api/wishlist_load/$', views.wishlist_load),
     url(r'^api/wishlist_update/$', views.wishlist_update),
+    url(r'^api/share_image/$', views.share_image),
+    url(r'^api/share_calendar/$', views.share_calendar),
+    url(r'^google_auth_return/$', views.google_auth_return),
 ]

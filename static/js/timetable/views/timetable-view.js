@@ -1042,6 +1042,16 @@ function findLecture(lectures, id) {
         var block = $('#examtable').find('.exam-day[data-date="'+date+'"] .exam-day-body');
         block.html('');
       }
+
+      $('#small-buttons #image').attr('href', '/timetable/api/share_image/');
+      $('#small-buttons #calendar').attr('href', '/timetable/api/share_calendar/');
+    },
+
+    _setShareLink(timetable_id) {
+      $('#small-buttons #image').attr('href', '/timetable/api/share_image/?table_id='+timetable_id);
+      $('#small-buttons #calendar').attr('href', '/timetable/api/share_calendar/?table_id='+timetable_id
+                                              +'&year='+app.YearSemester.get('year')
+                                              +'&semester='+app.YearSemester.get('semester'));
     },
   })
 
@@ -1281,6 +1291,9 @@ function findLecture(lectures, id) {
 
       // Update active lecture
       app.LectureActive.trigger("change");
+
+      // Update share link
+      semesterInfoView._setShareLink(app.CurrentTimetable.get('id'));
     }
   })
 

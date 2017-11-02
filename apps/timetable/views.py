@@ -27,8 +27,9 @@ from django.utils.translation import ugettext as _
 from django.template import RequestContext
 from django.utils import translation
 from django.core.cache import cache
+from django.contrib.staticfiles.templatetags.staticfiles import static
 
-# For google calender
+# For google calendar
 from apiclient import discovery
 import oauth2client
 from oauth2client import client
@@ -45,6 +46,9 @@ import json
 import urllib
 import random
 import itertools
+
+# Pillow
+from PIL import Image, ImageDraw, ImageFont
 
 
 
@@ -580,25 +584,18 @@ def comment_load(request):
 
 
 
-# Export OTL timetable to google calender
+# Export OTL timetable to google calendar
 @login_required_ajax
-def calendar(request):
+def share_calendar(request):
     user = request.user
     try:
         userprofile = UserProfile.objects.get(user=user)
     except:
         return HttpResponseServerError("userprofile not found")
 
-    if reqeust.method != POST:
-        return HttpResposneNotAllowed()
-
-    if table_id not in request.POST or year not in request.POST or \
-       semester not in request.POST:
-        return HttpResponseBadRequest()
-
-    semester = request.POST['table_id']
-    year = request.POST['year']
-    semester = reuqest.POST['semester']
+    table_id = int(request.GET['table_id'])
+    year = int(request.GET['year'])
+    semester = int(request.GET['semester'])
 
     storage = DjangoORMStorage(UserProfile, 'user', request.user, 'google_credential')
     credential = storage.get()
@@ -606,103 +603,80 @@ def calendar(request):
     if credential is None or credential.invalid == True:
         FLOW.params['state'] = xsrfutil.generate_token(settings.SECRET_KEY,
                                                        request.user)
-        authorize_url = FLOW.step1_get_authorize_url()
+        authorize_url = FLOW.step1_get_authorize_url(redirect_uri = request.build_absolute_uri("/timetable/google_auth_return"))
         return HttpResponseRedirect(authorize_url)
 
     http = credential.authorize(httplib2.Http())
-    service = discovery.build('calender', 'v3', http=http)
+    service = discovery.build('calendar', 'v3', http=http)
 
-    calendar_name = "[OTL]" + str(user) + "'s calendar"
-    calendar = None
+    calendar_name = "[OTL] %d %s" % (year, ["Spring", "Summer", "Fall", "Winter"][semester-1])
 
-    # Get calender for otlplus
-    if userprofile.calendar_id is not None:
-        try:
-            calendar = service.calendars().get(calendarId=userprofile.calendar_id).execute()
-            if calendar is not None and calendar['summary'] != calendar_name:
-                calendar['summary'] = calendar_name
-                calendar = service.calendars().update(calendarId=calendar['id'], body=calendar).execute()
-        except:
-            print "fuct"
-    # Create new calender
-    else:
-        calendar = {
-            'summary': calendar_name,
-            'timeZone': 'Asia/Seoul'
-        }
-
-        created_calendar = service.calendars().insert(body=calendar).execute()
-        c_id = created_calendar['id']
-        userprofile.calender_id = created_calender['id']
-        userprofile.save()
-
-        # Customize Calendars
-        calendar_list = service.calendarList().get(calendarId=c_id).execute()
-        calendar_list['backgroundColor'] = '#004191'  # Kaist Dark Blue
-        calendar_list['defaultReminders'] = [{
+    # Create new calendar
+    calendar = {
+        'summary': calendar_name,
+        'timeZone': 'Asia/Seoul',
+        'defaultReminders': [{
             'method': 'popup',
             'minutes': 10
         }]
-        service.calendarList().update(calendarId=c_id).execute()
+    }
 
-        userprofile.calender_id = c_id
-        userprofile.save()
+    created_calendar = service.calendars().insert(body=calendar).execute()
+    c_id = created_calendar['id']
 
-    # Add calendar event
-    if calendar is None:
-        return HttpResponseServerError()
-    else:
-        # Find the right timetable
-        try:
-            timetable = TimeTable.objects.get(user=userprofile, table_id=table_id,
-                                                   year=year, semester=semester)
-            start = settings.SEMESTER_RANGES[(year,semester)][0]
-            end = settings.SEMESTER_RANGES[(year,semester)][1] + timedelta(days=1)
-        except:
-            return HttpResponseBadRequest()
+    # Find the right timetable
+    try:
+        timetable = TimeTable.objects.get(user=userprofile, id=table_id,
+                                          year=year, semester=semester)
+    except:
+        return HttpResponseBadRequest()
 
-        for lecture in timetable.lecture.all():
-            for classtime in ClassTime.objects.filter(lecture=lecture):
-                days_ahead = classtime.day - start.weekday()
-                if days_ahead < 0:
-                    days_ahead += 7
-                class_date = start + timedelta(days=days_ahead)
+    start = settings.SEMESTER_RANGES[(year,semester)][0]
+    end = settings.SEMESTER_RANGES[(year,semester)][1] + datetime.timedelta(days=1)
+ 
+    for lecture in timetable.lecture.all():
+        lDict = _lecture_to_dict(lecture)
 
-                event = {
-                    'summary': _trans(lecture.title, lecture.title_en, lang),
-                    'location': _trans(classtime.room_ko, classtime.room_en, lang) + " " + (classtime.room or ''),
-                    'start': {
-                        'dateTime' : datetime.combine(class_date, classtime.begin).isoformat(),
-                        'timeZone' : 'Asia/Seoul'
-                        },
-                    'end': {
-                        'dateTime' : atetime.combine(class_date, classtime.end).isoformat(),
-                        'timeZone' : 'Asia/Seoul'
-                        },
-                    'recurrence' : ['RRULE:FREQ=WEEKLY;UNTIL=' + end.strftime("%Y%m%d")]
-                }
+        for classtime in lDict['classtimes']:
+            days_ahead = classtime['day'] - start.weekday()
+            if days_ahead < 0:
+                days_ahead += 7
 
-                service.events().insert(calendar_id=c_id, body=event).execute()
+            class_date = start + datetime.timedelta(days=days_ahead)
+            begin_time = datetime.time(int(classtime['begin']/60),
+                                       int(classtime['begin']%60))
+            end_time = datetime.time(int(classtime['end']/60),
+                                     int(classtime['end']%60))
+
+            event = {
+                'summary': lDict['title'],
+                'location': classtime['classroom'],
+                'start': {
+                    'dateTime' : datetime.datetime.combine(class_date, begin_time).isoformat(),
+                    'timeZone' : 'Asia/Seoul'
+                    },
+                'end': {
+                    'dateTime' : datetime.datetime.combine(class_date, end_time).isoformat(),
+                    'timeZone' : 'Asia/Seoul'
+                    },
+                'recurrence' : ['RRULE:FREQ=WEEKLY;UNTIL=' + end.strftime("%Y%m%d")]
+            }
+
+            service.events().insert(calendarId=c_id, body=event).execute()
 
     return JsonResponse({'result': 'OK'})
 
 
 
-def _trans(ko_message, en_message, lang):
-    if en_message == None or lang == 'ko':
-        return ko_message
-    else:
-        return en_message
-
 @login_required
 def google_auth_return(request):
-    if not xsrfutil.validate_token(settings.SECRET_KEY, request.REQUEST['state'],
+    if not xsrfutil.validate_token(settings.SECRET_KEY, str(request.GET['state']),
                                    request.user):
         return HttpResponseBadRequest()
-    credential = FLOW.step2_exchange(request.REQUEST)
+    credential = FLOW.step2_exchange(request.GET)
     storage = DjangoORMStorage(UserProfile, 'user', request.user, 'google_credential')
     storage.put(credential)
-    return HttpResponseRedirect("/")
+    return HttpResponseRedirect("/timetable")
     # TODO: Add calendar entry
 
 
@@ -796,3 +770,106 @@ def wishlist_update(request):
     return JsonResponse({ 'success': True });
 
 
+def _rounded_rectangle(draw, points, radius, color):
+    draw.pieslice([points[0], points[1], points[0]+radius*2, points[1]+radius*2], 180, 270, color)
+    draw.pieslice([points[2]-radius*2, points[1], points[2], points[1]+radius*2], 270, 0, color)
+    draw.pieslice([points[2]-radius*2, points[3]-radius*2, points[2], points[3]], 0, 90, color)
+    draw.pieslice([points[0], points[3]-radius*2, points[0]+radius*2, points[3]], 90, 180, color)
+    draw.rectangle([points[0], points[1]+radius, points[2], points[3]-radius], color)
+    draw.rectangle([points[0]+radius, points[1], points[2]-radius, points[3]], color)
+
+
+
+def _sliceText(text, width, font):
+    sliced = []
+    slStart = 0
+
+    for i in range(len(text)):
+        if font.getsize(text[slStart:i+1])[0] > width:
+            sliced.append(text[slStart:i])
+            slStart = i
+    sliced.append(text[slStart:])
+
+    return sliced
+
+
+
+def _textbox(draw, points, title, prof, loc, titleFont, contentFont):
+
+    width = points[2] - points[0]
+    height = points[3] - points[1]
+
+    ts = _sliceText(title, width, titleFont)
+    ps = _sliceText(prof, width, contentFont)
+    ls = _sliceText(loc, width, contentFont)
+
+    sliced = []
+    textHeight = 0
+
+    for i in range(len(ts)+len(ps)+len(ls)):
+        if i == len(ts):
+            sliced.append(("", 4, contentFont, (0,0,0,153)))
+            textHeight += 4
+        elif i == len(ts)+len(ps):
+            sliced.append(("", 4, contentFont, (0,0,0,153)))
+            textHeight += 4
+
+        if i < len(ts):
+            sliced.append((ts[i], 26, titleFont, (0,0,0,204)))
+            textHeight += 26
+        elif i < len(ts)+len(ps):
+            sliced.append((ps[i-len(ts)], 24, contentFont, (0,0,0,153)))
+            textHeight += 24
+        else:
+            sliced.append((ls[i-len(ts)-len(ps)], 24, contentFont, (0,0,0,153)))
+            textHeight += 24
+
+        if textHeight > height:
+            textHeight -= sliced.pop()[1]
+            break
+
+    topPad = (height - textHeight) / 2 - 2
+
+    textPosition = 0
+    for s in sliced:
+        draw.text((points[0], points[1]+topPad+textPosition), s[0], fill=s[3], font=s[2])
+        textPosition += s[1]
+
+
+
+def share_image(request):
+    userprofile = UserProfile.objects.get(user=request.user)
+    table_id = request.GET['table_id']
+    timetable = TimeTable.objects.get(user=userprofile, id=table_id)
+
+    image = Image.open("static/img/Image_template.png")
+    draw = ImageDraw.Draw(image)
+    textImage = Image.new("RGBA", image.size)
+    textDraw = ImageDraw.Draw(textImage)
+    titleFont = ImageFont.truetype("static/fonts/NanumBarunGothic.ttf", 24)
+    contentFont = ImageFont.truetype("static/fonts/NanumBarunGothic.ttf", 22)
+
+    for l in timetable.lecture.all():
+        lDict = _lecture_to_dict(l)
+        color = ['#F2CECE','#F4AEAE','#F2BCA0','#F1D6B2',
+                 '#F1E1A9','#f4f2b3','#dbf4be','#beedd7',
+                 '#b7e2de','#c9eaf4','#b4c9ed','#b4bbef',
+                 '#c4c3e5','#bcabef','#e1caef','#f4badb'][lDict['course']%16]
+        for c in lDict['classtimes']:
+            day = c['day']
+            begin = c['begin'] / 30 - 16
+            end = c['end'] / 30 - 16
+
+            points = (222*day+66, 44*begin+150, 222*(day+1)+59, 44*end+143)
+            _rounded_rectangle(draw, points, 4, color)
+
+            points = (points[0]+14, points[1]+6, points[2]-14, points[3]-6)
+            _textbox(textDraw, points, lDict['title'], lDict['professor'], c['classroom_short'], titleFont, contentFont)
+
+    #image.thumbnail((600,900))
+
+    image.paste(textImage, mask=textImage)
+    response = HttpResponse(content_type="image/png")
+    image.save(response, 'PNG')
+
+    return response
