@@ -22,6 +22,10 @@ class Comment(models.Model):
     def __unicode__(self):
         return u"%s(%s)"%(self.lecture,self.writer)
 
+    def alphabet_score(self):
+        d = ['?', 'F', 'D', 'C', 'B', 'A']
+        return (d[self.grade], d[self.load], d[self.speech], d[int(round(self.total))])
+
     @classmethod
     def u_create(cls, course, lecture, comment, grade, load, speech, writer):
         professors = lecture.professor.all()

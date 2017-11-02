@@ -22,9 +22,10 @@ $('.logout').click(function() {
 });
 
 $('#unregister').click(function() {
-    if (confirm("정말로 OTLPLUS에서 탈퇴하시겠습니까?\n\n" +
-            "* SPARCS SSO는 회원 탈퇴 되지 않습니다.\n*" +
-            " 탈퇴 후 60일이 지나야 재가입이 가능합니다.")) {
+    if (confirm("정말로 OTL+ 서비스를 SSO 계정에서 해지하시겠습니까?\n\n" +
+            "* 주의: SPARCS SSO는 회원 탈퇴 되지 않고 그대로 유지됩니다.\n*" +
+            " 재등록을 위해서는 같은 SSO 아이디로 OTL+ 로그인을 시도하시면 됩니다.\n*"+
+            " 탈퇴 후 60일이 지나야 OTL+ 재등록이 가능합니다.")) {
         $.ajax({
             'method' : 'POST',
             'url' : '/session/unregister/',

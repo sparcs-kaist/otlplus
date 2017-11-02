@@ -11,17 +11,7 @@ var app = app || {};
   var Timetables = Backbone.Collection.extend({
     // Reference to this collection's model.
     model: app.Timetable,
-    url: '/media/js/timetable/timetable1.json',
-
-    getUserLectures: function() {
-      var self = this;
-      this.fetch({
-        success: function() {
-          self.trigger("successOnFetch");
-        }
-      });
-    }
-
+    url: '/timetable/api/table_load/',
   });
 
   // Create

@@ -12,23 +12,27 @@ import sys, getpass, re
 import pyodbc
 import datetime
 
+
 class Command(BaseCommand):
-    def add_arguments(self,parser): # from Django 1.10, we don't use OptionParser! So I changed it to ArgumentParser 
+    def add_arguments(self,parser):  # from Django 1.10, we don't use OptionParser! So I changed it to ArgumentParser
         parser.add_argument('--host', dest='host', help=u'Specifies server address.')
         parser.add_argument('--port', dest='port', help=u'Specifies server port.')
         parser.add_argument('--user', dest='user', help=u'Specifies user name to log in.')
         parser.add_argument('--password', dest='password', help=u'Specifies passowrd to log in.')
         parser.add_argument('--encoding', dest='encoding', help=u'Sepcifies character encoding to decode strings from database. (default is cp949)', default='cp949')
         parser.add_argument('--exclude-lecture', action='store_true', dest='exclude_lecture', help=u'Don\'t update lecture information when you want to update time information only.', default=False)
+        parser.add_argument('--year', dest='year', type=int)
+        parser.add_argument('--semester', dest='semester', type=int)
         help = u'Imports KAIST scholar database.'
         args = u'--host=143.248.X.Y:PORT --user=USERNAME'
         
     def handle(self, *args, **options):
-        next_year = datetime.datetime.now().year
-        next_semester = ((datetime.datetime.now().month+9)%12)/3+1
-        if next_semester > 4:
-            next_year +=1
-            next_semester = next_semester % 4
+        if options['year']!=None and options['semester']!=None:
+            next_year = options['year']
+            next_semester = options['semester']
+        else:
+            next_year = settings.CURRENT_YEAR
+            next_semester = settings.CURRENT_SEMESTER
 
         rx_dept_code = re.compile(ur'([a-zA-Z]+)(\d+)')
         host = options.get('host', None)
@@ -64,7 +68,7 @@ class Command(BaseCommand):
             departments = {}
             lectures_not_updated = set()
 
-            for lecture in Lecture.objects.filter(year = next_year, semester = next_semester):
+            for lecture in Lecture.objects.filter(year=next_year, semester=next_semester):
                 lectures_not_updated.add(lecture.id)
             # Make Staff Professor with ID 830
             try:
@@ -83,7 +87,7 @@ class Command(BaseCommand):
                         try:
                             elem = elem.decode(encoding)
                         except UnicodeDecodeError:
-                            eleme = u'%s (???)' % row[20]
+                            elem = u'%s (???)' % row[20]
                             print>>sys.stderr, 'ERROR: parsing error on lecture %s' % row[20]
                             print>>sys.stderr, '       cannot read "%s" in cp949.' % elem
                     myrow.append(elem)
@@ -260,13 +264,19 @@ class Command(BaseCommand):
         c = db.cursor()
         c.execute('SELECT * FROM view_OTL_exam_time WHERE lecture_year = %d AND lecture_term = %d' % (next_year, next_semester))
         exam_times = c.fetchall()
+        print exam_times
         c.close()
         ExamTime.objects.filter(lecture__year__exact=next_year, lecture__semester=next_semester).delete()
         for row in exam_times:
+            print row
             myrow = []
             for elem in row:
                 if isinstance(elem, str):
-                    elem = elem.decode(encoding)
+                    try:
+                        elem = elem.decode(encoding)
+                    except UnicodeDecodeError:
+                        elem = u'???'
+                        print>> sys.stderr, 'ERROR: parsing error on lecture. cannot read in cp949.'
                 myrow.append(elem)
             lecture_key = {
                 'code': myrow[2],
@@ -286,30 +296,35 @@ class Command(BaseCommand):
             except Lecture.DoesNotExist:
                 print 'Exam-time for non-existing lecture %s; skip it...' % myrow[2]
 
-
-        
-        # Extract class-time.
+        # Extract class time.
         
         print 'Extracting class time information...'
         c = db.cursor()
         c.execute('SELECT * FROM view_OTL_time WHERE lecture_year = %d AND lecture_term = %d' % (next_year, next_semester))
         class_times = c.fetchall()
+        # print class_times
         c.close()
         ClassTime.objects.filter(lecture__year__exact=next_year, lecture__semester=next_semester).delete()
         for row in class_times:
+            print row
             myrow = []
             for elem in row:
                 if isinstance(elem, str):
-                    elem = elem.decode(encoding)
+                    try:
+                        elem = elem.decode(encoding)
+                    except UnicodeDecodeError:
+                        elem = u'???'
+                        print>> sys.stderr, 'ERROR: parsing error on lecture. cannot read in cp949.'
                 myrow.append(elem)
             lecture_key = {
                 'code': myrow[2],
                 'year': int(myrow[0]),
                 'semester': int(myrow[1]),
-                'department': Department.objects.filter(id = int(myrow[4]))[0],
+                'department': Department.objects.filter(id=int(myrow[4]))[0],
                 'class_no': myrow[3].strip(),
             }
             try:
+                print (myrow)
                 lecture = Lecture.objects.get(**lecture_key)
                 class_time = ClassTime(lecture=lecture)
                 class_time.day = int(myrow[5]) - 1
@@ -317,9 +332,9 @@ class Command(BaseCommand):
                 class_time.end = time(hour=myrow[7].hour, minute=myrow[7].minute)
                 class_time.type = myrow[8]
                 class_time.building = myrow[9]
-                class_time.room = myrow[10]
-                class_time.room_ko = myrow[12]
-                class_time.room_en = myrow[13]
+                class_time.roomNum = myrow[10]
+                class_time.roomName = myrow[12]
+                class_time.roomName_en = myrow[13]
                 try:
                     class_time.unit_time = int(myrow[11])
                 except (ValueError, TypeError):

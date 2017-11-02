@@ -127,15 +127,26 @@ def search_view_first_again(request):
         "튜토리얼의 협곡에 오신 것을 환영합니다.",
         "안뇽! 튜토리얼에 온 걸...화녕행!!!!",
         "안녕! 친구들! 튜토리얼이 왔어!",
-        "튜토리얼이 진다..",
+        "그대의 튜토리얼은 그대 스스로 클릭한 것이다.",
+        "첫사랑이었다. 저 제비꽃같은 튜토리얼이 첫사랑이었다.",
+        "너의 이름은? 튜토리얼! 나의 이름은 튜토리얼!",
+        "그것도 무스..튜토리얼!",
         "어서 와요! 꽤 보고싶었다구요?",
         "아이고, 이게 누구신가!",
+        "줄곧 무언가를, 누군가를 찾고 있다.",
+        "첫 튜토리얼이 끝나고, 당신이 없는 시간을 견뎠습니다.",
+        "튜토리얼이 끝나도 절대 잊지 않도록 이름을 써주세요.",
+        "우리는 만나면 바로 알아볼거야!"
             ]
     return render(request, 'review/tutorial-main-2.html', {'hello_message': drugs[random.randint(0, len(drugs)-1)],})
 
 
 def search_view_first2(request):
     return render(request, 'review/tutorial-sparcssso.html')
+
+
+def search_view_first2_auth(request):
+    return render(request, 'review/tutorial-sparcssso-auth.html')
 
 
 def search_view_first3(request):
@@ -224,7 +235,7 @@ def SearchCourse(course,id=-1):
             total_sum = sum(i.total_sum for i in lectures)
             comment_num = sum(i.comment_num for i in lectures)
             grade, load, speech, total = CalcAvgScore(grade_sum, load_sum, speech_sum, total_sum, comment_num)
-            score = {"grade":grade, "load":load, "speech":speech, "total":total,}
+            score = {"grade":int(round(grade)), "load":int(round(load)), "speech":int(round(speech)), "total":int(round(total)),}
 
         prof_info.append({
             "name" : name_string,
@@ -310,7 +321,7 @@ def SearchProfessor(professor,id=-1):
             total_sum = sum(i.total_sum for i in lectures)
             comment_num = sum(i.comment_num for i in lectures)
             grade, load, speech, total = CalcAvgScore(grade_sum, load_sum, speech_sum, total_sum, comment_num)
-            score = {"grade":grade, "load":load, "speech":speech, "total":total,}
+            score = {"grade":int(round(grade)), "load":int(round(load)), "speech":int(round(speech)), "total":int(round(total)),}
 
             """
             grade = int(round(lecture.grade))
@@ -320,21 +331,28 @@ def SearchProfessor(professor,id=-1):
             score = {"grade":grade, "load":load, "speech":speech, "total":total,}
             """
 
+    try:
+        if len(professor.major) > 0:
+            major = Department.objects.get(id = professor.major).name
+        else:
+            major = u"정보 없음"
+    except Department.DoesNotExist:
+        major = u"정보 없음"
 
-    result={
-        "type":"professor",
-        "id":professor.id,
-        "title":professor.professor_name,
-        "prof_info":lecture_list,
-        "gradelist":gradelist,
-        "major":Department.objects.get(id = professor.major).name,
-        "score":score,
+    result = {
+        "type": "professor",
+        "id": professor.id,
+        "title": professor.professor_name,
+        "prof_info": lecture_list,
+        "gradelist": gradelist,
+        "major": major,
+        "score": score,
     }
     return result
 
 
 def Expectations(keyword):
-    if not keyword :
+    if not keyword:
         return
     expectations=[]
     expect_prof=[]
@@ -368,20 +386,20 @@ def SearchResultView(request):
     type_filters = TypeFilters(request.GET.getlist('type'))
     grade_filters = GradeFilters(request.GET.getlist('grade'))
     courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters, keyword)
-    if 'sort' in request.GET :
-        if request.GET['sort']=='name':
+    if 'sort' in request.GET:
+        if request.GET['sort'] == 'name':
             courses = courses.order_by('title','old_code')
-        elif request.GET['sort']=='total':
+        elif request.GET['sort'] == 'total':
             courses = courses.order_by('-total','old_code')
-        elif request.GET['sort']=='grade':
+        elif request.GET['sort'] == 'grade':
             courses = courses.order_by('-grade','old_code')
-        elif request.GET['sort']=='load':
+        elif request.GET['sort'] == 'load':
             courses = courses.order_by('-load','old_code')
-        elif request.GET['sort']=='speech':
+        elif request.GET['sort'] == 'speech':
             courses = courses.order_by('-speech','old_code')
         else:
             courses = courses.order_by('old_code')
-    else :
+    else:
         courses = courses.order_by('old_code')
 
     if len(keyword)>0:
@@ -616,6 +634,7 @@ def ReviewInsertView(request,lecture_id=-1,semester=0):
         return render(request, 'review/error.html',ctx)
     lecture_list = user_profile.take_lecture_list.all()
     if len(lecture_list) == 0:
+        print user_profile.student_id
         return render(request, 'review/error.html',ctx)
     recent_semester=0
     semesters=[]
@@ -714,8 +733,11 @@ def ReviewInsertAdd(request,lecture_id,semester):
     course = lecture.course
     comment = request.POST['content'] # 항목 선택 안했을시 반응 추가 요망 grade, load도
     grade = 6-int(request.POST['gradescore'])
+    if not 0<=grade<=5: grade=0
     load = 6-int(request.POST['loadscore'])
+    if not 0<=load<=5: load=0
     speech = 6-int(request.POST['speechscore'])
+    if not 0<=speech<=5: speech=0
     total = (grade+load+speech)/3.0
     writer = user_profile #session 완성시 변경
 
@@ -784,10 +806,13 @@ def LastCommentView(request):
 
 def LastCommentView_json(request, page=-1):
 
-    if request.GET.getlist('filter') == "F":
+    if request.GET.getlist('filter') == [u"F"]:
         if request.user.is_authenticated():
             user_profile = UserProfile.objects.get(user=request.user)
-            department_filters = DepartmentFilters(user_profile.favorite_departments.all())
+            favorite_departments_code = []
+            for department in user_profile.favorite_departments.all():
+                favorite_departments_code.append(department.code)
+            department_filters = DepartmentFilters(favorite_departments_code)
         else:
             department_filters = []
     else:
