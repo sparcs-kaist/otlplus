@@ -62,34 +62,28 @@ class Command(BaseCommand):
         db.close()
 
         for a in user_dept:
+            user = UserProfile.objects.filter(student_id=a[0])
             try:
-                user = UserProfile.objects.get(student_id=a[0])
                 dept = Department.objects.get(id=a[1])
             except ObjectDoesNotExist:
-                continue
-            except MultipleObjectsReturned:
-                print("Multipe UserProfile for student number %d" % (a[0]))
+                if len(user)>0:
+                    print("No department with id %d\n%s" % (a[1], a))
                 continue
 
-            user.department = dept
-            user.save()
+            for u in user:
+                u.department = dept
+                u.save()
         
         for a in user_major_minor:
-            try:
-                user = UserProfile.objects.get(student_id=a[0])
-            except ObjectDoesNotExist:
-                continue
-            except MultipleObjectsReturned:
-                print("Multiple UserProfile for student number %d" % (a[0]))
-                continue
-
+            user = UserProfile.objects.filter(student_id=a[0])
             dept = Department.objects.filter(name=a[2].decode("cp949"))
 
-            for d in dept:
-                if a[1].decode('cp949') == u"부전공신청":
-                    user.minors.add(d)
-                elif a[1].decode('cp949') == u"복수전공신청":
-                    user.majors.add(d)
-                else:
-                    print("Major/minor type not matching : " % (a.decode('cp959')))
+            for u in user:
+                for d in dept:
+                    if a[1].decode('cp949') == u"부전공신청":
+                        u.minors.add(d)
+                    elif a[1].decode('cp949') == u"복수전공신청":
+                        u.majors.add(d)
+                    else:
+                        print("Major/minor type not matching : " % (a.decode('cp959')))
 
