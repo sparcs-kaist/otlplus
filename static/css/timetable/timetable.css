@@ -1076,6 +1076,11 @@ i
 {
 	background-image: url(/media/icons/semester_prev_hover.svg);
 }
+#semester-prev.disable
+{
+    pointer-events: none;
+    background-image: url(/media/icons/semester_prev_disable.svg);
+}
 
 #semester-next
 {
@@ -1088,6 +1093,11 @@ i
 #semester-next:hover
 {
 	background-image: url(/media/icons/semester_next_hover.svg);
+}
+#semester-next.disable
+{
+    pointer-events: none;
+    background-image: url(/media/icons/semester_next_disable.svg);
 }
 
 
