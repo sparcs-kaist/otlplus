@@ -127,6 +127,22 @@ from datetime import date
 CURRENT_YEAR = 2017
 CURRENT_SEMESTER = 3
 SEMESTER_RANGES = {
+    (2009, 1): (date(2009, 2, 2), date(2009, 5, 22)),
+    (2009, 3): (date(2009, 9, 1), date(2009, 12, 21)),
+    (2010, 1): (date(2010, 2, 1), date(2010, 5, 21)),
+    (2010, 3): (date(2010, 9, 1), date(2010, 12, 21)),
+    (2011, 1): (date(2011, 2, 7), date(2011, 5, 27)),
+    (2011, 3): (date(2011, 9, 1), date(2011, 12, 21)),
+    (2012, 1): (date(2012, 2, 6), date(2012, 5, 25)),
+    (2012, 3): (date(2012, 9, 1), date(2012, 12, 21)),
+    (2013, 1): (date(2013, 3, 2), date(2013, 6, 21)),
+    (2013, 3): (date(2013, 9, 2), date(2013, 12, 20)),
+    (2014, 1): (date(2014, 3, 3), date(2014, 6, 20)),
+    (2014, 3): (date(2014, 9, 1), date(2014, 12, 19)),
+    (2015, 1): (date(2017, 2, 27), date(2017, 6, 16)),
+    (2015, 3): (date(2017, 8, 28), date(2017, 12, 15)),
+    (2016, 1): (date(2017, 2, 27), date(2017, 6, 16)),
+    (2016, 3): (date(2017, 8, 28), date(2017, 12, 15)),
     (2017, 1): (date(2017, 2, 27), date(2017, 6, 16)),
     (2017, 3): (date(2017, 8, 28), date(2017, 12, 15))
 }
@@ -147,16 +163,6 @@ AUTHENTICATION_BACKENDS = (
 )
 LOGIN_URL = '/session/login/'
 LOGOUT_URL = '/session/logout/'
-
-
-
-# Semester settings
-START_YEAR = 1900
-START_SEMESTER = 1
-CURRENT_YEAR = 2017
-CURRENT_SEMESTER = 3
-END_YEAR = 2017
-END_SEMESTER = 3
 
 
 
