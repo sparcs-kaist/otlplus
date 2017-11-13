@@ -334,16 +334,7 @@ def _user_department(user):
 
 
 def _validate_year_semester(year, semester):
-    if semester!=1 and semester!=3:
-        return False
-
-    start_c = settings.START_YEAR * 4 + settings.START_SEMESTER
-    end_c = settings.END_YEAR * 4 + settings.END_YEAR
-    given_c = year * 4 + semester
-    if given_c<start_c or given_c>end_c:
-        return False
-
-    return True
+    return (year, semester) in settings.SEMESTER_RANGES
 
 
 
