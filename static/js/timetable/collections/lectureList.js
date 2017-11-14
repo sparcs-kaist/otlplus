@@ -14,7 +14,16 @@ var app = app || {};
 
     comparator: function(item) {
       return [item.get('old_code'), item.get('class_no')];
-    }
+    },
+
+    fetch: function(options) {
+      if (this._prevFetch != undefined &&
+          this._prevFetch.readyState > 0 &&
+          this._prevFetch.readyState < 4) {
+        this._prevFetch.abort();
+      }
+      return this._prevFetch = Backbone.Collection.prototype.fetch.call(this, options);
+    },
   });
 
   // Create
