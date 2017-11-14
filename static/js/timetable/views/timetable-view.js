@@ -1569,6 +1569,7 @@ function findLecture(lectures, id) {
       timetableView._removeAllBlocks();
       semesterInfoView._removeInfo();
       app.LectureActive.set({'type': 'none'});
+      app.SearchKeyword._abortSave();
     }
   })
 })(jQuery);
