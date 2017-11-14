@@ -334,16 +334,7 @@ def _user_department(user):
 
 
 def _validate_year_semester(year, semester):
-    if semester!=1 and semester!=3:
-        return False
-
-    start_c = settings.START_YEAR * 4 + settings.START_SEMESTER
-    end_c = settings.END_YEAR * 4 + settings.END_YEAR
-    given_c = year * 4 + semester
-    if given_c<start_c or given_c>end_c:
-        return False
-
-    return True
+    return (year, semester) in settings.SEMESTER_RANGES
 
 
 
@@ -353,9 +344,17 @@ def main(request):
     else:
         departments = [{'code':'Basic', 'name':'기초 과목'}]
 
+    year_semester_list = [x for x in settings.SEMESTER_RANGES]
+    year_semester_list.sort(key=lambda x: x[1])
+    year_semester_list.sort(key=lambda x: x[0])
+
     return render(request,'timetable/index.html', {'departments': departments,
-                                                   'year':settings.CURRENT_YEAR,
-                                                   'semester':settings.CURRENT_SEMESTER})
+                                                   'current_year':settings.CURRENT_YEAR,
+                                                   'current_semester':settings.CURRENT_SEMESTER,
+                                                   'start_year':year_semester_list[0][0],
+                                                   'start_semester':year_semester_list[0][1],
+                                                   'end_year':year_semester_list[-1][0],
+                                                   'end_semester':year_semester_list[-1][1],})
 
 
 
