@@ -156,10 +156,10 @@
 			</div>
                         <div id="semester">
 				<i id="semester-prev"></i>
-				{% if semester == 1 %}
-				<span id="semester-text">{{year}} {% trans "봄" %}</span>
-				{% elif semester == 3 %}
-				<span id="semester-text">{{year}} {% trans "가을" %}</span>
+				{% if current_semester == 1 %}
+				<span id="semester-text">{{current_year}} {% trans "봄" %}</span>
+				{% elif current_semester == 3 %}
+				<span id="semester-text">{{current_year}} {% trans "가을" %}</span>
 				{% endif %}
 				<i id="semester-next"></i>
                         </div>
@@ -714,6 +714,10 @@
 
 {% block javascripts %}
 <script type="text/javascript">
-app.YearSemester.set({year:{{year}}, semester:{{semester}} });
+yearSemesterView.start_year = {{start_year}};
+yearSemesterView.start_semester = {{start_semester}};
+yearSemesterView.end_year = {{end_year}};
+yearSemesterView.end_semester = {{end_semester}};
+app.YearSemester.set({year:{{current_year}}, semester:{{current_semester}} });
 </script>
 {% endblock %}

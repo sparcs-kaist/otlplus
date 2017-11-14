@@ -1549,6 +1549,19 @@ function findLecture(lectures, id) {
     },
 
     semesterChange: function(e) {
+      var year = app.YearSemester.get('year');
+      var semester = app.YearSemester.get('semester');
+
+      if (year==this.start_year && semester==this.start_semester)
+        $(this.el).find("#semester-prev").addClass("disable");
+      else
+        $(this.el).find("#semester-prev").removeClass("disable");
+
+      if (year==this.end_year && semester==this.end_semester)
+        $(this.el).find("#semester-next").addClass("disable");
+      else
+        $(this.el).find("#semester-next").removeClass("disable");
+
       lectureListView._fetchLists(app.YearSemester.get('year'),
                                   app.YearSemester.get('semester'));
       timetableTabView._fetchTab(app.YearSemester.get('year'),
