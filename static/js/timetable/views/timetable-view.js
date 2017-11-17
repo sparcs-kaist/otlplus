@@ -1047,7 +1047,7 @@ function findLecture(lectures, id) {
       $('#small-buttons #calendar').attr('href', '/timetable/api/share_calendar/');
     },
 
-    _setShareLink(timetable_id) {
+    _setShareLink: function(timetable_id) {
       $('#small-buttons #image').attr('href', '/timetable/api/share_image/?table_id='+timetable_id);
       $('#small-buttons #calendar').attr('href', '/timetable/api/share_calendar/?table_id='+timetable_id
                                               +'&year='+app.YearSemester.get('year')
