@@ -1,13 +1,3 @@
-#header
-{
-    margin-left:calc(50vw - 40vh - 190.5px) !important;
-}
-
-#header > ul > li:first-child > a
-{
-    padding-left:0px;
-}
-
 #content
 {
     margin-top: 50px;
