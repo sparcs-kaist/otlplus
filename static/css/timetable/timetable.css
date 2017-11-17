@@ -1765,6 +1765,7 @@ i
 	padding-top:10px;
     font-size:0px;
     display:flex;
+    display:none !important;
     justify-content:space-between;
 }
 
