@@ -68,9 +68,6 @@ def GradeFilters(raw_filters):
 
 
 def search_view(request):
-    if not request.session.get('visited'):
-        request.session['visited'] = True
-        return HttpResponseRedirect("/tutorial/")
     if request.user.is_authenticated():
         user_profile = UserProfile.objects.get(user=request.user)
         if len(user_profile.language) == 0:
@@ -115,47 +112,6 @@ def search_view(request):
     }
 
     return render(request, 'review/search.html',ctx)
-
-
-def search_view_first(request):
-    return render(request, 'review/tutorial-main.html')
-
-
-def search_view_first_again(request):
-    drugs = [
-        "하하! 다시보니 반갑군요!",
-        "튜토리얼의 협곡에 오신 것을 환영합니다.",
-        "안뇽! 튜토리얼에 온 걸...화녕행!!!!",
-        "안녕! 친구들! 튜토리얼이 왔어!",
-        "그대의 튜토리얼은 그대 스스로 클릭한 것이다.",
-        "첫사랑이었다. 저 제비꽃같은 튜토리얼이 첫사랑이었다.",
-        "너의 이름은? 튜토리얼! 나의 이름은 튜토리얼!",
-        "그것도 무스..튜토리얼!",
-        "어서 와요! 꽤 보고싶었다구요?",
-        "아이고, 이게 누구신가!",
-        "줄곧 무언가를, 누군가를 찾고 있다.",
-        "첫 튜토리얼이 끝나고, 당신이 없는 시간을 견뎠습니다.",
-        "튜토리얼이 끝나도 절대 잊지 않도록 이름을 써주세요.",
-        "우리는 만나면 바로 알아볼거야!"
-            ]
-    return render(request, 'review/tutorial-main-2.html', {'hello_message': drugs[random.randint(0, len(drugs)-1)],})
-
-
-def search_view_first2(request):
-    return render(request, 'review/tutorial-sparcssso.html')
-
-
-def search_view_first2_auth(request):
-    return render(request, 'review/tutorial-sparcssso-auth.html')
-
-
-def search_view_first3(request):
-    return render(request, 'review/tutorial-write.html')
-
-
-def search_view_first4(request):
-    return render(request, 'review/tutorial-comeagain.html')
-#####################################################################################################
 
 
 def isKorean(word):
