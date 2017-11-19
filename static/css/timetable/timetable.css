@@ -827,13 +827,12 @@ i
 			align-items: center;
 	text-align:right;
     border-top:1px solid #C9C9C9;
-    padding:5px 0px 5px 0px;
     pointer-events:none;
 }
 .list-elem-body-wrap.click .list-elem-body
 {
     border-top-width:0px;
-    padding-bottom:4px;
+    margin-bottom:-1px;
 }
 
 .list-elem-body-text
@@ -843,6 +842,8 @@ i
             flex:1;
 	text-align:left;
     margin-bottom: -2px;
+    padding-top:5px;
+    padding-bottom:5px;
 }
 
 .class-title
@@ -868,65 +869,90 @@ i
 
 .add-to-cart
 {
-	background:url(/media/icons/add_cart.svg) no-repeat center center;
-	width:12px;
-	height:13px;
-	display:inline-block;
-	vertical-align:top;
-	margin-left:6px;
+    display:inline-block;
+    vertical-align:top;
     pointer-events:auto;
-}
-.add-to-cart:hover
-{
-	background-image:url(/media/icons/add_cart_hover.svg);
-	cursor:pointer;
+    cursor:pointer;
+    padding:5px 3px 5px 6px;
 }
 .add-to-cart.disable
 {
-    background-image:url(/media/icons/add_cart_disabled.svg);
     pointer-events:none;
+}
+
+.add-to-cart > i
+{
+	background:url(/media/icons/add_cart.svg) no-repeat center center;
+	width:12px;
+	height:13px;
+    display:block;
+}
+.add-to-cart:hover > i
+{
+	background-image:url(/media/icons/add_cart_hover.svg);
+}
+.add-to-cart.disable > i
+{
+    background-image:url(/media/icons/add_cart_disabled.svg);
 }
 
 .add-to-table
 {
+    display:inline-block;
+    vertical-align:top;
+    pointer-events:auto;
+    cursor:pointer;
+    padding:6px 10px 6px 3px;
+    margin-right: -10px;
+}
+.add-to-cart.disable
+{
+    pointer-events:none;
+}
+
+.add-to-table > i
+{
 	background:url(/media/icons/add_lecture.svg) no-repeat center center;
 	width:9px;
 	height:11px;
-	display:inline-block;
-	vertical-align:top;
-	margin-left:6px;
-    pointer-events:auto;
+    display:block;
 }
-.add-to-table:hover
+.add-to-table:hover > i
 {
 	background-image:url(/media/icons/add_lecture_hover.svg);
-	cursor:pointer;
 }
-.add-to-table.disable
+.add-to-table.disable > i
 {
     background-image:url(/media/icons/add_lecture_disabled.svg);
-    pointer-events:none;
 }
 
 .delete-from-cart
 {
-	background:url(/media/icons/delete_cart.svg) no-repeat center center;
-	width:12px;
-	height:13px;
-	display:inline-block;
-	vertical-align:top;
-	margin-left:6px;
+    display:inline-block;
+    vertical-align:top;
     pointer-events:auto;
-}
-.delete-from-cart:hover
-{
-	background-image:url(/media/icons/delete_cart_hover.svg);
-	cursor:pointer;
+    cursor:pointer;
+    padding:5px 3px 5px 6px;
 }
 .delete-from-cart.disable
 {
-    background-image:url(/media/icons/delete_cart_disabled.svg);
     pointer-events:none;
+}
+
+.delete-from-cart > i
+{
+	background:url(/media/icons/delete_cart.svg) no-repeat center center;
+	width:12px;
+	height:13px;
+    display:block;
+}
+.delete-from-cart:hover > i
+{
+	background-image:url(/media/icons/delete_cart_hover.svg);
+}
+.delete-from-cart.disable > i
+{
+    background-image:url(/media/icons/delete_cart_disabled.svg);
 }
 
 
