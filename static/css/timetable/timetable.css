@@ -1085,44 +1085,69 @@ i
 	font-size:11px;
 	line-height:10px;
 	border-radius:6px;
-	padding:6px 7px 5px 7px;
 	box-shadow:0 3px 0 0 #F3BEC6;
 	text-align:center;
 }
 
+#semester-text
+{
+    padding:6px 0 5px 0;
+    display:inline-block;
+}
+
 #semester-prev
 {
-	background: url(/media/icons/semester_prev.svg) no-repeat center center;
-	float:left;
-	width:6px;
-	height:10px;
-	cursor:pointer;
-}
-#semester-prev:hover
-{
-	background-image: url(/media/icons/semester_prev_hover.svg);
+    padding:6px 2px 5px 7px;
+    display:inline-block;
+    float:left;
+    cursor:pointer;
 }
 #semester-prev.disable
 {
     pointer-events: none;
-    background-image: url(/media/icons/semester_prev_disable.svg);
 }
 
 #semester-next
 {
-	background: url(/media/icons/semester_next.svg) no-repeat center center;
-	float:right;
-	width:6px;
-	height:10px;
-	cursor:pointer;
-}
-#semester-next:hover
-{
-	background-image: url(/media/icons/semester_next_hover.svg);
+    padding:6px 7px 5px 2px;
+    display:inline-block;
+    float:right;
+    cursor:pointer;
 }
 #semester-next.disable
 {
     pointer-events: none;
+}
+
+#semester-prev > i
+{
+	background: url(/media/icons/semester_prev.svg) no-repeat center center;
+	width:6px;
+	height:10px;
+    display:block;
+}
+#semester-prev:hover > i
+{
+	background-image: url(/media/icons/semester_prev_hover.svg);
+}
+#semester-prev.disable > i
+{
+    background-image: url(/media/icons/semester_prev_disable.svg);
+}
+
+#semester-next > i
+{
+	background: url(/media/icons/semester_next.svg) no-repeat center center;
+	width:6px;
+	height:10px;
+    display:block;
+}
+#semester-next:hover > i
+{
+	background-image: url(/media/icons/semester_next_hover.svg);
+}
+#semester-next.disable > i
+{
     background-image: url(/media/icons/semester_next_disable.svg);
 }
 
