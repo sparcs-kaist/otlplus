@@ -155,13 +155,13 @@
 				<div class="timetable-tab" style="pointer-events:none;"><span class="timetable-num">불러오는 중</span></div>
 			</div>
                         <div id="semester">
-				<i id="semester-prev"></i>
+				<div id="semester-prev"><i></i></div>
 				{% if current_semester == 1 %}
 				<span id="semester-text">{{current_year}} {% trans "봄" %}</span>
 				{% elif current_semester == 3 %}
 				<span id="semester-text">{{current_year}} {% trans "가을" %}</span>
 				{% endif %}
-				<i id="semester-next"></i>
+				<div id="semester-next"><i></i></div>
                         </div>
 		</div>
 		<div id="timetable">
@@ -540,7 +540,7 @@
 
 <script type="text/template" id="timetable-lecture-template">
   <div class="lecture-block color<%- color %> <% if (temp) {%>lecture-block-temp active<% } %>" data-size="<%- cells %>" data-id="<%- id %>">
-    <i class="lecture-delete"></i>
+    <div class="lecture-delete"><i></i></div>
     <div class="lecture-block-content">
       <p class="timetable-lecture-name"><%- title %></p>
       <p class="timetable-lecture-info"><%- professor %></p>
@@ -572,11 +572,11 @@
       	  </span>
          </div>
          <% if (!cart) { %>
-         <i class="add-to-cart"></i>
+         <div class="add-to-cart"><i></i></div>
          <% } else { %>
-         <i class="delete-from-cart"></i>
+         <div class="delete-from-cart"><i></i></div>
          <% } %>
-         <i class="add-to-table"></i>
+         <div class="add-to-table"><i></i></div>
       </div>
     </div>
     <% }); %>
@@ -663,7 +663,7 @@
 <script type="text/template" id="timetable-tab-template">
 	<% _.each(ids, function(id, idx){ %>
 	<div class="timetable-tab" data-id="<%- id %>">
-		<span class="timetable-num">{% trans "시간표" %} <%- idx+1 %></span><span class="hidden-option"><i class="duplicate-table"></i><i class="delete-table"></i></span>
+		<span class="timetable-num">{% trans "시간표" %} <%- idx+1 %></span><span class="hidden-option duplicate-table"><i ></i></span><span class="hidden-option delete-table"><i></i></span>
 	</div>
 	<% }); %>
 	<div class="timetable-add">
