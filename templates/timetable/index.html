@@ -663,7 +663,7 @@
 <script type="text/template" id="timetable-tab-template">
 	<% _.each(ids, function(id, idx){ %>
 	<div class="timetable-tab" data-id="<%- id %>">
-		<span class="timetable-num">{% trans "시간표" %} <%- idx+1 %></span><span class="hidden-option"><i class="duplicate-table"></i><i class="delete-table"></i></span>
+		<span class="timetable-num">{% trans "시간표" %} <%- idx+1 %></span><span class="hidden-option duplicate-table"><i ></i></span><span class="hidden-option delete-table"><i></i></span>
 	</div>
 	<% }); %>
 	<div class="timetable-add">

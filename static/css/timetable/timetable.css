@@ -996,10 +996,6 @@ i
     cursor:pointer;
     background-color:#D8D8D8;
 }
-#timetable-tabs > div.timetable-tab
-{
-	padding:8px 10px 7px 10px;
-}
 #timetable-tabs > div.timetable-add
 {
     padding:7px 0 0 0;
@@ -1008,12 +1004,18 @@ i
 
 .timetable-tab .timetable-num
 {
+    display: inline-block;
+    padding:8px 0 7px 10px;
     color:#555;
 }
 .timetable-tab.active .timetable-num,
 .timetable-tab:hover .timetable-num
 {
     color:#333;
+}
+.timetable-tab:not(.active) .timetable-num
+{
+    padding-right:10px;
 }
 
 .timetable-tab>.hidden-option
@@ -1027,28 +1029,36 @@ i
 
 .duplicate-table
 {
+    padding:8px 2px 7px 4px;
+}
+
+.duplicate-table > i
+{
 	background: url(/media/icons/duplicate_table.svg) no-repeat center center;
 	width:8px;
 	height:10px;
 	display:inline-block;
 	vertical-align:top;
-	margin-left:4px;
 }
-.duplicate-table:hover
+.duplicate-table:hover > i
 {
 	background-image: url(/media/icons/duplicate_table_hover.svg);
 }
 
 .delete-table
 {
+    padding:8px 10px 7px 2px;
+}
+
+.delete-table > i
+{
 	background: url(/media/icons/delete_table.svg) no-repeat center center;
 	width:9px;
 	height:10px;
 	display:inline-block;
 	vertical-align:top;
-	margin-left:4px;
 }
-.delete-table:hover
+.delete-table:hover > i
 {
 	background-image: url(/media/icons/delete_table_hover.svg);
 }
