@@ -320,7 +320,7 @@ function findLecture(lectures, id) {
       var block = $('#timetable-contents')
                     .find('.day:nth-child('+(idx+2)+')')
                     .find('.half.no-time');
-      var lectureBlock = block.append(this.blockTemplate({title: lecture.title,
+      var lectureBlock = $(this.blockTemplate({title: lecture.title,
                                        id: lecture.id,
                                        professor: lecture.professor_short,
                                        classroom: lecture.classroom_short,
@@ -329,7 +329,7 @@ function findLecture(lectures, id) {
                                        occupied: [],
                                        temp: isTemp,}));
 
-      $(blocks[0]).append(lectureBlock);
+      block.append(lectureBlock);
       timetableView._sizeBlock(lectureBlock);
     },
 
