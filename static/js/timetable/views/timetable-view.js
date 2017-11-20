@@ -555,9 +555,9 @@ function findLecture(lectures, id) {
       var ct = $(e.currentTarget);
       var id = Number(ct.attr('data-id'));
 
-      if (target.hasClass("add-to-table")
-          || target.hasClass("add-to-cart")
-          || target.hasClass("delete-from-cart")) {
+      if (target.closest("add-to-table")
+          || target.closest("add-to-cart")
+          || target.closest("delete-from-cart")) {
         // Do nothing
       } else if (app.LectureActive.get('type') === 'click'
           && app.LectureActive.get('from') === 'list'
