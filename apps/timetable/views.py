@@ -151,7 +151,7 @@ def _get_preset_lectures(year, semester, code):
 # List(Lecture) -> List[dict-Lecture]
 # Format raw result from models into javascript-understandable form
 def _lecture_result_format(ls):
-    result = [_lecture_to_dict(x) for x in ls]
+    result = [_lecture_to_dict(x) for x in ls.select_related('course', 'department').prefetch_related('classtime_set', 'examtime_set', 'professor')]
     result.sort(key = (lambda x:x['class_no']))
     result.sort(key = (lambda x:x['old_code']))
     
@@ -693,8 +693,8 @@ def list_load_major(request):
 
     departments = [x['code'] for x in _user_department(request.user)]
     lectures_nested = [_get_preset_lectures(year, semester, x) for x in departments]
-    lectures = [y for x in lectures_nested for y in x]
-    result = _lecture_result_format(lectures)
+    results_nested = [_lecture_result_format(x) for x in lectures_nested]
+    result = [y for x in results_nested for y in x]
 
     print(time.time()-t)
     return JsonResponse(result, safe=False)
