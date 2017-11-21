@@ -154,7 +154,7 @@ def _lecture_result_format(ls):
     result = [_lecture_to_dict(x) for x in ls.select_related('course', 'department').prefetch_related('classtime_set', 'examtime_set', 'professor')]
     result.sort(key = (lambda x:x['class_no']))
     result.sort(key = (lambda x:x['old_code']))
-    
+
     return result
 
 
@@ -532,7 +532,7 @@ def search(request):
     department_filters = _get_department_filter(request_json['department'])
     type_filters = _get_type_filter(request_json['type'])
     level_filters = _get_level_filter(request_json['grade'])
-    keyword = request_json['keyword']
+    keyword = request_json['keyword'].replace('+', ' ')
 
     if not _validate_year_semester(year, semester):
         raise ValidationError('Invalid semester')
