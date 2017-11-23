@@ -75,12 +75,12 @@
 										<label>
 											<input class="chkall" type="checkbox" autocomplete="off" name="grade" value="ALL" />{% trans "전체" %}<i class="fa fa-circle-o fa-1x none"></i><i class="fa fa-check-circle-o fa-1x"></i>
 										</label>
-										{% for i in "012345" %}
+										{% for i in "01234" %}
 										<label>
 											{% if LANGUAGE_CODE == "en" %}
-											<input class="chkelem" type="checkbox" autocomplete="off" name="grade" value="{% cycle "000" "100" "200" "300" "400" "ETC" %}" />{% cycle "000s" "100s" "200s" "300s" "400s" "ETC" %}<i class="fa fa-circle-o fa-1x"></i><i class="fa fa-check-circle-o fa-ix none"></i>
+											<input class="chkelem" type="checkbox" autocomplete="off" name="grade" value="{% cycle "100" "200" "300" "400" "ETC" %}" />{% cycle "100s" "200s" "300s" "400s" "ETC" %}<i class="fa fa-circle-o fa-1x"></i><i class="fa fa-check-circle-o fa-ix none"></i>
 											{% else %}
-											<input class="chkelem" type="checkbox" autocomplete="off" name="grade" value="{% cycle "000" "100" "200" "300" "400" "ETC" %}" />{% cycle "000번대" "100번대" "200번대" "300번대" "400번대" "기타" %}<i class="fa fa-circle-o fa-1x"></i><i class="fa fa-check-circle-o fa-ix none"></i>
+											<input class="chkelem" type="checkbox" autocomplete="off" name="grade" value="{% cycle "100" "200" "300" "400" "ETC" %}" />{% cycle "100번대" "200번대" "300번대" "400번대" "기타" %}<i class="fa fa-circle-o fa-1x"></i><i class="fa fa-check-circle-o fa-ix none"></i>
 											{% endif %}
 										</label>
 										{% endfor %}
