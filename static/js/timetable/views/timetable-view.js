@@ -1412,6 +1412,15 @@ function findLecture(lectures, id) {
       data["year"] = app.YearSemester.attributes.year;
       data["semester"] = app.YearSemester.attributes.semester;
 
+      if (data["keyword"].length == 0 &&
+          data["type"].includes("ALL") &&
+          data["department"].includes("ALL") &&
+          data["grade"].includes("ALL") &&
+          data["day"].length == 0) {
+        alert(LANGUAGE_CODE==="en" ? "Please select search conditions." : "검색 조건을 선택해 주세요.")
+        return;
+      }
+
       $(".search-page .list-scroll").html(this.loadingMessage);
       this.hideSearch();
       $(".nano").nanoScroller();
