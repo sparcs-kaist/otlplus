@@ -652,12 +652,20 @@ i
     color: #aaaaaa;
 	vertical-align:top;
 }
+label:hover > .fa-circle-o
+{
+    color: #a8687f;
+}
 
 .fa-check-circle-o 
 {
 	margin-left:2px;
     color: #e64c65;
 	vertical-align:top;
+}
+label:hover > .fa-check-circle-o
+{
+    color: #a8687f;
 }
 
 #search-button, #search-cancel
