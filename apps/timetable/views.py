@@ -89,12 +89,12 @@ def _get_type_filter(raw_filters):
 
 # Convert given level filter into DB-understandable form
 def _get_level_filter(raw_filters):
-    acronym_dic = {'ALL':"", '000':"0", '100':"1", '200':"2", '300':"3", '400':"4", '500':"5", 'HIGH':"6"}
+    acronym_dic = {'000':"0", '100':"1", '200':"2", '300':"3", '400':"4"}
     grade_list = acronym_dic.keys()
     acronym_filters = list(set(grade_list) & set(raw_filters))
     filters = [acronym_dic[i] for i in acronym_filters if acronym_dic.has_key(i)]
-    if 'HIGH' in raw_filters:
-        filters+=["7", "8", "9"]
+    if 'ETC' in raw_filters:
+        filters+=["5", "6", "7", "8", "9"]
     if ('ALL' in raw_filters) or len(raw_filters)==0 :
         filters=["0","1","2","3","4","5","6","7","8","9"]
     return filters
