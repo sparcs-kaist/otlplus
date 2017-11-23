@@ -1313,6 +1313,7 @@ function findLecture(lectures, id) {
       'click .chkelem': "toggleType",
       'click .search-filter-time-active': "clearTime",
       'click #search-button': "searchStart",
+      'keypress': "keyAction",
     },
 
     clearSearch: function () {
@@ -1394,9 +1395,9 @@ function findLecture(lectures, id) {
     },
 
     searchStart: function(e) {
-      var target = $(e.target);
+      var target = $(".search-form-wrap > form");
       var data = {};
-      target.parent().parent().serializeArray().map(function(x){
+      target.serializeArray().map(function(x){
         if (x.name==="keyword" || x.name==="day" |
             x.name==="begin" || x.name==="end") {
           data[x.name] = x.value;
@@ -1410,6 +1411,15 @@ function findLecture(lectures, id) {
       });
       data["year"] = app.YearSemester.attributes.year;
       data["semester"] = app.YearSemester.attributes.semester;
+
+      if (data["keyword"].length == 0 &&
+          data["type"].includes("ALL") &&
+          data["department"].includes("ALL") &&
+          data["grade"].includes("ALL") &&
+          data["day"].length == 0) {
+        alert(LANGUAGE_CODE==="en" ? "Please select search conditions." : "검색 조건을 선택해 주세요.")
+        return;
+      }
 
       $(".search-page .list-scroll").html(this.loadingMessage);
       this.hideSearch();
@@ -1438,6 +1448,12 @@ function findLecture(lectures, id) {
         }
       });
     },
+
+    keyAction: function(e) {
+      if (e.keyCode == 13) {
+        this.searchStart();
+      }
+    }
   })
 
   // Showing informations of target lecture
