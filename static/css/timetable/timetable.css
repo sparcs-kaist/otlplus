@@ -1986,7 +1986,7 @@ body .lecture-block.active.lecture-block-temp
 .lecture-block-content
 {
     padding: 3px 0px;
-    overflow-y:hidden;
+    overflow:hidden;
 }
 .lecture-block.click .lecture-block-content
 {
