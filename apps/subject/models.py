@@ -31,7 +31,7 @@ class Lecture(models.Model):
     # Updated by signal timetable_lecture_saved, timetable_deleted
     num_people = models.IntegerField(default=0, blank=True, null=True)
 
-    # Updated by command update_lecture_title
+    # Updated by method update_class_title
     common_title = models.CharField(max_length=100, null=True)
     common_title_en = models.CharField(max_length=100, null=True)
     class_title = models.CharField(max_length=100, null=True)
@@ -79,6 +79,71 @@ class Lecture(models.Model):
             self.load = 0.0
             self.speech = 0.0
             self.total = 0.0
+
+    def update_class_title(self):
+        # Finds logest common string from front of given strings
+        def _lcs_front(ls):
+            if len(ls)==0:
+              return ""
+            result = ""
+            for i in range(len(ls[0]), 0, -1): # [len(ls[0]),...,2,1]
+              flag = True
+              for l in ls:
+                if l[0:i] != ls[0][0:i]:
+                  flag = False
+              if flag:
+                result = l[0:i]
+                break
+            while (len(result) > 0) and (result[-1] in ['<', '(', '[', '{']):
+              result = result[:-1]
+            return result
+
+        # Add common and class title for lectures like 'XXX<AAA>', 'XXX<BBB>'
+        def _add_title_format(lectures):
+            if len (lectures) == 1:
+              title = lectures[0].title
+              if title[-1] == '>':
+                common_title = title[:title.find('<')]
+              else:
+                common_title = title
+            else:
+              common_title = _lcs_front([l.title for l in lectures])
+
+            for l in lectures:
+              l.common_title = common_title
+              if l.title != common_title:
+                l.class_title = l.title[len(common_title):]
+              elif len(l.class_no) > 0:
+                l.class_title = l.class_no
+              else:
+                l.class_title = u'A'
+              l.save()
+
+        # Add common and class title for lectures like 'XXX<AAA>', 'XXX<BBB>'
+        def _add_title_format_en(lectures):
+            if len (lectures) == 1:
+              title = lectures[0].title_en
+              if title[-1] == '>':
+                common_title = title[:title.find('<')]
+              else:
+                common_title = title
+            else:
+              common_title = _lcs_front([l.title_en for l in lectures])
+
+            for l in lectures:
+              l.common_title_en = common_title
+              if l.title_en != common_title:
+                l.class_title_en = l.title_en[len(common_title):]
+              elif len(l.class_no) > 0:
+                l.class_title_en = l.class_no
+              else:
+                l.class_title_en = u'A'
+              l.save()
+
+        lectures = Lecture.objects.filter(course=self.course, deleted=False,
+                                          year=self.year, semester=self.semester)
+        _add_title_format(lectures)
+        _add_title_format_en(lectures)
 
     def __unicode__(self):
         professors_list=self.professor.all()
