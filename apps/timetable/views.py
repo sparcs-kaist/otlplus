@@ -205,14 +205,13 @@ def _examtime_to_dict(ct):
 
 
 def _get_scores(lecture):
-    related = Lecture.objects.filter(course=lecture.course, professor__in=lecture.professor.all())
-    comment_num = sum(r.comment_num for r in related)
+    comment_num = lecture.comment_num
     if comment_num == 0:
         return False, False, False
     else:
-        grade = float(sum(r.grade_sum for r in related))
-        load = float(sum(r.grade_sum for r in related))
-        speech = float(sum(r.speech_sum for r in related))
+        grade = lecture.grade_sum
+        load = lecture.load_sum
+        speech = lecture.speech_sum
         return grade/comment_num, load/comment_num, speech/comment_num
 
 
