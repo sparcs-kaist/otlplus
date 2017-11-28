@@ -267,7 +267,7 @@ def _lecture_to_dict(lecture):
         result['load_letter'] = '?'
         result['speech_letter'] = '?'
     else:
-        letters = ['?', '?', '?', 'F', 'F', 'F', 'D-', 'D', 'D+', 'C-', 'C', 'C+', 'B-', 'B', 'B+', 'A-', 'A', 'A+']
+        letters = ['?', 'F', 'F', 'F', 'D-', 'D', 'D+', 'C-', 'C', 'C+', 'B-', 'B', 'B+', 'A-', 'A', 'A+']
         result['has_review'] = True
         result['grade'] = grade
         result['load'] = load
