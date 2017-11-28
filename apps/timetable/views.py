@@ -267,7 +267,7 @@ def _lecture_to_dict(lecture):
         result['load_letter'] = '?'
         result['speech_letter'] = '?'
     else:
-        letters = ['?', '?', '?', 'F', 'F', 'F', 'D-', 'D', 'D+', 'C-', 'C', 'C+', 'B-', 'B', 'B+', 'A-', 'A', 'A+']
+        letters = ['?', 'F', 'F', 'F', 'D-', 'D', 'D+', 'C-', 'C', 'C+', 'B-', 'B', 'B+', 'A-', 'A', 'A+']
         result['has_review'] = True
         result['grade'] = grade
         result['load'] = load
@@ -576,6 +576,7 @@ def comment_load(request):
         result.append({'grade': grade,
                        'load': load,
                        'speech': speech,
+                       'like': c.like,
                        'comment': c.comment[:200],
                        'id': c.id})
     return JsonResponse(result, safe=False)

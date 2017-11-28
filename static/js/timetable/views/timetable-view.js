@@ -756,6 +756,7 @@ function findLecture(lectures, id) {
           if (result.length == 0) {
             block.html('<div class="review-loading">'+(LANGUAGE_CODE==="en" ? "No results" : "결과 없음")+'</div>');
           } else {
+            result.sort(function(a,b){return b.like-a.like;});
             var template = _.template($('#comment-template').html());
             block.html(template({comments:result}));
           }
