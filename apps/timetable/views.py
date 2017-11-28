@@ -576,6 +576,7 @@ def comment_load(request):
         result.append({'grade': grade,
                        'load': load,
                        'speech': speech,
+                       'like': c.like,
                        'comment': c.comment[:200],
                        'id': c.id})
     return JsonResponse(result, safe=False)

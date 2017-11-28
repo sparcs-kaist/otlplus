@@ -221,3 +221,6 @@ msgstr "Thu"
 
 msgid "금"
 msgstr "Fri"
+
+msgid "추천"
+msgstr "Likes"
