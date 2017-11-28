@@ -51,6 +51,22 @@ class Lecture(models.Model):
     syllabus = models.CharField(max_length=260, blank=True, null=True) #실라부스 url저장
     # TODO syllabus url 만드는 method만들기.
 
+    def recalc_score(self):
+        from apps.review.models import Comment
+        self.comment_num = 0
+        self.grade_sum = 0
+        self.load_sum = 0
+        self.speech_sum = 0
+        for c in Comment.objects.filter(lecture__course=self.course,
+                                        lecture__professor__in=self.professor.all()):
+            if c.grade > 0:
+                self.comment_num += (c.like+1)
+                self.grade_sum += (c.like+1)*c.grade*3
+                self.load_sum += (c.like+1)*c.load*3
+                self.speech_sum += (c.like+1)*c.speech*3
+        self.avg_update()
+        self.save()
+
     def avg_update(self):
         self.total_sum = (self.grade_sum+self.load_sum+self.speech_sum)/3.0
         if self.comment_num>0:
