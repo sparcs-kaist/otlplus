@@ -206,6 +206,8 @@ i
 	line-height:13px;
     margin-bottom:8px;
     clear:both;
+    display:flex;
+    flex-direction:row;
 }
 
 .basic-info-name
@@ -214,6 +216,7 @@ i
     font-weight: bold;
     margin-right: 4px;
     white-space: nowrap;
+    flex:none;
 }
 .basic-info-name.fixed-ko
 {
