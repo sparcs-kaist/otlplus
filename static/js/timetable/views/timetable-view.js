@@ -416,7 +416,7 @@ function findLecture(lectures, id) {
         overlap = overlap || blocks.hasClass('occupied');
       }
       if (overlap) {
-        alert('시간표가 겹치는 과목은 추가할 수 없습니다.');
+        alert(LANGUAGE_CODE==="en" ? "You can't add lecture overlapping." : '시간표가 겹치는 과목은 추가할 수 없습니다.');
         return;
       }
       // If lecture is already in timetable
@@ -1102,10 +1102,10 @@ function findLecture(lectures, id) {
 
     deleteTable: function(e) {
       if (app.timetables.length <= 1){
-        alert("마지막 시간표는 삭제할 수 없습니다");
+        alert(LANGUAGE_CODE==="en" ? "You can't delete the last timetable." : "마지막 시간표는 삭제할 수 없습니다");
         return;
       }
-      if (!confirm("정말 삭제하시겠습니까?\n이 동작은 취소하거나 되돌릴 수 없습니다.")){
+      if (!confirm(LANGUAGE_CODE==="en" ? "Do you really want to delete? The timetable can't be recovered once deleted." : "정말 삭제하시겠습니까?\n삭제된 시간표는 복구할 수 없습니다.")){
         return;
       }
 
