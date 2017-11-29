@@ -1445,7 +1445,6 @@ function findLecture(lectures, id) {
           }
         },
         error: function(model, resp, options) {
-          console.log("error" + resp.status);
         }
       });
     },
