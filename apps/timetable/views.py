@@ -682,9 +682,6 @@ def google_auth_return(request):
 
 @require_POST
 def list_load_major(request):
-    import time
-    t = time.time()
-
     year = int(request.POST["year"])
     semester = int(request.POST["semester"])
 
@@ -696,7 +693,6 @@ def list_load_major(request):
     results_nested = [_lecture_result_format(x) for x in lectures_nested]
     result = [y for x in results_nested for y in x]
 
-    print(time.time()-t)
     return JsonResponse(result, safe=False)
 
 
