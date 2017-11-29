@@ -117,7 +117,7 @@ class Lecture(models.Model):
                 l.class_title = l.class_no
               else:
                 l.class_title = u'A'
-              l.save()
+              l.save(update_fields=["common_title", "class_title"])
 
         # Add common and class title for lectures like 'XXX<AAA>', 'XXX<BBB>'
         def _add_title_format_en(lectures):
@@ -138,7 +138,7 @@ class Lecture(models.Model):
                 l.class_title_en = l.class_no
               else:
                 l.class_title_en = u'A'
-              l.save()
+              l.save(update_fields=["common_title_en", "class_title_en"])
 
         lectures = Lecture.objects.filter(course=self.course, deleted=False,
                                           year=self.year, semester=self.semester)
