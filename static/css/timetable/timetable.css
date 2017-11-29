@@ -221,7 +221,7 @@ i
 }
 .basic-info-name.fixed-en
 {
-    width: 30px;
+    width: 32px;
 }
 
 #department, #course-type, #instructor, #classroom, #class-size, #exam-time
@@ -604,7 +604,7 @@ i
 }
 .search-filter-title.fixed-en
 {
-    width: 30px;
+    width: 32px;
 }
 
 .search-filter-elem
