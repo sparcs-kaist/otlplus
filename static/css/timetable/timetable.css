@@ -1104,11 +1104,13 @@ label:hover > .fa-check-circle-o
 {
     padding:6px 0 5px 0;
     display:inline-block;
+    margin:0 -10px 0 -10px;
+    pointer-events:none;
 }
 
 #semester-prev
 {
-    padding:6px 2px 5px 7px;
+    padding:6px 7px 5px 7px;
     display:inline-block;
     float:left;
     cursor:pointer;
@@ -1120,7 +1122,7 @@ label:hover > .fa-check-circle-o
 
 #semester-next
 {
-    padding:6px 7px 5px 2px;
+    padding:6px 7px 5px 7px;
     display:inline-block;
     float:right;
     cursor:pointer;
