@@ -206,6 +206,8 @@ i
 	line-height:13px;
     margin-bottom:8px;
     clear:both;
+    display:flex;
+    flex-direction:row;
 }
 
 .basic-info-name
@@ -214,6 +216,7 @@ i
     font-weight: bold;
     margin-right: 4px;
     white-space: nowrap;
+    flex:none;
 }
 .basic-info-name.fixed-ko
 {
@@ -1895,7 +1898,7 @@ label:hover > .fa-check-circle-o
         -ms-flex-direction:column;
             flex-direction:column;
     justify-content:center;
-    padding:0px calc(0.7vh + 1px);
+    padding:0px;
     border-radius:2px;
     z-index:2;
     top: 1px;
@@ -1916,7 +1919,6 @@ body .lecture-block.active.lecture-block-temp
 .lecture-block.click
 {
     border:1px #E54C65 solid;
-    padding:0 calc(0.7vh);
 }
 
 .lecture-block.color1
@@ -1986,12 +1988,12 @@ body .lecture-block.active.lecture-block-temp
 
 .lecture-block-content
 {
-    padding: 3px 0px;
+    padding: 4px 6px;
     overflow:hidden;
 }
 .lecture-block.click .lecture-block-content
 {
-    padding: 2px 0px;
+    padding: 3px 5px;
 }
 
 .timetable-lecture-name
