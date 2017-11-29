@@ -18,6 +18,13 @@ def lecture_professor_changed(**kwargs):
 
 @receiver(post_save, sender=Lecture)
 def lecture_saved(**kwargs):
-    post_save.disconnect(lecture_saved, sender=Lecture)
-    kwargs['instance'].update_class_title()
-    post_save.connect(lecture_saved, sender=Lecture)
+    update_fields = kwargs['update_fields']
+    if update_fields is None:
+        kwargs['instance'].update_class_title()
+    elif 'common_title' not in update_fields and \
+       'class_title' not in update_fields and \
+       'common_title_en' not in update_fields and \
+       'class_title_en' not in update_fields:
+        kwargs['instance'].update_class_title()
+    else:
+        pass
