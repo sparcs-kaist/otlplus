@@ -289,6 +289,10 @@ class Course(models.Model):
             self.speech = 0.0
             self.total = 0.0
 
+    def update_code_num(self):
+        self.code_num = self.old_code[-3]
+        self.save(update_fields=["code_num"])
+
     def __unicode__(self):
         return u"%s(%s)"%(self.title,self.old_code)
 

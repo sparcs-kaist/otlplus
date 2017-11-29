@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from apps.subject.models import Lecture
+from apps.subject.models import Lecture, Course
 
 from django.db.models.signals import m2m_changed, post_save
 from django.dispatch import receiver
@@ -26,5 +26,18 @@ def lecture_saved(**kwargs):
        'common_title_en' not in update_fields and \
        'class_title_en' not in update_fields:
         kwargs['instance'].update_class_title()
+    else:
+        pass
+
+
+
+@receiver(post_save, sender=Course)
+def course_saved(**kwargs):
+    update_fields = kwargs['update_fields']
+    print(update_fields)
+    if update_fields is None:
+        kwargs['instance'].update_code_num()
+    elif 'code_num' not in update_fields:
+        kwargs['instance'].update_code_num()
     else:
         pass
