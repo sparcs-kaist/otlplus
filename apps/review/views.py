@@ -22,12 +22,12 @@ from django.views.decorators.http import require_POST
 from django.conf import settings
 
 
-
-#global val###
+# global val###
 
 gradelist = [(0,'?'),(1,'F'),(2,'F'),(3,'F'),(4,'F'),(5,'D-'),(6,'D'),(7,'D+'),(8,'C-'),(9,'C'),(10,'C+'),(11,'B-'),(12,'B'),(13,'B+'),(14,'A-'),(15,'A'),(16,'A+')]
 
-#Filter Functions################################################################
+
+# Filter Functions################################################################
 def DepartmentFilters(raw_filters):
     department_list = []
     for department in Department.objects.all():
@@ -41,6 +41,7 @@ def DepartmentFilters(raw_filters):
         filters += etc_list
     return filters
 
+
 def TypeFilters(raw_filters):
     acronym_dic = {'GR':'General Required', 'MGC':'Mandatory General Courses', 'BE':'Basic Elective', 'BR':'Basic Required', 'EG':'Elective(Graduate)', 'HSE':'Humanities & Social Elective', 'OE':'Other Elective', 'ME':'Major Elective', 'MR':'Major Required', 'S':'Seminar', 'I':'Interdisciplinary', 'FP':'Field Practice'}
     type_list = acronym_dic.keys()
@@ -53,6 +54,7 @@ def TypeFilters(raw_filters):
         filters +=["Seminar", "Interdisciplinary", "Field Practice"]
     return filters
 
+
 def GradeFilters(raw_filters):
     acronym_dic = {'ALL':"", '000':"0", '100':"1", '200':"2", '300':"3", '400':"4", '500':"5", 'HIGH':"6"}
     grade_list = acronym_dic.keys()
@@ -64,10 +66,8 @@ def GradeFilters(raw_filters):
         filters=["0","1","2","3","4","5","6","7","8","9"]
     return filters
 
+
 def search_view(request):
-    if not request.session.get('visited'):
-        request.session['visited'] = True
-        return HttpResponseRedirect("/tutorial/")
     if request.user.is_authenticated():
         user_profile = UserProfile.objects.get(user=request.user)
         if len(user_profile.language) == 0:
@@ -94,12 +94,10 @@ def search_view(request):
 
         except Exception, e:
             print e
-            pass
 
     for i in range(3):
         try:
             j = random.randint(0,len(comment_major)-1)
-
 
             comment = comment_major[j].comment
             context = SearchComment(request, comment)
@@ -108,54 +106,12 @@ def search_view(request):
 
         except Exception, e:
             print e
-            pass
     ctx = {
             'liberal_comment':liberal_comment,
             'major_comment':major_comment,
     }
 
     return render(request, 'review/search.html',ctx)
-
-
-def search_view_first(request):
-    return render(request, 'review/tutorial-main.html')
-
-
-def search_view_first_again(request):
-    drugs = [
-        "하하! 다시보니 반갑군요!",
-        "튜토리얼의 협곡에 오신 것을 환영합니다.",
-        "안뇽! 튜토리얼에 온 걸...화녕행!!!!",
-        "안녕! 친구들! 튜토리얼이 왔어!",
-        "그대의 튜토리얼은 그대 스스로 클릭한 것이다.",
-        "첫사랑이었다. 저 제비꽃같은 튜토리얼이 첫사랑이었다.",
-        "너의 이름은? 튜토리얼! 나의 이름은 튜토리얼!",
-        "그것도 무스..튜토리얼!",
-        "어서 와요! 꽤 보고싶었다구요?",
-        "아이고, 이게 누구신가!",
-        "줄곧 무언가를, 누군가를 찾고 있다.",
-        "첫 튜토리얼이 끝나고, 당신이 없는 시간을 견뎠습니다.",
-        "튜토리얼이 끝나도 절대 잊지 않도록 이름을 써주세요.",
-        "우리는 만나면 바로 알아볼거야!"
-            ]
-    return render(request, 'review/tutorial-main-2.html', {'hello_message': drugs[random.randint(0, len(drugs)-1)],})
-
-
-def search_view_first2(request):
-    return render(request, 'review/tutorial-sparcssso.html')
-
-
-def search_view_first2_auth(request):
-    return render(request, 'review/tutorial-sparcssso-auth.html')
-
-
-def search_view_first3(request):
-    return render(request, 'review/tutorial-write.html')
-
-
-def search_view_first4(request):
-    return render(request, 'review/tutorial-comeagain.html')
-#####################################################################################################
 
 
 def isKorean(word):
@@ -465,6 +421,7 @@ def SearchResultView_json(request, page):
     }
     return JsonResponse(json.dumps(context),safe=False)
 
+
 def SearchResultProfessorView(request,id=-1,course_id=-1):
     professor = Professor.objects.get(id=id)
     comments = Comment.objects.filter(lecture__professor__id=id).order_by('-lecture__year','-written_datetime')
@@ -480,6 +437,7 @@ def SearchResultProfessorView(request,id=-1,course_id=-1):
             "page":page_obj.number,
     }
     return render(request, 'review/sresult.html', context)
+
 
 def SearchResultProfessorView_json(request, id=-1,course_id=-1,page=-1):
     comments = Comment.objects.filter(lecture__professor__id=id).order_by('-lecture__year','-written_datetime')
@@ -520,6 +478,7 @@ def SearchResultCourseView(request,id=-1,professor_id=-1):
     }
     return render(request, 'review/sresult.html', context)
 
+
 def SearchResultCourseView_json(request, id=-1,professor_id=-1,page=-1):
     professor_id = int(professor_id)
     course = Course.objects.get(id=id)
@@ -544,7 +503,28 @@ def SearchResultCourseView_json(request, id=-1,professor_id=-1,page=-1):
     return JsonResponse(json.dumps(context),safe=False)
 
 
-#Review Control Function#############################################################################################
+@login_required(login_url='/session/login/')
+def SearchUserComment_json(request, page=1):
+    user = request.user
+    user_profile = UserProfile.objects.get(user=user)
+    user_comments = Comment.objects.filter(writer=user_profile)
+
+    paginator = Paginator(user_comments, 5)
+    try:
+        page_obj = paginator.page(page)
+    except InvalidPage:
+        raise
+
+    results = [SearchComment(request, i) for i in page_obj.object_list]
+
+    context = {
+        "results": results,
+        "hasNext": page_obj.has_next(),
+    }
+    return JsonResponse(json.dumps(context), safe=False)
+
+
+# Review Control Function#############################################################################################
 @login_required(login_url='/session/login/')
 def ReviewDelete(request):
     user = request.user
@@ -554,8 +534,10 @@ def ReviewDelete(request):
     target_comment = user_profile.comment_set.get(lecture=lecture);
     target_comment.u_delete()
     return HttpResponseRedirect('/review/insert/'+str(request.POST['lectureid'])+'/'+str(request.POST['semester']))
-#@login_required
-#login_required(login_url='/session/login/')
+
+
+# @login_required
+# login_required(login_url='/session/login/')
 def ReviewLike(request):
     is_login = False
     already_up = False
@@ -575,7 +557,8 @@ def ReviewLike(request):
     ctx = {'likes_count': likes_count, 'already_up': already_up, 'is_login':is_login, 'id': request.POST['commentid']}
     return JsonResponse(json.dumps(ctx),safe=False)
 
-#ReviewWritingPage#################################################################################################
+
+# ReviewWritingPage#################################################################################################
 @login_required(login_url='/session/login/')
 def ReviewPortal(request):
     user = request.user
@@ -583,6 +566,8 @@ def ReviewPortal(request):
     user_profile.portal_check =1
     user_profile.save()
     return HttpResponseRedirect('https://sparcssso.kaist.ac.kr/account/profile/')
+
+
 @login_required(login_url='/session/login/')
 def ReviewInsertView(request,lecture_id=-1,semester=0):
     user = request.user
@@ -684,16 +669,17 @@ def ReviewInsertView(request,lecture_id=-1,semester=0):
         }
     return render(request, 'review/insert.html',ctx)
 
+
 #ReviewAddingFunctionPage#######################################################################################
 @login_required(login_url='/session/login/')
 def ReviewInsertAdd(request,lecture_id,semester):
-#    if request.POST.has_key('content') == False:
- #       return HttpResponse('후기를 입력해주세요.')
-  #  else:
-  #      if len(request.POST['content'])==0:
-   #         return HttpResponse('1글자 이상 입력해주세요.')
-   #     else:
-#	    comment=request.POST['content']
+    if request.POST.has_key('content') == False:
+        return HttpResponse('후기를 입력해주세요.')
+    else:
+        if len(request.POST['content']) == 0:
+            return HttpResponse('1글자 이상 입력해주세요.')
+        else:
+            comment = request.POST['content']
 
     user = request.user
     user_profile = UserProfile.objects.get(user=user)
@@ -718,7 +704,8 @@ def ReviewInsertAdd(request,lecture_id,semester):
         Comment.u_create(course=course, lecture=lecture, comment=comment, grade=grade, load=load, speech=speech, writer=writer)
     return HttpResponseRedirect('../')
 
-#ReviewRefreshFunctionPage#######################################################################################
+
+# ReviewRefreshFunctionPage#######################################################################################
 @login_required(login_url='/session/login/')
 def ReviewRefresh(request):
     user = request.user
@@ -729,6 +716,7 @@ def ReviewRefresh(request):
             os.chdir('/var/www/otlplus/')
         os.system('python update_taken_lecture_user.py %s' % student_id)
     return HttpResponseRedirect('../insert')
+
 
 def ReviewView(request, comment_id):
     try :
@@ -801,16 +789,16 @@ def LastCommentView_json(request, page=-1):
     }
     return JsonResponse(json.dumps(context),safe=False)
 
+
 # 404 ERROR HANDLING
 def page_not_found(request):
-    response = render_to_response(
-        'review/404.html',
-        context_instance=RequestContext(request)
-    )
+    response = render(
+        request,'review/404.html')
 
     response.status_code = 404
 
     return response
+
 
 # 400 ERROR HANDLING
 def bad_request(request):
@@ -823,6 +811,7 @@ def bad_request(request):
 
     return response
 
+
 # 403 ERROR HANDLING
 def permisson_denied(request):
     response = render_to_response(
@@ -834,12 +823,11 @@ def permisson_denied(request):
 
     return response
 
+
 # 500 ERROR HANDLING
 def server_error(request):
-    response = render_to_response(
-        'review/500.html',
-        context_instance=RequestContext(request)
-    )
+    response = render(
+        request,'review/500.html')
 
     response.status_code = 500
 
@@ -852,6 +840,7 @@ def licenses(request):
 
 def credits(request):
     return render(request, 'credits.html')
+
 
 def dictionary(request, course_code):
     courses = Course.objects.filter(old_code = str(course_code))
