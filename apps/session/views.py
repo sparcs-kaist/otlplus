@@ -8,6 +8,7 @@ from django.conf import settings
 from django.utils import translation
 from apps.subject.models import Department
 from apps.review.models import Comment
+from apps.timetable.models import OldTimeTable
 from apps.session.models import UserProfile
 from apps.session.sparcssso import Client
 import urllib
@@ -87,6 +88,7 @@ def login_callback(request):
         os.chdir(os.path.join(settings.BASE_DIR, 'otlplus'))
         os.system('python do_import_user_major.py %s' % student_id)
         os.system('python update_taken_lecture_user.py %s' % student_id)
+        OldTimeTable.import_in_for_user(student_id)
 
         user = authenticate(username=username)
         login(request, user)
@@ -104,6 +106,7 @@ def login_callback(request):
             os.chdir(os.path.join(settings.BASE_DIR, 'otlplus'))
             os.system('python do_import_user_major.py %s' % student_id)
             os.system('python update_taken_lecture_user.py %s' % student_id)
+            OldTimeTable.import_in_for_user(student_id)
         login(request, user)
         return redirect(next)
     return render(request, 'session/login_error.html',
