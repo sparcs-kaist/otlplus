@@ -26,6 +26,7 @@ class Command(BaseCommand):
     args = u'--host=143.248.X.Y:PORT --user=USERNAME'
 
     def handle(self, *args, **options):
+        print "start"
         host = options.get('host', None)
         port = options.get('port', None)
         user = options.get('user', None)
