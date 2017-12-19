@@ -69,6 +69,7 @@ var loadItems = function() {
         type:"GET",
         url: url, 
         success: function(responseData) {
+			//console.log("honmono jaesung")
             var data = JSON.parse(responseData);
             hasNextPage=data.hasNext;
             var html = [];
