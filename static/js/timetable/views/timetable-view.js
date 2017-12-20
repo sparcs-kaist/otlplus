@@ -1,6 +1,7 @@
 /* global Backbone */
 var app = app || {};
 
+var loginCount = 0;
 
 // Set csrf token for ajax
 function getCookie(name) {
@@ -388,6 +389,9 @@ function findLecture(lectures, id) {
     },
 
     addToTable: function (e) {
+      if (++loginCount == 3)
+        alert(LANGUAGE_CODE==="en" ? "Timetables are not saved for unregistered users. Please sign if you want to save them." : '로그인한 사용자에게만 시간표가 저장됩니다. 저장하려면 로그인해 주세요.');
+
       var ct = $(e.currentTarget);
       var lecture_id = Number(ct.closest('.list-elem-body-wrap').attr('data-id'));
       var timetable_id = Number(app.CurrentTimetable.get('id'));
@@ -443,6 +447,9 @@ function findLecture(lectures, id) {
     },
 
     addToCart: function (e) {
+      if (++loginCount == 3)
+        alert(LANGUAGE_CODE==="en" ? "Timetables are not saved for unregistered users. Please sign if you want to save them." : '로그인한 사용자에게만 시간표가 저장됩니다. 저장하려면 로그인해 주세요.');
+
       var ct = $(e.currentTarget);
       var lecture_id = Number(ct.closest('.list-elem-body-wrap').attr('data-id'));
 
