@@ -313,20 +313,24 @@ def _user_department(user):
         departments = [{'code':u.department.code, 'name':getattr(u.department,_('name'))+_(u' 전공')}]
 
     for d in u.majors.all():
-        if d.code not in departments:
-            departments.append({'code':d.code, 'name':getattr(d,_('name'))+_(u' 전공')})
+        data = {'code':d.code, 'name':getattr(d,_('name'))+_(u' 전공')}
+        if data not in departments:
+            departments.append(data)
 
     for d in u.minors.all():
-        if d.code not in departments:
-            departments.append({'code':d.code, 'name':getattr(d,_('name'))+_(u' 전공')})
+        data = {'code':d.code, 'name':getattr(d,_('name'))+_(u' 전공')}
+        if data not in departments:
+            departments.append(data)
 
     for d in u.specialized_major.all():
-        if d.code not in departments:
-            departments.append({'code':d.code, 'name':getattr(d,_('name'))+_(u' 전공')})
+        data = {'code':d.code, 'name':getattr(d,_('name'))+_(u' 전공')}
+        if data not in departments:
+            departments.append(data)
 
     for d in u.favorite_departments.all():
-        if d.code not in departments:
-            departments.append({'code':d.code, 'name':getattr(d,_('name'))+_(u' 전공')})
+        data = {'code':d.code, 'name':getattr(d,_('name'))+_(u' 전공')}
+        if data not in departments:
+            departments.append(data)
 
     return departments
 
