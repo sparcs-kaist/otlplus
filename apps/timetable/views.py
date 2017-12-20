@@ -688,6 +688,7 @@ def list_load_major(request):
     if not _validate_year_semester(year, semester):
         raise ValidationError('Invalid semester')
 
+    departments = [x['code'] for x in _user_department(request.user)]
     result = []
     for major_code in departments:
         lectures = _get_preset_lectures(year, semester, major_code)
