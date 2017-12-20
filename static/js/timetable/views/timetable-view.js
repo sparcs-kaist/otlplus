@@ -1,8 +1,6 @@
 /* global Backbone */
 var app = app || {};
 
-var loginCount = 0;
-
 // Set csrf token for ajax
 function getCookie(name) {
     var cookieValue = null;
