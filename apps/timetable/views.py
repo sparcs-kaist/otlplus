@@ -689,9 +689,13 @@ def list_load_major(request):
         raise ValidationError('Invalid semester')
 
     departments = [x['code'] for x in _user_department(request.user)]
-    lectures_nested = [_get_preset_lectures(year, semester, x) for x in departments]
-    results_nested = [_lecture_result_format(x) for x in lectures_nested]
-    result = [y for x in results_nested for y in x]
+    result = []
+    for major_code in departments:
+        lectures = _get_preset_lectures(year, semester, major_code)
+        lectures = _lecture_result_format(lectures)
+        for l in lectures:
+            l['major_code'] = major_code
+            result.append(l)
 
     return JsonResponse(result, safe=False)
 

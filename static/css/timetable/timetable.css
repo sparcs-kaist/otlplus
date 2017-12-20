@@ -917,7 +917,7 @@ label:hover > .fa-check-circle-o
     padding:6px 10px 6px 3px;
     margin-right: -10px;
 }
-.add-to-cart.disable
+.add-to-table.disable
 {
     pointer-events:none;
 }
