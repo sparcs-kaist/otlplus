@@ -664,18 +664,9 @@ function findLecture(lectures, id) {
           var majors = $.map($('.list-tab.major'), function(x){return $(x).attr('data-code')});
           for (var i=0,code; code=majors[i]; i++) {
             block = $('.'+name+'-page[data-code="'+code+'"]').find('.nano-content');
-            if (code === 'Basic') {
-              models = _.filter(lecList.models,
-                                function(x) {
-                                  return (x.get('type_en')==='Basic Required')
-                                         ||(x.get('type_en')==='Basic Elective')});
-            } else {
-              models = _.filter(lecList.models,
-                                function(x) {
-                                  return (x.get('department_code')===code)
-                                         &&((x.get('type_en')==='Major Required')
-                                            ||(x.get('type_en')==='Major Elective'))});
-            }
+            models = _.filter(lecList.models,
+                              function(x) {
+                                return (x.get('major_code')===code)});
 
             courses = _.groupBy(models, function(x){return x.get('old_code')});
             if (models.length > 0) {
