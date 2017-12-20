@@ -719,5 +719,10 @@ yearSemesterView.start_semester = {{start_semester}};
 yearSemesterView.end_year = {{end_year}};
 yearSemesterView.end_semester = {{end_semester}};
 app.YearSemester.set({year:{{current_year}}, semester:{{current_semester}} });
+{% if request.user.is_authenticated %}
+var loginCount = -Infinity;
+{% else %}
+var loginCount = 0;
+{% endif %}
 </script>
 {% endblock %}
