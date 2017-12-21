@@ -53,7 +53,7 @@ msgid "모의시간표"
 msgstr "Timetable"
 
 msgid "toggleLang"
-msgstr "한글"
+msgstr "한국어"
 
 msgid "만든 사람들"
 msgstr "Credit"
