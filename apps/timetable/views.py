@@ -112,8 +112,12 @@ def _get_filtered_lectures(year, semester, department_filters, type_filters, lev
         deleted=False
     )
 
-    if day!=None and begin!=None and end!=None:
-        lectures = lectures.filter(classtime_set__day=day, classtime_set__begin__gte=begin, classtime_set__end__lte=end)
+    if day!=None and begin!=None:
+        if end != None:
+            lectures = lectures.filter(classtime_set__day=day, classtime_set__begin__gte=begin, classtime_set__end__lte=end)
+        else:
+            # End is 24:00
+            lectures = lectures.filter(classtime_set__day=day, classtime_set__begin__gte=begin)
 
     # language 에 따라서 구별해주는게 나으려나.. 영어이름만 있는 경우에는? 그러면 그냥 name 필드도 영어로 들어가나.
     if len(keyword) > 0:
@@ -548,7 +552,11 @@ def search(request):
         beginIdx = int(request_json["begin"])
         begin = datetime.time(beginIdx/2+8, (beginIdx%2)*30)
         endIdx = int(request_json["end"])
-        end = datetime.time(endIdx/2+8, (endIdx%2)*30)
+        if endIdx < 32:
+            end = datetime.time(endIdx/2+8, (endIdx%2)*30)
+        else:
+            # 24:00
+            end = None
     else:
         day = None
         begin = None
