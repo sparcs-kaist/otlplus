@@ -150,8 +150,11 @@ def _get_preset_lectures(year, semester, code):
 
 # List(Lecture) -> List[dict-Lecture]
 # Format raw result from models into javascript-understandable form
-def _lecture_result_format(ls):
-    result = [_lecture_to_dict(x) for x in ls.select_related('course', 'department').prefetch_related('classtime_set', 'examtime_set', 'professor')]
+def _lecture_result_format(ls, from_serach = False):
+    ls = ls.select_related('course', 'department').prefetch_related('classtime_set', 'examtime_set', 'professor')
+    if from_serach:
+        ls = ls[:500]
+    result = [_lecture_to_dict(x) for x in ls]
     result.sort(key = (lambda x:x['class_no']))
     result.sort(key = (lambda x:x['old_code']))
 
@@ -554,10 +557,9 @@ def search(request):
     result = _get_filtered_lectures(year, semester, department_filters, type_filters, level_filters, keyword, day, begin, end)
     if len(result) > 500:
         too_many = True
-        result = result[:500]
     else:
         too_many = False
-    result = _lecture_result_format(result)
+    result = _lecture_result_format(result, from_search = True)
 
     return JsonResponse({'courses':result, 'too_many':too_many},
                         safe=False,
