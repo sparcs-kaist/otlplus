@@ -150,7 +150,7 @@ def _get_preset_lectures(year, semester, code):
 
 # List(Lecture) -> List[dict-Lecture]
 # Format raw result from models into javascript-understandable form
-def _lecture_result_format(ls, from_serach = False):
+def _lecture_result_format(ls, from_search = False):
     ls = ls.select_related('course', 'department').prefetch_related('classtime_set', 'examtime_set', 'professor')
     if from_serach:
         ls = ls[:500]
