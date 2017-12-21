@@ -1236,7 +1236,7 @@ function findLecture(lectures, id) {
         }
       }
       if (targetNum > 0) {
-        var letters = ['?', '?', '?', 'F', 'F', 'F', 'D-', 'D', 'D+', 'C-', 'C', 'C+', 'B-', 'B', 'B+', 'A-', 'A', 'A+'];
+        var letters = ['?', 'F', 'F', 'F', 'D-', 'D', 'D+', 'C-', 'C', 'C+', 'B-', 'B', 'B+', 'A-', 'A', 'A+'];
         $('#grades.score-text').html(letters[Math.round(grade/targetNum)]);
         $('#loads.score-text').html(letters[Math.round(load/targetNum)]);
         $('#speeches.score-text').html(letters[Math.round(speech/targetNum)]);
