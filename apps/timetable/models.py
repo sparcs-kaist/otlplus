@@ -25,6 +25,12 @@ class OldTimeTable(models.Model):
         except UserProfile.DoesNotExist:
             print("User with student number %s does not exist." % self.student_id)
             return
+        except UserProfile.MultipleObjectsReturned:
+            if self.student_id == "":
+                return
+            else:
+                print("User with student number %s has multiple userprofiles." % self.student_id)
+                return
         timetable = TimeTable.objects.create(user=userprofile, year=self.year, semester=self.semester)
         for l in self.lecture.all():
             timetable.lecture.add(l)
@@ -32,6 +38,8 @@ class OldTimeTable(models.Model):
 
     @classmethod
     def import_in_for_user(cls, student_id):
+        if student_id == "":
+            return
         target = OldTimeTable.objects.filter(student_id=student_id)
         for t in target:
             t.import_in()
