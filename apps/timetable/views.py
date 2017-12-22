@@ -13,6 +13,7 @@ from django.http import JsonResponse
 
 # Django modules
 from django.db.models import Q
+from django.db import IntegrityError
 from django.core import serializers
 from django.forms.models import model_to_dict
 from django.core.exceptions import *
@@ -393,7 +394,11 @@ def table_update(request):
         raise ValidationError('Semester not matching')
 
     if not delete:
-        timetable.lecture.add(lecture)
+        try:
+            timetable.lecture.add(lecture)
+        except IntegrityError:
+            # Race condition when user sent multiple identical requests
+            return JsonResponse({ 'success': False });
     else:
         timetable.lecture.remove(lecture)
         
