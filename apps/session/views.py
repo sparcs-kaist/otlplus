@@ -85,7 +85,8 @@ def login_callback(request):
         user_profile.sid = sso_profile['sid']
         user_profile.save()
 
-        os.chdir(os.path.join(settings.BASE_DIR, 'otlplus'))
+        if not settings.DEBUG:
+            os.chdir('/var/www/otlplus/')
         os.system('python do_import_user_major.py %s' % student_id)
         os.system('python update_taken_lecture_user.py %s' % student_id)
         OldTimeTable.import_in_for_user(student_id)
@@ -103,7 +104,8 @@ def login_callback(request):
         user_profile.student_id = student_id
         user_profile.save()
         if previous_student_id != student_id:
-            os.chdir(os.path.join(settings.BASE_DIR, 'otlplus'))
+            if not settings.DEBUG:
+                os.chdir('/var/www/otlplus/')
             os.system('python do_import_user_major.py %s' % student_id)
             os.system('python update_taken_lecture_user.py %s' % student_id)
             OldTimeTable.import_in_for_user(student_id)
