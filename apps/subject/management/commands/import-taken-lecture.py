@@ -30,8 +30,8 @@ class Command(BaseCommand):
         host = options.get('host', None)
         port = options.get('port', None)
         user = options.get('user', None)
-        year = datetime.now().year
-        semester = ((datetime.now().month+9)%12)/3+1
+        year = options.get('year', settings.CURRENT_YEAR)
+        semester = options.get('semester', settings.CURRENT_SEMESTER)
         password = options.get('password', None)
         encoding = options.get('encoding', 'cp949')
         try:
