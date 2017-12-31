@@ -61,7 +61,6 @@ class Comment(models.Model):
         self.load = load
         self.speech = speech
         self.total = (grade+load+speech)/3.0
-        self.like = 0
         self.save()
 
     def u_delete(self):
