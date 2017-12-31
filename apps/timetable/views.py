@@ -860,12 +860,17 @@ def share_image(request):
     table_id = request.GET['table_id']
     timetable = TimeTable.objects.get(user=userprofile, id=table_id)
 
-    image = Image.open(os.path.join(settings.BASE_DIR, "otlplus/static/img/Image_template.png"))
+    if settings.DEBUG:
+        file_path = 'static/'
+    else:
+        file_path = '/var/www/otlplus/static/'
+
+    image = Image.open(file_path+"img/Image_template.png")
     draw = ImageDraw.Draw(image)
     textImage = Image.new("RGBA", image.size)
     textDraw = ImageDraw.Draw(textImage)
-    titleFont = ImageFont.truetype(os.path.join(settings.BASE_DIR, "otlplus/static/fonts/NanumBarunGothic.ttf"), 24)
-    contentFont = ImageFont.truetype(os.path.join(settings.BASE_DIR, "otlplus/static/fonts/NanumBarunGothic.ttf"), 22)
+    titleFont = ImageFont.truetype(file_path+"fonts/NanumBarunGothic.ttf", 24)
+    contentFont = ImageFont.truetype(file_path+"fonts/NanumBarunGothic.ttf", 22)
 
     for l in timetable.lecture.all():
         lDict = _lecture_to_dict(l)
