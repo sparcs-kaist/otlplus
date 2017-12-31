@@ -79,6 +79,7 @@ class Lecture(models.Model):
             self.load = 0.0
             self.speech = 0.0
             self.total = 0.0
+        self.save()
 
     def update_class_title(self):
         # Finds logest common string from front of given strings
@@ -288,6 +289,7 @@ class Course(models.Model):
             self.load = 0.0
             self.speech = 0.0
             self.total = 0.0
+        self.save()
 
     def update_code_num(self):
         self.code_num = self.old_code[-3]
@@ -328,6 +330,7 @@ class Professor(models.Model):
             self.load = 0.0
             self.speech = 0.0
             self.total = 0.0
+        self.save()
 
     def __unicode__(self):
         return u"%s(id:%d)"%(self.professor_name,self.professor_id)
