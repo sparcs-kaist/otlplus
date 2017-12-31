@@ -27,19 +27,14 @@ class Command(BaseCommand):
         args = u'--host=143.248.X.Y:PORT --user=USERNAME'
         
     def handle(self, *args, **options):
-        if options['year']!=None and options['semester']!=None:
-            next_year = options['year']
-            next_semester = options['semester']
-        else:
-            next_year = settings.CURRENT_YEAR
-            next_semester = settings.CURRENT_SEMESTER
-
         rx_dept_code = re.compile(ur'([a-zA-Z]+)(\d+)')
         host = options.get('host', None)
         port = options.get('port', None)
         user = options.get('user', None)
         password = options.get('password', None)
         encoding = options.get('encoding', 'cp949')
+        next_year = options.get('year', settings.CURRENT_YEAR)
+        next_semester = options.get('semester', settings.CURRENT_SEMESTER)
         exclude_lecture = options.get('exclude_lecture', False)
         lecture_count = 0
 
