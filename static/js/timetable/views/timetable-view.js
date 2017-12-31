@@ -1410,9 +1410,9 @@ function findLecture(lectures, id) {
       data["semester"] = app.YearSemester.attributes.semester;
 
       if (data["keyword"].length == 0 &&
-          data["type"].includes("ALL") &&
-          data["department"].includes("ALL") &&
-          data["grade"].includes("ALL") &&
+          data["type"].indexOf("ALL") > -1 &&
+          data["department"].indexOf("ALL") > -1 &&
+          data["grade"].indexOf("ALL") > -1 &&
           data["day"].length == 0) {
         alert(LANGUAGE_CODE==="en" ? "Please select search conditions." : "검색 조건을 선택해 주세요.")
         return;

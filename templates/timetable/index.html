@@ -61,9 +61,9 @@
 										{% for i in "123456789012345678" %}
 										<label>
 											{% if LANGUAGE_CODE == "en" %}
-											<input class="chkelem" type="checkbox" autocomplete="off" name="department" value="{% cycle "HSS" "AE" "BiS" "BS" "CBE" "CE" "CH" "CS" "EE" "ID" "IE" "MAS" "ME" "NQE" "MSB" "NS" "PH" "ETC" %}" />{% cycle "HSS" "AE" "BiS" "BS" "CBE" "CE" "CH" "CS" "EE" "ID" "IE" "MAS" "ME" "NQE" "MSB" "NS" "PH" "ETC" %}<i class="fa fa-circle-o fa-1x"></i><i class="fa fa-check-circle-o fa-ix none"></i>
+											<input class="chkelem" type="checkbox" autocomplete="off" name="department" value="{% cycle "HSS" "AE" "BiS" "BS" "CBE" "CE" "CH" "CS" "EE" "ID" "IE" "MAS" "ME" "NQE" "MSB" "MS" "PH" "ETC" %}" />{% cycle "HSS" "AE" "BiS" "BS" "CBE" "CE" "CH" "CS" "EE" "ID" "IE" "MAS" "ME" "NQE" "MSB" "MS" "PH" "ETC" %}<i class="fa fa-circle-o fa-1x"></i><i class="fa fa-check-circle-o fa-ix none"></i>
 											{% else %}
-											<input class="chkelem" type="checkbox" autocomplete="off" name="department" value="{% cycle "HSS" "CE" "MSB" "ME" "PH" "BiS" "IE" "ID" "BS" "MAS" "NQE" "EE" "CS" "AE" "CH" "CBE" "NS" "ETC" %}" />{% cycle "인문" "건환" "기경" "기계" "물리" "바공" "산공" "산디" "생명" "수리" "원양" "전자" "전산" "항공" "화학" "생화공" "신소재" "기타" %}<i class="fa fa-circle-o fa-1x"></i><i class="fa fa-check-circle-o fa-ix none"></i>
+											<input class="chkelem" type="checkbox" autocomplete="off" name="department" value="{% cycle "HSS" "CE" "MSB" "ME" "PH" "BiS" "IE" "ID" "BS" "MAS" "NQE" "EE" "CS" "AE" "CH" "CBE" "MS" "ETC" %}" />{% cycle "인문" "건환" "기경" "기계" "물리" "바공" "산공" "산디" "생명" "수리" "원양" "전자" "전산" "항공" "화학" "생화공" "신소재" "기타" %}<i class="fa fa-circle-o fa-1x"></i><i class="fa fa-check-circle-o fa-ix none"></i>
 											{% endif %}
 										</label>
 										{% endfor %}
