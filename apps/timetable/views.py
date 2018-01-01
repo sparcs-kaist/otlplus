@@ -217,10 +217,7 @@ def _get_scores(lecture):
     if comment_num == 0:
         return False, False, False
     else:
-        grade = lecture.grade_sum
-        load = lecture.load_sum
-        speech = lecture.speech_sum
-        return grade/comment_num, load/comment_num, speech/comment_num
+        return lecture.grade, lecture.load, lecture.speech
 
 
 
