@@ -34,13 +34,14 @@ class Command(BaseCommand):
 
             course = comment.course
             professors = comment.lecture.professor.all()
-            lectuers = Lecture.objects.filter(course=course, professor__in=professors)
+            lectures = Lecture.objects.filter(course=course, professor__in=professors)
             related_list = [course]+list(lectures)+list(professors)
             for related in related_list:
                 related.grade_sum += (comment.like+1)*comment.grade*3
                 related.load_sum += (comment.like+1)*comment.load*3
                 related.speech_sum += (comment.like+1)*comment.speech*3
                 related.total_sum += (comment.like+1)*comment.total*3
+                related.comment_num += comment.like+1
                 related.avg_update()
                 related.save()
             print str(comment.written_datetime) + " : updated"
