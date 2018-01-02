@@ -33,10 +33,15 @@ class Command(BaseCommand):
         user = options.get('user', None)
         password = options.get('password', None)
         encoding = options.get('encoding', 'cp949')
-        next_year = options.get('year', settings.CURRENT_YEAR)
-        next_semester = options.get('semester', settings.CURRENT_SEMESTER)
         exclude_lecture = options.get('exclude_lecture', False)
         lecture_count = 0
+
+        if options['year']!=None and options['semester']!=None:
+            next_year = int(options['year'])
+            next_semester = int(options['semester'])
+        else:
+            next_year = settings.CURRENT_YEAR
+            next_semester = settings.CURRENT_SEMESTER
 
         try:
             if password is None:
