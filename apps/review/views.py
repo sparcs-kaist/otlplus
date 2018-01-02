@@ -503,27 +503,6 @@ def SearchResultCourseView_json(request, id=-1,professor_id=-1,page=-1):
     return JsonResponse(json.dumps(context),safe=False)
 
 
-@login_required(login_url='/session/login/')
-def SearchUserComment_json(request, page=1):
-    user = request.user
-    user_profile = UserProfile.objects.get(user=user)
-    user_comments = Comment.objects.filter(writer=user_profile)
-
-    paginator = Paginator(user_comments, 5)
-    try:
-        page_obj = paginator.page(page)
-    except InvalidPage:
-        raise
-
-    results = [SearchComment(request, i) for i in page_obj.object_list]
-
-    context = {
-        "results": results,
-        "hasNext": page_obj.has_next(),
-    }
-    return JsonResponse(json.dumps(context), safe=False)
-
-
 # Review Control Function#############################################################################################
 @login_required(login_url='/session/login/')
 def ReviewDelete(request):

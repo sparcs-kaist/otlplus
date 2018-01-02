@@ -34,8 +34,6 @@ urlpatterns = [
     url(r'^result/$', views.SearchResultView, name="search_result_page"),
     url(r'^result/json/(?P<page>[0-9]+)/$', views.SearchResultView_json),
 
-    url(r'^user/json/(?P<page>[0-9]+)/$', views.SearchUserComment_json),
-
     url(r'^insert/$', views.ReviewInsertView),
     url(r'^insert/([^/]+)/([^/]+)/add/$', views.ReviewInsertAdd),
     url(r'^insert/([^/]+)/([^/]+)/$', views.ReviewInsertView),
