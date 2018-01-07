@@ -1,0 +1,56 @@
+{% extends "timetable/base.html" %}
+{% load staticfiles %}
+
+{% block title %}
+  {{ block.super }}
+  OTL - 모의시간표
+{% endblock %}
+
+{% block metatags %}
+  {{ block.super }}
+{% endblock %}
+
+{% block stylesheets %}
+  {{ block.super }}
+  <link rel="stylesheet" type="text/css" href="/media/css/global.css">  
+  <link rel="stylesheet" type="text/css" href="/media/css/components/header/timetable.css">
+  <link rel="stylesheet" type="text/css" href="/media/css/timetable/timetable.css">
+{% endblock %}
+
+{% block javascripts %}
+  {{ block.super }}
+{% endblock %}
+
+{% block header %}
+  {{ block.super }}
+  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+  {% include 'components/header.html' with is_main=True %}
+{% endblock %}
+
+{% block content %}
+{% endblock %}
+
+{% block modals %}
+  {{ block.super }}
+{% endblock %}
+
+{% block footer %}
+  {{ block.super }}
+<!--  
+    <footer class="container" style="border-top:1px solid #d9d0d0; text-align:center;margin-top:20px;padding-top:10px">
+        <p class="info">
+            <a href="/credits/">만든 사람들</a> |
+            <a href="/licenses/">Licenses</a>
+        </p>
+        <p class="info">
+            <a href="#">FeedBack(otlplus@sparcs.org)</a>
+        </p>
+        <p class="copyright">
+            Copyright © 2016,
+            <a href="http://sparcs.kaist.ac.kr">
+                <span style="color:#FF3399">S</span><span style="color:#33CC66">P</span><span style="color:#00CCFF">A</span><span style="color:#FF9900">R</span><span style="color:#33CCCC">C</span><span style="color:#9966FF">S</span>
+            </a>
+            OTL Team</p>
+			</footer>
+			-->
+{% endblock %}
