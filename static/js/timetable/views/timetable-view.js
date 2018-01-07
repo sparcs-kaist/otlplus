@@ -221,7 +221,7 @@ function findLecture(lectures, id) {
       if (block.length === 0) {
         // Click target is not child(or itself) of lecture block
         app.LectureActive.set({type: "none"});
-      } else if (target.hasClass("lecture-delete")) {
+      } else if (target.closest(".lecture-delete").length) {
         // Do nothing
       } else if (app.LectureActive.get('type') === 'click'
                  && app.LectureActive.get('from') === 'table'
