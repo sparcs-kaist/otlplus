@@ -30,10 +30,16 @@ class Command(BaseCommand):
         host = options.get('host', None)
         port = options.get('port', None)
         user = options.get('user', None)
-        year = datetime.now().year
-        semester = ((datetime.now().month+9)%12)/3+1
         password = options.get('password', None)
         encoding = options.get('encoding', 'cp949')
+
+        if options['year']!=None and options['semester']!=None:
+            year = int(options['year'])
+            semester = int(options['semester'])
+        else:
+            year = settings.CURRENT_YEAR
+            semester = settings.CURRENT_SEMESTER
+
         try:
             if password is None:
                 password = getpass.getpass()

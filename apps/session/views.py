@@ -5,7 +5,10 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
 from django.conf import settings
+from django.utils import translation
 from apps.subject.models import Department
+from apps.review.models import Comment
+from apps.timetable.models import OldTimeTable
 from apps.session.models import UserProfile
 from apps.session.sparcssso import Client
 import urllib
@@ -16,7 +19,6 @@ import datetime
 import subprocess
 from django.db.models import Q
 from django.conf import settings
-
 
 import urlparse
 import requests
@@ -85,7 +87,9 @@ def login_callback(request):
 
         if not settings.DEBUG:
             os.chdir('/var/www/otlplus/')
+        os.system('python do_import_user_major.py %s' % student_id)
         os.system('python update_taken_lecture_user.py %s' % student_id)
+        OldTimeTable.import_in_for_user(student_id)
 
         user = authenticate(username=username)
         login(request, user)
@@ -102,13 +106,14 @@ def login_callback(request):
         if previous_student_id != student_id:
             if not settings.DEBUG:
                 os.chdir('/var/www/otlplus/')
+            os.system('python do_import_user_major.py %s' % student_id)
             os.system('python update_taken_lecture_user.py %s' % student_id)
+            OldTimeTable.import_in_for_user(student_id)
         login(request, user)
         return redirect(next)
     return render(request, 'session/login_error.html',
                   {'error_title': "Login Error",
                    'error_message': "No such that user"})
-
 
 
 def user_logout(request):
@@ -126,6 +131,7 @@ def user_logout(request):
 def user_settings(request):
     user = request.user
     user_profile = UserProfile.objects.get(user=user)
+
     department = Department.objects.filter(Q(code__in = ["CE", "MSB", "MAE", "PH", "BiS", "IE", "ID", "BS", "CBE", "MAS", "MS", "NQE", "HSS", "EE", "CS", "MAE", "CH"]) & Q(visible = True)).order_by('name')
     fav_department = user_profile.favorite_departments.all()
 
@@ -155,6 +161,7 @@ def user_settings(request):
         ctx['fav_department'] = favorite_departments
         ctx['usr_lang'] = user_profile.language
         return HttpResponseRedirect('/main/')
+
     return render(request, 'session/settings.html', ctx)
 
 
@@ -180,3 +187,18 @@ def unregister(request):
     logout(request)
 
     return JsonResponse(status=200, data={})
+
+
+def language(request):
+    if translation.LANGUAGE_SESSION_KEY not in request.session:
+        to_lang = 'ko'
+    elif request.session[translation.LANGUAGE_SESSION_KEY] == 'ko':
+        to_lang = 'en'
+    else:
+        to_lang = 'ko'
+
+    request.session[translation.LANGUAGE_SESSION_KEY] = to_lang
+    translation.activate(to_lang)
+
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+

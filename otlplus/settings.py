@@ -22,10 +22,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 
 with open(os.path.join(BASE_DIR, 'keys/django_secret')) as f:
-        SECRET_KEY = f.read().strip()
+    SECRET_KEY = f.read().strip()
 
 with open(os.path.join(BASE_DIR, 'keys/sso_secret')) as f:
-        SSO_KEY = f.read().strip()
+    SSO_KEY = f.read().strip()
+
+GOOGLE_OAUTH2_CLIENT_SECRETS_JSON = os.path.join(BASE_DIR, 'keys/google_client_secrets.json')
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -46,10 +49,12 @@ INSTALLED_APPS = (
     'apps.session',
     'apps.review',
     'apps.subject',
+    'apps.timetable',
 )
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -64,10 +69,10 @@ ROOT_URLCONF = 'otlplus.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'APP_DIRS': True,
         'DIRS': [
             os.path.join(BASE_DIR, 'templates'),
         ],
-        'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
@@ -78,6 +83,7 @@ TEMPLATES = [
         },
     },
 ]
+
 
 WSGI_APPLICATION = 'otlplus.wsgi.application'
 
@@ -97,6 +103,16 @@ DATABASES = {
 
 LANGUAGE_CODE = 'ko-KR'
 
+ugettext = lambda s: s
+LANGUAGES = (
+    ('ko', ugettext('Korean')),
+    ('en', ugettext('English')),
+)
+
+LOCALE_PATHS = (
+    os.path.join(BASE_DIR, 'locale'),
+)
+
 TIME_ZONE = 'Asia/Seoul'
 
 USE_I18N = True
@@ -104,6 +120,32 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+#  Semester INFO
+from datetime import date
+CURRENT_YEAR = 2018
+CURRENT_SEMESTER = 1
+SEMESTER_RANGES = {
+    (2009, 1): (date(2009, 2, 2), date(2009, 5, 22)),
+    (2009, 3): (date(2009, 9, 1), date(2009, 12, 21)),
+    (2010, 1): (date(2010, 2, 1), date(2010, 5, 21)),
+    (2010, 3): (date(2010, 9, 1), date(2010, 12, 21)),
+    (2011, 1): (date(2011, 2, 7), date(2011, 5, 27)),
+    (2011, 3): (date(2011, 9, 1), date(2011, 12, 21)),
+    (2012, 1): (date(2012, 2, 6), date(2012, 5, 25)),
+    (2012, 3): (date(2012, 9, 1), date(2012, 12, 21)),
+    (2013, 1): (date(2013, 3, 2), date(2013, 6, 21)),
+    (2013, 3): (date(2013, 9, 2), date(2013, 12, 20)),
+    (2014, 1): (date(2014, 3, 3), date(2014, 6, 20)),
+    (2014, 3): (date(2014, 9, 1), date(2014, 12, 19)),
+    (2015, 1): (date(2017, 2, 27), date(2017, 6, 16)),
+    (2015, 3): (date(2017, 8, 28), date(2017, 12, 15)),
+    (2016, 1): (date(2017, 2, 27), date(2017, 6, 16)),
+    (2016, 3): (date(2017, 8, 28), date(2017, 12, 15)),
+    (2017, 1): (date(2017, 2, 27), date(2017, 6, 16)),
+    (2017, 3): (date(2017, 8, 28), date(2017, 12, 15)),
+    (2018, 1): (date(2018, 2, 26), date(2017, 6, 18)),
+}
 
 
 # Static files (CSS, JavaScript, Images)
@@ -114,13 +156,15 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
 
+
 AUTHENTICATION_BACKENDS = (
     'apps.session.auth_backend.PasswordlessModelBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
-
 LOGIN_URL = '/session/login/'
 LOGOUT_URL = '/session/logout/'
+
+
 
 try:
     from settings_local import *

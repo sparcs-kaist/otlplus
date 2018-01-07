@@ -13,9 +13,11 @@ cronlog
 update_scholardb.py
 update_taken_lecture.py
 import_old-comment.py
+do_import_user_major.py
 # Distribution / packaging
 .Python
 env/
+venv/
 build/
 develop-eggs/
 dist/
@@ -53,12 +55,10 @@ coverage.xml
 *,cover
 
 # Translations
-*.mo
 *.pot
 
 # Django stuff:
 *.log
-migrations/
 
 # Sphinx documentation
 docs/_build/

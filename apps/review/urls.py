@@ -15,26 +15,32 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.http import HttpResponseRedirect
-
+from . import views
 
 urlpatterns = [
-    url(r'^$', 'apps.review.views.LastCommentView'),
-    url(r'^json/(?P<page>[0-9]+)/$', 'apps.review.views.LastCommentView_json'),
-    url(r'^result/comment/([1-9][0-9]*)/$', 'apps.review.views.ReviewView'),
+    url(r'^$', views.LastCommentView),
+    url(r'^json/(?P<page>[0-9]+)/$', views.LastCommentView_json),
+
+    url(r'^result/comment/([1-9][0-9]*)/$', views.ReviewView),
+
     url(r'^result/professor/([1-9][0-9]*)/$', lambda x,y :HttpResponseRedirect('./-1/')),
-    url(r'^result/professor/([1-9][0-9]*)/([^/]+)/$', 'apps.review.views.SearchResultProfessorView'),
-    url(r'^result/professor/([^/]+)/json/([^/]+)/([^/]+)/$', 'apps.review.views.SearchResultProfessorView_json'),
+    url(r'^result/professor/([1-9][0-9]*)/([^/]+)/$', views.SearchResultProfessorView),
+    url(r'^result/professor/([^/]+)/json/([^/]+)/([^/]+)/$', views.SearchResultProfessorView_json),
+
     url(r'^result/course/([1-9][0-9]*)/$', lambda x,y :HttpResponseRedirect('./-1/')),
-    url(r'^result/course/([1-9][0-9]*)/([^/]+)/$', 'apps.review.views.SearchResultCourseView'),
-    url(r'^result/course/([^/]+)/([^/]+)/json/([^/]+)/$', 'apps.review.views.SearchResultCourseView_json'),
-    url(r'^result/$', 'apps.review.views.SearchResultView', name="search_result_page"),
-    url(r'^result/json/(?P<page>[0-9]+)/$', 'apps.review.views.SearchResultView_json'),
-    url(r'^insert/$', 'apps.review.views.ReviewInsertView'),
-    url(r'^insert/([^/]+)/([^/]+)/add/$', 'apps.review.views.ReviewInsertAdd'),
-    url(r'^insert/([^/]+)/([^/]+)/$', 'apps.review.views.ReviewInsertView'),
-    url(r'^delete/$','apps.review.views.ReviewDelete'),
-    url(r'^like/$','apps.review.views.ReviewLike'),
-    url(r'^refresh/$','apps.review.views.ReviewRefresh'),
-    url(r'^portal/$','apps.review.views.ReviewPortal'),
-    url(r'^dictionary/([^/]+)/$', 'apps.review.views.dictionary'),
+    url(r'^result/course/([1-9][0-9]*)/([^/]+)/$', views.SearchResultCourseView),
+    url(r'^result/course/([^/]+)/([^/]+)/json/([^/]+)/$', views.SearchResultCourseView_json),
+
+    url(r'^result/$', views.SearchResultView, name="search_result_page"),
+    url(r'^result/json/(?P<page>[0-9]+)/$', views.SearchResultView_json),
+
+    url(r'^insert/$', views.ReviewInsertView),
+    url(r'^insert/([^/]+)/([^/]+)/add/$', views.ReviewInsertAdd),
+    url(r'^insert/([^/]+)/([^/]+)/$', views.ReviewInsertView),
+
+    url(r'^delete/$',views.ReviewDelete),
+    url(r'^like/$',views.ReviewLike),
+    url(r'^refresh/$',views.ReviewRefresh),
+    url(r'^portal/$',views.ReviewPortal),
+    url(r'^dictionary/([^/]+)/$', views.dictionary),
 ]
