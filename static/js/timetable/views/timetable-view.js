@@ -328,14 +328,10 @@ function findLecture(lectures, id) {
     },
 
     _addBlockWithoutTime: function(lecture, isTemp) {
-      var idx = 0;
-      for (idx=0; idx<5; idx++) {
-        var block = $('#timetable-contents')
-                      .find('.day:nth-child('+(idx+2)+')')
-                      .find('.half.no-time-start');
-        if (block.find(".lecture-block").length==0)
-          break;
-      }
+      var idx = $('#timetable-contents')
+                  .find('.half.no-time-start')
+                  .find('.lecture-block')
+                  .length;
 
       if (idx%5 == 0) {
         $('.day').append(' \
@@ -354,8 +350,9 @@ function findLecture(lectures, id) {
       }
 
       var block = $('#timetable-contents')
-                    .find('.day:nth-child('+(idx+2)+')')
-                    .find('.half.cell1.no-time-start');
+                    .find('.day:nth-child('+(idx%5+2)+')')
+                    .find('.half.no-time-start')
+                    .last();
       var lectureBlock = $(this.blockTemplate({title: lecture.title,
                                        id: lecture.id,
                                        professor: lecture.professor_short,
@@ -389,7 +386,11 @@ function findLecture(lectures, id) {
       $('.lecture-block').removeClass('click');
       $('.lecture-block-temp').remove();
       if ($('#timetable-contents').find('.day').first().find('.half.no-time-start').last().find('.lecture-block').length == 0) {
-        $('.no-time').remove();
+        $('.no-time:last-child').remove();
+        $('.no-time:last-child').remove();
+        $('.no-time:last-child').remove();
+        $('.no-time:last-child').remove();
+        $('.no-time:last-child').remove();
         timetableView._sizeBlock($('.lecture-block'));
       }
     },
