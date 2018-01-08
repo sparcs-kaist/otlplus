@@ -344,6 +344,12 @@ function findLecture(lectures, id) {
             <div class="cell-bold cell1 half no-time no-time-start"></div> \
             <div class="cell2 half no-time"></div> \
             <div class="cell2 half cell-last no-time"></div>');
+        $('#rowheaders').append(' \
+            <div class="rhead no-time"></div> \
+            <div class="rhead rhead-chead no-time"></div> \
+            <div class="rhead no-time"></div> \
+            <div class="rhead no-time"></div> \
+            <div class="rhead no-time"></div>');
         timetableView._sizeBlock($('.lecture-block'));
       }
 
