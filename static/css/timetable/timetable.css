@@ -545,6 +545,7 @@ i
 	background: url(/media/icons/search.svg) no-repeat center center;
 	width:12px;
     height: 12px;
+    flex:none;
 	vertical-align:top;
 	margin-right:6px;
 	margin-top:1px;
@@ -1207,6 +1208,7 @@ label:hover > .fa-check-circle-o
 
 .chead
 {
+    flex:none;
     height:16px;
     text-align:center;
     font-size:10px;
