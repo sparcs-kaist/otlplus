@@ -2005,8 +2005,8 @@ body .lecture-block.active.lecture-block-temp
 
 .timetable-lecture-name
 {
-    font-size:calc(0.7vh + 5px);
-    line-height:calc(0.7vh + 6px);
+    font-size:11px;
+    line-height:12px;
     color:rgba(0,0,0,0.8);
     margin:0;
     margin-bottom:1px;
@@ -2020,9 +2020,9 @@ body .lecture-block.active.lecture-block-temp
 
 .timetable-lecture-info
 {
-    font-size:calc(0.7vh + 4px);
-    line-height:calc(0.7vh + 5px);
-    color:rgba(0,0,0,0.6);
+    font-size:11px;
+    line-height:12px;
+    color:rgba(0,0,0,0.5);
     margin:0;
     margin-top:2px;
     pointer-events:none;
@@ -2030,7 +2030,7 @@ body .lecture-block.active.lecture-block-temp
 .lecture-block.click .timetable-lecture-info,
 .lecture-block.active .timetable-lecture-info
 {
-    color:rgba(255,255,255,0.8);
+    color:rgba(255,255,255,0.7);
 }
 
 .lecture-delete
