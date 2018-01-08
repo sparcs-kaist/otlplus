@@ -332,14 +332,24 @@ function findLecture(lectures, id) {
       for (idx=0; idx<5; idx++) {
         var block = $('#timetable-contents')
                       .find('.day:nth-child('+(idx+2)+')')
-                      .find('.half.no-time');
+                      .find('.half.no-time-start');
         if (block.find(".lecture-block").length==0)
           break;
       }
 
+      if (idx%5 == 0) {
+        $('.day').append(' \
+            <div class="half no-time"></div> \
+            <div class="chead no-time"></div> \
+            <div class="cell-bold cell1 half no-time no-time-start"></div> \
+            <div class="cell2 half no-time"></div> \
+            <div class="cell2 half cell-last no-time"></div>');
+        timetableView._sizeBlock($('.lecture-block'));
+      }
+
       var block = $('#timetable-contents')
                     .find('.day:nth-child('+(idx+2)+')')
-                    .find('.half.no-time');
+                    .find('.half.cell1.no-time-start');
       var lectureBlock = $(this.blockTemplate({title: lecture.title,
                                        id: lecture.id,
                                        professor: lecture.professor_short,
@@ -356,6 +366,7 @@ function findLecture(lectures, id) {
     _removeAllBlocks: function() {
       $('#timetable-contents .lecture-block').remove();
       $('#timetable-contents .half').removeClass('occupied');
+      $('.no-time').remove();
     },
 
     _highlight: function(lecture, isClick) {
@@ -371,6 +382,10 @@ function findLecture(lectures, id) {
       $('.lecture-block').removeClass('active');
       $('.lecture-block').removeClass('click');
       $('.lecture-block-temp').remove();
+      if ($('#timetable-contents').find('.day').first().find('.half.no-time-start').last().find('.lecture-block').length == 0) {
+        $('.no-time').remove();
+        timetableView._sizeBlock($('.lecture-block'));
+      }
     },
   })
 
