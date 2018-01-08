@@ -1212,6 +1212,7 @@ label:hover > .fa-check-circle-o
     font-size:10px;
     line-height:9px;
     color:#555;
+    position:relative;
 }
 
 #rowheaders
@@ -1246,6 +1247,12 @@ label:hover > .fa-check-circle-o
 {
     font-weight:bold;
 }
+.rhead-chead
+{
+    flex:none;
+    margin-top:0;
+    height:16px;
+}
 
 .rheadtext
 {
@@ -1254,8 +1261,8 @@ label:hover > .fa-check-circle-o
     color:#555;
 	font-size:9px;
     position:absolute;
-    -webkit-transform:translate(0,-50%);
-            transform:translate(0,-50%);
+    display:inline-block;
+    bottom:-8px;
 }
 
 #timetable-contents

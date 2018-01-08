@@ -273,12 +273,12 @@ function findLecture(lectures, id) {
 
     _addBlock: function(lecture, isTemp) {
       if (lecture.classtimes.length == 0)
-        this._addBlockWithoutTime(lecture, isTemp);
+        this._addBlockWithoutTime(lecture, null, isTemp);
       else {
         for (var i=0, classtime; classtime=lecture.classtimes[i]; i++) {
           if (classtime.day == 5 ||
               classtime.day == 6)
-            this._addBlockWithoutTime(lecture, isTemp);
+            this._addBlockWithoutTime(lecture, classtime, isTemp);
           else
             this._addBlockWithTime(lecture, classtime, isTemp);
         }
@@ -327,19 +327,32 @@ function findLecture(lectures, id) {
       timetableView._sizeBlock(lectureBlock);
     },
 
-    _addBlockWithoutTime: function(lecture, isTemp) {
-      var idx = 0;
-      for (idx=0; idx<5; idx++) {
-        var block = $('#timetable-contents')
-                      .find('.day:nth-child('+(idx+2)+')')
-                      .find('.half.no-time');
-        if (block.find(".lecture-block").length==0)
-          break;
+    _addBlockWithoutTime: function(lecture, classtime, isTemp) {
+      var idx = $('#timetable-contents')
+                  .find('.half.no-time-start')
+                  .find('.lecture-block')
+                  .length;
+
+      if (idx%5 == 0) {
+        $('.day').append(' \
+            <div class="half no-time"></div> \
+            <div class="chead no-time no-time-text"></div> \
+            <div class="cell-bold cell1 half no-time no-time-start"></div> \
+            <div class="cell2 half no-time"></div> \
+            <div class="cell2 half cell-last no-time"></div>');
+        $('#rowheaders').append(' \
+            <div class="rhead no-time"></div> \
+            <div class="rhead rhead-chead no-time"></div> \
+            <div class="rhead no-time"></div> \
+            <div class="rhead no-time"></div> \
+            <div class="rhead no-time"></div>');
+        timetableView._sizeBlock($('.lecture-block'));
       }
 
       var block = $('#timetable-contents')
-                    .find('.day:nth-child('+(idx+2)+')')
-                    .find('.half.no-time');
+                    .find('.day:nth-child('+(idx%5+2)+')')
+                    .find('.half.no-time-start')
+                    .last();
       var lectureBlock = $(this.blockTemplate({title: lecture.title,
                                        id: lecture.id,
                                        professor: lecture.professor_short,
@@ -351,11 +364,32 @@ function findLecture(lectures, id) {
 
       block.append(lectureBlock);
       timetableView._sizeBlock(lectureBlock);
+
+      var block = $('#timetable-contents')
+                    .find('.day:nth-child('+(idx%5+2)+')')
+                    .find('.chead.no-time-text')
+                    .last();
+      if (isTemp)
+        block.addClass('no-time-text-temp');
+      var text;
+      if (classtime == null)
+        text = LANGUAGE_CODE==="en" ? "None" : "시간 없음";
+      else {
+        if (classtime.day==6)
+          text = LANGUAGE_CODE==="en" ? "Sat. " : "토 ";
+        else
+          text = LANGUAGE_CODE==="en" ? "Sun. " : "일 ";
+        text += Math.floor(classtime.begin/60)+":"+("00"+classtime.begin%60).slice(-2);
+        text += "~";
+        text += Math.floor(classtime.end/60)+":"+("00"+classtime.end%60).slice(-2);
+      }
+      block.html(text);
     },
 
     _removeAllBlocks: function() {
       $('#timetable-contents .lecture-block').remove();
       $('#timetable-contents .half').removeClass('occupied');
+      $('.no-time').remove();
     },
 
     _highlight: function(lecture, isClick) {
@@ -371,6 +405,16 @@ function findLecture(lectures, id) {
       $('.lecture-block').removeClass('active');
       $('.lecture-block').removeClass('click');
       $('.lecture-block-temp').remove();
+      $('.no-time-text-temp').html('');
+      $('.no-time-text-temp').removeClass('.no-time-text-temp');
+      if ($('#timetable-contents').find('.day').first().find('.half.no-time-start').last().find('.lecture-block').length == 0) {
+        $('.no-time:last-child').remove();
+        $('.no-time:last-child').remove();
+        $('.no-time:last-child').remove();
+        $('.no-time:last-child').remove();
+        $('.no-time:last-child').remove();
+        timetableView._sizeBlock($('.lecture-block'));
+      }
     },
   })
 
