@@ -643,6 +643,7 @@ function findLecture(lectures, id) {
     _highlight: function(lecture, isClick) {
       if (isClick) {
         $('.list-elem-body-wrap[data-id=' + lecture.id + ']').addClass('click');
+        $('.list-elem-body-wrap[data-id=' + lecture.id + ']').closest('.list-elem').addClass('click');
       }
       else {
         $('.list-elem-body-wrap[data-id=' + lecture.id + ']').addClass('active');
@@ -652,6 +653,7 @@ function findLecture(lectures, id) {
     _unhighlight: function(e) {
       $('.list-elem-body-wrap').removeClass('active');
       $('.list-elem-body-wrap').removeClass('click');
+      $('.list-elem').removeClass('click');
     },
 
     _fetchLists: function(year, semester) {
