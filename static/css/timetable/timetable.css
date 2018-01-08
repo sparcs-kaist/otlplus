@@ -1907,6 +1907,7 @@ label:hover > .fa-check-circle-o
     width: calc(100% + 2px);
     cursor:pointer;
 }
+body .lecture-block.click,
 body .lecture-block.active
 {
     background-color:#E0546F;
@@ -1919,7 +1920,9 @@ body .lecture-block.active.lecture-block-temp
 }
 .lecture-block.click
 {
-    border:1px #E54C65 solid;
+    margin-top:-3px;
+    margin-bottom:3px;
+    box-shadow: 0 3px 0 0 #825c61;
 }
 
 .lecture-block.color1
@@ -1992,10 +1995,6 @@ body .lecture-block.active.lecture-block-temp
     padding: 4px 6px;
     overflow:hidden;
 }
-.lecture-block.click .lecture-block-content
-{
-    padding: 3px 5px;
-}
 
 .timetable-lecture-name
 {
@@ -2006,6 +2005,7 @@ body .lecture-block.active.lecture-block-temp
     margin-bottom:1px;
     pointer-events:none;
 }
+.lecture-block.click .timetable-lecture-name,
 .lecture-block.active .timetable-lecture-name
 {
     color:rgba(255,255,255,1);
@@ -2020,6 +2020,7 @@ body .lecture-block.active.lecture-block-temp
     margin-top:2px;
     pointer-events:none;
 }
+.lecture-block.click .timetable-lecture-info,
 .lecture-block.active .timetable-lecture-info
 {
     color:rgba(255,255,255,0.8);
