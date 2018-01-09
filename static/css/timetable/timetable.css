@@ -1039,11 +1039,12 @@ label:hover > .fa-check-circle-o
 .timetable-tab.active>.hidden-option
 {
     display:inline-block;
+    vertical-align:top;
 }
 
 .duplicate-table
 {
-    padding:8px 2px 7px 4px;
+    padding:7px 2px 7px 4px;
     cursor:pointer;
 }
 
@@ -1051,7 +1052,7 @@ label:hover > .fa-check-circle-o
 {
 	background: url(/media/icons/duplicate_table.svg) no-repeat center center;
 	width:8px;
-	height:10px;
+	height:11px;
 	display:inline-block;
 	vertical-align:top;
 }
@@ -1062,7 +1063,7 @@ label:hover > .fa-check-circle-o
 
 .delete-table
 {
-    padding:8px 10px 7px 2px;
+    padding:7px 10px 7px 2px;
     cursor:pointer;
 }
 
@@ -1070,7 +1071,7 @@ label:hover > .fa-check-circle-o
 {
 	background: url(/media/icons/delete_table.svg) no-repeat center center;
 	width:9px;
-	height:10px;
+	height:11px;
 	display:inline-block;
 	vertical-align:top;
 }
