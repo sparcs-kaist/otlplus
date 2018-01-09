@@ -2053,8 +2053,8 @@ body .lecture-block.active.lecture-block-temp
 .lecture-delete > i
 {
     background: url(/media/icons/delete_lecture.svg) no-repeat center center;
-    width:8px;
-    height:8px;
+    width:10px;
+    height:10px;
     display:block;
 }
 .lecture-delete:hover > i
