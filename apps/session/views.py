@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
 from django.conf import settings
 from django.utils import translation
-from apps.subject.models import Department
+from apps.subject.models import Department, Lecture
 from apps.review.models import Comment
 from apps.timetable.models import OldTimeTable
 from apps.session.models import UserProfile
@@ -141,7 +141,7 @@ def user_settings(request):
                     "PSY", "SK", "BIO", "CLT", "PHYS"]
 
     department_1 = Department.objects.filter(code__in=dept_under, visible=True).order_by('name')
-    department_others = Department.objects.filter(visible=True).exclude(code_in=dept_under).order_by('name')
+    department_others = Department.objects.filter(visible=True).exclude(code__in=dept_under+dept_exclude).order_by('name')
     department_2 = []
     department_3 = []
     current_lectures = Lecture.objects.filter(year=settings.CURRENT_YEAR, semester=settings.CURRENT_SEMESTER)
@@ -157,7 +157,7 @@ def user_settings(request):
         user_profile.language = 'ko'
         user_profile.save()
 
-    ctx = { 'department_1': department_2,
+    ctx = { 'department_1': department_1,
             'department_2': department_2,
             'department_3': department_3,
             'fav_department': fav_department,
