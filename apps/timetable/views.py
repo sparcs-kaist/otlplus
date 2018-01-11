@@ -146,7 +146,7 @@ def _get_preset_lectures(year, semester, code):
         return Lecture.objects.filter(year=year, semester=semester,
                                       type_en="Humanities & Social Elective", deleted=False)
     else:
-        filter_type = ["Major Required", "Major Elective"]
+        filter_type = ["Major Required", "Major Elective", "Elective(Graduate)"]
         return Lecture.objects.filter(year=year, semester=semester,
                                       department__code=code, type_en__in=filter_type,
                                       deleted=False)
