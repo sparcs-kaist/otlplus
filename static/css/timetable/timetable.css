@@ -1262,7 +1262,7 @@ label:hover > .fa-check-circle-o
 	width:100%;
 	text-align:right;
     color:#555;
-	font-size:9px;
+	font-size:10px;
     position:absolute;
     display:inline-block;
     bottom:-8px;
@@ -2032,7 +2032,7 @@ body .lecture-block.active.lecture-block-temp
     line-height:12px;
     color:rgba(0,0,0,0.5);
     margin:0;
-    margin-top:2px;
+    margin-top:1px;
     pointer-events:none;
 }
 .lecture-block.click .timetable-lecture-info,
