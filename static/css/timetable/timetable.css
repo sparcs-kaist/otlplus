@@ -1859,7 +1859,6 @@ label:hover > .fa-check-circle-o
 	padding-top:10px;
     font-size:0px;
     display:flex;
-    display:none !important;
     justify-content:space-between;
 }
 
