@@ -803,7 +803,7 @@ def _sliceText(text, width, font):
         if font.getsize(text[slStart:i+1])[0] > width:
             sliced.append(text[slStart:i])
             slStart = i
-    sliced.append(text[slStart:])
+    sliced.append(text[slStart:].strip())
 
     return sliced
 
