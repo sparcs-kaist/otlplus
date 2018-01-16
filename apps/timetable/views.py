@@ -823,20 +823,20 @@ def _textbox(draw, points, title, prof, loc, font):
 
     for i in range(len(ts)+len(ps)+len(ls)):
         if i == len(ts):
-            sliced.append(("", 2, font, (0,0,0,128)))
+            sliced.append(("", 2, (0,0,0,128)))
             textHeight += 2
         elif i == len(ts)+len(ps):
-            sliced.append(("", 2, font, (0,0,0,128)))
+            sliced.append(("", 2, (0,0,0,128)))
             textHeight += 2
 
         if i < len(ts):
-            sliced.append((ts[i], 24, font, (0,0,0,204)))
+            sliced.append((ts[i], 24, (0,0,0,204)))
             textHeight += 24
         elif i < len(ts)+len(ps):
-            sliced.append((ps[i-len(ts)], 24, font, (0,0,0,128)))
+            sliced.append((ps[i-len(ts)], 24, (0,0,0,128)))
             textHeight += 24
         else:
-            sliced.append((ls[i-len(ts)-len(ps)], 24, font, (0,0,0,128)))
+            sliced.append((ls[i-len(ts)-len(ps)], 24, (0,0,0,128)))
             textHeight += 24
 
         if textHeight > height:
@@ -847,7 +847,7 @@ def _textbox(draw, points, title, prof, loc, font):
 
     textPosition = 0
     for s in sliced:
-        draw.text((points[0], points[1]+topPad+textPosition), s[0], fill=s[3], font=s[2])
+        draw.text((points[0], points[1]+topPad+textPosition), s[0], fill=s[2], font=font)
         textPosition += s[1]
 
 
