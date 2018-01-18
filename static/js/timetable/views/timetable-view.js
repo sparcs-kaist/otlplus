@@ -996,7 +996,7 @@ function findLecture(lectures, id) {
     },
 
     shareClick: function(e) {
-      if (!$(e.target).parent().hasClass("signed"))
+      if (!$(e.target).parent().hasClass("authenticated"))
         alert(LANGUAGE_CODE==="en" ? "You must be logged in." : "로그인해야 사용할 수 있습니다.");
     },
 
@@ -1113,13 +1113,13 @@ function findLecture(lectures, id) {
         block.html('');
       }
 
-      $('#small-buttons.authenticated #image').attr('href', '');
-      $('#small-buttons.authenticated #calendar').attr('href', '');
+      $('#share-buttons.authenticated #image').attr('href', '');
+      $('#share-buttons.authenticated #calendar').attr('href', '');
     },
 
     _setShareLink: function(timetable_id) {
-      $('#small-buttons.authenticated #image').attr('href', '/timetable/api/share_image/?table_id='+timetable_id);
-      $('#small-buttons.authenticated #calendar').attr('href', '/timetable/api/share_calendar/?table_id='+timetable_id
+      $('#share-buttons.authenticated #image').attr('href', '/timetable/api/share_image/?table_id='+timetable_id);
+      $('#share-buttons.authenticated #calendar').attr('href', '/timetable/api/share_calendar/?table_id='+timetable_id
                                               +'&year='+app.YearSemester.get('year')
                                               +'&semester='+app.YearSemester.get('semester'));
     },
