@@ -852,6 +852,7 @@ def _textbox(draw, points, title, prof, loc, font):
 
 
 
+@login_required_ajax
 def share_image(request):
     userprofile = UserProfile.objects.get(user=request.user)
     table_id = request.GET['table_id']
