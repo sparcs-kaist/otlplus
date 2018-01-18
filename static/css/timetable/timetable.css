@@ -1851,7 +1851,7 @@ label:hover > .fa-check-circle-o
 
 /* Share at right side*/
 
-#small-buttons
+#share-buttons
 {
     flex:none;
     margin-top:10px;
@@ -1860,8 +1860,7 @@ label:hover > .fa-check-circle-o
     font-size:0px;
 }
 
-#small-buttons > a,
-#small-buttons > div
+.share-button
 {
     display:inline-block;
     height:16px;
@@ -1871,29 +1870,29 @@ label:hover > .fa-check-circle-o
     vertical-align:top;
 }
 
-#small-buttons > #facebook
+.share-button#facebook
 {
     background: url(/media/icons/share_facebook.svg) no-repeat center center;
 }
-#small-buttons > #facebook:hover
+.share-button#facebook:hover
 {
     background-image: url(/media/icons/share_facebook_hover.svg);
 }
 
-#small-buttons > #image
+.share-button#image
 {
     background: url(/media/icons/share_image.svg) no-repeat center center;
 }
-#small-buttons > #image:hover
+.share-button#image:hover
 {
     background-image: url(/media/icons/share_image_hover.svg);
 }
 
-#small-buttons > #calendar
+.share-button#calendar
 {
     background: url(/media/icons/share_calendar.svg) no-repeat center center;
 }
-#small-buttons > #calendar:hover
+.share-button#calendar:hover
 {
     background-image: url(/media/icons/share_calendar_hover.svg);
 }
