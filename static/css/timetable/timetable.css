@@ -1858,17 +1858,44 @@ label:hover > .fa-check-circle-o
     border-top:1px solid #EDD1DC;
 	padding-top:10px;
     font-size:0px;
-    display:flex;
-    justify-content:space-between;
 }
 
-#facebook, #twiter, #image, #calendar, #copy
+#small-buttons > a,
+#small-buttons > div
 {
-    flex:none;
     display:inline-block;
-    height:26px;
-    width:26px;
-    background-color:black;
+    height:16px;
+    width:16px;
+    margin-right:10px;
+    cursor:pointer;
+    vertical-align:top;
+}
+
+#small-buttons > #facebook
+{
+    background: url(/media/icons/share_facebook.svg) no-repeat center center;
+}
+#small-buttons > #facebook:hover
+{
+    background-image: url(/media/icons/share_facebook_hover.svg);
+}
+
+#small-buttons > #image
+{
+    background: url(/media/icons/share_image.svg) no-repeat center center;
+}
+#small-buttons > #image:hover
+{
+    background-image: url(/media/icons/share_image_hover.svg);
+}
+
+#small-buttons > #calendar
+{
+    background: url(/media/icons/share_calendar.svg) no-repeat center center;
+}
+#small-buttons > #calendar:hover
+{
+    background-image: url(/media/icons/share_calendar_hover.svg);
 }
 
 #lecture-tabs
