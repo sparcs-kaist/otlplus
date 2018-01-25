@@ -1851,25 +1851,50 @@ label:hover > .fa-check-circle-o
 
 /* Share at right side*/
 
-#small-buttons
+#share-buttons
 {
     flex:none;
     margin-top:10px;
     border-top:1px solid #EDD1DC;
 	padding-top:10px;
     font-size:0px;
-    display:flex;
-    display:none !important;
-    justify-content:space-between;
 }
 
-#facebook, #twiter, #image, #calendar, #copy
+.share-button
 {
-    flex:none;
     display:inline-block;
-    height:26px;
-    width:26px;
-    background-color:black;
+    height:19px;
+    width:19px;
+    margin-right:10px;
+    cursor:pointer;
+    vertical-align:top;
+}
+
+.share-button#facebook
+{
+    background: url(/media/icons/share_facebook.svg) no-repeat center center;
+}
+.share-button#facebook:hover
+{
+    background-image: url(/media/icons/share_facebook_hover.svg);
+}
+
+.share-button#image
+{
+    background: url(/media/icons/share_image.svg) no-repeat center center;
+}
+.share-button#image:hover
+{
+    background-image: url(/media/icons/share_image_hover.svg);
+}
+
+.share-button#calendar
+{
+    background: url(/media/icons/share_calendar.svg) no-repeat center center;
+}
+.share-button#calendar:hover
+{
+    background-image: url(/media/icons/share_calendar_hover.svg);
 }
 
 #lecture-tabs
