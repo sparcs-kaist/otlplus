@@ -22,7 +22,7 @@ from django.contrib.auth.decorators import login_required
 from utils.decorators import login_required_ajax
 from django.views.decorators.http import require_POST
 from django.conf import settings
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.db.models import Max
 from django.utils.translation import ugettext as _
 from django.template import RequestContext
@@ -679,7 +679,7 @@ def share_calendar(request):
 
             service.events().insert(calendarId=c_id, body=event).execute()
 
-    return JsonResponse({'result': 'OK'})
+    return redirect("https://calendar.google.com/calendar/r/week/%d/%d/%d"%(start.year, start.month, start.day))
 
 
 
@@ -852,6 +852,7 @@ def _textbox(draw, points, title, prof, loc, font):
 
 
 
+@login_required_ajax
 def share_image(request):
     userprofile = UserProfile.objects.get(user=request.user)
     table_id = request.GET['table_id']
