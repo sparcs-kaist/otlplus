@@ -681,7 +681,7 @@ function findLecture(lectures, id) {
       if (app.LectureActive.get("from") === "list") {
         app.LectureActive.set({type: "none"});
       }
-      $(".nano").nanoScroller();
+      $(this.el).find(".nano").nanoScroller();
     },
 
     _highlight: function(lecture, isClick) {
@@ -713,7 +713,7 @@ function findLecture(lectures, id) {
       app.majorLectureList.fetch(options);
       $(".humanity-page .list-scroll").html(this.loadingMessage);
       app.humanityLectureList.fetch(options);
-      $(".nano").nanoScroller();
+      $(this.el).find(".nano").nanoScroller();
     },
  
     _genListRender: function(lecList, name) {
@@ -765,7 +765,7 @@ function findLecture(lectures, id) {
             $('.'+name+'-page [data-id='+child.id+'] .add-to-cart').addClass('disable');
           }
 
-        $(".nano").nanoScroller();
+        $(this.el).find(".nano").nanoScroller();
       }
     },
   })
@@ -823,7 +823,7 @@ function findLecture(lectures, id) {
             var template = _.template($('#comment-template').html());
             block.html(template({comments:result}));
           }
-          $('.nano').nanoScroller();
+          $(".lecture-detail .nano").nanoScroller();
         },
       });
     },
@@ -836,7 +836,7 @@ function findLecture(lectures, id) {
         this._fetchDict();
         this.openDictPreview();
       }
-      $(".nano").nanoScroller();
+      $(this.el).find(".nano").nanoScroller();
       $(this.el).find(".nano-content").bind("scroll", lectureDetailView.scrollChange);
     },
 
@@ -1056,7 +1056,7 @@ function findLecture(lectures, id) {
                                           examTime: exam.str.substr(exam.str.indexOf(" ") + 1),
                                           startTime: exam.begin,
                                           temp: true,}));
-          $('.nano').nanoScroller();
+          $(this.el).find('.nano').nanoScroller();
         }
       }
     },
@@ -1486,7 +1486,7 @@ function findLecture(lectures, id) {
 
       $(".search-page .list-scroll").html(this.loadingMessage);
       this.hideSearch();
-      $(".nano").nanoScroller();
+      $(".search-page .nano").nanoScroller();
 
       app.SearchKeyword.set(data);
       app.SearchKeyword.save(null, {
