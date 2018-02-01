@@ -2109,6 +2109,7 @@ body .lecture-block.active.lecture-block-temp
     position:absolute;
     cursor:pointer;
     padding:4px;
+    background-color:rgba(224,84,111,0.8);
 }
 
 .lecture-delete > i
