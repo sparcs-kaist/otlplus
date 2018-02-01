@@ -1530,11 +1530,7 @@ function findLecture(lectures, id) {
         this.searchStart();
       }
       else if (e.keyCode == 9) {
-        var text = $('.search-keyword-autocomplete-space').html() +
-                   $('.search-keyword-autocomplete-body').html()
-        $('.search-keyword-text').val(text);
-        $('.search-keyword-autocomplete-space').html(text);
-        $('.search-keyword-autocomplete-body').html('');
+        this._autocompleteApply();
       }
       else {
         this._autocompleteClear();
@@ -1564,6 +1560,28 @@ function findLecture(lectures, id) {
     _autocompleteClear: function(e) {
       $('.search-keyword-autocomplete-space').html('');
       $('.search-keyword-autocomplete-body').html('');
+    },
+
+    _autocompleteApply: function(e) {
+      var text = $('.search-keyword-text').val();
+      if (text.length == 0)
+        return;
+      $.ajax({
+        url: "/timetable/api/autocomplete/",
+        type: "POST",
+        data: {
+          year: app.YearSemester.get('year'),
+          semester: app.YearSemester.get('semester'),
+          keyword: text,
+        },
+        success: function(result) {
+          var complete = result.complete;
+          var newText = text + complete.slice(text.length);
+          $('.search-keyword-text').val(newText);
+          $('.search-keyword-autocomplete-space').html(newText);
+          $('.search-keyword-autocomplete-body').html('');
+        },
+      });
     },
   })
 
