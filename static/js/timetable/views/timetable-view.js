@@ -892,17 +892,15 @@ function findLecture(lectures, id) {
       }
     },
 
-    _setFocus: function(title, filter, infoGetter) {
+    _setFocus: function(title, filter, infoGetter, comparator) {
       if (app.LectureActive.get("type") !== "none")
         return;
-      
-      var raw_lectures = _.filter(app.CurrentTimetable.get('lectures'), filter);
-      var lectureIDs = raw_lectures.map(function(x){return x.id});
 
-      var lectures = app.CurrentTimetable.get('lectures');
+      var lectures = _.filter(app.CurrentTimetable.get('lectures'), filter);
+      lectures.sort(comparator);
+      console.log(comparator);
       var result = [];
-      for (var i=0, id; id=lectureIDs[i]; i++) {
-        var lecture = findLecture(lectures, id);
+      for (var i=0, lecture; lecture=lectures[i]; i++) {
         result.push({title: lecture.title,
                      info: infoGetter(lecture)});
         timetableView._highlight(lecture, false);
@@ -917,7 +915,8 @@ function findLecture(lectures, id) {
 
       this._setFocus(buildingNo,
                      function(x){return $(e.currentTarget).find('.map-location-circle[data-id='+x.id+']').length},
-                     function(x){return x.room});
+                     function(x){return x.room},
+                     function(x, y){return ((x.room).localeCompare(y.room))});
 
       // Highlight target
       $(e.currentTarget).addClass('active');
@@ -929,11 +928,13 @@ function findLecture(lectures, id) {
       if (type !== "Etc") {
         this._setFocus((LANGUAGE_CODE==="en" ? type : this.typeDict[type]),
                        function(x){return x.type_en===type},
-                       function(x){return (x.credit? x.credit+(LANGUAGE_CODE==="en" ? " credits" : "학점") : "") + (x.credit_au? x.credit_au+"AU" : "")});
+                       function(x){return (x.credit? x.credit+(LANGUAGE_CODE==="en" ? " credits" : "학점") : "") + (x.credit_au? x.credit_au+"AU" : "")},
+                       function(x,y){return (x.credit+x.credit_au)-(y.credit+y.credit_au)});
       } else {
         this._setFocus((LANGUAGE_CODE==="en" ? "Others" : "기타"),
                        function(x){return !semesterInfoView.typeDict[x.type_en]},
-                       function(x){return (x.credit? x.credit+(LANGUAGE_CODE==="en" ? " credits" : "학점") : "") + (x.credit_au? x.credit_au+"AU" : "")});
+                       function(x){return (x.credit? x.credit+(LANGUAGE_CODE==="en" ? " credits" : "학점") : "") + (x.credit_au? x.credit_au+"AU" : "")},
+                       function(x,y){return (x.credit+x.credit_au)-(y.credit+y.credit_au)});
       }
 
       // Highlight target
@@ -941,12 +942,12 @@ function findLecture(lectures, id) {
     },
 
     creditFocus: function(e) {
-
       var type = $(e.currentTarget).find('.score-text').attr('id');
       if (type === "au") {
         this._setFocus("AU",
                        function(x){return x.credit_au>0},
-                       function(x){return x.credit_au+"AU"});
+                       function(x){return x.credit_au+"AU"},
+                       function(x,y){return x.credit_au-y.credit_au});
 
         // Highlight target
         $('#au .active').html($('#au .normal').html());
@@ -955,7 +956,8 @@ function findLecture(lectures, id) {
       } else {
         this._setFocus((LANGUAGE_CODE==="en" ? " Credits" : "학점"),
                        function(x){return x.credit>0},
-                       function(x){return x.credit+(LANGUAGE_CODE==="en" ? " credits" : "학점")});
+                       function(x){return x.credit+(LANGUAGE_CODE==="en" ? " credits" : "학점")},
+                       function(x,y){return x.credit-y.credit});
 
         // Highlight target
         $('#credits .active').html($('#credits .normal').html());
@@ -969,7 +971,8 @@ function findLecture(lectures, id) {
       if (type == "grades") {
         this._setFocus((LANGUAGE_CODE==="en" ? "Grade" : "성적"),
                        function(x){return true},
-                       function(x){return x.grade_letter});
+                       function(x){return x.grade_letter},
+                       function(x,y){return y.grade-x.grade});
 
         // Highlight target
         $('#grades').addClass("active");
@@ -977,7 +980,8 @@ function findLecture(lectures, id) {
       else if (type == "loads") {
         this._setFocus((LANGUAGE_CODE==="en" ? "Load" : "널널"),
                        function(x){return true},
-                       function(x){return x.load_letter});
+                       function(x){return x.load_letter},
+                       function(x,y){return y.load-x.load});
 
         // Highlight target
         $('#loads').addClass("active");
@@ -985,7 +989,8 @@ function findLecture(lectures, id) {
       else  {
         this._setFocus((LANGUAGE_CODE==="en" ? "Speech" : "강의"),
                        function(x){return true},
-                       function(x){return x.speech_letter});
+                       function(x){return x.speech_letter},
+                       function(x,y){return y.speech-x.speech});
 
         // Highlight target
         $('#speeches').addClass("active");
@@ -996,7 +1001,8 @@ function findLecture(lectures, id) {
       var date = $(e.currentTarget).attr('data-date');
       this._setFocus(this.dateDict[date] + (LANGUAGE_CODE==="en" ? " Exam" : " 시험"),
                      function(x){return $(e.currentTarget).find('.exam-elem[data-id='+x.id+']').length},
-                     function(x){return x.exam.substr(x.exam.indexOf(" ") + 1)});
+                     function(x){return x.exam.substr(x.exam.indexOf(" ") + 1)},
+                      function(x,y){return (x.exam.substr(x.exam.indexOf(" ") + 1)).localeCompare(y.exam.substr(y.exam.indexOf(" ") + 1))});
 
       // Highlight target
       $(e.currentTarget).find('.exam-elem').addClass("active");
