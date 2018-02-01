@@ -555,22 +555,51 @@ i
 	background-image: url(/media/icons/search_hover.svg);
 }
 
+.search-keyword-text-wrap
+{
+    font-size:13px;
+    line-height:14px;
+    -webkit-box-flex:1;
+        -ms-flex:auto;
+            flex:auto;
+    position:relative;
+    vertical-align:top;
+}
+
 .search-keyword-text
 {
     background: none;
     border:none;
 	padding:0px;
 	margin:0px;
-	font-size:13px;
-	line-height:14px;
-    -webkit-box-flex:1;
-        -ms-flex:auto;
-            flex:auto;
-	vertical-align:top;
+    width:100%;
+    position:absolute;
+    top:0;
+    left:0;
+    z-index:2;
 }
 .search-keyword-text:focus 
 {
     outline: none;
+}
+.search-keyword-text::placeholder
+{
+    color:#AAA;
+}
+
+.search-keyword-autocomplete
+{
+    color:#AAA;
+    width:100%;
+    position:absolute;
+    top:0;
+    left:0;
+    z-index:1;
+}
+
+.search-keyword-autocomplete-space
+{
+    opacity:0;
 }
 
 .search-filter

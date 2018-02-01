@@ -1377,6 +1377,8 @@ function findLecture(lectures, id) {
       'click .search-filter-time-active': "clearTime",
       'click #search-button': "searchStart",
       'keypress': "keyAction",
+      'keyup': "autocompleteSet",
+      'keydown': "autocompleteClear",
     },
 
     clearSearch: function () {
@@ -1391,6 +1393,7 @@ function findLecture(lectures, id) {
       $(this.el).find(".chkelem").parent().find('.fa-circle-o').removeClass('none');
 
       this.clearTime();
+      this.autocompleteClear();
     },
 
     clearTime: function() {
@@ -1515,7 +1518,20 @@ function findLecture(lectures, id) {
       if (e.keyCode == 13) {
         this.searchStart();
       }
-    }
+    },
+
+    autocompleteSet: function(e) {
+      var text = $('.search-keyword-text').val();
+      if (text.length != 0) {
+        $('.search-keyword-autocomplete-space').html(text);
+        $('.search-keyword-autocomplete-body').html('asdf');
+      }
+    },
+
+    autocompleteClear: function(e) {
+      $('.search-keyword-autocomplete-space').html('');
+      $('.search-keyword-autocomplete-body').html('');
+    },
   })
 
   // Showing informations of target lecture
