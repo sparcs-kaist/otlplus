@@ -620,7 +620,7 @@ i
         -ms-flex-direction:row;
             flex-direction:row;
     width:100%;
-	margin-bottom:4px;
+	margin-bottom:3px;
     font-size:12px;
     line-height:13px;
 }
@@ -662,8 +662,8 @@ i
 {
     font-weight:normal;
     cursor:pointer;
-	margin-bottom:4px;
-	margin-left:4px;
+	margin-bottom:5px;
+	margin-left:5px;
 	font-size:12px;
 }
 
