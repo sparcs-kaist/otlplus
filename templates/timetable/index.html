@@ -33,7 +33,12 @@
 								<!-- ajax call -->
 								<div class="search-keyword">
 									<i class="search-keyword-icon"></i>
-									<input class="search-keyword-text" type="text" name="keyword" autocomplete="off" placeholder="{% trans '검색' %}" />
+									<div class="search-keyword-text-wrap">
+										<input class="search-keyword-text" type="text" name="keyword" autocomplete="off" placeholder="{% trans '검색' %}" />
+										<div class="search-keyword-autocomplete">
+											<span class="search-keyword-autocomplete-space"></span><span class="search-keyword-autocomplete-body"></span>
+										</div>
+									</div>
 								</div>
 								<div class="search-filter">
 									<label class="search-filter-title fixed-{{ LANGUAGE_CODE }}">{% trans "구분" %}</label><!--

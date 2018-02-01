@@ -681,7 +681,7 @@ function findLecture(lectures, id) {
       if (app.LectureActive.get("from") === "list") {
         app.LectureActive.set({type: "none"});
       }
-      $(".nano").nanoScroller();
+      $(this.el).find(".nano").nanoScroller();
     },
 
     _highlight: function(lecture, isClick) {
@@ -713,7 +713,7 @@ function findLecture(lectures, id) {
       app.majorLectureList.fetch(options);
       $(".humanity-page .list-scroll").html(this.loadingMessage);
       app.humanityLectureList.fetch(options);
-      $(".nano").nanoScroller();
+      $(this.el).find(".nano").nanoScroller();
     },
  
     _genListRender: function(lecList, name) {
@@ -765,7 +765,7 @@ function findLecture(lectures, id) {
             $('.'+name+'-page [data-id='+child.id+'] .add-to-cart').addClass('disable');
           }
 
-        $(".nano").nanoScroller();
+        $(this.el).find(".nano").nanoScroller();
       }
     },
   })
@@ -823,7 +823,7 @@ function findLecture(lectures, id) {
             var template = _.template($('#comment-template').html());
             block.html(template({comments:result}));
           }
-          $('.nano').nanoScroller();
+          $(".lecture-detail .nano").nanoScroller();
         },
       });
     },
@@ -836,7 +836,7 @@ function findLecture(lectures, id) {
         this._fetchDict();
         this.openDictPreview();
       }
-      $(".nano").nanoScroller();
+      $(this.el).find(".nano").nanoScroller();
       $(this.el).find(".nano-content").bind("scroll", lectureDetailView.scrollChange);
     },
 
@@ -1056,7 +1056,7 @@ function findLecture(lectures, id) {
                                           examTime: exam.str.substr(exam.str.indexOf(" ") + 1),
                                           startTime: exam.begin,
                                           temp: true,}));
-          $('.nano').nanoScroller();
+          $(this.el).find('.nano').nanoScroller();
         }
       }
     },
@@ -1376,7 +1376,8 @@ function findLecture(lectures, id) {
       'click .chkelem': "toggleType",
       'click .search-filter-time-active': "clearTime",
       'click #search-button': "searchStart",
-      'keypress': "keyAction",
+      'keyup': "keyUp",
+      'keydown': "keyDown",
     },
 
     clearSearch: function () {
@@ -1391,6 +1392,7 @@ function findLecture(lectures, id) {
       $(this.el).find(".chkelem").parent().find('.fa-circle-o').removeClass('none');
 
       this.clearTime();
+      this._autocompleteClear();
     },
 
     clearTime: function() {
@@ -1486,7 +1488,7 @@ function findLecture(lectures, id) {
 
       $(".search-page .list-scroll").html(this.loadingMessage);
       this.hideSearch();
-      $(".nano").nanoScroller();
+      $(".search-page .nano").nanoScroller();
 
       app.SearchKeyword.set(data);
       app.SearchKeyword.save(null, {
@@ -1511,11 +1513,76 @@ function findLecture(lectures, id) {
       });
     },
 
-    keyAction: function(e) {
+    keyUp: function(e) {
+      if (e.keyCode == 13)  {
+        return;
+      }
+      else if (e.keyCode == 9) {
+        $('.search-keyword-text').focus();
+      }
+      else {
+        this._autocompleteSet();
+      }
+    },
+
+    keyDown: function(e) {
       if (e.keyCode == 13) {
         this.searchStart();
       }
-    }
+      else if (e.keyCode == 9) {
+        this._autocompleteApply();
+      }
+      else {
+        this._autocompleteClear();
+      }
+    },
+
+    _autocompleteSet: function(e) {
+      var text = $('.search-keyword-text').val();
+      if (text.length == 0)
+        return;
+      $.ajax({
+        url: "/timetable/api/autocomplete/",
+        type: "POST",
+        data: {
+          year: app.YearSemester.get('year'),
+          semester: app.YearSemester.get('semester'),
+          keyword: text,
+        },
+        success: function(result) {
+          var complete = result.complete;
+          $('.search-keyword-autocomplete-space').html(text);
+          $('.search-keyword-autocomplete-body').html(complete.slice(text.length));
+        },
+      });
+    },
+
+    _autocompleteClear: function(e) {
+      $('.search-keyword-autocomplete-space').html('');
+      $('.search-keyword-autocomplete-body').html('');
+    },
+
+    _autocompleteApply: function(e) {
+      var text = $('.search-keyword-text').val();
+      if (text.length == 0)
+        return;
+      $.ajax({
+        url: "/timetable/api/autocomplete/",
+        type: "POST",
+        data: {
+          year: app.YearSemester.get('year'),
+          semester: app.YearSemester.get('semester'),
+          keyword: text,
+        },
+        success: function(result) {
+          var complete = result.complete;
+          var newText = text + complete.slice(text.length);
+          $('.search-keyword-text').val(newText);
+          $('.search-keyword-autocomplete-space').html(newText);
+          $('.search-keyword-autocomplete-body').html('');
+        },
+      });
+    },
   })
 
   // Showing informations of target lecture
