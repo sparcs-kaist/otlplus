@@ -535,29 +535,31 @@ def autocomplete(request):
     semester = int(request.POST['semester'])
     keyword = request.POST['keyword']
 
-    departments = Department.objects.filter(visible=True, name__istartswith=keyword).order_by('name')
-    if len(departments) > 0:
-        return JsonResponse({'complete':departments[0].name})
+    lectures = Lecture.objects.filter(deleted=False, year=year, semester=semester)
 
-    departments = Department.objects.filter(visible=True, name_en__istartswith=keyword).order_by('name_en')
-    if len(departments) > 0:
-        return JsonResponse({'complete':departments[0].name_en})
+    lectures_filtered = lectures.filter(department__name__istartswith=keyword).order_by('department__name')
+    if len(lectures_filtered) > 0:
+        return JsonResponse({'complete':lectures_filtered[0].department.name})
 
-    lectures = Lecture.objects.filter(deleted=False, year=year, semester=semester, title__istartswith=keyword).order_by('title')
-    if len(lectures) > 0:
-        return JsonResponse({'complete':lectures[0].title})
+    lectures_filtered = lectures.filter(department__name_en__istartswith=keyword).order_by('department__name_en')
+    if len(lectures_filtered) > 0:
+        return JsonResponse({'complete':lectures_filtered[0].department.name_en})
 
-    lectures = Lecture.objects.filter(deleted=False, year=year, semester=semester, title_en__istartswith=keyword).order_by('title_en')
-    if len(lectures) > 0:
-        return JsonResponse({'complete':lectures[0].title_en})
+    lectures_filtered = lectures.filter(title__istartswith=keyword).order_by('title')
+    if len(lectures_filtered) > 0:
+        return JsonResponse({'complete':lectures_filtered[0].title})
 
-    professors = Professor.objects.filter(professor_name__istartswith=keyword).order_by('professor_name')
-    if len(professors) > 0:
-        return JsonResponse({'complete':professors[0].professor_name})
+    lectures_filtered = lectures.filter(title_en__istartswith=keyword).order_by('title_en')
+    if len(lectures_filtered) > 0:
+        return JsonResponse({'complete':lectures_filtered[0].title_en})
 
-    professors = Professor.objects.filter(professor_name_en__istartswith=keyword).order_by('professor_name_en')
-    if len(professors) > 0:
-        return JsonResponse({'complete':professors[0].professor_name_en})
+    lectures_filtered = lectures.filter(professor__professor_name__istartswith=keyword).order_by('professor__professor_name')
+    if len(lectures_filtered) > 0:
+        return JsonResponse({'complete':lectures_filtered[0].professor.filter(professor_name__istartswith=keyword)[0].professor_name})
+
+    lectures_filtered = lectures.filter(professor__professor_name_en__istartswith=keyword).order_by('professor__professor_name_en')
+    if len(lectures_filtered) > 0:
+        return JsonResponse({'complete':lectures_filtered[0].professor.filter(professor_name_en__istartswith=keyword)[0].professor_name_en})
 
     return JsonResponse({'complete':keyword})
 
