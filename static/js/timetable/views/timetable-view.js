@@ -875,6 +875,8 @@ function findLecture(lectures, id) {
       'mouseout .summary-type-elem': "clearFocus",
       'mouseover .summary-credit-elem': "creditFocus",
       'mouseout .summary-credit-elem': "clearFocus",
+      'mouseover .summary-score-elem': "scoreFocus",
+      'mouseout .summary-score-elem': "clearFocus",
       'mouseover .exam-day': "examFocus",
       'mouseout .exam-day': "clearFocus",
       'click .share-button': "shareClick",
@@ -972,6 +974,45 @@ function findLecture(lectures, id) {
           $('#credits .active').html($('#credits .normal').html());
           $('#credits .normal').addClass('none');
           $('#credits .active').removeClass('none');
+        }
+
+        lectureDetailView._showSemesterInfo(title, lectures);
+      }
+    },
+
+    scoreFocus: function(e) {
+      if (app.LectureActive.get("type") === "none") {
+        var type = $(e.currentTarget).find('.score-text').attr('id');
+        console.log(type);
+        if (type == "grades") {
+          var title = (LANGUAGE_CODE==="en" ? "Grade" : "성적");
+          var raw_lectures = _.filter(app.CurrentTimetable.get('lectures'), function(x){return true});
+          var lectureIDs = raw_lectures.map(function(x){return x.id});
+          var lectures = this._formatLectures(lectureIDs,
+                            function(x){return x.grade_letter});
+
+          // Highlight target
+          $('#grades').addClass("active");
+        }
+        else if (type == "loads") {
+          var title = (LANGUAGE_CODE==="en" ? "Load" : "널널");
+          var raw_lectures = _.filter(app.CurrentTimetable.get('lectures'), function(x){return true});
+          var lectureIDs = raw_lectures.map(function(x){return x.id});
+          var lectures = this._formatLectures(lectureIDs,
+                            function(x){return x.load_letter});
+
+          // Highlight target
+          $('#loads').addClass("active");
+        }
+        else  {
+          var title = (LANGUAGE_CODE==="en" ? "Speeches" : "강의");
+          var raw_lectures = _.filter(app.CurrentTimetable.get('lectures'), function(x){return true});
+          var lectureIDs = raw_lectures.map(function(x){return x.id});
+          var lectures = this._formatLectures(lectureIDs,
+                            function(x){return x.speech_letter});
+
+          // Highlight target
+          $('#speeches').addClass("active");
         }
 
         lectureDetailView._showSemesterInfo(title, lectures);
@@ -1077,6 +1118,7 @@ function findLecture(lectures, id) {
       $('#summary').find('#credits .active').addClass("none");
       $('#summary').find('#au .normal').removeClass("none");
       $('#summary').find('#au .active').addClass("none");
+      $('#summary').find('.summary-score-elem .score-text').removeClass('active');
       $('#summary').find('.summary-type-elem-body').removeClass('active');
 
       // Unhighlight exam
