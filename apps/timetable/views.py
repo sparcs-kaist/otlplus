@@ -538,27 +538,27 @@ def autocomplete(request):
     lectures = Lecture.objects.filter(deleted=False, year=year, semester=semester)
 
     lectures_filtered = lectures.filter(department__name__istartswith=keyword).order_by('department__name')
-    if len(lectures_filtered) > 0:
+    if lectures_filtered.exists():
         return JsonResponse({'complete':lectures_filtered[0].department.name})
 
     lectures_filtered = lectures.filter(department__name_en__istartswith=keyword).order_by('department__name_en')
-    if len(lectures_filtered) > 0:
+    if lectures_filtered.exists():
         return JsonResponse({'complete':lectures_filtered[0].department.name_en})
 
     lectures_filtered = lectures.filter(title__istartswith=keyword).order_by('title')
-    if len(lectures_filtered) > 0:
+    if lectures_filtered.exists():
         return JsonResponse({'complete':lectures_filtered[0].title})
 
     lectures_filtered = lectures.filter(title_en__istartswith=keyword).order_by('title_en')
-    if len(lectures_filtered) > 0:
+    if lectures_filtered.exists():
         return JsonResponse({'complete':lectures_filtered[0].title_en})
 
     lectures_filtered = lectures.filter(professor__professor_name__istartswith=keyword).order_by('professor__professor_name')
-    if len(lectures_filtered) > 0:
+    if lectures_filtered.exists():
         return JsonResponse({'complete':lectures_filtered[0].professor.filter(professor_name__istartswith=keyword)[0].professor_name})
 
     lectures_filtered = lectures.filter(professor__professor_name_en__istartswith=keyword).order_by('professor__professor_name_en')
-    if len(lectures_filtered) > 0:
+    if lectures_filtered.exists():
         return JsonResponse({'complete':lectures_filtered[0].professor.filter(professor_name_en__istartswith=keyword)[0].professor_name_en})
 
     return JsonResponse({'complete':keyword})
