@@ -1376,9 +1376,8 @@ function findLecture(lectures, id) {
       'click .chkelem': "toggleType",
       'click .search-filter-time-active': "clearTime",
       'click #search-button': "searchStart",
-      'keypress': "keyAction",
-      'keyup': "autocompleteSet",
-      'keydown': "autocompleteClear",
+      'keyup': "keyUp",
+      'keydown': "keyDown",
     },
 
     clearSearch: function () {
@@ -1393,7 +1392,7 @@ function findLecture(lectures, id) {
       $(this.el).find(".chkelem").parent().find('.fa-circle-o').removeClass('none');
 
       this.clearTime();
-      this.autocompleteClear();
+      this._autocompleteClear();
     },
 
     clearTime: function() {
@@ -1514,13 +1513,35 @@ function findLecture(lectures, id) {
       });
     },
 
-    keyAction: function(e) {
-      if (e.keyCode == 13) {
-        this.searchStart();
+    keyUp: function(e) {
+      if (e.keyCode == 13)  {
+        return;
+      }
+      else if (e.keyCode == 9) {
+        $('.search-keyword-text').focus();
+      }
+      else {
+        this._autocompleteSet();
       }
     },
 
-    autocompleteSet: function(e) {
+    keyDown: function(e) {
+      if (e.keyCode == 13) {
+        this.searchStart();
+      }
+      else if (e.keyCode == 9) {
+        var text = $('.search-keyword-autocomplete-space').html() +
+                   $('.search-keyword-autocomplete-body').html()
+        $('.search-keyword-text').val(text);
+        $('.search-keyword-autocomplete-space').html(text);
+        $('.search-keyword-autocomplete-body').html('');
+      }
+      else {
+        this._autocompleteClear();
+      }
+    },
+
+    _autocompleteSet: function(e) {
       var text = $('.search-keyword-text').val();
       if (text.length != 0) {
         $('.search-keyword-autocomplete-space').html(text);
@@ -1528,7 +1549,7 @@ function findLecture(lectures, id) {
       }
     },
 
-    autocompleteClear: function(e) {
+    _autocompleteClear: function(e) {
       $('.search-keyword-autocomplete-space').html('');
       $('.search-keyword-autocomplete-body').html('');
     },
