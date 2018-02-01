@@ -1543,10 +1543,22 @@ function findLecture(lectures, id) {
 
     _autocompleteSet: function(e) {
       var text = $('.search-keyword-text').val();
-      if (text.length != 0) {
-        $('.search-keyword-autocomplete-space').html(text);
-        $('.search-keyword-autocomplete-body').html('asdf');
-      }
+      if (text.length == 0)
+        return;
+      $.ajax({
+        url: "/timetable/api/autocomplete/",
+        type: "POST",
+        data: {
+          year: app.YearSemester.get('year'),
+          semester: app.YearSemester.get('semester'),
+          keyword: text,
+        },
+        success: function(result) {
+          var complete = result.complete;
+          $('.search-keyword-autocomplete-space').html(text);
+          $('.search-keyword-autocomplete-body').html(complete.slice(text.length));
+        },
+      });
     },
 
     _autocompleteClear: function(e) {
