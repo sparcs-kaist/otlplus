@@ -1550,6 +1550,9 @@ function findLecture(lectures, id) {
           keyword: text,
         },
         success: function(result) {
+          if (text != $('.search-keyword-text').val())
+            return;
+
           var complete = result.complete;
           $('.search-keyword-autocomplete-space').html(text);
           $('.search-keyword-autocomplete-body').html(complete.slice(text.length));
