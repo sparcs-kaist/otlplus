@@ -598,6 +598,11 @@ i
     top:0;
     left:0;
     z-index:1;
+    display:none;
+}
+.search-keyword-text:focus + .search-keyword-autocomplete
+{
+    display:block;
 }
 
 .search-keyword-autocomplete-space
