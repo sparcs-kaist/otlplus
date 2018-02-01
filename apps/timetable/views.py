@@ -529,6 +529,42 @@ FLOW = client.flow_from_clientsecrets(settings.GOOGLE_OAUTH2_CLIENT_SECRETS_JSON
 
 
 
+@require_POST
+def autocomplete(request):
+    year = int(request.POST['year'])
+    semester = int(request.POST['semester'])
+    keyword = request.POST['keyword']
+
+    departments = Department.objects.filter(visible=True, name__istartswith=keyword).order_by('name')
+    if len(departments) > 0:
+        return JsonResponse({'complete':departments[0].name})
+
+    departments = Department.objects.filter(visible=True, name_en__istartswith=keyword).order_by('name_en')
+    if len(departments) > 0:
+        return JsonResponse({'complete':departments[0].name_en})
+
+    lectures = Lecture.objects.filter(deleted=False, year=year, semester=semester, title__istartswith=keyword).order_by('title')
+    if len(lectures) > 0:
+        return JsonResponse({'complete':lectures[0].title})
+
+    lectures = Lecture.objects.filter(deleted=False, year=year, semester=semester, title_en__istartswith=keyword).order_by('title_en')
+    if len(lectures) > 0:
+        return JsonResponse({'complete':lectures[0].title_en})
+
+    professors = Professor.objects.filter(professor_name__istartswith=keyword).order_by('professor_name')
+    if len(professors) > 0:
+        return JsonResponse({'complete':professors[0].professor_name})
+
+    professors = Professor.objects.filter(professor_name_en__istartswith=keyword).order_by('professor_name_en')
+    if len(professors) > 0:
+        return JsonResponse({'complete':professors[0].professor_name_en})
+
+    return JsonResponse({'complete':keyword})
+
+    
+
+
+
 # RESTFUL search view function.
 # Input example:
 # Output example:
