@@ -1812,6 +1812,11 @@ label:hover > .fa-check-circle-o
     vertical-align:top;
 }
 
+.summary-score-elem .score-text.active
+{
+    color:#e64c65;
+}
+
 
 
 
