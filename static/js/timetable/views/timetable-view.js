@@ -81,6 +81,9 @@ function findLecture(lectures, id) {
       if (this.isBubbling) {
         this.isBubbling = false;
       } else {
+        if ($(e.currentTarget).hasClass('occupied'))
+          return;
+
         e.stopPropagation();
         e.preventDefault();
         this.isDragging = true;
@@ -94,7 +97,20 @@ function findLecture(lectures, id) {
 
     dragMove: function (e) {
       if (this.isDragging) {
-        this.secondBlock = $(e.currentTarget);
+        var endBlock = $(e.currentTarget);
+
+        var day = this.indexOfDay(this.firstBlock.attr("data-day"));
+        var startTime = this.indexOfTime(this.firstBlock.attr("data-time"));
+        var endTime = this.indexOfTime(endBlock.attr("data-time"));
+
+        var incr = startTime<endTime ? 1 : -1;
+        var i;
+        for (i=startTime+incr; i!=endTime+incr; i+=incr){
+          var block = $('#timetable-contents .day:nth-child('+(day+2)+') .half:nth-child('+(i+2)+')');
+          if (block.hasClass('occupied'))
+            break;
+        }
+        this.secondBlock = $('#timetable-contents .day:nth-child('+(day+2)+') .half:nth-child('+(i-incr+2)+')');
         this.resize();
       }
     },
