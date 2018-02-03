@@ -914,7 +914,6 @@ function findLecture(lectures, id) {
 
       var lectures = _.filter(app.CurrentTimetable.get('lectures'), filter);
       lectures.sort(comparator);
-      console.log(comparator);
       var result = [];
       for (var i=0, lecture; lecture=lectures[i]; i++) {
         result.push({title: lecture.title,
