@@ -1987,6 +1987,7 @@ label:hover > .fa-check-circle-o
     left: -1px;
     width: calc(100% + 2px);
     cursor:pointer;
+    overflow:hidden;
 }
 body .lecture-block.click,
 body .lecture-block.active
