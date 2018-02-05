@@ -22,7 +22,7 @@ from django.contrib.auth.decorators import login_required
 from utils.decorators import login_required_ajax
 from django.views.decorators.http import require_POST
 from django.conf import settings
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.db.models import Max
 from django.utils.translation import ugettext as _
 from django.template import RequestContext
@@ -146,7 +146,7 @@ def _get_preset_lectures(year, semester, code):
         return Lecture.objects.filter(year=year, semester=semester,
                                       type_en="Humanities & Social Elective", deleted=False)
     else:
-        filter_type = ["Major Required", "Major Elective"]
+        filter_type = ["Major Required", "Major Elective", "Elective(Graduate)"]
         return Lecture.objects.filter(year=year, semester=semester,
                                       department__code=code, type_en__in=filter_type,
                                       deleted=False)
@@ -529,6 +529,44 @@ FLOW = client.flow_from_clientsecrets(settings.GOOGLE_OAUTH2_CLIENT_SECRETS_JSON
 
 
 
+@require_POST
+def autocomplete(request):
+    year = int(request.POST['year'])
+    semester = int(request.POST['semester'])
+    keyword = request.POST['keyword']
+
+    lectures = Lecture.objects.filter(deleted=False, year=year, semester=semester)
+
+    lectures_filtered = lectures.filter(department__name__istartswith=keyword).order_by('department__name')
+    if lectures_filtered.exists():
+        return JsonResponse({'complete':lectures_filtered[0].department.name})
+
+    lectures_filtered = lectures.filter(department__name_en__istartswith=keyword).order_by('department__name_en')
+    if lectures_filtered.exists():
+        return JsonResponse({'complete':lectures_filtered[0].department.name_en})
+
+    lectures_filtered = lectures.filter(title__istartswith=keyword).order_by('title')
+    if lectures_filtered.exists():
+        return JsonResponse({'complete':lectures_filtered[0].title})
+
+    lectures_filtered = lectures.filter(title_en__istartswith=keyword).order_by('title_en')
+    if lectures_filtered.exists():
+        return JsonResponse({'complete':lectures_filtered[0].title_en})
+
+    lectures_filtered = lectures.filter(professor__professor_name__istartswith=keyword).order_by('professor__professor_name')
+    if lectures_filtered.exists():
+        return JsonResponse({'complete':lectures_filtered[0].professor.filter(professor_name__istartswith=keyword)[0].professor_name})
+
+    lectures_filtered = lectures.filter(professor__professor_name_en__istartswith=keyword).order_by('professor__professor_name_en')
+    if lectures_filtered.exists():
+        return JsonResponse({'complete':lectures_filtered[0].professor.filter(professor_name_en__istartswith=keyword)[0].professor_name_en})
+
+    return JsonResponse({'complete':keyword})
+
+    
+
+
+
 # RESTFUL search view function.
 # Input example:
 # Output example:
@@ -679,7 +717,7 @@ def share_calendar(request):
 
             service.events().insert(calendarId=c_id, body=event).execute()
 
-    return JsonResponse({'result': 'OK'})
+    return redirect("https://calendar.google.com/calendar/r/week/%d/%d/%d"%(start.year, start.month, start.day))
 
 
 
@@ -803,55 +841,56 @@ def _sliceText(text, width, font):
         if font.getsize(text[slStart:i+1])[0] > width:
             sliced.append(text[slStart:i])
             slStart = i
-    sliced.append(text[slStart:])
+    sliced.append(text[slStart:].strip())
 
     return sliced
 
 
 
-def _textbox(draw, points, title, prof, loc, titleFont, contentFont):
+def _textbox(draw, points, title, prof, loc, font):
 
     width = points[2] - points[0]
     height = points[3] - points[1]
 
-    ts = _sliceText(title, width, titleFont)
-    ps = _sliceText(prof, width, contentFont)
-    ls = _sliceText(loc, width, contentFont)
+    ts = _sliceText(title, width, font)
+    ps = _sliceText(prof, width, font)
+    ls = _sliceText(loc, width, font)
 
     sliced = []
     textHeight = 0
 
     for i in range(len(ts)+len(ps)+len(ls)):
         if i == len(ts):
-            sliced.append(("", 4, contentFont, (0,0,0,153)))
-            textHeight += 4
+            sliced.append(("", 2, (0,0,0,128)))
+            textHeight += 2
         elif i == len(ts)+len(ps):
-            sliced.append(("", 4, contentFont, (0,0,0,153)))
-            textHeight += 4
+            sliced.append(("", 2, (0,0,0,128)))
+            textHeight += 2
 
         if i < len(ts):
-            sliced.append((ts[i], 26, titleFont, (0,0,0,204)))
-            textHeight += 26
+            sliced.append((ts[i], 24, (0,0,0,204)))
+            textHeight += 24
         elif i < len(ts)+len(ps):
-            sliced.append((ps[i-len(ts)], 24, contentFont, (0,0,0,153)))
+            sliced.append((ps[i-len(ts)], 24, (0,0,0,128)))
             textHeight += 24
         else:
-            sliced.append((ls[i-len(ts)-len(ps)], 24, contentFont, (0,0,0,153)))
+            sliced.append((ls[i-len(ts)-len(ps)], 24, (0,0,0,128)))
             textHeight += 24
 
         if textHeight > height:
             textHeight -= sliced.pop()[1]
             break
 
-    topPad = (height - textHeight) / 2 - 2
+    topPad = (height - textHeight) / 2
 
     textPosition = 0
     for s in sliced:
-        draw.text((points[0], points[1]+topPad+textPosition), s[0], fill=s[3], font=s[2])
+        draw.text((points[0], points[1]+topPad+textPosition), s[0], fill=s[2], font=font)
         textPosition += s[1]
 
 
 
+@login_required_ajax
 def share_image(request):
     userprofile = UserProfile.objects.get(user=request.user)
     table_id = request.GET['table_id']
@@ -866,8 +905,7 @@ def share_image(request):
     draw = ImageDraw.Draw(image)
     textImage = Image.new("RGBA", image.size)
     textDraw = ImageDraw.Draw(textImage)
-    titleFont = ImageFont.truetype(file_path+"fonts/NanumBarunGothic.ttf", 24)
-    contentFont = ImageFont.truetype(file_path+"fonts/NanumBarunGothic.ttf", 22)
+    font = ImageFont.truetype(file_path+"fonts/NanumBarunGothic.ttf", 22)
 
     for l in timetable.lecture.all():
         lDict = _lecture_to_dict(l)
@@ -880,11 +918,11 @@ def share_image(request):
             begin = c['begin'] / 30 - 16
             end = c['end'] / 30 - 16
 
-            points = (222*day+66, 44*begin+150, 222*(day+1)+59, 44*end+143)
+            points = (178*day+76, 40*begin+158, 178*(day+1)+69, 40*end+151)
             _rounded_rectangle(draw, points, 4, color)
 
-            points = (points[0]+14, points[1]+6, points[2]-14, points[3]-6)
-            _textbox(textDraw, points, lDict['title'], lDict['professor'], c['classroom_short'], titleFont, contentFont)
+            points = (points[0]+12, points[1]+8, points[2]-12, points[3]-8)
+            _textbox(textDraw, points, lDict['title'], lDict['professor'], c['classroom_short'], font)
 
     #image.thumbnail((600,900))
 
