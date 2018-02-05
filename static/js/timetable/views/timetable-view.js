@@ -91,7 +91,7 @@ function findLecture(lectures, id) {
 
         this.firstBlock = $(e.currentTarget);
         this.secondBlock = $(e.currentTarget);
-        this.resize();
+        this._resizeDragBlock();
       }
     },
 
@@ -114,7 +114,7 @@ function findLecture(lectures, id) {
             break;
         }
         this.secondBlock = dayColumn.find('.half:nth-child('+(i-incr+2)+')');
-        this.resize();
+        this._resizeDragBlock();
       }
     },
 
@@ -183,6 +183,11 @@ function findLecture(lectures, id) {
     },
 
     resize: function () {
+      timetableView._resizeDragBlock();
+      timetableView._resizeLectureBlocks($(".lecture-block"));
+    },
+
+    _resizeDragBlock: function() {
       if(timetableView.firstBlock) {
         var left = timetableView.firstBlock.offset().left - $(timetableView.el).offset().left - 1;
         var width = timetableView.firstBlock.width() + 2;
@@ -194,11 +199,9 @@ function findLecture(lectures, id) {
         $(timetableView.dragCell).css('top', top+'px');
         $(timetableView.dragCell).css('height', height+'px');
       }
-
-      timetableView._sizeBlock($(".lecture-block"));
     },
 
-    _sizeBlock: function(blocks) {
+    _resizeLectureBlocks: function(blocks) {
       var cell = $("#timetable-wrap").find(".half").first();
       var cellHeight = cell.height()+1;
 
@@ -343,7 +346,7 @@ function findLecture(lectures, id) {
                                   occupied: occupied,
                                   temp: isTemp,}));
       $(blocks[0]).append(lectureBlock);
-      timetableView._sizeBlock(lectureBlock);
+      timetableView._resizeLectureBlocks(lectureBlock);
     },
 
     _addBlockWithoutTime: function(lecture, classtime, isTemp) {
@@ -365,7 +368,7 @@ function findLecture(lectures, id) {
             <div class="rhead no-time"></div> \
             <div class="rhead no-time"></div> \
             <div class="rhead no-time"></div>');
-        timetableView._sizeBlock($('.lecture-block'));
+        timetableView.resize();
       }
 
       var block = $('#timetable-contents')
@@ -382,7 +385,7 @@ function findLecture(lectures, id) {
                                        temp: isTemp,}));
 
       block.append(lectureBlock);
-      timetableView._sizeBlock(lectureBlock);
+      timetableView._resizeLectureBlocks(lectureBlock);
 
       var block = $('#timetable-contents')
                     .find('.day:nth-child('+(idx%5+2)+')')
@@ -432,7 +435,7 @@ function findLecture(lectures, id) {
         $('.no-time:last-child').remove();
         $('.no-time:last-child').remove();
         $('.no-time:last-child').remove();
-        timetableView._sizeBlock($('.lecture-block'));
+        timetableView.resize();
       }
     },
   })
