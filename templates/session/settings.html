@@ -53,19 +53,19 @@
                     <div id="favorites" class="col-xs-24">
                         {% for dpt in department_1 %}
                         <div class="col-xs-24 col-sm-12 col-md-8" style="line-height:1.6">
-                            <input type="checkbox" name="fav_department" value="{{ dpt.id }}" {% if dpt in fav_department %} checked {% endif %}>{{ dpt.name }}({{dpt.code}})&nbsp;
+                            <input type="checkbox" name="fav_department" value="{{ dpt.id }}" {% if dpt in fav_department %} checked {% endif %}> {{ dpt.name }} ({{dpt.code}})&nbsp;
                         </div>
                         {% endfor %}
 			<div class="col-xs-24" style="height:10px"></div>
                         {% for dpt in department_2 %}
                         <div class="col-xs-24 col-sm-12 col-md-8" style="line-height:1.6">
-                            <input type="checkbox" name="fav_department" value="{{ dpt.id }}" {% if dpt in fav_department %} checked {% endif %}>{{ dpt.name }}({{dpt.code}})&nbsp;
+                            <input type="checkbox" name="fav_department" value="{{ dpt.id }}" {% if dpt in fav_department %} checked {% endif %}> {{ dpt.name }} ({{dpt.code}})&nbsp;
                         </div>
                         {% endfor %}
                         <div class="col-xs-24" style="height:10px"></div>
                         {% for dpt in department_3 %}
                         <div class="col-xs-24 col-sm-12 col-md-8" style="line-height:1.6">
-                            <input type="checkbox" name="fav_department" value="{{ dpt.id }}" {% if dpt in fav_department %} checked {% endif %}>{{ dpt.name }}({{dpt.code}})&nbsp;
+                            <input type="checkbox" name="fav_department" value="{{ dpt.id }}" {% if dpt in fav_department %} checked {% endif %}> {{ dpt.name }} ({{dpt.code}})&nbsp;
                         </div>
                         {% endfor %}
                     </div>
