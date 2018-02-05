@@ -34,7 +34,7 @@
 								<div class="search-keyword">
 									<i class="search-keyword-icon"></i>
 									<div class="search-keyword-text-wrap">
-										<input class="search-keyword-text" type="text" name="keyword" autocomplete="off" placeholder="{% trans '검색' %}" />
+										<input class="search-keyword-text" type="text" name="keyword" autocomplete="off" placeholder="{% trans '검색' %}">
 										<div class="search-keyword-autocomplete">
 											<span class="search-keyword-autocomplete-space"></span><span class="search-keyword-autocomplete-body"></span>
 										</div>
@@ -44,14 +44,14 @@
 									<label class="search-filter-title fixed-{{ LANGUAGE_CODE }}">{% trans "구분" %}</label><!--
 							 --><div class="search-filter-elem">
 										<label>
-											<input class="chkall" type="checkbox" autocomplete="off" name="type" value="ALL" />{% trans "전체" %}<i class="fa fa-circle-o fa-1x none"></i><i class="fa fa-check-circle-o fa-1x"></i>
+											<input class="chkall" type="checkbox" autocomplete="off" name="type" value="ALL">{% trans "전체" %}<i class="fa fa-circle-o fa-1x none"></i><i class="fa fa-check-circle-o fa-1x"></i>
 										</label>
 										{% for i in "1234567890" %}
 										<label>
 											{% if LANGUAGE_CODE == "en" %}
-											<input class="chkelem" type="checkbox" autocomplete="off" name="type" value="{% cycle "GR" "MGC" "BE" "BR" "EG" "HSE" "OE" "ME" "MR" "ETC" %}" />{% cycle "GR" "MGC" "BE" "BR" "EG" "HSE" "OE" "ME" "MR" "ETC" %}<i class="fa fa-circle-o fa-1x"></i><i class="fa fa-check-circle-o fa-ix none"></i>
+											<input class="chkelem" type="checkbox" autocomplete="off" name="type" value="{% cycle "GR" "MGC" "BE" "BR" "EG" "HSE" "OE" "ME" "MR" "ETC" %}">{% cycle "GR" "MGC" "BE" "BR" "EG" "HSE" "OE" "ME" "MR" "ETC" %}<i class="fa fa-circle-o fa-1x"></i><i class="fa fa-check-circle-o fa-ix none"></i>
 											{% else %}
-											<input class="chkelem" type="checkbox" autocomplete="off" name="type" value="{% cycle "GR" "MGC" "BE" "BR" "EG" "HSE" "OE" "ME" "MR" "ETC" %}" />{% cycle "공통" "교필" "기선" "기필" "석박" "인선" "자선" "전선" "전필" "기타" %}<i class="fa fa-circle-o fa-1x"></i><i class="fa fa-check-circle-o fa-ix none"></i>
+											<input class="chkelem" type="checkbox" autocomplete="off" name="type" value="{% cycle "GR" "MGC" "BE" "BR" "EG" "HSE" "OE" "ME" "MR" "ETC" %}">{% cycle "공통" "교필" "기선" "기필" "석박" "인선" "자선" "전선" "전필" "기타" %}<i class="fa fa-circle-o fa-1x"></i><i class="fa fa-check-circle-o fa-ix none"></i>
 											{% endif %}
 										</label>
 										{% endfor %}
@@ -61,14 +61,14 @@
 									<label class="search-filter-title fixed-{{ LANGUAGE_CODE }}">{% trans "학과" %}</label><!--
 							 --><div class="search-filter-elem">
 										<label>
-											<input class="chkall" type="checkbox" autocomplete="off" name="department" value="ALL" />{% trans "전체" %}<i class="fa fa-circle-o fa-1x none"></i><i class="fa fa-check-circle-o fa-1x"></i>
+											<input class="chkall" type="checkbox" autocomplete="off" name="department" value="ALL">{% trans "전체" %}<i class="fa fa-circle-o fa-1x none"></i><i class="fa fa-check-circle-o fa-1x"></i>
 										</label>
 										{% for i in "123456789012345678" %}
 										<label>
 											{% if LANGUAGE_CODE == "en" %}
-											<input class="chkelem" type="checkbox" autocomplete="off" name="department" value="{% cycle "HSS" "AE" "BiS" "BS" "CBE" "CE" "CH" "CS" "EE" "ID" "IE" "MAS" "ME" "NQE" "MSB" "MS" "PH" "ETC" %}" />{% cycle "HSS" "AE" "BiS" "BS" "CBE" "CE" "CH" "CS" "EE" "ID" "IE" "MAS" "ME" "NQE" "MSB" "MS" "PH" "ETC" %}<i class="fa fa-circle-o fa-1x"></i><i class="fa fa-check-circle-o fa-ix none"></i>
+											<input class="chkelem" type="checkbox" autocomplete="off" name="department" value="{% cycle "HSS" "AE" "BiS" "BS" "CBE" "CE" "CH" "CS" "EE" "ID" "IE" "MAS" "ME" "NQE" "MSB" "MS" "PH" "ETC" %}">{% cycle "HSS" "AE" "BiS" "BS" "CBE" "CE" "CH" "CS" "EE" "ID" "IE" "MAS" "ME" "NQE" "MSB" "MS" "PH" "ETC" %}<i class="fa fa-circle-o fa-1x"></i><i class="fa fa-check-circle-o fa-ix none"></i>
 											{% else %}
-											<input class="chkelem" type="checkbox" autocomplete="off" name="department" value="{% cycle "HSS" "CE" "MSB" "ME" "PH" "BiS" "IE" "ID" "BS" "MAS" "NQE" "EE" "CS" "AE" "CH" "CBE" "MS" "ETC" %}" />{% cycle "인문" "건환" "기경" "기계" "물리" "바공" "산공" "산디" "생명" "수리" "원양" "전자" "전산" "항공" "화학" "생화공" "신소재" "기타" %}<i class="fa fa-circle-o fa-1x"></i><i class="fa fa-check-circle-o fa-ix none"></i>
+											<input class="chkelem" type="checkbox" autocomplete="off" name="department" value="{% cycle "HSS" "CE" "MSB" "ME" "PH" "BiS" "IE" "ID" "BS" "MAS" "NQE" "EE" "CS" "AE" "CH" "CBE" "MS" "ETC" %}">{% cycle "인문" "건환" "기경" "기계" "물리" "바공" "산공" "산디" "생명" "수리" "원양" "전자" "전산" "항공" "화학" "생화공" "신소재" "기타" %}<i class="fa fa-circle-o fa-1x"></i><i class="fa fa-check-circle-o fa-ix none"></i>
 											{% endif %}
 										</label>
 										{% endfor %}
@@ -78,14 +78,14 @@
 									<label class="search-filter-title fixed-{{ LANGUAGE_CODE }}">{% trans "학년" %}</label><!--
 							 --><div class="search-filter-elem">
 										<label>
-											<input class="chkall" type="checkbox" autocomplete="off" name="grade" value="ALL" />{% trans "전체" %}<i class="fa fa-circle-o fa-1x none"></i><i class="fa fa-check-circle-o fa-1x"></i>
+											<input class="chkall" type="checkbox" autocomplete="off" name="grade" value="ALL">{% trans "전체" %}<i class="fa fa-circle-o fa-1x none"></i><i class="fa fa-check-circle-o fa-1x"></i>
 										</label>
 										{% for i in "01234" %}
 										<label>
 											{% if LANGUAGE_CODE == "en" %}
-											<input class="chkelem" type="checkbox" autocomplete="off" name="grade" value="{% cycle "100" "200" "300" "400" "ETC" %}" />{% cycle "100s" "200s" "300s" "400s" "ETC" %}<i class="fa fa-circle-o fa-1x"></i><i class="fa fa-check-circle-o fa-ix none"></i>
+											<input class="chkelem" type="checkbox" autocomplete="off" name="grade" value="{% cycle "100" "200" "300" "400" "ETC" %}">{% cycle "100s" "200s" "300s" "400s" "ETC" %}<i class="fa fa-circle-o fa-1x"></i><i class="fa fa-check-circle-o fa-ix none"></i>
 											{% else %}
-											<input class="chkelem" type="checkbox" autocomplete="off" name="grade" value="{% cycle "100" "200" "300" "400" "ETC" %}" />{% cycle "100번대" "200번대" "300번대" "400번대" "기타" %}<i class="fa fa-circle-o fa-1x"></i><i class="fa fa-check-circle-o fa-ix none"></i>
+											<input class="chkelem" type="checkbox" autocomplete="off" name="grade" value="{% cycle "100" "200" "300" "400" "ETC" %}">{% cycle "100번대" "200번대" "300번대" "400번대" "기타" %}<i class="fa fa-circle-o fa-1x"></i><i class="fa fa-check-circle-o fa-ix none"></i>
 											{% endif %}
 										</label>
 										{% endfor %}
@@ -496,7 +496,7 @@
 						</div>
 					</div>
 				</div><!--div exam-table-->
-				<div id="share-buttons" class={% if user.is_authenticated %}authenticated{% endif %}>
+				<div id="share-buttons" class="{% if user.is_authenticated %}authenticated{% endif %}">
 					<a class="share-button" id="facebook">
 					</a>
 					<a class="share-button" id="image" download>
