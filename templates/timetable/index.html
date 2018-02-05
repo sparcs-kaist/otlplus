@@ -1,7 +1,6 @@
 {% extends 'timetable/layout.html' %}
 {% load i18n %}
 {% block content %}
-<!--한글로 된 부분은 trans가 적용되어 있던 부분이나 현 장고 버전에서는 따로 설정을 해야 사용 가능하므로 일단 적용하지 않았다.--> 
 {% get_current_language as LANGUAGE_CODE %}
 {% get_available_languages as LANGUAGES %}
 <div id="page-container">
@@ -33,20 +32,25 @@
 								<!-- ajax call -->
 								<div class="search-keyword">
 									<i class="search-keyword-icon"></i>
-									<input class="search-keyword-text" type="text" name="keyword" autocomplete="off" placeholder="{% trans '검색' %}" />
+									<div class="search-keyword-text-wrap">
+										<input class="search-keyword-text" type="text" name="keyword" autocomplete="off" placeholder="{% trans '검색' %}">
+										<div class="search-keyword-autocomplete">
+											<span class="search-keyword-autocomplete-space"></span><span class="search-keyword-autocomplete-body"></span>
+										</div>
+									</div>
 								</div>
 								<div class="search-filter">
 									<label class="search-filter-title fixed-{{ LANGUAGE_CODE }}">{% trans "구분" %}</label><!--
 							 --><div class="search-filter-elem">
 										<label>
-											<input class="chkall" type="checkbox" autocomplete="off" name="type" value="ALL" />{% trans "전체" %}<i class="fa fa-circle-o fa-1x none"></i><i class="fa fa-check-circle-o fa-1x"></i>
+											<input class="chkall" type="checkbox" autocomplete="off" name="type" value="ALL">{% trans "전체" %}<i class="fa fa-circle-o fa-1x none"></i><i class="fa fa-check-circle-o fa-1x"></i>
 										</label>
 										{% for i in "1234567890" %}
 										<label>
 											{% if LANGUAGE_CODE == "en" %}
-											<input class="chkelem" type="checkbox" autocomplete="off" name="type" value="{% cycle "GR" "MGC" "BE" "BR" "EG" "HSE" "OE" "ME" "MR" "ETC" %}" />{% cycle "GR" "MGC" "BE" "BR" "EG" "HSE" "OE" "ME" "MR" "ETC" %}<i class="fa fa-circle-o fa-1x"></i><i class="fa fa-check-circle-o fa-ix none"></i>
+											<input class="chkelem" type="checkbox" autocomplete="off" name="type" value="{% cycle "GR" "MGC" "BE" "BR" "EG" "HSE" "OE" "ME" "MR" "ETC" %}">{% cycle "GR" "MGC" "BE" "BR" "EG" "HSE" "OE" "ME" "MR" "ETC" %}<i class="fa fa-circle-o fa-1x"></i><i class="fa fa-check-circle-o fa-ix none"></i>
 											{% else %}
-											<input class="chkelem" type="checkbox" autocomplete="off" name="type" value="{% cycle "GR" "MGC" "BE" "BR" "EG" "HSE" "OE" "ME" "MR" "ETC" %}" />{% cycle "공통" "교필" "기선" "기필" "석박" "인선" "자선" "전선" "전필" "기타" %}<i class="fa fa-circle-o fa-1x"></i><i class="fa fa-check-circle-o fa-ix none"></i>
+											<input class="chkelem" type="checkbox" autocomplete="off" name="type" value="{% cycle "GR" "MGC" "BE" "BR" "EG" "HSE" "OE" "ME" "MR" "ETC" %}">{% cycle "공통" "교필" "기선" "기필" "석박" "인선" "자선" "전선" "전필" "기타" %}<i class="fa fa-circle-o fa-1x"></i><i class="fa fa-check-circle-o fa-ix none"></i>
 											{% endif %}
 										</label>
 										{% endfor %}
@@ -56,14 +60,14 @@
 									<label class="search-filter-title fixed-{{ LANGUAGE_CODE }}">{% trans "학과" %}</label><!--
 							 --><div class="search-filter-elem">
 										<label>
-											<input class="chkall" type="checkbox" autocomplete="off" name="department" value="ALL" />{% trans "전체" %}<i class="fa fa-circle-o fa-1x none"></i><i class="fa fa-check-circle-o fa-1x"></i>
+											<input class="chkall" type="checkbox" autocomplete="off" name="department" value="ALL">{% trans "전체" %}<i class="fa fa-circle-o fa-1x none"></i><i class="fa fa-check-circle-o fa-1x"></i>
 										</label>
 										{% for i in "123456789012345678" %}
 										<label>
 											{% if LANGUAGE_CODE == "en" %}
-											<input class="chkelem" type="checkbox" autocomplete="off" name="department" value="{% cycle "HSS" "AE" "BiS" "BS" "CBE" "CE" "CH" "CS" "EE" "ID" "IE" "MAS" "ME" "NQE" "MSB" "MS" "PH" "ETC" %}" />{% cycle "HSS" "AE" "BiS" "BS" "CBE" "CE" "CH" "CS" "EE" "ID" "IE" "MAS" "ME" "NQE" "MSB" "MS" "PH" "ETC" %}<i class="fa fa-circle-o fa-1x"></i><i class="fa fa-check-circle-o fa-ix none"></i>
+											<input class="chkelem" type="checkbox" autocomplete="off" name="department" value="{% cycle "HSS" "AE" "BiS" "BS" "CBE" "CE" "CH" "CS" "EE" "ID" "IE" "MAS" "ME" "NQE" "MSB" "MS" "PH" "ETC" %}">{% cycle "HSS" "AE" "BiS" "BS" "CBE" "CE" "CH" "CS" "EE" "ID" "IE" "MAS" "ME" "NQE" "MSB" "MS" "PH" "ETC" %}<i class="fa fa-circle-o fa-1x"></i><i class="fa fa-check-circle-o fa-ix none"></i>
 											{% else %}
-											<input class="chkelem" type="checkbox" autocomplete="off" name="department" value="{% cycle "HSS" "CE" "MSB" "ME" "PH" "BiS" "IE" "ID" "BS" "MAS" "NQE" "EE" "CS" "AE" "CH" "CBE" "MS" "ETC" %}" />{% cycle "인문" "건환" "기경" "기계" "물리" "바공" "산공" "산디" "생명" "수리" "원양" "전자" "전산" "항공" "화학" "생화공" "신소재" "기타" %}<i class="fa fa-circle-o fa-1x"></i><i class="fa fa-check-circle-o fa-ix none"></i>
+											<input class="chkelem" type="checkbox" autocomplete="off" name="department" value="{% cycle "HSS" "CE" "MSB" "ME" "PH" "BiS" "IE" "ID" "BS" "MAS" "NQE" "EE" "CS" "AE" "CH" "CBE" "MS" "ETC" %}">{% cycle "인문" "건환" "기경" "기계" "물리" "바공" "산공" "산디" "생명" "수리" "원양" "전자" "전산" "항공" "화학" "생화공" "신소재" "기타" %}<i class="fa fa-circle-o fa-1x"></i><i class="fa fa-check-circle-o fa-ix none"></i>
 											{% endif %}
 										</label>
 										{% endfor %}
@@ -73,14 +77,14 @@
 									<label class="search-filter-title fixed-{{ LANGUAGE_CODE }}">{% trans "학년" %}</label><!--
 							 --><div class="search-filter-elem">
 										<label>
-											<input class="chkall" type="checkbox" autocomplete="off" name="grade" value="ALL" />{% trans "전체" %}<i class="fa fa-circle-o fa-1x none"></i><i class="fa fa-check-circle-o fa-1x"></i>
+											<input class="chkall" type="checkbox" autocomplete="off" name="grade" value="ALL">{% trans "전체" %}<i class="fa fa-circle-o fa-1x none"></i><i class="fa fa-check-circle-o fa-1x"></i>
 										</label>
 										{% for i in "01234" %}
 										<label>
 											{% if LANGUAGE_CODE == "en" %}
-											<input class="chkelem" type="checkbox" autocomplete="off" name="grade" value="{% cycle "100" "200" "300" "400" "ETC" %}" />{% cycle "100s" "200s" "300s" "400s" "ETC" %}<i class="fa fa-circle-o fa-1x"></i><i class="fa fa-check-circle-o fa-ix none"></i>
+											<input class="chkelem" type="checkbox" autocomplete="off" name="grade" value="{% cycle "100" "200" "300" "400" "ETC" %}">{% cycle "100s" "200s" "300s" "400s" "ETC" %}<i class="fa fa-circle-o fa-1x"></i><i class="fa fa-check-circle-o fa-ix none"></i>
 											{% else %}
-											<input class="chkelem" type="checkbox" autocomplete="off" name="grade" value="{% cycle "100" "200" "300" "400" "ETC" %}" />{% cycle "100번대" "200번대" "300번대" "400번대" "기타" %}<i class="fa fa-circle-o fa-1x"></i><i class="fa fa-check-circle-o fa-ix none"></i>
+											<input class="chkelem" type="checkbox" autocomplete="off" name="grade" value="{% cycle "100" "200" "300" "400" "ETC" %}">{% cycle "100번대" "200번대" "300번대" "400번대" "기타" %}<i class="fa fa-circle-o fa-1x"></i><i class="fa fa-check-circle-o fa-ix none"></i>
 											{% endif %}
 										</label>
 										{% endfor %}
@@ -168,8 +172,7 @@
 			<div id="timetable-wrap">
 				<div id="timetable-contents">
 					<div id="rowheaders">
-						<div class="chead"></div>
-						<div class="rhead"><span class="rheadtext">8</span></div>
+						<div class="rhead rhead-chead"><span class="rheadtext">8</span></div>
 						<div class="rhead"></div>
 						<div class="rhead"><span class="rheadtext">9</span></div>
 						<div class="rhead"></div>
@@ -201,11 +204,7 @@
 						<div class="rhead"></div>
 						<div class="rhead"><span class="rheadtext">11</span></div>
 						<div class="rhead"></div>
-						<div class="rhead rhead-bold"><span class="rheadtext">12</span></div>
-						<div class="chead"></div>
-						<div class="rhead"></div>
-						<div class="rhead"></div>
-						<div class="rhead rhead-last"></div>
+						<div class="rhead rhead-bold rhead-last"><span class="rheadtext">12</span></div>
 					</div>
 					<div class="day">
 						<div class="chead">{% trans "월요일" %}</div>
@@ -240,12 +239,7 @@
 						<div class="cell1 half table-drag" data-day='mon' data-time='2200'></div>
 						<div class="cell2 half table-drag" data-day='mon' data-time='2230'></div>
 						<div class="cell1 half table-drag" data-day='mon' data-time='2300'></div>
-						<div class="cell2 half table-drag" data-day='mon' data-time='2330'></div>
-						<div class="cell-bold cell1 half"></div>
-						<div class="chead"></div>
-						<div class="cell-bold cell1 half no-time"></div>
-						<div class="cell2 half"></div>
-						<div class="cell2 half cell-last"></div>
+						<div class="cell2 half cell-last table-drag" data-day='mon' data-time='2330'></div>
 					</div>
 					<div class="day">
 						<div class="chead">{% trans "화요일" %}</div>
@@ -280,12 +274,7 @@
 						<div class="cell1 half table-drag" data-day='tue' data-time='2200'></div>
 						<div class="cell2 half table-drag" data-day='tue' data-time='2230'></div>
 						<div class="cell1 half table-drag" data-day='tue' data-time='2300'></div>
-						<div class="cell2 half table-drag" data-day='tue' data-time='2330'></div>
-						<div class="cell-bold cell1 half"></div>
-						<div class="chead"></div>
-						<div class="cell-bold cell1 half no-time"></div>
-						<div class="cell2 half"></div>
-						<div class="cell2 half cell-last"></div>
+						<div class="cell2 half cell-last table-drag" data-day='tue' data-time='2330'></div>
 					</div>
 					<div class="day">
 						<div class="chead">{% trans "수요일" %}</div>
@@ -320,12 +309,7 @@
 						<div class="cell1 half table-drag" data-day='wed' data-time='2200'></div>
 						<div class="cell2 half table-drag" data-day='wed' data-time='2230'></div>
 						<div class="cell1 half table-drag" data-day='wed' data-time='2300'></div>
-						<div class="cell2 half table-drag" data-day='wed' data-time='2330'></div>
-						<div class="cell-bold cell1 half"></div>
-						<div class="chead">{% trans "토/일/시간없음" %}</div>
-						<div class="cell-bold cell1 half no-time"></div>
-						<div class="cell2 half"></div>
-						<div class="cell2 half cell-last"></div>
+						<div class="cell2 half cell-last table-drag" data-day='wed' data-time='2330'></div>
 					</div>
 					<div class="day">
 						<div class="chead">{% trans "목요일" %}</div>
@@ -360,12 +344,7 @@
 						<div class="cell1 half table-drag" data-day='thu' data-time='2200'></div>
 						<div class="cell2 half table-drag" data-day='thu' data-time='2230'></div>
 						<div class="cell1 half table-drag" data-day='thu' data-time='2300'></div>
-						<div class="cell2 half table-drag" data-day='thu' data-time='2330'></div>
-						<div class="cell-bold cell1 half"></div>
-						<div class="chead"></div>
-						<div class="cell-bold cell1 half no-time"></div>
-						<div class="cell2 half"></div>
-						<div class="cell2 half cell-last"></div>
+						<div class="cell2 half cell-last table-drag" data-day='thu' data-time='2330'></div>
 					</div>
 					<div class="day">
 						<div class="chead">{% trans "금요일" %}</div>
@@ -400,12 +379,7 @@
 						<div class="cell1 half table-drag" data-day='fri' data-time='2200'></div>
 						<div class="cell2 half table-drag" data-day='fri' data-time='2230'></div>
 						<div class="cell1 half table-drag" data-day='fri' data-time='2300'></div>
-						<div class="cell2 half table-drag" data-day='fri' data-time='2330'></div>
-						<div class="cell-bold cell1 half"></div>
-						<div class="chead"></div>
-						<div class="cell-bold cell1 half no-time"></div>
-						<div class="cell2 half"></div>
-						<div class="cell2 half cell-last"></div>
+						<div class="cell2 half cell-last table-drag" data-day='fri' data-time='2330'></div>
 					</div>
 				</div>
 				<div id="drag-cell" class="none">
@@ -432,56 +406,56 @@
 					<div id="summary-type">
 						<div class="summary-type-elem summary-type-elem-left" data-type="Basic Required">
 							<span class="summary-type-elem-title fixed-{{ LANGUAGE_CODE }}">{% trans "기필" %}</span>
-							<span class="summary-type-elem-body">0</span>
+							<span class="summary-type-elem-body">-</span>
 							<span class="summary-type-elem-additional"></span>
 						</div>
 						<div class="summary-type-elem summary-type-elem-right" data-type="Basic Elective">
 							<span class="summary-type-elem-title fixed-{{ LANGUAGE_CODE }}">{% trans "기선" %}</span>
-							<span class="summary-type-elem-body">0</span>
+							<span class="summary-type-elem-body">-</span>
 							<span class="summary-type-elem-additional"></span>
 						</div>
 						<div class="summary-type-elem summary-type-elem-left" data-type="Major Required">
 							<span class="summary-type-elem-title fixed-{{ LANGUAGE_CODE }}">{% trans "전필" %}</span>
-							<span class="summary-type-elem-body">0</span>
+							<span class="summary-type-elem-body">-</span>
 							<span class="summary-type-elem-additional"></span>
 						</div>
 						<div class="summary-type-elem summary-type-elem-right" data-type="Major Elective">
 							<span class="summary-type-elem-title fixed-{{ LANGUAGE_CODE }}">{% trans "전선" %}</span>
-							<span class="summary-type-elem-body">0</span>
+							<span class="summary-type-elem-body">-</span>
 							<span class="summary-type-elem-additional"></span>
 						</div>
 						<div class="summary-type-elem summary-type-elem-left" data-type="Humanities & Social Elective">
 							<span class="summary-type-elem-title fixed-{{ LANGUAGE_CODE }}">{% trans "인문" %}</span>
-							<span class="summary-type-elem-body">0</span>
+							<span class="summary-type-elem-body">-</span>
 							<span class="summary-type-elem-additional"></span>
 						</div>
 						<div class="summary-type-elem summary-type-elem-right" data-type="Etc">
 							<span class="summary-type-elem-title fixed-{{ LANGUAGE_CODE }}">{% trans "기타" %}</span>
-							<span class="summary-type-elem-body">0</span>
+							<span class="summary-type-elem-body">-</span>
 							<span class="summary-type-elem-additional"></span>
 						</div>
 					</div>
 					<div id="summary-credit">
 						<div class="summary-credit-elem">
-							<div id="credits" class="score-text"><span class="normal">0</span><span class="active none">0</span></div>
+							<div id="credits" class="score-text"><span class="normal">-</span><span class="active none">0</span></div>
 							<div class="score-label">{% trans "학점" %}</div>
 						</div>
 						<div class="summary-credit-elem">
-							<div id="au" class="score-text"><span class="normal">0</span><span class="active none">0</span></div>
+							<div id="au" class="score-text"><span class="normal">-</span><span class="active none">0</span></div>
 							<div class="score-label">{% trans "AU" %}</div>
 						</div>
 					</div>
 					<div id="summary-score">
 						<div class="summary-score-elem">
-							<div id="grades" class="score-text">A-</div>
+							<div id="grades" class="score-text">-</div>
 							<div class="score-label">{% trans "성적" %}</div>
 						</div>
 						<div class="summary-score-elem">
-							<div id="loads" class="score-text">B+</div>
+							<div id="loads" class="score-text">-</div>
 							<div class="score-label">{% trans "널널" %}</div>
 						</div>
 						<div class="summary-score-elem">
-							<div id="speeches" class="score-text">B</div>
+							<div id="speeches" class="score-text">-</div>
 							<div class="score-label">{% trans "강의" %}</div>
 						</div>
 					</div>
@@ -521,17 +495,11 @@
 						</div>
 					</div>
 				</div><!--div exam-table-->
-				<div id="small-buttons">
-					<div id="facebook">
-					</div>
-					<div id="twiter">
-					</div>
-					<a id="image" href="/timetable/api/share_image/" style="background-color:grey" download>
+				<div id="share-buttons" class="{% if user.is_authenticated %}authenticated{% endif %}">
+					<a class="share-button" id="image" download>
 					</a>
-					<a id="calendar" href="/timetable/api/share_calendar/" style="background-color:grey">
+					<a class="share-button" id="calendar" target="_blank">
 					</a>
-					<div id="copy">
-					</div>
 				</div>
 			</div><!--div right-side-->
 		</div><!--div timetable-->
