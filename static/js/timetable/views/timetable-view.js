@@ -98,19 +98,22 @@ function findLecture(lectures, id) {
     dragMove: function (e) {
       if (this.isDragging) {
         var endBlock = $(e.currentTarget);
+        if (endBlock[0] == this.secondBlock[0])
+          return;
 
         var day = this.indexOfDay(this.firstBlock.attr("data-day"));
         var startTime = this.indexOfTime(this.firstBlock.attr("data-time"));
         var endTime = this.indexOfTime(endBlock.attr("data-time"));
 
+        var dayColumn = $('#timetable-contents .day:nth-child('+(day+2)+')');
         var incr = startTime<endTime ? 1 : -1;
         var i;
         for (i=startTime+incr; i!=endTime+incr; i+=incr){
-          var block = $('#timetable-contents .day:nth-child('+(day+2)+') .half:nth-child('+(i+2)+')');
+          var block = dayColumn.find('.half:nth-child('+(i+2)+')');
           if (block.hasClass('occupied'))
             break;
         }
-        this.secondBlock = $('#timetable-contents .day:nth-child('+(day+2)+') .half:nth-child('+(i-incr+2)+')');
+        this.secondBlock = dayColumn.find('.half:nth-child('+(i-incr+2)+')');
         this.resize();
       }
     },
