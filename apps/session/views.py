@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
 from django.conf import settings
 from django.utils import translation
-from apps.subject.models import Department
+from apps.subject.models import Department, Lecture
 from apps.review.models import Comment
 from apps.timetable.models import OldTimeTable
 from apps.session.models import UserProfile
@@ -132,14 +132,34 @@ def user_settings(request):
     user = request.user
     user_profile = UserProfile.objects.get(user=user)
 
-    department = Department.objects.filter(Q(code__in = ["CE", "MSB", "MAE", "PH", "BiS", "IE", "ID", "BS", "CBE", "MAS", "MS", "NQE", "HSS", "EE", "CS", "MAE", "CH"]) & Q(visible = True)).order_by('name')
+    dept_under = ["CE", "MSB", "ME", "PH", "BiS",
+                  "IE", "ID", "BS", "CBE", "MAS",
+                  "MS", "NQE", "HSS", "EE", "CS",
+                  "AE", "CH"]
+    dept_exclude = ["AA", "KSA", "URP", "ED", "INT",
+                    "KJ", "CWENA", "C", "E", "S",
+                    "PSY", "SK", "BIO", "CLT", "PHYS"]
+
+    department_1 = Department.objects.filter(code__in=dept_under, visible=True).order_by('name')
+    department_others = Department.objects.filter(visible=True).exclude(code__in=dept_under+dept_exclude).order_by('name')
+    department_2 = []
+    department_3 = []
+    current_lectures = Lecture.objects.filter(year=settings.CURRENT_YEAR, semester=settings.CURRENT_SEMESTER)
+    for d in department_others:
+        if (current_lectures.filter(department__code=d.code).exists()):
+            department_2.append(d)
+        else:
+            department_3.append(d)
+
     fav_department = user_profile.favorite_departments.all()
 
     if len(user_profile.language) == 0:
         user_profile.language = 'ko'
         user_profile.save()
 
-    ctx = { 'department': department,
+    ctx = { 'department_1': department_1,
+            'department_2': department_2,
+            'department_3': department_3,
             'fav_department': fav_department,
             'usr_lang': user_profile.language}
 
