@@ -24,6 +24,7 @@ urlpatterns = [
     url(r'^api/table_delete/$', views.table_delete),
     url(r'^api/table_copy/$', views.table_copy),
     url(r'^api/table_load/$', views.table_load),
+    url(r'^api/autocomplete/$', views.autocomplete),
     url(r'^api/search/$', views.search),
     url(r'^api/comment_load/$', views.comment_load),
     url(r'^api/list_load_major/$', views.list_load_major),

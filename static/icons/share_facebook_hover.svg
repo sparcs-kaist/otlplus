@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19 19">
+  <defs>
+    <style>
+      .a, .b {
+        fill: none;
+      }
+
+      .b {
+        stroke: #000;
+        stroke-miterlimit: 10;
+      }
+    </style>
+  </defs>
+  <title>share_facebook_hover</title>
+  <g>
+    <rect class="a" width="19" height="19"/>
+    <g>
+      <rect class="b" x="0.5" y="0.5" width="18" height="18" rx="1.5" ry="1.5"/>
+      <path class="b" d="M12.92,18.5V11.529h2.339l.351-2.716H12.92V7.078c0-.786.218-1.322,1.346-1.322h1.439V3.326a19.28,19.28,0,0,0-2.1-.107,3.273,3.273,0,0,0-3.494,3.59v2H7.769v2.716h2.345V18.5Z"/>
+    </g>
+  </g>
+</svg>
