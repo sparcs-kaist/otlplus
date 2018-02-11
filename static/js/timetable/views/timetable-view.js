@@ -915,9 +915,6 @@ function findLecture(lectures, id) {
     },
 
     _setFocus: function(title, filter, infoGetter, comparator) {
-      if (app.LectureActive.get("type") !== "none")
-        return;
-
       var lectures = _.filter(app.CurrentTimetable.get('lectures'), filter);
       lectures.sort(comparator);
       var result = [];
@@ -932,6 +929,9 @@ function findLecture(lectures, id) {
     },
 
     buildingFocus: function(e) {
+      if (app.LectureActive.get("type") !== "none")
+        return;
+
       var buildingNo = $(e.currentTarget).closest(".map-location").attr("data-building");
 
       this._setFocus(buildingNo,
@@ -945,6 +945,9 @@ function findLecture(lectures, id) {
     },
 
     typeFocus: function(e) {
+      if (app.LectureActive.get("type") !== "none")
+        return;
+
       var type = $(e.currentTarget).attr('data-type');
       if (type !== "Etc") {
         this._setFocus((LANGUAGE_CODE==="en" ? type : this.typeDict[type]),
@@ -963,6 +966,9 @@ function findLecture(lectures, id) {
     },
 
     creditFocus: function(e) {
+      if (app.LectureActive.get("type") !== "none")
+        return;
+
       var type = $(e.currentTarget).find('.score-text').attr('id');
       if (type === "au") {
         this._setFocus("AU",
@@ -988,6 +994,9 @@ function findLecture(lectures, id) {
     },
 
     scoreFocus: function(e) {
+      if (app.LectureActive.get("type") !== "none")
+        return;
+
       var type = $(e.currentTarget).find('.score-text').attr('id');
       if (type == "grades") {
         this._setFocus((LANGUAGE_CODE==="en" ? "Grade" : "성적"),
@@ -1019,6 +1028,9 @@ function findLecture(lectures, id) {
     },
 
     examFocus: function(e) {
+      if (app.LectureActive.get("type") !== "none")
+        return;
+
       var date = $(e.currentTarget).attr('data-date');
       this._setFocus(this.dateDict[date] + (LANGUAGE_CODE==="en" ? " Exam" : " 시험"),
                      function(x){return $(e.currentTarget).find('.exam-elem[data-id='+x.id+']').length},
