@@ -397,10 +397,12 @@ function findLecture(lectures, id) {
       if (classtime == null)
         text = LANGUAGE_CODE==="en" ? "None" : "시간 없음";
       else {
-        if (classtime.day==6)
+        if (classtime.day==5)
           text = LANGUAGE_CODE==="en" ? "Sat. " : "토 ";
-        else
+        else if (classtime.day==6)
           text = LANGUAGE_CODE==="en" ? "Sun. " : "일 ";
+        else
+          text = "? ";
         text += Math.floor(classtime.begin/60)+":"+("00"+classtime.begin%60).slice(-2);
         text += "~";
         text += Math.floor(classtime.end/60)+":"+("00"+classtime.end%60).slice(-2);
