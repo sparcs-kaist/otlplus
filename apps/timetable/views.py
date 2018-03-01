@@ -373,13 +373,12 @@ def table_update(request):
     except:
         return JsonResponse({'success':True})
 
-    if 'table_id' not in request.POST or 'lecture_id' not in request.POST or \
-       'delete' not in request.POST:
+    try:
+        table_id = int(request.POST['table_id'])
+        lecture_id = request.POST['lecture_id']
+        delete = request.POST['delete'] == u'true'
+    except KeyError:
         return HttpResponseBadRequest('Missing fields in request data')
-
-    table_id = int(request.POST['table_id'])
-    lecture_id = request.POST['lecture_id']
-    delete = request.POST['delete'] == u'true'
 
     # Find the right timetable
     timetable = TimeTable.objects.get(user=userprofile, id=table_id)
@@ -410,13 +409,12 @@ def table_copy(request):
     except:
         return JsonResponse({'id':random.randrange(1,100000000)})
 
-    if 'table_id' not in request.POST or \
-       'year' not in request.POST or 'semester' not in request.POST:
+    try:
+        table_id = int(request.POST['table_id'])
+        year = int(request.POST['year'])
+        semester = int(request.POST['semester'])
+    except KeyError:
         return HttpResponseBadRequest('Missing fields in request data')
-
-    table_id = int(request.POST['table_id'])
-    year = int(request.POST['year'])
-    semester = int(request.POST['semester'])
 
     # Find the right timetable
     target_table = TimeTable.objects.get(user=userprofile, id=table_id,
@@ -443,13 +441,12 @@ def table_delete(request):
     except:
         return JsonResponse({})
 
-    if 'table_id' not in request.POST or 'year' not in request.POST or \
-       'semester' not in request.POST:
+    try:
+        table_id = int(request.POST['table_id'])
+        year = int(request.POST['year'])
+        semester = int(request.POST['semester'])
+    except KeyError:
         return HttpResponseBadRequest('Missing fields in request data')
-
-    table_id = int(request.POST['table_id'])
-    year = int(request.POST['year'])
-    semester = int(request.POST['semester'])
     
     tables = list(TimeTable.objects.filter(user=userprofile, id=table_id,
                                            year=year, semester=semester))
@@ -469,11 +466,11 @@ def table_create(request):
     except:
         return JsonResponse({'id':random.randrange(1,100000000)})
 
-    if 'year' not in request.POST or 'semester' not in request.POST:
+    try:
+        year = int(request.POST['year'])
+        semester = int(request.POST['semester'])
+    except KeyError:
         return HttpResponseBadRequest('Missing fields in request data')
-
-    year = int(request.POST['year'])
-    semester = int(request.POST['semester'])
 
     if not _validate_year_semester(year, semester):
         return HttpResponseBadRequest('Invalid semester')
@@ -499,8 +496,11 @@ def table_load(request):
         return JsonResponse(ctx, safe=False, json_dumps_params=
                             {'ensure_ascii': False})
 
-    year = int(request.POST['year'])
-    semester = int(request.POST['semester'])
+    try:
+        year = int(request.POST['year'])
+        semester = int(request.POST['semester'])
+    except KeyError:
+        return HttpResponseBadRequest('Missing fields in request data')
 
     if not _validate_year_semester(year, semester):
         return HttpResponseBadRequest('Invalid semester')
@@ -530,9 +530,12 @@ FLOW = client.flow_from_clientsecrets(settings.GOOGLE_OAUTH2_CLIENT_SECRETS_JSON
 
 @require_POST
 def autocomplete(request):
-    year = int(request.POST['year'])
-    semester = int(request.POST['semester'])
-    keyword = request.POST['keyword']
+    try:
+        year = int(request.POST['year'])
+        semester = int(request.POST['semester'])
+        keyword = request.POST['keyword']
+    except KeyError:
+        return HttpResponseBadRequest('Missing fields in request data')
 
     lectures = Lecture.objects.filter(deleted=False, year=year, semester=semester)
 
@@ -576,8 +579,12 @@ def search(request):
     decoded_request = decoded_request[:decoded_request.rfind("}")+1]
     request_json = json.loads(decoded_request)
 
-    year = request_json['year']
-    semester = request_json['semester']
+    try:
+        year = request_json['year']
+        semester = request_json['semester']
+    except KeyError:
+        return HttpResponseBadRequest('Missing fields in request data')
+
     if not _validate_year_semester(year, semester):
         return HttpResponseBadRequest('Invalid semester')
 
@@ -603,7 +610,11 @@ def search(request):
 
 @require_POST
 def comment_load(request):
-    lecture_id = request.POST['lecture_id']
+    try:
+        lecture_id = request.POST['lecture_id']
+    except KeyError:
+        return HttpResponseBadRequest('Missing fields in request data')
+
     lecture = Lecture.objects.get(id=lecture_id)
     comments = Comment.objects.filter(
         lecture__course=lecture.course,
@@ -632,9 +643,12 @@ def share_calendar(request):
     except:
         return HttpResponseServerError("userprofile not found")
 
-    table_id = int(request.GET['table_id'])
-    year = int(request.GET['year'])
-    semester = int(request.GET['semester'])
+    try:
+        table_id = int(request.GET['table_id'])
+        year = int(request.GET['year'])
+        semester = int(request.GET['semester'])
+    except KeyError:
+        return HttpResponseBadRequest('Missing fields in request data')
 
     storage = DjangoORMStorage(UserProfile, 'user', request.user, 'google_credential')
     credential = storage.get()
@@ -722,8 +736,11 @@ def google_auth_return(request):
 
 @require_POST
 def list_load_major(request):
-    year = int(request.POST["year"])
-    semester = int(request.POST["semester"])
+    try:
+        year = int(request.POST["year"])
+        semester = int(request.POST["semester"])
+    except KeyError:
+        return HttpResponseBadRequest('Missing fields in request data')
 
     if not _validate_year_semester(year, semester):
         return HttpResponseBadRequest('Invalid semester')
@@ -743,8 +760,11 @@ def list_load_major(request):
 
 @require_POST
 def list_load_humanity(request):
-    year = int(request.POST["year"])
-    semester = int(request.POST["semester"])
+    try:
+        year = int(request.POST["year"])
+        semester = int(request.POST["semester"])
+    except KeyError:
+        return HttpResponseBadRequest('Missing fields in request data')
 
     if not _validate_year_semester(year, semester):
         return HttpResponseBadRequest('Invalid semester')
@@ -765,8 +785,11 @@ def wishlist_load(request):
         return JsonResponse([], safe=False, json_dumps_params=
                             {'ensure_ascii': False})
 
-    year = int(request.POST['year'])
-    semester = int(request.POST['semester'])
+    try:
+        year = int(request.POST['year'])
+        semester = int(request.POST['semester'])
+    except KeyError:
+        return HttpResponseBadRequest('Missing fields in request data')
 
     if not _validate_year_semester(year, semester):
         return HttpResponseBadRequest('Invalid semester')
@@ -793,11 +816,12 @@ def wishlist_update(request):
     except:
         return JsonResponse({'success':True})
 
-    if 'lecture_id' not in request.POST:
+    try:
+        lecture_id = request.POST['lecture_id']
+        delete = request.POST['delete'] == u'true'
+    except KeyError:
         return HttpResponseBadRequest('Missing fields in request data')
 
-    lecture_id = request.POST['lecture_id']
-    delete = request.POST['delete'] == u'true'
     w = Wishlist.objects.get(user=userprofile)
     lecture = Lecture.objects.get(id=lecture_id, deleted=False)
 
@@ -879,7 +903,12 @@ def _textbox(draw, points, title, prof, loc, font):
 @login_required_ajax
 def share_image(request):
     userprofile = UserProfile.objects.get(user=request.user)
-    table_id = request.GET['table_id']
+
+    try:
+        table_id = request.GET['table_id']
+    except KeyError:
+        return HttpResponseBadRequest('Missing fields in request data')
+
     timetable = TimeTable.objects.get(user=userprofile, id=table_id)
 
     if settings.DEBUG:
