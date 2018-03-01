@@ -590,11 +590,11 @@ def search(request):
 
     lectures = Lecture.objects.filter(year=year, semester=semester, deleted=False)
     lectures = lectures.exclude(type_en__in=['Individual Study', 'Thesis Study(Undergraduate)', 'Thesis Research(MA/phD)'])
-    lectures = _filter_department(lectures, request_json['department'])
-    lectures = _filter_type(lectures, request_json['type'])
-    lectures = _filter_level(lectures, request_json['grade'])
-    lectures = _filter_time(lectures, request_json['day'], request_json['begin'], request_json['end'])
-    lectures = _filter_keyword(lectures, request_json['keyword'].replace('+', ' '))
+    lectures = _filter_department(lectures, request_json.get('department', []))
+    lectures = _filter_type(lectures, request_json.get('type', []))
+    lectures = _filter_level(lectures, request_json.get('grade', []))
+    lectures = _filter_time(lectures, request_json.get('day', ''), request_json.get('begin', ''), request_json.get('end', ''))
+    lectures = _filter_keyword(lectures, request_json.get('keyword', '').replace('+', ' '))
 
     if len(lectures) > 500:
         too_many = True
