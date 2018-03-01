@@ -166,51 +166,6 @@ def _lecture_result_format(ls, from_search = False):
 
 
 
-# Convert a classtime model into dict
-def _classtime_to_dict(ct):
-    bldg = getattr(ct, _("roomName"))
-    # No classroom info
-    if bldg == None:
-        room = ""
-        bldg_no = ""
-        classroom = _(u"정보 없음")
-        classroom_short = _(u"정보 없음")
-    # Building name has form of "(N1) xxxxx"
-    elif bldg[0] == "(":
-        bldg_no = bldg[1:bldg.find(")")]
-        bldg_name = bldg[len(bldg_no)+2:]
-        room = getattr(ct, _("roomNum"))
-        if room == None: room=""
-        classroom = "(" + bldg_no + ") " + bldg_name + " " + room
-        classroom_short = "(" + bldg_no + ") " + room
-    # Building name has form of "xxxxx"
-    else:
-        bldg_no=""
-        room = getattr(ct, _("roomNum"))
-        if room == None: room=""
-        classroom = bldg + " " + room
-        classroom_short = bldg + " " + room
-
-    return {"building": bldg_no,
-            "classroom": classroom,
-            "classroom_short": classroom_short,
-            "room": room,
-            "day": ct.day,
-            "begin": ct.get_begin_numeric(),
-            "end": ct.get_end_numeric(),}
-
-
-
-# Convert a examtime model into dict
-def _examtime_to_dict(ct):
-    day_str = [_(u"월요일"), _(u"화요일"), _(u"수요일"), _(u"목요일"), _(u"금요일"), _(u"토요일"), _(u"일요일")]
-    return {"day": ct.day,
-            "str": day_str[ct.day] + " " + ct.begin.strftime("%H:%M") + " ~ " + ct.end.strftime("%H:%M"),
-            "begin": ct.get_begin_numeric(),
-            "end": ct.get_end_numeric(),}
-
-
-
 def _get_scores(lecture):
     comment_num = lecture.comment_num
     if comment_num == 0:
@@ -248,9 +203,7 @@ def _lecture_to_dict(lecture):
               "credit": lecture.credit,
               "credit_au": lecture.credit_au,
               "common_title": getattr(lecture, _("common_title")),
-              "class_title": getattr(lecture, _("class_title")),
-              "classtimes": [_classtime_to_dict(ct) for ct in lecture.classtime_set.all()],
-              "examtimes": [_examtime_to_dict(et) for et in lecture.examtime_set.all()],}
+              "class_title": getattr(lecture, _("class_title")),}
     
     # Add formatted professor name
     prof_name_list = [getattr(p, _("professor_name")) for p in lecture.professor.all()]
@@ -280,6 +233,40 @@ def _lecture_to_dict(lecture):
         result['load_letter'] = letters[int(round(load))]
         result['speech_letter'] = letters[int(round(speech))]
 
+    # Add classtime
+    result["classtimes"] = []
+    for ct in lecture.classtime_set.all():
+        bldg = getattr(ct, _("roomName"))
+        # No classroom info
+        if bldg == None:
+            room = ""
+            bldg_no = ""
+            classroom = _(u"정보 없음")
+            classroom_short = _(u"정보 없음")
+        # Building name has form of "(N1) xxxxx"
+        elif bldg[0] == "(":
+            bldg_no = bldg[1:bldg.find(")")]
+            bldg_name = bldg[len(bldg_no)+2:]
+            room = getattr(ct, _("roomNum"))
+            if room == None: room=""
+            classroom = "(" + bldg_no + ") " + bldg_name + " " + room
+            classroom_short = "(" + bldg_no + ") " + room
+        # Building name has form of "xxxxx"
+        else:
+            bldg_no=""
+            room = getattr(ct, _("roomNum"))
+            if room == None: room=""
+            classroom = bldg + " " + room
+            classroom_short = bldg + " " + room
+
+        result["classtimes"].append({"building": bldg_no,
+                                     "classroom": classroom,
+                                     "classroom_short": classroom_short,
+                                     "room": room,
+                                     "day": ct.day,
+                                     "begin": ct.get_begin_numeric(),
+                                     "end": ct.get_end_numeric(),})
+
     # Add classroom info
     if len(result['classtimes']) > 0:
         result['building'] = result['classtimes'][0]['building']
@@ -291,6 +278,15 @@ def _lecture_to_dict(lecture):
         result['classroom'] = _(u'정보 없음')
         result['classroom_short'] = _(u'정보 없음')
         result['room'] = ''
+
+    # Add examtime
+    result["examtimes"] = []
+    for et in lecture.examtime_set.all():
+        day_str = [_(u"월요일"), _(u"화요일"), _(u"수요일"), _(u"목요일"), _(u"금요일"), _(u"토요일"), _(u"일요일")]
+        result["examtimes"].append({"day": ct.day,
+                                    "str": day_str[ct.day] + " " + ct.begin.strftime("%H:%M") + " ~ " + ct.end.strftime("%H:%M"),
+                                    "begin": ct.get_begin_numeric(),
+                                    "end": ct.get_end_numeric(),})
 
     # Add exam info
     if len(result['examtimes']) > 1:
