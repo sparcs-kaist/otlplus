@@ -53,76 +53,77 @@ from PIL import Image, ImageDraw, ImageFont
 
 
 
-# Convert given depertment filter into DB-understandable form
-def _get_department_filter(raw_filters):
-    department_list = []
-    for department in Department.objects.all():
-        department_list.append(department.code)
+# Filter lectures by type
+def _filter_department(lectures, filters):
     major_list = ["CE", "MSB", "ME", "PH", "BiS", "IE", "ID", "BS", "CBE", "MAS",
                   "MS", "NQE", "HSS", "EE", "CS", "AE", "CH"]
-    etc_list = list(set(department_list) ^ set(major_list))
-    if ("ALL" in raw_filters) or len(raw_filters) == 0:
-        return department_list
-    filters = list(set(department_list) & set(raw_filters))
-    if "ETC" in raw_filters:
-        filters += etc_list
-    return filters
+
+    if "ALL" in filters:
+        return lectures
+    elif len(filters) == 0:
+        return lectures.none()
+    elif "ETC" in filters:
+        return lectures.exclude(department__code__in = set(major_list) - set(filters))
+    else:
+        return lectures.filter(department__code__in = filters)
 
 
 
-# Convert given type filter into DB-understandable form
-def _get_type_filter(raw_filters):
+# Filter lectures by type
+def _filter_type(lectures, filters):
     acronym_dic = {'GR': 'General Required', 'MGC': 'Mandatory General Courses', 'BE': 'Basic Elective',
                    'BR': 'Basic Required', 'EG': 'Elective(Graduate)', 'HSE': 'Humanities & Social Elective',
-                   'OE': 'Other Elective', 'ME': 'Major Elective', 'MR': 'Major Required',
-                   'S': 'Seminar', 'I': 'Interdisciplinary', 'FP': 'Field Practice'}
-    type_list = acronym_dic.keys()
-    if ('ALL' in raw_filters) or len(raw_filters)==0 :
-        filters = [acronym_dic[i] for i in type_list if acronym_dic.has_key(i)]
-        return filters
-    acronym_filters = list(set(type_list) & set(raw_filters))
-    filters = [acronym_dic[i] for i in acronym_filters if acronym_dic.has_key(i)]
-    if 'ETC' in raw_filters:
-        filters += ["Seminar", "Interdisciplinary", "Field Practice"]
-    return filters
+                   'OE': 'Other Elective', 'ME': 'Major Elective', 'MR': 'Major Required'}
+
+    if "ALL" in filters:
+        return lectures
+    elif len(filters) == 0:
+        return lectures.none()
+    elif "ETC" in filters:
+        return lectures.exclude(type_en__in = [acronym_dic[x] for x in acronym_dic if x not in filters])
+    else:
+        return lectures.filter(type_en__in = [acronym_dic[x] for x in acronym_dic if x in filters])
 
 
 
-# Convert given level filter into DB-understandable form
-def _get_level_filter(raw_filters):
+# Filter lectures by level
+def _filter_level(lectures, filters):
     acronym_dic = {'100':"1", '200':"2", '300':"3", '400':"4"}
-    grade_list = acronym_dic.keys()
-    acronym_filters = list(set(grade_list) & set(raw_filters))
-    filters = [acronym_dic[i] for i in acronym_filters if acronym_dic.has_key(i)]
-    if 'ETC' in raw_filters:
-        filters+=["0", "5", "6", "7", "8", "9"]
-    if ('ALL' in raw_filters) or len(raw_filters)==0 :
-        filters=["0","1","2","3","4","5","6","7","8","9"]
-    return filters
+
+    if "ALL" in filters:
+        return lectures
+    elif len(filters) == 0:
+        return lectures.none()
+    elif "ETC" in filters:
+        return lectures.exclude(course__code_num__in = [acronym_dic[x] for x in acronym_dic if x not in filters])
+    else:
+        return lectures.filter(course__code_num__in = [acronym_dic[x] for x in acronym_dic if x in filters])
 
 
 
-# Yield lectures from DB
-def _get_filtered_lectures(year, semester, department_filters, type_filters, level_filters, keyword, day, begin, end):
-    lectures = Lecture.objects.filter(
-        year=year,
-        semester=semester,
-        department__code__in=department_filters,
-        type_en__in=type_filters,
-        course__code_num__in=level_filters,
-        deleted=False
-    )
+# Filter lectures by level
+def _filter_time(lectures, day, begin, end):
+    if len(day) == 0 or \
+       len(begin) == 0 or \
+       len(end) == 0:
+        return lectures
+    elif int(end) == 32:
+        # End is 24:00
+        return lectures.filter(classtime_set__day = int(day),
+                               classtime_set__begin__gte = datetime.time(int(begin)/2+8, (int(begin)%2)*30))
+    else:
+        return lectures.filter(classtime_set__day = int(day),
+                               classtime_set__begin__gte = datetime.time(int(begin)/2+8, (int(begin)%2)*30),
+                               classtime_set__end__lte = datetime.time(int(end)/2+8, (int(end)%2)*30))
 
-    if day!=None and begin!=None:
-        if end != None:
-            lectures = lectures.filter(classtime_set__day=day, classtime_set__begin__gte=begin, classtime_set__end__lte=end)
-        else:
-            # End is 24:00
-            lectures = lectures.filter(classtime_set__day=day, classtime_set__begin__gte=begin)
 
-    # language 에 따라서 구별해주는게 나으려나.. 영어이름만 있는 경우에는? 그러면 그냥 name 필드도 영어로 들어가나.
-    if len(keyword) > 0:
-        lectures = lectures.filter(
+
+# Filter lectures by keyword
+def _filter_keyword(lectures, keyword):
+    if len(keyword) == 0:
+        return lectures
+    else:
+        return lectures.filter(
             Q(title__icontains=keyword) |
             Q(title_en__icontains=keyword) |
             Q(old_code__iexact=keyword) |
@@ -131,8 +132,6 @@ def _get_filtered_lectures(year, semester, department_filters, type_filters, lev
             Q(professor__professor_name__icontains=keyword) |
             Q(professor__professor_name_en__icontains=keyword)
         ).distinct()
-
-    return lectures
 
 
 
@@ -579,35 +578,22 @@ def search(request):
 
     year = request_json['year']
     semester = request_json['semester']
-    department_filters = _get_department_filter(request_json['department'])
-    type_filters = _get_type_filter(request_json['type'])
-    level_filters = _get_level_filter(request_json['grade'])
-    keyword = request_json['keyword'].replace('+', ' ')
-
     if not _validate_year_semester(year, semester):
         return HttpResponseBadRequest('Invalid semester')
 
-    if len(request_json["day"])>0 and len(request_json["begin"])>0 and len(request_json["end"])>0:
-        day = int(request_json["day"])
-        beginIdx = int(request_json["begin"])
-        begin = datetime.time(beginIdx/2+8, (beginIdx%2)*30)
-        endIdx = int(request_json["end"])
-        if endIdx < 32:
-            end = datetime.time(endIdx/2+8, (endIdx%2)*30)
-        else:
-            # 24:00
-            end = None
-    else:
-        day = None
-        begin = None
-        end = None
-    
-    result = _get_filtered_lectures(year, semester, department_filters, type_filters, level_filters, keyword, day, begin, end)
-    if len(result) > 500:
+    lectures = Lecture.objects.filter(year=year, semester=semester, deleted=False)
+    lectures = lectures.exclude(type_en__in=['Individual Study', 'Thesis Study(Undergraduate)', 'Thesis Research(MA/phD)'])
+    lectures = _filter_department(lectures, request_json['department'])
+    lectures = _filter_type(lectures, request_json['type'])
+    lectures = _filter_level(lectures, request_json['grade'])
+    lectures = _filter_time(lectures, request_json['day'], request_json['begin'], request_json['end'])
+    lectures = _filter_keyword(lectures, request_json['keyword'].replace('+', ' '))
+
+    if len(lectures) > 500:
         too_many = True
     else:
         too_many = False
-    result = _lecture_result_format(result, from_search = True)
+    result = _lecture_result_format(lectures, from_search = True)
 
     return JsonResponse({'courses':result, 'too_many':too_many},
                         safe=False,
