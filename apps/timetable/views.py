@@ -11,6 +11,7 @@ from django.contrib.auth.models import User
 # Django modules
 from django.db.models import Q
 from django.db import IntegrityError
+from django.forms.models import model_to_dict
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseBadRequest, HttpResponseServerError, JsonResponse
 from django.contrib.auth.decorators import login_required
 from utils.decorators import login_required_ajax
@@ -779,7 +780,7 @@ def wishlist_load(request):
     if not _validate_year_semester(year, semester):
         return HttpResponseBadRequest('Invalid semester')
 
-    w = Wishlist.objects.get_or_create(user=userprofile)
+    w = Wishlist.objects.get_or_create(user=userprofile)[0]
 
     lectures = w.lectures.filter(year=year, semester=semester, deleted=False)
     result = _lecture_result_format(lectures)
