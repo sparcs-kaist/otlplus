@@ -48,9 +48,6 @@ class Lecture(models.Model):
     total = models.FloatField(default=0.0)
     comment_num = models.IntegerField(default=0)
 
-    syllabus = models.CharField(max_length=260, blank=True, null=True) #실라부스 url저장
-    # TODO syllabus url 만드는 method만들기.
-
     def recalc_score(self):
         from apps.review.models import Comment
         self.comment_num = 0
@@ -183,7 +180,6 @@ class ExamTime(models.Model):
 
 class ClassTime(models.Model):
     """Lecture 에 배정된강의시간, 보통 하나의  Lecture 가 여러개의 강의시간을 가진다."""
-    """스크립트 짤 때 주의해야 할 부분은 호실 필드이다!!!!"""
     lecture = models.ForeignKey(Lecture, related_name="classtime_set", null=True)
     day = models.SmallIntegerField(choices=WEEKDAYS) #강의 요일
     begin = models.TimeField() # hh:mm 형태의 강의 시작시각 (24시간제)

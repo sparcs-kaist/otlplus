@@ -5,25 +5,18 @@ from apps.session.models import UserProfile
 from apps.timetable.models import TimeTable, Wishlist
 from apps.subject.models import Lecture, Professor, Course
 from apps.review.models import Comment
-from django.contrib.auth.models import User
 from apps.subject.models import *
-# from apps.subject.models import ClassTime, ExamTime
-from django.http.response import HttpResponseNotAllowed, HttpResponseBadRequest
-from django.http import JsonResponse
+from django.contrib.auth.models import User
 
 # Django modules
 from django.db.models import Q
 from django.db import IntegrityError
-from django.core import serializers
-from django.forms.models import model_to_dict
-from django.core.exceptions import *
-from django.http import *
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseBadRequest, HttpResponseServerError, JsonResponse
 from django.contrib.auth.decorators import login_required
 from utils.decorators import login_required_ajax
 from django.views.decorators.http import require_POST
 from django.conf import settings
 from django.shortcuts import render, redirect
-from django.db.models import Max
 from django.utils.translation import ugettext as _
 from django.template import RequestContext
 from django.utils import translation
@@ -41,12 +34,9 @@ from oauth2client.contrib.django_util.storage import DjangoORMStorage
 
 import datetime
 import httplib2
-# Misc
-import os
 import json
 import urllib
 import random
-import itertools
 
 # Pillow
 from PIL import Image, ImageDraw, ImageFont
@@ -155,59 +145,16 @@ def _get_preset_lectures(year, semester, code):
 # List(Lecture) -> List[dict-Lecture]
 # Format raw result from models into javascript-understandable form
 def _lecture_result_format(ls, from_search = False):
-    ls = ls.select_related('course', 'department').prefetch_related('classtime_set', 'examtime_set', 'professor')
+    ls = ls.select_related('course', 'department') \
+           .prefetch_related('classtime_set', 'examtime_set', 'professor') \
+           .order_by('old_code', 'class_no')
+
     if from_search:
         ls = ls[:500]
+
     result = [_lecture_to_dict(x) for x in ls]
-    result.sort(key = (lambda x:x['class_no']))
-    result.sort(key = (lambda x:x['old_code']))
 
     return result
-
-
-
-# Convert a classtime model into dict
-def _classtime_to_dict(ct):
-    bldg = getattr(ct, _("roomName"))
-    # No classroom info
-    if bldg == None:
-        room = ""
-        bldg_no = ""
-        classroom = _(u"정보 없음")
-        classroom_short = _(u"정보 없음")
-    # Building name has form of "(N1) xxxxx"
-    elif bldg[0] == "(":
-        bldg_no = bldg[1:bldg.find(")")]
-        bldg_name = bldg[len(bldg_no)+2:]
-        room = getattr(ct, _("roomNum"))
-        if room == None: room=""
-        classroom = "(" + bldg_no + ") " + bldg_name + " " + room
-        classroom_short = "(" + bldg_no + ") " + room
-    # Building name has form of "xxxxx"
-    else:
-        bldg_no=""
-        room = getattr(ct, _("roomNum"))
-        if room == None: room=""
-        classroom = bldg + " " + room
-        classroom_short = bldg + " " + room
-
-    return {"building": bldg_no,
-            "classroom": classroom,
-            "classroom_short": classroom_short,
-            "room": room,
-            "day": ct.day,
-            "begin": ct.get_begin_numeric(),
-            "end": ct.get_end_numeric(),}
-
-
-
-# Convert a examtime model into dict
-def _examtime_to_dict(ct):
-    day_str = [_(u"월요일"), _(u"화요일"), _(u"수요일"), _(u"목요일"), _(u"금요일"), _(u"토요일"), _(u"일요일")]
-    return {"day": ct.day,
-            "str": day_str[ct.day] + " " + ct.begin.strftime("%H:%M") + " ~ " + ct.end.strftime("%H:%M"),
-            "begin": ct.get_begin_numeric(),
-            "end": ct.get_end_numeric(),}
 
 
 
@@ -248,9 +195,7 @@ def _lecture_to_dict(lecture):
               "credit": lecture.credit,
               "credit_au": lecture.credit_au,
               "common_title": getattr(lecture, _("common_title")),
-              "class_title": getattr(lecture, _("class_title")),
-              "classtimes": [_classtime_to_dict(ct) for ct in lecture.classtime_set.all()],
-              "examtimes": [_examtime_to_dict(et) for et in lecture.examtime_set.all()],}
+              "class_title": getattr(lecture, _("class_title")),}
     
     # Add formatted professor name
     prof_name_list = [getattr(p, _("professor_name")) for p in lecture.professor.all()]
@@ -280,6 +225,40 @@ def _lecture_to_dict(lecture):
         result['load_letter'] = letters[int(round(load))]
         result['speech_letter'] = letters[int(round(speech))]
 
+    # Add classtime
+    result["classtimes"] = []
+    for ct in lecture.classtime_set.all():
+        bldg = getattr(ct, _("roomName"))
+        # No classroom info
+        if bldg == None:
+            room = ""
+            bldg_no = ""
+            classroom = _(u"정보 없음")
+            classroom_short = _(u"정보 없음")
+        # Building name has form of "(N1) xxxxx"
+        elif bldg[0] == "(":
+            bldg_no = bldg[1:bldg.find(")")]
+            bldg_name = bldg[len(bldg_no)+2:]
+            room = getattr(ct, _("roomNum"))
+            if room == None: room=""
+            classroom = "(" + bldg_no + ") " + bldg_name + " " + room
+            classroom_short = "(" + bldg_no + ") " + room
+        # Building name has form of "xxxxx"
+        else:
+            bldg_no=""
+            room = getattr(ct, _("roomNum"))
+            if room == None: room=""
+            classroom = bldg + " " + room
+            classroom_short = bldg + " " + room
+
+        result["classtimes"].append({"building": bldg_no,
+                                     "classroom": classroom,
+                                     "classroom_short": classroom_short,
+                                     "room": room,
+                                     "day": ct.day,
+                                     "begin": ct.get_begin_numeric(),
+                                     "end": ct.get_end_numeric(),})
+
     # Add classroom info
     if len(result['classtimes']) > 0:
         result['building'] = result['classtimes'][0]['building']
@@ -291,6 +270,15 @@ def _lecture_to_dict(lecture):
         result['classroom'] = _(u'정보 없음')
         result['classroom_short'] = _(u'정보 없음')
         result['room'] = ''
+
+    # Add examtime
+    result["examtimes"] = []
+    for et in lecture.examtime_set.all():
+        day_str = [_(u"월요일"), _(u"화요일"), _(u"수요일"), _(u"목요일"), _(u"금요일"), _(u"토요일"), _(u"일요일")]
+        result["examtimes"].append({"day": ct.day,
+                                    "str": day_str[ct.day] + " " + ct.begin.strftime("%H:%M") + " ~ " + ct.end.strftime("%H:%M"),
+                                    "begin": ct.get_begin_numeric(),
+                                    "end": ct.get_end_numeric(),})
 
     # Add exam info
     if len(result['examtimes']) > 1:
@@ -448,12 +436,9 @@ def table_delete(request):
     except KeyError:
         return HttpResponseBadRequest('Missing fields in request data')
     
-    tables = list(TimeTable.objects.filter(user=userprofile, id=table_id,
-                                           year=year, semester=semester))
-    if len(tables) == 0:
-        return JsonResponse({ 'success': False, 'reason': 'No such timetable exist' })
-
-    tables[0].delete()
+    target_table = TimeTable.objects.get(user=userprofile, id=table_id,
+                                         year=year, semester=semester)
+    target_table.delete()
     return JsonResponse({ 'scucess': True })
 
 
@@ -794,11 +779,7 @@ def wishlist_load(request):
     if not _validate_year_semester(year, semester):
         return HttpResponseBadRequest('Invalid semester')
 
-    try:
-        w = Wishlist.objects.get(user=userprofile)
-    except Wishlist.DoesNotExist:
-        w = Wishlist(user=userprofile)
-        w.save()
+    w = Wishlist.objects.get_or_create(user=userprofile)
 
     lectures = w.lectures.filter(year=year, semester=semester, deleted=False)
     result = _lecture_result_format(lectures)
