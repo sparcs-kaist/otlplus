@@ -155,12 +155,14 @@ def _get_preset_lectures(year, semester, code):
 # List(Lecture) -> List[dict-Lecture]
 # Format raw result from models into javascript-understandable form
 def _lecture_result_format(ls, from_search = False):
-    ls = ls.select_related('course', 'department').prefetch_related('classtime_set', 'examtime_set', 'professor')
+    ls = ls.select_related('course', 'department') \
+           .prefetch_related('classtime_set', 'examtime_set', 'professor') \
+           .order_by('old_code', 'class_no')
+
     if from_search:
         ls = ls[:500]
+
     result = [_lecture_to_dict(x) for x in ls]
-    result.sort(key = (lambda x:x['class_no']))
-    result.sort(key = (lambda x:x['old_code']))
 
     return result
 
@@ -444,12 +446,9 @@ def table_delete(request):
     except KeyError:
         return HttpResponseBadRequest('Missing fields in request data')
     
-    tables = list(TimeTable.objects.filter(user=userprofile, id=table_id,
-                                           year=year, semester=semester))
-    if len(tables) == 0:
-        return JsonResponse({ 'success': False, 'reason': 'No such timetable exist' })
-
-    tables[0].delete()
+    target_table = TimeTable.objects.get(user=userprofile, id=table_id,
+                                         year=year, semester=semester)
+    target_table.delete()
     return JsonResponse({ 'scucess': True })
 
 
@@ -790,11 +789,7 @@ def wishlist_load(request):
     if not _validate_year_semester(year, semester):
         return HttpResponseBadRequest('Invalid semester')
 
-    try:
-        w = Wishlist.objects.get(user=userprofile)
-    except Wishlist.DoesNotExist:
-        w = Wishlist(user=userprofile)
-        w.save()
+    w = Wishlist.objects.get_or_create(user=userprofile)
 
     lectures = w.lectures.filter(year=year, semester=semester, deleted=False)
     result = _lecture_result_format(lectures)
