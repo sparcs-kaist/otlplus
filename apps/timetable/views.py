@@ -276,10 +276,10 @@ def _lecture_to_dict(lecture):
     result["examtimes"] = []
     for et in lecture.examtime_set.all():
         day_str = [_(u"월요일"), _(u"화요일"), _(u"수요일"), _(u"목요일"), _(u"금요일"), _(u"토요일"), _(u"일요일")]
-        result["examtimes"].append({"day": ct.day,
-                                    "str": day_str[ct.day] + " " + ct.begin.strftime("%H:%M") + " ~ " + ct.end.strftime("%H:%M"),
-                                    "begin": ct.get_begin_numeric(),
-                                    "end": ct.get_end_numeric(),})
+        result["examtimes"].append({"day": et.day,
+                                    "str": day_str[et.day] + " " + et.begin.strftime("%H:%M") + " ~ " + et.end.strftime("%H:%M"),
+                                    "begin": et.get_begin_numeric(),
+                                    "end": et.get_end_numeric(),})
 
     # Add exam info
     if len(result['examtimes']) > 1:
