@@ -5,25 +5,18 @@ from apps.session.models import UserProfile
 from apps.timetable.models import TimeTable, Wishlist
 from apps.subject.models import Lecture, Professor, Course
 from apps.review.models import Comment
-from django.contrib.auth.models import User
 from apps.subject.models import *
-# from apps.subject.models import ClassTime, ExamTime
-from django.http.response import HttpResponseNotAllowed, HttpResponseBadRequest
-from django.http import JsonResponse
+from django.contrib.auth.models import User
 
 # Django modules
 from django.db.models import Q
 from django.db import IntegrityError
-from django.core import serializers
-from django.forms.models import model_to_dict
-from django.core.exceptions import *
-from django.http import *
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseBadRequest, HttpResponseServerError, JsonResponse
 from django.contrib.auth.decorators import login_required
 from utils.decorators import login_required_ajax
 from django.views.decorators.http import require_POST
 from django.conf import settings
 from django.shortcuts import render, redirect
-from django.db.models import Max
 from django.utils.translation import ugettext as _
 from django.template import RequestContext
 from django.utils import translation
@@ -41,12 +34,9 @@ from oauth2client.contrib.django_util.storage import DjangoORMStorage
 
 import datetime
 import httplib2
-# Misc
-import os
 import json
 import urllib
 import random
-import itertools
 
 # Pillow
 from PIL import Image, ImageDraw, ImageFont
