@@ -356,10 +356,10 @@ def main(request):
 # Add/Delete lecture to timetable
 @require_POST
 def table_update(request):
-    try:
-        userprofile = UserProfile.objects.get(user=request.user)
-    except:
+    if not request.user.is_authenticated():
         return JsonResponse({'success':True})
+
+    userprofile = UserProfile.objects.get(user=request.user)
 
     try:
         table_id = int(request.POST['table_id'])
@@ -392,10 +392,10 @@ def table_update(request):
 # Copy timetable
 @require_POST
 def table_copy(request):
-    try:
-        userprofile = UserProfile.objects.get(user=request.user)
-    except:
+    if not request.user.is_authenticated():
         return JsonResponse({'id':random.randrange(1,100000000)})
+    
+    userprofile = UserProfile.objects.get(user=request.user)
 
     try:
         table_id = int(request.POST['table_id'])
@@ -424,10 +424,10 @@ def table_copy(request):
 # Delete timetable
 @require_POST
 def table_delete(request):
-    try:
-        userprofile = UserProfile.objects.get(user=request.user)
-    except:
+    if not request.user.is_authenticated():
         return JsonResponse({})
+
+    userprofile = UserProfile.objects.get(user=request.user)
 
     try:
         table_id = int(request.POST['table_id'])
@@ -446,10 +446,10 @@ def table_delete(request):
 # Create timetable
 @require_POST
 def table_create(request):
-    try:
-        userprofile = UserProfile.objects.get(user=request.user)
-    except:
+    if not request.user.is_authenticated():
         return JsonResponse({'id':random.randrange(1,100000000)})
+
+    userprofile = UserProfile.objects.get(user=request.user)
 
     try:
         year = int(request.POST['year'])
@@ -471,13 +471,13 @@ def table_create(request):
 # Fetch timetable
 @require_POST
 def table_load(request):
-    try:
-        userprofile = UserProfile.objects.get(user=request.user)
-    except:
+    if not request.user.is_authenticated():
         ctx = [{'id':random.randrange(1,100000000),
                 'lectures':[]}]
         return JsonResponse(ctx, safe=False, json_dumps_params=
                             {'ensure_ascii': False})
+
+    userprofile = UserProfile.objects.get(user=request.user)
 
     try:
         year = int(request.POST['year'])
@@ -620,10 +620,7 @@ def comment_load(request):
 @login_required_ajax
 def share_calendar(request):
     user = request.user
-    try:
-        userprofile = UserProfile.objects.get(user=user)
-    except:
-        return HttpResponseServerError("userprofile not found")
+    userprofile = UserProfile.objects.get(user=user)
 
     try:
         table_id = int(request.GET['table_id'])
@@ -761,11 +758,11 @@ def list_load_humanity(request):
 # Fetch wishlist
 @require_POST
 def wishlist_load(request):
-    try:
-        userprofile = UserProfile.objects.get(user=request.user)
-    except:
+    if not request.user.is_authenticated():
         return JsonResponse([], safe=False, json_dumps_params=
                             {'ensure_ascii': False})
+
+    userprofile = UserProfile.objects.get(user=request.user)
 
     try:
         year = int(request.POST['year'])
@@ -789,10 +786,10 @@ def wishlist_load(request):
 # Add/delete lecture to wishlist.
 @require_POST
 def wishlist_update(request):
-    try:
-        userprofile = UserProfile.objects.get(user=request.user)
-    except:
+    if not request.user.is_authenticated():
         return JsonResponse({'success':True})
+
+    userprofile = UserProfile.objects.get(user=request.user)
 
     try:
         lecture_id = request.POST['lecture_id']
