@@ -664,7 +664,7 @@ def share_calendar(request):
         timetable = TimeTable.objects.get(user=userprofile, id=table_id,
                                           year=year, semester=semester)
     except:
-        return HttpResponseBadRequest('Missing fields in request data')
+        return HttpResponseBadRequest('No such timetable')
 
     start = settings.SEMESTER_RANGES[(year,semester)][0]
     end = settings.SEMESTER_RANGES[(year,semester)][1] + datetime.timedelta(days=1)
@@ -707,7 +707,7 @@ def share_calendar(request):
 def google_auth_return(request):
     if not xsrfutil.validate_token(settings.SECRET_KEY, str(request.GET['state']),
                                    request.user):
-        return HttpResponseBadRequest('Missing fields in request data')
+        return HttpResponseBadRequest('Invalid token')
     credential = FLOW.step2_exchange(request.GET)
     storage = DjangoORMStorage(UserProfile, 'user', request.user, 'google_credential')
     storage.put(credential)
