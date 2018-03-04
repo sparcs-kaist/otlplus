@@ -11,7 +11,6 @@ from django.contrib.auth.models import User
 # Django modules
 from django.db.models import Q
 from django.db import IntegrityError
-from django.forms.models import model_to_dict
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseBadRequest, HttpResponseServerError, JsonResponse
 from django.contrib.auth.decorators import login_required
 from utils.decorators import login_required_ajax
@@ -475,9 +474,7 @@ def table_load(request):
     try:
         userprofile = UserProfile.objects.get(user=request.user)
     except:
-        ctx = [{'year':int(request.POST['year']),
-                'semester':int(request.POST['semester']),
-                'id':random.randrange(1,100000000),
+        ctx = [{'id':random.randrange(1,100000000),
                 'lectures':[]}]
         return JsonResponse(ctx, safe=False, json_dumps_params=
                             {'ensure_ascii': False})
@@ -493,18 +490,17 @@ def table_load(request):
 
     timetables = list(TimeTable.objects.filter(user=userprofile, year=year, semester=semester))
 
-    ctx = []
-
     if len(timetables) == 0:
         # Create new timetable if no timetable exists
         t = TimeTable(user=userprofile, year=year, semester=semester)
         t.save()
         timetables = [t]
 
+    ctx = []
     for i, t in enumerate(timetables):
-        timetable = model_to_dict(t, exclude='lecture')
+        timetable = {"id": t.id,
+                     "lectures":_lecture_result_format(t.lecture.filter(deleted=False))}
         ctx.append(timetable)
-        ctx[i]['lectures'] = _lecture_result_format(t.lecture.filter(deleted=False))
 
     return JsonResponse(ctx, safe=False, json_dumps_params=
                         {'ensure_ascii': False})
