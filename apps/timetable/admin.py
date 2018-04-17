@@ -3,8 +3,8 @@ from apps.timetable.models import TimeTable
 
 
 class TimeTableAdmin(admin.ModelAdmin):
-    list_display = ('year', 'semester', 'table_id')
-    ordering = ('year','semester','table_id',)
+    list_display = ('year', 'semester')
+    ordering = ('year','semester')
 
 
 admin.site.register(TimeTable, TimeTableAdmin)
