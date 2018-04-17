@@ -488,16 +488,16 @@ def table_load(request):
     if not _validate_year_semester(year, semester):
         return HttpResponseBadRequest('Invalid semester')
 
-    timetables = list(TimeTable.objects.filter(user=userprofile, year=year, semester=semester))
+    timetables = TimeTable.objects.filter(user=userprofile, year=year, semester=semester)
 
-    if len(timetables) == 0:
+    if not timetables.exists():
         # Create new timetable if no timetable exists
         t = TimeTable(user=userprofile, year=year, semester=semester)
         t.save()
         timetables = [t]
 
     ctx = []
-    for i, t in enumerate(timetables):
+    for t in timetables:
         timetable = {"id": t.id,
                      "lectures":_lecture_result_format(t.lecture.filter(deleted=False))}
         ctx.append(timetable)
@@ -578,7 +578,7 @@ def search(request):
     lectures = _filter_time(lectures, request_json.get('day', ''), request_json.get('begin', ''), request_json.get('end', ''))
     lectures = _filter_keyword(lectures, request_json.get('keyword', '').replace('+', ' '))
 
-    if len(lectures) > 500:
+    if lectures.count() > 500:
         too_many = True
     else:
         too_many = False
