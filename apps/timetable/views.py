@@ -5,25 +5,18 @@ from apps.session.models import UserProfile
 from apps.timetable.models import TimeTable, Wishlist
 from apps.subject.models import Lecture, Professor, Course
 from apps.review.models import Comment
-from django.contrib.auth.models import User
 from apps.subject.models import *
-# from apps.subject.models import ClassTime, ExamTime
-from django.http.response import HttpResponseNotAllowed, HttpResponseBadRequest
-from django.http import JsonResponse
+from django.contrib.auth.models import User
 
 # Django modules
 from django.db.models import Q
 from django.db import IntegrityError
-from django.core import serializers
-from django.forms.models import model_to_dict
-from django.core.exceptions import *
-from django.http import *
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseBadRequest, HttpResponseServerError, JsonResponse
 from django.contrib.auth.decorators import login_required
 from utils.decorators import login_required_ajax
 from django.views.decorators.http import require_POST
 from django.conf import settings
 from django.shortcuts import render, redirect
-from django.db.models import Max
 from django.utils.translation import ugettext as _
 from django.template import RequestContext
 from django.utils import translation
@@ -41,88 +34,86 @@ from oauth2client.contrib.django_util.storage import DjangoORMStorage
 
 import datetime
 import httplib2
-# Misc
-import os
 import json
 import urllib
 import random
-import itertools
 
 # Pillow
 from PIL import Image, ImageDraw, ImageFont
 
 
 
-# Convert given depertment filter into DB-understandable form
-def _get_department_filter(raw_filters):
-    department_list = []
-    for department in Department.objects.all():
-        department_list.append(department.code)
+# Filter lectures by type
+def _filter_department(lectures, filters):
     major_list = ["CE", "MSB", "ME", "PH", "BiS", "IE", "ID", "BS", "CBE", "MAS",
                   "MS", "NQE", "HSS", "EE", "CS", "AE", "CH"]
-    etc_list = list(set(department_list) ^ set(major_list))
-    if ("ALL" in raw_filters) or len(raw_filters) == 0:
-        return department_list
-    filters = list(set(department_list) & set(raw_filters))
-    if "ETC" in raw_filters:
-        filters += etc_list
-    return filters
+
+    if "ALL" in filters:
+        return lectures
+    elif len(filters) == 0:
+        return lectures.none()
+    elif "ETC" in filters:
+        return lectures.exclude(department__code__in = set(major_list) - set(filters))
+    else:
+        return lectures.filter(department__code__in = filters)
 
 
 
-# Convert given type filter into DB-understandable form
-def _get_type_filter(raw_filters):
+# Filter lectures by type
+def _filter_type(lectures, filters):
     acronym_dic = {'GR': 'General Required', 'MGC': 'Mandatory General Courses', 'BE': 'Basic Elective',
                    'BR': 'Basic Required', 'EG': 'Elective(Graduate)', 'HSE': 'Humanities & Social Elective',
-                   'OE': 'Other Elective', 'ME': 'Major Elective', 'MR': 'Major Required',
-                   'S': 'Seminar', 'I': 'Interdisciplinary', 'FP': 'Field Practice'}
-    type_list = acronym_dic.keys()
-    if ('ALL' in raw_filters) or len(raw_filters)==0 :
-        filters = [acronym_dic[i] for i in type_list if acronym_dic.has_key(i)]
-        return filters
-    acronym_filters = list(set(type_list) & set(raw_filters))
-    filters = [acronym_dic[i] for i in acronym_filters if acronym_dic.has_key(i)]
-    if 'ETC' in raw_filters:
-        filters += ["Seminar", "Interdisciplinary", "Field Practice"]
-    return filters
+                   'OE': 'Other Elective', 'ME': 'Major Elective', 'MR': 'Major Required'}
+
+    if "ALL" in filters:
+        return lectures
+    elif len(filters) == 0:
+        return lectures.none()
+    elif "ETC" in filters:
+        return lectures.exclude(type_en__in = [acronym_dic[x] for x in acronym_dic if x not in filters])
+    else:
+        return lectures.filter(type_en__in = [acronym_dic[x] for x in acronym_dic if x in filters])
 
 
 
-# Convert given level filter into DB-understandable form
-def _get_level_filter(raw_filters):
+# Filter lectures by level
+def _filter_level(lectures, filters):
     acronym_dic = {'100':"1", '200':"2", '300':"3", '400':"4"}
-    grade_list = acronym_dic.keys()
-    acronym_filters = list(set(grade_list) & set(raw_filters))
-    filters = [acronym_dic[i] for i in acronym_filters if acronym_dic.has_key(i)]
-    if 'ETC' in raw_filters:
-        filters+=["0", "5", "6", "7", "8", "9"]
-    if ('ALL' in raw_filters) or len(raw_filters)==0 :
-        filters=["0","1","2","3","4","5","6","7","8","9"]
-    return filters
+
+    if "ALL" in filters:
+        return lectures
+    elif len(filters) == 0:
+        return lectures.none()
+    elif "ETC" in filters:
+        return lectures.exclude(course__code_num__in = [acronym_dic[x] for x in acronym_dic if x not in filters])
+    else:
+        return lectures.filter(course__code_num__in = [acronym_dic[x] for x in acronym_dic if x in filters])
 
 
 
-# Yield lectures from DB
-def _get_filtered_lectures(year, semester, department_filters, type_filters, level_filters, keyword, day, begin, end):
-    lectures = Lecture.objects.filter(
-        year=year,
-        semester=semester,
-        department__code__in=department_filters,
-        type_en__in=type_filters,
-        course__code_num__in=level_filters,
-        deleted=False
-    )
+# Filter lectures by level
+def _filter_time(lectures, day, begin, end):
+    if len(day) == 0 or \
+       len(begin) == 0 or \
+       len(end) == 0:
+        return lectures
+    elif int(end) == 32:
+        # End is 24:00
+        return lectures.filter(classtime_set__day = int(day),
+                               classtime_set__begin__gte = datetime.time(int(begin)/2+8, (int(begin)%2)*30))
+    else:
+        return lectures.filter(classtime_set__day = int(day),
+                               classtime_set__begin__gte = datetime.time(int(begin)/2+8, (int(begin)%2)*30),
+                               classtime_set__end__lte = datetime.time(int(end)/2+8, (int(end)%2)*30))
 
-    if day!=None and begin!=None:
-        if end != None:
-            lectures = lectures.filter(classtime_set__day=day, classtime_set__begin__gte=begin, classtime_set__end__lte=end)
-        else:
-            # End is 24:00
-            lectures = lectures.filter(classtime_set__day=day, classtime_set__begin__gte=begin)
 
-    # language 에 따라서 구별해주는게 나으려나.. 영어이름만 있는 경우에는? 그러면 그냥 name 필드도 영어로 들어가나.
-    if len(keyword) > 0:
-        lectures = lectures.filter(
+
+# Filter lectures by keyword
+def _filter_keyword(lectures, keyword):
+    if len(keyword) == 0:
+        return lectures
+    else:
+        return lectures.filter(
             Q(title__icontains=keyword) |
             Q(title_en__icontains=keyword) |
             Q(old_code__iexact=keyword) |
@@ -131,8 +122,6 @@ def _get_filtered_lectures(year, semester, department_filters, type_filters, lev
             Q(professor__professor_name__icontains=keyword) |
             Q(professor__professor_name_en__icontains=keyword)
         ).distinct()
-
-    return lectures
 
 
 
@@ -156,59 +145,16 @@ def _get_preset_lectures(year, semester, code):
 # List(Lecture) -> List[dict-Lecture]
 # Format raw result from models into javascript-understandable form
 def _lecture_result_format(ls, from_search = False):
-    ls = ls.select_related('course', 'department').prefetch_related('classtime_set', 'examtime_set', 'professor')
+    ls = ls.select_related('course', 'department') \
+           .prefetch_related('classtime_set', 'examtime_set', 'professor') \
+           .order_by('old_code', 'class_no')
+
     if from_search:
         ls = ls[:500]
+
     result = [_lecture_to_dict(x) for x in ls]
-    result.sort(key = (lambda x:x['class_no']))
-    result.sort(key = (lambda x:x['old_code']))
 
     return result
-
-
-
-# Convert a classtime model into dict
-def _classtime_to_dict(ct):
-    bldg = getattr(ct, _("roomName"))
-    # No classroom info
-    if bldg == None:
-        room = ""
-        bldg_no = ""
-        classroom = _(u"정보 없음")
-        classroom_short = _(u"정보 없음")
-    # Building name has form of "(N1) xxxxx"
-    elif bldg[0] == "(":
-        bldg_no = bldg[1:bldg.find(")")]
-        bldg_name = bldg[len(bldg_no)+2:]
-        room = getattr(ct, _("roomNum"))
-        if room == None: room=""
-        classroom = "(" + bldg_no + ") " + bldg_name + " " + room
-        classroom_short = "(" + bldg_no + ") " + room
-    # Building name has form of "xxxxx"
-    else:
-        bldg_no=""
-        room = getattr(ct, _("roomNum"))
-        if room == None: room=""
-        classroom = bldg + " " + room
-        classroom_short = bldg + " " + room
-
-    return {"building": bldg_no,
-            "classroom": classroom,
-            "classroom_short": classroom_short,
-            "room": room,
-            "day": ct.day,
-            "begin": ct.get_begin_numeric(),
-            "end": ct.get_end_numeric(),}
-
-
-
-# Convert a examtime model into dict
-def _examtime_to_dict(ct):
-    day_str = [_(u"월요일"), _(u"화요일"), _(u"수요일"), _(u"목요일"), _(u"금요일"), _(u"토요일"), _(u"일요일")]
-    return {"day": ct.day,
-            "str": day_str[ct.day] + " " + ct.begin.strftime("%H:%M") + " ~ " + ct.end.strftime("%H:%M"),
-            "begin": ct.get_begin_numeric(),
-            "end": ct.get_end_numeric(),}
 
 
 
@@ -249,9 +195,7 @@ def _lecture_to_dict(lecture):
               "credit": lecture.credit,
               "credit_au": lecture.credit_au,
               "common_title": getattr(lecture, _("common_title")),
-              "class_title": getattr(lecture, _("class_title")),
-              "classtimes": [_classtime_to_dict(ct) for ct in lecture.classtime_set.all()],
-              "examtimes": [_examtime_to_dict(et) for et in lecture.examtime_set.all()],}
+              "class_title": getattr(lecture, _("class_title")),}
     
     # Add formatted professor name
     prof_name_list = [getattr(p, _("professor_name")) for p in lecture.professor.all()]
@@ -281,6 +225,40 @@ def _lecture_to_dict(lecture):
         result['load_letter'] = letters[int(round(load))]
         result['speech_letter'] = letters[int(round(speech))]
 
+    # Add classtime
+    result["classtimes"] = []
+    for ct in lecture.classtime_set.all():
+        bldg = getattr(ct, _("roomName"))
+        # No classroom info
+        if bldg == None:
+            room = ""
+            bldg_no = ""
+            classroom = _(u"정보 없음")
+            classroom_short = _(u"정보 없음")
+        # Building name has form of "(N1) xxxxx"
+        elif bldg[0] == "(":
+            bldg_no = bldg[1:bldg.find(")")]
+            bldg_name = bldg[len(bldg_no)+2:]
+            room = getattr(ct, _("roomNum"))
+            if room == None: room=""
+            classroom = "(" + bldg_no + ") " + bldg_name + " " + room
+            classroom_short = "(" + bldg_no + ") " + room
+        # Building name has form of "xxxxx"
+        else:
+            bldg_no=""
+            room = getattr(ct, _("roomNum"))
+            if room == None: room=""
+            classroom = bldg + " " + room
+            classroom_short = bldg + " " + room
+
+        result["classtimes"].append({"building": bldg_no,
+                                     "classroom": classroom,
+                                     "classroom_short": classroom_short,
+                                     "room": room,
+                                     "day": ct.day,
+                                     "begin": ct.get_begin_numeric(),
+                                     "end": ct.get_end_numeric(),})
+
     # Add classroom info
     if len(result['classtimes']) > 0:
         result['building'] = result['classtimes'][0]['building']
@@ -292,6 +270,15 @@ def _lecture_to_dict(lecture):
         result['classroom'] = _(u'정보 없음')
         result['classroom_short'] = _(u'정보 없음')
         result['room'] = ''
+
+    # Add examtime
+    result["examtimes"] = []
+    for et in lecture.examtime_set.all():
+        day_str = [_(u"월요일"), _(u"화요일"), _(u"수요일"), _(u"목요일"), _(u"금요일"), _(u"토요일"), _(u"일요일")]
+        result["examtimes"].append({"day": et.day,
+                                    "str": day_str[et.day] + " " + et.begin.strftime("%H:%M") + " ~ " + et.end.strftime("%H:%M"),
+                                    "begin": et.get_begin_numeric(),
+                                    "end": et.get_end_numeric(),})
 
     # Add exam info
     if len(result['examtimes']) > 1:
@@ -369,18 +356,17 @@ def main(request):
 # Add/Delete lecture to timetable
 @require_POST
 def table_update(request):
-    try:
-        userprofile = UserProfile.objects.get(user=request.user)
-    except:
+    if not request.user.is_authenticated():
         return JsonResponse({'success':True})
 
-    if 'table_id' not in request.POST or 'lecture_id' not in request.POST or \
-       'delete' not in request.POST:
-        return HttpResponseBadRequest()
+    userprofile = UserProfile.objects.get(user=request.user)
 
-    table_id = int(request.POST['table_id'])
-    lecture_id = request.POST['lecture_id']
-    delete = request.POST['delete'] == u'true'
+    try:
+        table_id = int(request.POST['table_id'])
+        lecture_id = request.POST['lecture_id']
+        delete = request.POST['delete'] == u'true'
+    except KeyError:
+        return HttpResponseBadRequest('Missing fields in request data')
 
     # Find the right timetable
     timetable = TimeTable.objects.get(user=userprofile, id=table_id)
@@ -388,7 +374,7 @@ def table_update(request):
     lecture = Lecture.objects.get(id=lecture_id, deleted=False)
 
     if timetable.year!=lecture.year or timetable.semester!=lecture.semester:
-        raise ValidationError('Semester not matching')
+        return HttpResponseBadRequest('Semester not matching')
 
     if not delete:
         try:
@@ -406,18 +392,17 @@ def table_update(request):
 # Copy timetable
 @require_POST
 def table_copy(request):
-    try:
-        userprofile = UserProfile.objects.get(user=request.user)
-    except:
+    if not request.user.is_authenticated():
         return JsonResponse({'id':random.randrange(1,100000000)})
+    
+    userprofile = UserProfile.objects.get(user=request.user)
 
-    if 'table_id' not in request.POST or \
-       'year' not in request.POST or 'semester' not in request.POST:
-        return HttpResponseBadRequest()
-
-    table_id = int(request.POST['table_id'])
-    year = int(request.POST['year'])
-    semester = int(request.POST['semester'])
+    try:
+        table_id = int(request.POST['table_id'])
+        year = int(request.POST['year'])
+        semester = int(request.POST['semester'])
+    except KeyError:
+        return HttpResponseBadRequest('Missing fields in request data')
 
     # Find the right timetable
     target_table = TimeTable.objects.get(user=userprofile, id=table_id,
@@ -439,25 +424,21 @@ def table_copy(request):
 # Delete timetable
 @require_POST
 def table_delete(request):
-    try:
-        userprofile = UserProfile.objects.get(user=request.user)
-    except:
+    if not request.user.is_authenticated():
         return JsonResponse({})
 
-    if 'table_id' not in request.POST or 'year' not in request.POST or \
-       'semester' not in request.POST:
-        return HttpResponseBadRequest()
+    userprofile = UserProfile.objects.get(user=request.user)
 
-    table_id = int(request.POST['table_id'])
-    year = int(request.POST['year'])
-    semester = int(request.POST['semester'])
+    try:
+        table_id = int(request.POST['table_id'])
+        year = int(request.POST['year'])
+        semester = int(request.POST['semester'])
+    except KeyError:
+        return HttpResponseBadRequest('Missing fields in request data')
     
-    tables = list(TimeTable.objects.filter(user=userprofile, id=table_id,
-                                           year=year, semester=semester))
-    if len(tables) == 0:
-        return JsonResponse({ 'success': False, 'reason': 'No such timetable exist' })
-
-    tables[0].delete()
+    target_table = TimeTable.objects.get(user=userprofile, id=table_id,
+                                         year=year, semester=semester)
+    target_table.delete()
     return JsonResponse({ 'scucess': True })
 
 
@@ -465,19 +446,19 @@ def table_delete(request):
 # Create timetable
 @require_POST
 def table_create(request):
-    try:
-        userprofile = UserProfile.objects.get(user=request.user)
-    except:
+    if not request.user.is_authenticated():
         return JsonResponse({'id':random.randrange(1,100000000)})
 
-    if 'year' not in request.POST or 'semester' not in request.POST:
-        return HttpResponseBadRequest()
+    userprofile = UserProfile.objects.get(user=request.user)
 
-    year = int(request.POST['year'])
-    semester = int(request.POST['semester'])
+    try:
+        year = int(request.POST['year'])
+        semester = int(request.POST['semester'])
+    except KeyError:
+        return HttpResponseBadRequest('Missing fields in request data')
 
     if not _validate_year_semester(year, semester):
-        raise ValidationError('Invalid semester')
+        return HttpResponseBadRequest('Invalid semester')
     
     t = TimeTable(user=userprofile, year=year, semester=semester)
     t.save()
@@ -490,36 +471,36 @@ def table_create(request):
 # Fetch timetable
 @require_POST
 def table_load(request):
-    try:
-        userprofile = UserProfile.objects.get(user=request.user)
-    except:
-        ctx = [{'year':int(request.POST['year']),
-                'semester':int(request.POST['semester']),
-                'id':random.randrange(1,100000000),
+    if not request.user.is_authenticated():
+        ctx = [{'id':random.randrange(1,100000000),
                 'lectures':[]}]
         return JsonResponse(ctx, safe=False, json_dumps_params=
                             {'ensure_ascii': False})
 
-    year = int(request.POST['year'])
-    semester = int(request.POST['semester'])
+    userprofile = UserProfile.objects.get(user=request.user)
+
+    try:
+        year = int(request.POST['year'])
+        semester = int(request.POST['semester'])
+    except KeyError:
+        return HttpResponseBadRequest('Missing fields in request data')
 
     if not _validate_year_semester(year, semester):
-        raise ValidationError('Invalid semester')
+        return HttpResponseBadRequest('Invalid semester')
 
-    timetables = list(TimeTable.objects.filter(user=userprofile, year=year, semester=semester))
+    timetables = TimeTable.objects.filter(user=userprofile, year=year, semester=semester)
 
-    ctx = []
-
-    if len(timetables) == 0:
+    if not timetables.exists():
         # Create new timetable if no timetable exists
         t = TimeTable(user=userprofile, year=year, semester=semester)
         t.save()
         timetables = [t]
 
-    for i, t in enumerate(timetables):
-        timetable = model_to_dict(t, exclude='lecture')
+    ctx = []
+    for t in timetables:
+        timetable = {"id": t.id,
+                     "lectures":_lecture_result_format(t.lecture.filter(deleted=False))}
         ctx.append(timetable)
-        ctx[i]['lectures'] = _lecture_result_format(t.lecture.filter(deleted=False))
 
     return JsonResponse(ctx, safe=False, json_dumps_params=
                         {'ensure_ascii': False})
@@ -531,9 +512,12 @@ FLOW = client.flow_from_clientsecrets(settings.GOOGLE_OAUTH2_CLIENT_SECRETS_JSON
 
 @require_POST
 def autocomplete(request):
-    year = int(request.POST['year'])
-    semester = int(request.POST['semester'])
-    keyword = request.POST['keyword']
+    try:
+        year = int(request.POST['year'])
+        semester = int(request.POST['semester'])
+        keyword = request.POST['keyword']
+    except KeyError:
+        return HttpResponseBadRequest('Missing fields in request data')
 
     lectures = Lecture.objects.filter(deleted=False, year=year, semester=semester)
 
@@ -577,37 +561,28 @@ def search(request):
     decoded_request = decoded_request[:decoded_request.rfind("}")+1]
     request_json = json.loads(decoded_request)
 
-    year = request_json['year']
-    semester = request_json['semester']
-    department_filters = _get_department_filter(request_json['department'])
-    type_filters = _get_type_filter(request_json['type'])
-    level_filters = _get_level_filter(request_json['grade'])
-    keyword = request_json['keyword'].replace('+', ' ')
+    try:
+        year = request_json['year']
+        semester = request_json['semester']
+    except KeyError:
+        return HttpResponseBadRequest('Missing fields in request data')
 
     if not _validate_year_semester(year, semester):
-        raise ValidationError('Invalid semester')
+        return HttpResponseBadRequest('Invalid semester')
 
-    if len(request_json["day"])>0 and len(request_json["begin"])>0 and len(request_json["end"])>0:
-        day = int(request_json["day"])
-        beginIdx = int(request_json["begin"])
-        begin = datetime.time(beginIdx/2+8, (beginIdx%2)*30)
-        endIdx = int(request_json["end"])
-        if endIdx < 32:
-            end = datetime.time(endIdx/2+8, (endIdx%2)*30)
-        else:
-            # 24:00
-            end = None
-    else:
-        day = None
-        begin = None
-        end = None
-    
-    result = _get_filtered_lectures(year, semester, department_filters, type_filters, level_filters, keyword, day, begin, end)
-    if len(result) > 500:
+    lectures = Lecture.objects.filter(year=year, semester=semester, deleted=False)
+    lectures = lectures.exclude(type_en__in=['Individual Study', 'Thesis Study(Undergraduate)', 'Thesis Research(MA/phD)'])
+    lectures = _filter_department(lectures, request_json.get('department', []))
+    lectures = _filter_type(lectures, request_json.get('type', []))
+    lectures = _filter_level(lectures, request_json.get('grade', []))
+    lectures = _filter_time(lectures, request_json.get('day', ''), request_json.get('begin', ''), request_json.get('end', ''))
+    lectures = _filter_keyword(lectures, request_json.get('keyword', '').replace('+', ' '))
+
+    if lectures.count() > 500:
         too_many = True
     else:
         too_many = False
-    result = _lecture_result_format(result, from_search = True)
+    result = _lecture_result_format(lectures, from_search = True)
 
     return JsonResponse({'courses':result, 'too_many':too_many},
                         safe=False,
@@ -617,7 +592,11 @@ def search(request):
 
 @require_POST
 def comment_load(request):
-    lecture_id = request.POST['lecture_id']
+    try:
+        lecture_id = request.POST['lecture_id']
+    except KeyError:
+        return HttpResponseBadRequest('Missing fields in request data')
+
     lecture = Lecture.objects.get(id=lecture_id)
     comments = Comment.objects.filter(
         lecture__course=lecture.course,
@@ -641,14 +620,14 @@ def comment_load(request):
 @login_required_ajax
 def share_calendar(request):
     user = request.user
-    try:
-        userprofile = UserProfile.objects.get(user=user)
-    except:
-        return HttpResponseServerError("userprofile not found")
+    userprofile = UserProfile.objects.get(user=user)
 
-    table_id = int(request.GET['table_id'])
-    year = int(request.GET['year'])
-    semester = int(request.GET['semester'])
+    try:
+        table_id = int(request.GET['table_id'])
+        year = int(request.GET['year'])
+        semester = int(request.GET['semester'])
+    except KeyError:
+        return HttpResponseBadRequest('Missing fields in request data')
 
     storage = DjangoORMStorage(UserProfile, 'user', request.user, 'google_credential')
     credential = storage.get()
@@ -682,7 +661,7 @@ def share_calendar(request):
         timetable = TimeTable.objects.get(user=userprofile, id=table_id,
                                           year=year, semester=semester)
     except:
-        return HttpResponseBadRequest()
+        return HttpResponseBadRequest('No such timetable')
 
     start = settings.SEMESTER_RANGES[(year,semester)][0]
     end = settings.SEMESTER_RANGES[(year,semester)][1] + datetime.timedelta(days=1)
@@ -725,7 +704,7 @@ def share_calendar(request):
 def google_auth_return(request):
     if not xsrfutil.validate_token(settings.SECRET_KEY, str(request.GET['state']),
                                    request.user):
-        return HttpResponseBadRequest()
+        return HttpResponseBadRequest('Invalid token')
     credential = FLOW.step2_exchange(request.GET)
     storage = DjangoORMStorage(UserProfile, 'user', request.user, 'google_credential')
     storage.put(credential)
@@ -736,11 +715,14 @@ def google_auth_return(request):
 
 @require_POST
 def list_load_major(request):
-    year = int(request.POST["year"])
-    semester = int(request.POST["semester"])
+    try:
+        year = int(request.POST["year"])
+        semester = int(request.POST["semester"])
+    except KeyError:
+        return HttpResponseBadRequest('Missing fields in request data')
 
     if not _validate_year_semester(year, semester):
-        raise ValidationError('Invalid semester')
+        return HttpResponseBadRequest('Invalid semester')
 
     departments = [x['code'] for x in _user_department(request.user)]
     result = []
@@ -757,11 +739,14 @@ def list_load_major(request):
 
 @require_POST
 def list_load_humanity(request):
-    year = int(request.POST["year"])
-    semester = int(request.POST["semester"])
+    try:
+        year = int(request.POST["year"])
+        semester = int(request.POST["semester"])
+    except KeyError:
+        return HttpResponseBadRequest('Missing fields in request data')
 
     if not _validate_year_semester(year, semester):
-        raise ValidationError('Invalid semester')
+        return HttpResponseBadRequest('Invalid semester')
 
     lectures = _get_preset_lectures(year, semester, "Humanity")
     result = _lecture_result_format(lectures)
@@ -773,23 +758,22 @@ def list_load_humanity(request):
 # Fetch wishlist
 @require_POST
 def wishlist_load(request):
-    try:
-        userprofile = UserProfile.objects.get(user=request.user)
-    except:
+    if not request.user.is_authenticated():
         return JsonResponse([], safe=False, json_dumps_params=
                             {'ensure_ascii': False})
 
-    year = int(request.POST['year'])
-    semester = int(request.POST['semester'])
-
-    if not _validate_year_semester(year, semester):
-        raise ValidationError('Invalid semester')
+    userprofile = UserProfile.objects.get(user=request.user)
 
     try:
-        w = Wishlist.objects.get(user=userprofile)
-    except Wishlist.DoesNotExist:
-        w = Wishlist(user=userprofile)
-        w.save()
+        year = int(request.POST['year'])
+        semester = int(request.POST['semester'])
+    except KeyError:
+        return HttpResponseBadRequest('Missing fields in request data')
+
+    if not _validate_year_semester(year, semester):
+        return HttpResponseBadRequest('Invalid semester')
+
+    w = Wishlist.objects.get_or_create(user=userprofile)[0]
 
     lectures = w.lectures.filter(year=year, semester=semester, deleted=False)
     result = _lecture_result_format(lectures)
@@ -802,16 +786,17 @@ def wishlist_load(request):
 # Add/delete lecture to wishlist.
 @require_POST
 def wishlist_update(request):
-    try:
-        userprofile = UserProfile.objects.get(user=request.user)
-    except:
+    if not request.user.is_authenticated():
         return JsonResponse({'success':True})
 
-    if 'lecture_id' not in request.POST:
-        return HttpResponseBadRequest()
+    userprofile = UserProfile.objects.get(user=request.user)
 
-    lecture_id = request.POST['lecture_id']
-    delete = request.POST['delete'] == u'true'
+    try:
+        lecture_id = request.POST['lecture_id']
+        delete = request.POST['delete'] == u'true'
+    except KeyError:
+        return HttpResponseBadRequest('Missing fields in request data')
+
     w = Wishlist.objects.get(user=userprofile)
     lecture = Lecture.objects.get(id=lecture_id, deleted=False)
 
@@ -893,7 +878,12 @@ def _textbox(draw, points, title, prof, loc, font):
 @login_required_ajax
 def share_image(request):
     userprofile = UserProfile.objects.get(user=request.user)
-    table_id = request.GET['table_id']
+
+    try:
+        table_id = request.GET['table_id']
+    except KeyError:
+        return HttpResponseBadRequest('Missing fields in request data')
+
     timetable = TimeTable.objects.get(user=userprofile, id=table_id)
 
     if settings.DEBUG:
