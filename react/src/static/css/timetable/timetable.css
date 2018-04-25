@@ -290,7 +290,7 @@ i
 
 .open-dict-button .dict-arrow
 {
-	background: url(/media/icons/lecture_downarrow.svg) no-repeat center center;
+	background: url(../../icons/lecture_downarrow.svg) no-repeat center center;
 	width:14px;
 	height:11px;
 	display:inline-block;
@@ -300,12 +300,12 @@ i
 }
 .open-dict-button:hover .dict-arrow
 {
-	background-image: url(/media/icons/lecture_downarrow_hover.svg);
+	background-image: url(../../icons/lecture_downarrow_hover.svg);
 }
 
 .close-dict-button .dict-arrow
 {
-	background: url(/media/icons/lecture_uparrow.svg) no-repeat center center;
+	background: url(../../icons/lecture_uparrow.svg) no-repeat center center;
 	width:14px;
 	height:11px;
 	display:inline-block;
@@ -315,7 +315,7 @@ i
 }
 .close-dict-button:hover .dict-arrow
 {
-	background-image: url(/media/icons/lecture_uparrow_hover.svg);
+	background-image: url(../../icons/lecture_uparrow_hover.svg);
 }
 
 #reviews {
@@ -431,28 +431,28 @@ i
 
 .list-tab.search .list-tab-icon
 {
-	background: url(/media/icons/block_search_inactive.svg) no-repeat center center;
+	background: url(../../icons/block_search_inactive.svg) no-repeat center center;
 	width:13px;
 	height:13px;
 }
 
 .list-tab.cart .list-tab-icon
 {
-	background: url(/media/icons/block_cart_inactive.svg) no-repeat center center;
+	background: url(../../icons/block_cart_inactive.svg) no-repeat center center;
 	width:13px;
 	height:13px;
 }
 
 .list-tab.major .list-tab-icon
 {
-	background: url(/media/icons/block_major_inactive.svg) no-repeat center center;
+	background: url(../../icons/block_major_inactive.svg) no-repeat center center;
 	width:13px;
 	height:13px;
 }
 
 .list-tab.humanity .list-tab-icon
 {
-	background: url(/media/icons/block_humanity_inactive.svg) no-repeat center center;
+	background: url(../../icons/block_humanity_inactive.svg) no-repeat center center;
 	width:13px;
 	height:13px;
 }
@@ -460,25 +460,25 @@ i
 .list-tab.search.active .list-tab-icon,
 .list-tab.search:hover .list-tab-icon
 {
-    background-image: url(/media/icons/block_search.svg);
+    background-image: url(../../icons/block_search.svg);
 }
 
 .list-tab.cart.active .list-tab-icon,
 .list-tab.cart:hover .list-tab-icon
 {
-    background-image: url(/media/icons/block_cart.svg);
+    background-image: url(../../icons/block_cart.svg);
 }
 
 .list-tab.major.active .list-tab-icon,
 .list-tab.major:hover .list-tab-icon
 {
-    background-image: url(/media/icons/block_major.svg);
+    background-image: url(../../icons/block_major.svg);
 }
 
 .list-tab.humanity.active .list-tab-icon,
 .list-tab.humanity:hover .list-tab-icon
 {
-    background-image: url(/media/icons/block_humanity.svg);
+    background-image: url(../../icons/block_humanity.svg);
 }
 
 #list-page-wrap
@@ -541,7 +541,7 @@ i
 
 .search-keyword-icon
 {
-	background: url(/media/icons/search.svg) no-repeat center center;
+	background: url(../../icons/search.svg) no-repeat center center;
 	width:12px;
     height: 12px;
     flex:none;
@@ -551,7 +551,7 @@ i
 }
 .search-field:hover > .search-keyword-icon
 {
-	background-image: url(/media/icons/search_hover.svg);
+	background-image: url(../../icons/search_hover.svg);
 }
 
 .search-keyword-text-wrap
@@ -777,7 +777,7 @@ label:hover > .fa-check-circle-o
 
 .search-page-title-icon
 {
-	background: url(/media/icons/search.svg) no-repeat center center;
+	background: url(../../icons/search.svg) no-repeat center center;
 	width:12px;
     height: 12px;
     display:inline-block;
@@ -787,7 +787,7 @@ label:hover > .fa-check-circle-o
 }
 .search-page-title:hover > .search-page-title-icon
 {
-	background-image: url(/media/icons/search_hover.svg);
+	background-image: url(../../icons/search_hover.svg);
 }
 
 .nano {
@@ -933,18 +933,18 @@ label:hover > .fa-check-circle-o
 
 .add-to-cart > i
 {
-	background:url(/media/icons/add_cart.svg) no-repeat center center;
+	background:url(../../icons/add_cart.svg) no-repeat center center;
 	width:12px;
 	height:13px;
     display:block;
 }
 .add-to-cart:hover > i
 {
-	background-image:url(/media/icons/add_cart_hover.svg);
+	background-image:url(../../icons/add_cart_hover.svg);
 }
 .add-to-cart.disable > i
 {
-    background-image:url(/media/icons/add_cart_disabled.svg);
+    background-image:url(../../icons/add_cart_disabled.svg);
 }
 
 .add-to-table
@@ -963,18 +963,18 @@ label:hover > .fa-check-circle-o
 
 .add-to-table > i
 {
-	background:url(/media/icons/add_lecture.svg) no-repeat center center;
+	background:url(../../icons/add_lecture.svg) no-repeat center center;
 	width:9px;
 	height:11px;
     display:block;
 }
 .add-to-table:hover > i
 {
-	background-image:url(/media/icons/add_lecture_hover.svg);
+	background-image:url(../../icons/add_lecture_hover.svg);
 }
 .add-to-table.disable > i
 {
-    background-image:url(/media/icons/add_lecture_disabled.svg);
+    background-image:url(../../icons/add_lecture_disabled.svg);
 }
 
 .delete-from-cart
@@ -992,18 +992,14 @@ label:hover > .fa-check-circle-o
 
 .delete-from-cart > i
 {
-	background:url(/media/icons/delete_cart.svg) no-repeat center center;
+	background:url(../../icons/delete_cart.svg) no-repeat center center;
 	width:12px;
 	height:13px;
     display:block;
 }
 .delete-from-cart:hover > i
 {
-	background-image:url(/media/icons/delete_cart_hover.svg);
-}
-.delete-from-cart.disable > i
-{
-    background-image:url(/media/icons/delete_cart_disabled.svg);
+	background-image:url(../../icons/delete_cart_hover.svg);
 }
 
 
@@ -1087,7 +1083,7 @@ label:hover > .fa-check-circle-o
 
 .duplicate-table > i
 {
-	background: url(/media/icons/duplicate_table.svg) no-repeat center center;
+	background: url(../../icons/duplicate_table.svg) no-repeat center center;
 	width:8px;
 	height:11px;
 	display:inline-block;
@@ -1095,7 +1091,7 @@ label:hover > .fa-check-circle-o
 }
 .duplicate-table:hover > i
 {
-	background-image: url(/media/icons/duplicate_table_hover.svg);
+	background-image: url(../../icons/duplicate_table_hover.svg);
 }
 
 .delete-table
@@ -1106,7 +1102,7 @@ label:hover > .fa-check-circle-o
 
 .delete-table > i
 {
-	background: url(/media/icons/delete_table.svg) no-repeat center center;
+	background: url(../../icons/delete_table.svg) no-repeat center center;
 	width:9px;
 	height:11px;
 	display:inline-block;
@@ -1114,12 +1110,12 @@ label:hover > .fa-check-circle-o
 }
 .delete-table:hover > i
 {
-	background-image: url(/media/icons/delete_table_hover.svg);
+	background-image: url(../../icons/delete_table_hover.svg);
 }
 
 .timetable-add .add-table
 {
-	background: url(/media/icons/add_table.svg) no-repeat center center;
+	background: url(../../icons/add_table.svg) no-repeat center center;
 	width:11px;
 	height:11px;
 	display:inline-block;
@@ -1127,7 +1123,7 @@ label:hover > .fa-check-circle-o
 }
 .timetable-add:hover .add-table
 {
-    background-image: url(/media/icons/add_table_hover.svg);
+    background-image: url(../../icons/add_table_hover.svg);
 }
 
 #semester
@@ -1177,34 +1173,34 @@ label:hover > .fa-check-circle-o
 
 #semester-prev > i
 {
-	background: url(/media/icons/semester_prev.svg) no-repeat center center;
+	background: url(../../icons/semester_prev.svg) no-repeat center center;
 	width:6px;
 	height:10px;
     display:block;
 }
 #semester-prev:hover > i
 {
-	background-image: url(/media/icons/semester_prev_hover.svg);
+	background-image: url(../../icons/semester_prev_hover.svg);
 }
 #semester-prev.disable > i
 {
-    background-image: url(/media/icons/semester_prev_disable.svg);
+    background-image: url(../../icons/semester_prev_disable.svg);
 }
 
 #semester-next > i
 {
-	background: url(/media/icons/semester_next.svg) no-repeat center center;
+	background: url(../../icons/semester_next.svg) no-repeat center center;
 	width:6px;
 	height:10px;
     display:block;
 }
 #semester-next:hover > i
 {
-	background-image: url(/media/icons/semester_next_hover.svg);
+	background-image: url(../../icons/semester_next_hover.svg);
 }
 #semester-next.disable > i
 {
-    background-image: url(/media/icons/semester_next_disable.svg);
+    background-image: url(../../icons/semester_next_disable.svg);
 }
 
 
@@ -1399,7 +1395,7 @@ label:hover > .fa-check-circle-o
 
 .drag-close
 {
-    background: url(/media/icons/delete_lecture.svg) no-repeat center center;
+    background: url(../../icons/delete_lecture.svg) no-repeat center center;
     width:8px;
     height:8px;
     top:4px;
@@ -1411,12 +1407,12 @@ label:hover > .fa-check-circle-o
 
 .drag-close:hover
 {
-    background: url(/media/icons/delete_lecture_hover.svg) no-repeat center center;
+    background: url(../../icons/delete_lecture_hover.svg) no-repeat center center;
 }
 
 .drag-icon
 {
-    background: url(/media/icons/drag_add.svg) no-repeat center center;
+    background: url(../../icons/drag_add.svg) no-repeat center center;
     width:7px;
     height:9px;
     margin-right:4px;
@@ -1426,7 +1422,7 @@ label:hover > .fa-check-circle-o
 
 .drag-text:hover > .drag-icon
 {
-    background-image: url(/media/icons/drag_add_hover.svg);
+    background-image: url(../../icons/drag_add_hover.svg);
 }
 
 
@@ -1914,29 +1910,29 @@ label:hover > .fa-check-circle-o
 
 .share-button#facebook
 {
-    background: url(/media/icons/share_facebook.svg) no-repeat center center;
+    background: url(../../icons/share_facebook.svg) no-repeat center center;
 }
 .share-button#facebook:hover
 {
-    background-image: url(/media/icons/share_facebook_hover.svg);
+    background-image: url(../../icons/share_facebook_hover.svg);
 }
 
 .share-button#image
 {
-    background: url(/media/icons/share_image.svg) no-repeat center center;
+    background: url(../../icons/share_image.svg) no-repeat center center;
 }
 .share-button#image:hover
 {
-    background-image: url(/media/icons/share_image_hover.svg);
+    background-image: url(../../icons/share_image_hover.svg);
 }
 
 .share-button#calendar
 {
-    background: url(/media/icons/share_calendar.svg) no-repeat center center;
+    background: url(../../icons/share_calendar.svg) no-repeat center center;
 }
 .share-button#calendar:hover
 {
-    background-image: url(/media/icons/share_calendar_hover.svg);
+    background-image: url(../../icons/share_calendar_hover.svg);
 }
 
 #lecture-tabs
@@ -2121,14 +2117,14 @@ body .lecture-block.active.lecture-block-temp
 
 .lecture-delete > i
 {
-    background: url(/media/icons/delete_lecture.svg) no-repeat center center;
+    background: url(../../icons/delete_lecture.svg) no-repeat center center;
     width:10px;
     height:10px;
     display:block;
 }
 .lecture-delete:hover > i
 {
-    background: url(/media/icons/delete_lecture_hover.svg) no-repeat center center;
+    background: url(../../icons/delete_lecture_hover.svg) no-repeat center center;
 }
 
 .lecture-block:not(:hover) .lecture-delete,

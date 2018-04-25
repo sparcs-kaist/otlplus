@@ -2,11 +2,6 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { addLectureToTimetable } from "../actions";
 import { setLectureActive, clearLectureActive } from "../actions";
-import addCartIcon from '../../static/icons/add_cart.svg';
-import addCartDisabledIcon from '../../static/icons/add_cart_disabled.svg';
-import deleteCartIcon from '../../static/icons/delete_cart.svg';
-import addLectureIcon from '../../static/icons/add_lecture.svg';
-import addLectureDisabledIcon from '../../static/icons/add_lecture_disabled.svg';
 
 class ListBlock extends Component {
     addToTable() {
@@ -58,13 +53,13 @@ class ListBlock extends Component {
                     </div>
                     {
                         !this.props.inCart
-                        ? <div className="add-to-cart"><i style={{backgroundImage:`url(${addCartIcon})`}}/></div>
-                        : <div className="add-to-cart disable"><i style={{backgroundImage:`url(${addCartDisabledIcon})`}}/></div>
+                        ? <div className="add-to-cart"><i/></div>
+                        : <div className="add-to-cart disable"><i/></div>
                     }
                     {
                         !this.props.inTimetable
-                        ? <div className="add-to-table" onClick={()=>this.addToTable()}><i style={{backgroundImage:`url(${addLectureIcon})`}}/></div>
-                        : <div className="add-to-table disable"><i style={{backgroundImage:`url(${addLectureDisabledIcon})`}}/></div>
+                        ? <div className="add-to-table" onClick={()=>this.addToTable()}><i/></div>
+                        : <div className="add-to-table disable"><i/></div>
                     }
                 </div>
             </div>
