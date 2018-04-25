@@ -741,7 +741,7 @@ function findLecture(lectures, id) {
     },
  
     _genListRender: function(lecList, name) {
-    // Generates function that renders lecture list
+      // Generates function that renders lecture list
       return function() {
         var template = _.template($('#list-template').html());
         var models = lecList.models;
