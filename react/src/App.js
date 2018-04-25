@@ -5,7 +5,7 @@ import './static/css/bootstrap.min.css';
 import './static/css/global.css';
 
 import TimetablePage from "./timetable/TimetablePage";
-import DictionaryRouter from "./timetable/TimetablePage";
+import DictionaryRouter from "./dictionary/DictionaryRouter";
 import MainPage from "./common/MainPage";
 import CreditPage from "./common/CreditPage";
 import LicensePage from "./common/LicensePage";
@@ -15,7 +15,7 @@ class App extends Component {
   render() {
     return (
         <Switch>
-            <Route path="/dictionary" component={DictionaryRouter}/>
+            <Route path="/review" component={DictionaryRouter}/>
             <Route exact path="/timetable" component={TimetablePage}/>
             <Route exact path="/main" component={MainPage}/>
             <Route exact path="/credits" component={CreditPage}/>
