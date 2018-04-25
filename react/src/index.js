@@ -7,17 +7,9 @@ import registerServiceWorker from './registerServiceWorker';
 import { Router } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 
-import { createStore } from 'redux';
-import { Provider } from 'react-redux';
-import CombinedReducer from './timetable/reducers/index.js';
-
-const store = createStore(CombinedReducer);
-
 ReactDOM.render(
-    <Provider store={store}>
-        <Router history={createBrowserHistory()}>
-            <App/>
-        </Router>
-    </Provider>,
+    <Router history={createBrowserHistory()}>
+        <App/>
+    </Router>,
     document.getElementById('root'));
 registerServiceWorker();
