@@ -67,6 +67,7 @@ def GradeFilters(raw_filters):
     return filters
 
 
+#################### UNUSED ####################
 def search_view(request):
     if request.user.is_authenticated():
         user_profile = UserProfile.objects.get(user=request.user)
@@ -330,7 +331,7 @@ def Expectations(keyword):
     return expectations
 
 
-# MainPage#################################################################################################
+#################### UNUSED ####################
 def SearchResultView(request):
     if 'q' in request.GET :
         keyword = request.GET['q']
@@ -422,6 +423,7 @@ def SearchResultView_json(request, page):
     return JsonResponse(json.dumps(context),safe=False)
 
 
+#################### UNUSED ####################
 def SearchResultProfessorView(request,id=-1,course_id=-1):
     professor = Professor.objects.get(id=id)
     comments = Comment.objects.filter(lecture__professor__id=id).order_by('-lecture__year','-written_datetime')
@@ -457,6 +459,7 @@ def SearchResultProfessorView_json(request, id=-1,course_id=-1,page=-1):
     return JsonResponse(json.dumps(context),safe=False)
 
 
+#################### UNUSED ####################
 def SearchResultCourseView(request,id=-1,professor_id=-1):
     professor_id = int(professor_id)
     course = Course.objects.get(id=id)
@@ -547,6 +550,7 @@ def ReviewPortal(request):
     return HttpResponseRedirect('https://sparcssso.kaist.ac.kr/account/profile/')
 
 
+#################### UNUSED ####################
 @login_required(login_url='/session/login/')
 def ReviewInsertView(request,lecture_id=-1,semester=0):
     user = request.user
@@ -811,14 +815,6 @@ def server_error(request):
     response.status_code = 500
 
     return response
-
-
-def licenses(request):
-    return render(request, 'licenses.html')
-
-
-def credits(request):
-    return render(request, 'credits.html')
 
 
 def dictionary(request, course_code):
