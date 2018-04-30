@@ -417,6 +417,7 @@ export const list = (state = initialState, action) => {
     switch (action.type) {
         case FETCH_SEARCH:
             return Object.assign({}, state, {
+                courses : action.courses,
             });
         default:
             return state;
