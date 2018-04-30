@@ -333,6 +333,7 @@ def _validate_year_semester(year, semester):
 
 
 
+#################### UNUSED ####################
 def main(request):
     if request.user.is_authenticated():
         departments = _user_department(request.user)

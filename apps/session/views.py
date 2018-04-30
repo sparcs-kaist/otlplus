@@ -127,6 +127,7 @@ def user_logout(request):
     return redirect("/main")
 
 
+#################### UNUSED ####################
 @login_required(login_url='/session/login/')
 def user_settings(request):
     user = request.user
@@ -209,6 +210,7 @@ def unregister(request):
     return JsonResponse(status=200, data={})
 
 
+#################### UNUSED ####################
 def language(request):
     if translation.LANGUAGE_SESSION_KEY not in request.session:
         to_lang = 'ko'
