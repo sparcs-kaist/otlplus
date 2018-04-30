@@ -22,10 +22,11 @@ export function closeSearch() {
     }
 }
 
-export function fetchSearch() {
+export function fetchSearch(courses) {
     console.log("Action fetchSearch");
     return {
         type : FETCH_SEARCH,
+        courses : courses,
     }
 }
 

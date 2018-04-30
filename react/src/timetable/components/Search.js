@@ -1,6 +1,24 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
+import axios from 'axios';
 import { closeSearch, fetchSearch } from "../actions";
+
+axios.defaults.xsrfHeaderName = 'X-CSRFToken';
+axios.defaults.xsrfCookieName = 'csrftoken';
+
+let groupLectures = (lectures) => {
+    if (lectures.length === 0)
+        return [];
+
+    let courses = [[lectures[0]]];
+    for (let i=1, lecture; lecture=lectures[i]; i++) {
+        if (lecture.course === courses[courses.length-1][0].course)
+            courses[courses.length-1].push(lecture);
+        else
+            courses.push([lecture]);
+    }
+    return courses;
+};
 
 class Search extends Component {
     hideSearch() {
@@ -8,8 +26,20 @@ class Search extends Component {
     }
 
     searchStart() {
-        this.props.fetchSearchDispatch();
         this.props.closeSearchDispatch();
+
+        // Temporary. Change this to search later
+        let url = Math.random()>0.5 ? "/api/timetable/list_load_major/" : "/api/timetable/list_load_humanity/";
+        axios.post(url, {
+            year: 2018,
+            semester: 1,
+        })
+        .then((response) => {
+            let lectures = response.data;
+            let courses = groupLectures(lectures);
+            this.props.fetchSearchDispatch(courses);
+        })
+        .catch((response) => {console.log(response);});
     }
 
     render() {
@@ -87,8 +117,8 @@ let mapDispatchToProps = (dispatch) => {
         closeSearchDispatch : () => {
             dispatch(closeSearch());
         },
-        fetchSearchDispatch : () => {
-            dispatch(fetchSearch());
+        fetchSearchDispatch : (courses) => {
+            dispatch(fetchSearch(courses));
         }
     }
 };
