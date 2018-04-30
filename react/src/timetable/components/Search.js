@@ -4,9 +4,6 @@ import { closeSearch, fetchSearch } from "../actions";
 
 class Search extends Component {
     render() {
-        console.log("Render Search");
-        console.log(this.props);
-
         const search = (e) => {
             this.props.fetchSearchDispatch();
             this.props.closeSearchDispatch();

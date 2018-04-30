@@ -6,9 +6,6 @@ import ListBlock from "./ListBlock";
 
 class List extends Component {
     render() {
-        console.log("Render List");
-        console.log(this.props);
-
         const inTimetable = (lecture) => {
             for (let i=0; i<this.props.currentTimetable.length; i++)
                 if (this.props.currentTimetable[i].id === lecture.id)

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 
 class Semester extends Component {
     render() {
-        console.log(this.props);
         return (
             <div id="semester">
                 <div id="semester-prev"><i></i></div>

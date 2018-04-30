@@ -30,9 +30,6 @@ class ListBlock extends Component {
 
 
     render() {
-        console.log("Render ListBlock");
-        console.log(this.props);
-
         const getClass = (lecture) => {
             switch(lecture.class_title.length) {
                 case 1:

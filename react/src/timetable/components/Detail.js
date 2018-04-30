@@ -4,9 +4,6 @@ import { Link } from 'react-router-dom';
 
 class Detail extends Component {
     render() {
-        console.log("Render Detail");
-        console.log(this.props);
-
         if (this.props.from === "LIST" || this.props.from === "TABLE")
             return (
                 <div id="lecture-info">

@@ -5,7 +5,6 @@ import mapImage from '../../static/img/timetable/kaist_map.jpg';
 
 class Map extends Component {
     render() {
-        console.log(this.props);
         return (
             <div id="map">
                 <div id="map-container">

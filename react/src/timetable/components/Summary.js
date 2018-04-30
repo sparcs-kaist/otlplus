@@ -4,9 +4,6 @@ import {clearMultipleDetail, setMultipleDetail} from "../actions";
 
 class Summary extends Component {
     render() {
-        console.log("Render Summary");
-        console.log(this.props);
-
         const indexOfType = (type) => {
             const types = ["Basic Required", "Basic Elective", "Major Required", "Major Elective", "Humanities & Social Elective"];
             let index = types.indexOf(type);
