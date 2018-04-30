@@ -17,13 +17,13 @@ class ListBlock extends Component {
     }
 
     listHover() {
-        if (false)
+        if (this.props.lectureActiveClicked)
             return;
         this.props.setLectureActiveDispatch(this.props.lecture, "LIST", false);
     };
 
     listOut() {
-        if (false)
+        if (this.props.lectureActiveClicked)
             return;
         this.props.clearLectureActiveDispatch();
     };
@@ -67,6 +67,7 @@ class ListBlock extends Component {
 let mapStateToProps = (state) => {
     return {
         currentTimetable : state.timetable.currentTimetable,
+        lectureActiveClicked : state.lectureActive.clicked,
     }
 };
 
