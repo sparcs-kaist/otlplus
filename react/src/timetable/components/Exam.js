@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 
 class Exam extends Component {
     render() {
-        console.log(this.props);
         return (
             <div style={{flex:'auto'}}>
                 <div id="examtitle"><span>시험시간표</span></div>

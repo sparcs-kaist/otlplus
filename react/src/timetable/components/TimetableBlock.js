@@ -3,9 +3,6 @@ import {connect} from "react-redux";
 
 class TimetableBlock extends Component {
     render() {
-        console.log("Render TimetableBlock");
-        console.log(this.props);
-
         const indexOfTime = (time) => (time/30 - 16);
 
         return (

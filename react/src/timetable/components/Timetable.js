@@ -23,9 +23,6 @@ class Timetable extends Component {
     }
 
     render() {
-        console.log("Render Timetable");
-        console.log(this.props);
-
         let lectureBlocks = [];
         for (let i=0, lecture; lecture = this.props.currentTimetable[i]; i++) {
             for (let j=0, classtime; classtime=lecture.classtimes[j]; j++) {
