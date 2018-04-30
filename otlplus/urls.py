@@ -43,7 +43,7 @@ urlpatterns = [
 
     # OTLplus Apps
     url(r'^session/', include('apps.session.urls')),
-    url(r'^api/review', include('apps.review.urls')),
-    url(r'^api/timetable', include('apps.timetable.urls')),
+    url(r'^api/review/', include('apps.review.urls')),
+    url(r'^api/timetable/', include('apps.timetable.urls')),
     url(r'^', TemplateView.as_view(template_name='index.html')),
 ]
