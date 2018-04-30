@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { openSearch } from "../actions";
+import Scroller from "../../common/Scroller";
 import Search from "./Search";
 import ListBlock from "./ListBlock";
 
@@ -54,29 +55,23 @@ class List extends Component {
                             <i className="search-page-title-icon"/>
                             <div className="search-page-title-text">검색</div>
                         </div>
-                        <div className="nano">
-                            <div className="list-scroll nano-content">
-                                {this.props.courses.map(mapCourse)}
-                            </div>
-                        </div>
+                        <Scroller>
+                            {this.props.courses.map(mapCourse)}
+                        </Scroller>
                     </div>
                     <div className="list-page cart-page none">
                         <div className="list-page-title">
                             장바구니
                         </div>
-                        <div className="nano">
-                            <div className="list-scroll nano-content">
-                            </div>
-                        </div>
+                        <Scroller>
+                        </Scroller>
                     </div>
                     <div className="list-page humanity-page none">
                         <div className="list-page-title">
                             인문사회선택
                         </div>
-                        <div className="nano">
-                            <div className="list-scroll nano-content">
-                            </div>
-                        </div>
+                        <Scroller>
+                        </Scroller>
                     </div>
                 </div>
             </div>
