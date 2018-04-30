@@ -2,17 +2,43 @@ import React, { Component } from 'react';
 import {connect} from "react-redux";
 import {clearMultipleDetail, setMultipleDetail} from "../actions";
 
-class Summary extends Component {
-    render() {
-        const indexOfType = (type) => {
-            const types = ["Basic Required", "Basic Elective", "Major Required", "Major Elective", "Humanities & Social Elective"];
-            let index = types.indexOf(type);
-            if (index === -1)
-                return 5;
-            else
-                return index;
-        };
+const indexOfType = (type) => {
+    const types = ["Basic Required", "Basic Elective", "Major Required", "Major Elective", "Humanities & Social Elective"];
+    let index = types.indexOf(type);
+    if (index === -1)
+        return 5;
+    else
+        return index;
+};
 
+class Summary extends Component {
+    typeFocus(type) {
+        let lectures = [];
+        for (var i=0; i<this.props.currentTimetable.length; i++) {
+            let lecture = this.props.currentTimetable[i];
+
+            if (indexOfType(lecture.type_en) !== indexOfType(type))
+                continue;
+
+            if (lecture.credit > 0)
+                lectures.push({
+                    title : lecture.title,
+                    info : lecture.credit.toString() + "학점",
+                });
+            if (lecture.credit_au > 0)
+                lectures.push({
+                    title : lecture.title,
+                    info : lecture.credit_au.toString() + "AU",
+                });
+        }
+        this.props.setMultipleDetailDispatch(type, lectures);
+    }
+
+    clearFocus() {
+        this.props.clearMultipleDetailDispatch();
+    };
+
+    render() {
         let type_credit = [0,0,0,0,0,0];
         for (let i=0, lecture; lecture = this.props.currentTimetable[i]; i++)
             type_credit[indexOfType(lecture.type_en)] += lecture.credit + lecture.credit_au;
@@ -30,63 +56,35 @@ class Summary extends Component {
                 }
         }
 
-        const hoverType = (type) => {
-            return (e) => {
-                let lectures = [];
-                for (var i=0; i<this.props.currentTimetable.length; i++) {
-                    let lecture = this.props.currentTimetable[i];
-
-                    if (indexOfType(lecture.type_en) !== indexOfType(type))
-                        continue;
-
-                    if (lecture.credit > 0)
-                        lectures.push({
-                            title : lecture.title,
-                            info : lecture.credit.toString() + "학점",
-                        });
-                    if (lecture.credit_au > 0)
-                        lectures.push({
-                            title : lecture.title,
-                            info : lecture.credit_au.toString() + "AU",
-                    });
-                }
-                this.props.setMultipleDetailDispatch(type, lectures);
-            }
-        };
-
-        const outType = (e) => {
-            this.props.clearMultipleDetailDispatch();
-        };
-
         return (
             <div id="summary">
                 <div id="summary-type">
-                    <div className="summary-type-elem summary-type-elem-left" onMouseOver={hoverType("Basic Required")} onMouseOut={outType}>
+                    <div className="summary-type-elem summary-type-elem-left" onMouseOver={()=>this.typeFocus("Basic Required")} onMouseOut={()=>this.clearFocus()}>
                         <span className={"summary-type-elem-title fixed-ko"}>기필</span>
                         <span className="summary-type-elem-body">{type_credit[0]}</span>
                         <span className="summary-type-elem-additional">{active_type_credit[0]}</span>
                     </div>
-                    <div className="summary-type-elem summary-type-elem-right" onMouseOver={hoverType("Basic Elective")} onMouseOut={outType}>
+                    <div className="summary-type-elem summary-type-elem-right" onMouseOver={()=>this.typeFocus("Basic Elective")} onMouseOut={()=>this.clearFocus()}>
                         <span className="summary-type-elem-title fixed-ko">기선</span>
                         <span className="summary-type-elem-body">{type_credit[1]}</span>
                         <span className="summary-type-elem-additional">{active_type_credit[1]}</span>
                     </div>
-                    <div className="summary-type-elem summary-type-elem-left" onMouseOver={hoverType("Major Required")} onMouseOut={outType}>
+                    <div className="summary-type-elem summary-type-elem-left" onMouseOver={()=>this.typeFocus("Major Required")} onMouseOut={()=>this.clearFocus()}>
                         <span className="summary-type-elem-title fixed-ko">전필</span>
                         <span className="summary-type-elem-body">{type_credit[2]}</span>
                         <span className="summary-type-elem-additional">{active_type_credit[2]}</span>
                     </div>
-                    <div className="summary-type-elem summary-type-elem-right" onMouseOver={hoverType("Major Elective")} onMouseOut={outType}>
+                    <div className="summary-type-elem summary-type-elem-right" onMouseOver={()=>this.typeFocus("Major Elective")} onMouseOut={()=>this.clearFocus()}>
                         <span className="summary-type-elem-title fixed-ko">전선</span>
                         <span className="summary-type-elem-body">{type_credit[3]}</span>
                         <span className="summary-type-elem-additional">{active_type_credit[3]}</span>
                     </div>
-                    <div className="summary-type-elem summary-type-elem-left" onMouseOver={hoverType("Humanities & Social Elective")} onMouseOut={outType}>
+                    <div className="summary-type-elem summary-type-elem-left" onMouseOver={()=>this.typeFocus("Humanities & Social Elective")} onMouseOut={()=>this.clearFocus()}>
                         <span className="summary-type-elem-title fixed-ko">인문</span>
                         <span className="summary-type-elem-body">{type_credit[4]}</span>
                         <span className="summary-type-elem-additional">{active_type_credit[4]}</span>
                     </div>
-                    <div className="summary-type-elem summary-type-elem-right" onMouseOver={hoverType("Etc")} onMouseOut={outType}>
+                    <div className="summary-type-elem summary-type-elem-right" onMouseOver={()=>this.typeFocus("Etc")} onMouseOut={()=>this.clearFocus()}>
                         <span className="summary-type-elem-title fixed-ko">기타</span>
                         <span className="summary-type-elem-body">{type_credit[5]}</span>
                         <span className="summary-type-elem-additional">{active_type_credit[5]}</span>

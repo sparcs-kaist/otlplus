@@ -3,12 +3,16 @@ import { connect } from "react-redux";
 import { closeSearch, fetchSearch } from "../actions";
 
 class Search extends Component {
-    render() {
-        const search = (e) => {
-            this.props.fetchSearchDispatch();
-            this.props.closeSearchDispatch();
-        };
+    hideSearch() {
+        this.props.closeSearchDispatch();
+    }
 
+    searchStart() {
+        this.props.fetchSearchDispatch();
+        this.props.closeSearchDispatch();
+    }
+
+    render() {
         if (! this.props.open) {
             return <div/>;
         }
@@ -61,8 +65,8 @@ class Search extends Component {
                                 <input id="search-filter-time-end" name="end" type="text"/>
                             </div>
                             <div style={{height: '13px'}}>
-                                <span type="button" id="search-button" onClick={search}>검색</span>
-                                <span type="button" id="search-cancel" onClick={this.props.closeSearchDispatch}>취소</span>
+                                <span type="button" id="search-button" onClick={()=>this.searchStart()}>검색</span>
+                                <span type="button" id="search-cancel" onClick={()=>this.hideSearch()}>취소</span>
                             </div>
                         </form>
                     </div>

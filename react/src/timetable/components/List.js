@@ -5,6 +5,10 @@ import Search from "./Search";
 import ListBlock from "./ListBlock";
 
 class List extends Component {
+    showSearch() {
+        this.props.openSearchDispatch();
+    }
+
     render() {
         const inTimetable = (lecture) => {
             for (let i=0; i<this.props.currentTimetable.length; i++)
@@ -46,7 +50,7 @@ class List extends Component {
                 <div id="list-page-wrap">
                     <div className="list-page search-page">
                         <Search/>
-                        <div className="list-page-title search-page-title" onClick={this.props.openSearchDispatch}>
+                        <div className="list-page-title search-page-title" onClick={()=>this.showSearch()}>
                             <i className="search-page-title-icon"/>
                             <div className="search-page-title-text">검색</div>
                         </div>
