@@ -331,7 +331,7 @@ def Expectations(keyword):
     return expectations
 
 
-def SearchResultView(request):
+def resultProfessor(request):
     body = json.loads(request.body.decode('utf-8'))
     if 'q' in body :
         keyword = body['q']
@@ -350,7 +350,7 @@ def SearchResultView(request):
     return JsonResponse(context,safe=False)
 
 
-def SearchResultView_json(request):
+def resultCourse(request):
     body = json.loads(request.body.decode('utf-8'))
     if 'q' in body :
         keyword = body['q']
