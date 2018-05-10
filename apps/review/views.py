@@ -396,25 +396,15 @@ def resultCourse(request):
     return JsonResponse(context,safe=False)
 
 
-#################### UNUSED ####################
-def SearchResultProfessorView(request,id=-1,course_id=-1):
+def professor(request,id=-1,course_id=-1):
     professor = Professor.objects.get(id=id)
-    comments = Comment.objects.filter(lecture__professor__id=id).order_by('-lecture__year','-written_datetime')
-    if int(course_id) != -1:
-        comments = comments.filter(lecture__course__id=course_id)
-    paginator = Paginator(comments,10)
-    page_obj = paginator.page(1)
-    results = [SearchComment(request,i) for i in page_obj.object_list]
-
     context = {
             "result":SearchProfessor(professor,course_id),
-            "results": results,
-            "page":page_obj.number,
     }
-    return render(request, 'review/sresult.html', context)
+    return JsonResponse(context,safe=False)
 
 
-def SearchResultProfessorView_json(request, id=-1,course_id=-1,page=-1):
+def professorComment(request, id=-1,course_id=-1,page=-1):
     comments = Comment.objects.filter(lecture__professor__id=id).order_by('-lecture__year','-written_datetime')
     if int(course_id) != -1:
         comments = comments.filter(lecture__course__id=course_id)
@@ -429,7 +419,7 @@ def SearchResultProfessorView_json(request, id=-1,course_id=-1,page=-1):
             "results":results,
             "hasNext":page_obj.has_next(),
     }
-    return JsonResponse(json.dumps(context),safe=False)
+    return JsonResponse(context,safe=False)
 
 
 #################### UNUSED ####################
