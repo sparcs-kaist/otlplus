@@ -21,12 +21,12 @@ urlpatterns = [
     url(r'^$', views.LastCommentView),
     url(r'^json/(?P<page>[0-9]+)/$', views.LastCommentView_json),
 
-    url(r'^comment/([1-9][0-9]*)/$', views.ReviewView),
+    url(r'^comment/([1-9][0-9]*)$', views.ReviewView),
 
     url(r'^professor/([^/]+)$', views.professor),
     url(r'^professor/([^/]+)/([^/]+)/([^/]+)$', views.professorComment),
 
-    url(r'^course/$', views.course),
+    url(r'^course/([^/]+)$', views.course),
     url(r'^course/([^/]+)/([^/]+)/([^/]+)$', views.courseComment),
 
     url(r'^result$', views.resultProfessor),
