@@ -26,7 +26,8 @@ urlpatterns = [
     url(r'^professor/([^/]+)$', views.professor),
     url(r'^professor/([^/]+)/([^/]+)/([^/]+)$', views.professorComment),
 
-    url(r'^course/([^/]+)/([^/]+)/([^/]+)/$', views.SearchResultCourseView_json),
+    url(r'^course/$', views.course),
+    url(r'^course/([^/]+)/([^/]+)/([^/]+)$', views.courseComment),
 
     url(r'^result/professor$', views.resultProfessor),
     url(r'^result/course$', views.resultCourse),
