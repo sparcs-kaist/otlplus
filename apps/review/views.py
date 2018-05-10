@@ -350,14 +350,12 @@ def resultProfessor(request):
     return JsonResponse(context,safe=False)
 
 
-def resultCourse(request):
+def resultCourse(request, page):
     body = json.loads(request.body.decode('utf-8'))
     if 'q' in body :
         keyword = body['q']
     else :
         keyword = ""
-
-    page = body['page']
 
     semester_filters = body['semester']
     department_filters = DepartmentFilters(body['department'])
