@@ -331,53 +331,23 @@ def Expectations(keyword):
     return expectations
 
 
-#################### UNUSED ####################
 def SearchResultView(request):
-    if 'q' in request.GET :
-        keyword = request.GET['q']
+    body = json.loads(request.body.decode('utf-8'))
+    if 'q' in body :
+        keyword = body['q']
     else :
         keyword = ""
-
-    semester_filters = request.GET.getlist('semester')
-    department_filters = DepartmentFilters(request.GET.getlist('department'))
-    type_filters = TypeFilters(request.GET.getlist('type'))
-    grade_filters = GradeFilters(request.GET.getlist('grade'))
-    courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters, keyword)
-    if 'sort' in request.GET:
-        if request.GET['sort'] == 'name':
-            courses = courses.order_by('title','old_code')
-        elif request.GET['sort'] == 'total':
-            courses = courses.order_by('-total','old_code')
-        elif request.GET['sort'] == 'grade':
-            courses = courses.order_by('-grade','old_code')
-        elif request.GET['sort'] == 'load':
-            courses = courses.order_by('-load','old_code')
-        elif request.GET['sort'] == 'speech':
-            courses = courses.order_by('-speech','old_code')
-        else:
-            courses = courses.order_by('old_code')
-    else:
-        courses = courses.order_by('old_code')
-
     if len(keyword)>0:
         expectations = Professor.objects.filter(Q(professor_name__icontains=keyword)|Q(professor_name_en__icontains=keyword))
         expectations = [{"name":i.professor_name,"id":i.id} for i in expectations]
     else:
         expectations = []
 
-    paginator = Paginator(courses,10)
-    page_obj = paginator.page(1)
-
-    results = [SearchCourse(i) for i in page_obj.object_list]
-
     context = {
-            "results": results,
-            "page":page_obj.number,
             "expectations":expectations,
-            "keyword": keyword,
     }
 
-    return render(request, 'review/result.html', context)
+    return JsonResponse(context,safe=False)
 
 
 def SearchResultView_json(request):
