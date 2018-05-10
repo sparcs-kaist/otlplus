@@ -27,7 +27,8 @@ urlpatterns = [
 
     url(r'^course/([^/]+)/([^/]+)/([^/]+)/$', views.SearchResultCourseView_json),
 
-    url(r'^result$', views.SearchResultView_json),
+    url(r'^result/professor$', views.SearchResultView),
+    url(r'^result/course$', views.SearchResultView_json),
 
     url(r'^insert/([^/]+)/([^/]+)/$', views.ReviewInsertAdd),
 
