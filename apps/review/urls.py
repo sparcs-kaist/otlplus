@@ -29,8 +29,8 @@ urlpatterns = [
     url(r'^course/$', views.course),
     url(r'^course/([^/]+)/([^/]+)/([^/]+)$', views.courseComment),
 
-    url(r'^result/professor$', views.resultProfessor),
-    url(r'^result/course$', views.resultCourse),
+    url(r'^result$', views.resultProfessor),
+    url(r'^result/(?P<page>[0-9]+)$', views.resultCourse),
 
     url(r'^insert/([^/]+)/([^/]+)/$', views.ReviewInsertAdd),
 
