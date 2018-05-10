@@ -654,16 +654,10 @@ def ReviewRefresh(request):
 def ReviewView(request, comment_id):
     try :
         comment = SearchComment(request,Comment.objects.get(id=comment_id))
-        isExist = 1
-    except :
-        comment = ''
-        isExist = 0
+    except Comment.DoesNotExist:
+        raise Http404
 
-    return render(request, 'review/review_view.html',
-                            {
-                                'result': comment,
-                                'isExist' : isExist,
-                            })
+    return JsonResponse(comment,safe=False)
 
 
 def LastCommentView(request):
