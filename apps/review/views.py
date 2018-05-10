@@ -380,27 +380,30 @@ def SearchResultView(request):
     return render(request, 'review/result.html', context)
 
 
-def SearchResultView_json(request, page):
-    if 'q' in request.GET :
-        keyword = request.GET['q']
+def SearchResultView_json(request):
+    body = json.loads(request.body.decode('utf-8'))
+    if 'q' in body :
+        keyword = body['q']
     else :
         keyword = ""
 
-    semester_filters = request.GET.getlist('semester')
-    department_filters = DepartmentFilters(request.GET.getlist('department'))
-    type_filters = TypeFilters(request.GET.getlist('type'))
-    grade_filters = GradeFilters(request.GET.getlist('grade'))
+    page = body['page']
+
+    semester_filters = body['semester']
+    department_filters = DepartmentFilters(body['department'])
+    type_filters = TypeFilters(body['type'])
+    grade_filters = GradeFilters(body['grade'])
     courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters, keyword)
-    if 'sort' in request.GET :
-        if request.GET['sort']=='name':
+    if 'sort' in body :
+        if body['sort']=='name':
             courses = courses.order_by('title','old_code')
-        elif request.GET['sort']=='total':
+        elif body['sort']=='total':
             courses = courses.order_by('-total','old_code')
-        elif request.GET['sort']=='grade':
+        elif body['sort']=='grade':
             courses = courses.order_by('-grade','old_code')
-        elif request.GET['sort']=='load':
+        elif body['sort']=='load':
             courses = courses.order_by('-load','old_code')
-        elif request.GET['sort']=='speech':
+        elif body['sort']=='speech':
             courses = courses.order_by('-speech','old_code')
         else:
             courses = courses.order_by('old_code')
@@ -420,7 +423,7 @@ def SearchResultView_json(request, page):
             "hasNext":page_obj.has_next(),
             "keyword":keyword,
     }
-    return JsonResponse(json.dumps(context),safe=False)
+    return JsonResponse(context,safe=False)
 
 
 #################### UNUSED ####################
