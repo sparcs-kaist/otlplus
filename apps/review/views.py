@@ -422,30 +422,17 @@ def professorComment(request, id=-1,course_id=-1,page=-1):
     return JsonResponse(context,safe=False)
 
 
-#################### UNUSED ####################
-def SearchResultCourseView(request,id=-1,professor_id=-1):
+def course(request,id=-1,professor_id=-1):
     professor_id = int(professor_id)
     course = Course.objects.get(id=id)
-    comments = Comment.objects.filter(course=course).order_by('-lecture__year','-written_datetime')
-    if professor_id != -1:
-        lectures = list(course.lecture_course.all())
-        lec_by_prof = GetLecByProf(lectures)
-        target_lectures = lec_by_prof[professor_id]
-        comments = comments.filter(lecture__in=target_lectures)
-
-    paginator = Paginator(comments,10)
-    page_obj = paginator.page(1)
-    results = [SearchComment(request,i) for i in page_obj.object_list]
 
     context = {
             "result":SearchCourse(course,professor_id),
-            "results": results,
-            "page":page_obj.number,
     }
-    return render(request, 'review/sresult.html', context)
+    return JsonResponse(context,safe=False)
 
 
-def SearchResultCourseView_json(request, id=-1,professor_id=-1,page=-1):
+def courseComment(request, id=-1,professor_id=-1,page=-1):
     professor_id = int(professor_id)
     course = Course.objects.get(id=id)
     comments = Comment.objects.filter(course = course).order_by('-lecture__year','-written_datetime')
@@ -466,7 +453,7 @@ def SearchResultCourseView_json(request, id=-1,professor_id=-1,page=-1):
             "results":results,
             "hasNext":page_obj.has_next(),
     }
-    return JsonResponse(json.dumps(context),safe=False)
+    return JsonResponse(context,safe=False)
 
 
 # Review Control Function#############################################################################################
