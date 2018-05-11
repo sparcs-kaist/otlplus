@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import axios from 'axios';
+import bootstrap from 'bootstrap';
 
 import './static/css/bootstrap.min.css';
 import './static/css/global.css';
