@@ -18,8 +18,7 @@ from django.http import HttpResponseRedirect
 from . import views
 
 urlpatterns = [
-    url(r'^$', views.LastCommentView),
-    url(r'^json/(?P<page>[0-9]+)/$', views.LastCommentView_json),
+    url(r'^latest/(?P<page>[0-9]+)$', views.latest),
 
     url(r'^comment/([1-9][0-9]*)$', views.ReviewView),
 
