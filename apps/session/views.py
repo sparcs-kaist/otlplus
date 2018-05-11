@@ -210,6 +210,19 @@ def unregister(request):
     return JsonResponse(status=200, data={})
 
 
+def info(request):
+    if not request.user.is_authenticated():
+        return JsonResponse({}, status=401)
+    
+    userProfile = UserProfile.objects.get(user=request.user)
+    ctx = {
+        "firstName": request.user.first_name,
+        "lastName": request.user.last_name,
+        "language": userProfile.language,
+    }
+    return JsonResponse(ctx, safe = False)
+
+
 #################### UNUSED ####################
 def language(request):
     if translation.LANGUAGE_SESSION_KEY not in request.session:
