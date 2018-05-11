@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import axios from 'axios';
-import { closeSearch, fetchSearch } from "../../actions/index";
+import { closeSearch, fetchSearch } from "../actions";
 import SearchFilter from './SearchFilter'
 
 axios.defaults.xsrfHeaderName = 'X-CSRFToken';
