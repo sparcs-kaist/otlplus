@@ -495,16 +495,17 @@ def insert(request):
     return JsonResponse(result, safe=False)
 
 
-#ReviewAddingFunctionPage#######################################################################################
 @login_required(login_url='/session/login/')
-def ReviewInsertAdd(request,lecture_id,semester):
-    if request.POST.has_key('content') == False:
+def insertReview(request,lecture_id):
+    body = json.loads(request.body.decode('utf-8'))
+
+    if body.has_key('content') == False:
         return HttpResponse('후기를 입력해주세요.')
     else:
-        if len(request.POST['content']) == 0:
+        if len(body['content']) == 0:
             return HttpResponse('1글자 이상 입력해주세요.')
         else:
-            comment = request.POST['content']
+            comment = body['content']
 
     user = request.user
     user_profile = UserProfile.objects.get(user=user)
@@ -512,12 +513,12 @@ def ReviewInsertAdd(request,lecture_id,semester):
     lecid = int(lecture_id)
     lecture = user_profile.take_lecture_list.get(id = lecid) # 하나로 특정되지않음, 변경요망
     course = lecture.course
-    comment = request.POST['content'] # 항목 선택 안했을시 반응 추가 요망 grade, load도
-    grade = 6-int(request.POST['gradescore'])
+    comment = body['content'] # 항목 선택 안했을시 반응 추가 요망 grade, load도
+    grade = 6-int(body['gradescore'])
     if not 0<=grade<=5: grade=0
-    load = 6-int(request.POST['loadscore'])
+    load = 6-int(body['loadscore'])
     if not 0<=load<=5: load=0
-    speech = 6-int(request.POST['speechscore'])
+    speech = 6-int(body['speechscore'])
     if not 0<=speech<=5: speech=0
     total = (grade+load+speech)/3.0
     writer = user_profile #session 완성시 변경
@@ -526,8 +527,8 @@ def ReviewInsertAdd(request,lecture_id,semester):
         target_comment = user_profile.comment_set.get(lecture=lecture)
         target_comment.u_update(grade=grade, load=load, speech=speech, comment=comment)
     except :
-        Comment.u_create(course=course, lecture=lecture, comment=comment, grade=grade, load=load, speech=speech, writer=writer)
-    return HttpResponseRedirect('../')
+        target_comment = Comment.u_create(course=course, lecture=lecture, comment=comment, grade=grade, load=load, speech=speech, writer=writer)
+    return JsonResponse({"id":target_comment.id}, safe=False)
 
 
 # ReviewRefreshFunctionPage#######################################################################################
