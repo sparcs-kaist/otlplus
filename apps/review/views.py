@@ -115,16 +115,6 @@ def search_view(request):
     return render(request, 'review/search.html',ctx)
 
 
-def isKorean(word):
-    if len(word) <= 0:
-        return False
-    # UNICODE RANGE OF KOREAN: 0xAC00 ~ 0xD7A3
-    for c in range(len(word)):
-        if word[c] < u"\uac00" or word[c] > u"\ud7a3":
-            return False
-    return True
-
-
 def CalcAvgScore(grade_sum, load_sum, speech_sum, total_sum, comment_num):
     if comment_num == 0:
         grade = 0.0
@@ -306,29 +296,6 @@ def SearchProfessor(professor,id=-1):
         "score": score,
     }
     return result
-
-
-def Expectations(keyword):
-    if not keyword:
-        return
-    expectations=[]
-    expect_prof=[]
-    expect_course=[]
-    expect_prof = Professor.objects.filter(Q(professor_name__icontains=keyword) | Q(professor_name_en__icontains=keyword))
-    expect_course = Course.objects.filter(Q(title__icontains=keyword) | Q(title_en__icontains=keyword) | Q(old_code__icontains=keyword))
-    expect_temp=[]
-    if isKorean(keyword):
-        for profobj in expect_prof:
-            expect_temp.append(profobj.professor_name)
-        for courseobj in expect_course:
-            expect_temp.append(courseobj.title)
-    else:
-        for profobj in expect_prof:
-            expect_temp.append(profobj.professor_name_en)
-        for courseobj in expect_course:
-            expect_temp.append(courseobj.title_en)
-    expectations = expect_temp
-    return expectations
 
 
 def resultProfessor(request):
