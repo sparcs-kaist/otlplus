@@ -34,9 +34,6 @@ urlpatterns = [
     url(r'^insert$', views.insert),
     url(r'^insert/([^/]+)$', views.insertReview),
 
-    url(r'^delete/$',views.ReviewDelete),
     url(r'^like/$',views.ReviewLike),
-    url(r'^refresh/$',views.ReviewRefresh),
-    url(r'^portal/$',views.ReviewPortal),
     url(r'^dictionary/([^/]+)/$', views.dictionary),
 ]
