@@ -5,14 +5,8 @@ class SearchCircle extends Component {
         super(props);
         this.onClick = this.onClick.bind(this)
         this.state = {
-            isChecked:false,
+            isChecked:this.props.value === 'ALL',
         };
-    }
-
-    componentDidMount(){
-        this.setState({
-            isChecked:this.props.value === 'ALL'
-        })
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
