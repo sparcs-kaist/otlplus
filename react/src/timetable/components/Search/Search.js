@@ -41,8 +41,8 @@ class Search extends Component {
         if(!nextProps.open) {
             return {
                 inputVal: "",
-                type:["ALL"],
-                department:["ALL"]
+                type:new Set(["ALL"]),
+                department:new Set(["ALL"])
             };//When Close the Search, initialize the state
         }
         return null;
