@@ -25,10 +25,6 @@ let groupLectures = (lectures) => {
 class Search extends Component {
     constructor(props) {
         super(props);
-        this.hideSearch = this.hideSearch.bind(this);
-        this.searchStart = this.searchStart.bind(this);
-        this.clickCircle = this.clickCircle.bind(this);
-        this.handleInput = this.handleInput.bind(this);
 
         this.state = {
             inputVal: "",
@@ -114,7 +110,7 @@ class Search extends Component {
                                 <i className="search-keyword-icon"/>
                                 <div className="search-keyword-text-wrap">
                                     <input className="search-keyword-text" type="text" name="keyword"
-                                           autoComplete="off" placeholder="검색" value={this.state.inputVal} onChange={this.handleInput}/>
+                                           autoComplete="off" placeholder="검색" value={this.state.inputVal} onChange={(e)=>this.handleInput(e)}/>
                                     <div className="search-keyword-autocomplete">
                                         <span className="search-keyword-autocomplete-space"/>
                                         <span className="search-keyword-autocomplete-body"/>
@@ -122,12 +118,12 @@ class Search extends Component {
                                 </div>
                             </div>
                             <SearchFilter
-                                clickCircle = {this.clickCircle}
+                                clickCircle = {this.clickCircle.bind(this)}
                                 inputName = 'type'
                                 titleName = '구분'
                             />
                             <SearchFilter
-                                clickCircle = {this.clickCircle}
+                                clickCircle = {this.clickCircle.bind(this)}
                                 inputName = 'department'
                                 titleName = '학과'
                             />

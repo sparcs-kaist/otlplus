@@ -4,7 +4,7 @@ import SearchCircle from './SearchCircle'
 class SearchFilter extends Component {
     constructor(props) {
         super(props);
-        this.clickCircle = this.clickCircle.bind(this);
+
         this.state = {
             allChecked:true,
             checkNum:1,
@@ -81,7 +81,7 @@ class SearchFilter extends Component {
                     value={value}
                     inputName={inputName}
                     circleName = {nameArr[index]}
-                    clickCircle = {this.clickCircle}
+                    clickCircle = {this.clickCircle.bind(this)}
                     allChecked = {this.state.allChecked}/>
             )
         };
