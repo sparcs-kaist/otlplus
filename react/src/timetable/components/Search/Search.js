@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import axios from 'axios';
-import { closeSearch, fetchSearch } from "../actions";
+import { closeSearch, fetchSearch } from "../../actions/index";
+import SearchFilter from './SearchFilter'
 
 axios.defaults.xsrfHeaderName = 'X-CSRFToken';
 axios.defaults.xsrfCookieName = 'csrftoken';
@@ -11,7 +12,8 @@ let groupLectures = (lectures) => {
         return [];
 
     let courses = [[lectures[0]]];
-    for (let i=1, lecture; lecture=lectures[i]; i++) {
+    for (let i=1, lecture; lectures[i]!==undefined; i++) {
+        lecture=lectures[i];
         if (lecture.course === courses[courses.length-1][0].course)
             courses[courses.length-1].push(lecture);
         else
@@ -21,6 +23,44 @@ let groupLectures = (lectures) => {
 };
 
 class Search extends Component {
+    constructor(props) {
+        super(props);
+        this.hideSearch = this.hideSearch.bind(this);
+        this.searchStart = this.searchStart.bind(this);
+        this.clickCircle = this.clickCircle.bind(this);
+        this.handleInput = this.handleInput.bind(this);
+
+        this.state = {
+            inputVal: "",
+        };
+    }
+    componentDidMount() {
+        let type = new Set();
+        let department = new Set();
+        type.add("ALL");
+        department.add("ALL");
+        this.setState({
+            type:type,
+            department:department
+        });
+    }
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if(!nextProps.open) {
+            return {
+                inputVal: "",
+                type:["ALL"],
+                department:["ALL"]
+            };//When Close the Search, initialize the state
+        }
+        return null;
+    }
+
+    componentDidUpdate(){
+        console.log('type',this.state.type);
+        console.log('department',this.state.department);
+    }
+
     hideSearch() {
         this.props.closeSearchDispatch();
     }
@@ -42,6 +82,33 @@ class Search extends Component {
         .catch((response) => {console.log(response);});
     }
 
+    clickCircle(filter_) {
+        const filterName = filter_.name;
+        const value = filter_.value;
+        const isChecked = filter_.isChecked;
+        if(isChecked){
+            this.setState((prevState)=>{
+                let filter = prevState[filterName];
+                if(value ==="ALL" )
+                    filter.clear();
+                filter.add(value);
+                return prevState;
+            });
+        }else{
+            this.setState((prevState)=>{
+                let filter = prevState[filterName];
+                filter.delete(value);
+                return prevState;
+            });
+        }
+    }
+
+    handleInput(e) {
+        this.setState({
+            inputVal: e.target.value
+        });
+    }
+
     render() {
         if (! this.props.open) {
             return <div/>;
@@ -55,33 +122,23 @@ class Search extends Component {
                                 <i className="search-keyword-icon"/>
                                 <div className="search-keyword-text-wrap">
                                     <input className="search-keyword-text" type="text" name="keyword"
-                                           autoComplete="off" placeholder="검색"/>
+                                           autoComplete="off" placeholder="검색" value={this.state.inputVal} onChange={this.handleInput}/>
                                     <div className="search-keyword-autocomplete">
                                         <span className="search-keyword-autocomplete-space"/>
                                         <span className="search-keyword-autocomplete-body"/>
                                     </div>
                                 </div>
                             </div>
-                            <div className="search-filter">
-                                <label
-                                    className="search-filter-title fixed-ko"/>
-                                <div className="search-filter-elem">
-                                    <label>
-                                        <input className="chkall" type="checkbox" autoComplete="off" name="type"
-                                               value="ALL"/>
-                                        전체
-                                        <i className="fa fa-circle-o fa-1x none"/>
-                                        <i className="fa fa-check-circle-o fa-1x"/>
-                                    </label>
-                                    <label>
-                                        <input className="chkelem" type="checkbox" autoComplete="off" name="type"
-                                               value="GR"/>
-                                        공통
-                                        <i className="fa fa-circle-o fa-1x"/>
-                                        <i className="fa fa-check-circle-o fa-ix none"/>
-                                    </label>
-                                </div>
-                            </div>
+                            <SearchFilter
+                                clickCircle = {this.clickCircle}
+                                inputName = 'type'
+                                titleName = '구분'
+                            />
+                            <SearchFilter
+                                clickCircle = {this.clickCircle}
+                                inputName = 'department'
+                                titleName = '학과'
+                            />
                             <div className="search-filter search-filter-time">
                                 <label
                                     className="search-filter-title fixed-ko">시간</label>
