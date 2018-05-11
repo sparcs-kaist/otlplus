@@ -4,9 +4,11 @@
   "private": true,
   "dependencies": {
     "axios": "^0.18.0",
+    "bootstrap": "^4.1.1",
     "history": "^4.7.2",
     "jquery": "^3.3.1",
     "nanoscroller": "^0.8.7",
+    "popper.js": "^1.14.3",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
     "react-redux": "^5.0.7",
