@@ -6,7 +6,7 @@ class CoursePage extends Component {
     render() {
         return (
             <div>
-                <Header/>
+                <Header user={this.props.user}/>
                 <section id="content" className="container-fluid">
                     CoursePage <br/>
                     course_id : {this.props.match.params.course_id} <br/>
