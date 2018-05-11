@@ -52,11 +52,41 @@ class Header extends Component {
                                         English
                                     </a>
                                 </li>
-                                <li>
-                                    <a className="login">
-                                        로그인
-                                    </a>
-                                </li>
+                                {
+                                    this.props.user == null
+                                    ?   <li>
+                                            <a className="login">
+                                                로그인
+                                            </a>
+                                        </li>
+                                    :   <li className="dropdown">
+                                            <a className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                                <span className="header_hide">
+                                                    {this.props.user.lastName} {this.props.user.firstName}
+                                                </span>
+                                                <span className="caret"/>
+                                            </a>
+                                            <ul className="dropdown-menu">
+                                                <li>
+                                                    <a href="/session/settings">
+                                                        마이페이지
+                                                    </a>
+                                                </li>
+                                                <li role="separator" className="divider"/>
+                                                <li>
+                                                    <a href="https://sparcssso.kaist.ac.kr/account/profile/">
+                                                        SPARCSSSO
+                                                    </a>
+                                                </li>
+                                                <li role="separator" className="divider"/>
+                                                <li>
+                                                    <a className="logout">
+                                                        로그아웃
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                }
                             </ul>
                         </div>
                     </div>
@@ -67,11 +97,42 @@ class Header extends Component {
                                     English
                                 </a>
                             </li>
-                            <li>
-                                <a className="login">
-                                    로그인
-                                </a>
-                            </li>
+                            {
+                                this.props.user == null
+                                ?   <li>
+                                        <a className="login">
+                                            로그인
+                                        </a>
+                                    </li>
+                                :   <li class="dropdown">
+                                        <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                            <span class="glyphicon glyphicon-user"/>
+                                            <span class="header_hide">
+                                                {this.props.user.lastName} {this.props.user.firstName}
+                                            </span>
+                                            <span class="caret"/>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <a href="/session/settings">
+                                                    마이페이지
+                                                </a>
+                                            </li>
+                                            <li role="separator" class="divider"/>
+                                            <li>
+                                                <a href="https://sparcssso.kaist.ac.kr/account/profile/">
+                                                    SPARCSSSO
+                                                </a>
+                                            </li>
+                                            <li role="separator" class="divider"/>
+                                            <li>
+                                                <a class="logout">
+                                                    로그아웃
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                            }
                         </ul>
                     </div>
                 </div>
