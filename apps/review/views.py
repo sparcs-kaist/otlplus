@@ -331,76 +331,47 @@ def Expectations(keyword):
     return expectations
 
 
-#################### UNUSED ####################
-def SearchResultView(request):
-    if 'q' in request.GET :
-        keyword = request.GET['q']
+def resultProfessor(request):
+    body = json.loads(request.body.decode('utf-8'))
+    if 'q' in body :
+        keyword = body['q']
     else :
         keyword = ""
-
-    semester_filters = request.GET.getlist('semester')
-    department_filters = DepartmentFilters(request.GET.getlist('department'))
-    type_filters = TypeFilters(request.GET.getlist('type'))
-    grade_filters = GradeFilters(request.GET.getlist('grade'))
-    courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters, keyword)
-    if 'sort' in request.GET:
-        if request.GET['sort'] == 'name':
-            courses = courses.order_by('title','old_code')
-        elif request.GET['sort'] == 'total':
-            courses = courses.order_by('-total','old_code')
-        elif request.GET['sort'] == 'grade':
-            courses = courses.order_by('-grade','old_code')
-        elif request.GET['sort'] == 'load':
-            courses = courses.order_by('-load','old_code')
-        elif request.GET['sort'] == 'speech':
-            courses = courses.order_by('-speech','old_code')
-        else:
-            courses = courses.order_by('old_code')
-    else:
-        courses = courses.order_by('old_code')
-
     if len(keyword)>0:
         expectations = Professor.objects.filter(Q(professor_name__icontains=keyword)|Q(professor_name_en__icontains=keyword))
         expectations = [{"name":i.professor_name,"id":i.id} for i in expectations]
     else:
         expectations = []
 
-    paginator = Paginator(courses,10)
-    page_obj = paginator.page(1)
-
-    results = [SearchCourse(i) for i in page_obj.object_list]
-
     context = {
-            "results": results,
-            "page":page_obj.number,
             "expectations":expectations,
-            "keyword": keyword,
     }
 
-    return render(request, 'review/result.html', context)
+    return JsonResponse(context,safe=False)
 
 
-def SearchResultView_json(request, page):
-    if 'q' in request.GET :
-        keyword = request.GET['q']
+def resultCourse(request, page):
+    body = json.loads(request.body.decode('utf-8'))
+    if 'q' in body :
+        keyword = body['q']
     else :
         keyword = ""
 
-    semester_filters = request.GET.getlist('semester')
-    department_filters = DepartmentFilters(request.GET.getlist('department'))
-    type_filters = TypeFilters(request.GET.getlist('type'))
-    grade_filters = GradeFilters(request.GET.getlist('grade'))
+    semester_filters = body['semester']
+    department_filters = DepartmentFilters(body['department'])
+    type_filters = TypeFilters(body['type'])
+    grade_filters = GradeFilters(body['grade'])
     courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters, keyword)
-    if 'sort' in request.GET :
-        if request.GET['sort']=='name':
+    if 'sort' in body :
+        if body['sort']=='name':
             courses = courses.order_by('title','old_code')
-        elif request.GET['sort']=='total':
+        elif body['sort']=='total':
             courses = courses.order_by('-total','old_code')
-        elif request.GET['sort']=='grade':
+        elif body['sort']=='grade':
             courses = courses.order_by('-grade','old_code')
-        elif request.GET['sort']=='load':
+        elif body['sort']=='load':
             courses = courses.order_by('-load','old_code')
-        elif request.GET['sort']=='speech':
+        elif body['sort']=='speech':
             courses = courses.order_by('-speech','old_code')
         else:
             courses = courses.order_by('old_code')
@@ -420,28 +391,18 @@ def SearchResultView_json(request, page):
             "hasNext":page_obj.has_next(),
             "keyword":keyword,
     }
-    return JsonResponse(json.dumps(context),safe=False)
+    return JsonResponse(context,safe=False)
 
 
-#################### UNUSED ####################
-def SearchResultProfessorView(request,id=-1,course_id=-1):
+def professor(request,id=-1,course_id=-1):
     professor = Professor.objects.get(id=id)
-    comments = Comment.objects.filter(lecture__professor__id=id).order_by('-lecture__year','-written_datetime')
-    if int(course_id) != -1:
-        comments = comments.filter(lecture__course__id=course_id)
-    paginator = Paginator(comments,10)
-    page_obj = paginator.page(1)
-    results = [SearchComment(request,i) for i in page_obj.object_list]
-
     context = {
             "result":SearchProfessor(professor,course_id),
-            "results": results,
-            "page":page_obj.number,
     }
-    return render(request, 'review/sresult.html', context)
+    return JsonResponse(context,safe=False)
 
 
-def SearchResultProfessorView_json(request, id=-1,course_id=-1,page=-1):
+def professorComment(request, id=-1,course_id=-1,page=-1):
     comments = Comment.objects.filter(lecture__professor__id=id).order_by('-lecture__year','-written_datetime')
     if int(course_id) != -1:
         comments = comments.filter(lecture__course__id=course_id)
@@ -456,33 +417,20 @@ def SearchResultProfessorView_json(request, id=-1,course_id=-1,page=-1):
             "results":results,
             "hasNext":page_obj.has_next(),
     }
-    return JsonResponse(json.dumps(context),safe=False)
+    return JsonResponse(context,safe=False)
 
 
-#################### UNUSED ####################
-def SearchResultCourseView(request,id=-1,professor_id=-1):
+def course(request,id=-1,professor_id=-1):
     professor_id = int(professor_id)
     course = Course.objects.get(id=id)
-    comments = Comment.objects.filter(course=course).order_by('-lecture__year','-written_datetime')
-    if professor_id != -1:
-        lectures = list(course.lecture_course.all())
-        lec_by_prof = GetLecByProf(lectures)
-        target_lectures = lec_by_prof[professor_id]
-        comments = comments.filter(lecture__in=target_lectures)
-
-    paginator = Paginator(comments,10)
-    page_obj = paginator.page(1)
-    results = [SearchComment(request,i) for i in page_obj.object_list]
 
     context = {
             "result":SearchCourse(course,professor_id),
-            "results": results,
-            "page":page_obj.number,
     }
-    return render(request, 'review/sresult.html', context)
+    return JsonResponse(context,safe=False)
 
 
-def SearchResultCourseView_json(request, id=-1,professor_id=-1,page=-1):
+def courseComment(request, id=-1,professor_id=-1,page=-1):
     professor_id = int(professor_id)
     course = Course.objects.get(id=id)
     comments = Comment.objects.filter(course = course).order_by('-lecture__year','-written_datetime')
@@ -503,7 +451,7 @@ def SearchResultCourseView_json(request, id=-1,professor_id=-1,page=-1):
             "results":results,
             "hasNext":page_obj.has_next(),
     }
-    return JsonResponse(json.dumps(context),safe=False)
+    return JsonResponse(context,safe=False)
 
 
 # Review Control Function#############################################################################################
@@ -704,16 +652,10 @@ def ReviewRefresh(request):
 def ReviewView(request, comment_id):
     try :
         comment = SearchComment(request,Comment.objects.get(id=comment_id))
-        isExist = 1
-    except :
-        comment = ''
-        isExist = 0
+    except Comment.DoesNotExist:
+        raise Http404
 
-    return render(request, 'review/review_view.html',
-                            {
-                                'result': comment,
-                                'isExist' : isExist,
-                            })
+    return JsonResponse(comment,safe=False)
 
 
 def LastCommentView(request):
