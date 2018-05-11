@@ -32,17 +32,9 @@ class Search extends Component {
 
         this.state = {
             inputVal: "",
+            type: new Set(["ALL"]),
+            department: new Set(["ALL"]),
         };
-    }
-    componentDidMount() {
-        let type = new Set();
-        let department = new Set();
-        type.add("ALL");
-        department.add("ALL");
-        this.setState({
-            type:type,
-            department:department
-        });
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
