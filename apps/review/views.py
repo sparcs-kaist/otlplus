@@ -28,7 +28,7 @@ gradelist = [(0,'?'),(1,'F'),(2,'F'),(3,'F'),(4,'D-'),(5,'D'),(6,'D+'),(7,'C-'),
 
 
 # Filter Functions################################################################
-def DepartmentFilters(raw_filters):
+def _departmentFilters(raw_filters):
     department_list = []
     for department in Department.objects.all():
         department_list.append(department.code)
@@ -42,7 +42,7 @@ def DepartmentFilters(raw_filters):
     return filters
 
 
-def TypeFilters(raw_filters):
+def _typeFilters(raw_filters):
     acronym_dic = {'GR':'General Required', 'MGC':'Mandatory General Courses', 'BE':'Basic Elective', 'BR':'Basic Required', 'EG':'Elective(Graduate)', 'HSE':'Humanities & Social Elective', 'OE':'Other Elective', 'ME':'Major Elective', 'MR':'Major Required', 'S':'Seminar', 'I':'Interdisciplinary', 'FP':'Field Practice'}
     type_list = acronym_dic.keys()
     if ('ALL' in raw_filters) or len(raw_filters)==0 :
@@ -55,7 +55,7 @@ def TypeFilters(raw_filters):
     return filters
 
 
-def GradeFilters(raw_filters):
+def _gradeFilters(raw_filters):
     acronym_dic = {'ALL':"", '000':"0", '100':"1", '200':"2", '300':"3", '400':"4", '500':"5", 'HIGH':"6"}
     grade_list = acronym_dic.keys()
     acronym_filters = list(set(grade_list) & set(raw_filters))
@@ -89,7 +89,7 @@ def search_view(request):
         try :
             j = random.randint(0, len(comment_liberal)-1)
             comment = comment_liberal[j].comment
-            context = SearchComment(request, comment)
+            context = _comment_to_dict(request, comment)
             liberal_comment.append(context)
             comment_liberal.pop(j)
 
@@ -101,7 +101,7 @@ def search_view(request):
             j = random.randint(0,len(comment_major)-1)
 
             comment = comment_major[j].comment
-            context = SearchComment(request, comment)
+            context = _comment_to_dict(request, comment)
             major_comment.append(context)
             comment_major.pop(j)
 
@@ -115,7 +115,7 @@ def search_view(request):
     return render(request, 'review/search.html',ctx)
 
 
-def CalcAvgScore(grade_sum, load_sum, speech_sum, total_sum, comment_num):
+def _calcAvgScore(grade_sum, load_sum, speech_sum, total_sum, comment_num):
     if comment_num == 0:
         grade = 0.0
         load = 0.0
@@ -129,7 +129,7 @@ def CalcAvgScore(grade_sum, load_sum, speech_sum, total_sum, comment_num):
     return grade, load, speech, total
 
 
-def GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters, keyword):
+def _getFilteredCourses(semester_filters, department_filters, type_filters, grade_filters, keyword):
     if len(semester_filters)==0 or ("ALL" in semester_filters):
         courses = Course.objects.filter(department__code__in=department_filters, type_en__in=type_filters, code_num__in=grade_filters)
     else :
@@ -141,20 +141,20 @@ def GetFilteredCourses(semester_filters, department_filters, type_filters, grade
     return courses
 
 
-def KeyLecByProf(lecture):
+def _keyLecByProf(lecture):
     return sorted([i.id for i in lecture.professor.all()])
 
 
-def GetLecByProf(lectures):
-    lectures.sort(key = KeyLecByProf)
-    lec_by_prof = groupby(lectures, KeyLecByProf)
+def _getLecByProf(lectures):
+    lectures.sort(key = _keyLecByProf)
+    lec_by_prof = groupby(lectures, _keyLecByProf)
     lec_by_prof = [ list(i[1]) for i in lec_by_prof ]
     return lec_by_prof
 
 
-def SearchCourse(course,id=-1):
+def _course_to_dict(course,id=-1):
     lectures = list( course.lecture_course.all() )
-    lec_by_prof = GetLecByProf(lectures)
+    lec_by_prof = _getLecByProf(lectures)
 
     prof_info = []
     prof_info.append({
@@ -181,7 +181,7 @@ def SearchCourse(course,id=-1):
             speech_sum = sum(i.speech_sum for i in lectures)
             total_sum = sum(i.total_sum for i in lectures)
             comment_num = sum(i.comment_num for i in lectures)
-            grade, load, speech, total = CalcAvgScore(grade_sum, load_sum, speech_sum, total_sum, comment_num)
+            grade, load, speech, total = _calcAvgScore(grade_sum, load_sum, speech_sum, total_sum, comment_num)
             score = {"grade":int(round(grade)), "load":int(round(load)), "speech":int(round(speech)), "total":int(round(total)),}
 
         prof_info.append({
@@ -204,7 +204,7 @@ def SearchCourse(course,id=-1):
     return result
 
 
-def SearchComment(request, comment):
+def _comment_to_dict(request, comment):
     is_login = False
     already_up = False
     comment_id = -1
@@ -244,7 +244,7 @@ def SearchComment(request, comment):
     return result
 
 
-def SearchProfessor(professor,id=-1):
+def _professor_to_dict(professor,id=-1):
     lecture_list=[]
     lecture_list.append({
         "name": "ALL",
@@ -267,7 +267,7 @@ def SearchProfessor(professor,id=-1):
             speech_sum = sum(i.speech_sum for i in lectures)
             total_sum = sum(i.total_sum for i in lectures)
             comment_num = sum(i.comment_num for i in lectures)
-            grade, load, speech, total = CalcAvgScore(grade_sum, load_sum, speech_sum, total_sum, comment_num)
+            grade, load, speech, total = _calcAvgScore(grade_sum, load_sum, speech_sum, total_sum, comment_num)
             score = {"grade":int(round(grade)), "load":int(round(load)), "speech":int(round(speech)), "total":int(round(total)),}
 
             """
@@ -325,10 +325,10 @@ def resultCourse(request, page):
         keyword = ""
 
     semester_filters = body['semester']
-    department_filters = DepartmentFilters(body['department'])
-    type_filters = TypeFilters(body['type'])
-    grade_filters = GradeFilters(body['grade'])
-    courses = GetFilteredCourses(semester_filters, department_filters, type_filters, grade_filters, keyword)
+    department_filters = _departmentFilters(body['department'])
+    type_filters = _typeFilters(body['type'])
+    grade_filters = _gradeFilters(body['grade'])
+    courses = _getFilteredCourses(semester_filters, department_filters, type_filters, grade_filters, keyword)
     if 'sort' in body :
         if body['sort']=='name':
             courses = courses.order_by('title','old_code')
@@ -351,7 +351,7 @@ def resultCourse(request, page):
     except InvalidPage:
         raise Http404
 
-    results = [SearchCourse(i) for i in page_obj.object_list]
+    results = [_course_to_dict(i) for i in page_obj.object_list]
 
     context = {
             "results":results,
@@ -364,7 +364,7 @@ def resultCourse(request, page):
 def professor(request,id=-1,course_id=-1):
     professor = Professor.objects.get(id=id)
     context = {
-            "result":SearchProfessor(professor,course_id),
+            "result":_professor_to_dict(professor,course_id),
     }
     return JsonResponse(context,safe=False)
 
@@ -378,7 +378,7 @@ def professorComment(request, id=-1,course_id=-1,page=-1):
         page_obj = paginator.page(page)
     except InvalidPage:
         raise Http404
-    results = [SearchComment(request,i) for i in page_obj.object_list]
+    results = [_comment_to_dict(request,i) for i in page_obj.object_list]
 
     context = {
             "results":results,
@@ -392,7 +392,7 @@ def course(request,id=-1,professor_id=-1):
     course = Course.objects.get(id=id)
 
     context = {
-            "result":SearchCourse(course,professor_id),
+            "result":_course_to_dict(course,professor_id),
     }
     return JsonResponse(context,safe=False)
 
@@ -403,7 +403,7 @@ def courseComment(request, id=-1,professor_id=-1,page=-1):
     comments = Comment.objects.filter(course = course).order_by('-lecture__year','-written_datetime')
     if professor_id != -1:
         lectures = list(course.lecture_course.all())
-        lec_by_prof = GetLecByProf(lectures)
+        lec_by_prof = _getLecByProf(lectures)
         target_lectures = lec_by_prof[professor_id]
         comments = comments.filter(lecture__in=target_lectures)
 
@@ -412,7 +412,7 @@ def courseComment(request, id=-1,professor_id=-1,page=-1):
         page_obj = paginator.page(page)
     except InvalidPage:
         raise Http404
-    results = [SearchComment(request,i) for i in page_obj.object_list]
+    results = [_comment_to_dict(request,i) for i in page_obj.object_list]
 
     context = {
             "results":results,
@@ -618,7 +618,7 @@ def ReviewRefresh(request):
 
 def ReviewView(request, comment_id):
     try :
-        comment = SearchComment(request,Comment.objects.get(id=comment_id))
+        comment = _comment_to_dict(request,Comment.objects.get(id=comment_id))
     except Comment.DoesNotExist:
         raise Http404
 
@@ -633,17 +633,17 @@ def LastCommentView(request):
             favorite_departments_code = []
             for department in user_profile.favorite_departments.all():
                 favorite_departments_code.append(department.code)
-            department_filters = DepartmentFilters(favorite_departments_code)
+            department_filters = _departmentFilters(favorite_departments_code)
         else:
             department_filters = ["CE", "MSB", "MAE", "PH", "BiS", "IE", "ID", "BS", "CBE", "MAS", "MS", "NQE", "EE", "CS", "MAE", "CH"]
     else:
-        department_filters = DepartmentFilters(request.GET.getlist('filter'))
+        department_filters = _departmentFilters(request.GET.getlist('filter'))
     comments = Comment.objects.filter(course__department__code__in=department_filters).order_by('-written_datetime')
 
     paginator = Paginator(comments,10)
     page_obj = paginator.page(1)
 
-    results = [SearchComment(request,i) for i in page_obj.object_list]
+    results = [_comment_to_dict(request,i) for i in page_obj.object_list]
 
     context = {
             "results": results,
@@ -660,11 +660,11 @@ def LastCommentView_json(request, page=-1):
             favorite_departments_code = []
             for department in user_profile.favorite_departments.all():
                 favorite_departments_code.append(department.code)
-            department_filters = DepartmentFilters(favorite_departments_code)
+            department_filters = _departmentFilters(favorite_departments_code)
         else:
             department_filters = []
     else:
-        department_filters = DepartmentFilters(request.GET.getlist('filter'))
+        department_filters = _departmentFilters(request.GET.getlist('filter'))
     comments = Comment.objects.filter(course__department__code__in=department_filters).order_by('-written_datetime')
 
     paginator = Paginator(comments,10)
@@ -672,7 +672,7 @@ def LastCommentView_json(request, page=-1):
         page_obj = paginator.page(page)
     except InvalidPage:
         raise Http404
-    results = [SearchComment(request,i) for i in page_obj.object_list]
+    results = [_comment_to_dict(request,i) for i in page_obj.object_list]
 
     context = {
             "results":results,
