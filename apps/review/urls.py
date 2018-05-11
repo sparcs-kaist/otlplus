@@ -35,5 +35,7 @@ urlpatterns = [
     url(r'^insert/([^/]+)$', views.insertReview),
 
     url(r'^like$',views.ReviewLike),
+
+    # TODO: Implement old OTL dictionary URL redirect
     url(r'^dictionary/([^/]+)/$', views.dictionary),
 ]
