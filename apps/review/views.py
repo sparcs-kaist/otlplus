@@ -682,50 +682,6 @@ def LastCommentView_json(request, page=-1):
     return JsonResponse(json.dumps(context),safe=False)
 
 
-# 404 ERROR HANDLING
-def page_not_found(request):
-    response = render(
-        request,'review/404.html')
-
-    response.status_code = 404
-
-    return response
-
-
-# 400 ERROR HANDLING
-def bad_request(request):
-    response = render_to_response(
-        'review/400.html',
-        context_instance=RequestContext(request)
-    )
-
-    response.status_code = 400
-
-    return response
-
-
-# 403 ERROR HANDLING
-def permisson_denied(request):
-    response = render_to_response(
-        'review/403.html',
-        context_instance=RequestContext(request)
-    )
-
-    response.status_code = 403
-
-    return response
-
-
-# 500 ERROR HANDLING
-def server_error(request):
-    response = render(
-        request,'review/500.html')
-
-    response.status_code = 500
-
-    return response
-
-
 def dictionary(request, course_code):
     courses = Course.objects.filter(old_code = str(course_code))
     if len(courses)>0:
