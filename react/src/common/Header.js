@@ -55,7 +55,7 @@ class Header extends Component {
                                 {
                                     this.props.user == null
                                     ?   <li>
-                                            <a className="login">
+                                            <a href={`/session/login/?next=${window.location.href}`} className="login">
                                                 로그인
                                             </a>
                                         </li>
@@ -80,7 +80,7 @@ class Header extends Component {
                                                 </li>
                                                 <li role="separator" className="divider"/>
                                                 <li>
-                                                    <a className="logout">
+                                                    <a href={`/session/logout/?next=${window.location.href}`} className="logout">
                                                         로그아웃
                                                     </a>
                                                 </li>
@@ -100,7 +100,7 @@ class Header extends Component {
                             {
                                 this.props.user == null
                                 ?   <li>
-                                        <a className="login">
+                                        <a href={`/session/login/?next=${window.location.href}`} className="login">
                                             로그인
                                         </a>
                                     </li>
@@ -126,7 +126,7 @@ class Header extends Component {
                                             </li>
                                             <li role="separator" class="divider"/>
                                             <li>
-                                                <a class="logout">
+                                                <a href={`/session/logout/?next=${window.location.href}`} class="logout">
                                                     로그아웃
                                                 </a>
                                             </li>
