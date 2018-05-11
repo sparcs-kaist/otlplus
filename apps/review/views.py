@@ -465,107 +465,34 @@ def ReviewPortal(request):
     return HttpResponseRedirect('https://sparcssso.kaist.ac.kr/account/profile/')
 
 
-#################### UNUSED ####################
 @login_required(login_url='/session/login/')
-def ReviewInsertView(request,lecture_id=-1,semester=0):
+def insert(request):
+    print("insert")
     user = request.user
     user_profile = UserProfile.objects.get(user=user)
+    print(user_profile)
+
+    # TODO : Change here
     if user_profile.portal_check == 1:
         user_profile.portal_check =0
         user_profile.save()
         return HttpResponseRedirect('/session/logout/')
-    semchar=[None,"봄","여름","가을","겨울"]
-    reviewmsg=""
-    return_object = []
-    semester=int(semester)
-    lec_year = (semester/10)+2000
-    lec_sem = semester%10
-    if len(user_profile.student_id) < 1:
-        ctx = {'errttle':'포탈 연동이 되어있지 않습니다!','errmsg':'<a href="/review/portal/">포탈 연동하러가기!</a>'}
-    else:
-        ctx = {'errttle':'수강한 과목이 없습니다!','errmsg':'만약 수강한 과목이 있다면, <a href="/review/refresh/">여기를 눌러 갱신해주세요!</a>'}
-    if semester % 10 > 4 or semester < 0 or semester > 1000:
-        return render(request, 'review/error.html',ctx)
-    lecture_list = user_profile.take_lecture_list.all()
-    if len(lecture_list) == 0:
-        print user_profile.student_id
-        return render(request, 'review/error.html',ctx)
-    recent_semester=0
-    semesters=[]
-    thissem_lec = -1
-    for single_lecture in lecture_list:
-        lecture_object = {}
-        lecture_object["title"]=single_lecture.title;
-        lecture_object["old_code"]=single_lecture.old_code;
-        lecture_object["lecid"]=str(single_lecture.id);
-        lecture_object["semester"]=single_lecture.semester;
-        lecture_object["sem_char"]=semchar[lecture_object["semester"]]
-        lecture_object["year"]=single_lecture.year;
-        lecture_object["lectime"]=(lecture_object["year"]-2000)*10+lecture_object["semester"]
-        try:
-            lecture_object["comment"]=user_profile.comment_set.get(lecture=single_lecture).comment
-        except:
-            lecture_object["comment"]=""
-        korstr = str((lecture_object["year"]%100))+lecture_object["sem_char"]
-        if recent_semester < lecture_object["lectime"]:
-            recent_semester = lecture_object["lectime"]
-        if not (lecture_object["lectime"],korstr) in semesters:
-            semesters.append((lecture_object["lectime"],korstr))
-        prof_list = single_lecture.professor.all();
-        lecture_object["professor"]=", ".join([i.professor_name for i in prof_list])
-        if semester == lecture_object["lectime"]:
-                if thissem_lec < 0: thissem_lec = lecture_object["lecid"]
-                return_object.append(lecture_object)
-    gradelist=['A','B','C','D','F']
-    pre_comment =""
-    pre_grade="A"
-    pre_load="A"
-    pre_speech="A"
-    subjectname=""
-    semesters.sort(reverse=True)
-    if semester == 0:
-        return HttpResponseRedirect("/review/insert/-1/"+ str(recent_semester))
-    try:
-        guideline="1) 학점, 로드 등의 평가에 대하여 왜 그렇게 평가를 했는지 간단히 서술해주세요.\nex) 진도를 빠르고 많이 나가는 경향이 있습니다 / 학점은 절대평가로 주셔서 열심히 공부하면 잘 나오는 것 같아요 / 과제는 6번 주어졌고, 각 과제마다 시간이 약 6 ~ 8 시간 소요된 것 같습니다.\n2) 최대한 본인의 감정을 배제해주시면 감사하겠습니다.\nex) 교수님이 저를 맘에 안 들어하시는 것 같아요 (X) / 시험기간에 플젝 내준건 좀 너무하다싶었음 (X)\n3) 나중에 이 수업을 들을 학생들을 위해 여러 조언들을 해주세요.\nex) 이 수업을 들으시려면 먼저 이산구조와 데이타구조를 먼저 듣고 오시는 것을 추천합니다. / 교수님이 수업하실 때 열심히 참여하시면 좋을 것 같아요."
-    except:
-        guideline="Guideline Loading Error..."
-    if str(lecture_id)==str(-1) and semester > 0:
-        if thissem_lec<0:
-            return render(request, 'review/error.html',ctx)
-        else:
-            return HttpResponseRedirect('../../' + str(thissem_lec) + '/'+str(semester))
-    if semester > 0:
-        now_lecture = user_profile.take_lecture_list.get(id=lecture_id,year=lec_year,semester=lec_sem)
-        try :
-            subjectname = now_lecture.title
-            temp = user_profile.comment_set.get(lecture=now_lecture)
-            pre_comment = temp.comment
-            pre_grade = gradelist[5-(temp.grade)]
-            pre_load = gradelist[5-(temp.load)]
-            pre_speech = gradelist[5-(temp.speech)]
-            pre_like = temp.like
-        except :
-            pre_comment = ''
-            pre_like = -1
 
-    else:
-        guideline="왼쪽 탭에서 과목을 선택해 주세요.\n"
-    ctx ={
-            'semester':str(semester),
-            'lecture_id':str(lecture_id),
-            'subjectname':subjectname,
-            'reviewmsg':reviewmsg,
-            'object':return_object,
-            'comment':pre_comment,
-            'gradelist': gradelist,
-            'grade': pre_grade,
-            'load':pre_load,
-            'speech':pre_speech,
-            'like':pre_like,
-            'reviewguideline':guideline,
-            'semesters':semesters,
-        }
-    return render(request, 'review/insert.html',ctx)
+    if len(user_profile.student_id) < 1:
+        raise Http404 # TODO : Change this to return 401
+
+    result = []
+    for l in user_profile.take_lecture_list.all():
+        result.append({
+            "title" : l.title,
+            "id" : l.id,
+            "year" : l.year,
+            "semester" : l.semester,
+            "old_code" : l.old_code,
+            "professor" : [{"professor_name":p.professor_name} for p in l.professor.all()],
+        })
+
+    return JsonResponse(result, safe=False)
 
 
 #ReviewAddingFunctionPage#######################################################################################

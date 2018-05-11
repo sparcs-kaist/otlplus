@@ -32,6 +32,7 @@ urlpatterns = [
     url(r'^result/(?P<page>[0-9]+)$', views.resultCourse),
 
     url(r'^insert/([^/]+)/([^/]+)/$', views.ReviewInsertAdd),
+    url(r'^insert$', views.insert),
 
     url(r'^delete/$',views.ReviewDelete),
     url(r'^like/$',views.ReviewLike),
