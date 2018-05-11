@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 class SearchCircle extends Component {
     constructor(props) {
         super(props);
-        this.onClick = this.onClick.bind(this)
+
         this.state = {
             isChecked:this.props.value === 'ALL',
         };
@@ -48,7 +48,7 @@ class SearchCircle extends Component {
         return (
         <label>
             <input className={all ? 'chkall':'chkelem'} type="checkbox" autoComplete="off" name={inputName}
-               value={value} onClick={this.onClick}/>
+               value={value} onClick={(e)=>this.onClick(e)}/>
             {circleName}
             {circleIcon}
         </label>);
