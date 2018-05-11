@@ -6,7 +6,7 @@ class LatestPage extends Component {
     render() {
         return (
             <div>
-                <Header/>
+                <Header user={this.props.user}/>
                 <section id="content" className="container-fluid">
                     LatestPage
                 </section>
