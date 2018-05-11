@@ -625,36 +625,10 @@ def ReviewView(request, comment_id):
     return JsonResponse(comment,safe=False)
 
 
-def LastCommentView(request):
+def latest(request, page=-1):
+    body = json.loads(request.body.decode('utf-8'))
 
-    if request.GET.getlist('filter') == ['F']:
-        if request.user.is_authenticated():
-            user_profile = UserProfile.objects.get(user=request.user)
-            favorite_departments_code = []
-            for department in user_profile.favorite_departments.all():
-                favorite_departments_code.append(department.code)
-            department_filters = _departmentFilters(favorite_departments_code)
-        else:
-            department_filters = ["CE", "MSB", "MAE", "PH", "BiS", "IE", "ID", "BS", "CBE", "MAS", "MS", "NQE", "EE", "CS", "MAE", "CH"]
-    else:
-        department_filters = _departmentFilters(request.GET.getlist('filter'))
-    comments = Comment.objects.filter(course__department__code__in=department_filters).order_by('-written_datetime')
-
-    paginator = Paginator(comments,10)
-    page_obj = paginator.page(1)
-
-    results = [_comment_to_dict(request,i) for i in page_obj.object_list]
-
-    context = {
-            "results": results,
-            "page":page_obj.number,
-    }
-    return render(request, 'review/lastcomment.html', context)
-
-
-def LastCommentView_json(request, page=-1):
-
-    if request.GET.getlist('filter') == [u"F"]:
+    if body['filter'] == [u"F"]:
         if request.user.is_authenticated():
             user_profile = UserProfile.objects.get(user=request.user)
             favorite_departments_code = []
@@ -664,7 +638,7 @@ def LastCommentView_json(request, page=-1):
         else:
             department_filters = []
     else:
-        department_filters = _departmentFilters(request.GET.getlist('filter'))
+        department_filters = _departmentFilters(body['filter'])
     comments = Comment.objects.filter(course__department__code__in=department_filters).order_by('-written_datetime')
 
     paginator = Paginator(comments,10)
@@ -679,7 +653,7 @@ def LastCommentView_json(request, page=-1):
             "hasNext":page_obj.has_next(),
             "is_login":request.user.is_authenticated(),
     }
-    return JsonResponse(json.dumps(context),safe=False)
+    return JsonResponse(context,safe=False)
 
 
 def dictionary(request, course_code):
