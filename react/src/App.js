@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
 import './static/css/bootstrap.min.css';
-import './static/css/font-awesome.min.css';
 import './static/css/global.css';
 
 import TimetablePage from "./timetable/TimetablePage";
