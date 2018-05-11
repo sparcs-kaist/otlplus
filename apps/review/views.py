@@ -421,18 +421,6 @@ def courseComment(request, id=-1,professor_id=-1,page=-1):
     return JsonResponse(context,safe=False)
 
 
-# Review Control Function#############################################################################################
-@login_required(login_url='/session/login/')
-def ReviewDelete(request):
-    user = request.user
-    user_profile = UserProfile.objects.get(user=user)
-
-    lecture = user_profile.take_lecture_list.get(id=request.POST['lectureid'])
-    target_comment = user_profile.comment_set.get(lecture=lecture);
-    target_comment.u_delete()
-    return HttpResponseRedirect('/review/insert/'+str(request.POST['lectureid'])+'/'+str(request.POST['semester']))
-
-
 # @login_required
 # login_required(login_url='/session/login/')
 def ReviewLike(request):
@@ -453,16 +441,6 @@ def ReviewLike(request):
                 likes_count = target_review.like
     ctx = {'likes_count': likes_count, 'already_up': already_up, 'is_login':is_login, 'id': request.POST['commentid']}
     return JsonResponse(json.dumps(ctx),safe=False)
-
-
-# ReviewWritingPage#################################################################################################
-@login_required(login_url='/session/login/')
-def ReviewPortal(request):
-    user = request.user
-    user_profile = UserProfile.objects.get(user=user)
-    user_profile.portal_check =1
-    user_profile.save()
-    return HttpResponseRedirect('https://sparcssso.kaist.ac.kr/account/profile/')
 
 
 @login_required(login_url='/session/login/')
@@ -529,19 +507,6 @@ def insertReview(request,lecture_id):
     except :
         target_comment = Comment.u_create(course=course, lecture=lecture, comment=comment, grade=grade, load=load, speech=speech, writer=writer)
     return JsonResponse({"id":target_comment.id}, safe=False)
-
-
-# ReviewRefreshFunctionPage#######################################################################################
-@login_required(login_url='/session/login/')
-def ReviewRefresh(request):
-    user = request.user
-    user_profile = UserProfile.objects.get(user=user)
-    student_id = user_profile.student_id
-    if not student_id == '':
-        if not settings.DEBUG:
-            os.chdir('/var/www/otlplus/')
-        os.system('python update_taken_lecture_user.py %s' % student_id)
-    return HttpResponseRedirect('../insert')
 
 
 def ReviewView(request, comment_id):
