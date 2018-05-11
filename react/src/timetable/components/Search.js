@@ -4,6 +4,8 @@ import axios from 'axios';
 import { closeSearch, fetchSearch } from "../actions";
 import SearchFilter from './SearchFilter'
 
+import '../../static/css/font-awesome.min.css';
+
 axios.defaults.xsrfHeaderName = 'X-CSRFToken';
 axios.defaults.xsrfCookieName = 'csrftoken';
 
