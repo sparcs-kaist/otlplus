@@ -424,6 +424,8 @@ def courseComment(request, id=-1,professor_id=-1,page=-1):
 # @login_required
 # login_required(login_url='/session/login/')
 def ReviewLike(request):
+    body = json.loads(request.body.decode('utf-8'))
+
     is_login = False
     already_up = False
     likes_count = -1
@@ -433,14 +435,14 @@ def ReviewLike(request):
         if request.method == 'POST':
             user = request.user
             user_profile = UserProfile.objects.get(user=user)
-            target_review = Comment.objects.get(id=request.POST['commentid']);
+            target_review = Comment.objects.get(id=body['commentid']);
             if CommentVote.objects.filter(comment = target_review, userprofile = user_profile).exists():
                 already_up = True
             else:
                 CommentVote.cv_create(target_review,user_profile) #session 완성시 변경
-                likes_count = target_review.like
-    ctx = {'likes_count': likes_count, 'already_up': already_up, 'is_login':is_login, 'id': request.POST['commentid']}
-    return JsonResponse(json.dumps(ctx),safe=False)
+            likes_count = target_review.like
+    ctx = {'likes_count': likes_count, 'already_up': already_up, 'is_login':is_login, 'id': body['commentid']}
+    return JsonResponse(ctx,safe=False)
 
 
 @login_required(login_url='/session/login/')
