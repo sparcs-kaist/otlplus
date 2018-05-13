@@ -15,8 +15,9 @@ class TimetableBlock extends Component {
                     height : this.props.cellHeight * (indexOfTime(this.props.classtime.end)-indexOfTime(this.props.classtime.begin)) - 3,
                 }}
             >
-                <div className="lecture-delete"><i/></div>
-                <div className="lecture-block-content">
+                <div  className="lecture-delete"><i/></div>
+                <div wonMouseOver = {() => this.props.onMouseOver(this.props.lecture)}
+                     className="lecture-block-content">
                     <p className="timetable-lecture-name">
                         {this.props.lecture.title}
                     </p>

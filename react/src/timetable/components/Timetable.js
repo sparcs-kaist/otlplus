@@ -1,12 +1,33 @@
 import React, { Component } from 'react';
 import {connect} from "react-redux";
 import TimetableBlock from "./TimetableBlock";
-import {updateCellSize} from "../actions";
+import {setLectureActive, updateCellSize} from "../actions";
 
 class Timetable extends Component {
+    constructor(props){
+        super(props);
+        this.isLookingTable = false;
+        this.isBubbling = false;
+        this.isDragging = false;
+        this.isBlockClick = false;
+        this.blockHover = this.blockHover.bind(this);
+    }
+
     resize() {
         let cell = document.getElementsByClassName("cell1")[0].getBoundingClientRect();
         this.props.updateCellSizeDispatch(cell.width, cell.height);
+    }
+
+    clickBlock() {
+        if (!this.isDragging) {
+            this.isBubbling = true;
+        }
+    }
+
+    blockHover(lecture) {
+        if ( !this.props.clicked && !this.isDragging) {
+            this.props.setLectureActiveDispatch(lecture,"table", false);
+        }
     }
 
     componentDidMount() {
@@ -27,7 +48,13 @@ class Timetable extends Component {
         for (let i=0, lecture; lecture = this.props.currentTimetable[i]; i++) {
             for (let j=0, classtime; classtime=lecture.classtimes[j]; j++) {
                 lectureBlocks.push(
-                    <TimetableBlock key={`${lecture.id}:${j}`} lecture={lecture} classtime={classtime} isTemp={false}/>
+                    <TimetableBlock
+                        key={`${lecture.id}:${j}`}
+                        // onClick={this.clickBlock}
+                        onMouseOver={this.blockHover}
+                        lecture={lecture}
+                        classtime={classtime}
+                        isTemp={false}/>
                 );
             }
         }
@@ -257,6 +284,7 @@ class Timetable extends Component {
 let mapStateToProps = (state) => {
     return {
         currentTimetable : state.timetable.currentTimetable,
+        lectureActive : state.lectureActive.clicked,
     }
 };
 
@@ -265,6 +293,9 @@ let mapDispatchToProps = (dispatch) => {
         updateCellSizeDispatch : (width, height) => {
             dispatch(updateCellSize(width, height));
         },
+        setLectureActiveDispatch : (lecture, from, clicked) => {
+            dispatch(setLectureActive(lecture, from, clicked));
+        }
     }
 };
 
