@@ -76,9 +76,9 @@ class Semester extends Component {
         if (this.props.year && this.props.semester)
             return (
                 <div id="semester">
-                    <div id="semester-prev" onClick={()=>this.semesterPrev()}><i></i></div>
+                    <div id="semester-prev" class={this.props.year===this.state.startYear && this.props.semester===this.state.startSemester ? "disable" : ""} onClick={()=>this.semesterPrev()}><i></i></div>
                     <span id="semester-text">{this.props.year} {semesterName[this.props.semester]}</span>
-                    <div id="semester-next" onClick={()=>this.semesterNext()}><i></i></div>
+                    <div id="semester-next" class={this.props.year===this.state.endYear && this.props.semester===this.state.endSemester ? "disable" : ""} onClick={()=>this.semesterNext()}><i></i></div>
                 </div>
             );
         else
