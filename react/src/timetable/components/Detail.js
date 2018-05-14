@@ -4,6 +4,32 @@ import { Link } from 'react-router-dom';
 import Scroller from '../../common/Scroller';
 
 class Detail extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            isClicked:false,
+        };
+    }
+
+    static getDerivedStateFromProps(nextProps) {
+        //Return value will be set the state
+        if (nextProps.from === "LIST" || nextProps.from === "TABLE"){
+            if(nextProps.clicked){
+                this.setState({
+                    isClicked:true,
+                });
+            }else{
+                this.setState({
+                    isClicked:false,
+                });
+            }
+        }else{
+            this.setState({
+                isClicked:false,
+            });
+        }
+    }
+
     render() {
         if (this.props.from === "LIST" || this.props.from === "TABLE")
             return (
@@ -108,7 +134,7 @@ class Detail extends Component {
                                 </div>
                                 <div className="lecture-score">
                                     <div id="speech" className="score-text">{this.props.lecture.speech_letter}</div>
-                                    <div className="score-label">강의}</div>
+                                    <div className="score-label">강의</div>
                                 </div>
                             </div>
                             <div className="basic-info dictionary-preview open-dict-button">
@@ -142,8 +168,8 @@ class Detail extends Component {
                             <span id="dictionary-option" className="disable">과목사전</span>
                         </div>
                         <div className="detail-top">
-                            {this.props.lectures.map((lecture) => (
-                                <div className="basic-info">
+                            {this.props.lectures.map((lecture, index) => (
+                                <div className="basic-info" key={index}>
                                     <span className="basic-info-name">
                                         {lecture.title}
                                     </span>
@@ -184,6 +210,7 @@ let mapStateToProps = (state) => {
         lecture : state.lectureActive.lecture,
         title : state.lectureActive.title,
         lectures : state.lectureActive.lectures,
+        clicked : state.lectureActive.clicked
     }
 };
 
