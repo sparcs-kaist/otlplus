@@ -44,13 +44,41 @@ class Semester extends Component {
         .catch((response) => {console.log(response);});
     }
 
+    semesterPrev() {
+        let year = this.props.year;
+        let semester = this.props.semester;
+
+        if (semester === 1) {
+            year = year - 1;
+            semester = 3;
+        } else {
+            semester = 1;
+        }
+
+        this.props.setSemesterDispatch(year, semester);
+    }
+
+    semesterNext() {
+        let year = this.props.year;
+        let semester = this.props.semester;
+
+        if (semester === 3) {
+            year = year + 1;
+            semester = 1;
+        } else {
+            semester = 3;
+        }
+
+        this.props.setSemesterDispatch(year, semester);
+    }
+
     render() {
         if (this.props.year && this.props.semester)
             return (
                 <div id="semester">
-                    <div id="semester-prev"><i></i></div>
+                    <div id="semester-prev" onClick={()=>this.semesterPrev()}><i></i></div>
                     <span id="semester-text">{this.props.year} {semesterName[this.props.semester]}</span>
-                    <div id="semester-next"><i></i></div>
+                    <div id="semester-next" onClick={()=>this.semesterNext()}><i></i></div>
                 </div>
             );
         else
