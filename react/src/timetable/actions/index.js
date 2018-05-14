@@ -1,3 +1,4 @@
+export const SET_SEMESTER = "SET_SEMESTER";
 export const OPEN_SEARCH = "OPEN_SEARCH";
 export const CLOSE_SEARCH = "CLOSE_SEARCH";
 export const FETCH_SEARCH = "FETCH_SEARCH";
@@ -7,6 +8,14 @@ export const SET_LECTURE_ACTIVE = "SET_LECTURE_ACTIVE";
 export const CLEAR_LECTURE_ACTIVE = "CLEAR_LECTURE_ACTIVE";
 export const SET_MULTIPLE_DETAIL = "SET_MULTIPLE_DETAIL";
 export const CLEAR_MULTIPLE_DETAIL = "CLEAR_MULTIPLE_DETAIL";
+
+export function setSemester(year, semester) {
+    return {
+        type : SET_SEMESTER,
+        year : year,
+        semester : semester,
+    }
+}
 
 export function openSearch() {
     console.log("Action openSearch");
