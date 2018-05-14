@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import axios from '../../common/presetAxios';
 import {setSemester} from "../actions";
 import {connect} from "react-redux";
-
-axios.defaults.xsrfHeaderName = 'X-CSRFToken';
-axios.defaults.xsrfCookieName = 'csrftoken';
 
 const semesterName = {
     1: "봄",
