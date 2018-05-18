@@ -59,11 +59,22 @@ class List extends Component {
                             {this.props.search.courses.map(mapCourse)}
                         </Scroller>
                     </div>
+                    {this.props.major.map((majorList) => (
+                        <div className="list-page humanity-page none">
+                            <div className="list-page-title">
+                                {majorList.name} 전공
+                            </div>
+                            <Scroller>
+                                {majorList.courses.map(mapCourse)}
+                            </Scroller>
+                        </div>
+                    ))}
                     <div className="list-page cart-page none">
                         <div className="list-page-title">
                             장바구니
                         </div>
                         <Scroller>
+                            {this.props.cart.courses.map(mapCourse)}
                         </Scroller>
                     </div>
                     <div className="list-page humanity-page none">
@@ -71,6 +82,7 @@ class List extends Component {
                             인문사회선택
                         </div>
                         <Scroller>
+                            {this.props.humanity.courses.map(mapCourse)}
                         </Scroller>
                     </div>
                 </div>
@@ -82,6 +94,9 @@ class List extends Component {
 let mapStateToProps = (state) => {
     return {
         search : state.list.search,
+        major : state.list.major,
+        humanity : state.list.humanity,
+        cart : state.list.cart,
         currentTimetable : state.timetable.currentTimetable,
     }
 };
