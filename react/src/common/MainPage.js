@@ -9,11 +9,11 @@ class MainPage extends Component {
     render() {
         return (
             <div>
-                <Header/>
+                <Header user={this.props.user}/>
                 <section id="contents" className="container-fluid">
                     <div className="row">
                         <div className="col-xs-22 col-xs-offset-1 col-sm-20 col-sm-offset-2 col-md-18 col-md-offset-3 col-lg-16 col-lg-offset-4 text-center">
-                            <form role="form" className="row">
+                            <form className="row">
                                 <div className="search_bar col-xs-24 col-sm-14 col-md-16 col-lg-18">
                                     <input id="keyword" type="text" name="q" autoComplete="on" className="form-control" placeholder="Search"/>
                                 </div>

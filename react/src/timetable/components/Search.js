@@ -1,17 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import axios from 'axios';
+import axios from '../../common/presetAxios';
 import { closeSearch, fetchSearch } from "../actions";
+import SearchFilter from './SearchFilter'
 
-axios.defaults.xsrfHeaderName = 'X-CSRFToken';
-axios.defaults.xsrfCookieName = 'csrftoken';
+import '../../static/css/font-awesome.min.css';
 
 let groupLectures = (lectures) => {
     if (lectures.length === 0)
         return [];
 
     let courses = [[lectures[0]]];
-    for (let i=1, lecture; lecture=lectures[i]; i++) {
+    for (let i=1, lecture; lectures[i]!==undefined; i++) {
+        lecture=lectures[i];
         if (lecture.course === courses[courses.length-1][0].course)
             courses[courses.length-1].push(lecture);
         else
@@ -21,6 +22,27 @@ let groupLectures = (lectures) => {
 };
 
 class Search extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            inputVal: "",
+            type: new Set(["ALL"]),
+            department: new Set(["ALL"]),
+        };
+    }
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if(!nextProps.open) {
+            return {
+                inputVal: "",
+                type:new Set(["ALL"]),
+                department:new Set(["ALL"])
+            };//When Close the Search, initialize the state
+        }
+        return null;
+    }
+
     hideSearch() {
         this.props.closeSearchDispatch();
     }
@@ -42,6 +64,33 @@ class Search extends Component {
         .catch((response) => {console.log(response);});
     }
 
+    clickCircle(filter_) {
+        const filterName = filter_.name;
+        const value = filter_.value;
+        const isChecked = filter_.isChecked;
+        if(isChecked){
+            this.setState((prevState)=>{
+                let filter = prevState[filterName];
+                if(value ==="ALL" )
+                    filter.clear();
+                filter.add(value);
+                return prevState;
+            });
+        }else{
+            this.setState((prevState)=>{
+                let filter = prevState[filterName];
+                filter.delete(value);
+                return prevState;
+            });
+        }
+    }
+
+    handleInput(e) {
+        this.setState({
+            inputVal: e.target.value
+        });
+    }
+
     render() {
         if (! this.props.open) {
             return <div/>;
@@ -55,33 +104,23 @@ class Search extends Component {
                                 <i className="search-keyword-icon"/>
                                 <div className="search-keyword-text-wrap">
                                     <input className="search-keyword-text" type="text" name="keyword"
-                                           autoComplete="off" placeholder="검색"/>
+                                           autoComplete="off" placeholder="검색" value={this.state.inputVal} onChange={(e)=>this.handleInput(e)}/>
                                     <div className="search-keyword-autocomplete">
                                         <span className="search-keyword-autocomplete-space"/>
                                         <span className="search-keyword-autocomplete-body"/>
                                     </div>
                                 </div>
                             </div>
-                            <div className="search-filter">
-                                <label
-                                    className="search-filter-title fixed-ko"/>
-                                <div className="search-filter-elem">
-                                    <label>
-                                        <input className="chkall" type="checkbox" autoComplete="off" name="type"
-                                               value="ALL"/>
-                                        전체
-                                        <i className="fa fa-circle-o fa-1x none"/>
-                                        <i className="fa fa-check-circle-o fa-1x"/>
-                                    </label>
-                                    <label>
-                                        <input className="chkelem" type="checkbox" autoComplete="off" name="type"
-                                               value="GR"/>
-                                        공통
-                                        <i className="fa fa-circle-o fa-1x"/>
-                                        <i className="fa fa-check-circle-o fa-ix none"/>
-                                    </label>
-                                </div>
-                            </div>
+                            <SearchFilter
+                                clickCircle = {this.clickCircle.bind(this)}
+                                inputName = 'type'
+                                titleName = '구분'
+                            />
+                            <SearchFilter
+                                clickCircle = {this.clickCircle.bind(this)}
+                                inputName = 'department'
+                                titleName = '학과'
+                            />
                             <div className="search-filter search-filter-time">
                                 <label
                                     className="search-filter-title fixed-ko">시간</label>
