@@ -27,7 +27,8 @@ class ListBlock extends Component {
         }
     }
 
-    addToTable() {
+    addToTable(event) {
+        event.stopPropagation();
         for (let i=0, thisClasstime; (thisClasstime=this.props.lecture.classtimes[i]); i++)
             for (let j=0, lecture; (lecture=this.props.currentTimetable.lectures[j]); j++)
                 for (let k=0, classtime; (classtime=lecture.classtimes[k]); k++)
@@ -39,11 +40,13 @@ class ListBlock extends Component {
         this.props.addLectureToTimetableDispatch(this.props.lecture);
     }
 
-    addToCart() {
+    addToCart(event) {
+        event.stopPropagation();
         this.props.addLectureToCartDispatch(this.props.lecture);
     }
 
-    deleteFromCart() {
+    deleteFromCart(event) {
+        event.stopPropagation();
         this.props.deleteLectureFromCartDispatch(this.props.lecture);
     }
 
@@ -102,16 +105,16 @@ class ListBlock extends Component {
                     </div>
                     {
                         this.props.fromCart
-                        ? <div className="delete-from-cart" onClick={()=>this.deleteFromCart()}><i/></div>
+                        ? <div className="delete-from-cart" onClick={(event)=>this.deleteFromCart(event)}><i/></div>
                         : (
                             !this.props.inCart
-                            ? <div className="add-to-cart" onClick={()=>this.addToCart()}><i/></div>
+                            ? <div className="add-to-cart" onClick={(event)=>this.addToCart(event)}><i/></div>
                             : <div className="add-to-cart disable"><i/></div>
                         )
                     }
                     {
                         !this.props.inTimetable
-                        ? <div className="add-to-table" onClick={()=>this.addToTable()}><i/></div>
+                        ? <div className="add-to-table" onClick={(event)=>this.addToTable(event)}><i/></div>
                         : <div className="add-to-table disable"><i/></div>
                     }
                 </div>
