@@ -43,11 +43,6 @@ class Search extends Component {
         return null;
     }
 
-    componentDidUpdate(){
-        console.log('type',this.state.type);
-        console.log('department',this.state.department);
-    }
-
     hideSearch() {
         this.props.closeSearchDispatch();
     }
