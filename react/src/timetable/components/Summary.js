@@ -14,8 +14,8 @@ const indexOfType = (type) => {
 class Summary extends Component {
     typeFocus(type) {
         let lectures = [];
-        for (var i=0; i<this.props.currentTimetable.length; i++) {
-            let lecture = this.props.currentTimetable[i];
+        for (var i=0; i<this.props.currentTimetable.lectures.length; i++) {
+            let lecture = this.props.currentTimetable.lectures[i];
 
             if (indexOfType(lecture.type_en) !== indexOfType(type))
                 continue;
@@ -40,7 +40,7 @@ class Summary extends Component {
 
     render() {
         let type_credit = [0,0,0,0,0,0];
-        for (let i=0, lecture; lecture = this.props.currentTimetable[i]; i++)
+        for (let i=0, lecture; lecture = this.props.currentTimetable.lectures[i]; i++)
             type_credit[indexOfType(lecture.type_en)] += lecture.credit + lecture.credit_au;
 
         let active_type_credit = ['', '', '', '', '', ''];
@@ -49,7 +49,7 @@ class Summary extends Component {
             let amount = this.props.lectureActiveLecture.credit + this.props.lectureActiveLecture.credit_au;
 
             active_type_credit[index] = `+${amount}`;
-            for (let i=0, lecture; lecture = this.props.currentTimetable[i]; i++)
+            for (let i=0, lecture; lecture = this.props.currentTimetable.lectures[i]; i++)
                 if (lecture.id === this.props.lectureActiveLecture.id) {
                     active_type_credit[index] = `(${amount})`;
                     break;
