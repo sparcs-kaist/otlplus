@@ -57,6 +57,14 @@ class Summary extends Component {
                 }
         }
 
+        let creditAct = false, creditAuAct = false;
+        if (this.props.lectureActiveLecture!==null) {
+            let activeLecture = this.props.lectureActiveLecture;
+            if (activeLecture.credit > 0) creditAct = true
+            else if (activeLecture.credit_au > 0) creditAuAct = true
+        }
+
+
         return (
             <div id="summary">
                 <div id="summary-type">
@@ -94,16 +102,16 @@ class Summary extends Component {
                 <div id="summary-credit">
                     <div className="summary-credit-elem">
                         <div id="credits" className="score-text">
-                            <span className="normal">-</span>
-                            <span className="active none">0</span>
+                            <span className={`normal ${creditAct? "none" : ""}`}>{sum_credit}</span>
+                            <span className={`active ${creditAct? "" : "none"}`}>{sum_credit}</span>
                         </div>
                         <div className="score-label">학점</div>
                     </div>
                     &nbsp;
                     <div className="summary-credit-elem">
                         <div id="au" className="score-text">
-                            <span className="normal">-</span>
-                            <span className="active none">0</span></div>
+                            <span className={`normal ${creditAuAct? "none" : ""}`}>{sum_credit_au}</span>
+                            <span className={`normal ${creditAuAct? "" : "none"}`}>0</span></div>
                         <div className="score-label">AU</div>
                     </div>
                 </div>
