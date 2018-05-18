@@ -9,6 +9,7 @@ from django.utils import translation
 from apps.subject.models import Department, Lecture
 from apps.review.models import Comment
 from apps.timetable.models import OldTimeTable
+from apps.timetable.views import _user_department
 from apps.session.models import UserProfile
 from apps.session.sparcssso import Client
 import urllib
@@ -219,6 +220,7 @@ def info(request):
         "firstName": request.user.first_name,
         "lastName": request.user.last_name,
         "language": userProfile.language,
+        "departments": _user_department(request.user),
     }
     return JsonResponse(ctx, safe = False)
 

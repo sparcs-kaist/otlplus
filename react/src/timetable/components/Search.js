@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import axios from 'axios';
+import axios from '../../common/presetAxios';
 import { closeSearch, fetchSearch } from "../actions";
 import SearchFilter from './SearchFilter'
 
 import '../../static/css/font-awesome.min.css';
-
-axios.defaults.xsrfHeaderName = 'X-CSRFToken';
-axios.defaults.xsrfCookieName = 'csrftoken';
 
 let groupLectures = (lectures) => {
     if (lectures.length === 0)
@@ -44,11 +41,6 @@ class Search extends Component {
             };//When Close the Search, initialize the state
         }
         return null;
-    }
-
-    componentDidUpdate(){
-        console.log('type',this.state.type);
-        console.log('department',this.state.department);
     }
 
     hideSearch() {

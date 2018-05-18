@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import Scroller from '../../common/Scroller';
 import Review from './Review';
 import $ from 'jquery';
+import { LIST, TABLE, MULTIPLE } from "../reducers/lectureActive";
 
 class Detail extends Component {
     constructor(props) {
@@ -35,8 +36,7 @@ class Detail extends Component {
     };
 
     render() {
-
-        if (this.props.from === "LIST" || this.props.from === "TABLE"){
+        if (this.props.from === LIST || this.props.from === TABLE){
             const reviews = this.props.lecture.reviews;
             const mapreview = (review,index) => {
                 return (<Review key={`review_${index}`} review = {review}/>);
@@ -162,7 +162,7 @@ class Detail extends Component {
                 </div>
             );
         }
-        else if (this.props.from === "MULTIPLE")
+       else if (this.props.from === MULTIPLE)
             return (
                 <div id="lecture-info">
                     <div className="lecture-detail">
