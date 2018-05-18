@@ -5,6 +5,7 @@ import Scroller from '../../common/Scroller';
 import Review from './Review';
 import $ from 'jquery';
 import { LIST, TABLE, MULTIPLE } from "../reducers/lectureActive";
+import {clearLectureActive} from "../actions";
 
 class Detail extends Component {
     constructor(props) {
@@ -35,6 +36,10 @@ class Detail extends Component {
         $('.lecture-detail .nano').nanoScroller({scrollTop: 0});
     };
 
+    unfix = () =>{
+        this.props.clearLectureActiveDispatch();
+    };
+
     render() {
         if (this.props.from === LIST || this.props.from === TABLE){
             const reviews = this.props.lecture.reviews;
@@ -57,7 +62,7 @@ class Detail extends Component {
                             </span>
                         </div>
                         <div className="lecture-options">
-                            <span id="fix-option" className="disable" style={{float:"left"}}>고정해제</span>
+                            <span id="fix-option" onClick={this.unfix} className={this.state.isClicked ? "":"disable"} style={{float:"left"}}>고정해제</span>
                             <span id="syllabus-option">
                                 <a href={`https://cais.kaist.ac.kr/syllabusInfo?year=${this.props.lecture.year}&term=${this.props.lecture.semester}&subject_no=${this.props.lecture.code}&lecture_class=${this.props.lecture.class_no}&dept_id=${this.props.lecture.department}`} target="_blank">
                                     실라버스
@@ -177,7 +182,7 @@ class Detail extends Component {
                             </span>
                         </div>
                         <div className="lecture-options">
-                            <span id="fix-option" className="disable" style={{float:"left"}}>고정해제</span>
+                            <span id="fix-option" onClick={this.unfix} className={this.state.isClicked ? "":"disable"} style={{float:"left"}}>고정해제</span>
                             <span id="syllabus-option" className="disable">실라버스</span>
                             &nbsp;
                             <span id="dictionary-option" className="disable">과목사전</span>
@@ -231,6 +236,9 @@ let mapStateToProps = (state) => {
 
 let mapDispatchToProps = (dispatch) => {
     return {
+        clearLectureActiveDispatch : () => {
+            dispatch(clearLectureActive());
+        },
     }
 };
 
