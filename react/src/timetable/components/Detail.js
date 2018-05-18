@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import {connect} from "react-redux";
 import { Link } from 'react-router-dom';
 import Scroller from '../../common/Scroller';
+import Review from './Review';
+import $ from 'jquery';
 
 class Detail extends Component {
     constructor(props) {
@@ -15,23 +17,31 @@ class Detail extends Component {
         //Return value will be set the state
         if (nextProps.from === "LIST" || nextProps.from === "TABLE"){
             if(nextProps.clicked){
-                this.setState({
-                    isClicked:true,
-                });
+                return {isClicked:true};
             }else{
-                this.setState({
-                    isClicked:false,
-                });
+                return {isClicked:false};
             }
         }else{
-            this.setState({
-                isClicked:false,
-            });
+            return {isClicked:false};
         }
     }
 
+    openDictPreview = () => {
+        $('.lecture-detail .nano').nanoScroller({scrollTop: $('.open-dict-button').position().top - $('.nano-content > .basic-info:first-child').position().top + 1});
+    };
+
+    closeDictPreview = () => {
+        $('.lecture-detail .nano').nanoScroller({scrollTop: 0});
+    };
+
     render() {
-        if (this.props.from === "LIST" || this.props.from === "TABLE")
+
+        if (this.props.from === "LIST" || this.props.from === "TABLE"){
+            const reviews = this.props.lecture.reviews;
+            const mapreview = (review,index) => {
+                return (<Review key={`review_${index}`} review = {review}/>);
+            };
+            const reviewsDom = reviews.map(mapreview);
             return (
                 <div id="lecture-info">
                     <div className="lecture-detail">
@@ -61,12 +71,15 @@ class Detail extends Component {
                             </span>
                         </div>
                         <div className="dict-fixed none">
-                            <div className="basic-info dictionary-preview close-dict-button">
+                            <div onClick={this.closeDictPreview} className="basic-info dictionary-preview close-dict-button">
                                 <span style={{fontWeight:"700"}}>과목 후기</span>
                                 <i className="dict-arrow"/>
                             </div>
                         </div>
-                        <Scroller>
+                        <Scroller
+                            isClicked = {this.state.isClicked}
+                            lectureId = {this.props.lecture.id}
+                        >
                             <div className="basic-info">
                                 <span className="basic-info-name fixed-ko">구분</span>
                                 <span id="course-type">{this.props.lecture.type}</span>
@@ -137,16 +150,18 @@ class Detail extends Component {
                                     <div className="score-label">강의</div>
                                 </div>
                             </div>
-                            <div className="basic-info dictionary-preview open-dict-button">
+                            <div onClick={this.openDictPreview} className="basic-info dictionary-preview open-dict-button">
                                 <span style={{fontWeight:"700"}}>과목 후기</span>
                                 <i className="dict-arrow"/>
                             </div>
                             <div id="reviews">
+                                {reviewsDom}
                             </div>
                         </Scroller>
                     </div>
                 </div>
             );
+        }
         else if (this.props.from === "MULTIPLE")
             return (
                 <div id="lecture-info">
