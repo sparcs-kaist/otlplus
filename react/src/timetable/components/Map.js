@@ -18,18 +18,26 @@ class Map extends Component {
                 : mapObject[building].push({color: color, id: id})
         }
 
+        let activeLecture = this.props.lectureActiveLecture;
+
         return (
             <div id="map">
                 <div id="map-container">
                     <img id="map-img" src={mapImage} alt="KAIST Map"/>
                         {Object.keys(mapObject).map(function(building) {
                             let lec = mapObject[building];
+                            let act = ""
+                            mapObject[building].map(function(lec) {
+                                if (activeLecture!==null && activeLecture.id===lec.id) act = "active"
+                            })
                             let location =
                                 <div className={`map-location ${building}`} data-building={building} data-id="1234">
-                                    <div className="map-location-box">
+                                    <div className={`map-location-box ${act}`}>
                                         <span className="map-location-text">{building}</span>
                                         {mapObject[building].map(function(lec) {
-                                            return <span className={`map-location-circle color${lec.color}`} data-id={lec.id}></span>
+                                            let lecAct = ""
+                                            if (activeLecture!==null && activeLecture.id===lec.id) lecAct = "active"
+                                            return <span className={`map-location-circle color${lec.color} ${lecAct}`} data-id={lec.id}></span>
                                         })}
                                     </div>
                                     <div className="map-location-arrow-shadow"></div>

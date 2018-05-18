@@ -5,8 +5,12 @@ import {clearMultipleDetail, setMultipleDetail} from "../actions";
 
 class Exam extends Component {
     renderLectureExam = (lec) => {
+        let act = ""
+        if (this.props.lectureActiveLecture!==null && this.props.lectureActiveLecture.id===lec.id) {
+            act = "active"
+        }
         let li =
-            <li className="exam-elem" data-id={lec.id}>
+            <li className={`exam-elem ${act}`} data-id={lec.id}>
                 <div className="exam-elem-title">
                     {lec.title}
                 </div>
@@ -18,8 +22,6 @@ class Exam extends Component {
     }
 
     render() {
-        console.log(this.props.currentTimetable)
-
         let examTable = [[],[],[],[],[]]
 
         for (let i=0, lecture; lecture = this.props.currentTimetable[i]; i++) {
