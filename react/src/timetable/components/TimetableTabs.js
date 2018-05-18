@@ -26,7 +26,7 @@ class TimetableTabs extends Component {
             return (
                 <div id="timetable-tabs">
                     { this.props.timetables.map((timetable, idx) => (
-                        <div className={"timetable-tab"+(timetable.id===this.props.currentTimetable.id?" active":"")} data-id="<%- id %>" onClick={()=>this.changeTab(timetable)}>
+                        <div className={"timetable-tab"+(timetable.id===this.props.currentTimetable.id?" active":"")} onClick={()=>this.changeTab(timetable)}>
                             <span className="timetable-num">
                                 시간표{idx+1}
                             </span>
