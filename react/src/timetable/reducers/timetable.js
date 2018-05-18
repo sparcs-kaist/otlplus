@@ -231,7 +231,7 @@ export const timetable = (state = initialState, action) => {
                 lectures : [],
             };
             return Object.assign({}, state, {
-                currentTimtable : newTable,
+                currentTimetable : newTable,
                 timetables : [
                     ...state.timetables,
                     newTable,
@@ -240,7 +240,7 @@ export const timetable = (state = initialState, action) => {
         case DELETE_TIMETABLE:
             let newTables = state.timetables.filter((timetable)=>(timetable.id!==action.timetable.id));
             return Object.assign({}, state, {
-                currentTimtable : newTables[0],
+                currentTimetable : newTables[0],
                 timetables : newTables,
             });
         case ADD_LECTURE_TO_TIMETABLE:
