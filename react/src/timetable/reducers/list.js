@@ -1,6 +1,7 @@
-import { FETCH_SEARCH } from '../actions/index';
+import { SET_CURRENT_LIST, FETCH_SEARCH } from '../actions/index';
 
 const initialState = {
+    currentList : "SEARCH",
     search : {
         courses : [
             [
@@ -476,6 +477,7 @@ const initialState = {
     },
     major : [
         {
+            code: "ID",
             name: "신압디자인학과",
             courses: [
                 [
@@ -628,6 +630,7 @@ const initialState = {
             ],
         },
         {
+            code: "CS",
             name: "전산학부",
             courses: [
                 [
@@ -1160,6 +1163,10 @@ const initialState = {
 
 export const list = (state = initialState, action) => {
     switch (action.type) {
+        case SET_CURRENT_LIST:
+            return Object.assign({}, state, {
+                currentList : action.list,
+            });
         case FETCH_SEARCH:
             return Object.assign({}, state, {
                 courses : action.courses,
