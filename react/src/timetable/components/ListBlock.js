@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import { addLectureToTimetable, addLectureToCart } from "../actions";
+import { addLectureToTimetable, addLectureToCart, deleteLectureFromCart } from "../actions";
 import { setLectureActive, clearLectureActive } from "../actions";
 import { LIST } from "../reducers/lectureActive";
 
@@ -37,6 +37,10 @@ class ListBlock extends Component {
 
     addToCart() {
         this.props.addLectureToCartDispatch(this.props.lecture);
+    }
+
+    deleteFromCart() {
+        this.props.deleteLectureFromCartDispatch(this.props.lecture);
     }
 
     listHover() {
@@ -88,7 +92,7 @@ class ListBlock extends Component {
                     </div>
                     {
                         this.props.fromCart
-                        ? <div className="delete-from-cart"><i/></div>
+                        ? <div className="delete-from-cart" onClick={()=>this.deleteFromCart()}><i/></div>
                         : (
                             !this.props.inCart
                             ? <div className="add-to-cart" onClick={()=>this.addToCart()}><i/></div>
@@ -127,6 +131,9 @@ let mapDispatchToProps = (dispatch) => {
         },
         addLectureToCartDispatch : (lecture) => {
             dispatch(addLectureToCart(lecture));
+        },
+        deleteLectureFromCartDispatch : (lecture) => {
+            dispatch(deleteLectureFromCart(lecture));
         },
     }
 };
