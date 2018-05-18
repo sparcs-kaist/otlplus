@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {connect} from "react-redux";
 import {clearMultipleDetail, setMultipleDetail} from "../actions";
+import { LIST, TABLE } from "../reducers/lectureActive";
 
 const indexOfType = (type) => {
     const types = ["Basic Required", "Basic Elective", "Major Required", "Major Elective", "Humanities & Social Elective"];
@@ -40,16 +41,16 @@ class Summary extends Component {
 
     render() {
         let type_credit = [0,0,0,0,0,0];
-        for (let i=0, lecture; lecture = this.props.currentTimetable.lectures[i]; i++)
+        for (let i=0, lecture; (lecture = this.props.currentTimetable.lectures[i]); i++)
             type_credit[indexOfType(lecture.type_en)] += lecture.credit + lecture.credit_au;
 
         let active_type_credit = ['', '', '', '', '', ''];
-        if (this.props.lectureActiveFrom === "LIST" || this.props.lectureActiveFrom === "TABLE" ) {
+        if (this.props.lectureActiveFrom === LIST || this.props.lectureActiveFrom === TABLE ) {
             let index = indexOfType(this.props.lectureActiveLecture.type_en);
             let amount = this.props.lectureActiveLecture.credit + this.props.lectureActiveLecture.credit_au;
 
             active_type_credit[index] = `+${amount}`;
-            for (let i=0, lecture; lecture = this.props.currentTimetable.lectures[i]; i++)
+            for (let i=0, lecture; (lecture = this.props.currentTimetable.lectures[i]); i++)
                 if (lecture.id === this.props.lectureActiveLecture.id) {
                     active_type_credit[index] = `(${amount})`;
                     break;
