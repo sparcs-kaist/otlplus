@@ -6,6 +6,15 @@ import {connect} from "react-redux";
 
 
 class Map extends Component {
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            activeLectures: []
+        }
+    }
+
     render() {
         let mapObject = {};
 
@@ -20,6 +29,30 @@ class Map extends Component {
 
         let activeLecture = this.props.lectureActiveLecture;
 
+        const mapFocus = (building) => {
+            let lectures = [];
+            let active = [];
+            for (let i=0, lecture; lecture = this.props.currentTimetable[i]; i++) {
+                if (lecture.building === building) {
+                    lectures.push({
+                        title: lecture.title,
+                        info: lecture.room,
+                    })
+                    active.push(lecture)
+                }
+            }
+            this.props.setMultipleDetailDispatch(building, lectures);
+            this.setState({ activeLectures: active })
+        }
+
+        const clearFocus = () => {
+            this.props.clearMultipleDetailDispatch();
+            this.setState({ activeLectures: [] })
+        };
+
+        console.log(this.state.activeLectures)
+        let activeLectures = this.state.activeLectures
+
         return (
             <div id="map">
                 <div id="map-container">
@@ -29,13 +62,21 @@ class Map extends Component {
                             let act = ""
                             mapObject[building].map(function(lec) {
                                 if (activeLecture!==null && activeLecture.id===lec.id) act = "active"
+                                for (let i=0, lecture; lecture = activeLectures[i]; i++) {
+                                    if (lecture.id === lec.id) act = "active"
+                                }
                             })
+                            console.log('hh', activeLectures)
                             let location =
-                                <div className={`map-location ${building}`} data-building={building} data-id="1234">
+                                <div className={`map-location ${building}`} data-building={building} data-id="1234"
+                                     onMouseOver={()=>mapFocus(building)} onMouseOut={()=>clearFocus()}>
                                     <div className={`map-location-box ${act}`}>
                                         <span className="map-location-text">{building}</span>
                                         {mapObject[building].map(function(lec) {
                                             let lecAct = ""
+                                            for (let i=0, lecture; lecture = activeLectures[i]; i++) {
+                                                if (lecture.id === lec.id) lecAct = "active"
+                                            }
                                             if (activeLecture!==null && activeLecture.id===lec.id) lecAct = "active"
                                             return <span className={`map-location-circle color${lec.color} ${lecAct}`} data-id={lec.id}></span>
                                         })}
