@@ -9,6 +9,7 @@ class ListBlock extends Component {
         super(props);
         this.state = {
             isClicked:false,
+            isHover:false,
         };
     }
 
@@ -39,12 +40,18 @@ class ListBlock extends Component {
         if (this.props.lectureActiveClicked)
             return;
         this.props.setLectureActiveDispatch(this.props.lecture, LIST, false);
+        this.setState({
+            isHover:true,
+        })
     };
 
     listOut() {
         if (this.props.lectureActiveClicked)
             return;
         this.props.clearLectureActiveDispatch();
+        this.setState({
+            isHover:false,
+        })
     };
 
     onClick() {
@@ -73,9 +80,9 @@ class ListBlock extends Component {
                     return "class-title";
             }
         };
-        const clicked = this.state.isClicked ? "click" : "";
+        const change = this.state.isClicked||this.state.isHover ? "click" : "";
         return (
-            <div className={"list-elem-body-wrap "+clicked} onClick={()=>this.onClick()} onMouseOver={()=>this.listHover()} onMouseOut={()=>this.listOut()}>
+            <div className={"list-elem-body-wrap "+change} onClick={()=>this.onClick()} onMouseOver={()=>this.listHover()} onMouseOut={()=>this.listOut()}>
                 <div className="list-elem-body">
                     <div className="list-elem-body-text">
                         <strong className={getClass(this.props.lecture)}>{this.props.lecture.class_title}</strong>
