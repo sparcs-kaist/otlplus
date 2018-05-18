@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import { setCurrentTimetable } from "../actions";
+import { createTimetable, setCurrentTimetable } from "../actions";
 
 class TimetableTabs extends Component {
     changeTab(timetable) {
         this.props.setCurrentTimetableDispatch(timetable);
+    }
+
+    createTable() {
+        this.props.createTimetableDispatch(Math.random(100000000));
     }
 
     render() {
@@ -20,7 +24,7 @@ class TimetableTabs extends Component {
                             <span className="hidden-option delete-table"><i/></span>
                         </div>
                     ))}
-                    <div className="timetable-add">
+                    <div className="timetable-add" onClick={()=>this.createTable()}>
                         <span className="timetable-num"><i className="add-table"></i></span>
                     </div>
                 </div>
@@ -46,7 +50,10 @@ let mapDispatchToProps = (dispatch) => {
     return {
         setCurrentTimetableDispatch : (timetable) => {
             dispatch(setCurrentTimetable(timetable));
-        }
+        },
+        createTimetableDispatch : (id) => {
+            dispatch(createTimetable(id));
+        },
     }
 };
 

@@ -1,4 +1,4 @@
-import { SET_CURRENT_TIMETABLE, ADD_LECTURE_TO_TIMETABLE, UPDATE_CELL_SIZE } from '../actions/index';
+import { SET_CURRENT_TIMETABLE, CREATE_TIMETABLE, ADD_LECTURE_TO_TIMETABLE, UPDATE_CELL_SIZE } from '../actions/index';
 
 const initialState = {
     timetables : [
@@ -224,6 +224,18 @@ export const timetable = (state = initialState, action) => {
         case SET_CURRENT_TIMETABLE:
             return Object.assign({}, state, {
                 currentTimetable : action.timetable,
+            });
+        case CREATE_TIMETABLE:
+            let newTable = {
+                id : action.id,
+                lectures : [],
+            };
+            return Object.assign({}, state, {
+                currentTimtable : newTable,
+                timetables : [
+                    ...state.timetables,
+                    newTable,
+                ],
             });
         case ADD_LECTURE_TO_TIMETABLE:
             return Object.assign({}, state, {
