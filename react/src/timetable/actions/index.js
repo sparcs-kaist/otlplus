@@ -4,6 +4,7 @@ export const CLOSE_SEARCH = "CLOSE_SEARCH";
 export const FETCH_SEARCH = "FETCH_SEARCH";
 export const SET_CURRENT_TIMETABLE = "SET_CURRENT_TIMETABLE";
 export const CREATE_TIMETABLE = "CREATE_TIMETABLE";
+export const DELETE_TIMETABLE = "DELETE_TIMETABLE";
 export const ADD_LECTURE_TO_TIMETABLE = "ADD_LECTURE_TO_TIMETABLE";
 export const UPDATE_CELL_SIZE = "UPDATE_CELL_SIZE";
 export const SET_LECTURE_ACTIVE = "SET_LECTURE_ACTIVE";
@@ -60,6 +61,13 @@ export function createTimetable(id) {
     return {
         type : CREATE_TIMETABLE,
         id : id,
+    }
+}
+
+export function deleteTimetable(timetable) {
+    return {
+        type : DELETE_TIMETABLE,
+        timetable : timetable,
     }
 }
 
