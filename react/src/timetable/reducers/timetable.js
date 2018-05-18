@@ -256,11 +256,21 @@ export const timetable = (state = initialState, action) => {
                 ],
             });
         case ADD_LECTURE_TO_TIMETABLE:
+            newTable = {
+                id : state.currentTimetable.id,
+                lectures : state.currentTimetable.lectures.concat([action.lecture]),
+            };
+            newTables = state.timetables.map((timetable)=>(
+                timetable.id===newTable.id
+                ? newTable
+                : timetable
+            ));
+            for (let i=0; i<newTables.length; i++)
+                if (newTables[i].id===state.currentTimetable.id)
+                    newTables[i] = newTable;
             return Object.assign({}, state, {
-                currentTimetable : [
-                    ...state.currentTimetable,
-                    action.lecture,
-                ],
+                currentTimetable: newTable,
+                timetables: newTables,
             });
         case UPDATE_CELL_SIZE:
             return Object.assign({}, state, {
