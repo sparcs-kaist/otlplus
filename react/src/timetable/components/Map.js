@@ -50,7 +50,6 @@ class Map extends Component {
             this.setState({ activeLectures: [] })
         };
 
-        console.log(this.state.activeLectures)
         let activeLectures = this.state.activeLectures
 
         return (

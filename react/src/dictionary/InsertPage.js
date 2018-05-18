@@ -6,7 +6,7 @@ class InsertPage extends Component {
     render() {
         return (
             <div>
-                <Header/>
+                <Header user={this.props.user}/>
                 <section id="content" className="container-fluid">
                     InsertPage
                 </section>

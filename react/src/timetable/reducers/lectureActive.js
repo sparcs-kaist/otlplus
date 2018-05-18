@@ -1,9 +1,9 @@
 import { SET_LECTURE_ACTIVE, CLEAR_LECTURE_ACTIVE, SET_MULTIPLE_DETAIL, CLEAR_MULTIPLE_DETAIL } from '../actions/index';
 
-const NONE = "NONE";
-const LIST = "LIST";
-const TABLE = "TABLE";
-const MULTIPLE = "MULTIPLE";
+export const NONE = "NONE";
+export const LIST = "LIST";
+export const TABLE = "TABLE";
+export const MULTIPLE = "MULTIPLE";
 
 const initialState = {
     from : NONE,

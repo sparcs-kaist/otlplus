@@ -12,8 +12,8 @@ class List extends Component {
 
     render() {
         const inTimetable = (lecture) => {
-            for (let i=0; i<this.props.currentTimetable.length; i++)
-                if (this.props.currentTimetable[i].id === lecture.id)
+            for (let i=0; i<this.props.currentTimetable.lectures.length; i++)
+                if (this.props.currentTimetable.lectures[i].id === lecture.id)
                     return true;
             return false;
         };
