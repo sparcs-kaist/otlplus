@@ -4,7 +4,7 @@ import { openSearch, closeSearch, setCurrentList, clearLectureActive } from "../
 import Scroller from "../../common/Scroller";
 import Search from "./Search";
 import ListBlock from "./ListBlock";
-import { LIST } from "../reducers/lectureActive";
+import { LIST, TABLE } from "../reducers/lectureActive";
 
 class List extends Component {
     changeTab(list) {
@@ -39,6 +39,15 @@ class List extends Component {
             return false;
         };
 
+        const isClicked = (course) => {
+            if (this.props.lectureActiveFrom!==LIST && this.props.lectureActiveFrom!==TABLE)
+                return false;
+            if (!this.props.lectureActiveClicked)
+                return false;
+
+            return (this.props.lectureActiveLecture.course === course[0].course);
+        };
+
         const mapLecture = (fromCart) => (lecture) => {
             return (
                 <ListBlock lecture={lecture} key={lecture.id} inTimetable={inTimetable(lecture)} inCart={inCart(lecture)} fromCart={fromCart}/>
@@ -47,7 +56,7 @@ class List extends Component {
 
         const mapCourse = (fromCart) => (course) => {
             return (
-                <div className="list-elem" key={course[0].course}>
+                <div className={"list-elem"+(isClicked(course)?" click":"")} key={course[0].course}>
                     <div className="list-elem-title">
                         <strong>{course[0].common_title}</strong>
                         &nbsp;
@@ -127,6 +136,8 @@ let mapStateToProps = (state) => {
         cart : state.list.cart,
         currentTimetable : state.timetable.currentTimetable,
         lectureActiveFrom : state.lectureActive.from,
+        lectureActiveClicked : state.lectureActive.clicked,
+        lectureActiveLecture : state.lectureActive.lecture,
     }
 };
 
