@@ -8,7 +8,7 @@ class TimetableTabs extends Component {
     }
 
     createTable() {
-        this.props.createTimetableDispatch(Math.random(100000000));
+        this.props.createTimetableDispatch(Math.floor(Math.random()*100000000));
     }
 
     deleteTable(timetable) {
@@ -16,7 +16,7 @@ class TimetableTabs extends Component {
     }
 
     duplicateTable(timetable) {
-        this.props.duplicateTimetableDispatch(Math.random(100000000), timetable);
+        this.props.duplicateTimetableDispatch(Math.floor(Math.random()*100000000), timetable);
     }
 
     render() {
