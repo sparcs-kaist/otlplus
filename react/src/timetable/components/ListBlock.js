@@ -18,9 +18,12 @@ class ListBlock extends Component {
         if(nextProps.lectureActiveClicked) {
             if (nextProps.activeLecture.id !== nextProps.lecture.id) {
                 if (prevState.isClicked) {
-                    return {isClicked: false};
+                    return {isClicked: false,isHover:false};
                 }
             }
+        }
+        else if(prevState.isClicked && nextProps.activeLecture === null) {
+            return {isClicked:false, isHover:false};
         }
     }
 
