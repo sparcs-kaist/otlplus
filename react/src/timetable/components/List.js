@@ -56,7 +56,7 @@ class List extends Component {
                             <div className="search-page-title-text">검색</div>
                         </div>
                         <Scroller>
-                            {this.props.courses.map(mapCourse)}
+                            {this.props.search.courses.map(mapCourse)}
                         </Scroller>
                     </div>
                     <div className="list-page cart-page none">
@@ -81,7 +81,7 @@ class List extends Component {
 
 let mapStateToProps = (state) => {
     return {
-        courses : state.list.courses,
+        search : state.list.search,
         currentTimetable : state.timetable.currentTimetable,
     }
 };
