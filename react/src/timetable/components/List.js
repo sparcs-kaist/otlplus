@@ -23,16 +23,20 @@ class List extends Component {
         };
 
         const inCart = (lecture) => {
+            for (let i=0, course; course=this.props.cart.courses[i]; i++)
+                for (let j=0, cartLecture; cartLecture=course[j]; j++)
+                    if (cartLecture.id === lecture.id)
+                        return true;
             return false;
         };
 
-        const mapLecture = (lecture) => {
+        const mapLecture = (fromCart) => (lecture) => {
             return (
-                <ListBlock lecture={lecture} key={lecture.id} inTimetable={inTimetable(lecture)} inCart={inCart(lecture)}/>
+                <ListBlock lecture={lecture} key={lecture.id} inTimetable={inTimetable(lecture)} inCart={inCart(lecture)} fromCart={fromCart}/>
             )
         };
 
-        const mapCourse = (course) => {
+        const mapCourse = (fromCart) => (course) => {
             return (
                 <div className="list-elem" key={course[0].course}>
                     <div className="list-elem-title">
@@ -40,7 +44,7 @@ class List extends Component {
                         &nbsp;
                         {course[0].old_code}
                     </div>
-                    {course.map(mapLecture)}
+                    {course.map(mapLecture(fromCart))}
                 </div>
             )
         };
@@ -63,7 +67,7 @@ class List extends Component {
                             <div className="search-page-title-text">검색</div>
                         </div>
                         <Scroller>
-                            {this.props.search.courses.map(mapCourse)}
+                            {this.props.search.courses.map(mapCourse(false))}
                         </Scroller>
                     </div>
                     {this.props.major.map((majorList) => (
@@ -72,7 +76,7 @@ class List extends Component {
                                 {majorList.name} 전공
                             </div>
                             <Scroller>
-                                {majorList.courses.map(mapCourse)}
+                                {majorList.courses.map(mapCourse(false))}
                             </Scroller>
                         </div>
                     ))}
@@ -81,7 +85,7 @@ class List extends Component {
                             인문사회선택
                         </div>
                         <Scroller>
-                            {this.props.humanity.courses.map(mapCourse)}
+                            {this.props.humanity.courses.map(mapCourse(false))}
                         </Scroller>
                     </div>
                     <div className={"list-page cart-page"+(this.props.currentList==="CART"?"":" none")}>
@@ -89,7 +93,7 @@ class List extends Component {
                             장바구니
                         </div>
                         <Scroller>
-                            {this.props.cart.courses.map(mapCourse)}
+                            {this.props.cart.courses.map(mapCourse(true))}
                         </Scroller>
                     </div>
                 </div>

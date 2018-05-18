@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import { addLectureToTimetable } from "../actions";
+import { addLectureToTimetable, addLectureToCart, deleteLectureFromCart } from "../actions";
 import { setLectureActive, clearLectureActive } from "../actions";
 import { LIST } from "../reducers/lectureActive";
 
@@ -37,6 +37,14 @@ class ListBlock extends Component {
                     }
 
         this.props.addLectureToTimetableDispatch(this.props.lecture);
+    }
+
+    addToCart() {
+        this.props.addLectureToCartDispatch(this.props.lecture);
+    }
+
+    deleteFromCart() {
+        this.props.deleteLectureFromCartDispatch(this.props.lecture);
     }
 
     listHover() {
@@ -93,9 +101,13 @@ class ListBlock extends Component {
       	                <span className="class-prof">{this.props.lecture.professor_short}</span>
                     </div>
                     {
-                        !this.props.inCart
-                        ? <div className="add-to-cart"><i/></div>
-                        : <div className="add-to-cart disable"><i/></div>
+                        this.props.fromCart
+                        ? <div className="delete-from-cart" onClick={()=>this.deleteFromCart()}><i/></div>
+                        : (
+                            !this.props.inCart
+                            ? <div className="add-to-cart" onClick={()=>this.addToCart()}><i/></div>
+                            : <div className="add-to-cart disable"><i/></div>
+                        )
                     }
                     {
                         !this.props.inTimetable
@@ -126,6 +138,12 @@ let mapDispatchToProps = (dispatch) => {
         },
         clearLectureActiveDispatch : () => {
             dispatch(clearLectureActive());
+        },
+        addLectureToCartDispatch : (lecture) => {
+            dispatch(addLectureToCart(lecture));
+        },
+        deleteLectureFromCartDispatch : (lecture) => {
+            dispatch(deleteLectureFromCart(lecture));
         },
     }
 };

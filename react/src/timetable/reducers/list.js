@@ -1,4 +1,4 @@
-import { SET_CURRENT_LIST, FETCH_SEARCH } from '../actions/index';
+import { SET_CURRENT_LIST, FETCH_SEARCH, ADD_LECTURE_TO_CART, DELETE_LECTURE_FROM_CART } from '../actions/index';
 
 const initialState = {
     currentList : "SEARCH",
@@ -1218,6 +1218,58 @@ export const list = (state = initialState, action) => {
         case FETCH_SEARCH:
             return Object.assign({}, state, {
                 courses : action.courses,
+            });
+        case ADD_LECTURE_TO_CART:
+            let courses = state.cart.courses;
+            let i;
+            let course;
+            for (i=0; course=courses[i]; i++) {
+                if (course[0].old_code < action.lecture.old_code)
+                    continue;
+                else if (course[0].old_code === action.lecture.old_code) {
+                    let j;
+                    let lecture;
+                    for (j=0; lecture=course[j]; j++) {
+                        if (lecture.class_no < action.lecture.class_no)
+                            continue;
+                        else {
+                            course.splice(j, 0, action.lecture);
+                            break;
+                        }
+                    }
+                    if (j === course.length)
+                        course.push(action.lecture);
+                    break;
+                }
+                else {
+                    courses.splice(i, 0, [action.lecture]);
+                    break;
+                }
+            }
+            if (i === courses.length)
+                courses.push([action.lecture]);
+            return Object.assign({}, state, {
+                cart : {
+                    courses : courses,
+                },
+            });
+        case DELETE_LECTURE_FROM_CART:
+            courses = state.cart.courses;
+            for (let i=0, course; course=courses[i]; i++) {
+                for (let j=0, lecture; lecture=course[j]; j++)
+                    if (lecture.id === action.lecture.id) {
+                        course.splice(j, 1);
+                        j--;
+                    }
+                if (course.length === 0) {
+                    courses.splice(i, 1);
+                    i--;
+                }
+            }
+            return Object.assign({}, state, {
+                cart : {
+                    courses : courses,
+                },
             });
         default:
             return state;
