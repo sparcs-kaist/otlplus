@@ -69,20 +69,20 @@ class List extends Component {
                             </Scroller>
                         </div>
                     ))}
-                    <div className="list-page cart-page none">
-                        <div className="list-page-title">
-                            장바구니
-                        </div>
-                        <Scroller>
-                            {this.props.cart.courses.map(mapCourse)}
-                        </Scroller>
-                    </div>
                     <div className="list-page humanity-page none">
                         <div className="list-page-title">
                             인문사회선택
                         </div>
                         <Scroller>
                             {this.props.humanity.courses.map(mapCourse)}
+                        </Scroller>
+                    </div>
+                    <div className="list-page cart-page none">
+                        <div className="list-page-title">
+                            장바구니
+                        </div>
+                        <Scroller>
+                            {this.props.cart.courses.map(mapCourse)}
                         </Scroller>
                     </div>
                 </div>
