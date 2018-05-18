@@ -1,5 +1,4 @@
 import { OPEN_SEARCH, CLOSE_SEARCH } from '../actions/index';
-import {FETCH_SEARCH} from "../actions";
 
 const initialState = {
     open : true,
