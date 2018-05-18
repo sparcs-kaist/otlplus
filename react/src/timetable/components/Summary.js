@@ -41,8 +41,8 @@ class Summary extends Component {
 
     render() {
         let type_credit = [0,0,0,0,0,0];
-        for (let i=0, lecture; (lecture = this.props.currentTimetable.lectures[i]); i++)
-            type_credit[indexOfType(lecture.type_en)] += lecture.credit + lecture.credit_au;
+        let sum_credit = 0, sum_credit_au = 0, targetNum = 0, grade = 0, load = 0, speech = 0;
+        let letters = ['?', 'F', 'F', 'F', 'D-', 'D', 'D+', 'C-', 'C', 'C+', 'B-', 'B', 'B+', 'A-', 'A', 'A+']
 
         let active_type_credit = ['', '', '', '', '', ''];
         if (this.props.lectureActiveFrom === LIST || this.props.lectureActiveFrom === TABLE ) {
