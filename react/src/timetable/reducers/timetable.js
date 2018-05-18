@@ -1,4 +1,4 @@
-import { ADD_LECTURE_TO_TIMETABLE, UPDATE_CELL_SIZE } from '../actions/index';
+import { SET_CURRENT_TIMETABLE, ADD_LECTURE_TO_TIMETABLE, UPDATE_CELL_SIZE } from '../actions/index';
 
 const initialState = {
     timetables : [
@@ -221,6 +221,10 @@ const initialState = {
 
 export const timetable = (state = initialState, action) => {
     switch (action.type) {
+        case SET_CURRENT_TIMETABLE:
+            return Object.assign({}, state, {
+                currentTimetable : action.timetable,
+            });
         case ADD_LECTURE_TO_TIMETABLE:
             return Object.assign({}, state, {
                 currentTimetable : [
