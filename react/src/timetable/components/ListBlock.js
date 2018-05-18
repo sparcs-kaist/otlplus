@@ -25,6 +25,8 @@ class ListBlock extends Component {
         else if(prevState.isClicked && nextProps.activeLecture === null) {
             return {isClicked:false, isHover:false};
         }
+        else
+            return null;
     }
 
     addToTable(event) {
