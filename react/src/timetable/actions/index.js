@@ -3,6 +3,8 @@ export const OPEN_SEARCH = "OPEN_SEARCH";
 export const CLOSE_SEARCH = "CLOSE_SEARCH";
 export const SET_CURRENT_LIST = "SER_CURRENT_LIST";
 export const FETCH_SEARCH = "FETCH_SEARCH";
+export const ADD_LECTURE_TO_CART = "ADD_LECTURE_TO_CART";
+export const DELETE_LECTURE_FROM_CART = "DELETE_LECTURE_FROM_CART";
 export const SET_CURRENT_TIMETABLE = "SET_CURRENT_TIMETABLE";
 export const CREATE_TIMETABLE = "CREATE_TIMETABLE";
 export const DELETE_TIMETABLE = "DELETE_TIMETABLE";
@@ -45,6 +47,20 @@ export function fetchSearch(courses) {
     return {
         type : FETCH_SEARCH,
         courses : courses,
+    }
+}
+
+export function addLectureToCart(lecture) {
+    return {
+        type : ADD_LECTURE_TO_CART,
+        lecture : lecture,
+    }
+}
+
+export function deleteLectureFromCart(lecture) {
+    return {
+        type : DELETE_LECTURE_FROM_CART,
+        lecture : lecture,
     }
 }
 
