@@ -6,7 +6,7 @@ import { setLectureActive, clearLectureActive } from "../actions";
 class ListBlock extends Component {
     addToTable() {
         for (let i=0, thisClasstime; thisClasstime=this.props.lecture.classtimes[i]; i++)
-            for (let j=0, lecture; lecture=this.props.currentTimetable[j]; j++)
+            for (let j=0, lecture; lecture=this.props.currentTimetable.lectures[j]; j++)
                 for (let k=0, classtime; classtime=lecture.classtimes[k]; k++)
                     if ((classtime.begin < thisClasstime.end) && (classtime.end > thisClasstime.begin)) {
                         alert(false ? "You can't add lecture overlapping." : '시간표가 겹치는 과목은 추가할 수 없습니다.');
