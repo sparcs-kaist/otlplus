@@ -1,14 +1,47 @@
 import React, { Component } from 'react';
+import { connect } from "react-redux";
 
 class TimetableTabs extends Component {
     render() {
-        return (
-            <div id="timetable-tabs">
-                <div className="timetable-tab" style={{pointerEvents:'none'}}><span className="timetable-num">불러오는 중</span>
+        if (this.props.timetables && this.props.timetables.length)
+            return (
+                <div id="timetable-tabs">
+                    { this.props.timetables.map((timetable, idx) => (
+                        <div className={"timetable-tab"+(timetable.id===this.props.currentTimetable.id?" active":"")} data-id="<%- id %>">
+                            <span className="timetable-num">
+                                시간표{idx+1}
+                            </span>
+                            <span className="hidden-option duplicate-table"><i/></span>
+                            <span className="hidden-option delete-table"><i/></span>
+                        </div>
+                    ))}
+                    <div className="timetable-add">
+                        <span className="timetable-num"><i className="add-table"></i></span>
+                    </div>
                 </div>
-            </div>
-        );
+            );
+        else
+            return (
+                <div id="timetable-tabs">
+                    <div className="timetable-tab" style={{pointerEvents:'none'}}><span className="timetable-num">불러오는 중</span>
+                    </div>
+                </div>
+            );
     }
 }
+
+let mapStateToProps = (state) => {
+    return {
+        timetables : state.timetable.timetables,
+        currentTimetable : state.timetable.currentTimetable,
+    }
+};
+
+let mapDispatchToProps = (dispatch) => {
+    return {
+    }
+};
+
+TimetableTabs = connect(mapStateToProps, mapDispatchToProps)(TimetableTabs);
 
 export default TimetableTabs;
