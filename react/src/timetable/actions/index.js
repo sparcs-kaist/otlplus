@@ -1,6 +1,7 @@
 export const SET_SEMESTER = "SET_SEMESTER";
 export const OPEN_SEARCH = "OPEN_SEARCH";
 export const CLOSE_SEARCH = "CLOSE_SEARCH";
+export const SET_CURRENT_LIST = "SER_CURRENT_LIST";
 export const FETCH_SEARCH = "FETCH_SEARCH";
 export const SET_CURRENT_TIMETABLE = "SET_CURRENT_TIMETABLE";
 export const CREATE_TIMETABLE = "CREATE_TIMETABLE";
@@ -30,6 +31,13 @@ export function openSearch() {
 export function closeSearch() {
     return {
         type : CLOSE_SEARCH,
+    }
+}
+
+export function setCurrentList(list) {
+    return {
+        type : SET_CURRENT_LIST,
+        list : list,
     }
 }
 
