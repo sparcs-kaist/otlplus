@@ -1,13 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
+import { setCurrentTimetable } from "../actions";
 
 class TimetableTabs extends Component {
+    changeTab(timetable) {
+        this.props.setCurrentTimetableDispatch(timetable);
+    }
+
     render() {
         if (this.props.timetables && this.props.timetables.length)
             return (
                 <div id="timetable-tabs">
                     { this.props.timetables.map((timetable, idx) => (
-                        <div className={"timetable-tab"+(timetable.id===this.props.currentTimetable.id?" active":"")} data-id="<%- id %>">
+                        <div className={"timetable-tab"+(timetable.id===this.props.currentTimetable.id?" active":"")} data-id="<%- id %>" onClick={()=>this.changeTab(timetable)}>
                             <span className="timetable-num">
                                 시간표{idx+1}
                             </span>
@@ -39,6 +44,9 @@ let mapStateToProps = (state) => {
 
 let mapDispatchToProps = (dispatch) => {
     return {
+        setCurrentTimetableDispatch : (timetable) => {
+            dispatch(setCurrentTimetable(timetable));
+        }
     }
 };
 
