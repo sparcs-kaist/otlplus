@@ -5,6 +5,24 @@ import { setLectureActive, clearLectureActive } from "../actions";
 import { LIST } from "../reducers/lectureActive";
 
 class ListBlock extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            isClicked:false,
+        };
+    }
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        //Return value will be set the state
+        if(nextProps.lectureActiveClicked) {
+            if (nextProps.activeLecture.id !== nextProps.lecture.id) {
+                if (prevState.isClicked) {
+                    return {isClicked: false};
+                }
+            }
+        }
+    }
+
     addToTable() {
         for (let i=0, thisClasstime; (thisClasstime=this.props.lecture.classtimes[i]); i++)
             for (let j=0, lecture; (lecture=this.props.currentTimetable.lectures[j]); j++)
@@ -29,6 +47,20 @@ class ListBlock extends Component {
         this.props.clearLectureActiveDispatch();
     };
 
+    onClick() {
+        if(!this.state.isClicked){
+            this.props.setLectureActiveDispatch(this.props.lecture, "LIST", true);
+            this.setState({
+                isClicked:true,
+            });
+        }else{
+            this.props.setLectureActiveDispatch(this.props.lecture, "LIST", false);
+            this.setState({
+                isClicked:false,
+            });
+        }
+    }
+
 
     render() {
         const getClass = (lecture) => {
@@ -41,8 +73,9 @@ class ListBlock extends Component {
                     return "class-title";
             }
         };
+        const clicked = this.state.isClicked ? "click" : "";
         return (
-            <div className="list-elem-body-wrap" onMouseOver={()=>this.listHover()} onMouseOut={()=>this.listOut()}>
+            <div className={"list-elem-body-wrap "+clicked} onClick={()=>this.onClick()} onMouseOver={()=>this.listHover()} onMouseOut={()=>this.listOut()}>
                 <div className="list-elem-body">
                     <div className="list-elem-body-text">
                         <strong className={getClass(this.props.lecture)}>{this.props.lecture.class_title}</strong>
@@ -69,6 +102,7 @@ let mapStateToProps = (state) => {
     return {
         currentTimetable : state.timetable.currentTimetable,
         lectureActiveClicked : state.lectureActive.clicked,
+        activeLecture : state.lectureActive.lecture,
     }
 };
 
