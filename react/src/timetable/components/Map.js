@@ -9,7 +9,7 @@ class Map extends Component {
     render() {
         let mapObject = {};
 
-        for (let i=0, lecture; lecture = this.props.currentTimetable[i]; i++) {
+        for (let i=0, lecture; (lecture = this.props.currentTimetable[i]); i++) {
             let building = lecture.building;
             let color = lecture.course%16;
             let id = lecture.id;
@@ -25,11 +25,11 @@ class Map extends Component {
                 <div id="map-container">
                     <img id="map-img" src={mapImage} alt="KAIST Map"/>
                         {Object.keys(mapObject).map(function(building) {
-                            let lec = mapObject[building];
-                            let act = ""
+                            let act = "";
                             mapObject[building].map(function(lec) {
-                                if (activeLecture!==null && activeLecture.id===lec.id) act = "active"
-                            })
+                                if (activeLecture!==null && activeLecture.id===lec.id) act = "active";
+                                return null;
+                            });
                             let location =
                                 <div className={`map-location ${building}`} data-building={building} data-id="1234">
                                     <div className={`map-location-box ${act}`}>
