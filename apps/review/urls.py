@@ -18,22 +18,24 @@ from django.http import HttpResponseRedirect
 from . import views
 
 urlpatterns = [
-    url(r'^$', views.LastCommentView),
-    url(r'^json/(?P<page>[0-9]+)/$', views.LastCommentView_json),
+    url(r'^latest/(?P<page>[0-9]+)$', views.latest),
 
-    url(r'^comment/([1-9][0-9]*)/$', views.ReviewView),
+    url(r'^comment/([1-9][0-9]*)$', views.ReviewView),
 
-    url(r'^professor/([^/]+)/([^/]+)/([^/]+)/$', views.SearchResultProfessorView_json),
+    url(r'^professor/([^/]+)$', views.professor),
+    url(r'^professor/([^/]+)/([^/]+)/([^/]+)$', views.professorComment),
 
-    url(r'^course/([^/]+)/([^/]+)/([^/]+)/$', views.SearchResultCourseView_json),
+    url(r'^course/([^/]+)$', views.course),
+    url(r'^course/([^/]+)/([^/]+)/([^/]+)$', views.courseComment),
 
-    url(r'^result/(?P<page>[0-9]+)/$', views.SearchResultView_json),
+    url(r'^result$', views.resultProfessor),
+    url(r'^result/(?P<page>[0-9]+)$', views.resultCourse),
 
-    url(r'^insert/([^/]+)/([^/]+)/$', views.ReviewInsertAdd),
+    url(r'^insert$', views.insert),
+    url(r'^insert/([^/]+)$', views.insertReview),
 
-    url(r'^delete/$',views.ReviewDelete),
-    url(r'^like/$',views.ReviewLike),
-    url(r'^refresh/$',views.ReviewRefresh),
-    url(r'^portal/$',views.ReviewPortal),
+    url(r'^like$',views.ReviewLike),
+
+    # TODO: Implement old OTL dictionary URL redirect
     url(r'^dictionary/([^/]+)/$', views.dictionary),
 ]

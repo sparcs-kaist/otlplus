@@ -24,8 +24,8 @@ class Timetable extends Component {
 
     render() {
         let lectureBlocks = [];
-        for (let i=0, lecture; lecture = this.props.currentTimetable[i]; i++) {
-            for (let j=0, classtime; classtime=lecture.classtimes[j]; j++) {
+        for (let i=0, lecture; (lecture = this.props.currentTimetable.lectures[i]); i++) {
+            for (let j=0, classtime; (classtime=lecture.classtimes[j]); j++) {
                 lectureBlocks.push(
                     <TimetableBlock key={`${lecture.id}:${j}`} lecture={lecture} classtime={classtime} isTemp={false}/>
                 );

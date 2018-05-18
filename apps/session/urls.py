@@ -23,9 +23,10 @@ from . import views
 urlpatterns = [
     url(r'^$', views.home),
     url(r'^login/$', views.user_login),
-    url(r'^login/callback/$', views.login_callback),
+    url(r'^login/callback', views.login_callback),
     url(r'^logout/$', views.user_logout),
     url(r'^unregister/$', views.unregister),
+    url(r'^info', views.info),
     #url(r'^unregister/callback/$', views.unregister_callback),
     url(r'^language/$', TemplateView.as_view(template_name='index.html')),
     url(r'^settings/$', TemplateView.as_view(template_name='index.html')),

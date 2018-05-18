@@ -9,6 +9,7 @@ from django.utils import translation
 from apps.subject.models import Department, Lecture
 from apps.review.models import Comment
 from apps.timetable.models import OldTimeTable
+from apps.timetable.views import _user_department
 from apps.session.models import UserProfile
 from apps.session.sparcssso import Client
 import urllib
@@ -208,6 +209,20 @@ def unregister(request):
     logout(request)
 
     return JsonResponse(status=200, data={})
+
+
+def info(request):
+    if not request.user.is_authenticated():
+        return JsonResponse({}, status=401)
+    
+    userProfile = UserProfile.objects.get(user=request.user)
+    ctx = {
+        "firstName": request.user.first_name,
+        "lastName": request.user.last_name,
+        "language": userProfile.language,
+        "departments": _user_department(request.user),
+    }
+    return JsonResponse(ctx, safe = False)
 
 
 #################### UNUSED ####################
