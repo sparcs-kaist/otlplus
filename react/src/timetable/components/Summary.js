@@ -68,7 +68,6 @@ class Summary extends Component {
 
         // let sum_credit = type_credit.reduce((prev, curr) => prev + curr)
 
-        console.log(this.props.currentTimetable)
 
         return (
             <div id="summary">
