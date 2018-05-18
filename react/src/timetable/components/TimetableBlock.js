@@ -16,7 +16,11 @@ class TimetableBlock extends Component {
                 }}
             >
                 <div  className="lecture-delete"><i/></div>
-                <div wonMouseOver = {() => this.props.onMouseOver(this.props.lecture)}
+                <div
+                    // onMouseDown={() => this.props.onMouseDown()}
+                    onMouseOver = {() => this.props.onMouseOver(this.props.lecture)}
+                     onMouseOut = {() => this.props.onMouseOut(this.props.lecture)}
+                    onClick={() => this.props.onClick(this.props.lecture)}
                      className="lecture-block-content">
                     <p className="timetable-lecture-name">
                         {this.props.lecture.title}

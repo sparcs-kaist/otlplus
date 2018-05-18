@@ -11,6 +11,8 @@ class Timetable extends Component {
         this.isDragging = false;
         this.isBlockClick = false;
         this.blockHover = this.blockHover.bind(this);
+        this.blockOut = this.blockOut.bind(this);
+        this.blockClick = this.blockClick.bind(this);
     }
 
     resize() {
@@ -18,17 +20,74 @@ class Timetable extends Component {
         this.props.updateCellSizeDispatch(cell.width, cell.height);
     }
 
-    clickBlock() {
+    isOccupied() {
+
+    }
+
+    dragStart(){
+        if (this.isBubbling) {
+            this.isBubbling = false;
+
+        } else {
+            // if ($(e.currentTarget).hasClass('occupied'))
+            //     return;
+            if (this.isOccupied())
+                return;
+            //
+            // e.stopPropagation();
+            // e.preventDefault();
+            // this.isDragging = true;
+            // $(this.dragCell).removeClass('none');
+
+        }
+    }
+
+    blockHover(lecture) {
+        if ( !this.props.lectureActive.clicked && !this.isDragging) {
+            this.props.setLectureActiveDispatch(lecture,"table", false);
+        }
+    }
+
+    blockOut(lecture) {
+        if (!this.props.lectureActive.clicked && !this.isDragging) {
+            this.props.setLectureActiveDispatch(lecture,"NONE",false)
+        }
+    }
+
+    blockClick(lecture) {
+        // var target = document.getElementsByClassName('black');
+        // // var target = $(e.target);
+        // var block = target.closest('.lecture-block');
+        //
+        // if (block.length === 0) {
+        //     // Click target is not child(or itself) of lecture block
+        //     this.props.setLectureActiveDispatch(lecture,"NONE", false);
+        //
+        // } else if (target.closest(".lecture-delete").length) {
+            // Do nothing
+
+        // } else
+        if (this.props.lectureActive.clicked
+            && this.props.lectureActive.from === 'table'
+            && this.props.lectureActive.lecture.id === lecture.id) {
+
+            this.props.setLectureActiveDispatch(lecture,'table',false);
+
+        } else {
+            this.props.setLectureActiveDispatch(lecture,'table',true);
+
+        }
+
         if (!this.isDragging) {
             this.isBubbling = true;
         }
     }
 
-    blockHover(lecture) {
-        if ( !this.props.clicked && !this.isDragging) {
-            this.props.setLectureActiveDispatch(lecture,"table", false);
-        }
-    }
+    // clickBlock() {
+    //     if (!this.isDragging) {
+    //         this.isBubbling = true;
+    //     }
+    // }
 
     componentDidMount() {
         this.resize();
@@ -50,8 +109,10 @@ class Timetable extends Component {
                 lectureBlocks.push(
                     <TimetableBlock
                         key={`${lecture.id}:${j}`}
-                        // onClick={this.clickBlock}
+                        // onMouseDown={this.clickBlock}
                         onMouseOver={this.blockHover}
+                        onMouseOut={this.blockOut}
+                        onClick={this.blockClick}
                         lecture={lecture}
                         classtime={classtime}
                         isTemp={false}/>
@@ -284,7 +345,7 @@ class Timetable extends Component {
 let mapStateToProps = (state) => {
     return {
         currentTimetable : state.timetable.currentTimetable,
-        lectureActive : state.lectureActive.clicked,
+        lectureActive : state.lectureActive,
     }
 };
 
