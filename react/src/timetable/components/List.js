@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import { openSearch, setCurrentList } from "../actions";
+import { openSearch, setCurrentList, clearLectureActive } from "../actions";
 import Scroller from "../../common/Scroller";
 import Search from "./Search";
 import ListBlock from "./ListBlock";
+import { LIST } from "../reducers/lectureActive";
 
 class List extends Component {
     changeTab(list) {
         this.props.setCurrentListDispatch(list);
+        
+        if (this.props.lectureActiveFrom === LIST)
+            this.props.clearLectureActiveDispatch();
     }
 
     showSearch() {
@@ -110,6 +114,7 @@ let mapStateToProps = (state) => {
         humanity : state.list.humanity,
         cart : state.list.cart,
         currentTimetable : state.timetable.currentTimetable,
+        lectureActiveFrom : state.lectureActive.from,
     }
 };
 
@@ -120,6 +125,9 @@ let mapDispatchToProps = (dispatch) => {
         },
         setCurrentListDispatch : (list) => {
             dispatch(setCurrentList(list));
+        },
+        clearLectureActiveDispatch : () => {
+            dispatch(clearLectureActive());
         },
     }
 };
