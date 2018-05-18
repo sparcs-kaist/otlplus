@@ -42,7 +42,18 @@ class Summary extends Component {
     render() {
         let type_credit = [0,0,0,0,0,0];
         let sum_credit = 0, sum_credit_au = 0, targetNum = 0, grade = 0, load = 0, speech = 0;
-        let letters = ['?', 'F', 'F', 'F', 'D-', 'D', 'D+', 'C-', 'C', 'C+', 'B-', 'B', 'B+', 'A-', 'A', 'A+']
+        let letters = ['?', 'F', 'F', 'F', 'D-', 'D', 'D+', 'C-', 'C', 'C+', 'B-', 'B', 'B+', 'A-', 'A', 'A+'];
+
+        for (let i=0, lecture; (lecture = this.props.currentTimetable.lectures[i]); i++) {
+            let num = lecture.credit + lecture.credit_au;
+            type_credit[indexOfType(lecture.type_en)] += num;
+            sum_credit += lecture.credit;
+            sum_credit_au += lecture.credit_au;
+            targetNum += num;
+            grade += lecture.grade * num;
+            load += lecture.load * num;
+            speech += lecture.speech * num;
+        }
 
         let active_type_credit = ['', '', '', '', '', ''];
         if (this.props.lectureActiveFrom === LIST || this.props.lectureActiveFrom === TABLE ) {
@@ -117,17 +128,17 @@ class Summary extends Component {
                 </div>
                 <div id="summary-score">
                     <div className="summary-score-elem">
-                        <div id="grades" className="score-text">-</div>
+                        <div id="grades" className="score-text">{letters[Math.round(grade/targetNum)]}</div>
                         <div className="score-label">성적</div>
                     </div>
                     &nbsp;
                     <div className="summary-score-elem">
-                        <div id="loads" className="score-text">-</div>
+                        <div id="loads" className="score-text">{letters[Math.round(load/targetNum)]}</div>
                         <div className="score-label">널널</div>
                     </div>
                     &nbsp;
                     <div className="summary-score-elem">
-                        <div id="speeches" className="score-text">-</div>
+                        <div id="speeches" className="score-text">{letters[Math.round(speech/targetNum)]}</div>
                         <div className="score-label">강의</div>
                     </div>
                 </div>

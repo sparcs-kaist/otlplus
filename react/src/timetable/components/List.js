@@ -32,8 +32,8 @@ class List extends Component {
         };
 
         const inCart = (lecture) => {
-            for (let i=0, course; course=this.props.cart.courses[i]; i++)
-                for (let j=0, cartLecture; cartLecture=course[j]; j++)
+            for (let i=0, course; (course=this.props.cart.courses[i]); i++)
+                for (let j=0, cartLecture; (cartLecture=course[j]); j++)
                     if (cartLecture.id === lecture.id)
                         return true;
             return false;
@@ -79,7 +79,7 @@ class List extends Component {
                 <div id="list-tab-wrap">
                     <button className={"list-tab search"+(this.props.currentList==="SEARCH"?" active":"")} onClick={()=>this.changeTab("SEARCH")}><i className="list-tab-icon"/></button>
                     {this.props.major.map((majorList) => (
-                        <button className={"list-tab major"+(this.props.currentList===majorList.code?" active":"")} onClick={()=>this.changeTab(majorList.code)}><i className="list-tab-icon"/></button>
+                        <button className={"list-tab major"+(this.props.currentList===majorList.code?" active":"")} key={majorList.code} onClick={()=>this.changeTab(majorList.code)}><i className="list-tab-icon"/></button>
                     ))}
                     <button className={"list-tab humanity"+(this.props.currentList==="HUMANITY"?" active":"")} onClick={()=>this.changeTab("HUMANITY")}><i className="list-tab-icon"/></button>
                     <button className={"list-tab cart"+(this.props.currentList==="CART"?" active":"")} onClick={()=>this.changeTab("CART")}><i className="list-tab-icon"/></button>
@@ -96,7 +96,7 @@ class List extends Component {
                         </Scroller>
                     </div>
                     {this.props.major.map((majorList) => (
-                        <div className={"list-page humanity-page"+(this.props.currentList===majorList.code?"":" none")}>
+                        <div className={"list-page humanity-page"+(this.props.currentList===majorList.code?"":" none")} key={majorList.code}>
                             <div className="list-page-title">
                                 {majorList.name} 전공
                             </div>

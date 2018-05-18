@@ -1223,13 +1223,13 @@ export const list = (state = initialState, action) => {
             let courses = state.cart.courses;
             let i;
             let course;
-            for (i=0; course=courses[i]; i++) {
+            for (i=0; (course=courses[i]); i++) {
                 if (course[0].old_code < action.lecture.old_code)
                     continue;
                 else if (course[0].old_code === action.lecture.old_code) {
                     let j;
                     let lecture;
-                    for (j=0; lecture=course[j]; j++) {
+                    for (j=0; (lecture=course[j]); j++) {
                         if (lecture.class_no < action.lecture.class_no)
                             continue;
                         else {
@@ -1255,8 +1255,8 @@ export const list = (state = initialState, action) => {
             });
         case DELETE_LECTURE_FROM_CART:
             courses = state.cart.courses;
-            for (let i=0, course; course=courses[i]; i++) {
-                for (let j=0, lecture; lecture=course[j]; j++)
+            for (let i=0, course; (course=courses[i]); i++) {
+                for (let j=0, lecture; (lecture=course[j]); j++)
                     if (lecture.id === action.lecture.id) {
                         course.splice(j, 1);
                         j--;
