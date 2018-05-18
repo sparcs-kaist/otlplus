@@ -7,24 +7,36 @@ import {connect} from "react-redux";
 
 class Map extends Component {
     render() {
-        // console.log(this.props.currentTimetable)
-        //
-        // for (let i=0, lecture; lecture = this.props.currentTimetable[i]; i++) {
-        //     let building = lecture.building;
-        //     console.log(building)
-        // }
+        let mapObject = {};
+
+        for (let i=0, lecture; lecture = this.props.currentTimetable[i]; i++) {
+            let building = lecture.building;
+            let color = lecture.course%16;
+            let id = lecture.id;
+            mapObject[building]===undefined?
+                mapObject[building] = [{color: color, id: id}]
+                : mapObject[building].push({color: color, id: id})
+        }
 
         return (
             <div id="map">
                 <div id="map-container">
                     <img id="map-img" src={mapImage} alt="KAIST Map"/>
-                    {/*<div className="map-location E2" data-building="E2" data-id="1234">*/}
-                        {/*<div className="map-location-box">*/}
-                            {/*<span className="map-location-text">E2</span>*/}
-                        {/*</div>*/}
-                        {/*<div className="map-location-arrow-shadow"></div>*/}
-                        {/*<div className="map-location-arrow"></div>*/}
-                    {/*</div>*/}
+                        {Object.keys(mapObject).map(function(building) {
+                            let lec = mapObject[building];
+                            let location =
+                                <div className={`map-location ${building}`} data-building={building} data-id="1234">
+                                    <div className="map-location-box">
+                                        <span className="map-location-text">{building}</span>
+                                        {mapObject[building].map(function(lec) {
+                                            return <span className={`map-location-circle color${lec.color}`} data-id={lec.id}></span>
+                                        })}
+                                    </div>
+                                    <div className="map-location-arrow-shadow"></div>
+                                    <div className="map-location-arrow"></div>
+                                </div>
+                            return location
+                        })}
                 </div>
             </div>
         );
