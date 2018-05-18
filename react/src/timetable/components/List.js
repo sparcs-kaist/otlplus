@@ -23,6 +23,10 @@ class List extends Component {
         };
 
         const inCart = (lecture) => {
+            for (let i=0, course; course=this.props.cart.courses[i]; i++)
+                for (let j=0, cartLecture; cartLecture=course[j]; j++)
+                    if (cartLecture.id === lecture.id)
+                        return true;
             return false;
         };
 
