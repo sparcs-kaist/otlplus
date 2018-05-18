@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import { createTimetable, setCurrentTimetable, deleteTimetable } from "../actions";
+import { createTimetable, setCurrentTimetable, deleteTimetable, duplicateTimetable } from "../actions";
 
 class TimetableTabs extends Component {
     changeTab(timetable) {
@@ -15,6 +15,10 @@ class TimetableTabs extends Component {
         this.props.deleteTimetableDispatch(timetable);
     }
 
+    duplicateTable(timetable) {
+        this.props.duplicateTimetableDispatch(Math.random(100000000), timetable);
+    }
+
     render() {
         if (this.props.timetables && this.props.timetables.length)
             return (
@@ -24,7 +28,7 @@ class TimetableTabs extends Component {
                             <span className="timetable-num">
                                 시간표{idx+1}
                             </span>
-                            <span className="hidden-option duplicate-table"><i/></span>
+                            <span className="hidden-option duplicate-table" onClick={()=>this.duplicateTable(timetable)}><i/></span>
                             <span className="hidden-option delete-table" onClick={()=>this.deleteTable(timetable)}><i/></span>
                         </div>
                     ))}
@@ -61,6 +65,9 @@ let mapDispatchToProps = (dispatch) => {
         deleteTimetableDispatch : (timetable) => {
             dispatch(deleteTimetable(timetable));
         },
+        duplicateTimetableDispatch : (id, timetable) => {
+            dispatch(duplicateTimetable(id, timetable));
+        }
     }
 };
 
