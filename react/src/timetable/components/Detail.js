@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import {connect} from "react-redux";
 import { Link } from 'react-router-dom';
 import Scroller from '../../common/Scroller';
+import { LIST, TABLE, MULTIPLE } from "../reducers/lectureActive";
 
 class Detail extends Component {
     render() {
-        if (this.props.from === "LIST" || this.props.from === "TABLE")
+        if (this.props.from === LIST || this.props.from === TABLE)
             return (
                 <div id="lecture-info">
                     <div className="lecture-detail">
@@ -121,7 +122,7 @@ class Detail extends Component {
                     </div>
                 </div>
             );
-        else if (this.props.from === "MULTIPLE")
+        else if (this.props.from === MULTIPLE)
             return (
                 <div id="lecture-info">
                     <div className="lecture-detail">

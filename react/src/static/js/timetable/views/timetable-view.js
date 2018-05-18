@@ -29,7 +29,7 @@ $.ajaxSetup({
     }
 });
 
-
+//TODO SUHO
 function findLecture(lectures, id) {
   if(lectures.length === 0){
     return undefined;
@@ -48,6 +48,7 @@ function findLecture(lectures, id) {
   // ---------------
 
   // Actions in timetable
+    //TODO bogo
   app.TimetableView = Backbone.View.extend({
     initialize: function (opt) {
       this.isLookingTable = false;
@@ -443,6 +444,7 @@ function findLecture(lectures, id) {
   })
 
   // Actions in lecture list
+    //TODO etranger
   app.LectureListView = Backbone.View.extend({
     el: '#lecture-lists',
 
@@ -795,6 +797,7 @@ function findLecture(lectures, id) {
   })
 
   // Actions in lecture detail
+  // TODO etranger
   app.LectureDetailView = Backbone.View.extend({
     el: '#lecture-info',
     detailTemplate: _.template($('#lecture-detail-template').html()),
@@ -875,6 +878,7 @@ function findLecture(lectures, id) {
   })
 
   // Showing lectures info of the semester
+    //TODO james
   app.SemesterInfoView = Backbone.View.extend({
     el: "#right-side",
     examTemplate: _.template($('#exam-template').html()),
@@ -1175,6 +1179,7 @@ function findLecture(lectures, id) {
   })
 
   // Fetching and changing timetable tabs
+    //TODO bogo
   app.TimetableTabView = Backbone.View.extend({
     el: '#timetable-tabs',
 
@@ -1409,6 +1414,7 @@ function findLecture(lectures, id) {
     }
   })
 
+  //TODO etranger
   app.SearchView = Backbone.View.extend({
     el: '#lecture-lists',
 
@@ -1638,6 +1644,7 @@ function findLecture(lectures, id) {
   })
 
   // Showing informations of target lecture
+  // TODO WHO?
   app.LectureActiveListenerView = Backbone.View.extend({
     el: '#lecture-info',
     tagName: 'div',
@@ -1699,6 +1706,7 @@ function findLecture(lectures, id) {
   })
 
   // Changing semester
+    //TODO james
   app.YearSemesterView = Backbone.View.extend({
     el: '#semester',
 

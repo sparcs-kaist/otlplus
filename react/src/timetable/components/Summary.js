@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {connect} from "react-redux";
 import {clearMultipleDetail, setMultipleDetail} from "../actions";
+import { LIST, TABLE } from "../reducers/lectureActive";
 
 const indexOfType = (type) => {
     const types = ["Basic Required", "Basic Elective", "Major Required", "Major Elective", "Humanities & Social Elective"];
@@ -14,8 +15,8 @@ const indexOfType = (type) => {
 class Summary extends Component {
     typeFocus(type) {
         let lectures = [];
-        for (var i=0; i<this.props.currentTimetable.length; i++) {
-            let lecture = this.props.currentTimetable[i];
+        for (var i=0; i<this.props.currentTimetable.lectures.length; i++) {
+            let lecture = this.props.currentTimetable.lectures[i];
 
             if (indexOfType(lecture.type_en) !== indexOfType(type))
                 continue;
@@ -43,23 +44,13 @@ class Summary extends Component {
         let sum_credit = 0, sum_credit_au = 0, targetNum = 0, grade = 0, load = 0, speech = 0;
         let letters = ['?', 'F', 'F', 'F', 'D-', 'D', 'D+', 'C-', 'C', 'C+', 'B-', 'B', 'B+', 'A-', 'A', 'A+']
 
-        for (let i=0, lecture; lecture = this.props.currentTimetable[i]; i++) {
-            let num = lecture.credit + lecture.credit_au;
-            type_credit[indexOfType(lecture.type_en)] += num;
-            sum_credit += lecture.credit;
-            sum_credit_au += lecture.credit_au;
-            targetNum += num;
-            grade += lecture.grade * num;
-            load += lecture.load * num;
-            speech += lecture.speech * num;
-        }
         let active_type_credit = ['', '', '', '', '', ''];
-        if (this.props.lectureActiveFrom === "LIST" || this.props.lectureActiveFrom === "TABLE" ) {
+        if (this.props.lectureActiveFrom === LIST || this.props.lectureActiveFrom === TABLE ) {
             let index = indexOfType(this.props.lectureActiveLecture.type_en);
             let amount = this.props.lectureActiveLecture.credit + this.props.lectureActiveLecture.credit_au;
 
             active_type_credit[index] = `+${amount}`;
-            for (let i=0, lecture; lecture = this.props.currentTimetable[i]; i++)
+            for (let i=0, lecture; (lecture = this.props.currentTimetable.lectures[i]); i++)
                 if (lecture.id === this.props.lectureActiveLecture.id) {
                     active_type_credit[index] = `(${amount})`;
                     break;
@@ -126,17 +117,17 @@ class Summary extends Component {
                 </div>
                 <div id="summary-score">
                     <div className="summary-score-elem">
-                        <div id="grades" className="score-text">{letters[Math.round(grade/targetNum)]}</div>
+                        <div id="grades" className="score-text">-</div>
                         <div className="score-label">성적</div>
                     </div>
                     &nbsp;
                     <div className="summary-score-elem">
-                        <div id="loads" className="score-text">{letters[Math.round(load/targetNum)]}</div>
+                        <div id="loads" className="score-text">-</div>
                         <div className="score-label">널널</div>
                     </div>
                     &nbsp;
                     <div className="summary-score-elem">
-                        <div id="speeches" className="score-text">{letters[Math.round(speech/targetNum)]}</div>
+                        <div id="speeches" className="score-text">-</div>
                         <div className="score-label">강의</div>
                     </div>
                 </div>

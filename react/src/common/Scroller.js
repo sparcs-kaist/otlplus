@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
-import nanoScroller from 'nanoscroller';
+import 'nanoscroller';
 
 import '../static/css/nanoscroller.css';
 
