@@ -65,9 +65,17 @@ const initialState = {
                 "department_name": "전산학부",
                 "credit": 3,
                 "grade_letter": "B+",
-                "type_en": "Basic Required"
-            },
-            {
+                "type_en": "Basic Required",
+                "reviews": [{
+                    id:1,
+                    body:"핀토스, 오디세우스와 함께 전산 플젝 3대장 켄스 플젝이 있는 네트워크입니다. 전산과생이라면 꼭 들어야 하는 강의라 생각하고 실제 배우는 것도 많습니다. 교수님 강의력도\n" +
+                    "                        훌륭하고 학점도 잘 주십니다. 핀토스나 오디세우스를 짜 본 분이라면 켄스는 아주 쉽게 느껴질 거에요.",
+                    score:"A",
+                    load:"B",
+                    speech:"C",
+                    recommend:10
+                }],
+            },{
                 "load": 12,
                 "code": "36.101",
                 "grade": 12,
@@ -129,7 +137,16 @@ const initialState = {
                 "department_name": "전산학부",
                 "credit": 3,
                 "limit": 45,
-                "type_en": "Basic Required"
+                "type_en": "Basic Required",
+                "reviews": [{
+                    id:1,
+                    body:"핀토스, 오디세우스와 함께 전산 플젝 3대장 켄스 플젝이 있는 네트워크입니다. 전산과생이라면 꼭 들어야 하는 강의라 생각하고 실제 배우는 것도 많습니다. 교수님 강의력도\n" +
+                    "                        훌륭하고 학점도 잘 주십니다. 핀토스나 오디세우스를 짜 본 분이라면 켄스는 아주 쉽게 느껴질 거에요.",
+                    score:"A",
+                    load:"B",
+                    speech:"C",
+                    recommend:10
+                }],
             }
         ],
         [
@@ -195,7 +212,16 @@ const initialState = {
                 "department_name": "전산학부",
                 "credit": 3,
                 "grade_letter": "A-",
-                "type_en": "Major Required"
+                "type_en": "Major Required",
+                "reviews": [{
+                    id:1,
+                    body:"핀토스, 오디세우스와 함께 전산 플젝 3대장 켄스 플젝이 있는 네트워크입니다. 전산과생이라면 꼭 들어야 하는 강의라 생각하고 실제 배우는 것도 많습니다. 교수님 강의력도\n" +
+                    "                        훌륭하고 학점도 잘 주십니다. 핀토스나 오디세우스를 짜 본 분이라면 켄스는 아주 쉽게 느껴질 거에요.",
+                    score:"A",
+                    load:"B",
+                    speech:"C",
+                    recommend:10
+                }],
             },
             {
                 "load": 13,
@@ -259,7 +285,16 @@ const initialState = {
                 "department_name": "전산학부",
                 "credit": 3,
                 "grade_letter": "A",
-                "type_en": "Major Required"
+                "type_en": "Major Required",
+                "reviews": [{
+                    id:1,
+                    body:"핀토스, 오디세우스와 함께 전산 플젝 3대장 켄스 플젝이 있는 네트워크입니다. 전산과생이라면 꼭 들어야 하는 강의라 생각하고 실제 배우는 것도 많습니다. 교수님 강의력도\n" +
+                    "                        훌륭하고 학점도 잘 주십니다. 핀토스나 오디세우스를 짜 본 분이라면 켄스는 아주 쉽게 느껴질 거에요.",
+                    score:"A",
+                    load:"B",
+                    speech:"C",
+                    recommend:10
+                }],
             },
             {
                 "load": 12,
@@ -323,8 +358,17 @@ const initialState = {
                 "department_name": "전산학부",
                 "credit": 3,
                 "grade_letter": "A+",
-                "type_en": "Major Required"
-            }
+                "type_en": "Major Required",
+                "reviews": [{
+                    id:1,
+                    body:"핀토스, 오디세우스와 함께 전산 플젝 3대장 켄스 플젝이 있는 네트워크입니다. 전산과생이라면 꼭 들어야 하는 강의라 생각하고 실제 배우는 것도 많습니다. 교수님 강의력도\n" +
+                    "                        훌륭하고 학점도 잘 주십니다. 핀토스나 오디세우스를 짜 본 분이라면 켄스는 아주 쉽게 느껴질 거에요.",
+                    score:"A",
+                    load:"B",
+                    speech:"C",
+                    recommend:10
+                }],
+            },
         ],
         [
             {
@@ -407,7 +451,24 @@ const initialState = {
                 "department_name": "전산학부",
                 "credit": 4,
                 "grade_letter": "A+",
-                "type_en": "Major Elective"
+                "type_en": "Major Elective",
+                "reviews": [{
+                    id:1,
+                    body:"핀토스, 오디세우스와 함께 전산 플젝 3대장 켄스 플젝이 있는 네트워크입니다. 전산과생이라면 꼭 들어야 하는 강의라 생각하고 실제 배우는 것도 많습니다. 교수님 강의력도\n" +
+                    "                        훌륭하고 학점도 잘 주십니다. 핀토스나 오디세우스를 짜 본 분이라면 켄스는 아주 쉽게 느껴질 거에요.",
+                    score:"A",
+                    load:"B",
+                    speech:"C",
+                    recommend:10
+                },{
+                    id:2,
+                    body:"핀토스, 오디세우스와 함께 전산 플젝 3대장 켄스 플젝이 있는 네트워크입니다. 전산과생이라면 꼭 들어야 하는 강의라 생각하고 실제 배우는 것도 많습니다. 교수님 강의력도\n" +
+                    "                        훌륭하고 학점도 잘 주십니다. 핀토스나 오디세우스를 짜 본 분이라면 켄스는 아주 쉽게 느껴질 거에요.",
+                    score:"A",
+                    load:"B",
+                    speech:"C",
+                    recommend:10
+                }],
             }
         ]
     ],
