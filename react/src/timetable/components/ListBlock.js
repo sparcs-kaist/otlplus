@@ -83,9 +83,13 @@ class ListBlock extends Component {
       	                <span className="class-prof">{this.props.lecture.professor_short}</span>
                     </div>
                     {
-                        !this.props.inCart
-                        ? <div className="add-to-cart"><i/></div>
-                        : <div className="add-to-cart disable"><i/></div>
+                        this.props.fromCart
+                        ? <div className="delete-from-cart"><i/></div>
+                        : (
+                            !this.props.inCart
+                            ? <div className="add-to-cart"><i/></div>
+                            : <div className="add-to-cart disable"><i/></div>
+                        )
                     }
                     {
                         !this.props.inTimetable
