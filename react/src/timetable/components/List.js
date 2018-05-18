@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import { openSearch, setCurrentList, clearLectureActive } from "../actions";
+import { openSearch, closeSearch, setCurrentList, clearLectureActive } from "../actions";
 import Scroller from "../../common/Scroller";
 import Search from "./Search";
 import ListBlock from "./ListBlock";
@@ -10,6 +10,11 @@ class List extends Component {
     changeTab(list) {
         this.props.setCurrentListDispatch(list);
         
+        if (list==="SEARCH" && this.props.search.courses.length===0)
+            this.props.openSearchDispatch();
+        else
+            this.props.closeSearchDispatch();
+
         if (this.props.lectureActiveFrom === LIST)
             this.props.clearLectureActiveDispatch();
     }
@@ -122,6 +127,9 @@ let mapDispatchToProps = (dispatch) => {
     return {
         openSearchDispatch : () => {
             dispatch(openSearch());
+        },
+        closeSearchDispatch : () => {
+            dispatch(closeSearch());
         },
         setCurrentListDispatch : (list) => {
             dispatch(setCurrentList(list));
