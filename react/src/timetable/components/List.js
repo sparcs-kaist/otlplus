@@ -45,6 +45,9 @@ class List extends Component {
             <div id="lecture-lists">
                 <div id="list-tab-wrap">
                     <button className="list-tab search active"><i className="list-tab-icon"/></button>
+                    {this.props.major.map((majorList) => (
+                        <button className="list-tab major"><i className="list-tab-icon"/></button>
+                    ))}
                     <button className="list-tab humanity"><i className="list-tab-icon"/></button>
                     <button className="list-tab cart"><i className="list-tab-icon"/></button>
                 </div>
