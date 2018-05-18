@@ -58,6 +58,13 @@ class List extends Component {
             )
         };
 
+        const listBlocks = (courses, fromCart) => {
+            if (courses.length === 0)
+                return <div className="list-loading">결과 없음</div>;
+            else
+                return courses.map(mapCourse(fromCart));
+        };
+
         return (
             <div id="lecture-lists">
                 <div id="list-tab-wrap">
@@ -76,7 +83,7 @@ class List extends Component {
                             <div className="search-page-title-text">검색</div>
                         </div>
                         <Scroller>
-                            {this.props.search.courses.map(mapCourse(false))}
+                            {listBlocks(this.props.search.courses, false)}
                         </Scroller>
                     </div>
                     {this.props.major.map((majorList) => (
@@ -85,7 +92,7 @@ class List extends Component {
                                 {majorList.name} 전공
                             </div>
                             <Scroller>
-                                {majorList.courses.map(mapCourse(false))}
+                                {listBlocks(majorList.courses, false)}
                             </Scroller>
                         </div>
                     ))}
@@ -94,7 +101,7 @@ class List extends Component {
                             인문사회선택
                         </div>
                         <Scroller>
-                            {this.props.humanity.courses.map(mapCourse(false))}
+                            {listBlocks(this.props.humanity.courses, false)}
                         </Scroller>
                     </div>
                     <div className={"list-page cart-page"+(this.props.currentList==="CART"?"":" none")}>
@@ -102,7 +109,7 @@ class List extends Component {
                             장바구니
                         </div>
                         <Scroller>
-                            {this.props.cart.courses.map(mapCourse(true))}
+                            {listBlocks(this.props.cart.courses, true)}
                         </Scroller>
                     </div>
                 </div>
