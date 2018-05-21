@@ -54,12 +54,26 @@ class ListBlock extends Component {
 
     addToCart(event) {
         event.stopPropagation();
-        this.props.addLectureToCartDispatch(this.props.lecture);
+        axios.post("/api/timetable/wishlist_update", {
+            lecture_id: this.props.lecture.id,
+            delete: false,
+        })
+        .then((response) => {
+            this.props.addLectureToCartDispatch(this.props.lecture);
+        })
+        .catch((response) => {console.log(response);});
     }
 
     deleteFromCart(event) {
         event.stopPropagation();
-        this.props.deleteLectureFromCartDispatch(this.props.lecture);
+        axios.post("/api/timetable/wishlist_update", {
+            lecture_id: this.props.lecture.id,
+            delete: true,
+        })
+        .then((response) => {
+            this.props.deleteLectureFromCartDispatch(this.props.lecture);
+        })
+        .catch((response) => {console.log(response);});
     }
 
     listHover() {
