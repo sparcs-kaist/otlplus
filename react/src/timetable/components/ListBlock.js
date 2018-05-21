@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
+import axios from "../../common/presetAxios";
 import { addLectureToTimetable, addLectureToCart, deleteLectureFromCart } from "../actions";
 import { setLectureActive, clearLectureActive } from "../actions";
 import { LIST } from "../reducers/lectureActive";
@@ -39,7 +40,16 @@ class ListBlock extends Component {
                         return;
                     }
 
-        this.props.addLectureToTimetableDispatch(this.props.lecture);
+        axios.post("/api/timetable/table_update", {
+            table_id: this.props.currentTimetable.id,
+            lecture_id: this.props.lecture.id,
+            delete: false,
+        })
+        .then((response) => {
+            console.log(response);
+            this.props.addLectureToTimetableDispatch(this.props.lecture);
+        })
+        .catch((response) => {console.log(response);});
     }
 
     addToCart(event) {
