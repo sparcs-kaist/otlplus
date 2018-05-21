@@ -29,6 +29,7 @@ class Search extends Component {
             inputVal: "",
             type: new Set(["ALL"]),
             department: new Set(["ALL"]),
+            grade:new Set(["ALL"]),
         };
     }
 
@@ -37,7 +38,8 @@ class Search extends Component {
             return {
                 inputVal: "",
                 type:new Set(["ALL"]),
-                department:new Set(["ALL"])
+                department:new Set(["ALL"]),
+                grade:new Set(["ALL"]),
             };//When Close the Search, initialize the state
         }
         return null;
@@ -48,6 +50,13 @@ class Search extends Component {
     }
 
     searchStart() {
+        const {type, department, grade} = this.state;
+        if(type.size === 1 && department.size === 1 && grade.size === 1 ){
+            if(type.has("ALL") && department.has("ALL") && grade.has("ALL")){
+                alert("검색 조건을 선택해 주세요");
+                return;
+            }
+        }
         this.props.closeSearchDispatch();
 
         // Temporary. Change this to search later
@@ -71,7 +80,7 @@ class Search extends Component {
         if(isChecked){
             this.setState((prevState)=>{
                 let filter = prevState[filterName];
-                if(value ==="ALL" )
+                if(value === "ALL" )
                     filter.clear();
                 filter.add(value);
                 return prevState;
@@ -120,6 +129,11 @@ class Search extends Component {
                                 clickCircle = {this.clickCircle.bind(this)}
                                 inputName = 'department'
                                 titleName = '학과'
+                            />
+                            <SearchFilter
+                                clickCircle = {this.clickCircle.bind(this)}
+                                inputName = 'grade'
+                                titleName = '학년'
                             />
                             <div className="search-filter search-filter-time">
                                 <label
