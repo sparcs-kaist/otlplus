@@ -1217,7 +1217,9 @@ export const list = (state = initialState, action) => {
             });
         case FETCH_SEARCH:
             return Object.assign({}, state, {
-                courses : action.courses,
+                search : {
+                    courses : action.courses,
+                },
             });
         case ADD_LECTURE_TO_CART:
             let courses = state.cart.courses;
