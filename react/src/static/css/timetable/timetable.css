@@ -2144,3 +2144,38 @@ body .lecture-block.active.lecture-block-temp
 }
 
 
+@media(max-width: 768px)
+{
+    #content
+    {
+        margin-top: 0px;
+    }
+    
+   #left-side
+   {
+       display: none;
+   }
+   #timetable
+   {
+       display: none;
+   }
+   #right-side
+   {
+       display: none;
+   }
+   #semester
+   {
+       float: none;
+       margin-top: 50px;
+   }
+   #timetable-tabs
+   {
+       float: none;
+   }
+   .container-fluid
+   {
+       padding-left: 0px;
+       padding-right: 0px;
+   }
+
+}

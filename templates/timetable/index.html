@@ -153,21 +153,23 @@
 		</div><!--div lecture-lists-->
 	</div><!--div left-side-->	
 	<div id="center">
+		<div id="semester">
+			<div id="semester-prev"><i></i></div>
+			{% if current_semester == 1 %}
+			<span id="semester-text">{{current_year}} {% trans "봄" %}</span>
+			{% elif current_semester == 3 %}
+			<span id="semester-text">{{current_year}} {% trans "가을" %}</span>
+			{% endif %}
+			<div id="semester-next"><i></i></div>
+		</div>
 		<div id="timetable-menu">
 			<div id="timetable-tabs">
 				<!-- Timetable Tabs Inserted Here -->
 				<div class="timetable-tab" style="pointer-events:none;"><span class="timetable-num">불러오는 중</span></div>
 			</div>
-                        <div id="semester">
-				<div id="semester-prev"><i></i></div>
-				{% if current_semester == 1 %}
-				<span id="semester-text">{{current_year}} {% trans "봄" %}</span>
-				{% elif current_semester == 3 %}
-				<span id="semester-text">{{current_year}} {% trans "가을" %}</span>
-				{% endif %}
-				<div id="semester-next"><i></i></div>
-                        </div>
+
 		</div>
+
 		<div id="timetable">
 			<div id="timetable-wrap">
 				<div id="timetable-contents">

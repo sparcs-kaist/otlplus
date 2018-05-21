@@ -33,8 +33,9 @@ class TimetablePage extends Component {
                             </div>
                             <div id="center">
                                 <div id="timetable-menu">
-                                    <TimetableTabs/>
+
                                     <Semester/>
+                                    <TimetableTabs/>
                                 </div>
                                 <div id="timetable">
                                     <Timetable/>
