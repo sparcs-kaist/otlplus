@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from '../../common/presetAxios';
-import {setSemester, setTimetables} from "../actions";
+import {setSemester, setTimetables, setListLectures} from "../actions";
 import {connect} from "react-redux";
 
 const semesterName = {
@@ -29,6 +29,35 @@ class Semester extends Component {
         })
         .then((response) => {
             this.props.setTimetablesDispatch(response.data);
+        })
+        .catch((response) => {console.log(response);});
+
+        axios.post("/api/timetable/list_load_major", {
+            year: year,
+            semester: semester,
+        })
+        .then((response) => {
+            for (let i=0, code; (code=["ID", "CS"][i]); i++) {
+                this.props.setListLecturesDispatch(code, response.data.filter((lecture) => lecture.major_code === code));
+            }
+        })
+        .catch((response) => {console.log(response);});
+
+        axios.post("/api/timetable/list_load_humanity", {
+            year: year,
+            semester: semester,
+        })
+        .then((response) => {
+            this.props.setListLecturesDispatch("humanity", response.data);
+        })
+        .catch((response) => {console.log(response);});
+
+        axios.post("/api/timetable/wishlist_load", {
+            year: year,
+            semester: semester,
+        })
+        .then((response) => {
+            this.props.setListLecturesDispatch("cart", response.data);
         })
         .catch((response) => {console.log(response);});
     }
@@ -117,6 +146,9 @@ let mapDispatchToProps = (dispatch) => {
         },
         setTimetablesDispatch : (timetables) => {
             dispatch(setTimetables(timetables));
+        },
+        setListLecturesDispatch : (code, lectures) => {
+            dispatch(setListLectures(code, lectures));
         },
     }
 };
