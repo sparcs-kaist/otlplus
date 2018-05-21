@@ -50,14 +50,16 @@ class Search extends Component {
     searchStart() {
         this.props.closeSearchDispatch();
 
-        // Temporary. Change this to search later
-        let url = Math.random()>0.5 ? "/api/timetable/list_load_major/" : "/api/timetable/list_load_humanity/";
-        axios.post(url, {
-            year: 2018,
-            semester: 1,
+        axios.post("/api/timetable/search", {
+            year: this.props.year,
+            semester: this.props.semester,
+            // Change below later
+            department: ["CS"],
+            type: ["ALL"],
+            grade: ["ALL"],
         })
         .then((response) => {
-            let lectures = response.data;
+            let lectures = response.data.courses;
             let courses = groupLectures(lectures);
             this.props.fetchSearchDispatch(courses);
         })
@@ -148,6 +150,8 @@ class Search extends Component {
 let mapStateToProps = (state) => {
     return {
         open : state.search.open,
+        year : state.semester.year,
+        semester : state.semester.semester,
     }
 };
 
