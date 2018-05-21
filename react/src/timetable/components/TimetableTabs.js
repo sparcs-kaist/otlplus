@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
+import axios from "../../common/presetAxios";
 import { createTimetable, setCurrentTimetable, deleteTimetable, duplicateTimetable } from "../actions";
 
 class TimetableTabs extends Component {
@@ -8,17 +9,40 @@ class TimetableTabs extends Component {
     }
 
     createTable() {
-        this.props.createTimetableDispatch(Math.floor(Math.random()*100000000));
+        axios.post("/api/timetable/table_create", {
+            year: this.props.year,
+            semester: this.props.semester,
+        })
+        .then((response) => {
+            this.props.createTimetableDispatch(response.data.id);
+        })
+        .catch((response) => {console.log(response);});
     }
 
     deleteTable(event, timetable) {
         event.stopPropagation();
-        this.props.deleteTimetableDispatch(timetable);
+        axios.post("/api/timetable/table_delete", {
+            table_id: timetable.id,
+            year: this.props.year,
+            semester: this.props.semester,
+        })
+        .then((response) => {
+            this.props.deleteTimetableDispatch(timetable);
+        })
+        .catch((response) => {console.log(response);});
     }
 
     duplicateTable(event, timetable) {
         event.stopPropagation();
-        this.props.duplicateTimetableDispatch(Math.floor(Math.random()*100000000), timetable);
+        axios.post("/api/timetable/table_copy", {
+            table_id: timetable.id,
+            year: this.props.year,
+            semester: this.props.semester,
+        })
+        .then((response) => {
+            this.props.duplicateTimetableDispatch(response.data.id, timetable);
+        })
+        .catch((response) => {console.log(response);});
     }
 
     render() {
@@ -53,6 +77,8 @@ let mapStateToProps = (state) => {
     return {
         timetables : state.timetable.timetables,
         currentTimetable : state.timetable.currentTimetable,
+        year : state.semester.year,
+        semester : state.semester.semester,
     }
 };
 
