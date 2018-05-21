@@ -5,9 +5,19 @@ class TimetableBlock extends Component {
     render() {
         const indexOfTime = (time) => (time/30 - 16);
 
+        let activeType = "";
+        if (this.props.lectureActiveLecture && (this.props.lectureActiveLecture.id === this.props.lecture.id)) {
+            if ((this.props.lectureActiveFrom === "TABLE") && (this.props.lectureActiveClicked === true))
+                activeType = " click";
+            else if (((this.props.lectureActiveFrom === "TABLE")) && (this.props.lectureActiveClicked === false))
+                activeType = " active";
+            else if (((this.props.lectureActiveFrom === "LIST")) && (this.props.lectureActiveClicked === false))
+                activeType = " lecture-block-temp active";
+        }
+
         return (
             <div
-                className={`lecture-block color${this.props.lecture.course%16}` + (this.props.isTemp?" lecture-block-temp active":"")}
+                className={`lecture-block color${this.props.lecture.course%16}` + activeType}
                 style={{
                     left : (this.props.cellWidth+6) * this.props.classtime.day + 28,
                     top : this.props.cellHeight * indexOfTime(this.props.classtime.begin) + 28,
@@ -41,6 +51,9 @@ let mapStateToProps = (state) => {
     return {
         cellWidth : state.timetable.cellWidth,
         cellHeight : state.timetable.cellHeight,
+        lectureActiveFrom : state.lectureActive.from,
+        lectureActiveClicked : state.lectureActive.clicked,
+        lectureActiveLecture : state.lectureActive.lecture,
     }
 };
 
