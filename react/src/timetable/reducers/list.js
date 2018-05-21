@@ -1,4 +1,5 @@
 import { SET_CURRENT_LIST, FETCH_SEARCH, ADD_LECTURE_TO_CART, DELETE_LECTURE_FROM_CART } from '../actions/index';
+import {SET_LIST_LECTURES} from "../actions";
 
 const initialState = {
     currentList : "SEARCH",
@@ -1211,12 +1212,27 @@ export const list = (state = initialState, action) => {
             return Object.assign({}, state, {
                 currentList : action.list,
             });
-        case FETCH_SEARCH:
-            return Object.assign({}, state, {
-                search : {
-                    courses : action.courses,
-                },
-            });
+        case SET_LIST_LECTURES:
+            const groupLectures = (lectures) => {
+                if (lectures.length === 0)
+                    return [];
+
+                let courses = [[lectures[0]]];
+                for (let i=1, lecture; lectures[i]!==undefined; i++) {
+                    lecture=lectures[i];
+                    if (lecture.course === courses[courses.length-1][0].course)
+                        courses[courses.length-1].push(lecture);
+                    else
+                        courses.push([lecture]);
+                }
+                return courses;
+            };
+            let newState = {};
+            newState[action.code] = {
+                ...state[action.code],
+                courses : groupLectures(action.lectures),
+            };
+            return Object.assign({}, state, newState);
         case ADD_LECTURE_TO_CART:
             let courses = state.cart.courses;
             let i;

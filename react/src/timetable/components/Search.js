@@ -1,25 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import axios from '../../common/presetAxios';
-import { closeSearch, fetchSearch } from "../actions";
+import { closeSearch, setListLectures } from "../actions";
 import SearchFilter from './SearchFilter'
 
 import '../../static/css/font-awesome.min.css';
-
-let groupLectures = (lectures) => {
-    if (lectures.length === 0)
-        return [];
-
-    let courses = [[lectures[0]]];
-    for (let i=1, lecture; lectures[i]!==undefined; i++) {
-        lecture=lectures[i];
-        if (lecture.course === courses[courses.length-1][0].course)
-            courses[courses.length-1].push(lecture);
-        else
-            courses.push([lecture]);
-    }
-    return courses;
-};
 
 class Search extends Component {
     constructor(props) {
@@ -60,8 +45,7 @@ class Search extends Component {
         })
         .then((response) => {
             let lectures = response.data.courses;
-            let courses = groupLectures(lectures);
-            this.props.fetchSearchDispatch(courses);
+            this.props.setListLecturesDispatch("search", lectures);
         })
         .catch((response) => {console.log(response);});
     }
@@ -160,8 +144,8 @@ let mapDispatchToProps = (dispatch) => {
         closeSearchDispatch : () => {
             dispatch(closeSearch());
         },
-        fetchSearchDispatch : (courses) => {
-            dispatch(fetchSearch(courses));
+        setListLecturesDispatch : (code, lectures) => {
+            dispatch(setListLectures(code, lectures));
         }
     }
 };
