@@ -35,7 +35,7 @@ class Exam extends Component {
     render() {
         let examTable = [[],[],[],[],[]]
 
-        for (let i=0, lecture; (lecture = this.props.currentTimetable[i]); i++) {
+        for (let i=0, lecture; (lecture = this.props.currentTimetable.lectures[i]); i++) {
             let day = lecture.examtimes[0].day
             let title = lecture.title
             let time = lecture.exam.slice(4)
@@ -46,7 +46,7 @@ class Exam extends Component {
         const examFocus = (day) => {
             let lectures = [];
             let activeLectures = [];
-            for (let i=0, lecture; lecture = this.props.currentTimetable[i]; i++) {
+            for (let i=0, lecture; lecture = this.props.currentTimetable.lectures[i]; i++) {
                 if (day === lecture.exam.slice(0, 3)){
                     lectures.push({
                         title: lecture.title,
