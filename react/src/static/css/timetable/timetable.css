@@ -2166,11 +2166,14 @@ body .lecture-block.active.lecture-block-temp
    #semester
    {
        float: none;
-       margin-top: 50px;
+       margin: auto;
+       margin-bottom: 3px;
+       margin-top: 3px;
    }
    #timetable-tabs
    {
        float: none;
+       width: 100vw;
    }
    .container-fluid
    {
@@ -2178,4 +2181,57 @@ body .lecture-block.active.lecture-block-temp
        padding-right: 0px;
    }
 
+   #page-container
+   {
+       margin-top: 50px;
+       width: 100vw;
+       background-color: rgb(0,0,0,0.6);
+       height: calc(100vh - 50px);
+
+   }
+
+
+   #timetable-tabs > div {
+       width: calc(100vw - 30px);
+       margin-top: 6px;
+       border-radius: 4px 4px 4px 4px;
+       background-color: rgb(238, 238, 238);
+       margin-left: 5px;
+   }
+
+    #timetable-tabs > div.timetable-add {
+        width: calc(100vw - 30px);
+        margin-left: 5px;
+    }
+    #timetable-tabs > div.active {
+        background-color: rgb(221, 221, 221);
+    }
+    #center
+    {
+        background-color: #ffffff;
+        margin-top: 10px;
+        width: calc(100vw - 30px);
+        margin-right: 10px;
+        border-radius: 4px 4px 4px 4px;
+        height: calc(100vh - 70px);
+
+    }
+    .timetable-tab.active>.hidden-option {
+        float: right;
+        display: inline-block;
+    }
+    .delete-table {
+        float: right;
+        padding-right: 5px;
+    }
+    .timetable-tab .timetable-num {
+        float: left;
+    }
+    .timetable-tab>.hidden-option {
+        display: inline-block;
+    }
+    .duplicate-table
+    {
+        float: right;
+    }
 }
