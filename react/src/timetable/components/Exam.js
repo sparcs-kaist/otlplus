@@ -35,7 +35,7 @@ class Exam extends Component {
     render() {
         let examTable = [[],[],[],[],[]]
 
-        for (let i=0, lecture; lecture = this.props.currentTimetable[i]; i++) {
+        for (let i=0, lecture; (lecture = this.props.currentTimetable[i]); i++) {
             let day = lecture.examtimes[0].day
             let title = lecture.title
             let time = lecture.exam.slice(4)
