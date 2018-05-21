@@ -1,13 +1,93 @@
 import React, { Component } from 'react';
 import {connect} from "react-redux";
 import TimetableBlock from "./TimetableBlock";
-import {updateCellSize} from "../actions";
+import {setLectureActive, updateCellSize} from "../actions";
 
 class Timetable extends Component {
+    constructor(props){
+        super(props);
+        this.isLookingTable = false;
+        this.isBubbling = false;
+        this.isDragging = false;
+        this.isBlockClick = false;
+        this.blockHover = this.blockHover.bind(this);
+        this.blockOut = this.blockOut.bind(this);
+        this.blockClick = this.blockClick.bind(this);
+    }
+
     resize() {
         let cell = document.getElementsByClassName("cell1")[0].getBoundingClientRect();
         this.props.updateCellSizeDispatch(cell.width, cell.height);
     }
+
+    isOccupied() {
+
+    }
+
+    dragStart(){
+        if (this.isBubbling) {
+            this.isBubbling = false;
+
+        } else {
+            // if ($(e.currentTarget).hasClass('occupied'))
+            //     return;
+            if (this.isOccupied())
+                return;
+            //
+            // e.stopPropagation();
+            // e.preventDefault();
+            // this.isDragging = true;
+            // $(this.dragCell).removeClass('none');
+
+        }
+    }
+
+    blockHover(lecture) {
+        if ( !this.props.lectureActive.clicked && !this.isDragging) {
+            this.props.setLectureActiveDispatch(lecture,"TABLE", false);
+        }
+    }
+
+    blockOut(lecture) {
+        if (!this.props.lectureActive.clicked && !this.isDragging) {
+            this.props.setLectureActiveDispatch(lecture,"NONE",false)
+        }
+    }
+
+    blockClick(lecture) {
+        // var target = document.getElementsByClassName('black');
+        // // var target = $(e.target);
+        // var block = target.closest('.lecture-block');
+        //
+        // if (block.length === 0) {
+        //     // Click target is not child(or itself) of lecture block
+        //     this.props.setLectureActiveDispatch(lecture,"NONE", false);
+        //
+        // } else if (target.closest(".lecture-delete").length) {
+            // Do nothing
+
+        // } else
+        if (this.props.lectureActive.clicked
+            && this.props.lectureActive.from === 'TABLE'
+            && this.props.lectureActive.lecture.id === lecture.id) {
+
+            this.props.setLectureActiveDispatch(lecture,'TABLE',false);
+
+        } else {
+            this.props.setLectureActiveDispatch(lecture,'TABLE',true);
+
+        }
+
+        if (!this.isDragging) {
+            this.isBubbling = true;
+        }
+    }
+
+    // clickBlock() {
+    //     if (!this.isDragging) {
+    //         this.isBubbling = true;
+    //     }
+    // }
 
     componentDidMount() {
         this.resize();
@@ -27,7 +107,15 @@ class Timetable extends Component {
         for (let i=0, lecture; (lecture = this.props.currentTimetable.lectures[i]); i++) {
             for (let j=0, classtime; (classtime=lecture.classtimes[j]); j++) {
                 lectureBlocks.push(
-                    <TimetableBlock key={`${lecture.id}:${j}`} lecture={lecture} classtime={classtime} isTemp={false}/>
+                    <TimetableBlock
+                        key={`${lecture.id}:${j}`}
+                        // onMouseDown={this.clickBlock}
+                        onMouseOver={this.blockHover}
+                        onMouseOut={this.blockOut}
+                        onClick={this.blockClick}
+                        lecture={lecture}
+                        classtime={classtime}
+                        isTemp={false}/>
                 );
             }
         }
@@ -257,6 +345,7 @@ class Timetable extends Component {
 let mapStateToProps = (state) => {
     return {
         currentTimetable : state.timetable.currentTimetable,
+        lectureActive : state.lectureActive,
     }
 };
 
@@ -265,6 +354,9 @@ let mapDispatchToProps = (dispatch) => {
         updateCellSizeDispatch : (width, height) => {
             dispatch(updateCellSize(width, height));
         },
+        setLectureActiveDispatch : (lecture, from, clicked) => {
+            dispatch(setLectureActive(lecture, from, clicked));
+        }
     }
 };
 
