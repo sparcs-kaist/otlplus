@@ -46,7 +46,7 @@ class Detail extends Component {
             const mapreview = (review,index) => {
                 return (<Review key={`review_${index}`} review = {review}/>);
             };
-            const reviewsDom = reviews.map(mapreview);
+            const reviewsDom = (reviews && reviews.length) ? reviews.map(mapreview) : <div className="review-loading">결과 없음</div>;
             return (
                 <div id="lecture-info">
                     <div className="lecture-detail">
