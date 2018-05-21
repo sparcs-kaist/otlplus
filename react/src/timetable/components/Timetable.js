@@ -115,7 +115,7 @@ class Timetable extends Component {
                         onClick={this.blockClick}
                         lecture={lecture}
                         classtime={classtime}
-                        isTemp={false}/>
+                    />
                 );
             }
         }
