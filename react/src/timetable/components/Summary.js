@@ -25,8 +25,8 @@ class Summary extends Component {
     typeFocus(type) {
         let lectures = [];
 
-        for (var i=0; i<this.props.currentTimetable.length; i++) {
-            let lecture = this.props.currentTimetable[i];
+        for (var i=0; i<this.props.currentTimetable.lectures.length; i++) {
+            let lecture = this.props.currentTimetable.lectures[i];
 
             if (indexOfType(lecture.type_en) !== indexOfType(type))
                 continue;
@@ -48,7 +48,7 @@ class Summary extends Component {
 
     creditFocus(type) {
         let lectures = [];
-        for (let i=0, lecture; lecture = this.props.currentTimetable[i]; i++) {
+        for (let i=0, lecture; lecture = this.props.currentTimetable.lectures[i]; i++) {
             if (type==="Credit" && lecture.credit > 0)
                 lectures.push({
                     title: lecture.title,
@@ -66,7 +66,7 @@ class Summary extends Component {
 
     scoreFocus(type) {
         let lectures = [];
-        for (let i=0, lecture; lecture = this.props.currentTimetable[i]; i++) {
+        for (let i=0, lecture; lecture = this.props.currentTimetable.lectures[i]; i++) {
             if (type==="Grade")
                 lectures.push({
                     title: lecture.title,

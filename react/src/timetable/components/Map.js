@@ -18,7 +18,7 @@ class Map extends Component {
     render() {
         let mapObject = {};
 
-        for (let i=0, lecture; (lecture = this.props.currentTimetable[i]); i++) {
+        for (let i=0, lecture; (lecture = this.props.currentTimetable.lectures[i]); i++) {
             let building = lecture.building;
             let color = lecture.course%16;
             let id = lecture.id;
@@ -32,7 +32,7 @@ class Map extends Component {
         const mapFocus = (building) => {
             let lectures = [];
             let active = [];
-            for (let i=0, lecture; lecture = this.props.currentTimetable[i]; i++) {
+            for (let i=0, lecture; lecture = this.props.currentTimetable.lectures[i]; i++) {
                 if (lecture.building === building) {
                     lectures.push({
                         title: lecture.title,
