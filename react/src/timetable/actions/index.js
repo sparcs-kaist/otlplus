@@ -5,6 +5,7 @@ export const SET_CURRENT_LIST = "SER_CURRENT_LIST";
 export const FETCH_SEARCH = "FETCH_SEARCH";
 export const ADD_LECTURE_TO_CART = "ADD_LECTURE_TO_CART";
 export const DELETE_LECTURE_FROM_CART = "DELETE_LECTURE_FROM_CART";
+export const SET_TIMETABLES = "SET_TIMETABLES";
 export const SET_CURRENT_TIMETABLE = "SET_CURRENT_TIMETABLE";
 export const CREATE_TIMETABLE = "CREATE_TIMETABLE";
 export const DELETE_TIMETABLE = "DELETE_TIMETABLE";
@@ -76,6 +77,13 @@ export function removeLectureFromTimetable(lecture) {
     return {
         type : REMOVE_LECTURE_FROM_TIMETABLE,
         lecture : lecture,
+    }
+}
+
+export function setTimetables(timetables) {
+    return {
+        type : SET_TIMETABLES,
+        timetables : timetables,
     }
 }
 
