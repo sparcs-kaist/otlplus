@@ -78,8 +78,8 @@ class List extends Component {
             <div id="lecture-lists">
                 <div id="list-tab-wrap">
                     <button className={"list-tab search"+(this.props.currentList==="SEARCH"?" active":"")} onClick={()=>this.changeTab("SEARCH")}><i className="list-tab-icon"/></button>
-                    {this.props.major.map((majorList) => (
-                        <button className={"list-tab major"+(this.props.currentList===majorList.code?" active":"")} key={majorList.code} onClick={()=>this.changeTab(majorList.code)}><i className="list-tab-icon"/></button>
+                    {["ID", "CS"].map((code) => (
+                        <button className={"list-tab major"+(this.props.currentList===code?" active":"")} key={code} onClick={()=>this.changeTab(code)}><i className="list-tab-icon"/></button>
                     ))}
                     <button className={"list-tab humanity"+(this.props.currentList==="HUMANITY"?" active":"")} onClick={()=>this.changeTab("HUMANITY")}><i className="list-tab-icon"/></button>
                     <button className={"list-tab cart"+(this.props.currentList==="CART"?" active":"")} onClick={()=>this.changeTab("CART")}><i className="list-tab-icon"/></button>
@@ -95,13 +95,13 @@ class List extends Component {
                             {listBlocks(this.props.search.courses, false)}
                         </Scroller>
                     </div>
-                    {this.props.major.map((majorList) => (
-                        <div className={"list-page humanity-page"+(this.props.currentList===majorList.code?"":" none")} key={majorList.code}>
+                    {["ID", "CS"].map((code) => (
+                        <div className={"list-page humanity-page"+(this.props.currentList===code?"":" none")} key={code}>
                             <div className="list-page-title">
-                                {majorList.name} 전공
+                                {this.props.list[code].name} 전공
                             </div>
                             <Scroller>
-                                {listBlocks(majorList.courses, false)}
+                                {listBlocks(this.props.list[code].courses, false)}
                             </Scroller>
                         </div>
                     ))}
@@ -129,6 +129,7 @@ class List extends Component {
 
 let mapStateToProps = (state) => {
     return {
+        list : state.list,
         currentList : state.list.currentList,
         search : state.list.search,
         major : state.list.major,
