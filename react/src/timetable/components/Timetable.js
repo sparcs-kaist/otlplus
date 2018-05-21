@@ -44,7 +44,7 @@ class Timetable extends Component {
 
     blockHover(lecture) {
         if ( !this.props.lectureActive.clicked && !this.isDragging) {
-            this.props.setLectureActiveDispatch(lecture,"table", false);
+            this.props.setLectureActiveDispatch(lecture,"TABLE", false);
         }
     }
 
@@ -68,13 +68,13 @@ class Timetable extends Component {
 
         // } else
         if (this.props.lectureActive.clicked
-            && this.props.lectureActive.from === 'table'
+            && this.props.lectureActive.from === 'TABLE'
             && this.props.lectureActive.lecture.id === lecture.id) {
 
-            this.props.setLectureActiveDispatch(lecture,'table',false);
+            this.props.setLectureActiveDispatch(lecture,'TABLE',false);
 
         } else {
-            this.props.setLectureActiveDispatch(lecture,'table',true);
+            this.props.setLectureActiveDispatch(lecture,'TABLE',true);
 
         }
 
