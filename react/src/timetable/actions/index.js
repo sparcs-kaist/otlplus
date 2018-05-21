@@ -2,7 +2,7 @@ export const SET_SEMESTER = "SET_SEMESTER";
 export const OPEN_SEARCH = "OPEN_SEARCH";
 export const CLOSE_SEARCH = "CLOSE_SEARCH";
 export const SET_CURRENT_LIST = "SER_CURRENT_LIST";
-export const FETCH_SEARCH = "FETCH_SEARCH";
+export const SET_LIST_LECTURES = "SET_LIST_LECTURES";
 export const ADD_LECTURE_TO_CART = "ADD_LECTURE_TO_CART";
 export const DELETE_LECTURE_FROM_CART = "DELETE_LECTURE_FROM_CART";
 export const SET_TIMETABLES = "SET_TIMETABLES";
@@ -45,10 +45,11 @@ export function setCurrentList(list) {
     }
 }
 
-export function fetchSearch(courses) {
+export function setListLectures(code, lectures) {
     return {
-        type : FETCH_SEARCH,
-        courses : courses,
+        type : SET_LIST_LECTURES,
+        code : code,
+        lectures : lectures,
     }
 }
 
