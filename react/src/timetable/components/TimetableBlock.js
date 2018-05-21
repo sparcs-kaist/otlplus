@@ -1,7 +1,31 @@
 import React, { Component } from 'react';
 import {connect} from "react-redux";
+import { setLectureActive } from "../actions";
 
 class TimetableBlock extends Component {
+    blockHover() {
+        if (!this.props.lectureActiveClicked && !this.isDragging) {
+            this.props.setLectureActiveDispatch(this.props.lecture,"TABLE", false);
+        }
+    }
+
+    blockOut() {
+        if (!this.props.lectureActiveClicked) {
+            this.props.setLectureActiveDispatch(this.props.lecture,"NONE",false)
+        }
+    }
+
+    blockClick() {
+        if (this.props.lectureActiveClicked
+            && this.props.lectureActiveFrom === 'TABLE'
+            && this.props.lectureActiveLecture.id === this.props.lecture.id) {
+            this.props.setLectureActiveDispatch(this.props.lecture,'TABLE',false);
+        }
+        else {
+            this.props.setLectureActiveDispatch(this.props.lecture,'TABLE',true);
+        }
+    }
+
     render() {
         const indexOfTime = (time) => (time/30 - 16);
 
@@ -24,9 +48,9 @@ class TimetableBlock extends Component {
                     width : this.props.cellWidth+2,
                     height : this.props.cellHeight * (indexOfTime(this.props.classtime.end)-indexOfTime(this.props.classtime.begin)) - 3,
                 }}
-                onMouseOver = {() => this.props.onMouseOver(this.props.lecture)}
-                onMouseOut = {() => this.props.onMouseOut(this.props.lecture)}
-                onClick={() => this.props.onClick(this.props.lecture)}
+                onMouseOver = {() => this.blockHover()}
+                onMouseOut = {() => this.blockOut()}
+                onClick={() => this.blockClick()}
             >
                 <div  className="lecture-delete"><i/></div>
                 <div
@@ -59,6 +83,9 @@ let mapStateToProps = (state) => {
 
 let mapDispatchToProps = (dispatch) => {
     return {
+        setLectureActiveDispatch : (lecture, from, clicked) => {
+            dispatch(setLectureActive(lecture, from, clicked));
+        },
     }
 };
 
