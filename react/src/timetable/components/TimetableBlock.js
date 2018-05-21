@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {connect} from "react-redux";
-import { setLectureActive } from "../actions";
+import { setLectureActive, removeLectureFromTimetable } from "../actions";
 
 class TimetableBlock extends Component {
     blockHover() {
@@ -24,6 +24,11 @@ class TimetableBlock extends Component {
         else {
             this.props.setLectureActiveDispatch(this.props.lecture,'TABLE',true);
         }
+    }
+
+    deleteLecture(event) {
+        event.stopPropagation();
+        this.props.removeLectureFromTimetableDispatch(this.props.lecture);
     }
 
     render() {
@@ -52,7 +57,7 @@ class TimetableBlock extends Component {
                 onMouseOut = {() => this.blockOut()}
                 onClick={() => this.blockClick()}
             >
-                <div  className="lecture-delete"><i/></div>
+                <div  className="lecture-delete" onClick={(event)=>this.deleteLecture(event)}><i/></div>
                 <div
                     // onMouseDown={() => this.props.onMouseDown()}
                      className="lecture-block-content">
@@ -85,6 +90,9 @@ let mapDispatchToProps = (dispatch) => {
     return {
         setLectureActiveDispatch : (lecture, from, clicked) => {
             dispatch(setLectureActive(lecture, from, clicked));
+        },
+        removeLectureFromTimetableDispatch : (lecture) => {
+            dispatch(removeLectureFromTimetable(lecture));
         },
     }
 };
