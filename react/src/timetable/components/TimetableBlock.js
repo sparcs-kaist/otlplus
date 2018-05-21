@@ -24,13 +24,13 @@ class TimetableBlock extends Component {
                     width : this.props.cellWidth+2,
                     height : this.props.cellHeight * (indexOfTime(this.props.classtime.end)-indexOfTime(this.props.classtime.begin)) - 3,
                 }}
+                onMouseOver = {() => this.props.onMouseOver(this.props.lecture)}
+                onMouseOut = {() => this.props.onMouseOut(this.props.lecture)}
+                onClick={() => this.props.onClick(this.props.lecture)}
             >
                 <div  className="lecture-delete"><i/></div>
                 <div
                     // onMouseDown={() => this.props.onMouseDown()}
-                    onMouseOver = {() => this.props.onMouseOver(this.props.lecture)}
-                     onMouseOut = {() => this.props.onMouseOut(this.props.lecture)}
-                    onClick={() => this.props.onClick(this.props.lecture)}
                      className="lecture-block-content">
                     <p className="timetable-lecture-name">
                         {this.props.lecture.title}
