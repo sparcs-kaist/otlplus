@@ -36,7 +36,6 @@ class TimetableBlock extends Component {
             delete: true,
         })
         .then((response) => {
-            console.log(response);
             this.props.removeLectureFromTimetableDispatch(this.props.lecture);
         })
         .catch((response) => {console.log(response);});

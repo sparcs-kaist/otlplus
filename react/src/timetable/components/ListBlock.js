@@ -46,7 +46,6 @@ class ListBlock extends Component {
             delete: false,
         })
         .then((response) => {
-            console.log(response);
             this.props.addLectureToTimetableDispatch(this.props.lecture);
         })
         .catch((response) => {console.log(response);});
