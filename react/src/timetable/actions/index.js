@@ -10,6 +10,7 @@ export const CREATE_TIMETABLE = "CREATE_TIMETABLE";
 export const DELETE_TIMETABLE = "DELETE_TIMETABLE";
 export const DUPLICATE_TIMETABLE = "DUPLICATE_TIMETABLE";
 export const ADD_LECTURE_TO_TIMETABLE = "ADD_LECTURE_TO_TIMETABLE";
+export const REMOVE_LECTURE_FROM_TIMETABLE = "REMOVE_LECTURE_FROM_TIMETABLE";
 export const UPDATE_CELL_SIZE = "UPDATE_CELL_SIZE";
 export const SET_LECTURE_ACTIVE = "SET_LECTURE_ACTIVE";
 export const CLEAR_LECTURE_ACTIVE = "CLEAR_LECTURE_ACTIVE";
@@ -67,6 +68,13 @@ export function deleteLectureFromCart(lecture) {
 export function addLectureToTimetable(lecture) {
     return {
         type : ADD_LECTURE_TO_TIMETABLE,
+        lecture : lecture,
+    }
+}
+
+export function removeLectureFromTimetable(lecture) {
+    return {
+        type : REMOVE_LECTURE_FROM_TIMETABLE,
         lecture : lecture,
     }
 }
