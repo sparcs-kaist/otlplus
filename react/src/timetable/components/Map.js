@@ -15,6 +15,27 @@ class Map extends Component {
         }
     }
 
+    mapFocus(building) {
+        let lectures = [];
+        let active = [];
+        for (let i=0, lecture; lecture = this.props.currentTimetable.lectures[i]; i++) {
+            if (lecture.building === building) {
+                lectures.push({
+                    title: lecture.title,
+                    info: lecture.room,
+                })
+                active.push(lecture)
+            }
+        }
+        this.props.setMultipleDetailDispatch(building, lectures);
+        this.setState({ activeLectures: active })
+    }
+
+    clearFocus() {
+        this.props.clearMultipleDetailDispatch();
+        this.setState({ activeLectures: [] })
+    }
+
     render() {
         let mapObject = {};
 
@@ -29,34 +50,13 @@ class Map extends Component {
 
         let activeLecture = this.props.lectureActiveLecture;
 
-        const mapFocus = (building) => {
-            let lectures = [];
-            let active = [];
-            for (let i=0, lecture; lecture = this.props.currentTimetable.lectures[i]; i++) {
-                if (lecture.building === building) {
-                    lectures.push({
-                        title: lecture.title,
-                        info: lecture.room,
-                    })
-                    active.push(lecture)
-                }
-            }
-            this.props.setMultipleDetailDispatch(building, lectures);
-            this.setState({ activeLectures: active })
-        }
-
-        const clearFocus = () => {
-            this.props.clearMultipleDetailDispatch();
-            this.setState({ activeLectures: [] })
-        };
-
         let activeLectures = this.state.activeLectures
 
         return (
             <div id="map">
                 <div id="map-container">
                     <img id="map-img" src={mapImage} alt="KAIST Map"/>
-                        {Object.keys(mapObject).map(function(building) {
+                        {Object.keys(mapObject).map((building) => {
                             let act = "";
                             mapObject[building].map(function(lec) {
                                 if (activeLecture!==null && activeLecture.id===lec.id)
@@ -68,7 +68,7 @@ class Map extends Component {
                             })
                             let location =
                                 <div className={`map-location ${building}`} data-building={building} data-id="1234"
-                                     onMouseOver={()=>mapFocus(building)} onMouseOut={()=>clearFocus()}>
+                                     onMouseOver={()=>this.mapFocus(building)} onMouseOut={()=>this.clearFocus()}>
                                     <div className={`map-location-box ${act}`}>
                                         <span className="map-location-text">{building}</span>
                                         {mapObject[building].map(function(lec) {
