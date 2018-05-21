@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from '../../common/presetAxios';
-import {setSemester} from "../actions";
+import {setSemester, setTimetables} from "../actions";
 import {connect} from "react-redux";
 
 const semesterName = {
@@ -22,6 +22,17 @@ class Semester extends Component {
         };
     }
 
+    _semesterChanged(year, semester) {
+        axios.post("/api/timetable/table_load", {
+            year: year,
+            semester: semester,
+        })
+        .then((response) => {
+            this.props.setTimetablesDispatch(response.data);
+        })
+        .catch((response) => {console.log(response);});
+    }
+
     componentDidMount() {
         this.props.setSemesterDispatch(2018, 1);
 
@@ -37,6 +48,7 @@ class Semester extends Component {
                 };
             });
             this.props.setSemesterDispatch(response.data.current_year, response.data.current_semester);
+            this._semesterChanged(response.data.current_year, response.data.current_semester);
         })
         .catch((response) => {console.log(response);});
     }
@@ -53,6 +65,7 @@ class Semester extends Component {
         }
 
         this.props.setSemesterDispatch(year, semester);
+        this._semesterChanged(year, semester);
     }
 
     semesterNext() {
@@ -67,6 +80,7 @@ class Semester extends Component {
         }
 
         this.props.setSemesterDispatch(year, semester);
+        this._semesterChanged(year, semester);
     }
 
     render() {
@@ -100,6 +114,9 @@ let mapDispatchToProps = (dispatch) => {
     return {
         setSemesterDispatch : (year, semester) => {
             dispatch(setSemester(year, semester));
+        },
+        setTimetablesDispatch : (timetables) => {
+            dispatch(setTimetables(timetables));
         },
     }
 };
