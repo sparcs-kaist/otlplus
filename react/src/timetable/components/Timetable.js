@@ -4,10 +4,46 @@ import TimetableBlock from "./TimetableBlock";
 import {updateCellSize} from "../actions";
 
 class Timetable extends Component {
+    constructor(props){
+        super(props);
+        this.isLookingTable = false;
+        this.isBubbling = false;
+        this.isDragging = false;
+        this.isBlockClick = false;
+    }
+
     resize() {
         let cell = document.getElementsByClassName("cell1")[0].getBoundingClientRect();
         this.props.updateCellSizeDispatch(cell.width, cell.height);
     }
+
+    isOccupied() {
+
+    }
+
+    dragStart(){
+        if (this.isBubbling) {
+            this.isBubbling = false;
+
+        } else {
+            // if ($(e.currentTarget).hasClass('occupied'))
+            //     return;
+            if (this.isOccupied())
+                return;
+            //
+            // e.stopPropagation();
+            // e.preventDefault();
+            // this.isDragging = true;
+            // $(this.dragCell).removeClass('none');
+
+        }
+    }
+
+    // clickBlock() {
+    //     if (!this.isDragging) {
+    //         this.isBubbling = true;
+    //     }
+    // }
 
     componentDidMount() {
         this.resize();
@@ -27,7 +63,15 @@ class Timetable extends Component {
         for (let i=0, lecture; (lecture = this.props.currentTimetable.lectures[i]); i++) {
             for (let j=0, classtime; (classtime=lecture.classtimes[j]); j++) {
                 lectureBlocks.push(
-                    <TimetableBlock key={`${lecture.id}:${j}`} lecture={lecture} classtime={classtime} isTemp={false}/>
+                    <TimetableBlock
+                        key={`${lecture.id}:${j}`}
+                        // onMouseDown={this.clickBlock}
+                        onMouseOver={this.blockHover}
+                        onMouseOut={this.blockOut}
+                        onClick={this.blockClick}
+                        lecture={lecture}
+                        classtime={classtime}
+                    />
                 );
             }
         }

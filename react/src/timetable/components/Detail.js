@@ -2,11 +2,51 @@ import React, { Component } from 'react';
 import {connect} from "react-redux";
 import { Link } from 'react-router-dom';
 import Scroller from '../../common/Scroller';
+import Review from './Review';
+import $ from 'jquery';
 import { LIST, TABLE, MULTIPLE } from "../reducers/lectureActive";
+import {clearLectureActive} from "../actions";
 
 class Detail extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            isClicked:false,
+        };
+    }
+
+    static getDerivedStateFromProps(nextProps) {
+        //Return value will be set the state
+        if (nextProps.from === "LIST" || nextProps.from === "TABLE"){
+            if(nextProps.clicked){
+                return {isClicked:true};
+            }else{
+                return {isClicked:false};
+            }
+        }else{
+            return {isClicked:false};
+        }
+    }
+
+    openDictPreview = () => {
+        $('.lecture-detail .nano').nanoScroller({scrollTop: $('.open-dict-button').position().top - $('.nano-content > .basic-info:first-child').position().top + 1});
+    };
+
+    closeDictPreview = () => {
+        $('.lecture-detail .nano').nanoScroller({scrollTop: 0});
+    };
+
+    unfix = () =>{
+        this.props.clearLectureActiveDispatch();
+    };
+
     render() {
-        if (this.props.from === LIST || this.props.from === TABLE)
+        if (this.props.from === LIST || this.props.from === TABLE){
+            const reviews = this.props.lecture.reviews;
+            const mapreview = (review,index) => {
+                return (<Review key={`review_${index}`} review = {review}/>);
+            };
+            const reviewsDom = (reviews && reviews.length) ? reviews.map(mapreview) : <div className="review-loading">결과 없음</div>;
             return (
                 <div id="lecture-info">
                     <div className="lecture-detail">
@@ -22,7 +62,7 @@ class Detail extends Component {
                             </span>
                         </div>
                         <div className="lecture-options">
-                            <span id="fix-option" className="disable" style={{float:"left"}}>고정해제</span>
+                            <span id="fix-option" onClick={this.unfix} className={this.state.isClicked ? "":"disable"} style={{float:"left"}}>고정해제</span>
                             <span id="syllabus-option">
                                 <a href={`https://cais.kaist.ac.kr/syllabusInfo?year=${this.props.lecture.year}&term=${this.props.lecture.semester}&subject_no=${this.props.lecture.code}&lecture_class=${this.props.lecture.class_no}&dept_id=${this.props.lecture.department}`} target="_blank">
                                     실라버스
@@ -36,12 +76,15 @@ class Detail extends Component {
                             </span>
                         </div>
                         <div className="dict-fixed none">
-                            <div className="basic-info dictionary-preview close-dict-button">
+                            <div onClick={this.closeDictPreview} className="basic-info dictionary-preview close-dict-button">
                                 <span style={{fontWeight:"700"}}>과목 후기</span>
                                 <i className="dict-arrow"/>
                             </div>
                         </div>
-                        <Scroller>
+                        <Scroller
+                            isClicked = {this.state.isClicked}
+                            lectureId = {this.props.lecture.id}
+                        >
                             <div className="basic-info">
                                 <span className="basic-info-name fixed-ko">구분</span>
                                 <span id="course-type">{this.props.lecture.type}</span>
@@ -109,20 +152,22 @@ class Detail extends Component {
                                 </div>
                                 <div className="lecture-score">
                                     <div id="speech" className="score-text">{this.props.lecture.speech_letter}</div>
-                                    <div className="score-label">강의}</div>
+                                    <div className="score-label">강의</div>
                                 </div>
                             </div>
-                            <div className="basic-info dictionary-preview open-dict-button">
+                            <div onClick={this.openDictPreview} className="basic-info dictionary-preview open-dict-button">
                                 <span style={{fontWeight:"700"}}>과목 후기</span>
                                 <i className="dict-arrow"/>
                             </div>
                             <div id="reviews">
+                                {reviewsDom}
                             </div>
                         </Scroller>
                     </div>
                 </div>
             );
-        else if (this.props.from === MULTIPLE)
+        }
+       else if (this.props.from === MULTIPLE)
             return (
                 <div id="lecture-info">
                     <div className="lecture-detail">
@@ -137,14 +182,14 @@ class Detail extends Component {
                             </span>
                         </div>
                         <div className="lecture-options">
-                            <span id="fix-option" className="disable" style={{float:"left"}}>고정해제</span>
+                            <span id="fix-option" onClick={this.unfix} className={this.state.isClicked ? "":"disable"} style={{float:"left"}}>고정해제</span>
                             <span id="syllabus-option" className="disable">실라버스</span>
                             &nbsp;
                             <span id="dictionary-option" className="disable">과목사전</span>
                         </div>
                         <div className="detail-top">
-                            {this.props.lectures.map((lecture) => (
-                                <div className="basic-info">
+                            {this.props.lectures.map((lecture, index) => (
+                                <div className="basic-info" key={index}>
                                     <span className="basic-info-name">
                                         {lecture.title}
                                     </span>
@@ -185,11 +230,15 @@ let mapStateToProps = (state) => {
         lecture : state.lectureActive.lecture,
         title : state.lectureActive.title,
         lectures : state.lectureActive.lectures,
+        clicked : state.lectureActive.clicked
     }
 };
 
 let mapDispatchToProps = (dispatch) => {
     return {
+        clearLectureActiveDispatch : () => {
+            dispatch(clearLectureActive());
+        },
     }
 };
 
