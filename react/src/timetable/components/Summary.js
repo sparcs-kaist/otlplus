@@ -25,8 +25,8 @@ class Summary extends Component {
     typeFocus(type) {
         let lectures = [];
 
-        for (var i=0; i<this.props.currentTimetable.length; i++) {
-            let lecture = this.props.currentTimetable[i];
+        for (var i=0; i<this.props.currentTimetable.lectures.length; i++) {
+            let lecture = this.props.currentTimetable.lectures[i];
 
             if (indexOfType(lecture.type_en) !== indexOfType(type))
                 continue;
@@ -48,7 +48,7 @@ class Summary extends Component {
 
     creditFocus(type) {
         let lectures = [];
-        for (let i=0, lecture; lecture = this.props.currentTimetable[i]; i++) {
+        for (let i=0, lecture; lecture = this.props.currentTimetable.lectures[i]; i++) {
             if (type==="Credit" && lecture.credit > 0)
                 lectures.push({
                     title: lecture.title,
@@ -66,7 +66,7 @@ class Summary extends Component {
 
     scoreFocus(type) {
         let lectures = [];
-        for (let i=0, lecture; lecture = this.props.currentTimetable[i]; i++) {
+        for (let i=0, lecture; lecture = this.props.currentTimetable.lectures[i]; i++) {
             if (type==="Grade")
                 lectures.push({
                     title: lecture.title,
@@ -119,6 +119,22 @@ class Summary extends Component {
             else if (activeLecture.credit_au > 0) creditAuAct = true
         }
 
+        for (let i=0, lecture; lecture = this.props.currentTimetable.lectures[i]; i++) {
+            let num = lecture.credit + lecture.credit_au;
+            type_credit[indexOfType(lecture.type_en)] += num;
+            sum_credit += lecture.credit;
+            sum_credit_au += lecture.credit_au;
+            targetNum += num;
+            grade += lecture.grade * num;
+            load += lecture.load * num;
+            speech += lecture.speech * num;
+        }
+
+        let alec = this.props.lectureActiveLecture
+        if (alec !== null && !this.props.currentTimetable.lectures.includes(alec)) {
+            sum_credit += alec.credit
+            sum_credit_au += alec.credit_au
+        }
 
         return (
             <div id="summary">
