@@ -18,7 +18,7 @@ class Map extends Component {
     render() {
         let mapObject = {};
 
-        for (let i=0, lecture; lecture = this.props.currentTimetable[i]; i++) {
+        for (let i=0, lecture; lecture = this.props.currentTimetable.lectures[i]; i++) {
             let building = lecture.building;
             let color = lecture.course%16;
             let id = lecture.id;
@@ -28,11 +28,19 @@ class Map extends Component {
         }
 
         let activeLecture = this.props.lectureActiveLecture;
+        if (activeLecture !== null && !this.props.currentTimetable.lectures.includes(activeLecture)) {
+            let building = activeLecture.building
+            let color = activeLecture.color
+            let id = activeLecture.id
+            mapObject[building]===undefined?
+                mapObject[building] = [{color: color, id: id}]
+                : mapObject[building].push({color: color, id: id})
+        }
 
         const mapFocus = (building) => {
             let lectures = [];
             let active = [];
-            for (let i=0, lecture; lecture = this.props.currentTimetable[i]; i++) {
+            for (let i=0, lecture; lecture = this.props.currentTimetable.lectures[i]; i++) {
                 if (lecture.building === building) {
                     lectures.push({
                         title: lecture.title,
@@ -65,7 +73,6 @@ class Map extends Component {
                                     if (lecture.id === lec.id) act = "active"
                                 }
                             })
-                            console.log('hh', activeLectures)
                             let location =
                                 <div className={`map-location ${building}`} data-building={building} data-id="1234"
                                      onMouseOver={()=>mapFocus(building)} onMouseOut={()=>clearFocus()}>
