@@ -1,4 +1,4 @@
-import { SET_CURRENT_TIMETABLE, CREATE_TIMETABLE, DELETE_TIMETABLE, DUPLICATE_TIMETABLE, ADD_LECTURE_TO_TIMETABLE, UPDATE_CELL_SIZE } from '../actions/index';
+import { SET_TIMETABLES, SET_CURRENT_TIMETABLE, CREATE_TIMETABLE, DELETE_TIMETABLE, DUPLICATE_TIMETABLE, ADD_LECTURE_TO_TIMETABLE, REMOVE_LECTURE_FROM_TIMETABLE, UPDATE_CELL_SIZE } from '../actions/index';
 
 const initialState = {
     timetables : [
@@ -67,7 +67,16 @@ const initialState = {
                     department_name: "전산학부",
                     credit: 3,
                     grade_letter: "B+",
-                    type_en: "Basic Required"
+                    type_en: "Basic Required",
+                    reviews: [{
+                        id:1,
+                        body:"핀토스, 오디세우스와 함께 전산 플젝 3대장 켄스 플젝이 있는 네트워크입니다. 전산과생이라면 꼭 들어야 하는 강의라 생각하고 실제 배우는 것도 많습니다. 교수님 강의력도\n" +
+                        "                        훌륭하고 학점도 잘 주십니다. 핀토스나 오디세우스를 짜 본 분이라면 켄스는 아주 쉽게 느껴질 거에요.",
+                        score:"A",
+                        load:"B",
+                        speech:"C",
+                        recommend:10
+                    }],
                 },
             ],
         },
@@ -136,7 +145,16 @@ const initialState = {
                     department_name: "전산학부",
                     credit: 3,
                     grade_letter: "B+",
-                    type_en: "Basic Required"
+                    type_en: "Basic Required",
+                    reviews: [{
+                        id:1,
+                        body:"핀토스, 오디세우스와 함께 전산 플젝 3대장 켄스 플젝이 있는 네트워크입니다. 전산과생이라면 꼭 들어야 하는 강의라 생각하고 실제 배우는 것도 많습니다. 교수님 강의력도\n" +
+                        "                        훌륭하고 학점도 잘 주십니다. 핀토스나 오디세우스를 짜 본 분이라면 켄스는 아주 쉽게 느껴질 거에요.",
+                        score:"A",
+                        load:"B",
+                        speech:"C",
+                        recommend:10
+                    }],
                 },
             ],
         },
@@ -211,7 +229,16 @@ const initialState = {
                 department_name: "전산학부",
                 credit: 3,
                 grade_letter: "B+",
-                type_en: "Basic Required"
+                type_en: "Basic Required",
+                reviews: [{
+                    id:1,
+                    body:"핀토스, 오디세우스와 함께 전산 플젝 3대장 켄스 플젝이 있는 네트워크입니다. 전산과생이라면 꼭 들어야 하는 강의라 생각하고 실제 배우는 것도 많습니다. 교수님 강의력도\n" +
+                    "                        훌륭하고 학점도 잘 주십니다. 핀토스나 오디세우스를 짜 본 분이라면 켄스는 아주 쉽게 느껴질 거에요.",
+                    score:"A",
+                    load:"B",
+                    speech:"C",
+                    recommend:10
+                }],
             },
         ],
     },
@@ -221,6 +248,11 @@ const initialState = {
 
 export const timetable = (state = initialState, action) => {
     switch (action.type) {
+        case SET_TIMETABLES:
+            return Object.assign({}, state, {
+                timetables : action.timetables,
+                currentTimetable : action.timetables[0],
+            });
         case SET_CURRENT_TIMETABLE:
             return Object.assign({}, state, {
                 currentTimetable : action.timetable,
@@ -268,6 +300,20 @@ export const timetable = (state = initialState, action) => {
             for (let i=0; i<newTables.length; i++)
                 if (newTables[i].id===state.currentTimetable.id)
                     newTables[i] = newTable;
+            return Object.assign({}, state, {
+                currentTimetable: newTable,
+                timetables: newTables,
+            });
+        case REMOVE_LECTURE_FROM_TIMETABLE:
+            newTable = {
+                id : state.currentTimetable.id,
+                lectures : state.currentTimetable.lectures.slice().filter((lecture)=>(lecture.id!==action.lecture.id)),
+            };
+            newTables = state.timetables.map((timetable)=>(
+                timetable.id===newTable.id
+                    ? newTable
+                    : timetable
+            ));
             return Object.assign({}, state, {
                 currentTimetable: newTable,
                 timetables: newTables,

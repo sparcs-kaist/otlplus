@@ -1,25 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import axios from '../../common/presetAxios';
-import { closeSearch, fetchSearch } from "../actions";
+import { closeSearch, setListLectures } from "../actions";
 import SearchFilter from './SearchFilter'
 
 import '../../static/css/font-awesome.min.css';
-
-let groupLectures = (lectures) => {
-    if (lectures.length === 0)
-        return [];
-
-    let courses = [[lectures[0]]];
-    for (let i=1, lecture; lectures[i]!==undefined; i++) {
-        lecture=lectures[i];
-        if (lecture.course === courses[courses.length-1][0].course)
-            courses[courses.length-1].push(lecture);
-        else
-            courses.push([lecture]);
-    }
-    return courses;
-};
 
 class Search extends Component {
     constructor(props) {
@@ -50,16 +35,17 @@ class Search extends Component {
     searchStart() {
         this.props.closeSearchDispatch();
 
-        // Temporary. Change this to search later
-        let url = Math.random()>0.5 ? "/api/timetable/list_load_major/" : "/api/timetable/list_load_humanity/";
-        axios.post(url, {
-            year: 2018,
-            semester: 1,
+        axios.post("/api/timetable/search", {
+            year: this.props.year,
+            semester: this.props.semester,
+            // Change below later
+            department: ["CS"],
+            type: ["ALL"],
+            grade: ["ALL"],
         })
         .then((response) => {
-            let lectures = response.data;
-            let courses = groupLectures(lectures);
-            this.props.fetchSearchDispatch(courses);
+            let lectures = response.data.courses;
+            this.props.setListLecturesDispatch("search", lectures);
         })
         .catch((response) => {console.log(response);});
     }
@@ -148,6 +134,8 @@ class Search extends Component {
 let mapStateToProps = (state) => {
     return {
         open : state.search.open,
+        year : state.semester.year,
+        semester : state.semester.semester,
     }
 };
 
@@ -156,8 +144,8 @@ let mapDispatchToProps = (dispatch) => {
         closeSearchDispatch : () => {
             dispatch(closeSearch());
         },
-        fetchSearchDispatch : (courses) => {
-            dispatch(fetchSearch(courses));
+        setListLecturesDispatch : (code, lectures) => {
+            dispatch(setListLectures(code, lectures));
         }
     }
 };

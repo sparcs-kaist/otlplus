@@ -1,12 +1,17 @@
 export const SET_SEMESTER = "SET_SEMESTER";
 export const OPEN_SEARCH = "OPEN_SEARCH";
 export const CLOSE_SEARCH = "CLOSE_SEARCH";
-export const FETCH_SEARCH = "FETCH_SEARCH";
+export const SET_CURRENT_LIST = "SER_CURRENT_LIST";
+export const SET_LIST_LECTURES = "SET_LIST_LECTURES";
+export const ADD_LECTURE_TO_CART = "ADD_LECTURE_TO_CART";
+export const DELETE_LECTURE_FROM_CART = "DELETE_LECTURE_FROM_CART";
+export const SET_TIMETABLES = "SET_TIMETABLES";
 export const SET_CURRENT_TIMETABLE = "SET_CURRENT_TIMETABLE";
 export const CREATE_TIMETABLE = "CREATE_TIMETABLE";
 export const DELETE_TIMETABLE = "DELETE_TIMETABLE";
 export const DUPLICATE_TIMETABLE = "DUPLICATE_TIMETABLE";
 export const ADD_LECTURE_TO_TIMETABLE = "ADD_LECTURE_TO_TIMETABLE";
+export const REMOVE_LECTURE_FROM_TIMETABLE = "REMOVE_LECTURE_FROM_TIMETABLE";
 export const UPDATE_CELL_SIZE = "UPDATE_CELL_SIZE";
 export const SET_LECTURE_ACTIVE = "SET_LECTURE_ACTIVE";
 export const CLEAR_LECTURE_ACTIVE = "CLEAR_LECTURE_ACTIVE";
@@ -33,10 +38,32 @@ export function closeSearch() {
     }
 }
 
-export function fetchSearch(courses) {
+export function setCurrentList(list) {
     return {
-        type : FETCH_SEARCH,
-        courses : courses,
+        type : SET_CURRENT_LIST,
+        list : list,
+    }
+}
+
+export function setListLectures(code, lectures) {
+    return {
+        type : SET_LIST_LECTURES,
+        code : code,
+        lectures : lectures,
+    }
+}
+
+export function addLectureToCart(lecture) {
+    return {
+        type : ADD_LECTURE_TO_CART,
+        lecture : lecture,
+    }
+}
+
+export function deleteLectureFromCart(lecture) {
+    return {
+        type : DELETE_LECTURE_FROM_CART,
+        lecture : lecture,
     }
 }
 
@@ -44,6 +71,20 @@ export function addLectureToTimetable(lecture) {
     return {
         type : ADD_LECTURE_TO_TIMETABLE,
         lecture : lecture,
+    }
+}
+
+export function removeLectureFromTimetable(lecture) {
+    return {
+        type : REMOVE_LECTURE_FROM_TIMETABLE,
+        lecture : lecture,
+    }
+}
+
+export function setTimetables(timetables) {
+    return {
+        type : SET_TIMETABLES,
+        timetables : timetables,
     }
 }
 

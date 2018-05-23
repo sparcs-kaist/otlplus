@@ -97,7 +97,18 @@ class Summary extends Component {
     render() {
         let type_credit = [0,0,0,0,0,0];
         let sum_credit = 0, sum_credit_au = 0, targetNum = 0, grade = 0, load = 0, speech = 0;
-        let letters = ['?', 'F', 'F', 'F', 'D-', 'D', 'D+', 'C-', 'C', 'C+', 'B-', 'B', 'B+', 'A-', 'A', 'A+']
+        let letters = ['?', 'F', 'F', 'F', 'D-', 'D', 'D+', 'C-', 'C', 'C+', 'B-', 'B', 'B+', 'A-', 'A', 'A+'];
+
+        for (let i=0, lecture; (lecture = this.props.currentTimetable.lectures[i]); i++) {
+            let num = lecture.credit + lecture.credit_au;
+            type_credit[indexOfType(lecture.type_en)] += num;
+            sum_credit += lecture.credit;
+            sum_credit_au += lecture.credit_au;
+            targetNum += num;
+            grade += lecture.grade * num;
+            load += lecture.load * num;
+            speech += lecture.speech * num;
+        }
 
         let active_type_credit = ['', '', '', '', '', ''];
         if (this.props.lectureActiveFrom === LIST || this.props.lectureActiveFrom === TABLE ) {
@@ -117,17 +128,6 @@ class Summary extends Component {
             let activeLecture = this.props.lectureActiveLecture;
             if (activeLecture.credit > 0) creditAct = true
             else if (activeLecture.credit_au > 0) creditAuAct = true
-        }
-
-        for (let i=0, lecture; lecture = this.props.currentTimetable.lectures[i]; i++) {
-            let num = lecture.credit + lecture.credit_au;
-            type_credit[indexOfType(lecture.type_en)] += num;
-            sum_credit += lecture.credit;
-            sum_credit_au += lecture.credit_au;
-            targetNum += num;
-            grade += lecture.grade * num;
-            load += lecture.load * num;
-            speech += lecture.speech * num;
         }
 
         let alec = this.props.lectureActiveLecture
