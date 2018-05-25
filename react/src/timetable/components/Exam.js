@@ -112,10 +112,10 @@ class Exam extends Component {
 
 let mapStateToProps = (state) => {
     return {
-        currentTimetable : state.timetable.currentTimetable,
-        lectureActiveLecture : state.lectureActive.lecture,
-        lectureActiveFrom : state.lectureActive.from,
-        lectureActiveClicked : state.lectureActive.clicked,
+        currentTimetable : state.timetable.timetable.currentTimetable,
+        lectureActiveLecture : state.timetable.lectureActive.lecture,
+        lectureActiveFrom : state.timetable.lectureActive.from,
+        lectureActiveClicked : state.timetable.lectureActive.clicked,
     }
 };
 

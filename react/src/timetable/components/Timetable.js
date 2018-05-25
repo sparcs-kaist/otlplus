@@ -300,7 +300,7 @@ class Timetable extends Component {
 
 let mapStateToProps = (state) => {
     return {
-        currentTimetable : state.timetable.currentTimetable,
+        currentTimetable : state.timetable.timetable.currentTimetable,
     }
 };
 
