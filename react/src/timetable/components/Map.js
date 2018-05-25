@@ -94,9 +94,9 @@ class Map extends Component {
 
 let mapStateToProps = (state) => {
     return {
-        currentTimetable : state.timetable.currentTimetable,
-        lectureActiveLecture : state.lectureActive.lecture,
-        lectureActiveFrom : state.lectureActive.from,
+        currentTimetable : state.timetable.timetable.currentTimetable,
+        lectureActiveLecture : state.timetable.lectureActive.lecture,
+        lectureActiveFrom : state.timetable.lectureActive.from,
     }
 };
 

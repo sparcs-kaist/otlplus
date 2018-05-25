@@ -75,10 +75,10 @@ class TimetableTabs extends Component {
 
 let mapStateToProps = (state) => {
     return {
-        timetables : state.timetable.timetables,
-        currentTimetable : state.timetable.currentTimetable,
-        year : state.semester.year,
-        semester : state.semester.semester,
+        timetables : state.timetable.timetable.timetables,
+        currentTimetable : state.timetable.timetable.currentTimetable,
+        year : state.timetable.semester.year,
+        semester : state.timetable.semester.semester,
     }
 };
 

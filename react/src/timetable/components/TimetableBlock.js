@@ -88,11 +88,11 @@ class TimetableBlock extends Component {
 
 let mapStateToProps = (state) => {
     return {
-        cellWidth : state.timetable.cellWidth,
-        cellHeight : state.timetable.cellHeight,
-        lectureActiveFrom : state.lectureActive.from,
-        lectureActiveClicked : state.lectureActive.clicked,
-        lectureActiveLecture : state.lectureActive.lecture,
+        cellWidth : state.timetable.timetable.cellWidth,
+        cellHeight : state.timetable.timetable.cellHeight,
+        lectureActiveFrom : state.timetable.lectureActive.from,
+        lectureActiveClicked : state.timetable.lectureActive.clicked,
+        lectureActiveLecture : state.timetable.lectureActive.lecture,
     }
 };
 

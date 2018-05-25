@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import {connect} from "react-redux";
 
 import '../static/css/components/header/timetable.css';
 
@@ -140,5 +141,18 @@ class Header extends Component {
         );
     }
 }
+
+let mapStateToProps = (state) => {
+    return {
+        user : state.common.user,
+    }
+};
+
+let mapDispatchToProps = (dispatch) => {
+    return {
+    }
+};
+
+Header = connect(mapStateToProps, mapDispatchToProps)(Header);
 
 export default Header;

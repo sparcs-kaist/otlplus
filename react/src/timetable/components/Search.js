@@ -133,9 +133,9 @@ class Search extends Component {
 
 let mapStateToProps = (state) => {
     return {
-        open : state.search.open,
-        year : state.semester.year,
-        semester : state.semester.semester,
+        open : state.timetable.search.open,
+        year : state.timetable.semester.year,
+        semester : state.timetable.semester.semester,
     }
 };
 

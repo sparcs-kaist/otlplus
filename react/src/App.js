@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
+import { createStore, combineReducers } from 'redux';
+import { Provider } from 'react-redux';
 import axios from 'axios';
 import 'bootstrap';
 
@@ -12,24 +14,20 @@ import MainPage from "./common/MainPage";
 import CreditPage from "./common/CreditPage";
 import LicensePage from "./common/LicensePage";
 
+import timetableReducer from "./timetable/reducers/index";
+import commonReducer from "./common/reducers/index";
+import { setUser } from "./common/actions";
+
+const store = createStore(combineReducers({
+    common: commonReducer,
+    timetable: timetableReducer,
+}));
 
 class App extends Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            user: null,
-        };
-    }
-
     componentDidMount() {
         axios.get("/session/info")
         .then((response) => {
-            this.setState((prevState) => {
-                return {
-                    user: response.data,
-                }
-            });
+            store.dispatch(setUser(response.data));
         })
         .catch((response) => {
             console.log(response);
@@ -38,14 +36,16 @@ class App extends Component {
 
   render() {
     return (
-        <Switch>
-            <Route path="/review" render={(props)=><DictionaryRouter user={this.state.user}/>}/>
-            <Route exact path="/timetable" render={(props)=><TimetablePage user={this.state.user}/>}/>
-            <Route exact path="/main" render={(props)=><MainPage user={this.state.user}/>}/>
-            <Route exact path="/credits" render={(props)=><CreditPage user={this.state.user}/>}/>
-            <Route exact path="/licenses" render={(props)=><LicensePage user={this.state.user}/>}/>
-            <Redirect from="/" to="/main/"/>
-        </Switch>
+        <Provider store={store}>
+            <Switch>
+                <Route path="/review" render={(props)=><DictionaryRouter/>}/>
+                <Route exact path="/timetable" render={(props)=><TimetablePage/>}/>
+                <Route exact path="/main" render={(props)=><MainPage/>}/>
+                <Route exact path="/credits" render={(props)=><CreditPage/>}/>
+                <Route exact path="/licenses" render={(props)=><LicensePage/>}/>
+                <Redirect from="/" to="/main/"/>
+            </Switch>
+        </Provider>
     );
   }
 }
