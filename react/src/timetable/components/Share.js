@@ -20,12 +20,9 @@ class Share extends Component {
     }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    mToggleLectureListDispatch : () => dispatch(mToggleLectureList()),
-  };
-};
-
+const mapDispatchToProps = (dispatch) => ({
+  mToggleLectureListDispatch : () => dispatch(mToggleLectureList()),
+});
 Share = connect(null, mapDispatchToProps)(Share);
 
 export default Share;
