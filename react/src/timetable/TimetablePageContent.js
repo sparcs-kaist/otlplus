@@ -1,0 +1,52 @@
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
+import Header from "../common/Header";
+import Detail from "./components/Detail";
+import List from "./components/List";
+import TimetableTabs from "./components/TimetableTabs";
+import Semester from "./components/Semester";
+import Timetable from "./components/Timetable";
+import Map from "./components/Map";
+import Summary from "./components/Summary";
+import Exam from "./components/Exam";
+import Share from "./components/Share";
+
+
+class TimetablePageContent extends Component {
+  render() {
+    return (
+      <div className={ this.props.showLectureList ? 'mobile-lecture-list' : null }>
+        <Header user={this.props.user}/>
+        <section id="content" className="container-fluid" style={{backgroundColor:"#f9f0f0"}}>
+          <div id="page-container">
+            <div id="left-side">
+              <Detail/>
+              <List/>
+            </div>
+            <div id="center">
+              <div id="timetable-menu">
+                <TimetableTabs/>
+                <Semester/>
+              </div>
+              <div id="timetable">
+                <Timetable/>
+                <div id="right-side">
+                  <Map/>
+                  <Summary/>
+                  <Exam/>
+                  <Share/>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    );
+  }
+}
+
+const mapStateToProps = state => ({ showLectureList: state.mobile.showLectureList });
+TimetablePageContent = connect(mapStateToProps)(TimetablePageContent);
+
+export default TimetablePageContent;
