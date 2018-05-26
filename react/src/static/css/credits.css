@@ -1,0 +1,55 @@
+.credit .block_wrap
+{
+    font-size: 0;
+}
+
+.credit .block
+{
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 90px;
+    height: 54px;
+    background-color: #a7a7a7;
+    border-radius: 2px;
+    margin: 10px;
+    font-size: 12px;
+    line-height: 16px;
+    color: #fff;
+    vertical-align: top;
+    text-align: center;
+    cursor: pointer;
+}
+.credit .block:hover
+{
+    background-color: #c53c50;
+}
+.credit .block.active
+{
+    background-color: #e44e68;
+}
+
+.credit .dummy
+{
+    display: inline-block;
+    width: 90px;
+    height: 0px;
+    margin: 0 10px;
+    vertical-align: top;
+}
+
+.credit .content > h4
+{
+    margin-top : 30px;
+}
+
+.credit .content > .people
+{
+    margin-bottom : 7px;
+}
+
+.credit .content > .people > div
+{
+    font-size: 0.7em;
+    color: #999;
+}
