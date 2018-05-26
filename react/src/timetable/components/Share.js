@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from "react-redux";
+import { mToggleLectureList } from '../actions';
 
 class Share extends Component {
     render() {
@@ -10,12 +12,20 @@ class Share extends Component {
                 </div>
                 <div className="right-btn-group">
                   <a className="share-button" id="show-timetable-list" />
-                  <a className="share-button" id="show-lecture-list" />
+                  <a className="share-button" id="show-lecture-list" onClick={this.props.mToggleLectureListDispatch} />
                 </div>
                 <div className="height-placeholder" />
             </div>
         );
     }
 }
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    mToggleLectureListDispatch : () => dispatch(mToggleLectureList()),
+  };
+};
+
+Share = connect(null, mapDispatchToProps)(Share);
 
 export default Share;
