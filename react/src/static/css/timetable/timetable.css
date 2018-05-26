@@ -709,6 +709,11 @@ label:hover > .fa-check-circle-o
     color: #a8687f;
 }
 
+#search-button-group
+{
+    height: 13px;
+}
+
 #search-button, #search-cancel
 {
     color:#e54c65;
@@ -2195,6 +2200,7 @@ body .lecture-block.active.lecture-block-temp
 
 
 @media(max-width: 768px) {
+    /* Basic timetable view start */
     #page-container {
         margin:15px auto 0 auto;
         width:100%;
@@ -2299,4 +2305,71 @@ body .lecture-block.active.lecture-block-temp
     #share-buttons > .right-btn-group {
         display: block;
     }
+    /* Basic timetable view end */
+
+    /* Timetable + lecture list view start */
+    .mobile-lecture-list #page-container {
+        -ms-flex-direction:column-reverse;
+            flex-direction:column-reverse;
+    }
+
+    .mobile-lecture-list #left-side {
+        display: block;
+        width: 100%;
+        height: 226px;
+        /*flex: 1;*/
+        padding-top: 16px;
+    }
+
+    .mobile-lecture-list #center {
+        height: 0;
+        -webkit-box-flex: 1;
+                -ms-flex: 1;
+                    flex: 1;
+    }
+
+    .mobile-lecture-list #right-side {
+        height: auto;
+    }
+
+    .mobile-lecture-list #lecture-info {
+        display: none;
+    }
+
+    .mobile-lecture-list #lecture-lists {
+        width: 100%;
+        height: 100%;
+        margin-left: 0;
+    }
+
+    .mobile-lecture-list .search-extend {
+        height: auto;
+    }
+
+    .mobile-lecture-list .search-form-wrap > form
+    {
+        padding-bottom: 0;
+        border-bottom: none;
+    }
+
+    .mobile-lecture-list #timetable {
+        /*flex-direction: row;*/
+    }
+
+    .mobile-lecture-list #summary {
+        display: none;
+    }
+
+    .mobile-lecture-list.search .search-filter {
+        display: none;
+    }
+
+    .mobile-lecture-list.search #search-button-group {
+        display: none;
+    }
+
+    .mobile-lecture-list.search .search-page-title {
+        display: none;
+    }
+    /* Timetable + lecture list view end */
 }
