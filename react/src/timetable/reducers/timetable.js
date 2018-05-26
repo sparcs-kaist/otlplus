@@ -1,4 +1,4 @@
-import { SET_CURRENT_TIMETABLE, CREATE_TIMETABLE, DELETE_TIMETABLE, DUPLICATE_TIMETABLE, ADD_LECTURE_TO_TIMETABLE, REMOVE_LECTURE_FROM_TIMETABLE, UPDATE_CELL_SIZE } from '../actions/index';
+import { SET_CURRENT_TIMETABLE, CREATE_TIMETABLE, DELETE_TIMETABLE, DUPLICATE_TIMETABLE, ADD_LECTURE_TO_TIMETABLE, REMOVE_LECTURE_FROM_TIMETABLE, UPDATE_CELL_SIZE, SET_IS_DRAGGING } from '../actions/index';
 
 const initialState = {
     timetables : [
@@ -244,6 +244,7 @@ const initialState = {
     },
     cellWidth : 0,
     cellHeight : 0,
+    isDragging : false,
 };
 
 export const timetable = (state = initialState, action) => {
@@ -318,7 +319,10 @@ export const timetable = (state = initialState, action) => {
                 cellWidth : action.width,
                 cellHeight : action.height,
             });
-
+        case SET_IS_DRAGGING:
+            return Object.assign({}, state, {
+                isDragging : action.isDragging,
+            });
         default:
             return state;
     }

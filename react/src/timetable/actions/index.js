@@ -16,6 +16,8 @@ export const SET_LECTURE_ACTIVE = "SET_LECTURE_ACTIVE";
 export const CLEAR_LECTURE_ACTIVE = "CLEAR_LECTURE_ACTIVE";
 export const SET_MULTIPLE_DETAIL = "SET_MULTIPLE_DETAIL";
 export const CLEAR_MULTIPLE_DETAIL = "CLEAR_MULTIPLE_DETAIL";
+export const DRAG_SEARCH = "DRAG_SEARCH";
+export const SET_IS_DRAGGING = "SET_IS_DRAGGING";
 
 export function setSemester(year, semester) {
     return {
@@ -143,5 +145,21 @@ export function setMultipleDetail(title, lectures) {
 export function clearMultipleDetail() {
     return {
         type : CLEAR_MULTIPLE_DETAIL,
+    }
+}
+
+export function dragSearch(day,start,end){
+    return {
+        type : DRAG_SEARCH,
+        day : day,
+        start : start,
+        end : end,
+    }
+}
+
+export function setIsDragging(isDragging) {
+    return {
+        type : SET_IS_DRAGGING,
+        isDragging : isDragging,
     }
 }
