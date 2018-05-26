@@ -1,8 +1,8 @@
 import { TOGGLE_LECTURE_LIST } from '../actions';
 
 const initialState = {
-  showLectureList: false,
-  showTimetableList: false,
+  showLectureListFlag: false,
+  showTimetableListFlag: false,
 };
 
 export const mobile = (state = initialState, action) => {
@@ -10,7 +10,7 @@ export const mobile = (state = initialState, action) => {
     case TOGGLE_LECTURE_LIST:
       return {
         ...state,
-        showLectureList: !state.showLectureList,
+        showLectureListFlag: !state.showLectureListFlag,
       };
     default: return state;
   }
