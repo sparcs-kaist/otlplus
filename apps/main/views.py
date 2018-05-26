@@ -1,7 +1,9 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.views.decorators.csrf import ensure_csrf_cookie
 
 # Create your views here.
 
-def home(request):
-    return HttpResponse("main!")
+@ensure_csrf_cookie
+def template(request):
+    return render(request, 'index.html')
