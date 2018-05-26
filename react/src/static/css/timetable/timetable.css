@@ -1917,6 +1917,22 @@ label:hover > .fa-check-circle-o
     font-size:0px;
 }
 
+#share-buttons > .left-btn-group
+{
+    float: left;
+}
+
+#share-buttons > .right-btn-group
+{
+    float: right;
+    display: none;
+}
+
+#share-buttons > .height-placeholder
+{
+    clear: both;
+}
+
 .share-button
 {
     display:inline-block;
@@ -1953,6 +1969,21 @@ label:hover > .fa-check-circle-o
 {
     background-image: url(../../icons/share_calendar_hover.svg);
 }
+
+.share-button#show-lecture-list {
+    background: url(../../icons/add_lecture.svg) no-repeat center center;
+}
+.share-button#show-lecture-list:hover {
+    background-image: url(../../icons/add_lecture_hover.svg);
+}
+
+.share-button#show-timetable-list {
+    background: url(../../icons/duplicate_table.svg) no-repeat center center;
+}
+.share-button#show-timetable-list:hover {
+    background-image: url(../../icons/duplicate_table_hover.svg);
+}
+
 
 #lecture-tabs
 {
@@ -2263,5 +2294,9 @@ body .lecture-block.active.lecture-block-temp
         padding: 10px 0;
         border: none;
         margin-top: 0;
+    }
+
+    #share-buttons > .right-btn-group {
+        display: block;
     }
 }
