@@ -1820,6 +1820,13 @@ label:hover > .fa-check-circle-o
 
 /* Exam at right side */
 
+#exam-timetable
+{
+    flex: auto;
+    display: flex;
+    flex-direction: column;
+}
+
 #examtitle
 {
     text-align:center;
@@ -1827,6 +1834,18 @@ label:hover > .fa-check-circle-o
     line-height:14px;
     padding-top:9px;
     padding-bottom:8px;
+}
+
+#examtable
+{
+    flex: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+#examtable > .nano
+{
+    margin: 0;
 }
 
 .exam-day
@@ -2144,3 +2163,105 @@ body .lecture-block.active.lecture-block-temp
 }
 
 
+@media(max-width: 768px) {
+    #page-container {
+        margin:15px auto 0 auto;
+        width:100%;
+        height:calc(100vh - 83px);
+    }
+
+    #left-side {
+        display: none;
+    }
+
+    #center {
+        margin-left: 0;
+        float: none;
+    }
+
+    #right-side {
+        margin: 0;
+        background-color: #FFFFFF;
+        height:96px;
+        flex-direction:column;
+        width: auto;
+        border: none;
+    }
+
+    #timetable-menu {
+        display: none;
+    }
+
+    #timetable {
+        flex-direction: column;
+        height:100%;
+        border-radius:6px;
+    }
+
+    #timetable-wrap {
+        flex: 1;
+        height: auto;
+    }
+
+    #map {
+        display: none;
+    }
+
+    #map-img {
+        display: none;
+    }
+
+    #summary {
+        flex: 1;
+        display: flex;
+    }
+
+    #summary-type {
+        display: inline-block;
+        margin-top: 3px;
+        width: 200px;
+    }
+
+    .summary-type-elem {
+        width: 33.33%;
+        text-align: center;
+        margin-top: 6px;
+        vertical-align: top;
+    }
+
+    #summary-credit {
+        flex: 2;
+        display: flex;
+    }
+
+    .summary-credit-elem {
+        display: inline-block;
+        width: auto;
+        flex: 1;
+        vertical-align: top;
+    }
+
+    #summary-score {
+        flex: 3;
+        display: flex;
+    }
+
+    .summary-score-elem {
+        width: auto;
+        flex: 1;
+    }
+
+    #exam-timetable {
+        display: none;
+    }
+
+    .exam-day {
+        display: none;
+    }
+
+    #share-buttons {
+        padding: 10px 0;
+        border: none;
+        margin-top: 0;
+    }
+}
