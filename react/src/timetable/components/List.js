@@ -87,13 +87,21 @@ class List extends Component {
                 <div id="list-page-wrap">
                     <div className={"list-page search-page"+(this.props.currentList==="SEARCH"?"":" none")}>
                         <Search/>
-                        <div className="list-page-title search-page-title" onClick={()=>this.showSearch()}>
-                            <i className="search-page-title-icon"/>
-                            <div className="search-page-title-text">검색</div>
-                        </div>
-                        <Scroller>
-                            {listBlocks(this.props.search.courses, false)}
-                        </Scroller>
+                        {
+                            this.props.open
+                                ? null
+                                : (
+                                    <div>
+                                        <div className="list-page-title search-page-title" onClick={()=>this.showSearch()}>
+                                            <i className="search-page-title-icon"/>
+                                            <div className="search-page-title-text">검색</div>
+                                        </div>
+                                        <Scroller>
+                                          {listBlocks(this.props.search.courses, false)}
+                                        </Scroller>
+                                    </div>
+                                )
+                        }
                     </div>
                     {["ID", "CS"].map((code) => (
                         <div className={"list-page humanity-page"+(this.props.currentList===code?"":" none")} key={code}>
@@ -135,6 +143,7 @@ let mapStateToProps = (state) => {
         major : state.list.major,
         humanity : state.list.humanity,
         cart : state.list.cart,
+        open: state.search.open,
         currentTimetable : state.timetable.currentTimetable,
         lectureActiveFrom : state.lectureActive.from,
         lectureActiveClicked : state.lectureActive.clicked,
