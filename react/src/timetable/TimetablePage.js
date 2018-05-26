@@ -23,7 +23,7 @@ class TimetablePage extends Component {
     render() {
         return (
             <Provider store={store}>
-                <div>
+                <div className="timetable_page">
                     <Header user={this.props.user}/>
                     <section id="content" className="container-fluid" style={{backgroundColor:"#f9f0f0"}}>
                         <div id="page-container">
