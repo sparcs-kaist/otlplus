@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import axios from '../../common/presetAxios';
 import { closeSearch, fetchSearch } from "../actions";
 import SearchFilter from './SearchFilter'
-
+import $ from 'jquery';
 import '../../static/css/font-awesome.min.css';
 
 let groupLectures = (lectures) => {
@@ -24,9 +24,9 @@ let groupLectures = (lectures) => {
 class Search extends Component {
     constructor(props) {
         super(props);
-
         this.state = {
             inputVal: "",
+            autoComplete:"",
             type: new Set(["ALL"]),
             department: new Set(["ALL"]),
             grade:new Set(["ALL"]),
@@ -50,8 +50,8 @@ class Search extends Component {
     }
 
     searchStart() {
-        const {type, department, grade} = this.state;
-        if(type.size === 1 && department.size === 1 && grade.size === 1 ){
+        const {type, department, grade, inputVal} = this.state;
+        if(type.size === 1 && department.size === 1 && grade.size === 1 && inputVal.length ===0 ){
             if(type.has("ALL") && department.has("ALL") && grade.has("ALL")){
                 alert("검색 조건을 선택해 주세요");
                 return;
@@ -96,8 +96,37 @@ class Search extends Component {
 
     handleInput(e) {
         this.setState({
-            inputVal: e.target.value
+            inputVal: e.target.value,
+            autoComplete: e.target.value ? "aa" : "",
         });
+    }
+
+    autocompleteApply() {
+        this.setState((prevState)=>{
+            return {
+                inputVal:prevState.inputVal + prevState.autoComplete,
+                autoComplete:""
+            };
+        });
+    }
+
+    autocompleteCLear(){
+        this.setState({
+            inputVal:"",
+            autoComplete:"",
+        })
+    }
+
+    keyPress(e){
+        if (e.keyCode === 9) {
+            this.autocompleteApply();
+            e.stopPropagation();//Prevent move focus
+            e.preventDefault();
+            e.nativeEvent.stopImmediatePropagation();
+        }
+        else if (e.keyCode === 13)  {
+            this.searchStart();
+        }
     }
 
     render() {
@@ -105,18 +134,19 @@ class Search extends Component {
             return <div/>;
         }
         else {
+            const { inputVal, autoComplete } = this.state;
             return (
                 <div className="search-extend">
-                    <div className="search-form-wrap">
+                    <div className="search-form-wrap" >
                         <form method="post">
-                            <div className="search-keyword">
+                            <div className="search-keyword" >
                                 <i className="search-keyword-icon"/>
-                                <div className="search-keyword-text-wrap">
+                                <div className="search-keyword-text-wrap" >
                                     <input className="search-keyword-text" type="text" name="keyword"
-                                           autoComplete="off" placeholder="검색" value={this.state.inputVal} onChange={(e)=>this.handleInput(e)}/>
+                                           autoComplete="off" placeholder="검색" value={inputVal} onKeyDown={(e)=>{this.keyPress(e)}} onChange={(e)=>this.handleInput(e)}/>
                                     <div className="search-keyword-autocomplete">
-                                        <span className="search-keyword-autocomplete-space"/>
-                                        <span className="search-keyword-autocomplete-body"/>
+                                        <span className="search-keyword-autocomplete-space">{inputVal}</span>
+                                        <span className="search-keyword-autocomplete-body">{autoComplete}</span>
                                     </div>
                                 </div>
                             </div>
