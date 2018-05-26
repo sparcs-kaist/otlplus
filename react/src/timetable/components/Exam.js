@@ -66,45 +66,47 @@ class Exam extends Component {
         }
 
         return (
-            <div style={{flex:'auto', display:'flex', flexDirection:'column' }}>
+            <div id="exam-timetable">
                 <div id="examtitle"><span>시험시간표</span></div>
-                <Scroller id="examtable">
-                    <div className="exam-day" data-date="mon" onMouseOver={()=>this.examFocus("월요일")} onMouseOut={()=>this.clearFocus()}>
-                        <div className="exam-day-title fixed-ko">
-                            <span>월</span></div>
-                        <ul className="exam-day-body">
-                            {examTable[0].map(renderLectureExam)}
-                        </ul>
-                    </div>
-                    <div className="exam-day" data-date="tue" onMouseOver={()=>this.examFocus("화요일")} onMouseOut={()=>this.clearFocus()}>
-                        <div className="exam-day-title fixed-ko">
-                            <span>화</span></div>
-                        <ul className="exam-day-body">
-                            {examTable[1].map(renderLectureExam)}
-                        </ul>
-                    </div>
-                    <div className="exam-day" data-date="wed" onMouseOver={()=>this.examFocus("수요일")} onMouseOut={()=>this.clearFocus()}>
-                        <div className="exam-day-title fixed-ko">
-                            <span>수</span></div>
-                        <ul className="exam-day-body">
-                            {examTable[2].map(renderLectureExam)}
-                        </ul>
-                    </div>
-                    <div className="exam-day" data-date="thu" onMouseOver={()=>this.examFocus("목요일")} onMouseOut={()=>this.clearFocus()}>
-                        <div className="exam-day-title fixed-ko">
-                            <span>목</span></div>
-                        <ul className="exam-day-body">
-                            {examTable[3].map(renderLectureExam)}
-                        </ul>
-                    </div>
-                    <div className="exam-day" data-date="fri" onMouseOver={()=>this.examFocus("금요일")} onMouseOut={()=>this.clearFocus()}>
-                        <div className="exam-day-title fixed-ko">
-                            <span>금</span></div>
-                        <ul className="exam-day-body">
-                            {examTable[4].map(renderLectureExam)}
-                        </ul>
-                    </div>
-                </Scroller>
+                <div id="examtable">
+                    <Scroller>
+                        <div className="exam-day" data-date="mon" onMouseOver={()=>this.examFocus("월요일")} onMouseOut={()=>this.clearFocus()}>
+                            <div className="exam-day-title fixed-ko">
+                                <span>월</span></div>
+                            <ul className="exam-day-body">
+                                {examTable[0].map(renderLectureExam)}
+                            </ul>
+                        </div>
+                        <div className="exam-day" data-date="tue" onMouseOver={()=>this.examFocus("화요일")} onMouseOut={()=>this.clearFocus()}>
+                            <div className="exam-day-title fixed-ko">
+                                <span>화</span></div>
+                            <ul className="exam-day-body">
+                                {examTable[1].map(renderLectureExam)}
+                            </ul>
+                        </div>
+                        <div className="exam-day" data-date="wed" onMouseOver={()=>this.examFocus("수요일")} onMouseOut={()=>this.clearFocus()}>
+                            <div className="exam-day-title fixed-ko">
+                                <span>수</span></div>
+                            <ul className="exam-day-body">
+                                {examTable[2].map(renderLectureExam)}
+                            </ul>
+                        </div>
+                        <div className="exam-day" data-date="thu" onMouseOver={()=>this.examFocus("목요일")} onMouseOut={()=>this.clearFocus()}>
+                            <div className="exam-day-title fixed-ko">
+                                <span>목</span></div>
+                            <ul className="exam-day-body">
+                                {examTable[3].map(renderLectureExam)}
+                            </ul>
+                        </div>
+                        <div className="exam-day" data-date="fri" onMouseOver={()=>this.examFocus("금요일")} onMouseOut={()=>this.clearFocus()}>
+                            <div className="exam-day-title fixed-ko">
+                                <span>금</span></div>
+                            <ul className="exam-day-body">
+                                {examTable[4].map(renderLectureExam)}
+                            </ul>
+                        </div>
+                    </Scroller>
+                </div>
             </div>
         );
     }
