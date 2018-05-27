@@ -27,8 +27,8 @@ class TimetablePageContent extends Component {
             </div>
             <div id="center">
               <div id="timetable-menu">
-                <TimetableTabs/>
-                <Semester/>
+          {this.props.showTimetableListFlag ? <div> <Semester/> <TimetableTabs/> </div>  : <div><TimetableTabs/> <Semester/> </div>}
+
               </div>
               <div id="timetable">
                 <Timetable/>
