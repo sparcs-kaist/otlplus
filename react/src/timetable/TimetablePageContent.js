@@ -16,9 +16,9 @@ import Share from "./components/Share";
 class TimetablePageContent extends Component {
   render() {
     return (
-        <div className={ this.props.showTimetableListFlag ? 'modal-timetable-list':null }>
+        <div className={ this.props.showTimetableListFlag ? 'modal-timetable-list' : null }>
         <div className={ this.props.showLectureListFlag ? 'mobile-lecture-list' : null }>
-        <Header user={this.props.user}/>
+        <Header user={this.props.user} />
         <section id="content" className="container-fluid" style={{backgroundColor:"#f9f0f0"}}>
           <div id="page-container">
             <div id="left-side">
@@ -48,7 +48,7 @@ class TimetablePageContent extends Component {
   }
 }
 
-const mapStateToProps = state => ({ showLectureListFlag: state.mobile.showLectureListFlag });
+const mapStateToProps = state => ({ showLectureListFlag: state.mobile.showLectureListFlag , showTimetableListFlag: state.mobile.showTimetableListFlag });
 TimetablePageContent = connect(mapStateToProps)(TimetablePageContent);
 
 export default TimetablePageContent;
