@@ -290,7 +290,7 @@ i
 
 .open-dict-button .dict-arrow
 {
-	background: url(/media/icons/lecture_downarrow.svg) no-repeat center center;
+	background: url(../../icons/lecture_downarrow.svg) no-repeat center center;
 	width:14px;
 	height:11px;
 	display:inline-block;
@@ -300,12 +300,12 @@ i
 }
 .open-dict-button:hover .dict-arrow
 {
-	background-image: url(/media/icons/lecture_downarrow_hover.svg);
+	background-image: url(../../icons/lecture_downarrow_hover.svg);
 }
 
 .close-dict-button .dict-arrow
 {
-	background: url(/media/icons/lecture_uparrow.svg) no-repeat center center;
+	background: url(../../icons/lecture_uparrow.svg) no-repeat center center;
 	width:14px;
 	height:11px;
 	display:inline-block;
@@ -315,7 +315,7 @@ i
 }
 .close-dict-button:hover .dict-arrow
 {
-	background-image: url(/media/icons/lecture_uparrow_hover.svg);
+	background-image: url(../../icons/lecture_uparrow_hover.svg);
 }
 
 #reviews {
@@ -431,28 +431,28 @@ i
 
 .list-tab.search .list-tab-icon
 {
-	background: url(/media/icons/block_search_inactive.svg) no-repeat center center;
+	background: url(../../icons/block_search_inactive.svg) no-repeat center center;
 	width:13px;
 	height:13px;
 }
 
 .list-tab.cart .list-tab-icon
 {
-	background: url(/media/icons/block_cart_inactive.svg) no-repeat center center;
+	background: url(../../icons/block_cart_inactive.svg) no-repeat center center;
 	width:13px;
 	height:13px;
 }
 
 .list-tab.major .list-tab-icon
 {
-	background: url(/media/icons/block_major_inactive.svg) no-repeat center center;
+	background: url(../../icons/block_major_inactive.svg) no-repeat center center;
 	width:13px;
 	height:13px;
 }
 
 .list-tab.humanity .list-tab-icon
 {
-	background: url(/media/icons/block_humanity_inactive.svg) no-repeat center center;
+	background: url(../../icons/block_humanity_inactive.svg) no-repeat center center;
 	width:13px;
 	height:13px;
 }
@@ -460,25 +460,25 @@ i
 .list-tab.search.active .list-tab-icon,
 .list-tab.search:hover .list-tab-icon
 {
-    background-image: url(/media/icons/block_search.svg);
+    background-image: url(../../icons/block_search.svg);
 }
 
 .list-tab.cart.active .list-tab-icon,
 .list-tab.cart:hover .list-tab-icon
 {
-    background-image: url(/media/icons/block_cart.svg);
+    background-image: url(../../icons/block_cart.svg);
 }
 
 .list-tab.major.active .list-tab-icon,
 .list-tab.major:hover .list-tab-icon
 {
-    background-image: url(/media/icons/block_major.svg);
+    background-image: url(../../icons/block_major.svg);
 }
 
 .list-tab.humanity.active .list-tab-icon,
 .list-tab.humanity:hover .list-tab-icon
 {
-    background-image: url(/media/icons/block_humanity.svg);
+    background-image: url(../../icons/block_humanity.svg);
 }
 
 #list-page-wrap
@@ -541,7 +541,7 @@ i
 
 .search-keyword-icon
 {
-	background: url(/media/icons/search.svg) no-repeat center center;
+	background: url(../../icons/search.svg) no-repeat center center;
 	width:12px;
     height: 12px;
     flex:none;
@@ -551,7 +551,7 @@ i
 }
 .search-field:hover > .search-keyword-icon
 {
-	background-image: url(/media/icons/search_hover.svg);
+	background-image: url(../../icons/search_hover.svg);
 }
 
 .search-keyword-text-wrap
@@ -709,6 +709,11 @@ label:hover > .fa-check-circle-o
     color: #a8687f;
 }
 
+#search-button-group
+{
+    height: 13px;
+}
+
 #search-button, #search-cancel
 {
     color:#e54c65;
@@ -777,7 +782,7 @@ label:hover > .fa-check-circle-o
 
 .search-page-title-icon
 {
-	background: url(/media/icons/search.svg) no-repeat center center;
+	background: url(../../icons/search.svg) no-repeat center center;
 	width:12px;
     height: 12px;
     display:inline-block;
@@ -787,7 +792,7 @@ label:hover > .fa-check-circle-o
 }
 .search-page-title:hover > .search-page-title-icon
 {
-	background-image: url(/media/icons/search_hover.svg);
+	background-image: url(../../icons/search_hover.svg);
 }
 
 .nano {
@@ -933,18 +938,18 @@ label:hover > .fa-check-circle-o
 
 .add-to-cart > i
 {
-	background:url(/media/icons/add_cart.svg) no-repeat center center;
+	background:url(../../icons/add_cart.svg) no-repeat center center;
 	width:12px;
 	height:13px;
     display:block;
 }
 .add-to-cart:hover > i
 {
-	background-image:url(/media/icons/add_cart_hover.svg);
+	background-image:url(../../icons/add_cart_hover.svg);
 }
 .add-to-cart.disable > i
 {
-    background-image:url(/media/icons/add_cart_disabled.svg);
+    background-image:url(../../icons/add_cart_disabled.svg);
 }
 
 .add-to-table
@@ -963,18 +968,18 @@ label:hover > .fa-check-circle-o
 
 .add-to-table > i
 {
-	background:url(/media/icons/add_lecture.svg) no-repeat center center;
+	background:url(../../icons/add_lecture.svg) no-repeat center center;
 	width:9px;
 	height:11px;
     display:block;
 }
 .add-to-table:hover > i
 {
-	background-image:url(/media/icons/add_lecture_hover.svg);
+	background-image:url(../../icons/add_lecture_hover.svg);
 }
 .add-to-table.disable > i
 {
-    background-image:url(/media/icons/add_lecture_disabled.svg);
+    background-image:url(../../icons/add_lecture_disabled.svg);
 }
 
 .delete-from-cart
@@ -992,18 +997,14 @@ label:hover > .fa-check-circle-o
 
 .delete-from-cart > i
 {
-	background:url(/media/icons/delete_cart.svg) no-repeat center center;
+	background:url(../../icons/delete_cart.svg) no-repeat center center;
 	width:12px;
 	height:13px;
     display:block;
 }
 .delete-from-cart:hover > i
 {
-	background-image:url(/media/icons/delete_cart_hover.svg);
-}
-.delete-from-cart.disable > i
-{
-    background-image:url(/media/icons/delete_cart_disabled.svg);
+	background-image:url(../../icons/delete_cart_hover.svg);
 }
 
 
@@ -1087,7 +1088,7 @@ label:hover > .fa-check-circle-o
 
 .duplicate-table > i
 {
-	background: url(/media/icons/duplicate_table.svg) no-repeat center center;
+	background: url(../../icons/duplicate_table.svg) no-repeat center center;
 	width:8px;
 	height:11px;
 	display:inline-block;
@@ -1095,7 +1096,7 @@ label:hover > .fa-check-circle-o
 }
 .duplicate-table:hover > i
 {
-	background-image: url(/media/icons/duplicate_table_hover.svg);
+	background-image: url(../../icons/duplicate_table_hover.svg);
 }
 
 .delete-table
@@ -1106,7 +1107,7 @@ label:hover > .fa-check-circle-o
 
 .delete-table > i
 {
-	background: url(/media/icons/delete_table.svg) no-repeat center center;
+	background: url(../../icons/delete_table.svg) no-repeat center center;
 	width:9px;
 	height:11px;
 	display:inline-block;
@@ -1114,12 +1115,12 @@ label:hover > .fa-check-circle-o
 }
 .delete-table:hover > i
 {
-	background-image: url(/media/icons/delete_table_hover.svg);
+	background-image: url(../../icons/delete_table_hover.svg);
 }
 
 .timetable-add .add-table
 {
-	background: url(/media/icons/add_table.svg) no-repeat center center;
+	background: url(../../icons/add_table.svg) no-repeat center center;
 	width:11px;
 	height:11px;
 	display:inline-block;
@@ -1127,7 +1128,7 @@ label:hover > .fa-check-circle-o
 }
 .timetable-add:hover .add-table
 {
-    background-image: url(/media/icons/add_table_hover.svg);
+    background-image: url(../../icons/add_table_hover.svg);
 }
 
 #semester
@@ -1177,34 +1178,34 @@ label:hover > .fa-check-circle-o
 
 #semester-prev > i
 {
-	background: url(/media/icons/semester_prev.svg) no-repeat center center;
+	background: url(../../icons/semester_prev.svg) no-repeat center center;
 	width:6px;
 	height:10px;
     display:block;
 }
 #semester-prev:hover > i
 {
-	background-image: url(/media/icons/semester_prev_hover.svg);
+	background-image: url(../../icons/semester_prev_hover.svg);
 }
 #semester-prev.disable > i
 {
-    background-image: url(/media/icons/semester_prev_disable.svg);
+    background-image: url(../../icons/semester_prev_disable.svg);
 }
 
 #semester-next > i
 {
-	background: url(/media/icons/semester_next.svg) no-repeat center center;
+	background: url(../../icons/semester_next.svg) no-repeat center center;
 	width:6px;
 	height:10px;
     display:block;
 }
 #semester-next:hover > i
 {
-	background-image: url(/media/icons/semester_next_hover.svg);
+	background-image: url(../../icons/semester_next_hover.svg);
 }
 #semester-next.disable > i
 {
-    background-image: url(/media/icons/semester_next_disable.svg);
+    background-image: url(../../icons/semester_next_disable.svg);
 }
 
 
@@ -1399,7 +1400,7 @@ label:hover > .fa-check-circle-o
 
 .drag-close
 {
-    background: url(/media/icons/delete_lecture.svg) no-repeat center center;
+    background: url(../../icons/delete_lecture.svg) no-repeat center center;
     width:8px;
     height:8px;
     top:4px;
@@ -1411,12 +1412,12 @@ label:hover > .fa-check-circle-o
 
 .drag-close:hover
 {
-    background: url(/media/icons/delete_lecture_hover.svg) no-repeat center center;
+    background: url(../../icons/delete_lecture_hover.svg) no-repeat center center;
 }
 
 .drag-icon
 {
-    background: url(/media/icons/drag_add.svg) no-repeat center center;
+    background: url(../../icons/drag_add.svg) no-repeat center center;
     width:7px;
     height:9px;
     margin-right:4px;
@@ -1426,7 +1427,7 @@ label:hover > .fa-check-circle-o
 
 .drag-text:hover > .drag-icon
 {
-    background-image: url(/media/icons/drag_add_hover.svg);
+    background-image: url(../../icons/drag_add_hover.svg);
 }
 
 
@@ -1824,6 +1825,13 @@ label:hover > .fa-check-circle-o
 
 /* Exam at right side */
 
+#exam-timetable
+{
+    flex: auto;
+    display: flex;
+    flex-direction: column;
+}
+
 #examtitle
 {
     text-align:center;
@@ -1831,6 +1839,18 @@ label:hover > .fa-check-circle-o
     line-height:14px;
     padding-top:9px;
     padding-bottom:8px;
+}
+
+#examtable
+{
+    flex: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+#examtable > .nano
+{
+    margin: 0;
 }
 
 .exam-day
@@ -1902,6 +1922,22 @@ label:hover > .fa-check-circle-o
     font-size:0px;
 }
 
+#share-buttons > .left-btn-group
+{
+    float: left;
+}
+
+#share-buttons > .right-btn-group
+{
+    float: right;
+    display: none;
+}
+
+#share-buttons > .height-placeholder
+{
+    clear: both;
+}
+
 .share-button
 {
     display:inline-block;
@@ -1914,30 +1950,45 @@ label:hover > .fa-check-circle-o
 
 .share-button#facebook
 {
-    background: url(/media/icons/share_facebook.svg) no-repeat center center;
+    background: url(../../icons/share_facebook.svg) no-repeat center center;
 }
 .share-button#facebook:hover
 {
-    background-image: url(/media/icons/share_facebook_hover.svg);
+    background-image: url(../../icons/share_facebook_hover.svg);
 }
 
 .share-button#image
 {
-    background: url(/media/icons/share_image.svg) no-repeat center center;
+    background: url(../../icons/share_image.svg) no-repeat center center;
 }
 .share-button#image:hover
 {
-    background-image: url(/media/icons/share_image_hover.svg);
+    background-image: url(../../icons/share_image_hover.svg);
 }
 
 .share-button#calendar
 {
-    background: url(/media/icons/share_calendar.svg) no-repeat center center;
+    background: url(../../icons/share_calendar.svg) no-repeat center center;
 }
 .share-button#calendar:hover
 {
-    background-image: url(/media/icons/share_calendar_hover.svg);
+    background-image: url(../../icons/share_calendar_hover.svg);
 }
+
+.share-button#show-lecture-list {
+    background: url(../../icons/add_lecture.svg) no-repeat center center;
+}
+.share-button#show-lecture-list:hover {
+    background-image: url(../../icons/add_lecture_hover.svg);
+}
+
+.share-button#show-timetable-list {
+    background: url(../../icons/duplicate_table.svg) no-repeat center center;
+}
+.share-button#show-timetable-list:hover {
+    background-image: url(../../icons/duplicate_table_hover.svg);
+}
+
 
 #lecture-tabs
 {
@@ -2121,14 +2172,14 @@ body .lecture-block.active.lecture-block-temp
 
 .lecture-delete > i
 {
-    background: url(/media/icons/delete_lecture.svg) no-repeat center center;
+    background: url(../../icons/delete_lecture.svg) no-repeat center center;
     width:10px;
     height:10px;
     display:block;
 }
 .lecture-delete:hover > i
 {
-    background: url(/media/icons/delete_lecture_hover.svg) no-repeat center center;
+    background: url(../../icons/delete_lecture_hover.svg) no-repeat center center;
 }
 
 .lecture-block:not(:hover) .lecture-delete,
@@ -2148,3 +2199,273 @@ body .lecture-block.active.lecture-block-temp
 }
 
 
+@media(max-width: 768px) {
+    /* Modal for timetable list view start*/
+    .modal-timetable-list #content
+    {
+        margin-top: 0px;
+    }
+
+    .modal-timetable-list #left-side
+    {
+        display: none;
+    }
+    .modal-timetable-list #timetable
+    {
+        display: none;
+    }
+    .modal-timetable-list #right-side
+    {
+        display: none;
+    }
+    .modal-timetable-list #semester
+    {
+        float: none;
+        margin: auto;
+        margin-bottom: 3px;
+        margin-top: 3px;
+    }
+    .modal-timetable-list #timetable-tabs
+    {
+        float: none;
+        width: 100vw;
+    }
+    .modal-timetable-list .container-fluid
+    {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+
+    .modal-timetable-list #page-container
+    {
+        margin-top: 50px;
+        width: 100vw;
+        background-color: rgb(0,0,0,0.6);
+        height: calc(100vh - 50px);
+
+    }
+
+    .modal-timetable-list #timetable-tabs > div {
+        width: calc(100vw - 30px);
+        margin-top: 6px;
+        border-radius: 4px 4px 4px 4px;
+        background-color: rgb(238, 238, 238);
+        margin-left: 5px;
+    }
+
+    .modal-timetable-list #timetable-tabs > div.timetable-add {
+        width: calc(100vw - 30px);
+        margin-left: 5px;
+    }
+    .modal-timetable-list #timetable-tabs > div.active {
+        background-color: rgb(221, 221, 221);
+    }
+    .modal-timetable-list #center
+    {
+        background-color: #ffffff;
+        margin-top: 10px;
+        width: calc(100vw - 30px);
+        margin-right: 10px;
+        border-radius: 4px 4px 4px 4px;
+        height: calc(100vh - 70px);
+        margin-left: 10px;
+
+    }
+    .modal-timetable-list .timetable-tab.active>.hidden-option {
+        float: right;
+        display: inline-block;
+    }
+    .modal-timetable-list .delete-table {
+        float: right;
+        padding-right: 5px;
+    }
+    .modal-timetable-list .timetable-tab .timetable-num {
+        float: left;
+    }
+    .modal-timetable-list .timetable-tab>.hidden-option {
+        display: inline-block;
+    }
+    .modal-timetable-list .duplicate-table
+    {
+        float: right;
+    }
+    .modal-timetable-list #timetable-menu {
+        display: block;
+    }
+
+    /* Modal for timetable list view end */
+
+    /* Basic timetable view start */
+    #page-container {
+        margin:15px auto 0 auto;
+        width:100%;
+        height:calc(100vh - 83px);
+    }
+
+    #left-side {
+        display: none;
+    }
+
+    #center {
+        margin-left: 0;
+        float: none;
+    }
+
+    #right-side {
+        margin: 0;
+        background-color: #FFFFFF;
+        height:96px;
+        flex-direction:column;
+        width: auto;
+        border: none;
+    }
+
+    #timetable-menu {
+        display: none;
+    }
+
+    #timetable {
+        flex-direction: column;
+        height:100%;
+        border-radius:6px;
+    }
+
+    #timetable-wrap {
+        flex: 1;
+        height: auto;
+    }
+
+    #map {
+        display: none;
+    }
+
+    #map-img {
+        display: none;
+    }
+
+    #summary {
+        flex: 1;
+        display: flex;
+    }
+
+    #summary-type {
+        display: inline-block;
+        margin-top: 3px;
+        width: 200px;
+    }
+
+    .summary-type-elem {
+        width: 33.33%;
+        text-align: center;
+        margin-top: 6px;
+        vertical-align: top;
+    }
+
+    #summary-credit {
+        flex: 2;
+        display: flex;
+    }
+
+    .summary-credit-elem {
+        display: inline-block;
+        width: auto;
+        flex: 1;
+        vertical-align: top;
+    }
+
+    #summary-score {
+        flex: 3;
+        display: flex;
+    }
+
+    .summary-score-elem {
+        width: auto;
+        flex: 1;
+    }
+
+    #exam-timetable {
+        display: none;
+    }
+
+    .exam-day {
+        display: none;
+    }
+
+    #share-buttons {
+        padding: 10px 0;
+        border: none;
+        margin-top: 0;
+    }
+
+    #share-buttons > .right-btn-group {
+        display: block;
+    }
+    /* Basic timetable view end */
+
+
+    /* Timetable + lecture list view start */
+    .mobile-lecture-list #page-container {
+        -ms-flex-direction:column-reverse;
+            flex-direction:column-reverse;
+    }
+
+    .mobile-lecture-list #left-side {
+        display: block;
+        width: 100%;
+        height: 226px;
+        /*flex: 1;*/
+        padding-top: 16px;
+    }
+
+    .mobile-lecture-list #center {
+        height: 0;
+        -webkit-box-flex: 1;
+                -ms-flex: 1;
+                    flex: 1;
+    }
+
+    .mobile-lecture-list #right-side {
+        height: auto;
+    }
+
+    .mobile-lecture-list #lecture-info {
+        display: none;
+    }
+
+    .mobile-lecture-list #lecture-lists {
+        width: 100%;
+        height: 100%;
+        margin-left: 0;
+    }
+
+    .mobile-lecture-list .search-extend {
+        height: auto;
+    }
+
+    .mobile-lecture-list .search-form-wrap > form
+    {
+        padding-bottom: 0;
+        border-bottom: none;
+    }
+
+    .mobile-lecture-list #timetable {
+        /*flex-direction: row;*/
+    }
+
+    .mobile-lecture-list #summary {
+        display: none;
+    }
+
+    .mobile-lecture-list.search .search-filter {
+        display: none;
+    }
+
+    .mobile-lecture-list.search #search-button-group {
+        display: none;
+    }
+
+    .mobile-lecture-list.search .search-page-title {
+        display: none;
+    }
+    /* Timetable + lecture list view end */
+}
