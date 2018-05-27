@@ -18,6 +18,7 @@ export const CLEAR_LECTURE_ACTIVE = "CLEAR_LECTURE_ACTIVE";
 export const SET_MULTIPLE_DETAIL = "SET_MULTIPLE_DETAIL";
 export const CLEAR_MULTIPLE_DETAIL = "CLEAR_MULTIPLE_DETAIL";
 export const TOGGLE_LECTURE_LIST = "TOGGLE_LECTURE_LIST";
+export const MODAL_TIMETABLE_LIST = "MODAL_TIMETABLE_LIST";
 
 export function setSemester(year, semester) {
     return {
@@ -160,4 +161,11 @@ export function mToggleLectureList() {
     return {
         type: TOGGLE_LECTURE_LIST,
     };
+}
+
+export function modaltimetableList() {
+    return {
+        type: MODAL_TIMETABLE_LIST,
+    }
+
 }

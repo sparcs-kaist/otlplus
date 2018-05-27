@@ -2307,6 +2307,9 @@ body .lecture-block.active.lecture-block-temp
     }
     /* Basic timetable view end */
 
+    /* Modal for timetable list view start*/
+
+
     /* Timetable + lecture list view start */
     .mobile-lecture-list #page-container {
         -ms-flex-direction:column-reverse;
