@@ -2289,6 +2289,9 @@ body .lecture-block.active.lecture-block-temp
     {
         float: right;
     }
+    .modal-timetable-list #timetable-menu {
+        display: block;
+    }
 
     /* Modal for timetable list view end */
 
