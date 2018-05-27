@@ -2200,6 +2200,98 @@ body .lecture-block.active.lecture-block-temp
 
 
 @media(max-width: 768px) {
+    /* Modal for timetable list view start*/
+    .modal-timetable-list #content
+    {
+        margin-top: 0px;
+    }
+
+    .modal-timetable-list #left-side
+    {
+        display: none;
+    }
+    .modal-timetable-list #timetable
+    {
+        display: none;
+    }
+    .modal-timetable-list #right-side
+    {
+        display: none;
+    }
+    .modal-timetable-list #semester
+    {
+        float: none;
+        margin: auto;
+        margin-bottom: 3px;
+        margin-top: 3px;
+    }
+    .modal-timetable-list #timetable-tabs
+    {
+        float: none;
+        width: 100vw;
+    }
+    .modal-timetable-list .container-fluid
+    {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+
+    .modal-timetable-list #page-container
+    {
+        margin-top: 50px;
+        width: 100vw;
+        background-color: rgb(0,0,0,0.6);
+        height: calc(100vh - 50px);
+
+    }
+
+    .modal-timetable-list #timetable-tabs > div {
+        width: calc(100vw - 30px);
+        margin-top: 6px;
+        border-radius: 4px 4px 4px 4px;
+        background-color: rgb(238, 238, 238);
+        margin-left: 5px;
+    }
+
+    .modal-timetable-list #timetable-tabs > div.timetable-add {
+        width: calc(100vw - 30px);
+        margin-left: 5px;
+    }
+    .modal-timetable-list #timetable-tabs > div.active {
+        background-color: rgb(221, 221, 221);
+    }
+    .modal-timetable-list #center
+    {
+        background-color: #ffffff;
+        margin-top: 10px;
+        width: calc(100vw - 30px);
+        margin-right: 10px;
+        border-radius: 4px 4px 4px 4px;
+        height: calc(100vh - 70px);
+        margin-left: 10px;
+
+    }
+    .modal-timetable-list .timetable-tab.active>.hidden-option {
+        float: right;
+        display: inline-block;
+    }
+    .modal-timetable-list .delete-table {
+        float: right;
+        padding-right: 5px;
+    }
+    .modal-timetable-list .timetable-tab .timetable-num {
+        float: left;
+    }
+    .modal-timetable-list .timetable-tab>.hidden-option {
+        display: inline-block;
+    }
+    .modal-timetable-list .duplicate-table
+    {
+        float: right;
+    }
+
+    /* Modal for timetable list view end */
+
     /* Basic timetable view start */
     #page-container {
         margin:15px auto 0 auto;
@@ -2306,8 +2398,6 @@ body .lecture-block.active.lecture-block-temp
         display: block;
     }
     /* Basic timetable view end */
-
-    /* Modal for timetable list view start*/
 
 
     /* Timetable + lecture list view start */
