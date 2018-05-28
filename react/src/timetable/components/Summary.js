@@ -130,6 +130,11 @@ class Summary extends Component {
             else if (activeLecture.credit_au > 0) creditAuAct = true
         }
 
+        let alec = this.props.lectureActiveLecture
+        if (alec !== null && !this.props.currentTimetable.lectures.includes(alec)) {
+            sum_credit += alec.credit
+            sum_credit_au += alec.credit_au
+        }
 
         return (
             <div id="summary">
