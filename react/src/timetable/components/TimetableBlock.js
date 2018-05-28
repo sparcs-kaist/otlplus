@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {connect} from "react-redux";
 import axios from "../../common/presetAxios";
-import { setLectureActive, removeLectureFromTimetable } from "../actions";
+import {setLectureActive, removeLectureFromTimetable, lectureinfo} from "../actions";
 
 class TimetableBlock extends Component {
     blockHover() {
@@ -21,6 +21,7 @@ class TimetableBlock extends Component {
             && this.props.lectureActiveFrom === 'TABLE'
             && this.props.lectureActiveLecture.id === this.props.lecture.id) {
             this.props.setLectureActiveDispatch(this.props.lecture,'TABLE',false);
+            this.props.lectureinfoDispatch;
         }
         else {
             this.props.setLectureActiveDispatch(this.props.lecture,'TABLE',true);
@@ -104,6 +105,7 @@ let mapDispatchToProps = (dispatch) => {
         removeLectureFromTimetableDispatch : (lecture) => {
             dispatch(removeLectureFromTimetable(lecture));
         },
+        lectureinfoDispatch : () => dispatch(lectureinfo()),
     }
 };
 

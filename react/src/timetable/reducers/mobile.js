@@ -1,9 +1,11 @@
 import { TOGGLE_LECTURE_LIST } from '../actions';
 import { MODAL_TIMETABLE_LIST } from '../actions';
+import { LECTURE_INFO } from "../actions";
 
 const initialState = {
   showLectureListFlag: false,
   showTimetableListFlag: false,
+  showLectureInfoFlag : false,
 };
 
 export const mobile = (state = initialState, action) => {
@@ -17,6 +19,11 @@ export const mobile = (state = initialState, action) => {
       return {
         ...state,
         showTimetableListFlag: !state.showTimetableListFlag,
+      };
+    case LECTURE_INFO:
+      return{
+         ...state,
+         showLectureInfoFlag: !state.showLectureInfoFlag,
       };
     default: return state;
   }
