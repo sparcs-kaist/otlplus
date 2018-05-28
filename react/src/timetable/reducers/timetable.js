@@ -1,4 +1,4 @@
-import { SET_CURRENT_TIMETABLE, CREATE_TIMETABLE, DELETE_TIMETABLE, DUPLICATE_TIMETABLE, ADD_LECTURE_TO_TIMETABLE, REMOVE_LECTURE_FROM_TIMETABLE, UPDATE_CELL_SIZE, SET_IS_DRAGGING } from '../actions/index';
+import { SET_TIMETABLES, SET_CURRENT_TIMETABLE, CREATE_TIMETABLE, DELETE_TIMETABLE, DUPLICATE_TIMETABLE, ADD_LECTURE_TO_TIMETABLE, REMOVE_LECTURE_FROM_TIMETABLE, UPDATE_CELL_SIZE, SET_IS_DRAGGING } from '../actions/index';
 
 const initialState = {
     timetables : [
@@ -249,6 +249,11 @@ const initialState = {
 
 export const timetable = (state = initialState, action) => {
     switch (action.type) {
+        case SET_TIMETABLES:
+            return Object.assign({}, state, {
+                timetables : action.timetables,
+                currentTimetable : action.timetables[0],
+            });
         case SET_CURRENT_TIMETABLE:
             return Object.assign({}, state, {
                 currentTimetable : action.timetable,
