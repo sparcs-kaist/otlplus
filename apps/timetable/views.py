@@ -361,7 +361,7 @@ def table_update(request):
     try:
         table_id = int(body['table_id'])
         lecture_id = body['lecture_id']
-        delete = body['delete'] == u'true'
+        delete = body['delete'] == True
     except KeyError:
         return HttpResponseBadRequest('Missing fields in request data')
 
@@ -801,7 +801,7 @@ def wishlist_update(request):
     body = json.loads(request.body.decode('utf-8'))
     try:
         lecture_id = body['lecture_id']
-        delete = body['delete'] == u'true'
+        delete = body['delete'] == True
     except KeyError:
         return HttpResponseBadRequest('Missing fields in request data')
 
