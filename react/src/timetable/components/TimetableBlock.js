@@ -21,10 +21,11 @@ class TimetableBlock extends Component {
             && this.props.lectureActiveFrom === 'TABLE'
             && this.props.lectureActiveLecture.id === this.props.lecture.id) {
             this.props.setLectureActiveDispatch(this.props.lecture,'TABLE',false);
-            this.props.lectureinfoDispatch;
+            this.props.lectureinfoDispatch();
         }
         else {
             this.props.setLectureActiveDispatch(this.props.lecture,'TABLE',true);
+            this.props.lectureinfoDispatch();
         }
     }
 
@@ -94,6 +95,7 @@ let mapStateToProps = (state) => {
         lectureActiveFrom : state.lectureActive.from,
         lectureActiveClicked : state.lectureActive.clicked,
         lectureActiveLecture : state.lectureActive.lecture,
+        showLectureInfoFlag : state.mobile.showLectureInfoFlag,
     }
 };
 
