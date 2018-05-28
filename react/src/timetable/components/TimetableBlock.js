@@ -5,7 +5,7 @@ import { setLectureActive, removeLectureFromTimetable } from "../actions";
 
 class TimetableBlock extends Component {
     blockHover() {
-        if (!this.props.lectureActiveClicked && !this.isDragging) {
+        if (!this.props.lectureActiveClicked && !this.props.isDragging) {
             this.props.setLectureActiveDispatch(this.props.lecture,"TABLE", false);
         }
     }
@@ -93,6 +93,7 @@ let mapStateToProps = (state) => {
         lectureActiveFrom : state.lectureActive.from,
         lectureActiveClicked : state.lectureActive.clicked,
         lectureActiveLecture : state.lectureActive.lecture,
+        isDragging : state.timetable.isDragging,
     }
 };
 
