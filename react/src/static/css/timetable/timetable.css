@@ -2201,6 +2201,10 @@ body .lecture-block.active.lecture-block-temp
 
 @media(max-width: 768px) {
     /* Modal for timetable list view start*/
+    .modal-timetable-list .navbar-header{
+        padding-left: 15px;
+        padding-right: 15px;
+    }
     .modal-timetable-list #content
     {
         margin-top: 0px;
@@ -2296,6 +2300,7 @@ body .lecture-block.active.lecture-block-temp
     /* Modal for timetable list view end */
 
     /* Basic timetable view start */
+
     #page-container {
         margin:15px auto 0 auto;
         width:100%;
