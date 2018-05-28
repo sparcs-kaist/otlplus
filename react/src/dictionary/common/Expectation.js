@@ -2,11 +2,6 @@ import React, { Component } from 'react';
 
 class Expectation extends Component {
   render() {
-    if(this.props.insert) {
-      return (
-        <div />
-      );
-    } else {
       const label_list = this.props.data.expectations;
       const labels = label_list.map((e) => {
         return (
@@ -34,7 +29,6 @@ class Expectation extends Component {
           </div>
         </div>
       );
-    }
   }
 }
 

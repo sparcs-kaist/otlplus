@@ -1,23 +1,41 @@
 import React, { Component } from 'react';
 import ScoreTable from './ScoreTable';
 
+class Label extends Component {
+  render() {
+    return (
+      <span>
+        {"\n                \n                "}
+        <span className="label-description">
+           <span className="professors">
+                <label className="active">
+                    <input className="professor chkone" type="checkbox" autocomplete="off" checked name={this.props.id} value={this.props.pid} />
+                    <a href={`/review/result/course/${this.props.id}/${this.props.pid}`}><span className="label label-default">{this.props.pname}</span></a>
+                </label>
+            </span>
+        </span>
+      </span>
+    );
+  }
+}
+
 class Course extends Component {
   render() {
-    const gradelist = [
-      [0, "?"],[1, "F"],[2, "F"],[3, "F"],[4, "D-"],[5, "D"],[6, "D+"],[7, "C-"],[8, "C"],[9, "C+"],[10, "B-"],[11, "B"],[12, "B+"],[13, "A-"],[14, "A"],[15, "A+"]
-    ];
-    const score = {
-      grade: 11,
-      load: 3,
-      speech: 3,
-      total: 6,
-    };
+    const course = this.props.course;
+    const gradelist = course.gradelist;
+    const score = course.score;
+    const professorlist = course.prof_info;
+    const professors = professorlist.map((e) => {
+      return (
+        <Label pid={e.id} pname={e.name} id={course.id}/>
+      )
+    });
     return (
       <div className="panel panel-default course">
         <div className="panel-body">
           <div className="row">
             <div className="label-title ellipsis-wrapper col-xs-24 col-sm-12 col-md-13 col-lg-14">
-              <h4 style={{marginTop:6, lineHeight:1.2}} className="ellipsis-content">AA010 : 리더십강좌</h4>
+              <h4 style={{marginTop:6, lineHeight:1.2}} className="ellipsis-content">{ course.code } : { course.title }</h4>
             </div>
             <div className="col-xs-24 col-sm-12 col-md-11 col-lg-10">
               <input type="hidden" name="course_id" value="{{result.id}}" />
@@ -35,16 +53,7 @@ class Course extends Component {
                   </td>
                   <td>
                     <div>
-                      {/*for 문*/}
-                      <span className="label-description">
-                   <span className="professors">
-                        <label>
-                            <input className="professor chkone" type="checkbox" autocomplete="off" checked name="{{result.id}}" value="{{pinfo.id}}" />
-                            <a href="/review/result/course/{{result.id}}/{{pinfo.id}}"><span className="label label-default">ALL</span></a>
-                        </label>
-                    </span>
-                </span>
-                      {/*for 문*/}
+                      { professors }
                     </div>
                   </td>
                 </tr>
@@ -68,7 +77,7 @@ class Course extends Component {
                   <tr>
                     <td style={{borderTop: 0}} >
                 <span className="label-description" style={{lineHeight: '23px'}}>
-                    등록되지 않았습니다.
+                  {course.summury}
                 </span>
                     </td>
                   </tr>
