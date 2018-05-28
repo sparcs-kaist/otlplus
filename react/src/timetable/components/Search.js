@@ -163,7 +163,7 @@ class Search extends Component {
                                 <input id="search-filter-time-begin" name="begin" type="text"/>
                                 <input id="search-filter-time-end" name="end" type="text"/>
                             </div>
-                            <div style={{height: '13px'}}>
+                            <div id="search-button-group">
                                 <span type="button" id="search-button" onClick={()=>this.searchStart()}>검색</span>
                                 <span type="button" id="search-cancel" onClick={()=>this.hideSearch()}>취소</span>
                             </div>

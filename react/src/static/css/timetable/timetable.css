@@ -709,6 +709,11 @@ label:hover > .fa-check-circle-o
     color: #a8687f;
 }
 
+#search-button-group
+{
+    height: 13px;
+}
+
 #search-button, #search-cancel
 {
     color:#e54c65;
@@ -1820,6 +1825,13 @@ label:hover > .fa-check-circle-o
 
 /* Exam at right side */
 
+#exam-timetable
+{
+    flex: auto;
+    display: flex;
+    flex-direction: column;
+}
+
 #examtitle
 {
     text-align:center;
@@ -1827,6 +1839,18 @@ label:hover > .fa-check-circle-o
     line-height:14px;
     padding-top:9px;
     padding-bottom:8px;
+}
+
+#examtable
+{
+    flex: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+#examtable > .nano
+{
+    margin: 0;
 }
 
 .exam-day
@@ -1898,6 +1922,22 @@ label:hover > .fa-check-circle-o
     font-size:0px;
 }
 
+#share-buttons > .left-btn-group
+{
+    float: left;
+}
+
+#share-buttons > .right-btn-group
+{
+    float: right;
+    display: none;
+}
+
+#share-buttons > .height-placeholder
+{
+    clear: both;
+}
+
 .share-button
 {
     display:inline-block;
@@ -1934,6 +1974,21 @@ label:hover > .fa-check-circle-o
 {
     background-image: url(../../icons/share_calendar_hover.svg);
 }
+
+.share-button#show-lecture-list {
+    background: url(../../icons/add_lecture.svg) no-repeat center center;
+}
+.share-button#show-lecture-list:hover {
+    background-image: url(../../icons/add_lecture_hover.svg);
+}
+
+.share-button#show-timetable-list {
+    background: url(../../icons/duplicate_table.svg) no-repeat center center;
+}
+.share-button#show-timetable-list:hover {
+    background-image: url(../../icons/duplicate_table_hover.svg);
+}
+
 
 #lecture-tabs
 {
@@ -2144,3 +2199,278 @@ body .lecture-block.active.lecture-block-temp
 }
 
 
+@media(max-width: 768px) {
+    /* Modal for timetable list view start*/
+    .modal-timetable-list .navbar-header{
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    .modal-timetable-list #content
+    {
+        margin-top: 0px;
+    }
+
+    .modal-timetable-list #left-side
+    {
+        display: none;
+    }
+    .modal-timetable-list #timetable
+    {
+        display: none;
+    }
+    .modal-timetable-list #right-side
+    {
+        display: none;
+    }
+    .modal-timetable-list #semester
+    {
+        float: none;
+        margin: auto;
+        margin-bottom: 3px;
+        margin-top: 3px;
+    }
+    .modal-timetable-list #timetable-tabs
+    {
+        float: none;
+        width: 100vw;
+    }
+    .modal-timetable-list .container-fluid
+    {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+
+    .modal-timetable-list #page-container
+    {
+        margin-top: 50px;
+        width: 100vw;
+        background-color: rgb(0,0,0,0.6);
+        height: calc(100vh - 50px);
+
+    }
+
+    .modal-timetable-list #timetable-tabs > div {
+        width: calc(100vw - 30px);
+        margin-top: 6px;
+        border-radius: 4px 4px 4px 4px;
+        background-color: rgb(238, 238, 238);
+        margin-left: 5px;
+    }
+
+    .modal-timetable-list #timetable-tabs > div.timetable-add {
+        width: calc(100vw - 30px);
+        margin-left: 5px;
+    }
+    .modal-timetable-list #timetable-tabs > div.active {
+        background-color: rgb(221, 221, 221);
+    }
+    .modal-timetable-list #center
+    {
+        background-color: #ffffff;
+        margin-top: 10px;
+        width: calc(100vw - 30px);
+        margin-right: 10px;
+        border-radius: 4px 4px 4px 4px;
+        height: calc(100vh - 70px);
+        margin-left: 10px;
+
+    }
+    .modal-timetable-list .timetable-tab.active>.hidden-option {
+        float: right;
+        display: inline-block;
+    }
+    .modal-timetable-list .delete-table {
+        float: right;
+        padding-right: 5px;
+    }
+    .modal-timetable-list .timetable-tab .timetable-num {
+        float: left;
+    }
+    .modal-timetable-list .timetable-tab>.hidden-option {
+        display: inline-block;
+    }
+    .modal-timetable-list .duplicate-table
+    {
+        float: right;
+    }
+    .modal-timetable-list #timetable-menu {
+        display: block;
+    }
+
+    /* Modal for timetable list view end */
+
+    /* Basic timetable view start */
+
+    #page-container {
+        margin:15px auto 0 auto;
+        width:100%;
+        height:calc(100vh - 83px);
+    }
+
+    #left-side {
+        display: none;
+    }
+
+    #center {
+        margin-left: 0;
+        float: none;
+    }
+
+    #right-side {
+        margin: 0;
+        background-color: #FFFFFF;
+        height:96px;
+        flex-direction:column;
+        width: auto;
+        border: none;
+    }
+
+    #timetable-menu {
+        display: none;
+    }
+
+    #timetable {
+        flex-direction: column;
+        height:100%;
+        border-radius:6px;
+    }
+
+    #timetable-wrap {
+        flex: 1;
+        height: auto;
+    }
+
+    #map {
+        display: none;
+    }
+
+    #map-img {
+        display: none;
+    }
+
+    #summary {
+        flex: 1;
+        display: flex;
+    }
+
+    #summary-type {
+        display: inline-block;
+        margin-top: 3px;
+        width: 200px;
+    }
+
+    .summary-type-elem {
+        width: 33.33%;
+        text-align: center;
+        margin-top: 6px;
+        vertical-align: top;
+    }
+
+    #summary-credit {
+        flex: 2;
+        display: flex;
+    }
+
+    .summary-credit-elem {
+        display: inline-block;
+        width: auto;
+        flex: 1;
+        vertical-align: top;
+    }
+
+    #summary-score {
+        flex: 3;
+        display: flex;
+    }
+
+    .summary-score-elem {
+        width: auto;
+        flex: 1;
+    }
+
+    #exam-timetable {
+        display: none;
+    }
+
+    .exam-day {
+        display: none;
+    }
+
+    #share-buttons {
+        padding: 10px 0;
+        border: none;
+        margin-top: 0;
+    }
+
+    #share-buttons > .right-btn-group {
+        display: block;
+    }
+    /* Basic timetable view end */
+
+
+    /* Timetable + lecture list view start */
+    .mobile-lecture-list #page-container {
+        -ms-flex-direction:column-reverse;
+            flex-direction:column-reverse;
+    }
+
+    .mobile-lecture-list #left-side {
+        display: block;
+        width: 100%;
+        height: 226px;
+        /*flex: 1;*/
+        padding-top: 16px;
+    }
+
+    .mobile-lecture-list #center {
+        height: 0;
+        -webkit-box-flex: 1;
+                -ms-flex: 1;
+                    flex: 1;
+    }
+
+    .mobile-lecture-list #right-side {
+        height: auto;
+    }
+
+    .mobile-lecture-list #lecture-info {
+        display: none;
+    }
+
+    .mobile-lecture-list #lecture-lists {
+        width: 100%;
+        height: 100%;
+        margin-left: 0;
+    }
+
+    .mobile-lecture-list .search-extend {
+        height: auto;
+    }
+
+    .mobile-lecture-list .search-form-wrap > form
+    {
+        padding-bottom: 0;
+        border-bottom: none;
+    }
+
+    .mobile-lecture-list #timetable {
+        /*flex-direction: row;*/
+    }
+
+    .mobile-lecture-list #summary {
+        display: none;
+    }
+
+    .mobile-lecture-list.search .search-filter {
+        display: none;
+    }
+
+    .mobile-lecture-list.search #search-button-group {
+        display: none;
+    }
+
+    .mobile-lecture-list.search .search-page-title {
+        display: none;
+    }
+    /* Timetable + lecture list view end */
+}
