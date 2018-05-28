@@ -2,9 +2,10 @@ export const SET_SEMESTER = "SET_SEMESTER";
 export const OPEN_SEARCH = "OPEN_SEARCH";
 export const CLOSE_SEARCH = "CLOSE_SEARCH";
 export const SET_CURRENT_LIST = "SER_CURRENT_LIST";
-export const FETCH_SEARCH = "FETCH_SEARCH";
+export const SET_LIST_LECTURES = "SET_LIST_LECTURES";
 export const ADD_LECTURE_TO_CART = "ADD_LECTURE_TO_CART";
 export const DELETE_LECTURE_FROM_CART = "DELETE_LECTURE_FROM_CART";
+export const SET_TIMETABLES = "SET_TIMETABLES";
 export const SET_CURRENT_TIMETABLE = "SET_CURRENT_TIMETABLE";
 export const CREATE_TIMETABLE = "CREATE_TIMETABLE";
 export const DELETE_TIMETABLE = "DELETE_TIMETABLE";
@@ -18,6 +19,8 @@ export const SET_MULTIPLE_DETAIL = "SET_MULTIPLE_DETAIL";
 export const CLEAR_MULTIPLE_DETAIL = "CLEAR_MULTIPLE_DETAIL";
 export const DRAG_SEARCH = "DRAG_SEARCH";
 export const SET_IS_DRAGGING = "SET_IS_DRAGGING";
+export const TOGGLE_LECTURE_LIST = "TOGGLE_LECTURE_LIST";
+export const MODAL_TIMETABLE_LIST = "MODAL_TIMETABLE_LIST";
 
 export function setSemester(year, semester) {
     return {
@@ -46,10 +49,11 @@ export function setCurrentList(list) {
     }
 }
 
-export function fetchSearch(courses) {
+export function setListLectures(code, lectures) {
     return {
-        type : FETCH_SEARCH,
-        courses : courses,
+        type : SET_LIST_LECTURES,
+        code : code,
+        lectures : lectures,
     }
 }
 
@@ -78,6 +82,13 @@ export function removeLectureFromTimetable(lecture) {
     return {
         type : REMOVE_LECTURE_FROM_TIMETABLE,
         lecture : lecture,
+    }
+}
+
+export function setTimetables(timetables) {
+    return {
+        type : SET_TIMETABLES,
+        timetables : timetables,
     }
 }
 
@@ -161,5 +172,17 @@ export function setIsDragging(isDragging) {
     return {
         type : SET_IS_DRAGGING,
         isDragging : isDragging,
+    }
+}
+  
+export function mToggleLectureList() {
+    return {
+        type: TOGGLE_LECTURE_LIST,
+    };
+}
+
+export function modaltimetableList() {
+    return {
+        type: MODAL_TIMETABLE_LIST,
     }
 }
