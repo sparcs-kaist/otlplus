@@ -57,7 +57,7 @@ class DictionaryRouter extends Component {
                 <Route path="/review/result/comment/:comment_id" render={(props)=><CommentPage user={this.props.user}/>}/>
                 <Route path="/review/result/professor/:professor_id/:course_id" render={(props)=><ProfessorPage user={this.props.user}/>}/>
                 <Route path="/review/result/course/:course_id/:professors_code" render={(props)=><CoursePage user={this.props.user}/>}/>
-                <Route exact path="/review/result" render={(props)=><ResultPage bottom={this.state.bottom} user={this.props.user}/>}/>
+                <Route exact path="/review/result" render={(props)=><ResultPage bottom={this.state.bottom} unbindBottom={this.unbindBottom} user={this.props.user}/>}/>
                 <Route exact path="/review/insert" render={(props)=><InsertPage user={this.props.user}/>}/>
               </Switch>
             </section>
