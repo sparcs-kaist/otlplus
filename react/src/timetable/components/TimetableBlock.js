@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {connect} from "react-redux";
+import axios from "../../common/presetAxios";
 import { setLectureActive, removeLectureFromTimetable } from "../actions";
 
 class TimetableBlock extends Component {
@@ -28,7 +29,16 @@ class TimetableBlock extends Component {
 
     deleteLecture(event) {
         event.stopPropagation();
-        this.props.removeLectureFromTimetableDispatch(this.props.lecture);
+
+        axios.post("/api/timetable/table_update", {
+            table_id: this.props.currentTimetable.id,
+            lecture_id: this.props.lecture.id,
+            delete: true,
+        })
+        .then((response) => {
+            this.props.removeLectureFromTimetableDispatch(this.props.lecture);
+        })
+        .catch((response) => {console.log(response);});
     }
 
     render() {
