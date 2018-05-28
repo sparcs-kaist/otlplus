@@ -56,6 +56,7 @@ class Exam extends Component {
         }
 
         let examTable = [[],[],[],[],[]]
+        let codeList = []
 
         for (let i=0, lecture; (lecture = this.props.currentTimetable.lectures[i]); i++) {
             let day = lecture.examtimes[0].day
@@ -63,10 +64,11 @@ class Exam extends Component {
             let time = lecture.exam.slice(4)
             let id = lecture.id
             examTable[day].push({title: title, time: time, id: id})
+            codeList.push(lecture.code)
         }
 
         let alec = this.props.lectureActiveLecture
-        if (alec !== null && !this.props.currentTimetable.lectures.includes(alec)) {
+        if (alec !== null && !codeList.includes(alec.code)) {
             examTable[alec.examtimes[0].day].push({title: alec.title, time: alec.exam.slice(4), id: alec.id})
         }
 
