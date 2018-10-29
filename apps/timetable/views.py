@@ -333,23 +333,19 @@ def _validate_year_semester(year, semester):
 
 
 
-def main(request):
-    if request.user.is_authenticated():
-        departments = _user_department(request.user)
-    else:
-        departments = [{'code':'Basic', 'name':'기초 과목'}]
-
+def semester(reqeust):
     year_semester_list = [x for x in settings.SEMESTER_RANGES]
     year_semester_list.sort(key=lambda x: x[1])
     year_semester_list.sort(key=lambda x: x[0])
 
-    return render(request,'timetable/index.html', {'departments': departments,
-                                                   'current_year':settings.CURRENT_YEAR,
-                                                   'current_semester':settings.CURRENT_SEMESTER,
-                                                   'start_year':year_semester_list[0][0],
-                                                   'start_semester':year_semester_list[0][1],
-                                                   'end_year':year_semester_list[-1][0],
-                                                   'end_semester':year_semester_list[-1][1],})
+    return JsonResponse({
+        'current_year':settings.CURRENT_YEAR,
+        'current_semester':settings.CURRENT_SEMESTER,
+        'start_year':year_semester_list[0][0],
+        'start_semester':year_semester_list[0][1],
+        'end_year':year_semester_list[-1][0],
+        'end_semester':year_semester_list[-1][1],
+    }, safe=False)
 
 
 
@@ -361,10 +357,11 @@ def table_update(request):
 
     userprofile = UserProfile.objects.get(user=request.user)
 
+    body = json.loads(request.body.decode('utf-8'))
     try:
-        table_id = int(request.POST['table_id'])
-        lecture_id = request.POST['lecture_id']
-        delete = request.POST['delete'] == u'true'
+        table_id = int(body['table_id'])
+        lecture_id = body['lecture_id']
+        delete = body['delete'] == True
     except KeyError:
         return HttpResponseBadRequest('Missing fields in request data')
 
@@ -397,10 +394,11 @@ def table_copy(request):
     
     userprofile = UserProfile.objects.get(user=request.user)
 
+    body = json.loads(request.body.decode('utf-8'))
     try:
-        table_id = int(request.POST['table_id'])
-        year = int(request.POST['year'])
-        semester = int(request.POST['semester'])
+        table_id = int(body['table_id'])
+        year = int(body['year'])
+        semester = int(body['semester'])
     except KeyError:
         return HttpResponseBadRequest('Missing fields in request data')
 
@@ -429,10 +427,11 @@ def table_delete(request):
 
     userprofile = UserProfile.objects.get(user=request.user)
 
+    body = json.loads(request.body.decode('utf-8'))
     try:
-        table_id = int(request.POST['table_id'])
-        year = int(request.POST['year'])
-        semester = int(request.POST['semester'])
+        table_id = int(body['table_id'])
+        year = int(body['year'])
+        semester = int(body['semester'])
     except KeyError:
         return HttpResponseBadRequest('Missing fields in request data')
     
@@ -451,9 +450,10 @@ def table_create(request):
 
     userprofile = UserProfile.objects.get(user=request.user)
 
+    body = json.loads(request.body.decode('utf-8'))
     try:
-        year = int(request.POST['year'])
-        semester = int(request.POST['semester'])
+        year = int(body['year'])
+        semester = int(body['semester'])
     except KeyError:
         return HttpResponseBadRequest('Missing fields in request data')
 
@@ -479,9 +479,10 @@ def table_load(request):
 
     userprofile = UserProfile.objects.get(user=request.user)
 
+    body = json.loads(request.body.decode('utf-8'))
     try:
-        year = int(request.POST['year'])
-        semester = int(request.POST['semester'])
+        year = int(body['year'])
+        semester = int(body['semester'])
     except KeyError:
         return HttpResponseBadRequest('Missing fields in request data')
 
@@ -512,10 +513,11 @@ FLOW = client.flow_from_clientsecrets(settings.GOOGLE_OAUTH2_CLIENT_SECRETS_JSON
 
 @require_POST
 def autocomplete(request):
+    body = json.loads(request.body.decode('utf-8'))
     try:
-        year = int(request.POST['year'])
-        semester = int(request.POST['semester'])
-        keyword = request.POST['keyword']
+        year = int(body['year'])
+        semester = int(body['semester'])
+        keyword = body['keyword']
     except KeyError:
         return HttpResponseBadRequest('Missing fields in request data')
 
@@ -592,8 +594,9 @@ def search(request):
 
 @require_POST
 def comment_load(request):
+    body = json.loads(request.body.decode('utf-8'))
     try:
-        lecture_id = request.POST['lecture_id']
+        lecture_id = body['lecture_id']
     except KeyError:
         return HttpResponseBadRequest('Missing fields in request data')
 
@@ -715,9 +718,10 @@ def google_auth_return(request):
 
 @require_POST
 def list_load_major(request):
+    body = json.loads(request.body.decode('utf-8'))
     try:
-        year = int(request.POST["year"])
-        semester = int(request.POST["semester"])
+        year = int(body["year"])
+        semester = int(body["semester"])
     except KeyError:
         return HttpResponseBadRequest('Missing fields in request data')
 
@@ -739,9 +743,10 @@ def list_load_major(request):
 
 @require_POST
 def list_load_humanity(request):
+    body = json.loads(request.body.decode('utf-8'))
     try:
-        year = int(request.POST["year"])
-        semester = int(request.POST["semester"])
+        year = int(body["year"])
+        semester = int(body["semester"])
     except KeyError:
         return HttpResponseBadRequest('Missing fields in request data')
 
@@ -764,9 +769,11 @@ def wishlist_load(request):
 
     userprofile = UserProfile.objects.get(user=request.user)
 
+
+    body = json.loads(request.body.decode('utf-8'))
     try:
-        year = int(request.POST['year'])
-        semester = int(request.POST['semester'])
+        year = int(body['year'])
+        semester = int(body['semester'])
     except KeyError:
         return HttpResponseBadRequest('Missing fields in request data')
 
@@ -791,9 +798,10 @@ def wishlist_update(request):
 
     userprofile = UserProfile.objects.get(user=request.user)
 
+    body = json.loads(request.body.decode('utf-8'))
     try:
-        lecture_id = request.POST['lecture_id']
-        delete = request.POST['delete'] == u'true'
+        lecture_id = body['lecture_id']
+        delete = body['delete'] == True
     except KeyError:
         return HttpResponseBadRequest('Missing fields in request data')
 

@@ -16,18 +16,18 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 from django.http import HttpResponseRedirect
+from django.views.generic import TemplateView
 
 from . import views
 
 urlpatterns = [
     url(r'^$', views.home),
     url(r'^login/$', views.user_login),
-    url(r'^login/callback/$', views.login_callback),
+    url(r'^login/callback', views.login_callback),
     url(r'^logout/$', views.user_logout),
     url(r'^unregister/$', views.unregister),
-    url(r'^language/$', views.language),
+    url(r'^info', views.info),
     #url(r'^unregister/callback/$', views.unregister_callback),
-
-    # User Preferences (e.g Favorite Department, Language)
-    url(r'^settings/$', views.user_settings),
+    url(r'^language/$', TemplateView.as_view(template_name='index.html')),
+    url(r'^settings/$', TemplateView.as_view(template_name='index.html')),
 ]
