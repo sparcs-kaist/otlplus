@@ -15,12 +15,9 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponseNotFound
 from settings import BASE_DIR
 import os
-from django.conf.urls import (
-    handler400, handler403, handler404, handler500
-)
 
 from django.conf import settings
 from django.conf.urls.static import static
@@ -30,24 +27,16 @@ from apps.timetable import views as timetable_views
 from django import views as django_views
 from django.views import static as django_static
 
-handler400 = 'apps.review.views.bad_request'
-handler403 = 'apps.review.views.permission_denied'
-handler404 = 'apps.review.views.page_not_found'
-handler500 = 'apps.review.views.server_error'
+from apps.main import views as mainViews
 
 urlpatterns = [
     # Admin Page
     url(r'^admin/', include(admin.site.urls)),
 
     # OTLplus Apps
-    url(r'^main/$', review_views.search_view),
-    url(r'^credits/$', review_views.credits),
-    url(r'^licenses/$', review_views.licenses),
-    url(r'^$', lambda x: HttpResponseRedirect('/main/')),
     url(r'^session/', include('apps.session.urls')),
-    url(r'^review/', include('apps.review.urls')),
-    url(r'^subject/', include('apps.subject.urls')),
-    url(r'^timetable/', include('apps.timetable.urls')),
-    # Media Root
-    url(r'^media/(?P<path>.*)$',django_static.serve,{'document_root': os.path.join(BASE_DIR, 'static')}),
+    url(r'^api/review/', include('apps.review.urls')),
+    url(r'^api/timetable/', include('apps.timetable.urls')),
+    url(r'^api/', lambda request: HttpResponseNotFound('Bad url')),
+    url(r'^', mainViews.template),
 ]
