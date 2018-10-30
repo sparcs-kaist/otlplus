@@ -1,1 +1,1 @@
-export const BASE_URL = 'http://localhost:17322/';
+export const BASE_URL = '/'; // Use Relative URL
