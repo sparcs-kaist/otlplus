@@ -134,8 +134,8 @@ class Semester extends Component {
 
 let mapStateToProps = (state) => {
     return {
-        year : state.semester.year,
-        semester : state.semester.semester,
+        year : state.timetable.semester.year,
+        semester : state.timetable.semester.semester,
     }
 };
 

@@ -137,17 +137,17 @@ class List extends Component {
 
 let mapStateToProps = (state) => {
     return {
-        list : state.list,
-        currentList : state.list.currentList,
-        search : state.list.search,
-        major : state.list.major,
-        humanity : state.list.humanity,
-        cart : state.list.cart,
-        open: state.search.open,
-        currentTimetable : state.timetable.currentTimetable,
-        lectureActiveFrom : state.lectureActive.from,
-        lectureActiveClicked : state.lectureActive.clicked,
-        lectureActiveLecture : state.lectureActive.lecture,
+        list : state.timetable.list,
+        currentList : state.timetable.list.currentList,
+        search : state.timetable.list.search,
+        major : state.timetable.list.major,
+        humanity : state.timetable.list.humanity,
+        cart : state.timetable.list.cart,
+        open : state.timetable.search.open,
+        currentTimetable : state.timetable.timetable.currentTimetable,
+        lectureActiveFrom : state.timetable.lectureActive.from,
+        lectureActiveClicked : state.timetable.lectureActive.clicked,
+        lectureActiveLecture : state.timetable.lectureActive.lecture,
     }
 };
 
