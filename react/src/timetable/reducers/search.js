@@ -1,7 +1,10 @@
-import { OPEN_SEARCH, CLOSE_SEARCH } from '../actions/index';
+import { OPEN_SEARCH, CLOSE_SEARCH, DRAG_SEARCH } from '../actions/index';
 
 const initialState = {
     open : true,
+    start : 0,
+    end : 0,
+    day : 0,
 };
 
 export const search = (state = initialState, action) => {
@@ -13,6 +16,13 @@ export const search = (state = initialState, action) => {
         case CLOSE_SEARCH:
             return Object.assign({}, state, {
                 open : false,
+            });
+        case DRAG_SEARCH:
+            return Object.assign({},state, {
+                open : true,
+                start : action.start,
+                end : action.end,
+                day : action.day,
             });
         default:
             return state;

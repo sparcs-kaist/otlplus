@@ -299,10 +299,8 @@ def _professor_to_dict(professor,id=-1):
 
 
 def resultProfessor(request):
-    body = json.loads(request.body.decode('utf-8'))
-    if 'q' in body :
-        keyword = body['q']
-    else :
+    keyword = request.GET.get('q')
+    if not keyword :
         keyword = ""
     if len(keyword)>0:
         expectations = Professor.objects.filter(Q(professor_name__icontains=keyword)|Q(professor_name_en__icontains=keyword))
@@ -318,27 +316,34 @@ def resultProfessor(request):
 
 
 def resultCourse(request, page):
-    body = json.loads(request.body.decode('utf-8'))
-    if 'q' in body :
-        keyword = body['q']
-    else :
+    #body = json.loads(request.body.decode('utf-8'))
+    keyword = request.GET.get('q')
+    if not keyword :
         keyword = ""
+    semester_filters = request.GET.getlist('semester')
+    department_filters = _departmentFilters(request.GET.getlist('department'))
+    type_filters = _typeFilters(request.GET.getlist('type'))
+    grade_filters = _gradeFilters(request.GET.getlist('grade'))
+    print('hihi', semester_filters)
+    sort = request.GET.get('sort')
 
-    semester_filters = body['semester']
-    department_filters = _departmentFilters(body['department'])
-    type_filters = _typeFilters(body['type'])
-    grade_filters = _gradeFilters(body['grade'])
+    #semester_filters = body['semester']
+    #department_filters = _departmentFilters(body['department'])
+    #type_filters = _typeFilters(body['type'])
+    #grade_filters = _gradeFilters(body['grade'])
+
     courses = _getFilteredCourses(semester_filters, department_filters, type_filters, grade_filters, keyword)
-    if 'sort' in body :
-        if body['sort']=='name':
+
+    if sort :
+        if sort=='name':
             courses = courses.order_by('title','old_code')
-        elif body['sort']=='total':
+        elif sort=='total':
             courses = courses.order_by('-total','old_code')
-        elif body['sort']=='grade':
+        elif sort=='grade':
             courses = courses.order_by('-grade','old_code')
-        elif body['sort']=='load':
+        elif sort=='load':
             courses = courses.order_by('-load','old_code')
-        elif body['sort']=='speech':
+        elif sort=='speech':
             courses = courses.order_by('-speech','old_code')
         else:
             courses = courses.order_by('old_code')
@@ -521,9 +526,8 @@ def ReviewView(request, comment_id):
 
 
 def latest(request, page=-1):
-    body = json.loads(request.body.decode('utf-8'))
-
-    if body['filter'] == [u"F"]:
+    filter = request.GET.get('filter')
+    if filter == 'F':
         if request.user.is_authenticated():
             user_profile = UserProfile.objects.get(user=request.user)
             favorite_departments_code = []
@@ -533,7 +537,7 @@ def latest(request, page=-1):
         else:
             department_filters = []
     else:
-        department_filters = _departmentFilters(body['filter'])
+        department_filters = _departmentFilters([filter])
     comments = Comment.objects.filter(course__department__code__in=department_filters).order_by('-written_datetime')
 
     paginator = Paginator(comments,10)
