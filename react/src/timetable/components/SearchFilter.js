@@ -63,12 +63,16 @@ class SearchFilter extends Component {
         let nameArr;
         switch (inputName){
             case 'type':
-                valueArr = ['ALL','GR'];
-                nameArr = ['전체','공통'];
+                valueArr = ['ALL','GR','MGC','BE','BR','EG','HSE','OE',"ME","MR","ETC"];
+                nameArr = ['전체','공통',"교필",'기선','기필','석박','인선',"자선","전선","전필","기타"];
                 break;
             case 'department':
-                valueArr = ['ALL','CS',"ME"];
-                nameArr = ['전체','전산',"기계"];
+                valueArr = ['ALL','HSS',"CE","MSB","ME","PH","BiS","IE","ID","BS","MAS","NQE","EE","CS","AE","CH","CBE","MS","ETC"];
+                nameArr = ['전체','인문',"건환","기경","기계","물리","바공","산공","산디","생명","수학","원양","전자","전산","항공","화학","생화공","신소재","기타"];
+                break;
+            case 'grade':
+                valueArr = ['ALL',"100","200","300","400"];
+                nameArr = ['전체',"100번대","200번대","300번대","400번대"];
                 break;
             default:
                 valueArr = ['ALL'];
@@ -85,6 +89,7 @@ class SearchFilter extends Component {
                     allChecked = {this.state.allChecked}/>
             )
         };
+
 
         return (
             <div className="search-filter">

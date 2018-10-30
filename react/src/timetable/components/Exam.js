@@ -56,14 +56,46 @@ class Exam extends Component {
         }
 
         let examTable = [[],[],[],[],[]]
+        let codeList = []
 
         for (let i=0, lecture; (lecture = this.props.currentTimetable.lectures[i]); i++) {
+            if (lecture.examtimes.length === 0)
+                continue
             let day = lecture.examtimes[0].day
             let title = lecture.title
             let time = lecture.exam.slice(4)
             let id = lecture.id
             examTable[day].push({title: title, time: time, id: id})
+            codeList.push(lecture.code)
         }
+
+        let alec = this.props.lectureActiveLecture
+        if (alec !== null && !codeList.includes(alec.code) && alec.examtimes.length!==0) {
+            examTable[alec.examtimes[0].day].push({title: alec.title, time: alec.exam.slice(4), id: alec.id})
+        }
+
+        const examFocus = (day) => {
+            let lectures = [];
+            let activeLectures = [];
+            for (let i=0, lecture; lecture = this.props.currentTimetable.lectures[i]; i++) {
+                if (day === lecture.exam.slice(0, 3)){
+                    lectures.push({
+                        title: lecture.title,
+                        info: lecture.room,
+                    })
+                    activeLectures.push(lecture)
+                }
+
+            }
+            this.props.setMultipleDetailDispatch(day + " 시험", lectures)
+            this.setState({ activeLectures: activeLectures})
+        }
+
+        const clearFocus = () => {
+            this.props.clearMultipleDetailDispatch();
+            this.setState({ activeLectures: []})
+        };
+
 
         return (
             <div id="exam-timetable">
