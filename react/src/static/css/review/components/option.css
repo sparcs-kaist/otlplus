@@ -57,7 +57,7 @@
     font-size: 0.5em;
 }
 #options .form-group .controls label.active span.fa-lg {
-    color: #e64c65;
+    color: #e64c65 !important;
 }
 #options .form-group .controls label.active span.fa-lg i.fa-stack-1x {
     display: inline-block;

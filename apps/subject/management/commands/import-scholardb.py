@@ -25,7 +25,7 @@ class Command(BaseCommand):
         parser.add_argument('--semester', dest='semester', type=int)
         help = u'Imports KAIST scholar database.'
         args = u'--host=143.248.X.Y:PORT --user=USERNAME'
-        
+
     def handle(self, *args, **options):
         rx_dept_code = re.compile(ur'([a-zA-Z]+)(\d+)')
         host = options.get('host', None)
@@ -259,7 +259,7 @@ class Command(BaseCommand):
             c.close()
 
         # Extract exam-time, class-time info.
-        
+
         print 'Extracting exam time information...'
         c = db.cursor()
         c.execute('SELECT * FROM view_OTL_exam_time WHERE lecture_year = %d AND lecture_term = %d' % (next_year, next_semester))
@@ -279,6 +279,7 @@ class Command(BaseCommand):
                         print>> sys.stderr, 'ERROR: parsing error on lecture. cannot read in cp949.'
                 myrow.append(elem)
             lecture_key = {
+                'deleted': False,
                 'code': myrow[2],
                 'year': int(myrow[0]),
                 'semester': int(myrow[1]),
@@ -297,7 +298,7 @@ class Command(BaseCommand):
                 print 'Exam-time for non-existing lecture %s; skip it...' % myrow[2]
 
         # Extract class time.
-        
+
         print 'Extracting class time information...'
         c = db.cursor()
         c.execute('SELECT * FROM view_OTL_time WHERE lecture_year = %d AND lecture_term = %d' % (next_year, next_semester))
@@ -317,6 +318,7 @@ class Command(BaseCommand):
                         print>> sys.stderr, 'ERROR: parsing error on lecture. cannot read in cp949.'
                 myrow.append(elem)
             lecture_key = {
+                'deleted': False,
                 'code': myrow[2],
                 'year': int(myrow[0]),
                 'semester': int(myrow[1]),
@@ -343,7 +345,7 @@ class Command(BaseCommand):
                 class_time.save()
             except Lecture.DoesNotExist:
                 print 'Class-time for non-existing lecture %s; skip it...' % myrow[2]
-        
+
         # Extract Syllabus info.
         '''
         c = db.cursor()

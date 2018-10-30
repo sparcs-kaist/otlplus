@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
 import {connect} from "react-redux";
 import axios from "../../common/presetAxios";
-import { setLectureActive, removeLectureFromTimetable } from "../actions";
+import {setLectureActive, clearLectureActive, removeLectureFromTimetable, lectureinfo} from "../actions";
 
 class TimetableBlock extends Component {
     blockHover() {
-        if (!this.props.lectureActiveClicked && !this.isDragging) {
+        if (!this.props.lectureActiveClicked && !this.props.isDragging) {
             this.props.setLectureActiveDispatch(this.props.lecture,"TABLE", false);
         }
     }
 
     blockOut() {
         if (!this.props.lectureActiveClicked) {
-            this.props.setLectureActiveDispatch(this.props.lecture,"NONE",false)
+            this.props.clearLectureActiveDispatch()
         }
     }
 
@@ -21,9 +21,11 @@ class TimetableBlock extends Component {
             && this.props.lectureActiveFrom === 'TABLE'
             && this.props.lectureActiveLecture.id === this.props.lecture.id) {
             this.props.setLectureActiveDispatch(this.props.lecture,'TABLE',false);
+            this.props.lectureinfoDispatch();
         }
         else {
             this.props.setLectureActiveDispatch(this.props.lecture,'TABLE',true);
+            this.props.lectureinfoDispatch();
         }
     }
 
@@ -93,6 +95,9 @@ let mapStateToProps = (state) => {
         lectureActiveFrom : state.timetable.lectureActive.from,
         lectureActiveClicked : state.timetable.lectureActive.clicked,
         lectureActiveLecture : state.timetable.lectureActive.lecture,
+        showLectureInfoFlag : state.timetable.mobile.showLectureInfoFlag,
+        isDragging : state.timetable.timetable.isDragging,
+        currentTimetable : state.timetable.timetable.currentTimetable,
     }
 };
 
@@ -101,9 +106,13 @@ let mapDispatchToProps = (dispatch) => {
         setLectureActiveDispatch : (lecture, from, clicked) => {
             dispatch(setLectureActive(lecture, from, clicked));
         },
+        clearLectureActiveDispatch : () => {
+            dispatch(clearLectureActive());
+        },
         removeLectureFromTimetableDispatch : (lecture) => {
             dispatch(removeLectureFromTimetable(lecture));
         },
+        lectureinfoDispatch : () => dispatch(lectureinfo()),
     }
 };
 

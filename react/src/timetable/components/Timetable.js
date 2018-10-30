@@ -1,15 +1,30 @@
 import React, { Component } from 'react';
 import {connect} from "react-redux";
 import TimetableBlock from "./TimetableBlock";
-import {updateCellSize} from "../actions";
+import {dragSearch, setIsDragging, setSemester, updateCellSize} from "../actions";
+import { NONE, LIST, TABLE } from "../reducers/lectureActive";
+
 
 class Timetable extends Component {
     constructor(props){
         super(props);
-        this.isLookingTable = false;
-        this.isBubbling = false;
-        this.isDragging = false;
-        this.isBlockClick = false;
+        this.state = {
+            firstBlock : null,
+            secondBlock : null,
+            height : 0,
+            width : 0,
+            left : 0,
+            top : 0,
+        }
+    }
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.lectureActive.from === LIST && !nextProps.lectureActive.clicked) {
+            console.log("list");
+        }else if (nextProps.lectureActive.from === NONE) {
+            console.log("none");
+        }
+        return null;
     }
 
     resize() {
@@ -17,33 +32,85 @@ class Timetable extends Component {
         this.props.updateCellSizeDispatch(cell.width, cell.height);
     }
 
-    isOccupied() {
-
+    indexOfDay(day) {
+        var days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+        return days.indexOf(day);
     }
 
-    dragStart(){
-        if (this.isBubbling) {
-            this.isBubbling = false;
+    // '800':0, '830':1, ..., '2330':31
+    indexOfTime(timeStr) {
+        let time = parseInt(timeStr);
+        let divide = time < 800 ? 60 : 100;
+        let hour =  Math.floor(time / divide) - 8;
+        let min = time % divide;
+        return hour*2 + min/30;
+    }
 
-        } else {
-            // if ($(e.currentTarget).hasClass('occupied'))
-            //     return;
-            if (this.isOccupied())
-                return;
-            //
-            // e.stopPropagation();
-            // e.preventDefault();
-            // this.isDragging = true;
-            // $(this.dragCell).removeClass('none');
+    dragStart(e){
+        e.stopPropagation();
+        e.preventDefault();
+        this.setState({ firstBlock : e.target,});
+        this.props.setIsDraggingDispatch(true);
+        document.getElementById("drag-cell").classList.remove("none");
+    }
 
+    //check is drag contain class time
+    _isOccupied(dragEnd) {
+        let dragDay = this.indexOfDay(this.state.firstBlock.getAttribute("data-day"));
+        let dragStart = this.indexOfTime(this.state.firstBlock.getAttribute("data-time"));
+
+        for (let i=0, lecture; (lecture = this.props.currentTimetable.lectures[i]); i++) {
+            for (let j=0, classtime; (classtime=lecture.classtimes[j]); j++) {
+                if (classtime.day !== dragDay) continue;
+                let classStart = this.indexOfTime(classtime.begin);
+                let classEnd = this.indexOfTime(classtime.end);
+                if( (dragStart <= classStart && classStart <= dragEnd) || (dragStart >= classEnd && classEnd > dragEnd) )
+                    return true;
+            }
         }
+        return false;
     }
 
-    // clickBlock() {
-    //     if (!this.isDragging) {
-    //         this.isBubbling = true;
-    //     }
-    // }
+    _highlight(e){
+        const second = e.target;
+        let left = this.state.firstBlock.offsetLeft - document.getElementById("timetable-wrap").offsetLeft - 1;
+        let width = this.state.firstBlock.offsetWidth + 2;
+        let top = Math.min(this.state.firstBlock.offsetTop, second.offsetTop) - document.getElementById("timetable-wrap").offsetTop + 2;
+        let height = Math.abs(this.state.firstBlock.offsetTop - second.offsetTop) + this.state.firstBlock.offsetHeight -2;
+        this.setState({
+            secondBlock : second,
+            height : height,
+            width : width,
+            left : left,
+            top : top,
+        });
+    }
+
+    dragMove(e) {
+        if (!this.props.isDragging) return;
+        let startIndex = this.indexOfTime(this.state.firstBlock.getAttribute("data-time"));
+        let endIndex = this.indexOfTime(e.target.getAttribute("data-time"));
+        let incr = startIndex < endIndex ? 1 : -1;
+        for (let i=startIndex+incr; i !== endIndex+incr; i+=incr) {
+            if (this._isOccupied(i)) {
+                this.props.setIsDraggingDispatch(false);
+                return;
+            }
+        }
+        this._highlight(e);
+    }
+
+    dragEnd(e){
+        if (this.props.isDragging) this.props.setIsDraggingDispatch(false);
+        document.getElementById("drag-cell").classList.add("none");
+
+        let startDay = this.indexOfDay(this.state.firstBlock.getAttribute("data-day"));
+        let startIndex = this.indexOfTime(this.state.firstBlock.getAttribute("data-time"));
+        let endIndex = this.indexOfTime(e.target.getAttribute("data-time"));
+        if (startIndex === endIndex) return;
+        this.props.dragSearchDispatch(startDay, startIndex, endIndex);
+        this.setState({firstBlock: null, secondBlock: null, height : 0,});
+    }
 
     componentDidMount() {
         this.resize();
@@ -65,16 +132,25 @@ class Timetable extends Component {
                 lectureBlocks.push(
                     <TimetableBlock
                         key={`${lecture.id}:${j}`}
-                        // onMouseDown={this.clickBlock}
-                        onMouseOver={this.blockHover}
-                        onMouseOut={this.blockOut}
-                        onClick={this.blockClick}
                         lecture={lecture}
                         classtime={classtime}
                     />
                 );
             }
         }
+
+        const dragDiv = (day, ko) => {
+            let timeblock = [];
+            timeblock.push(<div className="chead">{ko}</div>);
+            for (let i=800 ; i<= 2350; i+=50 ) {
+                if ( i === 1200 ) timeblock.push(<div className="cell-bold cell1 half table-drag" data-day={day} data-time='1200' onMouseDown={(e)=>this.dragStart(e)} onMouseMove={(e)=>this.dragMove(e)} onMouseUp={(e)=>this.dragEnd(e)} ></div>);
+                else if ( i === 1800 ) timeblock.push(<div className="cell-bold cell1 half table-drag" data-day={day} data-time='1800' onMouseDown={(e)=>this.dragStart(e)} onMouseMove={(e)=>this.dragMove(e)} onMouseUp={(e)=>this.dragEnd(e)}></div>);
+                else if ( i === 2350 ) timeblock.push(<div className="cell2 half cell-last table-drag" data-day={day} data-time='2330' onMouseDown={(e)=>this.dragStart(e)} onMouseMove={(e)=>this.dragMove(e)} onMouseUp={(e)=>this.dragEnd(e)}></div>);
+                else if ( i%100 === 0 ) timeblock.push(<div className="cell1 half table-drag" data-day={day} data-time={i.toString()} onMouseDown={(e)=>this.dragStart(e)} onMouseMove={(e)=>this.dragMove(e)} onMouseUp={(e)=>this.dragEnd(e)}></div>);
+                else timeblock.push(<div className="cell2 half table-drag" data-day={day} data-time={(i-20).toString()} onMouseDown={(e)=>this.dragStart(e)} onMouseMove={(e)=>this.dragMove(e)} onMouseUp={(e)=>this.dragEnd(e)}></div>);
+            };
+            return timeblock;
+        };
 
         return (
             <div id="timetable-wrap">
@@ -115,182 +191,22 @@ class Timetable extends Component {
                         <div className="rhead rhead-bold rhead-last"><span className="rheadtext">12</span></div>
                     </div>
                     <div className="day">
-                        <div className="chead">월요일</div>
-                        <div className="cell1 half table-drag" data-day='mon' data-time='800'></div>
-                        <div className="cell2 half table-drag" data-day='mon' data-time='830'></div>
-                        <div className="cell1 half table-drag" data-day='mon' data-time='900'></div>
-                        <div className="cell2 half table-drag" data-day='mon' data-time='930'></div>
-                        <div className="cell1 half table-drag" data-day='mon' data-time='1000'></div>
-                        <div className="cell2 half table-drag" data-day='mon' data-time='1030'></div>
-                        <div className="cell1 half table-drag" data-day='mon' data-time='1100'></div>
-                        <div className="cell2 half table-drag" data-day='mon' data-time='1130'></div>
-                        <div className="cell-bold cell1 half table-drag" data-day='mon' data-time='1200'></div>
-                        <div className="cell2 half table-drag" data-day='mon' data-time='1230'></div>
-                        <div className="cell1 half table-drag" data-day='mon' data-time='1300'></div>
-                        <div className="cell2 half table-drag" data-day='mon' data-time='1330'></div>
-                        <div className="cell1 half table-drag" data-day='mon' data-time='1400'></div>
-                        <div className="cell2 half table-drag" data-day='mon' data-time='1430'></div>
-                        <div className="cell1 half table-drag" data-day='mon' data-time='1500'></div>
-                        <div className="cell2 half table-drag" data-day='mon' data-time='1530'></div>
-                        <div className="cell1 half table-drag" data-day='mon' data-time='1600'></div>
-                        <div className="cell2 half table-drag" data-day='mon' data-time='1630'></div>
-                        <div className="cell1 half table-drag" data-day='mon' data-time='1700'></div>
-                        <div className="cell2 half table-drag" data-day='mon' data-time='1730'></div>
-                        <div className="cell-bold cell1 half table-drag" data-day='mon' data-time='1800'></div>
-                        <div className="cell2 half table-drag" data-day='mon' data-time='1830'></div>
-                        <div className="cell1 half table-drag" data-day='mon' data-time='1900'></div>
-                        <div className="cell2 half table-drag" data-day='mon' data-time='1930'></div>
-                        <div className="cell1 half table-drag" data-day='mon' data-time='2000'></div>
-                        <div className="cell2 half table-drag" data-day='mon' data-time='2030'></div>
-                        <div className="cell1 half table-drag" data-day='mon' data-time='2100'></div>
-                        <div className="cell2 half table-drag" data-day='mon' data-time='2130'></div>
-                        <div className="cell1 half table-drag" data-day='mon' data-time='2200'></div>
-                        <div className="cell2 half table-drag" data-day='mon' data-time='2230'></div>
-                        <div className="cell1 half table-drag" data-day='mon' data-time='2300'></div>
-                        <div className="cell2 half cell-last table-drag" data-day='mon' data-time='2330'></div>
+                        {dragDiv('mon','월요일')}
                     </div>
                     <div className="day">
-                        <div className="chead">화요일</div>
-                        <div className="cell1 half table-drag" data-day='tue' data-time='800'></div>
-                        <div className="cell2 half table-drag" data-day='tue' data-time='830'></div>
-                        <div className="cell1 half table-drag" data-day='tue' data-time='900'></div>
-                        <div className="cell2 half table-drag" data-day='tue' data-time='930'></div>
-                        <div className="cell1 half table-drag" data-day='tue' data-time='1000'></div>
-                        <div className="cell2 half table-drag" data-day='tue' data-time='1030'></div>
-                        <div className="cell1 half table-drag" data-day='tue' data-time='1100'></div>
-                        <div className="cell2 half table-drag" data-day='tue' data-time='1130'></div>
-                        <div className="cell-bold cell1 half table-drag" data-day='tue' data-time='1200'></div>
-                        <div className="cell2 half table-drag" data-day='tue' data-time='1230'></div>
-                        <div className="cell1 half table-drag" data-day='tue' data-time='1300'></div>
-                        <div className="cell2 half table-drag" data-day='tue' data-time='1330'></div>
-                        <div className="cell1 half table-drag" data-day='tue' data-time='1400'></div>
-                        <div className="cell2 half table-drag" data-day='tue' data-time='1430'></div>
-                        <div className="cell1 half table-drag" data-day='tue' data-time='1500'></div>
-                        <div className="cell2 half table-drag" data-day='tue' data-time='1530'></div>
-                        <div className="cell1 half table-drag" data-day='tue' data-time='1600'></div>
-                        <div className="cell2 half table-drag" data-day='tue' data-time='1630'></div>
-                        <div className="cell1 half table-drag" data-day='tue' data-time='1700'></div>
-                        <div className="cell2 half table-drag" data-day='tue' data-time='1730'></div>
-                        <div className="cell-bold cell1 half table-drag" data-day='tue' data-time='1800'></div>
-                        <div className="cell2 half table-drag" data-day='tue' data-time='1830'></div>
-                        <div className="cell1 half table-drag" data-day='tue' data-time='1900'></div>
-                        <div className="cell2 half table-drag" data-day='tue' data-time='1930'></div>
-                        <div className="cell1 half table-drag" data-day='tue' data-time='2000'></div>
-                        <div className="cell2 half table-drag" data-day='tue' data-time='2030'></div>
-                        <div className="cell1 half table-drag" data-day='tue' data-time='2100'></div>
-                        <div className="cell2 half table-drag" data-day='tue' data-time='2130'></div>
-                        <div className="cell1 half table-drag" data-day='tue' data-time='2200'></div>
-                        <div className="cell2 half table-drag" data-day='tue' data-time='2230'></div>
-                        <div className="cell1 half table-drag" data-day='tue' data-time='2300'></div>
-                        <div className="cell2 half cell-last table-drag" data-day='tue' data-time='2330'></div>
+                        {dragDiv('tue','화요일')}
                     </div>
                     <div className="day">
-                        <div className="chead">수요일</div>
-                        <div className="cell1 half table-drag" data-day='wed' data-time='800'></div>
-                        <div className="cell2 half table-drag" data-day='wed' data-time='830'></div>
-                        <div className="cell1 half table-drag" data-day='wed' data-time='900'></div>
-                        <div className="cell2 half table-drag" data-day='wed' data-time='930'></div>
-                        <div className="cell1 half table-drag" data-day='wed' data-time='1000'></div>
-                        <div className="cell2 half table-drag" data-day='wed' data-time='1030'></div>
-                        <div className="cell1 half table-drag" data-day='wed' data-time='1100'></div>
-                        <div className="cell2 half table-drag" data-day='wed' data-time='1130'></div>
-                        <div className="cell-bold cell1 half table-drag" data-day='wed' data-time='1200'></div>
-                        <div className="cell2 half table-drag" data-day='wed' data-time='1230'></div>
-                        <div className="cell1 half table-drag" data-day='wed' data-time='1300'></div>
-                        <div className="cell2 half table-drag" data-day='wed' data-time='1330'></div>
-                        <div className="cell1 half table-drag" data-day='wed' data-time='1400'></div>
-                        <div className="cell2 half table-drag" data-day='wed' data-time='1430'></div>
-                        <div className="cell1 half table-drag" data-day='wed' data-time='1500'></div>
-                        <div className="cell2 half table-drag" data-day='wed' data-time='1530'></div>
-                        <div className="cell1 half table-drag" data-day='wed' data-time='1600'></div>
-                        <div className="cell2 half table-drag" data-day='wed' data-time='1630'></div>
-                        <div className="cell1 half table-drag" data-day='wed' data-time='1700'></div>
-                        <div className="cell2 half table-drag" data-day='wed' data-time='1730'></div>
-                        <div className="cell-bold cell1 half table-drag" data-day='wed' data-time='1800'></div>
-                        <div className="cell2 half table-drag" data-day='wed' data-time='1830'></div>
-                        <div className="cell1 half table-drag" data-day='wed' data-time='1900'></div>
-                        <div className="cell2 half table-drag" data-day='wed' data-time='1930'></div>
-                        <div className="cell1 half table-drag" data-day='wed' data-time='2000'></div>
-                        <div className="cell2 half table-drag" data-day='wed' data-time='2030'></div>
-                        <div className="cell1 half table-drag" data-day='wed' data-time='2100'></div>
-                        <div className="cell2 half table-drag" data-day='wed' data-time='2130'></div>
-                        <div className="cell1 half table-drag" data-day='wed' data-time='2200'></div>
-                        <div className="cell2 half table-drag" data-day='wed' data-time='2230'></div>
-                        <div className="cell1 half table-drag" data-day='wed' data-time='2300'></div>
-                        <div className="cell2 half cell-last table-drag" data-day='wed' data-time='2330'></div>
+                        {dragDiv('wed','수요일')}
                     </div>
                     <div className="day">
-                        <div className="chead">목요일</div>
-                        <div className="cell1 half table-drag" data-day='thu' data-time='800'></div>
-                        <div className="cell2 half table-drag" data-day='thu' data-time='830'></div>
-                        <div className="cell1 half table-drag" data-day='thu' data-time='900'></div>
-                        <div className="cell2 half table-drag" data-day='thu' data-time='930'></div>
-                        <div className="cell1 half table-drag" data-day='thu' data-time='1000'></div>
-                        <div className="cell2 half table-drag" data-day='thu' data-time='1030'></div>
-                        <div className="cell1 half table-drag" data-day='thu' data-time='1100'></div>
-                        <div className="cell2 half table-drag" data-day='thu' data-time='1130'></div>
-                        <div className="cell-bold cell1 half table-drag" data-day='thu' data-time='1200'></div>
-                        <div className="cell2 half table-drag" data-day='thu' data-time='1230'></div>
-                        <div className="cell1 half table-drag" data-day='thu' data-time='1300'></div>
-                        <div className="cell2 half table-drag" data-day='thu' data-time='1330'></div>
-                        <div className="cell1 half table-drag" data-day='thu' data-time='1400'></div>
-                        <div className="cell2 half table-drag" data-day='thu' data-time='1430'></div>
-                        <div className="cell1 half table-drag" data-day='thu' data-time='1500'></div>
-                        <div className="cell2 half table-drag" data-day='thu' data-time='1530'></div>
-                        <div className="cell1 half table-drag" data-day='thu' data-time='1600'></div>
-                        <div className="cell2 half table-drag" data-day='thu' data-time='1630'></div>
-                        <div className="cell1 half table-drag" data-day='thu' data-time='1700'></div>
-                        <div className="cell2 half table-drag" data-day='thu' data-time='1730'></div>
-                        <div className="cell-bold cell1 half table-drag" data-day='thu' data-time='1800'></div>
-                        <div className="cell2 half table-drag" data-day='thu' data-time='1830'></div>
-                        <div className="cell1 half table-drag" data-day='thu' data-time='1900'></div>
-                        <div className="cell2 half table-drag" data-day='thu' data-time='1930'></div>
-                        <div className="cell1 half table-drag" data-day='thu' data-time='2000'></div>
-                        <div className="cell2 half table-drag" data-day='thu' data-time='2030'></div>
-                        <div className="cell1 half table-drag" data-day='thu' data-time='2100'></div>
-                        <div className="cell2 half table-drag" data-day='thu' data-time='2130'></div>
-                        <div className="cell1 half table-drag" data-day='thu' data-time='2200'></div>
-                        <div className="cell2 half table-drag" data-day='thu' data-time='2230'></div>
-                        <div className="cell1 half table-drag" data-day='thu' data-time='2300'></div>
-                        <div className="cell2 half cell-last table-drag" data-day='thu' data-time='2330'></div>
+                        {dragDiv('thu','목요일')}
                     </div>
                     <div className="day">
-                        <div className="chead">금요일</div>
-                        <div className="cell1 half table-drag" data-day='fri' data-time='800'></div>
-                        <div className="cell2 half table-drag" data-day='fri' data-time='830'></div>
-                        <div className="cell1 half table-drag" data-day='fri' data-time='900'></div>
-                        <div className="cell2 half table-drag" data-day='fri' data-time='930'></div>
-                        <div className="cell1 half table-drag" data-day='fri' data-time='1000'></div>
-                        <div className="cell2 half table-drag" data-day='fri' data-time='1030'></div>
-                        <div className="cell1 half table-drag" data-day='fri' data-time='1100'></div>
-                        <div className="cell2 half table-drag" data-day='fri' data-time='1130'></div>
-                        <div className="cell-bold cell1 half table-drag" data-day='fri' data-time='1200'></div>
-                        <div className="cell2 half table-drag" data-day='fri' data-time='1230'></div>
-                        <div className="cell1 half table-drag" data-day='fri' data-time='1300'></div>
-                        <div className="cell2 half table-drag" data-day='fri' data-time='1330'></div>
-                        <div className="cell1 half table-drag" data-day='fri' data-time='1400'></div>
-                        <div className="cell2 half table-drag" data-day='fri' data-time='1430'></div>
-                        <div className="cell1 half table-drag" data-day='fri' data-time='1500'></div>
-                        <div className="cell2 half table-drag" data-day='fri' data-time='1530'></div>
-                        <div className="cell1 half table-drag" data-day='fri' data-time='1600'></div>
-                        <div className="cell2 half table-drag" data-day='fri' data-time='1630'></div>
-                        <div className="cell1 half table-drag" data-day='fri' data-time='1700'></div>
-                        <div className="cell2 half table-drag" data-day='fri' data-time='1730'></div>
-                        <div className="cell-bold cell1 half table-drag" data-day='fri' data-time='1800'></div>
-                        <div className="cell2 half table-drag" data-day='fri' data-time='1830'></div>
-                        <div className="cell1 half table-drag" data-day='fri' data-time='1900'></div>
-                        <div className="cell2 half table-drag" data-day='fri' data-time='1930'></div>
-                        <div className="cell1 half table-drag" data-day='fri' data-time='2000'></div>
-                        <div className="cell2 half table-drag" data-day='fri' data-time='2030'></div>
-                        <div className="cell1 half table-drag" data-day='fri' data-time='2100'></div>
-                        <div className="cell2 half table-drag" data-day='fri' data-time='2130'></div>
-                        <div className="cell1 half table-drag" data-day='fri' data-time='2200'></div>
-                        <div className="cell2 half table-drag" data-day='fri' data-time='2230'></div>
-                        <div className="cell1 half table-drag" data-day='fri' data-time='2300'></div>
-                        <div className="cell2 half cell-last table-drag" data-day='fri' data-time='2330'></div>
+                        {dragDiv('fri','금요일')}
                     </div>
                 </div>
-                <div id="drag-cell" className="none">
+                <div id="drag-cell" className="none" style={{left:this.state.left, width:this.state.width, top:this.state.top, height:this.state.height}}>
                 </div>
                 {lectureBlocks}
             </div>
@@ -301,6 +217,8 @@ class Timetable extends Component {
 let mapStateToProps = (state) => {
     return {
         currentTimetable : state.timetable.timetable.currentTimetable,
+        lectureActive : state.timetable.lectureActive,
+        isDragging : state.timetable.timetable.isDragging,
     }
 };
 
@@ -309,6 +227,12 @@ let mapDispatchToProps = (dispatch) => {
         updateCellSizeDispatch : (width, height) => {
             dispatch(updateCellSize(width, height));
         },
+        dragSearchDispatch : (day, start, end ) => {
+            dispatch(dragSearch(day, start, end));
+        },
+        setIsDraggingDispatch : (isDragging) => {
+            dispatch(setIsDragging(isDragging));
+        }
     }
 };
 

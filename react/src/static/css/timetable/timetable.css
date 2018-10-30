@@ -1,19 +1,19 @@
-#content
+.timetable_page #content
 {
     margin-top: 50px;
 }
 
-.none
+.timetable_page .none
 {
     display:none !important;
 }
 
-i
+.timetable_page i
 {
     vertical-align:top;
 }
 
-#page-container
+.timetable_page #page-container
 {
     display:-webkit-box;
     display:-ms-flexbox;
@@ -34,7 +34,7 @@ i
     font-family:sans-serif;
 }
 
-#left-side
+.timetable_page #left-side
 {
     display:-webkit-box;
     display:-ms-flexbox;
@@ -50,7 +50,7 @@ i
     height:100%
 }
 
-#center
+.timetable_page #center
 {
     margin-left:10px;
     float:left;
@@ -60,7 +60,7 @@ i
             flex:auto;
 }
 
-#right-side
+.timetable_page #right-side
 {
     display:-webkit-box;
     display:-ms-flexbox;
@@ -90,7 +90,7 @@ i
 
 /* Lecture in top-left side */
 
-#lecture-info
+.timetable_page #lecture-info
 {
     flex:none;
     background-color:#FFFFFF;
@@ -103,7 +103,7 @@ i
 	overflow:hidden;
 }
 
-#info-placeholder
+.timetable_page #info-placeholder
 {
     display:-webkit-box;
     display:-ms-flexbox;
@@ -122,32 +122,32 @@ i
     height: 100%;
     color: #999;
 }
-#info-placeholder:not(:only-child)
+.timetable_page #info-placeholder:not(:only-child)
 {
     display:none;
 }
 
-.otlplus-title
+.timetable_page .otlplus-title
 {
     font-size: 20px;
 }
 
-.otlplus-content
+.timetable_page .otlplus-content
 {
     font-size: 12px;
     margin-top: 8px;
 }
 
-.otlplus-content a
+.timetable_page .otlplus-content a
 {
     color:#999;
 }
-.otlplus-content a:hover
+.timetable_page .otlplus-content a:hover
 {
     color:#333;
 }
 
-.lecture-detail
+.timetable_page .lecture-detail
 {
     display:-webkit-box;
     display:-ms-flexbox;
@@ -160,7 +160,7 @@ i
 	height:100%;
 }
 
-#course-title
+.timetable_page #course-title
 {
     font-size:13px;
 	line-height:14px;
@@ -169,14 +169,14 @@ i
 	margin-bottom:1px;
 }
 
-#course-no
+.timetable_page #course-no
 {
     font-size:12px;
 	line-height:13px;
 	margin-bottom:4px;
 }
 
-.lecture-options
+.timetable_page .lecture-options
 {
     text-align:right;
     font-size:11px;
@@ -184,23 +184,23 @@ i
     color:#E54C65;
     margin-bottom: 6px;
 }
-.lecture-options > span.disable
+.timetable_page .lecture-options > span.disable
 {
     pointer-events:none;
     color:#cccccc;
 }
-.lecture-options > span:hover
+.timetable_page .lecture-options > span:hover
 {
 	cursor:pointer;
     color:#963246;
 }
 
-.lecture-options a
+.timetable_page .lecture-options a
 {
     color:inherit;
 }
 
-.basic-info
+.timetable_page .basic-info
 {
 	font-size:12px;
 	line-height:13px;
@@ -210,7 +210,7 @@ i
     flex-direction:row;
 }
 
-.basic-info-name
+.timetable_page .basic-info-name
 {
     display: inline-block;
     font-weight: bold;
@@ -218,27 +218,27 @@ i
     white-space: nowrap;
     flex:none;
 }
-.basic-info-name.fixed-ko
+.timetable_page .basic-info-name.fixed-ko
 {
     width: 23px;
 }
-.basic-info-name.fixed-en
+.timetable_page .basic-info-name.fixed-en
 {
     width: 32px;
 }
 
-#department, #course-type, #instructor, #classroom, #class-size, #exam-time
+.timetable_page #department, #course-type, #instructor, #classroom, #class-size, #exam-time
 {
 }
 
-.lecture-scores
+.timetable_page .lecture-scores
 {
 	margin-top: calc(1.4vh);
 	margin-bottom: calc(1.4vh);
     text-align:center;
 }
 
-.lecture-score
+.timetable_page .lecture-score
 {
 	width:69px;
 	width: calc(3.5vh + 34px);
@@ -246,49 +246,49 @@ i
 	vertical-align:top;
 }
 
-.score-text
+.timetable_page .score-text
 {
 	height: calc(0.7vh + 14px);
     font-weight:300;
 	margin-bottom:2px;
 }
-.score-text:not(.score-korean)
+.timetable_page .score-text:not(.score-korean)
 {
     font-size: calc(0.7vh + 15px);
     line-height: calc(0.7vh + 14px);
     font-family:"Helvetica Neue", "Calibri", "Arial";
 }
-.score-text.score-korean
+.timetable_page .score-text.score-korean
 {
     font-size: calc(0.7vh + 13px);
     line-height: calc(0.7vh + 16px);
     padding-top: 1px;
 }
 
-.score-label
+.timetable_page .score-label
 {
 	font-size: 11px;
 	line-height: 12px;
 }
 
-.dictionary-preview{
+.timetable_page .dictionary-preview{
 	cursor:pointer;
 }
-.dictionary-preview.open-dict-button{
+.timetable_page .dictionary-preview.open-dict-button{
     margin-bottom: 9px;
 }
-.dictionary-preview.close-dict-button{
+.timetable_page .dictionary-preview.close-dict-button{
     padding-bottom: 9px;
     margin-bottom: 0px;
     background-color: #fff;
 }
 
-.dict-fixed{
+.timetable_page .dict-fixed{
     height:0;
     z-index:10;
 }
 
-.open-dict-button .dict-arrow
+.timetable_page .open-dict-button .dict-arrow
 {
 	background: url(../../icons/lecture_downarrow.svg) no-repeat center center;
 	width:14px;
@@ -298,12 +298,12 @@ i
 	margin-left:5px;
 	margin-top:1px;
 }
-.open-dict-button:hover .dict-arrow
+.timetable_page .open-dict-button:hover .dict-arrow
 {
 	background-image: url(../../icons/lecture_downarrow_hover.svg);
 }
 
-.close-dict-button .dict-arrow
+.timetable_page .close-dict-button .dict-arrow
 {
 	background: url(../../icons/lecture_uparrow.svg) no-repeat center center;
 	width:14px;
@@ -313,16 +313,16 @@ i
 	margin-left:5px;
 	margin-top:1px;
 }
-.close-dict-button:hover .dict-arrow
+.timetable_page .close-dict-button:hover .dict-arrow
 {
 	background-image: url(../../icons/lecture_uparrow_hover.svg);
 }
 
-#reviews {
+.timetable_page #reviews {
     min-height:calc(5.6vh + 164px);
     margin-bottom: 10px;
 }
-.review-loading
+.timetable_page .review-loading
 {
     font-size: 16px;
     color: #999;
@@ -330,7 +330,7 @@ i
     text-align: center;
 }
 
-.review-elem{
+.timetable_page .review-elem{
 	background-color:#EEEEEE;
 	border-radius:4px;
 	margin-bottom:6px;
@@ -340,11 +340,11 @@ i
 	cursor:pointer;
     color:#333;
 }
-.review-elem:hover{
+.timetable_page .review-elem:hover{
     background-color:#DDDDDD;
 }
 
-.review-body{
+.timetable_page .review-body{
     display:block;
     display:-webkit-box;
 	margin-bottom:4px;
@@ -356,20 +356,20 @@ i
     text-overflow:ellipsis;
 }
 
-.review-score-wrap{
+.timetable_page .review-score-wrap{
 	text-align:right;
 	margin-bottom:-1px;
 }
 
-.review-score{
+.timetable_page .review-score{
 	margin-left:10px;
 }
 
-.review-more{
+.timetable_page .review-more{
 	color:#888888;
 }
 
-.review-elem:hover .review-more{
+.timetable_page .review-elem:hover .review-more{
 	color:#333333;
 }
 
@@ -377,7 +377,7 @@ i
 
 /* Search at bottom-left side */
 
-#lecture-lists
+.timetable_page #lecture-lists
 {
     display:-webkit-box;
     display:-ms-flexbox;
@@ -392,13 +392,13 @@ i
 	height: calc(94.4vh - 359px);
 }
 
-#list-tab-wrap
+.timetable_page #list-tab-wrap
 {
     display:inline-block;
     width:27px;
 }
 
-.list-tab
+.timetable_page .list-tab
 {
     display:-webkit-box;
     display:-ms-flexbox;
@@ -418,39 +418,39 @@ i
     outline:none;
     text-decoration:none;
 }
-.list-tab.active
+.timetable_page .list-tab.active
 {
     background-color:#FFFFFF;
     cursor:auto;
 }
-.list-tab:not(.active):hover
+.timetable_page .list-tab:not(.active):hover
 {
     cursor:pointer;
     background-color:#D8D8D8;
 }
 
-.list-tab.search .list-tab-icon
+.timetable_page .list-tab.search .list-tab-icon
 {
 	background: url(../../icons/block_search_inactive.svg) no-repeat center center;
 	width:13px;
 	height:13px;
 }
 
-.list-tab.cart .list-tab-icon
+.timetable_page .list-tab.cart .list-tab-icon
 {
 	background: url(../../icons/block_cart_inactive.svg) no-repeat center center;
 	width:13px;
 	height:13px;
 }
 
-.list-tab.major .list-tab-icon
+.timetable_page .list-tab.major .list-tab-icon
 {
 	background: url(../../icons/block_major_inactive.svg) no-repeat center center;
 	width:13px;
 	height:13px;
 }
 
-.list-tab.humanity .list-tab-icon
+.timetable_page .list-tab.humanity .list-tab-icon
 {
 	background: url(../../icons/block_humanity_inactive.svg) no-repeat center center;
 	width:13px;
@@ -687,26 +687,31 @@ i
 	color:#963246;
 }
 
-.fa-circle-o 
+.timetable_page .fa-circle-o
 {
 	margin-left:2px;
     color: #aaaaaa;
 	vertical-align:top;
 }
-label:hover > .fa-circle-o
+.timetable_page label:hover > .fa-circle-o
 {
     color: #a8687f;
 }
 
-.fa-check-circle-o 
+.timetable_page .timetable_page .fa-check-circle-o
 {
 	margin-left:2px;
     color: #e64c65;
 	vertical-align:top;
 }
-label:hover > .fa-check-circle-o
+.timetable_page label:hover > .fa-check-circle-o
 {
     color: #a8687f;
+}
+
+#search-button-group
+{
+    height: 13px;
 }
 
 #search-button, #search-cancel
@@ -1820,6 +1825,13 @@ label:hover > .fa-check-circle-o
 
 /* Exam at right side */
 
+#exam-timetable
+{
+    flex: auto;
+    display: flex;
+    flex-direction: column;
+}
+
 #examtitle
 {
     text-align:center;
@@ -1827,6 +1839,18 @@ label:hover > .fa-check-circle-o
     line-height:14px;
     padding-top:9px;
     padding-bottom:8px;
+}
+
+#examtable
+{
+    flex: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+#examtable > .nano
+{
+    margin: 0;
 }
 
 .exam-day
@@ -1898,6 +1922,22 @@ label:hover > .fa-check-circle-o
     font-size:0px;
 }
 
+#share-buttons > .left-btn-group
+{
+    float: left;
+}
+
+#share-buttons > .right-btn-group
+{
+    float: right;
+    display: none;
+}
+
+#share-buttons > .height-placeholder
+{
+    clear: both;
+}
+
 .share-button
 {
     display:inline-block;
@@ -1934,6 +1974,21 @@ label:hover > .fa-check-circle-o
 {
     background-image: url(../../icons/share_calendar_hover.svg);
 }
+
+.share-button#show-lecture-list {
+    background: url(../../icons/add_lecture.svg) no-repeat center center;
+}
+.share-button#show-lecture-list:hover {
+    background-image: url(../../icons/add_lecture_hover.svg);
+}
+
+.share-button#show-timetable-list {
+    background: url(../../icons/duplicate_table.svg) no-repeat center center;
+}
+.share-button#show-timetable-list:hover {
+    background-image: url(../../icons/duplicate_table_hover.svg);
+}
+
 
 #lecture-tabs
 {
@@ -2144,3 +2199,321 @@ body .lecture-block.active.lecture-block-temp
 }
 
 
+@media(max-width: 768px) {
+    /* Modal for timetable list view start*/
+    .modal-timetable-list .navbar-header{
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    .modal-timetable-list #content
+    {
+        margin-top: 0px;
+    }
+
+    .modal-timetable-list #left-side
+    {
+        display: none;
+    }
+    .modal-timetable-list #timetable
+    {
+        display: none;
+    }
+    .modal-timetable-list #right-side
+    {
+        display: none;
+    }
+    .modal-timetable-list #semester
+    {
+        float: none;
+        margin: auto;
+        margin-bottom: 3px;
+        margin-top: 3px;
+    }
+    .modal-timetable-list #timetable-tabs
+    {
+        float: none;
+        width: 100vw;
+    }
+    .modal-timetable-list .container-fluid
+    {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+
+    .modal-timetable-list #page-container
+    {
+        margin-top: 50px;
+        width: 100vw;
+        background-color: rgb(0,0,0,0.6);
+        height: calc(100vh - 50px);
+
+    }
+
+    .modal-timetable-list #timetable-tabs > div {
+        width: calc(100vw - 30px);
+        margin-top: 6px;
+        border-radius: 4px 4px 4px 4px;
+        background-color: rgb(238, 238, 238);
+        margin-left: 5px;
+    }
+
+    .modal-timetable-list #timetable-tabs > div.timetable-add {
+        width: calc(100vw - 30px);
+        margin-left: 5px;
+    }
+    .modal-timetable-list #timetable-tabs > div.active {
+        background-color: rgb(221, 221, 221);
+    }
+    .modal-timetable-list #center
+    {
+        background-color: #ffffff;
+        margin-top: 10px;
+        width: calc(100vw - 30px);
+        margin-right: 10px;
+        border-radius: 4px 4px 4px 4px;
+        height: calc(100vh - 70px);
+        margin-left: 10px;
+
+    }
+    .modal-timetable-list .timetable-tab.active>.hidden-option {
+        float: right;
+        display: inline-block;
+    }
+    .modal-timetable-list .delete-table {
+        float: right;
+        padding-right: 5px;
+    }
+    .modal-timetable-list .timetable-tab .timetable-num {
+        float: left;
+    }
+    .modal-timetable-list .timetable-tab>.hidden-option {
+        display: inline-block;
+    }
+    .modal-timetable-list .duplicate-table
+    {
+        float: right;
+    }
+    .modal-timetable-list #timetable-menu {
+        display: block;
+    }
+
+
+    /* Modal for timetable list view end */
+
+    /* Modal for lecture info view start */
+    .modal-lecture-info #content
+    {
+        margin-top: 0px;
+    }
+    .modal-lecture-info #center
+    {
+        display: none;
+    }
+    .modal-lecture-info #lecture-info
+    {
+        margin-top: 60px;
+        width: calc(100vw - 30px);
+        height: calc(100vh - 70px);
+        margin-left: 15px;
+    }
+    .modal-lecture-info #lecture-lists
+    {
+        display:none;
+    }
+
+    .modal-lecture-info #page-container{
+        width: 100vw;
+        height: 100vh;
+        margin-top: 0px;
+        background-color: rgb(0,0,0,0.6);
+    }
+    .modal-lecture-info #left-side {
+        display: block;
+    }
+    .modal-lecture-info .container-fluid
+    {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+    .modal-lecture-info .navbar-header{
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    /* Modal for lecture info view end  */
+
+    /* Basic timetable view start */
+
+    #page-container {
+        margin:15px auto 0 auto;
+        width:100%;
+        height:calc(100vh - 83px);
+    }
+
+    #left-side {
+        display: none;
+    }
+
+    #center {
+        margin-left: 0;
+        float: none;
+    }
+
+    #right-side {
+        margin: 0;
+        background-color: #FFFFFF;
+        height:96px;
+        flex-direction:column;
+        width: auto;
+        border: none;
+    }
+
+    #timetable-menu {
+        display: none;
+    }
+
+    #timetable {
+        flex-direction: column;
+        height:100%;
+        border-radius:6px;
+    }
+
+    #timetable-wrap {
+        flex: 1;
+        height: auto;
+    }
+
+    #map {
+        display: none;
+    }
+
+    #map-img {
+        display: none;
+    }
+
+    #summary {
+        flex: 1;
+        display: flex;
+    }
+
+    #summary-type {
+        display: inline-block;
+        margin-top: 3px;
+        width: 200px;
+    }
+
+    .summary-type-elem {
+        width: 33.33%;
+        text-align: center;
+        margin-top: 6px;
+        vertical-align: top;
+    }
+
+    #summary-credit {
+        flex: 2;
+        display: flex;
+    }
+
+    .summary-credit-elem {
+        display: inline-block;
+        width: auto;
+        flex: 1;
+        vertical-align: top;
+    }
+
+    #summary-score {
+        flex: 3;
+        display: flex;
+    }
+
+    .summary-score-elem {
+        width: auto;
+        flex: 1;
+    }
+
+    #exam-timetable {
+        display: none;
+    }
+
+    .exam-day {
+        display: none;
+    }
+
+    #share-buttons {
+        padding: 10px 0;
+        border: none;
+        margin-top: 0;
+    }
+
+    #share-buttons > .right-btn-group {
+        display: block;
+    }
+    /* Basic timetable view end */
+
+
+    /* Timetable + lecture list view start */
+    .mobile-lecture-list #page-container {
+        -ms-flex-direction:column-reverse;
+            flex-direction:column-reverse;
+    }
+
+    .mobile-lecture-list #left-side {
+        display: block;
+        width: 100%;
+        height: 226px;
+        /*flex: 1;*/
+        padding-top: 16px;
+    }
+
+    .mobile-lecture-list #center {
+        height: 0;
+        -webkit-box-flex: 1;
+                -ms-flex: 1;
+                    flex: 1;
+    }
+
+    .mobile-lecture-list #right-side {
+        height: auto;
+    }
+
+    .mobile-lecture-list #lecture-info {
+        display: none;
+    }
+
+    .mobile-lecture-list #lecture-lists {
+        width: 100%;
+        height: 100%;
+        margin-left: 0;
+    }
+
+    .mobile-lecture-list .search-extend {
+        height: auto;
+    }
+
+    .mobile-lecture-list .search-form-wrap > form
+    {
+        padding-bottom: 0;
+        border-bottom: none;
+    }
+
+    .mobile-lecture-list #timetable {
+        /*flex-direction: row;*/
+    }
+
+    .mobile-lecture-list #summary {
+        display: none;
+    }
+
+    .mobile-lecture-list.search .search-filter {
+        display: none;
+    }
+
+    .mobile-lecture-list.search #search-button-group {
+        display: none;
+    }
+
+    .mobile-lecture-list.search .search-page-title {
+        display: none;
+    }
+    /* Timetable + lecture list view end */
+}

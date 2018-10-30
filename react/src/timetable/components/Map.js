@@ -38,6 +38,7 @@ class Map extends Component {
 
     render() {
         let mapObject = {};
+        let codeList = [];
 
         for (let i=0, lecture; (lecture = this.props.currentTimetable.lectures[i]); i++) {
             let building = lecture.building;
@@ -46,9 +47,39 @@ class Map extends Component {
             mapObject[building]===undefined?
                 mapObject[building] = [{color: color, id: id}]
                 : mapObject[building].push({color: color, id: id})
+            codeList.push(lecture.code)
         }
 
         let activeLecture = this.props.lectureActiveLecture;
+        if (activeLecture !== null && !codeList.includes(activeLecture.code)) {
+            let building = activeLecture.building
+            let color = activeLecture.color
+            let id = activeLecture.id
+            mapObject[building]===undefined?
+                mapObject[building] = [{color: color, id: id}]
+                : mapObject[building].push({color: color, id: id})
+        }
+
+        const mapFocus = (building) => {
+            let lectures = [];
+            let active = [];
+            for (let i=0, lecture; lecture = this.props.currentTimetable.lectures[i]; i++) {
+                if (lecture.building === building) {
+                    lectures.push({
+                        title: lecture.title,
+                        info: lecture.room,
+                    })
+                    active.push(lecture)
+                }
+            }
+            this.props.setMultipleDetailDispatch(building, lectures);
+            this.setState({ activeLectures: active })
+        }
+
+        const clearFocus = () => {
+            this.props.clearMultipleDetailDispatch();
+            this.setState({ activeLectures: [] })
+        };
 
         let activeLectures = this.state.activeLectures
 
