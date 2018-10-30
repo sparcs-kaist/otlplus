@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponseNotFound
 from settings import BASE_DIR
 import os
 
@@ -37,5 +37,6 @@ urlpatterns = [
     url(r'^session/', include('apps.session.urls')),
     url(r'^api/review/', include('apps.review.urls')),
     url(r'^api/timetable/', include('apps.timetable.urls')),
+    url(r'^api/', lambda request: HttpResponseNotFound('Bad url')),
     url(r'^', mainViews.template),
 ]

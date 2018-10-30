@@ -98,3 +98,5 @@ db_update_script.log
 
 # file for atom editor remote ftp plugin. contains confidential(ssh account info)
 .ftpconfig
+
+react/node_modules

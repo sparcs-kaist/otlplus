@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
+import axios from "../../common/presetAxios";
 import { addLectureToTimetable, addLectureToCart, deleteLectureFromCart } from "../actions";
 import { setLectureActive, clearLectureActive } from "../actions";
 import { LIST } from "../reducers/lectureActive";
@@ -39,17 +40,39 @@ class ListBlock extends Component {
                         return;
                     }
 
-        this.props.addLectureToTimetableDispatch(this.props.lecture);
+        axios.post("/api/timetable/table_update", {
+            table_id: this.props.currentTimetable.id,
+            lecture_id: this.props.lecture.id,
+            delete: false,
+        })
+        .then((response) => {
+            this.props.addLectureToTimetableDispatch(this.props.lecture);
+        })
+        .catch((response) => {console.log(response);});
     }
 
     addToCart(event) {
         event.stopPropagation();
-        this.props.addLectureToCartDispatch(this.props.lecture);
+        axios.post("/api/timetable/wishlist_update", {
+            lecture_id: this.props.lecture.id,
+            delete: false,
+        })
+        .then((response) => {
+            this.props.addLectureToCartDispatch(this.props.lecture);
+        })
+        .catch((response) => {console.log(response);});
     }
 
     deleteFromCart(event) {
         event.stopPropagation();
-        this.props.deleteLectureFromCartDispatch(this.props.lecture);
+        axios.post("/api/timetable/wishlist_update", {
+            lecture_id: this.props.lecture.id,
+            delete: true,
+        })
+        .then((response) => {
+            this.props.deleteLectureFromCartDispatch(this.props.lecture);
+        })
+        .catch((response) => {console.log(response);});
     }
 
     listHover() {
