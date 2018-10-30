@@ -15,7 +15,9 @@ class TimetablePage extends Component {
     render() {
         return (
             <Provider store={store}>
-                <TimetablePageContent />
+                <div className="timetable_page">
+                    <TimetablePageContent />
+                </div>
             </Provider>
         );
     }
