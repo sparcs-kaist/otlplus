@@ -17,6 +17,8 @@ export const SET_LECTURE_ACTIVE = "SET_LECTURE_ACTIVE";
 export const CLEAR_LECTURE_ACTIVE = "CLEAR_LECTURE_ACTIVE";
 export const SET_MULTIPLE_DETAIL = "SET_MULTIPLE_DETAIL";
 export const CLEAR_MULTIPLE_DETAIL = "CLEAR_MULTIPLE_DETAIL";
+export const DRAG_SEARCH = "DRAG_SEARCH";
+export const SET_IS_DRAGGING = "SET_IS_DRAGGING";
 export const TOGGLE_LECTURE_LIST = "TOGGLE_LECTURE_LIST";
 export const MODAL_TIMETABLE_LIST = "MODAL_TIMETABLE_LIST";
 export const LECTURE_INFO = "LECTURE_INFO";
@@ -158,6 +160,22 @@ export function clearMultipleDetail() {
     }
 }
 
+export function dragSearch(day,start,end){
+    return {
+        type : DRAG_SEARCH,
+        day : day,
+        start : start,
+        end : end,
+    }
+}
+
+export function setIsDragging(isDragging) {
+    return {
+        type : SET_IS_DRAGGING,
+        isDragging : isDragging,
+    }
+}
+  
 export function mToggleLectureList() {
     return {
         type: TOGGLE_LECTURE_LIST,

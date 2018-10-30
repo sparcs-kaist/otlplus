@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
 import {connect} from "react-redux";
 import axios from "../../common/presetAxios";
-import {setLectureActive, removeLectureFromTimetable, lectureinfo} from "../actions";
+import {setLectureActive, clearLectureActive, removeLectureFromTimetable, lectureinfo} from "../actions";
 
 class TimetableBlock extends Component {
     blockHover() {
-        if (!this.props.lectureActiveClicked && !this.isDragging) {
+        if (!this.props.lectureActiveClicked && !this.props.isDragging) {
             this.props.setLectureActiveDispatch(this.props.lecture,"TABLE", false);
         }
     }
 
     blockOut() {
         if (!this.props.lectureActiveClicked) {
-            this.props.setLectureActiveDispatch(this.props.lecture,"NONE",false)
+            this.props.clearLectureActiveDispatch()
         }
     }
 
@@ -96,6 +96,8 @@ let mapStateToProps = (state) => {
         lectureActiveClicked : state.lectureActive.clicked,
         lectureActiveLecture : state.lectureActive.lecture,
         showLectureInfoFlag : state.mobile.showLectureInfoFlag,
+        isDragging : state.timetable.isDragging,
+        currentTimetable : state.timetable.currentTimetable,
     }
 };
 
@@ -103,6 +105,9 @@ let mapDispatchToProps = (dispatch) => {
     return {
         setLectureActiveDispatch : (lecture, from, clicked) => {
             dispatch(setLectureActive(lecture, from, clicked));
+        },
+        clearLectureActiveDispatch : () => {
+            dispatch(clearLectureActive());
         },
         removeLectureFromTimetableDispatch : (lecture) => {
             dispatch(removeLectureFromTimetable(lecture));
