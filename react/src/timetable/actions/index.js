@@ -21,6 +21,7 @@ export const DRAG_SEARCH = "DRAG_SEARCH";
 export const SET_IS_DRAGGING = "SET_IS_DRAGGING";
 export const TOGGLE_LECTURE_LIST = "TOGGLE_LECTURE_LIST";
 export const MODAL_TIMETABLE_LIST = "MODAL_TIMETABLE_LIST";
+export const LECTURE_INFO = "LECTURE_INFO";
 
 export function setSemester(year, semester) {
     return {
@@ -184,5 +185,11 @@ export function mToggleLectureList() {
 export function modaltimetableList() {
     return {
         type: MODAL_TIMETABLE_LIST,
+    }
+
+}
+export function lectureinfo() {
+    return {
+        type: LECTURE_INFO,
     }
 }
