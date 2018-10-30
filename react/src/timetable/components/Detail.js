@@ -226,11 +226,11 @@ class Detail extends Component {
 
 let mapStateToProps = (state) => {
     return {
-        from : state.lectureActive.from,
-        lecture : state.lectureActive.lecture,
-        title : state.lectureActive.title,
-        lectures : state.lectureActive.lectures,
-        clicked : state.lectureActive.clicked
+        from : state.timetable.lectureActive.from,
+        lecture : state.timetable.lectureActive.lecture,
+        title : state.timetable.lectureActive.title,
+        lectures : state.timetable.lectureActive.lectures,
+        clicked : state.timetable.lectureActive.clicked
     }
 };
 

@@ -150,9 +150,9 @@ class ListBlock extends Component {
 
 let mapStateToProps = (state) => {
     return {
-        currentTimetable : state.timetable.currentTimetable,
-        lectureActiveClicked : state.lectureActive.clicked,
-        activeLecture : state.lectureActive.lecture,
+        currentTimetable : state.timetable.timetable.currentTimetable,
+        lectureActiveClicked : state.timetable.lectureActive.clicked,
+        activeLecture : state.timetable.lectureActive.lecture,
     }
 };
 

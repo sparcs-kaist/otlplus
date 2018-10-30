@@ -51,9 +51,9 @@ class TimetablePageContent extends Component {
 }
 
 const mapStateToProps = state => ({
-    showLectureListFlag: state.mobile.showLectureListFlag ,
-    showTimetableListFlag: state.mobile.showTimetableListFlag,
-    showLectureInfoFlag : state.mobile.showLectureInfoFlag,
+    showLectureListFlag: state.timetable.mobile.showLectureListFlag ,
+    showTimetableListFlag: state.timetable.mobile.showTimetableListFlag,
+    showLectureInfoFlag : state.timetable.mobile.showLectureInfoFlag,
 });
 TimetablePageContent = connect(mapStateToProps)(TimetablePageContent);
 

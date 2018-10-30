@@ -216,9 +216,9 @@ class Timetable extends Component {
 
 let mapStateToProps = (state) => {
     return {
-        currentTimetable : state.timetable.currentTimetable,
-        lectureActive: state.lectureActive,
-        isDragging : state.timetable.isDragging,
+        currentTimetable : state.timetable.timetable.currentTimetable,
+        lectureActive : state.timetable.lectureActive,
+        isDragging : state.timetable.timetable.isDragging,
     }
 };
 
