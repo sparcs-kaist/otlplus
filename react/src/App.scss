@@ -51,7 +51,6 @@ body * {
         width: 50px;
         height: 100%;
         margin-left: -50px;
-        background-color: red;
     }
 }
 
@@ -81,5 +80,49 @@ body * {
     &--flex {
         display: flex;
         flex-direction: column;
+    }
+}
+
+
+.section-title {
+    &--course-list {
+        font-size: 15px;
+        line-height: 14px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+}
+
+
+.block {
+    background-color: #EEEEEE;
+    border-radius: 4px;
+}
+
+
+.block--course {
+    padding: 12px;
+    margin-bottom: 8px;
+    font-size: 13px;
+    line-height: 12px;
+
+
+    .title {
+        padding-bottom: 8px;
+        border-bottom: 1px solid #C9C9C9;
+        margin-bottom: 8px;
+    }
+
+    .info {
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 8px;
+
+
+        .name {
+            font-weight: bold;
+            margin-right: 6px;
+            flex: none;
+        }
     }
 }
