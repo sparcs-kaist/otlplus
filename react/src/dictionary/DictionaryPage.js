@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import Header from "../common/Header";
 
-import "./temp.scss";
+import "../App.scss";
 
 
 class DictionaryPage extends Component {
