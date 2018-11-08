@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 
 import Header from "../common/Header";
+import CourseListSection from "./components/CourseListSection";
+import CourseDetailSection from "./components/CourseDetailSection";
 
 import "../App.scss";
 
@@ -15,12 +17,12 @@ class DictionaryPage extends Component {
                         <div className="tab--course-list">
                         </div>
                         <div className="section section--with-tabs">
-                            asdf
+                            <CourseListSection/>
                         </div>
                     </div>
                     <div className="section-wrap section-wrap--course-detail">
                         <div className="section">
-                            asdf
+                            <CourseDetailSection/>
                         </div>
                     </div>
                 </section>
