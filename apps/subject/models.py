@@ -273,6 +273,11 @@ class Course(models.Model):
     speech = models.FloatField(default=0.0)
     total = models.FloatField(default=0.0)
 
+    def toJson(self):
+        return {
+            "id": self.id,
+        }
+
     def avg_update(self):
         self.total_sum = (self.grade_sum+self.load_sum+self.speech_sum)/3.0
         if self.comment_num>0:
