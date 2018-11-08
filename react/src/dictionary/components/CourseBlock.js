@@ -4,31 +4,30 @@ import React, { Component } from 'react';
 class CourseBlock extends Component {
     render() {
         return (
-            <div>
-                <div>
-                    문제해결기법
+            <div className="block block--course">
+                <div className="title">
+                    <strong>문제해결기법</strong>
+                    &nbsp;
+                    <span>CS202</span>
                 </div>
-                <div>
-                    CS202
-                </div>
-                <div>
-                    <div>
+                <div className="info">
+                    <div className="name">
                         분류
                     </div>
                     <div>
                         전산학부, 전공선택
                     </div>
                 </div>
-                <div>
-                    <div>
+                <div className="info">
+                    <div className="name">
                         교수
                     </div>
                     <div>
                         류석영, 신성용, 좌경룡
                     </div>
                 </div>
-                <div>
-                    <div>
+                <div className="info">
+                    <div className="name">
                         설명
                     </div>
                     <div>

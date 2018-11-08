@@ -8,7 +8,7 @@ class CourseListSection extends Component {
     render() {
         return (
             <div className="section-content section-content--flex">
-                <div>
+                <div className="section-title section-title--course-list">
                     전산학부
                 </div>
                 <Scroller>
