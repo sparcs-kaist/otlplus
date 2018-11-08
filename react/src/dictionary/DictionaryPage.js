@@ -10,7 +10,7 @@ class DictionaryPage extends Component {
         return (
             <div>
                 <Header user={this.props.user}/>
-                <section class="content content--no-scroll">
+                <section className="content content--no-scroll">
                     <div className="section-wrap section-wrap--course-list">
                         <div className="tab--course-list">
                         </div>
