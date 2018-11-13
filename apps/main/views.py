@@ -8,6 +8,7 @@ from datetime import date
 def home(request):
     return HttpResponse("main!")
 
+@require_POST
 def did_you_know(request):
     try:
         key = date.today() - date(2018, 11, 13)
