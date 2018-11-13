@@ -48,6 +48,7 @@ urlpatterns = [
     url(r'^review/', include('apps.review.urls')),
     url(r'^subject/', include('apps.subject.urls')),
     url(r'^timetable/', include('apps.timetable.urls')),
+    url(r'^front/', include('apps.main.urls')),
     # Media Root
     url(r'^media/(?P<path>.*)$',django_static.serve,{'document_root': os.path.join(BASE_DIR, 'static')}),
 ]
