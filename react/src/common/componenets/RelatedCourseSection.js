@@ -8,14 +8,14 @@ class RelatedCourseSection extends Component {
         return (
             <div className="section-content section-content--widget">
                 <div className="section-title section-title--widget">
-                    따끈따끈 과목후기
+                    연관 과목 - 데이타구조
                 </div>
                 <CourseBlock/>
                 <CourseBlock/>
                 <CourseBlock/>
                 <div className="view-detail">
                     <span className="text-button text-button--view-detail">
-                        후기 더 보기
+                        자세히 보기
                     </span>
                 </div>
             </div>
