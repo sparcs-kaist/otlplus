@@ -81,6 +81,14 @@ body * {
         display: flex;
         flex-direction: column;
     }
+
+
+    &--widget {
+        .view-detail {
+            margin-top: 10px;
+            text-align: right;
+        }
+    }
 }
 
 
@@ -89,6 +97,15 @@ body * {
         font-size: 15px;
         line-height: 14px;
         font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+
+    &--widget {
+        font-size: 14px;
+        line-height: 13px;
+        font-weight: bold;
+        text-align: center;
         margin-bottom: 10px;
     }
 }
@@ -105,6 +122,11 @@ body * {
     margin-bottom: 8px;
     font-size: 13px;
     line-height: 12px;
+
+
+    .section-content--widget &:nth-last-of-type(2) {
+        margin-bottom: 0;
+    }
 
 
     .title {
@@ -124,5 +146,22 @@ body * {
             margin-right: 6px;
             flex: none;
         }
+    }
+}
+
+
+.text-button {
+    color: #E54C65;
+    cursor: pointer;
+
+
+    &:hover {
+        color: #963246;
+    }
+
+
+    &--view-detail {
+        font-size: 12px;
+        line-height: 11px;
     }
 }
