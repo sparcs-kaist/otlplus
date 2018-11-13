@@ -150,7 +150,7 @@ SEMESTER_RANGES = {
 
 # SEMESTER RANGES ORDER 
 # (year, semester#): 
-# (semesterBeginDay, semesterEndDay, registerDay(Begin), alterDay(End), cancelDay(End), midEvlauationDaty(End), finalEvalauationDay(End))
+# (semesterBeginDay, semesterEndDay, registerDay(Begin), alterDay(End), cancelDay(End), midEvlauationDay(End), finalEvalauationDay(End))
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
