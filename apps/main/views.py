@@ -2,7 +2,6 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.conf import settings
-from django.views.decorators.http import require_POST
 
 
 import json
@@ -15,7 +14,6 @@ import datetime
 def template(request):
     return render(request, 'index.html')
 
-@require_POST
 def academic_schedule_load(request):
 
     body = json.loads(request.body.decode('utf-8'))
