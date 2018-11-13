@@ -16,7 +16,11 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 from django.http import HttpResponseRedirect
+from . import views
+
 
 urlpatterns = [
     url(r'^$', 'apps.main.views.home'),
+    url(r'^academic_schedule_load$', views.academic_schedule_load),
+
 ]
