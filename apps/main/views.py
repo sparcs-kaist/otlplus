@@ -7,3 +7,6 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 @ensure_csrf_cookie
 def template(request):
     return render(request, 'index.html')
+
+def getAcademicSchedule():
+    return 
