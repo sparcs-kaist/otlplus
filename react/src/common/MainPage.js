@@ -4,6 +4,7 @@ import Header from "./Header";
 import Footer from "./Footer";
 
 import RelatedCourseSection from "./componenets/RelatedCourseSection";
+import LatestReviewSection from "./componenets/LatestReviewSection";
 
 
 class MainPage extends Component {
@@ -14,6 +15,9 @@ class MainPage extends Component {
                 <section className="content">
                     <div className="section">
                         <RelatedCourseSection/>
+                    </div>
+                    <div className="section">
+                        <LatestReviewSection/>
                     </div>
                 </section>
                 <Footer />
