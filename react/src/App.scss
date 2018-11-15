@@ -150,6 +150,41 @@ body * {
 }
 
 
+.block--review {
+    padding: 12px;
+    margin-bottom: 8px;
+    font-size: 13px;
+    line-height: 12px;
+
+
+    &__title {
+        margin-bottom: 12px;
+
+
+        strong,
+        span {
+            margin-right: 6px;
+        }
+    }
+
+
+    &__content {
+        color: #555555;
+        line-height: 18px;
+    }
+
+
+    &__menus {
+        margin-top: 12px;
+
+
+        &__score {
+            margin-right: 10px;
+        }
+    }
+}
+
+
 .text-button {
     color: #E54C65;
     cursor: pointer;
@@ -160,8 +195,24 @@ body * {
     }
 
 
+    &--black {
+        color: #333333;
+
+
+        &:hover {
+            color: #000000;
+        }
+    }
+
+
     &--view-detail {
         font-size: 12px;
         line-height: 11px;
+    }
+
+
+    &--review-block {
+        float: right;
+        margin-left: 10px;
     }
 }
