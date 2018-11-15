@@ -15,7 +15,15 @@ class Detail extends Component {
         };
     }
 
-    static getDerivedStateFromProps(nextProps) {
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if ((prevState.isClicked === false && nextProps.clicked === true) ||
+            (prevState.isClicked && !nextProps.lecture.id && prevState.lecture.id !== nextProps.lecture.id && nextProps.lecture.id !== undefined )
+        ){
+            $('.lecture-detail .nano').nanoScroller({scrollTop: $('.open-dict-button').position().top - $('.nano-content > .basic-info:first-child').position().top + 1});
+        }else if ((prevState.isClicked === true && nextProps.clicked === false)) {
+            $('.lecture-detail .nano').nanoScroller({scrollTop: 0});
+        }
+
         //Return value will be set the state
         if (nextProps.from === "LIST" || nextProps.from === "TABLE"){
             if(nextProps.clicked){
@@ -82,8 +90,15 @@ class Detail extends Component {
                             </div>
                         </div>
                         <Scroller
-                            isClicked = {this.state.isClicked}
-                            lectureId = {this.props.lecture.id}
+                            onScroll={
+                                () => {
+                                    if($('.open-dict-button').position().top <= 1) {
+                                        $('.dict-fixed').removeClass('none');
+                                    } else {
+                                        $('.dict-fixed').addClass('none');
+                                    }
+                                }
+                            }
                         >
                             <div className="basic-info">
                                 <span className="basic-info-name fixed-ko">구분</span>
