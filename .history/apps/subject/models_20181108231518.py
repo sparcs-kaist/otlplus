@@ -344,7 +344,6 @@ class Course(models.Model):
         return u"%s(%s)"%(self.title,self.old_code)
 
 
-
 class Professor(models.Model):
     # Fetched from KAIST Scholar DB
     professor_name = models.CharField(max_length=100, db_index=True)

@@ -294,30 +294,9 @@ class Course(models.Model):
                 "load": self.load,
                 "speech": self.speech,}
 
-        # Add formatted professor name
-        prof_name_list = [getattr(p, _("professor_name")) for p in self.professors.all()]
-        result['professor'] = u", ".join(prof_name_list)
-
-        # Add formatted score
-        if self.comment_num == 0:
-            result['has_review'] = False
-            result['grade'] = 0
-            result['load'] = 0
-            result['speech'] = 0
-            result['grade_letter'] = '?'
-            result['load_letter'] = '?'
-            result['speech_letter'] = '?'
-        else:
-            letters = ['?', 'F', 'F', 'F', 'D-', 'D', 'D+', 'C-', 'C', 'C+', 'B-', 'B', 'B+', 'A-', 'A', 'A+']
-            result['has_review'] = True
-            result['grade'] = grade
-            result['load'] = load
-            result['speech'] = speech
-            result['grade_letter'] = letters[int(round(grade))]
-            result['load_letter'] = letters[int(round(load))]
-            result['speech_letter'] = letters[int(round(speech))]
-
-        return result
+        return {
+            "id": self.id,
+        }
 
     def avg_update(self):
         self.total_sum = (self.grade_sum+self.load_sum+self.speech_sum)/3.0
@@ -342,7 +321,6 @@ class Course(models.Model):
 
     def __unicode__(self):
         return u"%s(%s)"%(self.title,self.old_code)
-
 
 
 class Professor(models.Model):
