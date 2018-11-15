@@ -355,6 +355,6 @@ class CourseFiltered(models.Model):
 
 class CourseUser(models.Model):
     course = models.ForeignKey('Course', on_delete=models.CASCADE)
-    user_profile = models.ForeignKey('UserProfile', on_delete=models.CASCADE)
+    user_profile = models.ForeignKey('session.UserProfile', on_delete=models.CASCADE)
     latest_read_datetime = models.DateTimeField(auto_now=True)
     is_new = models.BooleanField(default=True, null=False)

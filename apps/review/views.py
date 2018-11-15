@@ -367,7 +367,7 @@ def resultCourse(request, page):
     except InvalidPage:
         raise Http404
 
-    results = [_course_to_dict(i,,request) for i in page_obj.object_list]
+    results = [_course_to_dict(i,-1,request) for i in page_obj.object_list]
 
     context = {
             "results":results,
