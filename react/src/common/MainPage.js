@@ -13,11 +13,15 @@ class MainPage extends Component {
             <div>
                 <Header user={this.props.user}/>
                 <section className="content">
-                    <div className="section">
-                        <RelatedCourseSection/>
+                    <div className="section-wrap">
+                        <div className="section">
+                            <RelatedCourseSection/>
+                        </div>
                     </div>
-                    <div className="section">
-                        <LatestReviewSection/>
+                    <div className="section-wrap">
+                        <div className="section">
+                            <LatestReviewSection/>
+                        </div>
                     </div>
                 </section>
                 <Footer />
