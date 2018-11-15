@@ -37,6 +37,7 @@ class Comment(models.Model):
             related.speech_sum += speech*3
             related.comment_num += 1
             related.avg_update()
+            related.latest_written_datetime = cls.written_datetime
             related.save()
         new = cls(course=course, lecture=lecture, comment=comment, grade=grade, load=load, speech=speech, total=(grade+load+speech)/3.0, writer=writer)
         new.save()
@@ -55,6 +56,7 @@ class Comment(models.Model):
             related.load_sum += (self.like+1)*(load - self.load)*3
             related.speech_sum += (self.like+1)*(speech - self.speech)*3
             related.avg_update()
+            related.latest_written_datetime = self.written_datetime
             related.save()
         self.comment = comment
         self.grade = grade

@@ -47,6 +47,7 @@ class Lecture(models.Model):
     speech = models.FloatField(default=0.0)
     total = models.FloatField(default=0.0)
     comment_num = models.IntegerField(default=0)
+    latest_written_datetime = models.DateTimeField(null=True)
 
     def recalc_score(self):
         from apps.review.models import Comment
@@ -276,6 +277,8 @@ class Course(models.Model):
     speech = models.FloatField(default=0.0)
     total = models.FloatField(default=0.0)
 
+    latest_written_datetime = models.DateTimeField(default=None, null=True)
+
     def toJson(self):
         return {
             "id": self.id,
@@ -349,3 +352,9 @@ class CourseFiltered(models.Model):
 
     def __unicode__(self):
         return self.title
+
+class CourseUser(models.Model):
+    course = models.ForeignKey('Course', on_delete=models.CASCADE)
+    user_profile = models.ForeignKey('UserProfile', on_delete=models.CASCADE)
+    latest_read_datetime = models.DateTimeField(auto_now=True)
+    is_new = models.BooleanField(default=True, null=False)
