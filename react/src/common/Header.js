@@ -23,18 +23,23 @@ class Header extends Component {
                         <div className="header-middle collapse navbar-collapse" id="header">
                             <ul className="nav navbar-nav">
                                 <li>
+                                    <Link to="/dictionary/">
+                                        과목사전
+                                    </Link>
+                                </li>
+                                <li>
                                     <Link to="/timetable/">
                                         모의시간표
                                     </Link>
                                 </li>
                                 <li>
                                     <Link to="/review/">
-                                        따끈따끈 과목후기
+                                        따끈따끈 과목후기 (legacy)
                                     </Link>
                                 </li>
                                 <li>
                                     <Link to="/review/insert/" style={{paddingRight:0}}>
-                                        과목후기 작성하기
+                                        과목후기 작성하기 (legacy)
                                     </Link>
                                 </li>
                             </ul>
