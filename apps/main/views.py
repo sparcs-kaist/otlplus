@@ -7,6 +7,9 @@ from django.conf import settings
 import json
 import datetime
 
+from django.views.decorators.http import require_POST
+
+from datetime import date
 
 # Create your views here.
 
@@ -26,26 +29,39 @@ def academic_schedule_load(request):
     if not _validate_year_semester(year, semester):
         return HttpResponseBadRequest('Invalid semester')
 
-    currenttime = datetime.datetime.now()
+    currenttime = datetime.date
+    totalSchedule = settings.SEMESTER_RANGES[(year, semester)]
 
-    for i in range(2,7):
-        schedule = settings.SEMESTER_RANGES[(year, semester)][i]
-        if (currenttime<schedule):
-            if (i == 2): name = 'register_begin_day'
-            elif (i == 3): name = 'alter_end_day'
-            elif (i == 4): name = 'cancel_end_day'
-            elif (i == 5): name = 'mid_evlauation_end_day'
-            elif (i == 6): name = 'final_evlauation_end_day'
-            break
-        name = 'null'
+    if (len(totalSchedule) >= 6):
+        for i in range(2,6):
+            schedule = settings.SEMESTER_RANGES[(year, semester)][i]
+            if (currenttime<schedule):
+                if (i == 2): name = 'register_begin_day'
+                elif (i == 3): name = 'alter_end_day'
+                elif (i == 4): name = 'cancel_end_day'
+                elif (i == 5): name = 'mid_evlauation_end_day'
+                elif (i == 6): name = 'final_evlauation_end_day'
+                break
+            name = 'null'
+            schedule = 'null'
 
     return JsonResponse({
         'name': name, 
         'date': schedule, 
-    }, safe=False)
+    })
 
 def _validate_year_semester(year, semester):
     return (year, semester) in settings.SEMESTER_RANGES
 
 
 
+@require_POST
+def did_you_know(request):
+    try:
+        key = date.today() - date(2018, 11, 13)
+        key = (key.days + settings.COMPLEMENT_DYK) % len(settings.DYK_CONTENTS)
+        content = settings.DYK_CONTENTS[key]
+    except KeyError:
+        return HttpResponseServerError('DYK key out of range')
+
+    return JsonResponse({'today_dyk': content})

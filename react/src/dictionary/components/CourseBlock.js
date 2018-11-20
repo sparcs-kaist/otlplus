@@ -5,29 +5,29 @@ class CourseBlock extends Component {
     render() {
         return (
             <div className="block block--course">
-                <div className="title">
+                <div className="block--course__title">
                     <strong>문제해결기법</strong>
                     &nbsp;
                     <span>CS202</span>
                 </div>
-                <div className="info">
-                    <div className="name">
+                <div className="block--course__info">
+                    <div className="block--course__info__name">
                         분류
                     </div>
                     <div>
                         전산학부, 전공선택
                     </div>
                 </div>
-                <div className="info">
-                    <div className="name">
+                <div className="block--course__info">
+                    <div className="block--course__info__name">
                         교수
                     </div>
                     <div>
                         류석영, 신성용, 좌경룡
                     </div>
                 </div>
-                <div className="info">
-                    <div className="name">
+                <div className="block--course__info">
+                    <div className="block--course__info__name">
                         설명
                     </div>
                     <div>
