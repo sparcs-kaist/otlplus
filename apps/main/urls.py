@@ -19,6 +19,6 @@ from django.http import HttpResponseRedirect
 from . import views
 
 urlpatterns = [
-    url(r'^$', views.home),
-    url(r'^api/did_you_know/$', views.did_you_know),
+    url(r'^$', views.template),
+    url(r'^did_you_know/$', views.did_you_know),
 ]
