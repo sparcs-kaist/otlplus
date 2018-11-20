@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseServerError, JsonResponse
 from django.conf import settings
 from django.views.decorators.csrf import ensure_csrf_cookie
+from django.views.decorators.http import require_POST
 
 from datetime import date
 
@@ -11,7 +12,7 @@ from datetime import date
 def template(request):
     return render(request, 'index.html')
 
-@request_POST
+@require_POST
 def did_you_know(request):
     try:
         key = date.today() - date(2018, 11, 13)
