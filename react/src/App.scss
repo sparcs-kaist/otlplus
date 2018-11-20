@@ -129,19 +129,19 @@ body * {
     }
 
 
-    .title {
+    &__title {
         padding-bottom: 8px;
         border-bottom: 1px solid #C9C9C9;
         margin-bottom: 8px;
     }
 
-    .info {
+    &__info {
         display: flex;
         flex-direction: row;
         margin-bottom: 8px;
 
 
-        .name {
+        &__name {
             font-weight: bold;
             margin-right: 6px;
             flex: none;
