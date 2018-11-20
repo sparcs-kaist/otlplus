@@ -37,6 +37,7 @@ urlpatterns = [
     url(r'^session/', include('apps.session.urls')),
     url(r'^api/review/', include('apps.review.urls')),
     url(r'^api/timetable/', include('apps.timetable.urls')),
+    url(r'^api/main/', include('apps.main.urls')),
     url(r'^api/', lambda request: HttpResponseNotFound('Bad url')),
     url(r'^', mainViews.template),
 ]
