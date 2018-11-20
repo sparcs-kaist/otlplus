@@ -84,6 +84,37 @@ body * {
     }
 
 
+    &--course-detail {
+        &__title {
+            font-size: 14px;
+            line-height: 13px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 4px;
+        }
+
+        &__subtitle {
+            font-size: 13px;
+            line-height: 12px;
+            text-align: center;
+            margin-bottom: 12px;
+        }
+
+        &__info {
+            display: flex;
+            flex-direction: row;
+            margin-bottom: 10px;
+
+
+            &__name {
+                font-weight: bold;
+                margin-right: 6px;
+                flex: none;
+            }
+        }
+    }
+
+
     &--widget {
         .view-detail {
             margin-top: 10px;
@@ -216,4 +247,9 @@ body * {
         float: right;
         margin-left: 10px;
     }
+}
+
+
+.divider {
+    border-bottom: 1px solid #EDD1DC;
 }
