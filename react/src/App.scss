@@ -115,72 +115,72 @@ body * {
 .block {
     background-color: #EEEEEE;
     border-radius: 4px;
-}
 
 
-.block--course {
-    padding: 12px;
-    margin-bottom: 8px;
-    font-size: 13px;
-    line-height: 12px;
-
-
-    .section-content--widget &:nth-last-of-type(2) {
-        margin-bottom: 0;
-    }
-
-
-    &__title {
-        padding-bottom: 8px;
-        border-bottom: 1px solid #C9C9C9;
+    &--course {
+        padding: 12px;
         margin-bottom: 8px;
-    }
-
-    &__info {
-        display: flex;
-        flex-direction: row;
-        margin-bottom: 8px;
+        font-size: 13px;
+        line-height: 12px;
 
 
-        &__name {
-            font-weight: bold;
-            margin-right: 6px;
-            flex: none;
+        .section-content--widget &:nth-last-of-type(2) {
+            margin-bottom: 0;
         }
-    }
-}
 
 
-.block--review {
-    padding: 12px;
-    margin-bottom: 8px;
-    font-size: 13px;
-    line-height: 12px;
+        &__title {
+            padding-bottom: 8px;
+            border-bottom: 1px solid #C9C9C9;
+            margin-bottom: 8px;
+        }
+
+        &__info {
+            display: flex;
+            flex-direction: row;
+            margin-bottom: 8px;
 
 
-    &__title {
-        margin-bottom: 12px;
-
-
-        strong,
-        span {
-            margin-right: 6px;
+            &__name {
+                font-weight: bold;
+                margin-right: 6px;
+                flex: none;
+            }
         }
     }
 
 
-    &__content {
-        color: #555555;
-        line-height: 18px;
-    }
+    &--review {
+        padding: 12px;
+        margin-bottom: 8px;
+        font-size: 13px;
+        line-height: 12px;
 
 
-    &__menus {
-        margin-top: 12px;
+        &__title {
+            margin-bottom: 12px;
 
 
-        &__score {
-            margin-right: 10px;
+            strong,
+            span {
+                margin-right: 6px;
+            }
+        }
+
+
+        &__content {
+            color: #555555;
+            line-height: 18px;
+        }
+
+
+        &__menus {
+            margin-top: 12px;
+
+
+            &__score {
+                margin-right: 10px;
+            }
         }
     }
 }
