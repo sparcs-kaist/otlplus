@@ -14,6 +14,9 @@ class Exam extends Component {
     }
 
     examFocus(day) {
+        if (this.props.lectureActiveFrom !== "NONE")
+            return;
+
         let lectures = [];
         let activeLectures = [];
         for (let i=0, lecture; lecture = this.props.currentTimetable.lectures[i]; i++) {
@@ -31,6 +34,9 @@ class Exam extends Component {
     }
 
     clearFocus() {
+        if (this.props.lectureActiveFrom !== "MULTIPLE")
+            return;
+
         this.props.clearMultipleDetailDispatch();
         this.setState({ activeLectures: []})
     }
