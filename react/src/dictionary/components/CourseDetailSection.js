@@ -35,6 +35,32 @@ class CourseDetailSection extends Component {
                             </div>
                         </div>
                     </div>
+                    <div className="scores">
+                        <div>
+                            <div>
+                                B
+                            </div>
+                            <div>
+                                학점
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                B-
+                            </div>
+                            <div>
+                                널널
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                B-
+                            </div>
+                            <div>
+                                강의
+                            </div>
+                        </div>
+                    </div>
                     <div className="divider"/>
                     <div className="related-courses">
                         <div>
