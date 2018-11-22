@@ -11,20 +11,30 @@ class Detail extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isClicked:false,
+            showUnfix:false,
         };
     }
 
-    static getDerivedStateFromProps(nextProps) {
+    static getDerivedStateFromProps(nextProps, prevState) {
         //Return value will be set the state
         if (nextProps.from === "LIST" || nextProps.from === "TABLE"){
             if(nextProps.clicked){
-                return {isClicked:true};
+                return {showUnfix:true};
             }else{
-                return {isClicked:false};
+                return {showUnfix:false};
             }
         }else{
-            return {isClicked:false};
+            return {showUnfix:false};
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if ((prevState.showUnfix === false && this.props.clicked === true) ||
+            (prevState.showUnfix && !this.props.lecture.id && prevState.lecture.id !== this.props.lecture.id && this.props.lecture.id !== undefined )
+        ){
+            $('.lecture-detail .nano').nanoScroller({scrollTop: $('.open-dict-button').position().top - $('.nano-content > .basic-info:first-child').position().top + 1});
+        }else if ((prevState.showUnfix === true && this.props.clicked === false)) {
+            $('.lecture-detail .nano').nanoScroller({scrollTop: 0});
         }
     }
 
@@ -62,7 +72,7 @@ class Detail extends Component {
                             </span>
                         </div>
                         <div className="lecture-options">
-                            <span id="fix-option" onClick={this.unfix} className={this.state.isClicked ? "":"disable"} style={{float:"left"}}>고정해제</span>
+                            <span id="fix-option" onClick={this.unfix} className={this.state.showUnfix ? "":"disable"} style={{float:"left"}}>고정해제</span>
                             <span id="syllabus-option">
                                 <a href={`https://cais.kaist.ac.kr/syllabusInfo?year=${this.props.lecture.year}&term=${this.props.lecture.semester}&subject_no=${this.props.lecture.code}&lecture_class=${this.props.lecture.class_no}&dept_id=${this.props.lecture.department}`} target="_blank">
                                     실라버스
@@ -82,8 +92,15 @@ class Detail extends Component {
                             </div>
                         </div>
                         <Scroller
-                            isClicked = {this.state.isClicked}
-                            lectureId = {this.props.lecture.id}
+                            onScroll={
+                                () => {
+                                    if($('.open-dict-button').position().top <= 1) {
+                                        $('.dict-fixed').removeClass('none');
+                                    } else {
+                                        $('.dict-fixed').addClass('none');
+                                    }
+                                }
+                            }
                         >
                             <div className="basic-info">
                                 <span className="basic-info-name fixed-ko">구분</span>
@@ -182,7 +199,7 @@ class Detail extends Component {
                             </span>
                         </div>
                         <div className="lecture-options">
-                            <span id="fix-option" onClick={this.unfix} className={this.state.isClicked ? "":"disable"} style={{float:"left"}}>고정해제</span>
+                            <span id="fix-option" onClick={this.unfix} className={this.state.showUnfix ? "":"disable"} style={{float:"left"}}>고정해제</span>
                             <span id="syllabus-option" className="disable">실라버스</span>
                             &nbsp;
                             <span id="dictionary-option" className="disable">과목사전</span>
