@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ReviewBlock from "./ReviewBlock";
 import Scroller from "../../common/Scroller";
+import CourseSimpleBlock from "./CourseSimpleBlock";
 
 
 class CourseDetailSection extends Component {
@@ -32,6 +33,28 @@ class CourseDetailSection extends Component {
                             <div>
                                 추상적 데이타 형의 개념과 배열, 큐, 스텍, 트리, 그래프 등 데이타 구조의 여러 가지 구현방법 및 storage관리기법을 습득한다. 또한 여러 가지 탐색, 정렬 알고리즘을 배운다.
                             </div>
+                        </div>
+                    </div>
+                    <div className="divider"/>
+                    <div className="related-courses">
+                        <div>
+                            <CourseSimpleBlock/>
+                            <CourseSimpleBlock/>
+                            <CourseSimpleBlock/>
+                        </div>
+                        <div>
+                            >
+                        </div>
+                        <div>
+                            <CourseSimpleBlock/>
+                        </div>
+                        <div>
+                            >
+                        </div>
+                        <div>
+                            <CourseSimpleBlock/>
+                            <CourseSimpleBlock/>
+                            <CourseSimpleBlock/>
                         </div>
                     </div>
                     <div className="divider"/>
