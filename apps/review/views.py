@@ -463,6 +463,7 @@ def ReviewLike(request):
     ctx = {'likes_count': likes_count, 'already_up': already_up, 'is_login':is_login, 'id': body['commentid']}
     return JsonResponse(ctx,safe=False)
 
+#course읽었을 때 호출되는 함수입니다. 아마도 courseComment 함수 안에 추가되어야 할듯 합니다.
 @login_required(login_url='/session/login/')
 def read_course(request):
     user = request.user
@@ -474,8 +475,13 @@ def read_course(request):
         course_user = CourseUser.objects.get(user_profile=user_profile, course=course)
         course_user.save()
     except CourseUser.DoesNotExist:
-        CourseUser.objects.create(user_profile=user_profile, course=course)
-
+        course_user = CourseUser()
+        course_user.save(force_insert = True)
+    #이렇게 하면 course_user 받을 수 있나? 파이썬 try except 스코프 ㅠㅠ #아마 되는듯?
+    context = {
+            "time": course_user.latest_read_datetime
+    }
+    return JsonResponse(context,safe=False)
 
 @login_required(login_url='/session/login/')
 def insert(request):

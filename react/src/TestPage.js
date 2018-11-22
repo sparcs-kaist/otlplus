@@ -4,12 +4,11 @@ import axios from "./common/presetAxios";
 
 class TestPage extends Component {
     componentDidMount() {
-        axios.post("/api/timetable/list_load_humanity", {
-            year: 2018,
-            semester: 1,
+        axios.post("/read", {
+            id: 70
         })
         .then((response) => {
-            console.log(response.data);
+            console.log(response.body.time);
         })
         .catch((response) => {
             console.log(response);
