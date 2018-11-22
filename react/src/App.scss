@@ -300,6 +300,29 @@ body * {
 }
 
 
+.scores {
+    margin-top: 1.4vh;
+    text-align: center;
+
+    & > div {
+        display: inline-block;
+        width: calc(10.5vh + 4px);
+
+        & > div:first-child {
+            font-size: calc(0.7vh + 19px);
+            line-height: calc(0.7vh + 16px);
+            font-weight: 300;
+            margin-bottom: 4px;
+        }
+
+        & > div:last-child {
+            font-size: 11px;
+            line-height: 10px;
+        }
+    }
+}
+
+
 .divider {
     border-bottom: 1px solid #EDD1DC;
 }
