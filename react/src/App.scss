@@ -105,6 +105,9 @@ body * {
             flex-direction: row;
             margin-bottom: 10px;
 
+            &:last-child {
+                margin-bottom: 0;
+            }
 
             &__name {
                 font-weight: bold;
@@ -216,6 +219,9 @@ body * {
         font-size: 13px;
         line-height: 12px;
 
+        .section-content--course-detail &:last-child {
+            margin-bottom: 0;
+        }
 
         &__title {
             margin-bottom: 12px;
@@ -282,7 +288,6 @@ body * {
 .related-courses {
     display: flex;
     flex-direction: row;
-    margin: 12px 0px;
 
     & > div:nth-child(1),
     & > div:nth-child(3),
@@ -325,4 +330,5 @@ body * {
 
 .divider {
     border-bottom: 1px solid #EDD1DC;
+    margin: 12px 0;
 }
