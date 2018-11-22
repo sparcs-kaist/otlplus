@@ -196,8 +196,11 @@ def _course_to_dict(course,id=-1,request=None):
     if request.user.is_authenticated():
         user = request.user
         user_profile = UserProfile.objects.get(user=user)
-        course_user = CourseUser.objects.get(user_profile=user_profile, course=course)
-        if course_user.is_new or course.latest_written_datetime > course_user.latest_read_datetime:
+        try:
+            course_user = CourseUser.objects.get(user_profile=user_profile, course=course)
+            if course.latest_written_datetime > course_user.latest_read_datetime:
+                is_read = False
+        except CourseUser.DoesNotExist:
             is_read = False
 
 
@@ -467,9 +470,11 @@ def read_course(request):
     body = json.loads(request.body.decode('utf-8'))
     course_id = int(body['id'])
     course = Course.objects.get(id=course_id)
-    course_user = CourseUser.objects.get(course=course, user_profile=user_profile)
-    course_user.is_new = False
-    course_user.save()
+    try:
+        course_user = CourseUser.objects.get(user_profile=user_profile, course=course)
+        course_user.save()
+    except CourseUser.DoesNotExist:
+        CourseUser.objects.create(user_profile=user_profile, course=course)
 
 
 @login_required(login_url='/session/login/')
