@@ -29,12 +29,16 @@ class Detail extends Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if ((prevState.showUnfix === false && this.props.clicked === true) ||
-            (prevState.showUnfix && !this.props.lecture.id && prevState.lecture.id !== this.props.lecture.id && this.props.lecture.id !== undefined )
-        ){
-            $('.lecture-detail .nano').nanoScroller({scrollTop: $('.open-dict-button').position().top - $('.nano-content > .basic-info:first-child').position().top + 1});
-        }else if ((prevState.showUnfix === true && this.props.clicked === false)) {
-            $('.lecture-detail .nano').nanoScroller({scrollTop: 0});
+        if (prevProps.clicked && this.props.clicked) {
+            if (prevProps.lecture.id !== this.props.lecture.id)
+                this.openDictPreview();
+        }
+        else if (prevProps.clicked && !this.props.clicked) {
+            if (this.props.lecture)
+                this.closeDictPreview();
+        }
+        else if (!prevProps.clicked && this.props.clicked) {
+            this.openDictPreview();
         }
     }
 

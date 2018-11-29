@@ -84,6 +84,40 @@ body * {
     }
 
 
+    &--course-detail {
+        &__title {
+            font-size: 14px;
+            line-height: 13px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 4px;
+        }
+
+        &__subtitle {
+            font-size: 13px;
+            line-height: 12px;
+            text-align: center;
+            margin-bottom: 12px;
+        }
+
+        &__info {
+            display: flex;
+            flex-direction: row;
+            margin-bottom: 10px;
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+
+            &__name {
+                font-weight: bold;
+                margin-right: 6px;
+                flex: none;
+            }
+        }
+    }
+
+
     &--widget {
         .view-detail {
             margin-top: 10px;
@@ -150,12 +184,44 @@ body * {
     }
 
 
+    &--course-simple {
+        padding: 8px 10px;
+        margin-bottom: 8px;
+        font-size: 12px;
+        line-height: 11px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        .related-courses > div:nth-child(3) > & {
+            flex: 1 0 auto;
+        }
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+
+        &__title {
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 3px;
+        }
+
+        &__subtitle {
+            text-align: center;
+        }
+    }
+
+
     &--review {
         padding: 12px;
         margin-bottom: 8px;
         font-size: 13px;
         line-height: 12px;
 
+        .section-content--course-detail &:last-child {
+            margin-bottom: 0;
+        }
 
         &__title {
             margin-bottom: 12px;
@@ -216,4 +282,53 @@ body * {
         float: right;
         margin-left: 10px;
     }
+}
+
+
+.related-courses {
+    display: flex;
+    flex-direction: row;
+
+    & > div:nth-child(1),
+    & > div:nth-child(3),
+    & > div:nth-child(5) {
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
+    }
+
+    & > div:nth-child(2),
+    & > div:nth-child(4) {
+        flex: 0 0 auto;
+        margin: auto 10px;
+    }
+}
+
+
+.scores {
+    margin-top: 1.4vh;
+    text-align: center;
+
+    & > div {
+        display: inline-block;
+        width: calc(10.5vh + 4px);
+
+        & > div:first-child {
+            font-size: calc(0.7vh + 19px);
+            line-height: calc(0.7vh + 16px);
+            font-weight: 300;
+            margin-bottom: 4px;
+        }
+
+        & > div:last-child {
+            font-size: 11px;
+            line-height: 10px;
+        }
+    }
+}
+
+
+.divider {
+    border-bottom: 1px solid #EDD1DC;
+    margin: 12px 0;
 }
