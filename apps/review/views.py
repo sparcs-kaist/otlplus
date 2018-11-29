@@ -475,13 +475,7 @@ def read_course(request):
         course_user = CourseUser.objects.get(user_profile=user_profile, course=course)
         course_user.save()
     except CourseUser.DoesNotExist:
-        course_user = CourseUser()
-        course_user.save(force_insert = True)
-    #이렇게 하면 course_user 받을 수 있나? 파이썬 try except 스코프 ㅠㅠ #아마 되는듯?
-    context = {
-            "time": course_user.latest_read_datetime
-    }
-    return JsonResponse(context,safe=False)
+        course_user.objects.create(user_profile=user_profile, course=course)
 
 @login_required(login_url='/session/login/')
 def insert(request):
