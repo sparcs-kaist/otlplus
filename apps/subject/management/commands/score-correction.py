@@ -26,29 +26,23 @@ class Command(BaseCommand):
             i+=1
         print "initialize completed!"
         for comment in Comment.objects.all():
+            if comment.grade == 0 or \
+               comment.load == 0 or \
+               comment.speech == 0:
+                # Comment with scores '?'
+                continue
+
             course = comment.course
-            lecture = comment.lecture
-            professors = lecture.professor.all()
-            related_list = [course]+[lecture]+list(professors)
+            professors = comment.lecture.professor.all()
+            lectures = Lecture.objects.filter(course=course, professor__in=professors)
+            related_list = [course]+list(lectures)+list(professors)
             for related in related_list:
                 related.grade_sum += (comment.like+1)*comment.grade*3
                 related.load_sum += (comment.like+1)*comment.load*3
                 related.speech_sum += (comment.like+1)*comment.speech*3
                 related.total_sum += (comment.like+1)*comment.total*3
+                related.comment_num += comment.like+1
                 related.avg_update()
-                related.total_sum = (related.grade_sum+related.load_sum+related.speech_sum)/3.0
-                if comment.grade > 0 and comment.load > 0 and comment.speech > 0:
-                    related.comment_num += comment.like+1
-                if related.comment_num>0:
-                    related.grade = (related.grade_sum + 0.0)/related.comment_num
-                    related.load = (related.load_sum + 0.0)/related.comment_num
-                    related.speech = (related.speech_sum + 0.0)/related.comment_num
-                    related.total = (related.total_sum + 0.0)/related.comment_num
-                else:
-                    related.grade = 0.0
-                    related.load = 0.0
-                    related.speech = 0.0
-                    related.total = 0.0
                 related.save()
             print str(comment.written_datetime) + " : updated"
         print "score correction ended!"

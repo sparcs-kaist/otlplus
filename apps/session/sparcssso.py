@@ -130,3 +130,4 @@ class Client:
         }
         r = requests.get(self.URLS['notice'], data=params, verify=True)
         return r.json()
+
