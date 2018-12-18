@@ -69,6 +69,7 @@ var loadItems = function() {
         type:"GET",
         url: url, 
         success: function(responseData) {
+			//console.log("honmono jaesung")
             var data = JSON.parse(responseData);
             hasNextPage=data.hasNext;
             var html = [];
@@ -80,7 +81,8 @@ var loadItems = function() {
                 html.push('<h4 style="margin-top:6px" class="ellipsis-content">')
                 html.push(result.code,' : ',result.title)
                 html.push('</h4></div><div class="col-xs-24 col-sm-12 col-md-11 col-lg-10">')
-                html.push('<input type="hidden" name="course_id" value="',result.id,'">')
+                html.push('<input type="hidden" name="',result.id,'" value="',result.course_id,'">')
+				html.push('<input type="hidden" name="course_id" value="',result.id,'">')
                 html.push('<span class="hid-r">')
 
                 html.push('<div class="score_table text-left col-xs-24">')

@@ -28,7 +28,6 @@
 		{
 			var data = {};
 			$("#contact").serializeArray().map(function(x){data[x.name] = x.value;});
-
 			$.ajax({
 				type:"POST",
 				url:"./add/",
@@ -38,13 +37,13 @@
             $("#insert-complete-message").fadeIn(500, function() {
                 setTimeout(function() {
                     $("#insert-complete-message").fadeOut(500);
-                }, 666);    
+                }, 666);
             });
 			deletebtn.style.display = "inline-block";
 			//window.setTimeout("document.getElementById('insert-complete-message').style.display='none'", 1000);
         })
-				
-				
+
+
 	</script>
   {{ block.super }}
 {% endblock %}
@@ -75,7 +74,7 @@
                     <h4>과목을 선택해 주세요</h4>
                 {%endifnotequal%}
             </div>
-            <div class="panel-body">  
+            <div class="panel-body">
 
               <div style="margin-top: 15px;">
                 <div class="insert-div">
