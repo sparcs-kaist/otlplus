@@ -79,10 +79,11 @@
               <div style="margin-top: 15px;">
                 <div class="insert-div">
                 {% csrf_token %}
-                <textarea {%ifequal semester "0"%}disabled="disabled"{%endifequal%} class="form-control insert-box" name="content" rows= "10" placeholder = "{{reviewguideline}}">{{comment}}</textarea>
+                <textarea {%ifequal semester "0"%}disabled="disabled"{%endifequal%} {%ifnotequal isdeleted 0 %}disabled="disabled"{%endifnotequal%} class="form-control insert-box" name="content" rows= "10" placeholder = "{{reviewguideline}}">{{comment}}</textarea>
                 <input type="hidden" name = "lectureid" value = {{lecture_id}} />
                 <input type="hidden" name = "semester" value = {{semester}} />
             </div>
+            {% ifequal isdeleted 0 %}
             <div style="width:230px;vertical-align:top;display:inline-block">
             <table class="col-xs-24">
                 <tr>
@@ -146,15 +147,17 @@
                 {% endifnotequal %}
             </table>
                 </div>
-
+           {% endifequal %}
            </div>
            </div>
     </div>
+           {% ifequal isdeleted 0 %}
                 <div class="text-right" style="margin-top: 25px;">
 				<input type="submit" {%ifequal comment ""%}style = "display:none;"{%endifequal%}class="btn btn-review-delete" formaction = "../../../delete/" value="삭제">
 				  <button {%ifequal semester "0"%}disabled="disabled"{%endifequal%} type="button" class="btn btn-review-upload">업로드</button>
                 </div>
-
+           {% endifequal %}
+ 
   </form>
 {% endblock %}
 
