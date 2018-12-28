@@ -631,7 +631,7 @@ def ReviewInsertView(request,lecture_id=-1,semester=0):
             pre_speech = gradelist[5-(temp.speech)]
             pre_like = temp.like
             pre_is_deleted = temp.is_deleted
-        except :
+        except Comment.DoesNotExist :
             pre_comment = ''
             pre_like = -1
             pre_is_deleted = 0
