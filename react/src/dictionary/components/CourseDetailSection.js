@@ -17,17 +17,17 @@ class CourseDetailSection extends Component {
                             CS206
                         </div>
                     </div>
-                    <div>
-                        <div className="section-content--course-detail__info">
-                            <div className="section-content--course-detail__info__name">
+                    <div className="attributes">
+                        <div>
+                            <div>
                                 분류
                             </div>
                             <div>
                                 전산학부, 전공필수
                             </div>
                         </div>
-                        <div className="section-content--course-detail__info">
-                            <div className="section-content--course-detail__info__name">
+                        <div>
+                            <div>
                                 설명
                             </div>
                             <div>
