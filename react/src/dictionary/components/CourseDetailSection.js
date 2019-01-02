@@ -10,10 +10,10 @@ class CourseDetailSection extends Component {
             <div className="section-content section-content--course-detail">
                 <Scroller>
                     <div>
-                        <div className="section-content--course-detail__title">
+                        <div className="title">
                             데이타구조
                         </div>
-                        <div className="section-content--course-detail__subtitle">
+                        <div className="subtitle">
                             CS206
                         </div>
                     </div>

@@ -7,8 +7,8 @@ import CourseBlock from "./CourseBlock";
 class CourseListSection extends Component {
     render() {
         return (
-            <div className="section-content section-content--flex">
-                <div className="section-title section-title--course-list">
+            <div className="section-content section-content--flex section-content--course-list">
+                <div className="title">
                     전산학부
                 </div>
                 <Scroller>

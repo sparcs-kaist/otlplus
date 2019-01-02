@@ -7,7 +7,7 @@ class RelatedCourseSection extends Component {
     render() {
         return (
             <div className="section-content section-content--widget">
-                <div className="section-title section-title--widget">
+                <div className="title">
                     연관 과목 - 데이타구조
                 </div>
                 <CourseBlock/>

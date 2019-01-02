@@ -84,48 +84,11 @@ body * {
     }
 
 
-    &--course-detail {
-        &__title {
-            font-size: 14px;
-            line-height: 13px;
-            font-weight: bold;
-            text-align: center;
-            margin-bottom: 4px;
-        }
-
-        &__subtitle {
-            font-size: 13px;
-            line-height: 12px;
-            text-align: center;
-            margin-bottom: 12px;
-        }
-    }
-
-
     &--widget {
         .view-detail {
             margin-top: 10px;
             text-align: right;
         }
-    }
-}
-
-
-.section-title {
-    &--course-list {
-        font-size: 15px;
-        line-height: 14px;
-        font-weight: bold;
-        margin-bottom: 10px;
-    }
-
-
-    &--widget {
-        font-size: 14px;
-        line-height: 13px;
-        font-weight: bold;
-        text-align: center;
-        margin-bottom: 10px;
     }
 }
 
@@ -219,6 +182,46 @@ body * {
                 margin-right: 10px;
             }
         }
+    }
+}
+
+
+.title {
+    font-weight: bold;
+
+
+    .section-content--course-list & {
+        font-size: 15px;
+        line-height: 14px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+
+    .section-content--course-detail & {
+        font-size: 14px;
+        line-height: 13px;
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 4px;
+    }
+
+
+    .section-content--widget & {
+        font-size: 14px;
+        line-height: 13px;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+}
+
+
+.subtitle {
+    .section-content--course-detail & {
+        font-size: 13px;
+        line-height: 12px;
+        text-align: center;
+        margin-bottom: 12px;
     }
 }
 
