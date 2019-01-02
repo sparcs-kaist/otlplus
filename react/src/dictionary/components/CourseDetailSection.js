@@ -10,24 +10,24 @@ class CourseDetailSection extends Component {
             <div className="section-content section-content--course-detail">
                 <Scroller>
                     <div>
-                        <div className="section-content--course-detail__title">
+                        <div className="title">
                             데이타구조
                         </div>
-                        <div className="section-content--course-detail__subtitle">
+                        <div className="subtitle">
                             CS206
                         </div>
                     </div>
-                    <div>
-                        <div className="section-content--course-detail__info">
-                            <div className="section-content--course-detail__info__name">
+                    <div className="attributes">
+                        <div>
+                            <div>
                                 분류
                             </div>
                             <div>
                                 전산학부, 전공필수
                             </div>
                         </div>
-                        <div className="section-content--course-detail__info">
-                            <div className="section-content--course-detail__info__name">
+                        <div>
+                            <div>
                                 설명
                             </div>
                             <div>
