@@ -82,14 +82,6 @@ body * {
         display: flex;
         flex-direction: column;
     }
-
-
-    &--widget {
-        .view-detail {
-            margin-top: 10px;
-            text-align: right;
-        }
-    }
 }
 
 
@@ -331,4 +323,10 @@ body * {
 .divider {
     border-bottom: 1px solid #EDD1DC;
     margin: 12px 0;
+}
+
+
+.buttons {
+    margin-top: 10px;
+    text-align: right;
 }
