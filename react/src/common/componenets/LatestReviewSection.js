@@ -7,7 +7,7 @@ class LatestReviewSection extends Component {
     render() {
         return (
             <div className="section-content section-content--widget">
-                <div className="section-title section-title--widget">
+                <div className="title">
                     따끈따끈 과목후기
                 </div>
                 <ReviewBlock/>
