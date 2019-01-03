@@ -113,8 +113,6 @@ body * {
     &--course-simple {
         padding: 8px 10px;
         margin-bottom: 8px;
-        font-size: 12px;
-        line-height: 11px;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -128,12 +126,16 @@ body * {
         }
 
         &__title {
+            font-size: 12px;
+            line-height: 11px;
             text-align: center;
             font-weight: bold;
-            margin-bottom: 3px;
+            margin-bottom: 2px;
         }
 
         &__subtitle {
+            font-size: 12px;
+            line-height: 11px;
             text-align: center;
         }
     }
