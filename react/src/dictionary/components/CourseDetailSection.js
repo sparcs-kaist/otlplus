@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ReviewBlock from "./ReviewBlock";
+import ReviewWriteBlock from "./ReviewWriteBlock";
 import Scroller from "../../common/Scroller";
 import CourseSimpleBlock from "./CourseSimpleBlock";
 
@@ -84,6 +85,7 @@ class CourseDetailSection extends Component {
                         </div>
                     </div>
                     <div className="divider"/>
+                    <ReviewWriteBlock/>
                     <ReviewBlock/>
                     <ReviewBlock/>
                     <ReviewBlock/>
