@@ -11,6 +11,14 @@ body {
 }
 
 
+textarea {
+    background-color: transparent;
+    border: none;
+    resize: none;
+    outline: none;
+}
+
+
 .content {
     width: 80%;
     margin-top: 50px;
@@ -181,6 +189,59 @@ body {
             }
         }
     }
+
+
+    &--review-write {
+        padding: 12px;
+        margin-bottom: 8px;
+        font-size: 13px;
+        line-height: 12px;
+
+        .section-content--course-detail &:last-child {
+            margin-bottom: 0;
+        }
+
+        &__title {
+            margin-bottom: 10px;
+
+
+            strong,
+            span {
+                margin-right: 6px;
+            }
+        }
+
+
+        &__content {
+            color: #555555;
+            line-height: 18px;
+            width: 100%;
+            height: 140px;
+            border: 1px dashed #AAAAAA;
+            padding: 8px;
+            border-radius: 2px;
+
+
+            &::placeholder {
+                color: #AAAAAA;
+            }
+        }
+
+
+        &__score {
+            margin-top: 10px;
+
+            &__name {
+                margin-right: 10px;
+            }
+
+            &__option {
+                font-weight: bold;
+                color: #AAAAAA;
+                margin-right: 8px;
+            }
+        }
+    }
 }
 
 
@@ -253,6 +314,12 @@ body {
     &--review-block {
         float: right;
         margin-left: 10px;
+    }
+
+
+    &--review-write-block {
+        margin-top: 8px;
+        text-align: right;
     }
 }
 
