@@ -39,7 +39,7 @@ class ReviewWriteBlock extends Component {
                     </div>
                 </div>
                 <div className="block--review-write__buttons">
-                    <button className="text-button text-button--review-write-block" type="reset">
+                    <button className="text-button text-button--review-write-block" type="submit">
                         업로드
                     </button>
                 </div>
