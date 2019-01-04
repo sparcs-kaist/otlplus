@@ -1,5 +1,9 @@
 body * {
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-appearance: none;
+    -moz-appearance: none;
 }
 
 
@@ -8,6 +12,21 @@ body {
     font-size: 13px;
     line-height: 12px;
     color: #333333;
+}
+
+
+textarea {
+    background-color: transparent;
+    border: none;
+    resize: none;
+    outline: none;
+}
+
+
+button {
+    background-color: transparent;
+    border: none;
+    outline: none;
 }
 
 
@@ -181,6 +200,82 @@ body {
             }
         }
     }
+
+
+    &--review-write {
+        padding: 12px;
+        margin-bottom: 8px;
+        font-size: 13px;
+        line-height: 12px;
+
+        .section-content--course-detail &:last-child {
+            margin-bottom: 0;
+        }
+
+        &__title {
+            margin-bottom: 10px;
+
+
+            strong,
+            span {
+                margin-right: 6px;
+            }
+        }
+
+
+        &__content {
+            color: #555555;
+            line-height: 18px;
+            width: 100%;
+            height: 140px;
+            border: 1px dashed #AAAAAA;
+            padding: 8px;
+            border-radius: 2px;
+
+
+            &:hover,
+            &:focus {
+                border-color: #777777;
+            }
+
+
+            &::placeholder {
+                color: #AAAAAA;
+            }
+        }
+
+
+        &__score {
+            margin-top: 10px;
+
+            &__name {
+                margin-right: 10px;
+            }
+
+            &__option {
+                font-weight: bold;
+                color: #AAAAAA;
+                margin-right: 8px;
+                cursor: pointer;
+
+                input {
+                    display: none;
+                }
+
+                &:hover span {
+                    color: #777777;
+                }
+
+                input:checked ~ span {
+                    color: #333333;
+                }
+            }
+        }
+
+        &__buttons {
+            text-align: right;
+        }
+    }
 }
 
 
@@ -253,6 +348,11 @@ body {
     &--review-block {
         float: right;
         margin-left: 10px;
+    }
+
+
+    &--review-write-block {
+        margin-top: 8px;
     }
 }
 
