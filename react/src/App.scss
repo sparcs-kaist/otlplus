@@ -321,7 +321,6 @@ button {
 
 .text-button {
     color: #E54C65;
-    cursor: pointer;
 
 
     &:hover {
@@ -330,18 +329,12 @@ button {
 
 
     &--black {
-        color: #333333;
+        color: #555555;
 
 
         &:hover {
             color: #000000;
         }
-    }
-
-
-    &--view-detail {
-        font-size: 12px;
-        line-height: 11px;
     }
 
 

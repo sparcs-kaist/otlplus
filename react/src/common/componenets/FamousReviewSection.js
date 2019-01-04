@@ -14,9 +14,9 @@ class FamousReviewSection extends Component {
                 <ReviewBlock/>
                 <ReviewBlock/>
                 <div className="buttons">
-                    <span className="text-button text-button--view-detail">
+                    <button className="text-button">
                         후기 더 보기
-                    </span>
+                    </button>
                 </div>
             </div>
         );
