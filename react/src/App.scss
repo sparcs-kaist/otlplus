@@ -1,5 +1,9 @@
 body * {
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-appearance: none;
+    -moz-appearance: none;
 }
 
 
@@ -239,6 +243,19 @@ textarea {
                 font-weight: bold;
                 color: #AAAAAA;
                 margin-right: 8px;
+                cursor: pointer;
+
+                input {
+                    display: none;
+                }
+
+                &:hover span {
+                    color: #777777;
+                }
+
+                input:checked ~ span {
+                    color: #333333;
+                }
             }
         }
     }
