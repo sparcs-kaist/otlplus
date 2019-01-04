@@ -226,6 +226,12 @@ textarea {
             border-radius: 2px;
 
 
+            &:hover,
+            &:focus {
+                border-color: #777777;
+            }
+
+
             &::placeholder {
                 color: #AAAAAA;
             }
