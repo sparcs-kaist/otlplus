@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 class ReviewWriteBlock extends Component {
     render() {
         return (
-            <div className="block block--review-write">
+            <form className="block block--review-write">
                 <div className="block--review-write__title">
                     <strong>데이타구조</strong>
                     <span>이기혁</span>
@@ -38,10 +38,12 @@ class ReviewWriteBlock extends Component {
                         <label className="block--review-write__score__option"><input type="radio" name="speech" value="F"/><span>F</span></label>
                     </div>
                 </div>
-                <div className="text-button text-button--review-write-block">
-                    업로드
+                <div className="block--review-write__buttons">
+                    <button className="text-button text-button--review-write-block" type="reset">
+                        업로드
+                    </button>
                 </div>
-            </div>
+            </form>
         );
     }
 }

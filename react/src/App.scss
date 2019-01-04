@@ -23,6 +23,13 @@ textarea {
 }
 
 
+button {
+    background-color: transparent;
+    border: none;
+    outline: none;
+}
+
+
 .content {
     width: 80%;
     margin-top: 50px;
@@ -264,6 +271,10 @@ textarea {
                 }
             }
         }
+
+        &__buttons {
+            text-align: right;
+        }
     }
 }
 
@@ -342,7 +353,6 @@ textarea {
 
     &--review-write-block {
         margin-top: 8px;
-        text-align: right;
     }
 }
 
