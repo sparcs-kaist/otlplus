@@ -14,7 +14,7 @@ class RelatedCourseSection extends Component {
                 <CourseBlock/>
                 <CourseBlock/>
                 <div className="buttons">
-                    <button className="text-button text-button--view-detail">
+                    <button className="text-button">
                         자세히 보기
                     </button>
                 </div>

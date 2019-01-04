@@ -12,7 +12,7 @@ class ReviewWriteSection extends Component {
                 </div>
                 <ReviewWriteBlock/>
                 <div className="buttons">
-                    <button className="text-button text-button--view-detail">
+                    <button className="text-button">
                         후기 더 작성하기
                     </button>
                 </div>
