@@ -6,6 +6,7 @@ import Footer from "./Footer";
 import RelatedCourseSection from "./componenets/RelatedCourseSection";
 import LatestReviewSection from "./componenets/LatestReviewSection";
 import FamousReviewSection from "./componenets/FamousReviewSection";
+import ReviewWriteSection from "./componenets/ReviewWriteSection";
 
 
 class MainPage extends Component {
@@ -14,6 +15,11 @@ class MainPage extends Component {
             <div>
                 <Header user={this.props.user}/>
                 <section className="content">
+                    <div className="section-wrap">
+                        <div className="section">
+                            <ReviewWriteSection/>
+                        </div>
+                    </div>
                     <div className="section-wrap">
                         <div className="section">
                             <RelatedCourseSection/>
