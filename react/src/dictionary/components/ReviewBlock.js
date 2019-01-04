@@ -31,12 +31,12 @@ class ReviewBlock extends Component {
                     <span className="block--review__menus__score">
                         강의 <strong>C</strong>
                     </span>
-                    <span className="text-button text-button--review-block">
+                    <button className="text-button text-button--review-block">
                         좋아요
-                    </span>
-                    <span className="text-button text-button--black text-button--review-block">
+                    </button>
+                    <button className="text-button text-button--black text-button--review-block">
                         신고하기
-                    </span>
+                    </button>
                 </div>
             </div>
         );
