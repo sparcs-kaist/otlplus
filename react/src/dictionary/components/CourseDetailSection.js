@@ -6,10 +6,23 @@ import CourseSimpleBlock from "./CourseSimpleBlock";
 
 
 class CourseDetailSection extends Component {
+    constructor(props) {
+        super(props);
+    }
+
+
+    onScroll() {
+        if (this.refs["scores"].getBoundingClientRect().top >= this.refs["scrollThreshold"].getBoundingClientRect().bottom)
+            this.refs["hiddenScores"].classList.add("fixed__conditional-part--hidden");
+        else
+            this.refs["hiddenScores"].classList.remove("fixed__conditional-part--hidden");
+    }
+
+
     render() {
         return (
-            <div className="section-content section-content--course-detail">
-                <Scroller>
+            <div className="section-content section-content--flex section-content--course-detail">
+                <div className="fixed">
                     <div>
                         <div className="title">
                             데이타구조
@@ -18,6 +31,40 @@ class CourseDetailSection extends Component {
                             CS206
                         </div>
                     </div>
+                    <div ref="scrollThreshold"/>
+                    <div className="fixed__conditional-part fixed__conditional-part--hidden" ref="hiddenScores">
+                        <div>
+                            <div className="scores">
+                                <div>
+                                    <div>
+                                        B
+                                    </div>
+                                    <div>
+                                        학점
+                                    </div>
+                                </div>
+                                <div>
+                                    <div>
+                                        B-
+                                    </div>
+                                    <div>
+                                        널널
+                                    </div>
+                                </div>
+                                <div>
+                                    <div>
+                                        B-
+                                    </div>
+                                    <div>
+                                        강의
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="divider"/>
+                        </div>
+                    </div>
+                </div>
+                <Scroller onScroll={this.onScroll.bind(this)}>
                     <div className="attributes">
                         <div>
                             <div>
@@ -36,7 +83,7 @@ class CourseDetailSection extends Component {
                             </div>
                         </div>
                     </div>
-                    <div className="scores">
+                    <div className="scores" ref="scores">
                         <div>
                             <div>
                                 B
