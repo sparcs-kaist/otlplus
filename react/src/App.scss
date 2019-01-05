@@ -429,3 +429,23 @@ button {
     margin-top: 10px;
     text-align: right;
 }
+
+
+.fixed {
+    z-index: 10;
+
+
+    &__conditional-part {
+        height: 0;
+
+
+        & > div {
+            background-color: #FFFFFF
+        }
+
+
+        &--hidden {
+            display: none;
+        }
+    }
+}
