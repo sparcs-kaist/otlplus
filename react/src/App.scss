@@ -411,6 +411,28 @@ button {
 }
 
 
+.academic-schedule {
+    & > div:nth-child(1) {
+        font-size: 20px;
+        line-height: 18px;
+        margin-bottom: 8px;
+        text-align: center;
+    }
+
+    & > div:nth-child(2) {
+        font-size: 12px;
+        line-height: 11px;
+        margin-bottom: 10px;
+        text-align: center;
+
+
+        strong {
+            margin-right: 8px;
+        }
+    }
+}
+
+
 .related-courses {
     display: flex;
     flex-direction: row;

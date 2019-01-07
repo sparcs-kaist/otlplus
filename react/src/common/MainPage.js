@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import Header from "./Header";
 import Footer from "./Footer";
 
+import AcademicScheduleSection from "./componenets/AcademicScheduleSection";
 import RelatedCourseSection from "./componenets/RelatedCourseSection";
 import LatestReviewSection from "./componenets/LatestReviewSection";
 import FamousReviewSection from "./componenets/FamousReviewSection";
@@ -22,6 +23,11 @@ class MainPage extends Component {
                     </form>
                 </section>
                 <section className="content">
+                    <div className="section-wrap">
+                        <div className="section">
+                            <AcademicScheduleSection/>
+                        </div>
+                    </div>
                     <div className="main-date">
                         오늘
                     </div>
