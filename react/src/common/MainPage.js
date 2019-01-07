@@ -22,6 +22,9 @@ class MainPage extends Component {
                     </form>
                 </section>
                 <section className="content">
+                    <div className="main-date">
+                        오늘
+                    </div>
                     <div className="section-wrap">
                         <div className="section">
                             <ReviewWriteSection/>
