@@ -94,6 +94,10 @@ button {
             margin: -2px 0;
         }
 
+        input::placeholder {
+            color: #CCCCCC;
+        }
+
         button {
             flex: 0 0 auto;
             margin-left: 8px;
