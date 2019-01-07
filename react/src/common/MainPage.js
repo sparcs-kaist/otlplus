@@ -14,6 +14,13 @@ class MainPage extends Component {
         return (
             <div>
                 <Header user={this.props.user}/>
+                <section className="main-image">
+                    <form className="main-search">
+                        <i/>
+                        <input type="text" placeholder="검색"/>
+                        <button className="text-button" type="submit">검색</button>
+                    </form>
+                </section>
                 <section className="content">
                     <div className="section-wrap">
                         <div className="section">
