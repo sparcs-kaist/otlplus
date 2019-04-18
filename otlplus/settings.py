@@ -123,7 +123,7 @@ USE_TZ = True
 
 #  Semester INFO
 from datetime import date
-CURRENT_YEAR = 2018
+CURRENT_YEAR = 2019
 CURRENT_SEMESTER = 1
 SEMESTER_RANGES = {
     (2009, 1): (date(2009, 2, 2), date(2009, 5, 22)),
@@ -145,6 +145,8 @@ SEMESTER_RANGES = {
     (2017, 1): (date(2017, 2, 27), date(2017, 6, 16)),
     (2017, 3): (date(2017, 8, 28), date(2017, 12, 15)),
     (2018, 1): (date(2018, 2, 26), date(2018, 6, 18)),
+    (2018, 3): (date(2018, 8, 27), date(2018, 12, 14)),
+    (2019, 1): (date(2019, 2, 25), date(2019, 6, 14)),
 }
 
 
