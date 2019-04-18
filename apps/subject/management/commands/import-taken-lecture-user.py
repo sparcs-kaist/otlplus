@@ -40,16 +40,13 @@ class Command(BaseCommand):
             print
             return
 
-        user = UserProfile.objects.filter(student_id=student_no).first()
-        if not user:
+        if not UserProfile.objects.filter(student_id=student_no).exists():
             return
 
         query = 'SELECT * FROM view_OTL_attend WHERE student_no = %s' % student_no
         rows = execute(host, port, user, password, query)
 
-        c.close()
-        db.close()
-
+        user = UserProfile.objects.filter(student_id=student_no).first()
         lectures = Lecture.objects.filter(deleted=False)
         for a in rows:
             lecture = lectures.filter(year=a[0], semester=a[1], code=a[2], class_no = a[3].strip())
