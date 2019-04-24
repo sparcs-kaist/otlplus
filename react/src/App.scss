@@ -15,6 +15,13 @@ body {
 }
 
 
+input {
+    background: transparent;
+    border: none;
+    outline: none;
+}
+
+
 textarea {
     background-color: transparent;
     border: none;
@@ -38,6 +45,11 @@ button {
     background-color: #f9f0f0;
 
 
+    .main-image + & {
+        margin-top: 0;
+    }
+
+
     &--no-scroll {
         position: absolute;
         top: 0;
@@ -46,6 +58,50 @@ button {
         display: flex;
         flex-direction: row;
         justify-content: center;
+    }
+}
+
+
+.main-image {
+    height: 400px;
+    background: url(static/img/review/search/bg.jpg) center 0;
+    background-size: 100% auto;
+    padding-top: 190px;
+
+
+    .main-search {
+        padding: 12px;
+        width: calc(80% - 24px);
+        margin: 0 auto;
+        display: flex;
+        background-color: #ffffff;
+        border-radius: 6px;
+        box-shadow: 0 3px 0 0 #F3BEC6;
+        font-size: 14px;
+        line-height: 13px;
+
+
+        i {
+            flex: 0 0 auto;
+            margin-right: 8px;
+            width: 13px;
+            background: url(static/icons/block_search.svg) no-repeat center center;
+        }
+
+        input {
+            flex: 1 1 auto;
+            line-height: 17px;
+            margin: -2px 0;
+        }
+
+        input::placeholder {
+            color: #CCCCCC;
+        }
+
+        button {
+            flex: 0 0 auto;
+            margin-left: 8px;
+        }
     }
 }
 
@@ -346,6 +402,37 @@ button {
 
     &--review-write-block {
         margin-top: 8px;
+    }
+}
+
+
+.main-date {
+    font-size: 18px;
+    line-height: 16px;
+    margin: 6px 0 12px 0;
+    text-align: center;
+    color: rgba(#E54C65, 0.3);
+}
+
+
+.academic-schedule {
+    & > div:nth-child(1) {
+        font-size: 20px;
+        line-height: 18px;
+        margin-bottom: 8px;
+        text-align: center;
+    }
+
+    & > div:nth-child(2) {
+        font-size: 12px;
+        line-height: 11px;
+        margin-bottom: 10px;
+        text-align: center;
+
+
+        strong {
+            margin-right: 8px;
+        }
     }
 }
 
