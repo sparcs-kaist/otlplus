@@ -9,7 +9,7 @@ from apps.subject.models import Department, Professor, Lecture, Course, ClassTim
 from datetime import time
 import sys, getpass, re
 #import Sybase
-import pyodbc
+from scholardb_access import execute
 import datetime
 
 
@@ -50,21 +50,12 @@ class Command(BaseCommand):
             print
             return
 
-        try:
-            #db = Sybase.connect(host, user, password, 'scholar')
-            db = pyodbc.connect('DRIVER=FreeTDS;TDS_Version=4.2;SERVER=%s;PORT=%s;DATABASE=%s;UID=%s;PWD=%s;CHARSET=%s'
-                                % (host, port, 'scholar', user, password, 'UTF8'))
-        except pyodbc.DatabaseError:
-            print>>sys.stderr, 'Connection failed. Check username and password.'
-            return
-        c = db.cursor()
-
         if not exclude_lecture:
-            c.execute('SELECT * FROM view_OTL_charge WHERE lecture_year = %d AND lecture_term = %d' % (next_year, next_semester))
-            professors = c.fetchall()
+            query = 'SELECT * FROM view_OTL_charge WHERE lecture_year = %d AND lecture_term = %d' % (next_year, next_semester)
+            professors = execute(host, port, user, password, query)
 
-            c.execute('SELECT * FROM view_OTL_lecture WHERE lecture_year = %d AND lecture_term = %d ORDER BY dept_id' % (next_year, next_semester))
-            rows = c.fetchall()
+            query = 'SELECT * FROM view_OTL_lecture WHERE lecture_year = %d AND lecture_term = %d ORDER BY dept_id' % (next_year, next_semester)
+            rows = execute(host, port, user, password, query)
             departments = {}
             lectures_not_updated = set()
 
@@ -256,16 +247,12 @@ class Command(BaseCommand):
                 except KeyError:
                     pass
 
-            c.close()
-
         # Extract exam-time, class-time info.
 
         print 'Extracting exam time information...'
-        c = db.cursor()
-        c.execute('SELECT * FROM view_OTL_exam_time WHERE lecture_year = %d AND lecture_term = %d' % (next_year, next_semester))
-        exam_times = c.fetchall()
+        query = 'SELECT * FROM view_OTL_exam_time WHERE lecture_year = %d AND lecture_term = %d' % (next_year, next_semester)
+        exam_times = execute(host, port, user, password, query)
         print exam_times
-        c.close()
         ExamTime.objects.filter(lecture__year__exact=next_year, lecture__semester=next_semester).delete()
         for row in exam_times:
             print row
@@ -300,11 +287,9 @@ class Command(BaseCommand):
         # Extract class time.
 
         print 'Extracting class time information...'
-        c = db.cursor()
-        c.execute('SELECT * FROM view_OTL_time WHERE lecture_year = %d AND lecture_term = %d' % (next_year, next_semester))
-        class_times = c.fetchall()
+        query = 'SELECT * FROM view_OTL_time WHERE lecture_year = %d AND lecture_term = %d' % (next_year, next_semester)
+        class_times = execute(host, port, user, password, query)
         # print class_times
-        c.close()
         ClassTime.objects.filter(lecture__year__exact=next_year, lecture__semester=next_semester).delete()
         for row in class_times:
             print row
@@ -348,10 +333,8 @@ class Command(BaseCommand):
 
         # Extract Syllabus info.
         '''
-        c = db.cursor()
-        c.execute('SELECT * FROM view_OTL_syllabus WHERE lecture_year = %d AND lecture_term = %d' % (next_year, next_semester))
-        syllabuses = c.fetchall()
-        c.close()
+        query = 'SELECT * FROM view_OTL_syllabus WHERE lecture_year = %d AND lecture_term = %d' % (next_year, next_semester)
+        syllabuses = execute(host, port, user, password, query)
         Syllabus.objects.filter(lecture__year__exact=next_year, lecture__semester=next_semester).delete()
 
         for row in syllabuses:
@@ -397,8 +380,6 @@ class Command(BaseCommand):
                 lecture.deleted = True
 #                print '%s is marked as deleted...' % lecture
                 lecture.save()
-
-        db.close()
 
         print '\nTotal number of departments : %d' % Department.objects.count()
         print 'Total number of lectures newly added : %d' % lecture_count
