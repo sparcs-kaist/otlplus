@@ -18,6 +18,12 @@ class Comment(models.Model):
     writer_label = models.CharField(max_length=200, default=u"무학과 넙죽이")
     written_datetime = models.DateTimeField(auto_now=True, db_index=True)
     like = models.IntegerField(default=0)
+    is_deleted = models.IntegerField(default=0)
+
+    class Meta:
+        unique_together = (
+            ("writer", "lecture",)
+        )
 
     def __unicode__(self):
         return u"%s(%s)"%(self.lecture,self.writer)
