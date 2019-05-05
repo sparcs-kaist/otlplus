@@ -39,8 +39,7 @@ def academic_schedule_load(request):
                 if (i == 2): name = 'register_begin_day'
                 elif (i == 3): name = 'alter_end_day'
                 elif (i == 4): name = 'cancel_end_day'
-                elif (i == 5): name = 'mid_evlauation_end_day'
-                elif (i == 6): name = 'final_evlauation_end_day'
+                elif (i == 5): name = 'final_evlauation_end_day'
                 break
             name = 'null'
             schedule = 'null'
