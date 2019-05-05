@@ -3,7 +3,7 @@
 from django.shortcuts import render, redirect, render_to_response
 from django.template import RequestContext
 from apps.session.models import UserProfile
-from apps.subject.models import Course, Lecture, Department, CourseFiltered, Professor
+from apps.subject.models import Course, Lecture, Department, CourseFiltered, Professor, CourseUser
 from apps.review.models import Comment,CommentVote, MajorBestComment, LiberalBestComment
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, Http404
 from django.db.models import Q
@@ -152,7 +152,7 @@ def _getLecByProf(lectures):
     return lec_by_prof
 
 
-def _course_to_dict(course,id=-1):
+def _course_to_dict(course,id=-1,request=None):
     lectures = list( course.lecture_course.all() )
     lec_by_prof = _getLecByProf(lectures)
 
@@ -163,6 +163,7 @@ def _course_to_dict(course,id=-1):
     })
     summury = "등록되지 않았습니다."
     score = {"grade":int(round(course.grade)), "load":int(round(course.load)), "speech":int(round(course.speech)), "total":int(round(course.total)),}
+    is_read = True #not logged in - marked as all read
 
     for idx, lectures in enumerate(lec_by_prof):
         names = [i.professor_name for i in lectures[0].professor.all()]
@@ -191,6 +192,22 @@ def _course_to_dict(course,id=-1):
         summury = course.summury
         if(len(summury)<1):
             summury = "등록되지 않았습니다."
+    
+    if request and request.user and request.user.is_authenticated():
+        user = request.user
+        user_profile = UserProfile.objects.get(user=user)
+        try:
+            course_user = CourseUser.objects.get(user_profile=user_profile, course=course)
+            if course.latest_written_datetime is None:
+                is_read = True
+            elif course.latest_written_datetime > course_user.latest_read_datetime:
+                is_read = False
+            else:
+                is_read = True
+        except CourseUser.DoesNotExist:
+            is_read = False
+
+
     result = {
         "type":"course",
         "id":course.id,
@@ -200,6 +217,7 @@ def _course_to_dict(course,id=-1):
         "prof_info":sorted(prof_info, key = lambda x : x['name']),
         "gradelist":gradelist,
         "score":score,
+        "is_read":is_read
     }
     return result
 
@@ -212,7 +230,7 @@ def _comment_to_dict(request, comment):
         is_login = True
         user = request.user
         user_profile = UserProfile.objects.get(user=user)
-        target_review = Comment.objects.get(id=comment.id);
+        target_review = Comment.objects.get(id=comment.id)
         if CommentVote.objects.filter(comment = target_review, userprofile = user_profile).exists():
             already_up = True
     professors = comment.lecture.professor.all()
@@ -359,7 +377,7 @@ def resultCourse(request, page):
     except InvalidPage:
         raise Http404
 
-    results = [_course_to_dict(i) for i in page_obj.object_list]
+    results = [_course_to_dict(i,-1,request) for i in page_obj.object_list]
 
     context = {
             "results":results,
@@ -400,7 +418,7 @@ def course(request,id=-1,professor_id=-1):
     course = Course.objects.get(id=id)
 
     context = {
-            "result":_course_to_dict(course,professor_id),
+            "result":_course_to_dict(course,professor_id, request),
     }
     return JsonResponse(context,safe=False)
 
@@ -443,7 +461,7 @@ def ReviewLike(request):
         if request.method == 'POST':
             user = request.user
             user_profile = UserProfile.objects.get(user=user)
-            target_review = Comment.objects.get(id=body['commentid']);
+            target_review = Comment.objects.get(id=body['commentid'])
             if CommentVote.objects.filter(comment = target_review, userprofile = user_profile).exists():
                 already_up = True
             else:
@@ -452,6 +470,20 @@ def ReviewLike(request):
     ctx = {'likes_count': likes_count, 'already_up': already_up, 'is_login':is_login, 'id': body['commentid']}
     return JsonResponse(ctx,safe=False)
 
+#course읽었을 때 호출되는 함수입니다. 아마도 courseComment 함수 안에 추가되어야 할듯 합니다.
+@login_required(login_url='/session/login/')
+def read_course(request):
+    user = request.user
+    user_profile = UserProfile.objects.get(user=user)
+    body = json.loads(request.body.decode('utf-8'))
+    course_id = int(body['id'])
+    course = Course.objects.get(id=course_id)
+    try:
+        course_user = CourseUser.objects.get(user_profile=user_profile, course=course)
+        course_user.save()
+    except CourseUser.DoesNotExist:
+        CourseUser.objects.create(user_profile=user_profile, course=course)
+    return JsonResponse({}, safe=False)
 
 @login_required(login_url='/session/login/')
 def insert(request):
@@ -563,4 +595,6 @@ def dictionary(request, course_code):
     if len(courses)>0:
         return HttpResponseRedirect('/review/result/course/'+str(courses[0].id))
     raise Http404
+
+
 

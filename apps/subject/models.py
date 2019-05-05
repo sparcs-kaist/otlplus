@@ -276,6 +276,8 @@ class Course(models.Model):
     speech = models.FloatField(default=0.0)
     total = models.FloatField(default=0.0)
 
+    latest_written_datetime = models.DateTimeField(default=None, null=True)
+
     def toJson(self):
         # Don't change this into model_to_dict: for security and performance
         result = {"old_code": self.old_code,
@@ -388,3 +390,8 @@ class CourseFiltered(models.Model):
 
     def __unicode__(self):
         return self.title
+
+class CourseUser(models.Model):
+    course = models.ForeignKey('Course', on_delete=models.CASCADE)
+    user_profile = models.ForeignKey('session.UserProfile', on_delete=models.CASCADE)
+    latest_read_datetime = models.DateTimeField(auto_now=True)

@@ -38,4 +38,6 @@ urlpatterns = [
 
     # TODO: Implement old OTL dictionary URL redirect
     url(r'^dictionary/([^/]+)/$', views.dictionary),
+
+    url(r'^read$',views.read_course) #remove later
 ]

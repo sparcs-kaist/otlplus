@@ -46,6 +46,8 @@ class Comment(models.Model):
             related.save()
         new = cls(course=course, lecture=lecture, comment=comment, grade=grade, load=load, speech=speech, total=(grade+load+speech)/3.0, writer=writer)
         new.save()
+        course.latest_written_datetime = new.written_datetime
+        course.save()
         return new
 
     def u_update(self, comment, grade, load, speech):
@@ -68,6 +70,8 @@ class Comment(models.Model):
         self.speech = speech
         self.total = (grade+load+speech)/3.0
         self.save()
+        course.latest_written_datetime = self.written_datetime
+        course.save()
 
     def u_delete(self):
         course = self.course
