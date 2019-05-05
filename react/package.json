@@ -8,14 +8,15 @@
     "history": "^4.7.2",
     "jquery": "^3.3.1",
     "nanoscroller": "^0.8.7",
+    "node-sass": "^4.10.0",
     "popper.js": "^1.14.3",
-    "query-string": "^6.1.0",
+    "query-string": "^5.1.1",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
     "react-redux": "^5.0.7",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
-    "react-scripts": "1.1.4",
+    "react-scripts": "2.1.1",
     "redux": "^4.0.0"
   },
   "scripts": {
@@ -23,5 +24,11 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
-  }
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }

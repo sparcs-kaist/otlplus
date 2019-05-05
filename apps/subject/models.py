@@ -262,6 +262,9 @@ class Course(models.Model):
     # Updated by command update_CourseCodeNum
     code_num = models.CharField(max_length=10, db_index=True, default='D')
 
+    related_courses_prior = models.ManyToManyField('Course', related_name='+')
+    related_courses_posterior = models.ManyToManyField('Course', related_name='+')
+
     # Updated by view when comments are added/deleted/modified
     grade_sum = models.IntegerField(default=0)
     load_sum = models.IntegerField(default=0)
@@ -272,6 +275,11 @@ class Course(models.Model):
     load = models.FloatField(default=0.0)
     speech = models.FloatField(default=0.0)
     total = models.FloatField(default=0.0)
+
+    def toJson(self):
+        return {
+            "id": self.id,
+        }
 
     def avg_update(self):
         self.total_sum = (self.grade_sum+self.load_sum+self.speech_sum)/3.0
@@ -290,6 +298,9 @@ class Course(models.Model):
     def update_code_num(self):
         self.code_num = self.old_code[-3]
         self.save(update_fields=["code_num"])
+
+    def update_related_courses(self):
+        pass
 
     def __unicode__(self):
         return u"%s(%s)"%(self.title,self.old_code)
