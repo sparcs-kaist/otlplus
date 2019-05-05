@@ -20,7 +20,8 @@ from . import views
 
 
 urlpatterns = [
-    url(r'^$', 'apps.main.views.home'),
+    url(r'^$', 'apps.main.views.template'),
+    url(r'^course_write_reco_load$', views.course_write_reco_load),
     url(r'^academic_schedule_load/$', views.academic_schedule_load),
     url(r'^did_you_know/$', views.did_you_know),
 ]
