@@ -47,7 +47,6 @@ class Lecture(models.Model):
     speech = models.FloatField(default=0.0)
     total = models.FloatField(default=0.0)
     comment_num = models.IntegerField(default=0)
-    latest_written_datetime = models.DateTimeField(null=True)
 
     def recalc_score(self):
         from apps.review.models import Comment
