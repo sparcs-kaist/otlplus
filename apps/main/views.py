@@ -29,7 +29,7 @@ def academic_schedule_load(request):
     if not _validate_year_semester(year, semester):
         return HttpResponseBadRequest('Invalid semester')
 
-    currenttime = datetime.date
+    currenttime = datetime.date.today()
     totalSchedule = settings.SEMESTER_RANGES[(year, semester)]
 
     if (len(totalSchedule) >= 6):
