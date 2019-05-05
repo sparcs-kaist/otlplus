@@ -114,7 +114,8 @@ class Timetable extends Component {
 
     componentDidMount() {
         this.resize();
-        window.addEventListener("resize", this.resize.bind(this));
+        this.boundResize = this.resize.bind(this);
+        window.addEventListener("resize", this.boundResize);
     }
 
     componentDidUpdate() {
@@ -122,7 +123,7 @@ class Timetable extends Component {
     }
 
     componentWillUnmount() {
-        window.removeEventListener("resize", this.resize.bind(this));
+        window.removeEventListener("resize", this.boundResize);
     }
 
     render() {

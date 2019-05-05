@@ -23,6 +23,9 @@ class Summary extends Component {
     }
 
     typeFocus(type) {
+        if (this.props.lectureActiveFrom !== "NONE")
+            return;
+
         let lectures = [];
 
         for (var i=0; i<this.props.currentTimetable.lectures.length; i++) {
@@ -47,6 +50,9 @@ class Summary extends Component {
     }
 
     creditFocus(type) {
+        if (this.props.lectureActiveFrom !== "NONE")
+            return;
+
         let lectures = [];
         for (let i=0, lecture; lecture = this.props.currentTimetable.lectures[i]; i++) {
             if (type==="Credit" && lecture.credit > 0)
@@ -65,6 +71,9 @@ class Summary extends Component {
     }
 
     scoreFocus(type) {
+        if (this.props.lectureActiveFrom !== "NONE")
+            return;
+
         let lectures = [];
         for (let i=0, lecture; lecture = this.props.currentTimetable.lectures[i]; i++) {
             if (type==="Grade")
@@ -90,6 +99,9 @@ class Summary extends Component {
 
 
     clearFocus() {
+        if (this.props.lectureActiveFrom !== "MULTIPLE")
+            return;
+
         this.props.clearMultipleDetailDispatch();
         this.setState({ active: "" })
     };
