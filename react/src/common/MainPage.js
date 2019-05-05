@@ -3,9 +3,11 @@ import React, { Component } from 'react';
 import Header from "./Header";
 import Footer from "./Footer";
 
+import AcademicScheduleSection from "./componenets/AcademicScheduleSection";
 import RelatedCourseSection from "./componenets/RelatedCourseSection";
 import LatestReviewSection from "./componenets/LatestReviewSection";
 import FamousReviewSection from "./componenets/FamousReviewSection";
+import ReviewWriteSection from "./componenets/ReviewWriteSection";
 
 
 class MainPage extends Component {
@@ -13,7 +15,27 @@ class MainPage extends Component {
         return (
             <div>
                 <Header user={this.props.user}/>
+                <section className="main-image">
+                    <form className="main-search">
+                        <i/>
+                        <input type="text" placeholder="검색"/>
+                        <button className="text-button" type="submit">검색</button>
+                    </form>
+                </section>
                 <section className="content">
+                    <div className="section-wrap">
+                        <div className="section">
+                            <AcademicScheduleSection/>
+                        </div>
+                    </div>
+                    <div className="main-date">
+                        오늘
+                    </div>
+                    <div className="section-wrap">
+                        <div className="section">
+                            <ReviewWriteSection/>
+                        </div>
+                    </div>
                     <div className="section-wrap">
                         <div className="section">
                             <RelatedCourseSection/>

@@ -7,16 +7,16 @@ class LatestReviewSection extends Component {
     render() {
         return (
             <div className="section-content section-content--widget">
-                <div className="section-title section-title--widget">
+                <div className="title">
                     따끈따끈 과목후기
                 </div>
                 <ReviewBlock/>
                 <ReviewBlock/>
                 <ReviewBlock/>
-                <div className="view-detail">
-                    <span className="text-button text-button--view-detail">
+                <div className="buttons">
+                    <button className="text-button">
                         후기 더 보기
-                    </span>
+                    </button>
                 </div>
             </div>
         );
