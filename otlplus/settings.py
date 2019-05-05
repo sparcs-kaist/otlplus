@@ -145,10 +145,13 @@ SEMESTER_RANGES = {
     (2017, 1): (date(2017, 2, 27), date(2017, 6, 16)),
     (2017, 3): (date(2017, 8, 28), date(2017, 12, 15)),
     (2018, 1): (date(2018, 2, 26), date(2018, 6, 18)),
-    (2018, 3): (date(2018, 8, 27), date(2018, 12, 14)),
-    (2019, 1): (date(2019, 2, 25), date(2019, 6, 14)),
+    (2018, 3): (date(2018, 8, 27), date(2018, 12, 14), date(2018, 7, 9), date(2018, 9, 3), date(2018, 10, 12), date(2018, 12, 7)),
+    (2019, 1): (date(2019, 2, 25), date(2019, 6, 14), date(2019, 1, 7), date(2019, 3, 4), date(2019, 4, 12), date(2019, 6, 7)),
 }
 
+# SEMESTER RANGES ORDER 
+# (year, semester#): 
+# (semesterBeginDay, semesterEndDay, registerDay(Begin), alterDay(End), cancelDay(End), finalEvalauationDay(End))
 # Did-you-knows (loading text)
 COMPLEMENT_DYK = 0
 DYK_CONTENTS = {

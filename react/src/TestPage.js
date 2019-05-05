@@ -14,6 +14,29 @@ class TestPage extends Component {
         .catch((response) => {
             console.log(response);
         });
+        axios.post("/api/main/academic_schedule_load/", {
+            year: 2018,
+            semester: 3,
+        })
+        .then((response) => {
+            console.log("not error");
+            console.log(response.data);
+        })
+        .catch((response) => {
+            console.log('error');
+            console.log(response);
+        });
+        axios.post("/api/main/did_you_know", {
+        })
+        .then((response) => {
+            console.log("not error");
+            console.log(response.data);
+        })
+        .catch((response) => {
+            console.log('error');
+            console.log(response);
+        });
+
     }
 
 
