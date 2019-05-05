@@ -37,10 +37,11 @@ class Comment(models.Model):
             related.speech_sum += speech*3
             related.comment_num += 1
             related.avg_update()
-            related.latest_written_datetime = cls.written_datetime
             related.save()
         new = cls(course=course, lecture=lecture, comment=comment, grade=grade, load=load, speech=speech, total=(grade+load+speech)/3.0, writer=writer)
         new.save()
+        course.latest_written_datetime = new.written_datetime
+        course.save()
         return new
 
     def u_update(self, comment, grade, load, speech):
@@ -56,7 +57,6 @@ class Comment(models.Model):
             related.load_sum += (self.like+1)*(load - self.load)*3
             related.speech_sum += (self.like+1)*(speech - self.speech)*3
             related.avg_update()
-            related.latest_written_datetime = self.written_datetime
             related.save()
         self.comment = comment
         self.grade = grade
@@ -64,6 +64,8 @@ class Comment(models.Model):
         self.speech = speech
         self.total = (grade+load+speech)/3.0
         self.save()
+        course.latest_written_datetime = self.written_datetime
+        course.save()
 
     def u_delete(self):
         course = self.course

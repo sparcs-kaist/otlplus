@@ -193,13 +193,17 @@ def _course_to_dict(course,id=-1,request=None):
         if(len(summury)<1):
             summury = "등록되지 않았습니다."
     
-    if request.user.is_authenticated():
+    if request and request.user and request.user.is_authenticated():
         user = request.user
         user_profile = UserProfile.objects.get(user=user)
         try:
             course_user = CourseUser.objects.get(user_profile=user_profile, course=course)
-            if course.latest_written_datetime > course_user.latest_read_datetime:
+            if course.latest_written_datetime is None:
+                is_read = True
+            elif course.latest_written_datetime > course_user.latest_read_datetime:
                 is_read = False
+            else:
+                is_read = True
         except CourseUser.DoesNotExist:
             is_read = False
 
@@ -411,7 +415,7 @@ def course(request,id=-1,professor_id=-1):
     course = Course.objects.get(id=id)
 
     context = {
-            "result":_course_to_dict(course,professor_id),
+            "result":_course_to_dict(course,professor_id, request),
     }
     return JsonResponse(context,safe=False)
 
@@ -475,7 +479,8 @@ def read_course(request):
         course_user = CourseUser.objects.get(user_profile=user_profile, course=course)
         course_user.save()
     except CourseUser.DoesNotExist:
-        course_user.objects.create(user_profile=user_profile, course=course)
+        CourseUser.objects.create(user_profile=user_profile, course=course)
+    return JsonResponse({}, safe=False)
 
 @login_required(login_url='/session/login/')
 def insert(request):
