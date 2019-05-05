@@ -225,6 +225,9 @@ def _comment_to_dict(request, comment):
     elif semester_int == 3: semester_char = "가을"
     elif semester_int == 4: semester_char = "겨울"
     else: semester_char = "Error"
+    result_of_comment = ""
+    if comment.is_deleted == 0: result_of_comment = comment.comment
+    else: result_of_comment = "관리자에 의해 삭제된 코멘트입니다."
     result = {
         "type":"comment",
         "id":comment.id,
@@ -235,7 +238,7 @@ def _comment_to_dict(request, comment):
         "lecture_semester":semester_char,
         "professor_name":professor_name,
         "writer":comment.writer_label,
-        "comment":comment.comment,
+        "comment":result_of_comment,
         "like":comment.like,
         "already_up":already_up,
         "score":{"grade":comment.grade, "load":comment.load, "speech":comment.speech, "total":int(round(comment.total)),},
@@ -510,8 +513,8 @@ def insertReview(request,lecture_id):
 
     try :
         target_comment = user_profile.comment_set.get(lecture=lecture)
-        target_comment.u_update(grade=grade, load=load, speech=speech, comment=comment)
-    except :
+        if target_comment.is_deleted == 0: target_comment.u_update(grade=grade, load=load, speech=speech, comment=comment)
+    except Comment.DoesNotExist :
         target_comment = Comment.u_create(course=course, lecture=lecture, comment=comment, grade=grade, load=load, speech=speech, writer=writer)
     return JsonResponse({"id":target_comment.id}, safe=False)
 

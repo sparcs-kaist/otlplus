@@ -1,6 +1,6 @@
 # -*- coding: utf-8
 #import Sybase
-import pyodbc
+from scholardb_access import execute
 import sys, getpass, re
 from django.core.management.base import BaseCommand
 from django.conf import settings
@@ -39,30 +39,17 @@ class Command(BaseCommand):
             print
             return
 
-        try:
-            #db = Sybase.connect(host, user, password, 'scholar')
-            db = pyodbc.connect('DRIVER=FreeTDS;TDS_Version=4.2;SERVER=%s;PORT=%s;DATABASE=%s;UID=%s;PWD=%s;CHARSET=%s'
-                                % (host, port, 'scholar', user, password, 'UTF8'))
-        except pyodbc.DatabaseError:
-            print>>sys.stderr, 'Connection failed. Check username and password.'
-            return
-
-        c = db.cursor()
+        if studentid is None:
+            query = 'SELECT * FROM view_report_e_degree_k'
+        else:
+            query = 'SELECT * FROM view_report_e_degree_k WHERE student_no=%d' % int(studentid)
+        user_dept = execute(host, port, user, password, query)
 
         if studentid is None:
-            c.execute('SELECT * FROM view_report_e_degree_k')
+            query = 'SELECT * FROM view_kds_students_other_major'
         else:
-            c.execute('SELECT * FROM view_report_e_degree_k WHERE student_no=?', (int(studentid),))
-        user_dept = c.fetchall()
-
-        if studentid is None:
-            c.execute('SELECT * FROM view_kds_students_other_major')
-        else:
-            c.execute('SELECT * FROM view_kds_students_other_major WHERE student_no=?', (int(studentid),))
-        user_major_minor = c.fetchall()
-
-        c.close()
-        db.close()
+            query = 'SELECT * FROM view_kds_students_other_major WHERE student_no=?' % int(studentid)
+        user_major_minor = execute(host, port, user, password, query)
 
         for a in user_dept:
             user = UserProfile.objects.filter(student_id=a[0])

@@ -1,6 +1,6 @@
 # -*- coding: utf-8
 #import Sybase
-import pyodbc
+from scholardb_access import execute
 import sys, getpass, re
 from django.core.management.base import BaseCommand
 from django.conf import settings
@@ -47,21 +47,10 @@ class Command(BaseCommand):
             print
             return
 
-        try:
-            #db = Sybase.connect(host, user, password, 'scholar')
-            db = pyodbc.connect('DRIVER=FreeTDS;TDS_Version=4.2;SERVER=%s;PORT=%s;DATABASE=%s;UID=%s;PWD=%s;CHARSET=%s'
-                                % (host, port, 'scholar', user, password, 'UTF8'))
-        except pyodbc.DatabaseError:
-            print>>sys.stderr, 'Connection failed. Check username and password.'
-            return
-
-        c = db.cursor()
         print year, semester
-        c.execute('SELECT * FROM view_OTL_attend WHERE lecture_year = %d AND lecture_term = %d' % (year, semester))
-        rows = c.fetchall()
+        query = 'SELECT * FROM view_OTL_attend WHERE lecture_year = %d AND lecture_term = %d' % (year, semester)
+        rows = execute(host, port, user, password, query)
 
-        c.close()
-        db.close()
         lectures = Lecture.objects.filter(year = year, semester = semester,deleted=False)
         for a in rows:
             users = UserProfile.objects.filter(student_id = a[5])
