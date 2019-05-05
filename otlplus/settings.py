@@ -151,7 +151,7 @@ SEMESTER_RANGES = {
 
 # SEMESTER RANGES ORDER 
 # (year, semester#): 
-# (semesterBeginDay, semesterEndDay, registerDay(Begin), alterDay(End), cancelDay(End), midEvlauationDay(End), finalEvalauationDay(End))
+# (semesterBeginDay, semesterEndDay, registerDay(Begin), alterDay(End), cancelDay(End), finalEvalauationDay(End))
 # Did-you-knows (loading text)
 COMPLEMENT_DYK = 0
 DYK_CONTENTS = {
