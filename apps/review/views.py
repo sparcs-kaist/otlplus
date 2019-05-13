@@ -253,7 +253,7 @@ def resultCourse(request, page):
     except InvalidPage:
         raise Http404
 
-    results = [i.toJson(request.user) for i in page_obj.object_list]
+    results = [i.toJson(user=request.user) for i in page_obj.object_list]
 
     context = {
             "results":results,
@@ -294,7 +294,7 @@ def course(request,id=-1,professor_id=-1):
     course = Course.objects.get(id=id)
 
     context = {
-            "result": course.toJson(request.user),
+            "result": course.toJson(user=request.user),
     }
     return JsonResponse(context,safe=False)
 

@@ -279,7 +279,7 @@ class Course(models.Model):
 
     latest_written_datetime = models.DateTimeField(default=None, null=True)
 
-    def toJson(self, user=None):
+    def toJson(self, nested=False, user=None):
         # Don't change this into model_to_dict: for security and performance
         result = {
                 "old_code": self.old_code,
@@ -290,10 +290,16 @@ class Course(models.Model):
                 "title": self.title,
                 "title_en": self.title_en,
                 "summary": self.summury if len(self.summury)>0 else '등록되지 않았습니다.',
-                "related_courses_prior": [c.id for c in self.related_courses_prior.all()],
-                "related_courses_posterior": [c.id for c in self.related_courses_posterior.all()],
                 "comment_num": self.comment_num,
         }
+
+        if nested:
+            return result
+        
+        result.update({
+            "related_courses_prior": [c.toJson(nested=True) for c in self.related_courses_prior.all()],
+            "related_courses_posterior": [c.toJson(nested=True) for c in self.related_courses_posterior.all()],
+        })
 
         # Add formatted professor name
         prof_name_list = [getattr(p, _("professor_name")) for p in self.professors.all()]
@@ -396,7 +402,7 @@ class Professor(models.Model):
 
         # Add course information
         result.update({
-            'courses': [c.id for c in self.course_list.all()],
+            'courses': [c.toJson() for c in self.course_list.all()],
         })
 
         # Add formatted score
