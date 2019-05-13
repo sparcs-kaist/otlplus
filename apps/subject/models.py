@@ -385,6 +385,45 @@ class Professor(models.Model):
     speech = models.FloatField(default=0.0)
     total = models.FloatField(default=0.0)
 
+    def toJson(self, nested=False):
+        result = {
+            'name': self.professor_name,
+            'professor_id': self.professor_id,
+        }
+
+        if nested:
+            return result
+
+        # Add course information
+        result.update({
+            'courses': [c.id for c in self.course_list.all()],
+        })
+
+        # Add formatted score
+        if self.comment_num == 0:
+            result.update({
+                'has_review': False,
+                'grade': 0,
+                'load': 0,
+                'speech': 0,
+                'grade_letter': '?',
+                'load_letter': '?',
+                'speech_letter': '?',
+            })
+        else:
+            letters = ['?', 'F', 'F', 'F', 'D-', 'D', 'D+', 'C-', 'C', 'C+', 'B-', 'B', 'B+', 'A-', 'A', 'A+']
+            result.update({
+                'has_review': True,
+                'grade': self.grade,
+                'load': self.load,
+                'speech': self.speech,
+                'grade_letter': letters[int(round(self.grade))],
+                'load_letter': letters[int(round(self.load))],
+                'speech_letter': letters[int(round(self.speech))],
+            })
+
+        return result
+
     def avg_update(self):
         self.total_sum = (self.grade_sum+self.load_sum+self.speech_sum)/3.0
         if self.comment_num>0:
