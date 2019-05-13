@@ -89,7 +89,7 @@ def search_view(request):
         try :
             j = random.randint(0, len(comment_liberal)-1)
             comment = comment_liberal[j].comment
-            context = _comment_to_dict(request, comment)
+            context = comment.toJson(user=request.user)
             liberal_comment.append(context)
             comment_liberal.pop(j)
 
@@ -101,7 +101,7 @@ def search_view(request):
             j = random.randint(0,len(comment_major)-1)
 
             comment = comment_major[j].comment
-            context = _comment_to_dict(request, comment)
+            context = comment.toJson(user=request.user)
             major_comment.append(context)
             comment_major.pop(j)
 
@@ -150,49 +150,6 @@ def _getLecByProf(lectures):
     lec_by_prof = groupby(lectures, _keyLecByProf)
     lec_by_prof = [ list(i[1]) for i in lec_by_prof ]
     return lec_by_prof
-
-
-def _comment_to_dict(request, comment):
-    is_login = False
-    already_up = False
-    comment_id = -1
-    if request.user.is_authenticated():
-        is_login = True
-        user = request.user
-        user_profile = UserProfile.objects.get(user=user)
-        target_review = Comment.objects.get(id=comment.id)
-        if CommentVote.objects.filter(comment = target_review, userprofile = user_profile).exists():
-            already_up = True
-    professors = comment.lecture.professor.all()
-    professor_name = " " + ", ".join([i.professor_name for i in professors]) + " "
-    semester_int = comment.lecture.semester # get semester info from subject/models.py
-    semester_char = ""
-    # 1 : spring, 2 : summer, 3 : fall, 4 : winter
-    if semester_int == 1: semester_char = "봄"
-    elif semester_int == 2: semester_char = "여름"
-    elif semester_int == 3: semester_char = "가을"
-    elif semester_int == 4: semester_char = "겨울"
-    else: semester_char = "Error"
-    result_of_comment = ""
-    if comment.is_deleted == 0: result_of_comment = comment.comment
-    else: result_of_comment = "관리자에 의해 삭제된 코멘트입니다."
-    result = {
-        "type":"comment",
-        "id":comment.id,
-        "course_id":comment.course.id,
-        "course_code":comment.course.old_code,
-        "lecture_title":comment.lecture.title,
-        "lecture_year":comment.lecture.year,
-        "lecture_semester":semester_char,
-        "professor_name":professor_name,
-        "writer":comment.writer_label,
-        "comment":result_of_comment,
-        "like":comment.like,
-        "already_up":already_up,
-        "score":{"grade":comment.grade, "load":comment.load, "speech":comment.speech, "total":int(round(comment.total)),},
-        "gradelist":[(0,"?"),(1,"F"),(2,"D"),(3,"C"),(4,"B"),(5,"A")],
-    }
-    return result
 
 
 def resultProfessor(request):
@@ -280,7 +237,7 @@ def professorComment(request, id=-1,course_id=-1,page=-1):
         page_obj = paginator.page(page)
     except InvalidPage:
         raise Http404
-    results = [_comment_to_dict(request,i) for i in page_obj.object_list]
+    results = [i.toJson(user=request.user) for i in page_obj.object_list]
 
     context = {
             "results":results,
@@ -314,7 +271,7 @@ def courseComment(request, id=-1,professor_id=-1,page=-1):
         page_obj = paginator.page(page)
     except InvalidPage:
         raise Http404
-    results = [_comment_to_dict(request,i) for i in page_obj.object_list]
+    results = [i.toJson(user=request.user) for i in page_obj.object_list]
 
     context = {
             "results":results,
@@ -429,7 +386,7 @@ def insertReview(request,lecture_id):
 
 def ReviewView(request, comment_id):
     try :
-        comment = _comment_to_dict(request,Comment.objects.get(id=comment_id))
+        comment = Comment.objects.get(id=comment_id).toJson(user=request.user)
     except Comment.DoesNotExist:
         raise Http404
 
@@ -456,7 +413,7 @@ def latest(request, page=-1):
         page_obj = paginator.page(page)
     except InvalidPage:
         raise Http404
-    results = [_comment_to_dict(request,i) for i in page_obj.object_list]
+    results = [i.toJson(user=request.user) for i in page_obj.object_list]
 
     context = {
             "results":results,
