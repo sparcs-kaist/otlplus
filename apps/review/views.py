@@ -152,76 +152,6 @@ def _getLecByProf(lectures):
     return lec_by_prof
 
 
-def _course_to_dict(course,id=-1,request=None):
-    lectures = list( course.lecture_course.all() )
-    lec_by_prof = _getLecByProf(lectures)
-
-    prof_info = []
-    prof_info.append({
-        "name" : "ALL",
-        "id" : -1,
-    })
-    summury = "등록되지 않았습니다."
-    score = {"grade":int(round(course.grade)), "load":int(round(course.load)), "speech":int(round(course.speech)), "total":int(round(course.total)),}
-    is_read = True #not logged in - marked as all read
-
-    for idx, lectures in enumerate(lec_by_prof):
-        names = [i.professor_name for i in lectures[0].professor.all()]
-        if len(names) == 1:
-            name_string = names[0]
-        elif len(names) == 2:
-            name_string = names[0] + ', ' + names[1]
-        elif len(names) > 2:
-            name_string = names[0] + u' 외 %d명'%(len(names)-1)
-        else:
-            name_string = 'error'
-
-        if int(idx) == int(id):
-            grade_sum = sum(i.grade_sum for i in lectures)
-            load_sum = sum(i.load_sum for i in lectures)
-            speech_sum = sum(i.speech_sum for i in lectures)
-            total_sum = sum(i.total_sum for i in lectures)
-            comment_num = sum(i.comment_num for i in lectures)
-            grade, load, speech, total = _calcAvgScore(grade_sum, load_sum, speech_sum, total_sum, comment_num)
-            score = {"grade":int(round(grade)), "load":int(round(load)), "speech":int(round(speech)), "total":int(round(total)),}
-
-        prof_info.append({
-            "name" : name_string,
-            "id" : idx,
-        })
-        summury = course.summury
-        if(len(summury)<1):
-            summury = "등록되지 않았습니다."
-    
-    if request and request.user and request.user.is_authenticated():
-        user = request.user
-        user_profile = UserProfile.objects.get(user=user)
-        try:
-            course_user = CourseUser.objects.get(user_profile=user_profile, course=course)
-            if course.latest_written_datetime is None:
-                is_read = True
-            elif course.latest_written_datetime > course_user.latest_read_datetime:
-                is_read = False
-            else:
-                is_read = True
-        except CourseUser.DoesNotExist:
-            is_read = False
-
-
-    result = {
-        "type":"course",
-        "id":course.id,
-        "code":course.old_code,
-        "title":course.title,
-        "summury":summury,
-        "prof_info":sorted(prof_info, key = lambda x : x['name']),
-        "gradelist":gradelist,
-        "score":score,
-        "is_read":is_read
-    }
-    return result
-
-
 def _comment_to_dict(request, comment):
     is_login = False
     already_up = False
@@ -377,7 +307,7 @@ def resultCourse(request, page):
     except InvalidPage:
         raise Http404
 
-    results = [_course_to_dict(i,-1,request) for i in page_obj.object_list]
+    results = [i.toJson(request.user) for i in page_obj.object_list]
 
     context = {
             "results":results,
@@ -418,7 +348,7 @@ def course(request,id=-1,professor_id=-1):
     course = Course.objects.get(id=id)
 
     context = {
-            "result":_course_to_dict(course,professor_id, request),
+            "result": course.toJson(request.user),
     }
     return JsonResponse(context,safe=False)
 
