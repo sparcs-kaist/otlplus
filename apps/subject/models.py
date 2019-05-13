@@ -74,33 +74,40 @@ class Lecture(models.Model):
         
         # Add formatted professor name
         prof_name_list = [getattr(p, _("professor_name")) for p in self.professor.all()]
-        result['professor'] = u", ".join(prof_name_list)
         if len(prof_name_list) <= 2:
-            result['professor_short'] = result['professor']
+            result.update({
+                'professor_short': u", ".join(prof_name_list),
+            })
         else:
-            result['professor_short'] = prof_name_list[0] + _(u" 외 ") + str(len(prof_name_list)-1) + _(u"명")
+            result.update({
+                'professor_short': prof_name_list[0] + _(u" 외 ") + str(len(prof_name_list)-1) + _(u"명"),
+            })
 
         # Add formatted score
         if self.comment_num == 0:
-            result['has_review'] = False
-            result['grade'] = 0
-            result['load'] = 0
-            result['speech'] = 0
-            result['grade_letter'] = '?'
-            result['load_letter'] = '?'
-            result['speech_letter'] = '?'
+            result.update({
+                'has_review': False,
+                'grade': 0,
+                'load': 0,
+                'speech': 0,
+                'grade_letter': '?',
+                'load_letter': '?',
+                'speech_letter': '?',
+            })
         else:
             letters = ['?', 'F', 'F', 'F', 'D-', 'D', 'D+', 'C-', 'C', 'C+', 'B-', 'B', 'B+', 'A-', 'A', 'A+']
-            result['has_review'] = True
-            result['grade'] = self.grade
-            result['load'] = self.load
-            result['speech'] = self.speech
-            result['grade_letter'] = letters[int(round(self.grade))]
-            result['load_letter'] = letters[int(round(self.load))]
-            result['speech_letter'] = letters[int(round(self.speech))]
+            result.update({
+                'has_review': True,
+                'grade': self.grade,
+                'load': self.load,
+                'speech': self.speech,
+                'grade_letter': letters[int(round(self.grade))],
+                'load_letter': letters[int(round(self.load))],
+                'speech_letter': letters[int(round(self.speech))],
+            })
 
         # Add classtime
-        result["classtimes"] = []
+        classtimes = []
         for ct in self.classtime_set.all():
             bldg = getattr(ct, _("roomName"))
             # No classroom info
@@ -125,42 +132,62 @@ class Lecture(models.Model):
                 classroom = bldg + " " + room
                 classroom_short = bldg + " " + room
 
-            result["classtimes"].append({"building": bldg_no,
-                                        "classroom": classroom,
-                                        "classroom_short": classroom_short,
-                                        "room": room,
-                                        "day": ct.day,
-                                        "begin": ct.get_begin_numeric(),
-                                        "end": ct.get_end_numeric(),})
+            classtimes.append({
+                "building": bldg_no,
+                "classroom": classroom,
+                "classroom_short": classroom_short,
+                "room": room,
+                "day": ct.day,
+                "begin": ct.get_begin_numeric(),
+                "end": ct.get_end_numeric(),
+            })
+        result.update({
+            'classtimes': classtimes,
+        })
 
         # Add classroom info
-        if len(result['classtimes']) > 0:
-            result['building'] = result['classtimes'][0]['building']
-            result['classroom'] = result['classtimes'][0]['classroom']
-            result['classroom_short'] = result['classtimes'][0]['classroom_short']
-            result['room'] = result['classtimes'][0]['room']
+        if len(classtimes) > 0:
+            result.update({
+                'building': classtimes[0]['building'],
+                'classroom': classtimes[0]['classroom'],
+                'classroom_short': classtimes[0]['classroom_short'],
+                'room': classtimes[0]['room'],
+            })
         else:
-            result['building'] = ''
-            result['classroom'] = _(u'정보 없음')
-            result['classroom_short'] = _(u'정보 없음')
-            result['room'] = ''
+            result.update({
+                'building': '',
+                'classroom': _(u'정보 없음'),
+                'classroom_short': _(u'정보 없음'),
+                'room': '',
+            })
 
         # Add examtime
-        result["examtimes"] = []
+        examtimes = []
         for et in self.examtime_set.all():
             day_str = [_(u"월요일"), _(u"화요일"), _(u"수요일"), _(u"목요일"), _(u"금요일"), _(u"토요일"), _(u"일요일")]
-            result["examtimes"].append({"day": et.day,
-                                        "str": day_str[et.day] + " " + et.begin.strftime("%H:%M") + " ~ " + et.end.strftime("%H:%M"),
-                                        "begin": et.get_begin_numeric(),
-                                        "end": et.get_end_numeric(),})
+            examtimes.append({
+                "day": et.day,
+                "str": day_str[et.day] + " " + et.begin.strftime("%H:%M") + " ~ " + et.end.strftime("%H:%M"),
+                "begin": et.get_begin_numeric(),
+                "end": et.get_end_numeric(),
+            })
+        result.update({
+            'examtimes': examtimes,
+        })
 
         # Add exam info
-        if len(result['examtimes']) > 1:
-            result['exam'] = result['examtimes'][0]['str'] + _(u" 외 ") + str(len(result['examtimes']-1)) + _("개")
-        elif len(result['examtimes']) == 1:
-            result['exam'] = result['examtimes'][0]['str']
+        if len(examtimes) > 1:
+            result.update({
+                'exam': examtimes[0]['str'] + _(u" 외 ") + str(len(result['examtimes']-1)) + _("개"),
+            })
+        elif len(examtimes) == 1:
+            result.update({
+                'exam': examtimes[0]['str'],
+            })
         else:
-            result['exam'] = _(u'정보 없음')
+            result.update({
+                'exam': _(u'정보 없음'),
+            })
 
         return result
 
