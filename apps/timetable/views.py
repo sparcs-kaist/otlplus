@@ -158,15 +158,6 @@ def _lecture_result_format(ls, from_search = False):
 
 
 
-def _get_scores(lecture):
-    comment_num = lecture.comment_num
-    if comment_num == 0:
-        return False, False, False
-    else:
-        return lecture.grade, lecture.load, lecture.speech
-
-
-
 # Lecture -> dict-Lecture
 # Convert a lecture model into dict
 def _lecture_to_dict(lecture):
@@ -175,118 +166,7 @@ def _lecture_to_dict(lecture):
     if result_cached != None:
         return result_cached
 
-    # Don't change this into model_to_dict: for security and performance
-    result = {"id": lecture.id,
-              "title": getattr(lecture, _("title")),
-              "course": lecture.course.id,
-              "old_code": lecture.old_code,
-              "class_no": lecture.class_no,
-              "year": lecture.year,
-              "semester": lecture.semester,
-              "code": lecture.code,
-              "department": lecture.department.id,
-              "department_code": lecture.department.code,
-              "department_name": getattr(lecture.department, _("name")),
-              "type": getattr(lecture, _("type")),
-              "type_en": lecture.type_en,
-              "limit": lecture.limit,
-              "num_people": lecture.num_people,
-              "is_english": lecture.is_english,
-              "credit": lecture.credit,
-              "credit_au": lecture.credit_au,
-              "common_title": getattr(lecture, _("common_title")),
-              "class_title": getattr(lecture, _("class_title")),}
-    
-    # Add formatted professor name
-    prof_name_list = [getattr(p, _("professor_name")) for p in lecture.professor.all()]
-    result['professor'] = u", ".join(prof_name_list)
-    if len(prof_name_list) <= 2:
-      result['professor_short'] = result['professor']
-    else:
-      result['professor_short'] = prof_name_list[0] + _(u" 외 ") + str(len(prof_name_list)-1) + _(u"명")
-
-    # Add formatted score
-    grade, load, speech = _get_scores(lecture)
-    if grade == False:
-        result['has_review'] = False
-        result['grade'] = 0
-        result['load'] = 0
-        result['speech'] = 0
-        result['grade_letter'] = '?'
-        result['load_letter'] = '?'
-        result['speech_letter'] = '?'
-    else:
-        letters = ['?', 'F', 'F', 'F', 'D-', 'D', 'D+', 'C-', 'C', 'C+', 'B-', 'B', 'B+', 'A-', 'A', 'A+']
-        result['has_review'] = True
-        result['grade'] = grade
-        result['load'] = load
-        result['speech'] = speech
-        result['grade_letter'] = letters[int(round(grade))]
-        result['load_letter'] = letters[int(round(load))]
-        result['speech_letter'] = letters[int(round(speech))]
-
-    # Add classtime
-    result["classtimes"] = []
-    for ct in lecture.classtime_set.all():
-        bldg = getattr(ct, _("roomName"))
-        # No classroom info
-        if bldg == None:
-            room = ""
-            bldg_no = ""
-            classroom = _(u"정보 없음")
-            classroom_short = _(u"정보 없음")
-        # Building name has form of "(N1) xxxxx"
-        elif bldg[0] == "(":
-            bldg_no = bldg[1:bldg.find(")")]
-            bldg_name = bldg[len(bldg_no)+2:]
-            room = getattr(ct, _("roomNum"))
-            if room == None: room=""
-            classroom = "(" + bldg_no + ") " + bldg_name + " " + room
-            classroom_short = "(" + bldg_no + ") " + room
-        # Building name has form of "xxxxx"
-        else:
-            bldg_no=""
-            room = getattr(ct, _("roomNum"))
-            if room == None: room=""
-            classroom = bldg + " " + room
-            classroom_short = bldg + " " + room
-
-        result["classtimes"].append({"building": bldg_no,
-                                     "classroom": classroom,
-                                     "classroom_short": classroom_short,
-                                     "room": room,
-                                     "day": ct.day,
-                                     "begin": ct.get_begin_numeric(),
-                                     "end": ct.get_end_numeric(),})
-
-    # Add classroom info
-    if len(result['classtimes']) > 0:
-        result['building'] = result['classtimes'][0]['building']
-        result['classroom'] = result['classtimes'][0]['classroom']
-        result['classroom_short'] = result['classtimes'][0]['classroom_short']
-        result['room'] = result['classtimes'][0]['room']
-    else:
-        result['building'] = ''
-        result['classroom'] = _(u'정보 없음')
-        result['classroom_short'] = _(u'정보 없음')
-        result['room'] = ''
-
-    # Add examtime
-    result["examtimes"] = []
-    for et in lecture.examtime_set.all():
-        day_str = [_(u"월요일"), _(u"화요일"), _(u"수요일"), _(u"목요일"), _(u"금요일"), _(u"토요일"), _(u"일요일")]
-        result["examtimes"].append({"day": et.day,
-                                    "str": day_str[et.day] + " " + et.begin.strftime("%H:%M") + " ~ " + et.end.strftime("%H:%M"),
-                                    "begin": et.get_begin_numeric(),
-                                    "end": et.get_end_numeric(),})
-
-    # Add exam info
-    if len(result['examtimes']) > 1:
-        result['exam'] = result['examtimes'][0]['str'] + _(u" 외 ") + str(len(result['examtimes']-1)) + _("개")
-    elif len(result['examtimes']) == 1:
-        result['exam'] = result['examtimes'][0]['str']
-    else:
-        result['exam'] = _(u'정보 없음')
+    result = lecture.toJson()
 
     cache.set(cache_id, result, 60*60)
     return result
