@@ -109,38 +109,7 @@ class Lecture(models.Model):
         # Add classtime
         classtimes = []
         for ct in self.classtime_set.all():
-            bldg = getattr(ct, _("roomName"))
-            # No classroom info
-            if bldg == None:
-                room = ""
-                bldg_no = ""
-                classroom = _(u"정보 없음")
-                classroom_short = _(u"정보 없음")
-            # Building name has form of "(N1) xxxxx"
-            elif bldg[0] == "(":
-                bldg_no = bldg[1:bldg.find(")")]
-                bldg_name = bldg[len(bldg_no)+2:]
-                room = getattr(ct, _("roomNum"))
-                if room == None: room=""
-                classroom = "(" + bldg_no + ") " + bldg_name + " " + room
-                classroom_short = "(" + bldg_no + ") " + room
-            # Building name has form of "xxxxx"
-            else:
-                bldg_no=""
-                room = getattr(ct, _("roomNum"))
-                if room == None: room=""
-                classroom = bldg + " " + room
-                classroom_short = bldg + " " + room
-
-            classtimes.append({
-                "building": bldg_no,
-                "classroom": classroom,
-                "classroom_short": classroom_short,
-                "room": room,
-                "day": ct.day,
-                "begin": ct.get_begin_numeric(),
-                "end": ct.get_end_numeric(),
-            })
+            classtimes.append(ct.toJson())
         result.update({
             'classtimes': classtimes,
         })
@@ -164,13 +133,7 @@ class Lecture(models.Model):
         # Add examtime
         examtimes = []
         for et in self.examtime_set.all():
-            day_str = [_(u"월요일"), _(u"화요일"), _(u"수요일"), _(u"목요일"), _(u"금요일"), _(u"토요일"), _(u"일요일")]
-            examtimes.append({
-                "day": et.day,
-                "str": day_str[et.day] + " " + et.begin.strftime("%H:%M") + " ~ " + et.end.strftime("%H:%M"),
-                "begin": et.get_begin_numeric(),
-                "end": et.get_end_numeric(),
-            })
+            examtimes.append(et.toJson())
         result.update({
             'examtimes': examtimes,
         })
@@ -310,6 +273,17 @@ class ExamTime(models.Model):
             self.end.strftime('%H:%M')
         )
 
+    def toJson(self, nested=False):
+        day_str = [_(u"월요일"), _(u"화요일"), _(u"수요일"), _(u"목요일"), _(u"금요일"), _(u"토요일"), _(u"일요일")]
+        result = {
+            "day": self.day,
+            "str": day_str[self.day] + " " + self.begin.strftime("%H:%M") + " ~ " + self.end.strftime("%H:%M"),
+            "begin": self.get_begin_numeric(),
+            "end": self.get_end_numeric(),
+        }
+
+        return result
+
     def get_begin_numeric(self):
         """0시 0분을 기준으로 분 단위로 계산된 시작 시간을 반환한다."""
         t = self.begin.hour * 60 + self.begin.minute
@@ -333,6 +307,42 @@ class ClassTime(models.Model):
     roomName_en = models.CharField(max_length=60, blank=True, null=True) #건물 이름(ex> (E11)Creative learning Bldg.)
     roomNum = models.CharField(max_length=20, null=True) #강의실 호실(ex> 304, 1104, 1209-1, 터만홀)
     unit_time = models.SmallIntegerField(null=True) #수업 교시
+
+    def toJson(self, nested=False):
+        bldg = getattr(self, _("roomName"))
+        # No classroom info
+        if bldg == None:
+            room = ""
+            bldg_no = ""
+            classroom = _(u"정보 없음")
+            classroom_short = _(u"정보 없음")
+        # Building name has form of "(N1) xxxxx"
+        elif bldg[0] == "(":
+            bldg_no = bldg[1:bldg.find(")")]
+            bldg_name = bldg[len(bldg_no)+2:]
+            room = getattr(self, _("roomNum"))
+            if room == None: room=""
+            classroom = "(" + bldg_no + ") " + bldg_name + " " + room
+            classroom_short = "(" + bldg_no + ") " + room
+        # Building name has form of "xxxxx"
+        else:
+            bldg_no=""
+            room = getattr(self, _("roomNum"))
+            if room == None: room=""
+            classroom = bldg + " " + room
+            classroom_short = bldg + " " + room
+
+        result = {
+            "building": bldg_no,
+            "classroom": classroom,
+            "classroom_short": classroom_short,
+            "room": room,
+            "day": self.day,
+            "begin": self.get_begin_numeric(),
+            "end": self.get_end_numeric(),
+        }
+
+        return result
 
     def get_begin_numeric(self):
         """0시 0분을 기준으로 분 단위로 계산된 시작 시간을 반환한다."""
@@ -388,6 +398,14 @@ class Department(models.Model):
     def __unicode__(self):
         return self.code
 
+    def toJson(self, nested=False):
+        result = {
+            'name': self.name,
+            'code': self.code,
+        }
+
+        return result
+
 
 class Course(models.Model):
     # Fetched from KAIST Scholar DB
@@ -425,7 +443,7 @@ class Course(models.Model):
         # Don't change this into model_to_dict: for security and performance
         result = {
                 "old_code": self.old_code,
-                "department": self.department.id,
+                "department": self.department.toJson(),
                 "code_num": self.code_num,
                 "type": self.type,
                 "type_en": self.type_en,
