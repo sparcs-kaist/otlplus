@@ -29,7 +29,7 @@ class Comment(models.Model):
         letters = ['?', 'F', 'D', 'C', 'B', 'A']
         result = {
             'course': self.course.toJson(nested=True),
-            'lecture': self.lecture.id, # TODO: Change this to self.lecture.toJson() after implemented
+            'lecture': self.lecture.toJson(nested=True),
             'comment': self.comment if (not self.is_deleted) else '관리자에 의해 삭제된 코멘트입니다.',
             'like': self.like,
             'is_deleted': self.is_deleted,
