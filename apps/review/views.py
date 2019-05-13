@@ -195,60 +195,6 @@ def _comment_to_dict(request, comment):
     return result
 
 
-def _professor_to_dict(professor,id=-1):
-    lecture_list=[]
-    lecture_list.append({
-        "name": "ALL",
-        "id": -1,
-    })
-
-    score = {"grade":int(round(professor.grade)), "load":int(round(professor.load)), "speech":int(round(professor.speech)), "total":int(round(professor.total)),}
-
-    for course in professor.course_list.all().order_by('title','old_code'):
-
-        lecture_list.append({
-            "id" : course.id,
-            "name" : course.title,
-        })
-
-        if int(course.id) == int(id) :
-            lectures = professor.lecture_professor.filter(course = course)
-            grade_sum = sum(i.grade_sum for i in lectures)
-            load_sum = sum(i.load_sum for i in lectures)
-            speech_sum = sum(i.speech_sum for i in lectures)
-            total_sum = sum(i.total_sum for i in lectures)
-            comment_num = sum(i.comment_num for i in lectures)
-            grade, load, speech, total = _calcAvgScore(grade_sum, load_sum, speech_sum, total_sum, comment_num)
-            score = {"grade":int(round(grade)), "load":int(round(load)), "speech":int(round(speech)), "total":int(round(total)),}
-
-            """
-            grade = int(round(lecture.grade))
-            load = int(round(lecture.load))
-            speech = int(round(lecture.speech))
-            total = int(round(lecture.total))
-            score = {"grade":grade, "load":load, "speech":speech, "total":total,}
-            """
-
-    try:
-        if len(professor.major) > 0:
-            major = Department.objects.get(id = professor.major).name
-        else:
-            major = u"정보 없음"
-    except Department.DoesNotExist:
-        major = u"정보 없음"
-
-    result = {
-        "type": "professor",
-        "id": professor.id,
-        "title": professor.professor_name,
-        "prof_info": lecture_list,
-        "gradelist": gradelist,
-        "major": major,
-        "score": score,
-    }
-    return result
-
-
 def resultProfessor(request):
     keyword = request.GET.get('q')
     if not keyword :
@@ -320,7 +266,7 @@ def resultCourse(request, page):
 def professor(request,id=-1,course_id=-1):
     professor = Professor.objects.get(id=id)
     context = {
-            "result":_professor_to_dict(professor,course_id),
+            "result": professor.toJson(),
     }
     return JsonResponse(context,safe=False)
 
