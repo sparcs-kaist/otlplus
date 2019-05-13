@@ -1,5 +1,6 @@
 #-*- coding: utf-8 -*-
 from django.db import models
+from django.utils.translation import ugettext as _
 from apps.enum.common import * #for enum type (for choices)
 from datetime import date, time
 
@@ -280,44 +281,48 @@ class Course(models.Model):
 
     def toJson(self):
         # Don't change this into model_to_dict: for security and performance
-        result = {"old_code": self.old_code,
-                "department": self.department,
-                "professors": self.professors,
+        result = {
+                "old_code": self.old_code,
+                "department": self.department.id,
                 "code_num": self.code_num,
                 "type": self.type,
                 "type_en": self.type_en,
                 "title": self.title,
                 "title_en": self.title_en,
-                "summury": self.summury,
-                "related_courses_prior": self.related_courses_prior,
-                "related_courses_posterior": self.related_courses_posterior,
+                "summary": self.summury if len(self.summury)>0 else '등록되지 않았습니다.',
+                "related_courses_prior": [c.id for c in self.related_courses_prior.all()],
+                "related_courses_posterior": [c.id for c in self.related_courses_posterior.all()],
                 "comment_num": self.comment_num,
-                "grade": self.grade,
-                "load": self.load,
-                "speech": self.speech,}
+        }
 
         # Add formatted professor name
         prof_name_list = [getattr(p, _("professor_name")) for p in self.professors.all()]
-        result['professor'] = u", ".join(prof_name_list)
+        result.update({
+            'professors': u", ".join(prof_name_list),
+        })
 
         # Add formatted score
         if self.comment_num == 0:
-            result['has_review'] = False
-            result['grade'] = 0
-            result['load'] = 0
-            result['speech'] = 0
-            result['grade_letter'] = '?'
-            result['load_letter'] = '?'
-            result['speech_letter'] = '?'
+            result.update({
+                'has_review': False,
+                'grade': 0,
+                'load': 0,
+                'speech': 0,
+                'grade_letter': '?',
+                'load_letter': '?',
+                'speech_letter': '?',
+            })
         else:
             letters = ['?', 'F', 'F', 'F', 'D-', 'D', 'D+', 'C-', 'C', 'C+', 'B-', 'B', 'B+', 'A-', 'A', 'A+']
-            result['has_review'] = True
-            result['grade'] = grade
-            result['load'] = load
-            result['speech'] = speech
-            result['grade_letter'] = letters[int(round(grade))]
-            result['load_letter'] = letters[int(round(load))]
-            result['speech_letter'] = letters[int(round(speech))]
+            result.update({
+                'has_review': True,
+                'grade': self.grade,
+                'load': self.load,
+                'speech': self.speech,
+                'grade_letter': letters[int(round(self.grade))],
+                'load_letter': letters[int(round(self.load))],
+                'speech_letter': letters[int(round(self.speech))],
+            })
 
         return result
 
