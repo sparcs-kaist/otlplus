@@ -49,6 +49,121 @@ class Lecture(models.Model):
     total = models.FloatField(default=0.0)
     comment_num = models.IntegerField(default=0)
 
+    def toJson(self, nested=False):
+        # Don't change this into model_to_dict: for security and performance
+        result = {"id": self.id,
+                "title": getattr(self, _("title")),
+                "course": self.course.id,
+                "old_code": self.old_code,
+                "class_no": self.class_no,
+                "year": self.year,
+                "semester": self.semester,
+                "code": self.code,
+                "department": self.department.id,
+                "department_code": self.department.code,
+                "department_name": getattr(self.department, _("name")),
+                "type": getattr(self, _("type")),
+                "type_en": self.type_en,
+                "limit": self.limit,
+                "num_people": self.num_people,
+                "is_english": self.is_english,
+                "credit": self.credit,
+                "credit_au": self.credit_au,
+                "common_title": getattr(self, _("common_title")),
+                "class_title": getattr(self, _("class_title")),}
+        
+        # Add formatted professor name
+        prof_name_list = [getattr(p, _("professor_name")) for p in self.professor.all()]
+        result['professor'] = u", ".join(prof_name_list)
+        if len(prof_name_list) <= 2:
+            result['professor_short'] = result['professor']
+        else:
+            result['professor_short'] = prof_name_list[0] + _(u" 외 ") + str(len(prof_name_list)-1) + _(u"명")
+
+        # Add formatted score
+        if self.comment_num == 0:
+            result['has_review'] = False
+            result['grade'] = 0
+            result['load'] = 0
+            result['speech'] = 0
+            result['grade_letter'] = '?'
+            result['load_letter'] = '?'
+            result['speech_letter'] = '?'
+        else:
+            letters = ['?', 'F', 'F', 'F', 'D-', 'D', 'D+', 'C-', 'C', 'C+', 'B-', 'B', 'B+', 'A-', 'A', 'A+']
+            result['has_review'] = True
+            result['grade'] = self.grade
+            result['load'] = self.load
+            result['speech'] = self.speech
+            result['grade_letter'] = letters[int(round(self.grade))]
+            result['load_letter'] = letters[int(round(self.load))]
+            result['speech_letter'] = letters[int(round(self.speech))]
+
+        # Add classtime
+        result["classtimes"] = []
+        for ct in self.classtime_set.all():
+            bldg = getattr(ct, _("roomName"))
+            # No classroom info
+            if bldg == None:
+                room = ""
+                bldg_no = ""
+                classroom = _(u"정보 없음")
+                classroom_short = _(u"정보 없음")
+            # Building name has form of "(N1) xxxxx"
+            elif bldg[0] == "(":
+                bldg_no = bldg[1:bldg.find(")")]
+                bldg_name = bldg[len(bldg_no)+2:]
+                room = getattr(ct, _("roomNum"))
+                if room == None: room=""
+                classroom = "(" + bldg_no + ") " + bldg_name + " " + room
+                classroom_short = "(" + bldg_no + ") " + room
+            # Building name has form of "xxxxx"
+            else:
+                bldg_no=""
+                room = getattr(ct, _("roomNum"))
+                if room == None: room=""
+                classroom = bldg + " " + room
+                classroom_short = bldg + " " + room
+
+            result["classtimes"].append({"building": bldg_no,
+                                        "classroom": classroom,
+                                        "classroom_short": classroom_short,
+                                        "room": room,
+                                        "day": ct.day,
+                                        "begin": ct.get_begin_numeric(),
+                                        "end": ct.get_end_numeric(),})
+
+        # Add classroom info
+        if len(result['classtimes']) > 0:
+            result['building'] = result['classtimes'][0]['building']
+            result['classroom'] = result['classtimes'][0]['classroom']
+            result['classroom_short'] = result['classtimes'][0]['classroom_short']
+            result['room'] = result['classtimes'][0]['room']
+        else:
+            result['building'] = ''
+            result['classroom'] = _(u'정보 없음')
+            result['classroom_short'] = _(u'정보 없음')
+            result['room'] = ''
+
+        # Add examtime
+        result["examtimes"] = []
+        for et in self.examtime_set.all():
+            day_str = [_(u"월요일"), _(u"화요일"), _(u"수요일"), _(u"목요일"), _(u"금요일"), _(u"토요일"), _(u"일요일")]
+            result["examtimes"].append({"day": et.day,
+                                        "str": day_str[et.day] + " " + et.begin.strftime("%H:%M") + " ~ " + et.end.strftime("%H:%M"),
+                                        "begin": et.get_begin_numeric(),
+                                        "end": et.get_end_numeric(),})
+
+        # Add exam info
+        if len(result['examtimes']) > 1:
+            result['exam'] = result['examtimes'][0]['str'] + _(u" 외 ") + str(len(result['examtimes']-1)) + _("개")
+        elif len(result['examtimes']) == 1:
+            result['exam'] = result['examtimes'][0]['str']
+        else:
+            result['exam'] = _(u'정보 없음')
+
+        return result
+
     def recalc_score(self):
         from apps.review.models import Comment
         self.comment_num = 0
