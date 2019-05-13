@@ -464,7 +464,8 @@ class Course(models.Model):
         # Add formatted professor name
         prof_name_list = [getattr(p, _("professor_name")) for p in self.professors.all()]
         result.update({
-            'professors': u", ".join(prof_name_list),
+            'professors_str': u", ".join(prof_name_list),
+            'professors': [p.toJson(nested=True) for p in self.professors.all()]
         })
 
         # Add formatted score
