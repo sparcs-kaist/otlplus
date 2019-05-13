@@ -25,6 +25,36 @@ class Comment(models.Model):
             ("writer", "lecture",)
         )
 
+    def toJson(self, nested=False, user=None):
+        letters = ['?', 'F', 'D', 'C', 'B', 'A']
+        result = {
+            'course': self.course.toJson(nested=True),
+            'lecture': self.lecture.id, # TODO: Change this to self.lecture.toJson() after implemented
+            'comment': self.comment if (not self.is_deleted) else '관리자에 의해 삭제된 코멘트입니다.',
+            'like': self.like,
+            'is_deleted': self.is_deleted,
+            'grade': self.grade,
+            'load': self.load,
+            'speech': self.speech,
+            'grade_letter': letters[self.grade],
+            'load_letter': letters[self.load],
+            'speech_letter': letters[self.speech],
+        }
+
+        if nested:
+            return result
+
+        is_liked = True
+        if (not user) or (not user.is_authenticated()):
+            is_liked = False
+        else:
+            is_liked = CommentVote.objects.filter(comment = self, userprofile__user = user).exists()
+        result.update({
+            'userspecific_is_liked': is_liked,
+        })
+
+        return result
+
     def __unicode__(self):
         return u"%s(%s)"%(self.lecture,self.writer)
 
