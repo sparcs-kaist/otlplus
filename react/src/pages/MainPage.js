@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
-import Header from "../common/Header";
-import Footer from "../common/Footer";
+import Header from "../componenets/Header";
+import Footer from "../componenets/Footer";
 
 import AcademicScheduleSection from "../componenets/sections/AcademicScheduleSection";
 import RelatedCourseSection from "../componenets/sections/RelatedCourseSection";

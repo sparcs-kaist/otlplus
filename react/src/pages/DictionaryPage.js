@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import Header from "../common/Header";
+import Header from "../componenets/Header";
 import CourseListSection from "../componenets/sections/CourseListSection";
 import CourseDetailSection from "../componenets/sections/CourseDetailSection";
 
