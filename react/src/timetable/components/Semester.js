@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import axios from '../../common/presetAxios';
+import axios from '../../componenets/presetAxios';
 import {setSemester, setTimetables, setListLectures} from "../actions";
 import {connect} from "react-redux";
 

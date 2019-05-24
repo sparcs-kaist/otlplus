@@ -8,7 +8,7 @@ import ResultFilterItem from './common/ResultFilterItem';
 import Review from './common/Review';
 import Form from './common/Form';
 
-import axios from './../common/presetAxios';
+import axios from '../componenets/presetAxios';
 
 import { BASE_URL } from './../constants';
 
