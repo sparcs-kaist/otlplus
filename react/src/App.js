@@ -11,8 +11,8 @@ import './static/css/global.css';
 import DictionaryPage from "./pages/DictionaryPage";
 import TimetablePage from "./pages/TimetablePage";
 import MainPage from "./pages/MainPage";
-import CreditPage from "./common/CreditPage";
-import LicensePage from "./common/LicensePage";
+import CreditPage from "./pages/CreditPage";
+import LicensePage from "./pages/LicensePage";
 
 import timetableReducer from "./timetable/reducers/index";
 import commonReducer from "./reducers/user";
