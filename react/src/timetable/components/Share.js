@@ -6,9 +6,6 @@ import { modaltimetableList } from '../actions';
 
 class Share extends Component {
 
-  constructor(props){
-    super(props);
-  }
     render() {
         return (
             <div id="share-buttons" className="authenticated">
