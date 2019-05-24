@@ -10,6 +10,7 @@ import './static/css/global.css';
 
 import DictionaryPage from "./pages/DictionaryPage";
 import TimetablePage from "./pages/TimetablePage";
+import Syllabus from "./timetable/components/Syllabus";
 import MainPage from "./pages/MainPage";
 import CreditPage from "./pages/CreditPage";
 import LicensePage from "./pages/LicensePage";
@@ -41,6 +42,7 @@ class App extends Component {
             <Switch>
                 <Route path="/dictionary" render={(props)=><DictionaryPage/>}/>
                 <Route exact path="/timetable" render={(props)=><TimetablePage/>}/>
+                <Route exact path="/timetable/syllabus" component={Syllabus}/>
                 <Route exact path="/main" render={(props)=><MainPage/>}/>
                 <Route exact path="/credits" render={(props)=><CreditPage/>}/>
                 <Route exact path="/licenses" render={(props)=><LicensePage/>}/>
