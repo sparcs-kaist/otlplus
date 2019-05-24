@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { openSearch, closeSearch, setCurrentList, clearLectureActive } from "../actions";
-import Scroller from "../../common/Scroller";
+import Scroller from "../../componenets/Scroller";
 import Search from "./Search";
 import ListBlock from "./ListBlock";
 import { LIST, TABLE } from "../reducers/lectureActive";

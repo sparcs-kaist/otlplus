@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 
-import ReviewBlock from "../../dictionary/components/ReviewBlock";
+import ReviewBlock from "../blocks/ReviewBlock";
 
 
-class LatestReviewSection extends Component {
+class FamousReviewSection extends Component {
     render() {
         return (
             <div className="section-content section-content--widget">
                 <div className="title">
-                    따끈따끈 과목후기
+                    사랑받는 전공 후기 - 전산학부
                 </div>
                 <ReviewBlock/>
                 <ReviewBlock/>
@@ -24,4 +24,4 @@ class LatestReviewSection extends Component {
 }
 
 
-export default LatestReviewSection;
+export default FamousReviewSection;

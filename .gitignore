@@ -101,4 +101,5 @@ db_update_script.log
 
 react/node_modules
 
+.vscode/
 .history/
