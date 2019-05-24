@@ -104,7 +104,7 @@ class List extends Component {
                         }
                     </div>
                     {["ID", "CS"].map((code) => (
-                        <div className={"list-page humanity-page"+(this.props.currentList===code?"":" none")} key={code}>
+                        <div className={"list-page major-page"+(this.props.currentList===code?"":" none")} key={code}>
                             <div className="list-page-title">
                                 {this.props.list[code].name} 전공
                             </div>
