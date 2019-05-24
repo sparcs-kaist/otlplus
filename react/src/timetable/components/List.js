@@ -91,7 +91,7 @@ class List extends Component {
                             this.props.open
                                 ? null
                                 : (
-                                    <div>
+                                    <>
                                         <div className="list-page-title search-page-title" onClick={()=>this.showSearch()}>
                                             <i className="search-page-title-icon"/>
                                             <div className="search-page-title-text">검색</div>
@@ -99,7 +99,7 @@ class List extends Component {
                                         <Scroller>
                                           {listBlocks(this.props.search.courses, false)}
                                         </Scroller>
-                                    </div>
+                                    </>
                                 )
                         }
                     </div>
