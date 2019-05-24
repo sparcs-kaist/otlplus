@@ -15,8 +15,8 @@ import CreditPage from "./common/CreditPage";
 import LicensePage from "./common/LicensePage";
 
 import timetableReducer from "./timetable/reducers/index";
-import commonReducer from "./common/reducers/index";
-import { setUser } from "./common/actions";
+import commonReducer from "./reducers/user";
+import { setUser } from "./actions/user";
 import TestPage from "./TestPage";
 
 const store = createStore(combineReducers({
