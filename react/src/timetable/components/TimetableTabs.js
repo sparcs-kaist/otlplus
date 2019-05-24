@@ -54,10 +54,10 @@ class TimetableTabs extends Component {
                             <span className="timetable-num">
                                 시간표{idx+1}
                             </span>
-                            { this.props.showTimetableListFlag ? <div> <span className="hidden-option delete-table" onClick={(event)=>this.deleteTable(event, timetable)}><i/></span>
-                            <span className="hidden-option duplicate-table" onClick={(event)=>this.duplicateTable(event, timetable)}><i/></span> </div>
-                            : <div> <span className="hidden-option duplicate-table" onClick={(event)=>this.duplicateTable(event, timetable)}><i/></span>
-                            <span className="hidden-option delete-table" onClick={(event)=>this.deleteTable(event, timetable)}><i/></span></div>}
+                            { this.props.showTimetableListFlag ? <><span className="hidden-option delete-table" onClick={(event)=>this.deleteTable(event, timetable)}><i/></span>
+                            <span className="hidden-option duplicate-table" onClick={(event)=>this.duplicateTable(event, timetable)}><i/></span></>
+                            : <><span className="hidden-option duplicate-table" onClick={(event)=>this.duplicateTable(event, timetable)}><i/></span>
+                            <span className="hidden-option delete-table" onClick={(event)=>this.deleteTable(event, timetable)}><i/></span></>}
                             </div>
                     ))}
                     <div className="timetable-add" onClick={()=>this.createTable()}>
