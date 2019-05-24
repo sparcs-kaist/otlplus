@@ -89,7 +89,7 @@ def search_view(request):
         try :
             j = random.randint(0, len(comment_liberal)-1)
             comment = comment_liberal[j].comment
-            context = _comment_to_dict(request, comment)
+            context = comment.toJson(user=request.user)
             liberal_comment.append(context)
             comment_liberal.pop(j)
 
@@ -101,7 +101,7 @@ def search_view(request):
             j = random.randint(0,len(comment_major)-1)
 
             comment = comment_major[j].comment
-            context = _comment_to_dict(request, comment)
+            context = comment.toJson(user=request.user)
             major_comment.append(context)
             comment_major.pop(j)
 
@@ -150,173 +150,6 @@ def _getLecByProf(lectures):
     lec_by_prof = groupby(lectures, _keyLecByProf)
     lec_by_prof = [ list(i[1]) for i in lec_by_prof ]
     return lec_by_prof
-
-
-def _course_to_dict(course,id=-1,request=None):
-    lectures = list( course.lecture_course.all() )
-    lec_by_prof = _getLecByProf(lectures)
-
-    prof_info = []
-    prof_info.append({
-        "name" : "ALL",
-        "id" : -1,
-    })
-    summury = "등록되지 않았습니다."
-    score = {"grade":int(round(course.grade)), "load":int(round(course.load)), "speech":int(round(course.speech)), "total":int(round(course.total)),}
-    is_read = True #not logged in - marked as all read
-
-    for idx, lectures in enumerate(lec_by_prof):
-        names = [i.professor_name for i in lectures[0].professor.all()]
-        if len(names) == 1:
-            name_string = names[0]
-        elif len(names) == 2:
-            name_string = names[0] + ', ' + names[1]
-        elif len(names) > 2:
-            name_string = names[0] + u' 외 %d명'%(len(names)-1)
-        else:
-            name_string = 'error'
-
-        if int(idx) == int(id):
-            grade_sum = sum(i.grade_sum for i in lectures)
-            load_sum = sum(i.load_sum for i in lectures)
-            speech_sum = sum(i.speech_sum for i in lectures)
-            total_sum = sum(i.total_sum for i in lectures)
-            comment_num = sum(i.comment_num for i in lectures)
-            grade, load, speech, total = _calcAvgScore(grade_sum, load_sum, speech_sum, total_sum, comment_num)
-            score = {"grade":int(round(grade)), "load":int(round(load)), "speech":int(round(speech)), "total":int(round(total)),}
-
-        prof_info.append({
-            "name" : name_string,
-            "id" : idx,
-        })
-        summury = course.summury
-        if(len(summury)<1):
-            summury = "등록되지 않았습니다."
-    
-    if request and request.user and request.user.is_authenticated():
-        user = request.user
-        user_profile = UserProfile.objects.get(user=user)
-        try:
-            course_user = CourseUser.objects.get(user_profile=user_profile, course=course)
-            if course.latest_written_datetime is None:
-                is_read = True
-            elif course.latest_written_datetime > course_user.latest_read_datetime:
-                is_read = False
-            else:
-                is_read = True
-        except CourseUser.DoesNotExist:
-            is_read = False
-
-
-    result = {
-        "type":"course",
-        "id":course.id,
-        "code":course.old_code,
-        "title":course.title,
-        "summury":summury,
-        "prof_info":sorted(prof_info, key = lambda x : x['name']),
-        "gradelist":gradelist,
-        "score":score,
-        "is_read":is_read
-    }
-    return result
-
-
-def _comment_to_dict(request, comment):
-    is_login = False
-    already_up = False
-    comment_id = -1
-    if request.user.is_authenticated():
-        is_login = True
-        user = request.user
-        user_profile = UserProfile.objects.get(user=user)
-        target_review = Comment.objects.get(id=comment.id)
-        if CommentVote.objects.filter(comment = target_review, userprofile = user_profile).exists():
-            already_up = True
-    professors = comment.lecture.professor.all()
-    professor_name = " " + ", ".join([i.professor_name for i in professors]) + " "
-    semester_int = comment.lecture.semester # get semester info from subject/models.py
-    semester_char = ""
-    # 1 : spring, 2 : summer, 3 : fall, 4 : winter
-    if semester_int == 1: semester_char = "봄"
-    elif semester_int == 2: semester_char = "여름"
-    elif semester_int == 3: semester_char = "가을"
-    elif semester_int == 4: semester_char = "겨울"
-    else: semester_char = "Error"
-    result_of_comment = ""
-    if comment.is_deleted == 0: result_of_comment = comment.comment
-    else: result_of_comment = "관리자에 의해 삭제된 코멘트입니다."
-    result = {
-        "type":"comment",
-        "id":comment.id,
-        "course_id":comment.course.id,
-        "course_code":comment.course.old_code,
-        "lecture_title":comment.lecture.title,
-        "lecture_year":comment.lecture.year,
-        "lecture_semester":semester_char,
-        "professor_name":professor_name,
-        "writer":comment.writer_label,
-        "comment":result_of_comment,
-        "like":comment.like,
-        "already_up":already_up,
-        "score":{"grade":comment.grade, "load":comment.load, "speech":comment.speech, "total":int(round(comment.total)),},
-        "gradelist":[(0,"?"),(1,"F"),(2,"D"),(3,"C"),(4,"B"),(5,"A")],
-    }
-    return result
-
-
-def _professor_to_dict(professor,id=-1):
-    lecture_list=[]
-    lecture_list.append({
-        "name": "ALL",
-        "id": -1,
-    })
-
-    score = {"grade":int(round(professor.grade)), "load":int(round(professor.load)), "speech":int(round(professor.speech)), "total":int(round(professor.total)),}
-
-    for course in professor.course_list.all().order_by('title','old_code'):
-
-        lecture_list.append({
-            "id" : course.id,
-            "name" : course.title,
-        })
-
-        if int(course.id) == int(id) :
-            lectures = professor.lecture_professor.filter(course = course)
-            grade_sum = sum(i.grade_sum for i in lectures)
-            load_sum = sum(i.load_sum for i in lectures)
-            speech_sum = sum(i.speech_sum for i in lectures)
-            total_sum = sum(i.total_sum for i in lectures)
-            comment_num = sum(i.comment_num for i in lectures)
-            grade, load, speech, total = _calcAvgScore(grade_sum, load_sum, speech_sum, total_sum, comment_num)
-            score = {"grade":int(round(grade)), "load":int(round(load)), "speech":int(round(speech)), "total":int(round(total)),}
-
-            """
-            grade = int(round(lecture.grade))
-            load = int(round(lecture.load))
-            speech = int(round(lecture.speech))
-            total = int(round(lecture.total))
-            score = {"grade":grade, "load":load, "speech":speech, "total":total,}
-            """
-
-    try:
-        if len(professor.major) > 0:
-            major = Department.objects.get(id = professor.major).name
-        else:
-            major = u"정보 없음"
-    except Department.DoesNotExist:
-        major = u"정보 없음"
-
-    result = {
-        "type": "professor",
-        "id": professor.id,
-        "title": professor.professor_name,
-        "prof_info": lecture_list,
-        "gradelist": gradelist,
-        "major": major,
-        "score": score,
-    }
-    return result
 
 
 def resultProfessor(request):
@@ -377,7 +210,7 @@ def resultCourse(request, page):
     except InvalidPage:
         raise Http404
 
-    results = [_course_to_dict(i,-1,request) for i in page_obj.object_list]
+    results = [i.toJson(user=request.user) for i in page_obj.object_list]
 
     context = {
             "results":results,
@@ -390,7 +223,7 @@ def resultCourse(request, page):
 def professor(request,id=-1,course_id=-1):
     professor = Professor.objects.get(id=id)
     context = {
-            "result":_professor_to_dict(professor,course_id),
+            "result": professor.toJson(),
     }
     return JsonResponse(context,safe=False)
 
@@ -404,7 +237,7 @@ def professorComment(request, id=-1,course_id=-1,page=-1):
         page_obj = paginator.page(page)
     except InvalidPage:
         raise Http404
-    results = [_comment_to_dict(request,i) for i in page_obj.object_list]
+    results = [i.toJson(user=request.user) for i in page_obj.object_list]
 
     context = {
             "results":results,
@@ -418,7 +251,7 @@ def course(request,id=-1,professor_id=-1):
     course = Course.objects.get(id=id)
 
     context = {
-            "result":_course_to_dict(course,professor_id, request),
+            "result": course.toJson(user=request.user),
     }
     return JsonResponse(context,safe=False)
 
@@ -438,7 +271,7 @@ def courseComment(request, id=-1,professor_id=-1,page=-1):
         page_obj = paginator.page(page)
     except InvalidPage:
         raise Http404
-    results = [_comment_to_dict(request,i) for i in page_obj.object_list]
+    results = [i.toJson(user=request.user) for i in page_obj.object_list]
 
     context = {
             "results":results,
@@ -553,7 +386,7 @@ def insertReview(request,lecture_id):
 
 def ReviewView(request, comment_id):
     try :
-        comment = _comment_to_dict(request,Comment.objects.get(id=comment_id))
+        comment = Comment.objects.get(id=comment_id).toJson(user=request.user)
     except Comment.DoesNotExist:
         raise Http404
 
@@ -580,7 +413,7 @@ def latest(request, page=-1):
         page_obj = paginator.page(page)
     except InvalidPage:
         raise Http404
-    results = [_comment_to_dict(request,i) for i in page_obj.object_list]
+    results = [i.toJson(user=request.user) for i in page_obj.object_list]
 
     context = {
             "results":results,
