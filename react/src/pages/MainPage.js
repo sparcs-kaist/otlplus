@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 
-import Header from "./Header";
-import Footer from "./Footer";
+import Header from "../componenets/Header";
+import Footer from "../componenets/Footer";
 
-import AcademicScheduleSection from "./componenets/AcademicScheduleSection";
-import RelatedCourseSection from "./componenets/RelatedCourseSection";
-import LatestReviewSection from "./componenets/LatestReviewSection";
-import FamousReviewSection from "./componenets/FamousReviewSection";
-import ReviewWriteSection from "./componenets/ReviewWriteSection";
+import AcademicScheduleSection from "../componenets/sections/AcademicScheduleSection";
+import RelatedCourseSection from "../componenets/sections/RelatedCourseSection";
+import LatestReviewSection from "../componenets/sections/LatestReviewSection";
+import FamousReviewSection from "../componenets/sections/FamousReviewSection";
+import ReviewWriteSection from "../componenets/sections/ReviewWriteSection";
 
 
 class MainPage extends Component {

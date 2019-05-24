@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import ReviewBlock from "./ReviewBlock";
-import ReviewWriteBlock from "./ReviewWriteBlock";
-import Scroller from "../../common/Scroller";
+import ReviewBlock from "../blocks/ReviewBlock";
+import ReviewWriteBlock from "../blocks/ReviewWriteBlock";
+import Scroller from "../Scroller";
 import CourseSimpleBlock from "./CourseSimpleBlock";
 
 
