@@ -8,10 +8,10 @@ import 'bootstrap';
 import './static/css/bootstrap.min.css';
 import './static/css/global.css';
 
-import DictionaryPage from "./dictionary/DictionaryPage";
-import TimetablePage from "./timetable/TimetablePage";
+import DictionaryPage from "./pages/DictionaryPage";
+import TimetablePage from "./pages/TimetablePage";
 import DictionaryRouter from "./dictionary/DictionaryRouter";
-import MainPage from "./common/MainPage";
+import MainPage from "./pages/MainPage";
 import CreditPage from "./common/CreditPage";
 import LicensePage from "./common/LicensePage";
 
