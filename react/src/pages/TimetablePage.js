@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import '../static/css/timetable/timetable.css';
 
-import TimetablePageContent from './TimetablePageContent'
+import TimetablePageContent from '../timetable/TimetablePageContent'
 
 class TimetablePage extends Component {
     render() {
