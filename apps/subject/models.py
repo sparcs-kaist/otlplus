@@ -1,5 +1,6 @@
 #-*- coding: utf-8 -*-
 from django.db import models
+from django.utils.translation import ugettext as _
 from apps.enum.common import * #for enum type (for choices)
 from datetime import date, time
 
@@ -47,6 +48,111 @@ class Lecture(models.Model):
     speech = models.FloatField(default=0.0)
     total = models.FloatField(default=0.0)
     comment_num = models.IntegerField(default=0)
+
+    def toJson(self, nested=False):
+        # Don't change this into model_to_dict: for security and performance
+        result = {"id": self.id,
+                "title": getattr(self, _("title")),
+                "course": self.course.id,
+                "old_code": self.old_code,
+                "class_no": self.class_no,
+                "year": self.year,
+                "semester": self.semester,
+                "code": self.code,
+                "department": self.department.id,
+                "department_code": self.department.code,
+                "department_name": getattr(self.department, _("name")),
+                "type": getattr(self, _("type")),
+                "type_en": self.type_en,
+                "limit": self.limit,
+                "num_people": self.num_people,
+                "is_english": self.is_english,
+                "credit": self.credit,
+                "credit_au": self.credit_au,
+                "common_title": getattr(self, _("common_title")),
+                "class_title": getattr(self, _("class_title")),}
+        
+        # Add formatted professor name
+        prof_name_list = [getattr(p, _("professor_name")) for p in self.professor.all()]
+        if len(prof_name_list) <= 2:
+            result.update({
+                'professor_short': u", ".join(prof_name_list),
+            })
+        else:
+            result.update({
+                'professor_short': prof_name_list[0] + _(u" 외 ") + str(len(prof_name_list)-1) + _(u"명"),
+            })
+
+        # Add formatted score
+        if self.comment_num == 0:
+            result.update({
+                'has_review': False,
+                'grade': 0,
+                'load': 0,
+                'speech': 0,
+                'grade_letter': '?',
+                'load_letter': '?',
+                'speech_letter': '?',
+            })
+        else:
+            letters = ['?', 'F', 'F', 'F', 'D-', 'D', 'D+', 'C-', 'C', 'C+', 'B-', 'B', 'B+', 'A-', 'A', 'A+']
+            result.update({
+                'has_review': True,
+                'grade': self.grade,
+                'load': self.load,
+                'speech': self.speech,
+                'grade_letter': letters[int(round(self.grade))],
+                'load_letter': letters[int(round(self.load))],
+                'speech_letter': letters[int(round(self.speech))],
+            })
+
+        # Add classtime
+        classtimes = []
+        for ct in self.classtime_set.all():
+            classtimes.append(ct.toJson())
+        result.update({
+            'classtimes': classtimes,
+        })
+
+        # Add classroom info
+        if len(classtimes) > 0:
+            result.update({
+                'building': classtimes[0]['building'],
+                'classroom': classtimes[0]['classroom'],
+                'classroom_short': classtimes[0]['classroom_short'],
+                'room': classtimes[0]['room'],
+            })
+        else:
+            result.update({
+                'building': '',
+                'classroom': _(u'정보 없음'),
+                'classroom_short': _(u'정보 없음'),
+                'room': '',
+            })
+
+        # Add examtime
+        examtimes = []
+        for et in self.examtime_set.all():
+            examtimes.append(et.toJson())
+        result.update({
+            'examtimes': examtimes,
+        })
+
+        # Add exam info
+        if len(examtimes) > 1:
+            result.update({
+                'exam': examtimes[0]['str'] + _(u" 외 ") + str(len(result['examtimes']-1)) + _("개"),
+            })
+        elif len(examtimes) == 1:
+            result.update({
+                'exam': examtimes[0]['str'],
+            })
+        else:
+            result.update({
+                'exam': _(u'정보 없음'),
+            })
+
+        return result
 
     def recalc_score(self):
         from apps.review.models import Comment
@@ -167,6 +273,17 @@ class ExamTime(models.Model):
             self.end.strftime('%H:%M')
         )
 
+    def toJson(self, nested=False):
+        day_str = [_(u"월요일"), _(u"화요일"), _(u"수요일"), _(u"목요일"), _(u"금요일"), _(u"토요일"), _(u"일요일")]
+        result = {
+            "day": self.day,
+            "str": day_str[self.day] + " " + self.begin.strftime("%H:%M") + " ~ " + self.end.strftime("%H:%M"),
+            "begin": self.get_begin_numeric(),
+            "end": self.get_end_numeric(),
+        }
+
+        return result
+
     def get_begin_numeric(self):
         """0시 0분을 기준으로 분 단위로 계산된 시작 시간을 반환한다."""
         t = self.begin.hour * 60 + self.begin.minute
@@ -190,6 +307,42 @@ class ClassTime(models.Model):
     roomName_en = models.CharField(max_length=60, blank=True, null=True) #건물 이름(ex> (E11)Creative learning Bldg.)
     roomNum = models.CharField(max_length=20, null=True) #강의실 호실(ex> 304, 1104, 1209-1, 터만홀)
     unit_time = models.SmallIntegerField(null=True) #수업 교시
+
+    def toJson(self, nested=False):
+        bldg = getattr(self, _("roomName"))
+        # No classroom info
+        if bldg == None:
+            room = ""
+            bldg_no = ""
+            classroom = _(u"정보 없음")
+            classroom_short = _(u"정보 없음")
+        # Building name has form of "(N1) xxxxx"
+        elif bldg[0] == "(":
+            bldg_no = bldg[1:bldg.find(")")]
+            bldg_name = bldg[len(bldg_no)+2:]
+            room = getattr(self, _("roomNum"))
+            if room == None: room=""
+            classroom = "(" + bldg_no + ") " + bldg_name + " " + room
+            classroom_short = "(" + bldg_no + ") " + room
+        # Building name has form of "xxxxx"
+        else:
+            bldg_no=""
+            room = getattr(self, _("roomNum"))
+            if room == None: room=""
+            classroom = bldg + " " + room
+            classroom_short = bldg + " " + room
+
+        result = {
+            "building": bldg_no,
+            "classroom": classroom,
+            "classroom_short": classroom_short,
+            "room": room,
+            "day": self.day,
+            "begin": self.get_begin_numeric(),
+            "end": self.get_end_numeric(),
+        }
+
+        return result
 
     def get_begin_numeric(self):
         """0시 0분을 기준으로 분 단위로 계산된 시작 시간을 반환한다."""
@@ -245,6 +398,14 @@ class Department(models.Model):
     def __unicode__(self):
         return self.code
 
+    def toJson(self, nested=False):
+        result = {
+            'name': self.name,
+            'code': self.code,
+        }
+
+        return result
+
 
 class Course(models.Model):
     # Fetched from KAIST Scholar DB
@@ -278,46 +439,71 @@ class Course(models.Model):
 
     latest_written_datetime = models.DateTimeField(default=None, null=True)
 
-    def toJson(self):
+    def toJson(self, nested=False, user=None):
         # Don't change this into model_to_dict: for security and performance
-        result = {"old_code": self.old_code,
-                "department": self.department,
-                "professors": self.professors,
+        result = {
+                "old_code": self.old_code,
+                "department": self.department.toJson(),
                 "code_num": self.code_num,
                 "type": self.type,
                 "type_en": self.type_en,
                 "title": self.title,
                 "title_en": self.title_en,
-                "summury": self.summury,
-                "related_courses_prior": self.related_courses_prior,
-                "related_courses_posterior": self.related_courses_posterior,
+                "summary": self.summury if len(self.summury)>0 else '등록되지 않았습니다.',
                 "comment_num": self.comment_num,
-                "grade": self.grade,
-                "load": self.load,
-                "speech": self.speech,}
+        }
+
+        if nested:
+            return result
+        
+        result.update({
+            "related_courses_prior": [c.toJson(nested=True) for c in self.related_courses_prior.all()],
+            "related_courses_posterior": [c.toJson(nested=True) for c in self.related_courses_posterior.all()],
+        })
 
         # Add formatted professor name
         prof_name_list = [getattr(p, _("professor_name")) for p in self.professors.all()]
-        result['professor'] = u", ".join(prof_name_list)
+        result.update({
+            'professors_str': u", ".join(prof_name_list),
+            'professors': [p.toJson(nested=True) for p in self.professors.all()]
+        })
 
         # Add formatted score
         if self.comment_num == 0:
-            result['has_review'] = False
-            result['grade'] = 0
-            result['load'] = 0
-            result['speech'] = 0
-            result['grade_letter'] = '?'
-            result['load_letter'] = '?'
-            result['speech_letter'] = '?'
+            result.update({
+                'has_review': False,
+                'grade': 0,
+                'load': 0,
+                'speech': 0,
+                'grade_letter': '?',
+                'load_letter': '?',
+                'speech_letter': '?',
+            })
         else:
             letters = ['?', 'F', 'F', 'F', 'D-', 'D', 'D+', 'C-', 'C', 'C+', 'B-', 'B', 'B+', 'A-', 'A', 'A+']
-            result['has_review'] = True
-            result['grade'] = grade
-            result['load'] = load
-            result['speech'] = speech
-            result['grade_letter'] = letters[int(round(grade))]
-            result['load_letter'] = letters[int(round(load))]
-            result['speech_letter'] = letters[int(round(speech))]
+            result.update({
+                'has_review': True,
+                'grade': self.grade,
+                'load': self.load,
+                'speech': self.speech,
+                'grade_letter': letters[int(round(self.grade))],
+                'load_letter': letters[int(round(self.load))],
+                'speech_letter': letters[int(round(self.speech))],
+            })
+
+        # Add user read info
+        if (not user) or (not user.is_authenticated()):
+            is_read = False
+        elif not CourseUser.objects.filter(user_profile__user=user, course=course).exists():
+            is_read = False
+        elif course.latest_written_datetime is None:
+            is_read = True
+        else:
+            course_user = CourseUser.objects.get(user_profile__user=user, course=course)
+            is_read = course.latest_written_datetime < course_user.latest_read_datetime
+        result.update({
+            'userspecific_is_read': is_read,
+        })
 
         return result
 
@@ -365,6 +551,45 @@ class Professor(models.Model):
     load = models.FloatField(default=0.0)
     speech = models.FloatField(default=0.0)
     total = models.FloatField(default=0.0)
+
+    def toJson(self, nested=False):
+        result = {
+            'name': self.professor_name,
+            'professor_id': self.professor_id,
+        }
+
+        if nested:
+            return result
+
+        # Add course information
+        result.update({
+            'courses': [c.toJson() for c in self.course_list.all()],
+        })
+
+        # Add formatted score
+        if self.comment_num == 0:
+            result.update({
+                'has_review': False,
+                'grade': 0,
+                'load': 0,
+                'speech': 0,
+                'grade_letter': '?',
+                'load_letter': '?',
+                'speech_letter': '?',
+            })
+        else:
+            letters = ['?', 'F', 'F', 'F', 'D-', 'D', 'D+', 'C-', 'C', 'C+', 'B-', 'B', 'B+', 'A-', 'A', 'A+']
+            result.update({
+                'has_review': True,
+                'grade': self.grade,
+                'load': self.load,
+                'speech': self.speech,
+                'grade_letter': letters[int(round(self.grade))],
+                'load_letter': letters[int(round(self.load))],
+                'speech_letter': letters[int(round(self.speech))],
+            })
+
+        return result
 
     def avg_update(self):
         self.total_sum = (self.grade_sum+self.load_sum+self.speech_sum)/3.0
