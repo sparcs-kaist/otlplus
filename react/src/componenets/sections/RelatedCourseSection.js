@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import CourseBlock from "../../dictionary/components/CourseBlock";
+import CourseBlock from "../blocks/CourseBlock";
 
 
 class RelatedCourseSection extends Component {

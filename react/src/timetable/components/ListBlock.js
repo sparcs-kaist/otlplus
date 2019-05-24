@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import axios from "../../common/presetAxios";
+import axios from "../../componenets/presetAxios";
 import { addLectureToTimetable, addLectureToCart, deleteLectureFromCart } from "../actions";
 import { setLectureActive, clearLectureActive } from "../actions";
 import { LIST } from "../reducers/lectureActive";

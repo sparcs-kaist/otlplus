@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import Header from "../common/Header";
+import Header from "../componenets/Header";
 import Detail from "./components/Detail";
 import List from "./components/List";
 import TimetableTabs from "./components/TimetableTabs";
