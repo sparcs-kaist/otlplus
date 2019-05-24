@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {connect} from "react-redux";
-import Scroller from "../../common/Scroller";
+import Scroller from "../../componenets/Scroller";
 import {clearMultipleDetail, setMultipleDetail} from "../actions";
 
 class Exam extends Component {

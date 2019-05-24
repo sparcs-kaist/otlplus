@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 
-import Header from "./Header";
-import Footer from "./Footer";
+import Header from "../componenets/Header";
+import Footer from "../componenets/Footer";
 
-import './../static/css/credits.css';
+import '../static/css/credits.css';
 
 class Button extends Component {
     render() {

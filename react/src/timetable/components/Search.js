@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import axios from '../../common/presetAxios';
+import axios from '../../componenets/presetAxios';
 import { closeSearch, setListLectures } from "../actions";
 import SearchFilter from './SearchFilter'
 import $ from 'jquery';
