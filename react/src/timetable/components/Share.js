@@ -15,7 +15,6 @@ class Share extends Component {
                 <div className="left-btn-group">
                   <a className="share-button" id="image" download />
                   <a className="share-button" id="calendar" target="_blank" />
-                  <a className="share-button" id="calendar" onClick={()=>console.log(this.props.currentTimetable)} />
                   <Link className="share-button" id="image" to={{ pathname: "/timetable/syllabus", state: {lectures: this.props.currentTimetable.lectures} }}  />
                   
                 </div>
