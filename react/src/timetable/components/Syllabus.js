@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import {connect} from "react-redux";
 
+import '../../static/css/timetable/components/syllabus.scss';
+
 class Syllabus extends Component {
 
     constructor(props) {
@@ -26,19 +28,23 @@ class Syllabus extends Component {
         const { lectures } = this.props.location.state
         const { currentShowingLecture } = this.state
         return (
-            <div>
-                <div id="timetable-tabs">
-                {
-                    lectures.map(lecture =>
-                        <div onClick={()=> this.updateShowingLecture(lecture)}>
-                            { lecture.common_title }
-                        </div>
-                    )
-                }
+            <div class="syllabus-page">
+                <div class="syllabus-wrapper">
+                    <div class="lecture-tab-container">
+                        {
+                            lectures.map(lecture =>
+                                <div class={`lecture-tab ${this.state.currentShowingLecture == lecture?'active': ''}`} onClick={()=> this.updateShowingLecture(lecture)}>
+                                    { lecture.common_title }
+                                </div>
+                            )
+                        }
+                    </div>
+                    <div class="syllabus-iframe-wrapper">
+                            <iframe class="syllabus-iframe" src={this.getLectureUrl(currentShowingLecture)}>
+                                { currentShowingLecture.common_title }
+                            </iframe>
+                    </div>
                 </div>
-                <iframe width="100%" height ="600" src={this.getLectureUrl(currentShowingLecture)}>
-                    { currentShowingLecture.common_title }
-                </iframe>
             </div>
             
         );
