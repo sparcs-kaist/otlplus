@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import axios from './../common/presetAxios';
+import axios from '../componenets/presetAxios';
 import Header from "../common/Header";
 
 import { BASE_URL } from './../constants';

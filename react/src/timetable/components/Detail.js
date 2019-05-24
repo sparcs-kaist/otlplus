@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {connect} from "react-redux";
 import { Link } from 'react-router-dom';
-import Scroller from '../../common/Scroller';
+import Scroller from '../../componenets/Scroller';
 import Review from './Review';
 import $ from 'jquery';
 import { LIST, TABLE, MULTIPLE } from "../reducers/lectureActive";

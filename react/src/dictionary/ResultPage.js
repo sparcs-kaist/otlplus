@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import axios from '../common/presetAxios';
+import axios from '../componenets/presetAxios';
 import 'bootstrap';
 import { withRouter } from 'react-router-dom';
 import { parse, stringify } from 'query-string';

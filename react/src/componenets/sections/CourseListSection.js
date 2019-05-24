@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
-import Scroller from "../../common/Scroller";
-import CourseBlock from "./CourseBlock";
+import Scroller from "../Scroller";
+import CourseBlock from "../blocks/CourseBlock";
 
 
 class CourseListSection extends Component {
