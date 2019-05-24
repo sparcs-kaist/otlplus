@@ -32,16 +32,6 @@ class Header extends Component {
                                         모의시간표
                                     </Link>
                                 </li>
-                                <li>
-                                    <Link to="/review/">
-                                        따끈따끈 과목후기 (legacy)
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link to="/review/insert/" style={{paddingRight:0}}>
-                                        과목후기 작성하기 (legacy)
-                                    </Link>
-                                </li>
                             </ul>
                             <form className="hid-r navbar-form navbar-left float-right" role="search">
                                 <div className="form-group">
