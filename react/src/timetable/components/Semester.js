@@ -22,6 +22,26 @@ class Semester extends Component {
     };
   }
 
+  componentDidMount() {
+    this.props.setSemesterDispatch(2018, 1);
+
+    axios.post('/api/timetable/semester', {
+    })
+      .then((response) => {
+        this.setState(prevState => ({
+          startYear: response.data.start_year,
+          startSemester: response.data.start_semester,
+          endYear: response.data.end_year,
+          endSemester: response.data.end_semester,
+        }));
+        this.props.setSemesterDispatch(response.data.current_year, response.data.current_semester);
+        this._semesterChanged(response.data.current_year, response.data.current_semester);
+      })
+      .catch((response) => {
+        console.log(response);
+      });
+  }
+
   _semesterChanged(year, semester) {
     axios.post('/api/timetable/table_load', {
       year: year,
@@ -70,26 +90,6 @@ class Semester extends Component {
       });
   }
 
-  componentDidMount() {
-    this.props.setSemesterDispatch(2018, 1);
-
-    axios.post('/api/timetable/semester', {
-    })
-      .then((response) => {
-        this.setState(prevState => ({
-          startYear: response.data.start_year,
-          startSemester: response.data.start_semester,
-          endYear: response.data.end_year,
-          endSemester: response.data.end_semester,
-        }));
-        this.props.setSemesterDispatch(response.data.current_year, response.data.current_semester);
-        this._semesterChanged(response.data.current_year, response.data.current_semester);
-      })
-      .catch((response) => {
-        console.log(response);
-      });
-  }
-
   semesterPrev() {
     let year = this.props.year;
     let semester = this.props.semester;
@@ -127,7 +127,7 @@ class Semester extends Component {
       return (
         <div id="semester">
           <div id="semester-prev" className={(this.props.year === this.state.startYear) && (this.props.semester === this.state.startSemester) ? 'disable' : ''} onClick={() => this.semesterPrev()}><i /></div>
-          <span id="semester-text">{this.props.year} {semesterName[this.props.semester]}</span>
+          <span id="semester-text">{`${this.props.year} ${semesterName[this.props.semester]}`}</span>
           <div id="semester-next" className={(this.props.year === this.state.endYear) && (this.props.semester === this.state.endSemester) ? 'disable' : ''} onClick={() => this.semesterNext()}><i /></div>
         </div>
       );

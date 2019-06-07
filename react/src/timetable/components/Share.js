@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import { mToggleLectureList, modaltimetableList } from '../actions';
 
 class Share extends Component {
-
   render() {
     return (
       <div id="share-buttons" className="authenticated">

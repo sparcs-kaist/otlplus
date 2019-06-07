@@ -14,7 +14,7 @@ const initialState = {
   lectures: [],
 };
 
-export const lectureActive = (state = initialState, action) => {
+const lectureActive = (state = initialState, action) => {
   switch (action.type) {
     case SET_LECTURE_ACTIVE:
       return Object.assign({}, state, {
@@ -45,3 +45,5 @@ export const lectureActive = (state = initialState, action) => {
       return state;
   }
 };
+
+export default lectureActive;
