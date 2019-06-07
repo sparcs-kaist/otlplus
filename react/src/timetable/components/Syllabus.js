@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import '../../static/css/timetable/components/syllabus.scss';
 
 class Syllabus extends Component {
-
   constructor(props) {
     super(props);
     this.state = {

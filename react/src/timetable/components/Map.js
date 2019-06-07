@@ -6,7 +6,6 @@ import { clearMultipleDetail, setMultipleDetail } from '../actions';
 
 
 class Map extends Component {
-
   constructor(props) {
     super(props);
 
@@ -73,27 +72,6 @@ class Map extends Component {
         mapObject[building].push({ color: color, id: id });
       }
     }
-
-    const mapFocus = (building) => {
-      const lectures = [];
-      const active = [];
-      for (let i = 0, lecture; lecture = this.props.currentTimetable.lectures[i]; i++) {
-        if (lecture.building === building) {
-          lectures.push({
-            title: lecture.title,
-            info: lecture.room,
-          });
-          active.push(lecture);
-        }
-      }
-      this.props.setMultipleDetailDispatch(building, lectures);
-      this.setState({ activeLectures: active });
-    };
-
-    const clearFocus = () => {
-      this.props.clearMultipleDetailDispatch();
-      this.setState({ activeLectures: [] });
-    };
 
     const activeLectures = this.state.activeLectures;
 

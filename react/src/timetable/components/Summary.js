@@ -15,7 +15,6 @@ const indexOfType = (type) => {
 };
 
 class Summary extends Component {
-
   constructor(props) {
     super(props);
 

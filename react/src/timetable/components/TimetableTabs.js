@@ -58,7 +58,7 @@ class TimetableTabs extends Component {
           { this.props.timetables.map((timetable, idx) => (
             <div className={`timetable-tab${timetable.id === this.props.currentTimetable.id ? ' active' : ''}`} key={timetable.id} onClick={() => this.changeTab(timetable)}>
               <span className="timetable-num">
-                시간표{idx + 1}
+                {`시간표 ${idx + 1}`}
               </span>
               {
                 this.props.showTimetableListFlag
@@ -86,7 +86,8 @@ class TimetableTabs extends Component {
     else {
       return (
         <div id="timetable-tabs">
-          <div className="timetable-tab" style={{ pointerEvents: 'none' }}><span className="timetable-num">불러오는 중</span>
+          <div className="timetable-tab" style={{ pointerEvents: 'none' }}>
+            <span className="timetable-num">불러오는 중</span>
           </div>
         </div>
       );
