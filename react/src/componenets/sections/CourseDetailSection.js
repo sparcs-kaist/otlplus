@@ -6,8 +6,6 @@ import CourseSimpleBlock from './CourseSimpleBlock';
 
 
 class CourseDetailSection extends Component {
-
-
   onScroll() {
     if (this.refs.scores.getBoundingClientRect().top >= this.refs.scrollThreshold.getBoundingClientRect().bottom) {
       this.refs.hiddenScores.classList.add('fixed__conditional-part--hidden');
