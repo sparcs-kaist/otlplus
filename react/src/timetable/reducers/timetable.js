@@ -271,7 +271,7 @@ export const timetable = (state = initialState, action) => {
         ],
       });
     case DELETE_TIMETABLE:
-      let newTables = state.timetables.filter((timetable)=>(timetable.id!==action.timetable.id));
+      let newTables = state.timetables.filter(t => (t.id !== action.timetable.id));
       return Object.assign({}, state, {
         currentTimetable: newTables[0],
         timetables: newTables,
@@ -293,14 +293,16 @@ export const timetable = (state = initialState, action) => {
         id: state.currentTimetable.id,
         lectures: state.currentTimetable.lectures.concat([action.lecture]),
       };
-      newTables = state.timetables.map(timetable => (
-        timetable.id === newTable.id
+      newTables = state.timetables.map(t => (
+        t.id === newTable.id
           ? newTable
-          : timetable
+          : t
       ));
-      for (let i=0; i<newTables.length; i++)
-        if (newTables[i].id === state.currentTimetable.id)
+      for (let i = 0; i < newTables.length; i++) {
+        if (newTables[i].id === state.currentTimetable.id) {
           newTables[i] = newTable;
+        }
+      }
       return Object.assign({}, state, {
         currentTimetable: newTable,
         timetables: newTables,
@@ -310,10 +312,10 @@ export const timetable = (state = initialState, action) => {
         id: state.currentTimetable.id,
         lectures: state.currentTimetable.lectures.slice().filter(lecture => (lecture.id !== action.lecture.id)),
       };
-      newTables = state.timetables.map(timetable => (
-        timetable.id === newTable.id
+      newTables = state.timetables.map(t => (
+        t.id === newTable.id
           ? newTable
-          : timetable
+          : t
       ));
       return Object.assign({}, state, {
         currentTimetable: newTable,

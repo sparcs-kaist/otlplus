@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { mToggleLectureList } from '../actions';
-import { modaltimetableList } from '../actions';
+import { mToggleLectureList, modaltimetableList } from '../actions';
 
 class Share extends Component {
 
@@ -16,7 +15,7 @@ class Share extends Component {
 
         </div>
         <div className="right-btn-group">
-          <a className="share-button" id="show-timetable-list" onClick={this.props.mtimetableListDispatch } />
+          <a className="share-button" id="show-timetable-list" onClick={this.props.mtimetableListDispatch} />
           <a className="share-button" id="show-lecture-list" onClick={this.props.mToggleLectureListDispatch} />
         </div>
         <div className="height-placeholder" />
@@ -25,13 +24,11 @@ class Share extends Component {
   }
 }
 
-let mapStateToProps = (state) => {
-  return {
-    currentTimetable: state.timetable.timetable.currentTimetable,
-  }
-};
+const mapStateToProps = state => ({
+  currentTimetable: state.timetable.timetable.currentTimetable,
+});
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   mToggleLectureListDispatch: () => dispatch(mToggleLectureList()),
   mtimetableListDispatch: () => dispatch(modaltimetableList()),
 });

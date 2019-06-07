@@ -7,15 +7,15 @@ import '../static/css/credits.css';
 
 class Button extends Component {
   render() {
-        let className;
-        if (this.props.index === this.props.current) {
-          className = 'block active';
-        } else {
-          className = 'block';
-        }
-        return (
-          <div onClick={() => { this.props.onClick(this.props.index) }} className={className} key={this.props.index}>{this.props.children}</div>
-        );
+    let className;
+    if (this.props.index === this.props.current) {
+      className = 'block active';
+    } else {
+      className = 'block';
+    }
+    return (
+      <div onClick={() => { this.props.onClick(this.props.index); }} className={className} key={this.props.index}>{this.props.children}</div>
+    );
   }
 }
 
@@ -250,39 +250,43 @@ class CreditPage extends Component {
           </div>
         );
         break;
+      default:
+        content = (
+          <div />
+        );
+        break;
     }
     return (
       <div className="credit">
         <Header user={this.props.user} />
         <section id="contents" className="container-fluid">
-                  <div className="row">
-                      <div className="col-xs-22 col-xs-offset-1 col-sm-20 col-sm-offset-2 col-md-18 col-md-offset-3 col-lg-16 col-lg-offset-4">
+          <div className="row">
+            <div className="col-xs-22 col-xs-offset-1 col-sm-20 col-sm-offset-2 col-md-18 col-md-offset-3 col-lg-16 col-lg-offset-4">
+              <div className="list-group sort_result">
+                <div className="list-group-item" style={{ borderRadius: 4, marginTop: 20, textAlign: 'center', padding: '20px 50px 20px 50px' }}>
 
-                          <div className="list-group sort_result" >
-                              <div className="list-group-item" style={{ borderRadius:4, marginTop:20, textAlign:'center', padding:"20px 50px 20px 50px" }}>
+                  <div className="block_wrap">
+                    <Button index={1} onClick={this.changePage} current={this.state.currentTab}>LKIN</Button>
+                    <Button index={2} onClick={this.changePage} current={this.state.currentTab}>OTL<br />모의시간표</Button>
+                    <Button index={3} onClick={this.changePage} current={this.state.currentTab}>OTL<br />추가개발</Button>
+                    <Button index={4} onClick={this.changePage} current={this.state.currentTab}>OTL<br />과목사전</Button>
+                    <Button index={5} onClick={this.changePage} current={this.state.currentTab}>OTL PLUS<br />과목사전</Button>
+                    <Button index={6} onClick={this.changePage} current={this.state.currentTab}>OTL PLUS<br />모의시간표</Button>
+                    <Button index={7} onClick={this.changePage} current={this.state.currentTab}>SYSOP</Button>
+                    <div className="dummy" />
+                    <div className="dummy" />
+                    <div className="dummy" />
+                    <div className="dummy" />
+                    <div className="dummy" />
+                    <div className="dummy" />
+                   </div>
 
-                                <div className="block_wrap">
-                                  <Button index={1} onClick={this.changePage} current={this.state.currentTab}>LKIN</Button>
-                                  <Button index={2} onClick={this.changePage} current={this.state.currentTab}>OTL<br />모의시간표</Button>
-                                  <Button index={3} onClick={this.changePage} current={this.state.currentTab}>OTL<br />추가개발</Button>
-                                  <Button index={4} onClick={this.changePage} current={this.state.currentTab}>OTL<br />과목사전</Button>
-                                  <Button index={5} onClick={this.changePage} current={this.state.currentTab}>OTL PLUS<br />과목사전</Button>
-                                  <Button index={6} onClick={this.changePage} current={this.state.currentTab}>OTL PLUS<br />모의시간표</Button>
-                                  <Button index={7} onClick={this.changePage} current={this.state.currentTab}>SYSOP</Button>
-                                  <div className="dummy" />
-                                  <div className="dummy" />
-                                  <div className="dummy" />
-                                  <div className="dummy" />
-                                  <div className="dummy" />
-                                  <div className="dummy" />
-                                </div>
-
-                                <h1>Credit</h1>
-                                {content}
-                              </div>
-                          </div>
-                      </div>
-                  </div>
+                  <h1>Credit</h1>
+                  {content}
+                </div>
+              </div>
+            </div>
+          </div>
         </section>
         <Footer />
       </div>

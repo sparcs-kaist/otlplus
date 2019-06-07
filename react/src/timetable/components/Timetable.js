@@ -21,28 +21,29 @@ class Timetable extends Component {
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.lectureActive.from === LIST && !nextProps.lectureActive.clicked) {
       console.log('list');
-    } else if (nextProps.lectureActive.from === NONE) {
+    }
+    else if (nextProps.lectureActive.from === NONE) {
       console.log('none');
     }
     return null;
   }
 
   resize() {
-    let cell = document.getElementsByClassName('cell1')[0].getBoundingClientRect();
+    const cell = document.getElementsByClassName('cell1')[0].getBoundingClientRect();
     this.props.updateCellSizeDispatch(cell.width, cell.height);
   }
 
   indexOfDay = (day) => {
-    let days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+    const days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
     return days.indexOf(day);
   }
 
   // '800':0, '830':1, ..., '2330':31
   indexOfTime = (timeStr) => {
-    let time = parseInt(timeStr);
-    let divide = time < 800 ? 60 : 100;
-    let hour = Math.floor(time / divide) - 8;
-    let min = time % divide;
+    const time = parseInt(timeStr, 10);
+    const divide = time < 800 ? 60 : 100;
+    const hour = Math.floor(time / divide) - 8;
+    const min = time % divide;
     return hour * 2 + min / 30;
   }
 
@@ -54,18 +55,19 @@ class Timetable extends Component {
     document.getElementById('drag-cell').classList.remove('none');
   }
 
-  //check is drag contain class time
+  // check is drag contain class time
   _isOccupied(dragEnd) {
-    let dragDay = this.indexOfDay(this.state.firstBlock.getAttribute('data-day'));
-    let dragStart = this.indexOfTime(this.state.firstBlock.getAttribute('data-time'));
+    const dragDay = this.indexOfDay(this.state.firstBlock.getAttribute('data-day'));
+    const dragStart = this.indexOfTime(this.state.firstBlock.getAttribute('data-time'));
 
     for (let i = 0, lecture; (lecture = this.props.currentTimetable.lectures[i]); i++) {
       for (let j = 0, classtime; (classtime = lecture.classtimes[j]); j++) {
         if (classtime.day !== dragDay) continue;
-        let classStart = this.indexOfTime(classtime.begin);
-        let classEnd = this.indexOfTime(classtime.end);
-        if ((dragStart <= classStart && classStart <= dragEnd) || (dragStart >= classEnd && classEnd > dragEnd))
+        const classStart = this.indexOfTime(classtime.begin);
+        const classEnd = this.indexOfTime(classtime.end);
+        if ((dragStart <= classStart && classStart <= dragEnd) || (dragStart >= classEnd && classEnd > dragEnd)) {
           return true;
+        }
       }
     }
     return false;
@@ -73,10 +75,10 @@ class Timetable extends Component {
 
   _highlight(e) {
     const second = e.target;
-    let left = this.state.firstBlock.offsetLeft - document.getElementById('timetable-wrap').offsetLeft - 1;
-    let width = this.state.firstBlock.offsetWidth + 2;
-    let top = Math.min(this.state.firstBlock.offsetTop, second.offsetTop) - document.getElementById('timetable-wrap').offsetTop + 2;
-    let height = Math.abs(this.state.firstBlock.offsetTop - second.offsetTop) + this.state.firstBlock.offsetHeight -2;
+    const left = this.state.firstBlock.offsetLeft - document.getElementById('timetable-wrap').offsetLeft - 1;
+    const width = this.state.firstBlock.offsetWidth + 2;
+    const top = Math.min(this.state.firstBlock.offsetTop, second.offsetTop) - document.getElementById('timetable-wrap').offsetTop + 2;
+    const height = Math.abs(this.state.firstBlock.offsetTop - second.offsetTop) + this.state.firstBlock.offsetHeight - 2;
     this.setState({
       secondBlock: second,
       height: height,
@@ -88,9 +90,9 @@ class Timetable extends Component {
 
   dragMove(e) {
     if (!this.props.isDragging) return;
-    let startIndex = this.indexOfTime(this.state.firstBlock.getAttribute('data-time'));
-    let endIndex = this.indexOfTime(e.target.getAttribute('data-time'));
-    let incr = startIndex < endIndex ? 1 : -1;
+    const startIndex = this.indexOfTime(this.state.firstBlock.getAttribute('data-time'));
+    const endIndex = this.indexOfTime(e.target.getAttribute('data-time'));
+    const incr = startIndex < endIndex ? 1 : -1;
     for (let i = startIndex + incr; i !== endIndex + incr; i += incr) {
       if (this._isOccupied(i)) {
         this.props.setIsDraggingDispatch(false);
@@ -104,9 +106,9 @@ class Timetable extends Component {
     if (this.props.isDragging) this.props.setIsDraggingDispatch(false);
     document.getElementById('drag-cell').classList.add('none');
 
-    let startDay = this.indexOfDay(this.state.firstBlock.getAttribute('data-day'));
-    let startIndex = this.indexOfTime(this.state.firstBlock.getAttribute('data-time'));
-    let endIndex = this.indexOfTime(e.target.getAttribute('data-time'));
+    const startDay = this.indexOfDay(this.state.firstBlock.getAttribute('data-day'));
+    const startIndex = this.indexOfTime(this.state.firstBlock.getAttribute('data-time'));
+    const endIndex = this.indexOfTime(e.target.getAttribute('data-time'));
     if (startIndex === endIndex) return;
     this.props.dragSearchDispatch(startDay, startIndex, endIndex);
     this.setState({ firstBlock: null, secondBlock: null, height: 0 });
@@ -127,7 +129,7 @@ class Timetable extends Component {
   }
 
   render() {
-    let lectureBlocks = [];
+    const lectureBlocks = [];
     for (let i = 0, lecture; (lecture = this.props.currentTimetable.lectures[i]); i++) {
       for (let j = 0, classtime; (classtime = lecture.classtimes[j]); j++) {
         lectureBlocks.push(
@@ -135,21 +137,76 @@ class Timetable extends Component {
             key={`${lecture.id}:${j}`}
             lecture={lecture}
             classtime={classtime}
-          />
-         );
+          />,
+        );
       }
     }
 
     const dragDiv = (day, ko) => {
-      let timeblock = [];
+      const timeblock = [];
       timeblock.push(<div className="chead">{ko}</div>);
       for (let i = 800; i <= 2350; i += 50) {
-        if (i === 1200) timeblock.push(<div className="cell-bold cell1 half table-drag" data-day={day} data-time="1200" onMouseDown={e => this.dragStart(e)} onMouseMove={e => this.dragMove(e)} onMouseUp={e => this.dragEnd(e)} />);
-        else if (i === 1800) timeblock.push(<div className="cell-bold cell1 half table-drag" data-day={day} data-time="1800" onMouseDown={e => this.dragStart(e)} onMouseMove={e => this.dragMove(e)} onMouseUp={e => this.dragEnd(e)} />);
-        else if (i === 2350) timeblock.push(<div className="cell2 half cell-last table-drag" data-day={day} data-time="2330" onMouseDown={e => this.dragStart(e)} onMouseMove={e => this.dragMove(e)} onMouseUp={e => this.dragEnd(e)} />);
-        else if (i % 100 === 0) timeblock.push(<div className="cell1 half table-drag" data-day={day} data-time={i.toString()} onMouseDown={e => this.dragStart(e)} onMouseMove={e => this.dragMove(e)} onMouseUp={e => this.dragEnd(e)} />);
-        else timeblock.push(<div className="cell2 half table-drag" data-day={day} data-time={(i-20).toString()} onMouseDown={e => this.dragStart(e)} onMouseMove={e => this.dragMove(e)} onMouseUp={e => this.dragEnd(e)} />);
-      };
+        if (i === 1200) {
+          timeblock.push(
+            <div
+              className="cell-bold cell1 half table-drag"
+              data-day={day}
+              data-time="1200"
+              onMouseDown={e => this.dragStart(e)}
+              onMouseMove={e => this.dragMove(e)}
+              onMouseUp={e => this.dragEnd(e)}
+            />,
+          );
+        }
+        else if (i === 1800) {
+          timeblock.push(
+            <div
+              className="cell-bold cell1 half table-drag"
+              data-day={day}
+              data-time="1800"
+              onMouseDown={e => this.dragStart(e)}
+              onMouseMove={e => this.dragMove(e)}
+              onMouseUp={e => this.dragEnd(e)}
+            />,
+          );
+        }
+        else if (i === 2350) {
+          timeblock.push(
+            <div
+              className="cell2 half cell-last table-drag"
+              data-day={day}
+              data-time="2330"
+              onMouseDown={e => this.dragStart(e)}
+              onMouseMove={e => this.dragMove(e)}
+              onMouseUp={e => this.dragEnd(e)}
+            />,
+          );
+        }
+        else if (i % 100 === 0) {
+          timeblock.push(
+            <div
+              className="cell1 half table-drag"
+              data-day={day}
+              data-time={i.toString()}
+              onMouseDown={e => this.dragStart(e)}
+              onMouseMove={e => this.dragMove(e)}
+              onMouseUp={e => this.dragEnd(e)}
+            />,
+          );
+        }
+        else {
+          timeblock.push(
+            <div
+              className="cell2 half table-drag"
+              data-day={day}
+              data-time={(i - 20).toString()}
+              onMouseDown={e => this.dragStart(e)}
+              onMouseMove={e => this.dragMove(e)}
+              onMouseUp={e => this.dragEnd(e)}
+            />,
+          );
+        }
+      }
       return timeblock;
     };
 
@@ -207,35 +264,30 @@ class Timetable extends Component {
             {dragDiv('fri', '금요일')}
           </div>
         </div>
-        <div id="drag-cell" className="none" style={{left:this.state.left, width:this.state.width, top:this.state.top, height:this.state.height}}>
-        </div>
+        <div id="drag-cell" className="none" style={{ left: this.state.left, width: this.state.width, top: this.state.top, height: this.state.height }} />
         {lectureBlocks}
       </div>
     );
   }
 }
 
-let mapStateToProps = (state) => {
-  return {
-    currentTimetable: state.timetable.timetable.currentTimetable,
-    lectureActive: state.timetable.lectureActive,
-    isDragging: state.timetable.timetable.isDragging,
-  };
-};
+const mapStateToProps = state => ({
+  currentTimetable: state.timetable.timetable.currentTimetable,
+  lectureActive: state.timetable.lectureActive,
+  isDragging: state.timetable.timetable.isDragging,
+});
 
-let mapDispatchToProps = (dispatch) => {
-  return {
-    updateCellSizeDispatch: (width, height) => {
-      dispatch(updateCellSize(width, height));
-    },
-    dragSearchDispatch: (day, start, end) => {
-      dispatch(dragSearch(day, start, end));
-    },
-    setIsDraggingDispatch: (isDragging) => {
-      dispatch(setIsDragging(isDragging));
-    },
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  updateCellSizeDispatch: (width, height) => {
+    dispatch(updateCellSize(width, height));
+  },
+  dragSearchDispatch: (day, start, end) => {
+    dispatch(dragSearch(day, start, end));
+  },
+  setIsDraggingDispatch: (isDragging) => {
+    dispatch(setIsDragging(isDragging));
+  },
+});
 
 Timetable = connect(mapStateToProps, mapDispatchToProps)(Timetable);
 

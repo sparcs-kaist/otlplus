@@ -6,7 +6,6 @@ import 'nanoscroller';
 import '../static/css/nanoscroller.css';
 
 
-
 class Scroller extends Component {
   componentDidMount() {
     this.scrollContainer = $(ReactDOM.findDOMNode(this.refs['scroll-container']));
