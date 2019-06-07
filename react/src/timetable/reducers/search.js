@@ -7,7 +7,7 @@ const initialState = {
   day: 0,
 };
 
-export const search = (state = initialState, action) => {
+const search = (state = initialState, action) => {
   switch (action.type) {
     case OPEN_SEARCH:
       return Object.assign({}, state, {
@@ -28,3 +28,5 @@ export const search = (state = initialState, action) => {
       return state;
   }
 };
+
+export default search;

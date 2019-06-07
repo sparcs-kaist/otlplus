@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import $ from 'jquery';
 import axios from '../../componenets/presetAxios';
 import { closeSearch, setListLectures } from '../actions';
 import SearchFilter from './SearchFilter';
@@ -30,11 +29,11 @@ class Search extends Component {
     return null;
   }
 
-  hideSearch() {
+  hideSearch = () => {
     this.props.closeSearchDispatch();
   }
 
-  searchStart() {
+  searchStart = () => {
     const { type, department, grade, inputVal } = this.state;
     if (type.size === 1 && department.size === 1 && grade.size === 1 && inputVal.length === 0) {
       if (type.has('ALL') && department.has('ALL') && grade.has('ALL')) {

@@ -7,7 +7,7 @@ const initialState = {
   showLectureInfoFlag: false,
 };
 
-export const mobile = (state = initialState, action) => {
+const mobile = (state = initialState, action) => {
   switch (action.type) {
     case TOGGLE_LECTURE_LIST:
       return {
@@ -27,3 +27,5 @@ export const mobile = (state = initialState, action) => {
     default: return state;
   }
 };
+
+export default mobile;

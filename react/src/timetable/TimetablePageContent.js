@@ -16,11 +16,11 @@ import Share from './components/Share';
 class TimetablePageContent extends Component {
   render() {
     return (
-      <div className={ this.props.showLectureInfoFlag ? 'modal-lecture-info' : null} >
-        <div className={ this.props.showTimetableListFlag ? 'modal-timetable-list' : null }>
-          <div className={ this.props.showLectureListFlag ? 'mobile-lecture-list' : null }>
+      <div className={this.props.showLectureInfoFlag ? 'modal-lecture-info' : null}>
+        <div className={this.props.showTimetableListFlag ? 'modal-timetable-list' : null}>
+          <div className={this.props.showLectureListFlag ? 'mobile-lecture-list' : null}>
             <Header user={this.props.user} />
-            <section id="content" className="container-fluid" style={{backgroundColor:"#f9f0f0"}}>
+            <section id="content" className="container-fluid" style={{ backgroundColor: '#f9f0f0' }}>
               <div id="page-container">
                 <div id="left-side">
                   <Detail />
@@ -28,7 +28,21 @@ class TimetablePageContent extends Component {
                 </div>
                 <div id="center">
                   <div id="timetable-menu">
-                    {this.props.showTimetableListFlag ? <div> <Semester/> <TimetableTabs/> </div>  : <div><TimetableTabs/> <Semester/> </div>}
+                    {
+                      this.props.showTimetableListFlag
+                        ? (
+                          <div>
+                            <Semester />
+                            <TimetableTabs />
+                          </div>
+                        )
+                        : (
+                          <div>
+                            <TimetableTabs />
+                            <Semester />
+                          </div>
+                        )
+                    }
 
                   </div>
                   <div id="timetable">
@@ -40,10 +54,10 @@ class TimetablePageContent extends Component {
                       <Share />
                     </div>
                   </div>
-                 </div>
-               </div>
+                </div>
+              </div>
             </section>
-           </div>
+          </div>
         </div>
       </div>
     );
@@ -51,7 +65,7 @@ class TimetablePageContent extends Component {
 }
 
 const mapStateToProps = state => ({
-  showLectureListFlag: state.timetable.mobile.showLectureListFlag ,
+  showLectureListFlag: state.timetable.mobile.showLectureListFlag,
   showTimetableListFlag: state.timetable.mobile.showTimetableListFlag,
   showLectureInfoFlag: state.timetable.mobile.showLectureInfoFlag,
 });

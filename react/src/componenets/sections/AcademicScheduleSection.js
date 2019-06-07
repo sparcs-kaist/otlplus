@@ -10,7 +10,8 @@ class AcademicScheduleSection extends Component {
             D-4일 13시간 22분 07초
           </div>
           <div>
-            <strong>봄학기 수강취소 마감</strong><span>2018.1.3</span>
+            <strong>봄학기 수강취소 마감</strong>
+            <span>2018.1.3</span>
           </div>
         </div>
         <div className="buttons">

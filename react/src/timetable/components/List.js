@@ -114,7 +114,7 @@ class List extends Component {
           {['ID', 'CS'].map(code => (
             <div className={`list-page major-page${this.props.currentList === code ? '' : ' none'}`} key={code}>
               <div className="list-page-title">
-                {this.props.list[code].name} 전공
+                {`${this.props.list[code].name} 전공`}
               </div>
               <Scroller>
                 {listBlocks(this.props.list[code].courses, false)}

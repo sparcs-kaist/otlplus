@@ -14,27 +14,72 @@ class ReviewWriteBlock extends Component {
         <div>
           <div className="block--review-write__score">
             <span className="block--review-write__score__name">성적</span>
-            <label className="block--review-write__score__option"><input type="radio" name="grade" value="A" /><span>A</span></label>
-            <label className="block--review-write__score__option"><input type="radio" name="grade" value="B" /><span>B</span></label>
-            <label className="block--review-write__score__option"><input type="radio" name="grade" value="C" /><span>C</span></label>
-            <label className="block--review-write__score__option"><input type="radio" name="grade" value="D" /><span>D</span></label>
-            <label className="block--review-write__score__option"><input type="radio" name="grade" value="F" /><span>F</span></label>
+            <label className="block--review-write__score__option">
+              <input type="radio" name="grade" value="A" />
+              <span>A</span>
+            </label>
+            <label className="block--review-write__score__option">
+              <input type="radio" name="grade" value="B" />
+              <span>B</span>
+            </label>
+            <label className="block--review-write__score__option">
+              <input type="radio" name="grade" value="C" />
+              <span>C</span>
+            </label>
+            <label className="block--review-write__score__option">
+              <input type="radio" name="grade" value="D" />
+              <span>D</span>
+            </label>
+            <label className="block--review-write__score__option">
+              <input type="radio" name="grade" value="F" />
+              <span>F</span>
+            </label>
           </div>
           <div className="block--review-write__score">
             <span className="block--review-write__score__name">널널</span>
-            <label className="block--review-write__score__option"><input type="radio" name="load" value="A" /><span>A</span></label>
-            <label className="block--review-write__score__option"><input type="radio" name="load" value="B" /><span>B</span></label>
-            <label className="block--review-write__score__option"><input type="radio" name="load" value="C" /><span>C</span></label>
-            <label className="block--review-write__score__option"><input type="radio" name="load" value="D" /><span>D</span></label>
-            <label className="block--review-write__score__option"><input type="radio" name="load" value="F" /><span>F</span></label>
+            <label className="block--review-write__score__option">
+              <input type="radio" name="load" value="A" />
+              <span>A</span>
+            </label>
+            <label className="block--review-write__score__option">
+              <input type="radio" name="load" value="B" />
+              <span>B</span>
+            </label>
+            <label className="block--review-write__score__option">
+              <input type="radio" name="load" value="C" />
+              <span>C</span>
+            </label>
+            <label className="block--review-write__score__option">
+              <input type="radio" name="load" value="D" />
+              <span>D</span>
+            </label>
+            <label className="block--review-write__score__option">
+              <input type="radio" name="load" value="F" />
+              <span>F</span>
+            </label>
           </div>
           <div className="block--review-write__score">
             <span className="block--review-write__score__name">강의</span>
-            <label className="block--review-write__score__option"><input type="radio" name="speech" value="A" /><span>A</span></label>
-            <label className="block--review-write__score__option"><input type="radio" name="speech" value="B" /><span>B</span></label>
-            <label className="block--review-write__score__option"><input type="radio" name="speech" value="C" /><span>C</span></label>
-            <label className="block--review-write__score__option"><input type="radio" name="speech" value="D" /><span>D</span></label>
-            <label className="block--review-write__score__option"><input type="radio" name="speech" value="F" /><span>F</span></label>
+            <label className="block--review-write__score__option">
+              <input type="radio" name="speech" value="B" />
+              <span>B</span>
+            </label>
+            <label className="block--review-write__score__option">
+              <input type="radio" name="speech" value="C" />
+              <span>C</span>
+            </label>
+            <label className="block--review-write__score__option">
+              <input type="radio" name="speech" value="A" />
+              <span>A</span>
+            </label>
+            <label className="block--review-write__score__option">
+              <input type="radio" name="speech" value="D" />
+              <span>D</span>
+            </label>
+            <label className="block--review-write__score__option">
+              <input type="radio" name="speech" value="F" />
+              <span>F</span>
+            </label>
           </div>
         </div>
         <div className="block--review-write__buttons">

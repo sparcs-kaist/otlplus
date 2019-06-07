@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import TimetableBlock from './TimetableBlock';
-import { dragSearch, setIsDragging, setSemester, updateCellSize } from '../actions';
-import { NONE, LIST, TABLE } from '../reducers/lectureActive';
+import { dragSearch, setIsDragging, updateCellSize } from '../actions';
+import { NONE, LIST } from '../reducers/lectureActive';
 
 
 class Timetable extends Component {
@@ -28,7 +28,21 @@ class Timetable extends Component {
     return null;
   }
 
-  resize() {
+  componentDidMount() {
+    this.resize();
+    this.boundResize = this.resize.bind(this);
+    window.addEventListener('resize', this.boundResize);
+  }
+
+  componentDidUpdate() {
+    this.resize();
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.boundResize);
+  }
+
+  resize = () => {
     const cell = document.getElementsByClassName('cell1')[0].getBoundingClientRect();
     this.props.updateCellSizeDispatch(cell.width, cell.height);
   }
@@ -112,20 +126,6 @@ class Timetable extends Component {
     if (startIndex === endIndex) return;
     this.props.dragSearchDispatch(startDay, startIndex, endIndex);
     this.setState({ firstBlock: null, secondBlock: null, height: 0 });
-  }
-
-  componentDidMount() {
-    this.resize();
-    this.boundResize = this.resize.bind(this);
-    window.addEventListener('resize', this.boundResize);
-  }
-
-  componentDidUpdate() {
-    this.resize();
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.boundResize);
   }
 
   render() {
