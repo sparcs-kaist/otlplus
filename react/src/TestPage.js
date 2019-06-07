@@ -35,7 +35,6 @@ class TestPage extends Component {
         console.log('error');
         console.log(response);
       });
-
   }
 
 
