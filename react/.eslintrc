@@ -13,6 +13,7 @@
     "react/destructuring-assignment": 0,
     "lines-between-class-members": 0,
     "default-case": 0,
+    "react/jsx-wrap-multilines": 0,
 
 
     "max-len": "off",
@@ -26,6 +27,7 @@
     "react/prop-types": ["error", { "ignore": ["navigation"] }],
     "react/jsx-filename-extension": "off",
     "react/no-did-update-set-state": "off",
-    "linebreak-style": 0
+    "linebreak-style": 0,
+    "no-class-assign": 1
   }
 }
