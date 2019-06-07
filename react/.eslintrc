@@ -36,8 +36,12 @@
     "react/prefer-stateless-function": 0,
     "react/prop-types": 1,
     "linebreak-style": 0,
+    "no-case-declarations": 1,
     "no-class-assign": 1,
+    "no-cond-assign": 1,
+    "no-continue": 1,
     "no-nested-ternary": 1,
+    "no-plusplus": 1,
     "no-unused-vars": 1
   }
 }
