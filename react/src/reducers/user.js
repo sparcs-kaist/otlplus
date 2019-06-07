@@ -1,18 +1,18 @@
-import { SET_USER } from "../actions/user";
+import { SET_USER } from '../actions/user';
 
 const initialState = {
-    user: null,
+  user: null,
 };
 
 export const reducer = (state = initialState, action) => {
-    switch (action.type) {
-        case SET_USER:
-            return Object.assign({}, state, {
-                user : action.user,
-            });
-        default:
-            return state;
-    }
+  switch (action.type) {
+    case SET_USER:
+      return Object.assign({}, state, {
+        user: action.user,
+      });
+    default:
+      return state;
+  }
 };
 
 export default reducer;
