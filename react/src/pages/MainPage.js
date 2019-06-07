@@ -23,34 +23,34 @@ class MainPage extends Component {
           </form>
         </section>
         <section className="content">
-                    <div className="section-wrap">
-                      <div className="section">
-                        <AcademicScheduleSection />
-                      </div>
-                    </div>
-                    <div className="main-date">
-                      오늘
-                    </div>
-                    <div className="section-wrap">
-                      <div className="section">
-                        <ReviewWriteSection />
-                      </div>
-                    </div>
-                    <div className="section-wrap">
-                      <div className="section">
-                        <RelatedCourseSection />
-                      </div>
-                    </div>
-                    <div className="section-wrap">
-                      <div className="section">
-                        <LatestReviewSection />
-                      </div>
-                    </div>
-                    <div className="section-wrap">
-                      <div className="section">
-                        <FamousReviewSection />
-                      </div>
-                    </div>
+          <div className="section-wrap">
+            <div className="section">
+              <AcademicScheduleSection />
+            </div>
+          </div>
+          <div className="main-date">
+            오늘
+          </div>
+          <div className="section-wrap">
+            <div className="section">
+              <ReviewWriteSection />
+            </div>
+          </div>
+          <div className="section-wrap">
+            <div className="section">
+              <RelatedCourseSection />
+            </div>
+          </div>
+          <div className="section-wrap">
+            <div className="section">
+              <LatestReviewSection />
+            </div>
+          </div>
+          <div className="section-wrap">
+            <div className="section">
+              <FamousReviewSection />
+            </div>
+          </div>
         </section>
         <Footer />
       </div>
