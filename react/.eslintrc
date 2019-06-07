@@ -12,6 +12,8 @@
     "arrow-body-style": ["error", "as-needed"],
     "global-require": "off",
     "object-curly-newline": ["error", { "consistent": true }],
+    "object-shorthand": 1,
+    "react/prefer-stateless-function": 1,
     "react/prop-types": ["error", { "ignore": ["navigation"] }],
     "react/jsx-filename-extension": "off",
     "react/no-did-update-set-state": "off",
