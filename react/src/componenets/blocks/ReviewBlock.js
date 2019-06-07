@@ -20,19 +20,19 @@ class ReviewBlock extends Component {
         </div>
         <div className="block--review__menus">
           <span className="block--review__menus__score">
-            추천
+            추천&nbsp;
             <strong>0</strong>
           </span>
           <span className="block--review__menus__score">
-            성적
+            성적&nbsp;
             <strong>B</strong>
           </span>
           <span className="block--review__menus__score">
-            널널
+            널널&nbsp;
             <strong>A</strong>
           </span>
           <span className="block--review__menus__score">
-            강의
+            강의&nbsp;
             <strong>C</strong>
           </span>
           <button className="text-button text-button--review-block">
