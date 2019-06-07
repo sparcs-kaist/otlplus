@@ -247,7 +247,7 @@ const initialState = {
   isDragging: false,
 };
 
-export const timetable = (state = initialState, action) => {
+const timetable = (state = initialState, action) => {
   switch (action.type) {
     case SET_TIMETABLES:
       return Object.assign({}, state, {
@@ -334,3 +334,5 @@ export const timetable = (state = initialState, action) => {
       return state;
   }
 };
+
+export default timetable;

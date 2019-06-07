@@ -1206,7 +1206,7 @@ const initialState = {
   },
 };
 
-export const list = (state = initialState, action) => {
+const list = (state = initialState, action) => {
   switch (action.type) {
     case SET_CURRENT_LIST:
       return Object.assign({}, state, {
@@ -1282,12 +1282,12 @@ export const list = (state = initialState, action) => {
         for (let j = 0, lecture; (lecture = course[j]); j++) {
           if (lecture.id === action.lecture.id) {
             course.splice(j, 1);
-            j--;
+            j -= 1;
           }
         }
         if (course.length === 0) {
           courses.splice(i, 1);
-          i--;
+          i -= 1;
         }
       }
       return Object.assign({}, state, {
@@ -1299,3 +1299,5 @@ export const list = (state = initialState, action) => {
       return state;
   }
 };
+
+export default list;

@@ -128,7 +128,6 @@ export function updateCellSize(width, height) {
     width: width,
     height: height,
   };
-
 }
 
 export function setLectureActive(lecture, from, clicked) {
@@ -186,8 +185,8 @@ export function modaltimetableList() {
   return {
     type: MODAL_TIMETABLE_LIST,
   };
-
 }
+
 export function lectureinfo() {
   return {
     type: LECTURE_INFO,

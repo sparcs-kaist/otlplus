@@ -5,7 +5,7 @@ const initialState = {
   semester: null,
 };
 
-export const semester = (state = initialState, action) => {
+const semester = (state = initialState, action) => {
   switch (action.type) {
     case SET_SEMESTER:
       return Object.assign({}, state, {
@@ -16,3 +16,5 @@ export const semester = (state = initialState, action) => {
       return state;
   }
 };
+
+export default semester;
