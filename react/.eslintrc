@@ -9,7 +9,6 @@
     "FormData": "readonly"
   },
   "rules": {
-    "padded-blocks": 0,
     "jsx-a11y/click-events-have-key-events": 0,
     "jsx-a11y/mouse-events-have-key-events": 0,
     "jsx-a11y/no-static-element-interactions": 0,
@@ -17,11 +16,7 @@
     "jsx-a11y/anchor-has-content": 0,
     "jsx-a11y/label-has-for": 0,
     "jsx-a11y/label-has-associated-control": 0,
-    "lines-between-class-members": 0,
     "react/button-has-type": 0,
-    "import/prefer-default-export": 0,
-    "react/jsx-one-expression-per-line": 0,
-    "react/sort-comp": 0,
 
 
     "brace-style": [2, "stroustrup"],
@@ -40,7 +35,7 @@
     "react/destructuring-assignment": 1,
     "react/jsx-filename-extension": "off",
     "react/no-did-update-set-state": "off",
-    "react/no-multi-comp": 0,
+    "react/no-multi-comp": 1,
     "react/prefer-stateless-function": 0,
     "react/prop-types": 1,
     "linebreak-style": 0,
@@ -51,7 +46,7 @@
     "no-else-return": 1,
     "no-lonely-if": 1,
     "no-nested-ternary": 1,
-    "no-plusplus": 1,
-    "no-unused-vars": 1
+    "no-plusplus": ["error", {"allowForLoopAfterthoughts": true}],
+    "no-unused-vars": ["error", {"args": "none"}]
   }
 }
