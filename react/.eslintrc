@@ -23,6 +23,9 @@
     "nonblock-statement-body-position": 0,
     "brace-style": 0,
     "react/sort-comp": 0,
+    "no-lonely-if": 0,
+    "curly": 0,
+    "prefer-const": 0,
 
 
     "max-len": "off",
@@ -34,6 +37,7 @@
     "object-shorthand": 1,
     "react/prefer-stateless-function": 1,
     "react/prop-types": ["error", { "ignore": ["navigation"] }],
+    "operator-assignment": 1,
     "prefer-destructuring": 1,
     "react/jsx-filename-extension": "off",
     "react/no-did-update-set-state": "off",
