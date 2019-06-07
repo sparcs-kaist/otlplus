@@ -1,0 +1,20 @@
+{
+  "parser": "babel-eslint",
+  "extends": "eslint-config-airbnb",
+  "globals": {
+    "__DEV__": "readonly",
+    "FormData": "readonly"
+  },
+  "rules": {
+    "max-len": "off",
+    "no-underscore-dangle": ["error", { "allowAfterThis": true, "allowAfterSuper": true }],
+    "no-restricted-syntax": "off",
+    "arrow-body-style": ["error", "as-needed"],
+    "global-require": "off",
+    "object-curly-newline": ["error", { "consistent": true }],
+    "react/prop-types": ["error", { "ignore": ["navigation"] }],
+    "react/jsx-filename-extension": "off",
+    "react/no-did-update-set-state": "off",
+    "linebreak-style": 0
+  }
+}
