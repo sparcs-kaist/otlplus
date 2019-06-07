@@ -129,7 +129,7 @@ class Search extends Component {
                 <i className="search-keyword-icon"/>
                 <div className="search-keyword-text-wrap" >
                   <input className="search-keyword-text" type="text" name="keyword"
-                       autoComplete="off" placeholder="검색" value={inputVal} onKeyDown={(e) => { this.keyPress(e); }} onChange={(e) => this.handleInput(e);}/>
+                       autoComplete="off" placeholder="검색" value={inputVal} onKeyDown={(e) => { this.keyPress(e); }} onChange={(e) => this.handleInput(e)}/>
                   <div className="search-keyword-autocomplete">
                     <span className="search-keyword-autocomplete-space">{inputVal}</span>
                     <span className="search-keyword-autocomplete-body">{autoComplete}</span>
