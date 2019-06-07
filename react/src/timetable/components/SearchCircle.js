@@ -5,36 +5,37 @@ class SearchCircle extends Component {
     super(props);
 
     this.state = {
-      isChecked:this.props.value === 'ALL',
+      isChecked: this.props.value === 'ALL',
     };
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    //Return value will be set the state
+    // Return value will be set the state
     if (nextProps.value === 'ALL') {
       if (nextProps.allChecked) {
         return { isChecked: true };
-      } else {
+      }
+      else {
         return { isChecked: false };
       }
-     }
+    }
     else {
       if (nextProps.allChecked) {
         return { isChecked: false };
       }
       return null;
-     }
+    }
   }
 
   onClick(e) {
     const value = e.target.value;
-    if (this.state.isChecked && value === 'ALL') return; //Nothing do, return
+    if (this.state.isChecked && value === 'ALL') {
+      return; // Nothing do, return
+    }
     this.props.clickCircle(value, !this.state.isChecked);
-    this.setState((prevState) => {
-      return {
-        isChecked: !prevState.isChecked,
-      };
-    });
+    this.setState(prevState => ({
+      isChecked: !prevState.isChecked,
+    }));
   }
 
 
@@ -47,11 +48,18 @@ class SearchCircle extends Component {
       : (<i className="fa fa-circle-o fa-1x" />);
     return (
       <label>
-        <input className={all ? 'chkall' : 'chkelem'} type="checkbox" autoComplete="off" name={inputName}
-           value={value} onClick={(e) => this.onClick(e)}/>
+        <input
+          className={all ? 'chkall' : 'chkelem'}
+          type="checkbox"
+          autoComplete="off"
+          name={inputName}
+          value={value}
+          onClick={e => this.onClick(e)}
+        />
         {circleName}
         {circleIcon}
-      </label>);
+      </label>
+    );
   }
 }
 

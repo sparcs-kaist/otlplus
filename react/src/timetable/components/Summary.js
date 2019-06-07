@@ -5,11 +5,13 @@ import { LIST, TABLE } from '../reducers/lectureActive';
 
 const indexOfType = (type) => {
   const types = ['Basic Required', 'Basic Elective', 'Major Required', 'Major Elective', 'Humanities & Social Elective'];
-  let index = types.indexOf(type);
-  if (index === -1)
+  const index = types.indexOf(type);
+  if (index === -1) {
     return 5;
-  else
+  }
+  else {
     return index;
+  }
 };
 
 class Summary extends Component {
@@ -19,100 +21,111 @@ class Summary extends Component {
 
     this.state = {
       active: '',
-     };
+    };
   }
 
   typeFocus(type) {
-    if (this.props.lectureActiveFrom !== 'NONE')
+    if (this.props.lectureActiveFrom !== 'NONE') {
       return;
+    }
 
-    let lectures = [];
+    const lectures = [];
 
     for (let i = 0; i < this.props.currentTimetable.lectures.length; i++) {
-      let lecture = this.props.currentTimetable.lectures[i];
+      const lecture = this.props.currentTimetable.lectures[i];
 
-      if (indexOfType(lecture.type_en) !== indexOfType(type))
+      if (indexOfType(lecture.type_en) !== indexOfType(type)) {
         continue;
+      }
 
-      if (lecture.credit > 0)
+      if (lecture.credit > 0) {
         lectures.push({
           title: lecture.title,
-          info: lecture.credit.toString() + "학점",
+          info: `${lecture.credit.toString()}학점`,
         });
-      if (lecture.credit_au > 0)
+      }
+      if (lecture.credit_au > 0) {
         lectures.push({
           title: lecture.title,
-          info: lecture.credit_au.toString() + "AU",
+          info: `${lecture.credit_au.toString()}AU`,
         });
-     }
+      }
+    }
     this.props.setMultipleDetailDispatch(type, lectures);
     this.setState({ active: type });
   }
 
   creditFocus(type) {
-    if (this.props.lectureActiveFrom !== 'NONE')
+    if (this.props.lectureActiveFrom !== 'NONE') {
       return;
+    }
 
-    let lectures = [];
+    const lectures = [];
     for (let i = 0, lecture; lecture = this.props.currentTimetable.lectures[i]; i++) {
-      if (type === 'Credit' && lecture.credit > 0)
+      if (type === 'Credit' && lecture.credit > 0) {
         lectures.push({
           title: lecture.title,
-          info: lecture.credit.toString() + '학점',
+          info: `${lecture.credit.toString()}학점`,
         });
-      if (type === 'Credit AU' && lecture.credit_au > 0)
+      }
+      if (type === 'Credit AU' && lecture.credit_au > 0) {
         lectures.push({
           title: lecture.title,
-          info: lecture.credit.toString() + 'AU',
+          info: `${lecture.credit.toString()}AU`,
         });
-     }
-    this.props.setMultipleDetailDispatch(type, lectures)
+      }
+    }
+    this.props.setMultipleDetailDispatch(type, lectures);
     this.setState({ active: type });
   }
 
   scoreFocus(type) {
-    if (this.props.lectureActiveFrom !== 'NONE')
+    if (this.props.lectureActiveFrom !== 'NONE') {
       return;
+    }
 
-    let lectures = [];
+    const lectures = [];
     for (let i = 0, lecture; lecture = this.props.currentTimetable.lectures[i]; i++) {
-      if (type === 'Grade')
+      if (type === 'Grade') {
         lectures.push({
           title: lecture.title,
           info: lecture.grade_letter,
         });
-      if (type === 'Load')
+      }
+      if (type === 'Load') {
         lectures.push({
           title: lecture.title,
           info: lecture.load_letter,
         });
-      if (type === 'Speech')
+      }
+      if (type === 'Speech') {
         lectures.push({
           title: lecture.title,
           info: lecture.speech_letter,
         });
-
-     }
+      }
+    }
     this.props.setMultipleDetailDispatch(type, lectures);
     this.setState({ active: type });
   }
 
 
   clearFocus() {
-    if (this.props.lectureActiveFrom !== 'MULTIPLE')
+    if (this.props.lectureActiveFrom !== 'MULTIPLE') {
       return;
+    }
 
     this.props.clearMultipleDetailDispatch();
     this.setState({ active: '' });
   }
 
   render() {
-    let type_credit = [0, 0, 0, 0, 0, 0];
+    const type_credit = [0, 0, 0, 0, 0, 0];
     let sum_credit = 0, sum_credit_au = 0, targetNum = 0, grade = 0, load = 0, speech = 0;
-    let letters = ['?', 'F', 'F', 'F', 'D-', 'D', 'D+', 'C-', 'C', 'C+', 'B-', 'B', 'B+', 'A-', 'A', 'A+'];
+    const letters = ['?', 'F', 'F', 'F', 'D-', 'D', 'D+', 'C-', 'C', 'C+', 'B-', 'B', 'B+', 'A-', 'A', 'A+'];
 
-    for (let i=0, lecture; (lecture = this.props.currentTimetable.lectures[i]); i++) {
-      let num = lecture.credit + lecture.credit_au;
+    for (let i = 0, lecture; (lecture = this.props.currentTimetable.lectures[i]); i++) {
+      const num = lecture.credit + lecture.credit_au;
       type_credit[indexOfType(lecture.type_en)] += num;
       sum_credit += lecture.credit;
       sum_credit_au += lecture.credit_au;
@@ -120,33 +133,34 @@ class Summary extends Component {
       grade += lecture.grade * num;
       load += lecture.load * num;
       speech += lecture.speech * num;
-     }
+    }
 
-    let active_type_credit = ['', '', '', '', '', ''];
-    if (this.props.lectureActiveFrom === LIST || this.props.lectureActiveFrom === TABLE ) {
-      let index = indexOfType(this.props.lectureActiveLecture.type_en);
-      let amount = this.props.lectureActiveLecture.credit + this.props.lectureActiveLecture.credit_au;
+    const active_type_credit = ['', '', '', '', '', ''];
+    if (this.props.lectureActiveFrom === LIST || this.props.lectureActiveFrom === TABLE) {
+      const index = indexOfType(this.props.lectureActiveLecture.type_en);
+      const amount = this.props.lectureActiveLecture.credit + this.props.lectureActiveLecture.credit_au;
 
       active_type_credit[index] = `+${amount}`;
-      for (let i = 0, lecture; (lecture = this.props.currentTimetable.lectures[i]); i++)
+      for (let i = 0, lecture; (lecture = this.props.currentTimetable.lectures[i]); i++) {
         if (lecture.id === this.props.lectureActiveLecture.id) {
           active_type_credit[index] = `(${amount})`;
           break;
-         }
-     }
+        }
+      }
+    }
 
     let creditAct = false, creditAuAct = false;
     if (this.props.lectureActiveLecture !== null) {
-      let activeLecture = this.props.lectureActiveLecture;
+      const activeLecture = this.props.lectureActiveLecture;
       if (activeLecture.credit > 0) creditAct = true;
       else if (activeLecture.credit_au > 0) creditAuAct = true;
-     }
+    }
 
-    let alec = this.props.lectureActiveLecture;
+    const alec = this.props.lectureActiveLecture;
     if (alec !== null && !this.props.currentTimetable.lectures.includes(alec)) {
       sum_credit += alec.credit;
       sum_credit_au += alec.credit_au;
-     }
+    }
 
     return (
       <div id="summary">
@@ -185,15 +199,16 @@ class Summary extends Component {
         <div id="summary-credit">
           <div className="summary-credit-elem" onMouseOver={() => this.creditFocus('Credit')} onMouseOut={() => this.clearFocus()}>
             <div id="credits" className="score-text">
-              <span className={`normal ${creditAct? 'none' : this.state.active === 'Credit'? 'none' : ''}`}>{sum_credit}</span>
-              <span className={`active ${creditAct? '' : this.state.active === 'Credit' ? '' : 'none'}`}>{sum_credit}</span>
-             </div>
+              <span className={`normal ${creditAct ? 'none' : this.state.active === 'Credit' ? 'none' : ''}`}>{sum_credit}</span>
+              <span className={`active ${creditAct ? '' : this.state.active === 'Credit' ? '' : 'none'}`}>{sum_credit}</span>
+            </div>
             <div className="score-label">학점</div>
           </div>
           <div className="summary-credit-elem" onMouseOver={() => this.creditFocus('Credit AU')} onMouseOut={() => this.clearFocus()}>
             <div id="au" className="score-text">
               <span className={`normal ${creditAuAct ? 'none' : this.state.active === 'Credit AU' ? 'none' : ''}`}>{sum_credit_au}</span>
-              <span className={`active ${creditAuAct ? '' : this.state.active === 'Credit AU'? '' : 'none'}`}>{sum_credit_au}</span></div>
+              <span className={`active ${creditAuAct ? '' : this.state.active === 'Credit AU' ? '' : 'none'}`}>{sum_credit_au}</span>
+            </div>
             <div className="score-label">AU</div>
           </div>
         </div>
@@ -216,24 +231,20 @@ class Summary extends Component {
   }
 }
 
-let mapStateToProps = (state) => {
-  return {
-    currentTimetable: state.timetable.timetable.currentTimetable,
-    lectureActiveLecture: state.timetable.lectureActive.lecture,
-    lectureActiveFrom: state.timetable.lectureActive.from,
-  };
-};
+const mapStateToProps = state => ({
+  currentTimetable: state.timetable.timetable.currentTimetable,
+  lectureActiveLecture: state.timetable.lectureActive.lecture,
+  lectureActiveFrom: state.timetable.lectureActive.from,
+});
 
-let mapDispatchToProps = (dispatch) => {
-  return {
-    setMultipleDetailDispatch: (title, lectures) => {
-      dispatch(setMultipleDetail(title, lectures));
-    },
-    clearMultipleDetailDispatch: () => {
-      dispatch(clearMultipleDetail());
-    },
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  setMultipleDetailDispatch: (title, lectures) => {
+    dispatch(setMultipleDetail(title, lectures));
+  },
+  clearMultipleDetailDispatch: () => {
+    dispatch(clearMultipleDetail());
+  },
+});
 
 Summary = connect(mapStateToProps, mapDispatchToProps)(Summary);
 

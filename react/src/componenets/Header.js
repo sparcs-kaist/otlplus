@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import {connect} from "react-redux";
+import { connect } from 'react-redux';
 
 import '../static/css/components/header/timetable.css';
 
@@ -11,12 +11,17 @@ class Header extends Component {
         <div className="container-fluid">
           <div className="row">
             <div className="navbar-header">
-              <button type="button" className="navbar-toggle collapsed" data-toggle="collapse"
-                      data-target="#header" aria-expanded="false">
+              <button
+                type="button"
+                className="navbar-toggle collapsed"
+                data-toggle="collapse"
+                data-target="#header"
+                aria-expanded="false"
+              >
                 <span className="sr-only">Toggle navigation</span>
-                <span className="icon-bar"></span>
-                <span className="icon-bar"></span>
-                <span className="icon-bar"></span>
+                <span className="icon-bar" />
+                <span className="icon-bar" />
+                <span className="icon-bar" />
               </button>
               <Link to="/" className="navbar-brand">OTL</Link>
             </div>
@@ -35,12 +40,10 @@ class Header extends Component {
               </ul>
               <form className="hid-r navbar-form navbar-left float-right" role="search">
                 <div className="form-group">
-                  <input id="keyword" type="text" name="q" className="form-control" placeholder="Search"/>
-                 </div>
+                  <input id="keyword" type="text" name="q" className="form-control" placeholder="Search" />
+                </div>
                 <button id="option" className="btn btn-default" type="button">필터</button>
-                <button id="search" className="btn btn-default" type="submit"
-                  formAction="/review/result/">검색
-                </button>
+                <button id="search" className="btn btn-default" type="submit" formAction="/review/result/">검색</button>
               </form>
               <ul className="nav navbar-nav navbar-right hid">
                 <li>
@@ -50,17 +53,20 @@ class Header extends Component {
                 </li>
                 {
                   this.props.user == null
-                    ? <li>
+                    ? (
+                      <li>
                         <a href={`/session/login/?next=${window.location.href}`} className="login">
                           로그인
                         </a>
                       </li>
-                    : <li className="dropdown">
+                    )
+                    : (
+                      <li className="dropdown">
                         <a className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                           <span className="header_hide">
                             {this.props.user.lastName} {this.props.user.firstName}
                           </span>
-                          <span className="caret"/>
+                          <span className="caret" />
                         </a>
                         <ul className="dropdown-menu">
                           <li>
@@ -68,20 +74,21 @@ class Header extends Component {
                                 마이페이지
                             </a>
                           </li>
-                          <li role="separator" className="divider"/>
+                          <li role="separator" className="divider" />
                           <li>
                             <a href="https://sparcssso.kaist.ac.kr/account/profile/">
                               SPARCSSSO
                             </a>
                           </li>
-                          <li role="separator" className="divider"/>
+                          <li role="separator" className="divider" />
                           <li>
                             <a href={`/session/logout/?next=${window.location.href}`} className="logout">
                               로그아웃
                             </a>
                           </li>
-                         </ul>
+                        </ul>
                       </li>
+                    )
                 }
               </ul>
             </div>
@@ -95,39 +102,43 @@ class Header extends Component {
               </li>
               {
                 this.props.user == null
-                  ? <li>
+                  ? (
+                    <li>
                       <a href={`/session/login/?next=${window.location.href}`} className="login">
                         로그인
                       </a>
                     </li>
-                  : <li class="dropdown">
-                      <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                        <span class="glyphicon glyphicon-user"/>
-                        <span class="header_hide">
+                  )
+                  : (
+                    <li className="dropdown">
+                      <a className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <span className="glyphicon glyphicon-user" />
+                        <span className="header_hide">
                           {this.props.user.lastName} {this.props.user.firstName}
                         </span>
-                        <span class="caret"/>
+                        <span className="caret" />
                       </a>
-                      <ul class="dropdown-menu">
+                      <ul className="dropdown-menu">
                         <li>
                           <a href="/session/settings">
                             마이페이지
                           </a>
                         </li>
-                        <li role="separator" class="divider"/>
+                        <li role="separator" className="divider" />
                         <li>
                           <a href="https://sparcssso.kaist.ac.kr/account/profile/">
                             SPARCSSSO
                           </a>
                         </li>
-                        <li role="separator" class="divider"/>
+                        <li role="separator" className="divider" />
                         <li>
-                          <a href={`/session/logout/?next=${window.location.href}`} class="logout">
+                          <a href={`/session/logout/?next=${window.location.href}`} className="logout">
                             로그아웃
                           </a>
                         </li>
                       </ul>
                     </li>
+                  )
             }
             </ul>
           </div>
@@ -137,16 +148,12 @@ class Header extends Component {
   }
 }
 
-let mapStateToProps = (state) => {
-  return {
-    user: state.common.user,
-  };
-};
+const mapStateToProps = state => ({
+  user: state.common.user,
+});
 
-let mapDispatchToProps = (dispatch) => {
-  return {
-  };
-};
+const mapDispatchToProps = dispatch => ({
+});
 
 Header = connect(mapStateToProps, mapDispatchToProps)(Header);
 

@@ -46,7 +46,8 @@ class App extends Component {
           <Route exact path="/main" render={props => <MainPage />} />
           <Route exact path="/credits" render={props => <CreditPage />} />
           <Route exact path="/licenses" render={props => <LicensePage />} />
-          <Route exact path="/test" render={props => <TestPage />} /> {/* Temporary test page for axiom */}
+          {/* Temporary test page for axiom */}
+          <Route exact path="/test" render={props => <TestPage />} />
           <Redirect from="/" to="/main/" />
         </Switch>
       </Provider>
