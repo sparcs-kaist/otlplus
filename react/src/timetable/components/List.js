@@ -91,7 +91,7 @@ class List extends Component {
                             this.props.open
                                 ? null
                                 : (
-                                    <div>
+                                    <>
                                         <div className="list-page-title search-page-title" onClick={()=>this.showSearch()}>
                                             <i className="search-page-title-icon"/>
                                             <div className="search-page-title-text">검색</div>
@@ -99,12 +99,12 @@ class List extends Component {
                                         <Scroller>
                                           {listBlocks(this.props.search.courses, false)}
                                         </Scroller>
-                                    </div>
+                                    </>
                                 )
                         }
                     </div>
                     {["ID", "CS"].map((code) => (
-                        <div className={"list-page humanity-page"+(this.props.currentList===code?"":" none")} key={code}>
+                        <div className={"list-page major-page"+(this.props.currentList===code?"":" none")} key={code}>
                             <div className="list-page-title">
                                 {this.props.list[code].name} 전공
                             </div>
