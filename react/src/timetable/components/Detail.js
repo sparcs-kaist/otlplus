@@ -204,7 +204,7 @@ class Detail extends Component {
             </div>
             <div id="course-no" style={{ textAlign: 'center' }}>
               <span>
-                {this.props.lectures.length}개의 과목
+                {`${this.props.lectures.length}개의 과목`}
               </span>
             </div>
             <div className="lecture-options">
@@ -237,13 +237,17 @@ class Detail extends Component {
               OTL PLUS
             </div>
             <div className="otlplus-content">
-              <Link to="/credits/">만든 사람들</Link> | <Link to="/licenses/">라이선스</Link>
+              <Link to="/credits/">만든 사람들</Link>
+              &nbsp;|&nbsp;
+              <Link to="/licenses/">라이선스</Link>
             </div>
             <div className="otlplus-content">
               <a href="mailto:otlplus@sparcs.org">otlplus@sparcs.org</a>
             </div>
             <div className="otlplus-content">
-              © 2017, <a href="http://sparcs.kaist.ac.kr">SPARCS</a> OTL Team
+              © 2017,&nbsp;
+              <a href="http://sparcs.kaist.ac.kr">SPARCS</a>
+              &nbsp;OTL Team
             </div>
           </div>
         </div>
