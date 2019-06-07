@@ -1,5 +1,8 @@
 {
   "parser": "babel-eslint",
+  "env": {
+    "browser": true
+  },
   "extends": "eslint-config-airbnb",
   "globals": {
     "__DEV__": "readonly",
@@ -17,6 +20,7 @@
     "react/button-has-type": 0,
     "import/prefer-default-export": 0,
     "react/jsx-one-expression-per-line": 0,
+    "react/sort-comp": 0,
 
 
     "brace-style": [2, "stroustrup"],
@@ -40,6 +44,7 @@
     "no-class-assign": 1,
     "no-cond-assign": 1,
     "no-continue": 1,
+    "no-else-return": 1,
     "no-nested-ternary": 1,
     "no-plusplus": 1,
     "no-unused-vars": 1

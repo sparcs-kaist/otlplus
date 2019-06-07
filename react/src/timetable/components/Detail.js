@@ -16,26 +16,30 @@ class Detail extends Component {
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    //Return value will be set the state
+    // Return value will be set the state
     if (nextProps.from === 'LIST' || nextProps.from === 'TABLE') {
       if (nextProps.clicked) {
         return { showUnfix: true };
-      } else {
+      }
+      else {
         return { showUnfix: false };
       }
-    } else {
+    }
+    else {
       return { showUnfix: false };
     }
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (prevProps.clicked && this.props.clicked) {
-      if (prevProps.lecture.id !== this.props.lecture.id)
+      if (prevProps.lecture.id !== this.props.lecture.id) {
         this.openDictPreview();
+      }
     }
     else if (prevProps.clicked && !this.props.clicked) {
-      if (this.props.lecture)
+      if (this.props.lecture) {
         this.closeDictPreview();
+      }
     }
     else if (!prevProps.clicked && this.props.clicked) {
       this.openDictPreview();
@@ -57,9 +61,9 @@ class Detail extends Component {
   render() {
     if (this.props.from === LIST || this.props.from === TABLE) {
       const { reviews } = this.props.lecture;
-      const mapreview = (review, index) => {
-        return (<Review key={`review_${index}`} review={review} />);
-      };
+      const mapreview = (review, index) => (
+        <Review key={`review_${index}`} review={review} />
+      );
       const reviewsDom = (reviews && reviews.length) ? reviews.map(mapreview) : <div className="review-loading">결과 없음</div>;
       return (
         <div id="lecture-info">
@@ -72,13 +76,13 @@ class Detail extends Component {
             <div id="course-no" style={{ textAlign: 'center' }}>
               <span>
                 {this.props.lecture.old_code}
-                {this.props.lecture.class_no.length ? ' ('+this.props.lecture.class_no+')' : ''}
+                {this.props.lecture.class_no.length ? ` (${this.props.lecture.class_no})` : ''}
               </span>
             </div>
             <div className="lecture-options">
               <span id="fix-option" onClick={this.unfix} className={this.state.showUnfix ? '' : 'disable'} style={{ float: 'left' }}>고정해제</span>
               <span id="syllabus-option">
-                <a href={`https://cais.kaist.ac.kr/syllabusInfo?year=${this.props.lecture.year}&term=${this.props.lecture.semester}&subject_no=${this.props.lecture.code}&lecture_class=${this.props.lecture.class_no}&dept_id=${this.props.lecture.department}`} target='_blank'>
+                <a href={`https://cais.kaist.ac.kr/syllabusInfo?year=${this.props.lecture.year}&term=${this.props.lecture.semester}&subject_no=${this.props.lecture.code}&lecture_class=${this.props.lecture.class_no}&dept_id=${this.props.lecture.department}`} target="_blank" rel="noopener noreferrer">
                   실라버스
                 </a>
               </span>
@@ -100,7 +104,8 @@ class Detail extends Component {
                 () => {
                   if ($('.open-dict-button').position().top <= 1) {
                     $('.dict-fixed').removeClass('none');
-                  } else {
+                  }
+                  else {
                     $('.dict-fixed').addClass('none');
                   }
                 }
@@ -138,7 +143,7 @@ class Detail extends Component {
                       : <div id="language" className="score-text score-korean">한</div>
                   }
                   <div className="score-label">언어</div>
-                 </div>
+                </div>
                 <div className="lecture-score">
                   {
                     this.props.lecture.credit > 0
@@ -150,34 +155,34 @@ class Detail extends Component {
                       ? <div className="score-label">학점</div>
                       : <div className="score-label">AU</div>
                   }
-                 </div>
+                </div>
                 <div className="lecture-score">
                   <div id="rate" className="score-text">
                     {
                       this.props.lecture.limit === 0
                         ? '0.0:1'
-                        : (this.props.lecture.num_people/this.props.lecture.limit).toFixed(1).toString()+':1'
+                        : `${(this.props.lecture.num_people / this.props.lecture.limit).toFixed(1).toString()}:1`
                     }
                   </div>
                   <div className="score-label">경쟁률</div>
-                 </div>
+                </div>
               </div>
               <div className="lecture-scores">
-                <div className="lecture-score" style={{clear: 'both'}}>
+                <div className="lecture-score" style={{ clear: 'both' }}>
                   <div id="grade" className="score-text">{this.props.lecture.grade_letter}</div>
                   <div className="score-label">성적</div>
-                 </div>
+                </div>
                 <div className="lecture-score">
                   <div id="load" className="score-text">{this.props.lecture.load_letter}</div>
                   <div className="score-label">널널</div>
-                 </div>
+                </div>
                 <div className="lecture-score">
                   <div id="speech" className="score-text">{this.props.lecture.speech_letter}</div>
                   <div className="score-label">강의</div>
-                 </div>
+                </div>
               </div>
               <div onClick={this.openDictPreview} className="basic-info dictionary-preview open-dict-button">
-                <span style={{ fontWeight:'700' }}>과목 후기</span>
+                <span style={{ fontWeight: '700' }}>과목 후기</span>
                 <i className="dict-arrow" />
               </div>
               <div id="reviews">
@@ -187,8 +192,8 @@ class Detail extends Component {
           </div>
         </div>
       );
-     }
-    else if (this.props.from === MULTIPLE)
+    }
+    else if (this.props.from === MULTIPLE) {
       return (
         <div id="lecture-info">
           <div className="lecture-detail">
@@ -203,27 +208,28 @@ class Detail extends Component {
               </span>
             </div>
             <div className="lecture-options">
-              <span id="fix-option" onClick={this.unfix} className={this.state.showUnfix ? '' : 'disable'} style={{ float: 'left'}}>고정해제</span>
+              <span id="fix-option" onClick={this.unfix} className={this.state.showUnfix ? '' : 'disable'} style={{ float: 'left' }}>고정해제</span>
               <span id="syllabus-option" className="disable">실라버스</span>
               &nbsp;
               <span id="dictionary-option" className="disable">과목사전</span>
             </div>
             <div className="detail-top">
               {this.props.lectures.map((lecture, index) => (
-                <div className="basic-info" key={index}>
+                <div className="basic-info" key={lecture.id}>
                   <span className="basic-info-name">
                     {lecture.title}
                   </span>
                   <span id="department">
                     {lecture.info}
                   </span>
-                 </div>
+                </div>
               ))}
             </div>
           </div>
         </div>
       );
-    else
+    }
+    else {
       return (
         <div id="lecture-info">
           <div id="info-placeholder">
@@ -242,26 +248,23 @@ class Detail extends Component {
           </div>
         </div>
       );
+    }
   }
 }
 
-let mapStateToProps = (state) => {
-  return {
-    from: state.timetable.lectureActive.from,
-    lecture: state.timetable.lectureActive.lecture,
-    title: state.timetable.lectureActive.title,
-    lectures: state.timetable.lectureActive.lectures,
-    clicked: state.timetable.lectureActive.clicked,
-  };
-};
+const mapStateToProps = state => ({
+  from: state.timetable.lectureActive.from,
+  lecture: state.timetable.lectureActive.lecture,
+  title: state.timetable.lectureActive.title,
+  lectures: state.timetable.lectureActive.lectures,
+  clicked: state.timetable.lectureActive.clicked,
+});
 
-let mapDispatchToProps = (dispatch) => {
-  return {
-    clearLectureActiveDispatch: () => {
-      dispatch(clearLectureActive());
-    },
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  clearLectureActiveDispatch: () => {
+    dispatch(clearLectureActive());
+  },
+});
 
 Detail = connect(mapStateToProps, mapDispatchToProps)(Detail);
 
