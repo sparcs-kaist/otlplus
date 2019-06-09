@@ -1,4 +1,4 @@
-import { OPEN_SEARCH, CLOSE_SEARCH, DRAG_SEARCH } from '../actions/index';
+import { OPEN_SEARCH, CLOSE_SEARCH, DRAG_SEARCH } from '../../actions/timetable/index';
 
 const initialState = {
   open: true,

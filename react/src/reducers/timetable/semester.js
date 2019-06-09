@@ -1,4 +1,4 @@
-import { SET_SEMESTER } from '../actions/index';
+import { SET_SEMESTER } from '../../actions/timetable/index';
 
 const initialState = {
   year: null,

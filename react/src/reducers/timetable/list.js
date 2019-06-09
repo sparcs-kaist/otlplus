@@ -1,4 +1,4 @@
-import { SET_CURRENT_LIST, ADD_LECTURE_TO_CART, DELETE_LECTURE_FROM_CART, SET_LIST_LECTURES } from '../actions/index';
+import { SET_CURRENT_LIST, ADD_LECTURE_TO_CART, DELETE_LECTURE_FROM_CART, SET_LIST_LECTURES } from '../../actions/timetable/index';
 
 
 const initialState = {

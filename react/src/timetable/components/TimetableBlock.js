@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from '../../componenets/presetAxios';
-import { setLectureActive, clearLectureActive, removeLectureFromTimetable, lectureinfo } from '../actions';
+import { setLectureActive, clearLectureActive, removeLectureFromTimetable, lectureinfo } from '../../actions/timetable/index';
 
 class TimetableBlock extends Component {
   blockHover() {

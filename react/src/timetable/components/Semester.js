@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from '../../componenets/presetAxios';
-import { setSemester, setTimetables, setListLectures } from '../actions';
+import { setSemester, setTimetables, setListLectures } from '../../actions/timetable/index';
 
 const semesterName = {
   1: '봄',

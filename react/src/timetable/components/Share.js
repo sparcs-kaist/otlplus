@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { mToggleLectureList, modaltimetableList } from '../actions';
+import { mToggleLectureList, modaltimetableList } from '../../actions/timetable/index';
 
 class Share extends Component {
   render() {

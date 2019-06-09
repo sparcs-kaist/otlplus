@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from '../../componenets/presetAxios';
-import { closeSearch, setListLectures } from '../actions';
+import { closeSearch, setListLectures } from '../../actions/timetable/index';
 import SearchFilter from './SearchFilter';
 import '../../static/css/font-awesome.min.css';
 

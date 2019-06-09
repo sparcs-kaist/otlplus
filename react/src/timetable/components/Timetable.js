@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import TimetableBlock from './TimetableBlock';
-import { dragSearch, setIsDragging, updateCellSize } from '../actions';
-import { NONE, LIST } from '../reducers/lectureActive';
+import { dragSearch, setIsDragging, updateCellSize } from '../../actions/timetable/index';
+import { NONE, LIST } from '../../reducers/timetable/lectureActive';
 
 
 class Timetable extends Component {
