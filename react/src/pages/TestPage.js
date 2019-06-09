@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import axios from './componenets/presetAxios';
+import axios from '../componenets/presetAxios';
 
 
 class TestPage extends Component {
