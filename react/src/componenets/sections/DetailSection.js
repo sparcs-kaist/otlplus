@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import $ from 'jquery';
-import Scroller from '../../componenets/Scroller';
-import Review from './Review';
+import Scroller from '../Scroller';
+import ReviewSimpleBlock from '../blocks/ReviewSimpleBlock';
 import { LIST, TABLE, MULTIPLE } from '../../reducers/timetable/lectureActive';
 import { clearLectureActive } from '../../actions/timetable/index';
 
-class Detail extends Component {
+class DetailSection extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -62,7 +62,7 @@ class Detail extends Component {
     if (this.props.from === LIST || this.props.from === TABLE) {
       const { reviews } = this.props.lecture;
       const mapreview = (review, index) => (
-        <Review key={`review_${index}`} review={review} />
+        <ReviewSimpleBlock key={`review_${index}`} review={review} />
       );
       const reviewsDom = (reviews && reviews.length) ? reviews.map(mapreview) : <div className="review-loading">결과 없음</div>;
       return (
@@ -270,6 +270,6 @@ const mapDispatchToProps = dispatch => ({
   },
 });
 
-Detail = connect(mapStateToProps, mapDispatchToProps)(Detail);
+DetailSection = connect(mapStateToProps, mapDispatchToProps)(DetailSection);
 
-export default Detail;
+export default DetailSection;

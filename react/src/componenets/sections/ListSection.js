@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { openSearch, closeSearch, setCurrentList, clearLectureActive } from '../../actions/timetable/index';
-import Scroller from '../../componenets/Scroller';
-import Search from './Search';
-import ListBlock from './ListBlock';
+import Scroller from '../Scroller';
+import SearchSubSection from './SearchSubSection';
+import CourseLecturesBlock from '../blocks/CourseLecturesBlock';
 import { LIST, TABLE } from '../../reducers/timetable/lectureActive';
 
-class List extends Component {
+class ListSection extends Component {
   changeTab(list) {
     this.props.setCurrentListDispatch(list);
 
@@ -59,7 +59,7 @@ class List extends Component {
     };
 
     const mapLecture = fromCart => lecture => (
-      <ListBlock lecture={lecture} key={lecture.id} inTimetable={inTimetable(lecture)} inCart={inCart(lecture)} fromCart={fromCart} />
+      <CourseLecturesBlock lecture={lecture} key={lecture.id} inTimetable={inTimetable(lecture)} inCart={inCart(lecture)} fromCart={fromCart} />
     );
 
     const mapCourse = fromCart => course => (
@@ -94,7 +94,7 @@ class List extends Component {
         </div>
         <div id="list-page-wrap">
           <div className={`list-page search-page${this.props.currentList === 'SEARCH' ? '' : ' none'}`}>
-            <Search />
+            <SearchSubSection />
             {
               this.props.open
                 ? null
@@ -172,6 +172,6 @@ const mapDispatchToProps = dispatch => ({
   },
 });
 
-List = connect(mapStateToProps, mapDispatchToProps)(List);
+ListSection = connect(mapStateToProps, mapDispatchToProps)(ListSection);
 
-export default List;
+export default ListSection;

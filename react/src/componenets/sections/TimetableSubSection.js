@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import TimetableBlock from './TimetableBlock';
+import TimetableBlock from '../blocks/TimetableBlock';
 import { dragSearch, setIsDragging, updateCellSize } from '../../actions/timetable/index';
 import { NONE, LIST } from '../../reducers/timetable/lectureActive';
 
 
-class Timetable extends Component {
+class TimetableSubSection extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -289,6 +289,6 @@ const mapDispatchToProps = dispatch => ({
   },
 });
 
-Timetable = connect(mapStateToProps, mapDispatchToProps)(Timetable);
+TimetableSubSection = connect(mapStateToProps, mapDispatchToProps)(TimetableSubSection);
 
-export default Timetable;
+export default TimetableSubSection;

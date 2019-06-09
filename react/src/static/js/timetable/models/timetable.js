@@ -7,7 +7,7 @@ var app = app || {};
   // Timetable Model
   // ---------------
   
-  app.Timetable = Backbone.Model.extend({
+  app.TimetableSubSection = Backbone.Model.extend({
     defaults: {
       "lectures": [],
     },

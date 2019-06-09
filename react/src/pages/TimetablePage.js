@@ -4,15 +4,15 @@ import { connect } from 'react-redux';
 import '../static/css/timetable/timetable.css';
 
 import Header from '../componenets/Header';
-import Detail from '../timetable/components/Detail';
-import List from '../timetable/components/List';
-import TimetableTabs from '../timetable/components/TimetableTabs';
-import Semester from '../timetable/components/Semester';
-import Timetable from '../timetable/components/Timetable';
-import Map from '../timetable/components/Map';
-import Summary from '../timetable/components/Summary';
-import Exam from '../timetable/components/Exam';
-import Share from '../timetable/components/Share';
+import DetailSection from '../componenets/sections/DetailSection';
+import ListSection from '../componenets/sections/ListSection';
+import TimetableTabs from '../componenets/tabs/TimetableTabs';
+import SemesterSubSection from '../componenets/sections/SemesterSubSection';
+import TimetableSubSection from '../componenets/sections/TimetableSubSection';
+import MapSubSection from '../componenets/sections/MapSubSection';
+import SummarySubSection from '../componenets/sections/SummarySubSection';
+import ExamSubSection from '../componenets/sections/ExamSubSection';
+import ShareSubSection from '../componenets/sections/ShareSubSection';
 
 class TimetablePage extends Component {
   render() {
@@ -25,8 +25,8 @@ class TimetablePage extends Component {
               <section id="content" className="container-fluid" style={{ backgroundColor: '#f9f0f0' }}>
                 <div id="page-container">
                   <div id="left-side">
-                    <Detail />
-                    <List />
+                    <DetailSection />
+                    <ListSection />
                   </div>
                   <div id="center">
                     <div id="timetable-menu">
@@ -34,25 +34,25 @@ class TimetablePage extends Component {
                         this.props.showTimetableListFlag
                           ? (
                             <div>
-                              <Semester />
+                              <SemesterSubSection />
                               <TimetableTabs />
                             </div>
                           )
                           : (
                             <div>
                               <TimetableTabs />
-                              <Semester />
+                              <SemesterSubSection />
                             </div>
                           )
                       }
                     </div>
                     <div id="timetable">
-                      <Timetable />
+                      <TimetableSubSection />
                       <div id="right-side">
-                        <Map />
-                        <Summary />
-                        <Exam />
-                        <Share />
+                        <MapSubSection />
+                        <SummarySubSection />
+                        <ExamSubSection />
+                        <ShareSubSection />
                       </div>
                     </div>
                   </div>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import axios from '../../componenets/presetAxios';
+import axios from '../presetAxios';
 import { createTimetable, setCurrentTimetable, deleteTimetable, duplicateTimetable } from '../../actions/timetable/index';
 
 class TimetableTabs extends Component {
