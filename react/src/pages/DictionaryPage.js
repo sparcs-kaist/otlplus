@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
 import Header from '../componenets/Header';
-import CourseListSection from '../componenets/sections/CourseListSection';
-import CourseDetailSection from '../componenets/sections/CourseDetailSection';
+import CourseListSection from '../componenets/sections/dictionary/CourseListSection';
+import CourseDetailSection from '../componenets/sections/dictionary/CourseDetailSection';
 
 import '../App.scss';
 
