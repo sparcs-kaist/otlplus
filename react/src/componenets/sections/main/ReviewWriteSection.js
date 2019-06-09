@@ -1,21 +1,19 @@
 import React, { Component } from 'react';
 
-import CourseBlock from '../blocks/CourseBlock';
+import ReviewWriteBlock from '../../blocks/ReviewWriteBlock';
 
 
-class RelatedCourseSection extends Component {
+class ReviewWriteSection extends Component {
   render() {
     return (
       <div className="section-content section-content--widget">
         <div className="title">
-          연관 과목 - 데이타구조
+          후기 작성 - 운영체제 및 실험
         </div>
-        <CourseBlock />
-        <CourseBlock />
-        <CourseBlock />
+        <ReviewWriteBlock />
         <div className="buttons">
           <button className="text-button">
-            자세히 보기
+            후기 더 작성하기
           </button>
         </div>
       </div>
@@ -24,4 +22,4 @@ class RelatedCourseSection extends Component {
 }
 
 
-export default RelatedCourseSection;
+export default ReviewWriteSection;

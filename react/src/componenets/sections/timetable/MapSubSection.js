@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import mapImage from '../../static/img/timetable/kaist_map.jpg';
-import { clearMultipleDetail, setMultipleDetail } from '../../actions/timetable/index';
+import mapImage from '../../../static/img/timetable/kaist_map.jpg';
+import { clearMultipleDetail, setMultipleDetail } from '../../../actions/timetable/index';
 
 
 class MapSubSection extends Component {
