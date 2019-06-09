@@ -1,51 +1,49 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class TimetableBlock extends Component {
-  render() {
-    const indexOfTime = time => (time / 30 - 16);
+const TimetableBlock = (props) => {
+  const indexOfTime = time => (time / 30 - 16);
 
-    let activeType = '';
-    if (this.props.isClicked) {
-      activeType = ' click';
-    }
-    else if (this.props.isHover) {
-      activeType = ' active';
-    }
-    else if (this.props.isTemp) {
-      activeType = ' lecture-block-temp active';
-    }
+  let activeType = '';
+  if (props.isClicked) {
+    activeType = ' click';
+  }
+  else if (props.isHover) {
+    activeType = ' active';
+  }
+  else if (props.isTemp) {
+    activeType = ' lecture-block-temp active';
+  }
 
-    return (
+  return (
       <div
-        className={`lecture-block color${this.props.lecture.course % 16}${activeType}`}
+        className={`lecture-block color${props.lecture.course % 16}${activeType}`}
         style={{
-          left: (this.props.cellWidth + 6) * this.props.classtime.day + 28,
-          top: this.props.cellHeight * indexOfTime(this.props.classtime.begin) + 28,
-          width: this.props.cellWidth + 2,
-          height: this.props.cellHeight * (indexOfTime(this.props.classtime.end) - indexOfTime(this.props.classtime.begin)) - 3,
+          left: (props.cellWidth + 6) * props.classtime.day + 28,
+          top: props.cellHeight * indexOfTime(props.classtime.begin) + 28,
+          width: props.cellWidth + 2,
+          height: props.cellHeight * (indexOfTime(props.classtime.end) - indexOfTime(props.classtime.begin)) - 3,
         }}
-        onMouseOver={() => this.props.blockHover(this.props.lecture)()}
-        onMouseOut={() => this.props.blockOut()}
-        onClick={() => this.props.blockClick(this.props.lecture)()}
+        onMouseOver={() => props.blockHover(props.lecture)()}
+        onMouseOut={() => props.blockOut()}
+        onClick={() => props.blockClick(props.lecture)()}
       >
-        <div className="lecture-delete" onClick={event => this.props.deleteLecture(this.props.lecture)(event)}><i /></div>
+        <div className="lecture-delete" onClick={event => props.deleteLecture(props.lecture)(event)}><i /></div>
         <div
-          // onMouseDown={() => this.props.onMouseDown()}
+          // onMouseDown={() => props.onMouseDown()}
           className="lecture-block-content"
         >
           <p className="timetable-lecture-name">
-            {this.props.lecture.title}
+            {props.lecture.title}
           </p>
           <p className="timetable-lecture-info">
-            {this.props.lecture.professor}
+            {props.lecture.professor}
           </p>
           <p className="timetable-lecture-info">
-            {this.props.classtime.classroom}
+            {props.classtime.classroom}
           </p>
         </div>
       </div>
-    );
-  }
-}
+  );
+};
 
 export default TimetableBlock;
