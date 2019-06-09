@@ -1,9 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 
-class CourseBlock extends Component {
-  render() {
-    return (
+const CourseBlock = (props) => {
+  return (
       <div className="block block--course">
         <div className="block--course__title">
           <strong>문제해결기법</strong>
@@ -37,9 +36,8 @@ class CourseBlock extends Component {
           </div>
         </div>
       </div>
-    );
-  }
-}
+  );
+};
 
 
 export default CourseBlock;

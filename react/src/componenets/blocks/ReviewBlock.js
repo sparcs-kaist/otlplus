@@ -1,9 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 
-class ReviewBlock extends Component {
-  render() {
-    return (
+const ReviewBlock = (props) => {
+  return (
       <div className="block block--review">
         <div className="block--review__title">
           <strong>데이타구조</strong>
@@ -43,9 +42,8 @@ class ReviewBlock extends Component {
           </button>
         </div>
       </div>
-    );
-  }
-}
+  );
+};
 
 
 export default ReviewBlock;
