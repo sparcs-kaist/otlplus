@@ -129,6 +129,24 @@ class TimetableSubSection extends Component {
     this.setState({ firstBlock: null, secondBlock: null, height: 0 });
   }
 
+  _isClicked = lecture => (
+    this.props.lectureActiveClicked
+    && this.props.lectureActiveFrom === 'TABLE'
+    && this.props.lectureActiveLecture.id === lecture.id
+  )
+
+  _isHover = lecture => (
+    !this.props.lectureActiveClicked
+    && this.props.lectureActiveFrom === 'TABLE'
+    && this.props.lectureActiveLecture.id === lecture.id
+  )
+
+  _isTemp = lecture => (
+    !this.props.lectureActiveClicked
+    && this.props.lectureActiveFrom === 'LIST'
+    && this.props.lectureActiveLecture.id === lecture.id
+  )
+
   blockHover = lecture => () => {
     if (!this.props.lectureActiveClicked && !this.props.isDragging) {
       this.props.setLectureActiveDispatch(lecture, 'TABLE', false);
@@ -142,9 +160,7 @@ class TimetableSubSection extends Component {
   }
 
   blockClick = lecture => () => {
-    if (this.props.lectureActiveClicked
-      && this.props.lectureActiveFrom === 'TABLE'
-      && this.props.lectureActiveLecture.id === lecture.id) {
+    if (this._isClicked(lecture)) {
       this.props.setLectureActiveDispatch(lecture, 'TABLE', false);
       this.props.lectureinfoDispatch();
     }
@@ -181,9 +197,9 @@ class TimetableSubSection extends Component {
             classtime={classtime}
             cellWidth={this.props.cellWidth}
             cellHeight={this.props.cellHeight}
-            lectureActiveFrom={this.props.lectureActiveFrom}
-            lectureActiveClicked={this.props.lectureActiveClicked}
-            lectureActiveLecture={this.props.lectureActiveLecture}
+            isClicked={this._isClicked(lecture)}
+            isHover={this._isHover(lecture)}
+            isTemp={this._isTemp(lecture)}
             blockHover={this.blockHover}
             blockOut={this.blockOut}
             blockClick={this.blockClick}

@@ -5,16 +5,14 @@ class TimetableBlock extends Component {
     const indexOfTime = time => (time / 30 - 16);
 
     let activeType = '';
-    if (this.props.lectureActiveLecture && (this.props.lectureActiveLecture.id === this.props.lecture.id)) {
-      if ((this.props.lectureActiveFrom === 'TABLE') && (this.props.lectureActiveClicked === true)) {
-        activeType = ' click';
-      }
-      else if (((this.props.lectureActiveFrom === 'TABLE')) && (this.props.lectureActiveClicked === false)) {
-        activeType = ' active';
-      }
-      else if (((this.props.lectureActiveFrom === 'LIST')) && (this.props.lectureActiveClicked === false)) {
-        activeType = ' lecture-block-temp active';
-      }
+    if (this.props.isClicked) {
+      activeType = ' click';
+    }
+    else if (this.props.isHover) {
+      activeType = ' active';
+    }
+    else if (this.props.isTemp) {
+      activeType = ' lecture-block-temp active';
     }
 
     return (
