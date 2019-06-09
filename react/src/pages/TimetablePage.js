@@ -4,15 +4,15 @@ import { connect } from 'react-redux';
 import '../static/css/timetable/timetable.css';
 
 import Header from '../componenets/Header';
-import DetailSection from '../componenets/sections/DetailSection';
-import ListSection from '../componenets/sections/ListSection';
+import DetailSection from '../componenets/sections/timetable/DetailSection';
+import ListSection from '../componenets/sections/timetable/ListSection';
 import TimetableTabs from '../componenets/tabs/TimetableTabs';
-import SemesterSubSection from '../componenets/sections/SemesterSubSection';
-import TimetableSubSection from '../componenets/sections/TimetableSubSection';
-import MapSubSection from '../componenets/sections/MapSubSection';
-import SummarySubSection from '../componenets/sections/SummarySubSection';
-import ExamSubSection from '../componenets/sections/ExamSubSection';
-import ShareSubSection from '../componenets/sections/ShareSubSection';
+import SemesterSubSection from '../componenets/sections/timetable/SemesterSubSection';
+import TimetableSubSection from '../componenets/sections/timetable/TimetableSubSection';
+import MapSubSection from '../componenets/sections/timetable/MapSubSection';
+import SummarySubSection from '../componenets/sections/timetable/SummarySubSection';
+import ExamSubSection from '../componenets/sections/timetable/ExamSubSection';
+import ShareSubSection from '../componenets/sections/timetable/ShareSubSection';
 
 class TimetablePage extends Component {
   render() {

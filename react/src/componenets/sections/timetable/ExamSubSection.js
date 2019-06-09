@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Scroller from '../Scroller';
-import { clearMultipleDetail, setMultipleDetail } from '../../actions/timetable/index';
+import Scroller from '../../Scroller';
+import { clearMultipleDetail, setMultipleDetail } from '../../../actions/timetable/index';
 
 class ExamSubSection extends Component {
   constructor(props) {

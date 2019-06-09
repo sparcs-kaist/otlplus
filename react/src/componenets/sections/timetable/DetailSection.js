@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import $ from 'jquery';
-import Scroller from '../Scroller';
-import ReviewSimpleBlock from '../blocks/ReviewSimpleBlock';
-import { LIST, TABLE, MULTIPLE } from '../../reducers/timetable/lectureActive';
-import { clearLectureActive } from '../../actions/timetable/index';
+import Scroller from '../../Scroller';
+import ReviewSimpleBlock from '../../blocks/ReviewSimpleBlock';
+import { LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureActive';
+import { clearLectureActive } from '../../../actions/timetable/index';
 
 class DetailSection extends Component {
   constructor(props) {

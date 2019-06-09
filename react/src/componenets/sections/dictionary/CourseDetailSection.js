@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import ReviewBlock from '../blocks/ReviewBlock';
-import ReviewWriteBlock from '../blocks/ReviewWriteBlock';
-import Scroller from '../Scroller';
-import CourseSimpleBlock from '../blocks/CourseSimpleBlock';
+import ReviewBlock from '../../blocks/ReviewBlock';
+import ReviewWriteBlock from '../../blocks/ReviewWriteBlock';
+import Scroller from '../../Scroller';
+import CourseSimpleBlock from '../../blocks/CourseSimpleBlock';
 
 
 class CourseDetailSection extends Component {

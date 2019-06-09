@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { openSearch, closeSearch, setCurrentList, clearLectureActive } from '../../actions/timetable/index';
-import Scroller from '../Scroller';
+import { openSearch, closeSearch, setCurrentList, clearLectureActive } from '../../../actions/timetable/index';
+import Scroller from '../../Scroller';
 import SearchSubSection from './SearchSubSection';
-import CourseLecturesBlock from '../blocks/CourseLecturesBlock';
-import { LIST, TABLE } from '../../reducers/timetable/lectureActive';
+import CourseLecturesBlock from '../../blocks/CourseLecturesBlock';
+import { LIST, TABLE } from '../../../reducers/timetable/lectureActive';
 
 class ListSection extends Component {
   changeTab(list) {

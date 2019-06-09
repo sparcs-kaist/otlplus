@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { mToggleLectureList, modaltimetableList } from '../../actions/timetable/index';
+import { mToggleLectureList, modaltimetableList } from '../../../actions/timetable/index';
 
 class ShareSubSection extends Component {
   render() {

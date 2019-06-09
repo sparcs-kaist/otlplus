@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { clearMultipleDetail, setMultipleDetail } from '../../actions/timetable/index';
-import { LIST, TABLE } from '../../reducers/timetable/lectureActive';
+import { clearMultipleDetail, setMultipleDetail } from '../../../actions/timetable/index';
+import { LIST, TABLE } from '../../../reducers/timetable/lectureActive';
 
 const indexOfType = (type) => {
   const types = ['Basic Required', 'Basic Elective', 'Major Required', 'Major Elective', 'Humanities & Social Elective'];
