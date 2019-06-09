@@ -14,7 +14,7 @@ const indexOfType = (type) => {
   }
 };
 
-class Summary extends Component {
+class SummarySubSection extends Component {
   constructor(props) {
     super(props);
 
@@ -245,6 +245,6 @@ const mapDispatchToProps = dispatch => ({
   },
 });
 
-Summary = connect(mapStateToProps, mapDispatchToProps)(Summary);
+SummarySubSection = connect(mapStateToProps, mapDispatchToProps)(SummarySubSection);
 
-export default Summary;
+export default SummarySubSection;

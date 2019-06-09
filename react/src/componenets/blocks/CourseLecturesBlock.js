@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import axios from '../../componenets/presetAxios';
+import axios from '../presetAxios';
 import { addLectureToTimetable, addLectureToCart, deleteLectureFromCart, setLectureActive, clearLectureActive } from '../../actions/timetable/index';
 import { LIST } from '../../reducers/timetable/lectureActive';
 
-class ListBlock extends Component {
+class CourseLecturesBlock extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -182,6 +182,6 @@ const mapDispatchToProps = dispatch => ({
   },
 });
 
-ListBlock = connect(mapStateToProps, mapDispatchToProps)(ListBlock);
+CourseLecturesBlock = connect(mapStateToProps, mapDispatchToProps)(CourseLecturesBlock);
 
-export default ListBlock;
+export default CourseLecturesBlock;

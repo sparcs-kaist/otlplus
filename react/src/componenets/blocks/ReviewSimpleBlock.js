@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class Review extends Component {
+class ReviewSimpleBlock extends Component {
   render() {
     const { review } = this.props;
     return (
@@ -33,4 +33,4 @@ class Review extends Component {
   }
 }
 
-export default Review;
+export default ReviewSimpleBlock;

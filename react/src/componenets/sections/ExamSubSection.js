@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Scroller from '../../componenets/Scroller';
+import Scroller from '../Scroller';
 import { clearMultipleDetail, setMultipleDetail } from '../../actions/timetable/index';
 
-class Exam extends Component {
+class ExamSubSection extends Component {
   constructor(props) {
     super(props);
 
@@ -150,6 +150,6 @@ const mapDispatchToProps = dispatch => ({
   },
 });
 
-Exam = connect(mapStateToProps, mapDispatchToProps)(Exam);
+ExamSubSection = connect(mapStateToProps, mapDispatchToProps)(ExamSubSection);
 
-export default Exam;
+export default ExamSubSection;

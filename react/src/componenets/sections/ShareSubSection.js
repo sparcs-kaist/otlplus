@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { mToggleLectureList, modaltimetableList } from '../../actions/timetable/index';
 
-class Share extends Component {
+class ShareSubSection extends Component {
   render() {
     return (
       <div id="share-buttons" className="authenticated">
@@ -32,6 +32,6 @@ const mapDispatchToProps = dispatch => ({
   mtimetableListDispatch: () => dispatch(modaltimetableList()),
 });
 
-Share = connect(mapStateToProps, mapDispatchToProps)(Share);
+ShareSubSection = connect(mapStateToProps, mapDispatchToProps)(ShareSubSection);
 
-export default Share;
+export default ShareSubSection;

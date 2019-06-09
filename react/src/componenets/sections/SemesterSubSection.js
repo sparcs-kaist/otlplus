@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import axios from '../../componenets/presetAxios';
+import axios from '../presetAxios';
 import { setSemester, setTimetables, setListLectures } from '../../actions/timetable/index';
 
 const semesterName = {
@@ -10,7 +10,7 @@ const semesterName = {
   4: '겨울',
 };
 
-class Semester extends Component {
+class SemesterSubSection extends Component {
   constructor(props) {
     super(props);
 
@@ -161,6 +161,6 @@ const mapDispatchToProps = dispatch => ({
   },
 });
 
-Semester = connect(mapStateToProps, mapDispatchToProps)(Semester);
+SemesterSubSection = connect(mapStateToProps, mapDispatchToProps)(SemesterSubSection);
 
-export default Semester;
+export default SemesterSubSection;

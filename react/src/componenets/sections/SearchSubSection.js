@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import axios from '../../componenets/presetAxios';
+import axios from '../presetAxios';
 import { closeSearch, setListLectures } from '../../actions/timetable/index';
-import SearchFilter from './SearchFilter';
+import SearchFilter from '../SearchFilter';
 import '../../static/css/font-awesome.min.css';
 
-class Search extends Component {
+class SearchSubSection extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -198,6 +198,6 @@ const mapDispatchToProps = dispatch => ({
   },
 });
 
-Search = connect(mapStateToProps, mapDispatchToProps)(Search);
+SearchSubSection = connect(mapStateToProps, mapDispatchToProps)(SearchSubSection);
 
-export default Search;
+export default SearchSubSection;

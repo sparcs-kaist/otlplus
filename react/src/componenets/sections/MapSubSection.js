@@ -5,7 +5,7 @@ import mapImage from '../../static/img/timetable/kaist_map.jpg';
 import { clearMultipleDetail, setMultipleDetail } from '../../actions/timetable/index';
 
 
-class Map extends Component {
+class MapSubSection extends Component {
   constructor(props) {
     super(props);
 
@@ -137,7 +137,7 @@ const mapDispatchToProps = dispatch => ({
   },
 });
 
-Map = connect(mapStateToProps, mapDispatchToProps)(Map);
+MapSubSection = connect(mapStateToProps, mapDispatchToProps)(MapSubSection);
 
 
-export default Map;
+export default MapSubSection;
