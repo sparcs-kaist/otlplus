@@ -1,9 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 
-class CourseSimpleBlock extends Component {
-  render() {
-    return (
+const CourseSimpleBlock = (props) => {
+  return (
       <div className="block block--course-simple">
         <div className="block--course-simple__title">
           문제해결기법
@@ -12,9 +11,8 @@ class CourseSimpleBlock extends Component {
           CS202
         </div>
       </div>
-    );
-  }
-}
+  );
+};
 
 
 export default CourseSimpleBlock;

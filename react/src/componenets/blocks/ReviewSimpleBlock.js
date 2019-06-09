@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class ReviewSimpleBlock extends Component {
-  render() {
-    const { review } = this.props;
-    return (
+
+const ReviewSimpleBlock = (props) => {
+  const { review } = props;
+  return (
       <a href={`/review/result/comment/${review.id}`} target="_blank" rel="noopener noreferrer" style={{ display: 'block' }}>
         <div className="review-elem">
           <div className="review-body">
@@ -29,8 +29,7 @@ class ReviewSimpleBlock extends Component {
           </div>
         </div>
       </a>
-    );
-  }
-}
+  );
+};
 
 export default ReviewSimpleBlock;
