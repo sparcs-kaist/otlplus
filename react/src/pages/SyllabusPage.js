@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import '../../static/css/timetable/components/syllabus.scss';
+import '../static/css/timetable/components/syllabus.scss';
 
-class Syllabus extends Component {
+class SyllabusPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -54,6 +54,6 @@ const mapStateToProps = state => ({
   currentTimetable: state.timetable.timetable.currentTimetable,
 });
 
-Syllabus = connect(mapStateToProps, null)(Syllabus);
+SyllabusPage = connect(mapStateToProps, null)(SyllabusPage);
 
-export default Syllabus;
+export default SyllabusPage;
