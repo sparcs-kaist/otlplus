@@ -1,13 +1,26 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { openSearch, closeSearch, setCurrentList, clearLectureActive } from '../../../actions/timetable/index';
+import axios from '../../../presetAxios';
+import { openSearch, closeSearch, setCurrentList, setLectureActive , clearLectureActive, addLectureToTimetable, addLectureToCart, deleteLectureFromCart} from '../../../actions/timetable/index';
 import Scroller from '../../Scroller';
 import SearchSubSection from './SearchSubSection';
 import CourseLecturesBlock from '../../blocks/CourseLecturesBlock';
 import { LIST, TABLE } from '../../../reducers/timetable/lectureActive';
 
 class ListSection extends Component {
-  changeTab(list) {
+  _isClicked = lecture => (
+    this.props.lectureActiveFrom === LIST
+    && this.props.lectureActiveClicked === true
+    && this.props.activeLecture.id === lecture.id
+  )
+
+  _isHover = lecture => (
+    this.props.lectureActiveFrom === LIST
+    && this.props.lectureActiveClicked === false
+    && this.props.activeLecture.id === lecture.id
+  )
+
+  changeTab = (list) => {
     this.props.setCurrentListDispatch(list);
 
     if (list === 'SEARCH' && this.props.search.courses.length === 0) {
@@ -22,8 +35,85 @@ class ListSection extends Component {
     }
   }
 
-  showSearch() {
+  showSearch = () => {
     this.props.openSearchDispatch();
+  }
+
+  addToTable = lecture => (event) => {
+    event.stopPropagation();
+    for (let i = 0, thisClasstime; (thisClasstime = lecture.classtimes[i]); i++) {
+      for (let j = 0, lecture; (lecture = this.props.currentTimetable.lectures[j]); j++) {
+        for (let k = 0, classtime; (classtime = lecture.classtimes[k]); k++) {
+          if ((classtime.begin < thisClasstime.end) && (classtime.end > thisClasstime.begin)) {
+            alert(false ? "You can't add lecture overlapping." : '시간표가 겹치는 과목은 추가할 수 없습니다.');
+            return;
+          }
+        }
+      }
+    }
+
+    axios.post('/api/timetable/table_update', {
+      table_id: this.props.currentTimetable.id,
+      lecture_id: lecture.id,
+      delete: false,
+    })
+      .then((response) => {
+        this.props.addLectureToTimetableDispatch(lecture);
+      })
+      .catch((response) => {
+        console.log(response);
+      });
+  }
+
+  addToCart = lecture => (event) => {
+    event.stopPropagation();
+    axios.post('/api/timetable/wishlist_update', {
+      lecture_id: lecture.id,
+      delete: false,
+    })
+      .then((response) => {
+        this.props.addLectureToCartDispatch(lecture);
+      })
+      .catch((response) => {
+        console.log(response);
+      });
+  }
+
+  deleteFromCart = lecture => (event) => {
+    event.stopPropagation();
+    axios.post('/api/timetable/wishlist_update', {
+      lecture_id: lecture.id,
+      delete: true,
+    })
+      .then((response) => {
+        this.props.deleteLectureFromCartDispatch(lecture);
+      })
+      .catch((response) => {
+        console.log(response);
+      });
+  }
+
+  listHover = lecture => () => {
+    if (this.props.lectureActiveClicked) {
+      return;
+    }
+    this.props.setLectureActiveDispatch(lecture, LIST, false);
+  }
+
+  listOut = () => {
+    if (this.props.lectureActiveClicked) {
+      return;
+    }
+    this.props.clearLectureActiveDispatch();
+  }
+
+  listClick = lecture => () => {
+    if (!this._isClicked(lecture)) {
+      this.props.setLectureActiveDispatch(lecture, 'LIST', true);
+    }
+    else {
+      this.props.setLectureActiveDispatch(lecture, 'LIST', false);
+    }
   }
 
   render() {
@@ -59,7 +149,21 @@ class ListSection extends Component {
     };
 
     const mapLecture = fromCart => lecture => (
-      <CourseLecturesBlock lecture={lecture} key={lecture.id} inTimetable={inTimetable(lecture)} inCart={inCart(lecture)} fromCart={fromCart} />
+      <CourseLecturesBlock
+        lecture={lecture}
+        key={lecture.id}
+        isClicked={this._isClicked(lecture)}
+        isHover={this._isHover(lecture)}
+        inTimetable={inTimetable(lecture)}
+        inCart={inCart(lecture)}
+        fromCart={fromCart}
+        addToCart={this.addToCart}
+        addToTable={this.addToTable}
+        deleteFromCart={this.deleteFromCart}
+        listHover={this.listHover}
+        listOut={this.listOut}
+        listClick={this.listClick}
+      />
     );
 
     const mapCourse = fromCart => course => (
@@ -155,6 +259,7 @@ const mapStateToProps = state => ({
   lectureActiveFrom: state.timetable.lectureActive.from,
   lectureActiveClicked: state.timetable.lectureActive.clicked,
   lectureActiveLecture: state.timetable.lectureActive.lecture,
+  activeLecture: state.timetable.lectureActive.lecture,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -167,8 +272,20 @@ const mapDispatchToProps = dispatch => ({
   setCurrentListDispatch: (list) => {
     dispatch(setCurrentList(list));
   },
+  setLectureActiveDispatch: (lecture, from, clicked) => {
+    dispatch(setLectureActive(lecture, from, clicked));
+  },
   clearLectureActiveDispatch: () => {
     dispatch(clearLectureActive());
+  },
+  addLectureToTimetableDispatch: (lecture) => {
+    dispatch(addLectureToTimetable(lecture));
+  },
+  addLectureToCartDispatch: (lecture) => {
+    dispatch(addLectureToCart(lecture));
+  },
+  deleteLectureFromCartDispatch: (lecture) => {
+    dispatch(deleteLectureFromCart(lecture));
   },
 });
 

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import axios from '../../../presetAxios';
 import TimetableBlock from '../../blocks/TimetableBlock';
-import { dragSearch, setIsDragging, updateCellSize } from '../../../actions/timetable/index';
+import { dragSearch, setIsDragging, updateCellSize, setLectureActive, clearLectureActive, removeLectureFromTimetable, lectureinfo } from '../../../actions/timetable/index';
 import { NONE, LIST } from '../../../reducers/timetable/lectureActive';
 
 
@@ -61,7 +62,7 @@ class TimetableSubSection extends Component {
     return hour * 2 + min / 30;
   }
 
-  dragStart(e) {
+  dragStart = (e) => {
     e.stopPropagation();
     e.preventDefault();
     this.setState({ firstBlock: e.target });
@@ -70,7 +71,7 @@ class TimetableSubSection extends Component {
   }
 
   // check is drag contain class time
-  _isOccupied(dragEnd) {
+  _isOccupied = (dragEnd) => {
     const dragDay = this.indexOfDay(this.state.firstBlock.getAttribute('data-day'));
     const dragStart = this.indexOfTime(this.state.firstBlock.getAttribute('data-time'));
 
@@ -87,7 +88,7 @@ class TimetableSubSection extends Component {
     return false;
   }
 
-  _highlight(e) {
+  _highlight = (e) => {
     const second = e.target;
     const left = this.state.firstBlock.offsetLeft - document.getElementById('timetable-wrap').offsetLeft - 1;
     const width = this.state.firstBlock.offsetWidth + 2;
@@ -102,7 +103,7 @@ class TimetableSubSection extends Component {
     });
   }
 
-  dragMove(e) {
+  dragMove = (e) => {
     if (!this.props.isDragging) return;
     const startIndex = this.indexOfTime(this.state.firstBlock.getAttribute('data-time'));
     const endIndex = this.indexOfTime(e.target.getAttribute('data-time'));
@@ -116,7 +117,7 @@ class TimetableSubSection extends Component {
     this._highlight(e);
   }
 
-  dragEnd(e) {
+  dragEnd = (e) => {
     if (this.props.isDragging) this.props.setIsDraggingDispatch(false);
     document.getElementById('drag-cell').classList.add('none');
 
@@ -128,6 +129,63 @@ class TimetableSubSection extends Component {
     this.setState({ firstBlock: null, secondBlock: null, height: 0 });
   }
 
+  _isClicked = lecture => (
+    this.props.lectureActiveClicked
+    && this.props.lectureActiveFrom === 'TABLE'
+    && this.props.lectureActiveLecture.id === lecture.id
+  )
+
+  _isHover = lecture => (
+    !this.props.lectureActiveClicked
+    && this.props.lectureActiveFrom === 'TABLE'
+    && this.props.lectureActiveLecture.id === lecture.id
+  )
+
+  _isTemp = lecture => (
+    !this.props.lectureActiveClicked
+    && this.props.lectureActiveFrom === 'LIST'
+    && this.props.lectureActiveLecture.id === lecture.id
+  )
+
+  blockHover = lecture => () => {
+    if (!this.props.lectureActiveClicked && !this.props.isDragging) {
+      this.props.setLectureActiveDispatch(lecture, 'TABLE', false);
+    }
+  }
+
+  blockOut = () => {
+    if (!this.props.lectureActiveClicked) {
+      this.props.clearLectureActiveDispatch();
+    }
+  }
+
+  blockClick = lecture => () => {
+    if (this._isClicked(lecture)) {
+      this.props.setLectureActiveDispatch(lecture, 'TABLE', false);
+      this.props.lectureinfoDispatch();
+    }
+    else {
+      this.props.setLectureActiveDispatch(lecture, 'TABLE', true);
+      this.props.lectureinfoDispatch();
+    }
+  }
+
+  deleteLecture = lecture => (event) => {
+    event.stopPropagation();
+
+    axios.post('/api/timetable/table_update', {
+      table_id: this.props.currentTimetable.id,
+      lecture_id: lecture.id,
+      delete: true,
+    })
+      .then((response) => {
+        this.props.removeLectureFromTimetableDispatch(lecture);
+      })
+      .catch((response) => {
+        console.log(response);
+      });
+  }
+
   render() {
     const lectureBlocks = [];
     for (let i = 0, lecture; (lecture = this.props.currentTimetable.lectures[i]); i++) {
@@ -137,6 +195,15 @@ class TimetableSubSection extends Component {
             key={`${lecture.id}:${j}`}
             lecture={lecture}
             classtime={classtime}
+            cellWidth={this.props.cellWidth}
+            cellHeight={this.props.cellHeight}
+            isClicked={this._isClicked(lecture)}
+            isHover={this._isHover(lecture)}
+            isTemp={this._isTemp(lecture)}
+            blockHover={this.blockHover}
+            blockOut={this.blockOut}
+            blockClick={this.blockClick}
+            deleteLecture={this.deleteLecture}
           />,
         );
       }
@@ -274,7 +341,13 @@ class TimetableSubSection extends Component {
 const mapStateToProps = state => ({
   currentTimetable: state.timetable.timetable.currentTimetable,
   lectureActive: state.timetable.lectureActive,
+  lectureActiveFrom: state.timetable.lectureActive.from,
+  lectureActiveClicked: state.timetable.lectureActive.clicked,
+  lectureActiveLecture: state.timetable.lectureActive.lecture,
+  cellWidth: state.timetable.timetable.cellWidth,
+  cellHeight: state.timetable.timetable.cellHeight,
   isDragging: state.timetable.timetable.isDragging,
+  showLectureInfoFlag: state.timetable.mobile.showLectureInfoFlag,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -286,6 +359,18 @@ const mapDispatchToProps = dispatch => ({
   },
   setIsDraggingDispatch: (isDragging) => {
     dispatch(setIsDragging(isDragging));
+  },
+  setLectureActiveDispatch: (lecture, from, clicked) => {
+    dispatch(setLectureActive(lecture, from, clicked));
+  },
+  clearLectureActiveDispatch: () => {
+    dispatch(clearLectureActive());
+  },
+  removeLectureFromTimetableDispatch: (lecture) => {
+    dispatch(removeLectureFromTimetable(lecture));
+  },
+  lectureinfoDispatch: () => {
+    dispatch(lectureinfo());
   },
 });
 
