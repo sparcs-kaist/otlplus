@@ -5,32 +5,22 @@ import { addLectureToTimetable, addLectureToCart, deleteLectureFromCart, setLect
 import { LIST } from '../../reducers/timetable/lectureActive';
 
 class CourseLecturesBlock extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isClicked: false,
-      isHover: false,
-    };
-  }
+  _isClicked = lecture => (
+    this.props.lectureActiveFrom === LIST
+    && this.props.lectureActiveClicked === true
+    && this.props.activeLecture.id === lecture.id
+  )
 
-  static getDerivedStateFromProps(nextProps, prevState) {
-    // Return value will be set the state
-    if (nextProps.lectureActiveClicked) {
-      if (nextProps.activeLecture.id !== nextProps.lecture.id) {
-        if (prevState.isClicked) {
-          return { isClicked: false, isHover: false };
-        }
-      }
-    }
-    else if (prevState.isClicked && nextProps.activeLecture === null) {
-      return { isClicked: false, isHover: false };
-    }
-    return null;
-  }
+  _isHover = lecture => (
+    this.props.lectureActiveFrom === LIST
+    && this.props.lectureActiveClicked === false
+    && this.props.activeLecture.id === lecture.id
+  )
 
-  addToTable(event) {
+
+  addToTable = lecture => (event) => {
     event.stopPropagation();
-    for (let i = 0, thisClasstime; (thisClasstime = this.props.lecture.classtimes[i]); i++) {
+    for (let i = 0, thisClasstime; (thisClasstime = lecture.classtimes[i]); i++) {
       for (let j = 0, lecture; (lecture = this.props.currentTimetable.lectures[j]); j++) {
         for (let k = 0, classtime; (classtime = lecture.classtimes[k]); k++) {
           if ((classtime.begin < thisClasstime.end) && (classtime.end > thisClasstime.begin)) {
@@ -43,77 +33,65 @@ class CourseLecturesBlock extends Component {
 
     axios.post('/api/timetable/table_update', {
       table_id: this.props.currentTimetable.id,
-      lecture_id: this.props.lecture.id,
+      lecture_id: lecture.id,
       delete: false,
     })
       .then((response) => {
-        this.props.addLectureToTimetableDispatch(this.props.lecture);
+        this.props.addLectureToTimetableDispatch(lecture);
       })
       .catch((response) => {
         console.log(response);
       });
   }
 
-  addToCart(event) {
+  addToCart = lecture => (event) => {
     event.stopPropagation();
     axios.post('/api/timetable/wishlist_update', {
-      lecture_id: this.props.lecture.id,
+      lecture_id: lecture.id,
       delete: false,
     })
       .then((response) => {
-        this.props.addLectureToCartDispatch(this.props.lecture);
+        this.props.addLectureToCartDispatch(lecture);
       })
       .catch((response) => {
         console.log(response);
       });
   }
 
-  deleteFromCart(event) {
+  deleteFromCart = lecture => (event) => {
     event.stopPropagation();
     axios.post('/api/timetable/wishlist_update', {
-      lecture_id: this.props.lecture.id,
+      lecture_id: lecture.id,
       delete: true,
     })
       .then((response) => {
-        this.props.deleteLectureFromCartDispatch(this.props.lecture);
+        this.props.deleteLectureFromCartDispatch(lecture);
       })
       .catch((response) => {
         console.log(response);
       });
   }
 
-  listHover() {
+  listHover = lecture => () => {
     if (this.props.lectureActiveClicked) {
       return;
     }
-    this.props.setLectureActiveDispatch(this.props.lecture, LIST, false);
-    this.setState({
-      isHover: true,
-    });
+    this.props.setLectureActiveDispatch(lecture, LIST, false);
   }
 
-  listOut() {
+  listOut = () => {
     if (this.props.lectureActiveClicked) {
       return;
     }
     this.props.clearLectureActiveDispatch();
-    this.setState({
-      isHover: false,
-    });
   }
 
-  listClick() {
-    if (!this.state.isClicked) {
-      this.props.setLectureActiveDispatch(this.props.lecture, 'LIST', true);
-      this.setState({
-        isClicked: true,
-      });
+  listClick = lecture => () => {
+    if (!this._isClicked(lecture)) {
+      this.props.setLectureActiveDispatch(lecture, 'LIST', true);
     }
     else {
-      this.props.setLectureActiveDispatch(this.props.lecture, 'LIST', false);
-      this.setState({
-        isClicked: false,
-      });
+      this.props.setLectureActiveDispatch(lecture, 'LIST', false);
     }
   }
 
@@ -129,9 +107,9 @@ class CourseLecturesBlock extends Component {
           return 'class-title';
       }
     };
-    const change = this.state.isClicked || this.state.isHover ? 'click' : '';
+    const change = this._isClicked(this.props.lecture) || this._isHover(this.props.lecture) ? 'click' : '';
     return (
-      <div className={`list-elem-body-wrap ${change}`} onClick={() => this.listClick()} onMouseOver={() => this.listHover()} onMouseOut={() => this.listOut()}>
+      <div className={`list-elem-body-wrap ${change}`} onClick={() => this.listClick(this.props.lecture)()} onMouseOver={() => this.listHover(this.props.lecture)()} onMouseOut={() => this.listOut()}>
         <div className="list-elem-body">
           <div className="list-elem-body-text">
             <strong className={getClass(this.props.lecture)}>{this.props.lecture.class_title}</strong>
@@ -140,16 +118,16 @@ class CourseLecturesBlock extends Component {
           </div>
           {
             this.props.fromCart
-              ? <div className="delete-from-cart" onClick={event => this.deleteFromCart(event)}><i /></div>
+              ? <div className="delete-from-cart" onClick={event => this.deleteFromCart(this.props.lecture)(event)}><i /></div>
               : (
                 !this.props.inCart
-                  ? <div className="add-to-cart" onClick={event => this.addToCart(event)}><i /></div>
+                  ? <div className="add-to-cart" onClick={event => this.addToCart(this.props.lecture)(event)}><i /></div>
                   : <div className="add-to-cart disable"><i /></div>
               )
           }
           {
             !this.props.inTimetable
-              ? <div className="add-to-table" onClick={event => this.addToTable(event)}><i /></div>
+              ? <div className="add-to-table" onClick={event => this.addToTable(this.props.lecture)(event)}><i /></div>
               : <div className="add-to-table disable"><i /></div>
           }
         </div>
@@ -160,6 +138,7 @@ class CourseLecturesBlock extends Component {
 
 const mapStateToProps = state => ({
   currentTimetable: state.timetable.timetable.currentTimetable,
+  lectureActiveFrom: state.timetable.lectureActive.from,
   lectureActiveClicked: state.timetable.lectureActive.clicked,
   activeLecture: state.timetable.lectureActive.lecture,
 });
