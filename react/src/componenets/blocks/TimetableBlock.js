@@ -4,41 +4,41 @@ import axios from '../../presetAxios';
 import { setLectureActive, clearLectureActive, removeLectureFromTimetable, lectureinfo } from '../../actions/timetable/index';
 
 class TimetableBlock extends Component {
-  blockHover() {
+  blockHover = lecture => () => {
     if (!this.props.lectureActiveClicked && !this.props.isDragging) {
-      this.props.setLectureActiveDispatch(this.props.lecture, 'TABLE', false);
+      this.props.setLectureActiveDispatch(lecture, 'TABLE', false);
     }
   }
 
-  blockOut() {
+  blockOut = () => {
     if (!this.props.lectureActiveClicked) {
       this.props.clearLectureActiveDispatch();
     }
   }
 
-  blockClick() {
+  blockClick = lecture => () => {
     if (this.props.lectureActiveClicked
       && this.props.lectureActiveFrom === 'TABLE'
-      && this.props.lectureActiveLecture.id === this.props.lecture.id) {
-      this.props.setLectureActiveDispatch(this.props.lecture, 'TABLE', false);
+      && this.props.lectureActiveLecture.id === lecture.id) {
+      this.props.setLectureActiveDispatch(lecture, 'TABLE', false);
       this.props.lectureinfoDispatch();
     }
     else {
-      this.props.setLectureActiveDispatch(this.props.lecture, 'TABLE', true);
+      this.props.setLectureActiveDispatch(lecture, 'TABLE', true);
       this.props.lectureinfoDispatch();
     }
   }
 
-  deleteLecture(event) {
+  deleteLecture = lecture => (event) => {
     event.stopPropagation();
 
     axios.post('/api/timetable/table_update', {
       table_id: this.props.currentTimetable.id,
-      lecture_id: this.props.lecture.id,
+      lecture_id: lecture.id,
       delete: true,
     })
       .then((response) => {
-        this.props.removeLectureFromTimetableDispatch(this.props.lecture);
+        this.props.removeLectureFromTimetableDispatch(lecture);
       })
       .catch((response) => {
         console.log(response);
@@ -70,11 +70,11 @@ class TimetableBlock extends Component {
           width: this.props.cellWidth + 2,
           height: this.props.cellHeight * (indexOfTime(this.props.classtime.end) - indexOfTime(this.props.classtime.begin)) - 3,
         }}
-        onMouseOver={() => this.blockHover()}
+        onMouseOver={() => this.blockHover(this.props.lecture)()}
         onMouseOut={() => this.blockOut()}
-        onClick={() => this.blockClick()}
+        onClick={() => this.blockClick(this.props.lecture)()}
       >
-        <div className="lecture-delete" onClick={event => this.deleteLecture(event)}><i /></div>
+        <div className="lecture-delete" onClick={event => this.deleteLecture(this.props.lecture)(event)}><i /></div>
         <div
           // onMouseDown={() => this.props.onMouseDown()}
           className="lecture-block-content"
