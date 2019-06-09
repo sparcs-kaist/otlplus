@@ -10,15 +10,15 @@ import './static/css/global.css';
 
 import DictionaryPage from './pages/DictionaryPage';
 import TimetablePage from './pages/TimetablePage';
-import Syllabus from './timetable/components/Syllabus';
+import SyllabusPage from './pages/SyllabusPage';
 import MainPage from './pages/MainPage';
 import CreditPage from './pages/CreditPage';
 import LicensePage from './pages/LicensePage';
 
-import timetableReducer from './timetable/reducers/index';
+import timetableReducer from './reducers/timetable/index';
 import commonReducer from './reducers/user';
 import { setUser } from './actions/user';
-import TestPage from './TestPage';
+import TestPage from './pages/TestPage';
 
 const store = createStore(combineReducers({
   common: commonReducer,
@@ -42,7 +42,7 @@ class App extends Component {
         <Switch>
           <Route path="/dictionary" render={props => <DictionaryPage />} />
           <Route exact path="/timetable" render={props => <TimetablePage />} />
-          <Route exact path="/timetable/syllabus" component={Syllabus} />
+          <Route exact path="/timetable/syllabus" component={SyllabusPage} />
           <Route exact path="/main" render={props => <MainPage />} />
           <Route exact path="/credits" render={props => <CreditPage />} />
           <Route exact path="/licenses" render={props => <LicensePage />} />

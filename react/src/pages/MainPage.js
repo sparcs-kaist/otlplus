@@ -3,11 +3,11 @@ import React, { Component } from 'react';
 import Header from '../componenets/Header';
 import Footer from '../componenets/Footer';
 
-import AcademicScheduleSection from '../componenets/sections/AcademicScheduleSection';
-import RelatedCourseSection from '../componenets/sections/RelatedCourseSection';
-import LatestReviewSection from '../componenets/sections/LatestReviewSection';
-import FamousReviewSection from '../componenets/sections/FamousReviewSection';
-import ReviewWriteSection from '../componenets/sections/ReviewWriteSection';
+import AcademicScheduleSection from '../componenets/sections/main/AcademicScheduleSection';
+import RelatedCourseSection from '../componenets/sections/main/RelatedCourseSection';
+import LatestReviewSection from '../componenets/sections/main/LatestReviewSection';
+import FamousReviewSection from '../componenets/sections/main/FamousReviewSection';
+import ReviewWriteSection from '../componenets/sections/main/ReviewWriteSection';
 
 
 class MainPage extends Component {
