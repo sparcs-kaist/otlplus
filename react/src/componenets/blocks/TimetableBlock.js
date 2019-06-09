@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import axios from '../presetAxios';
+import axios from '../../presetAxios';
 import { setLectureActive, clearLectureActive, removeLectureFromTimetable, lectureinfo } from '../../actions/timetable/index';
 
 class TimetableBlock extends Component {
