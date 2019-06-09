@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from '../../componenets/presetAxios';
-import { addLectureToTimetable, addLectureToCart, deleteLectureFromCart, setLectureActive, clearLectureActive } from '../actions';
-import { LIST } from '../reducers/lectureActive';
+import { addLectureToTimetable, addLectureToCart, deleteLectureFromCart, setLectureActive, clearLectureActive } from '../../actions/timetable/index';
+import { LIST } from '../../reducers/timetable/lectureActive';
 
 class ListBlock extends Component {
   constructor(props) {

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import mapImage from '../../static/img/timetable/kaist_map.jpg';
-import { clearMultipleDetail, setMultipleDetail } from '../actions';
+import { clearMultipleDetail, setMultipleDetail } from '../../actions/timetable/index';
 
 
 class Map extends Component {

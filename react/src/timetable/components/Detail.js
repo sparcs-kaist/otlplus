@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 import $ from 'jquery';
 import Scroller from '../../componenets/Scroller';
 import Review from './Review';
-import { LIST, TABLE, MULTIPLE } from '../reducers/lectureActive';
-import { clearLectureActive } from '../actions';
+import { LIST, TABLE, MULTIPLE } from '../../reducers/timetable/lectureActive';
+import { clearLectureActive } from '../../actions/timetable/index';
 
 class Detail extends Component {
   constructor(props) {

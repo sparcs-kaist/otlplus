@@ -15,7 +15,7 @@ import MainPage from './pages/MainPage';
 import CreditPage from './pages/CreditPage';
 import LicensePage from './pages/LicensePage';
 
-import timetableReducer from './timetable/reducers/index';
+import timetableReducer from './reducers/timetable/index';
 import commonReducer from './reducers/user';
 import { setUser } from './actions/user';
 import TestPage from './pages/TestPage';

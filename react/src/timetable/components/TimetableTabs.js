@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from '../../componenets/presetAxios';
-import { createTimetable, setCurrentTimetable, deleteTimetable, duplicateTimetable } from '../actions';
+import { createTimetable, setCurrentTimetable, deleteTimetable, duplicateTimetable } from '../../actions/timetable/index';
 
 class TimetableTabs extends Component {
   changeTab(timetable) {

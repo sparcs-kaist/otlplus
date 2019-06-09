@@ -1,4 +1,4 @@
-import { TOGGLE_LECTURE_LIST, MODAL_TIMETABLE_LIST, LECTURE_INFO } from '../actions';
+import { TOGGLE_LECTURE_LIST, MODAL_TIMETABLE_LIST, LECTURE_INFO } from '../../actions/timetable/index';
 
 
 const initialState = {
