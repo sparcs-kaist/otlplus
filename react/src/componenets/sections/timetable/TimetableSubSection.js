@@ -21,10 +21,8 @@ class TimetableSubSection extends Component {
 
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.lectureActive.from === LIST && !nextProps.lectureActive.clicked) {
-      console.log('list');
     }
     else if (nextProps.lectureActive.from === NONE) {
-      console.log('none');
     }
     return null;
   }
