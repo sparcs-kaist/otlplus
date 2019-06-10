@@ -7,11 +7,11 @@ const TimetableBlock = (props) => {
   if (props.isClicked) {
     activeType = ' click';
   }
-  else if (props.isHover || props.isListHover) {
-    activeType = ' active';
-  }
   else if (props.isTemp) {
     activeType = ' lecture-block-temp active';
+  }
+  else if (props.isHover || props.isListHover) {
+    activeType = ' active';
   }
 
   return (

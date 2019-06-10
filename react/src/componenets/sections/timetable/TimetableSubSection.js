@@ -327,6 +327,35 @@ class TimetableSubSection extends Component {
         </div>
         <div id="drag-cell" className="none" style={{ left: this.state.left, width: this.state.width, top: this.state.top, height: this.state.height }} />
         {lectureBlocks}
+        {
+          (
+            this.props.lectureActiveFrom === LIST
+            && this.props.lectureActiveClicked === false
+            && !this.props.currentTimetable.lectures.some(lecture => (lecture.id === this.props.lectureActiveLecture.id))
+          )
+            ? (
+              this.props.lectureActiveLecture.classtimes.map((classtime, index) => (
+                <TimetableBlock
+                  key={`${this.props.lectureActiveLecture.id}:${index}`}
+                  lecture={this.props.lectureActiveLecture}
+                  classtime={classtime}
+                  cellWidth={this.props.cellWidth}
+                  cellHeight={this.props.cellHeight}
+                  isClicked={this._isClicked(this.props.lectureActiveLecture)}
+                  isHover={this._isHover(this.props.lectureActiveLecture)}
+                  isListHover={this._isListHover(this.props.lectureActiveLecture)}
+                  isTemp={true}
+                  blockHover={this.blockHover}
+                  blockOut={this.blockOut}
+                  blockClick={this.blockClick}
+                  deleteLecture={this.deleteLecture}
+                />
+              ))
+            )
+            : (
+              null
+            )
+        }
       </div>
     );
   }
