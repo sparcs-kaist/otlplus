@@ -70,16 +70,15 @@ class TimetableSubSection extends Component {
   }
 
   // check is drag contain class time
-  _isOccupied = (dragEnd) => {
+  _isOccupied = (dragStart, dragEnd) => {
     const dragDay = this.indexOfDay(this.state.firstBlock.getAttribute('data-day'));
-    const dragStart = this.indexOfTime(this.state.firstBlock.getAttribute('data-time'));
 
     for (let i = 0, lecture; (lecture = this.props.currentTimetable.lectures[i]); i++) {
       for (let j = 0, classtime; (classtime = lecture.classtimes[j]); j++) {
         if (classtime.day !== dragDay) continue;
-        const classStart = this.indexOfTime(classtime.begin);
-        const classEnd = this.indexOfTime(classtime.end);
-        if ((dragStart <= classStart && classStart <= dragEnd) || (dragStart >= classEnd && classEnd > dragEnd)) {
+        const classStart = classtime.begin / 30 - 2 * 8;
+        const classEnd = classtime.end / 30 - 2 * 8;
+        if (dragStart < classEnd && dragEnd > classStart) {
           return true;
         }
       }
@@ -107,7 +106,7 @@ class TimetableSubSection extends Component {
     const endIndex = this.indexOfTime(e.target.getAttribute('data-time'));
     const incr = startIndex < endIndex ? 1 : -1;
     for (let i = startIndex + incr; i !== endIndex + incr; i += incr) {
-      if (this._isOccupied(i)) {
+      if ((incr > 0) ? this._isOccupied(startIndex, i + 1) : this._isOccupied(i, startIndex + 1)) {
         return;
       }
     }
