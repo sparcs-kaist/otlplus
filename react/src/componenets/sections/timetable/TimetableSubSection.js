@@ -108,7 +108,6 @@ class TimetableSubSection extends Component {
     const incr = startIndex < endIndex ? 1 : -1;
     for (let i = startIndex + incr; i !== endIndex + incr; i += incr) {
       if (this._isOccupied(i)) {
-        //this.props.setIsDraggingDispatch(false);
         return;
       }
     }
@@ -220,7 +219,6 @@ class TimetableSubSection extends Component {
               data-time="1200"
               onMouseDown={e => this.dragStart(e)}
               onMouseMove={e => this.dragMove(e)}
-              onMouseUp={e => this.dragEnd(e)}
             />,
           );
         }
@@ -232,7 +230,6 @@ class TimetableSubSection extends Component {
               data-time="1800"
               onMouseDown={e => this.dragStart(e)}
               onMouseMove={e => this.dragMove(e)}
-              onMouseUp={e => this.dragEnd(e)}
             />,
           );
         }
@@ -244,7 +241,6 @@ class TimetableSubSection extends Component {
               data-time="2330"
               onMouseDown={e => this.dragStart(e)}
               onMouseMove={e => this.dragMove(e)}
-              onMouseUp={e => this.dragEnd(e)}
             />,
           );
         }
@@ -256,7 +252,6 @@ class TimetableSubSection extends Component {
               data-time={i.toString()}
               onMouseDown={e => this.dragStart(e)}
               onMouseMove={e => this.dragMove(e)}
-              onMouseUp={e => this.dragEnd(e)}
             />,
           );
         }
@@ -268,7 +263,6 @@ class TimetableSubSection extends Component {
               data-time={(i - 20).toString()}
               onMouseDown={e => this.dragStart(e)}
               onMouseMove={e => this.dragMove(e)}
-              onMouseUp={e => this.dragEnd(e)}
             />,
           );
         }
@@ -277,7 +271,7 @@ class TimetableSubSection extends Component {
     };
 
     return (
-      <div id="timetable-wrap">
+      <div id="timetable-wrap" onMouseUp={e => this.dragEnd(e)}>
         <div id="timetable-contents">
           <div id="rowheaders">
             <div className="rhead rhead-chead"><span className="rheadtext">8</span></div>
