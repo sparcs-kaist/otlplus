@@ -87,10 +87,10 @@ class TimetableSubSection extends Component {
   }
 
   _highlight = (first, second) => {
-    const left = first.offsetLeft - document.getElementById('timetable-wrap').offsetLeft - 1;
-    const width = first.offsetWidth + 2;
-    const top = Math.min(first.offsetTop, second.offsetTop) - document.getElementById('timetable-wrap').offsetTop + 2;
-    const height = Math.abs(first.offsetTop - second.offsetTop) + first.offsetHeight - 2;
+    const left = (this.props.cellWidth + 5) * this.indexOfDay(first.getAttribute('data-day')) + 28;
+    const width = this.props.cellWidth + 2;
+    const top = this.props.cellHeight * Math.min(this.indexOfTime(first.getAttribute('data-time')), this.indexOfTime(second.getAttribute('data-time'))) + 28;
+    const height = this.props.cellHeight * (Math.abs(this.indexOfTime(first.getAttribute('data-time')) - this.indexOfTime(second.getAttribute('data-time'))) + 1) - 3;
     this.setState({
       secondBlock: second,
       height: height,
