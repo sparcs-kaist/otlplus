@@ -44,7 +44,7 @@ class ListSection extends Component {
     for (let i = 0, thisClasstime; (thisClasstime = lecture.classtimes[i]); i++) {
       for (let j = 0, lecture; (lecture = this.props.currentTimetable.lectures[j]); j++) {
         for (let k = 0, classtime; (classtime = lecture.classtimes[k]); k++) {
-          if ((classtime.begin < thisClasstime.end) && (classtime.end > thisClasstime.begin)) {
+          if ((classtime.day === thisClasstime.day) && (classtime.begin < thisClasstime.end) && (classtime.end > thisClasstime.begin)) {
             alert(false ? "You can't add lecture overlapping." : '시간표가 겹치는 과목은 추가할 수 없습니다.');
             return;
           }
