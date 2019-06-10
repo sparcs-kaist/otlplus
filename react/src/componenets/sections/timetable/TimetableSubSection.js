@@ -66,6 +66,7 @@ class TimetableSubSection extends Component {
     this.setState({ firstBlock: e.target });
     this.props.setIsDraggingDispatch(true);
     document.getElementById('drag-cell').classList.remove('none');
+    this._highlight(e.target, e.target);
   }
 
   // check is drag contain class time
@@ -86,12 +87,11 @@ class TimetableSubSection extends Component {
     return false;
   }
 
-  _highlight = (e) => {
-    const second = e.target;
-    const left = this.state.firstBlock.offsetLeft - document.getElementById('timetable-wrap').offsetLeft - 1;
-    const width = this.state.firstBlock.offsetWidth + 2;
-    const top = Math.min(this.state.firstBlock.offsetTop, second.offsetTop) - document.getElementById('timetable-wrap').offsetTop + 2;
-    const height = Math.abs(this.state.firstBlock.offsetTop - second.offsetTop) + this.state.firstBlock.offsetHeight - 2;
+  _highlight = (first, second) => {
+    const left = first.offsetLeft - document.getElementById('timetable-wrap').offsetLeft - 1;
+    const width = first.offsetWidth + 2;
+    const top = Math.min(first.offsetTop, second.offsetTop) - document.getElementById('timetable-wrap').offsetTop + 2;
+    const height = Math.abs(first.offsetTop - second.offsetTop) + first.offsetHeight - 2;
     this.setState({
       secondBlock: second,
       height: height,
@@ -111,7 +111,7 @@ class TimetableSubSection extends Component {
         return;
       }
     }
-    this._highlight(e);
+    this._highlight(this.state.firstBlock, e.target);
   }
 
   dragEnd = (e) => {
