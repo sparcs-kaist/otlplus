@@ -115,7 +115,8 @@ class TimetableSubSection extends Component {
   }
 
   dragEnd = (e) => {
-    if (this.props.isDragging) this.props.setIsDraggingDispatch(false);
+    if (!this.props.isDragging) return;
+    this.props.setIsDraggingDispatch(false);
     document.getElementById('drag-cell').classList.add('none');
 
     const startDay = this.indexOfDay(this.state.firstBlock.getAttribute('data-day'));
