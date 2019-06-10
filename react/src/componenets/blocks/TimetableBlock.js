@@ -7,7 +7,7 @@ const TimetableBlock = (props) => {
   if (props.isClicked) {
     activeType = ' click';
   }
-  else if (props.isHover) {
+  else if (props.isHover || props.isListHover) {
     activeType = ' active';
   }
   else if (props.isTemp) {

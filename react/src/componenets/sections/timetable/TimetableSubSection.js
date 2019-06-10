@@ -139,7 +139,7 @@ class TimetableSubSection extends Component {
     && this.props.lectureActiveLecture.id === lecture.id
   )
 
-  _isTemp = lecture => (
+  _isListHover = lecture => (
     !this.props.lectureActiveClicked
     && this.props.lectureActiveFrom === 'LIST'
     && this.props.lectureActiveLecture.id === lecture.id
@@ -197,7 +197,8 @@ class TimetableSubSection extends Component {
             cellHeight={this.props.cellHeight}
             isClicked={this._isClicked(lecture)}
             isHover={this._isHover(lecture)}
-            isTemp={this._isTemp(lecture)}
+            isListHover={this._isListHover(lecture)}
+            isTemp={false}
             blockHover={this.blockHover}
             blockOut={this.blockOut}
             blockClick={this.blockClick}
