@@ -108,7 +108,7 @@ class TimetableSubSection extends Component {
     const incr = startIndex < endIndex ? 1 : -1;
     for (let i = startIndex + incr; i !== endIndex + incr; i += incr) {
       if (this._isOccupied(i)) {
-        this.props.setIsDraggingDispatch(false);
+        //this.props.setIsDraggingDispatch(false);
         return;
       }
     }
