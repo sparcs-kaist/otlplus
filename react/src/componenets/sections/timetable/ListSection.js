@@ -137,17 +137,6 @@ class ListSection extends Component {
       return false;
     };
 
-    const isClicked = (course) => {
-      if (this.props.lectureActiveFrom !== LIST && this.props.lectureActiveFrom !== TABLE) {
-        return false;
-      }
-      if (!this.props.lectureActiveClicked) {
-        return false;
-      }
-
-      return (this.props.lectureActiveLecture.course === course[0].course);
-    };
-
     const mapLecture = fromCart => lecture => (
       <CourseLecturesBlock
         lecture={lecture}
@@ -167,7 +156,7 @@ class ListSection extends Component {
     );
 
     const mapCourse = fromCart => course => (
-      <div className={`list-elem${isClicked(course) ? ' click' : ''}`} key={course[0].course}>
+      <div className={`list-elem${course.some(lecture => this._isClicked(lecture)) ? ' click' : ''}`} key={course[0].course}>
         <div className="list-elem-title">
           <strong>{course[0].common_title}</strong>
           &nbsp;
