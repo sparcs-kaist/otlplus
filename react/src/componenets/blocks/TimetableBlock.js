@@ -18,7 +18,7 @@ const TimetableBlock = (props) => {
       <div
         className={`lecture-block color${props.lecture.course % 16}${activeType}`}
         style={{
-          left: (props.cellWidth + 6) * props.classtime.day + 28,
+          left: (props.cellWidth + 5) * props.classtime.day + 28,
           top: props.cellHeight * indexOfTime(props.classtime.begin) + 28,
           width: props.cellWidth + 2,
           height: props.cellHeight * (indexOfTime(props.classtime.end) - indexOfTime(props.classtime.begin)) - 3,
