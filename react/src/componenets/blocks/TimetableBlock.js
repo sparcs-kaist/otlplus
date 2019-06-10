@@ -7,18 +7,18 @@ const TimetableBlock = (props) => {
   if (props.isClicked) {
     activeType = ' click';
   }
-  else if (props.isHover) {
-    activeType = ' active';
-  }
   else if (props.isTemp) {
     activeType = ' lecture-block-temp active';
+  }
+  else if (props.isHover || props.isListHover) {
+    activeType = ' active';
   }
 
   return (
       <div
         className={`lecture-block color${props.lecture.course % 16}${activeType}`}
         style={{
-          left: (props.cellWidth + 6) * props.classtime.day + 28,
+          left: (props.cellWidth + 5) * props.classtime.day + 28,
           top: props.cellHeight * indexOfTime(props.classtime.begin) + 28,
           width: props.cellWidth + 2,
           height: props.cellHeight * (indexOfTime(props.classtime.end) - indexOfTime(props.classtime.begin)) - 3,
