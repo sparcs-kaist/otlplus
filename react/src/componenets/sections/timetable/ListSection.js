@@ -44,7 +44,7 @@ class ListSection extends Component {
     for (let i = 0, thisClasstime; (thisClasstime = lecture.classtimes[i]); i++) {
       for (let j = 0, lecture; (lecture = this.props.currentTimetable.lectures[j]); j++) {
         for (let k = 0, classtime; (classtime = lecture.classtimes[k]); k++) {
-          if ((classtime.begin < thisClasstime.end) && (classtime.end > thisClasstime.begin)) {
+          if ((classtime.day === thisClasstime.day) && (classtime.begin < thisClasstime.end) && (classtime.end > thisClasstime.begin)) {
             alert(false ? "You can't add lecture overlapping." : '시간표가 겹치는 과목은 추가할 수 없습니다.');
             return;
           }
@@ -137,17 +137,6 @@ class ListSection extends Component {
       return false;
     };
 
-    const isClicked = (course) => {
-      if (this.props.lectureActiveFrom !== LIST && this.props.lectureActiveFrom !== TABLE) {
-        return false;
-      }
-      if (!this.props.lectureActiveClicked) {
-        return false;
-      }
-
-      return (this.props.lectureActiveLecture.course === course[0].course);
-    };
-
     const mapLecture = fromCart => lecture => (
       <CourseLecturesBlock
         lecture={lecture}
@@ -167,7 +156,7 @@ class ListSection extends Component {
     );
 
     const mapCourse = fromCart => course => (
-      <div className={`list-elem${isClicked(course) ? ' click' : ''}`} key={course[0].course}>
+      <div className={`list-elem${course.some(lecture => this._isClicked(lecture)) ? ' click' : ''}`} key={course[0].course}>
         <div className="list-elem-title">
           <strong>{course[0].common_title}</strong>
           &nbsp;

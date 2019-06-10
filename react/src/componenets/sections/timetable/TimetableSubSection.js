@@ -21,10 +21,8 @@ class TimetableSubSection extends Component {
 
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.lectureActive.from === LIST && !nextProps.lectureActive.clicked) {
-      console.log('list');
     }
     else if (nextProps.lectureActive.from === NONE) {
-      console.log('none');
     }
     return null;
   }
@@ -68,19 +66,19 @@ class TimetableSubSection extends Component {
     this.setState({ firstBlock: e.target });
     this.props.setIsDraggingDispatch(true);
     document.getElementById('drag-cell').classList.remove('none');
+    this._highlight(e.target, e.target);
   }
 
   // check is drag contain class time
-  _isOccupied = (dragEnd) => {
+  _isOccupied = (dragStart, dragEnd) => {
     const dragDay = this.indexOfDay(this.state.firstBlock.getAttribute('data-day'));
-    const dragStart = this.indexOfTime(this.state.firstBlock.getAttribute('data-time'));
 
     for (let i = 0, lecture; (lecture = this.props.currentTimetable.lectures[i]); i++) {
       for (let j = 0, classtime; (classtime = lecture.classtimes[j]); j++) {
         if (classtime.day !== dragDay) continue;
-        const classStart = this.indexOfTime(classtime.begin);
-        const classEnd = this.indexOfTime(classtime.end);
-        if ((dragStart <= classStart && classStart <= dragEnd) || (dragStart >= classEnd && classEnd > dragEnd)) {
+        const classStart = classtime.begin / 30 - 2 * 8;
+        const classEnd = classtime.end / 30 - 2 * 8;
+        if (dragStart < classEnd && dragEnd > classStart) {
           return true;
         }
       }
@@ -88,12 +86,11 @@ class TimetableSubSection extends Component {
     return false;
   }
 
-  _highlight = (e) => {
-    const second = e.target;
-    const left = this.state.firstBlock.offsetLeft - document.getElementById('timetable-wrap').offsetLeft - 1;
-    const width = this.state.firstBlock.offsetWidth + 2;
-    const top = Math.min(this.state.firstBlock.offsetTop, second.offsetTop) - document.getElementById('timetable-wrap').offsetTop + 2;
-    const height = Math.abs(this.state.firstBlock.offsetTop - second.offsetTop) + this.state.firstBlock.offsetHeight - 2;
+  _highlight = (first, second) => {
+    const left = (this.props.cellWidth + 5) * this.indexOfDay(first.getAttribute('data-day')) + 28;
+    const width = this.props.cellWidth + 2;
+    const top = this.props.cellHeight * Math.min(this.indexOfTime(first.getAttribute('data-time')), this.indexOfTime(second.getAttribute('data-time'))) + 28;
+    const height = this.props.cellHeight * (Math.abs(this.indexOfTime(first.getAttribute('data-time')) - this.indexOfTime(second.getAttribute('data-time'))) + 1) - 3;
     this.setState({
       secondBlock: second,
       height: height,
@@ -109,16 +106,16 @@ class TimetableSubSection extends Component {
     const endIndex = this.indexOfTime(e.target.getAttribute('data-time'));
     const incr = startIndex < endIndex ? 1 : -1;
     for (let i = startIndex + incr; i !== endIndex + incr; i += incr) {
-      if (this._isOccupied(i)) {
-        this.props.setIsDraggingDispatch(false);
+      if ((incr > 0) ? this._isOccupied(startIndex, i + 1) : this._isOccupied(i, startIndex + 1)) {
         return;
       }
     }
-    this._highlight(e);
+    this._highlight(this.state.firstBlock, e.target);
   }
 
   dragEnd = (e) => {
-    if (this.props.isDragging) this.props.setIsDraggingDispatch(false);
+    if (!this.props.isDragging) return;
+    this.props.setIsDraggingDispatch(false);
     document.getElementById('drag-cell').classList.add('none');
 
     const startDay = this.indexOfDay(this.state.firstBlock.getAttribute('data-day'));
@@ -141,7 +138,7 @@ class TimetableSubSection extends Component {
     && this.props.lectureActiveLecture.id === lecture.id
   )
 
-  _isTemp = lecture => (
+  _isListHover = lecture => (
     !this.props.lectureActiveClicked
     && this.props.lectureActiveFrom === 'LIST'
     && this.props.lectureActiveLecture.id === lecture.id
@@ -199,7 +196,8 @@ class TimetableSubSection extends Component {
             cellHeight={this.props.cellHeight}
             isClicked={this._isClicked(lecture)}
             isHover={this._isHover(lecture)}
-            isTemp={this._isTemp(lecture)}
+            isListHover={this._isListHover(lecture)}
+            isTemp={false}
             blockHover={this.blockHover}
             blockOut={this.blockOut}
             blockClick={this.blockClick}
@@ -221,7 +219,6 @@ class TimetableSubSection extends Component {
               data-time="1200"
               onMouseDown={e => this.dragStart(e)}
               onMouseMove={e => this.dragMove(e)}
-              onMouseUp={e => this.dragEnd(e)}
             />,
           );
         }
@@ -233,7 +230,6 @@ class TimetableSubSection extends Component {
               data-time="1800"
               onMouseDown={e => this.dragStart(e)}
               onMouseMove={e => this.dragMove(e)}
-              onMouseUp={e => this.dragEnd(e)}
             />,
           );
         }
@@ -245,7 +241,6 @@ class TimetableSubSection extends Component {
               data-time="2330"
               onMouseDown={e => this.dragStart(e)}
               onMouseMove={e => this.dragMove(e)}
-              onMouseUp={e => this.dragEnd(e)}
             />,
           );
         }
@@ -257,7 +252,6 @@ class TimetableSubSection extends Component {
               data-time={i.toString()}
               onMouseDown={e => this.dragStart(e)}
               onMouseMove={e => this.dragMove(e)}
-              onMouseUp={e => this.dragEnd(e)}
             />,
           );
         }
@@ -269,7 +263,6 @@ class TimetableSubSection extends Component {
               data-time={(i - 20).toString()}
               onMouseDown={e => this.dragStart(e)}
               onMouseMove={e => this.dragMove(e)}
-              onMouseUp={e => this.dragEnd(e)}
             />,
           );
         }
@@ -278,7 +271,7 @@ class TimetableSubSection extends Component {
     };
 
     return (
-      <div id="timetable-wrap">
+      <div id="timetable-wrap" onMouseUp={e => this.dragEnd(e)}>
         <div id="timetable-contents">
           <div id="rowheaders">
             <div className="rhead rhead-chead"><span className="rheadtext">8</span></div>
@@ -333,6 +326,35 @@ class TimetableSubSection extends Component {
         </div>
         <div id="drag-cell" className="none" style={{ left: this.state.left, width: this.state.width, top: this.state.top, height: this.state.height }} />
         {lectureBlocks}
+        {
+          (
+            this.props.lectureActiveFrom === LIST
+            && this.props.lectureActiveClicked === false
+            && !this.props.currentTimetable.lectures.some(lecture => (lecture.id === this.props.lectureActiveLecture.id))
+          )
+            ? (
+              this.props.lectureActiveLecture.classtimes.map((classtime, index) => (
+                <TimetableBlock
+                  key={`${this.props.lectureActiveLecture.id}:${index}`}
+                  lecture={this.props.lectureActiveLecture}
+                  classtime={classtime}
+                  cellWidth={this.props.cellWidth}
+                  cellHeight={this.props.cellHeight}
+                  isClicked={this._isClicked(this.props.lectureActiveLecture)}
+                  isHover={this._isHover(this.props.lectureActiveLecture)}
+                  isListHover={this._isListHover(this.props.lectureActiveLecture)}
+                  isTemp={true}
+                  blockHover={this.blockHover}
+                  blockOut={this.blockOut}
+                  blockClick={this.blockClick}
+                  deleteLecture={this.deleteLecture}
+                />
+              ))
+            )
+            : (
+              null
+            )
+        }
       </div>
     );
   }
