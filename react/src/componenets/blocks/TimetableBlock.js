@@ -1,4 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
+import lectureShape from '../../shapes/lectureShape';
+import classtimeShape from '../../shapes/classtimeShape';
+
 
 const TimetableBlock = (props) => {
   const indexOfTime = time => (time / 30 - 16);
@@ -44,6 +49,21 @@ const TimetableBlock = (props) => {
         </div>
       </div>
   );
+};
+
+TimetableBlock.propTypes = {
+  lecture: lectureShape.isRequired,
+  classTime: classtimeShape,
+  cellWidth: PropTypes.number.isRequired,
+  cellHeight: PropTypes.number.isRequired,
+  isClicked: PropTypes.bool.isRequired,
+  isHover: PropTypes.bool.isRequired,
+  isListHover: PropTypes.bool.isRequired,
+  isTemp: PropTypes.bool.isRequired,
+  blockHover: PropTypes.func.isRequired,
+  blockOut: PropTypes.func.isRequired,
+  blockClick: PropTypes.func.isRequired,
+  deleteLecture: PropTypes.func.isRequired,
 };
 
 export default TimetableBlock;

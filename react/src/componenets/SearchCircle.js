@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
 
 class SearchCircle extends Component {
   constructor(props) {
@@ -63,5 +65,12 @@ class SearchCircle extends Component {
   }
 }
 
+SearchCircle.propTypes = {
+  value: PropTypes.string.isRequired,
+  inputName: PropTypes.string.isRequired,
+  circleName: PropTypes.string.isRequired,
+  clickCircle: PropTypes.func.isRequired,
+  allChecked: PropTypes.bool.isRequired,
+};
 
 export default SearchCircle;

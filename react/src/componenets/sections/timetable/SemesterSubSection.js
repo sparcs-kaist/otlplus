@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+
 import axios from '../../../presetAxios';
 import { setSemester, setTimetables, setListLectures } from '../../../actions/timetable/index';
+
 
 const semesterName = {
   1: '봄',
@@ -160,6 +163,14 @@ const mapDispatchToProps = dispatch => ({
     dispatch(setListLectures(code, lectures));
   },
 });
+
+SemesterSubSection.propTypes = {
+  year: PropTypes.number.isRequired,
+  semester: PropTypes.number.isRequired,
+  setSemesterDispatch: PropTypes.func.isRequired,
+  setTimetablesDispatch: PropTypes.func.isRequired,
+  setListLecturesDispatch: PropTypes.func.isRequired,
+};
 
 SemesterSubSection = connect(mapStateToProps, mapDispatchToProps)(SemesterSubSection);
 

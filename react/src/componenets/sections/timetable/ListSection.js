@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+
 import axios from '../../../presetAxios';
 import { openSearch, closeSearch, setCurrentList, setLectureActive , clearLectureActive, addLectureToTimetable, addLectureToCart, deleteLectureFromCart} from '../../../actions/timetable/index';
 import Scroller from '../../Scroller';
 import SearchSubSection from './SearchSubSection';
 import CourseLecturesBlock from '../../blocks/CourseLecturesBlock';
-import { LIST, TABLE } from '../../../reducers/timetable/lectureActive';
+import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureActive';
+import lectureShape from '../../../shapes/lectureShape';
+import timetableShape from '../../../shapes/timetableShape';
+
 
 class ListSection extends Component {
   _isClicked = lecture => (
@@ -277,6 +282,35 @@ const mapDispatchToProps = dispatch => ({
     dispatch(deleteLectureFromCart(lecture));
   },
 });
+
+ListSection.propTypes = {
+  list: PropTypes.object.isRequired,
+  currentList: PropTypes.string.isRequired,
+  search: PropTypes.shape({
+    courses: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)).isRequired,
+  }).isRequired,
+  major: PropTypes.object,
+  humanity: PropTypes.shape({
+    courses: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)).isRequired,
+  }).isRequired,
+  cart: PropTypes.shape({
+    courses: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)).isRequired,
+  }).isRequired,
+  open: PropTypes.bool.isRequired,
+  currentTimetable: timetableShape.isRequired,
+  lectureActiveFrom: PropTypes.oneOf([NONE, LIST, TABLE, MULTIPLE]).isRequired,
+  lectureActiveClicked: PropTypes.bool.isRequired,
+  lectureActiveLecture: lectureShape,
+  activeLecture: lectureShape,
+  openSearchDispatch: PropTypes.func.isRequired,
+  closeSearchDispatch: PropTypes.func.isRequired,
+  setCurrentListDispatch: PropTypes.func.isRequired,
+  setLectureActiveDispatch: PropTypes.func.isRequired,
+  clearLectureActiveDispatch: PropTypes.func.isRequired,
+  addLectureToTimetableDispatch: PropTypes.func.isRequired,
+  addLectureToCartDispatch: PropTypes.func.isRequired,
+  deleteLectureFromCartDispatch: PropTypes.func.isRequired,
+};
 
 ListSection = connect(mapStateToProps, mapDispatchToProps)(ListSection);
 

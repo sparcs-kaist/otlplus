@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import '../static/css/components/header/timetable.css';
+
+import userShape from '../shapes/userShape';
+
 
 class Header extends Component {
   render() {
@@ -156,6 +160,10 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
 });
+
+Header.propTypes = {
+  user: userShape.isRequired,
+};
 
 Header = connect(mapStateToProps, mapDispatchToProps)(Header);
 

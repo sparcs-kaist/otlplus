@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+
 import axios from '../../../presetAxios';
 import TimetableBlock from '../../blocks/TimetableBlock';
 import { dragSearch, setIsDragging, updateCellSize, setLectureActive, clearLectureActive, removeLectureFromTimetable, lectureinfo } from '../../../actions/timetable/index';
-import { NONE, LIST } from '../../../reducers/timetable/lectureActive';
+import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureActive';
+import lectureShape from '../../../shapes/lectureShape';
+import timetableShape from '../../../shapes/timetableShape';
 
 
 class TimetableSubSection extends Component {
@@ -400,6 +404,25 @@ const mapDispatchToProps = dispatch => ({
     dispatch(lectureinfo());
   },
 });
+
+TimetableSubSection.propTypes = {
+  currentTimetable: timetableShape.isRequired,
+  lectureActive: PropTypes.object.isRequired,
+  lectureActiveFrom: PropTypes.oneOf([NONE, LIST, TABLE, MULTIPLE]).isRequired,
+  lectureActiveClicked: PropTypes.bool.isRequired,
+  lectureActiveLecture: lectureShape,
+  cellWidth: PropTypes.number.isRequired,
+  cellHeight: PropTypes.number.isRequired,
+  isDragging: PropTypes.bool.isRequired,
+  showLectureInfoFlag: PropTypes.bool.isRequired,
+  updateCellSizeDispatch: PropTypes.func.isRequired,
+  dragSearchDispatch: PropTypes.func.isRequired,
+  setIsDraggingDispatch: PropTypes.func.isRequired,
+  setLectureActiveDispatch: PropTypes.func.isRequired,
+  clearLectureActiveDispatch: PropTypes.func.isRequired,
+  removeLectureFromTimetableDispatch: PropTypes.func.isRequired,
+  lectureinfoDispatch: PropTypes.func.isRequired,
+};
 
 TimetableSubSection = connect(mapStateToProps, mapDispatchToProps)(TimetableSubSection);
 

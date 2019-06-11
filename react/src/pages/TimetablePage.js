@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import '../static/css/timetable/timetable.css';
 
@@ -21,7 +22,7 @@ class TimetablePage extends Component {
         <div className={this.props.showLectureInfoFlag ? 'modal-lecture-info' : null}>
           <div className={this.props.showTimetableListFlag ? 'modal-timetable-list' : null}>
             <div className={this.props.showLectureListFlag ? 'mobile-lecture-list' : null}>
-              <Header user={this.props.user} />
+              <Header />
               <section id="content" className="container-fluid" style={{ backgroundColor: '#f9f0f0' }}>
                 <div id="page-container">
                   <div id="left-side">
@@ -71,6 +72,14 @@ const mapStateToProps = state => ({
     showTimetableListFlag: state.timetable.mobile.showTimetableListFlag,
     showLectureInfoFlag: state.timetable.mobile.showLectureInfoFlag,
 });
+
+
+TimetablePage.propTypes = {
+  showLectureListFlag: PropTypes.bool.isRequired,
+  showTimetableListFlag: PropTypes.bool.isRequired,
+  showLectureInfoFlag: PropTypes.bool.isRequired,
+};
+
 TimetablePage = connect(mapStateToProps, null)(TimetablePage);
 
 export default TimetablePage;
