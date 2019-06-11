@@ -209,12 +209,13 @@ class TimetableSubSection extends Component {
 
     const dragDiv = (day, ko) => {
       const timeblock = [];
-      timeblock.push(<div className="chead">{ko}</div>);
+      timeblock.push(<div className="chead" key={day}>{ko}</div>);
       for (let i = 800; i <= 2350; i += 50) {
         if (i === 1200) {
           timeblock.push(
             <div
               className="cell-bold cell1 half table-drag"
+              key={`${day}:1200`}
               data-day={day}
               data-time="1200"
               onMouseDown={e => this.dragStart(e)}
@@ -226,6 +227,7 @@ class TimetableSubSection extends Component {
           timeblock.push(
             <div
               className="cell-bold cell1 half table-drag"
+              key={`${day}:1800`}
               data-day={day}
               data-time="1800"
               onMouseDown={e => this.dragStart(e)}
@@ -237,6 +239,7 @@ class TimetableSubSection extends Component {
           timeblock.push(
             <div
               className="cell2 half cell-last table-drag"
+              key={`${day}:2330`}
               data-day={day}
               data-time="2330"
               onMouseDown={e => this.dragStart(e)}
@@ -248,6 +251,7 @@ class TimetableSubSection extends Component {
           timeblock.push(
             <div
               className="cell1 half table-drag"
+              key={`${day}:${i.toString()}`}
               data-day={day}
               data-time={i.toString()}
               onMouseDown={e => this.dragStart(e)}
@@ -259,6 +263,7 @@ class TimetableSubSection extends Component {
           timeblock.push(
             <div
               className="cell2 half table-drag"
+              key={`${day}:${(i - 20).toString()}`}
               data-day={day}
               data-time={(i - 20).toString()}
               onMouseDown={e => this.dragStart(e)}
