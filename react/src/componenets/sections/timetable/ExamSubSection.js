@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+
 import Scroller from '../../Scroller';
+import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureActive';
 import { clearMultipleDetail, setMultipleDetail } from '../../../actions/timetable/index';
+import lectureShape from '../../../shapes/lectureShape';
+import timetableShape from '../../../shapes/timetableShape';
+
 
 class ExamSubSection extends Component {
   constructor(props) {
@@ -149,6 +155,15 @@ const mapDispatchToProps = dispatch => ({
     dispatch(clearMultipleDetail());
   },
 });
+
+ExamSubSection.propTypes = {
+  currentTimetable: timetableShape.isRequired,
+  lectureActiveLecture: lectureShape,
+  lectureActiveFrom: PropTypes.oneOf([NONE, LIST, TABLE, MULTIPLE]).isRequired,
+  lectureActiveClicked: PropTypes.bool.isRequired,
+  setMultipleDetailDispatch: PropTypes.func.isRequired,
+  clearMultipleDetailDispatch: PropTypes.func.isRequired,
+};
 
 ExamSubSection = connect(mapStateToProps, mapDispatchToProps)(ExamSubSection);
 

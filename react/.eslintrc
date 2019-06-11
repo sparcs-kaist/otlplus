@@ -19,7 +19,6 @@
     "react/button-has-type": 0,
     "react/no-string-refs": 0,
     "react/no-find-dom-node": 0,
-    "react/prop-types": 1,
     "prefer-destructuring": 1,
 
 
@@ -39,6 +38,7 @@
     "react/jsx-filename-extension": "off",
     "react/no-did-update-set-state": "off",
     "react/no-multi-comp": 1,
+    "react/require-default-props": 1,
     "react/prefer-stateless-function": 0,
     "linebreak-style": 0,
     "no-case-declarations": 1,

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
 import 'nanoscroller';
+import PropTypes from 'prop-types';
 
 import '../static/css/nanoscroller.css';
 
@@ -26,5 +27,13 @@ class Scroller extends Component {
     );
   }
 }
+
+Scroller.propTypes = {
+  onScroll: PropTypes.func,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.element),
+    PropTypes.element,
+  ]).isRequired,
+};
 
 export default Scroller;

@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+
 import { clearMultipleDetail, setMultipleDetail } from '../../../actions/timetable/index';
-import { LIST, TABLE } from '../../../reducers/timetable/lectureActive';
+import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureActive';
+import lectureShape from '../../../shapes/lectureShape';
+import timetableShape from '../../../shapes/timetableShape';
+
 
 const indexOfType = (type) => {
   const types = ['Basic Required', 'Basic Elective', 'Major Required', 'Major Elective', 'Humanities & Social Elective'];
@@ -244,6 +249,14 @@ const mapDispatchToProps = dispatch => ({
     dispatch(clearMultipleDetail());
   },
 });
+
+SummarySubSection.propTypes = {
+  currentTimetable: timetableShape.isRequired,
+  lectureActiveLecture: lectureShape,
+  lectureActiveFrom: PropTypes.oneOf([NONE, LIST, TABLE, MULTIPLE]).isRequired,
+  setMultipleDetailDispatch: PropTypes.func.isRequired,
+  clearMultipleDetailDispatch: PropTypes.func.isRequired,
+};
 
 SummarySubSection = connect(mapStateToProps, mapDispatchToProps)(SummarySubSection);
 

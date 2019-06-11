@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import Header from '../componenets/Header';
 import Footer from '../componenets/Footer';
@@ -21,6 +22,16 @@ class Button extends Component {
     );
   }
 }
+
+Button.propTypes = {
+  index: PropTypes.number.isRequired,
+  onClick: PropTypes.func.isRequired,
+  current: PropTypes.number.isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.element),
+    PropTypes.element,
+  ]).isRequired,
+};
 
 class CreditPage extends Component {
   constructor(props) {
@@ -263,7 +274,7 @@ class CreditPage extends Component {
     }
     return (
       <div className="credit">
-        <Header user={this.props.user} />
+        <Header />
         <section id="contents" className="container-fluid">
           <div className="row">
             <div className="col-xs-22 col-xs-offset-1 col-sm-20 col-sm-offset-2 col-md-18 col-md-offset-3 col-lg-16 col-lg-offset-4">

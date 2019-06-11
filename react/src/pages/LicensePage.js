@@ -8,7 +8,7 @@ class LicensePage extends Component {
   render() {
     return (
       <div>
-        <Header user={this.props.user} />
+        <Header />
         <section id="contents" className="container-fluid">
           <div className="row">
             <div className="col-xs-22 col-xs-offset-1 col-sm-20 col-sm-offset-2 col-md-18 col-md-offset-3 col-lg-16 col-lg-offset-4">
