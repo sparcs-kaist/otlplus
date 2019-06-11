@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import Header from '../componenets/Header';
 import Footer from '../componenets/Footer';
@@ -21,6 +22,16 @@ class Button extends Component {
     );
   }
 }
+
+Button.propTypes = {
+  index: PropTypes.number.isRequired,
+  onClick: PropTypes.func.isRequired,
+  current: PropTypes.number.isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.element),
+    PropTypes.element,
+  ]).isRequired,
+};
 
 class CreditPage extends Component {
   constructor(props) {

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import '../static/css/timetable/timetable.css';
 
@@ -71,6 +72,14 @@ const mapStateToProps = state => ({
     showTimetableListFlag: state.timetable.mobile.showTimetableListFlag,
     showLectureInfoFlag: state.timetable.mobile.showLectureInfoFlag,
 });
+
+
+TimetablePage.propTypes = {
+  showLectureListFlag: PropTypes.bool.isRequired,
+  showTimetableListFlag: PropTypes.bool.isRequired,
+  showLectureInfoFlag: PropTypes.bool.isRequired,
+};
+
 TimetablePage = connect(mapStateToProps, null)(TimetablePage);
 
 export default TimetablePage;
