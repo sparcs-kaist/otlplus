@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import '../static/css/timetable/components/syllabus.scss';
@@ -54,10 +53,6 @@ class SyllabusPage extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  currentTimetable: state.timetable.timetable.currentTimetable,
-});
-
 SyllabusPage.propTypes = {
   location: PropTypes.shape({
     state: PropTypes.shape({
@@ -65,7 +60,5 @@ SyllabusPage.propTypes = {
     }).isRequired,
   }).isRequired,
 };
-
-SyllabusPage = connect(mapStateToProps, null)(SyllabusPage);
 
 export default SyllabusPage;
