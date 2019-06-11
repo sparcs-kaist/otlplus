@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+
 import axios from '../../presetAxios';
 import { createTimetable, setCurrentTimetable, deleteTimetable, duplicateTimetable } from '../../actions/timetable/index';
+import timetableShape from '../../shapes/timetableShape';
+
 
 class TimetableTabs extends Component {
   changeTab(timetable) {
@@ -117,6 +121,18 @@ const mapDispatchToProps = dispatch => ({
     dispatch(duplicateTimetable(id, timetable));
   },
 });
+
+TimetableTabs.propTypes = {
+  timetables: PropTypes.arrayOf(timetableShape).isRequired,
+  currentTimetable: timetableShape.isRequired,
+  year: PropTypes.number.isRequired,
+  semester: PropTypes.number.isRequired,
+  showTimetableListFlag: PropTypes.bool.isRequired,
+  setCurrentTimetableDispatch: PropTypes.func.isRequired,
+  createTimetableDispatch: PropTypes.func.isRequired,
+  deleteTimetableDispatch: PropTypes.func.isRequired,
+  duplicateTimetableDispatch: PropTypes.func.isRequired,
+};
 
 TimetableTabs = connect(mapStateToProps, mapDispatchToProps)(TimetableTabs);
 

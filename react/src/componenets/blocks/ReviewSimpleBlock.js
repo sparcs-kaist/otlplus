@@ -1,8 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
+import reviewShape from '../../shapes/reviewShape';
 
 
 const ReviewSimpleBlock = (props) => {
   const { review } = props;
+  console.log(review);
   return (
       <a href={`/review/result/comment/${review.id}`} target="_blank" rel="noopener noreferrer" style={{ display: 'block' }}>
         <div className="review-elem">
@@ -30,6 +34,10 @@ const ReviewSimpleBlock = (props) => {
         </div>
       </a>
   );
+};
+
+ReviewSimpleBlock.propTypes = {
+  review: reviewShape.isRequired,
 };
 
 export default ReviewSimpleBlock;
