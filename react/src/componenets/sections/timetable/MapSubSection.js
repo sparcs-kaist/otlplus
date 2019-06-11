@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import mapImage from '../../../static/img/timetable/kaist_map.jpg';
+import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureActive';
 import { clearMultipleDetail, setMultipleDetail } from '../../../actions/timetable/index';
+import lectureShape from '../../../shapes/lectureShape';
+import timetableShape from '../../../shapes/timetableShape';
 
 
 class MapSubSection extends Component {
@@ -137,6 +141,14 @@ const mapDispatchToProps = dispatch => ({
     dispatch(clearMultipleDetail());
   },
 });
+
+MapSubSection.propTypes = {
+  currentTimetable: timetableShape.isRequired,
+  lectureActiveLecture: lectureShape,
+  lectureActiveFrom: PropTypes.oneOf([NONE, LIST, TABLE, MULTIPLE]).isRequired,
+  setMultipleDetailDispatch: PropTypes.func.isRequired,
+  clearMultipleDetailDispatch: PropTypes.func.isRequired,
+};
 
 MapSubSection = connect(mapStateToProps, mapDispatchToProps)(MapSubSection);
 

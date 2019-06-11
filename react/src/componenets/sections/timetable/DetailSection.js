@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import $ from 'jquery';
+
 import Scroller from '../../Scroller';
 import ReviewSimpleBlock from '../../blocks/ReviewSimpleBlock';
-import { LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureActive';
+import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureActive';
 import { clearLectureActive } from '../../../actions/timetable/index';
+import lectureShape from '../../../shapes/lectureShape';
+
 
 class DetailSection extends Component {
   constructor(props) {
@@ -269,6 +273,15 @@ const mapDispatchToProps = dispatch => ({
     dispatch(clearLectureActive());
   },
 });
+
+DetailSection.propTypes = {
+  from: PropTypes.oneOf([NONE, LIST, TABLE, MULTIPLE]).isRequired,
+  lecture: lectureShape,
+  title: PropTypes.string.isRequired,
+  lectures: PropTypes.arrayOf(lectureShape),
+  clicked: PropTypes.bool.isRequired,
+  clearLectureActiveDispatch: PropTypes.func.isRequired,
+};
 
 DetailSection = connect(mapStateToProps, mapDispatchToProps)(DetailSection);
 
