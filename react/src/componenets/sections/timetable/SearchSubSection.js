@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+
 import axios from '../../../presetAxios';
 import { closeSearch, setListLectures } from '../../../actions/timetable/index';
 import SearchFilter from '../../SearchFilter';
 import '../../../static/css/font-awesome.min.css';
+
 
 class SearchSubSection extends Component {
   constructor(props) {
@@ -197,6 +200,14 @@ const mapDispatchToProps = dispatch => ({
     dispatch(setListLectures(code, lectures));
   },
 });
+
+SearchSubSection.propTypes = {
+  open: PropTypes.bool.isRequired,
+  year: PropTypes.number.isRequired,
+  semester: PropTypes.number.isRequired,
+  closeSearchDispatch: PropTypes.func.isRequired,
+  setListLecturesDispatch: PropTypes.func.isRequired,
+};
 
 SearchSubSection = connect(mapStateToProps, mapDispatchToProps)(SearchSubSection);
 

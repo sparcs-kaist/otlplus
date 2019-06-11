@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+
 import { mToggleLectureList, modaltimetableList } from '../../../actions/timetable/index';
+import timetableShape from '../../../shapes/timetableShape';
+
 
 class ShareSubSection extends Component {
   render() {
@@ -31,6 +35,12 @@ const mapDispatchToProps = dispatch => ({
   mToggleLectureListDispatch: () => dispatch(mToggleLectureList()),
   mtimetableListDispatch: () => dispatch(modaltimetableList()),
 });
+
+ShareSubSection.propTypes = {
+  currentTimetable: timetableShape.isRequired,
+  mToggleLectureListDispatch: PropTypes.func.isRequired,
+  mtimetableListDispatch: PropTypes.func.isRequired,
+};
 
 ShareSubSection = connect(mapStateToProps, mapDispatchToProps)(ShareSubSection);
 
