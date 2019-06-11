@@ -50,7 +50,7 @@ class ExamSubSection extends Component {
         if (lecture.id === lec.id) act = 'active';
       }
       const li = (
-        <li className={`exam-elem ${act}`} data-id={lec.id}>
+        <li className={`exam-elem ${act}`} key={lec.id} data-id={lec.id}>
           <div className="exam-elem-title">
             {lec.title}
           </div>
