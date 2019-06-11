@@ -14,7 +14,7 @@ class MainPage extends Component {
   render() {
     return (
       <div>
-        <Header user={this.props.user} />
+        <Header />
         <section className="main-image">
           <form className="main-search">
             <i />

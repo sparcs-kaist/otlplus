@@ -11,7 +11,7 @@ class DictionaryPage extends Component {
   render() {
     return (
       <div>
-        <Header user={this.props.user} />
+        <Header />
         <section className="content content--no-scroll">
           <div className="section-wrap section-wrap--course-list">
             <div className="tab--course-list" />
