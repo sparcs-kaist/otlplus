@@ -1,4 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
+import lectureShape from '../../shapes/lectureShape';
+
 
 const CourseLecturesBlock = (props) => {
   const getClass = (lecture) => {
@@ -37,6 +41,21 @@ const CourseLecturesBlock = (props) => {
         </div>
       </div>
   );
+};
+
+CourseLecturesBlock.propTypes = {
+  lecture: lectureShape.isRequired,
+  isClicked: PropTypes.bool.isRequired,
+  isHover: PropTypes.bool.isRequired,
+  inTimetable: PropTypes.bool.isRequired,
+  inCart: PropTypes.bool.isRequired,
+  fromCart: PropTypes.bool.isRequired,
+  addToCart: PropTypes.func.isRequired,
+  addToTable: PropTypes.func.isRequired,
+  deleteFromCart: PropTypes.func.isRequired,
+  listHover: PropTypes.func.isRequired,
+  listOut: PropTypes.func.isRequired,
+  listClick: PropTypes.func.isRequired,
 };
 
 export default CourseLecturesBlock;
