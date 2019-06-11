@@ -93,6 +93,7 @@ class MapSubSection extends Component {
             const location = (
               <div
                 className={`map-location ${building}`}
+                key={building}
                 data-building={building}
                 data-id="1234"
                 onMouseOver={() => this.mapFocus(building)}
@@ -106,7 +107,7 @@ class MapSubSection extends Component {
                       if (lecture.id === lec.id) lecAct = 'active';
                     }
                     if (activeLecture !== null && activeLecture.id === lec.id) lecAct = 'active';
-                    return <span className={`map-location-circle color${lec.color} ${lecAct}`} data-id={lec.id} />;
+                    return <span className={`map-location-circle color${lec.color} ${lecAct}`} key={lec.id} data-id={lec.id} />;
                   })}
                 </div>
                 <div className="map-location-arrow-shadow" />
