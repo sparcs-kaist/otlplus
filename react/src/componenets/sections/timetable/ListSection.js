@@ -287,14 +287,14 @@ ListSection.propTypes = {
   list: PropTypes.object.isRequired,
   currentList: PropTypes.string.isRequired,
   search: PropTypes.shape({
-    courses: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)),
+    courses: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)).isRequired,
   }).isRequired,
   major: PropTypes.object,
   humanity: PropTypes.shape({
-    courses: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)),
+    courses: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)).isRequired,
   }).isRequired,
   cart: PropTypes.shape({
-    courses: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)),
+    courses: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)).isRequired,
   }).isRequired,
   open: PropTypes.bool.isRequired,
   currentTimetable: timetableShape.isRequired,
