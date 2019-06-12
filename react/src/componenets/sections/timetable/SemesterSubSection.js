@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import axios from '../../../presetAxios';
+import { BASE_URL } from '../../../constants';
 import { setSemester, setTimetables, setListLectures } from '../../../actions/timetable/index';
 
 
@@ -28,7 +29,7 @@ class SemesterSubSection extends Component {
   componentDidMount() {
     this.props.setSemesterDispatch(2018, 1);
 
-    axios.post('/api/timetable/semester', {
+    axios.post(`${BASE_URL}/api/timetable/semester`, {
     })
       .then((response) => {
         this.setState(prevState => ({
@@ -46,7 +47,7 @@ class SemesterSubSection extends Component {
   }
 
   _semesterChanged(year, semester) {
-    axios.post('/api/timetable/table_load', {
+    axios.post(`${BASE_URL}/api/timetable/table_load`, {
       year: year,
       semester: semester,
     })
@@ -57,7 +58,7 @@ class SemesterSubSection extends Component {
         console.log(response);
       });
 
-    axios.post('/api/timetable/list_load_major', {
+    axios.post(`${BASE_URL}/api/timetable/list_load_major`, {
       year: year,
       semester: semester,
     })
@@ -70,7 +71,7 @@ class SemesterSubSection extends Component {
         console.log(response);
       });
 
-    axios.post('/api/timetable/list_load_humanity', {
+    axios.post(`${BASE_URL}/api/timetable/list_load_humanity`, {
       year: year,
       semester: semester,
     })
@@ -81,7 +82,7 @@ class SemesterSubSection extends Component {
         console.log(response);
       });
 
-    axios.post('/api/timetable/wishlist_load', {
+    axios.post(`${BASE_URL}/api/timetable/wishlist_load`, {
       year: year,
       semester: semester,
     })

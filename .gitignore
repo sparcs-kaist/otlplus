@@ -103,3 +103,5 @@ react/node_modules
 
 .vscode/
 .history/
+
+localConstants.js

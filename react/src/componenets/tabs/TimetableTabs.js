@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import axios from '../../presetAxios';
+import { BASE_URL } from '../../constants';
 import { createTimetable, setCurrentTimetable, deleteTimetable, duplicateTimetable } from '../../actions/timetable/index';
 import timetableShape from '../../shapes/timetableShape';
 
@@ -13,7 +14,7 @@ class TimetableTabs extends Component {
   }
 
   createTable() {
-    axios.post('/api/timetable/table_create', {
+    axios.post(`${BASE_URL}/api/timetable/table_create`, {
       year: this.props.year,
       semester: this.props.semester,
     })
@@ -27,7 +28,7 @@ class TimetableTabs extends Component {
 
   deleteTable(event, timetable) {
     event.stopPropagation();
-    axios.post('/api/timetable/table_delete', {
+    axios.post(`${BASE_URL}/api/timetable/table_delete`, {
       table_id: timetable.id,
       year: this.props.year,
       semester: this.props.semester,
@@ -42,7 +43,7 @@ class TimetableTabs extends Component {
 
   duplicateTable(event, timetable) {
     event.stopPropagation();
-    axios.post('/api/timetable/table_copy', {
+    axios.post(`${BASE_URL}/api/timetable/table_copy`, {
       table_id: timetable.id,
       year: this.props.year,
       semester: this.props.semester,

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import axios from '../../../presetAxios';
+import { BASE_URL } from '../../../constants';
 import { openSearch, closeSearch, setCurrentList, setLectureActive , clearLectureActive, addLectureToTimetable, addLectureToCart, deleteLectureFromCart} from '../../../actions/timetable/index';
 import Scroller from '../../Scroller';
 import SearchSubSection from './SearchSubSection';
@@ -57,7 +58,7 @@ class ListSection extends Component {
       }
     }
 
-    axios.post('/api/timetable/table_update', {
+    axios.post(`${BASE_URL}/api/timetable/table_update`, {
       table_id: this.props.currentTimetable.id,
       lecture_id: lecture.id,
       delete: false,
@@ -72,7 +73,7 @@ class ListSection extends Component {
 
   addToCart = lecture => (event) => {
     event.stopPropagation();
-    axios.post('/api/timetable/wishlist_update', {
+    axios.post(`${BASE_URL}/api/timetable/wishlist_update`, {
       lecture_id: lecture.id,
       delete: false,
     })
@@ -86,7 +87,7 @@ class ListSection extends Component {
 
   deleteFromCart = lecture => (event) => {
     event.stopPropagation();
-    axios.post('/api/timetable/wishlist_update', {
+    axios.post(`${BASE_URL}/api/timetable/wishlist_update`, {
       lecture_id: lecture.id,
       delete: true,
     })
