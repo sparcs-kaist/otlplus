@@ -1,4 +1,4 @@
-import { SET_CURRENT_LIST, ADD_LECTURE_TO_CART, DELETE_LECTURE_FROM_CART, SET_LIST_LECTURES, SET_LIST_MAJOR_LECTURES } from '../../actions/timetable/index';
+import { SET_CURRENT_LIST, ADD_LECTURE_TO_CART, DELETE_LECTURE_FROM_CART, SET_LIST_MAJOR_CODES, SET_LIST_LECTURES, SET_LIST_MAJOR_LECTURES } from '../../actions/timetable/index';
 
 
 const initialState = {
@@ -7,13 +7,9 @@ const initialState = {
     courses: [],
   },
   major: {
-    codes: ['ID', 'CS'],
-    ID: {
-      name: '신압디자인학과',
-      courses: [],
-    },
-    CS: {
-      name: '전산학부',
+    codes: ['Basic'],
+    Basic: {
+      name: '기초 과목',
       courses: [],
     },
   },
@@ -50,6 +46,17 @@ const list = (state = initialState, action) => {
       return Object.assign({}, state, {
         currentList: action.list,
       });
+    case SET_LIST_MAJOR_CODES:
+      newState.major = {
+        codes: action.majors.map(major => major.code),
+      };
+      action.majors.forEach((major) => {
+        newState.major[major.code] = {
+          name: major.name,
+          courses: [],
+        };
+      });
+      return Object.assign({}, state, newState);
     case SET_LIST_LECTURES:
       newState[action.code] = {
         ...state[action.code],
