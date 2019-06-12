@@ -1,8 +1,8 @@
 import { SET_SEMESTER } from '../../actions/timetable/index';
 
 const initialState = {
-  year: null,
-  semester: null,
+  year: 2018,
+  semester: 1,
 };
 
 const semester = (state = initialState, action) => {

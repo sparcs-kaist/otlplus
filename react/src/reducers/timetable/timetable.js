@@ -6,8 +6,8 @@ const initialState = {
     id: -1,
     lectures: [],
   },
-  cellWidth: 0,
-  cellHeight: 0,
+  cellWidth: 200,
+  cellHeight: 50,
   isDragging: false,
 };
 
