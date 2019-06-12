@@ -4,16 +4,36 @@ import PropTypes from 'prop-types';
 
 import axios from '../../../presetAxios';
 import { BASE_URL } from '../../../constants';
-import { openSearch, closeSearch, setCurrentList, setLectureActive , clearLectureActive, addLectureToTimetable, addLectureToCart, deleteLectureFromCart} from '../../../actions/timetable/index';
+import { openSearch, closeSearch, setCurrentList, setLectureActive , clearLectureActive, addLectureToTimetable, addLectureToCart, deleteLectureFromCart, setListMajorCodes, setListMajorLectures } from '../../../actions/timetable/index';
 import Scroller from '../../Scroller';
 import SearchSubSection from './SearchSubSection';
 import CourseLecturesBlock from '../../blocks/CourseLecturesBlock';
 import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureActive';
+import userShape from '../../../shapes/userShape';
 import lectureShape from '../../../shapes/lectureShape';
 import timetableShape from '../../../shapes/timetableShape';
 
 
 class ListSection extends Component {
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (this.props.user && (this.props.user !== prevProps.user)) {
+      this.props.setListMajorCodesDispatch(this.props.user.departments);
+
+      axios.post(`${BASE_URL}/api/timetable/list_load_major`, {
+        year: this.props.year,
+        semester: this.props.semester,
+      })
+        .then((response) => {
+          for (let i = 0, code; (code = this.props.major.codes[i]); i++) {
+            this.props.setListMajorLecturesDispatch(code, response.data.filter(lecture => (lecture.major_code === code)));
+          }
+        })
+        .catch((response) => {
+          console.log(response);
+        });
+    }
+  }
+
   _isClicked = lecture => (
     this.props.lectureActiveFrom === LIST
     && this.props.lectureActiveClicked === true
@@ -185,7 +205,7 @@ class ListSection extends Component {
       <div id="lecture-lists">
         <div id="list-tab-wrap">
           <button className={`list-tab search${this.props.currentList === 'SEARCH' ? ' active' : ''}`} onClick={() => this.changeTab('SEARCH')}><i className="list-tab-icon" /></button>
-          {['ID', 'CS'].map(code => (
+          {this.props.major.codes.map(code => (
             <button className={`list-tab major${this.props.currentList === code ? ' active' : ''}`} key={code} onClick={() => this.changeTab(code)}><i className="list-tab-icon" /></button>
           ))}
           <button className={`list-tab humanity${this.props.currentList === 'HUMANITY' ? ' active' : ''}`} onClick={() => this.changeTab('HUMANITY')}><i className="list-tab-icon" /></button>
@@ -210,13 +230,13 @@ class ListSection extends Component {
                 )
             }
           </div>
-          {['ID', 'CS'].map(code => (
+          {this.props.major.codes.map(code => (
             <div className={`list-page major-page${this.props.currentList === code ? '' : ' none'}`} key={code}>
               <div className="list-page-title">
-                {`${this.props.list[code].name} 전공`}
+                {this.props.major[code].name}
               </div>
               <Scroller>
-                {listBlocks(this.props.list[code].courses, false)}
+                {listBlocks(this.props.major[code].courses, false)}
               </Scroller>
             </div>
           ))}
@@ -243,6 +263,7 @@ class ListSection extends Component {
 }
 
 const mapStateToProps = state => ({
+  user: state.common.user,
   list: state.timetable.list,
   currentList: state.timetable.list.currentList,
   search: state.timetable.list.search,
@@ -254,6 +275,8 @@ const mapStateToProps = state => ({
   lectureActiveFrom: state.timetable.lectureActive.from,
   lectureActiveClicked: state.timetable.lectureActive.clicked,
   lectureActiveLecture: state.timetable.lectureActive.lecture,
+  year: state.timetable.semester.year,
+  semester: state.timetable.semester.semester,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -281,15 +304,24 @@ const mapDispatchToProps = dispatch => ({
   deleteLectureFromCartDispatch: (lecture) => {
     dispatch(deleteLectureFromCart(lecture));
   },
+  setListMajorCodesDispatch: (majors) => {
+    dispatch(setListMajorCodes(majors));
+  },
+  setListMajorLecturesDispatch: (majorCode, lectures) => {
+    dispatch(setListMajorLectures(majorCode, lectures));
+  },
 });
 
 ListSection.propTypes = {
+  user: userShape,
   list: PropTypes.object.isRequired,
   currentList: PropTypes.string.isRequired,
   search: PropTypes.shape({
     courses: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)).isRequired,
   }).isRequired,
-  major: PropTypes.object,
+  major: PropTypes.shape({
+    codes: PropTypes.arrayOf(PropTypes.string).isRequired,
+  }).isRequired,
   humanity: PropTypes.shape({
     courses: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)).isRequired,
   }).isRequired,
@@ -301,6 +333,8 @@ ListSection.propTypes = {
   lectureActiveFrom: PropTypes.oneOf([NONE, LIST, TABLE, MULTIPLE]).isRequired,
   lectureActiveClicked: PropTypes.bool.isRequired,
   lectureActiveLecture: lectureShape,
+  year: PropTypes.number.isRequired,
+  semester: PropTypes.number.isRequired,
   openSearchDispatch: PropTypes.func.isRequired,
   closeSearchDispatch: PropTypes.func.isRequired,
   setCurrentListDispatch: PropTypes.func.isRequired,
@@ -309,6 +343,8 @@ ListSection.propTypes = {
   addLectureToTimetableDispatch: PropTypes.func.isRequired,
   addLectureToCartDispatch: PropTypes.func.isRequired,
   deleteLectureFromCartDispatch: PropTypes.func.isRequired,
+  setListMajorCodesDispatch: PropTypes.func.isRequired,
+  setListMajorLecturesDispatch: PropTypes.func.isRequired,
 };
 
 ListSection = connect(mapStateToProps, mapDispatchToProps)(ListSection);

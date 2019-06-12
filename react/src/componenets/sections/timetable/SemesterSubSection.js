@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import axios from '../../../presetAxios';
 import { BASE_URL } from '../../../constants';
-import { setSemester, setTimetables, setListLectures } from '../../../actions/timetable/index';
+import { setSemester, setTimetables, setListLectures, setListMajorLectures } from '../../../actions/timetable/index';
 
 
 const semesterName = {
@@ -63,8 +63,9 @@ class SemesterSubSection extends Component {
       semester: semester,
     })
       .then((response) => {
-        for (let i = 0, code; (code = ['ID', 'CS'][i]); i++) {
-          this.props.setListLecturesDispatch(code, response.data.filter(lecture => (lecture.major_code === code)));
+        // TODO: cancel if user department is changed between request and response
+        for (let i = 0, code; (code = this.props.listMajor.codes[i]); i++) {
+          this.props.setListMajorLecturesDispatch(code, response.data.filter(lecture => (lecture.major_code === code)));
         }
       })
       .catch((response) => {
@@ -151,6 +152,7 @@ class SemesterSubSection extends Component {
 const mapStateToProps = state => ({
   year: state.timetable.semester.year,
   semester: state.timetable.semester.semester,
+  listMajor: state.timetable.list.major,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -163,14 +165,21 @@ const mapDispatchToProps = dispatch => ({
   setListLecturesDispatch: (code, lectures) => {
     dispatch(setListLectures(code, lectures));
   },
+  setListMajorLecturesDispatch: (majorCode, lectures) => {
+    dispatch(setListMajorLectures(majorCode, lectures));
+  },
 });
 
 SemesterSubSection.propTypes = {
   year: PropTypes.number.isRequired,
   semester: PropTypes.number.isRequired,
+  listMajor: PropTypes.shape({
+    codes: PropTypes.arrayOf(PropTypes.string).isRequired,
+  }).isRequired,
   setSemesterDispatch: PropTypes.func.isRequired,
   setTimetablesDispatch: PropTypes.func.isRequired,
   setListLecturesDispatch: PropTypes.func.isRequired,
+  setListMajorLecturesDispatch: PropTypes.func.isRequired,
 };
 
 SemesterSubSection = connect(mapStateToProps, mapDispatchToProps)(SemesterSubSection);

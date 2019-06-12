@@ -162,7 +162,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 Header.propTypes = {
-  user: userShape.isRequired,
+  user: userShape,
 };
 
 Header = connect(mapStateToProps, mapDispatchToProps)(Header);

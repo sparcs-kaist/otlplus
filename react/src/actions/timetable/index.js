@@ -2,7 +2,9 @@ export const SET_SEMESTER = 'SET_SEMESTER';
 export const OPEN_SEARCH = 'OPEN_SEARCH';
 export const CLOSE_SEARCH = 'CLOSE_SEARCH';
 export const SET_CURRENT_LIST = 'SER_CURRENT_LIST';
+export const SET_LIST_MAJOR_CODES = 'SET_LIST_MAJOR_CODES';
 export const SET_LIST_LECTURES = 'SET_LIST_LECTURES';
+export const SET_LIST_MAJOR_LECTURES = 'SET_LIST_MAJOR_LECTURES';
 export const ADD_LECTURE_TO_CART = 'ADD_LECTURE_TO_CART';
 export const DELETE_LECTURE_FROM_CART = 'DELETE_LECTURE_FROM_CART';
 export const SET_TIMETABLES = 'SET_TIMETABLES';
@@ -50,10 +52,25 @@ export function setCurrentList(list) {
   };
 }
 
+export function setListMajorCodes(majors) {
+  return {
+    type: SET_LIST_MAJOR_CODES,
+    majors: majors,
+  };
+}
+
 export function setListLectures(code, lectures) {
   return {
     type: SET_LIST_LECTURES,
     code: code,
+    lectures: lectures,
+  };
+}
+
+export function setListMajorLectures(majorCode, lectures) {
+  return {
+    type: SET_LIST_MAJOR_LECTURES,
+    majorCode: majorCode,
     lectures: lectures,
   };
 }
