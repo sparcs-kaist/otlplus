@@ -313,7 +313,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 ListSection.propTypes = {
-  user: userShape.isRequired,
+  user: userShape,
   list: PropTypes.object.isRequired,
   currentList: PropTypes.string.isRequired,
   search: PropTypes.shape({
