@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import axios from '../../../presetAxios';
 import { BASE_URL } from '../../../constants';
-import { openSearch, closeSearch, setCurrentList, setLectureActive , clearLectureActive, addLectureToTimetable, addLectureToCart, deleteLectureFromCart, setListMajorCodes } from '../../../actions/timetable/index';
+import { openSearch, closeSearch, setCurrentList, setLectureActive , clearLectureActive, addLectureToTimetable, addLectureToCart, deleteLectureFromCart, setListMajorCodes, setListMajorLectures } from '../../../actions/timetable/index';
 import Scroller from '../../Scroller';
 import SearchSubSection from './SearchSubSection';
 import CourseLecturesBlock from '../../blocks/CourseLecturesBlock';
@@ -18,6 +18,19 @@ class ListSection extends Component {
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (this.props.user && (this.props.user !== prevProps.user)) {
       this.props.setListMajorCodesDispatch(this.props.user.departments);
+
+      axios.post(`${BASE_URL}/api/timetable/list_load_major`, {
+        year: this.props.year,
+        semester: this.props.semester,
+      })
+        .then((response) => {
+          for (let i = 0, code; (code = this.props.major.codes[i]); i++) {
+            this.props.setListMajorLecturesDispatch(code, response.data.filter(lecture => (lecture.major_code === code)));
+          }
+        })
+        .catch((response) => {
+          console.log(response);
+        });
     }
   }
 
@@ -262,6 +275,8 @@ const mapStateToProps = state => ({
   lectureActiveFrom: state.timetable.lectureActive.from,
   lectureActiveClicked: state.timetable.lectureActive.clicked,
   lectureActiveLecture: state.timetable.lectureActive.lecture,
+  year: state.timetable.semester.year,
+  semester: state.timetable.semester.semester,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -292,6 +307,9 @@ const mapDispatchToProps = dispatch => ({
   setListMajorCodesDispatch: (majors) => {
     dispatch(setListMajorCodes(majors));
   },
+  setListMajorLecturesDispatch: (majorCode, lectures) => {
+    dispatch(setListMajorLectures(majorCode, lectures));
+  },
 });
 
 ListSection.propTypes = {
@@ -315,6 +333,8 @@ ListSection.propTypes = {
   lectureActiveFrom: PropTypes.oneOf([NONE, LIST, TABLE, MULTIPLE]).isRequired,
   lectureActiveClicked: PropTypes.bool.isRequired,
   lectureActiveLecture: lectureShape,
+  year: PropTypes.number.isRequired,
+  semester: PropTypes.number.isRequired,
   openSearchDispatch: PropTypes.func.isRequired,
   closeSearchDispatch: PropTypes.func.isRequired,
   setCurrentListDispatch: PropTypes.func.isRequired,
@@ -324,6 +344,7 @@ ListSection.propTypes = {
   addLectureToCartDispatch: PropTypes.func.isRequired,
   deleteLectureFromCartDispatch: PropTypes.func.isRequired,
   setListMajorCodesDispatch: PropTypes.func.isRequired,
+  setListMajorLecturesDispatch: PropTypes.func.isRequired,
 };
 
 ListSection = connect(mapStateToProps, mapDispatchToProps)(ListSection);
