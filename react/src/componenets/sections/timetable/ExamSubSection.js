@@ -144,7 +144,6 @@ const mapStateToProps = state => ({
   currentTimetable: state.timetable.timetable.currentTimetable,
   lectureActiveLecture: state.timetable.lectureActive.lecture,
   lectureActiveFrom: state.timetable.lectureActive.from,
-  lectureActiveClicked: state.timetable.lectureActive.clicked,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -160,7 +159,6 @@ ExamSubSection.propTypes = {
   currentTimetable: timetableShape.isRequired,
   lectureActiveLecture: lectureShape,
   lectureActiveFrom: PropTypes.oneOf([NONE, LIST, TABLE, MULTIPLE]).isRequired,
-  lectureActiveClicked: PropTypes.bool.isRequired,
   setMultipleDetailDispatch: PropTypes.func.isRequired,
   clearMultipleDetailDispatch: PropTypes.func.isRequired,
 };
