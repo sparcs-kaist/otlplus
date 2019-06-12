@@ -1,4 +1,4 @@
-import { SET_CURRENT_LIST, ADD_LECTURE_TO_CART, DELETE_LECTURE_FROM_CART, SET_LIST_LECTURES } from '../../actions/timetable/index';
+import { SET_CURRENT_LIST, ADD_LECTURE_TO_CART, DELETE_LECTURE_FROM_CART, SET_LIST_LECTURES, SET_LIST_MAJOR_LECTURES } from '../../actions/timetable/index';
 
 
 const initialState = {
@@ -26,32 +26,42 @@ const initialState = {
 };
 
 const list = (state = initialState, action) => {
+  const groupLectures = (lectures) => {
+    if (lectures.length === 0) {
+      return [];
+    }
+
+    const courses = [[lectures[0]]];
+    for (let i = 1, lecture; lectures[i] !== undefined; i++) {
+      lecture = lectures[i];
+      if (lecture.course === courses[courses.length - 1][0].course) {
+        courses[courses.length - 1].push(lecture);
+      }
+      else {
+        courses.push([lecture]);
+      }
+    }
+    return courses;
+  };
+  const newState = {};
+
   switch (action.type) {
     case SET_CURRENT_LIST:
       return Object.assign({}, state, {
         currentList: action.list,
       });
     case SET_LIST_LECTURES:
-      const groupLectures = (lectures) => {
-        if (lectures.length === 0) {
-          return [];
-        }
-
-        const courses = [[lectures[0]]];
-        for (let i = 1, lecture; lectures[i] !== undefined; i++) {
-          lecture = lectures[i];
-          if (lecture.course === courses[courses.length - 1][0].course) {
-            courses[courses.length - 1].push(lecture);
-          }
-          else {
-            courses.push([lecture]);
-          }
-        }
-        return courses;
-      };
-      const newState = {};
       newState[action.code] = {
         ...state[action.code],
+        courses: groupLectures(action.lectures),
+      };
+      return Object.assign({}, state, newState);
+    case SET_LIST_MAJOR_LECTURES:
+      newState.major = {
+        ...state.major,
+      };
+      newState.major[action.majorCode] = {
+        ...newState.major[action.majorCode],
         courses: groupLectures(action.lectures),
       };
       return Object.assign({}, state, newState);
