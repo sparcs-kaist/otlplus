@@ -8,6 +8,9 @@
     "__DEV__": "readonly",
     "FormData": "readonly"
   },
+  "plugins": [
+    "no-loops"
+  ],
   "rules": {
     "jsx-a11y/click-events-have-key-events": 0,
     "jsx-a11y/mouse-events-have-key-events": 0,
@@ -47,6 +50,7 @@
     "no-continue": 1,
     "no-else-return": 1,
     "no-lonely-if": 1,
+    "no-loops/no-loops": "error",
     "no-nested-ternary": 1,
     "no-plusplus": ["error", {"allowForLoopAfterthoughts": true}],
     "no-unused-vars": ["error", {"args": "none"}]
