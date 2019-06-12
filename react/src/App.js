@@ -15,6 +15,7 @@ import MainPage from './pages/MainPage';
 import CreditPage from './pages/CreditPage';
 import LicensePage from './pages/LicensePage';
 
+import { BASE_URL } from './constants';
 import timetableReducer from './reducers/timetable/index';
 import commonReducer from './reducers/user';
 import { setUser } from './actions/user';
@@ -27,7 +28,7 @@ const store = createStore(combineReducers({
 
 class App extends Component {
   componentDidMount() {
-    axios.get('/session/info')
+    axios.get(`${BASE_URL}/session/info`)
       .then((response) => {
         store.dispatch(setUser(response.data));
       })

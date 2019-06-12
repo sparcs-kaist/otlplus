@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import axios from '../../../presetAxios';
+import { BASE_URL } from '../../../constants';
 import TimetableBlock from '../../blocks/TimetableBlock';
 import { dragSearch, setIsDragging, updateCellSize, setLectureActive, clearLectureActive, removeLectureFromTimetable, lectureinfo } from '../../../actions/timetable/index';
 import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureActive';
@@ -174,7 +175,7 @@ class TimetableSubSection extends Component {
   deleteLecture = lecture => (event) => {
     event.stopPropagation();
 
-    axios.post('/api/timetable/table_update', {
+    axios.post(`${BASE_URL}/api/timetable/table_update`, {
       table_id: this.props.currentTimetable.id,
       lecture_id: lecture.id,
       delete: true,
