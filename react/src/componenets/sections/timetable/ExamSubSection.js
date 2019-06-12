@@ -23,17 +23,13 @@ class ExamSubSection extends Component {
       return;
     }
 
-    const lectures = [];
-    const activeLectures = [];
-    for (let i = 0, lecture; lecture = this.props.currentTimetable.lectures[i]; i++) {
-      if (day === lecture.exam.slice(0, 3)) {
-        lectures.push({
-          title: lecture.title,
-          info: lecture.room,
-        });
-        activeLectures.push(lecture);
-      }
-    }
+    const activeLectures = this.props.currentTimetable.lectures.filter(lecture => (
+      day === lecture.exam.slice(0, 3)
+    ));
+    const lectures = activeLectures.map(lecture => ({
+      title: lecture.title,
+      info: lecture.room,
+    }));
     this.props.setMultipleDetailDispatch(`${day} 시험`, lectures);
     this.setState({ activeLectures: activeLectures });
   }
@@ -49,12 +45,12 @@ class ExamSubSection extends Component {
 
   render() {
     const renderLectureExam = (lec) => {
-      let act = '';
-      if (this.props.lectureActiveLecture !== null && this.props.lectureActiveLecture.id === lec.id) act = 'active';
-
-      for (let i = 0, lecture; lecture = this.state.activeLectures[i]; i++) {
-        if (lecture.id === lec.id) act = 'active';
-      }
+      const act = (
+        this.state.activeLectures.some(lecture => (lecture.id === lec.id))
+        || (this.props.lectureActiveLecture !== null && this.props.lectureActiveLecture.id === lec.id)
+          ? 'active'
+          : ''
+      );
       const li = (
         <li className={`exam-elem ${act}`} key={lec.id} data-id={lec.id}>
           <div className="exam-elem-title">
@@ -68,20 +64,17 @@ class ExamSubSection extends Component {
       return li;
     };
 
-    const examTable = [[], [], [], [], []];
-    const codeList = [];
-
-    for (let i = 0, lecture; (lecture = this.props.currentTimetable.lectures[i]); i++) {
-      if (lecture.examtimes.length === 0) {
-        continue;
-      }
-      const day = lecture.examtimes[0].day;
-      const title = lecture.title;
-      const time = lecture.exam.slice(4);
-      const id = lecture.id;
-      examTable[day].push({ title: title, time: time, id: id });
-      codeList.push(lecture.code);
-    }
+    const examWithLectures = this.props.currentTimetable.lectures.filter(lecture => (lecture.examtimes.length > 0));
+    const examTable = [0, 1, 2, 3, 4].map(day => (
+      examWithLectures
+        .filter(lecture => lecture.examtimes[0].day === day)
+        .map(lecture => ({
+          title: lecture.title,
+          time: lecture.exam.slice(4),
+          id: lecture.id,
+        }))
+    ));
+    const codeList = examWithLectures.map(lecture => lecture.code);
 
     const alec = this.props.lectureActiveLecture;
     if (alec !== null && !codeList.includes(alec.code) && alec.examtimes.length !== 0) {

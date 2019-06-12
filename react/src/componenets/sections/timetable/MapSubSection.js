@@ -23,17 +23,13 @@ class MapSubSection extends Component {
       return;
     }
 
-    const lectures = [];
-    const active = [];
-    for (let i = 0, lecture; lecture = this.props.currentTimetable.lectures[i]; i++) {
-      if (lecture.building === building) {
-        lectures.push({
-          title: lecture.title,
-          info: lecture.room,
-        });
-        active.push(lecture);
-      }
-    }
+    const active = this.props.currentTimetable.lectures.filter(lecture => (
+      lecture.building === building
+    ));
+    const lectures = active.map(lecture => ({
+      title: lecture.title,
+      info: lecture.room,
+    }));
     this.props.setMultipleDetailDispatch(building, lectures);
     this.setState({ activeLectures: active });
   }
@@ -49,20 +45,13 @@ class MapSubSection extends Component {
 
   render() {
     const mapObject = {};
-    const codeList = [];
-
-    for (let i = 0, lecture; (lecture = this.props.currentTimetable.lectures[i]); i++) {
-      const building = lecture.building;
-      const color = lecture.course % 16;
-      const id = lecture.id;
-      if (mapObject[building] === undefined) {
-        mapObject[building] = [{ color: color, id: id }];
-      }
-      else {
-        mapObject[building].push({ color: color, id: id });
-      }
-      codeList.push(lecture.code);
-    }
+    const buildings = new Set(this.props.currentTimetable.lectures.map(lecture => lecture.building));
+    buildings.forEach((building) => {
+      mapObject[building] = this.props.currentTimetable.lectures
+        .filter(lecture => (building === lecture.building))
+        .map(lecture => ({ color: (lecture.course % 16), id: lecture.id }));
+    });
+    const codeList = this.props.currentTimetable.lectures.map(lecture => lecture.code);
 
     const activeLecture = this.props.lectureActiveLecture;
     if (activeLecture !== null && !codeList.includes(activeLecture.code)) {
@@ -84,16 +73,12 @@ class MapSubSection extends Component {
         <div id="map-container">
           <img id="map-img" src={mapImage} alt="KAIST Map" />
           { Object.keys(mapObject).map((building) => {
-            let act = '';
-            mapObject[building].map((lec) => {
-              if (activeLecture !== null && activeLecture.id === lec.id) {
-                act = 'active';
-              }
-              for (let i = 0, lecture; lecture = activeLectures[i]; i++) {
-                if (lecture.id === lec.id) act = 'active';
-              }
-              return null;
-            });
+            const act = mapObject[building].some(lec => (
+              (activeLecture !== null && activeLecture.id === lec.id)
+              || activeLectures.some(lecture => (lecture.id === lec.id))
+            ))
+              ? 'active'
+              : '';
             const location = (
               <div
                 className={`map-location ${building}`}
@@ -106,11 +91,9 @@ class MapSubSection extends Component {
                 <div className={`map-location-box ${act}`}>
                   <span className="map-location-text">{building}</span>
                   {mapObject[building].map((lec) => {
-                    let lecAct = '';
-                    for (let i = 0, lecture; lecture = activeLectures[i]; i++) {
-                      if (lecture.id === lec.id) lecAct = 'active';
-                    }
-                    if (activeLecture !== null && activeLecture.id === lec.id) lecAct = 'active';
+                    const lecAct = (activeLecture !== null && activeLecture.id === lec.id) || activeLectures.some(lecture => (lecture.id === lec.id))
+                      ? 'active'
+                      : '';
                     return <span className={`map-location-circle color${lec.color} ${lecAct}`} key={lec.id} data-id={lec.id} />;
                   })}
                 </div>
