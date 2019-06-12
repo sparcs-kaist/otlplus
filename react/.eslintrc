@@ -34,7 +34,6 @@
     "global-require": "off",
     "object-curly-newline": ["error", { "consistent": true }],
     "object-shorthand": 1,
-    "one-var": 1,
     "one-var-declaration-per-line": 1,
     "operator-assignment": 1,
     "react/destructuring-assignment": 1,
@@ -51,7 +50,7 @@
     "no-else-return": 1,
     "no-lonely-if": 1,
     "no-loops/no-loops": "error",
-    "no-nested-ternary": 1,
+    "no-nested-ternary": "off",
     "no-plusplus": ["error", {"allowForLoopAfterthoughts": true}],
     "no-unused-vars": ["error", {"args": "none"}]
   }

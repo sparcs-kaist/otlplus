@@ -64,9 +64,9 @@ class SemesterSubSection extends Component {
     })
       .then((response) => {
         // TODO: cancel if user department is changed between request and response
-        for (let i = 0, code; (code = this.props.listMajor.codes[i]); i++) {
+        this.props.listMajor.codes.forEach((code) => {
           this.props.setListMajorLecturesDispatch(code, response.data.filter(lecture => (lecture.major_code === code)));
-        }
+        });
       })
       .catch((response) => {
         console.log(response);
