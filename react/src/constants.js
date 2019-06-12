@@ -1,1 +1,1 @@
-export const BASE_URL = '/'; // Use Relative URL
+export const BASE_URL = ''; // Use Relative URL
