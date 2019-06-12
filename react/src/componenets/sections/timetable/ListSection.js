@@ -185,7 +185,7 @@ class ListSection extends Component {
       <div id="lecture-lists">
         <div id="list-tab-wrap">
           <button className={`list-tab search${this.props.currentList === 'SEARCH' ? ' active' : ''}`} onClick={() => this.changeTab('SEARCH')}><i className="list-tab-icon" /></button>
-          {['ID', 'CS'].map(code => (
+          {this.props.major.codes.map(code => (
             <button className={`list-tab major${this.props.currentList === code ? ' active' : ''}`} key={code} onClick={() => this.changeTab(code)}><i className="list-tab-icon" /></button>
           ))}
           <button className={`list-tab humanity${this.props.currentList === 'HUMANITY' ? ' active' : ''}`} onClick={() => this.changeTab('HUMANITY')}><i className="list-tab-icon" /></button>
@@ -210,13 +210,13 @@ class ListSection extends Component {
                 )
             }
           </div>
-          {['ID', 'CS'].map(code => (
+          {this.props.major.codes.map(code => (
             <div className={`list-page major-page${this.props.currentList === code ? '' : ' none'}`} key={code}>
               <div className="list-page-title">
-                {`${this.props.list[code].name} 전공`}
+                {`${this.props.major[code].name} 전공`}
               </div>
               <Scroller>
-                {listBlocks(this.props.list[code].courses, false)}
+                {listBlocks(this.props.major[code].courses, false)}
               </Scroller>
             </div>
           ))}
@@ -289,7 +289,9 @@ ListSection.propTypes = {
   search: PropTypes.shape({
     courses: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)).isRequired,
   }).isRequired,
-  major: PropTypes.object,
+  major: PropTypes.shape({
+    codes: PropTypes.arrayOf(PropTypes.string).isRequired,
+  }).isRequired,
   humanity: PropTypes.shape({
     courses: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)).isRequired,
   }).isRequired,

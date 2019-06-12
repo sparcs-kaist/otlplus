@@ -6,13 +6,16 @@ const initialState = {
   search: {
     courses: [],
   },
-  ID: {
-    name: '신압디자인학과',
-    courses: [],
-  },
-  CS: {
-    name: '전산학부',
-    courses: [],
+  major: {
+    codes: ['ID', 'CS'],
+    ID: {
+      name: '신압디자인학과',
+      courses: [],
+    },
+    CS: {
+      name: '전산학부',
+      courses: [],
+    },
   },
   humanity: {
     courses: [],
