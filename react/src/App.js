@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
-import axios from 'axios';
 import 'bootstrap';
 
 import './static/css/bootstrap.min.css';
@@ -15,6 +14,7 @@ import MainPage from './pages/MainPage';
 import CreditPage from './pages/CreditPage';
 import LicensePage from './pages/LicensePage';
 
+import axios from './presetAxios';
 import { BASE_URL } from './constants';
 import timetableReducer from './reducers/timetable/index';
 import commonReducer from './reducers/user';
