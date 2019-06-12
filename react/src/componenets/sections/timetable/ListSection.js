@@ -17,13 +17,13 @@ class ListSection extends Component {
   _isClicked = lecture => (
     this.props.lectureActiveFrom === LIST
     && this.props.lectureActiveClicked === true
-    && this.props.activeLecture.id === lecture.id
+    && this.props.lectureActiveLecture.id === lecture.id
   )
 
   _isHover = lecture => (
     this.props.lectureActiveFrom === LIST
     && this.props.lectureActiveClicked === false
-    && this.props.activeLecture.id === lecture.id
+    && this.props.lectureActiveLecture.id === lecture.id
   )
 
   changeTab = (list) => {
@@ -254,7 +254,6 @@ const mapStateToProps = state => ({
   lectureActiveFrom: state.timetable.lectureActive.from,
   lectureActiveClicked: state.timetable.lectureActive.clicked,
   lectureActiveLecture: state.timetable.lectureActive.lecture,
-  activeLecture: state.timetable.lectureActive.lecture,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -302,7 +301,6 @@ ListSection.propTypes = {
   lectureActiveFrom: PropTypes.oneOf([NONE, LIST, TABLE, MULTIPLE]).isRequired,
   lectureActiveClicked: PropTypes.bool.isRequired,
   lectureActiveLecture: lectureShape,
-  activeLecture: lectureShape,
   openSearchDispatch: PropTypes.func.isRequired,
   closeSearchDispatch: PropTypes.func.isRequired,
   setCurrentListDispatch: PropTypes.func.isRequired,

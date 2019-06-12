@@ -106,7 +106,7 @@ class SearchFilter extends Component {
   }
 }
 
-SearchCircle.propTypes = {
+SearchFilter.propTypes = {
   clickCircle: PropTypes.func.isRequired,
   inputName: PropTypes.string.isRequired,
   titleName: PropTypes.string.isRequired,

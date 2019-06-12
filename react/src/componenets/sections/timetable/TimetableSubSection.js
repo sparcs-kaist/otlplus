@@ -25,9 +25,9 @@ class TimetableSubSection extends Component {
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.lectureActive.from === LIST && !nextProps.lectureActive.clicked) {
+    if (nextProps.lectureActiveFrom === LIST && !nextProps.lectureActiveClicked) {
     }
-    else if (nextProps.lectureActive.from === NONE) {
+    else if (nextProps.lectureActiveFrom === NONE) {
     }
     return null;
   }
@@ -372,14 +372,12 @@ class TimetableSubSection extends Component {
 
 const mapStateToProps = state => ({
   currentTimetable: state.timetable.timetable.currentTimetable,
-  lectureActive: state.timetable.lectureActive,
   lectureActiveFrom: state.timetable.lectureActive.from,
   lectureActiveClicked: state.timetable.lectureActive.clicked,
   lectureActiveLecture: state.timetable.lectureActive.lecture,
   cellWidth: state.timetable.timetable.cellWidth,
   cellHeight: state.timetable.timetable.cellHeight,
   isDragging: state.timetable.timetable.isDragging,
-  showLectureInfoFlag: state.timetable.mobile.showLectureInfoFlag,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -408,14 +406,12 @@ const mapDispatchToProps = dispatch => ({
 
 TimetableSubSection.propTypes = {
   currentTimetable: timetableShape.isRequired,
-  lectureActive: PropTypes.object.isRequired,
   lectureActiveFrom: PropTypes.oneOf([NONE, LIST, TABLE, MULTIPLE]).isRequired,
   lectureActiveClicked: PropTypes.bool.isRequired,
   lectureActiveLecture: lectureShape,
   cellWidth: PropTypes.number.isRequired,
   cellHeight: PropTypes.number.isRequired,
   isDragging: PropTypes.bool.isRequired,
-  showLectureInfoFlag: PropTypes.bool.isRequired,
   updateCellSizeDispatch: PropTypes.func.isRequired,
   dragSearchDispatch: PropTypes.func.isRequired,
   setIsDraggingDispatch: PropTypes.func.isRequired,
