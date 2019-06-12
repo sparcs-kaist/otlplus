@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+
 import axios from '../presetAxios';
+import { BASE_URL } from '../constants';
 
 
 class TestPage extends Component {
   componentDidMount() {
-    axios.post('/read', {
+    axios.post(`${BASE_URL}/read`, {
       id: 70,
     })
       .then((response) => {
@@ -13,7 +15,7 @@ class TestPage extends Component {
       .catch((response) => {
         console.log(response);
       });
-    axios.post('/api/main/academic_schedule_load/', {
+    axios.post(`${BASE_URL}/api/main/academic_schedule_load/`, {
       year: 2018,
       semester: 3,
     })
@@ -25,7 +27,7 @@ class TestPage extends Component {
         console.log('error');
         console.log(response);
       });
-    axios.post('/api/main/did_you_know', {
+    axios.post(`${BASE_URL}/api/main/did_you_know`, {
     })
       .then((response) => {
         console.log('not error');
