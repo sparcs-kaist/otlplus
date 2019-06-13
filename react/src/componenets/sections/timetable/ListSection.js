@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import axios from '../../../presetAxios';
 import { BASE_URL } from '../../../constants';
-import { openSearch, closeSearch, setCurrentList, setLectureActive, clearLectureActive, addLectureToTimetable, addLectureToCart, deleteLectureFromCart, setListMajorCodes, setListMajorLectures } from '../../../actions/timetable/index';
+import { openSearch, setLectureActive, clearLectureActive, addLectureToTimetable, addLectureToCart, deleteLectureFromCart, setListMajorCodes, setListMajorLectures } from '../../../actions/timetable/index';
 import Scroller from '../../Scroller';
 import SearchSubSection from './SearchSubSection';
 import CourseLecturesBlock from '../../blocks/CourseLecturesBlock';
@@ -44,21 +44,6 @@ class ListSection extends Component {
     && this.props.lectureActiveClicked === false
     && this.props.lectureActiveLecture.id === lecture.id
   )
-
-  changeTab = (list) => {
-    this.props.setCurrentListDispatch(list);
-
-    if (list === 'SEARCH' && this.props.search.courses.length === 0) {
-      this.props.openSearchDispatch();
-    }
-    else {
-      this.props.closeSearchDispatch();
-    }
-
-    if (this.props.lectureActiveFrom === LIST) {
-      this.props.clearLectureActiveDispatch();
-    }
-  }
 
   showSearch = () => {
     this.props.openSearchDispatch();
@@ -194,18 +179,9 @@ class ListSection extends Component {
     };
 
     return (
-      <div id="lecture-lists">
-        <div id="list-tab-wrap">
-          <button className={`list-tab search${this.props.currentList === 'SEARCH' ? ' active' : ''}`} onClick={() => this.changeTab('SEARCH')}><i className="list-tab-icon" /></button>
-          {this.props.major.codes.map(code => (
-            <button className={`list-tab major${this.props.currentList === code ? ' active' : ''}`} key={code} onClick={() => this.changeTab(code)}><i className="list-tab-icon" /></button>
-          ))}
-          <button className={`list-tab humanity${this.props.currentList === 'HUMANITY' ? ' active' : ''}`} onClick={() => this.changeTab('HUMANITY')}><i className="list-tab-icon" /></button>
-          <button className={`list-tab cart${this.props.currentList === 'CART' ? ' active' : ''}`} onClick={() => this.changeTab('CART')}><i className="list-tab-icon" /></button>
-        </div>
-        <div id="list-page-wrap">
-          { (this.props.currentList === 'SEARCH')
-            ? (
+      <div id="list-page-wrap">
+        { (this.props.currentList === 'SEARCH')
+          ? (
           // eslint-disable-next-line react/jsx-indent
           <div className="list-page search-page">
             <SearchSubSection />
@@ -217,11 +193,11 @@ class ListSection extends Component {
               {listBlocks(this.props.search.courses, false)}
             </Scroller>
           </div>
-            )
-            : null
-          }
-          { (this.props.major.codes.some(code => (this.props.currentList === code)))
-            ? (
+          )
+          : null
+        }
+        { (this.props.major.codes.some(code => (this.props.currentList === code)))
+          ? (
             // eslint-disable-next-line react/jsx-indent
             <div className="list-page major-page">
               <div className="list-page-title">
@@ -231,11 +207,11 @@ class ListSection extends Component {
                 {listBlocks(this.props.major[this.props.currentList].courses, false)}
               </Scroller>
             </div>
-            )
-            : null
-          }
-          { (this.props.currentList === 'HUMANITY')
-            ? (
+          )
+          : null
+        }
+        { (this.props.currentList === 'HUMANITY')
+          ? (
           // eslint-disable-next-line react/jsx-indent
           <div className="list-page humanity-page">
             <div className="list-page-title">
@@ -245,11 +221,11 @@ class ListSection extends Component {
               {listBlocks(this.props.humanity.courses, false)}
             </Scroller>
           </div>
-            )
-            : null
-          }
-          { (this.props.currentList === 'CART')
-            ? (
+          )
+          : null
+        }
+        { (this.props.currentList === 'CART')
+          ? (
           // eslint-disable-next-line react/jsx-indent
           <div className="list-page cart-page">
             <div className="list-page-title">
@@ -259,10 +235,9 @@ class ListSection extends Component {
               {listBlocks(this.props.cart.courses, true)}
             </Scroller>
           </div>
-            )
-            : null
-          }
-        </div>
+          )
+          : null
+        }
       </div>
     );
   }
@@ -270,7 +245,6 @@ class ListSection extends Component {
 
 const mapStateToProps = state => ({
   user: state.common.user,
-  list: state.timetable.list,
   currentList: state.timetable.list.currentList,
   search: state.timetable.list.search,
   major: state.timetable.list.major,
@@ -287,12 +261,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   openSearchDispatch: () => {
     dispatch(openSearch());
-  },
-  closeSearchDispatch: () => {
-    dispatch(closeSearch());
-  },
-  setCurrentListDispatch: (list) => {
-    dispatch(setCurrentList(list));
   },
   setLectureActiveDispatch: (lecture, from, clicked) => {
     dispatch(setLectureActive(lecture, from, clicked));
@@ -339,8 +307,6 @@ ListSection.propTypes = {
   year: PropTypes.number.isRequired,
   semester: PropTypes.number.isRequired,
   openSearchDispatch: PropTypes.func.isRequired,
-  closeSearchDispatch: PropTypes.func.isRequired,
-  setCurrentListDispatch: PropTypes.func.isRequired,
   setLectureActiveDispatch: PropTypes.func.isRequired,
   clearLectureActiveDispatch: PropTypes.func.isRequired,
   addLectureToTimetableDispatch: PropTypes.func.isRequired,
