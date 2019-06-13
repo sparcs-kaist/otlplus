@@ -206,21 +206,13 @@ class ListSection extends Component {
         <div id="list-page-wrap">
           <div className={`list-page search-page${this.props.currentList === 'SEARCH' ? '' : ' none'}`}>
             <SearchSubSection />
-            {
-              this.props.open
-                ? null
-                : (
-                  <>
-                    <div className="list-page-title search-page-title" onClick={() => this.showSearch()}>
-                      <i className="search-page-title-icon" />
-                      <div className="search-page-title-text">검색</div>
-                    </div>
-                    <Scroller>
-                      {listBlocks(this.props.search.courses, false)}
-                    </Scroller>
-                  </>
-                )
-            }
+            <div className="list-page-title search-page-title" onClick={() => this.showSearch()}>
+              <i className="search-page-title-icon" />
+              <div className="search-page-title-text">검색</div>
+            </div>
+            <Scroller>
+              {listBlocks(this.props.search.courses, false)}
+            </Scroller>
           </div>
           {this.props.major.codes.map(code => (
             <div className={`list-page major-page${this.props.currentList === code ? '' : ' none'}`} key={code}>
@@ -262,7 +254,6 @@ const mapStateToProps = state => ({
   major: state.timetable.list.major,
   humanity: state.timetable.list.humanity,
   cart: state.timetable.list.cart,
-  open: state.timetable.search.open,
   currentTimetable: state.timetable.timetable.currentTimetable,
   lectureActiveFrom: state.timetable.lectureActive.from,
   lectureActiveClicked: state.timetable.lectureActive.clicked,
@@ -319,7 +310,6 @@ ListSection.propTypes = {
   cart: PropTypes.shape({
     courses: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)).isRequired,
   }).isRequired,
-  open: PropTypes.bool.isRequired,
   currentTimetable: timetableShape.isRequired,
   lectureActiveFrom: PropTypes.oneOf([NONE, LIST, TABLE, MULTIPLE]).isRequired,
   lectureActiveClicked: PropTypes.bool.isRequired,

@@ -121,7 +121,7 @@ class SearchSubSection extends Component {
 
   render() {
     if (!this.props.open) {
-      return <div />;
+      return null;
     }
     else {
       const { inputVal, autoComplete } = this.state;
