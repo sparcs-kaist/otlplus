@@ -3,15 +3,17 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import axios from '../../../presetAxios';
+import { inTimetable, inCart, isListClicked, isListHover } from '../../../common/lectureFunctions';
 import { BASE_URL } from '../../../constants';
 import { openSearch, setLectureActive, clearLectureActive, addLectureToTimetable, addLectureToCart, deleteLectureFromCart, setListMajorCodes, setListMajorLectures } from '../../../actions/timetable/index';
 import Scroller from '../../Scroller';
 import SearchSubSection from './SearchSubSection';
 import CourseLecturesBlock from '../../blocks/CourseLecturesBlock';
-import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureActive';
+import { LIST } from '../../../reducers/timetable/lectureActive';
 import userShape from '../../../shapes/userShape';
 import lectureShape from '../../../shapes/lectureShape';
 import timetableShape from '../../../shapes/timetableShape';
+import lectureActiveShape from '../../../shapes/lectureActiveShape';
 
 
 class ListSection extends Component {
@@ -32,18 +34,6 @@ class ListSection extends Component {
         });
     }
   }
-
-  _isClicked = lecture => (
-    this.props.lectureActiveFrom === LIST
-    && this.props.lectureActiveClicked === true
-    && this.props.lectureActiveLecture.id === lecture.id
-  )
-
-  _isHover = lecture => (
-    this.props.lectureActiveFrom === LIST
-    && this.props.lectureActiveClicked === false
-    && this.props.lectureActiveLecture.id === lecture.id
-  )
 
   showSearch = () => {
     this.props.openSearchDispatch();
@@ -117,7 +107,7 @@ class ListSection extends Component {
   }
 
   listClick = lecture => () => {
-    if (!this._isClicked(lecture)) {
+    if (!isListClicked(lecture, this.props.lectureActive)) {
       this.props.setLectureActiveDispatch(lecture, 'LIST', true);
     }
     else {
@@ -126,26 +116,12 @@ class ListSection extends Component {
   }
 
   render() {
-    const inTimetable = (lecture) => {
-      return this.props.currentTimetable.lectures.some(l => (
-        l.id === lecture.id
-      ));
-    };
-
-    const inCart = (lecture) => {
-      return this.props.cart.courses.some(course => (
-        course.some(cartLecture => (
-          cartLecture.id === lecture.id
-        ))
-      ));
-    };
-
     const listBlocks = (courses, fromCart) => {
       if (courses.length === 0) {
         return <div className="list-loading">결과 없음</div>;
       }
       return courses.map(course => (
-        <div className={`list-elem${course.some(lecture => this._isClicked(lecture)) ? ' click' : ''}`} key={course[0].course}>
+        <div className={`list-elem${course.some(lecture => isListClicked(lecture, this.props.lectureActive)) ? ' click' : ''}`} key={course[0].course}>
           <div className="list-elem-title">
             <strong>{course[0].common_title}</strong>
             &nbsp;
@@ -155,10 +131,10 @@ class ListSection extends Component {
             <CourseLecturesBlock
               lecture={lecture}
               key={lecture.id}
-              isClicked={this._isClicked(lecture)}
-              isHover={this._isHover(lecture)}
-              inTimetable={inTimetable(lecture)}
-              inCart={inCart(lecture)}
+              isClicked={isListClicked(lecture, this.props.lectureActive)}
+              isHover={isListHover(lecture, this.props.lectureActive)}
+              inTimetable={inTimetable(lecture, this.props.currentTimetable)}
+              inCart={inCart(lecture, this.props.cart)}
               fromCart={fromCart}
               addToCart={this.addToCart}
               addToTable={this.addToTable}
@@ -243,9 +219,8 @@ const mapStateToProps = state => ({
   humanity: state.timetable.list.humanity,
   cart: state.timetable.list.cart,
   currentTimetable: state.timetable.timetable.currentTimetable,
-  lectureActiveFrom: state.timetable.lectureActive.from,
+  lectureActive: state.timetable.lectureActive,
   lectureActiveClicked: state.timetable.lectureActive.clicked,
-  lectureActiveLecture: state.timetable.lectureActive.lecture,
   year: state.timetable.semester.year,
   semester: state.timetable.semester.semester,
 });
@@ -293,9 +268,8 @@ ListSection.propTypes = {
     courses: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)).isRequired,
   }).isRequired,
   currentTimetable: timetableShape.isRequired,
-  lectureActiveFrom: PropTypes.oneOf([NONE, LIST, TABLE, MULTIPLE]).isRequired,
+  lectureActive: lectureActiveShape.isRequired,
   lectureActiveClicked: PropTypes.bool.isRequired,
-  lectureActiveLecture: lectureShape,
   year: PropTypes.number.isRequired,
   semester: PropTypes.number.isRequired,
   openSearchDispatch: PropTypes.func.isRequired,
