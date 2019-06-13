@@ -20,6 +20,7 @@ const TimetableBlock = (props) => {
   }
 
   return (
+      // eslint-disable-next-line react/jsx-indent
       <div
         className={`lecture-block color${props.lecture.course % 16}${activeType}`}
         style={{
@@ -53,7 +54,7 @@ const TimetableBlock = (props) => {
 
 TimetableBlock.propTypes = {
   lecture: lectureShape.isRequired,
-  classTime: classtimeShape,
+  classtime: classtimeShape,
   cellWidth: PropTypes.number.isRequired,
   cellHeight: PropTypes.number.isRequired,
   isClicked: PropTypes.bool.isRequired,

@@ -3,6 +3,7 @@ import React from 'react';
 
 const CourseSimpleBlock = (props) => {
   return (
+      // eslint-disable-next-line react/jsx-indent
       <div className="block block--course-simple">
         <div className="block--course-simple__title">
           문제해결기법

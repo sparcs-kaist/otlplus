@@ -42,7 +42,6 @@ class SemesterSubSection extends Component {
         this._semesterChanged(response.data.current_year, response.data.current_semester);
       })
       .catch((response) => {
-        console.log(response);
       });
   }
 
@@ -55,7 +54,6 @@ class SemesterSubSection extends Component {
         this.props.setTimetablesDispatch(response.data);
       })
       .catch((response) => {
-        console.log(response);
       });
 
     axios.post(`${BASE_URL}/api/timetable/list_load_major`, {
@@ -69,7 +67,6 @@ class SemesterSubSection extends Component {
         });
       })
       .catch((response) => {
-        console.log(response);
       });
 
     axios.post(`${BASE_URL}/api/timetable/list_load_humanity`, {
@@ -80,7 +77,6 @@ class SemesterSubSection extends Component {
         this.props.setListLecturesDispatch('humanity', response.data);
       })
       .catch((response) => {
-        console.log(response);
       });
 
     axios.post(`${BASE_URL}/api/timetable/wishlist_load`, {
@@ -91,7 +87,6 @@ class SemesterSubSection extends Component {
         this.props.setListLecturesDispatch('cart', response.data);
       })
       .catch((response) => {
-        console.log(response);
       });
   }
 

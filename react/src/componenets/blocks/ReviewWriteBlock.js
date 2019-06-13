@@ -3,6 +3,7 @@ import React from 'react';
 
 const ReviewWriteBlock = (props) => {
   return (
+      // eslint-disable-next-line react/jsx-indent
       <form className="block block--review-write">
         <div className="block--review-write__title">
           <strong>데이타구조</strong>
