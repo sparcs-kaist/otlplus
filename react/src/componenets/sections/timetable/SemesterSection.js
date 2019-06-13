@@ -14,7 +14,7 @@ const semesterName = {
   4: '겨울',
 };
 
-class SemesterSubSection extends Component {
+class SemesterSection extends Component {
   constructor(props) {
     super(props);
 
@@ -165,7 +165,7 @@ const mapDispatchToProps = dispatch => ({
   },
 });
 
-SemesterSubSection.propTypes = {
+SemesterSection.propTypes = {
   year: PropTypes.number.isRequired,
   semester: PropTypes.number.isRequired,
   listMajor: PropTypes.shape({
@@ -177,6 +177,6 @@ SemesterSubSection.propTypes = {
   setListMajorLecturesDispatch: PropTypes.func.isRequired,
 };
 
-SemesterSubSection = connect(mapStateToProps, mapDispatchToProps)(SemesterSubSection);
+SemesterSection = connect(mapStateToProps, mapDispatchToProps)(SemesterSection);
 
-export default SemesterSubSection;
+export default SemesterSection;
