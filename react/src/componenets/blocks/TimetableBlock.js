@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { pure } from 'recompose';
 
 import lectureShape from '../../shapes/lectureShape';
 import classtimeShape from '../../shapes/classtimeShape';
@@ -67,4 +68,4 @@ TimetableBlock.propTypes = {
   deleteLecture: PropTypes.func.isRequired,
 };
 
-export default TimetableBlock;
+export default pure(TimetableBlock);
