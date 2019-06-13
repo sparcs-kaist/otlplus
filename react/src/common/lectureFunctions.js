@@ -24,3 +24,15 @@ export const isListHover = (lecture, lectureActive) => (
   && lectureActive.clicked === false
   && lectureActive.lecture.id === lecture.id
 );
+
+export const isTableClicked = (lecture, lectureActive) => (
+  lectureActive.from === TABLE
+  && lectureActive.clicked === true
+  && lectureActive.lecture.id === lecture.id
+);
+
+export const isTableHover = (lecture, lectureActive) => (
+  lectureActive.from === TABLE
+  && lectureActive.clicked === false
+  && lectureActive.lecture.id === lecture.id
+);

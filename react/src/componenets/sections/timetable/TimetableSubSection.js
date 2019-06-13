@@ -3,12 +3,14 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import axios from '../../../presetAxios';
+import { inTimetable, isListHover, isTableClicked, isTableHover } from '../../../common/lectureFunctions';
 import { BASE_URL } from '../../../constants';
 import TimetableBlock from '../../blocks/TimetableBlock';
 import { dragSearch, setIsDragging, updateCellSize, setLectureActive, clearLectureActive, removeLectureFromTimetable, lectureinfo } from '../../../actions/timetable/index';
 import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureActive';
 import lectureShape from '../../../shapes/lectureShape';
 import timetableShape from '../../../shapes/timetableShape';
+import lectureActiveShape from '../../../shapes/lectureActiveShape';
 
 
 class TimetableSubSection extends Component {
@@ -118,24 +120,6 @@ class TimetableSubSection extends Component {
     this.setState({ firstBlock: null, secondBlock: null, height: 0 });
   }
 
-  _isClicked = lecture => (
-    this.props.lectureActiveClicked
-    && this.props.lectureActiveFrom === 'TABLE'
-    && this.props.lectureActiveLecture.id === lecture.id
-  )
-
-  _isHover = lecture => (
-    !this.props.lectureActiveClicked
-    && this.props.lectureActiveFrom === 'TABLE'
-    && this.props.lectureActiveLecture.id === lecture.id
-  )
-
-  _isListHover = lecture => (
-    !this.props.lectureActiveClicked
-    && this.props.lectureActiveFrom === 'LIST'
-    && this.props.lectureActiveLecture.id === lecture.id
-  )
-
   blockHover = lecture => () => {
     if (!this.props.lectureActiveClicked && !this.props.isDragging) {
       this.props.setLectureActiveDispatch(lecture, 'TABLE', false);
@@ -149,7 +133,7 @@ class TimetableSubSection extends Component {
   }
 
   blockClick = lecture => () => {
-    if (this._isClicked(lecture)) {
+    if (isTableClicked(lecture, this.props.lectureActive)) {
       this.props.setLectureActiveDispatch(lecture, 'TABLE', false);
       this.props.lectureinfoDispatch();
     }
@@ -184,9 +168,9 @@ class TimetableSubSection extends Component {
             classtime={classtime}
             cellWidth={this.props.cellWidth}
             cellHeight={this.props.cellHeight}
-            isClicked={this._isClicked(lecture)}
-            isHover={this._isHover(lecture)}
-            isListHover={this._isListHover(lecture)}
+            isClicked={isTableClicked(lecture, this.props.lectureActive)}
+            isHover={isTableHover(lecture, this.props.lectureActive)}
+            isListHover={isListHover(lecture, this.props.lectureActive)}
             isTemp={false}
             blockHover={this.blockHover}
             blockOut={this.blockOut}
@@ -325,7 +309,7 @@ class TimetableSubSection extends Component {
           (
             this.props.lectureActiveFrom === LIST
             && this.props.lectureActiveClicked === false
-            && !this.props.currentTimetable.lectures.some(lecture => (lecture.id === this.props.lectureActiveLecture.id))
+            && !inTimetable(this.props.lectureActiveLecture, this.props.currentTimetable)
           )
             ? (
               this.props.lectureActiveLecture.classtimes.map(classtime => (
@@ -335,9 +319,9 @@ class TimetableSubSection extends Component {
                   classtime={classtime}
                   cellWidth={this.props.cellWidth}
                   cellHeight={this.props.cellHeight}
-                  isClicked={this._isClicked(this.props.lectureActiveLecture)}
-                  isHover={this._isHover(this.props.lectureActiveLecture)}
-                  isListHover={this._isListHover(this.props.lectureActiveLecture)}
+                  isClicked={isTableClicked(this.props.lectureActiveLecture, this.props.lectureActive)}
+                  isHover={isTableHover(this.props.lectureActiveLecture, this.props.lectureActive)}
+                  isListHover={isListHover(this.props.lectureActiveLecture, this.props.lectureActive)}
                   isTemp={true}
                   blockHover={this.blockHover}
                   blockOut={this.blockOut}
@@ -357,6 +341,7 @@ class TimetableSubSection extends Component {
 
 const mapStateToProps = state => ({
   currentTimetable: state.timetable.timetable.currentTimetable,
+  lectureActive: state.timetable.lectureActive,
   lectureActiveFrom: state.timetable.lectureActive.from,
   lectureActiveClicked: state.timetable.lectureActive.clicked,
   lectureActiveLecture: state.timetable.lectureActive.lecture,
@@ -391,6 +376,7 @@ const mapDispatchToProps = dispatch => ({
 
 TimetableSubSection.propTypes = {
   currentTimetable: timetableShape.isRequired,
+  lectureActive: lectureActiveShape.isRequired,
   lectureActiveFrom: PropTypes.oneOf([NONE, LIST, TABLE, MULTIPLE]).isRequired,
   lectureActiveClicked: PropTypes.bool.isRequired,
   lectureActiveLecture: lectureShape,
