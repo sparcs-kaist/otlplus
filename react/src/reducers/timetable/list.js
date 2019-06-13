@@ -74,20 +74,20 @@ const list = (state = initialState, action) => {
         const j = courses[i].findIndex(lecture => (lecture.class_no > action.lecture.class_no));
         if (j !== -1) {
           courses[i].splice(j, 0, action.lecture);
-         }
-         else {
+        }
+        else {
           courses[i].push(action.lecture);
-         }
-       }
+        }
+      }
       else {
         const ii = courses.findIndex(course => (course[0].old_code > action.lecture.old_code));
         if (ii !== -1) {
           courses.splice(ii, 0, [action.lecture]);
-         }
-         else {
+        }
+        else {
           courses.push([action.lecture]);
-         }
-       }
+        }
+      }
       return Object.assign({}, state, {
         cart: {
           courses: courses,

@@ -33,7 +33,6 @@ class App extends Component {
         store.dispatch(setUser(response.data));
       })
       .catch((response) => {
-        console.log(response);
       });
   }
 
