@@ -204,7 +204,10 @@ class ListSection extends Component {
           <button className={`list-tab cart${this.props.currentList === 'CART' ? ' active' : ''}`} onClick={() => this.changeTab('CART')}><i className="list-tab-icon" /></button>
         </div>
         <div id="list-page-wrap">
-          <div className={`list-page search-page${this.props.currentList === 'SEARCH' ? '' : ' none'}`}>
+          { (this.props.currentList === 'SEARCH')
+            ? (
+          // eslint-disable-next-line react/jsx-indent
+          <div className="list-page search-page">
             <SearchSubSection />
             <div className="list-page-title search-page-title" onClick={() => this.showSearch()}>
               <i className="search-page-title-icon" />
@@ -214,17 +217,27 @@ class ListSection extends Component {
               {listBlocks(this.props.search.courses, false)}
             </Scroller>
           </div>
-          {this.props.major.codes.map(code => (
-            <div className={`list-page major-page${this.props.currentList === code ? '' : ' none'}`} key={code}>
+            )
+            : null
+          }
+          { (this.props.major.codes.some(code => (this.props.currentList === code)))
+            ? (
+            // eslint-disable-next-line react/jsx-indent
+            <div className="list-page major-page">
               <div className="list-page-title">
-                {this.props.major[code].name}
+                {this.props.major[this.props.currentList].name}
               </div>
               <Scroller>
-                {listBlocks(this.props.major[code].courses, false)}
+                {listBlocks(this.props.major[this.props.currentList].courses, false)}
               </Scroller>
             </div>
-          ))}
-          <div className={`list-page humanity-page${this.props.currentList === 'HUMANITY' ? '' : ' none'}`}>
+            )
+            : null
+          }
+          { (this.props.currentList === 'HUMANITY')
+            ? (
+          // eslint-disable-next-line react/jsx-indent
+          <div className="list-page humanity-page">
             <div className="list-page-title">
               인문사회선택
             </div>
@@ -232,7 +245,13 @@ class ListSection extends Component {
               {listBlocks(this.props.humanity.courses, false)}
             </Scroller>
           </div>
-          <div className={`list-page cart-page${this.props.currentList === 'CART' ? '' : ' none'}`}>
+            )
+            : null
+          }
+          { (this.props.currentList === 'CART')
+            ? (
+          // eslint-disable-next-line react/jsx-indent
+          <div className="list-page cart-page">
             <div className="list-page-title">
               장바구니
             </div>
@@ -240,6 +259,9 @@ class ListSection extends Component {
               {listBlocks(this.props.cart.courses, true)}
             </Scroller>
           </div>
+            )
+            : null
+          }
         </div>
       </div>
     );
