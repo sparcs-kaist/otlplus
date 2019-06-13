@@ -24,9 +24,9 @@ class ListSection extends Component {
         semester: this.props.semester,
       })
         .then((response) => {
-          for (let i = 0, code; (code = this.props.major.codes[i]); i++) {
+          this.props.major.codes.forEach((code) => {
             this.props.setListMajorLecturesDispatch(code, response.data.filter(lecture => (lecture.major_code === code)));
-          }
+          });
         })
         .catch((response) => {
           console.log(response);
@@ -67,15 +67,17 @@ class ListSection extends Component {
 
   addToTable = lecture => (event) => {
     event.stopPropagation();
-    for (let i = 0, thisClasstime; (thisClasstime = lecture.classtimes[i]); i++) {
-      for (let j = 0, lecture; (lecture = this.props.currentTimetable.lectures[j]); j++) {
-        for (let k = 0, classtime; (classtime = lecture.classtimes[k]); k++) {
-          if ((classtime.day === thisClasstime.day) && (classtime.begin < thisClasstime.end) && (classtime.end > thisClasstime.begin)) {
-            alert(false ? "You can't add lecture overlapping." : '시간표가 겹치는 과목은 추가할 수 없습니다.');
-            return;
-          }
-        }
-      }
+    if (
+      lecture.classtimes.some(thisClasstime => (
+        this.props.currentTimetable.lectures.some(lecture => (
+          lecture.classtimes.some(classtime => (
+            (classtime.day === thisClasstime.day) && (classtime.begin < thisClasstime.end) && (classtime.end > thisClasstime.begin)
+          ))
+        ))
+      ))
+    ) {
+      alert(false ? "You can't add lecture overlapping." : '시간표가 겹치는 과목은 추가할 수 없습니다.');
+      return;
     }
 
     axios.post(`${BASE_URL}/api/timetable/table_update`, {
@@ -144,23 +146,17 @@ class ListSection extends Component {
 
   render() {
     const inTimetable = (lecture) => {
-      for (let i = 0; i < this.props.currentTimetable.lectures.length; i++) {
-        if (this.props.currentTimetable.lectures[i].id === lecture.id) {
-          return true;
-        }
-      }
-      return false;
+      return this.props.currentTimetable.lectures.some(l => (
+        l.id === lecture.id
+      ));
     };
 
     const inCart = (lecture) => {
-      for (let i = 0, course; (course = this.props.cart.courses[i]); i++) {
-        for (let j = 0, cartLecture; (cartLecture = course[j]); j++) {
-          if (cartLecture.id === lecture.id) {
-            return true;
-          }
-        }
-      }
-      return false;
+      return this.props.cart.courses.some(course => (
+        course.some(cartLecture => (
+          cartLecture.id === lecture.id
+        ))
+      ));
     };
 
     const mapLecture = fromCart => lecture => (

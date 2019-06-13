@@ -33,28 +33,12 @@ class SummarySubSection extends Component {
       return;
     }
 
-    const lectures = [];
-
-    for (let i = 0; i < this.props.currentTimetable.lectures.length; i++) {
-      const lecture = this.props.currentTimetable.lectures[i];
-
-      if (indexOfType(lecture.type_en) !== indexOfType(type)) {
-        continue;
-      }
-
-      if (lecture.credit > 0) {
-        lectures.push({
-          title: lecture.title,
-          info: `${lecture.credit.toString()}학점`,
-        });
-      }
-      if (lecture.credit_au > 0) {
-        lectures.push({
-          title: lecture.title,
-          info: `${lecture.credit_au.toString()}AU`,
-        });
-      }
-    }
+    const lectures = this.props.currentTimetable.lectures
+      .filter(lecture => (indexOfType(lecture.type_en) === indexOfType(type)))
+      .map(lecture => ({
+        title: lecture.title,
+        info: (lecture.credit > 0) ? `${lecture.credit.toString()}학점` : `${lecture.credit_au.toString()}AU`,
+      }));
     this.props.setMultipleDetailDispatch(type, lectures);
     this.setState({ active: type });
   }
@@ -64,21 +48,27 @@ class SummarySubSection extends Component {
       return;
     }
 
-    const lectures = [];
-    for (let i = 0, lecture; lecture = this.props.currentTimetable.lectures[i]; i++) {
-      if (type === 'Credit' && lecture.credit > 0) {
-        lectures.push({
-          title: lecture.title,
-          info: `${lecture.credit.toString()}학점`,
-        });
-      }
-      if (type === 'Credit AU' && lecture.credit_au > 0) {
-        lectures.push({
-          title: lecture.title,
-          info: `${lecture.credit.toString()}AU`,
-        });
-      }
-    }
+    const lectures = (type === 'Credit')
+      ? (
+        this.props.currentTimetable.lectures
+          .filter(lecture => (lecture.credit > 0))
+          .map(lecture => ({
+            title: lecture.title,
+            info: `${lecture.credit.toString()}학점`,
+          }))
+      )
+      : (
+        (type === 'Credit AU')
+          ? (
+            this.props.currentTimetable.lectures
+              .filter(lecture => (lecture.credit_au > 0))
+              .map(lecture => ({
+                title: lecture.title,
+                info: `${lecture.credit.toString()}AU`,
+              }))
+          )
+          : []
+      );
     this.props.setMultipleDetailDispatch(type, lectures);
     this.setState({ active: type });
   }
@@ -88,27 +78,20 @@ class SummarySubSection extends Component {
       return;
     }
 
-    const lectures = [];
-    for (let i = 0, lecture; lecture = this.props.currentTimetable.lectures[i]; i++) {
-      if (type === 'Grade') {
-        lectures.push({
-          title: lecture.title,
-          info: lecture.grade_letter,
-        });
-      }
-      if (type === 'Load') {
-        lectures.push({
-          title: lecture.title,
-          info: lecture.load_letter,
-        });
-      }
-      if (type === 'Speech') {
-        lectures.push({
-          title: lecture.title,
-          info: lecture.speech_letter,
-        });
-      }
-    }
+    const lectures = this.props.currentTimetable.lectures.map(lecture => ({
+      title: lecture.title,
+      info: (type === 'Grade')
+        ? lecture.grade_letter
+        : (
+          (type === 'Load')
+            ? lecture.load_letter
+            : (
+              (type === 'Speech')
+                ? lecture.speech_letter
+                : '?'
+            )
+        ),
+    }));
     this.props.setMultipleDetailDispatch(type, lectures);
     this.setState({ active: type });
   }
@@ -124,33 +107,27 @@ class SummarySubSection extends Component {
   }
 
   render() {
-    const type_credit = [0, 0, 0, 0, 0, 0];
-    let sum_credit = 0, sum_credit_au = 0, targetNum = 0, grade = 0, load = 0, speech = 0;
+    const type_credit = [0, 1, 2, 3, 4, 5].map(index => (
+      this.props.currentTimetable.lectures
+        .filter(lecture => (indexOfType(lecture.type_en) === index))
+        .reduce((acc, lecture) => (acc + (lecture.credit + lecture.credit_au)), 0)
+    ));
+    let sum_credit = this.props.currentTimetable.lectures.reduce((acc, lecture) => (acc + lecture.credit), 0);
+    let sum_credit_au = this.props.currentTimetable.lectures.reduce((acc, lecture) => (acc + lecture.credit_au), 0);
+    const targetNum = this.props.currentTimetable.lectures.reduce((acc, lecture) => (acc + (lecture.credit + lecture.credit_au)), 0);
+    const grade = this.props.currentTimetable.lectures.reduce((acc, lecture) => (acc + (lecture.grade * (lecture.credit + lecture.credit_au))), 0);
+    const load = this.props.currentTimetable.lectures.reduce((acc, lecture) => (acc + (lecture.load * (lecture.credit + lecture.credit_au))), 0);
+    const speech = this.props.currentTimetable.lectures.reduce((acc, lecture) => (acc + (lecture.speech * (lecture.credit + lecture.credit_au))), 0);
     const letters = ['?', 'F', 'F', 'F', 'D-', 'D', 'D+', 'C-', 'C', 'C+', 'B-', 'B', 'B+', 'A-', 'A', 'A+'];
-
-    for (let i = 0, lecture; (lecture = this.props.currentTimetable.lectures[i]); i++) {
-      const num = lecture.credit + lecture.credit_au;
-      type_credit[indexOfType(lecture.type_en)] += num;
-      sum_credit += lecture.credit;
-      sum_credit_au += lecture.credit_au;
-      targetNum += num;
-      grade += lecture.grade * num;
-      load += lecture.load * num;
-      speech += lecture.speech * num;
-    }
 
     const active_type_credit = ['', '', '', '', '', ''];
     if (this.props.lectureActiveFrom === LIST || this.props.lectureActiveFrom === TABLE) {
       const index = indexOfType(this.props.lectureActiveLecture.type_en);
       const amount = this.props.lectureActiveLecture.credit + this.props.lectureActiveLecture.credit_au;
 
-      active_type_credit[index] = `+${amount}`;
-      for (let i = 0, lecture; (lecture = this.props.currentTimetable.lectures[i]); i++) {
-        if (lecture.id === this.props.lectureActiveLecture.id) {
-          active_type_credit[index] = `(${amount})`;
-          break;
-        }
-      }
+      active_type_credit[index] = this.props.currentTimetable.lectures.some(lecture => (lecture.id === this.props.lectureActiveLecture.id))
+        ? `(${amount})`
+        : `+${amount}`;
     }
 
     let creditAct = false, creditAuAct = false;
