@@ -1,4 +1,5 @@
 import React from 'react';
+import { pure } from 'recompose';
 
 import reviewShape from '../../shapes/reviewShape';
 
@@ -39,4 +40,4 @@ ReviewSimpleBlock.propTypes = {
   review: reviewShape.isRequired,
 };
 
-export default ReviewSimpleBlock;
+export default pure(ReviewSimpleBlock);
