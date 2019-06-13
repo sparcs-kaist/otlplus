@@ -6,6 +6,7 @@ import '../static/css/timetable/timetable.css';
 
 import Header from '../componenets/Header';
 import DetailSection from '../componenets/sections/timetable/DetailSection';
+import ListTabs from '../componenets/tabs/ListTabs';
 import ListSection from '../componenets/sections/timetable/ListSection';
 import TimetableTabs from '../componenets/tabs/TimetableTabs';
 import SemesterSubSection from '../componenets/sections/timetable/SemesterSubSection';
@@ -27,7 +28,10 @@ class TimetablePage extends Component {
                 <div id="page-container">
                   <div id="left-side">
                     <DetailSection />
-                    <ListSection />
+                    <div id="lecture-lists">
+                      <ListTabs />
+                      <ListSection />
+                    </div>
                   </div>
                   <div id="center">
                     <div id="timetable-menu">
