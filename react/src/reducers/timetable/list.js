@@ -27,16 +27,11 @@ const list = (state = initialState, action) => {
       return [];
     }
 
-    const courses = [[lectures[0]]];
-    for (let i = 1, lecture; lectures[i] !== undefined; i++) {
-      lecture = lectures[i];
-      if (lecture.course === courses[courses.length - 1][0].course) {
-        courses[courses.length - 1].push(lecture);
-      }
-      else {
-        courses.push([lecture]);
-      }
-    }
+    const courseIds = Array.from(new Set(lectures.map(lecture => lecture.course)));
+    const courses = courseIds
+      .map(course => (lectures.filter(lecture => (lecture.course === course))))
+      .filter(course => (course.length > 0))
+      .sort((a, b) => ((a[0].old_code > b[0].old_code) ? 1 : -1));
     return courses;
   };
   const newState = {};
@@ -74,39 +69,25 @@ const list = (state = initialState, action) => {
       return Object.assign({}, state, newState);
     case ADD_LECTURE_TO_CART:
       let courses = state.cart.courses;
-      let breakFlag = false;
-      for (let i = 0, course; (course = courses[i]); i++) {
-        if (course[0].old_code < action.lecture.old_code) {
-          continue;
-        }
-        else if (course[0].old_code === action.lecture.old_code) {
-          let j;
-          let lecture;
-          for (j = 0; (lecture = course[j]); j++) {
-            if (lecture.class_no < action.lecture.class_no) {
-              continue;
-            }
-            else {
-              course.splice(j, 0, action.lecture);
-              breakFlag = true;
-              break;
-            }
-          }
-          if (j === course.length) {
-            course.push(action.lecture);
-          }
-          breakFlag = true;
-          break;
-        }
-        else {
-          courses.splice(i, 0, [action.lecture]);
-          breakFlag = true;
-          break;
-        }
-      }
-      if (!breakFlag) {
-        courses.push([action.lecture]);
-      }
+      const i = courses.findIndex(course => (course[0].old_code === action.lecture.old_code));
+      if (i !== -1) {
+        const j = courses[i].findIndex(lecture => (lecture.class_no > action.lecture.class_no));
+        if (j !== -1) {
+          courses[i].splice(j, 0, action.lecture);
+         }
+         else {
+          courses[i].push(action.lecture);
+         }
+       }
+      else {
+        const ii = courses.findIndex(course => (course[0].old_code > action.lecture.old_code));
+        if (ii !== -1) {
+          courses.splice(ii, 0, [action.lecture]);
+         }
+         else {
+          courses.push([action.lecture]);
+         }
+       }
       return Object.assign({}, state, {
         cart: {
           courses: courses,
@@ -114,17 +95,11 @@ const list = (state = initialState, action) => {
       });
     case DELETE_LECTURE_FROM_CART:
       courses = state.cart.courses;
-      for (let i = 0, course; (course = courses[i]); i++) {
-        for (let j = 0, lecture; (lecture = course[j]); j++) {
-          if (lecture.id === action.lecture.id) {
-            course.splice(j, 1);
-            j -= 1;
-          }
-        }
-        if (course.length === 0) {
-          courses.splice(i, 1);
-          i -= 1;
-        }
+      const i2 = courses.findIndex(course => course.some(lecture => (lecture.id === action.lecture.id)));
+      const j = courses[i2].findIndex(lecture => (lecture.id === action.lecture.id));
+      courses[i2].splice(j, 1);
+      if (courses[i2].length === 0) {
+        courses.splice(i2, 1);
       }
       return Object.assign({}, state, {
         cart: {

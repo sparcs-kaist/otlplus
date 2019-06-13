@@ -78,17 +78,11 @@ class TimetableSubSection extends Component {
   _isOccupied = (dragStart, dragEnd) => {
     const dragDay = this.indexOfDay(this.state.firstBlock.getAttribute('data-day'));
 
-    for (let i = 0, lecture; (lecture = this.props.currentTimetable.lectures[i]); i++) {
-      for (let j = 0, classtime; (classtime = lecture.classtimes[j]); j++) {
-        if (classtime.day !== dragDay) continue;
-        const classStart = classtime.begin / 30 - 2 * 8;
-        const classEnd = classtime.end / 30 - 2 * 8;
-        if (dragStart < classEnd && dragEnd > classStart) {
-          return true;
-        }
-      }
-    }
-    return false;
+    return this.props.currentTimetable.lectures.some(lecture => (
+      lecture.classtimes.some(classtime => (
+        (classtime.day === dragDay) && (dragStart < (classtime.end / 30 - 2 * 8)) && (dragEnd > (classtime.begin / 30 - 2 * 8))
+      ))
+    ));
   }
 
   _highlight = (first, second) => {
@@ -110,6 +104,7 @@ class TimetableSubSection extends Component {
     const startIndex = this.indexOfTime(this.state.firstBlock.getAttribute('data-time'));
     const endIndex = this.indexOfTime(e.target.getAttribute('data-time'));
     const incr = startIndex < endIndex ? 1 : -1;
+    // eslint-disable-next-line no-loops/no-loops
     for (let i = startIndex + incr; i !== endIndex + incr; i += incr) {
       if ((incr > 0) ? this._isOccupied(startIndex, i + 1) : this._isOccupied(i, startIndex + 1)) {
         return;
@@ -189,10 +184,8 @@ class TimetableSubSection extends Component {
   }
 
   render() {
-    const lectureBlocks = [];
-    for (let i = 0, lecture; (lecture = this.props.currentTimetable.lectures[i]); i++) {
-      for (let j = 0, classtime; (classtime = lecture.classtimes[j]); j++) {
-        lectureBlocks.push(
+    const lectureBlocks = this.props.currentTimetable.lectures.map(lecture => (
+      lecture.classtimes.map((classtime, j) => (
           <TimetableBlock
             key={`${lecture.id}:${j}`}
             lecture={lecture}
@@ -207,14 +200,14 @@ class TimetableSubSection extends Component {
             blockOut={this.blockOut}
             blockClick={this.blockClick}
             deleteLecture={this.deleteLecture}
-          />,
-        );
-      }
-    }
+          />
+      ))
+    ));
 
     const dragDiv = (day, ko) => {
       const timeblock = [];
       timeblock.push(<div className="chead" key={day}>{ko}</div>);
+      // eslint-disable-next-line no-loops/no-loops
       for (let i = 800; i <= 2350; i += 50) {
         if (i === 1200) {
           timeblock.push(
