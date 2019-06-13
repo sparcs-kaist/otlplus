@@ -1,4 +1,5 @@
 import React from 'react';
+import { pure } from 'recompose';
 
 
 const ReviewWriteBlock = (props) => {
@@ -92,4 +93,4 @@ const ReviewWriteBlock = (props) => {
 };
 
 
-export default ReviewWriteBlock;
+export default pure(ReviewWriteBlock);

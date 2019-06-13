@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { pure } from 'recompose';
 
 import lectureShape from '../../shapes/lectureShape';
 
@@ -59,4 +60,4 @@ CourseLecturesBlock.propTypes = {
   listClick: PropTypes.func.isRequired,
 };
 
-export default CourseLecturesBlock;
+export default pure(CourseLecturesBlock);

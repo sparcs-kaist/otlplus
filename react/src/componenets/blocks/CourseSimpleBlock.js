@@ -1,4 +1,5 @@
 import React from 'react';
+import { pure } from 'recompose';
 
 
 const CourseSimpleBlock = (props) => {
@@ -16,4 +17,4 @@ const CourseSimpleBlock = (props) => {
 };
 
 
-export default CourseSimpleBlock;
+export default pure(CourseSimpleBlock);
