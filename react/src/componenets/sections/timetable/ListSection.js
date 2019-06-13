@@ -178,11 +178,9 @@ class ListSection extends Component {
       }
     };
 
-    return (
-      <div id="list-page-wrap">
-        { (this.props.currentList === 'SEARCH')
-          ? (
-          // eslint-disable-next-line react/jsx-indent
+    if (this.props.currentList === 'SEARCH') {
+      return (
+        <div id="list-page-wrap">
           <div className="list-page search-page">
             <SearchSubSection />
             <div className="list-page-title search-page-title" onClick={() => this.showSearch()}>
@@ -193,12 +191,13 @@ class ListSection extends Component {
               {listBlocks(this.props.search.courses, false)}
             </Scroller>
           </div>
-          )
-          : null
-        }
-        { (this.props.major.codes.some(code => (this.props.currentList === code)))
-          ? (
-            // eslint-disable-next-line react/jsx-indent
+        </div>
+      );
+    }
+    if (this.props.major.codes.some(code => (this.props.currentList === code))) {
+      return (
+          // eslint-disable-next-line react/jsx-indent
+          <div id="list-page-wrap">
             <div className="list-page major-page">
               <div className="list-page-title">
                 {this.props.major[this.props.currentList].name}
@@ -207,12 +206,12 @@ class ListSection extends Component {
                 {listBlocks(this.props.major[this.props.currentList].courses, false)}
               </Scroller>
             </div>
-          )
-          : null
-        }
-        { (this.props.currentList === 'HUMANITY')
-          ? (
-          // eslint-disable-next-line react/jsx-indent
+          </div>
+      );
+    }
+    if (this.props.currentList === 'HUMANITY') {
+      return (
+        <div id="list-page-wrap">
           <div className="list-page humanity-page">
             <div className="list-page-title">
               인문사회선택
@@ -221,12 +220,12 @@ class ListSection extends Component {
               {listBlocks(this.props.humanity.courses, false)}
             </Scroller>
           </div>
-          )
-          : null
-        }
-        { (this.props.currentList === 'CART')
-          ? (
-          // eslint-disable-next-line react/jsx-indent
+        </div>
+      );
+    }
+    if (this.props.currentList === 'CART') {
+      return (
+        <div id="list-page-wrap">
           <div className="list-page cart-page">
             <div className="list-page-title">
               장바구니
@@ -235,11 +234,10 @@ class ListSection extends Component {
               {listBlocks(this.props.cart.courses, true)}
             </Scroller>
           </div>
-          )
-          : null
-        }
-      </div>
-    );
+        </div>
+      );
+    }
+    return null;
   }
 }
 
