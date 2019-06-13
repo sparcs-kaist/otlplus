@@ -17,6 +17,7 @@ const CourseLecturesBlock = (props) => {
   };
   const change = props.isClicked || props.isHover ? 'click' : '';
   return (
+      // eslint-disable-next-line react/jsx-indent
       <div className={`list-elem-body-wrap ${change}`} onClick={() => props.listClick(props.lecture)()} onMouseOver={() => props.listHover(props.lecture)()} onMouseOut={() => props.listOut()}>
         <div className="list-elem-body">
           <div className="list-elem-body-text">

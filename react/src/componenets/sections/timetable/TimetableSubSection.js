@@ -24,14 +24,6 @@ class TimetableSubSection extends Component {
     };
   }
 
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.lectureActiveFrom === LIST && !nextProps.lectureActiveClicked) {
-    }
-    else if (nextProps.lectureActiveFrom === NONE) {
-    }
-    return null;
-  }
-
   componentDidMount() {
     this.resize();
     this.boundResize = this.resize.bind(this);
@@ -179,15 +171,15 @@ class TimetableSubSection extends Component {
         this.props.removeLectureFromTimetableDispatch(lecture);
       })
       .catch((response) => {
-        console.log(response);
       });
   }
 
   render() {
     const lectureBlocks = this.props.currentTimetable.lectures.map(lecture => (
-      lecture.classtimes.map((classtime, j) => (
+      lecture.classtimes.map(classtime => (
+          // eslint-disable-next-line react/jsx-indent
           <TimetableBlock
-            key={`${lecture.id}:${j}`}
+            key={`${lecture.id}:${classtime.day}:${classtime.begin}`}
             lecture={lecture}
             classtime={classtime}
             cellWidth={this.props.cellWidth}
@@ -336,9 +328,9 @@ class TimetableSubSection extends Component {
             && !this.props.currentTimetable.lectures.some(lecture => (lecture.id === this.props.lectureActiveLecture.id))
           )
             ? (
-              this.props.lectureActiveLecture.classtimes.map((classtime, index) => (
+              this.props.lectureActiveLecture.classtimes.map(classtime => (
                 <TimetableBlock
-                  key={`${this.props.lectureActiveLecture.id}:${index}`}
+                  key={`${this.props.lectureActiveLecture.id}:${classtime.day}:${classtime.begin}`}
                   lecture={this.props.lectureActiveLecture}
                   classtime={classtime}
                   cellWidth={this.props.cellWidth}

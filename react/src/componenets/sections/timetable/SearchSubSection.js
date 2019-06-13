@@ -60,7 +60,6 @@ class SearchSubSection extends Component {
         this.props.setListLecturesDispatch('search', lectures);
       })
       .catch((response) => {
-        console.log(response);
       });
   }
 

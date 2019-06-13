@@ -130,12 +130,8 @@ class SummarySubSection extends Component {
         : `+${amount}`;
     }
 
-    let creditAct = false, creditAuAct = false;
-    if (this.props.lectureActiveLecture !== null) {
-      const activeLecture = this.props.lectureActiveLecture;
-      if (activeLecture.credit > 0) creditAct = true;
-      else if (activeLecture.credit_au > 0) creditAuAct = true;
-    }
+    const creditAct = (this.props.lectureActiveLecture !== null) && (this.props.lectureActiveLecture.credit > 0);
+    const creditAuAct = (this.props.lectureActiveLecture !== null) && (this.props.lectureActiveLecture.credit_au > 0);
 
     const alec = this.props.lectureActiveLecture;
     if (alec !== null && !this.props.currentTimetable.lectures.includes(alec)) {

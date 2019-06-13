@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import axios from '../../../presetAxios';
 import { BASE_URL } from '../../../constants';
-import { openSearch, closeSearch, setCurrentList, setLectureActive , clearLectureActive, addLectureToTimetable, addLectureToCart, deleteLectureFromCart, setListMajorCodes, setListMajorLectures } from '../../../actions/timetable/index';
+import { openSearch, closeSearch, setCurrentList, setLectureActive, clearLectureActive, addLectureToTimetable, addLectureToCart, deleteLectureFromCart, setListMajorCodes, setListMajorLectures } from '../../../actions/timetable/index';
 import Scroller from '../../Scroller';
 import SearchSubSection from './SearchSubSection';
 import CourseLecturesBlock from '../../blocks/CourseLecturesBlock';
@@ -29,7 +29,6 @@ class ListSection extends Component {
           });
         })
         .catch((response) => {
-          console.log(response);
         });
     }
   }
@@ -69,8 +68,8 @@ class ListSection extends Component {
     event.stopPropagation();
     if (
       lecture.classtimes.some(thisClasstime => (
-        this.props.currentTimetable.lectures.some(lecture => (
-          lecture.classtimes.some(classtime => (
+        this.props.currentTimetable.lectures.some(timetableLecture => (
+          timetableLecture.classtimes.some(classtime => (
             (classtime.day === thisClasstime.day) && (classtime.begin < thisClasstime.end) && (classtime.end > thisClasstime.begin)
           ))
         ))
@@ -89,7 +88,6 @@ class ListSection extends Component {
         this.props.addLectureToTimetableDispatch(lecture);
       })
       .catch((response) => {
-        console.log(response);
       });
   }
 
@@ -103,7 +101,6 @@ class ListSection extends Component {
         this.props.addLectureToCartDispatch(lecture);
       })
       .catch((response) => {
-        console.log(response);
       });
   }
 
@@ -117,7 +114,6 @@ class ListSection extends Component {
         this.props.deleteLectureFromCartDispatch(lecture);
       })
       .catch((response) => {
-        console.log(response);
       });
   }
 
@@ -310,7 +306,6 @@ const mapDispatchToProps = dispatch => ({
 
 ListSection.propTypes = {
   user: userShape,
-  list: PropTypes.object.isRequired,
   currentList: PropTypes.string.isRequired,
   search: PropTypes.shape({
     courses: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)).isRequired,
