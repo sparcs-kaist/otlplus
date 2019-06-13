@@ -140,42 +140,36 @@ class ListSection extends Component {
       ));
     };
 
-    const mapLecture = fromCart => lecture => (
-      <CourseLecturesBlock
-        lecture={lecture}
-        key={lecture.id}
-        isClicked={this._isClicked(lecture)}
-        isHover={this._isHover(lecture)}
-        inTimetable={inTimetable(lecture)}
-        inCart={inCart(lecture)}
-        fromCart={fromCart}
-        addToCart={this.addToCart}
-        addToTable={this.addToTable}
-        deleteFromCart={this.deleteFromCart}
-        listHover={this.listHover}
-        listOut={this.listOut}
-        listClick={this.listClick}
-      />
-    );
-
-    const mapCourse = fromCart => course => (
-      <div className={`list-elem${course.some(lecture => this._isClicked(lecture)) ? ' click' : ''}`} key={course[0].course}>
-        <div className="list-elem-title">
-          <strong>{course[0].common_title}</strong>
-          &nbsp;
-          {course[0].old_code}
-        </div>
-        {course.map(mapLecture(fromCart))}
-      </div>
-    );
-
     const listBlocks = (courses, fromCart) => {
       if (courses.length === 0) {
         return <div className="list-loading">결과 없음</div>;
       }
-      else {
-        return courses.map(mapCourse(fromCart));
-      }
+      return courses.map(course => (
+        <div className={`list-elem${course.some(lecture => this._isClicked(lecture)) ? ' click' : ''}`} key={course[0].course}>
+          <div className="list-elem-title">
+            <strong>{course[0].common_title}</strong>
+            &nbsp;
+            {course[0].old_code}
+          </div>
+          {course.map(lecture => (
+            <CourseLecturesBlock
+              lecture={lecture}
+              key={lecture.id}
+              isClicked={this._isClicked(lecture)}
+              isHover={this._isHover(lecture)}
+              inTimetable={inTimetable(lecture)}
+              inCart={inCart(lecture)}
+              fromCart={fromCart}
+              addToCart={this.addToCart}
+              addToTable={this.addToTable}
+              deleteFromCart={this.deleteFromCart}
+              listHover={this.listHover}
+              listOut={this.listOut}
+              listClick={this.listClick}
+            />
+          ))}
+        </div>
+      ));
     };
 
     if (this.props.currentList === 'SEARCH') {
