@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import axios from '../../../presetAxios';
+import axios from '../../../common/presetAxios';
 import { inTimetable, inCart, isListClicked, isListHover } from '../../../common/lectureFunctions';
-import { BASE_URL } from '../../../constants';
+import { BASE_URL } from '../../../common/constants';
 import { openSearch, setLectureActive, clearLectureActive, addLectureToTimetable, addLectureToCart, deleteLectureFromCart, setListMajorCodes, setListMajorLectures } from '../../../actions/timetable/index';
 import Scroller from '../../Scroller';
 import SearchSubSection from './SearchSubSection';

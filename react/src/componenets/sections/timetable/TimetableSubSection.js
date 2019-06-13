@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import axios from '../../../presetAxios';
+import axios from '../../../common/presetAxios';
 import { inTimetable, isListHover, isTableClicked, isTableHover } from '../../../common/lectureFunctions';
-import { BASE_URL } from '../../../constants';
+import { BASE_URL } from '../../../common/constants';
 import TimetableBlock from '../../blocks/TimetableBlock';
 import { dragSearch, setIsDragging, updateCellSize, setLectureActive, clearLectureActive, removeLectureFromTimetable, lectureinfo } from '../../../actions/timetable/index';
 import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureActive';
