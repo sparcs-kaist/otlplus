@@ -22,7 +22,6 @@ class TimetableTabs extends Component {
         this.props.createTimetableDispatch(response.data.id);
       })
       .catch((response) => {
-        console.log(response);
       });
   }
 
@@ -37,7 +36,6 @@ class TimetableTabs extends Component {
         this.props.deleteTimetableDispatch(timetable);
       })
       .catch((response) => {
-        console.log(response);
       });
   }
 
@@ -52,7 +50,6 @@ class TimetableTabs extends Component {
         this.props.duplicateTimetableDispatch(response.data.id, timetable);
       })
       .catch((response) => {
-        console.log(response);
       });
   }
 

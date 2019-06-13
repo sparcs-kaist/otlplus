@@ -1,13 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import reviewShape from '../../shapes/reviewShape';
 
 
 const ReviewSimpleBlock = (props) => {
   const { review } = props;
-  console.log(review);
   return (
+      // eslint-disable-next-line react/jsx-indent
       <a href={`/review/result/comment/${review.id}`} target="_blank" rel="noopener noreferrer" style={{ display: 'block' }}>
         <div className="review-elem">
           <div className="review-body">

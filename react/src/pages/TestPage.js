@@ -1,3 +1,5 @@
+/* eslint no-console: "off" */
+
 import React, { Component } from 'react';
 
 import axios from '../presetAxios';
