@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import axios from '../../../presetAxios';
-import { BASE_URL } from '../../../constants';
+import axios from '../../../common/presetAxios';
+import { BASE_URL } from '../../../common/constants';
 import { setSemester, setTimetables, setListLectures, setListMajorLectures } from '../../../actions/timetable/index';
 
 
