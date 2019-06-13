@@ -45,8 +45,6 @@
     "linebreak-style": 0,
     "no-case-declarations": 1,
     "no-class-assign": 1,
-    "no-cond-assign": 1,
-    "no-continue": 1,
     "no-else-return": 1,
     "no-lonely-if": 1,
     "no-loops/no-loops": "error",
