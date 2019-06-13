@@ -2,16 +2,18 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import axios from '../../../presetAxios';
-import { BASE_URL } from '../../../constants';
-import { openSearch, closeSearch, setCurrentList, setLectureActive, clearLectureActive, addLectureToTimetable, addLectureToCart, deleteLectureFromCart, setListMajorCodes, setListMajorLectures } from '../../../actions/timetable/index';
+import axios from '../../../common/presetAxios';
+import { inTimetable, inCart, isListClicked, isListHover } from '../../../common/lectureFunctions';
+import { BASE_URL } from '../../../common/constants';
+import { openSearch, setLectureActive, clearLectureActive, addLectureToTimetable, addLectureToCart, deleteLectureFromCart, setListMajorCodes, setListMajorLectures } from '../../../actions/timetable/index';
 import Scroller from '../../Scroller';
 import SearchSubSection from './SearchSubSection';
 import CourseLecturesBlock from '../../blocks/CourseLecturesBlock';
-import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureActive';
+import { LIST } from '../../../reducers/timetable/lectureActive';
 import userShape from '../../../shapes/userShape';
 import lectureShape from '../../../shapes/lectureShape';
 import timetableShape from '../../../shapes/timetableShape';
+import lectureActiveShape from '../../../shapes/lectureActiveShape';
 
 
 class ListSection extends Component {
@@ -30,33 +32,6 @@ class ListSection extends Component {
         })
         .catch((response) => {
         });
-    }
-  }
-
-  _isClicked = lecture => (
-    this.props.lectureActiveFrom === LIST
-    && this.props.lectureActiveClicked === true
-    && this.props.lectureActiveLecture.id === lecture.id
-  )
-
-  _isHover = lecture => (
-    this.props.lectureActiveFrom === LIST
-    && this.props.lectureActiveClicked === false
-    && this.props.lectureActiveLecture.id === lecture.id
-  )
-
-  changeTab = (list) => {
-    this.props.setCurrentListDispatch(list);
-
-    if (list === 'SEARCH' && this.props.search.courses.length === 0) {
-      this.props.openSearchDispatch();
-    }
-    else {
-      this.props.closeSearchDispatch();
-    }
-
-    if (this.props.lectureActiveFrom === LIST) {
-      this.props.clearLectureActiveDispatch();
     }
   }
 
@@ -132,7 +107,7 @@ class ListSection extends Component {
   }
 
   listClick = lecture => () => {
-    if (!this._isClicked(lecture)) {
+    if (!isListClicked(lecture, this.props.lectureActive)) {
       this.props.setLectureActiveDispatch(lecture, 'LIST', true);
     }
     else {
@@ -141,72 +116,41 @@ class ListSection extends Component {
   }
 
   render() {
-    const inTimetable = (lecture) => {
-      return this.props.currentTimetable.lectures.some(l => (
-        l.id === lecture.id
-      ));
-    };
-
-    const inCart = (lecture) => {
-      return this.props.cart.courses.some(course => (
-        course.some(cartLecture => (
-          cartLecture.id === lecture.id
-        ))
-      ));
-    };
-
-    const mapLecture = fromCart => lecture => (
-      <CourseLecturesBlock
-        lecture={lecture}
-        key={lecture.id}
-        isClicked={this._isClicked(lecture)}
-        isHover={this._isHover(lecture)}
-        inTimetable={inTimetable(lecture)}
-        inCart={inCart(lecture)}
-        fromCart={fromCart}
-        addToCart={this.addToCart}
-        addToTable={this.addToTable}
-        deleteFromCart={this.deleteFromCart}
-        listHover={this.listHover}
-        listOut={this.listOut}
-        listClick={this.listClick}
-      />
-    );
-
-    const mapCourse = fromCart => course => (
-      <div className={`list-elem${course.some(lecture => this._isClicked(lecture)) ? ' click' : ''}`} key={course[0].course}>
-        <div className="list-elem-title">
-          <strong>{course[0].common_title}</strong>
-          &nbsp;
-          {course[0].old_code}
-        </div>
-        {course.map(mapLecture(fromCart))}
-      </div>
-    );
-
     const listBlocks = (courses, fromCart) => {
       if (courses.length === 0) {
         return <div className="list-loading">결과 없음</div>;
       }
-      else {
-        return courses.map(mapCourse(fromCart));
-      }
+      return courses.map(course => (
+        <div className={`list-elem${course.some(lecture => isListClicked(lecture, this.props.lectureActive)) ? ' click' : ''}`} key={course[0].course}>
+          <div className="list-elem-title">
+            <strong>{course[0].common_title}</strong>
+            &nbsp;
+            {course[0].old_code}
+          </div>
+          {course.map(lecture => (
+            <CourseLecturesBlock
+              lecture={lecture}
+              key={lecture.id}
+              isClicked={isListClicked(lecture, this.props.lectureActive)}
+              isHover={isListHover(lecture, this.props.lectureActive)}
+              inTimetable={inTimetable(lecture, this.props.currentTimetable)}
+              inCart={inCart(lecture, this.props.cart)}
+              fromCart={fromCart}
+              addToCart={this.addToCart}
+              addToTable={this.addToTable}
+              deleteFromCart={this.deleteFromCart}
+              listHover={this.listHover}
+              listOut={this.listOut}
+              listClick={this.listClick}
+            />
+          ))}
+        </div>
+      ));
     };
 
-    return (
-      <div id="lecture-lists">
-        <div id="list-tab-wrap">
-          <button className={`list-tab search${this.props.currentList === 'SEARCH' ? ' active' : ''}`} onClick={() => this.changeTab('SEARCH')}><i className="list-tab-icon" /></button>
-          {this.props.major.codes.map(code => (
-            <button className={`list-tab major${this.props.currentList === code ? ' active' : ''}`} key={code} onClick={() => this.changeTab(code)}><i className="list-tab-icon" /></button>
-          ))}
-          <button className={`list-tab humanity${this.props.currentList === 'HUMANITY' ? ' active' : ''}`} onClick={() => this.changeTab('HUMANITY')}><i className="list-tab-icon" /></button>
-          <button className={`list-tab cart${this.props.currentList === 'CART' ? ' active' : ''}`} onClick={() => this.changeTab('CART')}><i className="list-tab-icon" /></button>
-        </div>
+    if (this.props.currentList === 'SEARCH') {
+      return (
         <div id="list-page-wrap">
-          { (this.props.currentList === 'SEARCH')
-            ? (
-          // eslint-disable-next-line react/jsx-indent
           <div className="list-page search-page">
             <SearchSubSection />
             <div className="list-page-title search-page-title" onClick={() => this.showSearch()}>
@@ -217,12 +161,13 @@ class ListSection extends Component {
               {listBlocks(this.props.search.courses, false)}
             </Scroller>
           </div>
-            )
-            : null
-          }
-          { (this.props.major.codes.some(code => (this.props.currentList === code)))
-            ? (
-            // eslint-disable-next-line react/jsx-indent
+        </div>
+      );
+    }
+    if (this.props.major.codes.some(code => (this.props.currentList === code))) {
+      return (
+          // eslint-disable-next-line react/jsx-indent
+          <div id="list-page-wrap">
             <div className="list-page major-page">
               <div className="list-page-title">
                 {this.props.major[this.props.currentList].name}
@@ -231,12 +176,12 @@ class ListSection extends Component {
                 {listBlocks(this.props.major[this.props.currentList].courses, false)}
               </Scroller>
             </div>
-            )
-            : null
-          }
-          { (this.props.currentList === 'HUMANITY')
-            ? (
-          // eslint-disable-next-line react/jsx-indent
+          </div>
+      );
+    }
+    if (this.props.currentList === 'HUMANITY') {
+      return (
+        <div id="list-page-wrap">
           <div className="list-page humanity-page">
             <div className="list-page-title">
               인문사회선택
@@ -245,12 +190,12 @@ class ListSection extends Component {
               {listBlocks(this.props.humanity.courses, false)}
             </Scroller>
           </div>
-            )
-            : null
-          }
-          { (this.props.currentList === 'CART')
-            ? (
-          // eslint-disable-next-line react/jsx-indent
+        </div>
+      );
+    }
+    if (this.props.currentList === 'CART') {
+      return (
+        <div id="list-page-wrap">
           <div className="list-page cart-page">
             <div className="list-page-title">
               장바구니
@@ -259,27 +204,23 @@ class ListSection extends Component {
               {listBlocks(this.props.cart.courses, true)}
             </Scroller>
           </div>
-            )
-            : null
-          }
         </div>
-      </div>
-    );
+      );
+    }
+    return null;
   }
 }
 
 const mapStateToProps = state => ({
   user: state.common.user,
-  list: state.timetable.list,
   currentList: state.timetable.list.currentList,
   search: state.timetable.list.search,
   major: state.timetable.list.major,
   humanity: state.timetable.list.humanity,
   cart: state.timetable.list.cart,
   currentTimetable: state.timetable.timetable.currentTimetable,
-  lectureActiveFrom: state.timetable.lectureActive.from,
+  lectureActive: state.timetable.lectureActive,
   lectureActiveClicked: state.timetable.lectureActive.clicked,
-  lectureActiveLecture: state.timetable.lectureActive.lecture,
   year: state.timetable.semester.year,
   semester: state.timetable.semester.semester,
 });
@@ -287,12 +228,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   openSearchDispatch: () => {
     dispatch(openSearch());
-  },
-  closeSearchDispatch: () => {
-    dispatch(closeSearch());
-  },
-  setCurrentListDispatch: (list) => {
-    dispatch(setCurrentList(list));
   },
   setLectureActiveDispatch: (lecture, from, clicked) => {
     dispatch(setLectureActive(lecture, from, clicked));
@@ -333,14 +268,11 @@ ListSection.propTypes = {
     courses: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)).isRequired,
   }).isRequired,
   currentTimetable: timetableShape.isRequired,
-  lectureActiveFrom: PropTypes.oneOf([NONE, LIST, TABLE, MULTIPLE]).isRequired,
+  lectureActive: lectureActiveShape.isRequired,
   lectureActiveClicked: PropTypes.bool.isRequired,
-  lectureActiveLecture: lectureShape,
   year: PropTypes.number.isRequired,
   semester: PropTypes.number.isRequired,
   openSearchDispatch: PropTypes.func.isRequired,
-  closeSearchDispatch: PropTypes.func.isRequired,
-  setCurrentListDispatch: PropTypes.func.isRequired,
   setLectureActiveDispatch: PropTypes.func.isRequired,
   clearLectureActiveDispatch: PropTypes.func.isRequired,
   addLectureToTimetableDispatch: PropTypes.func.isRequired,

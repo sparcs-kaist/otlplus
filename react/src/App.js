@@ -14,8 +14,8 @@ import MainPage from './pages/MainPage';
 import CreditPage from './pages/CreditPage';
 import LicensePage from './pages/LicensePage';
 
-import axios from './presetAxios';
-import { BASE_URL } from './constants';
+import axios from './common/presetAxios';
+import { BASE_URL } from './common/constants';
 import timetableReducer from './reducers/timetable/index';
 import commonReducer from './reducers/user';
 import { setUser } from './actions/user';
