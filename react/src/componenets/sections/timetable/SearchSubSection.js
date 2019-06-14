@@ -21,26 +21,16 @@ class SearchSubSection extends Component {
     };
   }
 
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if (!nextProps.open) {
-      return {
-        inputVal: '',
-        type: new Set(['ALL']),
-        department: new Set(['ALL']),
-        grade: new Set(['ALL']),
-      }; // When Close the Search, initialize the state
-    }
-    return null;
-  }
-
   hideSearch = () => {
     this.props.closeSearchDispatch();
   }
 
   searchStart = () => {
     const { type, department, grade, inputVal } = this.state;
-    if (type.size === 1 && department.size === 1 && grade.size === 1 && inputVal.length === 0) {
+    if (type.size === 1 && department.size === 1 && grade.size === 1 && inputVal.length === 0
+      && !(this.props.day !== null && this.props.end !== null && this.props.day !== null)) {
       if (type.has('ALL') && department.has('ALL') && grade.has('ALL')) {
+        // eslint-disable-next-line no-alert
         alert('검색 조건을 선택해 주세요');
         return;
       }
@@ -50,10 +40,13 @@ class SearchSubSection extends Component {
     axios.post(`${BASE_URL}/api/timetable/search`, {
       year: this.props.year,
       semester: this.props.semester,
-      // Change below later
-      department: ['CS'],
-      type: ['ALL'],
-      grade: ['ALL'],
+      department: Array.from(department),
+      type: Array.from(type),
+      grade: Array.from(grade),
+      keyword: inputVal,
+      begin: (this.props.start !== null) ? this.props.start.toString() : '',
+      end: (this.props.end !== null) ? this.props.end.toString() : '',
+      day: (this.props.day !== null) ? this.props.day.toString() : '',
     })
       .then((response) => {
         const lectures = response.data.courses;
@@ -87,10 +80,33 @@ class SearchSubSection extends Component {
   }
 
   handleInput(e) {
+    const value = e.target.value;
+
     this.setState({
       inputVal: e.target.value,
-      autoComplete: e.target.value ? 'aa' : '',
+      autoComplete: '',
     });
+
+    if (!value) {
+      return;
+    }
+
+    axios.post(`${BASE_URL}/api/timetable/autocomplete`, {
+      year: this.props.year,
+      semester: this.props.semester,
+      keyword: value,
+    })
+      .then((response) => {
+        const { complete } = response.data;
+        if (value !== this.state.inputVal) {
+          return;
+        }
+        this.setState({
+          autoComplete: complete.substring(value.length, complete.length),
+        });
+      })
+      .catch((response) => {
+      });
   }
 
   autocompleteApply() {
@@ -123,9 +139,9 @@ class SearchSubSection extends Component {
     if (!this.props.open) {
       return null;
     }
-    else {
-      const { inputVal, autoComplete } = this.state;
-      return (
+    const { inputVal, autoComplete } = this.state;
+    return (
+        // eslint-disable-next-line react/jsx-indent
         <div className="search-extend">
           <div className="search-form-wrap">
             <form method="post">
@@ -152,23 +168,42 @@ class SearchSubSection extends Component {
                 clickCircle={this.clickCircle}
                 inputName="type"
                 titleName="구분"
+                valueArr={['ALL', 'GR', 'MGC', 'BE', 'BR', 'EG', 'HSE', 'OE', 'ME', 'MR', 'ETC']}
+                nameArr={['전체', '공통', '교필', '기선', '기필', '석박', '인선', '자선', '전선', '전필', '기타']}
               />
               <SearchFilter
                 clickCircle={this.clickCircle}
                 inputName="department"
                 titleName="학과"
+                valueArr={['ALL', 'HSS', 'CE', 'MSB', 'ME', 'PH', 'BiS', 'IE', 'ID', 'BS', 'MAS', 'NQE', 'EE', 'CS', 'AE', 'CH', 'CBE', 'MS', 'ETC']}
+                nameArr={['전체', '인문', '건환', '기경', '기계', '물리', '바공', '산공', '산디', '생명', '수학', '원양', '전자', '전산', '항공', '화학', '생화공', '신소재', '기타']}
               />
               <SearchFilter
                 clickCircle={this.clickCircle}
                 inputName="grade"
                 titleName="학년"
+                valueArr={['ALL', '100', '200', '300', '400']}
+                nameArr={['전체', '100번대', '200번대', '300번대', '400번대']}
               />
               <div className="search-filter search-filter-time">
                 <label className="search-filter-title fixed-ko">시간</label>
                 <div className="search-filter-elem">
+                  { this.props.day !== null
+                    ? (
+                  // eslint-disable-next-line react/jsx-indent
+                  <label className="search-filter-time-active">
+                    {`${['월요일', '화요일', '수요일', '목요일', '금요일'][this.props.day]} \
+                      ${8 + Math.floor(this.props.start / 2)}:${['00', '30'][this.props.start % 2]} ~ \
+                      ${8 + Math.floor(this.props.end / 2)}:${['00', '30'][this.props.end % 2]}`}
+                  </label>
+                    )
+                    : (
+                  // eslint-disable-next-line react/jsx-indent
                   <label>
                     시간표에서 드래그
                   </label>
+                    )
+                  }
                 </div>
                 <input id="search-filter-time-day" name="day" type="text" />
                 <input id="search-filter-time-begin" name="begin" type="text" />
@@ -181,13 +216,15 @@ class SearchSubSection extends Component {
             </form>
           </div>
         </div>
-      );
-    }
+    );
   }
 }
 
 const mapStateToProps = state => ({
   open: state.timetable.search.open,
+  start: state.timetable.search.start,
+  end: state.timetable.search.end,
+  day: state.timetable.search.day,
   year: state.timetable.semester.year,
   semester: state.timetable.semester.semester,
 });
@@ -203,6 +240,9 @@ const mapDispatchToProps = dispatch => ({
 
 SearchSubSection.propTypes = {
   open: PropTypes.bool.isRequired,
+  start: PropTypes.number,
+  end: PropTypes.number,
+  day: PropTypes.number,
   year: PropTypes.number.isRequired,
   semester: PropTypes.number.isRequired,
   closeSearchDispatch: PropTypes.func.isRequired,
