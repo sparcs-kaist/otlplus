@@ -16,6 +16,9 @@ const search = (state = initialState, action) => {
     case CLOSE_SEARCH:
       return Object.assign({}, state, {
         open: false,
+        start: null,
+        end: null,
+        day: null,
       });
     case DRAG_SEARCH:
       return Object.assign({}, state, {
