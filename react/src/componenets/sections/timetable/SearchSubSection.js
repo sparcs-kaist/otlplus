@@ -87,10 +87,33 @@ class SearchSubSection extends Component {
   }
 
   handleInput(e) {
+    const value = e.target.value;
+
     this.setState({
       inputVal: e.target.value,
-      autoComplete: e.target.value ? 'aa' : '',
+      autoComplete: '',
     });
+
+    if (!value) {
+      return;
+    }
+
+    axios.post(`${BASE_URL}/api/timetable/autocomplete`, {
+      year: this.props.year,
+      semester: this.props.semester,
+      keyword: value,
+    })
+      .then((response) => {
+        const { complete } = response.data;
+        if (value !== this.state.inputVal) {
+          return;
+        }
+        this.setState({
+          autoComplete: complete.substring(value.length, complete.length),
+        });
+      })
+      .catch((response) => {
+      });
   }
 
   autocompleteApply() {
