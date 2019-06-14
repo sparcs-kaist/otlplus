@@ -2,9 +2,9 @@ import { OPEN_SEARCH, CLOSE_SEARCH, DRAG_SEARCH } from '../../actions/timetable/
 
 const initialState = {
   open: true,
-  start: 0,
-  end: 0,
-  day: 0,
+  start: null,
+  end: null,
+  day: null,
 };
 
 const search = (state = initialState, action) => {
@@ -16,6 +16,9 @@ const search = (state = initialState, action) => {
     case CLOSE_SEARCH:
       return Object.assign({}, state, {
         open: false,
+        start: null,
+        end: null,
+        day: null,
       });
     case DRAG_SEARCH:
       return Object.assign({}, state, {
