@@ -30,6 +30,7 @@ class SearchSubSection extends Component {
     if (type.size === 1 && department.size === 1 && grade.size === 1 && inputVal.length === 0
       && !(this.props.day !== null && this.props.end !== null && this.props.day !== null)) {
       if (type.has('ALL') && department.has('ALL') && grade.has('ALL')) {
+        // eslint-disable-next-line no-alert
         alert('검색 조건을 선택해 주세요');
         return;
       }
