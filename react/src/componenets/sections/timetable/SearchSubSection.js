@@ -175,16 +175,22 @@ class SearchSubSection extends Component {
                 clickCircle={this.clickCircle}
                 inputName="type"
                 titleName="구분"
+                valueArr={['ALL', 'GR', 'MGC', 'BE', 'BR', 'EG', 'HSE', 'OE', 'ME', 'MR', 'ETC']}
+                nameArr={['전체', '공통', '교필', '기선', '기필', '석박', '인선', '자선', '전선', '전필', '기타']}
               />
               <SearchFilter
                 clickCircle={this.clickCircle}
                 inputName="department"
                 titleName="학과"
+                valueArr={['ALL', 'HSS', 'CE', 'MSB', 'ME', 'PH', 'BiS', 'IE', 'ID', 'BS', 'MAS', 'NQE', 'EE', 'CS', 'AE', 'CH', 'CBE', 'MS', 'ETC']}
+                nameArr={['전체', '인문', '건환', '기경', '기계', '물리', '바공', '산공', '산디', '생명', '수학', '원양', '전자', '전산', '항공', '화학', '생화공', '신소재', '기타']}
               />
               <SearchFilter
                 clickCircle={this.clickCircle}
                 inputName="grade"
                 titleName="학년"
+                valueArr={['ALL', '100', '200', '300', '400']}
+                nameArr={['전체', '100번대', '200번대', '300번대', '400번대']}
               />
               <div className="search-filter search-filter-time">
                 <label className="search-filter-title fixed-ko">시간</label>
