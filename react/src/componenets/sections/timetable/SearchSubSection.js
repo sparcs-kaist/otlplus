@@ -50,10 +50,10 @@ class SearchSubSection extends Component {
     axios.post(`${BASE_URL}/api/timetable/search`, {
       year: this.props.year,
       semester: this.props.semester,
-      // Change below later
-      department: ['CS'],
-      type: ['ALL'],
-      grade: ['ALL'],
+      department: Array.from(department),
+      type: Array.from(type),
+      grade: Array.from(grade),
+      keyword: inputVal,
     })
       .then((response) => {
         const lectures = response.data.courses;
