@@ -27,7 +27,8 @@ class SearchSubSection extends Component {
 
   searchStart = () => {
     const { type, department, grade, inputVal } = this.state;
-    if (type.size === 1 && department.size === 1 && grade.size === 1 && inputVal.length === 0) {
+    if (type.size === 1 && department.size === 1 && grade.size === 1 && inputVal.length === 0
+      && !(this.props.day !== null && this.props.end !== null && this.props.day !== null)) {
       if (type.has('ALL') && department.has('ALL') && grade.has('ALL')) {
         alert('검색 조건을 선택해 주세요');
         return;
@@ -42,6 +43,9 @@ class SearchSubSection extends Component {
       type: Array.from(type),
       grade: Array.from(grade),
       keyword: inputVal,
+      begin: (this.props.start !== null) ? this.props.start.toString() : '',
+      end: (this.props.end !== null) ? this.props.end.toString() : '',
+      day: (this.props.day !== null) ? this.props.day.toString() : '',
     })
       .then((response) => {
         const lectures = response.data.courses;
@@ -183,9 +187,22 @@ class SearchSubSection extends Component {
               <div className="search-filter search-filter-time">
                 <label className="search-filter-title fixed-ko">시간</label>
                 <div className="search-filter-elem">
+                  { this.props.day !== null
+                    ? (
+                  // eslint-disable-next-line react/jsx-indent
+                  <label className="search-filter-time-active">
+                    {`${['월요일', '화요일', '수요일', '목요일', '금요일'][this.props.day]} \
+                      ${8 + Math.floor(this.props.start / 2)}:${['00', '30'][this.props.start % 2]} ~ \
+                      ${8 + Math.floor(this.props.end / 2)}:${['00', '30'][this.props.end % 2]}`}
+                  </label>
+                    )
+                    : (
+                  // eslint-disable-next-line react/jsx-indent
                   <label>
                     시간표에서 드래그
                   </label>
+                    )
+                  }
                 </div>
                 <input id="search-filter-time-day" name="day" type="text" />
                 <input id="search-filter-time-begin" name="begin" type="text" />
@@ -205,6 +222,9 @@ class SearchSubSection extends Component {
 
 const mapStateToProps = state => ({
   open: state.timetable.search.open,
+  start: state.timetable.search.start,
+  end: state.timetable.search.end,
+  day: state.timetable.search.day,
   year: state.timetable.semester.year,
   semester: state.timetable.semester.semester,
 });
@@ -220,6 +240,9 @@ const mapDispatchToProps = dispatch => ({
 
 SearchSubSection.propTypes = {
   open: PropTypes.bool.isRequired,
+  start: PropTypes.number,
+  end: PropTypes.number,
+  day: PropTypes.number,
   year: PropTypes.number.isRequired,
   semester: PropTypes.number.isRequired,
   closeSearchDispatch: PropTypes.func.isRequired,
