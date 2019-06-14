@@ -21,18 +21,6 @@ class SearchSubSection extends Component {
     };
   }
 
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if (!nextProps.open) {
-      return {
-        inputVal: '',
-        type: new Set(['ALL']),
-        department: new Set(['ALL']),
-        grade: new Set(['ALL']),
-      }; // When Close the Search, initialize the state
-    }
-    return null;
-  }
-
   hideSearch = () => {
     this.props.closeSearchDispatch();
   }
