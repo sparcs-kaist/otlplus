@@ -138,9 +138,9 @@ class SearchSubSection extends Component {
     if (!this.props.open) {
       return null;
     }
-    else {
-      const { inputVal, autoComplete } = this.state;
-      return (
+    const { inputVal, autoComplete } = this.state;
+    return (
+        // eslint-disable-next-line react/jsx-indent
         <div className="search-extend">
           <div className="search-form-wrap">
             <form method="post">
@@ -215,8 +215,7 @@ class SearchSubSection extends Component {
             </form>
           </div>
         </div>
-      );
-    }
+    );
   }
 }
 
