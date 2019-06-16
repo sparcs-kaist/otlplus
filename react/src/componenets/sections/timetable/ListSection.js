@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import axios from '../../../common/presetAxios';
 import { inTimetable, inCart, isListClicked, isListHover } from '../../../common/lectureFunctions';
 import { BASE_URL } from '../../../common/constants';
-import { openSearch, setLectureActive, clearLectureActive, addLectureToTimetable, addLectureToCart, deleteLectureFromCart, setListMajorCodes, setListMajorLectures } from '../../../actions/timetable/index';
+import { openSearch, setLectureActive, clearLectureActive, addLectureToTimetable, addLectureToCart, deleteLectureFromCart, setListMajorCodes, setListLectures, setListMajorLectures } from '../../../actions/timetable/index';
 import Scroller from '../../Scroller';
 import SearchSubSection from './SearchSubSection';
 import CourseLecturesBlock from '../../blocks/CourseLecturesBlock';
@@ -33,6 +33,45 @@ class ListSection extends Component {
         .catch((response) => {
         });
     }
+
+    if (this.props.year !== prevProps.year || this.props.semester !== prevProps.semester) {
+      this._fetchLists();
+    }
+  }
+
+  _fetchLists = () => {
+    axios.post(`${BASE_URL}/api/timetable/list_load_major`, {
+      year: this.props.year,
+      semester: this.props.semester,
+    })
+      .then((response) => {
+        // TODO: cancel if user department is changed between request and response
+        this.props.major.codes.forEach((code) => {
+          this.props.setListMajorLecturesDispatch(code, response.data.filter(lecture => (lecture.major_code === code)));
+        });
+      })
+      .catch((response) => {
+      });
+
+    axios.post(`${BASE_URL}/api/timetable/list_load_humanity`, {
+      year: this.props.year,
+      semester: this.props.semester,
+    })
+      .then((response) => {
+        this.props.setListLecturesDispatch('humanity', response.data);
+      })
+      .catch((response) => {
+      });
+
+    axios.post(`${BASE_URL}/api/timetable/wishlist_load`, {
+      year: this.props.year,
+      semester: this.props.semester,
+    })
+      .then((response) => {
+        this.props.setListLecturesDispatch('cart', response.data);
+      })
+      .catch((response) => {
+      });
   }
 
   showSearch = () => {
@@ -248,6 +287,9 @@ const mapDispatchToProps = dispatch => ({
   setListMajorCodesDispatch: (majors) => {
     dispatch(setListMajorCodes(majors));
   },
+  setListLecturesDispatch: (code, lectures) => {
+    dispatch(setListLectures(code, lectures));
+  },
   setListMajorLecturesDispatch: (majorCode, lectures) => {
     dispatch(setListMajorLectures(majorCode, lectures));
   },
@@ -280,6 +322,7 @@ ListSection.propTypes = {
   addLectureToCartDispatch: PropTypes.func.isRequired,
   deleteLectureFromCartDispatch: PropTypes.func.isRequired,
   setListMajorCodesDispatch: PropTypes.func.isRequired,
+  setListLecturesDispatch: PropTypes.func.isRequired,
   setListMajorLecturesDispatch: PropTypes.func.isRequired,
 };
 
