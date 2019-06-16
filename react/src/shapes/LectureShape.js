@@ -28,7 +28,7 @@ const lectureShape = PropTypes.shape({
   professor_short: PropTypes.string.isRequired,
   has_review: PropTypes.bool.isRequired,
   grade: PropTypes.number.isRequired,
-  laod: PropTypes.number.isRequired,
+  load: PropTypes.number.isRequired,
   speech: PropTypes.number.isRequired,
   grade_letter: PropTypes.string.isRequired,
   load_letter: PropTypes.string.isRequired,
