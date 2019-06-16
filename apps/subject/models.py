@@ -109,7 +109,7 @@ class Lecture(models.Model):
         # Add classtime
         classtimes = []
         for ct in self.classtime_set.all():
-            classtimes.append(ct.toJson())
+            classtimes.append(ct.toJson(nested=True))
         result.update({
             'classtimes': classtimes,
         })
@@ -133,7 +133,7 @@ class Lecture(models.Model):
         # Add examtime
         examtimes = []
         for et in self.examtime_set.all():
-            examtimes.append(et.toJson())
+            examtimes.append(et.toJson(nested=True))
         result.update({
             'examtimes': examtimes,
         })
@@ -443,7 +443,7 @@ class Course(models.Model):
         # Don't change this into model_to_dict: for security and performance
         result = {
                 "old_code": self.old_code,
-                "department": self.department.toJson(),
+                "department": self.department.toJson(nested=True),
                 "code_num": self.code_num,
                 "type": self.type,
                 "type_en": self.type_en,
@@ -563,7 +563,7 @@ class Professor(models.Model):
 
         # Add course information
         result.update({
-            'courses': [c.toJson() for c in self.course_list.all()],
+            'courses': [c.toJson(nested=True) for c in self.course_list.all()],
         })
 
         # Add formatted score
