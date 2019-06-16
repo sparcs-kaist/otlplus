@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-import lectureShape from './lectureShape';
+import lectureShape from './LectureShape';
 
 
 const timetableShape = PropTypes.shape({

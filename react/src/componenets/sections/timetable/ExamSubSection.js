@@ -5,8 +5,8 @@ import PropTypes from 'prop-types';
 import Scroller from '../../Scroller';
 import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureActive';
 import { clearMultipleDetail, setMultipleDetail } from '../../../actions/timetable/index';
-import lectureShape from '../../../shapes/lectureShape';
-import timetableShape from '../../../shapes/timetableShape';
+import lectureShape from '../../../shapes/LectureShape';
+import timetableShape from '../../../shapes/TimetableShape';
 
 
 class ExamSubSection extends Component {

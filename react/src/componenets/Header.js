@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import '../static/css/components/header/timetable.css';
 
-import userShape from '../shapes/userShape';
+import userShape from '../shapes/UserShape';
 
 
 class Header extends Component {

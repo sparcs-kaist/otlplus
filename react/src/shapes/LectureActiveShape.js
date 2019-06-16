@@ -1,17 +1,17 @@
 import PropTypes from 'prop-types';
 
 import { NONE, LIST, TABLE, MULTIPLE } from '../reducers/timetable/lectureActive';
-import lectureShape from './lectureShape';
-import reviewShape from './reviewShape';
+import lectureShape from './LectureShape';
+import reviewShape from './ReviewShape';
 
 
 const lectureActiveShape = PropTypes.shape({
   from: PropTypes.oneOf([NONE, LIST, TABLE, MULTIPLE]).isRequired,
   clicked: PropTypes.bool.isRequired,
-  lecture: lectureShape.isRequired,
+  lecture: lectureShape,
   comments: PropTypes.arrayOf(reviewShape).isRequired,
   title: PropTypes.string.isRequired,
-  lectures: PropTypes.arrayOf(lectureShape).isRequired,
+  lectures: PropTypes.arrayOf(lectureShape),
 });
 
 export default lectureActiveShape;

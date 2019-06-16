@@ -1,7 +1,7 @@
 import React from 'react';
 import { pure } from 'recompose';
 
-import reviewShape from '../../shapes/reviewShape';
+import reviewShape from '../../shapes/ReviewShape';
 
 
 const ReviewSimpleBlock = (props) => {
