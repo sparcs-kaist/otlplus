@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 
 import { clearMultipleDetail, setMultipleDetail } from '../../../actions/timetable/index';
 import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureActive';
-import lectureShape from '../../../shapes/lectureShape';
-import timetableShape from '../../../shapes/timetableShape';
+import lectureShape from '../../../shapes/LectureShape';
+import timetableShape from '../../../shapes/TimetableShape';
 
 
 const indexOfType = (type) => {

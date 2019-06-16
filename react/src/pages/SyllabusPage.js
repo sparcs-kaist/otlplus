@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import '../static/css/timetable/components/syllabus.scss';
 
-import lectureShape from '../shapes/lectureShape';
+import lectureShape from '../shapes/LectureShape';
 
 
 class SyllabusPage extends Component {

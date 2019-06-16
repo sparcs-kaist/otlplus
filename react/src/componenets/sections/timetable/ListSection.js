@@ -10,10 +10,10 @@ import Scroller from '../../Scroller';
 import SearchSubSection from './SearchSubSection';
 import CourseLecturesBlock from '../../blocks/CourseLecturesBlock';
 import { LIST } from '../../../reducers/timetable/lectureActive';
-import userShape from '../../../shapes/userShape';
-import lectureShape from '../../../shapes/lectureShape';
-import timetableShape from '../../../shapes/timetableShape';
-import lectureActiveShape from '../../../shapes/lectureActiveShape';
+import userShape from '../../../shapes/UserShape';
+import lectureShape from '../../../shapes/LectureShape';
+import timetableShape from '../../../shapes/TimetableShape';
+import lectureActiveShape from '../../../shapes/LectureActiveShape';
 
 
 class ListSection extends Component {

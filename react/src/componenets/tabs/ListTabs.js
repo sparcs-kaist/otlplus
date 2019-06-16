@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import { openSearch, closeSearch, setCurrentList, clearLectureActive } from '../../actions/timetable/index';
 import { NONE, LIST, TABLE, MULTIPLE } from '../../reducers/timetable/lectureActive';
-import lectureShape from '../../shapes/lectureShape';
+import lectureShape from '../../shapes/LectureShape';
 
 
 class ListSection extends Component {

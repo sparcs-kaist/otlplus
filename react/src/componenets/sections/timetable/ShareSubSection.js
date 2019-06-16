@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import { mToggleLectureList, modaltimetableList } from '../../../actions/timetable/index';
-import timetableShape from '../../../shapes/timetableShape';
+import timetableShape from '../../../shapes/TimetableShape';
 
 
 class ShareSubSection extends Component {

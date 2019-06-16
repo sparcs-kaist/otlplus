@@ -8,9 +8,9 @@ import { BASE_URL } from '../../../common/constants';
 import TimetableBlock from '../../blocks/TimetableBlock';
 import { dragSearch, setIsDragging, updateCellSize, setLectureActive, clearLectureActive, removeLectureFromTimetable, lectureinfo, setCurrentList } from '../../../actions/timetable/index';
 import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureActive';
-import lectureShape from '../../../shapes/lectureShape';
-import timetableShape from '../../../shapes/timetableShape';
-import lectureActiveShape from '../../../shapes/lectureActiveShape';
+import lectureShape from '../../../shapes/LectureShape';
+import timetableShape from '../../../shapes/TimetableShape';
+import lectureActiveShape from '../../../shapes/LectureActiveShape';
 
 
 class TimetableSubSection extends Component {
