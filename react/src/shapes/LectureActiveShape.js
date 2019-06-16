@@ -8,10 +8,10 @@ import reviewShape from './ReviewShape';
 const lectureActiveShape = PropTypes.shape({
   from: PropTypes.oneOf([NONE, LIST, TABLE, MULTIPLE]).isRequired,
   clicked: PropTypes.bool.isRequired,
-  lecture: lectureShape.isRequired,
+  lecture: lectureShape,
   comments: PropTypes.arrayOf(reviewShape).isRequired,
   title: PropTypes.string.isRequired,
-  lectures: PropTypes.arrayOf(lectureShape).isRequired,
+  lectures: PropTypes.arrayOf(lectureShape),
 });
 
 export default lectureActiveShape;
