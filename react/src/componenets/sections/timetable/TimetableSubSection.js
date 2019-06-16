@@ -58,9 +58,8 @@ class TimetableSubSection extends Component {
   dragStart = (e) => {
     e.stopPropagation();
     e.preventDefault();
-    this.setState({ firstBlock: e.target });
+    this.setState({ firstBlock: e.target, secondBlock: e.target });
     this.props.setIsDraggingDispatch(true);
-    this._highlight(e.target, e.target);
   }
 
   // check is drag contain class time
@@ -74,12 +73,6 @@ class TimetableSubSection extends Component {
     ));
   }
 
-  _highlight = (first, second) => {
-    this.setState({
-      secondBlock: second,
-    });
-  }
-
   dragMove = (e) => {
     if (!this.props.isDragging) return;
     const startIndex = this.indexOfTime(this.state.firstBlock.getAttribute('data-time'));
@@ -91,7 +84,7 @@ class TimetableSubSection extends Component {
         return;
       }
     }
-    this._highlight(this.state.firstBlock, e.target);
+    this.setState({ secondBlock: e.target });
   }
 
   dragEnd = (e) => {
