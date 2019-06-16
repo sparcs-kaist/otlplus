@@ -6,7 +6,7 @@ import axios from '../../../common/presetAxios';
 import { inTimetable, isListHover, isTableClicked, isTableHover } from '../../../common/lectureFunctions';
 import { BASE_URL } from '../../../common/constants';
 import TimetableBlock from '../../blocks/TimetableBlock';
-import { dragSearch, setIsDragging, updateCellSize, setLectureActive, clearLectureActive, removeLectureFromTimetable, lectureinfo } from '../../../actions/timetable/index';
+import { dragSearch, setIsDragging, updateCellSize, setLectureActive, clearLectureActive, removeLectureFromTimetable, lectureinfo, setCurrentList } from '../../../actions/timetable/index';
 import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureActive';
 import lectureShape from '../../../shapes/lectureShape';
 import timetableShape from '../../../shapes/timetableShape';
@@ -19,10 +19,6 @@ class TimetableSubSection extends Component {
     this.state = {
       firstBlock: null,
       secondBlock: null,
-      height: 0,
-      width: 0,
-      left: 0,
-      top: 0,
     };
   }
 
@@ -62,10 +58,8 @@ class TimetableSubSection extends Component {
   dragStart = (e) => {
     e.stopPropagation();
     e.preventDefault();
-    this.setState({ firstBlock: e.target });
+    this.setState({ firstBlock: e.target, secondBlock: e.target });
     this.props.setIsDraggingDispatch(true);
-    document.getElementById('drag-cell').classList.remove('none');
-    this._highlight(e.target, e.target);
   }
 
   // check is drag contain class time
@@ -79,20 +73,6 @@ class TimetableSubSection extends Component {
     ));
   }
 
-  _highlight = (first, second) => {
-    const left = (this.props.cellWidth + 5) * this.indexOfDay(first.getAttribute('data-day')) + 28;
-    const width = this.props.cellWidth + 2;
-    const top = this.props.cellHeight * Math.min(this.indexOfTime(first.getAttribute('data-time')), this.indexOfTime(second.getAttribute('data-time'))) + 28;
-    const height = this.props.cellHeight * (Math.abs(this.indexOfTime(first.getAttribute('data-time')) - this.indexOfTime(second.getAttribute('data-time'))) + 1) - 3;
-    this.setState({
-      secondBlock: second,
-      height: height,
-      width: width,
-      left: left,
-      top: top,
-    });
-  }
-
   dragMove = (e) => {
     if (!this.props.isDragging) return;
     const startIndex = this.indexOfTime(this.state.firstBlock.getAttribute('data-time'));
@@ -104,20 +84,20 @@ class TimetableSubSection extends Component {
         return;
       }
     }
-    this._highlight(this.state.firstBlock, e.target);
+    this.setState({ secondBlock: e.target });
   }
 
   dragEnd = (e) => {
     if (!this.props.isDragging) return;
     this.props.setIsDraggingDispatch(false);
-    document.getElementById('drag-cell').classList.add('none');
 
     const startDay = this.indexOfDay(this.state.firstBlock.getAttribute('data-day'));
     const startIndex = this.indexOfTime(this.state.firstBlock.getAttribute('data-time'));
-    const endIndex = this.indexOfTime(e.target.getAttribute('data-time'));
+    const endIndex = this.indexOfTime(this.state.secondBlock.getAttribute('data-time'));
     if (startIndex === endIndex) return;
     this.props.dragSearchDispatch(startDay, Math.min(startIndex, endIndex), Math.max(startIndex, endIndex) + 1);
-    this.setState({ firstBlock: null, secondBlock: null, height: 0 });
+    this.props.setCurrentListDispatch('SEARCH');
+    this.setState({ firstBlock: null, secondBlock: null });
   }
 
   blockHover = lecture => () => {
@@ -303,7 +283,21 @@ class TimetableSubSection extends Component {
             {dragDiv('fri', '금요일')}
           </div>
         </div>
-        <div id="drag-cell" className="none" style={{ left: this.state.left, width: this.state.width, top: this.state.top, height: this.state.height }} />
+        {
+          this.state.firstBlock && this.state.secondBlock
+            ? (
+              <div
+                id="drag-cell"
+                style={{
+                  left: (this.props.cellWidth + 5) * this.indexOfDay(this.state.firstBlock.getAttribute('data-day')) + 28,
+                  width: this.props.cellWidth + 2,
+                  top: this.props.cellHeight * Math.min(this.indexOfTime(this.state.firstBlock.getAttribute('data-time')), this.indexOfTime(this.state.secondBlock.getAttribute('data-time'))) + 28,
+                  height: this.props.cellHeight * (Math.abs(this.indexOfTime(this.state.firstBlock.getAttribute('data-time')) - this.indexOfTime(this.state.secondBlock.getAttribute('data-time'))) + 1) - 3,
+                }}
+              />
+            )
+            : null
+        }
         {lectureBlocks}
         {
           (
@@ -372,6 +366,9 @@ const mapDispatchToProps = dispatch => ({
   lectureinfoDispatch: () => {
     dispatch(lectureinfo());
   },
+  setCurrentListDispatch: (list) => {
+    dispatch(setCurrentList(list));
+  },
 });
 
 TimetableSubSection.propTypes = {
@@ -390,6 +387,7 @@ TimetableSubSection.propTypes = {
   clearLectureActiveDispatch: PropTypes.func.isRequired,
   removeLectureFromTimetableDispatch: PropTypes.func.isRequired,
   lectureinfoDispatch: PropTypes.func.isRequired,
+  setCurrentListDispatch: PropTypes.func.isRequired,
 };
 
 TimetableSubSection = connect(mapStateToProps, mapDispatchToProps)(TimetableSubSection);
