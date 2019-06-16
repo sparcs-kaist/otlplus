@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 
 import { NONE, LIST, TABLE, MULTIPLE } from '../reducers/timetable/lectureActive';
-import lectureShape from './lectureShape';
-import reviewShape from './reviewShape';
+import lectureShape from './LectureShape';
+import reviewShape from './ReviewShape';
 
 
 const lectureActiveShape = PropTypes.shape({

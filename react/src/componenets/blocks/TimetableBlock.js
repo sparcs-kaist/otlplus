@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { pure } from 'recompose';
 
-import lectureShape from '../../shapes/lectureShape';
-import classtimeShape from '../../shapes/classtimeShape';
+import lectureShape from '../../shapes/LectureShape';
+import classtimeShape from '../../shapes/ClasstimeShape';
 
 
 const TimetableBlock = (props) => {
