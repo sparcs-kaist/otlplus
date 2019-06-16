@@ -4,11 +4,29 @@ import PropTypes from 'prop-types';
 
 import axios from '../../common/presetAxios';
 import { BASE_URL } from '../../common/constants';
-import { createTimetable, setCurrentTimetable, deleteTimetable, duplicateTimetable } from '../../actions/timetable/index';
+import { setTimetables, createTimetable, setCurrentTimetable, deleteTimetable, duplicateTimetable } from '../../actions/timetable/index';
 import timetableShape from '../../shapes/timetableShape';
 
 
 class TimetableTabs extends Component {
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (this.props.year !== prevProps.year || this.props.semester !== prevProps.semester) {
+      this._fetchTables();
+    }
+  }
+
+  _fetchTables = () => {
+    axios.post(`${BASE_URL}/api/timetable/table_load`, {
+      year: this.props.year,
+      semester: this.props.semester,
+    })
+      .then((response) => {
+        this.props.setTimetablesDispatch(response.data);
+      })
+      .catch((response) => {
+      });
+  }
+
   changeTab(timetable) {
     this.props.setCurrentTimetableDispatch(timetable);
   }
@@ -106,6 +124,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
+  setTimetablesDispatch: (timetables) => {
+    dispatch(setTimetables(timetables));
+  },
   setCurrentTimetableDispatch: (timetable) => {
     dispatch(setCurrentTimetable(timetable));
   },
@@ -126,6 +147,7 @@ TimetableTabs.propTypes = {
   year: PropTypes.number.isRequired,
   semester: PropTypes.number.isRequired,
   showTimetableListFlag: PropTypes.bool.isRequired,
+  setTimetablesDispatch: PropTypes.func.isRequired,
   setCurrentTimetableDispatch: PropTypes.func.isRequired,
   createTimetableDispatch: PropTypes.func.isRequired,
   deleteTimetableDispatch: PropTypes.func.isRequired,
