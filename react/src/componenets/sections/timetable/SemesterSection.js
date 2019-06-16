@@ -27,8 +27,6 @@ class SemesterSection extends Component {
   }
 
   componentDidMount() {
-    this.props.setSemesterDispatch(2018, 1);
-
     axios.post(`${BASE_URL}/api/timetable/semester`, {
     })
       .then((response) => {
