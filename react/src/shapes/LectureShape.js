@@ -1,5 +1,8 @@
 import PropTypes from 'prop-types';
 
+import ClasstimeShape from './ClasstimeShape';
+import ExamtimeShape from './ExamtimeShape';
+
 
 const lectureShape = PropTypes.shape({
   id: PropTypes.number.isRequired,
@@ -22,6 +25,21 @@ const lectureShape = PropTypes.shape({
   credit_au: PropTypes.number.isRequired,
   common_title: PropTypes.string.isRequired,
   class_title: PropTypes.string.isRequired,
+  professor_short: PropTypes.string.isRequired,
+  has_review: PropTypes.bool.isRequired,
+  grade: PropTypes.number.isRequired,
+  laod: PropTypes.number.isRequired,
+  speech: PropTypes.number.isRequired,
+  grade_letter: PropTypes.string.isRequired,
+  load_letter: PropTypes.string.isRequired,
+  speech_letter: PropTypes.string.isRequired,
+  classtimes: PropTypes.arrayOf(ClasstimeShape).isRequired,
+  building: PropTypes.string.isRequired,
+  classroom: PropTypes.string.isRequired,
+  classroom_short: PropTypes.string.isRequired,
+  room: PropTypes.string.isRequired,
+  examtimes: PropTypes.arrayOf(ExamtimeShape).isRequired,
+  exam: PropTypes.string.isRequired,
 });
 
 export default lectureShape;
