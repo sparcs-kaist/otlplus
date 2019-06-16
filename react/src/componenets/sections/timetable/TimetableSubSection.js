@@ -93,7 +93,7 @@ class TimetableSubSection extends Component {
 
     const startDay = this.indexOfDay(this.state.firstBlock.getAttribute('data-day'));
     const startIndex = this.indexOfTime(this.state.firstBlock.getAttribute('data-time'));
-    const endIndex = this.indexOfTime(e.target.getAttribute('data-time'));
+    const endIndex = this.indexOfTime(this.state.secondBlock.getAttribute('data-time'));
     if (startIndex === endIndex) return;
     this.props.dragSearchDispatch(startDay, Math.min(startIndex, endIndex), Math.max(startIndex, endIndex) + 1);
     this.setState({ firstBlock: null, secondBlock: null });
