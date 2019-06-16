@@ -21,25 +21,15 @@ class ListSection extends Component {
     if (this.props.user && (this.props.user !== prevProps.user)) {
       this.props.setListMajorCodesDispatch(this.props.user.departments);
 
-      axios.post(`${BASE_URL}/api/timetable/list_load_major`, {
-        year: this.props.year,
-        semester: this.props.semester,
-      })
-        .then((response) => {
-          this.props.major.codes.forEach((code) => {
-            this.props.setListMajorLecturesDispatch(code, response.data.filter(lecture => (lecture.major_code === code)));
-          });
-        })
-        .catch((response) => {
-        });
+      this._fetchLists(true);
     }
 
     if (this.props.year !== prevProps.year || this.props.semester !== prevProps.semester) {
-      this._fetchLists();
+      this._fetchLists(false);
     }
   }
 
-  _fetchLists = () => {
+  _fetchLists = (majorOnly) => {
     axios.post(`${BASE_URL}/api/timetable/list_load_major`, {
       year: this.props.year,
       semester: this.props.semester,
@@ -52,6 +42,10 @@ class ListSection extends Component {
       })
       .catch((response) => {
       });
+
+    if (majorOnly) {
+      return;
+    }
 
     axios.post(`${BASE_URL}/api/timetable/list_load_humanity`, {
       year: this.props.year,
