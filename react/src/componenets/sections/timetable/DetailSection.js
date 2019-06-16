@@ -8,7 +8,7 @@ import Scroller from '../../Scroller';
 import ReviewSimpleBlock from '../../blocks/ReviewSimpleBlock';
 import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureActive';
 import { clearLectureActive } from '../../../actions/timetable/index';
-import lectureShape from '../../../shapes/lectureShape';
+import lectureShape from '../../../shapes/LectureShape';
 
 
 class DetailSection extends Component {

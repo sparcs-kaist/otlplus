@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import axios from '../../common/presetAxios';
 import { BASE_URL } from '../../common/constants';
 import { setTimetables, createTimetable, setCurrentTimetable, deleteTimetable, duplicateTimetable } from '../../actions/timetable/index';
-import timetableShape from '../../shapes/timetableShape';
+import timetableShape from '../../shapes/TimetableShape';
 
 
 class TimetableTabs extends Component {

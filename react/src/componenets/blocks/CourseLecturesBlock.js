@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { pure } from 'recompose';
 
-import lectureShape from '../../shapes/lectureShape';
+import lectureShape from '../../shapes/LectureShape';
 
 
 const CourseLecturesBlock = (props) => {
