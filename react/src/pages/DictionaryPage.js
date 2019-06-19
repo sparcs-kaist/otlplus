@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import Header from '../componenets/Header';
 import CourseListSection from '../componenets/sections/dictionary/CourseListSection';
 import CourseDetailSection from '../componenets/sections/dictionary/CourseDetailSection';
+import courses from '../dummy/courses';
 
 import '../App.scss';
 
@@ -21,7 +22,7 @@ class DictionaryPage extends Component {
           </div>
           <div className="section-wrap section-wrap--course-detail">
             <div className="section">
-              <CourseDetailSection />
+              <CourseDetailSection course={courses[0]} />
             </div>
           </div>
         </section>

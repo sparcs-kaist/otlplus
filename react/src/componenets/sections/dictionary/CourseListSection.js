@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import Scroller from '../../Scroller';
 import CourseBlock from '../../blocks/CourseBlock';
+import courses from '../../../dummy/courses';
 
 
 class CourseListSection extends Component {
@@ -12,12 +13,7 @@ class CourseListSection extends Component {
           전산학부
         </div>
         <Scroller>
-          <CourseBlock />
-          <CourseBlock />
-          <CourseBlock />
-          <CourseBlock />
-          <CourseBlock />
-          <CourseBlock />
+          { courses.map(c => <CourseBlock course={c} />)}
         </Scroller>
       </div>
     );
