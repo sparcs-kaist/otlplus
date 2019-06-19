@@ -72,9 +72,6 @@ class Lecture(models.Model):
                 "common_title": getattr(self, _("common_title")),
                 "class_title": getattr(self, _("class_title")),}
         
-        if nested:
-            return result
-        
         # Add formatted professor name
         prof_name_list = [getattr(p, _("professor_name")) for p in self.professor.all()]
         if len(prof_name_list) <= 2:
@@ -85,6 +82,9 @@ class Lecture(models.Model):
             result.update({
                 'professor_short': prof_name_list[0] + _(u" 외 ") + str(len(prof_name_list)-1) + _(u"명"),
             })
+        
+        if nested:
+            return result
 
         # Add formatted score
         if self.comment_num == 0:
