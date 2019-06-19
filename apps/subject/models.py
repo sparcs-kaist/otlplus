@@ -72,6 +72,9 @@ class Lecture(models.Model):
                 "common_title": getattr(self, _("common_title")),
                 "class_title": getattr(self, _("class_title")),}
         
+        if nested:
+            return result
+        
         # Add formatted professor name
         prof_name_list = [getattr(p, _("professor_name")) for p in self.professor.all()]
         if len(prof_name_list) <= 2:
