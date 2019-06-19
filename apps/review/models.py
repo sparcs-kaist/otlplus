@@ -28,6 +28,7 @@ class Comment(models.Model):
     def toJson(self, nested=False, user=None):
         letters = ['?', 'F', 'D', 'C', 'B', 'A']
         result = {
+            'id': self.id,
             'course': self.course.toJson(nested=True),
             'lecture': self.lecture.toJson(nested=True),
             'comment': self.comment if (not self.is_deleted) else '관리자에 의해 삭제된 코멘트입니다.',

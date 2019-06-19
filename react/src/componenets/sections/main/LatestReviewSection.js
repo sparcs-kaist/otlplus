@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import ReviewBlock from '../../blocks/ReviewBlock';
+import reviews from '../../../dummy/reviews';
 
 
 class LatestReviewSection extends Component {
@@ -10,9 +11,7 @@ class LatestReviewSection extends Component {
         <div className="title">
           따끈따끈 과목후기
         </div>
-        <ReviewBlock />
-        <ReviewBlock />
-        <ReviewBlock />
+        {reviews.map(r => <ReviewBlock review={r} />)}
         <div className="buttons">
           <button className="text-button">
             후기 더 보기
