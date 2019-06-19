@@ -40,7 +40,6 @@
     "react/prefer-stateless-function": 0,
     "no-case-declarations": 1,
     "no-console": "error",
-    "no-else-return": 1,
     "no-lonely-if": 1,
     "no-loops/no-loops": "error",
     "no-nested-ternary": "off",

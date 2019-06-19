@@ -14,9 +14,7 @@ const indexOfType = (type) => {
   if (index === -1) {
     return 5;
   }
-  else {
-    return index;
-  }
+  return index;
 };
 
 class SummarySubSection extends Component {
