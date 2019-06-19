@@ -37,11 +37,12 @@ const list = (state = initialState, action) => {
   const newState = {};
 
   switch (action.type) {
-    case SET_CURRENT_LIST:
+    case SET_CURRENT_LIST: {
       return Object.assign({}, state, {
         currentList: action.list,
       });
-    case SET_LIST_MAJOR_CODES:
+    }
+    case SET_LIST_MAJOR_CODES: {
       newState.major = {
         codes: action.majors.map(major => major.code),
       };
@@ -52,13 +53,15 @@ const list = (state = initialState, action) => {
         };
       });
       return Object.assign({}, state, newState);
-    case SET_LIST_LECTURES:
+    }
+    case SET_LIST_LECTURES: {
       newState[action.code] = {
         ...state[action.code],
         courses: groupLectures(action.lectures),
       };
       return Object.assign({}, state, newState);
-    case SET_LIST_MAJOR_LECTURES:
+    }
+    case SET_LIST_MAJOR_LECTURES: {
       newState.major = {
         ...state.major,
       };
@@ -67,8 +70,9 @@ const list = (state = initialState, action) => {
         courses: groupLectures(action.lectures),
       };
       return Object.assign({}, state, newState);
-    case ADD_LECTURE_TO_CART:
-      let courses = state.cart.courses;
+    }
+    case ADD_LECTURE_TO_CART: {
+      const courses = state.cart.courses;
       const i = courses.findIndex(course => (course[0].old_code === action.lecture.old_code));
       if (i !== -1) {
         const j = courses[i].findIndex(lecture => (lecture.class_no > action.lecture.class_no));
@@ -93,8 +97,9 @@ const list = (state = initialState, action) => {
           courses: courses,
         },
       });
-    case DELETE_LECTURE_FROM_CART:
-      courses = state.cart.courses;
+    }
+    case DELETE_LECTURE_FROM_CART: {
+      const courses = state.cart.courses;
       const i2 = courses.findIndex(course => course.some(lecture => (lecture.id === action.lecture.id)));
       const j = courses[i2].findIndex(lecture => (lecture.id === action.lecture.id));
       courses[i2].splice(j, 1);
@@ -106,8 +111,10 @@ const list = (state = initialState, action) => {
           courses: courses,
         },
       });
-    default:
+    }
+    default: {
       return state;
+    }
   }
 };
 
