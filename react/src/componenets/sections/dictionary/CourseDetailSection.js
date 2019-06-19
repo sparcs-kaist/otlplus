@@ -6,6 +6,7 @@ import Scroller from '../../Scroller';
 import CourseSimpleBlock from '../../blocks/CourseSimpleBlock';
 import CourseShape from '../../../shapes/CourseShape';
 import courses from '../../../dummy/courses';
+import reviews from '../../../dummy/reviews';
 
 
 class CourseDetailSection extends Component {
@@ -129,10 +130,7 @@ class CourseDetailSection extends Component {
           </div>
           <div className="divider" />
           <ReviewWriteBlock />
-          <ReviewBlock />
-          <ReviewBlock />
-          <ReviewBlock />
-          <ReviewBlock />
+          {reviews.map(r => <ReviewBlock review={r} />)}
         </Scroller>
       </div>
     );
