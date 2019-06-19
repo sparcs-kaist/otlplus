@@ -44,6 +44,7 @@ class SearchFilter extends Component {
       }
     }
     else { // When Check out somtething
+      // eslint-disable-next-line no-lonely-if
       if (this.state.checkNum === 1) {
         this.setState({
           allChecked: true,
