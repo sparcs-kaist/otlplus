@@ -111,6 +111,5 @@ SemesterSection.propTypes = {
   setSemesterDispatch: PropTypes.func.isRequired,
 };
 
-SemesterSection = connect(mapStateToProps, mapDispatchToProps)(SemesterSection);
 
-export default SemesterSection;
+export default connect(mapStateToProps, mapDispatchToProps)(SemesterSection);

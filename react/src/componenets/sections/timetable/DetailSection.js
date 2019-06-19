@@ -283,6 +283,5 @@ DetailSection.propTypes = {
   clearLectureActiveDispatch: PropTypes.func.isRequired,
 };
 
-DetailSection = connect(mapStateToProps, mapDispatchToProps)(DetailSection);
 
-export default DetailSection;
+export default connect(mapStateToProps, mapDispatchToProps)(DetailSection);

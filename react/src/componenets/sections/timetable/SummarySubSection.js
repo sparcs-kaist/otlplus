@@ -231,6 +231,5 @@ SummarySubSection.propTypes = {
   clearMultipleDetailDispatch: PropTypes.func.isRequired,
 };
 
-SummarySubSection = connect(mapStateToProps, mapDispatchToProps)(SummarySubSection);
 
-export default SummarySubSection;
+export default connect(mapStateToProps, mapDispatchToProps)(SummarySubSection);
