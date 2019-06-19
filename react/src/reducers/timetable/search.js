@@ -9,26 +9,30 @@ const initialState = {
 
 const search = (state = initialState, action) => {
   switch (action.type) {
-    case OPEN_SEARCH:
+    case OPEN_SEARCH: {
       return Object.assign({}, state, {
         open: true,
       });
-    case CLOSE_SEARCH:
+    }
+    case CLOSE_SEARCH: {
       return Object.assign({}, state, {
         open: false,
         start: null,
         end: null,
         day: null,
       });
-    case DRAG_SEARCH:
+    }
+    case DRAG_SEARCH: {
       return Object.assign({}, state, {
         open: true,
         start: action.start,
         end: action.end,
         day: action.day,
       });
-    default:
+    }
+    default: {
       return state;
+    }
   }
 };
 

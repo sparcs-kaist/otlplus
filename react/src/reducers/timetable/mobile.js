@@ -9,22 +9,27 @@ const initialState = {
 
 const mobile = (state = initialState, action) => {
   switch (action.type) {
-    case TOGGLE_LECTURE_LIST:
+    case TOGGLE_LECTURE_LIST: {
       return {
         ...state,
         showLectureListFlag: !state.showLectureListFlag,
       };
-    case MODAL_TIMETABLE_LIST:
+    }
+    case MODAL_TIMETABLE_LIST: {
       return {
         ...state,
         showTimetableListFlag: !state.showTimetableListFlag,
       };
-    case LECTURE_INFO:
+    }
+    case LECTURE_INFO: {
       return {
         ...state,
         showLectureInfoFlag: !state.showLectureInfoFlag,
       };
-    default: return state;
+    }
+    default: {
+      return state;
+    }
   }
 };
 

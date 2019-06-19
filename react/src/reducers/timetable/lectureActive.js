@@ -16,33 +16,38 @@ const initialState = {
 
 const lectureActive = (state = initialState, action) => {
   switch (action.type) {
-    case SET_LECTURE_ACTIVE:
+    case SET_LECTURE_ACTIVE: {
       return Object.assign({}, state, {
         from: action.from,
         clicked: action.clicked,
         lecture: action.lecture,
       });
-    case CLEAR_LECTURE_ACTIVE:
+    }
+    case CLEAR_LECTURE_ACTIVE: {
       return Object.assign({}, state, {
         from: NONE,
         clicked: false,
         lecture: null,
         comments: [],
       });
-    case SET_MULTIPLE_DETAIL:
+    }
+    case SET_MULTIPLE_DETAIL: {
       return Object.assign({}, state, {
         from: MULTIPLE,
         title: action.title,
         lectures: action.lectures,
       });
-    case CLEAR_MULTIPLE_DETAIL:
+    }
+    case CLEAR_MULTIPLE_DETAIL: {
       return Object.assign({}, state, {
         from: NONE,
         title: '',
         lectures: [],
       });
-    default:
+    }
+    default: {
       return state;
+    }
   }
 };
 
