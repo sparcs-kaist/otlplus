@@ -390,6 +390,5 @@ TimetableSubSection.propTypes = {
   setCurrentListDispatch: PropTypes.func.isRequired,
 };
 
-TimetableSubSection = connect(mapStateToProps, mapDispatchToProps)(TimetableSubSection);
 
-export default TimetableSubSection;
+export default connect(mapStateToProps, mapDispatchToProps)(TimetableSubSection);

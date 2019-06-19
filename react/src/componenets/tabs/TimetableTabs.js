@@ -154,6 +154,5 @@ TimetableTabs.propTypes = {
   duplicateTimetableDispatch: PropTypes.func.isRequired,
 };
 
-TimetableTabs = connect(mapStateToProps, mapDispatchToProps)(TimetableTabs);
 
-export default TimetableTabs;
+export default connect(mapStateToProps, mapDispatchToProps)(TimetableTabs);

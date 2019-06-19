@@ -133,7 +133,5 @@ MapSubSection.propTypes = {
   clearMultipleDetailDispatch: PropTypes.func.isRequired,
 };
 
-MapSubSection = connect(mapStateToProps, mapDispatchToProps)(MapSubSection);
 
-
-export default MapSubSection;
+export default connect(mapStateToProps, mapDispatchToProps)(MapSubSection);

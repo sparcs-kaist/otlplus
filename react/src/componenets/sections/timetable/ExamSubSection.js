@@ -156,6 +156,5 @@ ExamSubSection.propTypes = {
   clearMultipleDetailDispatch: PropTypes.func.isRequired,
 };
 
-ExamSubSection = connect(mapStateToProps, mapDispatchToProps)(ExamSubSection);
 
-export default ExamSubSection;
+export default connect(mapStateToProps, mapDispatchToProps)(ExamSubSection);

@@ -249,6 +249,5 @@ SearchSubSection.propTypes = {
   setListLecturesDispatch: PropTypes.func.isRequired,
 };
 
-SearchSubSection = connect(mapStateToProps, mapDispatchToProps)(SearchSubSection);
 
-export default SearchSubSection;
+export default connect(mapStateToProps, mapDispatchToProps)(SearchSubSection);

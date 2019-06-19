@@ -84,6 +84,4 @@ TimetablePage.propTypes = {
   showLectureInfoFlag: PropTypes.bool.isRequired,
 };
 
-TimetablePage = connect(mapStateToProps, null)(TimetablePage);
-
-export default TimetablePage;
+export default connect(mapStateToProps, null)(TimetablePage);
