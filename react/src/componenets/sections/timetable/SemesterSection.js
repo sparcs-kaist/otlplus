@@ -75,6 +75,7 @@ class SemesterSection extends Component {
   render() {
     if (this.props.year && this.props.semester) {
       return (
+        // eslint-disable-next-line react/jsx-indent
         <div id="semester">
           <div id="semester-prev" className={(this.props.year === this.state.startYear) && (this.props.semester === this.state.startSemester) ? 'disable' : ''} onClick={() => this.semesterPrev()}><i /></div>
           <span id="semester-text">{`${this.props.year} ${semesterName[this.props.semester]}`}</span>
@@ -82,15 +83,14 @@ class SemesterSection extends Component {
         </div>
       );
     }
-    else {
-      return (
+    return (
+        // eslint-disable-next-line react/jsx-indent
         <div id="semester">
           <div id="semester-prev"><i /></div>
           <span id="semester-text">불러오는 중</span>
           <div id="semester-next"><i /></div>
         </div>
-      );
-    }
+    );
   }
 }
 
