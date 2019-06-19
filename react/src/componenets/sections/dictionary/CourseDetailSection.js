@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
+
 import ReviewBlock from '../../blocks/ReviewBlock';
 import ReviewWriteBlock from '../../blocks/ReviewWriteBlock';
 import Scroller from '../../Scroller';
 import CourseSimpleBlock from '../../blocks/CourseSimpleBlock';
+import CourseShape from '../../../shapes/CourseShape';
+import courses from '../../../dummy/courses';
+import reviews from '../../../dummy/reviews';
 
 
 class CourseDetailSection extends Component {
@@ -22,10 +26,10 @@ class CourseDetailSection extends Component {
         <div className="fixed">
           <div>
             <div className="title">
-                데이타구조
+              {this.props.course.title}
             </div>
             <div className="subtitle">
-                CS206
+              {this.props.course.old_code}
             </div>
           </div>
           <div ref="scrollThreshold" />
@@ -34,7 +38,7 @@ class CourseDetailSection extends Component {
               <div className="scores">
                 <div>
                   <div>
-                    B
+                    {this.props.course.grade_letter}
                   </div>
                   <div>
                     학점
@@ -42,7 +46,7 @@ class CourseDetailSection extends Component {
                 </div>
                 <div>
                   <div>
-                    B-
+                    {this.props.course.load_letter}
                   </div>
                   <div>
                     널널
@@ -50,7 +54,7 @@ class CourseDetailSection extends Component {
                 </div>
                 <div>
                   <div>
-                    B-
+                    {this.props.course.speech_letter}
                   </div>
                   <div>
                     강의
@@ -68,7 +72,7 @@ class CourseDetailSection extends Component {
                 분류
               </div>
               <div>
-                전산학부, 전공필수
+                {`${this.props.course.department.name}, ${this.props.course.type}`}
               </div>
             </div>
             <div>
@@ -76,14 +80,14 @@ class CourseDetailSection extends Component {
                 설명
               </div>
               <div>
-                추상적 데이타 형의 개념과 배열, 큐, 스텍, 트리, 그래프 등 데이타 구조의 여러 가지 구현방법 및 storage관리기법을 습득한다. 또한 여러 가지 탐색, 정렬 알고리즘을 배운다.
+                {this.props.course.summary}
               </div>
             </div>
           </div>
           <div className="scores" ref="scores">
             <div>
               <div>
-                B
+                {this.props.course.grade_letter}
               </div>
               <div>
                 학점
@@ -91,7 +95,7 @@ class CourseDetailSection extends Component {
             </div>
             <div>
               <div>
-                B-
+                {this.props.course.load_letter}
               </div>
               <div>
                 널널
@@ -99,7 +103,7 @@ class CourseDetailSection extends Component {
             </div>
             <div>
               <div>
-                B-
+                {this.props.course.speech_letter}
               </div>
               <div>
                 강의
@@ -109,36 +113,33 @@ class CourseDetailSection extends Component {
           <div className="divider" />
           <div className="related-courses">
             <div>
-              <CourseSimpleBlock />
-              <CourseSimpleBlock />
-              <CourseSimpleBlock />
+              { courses.map(c => <CourseSimpleBlock course={c} />) }
             </div>
             <div>
               &gt;
             </div>
             <div>
-              <CourseSimpleBlock />
+              <CourseSimpleBlock course={this.props.course} />
             </div>
             <div>
               &gt;
             </div>
             <div>
-              <CourseSimpleBlock />
-              <CourseSimpleBlock />
-              <CourseSimpleBlock />
+              { courses.map(c => <CourseSimpleBlock course={c} />) }
             </div>
           </div>
           <div className="divider" />
           <ReviewWriteBlock />
-          <ReviewBlock />
-          <ReviewBlock />
-          <ReviewBlock />
-          <ReviewBlock />
+          {reviews.map(r => <ReviewBlock review={r} />)}
         </Scroller>
       </div>
     );
   }
 }
+
+CourseDetailSection.propTypes = {
+  course: CourseShape.isRequired,
+};
 
 
 export default CourseDetailSection;

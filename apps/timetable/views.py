@@ -488,13 +488,7 @@ def comment_load(request):
 
     result = []
     for c in comments:
-        grade, load, speech, total = c.alphabet_score()
-        result.append({'grade': grade,
-                       'load': load,
-                       'speech': speech,
-                       'like': c.like,
-                       'comment': c.comment[:200],
-                       'id': c.id})
+        result.append(c.toJson()) # TODO: Use nested=True for performance
     return JsonResponse(result, safe=False)
 
 

@@ -20,15 +20,15 @@ const ReviewSimpleBlock = (props) => {
             </span>
             <span className="review-score">
               성적&nbsp;
-              <strong>{review.score}</strong>
+              <strong>{review.score_letter}</strong>
             </span>
             <span className="review-score">
               널널&nbsp;
-              <strong>{review.load}</strong>
+              <strong>{review.load_letter}</strong>
             </span>
             <span className="review-score">
               강의&nbsp;
-              <strong>{review.speech}</strong>
+              <strong>{review.speech_letter}</strong>
             </span>
           </div>
         </div>

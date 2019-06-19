@@ -82,6 +82,9 @@ class Lecture(models.Model):
             result.update({
                 'professor_short': prof_name_list[0] + _(u" 외 ") + str(len(prof_name_list)-1) + _(u"명"),
             })
+        
+        if nested:
+            return result
 
         # Add formatted score
         if self.comment_num == 0:
