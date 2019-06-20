@@ -11,7 +11,7 @@ class ListSection extends Component {
   changeTab = (list) => {
     this.props.setCurrentListDispatch(list);
 
-    if (list === 'SEARCH' && this.props.search.courses.length === 0) {
+    if (list === 'SEARCH' && (this.props.search === null || this.props.search.courses.length === 0)) {
       this.props.openSearchDispatch();
     }
     else {
