@@ -9,6 +9,8 @@ import userShape from '../shapes/UserShape';
 
 class Header extends Component {
   render() {
+    const { user } = this.props;
+
     return (
       <nav className="navbar navbar-default navbar-fixed-top">
         <div className="container-fluid">
@@ -55,7 +57,7 @@ class Header extends Component {
                   </a>
                 </li>
                 {
-                  this.props.user == null
+                  user == null
                     ? (
                       <li>
                         <a href={`/session/login/?next=${window.location.href}`} className="login">
@@ -67,8 +69,8 @@ class Header extends Component {
                       <li className="dropdown">
                         <a className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                           <span className="header_hide">
-                            {this.props.user.lastName}
-                            {this.props.user.firstName}
+                            {user.lastName}
+                            {user.firstName}
                           </span>
                           <span className="caret" />
                         </a>
@@ -105,7 +107,7 @@ class Header extends Component {
                 </a>
               </li>
               {
-                this.props.user == null
+                user == null
                   ? (
                     <li>
                       <a href={`/session/login/?next=${window.location.href}`} className="login">
@@ -118,8 +120,8 @@ class Header extends Component {
                       <a className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                         <span className="glyphicon glyphicon-user" />
                         <span className="header_hide">
-                          {this.props.user.lastName}
-                          {this.props.user.firstName}
+                          {user.lastName}
+                          {user.firstName}
                         </span>
                         <span className="caret" />
                       </a>
