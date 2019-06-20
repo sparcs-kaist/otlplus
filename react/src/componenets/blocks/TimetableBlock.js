@@ -6,43 +6,43 @@ import lectureShape from '../../shapes/LectureShape';
 import classtimeShape from '../../shapes/ClasstimeShape';
 
 
-const TimetableBlock = (props) => {
+const TimetableBlock = ({ lecture, classtime, cellWidth, cellHeight, isClicked, isHover, isListHover, isTemp, blockHover, blockOut, blockClick, deleteLecture }) => {
   const indexOfTime = time => (time / 30 - 16);
 
   const activeType = (
-    props.isClicked ? ' click'
-      : props.isTemp ? ' lecture-block-temp active'
-        : (props.isHover || props.isListHover) ? ' active'
+    isClicked ? ' click'
+      : isTemp ? ' lecture-block-temp active'
+        : (isHover || isListHover) ? ' active'
           : ''
   );
 
   return (
       // eslint-disable-next-line react/jsx-indent
       <div
-        className={`lecture-block color${props.lecture.course % 16}${activeType}`}
+        className={`lecture-block color${lecture.course % 16}${activeType}`}
         style={{
-          left: (props.cellWidth + 5) * props.classtime.day + 28,
-          top: props.cellHeight * indexOfTime(props.classtime.begin) + 28,
-          width: props.cellWidth + 2,
-          height: props.cellHeight * (indexOfTime(props.classtime.end) - indexOfTime(props.classtime.begin)) - 3,
+          left: (cellWidth + 5) * classtime.day + 28,
+          top: cellHeight * indexOfTime(classtime.begin) + 28,
+          width: cellWidth + 2,
+          height: cellHeight * (indexOfTime(classtime.end) - indexOfTime(classtime.begin)) - 3,
         }}
-        onMouseOver={() => props.blockHover(props.lecture)()}
-        onMouseOut={() => props.blockOut()}
-        onClick={() => props.blockClick(props.lecture)()}
+        onMouseOver={() => blockHover(lecture)()}
+        onMouseOut={() => blockOut()}
+        onClick={() => blockClick(lecture)()}
       >
-        <div className="lecture-delete" onClick={event => props.deleteLecture(props.lecture)(event)}><i /></div>
+        <div className="lecture-delete" onClick={event => deleteLecture(lecture)(event)}><i /></div>
         <div
-          // onMouseDown={() => props.onMouseDown()}
+          // onMouseDown={() => onMouseDown()}
           className="lecture-block-content"
         >
           <p className="timetable-lecture-name">
-            {props.lecture.title}
+            {lecture.title}
           </p>
           <p className="timetable-lecture-info">
-            {props.lecture.professor}
+            {lecture.professor}
           </p>
           <p className="timetable-lecture-info">
-            {props.classtime.classroom}
+            {classtime.classroom}
           </p>
         </div>
       </div>
