@@ -96,8 +96,8 @@ const mapDispatchToProps = dispatch => ({
 });
 
 SemesterSection.propTypes = {
-  year: PropTypes.number.isRequired,
-  semester: PropTypes.number.isRequired,
+  year: PropTypes.number,
+  semester: PropTypes.number,
   setSemesterDispatch: PropTypes.func.isRequired,
 };
 

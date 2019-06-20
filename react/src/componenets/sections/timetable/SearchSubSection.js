@@ -243,8 +243,8 @@ SearchSubSection.propTypes = {
   start: PropTypes.number,
   end: PropTypes.number,
   day: PropTypes.number,
-  year: PropTypes.number.isRequired,
-  semester: PropTypes.number.isRequired,
+  year: PropTypes.number,
+  semester: PropTypes.number,
   closeSearchDispatch: PropTypes.func.isRequired,
   setListLecturesDispatch: PropTypes.func.isRequired,
 };
