@@ -35,6 +35,7 @@ class SummarySubSection extends Component {
     const lectures = this.props.currentTimetable.lectures
       .filter(lecture => (indexOfType(lecture.type_en) === indexOfType(type)))
       .map(lecture => ({
+        id: lecture.id,
         title: lecture.title,
         info: (lecture.credit > 0) ? `${lecture.credit.toString()}학점` : `${lecture.credit_au.toString()}AU`,
       }));
@@ -52,6 +53,7 @@ class SummarySubSection extends Component {
         this.props.currentTimetable.lectures
           .filter(lecture => (lecture.credit > 0))
           .map(lecture => ({
+            id: lecture.id,
             title: lecture.title,
             info: `${lecture.credit.toString()}학점`,
           }))
@@ -62,6 +64,7 @@ class SummarySubSection extends Component {
             this.props.currentTimetable.lectures
               .filter(lecture => (lecture.credit_au > 0))
               .map(lecture => ({
+                id: lecture.id,
                 title: lecture.title,
                 info: `${lecture.credit.toString()}AU`,
               }))
@@ -78,6 +81,7 @@ class SummarySubSection extends Component {
     }
 
     const lectures = this.props.currentTimetable.lectures.map(lecture => ({
+      id: lecture.id,
       title: lecture.title,
       info: (type === 'Grade')
         ? lecture.grade_letter

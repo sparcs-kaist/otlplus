@@ -11,7 +11,13 @@ const lectureActiveShape = PropTypes.shape({
   lecture: lectureShape,
   comments: PropTypes.arrayOf(reviewShape).isRequired,
   title: PropTypes.string.isRequired,
-  lectures: PropTypes.arrayOf(lectureShape),
+  multipleDetail: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      title: PropTypes.string.isRequired,
+      info: PropTypes.string.isRequired,
+    }),
+  ),
 });
 
 export default lectureActiveShape;
