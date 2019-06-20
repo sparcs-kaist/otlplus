@@ -2,12 +2,12 @@ import { NONE, LIST, TABLE, MULTIPLE } from '../reducers/timetable/lectureActive
 
 
 export const inTimetable = (lecture, timetable) => (
-  timetable
+  timetable !== null
   && timetable.lectures.some(l => (l.id === lecture.id))
 );
 
 export const inCart = (lecture, cart) => (
-  cart.courses
+  cart.courses !== null
   && cart.courses.some(course => (
     course.some(cartLecture => (
       cartLecture.id === lecture.id
