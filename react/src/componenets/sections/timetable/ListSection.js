@@ -20,7 +20,9 @@ class ListSection extends Component {
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (this.props.user && (this.props.user !== prevProps.user)) {
       this.props.setListMajorCodesDispatch(this.props.user.departments);
+    }
 
+    if (!this._codesAreSame(this.props.major.codes, prevProps.major.codes)) {
       this._fetchLists(true);
     }
 
@@ -29,13 +31,25 @@ class ListSection extends Component {
     }
   }
 
+  _codesAreSame = (codes1, codes2) => (
+    codes1.length === codes2.length
+    && codes1.every((c, i) => (c === codes2[i]))
+  )
+
   _fetchLists = (majorOnly) => {
+    const { year, semester } = this.props;
+    const majorCodes = this.props.major.codes;
+
     axios.post(`${BASE_URL}/api/timetable/list_load_major`, {
       year: this.props.year,
       semester: this.props.semester,
     })
       .then((response) => {
-        // TODO: cancel if user department is changed between request and response
+        if ((this.props.year !== year || this.props.semester !== semester)
+          || !this._codesAreSame(this.props.major.codes, majorCodes)
+        ) {
+          return;
+        }
         this.props.major.codes.forEach((code) => {
           this.props.setListMajorLecturesDispatch(code, response.data.filter(lecture => (lecture.major_code === code)));
         });
@@ -52,6 +66,9 @@ class ListSection extends Component {
       semester: this.props.semester,
     })
       .then((response) => {
+        if (this.props.year !== year || this.props.semester !== semester) {
+          return;
+        }
         this.props.setListLecturesDispatch('humanity', response.data);
       })
       .catch((response) => {
@@ -62,6 +79,10 @@ class ListSection extends Component {
       semester: this.props.semester,
     })
       .then((response) => {
+        if (this.props.year !== year || this.props.semester !== semester
+        ) {
+          return;
+        }
         this.props.setListLecturesDispatch('cart', response.data);
       })
       .catch((response) => {
@@ -73,6 +94,8 @@ class ListSection extends Component {
   }
 
   addToTable = lecture => (event) => {
+    const { currentTimetable } = this.props;
+
     event.stopPropagation();
     if (
       lecture.classtimes.some(thisClasstime => (
@@ -94,6 +117,10 @@ class ListSection extends Component {
       delete: false,
     })
       .then((response) => {
+        if (!this.props.currentTimetable || this.props.currentTimetable.id !== currentTimetable.id) {
+          return;
+        }
+        // TODO: Fix timetable not updated when semester unchanged and timetable changed
         this.props.addLectureToTimetableDispatch(lecture);
       })
       .catch((response) => {
@@ -101,12 +128,18 @@ class ListSection extends Component {
   }
 
   addToCart = lecture => (event) => {
+    const { year, semester } = this.props;
+
     event.stopPropagation();
     axios.post(`${BASE_URL}/api/timetable/wishlist_update`, {
       lecture_id: lecture.id,
       delete: false,
     })
       .then((response) => {
+        if (this.props.year !== year || (this.props.semester !== semester)
+        ) {
+          return;
+        }
         this.props.addLectureToCartDispatch(lecture);
       })
       .catch((response) => {
@@ -114,12 +147,17 @@ class ListSection extends Component {
   }
 
   deleteFromCart = lecture => (event) => {
+    const { year, semester } = this.props;
+
     event.stopPropagation();
     axios.post(`${BASE_URL}/api/timetable/wishlist_update`, {
       lecture_id: lecture.id,
       delete: true,
     })
       .then((response) => {
+        if (this.props.year !== year || this.props.semester !== semester) {
+          return;
+        }
         this.props.deleteLectureFromCartDispatch(lecture);
       })
       .catch((response) => {
@@ -151,6 +189,9 @@ class ListSection extends Component {
 
   render() {
     const listBlocks = (courses, fromCart) => {
+      if (!courses) {
+        return <div className="list-loading">불러오는 중</div>;
+      }
       if (courses.length === 0) {
         return <div className="list-loading">결과 없음</div>;
       }
@@ -293,22 +334,22 @@ ListSection.propTypes = {
   user: userShape,
   currentList: PropTypes.string.isRequired,
   search: PropTypes.shape({
-    courses: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)).isRequired,
+    courses: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)),
   }).isRequired,
   major: PropTypes.shape({
     codes: PropTypes.arrayOf(PropTypes.string).isRequired,
   }).isRequired,
   humanity: PropTypes.shape({
-    courses: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)).isRequired,
+    courses: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)),
   }).isRequired,
   cart: PropTypes.shape({
-    courses: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)).isRequired,
+    courses: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)),
   }).isRequired,
-  currentTimetable: timetableShape.isRequired,
+  currentTimetable: timetableShape,
   lectureActive: lectureActiveShape.isRequired,
   lectureActiveClicked: PropTypes.bool.isRequired,
-  year: PropTypes.number.isRequired,
-  semester: PropTypes.number.isRequired,
+  year: PropTypes.number,
+  semester: PropTypes.number,
   openSearchDispatch: PropTypes.func.isRequired,
   setLectureActiveDispatch: PropTypes.func.isRequired,
   clearLectureActiveDispatch: PropTypes.func.isRequired,

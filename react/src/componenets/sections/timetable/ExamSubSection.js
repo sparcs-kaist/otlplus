@@ -20,7 +20,7 @@ class ExamSubSection extends Component {
   }
 
   examFocus(day) {
-    if (this.props.lectureActiveFrom !== 'NONE') {
+    if (this.props.lectureActiveFrom !== 'NONE' || !this.props.currentTimetable) {
       return;
     }
 
@@ -65,7 +65,10 @@ class ExamSubSection extends Component {
       return li;
     };
 
-    const examWithLectures = this.props.currentTimetable.lectures
+    const timetableLectures = this.props.currentTimetable
+      ? this.props.currentTimetable.lectures
+      : [];
+    const examWithLectures = timetableLectures
       .concat((this.props.lectureActiveLecture && !inTimetable(this.props.lectureActiveLecture, this.props.currentTimetable)) ? [this.props.lectureActiveLecture] : [])
       .filter(lecture => (lecture.examtimes.length > 0));
     const examTable = [0, 1, 2, 3, 4].map(day => (
@@ -146,7 +149,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 ExamSubSection.propTypes = {
-  currentTimetable: timetableShape.isRequired,
+  currentTimetable: timetableShape,
   lectureActiveLecture: lectureShape,
   lectureActiveFrom: PropTypes.oneOf([NONE, LIST, TABLE, MULTIPLE]).isRequired,
   setMultipleDetailDispatch: PropTypes.func.isRequired,

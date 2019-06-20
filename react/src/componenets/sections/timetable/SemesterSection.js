@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import axios from '../../../common/presetAxios';
 import { BASE_URL } from '../../../common/constants';
-import { setSemester } from '../../../actions/timetable/index';
+import { setSemester, clearLectureActive, clearTimetables, clearListsLectures } from '../../../actions/timetable/index';
 
 
 const semesterName = {
@@ -50,6 +50,9 @@ class SemesterSection extends Component {
     const newSemester = (semester === 1) ? 3 : 1;
 
     this.props.setSemesterDispatch(newYear, newSemester);
+    this.props.clearLectureActiveDispatch();
+    this.props.clearTimetablesDispatch();
+    this.props.clearListsLecturesDispatch();
   }
 
   semesterNext() {
@@ -60,6 +63,9 @@ class SemesterSection extends Component {
     const newSemester = (semester === 3) ? 1 : 3;
 
     this.props.setSemesterDispatch(newYear, newSemester);
+    this.props.clearLectureActiveDispatch();
+    this.props.clearTimetablesDispatch();
+    this.props.clearListsLecturesDispatch();
   }
 
   render() {
@@ -93,12 +99,24 @@ const mapDispatchToProps = dispatch => ({
   setSemesterDispatch: (year, semester) => {
     dispatch(setSemester(year, semester));
   },
+  clearLectureActiveDispatch: () => {
+    dispatch(clearLectureActive());
+  },
+  clearTimetablesDispatch: () => {
+    dispatch(clearTimetables());
+  },
+  clearListsLecturesDispatch: () => {
+    dispatch(clearListsLectures());
+  },
 });
 
 SemesterSection.propTypes = {
-  year: PropTypes.number.isRequired,
-  semester: PropTypes.number.isRequired,
+  year: PropTypes.number,
+  semester: PropTypes.number,
   setSemesterDispatch: PropTypes.func.isRequired,
+  clearLectureActiveDispatch: PropTypes.func.isRequired,
+  clearTimetablesDispatch: PropTypes.func.isRequired,
+  clearListsLecturesDispatch: PropTypes.func.isRequired,
 };
 
 
