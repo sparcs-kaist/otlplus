@@ -4,7 +4,7 @@ import { SET_CURRENT_LIST, ADD_LECTURE_TO_CART, DELETE_LECTURE_FROM_CART, SET_LI
 const initialState = {
   currentList: 'SEARCH',
   search: {
-    courses: null,
+    courses: [],
   },
   major: {
     codes: ['Basic'],
@@ -87,7 +87,7 @@ const list = (state = initialState, action) => {
         ...state,
         search: {
           ...state.search,
-          courses: null,
+          courses: [],
         },
         major: Object.assign(
           {},
