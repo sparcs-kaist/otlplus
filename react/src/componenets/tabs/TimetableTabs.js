@@ -16,11 +16,16 @@ class TimetableTabs extends Component {
   }
 
   _fetchTables = () => {
+    const { year, semester } = this.props;
+
     axios.post(`${BASE_URL}/api/timetable/table_load`, {
       year: this.props.year,
       semester: this.props.semester,
     })
       .then((response) => {
+        if (this.props.year !== year || this.props.semester !== semester) {
+          return;
+        }
         this.props.setTimetablesDispatch(response.data);
       })
       .catch((response) => {
@@ -32,11 +37,16 @@ class TimetableTabs extends Component {
   }
 
   createTable() {
+    const { year, semester } = this.props;
+
     axios.post(`${BASE_URL}/api/timetable/table_create`, {
       year: this.props.year,
       semester: this.props.semester,
     })
       .then((response) => {
+        if (this.props.year !== year || this.props.semester !== semester) {
+          return;
+        }
         this.props.createTimetableDispatch(response.data.id);
       })
       .catch((response) => {
@@ -44,6 +54,8 @@ class TimetableTabs extends Component {
   }
 
   deleteTable(event, timetable) {
+    const { year, semester } = this.props;
+
     event.stopPropagation();
     axios.post(`${BASE_URL}/api/timetable/table_delete`, {
       table_id: timetable.id,
@@ -51,6 +63,9 @@ class TimetableTabs extends Component {
       semester: this.props.semester,
     })
       .then((response) => {
+        if (this.props.year !== year || this.props.semester !== semester) {
+          return;
+        }
         this.props.deleteTimetableDispatch(timetable);
       })
       .catch((response) => {
@@ -58,6 +73,8 @@ class TimetableTabs extends Component {
   }
 
   duplicateTable(event, timetable) {
+    const { year, semester } = this.props;
+
     event.stopPropagation();
     axios.post(`${BASE_URL}/api/timetable/table_copy`, {
       table_id: timetable.id,
@@ -65,6 +82,9 @@ class TimetableTabs extends Component {
       semester: this.props.semester,
     })
       .then((response) => {
+        if (this.props.year !== year || this.props.semester !== semester) {
+          return;
+        }
         this.props.duplicateTimetableDispatch(response.data.id, timetable);
       })
       .catch((response) => {
