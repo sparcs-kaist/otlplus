@@ -18,19 +18,21 @@ import lectureActiveShape from '../../../shapes/LectureActiveShape';
 
 class ListSection extends Component {
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (this.props.user && (this.props.user !== prevProps.user)) {
-      this.props.setListMajorCodesDispatch(this.props.user.departments);
+    const { user, major, year, semester, currentList, setListMajorCodesDispatch, openSearchDispatch } = this.props;
+
+    if (user && (user !== prevProps.user)) {
+      setListMajorCodesDispatch(user.departments);
     }
 
-    if (!this._codesAreSame(this.props.major.codes, prevProps.major.codes)) {
+    if (!this._codesAreSame(major.codes, prevProps.major.codes)) {
       this._fetchLists(true);
     }
 
-    if (this.props.year !== prevProps.year || this.props.semester !== prevProps.semester) {
+    if (year !== prevProps.year || semester !== prevProps.semester) {
       this._fetchLists(false);
 
-      if (this.props.currentList === 'SEARCH') {
-        this.props.openSearchDispatch();
+      if (currentList === 'SEARCH') {
+        openSearchDispatch();
       }
     }
   }
@@ -41,21 +43,22 @@ class ListSection extends Component {
   )
 
   _fetchLists = (majorOnly) => {
-    const { year, semester } = this.props;
-    const majorCodes = this.props.major.codes;
+    const { year, semester, major, setListMajorLecturesDispatch, setListLecturesDispatch } = this.props;
+    const majorCodes = major.codes;
 
     axios.post(`${BASE_URL}/api/timetable/list_load_major`, {
-      year: this.props.year,
-      semester: this.props.semester,
+      year: year,
+      semester: semester,
     })
       .then((response) => {
-        if ((this.props.year !== year || this.props.semester !== semester)
-          || !this._codesAreSame(this.props.major.codes, majorCodes)
+        const newProps = this.props;
+        if ((newProps.year !== year || newProps.Semester !== semester)
+          || !this._codesAreSame(newProps.major.codes, majorCodes)
         ) {
           return;
         }
-        this.props.major.codes.forEach((code) => {
-          this.props.setListMajorLecturesDispatch(code, response.data.filter(lecture => (lecture.major_code === code)));
+        major.codes.forEach((code) => {
+          setListMajorLecturesDispatch(code, response.data.filter(lecture => (lecture.major_code === code)));
         });
       })
       .catch((response) => {
@@ -66,44 +69,47 @@ class ListSection extends Component {
     }
 
     axios.post(`${BASE_URL}/api/timetable/list_load_humanity`, {
-      year: this.props.year,
-      semester: this.props.semester,
+      year: year,
+      semester: semester,
     })
       .then((response) => {
-        if (this.props.year !== year || this.props.semester !== semester) {
+        const newProps = this.props;
+        if (newProps.year !== year || newProps.semester !== semester) {
           return;
         }
-        this.props.setListLecturesDispatch('humanity', response.data);
+        setListLecturesDispatch('humanity', response.data);
       })
       .catch((response) => {
       });
 
     axios.post(`${BASE_URL}/api/timetable/wishlist_load`, {
-      year: this.props.year,
-      semester: this.props.semester,
+      year: year,
+      semester: semester,
     })
       .then((response) => {
-        if (this.props.year !== year || this.props.semester !== semester
+        const newProps = this.props;
+        if (newProps.year !== year || newProps.semester !== semester
         ) {
           return;
         }
-        this.props.setListLecturesDispatch('cart', response.data);
+        setListLecturesDispatch('cart', response.data);
       })
       .catch((response) => {
       });
   }
 
   showSearch = () => {
-    this.props.openSearchDispatch();
+    const { openSearchDispatch } = this.props;
+    openSearchDispatch();
   }
 
   addToTable = lecture => (event) => {
-    const { currentTimetable } = this.props;
+    const { currentTimetable, addLectureToTimetableDispatch } = this.props;
 
     event.stopPropagation();
     if (
       lecture.classtimes.some(thisClasstime => (
-        this.props.currentTimetable.lectures.some(timetableLecture => (
+        currentTimetable.lectures.some(timetableLecture => (
           timetableLecture.classtimes.some(classtime => (
             (classtime.day === thisClasstime.day) && (classtime.begin < thisClasstime.end) && (classtime.end > thisClasstime.begin)
           ))
@@ -116,23 +122,24 @@ class ListSection extends Component {
     }
 
     axios.post(`${BASE_URL}/api/timetable/table_update`, {
-      table_id: this.props.currentTimetable.id,
+      table_id: currentTimetable.id,
       lecture_id: lecture.id,
       delete: false,
     })
       .then((response) => {
-        if (!this.props.currentTimetable || this.props.currentTimetable.id !== currentTimetable.id) {
+        const newProps = this.props;
+        if (!newProps.currentTimetable || newProps.currentTimetable.id !== currentTimetable.id) {
           return;
         }
         // TODO: Fix timetable not updated when semester unchanged and timetable changed
-        this.props.addLectureToTimetableDispatch(lecture);
+        addLectureToTimetableDispatch(lecture);
       })
       .catch((response) => {
       });
   }
 
   addToCart = lecture => (event) => {
-    const { year, semester } = this.props;
+    const { year, semester, addLectureToCartDispatch } = this.props;
 
     event.stopPropagation();
     axios.post(`${BASE_URL}/api/timetable/wishlist_update`, {
@@ -140,18 +147,19 @@ class ListSection extends Component {
       delete: false,
     })
       .then((response) => {
-        if (this.props.year !== year || (this.props.semester !== semester)
+        const newProps = this.props;
+        if (newProps.year !== year || (newProps.semester !== semester)
         ) {
           return;
         }
-        this.props.addLectureToCartDispatch(lecture);
+        addLectureToCartDispatch(lecture);
       })
       .catch((response) => {
       });
   }
 
   deleteFromCart = lecture => (event) => {
-    const { year, semester } = this.props;
+    const { year, semester, deleteLectureFromCartDispatch } = this.props;
 
     event.stopPropagation();
     axios.post(`${BASE_URL}/api/timetable/wishlist_update`, {
@@ -159,39 +167,48 @@ class ListSection extends Component {
       delete: true,
     })
       .then((response) => {
-        if (this.props.year !== year || this.props.semester !== semester) {
+        const newProps = this.props;
+        if (newProps.year !== year || newProps.semester !== semester) {
           return;
         }
-        this.props.deleteLectureFromCartDispatch(lecture);
+        deleteLectureFromCartDispatch(lecture);
       })
       .catch((response) => {
       });
   }
 
   listHover = lecture => () => {
-    if (this.props.lectureActiveClicked) {
+    const { lectureActiveClicked, setLectureActiveDispatch } = this.props;
+
+    if (lectureActiveClicked) {
       return;
     }
-    this.props.setLectureActiveDispatch(lecture, LIST, false);
+    setLectureActiveDispatch(lecture, LIST, false);
   }
 
   listOut = () => {
-    if (this.props.lectureActiveClicked) {
+    const { lectureActiveClicked, clearLectureActiveDispatch } = this.props;
+
+    if (lectureActiveClicked) {
       return;
     }
-    this.props.clearLectureActiveDispatch();
+    clearLectureActiveDispatch();
   }
 
   listClick = lecture => () => {
-    if (!isListClicked(lecture, this.props.lectureActive)) {
-      this.props.setLectureActiveDispatch(lecture, 'LIST', true);
+    const { lectureActive, setLectureActiveDispatch } = this.props;
+
+    if (!isListClicked(lecture, lectureActive)) {
+      setLectureActiveDispatch(lecture, 'LIST', true);
     }
     else {
-      this.props.setLectureActiveDispatch(lecture, 'LIST', false);
+      setLectureActiveDispatch(lecture, 'LIST', false);
     }
   }
 
   render() {
+    const { lectureActive, currentTimetable, currentList, searchOpen, search, major, humanity, cart } = this.props;
+
     const listBlocks = (courses, fromCart) => {
       if (!courses) {
         return <div className="list-loading">불러오는 중</div>;
@@ -200,7 +217,7 @@ class ListSection extends Component {
         return <div className="list-loading">결과 없음</div>;
       }
       return courses.map(course => (
-        <div className={`list-elem${course.some(lecture => isListClicked(lecture, this.props.lectureActive)) ? ' click' : ''}`} key={course[0].course}>
+        <div className={`list-elem${course.some(lecture => isListClicked(lecture, lectureActive)) ? ' click' : ''}`} key={course[0].course}>
           <div className="list-elem-title">
             <strong>{course[0].common_title}</strong>
             &nbsp;
@@ -210,10 +227,10 @@ class ListSection extends Component {
             <CourseLecturesBlock
               lecture={lecture}
               key={lecture.id}
-              isClicked={isListClicked(lecture, this.props.lectureActive)}
-              isHover={isListHover(lecture, this.props.lectureActive)}
-              inTimetable={inTimetable(lecture, this.props.currentTimetable)}
-              inCart={inCart(lecture, this.props.cart)}
+              isClicked={isListClicked(lecture, lectureActive)}
+              isHover={isListHover(lecture, lectureActive)}
+              inTimetable={inTimetable(lecture, currentTimetable)}
+              inCart={inCart(lecture, cart)}
               fromCart={fromCart}
               addToCart={this.addToCart}
               addToTable={this.addToTable}
@@ -227,38 +244,38 @@ class ListSection extends Component {
       ));
     };
 
-    if (this.props.currentList === 'SEARCH') {
+    if (currentList === 'SEARCH') {
       return (
         <div id="list-page-wrap">
           <div className="list-page search-page">
-            { this.props.searchOpen ? <SearchSubSection /> : null }
+            { searchOpen ? <SearchSubSection /> : null }
             <div className="list-page-title search-page-title" onClick={() => this.showSearch()}>
               <i className="search-page-title-icon" />
               <div className="search-page-title-text">검색</div>
             </div>
             <Scroller>
-              {listBlocks(this.props.search.courses, false)}
+              {listBlocks(search.courses, false)}
             </Scroller>
           </div>
         </div>
       );
     }
-    if (this.props.major.codes.some(code => (this.props.currentList === code))) {
+    if (major.codes.some(code => (currentList === code))) {
       return (
           // eslint-disable-next-line react/jsx-indent
           <div id="list-page-wrap">
             <div className="list-page major-page">
               <div className="list-page-title">
-                {this.props.major[this.props.currentList].name}
+                {major[currentList].name}
               </div>
               <Scroller>
-                {listBlocks(this.props.major[this.props.currentList].courses, false)}
+                {listBlocks(major[currentList].courses, false)}
               </Scroller>
             </div>
           </div>
       );
     }
-    if (this.props.currentList === 'HUMANITY') {
+    if (currentList === 'HUMANITY') {
       return (
         <div id="list-page-wrap">
           <div className="list-page humanity-page">
@@ -266,13 +283,13 @@ class ListSection extends Component {
               인문사회선택
             </div>
             <Scroller>
-              {listBlocks(this.props.humanity.courses, false)}
+              {listBlocks(humanity.courses, false)}
             </Scroller>
           </div>
         </div>
       );
     }
-    if (this.props.currentList === 'CART') {
+    if (currentList === 'CART') {
       return (
         <div id="list-page-wrap">
           <div className="list-page cart-page">
@@ -280,7 +297,7 @@ class ListSection extends Component {
               장바구니
             </div>
             <Scroller>
-              {listBlocks(this.props.cart.courses, true)}
+              {listBlocks(cart.courses, true)}
             </Scroller>
           </div>
         </div>

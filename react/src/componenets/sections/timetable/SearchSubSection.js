@@ -22,41 +22,44 @@ class SearchSubSection extends Component {
   }
 
   hideSearch = () => {
-    this.props.closeSearchDispatch();
+    const { closeSearchDispatch } = this.props;
+
+    closeSearchDispatch();
   }
 
   searchStart = () => {
     const { type, department, grade, inputVal } = this.state;
-    const { year, semester } = this.props;
+    const { year, semester, start, day, end, closeSearchDispatch, clearSearchListLecturesDispatch, setListLecturesDispatch } = this.props;
 
     if (type.size === 1 && department.size === 1 && grade.size === 1 && inputVal.length === 0
-      && !(this.props.day !== null && this.props.end !== null && this.props.day !== null)) {
+      && !(start !== null && end !== null && day !== null)) {
       if (type.has('ALL') && department.has('ALL') && grade.has('ALL')) {
         // eslint-disable-next-line no-alert
         alert('검색 조건을 선택해 주세요');
         return;
       }
     }
-    this.props.closeSearchDispatch();
-    this.props.clearSearchListLecturesDispatch();
+    closeSearchDispatch();
+    clearSearchListLecturesDispatch();
 
     axios.post(`${BASE_URL}/api/timetable/search`, {
-      year: this.props.year,
-      semester: this.props.semester,
+      year: year,
+      semester: semester,
       department: Array.from(department),
       type: Array.from(type),
       grade: Array.from(grade),
       keyword: inputVal,
-      begin: (this.props.start !== null) ? this.props.start.toString() : '',
-      end: (this.props.end !== null) ? this.props.end.toString() : '',
-      day: (this.props.day !== null) ? this.props.day.toString() : '',
+      begin: (start !== null) ? start.toString() : '',
+      end: (end !== null) ? end.toString() : '',
+      day: (day !== null) ? day.toString() : '',
     })
       .then((response) => {
-        if (this.props.year !== year || this.props.semester !== semester) {
+        const newProps = this.props;
+        if (newProps.year !== year || newProps.semester !== semester) {
           return;
         }
         const lectures = response.data.courses;
-        this.props.setListLecturesDispatch('search', lectures);
+        setListLecturesDispatch('search', lectures);
       })
       .catch((response) => {
       });
@@ -99,14 +102,16 @@ class SearchSubSection extends Component {
     }
 
     axios.post(`${BASE_URL}/api/timetable/autocomplete`, {
-      year: this.props.year,
-      semester: this.props.semester,
+      year: year,
+      semester: semester,
       keyword: value,
     })
       .then((response) => {
+        const { inputVal } = this.state;
+        const newProps = this.props;
         const { complete } = response.data;
-        if (value !== this.state.inputVal
-          || (this.props.year !== year || this.props.semester !== semester)
+        if (value !== inputVal
+          || (newProps.year !== year || newProps.semester !== semester)
         ) {
           return;
         }
@@ -146,6 +151,8 @@ class SearchSubSection extends Component {
 
   render() {
     const { inputVal, autoComplete } = this.state;
+    const { start, end, day } = this.props;
+
     return (
         // eslint-disable-next-line react/jsx-indent
         <div className="search-extend">
@@ -194,13 +201,13 @@ class SearchSubSection extends Component {
               <div className="search-filter search-filter-time">
                 <label className="search-filter-title fixed-ko">시간</label>
                 <div className="search-filter-elem">
-                  { this.props.day !== null
+                  { day !== null
                     ? (
                   // eslint-disable-next-line react/jsx-indent
                   <label className="search-filter-time-active">
-                    {`${['월요일', '화요일', '수요일', '목요일', '금요일'][this.props.day]} \
-                      ${8 + Math.floor(this.props.start / 2)}:${['00', '30'][this.props.start % 2]} ~ \
-                      ${8 + Math.floor(this.props.end / 2)}:${['00', '30'][this.props.end % 2]}`}
+                    {`${['월요일', '화요일', '수요일', '목요일', '금요일'][day]} \
+                      ${8 + Math.floor(start / 2)}:${['00', '30'][start % 2]} ~ \
+                      ${8 + Math.floor(end / 2)}:${['00', '30'][end % 2]}`}
                   </label>
                     )
                     : (

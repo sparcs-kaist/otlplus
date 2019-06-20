@@ -21,15 +21,17 @@ class CourseDetailSection extends Component {
 
 
   render() {
+    const { course } = this.props;
+
     return (
       <div className="section-content section-content--flex section-content--course-detail">
         <div className="fixed">
           <div>
             <div className="title">
-              {this.props.course.title}
+              {course.title}
             </div>
             <div className="subtitle">
-              {this.props.course.old_code}
+              {course.old_code}
             </div>
           </div>
           <div ref="scrollThreshold" />
@@ -38,7 +40,7 @@ class CourseDetailSection extends Component {
               <div className="scores">
                 <div>
                   <div>
-                    {this.props.course.grade_letter}
+                    {course.grade_letter}
                   </div>
                   <div>
                     학점
@@ -46,7 +48,7 @@ class CourseDetailSection extends Component {
                 </div>
                 <div>
                   <div>
-                    {this.props.course.load_letter}
+                    {course.load_letter}
                   </div>
                   <div>
                     널널
@@ -54,7 +56,7 @@ class CourseDetailSection extends Component {
                 </div>
                 <div>
                   <div>
-                    {this.props.course.speech_letter}
+                    {course.speech_letter}
                   </div>
                   <div>
                     강의
@@ -72,7 +74,7 @@ class CourseDetailSection extends Component {
                 분류
               </div>
               <div>
-                {`${this.props.course.department.name}, ${this.props.course.type}`}
+                {`${course.department.name}, ${course.type}`}
               </div>
             </div>
             <div>
@@ -80,14 +82,14 @@ class CourseDetailSection extends Component {
                 설명
               </div>
               <div>
-                {this.props.course.summary}
+                {course.summary}
               </div>
             </div>
           </div>
           <div className="scores" ref="scores">
             <div>
               <div>
-                {this.props.course.grade_letter}
+                {course.grade_letter}
               </div>
               <div>
                 학점
@@ -95,7 +97,7 @@ class CourseDetailSection extends Component {
             </div>
             <div>
               <div>
-                {this.props.course.load_letter}
+                {course.load_letter}
               </div>
               <div>
                 널널
@@ -103,7 +105,7 @@ class CourseDetailSection extends Component {
             </div>
             <div>
               <div>
-                {this.props.course.speech_letter}
+                {course.speech_letter}
               </div>
               <div>
                 강의
@@ -119,7 +121,7 @@ class CourseDetailSection extends Component {
               &gt;
             </div>
             <div>
-              <CourseSimpleBlock course={this.props.course} />
+              <CourseSimpleBlock course={course} />
             </div>
             <div>
               &gt;

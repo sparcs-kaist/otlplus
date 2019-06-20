@@ -10,98 +10,108 @@ import timetableShape from '../../shapes/TimetableShape';
 
 class TimetableTabs extends Component {
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (this.props.year !== prevProps.year || this.props.semester !== prevProps.semester) {
+    const { year, semester } = this.props;
+
+    if (year !== prevProps.year || semester !== prevProps.semester) {
       this._fetchTables();
     }
   }
 
   _fetchTables = () => {
-    const { year, semester } = this.props;
+    const { year, semester, setTimetablesDispatch } = this.props;
 
     axios.post(`${BASE_URL}/api/timetable/table_load`, {
-      year: this.props.year,
-      semester: this.props.semester,
+      year: year,
+      semester: semester,
     })
       .then((response) => {
-        if (this.props.year !== year || this.props.semester !== semester) {
+        const newProps = this.props;
+        if (newProps.year !== year || newProps.semester !== semester) {
           return;
         }
-        this.props.setTimetablesDispatch(response.data);
+        setTimetablesDispatch(response.data);
       })
       .catch((response) => {
       });
   }
 
   changeTab(timetable) {
-    this.props.setCurrentTimetableDispatch(timetable);
+    const { setCurrentTimetableDispatch } = this.props;
+
+    setCurrentTimetableDispatch(timetable);
   }
 
   createTable() {
-    const { year, semester } = this.props;
+    const { year, semester, createTimetableDispatch } = this.props;
 
     axios.post(`${BASE_URL}/api/timetable/table_create`, {
-      year: this.props.year,
-      semester: this.props.semester,
+      year: year,
+      semester: semester,
     })
       .then((response) => {
-        if (this.props.year !== year || this.props.semester !== semester) {
+        const newProps = this.props;
+        if (newProps.year !== year || newProps.semester !== semester) {
           return;
         }
-        this.props.createTimetableDispatch(response.data.id);
+        createTimetableDispatch(response.data.id);
       })
       .catch((response) => {
       });
   }
 
   deleteTable(event, timetable) {
-    const { year, semester } = this.props;
+    const { year, semester, deleteTimetableDispatch } = this.props;
 
     event.stopPropagation();
     axios.post(`${BASE_URL}/api/timetable/table_delete`, {
       table_id: timetable.id,
-      year: this.props.year,
-      semester: this.props.semester,
+      year: year,
+      semester: semester,
     })
       .then((response) => {
-        if (this.props.year !== year || this.props.semester !== semester) {
+        const newProps = this.props;
+        if (newProps.year !== year || newProps.semester !== semester) {
           return;
         }
-        this.props.deleteTimetableDispatch(timetable);
+        deleteTimetableDispatch(timetable);
       })
       .catch((response) => {
       });
   }
 
   duplicateTable(event, timetable) {
-    const { year, semester } = this.props;
+    const { year, semester, duplicateTimetableDispatch } = this.props;
 
     event.stopPropagation();
     axios.post(`${BASE_URL}/api/timetable/table_copy`, {
       table_id: timetable.id,
-      year: this.props.year,
-      semester: this.props.semester,
+      year: year,
+      semester: semester,
     })
       .then((response) => {
-        if (this.props.year !== year || this.props.semester !== semester) {
+        const newProps = this.props;
+        if (newProps.year !== year || newProps.semester !== semester) {
           return;
         }
-        this.props.duplicateTimetableDispatch(response.data.id, timetable);
+        duplicateTimetableDispatch(response.data.id, timetable);
       })
       .catch((response) => {
       });
   }
 
   render() {
-    if (this.props.timetables && this.props.timetables.length) {
+    const { timetables, currentTimetable, showTimetableListFlag } = this.props;
+
+    if (timetables && timetables.length) {
       return (
         <div id="timetable-tabs">
-          { this.props.timetables.map((timetable, idx) => (
-            <div className={`timetable-tab${timetable.id === this.props.currentTimetable.id ? ' active' : ''}`} key={timetable.id} onClick={() => this.changeTab(timetable)}>
+          { timetables.map((timetable, idx) => (
+            <div className={`timetable-tab${timetable.id === currentTimetable.id ? ' active' : ''}`} key={timetable.id} onClick={() => this.changeTab(timetable)}>
               <span className="timetable-num">
                 {`시간표 ${idx + 1}`}
               </span>
               {
-                this.props.showTimetableListFlag
+                showTimetableListFlag
                   ? (
                     <>
                       <span className="hidden-option delete-table" onClick={event => this.deleteTable(event, timetable)}><i /></span>

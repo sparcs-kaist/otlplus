@@ -4,8 +4,7 @@ import { pure } from 'recompose';
 import reviewShape from '../../shapes/ReviewShape';
 
 
-const ReviewSimpleBlock = (props) => {
-  const { review } = props;
+const ReviewSimpleBlock = ({ review }) => {
   return (
       // eslint-disable-next-line react/jsx-indent
       <a href={`/review/result/comment/${review.id}`} target="_blank" rel="noopener noreferrer" style={{ display: 'block' }}>

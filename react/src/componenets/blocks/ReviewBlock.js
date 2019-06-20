@@ -4,34 +4,34 @@ import { pure } from 'recompose';
 import ReviewShape from '../../shapes/ReviewShape';
 
 
-const ReviewBlock = (props) => {
+const ReviewBlock = ({ review }) => {
   return (
       // eslint-disable-next-line react/jsx-indent
       <div className="block block--review">
         <div className="block--review__title">
-          <strong>{props.review.lecture.title}</strong>
-          <span>{props.review.lecture.professor_short}</span>
-          <span>{`${props.review.lecture.year} ${['', '봄', '여름', '가을', '겨울'][props.review.lecture.semester]}`}</span>
+          <strong>{review.lecture.title}</strong>
+          <span>{review.lecture.professor_short}</span>
+          <span>{`${review.lecture.year} ${['', '봄', '여름', '가을', '겨울'][review.lecture.semester]}`}</span>
         </div>
         <div className="block--review__content">
-          {props.review.comment}
+          {review.comment}
         </div>
         <div className="block--review__menus">
           <span className="block--review__menus__score">
             추천&nbsp;
-            <strong>{props.review.like}</strong>
+            <strong>{review.like}</strong>
           </span>
           <span className="block--review__menus__score">
             성적&nbsp;
-            <strong>{props.review.grade_letter}</strong>
+            <strong>{review.grade_letter}</strong>
           </span>
           <span className="block--review__menus__score">
             널널&nbsp;
-            <strong>{props.review.load_letter}</strong>
+            <strong>{review.load_letter}</strong>
           </span>
           <span className="block--review__menus__score">
             강의&nbsp;
-            <strong>{props.review.speech_letter}</strong>
+            <strong>{review.speech_letter}</strong>
           </span>
           <button className="text-button text-button--review-block">
             좋아요

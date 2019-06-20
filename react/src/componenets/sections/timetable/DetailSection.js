@@ -26,17 +26,18 @@ class DetailSection extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (prevProps.clicked && this.props.clicked) {
-      if (prevProps.lecture.id !== this.props.lecture.id) {
+    const { clicked, lecture } = this.props;
+    if (prevProps.clicked && clicked) {
+      if (prevProps.lecture.id !== lecture.id) {
         this.openDictPreview();
       }
     }
-    else if (prevProps.clicked && !this.props.clicked) {
-      if (this.props.lecture) {
+    else if (prevProps.clicked && !clicked) {
+      if (lecture) {
         this.closeDictPreview();
       }
     }
-    else if (!prevProps.clicked && this.props.clicked) {
+    else if (!prevProps.clicked && clicked) {
       this.openDictPreview();
     }
   }
@@ -50,12 +51,16 @@ class DetailSection extends Component {
   };
 
   unfix = () => {
-    this.props.clearLectureActiveDispatch();
+    const { clearLectureActiveDispatch } = this.props;
+    clearLectureActiveDispatch();
   };
 
   render() {
-    if (this.props.from === LIST || this.props.from === TABLE) {
-      const { reviews } = this.props.lecture;
+    const { showUnfix } = this.state;
+    const { from, lecture, title, multipleDetail } = this.props;
+
+    if (from === LIST || from === TABLE) {
+      const { reviews } = lecture;
       const mapreview = (review, index) => (
         <ReviewSimpleBlock key={`review_${index}`} review={review} />
       );
@@ -65,25 +70,25 @@ class DetailSection extends Component {
           <div className="lecture-detail">
             <div id="course-title" style={{ textAlign: 'center' }}>
               <span>
-                {this.props.lecture.title}
+                {lecture.title}
               </span>
             </div>
             <div id="course-no" style={{ textAlign: 'center' }}>
               <span>
-                {this.props.lecture.old_code}
-                {this.props.lecture.class_no.length ? ` (${this.props.lecture.class_no})` : ''}
+                {lecture.old_code}
+                {lecture.class_no.length ? ` (${lecture.class_no})` : ''}
               </span>
             </div>
             <div className="lecture-options">
-              <span id="fix-option" onClick={this.unfix} className={this.state.showUnfix ? '' : 'disable'} style={{ float: 'left' }}>고정해제</span>
+              <span id="fix-option" onClick={this.unfix} className={showUnfix ? '' : 'disable'} style={{ float: 'left' }}>고정해제</span>
               <span id="syllabus-option">
-                <a href={`https://cais.kaist.ac.kr/syllabusInfo?year=${this.props.lecture.year}&term=${this.props.lecture.semester}&subject_no=${this.props.lecture.code}&lecture_class=${this.props.lecture.class_no}&dept_id=${this.props.lecture.department}`} target="_blank" rel="noopener noreferrer">
+                <a href={`https://cais.kaist.ac.kr/syllabusInfo?year=${lecture.year}&term=${lecture.semester}&subject_no=${lecture.code}&lecture_class=${lecture.class_no}&dept_id=${lecture.department}`} target="_blank" rel="noopener noreferrer">
                   실라버스
                 </a>
               </span>
               &nbsp;
               <span id="dictionary-option">
-                <Link to={`/review/dictionary${this.props.lecture.old_code}`} target="_blank">
+                <Link to={`/review/dictionary${lecture.old_code}`} target="_blank">
                   과목사전
                 </Link>
               </span>
@@ -108,32 +113,32 @@ class DetailSection extends Component {
             >
               <div className="basic-info">
                 <span className="basic-info-name fixed-ko">구분</span>
-                <span id="course-type">{this.props.lecture.type}</span>
+                <span id="course-type">{lecture.type}</span>
               </div>
               <div className="basic-info">
                 <span className="basic-info-name fixed-ko">학과</span>
-                <span id="department">{this.props.lecture.department_name}</span>
+                <span id="department">{lecture.department_name}</span>
               </div>
               <div className="basic-info">
                 <span className="basic-info-name fixed-ko">교수</span>
-                <span id="instructor">{this.props.lecture.professor}</span>
+                <span id="instructor">{lecture.professor}</span>
               </div>
               <div className="basic-info">
                 <span className="basic-info-name fixed-ko">장소</span>
-                <span id="classroom">{this.props.lecture.classroom}</span>
+                <span id="classroom">{lecture.classroom}</span>
               </div>
               <div className="basic-info">
                 <span className="basic-info-name fixed-ko">정원</span>
-                <span id="class-size">{this.props.lecture.limit}</span>
+                <span id="class-size">{lecture.limit}</span>
               </div>
               <div className="basic-info">
                 <span className="basic-info-name fixed-ko">시험</span>
-                <span id="exam-time">{this.props.lecture.exam}</span>
+                <span id="exam-time">{lecture.exam}</span>
               </div>
               <div className="lecture-scores">
                 <div className="lecture-score">
                   {
-                    this.props.lecture.is_english
+                    lecture.is_english
                       ? <div id="language" className="score-text">Eng</div>
                       : <div id="language" className="score-text score-korean">한</div>
                   }
@@ -141,12 +146,12 @@ class DetailSection extends Component {
                 </div>
                 <div className="lecture-score">
                   {
-                    this.props.lecture.credit > 0
-                      ? <div id="credit" className="score-text">{this.props.lecture.credit}</div>
-                      : <div id="credit" className="score-text">{this.props.lecture.credit_au}</div>
+                    lecture.credit > 0
+                      ? <div id="credit" className="score-text">{lecture.credit}</div>
+                      : <div id="credit" className="score-text">{lecture.credit_au}</div>
                   }
                   {
-                    this.props.lecture.credit > 0
+                    lecture.credit > 0
                       ? <div className="score-label">학점</div>
                       : <div className="score-label">AU</div>
                   }
@@ -154,9 +159,9 @@ class DetailSection extends Component {
                 <div className="lecture-score">
                   <div id="rate" className="score-text">
                     {
-                      this.props.lecture.limit === 0
+                      lecture.limit === 0
                         ? '0.0:1'
-                        : `${(this.props.lecture.num_people / this.props.lecture.limit).toFixed(1).toString()}:1`
+                        : `${(lecture.num_people / lecture.limit).toFixed(1).toString()}:1`
                     }
                   </div>
                   <div className="score-label">경쟁률</div>
@@ -164,15 +169,15 @@ class DetailSection extends Component {
               </div>
               <div className="lecture-scores">
                 <div className="lecture-score" style={{ clear: 'both' }}>
-                  <div id="grade" className="score-text">{this.props.lecture.grade_letter}</div>
+                  <div id="grade" className="score-text">{lecture.grade_letter}</div>
                   <div className="score-label">성적</div>
                 </div>
                 <div className="lecture-score">
-                  <div id="load" className="score-text">{this.props.lecture.load_letter}</div>
+                  <div id="load" className="score-text">{lecture.load_letter}</div>
                   <div className="score-label">널널</div>
                 </div>
                 <div className="lecture-score">
-                  <div id="speech" className="score-text">{this.props.lecture.speech_letter}</div>
+                  <div id="speech" className="score-text">{lecture.speech_letter}</div>
                   <div className="score-label">강의</div>
                 </div>
               </div>
@@ -188,28 +193,28 @@ class DetailSection extends Component {
         </div>
       );
     }
-    if (this.props.from === MULTIPLE) {
+    if (from === MULTIPLE) {
       return (
         <div id="lecture-info">
           <div className="lecture-detail">
             <div id="course-title" style={{ textAlign: 'center' }}>
               <span>
-                {this.props.title}
+                {title}
               </span>
             </div>
             <div id="course-no" style={{ textAlign: 'center' }}>
               <span>
-                {`${this.props.multipleDetail.length}개의 과목`}
+                {`${multipleDetail.length}개의 과목`}
               </span>
             </div>
             <div className="lecture-options">
-              <span id="fix-option" onClick={this.unfix} className={this.state.showUnfix ? '' : 'disable'} style={{ float: 'left' }}>고정해제</span>
+              <span id="fix-option" onClick={this.unfix} className={showUnfix ? '' : 'disable'} style={{ float: 'left' }}>고정해제</span>
               <span id="syllabus-option" className="disable">실라버스</span>
               &nbsp;
               <span id="dictionary-option" className="disable">과목사전</span>
             </div>
             <div className="detail-top">
-              {this.props.multipleDetail.map((detail, index) => (
+              {multipleDetail.map((detail, index) => (
                 <div className="basic-info" key={detail.id}>
                   <span className="basic-info-name">
                     {detail.title}

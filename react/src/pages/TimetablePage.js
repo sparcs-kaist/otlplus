@@ -18,11 +18,13 @@ import ShareSubSection from '../componenets/sections/timetable/ShareSubSection';
 
 class TimetablePage extends Component {
   render() {
+    const { showLectureInfoFlag, showTimetableListFlag, showLectureListFlag } = this.props;
+
     return (
       <div className="timetable_page">
-        <div className={this.props.showLectureInfoFlag ? 'modal-lecture-info' : null}>
-          <div className={this.props.showTimetableListFlag ? 'modal-timetable-list' : null}>
-            <div className={this.props.showLectureListFlag ? 'mobile-lecture-list' : null}>
+        <div className={showLectureInfoFlag ? 'modal-lecture-info' : null}>
+          <div className={showTimetableListFlag ? 'modal-timetable-list' : null}>
+            <div className={showLectureListFlag ? 'mobile-lecture-list' : null}>
               <Header />
               <section id="content" className="container-fluid" style={{ backgroundColor: '#f9f0f0' }}>
                 <div id="page-container">
@@ -36,7 +38,7 @@ class TimetablePage extends Component {
                   <div id="center">
                     <div id="timetable-menu">
                       {
-                        this.props.showTimetableListFlag
+                        showTimetableListFlag
                           ? (
                             <div>
                               <SemesterSection />

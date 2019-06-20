@@ -9,8 +9,10 @@ import timetableShape from '../../../shapes/TimetableShape';
 
 class ShareSubSection extends Component {
   render() {
-    const timetableLectures = this.props.currentTimetable
-      ? this.props.currentTimetable.lectures
+    const { currentTimetable, mtimetableListDispatch, mToggleLectureListDispatch } = this.props;
+
+    const timetableLectures = currentTimetable
+      ? currentTimetable.lectures
       : [];
     return (
       <div id="share-buttons" className="authenticated">
@@ -21,8 +23,8 @@ class ShareSubSection extends Component {
 
         </div>
         <div className="right-btn-group">
-          <a className="share-button" id="show-timetable-list" onClick={this.props.mtimetableListDispatch} />
-          <a className="share-button" id="show-lecture-list" onClick={this.props.mToggleLectureListDispatch} />
+          <a className="share-button" id="show-timetable-list" onClick={mtimetableListDispatch} />
+          <a className="share-button" id="show-lecture-list" onClick={mToggleLectureListDispatch} />
         </div>
         <div className="height-placeholder" />
       </div>
