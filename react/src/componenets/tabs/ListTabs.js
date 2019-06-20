@@ -7,7 +7,7 @@ import { NONE, LIST, TABLE, MULTIPLE } from '../../reducers/timetable/lectureAct
 import lectureShape from '../../shapes/LectureShape';
 
 
-class ListSection extends Component {
+class ListTabs extends Component {
   changeTab = (list) => {
     this.props.setCurrentListDispatch(list);
 
@@ -61,19 +61,19 @@ const mapDispatchToProps = dispatch => ({
   },
 });
 
-ListSection.propTypes = {
+ListTabs.propTypes = {
   currentList: PropTypes.string.isRequired,
   search: PropTypes.shape({
-    courses: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)).isRequired,
+    courses: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)),
   }).isRequired,
   major: PropTypes.shape({
     codes: PropTypes.arrayOf(PropTypes.string).isRequired,
   }).isRequired,
   humanity: PropTypes.shape({
-    courses: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)).isRequired,
+    courses: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)),
   }).isRequired,
   cart: PropTypes.shape({
-    courses: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)).isRequired,
+    courses: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)),
   }).isRequired,
   lectureActiveFrom: PropTypes.oneOf([NONE, LIST, TABLE, MULTIPLE]).isRequired,
   openSearchDispatch: PropTypes.func.isRequired,
@@ -82,4 +82,4 @@ ListSection.propTypes = {
   clearLectureActiveDispatch: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ListSection);
+export default connect(mapStateToProps, mapDispatchToProps)(ListTabs);
