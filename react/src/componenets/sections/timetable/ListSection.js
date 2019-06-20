@@ -28,6 +28,10 @@ class ListSection extends Component {
 
     if (this.props.year !== prevProps.year || this.props.semester !== prevProps.semester) {
       this._fetchLists(false);
+
+      if (this.props.currentList === 'SEARCH') {
+        this.props.openSearchDispatch();
+      }
     }
   }
 
