@@ -43,33 +43,23 @@ class SemesterSection extends Component {
   }
 
   semesterPrev() {
-    let year = this.props.year;
-    let semester = this.props.semester;
+    const year = this.props.year;
+    const semester = this.props.semester;
 
-    if (semester === 1) {
-      year = year - 1;
-      semester = 3;
-    }
-    else {
-      semester = 1;
-    }
+    const newYear = (semester === 1) ? year - 1 : year;
+    const newSemester = (semester === 1) ? 3 : 1;
 
-    this.props.setSemesterDispatch(year, semester);
+    this.props.setSemesterDispatch(newYear, newSemester);
   }
 
   semesterNext() {
-    let year = this.props.year;
-    let semester = this.props.semester;
+    const year = this.props.year;
+    const semester = this.props.semester;
 
-    if (semester === 3) {
-      year = year + 1;
-      semester = 1;
-    }
-    else {
-      semester = 3;
-    }
+    const newYear = (semester === 3) ? year + 1 : year;
+    const newSemester = (semester === 3) ? 1 : 3;
 
-    this.props.setSemesterDispatch(year, semester);
+    this.props.setSemesterDispatch(newYear, newSemester);
   }
 
   render() {

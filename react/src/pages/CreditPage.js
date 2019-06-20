@@ -8,13 +8,9 @@ import '../static/css/credits.css';
 
 class Button extends Component {
   render() {
-    let className;
-    if (this.props.index === this.props.current) {
-      className = 'block active';
-    }
-    else {
-      className = 'block';
-    }
+    const className = (this.props.index === this.props.current)
+      ? 'block active'
+      : 'block';
     return (
       <div onClick={() => this.props.onClick(this.props.index)} className={className} key={this.props.index}>
         {this.props.children}
@@ -40,46 +36,18 @@ class CreditPage extends Component {
     this.state = {
       currentTab: 6,
     };
-    this.changePage = this.changePage.bind(this);
   }
 
-  changePage(index) {
+  changePage = (index) => {
     this.setState({
       currentTab: index,
     });
   }
 
-  render() {
-    let content = (
-      <div className="content tab6">
-        <h4>Project Manager</h4>
-        <div className="people">
-          김재성
-          <div>(2016.09 ~ 2017.05)</div>
-        </div>
-        <div className="people">
-          한승현
-          <div>(2017.06 ~ )</div>
-        </div>
-
-        <h4>Designer</h4>
-        <div className="people">한승현</div>
-
-        <h4>Developer</h4>
-        <div className="people">고지훈</div>
-        <div className="people">김재성</div>
-        <div className="people">김태준</div>
-        <div className="people">서덕담</div>
-        <div className="people">오종훈</div>
-        <div className="people">이강원</div>
-        <div className="people">조형준</div>
-        <div className="people">최정운</div>
-        <div className="people">한승현</div>
-      </div>
-    );
-    switch (this.state.currentTab) {
+  _getContent = (tab) => {
+    switch (tab) {
       case 1:
-        content = (
+        return (
           <div className="content tab1">
             <h4>Project Manager</h4>
 
@@ -88,9 +56,8 @@ class CreditPage extends Component {
             <h4>Developer</h4>
           </div>
         );
-        break;
       case 2:
-        content = (
+        return (
           <div className="content tab2">
             <h4>Developer</h4>
             <div className="people">김민우</div>
@@ -103,9 +70,8 @@ class CreditPage extends Component {
             <div className="people">안병욱</div>
           </div>
         );
-        break;
       case 3:
-        content = (
+        return (
           <div className="content tab3">
             <h4>Project Manager</h4>
             <div className="people">
@@ -127,9 +93,8 @@ class CreditPage extends Component {
             <div className="people">조유정</div>
           </div>
         );
-        break;
       case 4:
-        content = (
+        return (
           <div className="content tab4">
             <h4>Project Manager</h4>
             <div className="people">
@@ -157,9 +122,8 @@ class CreditPage extends Component {
             <div className="people">채종욱</div>
           </div>
         );
-        break;
       case 5:
-        content = (
+        return (
           <div className="content tab5">
             <h4>Project Manager</h4>
             <div className="people">
@@ -186,9 +150,8 @@ class CreditPage extends Component {
             <div className="people">황태현</div>
           </div>
         );
-        break;
       case 6:
-        content = (
+        return (
           <div className="content tab6">
             <h4>Project Manager</h4>
             <div className="people">
@@ -215,9 +178,8 @@ class CreditPage extends Component {
             <div className="people">한승현</div>
           </div>
         );
-        break;
       case 7:
-        content = (
+        return (
           <div className="content tab7">
             <h4>LKIN</h4>
             <div className="people">
@@ -266,13 +228,14 @@ class CreditPage extends Component {
             </div>
           </div>
         );
-        break;
       default:
-        content = (
+        return (
           <div />
         );
-        break;
     }
+  }
+
+  render() {
     return (
       <div className="credit">
         <Header />
@@ -323,7 +286,7 @@ class CreditPage extends Component {
                   </div>
 
                   <h1>Credit</h1>
-                  {content}
+                  {this._getContent(this.state.currentTab)}
                 </div>
               </div>
             </div>
