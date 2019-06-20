@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import axios from '../../../common/presetAxios';
 import { BASE_URL } from '../../../common/constants';
-import { closeSearch, setListLectures } from '../../../actions/timetable/index';
+import { closeSearch, setListLectures, clearSearchListLectures } from '../../../actions/timetable/index';
 import SearchFilter from '../../SearchFilter';
 import '../../../static/css/font-awesome.min.css';
 
@@ -38,6 +38,7 @@ class SearchSubSection extends Component {
       }
     }
     this.props.closeSearchDispatch();
+    this.props.clearSearchListLecturesDispatch();
 
     axios.post(`${BASE_URL}/api/timetable/search`, {
       year: this.props.year,
@@ -144,9 +145,6 @@ class SearchSubSection extends Component {
   }
 
   render() {
-    if (!this.props.open) {
-      return null;
-    }
     const { inputVal, autoComplete } = this.state;
     return (
         // eslint-disable-next-line react/jsx-indent
@@ -229,7 +227,6 @@ class SearchSubSection extends Component {
 }
 
 const mapStateToProps = state => ({
-  open: state.timetable.search.open,
   start: state.timetable.search.start,
   end: state.timetable.search.end,
   day: state.timetable.search.day,
@@ -244,10 +241,12 @@ const mapDispatchToProps = dispatch => ({
   setListLecturesDispatch: (code, lectures) => {
     dispatch(setListLectures(code, lectures));
   },
+  clearSearchListLecturesDispatch: () => {
+    dispatch(clearSearchListLectures());
+  },
 });
 
 SearchSubSection.propTypes = {
-  open: PropTypes.bool.isRequired,
   start: PropTypes.number,
   end: PropTypes.number,
   day: PropTypes.number,
@@ -255,6 +254,7 @@ SearchSubSection.propTypes = {
   semester: PropTypes.number,
   closeSearchDispatch: PropTypes.func.isRequired,
   setListLecturesDispatch: PropTypes.func.isRequired,
+  clearSearchListLecturesDispatch: PropTypes.func.isRequired,
 };
 
 
