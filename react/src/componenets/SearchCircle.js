@@ -14,19 +14,12 @@ class SearchCircle extends Component {
   static getDerivedStateFromProps(nextProps, prevState) {
     // Return value will be set the state
     if (nextProps.value === 'ALL') {
-      if (nextProps.allChecked) {
-        return { isChecked: true };
-      }
-      else {
-        return { isChecked: false };
-      }
+      return { isChecked: nextProps.allChecked };
     }
-    else {
-      if (nextProps.allChecked) {
-        return { isChecked: false };
-      }
-      return null;
+    if (nextProps.allChecked) {
+      return { isChecked: false };
     }
+    return null;
   }
 
   onClick(e) {

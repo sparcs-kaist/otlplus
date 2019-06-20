@@ -7,6 +7,7 @@ import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lecture
 import { clearMultipleDetail, setMultipleDetail } from '../../../actions/timetable/index';
 import lectureShape from '../../../shapes/LectureShape';
 import timetableShape from '../../../shapes/TimetableShape';
+import { inTimetable } from '../../../common/lectureFunctions';
 
 
 class ExamSubSection extends Component {
@@ -64,7 +65,9 @@ class ExamSubSection extends Component {
       return li;
     };
 
-    const examWithLectures = this.props.currentTimetable.lectures.filter(lecture => (lecture.examtimes.length > 0));
+    const examWithLectures = this.props.currentTimetable.lectures
+      .concat((this.props.lectureActiveLecture && !inTimetable(this.props.lectureActiveLecture, this.props.currentTimetable)) ? [this.props.lectureActiveLecture] : [])
+      .filter(lecture => (lecture.examtimes.length > 0));
     const examTable = [0, 1, 2, 3, 4].map(day => (
       examWithLectures
         .filter(lecture => lecture.examtimes[0].day === day)
@@ -74,12 +77,6 @@ class ExamSubSection extends Component {
           id: lecture.id,
         }))
     ));
-    const codeList = examWithLectures.map(lecture => lecture.code);
-
-    const alec = this.props.lectureActiveLecture;
-    if (alec !== null && !codeList.includes(alec.code) && alec.examtimes.length !== 0) {
-      examTable[alec.examtimes[0].day].push({ title: alec.title, time: alec.exam.slice(4), id: alec.id });
-    }
 
     return (
       <div id="exam-timetable">
@@ -156,6 +153,5 @@ ExamSubSection.propTypes = {
   clearMultipleDetailDispatch: PropTypes.func.isRequired,
 };
 
-ExamSubSection = connect(mapStateToProps, mapDispatchToProps)(ExamSubSection);
 
-export default ExamSubSection;
+export default connect(mapStateToProps, mapDispatchToProps)(ExamSubSection);

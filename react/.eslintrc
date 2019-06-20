@@ -9,7 +9,8 @@
     "FormData": "readonly"
   },
   "plugins": [
-    "no-loops"
+    "no-loops",
+    "fp"
   ],
   "rules": {
     "jsx-a11y/click-events-have-key-events": 0,
@@ -29,26 +30,37 @@
     "camelcase": 1,
     "max-len": "off",
     "no-underscore-dangle": ["error", { "allowAfterThis": true, "allowAfterSuper": true }],
-    "no-restricted-syntax": "off",
     "arrow-body-style": ["warn", "as-needed"],
-    "global-require": "off",
     "object-curly-newline": ["error", { "consistent": true }],
-    "object-shorthand": 1,
+    "object-shorthand": [1, "never"],
     "operator-assignment": 1,
     "react/destructuring-assignment": 1,
     "react/jsx-boolean-value": "off",
-    "react/jsx-filename-extension": "off",
-    "react/no-multi-comp": 1,
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "react/require-default-props": 1,
     "react/prefer-stateless-function": 0,
-    "no-case-declarations": 1,
-    "no-class-assign": 1,
     "no-console": "error",
-    "no-else-return": 1,
-    "no-lonely-if": 1,
     "no-loops/no-loops": "error",
     "no-nested-ternary": "off",
     "no-plusplus": ["error", {"allowForLoopAfterthoughts": true}],
-    "no-unused-vars": ["error", {"args": "none"}]
+    "no-unused-vars": ["error", {"args": "none"}],
+
+    "fp/no-arguments": "warn",
+    "fp/no-class": "off",
+    "fp/no-delete": "warn",
+    "fp/no-events": "warn",
+    "fp/no-get-set": "warn",
+    "fp/no-let": "warn",
+    "fp/no-loops": "warn",
+    "fp/no-mutating-assign": "warn",
+    "fp/no-mutating-methods": "warn",
+    "fp/no-mutation": ["warn", {"exceptions": [{"property": "propTypes"}, {"property": "state"}]}],
+    "fp/no-nil": "off",
+    "fp/no-proxy": "warn",
+    "fp/no-rest-parameters": "warn",
+    "fp/no-this": "off",
+    "fp/no-throw": "warn",
+    "fp/no-unused-expression": "off",
+    "fp/no-valueof-field": "warn"
   }
 }

@@ -103,15 +103,14 @@ class TimetableTabs extends Component {
         </div>
       );
     }
-    else {
-      return (
+    return (
+        // eslint-disable-next-line react/jsx-indent
         <div id="timetable-tabs">
           <div className="timetable-tab" style={{ pointerEvents: 'none' }}>
             <span className="timetable-num">불러오는 중</span>
           </div>
         </div>
-      );
-    }
+    );
   }
 }
 
@@ -154,6 +153,5 @@ TimetableTabs.propTypes = {
   duplicateTimetableDispatch: PropTypes.func.isRequired,
 };
 
-TimetableTabs = connect(mapStateToProps, mapDispatchToProps)(TimetableTabs);
 
-export default TimetableTabs;
+export default connect(mapStateToProps, mapDispatchToProps)(TimetableTabs);
