@@ -11,7 +11,7 @@ const initialState = {
   lecture: null,
   comments: [],
   title: '',
-  lectures: [],
+  multipleDetail: [],
 };
 
 const lectureActive = (state = initialState, action) => {
@@ -35,14 +35,14 @@ const lectureActive = (state = initialState, action) => {
       return Object.assign({}, state, {
         from: MULTIPLE,
         title: action.title,
-        lectures: action.lectures,
+        multipleDetail: action.multipleDetail,
       });
     }
     case CLEAR_MULTIPLE_DETAIL: {
       return Object.assign({}, state, {
         from: NONE,
         title: '',
-        lectures: [],
+        multipleDetail: [],
       });
     }
     default: {
