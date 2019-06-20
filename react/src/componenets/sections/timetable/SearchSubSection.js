@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import axios from '../../../common/presetAxios';
 import { BASE_URL } from '../../../common/constants';
-import { closeSearch, setListLectures } from '../../../actions/timetable/index';
+import { closeSearch, setListLectures, clearSearchListLectures } from '../../../actions/timetable/index';
 import SearchFilter from '../../SearchFilter';
 import '../../../static/css/font-awesome.min.css';
 
@@ -38,6 +38,7 @@ class SearchSubSection extends Component {
       }
     }
     this.props.closeSearchDispatch();
+    this.props.clearSearchListLecturesDispatch();
 
     axios.post(`${BASE_URL}/api/timetable/search`, {
       year: this.props.year,
@@ -240,6 +241,9 @@ const mapDispatchToProps = dispatch => ({
   setListLecturesDispatch: (code, lectures) => {
     dispatch(setListLectures(code, lectures));
   },
+  clearSearchListLecturesDispatch: () => {
+    dispatch(clearSearchListLectures());
+  },
 });
 
 SearchSubSection.propTypes = {
@@ -250,6 +254,7 @@ SearchSubSection.propTypes = {
   semester: PropTypes.number,
   closeSearchDispatch: PropTypes.func.isRequired,
   setListLecturesDispatch: PropTypes.func.isRequired,
+  clearSearchListLecturesDispatch: PropTypes.func.isRequired,
 };
 
 
