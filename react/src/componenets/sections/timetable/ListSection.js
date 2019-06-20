@@ -182,6 +182,9 @@ class ListSection extends Component {
 
   render() {
     const listBlocks = (courses, fromCart) => {
+      if (!courses) {
+        return <div className="list-loading">불러오는 중</div>;
+      }
       if (courses.length === 0) {
         return <div className="list-loading">결과 없음</div>;
       }
@@ -324,16 +327,16 @@ ListSection.propTypes = {
   user: userShape,
   currentList: PropTypes.string.isRequired,
   search: PropTypes.shape({
-    courses: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)).isRequired,
+    courses: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)),
   }).isRequired,
   major: PropTypes.shape({
     codes: PropTypes.arrayOf(PropTypes.string).isRequired,
   }).isRequired,
   humanity: PropTypes.shape({
-    courses: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)).isRequired,
+    courses: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)),
   }).isRequired,
   cart: PropTypes.shape({
-    courses: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)).isRequired,
+    courses: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)),
   }).isRequired,
   currentTimetable: timetableShape,
   lectureActive: lectureActiveShape.isRequired,

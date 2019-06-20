@@ -1,23 +1,23 @@
-import { SET_CURRENT_LIST, ADD_LECTURE_TO_CART, DELETE_LECTURE_FROM_CART, SET_LIST_MAJOR_CODES, SET_LIST_LECTURES, SET_LIST_MAJOR_LECTURES } from '../../actions/timetable/index';
+import { SET_CURRENT_LIST, ADD_LECTURE_TO_CART, DELETE_LECTURE_FROM_CART, SET_LIST_MAJOR_CODES, SET_LIST_LECTURES, SET_LIST_MAJOR_LECTURES, CLEAR_LISTS_LECTURES } from '../../actions/timetable/index';
 
 
 const initialState = {
   currentList: 'SEARCH',
   search: {
-    courses: [],
+    courses: null,
   },
   major: {
     codes: ['Basic'],
     Basic: {
       name: '기초 과목',
-      courses: [],
+      courses: null,
     },
   },
   humanity: {
-    courses: [],
+    courses: null,
   },
   cart: {
-    courses: [],
+    courses: null,
   },
 };
 
@@ -78,6 +78,33 @@ const list = (state = initialState, action) => {
             ...state.major[action.majorCode],
             courses: groupLectures(action.lectures),
           },
+        },
+      };
+      return Object.assign({}, state, newState);
+    }
+    case CLEAR_LISTS_LECTURES: {
+      const newState = {
+        ...state,
+        search: {
+          ...state.search,
+          courses: null,
+        },
+        major: {
+          ...state.major,
+          ...state.major.codes.map(c => ({
+            [c]: {
+              ...state.major[c],
+              courses: null,
+            },
+          })),
+        },
+        humanity: {
+          ...state.humanity,
+          courses: null,
+        },
+        cart: {
+          ...state.cart,
+          courses: null,
         },
       };
       return Object.assign({}, state, newState);
