@@ -28,6 +28,7 @@ class MapSubSection extends Component {
       lecture.building === building
     ));
     const lectures = active.map(lecture => ({
+      id: lecture.id,
       title: lecture.title,
       info: lecture.room,
     }));

@@ -270,6 +270,7 @@ DetailSection.propTypes = {
   title: PropTypes.string.isRequired,
   multipleDetail: PropTypes.arrayOf(
     PropTypes.shape({
+      id: PropTypes.number.isRequired,
       title: PropTypes.string.isRequired,
       info: PropTypes.string.isRequired,
     }),
