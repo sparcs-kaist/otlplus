@@ -199,7 +199,7 @@ class DetailSection extends Component {
             </div>
             <div id="course-no" style={{ textAlign: 'center' }}>
               <span>
-                {`${this.props.lectures.length}개의 과목`}
+                {`${this.props.multipleDetail.length}개의 과목`}
               </span>
             </div>
             <div className="lecture-options">
@@ -209,13 +209,13 @@ class DetailSection extends Component {
               <span id="dictionary-option" className="disable">과목사전</span>
             </div>
             <div className="detail-top">
-              {this.props.lectures.map((lecture, index) => (
-                <div className="basic-info" key={lecture.id}>
+              {this.props.multipleDetail.map((detail, index) => (
+                <div className="basic-info" key={detail.id}>
                   <span className="basic-info-name">
-                    {lecture.title}
+                    {detail.title}
                   </span>
                   <span id="department">
-                    {lecture.info}
+                    {detail.info}
                   </span>
                 </div>
               ))}
@@ -254,7 +254,7 @@ const mapStateToProps = state => ({
   from: state.timetable.lectureActive.from,
   lecture: state.timetable.lectureActive.lecture,
   title: state.timetable.lectureActive.title,
-  lectures: state.timetable.lectureActive.lectures,
+  multipleDetail: state.timetable.lectureActive.multipleDetail,
   clicked: state.timetable.lectureActive.clicked,
 });
 
@@ -268,7 +268,13 @@ DetailSection.propTypes = {
   from: PropTypes.oneOf([NONE, LIST, TABLE, MULTIPLE]).isRequired,
   lecture: lectureShape,
   title: PropTypes.string.isRequired,
-  lectures: PropTypes.arrayOf(lectureShape),
+  multipleDetail: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      title: PropTypes.string.isRequired,
+      info: PropTypes.string.isRequired,
+    }),
+  ),
   clicked: PropTypes.bool.isRequired,
   clearLectureActiveDispatch: PropTypes.func.isRequired,
 };
