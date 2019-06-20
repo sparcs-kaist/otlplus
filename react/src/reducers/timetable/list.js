@@ -53,7 +53,7 @@ const list = (state = initialState, action) => {
             {
               [major.code]: {
                 name: major.name,
-                courses: [],
+                courses: null,
               },
             }
           ))),
@@ -89,15 +89,16 @@ const list = (state = initialState, action) => {
           ...state.search,
           courses: null,
         },
-        major: {
-          ...state.major,
+        major: Object.assign(
+          {},
+          state.major,
           ...state.major.codes.map(c => ({
             [c]: {
               ...state.major[c],
               courses: null,
             },
           })),
-        },
+        ),
         humanity: {
           ...state.humanity,
           courses: null,
