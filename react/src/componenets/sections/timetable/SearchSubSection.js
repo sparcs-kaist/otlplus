@@ -27,6 +27,8 @@ class SearchSubSection extends Component {
 
   searchStart = () => {
     const { type, department, grade, inputVal } = this.state;
+    const { year, semester } = this.props;
+
     if (type.size === 1 && department.size === 1 && grade.size === 1 && inputVal.length === 0
       && !(this.props.day !== null && this.props.end !== null && this.props.day !== null)) {
       if (type.has('ALL') && department.has('ALL') && grade.has('ALL')) {
@@ -49,6 +51,9 @@ class SearchSubSection extends Component {
       day: (this.props.day !== null) ? this.props.day.toString() : '',
     })
       .then((response) => {
+        if (this.props.year !== year || this.props.semester !== semester) {
+          return;
+        }
         const lectures = response.data.courses;
         this.props.setListLecturesDispatch('search', lectures);
       })
@@ -81,6 +86,7 @@ class SearchSubSection extends Component {
 
   handleInput(e) {
     const value = e.target.value;
+    const { year, semester } = this.props;
 
     this.setState({
       inputVal: e.target.value,
@@ -98,7 +104,9 @@ class SearchSubSection extends Component {
     })
       .then((response) => {
         const { complete } = response.data;
-        if (value !== this.state.inputVal) {
+        if (value !== this.state.inputVal
+          || (this.props.year !== year || this.props.semester !== semester)
+        ) {
           return;
         }
         this.setState({
@@ -243,8 +251,8 @@ SearchSubSection.propTypes = {
   start: PropTypes.number,
   end: PropTypes.number,
   day: PropTypes.number,
-  year: PropTypes.number.isRequired,
-  semester: PropTypes.number.isRequired,
+  year: PropTypes.number,
+  semester: PropTypes.number,
   closeSearchDispatch: PropTypes.func.isRequired,
   setListLecturesDispatch: PropTypes.func.isRequired,
 };
