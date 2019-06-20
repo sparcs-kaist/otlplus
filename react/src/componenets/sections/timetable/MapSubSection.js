@@ -20,7 +20,7 @@ class MapSubSection extends Component {
   }
 
   mapFocus(building) {
-    if (this.props.lectureActiveFrom !== 'NONE') {
+    if (this.props.lectureActiveFrom !== 'NONE' || !this.props.currentTimetable) {
       return;
     }
 
@@ -45,7 +45,10 @@ class MapSubSection extends Component {
   }
 
   render() {
-    const targetLectures = this.props.currentTimetable.lectures
+    const timetableLectures = this.props.currentTimetable
+      ? this.props.currentTimetable.lectures
+      : [];
+    const targetLectures = timetableLectures
       .concat((this.props.lectureActiveLecture && !inTimetable(this.props.lectureActiveLecture, this.props.currentTimetable)) ? [this.props.lectureActiveLecture] : []);
     const buildings = new Set(targetLectures.map(lecture => lecture.building));
     const mapObject = Object.assign(
@@ -120,7 +123,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 MapSubSection.propTypes = {
-  currentTimetable: timetableShape.isRequired,
+  currentTimetable: timetableShape,
   lectureActiveLecture: lectureShape,
   lectureActiveFrom: PropTypes.oneOf([NONE, LIST, TABLE, MULTIPLE]).isRequired,
   setMultipleDetailDispatch: PropTypes.func.isRequired,

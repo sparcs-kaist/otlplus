@@ -28,7 +28,7 @@ class SummarySubSection extends Component {
   }
 
   typeFocus(type) {
-    if (this.props.lectureActiveFrom !== 'NONE') {
+    if (this.props.lectureActiveFrom !== 'NONE' || !this.props.currentTimetable) {
       return;
     }
 
@@ -43,7 +43,7 @@ class SummarySubSection extends Component {
   }
 
   creditFocus(type) {
-    if (this.props.lectureActiveFrom !== 'NONE') {
+    if (this.props.lectureActiveFrom !== 'NONE' || !this.props.currentTimetable) {
       return;
     }
 
@@ -73,7 +73,7 @@ class SummarySubSection extends Component {
   }
 
   scoreFocus(type) {
-    if (this.props.lectureActiveFrom !== 'NONE') {
+    if (this.props.lectureActiveFrom !== 'NONE' || !this.props.currentTimetable) {
       return;
     }
 
@@ -106,20 +106,23 @@ class SummarySubSection extends Component {
   }
 
   render() {
+    const timetableLectures = this.props.currentTimetable
+      ? this.props.currentTimetable.lectures
+      : [];
     const type_credit = [0, 1, 2, 3, 4, 5].map(index => (
-      this.props.currentTimetable.lectures
+      timetableLectures
         .filter(lecture => (indexOfType(lecture.type_en) === index))
         .reduce((acc, lecture) => (acc + (lecture.credit + lecture.credit_au)), 0)
     ));
     const alec = this.props.lectureActiveLecture;
-    const sum_credit = this.props.currentTimetable.lectures.reduce((acc, lecture) => (acc + lecture.credit), 0)
+    const sum_credit = timetableLectures.reduce((acc, lecture) => (acc + lecture.credit), 0)
       + (alec && inTimetable(alec, this.props.currentTimetable) ? alec.credit : 0);
-    const sum_credit_au = this.props.currentTimetable.lectures.reduce((acc, lecture) => (acc + lecture.credit_au), 0)
+    const sum_credit_au = timetableLectures.reduce((acc, lecture) => (acc + lecture.credit_au), 0)
       + (alec && inTimetable(alec, this.props.currentTimetable) ? alec.credit_au : 0);
-    const targetNum = this.props.currentTimetable.lectures.reduce((acc, lecture) => (acc + (lecture.credit + lecture.credit_au)), 0);
-    const grade = this.props.currentTimetable.lectures.reduce((acc, lecture) => (acc + (lecture.grade * (lecture.credit + lecture.credit_au))), 0);
-    const load = this.props.currentTimetable.lectures.reduce((acc, lecture) => (acc + (lecture.load * (lecture.credit + lecture.credit_au))), 0);
-    const speech = this.props.currentTimetable.lectures.reduce((acc, lecture) => (acc + (lecture.speech * (lecture.credit + lecture.credit_au))), 0);
+    const targetNum = timetableLectures.reduce((acc, lecture) => (acc + (lecture.credit + lecture.credit_au)), 0);
+    const grade = timetableLectures.reduce((acc, lecture) => (acc + (lecture.grade * (lecture.credit + lecture.credit_au))), 0);
+    const load = timetableLectures.reduce((acc, lecture) => (acc + (lecture.load * (lecture.credit + lecture.credit_au))), 0);
+    const speech = timetableLectures.reduce((acc, lecture) => (acc + (lecture.speech * (lecture.credit + lecture.credit_au))), 0);
     const letters = ['?', 'F', 'F', 'F', 'D-', 'D', 'D+', 'C-', 'C', 'C+', 'B-', 'B', 'B+', 'A-', 'A', 'A+'];
 
     const active_type_credit = [0, 1, 2, 3, 4, 5].map(i => (
@@ -219,7 +222,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 SummarySubSection.propTypes = {
-  currentTimetable: timetableShape.isRequired,
+  currentTimetable: timetableShape,
   lectureActiveLecture: lectureShape,
   lectureActiveFrom: PropTypes.oneOf([NONE, LIST, TABLE, MULTIPLE]).isRequired,
   setMultipleDetailDispatch: PropTypes.func.isRequired,

@@ -8,6 +8,7 @@ export const SET_LIST_MAJOR_LECTURES = 'SET_LIST_MAJOR_LECTURES';
 export const ADD_LECTURE_TO_CART = 'ADD_LECTURE_TO_CART';
 export const DELETE_LECTURE_FROM_CART = 'DELETE_LECTURE_FROM_CART';
 export const SET_TIMETABLES = 'SET_TIMETABLES';
+export const CLEAR_TIMETABLES = 'CLEAR_TIMETABLES';
 export const SET_CURRENT_TIMETABLE = 'SET_CURRENT_TIMETABLE';
 export const CREATE_TIMETABLE = 'CREATE_TIMETABLE';
 export const DELETE_TIMETABLE = 'DELETE_TIMETABLE';
@@ -107,6 +108,12 @@ export function setTimetables(timetables) {
   return {
     type: SET_TIMETABLES,
     timetables: timetables,
+  };
+}
+
+export function clearTimetables() {
+  return {
+    type: CLEAR_TIMETABLES,
   };
 }
 

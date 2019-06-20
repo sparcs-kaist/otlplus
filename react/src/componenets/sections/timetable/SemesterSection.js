@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import axios from '../../../common/presetAxios';
 import { BASE_URL } from '../../../common/constants';
-import { setSemester, clearLectureActive } from '../../../actions/timetable/index';
+import { setSemester, clearLectureActive, clearTimetables } from '../../../actions/timetable/index';
 
 
 const semesterName = {
@@ -51,6 +51,7 @@ class SemesterSection extends Component {
 
     this.props.setSemesterDispatch(newYear, newSemester);
     this.props.clearLectureActiveDispatch();
+    this.props.clearTimetablesDispatch();
   }
 
   semesterNext() {
@@ -62,6 +63,7 @@ class SemesterSection extends Component {
 
     this.props.setSemesterDispatch(newYear, newSemester);
     this.props.clearLectureActiveDispatch();
+    this.props.clearTimetablesDispatch();
   }
 
   render() {
@@ -98,6 +100,9 @@ const mapDispatchToProps = dispatch => ({
   clearLectureActiveDispatch: () => {
     dispatch(clearLectureActive());
   },
+  clearTimetablesDispatch: () => {
+    dispatch(clearTimetables());
+  },
 });
 
 SemesterSection.propTypes = {
@@ -105,6 +110,7 @@ SemesterSection.propTypes = {
   semester: PropTypes.number,
   setSemesterDispatch: PropTypes.func.isRequired,
   clearLectureActiveDispatch: PropTypes.func.isRequired,
+  clearTimetablesDispatch: PropTypes.func.isRequired,
 };
 
 
