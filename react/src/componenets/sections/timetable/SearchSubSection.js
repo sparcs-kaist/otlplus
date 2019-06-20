@@ -144,9 +144,6 @@ class SearchSubSection extends Component {
   }
 
   render() {
-    if (!this.props.open) {
-      return null;
-    }
     const { inputVal, autoComplete } = this.state;
     return (
         // eslint-disable-next-line react/jsx-indent
@@ -229,7 +226,6 @@ class SearchSubSection extends Component {
 }
 
 const mapStateToProps = state => ({
-  open: state.timetable.search.open,
   start: state.timetable.search.start,
   end: state.timetable.search.end,
   day: state.timetable.search.day,
@@ -247,7 +243,6 @@ const mapDispatchToProps = dispatch => ({
 });
 
 SearchSubSection.propTypes = {
-  open: PropTypes.bool.isRequired,
   start: PropTypes.number,
   end: PropTypes.number,
   day: PropTypes.number,
