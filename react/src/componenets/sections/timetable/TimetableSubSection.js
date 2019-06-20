@@ -36,8 +36,10 @@ class TimetableSubSection extends Component {
   }
 
   resize = () => {
+    const { updateCellSizeDispatch } = this.props;
+
     const cell = document.getElementsByClassName('cell1')[0].getBoundingClientRect();
-    this.props.updateCellSizeDispatch(cell.width, cell.height);
+    updateCellSizeDispatch(cell.width, cell.height);
   }
 
   indexOfDay = (day) => {
@@ -55,21 +57,26 @@ class TimetableSubSection extends Component {
   }
 
   dragStart = (e) => {
+    const { setIsDraggingDispatch } = this.props;
+
     e.stopPropagation();
     e.preventDefault();
     this.setState({ firstBlock: e.target, secondBlock: e.target });
-    this.props.setIsDraggingDispatch(true);
+    setIsDraggingDispatch(true);
   }
 
   // check is drag contain class time
   _isOccupied = (dragStart, dragEnd) => {
-    const dragDay = this.indexOfDay(this.state.firstBlock.getAttribute('data-day'));
+    const { firstBlock } = this.state;
+    const { currentTimetable } = this.props;
 
-    if (!this.props.currentTimetable) {
+    const dragDay = this.indexOfDay(firstBlock.getAttribute('data-day'));
+
+    if (!currentTimetable) {
       return false;
     }
 
-    return this.props.currentTimetable.lectures.some(lecture => (
+    return currentTimetable.lectures.some(lecture => (
       lecture.classtimes.some(classtime => (
         (classtime.day === dragDay) && (dragStart < (classtime.end / 30 - 2 * 8)) && (dragEnd > (classtime.begin / 30 - 2 * 8))
       ))
@@ -77,8 +84,11 @@ class TimetableSubSection extends Component {
   }
 
   dragMove = (e) => {
-    if (!this.props.isDragging) return;
-    const startIndex = this.indexOfTime(this.state.firstBlock.getAttribute('data-time'));
+    const { firstBlock } = this.state;
+    const { isDragging } = this.props;
+
+    if (!isDragging) return;
+    const startIndex = this.indexOfTime(firstBlock.getAttribute('data-time'));
     const endIndex = this.indexOfTime(e.target.getAttribute('data-time'));
     const incr = startIndex < endIndex ? 1 : -1;
     // eslint-disable-next-line no-loops/no-loops, fp/no-loops, fp/no-let, fp/no-mutation
@@ -91,66 +101,79 @@ class TimetableSubSection extends Component {
   }
 
   dragEnd = (e) => {
-    if (!this.props.isDragging) return;
-    this.props.setIsDraggingDispatch(false);
+    const { firstBlock, secondBlock } = this.state;
+    const { isDragging, setIsDraggingDispatch, dragSearchDispatch, setCurrentListDispatch } = this.props;
 
-    const startDay = this.indexOfDay(this.state.firstBlock.getAttribute('data-day'));
-    const startIndex = this.indexOfTime(this.state.firstBlock.getAttribute('data-time'));
-    const endIndex = this.indexOfTime(this.state.secondBlock.getAttribute('data-time'));
+    if (!isDragging) return;
+    setIsDraggingDispatch(false);
+
+    const startDay = this.indexOfDay(firstBlock.getAttribute('data-day'));
+    const startIndex = this.indexOfTime(firstBlock.getAttribute('data-time'));
+    const endIndex = this.indexOfTime(secondBlock.getAttribute('data-time'));
     if (startIndex === endIndex) return;
-    this.props.dragSearchDispatch(startDay, Math.min(startIndex, endIndex), Math.max(startIndex, endIndex) + 1);
-    this.props.setCurrentListDispatch('SEARCH');
+    dragSearchDispatch(startDay, Math.min(startIndex, endIndex), Math.max(startIndex, endIndex) + 1);
+    setCurrentListDispatch('SEARCH');
     this.setState({ firstBlock: null, secondBlock: null });
   }
 
   blockHover = lecture => () => {
-    if (!this.props.lectureActiveClicked && !this.props.isDragging) {
-      this.props.setLectureActiveDispatch(lecture, 'TABLE', false);
+    const { lectureActiveClicked, isDragging, setLectureActiveDispatch } = this.props;
+
+    if (!lectureActiveClicked && !isDragging) {
+      setLectureActiveDispatch(lecture, 'TABLE', false);
     }
   }
 
   blockOut = () => {
-    if (!this.props.lectureActiveClicked) {
-      this.props.clearLectureActiveDispatch();
+    const { lectureActiveClicked, clearLectureActiveDispatch } = this.props;
+
+    if (!lectureActiveClicked) {
+      clearLectureActiveDispatch();
     }
   }
 
   blockClick = lecture => () => {
-    if (isTableClicked(lecture, this.props.lectureActive)) {
-      this.props.setLectureActiveDispatch(lecture, 'TABLE', false);
-      this.props.lectureinfoDispatch();
+    const { lectureActive, setLectureActiveDispatch, lectureinfoDispatch } = this.props;
+
+    if (isTableClicked(lecture, lectureActive)) {
+      setLectureActiveDispatch(lecture, 'TABLE', false);
+      lectureinfoDispatch();
     }
     else {
-      this.props.setLectureActiveDispatch(lecture, 'TABLE', true);
-      this.props.lectureinfoDispatch();
+      setLectureActiveDispatch(lecture, 'TABLE', true);
+      lectureinfoDispatch();
     }
   }
 
   deleteLecture = lecture => (event) => {
-    const { currentTimetable } = this.props;
+    const { currentTimetable, removeLectureFromTimetableDispatch } = this.props;
     event.stopPropagation();
     if (!currentTimetable) {
       return;
     }
 
     axios.post(`${BASE_URL}/api/timetable/table_update`, {
-      table_id: this.props.currentTimetable.id,
+      table_id: currentTimetable.id,
       lecture_id: lecture.id,
       delete: true,
     })
       .then((response) => {
-        if (!this.props.currentTimetable || this.props.currentTimetable.id !== currentTimetable.id) {
+        const newProps = this.props;
+        if (!newProps.currentTimetable || newProps.currentTimetable.id !== currentTimetable.id) {
           return;
         }
         // TODO: Fix timetable not updated when semester unchanged and timetable changed
-        this.props.removeLectureFromTimetableDispatch(lecture);
+        removeLectureFromTimetableDispatch(lecture);
       })
       .catch((response) => {
       });
   }
 
   render() {
-    const lectures = this.props.currentTimetable ? this.props.currentTimetable.lectures : [];
+    const { firstBlock, secondBlock } = this.state;
+    const { currentTimetable, lectureActive, cellWidth, cellHeight, lectureActiveFrom, lectureActiveClicked, lectureActiveLecture } = this.props;
+
+    const lectures = currentTimetable ? currentTimetable.lectures : [];
     const lectureBlocks = lectures.map(lecture => (
       lecture.classtimes.map(classtime => (
           // eslint-disable-next-line react/jsx-indent
@@ -158,11 +181,11 @@ class TimetableSubSection extends Component {
             key={`${lecture.id}:${classtime.day}:${classtime.begin}`}
             lecture={lecture}
             classtime={classtime}
-            cellWidth={this.props.cellWidth}
-            cellHeight={this.props.cellHeight}
-            isClicked={isTableClicked(lecture, this.props.lectureActive)}
-            isHover={isTableHover(lecture, this.props.lectureActive)}
-            isListHover={isListHover(lecture, this.props.lectureActive)}
+            cellWidth={cellWidth}
+            cellHeight={cellHeight}
+            isClicked={isTableClicked(lecture, lectureActive)}
+            isHover={isTableHover(lecture, lectureActive)}
+            isListHover={isListHover(lecture, lectureActive)}
             isTemp={false}
             blockHover={this.blockHover}
             blockOut={this.blockOut}
@@ -299,15 +322,15 @@ class TimetableSubSection extends Component {
           </div>
         </div>
         {
-          this.state.firstBlock && this.state.secondBlock
+          firstBlock && secondBlock
             ? (
               <div
                 id="drag-cell"
                 style={{
-                  left: (this.props.cellWidth + 5) * this.indexOfDay(this.state.firstBlock.getAttribute('data-day')) + 28,
-                  width: this.props.cellWidth + 2,
-                  top: this.props.cellHeight * Math.min(this.indexOfTime(this.state.firstBlock.getAttribute('data-time')), this.indexOfTime(this.state.secondBlock.getAttribute('data-time'))) + 28,
-                  height: this.props.cellHeight * (Math.abs(this.indexOfTime(this.state.firstBlock.getAttribute('data-time')) - this.indexOfTime(this.state.secondBlock.getAttribute('data-time'))) + 1) - 3,
+                  left: (cellWidth + 5) * this.indexOfDay(firstBlock.getAttribute('data-day')) + 28,
+                  width: cellWidth + 2,
+                  top: cellHeight * Math.min(this.indexOfTime(firstBlock.getAttribute('data-time')), this.indexOfTime(secondBlock.getAttribute('data-time'))) + 28,
+                  height: cellHeight * (Math.abs(this.indexOfTime(firstBlock.getAttribute('data-time')) - this.indexOfTime(secondBlock.getAttribute('data-time'))) + 1) - 3,
                 }}
               />
             )
@@ -316,21 +339,21 @@ class TimetableSubSection extends Component {
         {lectureBlocks}
         {
           (
-            this.props.lectureActiveFrom === LIST
-            && this.props.lectureActiveClicked === false
-            && !inTimetable(this.props.lectureActiveLecture, this.props.currentTimetable)
+            lectureActiveFrom === LIST
+            && lectureActiveClicked === false
+            && !inTimetable(lectureActiveLecture, currentTimetable)
           )
             ? (
-              this.props.lectureActiveLecture.classtimes.map(classtime => (
+              lectureActiveLecture.classtimes.map(classtime => (
                 <TimetableBlock
-                  key={`${this.props.lectureActiveLecture.id}:${classtime.day}:${classtime.begin}`}
-                  lecture={this.props.lectureActiveLecture}
+                  key={`${lectureActiveLecture.id}:${classtime.day}:${classtime.begin}`}
+                  lecture={lectureActiveLecture}
                   classtime={classtime}
-                  cellWidth={this.props.cellWidth}
-                  cellHeight={this.props.cellHeight}
-                  isClicked={isTableClicked(this.props.lectureActiveLecture, this.props.lectureActive)}
-                  isHover={isTableHover(this.props.lectureActiveLecture, this.props.lectureActive)}
-                  isListHover={isListHover(this.props.lectureActiveLecture, this.props.lectureActive)}
+                  cellWidth={cellWidth}
+                  cellHeight={cellHeight}
+                  isClicked={isTableClicked(lectureActiveLecture, lectureActive)}
+                  isHover={isTableHover(lectureActiveLecture, lectureActive)}
+                  isListHover={isListHover(lectureActiveLecture, lectureActive)}
                   isTemp={true}
                   blockHover={this.blockHover}
                   blockOut={this.blockOut}
