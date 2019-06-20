@@ -183,11 +183,11 @@ export function clearLectureActive() {
   };
 }
 
-export function setMultipleDetail(title, lectures) {
+export function setMultipleDetail(title, multipleDetail) {
   return {
     type: SET_MULTIPLE_DETAIL,
     title: title,
-    lectures: lectures,
+    multipleDetail: multipleDetail,
   };
 }
 
