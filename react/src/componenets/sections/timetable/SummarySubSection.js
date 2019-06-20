@@ -6,6 +6,7 @@ import { clearMultipleDetail, setMultipleDetail } from '../../../actions/timetab
 import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureActive';
 import lectureShape from '../../../shapes/LectureShape';
 import timetableShape from '../../../shapes/TimetableShape';
+import { inTimetable } from '../../../common/lectureFunctions';
 
 
 const indexOfType = (type) => {
@@ -110,32 +111,28 @@ class SummarySubSection extends Component {
         .filter(lecture => (indexOfType(lecture.type_en) === index))
         .reduce((acc, lecture) => (acc + (lecture.credit + lecture.credit_au)), 0)
     ));
-    let sum_credit = this.props.currentTimetable.lectures.reduce((acc, lecture) => (acc + lecture.credit), 0);
-    let sum_credit_au = this.props.currentTimetable.lectures.reduce((acc, lecture) => (acc + lecture.credit_au), 0);
+    const alec = this.props.lectureActiveLecture;
+    const sum_credit = this.props.currentTimetable.lectures.reduce((acc, lecture) => (acc + lecture.credit), 0)
+      + (alec && inTimetable(alec, this.props.currentTimetable) ? alec.credit : 0);
+    const sum_credit_au = this.props.currentTimetable.lectures.reduce((acc, lecture) => (acc + lecture.credit_au), 0)
+      + (alec && inTimetable(alec, this.props.currentTimetable) ? alec.credit_au : 0);
     const targetNum = this.props.currentTimetable.lectures.reduce((acc, lecture) => (acc + (lecture.credit + lecture.credit_au)), 0);
     const grade = this.props.currentTimetable.lectures.reduce((acc, lecture) => (acc + (lecture.grade * (lecture.credit + lecture.credit_au))), 0);
     const load = this.props.currentTimetable.lectures.reduce((acc, lecture) => (acc + (lecture.load * (lecture.credit + lecture.credit_au))), 0);
     const speech = this.props.currentTimetable.lectures.reduce((acc, lecture) => (acc + (lecture.speech * (lecture.credit + lecture.credit_au))), 0);
     const letters = ['?', 'F', 'F', 'F', 'D-', 'D', 'D+', 'C-', 'C', 'C+', 'B-', 'B', 'B+', 'A-', 'A', 'A+'];
 
-    const active_type_credit = ['', '', '', '', '', ''];
-    if (this.props.lectureActiveFrom === LIST || this.props.lectureActiveFrom === TABLE) {
-      const index = indexOfType(this.props.lectureActiveLecture.type_en);
-      const amount = this.props.lectureActiveLecture.credit + this.props.lectureActiveLecture.credit_au;
-
-      active_type_credit[index] = this.props.currentTimetable.lectures.some(lecture => (lecture.id === this.props.lectureActiveLecture.id))
-        ? `(${amount})`
-        : `+${amount}`;
-    }
+    const active_type_credit = [0, 1, 2, 3, 4, 5].map(i => (
+      !(this.props.lectureActiveFrom === LIST || this.props.lectureActiveFrom === TABLE)
+      || (indexOfType(this.props.lectureActiveLecture.type_en) !== i)
+        ? ''
+        : inTimetable(this.props.lectureActiveLecture, this.props.currentTimetable)
+          ? `(${this.props.lectureActiveLecture.credit + this.props.lectureActiveLecture.credit_au})`
+          : `+${this.props.lectureActiveLecture.credit + this.props.lectureActiveLecture.credit_au}`
+    ));
 
     const creditAct = (this.props.lectureActiveLecture !== null) && (this.props.lectureActiveLecture.credit > 0);
     const creditAuAct = (this.props.lectureActiveLecture !== null) && (this.props.lectureActiveLecture.credit_au > 0);
-
-    const alec = this.props.lectureActiveLecture;
-    if (alec !== null && !this.props.currentTimetable.lectures.includes(alec)) {
-      sum_credit += alec.credit;
-      sum_credit_au += alec.credit_au;
-    }
 
     return (
       <div id="summary">

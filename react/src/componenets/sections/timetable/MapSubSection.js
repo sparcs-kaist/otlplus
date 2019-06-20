@@ -7,6 +7,7 @@ import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lecture
 import { clearMultipleDetail, setMultipleDetail } from '../../../actions/timetable/index';
 import lectureShape from '../../../shapes/LectureShape';
 import timetableShape from '../../../shapes/TimetableShape';
+import { inTimetable } from '../../../common/lectureFunctions';
 
 
 class MapSubSection extends Component {
@@ -44,28 +45,21 @@ class MapSubSection extends Component {
   }
 
   render() {
-    const mapObject = {};
-    const buildings = new Set(this.props.currentTimetable.lectures.map(lecture => lecture.building));
-    buildings.forEach((building) => {
-      mapObject[building] = this.props.currentTimetable.lectures
-        .filter(lecture => (building === lecture.building))
-        .map(lecture => ({ color: (lecture.course % 16), id: lecture.id }));
-    });
-    const codeList = this.props.currentTimetable.lectures.map(lecture => lecture.code);
+    const targetLectures = this.props.currentTimetable.lectures
+      .concat((this.props.lectureActiveLecture && !inTimetable(this.props.lectureActiveLecture, this.props.currentTimetable)) ? [this.props.lectureActiveLecture] : []);
+    const buildings = new Set(targetLectures.map(lecture => lecture.building));
+    const mapObject = Object.assign(
+      {},
+      ...Array.from(buildings).map(building => (
+        {
+          [building]: targetLectures
+            .filter(lecture => (building === lecture.building))
+            .map(lecture => ({ color: (lecture.course % 16), id: lecture.id })),
+        }
+      )),
+    );
 
     const activeLecture = this.props.lectureActiveLecture;
-    if (activeLecture !== null && !codeList.includes(activeLecture.code)) {
-      const building = activeLecture.building;
-      const color = activeLecture.color;
-      const id = activeLecture.id;
-      if (mapObject[building] === undefined) {
-        mapObject[building] = [{ color: color, id: id }];
-      }
-      else {
-        mapObject[building].push({ color: color, id: id });
-      }
-    }
-
     const activeLectures = this.state.activeLectures;
 
     return (

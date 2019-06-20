@@ -33,9 +33,11 @@ class SearchFilter extends Component {
           allChecked: false,
           checkNum: 1,
         });
-        filter.value = 'ALL';
-        filter.isChecked = false;
-        this.props.clickCircle(filter);
+        this.props.clickCircle({
+          ...filter,
+          value: 'ALL',
+          isChecked: false,
+        });
       }
       else {
         this.setState(({ checkNum }) => ({
@@ -49,9 +51,11 @@ class SearchFilter extends Component {
         this.setState({
           allChecked: true,
         }); // All circle check out so have to check all
-        filter.value = 'ALL';
-        filter.isChecked = true;
-        this.props.clickCircle(filter);
+        this.props.clickCircle({
+          ...filter,
+          value: 'ALL',
+          isChecked: true,
+        });
       }
       else {
         this.setState(({ checkNum }) => ({

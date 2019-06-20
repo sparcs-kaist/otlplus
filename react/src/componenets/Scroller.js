@@ -9,6 +9,7 @@ import '../static/css/nanoscroller.css';
 
 class Scroller extends Component {
   componentDidMount() {
+    // eslint-disable-next-line fp/no-mutation
     this.scrollContainer = $(ReactDOM.findDOMNode(this.refs['scroll-container']));
     this.scrollContainer.nanoScroller();
   }

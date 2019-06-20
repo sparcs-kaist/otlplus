@@ -67,8 +67,6 @@ const timetable = (state = initialState, action) => {
           ? newTable
           : t
       ));
-      const i = newTables.findIndex(table => table.id === state.currentTimetable.id);
-      newTables[i] = newTable;
       return Object.assign({}, state, {
         currentTimetable: newTable,
         timetables: newTables,
