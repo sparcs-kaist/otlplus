@@ -20,11 +20,13 @@ class MapSubSection extends Component {
   }
 
   mapFocus(building) {
-    if (this.props.lectureActiveFrom !== 'NONE' || !this.props.currentTimetable) {
+    const { lectureActiveFrom, currentTimetable, setMultipleDetailDispatch } = this.props;
+
+    if (lectureActiveFrom !== 'NONE' || !currentTimetable) {
       return;
     }
 
-    const active = this.props.currentTimetable.lectures.filter(lecture => (
+    const active = currentTimetable.lectures.filter(lecture => (
       lecture.building === building
     ));
     const lectures = active.map(lecture => ({
@@ -32,25 +34,29 @@ class MapSubSection extends Component {
       title: lecture.title,
       info: lecture.room,
     }));
-    this.props.setMultipleDetailDispatch(building, lectures);
+    setMultipleDetailDispatch(building, lectures);
     this.setState({ activeLectures: active });
   }
 
   clearFocus() {
-    if (this.props.lectureActiveFrom !== 'MULTIPLE') {
+    const { lectureActiveFrom, clearMultipleDetailDispatch } = this.props;
+
+    if (lectureActiveFrom !== 'MULTIPLE') {
       return;
     }
 
-    this.props.clearMultipleDetailDispatch();
+    clearMultipleDetailDispatch();
     this.setState({ activeLectures: [] });
   }
 
   render() {
-    const timetableLectures = this.props.currentTimetable
-      ? this.props.currentTimetable.lectures
+    const { currentTimetable, lectureActiveLecture } = this.props;
+
+    const timetableLectures = currentTimetable
+      ? currentTimetable.lectures
       : [];
     const targetLectures = timetableLectures
-      .concat((this.props.lectureActiveLecture && !inTimetable(this.props.lectureActiveLecture, this.props.currentTimetable)) ? [this.props.lectureActiveLecture] : []);
+      .concat((lectureActiveLecture && !inTimetable(lectureActiveLecture, currentTimetable)) ? [lectureActiveLecture] : []);
     const buildings = new Set(targetLectures.map(lecture => lecture.building));
     const mapObject = Object.assign(
       {},
@@ -63,8 +69,8 @@ class MapSubSection extends Component {
       )),
     );
 
-    const activeLecture = this.props.lectureActiveLecture;
-    const activeLectures = this.state.activeLectures;
+    const activeLecture = lectureActiveLecture;
+    const { activeLectures } = this.state;
 
     return (
       <div id="map">
