@@ -65,6 +65,10 @@ class TimetableSubSection extends Component {
   _isOccupied = (dragStart, dragEnd) => {
     const dragDay = this.indexOfDay(this.state.firstBlock.getAttribute('data-day'));
 
+    if (!this.props.currentTimetable) {
+      return false;
+    }
+
     return this.props.currentTimetable.lectures.some(lecture => (
       lecture.classtimes.some(classtime => (
         (classtime.day === dragDay) && (dragStart < (classtime.end / 30 - 2 * 8)) && (dragEnd > (classtime.begin / 30 - 2 * 8))
@@ -125,6 +129,9 @@ class TimetableSubSection extends Component {
   deleteLecture = lecture => (event) => {
     const { currentTimetable } = this.props;
     event.stopPropagation();
+    if (!currentTimetable) {
+      return;
+    }
 
     axios.post(`${BASE_URL}/api/timetable/table_update`, {
       table_id: this.props.currentTimetable.id,
@@ -132,7 +139,7 @@ class TimetableSubSection extends Component {
       delete: true,
     })
       .then((response) => {
-        if (this.props.currentTimetable.id !== currentTimetable.id) {
+        if (!this.props.currentTimetable || this.props.currentTimetable.id !== currentTimetable.id) {
           return;
         }
         // TODO: Fix timetable not updated when semester unchanged and timetable changed
@@ -143,7 +150,8 @@ class TimetableSubSection extends Component {
   }
 
   render() {
-    const lectureBlocks = this.props.currentTimetable.lectures.map(lecture => (
+    const lectures = this.props.currentTimetable ? this.props.currentTimetable.lectures : [];
+    const lectureBlocks = lectures.map(lecture => (
       lecture.classtimes.map(classtime => (
           // eslint-disable-next-line react/jsx-indent
           <TimetableBlock
@@ -379,7 +387,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 TimetableSubSection.propTypes = {
-  currentTimetable: timetableShape.isRequired,
+  currentTimetable: timetableShape,
   lectureActive: lectureActiveShape.isRequired,
   lectureActiveFrom: PropTypes.oneOf([NONE, LIST, TABLE, MULTIPLE]).isRequired,
   lectureActiveClicked: PropTypes.bool.isRequired,

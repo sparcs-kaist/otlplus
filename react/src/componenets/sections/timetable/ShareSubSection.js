@@ -9,12 +9,15 @@ import timetableShape from '../../../shapes/TimetableShape';
 
 class ShareSubSection extends Component {
   render() {
+    const timetableLectures = this.props.currentTimetable
+      ? this.props.currentTimetable.lectures
+      : [];
     return (
       <div id="share-buttons" className="authenticated">
         <div className="left-btn-group">
           <a className="share-button" id="image" download />
           <a className="share-button" id="calendar" target="_blank" />
-          <Link className="share-button" id="image" to={{ pathname: '/timetable/syllabus', state: { lectures: this.props.currentTimetable.lectures } }} />
+          <Link className="share-button" id="image" to={{ pathname: '/timetable/syllabus', state: { lectures: timetableLectures } }} />
 
         </div>
         <div className="right-btn-group">
@@ -37,7 +40,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 ShareSubSection.propTypes = {
-  currentTimetable: timetableShape.isRequired,
+  currentTimetable: timetableShape,
   mToggleLectureListDispatch: PropTypes.func.isRequired,
   mtimetableListDispatch: PropTypes.func.isRequired,
 };

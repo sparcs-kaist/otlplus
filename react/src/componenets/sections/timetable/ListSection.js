@@ -110,7 +110,7 @@ class ListSection extends Component {
       delete: false,
     })
       .then((response) => {
-        if (this.props.currentTimetable.id !== currentTimetable.id) {
+        if (!this.props.currentTimetable || this.props.currentTimetable.id !== currentTimetable.id) {
           return;
         }
         // TODO: Fix timetable not updated when semester unchanged and timetable changed
@@ -335,7 +335,7 @@ ListSection.propTypes = {
   cart: PropTypes.shape({
     courses: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)).isRequired,
   }).isRequired,
-  currentTimetable: timetableShape.isRequired,
+  currentTimetable: timetableShape,
   lectureActive: lectureActiveShape.isRequired,
   lectureActiveClicked: PropTypes.bool.isRequired,
   year: PropTypes.number,

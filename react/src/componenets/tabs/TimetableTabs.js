@@ -161,8 +161,8 @@ const mapDispatchToProps = dispatch => ({
 });
 
 TimetableTabs.propTypes = {
-  timetables: PropTypes.arrayOf(timetableShape).isRequired,
-  currentTimetable: timetableShape.isRequired,
+  timetables: PropTypes.arrayOf(timetableShape),
+  currentTimetable: timetableShape,
   year: PropTypes.number,
   semester: PropTypes.number,
   showTimetableListFlag: PropTypes.bool.isRequired,
