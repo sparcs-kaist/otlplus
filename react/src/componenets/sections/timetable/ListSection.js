@@ -20,7 +20,9 @@ class ListSection extends Component {
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (this.props.user && (this.props.user !== prevProps.user)) {
       this.props.setListMajorCodesDispatch(this.props.user.departments);
+    }
 
+    if (!this._codesAreSame(this.props.major.codes, prevProps.major.codes)) {
       this._fetchLists(true);
     }
 
@@ -28,6 +30,11 @@ class ListSection extends Component {
       this._fetchLists(false);
     }
   }
+
+  _codesAreSame = (codes1, codes2) => (
+    codes1.length === codes2.length
+    && codes1.every((c, i) => (c === codes2[i]))
+  )
 
   _fetchLists = (majorOnly) => {
     const { year, semester } = this.props;
@@ -39,7 +46,7 @@ class ListSection extends Component {
     })
       .then((response) => {
         if ((this.props.year !== year || this.props.semester !== semester)
-          || !this.props.major.codes.every(c => majorCodes.includes(c))
+          || !this._codesAreSame(this.props.major.codes, majorCodes)
         ) {
           return;
         }
