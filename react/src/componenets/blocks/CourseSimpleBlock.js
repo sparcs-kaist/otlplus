@@ -4,15 +4,15 @@ import { pure } from 'recompose';
 import CourseShape from '../../shapes/CourseShape';
 
 
-const CourseSimpleBlock = (props) => {
+const CourseSimpleBlock = ({ course }) => {
   return (
       // eslint-disable-next-line react/jsx-indent
       <div className="block block--course-simple">
         <div className="block--course-simple__title">
-          { props.course.title }
+          { course.title }
         </div>
         <div className="block--course-simple__subtitle">
-          { props.course.old_code }
+          { course.old_code }
         </div>
       </div>
   );
