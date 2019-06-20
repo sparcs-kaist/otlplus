@@ -123,6 +123,7 @@ class TimetableSubSection extends Component {
   }
 
   deleteLecture = lecture => (event) => {
+    const { currentTimetable } = this.props;
     event.stopPropagation();
 
     axios.post(`${BASE_URL}/api/timetable/table_update`, {
@@ -131,6 +132,10 @@ class TimetableSubSection extends Component {
       delete: true,
     })
       .then((response) => {
+        if (this.props.currentTimetable.id !== currentTimetable.id) {
+          return;
+        }
+        // TODO: Fix timetable not updated when semester unchanged and timetable changed
         this.props.removeLectureFromTimetableDispatch(lecture);
       })
       .catch((response) => {
