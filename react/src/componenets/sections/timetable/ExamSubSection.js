@@ -20,11 +20,12 @@ class ExamSubSection extends Component {
   }
 
   examFocus(day) {
-    if (this.props.lectureActiveFrom !== 'NONE' || !this.props.currentTimetable) {
+    const { lectureActiveFrom, currentTimetable, setMultipleDetailDispatch } = this.props;
+    if (lectureActiveFrom !== 'NONE' || !currentTimetable) {
       return;
     }
 
-    const activeLectures = this.props.currentTimetable.lectures.filter(lecture => (
+    const activeLectures = currentTimetable.lectures.filter(lecture => (
       day === lecture.exam.slice(0, 3)
     ));
     const lectures = activeLectures.map(lecture => ({
@@ -32,24 +33,29 @@ class ExamSubSection extends Component {
       title: lecture.title,
       info: lecture.room,
     }));
-    this.props.setMultipleDetailDispatch(`${day} 시험`, lectures);
+    setMultipleDetailDispatch(`${day} 시험`, lectures);
     this.setState({ activeLectures: activeLectures });
   }
 
   clearFocus() {
-    if (this.props.lectureActiveFrom !== 'MULTIPLE') {
+    const { lectureActiveFrom, clearMultipleDetailDispatch } = this.props;
+
+    if (lectureActiveFrom !== 'MULTIPLE') {
       return;
     }
 
-    this.props.clearMultipleDetailDispatch();
+    clearMultipleDetailDispatch();
     this.setState({ activeLectures: [] });
   }
 
   render() {
+    const { activeLectures } = this.state;
+    const { lectureActiveLecture, currentTimetable } = this.props;
+
     const renderLectureExam = (lec) => {
       const act = (
-        this.state.activeLectures.some(lecture => (lecture.id === lec.id))
-        || (this.props.lectureActiveLecture !== null && this.props.lectureActiveLecture.id === lec.id)
+        activeLectures.some(lecture => (lecture.id === lec.id))
+        || (lectureActiveLecture !== null && lectureActiveLecture.id === lec.id)
           ? 'active'
           : ''
       );
@@ -66,11 +72,11 @@ class ExamSubSection extends Component {
       return li;
     };
 
-    const timetableLectures = this.props.currentTimetable
-      ? this.props.currentTimetable.lectures
+    const timetableLectures = currentTimetable
+      ? currentTimetable.lectures
       : [];
     const examWithLectures = timetableLectures
-      .concat((this.props.lectureActiveLecture && !inTimetable(this.props.lectureActiveLecture, this.props.currentTimetable)) ? [this.props.lectureActiveLecture] : [])
+      .concat((lectureActiveLecture && !inTimetable(lectureActiveLecture, currentTimetable)) ? [lectureActiveLecture] : [])
       .filter(lecture => (lecture.examtimes.length > 0));
     const examTable = [0, 1, 2, 3, 4].map(day => (
       examWithLectures

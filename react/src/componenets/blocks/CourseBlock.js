@@ -4,14 +4,14 @@ import { pure } from 'recompose';
 import CourseShape from '../../shapes/CourseShape';
 
 
-const CourseBlock = (props) => {
+const CourseBlock = ({ course }) => {
   return (
       // eslint-disable-next-line react/jsx-indent
       <div className="block block--course">
         <div className="block--course__title">
-          <strong>{ props.course.title }</strong>
+          <strong>{ course.title }</strong>
             &nbsp;
-          <span>{ props.course.old_code }</span>
+          <span>{ course.old_code }</span>
         </div>
         <div className="attributes">
           <div>
@@ -19,7 +19,7 @@ const CourseBlock = (props) => {
               분류
             </div>
             <div>
-              {`${props.course.department.name}, ${props.course.type}`}
+              {`${course.department.name}, ${course.type}`}
             </div>
           </div>
           <div>
@@ -27,7 +27,7 @@ const CourseBlock = (props) => {
               교수
             </div>
             <div>
-              {props.course.professors_str}
+              {course.professors_str}
             </div>
           </div>
           <div>
@@ -35,7 +35,7 @@ const CourseBlock = (props) => {
               설명
             </div>
             <div>
-              {props.course.summary}
+              {course.summary}
             </div>
           </div>
         </div>

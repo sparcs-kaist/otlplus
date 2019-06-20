@@ -8,12 +8,13 @@ import '../static/css/credits.css';
 
 class Button extends Component {
   render() {
-    const className = (this.props.index === this.props.current)
+    const { index, current, onClick, children } = this.props;
+    const className = (index === current)
       ? 'block active'
       : 'block';
     return (
-      <div onClick={() => this.props.onClick(this.props.index)} className={className} key={this.props.index}>
-        {this.props.children}
+      <div onClick={() => onClick(index)} className={className} key={index}>
+        {children}
       </div>
     );
   }
@@ -236,6 +237,7 @@ class CreditPage extends Component {
   }
 
   render() {
+    const { currentTab } = this.state;
     return (
       <div className="credit">
         <Header />
@@ -246,35 +248,35 @@ class CreditPage extends Component {
                 <div className="list-group-item" style={{ borderRadius: 4, marginTop: 20, textAlign: 'center', padding: '20px 50px 20px 50px' }}>
 
                   <div className="block_wrap">
-                    <Button index={1} onClick={this.changePage} current={this.state.currentTab}>
+                    <Button index={1} onClick={this.changePage} current={currentTab}>
                       LKIN
                     </Button>
-                    <Button index={2} onClick={this.changePage} current={this.state.currentTab}>
+                    <Button index={2} onClick={this.changePage} current={currentTab}>
                       OTL
                       <br />
                       모의시간표
                     </Button>
-                    <Button index={3} onClick={this.changePage} current={this.state.currentTab}>
+                    <Button index={3} onClick={this.changePage} current={currentTab}>
                       OTL
                       <br />
                       추가개발
                     </Button>
-                    <Button index={4} onClick={this.changePage} current={this.state.currentTab}>
+                    <Button index={4} onClick={this.changePage} current={currentTab}>
                       OTL
                       <br />
                       과목사전
                     </Button>
-                    <Button index={5} onClick={this.changePage} current={this.state.currentTab}>
+                    <Button index={5} onClick={this.changePage} current={currentTab}>
                       OTL PLUS
                       <br />
                       과목사전
                     </Button>
-                    <Button index={6} onClick={this.changePage} current={this.state.currentTab}>
+                    <Button index={6} onClick={this.changePage} current={currentTab}>
                       OTL PLUS
                       <br />
                       모의시간표
                     </Button>
-                    <Button index={7} onClick={this.changePage} current={this.state.currentTab}>
+                    <Button index={7} onClick={this.changePage} current={currentTab}>
                       SYSOP
                     </Button>
                     <div className="dummy" />
@@ -286,7 +288,7 @@ class CreditPage extends Component {
                   </div>
 
                   <h1>Credit</h1>
-                  {this._getContent(this.state.currentTab)}
+                  {this._getContent(currentTab)}
                 </div>
               </div>
             </div>

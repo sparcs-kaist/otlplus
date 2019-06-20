@@ -6,8 +6,9 @@ class SearchCircle extends Component {
   constructor(props) {
     super(props);
 
+    const { value } = this.props;
     this.state = {
-      isChecked: this.props.value === 'ALL',
+      isChecked: value === 'ALL',
     };
   }
 
@@ -23,11 +24,14 @@ class SearchCircle extends Component {
   }
 
   onClick(e) {
+    const { isChecked } = this.state;
+    const { clickCircle } = this.props;
+  
     const value = e.target.value;
-    if (this.state.isChecked && value === 'ALL') {
+    if (isChecked && value === 'ALL') {
       return; // Nothing do, return
     }
-    this.props.clickCircle(value, !this.state.isChecked);
+    clickCircle(value, !isChecked);
     this.setState(prevState => ({
       isChecked: !prevState.isChecked,
     }));

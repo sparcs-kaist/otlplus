@@ -27,6 +27,8 @@ class SemesterSection extends Component {
   }
 
   componentDidMount() {
+    const { setSemesterDispatch } = this.props;
+
     axios.post(`${BASE_URL}/api/timetable/semester`, {
     })
       .then((response) => {
@@ -36,46 +38,47 @@ class SemesterSection extends Component {
           endYear: response.data.end_year,
           endSemester: response.data.end_semester,
         }));
-        this.props.setSemesterDispatch(response.data.current_year, response.data.current_semester);
+        setSemesterDispatch(response.data.current_year, response.data.current_semester);
       })
       .catch((response) => {
       });
   }
 
   semesterPrev() {
-    const year = this.props.year;
-    const semester = this.props.semester;
+    const { year, semester, setSemesterDispatch, clearLectureActiveDispatch, clearTimetablesDispatch, clearListsLecturesDispatch } = this.props;
 
     const newYear = (semester === 1) ? year - 1 : year;
     const newSemester = (semester === 1) ? 3 : 1;
 
-    this.props.setSemesterDispatch(newYear, newSemester);
-    this.props.clearLectureActiveDispatch();
-    this.props.clearTimetablesDispatch();
-    this.props.clearListsLecturesDispatch();
+    setSemesterDispatch(newYear, newSemester);
+    clearLectureActiveDispatch();
+    clearTimetablesDispatch();
+    clearListsLecturesDispatch();
   }
 
   semesterNext() {
-    const year = this.props.year;
-    const semester = this.props.semester;
+    const { year, semester, setSemesterDispatch, clearLectureActiveDispatch, clearTimetablesDispatch, clearListsLecturesDispatch } = this.props;
 
     const newYear = (semester === 3) ? year + 1 : year;
     const newSemester = (semester === 3) ? 1 : 3;
 
-    this.props.setSemesterDispatch(newYear, newSemester);
-    this.props.clearLectureActiveDispatch();
-    this.props.clearTimetablesDispatch();
-    this.props.clearListsLecturesDispatch();
+    setSemesterDispatch(newYear, newSemester);
+    clearLectureActiveDispatch();
+    clearTimetablesDispatch();
+    clearListsLecturesDispatch();
   }
 
   render() {
-    if (this.props.year && this.props.semester) {
+    const { year, semester } = this.props;
+    const { startYear, startSemester, endYear, endSemester } = this.state;
+
+    if (year && semester) {
       return (
         // eslint-disable-next-line react/jsx-indent
         <div id="semester">
-          <div id="semester-prev" className={(this.props.year === this.state.startYear) && (this.props.semester === this.state.startSemester) ? 'disable' : ''} onClick={() => this.semesterPrev()}><i /></div>
-          <span id="semester-text">{`${this.props.year} ${semesterName[this.props.semester]}`}</span>
-          <div id="semester-next" className={(this.props.year === this.state.endYear) && (this.props.semester === this.state.endSemester) ? 'disable' : ''} onClick={() => this.semesterNext()}><i /></div>
+          <div id="semester-prev" className={(year === startYear) && (semester === startSemester) ? 'disable' : ''} onClick={() => this.semesterPrev()}><i /></div>
+          <span id="semester-text">{`${year} ${semesterName[semester]}`}</span>
+          <div id="semester-next" className={(year === endYear) && (semester === endSemester) ? 'disable' : ''} onClick={() => this.semesterNext()}><i /></div>
         </div>
       );
     }

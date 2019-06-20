@@ -15,12 +15,15 @@ class SearchFilter extends Component {
   }
 
   clickCircle = (value, isChecked) => {
+    const { allChecked, checkNum } = this.state;
+    const { inputName, clickCircle } = this.props;
+
     const filter = {
-      name: this.props.inputName,
+      name: inputName,
       value: value,
       isChecked: isChecked,
     };
-    this.props.clickCircle(filter);
+    clickCircle(filter);
     if (value === 'ALL' && isChecked) {
       this.setState({
         allChecked: true,
@@ -28,38 +31,38 @@ class SearchFilter extends Component {
     }
     else if (isChecked) {
       // Check without all button, checkout all button
-      if (this.state.allChecked) {
+      if (allChecked) {
         this.setState({
           allChecked: false,
           checkNum: 1,
         });
-        this.props.clickCircle({
+        clickCircle({
           ...filter,
           value: 'ALL',
           isChecked: false,
         });
       }
       else {
-        this.setState(({ checkNum }) => ({
-          checkNum: checkNum + 1,
+        this.setState(state => ({
+          checkNum: state.checkNum + 1,
         }));
       }
     }
     else { // When Check out somtething
       // eslint-disable-next-line no-lonely-if
-      if (this.state.checkNum === 1) {
+      if (checkNum === 1) {
         this.setState({
           allChecked: true,
         }); // All circle check out so have to check all
-        this.props.clickCircle({
+        clickCircle({
           ...filter,
           value: 'ALL',
           isChecked: true,
         });
       }
       else {
-        this.setState(({ checkNum }) => ({
-          checkNum: checkNum - 1,
+        this.setState(state => ({
+          checkNum: state.checkNum - 1,
         }));
         // All circle check out so have to check all
       }
@@ -68,6 +71,7 @@ class SearchFilter extends Component {
 
 
   render() {
+    const { allChecked } = this.state;
     const { inputName, titleName, valueArr, nameArr } = this.props;
     const mapCircle = (value, index) => (
       <SearchCircle
@@ -76,7 +80,7 @@ class SearchFilter extends Component {
         inputName={inputName}
         circleName={nameArr[index]}
         clickCircle={this.clickCircle}
-        allChecked={this.state.allChecked}
+        allChecked={allChecked}
       />
     );
 
