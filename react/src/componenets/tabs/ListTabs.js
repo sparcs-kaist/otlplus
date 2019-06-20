@@ -82,6 +82,4 @@ ListSection.propTypes = {
   clearLectureActiveDispatch: PropTypes.func.isRequired,
 };
 
-ListSection = connect(mapStateToProps, mapDispatchToProps)(ListSection);
-
-export default ListSection;
+export default connect(mapStateToProps, mapDispatchToProps)(ListSection);

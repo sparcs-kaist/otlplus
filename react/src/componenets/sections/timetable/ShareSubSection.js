@@ -42,6 +42,5 @@ ShareSubSection.propTypes = {
   mtimetableListDispatch: PropTypes.func.isRequired,
 };
 
-ShareSubSection = connect(mapStateToProps, mapDispatchToProps)(ShareSubSection);
 
-export default ShareSubSection;
+export default connect(mapStateToProps, mapDispatchToProps)(ShareSubSection);

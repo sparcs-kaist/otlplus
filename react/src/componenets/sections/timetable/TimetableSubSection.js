@@ -24,8 +24,7 @@ class TimetableSubSection extends Component {
 
   componentDidMount() {
     this.resize();
-    this.boundResize = this.resize.bind(this);
-    window.addEventListener('resize', this.boundResize);
+    window.addEventListener('resize', this.resize);
   }
 
   componentDidUpdate() {
@@ -33,7 +32,7 @@ class TimetableSubSection extends Component {
   }
 
   componentWillUnmount() {
-    window.removeEventListener('resize', this.boundResize);
+    window.removeEventListener('resize', this.resize);
   }
 
   resize = () => {
@@ -78,7 +77,7 @@ class TimetableSubSection extends Component {
     const startIndex = this.indexOfTime(this.state.firstBlock.getAttribute('data-time'));
     const endIndex = this.indexOfTime(e.target.getAttribute('data-time'));
     const incr = startIndex < endIndex ? 1 : -1;
-    // eslint-disable-next-line no-loops/no-loops
+    // eslint-disable-next-line no-loops/no-loops, fp/no-loops, fp/no-let, fp/no-mutation
     for (let i = startIndex + incr; i !== endIndex + incr; i += incr) {
       if ((incr > 0) ? this._isOccupied(startIndex, i + 1) : this._isOccupied(i, startIndex + 1)) {
         return;
@@ -161,12 +160,13 @@ class TimetableSubSection extends Component {
     ));
 
     const dragDiv = (day, ko) => {
-      const timeblock = [];
-      timeblock.push(<div className="chead" key={day}>{ko}</div>);
-      // eslint-disable-next-line no-loops/no-loops
-      for (let i = 800; i <= 2350; i += 50) {
-        if (i === 1200) {
-          timeblock.push(
+      const numArray = [...Array((2350 - 800) / 50 + 1).keys()].map(i => i * 50 + 800); // [800, 850, 900, ..., 2350]
+      const timeblock = [
+        <div className="chead" key={day}>{ko}</div>,
+        ...numArray.map((i) => {
+          if (i === 1200) {
+            return (
+            // eslint-disable-next-line react/jsx-indent
             <div
               className="cell-bold cell1 half table-drag"
               key={`${day}:1200`}
@@ -174,11 +174,12 @@ class TimetableSubSection extends Component {
               data-time="1200"
               onMouseDown={e => this.dragStart(e)}
               onMouseMove={e => this.dragMove(e)}
-            />,
-          );
-        }
-        else if (i === 1800) {
-          timeblock.push(
+            />
+            );
+          }
+          if (i === 1800) {
+            return (
+            // eslint-disable-next-line react/jsx-indent
             <div
               className="cell-bold cell1 half table-drag"
               key={`${day}:1800`}
@@ -186,11 +187,12 @@ class TimetableSubSection extends Component {
               data-time="1800"
               onMouseDown={e => this.dragStart(e)}
               onMouseMove={e => this.dragMove(e)}
-            />,
-          );
-        }
-        else if (i === 2350) {
-          timeblock.push(
+            />
+            );
+          }
+          if (i === 2350) {
+            return (
+            // eslint-disable-next-line react/jsx-indent
             <div
               className="cell2 half cell-last table-drag"
               key={`${day}:2330`}
@@ -198,11 +200,12 @@ class TimetableSubSection extends Component {
               data-time="2330"
               onMouseDown={e => this.dragStart(e)}
               onMouseMove={e => this.dragMove(e)}
-            />,
-          );
-        }
-        else if (i % 100 === 0) {
-          timeblock.push(
+            />
+            );
+          }
+          if (i % 100 === 0) {
+            return (
+            // eslint-disable-next-line react/jsx-indent
             <div
               className="cell1 half table-drag"
               key={`${day}:${i.toString()}`}
@@ -210,11 +213,10 @@ class TimetableSubSection extends Component {
               data-time={i.toString()}
               onMouseDown={e => this.dragStart(e)}
               onMouseMove={e => this.dragMove(e)}
-            />,
-          );
-        }
-        else {
-          timeblock.push(
+            />
+            );
+          }
+          return (
             <div
               className="cell2 half table-drag"
               key={`${day}:${(i - 20).toString()}`}
@@ -222,10 +224,10 @@ class TimetableSubSection extends Component {
               data-time={(i - 20).toString()}
               onMouseDown={e => this.dragStart(e)}
               onMouseMove={e => this.dragMove(e)}
-            />,
+            />
           );
-        }
-      }
+        }),
+      ];
       return timeblock;
     };
 
@@ -390,6 +392,5 @@ TimetableSubSection.propTypes = {
   setCurrentListDispatch: PropTypes.func.isRequired,
 };
 
-TimetableSubSection = connect(mapStateToProps, mapDispatchToProps)(TimetableSubSection);
 
-export default TimetableSubSection;
+export default connect(mapStateToProps, mapDispatchToProps)(TimetableSubSection);

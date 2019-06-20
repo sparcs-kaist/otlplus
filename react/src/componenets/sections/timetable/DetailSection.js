@@ -21,17 +21,8 @@ class DetailSection extends Component {
 
   static getDerivedStateFromProps(nextProps, prevState) {
     // Return value will be set the state
-    if (nextProps.from === 'LIST' || nextProps.from === 'TABLE') {
-      if (nextProps.clicked) {
-        return { showUnfix: true };
-      }
-      else {
-        return { showUnfix: false };
-      }
-    }
-    else {
-      return { showUnfix: false };
-    }
+    const showUnfix = (nextProps.from === 'LIST' || nextProps.from === 'TABLE') && nextProps.clicked;
+    return { showUnfix: showUnfix };
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -197,7 +188,7 @@ class DetailSection extends Component {
         </div>
       );
     }
-    else if (this.props.from === MULTIPLE) {
+    if (this.props.from === MULTIPLE) {
       return (
         <div id="lecture-info">
           <div className="lecture-detail">
@@ -233,8 +224,8 @@ class DetailSection extends Component {
         </div>
       );
     }
-    else {
-      return (
+    return (
+        // eslint-disable-next-line react/jsx-indent
         <div id="lecture-info">
           <div id="info-placeholder">
             <div className="otlplus-title">
@@ -255,8 +246,7 @@ class DetailSection extends Component {
             </div>
           </div>
         </div>
-      );
-    }
+    );
   }
 }
 
@@ -283,6 +273,5 @@ DetailSection.propTypes = {
   clearLectureActiveDispatch: PropTypes.func.isRequired,
 };
 
-DetailSection = connect(mapStateToProps, mapDispatchToProps)(DetailSection);
 
-export default DetailSection;
+export default connect(mapStateToProps, mapDispatchToProps)(DetailSection);

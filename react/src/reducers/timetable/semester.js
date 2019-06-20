@@ -7,13 +7,15 @@ const initialState = {
 
 const semester = (state = initialState, action) => {
   switch (action.type) {
-    case SET_SEMESTER:
+    case SET_SEMESTER: {
       return Object.assign({}, state, {
         year: action.year,
         semester: action.semester,
       });
-    default:
+    }
+    default: {
       return state;
+    }
   }
 };
 

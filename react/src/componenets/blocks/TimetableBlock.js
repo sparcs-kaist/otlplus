@@ -9,16 +9,12 @@ import classtimeShape from '../../shapes/ClasstimeShape';
 const TimetableBlock = (props) => {
   const indexOfTime = time => (time / 30 - 16);
 
-  let activeType = '';
-  if (props.isClicked) {
-    activeType = ' click';
-  }
-  else if (props.isTemp) {
-    activeType = ' lecture-block-temp active';
-  }
-  else if (props.isHover || props.isListHover) {
-    activeType = ' active';
-  }
+  const activeType = (
+    props.isClicked ? ' click'
+      : props.isTemp ? ' lecture-block-temp active'
+        : (props.isHover || props.isListHover) ? ' active'
+          : ''
+  );
 
   return (
       // eslint-disable-next-line react/jsx-indent
