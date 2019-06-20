@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import axios from '../../../common/presetAxios';
 import { BASE_URL } from '../../../common/constants';
-import { setSemester } from '../../../actions/timetable/index';
+import { setSemester, clearLectureActive } from '../../../actions/timetable/index';
 
 
 const semesterName = {
@@ -50,6 +50,7 @@ class SemesterSection extends Component {
     const newSemester = (semester === 1) ? 3 : 1;
 
     this.props.setSemesterDispatch(newYear, newSemester);
+    this.props.clearLectureActiveDispatch();
   }
 
   semesterNext() {
@@ -60,6 +61,7 @@ class SemesterSection extends Component {
     const newSemester = (semester === 3) ? 1 : 3;
 
     this.props.setSemesterDispatch(newYear, newSemester);
+    this.props.clearLectureActiveDispatch();
   }
 
   render() {
@@ -93,12 +95,16 @@ const mapDispatchToProps = dispatch => ({
   setSemesterDispatch: (year, semester) => {
     dispatch(setSemester(year, semester));
   },
+  clearLectureActiveDispatch: () => {
+    dispatch(clearLectureActive());
+  },
 });
 
 SemesterSection.propTypes = {
   year: PropTypes.number,
   semester: PropTypes.number,
   setSemesterDispatch: PropTypes.func.isRequired,
+  clearLectureActiveDispatch: PropTypes.func.isRequired,
 };
 
 
