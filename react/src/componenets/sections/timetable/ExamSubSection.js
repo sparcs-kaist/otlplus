@@ -28,6 +28,7 @@ class ExamSubSection extends Component {
       day === lecture.exam.slice(0, 3)
     ));
     const lectures = activeLectures.map(lecture => ({
+      id: lecture.id,
       title: lecture.title,
       info: lecture.room,
     }));
