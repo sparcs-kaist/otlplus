@@ -28,6 +28,10 @@ class ListSection extends Component {
 
     if (this.props.year !== prevProps.year || this.props.semester !== prevProps.semester) {
       this._fetchLists(false);
+
+      if (this.props.currentList === 'SEARCH') {
+        this.props.openSearchDispatch();
+      }
     }
   }
 
@@ -227,7 +231,7 @@ class ListSection extends Component {
       return (
         <div id="list-page-wrap">
           <div className="list-page search-page">
-            <SearchSubSection />
+            { this.props.searchOpen ? <SearchSubSection /> : null }
             <div className="list-page-title search-page-title" onClick={() => this.showSearch()}>
               <i className="search-page-title-icon" />
               <div className="search-page-title-text">검색</div>
@@ -298,6 +302,7 @@ const mapStateToProps = state => ({
   lectureActiveClicked: state.timetable.lectureActive.clicked,
   year: state.timetable.semester.year,
   semester: state.timetable.semester.semester,
+  searchOpen: state.timetable.search.open,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -350,6 +355,7 @@ ListSection.propTypes = {
   lectureActiveClicked: PropTypes.bool.isRequired,
   year: PropTypes.number,
   semester: PropTypes.number,
+  searchOpen: PropTypes.bool.isRequired,
   openSearchDispatch: PropTypes.func.isRequired,
   setLectureActiveDispatch: PropTypes.func.isRequired,
   clearLectureActiveDispatch: PropTypes.func.isRequired,

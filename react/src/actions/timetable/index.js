@@ -5,6 +5,7 @@ export const SET_CURRENT_LIST = 'SER_CURRENT_LIST';
 export const SET_LIST_MAJOR_CODES = 'SET_LIST_MAJOR_CODES';
 export const SET_LIST_LECTURES = 'SET_LIST_LECTURES';
 export const CLEAR_LISTS_LECTURES = 'CLEAR_LISTS_LECTURES';
+export const CLEAR_SEARCH_LIST_LECTURES = 'CLEAR_SEARCH_LIST_LECTURES';
 export const SET_LIST_MAJOR_LECTURES = 'SET_LIST_MAJOR_LECTURES';
 export const ADD_LECTURE_TO_CART = 'ADD_LECTURE_TO_CART';
 export const DELETE_LECTURE_FROM_CART = 'DELETE_LECTURE_FROM_CART';
@@ -78,6 +79,12 @@ export function setListMajorLectures(majorCode, lectures) {
 }
 
 export function clearListsLectures() {
+  return {
+    type: CLEAR_LISTS_LECTURES,
+  };
+}
+
+export function clearSearchListLectures() {
   return {
     type: CLEAR_LISTS_LECTURES,
   };
