@@ -1,6 +1,6 @@
 import classNames from 'classnames/bind';
 
-import appStyles from '../App.module.scss';
+import appStyles from '../styles/App.module.scss';
 import timetablStyles from '../styles/timetable.module.css';
 import creditStyles from '../styles/credit.module.css';
 import syllabusStyles from '../styles/syllabus.module.scss';
