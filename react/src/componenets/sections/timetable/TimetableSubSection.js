@@ -108,6 +108,7 @@ class TimetableSubSection extends Component {
 
     if (!isDragging) return;
     setIsDraggingDispatch(false);
+    this.setState({ firstBlock: null, secondBlock: null });
 
     const startDay = this.indexOfDay(firstBlock.getAttribute('data-day'));
     const startIndex = this.indexOfTime(firstBlock.getAttribute('data-time'));
@@ -115,7 +116,6 @@ class TimetableSubSection extends Component {
     if (startIndex === endIndex) return;
     dragSearchDispatch(startDay, Math.min(startIndex, endIndex), Math.max(startIndex, endIndex) + 1);
     setCurrentListDispatch('SEARCH');
-    this.setState({ firstBlock: null, secondBlock: null });
   }
 
   blockHover = lecture => () => {

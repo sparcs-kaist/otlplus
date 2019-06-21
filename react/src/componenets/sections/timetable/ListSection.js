@@ -54,7 +54,7 @@ class ListSection extends Component {
     })
       .then((response) => {
         const newProps = this.props;
-        if ((newProps.year !== year || newProps.Semester !== semester)
+        if ((newProps.year !== year || newProps.semester !== semester)
           || !this._codesAreSame(newProps.major.codes, majorCodes)
         ) {
           return;
