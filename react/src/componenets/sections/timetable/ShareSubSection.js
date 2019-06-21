@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
+import { timetableBoundClassNames as classNames } from '../../../common/boundClassNames';
+
 import { mToggleLectureList, modaltimetableList } from '../../../actions/timetable/index';
 import timetableShape from '../../../shapes/TimetableShape';
 
@@ -15,18 +17,18 @@ class ShareSubSection extends Component {
       ? currentTimetable.lectures
       : [];
     return (
-      <div id="share-buttons" className="authenticated">
-        <div className="left-btn-group">
-          <a className="share-button" id="image" download />
-          <a className="share-button" id="calendar" target="_blank" />
-          <Link className="share-button" id="image" to={{ pathname: '/timetable/syllabus', state: { lectures: timetableLectures } }} />
+      <div id={classNames('share-buttons')} className={classNames('authenticated')}>
+        <div className={classNames('left-btn-group')}>
+          <a className={classNames('share-button')} id={classNames('image')} download />
+          <a className={classNames('share-button')} id={classNames('calendar')} target="_blank" />
+          <Link className={classNames('share-button')} id={classNames('image')} to={{ pathname: '/timetable/syllabus', state: { lectures: timetableLectures } }} />
 
         </div>
-        <div className="right-btn-group">
-          <a className="share-button" id="show-timetable-list" onClick={mtimetableListDispatch} />
-          <a className="share-button" id="show-lecture-list" onClick={mToggleLectureListDispatch} />
+        <div className={classNames('right-btn-group')}>
+          <a className={classNames('share-button')} id={classNames('show-timetable-list')} onClick={mtimetableListDispatch} />
+          <a className={classNames('share-button')} id={classNames('show-lecture-list')} onClick={mToggleLectureListDispatch} />
         </div>
-        <div className="height-placeholder" />
+        <div className={classNames('height-placeholder')} />
       </div>
     );
   }

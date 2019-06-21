@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import '../static/css/timetable/timetable.css';
+import { timetableBoundClassNames as classNames } from '../common/boundClassNames';
 
 import Header from '../componenets/Header';
 import DetailSection from '../componenets/sections/timetable/DetailSection';
@@ -21,22 +21,22 @@ class TimetablePage extends Component {
     const { showLectureInfoFlag, showTimetableListFlag, showLectureListFlag } = this.props;
 
     return (
-      <div className="timetable_page">
-        <div className={showLectureInfoFlag ? 'modal-lecture-info' : null}>
-          <div className={showTimetableListFlag ? 'modal-timetable-list' : null}>
-            <div className={showLectureListFlag ? 'mobile-lecture-list' : null}>
+      <div className={classNames('timetable_page')}>
+        <div className={showLectureInfoFlag ? classNames('modal-lecture-info') : null}>
+          <div className={showTimetableListFlag ? classNames('modal-timetable-list') : null}>
+            <div className={showLectureListFlag ? classNames('mobile-lecture-list') : null}>
               <Header />
-              <section id="content" className="container-fluid" style={{ backgroundColor: '#f9f0f0' }}>
-                <div id="page-container">
-                  <div id="left-side">
+              <section id={classNames('content')} className="container-fluid" style={{ backgroundColor: '#f9f0f0' }}>
+                <div id={classNames('page-container')}>
+                  <div id={classNames('left-side')}>
                     <DetailSection />
-                    <div id="lecture-lists">
+                    <div id={classNames('lecture-lists')}>
                       <ListTabs />
                       <ListSection />
                     </div>
                   </div>
-                  <div id="center">
-                    <div id="timetable-menu">
+                  <div id={classNames('center')}>
+                    <div id={classNames('timetable-menu')}>
                       {
                         showTimetableListFlag
                           ? (
@@ -53,9 +53,9 @@ class TimetablePage extends Component {
                           )
                       }
                     </div>
-                    <div id="timetable">
+                    <div id={classNames('timetable')}>
                       <TimetableSubSection />
-                      <div id="right-side">
+                      <div id={classNames('right-side')}>
                         <MapSubSection />
                         <SummarySubSection />
                         <ExamSubSection />

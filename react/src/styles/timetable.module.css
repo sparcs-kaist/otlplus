@@ -290,7 +290,7 @@
 
 .timetable_page .open-dict-button .dict-arrow
 {
-	background: url(../../icons/lecture_downarrow.svg) no-repeat center center;
+	background: url(../static/icons/lecture_downarrow.svg) no-repeat center center;
 	width:14px;
 	height:11px;
 	display:inline-block;
@@ -300,12 +300,12 @@
 }
 .timetable_page .open-dict-button:hover .dict-arrow
 {
-	background-image: url(../../icons/lecture_downarrow_hover.svg);
+	background-image: url(../static/icons/lecture_downarrow_hover.svg);
 }
 
 .timetable_page .close-dict-button .dict-arrow
 {
-	background: url(../../icons/lecture_uparrow.svg) no-repeat center center;
+	background: url(../static/icons/lecture_uparrow.svg) no-repeat center center;
 	width:14px;
 	height:11px;
 	display:inline-block;
@@ -315,7 +315,7 @@
 }
 .timetable_page .close-dict-button:hover .dict-arrow
 {
-	background-image: url(../../icons/lecture_uparrow_hover.svg);
+	background-image: url(../static/icons/lecture_uparrow_hover.svg);
 }
 
 .timetable_page #reviews {
@@ -431,28 +431,28 @@
 
 .timetable_page .list-tab.search .list-tab-icon
 {
-	background: url(../../icons/block_search_inactive.svg) no-repeat center center;
+	background: url(../static/icons/block_search_inactive.svg) no-repeat center center;
 	width:13px;
 	height:13px;
 }
 
 .timetable_page .list-tab.cart .list-tab-icon
 {
-	background: url(../../icons/block_cart_inactive.svg) no-repeat center center;
+	background: url(../static/icons/block_cart_inactive.svg) no-repeat center center;
 	width:13px;
 	height:13px;
 }
 
 .timetable_page .list-tab.major .list-tab-icon
 {
-	background: url(../../icons/block_major_inactive.svg) no-repeat center center;
+	background: url(../static/icons/block_major_inactive.svg) no-repeat center center;
 	width:13px;
 	height:13px;
 }
 
 .timetable_page .list-tab.humanity .list-tab-icon
 {
-	background: url(../../icons/block_humanity_inactive.svg) no-repeat center center;
+	background: url(../static/icons/block_humanity_inactive.svg) no-repeat center center;
 	width:13px;
 	height:13px;
 }
@@ -460,25 +460,25 @@
 .list-tab.search.active .list-tab-icon,
 .list-tab.search:hover .list-tab-icon
 {
-    background-image: url(../../icons/block_search.svg);
+    background-image: url(../static/icons/block_search.svg);
 }
 
 .list-tab.cart.active .list-tab-icon,
 .list-tab.cart:hover .list-tab-icon
 {
-    background-image: url(../../icons/block_cart.svg);
+    background-image: url(../static/icons/block_cart.svg);
 }
 
 .list-tab.major.active .list-tab-icon,
 .list-tab.major:hover .list-tab-icon
 {
-    background-image: url(../../icons/block_major.svg);
+    background-image: url(../static/icons/block_major.svg);
 }
 
 .list-tab.humanity.active .list-tab-icon,
 .list-tab.humanity:hover .list-tab-icon
 {
-    background-image: url(../../icons/block_humanity.svg);
+    background-image: url(../static/icons/block_humanity.svg);
 }
 
 #list-page-wrap
@@ -541,7 +541,7 @@
 
 .search-keyword-icon
 {
-	background: url(../../icons/search.svg) no-repeat center center;
+	background: url(../static/icons/search.svg) no-repeat center center;
 	width:12px;
     height: 12px;
     flex:none;
@@ -551,7 +551,7 @@
 }
 .search-field:hover > .search-keyword-icon
 {
-	background-image: url(../../icons/search_hover.svg);
+	background-image: url(../static/icons/search_hover.svg);
 }
 
 .search-keyword-text-wrap
@@ -687,24 +687,24 @@
 	color:#963246;
 }
 
-.timetable_page .fa-circle-o
+.timetable_page :global(.fa-circle-o)
 {
 	margin-left:2px;
     color: #aaaaaa;
 	vertical-align:top;
 }
-.timetable_page label:hover > .fa-circle-o
+.timetable_page label:hover > :global(.fa-circle-o)
 {
     color: #a8687f;
 }
 
-.timetable_page .fa-check-circle-o
+.timetable_page :global(.fa-check-circle-o)
 {
 	margin-left:2px;
     color: #e64c65;
 	vertical-align:top;
 }
-.timetable_page label:hover > .fa-check-circle-o
+.timetable_page label:hover > :global(.fa-check-circle-o)
 {
     color: #a8687f;
 }
@@ -782,7 +782,7 @@
 
 .search-page-title-icon
 {
-	background: url(../../icons/search.svg) no-repeat center center;
+	background: url(../static/icons/search.svg) no-repeat center center;
 	width:12px;
     height: 12px;
     display:inline-block;
@@ -792,28 +792,28 @@
 }
 .search-page-title:hover > .search-page-title-icon
 {
-	background-image: url(../../icons/search_hover.svg);
+	background-image: url(../static/icons/search_hover.svg);
 }
 
-.nano {
+:global(.nano) {
     -webkit-box-flex:1;
         -ms-flex:auto;
             flex:auto;
     margin: 0px -10px -10px 0px;
     width: auto !important;
 }
-.nano-content {
+:global(.nano-content) {
     margin-right: 0px;
 }
-.nano-content > *{
+:global(.nano-content) > *{
     margin-right: 10px;
 }
-.nano-pane {
+:global(.nano-pane) {
     width: 4px !important;
     margin: 0px 3px 10px 3px;
     background-color:transparent !important;
 }
-.nano-slider {
+:global(.nano-slider) {
     margin:0px !important;
     background-color:#ccc !important;
 }
@@ -936,18 +936,18 @@
 
 .add-to-cart > i
 {
-	background:url(../../icons/add_cart.svg) no-repeat center center;
+	background:url(../static/icons/add_cart.svg) no-repeat center center;
 	width:12px;
 	height:13px;
     display:block;
 }
 .add-to-cart:hover > i
 {
-	background-image:url(../../icons/add_cart_hover.svg);
+	background-image:url(../static/icons/add_cart_hover.svg);
 }
 .add-to-cart.disable > i
 {
-    background-image:url(../../icons/add_cart_disabled.svg);
+    background-image:url(../static/icons/add_cart_disabled.svg);
 }
 
 .add-to-table
@@ -966,18 +966,18 @@
 
 .add-to-table > i
 {
-	background:url(../../icons/add_lecture.svg) no-repeat center center;
+	background:url(../static/icons/add_lecture.svg) no-repeat center center;
 	width:9px;
 	height:11px;
     display:block;
 }
 .add-to-table:hover > i
 {
-	background-image:url(../../icons/add_lecture_hover.svg);
+	background-image:url(../static/icons/add_lecture_hover.svg);
 }
 .add-to-table.disable > i
 {
-    background-image:url(../../icons/add_lecture_disabled.svg);
+    background-image:url(../static/icons/add_lecture_disabled.svg);
 }
 
 .delete-from-cart
@@ -995,14 +995,14 @@
 
 .delete-from-cart > i
 {
-	background:url(../../icons/delete_cart.svg) no-repeat center center;
+	background:url(../static/icons/delete_cart.svg) no-repeat center center;
 	width:12px;
 	height:13px;
     display:block;
 }
 .delete-from-cart:hover > i
 {
-	background-image:url(../../icons/delete_cart_hover.svg);
+	background-image:url(../static/icons/delete_cart_hover.svg);
 }
 
 
@@ -1086,7 +1086,7 @@
 
 .duplicate-table > i
 {
-	background: url(../../icons/duplicate_table.svg) no-repeat center center;
+	background: url(../static/icons/duplicate_table.svg) no-repeat center center;
 	width:8px;
 	height:11px;
 	display:inline-block;
@@ -1094,7 +1094,7 @@
 }
 .duplicate-table:hover > i
 {
-	background-image: url(../../icons/duplicate_table_hover.svg);
+	background-image: url(../static/icons/duplicate_table_hover.svg);
 }
 
 .delete-table
@@ -1105,7 +1105,7 @@
 
 .delete-table > i
 {
-	background: url(../../icons/delete_table.svg) no-repeat center center;
+	background: url(../static/icons/delete_table.svg) no-repeat center center;
 	width:9px;
 	height:11px;
 	display:inline-block;
@@ -1113,12 +1113,12 @@
 }
 .delete-table:hover > i
 {
-	background-image: url(../../icons/delete_table_hover.svg);
+	background-image: url(../static/icons/delete_table_hover.svg);
 }
 
 .timetable-add .add-table
 {
-	background: url(../../icons/add_table.svg) no-repeat center center;
+	background: url(../static/icons/add_table.svg) no-repeat center center;
 	width:11px;
 	height:11px;
 	display:inline-block;
@@ -1126,7 +1126,7 @@
 }
 .timetable-add:hover .add-table
 {
-    background-image: url(../../icons/add_table_hover.svg);
+    background-image: url(../static/icons/add_table_hover.svg);
 }
 
 #semester
@@ -1176,34 +1176,34 @@
 
 #semester-prev > i
 {
-	background: url(../../icons/semester_prev.svg) no-repeat center center;
+	background: url(../static/icons/semester_prev.svg) no-repeat center center;
 	width:6px;
 	height:10px;
     display:block;
 }
 #semester-prev:hover > i
 {
-	background-image: url(../../icons/semester_prev_hover.svg);
+	background-image: url(../static/icons/semester_prev_hover.svg);
 }
 #semester-prev.disable > i
 {
-    background-image: url(../../icons/semester_prev_disable.svg);
+    background-image: url(../static/icons/semester_prev_disable.svg);
 }
 
 #semester-next > i
 {
-	background: url(../../icons/semester_next.svg) no-repeat center center;
+	background: url(../static/icons/semester_next.svg) no-repeat center center;
 	width:6px;
 	height:10px;
     display:block;
 }
 #semester-next:hover > i
 {
-	background-image: url(../../icons/semester_next_hover.svg);
+	background-image: url(../static/icons/semester_next_hover.svg);
 }
 #semester-next.disable > i
 {
-    background-image: url(../../icons/semester_next_disable.svg);
+    background-image: url(../static/icons/semester_next_disable.svg);
 }
 
 
@@ -1398,7 +1398,7 @@
 
 .drag-close
 {
-    background: url(../../icons/delete_lecture.svg) no-repeat center center;
+    background: url(../static/icons/delete_lecture.svg) no-repeat center center;
     width:8px;
     height:8px;
     top:4px;
@@ -1410,12 +1410,12 @@
 
 .drag-close:hover
 {
-    background: url(../../icons/delete_lecture_hover.svg) no-repeat center center;
+    background: url(../static/icons/delete_lecture_hover.svg) no-repeat center center;
 }
 
 .drag-icon
 {
-    background: url(../../icons/drag_add.svg) no-repeat center center;
+    background: url(../static/icons/drag_add.svg) no-repeat center center;
     width:7px;
     height:9px;
     margin-right:4px;
@@ -1425,7 +1425,7 @@
 
 .drag-text:hover > .drag-icon
 {
-    background-image: url(../../icons/drag_add_hover.svg);
+    background-image: url(../static/icons/drag_add_hover.svg);
 }
 
 
@@ -1846,7 +1846,7 @@
     flex-direction: column;
 }
 
-#examtable > .nano
+#examtable > :global(.nano)
 {
     margin: 0;
 }
@@ -1948,43 +1948,43 @@
 
 .share-button#facebook
 {
-    background: url(../../icons/share_facebook.svg) no-repeat center center;
+    background: url(../static/icons/share_facebook.svg) no-repeat center center;
 }
 .share-button#facebook:hover
 {
-    background-image: url(../../icons/share_facebook_hover.svg);
+    background-image: url(../static/icons/share_facebook_hover.svg);
 }
 
 .share-button#image
 {
-    background: url(../../icons/share_image.svg) no-repeat center center;
+    background: url(../static/icons/share_image.svg) no-repeat center center;
 }
 .share-button#image:hover
 {
-    background-image: url(../../icons/share_image_hover.svg);
+    background-image: url(../static/icons/share_image_hover.svg);
 }
 
 .share-button#calendar
 {
-    background: url(../../icons/share_calendar.svg) no-repeat center center;
+    background: url(../static/icons/share_calendar.svg) no-repeat center center;
 }
 .share-button#calendar:hover
 {
-    background-image: url(../../icons/share_calendar_hover.svg);
+    background-image: url(../static/icons/share_calendar_hover.svg);
 }
 
 .share-button#show-lecture-list {
-    background: url(../../icons/add_lecture.svg) no-repeat center center;
+    background: url(../static/icons/add_lecture.svg) no-repeat center center;
 }
 .share-button#show-lecture-list:hover {
-    background-image: url(../../icons/add_lecture_hover.svg);
+    background-image: url(../static/icons/add_lecture_hover.svg);
 }
 
 .share-button#show-timetable-list {
-    background: url(../../icons/duplicate_table.svg) no-repeat center center;
+    background: url(../static/icons/duplicate_table.svg) no-repeat center center;
 }
 .share-button#show-timetable-list:hover {
-    background-image: url(../../icons/duplicate_table_hover.svg);
+    background-image: url(../static/icons/duplicate_table_hover.svg);
 }
 
 
@@ -2170,14 +2170,14 @@ body .lecture-block.active.lecture-block-temp
 
 .lecture-delete > i
 {
-    background: url(../../icons/delete_lecture.svg) no-repeat center center;
+    background: url(../static/icons/delete_lecture.svg) no-repeat center center;
     width:10px;
     height:10px;
     display:block;
 }
 .lecture-delete:hover > i
 {
-    background: url(../../icons/delete_lecture_hover.svg) no-repeat center center;
+    background: url(../static/icons/delete_lecture_hover.svg) no-repeat center center;
 }
 
 .lecture-block:not(:hover) .lecture-delete,
@@ -2232,7 +2232,7 @@ body .lecture-block.active.lecture-block-temp
         float: none;
         width: 100vw;
     }
-    .modal-timetable-list .container-fluid
+    .modal-timetable-list :global(.container-fluid)
     {
         padding-left: 0px;
         padding-right: 0px;
@@ -2328,7 +2328,7 @@ body .lecture-block.active.lecture-block-temp
     .modal-lecture-info #left-side {
         display: block;
     }
-    .modal-lecture-info .container-fluid
+    .modal-lecture-info :global(.container-fluid)
     {
         padding-left: 0px;
         padding-right: 0px;
