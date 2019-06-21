@@ -14,7 +14,7 @@ class CourseListSection extends Component {
           전산학부
         </div>
         <Scroller>
-          { courses.map(c => <CourseBlock course={c} />)}
+          { courses.map(c => <CourseBlock course={c} key={c.id} />)}
         </Scroller>
       </div>
     );

@@ -12,7 +12,7 @@ class LatestReviewSection extends Component {
         <div className={classNames('title')}>
           따끈따끈 과목후기
         </div>
-        {reviews.map(r => <ReviewBlock review={r} />)}
+        {reviews.map(r => <ReviewBlock review={r} key={r.id} />)}
         <div className={classNames('buttons')}>
           <button className={classNames('text-button')}>
             후기 더 보기
