@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 
+import { appBoundClassNames as classNames } from '../common/boundClassNames';
 import Header from '../componenets/Header';
 import CourseListSection from '../componenets/sections/dictionary/CourseListSection';
 import CourseDetailSection from '../componenets/sections/dictionary/CourseDetailSection';
 import courses from '../dummy/courses';
-
-import '../App.scss';
 
 
 class DictionaryPage extends Component {
@@ -13,15 +12,15 @@ class DictionaryPage extends Component {
     return (
       <div>
         <Header />
-        <section className="content content--no-scroll">
-          <div className="section-wrap section-wrap--course-list">
-            <div className="tab--course-list" />
-            <div className="section section--with-tabs">
+        <section className={classNames('content', 'content--no-scroll')}>
+          <div className={classNames('section-wrap', 'section-wrap--course-list')}>
+            <div className={classNames('tab--course-list')} />
+            <div className={classNames('section', 'section--with-tabs')}>
               <CourseListSection />
             </div>
           </div>
-          <div className="section-wrap section-wrap--course-detail">
-            <div className="section">
+          <div className={classNames('section-wrap', 'section-wrap--course-detail')}>
+            <div className={classNames('section')}>
               <CourseDetailSection course={courses[0]} />
             </div>
           </div>

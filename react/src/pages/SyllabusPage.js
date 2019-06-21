@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import '../static/css/timetable/components/syllabus.scss';
+import { syllabusBoundClassNames as classNames } from '../common/boundClassNames';
 
 import lectureShape from '../shapes/LectureShape';
 
@@ -30,19 +30,19 @@ class SyllabusPage extends Component {
     const { lectures } = this.props.location.state;
     const { currentShowingLecture } = this.state;
     return (
-      <div className="syllabus-page">
-        <div className="syllabus-wrapper">
-          <div className="lecture-tab-container">
+      <div className={classNames('syllabus-page')}>
+        <div className={classNames('syllabus-wrapper')}>
+          <div className={classNames('lecture-tab-container')}>
             {
               lectures.map(lecture => (
-                <div className={`lecture-tab ${this.state.currentShowingLecture === lecture ? 'active' : ''}`} onClick={() => this.updateShowingLecture(lecture)}>
+                <div className={classNames('lecture-tab', (this.state.currentShowingLecture === lecture ? 'active' : ''))} onClick={() => this.updateShowingLecture(lecture)}>
                   { lecture.common_title }
                 </div>
               ))
             }
           </div>
-          <div className="syllabus-iframe-wrapper">
-            <iframe className="syllabus-iframe" src={this.getLectureUrl(currentShowingLecture)} title={`syllabus-${currentShowingLecture.title}`}>
+          <div className={classNames('syllabus-iframe-wrapper')}>
+            <iframe className={classNames('syllabus-iframe')} src={this.getLectureUrl(currentShowingLecture)} title={`syllabus-${currentShowingLecture.title}`}>
               { currentShowingLecture.common_title }
             </iframe>
           </div>

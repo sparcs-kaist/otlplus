@@ -1,17 +1,18 @@
 import React from 'react';
 import { pure } from 'recompose';
 
+import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 import CourseShape from '../../shapes/CourseShape';
 
 
 const CourseSimpleBlock = ({ course }) => {
   return (
       // eslint-disable-next-line react/jsx-indent
-      <div className="block block--course-simple">
-        <div className="block--course-simple__title">
+      <div className={classNames('block', 'block--course-simple')}>
+        <div className={classNames('block--course-simple__title')}>
           { course.title }
         </div>
-        <div className="block--course-simple__subtitle">
+        <div className={classNames('block--course-simple__subtitle')}>
           { course.old_code }
         </div>
       </div>

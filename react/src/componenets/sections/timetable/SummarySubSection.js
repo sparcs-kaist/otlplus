@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import { timetableBoundClassNames as classNames } from '../../../common/boundClassNames';
+
 import { clearMultipleDetail, setMultipleDetail } from '../../../actions/timetable/index';
 import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureActive';
 import lectureShape from '../../../shapes/LectureShape';
@@ -153,67 +155,67 @@ class SummarySubSection extends Component {
     const creditAuAct = (lectureActiveLecture !== null) && (lectureActiveLecture.credit_au > 0);
 
     return (
-      <div id="summary">
-        <div id="summary-type">
-          <div className="summary-type-elem" onMouseOver={() => this.typeFocus('Basic Required')} onMouseOut={() => this.clearFocus()}>
-            <span className="summary-type-elem-title fixed-ko">기필</span>
-            <span className={`summary-type-elem-body ${active === 'Basic Required' ? 'active' : ''}`}>{type_credit[0]}</span>
-            <span className="summary-type-elem-additional">{active_type_credit[0]}</span>
+      <div id={classNames('summary')}>
+        <div id={classNames('summary-type')}>
+          <div className={classNames('summary-type-elem')} onMouseOver={() => this.typeFocus('Basic Required')} onMouseOut={() => this.clearFocus()}>
+            <span className={classNames('summary-type-elem-title', 'fixed-ko')}>기필</span>
+            <span className={classNames('summary-type-elem-body', (active === 'Basic Required' ? 'active' : ''))}>{type_credit[0]}</span>
+            <span className={classNames('summary-type-elem-additional')}>{active_type_credit[0]}</span>
           </div>
-          <div className="summary-type-elem" onMouseOver={() => this.typeFocus('Major Required')} onMouseOut={() => this.clearFocus()}>
-            <span className="summary-type-elem-title fixed-ko">전필</span>
-            <span className={`summary-type-elem-body ${active === 'Major Required' ? 'active' : ''}`}>{type_credit[2]}</span>
-            <span className="summary-type-elem-additional">{active_type_credit[2]}</span>
+          <div className={classNames('summary-type-elem')} onMouseOver={() => this.typeFocus('Major Required')} onMouseOut={() => this.clearFocus()}>
+            <span className={classNames('summary-type-elem-title', 'fixed-ko')}>전필</span>
+            <span className={classNames('summary-type-elem-body', (active === 'Major Required' ? 'active' : ''))}>{type_credit[2]}</span>
+            <span className={classNames('summary-type-elem-additional')}>{active_type_credit[2]}</span>
           </div>
-          <div className="summary-type-elem" onMouseOver={() => this.typeFocus('Humanities & Social Elective')} onMouseOut={() => this.clearFocus()}>
-            <span className="summary-type-elem-title fixed-ko">인문</span>
-            <span className={`summary-type-elem-body ${active === 'Humanities & Social Elective' ? 'active' : ''}`}>{type_credit[4]}</span>
-            <span className="summary-type-elem-additional">{active_type_credit[4]}</span>
+          <div className={classNames('summary-type-elem')} onMouseOver={() => this.typeFocus('Humanities & Social Elective')} onMouseOut={() => this.clearFocus()}>
+            <span className={classNames('summary-type-elem-title', 'fixed-ko')}>인문</span>
+            <span className={classNames('summary-type-elem-body', (active === 'Humanities & Social Elective' ? 'active' : ''))}>{type_credit[4]}</span>
+            <span className={classNames('summary-type-elem-additional')}>{active_type_credit[4]}</span>
           </div>
-          <div className="summary-type-elem" onMouseOver={() => this.typeFocus('Basic Elective')} onMouseOut={() => this.clearFocus()}>
-            <span className="summary-type-elem-title fixed-ko">기선</span>
-            <span className={`summary-type-elem-body ${active === 'Basic Elective' ? 'active' : ''}`}>{type_credit[1]}</span>
-            <span className="summary-type-elem-additional">{active_type_credit[1]}</span>
+          <div className={classNames('summary-type-elem')} onMouseOver={() => this.typeFocus('Basic Elective')} onMouseOut={() => this.clearFocus()}>
+            <span className={classNames('summary-type-elem-title', 'fixed-ko')}>기선</span>
+            <span className={classNames('summary-type-elem-body', (active === 'Basic Elective' ? 'active' : ''))}>{type_credit[1]}</span>
+            <span className={classNames('summary-type-elem-additional')}>{active_type_credit[1]}</span>
           </div>
-          <div className="summary-type-elem" onMouseOver={() => this.typeFocus('Major Elective')} onMouseOut={() => this.clearFocus()}>
-            <span className="summary-type-elem-title fixed-ko">전선</span>
-            <span className={`summary-type-elem-body ${active === 'Major Elective' ? 'active' : ''}`}>{type_credit[3]}</span>
-            <span className="summary-type-elem-additional">{active_type_credit[3]}</span>
+          <div className={classNames('summary-type-elem')} onMouseOver={() => this.typeFocus('Major Elective')} onMouseOut={() => this.clearFocus()}>
+            <span className={classNames('summary-type-elem-title', 'fixed-ko')}>전선</span>
+            <span className={classNames('summary-type-elem-body', (active === 'Major Elective' ? 'active' : ''))}>{type_credit[3]}</span>
+            <span className={classNames('summary-type-elem-additional')}>{active_type_credit[3]}</span>
           </div>
-          <div className="summary-type-elem" onMouseOver={() => this.typeFocus('Etc')} onMouseOut={() => this.clearFocus()}>
-            <span className="summary-type-elem-title fixed-ko">기타</span>
-            <span className={`summary-type-elem-body ${active === 'Etc' ? 'active' : ''}`}>{type_credit[5]}</span>
-            <span className="summary-type-elem-additional">{active_type_credit[5]}</span>
-          </div>
-        </div>
-        <div id="summary-credit">
-          <div className="summary-credit-elem" onMouseOver={() => this.creditFocus('Credit')} onMouseOut={() => this.clearFocus()}>
-            <div id="credits" className="score-text">
-              <span className={`normal ${creditAct ? 'none' : active === 'Credit' ? 'none' : ''}`}>{sum_credit}</span>
-              <span className={`active ${creditAct ? '' : active === 'Credit' ? '' : 'none'}`}>{sum_credit}</span>
-            </div>
-            <div className="score-label">학점</div>
-          </div>
-          <div className="summary-credit-elem" onMouseOver={() => this.creditFocus('Credit AU')} onMouseOut={() => this.clearFocus()}>
-            <div id="au" className="score-text">
-              <span className={`normal ${creditAuAct ? 'none' : active === 'Credit AU' ? 'none' : ''}`}>{sum_credit_au}</span>
-              <span className={`active ${creditAuAct ? '' : active === 'Credit AU' ? '' : 'none'}`}>{sum_credit_au}</span>
-            </div>
-            <div className="score-label">AU</div>
+          <div className={classNames('summary-type-elem')} onMouseOver={() => this.typeFocus('Etc')} onMouseOut={() => this.clearFocus()}>
+            <span className={classNames('summary-type-elem-title', 'fixed-ko')}>기타</span>
+            <span className={classNames('summary-type-elem-body', (active === 'Etc' ? 'active' : ''))}>{type_credit[5]}</span>
+            <span className={classNames('summary-type-elem-additional')}>{active_type_credit[5]}</span>
           </div>
         </div>
-        <div id="summary-score">
-          <div className="summary-score-elem" onMouseOver={() => this.scoreFocus('Grade')} onMouseOut={() => this.clearFocus()}>
-            <div id="grades" className={`score-text ${active === 'Grade' ? 'active' : ''}`}>{letters[Math.round(grade / targetNum)]}</div>
-            <div className="score-label">성적</div>
+        <div id={classNames('summary-credit')}>
+          <div className={classNames('summary-credit-elem')} onMouseOver={() => this.creditFocus('Credit')} onMouseOut={() => this.clearFocus()}>
+            <div id={classNames('credits')} className={classNames('score-text')}>
+              <span className={classNames('normal', (creditAct ? 'none' : active === 'Credit' ? 'none' : ''))}>{sum_credit}</span>
+              <span className={classNames('active', (creditAct ? '' : active === 'Credit' ? '' : 'none'))}>{sum_credit}</span>
+            </div>
+            <div className={classNames('score-label')}>학점</div>
           </div>
-          <div className="summary-score-elem" onMouseOver={() => this.scoreFocus('Load')} onMouseOut={() => this.clearFocus()}>
-            <div id="loads" className={`score-text ${active === 'Load' ? 'active' : ''}`}>{letters[Math.round(load / targetNum)]}</div>
-            <div className="score-label">널널</div>
+          <div className={classNames('summary-credit-elem')} onMouseOver={() => this.creditFocus('Credit AU')} onMouseOut={() => this.clearFocus()}>
+            <div id={classNames('au')} className={classNames('score-text')}>
+              <span className={classNames('normal', (creditAuAct ? 'none' : active === 'Credit AU' ? 'none' : ''))}>{sum_credit_au}</span>
+              <span className={classNames('active', (creditAuAct ? '' : active === 'Credit AU' ? '' : 'none'))}>{sum_credit_au}</span>
+            </div>
+            <div className={classNames('score-label')}>AU</div>
           </div>
-          <div className="summary-score-elem" onMouseOver={() => this.scoreFocus('Speech')} onMouseOut={() => this.clearFocus()}>
-            <div id="speeches" className={`score-text ${active === 'Speech' ? 'active' : ''}`}>{letters[Math.round(speech / targetNum)]}</div>
-            <div className="score-label">강의</div>
+        </div>
+        <div id={classNames('summary-score')}>
+          <div className={classNames('summary-score-elem')} onMouseOver={() => this.scoreFocus('Grade')} onMouseOut={() => this.clearFocus()}>
+            <div id={classNames('grades')} className={classNames('score-text', (active === 'Grade' ? 'active' : ''))}>{letters[Math.round(grade / targetNum)]}</div>
+            <div className={classNames('score-label')}>성적</div>
+          </div>
+          <div className={classNames('summary-score-elem')} onMouseOver={() => this.scoreFocus('Load')} onMouseOut={() => this.clearFocus()}>
+            <div id={classNames('loads')} className={classNames('score-text', (active === 'Load' ? 'active' : ''))}>{letters[Math.round(load / targetNum)]}</div>
+            <div className={classNames('score-label')}>널널</div>
+          </div>
+          <div className={classNames('summary-score-elem')} onMouseOver={() => this.scoreFocus('Speech')} onMouseOut={() => this.clearFocus()}>
+            <div id={classNames('speeches')} className={classNames('score-text', (active === 'Speech' ? 'active' : ''))}>{letters[Math.round(speech / targetNum)]}</div>
+            <div className={classNames('score-label')}>강의</div>
           </div>
         </div>
       </div>
