@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 import Scroller from '../../Scroller';
 import CourseBlock from '../../blocks/CourseBlock';
 import courses from '../../../dummy/courses';
@@ -8,8 +9,8 @@ import courses from '../../../dummy/courses';
 class CourseListSection extends Component {
   render() {
     return (
-      <div className="section-content section-content--flex section-content--course-list">
-        <div className="title">
+      <div className={classNames('section-content', 'section-content--flex', 'section-content--course-list')}>
+        <div className={classNames('title')}>
           전산학부
         </div>
         <Scroller>

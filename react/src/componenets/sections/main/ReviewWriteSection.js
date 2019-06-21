@@ -1,18 +1,19 @@
 import React, { Component } from 'react';
 
+import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 import ReviewWriteBlock from '../../blocks/ReviewWriteBlock';
 
 
 class ReviewWriteSection extends Component {
   render() {
     return (
-      <div className="section-content section-content--widget">
-        <div className="title">
+      <div className={classNames('section-content', 'section-content--widget')}>
+        <div className={classNames('title')}>
           후기 작성 - 운영체제 및 실험
         </div>
         <ReviewWriteBlock />
-        <div className="buttons">
-          <button className="text-button">
+        <div className={classNames('buttons')}>
+          <button className={classNames('text-button')}>
             후기 더 작성하기
           </button>
         </div>
