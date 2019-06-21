@@ -1,19 +1,20 @@
 import React from 'react';
 import { pure } from 'recompose';
 
+import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 import CourseShape from '../../shapes/CourseShape';
 
 
 const CourseBlock = ({ course }) => {
   return (
       // eslint-disable-next-line react/jsx-indent
-      <div className="block block--course">
-        <div className="block--course__title">
+      <div className={classNames('block', 'block--course')}>
+        <div className={classNames('block--course__title')}>
           <strong>{ course.title }</strong>
             &nbsp;
           <span>{ course.old_code }</span>
         </div>
-        <div className="attributes">
+        <div className={classNames('attributes')}>
           <div>
             <div>
               분류
