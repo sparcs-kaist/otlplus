@@ -12,7 +12,7 @@ class RelatedCourseSection extends Component {
         <div className={classNames('title')}>
           연관 과목 - 데이타구조
         </div>
-        { courses.map(c => <CourseBlock course={c} />) }
+        { courses.map(c => <CourseBlock course={c} key={c.id} />) }
         <div className={classNames('buttons')}>
           <button className={classNames('text-button')}>
             자세히 보기

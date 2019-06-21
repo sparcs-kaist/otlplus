@@ -1,5 +1,6 @@
 const courses = [
   {
+    id: 3678,
     old_code: 'CBE342',
     department: { code: 'CBE', name: '생명화학공학과' },
     code_num: '3',
@@ -26,6 +27,7 @@ const courses = [
     userspecific_is_read: false,
   },
   {
+    id: 295,
     old_code: 'CBE441',
     department: { code: 'CBE', name: '생명화학공학과' },
     code_num: '4',
@@ -52,6 +54,7 @@ const courses = [
     userspecific_is_read: false,
   },
   {
+    id: 1599,
     old_code: 'CBE442',
     department: { code: 'CBE', name: '생명화학공학과' },
     code_num: '4',

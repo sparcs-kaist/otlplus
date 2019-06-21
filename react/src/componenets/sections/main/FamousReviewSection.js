@@ -12,7 +12,7 @@ class FamousReviewSection extends Component {
         <div className={classNames('title')}>
           사랑받는 전공 후기 - 전산학부
         </div>
-        {reviews.map(r => <ReviewBlock review={r} />)}
+        {reviews.map(r => <ReviewBlock review={r} key={r.id} />)}
         <div className={classNames('buttons')}>
           <button className={classNames('text-button')}>
             후기 더 보기

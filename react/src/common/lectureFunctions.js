@@ -1,4 +1,4 @@
-import { NONE, LIST, TABLE, MULTIPLE } from '../reducers/timetable/lectureActive';
+import { LIST, TABLE } from '../reducers/timetable/lectureActive';
 
 
 export const inTimetable = (lecture, timetable) => (

@@ -116,7 +116,7 @@ class CourseDetailSection extends Component {
           <div className={classNames('divider')} />
           <div className={classNames('related-courses')}>
             <div>
-              { courses.map(c => <CourseSimpleBlock course={c} />) }
+              { courses.map(c => <CourseSimpleBlock course={c} key={c.id} />) }
             </div>
             <div>
               &gt;
@@ -128,12 +128,12 @@ class CourseDetailSection extends Component {
               &gt;
             </div>
             <div>
-              { courses.map(c => <CourseSimpleBlock course={c} />) }
+              { courses.map(c => <CourseSimpleBlock course={c} key={c.id} />) }
             </div>
           </div>
           <div className={classNames('divider')} />
           <ReviewWriteBlock />
-          {reviews.map(r => <ReviewBlock review={r} />)}
+          {reviews.map(r => <ReviewBlock review={r} key={r.id} />)}
         </Scroller>
       </div>
     );
