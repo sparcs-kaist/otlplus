@@ -32,7 +32,16 @@ class Scroller extends Component {
 Scroller.propTypes = {
   onScroll: PropTypes.func,
   children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.element),
+    PropTypes.arrayOf(PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.oneOfType([
+        // Add more nesting if needed
+        PropTypes.string,
+        PropTypes.element,
+      ])),
+      PropTypes.string,
+      PropTypes.element,
+    ])),
+    PropTypes.string,
     PropTypes.element,
   ]).isRequired,
 };

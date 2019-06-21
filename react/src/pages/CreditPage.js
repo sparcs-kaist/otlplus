@@ -25,7 +25,11 @@ Button.propTypes = {
   onClick: PropTypes.func.isRequired,
   current: PropTypes.number.isRequired,
   children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.element),
+    PropTypes.arrayOf(PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.element,
+    ])),
+    PropTypes.string,
     PropTypes.element,
   ]).isRequired,
 };
