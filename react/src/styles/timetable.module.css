@@ -1939,51 +1939,55 @@
 .share-button
 {
     display:inline-block;
-    height:19px;
-    width:19px;
     margin-right:10px;
-    cursor:pointer;
     vertical-align:top;
 }
+.share-button > i
+{
+     display:block;
+     height:19px;
+     width:19px;
+     cursor:pointer;
+}
 
-.share-button#facebook
+.share-button#facebook > i
 {
     background: url(../static/icons/share_facebook.svg) no-repeat center center;
 }
-.share-button#facebook:hover
+.share-button#facebook:hover > i
 {
     background-image: url(../static/icons/share_facebook_hover.svg);
 }
 
-.share-button#image
+.share-button#image > i
 {
     background: url(../static/icons/share_image.svg) no-repeat center center;
 }
-.share-button#image:hover
+.share-button#image:hover > i
 {
     background-image: url(../static/icons/share_image_hover.svg);
 }
 
-.share-button#calendar
+.share-button#calendar > i
 {
     background: url(../static/icons/share_calendar.svg) no-repeat center center;
 }
-.share-button#calendar:hover
+.share-button#calendar:hover > i
 {
     background-image: url(../static/icons/share_calendar_hover.svg);
 }
 
-.share-button#show-lecture-list {
+.share-button#show-lecture-list > i {
     background: url(../static/icons/add_lecture.svg) no-repeat center center;
 }
-.share-button#show-lecture-list:hover {
+.share-button#show-lecture-list:hover > i {
     background-image: url(../static/icons/add_lecture_hover.svg);
 }
 
-.share-button#show-timetable-list {
+.share-button#show-timetable-list > i {
     background: url(../static/icons/duplicate_table.svg) no-repeat center center;
 }
-.share-button#show-timetable-list:hover {
+.share-button#show-timetable-list:hover > i {
     background-image: url(../static/icons/duplicate_table_hover.svg);
 }
 

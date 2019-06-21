@@ -19,14 +19,14 @@ class ShareSubSection extends Component {
     return (
       <div id={classNames('share-buttons')} className={classNames('authenticated')}>
         <div className={classNames('left-btn-group')}>
-          <a className={classNames('share-button')} id={classNames('image')} download />
-          <a className={classNames('share-button')} id={classNames('calendar')} target="_blank" />
-          <Link className={classNames('share-button')} id={classNames('image')} to={{ pathname: '/timetable/syllabus', state: { lectures: timetableLectures } }} />
+          <a className={classNames('share-button')} id={classNames('image')} href="/api/timetable/share_image" download><i /></a>
+          <a className={classNames('share-button')} id={classNames('calendar')} href="/api/timetable_share_calendar" target="_blank"><i /></a>
+          <Link className={classNames('share-button')} id={classNames('image')} to={{ pathname: '/timetable/syllabus', state: { lectures: timetableLectures } }}><i /></Link>
 
         </div>
         <div className={classNames('right-btn-group')}>
-          <a className={classNames('share-button')} id={classNames('show-timetable-list')} onClick={mtimetableListDispatch} />
-          <a className={classNames('share-button')} id={classNames('show-lecture-list')} onClick={mToggleLectureListDispatch} />
+          <div className={classNames('share-button')} id={classNames('show-timetable-list')} onClick={mtimetableListDispatch}><i /></div>
+          <div className={classNames('share-button')} id={classNames('show-lecture-list')} onClick={mToggleLectureListDispatch}><i /></div>
         </div>
         <div className={classNames('height-placeholder')} />
       </div>
