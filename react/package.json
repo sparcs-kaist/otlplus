@@ -5,6 +5,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "bootstrap": "^4.1.1",
+    "classnames": "^2.2.6",
     "history": "^4.7.2",
     "jquery": "^3.3.1",
     "nanoscroller": "^0.8.7",
