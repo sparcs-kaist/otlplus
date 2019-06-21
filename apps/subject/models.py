@@ -445,6 +445,7 @@ class Course(models.Model):
     def toJson(self, nested=False, user=None):
         # Don't change this into model_to_dict: for security and performance
         result = {
+                "id": self.id,
                 "old_code": self.old_code,
                 "department": self.department.toJson(nested=True),
                 "code_num": self.code_num,

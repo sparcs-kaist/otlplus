@@ -1,16 +1,16 @@
 import PropTypes from 'prop-types';
 
-import CourseShape from './CourseShape';
+import NestedCourseShape from './NestedCourseShape';
 import NestedLectureShape from './NestedLectureShape';
 
 
 const reviewShape = PropTypes.shape({
   id: PropTypes.number.isRequired,
-  course: CourseShape.isRequired,
+  course: NestedCourseShape.isRequired,
   lecture: NestedLectureShape.isRequired,
   comment: PropTypes.string.isRequired,
   like: PropTypes.number.isRequired,
-  is_deleted: PropTypes.bool.isRequired,
+  is_deleted: PropTypes.number.isRequired,
   grade: PropTypes.number.isRequired,
   load: PropTypes.number.isRequired,
   speech: PropTypes.number.isRequired,
