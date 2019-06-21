@@ -1,3 +1,8 @@
+.credit
+{
+    line-height: 1.4; /* TODO: Change later */
+}
+
 .credit .block_wrap
 {
     font-size: 0;
@@ -41,6 +46,7 @@
 .credit .content > h4
 {
     margin-top : 30px;
+    margin-bottom: 10px;
 }
 
 .credit .content > .people
