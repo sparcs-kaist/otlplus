@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import { timetableBoundClassNames as classNames } from '../../common/boundClassNames';
+
 import { openSearch, closeSearch, setCurrentList, clearLectureActive } from '../../actions/timetable/index';
 import { NONE, LIST, TABLE, MULTIPLE } from '../../reducers/timetable/lectureActive';
 import lectureShape from '../../shapes/LectureShape';
@@ -29,13 +31,13 @@ class ListTabs extends Component {
     const { currentList, major } = this.props;
 
     return (
-      <div id="list-tab-wrap">
-        <button className={`list-tab search${currentList === 'SEARCH' ? ' active' : ''}`} onClick={() => this.changeTab('SEARCH')}><i className="list-tab-icon" /></button>
+      <div id={classNames('list-tab-wrap')}>
+        <button className={classNames('list-tab', 'search', (currentList === 'SEARCH' ? 'active' : ''))} onClick={() => this.changeTab('SEARCH')}><i className={classNames('list-tab-icon')} /></button>
         {major.codes.map(code => (
-          <button className={`list-tab major${currentList === code ? ' active' : ''}`} key={code} onClick={() => this.changeTab(code)}><i className="list-tab-icon" /></button>
+          <button className={classNames('list-tab', 'major', (currentList === code ? 'active' : ''))} key={code} onClick={() => this.changeTab(code)}><i className={classNames('list-tab-icon')} /></button>
         ))}
-        <button className={`list-tab humanity${currentList === 'HUMANITY' ? ' active' : ''}`} onClick={() => this.changeTab('HUMANITY')}><i className="list-tab-icon" /></button>
-        <button className={`list-tab cart${currentList === 'CART' ? ' active' : ''}`} onClick={() => this.changeTab('CART')}><i className="list-tab-icon" /></button>
+        <button className={classNames('list-tab', 'humanity', (currentList === 'HUMANITY' ? 'active' : ''))} onClick={() => this.changeTab('HUMANITY')}><i className={classNames('list-tab-icon')} /></button>
+        <button className={classNames('list-tab', 'cart', (currentList === 'CART' ? 'active' : ''))} onClick={() => this.changeTab('CART')}><i className={classNames('list-tab-icon')} /></button>
       </div>
     );
   }

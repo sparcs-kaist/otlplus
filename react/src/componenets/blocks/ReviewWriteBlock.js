@@ -1,90 +1,92 @@
 import React from 'react';
 import { pure } from 'recompose';
 
+import { appBoundClassNames as classNames } from '../../common/boundClassNames';
+
 
 const ReviewWriteBlock = (props) => {
   return (
       // eslint-disable-next-line react/jsx-indent
-      <form className="block block--review-write">
-        <div className="block--review-write__title">
+      <form className={classNames('block', 'block--review-write')}>
+        <div className={classNames('block--review-write__title')}>
           <strong>데이타구조</strong>
           <span>이기혁</span>
           <span>2016 봄</span>
         </div>
-        <textarea className="block--review-write__content" placeholder="학점, 로드 등의 평가에 대하여 왜 그렇게 평가를 했는지 서술해주세요." />
+        <textarea className={classNames('block--review-write__content')} placeholder="학점, 로드 등의 평가에 대하여 왜 그렇게 평가를 했는지 서술해주세요." />
         <div>
-          <div className="block--review-write__score">
-            <span className="block--review-write__score__name">성적</span>
-            <label className="block--review-write__score__option">
+          <div className={classNames('block--review-write__score')}>
+            <span className={classNames('block--review-write__score__name')}>성적</span>
+            <label className={classNames('block--review-write__score__option')}>
               <input type="radio" name="grade" value="A" />
               <span>A</span>
             </label>
-            <label className="block--review-write__score__option">
+            <label className={classNames('block--review-write__score__option')}>
               <input type="radio" name="grade" value="B" />
               <span>B</span>
             </label>
-            <label className="block--review-write__score__option">
+            <label className={classNames('block--review-write__score__option')}>
               <input type="radio" name="grade" value="C" />
               <span>C</span>
             </label>
-            <label className="block--review-write__score__option">
+            <label className={classNames('block--review-write__score__option')}>
               <input type="radio" name="grade" value="D" />
               <span>D</span>
             </label>
-            <label className="block--review-write__score__option">
+            <label className={classNames('block--review-write__score__option')}>
               <input type="radio" name="grade" value="F" />
               <span>F</span>
             </label>
           </div>
-          <div className="block--review-write__score">
-            <span className="block--review-write__score__name">널널</span>
-            <label className="block--review-write__score__option">
+          <div className={classNames('block--review-write__score')}>
+            <span className={classNames('block--review-write__score__name')}>널널</span>
+            <label className={classNames('block--review-write__score__option')}>
               <input type="radio" name="load" value="A" />
               <span>A</span>
             </label>
-            <label className="block--review-write__score__option">
+            <label className={classNames('block--review-write__score__option')}>
               <input type="radio" name="load" value="B" />
               <span>B</span>
             </label>
-            <label className="block--review-write__score__option">
+            <label className={classNames('block--review-write__score__option')}>
               <input type="radio" name="load" value="C" />
               <span>C</span>
             </label>
-            <label className="block--review-write__score__option">
+            <label className={classNames('block--review-write__score__option')}>
               <input type="radio" name="load" value="D" />
               <span>D</span>
             </label>
-            <label className="block--review-write__score__option">
+            <label className={classNames('block--review-write__score__option')}>
               <input type="radio" name="load" value="F" />
               <span>F</span>
             </label>
           </div>
-          <div className="block--review-write__score">
-            <span className="block--review-write__score__name">강의</span>
-            <label className="block--review-write__score__option">
+          <div className={classNames('block--review-write__score')}>
+            <span className={classNames('block--review-write__score__name')}>강의</span>
+            <label className={classNames('block--review-write__score__option')}>
               <input type="radio" name="speech" value="B" />
               <span>B</span>
             </label>
-            <label className="block--review-write__score__option">
+            <label className={classNames('block--review-write__score__option')}>
               <input type="radio" name="speech" value="C" />
               <span>C</span>
             </label>
-            <label className="block--review-write__score__option">
+            <label className={classNames('block--review-write__score__option')}>
               <input type="radio" name="speech" value="A" />
               <span>A</span>
             </label>
-            <label className="block--review-write__score__option">
+            <label className={classNames('block--review-write__score__option')}>
               <input type="radio" name="speech" value="D" />
               <span>D</span>
             </label>
-            <label className="block--review-write__score__option">
+            <label className={classNames('block--review-write__score__option')}>
               <input type="radio" name="speech" value="F" />
               <span>F</span>
             </label>
           </div>
         </div>
-        <div className="block--review-write__buttons">
-          <button className="text-button text-button--review-write-block" type="submit">
+        <div className={classNames('block--review-write__buttons')}>
+          <button className={classNames('text-button', 'text-button--review-write-block')} type="submit">
             업로드
           </button>
         </div>

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 import ReviewBlock from '../../blocks/ReviewBlock';
 import ReviewWriteBlock from '../../blocks/ReviewWriteBlock';
 import Scroller from '../../Scroller';
@@ -24,20 +25,20 @@ class CourseDetailSection extends Component {
     const { course } = this.props;
 
     return (
-      <div className="section-content section-content--flex section-content--course-detail">
-        <div className="fixed">
+      <div className={classNames('section-content', 'section-content--flex', 'section-content--course-detail')}>
+        <div className={classNames('fixed')}>
           <div>
-            <div className="title">
+            <div className={classNames('title')}>
               {course.title}
             </div>
-            <div className="subtitle">
+            <div className={classNames('subtitle')}>
               {course.old_code}
             </div>
           </div>
           <div ref="scrollThreshold" />
-          <div className="fixed__conditional-part fixed__conditional-part--hidden" ref="hiddenScores">
+          <div className={classNames('fixed__conditional-part', 'fixed__conditional-part--hidden')} ref="hiddenScores">
             <div>
-              <div className="scores">
+              <div className={classNames('scores')}>
                 <div>
                   <div>
                     {course.grade_letter}
@@ -63,12 +64,12 @@ class CourseDetailSection extends Component {
                   </div>
                 </div>
               </div>
-              <div className="divider" />
+              <div className={classNames('divider')} />
             </div>
           </div>
         </div>
         <Scroller onScroll={() => this.onScroll()}>
-          <div className="attributes">
+          <div className={classNames('attributes')}>
             <div>
               <div>
                 분류
@@ -86,7 +87,7 @@ class CourseDetailSection extends Component {
               </div>
             </div>
           </div>
-          <div className="scores" ref="scores">
+          <div className={classNames('scores')} ref="scores">
             <div>
               <div>
                 {course.grade_letter}
@@ -112,8 +113,8 @@ class CourseDetailSection extends Component {
               </div>
             </div>
           </div>
-          <div className="divider" />
-          <div className="related-courses">
+          <div className={classNames('divider')} />
+          <div className={classNames('related-courses')}>
             <div>
               { courses.map(c => <CourseSimpleBlock course={c} />) }
             </div>
@@ -130,7 +131,7 @@ class CourseDetailSection extends Component {
               { courses.map(c => <CourseSimpleBlock course={c} />) }
             </div>
           </div>
-          <div className="divider" />
+          <div className={classNames('divider')} />
           <ReviewWriteBlock />
           {reviews.map(r => <ReviewBlock review={r} />)}
         </Scroller>

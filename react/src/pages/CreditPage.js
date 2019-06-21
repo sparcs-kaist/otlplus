@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import { creditBoundClassNames as classNames } from '../common/boundClassNames';
+
 import Header from '../componenets/Header';
 import Footer from '../componenets/Footer';
-
-import '../static/css/credits.css';
 
 class Button extends Component {
   render() {
     const { index, current, onClick, children } = this.props;
     const className = (index === current)
-      ? 'block active'
-      : 'block';
+      ? classNames('block', 'active')
+      : classNames('block');
     return (
       <div onClick={() => onClick(index)} className={className} key={index}>
         {children}
@@ -49,7 +49,7 @@ class CreditPage extends Component {
     switch (tab) {
       case 1:
         return (
-          <div className="content tab1">
+          <div className={classNames('content', 'tab1')}>
             <h4>Project Manager</h4>
 
             <h4>Designer</h4>
@@ -59,171 +59,171 @@ class CreditPage extends Component {
         );
       case 2:
         return (
-          <div className="content tab2">
+          <div className={classNames('content', 'tab2')}>
             <h4>Developer</h4>
-            <div className="people">김민우</div>
-            <div className="people">김종균</div>
-            <div className="people">김준기</div>
-            <div className="people">유충국</div>
+            <div className={classNames('people')}>김민우</div>
+            <div className={classNames('people')}>김종균</div>
+            <div className={classNames('people')}>김준기</div>
+            <div className={classNames('people')}>유충국</div>
 
             <h4>Special Thanks To</h4>
-            <div className="people">강철</div>
-            <div className="people">안병욱</div>
+            <div className={classNames('people')}>강철</div>
+            <div className={classNames('people')}>안병욱</div>
           </div>
         );
       case 3:
         return (
-          <div className="content tab3">
+          <div className={classNames('content', 'tab3')}>
             <h4>Project Manager</h4>
-            <div className="people">
+            <div className={classNames('people')}>
               배성경
               <div>(2011)</div>
             </div>
-            <div className="people">
+            <div className={classNames('people')}>
               김재겸
               <div>(2012)</div>
             </div>
 
             <h4>Developer</h4>
-            <div className="people">김재겸</div>
-            <div className="people">박일우</div>
-            <div className="people">배성경</div>
-            <div className="people">안재만</div>
-            <div className="people">이윤석</div>
-            <div className="people">정재성</div>
-            <div className="people">조유정</div>
+            <div className={classNames('people')}>김재겸</div>
+            <div className={classNames('people')}>박일우</div>
+            <div className={classNames('people')}>배성경</div>
+            <div className={classNames('people')}>안재만</div>
+            <div className={classNames('people')}>이윤석</div>
+            <div className={classNames('people')}>정재성</div>
+            <div className={classNames('people')}>조유정</div>
           </div>
         );
       case 4:
         return (
-          <div className="content tab4">
+          <div className={classNames('content', 'tab4')}>
             <h4>Project Manager</h4>
-            <div className="people">
+            <div className={classNames('people')}>
               유민정
               <div>(2012.05 ~ 2012.09)</div>
             </div>
-            <div className="people">
+            <div className={classNames('people')}>
               마재의
               <div>(2012.09 ~ 2013.03)</div>
             </div>
 
             <h4>Designer</h4>
-            <div className="people">박지향</div>
+            <div className={classNames('people')}>박지향</div>
 
             <h4>Developer</h4>
-            <div className="people">김정민</div>
-            <div className="people">마재의</div>
-            <div className="people">박중언</div>
-            <div className="people">박지혁</div>
-            <div className="people">유민정</div>
-            <div className="people">윤필립</div>
-            <div className="people">이태현</div>
-            <div className="people">정종혁</div>
-            <div className="people">정창제</div>
-            <div className="people">채종욱</div>
+            <div className={classNames('people')}>김정민</div>
+            <div className={classNames('people')}>마재의</div>
+            <div className={classNames('people')}>박중언</div>
+            <div className={classNames('people')}>박지혁</div>
+            <div className={classNames('people')}>유민정</div>
+            <div className={classNames('people')}>윤필립</div>
+            <div className={classNames('people')}>이태현</div>
+            <div className={classNames('people')}>정종혁</div>
+            <div className={classNames('people')}>정창제</div>
+            <div className={classNames('people')}>채종욱</div>
           </div>
         );
       case 5:
         return (
-          <div className="content tab5">
+          <div className={classNames('content', 'tab5')}>
             <h4>Project Manager</h4>
-            <div className="people">
+            <div className={classNames('people')}>
               황태현
               <div>(2015.09 ~ 2015.11)</div>
             </div>
-            <div className="people">
+            <div className={classNames('people')}>
               서동민
               <div>(2015.12 ~ 2016.06)</div>
             </div>
 
             <h4>Designer</h4>
-            <div className="people">김찬욱</div>
+            <div className={classNames('people')}>김찬욱</div>
 
             <h4>Developer</h4>
-            <div className="people">고지훈</div>
-            <div className="people">김강인</div>
-            <div className="people">김재성</div>
-            <div className="people">서동민</div>
-            <div className="people">이강원</div>
-            <div className="people">조성원</div>
-            <div className="people">최정운</div>
-            <div className="people">한승현</div>
-            <div className="people">황태현</div>
+            <div className={classNames('people')}>고지훈</div>
+            <div className={classNames('people')}>김강인</div>
+            <div className={classNames('people')}>김재성</div>
+            <div className={classNames('people')}>서동민</div>
+            <div className={classNames('people')}>이강원</div>
+            <div className={classNames('people')}>조성원</div>
+            <div className={classNames('people')}>최정운</div>
+            <div className={classNames('people')}>한승현</div>
+            <div className={classNames('people')}>황태현</div>
           </div>
         );
       case 6:
         return (
-          <div className="content tab6">
+          <div className={classNames('content', 'tab6')}>
             <h4>Project Manager</h4>
-            <div className="people">
+            <div className={classNames('people')}>
               김재성
               <div>(2016.09 ~ 2017.05)</div>
             </div>
-            <div className="people">
+            <div className={classNames('people')}>
               한승현
               <div>(2017.06 ~ )</div>
             </div>
 
             <h4>Designer</h4>
-            <div className="people">한승현</div>
+            <div className={classNames('people')}>한승현</div>
 
             <h4>Developer</h4>
-            <div className="people">고지훈</div>
-            <div className="people">김재성</div>
-            <div className="people">김태준</div>
-            <div className="people">서덕담</div>
-            <div className="people">오종훈</div>
-            <div className="people">이강원</div>
-            <div className="people">조형준</div>
-            <div className="people">최정운</div>
-            <div className="people">한승현</div>
+            <div className={classNames('people')}>고지훈</div>
+            <div className={classNames('people')}>김재성</div>
+            <div className={classNames('people')}>김태준</div>
+            <div className={classNames('people')}>서덕담</div>
+            <div className={classNames('people')}>오종훈</div>
+            <div className={classNames('people')}>이강원</div>
+            <div className={classNames('people')}>조형준</div>
+            <div className={classNames('people')}>최정운</div>
+            <div className={classNames('people')}>한승현</div>
           </div>
         );
       case 7:
         return (
-          <div className="content tab7">
+          <div className={classNames('content', 'tab7')}>
             <h4>LKIN</h4>
-            <div className="people">
+            <div className={classNames('people')}>
               서창민
               <div>(2009 ~ 2010)</div>
             </div>
-            <div className="people">
+            <div className={classNames('people')}>
               이근홍
               <div>(2011 ~ 2012)</div>
             </div>
 
             <h4>OTL</h4>
-            <div className="people">
+            <div className={classNames('people')}>
               배성경
               <div>(2011)</div>
             </div>
-            <div className="people">
+            <div className={classNames('people')}>
               김재겸
               <div>(2012)</div>
             </div>
-            <div className="people">
+            <div className={classNames('people')}>
               유민정
               <div>(2012.05 ~ 2012.09)</div>
             </div>
-            <div className="people">
+            <div className={classNames('people')}>
               마재의
               <div>(2012.09 ~ 2015.04)</div>
             </div>
-            <div className="people">
+            <div className={classNames('people')}>
               황태현
               <div>(2015.05 ~ 2015.11)</div>
             </div>
-            <div className="people">
+            <div className={classNames('people')}>
               서동민
               <div>(2015.12 ~ 2016.05)</div>
             </div>
-            <div className="people">
+            <div className={classNames('people')}>
               김재성
               <div>(2016.06 ~ 2017.06)</div>
             </div>
 
             <h4>OTL PLUS</h4>
-            <div className="people">
+            <div className={classNames('people')}>
               한승현
               <div>(2017.06 ~ )</div>
             </div>
@@ -239,7 +239,7 @@ class CreditPage extends Component {
   render() {
     const { currentTab } = this.state;
     return (
-      <div className="credit">
+      <div className={classNames('credit')}>
         <Header />
         <section id="contents" className="container-fluid">
           <div className="row">
@@ -247,7 +247,7 @@ class CreditPage extends Component {
               <div className="list-group sort_result">
                 <div className="list-group-item" style={{ borderRadius: 4, marginTop: 20, textAlign: 'center', padding: '20px 50px 20px 50px' }}>
 
-                  <div className="block_wrap">
+                  <div className={classNames('block_wrap')}>
                     <Button index={1} onClick={this.changePage} current={currentTab}>
                       LKIN
                     </Button>
@@ -279,12 +279,12 @@ class CreditPage extends Component {
                     <Button index={7} onClick={this.changePage} current={currentTab}>
                       SYSOP
                     </Button>
-                    <div className="dummy" />
-                    <div className="dummy" />
-                    <div className="dummy" />
-                    <div className="dummy" />
-                    <div className="dummy" />
-                    <div className="dummy" />
+                    <div className={classNames('dummy')} />
+                    <div className={classNames('dummy')} />
+                    <div className={classNames('dummy')} />
+                    <div className={classNames('dummy')} />
+                    <div className={classNames('dummy')} />
+                    <div className={classNames('dummy')} />
                   </div>
 
                   <h1>Credit</h1>

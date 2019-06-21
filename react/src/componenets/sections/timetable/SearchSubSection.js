@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import { timetableBoundClassNames as classNames } from '../../../common/boundClassNames';
 import axios from '../../../common/presetAxios';
+
 import { BASE_URL } from '../../../common/constants';
 import { closeSearch, setListLectures, clearSearchListLectures } from '../../../actions/timetable/index';
 import SearchFilter from '../../SearchFilter';
@@ -155,14 +157,14 @@ class SearchSubSection extends Component {
 
     return (
         // eslint-disable-next-line react/jsx-indent
-        <div className="search-extend">
-          <div className="search-form-wrap">
+        <div className={classNames('search-extend')}>
+          <div className={classNames('search-form-wrap')}>
             <form method="post">
-              <div className="search-keyword">
-                <i className="search-keyword-icon" />
-                <div className="search-keyword-text-wrap">
+              <div className={classNames('search-keyword')}>
+                <i className={classNames('search-keyword-icon')} />
+                <div className={classNames('search-keyword-text-wrap')}>
                   <input
-                    className="search-keyword-text"
+                    className={classNames('search-keyword-text')}
                     type="text"
                     name="keyword"
                     autoComplete="off"
@@ -171,9 +173,9 @@ class SearchSubSection extends Component {
                     onKeyDown={e => this.keyPress(e)}
                     onChange={e => this.handleInput(e)}
                   />
-                  <div className="search-keyword-autocomplete">
-                    <span className="search-keyword-autocomplete-space">{inputVal}</span>
-                    <span className="search-keyword-autocomplete-body">{autoComplete}</span>
+                  <div className={classNames('search-keyword-autocomplete')}>
+                    <span className={classNames('search-keyword-autocomplete-space')}>{inputVal}</span>
+                    <span className={classNames('search-keyword-autocomplete-body')}>{autoComplete}</span>
                   </div>
                 </div>
               </div>
@@ -198,13 +200,13 @@ class SearchSubSection extends Component {
                 valueArr={['ALL', '100', '200', '300', '400']}
                 nameArr={['전체', '100번대', '200번대', '300번대', '400번대']}
               />
-              <div className="search-filter search-filter-time">
-                <label className="search-filter-title fixed-ko">시간</label>
-                <div className="search-filter-elem">
+              <div className={classNames('search-filter', 'search-filter-time')}>
+                <label className={classNames('search-filter-title', 'fixed-ko')}>시간</label>
+                <div className={classNames('search-filter-elem')}>
                   { day !== null
                     ? (
                   // eslint-disable-next-line react/jsx-indent
-                  <label className="search-filter-time-active">
+                  <label className={classNames('search-filter-time-active')}>
                     {`${['월요일', '화요일', '수요일', '목요일', '금요일'][day]} \
                       ${8 + Math.floor(start / 2)}:${['00', '30'][start % 2]} ~ \
                       ${8 + Math.floor(end / 2)}:${['00', '30'][end % 2]}`}
@@ -218,13 +220,13 @@ class SearchSubSection extends Component {
                     )
                   }
                 </div>
-                <input id="search-filter-time-day" name="day" type="text" />
-                <input id="search-filter-time-begin" name="begin" type="text" />
-                <input id="search-filter-time-end" name="end" type="text" />
+                <input id={classNames('search-filter-time-day')} name="day" type="text" />
+                <input id={classNames('search-filter-time-begin')} name="begin" type="text" />
+                <input id={classNames('search-filter-time-end')} name="end" type="text" />
               </div>
-              <div id="search-button-group">
-                <span type="button" id="search-button" onClick={() => this.searchStart()}>검색</span>
-                <span type="button" id="search-cancel" onClick={() => this.hideSearch()}>취소</span>
+              <div id={classNames('search-button-group')}>
+                <span type="button" id={classNames('search-button')} onClick={() => this.searchStart()}>검색</span>
+                <span type="button" id={classNames('search-cancel')} onClick={() => this.hideSearch()}>취소</span>
               </div>
             </form>
           </div>

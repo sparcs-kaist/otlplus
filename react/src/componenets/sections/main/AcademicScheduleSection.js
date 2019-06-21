@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 
+import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
+
 
 class AcademicScheduleSection extends Component {
   render() {
     return (
-      <div className="section-content section-content--widget">
-        <div className="academic-schedule">
+      <div className={classNames('section-content', 'section-content--widget')}>
+        <div className={classNames('academic-schedule')}>
           <div>
             D-4일 13시간 22분 07초
           </div>
@@ -14,8 +16,8 @@ class AcademicScheduleSection extends Component {
             <span>2018.1.3</span>
           </div>
         </div>
-        <div className="buttons">
-          <button className="text-button">
+        <div className={classNames('buttons')}>
+          <button className={classNames('text-button')}>
             학사시스템 바로가기
           </button>
         </div>

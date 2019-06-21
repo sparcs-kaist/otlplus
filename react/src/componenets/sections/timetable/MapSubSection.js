@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import { timetableBoundClassNames as classNames } from '../../../common/boundClassNames';
+
 import mapImage from '../../../static/img/timetable/kaist_map.jpg';
 import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureActive';
 import { clearMultipleDetail, setMultipleDetail } from '../../../actions/timetable/index';
@@ -73,9 +75,9 @@ class MapSubSection extends Component {
     const { activeLectures } = this.state;
 
     return (
-      <div id="map">
-        <div id="map-container">
-          <img id="map-img" src={mapImage} alt="KAIST Map" />
+      <div id={classNames('map')}>
+        <div id={classNames('map-container')}>
+          <img id={classNames('map-img')} src={mapImage} alt="KAIST Map" />
           { Object.keys(mapObject).map((building) => {
             const act = mapObject[building].some(lec => (
               (activeLecture !== null && activeLecture.id === lec.id)
@@ -85,24 +87,24 @@ class MapSubSection extends Component {
               : '';
             const location = (
               <div
-                className={`map-location ${building}`}
+                className={classNames('map-location', building)}
                 key={building}
                 data-building={building}
                 data-id="1234"
                 onMouseOver={() => this.mapFocus(building)}
                 onMouseOut={() => this.clearFocus()}
               >
-                <div className={`map-location-box ${act}`}>
-                  <span className="map-location-text">{building}</span>
+                <div className={classNames('map-location-box', act)}>
+                  <span className={classNames('map-location-text')}>{building}</span>
                   {mapObject[building].map((lec) => {
                     const lecAct = (activeLecture !== null && activeLecture.id === lec.id) || activeLectures.some(lecture => (lecture.id === lec.id))
                       ? 'active'
                       : '';
-                    return <span className={`map-location-circle color${lec.color} ${lecAct}`} key={lec.id} data-id={lec.id} />;
+                    return <span className={classNames('map-location-circle', `color${lec.color}`, lecAct)} key={lec.id} data-id={lec.id} />;
                   })}
                 </div>
-                <div className="map-location-arrow-shadow" />
-                <div className="map-location-arrow" />
+                <div className={classNames('map-location-arrow-shadow')} />
+                <div className={classNames('map-location-arrow')} />
               </div>
             );
             return location;

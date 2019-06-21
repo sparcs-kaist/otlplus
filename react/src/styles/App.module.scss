@@ -64,7 +64,7 @@ button {
 
 .main-image {
     height: 400px;
-    background: url(static/img/review/search/bg.jpg) center 0;
+    background: url(../static/img/review/search/bg.jpg) center 0;
     background-size: 100% auto;
     padding-top: 190px;
 
@@ -85,7 +85,7 @@ button {
             flex: 0 0 auto;
             margin-right: 8px;
             width: 13px;
-            background: url(static/icons/block_search.svg) no-repeat center center;
+            background: url(../static/icons/block_search.svg) no-repeat center center;
         }
 
         input {

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import { timetableBoundClassNames as classNames } from '../../../common/boundClassNames';
+
 import Scroller from '../../Scroller';
 import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureActive';
 import { clearMultipleDetail, setMultipleDetail } from '../../../actions/timetable/index';
@@ -60,11 +62,11 @@ class ExamSubSection extends Component {
           : ''
       );
       const li = (
-        <li className={`exam-elem ${act}`} key={lec.id} data-id={lec.id}>
-          <div className="exam-elem-title">
+        <li className={classNames('exam-elem', act)} key={lec.id} data-id={lec.id}>
+          <div className={classNames('exam-elem-title')}>
             {lec.title}
           </div>
-          <div className="exam-elem-body">
+          <div className={classNames('exam-elem-body')}>
             {lec.time}
           </div>
         </li>
@@ -89,47 +91,47 @@ class ExamSubSection extends Component {
     ));
 
     return (
-      <div id="exam-timetable">
-        <div id="examtitle"><span>시험시간표</span></div>
-        <div id="examtable">
+      <div id={classNames('exam-timetable')}>
+        <div id={classNames('examtitle')}><span>시험시간표</span></div>
+        <div id={classNames('examtable')}>
           <Scroller>
-            <div className="exam-day" data-date="mon" onMouseOver={() => this.examFocus('월요일')} onMouseOut={() => this.clearFocus()}>
-              <div className="exam-day-title fixed-ko">
+            <div className={classNames('exam-day')} data-date="mon" onMouseOver={() => this.examFocus('월요일')} onMouseOut={() => this.clearFocus()}>
+              <div className={classNames('exam-day-title', 'fixed-ko')}>
                 <span>월</span>
               </div>
-              <ul className="exam-day-body">
+              <ul className={classNames('exam-day-body')}>
                 {examTable[0].map(renderLectureExam)}
               </ul>
             </div>
-            <div className="exam-day" data-date="tue" onMouseOver={() => this.examFocus('화요일')} onMouseOut={() => this.clearFocus()}>
-              <div className="exam-day-title fixed-ko">
+            <div className={classNames('exam-day')} data-date="tue" onMouseOver={() => this.examFocus('화요일')} onMouseOut={() => this.clearFocus()}>
+              <div className={classNames('exam-day-title', 'fixed-ko')}>
                 <span>화</span>
               </div>
-              <ul className="exam-day-body">
+              <ul className={classNames('exam-day-body')}>
                 {examTable[1].map(renderLectureExam)}
               </ul>
             </div>
-            <div className="exam-day" data-date="wed" onMouseOver={() => this.examFocus('수요일')} onMouseOut={() => this.clearFocus()}>
-              <div className="exam-day-title fixed-ko">
+            <div className={classNames('exam-day')} data-date="wed" onMouseOver={() => this.examFocus('수요일')} onMouseOut={() => this.clearFocus()}>
+              <div className={classNames('exam-day-title', 'fixed-ko')}>
                 <span>수</span>
               </div>
-              <ul className="exam-day-body">
+              <ul className={classNames('exam-day-body')}>
                 {examTable[2].map(renderLectureExam)}
               </ul>
             </div>
-            <div className="exam-day" data-date="thu" onMouseOver={() => this.examFocus('목요일')} onMouseOut={() => this.clearFocus()}>
-              <div className="exam-day-title fixed-ko">
+            <div className={classNames('exam-day')} data-date="thu" onMouseOver={() => this.examFocus('목요일')} onMouseOut={() => this.clearFocus()}>
+              <div className={classNames('exam-day-title', 'fixed-ko')}>
                 <span>목</span>
               </div>
-              <ul className="exam-day-body">
+              <ul className={classNames('exam-day-body')}>
                 {examTable[3].map(renderLectureExam)}
               </ul>
             </div>
-            <div className="exam-day" data-date="fri" onMouseOver={() => this.examFocus('금요일')} onMouseOut={() => this.clearFocus()}>
-              <div className="exam-day-title fixed-ko">
+            <div className={classNames('exam-day')} data-date="fri" onMouseOver={() => this.examFocus('금요일')} onMouseOut={() => this.clearFocus()}>
+              <div className={classNames('exam-day-title', 'fixed-ko')}>
                 <span>금</span>
               </div>
-              <ul className="exam-day-body">
+              <ul className={classNames('exam-day-body')}>
                 {examTable[4].map(renderLectureExam)}
               </ul>
             </div>
