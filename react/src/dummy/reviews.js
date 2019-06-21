@@ -1,6 +1,8 @@
 const reviews = [
   {
+    id: 2892,
     course: {
+      id: 3992,
       old_code: 'CS493',
       department: { code: 'CS', name: '전산학과' },
       code_num: '4',
@@ -46,7 +48,9 @@ const reviews = [
     userspecific_is_liked: false,
   },
   {
+    id: 2932,
     course: {
+      id: 876,
       old_code: 'HSS047',
       department: { code: 'HSS', name: '인문사회과학부' },
       code_num: '0',
@@ -92,7 +96,9 @@ const reviews = [
     userspecific_is_liked: false,
   },
   {
+    id: 2939,
     course: {
+      id: 1723,
       old_code: 'IP406',
       department: { code: 'IP', name: '지식재산 부전공 프로그램' },
       code_num: '4',
