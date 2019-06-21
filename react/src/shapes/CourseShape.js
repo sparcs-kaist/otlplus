@@ -6,6 +6,7 @@ import NestedProfessorShape from './NestedProfessorShape';
 
 
 const CourseShape = PropTypes.shape({
+  id: PropTypes.number.isRequired,
   old_code: PropTypes.string.isRequired,
   department: DepartmentShape,
   code_num: PropTypes.string.isRequired,
