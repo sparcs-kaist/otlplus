@@ -206,15 +206,15 @@ class SummarySubSection extends Component {
         </div>
         <div id={classNames('summary-score')}>
           <div className={classNames('summary-score-elem')} onMouseOver={() => this.scoreFocus('Grade')} onMouseOut={() => this.clearFocus()}>
-            <div id={classNames('grades')} className={classNames('score-text', (active === 'Grade' ? 'active' : ''))}>{letters[Math.round(grade / targetNum)]}</div>
+            <div id={classNames('grades')} className={classNames('score-text', (active === 'Grade' ? 'active' : ''))}>{(targetNum !== 0) ? letters[Math.round(grade / targetNum)] : '?'}</div>
             <div className={classNames('score-label')}>성적</div>
           </div>
           <div className={classNames('summary-score-elem')} onMouseOver={() => this.scoreFocus('Load')} onMouseOut={() => this.clearFocus()}>
-            <div id={classNames('loads')} className={classNames('score-text', (active === 'Load' ? 'active' : ''))}>{letters[Math.round(load / targetNum)]}</div>
+            <div id={classNames('loads')} className={classNames('score-text', (active === 'Load' ? 'active' : ''))}>{(targetNum !== 0) ? letters[Math.round(load / targetNum)] : '?'}</div>
             <div className={classNames('score-label')}>널널</div>
           </div>
           <div className={classNames('summary-score-elem')} onMouseOver={() => this.scoreFocus('Speech')} onMouseOut={() => this.clearFocus()}>
-            <div id={classNames('speeches')} className={classNames('score-text', (active === 'Speech' ? 'active' : ''))}>{letters[Math.round(speech / targetNum)]}</div>
+            <div id={classNames('speeches')} className={classNames('score-text', (active === 'Speech' ? 'active' : ''))}>{(targetNum !== 0) ? letters[Math.round(speech / targetNum)] : '?'}</div>
             <div className={classNames('score-label')}>강의</div>
           </div>
         </div>
