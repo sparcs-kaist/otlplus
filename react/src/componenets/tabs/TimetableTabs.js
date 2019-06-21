@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import { timetableBoundClassNames as classNames } from '../../common/boundClassNames';
 import axios from '../../common/presetAxios';
+
 import { BASE_URL } from '../../common/constants';
 import { setTimetables, createTimetable, setCurrentTimetable, deleteTimetable, duplicateTimetable } from '../../actions/timetable/index';
 import timetableShape from '../../shapes/TimetableShape';
@@ -104,40 +106,40 @@ class TimetableTabs extends Component {
 
     if (timetables && timetables.length) {
       return (
-        <div id="timetable-tabs">
+        <div id={classNames('timetable-tabs')}>
           { timetables.map((timetable, idx) => (
-            <div className={`timetable-tab${timetable.id === currentTimetable.id ? ' active' : ''}`} key={timetable.id} onClick={() => this.changeTab(timetable)}>
-              <span className="timetable-num">
+            <div className={classNames('timetable-tab', (timetable.id === currentTimetable.id ? 'active' : ''))} key={timetable.id} onClick={() => this.changeTab(timetable)}>
+              <span className={classNames('timetable-num')}>
                 {`시간표 ${idx + 1}`}
               </span>
               {
                 showTimetableListFlag
                   ? (
                     <>
-                      <span className="hidden-option delete-table" onClick={event => this.deleteTable(event, timetable)}><i /></span>
-                      <span className="hidden-option duplicate-table" onClick={event => this.duplicateTable(event, timetable)}><i /></span>
+                      <span className={classNames('hidden-option', 'delete-table')} onClick={event => this.deleteTable(event, timetable)}><i /></span>
+                      <span className={classNames('hidden-option', 'duplicate-table')} onClick={event => this.duplicateTable(event, timetable)}><i /></span>
                     </>
                   )
                   : (
                     <>
-                      <span className="hidden-option duplicate-table" onClick={event => this.duplicateTable(event, timetable)}><i /></span>
-                      <span className="hidden-option delete-table" onClick={event => this.deleteTable(event, timetable)}><i /></span>
+                      <span className={classNames('hidden-option', 'duplicate-table')} onClick={event => this.duplicateTable(event, timetable)}><i /></span>
+                      <span className={classNames('hidden-option', 'delete-table')} onClick={event => this.deleteTable(event, timetable)}><i /></span>
                     </>
                   )
               }
             </div>
           ))}
-          <div className="timetable-add" onClick={() => this.createTable()}>
-            <span className="timetable-num"><i className="add-table" /></span>
+          <div className={classNames('timetable-add')} onClick={() => this.createTable()}>
+            <span className={classNames('timetable-num')}><i className={classNames('add-table')} /></span>
           </div>
         </div>
       );
     }
     return (
         // eslint-disable-next-line react/jsx-indent
-        <div id="timetable-tabs">
-          <div className="timetable-tab" style={{ pointerEvents: 'none' }}>
-            <span className="timetable-num">불러오는 중</span>
+        <div id={classNames('timetable-tabs')}>
+          <div className={classNames('timetable-tab')} style={{ pointerEvents: 'none' }}>
+            <span className={classNames('timetable-num')}>불러오는 중</span>
           </div>
         </div>
     );

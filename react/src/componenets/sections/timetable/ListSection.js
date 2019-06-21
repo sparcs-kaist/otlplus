@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import { timetableBoundClassNames as classNames } from '../../../common/boundClassNames';
 import axios from '../../../common/presetAxios';
+
 import { inTimetable, inCart, isListClicked, isListHover } from '../../../common/lectureFunctions';
 import { BASE_URL } from '../../../common/constants';
 import { openSearch, setLectureActive, clearLectureActive, addLectureToTimetable, addLectureToCart, deleteLectureFromCart, setListMajorCodes, setListLectures, setListMajorLectures } from '../../../actions/timetable/index';
@@ -211,14 +213,14 @@ class ListSection extends Component {
 
     const listBlocks = (courses, fromCart) => {
       if (!courses) {
-        return <div className="list-loading">불러오는 중</div>;
+        return <div className={classNames('list-loading')}>불러오는 중</div>;
       }
       if (courses.length === 0) {
-        return <div className="list-loading">결과 없음</div>;
+        return <div className={classNames('list-loading')}>결과 없음</div>;
       }
       return courses.map(course => (
-        <div className={`list-elem${course.some(lecture => isListClicked(lecture, lectureActive)) ? ' click' : ''}`} key={course[0].course}>
-          <div className="list-elem-title">
+        <div className={classNames('list-elem', (course.some(lecture => isListClicked(lecture, lectureActive)) ? 'click' : ''))} key={course[0].course}>
+          <div className={classNames('list-elem-title')}>
             <strong>{course[0].common_title}</strong>
             &nbsp;
             {course[0].old_code}
@@ -246,12 +248,12 @@ class ListSection extends Component {
 
     if (currentList === 'SEARCH') {
       return (
-        <div id="list-page-wrap">
-          <div className="list-page search-page">
+        <div id={classNames('list-page-wrap')}>
+          <div className={classNames('list-page', 'search-page')}>
             { searchOpen ? <SearchSubSection /> : null }
-            <div className="list-page-title search-page-title" onClick={() => this.showSearch()}>
-              <i className="search-page-title-icon" />
-              <div className="search-page-title-text">검색</div>
+            <div className={classNames('list-page-title', 'search-page-title')} onClick={() => this.showSearch()}>
+              <i className={classNames('search-page-title-icon')} />
+              <div className={classNames('search-page-title-text')}>검색</div>
             </div>
             <Scroller>
               {listBlocks(search.courses, false)}
@@ -263,9 +265,9 @@ class ListSection extends Component {
     if (major.codes.some(code => (currentList === code))) {
       return (
           // eslint-disable-next-line react/jsx-indent
-          <div id="list-page-wrap">
-            <div className="list-page major-page">
-              <div className="list-page-title">
+          <div id={classNames('list-page-wrap')}>
+            <div className={classNames('list-page', 'major-page')}>
+              <div className={classNames('list-page-title')}>
                 {major[currentList].name}
               </div>
               <Scroller>
@@ -277,9 +279,9 @@ class ListSection extends Component {
     }
     if (currentList === 'HUMANITY') {
       return (
-        <div id="list-page-wrap">
-          <div className="list-page humanity-page">
-            <div className="list-page-title">
+        <div id={classNames('list-page-wrap')}>
+          <div className={classNames('list-page', 'humanity-page')}>
+            <div className={classNames('list-page-title')}>
               인문사회선택
             </div>
             <Scroller>
@@ -291,9 +293,9 @@ class ListSection extends Component {
     }
     if (currentList === 'CART') {
       return (
-        <div id="list-page-wrap">
-          <div className="list-page cart-page">
-            <div className="list-page-title">
+        <div id={classNames('list-page-wrap')}>
+          <div className={classNames('list-page', 'cart-page')}>
+            <div className={classNames('list-page-title')}>
               장바구니
             </div>
             <Scroller>

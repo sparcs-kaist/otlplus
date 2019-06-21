@@ -1,6 +1,8 @@
 import React from 'react';
 import { pure } from 'recompose';
 
+import { appBoundClassNames as classNames } from '../../common/boundClassNames';
+
 import reviewShape from '../../shapes/ReviewShape';
 
 

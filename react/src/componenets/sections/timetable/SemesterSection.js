@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import { timetableBoundClassNames as classNames } from '../../../common/boundClassNames';
 import axios from '../../../common/presetAxios';
+
 import { BASE_URL } from '../../../common/constants';
 import { setSemester, clearLectureActive, clearTimetables, clearListsLectures } from '../../../actions/timetable/index';
 
@@ -75,19 +77,19 @@ class SemesterSection extends Component {
     if (year && semester) {
       return (
         // eslint-disable-next-line react/jsx-indent
-        <div id="semester">
-          <div id="semester-prev" className={(year === startYear) && (semester === startSemester) ? 'disable' : ''} onClick={() => this.semesterPrev()}><i /></div>
-          <span id="semester-text">{`${year} ${semesterName[semester]}`}</span>
-          <div id="semester-next" className={(year === endYear) && (semester === endSemester) ? 'disable' : ''} onClick={() => this.semesterNext()}><i /></div>
+        <div id={classNames('semester')}>
+          <div id={classNames('semester-prev')} className={classNames(((year === startYear) && (semester === startSemester) ? 'disable' : ''))} onClick={() => this.semesterPrev()}><i /></div>
+          <span id={classNames('semester-text')}>{`${year} ${semesterName[semester]}`}</span>
+          <div id={classNames('semester-next')} className={classNames(((year === endYear) && (semester === endSemester) ? 'disable' : ''))} onClick={() => this.semesterNext()}><i /></div>
         </div>
       );
     }
     return (
         // eslint-disable-next-line react/jsx-indent
-        <div id="semester">
-          <div id="semester-prev"><i /></div>
-          <span id="semester-text">불러오는 중</span>
-          <div id="semester-next"><i /></div>
+        <div id={classNames('semester')}>
+          <div id={classNames('semester-prev')}><i /></div>
+          <span id={classNames('semester-text')}>불러오는 중</span>
+          <div id={classNames('semester-next')}><i /></div>
         </div>
     );
   }

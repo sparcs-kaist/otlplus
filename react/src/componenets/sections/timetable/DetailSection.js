@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import $ from 'jquery';
 
+import { timetableBoundClassNames as classNames } from '../../../common/boundClassNames';
+
 import Scroller from '../../Scroller';
 import ReviewSimpleBlock from '../../blocks/ReviewSimpleBlock';
 import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureActive';
@@ -43,11 +45,11 @@ class DetailSection extends Component {
   }
 
   openDictPreview = () => {
-    $('.lecture-detail .nano').nanoScroller({ scrollTop: $('.open-dict-button').position().top - $('.nano-content > .basic-info:first-child').position().top + 1 });
+    $(`.${classNames('lecture-detail')} .nano`).nanoScroller({ scrollTop: $(`.${classNames('open-dict-button')}`).position().top - $(`.nano-content > .${classNames('basic-info')}:first-child`).position().top + 1 });
   };
 
   closeDictPreview = () => {
-    $('.lecture-detail .nano').nanoScroller({ scrollTop: 0 });
+    $(`.${classNames('lecture-detail')} .nano`).nanoScroller({ scrollTop: 0 });
   };
 
   unfix = () => {
@@ -64,128 +66,128 @@ class DetailSection extends Component {
       const mapreview = (review, index) => (
         <ReviewSimpleBlock key={`review_${index}`} review={review} />
       );
-      const reviewsDom = (reviews && reviews.length) ? reviews.map(mapreview) : <div className="review-loading">결과 없음</div>;
+      const reviewsDom = (reviews && reviews.length) ? reviews.map(mapreview) : <div className={classNames('review-loading')}>결과 없음</div>;
       return (
-        <div id="lecture-info">
-          <div className="lecture-detail">
-            <div id="course-title" style={{ textAlign: 'center' }}>
+        <div id={classNames('lecture-info')}>
+          <div className={classNames('lecture-detail')}>
+            <div id={classNames('course-title')} style={{ textAlign: 'center' }}>
               <span>
                 {lecture.title}
               </span>
             </div>
-            <div id="course-no" style={{ textAlign: 'center' }}>
+            <div id={classNames('course-no')} style={{ textAlign: 'center' }}>
               <span>
                 {lecture.old_code}
                 {lecture.class_no.length ? ` (${lecture.class_no})` : ''}
               </span>
             </div>
-            <div className="lecture-options">
-              <span id="fix-option" onClick={this.unfix} className={showUnfix ? '' : 'disable'} style={{ float: 'left' }}>고정해제</span>
-              <span id="syllabus-option">
+            <div className={classNames('lecture-options')}>
+              <span id={classNames('fix-option')} onClick={this.unfix} className={classNames((showUnfix ? '' : classNames('disable')))} style={{ float: 'left' }}>고정해제</span>
+              <span id={classNames('syllabus-option')}>
                 <a href={`https://cais.kaist.ac.kr/syllabusInfo?year=${lecture.year}&term=${lecture.semester}&subject_no=${lecture.code}&lecture_class=${lecture.class_no}&dept_id=${lecture.department}`} target="_blank" rel="noopener noreferrer">
                   실라버스
                 </a>
               </span>
               &nbsp;
-              <span id="dictionary-option">
+              <span id={classNames('dictionary-option')}>
                 <Link to={`/review/dictionary${lecture.old_code}`} target="_blank">
                   과목사전
                 </Link>
               </span>
             </div>
-            <div className="dict-fixed none">
-              <div onClick={this.closeDictPreview} className="basic-info dictionary-preview close-dict-button">
+            <div className={classNames('dict-fixed', 'none')}>
+              <div onClick={this.closeDictPreview} className={classNames('basic-info', 'dictionary-preview', 'close-dict-button')}>
                 <span style={{ fontWeight: '700' }}>과목 후기</span>
-                <i className="dict-arrow" />
+                <i className={classNames('dict-arrow')} />
               </div>
             </div>
             <Scroller
               onScroll={
                 () => {
-                  if ($('.open-dict-button').position().top <= 1) {
-                    $('.dict-fixed').removeClass('none');
+                  if ($(`.${classNames('open-dict-button')}`).position().top <= 1) {
+                    $(`.${classNames('dict-fixed')}`).removeClass(classNames('none'));
                   }
                   else {
-                    $('.dict-fixed').addClass('none');
+                    $(`.${classNames('dict-fixed')}`).addClass(classNames('none'));
                   }
                 }
               }
             >
-              <div className="basic-info">
-                <span className="basic-info-name fixed-ko">구분</span>
-                <span id="course-type">{lecture.type}</span>
+              <div className={classNames('basic-info')}>
+                <span className={classNames('basic-info-name', 'fixed-ko')}>구분</span>
+                <span id={classNames('course-type')}>{lecture.type}</span>
               </div>
-              <div className="basic-info">
-                <span className="basic-info-name fixed-ko">학과</span>
-                <span id="department">{lecture.department_name}</span>
+              <div className={classNames('basic-info')}>
+                <span className={classNames('basic-info-name', 'fixed-ko')}>학과</span>
+                <span id={classNames('department')}>{lecture.department_name}</span>
               </div>
-              <div className="basic-info">
-                <span className="basic-info-name fixed-ko">교수</span>
-                <span id="instructor">{lecture.professor}</span>
+              <div className={classNames('basic-info')}>
+                <span className={classNames('basic-info-name', 'fixed-ko')}>교수</span>
+                <span id={classNames('instructor')}>{lecture.professor}</span>
               </div>
-              <div className="basic-info">
-                <span className="basic-info-name fixed-ko">장소</span>
-                <span id="classroom">{lecture.classroom}</span>
+              <div className={classNames('basic-info')}>
+                <span className={classNames('basic-info-name', 'fixed-ko')}>장소</span>
+                <span id={classNames('classroom')}>{lecture.classroom}</span>
               </div>
-              <div className="basic-info">
-                <span className="basic-info-name fixed-ko">정원</span>
-                <span id="class-size">{lecture.limit}</span>
+              <div className={classNames('basic-info')}>
+                <span className={classNames('basic-info-name', 'fixed-ko')}>정원</span>
+                <span id={classNames('class-size')}>{lecture.limit}</span>
               </div>
-              <div className="basic-info">
-                <span className="basic-info-name fixed-ko">시험</span>
-                <span id="exam-time">{lecture.exam}</span>
+              <div className={classNames('basic-info')}>
+                <span className={classNames('basic-info-name', 'fixed-ko')}>시험</span>
+                <span id={classNames('exam-time')}>{lecture.exam}</span>
               </div>
-              <div className="lecture-scores">
-                <div className="lecture-score">
+              <div className={classNames('lecture-scores')}>
+                <div className={classNames('lecture-score')}>
                   {
                     lecture.is_english
-                      ? <div id="language" className="score-text">Eng</div>
-                      : <div id="language" className="score-text score-korean">한</div>
+                      ? <div id={classNames('language')} className={classNames('score-text')}>Eng</div>
+                      : <div id={classNames('language')} className={classNames('score-text', 'score-korean')}>한</div>
                   }
-                  <div className="score-label">언어</div>
+                  <div className={classNames('score-label')}>언어</div>
                 </div>
-                <div className="lecture-score">
+                <div className={classNames('lecture-score')}>
                   {
                     lecture.credit > 0
-                      ? <div id="credit" className="score-text">{lecture.credit}</div>
-                      : <div id="credit" className="score-text">{lecture.credit_au}</div>
+                      ? <div id={classNames('credit')} className={classNames('score-text')}>{lecture.credit}</div>
+                      : <div id={classNames('credit')} className={classNames('score-text')}>{lecture.credit_au}</div>
                   }
                   {
                     lecture.credit > 0
-                      ? <div className="score-label">학점</div>
-                      : <div className="score-label">AU</div>
+                      ? <div className={classNames('score-label')}>학점</div>
+                      : <div className={classNames('score-label')}>AU</div>
                   }
                 </div>
-                <div className="lecture-score">
-                  <div id="rate" className="score-text">
+                <div className={classNames('lecture-score')}>
+                  <div id={classNames('rate')} className={classNames('score-text')}>
                     {
                       lecture.limit === 0
                         ? '0.0:1'
                         : `${(lecture.num_people / lecture.limit).toFixed(1).toString()}:1`
                     }
                   </div>
-                  <div className="score-label">경쟁률</div>
+                  <div className={classNames('score-label')}>경쟁률</div>
                 </div>
               </div>
-              <div className="lecture-scores">
-                <div className="lecture-score" style={{ clear: 'both' }}>
-                  <div id="grade" className="score-text">{lecture.grade_letter}</div>
-                  <div className="score-label">성적</div>
+              <div className={classNames('lecture-scores')}>
+                <div className={classNames('lecture-score')} style={{ clear: 'both' }}>
+                  <div id={classNames('grade')} className={classNames('score-text')}>{lecture.grade_letter}</div>
+                  <div className={classNames('score-label')}>성적</div>
                 </div>
-                <div className="lecture-score">
-                  <div id="load" className="score-text">{lecture.load_letter}</div>
-                  <div className="score-label">널널</div>
+                <div className={classNames('lecture-score')}>
+                  <div id={classNames('load')} className={classNames('score-text')}>{lecture.load_letter}</div>
+                  <div className={classNames('score-label')}>널널</div>
                 </div>
-                <div className="lecture-score">
-                  <div id="speech" className="score-text">{lecture.speech_letter}</div>
-                  <div className="score-label">강의</div>
+                <div className={classNames('lecture-score')}>
+                  <div id={classNames('speech')} className={classNames('score-text')}>{lecture.speech_letter}</div>
+                  <div className={classNames('score-label')}>강의</div>
                 </div>
               </div>
-              <div onClick={this.openDictPreview} className="basic-info dictionary-preview open-dict-button">
+              <div onClick={this.openDictPreview} className={classNames('basic-info', 'dictionary-preview', 'open-dict-button')}>
                 <span style={{ fontWeight: '700' }}>과목 후기</span>
-                <i className="dict-arrow" />
+                <i className={classNames('dict-arrow')} />
               </div>
-              <div id="reviews">
+              <div id={classNames('reviews')}>
                 {reviewsDom}
               </div>
             </Scroller>
@@ -195,31 +197,31 @@ class DetailSection extends Component {
     }
     if (from === MULTIPLE) {
       return (
-        <div id="lecture-info">
-          <div className="lecture-detail">
-            <div id="course-title" style={{ textAlign: 'center' }}>
+        <div id={classNames('lecture-info')}>
+          <div className={classNames('lecture-detail')}>
+            <div id={classNames('course-title')} style={{ textAlign: 'center' }}>
               <span>
                 {title}
               </span>
             </div>
-            <div id="course-no" style={{ textAlign: 'center' }}>
+            <div id={classNames('course-no')} style={{ textAlign: 'center' }}>
               <span>
                 {`${multipleDetail.length}개의 과목`}
               </span>
             </div>
-            <div className="lecture-options">
-              <span id="fix-option" onClick={this.unfix} className={showUnfix ? '' : 'disable'} style={{ float: 'left' }}>고정해제</span>
-              <span id="syllabus-option" className="disable">실라버스</span>
+            <div className={classNames('lecture-options')}>
+              <span id={classNames('fix-option')} onClick={this.unfix} className={showUnfix ? '' : classNames('disable')} style={{ float: 'left' }}>고정해제</span>
+              <span id={classNames('syllabus-option')} className={classNames('disable')}>실라버스</span>
               &nbsp;
-              <span id="dictionary-option" className="disable">과목사전</span>
+              <span id={classNames('dictionary-option')} className={classNames('disable')}>과목사전</span>
             </div>
-            <div className="detail-top">
+            <div className={classNames('detail-top')}>
               {multipleDetail.map((detail, index) => (
-                <div className="basic-info" key={detail.id}>
-                  <span className="basic-info-name">
+                <div className={classNames('basic-info')} key={detail.id}>
+                  <span className={classNames('basic-info-name')}>
                     {detail.title}
                   </span>
-                  <span id="department">
+                  <span id={classNames('department')}>
                     {detail.info}
                   </span>
                 </div>
@@ -231,20 +233,20 @@ class DetailSection extends Component {
     }
     return (
         // eslint-disable-next-line react/jsx-indent
-        <div id="lecture-info">
-          <div id="info-placeholder">
-            <div className="otlplus-title">
+        <div id={classNames('lecture-info')}>
+          <div id={classNames('info-placeholder')}>
+            <div className={classNames('otlplus-title')}>
               OTL PLUS
             </div>
-            <div className="otlplus-content">
+            <div className={classNames('otlplus-content')}>
               <Link to="/credits/">만든 사람들</Link>
               &nbsp;|&nbsp;
               <Link to="/licenses/">라이선스</Link>
             </div>
-            <div className="otlplus-content">
+            <div className={classNames('otlplus-content')}>
               <a href="mailto:otlplus@sparcs.org">otlplus@sparcs.org</a>
             </div>
-            <div className="otlplus-content">
+            <div className={classNames('otlplus-content')}>
               © 2017,&nbsp;
               <a href="http://sparcs.kaist.ac.kr">SPARCS</a>
               &nbsp;OTL Team
