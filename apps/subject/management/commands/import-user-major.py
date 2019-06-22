@@ -48,7 +48,7 @@ class Command(BaseCommand):
         if studentid is None:
             query = 'SELECT * FROM view_kds_students_other_major'
         else:
-            query = 'SELECT * FROM view_kds_students_other_major WHERE student_no=?' % int(studentid)
+            query = 'SELECT * FROM view_kds_students_other_major WHERE student_no=%d' % int(studentid)
         user_major_minor = execute(host, port, user, password, query)
 
         for a in user_dept:
