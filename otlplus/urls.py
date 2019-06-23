@@ -35,6 +35,7 @@ urlpatterns = [
 
     # OTLplus Apps
     url(r'^session/', include('apps.session.urls')),
+    url(r'^api/', include('apps.subject.urls')),
     url(r'^api/review/', include('apps.review.urls')),
     url(r'^api/timetable/', include('apps.timetable.urls')),
     url(r'^api/main/', include('apps.main.urls')),

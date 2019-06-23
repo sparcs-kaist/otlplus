@@ -19,5 +19,4 @@ from django.http import HttpResponseRedirect
 from . import views
 
 urlpatterns = [
-    url(r'^$', views.home),
 ]
