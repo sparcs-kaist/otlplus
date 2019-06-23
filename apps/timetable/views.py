@@ -757,7 +757,7 @@ def _textbox(draw, points, title, prof, loc, font):
 
 
 
-@login_required_ajax
+@login_required
 def share_image(request):
     userprofile = UserProfile.objects.get(user=request.user)
 
@@ -794,7 +794,7 @@ def share_image(request):
             _rounded_rectangle(draw, points, 4, color)
 
             points = (points[0]+12, points[1]+8, points[2]-12, points[3]-8)
-            _textbox(textDraw, points, lDict['title'], lDict['professor'], c['classroom_short'], font)
+            _textbox(textDraw, points, lDict['title'], lDict['professor_short'], c['classroom_short'], font)
 
     #image.thumbnail((600,900))
 
