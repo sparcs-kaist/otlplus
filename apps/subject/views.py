@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.http import require_http_methods
 from django.db.models import Q
+from django.http import HttpResponseBadRequest
 
 from models import Course, Lecture
 from apps.timetable.views import _lecture_result_format
@@ -134,3 +135,42 @@ def lecture_list_view(request):
         lectures = lectures.distinct()
         result = _lecture_result_format(lectures, from_search = True)
         return JsonResponse(result, safe=False)
+
+
+@require_http_methods(['GET'])
+def lectures_autocomplete_view(request):
+    if request.method == 'GET':
+        try:
+            year = request.GET['year']
+            semester = request.GET['semester']
+            keyword = request.GET['keyword']
+        except KeyError:
+            return HttpResponseBadRequest('Missing fields in request data')
+
+        lectures = Lecture.objects.filter(deleted=False, year=year, semester=semester)
+
+        lectures_filtered = lectures.filter(department__name__istartswith=keyword).order_by('department__name')
+        if lectures_filtered.exists():
+            return JsonResponse(lectures_filtered[0].department.name, safe=False)
+
+        lectures_filtered = lectures.filter(department__name_en__istartswith=keyword).order_by('department__name_en')
+        if lectures_filtered.exists():
+            return JsonResponse(lectures_filtered[0].department.name_en, safe=False)
+
+        lectures_filtered = lectures.filter(title__istartswith=keyword).order_by('title')
+        if lectures_filtered.exists():
+            return JsonResponse(lectures_filtered[0].title, safe=False)
+
+        lectures_filtered = lectures.filter(title_en__istartswith=keyword).order_by('title_en')
+        if lectures_filtered.exists():
+            return JsonResponse(lectures_filtered[0].title_en, safe=False)
+
+        lectures_filtered = lectures.filter(professor__professor_name__istartswith=keyword).order_by('professor__professor_name')
+        if lectures_filtered.exists():
+            return JsonResponse(lectures_filtered[0].professor.filter(professor_name__istartswith=keyword)[0].professor_name, safe=False)
+
+        lectures_filtered = lectures.filter(professor__professor_name_en__istartswith=keyword).order_by('professor__professor_name_en')
+        if lectures_filtered.exists():
+            return JsonResponse(lectures_filtered[0].professor.filter(professor_name_en__istartswith=keyword)[0].professor_name_en, safe=False)
+
+        return JsonResponse(keyword, safe=False)

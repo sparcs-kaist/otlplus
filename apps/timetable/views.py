@@ -293,46 +293,6 @@ FLOW = client.flow_from_clientsecrets(settings.GOOGLE_OAUTH2_CLIENT_SECRETS_JSON
 
 
 @require_POST
-def autocomplete(request):
-    body = json.loads(request.body.decode('utf-8'))
-    try:
-        year = int(body['year'])
-        semester = int(body['semester'])
-        keyword = body['keyword']
-    except KeyError:
-        return HttpResponseBadRequest('Missing fields in request data')
-
-    lectures = Lecture.objects.filter(deleted=False, year=year, semester=semester)
-
-    lectures_filtered = lectures.filter(department__name__istartswith=keyword).order_by('department__name')
-    if lectures_filtered.exists():
-        return JsonResponse({'complete':lectures_filtered[0].department.name})
-
-    lectures_filtered = lectures.filter(department__name_en__istartswith=keyword).order_by('department__name_en')
-    if lectures_filtered.exists():
-        return JsonResponse({'complete':lectures_filtered[0].department.name_en})
-
-    lectures_filtered = lectures.filter(title__istartswith=keyword).order_by('title')
-    if lectures_filtered.exists():
-        return JsonResponse({'complete':lectures_filtered[0].title})
-
-    lectures_filtered = lectures.filter(title_en__istartswith=keyword).order_by('title_en')
-    if lectures_filtered.exists():
-        return JsonResponse({'complete':lectures_filtered[0].title_en})
-
-    lectures_filtered = lectures.filter(professor__professor_name__istartswith=keyword).order_by('professor__professor_name')
-    if lectures_filtered.exists():
-        return JsonResponse({'complete':lectures_filtered[0].professor.filter(professor_name__istartswith=keyword)[0].professor_name})
-
-    lectures_filtered = lectures.filter(professor__professor_name_en__istartswith=keyword).order_by('professor__professor_name_en')
-    if lectures_filtered.exists():
-        return JsonResponse({'complete':lectures_filtered[0].professor.filter(professor_name_en__istartswith=keyword)[0].professor_name_en})
-
-    return JsonResponse({'complete':keyword})
-
-
-
-@require_POST
 def comment_load(request):
     body = json.loads(request.body.decode('utf-8'))
     try:

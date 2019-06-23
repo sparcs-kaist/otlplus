@@ -103,15 +103,15 @@ class SearchSubSection extends Component {
       return;
     }
 
-    axios.post(`${BASE_URL}/api/timetable/autocomplete`, {
+    axios.get(`${BASE_URL}/api/lectures/autocomplete`, { params: {
       year: year,
       semester: semester,
       keyword: value,
-    })
+    } })
       .then((response) => {
         const { inputVal } = this.state;
         const newProps = this.props;
-        const { complete } = response.data;
+        const complete = response.data;
         if (value !== inputVal
           || (newProps.year !== year || newProps.semester !== semester)
         ) {
