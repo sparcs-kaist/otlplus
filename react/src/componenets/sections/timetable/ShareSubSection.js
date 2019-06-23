@@ -19,8 +19,8 @@ class ShareSubSection extends Component {
     return (
       <div id={classNames('share-buttons')} className={classNames('authenticated')}>
         <div className={classNames('left-btn-group')}>
-          <a className={classNames('share-button')} id={classNames('calendar')} href="/api/timetable_share_calendar" target="_blank"><i /></a>
           <a className={classNames('share-button')} id={classNames('image')} href={`/api/timetable/share_image?table_id=${currentTimetable ? currentTimetable.id : -1}`} download><i /></a>
+          <a className={classNames('share-button')} id={classNames('calendar')} href={`/api/timetable/share_calendar?table_id=${currentTimetable ? currentTimetable.id : -1}`} target="_blank" rel="noopener noreferrer"><i /></a>
           <Link className={classNames('share-button')} id={classNames('image')} to={{ pathname: '/timetable/syllabus', state: { lectures: timetableLectures } }}><i /></Link>
 
         </div>
