@@ -19,4 +19,5 @@ from django.http import HttpResponseRedirect
 from . import views
 
 urlpatterns = [
+    url(r'^courses$', views.courses_list_view),
 ]
