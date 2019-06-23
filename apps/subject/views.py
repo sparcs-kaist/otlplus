@@ -11,7 +11,7 @@ import datetime
 # Create your views here.
 
 @require_http_methods(['GET'])
-def courses_list_view(request):
+def course_list_view(request):
     if request.method == 'GET':
         courses = Course.objects.all().order_by('old_code')
 
@@ -30,8 +30,8 @@ def courses_list_view(request):
                 query |= Q(type_en__in=filter_type, department__code__in=group)
             courses = courses.filter(query)
 
-        courses = courses[:300]
-        result = [c.toJson() for c in courses]
+        courses = courses.distinct()
+        result = [c.toJson() for c in courses[:300]]
         return JsonResponse(result, safe=False)
 
 
