@@ -42,9 +42,12 @@ class SyllabusPage extends Component {
             }
           </div>
           <div className={classNames('syllabus-iframe-wrapper')}>
-            <iframe className={classNames('syllabus-iframe')} src={this.getLectureUrl(currentShowingLecture)} title={`syllabus-${currentShowingLecture.title}`}>
-              { currentShowingLecture.common_title }
+            { lectures.map(lecture => (
+            // eslint-disable-next-line react/jsx-indent
+            <iframe className={classNames('syllabus-iframe')} src={this.getLectureUrl(lecture)} title={`syllabus-${lecture.title}`} key={lecture.id} style={lecture.id === currentShowingLecture.id ? {} : { display: 'none' }}>
+              { lecture.common_title }
             </iframe>
+            ))}
           </div>
         </div>
       </div>
