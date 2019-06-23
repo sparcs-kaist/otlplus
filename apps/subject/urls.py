@@ -20,4 +20,5 @@ from . import views
 
 urlpatterns = [
     url(r'^courses$', views.courses_list_view),
+    url(r'^lectures$', views.lecture_list_view),
 ]

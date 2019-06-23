@@ -43,105 +43,6 @@ from PIL import Image, ImageDraw, ImageFont
 
 
 
-# Filter lectures by type
-def _filter_department(lectures, filters):
-    major_list = ["CE", "MSB", "ME", "PH", "BiS", "IE", "ID", "BS", "CBE", "MAS",
-                  "MS", "NQE", "HSS", "EE", "CS", "AE", "CH"]
-
-    if "ALL" in filters:
-        return lectures
-    elif len(filters) == 0:
-        return lectures.none()
-    elif "ETC" in filters:
-        return lectures.exclude(department__code__in = set(major_list) - set(filters))
-    else:
-        return lectures.filter(department__code__in = filters)
-
-
-
-# Filter lectures by type
-def _filter_type(lectures, filters):
-    acronym_dic = {'GR': 'General Required', 'MGC': 'Mandatory General Courses', 'BE': 'Basic Elective',
-                   'BR': 'Basic Required', 'EG': 'Elective(Graduate)', 'HSE': 'Humanities & Social Elective',
-                   'OE': 'Other Elective', 'ME': 'Major Elective', 'MR': 'Major Required'}
-
-    if "ALL" in filters:
-        return lectures
-    elif len(filters) == 0:
-        return lectures.none()
-    elif "ETC" in filters:
-        return lectures.exclude(type_en__in = [acronym_dic[x] for x in acronym_dic if x not in filters])
-    else:
-        return lectures.filter(type_en__in = [acronym_dic[x] for x in acronym_dic if x in filters])
-
-
-
-# Filter lectures by level
-def _filter_level(lectures, filters):
-    acronym_dic = {'100':"1", '200':"2", '300':"3", '400':"4"}
-
-    if "ALL" in filters:
-        return lectures
-    elif len(filters) == 0:
-        return lectures.none()
-    elif "ETC" in filters:
-        return lectures.exclude(course__code_num__in = [acronym_dic[x] for x in acronym_dic if x not in filters])
-    else:
-        return lectures.filter(course__code_num__in = [acronym_dic[x] for x in acronym_dic if x in filters])
-
-
-
-# Filter lectures by level
-def _filter_time(lectures, day, begin, end):
-    if len(day) == 0 or \
-       len(begin) == 0 or \
-       len(end) == 0:
-        return lectures
-    elif int(end) == 32:
-        # End is 24:00
-        return lectures.filter(classtime_set__day = int(day),
-                               classtime_set__begin__gte = datetime.time(int(begin)/2+8, (int(begin)%2)*30))
-    else:
-        return lectures.filter(classtime_set__day = int(day),
-                               classtime_set__begin__gte = datetime.time(int(begin)/2+8, (int(begin)%2)*30),
-                               classtime_set__end__lte = datetime.time(int(end)/2+8, (int(end)%2)*30))
-
-
-
-# Filter lectures by keyword
-def _filter_keyword(lectures, keyword):
-    if len(keyword) == 0:
-        return lectures
-    else:
-        return lectures.filter(
-            Q(title__icontains=keyword) |
-            Q(title_en__icontains=keyword) |
-            Q(old_code__iexact=keyword) |
-            Q(department__name__iexact=keyword) |
-            Q(department__name_en__iexact=keyword) |
-            Q(professor__professor_name__icontains=keyword) |
-            Q(professor__professor_name_en__icontains=keyword)
-        ).distinct()
-
-
-
-# Yield preset lectures from DB
-def _get_preset_lectures(year, semester, code):
-    if code == 'Basic':
-        filter_type = ["Basic Required", "Basic Elective"]
-        return Lecture.objects.filter(year=year, semester=semester,
-                                      type_en__in=filter_type, deleted=False)
-    elif code == 'Humanity':
-        return Lecture.objects.filter(year=year, semester=semester,
-                                      type_en="Humanities & Social Elective", deleted=False)
-    else:
-        filter_type = ["Major Required", "Major Elective", "Elective(Graduate)"]
-        return Lecture.objects.filter(year=year, semester=semester,
-                                      department__code=code, type_en__in=filter_type,
-                                      deleted=False)
-
-
-
 # List(Lecture) -> List[dict-Lecture]
 # Format raw result from models into javascript-understandable form
 def _lecture_result_format(ls, from_search = False):
@@ -429,47 +330,6 @@ def autocomplete(request):
 
     return JsonResponse({'complete':keyword})
 
-    
-
-
-
-# RESTFUL search view function.
-# Input example:
-# Output example:
-@require_POST
-def search(request):
-    decoded_request = urllib.unquote(request.body)
-    decoded_request = decoded_request[decoded_request.find("{"):]
-    decoded_request = decoded_request[:decoded_request.rfind("}")+1]
-    request_json = json.loads(decoded_request)
-
-    try:
-        year = request_json['year']
-        semester = request_json['semester']
-    except KeyError:
-        return HttpResponseBadRequest('Missing fields in request data')
-
-    if not _validate_year_semester(year, semester):
-        return HttpResponseBadRequest('Invalid semester')
-
-    lectures = Lecture.objects.filter(year=year, semester=semester, deleted=False)
-    lectures = lectures.exclude(type_en__in=['Individual Study', 'Thesis Study(Undergraduate)', 'Thesis Research(MA/phD)'])
-    lectures = _filter_department(lectures, request_json.get('department', []))
-    lectures = _filter_type(lectures, request_json.get('type', []))
-    lectures = _filter_level(lectures, request_json.get('grade', []))
-    lectures = _filter_time(lectures, request_json.get('day', ''), request_json.get('begin', ''), request_json.get('end', ''))
-    lectures = _filter_keyword(lectures, request_json.get('keyword', '').replace('+', ' '))
-
-    if lectures.count() > 500:
-        too_many = True
-    else:
-        too_many = False
-    result = _lecture_result_format(lectures, from_search = True)
-
-    return JsonResponse({'courses':result, 'too_many':too_many},
-                        safe=False,
-                        json_dumps_params={'ensure_ascii': False})
-
 
 
 @require_POST
@@ -586,50 +446,6 @@ def google_auth_return(request):
     storage.put(credential)
     return HttpResponseRedirect("/timetable")
     # TODO: Add calendar entry
-
-
-
-@require_POST
-def list_load_major(request):
-    body = json.loads(request.body.decode('utf-8'))
-    try:
-        year = int(body["year"])
-        semester = int(body["semester"])
-    except KeyError:
-        return HttpResponseBadRequest('Missing fields in request data')
-
-    if not _validate_year_semester(year, semester):
-        return HttpResponseBadRequest('Invalid semester')
-
-    departments = [x['code'] for x in _user_department(request.user)]
-    result = []
-    for major_code in departments:
-        lectures = _get_preset_lectures(year, semester, major_code)
-        lectures = _lecture_result_format(lectures)
-        for l in lectures:
-            l['major_code'] = major_code
-            result.append(l)
-
-    return JsonResponse(result, safe=False)
-
-
-
-@require_POST
-def list_load_humanity(request):
-    body = json.loads(request.body.decode('utf-8'))
-    try:
-        year = int(body["year"])
-        semester = int(body["semester"])
-    except KeyError:
-        return HttpResponseBadRequest('Missing fields in request data')
-
-    if not _validate_year_semester(year, semester):
-        return HttpResponseBadRequest('Invalid semester')
-
-    lectures = _get_preset_lectures(year, semester, "Humanity")
-    result = _lecture_result_format(lectures)
-
-    return JsonResponse(result, safe=False)
 
 
 

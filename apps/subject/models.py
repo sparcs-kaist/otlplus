@@ -155,6 +155,23 @@ class Lecture(models.Model):
                 'exam': _(u'정보 없음'),
             })
 
+        if self.type_en in ["Basic Required", "Basic Elective"]:
+            result.update({
+                'major_code': 'Basic',
+            })
+        elif self.type_en == "Humanities & Social Elective":
+            result.update({
+                'major_code': 'Humanity',
+            })
+        elif self.type_en in ["Major Required", "Major Elective", "Elective(Graduate)"]:
+            result.update({
+                'major_code': self.department.code,
+            })
+        else:
+            result.update({
+                'major_code': '',
+            })
+
         return result
 
     def recalc_score(self):
