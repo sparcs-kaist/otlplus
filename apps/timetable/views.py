@@ -494,17 +494,23 @@ def comment_load(request):
 
 
 # Export OTL timetable to google calendar
-@login_required_ajax
+@login_required
 def share_calendar(request):
     user = request.user
     userprofile = UserProfile.objects.get(user=user)
 
     try:
         table_id = int(request.GET['table_id'])
-        year = int(request.GET['year'])
-        semester = int(request.GET['semester'])
     except KeyError:
         return HttpResponseBadRequest('Missing fields in request data')
+
+    # Find the right timetable
+    try:
+        timetable = TimeTable.objects.get(user=userprofile, id=table_id)
+    except TimeTable.DoesNotExist:
+        return HttpResponseBadRequest('No such timetable')
+    year = timetable.year
+    semester = timetable.semester
 
     storage = DjangoORMStorage(UserProfile, 'user', request.user, 'google_credential')
     credential = storage.get()
@@ -512,7 +518,7 @@ def share_calendar(request):
     if credential is None or credential.invalid == True:
         FLOW.params['state'] = xsrfutil.generate_token(settings.SECRET_KEY,
                                                        request.user)
-        authorize_url = FLOW.step1_get_authorize_url(redirect_uri = request.build_absolute_uri("/timetable/google_auth_return"))
+        authorize_url = FLOW.step1_get_authorize_url(redirect_uri = request.build_absolute_uri("/api/timetable/google_auth_return"))
         return HttpResponseRedirect(authorize_url)
 
     http = credential.authorize(httplib2.Http())
@@ -532,13 +538,6 @@ def share_calendar(request):
 
     created_calendar = service.calendars().insert(body=calendar).execute()
     c_id = created_calendar['id']
-
-    # Find the right timetable
-    try:
-        timetable = TimeTable.objects.get(user=userprofile, id=table_id,
-                                          year=year, semester=semester)
-    except:
-        return HttpResponseBadRequest('No such timetable')
 
     start = settings.SEMESTER_RANGES[(year,semester)][0]
     end = settings.SEMESTER_RANGES[(year,semester)][1] + datetime.timedelta(days=1)
