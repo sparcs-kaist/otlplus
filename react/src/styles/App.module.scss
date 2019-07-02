@@ -10,7 +10,7 @@ body * {
 body {
     font-family: sans-serif;
     font-size: 13px;
-    line-height: 12px;
+    line-height: 14px;
     color: #333333;
 }
 
@@ -66,7 +66,7 @@ button {
     height: 400px;
     background: url(../static/img/review/search/bg.jpg) center 0;
     background-size: 100% auto;
-    padding-top: 190px;
+    padding-top: 191px;
 
 
     .main-search {
@@ -78,7 +78,7 @@ button {
         border-radius: 6px;
         box-shadow: 0 3px 0 0 #F3BEC6;
         font-size: 14px;
-        line-height: 13px;
+        line-height: 15px;
 
 
         i {
@@ -90,8 +90,6 @@ button {
 
         input {
             flex: 1 1 auto;
-            line-height: 17px;
-            margin: -2px 0;
         }
 
         input::placeholder {
@@ -167,13 +165,13 @@ button {
 .block {
     background-color: #EEEEEE;
     border-radius: 4px;
+    font-size: 13px;
+    line-height: 14px;
+    padding: 10px;
+    margin-bottom: 8px;
 
 
     &--course {
-        padding: 12px;
-        margin-bottom: 8px;
-        font-size: 13px;
-        line-height: 12px;
 
 
         .section-content--widget &:nth-last-of-type(2) {
@@ -182,16 +180,15 @@ button {
 
 
         &__title {
-            padding-bottom: 8px;
+            padding-bottom: 6px;
             border-bottom: 1px solid #C9C9C9;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
     }
 
 
     &--course-simple {
         padding: 8px 10px;
-        margin-bottom: 8px;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -205,33 +202,25 @@ button {
         }
 
         &__title {
-            font-size: 12px;
-            line-height: 11px;
             text-align: center;
             font-weight: bold;
             margin-bottom: 2px;
         }
 
         &__subtitle {
-            font-size: 12px;
-            line-height: 11px;
             text-align: center;
         }
     }
 
 
     &--review {
-        padding: 12px;
-        margin-bottom: 8px;
-        font-size: 13px;
-        line-height: 12px;
 
         .section-content--course-detail &:last-child {
             margin-bottom: 0;
         }
 
         &__title {
-            margin-bottom: 12px;
+            margin-bottom: 8px;
 
 
             strong,
@@ -248,28 +237,25 @@ button {
 
 
         &__menus {
-            margin-top: 12px;
+            margin-top: 8px;
 
 
             &__score {
-                margin-right: 10px;
+                margin-right: 8px;
             }
         }
     }
 
 
     &--review-write {
-        padding: 12px;
-        margin-bottom: 8px;
-        font-size: 13px;
-        line-height: 12px;
+        padding: 10px;
 
         .section-content--course-detail &:last-child {
             margin-bottom: 0;
         }
 
         &__title {
-            margin-bottom: 10px;
+            margin-bottom: 8px;
 
 
             strong,
@@ -302,16 +288,20 @@ button {
 
 
         &__score {
-            margin-top: 10px;
+            margin-top: 6px;
+
+            &:first-child {
+                margin-top: 8px;
+            }
 
             &__name {
-                margin-right: 10px;
+                margin-right: 6px;
             }
 
             &__option {
                 font-weight: bold;
                 color: #AAAAAA;
-                margin-right: 8px;
+                margin-right: 6px;
                 cursor: pointer;
 
                 input {
@@ -337,28 +327,23 @@ button {
 
 .title {
     font-weight: bold;
+    font-size: 14px;
+    line-height: 15px;
 
 
     .section-content--course-list & {
-        font-size: 15px;
-        line-height: 14px;
-        font-weight: bold;
-        margin-bottom: 10px;
+        font-weight: initial;
+        margin-bottom: 12px;
     }
 
 
     .section-content--course-detail & {
-        font-size: 14px;
-        line-height: 13px;
-        font-weight: bold;
         text-align: center;
-        margin-bottom: 4px;
+        margin-bottom: 2px;
     }
 
 
     .section-content--widget & {
-        font-size: 14px;
-        line-height: 13px;
         text-align: center;
         margin-bottom: 10px;
     }
@@ -368,9 +353,9 @@ button {
 .subtitle {
     .section-content--course-detail & {
         font-size: 13px;
-        line-height: 12px;
+        line-height: 14px;
         text-align: center;
-        margin-bottom: 12px;
+        margin-bottom: 10px;
     }
 }
 
@@ -396,20 +381,20 @@ button {
 
     &--review-block {
         float: right;
-        margin-left: 10px;
+        margin-left: 8px;
     }
 
 
     &--review-write-block {
-        margin-top: 8px;
+        margin-top: 4px;
     }
 }
 
 
 .main-date {
     font-size: 18px;
-    line-height: 16px;
-    margin: 6px 0 12px 0;
+    line-height: 19px;
+    margin: 4px 0 10px 0;
     text-align: center;
     color: rgba(#E54C65, 0.3);
 }
@@ -418,14 +403,12 @@ button {
 .academic-schedule {
     & > div:nth-child(1) {
         font-size: 20px;
-        line-height: 18px;
-        margin-bottom: 8px;
+        line-height: 20px;
+        margin-bottom: 6px;
         text-align: center;
     }
 
     & > div:nth-child(2) {
-        font-size: 12px;
-        line-height: 11px;
         margin-bottom: 10px;
         text-align: center;
 
@@ -463,11 +446,11 @@ button {
         flex-direction: row;
 
         .block--course & {
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         .section-content--course-detail & {
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         &:last-child {
@@ -484,23 +467,23 @@ button {
 
 
 .scores {
-    margin-top: 1.4vh;
+    margin-top: calc(1.4vh + 6px);
     text-align: center;
 
     & > div {
         display: inline-block;
-        width: calc(10.5vh + 4px);
+        width: calc(3.5vh + 54px);
 
         & > div:first-child {
-            font-size: calc(0.7vh + 19px);
-            line-height: calc(0.7vh + 16px);
+            font-size: calc(0.7vh + 17px);
+            line-height: calc(0.7vh + 15px);
             font-weight: 300;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
         }
 
         & > div:last-child {
             font-size: 11px;
-            line-height: 10px;
+            line-height: 12px;
         }
     }
 }
