@@ -44,7 +44,7 @@ class SearchSubSection extends Component {
     closeSearchDispatch();
     clearSearchListLecturesDispatch();
 
-    axios.post(`${BASE_URL}/api/timetable/search`, {
+    axios.get(`${BASE_URL}/api/lectures`, { params: {
       year: year,
       semester: semester,
       department: Array.from(department),
@@ -54,13 +54,13 @@ class SearchSubSection extends Component {
       begin: (start !== null) ? start.toString() : '',
       end: (end !== null) ? end.toString() : '',
       day: (day !== null) ? day.toString() : '',
-    })
+    } })
       .then((response) => {
         const newProps = this.props;
         if (newProps.year !== year || newProps.semester !== semester) {
           return;
         }
-        const lectures = response.data.courses;
+        const lectures = response.data;
         setListLecturesDispatch('search', lectures);
       })
       .catch((response) => {
@@ -103,15 +103,15 @@ class SearchSubSection extends Component {
       return;
     }
 
-    axios.post(`${BASE_URL}/api/timetable/autocomplete`, {
+    axios.get(`${BASE_URL}/api/lectures/autocomplete`, { params: {
       year: year,
       semester: semester,
       keyword: value,
-    })
+    } })
       .then((response) => {
         const { inputVal } = this.state;
         const newProps = this.props;
-        const { complete } = response.data;
+        const complete = response.data;
         if (value !== inputVal
           || (newProps.year !== year || newProps.semester !== semester)
         ) {

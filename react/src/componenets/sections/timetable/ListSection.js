@@ -48,10 +48,11 @@ class ListSection extends Component {
     const { year, semester, major, setListMajorLecturesDispatch, setListLecturesDispatch } = this.props;
     const majorCodes = major.codes;
 
-    axios.post(`${BASE_URL}/api/timetable/list_load_major`, {
+    axios.get(`${BASE_URL}/api/lectures`, { params: {
       year: year,
       semester: semester,
-    })
+      group: majorCodes,
+    } })
       .then((response) => {
         const newProps = this.props;
         if ((newProps.year !== year || newProps.semester !== semester)
@@ -70,10 +71,11 @@ class ListSection extends Component {
       return;
     }
 
-    axios.post(`${BASE_URL}/api/timetable/list_load_humanity`, {
+    axios.get(`${BASE_URL}/api/lectures`, { params: {
       year: year,
       semester: semester,
-    })
+      group: 'Humanity',
+    } })
       .then((response) => {
         const newProps = this.props;
         if (newProps.year !== year || newProps.semester !== semester) {
