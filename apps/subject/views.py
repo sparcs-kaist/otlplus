@@ -1,7 +1,176 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
+from django.views.decorators.http import require_http_methods
+from django.db.models import Q
+from django.http import HttpResponseBadRequest
+
+from models import Course, Lecture
+from apps.timetable.views import _lecture_result_format
+
+import datetime
 
 # Create your views here.
 
-def home(request):
-    return HttpResponse("subject!")
+@require_http_methods(['GET'])
+def course_list_view(request):
+    if request.method == 'GET':
+        courses = Course.objects.all().order_by('old_code')
+
+        group = request.GET.getlist('group', [])
+        if group and len(group):
+            query = Q()
+            if 'Basic' in group:
+                group.remove('Basic')
+                filter_type = ['Basic Required', 'Basic Elective']
+                query |= Q(type_en__in=filter_type)
+            if 'Humanity' in group:
+                group.remove('Humanity')
+                query |= Q(type_en='Humanities & Social Elective')
+            if len(group):
+                filter_type = ['Major Required', 'Major Elective', 'Elective(Graduate)']
+                query |= Q(type_en__in=filter_type, department__code__in=group)
+            courses = courses.filter(query)
+
+        courses = courses.distinct()
+        result = [c.toJson() for c in courses[:300]]
+        return JsonResponse(result, safe=False)
+
+
+@require_http_methods(['GET'])
+def lecture_list_view(request):
+    if request.method == 'GET':
+        lectures = Lecture.objects \
+            .filter(deleted=False) \
+            .exclude(type_en__in=['Individual Study', 'Thesis Study(Undergraduate)', 'Thesis Research(MA/phD)'])
+
+        year = request.GET.get('year', None)
+        if year:
+            lectures = lectures.filter(year=year)
+
+        semester = request.GET.get('semester', None)
+        if semester:
+            lectures = lectures.filter(semester=semester)
+
+        department = request.GET.getlist('department', [])
+        if department and len(department):
+            major_list = ["CE", "MSB", "ME", "PH", "BiS", "IE", "ID", "BS", "CBE", "MAS",
+                          "MS", "NQE", "HSS", "EE", "CS", "AE", "CH"]
+            if 'ALL' in department:
+                pass
+            elif 'ETC' in department:
+                lectures = lectures.exclude(department__code__in = set(major_list) - set(department))
+            else:
+                lectures = lectures.filter(department__code__in = department)
+
+        type_ = request.GET.getlist('type', [])
+        if type_ and len(type_):
+            acronym_dic = {'GR': 'General Required', 'MGC': 'Mandatory General Courses', 'BE': 'Basic Elective',
+                           'BR': 'Basic Required', 'EG': 'Elective(Graduate)', 'HSE': 'Humanities & Social Elective',
+                           'OE': 'Other Elective', 'ME': 'Major Elective', 'MR': 'Major Required'}
+            if 'ALL' in type_:
+                pass
+            elif 'ETC' in type_:
+                lectures = lectures.exclude(type_en__in = [acronym_dic[x] for x in acronym_dic if x not in type_])
+            else:
+                lectures = lectures.filter(type_en__in = [acronym_dic[x] for x in acronym_dic if x in type_])
+
+        level = request.GET.getlist('grade', [])
+        if level and len(level):
+            acronym_dic = {'100':"1", '200':"2", '300':"3", '400':"4"}
+            if "ALL" in level:
+                pass
+            elif "ETC" in level:
+                lectures = lectures.exclude(course__code_num__in = [acronym_dic[x] for x in acronym_dic if x not in level])
+            else:
+                lectures = lectures.filter(course__code_num__in = [acronym_dic[x] for x in acronym_dic if x in level])
+
+        time_query = Q()
+
+        day = request.GET.get('day', None)
+        if day:
+            time_query &= Q(classtime_set__day = day)
+
+        begin = request.GET.get('begin', None)
+        if begin:
+            print(begin)
+            time_query &= Q(classtime_set__begin__gte = datetime.time(int(begin)/2+8, (int(begin)%2)*30))
+
+        end = request.GET.get('end', None)
+        if end and False:
+            print(end)
+            if int(end) == 32:
+                pass
+            else:
+                time_query &= Q(classtime_set__end__lte = datetime.time(int(end)/2+8, (int(end)%2)*30))
+
+        lectures = lectures.filter(time_query)
+
+        keyword = request.GET.get('keyword', None)
+        if keyword:
+            lectures = lectures.filter(
+                Q(title__icontains=keyword) |
+                Q(title_en__icontains=keyword) |
+                Q(old_code__iexact=keyword) |
+                Q(department__name__iexact=keyword) |
+                Q(department__name_en__iexact=keyword) |
+                Q(professor__professor_name__icontains=keyword) |
+                Q(professor__professor_name_en__icontains=keyword)
+            )
+
+        group = request.GET.getlist('group', [])
+        if group and len(group):
+            query = Q()
+            if 'Basic' in group:
+                group.remove('Basic')
+                filter_type = ['Basic Required', 'Basic Elective']
+                query |= Q(type_en__in=filter_type)
+            if 'Humanity' in group:
+                group.remove('Humanity')
+                query |= Q(type_en='Humanities & Social Elective')
+            if len(group):
+                filter_type = ['Major Required', 'Major Elective', 'Elective(Graduate)']
+                query |= Q(type_en__in=filter_type, department__code__in=group)
+            lectures = lectures.filter(query)
+
+        lectures = lectures.distinct()
+        result = _lecture_result_format(lectures, from_search = True)
+        return JsonResponse(result, safe=False)
+
+
+@require_http_methods(['GET'])
+def lectures_autocomplete_view(request):
+    if request.method == 'GET':
+        try:
+            year = request.GET['year']
+            semester = request.GET['semester']
+            keyword = request.GET['keyword']
+        except KeyError:
+            return HttpResponseBadRequest('Missing fields in request data')
+
+        lectures = Lecture.objects.filter(deleted=False, year=year, semester=semester)
+
+        lectures_filtered = lectures.filter(department__name__istartswith=keyword).order_by('department__name')
+        if lectures_filtered.exists():
+            return JsonResponse(lectures_filtered[0].department.name, safe=False)
+
+        lectures_filtered = lectures.filter(department__name_en__istartswith=keyword).order_by('department__name_en')
+        if lectures_filtered.exists():
+            return JsonResponse(lectures_filtered[0].department.name_en, safe=False)
+
+        lectures_filtered = lectures.filter(title__istartswith=keyword).order_by('title')
+        if lectures_filtered.exists():
+            return JsonResponse(lectures_filtered[0].title, safe=False)
+
+        lectures_filtered = lectures.filter(title_en__istartswith=keyword).order_by('title_en')
+        if lectures_filtered.exists():
+            return JsonResponse(lectures_filtered[0].title_en, safe=False)
+
+        lectures_filtered = lectures.filter(professor__professor_name__istartswith=keyword).order_by('professor__professor_name')
+        if lectures_filtered.exists():
+            return JsonResponse(lectures_filtered[0].professor.filter(professor_name__istartswith=keyword)[0].professor_name, safe=False)
+
+        lectures_filtered = lectures.filter(professor__professor_name_en__istartswith=keyword).order_by('professor__professor_name_en')
+        if lectures_filtered.exists():
+            return JsonResponse(lectures_filtered[0].professor.filter(professor_name_en__istartswith=keyword)[0].professor_name_en, safe=False)
+
+        return JsonResponse(keyword, safe=False)
