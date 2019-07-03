@@ -2,6 +2,7 @@ body * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    flex: none;
     -webkit-appearance: none;
     -moz-appearance: none;
 }
@@ -119,6 +120,53 @@ button {
         width: calc(65vh - 38px);
         margin-left: 0;
     }
+
+
+    &--timetable-left {
+        flex: none;
+        width: calc(15vh + 126px);
+        display: flex;
+        flex-direction: column;
+    }
+
+
+    &--timetable-center-right {
+        flex: none;
+        width:  calc(65vh + 246px);
+        margin-left: 0;
+        display: flex;
+        flex-direction: column;
+    }
+
+
+    &--timetable-right {
+        flex: none;
+        width: calc(15vh + 126px - 12px * 2);
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+    }
+
+
+    &--lecture-detail {
+        flex: none;
+        height: calc(5.6vh + 276px);
+        margin-top: 0;
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+
+    &--lecture-list {
+        flex: auto;
+        margin: 0;
+    }
+
+
+    &--timetable-tabs {
+        flex: none;
+        margin: 0;
+    }
 }
 
 
@@ -129,6 +177,14 @@ button {
         width: 50px;
         height: 100%;
         margin-left: -50px;
+    }
+
+    &--lecture-list {
+        position: absolute;
+        vertical-align: top;
+        width: 50px;
+        margin-left: -50px;
+        text-align: right;
     }
 }
 
@@ -146,6 +202,13 @@ button {
         display: inline-block;
         vertical-align: top;
         border-top-left-radius: 0;
+    }
+
+
+    &--timetable {
+        flex: auto;
+        display: flex;
+        flex-direction: row;
     }
 }
 
@@ -492,6 +555,13 @@ button {
 .divider {
     border-bottom: 1px solid #EDD1DC;
     margin: 12px 0;
+
+
+    &--vertical {
+        border-bottom: none;
+        border-right: 1px solid #EDD1DC;
+        margin: 0 12px;
+    }
 }
 
 

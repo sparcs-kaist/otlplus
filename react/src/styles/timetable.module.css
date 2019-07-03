@@ -1,87 +1,11 @@
-.timetable_page #content
-{
-    margin-top: 50px;
-}
-
-.timetable_page .none
+.none
 {
     display:none !important;
 }
 
-.timetable_page i
+i
 {
     vertical-align:top;
-}
-
-.timetable_page #page-container
-{
-    display:-webkit-box;
-    display:-ms-flexbox;
-    display:flex;
-    display:-webkit-flex;
-    position:relative;
-    -webkit-box-orient:horizontal;
-    -webkit-box-direction:normal;
-        -ms-flex-direction:row;
-            flex-direction:row;
-    margin-top: 10px;
-    margin-left:auto;
-    margin-right:auto;
-    width:1181px;
-    width:calc(80vh + 381px);
-    height:928px;
-    height:calc(100vh - 72px);
-    font-family:sans-serif;
-}
-
-.timetable_page #left-side
-{
-    display:-webkit-box;
-    display:-ms-flexbox;
-    display:flex;
-    display:-webkit-flex;
-    -webkit-box-orient:vertical;
-    -webkit-box-direction:normal;
-        -ms-flex-direction:column;
-            flex-direction:column;
-    float:left;
-    width:276px;
-    width:calc(15vh + 126px);
-    height:100%
-}
-
-.timetable_page #center
-{
-    margin-left:10px;
-    float:left;
-    height:100%;
-    -webkit-box-flex:1;
-        -ms-flex:auto;
-            flex:auto;
-}
-
-.timetable_page #right-side
-{
-    display:-webkit-box;
-    display:-ms-flexbox;
-    display:flex;
-    display:-webkit-flex;
-    -webkit-box-orient:vertical;
-    -webkit-box-direction:normal;
-        -ms-flex-direction:column;
-            flex-direction:column;
-    -webkit-box-flex:1;
-        -ms-flex:auto;
-            flex:auto;
-    position:relative;
-    margin-top:10px;
-    margin-bottom:10px;
-    padding-left:10px;
-    padding-right:10px;
-    width:276px;
-    width:calc(15vh + 127px);
-    border-left:1px solid #EDD1DC;
-    flex: none;
 }
 
 
@@ -90,20 +14,18 @@
 
 /* Lecture in top-left side */
 
-.timetable_page #lecture-info
+#lecture-info
 {
     flex:none;
     background-color:#FFFFFF;
-    margin-bottom:12px;
     border-radius:6px;
     box-shadow:0 3px 0 0 #F3BEC6;
-    height:311px;
-    height:calc(5.6vh + 255px);
+    height:100%;
     padding:10px;
 	overflow:hidden;
 }
 
-.timetable_page #info-placeholder
+#info-placeholder
 {
     display:-webkit-box;
     display:-ms-flexbox;
@@ -122,32 +44,32 @@
     height: 100%;
     color: #999;
 }
-.timetable_page #info-placeholder:not(:only-child)
+#info-placeholder:not(:only-child)
 {
     display:none;
 }
 
-.timetable_page .otlplus-title
+.otlplus-title
 {
     font-size: 20px;
 }
 
-.timetable_page .otlplus-content
+.otlplus-content
 {
     font-size: 12px;
     margin-top: 8px;
 }
 
-.timetable_page .otlplus-content a
+.otlplus-content a
 {
     color:#999;
 }
-.timetable_page .otlplus-content a:hover
+.otlplus-content a:hover
 {
     color:#333;
 }
 
-.timetable_page .lecture-detail
+.lecture-detail
 {
     display:-webkit-box;
     display:-ms-flexbox;
@@ -160,7 +82,7 @@
 	height:100%;
 }
 
-.timetable_page #course-title
+#course-title
 {
     font-size:13px;
 	line-height:14px;
@@ -169,14 +91,14 @@
 	margin-bottom:1px;
 }
 
-.timetable_page #course-no
+#course-no
 {
     font-size:12px;
 	line-height:13px;
 	margin-bottom:4px;
 }
 
-.timetable_page .lecture-options
+.lecture-options
 {
     text-align:right;
     font-size:11px;
@@ -184,23 +106,23 @@
     color:#E54C65;
     margin-bottom: 6px;
 }
-.timetable_page .lecture-options > span.disable
+.lecture-options > span.disable
 {
     pointer-events:none;
     color:#cccccc;
 }
-.timetable_page .lecture-options > span:hover
+.lecture-options > span:hover
 {
 	cursor:pointer;
     color:#963246;
 }
 
-.timetable_page .lecture-options a
+.lecture-options a
 {
     color:inherit;
 }
 
-.timetable_page .basic-info
+.basic-info
 {
 	font-size:12px;
 	line-height:13px;
@@ -210,7 +132,7 @@
     flex-direction:row;
 }
 
-.timetable_page .basic-info-name
+.basic-info-name
 {
     display: inline-block;
     font-weight: bold;
@@ -218,27 +140,27 @@
     white-space: nowrap;
     flex:none;
 }
-.timetable_page .basic-info-name.fixed-ko
+.basic-info-name.fixed-ko
 {
     width: 23px;
 }
-.timetable_page .basic-info-name.fixed-en
+.basic-info-name.fixed-en
 {
     width: 32px;
 }
 
-.timetable_page #department, #course-type, #instructor, #classroom, #class-size, #exam-time
+#department, #course-type, #instructor, #classroom, #class-size, #exam-time
 {
 }
 
-.timetable_page .lecture-scores
+.lecture-scores
 {
 	margin-top: calc(1.4vh);
 	margin-bottom: calc(1.4vh);
     text-align:center;
 }
 
-.timetable_page .lecture-score
+.lecture-score
 {
 	width:69px;
 	width: calc(3.5vh + 34px);
@@ -246,49 +168,49 @@
 	vertical-align:top;
 }
 
-.timetable_page .score-text
+.score-text
 {
 	height: calc(0.7vh + 14px);
     font-weight:300;
 	margin-bottom:2px;
 }
-.timetable_page .score-text:not(.score-korean)
+.score-text:not(.score-korean)
 {
     font-size: calc(0.7vh + 15px);
     line-height: calc(0.7vh + 14px);
     font-family:"Helvetica Neue", "Calibri", "Arial";
 }
-.timetable_page .score-text.score-korean
+.score-text.score-korean
 {
     font-size: calc(0.7vh + 13px);
     line-height: calc(0.7vh + 16px);
     padding-top: 1px;
 }
 
-.timetable_page .score-label
+.score-label
 {
 	font-size: 11px;
 	line-height: 12px;
 }
 
-.timetable_page .dictionary-preview{
+.dictionary-preview{
 	cursor:pointer;
 }
-.timetable_page .dictionary-preview.open-dict-button{
+.dictionary-preview.open-dict-button{
     margin-bottom: 9px;
 }
-.timetable_page .dictionary-preview.close-dict-button{
+.dictionary-preview.close-dict-button{
     padding-bottom: 9px;
     margin-bottom: 0px;
     background-color: #fff;
 }
 
-.timetable_page .dict-fixed{
+.dict-fixed{
     height:0;
     z-index:10;
 }
 
-.timetable_page .open-dict-button .dict-arrow
+.open-dict-button .dict-arrow
 {
 	background: url(../static/icons/lecture_downarrow.svg) no-repeat center center;
 	width:14px;
@@ -298,12 +220,12 @@
 	margin-left:5px;
 	margin-top:1px;
 }
-.timetable_page .open-dict-button:hover .dict-arrow
+.open-dict-button:hover .dict-arrow
 {
 	background-image: url(../static/icons/lecture_downarrow_hover.svg);
 }
 
-.timetable_page .close-dict-button .dict-arrow
+.close-dict-button .dict-arrow
 {
 	background: url(../static/icons/lecture_uparrow.svg) no-repeat center center;
 	width:14px;
@@ -313,16 +235,16 @@
 	margin-left:5px;
 	margin-top:1px;
 }
-.timetable_page .close-dict-button:hover .dict-arrow
+.close-dict-button:hover .dict-arrow
 {
 	background-image: url(../static/icons/lecture_uparrow_hover.svg);
 }
 
-.timetable_page #reviews {
+#reviews {
     min-height:calc(5.6vh + 164px);
     margin-bottom: 10px;
 }
-.timetable_page .review-loading
+.review-loading
 {
     font-size: 16px;
     color: #999;
@@ -330,7 +252,7 @@
     text-align: center;
 }
 
-.timetable_page .review-elem{
+.review-elem{
 	background-color:#EEEEEE;
 	border-radius:4px;
 	margin-bottom:6px;
@@ -340,11 +262,11 @@
 	cursor:pointer;
     color:#333;
 }
-.timetable_page .review-elem:hover{
+.review-elem:hover{
     background-color:#DDDDDD;
 }
 
-.timetable_page .review-body{
+.review-body{
     display:block;
     display:-webkit-box;
 	margin-bottom:4px;
@@ -356,20 +278,20 @@
     text-overflow:ellipsis;
 }
 
-.timetable_page .review-score-wrap{
+.review-score-wrap{
 	text-align:right;
 	margin-bottom:-1px;
 }
 
-.timetable_page .review-score{
+.review-score{
 	margin-left:10px;
 }
 
-.timetable_page .review-more{
+.review-more{
 	color:#888888;
 }
 
-.timetable_page .review-elem:hover .review-more{
+.review-elem:hover .review-more{
 	color:#333333;
 }
 
@@ -377,28 +299,13 @@
 
 /* Search at bottom-left side */
 
-.timetable_page #lecture-lists
-{
-    display:-webkit-box;
-    display:-ms-flexbox;
-    display:flex;
-    display:-webkit-flex;
-    -webkit-box-flex:1;
-        -ms-flex:auto;
-            flex:auto;
-	width:calc(100% + 27px);
-	margin-left:-27px;
-	height: 585px;
-	height: calc(94.4vh - 359px);
-}
-
-.timetable_page #list-tab-wrap
+#list-tab-wrap
 {
     display:inline-block;
     width:27px;
 }
 
-.timetable_page .list-tab
+.list-tab
 {
     display:-webkit-box;
     display:-ms-flexbox;
@@ -418,39 +325,39 @@
     outline:none;
     text-decoration:none;
 }
-.timetable_page .list-tab.active
+.list-tab.active
 {
     background-color:#FFFFFF;
     cursor:auto;
 }
-.timetable_page .list-tab:not(.active):hover
+.list-tab:not(.active):hover
 {
     cursor:pointer;
     background-color:#D8D8D8;
 }
 
-.timetable_page .list-tab.search .list-tab-icon
+.list-tab.search .list-tab-icon
 {
 	background: url(../static/icons/block_search_inactive.svg) no-repeat center center;
 	width:13px;
 	height:13px;
 }
 
-.timetable_page .list-tab.cart .list-tab-icon
+.list-tab.cart .list-tab-icon
 {
 	background: url(../static/icons/block_cart_inactive.svg) no-repeat center center;
 	width:13px;
 	height:13px;
 }
 
-.timetable_page .list-tab.major .list-tab-icon
+.list-tab.major .list-tab-icon
 {
 	background: url(../static/icons/block_major_inactive.svg) no-repeat center center;
 	width:13px;
 	height:13px;
 }
 
-.timetable_page .list-tab.humanity .list-tab-icon
+.list-tab.humanity .list-tab-icon
 {
 	background: url(../static/icons/block_humanity_inactive.svg) no-repeat center center;
 	width:13px;
@@ -501,9 +408,8 @@
     -webkit-box-flex:1;
         -ms-flex:auto;
             flex:auto;
-	position:relative;
-	width:276px;
-	width:calc(20vh + 76px);
+    position:relative;
+    height:100%;
 }
 
 .search-extend
@@ -687,24 +593,24 @@
 	color:#963246;
 }
 
-.timetable_page :global(.fa-circle-o)
+:global(.fa-circle-o)
 {
 	margin-left:2px;
     color: #aaaaaa;
 	vertical-align:top;
 }
-.timetable_page label:hover > :global(.fa-circle-o)
+label:hover > :global(.fa-circle-o)
 {
     color: #a8687f;
 }
 
-.timetable_page :global(.fa-check-circle-o)
+:global(.fa-check-circle-o)
 {
 	margin-left:2px;
     color: #e64c65;
 	vertical-align:top;
 }
-.timetable_page label:hover > :global(.fa-check-circle-o)
+label:hover > :global(.fa-check-circle-o)
 {
     color: #a8687f;
 }
@@ -1011,11 +917,6 @@
 
 /* Timetable tab at center */
 
-#timetable-menu
-{
-    height:25px;
-}
-
 #timetable-tabs
 {
     float:left;
@@ -1239,8 +1140,6 @@
     float:left;
     display:inline-block;
     height:100%;
-    margin-right:10px;
-	padding:10px 0 10px 10px;
 }
 
 .chead
