@@ -14,132 +14,7 @@ i
 
 /* Lecture in top-left side */
 
-#lecture-info
-{
-    flex:none;
-    background-color:#FFFFFF;
-    border-radius:6px;
-    box-shadow:0 3px 0 0 #F3BEC6;
-    height:100%;
-    padding:10px;
-	overflow:hidden;
-}
 
-#info-placeholder
-{
-    display:-webkit-box;
-    display:-ms-flexbox;
-    display:flex;
-    display:-webkit-flex;
-    -webkit-box-orient:vertical;
-    -webkit-box-direction:normal;
-        -ms-flex-direction:column;
-            flex-direction:column;
-    -webkit-box-flex:1;
-        -ms-flex:auto;
-            flex:auto;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-    color: #999;
-}
-#info-placeholder:not(:only-child)
-{
-    display:none;
-}
-
-.otlplus-title
-{
-    font-size: 20px;
-}
-
-.otlplus-content
-{
-    font-size: 12px;
-    margin-top: 8px;
-}
-
-.otlplus-content a
-{
-    color:#999;
-}
-.otlplus-content a:hover
-{
-    color:#333;
-}
-
-.lecture-detail
-{
-    display:-webkit-box;
-    display:-ms-flexbox;
-    display:flex;
-    display:-webkit-flex;
-    -webkit-box-orient:vertical;
-    -webkit-box-direction:normal;
-        -ms-flex-direction:column;
-            flex-direction:column;
-	height:100%;
-}
-
-#course-title
-{
-    font-size:13px;
-	line-height:14px;
-    font-weight:bold;
-    margin-top:-1px;
-	margin-bottom:1px;
-}
-
-#course-no
-{
-    font-size:12px;
-	line-height:13px;
-	margin-bottom:4px;
-}
-
-.lecture-options
-{
-    text-align:right;
-    font-size:11px;
-    line-height:12px;
-    color:#E54C65;
-    margin-bottom: 6px;
-}
-.lecture-options > span.disable
-{
-    pointer-events:none;
-    color:#cccccc;
-}
-.lecture-options > span:hover
-{
-	cursor:pointer;
-    color:#963246;
-}
-
-.lecture-options a
-{
-    color:inherit;
-}
-
-.basic-info
-{
-	font-size:12px;
-	line-height:13px;
-    margin-bottom:8px;
-    clear:both;
-    display:flex;
-    flex-direction:row;
-}
-
-.basic-info-name
-{
-    display: inline-block;
-    font-weight: bold;
-    margin-right: 4px;
-    white-space: nowrap;
-    flex:none;
-}
 .basic-info-name.fixed-ko
 {
     width: 23px;
@@ -147,109 +22,6 @@ i
 .basic-info-name.fixed-en
 {
     width: 32px;
-}
-
-#department, #course-type, #instructor, #classroom, #class-size, #exam-time
-{
-}
-
-.lecture-scores
-{
-	margin-top: calc(1.4vh);
-	margin-bottom: calc(1.4vh);
-    text-align:center;
-}
-
-.lecture-score
-{
-	width:69px;
-	width: calc(3.5vh + 34px);
-    display:inline-block;
-	vertical-align:top;
-}
-
-.score-text
-{
-	height: calc(0.7vh + 14px);
-    font-weight:300;
-	margin-bottom:2px;
-}
-.score-text:not(.score-korean)
-{
-    font-size: calc(0.7vh + 15px);
-    line-height: calc(0.7vh + 14px);
-    font-family:"Helvetica Neue", "Calibri", "Arial";
-}
-.score-text.score-korean
-{
-    font-size: calc(0.7vh + 13px);
-    line-height: calc(0.7vh + 16px);
-    padding-top: 1px;
-}
-
-.score-label
-{
-	font-size: 11px;
-	line-height: 12px;
-}
-
-.dictionary-preview{
-	cursor:pointer;
-}
-.dictionary-preview.open-dict-button{
-    margin-bottom: 9px;
-}
-.dictionary-preview.close-dict-button{
-    padding-bottom: 9px;
-    margin-bottom: 0px;
-    background-color: #fff;
-}
-
-.dict-fixed{
-    height:0;
-    z-index:10;
-}
-
-.open-dict-button .dict-arrow
-{
-	background: url(../static/icons/lecture_downarrow.svg) no-repeat center center;
-	width:14px;
-	height:11px;
-	display:inline-block;
-	vertical-align:top;
-	margin-left:5px;
-	margin-top:1px;
-}
-.open-dict-button:hover .dict-arrow
-{
-	background-image: url(../static/icons/lecture_downarrow_hover.svg);
-}
-
-.close-dict-button .dict-arrow
-{
-	background: url(../static/icons/lecture_uparrow.svg) no-repeat center center;
-	width:14px;
-	height:11px;
-	display:inline-block;
-	vertical-align:top;
-	margin-left:5px;
-	margin-top:1px;
-}
-.close-dict-button:hover .dict-arrow
-{
-	background-image: url(../static/icons/lecture_uparrow_hover.svg);
-}
-
-#reviews {
-    min-height:calc(5.6vh + 164px);
-    margin-bottom: 10px;
-}
-.review-loading
-{
-    font-size: 16px;
-    color: #999;
-    padding-top: calc(2.8vh + 76px);
-    text-align: center;
 }
 
 .review-elem{
@@ -705,18 +477,18 @@ label:hover > :global(.fa-check-circle-o)
     -webkit-box-flex:1;
         -ms-flex:auto;
             flex:auto;
-    margin: 0px -10px -10px 0px;
+    margin: 0px -12px -12px 0px;
     width: auto !important;
 }
 :global(.nano-content) {
     margin-right: 0px;
 }
 :global(.nano-content) > *{
-    margin-right: 10px;
+    margin-right: 12px;
 }
 :global(.nano-pane) {
     width: 4px !important;
-    margin: 0px 3px 10px 3px;
+    margin: 0px 4px 10px 4px;
     background-color:transparent !important;
 }
 :global(.nano-slider) {

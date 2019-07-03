@@ -400,7 +400,8 @@ button {
     }
 
 
-    .section-content--course-detail & {
+    .section-content--course-detail &,
+    .section-content--lecture-detail & {
         text-align: center;
         margin-bottom: 2px;
     }
@@ -414,11 +415,32 @@ button {
 
 
 .subtitle {
+    font-size: 13px;
+    line-height: 14px;
+    text-align: center;
+
     .section-content--course-detail & {
-        font-size: 13px;
-        line-height: 14px;
-        text-align: center;
         margin-bottom: 10px;
+    }
+
+    .section-content--lecture-detail & {
+        margin-bottom: 4px;
+    }
+}
+
+
+.small-title {
+    font-weight: bold;
+    font-size: 13px;
+    line-height: 14px;
+
+    .section-content--lecture-detail & {
+        display: inline-block;
+        cursor: pointer;
+
+        & > span {
+            margin-right: 6px;
+        }
     }
 }
 
@@ -442,6 +464,15 @@ button {
     }
 
 
+    &--right {
+        float: right;
+    }
+
+    &--disabled {
+        pointer-events: none;
+        color: #CCCCCC;
+    }
+
     &--review-block {
         float: right;
         margin-left: 8px;
@@ -450,6 +481,15 @@ button {
 
     &--review-write-block {
         margin-top: 4px;
+    }
+
+    .section-content--lecture-detail & {
+        font-size: 12px;
+        line-height: 13px;
+
+        &:not(:first-child) {
+            margin-left: 6px;
+        }
     }
 }
 
@@ -507,20 +547,18 @@ button {
     & > div {
         display: flex;
         flex-direction: row;
+        margin-bottom: 8px;
 
         .block--course & {
             margin-bottom: 6px;
-        }
-
-        .section-content--course-detail & {
-            margin-bottom: 8px;
         }
 
         &:last-child {
             margin-bottom: 0;
         }
 
-        & > div:first-child {
+        & > div:first-child,
+        & > span:first-child {
             font-weight: bold;
             margin-right: 6px;
             flex: none;
@@ -530,18 +568,42 @@ button {
 
 
 .scores {
-    margin-top: calc(1.4vh + 6px);
     text-align: center;
+
+    .section-content--course-detail & {
+        margin-top: calc(1.4vh + 6px);
+    }
+    .section-content--lecture-detail & {
+        margin-top: calc(1.4vh + 2px);
+        margin-bottom: calc(1.4vh + 2px);
+    }
 
     & > div {
         display: inline-block;
-        width: calc(3.5vh + 54px);
+
+        .section-content--course-detail & {
+            width: calc(3.5vh + 54px);
+        }
+        .section-content--lecture-detail & {
+            width: calc(3.5vh + 34px);
+        }
 
         & > div:first-child {
-            font-size: calc(0.7vh + 17px);
-            line-height: calc(0.7vh + 15px);
             font-weight: 300;
             margin-bottom: 2px;
+
+            .section-content--course-detail & {
+                font-size: calc(0.7vh + 17px);
+                line-height: calc(0.7vh + 15px);
+            }
+            .section-content--lecture-detail & {
+                font-size: calc(0.7vh + 15px);
+                line-height: calc(0.7vh + 13px);
+
+                &.scores__score-text--korean {
+                    font-size: calc(0.7vh + 13px);
+                }
+            }
         }
 
         & > div:last-child {
@@ -568,6 +630,12 @@ button {
 .buttons {
     margin-top: 10px;
     text-align: right;
+
+    .section-content--lecture-detail & {
+        margin-top: 0;
+        margin-bottom: 6px;
+        text-align: initial;
+    }
 }
 
 
@@ -576,6 +644,7 @@ button {
 
 
     &__conditional-part {
+        z-index: 10;
         height: 0;
 
 
@@ -586,6 +655,81 @@ button {
 
         &--hidden {
             display: none;
+        }
+    }
+}
+
+
+.otlplus-placeholder {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    color: #AAAAAA;
+    font-size: 13px;
+    line-height: 14px;
+
+    & > div {
+        flex: none;
+        margin-top: 12px;
+
+        &:first-child {
+            margin-top: 0;
+            font-size: 20px;
+            line-height: 20px;
+        }
+    }
+
+    a {
+        color: inherit;
+
+        &:hover {
+            color: #555555;
+        }
+    }
+}
+
+
+.list-placeholder {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    color: #AAAAAA;
+    font-size: 16px;
+    line-height: 17px;
+
+    .section-content--lecture-detail & {
+        min-height: calc(100% - 14px);
+    }
+}
+
+
+i.icon {
+    display: inline-block;
+    background: none no-repeat center center;
+    vertical-align: middle;
+
+    &--lecture-uparrow {
+        width: 14px;
+        height: 12px;
+        background-image: url(../static/icons/lecture_uparrow.svg);
+
+        *:hover > & {
+            background-image: url(../static/icons/lecture_uparrow_hover.svg)
+        }
+    }
+
+
+    &--lecture-downarrow {
+        width: 14px;
+        height: 12px;
+        background-image: url(../static/icons/lecture_downarrow.svg);
+
+        *:hover > & {
+            background-image: url(../static/icons/lecture_downarrow_hover.svg)
         }
     }
 }
