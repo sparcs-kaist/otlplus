@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { timetableBoundClassNames as classNames } from '../../../common/boundClassNames';
+import { appBoundClassNames as classNames, timetableBoundClassNames } from '../../../common/boundClassNames';
 import axios from '../../../common/presetAxios';
 
 import { inTimetable, inCart, isListClicked, isListHover } from '../../../common/lectureFunctions';
@@ -215,14 +215,14 @@ class ListSection extends Component {
 
     const listBlocks = (courses, fromCart) => {
       if (!courses) {
-        return <div className={classNames('list-loading')}>불러오는 중</div>;
+        return <div className={classNames('list-placeholder')}><div>불러오는 중</div></div>;
       }
       if (courses.length === 0) {
-        return <div className={classNames('list-loading')}>결과 없음</div>;
+        return <div className={classNames('list-placeholder')}><div>결과 없음</div></div>;
       }
       return courses.map(course => (
-        <div className={classNames('list-elem', (course.some(lecture => isListClicked(lecture, lectureActive)) ? 'click' : ''))} key={course[0].course}>
-          <div className={classNames('list-elem-title')}>
+        <div className={timetableBoundClassNames('list-elem', (course.some(lecture => isListClicked(lecture, lectureActive)) ? 'click' : ''))} key={course[0].course}>
+          <div className={timetableBoundClassNames('list-elem-title')}>
             <strong>{course[0].common_title}</strong>
             &nbsp;
             {course[0].old_code}
@@ -250,61 +250,56 @@ class ListSection extends Component {
 
     if (currentList === 'SEARCH') {
       return (
-        <div id={classNames('list-page-wrap')}>
-          <div className={classNames('list-page', 'search-page')}>
+      // eslint-disable-next-line react/jsx-indent
+          <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
             { searchOpen ? <SearchSubSection /> : null }
-            <div className={classNames('list-page-title', 'search-page-title')} onClick={() => this.showSearch()}>
-              <i className={classNames('search-page-title-icon')} />
-              <div className={classNames('search-page-title-text')}>검색</div>
+            <div className={classNames('title', 'title--search')} onClick={() => this.showSearch()}>
+              <i className={classNames('icon', 'icon--search')} />
+              <span>검색</span>
             </div>
             <Scroller>
               {listBlocks(search.courses, false)}
             </Scroller>
           </div>
-        </div>
       );
     }
     if (major.codes.some(code => (currentList === code))) {
       return (
-          // eslint-disable-next-line react/jsx-indent
-          <div id={classNames('list-page-wrap')}>
-            <div className={classNames('list-page', 'major-page')}>
-              <div className={classNames('list-page-title')}>
+      // eslint-disable-next-line react/jsx-indent
+            <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
+              <div className={classNames('title')}>
                 {major[currentList].name}
               </div>
               <Scroller>
                 {listBlocks(major[currentList].courses, false)}
               </Scroller>
             </div>
-          </div>
       );
     }
     if (currentList === 'HUMANITY') {
       return (
-        <div id={classNames('list-page-wrap')}>
-          <div className={classNames('list-page', 'humanity-page')}>
-            <div className={classNames('list-page-title')}>
+      // eslint-disable-next-line react/jsx-indent
+          <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
+            <div className={classNames('title')}>
               인문사회선택
             </div>
             <Scroller>
               {listBlocks(humanity.courses, false)}
             </Scroller>
           </div>
-        </div>
       );
     }
     if (currentList === 'CART') {
       return (
-        <div id={classNames('list-page-wrap')}>
-          <div className={classNames('list-page', 'cart-page')}>
-            <div className={classNames('list-page-title')}>
+      // eslint-disable-next-line react/jsx-indent
+          <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
+            <div className={classNames('title')}>
               장바구니
             </div>
             <Scroller>
               {listBlocks(cart.courses, true)}
             </Scroller>
           </div>
-        </div>
       );
     }
     return null;

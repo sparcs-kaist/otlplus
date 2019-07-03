@@ -394,7 +394,8 @@ button {
     line-height: 15px;
 
 
-    .section-content--course-list & {
+    .section-content--course-list &,
+    .section-content--lecture-list & {
         font-weight: initial;
         margin-bottom: 12px;
     }
@@ -410,6 +411,16 @@ button {
     .section-content--widget & {
         text-align: center;
         margin-bottom: 10px;
+    }
+
+
+    &--search {
+        color: #E54C65;
+        cursor: pointer;
+
+        span {
+            margin-left: 6px;
+        }
     }
 }
 
@@ -730,6 +741,16 @@ i.icon {
 
         *:hover > & {
             background-image: url(../static/icons/lecture_downarrow_hover.svg)
+        }
+    }
+
+    &--search {
+        width: 12px;
+        height: 13px;
+        background-image: url(../static/icons/search.svg);
+
+        *:hover > & {
+            background-image: url(../static/icons/search_hover.svg)
         }
     }
 }
