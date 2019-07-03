@@ -38,6 +38,11 @@ button {
 }
 
 
+label {
+    font-weight: initial;
+}
+
+
 .content {
     width: 80%;
     margin-top: 50px;
@@ -418,8 +423,50 @@ button {
         color: #E54C65;
         cursor: pointer;
 
-        span {
+        & > span {
             margin-left: 6px;
+        }
+
+        .search-area & {
+            display: flex;
+            flex-direction: row;
+
+            & > div:last-child {
+                flex: auto;
+                height: 15px;
+                margin-left: 6px;
+                position: relative;
+
+                & > input {
+                    width: 100%;
+                    position: absolute;
+                    top: 0px;
+                    z-index: 2;
+                    color: #333333;
+
+                    &::placeholder {
+                        color: #AAAAAA;
+                    }
+                }
+
+                & > div {
+                    width: 100%;
+                    position: absolute;
+                    top: 0px;
+                    z-index: 1;
+                    color: #AAAAAA;
+                    height: 100%;
+                    overflow: hidden;
+                    display: none;
+                }
+                & > input:focus + div {
+                    display: block;
+
+                    & > span:first-child {
+                        opacity: 0;
+                    }
+                }
+            }
         }
     }
 }
@@ -458,6 +505,7 @@ button {
 
 .text-button {
     color: #E54C65;
+    cursor: pointer;
 
 
     &:hover {
@@ -501,6 +549,10 @@ button {
         &:not(:first-child) {
             margin-left: 6px;
         }
+    }
+
+    .search-area .buttons & {
+        margin-left: 6px;
     }
 }
 
@@ -569,10 +621,24 @@ button {
         }
 
         & > div:first-child,
-        & > span:first-child {
+        & > span:first-child,
+        & > *:first-child {
             font-weight: bold;
             margin-right: 6px;
             flex: none;
+        }
+
+        & > *:last-child {
+            flex: initial;
+
+            .search-area & {
+                margin-bottom: -6px;
+
+                & > label {
+                    margin-bottom: 6px;
+                    margin-right: 6px;
+                }
+            }
         }
     }
 }
@@ -671,6 +737,16 @@ button {
 }
 
 
+.search-area {
+    height: 0;
+    z-index: 1;
+
+    & > form {
+        background-color:#FFFFFF;
+    }
+}
+
+
 .otlplus-placeholder {
     height: 100%;
     display: flex;
@@ -715,6 +791,29 @@ button {
     .section-content--lecture-detail & {
         min-height: calc(100% - 14px);
     }
+}
+
+
+:global(.fa-circle-o)
+{
+	margin-left:3px;
+    color: #aaaaaa;
+	vertical-align:top;
+}
+label:hover > :global(.fa-circle-o)
+{
+    color: #963246;
+}
+
+:global(.fa-check-circle-o)
+{
+	margin-left:3px;
+    color: #e64c65;
+	vertical-align:top;
+}
+label:hover > :global(.fa-check-circle-o)
+{
+    color: #963246;
 }
 
 

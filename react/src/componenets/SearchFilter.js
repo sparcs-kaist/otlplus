@@ -88,9 +88,9 @@ class SearchFilter extends Component {
 
 
     return (
-      <div className={classNames('search-filter')}>
-        <label className={classNames('search-filter-title', 'fixed-ko')}>{ titleName }</label>
-        <div className={classNames('search-filter-elem')}>
+      <div>
+        <label>{ titleName }</label>
+        <div>
           {valueArr.map(mapCircle)}
         </div>
       </div>
