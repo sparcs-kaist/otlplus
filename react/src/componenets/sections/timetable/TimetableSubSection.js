@@ -329,9 +329,9 @@ class TimetableSubSection extends Component {
               <div
                 id={classNames('drag-cell')}
                 style={{
-                  left: (cellWidth + 5) * this.indexOfDay(firstBlock.getAttribute('data-day')) + 28,
+                  left: (cellWidth + 5) * this.indexOfDay(firstBlock.getAttribute('data-day')) + 18,
                   width: cellWidth + 2,
-                  top: cellHeight * Math.min(this.indexOfTime(firstBlock.getAttribute('data-time')), this.indexOfTime(secondBlock.getAttribute('data-time'))) + 28,
+                  top: cellHeight * Math.min(this.indexOfTime(firstBlock.getAttribute('data-time')), this.indexOfTime(secondBlock.getAttribute('data-time'))) + 18,
                   height: cellHeight * (Math.abs(this.indexOfTime(firstBlock.getAttribute('data-time')) - this.indexOfTime(secondBlock.getAttribute('data-time'))) + 1) - 3,
                 }}
               />
