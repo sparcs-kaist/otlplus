@@ -30,7 +30,9 @@ class TimetablePage extends Component {
                 { /* eslint-disable-next-line react/jsx-indent */}
                   <div className={classNames('section-wrap', 'section-wrap--timetable-left')}>
                     <div className={classNames('section-wrap', 'section-wrap--lecture-detail')}>
-                      <DetailSection />
+                      <div className={classNames('section')}>
+                        <DetailSection />
+                      </div>
                     </div>
                     <div className={classNames('section-wrap', 'section-wrap--lecture-list')}>
                       <div className={classNames('tab--lecture-list')}>
