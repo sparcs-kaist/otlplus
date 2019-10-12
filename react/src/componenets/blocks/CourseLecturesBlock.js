@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { pure } from 'recompose';
 
-import { timetableBoundClassNames as classNames } from '../../common/boundClassNames';
+import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 
 import lectureShape from '../../shapes/LectureShape';
 
@@ -11,36 +11,36 @@ const CourseLecturesBlock = ({ lecture, isClicked, isHover, inTimetable, inCart,
   const getClass = (lec) => {
     switch (lec.class_title.length) {
       case 1:
-        return classNames('class-title', 'fixed-1');
+        return classNames('block--course-lectures__elem__texts__fixed-1');
       case 2:
-        return classNames('class-title', 'fixed-2');
+        return classNames('block--course-lectures__elem__texts__fixed-2');
       default:
-        return classNames('class-title');
+        return classNames('');
     }
   };
-  const change = isClicked || isHover ? classNames('click') : '';
+  const change = isClicked ? classNames('block--clicked') : (isHover ? classNames('block--active') : '');
   return (
       // eslint-disable-next-line react/jsx-indent
-      <div className={classNames('list-elem-body-wrap', change)} onClick={() => listClick(lecture)()} onMouseOver={() => listHover(lecture)()} onMouseOut={() => listOut()}>
-        <div className={classNames('list-elem-body')}>
-          <div className={classNames('list-elem-body-text')}>
+      <div className={classNames('block--course-lectures__elem-wrap', change)} onClick={() => listClick(lecture)()} onMouseOver={() => listHover(lecture)()} onMouseOut={() => listOut()}>
+        <div className={classNames('block--course-lectures__elem')}>
+          <div className={classNames('block--course-lectures__elem__texts')}>
             <strong className={getClass(lecture)}>{lecture.class_title}</strong>
-            &nbsp;
-            <span className={classNames('class-prof')}>{lecture.professor_short}</span>
+            {' '}
+            <span>{lecture.professor_short}</span>
           </div>
           {
             fromCart
-              ? <div className={classNames('delete-from-cart')} onClick={event => deleteFromCart(lecture)(event)}><i /></div>
+              ? <div className={classNames('block--course-lectures__elem__button')} onClick={event => deleteFromCart(lecture)(event)}><i className={classNames('icon', 'icon--delete-cart')} /></div>
               : (
                 !inCart
-                  ? <div className={classNames('add-to-cart')} onClick={event => addToCart(lecture)(event)}><i /></div>
-                  : <div className={classNames('add-to-cart', 'disable')}><i /></div>
+                  ? <div className={classNames('block--course-lectures__elem__button')} onClick={event => addToCart(lecture)(event)}><i className={classNames('icon', 'icon--add-cart')} /></div>
+                  : <div className={classNames('block--course-lectures__elem__button', 'block--course-lectures__elem__button--disable')}><i className={classNames('icon', 'icon--add-cart')} /></div>
               )
           }
           {
             !inTimetable
-              ? <div className={classNames('add-to-table')} onClick={event => addToTable(lecture)(event)}><i /></div>
-              : <div className={classNames('add-to-table', 'disable')}><i /></div>
+              ? <div className={classNames('block--course-lectures__elem__button')} onClick={event => addToTable(lecture)(event)}><i className={classNames('icon', 'icon--add-lecture')} /></div>
+              : <div className={classNames('block--course-lectures__elem__button', 'block--course-lectures__elem__button--disable')}><i className={classNames('icon', 'icon--add-lecture')} /></div>
           }
         </div>
       </div>

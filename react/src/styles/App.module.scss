@@ -403,6 +403,84 @@ label {
             text-align: right;
         }
     }
+
+
+    &--course-lectures {
+        padding: 8px 10px;
+        margin-bottom: 6px;
+        &:last-child {
+            margin-bottom: 12px;
+        }
+
+        &.block--clicked {
+            box-shadow: 0 3px 0 0 #888888;
+            margin-top: -3px;
+            margin-bottom: 9px;
+            &:last-child {
+                margin-bottom: 12px;
+            }
+        }
+
+        &__title {
+            margin-bottom: 6px;
+        }
+
+        &__elem-wrap {
+            margin: 0px -10px;
+            padding: 0 10px 0 18px;
+            cursor: pointer;
+
+            &:last-child {
+                margin-bottom: -8px;
+                border-radius:0px 0px 4px 4px;
+            }
+
+            &.block--active,
+            &.block--clicked {
+                background-color:#DDDDDD;
+            }
+        }
+
+        &__elem {
+            padding: 6px 0;
+            border-top:1px solid #C9C9C9;
+            display: flex;
+            flex-direction: row;
+            pointer-events: none;
+
+            *:last-child > & {
+                padding-bottom: 8px;
+            }
+
+            &__texts {
+                flex: 1;
+                margin-bottom: -2px;
+                text-align: left;
+
+                & > * {
+                    display: inline-block;
+                    margin-bottom: 2px;
+                }
+
+                &__fixed-1 {
+                    width: 9px;
+                }
+                &__fixed-2 {
+                    width: 16px;
+                }
+            }
+
+            &__button {
+                margin-left: 6px;
+                pointer-events: auto;
+                cursor: pointer;
+
+                &--disable {
+                    pointer-events: none;
+                }
+            }
+        }
+    }
 }
 
 
@@ -907,6 +985,44 @@ i.icon {
         *:hover > &,
         *.tab__elem--active > & {
             background-image: url(../static/icons/block_cart.svg)
+        }
+    }
+
+    &--add-cart {
+        width: 12px;
+        height: 13px;
+        background-image: url(../static/icons/add_cart.svg);
+
+        *:hover > & {
+            background-image: url(../static/icons/add_cart_hover.svg);
+        }
+
+        .block--course-lectures__elem__button--disable > & {
+            background-image: url(../static/icons/add_cart_disabled.svg);
+        }
+    }
+
+    &--delete-cart {
+        width: 12px;
+        height: 13px;
+        background-image: url(../static/icons/delete_cart.svg);
+
+        *:hover > & {
+            background-image: url(../static/icons/delete_cart_hover.svg);
+        }
+    }
+
+    &--add-lecture {
+        width: 11px;
+        height: 13px;
+        background-image: url(../static/icons/add_lecture.svg);
+
+        *:hover > & {
+            background-image: url(../static/icons/add_lecture_hover.svg);
+        }
+
+        .block--course-lectures__elem__button--disable > & {
+            background-image: url(../static/icons/add_lecture_disabled.svg);
         }
     }
 }

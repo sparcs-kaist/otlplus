@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { appBoundClassNames as classNames, timetableBoundClassNames } from '../../../common/boundClassNames';
+import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 import axios from '../../../common/presetAxios';
 
 import { inTimetable, inCart, isListClicked, isListHover } from '../../../common/lectureFunctions';
@@ -221,10 +221,10 @@ class ListSection extends Component {
         return <div className={classNames('list-placeholder')}><div>결과 없음</div></div>;
       }
       return courses.map(course => (
-        <div className={timetableBoundClassNames('list-elem', (course.some(lecture => isListClicked(lecture, lectureActive)) ? 'click' : ''))} key={course[0].course}>
-          <div className={timetableBoundClassNames('list-elem-title')}>
+        <div className={classNames('block', 'block--course-lectures', (course.some(lecture => isListClicked(lecture, lectureActive)) ? 'block--clicked' : ''))} key={course[0].course}>
+          <div className={classNames('block--course-lectures__title')}>
             <strong>{course[0].common_title}</strong>
-            &nbsp;
+            {' '}
             {course[0].old_code}
           </div>
           {course.map(lecture => (
