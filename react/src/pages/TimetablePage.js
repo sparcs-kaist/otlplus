@@ -35,9 +35,7 @@ class TimetablePage extends Component {
                       </div>
                     </div>
                     <div className={classNames('section-wrap', 'section-wrap--lecture-list')}>
-                      <div className={classNames('tab--lecture-list')}>
-                        <ListTabs />
-                      </div>
+                      <ListTabs />
                       <div className={classNames('section', 'section--with-tabs')}>
                         <ListSection />
                       </div>
