@@ -189,7 +189,20 @@ label {
         vertical-align: top;
         width: 50px;
         margin-left: -50px;
-        text-align: right;
+
+        > button {
+            display: block;
+            padding: 8px;
+            margin-left: auto;
+            margin-bottom: 6px;
+            line-height: 0;
+            border-radius: 4px 0 0 4px;
+            background-color: #E2E2E2;
+
+            &.tab__elem--active {
+                background-color: #FFFFFF;
+            }
+        }
     }
 }
 
@@ -850,6 +863,50 @@ i.icon {
 
         *:hover > & {
             background-image: url(../static/icons/search_hover.svg)
+        }
+    }
+
+    &--block-search {
+        width: 13px;
+        height: 13px;
+        background-image: url(../static/icons/block_search_inactive.svg);
+
+        *:hover > &,
+        *.tab__elem--active > & {
+            background-image: url(../static/icons/block_search.svg)
+        }
+    }
+
+    &--block-major {
+        width: 13px;
+        height: 13px;
+        background-image: url(../static/icons/block_major_inactive.svg);
+
+        *:hover > &,
+        *.tab__elem--active > & {
+            background-image: url(../static/icons/block_major.svg)
+        }
+    }
+
+    &--block-humanity {
+        width: 13px;
+        height: 13px;
+        background-image: url(../static/icons/block_humanity_inactive.svg);
+
+        *:hover > &,
+        *.tab__elem--active > & {
+            background-image: url(../static/icons/block_humanity.svg)
+        }
+    }
+
+    &--block-cart {
+        width: 13px;
+        height: 13px;
+        background-image: url(../static/icons/block_cart_inactive.svg);
+
+        *:hover > &,
+        *.tab__elem--active > & {
+            background-image: url(../static/icons/block_cart.svg)
         }
     }
 }
