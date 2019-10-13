@@ -23,8 +23,8 @@ const TimetableBlock = ({ lecture, classtime, cellWidth, cellHeight, isClicked, 
       <div
         className={classNames('lecture-block', `color${lecture.course % 16}`, activeType)}
         style={{
-          left: (cellWidth + 5) * classtime.day + 18,
-          top: cellHeight * indexOfTime(classtime.begin) + 18,
+          left: (cellWidth + 5) * classtime.day + 17,
+          top: cellHeight * indexOfTime(classtime.begin) + 19,
           width: cellWidth + 2,
           height: cellHeight * (indexOfTime(classtime.end) - indexOfTime(classtime.begin)) - 3,
         }}

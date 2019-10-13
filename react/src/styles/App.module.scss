@@ -240,6 +240,95 @@ label {
         display: flex;
         flex-direction: column;
     }
+
+    &--timetable {
+        flex: 1 1 auto;
+        position: relative;
+
+        &__table {
+            display: flex;
+            flex-direction: row;
+            height: 100%;
+
+            & > div:first-child {
+                display: flex;
+                flex-direction: column;
+                width:10px;
+                margin-right:4px;
+
+                & > div {
+                    flex: 1 1 auto;
+                    position: relative;
+                    margin-top: 1px;
+                    width: 100%;
+                    &:first-child {
+                        flex: none;
+                        margin-top: 0;
+                        height: 17px;
+                    }
+                    &:last-child {
+                        margin-bottom: 1px;
+                    }
+
+                    & > * {
+                        width: 100%;
+                        text-align: right;
+                        color: #555;
+                        font-size: 10px;
+                        position: absolute;
+                        display: inline-block;
+                        bottom: -8px;
+                    }
+                }
+            }
+
+            & > div:not(:first-child) {
+                display: flex;
+                flex-direction: column;
+                padding-left: 4px;
+                padding-right: 1px;
+                height: 100%;
+                flex: auto;
+
+                & > div {
+                    &:first-child {
+                        flex: none;
+                        height: 17px;
+                        text-align: center;
+                        font-size: 10px;
+                        line-height: 11px;
+                        color: #555;
+                        position: relative;
+                    }
+
+                    &:not(:first-child) {
+                        position: relative;
+                        flex: auto;
+                        width: 100%;
+                        &.cell-top {
+                            border-top:1px solid #E8E8E8;
+                            &.cell-bold {
+                                border-top:1px solid #C9C9C9;
+                            }
+                        }
+                        &.cell-bottom {
+                            border-top:1px dashed #E8E8E8;
+                            &.cell-last {
+                                border-bottom:1px solid #C9C9C9;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        &__drag-cell {
+            background-color:#E56C85;
+            border-radius:2px;
+            pointer-events:none;
+            z-index:1;
+        }
+    }
 }
 
 
