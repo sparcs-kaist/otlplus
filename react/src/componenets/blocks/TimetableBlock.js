@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { pure } from 'recompose';
 
-import { timetableBoundClassNames as classNames } from '../../common/boundClassNames';
+import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 
 import lectureShape from '../../shapes/LectureShape';
 import classtimeShape from '../../shapes/ClasstimeShape';
@@ -12,16 +12,16 @@ const TimetableBlock = ({ lecture, classtime, cellWidth, cellHeight, isClicked, 
   const indexOfTime = time => (time / 30 - 16);
 
   const activeType = (
-    isClicked ? classNames('click')
-      : isTemp ? classNames('lecture-block-temp', 'active')
-        : (isHover || isListHover) ? classNames('active')
+    isClicked ? classNames('block--clicked')
+      : isTemp ? classNames('block--temp', 'block--active')
+        : (isHover || isListHover) ? classNames('block--active')
           : ''
   );
 
   return (
       // eslint-disable-next-line react/jsx-indent
       <div
-        className={classNames('lecture-block', `color${lecture.course % 16}`, activeType)}
+        className={classNames('block--timetable', `background-color--${lecture.course % 16}`, activeType)}
         style={{
           left: (cellWidth + 5) * classtime.day + 17,
           top: cellHeight * indexOfTime(classtime.begin) + 19,
@@ -32,18 +32,18 @@ const TimetableBlock = ({ lecture, classtime, cellWidth, cellHeight, isClicked, 
         onMouseOut={() => blockOut()}
         onClick={() => blockClick(lecture)()}
       >
-        <div className={classNames('lecture-delete')} onClick={event => deleteLecture(lecture)(event)}><i /></div>
+        <div className={classNames('block--timetable__button')} onClick={event => deleteLecture(lecture)(event)}><i className={classNames('icon', 'icon--delete-lecture')} /></div>
         <div
           // onMouseDown={() => onMouseDown()}
-          className={classNames('lecture-block-content')}
+          className={classNames('block--timetable__content')}
         >
-          <p className={classNames('timetable-lecture-name')}>
+          <p className={classNames('block--timetable__content__title')}>
             {lecture.title}
           </p>
-          <p className={classNames('timetable-lecture-info')}>
-            {lecture.professor}
+          <p className={classNames('block--timetable__content__info')}>
+            {lecture.professor_short}
           </p>
-          <p className={classNames('timetable-lecture-info')}>
+          <p className={classNames('block--timetable__content__info')}>
             {classtime.classroom}
           </p>
         </div>
