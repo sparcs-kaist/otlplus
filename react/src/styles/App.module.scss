@@ -707,6 +707,7 @@ label {
             display: flex;
             flex-direction: row;
             pointer-events: none;
+            align-items: center;
 
             *:last-child > & {
                 padding-bottom: 8px;
