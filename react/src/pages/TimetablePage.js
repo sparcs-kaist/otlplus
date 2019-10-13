@@ -65,6 +65,7 @@ class TimetablePage extends Component {
                       <div className={classNames('divider', 'divider--vertical')} />
                       <div className={classNames('section-wrap', 'section-wrap--timetable-right')}>
                         <MapSubSection />
+                        <div className={classNames('divider')} />
                         <SummarySubSection />
                         <ExamSubSection />
                         <ShareSubSection />
