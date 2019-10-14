@@ -137,27 +137,27 @@ class DetailSection extends Component {
             >
               <div className={classNames('attributes')} ref={this.attributesRef}>
                 <div>
-                  <span>구분</span>
+                  <span className={classNames('fixed-ko')}>구분</span>
                   <span>{lecture.type}</span>
                 </div>
                 <div>
-                  <span>학과</span>
+                  <span className={classNames('fixed-ko')}>학과</span>
                   <span>{lecture.department_name}</span>
                 </div>
                 <div>
-                  <span>교수</span>
+                  <span className={classNames('fixed-ko')}>교수</span>
                   <span>{lecture.professor}</span>
                 </div>
                 <div>
-                  <span>장소</span>
+                  <span className={classNames('fixed-ko')}>장소</span>
                   <span>{lecture.classroom}</span>
                 </div>
                 <div>
-                  <span>정원</span>
+                  <span className={classNames('fixed-ko')}>정원</span>
                   <span>{lecture.limit}</span>
                 </div>
                 <div>
-                  <span>시험</span>
+                  <span className={classNames('fixed-ko')}>시험</span>
                   <span>{lecture.exam}</span>
                 </div>
               </div>
