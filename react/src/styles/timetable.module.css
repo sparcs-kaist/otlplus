@@ -24,49 +24,6 @@ i
     width: 32px;
 }
 
-.review-elem{
-	background-color:#EEEEEE;
-	border-radius:4px;
-	margin-bottom:6px;
-	padding:8px 10px 8px 10px;
-	font-size:11px;
-	line-height:12px;
-	cursor:pointer;
-    color:#333;
-}
-.review-elem:hover{
-    background-color:#DDDDDD;
-}
-
-.review-body{
-    display:block;
-    display:-webkit-box;
-	margin-bottom:4px;
-    line-height:14px;
-    max-height:42px;
-    overflow:hidden;
-    -webkit-line-clamp:3;
-    -webkit-box-orient:vertical;
-    text-overflow:ellipsis;
-}
-
-.review-score-wrap{
-	text-align:right;
-	margin-bottom:-1px;
-}
-
-.review-score{
-	margin-left:10px;
-}
-
-.review-more{
-	color:#888888;
-}
-
-.review-elem:hover .review-more{
-	color:#333333;
-}
-
 
 
 /* Search at bottom-left side */
