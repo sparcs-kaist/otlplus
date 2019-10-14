@@ -1010,7 +1010,7 @@ a:hover {
                 margin-bottom:1px;
                 pointer-events:none;
                 .block--timetable.block--active &,
-                .block--timetable.block--clicked &
+                .block--timetable.block--clicked &,
                 .block--timetable.block--temp &
                  {
                     color:rgba(255,255,255,1);
@@ -1025,7 +1025,7 @@ a:hover {
                 margin-top:1px;
                 pointer-events:none;
                 .block--timetable.block--active &,
-                .block--timetable.block--clicked &
+                .block--timetable.block--clicked &,
                 .block--timetable.block--temp {
                     color:rgba(255,255,255,0.7);
                 }
