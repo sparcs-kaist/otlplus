@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { timetableBoundClassNames as classNames } from '../../../common/boundClassNames';
+import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 import axios from '../../../common/presetAxios';
 
 import { BASE_URL } from '../../../common/constants';
@@ -77,19 +77,19 @@ class SemesterSection extends Component {
     if (year && semester) {
       return (
         // eslint-disable-next-line react/jsx-indent
-        <div id={classNames('semester')}>
-          <div id={classNames('semester-prev')} className={classNames(((year === startYear) && (semester === startSemester) ? 'disable' : ''))} onClick={() => this.semesterPrev()}><i /></div>
-          <span id={classNames('semester-text')}>{`${year} ${semesterName[semester]}`}</span>
-          <div id={classNames('semester-next')} className={classNames(((year === endYear) && (semester === endSemester) ? 'disable' : ''))} onClick={() => this.semesterNext()}><i /></div>
+        <div className={classNames('section', 'section--semester')}>
+          <div className={classNames(((year === startYear) && (semester === startSemester) ? 'disable' : ''))} onClick={() => this.semesterPrev()}><i className={classNames('icon', 'icon--semester-prev')} /></div>
+          <span>{`${year} ${semesterName[semester]}`}</span>
+          <div className={classNames(((year === endYear) && (semester === endSemester) ? 'disable' : ''))} onClick={() => this.semesterNext()}><i className={classNames('icon', 'icon--semester-next')} /></div>
         </div>
       );
     }
     return (
         // eslint-disable-next-line react/jsx-indent
-        <div id={classNames('semester')}>
-          <div id={classNames('semester-prev')}><i /></div>
-          <span id={classNames('semester-text')}>불러오는 중</span>
-          <div id={classNames('semester-next')}><i /></div>
+        <div>
+          <div className={classNames('disable')}><i className={classNames('icon', 'icon--semester-prev')} /></div>
+          <span>불러오는 중</span>
+          <div className={classNames('disable')}><i className={classNames('icon', 'icon--semester-next')} /></div>
         </div>
     );
   }

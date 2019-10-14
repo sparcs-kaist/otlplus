@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { timetableBoundClassNames as classNames } from '../common/boundClassNames';
+import { } from '../common/boundClassNames';
 
 import SearchCircle from './SearchCircle';
 
@@ -88,9 +88,9 @@ class SearchFilter extends Component {
 
 
     return (
-      <div className={classNames('search-filter')}>
-        <label className={classNames('search-filter-title', 'fixed-ko')}>{ titleName }</label>
-        <div className={classNames('search-filter-elem')}>
+      <div>
+        <label>{ titleName }</label>
+        <div>
           {valueArr.map(mapCircle)}
         </div>
       </div>
