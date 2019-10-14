@@ -594,7 +594,7 @@ a:hover {
                     }
 
                     & > span {
-                        margin-right: 4px;
+                        margin-right: 6px;
                         display: inline-block;
 
                         &:first-child {
@@ -657,7 +657,7 @@ a:hover {
                     & > div:first-child {
                         flex: 0 0 auto;
                         margin-bottom: 6px;
-                        margin-right: 4px;
+                        margin-right: 6px;
                         white-space: nowrap;
                         &.fixed-ko {
                             width: 12px;
@@ -1301,6 +1301,13 @@ a:hover {
             font-weight: bold;
             margin-right: 6px;
             flex: none;
+
+            &.fixed-ko {
+                width: 23px;
+            }
+            &.fiexed-en {
+                width: 32px;
+            }
         }
 
         & > *:last-child {
