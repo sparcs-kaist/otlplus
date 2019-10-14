@@ -67,7 +67,9 @@ class TimetablePage extends Component {
                         <MapSubSection />
                         <div className={classNames('divider')} />
                         <SummarySubSection />
+                        <div className={classNames('divider')} />
                         <ExamSubSection />
+                        <div className={classNames('divider')} />
                         <ShareSubSection />
                       </div>
                     </div>
