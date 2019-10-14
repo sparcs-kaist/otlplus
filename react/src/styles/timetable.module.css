@@ -10,22 +10,6 @@ i
 
 
 
-
-
-/* Lecture in top-left side */
-
-
-.basic-info-name.fixed-ko
-{
-    width: 23px;
-}
-.basic-info-name.fixed-en
-{
-    width: 32px;
-}
-
-
-
 /* Search at bottom-left side */
 
 .search-filter input[type="checkbox"] 
@@ -127,34 +111,6 @@ i
 }
 .share-button#show-timetable-list:hover > i {
     background-image: url(../static/icons/duplicate_table_hover.svg);
-}
-
-
-#lecture-tabs
-{
-    margin-bottom:3px;
-    cursor:pointer;
-}
-
-#lecture-contents
-{
-    clear:both;
-    padding:5px;
-}
-
-#department
-{
-    width:100%;
-}
-
-#keyword
-{
-    width:100%;
-}
-
-#classfication
-{
-    width:100%;
 }
 
 
