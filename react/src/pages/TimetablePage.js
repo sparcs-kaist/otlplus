@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { timetableBoundClassNames as classNames } from '../common/boundClassNames';
+import { appBoundClassNames as classNames } from '../common/boundClassNames';
 
 import Header from '../componenets/Header';
 import DetailSection from '../componenets/sections/timetable/DetailSection';
@@ -21,22 +21,29 @@ class TimetablePage extends Component {
     const { showLectureInfoFlag, showTimetableListFlag, showLectureListFlag } = this.props;
 
     return (
-      <div className={classNames('timetable_page')}>
+      <div>
         <div className={showLectureInfoFlag ? classNames('modal-lecture-info') : null}>
           <div className={showTimetableListFlag ? classNames('modal-timetable-list') : null}>
             <div className={showLectureListFlag ? classNames('mobile-lecture-list') : null}>
               <Header />
-              <section id={classNames('content')} className="container-fluid" style={{ backgroundColor: '#f9f0f0' }}>
-                <div id={classNames('page-container')}>
-                  <div id={classNames('left-side')}>
-                    <DetailSection />
-                    <div id={classNames('lecture-lists')}>
+              <section className={classNames('content', 'content--no-scroll')}>
+                { /* eslint-disable-next-line react/jsx-indent */}
+                  <div className={classNames('section-wrap', 'section-wrap--timetable-left')}>
+                    <div className={classNames('section-wrap', 'section-wrap--lecture-detail')}>
+                      <div className={classNames('section')}>
+                        <DetailSection />
+                      </div>
+                    </div>
+                    <div className={classNames('section-wrap', 'section-wrap--lecture-list')}>
                       <ListTabs />
-                      <ListSection />
+                      <div className={classNames('section', 'section--with-tabs')}>
+                        <ListSection />
+                      </div>
                     </div>
                   </div>
-                  <div id={classNames('center')}>
-                    <div id={classNames('timetable-menu')}>
+                { /* eslint-disable-next-line react/jsx-indent */}
+                  <div className={classNames('section-wrap', 'section-wrap--timetable-center-right')}>
+                    <div className={classNames('section-wrap', 'section-wrap--timetable-tabs')}>
                       {
                         showTimetableListFlag
                           ? (
@@ -53,17 +60,20 @@ class TimetablePage extends Component {
                           )
                       }
                     </div>
-                    <div id={classNames('timetable')}>
+                    <div className={classNames('section', 'section--with-tabs', 'section--timetable')}>
                       <TimetableSubSection />
-                      <div id={classNames('right-side')}>
+                      <div className={classNames('divider', 'divider--vertical')} />
+                      <div className={classNames('section-wrap', 'section-wrap--timetable-right')}>
                         <MapSubSection />
+                        <div className={classNames('divider')} />
                         <SummarySubSection />
+                        <div className={classNames('divider')} />
                         <ExamSubSection />
+                        <div className={classNames('divider')} />
                         <ShareSubSection />
                       </div>
                     </div>
                   </div>
-                </div>
               </section>
             </div>
           </div>

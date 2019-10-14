@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import { timetableBoundClassNames as classNames } from '../../../common/boundClassNames';
+import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
 import { mToggleLectureList, modaltimetableList } from '../../../actions/timetable/index';
 import timetableShape from '../../../shapes/TimetableShape';
@@ -17,18 +17,18 @@ class ShareSubSection extends Component {
       ? currentTimetable.lectures
       : [];
     return (
-      <div id={classNames('share-buttons')} className={classNames('authenticated')}>
-        <div className={classNames('left-btn-group')}>
-          <a className={classNames('share-button')} id={classNames('image')} href={`/api/timetable/share_image?table_id=${currentTimetable ? currentTimetable.id : -1}`} download><i /></a>
-          <a className={classNames('share-button')} id={classNames('calendar')} href={`/api/timetable/share_calendar?table_id=${currentTimetable ? currentTimetable.id : -1}`} target="_blank" rel="noopener noreferrer"><i /></a>
-          <Link className={classNames('share-button')} id={classNames('image')} to={{ pathname: '/timetable/syllabus', state: { lectures: timetableLectures } }}><i /></Link>
+      <div className={classNames('section-content--share')}>
+        <div>
+          <a href={`/api/timetable/share_image?table_id=${currentTimetable ? currentTimetable.id : -1}`} download><i className={classNames('icon', 'icon--share-image')} /></a>
+          <a href={`/api/timetable/share_calendar?table_id=${currentTimetable ? currentTimetable.id : -1}`} target="_blank" rel="noopener noreferrer"><i className={classNames('icon', 'icon--share-calendar')} /></a>
+          <Link to={{ pathname: '/timetable/syllabus', state: { lectures: timetableLectures } }}><i className={classNames('icon', 'icon--share-calendar')} /></Link>
 
         </div>
-        <div className={classNames('right-btn-group')}>
-          <div className={classNames('share-button')} id={classNames('show-timetable-list')} onClick={mtimetableListDispatch}><i /></div>
-          <div className={classNames('share-button')} id={classNames('show-lecture-list')} onClick={mToggleLectureListDispatch}><i /></div>
+        <div>
+          <div onClick={mtimetableListDispatch}><i /></div>
+          <div onClick={mToggleLectureListDispatch}><i /></div>
         </div>
-        <div className={classNames('height-placeholder')} />
+        <div />
       </div>
     );
   }

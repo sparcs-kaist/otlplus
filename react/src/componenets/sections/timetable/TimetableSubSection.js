@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { timetableBoundClassNames as classNames } from '../../../common/boundClassNames';
+import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 import axios from '../../../common/presetAxios';
 
 import { inTimetable, isListHover, isTableClicked, isTableHover } from '../../../common/lectureFunctions';
@@ -40,7 +40,7 @@ class TimetableSubSection extends Component {
   resize = () => {
     const { updateCellSizeDispatch } = this.props;
 
-    const cell = document.getElementsByClassName(classNames('cell1'))[0].getBoundingClientRect();
+    const cell = document.getElementsByClassName(classNames('cell-top'))[0].getBoundingClientRect();
     updateCellSizeDispatch(cell.width, cell.height);
   }
 
@@ -200,13 +200,13 @@ class TimetableSubSection extends Component {
     const dragDiv = (day, ko) => {
       const numArray = [...Array((2350 - 800) / 50 + 1).keys()].map(i => i * 50 + 800); // [800, 850, 900, ..., 2350]
       const timeblock = [
-        <div className={classNames('chead')} key={day}>{ko}</div>,
+        <div key={day}>{ko}</div>,
         ...numArray.map((i) => {
           if (i === 1200) {
             return (
             // eslint-disable-next-line react/jsx-indent
             <div
-              className={classNames('cell-bold', 'cell1', 'half', 'table-drag')}
+              className={classNames('cell-top', 'cell-bold')}
               key={`${day}:1200`}
               data-day={day}
               data-time="1200"
@@ -219,7 +219,7 @@ class TimetableSubSection extends Component {
             return (
             // eslint-disable-next-line react/jsx-indent
             <div
-              className={classNames('cell-bold', 'cell1', 'half', 'table-drag')}
+              className={classNames('cell-top', 'cell-bold')}
               key={`${day}:1800`}
               data-day={day}
               data-time="1800"
@@ -232,7 +232,7 @@ class TimetableSubSection extends Component {
             return (
             // eslint-disable-next-line react/jsx-indent
             <div
-              className={classNames('cell2', 'half', 'cell-last', 'table-drag')}
+              className={classNames('cell-bottom', 'cell-last')}
               key={`${day}:2330`}
               data-day={day}
               data-time="2330"
@@ -245,7 +245,7 @@ class TimetableSubSection extends Component {
             return (
             // eslint-disable-next-line react/jsx-indent
             <div
-              className={classNames('cell1', 'half', 'table-drag')}
+              className={classNames('cell-top')}
               key={`${day}:${i.toString()}`}
               data-day={day}
               data-time={i.toString()}
@@ -256,7 +256,7 @@ class TimetableSubSection extends Component {
           }
           return (
             <div
-              className={classNames('cell2', 'half', 'table-drag')}
+              className={classNames('cell-bottom')}
               key={`${day}:${(i - 20).toString()}`}
               data-day={day}
               data-time={(i - 20).toString()}
@@ -270,56 +270,56 @@ class TimetableSubSection extends Component {
     };
 
     return (
-      <div id={classNames('timetable-wrap')} onMouseUp={e => this.dragEnd(e)}>
-        <div id={classNames('timetable-contents')}>
-          <div id={classNames('rowheaders')}>
-            <div className={classNames('rhead', 'rhead-chead')}><span className={classNames('rheadtext')}>8</span></div>
-            <div className={classNames('rhead')} />
-            <div className={classNames('rhead')}><span className={classNames('rheadtext')}>9</span></div>
-            <div className={classNames('rhead')} />
-            <div className={classNames('rhead')}><span className={classNames('rheadtext')}>10</span></div>
-            <div className={classNames('rhead')} />
-            <div className={classNames('rhead')}><span className={classNames('rheadtext')}>11</span></div>
-            <div className={classNames('rhead')} />
-            <div className={classNames('rhead', 'rhead-bold')}><span className={classNames('rheadtext')}>12</span></div>
-            <div className={classNames('rhead')} />
-            <div className={classNames('rhead')}><span className={classNames('rheadtext')}>1</span></div>
-            <div className={classNames('rhead')} />
-            <div className={classNames('rhead')}><span className={classNames('rheadtext')}>2</span></div>
-            <div className={classNames('rhead')} />
-            <div className={classNames('rhead')}><span className={classNames('rheadtext')}>3</span></div>
-            <div className={classNames('rhead')} />
-            <div className={classNames('rhead')}><span className={classNames('rheadtext')}>4</span></div>
-            <div className={classNames('rhead')} />
-            <div className={classNames('rhead')}><span className={classNames('rheadtext')}>5</span></div>
-            <div className={classNames('rhead')} />
-            <div className={classNames('rhead', 'rhead-bold')}><span className={classNames('rheadtext')}>6</span></div>
-            <div className={classNames('rhead')} />
-            <div className={classNames('rhead')}><span className={classNames('rheadtext')}>7</span></div>
-            <div className={classNames('rhead')} />
-            <div className={classNames('rhead')}><span className={classNames('rheadtext')}>8</span></div>
-            <div className={classNames('rhead')} />
-            <div className={classNames('rhead')}><span className={classNames('rheadtext')}>9</span></div>
-            <div className={classNames('rhead')} />
-            <div className={classNames('rhead')}><span className={classNames('rheadtext')}>10</span></div>
-            <div className={classNames('rhead')} />
-            <div className={classNames('rhead')}><span className={classNames('rheadtext')}>11</span></div>
-            <div className={classNames('rhead')} />
-            <div className={classNames('rhead', 'rhead-bold', 'rhead-last')}><span className={classNames('rheadtext')}>12</span></div>
+      <div className={classNames('section-content', 'section-content--timetable')} onMouseUp={e => this.dragEnd(e)}>
+        <div className={classNames('section-content--timetable__table')}>
+          <div>
+            <div><strong>8</strong></div>
+            <div />
+            <div><span>9</span></div>
+            <div />
+            <div><span>10</span></div>
+            <div />
+            <div><span>11</span></div>
+            <div />
+            <div><strong>12</strong></div>
+            <div />
+            <div><span>1</span></div>
+            <div />
+            <div><span>2</span></div>
+            <div />
+            <div><span>3</span></div>
+            <div />
+            <div><span>4</span></div>
+            <div />
+            <div><span>5</span></div>
+            <div />
+            <div><strong>6</strong></div>
+            <div />
+            <div><span>7</span></div>
+            <div />
+            <div><span>8</span></div>
+            <div />
+            <div><span>9</span></div>
+            <div />
+            <div><span>10</span></div>
+            <div />
+            <div><span>11</span></div>
+            <div />
+            <div><strong>12</strong></div>
           </div>
-          <div className={classNames('day')}>
+          <div>
             {dragDiv('mon', '월요일')}
           </div>
-          <div className={classNames('day')}>
+          <div>
             {dragDiv('tue', '화요일')}
           </div>
-          <div className={classNames('day')}>
+          <div>
             {dragDiv('wed', '수요일')}
           </div>
-          <div className={classNames('day')}>
+          <div>
             {dragDiv('thu', '목요일')}
           </div>
-          <div className={classNames('day')}>
+          <div>
             {dragDiv('fri', '금요일')}
           </div>
         </div>
@@ -327,11 +327,11 @@ class TimetableSubSection extends Component {
           firstBlock && secondBlock
             ? (
               <div
-                id={classNames('drag-cell')}
+                className={classNames('section-content--timetable__drag-cell')}
                 style={{
-                  left: (cellWidth + 5) * this.indexOfDay(firstBlock.getAttribute('data-day')) + 28,
+                  left: (cellWidth + 5) * this.indexOfDay(firstBlock.getAttribute('data-day')) + 17,
                   width: cellWidth + 2,
-                  top: cellHeight * Math.min(this.indexOfTime(firstBlock.getAttribute('data-time')), this.indexOfTime(secondBlock.getAttribute('data-time'))) + 28,
+                  top: cellHeight * Math.min(this.indexOfTime(firstBlock.getAttribute('data-time')), this.indexOfTime(secondBlock.getAttribute('data-time'))) + 19,
                   height: cellHeight * (Math.abs(this.indexOfTime(firstBlock.getAttribute('data-time')) - this.indexOfTime(secondBlock.getAttribute('data-time'))) + 1) - 3,
                 }}
               />
