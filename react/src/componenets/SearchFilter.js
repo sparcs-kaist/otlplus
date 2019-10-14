@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { timetableBoundClassNames as classNames } from '../common/boundClassNames';
+import { } from '../common/boundClassNames';
 
 import SearchCircle from './SearchCircle';
 
