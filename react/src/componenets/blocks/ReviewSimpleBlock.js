@@ -1,7 +1,7 @@
 import React from 'react';
 import { pure } from 'recompose';
 
-import { timetableBoundClassNames as classNames } from '../../common/boundClassNames';
+import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 
 import reviewShape from '../../shapes/ReviewShape';
 
@@ -10,24 +10,24 @@ const ReviewSimpleBlock = ({ review }) => {
   return (
       // eslint-disable-next-line react/jsx-indent
       <a href={`/review/result/comment/${review.id}`} target="_blank" rel="noopener noreferrer" style={{ display: 'block' }}>
-        <div className={classNames('review-elem')}>
-          <div className={classNames('review-body')}>
+        <div className={classNames('block', 'block--review-simple')}>
+          <div>
             {review.comment}
           </div>
-          <div className={classNames('review-score-wrap')}>
-            <span className={classNames('review-score')}>
+          <div>
+            <span>
               추천&nbsp;
               <strong>{review.like}</strong>
             </span>
-            <span className={classNames('review-score')}>
+            <span>
               성적&nbsp;
               <strong>{review.grade_letter}</strong>
             </span>
-            <span className={classNames('review-score')}>
+            <span>
               널널&nbsp;
               <strong>{review.load_letter}</strong>
             </span>
-            <span className={classNames('review-score')}>
+            <span>
               강의&nbsp;
               <strong>{review.speech_letter}</strong>
             </span>
