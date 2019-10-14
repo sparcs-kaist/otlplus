@@ -5,7 +5,9 @@ import PropTypes from 'prop-types';
 import $ from 'jquery';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
+import axios from '../../../common/presetAxios';
 
+import { BASE_URL } from '../../../common/constants';
 import Scroller from '../../Scroller';
 import ReviewSimpleBlock from '../../blocks/ReviewSimpleBlock';
 import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureActive';
@@ -19,6 +21,8 @@ class DetailSection extends Component {
     this.state = {
       showUnfix: false,
       showCloseDict: false,
+      reviewsLecture: null,
+      reviews: null,
     };
     // eslint-disable-next-line fp/no-mutation
     this.openDictRef = React.createRef();
@@ -27,9 +31,9 @@ class DetailSection extends Component {
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    // Return value will be set the state
     const showUnfix = (nextProps.from === 'LIST' || nextProps.from === 'TABLE') && nextProps.clicked;
-    return { showUnfix: showUnfix };
+    const reviews = (!nextProps.lecture || !prevState.reviewsLecture || nextProps.lecture.id !== prevState.reviewsLecture.id) ? null : prevState.reviews;
+    return { showUnfix: showUnfix, reviews: reviews };
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -50,7 +54,25 @@ class DetailSection extends Component {
   }
 
   openDictPreview = () => {
+    const { reviews } = this.state;
+    const { lecture } = this.props;
+
     $(`.${classNames('section-content--lecture-detail')} .nano`).nanoScroller({ scrollTop: $(this.openDictRef.current).position().top - $(this.attributesRef.current).position().top + 1 });
+
+    if (reviews === null) {
+      axios.post(`${BASE_URL}/api/timetable/comment_load`, {
+        lecture_id: lecture.id,
+      })
+        .then((response) => {
+          const newProps = this.props;
+          if (newProps.lecture.id !== lecture.id) {
+            return;
+          }
+          this.setState({ reviewsLecture: lecture, reviews: response.data });
+        })
+        .catch((response) => {
+        });
+    }
   };
 
   closeDictPreview = () => {
@@ -67,11 +89,15 @@ class DetailSection extends Component {
     const { from, lecture, title, multipleDetail } = this.props;
 
     if (from === LIST || from === TABLE) {
-      const { reviews } = lecture;
+      const { reviews } = this.state;
       const mapreview = (review, index) => (
         <ReviewSimpleBlock key={`review_${index}`} review={review} />
       );
-      const reviewsDom = (reviews && reviews.length) ? reviews.map(mapreview) : <div className={classNames('list-placeholder')}><div>결과 없음</div></div>;
+      const reviewsDom = (reviews == null)
+        ? <div className={classNames('list-placeholder')}><div>불러오는 중</div></div>
+        : (reviews.length
+          ? reviews.map(mapreview)
+          : <div className={classNames('list-placeholder')}><div>결과 없음</div></div>);
       return (
       // eslint-disable-next-line react/jsx-indent
           <div className={classNames('section-content', 'section-content--lecture-detail', 'section-content--flex')}>

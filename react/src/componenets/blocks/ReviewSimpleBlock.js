@@ -12,16 +12,16 @@ const ReviewSimpleBlock = ({ review }) => {
       <a href={`/review/result/comment/${review.id}`} target="_blank" rel="noopener noreferrer" style={{ display: 'block' }}>
         <div className={classNames('review-elem')}>
           <div className={classNames('review-body')}>
-            {review.body}
+            {review.comment}
           </div>
           <div className={classNames('review-score-wrap')}>
             <span className={classNames('review-score')}>
               추천&nbsp;
-              <strong>{review.recommend}</strong>
+              <strong>{review.like}</strong>
             </span>
             <span className={classNames('review-score')}>
               성적&nbsp;
-              <strong>{review.score_letter}</strong>
+              <strong>{review.grade_letter}</strong>
             </span>
             <span className={classNames('review-score')}>
               널널&nbsp;
