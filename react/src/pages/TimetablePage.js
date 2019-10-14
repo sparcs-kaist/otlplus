@@ -60,7 +60,7 @@ class TimetablePage extends Component {
                           )
                       }
                     </div>
-                    <div className={classNames('section', 'section--timetable')}>
+                    <div className={classNames('section', 'section--with-tabs', 'section--timetable')}>
                       <TimetableSubSection />
                       <div className={classNames('divider', 'divider--vertical')} />
                       <div className={classNames('section-wrap', 'section-wrap--timetable-right')}>
