@@ -208,6 +208,44 @@ ul {
             }
         }
     }
+
+    &--timetable {
+        float:left;
+
+        & > div {
+            background-color: #E2E2E2;
+            color: #555;
+            display: inline-block;
+            vertical-align: top;
+            margin-right: 6px;
+            border-radius: 4px 4px 0 0;
+            font-size: 12px;
+            line-height: 13px;
+            padding: 7px 10px;
+            &.active {
+                background-color: #FFFFFF;
+                color:#333;
+            }
+            &:not(.active) {
+                cursor: pointer;
+                &:hover {
+                    background-color: #D8D8D8;
+                }
+
+                & > span:not(:first-child) {
+                    display:none;
+                }
+            }
+            &:last-child:not(:first-child) {
+                padding: 8px;
+                line-height: 0;
+            }
+
+            & > span:not(:first-child) {
+                margin-left: 4px;
+            }
+        }
+    }
 }
 
 
@@ -231,6 +269,30 @@ ul {
         flex: auto;
         display: flex;
         flex-direction: row;
+    }
+
+
+    &--semester {
+        width: 90px;
+        height: initial;
+        padding: 5px 8px;
+        float: right;
+        font-size: 12px;
+        line-height: 13px;
+        display: flex;
+        flex-direction: row;
+
+        & > div {
+            flex: 0 0 auto;
+            &.disable {
+                pointer-events: none;
+            }
+        }
+
+        & > span {
+            flex: 1 1 auto;
+            text-align: center;
+        }
     }
 }
 
@@ -1664,6 +1726,64 @@ i.icon {
 
         *:hover > & {
             background-image: url(../static/icons/share_calendar_hover.svg);
+        }
+    }
+
+    &--duplicate-table {
+        width:10px;
+        height:11px;
+        background-image: url(../static/icons/duplicate_table.svg);
+
+        *:hover > & {
+            background-image: url(../static/icons/duplicate_table_hover.svg);
+        }
+    }
+
+    &--delete-table {
+        width:9px;
+        height:11px;
+        background-image: url(../static/icons/delete_table.svg);
+
+        *:hover > & {
+            background-image: url(../static/icons/delete_table_hover.svg);
+        }
+    }
+
+    &--add-table {
+        width:11px;
+        height:11px;
+        background-image: url(../static/icons/add_table.svg);
+
+        *:hover > & {
+            background-image: url(../static/icons/add_table_hover.svg);
+        }
+    }
+
+    &--semester-prev {
+        width:7px;
+        height:11px;
+        background-image: url(../static/icons/semester_prev.svg);
+
+        *:hover > & {
+            background-image: url(../static/icons/semester_prev_hover.svg);
+        }
+
+        *.disable > & {
+            background-image: url(../static/icons/semester_prev_disable.svg);
+        }
+    }
+
+    &--semester-next {
+        width:7px;
+        height:11px;
+        background-image: url(../static/icons/semester_next.svg);
+
+        *:hover > & {
+            background-image: url(../static/icons/semester_next_hover.svg);
+        }
+
+        *.disable > & {
+            background-image: url(../static/icons/semester_next_disable.svg);
         }
     }
 }
