@@ -313,6 +313,13 @@ a:hover {
         flex-direction: column;
     }
 
+    &--lecture-detail {
+        &--list-area {
+            min-height: calc(100% - 14px) !important;
+            padding-top: 6px;
+        }
+    }
+
     &--timetable {
         flex: 1 1 auto;
         position: relative;
@@ -1049,9 +1056,6 @@ a:hover {
         a:hover > & {
             background-color:#DDDDDD;
         }
-        .small-title + a > & {
-            margin-top: 6px;
-        }
         a:last-child > & {
             margin-bottom: 12px;
         }
@@ -1490,10 +1494,6 @@ a:hover {
     color: #AAAAAA;
     font-size: 16px;
     line-height: 17px;
-
-    .section-content--lecture-detail & {
-        min-height: calc(100% - 14px);
-    }
 }
 
 
