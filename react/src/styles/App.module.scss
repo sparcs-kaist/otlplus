@@ -896,9 +896,9 @@ a:hover {
         &.block--clicked {
             box-shadow: 0 3px 0 0 #888888;
             margin-top: -3px;
-            margin-bottom: 9px;
+            margin-bottom: 6px + 3px;
             &:last-child {
-                margin-bottom: 12px;
+                margin-bottom: 12px + 3px;
             }
         }
 
