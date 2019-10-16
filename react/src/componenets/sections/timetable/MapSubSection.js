@@ -66,7 +66,7 @@ class MapSubSection extends Component {
         {
           [building]: targetLectures
             .filter(lecture => (building === lecture.building))
-            .map(lecture => ({ color: (lecture.course % 16), id: lecture.id })),
+            .map(lecture => ({ color: (lecture.course % 16) + 1, id: lecture.id })),
         }
       )),
     );

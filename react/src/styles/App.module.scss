@@ -173,7 +173,7 @@ a:hover {
 
 
     &--lecture-list {
-        flex: auto;
+        flex: 1 1 100%;
         margin: 0;
     }
 
@@ -311,6 +311,13 @@ a:hover {
     &--flex {
         display: flex;
         flex-direction: column;
+    }
+
+    &--lecture-detail {
+        &--list-area {
+            min-height: calc(100% - 14px) !important;
+            padding-top: 6px;
+        }
     }
 
     &--timetable {
@@ -889,9 +896,9 @@ a:hover {
         &.block--clicked {
             box-shadow: 0 3px 0 0 #888888;
             margin-top: -3px;
-            margin-bottom: 9px;
+            margin-bottom: 6px + 3px;
             &:last-child {
-                margin-bottom: 12px;
+                margin-bottom: 12px + 3px;
             }
         }
 
@@ -992,7 +999,8 @@ a:hover {
             cursor:pointer;
             padding:4px;
             background-color:rgba(224,84,111,0.8);
-            .block--timetable:not(:hover) & {
+            .block--timetable:not(:hover) &,
+            .block--timetable:not(.block--active) & {
                 display: none;
             }
         }
@@ -1047,9 +1055,6 @@ a:hover {
         margin-bottom: 6px;
         a:hover > & {
             background-color:#DDDDDD;
-        }
-        .small-title + a > & {
-            margin-top: 6px;
         }
         a:last-child > & {
             margin-bottom: 12px;
@@ -1489,10 +1494,6 @@ a:hover {
     color: #AAAAAA;
     font-size: 16px;
     line-height: 17px;
-
-    .section-content--lecture-detail & {
-        min-height: calc(100% - 14px);
-    }
 }
 
 
