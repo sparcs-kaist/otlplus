@@ -72,18 +72,23 @@ class TimetableSubSection extends Component {
   }
 
   // check is drag contain class time
-  _isOccupied = (dragDay, dragStart, dragEnd) => {
+  _getOccupiedTime = (dragDay, dragStart, dragEnd) => {
     const { currentTimetable } = this.props;
 
     if (!currentTimetable) {
       return false;
     }
 
-    return currentTimetable.lectures.some(lecture => (
-      lecture.classtimes.some(classtime => (
-        (classtime.day === dragDay) && (dragStart < this.indexOfMinute(classtime.end)) && (dragEnd > this.indexOfMinute(classtime.begin))
-      ))
-    ));
+    return currentTimetable.lectures.map(lecture => (
+      lecture.classtimes.map((classtime) => {
+        if ((classtime.day === dragDay) && (dragStart < this.indexOfMinute(classtime.end)) && (dragEnd > this.indexOfMinute(classtime.begin))) {
+          return [Math.max(dragStart, this.indexOfMinute(classtime.begin)) - dragStart, Math.min(dragEnd, this.indexOfMinute(classtime.end)) - dragStart];
+        }
+        return undefined;
+      })
+    ))
+      .flat()
+      .filter(x => x !== undefined);
   }
 
   dragMove = (e) => {
@@ -97,7 +102,7 @@ class TimetableSubSection extends Component {
     const incr = startIndex < endIndex ? 1 : -1;
     // eslint-disable-next-line no-loops/no-loops, fp/no-loops, fp/no-let, fp/no-mutation
     for (let i = startIndex + incr; i !== endIndex + incr; i += incr) {
-      if ((incr > 0) ? this._isOccupied(dayIndex, startIndex, i + 1) : this._isOccupied(dayIndex, i, startIndex + 1)) {
+      if ((incr > 0) ? this._getOccupiedTime(dayIndex, startIndex, i + 1).length > 0 : this._getOccupiedTime(dayIndex, i, startIndex + 1).length > 0) {
         return;
       }
     }
