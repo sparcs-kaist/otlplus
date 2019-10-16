@@ -58,6 +58,10 @@ class TimetableSubSection extends Component {
     return hour * 2 + min / 30;
   }
 
+  indexOfMinute = (minute) => {
+    return minute / 30 - (2 * 8);
+  }
+
   dragStart = (e) => {
     const { setIsDraggingDispatch } = this.props;
 
@@ -68,21 +72,23 @@ class TimetableSubSection extends Component {
   }
 
   // check is drag contain class time
-  _isOccupied = (dragStart, dragEnd) => {
-    const { firstBlock } = this.state;
+  _getOccupiedTime = (dragDay, dragStart, dragEnd) => {
     const { currentTimetable } = this.props;
-
-    const dragDay = this.indexOfDay(firstBlock.getAttribute('data-day'));
 
     if (!currentTimetable) {
       return false;
     }
 
-    return currentTimetable.lectures.some(lecture => (
-      lecture.classtimes.some(classtime => (
-        (classtime.day === dragDay) && (dragStart < (classtime.end / 30 - 2 * 8)) && (dragEnd > (classtime.begin / 30 - 2 * 8))
-      ))
-    ));
+    return currentTimetable.lectures.map(lecture => (
+      lecture.classtimes.map((classtime) => {
+        if ((classtime.day === dragDay) && (dragStart < this.indexOfMinute(classtime.end)) && (dragEnd > this.indexOfMinute(classtime.begin))) {
+          return [Math.max(dragStart, this.indexOfMinute(classtime.begin)) - dragStart, Math.min(dragEnd, this.indexOfMinute(classtime.end)) - dragStart];
+        }
+        return undefined;
+      })
+    ))
+      .flat()
+      .filter(x => x !== undefined);
   }
 
   dragMove = (e) => {
@@ -90,12 +96,13 @@ class TimetableSubSection extends Component {
     const { isDragging } = this.props;
 
     if (!isDragging) return;
+    const dayIndex = this.indexOfDay(firstBlock.getAttribute('data-day'));
     const startIndex = this.indexOfTime(firstBlock.getAttribute('data-time'));
     const endIndex = this.indexOfTime(e.target.getAttribute('data-time'));
     const incr = startIndex < endIndex ? 1 : -1;
     // eslint-disable-next-line no-loops/no-loops, fp/no-loops, fp/no-let, fp/no-mutation
     for (let i = startIndex + incr; i !== endIndex + incr; i += incr) {
-      if ((incr > 0) ? this._isOccupied(startIndex, i + 1) : this._isOccupied(i, startIndex + 1)) {
+      if ((incr > 0) ? this._getOccupiedTime(dayIndex, startIndex, i + 1).length > 0 : this._getOccupiedTime(dayIndex, i, startIndex + 1).length > 0) {
         return;
       }
     }
@@ -361,6 +368,7 @@ class TimetableSubSection extends Component {
                   blockOut={this.blockOut}
                   blockClick={this.blockClick}
                   deleteLecture={this.deleteLecture}
+                  occupiedTime={this._getOccupiedTime(classtime.day, this.indexOfMinute(classtime.begin), this.indexOfMinute(classtime.end))}
                 />
               ))
             )

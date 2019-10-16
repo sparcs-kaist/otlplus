@@ -1031,6 +1031,15 @@ a:hover {
                 }
             }
         }
+
+        &__occupied-area { 
+            background-color: #888;
+            position: absolute;
+            left: 0;
+            width: 100%;
+            z-index: -1;
+            border-radius: 2px;
+        }
     }
 
     &--review-simple {
