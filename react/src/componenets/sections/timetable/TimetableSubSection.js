@@ -368,6 +368,7 @@ class TimetableSubSection extends Component {
                   blockOut={this.blockOut}
                   blockClick={this.blockClick}
                   deleteLecture={this.deleteLecture}
+                  occupiedTime={this._getOccupiedTime(classtime.day, this.indexOfMinute(classtime.begin), this.indexOfMinute(classtime.end))}
                 />
               ))
             )

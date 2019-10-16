@@ -8,7 +8,7 @@ import lectureShape from '../../shapes/LectureShape';
 import classtimeShape from '../../shapes/ClasstimeShape';
 
 
-const TimetableBlock = ({ lecture, classtime, cellWidth, cellHeight, isClicked, isHover, isListHover, isTemp, blockHover, blockOut, blockClick, deleteLecture }) => {
+const TimetableBlock = ({ lecture, classtime, cellWidth, cellHeight, isClicked, isHover, isListHover, isTemp, blockHover, blockOut, blockClick, deleteLecture, occupiedTime }) => {
   const indexOfTime = time => (time / 30 - 16);
 
   const activeType = (
@@ -17,6 +17,8 @@ const TimetableBlock = ({ lecture, classtime, cellWidth, cellHeight, isClicked, 
         : (isHover || isListHover) ? classNames('block--active')
           : ''
   );
+
+  console.log(String(occupiedTime));
 
   return (
       // eslint-disable-next-line react/jsx-indent
@@ -47,6 +49,20 @@ const TimetableBlock = ({ lecture, classtime, cellWidth, cellHeight, isClicked, 
             {classtime.classroom}
           </p>
         </div>
+        {
+          occupiedTime === undefined
+            ? null
+            : occupiedTime.map(t => (
+              <div
+                key={`${t[0]}:${t[1]}`}
+                className={classNames('block--timetable__occupied-area')}
+                style={{
+                  top: cellHeight * t[0],
+                  height: cellHeight * (t[1] - t[0]) - 3,
+                }}
+              />
+            ))
+        }
       </div>
   );
 };
@@ -64,6 +80,7 @@ TimetableBlock.propTypes = {
   blockOut: PropTypes.func.isRequired,
   blockClick: PropTypes.func.isRequired,
   deleteLecture: PropTypes.func.isRequired,
+  occupiedTime: PropTypes.arrayOf(PropTypes.array),
 };
 
 export default pure(TimetableBlock);
