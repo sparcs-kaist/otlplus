@@ -992,7 +992,8 @@ a:hover {
             cursor:pointer;
             padding:4px;
             background-color:rgba(224,84,111,0.8);
-            .block--timetable:not(:hover) & {
+            .block--timetable:not(:hover) &,
+            .block--timetable:not(.block--active) & {
                 display: none;
             }
         }
