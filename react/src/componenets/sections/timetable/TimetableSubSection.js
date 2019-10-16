@@ -58,6 +58,10 @@ class TimetableSubSection extends Component {
     return hour * 2 + min / 30;
   }
 
+  indexOfMinute = (minute) => {
+    return minute / 30 - (2 * 8);
+  }
+
   dragStart = (e) => {
     const { setIsDraggingDispatch } = this.props;
 
@@ -77,7 +81,7 @@ class TimetableSubSection extends Component {
 
     return currentTimetable.lectures.some(lecture => (
       lecture.classtimes.some(classtime => (
-        (classtime.day === dragDay) && (dragStart < (classtime.end / 30 - 2 * 8)) && (dragEnd > (classtime.begin / 30 - 2 * 8))
+        (classtime.day === dragDay) && (dragStart < this.indexOfMinute(classtime.end)) && (dragEnd > this.indexOfMinute(classtime.begin))
       ))
     ));
   }
