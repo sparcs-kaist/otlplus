@@ -94,10 +94,10 @@ class DetailSection extends Component {
         <ReviewSimpleBlock key={`review_${index}`} review={review} />
       );
       const reviewsDom = (reviews == null)
-        ? <div className={classNames('list-placeholder')}><div>불러오는 중</div></div>
+        ? <div className={classNames('section-content--lecture-detail--list-area', 'list-placeholder')}><div>불러오는 중</div></div>
         : (reviews.length
-          ? reviews.map(mapreview)
-          : <div className={classNames('list-placeholder')}><div>결과 없음</div></div>);
+          ? <div className={classNames('section-content--lecture-detail--list-area')}>{reviews.map(mapreview)}</div>
+          : <div className={classNames('section-content--lecture-detail--list-area', 'list-placeholder')}><div>결과 없음</div></div>);
       return (
       // eslint-disable-next-line react/jsx-indent
           <div className={classNames('section-content', 'section-content--lecture-detail', 'section-content--flex')}>
