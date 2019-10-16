@@ -18,8 +18,6 @@ const TimetableBlock = ({ lecture, classtime, cellWidth, cellHeight, isClicked, 
           : ''
   );
 
-  console.log(String(occupiedTime));
-
   return (
       // eslint-disable-next-line react/jsx-indent
       <div
