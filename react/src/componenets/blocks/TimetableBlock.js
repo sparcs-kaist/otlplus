@@ -23,7 +23,7 @@ const TimetableBlock = ({ lecture, classtime, cellWidth, cellHeight, isClicked, 
   return (
       // eslint-disable-next-line react/jsx-indent
       <div
-        className={classNames('block--timetable', `background-color--${lecture.course % 16}`, activeType)}
+        className={classNames('block--timetable', `background-color--${lecture.course % 16 + 1}`, activeType)}
         style={{
           left: (cellWidth + 5) * classtime.day + 17,
           top: cellHeight * indexOfTime(classtime.begin) + 19,
