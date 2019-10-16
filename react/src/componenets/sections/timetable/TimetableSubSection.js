@@ -68,11 +68,8 @@ class TimetableSubSection extends Component {
   }
 
   // check is drag contain class time
-  _isOccupied = (dragStart, dragEnd) => {
-    const { firstBlock } = this.state;
+  _isOccupied = (dragDay, dragStart, dragEnd) => {
     const { currentTimetable } = this.props;
-
-    const dragDay = this.indexOfDay(firstBlock.getAttribute('data-day'));
 
     if (!currentTimetable) {
       return false;
@@ -90,12 +87,13 @@ class TimetableSubSection extends Component {
     const { isDragging } = this.props;
 
     if (!isDragging) return;
+    const dayIndex = this.indexOfDay(firstBlock.getAttribute('data-day'));
     const startIndex = this.indexOfTime(firstBlock.getAttribute('data-time'));
     const endIndex = this.indexOfTime(e.target.getAttribute('data-time'));
     const incr = startIndex < endIndex ? 1 : -1;
     // eslint-disable-next-line no-loops/no-loops, fp/no-loops, fp/no-let, fp/no-mutation
     for (let i = startIndex + incr; i !== endIndex + incr; i += incr) {
-      if ((incr > 0) ? this._isOccupied(startIndex, i + 1) : this._isOccupied(i, startIndex + 1)) {
+      if ((incr > 0) ? this._isOccupied(dayIndex, startIndex, i + 1) : this._isOccupied(dayIndex, i, startIndex + 1)) {
         return;
       }
     }
