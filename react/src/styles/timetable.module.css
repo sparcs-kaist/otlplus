@@ -114,17 +114,6 @@ i
 }
 
 
-.lecture-occupied
-{
-    background-color: #888;
-    position: absolute;
-    left: 0;
-    width: calc(100%);
-    z-index: -1;
-    border-radius: 2px;
-}
-
-
 @media(max-width: 768px) {
     /* Modal for timetable list view start*/
     .modal-timetable-list .navbar-header{
