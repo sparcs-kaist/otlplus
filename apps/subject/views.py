@@ -64,6 +64,18 @@ def course_list_view(request):
                 query |= Q(type_en__in=filter_type, department__code__in=group)
             courses = courses.filter(query)
 
+        keyword = request.GET.get('keyword', None)
+        if keyword:
+            courses = courses.filter(
+                Q(title__icontains=keyword) |
+                Q(title_en__icontains=keyword) |
+                Q(old_code__iexact=keyword) |
+                Q(department__name__iexact=keyword) |
+                Q(department__name_en__iexact=keyword) |
+                Q(professors__professor_name__icontains=keyword) |
+                Q(professors__professor_name_en__icontains=keyword)
+            )
+
         courses = courses.distinct()
         result = [c.toJson() for c in courses[:300]]
         return JsonResponse(result, safe=False)
