@@ -4,14 +4,15 @@ import PropTypes from 'prop-types';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 
-import { /* openSearch, closeSearch, */setCurrentList/* , clearLectureActive */ } from '../../actions/dictionary/list';
+import { /* openSearch, closeSearch, */setCurrentList } from '../../actions/dictionary/list';
+import { clearCourseActive } from '../../actions/dictionary/courseActive';
 // import { NONE, LIST, TABLE, MULTIPLE } from '../../reducers/timetable/lectureActive';
 import courseShape from '../../shapes/CourseShape';
 
 
 class CourseListTabs extends Component {
   changeTab = (list) => {
-    const { search, setCurrentListDispatch/* , openSearchDispatch, closeSearchDispatch, clearLectureActiveDispatch */ } = this.props;
+    const { search, setCurrentListDispatch/* , openSearchDispatch, closeSearchDispatch */, clearCourseActiveDispatch } = this.props;
 
     setCurrentListDispatch(list);
 
@@ -22,7 +23,7 @@ class CourseListTabs extends Component {
       // closeSearchDispatch();
     }
 
-    // clearLectureActiveDispatch();
+    clearCourseActiveDispatch();
   }
 
   render() {
@@ -61,11 +62,9 @@ const mapDispatchToProps = dispatch => ({
   setCurrentListDispatch: (list) => {
     dispatch(setCurrentList(list));
   },
-  /*
-  clearLectureActiveDispatch: () => {
-    dispatch(clearLectureActive());
+  clearCourseActiveDispatch: () => {
+    dispatch(clearCourseActive());
   },
-  */
 });
 
 CourseListTabs.propTypes = {
@@ -87,9 +86,7 @@ CourseListTabs.propTypes = {
   closeSearchDispatch: PropTypes.func.isRequired,
   */
   setCurrentListDispatch: PropTypes.func.isRequired,
-  /*
-  clearLectureActiveDispatch: PropTypes.func.isRequired,
-  */
+  clearCourseActiveDispatch: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CourseListTabs);
