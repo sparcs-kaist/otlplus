@@ -14,6 +14,7 @@ import CourseBlock from '../../blocks/CourseBlock';
 import userShape from '../../../shapes/UserShape';
 import courseShape from '../../../shapes/CourseShape';
 import courseActiveShape from '../../../shapes/CourseActiveShape';
+import CourseSearchSubSection from './CourseSearchSubSection';
 
 
 class CourseListSection extends Component {
@@ -153,7 +154,7 @@ class CourseListSection extends Component {
       return (
       // eslint-disable-next-line react/jsx-indent
       <div className={classNames('section-content', 'section-content--flex', 'section-content--course-list')}>
-        { searchOpen ? <div /> : null }
+        { true ? <CourseSearchSubSection /> : null }
         <div className={classNames('title', 'title--search')} onClick={() => this.showSearch()}>
           <i className={classNames('icon', 'icon--search')} />
           <span>검색</span>
