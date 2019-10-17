@@ -6,7 +6,8 @@ import { appBoundClassNames as classNames } from '../../../common/boundClassName
 import axios from '../../../common/presetAxios';
 
 import { BASE_URL } from '../../../common/constants';
-// import { closeSearch, setListLectures, clearSearchListLectures } from '../../../actions/timetable/index';
+import { closeSearch } from '../../../actions/dictionary/search';
+import { setListCourses, clearSearchListCourses } from '../../../actions/dictionary/list';
 import SearchFilter from '../../SearchFilter';
 import '../../../static/css/font-awesome.min.css';
 
@@ -31,7 +32,7 @@ class CourseSearchSubSection extends Component {
 
   searchStart = () => {
     const { type, department, grade, inputVal } = this.state;
-    const { closeSearchDispatch, clearSearchListLecturesDispatch, setListLecturesDispatch } = this.props;
+    const { closeSearchDispatch, clearSearchListCoursesDispatch, setListCoursesDispatch } = this.props;
 
     if (type.size === 1 && department.size === 1 && grade.size === 1 && inputVal.length === 0) {
       if (type.has('ALL') && department.has('ALL') && grade.has('ALL')) {
@@ -41,17 +42,16 @@ class CourseSearchSubSection extends Component {
       }
     }
     closeSearchDispatch();
-    clearSearchListLecturesDispatch();
+    clearSearchListCoursesDispatch();
 
-    axios.get(`${BASE_URL}/api/lectures`, { params: {
+    axios.get(`${BASE_URL}/api/courses`, { params: {
       department: Array.from(department),
       type: Array.from(type),
       grade: Array.from(grade),
       keyword: inputVal,
     } })
       .then((response) => {
-        const lectures = response.data;
-        setListLecturesDispatch('search', lectures);
+        setListCoursesDispatch('search', response.data);
       })
       .catch((response) => {
       });
@@ -197,25 +197,21 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  /*
   closeSearchDispatch: () => {
     dispatch(closeSearch());
   },
-  setListLecturesDispatch: (code, lectures) => {
-    dispatch(setListLectures(code, lectures));
+  setListCoursesDispatch: (code, courses) => {
+    dispatch(setListCourses(code, courses));
   },
-  clearSearchListLecturesDispatch: () => {
-    dispatch(clearSearchListLectures());
+  clearSearchListCoursesDispatch: () => {
+    dispatch(clearSearchListCourses());
   },
-  */
 });
 
 CourseSearchSubSection.propTypes = {
-  /*
   closeSearchDispatch: PropTypes.func.isRequired,
-  setListLecturesDispatch: PropTypes.func.isRequired,
-  clearSearchListLecturesDispatch: PropTypes.func.isRequired,
-  */
+  setListCoursesDispatch: PropTypes.func.isRequired,
+  clearSearchListCoursesDispatch: PropTypes.func.isRequired,
 };
 
 
