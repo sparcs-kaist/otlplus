@@ -16,6 +16,39 @@ def course_list_view(request):
     if request.method == 'GET':
         courses = Course.objects.all().order_by('old_code')
 
+        department = request.GET.getlist('department', [])
+        if department and len(department):
+            major_list = ["CE", "MSB", "ME", "PH", "BiS", "IE", "ID", "BS", "CBE", "MAS",
+                          "MS", "NQE", "HSS", "EE", "CS", "AE", "CH"]
+            if 'ALL' in department:
+                pass
+            elif 'ETC' in department:
+                courses = courses.exclude(department__code__in = set(major_list) - set(department))
+            else:
+                courses = courses.filter(department__code__in = department)
+
+        type_ = request.GET.getlist('type', [])
+        if type_ and len(type_):
+            acronym_dic = {'GR': 'General Required', 'MGC': 'Mandatory General Courses', 'BE': 'Basic Elective',
+                           'BR': 'Basic Required', 'EG': 'Elective(Graduate)', 'HSE': 'Humanities & Social Elective',
+                           'OE': 'Other Elective', 'ME': 'Major Elective', 'MR': 'Major Required'}
+            if 'ALL' in type_:
+                pass
+            elif 'ETC' in type_:
+                courses = courses.exclude(type_en__in = [acronym_dic[x] for x in acronym_dic if x not in type_])
+            else:
+                courses = courses.filter(type_en__in = [acronym_dic[x] for x in acronym_dic if x in type_])
+
+        level = request.GET.getlist('grade', [])
+        if level and len(level):
+            acronym_dic = {'100':"1", '200':"2", '300':"3", '400':"4"}
+            if "ALL" in level:
+                pass
+            elif "ETC" in level:
+                courses = courses.exclude(code_num__in = [acronym_dic[x] for x in acronym_dic if x not in level])
+            else:
+                courses = courses.filter(code_num__in = [acronym_dic[x] for x in acronym_dic if x in level])
+
         group = request.GET.getlist('group', [])
         if group and len(group):
             query = Q()
