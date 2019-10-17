@@ -86,6 +86,10 @@ class Lecture(models.Model):
         if nested:
             return result
 
+        result.update({
+            'professor': [p.toJson(nested=True) for p in self.professor.all()]
+        })
+
         # Add formatted score
         if self.comment_num == 0:
             result.update({

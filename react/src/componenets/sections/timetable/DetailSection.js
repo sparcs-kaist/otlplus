@@ -146,7 +146,7 @@ class DetailSection extends Component {
                 </div>
                 <div>
                   <span className={classNames('fixed-ko')}>교수</span>
-                  <span>{lecture.professor}</span>
+                  <span>{lecture.professor.map(p => p.name).join(', ')}</span>
                 </div>
                 <div>
                   <span className={classNames('fixed-ko')}>장소</span>
