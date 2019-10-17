@@ -82,6 +82,43 @@ def course_list_view(request):
 
 
 @require_http_methods(['GET'])
+def courses_autocomplete_view(request):
+    if request.method == 'GET':
+        try:
+            keyword = request.GET['keyword']
+        except KeyError:
+            return HttpResponseBadRequest('Missing fields in request data')
+
+        courses = Course.objects.all().order_by('old_code')
+
+        courses_filtered = courses.filter(department__name__istartswith=keyword).order_by('department__name')
+        if courses_filtered.exists():
+            return JsonResponse(courses_filtered[0].department.name, safe=False)
+
+        courses_filtered = courses.filter(department__name_en__istartswith=keyword).order_by('department__name_en')
+        if courses_filtered.exists():
+            return JsonResponse(courses_filtered[0].department.name_en, safe=False)
+
+        courses_filtered = courses.filter(title__istartswith=keyword).order_by('title')
+        if courses_filtered.exists():
+            return JsonResponse(courses_filtered[0].title, safe=False)
+
+        courses_filtered = courses.filter(title_en__istartswith=keyword).order_by('title_en')
+        if courses_filtered.exists():
+            return JsonResponse(courses_filtered[0].title_en, safe=False)
+
+        courses_filtered = courses.filter(professors__professor_name__istartswith=keyword).order_by('professor__professor_name')
+        if courses_filtered.exists():
+            return JsonResponse(courses_filtered[0].professors.filter(professor_name__istartswith=keyword)[0].professor_name, safe=False)
+
+        courses_filtered = courses.filter(professors__professor_name_en__istartswith=keyword).order_by('professor__professor_name_en')
+        if courses_filtered.exists():
+            return JsonResponse(courses_filtered[0].professors.filter(professor_name_en__istartswith=keyword)[0].professor_name_en, safe=False)
+
+        return JsonResponse(keyword, safe=False)
+
+
+@require_http_methods(['GET'])
 def lecture_list_view(request):
     if request.method == 'GET':
         lectures = Lecture.objects \

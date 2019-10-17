@@ -92,7 +92,7 @@ class CourseSearchSubSection extends Component {
       return;
     }
 
-    axios.get(`${BASE_URL}/api/lectures/autocomplete`, { params: {
+    axios.get(`${BASE_URL}/api/courses/autocomplete`, { params: {
       keyword: value,
     } })
       .then((response) => {
