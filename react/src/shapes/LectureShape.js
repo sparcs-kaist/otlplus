@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 
 import ClasstimeShape from './ClasstimeShape';
 import ExamtimeShape from './ExamtimeShape';
+import NestedProfessorShape from './NestedProfessorShape';
 
 
 const lectureShape = PropTypes.shape({
@@ -26,6 +27,7 @@ const lectureShape = PropTypes.shape({
   common_title: PropTypes.string.isRequired,
   class_title: PropTypes.string.isRequired,
   professor_short: PropTypes.string.isRequired,
+  professor: PropTypes.arrayOf(NestedProfessorShape).isRequired,
   has_review: PropTypes.bool.isRequired,
   grade: PropTypes.number.isRequired,
   load: PropTypes.number.isRequired,
