@@ -727,6 +727,15 @@ a:hover {
 
 
     &--course {
+        &.block--active {
+            background-color:#DDDDDD;
+        }
+        &.block--clicked {
+            background-color:#DDDDDD;
+            margin-top: -3px;
+            margin-bottom: 8px + 3px;
+            box-shadow: 0 3px 0 0 #888888;
+        }
 
 
         .section-content--widget &:nth-last-of-type(2) {

@@ -5,12 +5,15 @@ import PropTypes from 'prop-types';
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 import axios from '../../../common/presetAxios';
 
-import { /* openSearch, setLectureActive, clearLectureActive, */setListMajorCodes, setListCourses, setListMajorCourses } from '../../../actions/dictionary/list';
+import { isClicked, isHover } from '../../../common/courseFunctions';
+import { /* openSearch, */setListMajorCodes, setListCourses, setListMajorCourses } from '../../../actions/dictionary/list';
+import { setCourseActive, clearCourseActive } from '../../../actions/dictionary/courseActive';
 import { BASE_URL } from '../../../common/constants';
 import Scroller from '../../Scroller';
 import CourseBlock from '../../blocks/CourseBlock';
 import userShape from '../../../shapes/UserShape';
 import courseShape from '../../../shapes/CourseShape';
+import courseActiveShape from '../../../shapes/CourseActiveShape';
 
 
 class CourseListSection extends Component {
@@ -98,44 +101,38 @@ class CourseListSection extends Component {
   }
 
 
-  listHover = lecture => () => {
-    /*
-    const { lectureActiveClicked, setLectureActiveDispatch } = this.props;
+  listHover = course => () => {
+    const { courseActiveClicked, setCourseActiveDispatch } = this.props;
 
-    if (lectureActiveClicked) {
+    if (courseActiveClicked) {
       return;
     }
-    setLectureActiveDispatch(lecture, LIST, false);
-    */
+    setCourseActiveDispatch(course, false);
   }
 
   listOut = () => {
-    /*
-    const { lectureActiveClicked, clearLectureActiveDispatch } = this.props;
+    const { courseActiveClicked, clearCourseActiveDispatch } = this.props;
 
-    if (lectureActiveClicked) {
+    if (courseActiveClicked) {
       return;
     }
-    clearLectureActiveDispatch();
-    */
+    clearCourseActiveDispatch();
   }
 
-  listClick = lecture => () => {
-    /*
-    const { lectureActive, setLectureActiveDispatch } = this.props;
+  listClick = course => () => {
+    const { courseActive, setCourseActiveDispatch } = this.props;
 
-    if (!isListClicked(lecture, lectureActive)) {
-      setLectureActiveDispatch(lecture, 'LIST', true);
+    if (!isClicked(course, courseActive)) {
+      setCourseActiveDispatch(course, true);
     }
     else {
-      setLectureActiveDispatch(lecture, 'LIST', false);
+      setCourseActiveDispatch(course, false);
     }
-    */
   }
 
 
   render() {
-    const { lectureActive, currentTimetable, currentList, searchOpen, search, major, humanity, taken } = this.props;
+    const { courseActive, currentTimetable, currentList, searchOpen, search, major, humanity, taken } = this.props;
 
     const mapCourses = (courses) => {
       if (!courses) {
@@ -148,8 +145,8 @@ class CourseListSection extends Component {
         <CourseBlock
           course={c}
           key={c.id}
-          // isClicked={isListClicked(c, lectureActive)}
-          // isHover={isListHover(c, lectureActive)}
+          isClicked={isClicked(c, courseActive)}
+          isHover={isHover(c, courseActive)}
           listHover={this.listHover}
           listOut={this.listOut}
           listClick={this.listClick}
@@ -222,8 +219,8 @@ const mapStateToProps = state => ({
   major: state.dictionary.list.major,
   humanity: state.dictionary.list.humanity,
   taken: state.dictionary.list.taken,
-  // lectureActive: state.dictionary.lectureActive,
-  // lectureActiveClicked: state.dictionary.lectureActive.clicked,
+  courseActive: state.dictionary.courseActive,
+  courseActiveClicked: state.dictionary.courseActive.clicked,
   // searchOpen: state.dictionary.search.open,
 });
 
@@ -232,13 +229,13 @@ const mapDispatchToProps = dispatch => ({
   openSearchDispatch: () => {
     dispatch(openSearch());
   },
-  setLectureActiveDispatch: (lecture, from, clicked) => {
-    dispatch(setLectureActive(lecture, from, clicked));
-  },
-  clearLectureActiveDispatch: () => {
-    dispatch(clearLectureActive());
-  },
   */
+  setCourseActiveDispatch: (lecture, from, clicked) => {
+    dispatch(setCourseActive(lecture, from, clicked));
+  },
+  clearCourseActiveDispatch: () => {
+    dispatch(clearCourseActive());
+  },
   setListMajorCodesDispatch: (majors) => {
     dispatch(setListMajorCodes(majors));
   },
@@ -265,12 +262,12 @@ CourseListSection.propTypes = {
   taken: PropTypes.shape({
     courses: PropTypes.arrayOf(courseShape),
   }).isRequired,
-  // lectureActive: lectureActiveShape.isRequired,
-  // lectureActiveClicked: PropTypes.bool.isRequired,
+  courseActive: courseActiveShape.isRequired,
+  courseActiveClicked: PropTypes.bool.isRequired,
   // searchOpen: PropTypes.bool.isRequired,
   // openSearchDispatch: PropTypes.func.isRequired,
-  // setLectureActiveDispatch: PropTypes.func.isRequired,
-  // clearLectureActiveDispatch: PropTypes.func.isRequired,
+  setCourseActiveDispatch: PropTypes.func.isRequired,
+  clearCourseActiveDispatch: PropTypes.func.isRequired,
   setListMajorCodesDispatch: PropTypes.func.isRequired,
   setListCoursesDispatch: PropTypes.func.isRequired,
   setListMajorCoursesDispatch: PropTypes.func.isRequired,
