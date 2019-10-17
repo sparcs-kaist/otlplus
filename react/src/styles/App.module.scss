@@ -727,6 +727,8 @@ a:hover {
 
 
     &--course {
+        cursor: pointer;
+
         &.block--active {
             background-color:#DDDDDD;
         }
