@@ -63,11 +63,12 @@ class TimetableSubSection extends Component {
   }
 
   dragStart = (e) => {
-    const { setIsDraggingDispatch } = this.props;
+    const { clearLectureActiveDispatch, setIsDraggingDispatch } = this.props;
 
     e.stopPropagation();
     e.preventDefault();
     this.setState({ firstBlock: e.target, secondBlock: e.target });
+    clearLectureActiveDispatch();
     setIsDraggingDispatch(true);
   }
 

@@ -86,7 +86,7 @@ class SemesterSection extends Component {
     }
     return (
         // eslint-disable-next-line react/jsx-indent
-        <div>
+        <div className={classNames('section', 'section--semester')}>
           <div className={classNames('disable')}><i className={classNames('icon', 'icon--semester-prev')} /></div>
           <span>불러오는 중</span>
           <div className={classNames('disable')}><i className={classNames('icon', 'icon--semester-next')} /></div>
