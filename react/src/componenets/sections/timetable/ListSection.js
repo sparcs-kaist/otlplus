@@ -213,7 +213,7 @@ class ListSection extends Component {
   render() {
     const { lectureActive, currentTimetable, currentList, searchOpen, search, major, humanity, cart } = this.props;
 
-    const listBlocks = (courses, fromCart) => {
+    const mapCourses = (courses, fromCart) => {
       if (!courses) {
         return <div className={classNames('list-placeholder')}><div>불러오는 중</div></div>;
       }
@@ -258,7 +258,7 @@ class ListSection extends Component {
               <span>검색</span>
             </div>
             <Scroller>
-              {listBlocks(search.courses, false)}
+              {mapCourses(search.courses, false)}
             </Scroller>
           </div>
       );
@@ -271,7 +271,7 @@ class ListSection extends Component {
                 {major[currentList].name}
               </div>
               <Scroller>
-                {listBlocks(major[currentList].courses, false)}
+                {mapCourses(major[currentList].courses, false)}
               </Scroller>
             </div>
       );
@@ -284,7 +284,7 @@ class ListSection extends Component {
               인문사회선택
             </div>
             <Scroller>
-              {listBlocks(humanity.courses, false)}
+              {mapCourses(humanity.courses, false)}
             </Scroller>
           </div>
       );
@@ -297,7 +297,7 @@ class ListSection extends Component {
               장바구니
             </div>
             <Scroller>
-              {listBlocks(cart.courses, true)}
+              {mapCourses(cart.courses, true)}
             </Scroller>
           </div>
       );

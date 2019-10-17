@@ -1,14 +1,15 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { pure } from 'recompose';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 import CourseShape from '../../shapes/CourseShape';
 
 
-const CourseBlock = ({ course }) => {
+const CourseBlock = ({ course, isClicked, isHover, listHover, listOut, listClick }) => {
   return (
       // eslint-disable-next-line react/jsx-indent
-      <div className={classNames('block', 'block--course')}>
+      <div className={classNames('block', 'block--course', (isClicked ? classNames('block--clicked') : (isHover ? classNames('block--active') : '')))} onClick={() => listClick(course)()} onMouseOver={() => listHover(course)()} onMouseOut={() => listOut()}>
         <div className={classNames('block--course__title')}>
           <strong>{ course.title }</strong>
             &nbsp;
@@ -46,6 +47,11 @@ const CourseBlock = ({ course }) => {
 
 CourseBlock.propTypes = {
   course: CourseShape.isRequired,
+  isClicked: PropTypes.bool.isRequired,
+  isHover: PropTypes.bool.isRequired,
+  listHover: PropTypes.func.isRequired,
+  listOut: PropTypes.func.isRequired,
+  listClick: PropTypes.func.isRequired,
 };
 
 

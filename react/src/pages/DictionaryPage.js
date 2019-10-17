@@ -5,6 +5,7 @@ import Header from '../componenets/Header';
 import CourseListSection from '../componenets/sections/dictionary/CourseListSection';
 import CourseDetailSection from '../componenets/sections/dictionary/CourseDetailSection';
 import courses from '../dummy/courses';
+import CourseListTabs from '../componenets/tabs/CourseListTabs';
 
 
 class DictionaryPage extends Component {
@@ -14,7 +15,7 @@ class DictionaryPage extends Component {
         <Header />
         <section className={classNames('content', 'content--no-scroll')}>
           <div className={classNames('section-wrap', 'section-wrap--course-list')}>
-            <div className={classNames('tab--course-list')} />
+            <CourseListTabs />
             <div className={classNames('section', 'section--with-tabs')}>
               <CourseListSection />
             </div>
