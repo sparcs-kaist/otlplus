@@ -186,14 +186,7 @@ a:hover {
 
 
 .tab {
-    &--course-list {
-        display: inline-block;
-        vertical-align: top;
-        width: 50px;
-        height: 100%;
-        margin-left: -50px;
-    }
-
+    &--course-list,
     &--lecture-list {
         position: absolute;
         vertical-align: top;
