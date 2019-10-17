@@ -44,6 +44,6 @@ export function clearListsCourses() {
 
 export function clearSearchListCourses() {
   return {
-    type: CLEAR_LISTS_COURSES,
+    type: CLEAR_SEARCH_LIST_COURSES,
   };
 }

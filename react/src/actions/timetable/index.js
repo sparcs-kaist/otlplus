@@ -86,7 +86,7 @@ export function clearListsLectures() {
 
 export function clearSearchListLectures() {
   return {
-    type: CLEAR_LISTS_LECTURES,
+    type: CLEAR_SEARCH_LIST_LECTURES,
   };
 }
 
