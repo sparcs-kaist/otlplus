@@ -3,16 +3,21 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
+import axios from '../../../common/presetAxios';
 
 import { /* openSearch, setLectureActive, clearLectureActive, */setListMajorCodes, setListCourses, setListMajorCourses } from '../../../actions/dictionary/list';
+import { BASE_URL } from '../../../common/constants';
 import Scroller from '../../Scroller';
 import CourseBlock from '../../blocks/CourseBlock';
-import courses from '../../../dummy/courses';
 import userShape from '../../../shapes/UserShape';
 import courseShape from '../../../shapes/CourseShape';
 
 
 class CourseListSection extends Component {
+  componentDidMount() {
+    this._fetchLists(false);
+  }
+
   componentDidUpdate(prevProps, prevState, snapshot) {
     const { user, major, setListMajorCodesDispatch/* , openSearchDispatch */ } = this.props;
 
@@ -36,24 +41,19 @@ class CourseListSection extends Component {
   )
 
   _fetchLists = (majorOnly) => {
-    /*
-    const { year, semester, major, setListMajorLecturesDispatch, setListLecturesDispatch } = this.props;
+    const { major, setListMajorCoursesDispatch, setListCoursesDispatch } = this.props;
     const majorCodes = major.codes;
 
-    axios.get(`${BASE_URL}/api/lectures`, { params: {
-      year: year,
-      semester: semester,
+    axios.get(`${BASE_URL}/api/courses`, { params: {
       group: majorCodes,
     } })
       .then((response) => {
         const newProps = this.props;
-        if ((newProps.year !== year || newProps.semester !== semester)
-          || !this._codesAreSame(newProps.major.codes, majorCodes)
-        ) {
+        if (!this._codesAreSame(newProps.major.codes, majorCodes)) {
           return;
         }
         major.codes.forEach((code) => {
-          setListMajorLecturesDispatch(code, response.data.filter(lecture => (lecture.major_code === code)));
+          setListMajorCoursesDispatch(code, response.data.filter(lecture => (lecture.major_code === code)));
         });
       })
       .catch((response) => {
@@ -63,21 +63,16 @@ class CourseListSection extends Component {
       return;
     }
 
-    axios.get(`${BASE_URL}/api/lectures`, { params: {
-      year: year,
-      semester: semester,
+    axios.get(`${BASE_URL}/api/courses`, { params: {
       group: 'Humanity',
     } })
       .then((response) => {
-        const newProps = this.props;
-        if (newProps.year !== year || newProps.semester !== semester) {
-          return;
-        }
-        setListLecturesDispatch('humanity', response.data);
+        setListCoursesDispatch('humanity', response.data);
       })
       .catch((response) => {
       });
 
+    /*
     axios.post(`${BASE_URL}/api/timetable/wishlist_load`, {
       year: year,
       semester: semester,
@@ -172,7 +167,7 @@ class CourseListSection extends Component {
           <span>검색</span>
         </div>
         <Scroller>
-          { mapCourses(courses) }
+          { mapCourses(search.courses) }
         </Scroller>
       </div>
       );
@@ -185,7 +180,7 @@ class CourseListSection extends Component {
           {major[currentList].name}
         </div>
         <Scroller>
-          { mapCourses(courses) }
+          { mapCourses(major[currentList].courses) }
         </Scroller>
       </div>
       );
@@ -198,7 +193,7 @@ class CourseListSection extends Component {
           인문사회선택
         </div>
         <Scroller>
-          { mapCourses(courses) }
+          { mapCourses(humanity.courses) }
         </Scroller>
       </div>
       );
@@ -211,7 +206,7 @@ class CourseListSection extends Component {
           내가 들은 과목
         </div>
         <Scroller>
-          { mapCourses(courses) }
+          { mapCourses(taken.courses) }
         </Scroller>
       </div>
       );
