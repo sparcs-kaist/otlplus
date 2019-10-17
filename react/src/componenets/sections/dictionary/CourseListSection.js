@@ -254,16 +254,16 @@ CourseListSection.propTypes = {
   user: userShape,
   currentList: PropTypes.string.isRequired,
   search: PropTypes.shape({
-    courses: PropTypes.arrayOf(PropTypes.arrayOf(courseShape)),
+    courses: PropTypes.arrayOf(courseShape),
   }).isRequired,
   major: PropTypes.shape({
     codes: PropTypes.arrayOf(PropTypes.string).isRequired,
   }).isRequired,
   humanity: PropTypes.shape({
-    courses: PropTypes.arrayOf(PropTypes.arrayOf(courseShape)),
+    courses: PropTypes.arrayOf(courseShape),
   }).isRequired,
   taken: PropTypes.shape({
-    courses: PropTypes.arrayOf(PropTypes.arrayOf(courseShape)),
+    courses: PropTypes.arrayOf(courseShape),
   }).isRequired,
   // lectureActive: lectureActiveShape.isRequired,
   // lectureActiveClicked: PropTypes.bool.isRequired,

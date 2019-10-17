@@ -71,16 +71,16 @@ const mapDispatchToProps = dispatch => ({
 CourseListTabs.propTypes = {
   currentList: PropTypes.string.isRequired,
   search: PropTypes.shape({
-    courses: PropTypes.arrayOf(PropTypes.arrayOf(courseShape)),
+    courses: PropTypes.arrayOf(courseShape),
   }).isRequired,
   major: PropTypes.shape({
     codes: PropTypes.arrayOf(PropTypes.string).isRequired,
   }).isRequired,
   humanity: PropTypes.shape({
-    courses: PropTypes.arrayOf(PropTypes.arrayOf(courseShape)),
+    courses: PropTypes.arrayOf(courseShape),
   }).isRequired,
   taken: PropTypes.shape({
-    courses: PropTypes.arrayOf(PropTypes.arrayOf(courseShape)),
+    courses: PropTypes.arrayOf(courseShape),
   }).isRequired,
   /*
   openSearchDispatch: PropTypes.func.isRequired,
