@@ -16,6 +16,39 @@ def course_list_view(request):
     if request.method == 'GET':
         courses = Course.objects.all().order_by('old_code')
 
+        department = request.GET.getlist('department', [])
+        if department and len(department):
+            major_list = ["CE", "MSB", "ME", "PH", "BiS", "IE", "ID", "BS", "CBE", "MAS",
+                          "MS", "NQE", "HSS", "EE", "CS", "AE", "CH"]
+            if 'ALL' in department:
+                pass
+            elif 'ETC' in department:
+                courses = courses.exclude(department__code__in = set(major_list) - set(department))
+            else:
+                courses = courses.filter(department__code__in = department)
+
+        type_ = request.GET.getlist('type', [])
+        if type_ and len(type_):
+            acronym_dic = {'GR': 'General Required', 'MGC': 'Mandatory General Courses', 'BE': 'Basic Elective',
+                           'BR': 'Basic Required', 'EG': 'Elective(Graduate)', 'HSE': 'Humanities & Social Elective',
+                           'OE': 'Other Elective', 'ME': 'Major Elective', 'MR': 'Major Required'}
+            if 'ALL' in type_:
+                pass
+            elif 'ETC' in type_:
+                courses = courses.exclude(type_en__in = [acronym_dic[x] for x in acronym_dic if x not in type_])
+            else:
+                courses = courses.filter(type_en__in = [acronym_dic[x] for x in acronym_dic if x in type_])
+
+        level = request.GET.getlist('grade', [])
+        if level and len(level):
+            acronym_dic = {'100':"1", '200':"2", '300':"3", '400':"4"}
+            if "ALL" in level:
+                pass
+            elif "ETC" in level:
+                courses = courses.exclude(code_num__in = [acronym_dic[x] for x in acronym_dic if x not in level])
+            else:
+                courses = courses.filter(code_num__in = [acronym_dic[x] for x in acronym_dic if x in level])
+
         group = request.GET.getlist('group', [])
         if group and len(group):
             query = Q()
@@ -31,9 +64,58 @@ def course_list_view(request):
                 query |= Q(type_en__in=filter_type, department__code__in=group)
             courses = courses.filter(query)
 
+        keyword = request.GET.get('keyword', None)
+        if keyword:
+            courses = courses.filter(
+                Q(title__icontains=keyword) |
+                Q(title_en__icontains=keyword) |
+                Q(old_code__iexact=keyword) |
+                Q(department__name__iexact=keyword) |
+                Q(department__name_en__iexact=keyword) |
+                Q(professors__professor_name__icontains=keyword) |
+                Q(professors__professor_name_en__icontains=keyword)
+            )
+
         courses = courses.distinct()
         result = [c.toJson() for c in courses[:300]]
         return JsonResponse(result, safe=False)
+
+
+@require_http_methods(['GET'])
+def courses_autocomplete_view(request):
+    if request.method == 'GET':
+        try:
+            keyword = request.GET['keyword']
+        except KeyError:
+            return HttpResponseBadRequest('Missing fields in request data')
+
+        courses = Course.objects.all().order_by('old_code')
+
+        courses_filtered = courses.filter(department__name__istartswith=keyword).order_by('department__name')
+        if courses_filtered.exists():
+            return JsonResponse(courses_filtered[0].department.name, safe=False)
+
+        courses_filtered = courses.filter(department__name_en__istartswith=keyword).order_by('department__name_en')
+        if courses_filtered.exists():
+            return JsonResponse(courses_filtered[0].department.name_en, safe=False)
+
+        courses_filtered = courses.filter(title__istartswith=keyword).order_by('title')
+        if courses_filtered.exists():
+            return JsonResponse(courses_filtered[0].title, safe=False)
+
+        courses_filtered = courses.filter(title_en__istartswith=keyword).order_by('title_en')
+        if courses_filtered.exists():
+            return JsonResponse(courses_filtered[0].title_en, safe=False)
+
+        courses_filtered = courses.filter(professors__professor_name__istartswith=keyword).order_by('professor__professor_name')
+        if courses_filtered.exists():
+            return JsonResponse(courses_filtered[0].professors.filter(professor_name__istartswith=keyword)[0].professor_name, safe=False)
+
+        courses_filtered = courses.filter(professors__professor_name_en__istartswith=keyword).order_by('professor__professor_name_en')
+        if courses_filtered.exists():
+            return JsonResponse(courses_filtered[0].professors.filter(professor_name_en__istartswith=keyword)[0].professor_name_en, safe=False)
+
+        return JsonResponse(keyword, safe=False)
 
 
 @require_http_methods(['GET'])

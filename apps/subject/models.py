@@ -526,6 +526,23 @@ class Course(models.Model):
             'userspecific_is_read': is_read,
         })
 
+        if self.type_en in ["Basic Required", "Basic Elective"]:
+            result.update({
+                'major_code': 'Basic',
+            })
+        elif self.type_en == "Humanities & Social Elective":
+            result.update({
+                'major_code': 'Humanity',
+            })
+        elif self.type_en in ["Major Required", "Major Elective", "Elective(Graduate)"]:
+            result.update({
+                'major_code': self.department.code,
+            })
+        else:
+            result.update({
+                'major_code': '',
+            })
+
         return result
 
     def avg_update(self):

@@ -16,6 +16,7 @@ import LicensePage from './pages/LicensePage';
 
 import axios from './common/presetAxios';
 import { BASE_URL } from './common/constants';
+import dictionaryReducer from './reducers/dictionary/index';
 import timetableReducer from './reducers/timetable/index';
 import commonReducer from './reducers/user';
 import { setUser } from './actions/user';
@@ -23,6 +24,7 @@ import TestPage from './pages/TestPage';
 
 const store = createStore(combineReducers({
   common: commonReducer,
+  dictionary: dictionaryReducer,
   timetable: timetableReducer,
 }));
 

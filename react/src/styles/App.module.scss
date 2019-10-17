@@ -186,14 +186,7 @@ a:hover {
 
 
 .tab {
-    &--course-list {
-        display: inline-block;
-        vertical-align: top;
-        width: 50px;
-        height: 100%;
-        margin-left: -50px;
-    }
-
+    &--course-list,
     &--lecture-list {
         position: absolute;
         vertical-align: top;
@@ -734,6 +727,15 @@ a:hover {
 
 
     &--course {
+        &.block--active {
+            background-color:#DDDDDD;
+        }
+        &.block--clicked {
+            background-color:#DDDDDD;
+            margin-top: -3px;
+            margin-bottom: 8px + 3px;
+            box-shadow: 0 3px 0 0 #888888;
+        }
 
 
         .section-content--widget &:nth-last-of-type(2) {
@@ -1283,6 +1285,7 @@ a:hover {
     & > div:nth-child(3),
     & > div:nth-child(5) {
         flex: 1 1 auto;
+        width: 100%;
         display: flex;
         flex-direction: column;
     }

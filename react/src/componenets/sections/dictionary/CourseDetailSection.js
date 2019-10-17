@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 import ReviewBlock from '../../blocks/ReviewBlock';
@@ -22,9 +25,11 @@ class CourseDetailSection extends Component {
 
 
   render() {
-    const { course } = this.props;
+    const { clicked, course } = this.props;
 
-    return (
+    if (clicked && course !== null) {
+      return (
+      // eslint-disable-next-line react/jsx-indent
       <div className={classNames('section-content', 'section-content--flex', 'section-content--course-detail')}>
         <div className={classNames('fixed')}>
           <div>
@@ -136,13 +141,45 @@ class CourseDetailSection extends Component {
           {reviews.map(r => <ReviewBlock review={r} key={r.id} />)}
         </Scroller>
       </div>
+      );
+    }
+    return (
+      <div className={classNames('section-content', 'section-content--flex', 'section-content--course-detail')}>
+        <div className={classNames('otlplus-placeholder')}>
+          <div>
+            OTL PLUS
+          </div>
+          <div>
+            <Link to="/credits/">만든 사람들</Link>
+            &nbsp;|&nbsp;
+            <Link to="/licenses/">라이선스</Link>
+          </div>
+          <div>
+            <a href="mailto:otlplus@sparcs.org">otlplus@sparcs.org</a>
+          </div>
+          <div>
+            © 2017,&nbsp;
+            <a href="http://sparcs.kaist.ac.kr">SPARCS</a>
+            &nbsp;OTL Team
+          </div>
+        </div>
+      </div>
     );
   }
 }
 
+const mapStateToProps = state => ({
+  clicked: state.dictionary.courseActive.clicked,
+  course: state.dictionary.courseActive.course,
+});
+
+const mapDispatchToProps = dispatch => ({
+});
+
 CourseDetailSection.propTypes = {
+  clicked: PropTypes.bool.isRequired,
   course: CourseShape.isRequired,
 };
 
 
-export default CourseDetailSection;
+export default connect(mapStateToProps, mapDispatchToProps)(CourseDetailSection);
