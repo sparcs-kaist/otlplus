@@ -38,11 +38,6 @@ class CourseListSection extends Component {
     && codes1.every((c, i) => (c === codes2[i]))
   )
 
-  _codesAreSame = (codes1, codes2) => (
-    codes1.length === codes2.length
-    && codes1.every((c, i) => (c === codes2[i]))
-  )
-
   _fetchLists = (majorOnly) => {
     const { major, setListMajorCoursesDispatch, setListCoursesDispatch } = this.props;
     const majorCodes = major.codes;
