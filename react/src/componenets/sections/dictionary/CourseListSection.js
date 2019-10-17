@@ -6,8 +6,9 @@ import { appBoundClassNames as classNames } from '../../../common/boundClassName
 import axios from '../../../common/presetAxios';
 
 import { isClicked, isHover } from '../../../common/courseFunctions';
-import { /* openSearch, */setListMajorCodes, setListCourses, setListMajorCourses } from '../../../actions/dictionary/list';
+import { setListMajorCodes, setListCourses, setListMajorCourses } from '../../../actions/dictionary/list';
 import { setCourseActive, clearCourseActive } from '../../../actions/dictionary/courseActive';
+import { openSearch } from '../../../actions/dictionary/search';
 import { BASE_URL } from '../../../common/constants';
 import Scroller from '../../Scroller';
 import CourseBlock from '../../blocks/CourseBlock';
@@ -23,7 +24,7 @@ class CourseListSection extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    const { user, major, setListMajorCodesDispatch/* , openSearchDispatch */ } = this.props;
+    const { user, major, setListMajorCodesDispatch } = this.props;
 
     if (user && (user !== prevProps.user)) {
       setListMajorCodesDispatch(user.departments);
@@ -90,10 +91,8 @@ class CourseListSection extends Component {
   }
 
   showSearch = () => {
-    /*
     const { openSearchDispatch } = this.props;
     openSearchDispatch();
-    */
   }
 
 
@@ -128,7 +127,7 @@ class CourseListSection extends Component {
 
 
   render() {
-    const { courseActive, currentTimetable, currentList, searchOpen, search, major, humanity, taken } = this.props;
+    const { courseActive, currentList, searchOpen, search, major, humanity, taken } = this.props;
 
     const mapCourses = (courses) => {
       if (!courses) {
@@ -154,7 +153,7 @@ class CourseListSection extends Component {
       return (
       // eslint-disable-next-line react/jsx-indent
       <div className={classNames('section-content', 'section-content--flex', 'section-content--course-list')}>
-        { true ? <CourseSearchSubSection /> : null }
+        { searchOpen ? <CourseSearchSubSection /> : null }
         <div className={classNames('title', 'title--search')} onClick={() => this.showSearch()}>
           <i className={classNames('icon', 'icon--search')} />
           <span>검색</span>
@@ -217,15 +216,13 @@ const mapStateToProps = state => ({
   taken: state.dictionary.list.taken,
   courseActive: state.dictionary.courseActive,
   courseActiveClicked: state.dictionary.courseActive.clicked,
-  // searchOpen: state.dictionary.search.open,
+  searchOpen: state.dictionary.search.open,
 });
 
 const mapDispatchToProps = dispatch => ({
-  /*
   openSearchDispatch: () => {
     dispatch(openSearch());
   },
-  */
   setCourseActiveDispatch: (lecture, from, clicked) => {
     dispatch(setCourseActive(lecture, from, clicked));
   },
@@ -260,8 +257,8 @@ CourseListSection.propTypes = {
   }).isRequired,
   courseActive: courseActiveShape.isRequired,
   courseActiveClicked: PropTypes.bool.isRequired,
-  // searchOpen: PropTypes.bool.isRequired,
-  // openSearchDispatch: PropTypes.func.isRequired,
+  searchOpen: PropTypes.bool.isRequired,
+  openSearchDispatch: PropTypes.func.isRequired,
   setCourseActiveDispatch: PropTypes.func.isRequired,
   clearCourseActiveDispatch: PropTypes.func.isRequired,
   setListMajorCodesDispatch: PropTypes.func.isRequired,
