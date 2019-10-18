@@ -127,6 +127,9 @@ a:hover {
     &--course-list {
         flex: none;
         width: calc(65vh - 38px);
+        @media (orientation: portrait) {
+            width: calc(100% - 12px * 2);
+        }
     }
 
 
@@ -134,6 +137,27 @@ a:hover {
         flex: none;
         width: calc(65vh - 38px);
         margin-left: 0;
+        @media (orientation: portrait) {
+            position: absolute;
+            width: calc(100% - 12px * 4);
+            height: calc(100% - (12px * 3 + 13px));
+            margin-top: 12px * 2;
+            & > * {
+                position: relative;
+                z-index: 200;
+            }
+
+            &::before {
+                content: '';
+                position: absolute;
+                width: calc(100% + 12px * 4);
+                height: calc(100% + (12px * 3 + 13px));
+                top: -12px * 2;
+                left: -12px * 2;
+                background-color: rgba(#000, 0.3);
+                z-index: 100;
+            }
+        }
     }
 
 
@@ -712,6 +736,20 @@ a:hover {
         & > last-child {
             clear: both;
         }
+    }
+}
+
+
+.close-button {
+    display: none;
+
+    @media (orientation: portrait) {
+        display: block;
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        cursor: pointer;
+        z-index: 210;
     }
 }
 
@@ -1847,5 +1885,11 @@ i.icon {
         *.disable > & {
             background-image: url(../static/icons/semester_next_disable.svg);
         }
+    }
+}
+
+.mobile-hidden {
+    @media (orientation: portrait) {
+        display: none !important;
     }
 }
