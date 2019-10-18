@@ -143,15 +143,13 @@ class TimetableSubSection extends Component {
   }
 
   blockClick = lecture => () => {
-    const { lectureActive, setLectureActiveDispatch, lectureinfoDispatch } = this.props;
+    const { lectureActive, setLectureActiveDispatch } = this.props;
 
     if (isTableClicked(lecture, lectureActive)) {
       setLectureActiveDispatch(lecture, 'TABLE', false);
-      lectureinfoDispatch();
     }
     else {
       setLectureActiveDispatch(lecture, 'TABLE', true);
-      lectureinfoDispatch();
     }
   }
 
