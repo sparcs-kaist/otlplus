@@ -179,7 +179,7 @@ class TimetableSubSection extends Component {
 
   render() {
     const { firstBlock, secondBlock } = this.state;
-    const { currentTimetable, lectureActive, cellWidth, cellHeight, lectureActiveFrom, lectureActiveClicked, lectureActiveLecture } = this.props;
+    const { currentTimetable, lectureActive, cellWidth, cellHeight, lectureActiveFrom, lectureActiveClicked, lectureActiveLecture, mobileShowLectureList } = this.props;
 
     const lectures = currentTimetable ? currentTimetable.lectures : [];
     const lectureBlocks = lectures.map(lecture => (
@@ -195,6 +195,7 @@ class TimetableSubSection extends Component {
             isHover={isTableHover(lecture, lectureActive)}
             isListHover={isListHover(lecture, lectureActive)}
             isTemp={false}
+            isSimple={mobileShowLectureList}
             blockHover={this.blockHover}
             blockOut={this.blockOut}
             blockClick={this.blockClick}
@@ -238,7 +239,7 @@ class TimetableSubSection extends Component {
             return (
             // eslint-disable-next-line react/jsx-indent
             <div
-              className={classNames('cell-bottom', 'cell-last')}
+              className={classNames('cell-bottom', (mobileShowLectureList ? 'cell-bottom--mobile-noline' : ''), 'cell-last')}
               key={`${day}:2330`}
               data-day={day}
               data-time="2330"
@@ -262,7 +263,7 @@ class TimetableSubSection extends Component {
           }
           return (
             <div
-              className={classNames('cell-bottom')}
+              className={classNames('cell-bottom', (mobileShowLectureList ? 'cell-bottom--mobile-noline' : ''))}
               key={`${day}:${(i - 20).toString()}`}
               data-day={day}
               data-time={(i - 20).toString()}
@@ -363,6 +364,7 @@ class TimetableSubSection extends Component {
                   isHover={isTableHover(lectureActiveLecture, lectureActive)}
                   isListHover={isListHover(lectureActiveLecture, lectureActive)}
                   isTemp={true}
+                  isSimple={mobileShowLectureList}
                   blockHover={this.blockHover}
                   blockOut={this.blockOut}
                   blockClick={this.blockClick}

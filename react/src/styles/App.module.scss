@@ -577,7 +577,9 @@ a:hover {
                         &.cell-bottom {
                             border-top:1px dashed #E8E8E8;
                             @media (orientation: portrait) {
-                                border-top-color: transparent;
+                                &.cell-bottom--mobile-noline {
+                                    border-top-color: transparent;
+                                }
                             }
                             &.cell-last {
                                 border-bottom:1px solid #C9C9C9;
@@ -1255,6 +1257,9 @@ a:hover {
             .block--timetable:not(.block--active) & {
                 display: none;
             }
+            @media (orientation: portrait) {
+                display: none;
+            }
         }
 
         &__content {
@@ -1275,9 +1280,6 @@ a:hover {
                  {
                     color:rgba(255,255,255,1);
                 }
-                @media (orientation: portrait) {
-                    display: none;
-                }
             }
 
             &__info {
@@ -1291,9 +1293,6 @@ a:hover {
                 .block--timetable.block--clicked &,
                 .block--timetable.block--temp {
                     color:rgba(255,255,255,0.7);
-                }
-                @media (orientation: portrait) {
-                    display: none;
                 }
             }
         }
