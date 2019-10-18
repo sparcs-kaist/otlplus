@@ -469,6 +469,41 @@ a:hover {
         }
     }
 
+    &--lecture-list {
+        & > div:last-child {
+            flex: auto;
+            display: flex;
+            flex-direction: row-reverse;
+
+            & > div:first-child {
+                align-self: flex-start;
+                margin-top: 8px + 14px + (6px * 2) + 1px;
+                margin-left: 5px;
+                margin-right: -5px;
+                @media (orientation: landscape) {
+                    display: none;
+                }
+
+                & > span {
+                    display: inline-block;
+                    width: 7px;
+                    height: 14px;
+                }
+            }
+
+            :global(.nano) {
+                height: auto !important;
+            }
+
+            & .scroll-placeholder {
+                height: calc(100% - (8px * 2 + 14px * 2 + 6px * 2 + 1px + 6px));
+                @media (orientation: landscape) {
+                    display: none;
+                }
+            }
+        }
+    }
+
     &--timetable {
         flex: 1 1 auto;
         position: relative;
@@ -1170,6 +1205,9 @@ a:hover {
                 margin-left: 6px;
                 pointer-events: auto;
                 cursor: pointer;
+                @media (orientation: portrait) {
+                    display: none;
+                }
 
                 &--disable {
                     pointer-events: none;
