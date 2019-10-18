@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 import axios from '../../../common/presetAxios';
 
-import { inTimetable, inCart, isListClicked, isListHover } from '../../../common/lectureFunctions';
+import { inTimetable, inCart, isListClicked, isListHover, performAddToTable, performAddToCart, performDeleteFromCart } from '../../../common/lectureFunctions';
 import { BASE_URL } from '../../../common/constants';
 import { openSearch, setLectureActive, clearLectureActive, addLectureToTimetable, addLectureToCart, deleteLectureFromCart, setListMajorCodes, setListLectures, setListMajorLectures, setMobileShowLectureList } from '../../../actions/timetable/index';
 import Scroller from '../../Scroller';
@@ -117,74 +117,21 @@ class ListSection extends Component {
     const { currentTimetable, addLectureToTimetableDispatch } = this.props;
 
     event.stopPropagation();
-    if (
-      lecture.classtimes.some(thisClasstime => (
-        currentTimetable.lectures.some(timetableLecture => (
-          timetableLecture.classtimes.some(classtime => (
-            (classtime.day === thisClasstime.day) && (classtime.begin < thisClasstime.end) && (classtime.end > thisClasstime.begin)
-          ))
-        ))
-      ))
-    ) {
-      // eslint-disable-next-line no-alert
-      alert(false ? "You can't add lecture overlapping." : '시간표가 겹치는 과목은 추가할 수 없습니다.');
-      return;
-    }
-
-    axios.post(`${BASE_URL}/api/timetable/table_update`, {
-      table_id: currentTimetable.id,
-      lecture_id: lecture.id,
-      delete: false,
-    })
-      .then((response) => {
-        const newProps = this.props;
-        if (!newProps.currentTimetable || newProps.currentTimetable.id !== currentTimetable.id) {
-          return;
-        }
-        // TODO: Fix timetable not updated when semester unchanged and timetable changed
-        addLectureToTimetableDispatch(lecture);
-      })
-      .catch((response) => {
-      });
+    performAddToTable(this, lecture, currentTimetable, addLectureToTimetableDispatch);
   }
 
   addToCart = lecture => (event) => {
     const { year, semester, addLectureToCartDispatch } = this.props;
 
     event.stopPropagation();
-    axios.post(`${BASE_URL}/api/timetable/wishlist_update`, {
-      lecture_id: lecture.id,
-      delete: false,
-    })
-      .then((response) => {
-        const newProps = this.props;
-        if (newProps.year !== year || (newProps.semester !== semester)
-        ) {
-          return;
-        }
-        addLectureToCartDispatch(lecture);
-      })
-      .catch((response) => {
-      });
+    performAddToCart(this, lecture, year, semester, addLectureToCartDispatch);
   }
 
   deleteFromCart = lecture => (event) => {
     const { year, semester, deleteLectureFromCartDispatch } = this.props;
 
     event.stopPropagation();
-    axios.post(`${BASE_URL}/api/timetable/wishlist_update`, {
-      lecture_id: lecture.id,
-      delete: true,
-    })
-      .then((response) => {
-        const newProps = this.props;
-        if (newProps.year !== year || newProps.semester !== semester) {
-          return;
-        }
-        deleteLectureFromCartDispatch(lecture);
-      })
-      .catch((response) => {
-      });
+    performDeleteFromCart(this, lecture, year, semester, deleteLectureFromCartDispatch);
   }
 
   listHover = lecture => () => {

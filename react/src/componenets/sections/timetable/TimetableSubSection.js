@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 import axios from '../../../common/presetAxios';
 
-import { inTimetable, isListHover, isTableClicked, isTableHover } from '../../../common/lectureFunctions';
+import { inTimetable, isListHover, isTableClicked, isTableHover, performDeleteFromTable } from '../../../common/lectureFunctions';
 import { BASE_URL } from '../../../common/constants';
 import TimetableBlock from '../../blocks/TimetableBlock';
 import { dragSearch, setIsDragging, updateCellSize, setLectureActive, clearLectureActive, removeLectureFromTimetable, setCurrentList } from '../../../actions/timetable/index';
@@ -160,21 +160,7 @@ class TimetableSubSection extends Component {
       return;
     }
 
-    axios.post(`${BASE_URL}/api/timetable/table_update`, {
-      table_id: currentTimetable.id,
-      lecture_id: lecture.id,
-      delete: true,
-    })
-      .then((response) => {
-        const newProps = this.props;
-        if (!newProps.currentTimetable || newProps.currentTimetable.id !== currentTimetable.id) {
-          return;
-        }
-        // TODO: Fix timetable not updated when semester unchanged and timetable changed
-        removeLectureFromTimetableDispatch(lecture);
-      })
-      .catch((response) => {
-      });
+    performDeleteFromTable(this, lecture, currentTimetable, removeLectureFromTimetableDispatch);
   }
 
   render() {
