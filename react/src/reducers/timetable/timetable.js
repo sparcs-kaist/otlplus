@@ -6,7 +6,7 @@ const initialState = {
   cellWidth: 200,
   cellHeight: 50,
   isDragging: false,
-  mobileShowTimetableTabs: true,
+  mobileShowTimetableTabs: false,
 };
 
 const timetable = (state = initialState, action) => {

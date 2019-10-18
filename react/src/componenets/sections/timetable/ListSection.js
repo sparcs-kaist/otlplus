@@ -7,7 +7,7 @@ import axios from '../../../common/presetAxios';
 
 import { inTimetable, inCart, isListClicked, isListHover } from '../../../common/lectureFunctions';
 import { BASE_URL } from '../../../common/constants';
-import { openSearch, setLectureActive, clearLectureActive, addLectureToTimetable, addLectureToCart, deleteLectureFromCart, setListMajorCodes, setListLectures, setListMajorLectures } from '../../../actions/timetable/index';
+import { openSearch, setLectureActive, clearLectureActive, addLectureToTimetable, addLectureToCart, deleteLectureFromCart, setListMajorCodes, setListLectures, setListMajorLectures, setMobileShowLectureList } from '../../../actions/timetable/index';
 import Scroller from '../../Scroller';
 import SearchSubSection from './SearchSubSection';
 import CourseLecturesBlock from '../../blocks/CourseLecturesBlock';
@@ -211,7 +211,7 @@ class ListSection extends Component {
   }
 
   render() {
-    const { lectureActive, currentTimetable, currentList, searchOpen, search, major, humanity, cart } = this.props;
+    const { lectureActive, currentTimetable, currentList, searchOpen, search, major, humanity, cart, setMobileShowLectureListDispatch } = this.props;
 
     const mapCourses = (courses, fromCart) => {
       if (!courses) {
@@ -253,6 +253,7 @@ class ListSection extends Component {
       // eslint-disable-next-line react/jsx-indent
           <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
             { searchOpen ? <SearchSubSection /> : null }
+            <div className={classNames('close-button')} onClick={() => setMobileShowLectureListDispatch(false)}>닫기</div>
             <div className={classNames('title', 'title--search')} onClick={() => this.showSearch()}>
               <i className={classNames('icon', 'icon--search')} />
               <span>검색</span>
@@ -267,6 +268,7 @@ class ListSection extends Component {
       return (
       // eslint-disable-next-line react/jsx-indent
             <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
+              <div className={classNames('close-button')} onClick={() => setMobileShowLectureListDispatch(false)}>닫기</div>
               <div className={classNames('title')}>
                 {major[currentList].name}
               </div>
@@ -280,6 +282,7 @@ class ListSection extends Component {
       return (
       // eslint-disable-next-line react/jsx-indent
           <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
+            <div className={classNames('close-button')} onClick={() => setMobileShowLectureListDispatch(false)}>닫기</div>
             <div className={classNames('title')}>
               인문사회선택
             </div>
@@ -293,6 +296,7 @@ class ListSection extends Component {
       return (
       // eslint-disable-next-line react/jsx-indent
           <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
+            <div className={classNames('close-button')} onClick={() => setMobileShowLectureListDispatch(false)}>닫기</div>
             <div className={classNames('title')}>
               장바구니
             </div>
@@ -349,6 +353,9 @@ const mapDispatchToProps = dispatch => ({
   setListMajorLecturesDispatch: (majorCode, lectures) => {
     dispatch(setListMajorLectures(majorCode, lectures));
   },
+  setMobileShowLectureListDispatch: (mobileShowLectureList) => {
+    dispatch(setMobileShowLectureList(mobileShowLectureList));
+  },
 });
 
 ListSection.propTypes = {
@@ -381,6 +388,7 @@ ListSection.propTypes = {
   setListMajorCodesDispatch: PropTypes.func.isRequired,
   setListLecturesDispatch: PropTypes.func.isRequired,
   setListMajorLecturesDispatch: PropTypes.func.isRequired,
+  setMobileShowLectureListDispatch: PropTypes.func.isRequired,
 };
 
 

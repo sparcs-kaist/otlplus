@@ -177,6 +177,7 @@ a:hover {
         @media (orientation: portrait) {
            width: calc(100% - 12px * 2);
            flex: 1 1 100%;
+           margin-top: 0;
         }
     }
 
@@ -191,7 +192,7 @@ a:hover {
         @media (orientation: portrait) {
             width: calc(100% - 12px * 2);
             margin-left: 12px;
-            margin-bottom: 0;
+            margin-bottom: 10px;;
             flex: 1 1 100%;
         }
     }
@@ -242,6 +243,7 @@ a:hover {
 
 
     &--lecture-list {
+        position: relative;
         flex: 1 1 100%;
         margin: 0;
     }
@@ -889,7 +891,15 @@ a:hover {
 
         & > div:nth-child(2) {
             float: right;
-            display: none;
+            @media (orientation: landscape) {
+                display: none;
+            }
+
+            & > * {
+                display:inline-block;
+                margin-right:10px;
+                vertical-align:top;
+            }
         }
 
         & > last-child {
@@ -909,6 +919,10 @@ a:hover {
         right: 12px;
         cursor: pointer;
         z-index: 210;
+
+        .section-wrap--lecture-list & {
+            z-index: 10;
+        }
     }
 }
 
@@ -1691,7 +1705,7 @@ a:hover {
 
 .search-area {
     height: 0;
-    z-index: 1;
+    z-index: 20;
 
     & > form {
         background-color:#FFFFFF;
