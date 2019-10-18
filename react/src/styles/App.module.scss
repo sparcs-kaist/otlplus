@@ -59,6 +59,9 @@ a:hover {
     margin-left: auto;
     margin-right: auto;
     background-color: #f9f0f0;
+    @media (orientation: portrait) {
+        width: 100%;
+    }
 
 
     .main-image + & {
@@ -90,6 +93,10 @@ a:hover {
     background: url(../static/img/review/search/bg.jpg) center 0;
     background-size: 100% auto;
     padding-top: 191px;
+    @media (orientation: portrait) {
+        height: 200px;
+        padding-top: 91px;
+    }
 
 
     .main-search {
@@ -102,6 +109,9 @@ a:hover {
         box-shadow: 0 3px 0 0 #F3BEC6;
         font-size: 14px;
         line-height: 15px;
+        @media (orientation: portrait) {
+            width: calc(100% - 24px);
+        }
 
 
         i {
