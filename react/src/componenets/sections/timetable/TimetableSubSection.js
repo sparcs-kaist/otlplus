@@ -8,7 +8,7 @@ import axios from '../../../common/presetAxios';
 import { inTimetable, isListHover, isTableClicked, isTableHover } from '../../../common/lectureFunctions';
 import { BASE_URL } from '../../../common/constants';
 import TimetableBlock from '../../blocks/TimetableBlock';
-import { dragSearch, setIsDragging, updateCellSize, setLectureActive, clearLectureActive, removeLectureFromTimetable, lectureinfo, setCurrentList } from '../../../actions/timetable/index';
+import { dragSearch, setIsDragging, updateCellSize, setLectureActive, clearLectureActive, removeLectureFromTimetable, setCurrentList } from '../../../actions/timetable/index';
 import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureActive';
 import lectureShape from '../../../shapes/LectureShape';
 import timetableShape from '../../../shapes/TimetableShape';
@@ -412,9 +412,6 @@ const mapDispatchToProps = dispatch => ({
   removeLectureFromTimetableDispatch: (lecture) => {
     dispatch(removeLectureFromTimetable(lecture));
   },
-  lectureinfoDispatch: () => {
-    dispatch(lectureinfo());
-  },
   setCurrentListDispatch: (list) => {
     dispatch(setCurrentList(list));
   },
@@ -435,7 +432,6 @@ TimetableSubSection.propTypes = {
   setLectureActiveDispatch: PropTypes.func.isRequired,
   clearLectureActiveDispatch: PropTypes.func.isRequired,
   removeLectureFromTimetableDispatch: PropTypes.func.isRequired,
-  lectureinfoDispatch: PropTypes.func.isRequired,
   setCurrentListDispatch: PropTypes.func.isRequired,
 };
 

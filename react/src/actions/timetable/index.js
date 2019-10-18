@@ -24,9 +24,6 @@ export const SET_MULTIPLE_DETAIL = 'SET_MULTIPLE_DETAIL';
 export const CLEAR_MULTIPLE_DETAIL = 'CLEAR_MULTIPLE_DETAIL';
 export const DRAG_SEARCH = 'DRAG_SEARCH';
 export const SET_IS_DRAGGING = 'SET_IS_DRAGGING';
-export const TOGGLE_LECTURE_LIST = 'TOGGLE_LECTURE_LIST';
-export const MODAL_TIMETABLE_LIST = 'MODAL_TIMETABLE_LIST';
-export const LECTURE_INFO = 'LECTURE_INFO';
 
 export function setSemester(year, semester) {
   return {
@@ -210,23 +207,5 @@ export function setIsDragging(isDragging) {
   return {
     type: SET_IS_DRAGGING,
     isDragging: isDragging,
-  };
-}
-
-export function mToggleLectureList() {
-  return {
-    type: TOGGLE_LECTURE_LIST,
-  };
-}
-
-export function modaltimetableList() {
-  return {
-    type: MODAL_TIMETABLE_LIST,
-  };
-}
-
-export function lectureinfo() {
-  return {
-    type: LECTURE_INFO,
   };
 }

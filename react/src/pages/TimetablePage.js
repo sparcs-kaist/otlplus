@@ -18,14 +18,11 @@ import ShareSubSection from '../componenets/sections/timetable/ShareSubSection';
 
 class TimetablePage extends Component {
   render() {
-    const { showLectureInfoFlag, showTimetableListFlag, showLectureListFlag } = this.props;
-
     return (
       <div>
-        <div className={showLectureInfoFlag ? classNames('modal-lecture-info') : null}>
-          <div className={showTimetableListFlag ? classNames('modal-timetable-list') : null}>
-            <div className={showLectureListFlag ? classNames('mobile-lecture-list') : null}>
+        { /* eslint-disable-next-line react/jsx-indent */}
               <Header />
+        { /* eslint-disable-next-line react/jsx-indent */}
               <section className={classNames('content', 'content--no-scroll')}>
                 { /* eslint-disable-next-line react/jsx-indent */}
                   <div className={classNames('section-wrap', 'section-wrap--timetable-left')}>
@@ -44,21 +41,10 @@ class TimetablePage extends Component {
                 { /* eslint-disable-next-line react/jsx-indent */}
                   <div className={classNames('section-wrap', 'section-wrap--timetable-center-right')}>
                     <div className={classNames('section-wrap', 'section-wrap--timetable-tabs')}>
-                      {
-                        showTimetableListFlag
-                          ? (
-                            <div>
-                              <SemesterSection />
-                              <TimetableTabs />
-                            </div>
-                          )
-                          : (
-                            <div>
-                              <TimetableTabs />
-                              <SemesterSection />
-                            </div>
-                          )
-                      }
+                      <div>
+                        <TimetableTabs />
+                        <SemesterSection />
+                      </div>
                     </div>
                     <div className={classNames('section', 'section--with-tabs', 'section--timetable')}>
                       <TimetableSubSection />
@@ -75,25 +61,16 @@ class TimetablePage extends Component {
                     </div>
                   </div>
               </section>
-            </div>
-          </div>
-        </div>
       </div>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  showLectureListFlag: state.timetable.mobile.showLectureListFlag,
-  showTimetableListFlag: state.timetable.mobile.showTimetableListFlag,
-  showLectureInfoFlag: state.timetable.mobile.showLectureInfoFlag,
 });
 
 
 TimetablePage.propTypes = {
-  showLectureListFlag: PropTypes.bool.isRequired,
-  showTimetableListFlag: PropTypes.bool.isRequired,
-  showLectureInfoFlag: PropTypes.bool.isRequired,
 };
 
 export default connect(mapStateToProps, null)(TimetablePage);
