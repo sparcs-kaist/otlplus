@@ -20,7 +20,7 @@ import lectureActiveShape from '../shapes/LectureActiveShape';
 
 class TimetablePage extends Component {
   render() {
-    const { lectureActive, mobileShowTimetableTabs, setMobileShowTimetableTabsDispatch } = this.props;
+    const { lectureActive, mobileShowTimetableTabs, mobileShowLectureList, setMobileShowTimetableTabsDispatch } = this.props;
     return (
       <div>
         { /* eslint-disable-next-line react/jsx-indent */}
@@ -28,7 +28,7 @@ class TimetablePage extends Component {
         { /* eslint-disable-next-line react/jsx-indent */}
               <section className={classNames('content', 'content--no-scroll', 'content--timetable')}>
                 { /* eslint-disable-next-line react/jsx-indent */}
-                  <div className={classNames('section-wrap', 'section-wrap--timetable-left')}>
+                  <div className={classNames('section-wrap', 'section-wrap--timetable-left', (mobileShowLectureList ? '' : 'mobile-hidden'))}>
                     <div className={classNames('section-wrap', 'section-wrap--lecture-detail', (lectureActive.clicked ? '' : 'mobile-hidden'))}>
                       <div className={classNames('section')}>
                         <DetailSection />
@@ -59,7 +59,7 @@ class TimetablePage extends Component {
                         <SummarySubSection />
                         <div className={classNames('divider', 'mobile-hidden')} />
                         <ExamSubSection />
-                        <div className={classNames('divider', 'mobile-hidden')} />
+                        <div className={classNames('divider', (mobileShowLectureList ? 'mobile-hidden' : ''))} />
                         <ShareSubSection />
                       </div>
                     </div>
@@ -73,6 +73,7 @@ class TimetablePage extends Component {
 const mapStateToProps = state => ({
   lectureActive: state.timetable.lectureActive,
   mobileShowTimetableTabs: state.timetable.timetable.mobileShowTimetableTabs,
+  mobileShowLectureList: state.timetable.list.mobileShowLectureList,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -85,6 +86,7 @@ const mapDispatchToProps = dispatch => ({
 TimetablePage.propTypes = {
   lectureActive: lectureActiveShape.isRequired,
   mobileShowTimetableTabs: PropTypes.bool.isRequired,
+  mobileShowLectureList: PropTypes.bool.isRequired,
   setMobileShowTimetableTabsDispatch: PropTypes.func.isRequired,
 };
 

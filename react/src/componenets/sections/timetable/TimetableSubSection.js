@@ -389,6 +389,7 @@ const mapStateToProps = state => ({
   cellWidth: state.timetable.timetable.cellWidth,
   cellHeight: state.timetable.timetable.cellHeight,
   isDragging: state.timetable.timetable.isDragging,
+  mobileShowLectureList: state.timetable.list.mobileShowLectureList,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -424,6 +425,7 @@ TimetableSubSection.propTypes = {
   cellWidth: PropTypes.number.isRequired,
   cellHeight: PropTypes.number.isRequired,
   isDragging: PropTypes.bool.isRequired,
+  mobileShowLectureList: PropTypes.bool.isRequired,
   updateCellSizeDispatch: PropTypes.func.isRequired,
   dragSearchDispatch: PropTypes.func.isRequired,
   setIsDraggingDispatch: PropTypes.func.isRequired,
