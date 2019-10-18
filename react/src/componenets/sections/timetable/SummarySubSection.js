@@ -142,13 +142,23 @@ class SummarySubSection extends Component {
     const speech = timetableLectures.reduce((acc, lecture) => (acc + (lecture.speech * (lecture.credit + lecture.credit_au))), 0);
     const letters = ['?', 'F', 'F', 'F', 'D-', 'D', 'D+', 'C-', 'C', 'C+', 'B-', 'B', 'B+', 'A-', 'A', 'A+'];
 
+    const isLectureActiveFromType = (laf, lal, typeIndex) => (
+      (laf === LIST || lectureActiveFrom === TABLE)
+      && (indexOfType(lal.type_en) === typeIndex)
+    );
     const active_type_credit = [0, 1, 2, 3, 4, 5].map(i => (
-      !(lectureActiveFrom === LIST || lectureActiveFrom === TABLE)
-      || (indexOfType(lectureActiveLecture.type_en) !== i)
+      !isLectureActiveFromType(lectureActiveFrom, lectureActiveLecture, i)
         ? ''
         : inTimetable(lectureActiveLecture, currentTimetable)
           ? `(${lectureActiveLecture.credit + lectureActiveLecture.credit_au})`
           : `+${lectureActiveLecture.credit + lectureActiveLecture.credit_au}`
+    ));
+    const sum_active_type_credit = [0, 1, 2, 3, 4, 5].map(i => (
+      !isLectureActiveFromType(lectureActiveFrom, lectureActiveLecture, i)
+        ? type_credit[i]
+        : inTimetable(lectureActiveLecture, currentTimetable)
+          ? type_credit[i]
+          : type_credit[i] + lectureActiveLecture.credit + lectureActiveLecture.credit_au
     ));
 
     const creditAct = (lectureActiveLecture !== null) && (lectureActiveLecture.credit > 0);
@@ -160,35 +170,41 @@ class SummarySubSection extends Component {
           <div>
           <div onMouseOver={() => this.typeFocus('Basic Required')} onMouseOut={() => this.clearFocus()}>
             <span className={classNames('fixed-ko')}>기필</span>
-            <span className={classNames((active === 'Basic Required' ? 'active' : ''))}>{type_credit[0]}</span>
-            <span>{active_type_credit[0]}</span>
+            <span className={classNames('mobile-hidden', (active === 'Basic Required' ? 'active' : ''))}>{type_credit[0]}</span>
+            <span className={classNames('mobile-hidden')}>{active_type_credit[0]}</span>
+            <span className={classNames('mobile-unhidden', (isLectureActiveFromType(lectureActiveFrom, lectureActiveLecture, 0) ? 'active' : ''))}>{sum_active_type_credit[0]}</span>
           </div>
           <div onMouseOver={() => this.typeFocus('Major Required')} onMouseOut={() => this.clearFocus()}>
             <span className={classNames('fixed-ko')}>전필</span>
-            <span className={classNames((active === 'Major Required' ? 'active' : ''))}>{type_credit[2]}</span>
-            <span>{active_type_credit[2]}</span>
+            <span className={classNames('mobile-hidden', (active === 'Major Required' ? 'active' : ''))}>{type_credit[2]}</span>
+            <span className={classNames('mobile-hidden')}>{active_type_credit[2]}</span>
+            <span className={classNames('mobile-unhidden', (isLectureActiveFromType(lectureActiveFrom, lectureActiveLecture, 2) ? 'active' : ''))}>{sum_active_type_credit[2]}</span>
           </div>
           <div onMouseOver={() => this.typeFocus('Humanities & Social Elective')} onMouseOut={() => this.clearFocus()}>
             <span className={classNames('fixed-ko')}>인문</span>
-            <span className={classNames((active === 'Humanities & Social Elective' ? 'active' : ''))}>{type_credit[4]}</span>
-            <span>{active_type_credit[4]}</span>
+            <span className={classNames('mobile-hidden', (active === 'Humanities & Social Elective' ? 'active' : ''))}>{type_credit[4]}</span>
+            <span className={classNames('mobile-hidden')}>{active_type_credit[4]}</span>
+            <span className={classNames('mobile-unhidden', (isLectureActiveFromType(lectureActiveFrom, lectureActiveLecture, 4) ? 'active' : ''))}>{sum_active_type_credit[4]}</span>
           </div>
           </div>
           <div>
           <div onMouseOver={() => this.typeFocus('Basic Elective')} onMouseOut={() => this.clearFocus()}>
             <span className={classNames('fixed-ko')}>기선</span>
-            <span className={classNames((active === 'Basic Elective' ? 'active' : ''))}>{type_credit[1]}</span>
-            <span>{active_type_credit[1]}</span>
+            <span className={classNames('mobile-hidden', (active === 'Basic Elective' ? 'active' : ''))}>{type_credit[1]}</span>
+            <span className={classNames('mobile-hidden')}>{active_type_credit[1]}</span>
+            <span className={classNames('mobile-unhidden', (isLectureActiveFromType(lectureActiveFrom, lectureActiveLecture, 1) ? 'active' : ''))}>{sum_active_type_credit[1]}</span>
           </div>
           <div onMouseOver={() => this.typeFocus('Major Elective')} onMouseOut={() => this.clearFocus()}>
             <span className={classNames('fixed-ko')}>전선</span>
-            <span className={classNames((active === 'Major Elective' ? 'active' : ''))}>{type_credit[3]}</span>
-            <span>{active_type_credit[3]}</span>
+            <span className={classNames('mobile-hidden', (active === 'Major Elective' ? 'active' : ''))}>{type_credit[3]}</span>
+            <span className={classNames('mobile-hidden')}>{active_type_credit[3]}</span>
+            <span className={classNames('mobile-unhidden', (isLectureActiveFromType(lectureActiveFrom, lectureActiveLecture, 3) ? 'active' : ''))}>{sum_active_type_credit[3]}</span>
           </div>
           <div onMouseOver={() => this.typeFocus('Etc')} onMouseOut={() => this.clearFocus()}>
             <span className={classNames('fixed-ko')}>기타</span>
-            <span className={classNames((active === 'Etc' ? 'active' : ''))}>{type_credit[5]}</span>
-            <span>{active_type_credit[5]}</span>
+            <span className={classNames('mobile-hidden', (active === 'Etc' ? 'active' : ''))}>{type_credit[5]}</span>
+            <span className={classNames('mobile-hidden')}>{active_type_credit[5]}</span>
+            <span className={classNames('mobile-unhidden', (isLectureActiveFromType(lectureActiveFrom, lectureActiveLecture, 5) ? 'active' : ''))}>{sum_active_type_credit[5]}</span>
           </div>
           </div>
         </div>
