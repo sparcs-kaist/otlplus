@@ -5,19 +5,19 @@ import PropTypes from 'prop-types';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
-import { mToggleLectureList, modaltimetableList } from '../../../actions/timetable/index';
+import { setMobileShowTimetableTabs, setMobileShowLectureList } from '../../../actions/timetable/index';
 import timetableShape from '../../../shapes/TimetableShape';
 
 
 class ShareSubSection extends Component {
   render() {
-    const { currentTimetable, mtimetableListDispatch, mToggleLectureListDispatch } = this.props;
+    const { currentTimetable, mobileShowLectureList, setMobileShowTimetableTabsDispatch, setMobileShowLectureListDispatch } = this.props;
 
     const timetableLectures = currentTimetable
       ? currentTimetable.lectures
       : [];
     return (
-      <div className={classNames('section-content--share')}>
+      <div className={classNames('section-content--share', (mobileShowLectureList ? 'mobile-hidden' : ''))}>
         <div>
           <a href={`/api/timetable/share_image?table_id=${currentTimetable ? currentTimetable.id : -1}`} download><i className={classNames('icon', 'icon--share-image')} /></a>
           <a href={`/api/timetable/share_calendar?table_id=${currentTimetable ? currentTimetable.id : -1}`} target="_blank" rel="noopener noreferrer"><i className={classNames('icon', 'icon--share-calendar')} /></a>
@@ -25,8 +25,8 @@ class ShareSubSection extends Component {
 
         </div>
         <div>
-          <div onClick={mtimetableListDispatch}><i /></div>
-          <div onClick={mToggleLectureListDispatch}><i /></div>
+          <div onClick={() => setMobileShowTimetableTabsDispatch(true)}><i />1</div>
+          <div onClick={() => setMobileShowLectureListDispatch(true)}><i />2</div>
         </div>
         <div />
       </div>
@@ -36,17 +36,23 @@ class ShareSubSection extends Component {
 
 const mapStateToProps = state => ({
   currentTimetable: state.timetable.timetable.currentTimetable,
+  mobileShowLectureList: state.timetable.list.mobileShowLectureList,
 });
 
 const mapDispatchToProps = dispatch => ({
-  mToggleLectureListDispatch: () => dispatch(mToggleLectureList()),
-  mtimetableListDispatch: () => dispatch(modaltimetableList()),
+  setMobileShowTimetableTabsDispatch: (mobileShowTimetableTabs) => {
+    dispatch(setMobileShowTimetableTabs(mobileShowTimetableTabs));
+  },
+  setMobileShowLectureListDispatch: (mobileShowLectureList) => {
+    dispatch(setMobileShowLectureList(mobileShowLectureList));
+  },
 });
 
 ShareSubSection.propTypes = {
   currentTimetable: timetableShape,
-  mToggleLectureListDispatch: PropTypes.func.isRequired,
-  mtimetableListDispatch: PropTypes.func.isRequired,
+  mobileShowLectureList: PropTypes.bool.isRequired,
+  setMobileShowTimetableTabsDispatch: PropTypes.bool.isRequired,
+  setMobileShowLectureListDispatch: PropTypes.bool.isRequired,
 };
 
 

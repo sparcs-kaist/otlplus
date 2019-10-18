@@ -59,6 +59,9 @@ a:hover {
     margin-left: auto;
     margin-right: auto;
     background-color: #f9f0f0;
+    @media (orientation: portrait) {
+        width: 100%;
+    }
 
 
     .main-image + & {
@@ -75,6 +78,13 @@ a:hover {
         flex-direction: row;
         justify-content: center;
     }
+
+
+    &--timetable {
+        @media (orientation: portrait) {
+            flex-direction: column-reverse;
+        }
+    }
 }
 
 
@@ -83,6 +93,10 @@ a:hover {
     background: url(../static/img/review/search/bg.jpg) center 0;
     background-size: 100% auto;
     padding-top: 191px;
+    @media (orientation: portrait) {
+        height: 200px;
+        padding-top: 91px;
+    }
 
 
     .main-search {
@@ -95,6 +109,9 @@ a:hover {
         box-shadow: 0 3px 0 0 #F3BEC6;
         font-size: 14px;
         line-height: 15px;
+        @media (orientation: portrait) {
+            width: calc(100% - 24px);
+        }
 
 
         i {
@@ -127,6 +144,9 @@ a:hover {
     &--course-list {
         flex: none;
         width: calc(65vh - 38px);
+        @media (orientation: portrait) {
+            width: calc(100% - 12px * 2);
+        }
     }
 
 
@@ -134,6 +154,27 @@ a:hover {
         flex: none;
         width: calc(65vh - 38px);
         margin-left: 0;
+        @media (orientation: portrait) {
+            position: absolute;
+            width: calc(100% - 12px * 4);
+            height: calc(100% - (12px * 3 + 13px));
+            margin-top: 12px * 2;
+            & > * {
+                position: relative;
+                z-index: 200;
+            }
+
+            &::before {
+                content: '';
+                position: absolute;
+                width: calc(100% + 12px * 4);
+                height: calc(100% + (12px * 3 + 13px));
+                top: -12px * 2;
+                left: -12px * 2;
+                background-color: rgba(#000, 0.3);
+                z-index: 100;
+            }
+        }
     }
 
 
@@ -142,6 +183,12 @@ a:hover {
         width: calc(15vh + 126px);
         display: flex;
         flex-direction: column;
+
+        @media (orientation: portrait) {
+           width: calc(100% - 12px * 2);
+           flex: 1 1 100%;
+           margin-top: 0;
+        }
     }
 
 
@@ -151,6 +198,13 @@ a:hover {
         margin-left: 0;
         display: flex;
         flex-direction: column;
+
+        @media (orientation: portrait) {
+            width: calc(100% - 12px * 2);
+            margin-left: 12px;
+            margin-bottom: 10px;;
+            flex: 1 1 100%;
+        }
     }
 
 
@@ -160,6 +214,9 @@ a:hover {
         margin: 0;
         display: flex;
         flex-direction: column;
+        @media (orientation: portrait) {
+            width: 100%
+        }
     }
 
 
@@ -169,10 +226,34 @@ a:hover {
         margin-top: 0;
         margin-left: 0;
         margin-right: 0;
+
+        @media (orientation: portrait) {
+            position: absolute;
+            top: 12px;
+            width: calc(100% - 12px * 2);
+            height: calc(100% - (12px + 13px));
+
+            & > * {
+                position: relative;
+                z-index: 200;
+            }
+
+            &::before {
+                content: '';
+                position: absolute;
+                width: calc(100% + 12px * 3);
+                height: calc(100% + (12px + 13px));
+                top: -12px;
+                left: -12px * 2;
+                background-color: rgba(#000, 0.3);
+                z-index: 100;
+            }
+        }
     }
 
 
     &--lecture-list {
+        position: relative;
         flex: 1 1 100%;
         margin: 0;
     }
@@ -181,6 +262,47 @@ a:hover {
     &--timetable-tabs {
         flex: none;
         margin: 0;
+        display: flex;
+        flex-direction: row;
+        @media (orientation: portrait) {
+            position: absolute;
+            width: calc(100% - 12px * 4);
+            height: calc(100% - (12px * 3 + 13px));
+            top: 12px * 2;
+            left: 12px * 2;
+
+            & > * {
+                position: relative;
+                z-index: 200;
+            }
+
+            &::before {
+                content: '';
+                position: absolute;
+                width: calc(100% + 12px * 4);
+                height: calc(100% + (12px * 3 + 13px));
+                top: -12px * 2;
+                left: -12px * 2;
+                background-color: rgba(#000, 0.3);
+                z-index: 100;
+            }
+        }
+
+        & > div {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            @media (orientation: portrait) {
+                height: 100%;
+                padding: 12px;
+                background-color: #ffffff;
+                border-radius: 6px;
+                box-shadow: 0 3px 0 0 #F3BEC6;
+                flex-direction: column-reverse;
+                align-items: center;
+            }
+        }
     }
 }
 
@@ -209,7 +331,10 @@ a:hover {
     }
 
     &--timetable {
-        float:left;
+        flex: 1 1 auto;
+        @media (orientation: portrait) {
+            width: 100%;
+        }
 
         & > div {
             background-color: #E2E2E2;
@@ -221,23 +346,48 @@ a:hover {
             font-size: 12px;
             line-height: 13px;
             padding: 7px 10px;
-            &.active {
-                background-color: #FFFFFF;
-                color:#333;
+            cursor: pointer;
+            display: inline-flex;
+            flex-direction: row;
+            justify-content: center;
+            @media (orientation: portrait) {
+                width: 100%;
+                background-color: #EEEEEE;
+                margin-bottom: 6px;
+                border-radius: 4px;
             }
-            &:not(.active) {
-                cursor: pointer;
-                &:hover {
-                    background-color: #D8D8D8;
+            &.active {
+                @media (orientation: landscape) {
+                    cursor: initial;
+                    background-color: #FFFFFF;
+                    color:#333;
                 }
-
-                & > span:not(:first-child) {
+            }
+            &:hover {
+                @media (orientation: landscape) {
+                    &:not(.active) {
+                        background-color: #D8D8D8;
+                    }
+                }
+                @media (orientation: portrait) {
+                    background-color: #DDDDDD;
+                }
+            }
+            &:not(.active) > span:not(:first-child) {
+                @media (orientation: landscape) {
                     display:none;
                 }
             }
             &:last-child:not(:first-child) {
                 padding: 8px;
                 line-height: 0;
+                @media (orientation: portrait) {
+                    margin-bottom: 0;
+                }
+            }
+
+            & > span:first-child {
+                flex: 1 1 auto;
             }
 
             & > span:not(:first-child) {
@@ -268,6 +418,9 @@ a:hover {
         flex: auto;
         display: flex;
         flex-direction: row;
+        @media (orientation: portrait) {
+            flex-direction: column;
+        }
     }
 
 
@@ -275,11 +428,17 @@ a:hover {
         width: 90px;
         height: initial;
         padding: 5px 8px;
-        float: right;
+        flex: 0 0 auto;
         font-size: 12px;
         line-height: 13px;
         display: flex;
         flex-direction: row;
+        @media (orientation: portrait) {
+            padding: 0;
+            background: none;
+            box-shadow: none;
+            margin-bottom: 10px;
+        }
 
         & > div {
             flex: 0 0 auto;
@@ -291,6 +450,10 @@ a:hover {
         & > span {
             flex: 1 1 auto;
             text-align: center;
+            @media (orientation: portrait) {
+                font-size: 14px;
+                line-height: 15px;
+            }
         }
     }
 }
@@ -309,6 +472,53 @@ a:hover {
     &--lecture-detail {
         &--list-area {
             min-height: calc(100% - (14px + 6px)) !important;
+
+            @media (orientation: portrait) {
+                min-height: initial !important;
+            }
+        }
+
+        &__mobile-buttons {
+            text-align: right;
+
+            & > span {
+                margin-left: 10px;
+            }
+        }
+    }
+
+    &--lecture-list {
+        & > div:last-child {
+            flex: auto;
+            display: flex;
+            flex-direction: row-reverse;
+
+            & > div:first-child {
+                align-self: flex-start;
+                margin-top: 8px + 14px + (6px * 2) + 1px;
+                margin-left: 5px;
+                margin-right: -5px;
+                @media (orientation: landscape) {
+                    display: none;
+                }
+
+                & > span {
+                    display: inline-block;
+                    width: 7px;
+                    height: 14px;
+                }
+            }
+
+            :global(.nano) {
+                height: auto !important;
+            }
+
+            & .scroll-placeholder {
+                height: calc(100% - (8px * 2 + 14px * 2 + 6px * 2 + 1px + 6px));
+                @media (orientation: landscape) {
+                    display: none;
+                }
+            }
         }
     }
 
@@ -384,6 +594,11 @@ a:hover {
                         }
                         &.cell-bottom {
                             border-top:1px dashed #E8E8E8;
+                            @media (orientation: portrait) {
+                                &.cell-bottom--mobile-noline {
+                                    border-top-color: transparent;
+                                }
+                            }
                             &.cell-last {
                                 border-bottom:1px solid #C9C9C9;
                             }
@@ -574,22 +789,49 @@ a:hover {
 
     &--summary {
         flex: none;
+        display: flex;
+        flex-direction: column;
+        @media (orientation: portrait) {
+            flex-direction: row;
+        }
+
+        & > * {
+            flex: none;
+        }
 
         &__type {
             display: flex;
             flex-direction: row;
+            @media (orientation: portrait) {
+                flex-direction: column;
+                flex: 3 3 (40px * 3);
+            }
 
             & > div {
                 flex: none;
-                width: 30%;
-                margin-left: 10%;
+                width: 40%;
                 display: flex;
                 flex-direction: column;
+                @media (orientation: portrait) {
+                    flex-direction: row;
+                    width: 100%;
+                    margin-left: 0;
+                    &:not(:last-child) {
+                        margin-bottom: 8px;
+                    }
+                }
+                &:first-child {
+                    margin-left: 10%;
+                }
 
                 & > div {
                     margin-bottom: 8px;
                     &:last-child {
                         margin-bottom: 0px;
+                    }
+                    @media (orientation: portrait) {
+                        margin-bottom: 0px;
+                        flex: 1 1 40px;
                     }
 
                     & > span {
@@ -608,13 +850,14 @@ a:hover {
                             }
                         }
 
-                        &:nth-child(2) {
+                        &:nth-child(2),
+                        &:nth-child(4) {
                             &.active {
                                 color:#e64c65;
                             }
                         }
 
-                        &:last-child {
+                        &:nth-child(3) {
                             color:#e64c65;
                         }
                     }
@@ -706,11 +949,37 @@ a:hover {
 
         & > div:nth-child(2) {
             float: right;
-            display: none;
+            @media (orientation: landscape) {
+                display: none;
+            }
+
+            & > * {
+                display:inline-block;
+                margin-right:10px;
+                vertical-align:top;
+            }
         }
 
         & > last-child {
             clear: both;
+        }
+    }
+}
+
+
+.close-button {
+    display: none;
+
+    @media (orientation: portrait) {
+        display: block;
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        cursor: pointer;
+        z-index: 210;
+
+        .section-wrap--lecture-list & {
+            z-index: 10;
         }
     }
 }
@@ -959,6 +1228,9 @@ a:hover {
                 margin-left: 6px;
                 pointer-events: auto;
                 cursor: pointer;
+                @media (orientation: portrait) {
+                    display: none;
+                }
 
                 &--disable {
                     pointer-events: none;
@@ -1004,6 +1276,9 @@ a:hover {
             background-color:rgba(224,84,111,0.8);
             .block--timetable:not(:hover) &,
             .block--timetable:not(.block--active) & {
+                display: none;
+            }
+            @media (orientation: portrait) {
                 display: none;
             }
         }
@@ -1352,12 +1627,26 @@ a:hover {
     .section-content--course-detail & {
         margin-top: calc(1.4vh + 6px);
     }
-    .section-content--lecture-detail &,
-    .section-content--summary & {
+    .section-content--lecture-detail & {
         margin-top: calc(1.4vh + 2px);
         margin-bottom: calc(1.4vh + 2px);
         &:last-child {
             margin-bottom: 0;
+        }
+    }
+    .section-content--summary & {
+        margin-top: calc(1.4vh + 2px);
+        margin-bottom: 0;
+        @media (orientation: portrait) {
+            margin-top: 0;
+            display: flex;
+            flex-direction: row;
+            &:nth-child(2) {
+                flex: 2 2 (30px * 2);
+            }
+            &:last-child {
+                flex: 3 3 (30px * 3);
+            }
         }
     }
 
@@ -1367,9 +1656,15 @@ a:hover {
         .section-content--course-detail & {
             width: calc(3.5vh + 54px);
         }
-        .section-content--lecture-detail &,
+        .section-content--lecture-detail & {
+            width: calc(3.5vh + 34px);
+        }
         .section-content--summary & {
             width: calc(3.5vh + 34px);
+            @media (orientation: portrait) {
+                flex: 1 1 30px;
+                width: 30px;
+            }
         }
 
         & > div:first-child {
@@ -1380,13 +1675,20 @@ a:hover {
                 font-size: calc(0.7vh + 17px);
                 line-height: calc(0.7vh + 15px);
             }
-            .section-content--lecture-detail &,
-            .section-content--summary & {
+            .section-content--lecture-detail & {
                 font-size: calc(0.7vh + 15px);
                 line-height: calc(0.7vh + 13px);
 
                 &.scores__score-text--korean {
                     font-size: calc(0.7vh + 13px);
+                }
+            }
+            .section-content--summary & {
+                font-size: calc(0.7vh + 15px);
+                line-height: calc(0.7vh + 13px);
+                @media (orientation: portrait) {
+                    font-size: 24px;
+                    line-height: 22px;
                 }
             }
 
@@ -1413,6 +1715,15 @@ a:hover {
         border-bottom: none;
         border-right: 1px solid #EDD1DC;
         margin: 0 12px;
+    }
+
+
+    &--mobile-horizontal {
+        @media (orientation: portrait) {
+            border-right: none;
+            border-bottom: 1px solid #EDD1DC;
+            margin: 12px 0;
+        }
     }
 }
 
@@ -1452,7 +1763,7 @@ a:hover {
 
 .search-area {
     height: 0;
-    z-index: 1;
+    z-index: 20;
 
     & > form {
         background-color:#FFFFFF;
@@ -1846,6 +2157,32 @@ i.icon {
 
         *.disable > & {
             background-image: url(../static/icons/semester_next_disable.svg);
+        }
+    }
+}
+
+.mobile-hidden {
+    @media (orientation: portrait) {
+        display: none !important;
+    }
+}
+
+.mobile-unhidden {
+    @media (orientation: landscape) {
+        display: none !important;
+    }
+}
+
+.mobile-nosize {
+    @media (orientation: portrait) {
+        width: 0;
+        height: 0;
+        padding: 0;
+        margin: 0;
+        flex: none;
+
+        &.section-wrap--timetable-left {
+            margin-left: 12px;
         }
     }
 }

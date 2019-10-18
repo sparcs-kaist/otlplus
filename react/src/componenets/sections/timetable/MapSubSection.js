@@ -75,7 +75,7 @@ class MapSubSection extends Component {
     const { activeLectures } = this.state;
 
     return (
-      <div className={classNames('section-content', 'section-content--map')}>
+      <div className={classNames('section-content', 'section-content--map', 'mobile-hidden')}>
         <div>
           <img src={mapImage} alt="KAIST Map" />
           { Object.keys(mapObject).map((building) => {

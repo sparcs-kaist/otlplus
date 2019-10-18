@@ -7,12 +7,14 @@ import $ from 'jquery';
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 import axios from '../../../common/presetAxios';
 
+import { inTimetable, inCart, performAddToTable, performDeleteFromTable, performAddToCart, performDeleteFromCart } from '../../../common/lectureFunctions';
 import { BASE_URL } from '../../../common/constants';
 import Scroller from '../../Scroller';
 import ReviewSimpleBlock from '../../blocks/ReviewSimpleBlock';
 import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureActive';
-import { clearLectureActive } from '../../../actions/timetable/index';
+import { clearLectureActive, addLectureToTimetable, removeLectureFromTimetable, addLectureToCart, deleteLectureFromCart } from '../../../actions/timetable/index';
 import lectureShape from '../../../shapes/LectureShape';
+import timetableShape from '../../../shapes/TimetableShape';
 
 
 class DetailSection extends Component {
@@ -84,9 +86,37 @@ class DetailSection extends Component {
     clearLectureActiveDispatch();
   };
 
+  addToTable = (event) => {
+    const { lecture, currentTimetable, addLectureToTimetableDispatch } = this.props;
+
+    event.stopPropagation();
+    performAddToTable(this, lecture, currentTimetable, addLectureToTimetableDispatch);
+  }
+
+  deleteFromTable = (event) => {
+    const { lecture, currentTimetable, removeLectureFromTimetableDispatch } = this.props;
+
+    event.stopPropagation();
+    performDeleteFromTable(this, lecture, currentTimetable, removeLectureFromTimetableDispatch);
+  }
+
+  addToCart = (event) => {
+    const { lecture, year, semester, addLectureToCartDispatch } = this.props;
+
+    event.stopPropagation();
+    performAddToCart(this, lecture, year, semester, addLectureToCartDispatch);
+  }
+
+  deleteFromCart = (event) => {
+    const { lecture, year, semester, deleteLectureFromCartDispatch } = this.props;
+
+    event.stopPropagation();
+    performDeleteFromCart(this, lecture, year, semester, deleteLectureFromCartDispatch);
+  }
+
   render() {
     const { showUnfix, showCloseDict } = this.state;
-    const { from, lecture, title, multipleDetail } = this.props;
+    const { from, lecture, title, multipleDetail, currentTimetable, cart } = this.props;
 
     if (from === LIST || from === TABLE) {
       const { reviews } = this.state;
@@ -101,6 +131,7 @@ class DetailSection extends Component {
       return (
       // eslint-disable-next-line react/jsx-indent
           <div className={classNames('section-content', 'section-content--lecture-detail', 'section-content--flex')}>
+            <div className={classNames('close-button')} onClick={this.unfix}>닫기</div>
             <div className={classNames('title')}>
               {lecture.title}
             </div>
@@ -213,6 +244,19 @@ class DetailSection extends Component {
               </div>
               {reviewsDom}
             </Scroller>
+            <div className={classNames('divider', 'mobile-unhidden')} />
+            <div className={classNames('section-content--lecture-detail__mobile-buttons')}>
+              {
+                !inCart(lecture, cart)
+                  ? <span onClick={this.addToCart}>장바구니에 추가</span>
+                  : <span onClick={this.deleteFromCart}>장바구니에서 제거</span>
+              }
+              {
+                !inTimetable(lecture, currentTimetable)
+                  ? <span onClick={this.addToTable}>시간표에 추가</span>
+                  : <span onClick={this.deleteFromTable}>시간표에서 제거</span>
+              }
+            </div>
           </div>
       );
     }
@@ -278,11 +322,27 @@ const mapStateToProps = state => ({
   title: state.timetable.lectureActive.title,
   multipleDetail: state.timetable.lectureActive.multipleDetail,
   clicked: state.timetable.lectureActive.clicked,
+  currentTimetable: state.timetable.timetable.currentTimetable,
+  cart: state.timetable.list.cart,
+  year: state.timetable.semester.year,
+  semester: state.timetable.semester.semester,
 });
 
 const mapDispatchToProps = dispatch => ({
   clearLectureActiveDispatch: () => {
     dispatch(clearLectureActive());
+  },
+  addLectureToTimetableDispatch: (lecture) => {
+    dispatch(addLectureToTimetable(lecture));
+  },
+  removeLectureFromTimetableDispatch: (lecture) => {
+    dispatch(removeLectureFromTimetable(lecture));
+  },
+  addLectureToCartDispatch: (lecture) => {
+    dispatch(addLectureToCart(lecture));
+  },
+  deleteLectureFromCartDispatch: (lecture) => {
+    dispatch(deleteLectureFromCart(lecture));
   },
 });
 
@@ -298,7 +358,17 @@ DetailSection.propTypes = {
     }),
   ),
   clicked: PropTypes.bool.isRequired,
+  currentTimetable: timetableShape,
+  cart: PropTypes.shape({
+    courses: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)),
+  }).isRequired,
+  year: PropTypes.number,
+  semester: PropTypes.number,
   clearLectureActiveDispatch: PropTypes.func.isRequired,
+  addLectureToTimetableDispatch: PropTypes.func.isRequired,
+  removeLectureFromTimetableDispatch: PropTypes.func.isRequired,
+  addLectureToCartDispatch: PropTypes.func.isRequired,
+  deleteLectureFromCartDispatch: PropTypes.func.isRequired,
 };
 
 

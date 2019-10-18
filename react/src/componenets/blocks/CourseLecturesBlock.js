@@ -21,7 +21,7 @@ const CourseLecturesBlock = ({ lecture, isClicked, isHover, inTimetable, inCart,
   const change = isClicked ? classNames('block--clicked') : (isHover ? classNames('block--active') : '');
   return (
       // eslint-disable-next-line react/jsx-indent
-      <div className={classNames('block--course-lectures__elem-wrap', change)} onClick={() => listClick(lecture)()} onMouseOver={() => listHover(lecture)()} onMouseOut={() => listOut()}>
+      <div className={classNames('block--course-lectures__elem-wrap', change)} data-id={lecture.id} onClick={() => listClick(lecture)()} onMouseOver={() => listHover(lecture)()} onMouseOut={() => listOut()}>
         <div className={classNames('block--course-lectures__elem')}>
           <div className={classNames('block--course-lectures__elem__texts')}>
             <strong className={getClass(lecture)}>{lecture.class_title}</strong>

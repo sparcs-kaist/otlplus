@@ -5,10 +5,10 @@ import PropTypes from 'prop-types';
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 import axios from '../../../common/presetAxios';
 
-import { inTimetable, isListHover, isTableClicked, isTableHover } from '../../../common/lectureFunctions';
+import { inTimetable, isListHover, isTableClicked, isTableHover, performDeleteFromTable } from '../../../common/lectureFunctions';
 import { BASE_URL } from '../../../common/constants';
 import TimetableBlock from '../../blocks/TimetableBlock';
-import { dragSearch, setIsDragging, updateCellSize, setLectureActive, clearLectureActive, removeLectureFromTimetable, lectureinfo, setCurrentList } from '../../../actions/timetable/index';
+import { dragSearch, setIsDragging, updateCellSize, setLectureActive, clearLectureActive, removeLectureFromTimetable, setCurrentList } from '../../../actions/timetable/index';
 import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureActive';
 import lectureShape from '../../../shapes/LectureShape';
 import timetableShape from '../../../shapes/TimetableShape';
@@ -143,15 +143,13 @@ class TimetableSubSection extends Component {
   }
 
   blockClick = lecture => () => {
-    const { lectureActive, setLectureActiveDispatch, lectureinfoDispatch } = this.props;
+    const { lectureActive, setLectureActiveDispatch } = this.props;
 
     if (isTableClicked(lecture, lectureActive)) {
       setLectureActiveDispatch(lecture, 'TABLE', false);
-      lectureinfoDispatch();
     }
     else {
       setLectureActiveDispatch(lecture, 'TABLE', true);
-      lectureinfoDispatch();
     }
   }
 
@@ -162,26 +160,12 @@ class TimetableSubSection extends Component {
       return;
     }
 
-    axios.post(`${BASE_URL}/api/timetable/table_update`, {
-      table_id: currentTimetable.id,
-      lecture_id: lecture.id,
-      delete: true,
-    })
-      .then((response) => {
-        const newProps = this.props;
-        if (!newProps.currentTimetable || newProps.currentTimetable.id !== currentTimetable.id) {
-          return;
-        }
-        // TODO: Fix timetable not updated when semester unchanged and timetable changed
-        removeLectureFromTimetableDispatch(lecture);
-      })
-      .catch((response) => {
-      });
+    performDeleteFromTable(this, lecture, currentTimetable, removeLectureFromTimetableDispatch);
   }
 
   render() {
     const { firstBlock, secondBlock } = this.state;
-    const { currentTimetable, lectureActive, cellWidth, cellHeight, lectureActiveFrom, lectureActiveClicked, lectureActiveLecture } = this.props;
+    const { currentTimetable, lectureActive, cellWidth, cellHeight, lectureActiveFrom, lectureActiveClicked, lectureActiveLecture, mobileShowLectureList } = this.props;
 
     const lectures = currentTimetable ? currentTimetable.lectures : [];
     const lectureBlocks = lectures.map(lecture => (
@@ -197,6 +181,7 @@ class TimetableSubSection extends Component {
             isHover={isTableHover(lecture, lectureActive)}
             isListHover={isListHover(lecture, lectureActive)}
             isTemp={false}
+            isSimple={mobileShowLectureList}
             blockHover={this.blockHover}
             blockOut={this.blockOut}
             blockClick={this.blockClick}
@@ -240,7 +225,7 @@ class TimetableSubSection extends Component {
             return (
             // eslint-disable-next-line react/jsx-indent
             <div
-              className={classNames('cell-bottom', 'cell-last')}
+              className={classNames('cell-bottom', (mobileShowLectureList ? 'cell-bottom--mobile-noline' : ''), 'cell-last')}
               key={`${day}:2330`}
               data-day={day}
               data-time="2330"
@@ -264,7 +249,7 @@ class TimetableSubSection extends Component {
           }
           return (
             <div
-              className={classNames('cell-bottom')}
+              className={classNames('cell-bottom', (mobileShowLectureList ? 'cell-bottom--mobile-noline' : ''))}
               key={`${day}:${(i - 20).toString()}`}
               data-day={day}
               data-time={(i - 20).toString()}
@@ -365,6 +350,7 @@ class TimetableSubSection extends Component {
                   isHover={isTableHover(lectureActiveLecture, lectureActive)}
                   isListHover={isListHover(lectureActiveLecture, lectureActive)}
                   isTemp={true}
+                  isSimple={mobileShowLectureList}
                   blockHover={this.blockHover}
                   blockOut={this.blockOut}
                   blockClick={this.blockClick}
@@ -391,6 +377,7 @@ const mapStateToProps = state => ({
   cellWidth: state.timetable.timetable.cellWidth,
   cellHeight: state.timetable.timetable.cellHeight,
   isDragging: state.timetable.timetable.isDragging,
+  mobileShowLectureList: state.timetable.list.mobileShowLectureList,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -412,9 +399,6 @@ const mapDispatchToProps = dispatch => ({
   removeLectureFromTimetableDispatch: (lecture) => {
     dispatch(removeLectureFromTimetable(lecture));
   },
-  lectureinfoDispatch: () => {
-    dispatch(lectureinfo());
-  },
   setCurrentListDispatch: (list) => {
     dispatch(setCurrentList(list));
   },
@@ -429,13 +413,13 @@ TimetableSubSection.propTypes = {
   cellWidth: PropTypes.number.isRequired,
   cellHeight: PropTypes.number.isRequired,
   isDragging: PropTypes.bool.isRequired,
+  mobileShowLectureList: PropTypes.bool.isRequired,
   updateCellSizeDispatch: PropTypes.func.isRequired,
   dragSearchDispatch: PropTypes.func.isRequired,
   setIsDraggingDispatch: PropTypes.func.isRequired,
   setLectureActiveDispatch: PropTypes.func.isRequired,
   clearLectureActiveDispatch: PropTypes.func.isRequired,
   removeLectureFromTimetableDispatch: PropTypes.func.isRequired,
-  lectureinfoDispatch: PropTypes.func.isRequired,
   setCurrentListDispatch: PropTypes.func.isRequired,
 };
 

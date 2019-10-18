@@ -9,6 +9,7 @@ export const CLEAR_SEARCH_LIST_LECTURES = 'CLEAR_SEARCH_LIST_LECTURES';
 export const SET_LIST_MAJOR_LECTURES = 'SET_LIST_MAJOR_LECTURES';
 export const ADD_LECTURE_TO_CART = 'ADD_LECTURE_TO_CART';
 export const DELETE_LECTURE_FROM_CART = 'DELETE_LECTURE_FROM_CART';
+export const SET_MOBILE_SHOW_LECTURE_LIST = 'SET_MOBILE_SHOW_LECTURE_LIST';
 export const SET_TIMETABLES = 'SET_TIMETABLES';
 export const CLEAR_TIMETABLES = 'CLEAR_TIMETABLES';
 export const SET_CURRENT_TIMETABLE = 'SET_CURRENT_TIMETABLE';
@@ -24,9 +25,7 @@ export const SET_MULTIPLE_DETAIL = 'SET_MULTIPLE_DETAIL';
 export const CLEAR_MULTIPLE_DETAIL = 'CLEAR_MULTIPLE_DETAIL';
 export const DRAG_SEARCH = 'DRAG_SEARCH';
 export const SET_IS_DRAGGING = 'SET_IS_DRAGGING';
-export const TOGGLE_LECTURE_LIST = 'TOGGLE_LECTURE_LIST';
-export const MODAL_TIMETABLE_LIST = 'MODAL_TIMETABLE_LIST';
-export const LECTURE_INFO = 'LECTURE_INFO';
+export const SET_MOBILE_SHOW_TIMETABLE_TABS = 'SET_MOBILE_SHOW_TIMETABLE_TABS';
 
 export function setSemester(year, semester) {
   return {
@@ -101,6 +100,13 @@ export function deleteLectureFromCart(lecture) {
   return {
     type: DELETE_LECTURE_FROM_CART,
     lecture: lecture,
+  };
+}
+
+export function setMobileShowLectureList(mobileShowLectureList) {
+  return {
+    type: SET_MOBILE_SHOW_LECTURE_LIST,
+    mobileShowLectureList: mobileShowLectureList,
   };
 }
 
@@ -213,20 +219,9 @@ export function setIsDragging(isDragging) {
   };
 }
 
-export function mToggleLectureList() {
+export function setMobileShowTimetableTabs(mobileShowTimetableTabs) {
   return {
-    type: TOGGLE_LECTURE_LIST,
-  };
-}
-
-export function modaltimetableList() {
-  return {
-    type: MODAL_TIMETABLE_LIST,
-  };
-}
-
-export function lectureinfo() {
-  return {
-    type: LECTURE_INFO,
+    type: SET_MOBILE_SHOW_TIMETABLE_TABS,
+    mobileShowTimetableTabs: mobileShowTimetableTabs,
   };
 }

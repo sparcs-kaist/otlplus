@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
+import { clearCourseActive } from '../../../actions/dictionary/courseActive';
 import ReviewBlock from '../../blocks/ReviewBlock';
 import ReviewWriteBlock from '../../blocks/ReviewWriteBlock';
 import Scroller from '../../Scroller';
@@ -24,6 +25,12 @@ class CourseDetailSection extends Component {
   }
 
 
+  unfix = () => {
+    const { clearCourseActiveDispatch } = this.props;
+    clearCourseActiveDispatch();
+  }
+
+
   render() {
     const { clicked, course } = this.props;
 
@@ -31,6 +38,7 @@ class CourseDetailSection extends Component {
       return (
       // eslint-disable-next-line react/jsx-indent
       <div className={classNames('section-content', 'section-content--flex', 'section-content--course-detail')}>
+        <div className={classNames('close-button')} onClick={this.unfix}>닫기</div>
         <div className={classNames('fixed')}>
           <div>
             <div className={classNames('title')}>
@@ -174,11 +182,15 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
+  clearCourseActiveDispatch: () => {
+    dispatch(clearCourseActive());
+  },
 });
 
 CourseDetailSection.propTypes = {
   clicked: PropTypes.bool.isRequired,
   course: CourseShape.isRequired,
+  clearCourseActiveDispatch: PropTypes.func.isRequired,
 };
 
 

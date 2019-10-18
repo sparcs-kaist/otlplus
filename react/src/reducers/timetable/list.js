@@ -1,4 +1,4 @@
-import { SET_CURRENT_LIST, ADD_LECTURE_TO_CART, DELETE_LECTURE_FROM_CART, SET_LIST_MAJOR_CODES, SET_LIST_LECTURES, SET_LIST_MAJOR_LECTURES, CLEAR_LISTS_LECTURES, CLEAR_SEARCH_LIST_LECTURES } from '../../actions/timetable/index';
+import { SET_CURRENT_LIST, ADD_LECTURE_TO_CART, DELETE_LECTURE_FROM_CART, SET_LIST_MAJOR_CODES, SET_LIST_LECTURES, SET_LIST_MAJOR_LECTURES, CLEAR_LISTS_LECTURES, CLEAR_SEARCH_LIST_LECTURES, SET_MOBILE_SHOW_LECTURE_LIST } from '../../actions/timetable/index';
 
 
 const initialState = {
@@ -19,6 +19,7 @@ const initialState = {
   cart: {
     courses: null,
   },
+  mobileShowLectureList: false,
 };
 
 const list = (state = initialState, action) => {
@@ -162,6 +163,11 @@ const list = (state = initialState, action) => {
         cart: {
           courses: newCourses,
         },
+      });
+    }
+    case SET_MOBILE_SHOW_LECTURE_LIST: {
+      return Object.assign({}, state, {
+        mobileShowLectureList: action.mobileShowLectureList,
       });
     }
     default: {

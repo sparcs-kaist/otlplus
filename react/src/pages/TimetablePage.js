@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
 
+import { setMobileShowTimetableTabs } from '../actions/timetable/index';
 import Header from '../componenets/Header';
 import DetailSection from '../componenets/sections/timetable/DetailSection';
 import ListTabs from '../componenets/tabs/ListTabs';
@@ -15,26 +16,25 @@ import MapSubSection from '../componenets/sections/timetable/MapSubSection';
 import SummarySubSection from '../componenets/sections/timetable/SummarySubSection';
 import ExamSubSection from '../componenets/sections/timetable/ExamSubSection';
 import ShareSubSection from '../componenets/sections/timetable/ShareSubSection';
+import lectureActiveShape from '../shapes/LectureActiveShape';
 
 class TimetablePage extends Component {
   render() {
-    const { showLectureInfoFlag, showTimetableListFlag, showLectureListFlag } = this.props;
-
+    const { lectureActive, mobileShowTimetableTabs, mobileShowLectureList, setMobileShowTimetableTabsDispatch } = this.props;
     return (
       <div>
-        <div className={showLectureInfoFlag ? classNames('modal-lecture-info') : null}>
-          <div className={showTimetableListFlag ? classNames('modal-timetable-list') : null}>
-            <div className={showLectureListFlag ? classNames('mobile-lecture-list') : null}>
+        { /* eslint-disable-next-line react/jsx-indent */}
               <Header />
-              <section className={classNames('content', 'content--no-scroll')}>
+        { /* eslint-disable-next-line react/jsx-indent */}
+              <section className={classNames('content', 'content--no-scroll', 'content--timetable')}>
                 { /* eslint-disable-next-line react/jsx-indent */}
-                  <div className={classNames('section-wrap', 'section-wrap--timetable-left')}>
-                    <div className={classNames('section-wrap', 'section-wrap--lecture-detail')}>
+                  <div className={classNames('section-wrap', 'section-wrap--timetable-left', (mobileShowLectureList ? '' : 'mobile-nosize'))}>
+                    <div className={classNames('section-wrap', 'section-wrap--lecture-detail', (lectureActive.clicked ? '' : 'mobile-hidden'))}>
                       <div className={classNames('section')}>
                         <DetailSection />
                       </div>
                     </div>
-                    <div className={classNames('section-wrap', 'section-wrap--lecture-list')}>
+                    <div className={classNames('section-wrap', 'section-wrap--lecture-list', (mobileShowLectureList ? '' : 'mobile-hidden'))}>
                       <ListTabs />
                       <div className={classNames('section', 'section--with-tabs')}>
                         <ListSection />
@@ -43,57 +43,51 @@ class TimetablePage extends Component {
                   </div>
                 { /* eslint-disable-next-line react/jsx-indent */}
                   <div className={classNames('section-wrap', 'section-wrap--timetable-center-right')}>
-                    <div className={classNames('section-wrap', 'section-wrap--timetable-tabs')}>
-                      {
-                        showTimetableListFlag
-                          ? (
-                            <div>
-                              <SemesterSection />
-                              <TimetableTabs />
-                            </div>
-                          )
-                          : (
-                            <div>
-                              <TimetableTabs />
-                              <SemesterSection />
-                            </div>
-                          )
-                      }
+                    <div className={classNames('section-wrap', 'section-wrap--timetable-tabs', (mobileShowTimetableTabs ? '' : 'mobile-hidden'))}>
+                      <div>
+                        <div className={classNames('close-button')} onClick={() => setMobileShowTimetableTabsDispatch(false)}>닫기</div>
+                        <TimetableTabs />
+                        <SemesterSection />
+                      </div>
                     </div>
                     <div className={classNames('section', 'section--with-tabs', 'section--timetable')}>
                       <TimetableSubSection />
-                      <div className={classNames('divider', 'divider--vertical')} />
+                      <div className={classNames('divider', 'divider--vertical', 'divider--mobile-horizontal')} />
                       <div className={classNames('section-wrap', 'section-wrap--timetable-right')}>
                         <MapSubSection />
-                        <div className={classNames('divider')} />
+                        <div className={classNames('divider', 'mobile-hidden')} />
                         <SummarySubSection />
-                        <div className={classNames('divider')} />
+                        <div className={classNames('divider', 'mobile-hidden')} />
                         <ExamSubSection />
-                        <div className={classNames('divider')} />
+                        <div className={classNames('divider', (mobileShowLectureList ? 'mobile-hidden' : ''))} />
                         <ShareSubSection />
                       </div>
                     </div>
                   </div>
               </section>
-            </div>
-          </div>
-        </div>
       </div>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  showLectureListFlag: state.timetable.mobile.showLectureListFlag,
-  showTimetableListFlag: state.timetable.mobile.showTimetableListFlag,
-  showLectureInfoFlag: state.timetable.mobile.showLectureInfoFlag,
+  lectureActive: state.timetable.lectureActive,
+  mobileShowTimetableTabs: state.timetable.timetable.mobileShowTimetableTabs,
+  mobileShowLectureList: state.timetable.list.mobileShowLectureList,
+});
+
+const mapDispatchToProps = dispatch => ({
+  setMobileShowTimetableTabsDispatch: (mobileShowTimetableTabs) => {
+    dispatch(setMobileShowTimetableTabs(mobileShowTimetableTabs));
+  },
 });
 
 
 TimetablePage.propTypes = {
-  showLectureListFlag: PropTypes.bool.isRequired,
-  showTimetableListFlag: PropTypes.bool.isRequired,
-  showLectureInfoFlag: PropTypes.bool.isRequired,
+  lectureActive: lectureActiveShape.isRequired,
+  mobileShowTimetableTabs: PropTypes.bool.isRequired,
+  mobileShowLectureList: PropTypes.bool.isRequired,
+  setMobileShowTimetableTabsDispatch: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps, null)(TimetablePage);
+export default connect(mapStateToProps, mapDispatchToProps)(TimetablePage);
