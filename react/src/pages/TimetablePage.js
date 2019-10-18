@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
 
@@ -15,18 +14,20 @@ import MapSubSection from '../componenets/sections/timetable/MapSubSection';
 import SummarySubSection from '../componenets/sections/timetable/SummarySubSection';
 import ExamSubSection from '../componenets/sections/timetable/ExamSubSection';
 import ShareSubSection from '../componenets/sections/timetable/ShareSubSection';
+import lectureActiveShape from '../shapes/LectureActiveShape';
 
 class TimetablePage extends Component {
   render() {
+    const { lectureActive } = this.props;
     return (
       <div>
         { /* eslint-disable-next-line react/jsx-indent */}
               <Header />
         { /* eslint-disable-next-line react/jsx-indent */}
-              <section className={classNames('content', 'content--no-scroll')}>
+              <section className={classNames('content', 'content--no-scroll', 'content--timetable')}>
                 { /* eslint-disable-next-line react/jsx-indent */}
                   <div className={classNames('section-wrap', 'section-wrap--timetable-left')}>
-                    <div className={classNames('section-wrap', 'section-wrap--lecture-detail')}>
+                    <div className={classNames('section-wrap', 'section-wrap--lecture-detail', (lectureActive.clicked ? '' : 'mobile-hidden'))}>
                       <div className={classNames('section')}>
                         <DetailSection />
                       </div>
@@ -51,7 +52,7 @@ class TimetablePage extends Component {
                       <div className={classNames('divider', 'divider--vertical')} />
                       <div className={classNames('section-wrap', 'section-wrap--timetable-right')}>
                         <MapSubSection />
-                        <div className={classNames('divider')} />
+                        <div className={classNames('divider', 'mobile-hidden')} />
                         <SummarySubSection />
                         <div className={classNames('divider')} />
                         <ExamSubSection />
@@ -67,10 +68,12 @@ class TimetablePage extends Component {
 }
 
 const mapStateToProps = state => ({
+  lectureActive: state.timetable.lectureActive,
 });
 
 
 TimetablePage.propTypes = {
+  lectureActive: lectureActiveShape.isRequired,
 };
 
 export default connect(mapStateToProps, null)(TimetablePage);
