@@ -809,8 +809,7 @@ a:hover {
 
             & > div {
                 flex: none;
-                width: 30%;
-                margin-left: 10%;
+                width: 40%;
                 display: flex;
                 flex-direction: column;
                 @media (orientation: portrait) {
@@ -820,6 +819,9 @@ a:hover {
                     &:not(:last-child) {
                         margin-bottom: 8px;
                     }
+                }
+                &:first-child {
+                    margin-left: 10%;
                 }
 
                 & > div {
@@ -848,13 +850,14 @@ a:hover {
                             }
                         }
 
-                        &:nth-child(2) {
+                        &:nth-child(2),
+                        &:nth-child(4) {
                             &.active {
                                 color:#e64c65;
                             }
                         }
 
-                        &:last-child {
+                        &:nth-child(3) {
                             color:#e64c65;
                         }
                     }
@@ -2177,5 +2180,9 @@ i.icon {
         padding: 0;
         margin: 0;
         flex: none;
+
+        &.section-wrap--timetable-left {
+            margin-left: 12px;
+        }
     }
 }
