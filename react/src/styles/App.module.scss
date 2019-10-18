@@ -477,6 +477,14 @@ a:hover {
                 min-height: initial !important;
             }
         }
+
+        &__mobile-buttons {
+            text-align: right;
+
+            & > span {
+                margin-left: 10px;
+            }
+        }
     }
 
     &--lecture-list {
@@ -2152,6 +2160,12 @@ i.icon {
 
 .mobile-hidden {
     @media (orientation: portrait) {
+        display: none !important;
+    }
+}
+
+.mobile-unhidden {
+    @media (orientation: landscape) {
         display: none !important;
     }
 }
