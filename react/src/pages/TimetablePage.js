@@ -28,13 +28,13 @@ class TimetablePage extends Component {
         { /* eslint-disable-next-line react/jsx-indent */}
               <section className={classNames('content', 'content--no-scroll', 'content--timetable')}>
                 { /* eslint-disable-next-line react/jsx-indent */}
-                  <div className={classNames('section-wrap', 'section-wrap--timetable-left', (mobileShowLectureList ? '' : 'mobile-hidden'))}>
+                  <div className={classNames('section-wrap', 'section-wrap--timetable-left', (mobileShowLectureList ? '' : 'mobile-nosize'))}>
                     <div className={classNames('section-wrap', 'section-wrap--lecture-detail', (lectureActive.clicked ? '' : 'mobile-hidden'))}>
                       <div className={classNames('section')}>
                         <DetailSection />
                       </div>
                     </div>
-                    <div className={classNames('section-wrap', 'section-wrap--lecture-list')}>
+                    <div className={classNames('section-wrap', 'section-wrap--lecture-list', (mobileShowLectureList ? '' : 'mobile-hidden'))}>
                       <ListTabs />
                       <div className={classNames('section', 'section--with-tabs')}>
                         <ListSection />
