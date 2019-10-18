@@ -19,6 +19,12 @@ import lectureActiveShape from '../../../shapes/LectureActiveShape';
 
 
 class ListSection extends Component {
+  constructor(props) {
+    super(props);
+    // eslint-disable-next-line fp/no-mutation
+    this.arrowRef = React.createRef();
+  }
+
   componentDidUpdate(prevProps, prevState, snapshot) {
     const { user, major, year, semester, currentList, setListMajorCodesDispatch, openSearchDispatch } = this.props;
 
@@ -184,6 +190,11 @@ class ListSection extends Component {
   listHover = lecture => () => {
     const { lectureActiveClicked, setLectureActiveDispatch } = this.props;
 
+    const arrow = this.arrowRef.current;
+    if (window.getComputedStyle(arrow).getPropertyValue('display') !== 'none') {
+      return;
+    }
+
     if (lectureActiveClicked) {
       return;
     }
@@ -192,6 +203,11 @@ class ListSection extends Component {
 
   listOut = () => {
     const { lectureActiveClicked, clearLectureActiveDispatch } = this.props;
+
+    const arrow = this.arrowRef.current;
+    if (window.getComputedStyle(arrow).getPropertyValue('display') !== 'none') {
+      return;
+    }
 
     if (lectureActiveClicked) {
       return;
@@ -210,6 +226,30 @@ class ListSection extends Component {
     }
   }
 
+  selectWithArrow = courses => () => {
+    const { clearLectureActiveDispatch, setLectureActiveDispatch } = this.props;
+
+    const arrow = this.arrowRef.current;
+    if (window.getComputedStyle(arrow).getPropertyValue('display') === 'none') {
+      return;
+    }
+
+    const arrowPosition = (this.arrowRef.current).getBoundingClientRect();
+    const arrowY = (arrowPosition.top + arrowPosition.bottom) / 2;
+
+    const elementAtPosition = document.elementFromPoint(100, arrowY).closest(`.${classNames('block--course-lectures__elem-wrap')}`);
+    if (elementAtPosition === null) {
+      clearLectureActiveDispatch();
+      return;
+    }
+    const targetId = Number(elementAtPosition.getAttribute('data-id'));
+    const targetLecture = courses
+      .map(c => c.map(l => ((l.id === targetId) ? l : null)))
+      .flat()
+      .filter(l => (l !== null))[0];
+    setLectureActiveDispatch(targetLecture, 'LIST', false);
+  }
+
   render() {
     const { lectureActive, currentTimetable, currentList, searchOpen, search, major, humanity, cart, setMobileShowLectureListDispatch } = this.props;
 
@@ -220,7 +260,9 @@ class ListSection extends Component {
       if (courses.length === 0) {
         return <div className={classNames('list-placeholder')}><div>결과 없음</div></div>;
       }
-      return courses.map(course => (
+      return [
+      // eslint-disable-next-line indent
+      ...courses.map(course => (
         <div className={classNames('block', 'block--course-lectures', (course.some(lecture => isListClicked(lecture, lectureActive)) ? 'block--clicked' : ''))} key={course[0].course}>
           <div className={classNames('block--course-lectures__title')}>
             <strong>{course[0].common_title}</strong>
@@ -245,7 +287,11 @@ class ListSection extends Component {
             />
           ))}
         </div>
-      ));
+        // eslint-disable-next-line indent
+      )),
+      // eslint-disable-next-line react/jsx-indent
+      <div className={classNames('scroll-placeholder')} />,
+      ];
     };
 
     if (currentList === 'SEARCH') {
@@ -258,9 +304,15 @@ class ListSection extends Component {
               <i className={classNames('icon', 'icon--search')} />
               <span>검색</span>
             </div>
-            <Scroller>
+            {/* eslint-disable-next-line react/jsx-indent */}
+          <div>
+            <div ref={this.arrowRef}>
+              <span>&lt;</span>
+            </div>
+            <Scroller onScroll={this.selectWithArrow(search.courses)}>
               {mapCourses(search.courses, false)}
             </Scroller>
+          </div>
           </div>
       );
     }
@@ -272,9 +324,15 @@ class ListSection extends Component {
               <div className={classNames('title')}>
                 {major[currentList].name}
               </div>
-              <Scroller>
+              {/* eslint-disable-next-line react/jsx-indent */}
+            <div>
+              <div ref={this.arrowRef}>
+                <span>&lt;</span>
+              </div>
+              <Scroller onScroll={this.selectWithArrow(major[currentList].courses)}>
                 {mapCourses(major[currentList].courses, false)}
               </Scroller>
+            </div>
             </div>
       );
     }
@@ -286,9 +344,15 @@ class ListSection extends Component {
             <div className={classNames('title')}>
               인문사회선택
             </div>
-            <Scroller>
+            {/* eslint-disable-next-line react/jsx-indent */}
+          <div>
+            <div ref={this.arrowRef}>
+              <span>&lt;</span>
+            </div>
+            <Scroller onScroll={this.selectWithArrow(humanity.courses)}>
               {mapCourses(humanity.courses, false)}
             </Scroller>
+          </div>
           </div>
       );
     }
@@ -300,9 +364,15 @@ class ListSection extends Component {
             <div className={classNames('title')}>
               장바구니
             </div>
-            <Scroller>
+            {/* eslint-disable-next-line react/jsx-indent */}
+          <div>
+            <div ref={this.arrowRef}>
+              <span>&lt;</span>
+            </div>
+            <Scroller onScroll={this.selectWithArrow(cart.courses)}>
               {mapCourses(cart.courses, true)}
             </Scroller>
+          </div>
           </div>
       );
     }
