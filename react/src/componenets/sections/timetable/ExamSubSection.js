@@ -91,7 +91,7 @@ class ExamSubSection extends Component {
     ));
 
     return (
-      <div className={classNames('section-content--exam')}>
+      <div className={classNames('section-content--exam', 'mobile-hidden')}>
         <div className={classNames('section-content--exam__title')}><span>시험시간표</span></div>
         <div className={classNames('section-content--exam__content')}>
           <Scroller>

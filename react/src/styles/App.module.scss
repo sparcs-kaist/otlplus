@@ -203,6 +203,9 @@ a:hover {
         margin: 0;
         display: flex;
         flex-direction: column;
+        @media (orientation: portrait) {
+            width: 100%
+        }
     }
 
 
@@ -334,6 +337,9 @@ a:hover {
         flex: auto;
         display: flex;
         flex-direction: row;
+        @media (orientation: portrait) {
+            flex-direction: column;
+        }
     }
 
 
@@ -644,10 +650,23 @@ a:hover {
 
     &--summary {
         flex: none;
+        display: flex;
+        flex-direction: column;
+        @media (orientation: portrait) {
+            flex-direction: row;
+        }
+
+        & > * {
+            flex: none;
+        }
 
         &__type {
             display: flex;
             flex-direction: row;
+            @media (orientation: portrait) {
+                flex-direction: column;
+                flex: 3 3 (40px * 3);
+            }
 
             & > div {
                 flex: none;
@@ -655,11 +674,23 @@ a:hover {
                 margin-left: 10%;
                 display: flex;
                 flex-direction: column;
+                @media (orientation: portrait) {
+                    flex-direction: row;
+                    width: 100%;
+                    margin-left: 0;
+                    &:not(:last-child) {
+                        margin-bottom: 8px;
+                    }
+                }
 
                 & > div {
                     margin-bottom: 8px;
                     &:last-child {
                         margin-bottom: 0px;
+                    }
+                    @media (orientation: portrait) {
+                        margin-bottom: 0px;
+                        flex: 1 1 40px;
                     }
 
                     & > span {
@@ -1436,12 +1467,26 @@ a:hover {
     .section-content--course-detail & {
         margin-top: calc(1.4vh + 6px);
     }
-    .section-content--lecture-detail &,
-    .section-content--summary & {
+    .section-content--lecture-detail & {
         margin-top: calc(1.4vh + 2px);
         margin-bottom: calc(1.4vh + 2px);
         &:last-child {
             margin-bottom: 0;
+        }
+    }
+    .section-content--summary & {
+        margin-top: calc(1.4vh + 2px);
+        margin-bottom: 0;
+        @media (orientation: portrait) {
+            margin-top: 0;
+            display: flex;
+            flex-direction: row;
+            &:nth-child(2) {
+                flex: 2 2 (30px * 2);
+            }
+            &:last-child {
+                flex: 3 3 (30px * 3);
+            }
         }
     }
 
@@ -1451,9 +1496,15 @@ a:hover {
         .section-content--course-detail & {
             width: calc(3.5vh + 54px);
         }
-        .section-content--lecture-detail &,
+        .section-content--lecture-detail & {
+            width: calc(3.5vh + 34px);
+        }
         .section-content--summary & {
             width: calc(3.5vh + 34px);
+            @media (orientation: portrait) {
+                flex: 1 1 30px;
+                width: 30px;
+            }
         }
 
         & > div:first-child {
@@ -1464,13 +1515,20 @@ a:hover {
                 font-size: calc(0.7vh + 17px);
                 line-height: calc(0.7vh + 15px);
             }
-            .section-content--lecture-detail &,
-            .section-content--summary & {
+            .section-content--lecture-detail & {
                 font-size: calc(0.7vh + 15px);
                 line-height: calc(0.7vh + 13px);
 
                 &.scores__score-text--korean {
                     font-size: calc(0.7vh + 13px);
+                }
+            }
+            .section-content--summary & {
+                font-size: calc(0.7vh + 15px);
+                line-height: calc(0.7vh + 13px);
+                @media (orientation: portrait) {
+                    font-size: 24px;
+                    line-height: 22px;
                 }
             }
 
@@ -1497,6 +1555,15 @@ a:hover {
         border-bottom: none;
         border-right: 1px solid #EDD1DC;
         margin: 0 12px;
+    }
+
+
+    &--mobile-horizontal {
+        @media (orientation: portrait) {
+            border-right: none;
+            border-bottom: 1px solid #EDD1DC;
+            margin: 12px 0;
+        }
     }
 }
 

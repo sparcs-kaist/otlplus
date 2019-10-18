@@ -49,14 +49,14 @@ class TimetablePage extends Component {
                     </div>
                     <div className={classNames('section', 'section--with-tabs', 'section--timetable')}>
                       <TimetableSubSection />
-                      <div className={classNames('divider', 'divider--vertical')} />
+                      <div className={classNames('divider', 'divider--vertical', 'divider--mobile-horizontal')} />
                       <div className={classNames('section-wrap', 'section-wrap--timetable-right')}>
                         <MapSubSection />
                         <div className={classNames('divider', 'mobile-hidden')} />
                         <SummarySubSection />
-                        <div className={classNames('divider')} />
+                        <div className={classNames('divider', 'mobile-hidden')} />
                         <ExamSubSection />
-                        <div className={classNames('divider')} />
+                        <div className={classNames('divider', 'mobile-hidden')} />
                         <ShareSubSection />
                       </div>
                     </div>
