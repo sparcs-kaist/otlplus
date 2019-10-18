@@ -131,6 +131,7 @@ class DetailSection extends Component {
       return (
       // eslint-disable-next-line react/jsx-indent
           <div className={classNames('section-content', 'section-content--lecture-detail', 'section-content--flex')}>
+            <div className={classNames('close-button')} onClick={this.unfix}>닫기</div>
             <div className={classNames('title')}>
               {lecture.title}
             </div>
