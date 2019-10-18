@@ -5,13 +5,12 @@ import PropTypes from 'prop-types';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
-import { mToggleLectureList, modaltimetableList } from '../../../actions/timetable/index';
 import timetableShape from '../../../shapes/TimetableShape';
 
 
 class ShareSubSection extends Component {
   render() {
-    const { currentTimetable, mtimetableListDispatch, mToggleLectureListDispatch } = this.props;
+    const { currentTimetable } = this.props;
 
     const timetableLectures = currentTimetable
       ? currentTimetable.lectures
@@ -25,8 +24,8 @@ class ShareSubSection extends Component {
 
         </div>
         <div>
-          <div onClick={mtimetableListDispatch}><i /></div>
-          <div onClick={mToggleLectureListDispatch}><i /></div>
+          <div><i /></div>
+          <div><i /></div>
         </div>
         <div />
       </div>
@@ -39,14 +38,10 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  mToggleLectureListDispatch: () => dispatch(mToggleLectureList()),
-  mtimetableListDispatch: () => dispatch(modaltimetableList()),
 });
 
 ShareSubSection.propTypes = {
   currentTimetable: timetableShape,
-  mToggleLectureListDispatch: PropTypes.func.isRequired,
-  mtimetableListDispatch: PropTypes.func.isRequired,
 };
 
 

@@ -102,7 +102,7 @@ class TimetableTabs extends Component {
   }
 
   render() {
-    const { timetables, currentTimetable, showTimetableListFlag } = this.props;
+    const { timetables, currentTimetable } = this.props;
 
     if (timetables && timetables.length) {
       return (
@@ -112,21 +112,8 @@ class TimetableTabs extends Component {
               <span>
                 {`시간표 ${idx + 1}`}
               </span>
-              {
-                showTimetableListFlag
-                  ? (
-                    <>
-                      <span onClick={event => this.deleteTable(event, timetable)}><i className={classNames('icon', 'icon--delete-table')} /></span>
-                      <span onClick={event => this.duplicateTable(event, timetable)}><i className={classNames('icon', 'icon--duplicate-table')} /></span>
-                    </>
-                  )
-                  : (
-                    <>
-                      <span onClick={event => this.duplicateTable(event, timetable)}><i className={classNames('icon', 'icon--duplicate-table')} /></span>
-                      <span onClick={event => this.deleteTable(event, timetable)}><i className={classNames('icon', 'icon--delete-table')} /></span>
-                    </>
-                  )
-              }
+              <span onClick={event => this.duplicateTable(event, timetable)}><i className={classNames('icon', 'icon--duplicate-table')} /></span>
+              <span onClick={event => this.deleteTable(event, timetable)}><i className={classNames('icon', 'icon--delete-table')} /></span>
             </div>
           ))}
           <div onClick={() => this.createTable()}>
@@ -151,7 +138,6 @@ const mapStateToProps = state => ({
   currentTimetable: state.timetable.timetable.currentTimetable,
   year: state.timetable.semester.year,
   semester: state.timetable.semester.semester,
-  showTimetableListFlag: state.timetable.mobile.showTimetableListFlag,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -177,7 +163,6 @@ TimetableTabs.propTypes = {
   currentTimetable: timetableShape,
   year: PropTypes.number,
   semester: PropTypes.number,
-  showTimetableListFlag: PropTypes.bool.isRequired,
   setTimetablesDispatch: PropTypes.func.isRequired,
   setCurrentTimetableDispatch: PropTypes.func.isRequired,
   createTimetableDispatch: PropTypes.func.isRequired,
