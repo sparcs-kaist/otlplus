@@ -250,8 +250,15 @@ class ListSection extends Component {
     setLectureActiveDispatch(targetLecture, 'LIST', false);
   }
 
+  mobileCloseLectureList = () => {
+    const { setMobileShowLectureListDispatch, clearLectureActiveDispatch } = this.props;
+
+    setMobileShowLectureListDispatch(false);
+    clearLectureActiveDispatch();
+  }
+
   render() {
-    const { lectureActive, currentTimetable, currentList, searchOpen, search, major, humanity, cart, setMobileShowLectureListDispatch } = this.props;
+    const { lectureActive, currentTimetable, currentList, searchOpen, search, major, humanity, cart } = this.props;
 
     const mapCourses = (courses, fromCart) => {
       if (!courses) {
@@ -299,7 +306,7 @@ class ListSection extends Component {
       // eslint-disable-next-line react/jsx-indent
           <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
             { searchOpen ? <SearchSubSection /> : null }
-            <div className={classNames('close-button')} onClick={() => setMobileShowLectureListDispatch(false)}>닫기</div>
+            <div className={classNames('close-button')} onClick={this.mobileCloseLectureList}>닫기</div>
             <div className={classNames('title', 'title--search')} onClick={() => this.showSearch()}>
               <i className={classNames('icon', 'icon--search')} />
               <span>검색</span>
@@ -320,7 +327,7 @@ class ListSection extends Component {
       return (
       // eslint-disable-next-line react/jsx-indent
             <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
-              <div className={classNames('close-button')} onClick={() => setMobileShowLectureListDispatch(false)}>닫기</div>
+              <div className={classNames('close-button')} onClick={this.mobileCloseLectureList}>닫기</div>
               <div className={classNames('title')}>
                 {major[currentList].name}
               </div>
@@ -340,7 +347,7 @@ class ListSection extends Component {
       return (
       // eslint-disable-next-line react/jsx-indent
           <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
-            <div className={classNames('close-button')} onClick={() => setMobileShowLectureListDispatch(false)}>닫기</div>
+            <div className={classNames('close-button')} onClick={this.mobileCloseLectureList}>닫기</div>
             <div className={classNames('title')}>
               인문사회선택
             </div>
@@ -360,7 +367,7 @@ class ListSection extends Component {
       return (
       // eslint-disable-next-line react/jsx-indent
           <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
-            <div className={classNames('close-button')} onClick={() => setMobileShowLectureListDispatch(false)}>닫기</div>
+            <div className={classNames('close-button')} onClick={this.mobileCloseLectureList}>닫기</div>
             <div className={classNames('title')}>
               장바구니
             </div>
