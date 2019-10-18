@@ -24,6 +24,7 @@ export const SET_MULTIPLE_DETAIL = 'SET_MULTIPLE_DETAIL';
 export const CLEAR_MULTIPLE_DETAIL = 'CLEAR_MULTIPLE_DETAIL';
 export const DRAG_SEARCH = 'DRAG_SEARCH';
 export const SET_IS_DRAGGING = 'SET_IS_DRAGGING';
+export const SET_MOBILE_SHOW_TIMETABLE_TABS = 'SET_MOBILE_SHOW_TIMETABLE_TABS';
 
 export function setSemester(year, semester) {
   return {
@@ -207,5 +208,12 @@ export function setIsDragging(isDragging) {
   return {
     type: SET_IS_DRAGGING,
     isDragging: isDragging,
+  };
+}
+
+export function setMobileShowTimetableTabs(mobileShowTimetableTabs) {
+  return {
+    type: SET_MOBILE_SHOW_TIMETABLE_TABS,
+    mobileShowTimetableTabs: mobileShowTimetableTabs,
   };
 }

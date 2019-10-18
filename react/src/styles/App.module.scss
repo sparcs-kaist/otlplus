@@ -250,6 +250,47 @@ a:hover {
     &--timetable-tabs {
         flex: none;
         margin: 0;
+        display: flex;
+        flex-direction: row;
+        @media (orientation: portrait) {
+            position: absolute;
+            width: calc(100% - 12px * 4);
+            height: calc(100% - (12px * 3 + 13px));
+            top: 12px * 2;
+            left: 12px * 2;
+
+            & > * {
+                position: relative;
+                z-index: 200;
+            }
+
+            &::before {
+                content: '';
+                position: absolute;
+                width: calc(100% + 12px * 4);
+                height: calc(100% + (12px * 3 + 13px));
+                top: -12px * 2;
+                left: -12px * 2;
+                background-color: rgba(#000, 0.3);
+                z-index: 100;
+            }
+        }
+
+        & > div {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            @media (orientation: portrait) {
+                height: 100%;
+                padding: 12px;
+                background-color: #ffffff;
+                border-radius: 6px;
+                box-shadow: 0 3px 0 0 #F3BEC6;
+                flex-direction: column-reverse;
+                align-items: center;
+            }
+        }
     }
 }
 
@@ -278,7 +319,10 @@ a:hover {
     }
 
     &--timetable {
-        float:left;
+        flex: 1 1 auto;
+        @media (orientation: portrait) {
+            width: 100%;
+        }
 
         & > div {
             background-color: #E2E2E2;
@@ -290,23 +334,48 @@ a:hover {
             font-size: 12px;
             line-height: 13px;
             padding: 7px 10px;
-            &.active {
-                background-color: #FFFFFF;
-                color:#333;
+            cursor: pointer;
+            display: inline-flex;
+            flex-direction: row;
+            justify-content: center;
+            @media (orientation: portrait) {
+                width: 100%;
+                background-color: #EEEEEE;
+                margin-bottom: 6px;
+                border-radius: 4px;
             }
-            &:not(.active) {
-                cursor: pointer;
-                &:hover {
-                    background-color: #D8D8D8;
+            &.active {
+                @media (orientation: landscape) {
+                    cursor: initial;
+                    background-color: #FFFFFF;
+                    color:#333;
                 }
-
-                & > span:not(:first-child) {
+            }
+            &:hover {
+                @media (orientation: landscape) {
+                    &:not(.active) {
+                        background-color: #D8D8D8;
+                    }
+                }
+                @media (orientation: portrait) {
+                    background-color: #DDDDDD;
+                }
+            }
+            &:not(.active) > span:not(:first-child) {
+                @media (orientation: landscape) {
                     display:none;
                 }
             }
             &:last-child:not(:first-child) {
                 padding: 8px;
                 line-height: 0;
+                @media (orientation: portrait) {
+                    margin-bottom: 0;
+                }
+            }
+
+            & > span:first-child {
+                flex: 1 1 auto;
             }
 
             & > span:not(:first-child) {
@@ -347,11 +416,17 @@ a:hover {
         width: 90px;
         height: initial;
         padding: 5px 8px;
-        float: right;
+        flex: 0 0 auto;
         font-size: 12px;
         line-height: 13px;
         display: flex;
         flex-direction: row;
+        @media (orientation: portrait) {
+            padding: 0;
+            background: none;
+            box-shadow: none;
+            margin-bottom: 10px;
+        }
 
         & > div {
             flex: 0 0 auto;
@@ -363,6 +438,10 @@ a:hover {
         & > span {
             flex: 1 1 auto;
             text-align: center;
+            @media (orientation: portrait) {
+                font-size: 14px;
+                line-height: 15px;
+            }
         }
     }
 }

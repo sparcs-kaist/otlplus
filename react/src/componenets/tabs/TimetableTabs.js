@@ -6,7 +6,7 @@ import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 import axios from '../../common/presetAxios';
 
 import { BASE_URL } from '../../common/constants';
-import { setTimetables, createTimetable, setCurrentTimetable, deleteTimetable, duplicateTimetable } from '../../actions/timetable/index';
+import { setTimetables, createTimetable, setCurrentTimetable, deleteTimetable, duplicateTimetable, setMobileShowTimetableTabs } from '../../actions/timetable/index';
 import timetableShape from '../../shapes/TimetableShape';
 
 
@@ -38,9 +38,10 @@ class TimetableTabs extends Component {
   }
 
   changeTab(timetable) {
-    const { setCurrentTimetableDispatch } = this.props;
+    const { setCurrentTimetableDispatch, setMobileShowTimetableTabsDispatch } = this.props;
 
     setCurrentTimetableDispatch(timetable);
+    setMobileShowTimetableTabsDispatch(false);
   }
 
   createTable() {
@@ -156,6 +157,9 @@ const mapDispatchToProps = dispatch => ({
   duplicateTimetableDispatch: (id, timetable) => {
     dispatch(duplicateTimetable(id, timetable));
   },
+  setMobileShowTimetableTabsDispatch: (mobileShowTimetableTabs) => {
+    dispatch(setMobileShowTimetableTabs(mobileShowTimetableTabs));
+  },
 });
 
 TimetableTabs.propTypes = {
@@ -168,6 +172,7 @@ TimetableTabs.propTypes = {
   createTimetableDispatch: PropTypes.func.isRequired,
   deleteTimetableDispatch: PropTypes.func.isRequired,
   duplicateTimetableDispatch: PropTypes.func.isRequired,
+  setMobileShowTimetableTabsDispatch: PropTypes.func.isRequired,
 };
 
 

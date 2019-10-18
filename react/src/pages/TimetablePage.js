@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
 
+import { setMobileShowTimetableTabs } from '../actions/timetable/index';
 import Header from '../componenets/Header';
 import DetailSection from '../componenets/sections/timetable/DetailSection';
 import ListTabs from '../componenets/tabs/ListTabs';
@@ -18,7 +20,7 @@ import lectureActiveShape from '../shapes/LectureActiveShape';
 
 class TimetablePage extends Component {
   render() {
-    const { lectureActive } = this.props;
+    const { lectureActive, mobileShowTimetableTabs, setMobileShowTimetableTabsDispatch } = this.props;
     return (
       <div>
         { /* eslint-disable-next-line react/jsx-indent */}
@@ -41,8 +43,9 @@ class TimetablePage extends Component {
                   </div>
                 { /* eslint-disable-next-line react/jsx-indent */}
                   <div className={classNames('section-wrap', 'section-wrap--timetable-center-right')}>
-                    <div className={classNames('section-wrap', 'section-wrap--timetable-tabs')}>
+                    <div className={classNames('section-wrap', 'section-wrap--timetable-tabs', (mobileShowTimetableTabs ? '' : 'mobile-hidden'))}>
                       <div>
+                        <div className={classNames('close-button')} onClick={() => setMobileShowTimetableTabsDispatch(false)}>닫기</div>
                         <TimetableTabs />
                         <SemesterSection />
                       </div>
@@ -69,11 +72,20 @@ class TimetablePage extends Component {
 
 const mapStateToProps = state => ({
   lectureActive: state.timetable.lectureActive,
+  mobileShowTimetableTabs: state.timetable.timetable.mobileShowTimetableTabs,
+});
+
+const mapDispatchToProps = dispatch => ({
+  setMobileShowTimetableTabsDispatch: (mobileShowTimetableTabs) => {
+    dispatch(setMobileShowTimetableTabs(mobileShowTimetableTabs));
+  },
 });
 
 
 TimetablePage.propTypes = {
   lectureActive: lectureActiveShape.isRequired,
+  mobileShowTimetableTabs: PropTypes.bool.isRequired,
+  setMobileShowTimetableTabsDispatch: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps, null)(TimetablePage);
+export default connect(mapStateToProps, mapDispatchToProps)(TimetablePage);
