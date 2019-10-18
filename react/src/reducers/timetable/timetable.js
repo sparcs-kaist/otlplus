@@ -1,4 +1,4 @@
-import { SET_TIMETABLES, CLEAR_TIMETABLES, SET_CURRENT_TIMETABLE, CREATE_TIMETABLE, DELETE_TIMETABLE, DUPLICATE_TIMETABLE, ADD_LECTURE_TO_TIMETABLE, REMOVE_LECTURE_FROM_TIMETABLE, UPDATE_CELL_SIZE, SET_IS_DRAGGING } from '../../actions/timetable/index';
+import { SET_TIMETABLES, CLEAR_TIMETABLES, SET_CURRENT_TIMETABLE, CREATE_TIMETABLE, DELETE_TIMETABLE, DUPLICATE_TIMETABLE, ADD_LECTURE_TO_TIMETABLE, REMOVE_LECTURE_FROM_TIMETABLE, UPDATE_CELL_SIZE, SET_IS_DRAGGING, SET_MOBILE_SHOW_TIMETABLE_TABS } from '../../actions/timetable/index';
 
 const initialState = {
   timetables: null,
@@ -6,6 +6,7 @@ const initialState = {
   cellWidth: 200,
   cellHeight: 50,
   isDragging: false,
+  mobileShowTimetableTabs: false,
 };
 
 const timetable = (state = initialState, action) => {
@@ -99,6 +100,11 @@ const timetable = (state = initialState, action) => {
     case SET_IS_DRAGGING: {
       return Object.assign({}, state, {
         isDragging: action.isDragging,
+      });
+    }
+    case SET_MOBILE_SHOW_TIMETABLE_TABS: {
+      return Object.assign({}, state, {
+        mobileShowTimetableTabs: action.mobileShowTimetableTabs,
       });
     }
     default: {

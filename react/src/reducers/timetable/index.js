@@ -4,7 +4,6 @@ import search from './search';
 import list from './list';
 import timetable from './timetable';
 import lectureActive from './lectureActive';
-import mobile from './mobile';
 
 const CombinedReducer = combineReducers({
   semester: semester,
@@ -12,7 +11,6 @@ const CombinedReducer = combineReducers({
   list: list,
   timetable: timetable,
   lectureActive: lectureActive,
-  mobile: mobile,
 });
 
 export default CombinedReducer;

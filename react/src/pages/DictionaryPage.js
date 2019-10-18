@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
 import Header from '../componenets/Header';
@@ -6,10 +7,13 @@ import CourseListSection from '../componenets/sections/dictionary/CourseListSect
 import CourseDetailSection from '../componenets/sections/dictionary/CourseDetailSection';
 import courses from '../dummy/courses';
 import CourseListTabs from '../componenets/tabs/CourseListTabs';
+import courseActiveShape from '../shapes/CourseActiveShape';
 
 
 class DictionaryPage extends Component {
   render() {
+    const { courseActive } = this.props;
+
     return (
       <div>
         <Header />
@@ -20,7 +24,7 @@ class DictionaryPage extends Component {
               <CourseListSection />
             </div>
           </div>
-          <div className={classNames('section-wrap', 'section-wrap--course-detail')}>
+          <div className={classNames('section-wrap', 'section-wrap--course-detail', ((courseActive.course && courseActive.clicked) ? '' : 'mobile-hidden'))}>
             <div className={classNames('section')}>
               <CourseDetailSection course={courses[0]} />
             </div>
@@ -31,5 +35,13 @@ class DictionaryPage extends Component {
   }
 }
 
+const mapStateToProps = state => ({
+  courseActive: state.dictionary.courseActive,
+});
 
-export default DictionaryPage;
+DictionaryPage.propTypes = {
+  courseActive: courseActiveShape.isRequired,
+};
+
+
+export default connect(mapStateToProps, null)(DictionaryPage);

@@ -8,7 +8,7 @@ import lectureShape from '../../shapes/LectureShape';
 import classtimeShape from '../../shapes/ClasstimeShape';
 
 
-const TimetableBlock = ({ lecture, classtime, cellWidth, cellHeight, isClicked, isHover, isListHover, isTemp, blockHover, blockOut, blockClick, deleteLecture, occupiedTime }) => {
+const TimetableBlock = ({ lecture, classtime, cellWidth, cellHeight, isClicked, isHover, isListHover, isTemp, isSimple, blockHover, blockOut, blockClick, deleteLecture, occupiedTime }) => {
   const indexOfTime = time => (time / 30 - 16);
 
   const activeType = (
@@ -37,13 +37,13 @@ const TimetableBlock = ({ lecture, classtime, cellWidth, cellHeight, isClicked, 
           // onMouseDown={() => onMouseDown()}
           className={classNames('block--timetable__content')}
         >
-          <p className={classNames('block--timetable__content__title')}>
+          <p className={classNames('block--timetable__content__title', (isSimple ? 'mobile-hidden' : ''))}>
             {lecture.title}
           </p>
-          <p className={classNames('block--timetable__content__info')}>
+          <p className={classNames('block--timetable__content__info', 'mobile-hidden')}>
             {lecture.professor_short}
           </p>
-          <p className={classNames('block--timetable__content__info')}>
+          <p className={classNames('block--timetable__content__info', 'mobile-hidden')}>
             {classtime.classroom}
           </p>
         </div>
@@ -74,6 +74,7 @@ TimetableBlock.propTypes = {
   isHover: PropTypes.bool.isRequired,
   isListHover: PropTypes.bool.isRequired,
   isTemp: PropTypes.bool.isRequired,
+  isSimple: PropTypes.bool.isRequired,
   blockHover: PropTypes.func.isRequired,
   blockOut: PropTypes.func.isRequired,
   blockClick: PropTypes.func.isRequired,
