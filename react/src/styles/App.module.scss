@@ -47,7 +47,8 @@ ul {
 }
 
 a,
-a:hover {
+a:hover,
+a:link {
     color: inherit;
     text-decoration: none;
 }

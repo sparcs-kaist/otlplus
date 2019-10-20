@@ -7,7 +7,7 @@ import 'bootstrap';
 import './static/css/bootstrap.min.css';
 import './static/css/global.css';
 
-import Header from './componenets/Header';
+import Header from './componenets/guideline/Header';
 import DictionaryPage from './pages/DictionaryPage';
 import TimetablePage from './pages/TimetablePage';
 import SyllabusPage from './pages/SyllabusPage';
