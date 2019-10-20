@@ -10,7 +10,32 @@ import logoImage from '../../static/img/Services-OTL.svg';
 
 
 class Header extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      mobileMenuOpen: false,
+    };
+  }
+
+
+  closeMenu = () => {
+    this.setState({
+      mobileMenuOpen: false,
+    });
+  }
+
+
+  toggleMenu = () => {
+    const { mobileMenuOpen } = this.state;
+    this.setState({
+      mobileMenuOpen: !mobileMenuOpen,
+    });
+  }
+
+
   render() {
+    const { mobileMenuOpen } = this.state;
     const { user } = this.props;
 
     console.log(123, logoImage);
@@ -18,16 +43,24 @@ class Header extends Component {
     return (
       <header>
         <div className={classNames('identity-bar')} />
-        <div className={classNames('content')}>
+        <div className={classNames('menu-icon-icon')} onClick={this.toggleMenu}>
+          { mobileMenuOpen
+            ? <i className={classNames('icon--header_menu_close')} />
+            : <i className={classNames('icon--header_menu_list')} />
+          }
+        </div>
+        <div className={classNames('content', (mobileMenuOpen ? '' : 'menu-closed'))}>
           <div className={classNames('content-left')}>
-            <Link to="/" className={classNames('logo')}>
-              <img src={logoImage} alt="OTL Logo" />
-            </Link>
+            <div className={classNames('logo')}>
+              <Link to="/" onClick={this.closeMenu}>
+                <img src={logoImage} alt="OTL Logo" />
+              </Link>
+            </div>
             <div className={classNames('menus')}>
-              <Link to="/dictionary">
+              <Link to="/dictionary" onClick={this.closeMenu}>
                 과목사전
               </Link>
-              <Link to="/timetable">
+              <Link to="/timetable" onClick={this.closeMenu}>
                 모의시간표
               </Link>
             </div>
@@ -37,11 +70,13 @@ class Header extends Component {
               {null}
             </div>
             <div className={classNames('common-menus')}>
-              <Link to=".">
+              <Link to="." onClick={this.closeMenu}>
                 <i className={classNames('icon--header_language')} />
+                <span>English</span>
               </Link>
-              <Link to=".">
+              <Link to="." onClick={this.closeMenu}>
                 <i className={classNames('icon--header_notification')} />
+                <span>알림</span>
               </Link>
               { user
                 ? (
