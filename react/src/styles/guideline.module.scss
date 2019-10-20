@@ -1,5 +1,8 @@
 header {
     line-height: initial;
+    width: 100%;
+    position: fixed;
+    z-index: 1000;
 
     a,
     a:hover,
@@ -13,28 +16,69 @@ header {
         background-color: #E54C65;
     }
 
+    .menu-icon-icon {
+        display: none;
+        position: absolute;
+        cursor: pointer;
+        top: 5px + (50px - 24px) / 2;
+        right: 16px;
+        @media (orientation: portrait) {
+            display: block;
+        }
+
+        i {
+            width: 24px;
+            height: 24px;
+        }
+    }
+
     .content {
-        height: 50px;
+        background-color: #F9F0F0;
 
         .content-left,
         .content-right {
             width: 50%;
-            height: 100%;
+            height: 50px;
             vertical-align: top;
             display: inline-flex;
             justify-content: space-between;
             align-items: center;
             &.content-right {
                 text-align: right;
+                @media (orientation:portrait) {
+                    text-align: initial;
+                }
+            }
+            @media (orientation: portrait) {
+                width: 100%;
+                height: initial;
+                display: block;
             }
 
             @mixin side-menus {
                 flex: 0 0 auto;
                 margin: 0 24px;
+                @media (orientation: portrait) {
+                    width: calc(100% - 16px * 2);
+                    margin: 0 16px;
+                    flex-wrap: wrap;
+
+                    & > * {
+                        display: block;
+                        height: 32px;
+                        display: flex;
+                        align-items: center;
+                    }
+                }
             }
             .logo {
                 @include side-menus;
 
+                @media (orientation: portrait) {
+                    & > * {
+                        height: 50px;
+                    }
+                }
                 img {
                     height: 27px;
                 }
@@ -44,17 +88,32 @@ header {
                 font-size: 14px;
                 color: #333333;
 
+                @media (orientation: portrait) {
+                    font-size: 15px;
+                    padding-bottom: 16px;
+
+                    span {
+                        display: initial !important;
+                    }
+
+                    @at-root .menu-closed .common-menus {
+                        display: none;
+                    }
+                }
+
                 & > * {
                     &:not(:last-child) {
-                        margin-right: 16px;
+                        margin-right: 16px - 6px;
+
+                        span {
+                            display: none;
+                        }
                     }
 
                     i {
                         width: 16px;
                         height: 16px;
-                        &:not(:last-child) {
-                            margin-right: 6px;
-                        }
+                        margin-right: 6px;
                     }
                 }
             }
@@ -65,6 +124,18 @@ header {
                 font-size: 15px;
                 color: #333333;
                 white-space: nowrap;
+                @media (orientation: portrait) {
+                    width: calc(100% - 16px * 2);
+                    margin: 0 16px;
+
+                    & > * {
+                        display: block;
+                        width: 100%;
+                        height: 32px;
+                        display: flex;
+                        align-items: center;
+                    }
+                }
     
                 & > *:hover {
                     color: #000000;
@@ -73,12 +144,26 @@ header {
             .menus {
                 @include center-menus;
 
+                @media (orientation: portrait) {
+                    padding-bottom: 8px;
+
+                    @at-root .menu-closed .menus {
+                        display: none;
+                    }
+                }
+
                 & > * {
                     margin-right: 24px;
                 }
             }
             .special-menus {
                 @include center-menus;
+
+                @media (orientation: portrait) {
+                    @at-root .menu-closed .special-menus {
+                        display: none;
+                    }
+                }
 
                 & > * {
                     margin-left: 24px;
@@ -87,7 +172,7 @@ header {
         }
     }
 
-    $names: language, notification, user;
+    $names: language, notification, user, menu_list, menu_close;
     @each $name in $names {
         i.icon--header_#{$name} {
             display: inline-block;
