@@ -56,7 +56,7 @@ a:link {
 
 .content {
     width: 80%;
-    margin-top: 50px;
+    margin-top: 55px;
     margin-left: auto;
     margin-right: auto;
     background-color: #f9f0f0;
@@ -145,6 +145,7 @@ a:link {
     &--course-list {
         flex: none;
         width: calc(65vh - 38px);
+        margin-top: 0px;
         @media (orientation: portrait) {
             width: calc(100% - 12px * 2);
         }
@@ -154,12 +155,13 @@ a:link {
     &--course-detail {
         flex: none;
         width: calc(65vh - 38px);
+        margin-top: 0px;
         margin-left: 0;
         @media (orientation: portrait) {
             position: absolute;
             width: calc(100% - 12px * 4);
-            height: calc(100% - (12px * 3 + 13px));
-            margin-top: 12px * 2;
+            height: calc(100% - (12px * 2 + 13px));
+            margin-top: 12px;
             & > * {
                 position: relative;
                 z-index: 200;
@@ -169,8 +171,8 @@ a:link {
                 content: '';
                 position: absolute;
                 width: calc(100% + 12px * 4);
-                height: calc(100% + (12px * 3 + 13px));
-                top: -12px * 2;
+                height: calc(100% + (12px * 3 + 13px) + 55px);
+                top: -12px * 2 - 55px;
                 left: -12px * 2;
                 background-color: rgba(#000, 0.3);
                 z-index: 100;
@@ -182,6 +184,7 @@ a:link {
     &--timetable-left {
         flex: none;
         width: calc(15vh + 126px);
+        margin-top: 0px;
         display: flex;
         flex-direction: column;
 
@@ -196,6 +199,7 @@ a:link {
     &--timetable-center-right {
         flex: none;
         width:  calc(65vh + 246px);
+        margin-top: 0px;
         margin-left: 0;
         display: flex;
         flex-direction: column;
@@ -231,8 +235,9 @@ a:link {
         @media (orientation: portrait) {
             position: absolute;
             top: 12px;
-            width: calc(100% - 12px * 2);
-            height: calc(100% - (12px + 13px));
+            left: 12px * 2;
+            width: calc(100% - 12px * 4);
+            height: calc(100% - (12px * 2 + 13px));
 
             & > * {
                 position: relative;
@@ -242,9 +247,9 @@ a:link {
             &::before {
                 content: '';
                 position: absolute;
-                width: calc(100% + 12px * 3);
-                height: calc(100% + (12px + 13px));
-                top: -12px;
+                width: calc(100% + 12px * 4);
+                height: calc(100% + (12px * 2 + 13px) + 55px);
+                top: -12px - 55px;
                 left: -12px * 2;
                 background-color: rgba(#000, 0.3);
                 z-index: 100;
@@ -268,8 +273,8 @@ a:link {
         @media (orientation: portrait) {
             position: absolute;
             width: calc(100% - 12px * 4);
-            height: calc(100% - (12px * 3 + 13px));
-            top: 12px * 2;
+            height: calc(100% - (12px * 2 + 13px));
+            top: 12px;
             left: 12px * 2;
 
             & > * {
@@ -281,8 +286,8 @@ a:link {
                 content: '';
                 position: absolute;
                 width: calc(100% + 12px * 4);
-                height: calc(100% + (12px * 3 + 13px));
-                top: -12px * 2;
+                height: calc(100% + (12px * 2 + 13px) + 55px);
+                top: -12px - 55px;
                 left: -12px * 2;
                 background-color: rgba(#000, 0.3);
                 z-index: 100;
