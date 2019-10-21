@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import userShape from '../../shapes/UserShape';
 
-import { guidelineBoundClassNames as classNames } from '../../common/boundClassNames';
+import { guidelineBoundClassNames as classNames, appBoundClassNames } from '../../common/boundClassNames';
 
 import logoImage from '../../static/img/Services-OTL.svg';
 
@@ -15,7 +16,24 @@ class Header extends Component {
 
     this.state = {
       mobileMenuOpen: false,
+      noBackground: false,
     };
+  }
+
+
+  componentDidMount() {
+    window.addEventListener('scroll', this.setNoBackground);
+    this.setNoBackground();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.location.pathname !== prevProps.location.pathname) {
+      this.setNoBackground();
+    }
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.setNoBackground);
   }
 
 
@@ -34,8 +52,23 @@ class Header extends Component {
   }
 
 
+  setNoBackground = () => {
+    const mainImage = document.getElementsByClassName(appBoundClassNames('main-image'));
+    if (mainImage.length === 0) {
+      this.setState({
+        noBackground: false,
+      });
+      return;
+    }
+
+    this.setState({
+      noBackground: mainImage[0].getBoundingClientRect().bottom > 55,
+    });
+  }
+
+
   render() {
-    const { mobileMenuOpen } = this.state;
+    const { mobileMenuOpen, noBackground } = this.state;
     const { user } = this.props;
 
     console.log(123, logoImage);
@@ -49,7 +82,7 @@ class Header extends Component {
             : <i className={classNames('icon--header_menu_list')} />
           }
         </div>
-        <div className={classNames('content', (mobileMenuOpen ? '' : 'menu-closed'))}>
+        <div className={classNames('content', (mobileMenuOpen ? '' : 'menu-closed'), (noBackground && !mobileMenuOpen ? 'no-background' : ''))}>
           <div className={classNames('content-left')}>
             <div className={classNames('logo')}>
               <Link to="/" onClick={this.closeMenu}>
@@ -114,6 +147,7 @@ const mapDispatchToProps = dispatch => ({
 
 Header.propTypes = {
   user: userShape,
+  location: PropTypes.string.isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Header));
