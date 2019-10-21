@@ -71,8 +71,6 @@ class Header extends Component {
     const { mobileMenuOpen, noBackground } = this.state;
     const { user } = this.props;
 
-    console.log(123, logoImage);
-
     return (
       <header>
         <div className={classNames('identity-bar')} />
@@ -147,7 +145,9 @@ const mapDispatchToProps = dispatch => ({
 
 Header.propTypes = {
   user: userShape,
-  location: PropTypes.string.isRequired,
+  location: PropTypes.shape({
+    pathname: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Header));

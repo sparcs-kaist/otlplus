@@ -189,7 +189,7 @@ const mapDispatchToProps = dispatch => ({
 
 CourseDetailSection.propTypes = {
   clicked: PropTypes.bool.isRequired,
-  course: CourseShape.isRequired,
+  course: CourseShape,
   clearCourseActiveDispatch: PropTypes.func.isRequired,
 };
 
