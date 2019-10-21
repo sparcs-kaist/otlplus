@@ -207,7 +207,7 @@ a:link {
         @media (orientation: portrait) {
             width: calc(100% - 12px * 2);
             margin-left: 12px;
-            margin-bottom: 10px;;
+            margin-bottom: 13px;;
             flex: 1 1 100%;
         }
     }
@@ -818,6 +818,7 @@ a:link {
                 width: 40%;
                 display: flex;
                 flex-direction: column;
+                white-space: nowrap;
                 @media (orientation: portrait) {
                     flex-direction: row;
                     width: 100%;
@@ -826,8 +827,10 @@ a:link {
                         margin-bottom: 8px;
                     }
                 }
-                &:first-child {
-                    margin-left: 10%;
+                @media (orientation: landscape) {
+                    &:first-child {
+                        margin-left: 10%;
+                    }
                 }
 
                 & > div {
@@ -1281,7 +1284,7 @@ a:link {
             padding:4px;
             background-color:rgba(224,84,111,0.8);
             .block--timetable:not(:hover) &,
-            .block--timetable:not(.block--active) & {
+            .block--timetable:not(.block--active):not(.block--clicked) & {
                 display: none;
             }
             @media (orientation: portrait) {
@@ -1479,9 +1482,12 @@ a:link {
 
 
 .text-button {
-    color: #E54C65;
     cursor: pointer;
 
+    &,
+    &:link {
+        color: #E54C65;
+    }
 
     &:hover {
         color: #963246;
