@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
 
 import { setMobileShowTimetableTabs } from '../actions/timetable/index';
-import Header from '../componenets/Header';
 import DetailSection from '../componenets/sections/timetable/DetailSection';
 import ListTabs from '../componenets/tabs/ListTabs';
 import ListSection from '../componenets/sections/timetable/ListSection';
@@ -23,8 +22,6 @@ class TimetablePage extends Component {
     const { lectureActive, mobileShowTimetableTabs, mobileShowLectureList, setMobileShowTimetableTabsDispatch } = this.props;
     return (
       <div>
-        { /* eslint-disable-next-line react/jsx-indent */}
-              <Header />
         { /* eslint-disable-next-line react/jsx-indent */}
               <section className={classNames('content', 'content--no-scroll', 'content--timetable')}>
                 { /* eslint-disable-next-line react/jsx-indent */}
