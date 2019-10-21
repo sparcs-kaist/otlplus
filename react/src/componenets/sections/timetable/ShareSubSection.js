@@ -51,8 +51,8 @@ const mapDispatchToProps = dispatch => ({
 ShareSubSection.propTypes = {
   currentTimetable: timetableShape,
   mobileShowLectureList: PropTypes.bool.isRequired,
-  setMobileShowTimetableTabsDispatch: PropTypes.bool.isRequired,
-  setMobileShowLectureListDispatch: PropTypes.bool.isRequired,
+  setMobileShowTimetableTabsDispatch: PropTypes.func.isRequired,
+  setMobileShowLectureListDispatch: PropTypes.func.isRequired,
 };
 
 
