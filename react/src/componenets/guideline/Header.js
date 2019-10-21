@@ -147,7 +147,9 @@ const mapDispatchToProps = dispatch => ({
 
 Header.propTypes = {
   user: userShape,
-  location: PropTypes.string.isRequired,
+  location: PropTypes.shape({
+    pathname: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Header));
