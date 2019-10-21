@@ -71,8 +71,6 @@ class Header extends Component {
     const { mobileMenuOpen, noBackground } = this.state;
     const { user } = this.props;
 
-    console.log(123, logoImage);
-
     return (
       <header>
         <div className={classNames('identity-bar')} />
