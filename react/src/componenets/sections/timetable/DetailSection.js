@@ -245,7 +245,7 @@ class DetailSection extends Component {
               {reviewsDom}
             </Scroller>
             <div className={classNames('divider', 'mobile-unhidden')} />
-            <div className={classNames('section-content--lecture-detail__mobile-buttons')}>
+            <div className={classNames('section-content--lecture-detail__mobile-buttons', 'mobile-unhidden')}>
               {
                 !inCart(lecture, cart)
                   ? <span onClick={this.addToCart}>장바구니에 추가</span>

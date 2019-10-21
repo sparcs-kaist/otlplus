@@ -133,9 +133,9 @@ class SummarySubSection extends Component {
     ));
     const alec = lectureActiveLecture;
     const sum_credit = timetableLectures.reduce((acc, lecture) => (acc + lecture.credit), 0)
-      + (alec && inTimetable(alec, currentTimetable) ? alec.credit : 0);
+      + (alec && !inTimetable(alec, currentTimetable) ? alec.credit : 0);
     const sum_credit_au = timetableLectures.reduce((acc, lecture) => (acc + lecture.credit_au), 0)
-      + (alec && inTimetable(alec, currentTimetable) ? alec.credit_au : 0);
+      + (alec && !inTimetable(alec, currentTimetable) ? alec.credit_au : 0);
     const targetNum = timetableLectures.reduce((acc, lecture) => (acc + (lecture.credit + lecture.credit_au)), 0);
     const grade = timetableLectures.reduce((acc, lecture) => (acc + (lecture.grade * (lecture.credit + lecture.credit_au))), 0);
     const load = timetableLectures.reduce((acc, lecture) => (acc + (lecture.load * (lecture.credit + lecture.credit_au))), 0);
