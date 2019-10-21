@@ -244,7 +244,7 @@ class ListSection extends Component {
         // eslint-disable-next-line indent
       )),
       // eslint-disable-next-line react/jsx-indent
-      <div className={classNames('scroll-placeholder')} />,
+      <div className={classNames('scroll-placeholder')} key="placeholder" />,
       ];
     };
 
