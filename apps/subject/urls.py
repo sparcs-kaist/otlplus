@@ -20,6 +20,7 @@ from . import views
 
 urlpatterns = [
     url(r'^courses$', views.course_list_view),
+    url(r'^courses/autocomplete$', views.courses_autocomplete_view),
     url(r'^lectures$', views.lecture_list_view),
     url(r'^lectures/autocomplete$', views.lectures_autocomplete_view),
 ]
