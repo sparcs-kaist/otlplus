@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 import { creditBoundClassNames as classNames } from '../common/boundClassNames';
 
-import Header from '../componenets/Header';
 import Footer from '../componenets/Footer';
 
 class Button extends Component {
@@ -244,7 +243,6 @@ class CreditPage extends Component {
     const { currentTab } = this.state;
     return (
       <div className={classNames('credit')}>
-        <Header />
         <section id="contents" className="container-fluid">
           <div className="row">
             <div className="col-xs-22 col-xs-offset-1 col-sm-20 col-sm-offset-2 col-md-18 col-md-offset-3 col-lg-16 col-lg-offset-4">

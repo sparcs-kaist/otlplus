@@ -7,6 +7,7 @@ import 'bootstrap';
 import './static/css/bootstrap.min.css';
 import './static/css/global.css';
 
+import Header from './componenets/guideline/Header';
 import DictionaryPage from './pages/DictionaryPage';
 import TimetablePage from './pages/TimetablePage';
 import SyllabusPage from './pages/SyllabusPage';
@@ -41,6 +42,9 @@ class App extends Component {
   render() {
     return (
       <Provider store={store}>
+        { /* eslint-disable-next-line react/jsx-indent */}
+      <>
+        <Header />
         <Switch>
           <Route path="/dictionary" render={props => <DictionaryPage />} />
           <Route exact path="/timetable" render={props => <TimetablePage />} />
@@ -52,6 +56,7 @@ class App extends Component {
           <Route exact path="/test" render={props => <TestPage />} />
           <Redirect from="/" to="/main/" />
         </Switch>
+      </>
       </Provider>
     );
   }

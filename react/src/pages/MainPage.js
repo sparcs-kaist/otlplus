@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
 
-import Header from '../componenets/Header';
 import Footer from '../componenets/Footer';
 
 import AcademicScheduleSection from '../componenets/sections/main/AcademicScheduleSection';
@@ -16,7 +15,6 @@ class MainPage extends Component {
   render() {
     return (
       <div>
-        <Header />
         <section className={classNames('main-image')}>
           <form className={classNames('main-search')}>
             <i />

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
-import Header from '../componenets/Header';
 import CourseListSection from '../componenets/sections/dictionary/CourseListSection';
 import CourseDetailSection from '../componenets/sections/dictionary/CourseDetailSection';
 import courses from '../dummy/courses';
@@ -16,7 +15,6 @@ class DictionaryPage extends Component {
 
     return (
       <div>
-        <Header />
         <section className={classNames('content', 'content--no-scroll')}>
           <div className={classNames('section-wrap', 'section-wrap--course-list')}>
             <CourseListTabs />
