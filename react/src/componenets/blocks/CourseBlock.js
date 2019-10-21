@@ -9,7 +9,7 @@ import CourseShape from '../../shapes/CourseShape';
 const CourseBlock = ({ course, isClicked, isHover, listHover, listOut, listClick }) => {
   return (
       // eslint-disable-next-line react/jsx-indent
-      <div className={classNames('block', 'block--course', (isClicked ? classNames('block--clicked') : (isHover ? classNames('block--active') : '')))} onClick={() => listClick(course)()} onMouseOver={() => listHover(course)()} onMouseOut={() => listOut()}>
+      <div className={classNames('block', 'block--course', (isClicked ? classNames('block--clicked') : (isHover ? classNames('block--active') : '')))} onClick={listClick ? listClick(course) : null} onMouseOver={listHover ? listHover(course) : null} onMouseOut={listOut}>
         <div className={classNames('block--course__title')}>
           <strong>{ course.title }</strong>
             &nbsp;
@@ -47,11 +47,11 @@ const CourseBlock = ({ course, isClicked, isHover, listHover, listOut, listClick
 
 CourseBlock.propTypes = {
   course: CourseShape.isRequired,
-  isClicked: PropTypes.bool.isRequired,
-  isHover: PropTypes.bool.isRequired,
-  listHover: PropTypes.func.isRequired,
-  listOut: PropTypes.func.isRequired,
-  listClick: PropTypes.func.isRequired,
+  isClicked: PropTypes.bool,
+  isHover: PropTypes.bool,
+  listHover: PropTypes.func,
+  listOut: PropTypes.func,
+  listClick: PropTypes.func,
 };
 
 
