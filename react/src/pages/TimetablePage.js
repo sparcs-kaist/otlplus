@@ -5,16 +5,16 @@ import PropTypes from 'prop-types';
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
 
 import { setMobileShowTimetableTabs } from '../actions/timetable/index';
-import DetailSection from '../componenets/sections/timetable/DetailSection';
-import ListTabs from '../componenets/tabs/ListTabs';
-import ListSection from '../componenets/sections/timetable/ListSection';
-import TimetableTabs from '../componenets/tabs/TimetableTabs';
-import SemesterSection from '../componenets/sections/timetable/SemesterSection';
-import TimetableSubSection from '../componenets/sections/timetable/TimetableSubSection';
-import MapSubSection from '../componenets/sections/timetable/MapSubSection';
-import SummarySubSection from '../componenets/sections/timetable/SummarySubSection';
-import ExamSubSection from '../componenets/sections/timetable/ExamSubSection';
-import ShareSubSection from '../componenets/sections/timetable/ShareSubSection';
+import LectureDetailSection from '../components/sections/timetable/LectureDetailSection';
+import LectureListTabs from '../components/tabs/LectureListTabs';
+import LectureListSection from '../components/sections/timetable/LectureListSection';
+import TimetableTabs from '../components/tabs/TimetableTabs';
+import SemesterSection from '../components/sections/timetable/SemesterSection';
+import TimetableSubSection from '../components/sections/timetable/TimetableSubSection';
+import MapSubSection from '../components/sections/timetable/MapSubSection';
+import SummarySubSection from '../components/sections/timetable/SummarySubSection';
+import ExamSubSection from '../components/sections/timetable/ExamSubSection';
+import ShareSubSection from '../components/sections/timetable/ShareSubSection';
 import lectureActiveShape from '../shapes/LectureActiveShape';
 
 class TimetablePage extends Component {
@@ -28,13 +28,13 @@ class TimetablePage extends Component {
                   <div className={classNames('section-wrap', 'section-wrap--timetable-left', (mobileShowLectureList ? '' : 'mobile-nosize'))}>
                     <div className={classNames('section-wrap', 'section-wrap--lecture-detail', (lectureActive.clicked ? '' : 'mobile-hidden'))}>
                       <div className={classNames('section')}>
-                        <DetailSection />
+                        <LectureDetailSection />
                       </div>
                     </div>
                     <div className={classNames('section-wrap', 'section-wrap--lecture-list', (mobileShowLectureList ? '' : 'mobile-hidden'))}>
-                      <ListTabs />
+                      <LectureListTabs />
                       <div className={classNames('section', 'section--with-tabs')}>
-                        <ListSection />
+                        <LectureListSection />
                       </div>
                     </div>
                   </div>

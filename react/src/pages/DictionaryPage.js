@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
-import CourseListSection from '../componenets/sections/dictionary/CourseListSection';
-import CourseDetailSection from '../componenets/sections/dictionary/CourseDetailSection';
+import CourseListSection from '../components/sections/dictionary/CourseListSection';
+import CourseDetailSection from '../components/sections/dictionary/CourseDetailSection';
 import courses from '../dummy/courses';
-import CourseListTabs from '../componenets/tabs/CourseListTabs';
+import CourseListTabs from '../components/tabs/CourseListTabs';
 import courseActiveShape from '../shapes/CourseActiveShape';
 
 
