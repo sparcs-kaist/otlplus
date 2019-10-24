@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { creditBoundClassNames as classNames } from '../common/boundClassNames';
 
-import Footer from '../componenets/Footer';
+import Footer from '../componenets/guideline/Footer';
 
 class Button extends Component {
   render() {
