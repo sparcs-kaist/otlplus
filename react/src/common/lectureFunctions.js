@@ -1,4 +1,4 @@
-import { LIST, TABLE } from '../reducers/timetable/lectureActive';
+import { LIST, TABLE, MULTIPLE } from '../reducers/timetable/lectureActive';
 import axios from './presetAxios';
 import { BASE_URL } from './constants';
 
@@ -39,6 +39,21 @@ export const isTableHover = (lecture, lectureActive) => (
   lectureActive.from === TABLE
   && lectureActive.clicked === false
   && lectureActive.lecture.id === lecture.id
+);
+
+export const isInMultiple = (lecture, lectureActive) => (
+  lectureActive.from === MULTIPLE
+  && lectureActive.multipleDetail.some(l => (l.id===lecture.id))
+)
+
+export const isInactiveTableLecture = (lecture, lectureActive) => (
+  lectureActive.clicked === true
+  && ((lectureActive.lecture.id !== lecture.id) || (lectureActive.from !== TABLE))
+);
+
+export const isInactiveListLectures = (lectures, lectureActive) => (
+  lectureActive.clicked === true
+  && (lectures.every(l => (lectureActive.lecture.id !== l.id)) || (lectureActive.from !== LIST))
 );
 
 export const performAddToTable = (caller, lecture, currentTimetable, addLectureToTimetableDispatch) => {

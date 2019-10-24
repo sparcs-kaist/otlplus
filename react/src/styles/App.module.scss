@@ -835,6 +835,7 @@ a:link {
 
                 & > div {
                     margin-bottom: 8px;
+                    overflow: hidden;
                     &:last-child {
                         margin-bottom: 0px;
                     }
@@ -1005,7 +1006,6 @@ a:link {
 
     &--course {
         cursor: pointer;
-
         &.block--active {
             background-color:#DDDDDD;
         }
@@ -1014,6 +1014,9 @@ a:link {
             margin-top: -3px;
             margin-bottom: 8px + 3px;
             box-shadow: 0 3px 0 0 #888888;
+        }
+        &.block--inactive {
+            opacity: 0.5;
         }
 
 
@@ -1173,7 +1176,6 @@ a:link {
         &:last-child {
             margin-bottom: 12px;
         }
-
         &.block--clicked {
             box-shadow: 0 3px 0 0 #888888;
             margin-top: -3px;
@@ -1181,6 +1183,9 @@ a:link {
             &:last-child {
                 margin-bottom: 12px + 3px;
             }
+        }
+        &.block--inactive {
+            opacity: 0.5;
         }
 
         &__title {
@@ -1270,6 +1275,9 @@ a:link {
             margin-top:-3px;
             margin-bottom:3px;
             box-shadow: 0 3px 0 0 #825c61;
+        }
+        &.block--inactive {
+            opacity: 0.5;
         }
         &.block--temp {
             background-color:#E56C85;

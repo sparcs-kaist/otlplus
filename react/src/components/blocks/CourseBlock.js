@@ -6,10 +6,10 @@ import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 import CourseShape from '../../shapes/CourseShape';
 
 
-const CourseBlock = ({ course, isClicked, isHover, listHover, listOut, listClick }) => {
+const CourseBlock = ({ course, isClicked, isHover, isInactive, listHover, listOut, listClick }) => {
   return (
       // eslint-disable-next-line react/jsx-indent
-      <div className={classNames('block', 'block--course', (isClicked ? classNames('block--clicked') : (isHover ? classNames('block--active') : '')))} onClick={listClick ? listClick(course) : null} onMouseOver={listHover ? listHover(course) : null} onMouseOut={listOut}>
+      <div className={classNames('block', 'block--course', (isClicked ? classNames('block--clicked') : (isHover ? classNames('block--active') : (isInactive ? classNames('block--inactive') : ''))))} onClick={listClick ? listClick(course) : null} onMouseOver={listHover ? listHover(course) : null} onMouseOut={listOut}>
         <div className={classNames('block--course__title')}>
           <strong>{ course.title }</strong>
             &nbsp;
@@ -49,6 +49,7 @@ CourseBlock.propTypes = {
   course: CourseShape.isRequired,
   isClicked: PropTypes.bool,
   isHover: PropTypes.bool,
+  isInactive: PropTypes.bool,
   listHover: PropTypes.func,
   listOut: PropTypes.func,
   listClick: PropTypes.func,
