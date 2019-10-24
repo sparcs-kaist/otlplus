@@ -9,3 +9,8 @@ export const isHover = (course, courseActive) => (
   && courseActive.clicked === false
   && courseActive.course.id === course.id
 );
+
+export const isInactiveCourse = (course, courseActive) => (
+  courseActive.clicked === true
+  && (courseActive.course.id !== course.id)
+);

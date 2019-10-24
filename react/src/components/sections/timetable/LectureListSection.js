@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 import axios from '../../../common/presetAxios';
 
-import { inTimetable, inCart, isListClicked, isListHover, performAddToTable, performAddToCart, performDeleteFromCart } from '../../../common/lectureFunctions';
+import { inTimetable, inCart, isListClicked, isListHover, isInactiveListLectures, performAddToTable, performAddToCart, performDeleteFromCart } from '../../../common/lectureFunctions';
 import { BASE_URL } from '../../../common/constants';
 import { openSearch, setLectureActive, clearLectureActive, addLectureToTimetable, addLectureToCart, deleteLectureFromCart, setListMajorCodes, setListLectures, setListMajorLectures, setMobileShowLectureList } from '../../../actions/timetable/index';
 import Scroller from '../../Scroller';
@@ -241,7 +241,7 @@ class LectureListSection extends Component {
       return [
       // eslint-disable-next-line indent
       ...courses.map(course => (
-        <div className={classNames('block', 'block--course-lectures', (course.some(lecture => isListClicked(lecture, lectureActive)) ? 'block--clicked' : ''))} key={course[0].course}>
+        <div className={classNames('block', 'block--course-lectures', (course.some(lecture => isListClicked(lecture, lectureActive)) ? 'block--clicked' : ''), (isInactiveListLectures(course, lectureActive) ? 'block--inactive' : ''))} key={course[0].course}>
           <div className={classNames('block--course-lectures__title')}>
             <strong>{course[0].common_title}</strong>
             {' '}

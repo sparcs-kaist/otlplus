@@ -8,14 +8,15 @@ import lectureShape from '../../shapes/LectureShape';
 import classtimeShape from '../../shapes/ClasstimeShape';
 
 
-const TimetableBlock = ({ lecture, classtime, cellWidth, cellHeight, isClicked, isHover, isTemp, isSimple, blockHover, blockOut, blockClick, deleteLecture, occupiedTime }) => {
+const TimetableBlock = ({ lecture, classtime, cellWidth, cellHeight, isClicked, isHover, isInactive, isTemp, isSimple, blockHover, blockOut, blockClick, deleteLecture, occupiedTime }) => {
   const indexOfTime = time => (time / 30 - 16);
 
   const activeType = (
     isClicked ? classNames('block--clicked')
       : isTemp ? classNames('block--temp', 'block--active')
         : isHover ? classNames('block--active')
-          : ''
+          : isInactive ? classNames('block--inactive')
+            : ''
   );
 
   return (
@@ -72,6 +73,7 @@ TimetableBlock.propTypes = {
   cellHeight: PropTypes.number.isRequired,
   isClicked: PropTypes.bool.isRequired,
   isHover: PropTypes.bool.isRequired,
+  isInactive: PropTypes.bool.isRequired,
   isTemp: PropTypes.bool.isRequired,
   isSimple: PropTypes.bool.isRequired,
   blockHover: PropTypes.func.isRequired,

@@ -46,6 +46,16 @@ export const isInMultiple = (lecture, lectureActive) => (
   && lectureActive.multipleDetail.some(l => (l.id===lecture.id))
 )
 
+export const isInactiveTableLecture = (lecture, lectureActive) => (
+  lectureActive.clicked === true
+  && ((lectureActive.lecture.id !== lecture.id) || (lectureActive.from !== TABLE))
+);
+
+export const isInactiveListLectures = (lectures, lectureActive) => (
+  lectureActive.clicked === true
+  && (lectures.every(l => (lectureActive.lecture.id !== l.id)) || (lectureActive.from !== LIST))
+);
+
 export const performAddToTable = (caller, lecture, currentTimetable, addLectureToTimetableDispatch) => {
   if (
     lecture.classtimes.some(thisClasstime => (
