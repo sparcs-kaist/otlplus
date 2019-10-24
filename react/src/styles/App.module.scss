@@ -835,6 +835,7 @@ a:link {
 
                 & > div {
                     margin-bottom: 8px;
+                    overflow: hidden;
                     &:last-child {
                         margin-bottom: 0px;
                     }
