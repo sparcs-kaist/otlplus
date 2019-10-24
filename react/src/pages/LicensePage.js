@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import Footer from '../componenets/Footer';
+import Footer from '../componenets/guideline/Footer';
 
 
 class LicensePage extends Component {
