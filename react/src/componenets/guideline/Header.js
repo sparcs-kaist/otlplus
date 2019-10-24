@@ -29,6 +29,7 @@ class Header extends Component {
   componentDidUpdate(prevProps) {
     if (this.props.location.pathname !== prevProps.location.pathname) {
       this.setNoBackground();
+      this.closeMenu();
     }
   }
 
@@ -84,19 +85,19 @@ class Header extends Component {
           <div className={classNames('content-left')}>
             <div className={classNames('logo')}>
               <span>
-                <Link to="/" onClick={this.closeMenu}>
+                <Link to="/">
                   <img src={logoImage} alt="OTL Logo" />
                 </Link>
               </span>
             </div>
             <div className={classNames('menus')}>
               <span>
-                <Link to="/dictionary" onClick={this.closeMenu}>
+                <Link to="/dictionary">
                   과목사전
                 </Link>
               </span>
               <span>
-                <Link to="/timetable" onClick={this.closeMenu}>
+                <Link to="/timetable">
                   모의시간표
                 </Link>
               </span>
@@ -108,13 +109,13 @@ class Header extends Component {
             </div>
             <div className={classNames('common-menus')}>
               <span>
-                <Link to="." onClick={this.closeMenu}>
+                <Link to=".">
                   <i className={classNames('icon--header_language')} />
                   <span>English</span>
                 </Link>
               </span>
               <span>
-                <Link to="." onClick={this.closeMenu}>
+                <Link to=".">
                   <i className={classNames('icon--header_notification')} />
                   <span>알림</span>
                 </Link>
