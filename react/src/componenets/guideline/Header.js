@@ -83,17 +83,23 @@ class Header extends Component {
           </div>
           <div className={classNames('content-left')}>
             <div className={classNames('logo')}>
-              <Link to="/" onClick={this.closeMenu}>
-                <img src={logoImage} alt="OTL Logo" />
-              </Link>
+              <span>
+                <Link to="/" onClick={this.closeMenu}>
+                  <img src={logoImage} alt="OTL Logo" />
+                </Link>
+              </span>
             </div>
             <div className={classNames('menus')}>
-              <Link to="/dictionary" onClick={this.closeMenu}>
-                과목사전
-              </Link>
-              <Link to="/timetable" onClick={this.closeMenu}>
-                모의시간표
-              </Link>
+              <span>
+                <Link to="/dictionary" onClick={this.closeMenu}>
+                  과목사전
+                </Link>
+              </span>
+              <span>
+                <Link to="/timetable" onClick={this.closeMenu}>
+                  모의시간표
+                </Link>
+              </span>
             </div>
           </div>
           <div className={classNames('content-right')}>
@@ -101,14 +107,18 @@ class Header extends Component {
               {null}
             </div>
             <div className={classNames('common-menus')}>
-              <Link to="." onClick={this.closeMenu}>
-                <i className={classNames('icon--header_language')} />
-                <span>English</span>
-              </Link>
-              <Link to="." onClick={this.closeMenu}>
-                <i className={classNames('icon--header_notification')} />
-                <span>알림</span>
-              </Link>
+              <span>
+                <Link to="." onClick={this.closeMenu}>
+                  <i className={classNames('icon--header_language')} />
+                  <span>English</span>
+                </Link>
+              </span>
+              <span>
+                <Link to="." onClick={this.closeMenu}>
+                  <i className={classNames('icon--header_notification')} />
+                  <span>알림</span>
+                </Link>
+              </span>
               { user
                 ? (
                   <a>

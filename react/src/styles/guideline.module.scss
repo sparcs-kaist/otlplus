@@ -96,7 +96,7 @@ header {
                     font-size: 15px;
                     padding-bottom: 16px;
 
-                    span {
+                    & > * span {
                         display: initial !important;
                     }
 
