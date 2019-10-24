@@ -74,13 +74,13 @@ class Header extends Component {
     return (
       <header>
         <div className={classNames('identity-bar')} />
-        <div className={classNames('menu-icon-icon')} onClick={this.toggleMenu}>
-          { mobileMenuOpen
-            ? <i className={classNames('icon--header_menu_close')} />
-            : <i className={classNames('icon--header_menu_list')} />
-          }
-        </div>
         <div className={classNames('content', (mobileMenuOpen ? '' : 'menu-closed'), (noBackground && !mobileMenuOpen ? 'no-background' : ''))}>
+          <div className={classNames('menu-icon-icon')} onClick={this.toggleMenu}>
+            { mobileMenuOpen
+              ? <i className={classNames('icon--header_menu_close')} />
+              : <i className={classNames('icon--header_menu_list')} />
+            }
+          </div>
           <div className={classNames('content-left')}>
             <div className={classNames('logo')}>
               <Link to="/" onClick={this.closeMenu}>
