@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
-import { inTimetable, isListHover, isTableClicked, isTableHover, isInMultiple, performDeleteFromTable } from '../../../common/lectureFunctions';
+import { inTimetable, isListHover, isTableClicked, isTableHover, isInMultiple, isInactiveTableLecture, performDeleteFromTable } from '../../../common/lectureFunctions';
 import TimetableBlock from '../../blocks/TimetableBlock';
 import { dragSearch, setIsDragging, updateCellSize, setLectureActive, clearLectureActive, removeLectureFromTimetable, setCurrentList } from '../../../actions/timetable/index';
 import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureActive';
@@ -177,6 +177,7 @@ class TimetableSubSection extends Component {
             cellHeight={cellHeight}
             isClicked={isTableClicked(lecture, lectureActive)}
             isHover={isTableHover(lecture, lectureActive) || isListHover(lecture, lectureActive) || isInMultiple(lecture, lectureActive)}
+            isInactive={isInactiveTableLecture(lecture, lectureActive)}
             isTemp={false}
             isSimple={mobileShowLectureList}
             blockHover={this.blockHover}
@@ -345,6 +346,7 @@ class TimetableSubSection extends Component {
                   cellHeight={cellHeight}
                   isClicked={false}
                   isHover={false}
+                  isInactive={false}
                   isTemp={true}
                   isSimple={mobileShowLectureList}
                   blockHover={this.blockHover}
