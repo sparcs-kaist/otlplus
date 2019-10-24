@@ -176,8 +176,7 @@ class TimetableSubSection extends Component {
             cellWidth={cellWidth}
             cellHeight={cellHeight}
             isClicked={isTableClicked(lecture, lectureActive)}
-            isHover={isTableHover(lecture, lectureActive)}
-            isListHover={isListHover(lecture, lectureActive)}
+            isHover={isTableHover(lecture, lectureActive) || isListHover(lecture, lectureActive)}
             isTemp={false}
             isSimple={mobileShowLectureList}
             blockHover={this.blockHover}
@@ -344,9 +343,8 @@ class TimetableSubSection extends Component {
                   classtime={classtime}
                   cellWidth={cellWidth}
                   cellHeight={cellHeight}
-                  isClicked={isTableClicked(lectureActiveLecture, lectureActive)}
-                  isHover={isTableHover(lectureActiveLecture, lectureActive)}
-                  isListHover={isListHover(lectureActiveLecture, lectureActive)}
+                  isClicked={false}
+                  isHover={false}
                   isTemp={true}
                   isSimple={mobileShowLectureList}
                   blockHover={this.blockHover}
