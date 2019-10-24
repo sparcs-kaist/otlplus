@@ -1,8 +1,13 @@
-header {
+header, footer {
     line-height: initial;
     width: 100%;
-    position: fixed;
     z-index: 50;
+    @at-root header {
+        position: fixed;
+    }
+    @at-root footer {
+        position: relative;
+    }
 
     a,
     a:hover,
@@ -52,12 +57,19 @@ header {
                 text-align: right;
                 @media (orientation:portrait) {
                     text-align: initial;
+                    @at-root .menu-closed .content-right {
+                        display: none !important;
+                    }
                 }
             }
             @media (orientation: portrait) {
                 width: 100%;
                 height: initial;
-                display: block;
+                flex-direction: column;
+                align-items: flex-start;
+                &.reverse {
+                    flex-direction: column-reverse;
+                }
             }
 
             @mixin side-menus {
@@ -65,7 +77,7 @@ header {
                 margin: 0 24px;
                 @media (orientation: portrait) {
                     width: calc(100% - 16px * 2);
-                    margin: 0 16px;
+                    margin: 0 34px;
                     flex-wrap: wrap;
 
                     & > * {
@@ -80,6 +92,7 @@ header {
                 @include side-menus;
 
                 @media (orientation: portrait) {
+                    margin: 0 16px;
                     & > * {
                         height: 50px;
                     }
@@ -96,7 +109,7 @@ header {
                     font-size: 15px;
                     padding-bottom: 16px;
 
-                    span {
+                    & > * span {
                         display: initial !important;
                     }
 
@@ -129,7 +142,7 @@ header {
                 white-space: nowrap;
                 @media (orientation: portrait) {
                     width: calc(100% - 16px * 2);
-                    margin: 0 16px;
+                    margin: 0 34px;
 
                     & > * {
                         display: block;
@@ -149,6 +162,11 @@ header {
                     @at-root .menu-closed .menus {
                         display: none;
                     }
+
+                    @at-root .reverse .menus {
+                        padding-bottom: 0 !important;
+                        padding-top: 16px;
+                    }
                 }
 
                 & > * {
@@ -167,6 +185,23 @@ header {
                 & > * {
                     margin-left: 24px;
                 }
+            }
+        }
+    }
+
+    .contact {
+        position: absolute;
+        bottom: 0px;
+        right: 0px;
+        height: 50px;
+        font-size: 13px;
+        display: flex;
+        align-items: center;
+
+        & > * {
+            margin: 0 24px;
+            @media (orientation: portrait) {
+                margin: 0 16px;
             }
         }
     }
