@@ -9,7 +9,7 @@ import { NONE, LIST, TABLE, MULTIPLE } from '../../reducers/timetable/lectureAct
 import lectureShape from '../../shapes/LectureShape';
 
 
-class ListTabs extends Component {
+class LectureListTabs extends Component {
   changeTab = (list) => {
     const { search, lectureActiveFrom, setCurrentListDispatch, openSearchDispatch, closeSearchDispatch, clearLectureActiveDispatch } = this.props;
 
@@ -67,7 +67,7 @@ const mapDispatchToProps = dispatch => ({
   },
 });
 
-ListTabs.propTypes = {
+LectureListTabs.propTypes = {
   currentList: PropTypes.string.isRequired,
   search: PropTypes.shape({
     courses: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)),
@@ -88,4 +88,4 @@ ListTabs.propTypes = {
   clearLectureActiveDispatch: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ListTabs);
+export default connect(mapStateToProps, mapDispatchToProps)(LectureListTabs);

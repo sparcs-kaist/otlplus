@@ -17,7 +17,7 @@ import lectureShape from '../../../shapes/LectureShape';
 import timetableShape from '../../../shapes/TimetableShape';
 
 
-class DetailSection extends Component {
+class LectureDetailSection extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -346,7 +346,7 @@ const mapDispatchToProps = dispatch => ({
   },
 });
 
-DetailSection.propTypes = {
+LectureDetailSection.propTypes = {
   from: PropTypes.oneOf([NONE, LIST, TABLE, MULTIPLE]).isRequired,
   lecture: lectureShape,
   title: PropTypes.string.isRequired,
@@ -372,4 +372,4 @@ DetailSection.propTypes = {
 };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(DetailSection);
+export default connect(mapStateToProps, mapDispatchToProps)(LectureDetailSection);

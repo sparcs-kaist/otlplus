@@ -9,7 +9,7 @@ import { inTimetable, inCart, isListClicked, isListHover, performAddToTable, per
 import { BASE_URL } from '../../../common/constants';
 import { openSearch, setLectureActive, clearLectureActive, addLectureToTimetable, addLectureToCart, deleteLectureFromCart, setListMajorCodes, setListLectures, setListMajorLectures, setMobileShowLectureList } from '../../../actions/timetable/index';
 import Scroller from '../../Scroller';
-import SearchSubSection from './SearchSubSection';
+import LectureSearchSubSection from './LectureSearchSubSection';
 import CourseLecturesBlock from '../../blocks/CourseLecturesBlock';
 import { LIST } from '../../../reducers/timetable/lectureActive';
 import userShape from '../../../shapes/UserShape';
@@ -18,7 +18,7 @@ import timetableShape from '../../../shapes/TimetableShape';
 import lectureActiveShape from '../../../shapes/LectureActiveShape';
 
 
-class ListSection extends Component {
+class LectureListSection extends Component {
   constructor(props) {
     super(props);
     // eslint-disable-next-line fp/no-mutation
@@ -252,7 +252,7 @@ class ListSection extends Component {
       return (
       // eslint-disable-next-line react/jsx-indent
           <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
-            { searchOpen ? <SearchSubSection /> : null }
+            { searchOpen ? <LectureSearchSubSection /> : null }
             <div className={classNames('close-button')} onClick={this.mobileCloseLectureList}>닫기</div>
             <div className={classNames('title', 'title--search')} onClick={() => this.showSearch()}>
               <i className={classNames('icon', 'icon--search')} />
@@ -382,7 +382,7 @@ const mapDispatchToProps = dispatch => ({
   },
 });
 
-ListSection.propTypes = {
+LectureListSection.propTypes = {
   user: userShape,
   currentList: PropTypes.string.isRequired,
   search: PropTypes.shape({
@@ -416,4 +416,4 @@ ListSection.propTypes = {
 };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(ListSection);
+export default connect(mapStateToProps, mapDispatchToProps)(LectureListSection);

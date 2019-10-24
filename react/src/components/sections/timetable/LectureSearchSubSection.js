@@ -11,7 +11,7 @@ import SearchFilter from '../../SearchFilter';
 import '../../../static/css/font-awesome.min.css';
 
 
-class SearchSubSection extends Component {
+class LectureSearchSubSection extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -253,7 +253,7 @@ const mapDispatchToProps = dispatch => ({
   },
 });
 
-SearchSubSection.propTypes = {
+LectureSearchSubSection.propTypes = {
   start: PropTypes.number,
   end: PropTypes.number,
   day: PropTypes.number,
@@ -265,4 +265,4 @@ SearchSubSection.propTypes = {
 };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchSubSection);
+export default connect(mapStateToProps, mapDispatchToProps)(LectureSearchSubSection);
