@@ -65,7 +65,7 @@ header {
                 margin: 0 24px;
                 @media (orientation: portrait) {
                     width: calc(100% - 16px * 2);
-                    margin: 0 16px;
+                    margin: 0 34px;
                     flex-wrap: wrap;
 
                     & > * {
@@ -80,6 +80,7 @@ header {
                 @include side-menus;
 
                 @media (orientation: portrait) {
+                    margin: 0 16px;
                     & > * {
                         height: 50px;
                     }
@@ -129,7 +130,7 @@ header {
                 white-space: nowrap;
                 @media (orientation: portrait) {
                     width: calc(100% - 16px * 2);
-                    margin: 0 16px;
+                    margin: 0 34px;
 
                     & > * {
                         display: block;
