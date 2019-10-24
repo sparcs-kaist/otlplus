@@ -55,7 +55,7 @@ a:link {
 
 
 .content {
-    width: 80%;
+    width: calc(80vh + 384px + (12px * 2));
     margin-top: 55px;
     margin-left: auto;
     margin-right: auto;
@@ -102,7 +102,7 @@ a:link {
 
     .main-search {
         padding: 12px;
-        width: calc(80% - 24px);
+        width: calc(80vh + 384px);
         margin: 0 auto;
         display: flex;
         background-color: #ffffff;
@@ -144,7 +144,7 @@ a:link {
 
     &--course-list {
         flex: none;
-        width: calc(65vh - 38px);
+        width: calc(40vh + 186px);
         margin-top: 0px;
         @media (orientation: portrait) {
             width: calc(100% - 12px * 2);
@@ -154,7 +154,7 @@ a:link {
 
     &--course-detail {
         flex: none;
-        width: calc(65vh - 38px);
+        width: calc(40vh + 186px);
         margin-top: 0px;
         margin-left: 0;
         @media (orientation: portrait) {

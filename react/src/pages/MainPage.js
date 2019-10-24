@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
 
-import Footer from '../componenets/Footer';
+import Footer from '../componenets/guideline/Footer';
 
 import AcademicScheduleSection from '../componenets/sections/main/AcademicScheduleSection';
 import RelatedCourseSection from '../componenets/sections/main/RelatedCourseSection';
