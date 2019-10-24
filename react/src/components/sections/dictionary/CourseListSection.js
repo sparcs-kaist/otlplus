@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 import axios from '../../../common/presetAxios';
 
-import { isClicked, isHover } from '../../../common/courseFunctions';
+import { isClicked, isHover, isInactiveCourse } from '../../../common/courseFunctions';
 import { setListMajorCodes, setListCourses, setListMajorCourses } from '../../../actions/dictionary/list';
 import { setCourseActive, clearCourseActive } from '../../../actions/dictionary/courseActive';
 import { openSearch } from '../../../actions/dictionary/search';
@@ -142,6 +142,7 @@ class CourseListSection extends Component {
           key={c.id}
           isClicked={isClicked(c, courseActive)}
           isHover={isHover(c, courseActive)}
+          isInactive={isInactiveCourse(c, courseActive)}
           listHover={this.listHover}
           listOut={this.listOut}
           listClick={this.listClick}

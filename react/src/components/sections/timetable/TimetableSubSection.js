@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
-import { inTimetable, isListHover, isTableClicked, isTableHover, performDeleteFromTable } from '../../../common/lectureFunctions';
+import { inTimetable, isListHover, isTableClicked, isTableHover, isInMultiple, isInactiveTableLecture, performDeleteFromTable, isListClicked } from '../../../common/lectureFunctions';
 import TimetableBlock from '../../blocks/TimetableBlock';
 import { dragSearch, setIsDragging, updateCellSize, setLectureActive, clearLectureActive, removeLectureFromTimetable, setCurrentList } from '../../../actions/timetable/index';
 import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureActive';
@@ -176,8 +176,8 @@ class TimetableSubSection extends Component {
             cellWidth={cellWidth}
             cellHeight={cellHeight}
             isClicked={isTableClicked(lecture, lectureActive)}
-            isHover={isTableHover(lecture, lectureActive)}
-            isListHover={isListHover(lecture, lectureActive)}
+            isHover={isTableHover(lecture, lectureActive) || isListHover(lecture, lectureActive) || isListClicked(lecture, lectureActive) || isInMultiple(lecture, lectureActive)}
+            isInactive={isInactiveTableLecture(lecture, lectureActive)}
             isTemp={false}
             isSimple={mobileShowLectureList}
             blockHover={this.blockHover}
@@ -333,7 +333,6 @@ class TimetableSubSection extends Component {
         {
           (
             lectureActiveFrom === LIST
-            && lectureActiveClicked === false
             && !inTimetable(lectureActiveLecture, currentTimetable)
           )
             ? (
@@ -344,9 +343,9 @@ class TimetableSubSection extends Component {
                   classtime={classtime}
                   cellWidth={cellWidth}
                   cellHeight={cellHeight}
-                  isClicked={isTableClicked(lectureActiveLecture, lectureActive)}
-                  isHover={isTableHover(lectureActiveLecture, lectureActive)}
-                  isListHover={isListHover(lectureActiveLecture, lectureActive)}
+                  isClicked={false}
+                  isHover={false}
+                  isInactive={false}
                   isTemp={true}
                   isSimple={mobileShowLectureList}
                   blockHover={this.blockHover}
