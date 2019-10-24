@@ -26,7 +26,7 @@ class LectureListSection extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    const { user, major, year, semester, currentList, setListMajorCodesDispatch, openSearchDispatch } = this.props;
+    const { user, major, year, semester, currentList, setListMajorCodesDispatch, openSearchDispatch, mobileShowLectureList } = this.props;
 
     if (user && (user !== prevProps.user)) {
       setListMajorCodesDispatch(user.departments);
@@ -42,6 +42,11 @@ class LectureListSection extends Component {
       if (currentList === 'SEARCH') {
         openSearchDispatch();
       }
+    }
+
+    if ((currentList !== prevProps.currentList)
+      || (mobileShowLectureList && !prevProps.mobileShowLectureList)) {
+      this.selectWithArrow();
     }
   }
 
@@ -360,6 +365,7 @@ const mapStateToProps = state => ({
   major: state.timetable.list.major,
   humanity: state.timetable.list.humanity,
   cart: state.timetable.list.cart,
+  mobileShowLectureList: state.timetable.list.mobileShowLectureList,
   currentTimetable: state.timetable.timetable.currentTimetable,
   lectureActive: state.timetable.lectureActive,
   lectureActiveClicked: state.timetable.lectureActive.clicked,
@@ -416,6 +422,7 @@ LectureListSection.propTypes = {
   cart: PropTypes.shape({
     courses: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)),
   }).isRequired,
+  mobileShowLectureList: PropTypes.bool.isRequired,
   currentTimetable: timetableShape,
   lectureActive: lectureActiveShape.isRequired,
   lectureActiveClicked: PropTypes.bool.isRequired,
