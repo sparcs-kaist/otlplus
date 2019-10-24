@@ -5,9 +5,9 @@ import PropTypes from 'prop-types';
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
 
 import { setMobileShowTimetableTabs } from '../actions/timetable/index';
-import DetailSection from '../components/sections/timetable/DetailSection';
-import ListTabs from '../components/tabs/ListTabs';
-import ListSection from '../components/sections/timetable/ListSection';
+import LectureDetailSection from '../components/sections/timetable/LectureDetailSection';
+import LectureListTabs from '../components/tabs/LectureListTabs';
+import LectureListSection from '../components/sections/timetable/LectureListSection';
 import TimetableTabs from '../components/tabs/TimetableTabs';
 import SemesterSection from '../components/sections/timetable/SemesterSection';
 import TimetableSubSection from '../components/sections/timetable/TimetableSubSection';
@@ -28,13 +28,13 @@ class TimetablePage extends Component {
                   <div className={classNames('section-wrap', 'section-wrap--timetable-left', (mobileShowLectureList ? '' : 'mobile-nosize'))}>
                     <div className={classNames('section-wrap', 'section-wrap--lecture-detail', (lectureActive.clicked ? '' : 'mobile-hidden'))}>
                       <div className={classNames('section')}>
-                        <DetailSection />
+                        <LectureDetailSection />
                       </div>
                     </div>
                     <div className={classNames('section-wrap', 'section-wrap--lecture-list', (mobileShowLectureList ? '' : 'mobile-hidden'))}>
-                      <ListTabs />
+                      <LectureListTabs />
                       <div className={classNames('section', 'section--with-tabs')}>
-                        <ListSection />
+                        <LectureListSection />
                       </div>
                     </div>
                   </div>
