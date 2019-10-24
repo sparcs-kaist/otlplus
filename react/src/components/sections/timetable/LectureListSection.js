@@ -173,8 +173,8 @@ class LectureListSection extends Component {
     }
   }
 
-  selectWithArrow = courses => () => {
-    const { clearLectureActiveDispatch, setLectureActiveDispatch } = this.props;
+  selectWithArrow = () => {
+    const { currentList, clearLectureActiveDispatch, setLectureActiveDispatch } = this.props;
 
     const arrow = this.arrowRef.current;
     if (window.getComputedStyle(arrow).getPropertyValue('display') === 'none') {
@@ -190,6 +190,7 @@ class LectureListSection extends Component {
       return;
     }
     const targetId = Number(elementAtPosition.getAttribute('data-id'));
+    const courses = this._getCourses(currentList);
     const targetLecture = courses
       .map(c => c.map(l => ((l.id === targetId) ? l : null)))
       .flat()
@@ -202,6 +203,24 @@ class LectureListSection extends Component {
 
     setMobileShowLectureListDispatch(false);
     clearLectureActiveDispatch();
+  }
+
+  _getCourses = (currentList) => {
+    const { search, major, humanity, cart } = this.props;
+
+    if (currentList === 'SEARCH') {
+      return search.courses;
+    }
+    if (major.codes.some(code => (currentList === code))) {
+      return major[currentList].courses;
+    }
+    if (currentList === 'HUMANITY') {
+      return humanity.courses;
+    }
+    if (currentList === 'CART') {
+      return cart.courses;
+    }
+    return null;
   }
 
   render() {
@@ -263,7 +282,7 @@ class LectureListSection extends Component {
             <div ref={this.arrowRef}>
               <span>&lt;</span>
             </div>
-            <Scroller onScroll={this.selectWithArrow(search.courses)}>
+            <Scroller onScroll={this.selectWithArrow}>
               {mapCourses(search.courses, false)}
             </Scroller>
           </div>
@@ -283,7 +302,7 @@ class LectureListSection extends Component {
               <div ref={this.arrowRef}>
                 <span>&lt;</span>
               </div>
-              <Scroller onScroll={this.selectWithArrow(major[currentList].courses)}>
+              <Scroller onScroll={this.selectWithArrow}>
                 {mapCourses(major[currentList].courses, false)}
               </Scroller>
             </div>
@@ -303,7 +322,7 @@ class LectureListSection extends Component {
             <div ref={this.arrowRef}>
               <span>&lt;</span>
             </div>
-            <Scroller onScroll={this.selectWithArrow(humanity.courses)}>
+            <Scroller onScroll={this.selectWithArrow}>
               {mapCourses(humanity.courses, false)}
             </Scroller>
           </div>
@@ -323,7 +342,7 @@ class LectureListSection extends Component {
             <div ref={this.arrowRef}>
               <span>&lt;</span>
             </div>
-            <Scroller onScroll={this.selectWithArrow(cart.courses)}>
+            <Scroller onScroll={this.selectWithArrow}>
               {mapCourses(cart.courses, true)}
             </Scroller>
           </div>
