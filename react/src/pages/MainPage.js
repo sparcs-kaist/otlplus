@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
 
-import Footer from '../componenets/guideline/Footer';
+import Footer from '../components/guideline/Footer';
 
-import AcademicScheduleSection from '../componenets/sections/main/AcademicScheduleSection';
-import RelatedCourseSection from '../componenets/sections/main/RelatedCourseSection';
-import LatestReviewSection from '../componenets/sections/main/LatestReviewSection';
-import FamousReviewSection from '../componenets/sections/main/FamousReviewSection';
-import ReviewWriteSection from '../componenets/sections/main/ReviewWriteSection';
+import AcademicScheduleSection from '../components/sections/main/AcademicScheduleSection';
+import RelatedCourseSection from '../components/sections/main/RelatedCourseSection';
+import LatestReviewSection from '../components/sections/main/LatestReviewSection';
+import FamousReviewSection from '../components/sections/main/FamousReviewSection';
+import ReviewWriteSection from '../components/sections/main/ReviewWriteSection';
 
 
 class MainPage extends Component {
