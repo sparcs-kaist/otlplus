@@ -256,30 +256,6 @@ def course(request,id=-1,professor_id=-1):
     return JsonResponse(context,safe=False)
 
 
-def courseComment(request, id=-1,professor_id=-1,page=-1):
-    professor_id = int(professor_id)
-    course = Course.objects.get(id=id)
-    comments = Comment.objects.filter(course = course).order_by('-lecture__year','-written_datetime')
-    if professor_id != -1:
-        lectures = list(course.lecture_course.all())
-        lec_by_prof = _getLecByProf(lectures)
-        target_lectures = lec_by_prof[professor_id]
-        comments = comments.filter(lecture__in=target_lectures)
-
-    paginator = Paginator(comments,10)
-    try:
-        page_obj = paginator.page(page)
-    except InvalidPage:
-        raise Http404
-    results = [i.toJson(user=request.user) for i in page_obj.object_list]
-
-    context = {
-            "results":results,
-            "hasNext":page_obj.has_next(),
-    }
-    return JsonResponse(context,safe=False)
-
-
 # @login_required
 # login_required(login_url='/session/login/')
 def ReviewLike(request):
