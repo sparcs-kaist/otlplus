@@ -4,17 +4,52 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
-import { clearCourseActive } from '../../../actions/dictionary/courseActive';
+import axios from '../../../common/presetAxios';
+import { BASE_URL } from '../../../common/constants';
+import { clearCourseActive, setReviews, setLectures } from '../../../actions/dictionary/courseActive';
 import ReviewBlock from '../../blocks/ReviewBlock';
 import ReviewWriteBlock from '../../blocks/ReviewWriteBlock';
 import Scroller from '../../Scroller';
 import CourseSimpleBlock from '../../blocks/CourseSimpleBlock';
 import CourseShape from '../../../shapes/CourseShape';
 import courses from '../../../dummy/courses';
-import reviews from '../../../dummy/reviews';
+import reviewShape from '../../../shapes/ReviewShape';
+import lectureShape from '../../../shapes/LectureShape';
+import HistoryLecturesBlock from '../../blocks/HistoryLecturesBlock';
 
 
 class CourseDetailSection extends Component {
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    const { clicked, course, setReviewsDispatch, setLecturesDispatch } = this.props;
+
+    if ((clicked && course !== null)
+      && !(prevProps.clicked && (prevProps.course.id === course.id))) {
+      axios.get(`${BASE_URL}/api/courses/${course.id}/comments`, {
+      })
+        .then((response) => {
+          const newProps = this.props;
+          if (newProps.course.id !== course.id) {
+            return;
+          }
+          setReviewsDispatch(response.data);
+        })
+        .catch((response) => {
+        });
+      axios.get(`${BASE_URL}/api/courses/${course.id}/lectures`, {
+      })
+        .then((response) => {
+          const newProps = this.props;
+          if (newProps.course.id !== course.id) {
+            return;
+          }
+          setLecturesDispatch(response.data);
+        })
+        .catch((response) => {
+        });
+    }
+  }
+
+
   onScroll() {
     if (this.refs.scores.getBoundingClientRect().top >= this.refs.scrollThreshold.getBoundingClientRect().bottom) {
       this.refs.hiddenScores.classList.add('fixed__conditional-part--hidden');
@@ -32,7 +67,7 @@ class CourseDetailSection extends Component {
 
 
   render() {
-    const { clicked, course } = this.props;
+    const { clicked, course, reviews, lectures } = this.props;
 
     if (clicked && course !== null) {
       return (
@@ -145,8 +180,60 @@ class CourseDetailSection extends Component {
             </div>
           </div>
           <div className={classNames('divider')} />
-          <ReviewWriteBlock />
-          {reviews.map(r => <ReviewBlock review={r} key={r.id} />)}
+          {
+            (lectures == null)
+              ? <div>불러오는 중</div>
+              : (
+                <div className={classNames('history')}>
+                  <table>
+                    <tr>
+                      <th>봄</th>
+                      {[...Array(2019 - 2009 + 1).keys()].map((i) => {
+                        const y = 2009 + i;
+                        const filteredLectures = lectures.filter(l => ((l.year === y) && (l.semester === 1)));
+                        if (filteredLectures.length === 0) {
+                          return <td className={classNames('history__cell--unopen')}>미개설</td>;
+                        }
+                        return <td><HistoryLecturesBlock lectures={filteredLectures} /></td>;
+                      })}
+                    </tr>
+                    <tr>
+                      <th />
+                      {[...Array(2019 - 2009 + 1).keys()].map((i) => {
+                        const y = 2009 + i;
+                        return (
+                          <td className={classNames('history__cell--year-label')}>{y}</td>
+                        );
+                      })}
+                    </tr>
+                    <tr>
+                      <th>가을</th>
+                      {[...Array(2019 - 2009 + 1).keys()].map((i) => {
+                        const y = 2009 + i;
+                        const filteredLectures = lectures.filter(l => ((l.year === y) && (l.semester === 3)));
+                        if (filteredLectures.length === 0) {
+                          return <td className={classNames('history__cell--unopen')}>미개설</td>;
+                        }
+                        return <td><HistoryLecturesBlock lectures={filteredLectures} /></td>;
+                      })}
+                    </tr>
+                  </table>
+                </div>
+              )
+          }
+          <div className={classNames('divider')} />
+          {
+            (lectures == null || lectures.length === 0)
+              ? null
+              : <ReviewWriteBlock lecture={lectures[lectures.length - 1]} />
+          }
+          {
+            (reviews == null)
+              ? <div className={classNames('list-placeholder')}><div>불러오는 중</div></div>
+              : (reviews.length
+                ? <div>{reviews.map(r => <ReviewBlock review={r} key={r.id} />)}</div>
+                : <div className={classNames('list-placeholder')}><div>결과 없음</div></div>)
+          }
         </Scroller>
       </div>
       );
@@ -179,18 +266,30 @@ class CourseDetailSection extends Component {
 const mapStateToProps = state => ({
   clicked: state.dictionary.courseActive.clicked,
   course: state.dictionary.courseActive.course,
+  reviews: state.dictionary.courseActive.reviews,
+  lectures: state.dictionary.courseActive.lectures,
 });
 
 const mapDispatchToProps = dispatch => ({
   clearCourseActiveDispatch: () => {
     dispatch(clearCourseActive());
   },
+  setReviewsDispatch: (reviews) => {
+    dispatch(setReviews(reviews));
+  },
+  setLecturesDispatch: (lectures) => {
+    dispatch(setLectures(lectures));
+  },
 });
 
 CourseDetailSection.propTypes = {
   clicked: PropTypes.bool.isRequired,
   course: CourseShape,
+  reviews: PropTypes.arrayOf(reviewShape),
+  lectures: PropTypes.arrayOf(lectureShape),
   clearCourseActiveDispatch: PropTypes.func.isRequired,
+  setReviewsDispatch: PropTypes.func.isRequired,
+  setLecturesDispatch: PropTypes.func.isRequired,
 };
 
 
