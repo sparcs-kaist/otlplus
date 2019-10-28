@@ -62,8 +62,7 @@ class LectureDetailSection extends Component {
     $(`.${classNames('section-content--lecture-detail')} .nano`).nanoScroller({ scrollTop: $(this.openDictRef.current).position().top - $(this.attributesRef.current).position().top + 1 });
 
     if (reviews === null) {
-      axios.post(`${BASE_URL}/api/timetable/comment_load`, {
-        lecture_id: lecture.id,
+      axios.get(`${BASE_URL}/api/lectures/${lecture.id}/related-comments`, {
       })
         .then((response) => {
           const newProps = this.props;
