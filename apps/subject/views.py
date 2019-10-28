@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.http import require_http_methods
 from django.db.models import Q
@@ -79,6 +79,15 @@ def course_list_view(request):
         courses = courses.distinct()
         result = [c.toJson() for c in courses[:300]]
         return JsonResponse(result, safe=False)
+
+
+@require_http_methods(['GET'])
+def course_intance_view(request, course_id):
+    if request.method == 'GET':
+        course = get_object_or_404(Course, id=course_id)
+
+        result = course.toJson()
+        return JsonResponse(result)
 
 
 @require_http_methods(['GET'])
@@ -217,6 +226,15 @@ def lecture_list_view(request):
         lectures = lectures.distinct()
         result = _lecture_result_format(lectures, from_search = True)
         return JsonResponse(result, safe=False)
+
+
+@require_http_methods(['GET'])
+def lecture_intance_view(request, lecture_id):
+    if request.method == 'GET':
+        lecture = get_object_or_404(Lecture, id=lecture_id)
+
+        result = lecture.toJson()
+        return JsonResponse(result)
 
 
 @require_http_methods(['GET'])
