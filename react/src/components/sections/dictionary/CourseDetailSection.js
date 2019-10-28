@@ -15,11 +15,12 @@ import CourseShape from '../../../shapes/CourseShape';
 import courses from '../../../dummy/courses';
 import reviewShape from '../../../shapes/ReviewShape';
 import lectureShape from '../../../shapes/LectureShape';
+import HistoryLecturesBlock from '../../blocks/HistoryLecturesBlock';
 
 
 class CourseDetailSection extends Component {
   componentDidUpdate(prevProps, prevState, snapshot) {
-    const { clicked, course, setReviewsDispatch } = this.props;
+    const { clicked, course, setReviewsDispatch, setLecturesDispatch } = this.props;
 
     if ((clicked && course !== null)
       && !(prevProps.clicked && (prevProps.course.id === course.id))) {
@@ -31,6 +32,17 @@ class CourseDetailSection extends Component {
             return;
           }
           setReviewsDispatch(response.data);
+        })
+        .catch((response) => {
+        });
+      axios.get(`${BASE_URL}/api/courses/${course.id}/lectures`, {
+      })
+        .then((response) => {
+          const newProps = this.props;
+          if (newProps.course.id !== course.id) {
+            return;
+          }
+          setLecturesDispatch(response.data);
         })
         .catch((response) => {
         });
@@ -167,6 +179,48 @@ class CourseDetailSection extends Component {
               { courses.map(c => <CourseSimpleBlock course={c} key={c.id} />) }
             </div>
           </div>
+          <div className={classNames('divider')} />
+          {
+            (lectures == null)
+              ? <div>불러오는 중</div>
+              : (
+                <div className={classNames('history')}>
+                  <table>
+                    <tr>
+                      <th>봄</th>
+                      {[...Array(2019 - 2009 + 1).keys()].map((i) => {
+                        const y = 2009 + i;
+                        const filteredLectures = lectures.filter(l => ((l.year === y) && (l.semester === 1)));
+                        if (filteredLectures.length === 0) {
+                          return <td className={classNames('history__cell--unopen')}>미개설</td>;
+                        }
+                        return <td><HistoryLecturesBlock lectures={filteredLectures} /></td>;
+                      })}
+                    </tr>
+                    <tr>
+                      <th />
+                      {[...Array(2019 - 2009 + 1).keys()].map((i) => {
+                        const y = 2009 + i;
+                        return (
+                          <td className={classNames('history__cell--year-label')}>{y}</td>
+                        );
+                      })}
+                    </tr>
+                    <tr>
+                      <th>가을</th>
+                      {[...Array(2019 - 2009 + 1).keys()].map((i) => {
+                        const y = 2009 + i;
+                        const filteredLectures = lectures.filter(l => ((l.year === y) && (l.semester === 3)));
+                        if (filteredLectures.length === 0) {
+                          return <td className={classNames('history__cell--unopen')}>미개설</td>;
+                        }
+                        return <td><HistoryLecturesBlock lectures={filteredLectures} /></td>;
+                      })}
+                    </tr>
+                  </table>
+                </div>
+              )
+          }
           <div className={classNames('divider')} />
           <ReviewWriteBlock />
           {
