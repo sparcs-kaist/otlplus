@@ -2,16 +2,17 @@ import React from 'react';
 import { pure } from 'recompose';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
+import lectureShape from '../../shapes/NestedLectureShape';
 
 
-const ReviewWriteBlock = (props) => {
+const ReviewWriteBlock = ({ lecture }) => {
   return (
       // eslint-disable-next-line react/jsx-indent
       <form className={classNames('block', 'block--review-write')}>
         <div className={classNames('block--review-write__title')}>
-          <strong>데이타구조</strong>
-          <span>이기혁</span>
-          <span>2016 봄</span>
+          <strong>{lecture.title}</strong>
+          <span>{lecture.professor_short}</span>
+          <span>{`${lecture.year} ${[undefined, '봄', '여름', '가을', '겨울'][lecture.semester]}`}</span>
         </div>
         <textarea className={classNames('block--review-write__content')} placeholder="학점, 로드 등의 평가에 대하여 왜 그렇게 평가를 했는지 서술해주세요." />
         <div>
@@ -94,5 +95,8 @@ const ReviewWriteBlock = (props) => {
   );
 };
 
+ReviewWriteBlock.propTypes = {
+  lecture: lectureShape.isRequired,
+};
 
 export default pure(ReviewWriteBlock);
