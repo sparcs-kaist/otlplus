@@ -292,27 +292,6 @@ FLOW = client.flow_from_clientsecrets(settings.GOOGLE_OAUTH2_CLIENT_SECRETS_JSON
 
 
 
-@require_POST
-def comment_load(request):
-    body = json.loads(request.body.decode('utf-8'))
-    try:
-        lecture_id = body['lecture_id']
-    except KeyError:
-        return HttpResponseBadRequest('Missing fields in request data')
-
-    lecture = Lecture.objects.get(id=lecture_id)
-    comments = Comment.objects.filter(
-        lecture__course=lecture.course,
-        lecture__professor__in=lecture.professor.all(),
-    ).order_by('-id')
-
-    result = []
-    for c in comments:
-        result.append(c.toJson()) # TODO: Use nested=True for performance
-    return JsonResponse(result, safe=False)
-
-
-
 # Export OTL timetable to google calendar
 @login_required
 def share_calendar(request):

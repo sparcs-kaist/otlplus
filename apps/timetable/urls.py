@@ -24,7 +24,6 @@ urlpatterns = [
     url(r'^table_delete$', views.table_delete),
     url(r'^table_copy$', views.table_copy),
     url(r'^table_load$', views.table_load),
-    url(r'^comment_load$', views.comment_load),
     url(r'^wishlist_load$', views.wishlist_load),
     url(r'^wishlist_update$', views.wishlist_update),
     url(r'^share_image$', views.share_image),
