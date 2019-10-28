@@ -11,7 +11,7 @@ class ReviewWriteSection extends Component {
         <div className={classNames('title')}>
           후기 작성 - 운영체제 및 실험
         </div>
-        <ReviewWriteBlock />
+        <ReviewWriteBlock lecture={{ title: '문제해결기법', professor_short: '김기응', year: 2018, semester: 1 }} />
         <div className={classNames('buttons')}>
           <button className={classNames('text-button')}>
             후기 더 작성하기
