@@ -549,15 +549,15 @@ table {
                 & > div {
                     flex: 1 1 auto;
                     position: relative;
-                    margin-top: 1px;
+                    padding-top: 1px;
                     width: 100%;
                     &:first-child {
                         flex: none;
-                        margin-top: 0;
+                        padding-top: 0;
                         height: 17px;
                     }
                     &:last-child {
-                        margin-bottom: 1px;
+                        padding-bottom: 1px;
                     }
 
                     & > * {
@@ -979,10 +979,17 @@ table {
     }
 
     &--current-timetable {
+        width: calc(100% + (12px * 2));
+        margin: 0 -12px;
+        padding: 0 12px;
+        overflow: hidden;
 
         & > div {
             width: 100%;
             position: relative;
+            @media (orientation: landscape) {
+                left: 0 !important;
+            }
 
             .section-content--current-timetable__table {
                 margin: 0 2px;
@@ -997,9 +1004,12 @@ table {
                     & > div {
                         flex: 1 1 0;
                         text-align: center;
-                        margin-left: 1px;
+                        padding-left: 1px;
                         &:last-child {
-                            margin-right: 1px;
+                            padding-right: 1px;
+                        }
+                        @media (orientation: portrait) {
+                            flex: 0 0 10vw;
                         }
 
                         & > span,
@@ -1022,6 +1032,9 @@ table {
                         flex: 1 1 0;
                         text-align: center;
                         height: 57px;
+                        @media (orientation: portrait) {
+                            flex: 0 0 10vw;
+                        }
 
                         &.hcell-left {
                             border-left: 1px solid #E8E8E8;
