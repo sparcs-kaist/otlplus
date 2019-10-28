@@ -977,6 +977,89 @@ table {
             clear: both;
         }
     }
+
+    &--current-timetable {
+
+        & > div {
+            width: 100%;
+            position: relative;
+
+            .section-content--current-timetable__table {
+                margin: 0 2px;
+
+                & > div:first-child {
+                    display: flex;
+                    flex-direction: row;
+                    margin-bottom: 4px;
+                    font-size: 10px;
+                    line-height: 11px;
+
+                    & > div {
+                        flex: 1 1 0;
+                        text-align: center;
+                        margin-left: 1px;
+                        &:last-child {
+                            margin-right: 1px;
+                        }
+
+                        & > span,
+                        & > strong {
+                            position: relative;
+                            left: -50%;
+                        }
+                        &:last-child > strong {
+                            left: initial;
+                            right: -50%;
+                        }
+                    }
+                }
+
+                & > div:last-child {
+                    display: flex;
+                    flex-direction: row;
+
+                    & > div {
+                        flex: 1 1 0;
+                        text-align: center;
+                        height: 57px;
+
+                        &.hcell-left {
+                            border-left: 1px solid #E8E8E8;
+                        }
+                        &.hcell-right {
+                            border-left: 1px dashed #E8E8E8;
+                        }
+                        &.hcell-bold {
+                            border-left: 1px solid #C9C9C9;
+                        }
+                        &.hcell-last {
+                            border-right: 1px solid #C9C9C9;
+                        }
+                    }
+                }
+            }
+
+            .section-content--current-timetable__bar {
+                position: absolute;
+                text-align: center;
+                z-index: 4;
+
+                & > div:first-child {
+                    width: 5px;
+                    height: 5px;
+                    background-color: #E54C65;
+                    border-radius: 50%;
+                }
+
+                & > div:last-child {
+                    width: 1px;
+                    height: 57px - 5px + 2px;
+                    margin: 0 2px;
+                    background-color: #E54C65;
+                }
+            }
+        }
+    }
 }
 
 
@@ -1397,6 +1480,44 @@ table {
             width: 100%;
             z-index: -1;
             border-radius: 2px;
+        }
+    }
+
+    &--current-timetable {
+        position: absolute;
+        flex: auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 0px;
+        border-radius: 2px;
+        z-index: 2;
+        top: 1px;
+        left: -1px;
+        width: calc(100% + 2px);
+        overflow: hidden;
+        white-space: nowrap;
+
+        &__content {
+            padding: 4px 6px;
+            overflow: hidden;
+            max-height: 100%;
+
+            &__title {
+                font-size:12px;
+                line-height:13px;
+                color:rgba(0,0,0,0.8);
+                margin:0;
+                margin-bottom:1px;
+            }
+
+            &__info {
+                font-size:12px;
+                line-height:13px;
+                color:rgba(0,0,0,0.5);
+                margin:0;
+                margin-top:1px;
+            }
         }
     }
 
