@@ -4,6 +4,7 @@ import { appBoundClassNames as classNames } from '../common/boundClassNames';
 
 import Footer from '../components/guideline/Footer';
 
+import CurrentTimetableSection from '../components/sections/main/CurrentTimetableSection';
 import AcademicScheduleSection from '../components/sections/main/AcademicScheduleSection';
 import RelatedCourseSection from '../components/sections/main/RelatedCourseSection';
 import LatestReviewSection from '../components/sections/main/LatestReviewSection';
@@ -23,6 +24,11 @@ class MainPage extends Component {
           </form>
         </section>
         <section className={classNames('content')}>
+          <div className={classNames('section-wrap')}>
+            <div className={classNames('section')}>
+              <CurrentTimetableSection />
+            </div>
+          </div>
           <div className={classNames('section-wrap')}>
             <div className={classNames('section')}>
               <AcademicScheduleSection />
