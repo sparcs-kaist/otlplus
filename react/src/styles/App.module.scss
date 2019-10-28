@@ -54,6 +54,9 @@ a:link {
     text-decoration: none;
 }
 
+table {
+    border-spacing: 0;
+}
 
 .content {
     width: calc(80vh + 384px + (12px * 2));
@@ -1253,6 +1256,58 @@ a:link {
         }
     }
 
+
+    &--history-lectures {
+        padding: 8px 10px;
+        margin-bottom: 0;
+
+        &__elem-wrap {
+            margin: 0px -10px;
+            padding: 0 10px 0 10px;
+            &:first-child {
+                margin-top: -8px;
+            }
+            &:last-child {
+                margin-bottom: -8px;
+            }
+        }
+
+        &__elem {
+            padding: 6px 0;
+            border-top:1px solid #C9C9C9;
+            display: flex;
+            flex-direction: row;
+            pointer-events: none;
+            align-items: center;
+
+            *:first-child > & {
+                border-top: none;
+                padding-top: 8px;
+            }
+            *:last-child > & {
+                padding-bottom: 8px;
+            }
+
+            &__texts {
+                flex: 1;
+                margin-bottom: -2px;
+                text-align: left;
+
+                & > * {
+                    display: inline-block;
+                    margin-bottom: 2px;
+                }
+
+                &__fixed-1 {
+                    width: 9px;
+                }
+                &__fixed-2 {
+                    width: 16px;
+                }
+            }
+        }
+    }
+
     &--timetable {
         position: absolute;
         flex: auto;
@@ -1592,6 +1647,63 @@ a:link {
     & > div:nth-child(4) {
         flex: 0 0 auto;
         margin: auto 10px;
+    }
+}
+
+
+.history {
+    overflow: scroll;
+
+    & > table {
+        table-layout: auto;
+        margin-right: -10000px;
+
+        & > tr {
+            &:first-child {
+                vertical-align: bottom;
+            }
+            &:nth-child(2) {
+                font-weight: bold;
+                font-size: 11px;
+                line-height: 12px;
+            }
+            &:last-child {
+                vertical-align: top;
+            }
+
+            & > th {
+                width: 21px + 12px;
+                padding-right: 10px;
+                font-size: 12px;
+                vertical-align: middle;
+                text-align: right;
+                line-height: 13px;
+                color: #333333;
+                font-weight: initial;;
+            }
+
+            & > td {
+                text-align: center;
+                padding: 0 6px;
+                width: calc(64px + 7vh + (6px * 2));
+                border-left: 1px solid #E8E8E8;
+                &:first-of-type {
+                    padding-left: 0;
+                    width: calc(64px + 7vh + 6px);
+                    border-left: none;
+                }
+                &.history__cell--year-label {
+                    padding-top: 6px;
+                    padding-bottom: 6px;
+                }
+                &.history__cell--unopen {
+                    vertical-align: middle;
+                    color: #AAAAAA;
+                    padding-top: 8px;
+                    padding-bottom: 8px;
+                }
+            }
+        }
     }
 }
 
