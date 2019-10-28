@@ -54,7 +54,11 @@ class CurrentTimetableSection extends Component {
 
     return (
       <div className={classNames('section-content', 'section-content--widget', 'section-content--current-timetable')}>
-        <div>
+        <div
+          style={{
+            left: -((hours + (minutes / 60) - 8) * cellWidth * 2 + 2 - 2) + 58,
+          }}
+        >
           <div className={classNames('section-content--current-timetable__table')}>
             <div>
               {
@@ -117,11 +121,11 @@ class CurrentTimetableSection extends Component {
             <div />
             <div />
           </div>
-          <div className={classNames('buttons')}>
-            <button className={classNames('text-button')}>
-              자세히 보기
-            </button>
-          </div>
+        </div>
+        <div className={classNames('buttons')}>
+          <button className={classNames('text-button')}>
+            자세히 보기
+          </button>
         </div>
       </div>
     );
