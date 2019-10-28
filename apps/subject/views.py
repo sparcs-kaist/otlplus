@@ -1,10 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.http import require_http_methods
 from django.db.models import Q
 from django.http import HttpResponseBadRequest
 
 from models import Course, Lecture
+from apps.review.models import Comment
 from apps.timetable.views import _lecture_result_format
 
 import datetime
@@ -12,7 +13,7 @@ import datetime
 # Create your views here.
 
 @require_http_methods(['GET'])
-def course_list_view(request):
+def courses_list_view(request):
     if request.method == 'GET':
         courses = Course.objects.all().order_by('old_code')
 
@@ -82,7 +83,16 @@ def course_list_view(request):
 
 
 @require_http_methods(['GET'])
-def courses_autocomplete_view(request):
+def courses_intance_view(request, course_id):
+    if request.method == 'GET':
+        course = get_object_or_404(Course, id=course_id)
+
+        result = course.toJson()
+        return JsonResponse(result)
+
+
+@require_http_methods(['GET'])
+def courses_list_autocomplete_view(request):
     if request.method == 'GET':
         try:
             keyword = request.GET['keyword']
@@ -119,7 +129,27 @@ def courses_autocomplete_view(request):
 
 
 @require_http_methods(['GET'])
-def lecture_list_view(request):
+def courses_intance_comments_view(request, course_id):
+    if request.method == 'GET':
+        course = get_object_or_404(Course, id=course_id)
+        comments = course.comment_set.all().order_by('-lecture__year','-written_datetime')
+
+        result = [c.toJson(user=request.user) for c in comments]
+        return JsonResponse(result, safe=False)
+
+
+@require_http_methods(['GET'])
+def courses_intance_lectures_view(request, course_id):
+    if request.method == 'GET':
+        course = get_object_or_404(Course, id=course_id)
+        lectures = course.lecture_course.all().order_by('year','semester', 'class_no')
+
+        result = [l.toJson() for l in lectures]
+        return JsonResponse(result, safe=False)
+
+
+@require_http_methods(['GET'])
+def lectures_list_view(request):
     if request.method == 'GET':
         lectures = Lecture.objects \
             .filter(deleted=False) \
@@ -220,7 +250,16 @@ def lecture_list_view(request):
 
 
 @require_http_methods(['GET'])
-def lectures_autocomplete_view(request):
+def lectures_intance_view(request, lecture_id):
+    if request.method == 'GET':
+        lecture = get_object_or_404(Lecture, id=lecture_id)
+
+        result = lecture.toJson()
+        return JsonResponse(result)
+
+
+@require_http_methods(['GET'])
+def lectures_list_autocomplete_view(request):
     if request.method == 'GET':
         try:
             year = request.GET['year']
@@ -256,3 +295,26 @@ def lectures_autocomplete_view(request):
             return JsonResponse(lectures_filtered[0].professor.filter(professor_name_en__istartswith=keyword)[0].professor_name_en, safe=False)
 
         return JsonResponse(keyword, safe=False)
+
+
+@require_http_methods(['GET'])
+def lectures_intance_comments_view(request, lecture_id):
+    if request.method == 'GET':
+        lecture = get_object_or_404(Lecture, id=lecture_id)
+        comments = lecture.comment_set.all().order_by('-id')
+
+        result = [c.toJson() for c in comments]
+        return JsonResponse(result, safe=False)
+
+
+@require_http_methods(['GET'])
+def lectures_intance_related_comments_view(request, lecture_id):
+    if request.method == 'GET':
+        lecture = get_object_or_404(Lecture, id=lecture_id)
+        comments = Comment.objects.filter(
+            lecture__course=lecture.course,
+            lecture__professor__in=lecture.professor.all(),
+        ).order_by('-id')
+
+        result = [c.toJson() for c in comments]
+        return JsonResponse(result, safe=False)

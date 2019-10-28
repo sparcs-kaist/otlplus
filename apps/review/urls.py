@@ -26,7 +26,6 @@ urlpatterns = [
     url(r'^professor/([^/]+)/([^/]+)/([^/]+)$', views.professorComment),
 
     url(r'^course/([^/]+)$', views.course),
-    url(r'^course/([^/]+)/([^/]+)/([^/]+)$', views.courseComment),
 
     url(r'^result$', views.resultProfessor),
     url(r'^result/(?P<page>[0-9]+)$', views.resultCourse),
