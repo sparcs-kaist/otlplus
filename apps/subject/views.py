@@ -12,7 +12,7 @@ import datetime
 # Create your views here.
 
 @require_http_methods(['GET'])
-def course_list_view(request):
+def courses_list_view(request):
     if request.method == 'GET':
         courses = Course.objects.all().order_by('old_code')
 
@@ -82,7 +82,7 @@ def course_list_view(request):
 
 
 @require_http_methods(['GET'])
-def course_intance_view(request, course_id):
+def courses_intance_view(request, course_id):
     if request.method == 'GET':
         course = get_object_or_404(Course, id=course_id)
 
@@ -91,7 +91,7 @@ def course_intance_view(request, course_id):
 
 
 @require_http_methods(['GET'])
-def courses_autocomplete_view(request):
+def courses_list_autocomplete_view(request):
     if request.method == 'GET':
         try:
             keyword = request.GET['keyword']
@@ -128,7 +128,7 @@ def courses_autocomplete_view(request):
 
 
 @require_http_methods(['GET'])
-def lecture_list_view(request):
+def lectures_list_view(request):
     if request.method == 'GET':
         lectures = Lecture.objects \
             .filter(deleted=False) \
@@ -229,7 +229,7 @@ def lecture_list_view(request):
 
 
 @require_http_methods(['GET'])
-def lecture_intance_view(request, lecture_id):
+def lectures_intance_view(request, lecture_id):
     if request.method == 'GET':
         lecture = get_object_or_404(Lecture, id=lecture_id)
 
@@ -238,7 +238,7 @@ def lecture_intance_view(request, lecture_id):
 
 
 @require_http_methods(['GET'])
-def lectures_autocomplete_view(request):
+def lectures_list_autocomplete_view(request):
     if request.method == 'GET':
         try:
             year = request.GET['year']
