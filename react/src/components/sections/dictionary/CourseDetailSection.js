@@ -222,7 +222,11 @@ class CourseDetailSection extends Component {
               )
           }
           <div className={classNames('divider')} />
-          <ReviewWriteBlock />
+          {
+            (lectures == null || lectures.length === 0)
+              ? null
+              : <ReviewWriteBlock lecture={lectures[lectures.length - 1]} />
+          }
           {
             (reviews == null)
               ? <div className={classNames('list-placeholder')}><div>불러오는 중</div></div>
