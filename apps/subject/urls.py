@@ -19,10 +19,10 @@ from django.http import HttpResponseRedirect
 from . import views
 
 urlpatterns = [
-    url(r'^courses$', views.course_list_view),
-    url(r'^courses/(?P<course_id>\d+)$', views.course_intance_view),
-    url(r'^courses/autocomplete$', views.courses_autocomplete_view),
-    url(r'^lectures$', views.lecture_list_view),
-    url(r'^lectures/(?P<lecture_id>\d+)$', views.lecture_intance_view),
-    url(r'^lectures/autocomplete$', views.lectures_autocomplete_view),
+    url(r'^courses$', views.courses_list_view),
+    url(r'^courses/(?P<course_id>\d+)$', views.courses_intance_view),
+    url(r'^courses/autocomplete$', views.courses_list_autocomplete_view),
+    url(r'^lectures$', views.lectures_list_view),
+    url(r'^lectures/(?P<lecture_id>\d+)$', views.lectures_intance_view),
+    url(r'^lectures/autocomplete$', views.lectures_list_autocomplete_view),
 ]
