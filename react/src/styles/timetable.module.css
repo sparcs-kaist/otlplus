@@ -35,13 +35,16 @@ i
 }
 :global(.nano-content) {
     margin-right: 0px;
+    padding-right: 12px;
 }
-:global(.nano-content) > *{
-    margin-right: 12px;
+:global(.nano-content)::after {
+    content: '';
+    display: block;
+    margin-bottom: 12px;
 }
 :global(.nano-pane) {
     width: 4px !important;
-    margin: 0px 4px 10px 4px;
+    margin: 0px 4px 12px 4px;
     background-color:transparent !important;
 }
 :global(.nano-slider) {
