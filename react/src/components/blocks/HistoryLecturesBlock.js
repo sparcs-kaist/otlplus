@@ -22,7 +22,7 @@ const HistoryLecturesBlock = ({ lectures }) => {
     <div className={classNames('block', 'block--history-lectures')}>
       {
         lectures.map(lecture => (
-          <div className={classNames('block--history-lectures__elem-wrap')}>
+          <div className={classNames('block--history-lectures__elem-wrap')} key={lecture.id}>
             <div className={classNames('block--history-lectures__elem')}>
               <div className={classNames('block--history-lectures__elem__texts')}>
                 <strong className={getClass(lecture)}>{lecture.class_title}</strong>

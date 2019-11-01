@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
 import CourseListSection from '../components/sections/dictionary/CourseListSection';
 import CourseDetailSection from '../components/sections/dictionary/CourseDetailSection';
-import courses from '../dummy/courses';
 import CourseListTabs from '../components/tabs/CourseListTabs';
 import courseActiveShape from '../shapes/CourseActiveShape';
 
@@ -24,7 +23,7 @@ class DictionaryPage extends Component {
           </div>
           <div className={classNames('section-wrap', 'section-wrap--course-detail', 'mobile-modal', ((courseActive.course && courseActive.clicked) ? '' : 'mobile-hidden'))}>
             <div className={classNames('section')}>
-              <CourseDetailSection course={courses[0]} />
+              <CourseDetailSection />
             </div>
           </div>
         </section>

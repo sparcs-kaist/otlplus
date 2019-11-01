@@ -1709,7 +1709,7 @@ table {
         table-layout: auto;
         margin-right: -10000px;
 
-        & > tr {
+        & > tbody > tr {
             &:first-child {
                 vertical-align: bottom;
             }
