@@ -192,9 +192,9 @@ class CourseDetailSection extends Component {
                         const y = 2009 + i;
                         const filteredLectures = lectures.filter(l => ((l.year === y) && (l.semester === 1)));
                         if (filteredLectures.length === 0) {
-                          return <td className={classNames('history__cell--unopen')}>미개설</td>;
+                          return <td className={classNames('history__cell--unopen')} key={`${y}-1`}>미개설</td>;
                         }
-                        return <td><HistoryLecturesBlock lectures={filteredLectures} /></td>;
+                        return <td key={`${y}-1`}><HistoryLecturesBlock lectures={filteredLectures} /></td>;
                       })}
                     </tr>
                     <tr>
@@ -202,7 +202,7 @@ class CourseDetailSection extends Component {
                       {[...Array(2019 - 2009 + 1).keys()].map((i) => {
                         const y = 2009 + i;
                         return (
-                          <td className={classNames('history__cell--year-label')}>{y}</td>
+                          <td className={classNames('history__cell--year-label')} key={`${y}-l`}>{y}</td>
                         );
                       })}
                     </tr>
@@ -212,9 +212,9 @@ class CourseDetailSection extends Component {
                         const y = 2009 + i;
                         const filteredLectures = lectures.filter(l => ((l.year === y) && (l.semester === 3)));
                         if (filteredLectures.length === 0) {
-                          return <td className={classNames('history__cell--unopen')}>미개설</td>;
+                          return <td className={classNames('history__cell--unopen')} key={`${y}-3`}>미개설</td>;
                         }
-                        return <td><HistoryLecturesBlock lectures={filteredLectures} /></td>;
+                        return <td key={`${y}-3`}><HistoryLecturesBlock lectures={filteredLectures} /></td>;
                       })}
                     </tr>
                   </table>
