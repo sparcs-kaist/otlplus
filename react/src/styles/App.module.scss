@@ -63,6 +63,7 @@ table {
 }
 
 .content {
+    position: relative;
     width: calc(80vh + 384px + (12px * 2));
     margin-top: 55px;
     margin-left: auto;
@@ -146,6 +147,33 @@ table {
     margin: 12px 12px 13px 12px;
 
 
+    &.mobile-modal {
+            @media (orientation: portrait) {
+                position: absolute;
+                top: 12px;
+                left: 12px * 2;
+                width: calc(100% - 12px * 4);
+                height: calc(100% - (12px * 2 + 13px));
+
+                & > * {
+                    position: relative;
+                    z-index: 200;
+                }
+
+                &::before {
+                    content: '';
+                    position: absolute;
+                    width: calc(100% + 12px * 4);
+                    height: calc(100% + (12px * 3 + 13px) + 55px);
+                    top: -12px * 2 - 55px;
+                    left: -12px * 2;
+                    background-color: rgba(#000, 0.3);
+                    z-index: 100;
+                }
+            }
+    }
+
+
     &--course-list {
         flex: none;
         width: calc(40vh + 186px);
@@ -161,27 +189,6 @@ table {
         width: calc(40vh + 186px);
         margin-top: 0px;
         margin-left: 0;
-        @media (orientation: portrait) {
-            position: absolute;
-            width: calc(100% - 12px * 4);
-            height: calc(100% - (12px * 2 + 13px));
-            margin-top: 12px;
-            & > * {
-                position: relative;
-                z-index: 200;
-            }
-
-            &::before {
-                content: '';
-                position: absolute;
-                width: calc(100% + 12px * 4);
-                height: calc(100% + (12px * 3 + 13px) + 55px);
-                top: -12px * 2 - 55px;
-                left: -12px * 2;
-                background-color: rgba(#000, 0.3);
-                z-index: 100;
-            }
-        }
     }
 
 
@@ -235,30 +242,6 @@ table {
         margin-top: 0;
         margin-left: 0;
         margin-right: 0;
-
-        @media (orientation: portrait) {
-            position: absolute;
-            top: 12px;
-            left: 12px * 2;
-            width: calc(100% - 12px * 4);
-            height: calc(100% - (12px * 2 + 13px));
-
-            & > * {
-                position: relative;
-                z-index: 200;
-            }
-
-            &::before {
-                content: '';
-                position: absolute;
-                width: calc(100% + 12px * 4);
-                height: calc(100% + (12px * 2 + 13px) + 55px);
-                top: -12px - 55px;
-                left: -12px * 2;
-                background-color: rgba(#000, 0.3);
-                z-index: 100;
-            }
-        }
     }
 
 
@@ -274,29 +257,6 @@ table {
         margin: 0;
         display: flex;
         flex-direction: row;
-        @media (orientation: portrait) {
-            position: absolute;
-            width: calc(100% - 12px * 4);
-            height: calc(100% - (12px * 2 + 13px));
-            top: 12px;
-            left: 12px * 2;
-
-            & > * {
-                position: relative;
-                z-index: 200;
-            }
-
-            &::before {
-                content: '';
-                position: absolute;
-                width: calc(100% + 12px * 4);
-                height: calc(100% + (12px * 2 + 13px) + 55px);
-                top: -12px - 55px;
-                left: -12px * 2;
-                background-color: rgba(#000, 0.3);
-                z-index: 100;
-            }
-        }
 
         & > div {
             width: 100%;
