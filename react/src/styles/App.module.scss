@@ -78,10 +78,7 @@ table {
 
 
     &--no-scroll {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        width: 100%;
+        height: calc(100vh - 55px);
         display: flex;
         flex-direction: row;
         justify-content: center;
