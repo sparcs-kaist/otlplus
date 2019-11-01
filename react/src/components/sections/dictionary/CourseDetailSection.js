@@ -186,6 +186,8 @@ class CourseDetailSection extends Component {
               : (
                 <div className={classNames('history')}>
                   <table>
+                    {/* eslint-disable-next-line react/jsx-indent */}
+                  <tbody>
                     <tr>
                       <th>봄</th>
                       {[...Array(2019 - 2009 + 1).keys()].map((i) => {
@@ -217,6 +219,7 @@ class CourseDetailSection extends Component {
                         return <td key={`${y}-3`}><HistoryLecturesBlock lectures={filteredLectures} /></td>;
                       })}
                     </tr>
+                  </tbody>
                   </table>
                 </div>
               )
