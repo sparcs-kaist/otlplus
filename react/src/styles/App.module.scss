@@ -836,46 +836,6 @@ table {
                         margin-left: 10%;
                     }
                 }
-
-                & > div {
-                    margin-bottom: 8px;
-                    overflow: hidden;
-                    &:last-child {
-                        margin-bottom: 0px;
-                    }
-                    @media (orientation: portrait) {
-                        margin-bottom: 0px;
-                        flex: 1 1 40px;
-                    }
-
-                    & > span {
-                        margin-right: 6px;
-                        display: inline-block;
-
-                        &:first-child {
-                            font-weight: bold;
-                            &.fixed-ko {
-                                white-space: nowrap;
-                                width: 23px;
-                            }
-                            &.fixed-en {
-                                white-space: nowrap;
-                                width: 23px;
-                            }
-                        }
-
-                        &:nth-child(2),
-                        &:nth-child(4) {
-                            &.active {
-                                color:#e64c65;
-                            }
-                        }
-
-                        &:nth-child(3) {
-                            color:#e64c65;
-                        }
-                    }
-                }
             }
         }
     }
@@ -1877,6 +1837,36 @@ table {
                     margin-bottom: 6px;
                     margin-right: 6px;
                     white-space: nowrap;
+                }
+            }
+        }
+
+        .section-content--summary__type & {
+            overflow: hidden;
+            &:last-child {
+                margin-bottom: 0px;
+            }
+            @media (orientation: portrait) {
+                margin-bottom: 0px;
+                flex: 1 1 40px;
+            }
+
+            & > span:first-child {
+                &.fixed-ko {
+                    white-space: nowrap;
+                    width: 23px;
+                }
+                &.fixed-en {
+                    white-space: nowrap;
+                    width: 23px;
+                }
+            }
+
+            & > div > span {
+                margin-right: 4px;
+
+                &.active {
+                    color:#e64c65;
                 }
             }
         }
