@@ -47,7 +47,6 @@ class CurrentTimetableSection extends Component {
     const { lectures, cellWidth } = this.state;
 
     const today = new Date();
-    console.log(today);
     const day = today.getDay();
     const hours = today.getHours();
     const minutes = today.getMinutes();
