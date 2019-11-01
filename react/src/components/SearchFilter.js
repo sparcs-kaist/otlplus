@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { } from '../common/boundClassNames';
+import { appBoundClassNames as classNames } from '../common/boundClassNames';
 
 import SearchCircle from './SearchCircle';
 
@@ -88,7 +88,7 @@ class SearchFilter extends Component {
 
 
     return (
-      <div>
+      <div className={classNames('attribute')}>
         <label>{ titleName }</label>
         <div>
           {valueArr.map(mapCircle)}

@@ -21,6 +21,8 @@ input {
     background: transparent;
     border: none;
     outline: none;
+    font-size: inherit;
+    line-height: inherit;
 }
 
 
@@ -36,6 +38,8 @@ button {
     background-color: transparent;
     border: none;
     outline: none;
+    font-size: inherit;
+    line-height: inherit;
 }
 
 
@@ -59,6 +63,7 @@ table {
 }
 
 .content {
+    position: relative;
     width: calc(80vh + 384px + (12px * 2));
     margin-top: 55px;
     margin-left: auto;
@@ -74,10 +79,7 @@ table {
 
 
     &--no-scroll {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        width: 100%;
+        height: calc(100vh - 55px);
         display: flex;
         flex-direction: row;
         justify-content: center;
@@ -145,6 +147,33 @@ table {
     margin: 12px 12px 13px 12px;
 
 
+    &.mobile-modal {
+            @media (orientation: portrait) {
+                position: absolute;
+                top: 12px;
+                left: 12px * 2;
+                width: calc(100% - 12px * 4);
+                height: calc(100% - (12px * 2 + 13px));
+
+                & > * {
+                    position: relative;
+                    z-index: 200;
+                }
+
+                &::before {
+                    content: '';
+                    position: absolute;
+                    width: calc(100% + 12px * 4);
+                    height: calc(100% + (12px * 3 + 13px) + 55px);
+                    top: -12px * 2 - 55px;
+                    left: -12px * 2;
+                    background-color: rgba(#000, 0.3);
+                    z-index: 100;
+                }
+            }
+    }
+
+
     &--course-list {
         flex: none;
         width: calc(40vh + 186px);
@@ -160,27 +189,6 @@ table {
         width: calc(40vh + 186px);
         margin-top: 0px;
         margin-left: 0;
-        @media (orientation: portrait) {
-            position: absolute;
-            width: calc(100% - 12px * 4);
-            height: calc(100% - (12px * 2 + 13px));
-            margin-top: 12px;
-            & > * {
-                position: relative;
-                z-index: 200;
-            }
-
-            &::before {
-                content: '';
-                position: absolute;
-                width: calc(100% + 12px * 4);
-                height: calc(100% + (12px * 3 + 13px) + 55px);
-                top: -12px * 2 - 55px;
-                left: -12px * 2;
-                background-color: rgba(#000, 0.3);
-                z-index: 100;
-            }
-        }
     }
 
 
@@ -234,30 +242,6 @@ table {
         margin-top: 0;
         margin-left: 0;
         margin-right: 0;
-
-        @media (orientation: portrait) {
-            position: absolute;
-            top: 12px;
-            left: 12px * 2;
-            width: calc(100% - 12px * 4);
-            height: calc(100% - (12px * 2 + 13px));
-
-            & > * {
-                position: relative;
-                z-index: 200;
-            }
-
-            &::before {
-                content: '';
-                position: absolute;
-                width: calc(100% + 12px * 4);
-                height: calc(100% + (12px * 2 + 13px) + 55px);
-                top: -12px - 55px;
-                left: -12px * 2;
-                background-color: rgba(#000, 0.3);
-                z-index: 100;
-            }
-        }
     }
 
 
@@ -273,29 +257,6 @@ table {
         margin: 0;
         display: flex;
         flex-direction: row;
-        @media (orientation: portrait) {
-            position: absolute;
-            width: calc(100% - 12px * 4);
-            height: calc(100% - (12px * 2 + 13px));
-            top: 12px;
-            left: 12px * 2;
-
-            & > * {
-                position: relative;
-                z-index: 200;
-            }
-
-            &::before {
-                content: '';
-                position: absolute;
-                width: calc(100% + 12px * 4);
-                height: calc(100% + (12px * 2 + 13px) + 55px);
-                top: -12px - 55px;
-                left: -12px * 2;
-                background-color: rgba(#000, 0.3);
-                z-index: 100;
-            }
-        }
 
         & > div {
             width: 100%;
@@ -316,7 +277,7 @@ table {
 }
 
 
-.tab {
+.tabs {
     &--course-list,
     &--lecture-list {
         position: absolute;
@@ -333,7 +294,7 @@ table {
             border-radius: 4px 0 0 4px;
             background-color: #E2E2E2;
 
-            &.tab__elem--active {
+            &.tabs__elem--active {
                 background-color: #FFFFFF;
             }
         }
@@ -480,7 +441,7 @@ table {
 
     &--lecture-detail {
         &--list-area {
-            min-height: calc(100% - (14px + 6px)) !important;
+            min-height: calc(100% - (14px + 6px + 12px)) !important;
 
             @media (orientation: portrait) {
                 min-height: initial !important;
@@ -835,46 +796,6 @@ table {
                         margin-left: 10%;
                     }
                 }
-
-                & > div {
-                    margin-bottom: 8px;
-                    overflow: hidden;
-                    &:last-child {
-                        margin-bottom: 0px;
-                    }
-                    @media (orientation: portrait) {
-                        margin-bottom: 0px;
-                        flex: 1 1 40px;
-                    }
-
-                    & > span {
-                        margin-right: 6px;
-                        display: inline-block;
-
-                        &:first-child {
-                            font-weight: bold;
-                            &.fixed-ko {
-                                white-space: nowrap;
-                                width: 23px;
-                            }
-                            &.fixed-en {
-                                white-space: nowrap;
-                                width: 23px;
-                            }
-                        }
-
-                        &:nth-child(2),
-                        &:nth-child(4) {
-                            &.active {
-                                color:#e64c65;
-                            }
-                        }
-
-                        &:nth-child(3) {
-                            color:#e64c65;
-                        }
-                    }
-                }
             }
         }
     }
@@ -898,7 +819,6 @@ table {
             flex-direction: column;
 
             & > :global(.nano) {
-                margin-right: 0;
 
                 .section-content--exam__content__day {
                     display: flex;
@@ -1110,8 +1030,8 @@ table {
         }
         &.block--clicked {
             background-color:#DDDDDD;
-            margin-top: -3px;
-            margin-bottom: 8px + 3px;
+            position: relative;
+            top: -3px;
             box-shadow: 0 3px 0 0 #888888;
         }
         &.block--inactive {
@@ -1277,11 +1197,8 @@ table {
         }
         &.block--clicked {
             box-shadow: 0 3px 0 0 #888888;
-            margin-top: -3px;
-            margin-bottom: 6px + 3px;
-            &:last-child {
-                margin-bottom: 12px + 3px;
-            }
+            position: relative;
+            top: -3px;
         }
         &.block--inactive {
             opacity: 0.5;
@@ -1842,8 +1759,7 @@ table {
 }
 
 
-.attributes {
-    & > div {
+.attribute {
         display: flex;
         flex-direction: row;
         margin-bottom: 8px;
@@ -1856,8 +1772,6 @@ table {
             margin-bottom: 0;
         }
 
-        & > div:first-child,
-        & > span:first-child,
         & > *:first-child {
             font-weight: bold;
             margin-right: 6px;
@@ -1876,15 +1790,46 @@ table {
 
             .search-area & {
                 margin-bottom: -6px;
+                margin-right: -6px;
 
                 & > label {
+                    display: inline-block;
                     margin-bottom: 6px;
                     margin-right: 6px;
                     white-space: nowrap;
                 }
             }
         }
-    }
+
+        .section-content--summary__type & {
+            overflow: hidden;
+            &:last-child {
+                margin-bottom: 0px;
+            }
+            @media (orientation: portrait) {
+                margin-bottom: 0px;
+                flex: 1 1 40px;
+            }
+
+            & > span:first-child {
+                &.fixed-ko {
+                    white-space: nowrap;
+                    width: 23px;
+                }
+                &.fixed-en {
+                    white-space: nowrap;
+                    width: 23px;
+                }
+            }
+
+            & > div > span {
+                margin-right: 4px;
+
+                &.active {
+                    color:#e64c65;
+                }
+            }
+        }
 }
 
 
@@ -2070,7 +2015,7 @@ table {
 
 
 .list-placeholder {
-    min-height: 100%;
+    min-height: calc(100% - 12px);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -2263,7 +2208,7 @@ i.icon {
         background-image: url(../static/icons/block_search_inactive.svg);
 
         *:hover > &,
-        *.tab__elem--active > & {
+        *.tabs__elem--active > & {
             background-image: url(../static/icons/block_search.svg)
         }
     }
@@ -2274,7 +2219,7 @@ i.icon {
         background-image: url(../static/icons/block_major_inactive.svg);
 
         *:hover > &,
-        *.tab__elem--active > & {
+        *tabs__elem--active > & {
             background-image: url(../static/icons/block_major.svg)
         }
     }
@@ -2285,7 +2230,7 @@ i.icon {
         background-image: url(../static/icons/block_humanity_inactive.svg);
 
         *:hover > &,
-        *.tab__elem--active > & {
+        *.tabs__elem--active > & {
             background-image: url(../static/icons/block_humanity.svg)
         }
     }
@@ -2296,7 +2241,7 @@ i.icon {
         background-image: url(../static/icons/block_cart_inactive.svg);
 
         *:hover > &,
-        *.tab__elem--active > & {
+        *.tabs__elem--active > & {
             background-image: url(../static/icons/block_cart.svg)
         }
     }
