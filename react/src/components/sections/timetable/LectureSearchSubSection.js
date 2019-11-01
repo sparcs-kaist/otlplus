@@ -177,7 +177,7 @@ class LectureSearchSubSection extends Component {
                   </div>
                 </div>
               </div>
-              <div className={classNames('attributes')}>
+              <div>
                 {/* eslint-disable-next-line react/jsx-indent */}
               <SearchFilter
                 clickCircle={this.clickCircle}
@@ -202,7 +202,7 @@ class LectureSearchSubSection extends Component {
                 valueArr={['ALL', '100', '200', '300', '400']}
                 nameArr={['전체', '100번대', '200번대', '300번대', '400번대']}
               />
-                <div>
+                <div className={classNames('attribute')}>
                   <label>시간</label>
                   { day !== null
                     ? (

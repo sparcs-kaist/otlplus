@@ -165,28 +165,28 @@ class LectureDetailSection extends Component {
                 }
               }
             >
-              <div className={classNames('attributes')} ref={this.attributesRef}>
-                <div>
+              <div ref={this.attributesRef}>
+                <div className={classNames('attribute')}>
                   <span className={classNames('fixed-ko')}>구분</span>
                   <span>{lecture.type}</span>
                 </div>
-                <div>
+                <div className={classNames('attribute')}>
                   <span className={classNames('fixed-ko')}>학과</span>
                   <span>{lecture.department_name}</span>
                 </div>
-                <div>
+                <div className={classNames('attribute')}>
                   <span className={classNames('fixed-ko')}>교수</span>
                   <span>{lecture.professor.map(p => p.name).join(', ')}</span>
                 </div>
-                <div>
+                <div className={classNames('attribute')}>
                   <span className={classNames('fixed-ko')}>장소</span>
                   <span>{lecture.classroom}</span>
                 </div>
-                <div>
+                <div className={classNames('attribute')}>
                   <span className={classNames('fixed-ko')}>정원</span>
                   <span>{lecture.limit}</span>
                 </div>
-                <div>
+                <div className={classNames('attribute')}>
                   <span className={classNames('fixed-ko')}>시험</span>
                   <span>{lecture.exam}</span>
                 </div>
@@ -274,9 +274,9 @@ class LectureDetailSection extends Component {
               <span className={classNames('text-button', 'text-button--right', 'text-button--disabled')}>실라버스</span>
               <span className={classNames('text-button', 'text-button--right', 'text-button--disabled')}>과목사전</span>
             </div>
-            <div className={classNames('attributes')}>
+            <div>
               {multipleDetail.map((detail, index) => (
-                <div key={detail.id}>
+                <div className={classNames('attribute')} key={detail.id}>
                   <span>
                     {detail.title}
                   </span>

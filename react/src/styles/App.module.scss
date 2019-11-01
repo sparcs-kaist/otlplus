@@ -1839,8 +1839,7 @@ table {
 }
 
 
-.attributes {
-    & > div {
+.attribute {
         display: flex;
         flex-direction: row;
         margin-bottom: 8px;
@@ -1853,8 +1852,6 @@ table {
             margin-bottom: 0;
         }
 
-        & > div:first-child,
-        & > span:first-child,
         & > *:first-child {
             font-weight: bold;
             margin-right: 6px;
@@ -1883,7 +1880,6 @@ table {
                 }
             }
         }
-    }
 }
 
 
