@@ -1110,8 +1110,8 @@ table {
         }
         &.block--clicked {
             background-color:#DDDDDD;
-            margin-top: -3px;
-            margin-bottom: 8px + 3px;
+            position: relative;
+            top: -3px;
             box-shadow: 0 3px 0 0 #888888;
         }
         &.block--inactive {
@@ -1277,11 +1277,8 @@ table {
         }
         &.block--clicked {
             box-shadow: 0 3px 0 0 #888888;
-            margin-top: -3px;
-            margin-bottom: 6px + 3px;
-            &:last-child {
-                margin-bottom: 12px + 3px;
-            }
+            position: relative;
+            top: -3px;
         }
         &.block--inactive {
             opacity: 0.5;
