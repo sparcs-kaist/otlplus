@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 from settings import BASE_DIR
 import os
 from django.conf.urls import (
@@ -48,6 +48,7 @@ urlpatterns = [
     url(r'^review/', include('apps.review.urls')),
     url(r'^subject/', include('apps.subject.urls')),
     url(r'^timetable/', include('apps.timetable.urls')),
+    url(r'^api/status$', lambda request: HttpResponse()),
     # Media Root
     url(r'^media/(?P<path>.*)$',django_static.serve,{'document_root': os.path.join(BASE_DIR, 'static')}),
 ]
