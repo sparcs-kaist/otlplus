@@ -317,7 +317,7 @@ table {
 }
 
 
-.tab {
+.tabs {
     &--course-list,
     &--lecture-list {
         position: absolute;
@@ -334,7 +334,7 @@ table {
             border-radius: 4px 0 0 4px;
             background-color: #E2E2E2;
 
-            &.tab__elem--active {
+            &.tabs__elem--active {
                 background-color: #FFFFFF;
             }
         }
@@ -2262,7 +2262,7 @@ i.icon {
         background-image: url(../static/icons/block_search_inactive.svg);
 
         *:hover > &,
-        *.tab__elem--active > & {
+        *.tabs__elem--active > & {
             background-image: url(../static/icons/block_search.svg)
         }
     }
@@ -2273,7 +2273,7 @@ i.icon {
         background-image: url(../static/icons/block_major_inactive.svg);
 
         *:hover > &,
-        *.tab__elem--active > & {
+        *tabs__elem--active > & {
             background-image: url(../static/icons/block_major.svg)
         }
     }
@@ -2284,7 +2284,7 @@ i.icon {
         background-image: url(../static/icons/block_humanity_inactive.svg);
 
         *:hover > &,
-        *.tab__elem--active > & {
+        *.tabs__elem--active > & {
             background-image: url(../static/icons/block_humanity.svg)
         }
     }
@@ -2295,7 +2295,7 @@ i.icon {
         background-image: url(../static/icons/block_cart_inactive.svg);
 
         *:hover > &,
-        *.tab__elem--active > & {
+        *.tabs__elem--active > & {
             background-image: url(../static/icons/block_cart.svg)
         }
     }
