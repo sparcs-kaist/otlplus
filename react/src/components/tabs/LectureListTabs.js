@@ -31,13 +31,13 @@ class LectureListTabs extends Component {
     const { currentList, major } = this.props;
 
     return (
-      <div className={classNames('tab--lecture-list')}>
-        <button className={classNames((currentList === 'SEARCH' ? 'tab__elem--active' : ''))} onClick={() => this.changeTab('SEARCH')}><i className={classNames('icon', 'icon--block-search')} /></button>
+      <div className={classNames('tabs--lecture-list')}>
+        <button className={classNames((currentList === 'SEARCH' ? 'tabs__elem--active' : ''))} onClick={() => this.changeTab('SEARCH')}><i className={classNames('icon', 'icon--block-search')} /></button>
         {major.codes.map(code => (
-          <button className={classNames((currentList === code ? 'tab__elem--active' : ''))} key={code} onClick={() => this.changeTab(code)}><i className={classNames('icon', 'icon--block-major')} /></button>
+          <button className={classNames((currentList === code ? 'tabs__elem--active' : ''))} key={code} onClick={() => this.changeTab(code)}><i className={classNames('icon', 'icon--block-major')} /></button>
         ))}
-        <button className={classNames((currentList === 'HUMANITY' ? 'tab__elem--active' : ''))} onClick={() => this.changeTab('HUMANITY')}><i className={classNames('icon', 'icon--block-humanity')} /></button>
-        <button className={classNames((currentList === 'CART' ? 'tab__elem--active' : ''))} onClick={() => this.changeTab('CART')}><i className={classNames('icon', 'icon--block-cart')} /></button>
+        <button className={classNames((currentList === 'HUMANITY' ? 'tabs__elem--active' : ''))} onClick={() => this.changeTab('HUMANITY')}><i className={classNames('icon', 'icon--block-humanity')} /></button>
+        <button className={classNames((currentList === 'CART' ? 'tabs__elem--active' : ''))} onClick={() => this.changeTab('CART')}><i className={classNames('icon', 'icon--block-cart')} /></button>
       </div>
     );
   }

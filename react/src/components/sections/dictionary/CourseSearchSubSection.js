@@ -159,7 +159,7 @@ class CourseSearchSubSection extends Component {
               </div>
             </div>
           </div>
-          <div className={classNames('attributes')}>
+          <div>
             <SearchFilter
               clickCircle={this.clickCircle}
               inputName="type"

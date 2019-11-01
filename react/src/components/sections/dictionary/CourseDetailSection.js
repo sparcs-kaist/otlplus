@@ -117,8 +117,8 @@ class CourseDetailSection extends Component {
           </div>
         </div>
         <Scroller onScroll={() => this.onScroll()}>
-          <div className={classNames('attributes')}>
-            <div>
+          <div>
+            <div className={classNames('attribute')}>
               <div>
                 분류
               </div>
@@ -126,7 +126,7 @@ class CourseDetailSection extends Component {
                 {`${course.department.name}, ${course.type}`}
               </div>
             </div>
-            <div>
+            <div className={classNames('attribute')}>
               <div>
                 설명
               </div>

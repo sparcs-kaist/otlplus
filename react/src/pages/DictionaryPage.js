@@ -22,7 +22,7 @@ class DictionaryPage extends Component {
               <CourseListSection />
             </div>
           </div>
-          <div className={classNames('section-wrap', 'section-wrap--course-detail', ((courseActive.course && courseActive.clicked) ? '' : 'mobile-hidden'))}>
+          <div className={classNames('section-wrap', 'section-wrap--course-detail', 'mobile-modal', ((courseActive.course && courseActive.clicked) ? '' : 'mobile-hidden'))}>
             <div className={classNames('section')}>
               <CourseDetailSection course={courses[0]} />
             </div>

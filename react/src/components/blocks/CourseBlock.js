@@ -15,8 +15,8 @@ const CourseBlock = ({ course, isClicked, isHover, isInactive, listHover, listOu
             &nbsp;
           <span>{ course.old_code }</span>
         </div>
-        <div className={classNames('attributes')}>
-          <div>
+        <div>
+          <div className={classNames('attribute')}>
             <div>
               분류
             </div>
@@ -24,7 +24,7 @@ const CourseBlock = ({ course, isClicked, isHover, isInactive, listHover, listOu
               {`${course.department.name}, ${course.type}`}
             </div>
           </div>
-          <div>
+          <div className={classNames('attribute')}>
             <div>
               교수
             </div>
@@ -32,7 +32,7 @@ const CourseBlock = ({ course, isClicked, isHover, isInactive, listHover, listOu
               {course.professors_str}
             </div>
           </div>
-          <div>
+          <div className={classNames('attribute')}>
             <div>
               설명
             </div>

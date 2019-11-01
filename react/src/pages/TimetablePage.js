@@ -26,7 +26,7 @@ class TimetablePage extends Component {
               <section className={classNames('content', 'content--no-scroll', 'content--timetable')}>
                 { /* eslint-disable-next-line react/jsx-indent */}
                   <div className={classNames('section-wrap', 'section-wrap--timetable-left', (mobileShowLectureList ? '' : 'mobile-nosize'))}>
-                    <div className={classNames('section-wrap', 'section-wrap--lecture-detail', (lectureActive.clicked ? '' : 'mobile-hidden'))}>
+                    <div className={classNames('section-wrap', 'section-wrap--lecture-detail', 'mobile-modal', (lectureActive.clicked ? '' : 'mobile-hidden'))}>
                       <div className={classNames('section')}>
                         <LectureDetailSection />
                       </div>
@@ -40,7 +40,7 @@ class TimetablePage extends Component {
                   </div>
                 { /* eslint-disable-next-line react/jsx-indent */}
                   <div className={classNames('section-wrap', 'section-wrap--timetable-center-right')}>
-                    <div className={classNames('section-wrap', 'section-wrap--timetable-tabs', (mobileShowTimetableTabs ? '' : 'mobile-hidden'))}>
+                    <div className={classNames('section-wrap', 'section-wrap--timetable-tabs', 'mobile-modal', (mobileShowTimetableTabs ? '' : 'mobile-hidden'))}>
                       <div>
                         <div className={classNames('close-button')} onClick={() => setMobileShowTimetableTabsDispatch(false)}>닫기</div>
                         <TimetableTabs />

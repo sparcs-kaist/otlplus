@@ -107,7 +107,7 @@ class TimetableTabs extends Component {
 
     if (timetables && timetables.length) {
       return (
-        <div className={classNames('tab--timetable')}>
+        <div className={classNames('tabs--timetable')}>
           { timetables.map((timetable, idx) => (
             <div className={classNames((timetable.id === currentTimetable.id ? 'active' : ''))} key={timetable.id} onClick={() => this.changeTab(timetable)}>
               <span>
@@ -125,7 +125,7 @@ class TimetableTabs extends Component {
     }
     return (
         // eslint-disable-next-line react/jsx-indent
-        <div className={classNames('tab--timetable')}>
+        <div className={classNames('tabs--timetable')}>
           <div style={{ pointerEvents: 'none' }}>
             <span>불러오는 중</span>
           </div>
