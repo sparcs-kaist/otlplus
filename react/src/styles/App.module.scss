@@ -1877,8 +1877,10 @@ table {
 
             .search-area & {
                 margin-bottom: -6px;
+                margin-right: -6px;
 
                 & > label {
+                    display: inline-block;
                     margin-bottom: 6px;
                     margin-right: 6px;
                     white-space: nowrap;
