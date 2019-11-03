@@ -38,7 +38,6 @@ class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        { /* */}
         <>
           <Header />
           <Switch>

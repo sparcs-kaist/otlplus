@@ -43,7 +43,6 @@ class SyllabusPage extends Component {
           </div>
           <div className={classNames('syllabus-iframe-wrapper')}>
             { lectures.map(lecture => (
-            //
               <iframe className={classNames('syllabus-iframe')} src={this.getLectureUrl(lecture)} title={`syllabus-${lecture.title}`} key={lecture.id} style={lecture.id === currentShowingLecture.id ? {} : { display: 'none' }}>
                 { lecture.common_title }
               </iframe>

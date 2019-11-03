@@ -8,12 +8,11 @@ import reviewShape from '../../shapes/ReviewShape';
 
 const ReviewSimpleBlock = ({ review }) => {
   return (
-
     <a href={`/review/result/comment/${review.id}`} target="_blank" rel="noopener noreferrer" style={{ display: 'block' }}>
       <div className={classNames('block', 'block--review-simple')}>
         <div>
           {review.comment}
-        </div> 
+        </div>
         <div>
           <span>
             추천&nbsp;
@@ -31,7 +30,7 @@ const ReviewSimpleBlock = ({ review }) => {
             강의&nbsp;
             <strong>{review.speech_letter}</strong>
           </span>
-        </div> 
+        </div>
       </div>
     </a>
   );

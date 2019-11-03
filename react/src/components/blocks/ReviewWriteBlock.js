@@ -7,7 +7,6 @@ import lectureShape from '../../shapes/NestedLectureShape';
 
 const ReviewWriteBlock = ({ lecture }) => {
   return (
-
     <form className={classNames('block', 'block--review-write')}>
       <div className={classNames('block--review-write__title')}>
         <strong>{lecture.title}</strong>
@@ -38,7 +37,7 @@ const ReviewWriteBlock = ({ lecture }) => {
             <input type="radio" name="grade" value="F" />
             <span>F</span>
           </label>
-        </div> 
+        </div>
         <div className={classNames('block--review-write__score')}>
           <span className={classNames('block--review-write__score__name')}>널널</span>
           <label className={classNames('block--review-write__score__option')}>
@@ -61,7 +60,7 @@ const ReviewWriteBlock = ({ lecture }) => {
             <input type="radio" name="load" value="F" />
             <span>F</span>
           </label>
-        </div> 
+        </div>
         <div className={classNames('block--review-write__score')}>
           <span className={classNames('block--review-write__score__name')}>강의</span>
           <label className={classNames('block--review-write__score__option')}>
@@ -84,7 +83,7 @@ const ReviewWriteBlock = ({ lecture }) => {
             <input type="radio" name="speech" value="F" />
             <span>F</span>
           </label>
-        </div> 
+        </div>
       </div>
       <div className={classNames('block--review-write__buttons')}>
         <button className={classNames('text-button', 'text-button--review-write-block')} type="submit">

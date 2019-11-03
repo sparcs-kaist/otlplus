@@ -26,7 +26,7 @@ class SearchCircle extends Component {
   onClick(e) {
     const { isChecked } = this.state;
     const { clickCircle } = this.props;
-  
+
     const value = e.target.value;
     if (isChecked && value === 'ALL') {
       return; // Nothing do, return
