@@ -27,7 +27,9 @@ class Header extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.location.pathname !== prevProps.location.pathname) {
+    const { location } = this.props;
+
+    if (location.pathname !== prevProps.location.pathname) {
       this.setNoBackground();
       this.closeMenu();
     }

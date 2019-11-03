@@ -69,8 +69,8 @@ class LectureSearchSubSection extends Component {
 
   clickCircle = (filter_) => {
     const filterName = filter_.name;
-    const value = filter_.value;
-    const isChecked = filter_.isChecked;
+    const { value, isChecked } = filter_;
+
     if (isChecked) {
       this.setState((prevState) => {
         const filter = prevState[filterName];
@@ -91,7 +91,7 @@ class LectureSearchSubSection extends Component {
   }
 
   handleInput(e) {
-    const value = e.target.value;
+    const { value } = e.target;
     const { year, semester } = this.props;
 
     this.setState({

@@ -19,10 +19,12 @@ class Scroller extends Component {
   }
 
   render() {
+    const { onScroll, children } = this.props;
+
     return (
-      <div ref="scroll-container" onScroll={this.props.onScroll} className="nano">
+      <div ref="scroll-container" onScroll={onScroll} className="nano">
         <div className="list-scroll nano-content">
-          {this.props.children}
+          {children}
         </div>
       </div>
     );
