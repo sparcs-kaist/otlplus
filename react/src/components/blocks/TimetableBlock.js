@@ -21,7 +21,7 @@ const TimetableBlock = ({ lecture, classtime, cellWidth, cellHeight, isClicked, 
 
   return (
     <div
-      className={classNames('block--timetable', `background-color--${lecture.course % 16 + 1}`, activeType)}
+      className={classNames('block--timetable', `background-color--${(lecture.course % 16) + 1}`, activeType)}
       style={{
         left: (cellWidth + 5) * classtime.day + 17,
         top: cellHeight * indexOfTime(classtime.begin) + 19,

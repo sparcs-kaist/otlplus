@@ -126,15 +126,15 @@ class SummarySubSection extends Component {
     const timetableLectures = currentTimetable
       ? currentTimetable.lectures
       : [];
-    const type_credit = [0, 1, 2, 3, 4, 5].map(index => (
+    const currentTypeCredit = [0, 1, 2, 3, 4, 5].map(index => (
       timetableLectures
         .filter(lecture => (indexOfType(lecture.type_en) === index))
         .reduce((acc, lecture) => (acc + (lecture.credit + lecture.credit_au)), 0)
     ));
     const alec = lectureActiveLecture;
-    const sum_credit = timetableLectures.reduce((acc, lecture) => (acc + lecture.credit), 0)
+    const allCreditCredit = timetableLectures.reduce((acc, lecture) => (acc + lecture.credit), 0)
       + (alec && !inTimetable(alec, currentTimetable) ? alec.credit : 0);
-    const sum_credit_au = timetableLectures.reduce((acc, lecture) => (acc + lecture.credit_au), 0)
+    const allAuCredit = timetableLectures.reduce((acc, lecture) => (acc + lecture.credit_au), 0)
       + (alec && !inTimetable(alec, currentTimetable) ? alec.credit_au : 0);
     const targetNum = timetableLectures.reduce((acc, lecture) => (acc + (lecture.credit + lecture.credit_au)), 0);
     const grade = timetableLectures.reduce((acc, lecture) => (acc + (lecture.grade * (lecture.credit + lecture.credit_au))), 0);
@@ -146,19 +146,19 @@ class SummarySubSection extends Component {
       (laf === LIST || lectureActiveFrom === TABLE)
       && (indexOfType(lal.type_en) === typeIndex)
     );
-    const active_type_credit = [0, 1, 2, 3, 4, 5].map(i => (
+    const activeTypeCredit = [0, 1, 2, 3, 4, 5].map(i => (
       !isLectureActiveFromType(lectureActiveFrom, lectureActiveLecture, i)
         ? ''
         : inTimetable(lectureActiveLecture, currentTimetable)
           ? `(${lectureActiveLecture.credit + lectureActiveLecture.credit_au})`
           : `+${lectureActiveLecture.credit + lectureActiveLecture.credit_au}`
     ));
-    const sum_active_type_credit = [0, 1, 2, 3, 4, 5].map(i => (
+    const totalTypeCredit = [0, 1, 2, 3, 4, 5].map(i => (
       !isLectureActiveFromType(lectureActiveFrom, lectureActiveLecture, i)
-        ? type_credit[i]
+        ? currentTypeCredit[i]
         : inTimetable(lectureActiveLecture, currentTimetable)
-          ? type_credit[i]
-          : type_credit[i] + lectureActiveLecture.credit + lectureActiveLecture.credit_au
+          ? currentTypeCredit[i]
+          : currentTypeCredit[i] + lectureActiveLecture.credit + lectureActiveLecture.credit_au
     ));
 
     const creditAct = (lectureActiveLecture !== null) && (lectureActiveLecture.credit > 0);
@@ -168,68 +168,68 @@ class SummarySubSection extends Component {
       <div className={classNames('section-content--summary')}>
         <div className={classNames('section-content--summary__type')}>
           <div>
-          <div className={classNames('attribute')} onMouseOver={() => this.typeFocus('Basic Required')} onMouseOut={() => this.clearFocus()}>
-            <span className={classNames('fixed-ko')}>기필</span>
-            <div>
-              <span className={classNames('mobile-hidden', (active === 'Basic Required' ? 'active' : ''))}>{type_credit[0]}</span>
-              <span className={classNames('mobile-hidden', 'active')}>{active_type_credit[0]}</span>
-              <span className={classNames('mobile-unhidden', (isLectureActiveFromType(lectureActiveFrom, lectureActiveLecture, 0) ? 'active' : ''))}>{sum_active_type_credit[0]}</span>
-            </div>
-          </div>
-          <div className={classNames('attribute')} onMouseOver={() => this.typeFocus('Major Required')} onMouseOut={() => this.clearFocus()}>
-            <span className={classNames('fixed-ko')}>전필</span>
-            <div>
-              <span className={classNames('mobile-hidden', (active === 'Major Required' ? 'active' : ''))}>{type_credit[2]}</span>
-              <span className={classNames('mobile-hidden', 'active')}>{active_type_credit[2]}</span>
-              <span className={classNames('mobile-unhidden', (isLectureActiveFromType(lectureActiveFrom, lectureActiveLecture, 2) ? 'active' : ''))}>{sum_active_type_credit[2]}</span>
-            </div>
-          </div>
-          <div className={classNames('attribute')} onMouseOver={() => this.typeFocus('Humanities & Social Elective')} onMouseOut={() => this.clearFocus()}>
-            <span className={classNames('fixed-ko')}>인문</span>
-            <div>
-              <span className={classNames('mobile-hidden', (active === 'Humanities & Social Elective' ? 'active' : ''))}>{type_credit[4]}</span>
-              <span className={classNames('mobile-hidden', 'active')}>{active_type_credit[4]}</span>
-              <span className={classNames('mobile-unhidden', (isLectureActiveFromType(lectureActiveFrom, lectureActiveLecture, 4) ? 'active' : ''))}>{sum_active_type_credit[4]}</span>
-            </div>
-          </div>
+            <div className={classNames('attribute')} onMouseOver={() => this.typeFocus('Basic Required')} onMouseOut={() => this.clearFocus()}>
+              <span className={classNames('fixed-ko')}>기필</span>
+              <div>
+                <span className={classNames('mobile-hidden', (active === 'Basic Required' ? 'active' : ''))}>{currentTypeCredit[0]}</span>
+                <span className={classNames('mobile-hidden', 'active')}>{activeTypeCredit[0]}</span>
+                <span className={classNames('mobile-unhidden', (isLectureActiveFromType(lectureActiveFrom, lectureActiveLecture, 0) ? 'active' : ''))}>{totalTypeCredit[0]}</span>
+              </div>
+            </div> 
+            <div className={classNames('attribute')} onMouseOver={() => this.typeFocus('Major Required')} onMouseOut={() => this.clearFocus()}>
+              <span className={classNames('fixed-ko')}>전필</span>
+              <div>
+                <span className={classNames('mobile-hidden', (active === 'Major Required' ? 'active' : ''))}>{currentTypeCredit[2]}</span>
+                <span className={classNames('mobile-hidden', 'active')}>{activeTypeCredit[2]}</span>
+                <span className={classNames('mobile-unhidden', (isLectureActiveFromType(lectureActiveFrom, lectureActiveLecture, 2) ? 'active' : ''))}>{totalTypeCredit[2]}</span>
+              </div>
+            </div> 
+            <div className={classNames('attribute')} onMouseOver={() => this.typeFocus('Humanities & Social Elective')} onMouseOut={() => this.clearFocus()}>
+              <span className={classNames('fixed-ko')}>인문</span>
+              <div>
+                <span className={classNames('mobile-hidden', (active === 'Humanities & Social Elective' ? 'active' : ''))}>{currentTypeCredit[4]}</span>
+                <span className={classNames('mobile-hidden', 'active')}>{activeTypeCredit[4]}</span>
+                <span className={classNames('mobile-unhidden', (isLectureActiveFromType(lectureActiveFrom, lectureActiveLecture, 4) ? 'active' : ''))}>{totalTypeCredit[4]}</span>
+              </div>
+            </div> 
           </div>
           <div>
-          <div className={classNames('attribute')} onMouseOver={() => this.typeFocus('Basic Elective')} onMouseOut={() => this.clearFocus()}>
-            <span className={classNames('fixed-ko')}>기선</span>
-            <div>
-              <span className={classNames('mobile-hidden', (active === 'Basic Elective' ? 'active' : ''))}>{type_credit[1]}</span>
-              <span className={classNames('mobile-hidden', 'active')}>{active_type_credit[1]}</span>
-              <span className={classNames('mobile-unhidden', (isLectureActiveFromType(lectureActiveFrom, lectureActiveLecture, 1) ? 'active' : ''))}>{sum_active_type_credit[1]}</span>
-            </div>
-          </div>
-          <div className={classNames('attribute')} onMouseOver={() => this.typeFocus('Major Elective')} onMouseOut={() => this.clearFocus()}>
-            <span className={classNames('fixed-ko')}>전선</span>
-            <div>
-              <span className={classNames('mobile-hidden', (active === 'Major Elective' ? 'active' : ''))}>{type_credit[3]}</span>
-              <span className={classNames('mobile-hidden', 'active')}>{active_type_credit[3]}</span>
-              <span className={classNames('mobile-unhidden', (isLectureActiveFromType(lectureActiveFrom, lectureActiveLecture, 3) ? 'active' : ''))}>{sum_active_type_credit[3]}</span>
-            </div>
-          </div>
-          <div className={classNames('attribute')} onMouseOver={() => this.typeFocus('Etc')} onMouseOut={() => this.clearFocus()}>
-            <span className={classNames('fixed-ko')}>기타</span>
-            <div>
-              <span className={classNames('mobile-hidden', (active === 'Etc' ? 'active' : ''))}>{type_credit[5]}</span>
-              <span className={classNames('mobile-hidden', 'active')}>{active_type_credit[5]}</span>
-              <span className={classNames('mobile-unhidden', (isLectureActiveFromType(lectureActiveFrom, lectureActiveLecture, 5) ? 'active' : ''))}>{sum_active_type_credit[5]}</span>
-            </div>
-          </div>
+            <div className={classNames('attribute')} onMouseOver={() => this.typeFocus('Basic Elective')} onMouseOut={() => this.clearFocus()}>
+              <span className={classNames('fixed-ko')}>기선</span>
+              <div>
+                <span className={classNames('mobile-hidden', (active === 'Basic Elective' ? 'active' : ''))}>{currentTypeCredit[1]}</span>
+                <span className={classNames('mobile-hidden', 'active')}>{activeTypeCredit[1]}</span>
+                <span className={classNames('mobile-unhidden', (isLectureActiveFromType(lectureActiveFrom, lectureActiveLecture, 1) ? 'active' : ''))}>{totalTypeCredit[1]}</span>
+              </div>
+            </div> 
+            <div className={classNames('attribute')} onMouseOver={() => this.typeFocus('Major Elective')} onMouseOut={() => this.clearFocus()}>
+              <span className={classNames('fixed-ko')}>전선</span>
+              <div>
+                <span className={classNames('mobile-hidden', (active === 'Major Elective' ? 'active' : ''))}>{currentTypeCredit[3]}</span>
+                <span className={classNames('mobile-hidden', 'active')}>{activeTypeCredit[3]}</span>
+                <span className={classNames('mobile-unhidden', (isLectureActiveFromType(lectureActiveFrom, lectureActiveLecture, 3) ? 'active' : ''))}>{totalTypeCredit[3]}</span>
+              </div>
+            </div> 
+            <div className={classNames('attribute')} onMouseOver={() => this.typeFocus('Etc')} onMouseOut={() => this.clearFocus()}>
+              <span className={classNames('fixed-ko')}>기타</span>
+              <div>
+                <span className={classNames('mobile-hidden', (active === 'Etc' ? 'active' : ''))}>{currentTypeCredit[5]}</span>
+                <span className={classNames('mobile-hidden', 'active')}>{activeTypeCredit[5]}</span>
+                <span className={classNames('mobile-unhidden', (isLectureActiveFromType(lectureActiveFrom, lectureActiveLecture, 5) ? 'active' : ''))}>{totalTypeCredit[5]}</span>
+              </div>
+            </div> 
           </div>
         </div>
         <div className={classNames('scores')}>
           <div onMouseOver={() => this.creditFocus('Credit')} onMouseOut={() => this.clearFocus()}>
             <div>
-              <span className={classNames('normal', (creditAct ? 'active' : active === 'Credit' ? 'active' : ''))}>{sum_credit}</span>
+              <span className={classNames('normal', (creditAct ? 'active' : active === 'Credit' ? 'active' : ''))}>{allCreditCredit}</span>
             </div>
             <div>학점</div>
           </div>
           <div onMouseOver={() => this.creditFocus('Credit AU')} onMouseOut={() => this.clearFocus()}>
             <div>
-              <span className={classNames('normal', (creditAuAct ? 'active' : active === 'Credit AU' ? 'active' : ''))}>{sum_credit_au}</span>
+              <span className={classNames('normal', (creditAuAct ? 'active' : active === 'Credit AU' ? 'active' : ''))}>{allAuCredit}</span>
             </div>
             <div>AU</div>
           </div>

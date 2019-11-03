@@ -122,13 +122,13 @@ class Header extends Component {
               </span>
               { user
                 ? (
-                  <a>
+                  <Link to="/settings">
                     <i className={classNames('icon--header_user')} />
                     <span>
                       {user.lastName}
                       {user.firstName}
                     </span>
-                  </a>
+                  </Link>
                 )
                 : (
                   <a href={`/session/login/?next=${window.location.href}`}>
