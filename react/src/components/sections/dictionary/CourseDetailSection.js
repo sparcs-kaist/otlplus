@@ -71,174 +71,174 @@ class CourseDetailSection extends Component {
 
     if (clicked && course !== null) {
       return (
-      // eslint-disable-next-line react/jsx-indent
-      <div className={classNames('section-content', 'section-content--flex', 'section-content--course-detail')}>
-        <div className={classNames('close-button')} onClick={this.unfix}>닫기</div>
-        <div className={classNames('fixed')}>
-          <div>
-            <div className={classNames('title')}>
-              {course.title}
-            </div>
-            <div className={classNames('subtitle')}>
-              {course.old_code}
-            </div>
-          </div>
-          <div ref="scrollThreshold" />
-          <div className={classNames('fixed__conditional-part', 'fixed__conditional-part--hidden')} ref="hiddenScores">
-            <div>
-              <div className={classNames('scores')}>
-                <div>
-                  <div>
-                    {course.grade_letter}
-                  </div>
-                  <div>
-                    학점
-                  </div>
-                </div>
-                <div>
-                  <div>
-                    {course.load_letter}
-                  </div>
-                  <div>
-                    널널
-                  </div>
-                </div>
-                <div>
-                  <div>
-                    {course.speech_letter}
-                  </div>
-                  <div>
-                    강의
-                  </div>
-                </div>
-              </div>
-              <div className={classNames('divider')} />
-            </div>
-          </div>
-        </div>
-        <Scroller onScroll={() => this.onScroll()}>
-          <div>
-            <div className={classNames('attribute')}>
-              <div>
-                분류
-              </div>
-              <div>
-                {`${course.department.name}, ${course.type}`}
-              </div>
-            </div>
-            <div className={classNames('attribute')}>
-              <div>
-                설명
-              </div>
-              <div>
-                {course.summary}
-              </div>
-            </div>
-          </div>
-          <div className={classNames('scores')} ref="scores">
-            <div>
-              <div>
-                {course.grade_letter}
-              </div>
-              <div>
-                학점
-              </div>
-            </div>
-            <div>
-              <div>
-                {course.load_letter}
-              </div>
-              <div>
-                널널
-              </div>
-            </div>
-            <div>
-              <div>
-                {course.speech_letter}
-              </div>
-              <div>
-                강의
-              </div>
-            </div>
-          </div>
-          <div className={classNames('divider')} />
-          <div className={classNames('related-courses')}>
-            <div>
-              { courses.map(c => <CourseSimpleBlock course={c} key={c.id} />) }
-            </div>
-            <div>
-              &gt;
-            </div>
-            <div>
-              <CourseSimpleBlock course={course} />
-            </div>
-            <div>
-              &gt;
-            </div>
-            <div>
-              { courses.map(c => <CourseSimpleBlock course={c} key={c.id} />) }
-            </div>
-          </div>
-          <div className={classNames('divider')} />
-          {
-            (lectures == null)
-              ? <div>불러오는 중</div>
-              : (
-                <div className={classNames('history')}>
-                  <table>
-                    {/* eslint-disable-next-line react/jsx-indent */}
-                  <tbody>
-                    <tr>
-                      <th>봄</th>
-                      {[...Array(2019 - 2009 + 1).keys()].map((i) => {
-                        const y = 2009 + i;
-                        const filteredLectures = lectures.filter(l => ((l.year === y) && (l.semester === 1)));
-                        if (filteredLectures.length === 0) {
-                          return <td className={classNames('history__cell--unopen')} key={`${y}-1`}>미개설</td>;
-                        }
-                        return <td key={`${y}-1`}><HistoryLecturesBlock lectures={filteredLectures} /></td>;
-                      })}
-                    </tr>
-                    <tr>
-                      <th />
-                      {[...Array(2019 - 2009 + 1).keys()].map((i) => {
-                        const y = 2009 + i;
-                        return (
-                          <td className={classNames('history__cell--year-label')} key={`${y}-l`}>{y}</td>
-                        );
-                      })}
-                    </tr>
-                    <tr>
-                      <th>가을</th>
-                      {[...Array(2019 - 2009 + 1).keys()].map((i) => {
-                        const y = 2009 + i;
-                        const filteredLectures = lectures.filter(l => ((l.year === y) && (l.semester === 3)));
-                        if (filteredLectures.length === 0) {
-                          return <td className={classNames('history__cell--unopen')} key={`${y}-3`}>미개설</td>;
-                        }
-                        return <td key={`${y}-3`}><HistoryLecturesBlock lectures={filteredLectures} /></td>;
-                      })}
-                    </tr>
-                  </tbody>
-                  </table>
-                </div>
-              )
-          }
-          <div className={classNames('divider')} />
-          {
-            (lectures == null || lectures.length === 0)
-              ? null
-              : <ReviewWriteBlock lecture={lectures[lectures.length - 1]} />
-          }
-          {
-            (reviews == null)
-              ? <div className={classNames('list-placeholder')}><div>불러오는 중</div></div>
-              : (reviews.length
-                ? <div>{reviews.map(r => <ReviewBlock review={r} key={r.id} />)}</div>
-                : <div className={classNames('list-placeholder')}><div>결과 없음</div></div>)
-          }
-        </Scroller>
-      </div>
+
+        <div className={classNames('section-content', 'section-content--flex', 'section-content--course-detail')}>
+          <div className={classNames('close-button')} onClick={this.unfix}>닫기</div>
+          <div className={classNames('fixed')}>
+            <div> 
+              <div className={classNames('title')}>
+                {course.title}
+              </div> 
+              <div className={classNames('subtitle')}>
+                {course.old_code}
+              </div> 
+            </div> 
+            <div ref="scrollThreshold" />
+            <div className={classNames('fixed__conditional-part', 'fixed__conditional-part--hidden')} ref="hiddenScores">
+              <div> 
+                <div className={classNames('scores')}>
+                  <div> 
+                    <div>
+                      {course.grade_letter}
+                    </div>
+                    <div>
+                      학점
+                    </div>
+                  </div> 
+                  <div> 
+                    <div>
+                      {course.load_letter}
+                    </div>
+                    <div>
+                      널널
+                    </div>
+                  </div> 
+                  <div> 
+                    <div>
+                      {course.speech_letter}
+                    </div>
+                    <div>
+                      강의
+                    </div>
+                  </div> 
+                </div> 
+                <div className={classNames('divider')} />
+              </div> 
+            </div> 
+          </div> 
+          <Scroller onScroll={() => this.onScroll()}>
+            <div> 
+              <div className={classNames('attribute')}>
+                <div> 
+                  분류
+                </div> 
+                <div> 
+                  {`${course.department.name}, ${course.type}`}
+                </div> 
+              </div> 
+              <div className={classNames('attribute')}>
+                <div> 
+                  설명
+                </div> 
+                <div> 
+                  {course.summary}
+                </div> 
+              </div> 
+            </div> 
+            <div className={classNames('scores')} ref="scores">
+              <div> 
+                <div> 
+                  {course.grade_letter}
+                </div> 
+                <div> 
+                  학점
+                </div> 
+              </div> 
+              <div> 
+                <div> 
+                  {course.load_letter}
+                </div> 
+                <div> 
+                  널널
+                </div> 
+              </div> 
+              <div> 
+                <div> 
+                  {course.speech_letter}
+                </div> 
+                <div> 
+                  강의
+                </div> 
+              </div> 
+            </div> 
+            <div className={classNames('divider')} />
+            <div className={classNames('related-courses')}>
+              <div> 
+                { courses.map(c => <CourseSimpleBlock course={c} key={c.id} />) }
+              </div> 
+              <div> 
+                &gt;
+              </div> 
+              <div> 
+                <CourseSimpleBlock course={course} />
+              </div> 
+              <div> 
+                &gt;
+              </div> 
+              <div> 
+                { courses.map(c => <CourseSimpleBlock course={c} key={c.id} />) }
+              </div> 
+            </div> 
+            <div className={classNames('divider')} />
+            {
+              (lectures == null)
+                ? <div>불러오는 중</div>
+                : (
+                  <div className={classNames('history')}>
+                    <table>
+                      {/* */}
+                      <tbody>
+                        <tr>
+                          <th>봄</th>
+                          {[...Array(2019 - 2009 + 1).keys()].map((i) => {
+                            const y = 2009 + i;
+                            const filteredLectures = lectures.filter(l => ((l.year === y) && (l.semester === 1)));
+                            if (filteredLectures.length === 0) {
+                              return <td className={classNames('history__cell--unopen')} key={`${y}-1`}>미개설</td>;
+                            }
+                            return <td key={`${y}-1`}><HistoryLecturesBlock lectures={filteredLectures} /></td>;
+                          })}
+                        </tr>
+                        <tr>
+                          <th />
+                          {[...Array(2019 - 2009 + 1).keys()].map((i) => {
+                            const y = 2009 + i;
+                            return (
+                              <td className={classNames('history__cell--year-label')} key={`${y}-l`}>{y}</td>
+                            );
+                          })}
+                        </tr>
+                        <tr>
+                          <th>가을</th>
+                          {[...Array(2019 - 2009 + 1).keys()].map((i) => {
+                            const y = 2009 + i;
+                            const filteredLectures = lectures.filter(l => ((l.year === y) && (l.semester === 3)));
+                            if (filteredLectures.length === 0) {
+                              return <td className={classNames('history__cell--unopen')} key={`${y}-3`}>미개설</td>;
+                            }
+                            return <td key={`${y}-3`}><HistoryLecturesBlock lectures={filteredLectures} /></td>;
+                          })}
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div> 
+                )
+            }
+            <div className={classNames('divider')} />
+            {
+              (lectures == null || lectures.length === 0)
+                ? null
+                : <ReviewWriteBlock lecture={lectures[lectures.length - 1]} />
+            }
+            {
+              (reviews == null)
+                ? <div className={classNames('list-placeholder')}><div>불러오는 중</div></div>
+                : (reviews.length
+                  ? <div>{reviews.map(r => <ReviewBlock review={r} key={r.id} />)}</div>
+                  : <div className={classNames('list-placeholder')}><div>결과 없음</div></div>)
+            }
+          </Scroller>
+        </div> 
       );
     }
     return (

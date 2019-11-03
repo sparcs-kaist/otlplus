@@ -76,7 +76,7 @@ class SemesterSection extends Component {
 
     if (year && semester) {
       return (
-        // eslint-disable-next-line react/jsx-indent
+        //
         <div className={classNames('section', 'section--semester')}>
           <div className={classNames(((year === startYear) && (semester === startSemester) ? 'disable' : ''))} onClick={() => this.semesterPrev()}><i className={classNames('icon', 'icon--semester-prev')} /></div>
           <span>{`${year} ${semesterName[semester]}`}</span>
@@ -85,12 +85,12 @@ class SemesterSection extends Component {
       );
     }
     return (
-        // eslint-disable-next-line react/jsx-indent
-        <div className={classNames('section', 'section--semester')}>
-          <div className={classNames('disable')}><i className={classNames('icon', 'icon--semester-prev')} /></div>
-          <span>불러오는 중</span>
-          <div className={classNames('disable')}><i className={classNames('icon', 'icon--semester-next')} /></div>
-        </div>
+      //
+      <div className={classNames('section', 'section--semester')}>
+        <div className={classNames('disable')}><i className={classNames('icon', 'icon--semester-prev')} /></div>
+        <span>불러오는 중</span>
+        <div className={classNames('disable')}><i className={classNames('icon', 'icon--semester-next')} /></div>
+      </div>
     );
   }
 }

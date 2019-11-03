@@ -239,50 +239,50 @@ class LectureListSection extends Component {
         return <div className={classNames('list-placeholder')}><div>결과 없음</div></div>;
       }
       return [
-      // eslint-disable-next-line indent
-      ...courses.map(course => (
-        <div className={classNames('block', 'block--course-lectures', (course.some(lecture => isListClicked(lecture, lectureActive)) ? 'block--clicked' : ''), (isInactiveListLectures(course, lectureActive) ? 'block--inactive' : ''))} key={course[0].course}>
-          <div className={classNames('block--course-lectures__title')}>
-            <strong>{course[0].common_title}</strong>
-            {' '}
-            {course[0].old_code}
-          </div>
-          {course.map(lecture => (
-            <CourseLecturesBlock
-              lecture={lecture}
-              key={lecture.id}
-              isClicked={isListClicked(lecture, lectureActive)}
-              isHover={isListHover(lecture, lectureActive)}
-              inTimetable={inTimetable(lecture, currentTimetable)}
-              inCart={inCart(lecture, cart)}
-              fromCart={fromCart}
-              addToCart={this.addToCart}
-              addToTable={this.addToTable}
-              deleteFromCart={this.deleteFromCart}
-              listHover={this.listHover}
-              listOut={this.listOut}
-              listClick={this.listClick}
-            />
-          ))}
-        </div>
-        // eslint-disable-next-line indent
-      )),
-      // eslint-disable-next-line react/jsx-indent
-      <div className={classNames('scroll-placeholder')} key="placeholder" />,
+        //
+        ...courses.map(course => (
+          <div className={classNames('block', 'block--course-lectures', (course.some(lecture => isListClicked(lecture, lectureActive)) ? 'block--clicked' : ''), (isInactiveListLectures(course, lectureActive) ? 'block--inactive' : ''))} key={course[0].course}>
+            <div className={classNames('block--course-lectures__title')}>
+              <strong>{course[0].common_title}</strong>
+              {' '}
+              {course[0].old_code}
+            </div>
+            {course.map(lecture => (
+              <CourseLecturesBlock
+                lecture={lecture}
+                key={lecture.id}
+                isClicked={isListClicked(lecture, lectureActive)}
+                isHover={isListHover(lecture, lectureActive)}
+                inTimetable={inTimetable(lecture, currentTimetable)}
+                inCart={inCart(lecture, cart)}
+                fromCart={fromCart}
+                addToCart={this.addToCart}
+                addToTable={this.addToTable}
+                deleteFromCart={this.deleteFromCart}
+                listHover={this.listHover}
+                listOut={this.listOut}
+                listClick={this.listClick}
+              />
+            ))}
+          </div> 
+        //
+        )),
+        //
+        <div className={classNames('scroll-placeholder')} key="placeholder" />,
       ];
     };
 
     if (currentList === 'SEARCH') {
       return (
-      // eslint-disable-next-line react/jsx-indent
-          <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
-            { searchOpen ? <LectureSearchSubSection /> : null }
-            <div className={classNames('close-button')} onClick={this.mobileCloseLectureList}>닫기</div>
-            <div className={classNames('title', 'title--search')} onClick={() => this.showSearch()}>
-              <i className={classNames('icon', 'icon--search')} />
-              <span>검색</span>
-            </div>
-            {/* eslint-disable-next-line react/jsx-indent */}
+        //
+        <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
+          { searchOpen ? <LectureSearchSubSection /> : null }
+          <div className={classNames('close-button')} onClick={this.mobileCloseLectureList}>닫기</div>
+          <div className={classNames('title', 'title--search')} onClick={() => this.showSearch()}>
+            <i className={classNames('icon', 'icon--search')} />
+            <span>검색</span>
+          </div>
+          {/* */}
           <div>
             <div ref={this.arrowRef}>
               <span>&lt;</span>
@@ -291,38 +291,38 @@ class LectureListSection extends Component {
               {mapCourses(search.courses, false)}
             </Scroller>
           </div>
-          </div>
+        </div>
       );
     }
     if (major.codes.some(code => (currentList === code))) {
       return (
-      // eslint-disable-next-line react/jsx-indent
-            <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
-              <div className={classNames('close-button')} onClick={this.mobileCloseLectureList}>닫기</div>
-              <div className={classNames('title')}>
-                {major[currentList].name}
-              </div>
-              {/* eslint-disable-next-line react/jsx-indent */}
-            <div>
-              <div ref={this.arrowRef}>
-                <span>&lt;</span>
-              </div>
-              <Scroller onScroll={this.selectWithArrow}>
-                {mapCourses(major[currentList].courses, false)}
-              </Scroller>
-            </div>
-            </div>
+      //
+        <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
+          <div className={classNames('close-button')} onClick={this.mobileCloseLectureList}>닫기</div>
+          <div className={classNames('title')}>
+            {major[currentList].name}
+          </div>
+          {/* */}
+          <div>
+            <div ref={this.arrowRef}>
+              <span>&lt;</span>
+            </div> 
+            <Scroller onScroll={this.selectWithArrow}>
+              {mapCourses(major[currentList].courses, false)}
+            </Scroller>
+          </div>
+        </div>
       );
     }
     if (currentList === 'HUMANITY') {
       return (
-      // eslint-disable-next-line react/jsx-indent
-          <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
-            <div className={classNames('close-button')} onClick={this.mobileCloseLectureList}>닫기</div>
-            <div className={classNames('title')}>
-              인문사회선택
-            </div>
-            {/* eslint-disable-next-line react/jsx-indent */}
+      //
+        <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
+          <div className={classNames('close-button')} onClick={this.mobileCloseLectureList}>닫기</div>
+          <div className={classNames('title')}>
+            인문사회선택
+          </div>
+          {/* */}
           <div>
             <div ref={this.arrowRef}>
               <span>&lt;</span>
@@ -331,18 +331,18 @@ class LectureListSection extends Component {
               {mapCourses(humanity.courses, false)}
             </Scroller>
           </div>
-          </div>
+        </div>
       );
     }
     if (currentList === 'CART') {
       return (
-      // eslint-disable-next-line react/jsx-indent
-          <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
-            <div className={classNames('close-button')} onClick={this.mobileCloseLectureList}>닫기</div>
-            <div className={classNames('title')}>
-              장바구니
-            </div>
-            {/* eslint-disable-next-line react/jsx-indent */}
+      //
+        <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
+          <div className={classNames('close-button')} onClick={this.mobileCloseLectureList}>닫기</div>
+          <div className={classNames('title')}>
+            장바구니
+          </div>
+          {/* */}
           <div>
             <div ref={this.arrowRef}>
               <span>&lt;</span>
@@ -351,7 +351,7 @@ class LectureListSection extends Component {
               {mapCourses(cart.courses, true)}
             </Scroller>
           </div>
-          </div>
+        </div>
       );
     }
     return null;

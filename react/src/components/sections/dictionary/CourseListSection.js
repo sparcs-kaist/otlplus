@@ -152,56 +152,56 @@ class CourseListSection extends Component {
 
     if (currentList === 'SEARCH') {
       return (
-      // eslint-disable-next-line react/jsx-indent
-      <div className={classNames('section-content', 'section-content--flex', 'section-content--course-list')}>
-        { searchOpen ? <CourseSearchSubSection /> : null }
-        <div className={classNames('title', 'title--search')} onClick={() => this.showSearch()}>
-          <i className={classNames('icon', 'icon--search')} />
-          <span>검색</span>
-        </div>
-        <Scroller>
-          { mapCourses(search.courses) }
-        </Scroller>
-      </div>
+      //
+        <div className={classNames('section-content', 'section-content--flex', 'section-content--course-list')}>
+          { searchOpen ? <CourseSearchSubSection /> : null }
+          <div className={classNames('title', 'title--search')} onClick={() => this.showSearch()}>
+            <i className={classNames('icon', 'icon--search')} />
+            <span>검색</span>
+          </div>
+          <Scroller>
+            { mapCourses(search.courses) }
+          </Scroller>
+        </div> 
       );
     }
     if (major.codes.some(code => (currentList === code))) {
       return (
-      // eslint-disable-next-line react/jsx-indent
-      <div className={classNames('section-content', 'section-content--flex', 'section-content--course-list')}>
-        <div className={classNames('title')}>
-          {major[currentList].name}
-        </div>
-        <Scroller>
-          { mapCourses(major[currentList].courses) }
-        </Scroller>
-      </div>
+      //
+        <div className={classNames('section-content', 'section-content--flex', 'section-content--course-list')}>
+          <div className={classNames('title')}>
+            {major[currentList].name}
+          </div>
+          <Scroller>
+            { mapCourses(major[currentList].courses) }
+          </Scroller>
+        </div> 
       );
     }
     if (currentList === 'HUMANITY') {
       return (
-      // eslint-disable-next-line react/jsx-indent
-      <div className={classNames('section-content', 'section-content--flex', 'section-content--course-list')}>
-        <div className={classNames('title')}>
-          인문사회선택
-        </div>
-        <Scroller>
-          { mapCourses(humanity.courses) }
-        </Scroller>
-      </div>
+      //
+        <div className={classNames('section-content', 'section-content--flex', 'section-content--course-list')}>
+          <div className={classNames('title')}>
+            인문사회선택
+          </div>
+          <Scroller>
+            { mapCourses(humanity.courses) }
+          </Scroller>
+        </div> 
       );
     }
     if (currentList === 'TAKEN') {
       return (
-      // eslint-disable-next-line react/jsx-indent
-      <div className={classNames('section-content', 'section-content--flex', 'section-content--course-list')}>
-        <div className={classNames('title')}>
-          내가 들은 과목
-        </div>
-        <Scroller>
-          { mapCourses(taken.courses) }
-        </Scroller>
-      </div>
+      //
+        <div className={classNames('section-content', 'section-content--flex', 'section-content--course-list')}>
+          <div className={classNames('title')}>
+            내가 들은 과목
+          </div>
+          <Scroller>
+            { mapCourses(taken.courses) }
+          </Scroller>
+        </div> 
       );
     }
     return null;

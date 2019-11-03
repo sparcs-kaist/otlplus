@@ -156,79 +156,79 @@ class LectureSearchSubSection extends Component {
     const { start, end, day } = this.props;
 
     return (
-    // eslint-disable-next-line react/jsx-indent
-          <div className={classNames('search-area')}>
-            <form method="post">
-              <div className={classNames('title', 'title--search')}>
-                <i className={classNames('icon', 'icon--search')} />
-                <div>
-                  <input
-                    type="text"
-                    name="keyword"
-                    autoComplete="off"
-                    placeholder="검색"
-                    value={inputVal}
-                    onKeyDown={e => this.keyPress(e)}
-                    onChange={e => this.handleInput(e)}
-                  />
-                  <div className={classNames('search-keyword-autocomplete')}>
-                    <span className={classNames('search-keyword-autocomplete-space')}>{inputVal}</span>
-                    <span className={classNames('search-keyword-autocomplete-body')}>{autoComplete}</span>
-                  </div>
-                </div>
-              </div>
-              <div>
-                {/* eslint-disable-next-line react/jsx-indent */}
-              <SearchFilter
-                clickCircle={this.clickCircle}
-                inputName="type"
-                titleName="구분"
-                valueArr={['ALL', 'GR', 'MGC', 'BE', 'BR', 'EG', 'HSE', 'OE', 'ME', 'MR', 'ETC']}
-                nameArr={['전체', '공통', '교필', '기선', '기필', '석박', '인선', '자선', '전선', '전필', '기타']}
-              />
-                {/* eslint-disable-next-line react/jsx-indent */}
-              <SearchFilter
-                clickCircle={this.clickCircle}
-                inputName="department"
-                titleName="학과"
-                valueArr={['ALL', 'HSS', 'CE', 'MSB', 'ME', 'PH', 'BiS', 'IE', 'ID', 'BS', 'MAS', 'NQE', 'EE', 'CS', 'AE', 'CH', 'CBE', 'MS', 'ETC']}
-                nameArr={['전체', '인문', '건환', '기경', '기계', '물리', '바공', '산공', '산디', '생명', '수학', '원양', '전자', '전산', '항공', '화학', '생화공', '신소재', '기타']}
-              />
-                {/* eslint-disable-next-line react/jsx-indent */}
-              <SearchFilter
-                clickCircle={this.clickCircle}
-                inputName="grade"
-                titleName="학년"
-                valueArr={['ALL', '100', '200', '300', '400']}
-                nameArr={['전체', '100번대', '200번대', '300번대', '400번대']}
-              />
-                <div className={classNames('attribute')}>
-                  <label>시간</label>
-                  { day !== null
-                    ? (
-                  // eslint-disable-next-line react/jsx-indent
+    //
+      <div className={classNames('search-area')}>
+        <form method="post">
+          <div className={classNames('title', 'title--search')}>
+            <i className={classNames('icon', 'icon--search')} />
+            <div>
+              <input
+                type="text"
+                name="keyword"
+                autoComplete="off"
+                placeholder="검색"
+                value={inputVal}
+                onKeyDown={e => this.keyPress(e)}
+                onChange={e => this.handleInput(e)}
+              /> 
+              <div className={classNames('search-keyword-autocomplete')}>
+                <span className={classNames('search-keyword-autocomplete-space')}>{inputVal}</span>
+                <span className={classNames('search-keyword-autocomplete-body')}>{autoComplete}</span>
+              </div> 
+            </div>
+          </div>
+          <div>
+            {/* */}
+            <SearchFilter
+              clickCircle={this.clickCircle}
+              inputName="type"
+              titleName="구분"
+              valueArr={['ALL', 'GR', 'MGC', 'BE', 'BR', 'EG', 'HSE', 'OE', 'ME', 'MR', 'ETC']}
+              nameArr={['전체', '공통', '교필', '기선', '기필', '석박', '인선', '자선', '전선', '전필', '기타']}
+            />
+            {/* */}
+            <SearchFilter
+              clickCircle={this.clickCircle}
+              inputName="department"
+              titleName="학과"
+              valueArr={['ALL', 'HSS', 'CE', 'MSB', 'ME', 'PH', 'BiS', 'IE', 'ID', 'BS', 'MAS', 'NQE', 'EE', 'CS', 'AE', 'CH', 'CBE', 'MS', 'ETC']}
+              nameArr={['전체', '인문', '건환', '기경', '기계', '물리', '바공', '산공', '산디', '생명', '수학', '원양', '전자', '전산', '항공', '화학', '생화공', '신소재', '기타']}
+            />
+            {/* */}
+            <SearchFilter
+              clickCircle={this.clickCircle}
+              inputName="grade"
+              titleName="학년"
+              valueArr={['ALL', '100', '200', '300', '400']}
+              nameArr={['전체', '100번대', '200번대', '300번대', '400번대']}
+            />
+            <div className={classNames('attribute')}>
+              <label>시간</label>
+              { day !== null
+                ? (
+              //
                   <label className={classNames('text-button')}>
                     {`${['월요일', '화요일', '수요일', '목요일', '금요일'][day]} \
                       ${8 + Math.floor(start / 2)}:${['00', '30'][start % 2]} ~ \
                       ${8 + Math.floor(end / 2)}:${['00', '30'][end % 2]}`}
                   </label>
-                    )
-                    : (
-                  // eslint-disable-next-line react/jsx-indent
+                )
+                : (
+              //
                   <label>
                     시간표에서 드래그
                   </label>
-                    )
-                  }
-                </div>
-              </div>
-              <div className={classNames('buttons')}>
-                <span type="button" className={classNames('text-button')} onClick={() => this.searchStart()}>검색</span>
-                <span type="button" className={classNames('text-button')} onClick={() => this.hideSearch()}>취소</span>
-              </div>
-              <div className={classNames('divider')} />
-            </form>
-          </div>
+                )
+              }
+            </div>
+          </div> 
+          <div className={classNames('buttons')}>
+            <span type="button" className={classNames('text-button')} onClick={() => this.searchStart()}>검색</span>
+            <span type="button" className={classNames('text-button')} onClick={() => this.hideSearch()}>취소</span>
+          </div> 
+          <div className={classNames('divider')} />
+        </form>
+      </div>
     );
   }
 }
