@@ -168,23 +168,23 @@ class TimetableSubSection extends Component {
     const lectures = currentTimetable ? currentTimetable.lectures : [];
     const lectureBlocks = lectures.map(lecture => (
       lecture.classtimes.map(classtime => (
-          // eslint-disable-next-line react/jsx-indent
-          <TimetableBlock
-            key={`${lecture.id}:${classtime.day}:${classtime.begin}`}
-            lecture={lecture}
-            classtime={classtime}
-            cellWidth={cellWidth}
-            cellHeight={cellHeight}
-            isClicked={isTableClicked(lecture, lectureActive)}
-            isHover={isTableHover(lecture, lectureActive) || isListHover(lecture, lectureActive) || isListClicked(lecture, lectureActive) || isInMultiple(lecture, lectureActive)}
-            isInactive={isInactiveTableLecture(lecture, lectureActive)}
-            isTemp={false}
-            isSimple={mobileShowLectureList}
-            blockHover={this.blockHover}
-            blockOut={this.blockOut}
-            blockClick={this.blockClick}
-            deleteLecture={this.deleteLecture}
-          />
+        //
+        <TimetableBlock
+          key={`${lecture.id}:${classtime.day}:${classtime.begin}`}
+          lecture={lecture}
+          classtime={classtime}
+          cellWidth={cellWidth}
+          cellHeight={cellHeight}
+          isClicked={isTableClicked(lecture, lectureActive)}
+          isHover={isTableHover(lecture, lectureActive) || isListHover(lecture, lectureActive) || isListClicked(lecture, lectureActive) || isInMultiple(lecture, lectureActive)}
+          isInactive={isInactiveTableLecture(lecture, lectureActive)}
+          isTemp={false}
+          isSimple={mobileShowLectureList}
+          blockHover={this.blockHover}
+          blockOut={this.blockOut}
+          blockClick={this.blockClick}
+          deleteLecture={this.deleteLecture}
+        />
       ))
     ));
 
@@ -195,54 +195,54 @@ class TimetableSubSection extends Component {
         ...numArray.map((i) => {
           if (i === 1200) {
             return (
-            // eslint-disable-next-line react/jsx-indent
-            <div
-              className={classNames('cell-top', 'cell-bold')}
-              key={`${day}:1200`}
-              data-day={day}
-              data-time="1200"
-              onMouseDown={e => this.dragStart(e)}
-              onMouseMove={e => this.dragMove(e)}
-            />
+            //
+              <div
+                className={classNames('cell-top', 'cell-bold')}
+                key={`${day}:1200`}
+                data-day={day}
+                data-time="1200"
+                onMouseDown={e => this.dragStart(e)}
+                onMouseMove={e => this.dragMove(e)}
+              />
             );
           }
           if (i === 1800) {
             return (
-            // eslint-disable-next-line react/jsx-indent
-            <div
-              className={classNames('cell-top', 'cell-bold')}
-              key={`${day}:1800`}
-              data-day={day}
-              data-time="1800"
-              onMouseDown={e => this.dragStart(e)}
-              onMouseMove={e => this.dragMove(e)}
-            />
+            //
+              <div
+                className={classNames('cell-top', 'cell-bold')}
+                key={`${day}:1800`}
+                data-day={day}
+                data-time="1800"
+                onMouseDown={e => this.dragStart(e)}
+                onMouseMove={e => this.dragMove(e)}
+              />
             );
           }
           if (i === 2350) {
             return (
-            // eslint-disable-next-line react/jsx-indent
-            <div
-              className={classNames('cell-bottom', (mobileShowLectureList ? 'cell-bottom--mobile-noline' : ''), 'cell-last')}
-              key={`${day}:2330`}
-              data-day={day}
-              data-time="2330"
-              onMouseDown={e => this.dragStart(e)}
-              onMouseMove={e => this.dragMove(e)}
-            />
+            //
+              <div
+                className={classNames('cell-bottom', (mobileShowLectureList ? 'cell-bottom--mobile-noline' : ''), 'cell-last')}
+                key={`${day}:2330`}
+                data-day={day}
+                data-time="2330"
+                onMouseDown={e => this.dragStart(e)}
+                onMouseMove={e => this.dragMove(e)}
+              />
             );
           }
           if (i % 100 === 0) {
             return (
-            // eslint-disable-next-line react/jsx-indent
-            <div
-              className={classNames('cell-top')}
-              key={`${day}:${i.toString()}`}
-              data-day={day}
-              data-time={i.toString()}
-              onMouseDown={e => this.dragStart(e)}
-              onMouseMove={e => this.dragMove(e)}
-            />
+            //
+              <div
+                className={classNames('cell-top')}
+                key={`${day}:${i.toString()}`}
+                data-day={day}
+                data-time={i.toString()}
+                onMouseDown={e => this.dragStart(e)}
+                onMouseMove={e => this.dragMove(e)}
+              />
             );
           }
           return (

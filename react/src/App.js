@@ -38,21 +38,21 @@ class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        { /* eslint-disable-next-line react/jsx-indent */}
-      <>
-        <Header />
-        <Switch>
-          <Route path="/dictionary" render={props => <DictionaryPage />} />
-          <Route exact path="/timetable" render={props => <TimetablePage />} />
-          <Route exact path="/timetable/syllabus" component={SyllabusPage} />
-          <Route exact path="/main" render={props => <MainPage />} />
-          <Route exact path="/credits" render={props => <CreditPage />} />
-          <Route exact path="/licenses" render={props => <LicensePage />} />
-          {/* Temporary test page for axiom */}
-          <Route exact path="/test" render={props => <TestPage />} />
-          <Redirect from="/" to="/main/" />
-        </Switch>
-      </>
+        { /* */}
+        <>
+          <Header />
+          <Switch>
+            <Route path="/dictionary" render={props => <DictionaryPage />} />
+            <Route exact path="/timetable" render={props => <TimetablePage />} />
+            <Route exact path="/timetable/syllabus" component={SyllabusPage} />
+            <Route exact path="/main" render={props => <MainPage />} />
+            <Route exact path="/credits" render={props => <CreditPage />} />
+            <Route exact path="/licenses" render={props => <LicensePage />} />
+            {/* Temporary test page for axiom */}
+            <Route exact path="/test" render={props => <TestPage />} />
+            <Redirect from="/" to="/main/" />
+          </Switch>
+        </>
       </Provider>
     );
   }

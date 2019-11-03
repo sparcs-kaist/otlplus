@@ -20,49 +20,49 @@ const TimetableBlock = ({ lecture, classtime, cellWidth, cellHeight, isClicked, 
   );
 
   return (
-      // eslint-disable-next-line react/jsx-indent
-      <div
-        className={classNames('block--timetable', `background-color--${lecture.course % 16 + 1}`, activeType)}
-        style={{
-          left: (cellWidth + 5) * classtime.day + 17,
-          top: cellHeight * indexOfTime(classtime.begin) + 19,
-          width: cellWidth + 2,
-          height: cellHeight * (indexOfTime(classtime.end) - indexOfTime(classtime.begin)) - 3,
-        }}
-        onMouseOver={() => blockHover(lecture)()}
-        onMouseOut={() => blockOut()}
-        onClick={() => blockClick(lecture)()}
-      >
-        <div className={classNames('block--timetable__button')} onClick={event => deleteLecture(lecture)(event)}><i className={classNames('icon', 'icon--delete-lecture')} /></div>
-        <div
-          // onMouseDown={() => onMouseDown()}
-          className={classNames('block--timetable__content')}
-        >
-          <p className={classNames('block--timetable__content__title', (isSimple ? 'mobile-hidden' : ''))}>
-            {lecture.title}
-          </p>
-          <p className={classNames('block--timetable__content__info', 'mobile-hidden')}>
-            {lecture.professor_short}
-          </p>
-          <p className={classNames('block--timetable__content__info', 'mobile-hidden')}>
-            {classtime.classroom}
-          </p>
-        </div>
-        {
-          occupiedTime === undefined
-            ? null
-            : occupiedTime.map(t => (
-              <div
-                key={`${t[0]}:${t[1]}`}
-                className={classNames('block--timetable__occupied-area')}
-                style={{
-                  top: cellHeight * t[0],
-                  height: cellHeight * (t[1] - t[0]) - 3,
-                }}
-              />
-            ))
-        }
-      </div>
+
+    <div
+      className={classNames('block--timetable', `background-color--${lecture.course % 16 + 1}`, activeType)}
+      style={{
+        left: (cellWidth + 5) * classtime.day + 17,
+        top: cellHeight * indexOfTime(classtime.begin) + 19,
+        width: cellWidth + 2,
+        height: cellHeight * (indexOfTime(classtime.end) - indexOfTime(classtime.begin)) - 3,
+      }}
+      onMouseOver={() => blockHover(lecture)()}
+      onMouseOut={() => blockOut()}
+      onClick={() => blockClick(lecture)()}
+    >
+      <div className={classNames('block--timetable__button')} onClick={event => deleteLecture(lecture)(event)}><i className={classNames('icon', 'icon--delete-lecture')} /></div>
+      <div 
+        // onMouseDown={() => onMouseDown()}
+        className={classNames('block--timetable__content')}
+      > 
+        <p className={classNames('block--timetable__content__title', (isSimple ? 'mobile-hidden' : ''))}>
+          {lecture.title}
+        </p>
+        <p className={classNames('block--timetable__content__info', 'mobile-hidden')}>
+          {lecture.professor_short}
+        </p>
+        <p className={classNames('block--timetable__content__info', 'mobile-hidden')}>
+          {classtime.classroom}
+        </p>
+      </div> 
+      {
+        occupiedTime === undefined
+          ? null
+          : occupiedTime.map(t => (
+            <div
+              key={`${t[0]}:${t[1]}`}
+              className={classNames('block--timetable__occupied-area')}
+              style={{
+                top: cellHeight * t[0],
+                height: cellHeight * (t[1] - t[0]) - 3,
+              }}
+            />
+          ))
+      }
+    </div>
   );
 };
 
