@@ -239,7 +239,6 @@ class LectureListSection extends Component {
         return <div className={classNames('list-placeholder')}><div>결과 없음</div></div>;
       }
       return [
-        //
         ...courses.map(course => (
           <div className={classNames('block', 'block--course-lectures', (course.some(lecture => isListClicked(lecture, lectureActive)) ? 'block--clicked' : ''), (isInactiveListLectures(course, lectureActive) ? 'block--inactive' : ''))} key={course[0].course}>
             <div className={classNames('block--course-lectures__title')}>
@@ -264,17 +263,14 @@ class LectureListSection extends Component {
                 listClick={this.listClick}
               />
             ))}
-          </div> 
-        //
+          </div>
         )),
-        //
         <div className={classNames('scroll-placeholder')} key="placeholder" />,
       ];
     };
 
     if (currentList === 'SEARCH') {
       return (
-        //
         <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
           { searchOpen ? <LectureSearchSubSection /> : null }
           <div className={classNames('close-button')} onClick={this.mobileCloseLectureList}>닫기</div>
@@ -282,7 +278,6 @@ class LectureListSection extends Component {
             <i className={classNames('icon', 'icon--search')} />
             <span>검색</span>
           </div>
-          {/* */}
           <div>
             <div ref={this.arrowRef}>
               <span>&lt;</span>
@@ -296,17 +291,15 @@ class LectureListSection extends Component {
     }
     if (major.codes.some(code => (currentList === code))) {
       return (
-      //
         <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
           <div className={classNames('close-button')} onClick={this.mobileCloseLectureList}>닫기</div>
           <div className={classNames('title')}>
             {major[currentList].name}
           </div>
-          {/* */}
           <div>
             <div ref={this.arrowRef}>
               <span>&lt;</span>
-            </div> 
+            </div>
             <Scroller onScroll={this.selectWithArrow}>
               {mapCourses(major[currentList].courses, false)}
             </Scroller>
@@ -316,13 +309,11 @@ class LectureListSection extends Component {
     }
     if (currentList === 'HUMANITY') {
       return (
-      //
         <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
           <div className={classNames('close-button')} onClick={this.mobileCloseLectureList}>닫기</div>
           <div className={classNames('title')}>
             인문사회선택
           </div>
-          {/* */}
           <div>
             <div ref={this.arrowRef}>
               <span>&lt;</span>
@@ -336,13 +327,11 @@ class LectureListSection extends Component {
     }
     if (currentList === 'CART') {
       return (
-      //
         <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
           <div className={classNames('close-button')} onClick={this.mobileCloseLectureList}>닫기</div>
           <div className={classNames('title')}>
             장바구니
           </div>
-          {/* */}
           <div>
             <div ref={this.arrowRef}>
               <span>&lt;</span>

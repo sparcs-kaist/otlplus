@@ -20,14 +20,13 @@ const CourseLecturesBlock = ({ lecture, isClicked, isHover, inTimetable, inCart,
   };
   const change = isClicked ? classNames('block--clicked') : (isHover ? classNames('block--active') : '');
   return (
-
     <div className={classNames('block--course-lectures__elem-wrap', change)} data-id={lecture.id} onClick={() => listClick(lecture)()} onMouseOver={() => listHover(lecture)()} onMouseOut={() => listOut()}>
       <div className={classNames('block--course-lectures__elem')}>
         <div className={classNames('block--course-lectures__elem__texts')}>
           <strong className={getClass(lecture)}>{lecture.class_title}</strong>
           {' '}
           <span>{lecture.professor_short}</span>
-        </div> 
+        </div>
         {
           fromCart
             ? <div className={classNames('block--course-lectures__elem__button')} onClick={event => deleteFromCart(lecture)(event)}><i className={classNames('icon', 'icon--delete-cart')} /></div>
@@ -42,7 +41,7 @@ const CourseLecturesBlock = ({ lecture, isClicked, isHover, inTimetable, inCart,
             ? <div className={classNames('block--course-lectures__elem__button')} onClick={event => addToTable(lecture)(event)}><i className={classNames('icon', 'icon--add-lecture')} /></div>
             : <div className={classNames('block--course-lectures__elem__button', 'block--course-lectures__elem__button--disable')}><i className={classNames('icon', 'icon--add-lecture')} /></div>
         }
-      </div> 
+      </div>
     </div>
   );
 };

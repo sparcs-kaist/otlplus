@@ -168,7 +168,6 @@ class TimetableSubSection extends Component {
     const lectures = currentTimetable ? currentTimetable.lectures : [];
     const lectureBlocks = lectures.map(lecture => (
       lecture.classtimes.map(classtime => (
-        //
         <TimetableBlock
           key={`${lecture.id}:${classtime.day}:${classtime.begin}`}
           lecture={lecture}
@@ -195,7 +194,6 @@ class TimetableSubSection extends Component {
         ...numArray.map((i) => {
           if (i === 1200) {
             return (
-            //
               <div
                 className={classNames('cell-top', 'cell-bold')}
                 key={`${day}:1200`}
@@ -208,7 +206,6 @@ class TimetableSubSection extends Component {
           }
           if (i === 1800) {
             return (
-            //
               <div
                 className={classNames('cell-top', 'cell-bold')}
                 key={`${day}:1800`}
@@ -221,7 +218,6 @@ class TimetableSubSection extends Component {
           }
           if (i === 2350) {
             return (
-            //
               <div
                 className={classNames('cell-bottom', (mobileShowLectureList ? 'cell-bottom--mobile-noline' : ''), 'cell-last')}
                 key={`${day}:2330`}
@@ -234,7 +230,6 @@ class TimetableSubSection extends Component {
           }
           if (i % 100 === 0) {
             return (
-            //
               <div
                 className={classNames('cell-top')}
                 key={`${day}:${i.toString()}`}
