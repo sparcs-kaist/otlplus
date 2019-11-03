@@ -56,6 +56,7 @@ class TimetableSubSection extends Component {
     return hour * 2 + min / 30;
   }
 
+  // eslint-disable-next-line arrow-body-style
   indexOfMinute = (minute) => {
     return minute / 30 - (2 * 8);
   }

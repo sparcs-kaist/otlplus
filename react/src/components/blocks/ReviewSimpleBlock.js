@@ -6,6 +6,7 @@ import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 import reviewShape from '../../shapes/ReviewShape';
 
 
+// eslint-disable-next-line arrow-body-style
 const ReviewSimpleBlock = ({ review }) => {
   return (
     <a href={`/review/result/comment/${review.id}`} target="_blank" rel="noopener noreferrer" style={{ display: 'block' }}>
