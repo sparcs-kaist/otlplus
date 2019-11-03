@@ -124,12 +124,12 @@ class TimetableTabs extends Component {
       );
     }
     return (
-        // eslint-disable-next-line react/jsx-indent
-        <div className={classNames('tabs--timetable')}>
-          <div style={{ pointerEvents: 'none' }}>
-            <span>불러오는 중</span>
-          </div>
-        </div>
+      //
+      <div className={classNames('tabs--timetable')}>
+        <div style={{ pointerEvents: 'none' }}>
+          <span>불러오는 중</span>
+        </div> 
+      </div>
     );
   }
 }
