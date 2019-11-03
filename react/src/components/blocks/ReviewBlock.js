@@ -5,6 +5,7 @@ import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 import ReviewShape from '../../shapes/ReviewShape';
 
 
+// eslint-disable-next-line arrow-body-style
 const ReviewBlock = ({ review }) => {
   return (
     <div className={classNames('block', 'block--review')}>

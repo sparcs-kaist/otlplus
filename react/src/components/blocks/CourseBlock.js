@@ -6,6 +6,7 @@ import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 import CourseShape from '../../shapes/CourseShape';
 
 
+// eslint-disable-next-line arrow-body-style
 const CourseBlock = ({ course, isClicked, isHover, isInactive, listHover, listOut, listClick }) => {
   return (
     <div className={classNames('block', 'block--course', (isClicked ? classNames('block--clicked') : (isHover ? classNames('block--active') : (isInactive ? classNames('block--inactive') : ''))))} onClick={listClick ? listClick(course) : null} onMouseOver={listHover ? listHover(course) : null} onMouseOut={listOut}>

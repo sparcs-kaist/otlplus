@@ -5,6 +5,7 @@ import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 import CourseShape from '../../shapes/CourseShape';
 
 
+// eslint-disable-next-line arrow-body-style
 const CourseSimpleBlock = ({ course }) => {
   return (
     <div className={classNames('block', 'block--course-simple')}>

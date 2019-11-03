@@ -5,6 +5,7 @@ import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 import lectureShape from '../../shapes/NestedLectureShape';
 
 
+// eslint-disable-next-line arrow-body-style
 const ReviewWriteBlock = ({ lecture }) => {
   return (
     <form className={classNames('block', 'block--review-write')}>
