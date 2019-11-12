@@ -20,9 +20,8 @@ const TimetableBlock = ({ lecture, classtime, cellWidth, cellHeight, isClicked, 
   );
 
   return (
-
     <div
-      className={classNames('block--timetable', `background-color--${lecture.course % 16 + 1}`, activeType)}
+      className={classNames('block--timetable', `background-color--${(lecture.course % 16) + 1}`, activeType)}
       style={{
         left: (cellWidth + 5) * classtime.day + 17,
         top: cellHeight * indexOfTime(classtime.begin) + 19,
@@ -34,10 +33,10 @@ const TimetableBlock = ({ lecture, classtime, cellWidth, cellHeight, isClicked, 
       onClick={() => blockClick(lecture)()}
     >
       <div className={classNames('block--timetable__button')} onClick={event => deleteLecture(lecture)(event)}><i className={classNames('icon', 'icon--delete-lecture')} /></div>
-      <div 
+      <div
         // onMouseDown={() => onMouseDown()}
         className={classNames('block--timetable__content')}
-      > 
+      >
         <p className={classNames('block--timetable__content__title', (isSimple ? 'mobile-hidden' : ''))}>
           {lecture.title}
         </p>
@@ -47,7 +46,7 @@ const TimetableBlock = ({ lecture, classtime, cellWidth, cellHeight, isClicked, 
         <p className={classNames('block--timetable__content__info', 'mobile-hidden')}>
           {classtime.classroom}
         </p>
-      </div> 
+      </div>
       {
         occupiedTime === undefined
           ? null

@@ -27,7 +27,9 @@ class Header extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.location.pathname !== prevProps.location.pathname) {
+    const { location } = this.props;
+
+    if (location.pathname !== prevProps.location.pathname) {
       this.setNoBackground();
       this.closeMenu();
     }
@@ -122,13 +124,13 @@ class Header extends Component {
               </span>
               { user
                 ? (
-                  <a>
+                  <Link to="/settings">
                     <i className={classNames('icon--header_user')} />
                     <span>
                       {user.lastName}
                       {user.firstName}
                     </span>
-                  </a>
+                  </Link>
                 )
                 : (
                   <a href={`/session/login/?next=${window.location.href}`}>

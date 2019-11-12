@@ -13,7 +13,7 @@ const CurrentTimetableBlock = ({ lecture, classtime, cellWidth, cellHeight }) =>
 
   return (
     <div
-      className={classNames('block--current-timetable', `background-color--${lecture.course % 16 + 1}`)}
+      className={classNames('block--current-timetable', `background-color--${(lecture.course % 16) + 1}`)}
       style={{
         left: cellWidth * indexOfTime(classtime.begin) + 2 + 2,
         top: 11 + 4 + 3,

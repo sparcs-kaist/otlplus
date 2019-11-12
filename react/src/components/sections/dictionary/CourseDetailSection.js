@@ -75,110 +75,110 @@ class CourseDetailSection extends Component {
         <div className={classNames('section-content', 'section-content--flex', 'section-content--course-detail')}>
           <div className={classNames('close-button')} onClick={this.unfix}>닫기</div>
           <div className={classNames('fixed')}>
-            <div> 
+            <div>
               <div className={classNames('title')}>
                 {course.title}
-              </div> 
+              </div>
               <div className={classNames('subtitle')}>
                 {course.old_code}
-              </div> 
-            </div> 
+              </div>
+            </div>
             <div ref="scrollThreshold" />
             <div className={classNames('fixed__conditional-part', 'fixed__conditional-part--hidden')} ref="hiddenScores">
-              <div> 
+              <div>
                 <div className={classNames('scores')}>
-                  <div> 
+                  <div>
                     <div>
                       {course.grade_letter}
                     </div>
                     <div>
                       학점
                     </div>
-                  </div> 
-                  <div> 
+                  </div>
+                  <div>
                     <div>
                       {course.load_letter}
                     </div>
                     <div>
                       널널
                     </div>
-                  </div> 
-                  <div> 
+                  </div>
+                  <div>
                     <div>
                       {course.speech_letter}
                     </div>
                     <div>
                       강의
                     </div>
-                  </div> 
-                </div> 
+                  </div>
+                </div>
                 <div className={classNames('divider')} />
-              </div> 
-            </div> 
-          </div> 
+              </div>
+            </div>
+          </div>
           <Scroller onScroll={() => this.onScroll()}>
-            <div> 
+            <div>
               <div className={classNames('attribute')}>
-                <div> 
+                <div>
                   분류
-                </div> 
-                <div> 
+                </div>
+                <div>
                   {`${course.department.name}, ${course.type}`}
-                </div> 
-              </div> 
+                </div>
+              </div>
               <div className={classNames('attribute')}>
-                <div> 
+                <div>
                   설명
-                </div> 
-                <div> 
+                </div>
+                <div>
                   {course.summary}
-                </div> 
-              </div> 
-            </div> 
+                </div>
+              </div>
+            </div>
             <div className={classNames('scores')} ref="scores">
-              <div> 
-                <div> 
+              <div>
+                <div>
                   {course.grade_letter}
-                </div> 
-                <div> 
+                </div>
+                <div>
                   학점
-                </div> 
-              </div> 
-              <div> 
-                <div> 
+                </div>
+              </div>
+              <div>
+                <div>
                   {course.load_letter}
-                </div> 
-                <div> 
+                </div>
+                <div>
                   널널
-                </div> 
-              </div> 
-              <div> 
-                <div> 
+                </div>
+              </div>
+              <div>
+                <div>
                   {course.speech_letter}
-                </div> 
-                <div> 
+                </div>
+                <div>
                   강의
-                </div> 
-              </div> 
-            </div> 
+                </div>
+              </div>
+            </div>
             <div className={classNames('divider')} />
             <div className={classNames('related-courses')}>
-              <div> 
+              <div>
                 { courses.map(c => <CourseSimpleBlock course={c} key={c.id} />) }
-              </div> 
-              <div> 
+              </div>
+              <div>
                 &gt;
-              </div> 
-              <div> 
+              </div>
+              <div>
                 <CourseSimpleBlock course={course} />
-              </div> 
-              <div> 
+              </div>
+              <div>
                 &gt;
-              </div> 
-              <div> 
+              </div>
+              <div>
                 { courses.map(c => <CourseSimpleBlock course={c} key={c.id} />) }
-              </div> 
-            </div> 
+              </div>
+            </div>
             <div className={classNames('divider')} />
             {
               (lectures == null)
@@ -186,7 +186,6 @@ class CourseDetailSection extends Component {
                 : (
                   <div className={classNames('history')}>
                     <table>
-                      {/* */}
                       <tbody>
                         <tr>
                           <th>봄</th>
@@ -221,7 +220,7 @@ class CourseDetailSection extends Component {
                         </tr>
                       </tbody>
                     </table>
-                  </div> 
+                  </div>
                 )
             }
             <div className={classNames('divider')} />
@@ -238,7 +237,7 @@ class CourseDetailSection extends Component {
                   : <div className={classNames('list-placeholder')}><div>결과 없음</div></div>)
             }
           </Scroller>
-        </div> 
+        </div>
       );
     }
     return (

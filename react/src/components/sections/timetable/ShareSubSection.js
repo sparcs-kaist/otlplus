@@ -25,8 +25,8 @@ class ShareSubSection extends Component {
 
         </div>
         <div>
-          <div onClick={() => setMobileShowTimetableTabsDispatch(true)}><i />1</div>
-          <div onClick={() => setMobileShowLectureListDispatch(true)}><i />2</div>
+          <div onClick={() => setMobileShowTimetableTabsDispatch(true)}>1</div>
+          <div onClick={() => setMobileShowLectureListDispatch(true)}>2</div>
         </div>
         <div />
       </div>

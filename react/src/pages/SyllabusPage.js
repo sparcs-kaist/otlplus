@@ -27,15 +27,17 @@ class SyllabusPage extends Component {
   }
 
   render() {
+    // eslint-disable-next-line react/destructuring-assignment
     const { lectures } = this.props.location.state;
     const { currentShowingLecture } = this.state;
+
     return (
       <div className={classNames('syllabus-page')}>
         <div className={classNames('syllabus-wrapper')}>
           <div className={classNames('lecture-tab-container')}>
             {
               lectures.map(lecture => (
-                <div className={classNames('lecture-tab', (this.state.currentShowingLecture === lecture ? 'active' : ''))} onClick={() => this.updateShowingLecture(lecture)}>
+                <div className={classNames('lecture-tab', (currentShowingLecture === lecture ? 'active' : ''))} onClick={() => this.updateShowingLecture(lecture)}>
                   { lecture.common_title }
                 </div>
               ))
@@ -43,7 +45,6 @@ class SyllabusPage extends Component {
           </div>
           <div className={classNames('syllabus-iframe-wrapper')}>
             { lectures.map(lecture => (
-            //
               <iframe className={classNames('syllabus-iframe')} src={this.getLectureUrl(lecture)} title={`syllabus-${lecture.title}`} key={lecture.id} style={lecture.id === currentShowingLecture.id ? {} : { display: 'none' }}>
                 { lecture.common_title }
               </iframe>
