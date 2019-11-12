@@ -74,21 +74,6 @@ i
     background: url(../static/icons/delete_lecture_hover.svg) no-repeat center center;
 }
 
-.drag-icon
-{
-    background: url(../static/icons/drag_add.svg) no-repeat center center;
-    width:7px;
-    height:9px;
-    margin-right:4px;
-    display:inline-block;
-    vertical-align:top;
-}
-
-.drag-text:hover > .drag-icon
-{
-    background-image: url(../static/icons/drag_add_hover.svg);
-}
-
 
 
 
