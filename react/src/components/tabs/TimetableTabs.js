@@ -124,11 +124,10 @@ class TimetableTabs extends Component {
       );
     }
     return (
-      //
       <div className={classNames('tabs--timetable')}>
         <div style={{ pointerEvents: 'none' }}>
           <span>불러오는 중</span>
-        </div> 
+        </div>
       </div>
     );
   }

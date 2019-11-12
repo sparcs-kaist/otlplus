@@ -152,7 +152,6 @@ class CourseListSection extends Component {
 
     if (currentList === 'SEARCH') {
       return (
-      //
         <div className={classNames('section-content', 'section-content--flex', 'section-content--course-list')}>
           { searchOpen ? <CourseSearchSubSection /> : null }
           <div className={classNames('title', 'title--search')} onClick={() => this.showSearch()}>
@@ -162,12 +161,11 @@ class CourseListSection extends Component {
           <Scroller>
             { mapCourses(search.courses) }
           </Scroller>
-        </div> 
+        </div>
       );
     }
     if (major.codes.some(code => (currentList === code))) {
       return (
-      //
         <div className={classNames('section-content', 'section-content--flex', 'section-content--course-list')}>
           <div className={classNames('title')}>
             {major[currentList].name}
@@ -175,12 +173,11 @@ class CourseListSection extends Component {
           <Scroller>
             { mapCourses(major[currentList].courses) }
           </Scroller>
-        </div> 
+        </div>
       );
     }
     if (currentList === 'HUMANITY') {
       return (
-      //
         <div className={classNames('section-content', 'section-content--flex', 'section-content--course-list')}>
           <div className={classNames('title')}>
             인문사회선택
@@ -188,12 +185,11 @@ class CourseListSection extends Component {
           <Scroller>
             { mapCourses(humanity.courses) }
           </Scroller>
-        </div> 
+        </div>
       );
     }
     if (currentList === 'TAKEN') {
       return (
-      //
         <div className={classNames('section-content', 'section-content--flex', 'section-content--course-list')}>
           <div className={classNames('title')}>
             내가 들은 과목
@@ -201,7 +197,7 @@ class CourseListSection extends Component {
           <Scroller>
             { mapCourses(taken.courses) }
           </Scroller>
-        </div> 
+        </div>
       );
     }
     return null;

@@ -121,7 +121,7 @@ const list = (state = initialState, action) => {
       return Object.assign({}, state, newState);
     }
     case ADD_LECTURE_TO_CART: {
-      const courses = state.cart.courses;
+      const { courses } = state.cart;
       const i = courses.findIndex(course => (course[0].old_code === action.lecture.old_code));
       const j = (i !== -1)
         ? (courses[i].findIndex(lecture => (lecture.class_no > action.lecture.class_no)) !== -1)
@@ -151,7 +151,7 @@ const list = (state = initialState, action) => {
       });
     }
     case DELETE_LECTURE_FROM_CART: {
-      const courses = state.cart.courses;
+      const { courses } = state.cart;
       const i2 = courses.findIndex(course => course.some(lecture => (lecture.id === action.lecture.id)));
       const j = courses[i2].findIndex(lecture => (lecture.id === action.lecture.id));
       const newCourses = [

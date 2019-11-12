@@ -128,16 +128,15 @@ class LectureDetailSection extends Component {
           ? <div className={classNames('section-content--lecture-detail--list-area')}>{reviews.map(mapreview)}</div>
           : <div className={classNames('section-content--lecture-detail--list-area', 'list-placeholder')}><div>결과 없음</div></div>);
       return (
-      //
         <div className={classNames('section-content', 'section-content--lecture-detail', 'section-content--flex')}>
           <div className={classNames('close-button')} onClick={this.unfix}>닫기</div>
           <div className={classNames('title')}>
             {lecture.title}
-          </div> 
+          </div>
           <div className={classNames('subtitle')}>
             {lecture.old_code}
             {lecture.class_no.length ? ` (${lecture.class_no})` : ''}
-          </div> 
+          </div>
           <div className={classNames('buttons')}>
             <span onClick={this.unfix} className={classNames('text-button', (showUnfix ? '' : classNames('text-button--disabled')))}>고정해제</span>
             <a className={classNames('text-button', 'text-button--right')} href={`https://cais.kaist.ac.kr/syllabusInfo?year=${lecture.year}&term=${lecture.semester}&subject_no=${lecture.code}&lecture_class=${lecture.class_no}&dept_id=${lecture.department}`} target="_blank" rel="noopener noreferrer">
@@ -146,101 +145,101 @@ class LectureDetailSection extends Component {
             <Link className={classNames('text-button', 'text-button--right')} to={`/review/dictionary${lecture.old_code}`} target="_blank">
               과목사전
             </Link>
-          </div> 
+          </div>
           <div className={classNames('fixed__conditional-part', (showCloseDict ? '' : 'fixed__conditional-part--hidden'))}>
             <div className={classNames('small-title')} onClick={this.closeDictPreview}>
               <span>과목 후기</span>
               <i className={classNames('icon', 'icon--lecture-uparrow')} />
-            </div> 
-          </div> 
+            </div>
+          </div>
           <Scroller
             onScroll={
               () => {
                 if ($(this.openDictRef.current).position().top <= 0) {
                   this.setState({ showCloseDict: true });
-                } 
+                }
                 else {
                   this.setState({ showCloseDict: false });
-                } 
-              } 
+                }
+              }
             }
           >
             <div ref={this.attributesRef}>
               <div className={classNames('attribute')}>
                 <span className={classNames('fixed-ko')}>구분</span>
                 <span>{lecture.type}</span>
-              </div> 
+              </div>
               <div className={classNames('attribute')}>
                 <span className={classNames('fixed-ko')}>학과</span>
                 <span>{lecture.department_name}</span>
-              </div> 
+              </div>
               <div className={classNames('attribute')}>
                 <span className={classNames('fixed-ko')}>교수</span>
                 <span>{lecture.professor.map(p => p.name).join(', ')}</span>
-              </div> 
+              </div>
               <div className={classNames('attribute')}>
                 <span className={classNames('fixed-ko')}>장소</span>
                 <span>{lecture.classroom}</span>
-              </div> 
+              </div>
               <div className={classNames('attribute')}>
                 <span className={classNames('fixed-ko')}>정원</span>
                 <span>{lecture.limit}</span>
-              </div> 
+              </div>
               <div className={classNames('attribute')}>
                 <span className={classNames('fixed-ko')}>시험</span>
                 <span>{lecture.exam}</span>
-              </div> 
-            </div> 
+              </div>
+            </div>
             <div className={classNames('scores')}>
               <div>
                 {
                   lecture.is_english
                     ? <div>Eng</div>
                     : <div className={(classNames('scores__score-text--korean'))}>한</div>
-                } 
+                }
                 <div>언어</div>
-              </div> 
+              </div>
               <div>
                 {
                   lecture.credit > 0
                     ? <div>{lecture.credit}</div>
                     : <div>{lecture.credit_au}</div>
-                } 
+                }
                 {
                   lecture.credit > 0
                     ? <div>학점</div>
                     : <div>AU</div>
-                } 
-              </div> 
+                }
+              </div>
               <div>
-                <div> 
-                  { 
+                <div>
+                  {
                     lecture.limit === 0
                       ? '0.0:1'
                       : `${(lecture.num_people / lecture.limit).toFixed(1).toString()}:1`
-                  } 
-                </div> 
+                  }
+                </div>
                 <div>경쟁률</div>
-              </div> 
-            </div> 
+              </div>
+            </div>
             <div className={classNames('scores')}>
               <div>
                 <div>{lecture.grade_letter}</div>
                 <div>성적</div>
-              </div> 
+              </div>
               <div>
                 <div>{lecture.load_letter}</div>
                 <div>널널</div>
-              </div> 
+              </div>
               <div>
                 <div>{lecture.speech_letter}</div>
                 <div>강의</div>
-              </div> 
-            </div> 
+              </div>
+            </div>
             <div onClick={this.openDictPreview} className={classNames('small-title')} ref={this.openDictRef}>
               <span>과목 후기</span>
               <i className={classNames('icon', 'icon--lecture-downarrow')} />
-            </div> 
+            </div>
             {reviewsDom}
           </Scroller>
           <div className={classNames('divider', 'mobile-unhidden')} />
@@ -255,25 +254,24 @@ class LectureDetailSection extends Component {
                 ? <span onClick={this.addToTable}>시간표에 추가</span>
                 : <span onClick={this.deleteFromTable}>시간표에서 제거</span>
             }
-          </div> 
+          </div>
         </div>
       );
     }
     if (from === MULTIPLE) {
       return (
-      //
         <div className={classNames('section-content', 'section-content--lecture-detail', 'section-content--flex')}>
           <div className={classNames('title')}>
             {title}
-          </div> 
+          </div>
           <div className={classNames('subtitle')}>
             {`${multipleDetail.length}개의 과목`}
-          </div> 
+          </div>
           <div className={classNames('buttons')}>
             <span className={classNames('text-button', 'text-button--disabled')}>고정해제</span>
             <span className={classNames('text-button', 'text-button--right', 'text-button--disabled')}>실라버스</span>
             <span className={classNames('text-button', 'text-button--right', 'text-button--disabled')}>과목사전</span>
-          </div> 
+          </div>
           <div>
             {multipleDetail.map((detail, index) => (
               <div className={classNames('attribute')} key={detail.id}>
@@ -283,33 +281,32 @@ class LectureDetailSection extends Component {
                 <span>
                   {detail.info}
                 </span>
-              </div> 
+              </div>
             ))}
-          </div> 
+          </div>
         </div>
       );
     }
     return (
-      //
       <div className={classNames('section-content', 'section-content--lecture-detail', 'section-content--flex')}>
         <div className={classNames('otlplus-placeholder')}>
           <div>
             OTL PLUS
-          </div> 
+          </div>
           <div>
             <Link to="/credits/">만든 사람들</Link>
             &nbsp;|&nbsp;
             <Link to="/licenses/">라이선스</Link>
-          </div> 
+          </div>
           <div>
             <a href="mailto:otlplus@sparcs.org">otlplus@sparcs.org</a>
-          </div> 
-          <div> 
+          </div>
+          <div>
             © 2017,&nbsp;
             <a href="http://sparcs.kaist.ac.kr">SPARCS</a>
             &nbsp;OTL Team
-          </div> 
-        </div> 
+          </div>
+        </div>
       </div>
     );
   }

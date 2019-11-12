@@ -43,8 +43,8 @@ export const isTableHover = (lecture, lectureActive) => (
 
 export const isInMultiple = (lecture, lectureActive) => (
   lectureActive.from === MULTIPLE
-  && lectureActive.multipleDetail.some(l => (l.id===lecture.id))
-)
+  && lectureActive.multipleDetail.some(l => (l.id === lecture.id))
+);
 
 export const isInactiveTableLecture = (lecture, lectureActive) => (
   lectureActive.clicked === true
@@ -104,7 +104,7 @@ export const performDeleteFromTable = (caller, lecture, currentTimetable, remove
     })
     .catch((response) => {
     });
-}
+};
 
 export const performAddToCart = (caller, lecture, year, semester, addLectureToCartDispatch) => {
   axios.post(`${BASE_URL}/api/timetable/wishlist_update`, {
