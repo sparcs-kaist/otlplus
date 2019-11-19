@@ -14,6 +14,7 @@ import CourseSimpleBlock from '../../blocks/CourseSimpleBlock';
 import CourseShape from '../../../shapes/CourseShape';
 import courses from '../../../dummy/courses';
 import reviewShape from '../../../shapes/ReviewShape';
+import userShape from '../../../shapes/UserShape';
 import lectureShape from '../../../shapes/LectureShape';
 import HistoryLecturesBlock from '../../blocks/HistoryLecturesBlock';
 
@@ -67,9 +68,13 @@ class CourseDetailSection extends Component {
 
 
   render() {
-    const { clicked, course, reviews, lectures } = this.props;
+    const { user, clicked, course, reviews, lectures } = this.props;
 
     if (clicked && course !== null) {
+      const takenLectureOfCourse = user
+        ? user.taken_lectures.filter(l => (l.course === course.id))
+        : [];
+
       return (
 
         <div className={classNames('section-content', 'section-content--flex', 'section-content--course-detail')}>
@@ -225,9 +230,9 @@ class CourseDetailSection extends Component {
             }
             <div className={classNames('divider')} />
             {
-              (lectures == null || lectures.length === 0)
-                ? null
-                : <ReviewWriteBlock lecture={lectures[lectures.length - 1]} />
+              takenLectureOfCourse.map(l => (
+                <ReviewWriteBlock lecture={l} key={l.id} />
+              ))
             }
             {
               (reviews == null)
@@ -266,6 +271,7 @@ class CourseDetailSection extends Component {
 }
 
 const mapStateToProps = state => ({
+  user: state.common.user,
   clicked: state.dictionary.courseActive.clicked,
   course: state.dictionary.courseActive.course,
   reviews: state.dictionary.courseActive.reviews,
@@ -285,6 +291,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 CourseDetailSection.propTypes = {
+  user: userShape,
   clicked: PropTypes.bool.isRequired,
   course: CourseShape,
   reviews: PropTypes.arrayOf(reviewShape),
