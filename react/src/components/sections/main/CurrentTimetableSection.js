@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
-import axios from '../../../common/presetAxios';
-import { BASE_URL } from '../../../common/constants';
 import CurrentTimetableBlock from '../../blocks/CurrentTimetableBlock';
+import userShape from '../../../shapes/UserShape';
 
 
 class CurrentTimetableSection extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      lectures: [],
       cellWidth: 0,
     };
   }
@@ -18,18 +17,6 @@ class CurrentTimetableSection extends Component {
   componentDidMount() {
     this.resize();
     window.addEventListener('resize', this.resize);
-
-    axios.post(`${BASE_URL}/api/timetable/table_load`, {
-      year: 2018,
-      semester: 3,
-    })
-      .then((response) => {
-        this.setState({
-          lectures: (response.data && response.data.length > 1) ? response.data[1].lectures : [],
-        });
-      })
-      .catch((response) => {
-      });
   }
 
   componentWillUnmount() {
@@ -44,8 +31,12 @@ class CurrentTimetableSection extends Component {
   }
 
   render() {
-    const { lectures, cellWidth } = this.state;
+    const { cellWidth } = this.state;
+    const { user } = this.props;
 
+    const lectures = user
+      ? user.taken_lectures.filter(l => (l.year === 2018 && l.semester === 3)) // TODO: Use current semester
+      : [];
     const today = new Date();
     const day = today.getDay();
     const hours = today.getHours();
@@ -131,5 +122,16 @@ class CurrentTimetableSection extends Component {
   }
 }
 
+const mapStateToProps = state => ({
+  user: state.common.user,
+});
 
-export default CurrentTimetableSection;
+const mapDispatchToProps = dispatch => ({
+});
+
+CurrentTimetableSection.propTypes = {
+  user: userShape,
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(CurrentTimetableSection);
