@@ -41,14 +41,14 @@ class App extends Component {
         <>
           <Header />
           <Switch>
-            <Route path="/dictionary" render={props => <DictionaryPage />} />
-            <Route exact path="/timetable" render={props => <TimetablePage />} />
+            <Route path="/dictionary" component={DictionaryPage} />
+            <Route exact path="/timetable" component={TimetablePage} />
             <Route exact path="/timetable/syllabus" component={SyllabusPage} />
-            <Route exact path="/main" render={props => <MainPage />} />
-            <Route exact path="/credits" render={props => <CreditPage />} />
-            <Route exact path="/licenses" render={props => <LicensePage />} />
+            <Route exact path="/main" component={MainPage} />
+            <Route exact path="/credits" component={CreditPage} />
+            <Route exact path="/licenses" component={LicensePage} />
             {/* Temporary test page for axiom */}
-            <Route exact path="/test" render={props => <TestPage />} />
+            <Route exact path="/test" component={TestPage} />
             <Redirect from="/" to="/main/" />
           </Switch>
         </>
