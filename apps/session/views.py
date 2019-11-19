@@ -221,6 +221,7 @@ def info(request):
         "lastName": request.user.last_name,
         "language": userProfile.language,
         "departments": _user_department(request.user),
+        "taken_lectures": [l.toJson() for l in userProfile.take_lecture_list.all()]
     }
     return JsonResponse(ctx, safe = False)
 
