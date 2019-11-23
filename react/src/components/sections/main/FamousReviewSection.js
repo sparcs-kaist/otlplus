@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 import ReviewBlock from '../../blocks/ReviewBlock';
@@ -12,7 +13,11 @@ class FamousReviewSection extends Component {
         <div className={classNames('title')}>
           사랑받는 전공 후기 - 전산학부
         </div>
-        {reviews.map(r => <ReviewBlock review={r} key={r.id} />)}
+        {reviews.map(r => (
+          <Link to={{ pathname: '/dictionary', state: { startCourseId: r.course.id } }}>
+            <ReviewBlock review={r} key={r.id} />
+          </Link>
+        ))}
         <div className={classNames('buttons')}>
           <button className={classNames('text-button')}>
             후기 더 보기
