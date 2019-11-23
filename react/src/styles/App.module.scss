@@ -2246,6 +2246,17 @@ i.icon {
         }
     }
 
+    &--tab-taken {
+        width: 13px;
+        height: 13px;
+        background-image: url(../static/icons/tab_taken.svg);
+
+        *:hover > &,
+        *.tabs__elem--active > & {
+            background-image: url(../static/icons/tab_taken_hover.svg)
+        }
+    }
+
     &--add-cart {
         width: 13px;
         height: 13px;
