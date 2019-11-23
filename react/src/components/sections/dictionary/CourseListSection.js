@@ -220,8 +220,8 @@ const mapDispatchToProps = dispatch => ({
   openSearchDispatch: () => {
     dispatch(openSearch());
   },
-  setCourseActiveDispatch: (lecture, from, clicked) => {
-    dispatch(setCourseActive(lecture, from, clicked));
+  setCourseActiveDispatch: (lecture, clicked) => {
+    dispatch(setCourseActive(lecture, clicked));
   },
   clearCourseActiveDispatch: () => {
     dispatch(clearCourseActive());
