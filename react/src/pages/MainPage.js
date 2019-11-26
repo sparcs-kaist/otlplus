@@ -17,11 +17,14 @@ class MainPage extends Component {
     return (
       <div>
         <section className={classNames('main-image')}>
+          {/* eslint-disable-next-line react/jsx-indent */}
+        <div className={classNames('section-wrap', 'section-wrap--main-search')}>
           <form className={classNames('main-search')}>
             <i />
             <input type="text" placeholder="검색" />
             <button className={classNames('text-button')} type="submit">검색</button>
           </form>
+        </div>
         </section>
         <section className={classNames('content')}>
           <div className={classNames('section-wrap')}>

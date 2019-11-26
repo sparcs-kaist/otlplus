@@ -107,8 +107,7 @@ table {
 
     .main-search {
         padding: 12px;
-        width: calc(80vh + 384px);
-        margin: 0 auto;
+        margin: 0 12px;
         display: flex;
         background-color: #ffffff;
         border-radius: 6px;
@@ -171,6 +170,12 @@ table {
                     z-index: 100;
                 }
             }
+    }
+
+
+    &--main-search {
+        width: calc(80vh + 384px + (12px * 2));
+        margin: 0 auto;
     }
 
 
