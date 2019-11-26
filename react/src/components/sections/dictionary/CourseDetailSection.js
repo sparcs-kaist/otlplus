@@ -167,6 +167,7 @@ class CourseDetailSection extends Component {
               </div>
             </div>
             <div className={classNames('divider')} />
+            <div className={classNames('small-title')}>연관 과목</div>
             <div className={classNames('related-courses')}>
               <div>
                 { courses.map(c => <CourseSimpleBlock course={c} key={c.id} />) }
@@ -185,6 +186,7 @@ class CourseDetailSection extends Component {
               </div>
             </div>
             <div className={classNames('divider')} />
+            <div className={classNames('small-title')}>개설 이력</div>
             {
               (lectures == null)
                 ? <div>불러오는 중</div>
@@ -229,6 +231,7 @@ class CourseDetailSection extends Component {
                 )
             }
             <div className={classNames('divider')} />
+            <div className={classNames('small-title')}>과목 후기</div>
             {
               takenLectureOfCourse.map(l => (
                 <ReviewWriteBlock lecture={l} key={l.id} />
