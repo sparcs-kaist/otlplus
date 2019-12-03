@@ -3,8 +3,7 @@ body * {
     margin: 0;
     padding: 0;
     flex: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
+    appearance: none;
 }
 
 
@@ -31,6 +30,7 @@ textarea {
     border: none;
     resize: none;
     outline: none;
+    font-size: inherit;
 }
 
 
