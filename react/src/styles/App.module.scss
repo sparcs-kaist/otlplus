@@ -1026,6 +1026,9 @@ table {
     line-height: 14px;
     padding: 10px;
     margin-bottom: 8px;
+    a > &:hover {
+        background-color:#DDDDDD;
+    }
 
 
     &--course {
