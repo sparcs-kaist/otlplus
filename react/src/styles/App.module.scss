@@ -79,7 +79,11 @@ table {
 
 
     &--no-scroll {
-        height: calc(100vh - 55px);
+        position: absolute;
+        top: env(safe-area-inset-top);
+        bottom: env(safe-area-inset-bottom);
+        left: env(safe-area-inset-left);
+        right: env(safe-area-inset-right);
         display: flex;
         flex-direction: row;
         justify-content: center;
@@ -158,11 +162,11 @@ table {
 
                 &::before {
                     content: '';
-                    position: absolute;
-                    width: calc(100% + 12px * 4);
-                    height: calc(100% + (12px * 3 + 13px) + 55px);
-                    top: -12px * 2 - 55px;
-                    left: -12px * 2;
+                    position: fixed;
+                    top: 0;
+                    bottom: 0;
+                    left: 0;
+                    right: 0;
                     background-color: rgba(#000, 0.3);
                     z-index: 100;
                 }
