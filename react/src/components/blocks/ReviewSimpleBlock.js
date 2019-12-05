@@ -1,5 +1,6 @@
 import React from 'react';
 import { pure } from 'recompose';
+import { Link } from 'react-router-dom';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 
@@ -9,7 +10,7 @@ import reviewShape from '../../shapes/ReviewShape';
 // eslint-disable-next-line arrow-body-style
 const ReviewSimpleBlock = ({ review }) => {
   return (
-    <a href={`/review/result/comment/${review.id}`} target="_blank" rel="noopener noreferrer" style={{ display: 'block' }}>
+    <Link to={{ pathname: '/dictionary', state: { startCourseId: review.course.id } }}>
       <div className={classNames('block', 'block--review-simple')}>
         <div>
           {review.comment}
@@ -33,7 +34,7 @@ const ReviewSimpleBlock = ({ review }) => {
           </span>
         </div>
       </div>
-    </a>
+    </Link>
   );
 };
 
