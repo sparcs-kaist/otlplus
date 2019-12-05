@@ -395,6 +395,7 @@ table {
         flex-direction: row;
         @media (orientation: portrait) {
             flex-direction: column;
+            border-top-left-radius: 6px;
         }
     }
 
