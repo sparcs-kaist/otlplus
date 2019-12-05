@@ -79,7 +79,7 @@ table {
 
 
     &--no-scroll {
-        position: fixed;
+        position: absolute;
         top: env(safe-area-inset-top);
         bottom: env(safe-area-inset-bottom);
         left: env(safe-area-inset-left);
