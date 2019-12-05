@@ -114,9 +114,6 @@ table {
         box-shadow: 0 3px 0 0 #F3BEC6;
         font-size: 14px;
         line-height: 15px;
-        @media (orientation: portrait) {
-            width: calc(100% - 24px);
-        }
 
 
         i {
@@ -176,6 +173,9 @@ table {
     &--main-search {
         width: calc(80vh + 384px + (12px * 2));
         margin: 0 auto;
+        @media (orientation:portrait) {
+            width: 100%
+        }
     }
 
 
