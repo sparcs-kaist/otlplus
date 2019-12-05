@@ -142,7 +142,7 @@ class LectureDetailSection extends Component {
             <a className={classNames('text-button', 'text-button--right')} href={`https://cais.kaist.ac.kr/syllabusInfo?year=${lecture.year}&term=${lecture.semester}&subject_no=${lecture.code}&lecture_class=${lecture.class_no}&dept_id=${lecture.department}`} target="_blank" rel="noopener noreferrer">
               실라버스
             </a>
-            <Link className={classNames('text-button', 'text-button--right')} to={`/review/dictionary${lecture.old_code}`} target="_blank">
+            <Link className={classNames('text-button', 'text-button--right')} to={{ pathname: '/dictionary', state: { startCourseId: lecture.course } }}>
               과목사전
             </Link>
           </div>
