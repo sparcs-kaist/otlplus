@@ -1823,6 +1823,11 @@ table {
                     margin-bottom: 6px;
                     margin-right: 6px;
                     white-space: nowrap;
+
+                    & > i {
+                        vertical-align:top;
+                        margin-left: 3px;
+                    }
                 }
             }
         }
@@ -2049,29 +2054,6 @@ table {
     color: #AAAAAA;
     font-size: 16px;
     line-height: 17px;
-}
-
-
-:global(.fa-circle-o)
-{
-	margin-left:3px;
-    color: #aaaaaa;
-	vertical-align:top;
-}
-label:hover > :global(.fa-circle-o)
-{
-    color: #963246;
-}
-
-:global(.fa-check-circle-o)
-{
-	margin-left:3px;
-    color: #e64c65;
-	vertical-align:top;
-}
-label:hover > :global(.fa-check-circle-o)
-{
-    color: #963246;
 }
 
 
@@ -2406,6 +2388,24 @@ i.icon {
 
         *.disable > & {
             background-image: url(../static/icons/semester_next_disabled.svg);
+        }
+    }
+
+    &--checkbox {
+        width:10px;
+        height:12px;
+        background-image: url(../static/icons/checkbox_unselected.svg);
+
+        *:hover > & {
+            background-image: url(../static/icons/checkbox_unselected_hover.svg);
+        }
+
+        *:checked + & {
+            background-image: url(../static/icons/checkbox_selected.svg);
+        }
+
+        *:hover > *:checked + & {
+            background-image: url(../static/icons/checkbox_selected_hover.svg);
         }
     }
 }
