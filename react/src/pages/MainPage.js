@@ -15,7 +15,7 @@ import ReviewWriteSection from '../components/sections/main/ReviewWriteSection';
 class MainPage extends Component {
   render() {
     return (
-      <div>
+      <>
         <section className={classNames('main-image')}>
           {/* eslint-disable-next-line react/jsx-indent */}
         <div className={classNames('section-wrap', 'section-wrap--main-search')}>
@@ -62,7 +62,7 @@ class MainPage extends Component {
           </div>
         </section>
         <Footer />
-      </div>
+      </>
     );
   }
 }
