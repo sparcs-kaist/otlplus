@@ -21,7 +21,7 @@ class TimetablePage extends Component {
   render() {
     const { lectureActive, mobileShowTimetableTabs, mobileShowLectureList, setMobileShowTimetableTabsDispatch } = this.props;
     return (
-      <div>
+      <>
         <section className={classNames('content', 'content--no-scroll', 'content--timetable')}>
           <div className={classNames('section-wrap', 'section-wrap--timetable-left', (mobileShowLectureList ? '' : 'mobile-nosize'))}>
             <div className={classNames('section-wrap', 'section-wrap--lecture-detail', 'mobile-modal', (lectureActive.clicked ? '' : 'mobile-hidden'))}>
@@ -59,7 +59,7 @@ class TimetablePage extends Component {
             </div>
           </div>
         </section>
-      </div>
+      </>
     );
   }
 }
