@@ -43,9 +43,9 @@ class AcademicScheduleSection extends Component {
           </div>
         </div>
         <div className={classNames('buttons')}>
-          <button className={classNames('text-button')}>
+          <a href="https://ssogw6.kaist.ac.kr" className={classNames('text-button')} target="_blank" rel="noopener noreferrer">
             학사시스템 바로가기
-          </button>
+          </a>
         </div>
       </div>
     );
