@@ -19,9 +19,9 @@ class FamousReviewSection extends Component {
           </Link>
         ))}
         <div className={classNames('buttons')}>
-          <button className={classNames('text-button')}>
+          <Link to={{ pathname: '/dictionary', state: { startTab: 'CS' } }} className={classNames('text-button')}>
             후기 더 보기
-          </button>
+          </Link>
         </div>
       </div>
     );

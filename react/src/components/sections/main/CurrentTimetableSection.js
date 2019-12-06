@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 import CurrentTimetableBlock from '../../blocks/CurrentTimetableBlock';
@@ -115,9 +116,9 @@ class CurrentTimetableSection extends Component {
           </div>
         </div>
         <div className={classNames('buttons')}>
-          <button className={classNames('text-button')}>
+          <Link to="/timetable" className={classNames('text-button')}>
             자세히 보기
-          </button>
+          </Link>
         </div>
       </div>
     );
