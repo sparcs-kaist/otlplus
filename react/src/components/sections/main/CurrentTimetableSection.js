@@ -11,16 +11,19 @@ class CurrentTimetableSection extends Component {
     super(props);
     this.state = {
       cellWidth: 0,
+      today: new Date(),
     };
   }
 
   componentDidMount() {
     this.resize();
     window.addEventListener('resize', this.resize);
+    this.interval = setInterval(() => this.setState({ today: new Date() }), 100);
   }
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.resize);
+    clearInterval(this.interval);
   }
 
   resize = () => {
@@ -31,13 +34,12 @@ class CurrentTimetableSection extends Component {
   }
 
   render() {
-    const { cellWidth } = this.state;
+    const { cellWidth, today } = this.state;
     const { user } = this.props;
 
     const lectures = user
       ? user.taken_lectures.filter(l => (l.year === 2018 && l.semester === 3)) // TODO: Use current semester
       : [];
-    const today = new Date();
     const day = today.getDay();
     const hours = today.getHours();
     const minutes = today.getMinutes();
