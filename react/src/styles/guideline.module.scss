@@ -142,8 +142,8 @@ header, footer {
                 font-size: 15px;
                 white-space: nowrap;
                 @media (orientation: portrait) {
-                    width: calc(100% - 16px * 2);
-                    margin: 0 34px;
+                    width: calc(100% - 34px);
+                    margin-left: 34px;
 
                     & > * {
                         display: block;
