@@ -8,7 +8,6 @@ import axios from '../../../common/presetAxios';
 import { BASE_URL } from '../../../common/constants';
 import { closeSearch, setListLectures, clearSearchListLectures } from '../../../actions/timetable/index';
 import SearchFilter from '../../SearchFilter';
-import '../../../static/css/font-awesome.min.css';
 
 
 class LectureSearchSubSection extends Component {

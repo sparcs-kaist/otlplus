@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { appBoundClassNames } from '../common/boundClassNames';
 
 
 class SearchCircle extends Component {
@@ -42,9 +43,6 @@ class SearchCircle extends Component {
     const { value, inputName, circleName } = this.props;
     const { isChecked } = this.state;
     const all = (value === 'ALL');
-    const circleIcon = isChecked
-      ? (<i className="fa fa-check-circle-o fa-ix" />)
-      : (<i className="fa fa-circle-o fa-1x" />);
     return (
       <label>
         <input
@@ -54,9 +52,10 @@ class SearchCircle extends Component {
           name={inputName}
           value={value}
           onClick={e => this.onClick(e)}
+          checked={isChecked}
         />
         {circleName}
-        {circleIcon}
+        <i className={appBoundClassNames('icon', 'icon--checkbox')} />
       </label>
     );
   }

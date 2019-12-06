@@ -9,7 +9,6 @@ import { BASE_URL } from '../../../common/constants';
 import { closeSearch } from '../../../actions/dictionary/search';
 import { setListCourses, clearSearchListCourses } from '../../../actions/dictionary/list';
 import SearchFilter from '../../SearchFilter';
-import '../../../static/css/font-awesome.min.css';
 
 
 class CourseSearchSubSection extends Component {
