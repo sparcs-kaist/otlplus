@@ -8,6 +8,7 @@ import CourseDetailSection from '../components/sections/dictionary/CourseDetailS
 import CourseListTabs from '../components/tabs/CourseListTabs';
 import courseActiveShape from '../shapes/CourseActiveShape';
 import { setCourseActive } from '../actions/dictionary/courseActive';
+import { setListCourses } from '../actions/dictionary/list';
 import axios from '../common/presetAxios';
 import { BASE_URL } from '../common/constants';
 
@@ -15,14 +16,25 @@ import { BASE_URL } from '../common/constants';
 class DictionaryPage extends Component {
   componentDidMount() {
     // eslint-disable-next-line react/destructuring-assignment
-    const { startCourseId } = this.props.location.state || {};
-    const { setCourseActiveDispatch } = this.props;
+    const { startCourseId, startSearchKeyword } = this.props.location.state || {};
+    const { setCourseActiveDispatch, setListCoursesDispatch } = this.props;
 
     if (startCourseId) {
       axios.get(`${BASE_URL}/api/courses/${startCourseId}`, {
       })
         .then((response) => {
           setCourseActiveDispatch(response.data, true);
+        })
+        .catch((response) => {
+        });
+    }
+
+    if (startSearchKeyword) {
+      axios.get(`${BASE_URL}/api/courses`, { params: {
+        keyword: startSearchKeyword,
+      } })
+        .then((response) => {
+          setListCoursesDispatch('search', response.data);
         })
         .catch((response) => {
         });
@@ -60,16 +72,21 @@ const mapDispatchToProps = dispatch => ({
   setCourseActiveDispatch: (lecture, clicked) => {
     dispatch(setCourseActive(lecture, clicked));
   },
+  setListCoursesDispatch: (code, courses) => {
+    dispatch(setListCourses(code, courses));
+  },
 });
 
 DictionaryPage.propTypes = {
   courseActive: courseActiveShape.isRequired,
   location: PropTypes.shape({
     state: PropTypes.shape({
-      startCourseId: PropTypes.number.isRequired,
+      startCourseId: PropTypes.number,
+      startSearchKeyword: PropTypes.string,
     }),
   }).isRequired,
   setCourseActiveDispatch: PropTypes.func.isRequired,
+  setListCoursesDispatch: PropTypes.func.isRequired,
 };
 
 
