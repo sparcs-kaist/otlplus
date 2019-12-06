@@ -10,6 +10,7 @@ import RelatedCourseSection from '../components/sections/main/RelatedCourseSecti
 import LatestReviewSection from '../components/sections/main/LatestReviewSection';
 import FamousReviewSection from '../components/sections/main/FamousReviewSection';
 import ReviewWriteSection from '../components/sections/main/ReviewWriteSection';
+import MainSearchSection from '../components/sections/main/MainSearchSection';
 
 
 class MainPage extends Component {
@@ -19,11 +20,9 @@ class MainPage extends Component {
         <section className={classNames('main-image')}>
           {/* eslint-disable-next-line react/jsx-indent */}
         <div className={classNames('section-wrap', 'section-wrap--main-search')}>
-          <form className={classNames('main-search')}>
-            <i />
-            <input type="text" placeholder="검색" />
-            <button className={classNames('text-button')} type="submit">검색</button>
-          </form>
+          <div className={classNames('section')}>
+            <MainSearchSection />
+          </div>
         </div>
         </section>
         <section className={classNames('content')}>
