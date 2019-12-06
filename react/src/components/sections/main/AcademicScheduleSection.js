@@ -4,16 +4,42 @@ import { appBoundClassNames as classNames } from '../../../common/boundClassName
 
 
 class AcademicScheduleSection extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      today: new Date(),
+    };
+  }
+
+  componentDidMount() {
+    this.interval = setInterval(() => this.setState({ today: new Date() }), 100);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
+  }
+
+
   render() {
+    const { today } = this.state;
+
+    const targetScheduleTime = new Date(2020, 3, 2);
+    const timeDiff = targetScheduleTime - today;
+
+    const seconds = Math.floor((timeDiff / 1000) % 60);
+    const minutes = Math.floor((timeDiff / (1000 * 60)) % 60);
+    const hours = Math.floor((timeDiff / (1000 * 60 * 60)) % 24);
+    const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+
     return (
       <div className={classNames('section-content', 'section-content--widget')}>
         <div className={classNames('academic-schedule')}>
           <div>
-            D-4일 13시간 22분 07초
+            {`D-${days}일 ${hours}시간 ${minutes}분 ${seconds}초`}
           </div>
           <div>
             <strong>봄학기 수강취소 마감</strong>
-            <span>2018.1.3</span>
+            <span>{`${targetScheduleTime.getFullYear()}.${targetScheduleTime.getMonth()}.${targetScheduleTime.getDate()}`}</span>
           </div>
         </div>
         <div className={classNames('buttons')}>
