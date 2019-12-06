@@ -116,39 +116,6 @@ table {
         height: 200px;
         padding-top: 91px;
     }
-
-
-    .main-search {
-        padding: 12px;
-        margin: 0 12px;
-        display: flex;
-        background-color: #ffffff;
-        border-radius: 6px;
-        box-shadow: 0 3px 0 0 #F3BEC6;
-        font-size: 14px;
-        line-height: 15px;
-
-
-        i {
-            flex: 0 0 auto;
-            margin-right: 8px;
-            width: 13px;
-            background: url(../static/icons/tab_search.svg) no-repeat center center;
-        }
-
-        input {
-            flex: 1 1 auto;
-        }
-
-        input::placeholder {
-            color: #CCCCCC;
-        }
-
-        button {
-            flex: 0 0 auto;
-            margin-left: 8px;
-        }
-    }
 }
 
 
@@ -189,6 +156,7 @@ table {
     &--main-search {
         width: calc(80vh + 384px + (12px * 2));
         margin: 0 auto;
+        padding: 0 12px;
         @media (orientation:portrait) {
             width: 100%
         }
@@ -917,6 +885,33 @@ table {
 
         & > last-child {
             clear: both;
+        }
+    }
+
+    &--main-search {
+        display: flex;
+        font-size: 14px;
+        line-height: 15px;
+
+
+        i {
+            flex: 0 0 auto;
+            margin-right: 8px;
+            width: 13px;
+            background: url(../static/icons/tab_search.svg) no-repeat center center;
+        }
+
+        input {
+            flex: 1 1 auto;
+        }
+
+        input::placeholder {
+            color: #CCCCCC;
+        }
+
+        button {
+            flex: 0 0 auto;
+            margin-left: 8px;
         }
     }
 
