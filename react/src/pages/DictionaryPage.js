@@ -33,7 +33,7 @@ class DictionaryPage extends Component {
     const { courseActive } = this.props;
 
     return (
-      <div>
+      <>
         <section className={classNames('content', 'content--no-scroll')}>
           <div className={classNames('section-wrap', 'section-wrap--course-list')}>
             <CourseListTabs />
@@ -47,7 +47,7 @@ class DictionaryPage extends Component {
             </div>
           </div>
         </section>
-      </div>
+      </>
     );
   }
 }
