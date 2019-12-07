@@ -22,6 +22,11 @@ input {
     outline: none;
     font-size: inherit;
     line-height: inherit;
+
+    &[type=checkbox] {
+        width: 0;
+        height: 0;
+    }
 }
 
 
