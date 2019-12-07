@@ -6,7 +6,7 @@ import { appBoundClassNames as classNames } from '../../../common/boundClassName
 
 import { inTimetable, isListHover, isTableClicked, isTableHover, isInMultiple, isInactiveTableLecture, performDeleteFromTable, isListClicked } from '../../../common/lectureFunctions';
 import TimetableBlock from '../../blocks/TimetableBlock';
-import { dragSearch, setIsDragging, updateCellSize, setLectureActive, clearLectureActive, removeLectureFromTimetable, setCurrentList } from '../../../actions/timetable/index';
+import { dragSearch, setIsDragging, updateCellSize, setLectureActive, clearLectureActive, removeLectureFromTimetable, setCurrentList, setMobileShowLectureList } from '../../../actions/timetable/index';
 import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureActive';
 import lectureShape from '../../../shapes/LectureShape';
 import timetableShape from '../../../shapes/TimetableShape';
@@ -68,6 +68,18 @@ class TimetableSubSection extends Component {
     this._dragStart(e.target);
   }
 
+  onTouchStart = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+
+    const elementAtPosition = document.elementFromPoint(e.touches[0].pageX, e.touches[0].pageY).closest(`.${classNames('cell')}`);
+    if (elementAtPosition === null) {
+      return;
+    }
+
+    this._dragStart(elementAtPosition);
+  }
+
   _dragStart = (target) => {
     const { clearLectureActiveDispatch, setIsDraggingDispatch } = this.props;
 
@@ -100,6 +112,15 @@ class TimetableSubSection extends Component {
     this._dragMove(e.target);
   }
 
+  onTouchMove = (e) => {
+    const elementAtPosition = document.elementFromPoint(e.touches[0].pageX, e.touches[0].pageY).closest(`.${classNames('cell')}`);
+    if (elementAtPosition === null) {
+      return;
+    }
+
+    this._dragMove(elementAtPosition);
+  }
+
   _dragMove = (target) => {
     const { firstBlock } = this.state;
     const { isDragging } = this.props;
@@ -122,9 +143,13 @@ class TimetableSubSection extends Component {
     this._dragEnd();
   }
 
+  onTouchEnd = (e) => {
+    this._dragEnd();
+  }
+
   _dragEnd = () => {
     const { firstBlock, secondBlock } = this.state;
-    const { isDragging, setIsDraggingDispatch, dragSearchDispatch, setCurrentListDispatch } = this.props;
+    const { isDragging, setIsDraggingDispatch, dragSearchDispatch, setCurrentListDispatch, setMobileShowLectureListDispatch } = this.props;
 
     if (!isDragging) return;
     setIsDraggingDispatch(false);
@@ -135,6 +160,7 @@ class TimetableSubSection extends Component {
     const endIndex = this.indexOfTime(secondBlock.getAttribute('data-time'));
     if (startIndex === endIndex) return;
     dragSearchDispatch(startDay, Math.min(startIndex, endIndex), Math.max(startIndex, endIndex) + 1);
+    setMobileShowLectureListDispatch(true);
     setCurrentListDispatch('SEARCH');
   }
 
@@ -209,59 +235,69 @@ class TimetableSubSection extends Component {
           if (i === 1200) {
             return (
               <div
-                className={classNames('cell-top', 'cell-bold')}
+                className={classNames('cell', 'cell-top', 'cell-bold')}
                 key={`${day}:1200`}
                 data-day={day}
                 data-time="1200"
                 onMouseDown={e => this.onMouseDown(e)}
+                onTouchStart={e => this.onTouchStart(e)}
                 onMouseMove={e => this.onMouseMove(e)}
+                onTouchMove={e => this.onTouchMove(e)}
               />
             );
           }
           if (i === 1800) {
             return (
               <div
-                className={classNames('cell-top', 'cell-bold')}
+                className={classNames('cell', 'cell-top', 'cell-bold')}
                 key={`${day}:1800`}
                 data-day={day}
                 data-time="1800"
                 onMouseDown={e => this.onMouseDown(e)}
+                onTouchStart={e => this.onTouchStart(e)}
                 onMouseMove={e => this.onMouseMove(e)}
+                onTouchMove={e => this.onTouchMove(e)}
               />
             );
           }
           if (i === 2350) {
             return (
               <div
-                className={classNames('cell-bottom', (mobileShowLectureList ? 'cell-bottom--mobile-noline' : ''), 'cell-last')}
+                className={classNames('cell', 'cell-bottom', (mobileShowLectureList ? 'cell-bottom--mobile-noline' : ''), 'cell-last')}
                 key={`${day}:2330`}
                 data-day={day}
                 data-time="2330"
                 onMouseDown={e => this.onMouseDown(e)}
+                onTouchStart={e => this.onTouchStart(e)}
                 onMouseMove={e => this.onMouseMove(e)}
+                onTouchMove={e => this.onTouchMove(e)}
               />
             );
           }
           if (i % 100 === 0) {
             return (
               <div
-                className={classNames('cell-top')}
+                className={classNames('cell', 'cell-top')}
                 key={`${day}:${i.toString()}`}
                 data-day={day}
                 data-time={i.toString()}
                 onMouseDown={e => this.onMouseDown(e)}
+                onTouchStart={e => this.onTouchStart(e)}
                 onMouseMove={e => this.onMouseMove(e)}
+                onTouchMove={e => this.onTouchMove(e)}
               />
             );
           }
           return (
             <div
-              className={classNames('cell-bottom', (mobileShowLectureList ? 'cell-bottom--mobile-noline' : ''))}
+              className={classNames('cell', 'cell-bottom', (mobileShowLectureList ? 'cell-bottom--mobile-noline' : ''))}
               key={`${day}:${(i - 20).toString()}`}
               data-day={day}
               data-time={(i - 20).toString()}
               onMouseDown={e => this.onMouseDown(e)}
+              onTouchStart={e => this.onTouchStart(e)}
               onMouseMove={e => this.onMouseMove(e)}
+              onTouchMove={e => this.onTouchMove(e)}
             />
           );
         }),
@@ -270,7 +306,7 @@ class TimetableSubSection extends Component {
     };
 
     return (
-      <div className={classNames('section-content', 'section-content--timetable')} onMouseUp={e => this.onMouseUp(e)}>
+      <div className={classNames('section-content', 'section-content--timetable')} onMouseUp={e => this.onMouseUp(e)} onTouchEnd={e => this.onTouchEnd(e)}>
         <div className={classNames('section-content--timetable__table')}>
           <div>
             <div><strong>8</strong></div>
@@ -408,6 +444,9 @@ const mapDispatchToProps = dispatch => ({
   setCurrentListDispatch: (list) => {
     dispatch(setCurrentList(list));
   },
+  setMobileShowLectureListDispatch: (mobileShowLectureList) => {
+    dispatch(setMobileShowLectureList(mobileShowLectureList));
+  },
 });
 
 TimetableSubSection.propTypes = {
@@ -427,6 +466,7 @@ TimetableSubSection.propTypes = {
   clearLectureActiveDispatch: PropTypes.func.isRequired,
   removeLectureFromTimetableDispatch: PropTypes.func.isRequired,
   setCurrentListDispatch: PropTypes.func.isRequired,
+  setMobileShowLectureListDispatch: PropTypes.func.isRequired,
 };
 
 

@@ -551,6 +551,9 @@ table {
                         position: relative;
                         flex: auto;
                         width: 100%;
+                        &.cell {
+                            touch-action: none;
+                        }
                         &.cell-top {
                             border-top:1px solid #E8E8E8;
                             &.cell-bold {
