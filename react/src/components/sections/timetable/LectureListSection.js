@@ -25,8 +25,12 @@ class LectureListSection extends Component {
     this.arrowRef = React.createRef();
   }
 
+  componentDidMount() {
+    window.addEventListener('resize', this.selectWithArrow);
+  }
+
   componentDidUpdate(prevProps, prevState, snapshot) {
-    const { user, major, year, semester, currentList, setListMajorCodesDispatch, openSearchDispatch, mobileShowLectureList } = this.props;
+    const { user, major, year, semester, currentList, lectureActive, setListMajorCodesDispatch, openSearchDispatch, mobileShowLectureList } = this.props;
 
     if (user && (user !== prevProps.user)) {
       setListMajorCodesDispatch(user.departments);
@@ -48,6 +52,14 @@ class LectureListSection extends Component {
       || (mobileShowLectureList && !prevProps.mobileShowLectureList)) {
       this.selectWithArrow();
     }
+
+    if (!lectureActive.clicked && prevProps.lectureActive.clicked) {
+      this.selectWithArrow();
+    }
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.selectWithArrow);
   }
 
   _codesAreSame = (codes1, codes2) => (
