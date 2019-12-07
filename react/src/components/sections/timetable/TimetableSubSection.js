@@ -61,12 +61,17 @@ class TimetableSubSection extends Component {
     return minute / 30 - (2 * 8);
   }
 
-  dragStart = (e) => {
-    const { clearLectureActiveDispatch, setIsDraggingDispatch } = this.props;
-
+  onMouseDown = (e) => {
     e.stopPropagation();
     e.preventDefault();
-    this.setState({ firstBlock: e.target, secondBlock: e.target });
+
+    this._dragStart(e.target);
+  }
+
+  _dragStart = (target) => {
+    const { clearLectureActiveDispatch, setIsDraggingDispatch } = this.props;
+
+    this.setState({ firstBlock: target, secondBlock: target });
     clearLectureActiveDispatch();
     setIsDraggingDispatch(true);
   }
@@ -91,14 +96,18 @@ class TimetableSubSection extends Component {
       .filter(x => x !== undefined);
   }
 
-  dragMove = (e) => {
+  onMouseMove = (e) => {
+    this._dragMove(e.target);
+  }
+
+  _dragMove = (target) => {
     const { firstBlock } = this.state;
     const { isDragging } = this.props;
 
     if (!isDragging) return;
     const dayIndex = this.indexOfDay(firstBlock.getAttribute('data-day'));
     const startIndex = this.indexOfTime(firstBlock.getAttribute('data-time'));
-    const endIndex = this.indexOfTime(e.target.getAttribute('data-time'));
+    const endIndex = this.indexOfTime(target.getAttribute('data-time'));
     const incr = startIndex < endIndex ? 1 : -1;
     // eslint-disable-next-line no-loops/no-loops, fp/no-loops, fp/no-let, fp/no-mutation
     for (let i = startIndex + incr; i !== endIndex + incr; i += incr) {
@@ -106,10 +115,14 @@ class TimetableSubSection extends Component {
         return;
       }
     }
-    this.setState({ secondBlock: e.target });
+    this.setState({ secondBlock: target });
   }
 
-  dragEnd = (e) => {
+  onMouseUp = (e) => {
+    this._dragEnd();
+  }
+
+  _dragEnd = () => {
     const { firstBlock, secondBlock } = this.state;
     const { isDragging, setIsDraggingDispatch, dragSearchDispatch, setCurrentListDispatch } = this.props;
 
@@ -200,8 +213,8 @@ class TimetableSubSection extends Component {
                 key={`${day}:1200`}
                 data-day={day}
                 data-time="1200"
-                onMouseDown={e => this.dragStart(e)}
-                onMouseMove={e => this.dragMove(e)}
+                onMouseDown={e => this.onMouseDown(e)}
+                onMouseMove={e => this.onMouseMove(e)}
               />
             );
           }
@@ -212,8 +225,8 @@ class TimetableSubSection extends Component {
                 key={`${day}:1800`}
                 data-day={day}
                 data-time="1800"
-                onMouseDown={e => this.dragStart(e)}
-                onMouseMove={e => this.dragMove(e)}
+                onMouseDown={e => this.onMouseDown(e)}
+                onMouseMove={e => this.onMouseMove(e)}
               />
             );
           }
@@ -224,8 +237,8 @@ class TimetableSubSection extends Component {
                 key={`${day}:2330`}
                 data-day={day}
                 data-time="2330"
-                onMouseDown={e => this.dragStart(e)}
-                onMouseMove={e => this.dragMove(e)}
+                onMouseDown={e => this.onMouseDown(e)}
+                onMouseMove={e => this.onMouseMove(e)}
               />
             );
           }
@@ -236,8 +249,8 @@ class TimetableSubSection extends Component {
                 key={`${day}:${i.toString()}`}
                 data-day={day}
                 data-time={i.toString()}
-                onMouseDown={e => this.dragStart(e)}
-                onMouseMove={e => this.dragMove(e)}
+                onMouseDown={e => this.onMouseDown(e)}
+                onMouseMove={e => this.onMouseMove(e)}
               />
             );
           }
@@ -247,8 +260,8 @@ class TimetableSubSection extends Component {
               key={`${day}:${(i - 20).toString()}`}
               data-day={day}
               data-time={(i - 20).toString()}
-              onMouseDown={e => this.dragStart(e)}
-              onMouseMove={e => this.dragMove(e)}
+              onMouseDown={e => this.onMouseDown(e)}
+              onMouseMove={e => this.onMouseMove(e)}
             />
           );
         }),
@@ -257,7 +270,7 @@ class TimetableSubSection extends Component {
     };
 
     return (
-      <div className={classNames('section-content', 'section-content--timetable')} onMouseUp={e => this.dragEnd(e)}>
+      <div className={classNames('section-content', 'section-content--timetable')} onMouseUp={e => this.onMouseUp(e)}>
         <div className={classNames('section-content--timetable__table')}>
           <div>
             <div><strong>8</strong></div>
