@@ -1744,6 +1744,9 @@ table {
             }
 
             & > th {
+                position: sticky;
+                left: 0;
+                background-color: #FFFFFF;
                 width: 21px + 12px;
                 padding-right: 10px;
                 font-size: 12px;
