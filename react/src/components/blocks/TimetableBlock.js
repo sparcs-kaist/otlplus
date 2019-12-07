@@ -28,11 +28,11 @@ const TimetableBlock = ({ lecture, classtime, cellWidth, cellHeight, isClicked, 
         width: cellWidth + 2,
         height: cellHeight * (indexOfTime(classtime.end) - indexOfTime(classtime.begin)) - 3,
       }}
-      onMouseOver={() => blockHover(lecture)()}
-      onMouseOut={() => blockOut()}
-      onClick={() => blockClick(lecture)()}
+      onMouseOver={blockHover ? blockHover(lecture) : null}
+      onMouseOut={blockOut}
+      onClick={blockClick ? blockClick(lecture) : null}
     >
-      <div className={classNames('block--timetable__button')} onClick={event => deleteLecture(lecture)(event)}><i className={classNames('icon', 'icon--delete-lecture')} /></div>
+      <div className={classNames('block--timetable__button')} onClick={deleteLecture ? deleteLecture(lecture) : null}><i className={classNames('icon', 'icon--delete-lecture')} /></div>
       <div
         // onMouseDown={() => onMouseDown()}
         className={classNames('block--timetable__content')}
@@ -67,7 +67,7 @@ const TimetableBlock = ({ lecture, classtime, cellWidth, cellHeight, isClicked, 
 
 TimetableBlock.propTypes = {
   lecture: lectureShape.isRequired,
-  classtime: classtimeShape,
+  classtime: classtimeShape.isRequired,
   cellWidth: PropTypes.number.isRequired,
   cellHeight: PropTypes.number.isRequired,
   isClicked: PropTypes.bool.isRequired,
@@ -75,10 +75,10 @@ TimetableBlock.propTypes = {
   isInactive: PropTypes.bool.isRequired,
   isTemp: PropTypes.bool.isRequired,
   isSimple: PropTypes.bool.isRequired,
-  blockHover: PropTypes.func.isRequired,
-  blockOut: PropTypes.func.isRequired,
-  blockClick: PropTypes.func.isRequired,
-  deleteLecture: PropTypes.func.isRequired,
+  blockHover: PropTypes.func,
+  blockOut: PropTypes.func,
+  blockClick: PropTypes.func,
+  deleteLecture: PropTypes.func,
   occupiedTime: PropTypes.arrayOf(PropTypes.array),
 };
 

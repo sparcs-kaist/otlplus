@@ -22,6 +22,11 @@ input {
     outline: none;
     font-size: inherit;
     line-height: inherit;
+
+    &[type=checkbox] {
+        width: 0;
+        height: 0;
+    }
 }
 
 
@@ -546,6 +551,9 @@ table {
                         position: relative;
                         flex: auto;
                         width: 100%;
+                        &.cell {
+                            touch-action: none;
+                        }
                         &.cell-top {
                             border-top:1px solid #E8E8E8;
                             &.cell-bold {
@@ -816,7 +824,7 @@ table {
                     width: 100%;
                     margin-bottom: 8px - 6px;
                     &:last-child {
-                        margin-bottom: 12px - 6px;
+                        margin-bottom: - 6px;
                     }
 
                     & > div:first-child {
@@ -1744,6 +1752,9 @@ table {
             }
 
             & > th {
+                position: sticky;
+                left: 0;
+                background-color: #FFFFFF;
                 width: 21px + 12px;
                 padding-right: 10px;
                 font-size: 12px;
