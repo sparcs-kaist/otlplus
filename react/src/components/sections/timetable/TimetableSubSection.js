@@ -344,10 +344,10 @@ class TimetableSubSection extends Component {
                   isInactive={false}
                   isTemp={true}
                   isSimple={mobileShowLectureList}
-                  blockHover={this.blockHover}
-                  blockOut={this.blockOut}
-                  blockClick={this.blockClick}
-                  deleteLecture={this.deleteLecture}
+                  blockHover={null}
+                  blockOut={null}
+                  blockClick={null}
+                  deleteLecture={null}
                   occupiedTime={this._getOccupiedTime(classtime.day, this.indexOfMinute(classtime.begin), this.indexOfMinute(classtime.end))}
                 />
               ))
