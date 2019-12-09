@@ -6,7 +6,7 @@ import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 import axios from '../../common/presetAxios';
 
 import { BASE_URL } from '../../common/constants';
-import { setTimetables, createTimetable, setCurrentTimetable, deleteTimetable, duplicateTimetable, setMobileShowTimetableTabs } from '../../actions/timetable/index';
+import { setTimetables, createTimetable, setCurrentTimetable, deleteTimetable, duplicateTimetable, setMobileShowTimetableTabs } from '../../actions/timetable/timetable';
 import timetableShape from '../../shapes/TimetableShape';
 
 

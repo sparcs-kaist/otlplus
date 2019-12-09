@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
 
-import { setMobileShowTimetableTabs } from '../actions/timetable/index';
+import { setMobileShowTimetableTabs } from '../actions/timetable/timetable';
 import LectureDetailSection from '../components/sections/timetable/LectureDetailSection';
 import LectureListTabs from '../components/tabs/LectureListTabs';
 import LectureListSection from '../components/sections/timetable/LectureListSection';

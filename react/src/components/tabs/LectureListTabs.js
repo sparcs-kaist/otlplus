@@ -4,7 +4,9 @@ import PropTypes from 'prop-types';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 
-import { openSearch, closeSearch, setCurrentList, clearLectureActive } from '../../actions/timetable/index';
+import { clearLectureActive } from "../../actions/timetable/lectureActive";
+import { setCurrentList } from '../../actions/timetable/list';
+import { openSearch, closeSearch } from '../../actions/timetable/search';
 import { NONE, LIST, TABLE, MULTIPLE } from '../../reducers/timetable/lectureActive';
 import lectureShape from '../../shapes/LectureShape';
 

@@ -6,7 +6,7 @@ import { appBoundClassNames as classNames } from '../../../common/boundClassName
 
 import Scroller from '../../Scroller';
 import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureActive';
-import { clearMultipleDetail, setMultipleDetail } from '../../../actions/timetable/index';
+import { clearMultipleDetail, setMultipleDetail } from '../../../actions/timetable/lectureActive';
 import lectureShape from '../../../shapes/LectureShape';
 import timetableShape from '../../../shapes/TimetableShape';
 import { inTimetable } from '../../../common/lectureFunctions';
