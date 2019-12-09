@@ -76,9 +76,14 @@ table {
 }
 
 
+$section-margin-top: 12px;
+$section-margin-bottom: 13px;
+$section-margin-lr: 12px;
+
+
 .content {
     position: relative;
-    width: calc(80vh + 384px + (12px * 2) + (env(safe-area-inset-left) + env(safe-area-inset-right)));
+    width: calc(80vh + 384px + (#{$section-margin-lr} * 2) + (env(safe-area-inset-left) + env(safe-area-inset-right)));
     margin-top: 55px;
     margin-left: auto;
     margin-right: auto;
@@ -125,16 +130,16 @@ table {
 
 
 .section-wrap {
-    margin: 12px 12px 13px 12px;
+    margin: $section-margin-top $section-margin-lr $section-margin-bottom $section-margin-lr;
 
 
     &.mobile-modal {
             @media (orientation: portrait) {
                 position: absolute;
-                top: 12px;
-                bottom: calc(13px * 2 + env(safe-area-inset-bottom));
-                left: calc(12px * 2 + env(safe-area-inset-left));
-                right: calc(12px * 2 + env(safe-area-inset-right));
+                top: $section-margin-top;
+                bottom: calc(#{$section-margin-bottom} * 2 + env(safe-area-inset-bottom));
+                left: calc(#{$section-margin-lr} * 2 + env(safe-area-inset-left));
+                right: calc(#{$section-margin-lr} * 2 + env(safe-area-inset-right));
                 width: initial;
                 height: initial;
                 margin: 0;
@@ -159,7 +164,7 @@ table {
 
 
     &--main-search {
-        width: calc(80vh + 384px + (12px * 2));
+        width: calc(80vh + 384px + (#{$section-margin-lr} * 2));
         margin: 0 auto;
         padding: 0 12px;
         @media (orientation:portrait) {
@@ -173,7 +178,7 @@ table {
         width: calc(40vh + 186px);
         margin-top: 0px;
         @media (orientation: portrait) {
-            width: calc(100% - 12px * 2);
+            width: calc(100% - #{$section-margin-lr} * 2);
         }
     }
 
@@ -194,7 +199,7 @@ table {
         flex-direction: column;
 
         @media (orientation: portrait) {
-           width: calc(100% - 12px * 2);
+           width: calc(100% - #{$section-margin-lr} * 2);
            flex: 1 1 100%;
            margin-top: 0;
         }
@@ -210,9 +215,9 @@ table {
         flex-direction: column;
 
         @media (orientation: portrait) {
-            width: calc(100% - 12px * 2);
-            margin-left: 12px;
-            margin-bottom: 13px;;
+            width: calc(100% - #{$section-margin-lr} * 2);
+            margin-left: $section-margin-lr;
+            margin-bottom: $section-margin-bottom;
             flex: 1 1 100%;
         }
     }
@@ -220,7 +225,7 @@ table {
 
     &--timetable-right {
         flex: none;
-        width: calc(15vh + 126px - 12px * 2);
+        width: calc(15vh + 126px - #{$section-margin-lr} * 2);
         margin: 0;
         display: flex;
         flex-direction: column;
@@ -2437,7 +2442,7 @@ i.icon {
         flex: none;
 
         &.section-wrap--timetable-left {
-            margin-left: 12px;
+            margin-left: $section-margin-lr;
         }
     }
 }
