@@ -15,8 +15,8 @@ import axios from './common/presetAxios';
 import { BASE_URL } from './common/constants';
 import dictionaryReducer from './reducers/dictionary/index';
 import timetableReducer from './reducers/timetable/index';
-import commonReducer from './reducers/user';
-import { setUser } from './actions/user';
+import commonReducer from './reducers/common/index';
+import { setUser } from './actions/common/user';
 import TestPage from './pages/TestPage';
 
 const store = createStore(combineReducers({

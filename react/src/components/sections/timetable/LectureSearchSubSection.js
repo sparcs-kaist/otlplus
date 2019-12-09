@@ -6,7 +6,8 @@ import { appBoundClassNames as classNames } from '../../../common/boundClassName
 import axios from '../../../common/presetAxios';
 
 import { BASE_URL } from '../../../common/constants';
-import { closeSearch, setListLectures, clearSearchListLectures } from '../../../actions/timetable/index';
+import { closeSearch } from '../../../actions/timetable/search';
+import { setListLectures, clearSearchListLectures } from '../../../actions/timetable/list';
 import SearchFilter from '../../SearchFilter';
 
 

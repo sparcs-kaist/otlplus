@@ -126,7 +126,7 @@ class CurrentTimetableSection extends Component {
 }
 
 const mapStateToProps = state => ({
-  user: state.common.user,
+  user: state.common.user.user,
 });
 
 const mapDispatchToProps = dispatch => ({
