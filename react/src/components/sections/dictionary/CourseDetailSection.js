@@ -4,53 +4,15 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
-import axios from '../../../common/presetAxios';
-import { BASE_URL } from '../../../common/constants';
-import { clearCourseActive, setReviews, setLectures } from '../../../actions/dictionary/courseActive';
-import ReviewBlock from '../../blocks/ReviewBlock';
-import ReviewWriteBlock from '../../blocks/ReviewWriteBlock';
+import { clearCourseActive } from '../../../actions/dictionary/courseActive';
 import Scroller from '../../Scroller';
-import CourseSimpleBlock from '../../blocks/CourseSimpleBlock';
 import CourseShape from '../../../shapes/CourseShape';
-import courses from '../../../dummy/courses';
-import reviewShape from '../../../shapes/ReviewShape';
-import userShape from '../../../shapes/UserShape';
-import lectureShape from '../../../shapes/LectureShape';
-import HistoryLecturesBlock from '../../blocks/HistoryLecturesBlock';
+import CourseRelatedSection from './CourseRelatedSection';
+import CourseHistorySubSection from './CourseHistorySubSection';
+import CourseReviewsSubSection from './CourseReviewsSubSection';
 
 
 class CourseDetailSection extends Component {
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    const { clicked, course, setReviewsDispatch, setLecturesDispatch } = this.props;
-
-    if ((clicked && course !== null)
-      && !(prevProps.clicked && (prevProps.course.id === course.id))) {
-      axios.get(`${BASE_URL}/api/courses/${course.id}/comments`, {
-      })
-        .then((response) => {
-          const newProps = this.props;
-          if (newProps.course.id !== course.id) {
-            return;
-          }
-          setReviewsDispatch(response.data);
-        })
-        .catch((response) => {
-        });
-      axios.get(`${BASE_URL}/api/courses/${course.id}/lectures`, {
-      })
-        .then((response) => {
-          const newProps = this.props;
-          if (newProps.course.id !== course.id) {
-            return;
-          }
-          setLecturesDispatch(response.data);
-        })
-        .catch((response) => {
-        });
-    }
-  }
-
-
   onScroll() {
     if (this.refs.scores.getBoundingClientRect().top >= this.refs.scrollThreshold.getBoundingClientRect().bottom) {
       this.refs.hiddenScores.classList.add('fixed__conditional-part--hidden');
@@ -68,13 +30,9 @@ class CourseDetailSection extends Component {
 
 
   render() {
-    const { user, clicked, course, reviews, lectures } = this.props;
+    const { clicked, course } = this.props;
 
     if (clicked && course !== null) {
-      const takenLectureOfCourse = user
-        ? user.taken_lectures.filter(l => (l.course === course.id))
-        : [];
-
       return (
 
         <div className={classNames('section-content', 'section-content--flex', 'section-content--course-detail')}>
@@ -167,83 +125,11 @@ class CourseDetailSection extends Component {
               </div>
             </div>
             <div className={classNames('divider')} />
-            <div className={classNames('small-title')}>연관 과목</div>
-            <div className={classNames('related-courses')}>
-              <div>
-                { courses.map(c => <CourseSimpleBlock course={c} key={c.id} />) }
-              </div>
-              <div>
-                &gt;
-              </div>
-              <div>
-                <CourseSimpleBlock course={course} />
-              </div>
-              <div>
-                &gt;
-              </div>
-              <div>
-                { courses.map(c => <CourseSimpleBlock course={c} key={c.id} />) }
-              </div>
-            </div>
+            <CourseRelatedSection />
             <div className={classNames('divider')} />
-            <div className={classNames('small-title')}>개설 이력</div>
-            {
-              (lectures == null)
-                ? <div>불러오는 중</div>
-                : (
-                  <div className={classNames('history')}>
-                    <table>
-                      <tbody>
-                        <tr>
-                          <th>봄</th>
-                          {[...Array(2019 - 2009 + 1).keys()].map((i) => {
-                            const y = 2009 + i;
-                            const filteredLectures = lectures.filter(l => ((l.year === y) && (l.semester === 1)));
-                            if (filteredLectures.length === 0) {
-                              return <td className={classNames('history__cell--unopen')} key={`${y}-1`}>미개설</td>;
-                            }
-                            return <td key={`${y}-1`}><HistoryLecturesBlock lectures={filteredLectures} /></td>;
-                          })}
-                        </tr>
-                        <tr>
-                          <th />
-                          {[...Array(2019 - 2009 + 1).keys()].map((i) => {
-                            const y = 2009 + i;
-                            return (
-                              <td className={classNames('history__cell--year-label')} key={`${y}-l`}>{y}</td>
-                            );
-                          })}
-                        </tr>
-                        <tr>
-                          <th>가을</th>
-                          {[...Array(2019 - 2009 + 1).keys()].map((i) => {
-                            const y = 2009 + i;
-                            const filteredLectures = lectures.filter(l => ((l.year === y) && (l.semester === 3)));
-                            if (filteredLectures.length === 0) {
-                              return <td className={classNames('history__cell--unopen')} key={`${y}-3`}>미개설</td>;
-                            }
-                            return <td key={`${y}-3`}><HistoryLecturesBlock lectures={filteredLectures} /></td>;
-                          })}
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                )
-            }
+            <CourseHistorySubSection />
             <div className={classNames('divider')} />
-            <div className={classNames('small-title')}>과목 후기</div>
-            {
-              takenLectureOfCourse.map(l => (
-                <ReviewWriteBlock lecture={l} key={l.id} />
-              ))
-            }
-            {
-              (reviews == null)
-                ? <div className={classNames('list-placeholder')}><div>불러오는 중</div></div>
-                : (reviews.length
-                  ? <div>{reviews.map(r => <ReviewBlock review={r} key={r.id} />)}</div>
-                  : <div className={classNames('list-placeholder')}><div>결과 없음</div></div>)
-            }
+            <CourseReviewsSubSection />
           </Scroller>
         </div>
       );
@@ -274,34 +160,20 @@ class CourseDetailSection extends Component {
 }
 
 const mapStateToProps = state => ({
-  user: state.common.user,
   clicked: state.dictionary.courseActive.clicked,
   course: state.dictionary.courseActive.course,
-  reviews: state.dictionary.courseActive.reviews,
-  lectures: state.dictionary.courseActive.lectures,
 });
 
 const mapDispatchToProps = dispatch => ({
   clearCourseActiveDispatch: () => {
     dispatch(clearCourseActive());
   },
-  setReviewsDispatch: (reviews) => {
-    dispatch(setReviews(reviews));
-  },
-  setLecturesDispatch: (lectures) => {
-    dispatch(setLectures(lectures));
-  },
 });
 
 CourseDetailSection.propTypes = {
-  user: userShape,
   clicked: PropTypes.bool.isRequired,
   course: CourseShape,
-  reviews: PropTypes.arrayOf(reviewShape),
-  lectures: PropTypes.arrayOf(lectureShape),
   clearCourseActiveDispatch: PropTypes.func.isRequired,
-  setReviewsDispatch: PropTypes.func.isRequired,
-  setLecturesDispatch: PropTypes.func.isRequired,
 };
 
 
