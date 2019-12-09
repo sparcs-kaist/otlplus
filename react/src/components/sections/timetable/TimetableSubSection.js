@@ -6,7 +6,10 @@ import { appBoundClassNames as classNames } from '../../../common/boundClassName
 
 import { inTimetable, isListHover, isTableClicked, isTableHover, isInMultiple, isInactiveTableLecture, performDeleteFromTable, isListClicked } from '../../../common/lectureFunctions';
 import TimetableBlock from '../../blocks/TimetableBlock';
-import { dragSearch, setIsDragging, updateCellSize, setLectureActive, clearLectureActive, removeLectureFromTimetable, setCurrentList, setMobileShowLectureList } from '../../../actions/timetable/index';
+import { setLectureActive, clearLectureActive } from '../../../actions/timetable/lectureActive';
+import { setCurrentList, setMobileShowLectureList } from '../../../actions/timetable/list';
+import { dragSearch } from '../../../actions/timetable/search';
+import { setIsDragging, updateCellSize, removeLectureFromTimetable } from '../../../actions/timetable/timetable';
 import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureActive';
 import lectureShape from '../../../shapes/LectureShape';
 import timetableShape from '../../../shapes/TimetableShape';

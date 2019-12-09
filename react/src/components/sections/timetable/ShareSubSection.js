@@ -5,7 +5,8 @@ import PropTypes from 'prop-types';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
-import { setMobileShowTimetableTabs, setMobileShowLectureList } from '../../../actions/timetable/index';
+import { setMobileShowLectureList } from '../../../actions/timetable/list';
+import { setMobileShowTimetableTabs } from '../../../actions/timetable/timetable';
 import timetableShape from '../../../shapes/TimetableShape';
 
 

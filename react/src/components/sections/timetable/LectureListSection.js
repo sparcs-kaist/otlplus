@@ -7,7 +7,10 @@ import axios from '../../../common/presetAxios';
 
 import { inTimetable, inCart, isListClicked, isListHover, isInactiveListLectures, performAddToTable, performAddToCart, performDeleteFromCart } from '../../../common/lectureFunctions';
 import { BASE_URL } from '../../../common/constants';
-import { openSearch, setLectureActive, clearLectureActive, addLectureToTimetable, addLectureToCart, deleteLectureFromCart, setListMajorCodes, setListLectures, setListMajorLectures, setMobileShowLectureList } from '../../../actions/timetable/index';
+import { setLectureActive, clearLectureActive } from '../../../actions/timetable/lectureActive';
+import { addLectureToCart, deleteLectureFromCart, setListLectures, setListMajorCodes, setListMajorLectures, setMobileShowLectureList } from '../../../actions/timetable/list';
+import { openSearch } from '../../../actions/timetable/search';
+import { addLectureToTimetable } from '../../../actions/timetable/timetable';
 import Scroller from '../../Scroller';
 import LectureSearchSubSection from './LectureSearchSubSection';
 import CourseLecturesBlock from '../../blocks/CourseLecturesBlock';

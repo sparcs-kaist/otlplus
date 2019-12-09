@@ -12,7 +12,9 @@ import { BASE_URL } from '../../../common/constants';
 import Scroller from '../../Scroller';
 import ReviewSimpleBlock from '../../blocks/ReviewSimpleBlock';
 import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureActive';
-import { clearLectureActive, addLectureToTimetable, removeLectureFromTimetable, addLectureToCart, deleteLectureFromCart } from '../../../actions/timetable/index';
+import { clearLectureActive } from '../../../actions/timetable/lectureActive';
+import { addLectureToCart, deleteLectureFromCart } from '../../../actions/timetable/list';
+import { addLectureToTimetable, removeLectureFromTimetable } from '../../../actions/timetable/timetable';
 import lectureShape from '../../../shapes/LectureShape';
 import timetableShape from '../../../shapes/TimetableShape';
 
