@@ -83,6 +83,11 @@ $section-margin-top: 12px;
 $section-margin-bottom: 13px;
 $section-margin-lr: 12px;
 $section-padding: 12px;
+$section-border-radius: 6px;
+
+$block-border-radius: 4px;
+
+$small-block-border-radius: 2px;
 
 
 .content {
@@ -270,7 +275,7 @@ $section-padding: 12px;
                 height: 100%;
                 padding: $section-padding;
                 background-color: #ffffff;
-                border-radius: 6px;
+                border-radius: $section-border-radius;
                 box-shadow: 0 3px 0 0 #F3BEC6;
                 flex-direction: column-reverse;
                 align-items: center;
@@ -294,7 +299,7 @@ $section-padding: 12px;
             margin-left: auto;
             margin-bottom: 6px;
             line-height: 0;
-            border-radius: 4px 0 0 4px;
+            border-radius: $block-border-radius 0 0 $block-border-radius;
             background-color: #E2E2E2;
 
             &.tabs__elem--active {
@@ -315,7 +320,7 @@ $section-padding: 12px;
             display: inline-block;
             vertical-align: top;
             margin-right: 6px;
-            border-radius: 4px 4px 0 0;
+            border-radius: $block-border-radius $block-border-radius 0 0;
             font-size: 12px;
             line-height: 13px;
             padding: 7px 10px;
@@ -327,7 +332,7 @@ $section-padding: 12px;
                 width: 100%;
                 background-color: #EEEEEE;
                 margin-bottom: 6px;
-                border-radius: 4px;
+                border-radius: $block-border-radius;
             }
             &.active {
                 @media (orientation: landscape) {
@@ -376,7 +381,7 @@ $section-padding: 12px;
     height: 100%;
     padding: $section-padding;
     background-color: #ffffff;
-    border-radius: 6px;
+    border-radius: $section-border-radius;
     box-shadow: 0 3px 0 0 #F3BEC6;
 
 
@@ -588,7 +593,7 @@ $section-padding: 12px;
         &__drag-cell {
             position:absolute;
             background-color:#E56C85;
-            border-radius:2px;
+            border-radius: $small-block-border-radius;
             pointer-events:none;
             z-index:1;
         }
@@ -706,7 +711,7 @@ $section-padding: 12px;
                     font-size:10px;
                     line-height:9px;
                     height: 13px;
-                    border-radius: 2px;
+                    border-radius: $small-block-border-radius;
                     padding: 2px 3px;
                     background-color: #eeeeee;
                     box-shadow: 0 1px 0 0 #888888;
@@ -1050,7 +1055,7 @@ $section-padding: 12px;
 
 .block {
     background-color: #EEEEEE;
-    border-radius: 4px;
+    border-radius: $block-border-radius;
     font-size: 13px;
     line-height: 14px;
     padding: 10px;
@@ -1252,7 +1257,7 @@ $section-padding: 12px;
 
             &:last-child {
                 margin-bottom: -8px;
-                border-radius:0px 0px 4px 4px;
+                border-radius:0px 0px $block-border-radius $block-border-radius;
             }
 
             &.block--active,
@@ -1365,7 +1370,7 @@ $section-padding: 12px;
         flex-direction: column;
         justify-content: center;
         padding: 0px;
-        border-radius: 2px;
+        border-radius: $small-block-border-radius;
         z-index: 2;
         top: 1px;
         left: -1px;
@@ -1446,7 +1451,7 @@ $section-padding: 12px;
             left: 0;
             width: 100%;
             z-index: -1;
-            border-radius: 2px;
+            border-radius: $small-block-border-radius;
         }
     }
 
@@ -1457,7 +1462,7 @@ $section-padding: 12px;
         flex-direction: column;
         justify-content: center;
         padding: 0px;
-        border-radius: 2px;
+        border-radius: $small-block-border-radius;
         z-index: 2;
         top: 1px;
         left: -1px;
