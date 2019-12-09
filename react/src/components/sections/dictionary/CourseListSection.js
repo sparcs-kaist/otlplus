@@ -205,7 +205,7 @@ class CourseListSection extends Component {
 }
 
 const mapStateToProps = state => ({
-  user: state.common.user,
+  user: state.common.user.user,
   currentList: state.dictionary.list.currentList,
   search: state.dictionary.list.search,
   major: state.dictionary.list.major,

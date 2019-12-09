@@ -63,7 +63,7 @@ class CourseReviewsSubSection extends Component {
 }
 
 const mapStateToProps = state => ({
-  user: state.common.user,
+  user: state.common.user.user,
   clicked: state.dictionary.courseActive.clicked,
   course: state.dictionary.courseActive.course,
   reviews: state.dictionary.courseActive.reviews,

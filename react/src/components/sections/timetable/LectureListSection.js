@@ -360,7 +360,7 @@ class LectureListSection extends Component {
 }
 
 const mapStateToProps = state => ({
-  user: state.common.user,
+  user: state.common.user.user,
   currentList: state.timetable.list.currentList,
   search: state.timetable.list.search,
   major: state.timetable.list.major,
