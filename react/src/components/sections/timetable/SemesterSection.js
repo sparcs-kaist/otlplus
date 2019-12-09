@@ -6,7 +6,10 @@ import { appBoundClassNames as classNames } from '../../../common/boundClassName
 import axios from '../../../common/presetAxios';
 
 import { BASE_URL } from '../../../common/constants';
-import { setSemester, clearLectureActive, clearTimetables, clearListsLectures } from '../../../actions/timetable/index';
+import { clearLectureActive } from '../../../actions/timetable/lectureActive';
+import { clearListsLectures } from '../../../actions/timetable/list';
+import { setSemester } from '../../../actions/timetable/semester';
+import { clearTimetables } from '../../../actions/timetable/timetable';
 
 
 const semesterName = {

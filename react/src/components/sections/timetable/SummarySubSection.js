@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
-import { clearMultipleDetail, setMultipleDetail } from '../../../actions/timetable/index';
+import { clearMultipleDetail, setMultipleDetail } from '../../../actions/timetable/lectureActive';
 import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureActive';
 import lectureShape from '../../../shapes/LectureShape';
 import timetableShape from '../../../shapes/TimetableShape';

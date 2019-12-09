@@ -1,4 +1,4 @@
-import { SET_LECTURE_ACTIVE, CLEAR_LECTURE_ACTIVE, SET_MULTIPLE_DETAIL, CLEAR_MULTIPLE_DETAIL } from '../../actions/timetable/index';
+import { SET_LECTURE_ACTIVE, CLEAR_LECTURE_ACTIVE, SET_MULTIPLE_DETAIL, CLEAR_MULTIPLE_DETAIL } from '../../actions/timetable/lectureActive';
 
 export const NONE = 'NONE';
 export const LIST = 'LIST';
