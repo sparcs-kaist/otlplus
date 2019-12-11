@@ -7,6 +7,11 @@ $color-block-background: #EEEEEE;
 $color-block-background-dark: #DDDDDD;
 $color-block-background-highlight: #F9F0F0;
 
+$color-divider-line: #EDD1DC;
+$color-block-line: #C9C9C9;
+$color-normal-line: #E8E8E8;
+$color-normal-line-dark: #C9C9C9;
+
 
 $font-size-big: 14px;
 $line-height-big: 15px;
@@ -591,20 +596,20 @@ table {
                             touch-action: none;
                         }
                         &.cell-top {
-                            border-top:1px solid #E8E8E8;
+                            border-top:1px solid $color-normal-line;
                             &.cell-bold {
-                                border-top:1px solid #C9C9C9;
+                                border-top:1px solid $color-normal-line-dark;
                             }
                         }
                         &.cell-bottom {
-                            border-top:1px dashed #E8E8E8;
+                            border-top:1px dashed $color-normal-line;
                             @media (orientation: portrait) {
                                 &.cell-bottom--mobile-noline {
                                     border-top-color: transparent;
                                 }
                             }
                             &.cell-last {
-                                border-bottom:1px solid #C9C9C9;
+                                border-bottom:1px solid $color-normal-line-dark;
                             }
                         }
                     }
@@ -1018,16 +1023,16 @@ table {
                         }
 
                         &.hcell-left {
-                            border-left: 1px solid #E8E8E8;
+                            border-left: 1px solid $color-normal-line;
                         }
                         &.hcell-right {
-                            border-left: 1px dashed #E8E8E8;
+                            border-left: 1px dashed $color-normal-line;
                         }
                         &.hcell-bold {
-                            border-left: 1px solid #C9C9C9;
+                            border-left: 1px solid $color-normal-line-dark;
                         }
                         &.hcell-last {
-                            border-right: 1px solid #C9C9C9;
+                            border-right: 1px solid $color-normal-line-dark;
                         }
                     }
                 }
@@ -1110,7 +1115,7 @@ table {
 
         &__title {
             padding-bottom: 6px;
-            border-bottom: 1px solid #C9C9C9;
+            border-bottom: 1px solid $color-block-line;
             margin-bottom: 6px;
         }
     }
@@ -1290,7 +1295,7 @@ table {
 
         &__elem {
             padding: 6px 0;
-            border-top:1px solid #C9C9C9;
+            border-top:1px solid $color-block-line;
             display: flex;
             flex-direction: row;
             pointer-events: none;
@@ -1351,7 +1356,7 @@ table {
 
         &__elem {
             padding: 6px 0;
-            border-top:1px solid #C9C9C9;
+            border-top:1px solid $color-block-line;
             display: flex;
             flex-direction: row;
             pointer-events: none;
@@ -1802,7 +1807,7 @@ table {
                 text-align: center;
                 padding: 0 6px;
                 width: calc(64px + 7vh + (6px * 2));
-                border-left: 1px solid #E8E8E8;
+                border-left: 1px solid $color-normal-line;
                 &:first-of-type {
                     padding-left: 0;
                     width: calc(64px + 7vh + 6px);
@@ -1989,13 +1994,13 @@ table {
 
 
 .divider {
-    border-bottom: 1px solid #EDD1DC;
+    border-bottom: 1px solid $color-divider-line;
     margin: $section-padding 0;
 
 
     &--vertical {
         border-bottom: none;
-        border-right: 1px solid #EDD1DC;
+        border-right: 1px solid $color-divider-line;
         margin: 0 $section-padding;
     }
 
@@ -2003,7 +2008,7 @@ table {
     &--mobile-horizontal {
         @media (orientation: portrait) {
             border-right: none;
-            border-bottom: 1px solid #EDD1DC;
+            border-bottom: 1px solid $color-divider-line;
             margin: $section-padding 0;
         }
     }
