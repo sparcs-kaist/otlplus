@@ -1,4 +1,13 @@
 
+$color-section-background: #FFFFFF;
+$color-tab-background: $color-section-background;
+$color-tab-background-dark: #E2E2E2;
+$color-tab-background-darker: #D8D8D8;
+$color-block-background: #EEEEEE;
+$color-block-background-dark: #DDDDDD;
+$color-block-background-highlight: #F9F0F0;
+
+
 $font-size-big: 14px;
 $line-height-big: 15px;
 $font-size-normal: 13px;
@@ -287,7 +296,7 @@ table {
             @media (orientation: portrait) {
                 height: 100%;
                 padding: $section-padding;
-                background-color: #ffffff;
+                background-color: $color-section-background;
                 border-radius: $section-border-radius;
                 box-shadow: 0 3px 0 0 #F3BEC6;
                 flex-direction: column-reverse;
@@ -313,10 +322,10 @@ table {
             margin-bottom: 6px;
             line-height: 0;
             border-radius: $block-border-radius 0 0 $block-border-radius;
-            background-color: #E2E2E2;
+            background-color: $color-tab-background-dark;
 
             &.tabs__elem--active {
-                background-color: #FFFFFF;
+                background-color: $color-tab-background;
             }
         }
     }
@@ -328,7 +337,7 @@ table {
         }
 
         & > div {
-            background-color: #E2E2E2;
+            background-color: $color-tab-background-dark;
             color: #555;
             display: inline-block;
             vertical-align: top;
@@ -343,21 +352,21 @@ table {
             justify-content: center;
             @media (orientation: portrait) {
                 width: 100%;
-                background-color: #EEEEEE;
+                background-color: $color-block-background;
                 margin-bottom: 6px;
                 border-radius: $block-border-radius;
             }
             &.active {
                 @media (orientation: landscape) {
                     cursor: initial;
-                    background-color: #FFFFFF;
+                    background-color: $color-tab-background;
                     color:#333;
                 }
             }
             &:hover {
                 @media (orientation: landscape) {
                     &:not(.active) {
-                        background-color: #D8D8D8;
+                        background-color: $color-tab-background-dark;
                     }
                 }
                 @media (orientation: portrait) {
@@ -393,7 +402,7 @@ table {
     width: 100%;
     height: 100%;
     padding: $section-padding;
-    background-color: #ffffff;
+    background-color: $color-section-background;
     border-radius: $section-border-radius;
     box-shadow: 0 3px 0 0 #F3BEC6;
 
@@ -726,10 +735,10 @@ table {
                     height: 13px;
                     border-radius: $small-block-border-radius;
                     padding: 2px 3px;
-                    background-color: #eeeeee;
+                    background-color: $color-block-background;
                     box-shadow: 0 1px 0 0 #888888;
                     &.block--active {
-                        background-color: #f9f0f0;
+                        background-color: $color-block-background-highlight;
                         box-shadow: 0 1px 0 0 #e64c65;
                         color:#e64c65;
                     }
@@ -773,9 +782,9 @@ table {
                     height: 0;
                     border-left: 2px solid transparent;
                     border-right: 2px solid transparent;
-                    border-top: 3px solid #eeeeee;
+                    border-top: 3px solid $color-block-background;
                     &.block--active {
-                        border-top-color:#f9f0f0;
+                        border-top-color:$color-block-background-highlight;
                     }
                 }
             }
@@ -1067,24 +1076,24 @@ table {
 
 
 .block {
-    background-color: #EEEEEE;
+    background-color: $color-block-background;
     border-radius: $block-border-radius;
     font-size: $font-size-normal;
     line-height: $line-height-normal;
     padding: 10px;
     margin-bottom: 8px;
     a > &:hover {
-        background-color:#DDDDDD;
+        background-color:$color-block-background-dark;
     }
 
 
     &--course {
         cursor: pointer;
         &.block--active {
-            background-color:#DDDDDD;
+            background-color:$color-block-background-dark;
         }
         &.block--clicked {
-            background-color:#DDDDDD;
+            background-color:$color-block-background-dark;
             position: relative;
             top: -3px;
             box-shadow: 0 3px 0 0 #888888;
@@ -1275,7 +1284,7 @@ table {
 
             &.block--active,
             &.block--clicked {
-                background-color:#DDDDDD;
+                background-color:$color-block-background-dark;
             }
         }
 
@@ -1509,9 +1518,6 @@ table {
     &--review-simple {
         padding: 8px 10px;
         margin-bottom: 6px;
-        a:hover > & {
-            background-color:#DDDDDD;
-        }
         a:last-child > & {
             margin-bottom: $section-padding;
         }
@@ -1781,7 +1787,7 @@ table {
             & > th {
                 position: sticky;
                 left: 0;
-                background-color: #FFFFFF;
+                background-color: $color-section-background;
                 width: 21px + 12px;
                 padding-right: 10px;
                 font-size: $font-size-small;
@@ -2026,7 +2032,7 @@ table {
 
 
         & > div {
-            background-color: #FFFFFF
+            background-color: $color-section-background
         }
 
 
@@ -2042,7 +2048,7 @@ table {
     z-index: 20;
 
     & > form {
-        background-color:#FFFFFF;
+        background-color:$color-section-background;
     }
 }
 
