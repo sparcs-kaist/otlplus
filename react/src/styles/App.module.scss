@@ -9,6 +9,20 @@ $font-size-smaller: 11px;
 $line-height-smaller: 12px;
 $font-size-smallest: 10px;
 $line-height-smallest: 11px;
+
+
+$header-height: 55px;
+
+$section-desktop-width: calc(80vh + 384px);
+$section-margin-top: 12px;
+$section-margin-bottom: 13px;
+$section-margin-lr: 12px;
+$section-padding: 12px;
+$section-border-radius: 6px;
+
+$block-border-radius: 4px;
+
+$small-block-border-radius: 2px;
  
 
 body * {
@@ -87,20 +101,6 @@ table {
         padding-bottom: env(safe-area-inset-bottom);
     }
 }
-
-
-$header-height: 55px;
-
-$section-desktop-width: calc(80vh + 384px);
-$section-margin-top: 12px;
-$section-margin-bottom: 13px;
-$section-margin-lr: 12px;
-$section-padding: 12px;
-$section-border-radius: 6px;
-
-$block-border-radius: 4px;
-
-$small-block-border-radius: 2px;
 
 
 .content {
