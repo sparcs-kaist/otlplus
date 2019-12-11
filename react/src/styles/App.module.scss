@@ -10,6 +10,10 @@ $color-block-background-highlight: #F9F0F0;
 $color-highlight: #E54C65;
 $color-highlight-dark: #963246;
 
+$color-section-shadow: #F3BEC6;
+$color-block-shadow-dark: #888888;
+$color-block-shadow-highlight: $color-highlight;
+
 $color-divider-line: #EDD1DC;
 $color-block-line: #C9C9C9;
 $color-normal-line: #E8E8E8;
@@ -306,7 +310,7 @@ table {
                 padding: $section-padding;
                 background-color: $color-section-background;
                 border-radius: $section-border-radius;
-                box-shadow: 0 3px 0 0 #F3BEC6;
+                box-shadow: 0 3px 0 0 $color-section-shadow;
                 flex-direction: column-reverse;
                 align-items: center;
             }
@@ -412,7 +416,7 @@ table {
     padding: $section-padding;
     background-color: $color-section-background;
     border-radius: $section-border-radius;
-    box-shadow: 0 3px 0 0 #F3BEC6;
+    box-shadow: 0 3px 0 0 $color-section-shadow;
 
 
     &--with-tabs {
@@ -744,10 +748,10 @@ table {
                     border-radius: $small-block-border-radius;
                     padding: 2px 3px;
                     background-color: $color-block-background;
-                    box-shadow: 0 1px 0 0 #888888;
+                    box-shadow: 0 1px 0 0 $color-block-shadow-dark;
                     &.block--active {
                         background-color: $color-block-background-highlight;
-                        box-shadow: 0 1px 0 0 #e64c65;
+                        box-shadow: 0 1px 0 0 $color-block-shadow-dark;
                         color: $color-highlight;
                     }
 
@@ -776,9 +780,9 @@ table {
                     height: 0;
                     border-left: 2px solid transparent;
                     border-right: 2px solid transparent;
-                    border-top: 3px solid #888888;
+                    border-top: 3px solid $color-block-shadow-dark;
                     &.block--active {
-                        border-top-color:#e64c65;
+                        border-top-color:$color-block-shadow-highlight;
                     }
                 }
 
@@ -1104,7 +1108,7 @@ table {
             background-color:$color-block-background-dark;
             position: relative;
             top: -3px;
-            box-shadow: 0 3px 0 0 #888888;
+            box-shadow: 0 3px 0 0 $color-block-shadow-dark;
         }
         &.block--inactive {
             opacity: 0.5;
@@ -1268,7 +1272,7 @@ table {
             margin-bottom: $section-padding;
         }
         &.block--clicked {
-            box-shadow: 0 3px 0 0 #888888;
+            box-shadow: 0 3px 0 0 $color-block-shadow-dark;
             position: relative;
             top: -3px;
         }
