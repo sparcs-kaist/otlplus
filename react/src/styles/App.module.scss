@@ -3,6 +3,12 @@ $font-size-big: 14px;
 $line-height-big: 15px;
 $font-size-normal: 13px;
 $line-height-normal: 14px;
+$font-size-small: 12px;
+$line-height-small: 13px;
+$font-size-smaller: 11px;
+$line-height-smaller: 12px;
+$font-size-smallest: 10px;
+$line-height-smallest: 11px;
  
 
 body * {
@@ -328,8 +334,8 @@ $small-block-border-radius: 2px;
             vertical-align: top;
             margin-right: 6px;
             border-radius: $block-border-radius $block-border-radius 0 0;
-            font-size: 12px;
-            line-height: 13px;
+            font-size: $font-size-small;
+            line-height: $line-height-small;
             padding: 7px 10px;
             cursor: pointer;
             display: inline-flex;
@@ -415,8 +421,8 @@ $small-block-border-radius: 2px;
         height: initial;
         padding: 5px 8px;
         flex: 0 0 auto;
-        font-size: 12px;
-        line-height: 13px;
+        font-size: $font-size-small;
+        line-height: $line-height-small;
         display: flex;
         flex-direction: row;
         @media (orientation: portrait) {
@@ -531,7 +537,7 @@ $small-block-border-radius: 2px;
                     &:first-child {
                         flex: none;
                         padding-top: 0;
-                        height: 17px;
+                        height: $line-height-smallest + 6px;
                     }
                     &:last-child {
                         padding-bottom: 1px;
@@ -541,7 +547,7 @@ $small-block-border-radius: 2px;
                         width: 100%;
                         text-align: right;
                         color: #555;
-                        font-size: 10px;
+                        font-size: $font-size-smallest;
                         position: absolute;
                         display: inline-block;
                         bottom: -8px;
@@ -560,10 +566,10 @@ $small-block-border-radius: 2px;
                 & > div {
                     &:first-child {
                         flex: none;
-                        height: 17px;
+                        height: $line-height-smallest + 6px;
                         text-align: center;
-                        font-size: 10px;
-                        line-height: 11px;
+                        font-size: $font-size-smallest;
+                        line-height: $line-height-smallest;
                         color: #555;
                         position: relative;
                     }
@@ -715,7 +721,7 @@ $small-block-border-radius: 2px;
                 }
 
                 &__box {
-                    font-size:10px;
+                    font-size: $font-size-smallest;
                     line-height:9px;
                     height: 13px;
                     border-radius: $small-block-border-radius;
@@ -964,8 +970,8 @@ $small-block-border-radius: 2px;
                     display: flex;
                     flex-direction: row;
                     margin-bottom: 4px;
-                    font-size: 10px;
-                    line-height: 11px;
+                    font-size: $font-size-smallest;
+                    line-height: $line-height-smallest;
 
                     & > div {
                         flex: 1 1 0;
@@ -1423,8 +1429,8 @@ $small-block-border-radius: 2px;
             max-height: 100%;
 
             &__title {
-                font-size:12px;
-                line-height:13px;
+                font-size: $font-size-small;
+                line-height: $line-height-small;
                 color:rgba(0,0,0,0.8);
                 margin:0;
                 margin-bottom:1px;
@@ -1438,8 +1444,8 @@ $small-block-border-radius: 2px;
             }
 
             &__info {
-                font-size:12px;
-                line-height:13px;
+                font-size: $font-size-small;
+                line-height: $line-height-small;
                 color:rgba(0,0,0,0.5);
                 margin:0;
                 margin-top:1px;
@@ -1483,16 +1489,16 @@ $small-block-border-radius: 2px;
             max-height: 100%;
 
             &__title {
-                font-size:12px;
-                line-height:13px;
+                font-size: $font-size-small;
+                line-height: $line-height-small;
                 color:rgba(0,0,0,0.8);
                 margin:0;
                 margin-bottom:1px;
             }
 
             &__info {
-                font-size:12px;
-                line-height:13px;
+                font-size: $font-size-small;
+                line-height: $line-height-small;
                 color:rgba(0,0,0,0.5);
                 margin:0;
                 margin-top:1px;
@@ -1688,8 +1694,8 @@ $small-block-border-radius: 2px;
     }
 
     .section-content--lecture-detail & {
-        font-size: 12px;
-        line-height: 13px;
+        font-size: $font-size-small;
+        line-height: $line-height-small;
 
         &:not(:first-child) {
             margin-left: 6px;
@@ -1765,8 +1771,8 @@ $small-block-border-radius: 2px;
             }
             &:nth-child(2) {
                 font-weight: bold;
-                font-size: 11px;
-                line-height: 12px;
+                font-size: $font-size-smaller;
+                line-height: $line-height-smaller;
             }
             &:last-child {
                 vertical-align: top;
@@ -1778,10 +1784,10 @@ $small-block-border-radius: 2px;
                 background-color: #FFFFFF;
                 width: 21px + 12px;
                 padding-right: 10px;
-                font-size: 12px;
+                font-size: $font-size-small;
                 vertical-align: middle;
                 text-align: right;
-                line-height: 13px;
+                line-height: $line-height-small;
                 color: #333333;
                 font-weight: initial;;
             }
@@ -1969,8 +1975,8 @@ $small-block-border-radius: 2px;
         }
 
         & > div:last-child {
-            font-size: 11px;
-            line-height: 12px;
+            font-size: $font-size-smaller;
+            line-height: $line-height-smaller;
         }
     }
 }
