@@ -7,6 +7,11 @@ $color-block-background: #EEEEEE;
 $color-block-background-dark: #DDDDDD;
 $color-block-background-highlight: #F9F0F0;
 
+$color-text-dark: #000000;
+$color-text-normal: #333333;
+$color-text-light: #555555;
+$color-text-placeholder: #AAAAAA;
+
 $color-highlight: #E54C65;
 $color-highlight-dark: #963246;
 
@@ -60,7 +65,7 @@ body {
     font-size: $font-size-normal;
     line-height: $line-height-normal;
     background-color: #f9f0f0;
-    color: #333333;
+    color: $color-text-normal;
 }
 
 
@@ -350,7 +355,7 @@ table {
 
         & > div {
             background-color: $color-tab-background-dark;
-            color: #555;
+            color: $color-text-light;
             display: inline-block;
             vertical-align: top;
             margin-right: 6px;
@@ -372,7 +377,7 @@ table {
                 @media (orientation: landscape) {
                     cursor: initial;
                     background-color: $color-tab-background;
-                    color:#333;
+                    color:$color-text-normal;
                 }
             }
             &:hover {
@@ -567,7 +572,7 @@ table {
                     & > * {
                         width: 100%;
                         text-align: right;
-                        color: #555;
+                        color: $color-text-light;
                         font-size: $font-size-smallest;
                         position: absolute;
                         display: inline-block;
@@ -591,7 +596,7 @@ table {
                         text-align: center;
                         font-size: $font-size-smallest;
                         line-height: $line-height-smallest;
-                        color: #555;
+                        color: $color-text-light;
                         position: relative;
                     }
 
@@ -962,7 +967,7 @@ table {
         }
 
         input::placeholder {
-            color: #CCCCCC;
+            color: $color-text-placeholder;
         }
 
         button {
@@ -1172,7 +1177,7 @@ table {
 
 
         &__content {
-            color: #555555;
+            color: $color-text-light;
             line-height: $line-height-normal + 4px;
         }
 
@@ -1207,7 +1212,7 @@ table {
 
 
         &__content {
-            color: #555555;
+            color: $color-text-light;
             line-height: $line-height-normal + 4px;
             width: 100%;
             height: 140px;
@@ -1223,7 +1228,7 @@ table {
 
 
             &::placeholder {
-                color: #AAAAAA;
+                color: $color-text-placeholder;
             }
         }
 
@@ -1241,7 +1246,7 @@ table {
 
             &__option {
                 font-weight: bold;
-                color: #AAAAAA;
+                color: $color-text-placeholder;
                 margin-right: 6px;
                 cursor: pointer;
 
@@ -1254,7 +1259,7 @@ table {
                 }
 
                 input:checked ~ span {
-                    color: #333333;
+                    color: $color-text-normal;
                 }
             }
         }
@@ -1535,7 +1540,7 @@ table {
         }
 
         & > div:first-child {
-            color: #555555;
+            color: $color-text-light;
             font-size: $font-size-normal;
             line-height: $line-height-normal + 4px;
             margin-bottom: 4px;
@@ -1609,10 +1614,10 @@ table {
                     position: absolute;
                     top: 0px;
                     z-index: 2;
-                    color: #333333;
+                    color: $color-text-normal;
 
                     &::placeholder {
-                        color: #AAAAAA;
+                        color: $color-text-placeholder;
                     }
                 }
 
@@ -1621,7 +1626,7 @@ table {
                     position: absolute;
                     top: 0px;
                     z-index: 1;
-                    color: #AAAAAA;
+                    color: $color-text-placeholder;
                     height: 100%;
                     overflow: hidden;
                     display: none;
@@ -1687,11 +1692,11 @@ table {
 
 
     &--black {
-        color: #555555;
+        color: $color-text-light;
 
 
         &:hover {
-            color: #000000;
+            color: $color-text-dark;
         }
     }
 
@@ -1810,7 +1815,7 @@ table {
                 vertical-align: middle;
                 text-align: right;
                 line-height: $line-height-small;
-                color: #333333;
+                color: $color-text-normal;
                 font-weight: initial;;
             }
 
@@ -1830,7 +1835,7 @@ table {
                 }
                 &.history__cell--unopen {
                     vertical-align: middle;
-                    color: #AAAAAA;
+                    color: $color-text-placeholder;
                     padding-top: 8px;
                     padding-bottom: 8px;
                 }
@@ -2075,7 +2080,7 @@ table {
     flex-direction: column;
     justify-content: center;
     text-align: center;
-    color: #AAAAAA;
+    color: $color-text-placeholder;
     font-size: $font-size-normal;
     line-height: $line-height-normal;
 
@@ -2094,7 +2099,7 @@ table {
         color: inherit;
 
         &:hover {
-            color: #555555;
+            color: $color-text-light;
         }
     }
 }
@@ -2106,7 +2111,7 @@ table {
     flex-direction: column;
     justify-content: center;
     text-align: center;
-    color: #AAAAAA;
+    color: $color-text-placeholder;
     font-size: 16px;
     line-height: 17px;
 }
