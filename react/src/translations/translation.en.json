@@ -125,11 +125,18 @@
       "saturdayShort": "Sat",
       "sundayShort": "Sun"
     },
+    "semester": {
+      "spring": "Spring",
+      "summer": "Summer",
+      "fall": "Fall",
+      "winter": "Winter"
+    },
     "message": {
       "blankSearch": "Please select search conditions.",
       "timetableOverlap": "You can't add lecture overlapping."
     },
     "others": {
+      "table": "Table",
       "multipleDetailCount": "{{count}} lectures",
       "dragTimetable": "Drag timetable"
     },
