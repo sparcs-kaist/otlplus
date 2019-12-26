@@ -59,10 +59,10 @@
       "noResults": "결과 없음"
     },
     "search": {
-      "type": "Type",
-      "department": "Dept.",
-      "level": "Level",
-      "time": "Time"
+      "type": "구분",
+      "department": "학과",
+      "level": "학년",
+      "time": "시간"
     },
     "type": {
       "basicRequired": "기초필수",
