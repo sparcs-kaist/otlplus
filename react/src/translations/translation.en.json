@@ -14,7 +14,8 @@
   },
   "jsx": {
     "className": {
-      "fixedByLang": "fixed-en"
+      "fixedByLang": "fixed-en",
+      "semesterByLang": "semester-en"
     }
   },
   "ui": {
