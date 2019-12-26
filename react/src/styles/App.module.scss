@@ -1,3 +1,56 @@
+
+$color-section-background: #FFFFFF;
+$color-tab-background: $color-section-background;
+$color-tab-background-dark: #E2E2E2;
+$color-tab-background-darker: #D8D8D8;
+$color-block-background: #EEEEEE;
+$color-block-background-dark: #DDDDDD;
+$color-block-background-highlight: #F9F0F0;
+
+$color-text-dark: #000000;
+$color-text-normal: #333333;
+$color-text-light: #555555;
+$color-text-placeholder: #AAAAAA;
+
+$color-highlight: #E54C65;
+$color-highlight-dark: #963246;
+
+$color-section-shadow: #F3BEC6;
+$color-block-shadow-dark: #888888;
+$color-block-shadow-highlight: $color-highlight;
+
+$color-divider-line: #EDD1DC;
+$color-block-line: #C9C9C9;
+$color-normal-line: #E8E8E8;
+$color-normal-line-dark: #C9C9C9;
+
+
+$font-size-big: 14px;
+$line-height-big: 15px;
+$font-size-normal: 13px;
+$line-height-normal: 14px;
+$font-size-small: 12px;
+$line-height-small: 13px;
+$font-size-smaller: 11px;
+$line-height-smaller: 12px;
+$font-size-smallest: 10px;
+$line-height-smallest: 11px;
+
+
+$header-height: 55px;
+
+$section-desktop-width: calc(80vh + 384px);
+$section-margin-top: 12px;
+$section-margin-bottom: 13px;
+$section-margin-lr: 12px;
+$section-padding: 12px;
+$section-border-radius: 6px;
+
+$block-border-radius: 4px;
+
+$small-block-border-radius: 2px;
+ 
+
 body * {
     box-sizing: border-box;
     margin: 0;
@@ -9,10 +62,10 @@ body * {
 
 body {
     font-family: sans-serif;
-    font-size: 13px;
-    line-height: 14px;
+    font-size: $font-size-normal;
+    line-height: $line-height-normal;
     background-color: #f9f0f0;
-    color: #333333;
+    color: $color-text-normal;
 }
 
 
@@ -78,8 +131,8 @@ table {
 
 .content {
     position: relative;
-    width: calc(80vh + 384px + (12px * 2) + (env(safe-area-inset-left) + env(safe-area-inset-right)));
-    margin-top: 55px;
+    width: calc(#{$section-desktop-width} + (#{$section-margin-lr} * 2) + (env(safe-area-inset-left) + env(safe-area-inset-right)));
+    margin-top: $header-height;
     margin-left: auto;
     margin-right: auto;
     @media (orientation: portrait) {
@@ -125,16 +178,16 @@ table {
 
 
 .section-wrap {
-    margin: 12px 12px 13px 12px;
+    margin: $section-margin-top $section-margin-lr $section-margin-bottom $section-margin-lr;
 
 
     &.mobile-modal {
             @media (orientation: portrait) {
                 position: absolute;
-                top: 12px;
-                bottom: calc(13px * 2 + env(safe-area-inset-bottom));
-                left: calc(12px * 2 + env(safe-area-inset-left));
-                right: calc(12px * 2 + env(safe-area-inset-right));
+                top: $section-margin-top;
+                bottom: calc(#{$section-margin-bottom} * 2 + env(safe-area-inset-bottom));
+                left: calc(#{$section-margin-lr} * 2 + env(safe-area-inset-left));
+                right: calc(#{$section-margin-lr} * 2 + env(safe-area-inset-right));
                 width: initial;
                 height: initial;
                 margin: 0;
@@ -159,9 +212,9 @@ table {
 
 
     &--main-search {
-        width: calc(80vh + 384px + (12px * 2));
+        width: calc(#{$section-desktop-width} + (#{$section-margin-lr} * 2));
         margin: 0 auto;
-        padding: 0 12px;
+        padding: 0 $section-margin-lr;
         @media (orientation:portrait) {
             width: 100%
         }
@@ -173,7 +226,7 @@ table {
         width: calc(40vh + 186px);
         margin-top: 0px;
         @media (orientation: portrait) {
-            width: calc(100% - 12px * 2);
+            width: calc(100% - #{$section-margin-lr} * 2);
         }
     }
 
@@ -194,7 +247,7 @@ table {
         flex-direction: column;
 
         @media (orientation: portrait) {
-           width: calc(100% - 12px * 2);
+           width: calc(100% - #{$section-margin-lr} * 2);
            flex: 1 1 100%;
            margin-top: 0;
         }
@@ -210,9 +263,9 @@ table {
         flex-direction: column;
 
         @media (orientation: portrait) {
-            width: calc(100% - 12px * 2);
-            margin-left: 12px;
-            margin-bottom: 13px;;
+            width: calc(100% - #{$section-margin-lr} * 2);
+            margin-left: $section-margin-lr;
+            margin-bottom: $section-margin-bottom;
             flex: 1 1 100%;
         }
     }
@@ -220,7 +273,7 @@ table {
 
     &--timetable-right {
         flex: none;
-        width: calc(15vh + 126px - 12px * 2);
+        width: calc(15vh + 126px - #{$section-margin-lr} * 2);
         margin: 0;
         display: flex;
         flex-direction: column;
@@ -259,10 +312,10 @@ table {
             align-items: flex-start;
             @media (orientation: portrait) {
                 height: 100%;
-                padding: 12px;
-                background-color: #ffffff;
-                border-radius: 6px;
-                box-shadow: 0 3px 0 0 #F3BEC6;
+                padding: $section-padding;
+                background-color: $color-section-background;
+                border-radius: $section-border-radius;
+                box-shadow: 0 3px 0 0 $color-section-shadow;
                 flex-direction: column-reverse;
                 align-items: center;
             }
@@ -285,11 +338,11 @@ table {
             margin-left: auto;
             margin-bottom: 6px;
             line-height: 0;
-            border-radius: 4px 0 0 4px;
-            background-color: #E2E2E2;
+            border-radius: $block-border-radius 0 0 $block-border-radius;
+            background-color: $color-tab-background-dark;
 
             &.tabs__elem--active {
-                background-color: #FFFFFF;
+                background-color: $color-tab-background;
             }
         }
     }
@@ -301,14 +354,14 @@ table {
         }
 
         & > div {
-            background-color: #E2E2E2;
-            color: #555;
+            background-color: $color-tab-background-dark;
+            color: $color-text-light;
             display: inline-block;
             vertical-align: top;
             margin-right: 6px;
-            border-radius: 4px 4px 0 0;
-            font-size: 12px;
-            line-height: 13px;
+            border-radius: $block-border-radius $block-border-radius 0 0;
+            font-size: $font-size-small;
+            line-height: $line-height-small;
             padding: 7px 10px;
             cursor: pointer;
             display: inline-flex;
@@ -316,21 +369,21 @@ table {
             justify-content: center;
             @media (orientation: portrait) {
                 width: 100%;
-                background-color: #EEEEEE;
+                background-color: $color-block-background;
                 margin-bottom: 6px;
-                border-radius: 4px;
+                border-radius: $block-border-radius;
             }
             &.active {
                 @media (orientation: landscape) {
                     cursor: initial;
-                    background-color: #FFFFFF;
-                    color:#333;
+                    background-color: $color-tab-background;
+                    color:$color-text-normal;
                 }
             }
             &:hover {
                 @media (orientation: landscape) {
                     &:not(.active) {
-                        background-color: #D8D8D8;
+                        background-color: $color-tab-background-dark;
                     }
                 }
                 @media (orientation: portrait) {
@@ -365,10 +418,10 @@ table {
 .section {
     width: 100%;
     height: 100%;
-    padding: 12px;
-    background-color: #ffffff;
-    border-radius: 6px;
-    box-shadow: 0 3px 0 0 #F3BEC6;
+    padding: $section-padding;
+    background-color: $color-section-background;
+    border-radius: $section-border-radius;
+    box-shadow: 0 3px 0 0 $color-section-shadow;
 
 
     &--with-tabs {
@@ -394,8 +447,8 @@ table {
         height: initial;
         padding: 5px 8px;
         flex: 0 0 auto;
-        font-size: 12px;
-        line-height: 13px;
+        font-size: $font-size-small;
+        line-height: $line-height-small;
         display: flex;
         flex-direction: row;
         @media (orientation: portrait) {
@@ -416,8 +469,8 @@ table {
             flex: 1 1 auto;
             text-align: center;
             @media (orientation: portrait) {
-                font-size: 14px;
-                line-height: 15px;
+                font-size: $font-size-big;
+                line-height: $line-height-big;
             }
         }
     }
@@ -436,7 +489,7 @@ table {
 
     &--lecture-detail {
         &--list-area {
-            min-height: calc(100% - (14px + 6px + 12px)) !important;
+            min-height: calc(100% - (#{$line-height-normal} + 6px + #{$section-padding})) !important;
 
             @media (orientation: portrait) {
                 min-height: initial !important;
@@ -460,7 +513,7 @@ table {
 
             & > div:first-child {
                 align-self: flex-start;
-                margin-top: 8px + 14px + (6px * 2) + 1px;
+                margin-top: 8px + $line-height-normal + (6px * 2) + 1px;
                 margin-left: 5px;
                 margin-right: -5px;
                 @media (orientation: landscape) {
@@ -479,7 +532,7 @@ table {
             }
 
             & .scroll-placeholder {
-                height: calc(100% - (8px * 2 + 14px * 2 + 6px * 2 + 1px + 6px));
+                height: calc(100% - (8px * 2 + #{$line-height-normal} * 2 + 6px * 2 + 1px + 6px));
                 @media (orientation: landscape) {
                     display: none;
                 }
@@ -510,7 +563,7 @@ table {
                     &:first-child {
                         flex: none;
                         padding-top: 0;
-                        height: 17px;
+                        height: $line-height-smallest + 6px;
                     }
                     &:last-child {
                         padding-bottom: 1px;
@@ -519,8 +572,8 @@ table {
                     & > * {
                         width: 100%;
                         text-align: right;
-                        color: #555;
-                        font-size: 10px;
+                        color: $color-text-light;
+                        font-size: $font-size-smallest;
                         position: absolute;
                         display: inline-block;
                         bottom: -8px;
@@ -539,11 +592,11 @@ table {
                 & > div {
                     &:first-child {
                         flex: none;
-                        height: 17px;
+                        height: $line-height-smallest + 6px;
                         text-align: center;
-                        font-size: 10px;
-                        line-height: 11px;
-                        color: #555;
+                        font-size: $font-size-smallest;
+                        line-height: $line-height-smallest;
+                        color: $color-text-light;
                         position: relative;
                     }
 
@@ -555,20 +608,20 @@ table {
                             touch-action: none;
                         }
                         &.cell-top {
-                            border-top:1px solid #E8E8E8;
+                            border-top:1px solid $color-normal-line;
                             &.cell-bold {
-                                border-top:1px solid #C9C9C9;
+                                border-top:1px solid $color-normal-line-dark;
                             }
                         }
                         &.cell-bottom {
-                            border-top:1px dashed #E8E8E8;
+                            border-top:1px dashed $color-normal-line;
                             @media (orientation: portrait) {
                                 &.cell-bottom--mobile-noline {
                                     border-top-color: transparent;
                                 }
                             }
                             &.cell-last {
-                                border-bottom:1px solid #C9C9C9;
+                                border-bottom:1px solid $color-normal-line-dark;
                             }
                         }
                     }
@@ -579,7 +632,7 @@ table {
         &__drag-cell {
             position:absolute;
             background-color:#E56C85;
-            border-radius:2px;
+            border-radius: $small-block-border-radius;
             pointer-events:none;
             z-index:1;
         }
@@ -694,17 +747,17 @@ table {
                 }
 
                 &__box {
-                    font-size:10px;
+                    font-size: $font-size-smallest;
                     line-height:9px;
                     height: 13px;
-                    border-radius: 2px;
+                    border-radius: $small-block-border-radius;
                     padding: 2px 3px;
-                    background-color: #eeeeee;
-                    box-shadow: 0 1px 0 0 #888888;
+                    background-color: $color-block-background;
+                    box-shadow: 0 1px 0 0 $color-block-shadow-dark;
                     &.block--active {
-                        background-color: #f9f0f0;
-                        box-shadow: 0 1px 0 0 #e64c65;
-                        color:#e64c65;
+                        background-color: $color-block-background-highlight;
+                        box-shadow: 0 1px 0 0 $color-block-shadow-dark;
+                        color: $color-highlight;
                     }
 
                     & > span:first-child {
@@ -719,7 +772,7 @@ table {
                         border-radius: 50%;
 
                         &.block--active {
-                            background-color: #e64c65 !important;
+                            background-color: $color-highlight !important;
                         }
                     }
                 }
@@ -732,9 +785,9 @@ table {
                     height: 0;
                     border-left: 2px solid transparent;
                     border-right: 2px solid transparent;
-                    border-top: 3px solid #888888;
+                    border-top: 3px solid $color-block-shadow-dark;
                     &.block--active {
-                        border-top-color:#e64c65;
+                        border-top-color:$color-block-shadow-highlight;
                     }
                 }
 
@@ -746,9 +799,9 @@ table {
                     height: 0;
                     border-left: 2px solid transparent;
                     border-right: 2px solid transparent;
-                    border-top: 3px solid #eeeeee;
+                    border-top: 3px solid $color-block-background;
                     &.block--active {
-                        border-top-color:#f9f0f0;
+                        border-top-color:$color-block-background-highlight;
                     }
                 }
             }
@@ -806,8 +859,8 @@ table {
         &__title {
             flex: 0 0 auto;
             text-align: center;
-            font-size: 13px;
-            line-height: 14px;
+            font-size: $font-size-normal;
+            line-height: $line-height-normal;
             margin-bottom: 8px;
         }
 
@@ -851,7 +904,7 @@ table {
                             margin-bottom: 6px;
 
                             &.active {
-                                color: #E54C65;
+                                color: $color-highlight;
                             }
 
                             & > div:first-child {
@@ -898,8 +951,8 @@ table {
 
     &--main-search {
         display: flex;
-        font-size: 14px;
-        line-height: 15px;
+        font-size: $font-size-big;
+        line-height: $line-height-big;
 
 
         i {
@@ -914,7 +967,7 @@ table {
         }
 
         input::placeholder {
-            color: #CCCCCC;
+            color: $color-text-placeholder;
         }
 
         button {
@@ -924,9 +977,9 @@ table {
     }
 
     &--current-timetable {
-        width: calc(100% + (12px * 2));
-        margin: 0 -12px;
-        padding: 0 12px;
+        width: calc(100% + (#{$section-padding} * 2));
+        margin: 0 (-$section-padding);
+        padding: 0 $section-padding;
         overflow: hidden;
 
         & > div {
@@ -943,8 +996,8 @@ table {
                     display: flex;
                     flex-direction: row;
                     margin-bottom: 4px;
-                    font-size: 10px;
-                    line-height: 11px;
+                    font-size: $font-size-smallest;
+                    line-height: $line-height-smallest;
 
                     & > div {
                         flex: 1 1 0;
@@ -982,16 +1035,16 @@ table {
                         }
 
                         &.hcell-left {
-                            border-left: 1px solid #E8E8E8;
+                            border-left: 1px solid $color-normal-line;
                         }
                         &.hcell-right {
-                            border-left: 1px dashed #E8E8E8;
+                            border-left: 1px dashed $color-normal-line;
                         }
                         &.hcell-bold {
-                            border-left: 1px solid #C9C9C9;
+                            border-left: 1px solid $color-normal-line-dark;
                         }
                         &.hcell-last {
-                            border-right: 1px solid #C9C9C9;
+                            border-right: 1px solid $color-normal-line-dark;
                         }
                     }
                 }
@@ -1005,7 +1058,7 @@ table {
                 & > div:first-child {
                     width: 5px;
                     height: 5px;
-                    background-color: #E54C65;
+                    background-color: $color-highlight;
                     border-radius: 50%;
                 }
 
@@ -1013,7 +1066,7 @@ table {
                     width: 1px;
                     height: 57px - 5px + 2px;
                     margin: 0 2px;
-                    background-color: #E54C65;
+                    background-color: $color-highlight;
                 }
             }
         }
@@ -1027,8 +1080,8 @@ table {
     @media (orientation: portrait) {
         display: block;
         position: absolute;
-        top: 12px;
-        right: 12px;
+        top: $section-padding;
+        right: $section-padding;
         cursor: pointer;
         z-index: 210;
 
@@ -1040,27 +1093,27 @@ table {
 
 
 .block {
-    background-color: #EEEEEE;
-    border-radius: 4px;
-    font-size: 13px;
-    line-height: 14px;
+    background-color: $color-block-background;
+    border-radius: $block-border-radius;
+    font-size: $font-size-normal;
+    line-height: $line-height-normal;
     padding: 10px;
     margin-bottom: 8px;
     a > &:hover {
-        background-color:#DDDDDD;
+        background-color:$color-block-background-dark;
     }
 
 
     &--course {
         cursor: pointer;
         &.block--active {
-            background-color:#DDDDDD;
+            background-color:$color-block-background-dark;
         }
         &.block--clicked {
-            background-color:#DDDDDD;
+            background-color:$color-block-background-dark;
             position: relative;
             top: -3px;
-            box-shadow: 0 3px 0 0 #888888;
+            box-shadow: 0 3px 0 0 $color-block-shadow-dark;
         }
         &.block--inactive {
             opacity: 0.5;
@@ -1074,7 +1127,7 @@ table {
 
         &__title {
             padding-bottom: 6px;
-            border-bottom: 1px solid #C9C9C9;
+            border-bottom: 1px solid $color-block-line;
             margin-bottom: 6px;
         }
     }
@@ -1124,8 +1177,8 @@ table {
 
 
         &__content {
-            color: #555555;
-            line-height: 18px;
+            color: $color-text-light;
+            line-height: $line-height-normal + 4px;
         }
 
 
@@ -1159,8 +1212,8 @@ table {
 
 
         &__content {
-            color: #555555;
-            line-height: 18px;
+            color: $color-text-light;
+            line-height: $line-height-normal + 4px;
             width: 100%;
             height: 140px;
             border: 1px dashed #AAAAAA;
@@ -1175,7 +1228,7 @@ table {
 
 
             &::placeholder {
-                color: #AAAAAA;
+                color: $color-text-placeholder;
             }
         }
 
@@ -1193,7 +1246,7 @@ table {
 
             &__option {
                 font-weight: bold;
-                color: #AAAAAA;
+                color: $color-text-placeholder;
                 margin-right: 6px;
                 cursor: pointer;
 
@@ -1206,7 +1259,7 @@ table {
                 }
 
                 input:checked ~ span {
-                    color: #333333;
+                    color: $color-text-normal;
                 }
             }
         }
@@ -1221,10 +1274,10 @@ table {
         padding: 8px 10px;
         margin-bottom: 6px;
         &:last-child {
-            margin-bottom: 12px;
+            margin-bottom: $section-padding;
         }
         &.block--clicked {
-            box-shadow: 0 3px 0 0 #888888;
+            box-shadow: 0 3px 0 0 $color-block-shadow-dark;
             position: relative;
             top: -3px;
         }
@@ -1243,18 +1296,18 @@ table {
 
             &:last-child {
                 margin-bottom: -8px;
-                border-radius:0px 0px 4px 4px;
+                border-radius:0px 0px $block-border-radius $block-border-radius;
             }
 
             &.block--active,
             &.block--clicked {
-                background-color:#DDDDDD;
+                background-color:$color-block-background-dark;
             }
         }
 
         &__elem {
             padding: 6px 0;
-            border-top:1px solid #C9C9C9;
+            border-top:1px solid $color-block-line;
             display: flex;
             flex-direction: row;
             pointer-events: none;
@@ -1315,7 +1368,7 @@ table {
 
         &__elem {
             padding: 6px 0;
-            border-top:1px solid #C9C9C9;
+            border-top:1px solid $color-block-line;
             display: flex;
             flex-direction: row;
             pointer-events: none;
@@ -1356,7 +1409,7 @@ table {
         flex-direction: column;
         justify-content: center;
         padding: 0px;
-        border-radius: 2px;
+        border-radius: $small-block-border-radius;
         z-index: 2;
         top: 1px;
         left: -1px;
@@ -1402,8 +1455,8 @@ table {
             max-height: 100%;
 
             &__title {
-                font-size:12px;
-                line-height:13px;
+                font-size: $font-size-small;
+                line-height: $line-height-small;
                 color:rgba(0,0,0,0.8);
                 margin:0;
                 margin-bottom:1px;
@@ -1417,8 +1470,8 @@ table {
             }
 
             &__info {
-                font-size:12px;
-                line-height:13px;
+                font-size: $font-size-small;
+                line-height: $line-height-small;
                 color:rgba(0,0,0,0.5);
                 margin:0;
                 margin-top:1px;
@@ -1437,7 +1490,7 @@ table {
             left: 0;
             width: 100%;
             z-index: -1;
-            border-radius: 2px;
+            border-radius: $small-block-border-radius;
         }
     }
 
@@ -1448,7 +1501,7 @@ table {
         flex-direction: column;
         justify-content: center;
         padding: 0px;
-        border-radius: 2px;
+        border-radius: $small-block-border-radius;
         z-index: 2;
         top: 1px;
         left: -1px;
@@ -1462,16 +1515,16 @@ table {
             max-height: 100%;
 
             &__title {
-                font-size:12px;
-                line-height:13px;
+                font-size: $font-size-small;
+                line-height: $line-height-small;
                 color:rgba(0,0,0,0.8);
                 margin:0;
                 margin-bottom:1px;
             }
 
             &__info {
-                font-size:12px;
-                line-height:13px;
+                font-size: $font-size-small;
+                line-height: $line-height-small;
                 color:rgba(0,0,0,0.5);
                 margin:0;
                 margin-top:1px;
@@ -1482,20 +1535,17 @@ table {
     &--review-simple {
         padding: 8px 10px;
         margin-bottom: 6px;
-        a:hover > & {
-            background-color:#DDDDDD;
-        }
         a:last-child > & {
-            margin-bottom: 12px;
+            margin-bottom: $section-padding;
         }
 
         & > div:first-child {
-            color: #555555;
-            font-size: 13px;
-            line-height: 18px;
+            color: $color-text-light;
+            font-size: $font-size-normal;
+            line-height: $line-height-normal + 4px;
             margin-bottom: 4px;
             overflow: hidden;
-            max-height: 18px * 3;
+            max-height: ($line-height-normal + 4px) * 3;
             line-clamp: 3;
             text-overflow: ellipsis;
         }
@@ -1513,8 +1563,8 @@ table {
 
 .title {
     font-weight: bold;
-    font-size: 14px;
-    line-height: 15px;
+    font-size: $font-size-big;
+    line-height: $line-height-big;
 
 
     .section-content--course-list &,
@@ -1538,8 +1588,12 @@ table {
 
 
     &--search {
-        color: #E54C65;
+        color: $color-highlight;
         cursor: pointer;
+
+        &:hover {
+            color: $color-highlight-dark;
+        }
 
         & > span {
             margin-left: 6px;
@@ -1551,7 +1605,7 @@ table {
 
             & > div:last-child {
                 flex: auto;
-                height: 15px;
+                height: $line-height-big;
                 margin-left: 6px;
                 position: relative;
 
@@ -1560,10 +1614,10 @@ table {
                     position: absolute;
                     top: 0px;
                     z-index: 2;
-                    color: #333333;
+                    color: $color-text-normal;
 
                     &::placeholder {
-                        color: #AAAAAA;
+                        color: $color-text-placeholder;
                     }
                 }
 
@@ -1572,7 +1626,7 @@ table {
                     position: absolute;
                     top: 0px;
                     z-index: 1;
-                    color: #AAAAAA;
+                    color: $color-text-placeholder;
                     height: 100%;
                     overflow: hidden;
                     display: none;
@@ -1591,8 +1645,8 @@ table {
 
 
 .subtitle {
-    font-size: 13px;
-    line-height: 14px;
+    font-size: $font-size-normal;
+    line-height: $line-height-normal;
     text-align: center;
 
     .section-content--course-detail & {
@@ -1607,8 +1661,8 @@ table {
 
 .small-title {
     font-weight: bold;
-    font-size: 13px;
-    line-height: 14px;
+    font-size: $font-size-normal;
+    line-height: $line-height-normal;
     padding-bottom: 10px;
 
     .section-content--lecture-detail & {
@@ -1629,20 +1683,20 @@ table {
 
     &,
     &:link {
-        color: #E54C65;
+        color: $color-highlight;
     }
 
     &:hover {
-        color: #963246;
+        color: $color-highlight-dark;
     }
 
 
     &--black {
-        color: #555555;
+        color: $color-text-light;
 
 
         &:hover {
-            color: #000000;
+            color: $color-text-dark;
         }
     }
 
@@ -1667,8 +1721,8 @@ table {
     }
 
     .section-content--lecture-detail & {
-        font-size: 12px;
-        line-height: 13px;
+        font-size: $font-size-small;
+        line-height: $line-height-small;
 
         &:not(:first-child) {
             margin-left: 6px;
@@ -1686,7 +1740,7 @@ table {
     line-height: 19px;
     margin: 4px 0 10px 0;
     text-align: center;
-    color: rgba(#E54C65, 0.3);
+    color: rgba($color-highlight, 0.3);
 }
 
 
@@ -1744,8 +1798,8 @@ table {
             }
             &:nth-child(2) {
                 font-weight: bold;
-                font-size: 11px;
-                line-height: 12px;
+                font-size: $font-size-smaller;
+                line-height: $line-height-smaller;
             }
             &:last-child {
                 vertical-align: top;
@@ -1754,14 +1808,14 @@ table {
             & > th {
                 position: sticky;
                 left: 0;
-                background-color: #FFFFFF;
+                background-color: $color-section-background;
                 width: 21px + 12px;
                 padding-right: 10px;
-                font-size: 12px;
+                font-size: $font-size-small;
                 vertical-align: middle;
                 text-align: right;
-                line-height: 13px;
-                color: #333333;
+                line-height: $line-height-small;
+                color: $color-text-normal;
                 font-weight: initial;;
             }
 
@@ -1769,7 +1823,7 @@ table {
                 text-align: center;
                 padding: 0 6px;
                 width: calc(64px + 7vh + (6px * 2));
-                border-left: 1px solid #E8E8E8;
+                border-left: 1px solid $color-normal-line;
                 &:first-of-type {
                     padding-left: 0;
                     width: calc(64px + 7vh + 6px);
@@ -1781,7 +1835,7 @@ table {
                 }
                 &.history__cell--unopen {
                     vertical-align: middle;
-                    color: #AAAAAA;
+                    color: $color-text-placeholder;
                     padding-top: 8px;
                     padding-bottom: 8px;
                 }
@@ -1863,7 +1917,7 @@ table {
                 margin-right: 4px;
 
                 &.active {
-                    color:#e64c65;
+                    color:$color-highlight;
                 }
             }
         }
@@ -1943,35 +1997,35 @@ table {
 
             &.active,
             & > span.active {
-                color:#e64c65;
+                color:$color-highlight;
             }
         }
 
         & > div:last-child {
-            font-size: 11px;
-            line-height: 12px;
+            font-size: $font-size-smaller;
+            line-height: $line-height-smaller;
         }
     }
 }
 
 
 .divider {
-    border-bottom: 1px solid #EDD1DC;
-    margin: 12px 0;
+    border-bottom: 1px solid $color-divider-line;
+    margin: $section-padding 0;
 
 
     &--vertical {
         border-bottom: none;
-        border-right: 1px solid #EDD1DC;
-        margin: 0 12px;
+        border-right: 1px solid $color-divider-line;
+        margin: 0 $section-padding;
     }
 
 
     &--mobile-horizontal {
         @media (orientation: portrait) {
             border-right: none;
-            border-bottom: 1px solid #EDD1DC;
-            margin: 12px 0;
+            border-bottom: 1px solid $color-divider-line;
+            margin: $section-padding 0;
         }
     }
 }
@@ -1999,7 +2053,7 @@ table {
 
 
         & > div {
-            background-color: #FFFFFF
+            background-color: $color-section-background
         }
 
 
@@ -2015,7 +2069,7 @@ table {
     z-index: 20;
 
     & > form {
-        background-color:#FFFFFF;
+        background-color:$color-section-background;
     }
 }
 
@@ -2026,9 +2080,9 @@ table {
     flex-direction: column;
     justify-content: center;
     text-align: center;
-    color: #AAAAAA;
-    font-size: 13px;
-    line-height: 14px;
+    color: $color-text-placeholder;
+    font-size: $font-size-normal;
+    line-height: $line-height-normal;
 
     & > div {
         flex: none;
@@ -2045,19 +2099,19 @@ table {
         color: inherit;
 
         &:hover {
-            color: #555555;
+            color: $color-text-light;
         }
     }
 }
 
 
 .list-placeholder {
-    min-height: calc(100% - 12px);
+    min-height: calc(100% - #{$section-padding});
     display: flex;
     flex-direction: column;
     justify-content: center;
     text-align: center;
-    color: #AAAAAA;
+    color: $color-text-placeholder;
     font-size: 16px;
     line-height: 17px;
 }
@@ -2437,7 +2491,7 @@ i.icon {
         flex: none;
 
         &.section-wrap--timetable-left {
-            margin-left: 12px;
+            margin-left: $section-margin-lr;
         }
     }
 }
