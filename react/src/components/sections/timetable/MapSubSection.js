@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
@@ -22,6 +23,7 @@ class MapSubSection extends Component {
   }
 
   mapFocus(building) {
+    const { t } = this.props;
     const { lectureActiveFrom, currentTimetable, setMultipleDetailDispatch } = this.props;
 
     if (lectureActiveFrom !== 'NONE' || !currentTimetable) {
@@ -33,7 +35,7 @@ class MapSubSection extends Component {
     ));
     const lectures = active.map(lecture => ({
       id: lecture.id,
-      title: lecture.title,
+      title: lecture[t('js.property.title')],
       info: lecture.room,
     }));
     setMultipleDetailDispatch(building, lectures);
@@ -140,4 +142,4 @@ MapSubSection.propTypes = {
 };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(MapSubSection);
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(MapSubSection));
