@@ -1,4 +1,17 @@
 {
+  "js": {
+    "property": {
+      "title": "title_en",
+      "type": "type_en",
+      "department_name": "department_name_en",
+      "name": "name_en",
+      "classroom": "classroom_en",
+      "exam": "exam_en",
+      "common_title": "common_title_en",
+      "class_title": "class_title_en",
+      "professor_short": "professor_short_en"
+    }
+  },
   "jsx": {
     "className": {
       "fixedByLang": "fixed-en"
@@ -33,6 +46,7 @@
       "language": "Language",
       "credit": "Credit",
       "competition": "Competition",
+      "likes": "Likes",
       "grade": "Grade",
       "load": "Load",
       "speech": "Speech"

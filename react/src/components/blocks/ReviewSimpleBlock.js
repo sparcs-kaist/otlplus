@@ -1,6 +1,7 @@
 import React from 'react';
 import { pure } from 'recompose';
 import { Link } from 'react-router-dom';
+import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 
@@ -8,7 +9,7 @@ import reviewShape from '../../shapes/ReviewShape';
 
 
 // eslint-disable-next-line arrow-body-style
-const ReviewSimpleBlock = ({ review }) => {
+const ReviewSimpleBlock = ({ t, review }) => {
   return (
     <Link to={{ pathname: '/dictionary', state: { startCourseId: review.course.id } }}>
       <div className={classNames('block', 'block--review-simple')}>
@@ -17,19 +18,23 @@ const ReviewSimpleBlock = ({ review }) => {
         </div>
         <div>
           <span>
-            추천&nbsp;
+            {t('ui.score.likes')}
+            &nbsp;
             <strong>{review.like}</strong>
           </span>
           <span>
-            성적&nbsp;
+            {t('ui.score.grade')}
+            &nbsp;
             <strong>{review.grade_letter}</strong>
           </span>
           <span>
-            널널&nbsp;
+            {t('ui.score.load')}
+            &nbsp;
             <strong>{review.load_letter}</strong>
           </span>
           <span>
-            강의&nbsp;
+            {t('ui.score.speech')}
+            &nbsp;
             <strong>{review.speech_letter}</strong>
           </span>
         </div>
@@ -42,4 +47,4 @@ ReviewSimpleBlock.propTypes = {
   review: reviewShape.isRequired,
 };
 
-export default pure(ReviewSimpleBlock);
+export default withTranslation()(pure(ReviewSimpleBlock));

@@ -259,7 +259,7 @@ class LectureListSection extends Component {
         ...courses.map(course => (
           <div className={classNames('block', 'block--course-lectures', (course.some(lecture => isListClicked(lecture, lectureActive)) ? 'block--clicked' : ''), (isInactiveListLectures(course, lectureActive) ? 'block--inactive' : ''))} key={course[0].course}>
             <div className={classNames('block--course-lectures__title')}>
-              <strong>{course[0].common_title}</strong>
+              <strong>{course[0][t('js.property.common_title')]}</strong>
               {' '}
               {course[0].old_code}
             </div>
@@ -311,7 +311,7 @@ class LectureListSection extends Component {
         <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
           <div className={classNames('close-button')} onClick={this.mobileCloseLectureList}>닫기</div>
           <div className={classNames('title')}>
-            {major[currentList].name}
+            {major[currentList][t('js.property.name')]}
           </div>
           <div>
             <div ref={this.arrowRef}>
