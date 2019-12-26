@@ -135,7 +135,7 @@ class LectureDetailSection extends Component {
         <div className={classNames('section-content', 'section-content--lecture-detail', 'section-content--flex')}>
           <div className={classNames('close-button')} onClick={this.unfix}>닫기</div>
           <div className={classNames('title')}>
-            {lecture.title}
+            {lecture[t('js.property.title')]}
           </div>
           <div className={classNames('subtitle')}>
             {lecture.old_code}
@@ -171,19 +171,19 @@ class LectureDetailSection extends Component {
             <div ref={this.attributesRef}>
               <div className={classNames('attribute')}>
                 <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.attribute.type')}</span>
-                <span>{lecture.type}</span>
+                <span>{lecture[t('js.property.type')]}</span>
               </div>
               <div className={classNames('attribute')}>
                 <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.attribute.department')}</span>
-                <span>{lecture.department_name}</span>
+                <span>{lecture[t('js.property.department_name')]}</span>
               </div>
               <div className={classNames('attribute')}>
                 <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.attribute.professor')}</span>
-                <span>{lecture.professor.map(p => p.name).join(', ')}</span>
+                <span>{lecture.professor.map(p => p[t('js.property.name')]).join(', ')}</span>
               </div>
               <div className={classNames('attribute')}>
                 <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.attribute.classroom')}</span>
-                <span>{lecture.classroom}</span>
+                <span>{lecture[t('js.property.classroom')]}</span>
               </div>
               <div className={classNames('attribute')}>
                 <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.attribute.limit')}</span>
@@ -191,7 +191,7 @@ class LectureDetailSection extends Component {
               </div>
               <div className={classNames('attribute')}>
                 <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.attribute.exam')}</span>
-                <span>{lecture.exam}</span>
+                <span>{lecture[t('js.property.exam')]}</span>
               </div>
             </div>
             <div className={classNames('scores')}>

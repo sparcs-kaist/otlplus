@@ -1,4 +1,17 @@
 {
+  "js": {
+    "property": {
+      "title": "title",
+      "type": "type",
+      "department_name": "department_name",
+      "name": "name",
+      "classroom": "classroom",
+      "exam": "exam",
+      "common_title": "common_title",
+      "class_title": "class_title",
+      "professor_short": "professor_short"
+    }
+  },
   "jsx": {
     "className": {
       "fixedByLang": "fixed-ko"
@@ -33,6 +46,7 @@
       "language": "언어",
       "credit": "학점",
       "competition": "경쟁률",
+      "likes": "추천",
       "grade": "성적",
       "load": "널널",
       "speech": "강의"
