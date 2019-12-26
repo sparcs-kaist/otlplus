@@ -1,6 +1,5 @@
 #-*- coding: utf-8 -*-
 from django.db import models
-from django.utils.translation import ugettext as _
 from apps.enum.common import * #for enum type (for choices)
 from datetime import date, time
 
@@ -52,7 +51,8 @@ class Lecture(models.Model):
     def toJson(self, nested=False):
         # Don't change this into model_to_dict: for security and performance
         result = {"id": self.id,
-                "title": getattr(self, _("title")),
+                "title": self.title,
+                "title_en": self.title_en,
                 "course": self.course.id,
                 "old_code": self.old_code,
                 "class_no": self.class_no,
@@ -61,26 +61,33 @@ class Lecture(models.Model):
                 "code": self.code,
                 "department": self.department.id,
                 "department_code": self.department.code,
-                "department_name": getattr(self.department, _("name")),
-                "type": getattr(self, _("type")),
+                "department_name": self.department.name,
+                "department_name_en": self.department.name_en,
+                "type": self.type,
                 "type_en": self.type_en,
                 "limit": self.limit,
                 "num_people": self.num_people,
                 "is_english": self.is_english,
                 "credit": self.credit,
                 "credit_au": self.credit_au,
-                "common_title": getattr(self, _("common_title")),
-                "class_title": getattr(self, _("class_title")),}
+                "common_title": self.common_title,
+                "common_title_en": self.common_title_en,
+                "class_title": self.class_title,
+                "class_title_en": self.class_title_en,
+        }
         
         # Add formatted professor name
-        prof_name_list = [getattr(p, _("professor_name")) for p in self.professor.all()]
+        prof_name_list = [p.professor_name for p in self.professor.all()]
+        prof_name_list_en = [p.professor_name_en for p in self.professor.all()]
         if len(prof_name_list) <= 2:
             result.update({
                 'professor_short': u", ".join(prof_name_list),
+                'professor_short_en': u", ".join(prof_name_list_en),
             })
         else:
             result.update({
-                'professor_short': prof_name_list[0] + _(u" 외 ") + str(len(prof_name_list)-1) + _(u"명"),
+                'professor_short': prof_name_list[0] + u" 외 " + str(len(prof_name_list)-1) + u"명",
+                'professor_short_en': prof_name_list_en[0] + u" and " + str(len(prof_name_list)-1) + u" others",
             })
         
         if nested:
@@ -126,14 +133,18 @@ class Lecture(models.Model):
             result.update({
                 'building': classtimes[0]['building'],
                 'classroom': classtimes[0]['classroom'],
+                'classroom_en': classtimes[0]['classroom_en'],
                 'classroom_short': classtimes[0]['classroom_short'],
+                'classroom_short_en': classtimes[0]['classroom_short_en'],
                 'room': classtimes[0]['room'],
             })
         else:
             result.update({
                 'building': '',
-                'classroom': _(u'정보 없음'),
-                'classroom_short': _(u'정보 없음'),
+                'classroom': u'정보 없음',
+                'classroom_en': u'Unknown',
+                'classroom_short': u'정보 없음',
+                'classroom_short_en': u'Unknown',
                 'room': '',
             })
 
@@ -148,15 +159,18 @@ class Lecture(models.Model):
         # Add exam info
         if len(examtimes) > 1:
             result.update({
-                'exam': examtimes[0]['str'] + _(u" 외 ") + str(len(result['examtimes']-1)) + _("개"),
+                'exam': examtimes[0]['str'] + u" 외 " + str(len(result['examtimes']-1)) + u"개",
+                'exam_en': examtimes[0]['str_en'] + u" and " + str(len(result['examtimes']-1)) + u" others",
             })
         elif len(examtimes) == 1:
             result.update({
                 'exam': examtimes[0]['str'],
+                'exam_en': examtimes[0]['str_en'],
             })
         else:
             result.update({
-                'exam': _(u'정보 없음'),
+                'exam': u'정보 없음',
+                'exam_en': u'Unknown',
             })
 
         if self.type_en in ["Basic Required", "Basic Elective"]:
@@ -298,10 +312,12 @@ class ExamTime(models.Model):
         )
 
     def toJson(self, nested=False):
-        day_str = [_(u"월요일"), _(u"화요일"), _(u"수요일"), _(u"목요일"), _(u"금요일"), _(u"토요일"), _(u"일요일")]
+        day_str = [u"월요일", u"화요일", u"수요일", u"목요일", u"금요일", u"토요일", u"일요일"]
+        day_str_en = [u"Monday", u"Tuesday", u"Wednesday", u"Thursday", u"Friday", u"Saturday", u"Sunday"]
         result = {
             "day": self.day,
             "str": day_str[self.day] + " " + self.begin.strftime("%H:%M") + " ~ " + self.end.strftime("%H:%M"),
+            "str_en": day_str_en[self.day] + " " + self.begin.strftime("%H:%M") + " ~ " + self.end.strftime("%H:%M"),
             "begin": self.get_begin_numeric(),
             "end": self.get_end_numeric(),
         }
@@ -333,33 +349,43 @@ class ClassTime(models.Model):
     unit_time = models.SmallIntegerField(null=True) #수업 교시
 
     def toJson(self, nested=False):
-        bldg = getattr(self, _("roomName"))
+        bldg = self.roomName
+        bldg_en = self.roomName_en
         # No classroom info
         if bldg == None:
             room = ""
             bldg_no = ""
-            classroom = _(u"정보 없음")
-            classroom_short = _(u"정보 없음")
+            classroom = u"정보 없음"
+            classroom_en = u"Unknown"
+            classroom_short = u"정보 없음"
+            classroom_short_en = u"Unknown"
         # Building name has form of "(N1) xxxxx"
         elif bldg[0] == "(":
             bldg_no = bldg[1:bldg.find(")")]
             bldg_name = bldg[len(bldg_no)+2:]
-            room = getattr(self, _("roomNum"))
+            bldg_name_en = bldg_en[len(bldg_no)+2:]
+            room = self.roomNum
             if room == None: room=""
             classroom = "(" + bldg_no + ") " + bldg_name + " " + room
+            classroom_en = "(" + bldg_no + ") " + bldg_name_en + " " + room
             classroom_short = "(" + bldg_no + ") " + room
+            classroom_short_en = "(" + bldg_no + ") " + room
         # Building name has form of "xxxxx"
         else:
             bldg_no=""
-            room = getattr(self, _("roomNum"))
+            room = self.roomNum
             if room == None: room=""
             classroom = bldg + " " + room
+            classroom_en = bldg_en + " " + room
             classroom_short = bldg + " " + room
+            classroom_short_en = bldg_en + " " + room
 
         result = {
             "building": bldg_no,
             "classroom": classroom,
+            "classroom_en": classroom,
             "classroom_short": classroom_short,
+            "classroom_short_en": classroom_short_en,
             "room": room,
             "day": self.day,
             "begin": self.get_begin_numeric(),
@@ -487,9 +513,11 @@ class Course(models.Model):
         })
 
         # Add formatted professor name
-        prof_name_list = [getattr(p, _("professor_name")) for p in self.professors.all()]
+        prof_name_list = [p.professor_name for p in self.professors.all()]
+        prof_name_list_en = [p.professor_name_en for p in self.professors.all()]
         result.update({
             'professors_str': u", ".join(prof_name_list),
+            'professors_str_en': u", ".join(prof_name_list_en),
             'professors': [p.toJson(nested=True) for p in self.professors.all()]
         })
 
@@ -597,6 +625,7 @@ class Professor(models.Model):
     def toJson(self, nested=False):
         result = {
             'name': self.professor_name,
+            'name_en': self.professor_name_en,
             'professor_id': self.professor_id,
         }
 
