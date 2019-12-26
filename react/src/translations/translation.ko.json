@@ -14,7 +14,8 @@
   },
   "jsx": {
     "className": {
-      "fixedByLang": "fixed-ko"
+      "fixedByLang": "fixed-ko",
+      "semesterByLang": "semester-ko"
     }
   },
   "ui": {

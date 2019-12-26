@@ -81,7 +81,7 @@ class SemesterSection extends Component {
 
     if (year && semester) {
       return (
-        <div className={classNames('section', 'section--semester')}>
+        <div className={classNames('section', 'section--semester', t('jsx.className.semesterByLang'))}>
           <div className={classNames(((year === startYear) && (semester === startSemester) ? 'disable' : ''))} onClick={() => this.semesterPrev()}><i className={classNames('icon', 'icon--semester-prev')} /></div>
           <span>{`${year} ${semesterName[semester]}`}</span>
           <div className={classNames(((year === endYear) && (semester === endSemester) ? 'disable' : ''))} onClick={() => this.semesterNext()}><i className={classNames('icon', 'icon--semester-next')} /></div>
