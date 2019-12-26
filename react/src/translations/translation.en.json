@@ -19,7 +19,8 @@
   },
   "ui": {
     "title": {
-      "reviews": "Reviews"
+      "reviews": "Reviews",
+      "exams": "Exams"
     },
     "tab": {
       "search": "Search",
@@ -45,6 +46,7 @@
     "score": {
       "language": "Language",
       "credit": "Credit",
+      "au": "AU",
       "competition": "Competition",
       "likes": "Likes",
       "grade": "Grade",
@@ -137,6 +139,11 @@
     },
     "others": {
       "table": "Table",
+      "examOfDay": "Exams on {{day}}",
+      "creditCount": "{{count}} credit",
+      "creditCount_plural": "{{count}} credits",
+      "auCount": "{{count}} AU",
+      "auCount_plural": "{{count}} AUs",
       "multipleDetailCount": "{{count}} lectures",
       "dragTimetable": "Drag timetable"
     },

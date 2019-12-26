@@ -19,7 +19,8 @@
   },
   "ui": {
     "title": {
-      "reviews": "과목 후기"
+      "reviews": "과목 후기",
+      "exams": "시험시간표"
     },
     "tab": {
       "search": "검색",
@@ -45,6 +46,7 @@
     "score": {
       "language": "언어",
       "credit": "학점",
+      "au": "AU",
       "competition": "경쟁률",
       "likes": "추천",
       "grade": "성적",
@@ -137,6 +139,9 @@
     },
     "others": {
       "table": "시간표",
+      "examOfDay": "{{day}} 시험",
+      "creditCount": "{{count}}학점",
+      "auCount": "{{count}}AU",
       "multipleDetailCount": "{{count}}개의 과목",
       "dragTimetable": "시간표에서 드래그"
     },
