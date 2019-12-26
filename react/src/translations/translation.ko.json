@@ -1,5 +1,124 @@
 {
+  "jsx": {
+    "className": {
+      "fixedByLang": "fixed-ko"
+    }
+  },
   "ui": {
+    "title": {
+      "reviews": "과목 후기"
+    },
+    "tab": {
+      "search": "검색",
+      "major": "전공",
+      "humanity": "인문사회선택",
+      "wishlist": "장바구니"
+    },
+    "button": {
+      "unfix": "고정해제",
+      "syllabus": "실라버스",
+      "dictionary": "과목사전",
+      "search": "검색",
+      "cancel": "취소"
+    },
+    "attribute": {
+      "department": "학과",
+      "type": "구분",
+      "professor": "교수",
+      "classroom": "장소",
+      "limit": "정원",
+      "exam": "시험"
+    },
+    "score": {
+      "language": "언어",
+      "credit": "학점",
+      "competition": "경쟁률",
+      "grade": "성적",
+      "load": "널널",
+      "speech": "강의"
+    },
+    "placeholder": {
+      "loading": "불러오는 중",
+      "noResults": "결과 없음"
+    },
+    "search": {
+      "type": "Type",
+      "department": "Dept.",
+      "level": "Level",
+      "time": "Time"
+    },
+    "type": {
+      "basicRequired": "기초필수",
+      "basicElective": "기초선택",
+      "majorRequired": "전공필수",
+      "majorElective": "전공선택",
+      "humanitiesSocialElective": "인문사회선택",
+      "etc": "기타",
+      "basicRequiredShort": "기필",
+      "basicElectiveShort": "기선",
+      "majorRequiredShort": "전필",
+      "majorElectiveShort": "전선",
+      "humanitiesSocialElectiveShort": "인선",
+      "mandatoryGeneralCourseShort": "교필",
+      "otherElectiveShort": "자선",
+      "generalRequiredShort": "공통",
+      "electiveGraduateShort": "석박",
+      "allShort": "전체",
+      "etcShort": "기타"
+    },
+    "department": {
+      "hssShort": "인문",
+      "aeShort": "항공",
+      "bisShort": "바공",
+      "bsShort": "생명",
+      "cbeShort": "생화공",
+      "ceShort": "건환",
+      "chShort": "화학",
+      "csShort": "전산",
+      "eeShort": "전자",
+      "idShort": "산디",
+      "ieShort": "산공",
+      "masShort": "수리",
+      "meShort": "기계",
+      "nqeShort": "원양",
+      "msbShort": "기경",
+      "msShort": "신소재",
+      "phShort": "물리",
+      "allShort": "전체",
+      "etcShort": "기타"
+    },
+    "level": {
+      "100sShort": "100번대",
+      "200sShort": "200번대",
+      "300sShort": "300번대",
+      "400sShort": "400번대",
+      "allShort": "전체",
+      "etcShort": "기타"
+    },
+    "day": {
+      "monday": "월요일",
+      "tuesday": "화요일",
+      "wednesday": "수요일",
+      "thursday": "목요일",
+      "friday": "금요일",
+      "saturday": "토요일",
+      "sunday": "일요일",
+      "mondayShort": "월",
+      "tuesdayShort": "화",
+      "wednesdayShort": "수",
+      "thursdayShort": "목",
+      "fridayShort": "금",
+      "saturdayShort": "토",
+      "sundayShort": "일"
+    },
+    "message": {
+      "blankSearch": "검색 조건을 선택해 주세요.",
+      "timetableOverlap": "시간표가 겹치는 과목은 추가할 수 없습니다."
+    },
+    "others": {
+      "multipleDetailCount": "{{count}}개의 과목",
+      "dragTimetable": "시간표에서 드래그"
+    },
     "menu": {
       "timetable": "모의시간표",
       "dictionary": "과목사전",
