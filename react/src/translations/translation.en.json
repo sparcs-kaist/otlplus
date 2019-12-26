@@ -1,0 +1,13 @@
+{
+  "ui": {
+    "menu": {
+      "timetable": "Timetable",
+      "dictionary": "Dictionary",
+      "toggleLang": "한국어",
+      "notifications": "Notifications",
+      "signIn": "Sign In",
+      "credit": "Credit",
+      "licences": "Licences"
+    }
+  }
+}

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { withTranslation } from 'react-i18next';
 
 import userShape from '../../shapes/UserShape';
 
@@ -71,6 +72,7 @@ class Header extends Component {
 
 
   render() {
+    const { t, i18n } = this.props;
     const { mobileMenuOpen, noBackground } = this.state;
     const { user } = this.props;
 
@@ -95,12 +97,12 @@ class Header extends Component {
             <div className={classNames('menus')}>
               <span>
                 <Link to="/dictionary">
-                  과목사전
+                  {t('ui.menu.dictionary')}
                 </Link>
               </span>
               <span>
                 <Link to="/timetable">
-                  모의시간표
+                  {t('ui.menu.timetable')}
                 </Link>
               </span>
             </div>
@@ -111,15 +113,15 @@ class Header extends Component {
             </div>
             <div className={classNames('common-menus')}>
               <span>
-                <Link to=".">
+                <button onClick={() => i18n.changeLanguage(i18n.language.startsWith('ko') ? 'en' : 'ko')}>
                   <i className={classNames('icon--header_language')} />
-                  <span>English</span>
-                </Link>
+                  <span>{t('ui.menu.toggleLang')}</span>
+                </button>
               </span>
               <span>
                 <Link to=".">
                   <i className={classNames('icon--header_notification')} />
-                  <span>알림</span>
+                  <span>{t('ui.menu.notifications')}</span>
                 </Link>
               </span>
               { user
@@ -136,7 +138,7 @@ class Header extends Component {
                   <a href={`/session/login/?next=${window.location.href}`}>
                     <i className={classNames('icon--header_user')} />
                     <span>
-                      로그인
+                      {t('ui.menu.signIn')}
                     </span>
                   </a>
                 )
@@ -163,4 +165,4 @@ Header.propTypes = {
   }).isRequired,
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Header));
+export default withTranslation()(withRouter(connect(mapStateToProps, mapDispatchToProps)(Header)));
