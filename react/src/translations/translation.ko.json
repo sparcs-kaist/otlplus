@@ -125,11 +125,18 @@
       "saturdayShort": "토",
       "sundayShort": "일"
     },
+    "semester": {
+      "spring": "봄",
+      "summer": "여름",
+      "fall": "가을",
+      "winter": "겨울"
+    },
     "message": {
       "blankSearch": "검색 조건을 선택해 주세요.",
       "timetableOverlap": "시간표가 겹치는 과목은 추가할 수 없습니다."
     },
     "others": {
+      "table": "시간표",
       "multipleDetailCount": "{{count}}개의 과목",
       "dragTimetable": "시간표에서 드래그"
     },
