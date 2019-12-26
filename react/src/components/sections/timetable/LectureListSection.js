@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 import axios from '../../../common/presetAxios';
@@ -244,14 +245,15 @@ class LectureListSection extends Component {
   }
 
   render() {
+    const { t } = this.props;
     const { lectureActive, currentTimetable, currentList, searchOpen, search, major, humanity, cart } = this.props;
 
     const mapCourses = (courses, fromCart) => {
       if (!courses) {
-        return <div className={classNames('list-placeholder')}><div>불러오는 중</div></div>;
+        return <div className={classNames('list-placeholder')}><div>{t('ui.placeholder.loading')}</div></div>;
       }
       if (courses.length === 0) {
-        return <div className={classNames('list-placeholder')}><div>결과 없음</div></div>;
+        return <div className={classNames('list-placeholder')}><div>{t('ui.placeholder.noResults')}</div></div>;
       }
       return [
         ...courses.map(course => (
@@ -291,7 +293,7 @@ class LectureListSection extends Component {
           <div className={classNames('close-button')} onClick={this.mobileCloseLectureList}>닫기</div>
           <div className={classNames('title', 'title--search')} onClick={() => this.showSearch()}>
             <i className={classNames('icon', 'icon--search')} />
-            <span>검색</span>
+            <span>{t('ui.tab.search')}</span>
           </div>
           <div>
             <div ref={this.arrowRef}>
@@ -327,7 +329,7 @@ class LectureListSection extends Component {
         <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
           <div className={classNames('close-button')} onClick={this.mobileCloseLectureList}>닫기</div>
           <div className={classNames('title')}>
-            인문사회선택
+            {t('ui.tab.humanity')}
           </div>
           <div>
             <div ref={this.arrowRef}>
@@ -345,7 +347,7 @@ class LectureListSection extends Component {
         <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
           <div className={classNames('close-button')} onClick={this.mobileCloseLectureList}>닫기</div>
           <div className={classNames('title')}>
-            장바구니
+            {t('ui.tab.wishlist')}
           </div>
           <div>
             <div ref={this.arrowRef}>
@@ -446,4 +448,4 @@ LectureListSection.propTypes = {
 };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(LectureListSection);
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(LectureListSection));

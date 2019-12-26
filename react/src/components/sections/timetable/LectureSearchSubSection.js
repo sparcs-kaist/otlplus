@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 import axios from '../../../common/presetAxios';
@@ -30,6 +31,7 @@ class LectureSearchSubSection extends Component {
   }
 
   searchStart = () => {
+    const { t } = this.props;
     const { type, department, grade, inputVal } = this.state;
     const { year, semester, start, day, end, closeSearchDispatch, clearSearchListLecturesDispatch, setListLecturesDispatch } = this.props;
 
@@ -37,7 +39,7 @@ class LectureSearchSubSection extends Component {
       && !(start !== null && end !== null && day !== null)) {
       if (type.has('ALL') && department.has('ALL') && grade.has('ALL')) {
         // eslint-disable-next-line no-alert
-        alert('검색 조건을 선택해 주세요');
+        alert(t('ui.message.blankSearch'));
         return;
       }
     }
@@ -152,6 +154,7 @@ class LectureSearchSubSection extends Component {
   }
 
   render() {
+    const { t } = this.props;
     const { inputVal, autoComplete } = this.state;
     const { start, end, day } = this.props;
 
@@ -165,7 +168,7 @@ class LectureSearchSubSection extends Component {
                 type="text"
                 name="keyword"
                 autoComplete="off"
-                placeholder="검색"
+                placeholder={t('ui.tab.search')}
                 value={inputVal}
                 onKeyDown={e => this.keyPress(e)}
                 onChange={e => this.handleInput(e)}
@@ -180,45 +183,45 @@ class LectureSearchSubSection extends Component {
             <SearchFilter
               clickCircle={this.clickCircle}
               inputName="type"
-              titleName="구분"
+              titleName={t('ui.search.type')}
               valueArr={['ALL', 'GR', 'MGC', 'BE', 'BR', 'EG', 'HSE', 'OE', 'ME', 'MR', 'ETC']}
-              nameArr={['전체', '공통', '교필', '기선', '기필', '석박', '인선', '자선', '전선', '전필', '기타']}
+              nameArr={[t('ui.type.allShort'), t('ui.type.generalRequiredShort'), t('ui.type.mandatoryGeneralCourseShort'), t('ui.type.basicElectiveShort'), t('ui.type.basicRequiredShort'), t('ui.type.electiveGraduateShort'), t('ui.type.humanitiesSocialElectiveShort'), t('ui.type.otherElectiveShort'), t('ui.type.majorElectiveShort'), t('ui.type.majorRequiredShort'), t('ui.type.etcShort')]}
             />
             <SearchFilter
               clickCircle={this.clickCircle}
               inputName="department"
-              titleName="학과"
+              titleName={t('ui.search.department')}
               valueArr={['ALL', 'HSS', 'CE', 'MSB', 'ME', 'PH', 'BiS', 'IE', 'ID', 'BS', 'MAS', 'NQE', 'EE', 'CS', 'AE', 'CH', 'CBE', 'MS', 'ETC']}
-              nameArr={['전체', '인문', '건환', '기경', '기계', '물리', '바공', '산공', '산디', '생명', '수학', '원양', '전자', '전산', '항공', '화학', '생화공', '신소재', '기타']}
+              nameArr={[t('ui.department.allShort'), t('ui.department.hssShort'), t('ui.department.ceShort'), t('ui.department.msbShort'), t('ui.department.meShort'), t('ui.department.phShort'), t('ui.department.bisShort'), t('ui.department.ieShort'), t('ui.department.idShort'), t('ui.department.bsShort'), t('ui.department.masShort'), t('ui.department.nqeShort'), t('ui.department.eeShort'), t('ui.department.csShort'), t('ui.department.aeShort'), t('ui.department.chShort'), t('ui.department.cbeShort'), t('ui.department.msShort'), t('ui.department.etcShort')]}
             />
             <SearchFilter
               clickCircle={this.clickCircle}
               inputName="grade"
-              titleName="학년"
+              titleName={t('ui.search.level')}
               valueArr={['ALL', '100', '200', '300', '400']}
-              nameArr={['전체', '100번대', '200번대', '300번대', '400번대']}
+              nameArr={[t('ui.level.allShort'), t('ui.level.100sShort'), t('ui.level.200sShort'), t('ui.level.300sShort'), t('ui.level.400sShort')]}
             />
             <div className={classNames('attribute')}>
-              <label>시간</label>
+              <label>{t('ui.search.time')}</label>
               { day !== null
                 ? (
                   <label className={classNames('text-button')}>
-                    {`${['월요일', '화요일', '수요일', '목요일', '금요일'][day]} \
+                    {`${[t('ui.day.monday'), t('ui.day.tuesday'), t('ui.day.wednesday'), t('ui.day.thursday'), t('ui.day.friday')][day]} \
                       ${8 + Math.floor(start / 2)}:${['00', '30'][start % 2]} ~ \
                       ${8 + Math.floor(end / 2)}:${['00', '30'][end % 2]}`}
                   </label>
                 )
                 : (
                   <label>
-                    시간표에서 드래그
+                    {t('ui.others.dragTimetable')}
                   </label>
                 )
               }
             </div>
           </div>
           <div className={classNames('buttons')}>
-            <span type="button" className={classNames('text-button')} onClick={() => this.searchStart()}>검색</span>
-            <span type="button" className={classNames('text-button')} onClick={() => this.hideSearch()}>취소</span>
+            <span type="button" className={classNames('text-button')} onClick={() => this.searchStart()}>{t('ui.button.search')}</span>
+            <span type="button" className={classNames('text-button')} onClick={() => this.hideSearch()}>{t('ui.button.cancel')}</span>
           </div>
           <div className={classNames('divider')} />
         </form>
@@ -259,4 +262,4 @@ LectureSearchSubSection.propTypes = {
 };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(LectureSearchSubSection);
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(LectureSearchSubSection));

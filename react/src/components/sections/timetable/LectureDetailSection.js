@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import $ from 'jquery';
+import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 import axios from '../../../common/presetAxios';
@@ -116,6 +117,7 @@ class LectureDetailSection extends Component {
   }
 
   render() {
+    const { t } = this.props;
     const { showUnfix, showCloseDict } = this.state;
     const { from, lecture, title, multipleDetail, currentTimetable, cart } = this.props;
 
@@ -125,10 +127,10 @@ class LectureDetailSection extends Component {
         <ReviewSimpleBlock key={`review_${index}`} review={review} />
       );
       const reviewsDom = (reviews == null)
-        ? <div className={classNames('section-content--lecture-detail--list-area', 'list-placeholder')}><div>불러오는 중</div></div>
+        ? <div className={classNames('section-content--lecture-detail--list-area', 'list-placeholder')}><div>{t('ui.placeholder.loading')}</div></div>
         : (reviews.length
           ? <div className={classNames('section-content--lecture-detail--list-area')}>{reviews.map(mapreview)}</div>
-          : <div className={classNames('section-content--lecture-detail--list-area', 'list-placeholder')}><div>결과 없음</div></div>);
+          : <div className={classNames('section-content--lecture-detail--list-area', 'list-placeholder')}><div>{t('ui.placeholder.noResults')}</div></div>);
       return (
         <div className={classNames('section-content', 'section-content--lecture-detail', 'section-content--flex')}>
           <div className={classNames('close-button')} onClick={this.unfix}>닫기</div>
@@ -140,17 +142,17 @@ class LectureDetailSection extends Component {
             {lecture.class_no.length ? ` (${lecture.class_no})` : ''}
           </div>
           <div className={classNames('buttons')}>
-            <span onClick={this.unfix} className={classNames('text-button', (showUnfix ? '' : classNames('text-button--disabled')))}>고정해제</span>
+            <span onClick={this.unfix} className={classNames('text-button', (showUnfix ? '' : classNames('text-button--disabled')))}>{t('ui.button.unfix')}</span>
             <a className={classNames('text-button', 'text-button--right')} href={`https://cais.kaist.ac.kr/syllabusInfo?year=${lecture.year}&term=${lecture.semester}&subject_no=${lecture.code}&lecture_class=${lecture.class_no}&dept_id=${lecture.department}`} target="_blank" rel="noopener noreferrer">
-              실라버스
+              {t('ui.button.syllabus')}
             </a>
             <Link className={classNames('text-button', 'text-button--right')} to={{ pathname: '/dictionary', state: { startCourseId: lecture.course } }}>
-              과목사전
+              {t('ui.button.dictionary')}
             </Link>
           </div>
           <div className={classNames('fixed__conditional-part', (showCloseDict ? '' : 'fixed__conditional-part--hidden'))}>
             <div className={classNames('small-title')} onClick={this.closeDictPreview}>
-              <span>과목 후기</span>
+              <span>{t('ui.title.reviews')}</span>
               <i className={classNames('icon', 'icon--lecture-uparrow')} />
             </div>
           </div>
@@ -168,27 +170,27 @@ class LectureDetailSection extends Component {
           >
             <div ref={this.attributesRef}>
               <div className={classNames('attribute')}>
-                <span className={classNames('fixed-ko')}>구분</span>
+                <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.attribute.type')}</span>
                 <span>{lecture.type}</span>
               </div>
               <div className={classNames('attribute')}>
-                <span className={classNames('fixed-ko')}>학과</span>
+                <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.attribute.department')}</span>
                 <span>{lecture.department_name}</span>
               </div>
               <div className={classNames('attribute')}>
-                <span className={classNames('fixed-ko')}>교수</span>
+                <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.attribute.professor')}</span>
                 <span>{lecture.professor.map(p => p.name).join(', ')}</span>
               </div>
               <div className={classNames('attribute')}>
-                <span className={classNames('fixed-ko')}>장소</span>
+                <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.attribute.classroom')}</span>
                 <span>{lecture.classroom}</span>
               </div>
               <div className={classNames('attribute')}>
-                <span className={classNames('fixed-ko')}>정원</span>
+                <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.attribute.limit')}</span>
                 <span>{lecture.limit}</span>
               </div>
               <div className={classNames('attribute')}>
-                <span className={classNames('fixed-ko')}>시험</span>
+                <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.attribute.exam')}</span>
                 <span>{lecture.exam}</span>
               </div>
             </div>
@@ -199,7 +201,7 @@ class LectureDetailSection extends Component {
                     ? <div>Eng</div>
                     : <div className={(classNames('scores__score-text--korean'))}>한</div>
                 }
-                <div>언어</div>
+                <div>{t('ui.score.language')}</div>
               </div>
               <div>
                 {
@@ -209,7 +211,7 @@ class LectureDetailSection extends Component {
                 }
                 {
                   lecture.credit > 0
-                    ? <div>학점</div>
+                    ? <div>{t('ui.score.credit')}</div>
                     : <div>AU</div>
                 }
               </div>
@@ -221,25 +223,25 @@ class LectureDetailSection extends Component {
                       : `${(lecture.num_people / lecture.limit).toFixed(1).toString()}:1`
                   }
                 </div>
-                <div>경쟁률</div>
+                <div>{t('ui.score.competition')}</div>
               </div>
             </div>
             <div className={classNames('scores')}>
               <div>
                 <div>{lecture.grade_letter}</div>
-                <div>성적</div>
+                <div>{t('ui.score.grade')}</div>
               </div>
               <div>
                 <div>{lecture.load_letter}</div>
-                <div>널널</div>
+                <div>{t('ui.score.load')}</div>
               </div>
               <div>
                 <div>{lecture.speech_letter}</div>
-                <div>강의</div>
+                <div>{t('ui.score.speech')}</div>
               </div>
             </div>
             <div onClick={this.openDictPreview} className={classNames('small-title')} ref={this.openDictRef}>
-              <span>과목 후기</span>
+              <span>{t('ui.title.reviews')}</span>
               <i className={classNames('icon', 'icon--lecture-downarrow')} />
             </div>
             {reviewsDom}
@@ -267,12 +269,12 @@ class LectureDetailSection extends Component {
             {title}
           </div>
           <div className={classNames('subtitle')}>
-            {`${multipleDetail.length}개의 과목`}
+            {t('ui.others.multipleDetailCount', { count: multipleDetail.length })}
           </div>
           <div className={classNames('buttons')}>
-            <span className={classNames('text-button', 'text-button--disabled')}>고정해제</span>
-            <span className={classNames('text-button', 'text-button--right', 'text-button--disabled')}>실라버스</span>
-            <span className={classNames('text-button', 'text-button--right', 'text-button--disabled')}>과목사전</span>
+            <span className={classNames('text-button', 'text-button--disabled')}>{t('ui.button.unfix')}</span>
+            <span className={classNames('text-button', 'text-button--right', 'text-button--disabled')}>{t('ui.button.syllabus')}</span>
+            <span className={classNames('text-button', 'text-button--right', 'text-button--disabled')}>{t('ui.button.dictionary')}</span>
           </div>
           <div>
             {multipleDetail.map((detail, index) => (
@@ -296,9 +298,9 @@ class LectureDetailSection extends Component {
             OTL PLUS
           </div>
           <div>
-            <Link to="/credits/">만든 사람들</Link>
+            <Link to="/credits/">{t('ui.menu.credit')}</Link>
             &nbsp;|&nbsp;
-            <Link to="/licenses/">라이선스</Link>
+            <Link to="/licenses/">{t('ui.menu.licences')}</Link>
           </div>
           <div>
             <a href="mailto:otlplus@sparcs.org">otlplus@sparcs.org</a>
@@ -370,4 +372,4 @@ LectureDetailSection.propTypes = {
 };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(LectureDetailSection);
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(LectureDetailSection));

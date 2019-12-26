@@ -1,5 +1,124 @@
 {
+  "jsx": {
+    "className": {
+      "fixedByLang": "fixed-en"
+    }
+  },
   "ui": {
+    "title": {
+      "reviews": "Reviews"
+    },
+    "tab": {
+      "search": "Search",
+      "major": "Major",
+      "humanity": "Humanities & Social Elective",
+      "wishlist": "Wishlist"
+    },
+    "button": {
+      "unfix": "Unfix",
+      "syllabus": "Syllabus",
+      "dictionary": "Dictionary",
+      "search": "Search",
+      "cancel": "Cancel"
+    },
+    "attribute": {
+      "department": "Dept.",
+      "type": "Type",
+      "professor": "Prof.",
+      "classroom": "Room",
+      "limit": "Limit",
+      "exam": "Exam"
+    },
+    "score": {
+      "language": "Language",
+      "credit": "Credit",
+      "competition": "Competition",
+      "grade": "Grade",
+      "load": "Load",
+      "speech": "Speech"
+    },
+    "placeholder": {
+      "loading": "Loading",
+      "noResults": "No Results"
+    },
+    "search": {
+      "type": "Type",
+      "department": "Dept.",
+      "level": "Level",
+      "time": "Time"
+    },
+    "type": {
+      "basicRequired": "Basic Required",
+      "basicElective": "Basic Elective",
+      "majorRequired": "Major Required",
+      "majorElective": "Major Elective",
+      "humanitiesSocialElective": "Humanities & Social Elective",
+      "etc": "Others",
+      "basicRequiredShort": "BR",
+      "basicElectiveShort": "BE",
+      "majorRequiredShort": "MR",
+      "majorElectiveShort": "ME",
+      "humanitiesSocialElectiveShort": "HSE",
+      "mandatoryGeneralCourseShort": "MGC",
+      "otherElectiveShort": "OE",
+      "generalRequiredShort": "GR",
+      "electiveGraduateShort": "EG",
+      "allShort": "ALL",
+      "etcShort": "ETC"
+    },
+    "department": {
+      "hssShort": "HSS",
+      "aeShort": "AE",
+      "bisShort": "BiS",
+      "bsShort": "BS",
+      "cbeShort": "CBE",
+      "ceShort": "CE",
+      "chShort": "CH",
+      "csShort": "CS",
+      "eeShort": "EE",
+      "idShort": "ID",
+      "ieShort": "IE",
+      "masShort": "MAS",
+      "meShort": "ME",
+      "nqeShort": "NQE",
+      "msbShort": "MSB",
+      "msShort": "MS",
+      "phShort": "PH",
+      "allShort": "ALL",
+      "etcShort": "ETC"
+    },
+    "level": {
+      "100sShort": "100s",
+      "200sShort": "200s",
+      "300sShort": "300s",
+      "400sShort": "400s",
+      "allShort": "ALL",
+      "etcShort": "ETC"
+    },
+    "day": {
+      "monday": "Monday",
+      "tuesday": "Tuesday",
+      "wednesday": "Wednesday",
+      "thursday": "Thursday",
+      "friday": "Friday",
+      "saturday": "Saturday",
+      "sunday": "Sunday",
+      "mondayShort": "Mon",
+      "tuesdayShort": "Tue",
+      "wednesdayShort": "Wed",
+      "thursdayShort": "Thu",
+      "fridayShort": "Fri",
+      "saturdayShort": "Sat",
+      "sundayShort": "Sun"
+    },
+    "message": {
+      "blankSearch": "Please select search conditions.",
+      "timetableOverlap": "You can't add lecture overlapping."
+    },
+    "others": {
+      "multipleDetailCount": "{{count}} lectures",
+      "dragTimetable": "Drag timetable"
+    },
     "menu": {
       "timetable": "Timetable",
       "dictionary": "Dictionary",
