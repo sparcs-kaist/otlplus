@@ -89,7 +89,7 @@ class SemesterSection extends Component {
       );
     }
     return (
-      <div className={classNames('section', 'section--semester')}>
+      <div className={classNames('section', 'section--semester', t('jsx.className.semesterByLang'))}>
         <div className={classNames('disable')}><i className={classNames('icon', 'icon--semester-prev')} /></div>
         <span>{t('ui.placeholder.loading')}</span>
         <div className={classNames('disable')}><i className={classNames('icon', 'icon--semester-next')} /></div>
