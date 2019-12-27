@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 
-import { /* openSearch, closeSearch, */setListMajorCodes, setCurrentList } from '../../actions/dictionary/list';
+import { openSearch, closeSearch } from '../../actions/dictionary/search';
+import { setListMajorCodes, setCurrentList } from '../../actions/dictionary/list';
 import { clearCourseActive } from '../../actions/dictionary/courseActive';
-// import { NONE, LIST, TABLE, MULTIPLE } from '../../reducers/timetable/lectureActive';
 import userShape from '../../shapes/UserShape';
 import courseShape from '../../shapes/CourseShape';
 
@@ -28,15 +28,15 @@ class CourseListTabs extends Component {
   }
 
   changeTab = (list) => {
-    const { search, setCurrentListDispatch/* , openSearchDispatch, closeSearchDispatch */, clearCourseActiveDispatch } = this.props;
+    const { search, setCurrentListDispatch, openSearchDispatch, closeSearchDispatch, clearCourseActiveDispatch } = this.props;
 
     setCurrentListDispatch(list);
 
     if (list === 'SEARCH' && (search.courses === null || search.courses.length === 0)) {
-      // openSearchDispatch();
+      openSearchDispatch();
     }
     else {
-      // closeSearchDispatch();
+      closeSearchDispatch();
     }
 
     clearCourseActiveDispatch();
@@ -68,14 +68,12 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  /*
   openSearchDispatch: () => {
     dispatch(openSearch());
   },
   closeSearchDispatch: () => {
     dispatch(closeSearch());
   },
-  */
   setListMajorCodesDispatch: (majors) => {
     dispatch(setListMajorCodes(majors));
   },
@@ -102,10 +100,8 @@ CourseListTabs.propTypes = {
   taken: PropTypes.shape({
     courses: PropTypes.arrayOf(courseShape),
   }).isRequired,
-  /*
   openSearchDispatch: PropTypes.func.isRequired,
   closeSearchDispatch: PropTypes.func.isRequired,
-  */
   setListMajorCodesDispatch: PropTypes.func.isRequired,
   setCurrentListDispatch: PropTypes.func.isRequired,
   clearCourseActiveDispatch: PropTypes.func.isRequired,
