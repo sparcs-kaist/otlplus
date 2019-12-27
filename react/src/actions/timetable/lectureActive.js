@@ -1,7 +1,15 @@
+export const RESET = 'RESET';
 export const SET_LECTURE_ACTIVE = 'SET_LECTURE_ACTIVE';
 export const CLEAR_LECTURE_ACTIVE = 'CLEAR_LECTURE_ACTIVE';
 export const SET_MULTIPLE_DETAIL = 'SET_MULTIPLE_DETAIL';
 export const CLEAR_MULTIPLE_DETAIL = 'CLEAR_MULTIPLE_DETAIL';
+
+
+export function reset() {
+  return {
+    type: RESET,
+  };
+}
 
 export function setLectureActive(lecture, from, clicked) {
     return {

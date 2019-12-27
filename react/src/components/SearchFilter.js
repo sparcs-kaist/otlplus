@@ -74,13 +74,13 @@ class SearchFilter extends Component {
 
   render() {
     const { allChecked } = this.state;
-    const { inputName, titleName, valueArr, nameArr } = this.props;
-    const mapCircle = (value, index) => (
+    const { inputName, titleName, options } = this.props;
+    const mapCircle = o => (
       <SearchCircle
-        key={index}
-        value={value}
+        key={o[0]}
+        value={o[0]}
         inputName={inputName}
-        circleName={nameArr[index]}
+        circleName={o[1]}
         clickCircle={this.clickCircle}
         allChecked={allChecked}
       />
@@ -91,7 +91,7 @@ class SearchFilter extends Component {
       <div className={classNames('attribute')}>
         <label>{ titleName }</label>
         <div>
-          {valueArr.map(mapCircle)}
+          {options.map(mapCircle)}
         </div>
       </div>
     );
@@ -102,8 +102,7 @@ SearchFilter.propTypes = {
   clickCircle: PropTypes.func.isRequired,
   inputName: PropTypes.string.isRequired,
   titleName: PropTypes.string.isRequired,
-  valueArr: PropTypes.arrayOf(PropTypes.string).isRequired,
-  nameArr: PropTypes.arrayOf(PropTypes.string).isRequired,
+  options: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
 };
 
 export default SearchFilter;

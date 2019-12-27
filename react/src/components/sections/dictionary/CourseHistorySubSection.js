@@ -13,12 +13,24 @@ import HistoryLecturesBlock from '../../blocks/HistoryLecturesBlock';
 
 
 class CourseHistorySubSection extends Component {
+  componentDidMount() {
+    this._fetchLectures();
+  }
+
+
   componentDidUpdate(prevProps, prevState, snapshot) {
-    const { course, setLecturesDispatch } = this.props;
+    const { course } = this.props;
 
     if (prevProps.clicked && (prevProps.course.id === course.id)) {
       return;
     }
+
+    this._fetchLectures();
+  }
+
+
+  _fetchLectures = () => {
+    const { course, setLecturesDispatch } = this.props;
 
     axios.get(`${BASE_URL}/api/courses/${course.id}/lectures`, {
     })
