@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 import axios from '../../common/presetAxios';
@@ -103,6 +104,7 @@ class TimetableTabs extends Component {
   }
 
   render() {
+    const { t } = this.props;
     const { timetables, currentTimetable } = this.props;
 
     if (timetables && timetables.length) {
@@ -111,7 +113,7 @@ class TimetableTabs extends Component {
           { timetables.map((timetable, idx) => (
             <div className={classNames((timetable.id === currentTimetable.id ? 'active' : ''))} key={timetable.id} onClick={() => this.changeTab(timetable)}>
               <span>
-                {`시간표 ${idx + 1}`}
+                {`${t('ui.others.table')} ${idx + 1}`}
               </span>
               <span onClick={event => this.duplicateTable(event, timetable)}><i className={classNames('icon', 'icon--duplicate-table')} /></span>
               <span onClick={event => this.deleteTable(event, timetable)}><i className={classNames('icon', 'icon--delete-table')} /></span>
@@ -126,7 +128,7 @@ class TimetableTabs extends Component {
     return (
       <div className={classNames('tabs--timetable')}>
         <div style={{ pointerEvents: 'none' }}>
-          <span>불러오는 중</span>
+          <span>{t('ui.placeholder.loading')}</span>
         </div>
       </div>
     );
@@ -175,4 +177,4 @@ TimetableTabs.propTypes = {
 };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(TimetableTabs);
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(TimetableTabs));

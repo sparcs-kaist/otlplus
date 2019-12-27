@@ -76,32 +76,32 @@ def _lecture_to_dict(lecture):
 
 def _user_department(user):
     if not user.is_authenticated():
-        return [{'code':'Basic', 'name':_(u' 기초 과목')}]
+        return [{'code':'Basic', 'name':u' 기초 과목', 'name_en':u' Basic Course'}]
 
     u = UserProfile.objects.get(user=user)
 
     if (u.department==None) or (u.department.code in ['AA', 'ICE']):
-        departments = [{'code':'Basic', 'name':_(u' 기초 과목')}]
+        departments = [{'code':'Basic', 'name':u' 기초 과목', 'name_en':u' Basic Course'}]
     else:
-        departments = [{'code':u.department.code, 'name':getattr(u.department,_('name'))+_(u' 전공')}]
+        departments = [{'code':u.department.code, 'name':u.department.name+u' 전공', 'name_en':u.department.name_en+u' Major'}]
 
     for d in u.majors.all():
-        data = {'code':d.code, 'name':getattr(d,_('name'))+_(u' 전공')}
+        data = {'code':d.code, 'name':d.name+u' 전공', 'name_en':d.name_en+u' Major'}
         if data not in departments:
             departments.append(data)
 
     for d in u.minors.all():
-        data = {'code':d.code, 'name':getattr(d,_('name'))+_(u' 전공')}
+        data = {'code':d.code, 'name':d.name+u' 전공', 'name_en':d.name_en+u' Major'}
         if data not in departments:
             departments.append(data)
 
     for d in u.specialized_major.all():
-        data = {'code':d.code, 'name':getattr(d,_('name'))+_(u' 전공')}
+        data = {'code':d.code, 'name':d.name+u' 전공', 'name_en':d.name_en+u' Major'}
         if data not in departments:
             departments.append(data)
 
     for d in u.favorite_departments.all():
-        data = {'code':d.code, 'name':getattr(d,_('name'))+_(u' 전공')}
+        data = {'code':d.code, 'name':d.name+u' 전공', 'name_en':d.name_en+u' Major'}
         if data not in departments:
             departments.append(data)
 

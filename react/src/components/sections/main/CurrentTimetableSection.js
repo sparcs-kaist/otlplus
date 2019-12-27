@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 import CurrentTimetableBlock from '../../blocks/CurrentTimetableBlock';
@@ -35,6 +36,7 @@ class CurrentTimetableSection extends Component {
   }
 
   render() {
+    const { t } = this.props;
     const { cellWidth, today } = this.state;
     const { user } = this.props;
 
@@ -117,7 +119,7 @@ class CurrentTimetableSection extends Component {
         </div>
         <div className={classNames('buttons')}>
           <Link to="/timetable" className={classNames('text-button')}>
-            자세히 보기
+            {t('ui.button.seeDetails')}
           </Link>
         </div>
       </div>
@@ -137,4 +139,4 @@ CurrentTimetableSection.propTypes = {
 };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(CurrentTimetableSection);
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(CurrentTimetableSection));

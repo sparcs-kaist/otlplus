@@ -1,16 +1,17 @@
 import React from 'react';
 import { pure } from 'recompose';
+import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 import CourseShape from '../../shapes/CourseShape';
 
 
 // eslint-disable-next-line arrow-body-style
-const CourseSimpleBlock = ({ course }) => {
+const CourseSimpleBlock = ({ t, course }) => {
   return (
     <div className={classNames('block', 'block--course-simple')}>
       <div className={classNames('block--course-simple__title')}>
-        { course.title }
+        { course[t('js.property.title')] }
       </div>
       <div className={classNames('block--course-simple__subtitle')}>
         { course.old_code }
@@ -24,4 +25,4 @@ CourseSimpleBlock.propTypes = {
 };
 
 
-export default pure(CourseSimpleBlock);
+export default withTranslation()(pure(CourseSimpleBlock));

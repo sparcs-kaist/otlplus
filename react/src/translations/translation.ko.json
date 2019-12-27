@@ -1,0 +1,188 @@
+{
+  "js": {
+    "property": {
+      "title": "title",
+      "type": "type",
+      "department_name": "department_name",
+      "name": "name",
+      "classroom": "classroom",
+      "exam": "exam",
+      "common_title": "common_title",
+      "class_title": "class_title",
+      "professor_short": "professor_short",
+      "professors_str": "professors_str"
+    }
+  },
+  "jsx": {
+    "className": {
+      "fixedByLang": "fixed-ko",
+      "semesterByLang": "semester-ko"
+    }
+  },
+  "ui": {
+    "title": {
+      "reviews": "과목 후기",
+      "exams": "시험시간표",
+      "courseHistory": "개설 이력",
+      "relatedCourses": "연관 과목",
+      "latestReviews": "따끈따끈 과목후기",
+      "famousReviews": "사랑받는 과목후기",
+      "writeReview": "후기 작성"
+    },
+    "tab": {
+      "search": "검색",
+      "major": "전공",
+      "humanity": "인문사회선택",
+      "wishlist": "장바구니",
+      "taken": "내가 들은"
+    },
+    "button": {
+      "unfix": "고정해제",
+      "syllabus": "실라버스",
+      "dictionary": "과목사전",
+      "search": "검색",
+      "cancel": "취소",
+      "like": "좋아요",
+      "report": "신고하기",
+      "upload": "업로드",
+      "seeDetails": "자세히 보기",
+      "goToAcademicSystem": "학사시스템 바로가기",
+      "seeMoreReviews": "후기 더 보기",
+      "writeMoreReviews": "후기 더 작성하기"
+    },
+    "attribute": {
+      "department": "학과",
+      "type": "구분",
+      "professor": "교수",
+      "classroom": "장소",
+      "limit": "정원",
+      "exam": "시험",
+      "classification": "분류",
+      "description": "설명"
+    },
+    "score": {
+      "language": "언어",
+      "credit": "학점",
+      "au": "AU",
+      "competition": "경쟁률",
+      "likes": "추천",
+      "grade": "성적",
+      "load": "널널",
+      "speech": "강의"
+    },
+    "placeholder": {
+      "loading": "불러오는 중",
+      "noResults": "결과 없음",
+      "reviewContent": "학점, 로드 등의 평가에 대하여 설명해주세요."
+    },
+    "search": {
+      "type": "구분",
+      "department": "학과",
+      "level": "학년",
+      "time": "시간"
+    },
+    "type": {
+      "basicRequired": "기초필수",
+      "basicElective": "기초선택",
+      "majorRequired": "전공필수",
+      "majorElective": "전공선택",
+      "humanitiesSocialElective": "인문사회선택",
+      "etc": "기타",
+      "basicRequiredShort": "기필",
+      "basicElectiveShort": "기선",
+      "majorRequiredShort": "전필",
+      "majorElectiveShort": "전선",
+      "humanitiesSocialElectiveShort": "인선",
+      "mandatoryGeneralCourseShort": "교필",
+      "otherElectiveShort": "자선",
+      "generalRequiredShort": "공통",
+      "electiveGraduateShort": "석박",
+      "allShort": "전체",
+      "etcShort": "기타"
+    },
+    "department": {
+      "hssShort": "인문",
+      "aeShort": "항공",
+      "bisShort": "바공",
+      "bsShort": "생명",
+      "cbeShort": "생화공",
+      "ceShort": "건환",
+      "chShort": "화학",
+      "csShort": "전산",
+      "eeShort": "전자",
+      "idShort": "산디",
+      "ieShort": "산공",
+      "masShort": "수리",
+      "meShort": "기계",
+      "nqeShort": "원양",
+      "msbShort": "기경",
+      "msShort": "신소재",
+      "phShort": "물리",
+      "allShort": "전체",
+      "etcShort": "기타"
+    },
+    "level": {
+      "100sShort": "100번대",
+      "200sShort": "200번대",
+      "300sShort": "300번대",
+      "400sShort": "400번대",
+      "allShort": "전체",
+      "etcShort": "기타"
+    },
+    "day": {
+      "monday": "월요일",
+      "tuesday": "화요일",
+      "wednesday": "수요일",
+      "thursday": "목요일",
+      "friday": "금요일",
+      "saturday": "토요일",
+      "sunday": "일요일",
+      "mondayShort": "월",
+      "tuesdayShort": "화",
+      "wednesdayShort": "수",
+      "thursdayShort": "목",
+      "fridayShort": "금",
+      "saturdayShort": "토",
+      "sundayShort": "일"
+    },
+    "semester": {
+      "spring": "봄",
+      "summer": "여름",
+      "fall": "가을",
+      "winter": "겨울",
+      "springSemester": "봄학기",
+      "summerSemester": "여름학기",
+      "fallSemester": "가을학기",
+      "winterSemester": "겨울학기"
+    },
+    "schedule": {
+      "courseDropDeadline": "수강취소 마감"
+    },
+    "message": {
+      "blankSearch": "검색 조건을 선택해 주세요.",
+      "timetableOverlap": "시간표가 겹치는 과목은 추가할 수 없습니다."
+    },
+    "others": {
+      "table": "시간표",
+      "examOfDay": "{{day}} 시험",
+      "creditCount": "{{count}}학점",
+      "auCount": "{{count}}AU",
+      "dayCount": "{{count}}일",
+      "hourCount": "{{count}}시간",
+      "minuteCount": "{{count}}분",
+      "secondCount": "{{count}}초",
+      "multipleDetailCount": "{{count}}개의 과목",
+      "dragTimetable": "시간표에서 드래그",
+      "notOffered": "미개설"
+    },
+    "menu": {
+      "timetable": "모의시간표",
+      "dictionary": "과목사전",
+      "toggleLang": "English",
+      "notifications": "알림",
+      "signIn": "로그인",
+      "credit": "만든 사람들",
+      "licences": "라이선스"
+    }
+  }
+}

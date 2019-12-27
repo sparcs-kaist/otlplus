@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 import axios from '../../../common/presetAxios';
@@ -127,14 +128,15 @@ class CourseListSection extends Component {
 
 
   render() {
+    const { t } = this.props;
     const { courseActive, currentList, searchOpen, search, major, humanity, taken } = this.props;
 
     const mapCourses = (courses) => {
       if (!courses) {
-        return <div className={classNames('list-placeholder')}><div>불러오는 중</div></div>;
+        return <div className={classNames('list-placeholder')}><div>{t('ui.placeholder.loading')}</div></div>;
       }
       if (courses.length === 0) {
-        return <div className={classNames('list-placeholder')}><div>결과 없음</div></div>;
+        return <div className={classNames('list-placeholder')}><div>{t('ui.placeholder.noResults')}</div></div>;
       }
       return courses.map(c => (
         <CourseBlock
@@ -156,7 +158,7 @@ class CourseListSection extends Component {
           { searchOpen ? <CourseSearchSubSection /> : null }
           <div className={classNames('title', 'title--search')} onClick={() => this.showSearch()}>
             <i className={classNames('icon', 'icon--search')} />
-            <span>검색</span>
+            <span>{t('ui.tab.search')}</span>
           </div>
           <Scroller>
             { mapCourses(search.courses) }
@@ -168,7 +170,7 @@ class CourseListSection extends Component {
       return (
         <div className={classNames('section-content', 'section-content--flex', 'section-content--course-list')}>
           <div className={classNames('title')}>
-            {major[currentList].name}
+            {major[currentList][t('js.property.name')]}
           </div>
           <Scroller>
             { mapCourses(major[currentList].courses) }
@@ -180,7 +182,7 @@ class CourseListSection extends Component {
       return (
         <div className={classNames('section-content', 'section-content--flex', 'section-content--course-list')}>
           <div className={classNames('title')}>
-            인문사회선택
+            {t('ui.tab.humanity')}
           </div>
           <Scroller>
             { mapCourses(humanity.courses) }
@@ -192,7 +194,7 @@ class CourseListSection extends Component {
       return (
         <div className={classNames('section-content', 'section-content--flex', 'section-content--course-list')}>
           <div className={classNames('title')}>
-            내가 들은 과목
+            {t('ui.tab.taken')}
           </div>
           <Scroller>
             { mapCourses(taken.courses) }
@@ -264,4 +266,4 @@ CourseListSection.propTypes = {
 };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(CourseListSection);
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(CourseListSection));

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 import axios from '../../../common/presetAxios';
@@ -11,13 +12,6 @@ import { clearListsLectures } from '../../../actions/timetable/list';
 import { setSemester } from '../../../actions/timetable/semester';
 import { clearTimetables } from '../../../actions/timetable/timetable';
 
-
-const semesterName = {
-  1: '봄',
-  2: '여름',
-  3: '가을',
-  4: '겨울',
-};
 
 class SemesterSection extends Component {
   constructor(props) {
@@ -74,12 +68,20 @@ class SemesterSection extends Component {
   }
 
   render() {
+    const { t } = this.props;
     const { year, semester } = this.props;
     const { startYear, startSemester, endYear, endSemester } = this.state;
 
+    const semesterName = {
+      1: t('ui.semester.spring'),
+      2: t('ui.semester.summer'),
+      3: t('ui.semester.fall'),
+      4: t('ui.semester.winter'),
+    };
+
     if (year && semester) {
       return (
-        <div className={classNames('section', 'section--semester')}>
+        <div className={classNames('section', 'section--semester', t('jsx.className.semesterByLang'))}>
           <div className={classNames(((year === startYear) && (semester === startSemester) ? 'disable' : ''))} onClick={() => this.semesterPrev()}><i className={classNames('icon', 'icon--semester-prev')} /></div>
           <span>{`${year} ${semesterName[semester]}`}</span>
           <div className={classNames(((year === endYear) && (semester === endSemester) ? 'disable' : ''))} onClick={() => this.semesterNext()}><i className={classNames('icon', 'icon--semester-next')} /></div>
@@ -87,9 +89,9 @@ class SemesterSection extends Component {
       );
     }
     return (
-      <div className={classNames('section', 'section--semester')}>
+      <div className={classNames('section', 'section--semester', t('jsx.className.semesterByLang'))}>
         <div className={classNames('disable')}><i className={classNames('icon', 'icon--semester-prev')} /></div>
-        <span>불러오는 중</span>
+        <span>{t('ui.placeholder.loading')}</span>
         <div className={classNames('disable')}><i className={classNames('icon', 'icon--semester-next')} /></div>
       </div>
     );
@@ -126,4 +128,4 @@ SemesterSection.propTypes = {
 };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(SemesterSection);
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(SemesterSection));

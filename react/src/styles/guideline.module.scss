@@ -16,6 +16,10 @@ header, footer {
         text-decoration: none;
     }
 
+    button {
+        cursor: pointer;
+    }
+
     .identity-bar {
         margin-left: -$side-filling;
         margin-right: -$side-filling;

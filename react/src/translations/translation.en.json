@@ -1,0 +1,194 @@
+{
+  "js": {
+    "property": {
+      "title": "title_en",
+      "type": "type_en",
+      "department_name": "department_name_en",
+      "name": "name_en",
+      "classroom": "classroom_en",
+      "exam": "exam_en",
+      "common_title": "common_title_en",
+      "class_title": "class_title_en",
+      "professor_short": "professor_short_en",
+      "professors_str": "professors_str_en"
+    }
+  },
+  "jsx": {
+    "className": {
+      "fixedByLang": "fixed-en",
+      "semesterByLang": "semester-en"
+    }
+  },
+  "ui": {
+    "title": {
+      "reviews": "Reviews",
+      "exams": "Exams",
+      "courseHistory": "Course History",
+      "relatedCourses": "Related Courses",
+      "latestReviews": "Latest Reviews",
+      "famousReviews": "Famous Reviews",
+      "writeReview": "Write Review"
+    },
+    "tab": {
+      "search": "Search",
+      "major": "Major",
+      "humanity": "Humanities & Social Elective",
+      "wishlist": "Wishlist",
+      "taken": "Taken"
+    },
+    "button": {
+      "unfix": "Unfix",
+      "syllabus": "Syllabus",
+      "dictionary": "Dictionary",
+      "search": "Search",
+      "cancel": "Cancel",
+      "like": "Like",
+      "report": "Report",
+      "upload": "Upload",
+      "seeDetails": "See Details",
+      "goToAcademicSystem": "Go to Academic System",
+      "seeMoreReviews": "See More Reviews",
+      "writeMoreReviews": "Write More Reviews"
+    },
+    "attribute": {
+      "department": "Dept.",
+      "type": "Type",
+      "professor": "Prof.",
+      "classroom": "Room",
+      "limit": "Limit",
+      "exam": "Exam",
+      "classification": "Class.",
+      "description": "Descr."
+    },
+    "score": {
+      "language": "Language",
+      "credit": "Credit",
+      "au": "AU",
+      "competition": "Competition",
+      "likes": "Likes",
+      "grade": "Grade",
+      "load": "Load",
+      "speech": "Speech"
+    },
+    "placeholder": {
+      "loading": "Loading",
+      "noResults": "No Results",
+      "reviewContent": "Please describe your evaluation on the lecture, like grade or load."
+    },
+    "search": {
+      "type": "Type",
+      "department": "Dept.",
+      "level": "Level",
+      "time": "Time"
+    },
+    "type": {
+      "basicRequired": "Basic Required",
+      "basicElective": "Basic Elective",
+      "majorRequired": "Major Required",
+      "majorElective": "Major Elective",
+      "humanitiesSocialElective": "Humanities & Social Elective",
+      "etc": "Others",
+      "basicRequiredShort": "BR",
+      "basicElectiveShort": "BE",
+      "majorRequiredShort": "MR",
+      "majorElectiveShort": "ME",
+      "humanitiesSocialElectiveShort": "HSE",
+      "mandatoryGeneralCourseShort": "MGC",
+      "otherElectiveShort": "OE",
+      "generalRequiredShort": "GR",
+      "electiveGraduateShort": "EG",
+      "allShort": "ALL",
+      "etcShort": "ETC"
+    },
+    "department": {
+      "hssShort": "HSS",
+      "aeShort": "AE",
+      "bisShort": "BiS",
+      "bsShort": "BS",
+      "cbeShort": "CBE",
+      "ceShort": "CE",
+      "chShort": "CH",
+      "csShort": "CS",
+      "eeShort": "EE",
+      "idShort": "ID",
+      "ieShort": "IE",
+      "masShort": "MAS",
+      "meShort": "ME",
+      "nqeShort": "NQE",
+      "msbShort": "MSB",
+      "msShort": "MS",
+      "phShort": "PH",
+      "allShort": "ALL",
+      "etcShort": "ETC"
+    },
+    "level": {
+      "100sShort": "100s",
+      "200sShort": "200s",
+      "300sShort": "300s",
+      "400sShort": "400s",
+      "allShort": "ALL",
+      "etcShort": "ETC"
+    },
+    "day": {
+      "monday": "Monday",
+      "tuesday": "Tuesday",
+      "wednesday": "Wednesday",
+      "thursday": "Thursday",
+      "friday": "Friday",
+      "saturday": "Saturday",
+      "sunday": "Sunday",
+      "mondayShort": "Mon",
+      "tuesdayShort": "Tue",
+      "wednesdayShort": "Wed",
+      "thursdayShort": "Thu",
+      "fridayShort": "Fri",
+      "saturdayShort": "Sat",
+      "sundayShort": "Sun"
+    },
+    "semester": {
+      "spring": "Spring",
+      "summer": "Summer",
+      "fall": "Fall",
+      "winter": "Winter",
+      "springSemester": "Spring Semester",
+      "summerSemester": "Summer Semester",
+      "fallSemester": "Fall Semester",
+      "winterSemester": "Winter Semester"
+    },
+    "schedule": {
+      "courseDropDeadline": "Deadline to Course Drop"
+    },
+    "message": {
+      "blankSearch": "Please select search conditions.",
+      "timetableOverlap": "You can't add lecture overlapping."
+    },
+    "others": {
+      "table": "Table",
+      "examOfDay": "Exams on {{day}}",
+      "creditCount": "{{count}} credit",
+      "creditCount_plural": "{{count}} credits",
+      "auCount": "{{count}} AU",
+      "auCount_plural": "{{count}} AUs",
+      "dayCount": "{{count}} day",
+      "dayCount_plural": "{{count}} days",
+      "hourCount": "{{count}} hour",
+      "hourCount_plural": "{{count}} hours",
+      "minuteCount": "{{count}} minute",
+      "minuteCount_plural": "{{count}} minutes",
+      "secondCount": "{{count}} seconds",
+      "secondCount_plural": "{{count}} seconds",
+      "multipleDetailCount": "{{count}} lectures",
+      "dragTimetable": "Drag timetable",
+      "notOffered": "Not Offered"
+    },
+    "menu": {
+      "timetable": "Timetable",
+      "dictionary": "Dictionary",
+      "toggleLang": "한국어",
+      "notifications": "Notifications",
+      "signIn": "Sign In",
+      "credit": "Credit",
+      "licences": "Licences"
+    }
+  }
+}

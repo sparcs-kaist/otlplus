@@ -10,6 +10,7 @@ const initialState = {
     codes: ['Basic'],
     Basic: {
       name: '기초 과목',
+      name_en: 'Basic Course',
       courses: null,
     },
   },
@@ -54,6 +55,7 @@ const list = (state = initialState, action) => {
             {
               [major.code]: {
                 name: major.name,
+                name_en: major.name_en,
                 courses: null,
               },
             }
