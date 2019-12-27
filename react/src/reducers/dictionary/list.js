@@ -10,7 +10,7 @@ const initialState = {
     codes: ['Basic'],
     Basic: {
       name: '기초 과목',
-      name_em: 'Basic Course',
+      name_en: 'Basic Course',
       courses: null,
     },
   },
