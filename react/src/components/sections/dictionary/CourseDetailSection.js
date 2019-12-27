@@ -8,7 +8,7 @@ import { appBoundClassNames as classNames } from '../../../common/boundClassName
 import { clearCourseActive } from '../../../actions/dictionary/courseActive';
 import Scroller from '../../Scroller';
 import CourseShape from '../../../shapes/CourseShape';
-import CourseRelatedSection from './CourseRelatedSection';
+import CourseRelatedSubSection from './CourseRelatedSection';
 import CourseHistorySubSection from './CourseHistorySubSection';
 import CourseReviewsSubSection from './CourseReviewsSubSection';
 
@@ -126,7 +126,7 @@ class CourseDetailSection extends Component {
               </div>
             </div>
             <div className={classNames('divider')} />
-            <CourseRelatedSection />
+            <CourseRelatedSubSection />
             <div className={classNames('divider')} />
             <CourseHistorySubSection />
             <div className={classNames('divider')} />

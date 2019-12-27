@@ -8,7 +8,7 @@ import CourseShape from '../../../shapes/CourseShape';
 import courses from '../../../dummy/courses';
 
 
-class CourseDetailSection extends Component {
+class CourseRelatedSubSection extends Component {
   render() {
     const { t } = this.props;
     const { course } = this.props;
@@ -45,9 +45,9 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
 });
 
-CourseDetailSection.propTypes = {
+CourseRelatedSubSection.propTypes = {
   course: CourseShape,
 };
 
 
-export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(CourseDetailSection));
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(CourseRelatedSubSection));
