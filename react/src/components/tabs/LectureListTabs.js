@@ -5,13 +5,30 @@ import PropTypes from 'prop-types';
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 
 import { clearLectureActive } from "../../actions/timetable/lectureActive";
-import { setCurrentList } from '../../actions/timetable/list';
+import { setListMajorCodes, setCurrentList } from '../../actions/timetable/list';
 import { openSearch, closeSearch } from '../../actions/timetable/search';
 import { NONE, LIST, TABLE, MULTIPLE } from '../../reducers/timetable/lectureActive';
+import userShape from '../../shapes/UserShape';
 import lectureShape from '../../shapes/LectureShape';
 
 
 class LectureListTabs extends Component {
+  componentDidMount() {
+    const { user, setListMajorCodesDispatch } = this.props;
+
+    if (user) {
+      setListMajorCodesDispatch(user.departments);
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    const { user, setListMajorCodesDispatch } = this.props;
+
+    if (user && (user !== prevProps.user)) {
+      setListMajorCodesDispatch(user.departments);
+    }
+  }
+
   changeTab = (list) => {
     const { search, lectureActiveFrom, setCurrentListDispatch, openSearchDispatch, closeSearchDispatch, clearLectureActiveDispatch } = this.props;
 
@@ -46,6 +63,7 @@ class LectureListTabs extends Component {
 }
 
 const mapStateToProps = state => ({
+  user: state.common.user.user,
   currentList: state.timetable.list.currentList,
   search: state.timetable.list.search,
   major: state.timetable.list.major,
@@ -61,6 +79,9 @@ const mapDispatchToProps = dispatch => ({
   closeSearchDispatch: () => {
     dispatch(closeSearch());
   },
+  setListMajorCodesDispatch: (majors) => {
+    dispatch(setListMajorCodes(majors));
+  },
   setCurrentListDispatch: (list) => {
     dispatch(setCurrentList(list));
   },
@@ -70,6 +91,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 LectureListTabs.propTypes = {
+  user: userShape,
   currentList: PropTypes.string.isRequired,
   search: PropTypes.shape({
     courses: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)),
@@ -86,6 +108,7 @@ LectureListTabs.propTypes = {
   lectureActiveFrom: PropTypes.oneOf([NONE, LIST, TABLE, MULTIPLE]).isRequired,
   openSearchDispatch: PropTypes.func.isRequired,
   closeSearchDispatch: PropTypes.func.isRequired,
+  setListMajorCodesDispatch: PropTypes.func.isRequired,
   setCurrentListDispatch: PropTypes.func.isRequired,
   clearLectureActiveDispatch: PropTypes.func.isRequired,
 };

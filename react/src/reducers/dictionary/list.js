@@ -1,4 +1,4 @@
-import { SET_CURRENT_LIST, SET_LIST_MAJOR_CODES, SET_LIST_COURSES, SET_LIST_MAJOR_COURSES, CLEAR_LISTS_COURSES, CLEAR_SEARCH_LIST_COURSES } from '../../actions/dictionary/list';
+import { RESET, SET_CURRENT_LIST, SET_LIST_MAJOR_CODES, SET_LIST_COURSES, SET_LIST_MAJOR_COURSES, CLEAR_LISTS_COURSES, CLEAR_SEARCH_LIST_COURSES } from '../../actions/dictionary/list';
 
 
 const initialState = {
@@ -24,6 +24,9 @@ const initialState = {
 
 const list = (state = initialState, action) => {
   switch (action.type) {
+    case RESET: {
+      return initialState;
+    }
     case SET_CURRENT_LIST: {
       return Object.assign({}, state, {
         currentList: action.list,

@@ -15,12 +15,24 @@ import userShape from '../../../shapes/UserShape';
 
 
 class CourseReviewsSubSection extends Component {
+  componentDidMount() {
+    this._fetchLectures();
+  }
+
+
   componentDidUpdate(prevProps, prevState, snapshot) {
-    const { course, setReviewsDispatch } = this.props;
+    const { course } = this.props;
 
     if (prevProps.clicked && (prevProps.course.id === course.id)) {
       return;
     }
+
+    this._fetchLectures();
+  }
+
+
+  _fetchLectures = () => {
+    const { course, setReviewsDispatch } = this.props;
 
     axios.get(`${BASE_URL}/api/courses/${course.id}/comments`, {
     })

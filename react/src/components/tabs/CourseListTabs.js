@@ -4,23 +4,39 @@ import PropTypes from 'prop-types';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 
-import { /* openSearch, closeSearch, */setCurrentList } from '../../actions/dictionary/list';
+import { openSearch, closeSearch } from '../../actions/dictionary/search';
+import { setListMajorCodes, setCurrentList } from '../../actions/dictionary/list';
 import { clearCourseActive } from '../../actions/dictionary/courseActive';
-// import { NONE, LIST, TABLE, MULTIPLE } from '../../reducers/timetable/lectureActive';
+import userShape from '../../shapes/UserShape';
 import courseShape from '../../shapes/CourseShape';
 
 
 class CourseListTabs extends Component {
+  componentDidMount() {
+    const { user, setListMajorCodesDispatch } = this.props;
+
+    if (user) {
+      setListMajorCodesDispatch(user.departments);
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    const { user, setListMajorCodesDispatch } = this.props;
+    if (user && (user !== prevProps.user)) {
+      setListMajorCodesDispatch(user.departments);
+    }
+  }
+
   changeTab = (list) => {
-    const { search, setCurrentListDispatch/* , openSearchDispatch, closeSearchDispatch */, clearCourseActiveDispatch } = this.props;
+    const { search, setCurrentListDispatch, openSearchDispatch, closeSearchDispatch, clearCourseActiveDispatch } = this.props;
 
     setCurrentListDispatch(list);
 
     if (list === 'SEARCH' && (search.courses === null || search.courses.length === 0)) {
-      // openSearchDispatch();
+      openSearchDispatch();
     }
     else {
-      // closeSearchDispatch();
+      closeSearchDispatch();
     }
 
     clearCourseActiveDispatch();
@@ -43,6 +59,7 @@ class CourseListTabs extends Component {
 }
 
 const mapStateToProps = state => ({
+  user: state.common.user.user,
   currentList: state.dictionary.list.currentList,
   search: state.dictionary.list.search,
   major: state.dictionary.list.major,
@@ -51,14 +68,15 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  /*
   openSearchDispatch: () => {
     dispatch(openSearch());
   },
   closeSearchDispatch: () => {
     dispatch(closeSearch());
   },
-  */
+  setListMajorCodesDispatch: (majors) => {
+    dispatch(setListMajorCodes(majors));
+  },
   setCurrentListDispatch: (list) => {
     dispatch(setCurrentList(list));
   },
@@ -68,6 +86,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 CourseListTabs.propTypes = {
+  user: userShape,
   currentList: PropTypes.string.isRequired,
   search: PropTypes.shape({
     courses: PropTypes.arrayOf(courseShape),
@@ -81,10 +100,9 @@ CourseListTabs.propTypes = {
   taken: PropTypes.shape({
     courses: PropTypes.arrayOf(courseShape),
   }).isRequired,
-  /*
   openSearchDispatch: PropTypes.func.isRequired,
   closeSearchDispatch: PropTypes.func.isRequired,
-  */
+  setListMajorCodesDispatch: PropTypes.func.isRequired,
   setCurrentListDispatch: PropTypes.func.isRequired,
   clearCourseActiveDispatch: PropTypes.func.isRequired,
 };

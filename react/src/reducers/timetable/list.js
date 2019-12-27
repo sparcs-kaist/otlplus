@@ -1,4 +1,4 @@
-import { SET_CURRENT_LIST, ADD_LECTURE_TO_CART, DELETE_LECTURE_FROM_CART, SET_LIST_MAJOR_CODES, SET_LIST_LECTURES, SET_LIST_MAJOR_LECTURES, CLEAR_LISTS_LECTURES, CLEAR_SEARCH_LIST_LECTURES, SET_MOBILE_SHOW_LECTURE_LIST } from '../../actions/timetable/list';
+import { RESET, SET_CURRENT_LIST, ADD_LECTURE_TO_CART, DELETE_LECTURE_FROM_CART, SET_LIST_MAJOR_CODES, SET_LIST_LECTURES, SET_LIST_MAJOR_LECTURES, CLEAR_LISTS_LECTURES, CLEAR_SEARCH_LIST_LECTURES, SET_MOBILE_SHOW_LECTURE_LIST } from '../../actions/timetable/list';
 
 
 const initialState = {
@@ -39,6 +39,9 @@ const list = (state = initialState, action) => {
   };
 
   switch (action.type) {
+    case RESET: {
+      return initialState;
+    }
     case SET_CURRENT_LIST: {
       return Object.assign({}, state, {
         currentList: action.list,
