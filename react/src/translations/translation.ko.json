@@ -24,7 +24,10 @@
       "reviews": "과목 후기",
       "exams": "시험시간표",
       "courseHistory": "개설 이력",
-      "relatedCourses": "연관 과목"
+      "relatedCourses": "연관 과목",
+      "latestReviews": "따끈따끈 과목후기",
+      "famousReviews": "사랑받는 과목후기",
+      "writeReview": "후기 작성"
     },
     "tab": {
       "search": "검색",
@@ -41,7 +44,11 @@
       "cancel": "취소",
       "like": "좋아요",
       "report": "신고하기",
-      "upload": "업로드"
+      "upload": "업로드",
+      "seeDetails": "자세히 보기",
+      "goToAcademicSystem": "학사시스템 바로가기",
+      "seeMoreReviews": "후기 더 보기",
+      "writeMoreReviews": "후기 더 작성하기"
     },
     "attribute": {
       "department": "학과",
@@ -142,7 +149,14 @@
       "spring": "봄",
       "summer": "여름",
       "fall": "가을",
-      "winter": "겨울"
+      "winter": "겨울",
+      "springSemester": "봄학기",
+      "summerSemester": "여름학기",
+      "fallSemester": "가을학기",
+      "winterSemester": "겨울학기"
+    },
+    "schedule": {
+      "courseDropDeadline": "수강취소 마감"
     },
     "message": {
       "blankSearch": "검색 조건을 선택해 주세요.",
@@ -153,6 +167,10 @@
       "examOfDay": "{{day}} 시험",
       "creditCount": "{{count}}학점",
       "auCount": "{{count}}AU",
+      "dayCount": "{{count}}일",
+      "hourCount": "{{count}}시간",
+      "minuteCount": "{{count}}분",
+      "secondCount": "{{count}}초",
       "multipleDetailCount": "{{count}}개의 과목",
       "dragTimetable": "시간표에서 드래그",
       "notOffered": "미개설"
