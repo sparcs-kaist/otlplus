@@ -3,12 +3,16 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
+
 import CourseListSection from '../components/sections/dictionary/CourseListSection';
 import CourseDetailSection from '../components/sections/dictionary/CourseDetailSection';
 import CourseListTabs from '../components/tabs/CourseListTabs';
 import courseActiveShape from '../shapes/CourseActiveShape';
-import { setCourseActive } from '../actions/dictionary/courseActive';
-import { setCurrentList, setListCourses } from '../actions/dictionary/list';
+
+import { reset as resetCourseActive, setCourseActive } from '../actions/dictionary/courseActive';
+import { reset as resetList, setCurrentList, setListCourses } from '../actions/dictionary/list';
+import { reset as resetSearch } from '../actions/dictionary/search';
+
 import axios from '../common/presetAxios';
 import { BASE_URL } from '../common/constants';
 
@@ -45,6 +49,14 @@ class DictionaryPage extends Component {
     }
   }
 
+  componentWillUnmount() {
+    const { resetCourseActiveDispatch, resetListDispatch, resetSearchDispatch } = this.props;
+
+    resetCourseActiveDispatch();
+    resetListDispatch();
+    resetSearchDispatch();
+  }
+
   render() {
     const { courseActive } = this.props;
 
@@ -73,6 +85,15 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
+  resetCourseActiveDispatch: () => {
+    dispatch(resetCourseActive());
+  },
+  resetListDispatch: () => {
+    dispatch(resetList());
+  },
+  resetSearchDispatch: () => {
+    dispatch(resetSearch());
+  },
   setCourseActiveDispatch: (lecture, clicked) => {
     dispatch(setCourseActive(lecture, clicked));
   },
@@ -93,6 +114,9 @@ DictionaryPage.propTypes = {
       startSearchKeyword: PropTypes.string,
     }),
   }).isRequired,
+  resetCourseActiveDispatch: PropTypes.func.isRequired,
+  resetListDispatch: PropTypes.func.isRequired,
+  resetSearchDispatch: PropTypes.func.isRequired,
   setCourseActiveDispatch: PropTypes.func.isRequired,
   setCurrentListDispatch: PropTypes.func.isRequired,
   setListCoursesDispatch: PropTypes.func.isRequired,

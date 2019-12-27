@@ -1,7 +1,15 @@
+export const RESET = 'RESET';
 export const SET_COURSE_ACTIVE = 'SET_COURSE_ACTIVE';
 export const CLEAR_COURSE_ACTIVE = 'CLEAR_COURSE_ACTIVE';
 export const SET_REVIEWS = 'SET_REVIEWS';
 export const SET_LECTURES = 'SET_LECTURES';
+
+
+export function reset() {
+  return {
+    type: RESET,
+  };
+}
 
 export function setCourseActive(course, clicked) {
   return {
