@@ -1,4 +1,4 @@
-import { RESET, OPEN_SEARCH, CLOSE_SEARCH, DRAG_SEARCH } from '../../actions/timetable/search';
+import { RESET, OPEN_SEARCH, CLOSE_SEARCH, DRAG_SEARCH, CLEAR_DRAG } from '../../actions/timetable/search';
 
 const initialState = {
   open: true,
@@ -31,6 +31,13 @@ const search = (state = initialState, action) => {
         start: action.start,
         end: action.end,
         day: action.day,
+      });
+    }
+    case CLEAR_DRAG: {
+      return Object.assign({}, state, {
+        start: null,
+        end: null,
+        day: null,
       });
     }
     default: {
