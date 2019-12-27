@@ -40,7 +40,8 @@
       "search": "검색",
       "cancel": "취소",
       "like": "좋아요",
-      "report": "신고하기"
+      "report": "신고하기",
+      "upload": "업로드"
     },
     "attribute": {
       "department": "학과",
@@ -64,7 +65,8 @@
     },
     "placeholder": {
       "loading": "불러오는 중",
-      "noResults": "결과 없음"
+      "noResults": "결과 없음",
+      "reviewContent": "학점, 로드 등의 평가에 대하여 설명해주세요."
     },
     "search": {
       "type": "구분",
