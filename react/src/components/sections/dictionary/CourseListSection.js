@@ -133,10 +133,10 @@ class CourseListSection extends Component {
 
     const mapCourses = (courses) => {
       if (!courses) {
-        return <div className={classNames('list-placeholder')}><div>불러오는 중</div></div>;
+        return <div className={classNames('list-placeholder')}><div>{t('ui.placeholder.loading')}</div></div>;
       }
       if (courses.length === 0) {
-        return <div className={classNames('list-placeholder')}><div>결과 없음</div></div>;
+        return <div className={classNames('list-placeholder')}><div>{t('ui.placeholder.noResults')}</div></div>;
       }
       return courses.map(c => (
         <CourseBlock

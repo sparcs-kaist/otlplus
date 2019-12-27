@@ -12,7 +12,7 @@ const CourseBlock = ({ t, course, isClicked, isHover, isInactive, listHover, lis
   return (
     <div className={classNames('block', 'block--course', (isClicked ? classNames('block--clicked') : (isHover ? classNames('block--active') : (isInactive ? classNames('block--inactive') : ''))))} onClick={listClick ? listClick(course) : null} onMouseOver={listHover ? listHover(course) : null} onMouseOut={listOut}>
       <div className={classNames('block--course__title')}>
-        <strong>{ course.title }</strong>
+        <strong>{ course[t('js.property.title')] }</strong>
         &nbsp;
         <span>{ course.old_code }</span>
       </div>
