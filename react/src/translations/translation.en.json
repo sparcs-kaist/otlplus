@@ -22,7 +22,9 @@
   "ui": {
     "title": {
       "reviews": "Reviews",
-      "exams": "Exams"
+      "exams": "Exams",
+      "courseHistory": "Course History",
+      "relatedCourses": "Related Courses"
     },
     "tab": {
       "search": "Search",
@@ -36,7 +38,9 @@
       "syllabus": "Syllabus",
       "dictionary": "Dictionary",
       "search": "Search",
-      "cancel": "Cancel"
+      "cancel": "Cancel",
+      "like": "Like",
+      "report": "Report"
     },
     "attribute": {
       "department": "Dept.",
@@ -150,7 +154,8 @@
       "auCount": "{{count}} AU",
       "auCount_plural": "{{count}} AUs",
       "multipleDetailCount": "{{count}} lectures",
-      "dragTimetable": "Drag timetable"
+      "dragTimetable": "Drag timetable",
+      "notOffered": "Not Offered"
     },
     "menu": {
       "timetable": "Timetable",

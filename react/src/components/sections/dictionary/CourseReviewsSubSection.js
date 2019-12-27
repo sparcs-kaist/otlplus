@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 import axios from '../../../common/presetAxios';
@@ -36,6 +37,7 @@ class CourseReviewsSubSection extends Component {
 
 
   render() {
+    const { t } = this.props;
     const { user, course, reviews } = this.props;
 
     const takenLectureOfCourse = user
@@ -44,7 +46,7 @@ class CourseReviewsSubSection extends Component {
 
     return (
       <>
-        <div className={classNames('small-title')}>과목 후기</div>
+        <div className={classNames('small-title')}>{t('ui.title.reviews')}</div>
         {
           takenLectureOfCourse.map(l => (
             <ReviewWriteBlock lecture={l} key={l.id} />
@@ -52,10 +54,10 @@ class CourseReviewsSubSection extends Component {
         }
         {
           (reviews == null)
-            ? <div className={classNames('list-placeholder')}><div>불러오는 중</div></div>
+            ? <div className={classNames('list-placeholder')}><div>{t('ui.placeholder.loading')}</div></div>
             : (reviews.length
               ? <div>{reviews.map(r => <ReviewBlock review={r} key={r.id} />)}</div>
-              : <div className={classNames('list-placeholder')}><div>결과 없음</div></div>)
+              : <div className={classNames('list-placeholder')}><div>{t('ui.placeholder.noResults')}</div></div>)
         }
       </>
     );
@@ -84,4 +86,4 @@ CourseReviewsSubSection.propTypes = {
 };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(CourseReviewsSubSection);
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(CourseReviewsSubSection));

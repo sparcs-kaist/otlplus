@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 import { clearCourseActive } from '../../../actions/dictionary/courseActive';
@@ -30,17 +31,17 @@ class CourseDetailSection extends Component {
 
 
   render() {
+    const { t } = this.props;
     const { clicked, course } = this.props;
 
     if (clicked && course !== null) {
       return (
-
         <div className={classNames('section-content', 'section-content--flex', 'section-content--course-detail')}>
           <div className={classNames('close-button')} onClick={this.unfix}>닫기</div>
           <div className={classNames('fixed')}>
             <div>
               <div className={classNames('title')}>
-                {course.title}
+                {course[t('js.property.title')]}
               </div>
               <div className={classNames('subtitle')}>
                 {course.old_code}
@@ -55,7 +56,7 @@ class CourseDetailSection extends Component {
                       {course.grade_letter}
                     </div>
                     <div>
-                      학점
+                      {t('ui.score.grade')}
                     </div>
                   </div>
                   <div>
@@ -63,7 +64,7 @@ class CourseDetailSection extends Component {
                       {course.load_letter}
                     </div>
                     <div>
-                      널널
+                      {t('ui.score.load')}
                     </div>
                   </div>
                   <div>
@@ -71,7 +72,7 @@ class CourseDetailSection extends Component {
                       {course.speech_letter}
                     </div>
                     <div>
-                      강의
+                      {t('ui.score.speech')}
                     </div>
                   </div>
                 </div>
@@ -83,15 +84,15 @@ class CourseDetailSection extends Component {
             <div>
               <div className={classNames('attribute')}>
                 <div>
-                  분류
+                  {t('ui.attribute.classification')}
                 </div>
                 <div>
-                  {`${course.department.name}, ${course.type}`}
+                  {`${course.department[t('js.property.name')]}, ${course[t('js.property.type')]}`}
                 </div>
               </div>
               <div className={classNames('attribute')}>
                 <div>
-                  설명
+                  {t('ui.attribute.description')}
                 </div>
                 <div>
                   {course.summary}
@@ -104,7 +105,7 @@ class CourseDetailSection extends Component {
                   {course.grade_letter}
                 </div>
                 <div>
-                  학점
+                  {t('ui.score.grade')}
                 </div>
               </div>
               <div>
@@ -112,7 +113,7 @@ class CourseDetailSection extends Component {
                   {course.load_letter}
                 </div>
                 <div>
-                  널널
+                  {t('ui.score.load')}
                 </div>
               </div>
               <div>
@@ -120,7 +121,7 @@ class CourseDetailSection extends Component {
                   {course.speech_letter}
                 </div>
                 <div>
-                  강의
+                  {t('ui.score.speech')}
                 </div>
               </div>
             </div>
@@ -141,9 +142,9 @@ class CourseDetailSection extends Component {
             OTL PLUS
           </div>
           <div>
-            <Link to="/credits/">만든 사람들</Link>
+            <Link to="/credits/">{t('ui.menu.credit')}</Link>
             &nbsp;|&nbsp;
-            <Link to="/licenses/">라이선스</Link>
+            <Link to="/licenses/">{t('ui.menu.licences')}</Link>
           </div>
           <div>
             <a href="mailto:otlplus@sparcs.org">otlplus@sparcs.org</a>
@@ -177,4 +178,4 @@ CourseDetailSection.propTypes = {
 };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(CourseDetailSection);
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(CourseDetailSection));
