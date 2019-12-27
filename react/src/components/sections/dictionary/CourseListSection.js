@@ -7,13 +7,12 @@ import { appBoundClassNames as classNames } from '../../../common/boundClassName
 import axios from '../../../common/presetAxios';
 
 import { isClicked, isHover, isInactiveCourse } from '../../../common/courseFunctions';
-import { setListMajorCodes, setListCourses, setListMajorCourses } from '../../../actions/dictionary/list';
+import { setListCourses, setListMajorCourses } from '../../../actions/dictionary/list';
 import { setCourseActive, clearCourseActive } from '../../../actions/dictionary/courseActive';
 import { openSearch } from '../../../actions/dictionary/search';
 import { BASE_URL } from '../../../common/constants';
 import Scroller from '../../Scroller';
 import CourseBlock from '../../blocks/CourseBlock';
-import userShape from '../../../shapes/UserShape';
 import courseShape from '../../../shapes/CourseShape';
 import courseActiveShape from '../../../shapes/CourseActiveShape';
 import CourseSearchSubSection from './CourseSearchSubSection';
@@ -25,11 +24,7 @@ class CourseListSection extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    const { user, major, setListMajorCodesDispatch } = this.props;
-
-    if (user && (user !== prevProps.user)) {
-      setListMajorCodesDispatch(user.departments);
-    }
+    const { major } = this.props;
 
     if (!this._codesAreSame(major.codes, prevProps.major.codes)) {
       this._fetchLists(true);
@@ -207,7 +202,6 @@ class CourseListSection extends Component {
 }
 
 const mapStateToProps = state => ({
-  user: state.common.user.user,
   currentList: state.dictionary.list.currentList,
   search: state.dictionary.list.search,
   major: state.dictionary.list.major,
@@ -228,9 +222,6 @@ const mapDispatchToProps = dispatch => ({
   clearCourseActiveDispatch: () => {
     dispatch(clearCourseActive());
   },
-  setListMajorCodesDispatch: (majors) => {
-    dispatch(setListMajorCodes(majors));
-  },
   setListCoursesDispatch: (code, courses) => {
     dispatch(setListCourses(code, courses));
   },
@@ -240,7 +231,6 @@ const mapDispatchToProps = dispatch => ({
 });
 
 CourseListSection.propTypes = {
-  user: userShape,
   currentList: PropTypes.string.isRequired,
   search: PropTypes.shape({
     courses: PropTypes.arrayOf(courseShape),
@@ -260,7 +250,6 @@ CourseListSection.propTypes = {
   openSearchDispatch: PropTypes.func.isRequired,
   setCourseActiveDispatch: PropTypes.func.isRequired,
   clearCourseActiveDispatch: PropTypes.func.isRequired,
-  setListMajorCodesDispatch: PropTypes.func.isRequired,
   setListCoursesDispatch: PropTypes.func.isRequired,
   setListMajorCoursesDispatch: PropTypes.func.isRequired,
 };

@@ -16,7 +16,6 @@ import Scroller from '../../Scroller';
 import LectureSearchSubSection from './LectureSearchSubSection';
 import CourseLecturesBlock from '../../blocks/CourseLecturesBlock';
 import { LIST } from '../../../reducers/timetable/lectureActive';
-import userShape from '../../../shapes/UserShape';
 import lectureShape from '../../../shapes/LectureShape';
 import timetableShape from '../../../shapes/TimetableShape';
 import lectureActiveShape from '../../../shapes/LectureActiveShape';
@@ -34,11 +33,7 @@ class LectureListSection extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    const { user, major, year, semester, currentList, lectureActive, setListMajorCodesDispatch, openSearchDispatch, mobileShowLectureList } = this.props;
-
-    if (user && (user !== prevProps.user)) {
-      setListMajorCodesDispatch(user.departments);
-    }
+    const { major, year, semester, currentList, lectureActive, openSearchDispatch, mobileShowLectureList } = this.props;
 
     if (!this._codesAreSame(major.codes, prevProps.major.codes)) {
       this._fetchLists(true);
@@ -365,7 +360,6 @@ class LectureListSection extends Component {
 }
 
 const mapStateToProps = state => ({
-  user: state.common.user.user,
   currentList: state.timetable.list.currentList,
   search: state.timetable.list.search,
   major: state.timetable.list.major,
@@ -399,9 +393,6 @@ const mapDispatchToProps = dispatch => ({
   deleteLectureFromCartDispatch: (lecture) => {
     dispatch(deleteLectureFromCart(lecture));
   },
-  setListMajorCodesDispatch: (majors) => {
-    dispatch(setListMajorCodes(majors));
-  },
   setListLecturesDispatch: (code, lectures) => {
     dispatch(setListLectures(code, lectures));
   },
@@ -414,7 +405,6 @@ const mapDispatchToProps = dispatch => ({
 });
 
 LectureListSection.propTypes = {
-  user: userShape,
   currentList: PropTypes.string.isRequired,
   search: PropTypes.shape({
     courses: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)),
@@ -441,7 +431,6 @@ LectureListSection.propTypes = {
   addLectureToTimetableDispatch: PropTypes.func.isRequired,
   addLectureToCartDispatch: PropTypes.func.isRequired,
   deleteLectureFromCartDispatch: PropTypes.func.isRequired,
-  setListMajorCodesDispatch: PropTypes.func.isRequired,
   setListLecturesDispatch: PropTypes.func.isRequired,
   setListMajorLecturesDispatch: PropTypes.func.isRequired,
   setMobileShowLectureListDispatch: PropTypes.func.isRequired,

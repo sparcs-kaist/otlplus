@@ -4,13 +4,21 @@ import PropTypes from 'prop-types';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 
-import { /* openSearch, closeSearch, */setCurrentList } from '../../actions/dictionary/list';
+import { /* openSearch, closeSearch, */setListMajorCodes, setCurrentList } from '../../actions/dictionary/list';
 import { clearCourseActive } from '../../actions/dictionary/courseActive';
 // import { NONE, LIST, TABLE, MULTIPLE } from '../../reducers/timetable/lectureActive';
+import userShape from '../../shapes/UserShape';
 import courseShape from '../../shapes/CourseShape';
 
 
 class CourseListTabs extends Component {
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    const { user, setListMajorCodesDispatch } = this.props;
+    if (user && (user !== prevProps.user)) {
+      setListMajorCodesDispatch(user.departments);
+    }
+  }
+
   changeTab = (list) => {
     const { search, setCurrentListDispatch/* , openSearchDispatch, closeSearchDispatch */, clearCourseActiveDispatch } = this.props;
 
@@ -43,6 +51,7 @@ class CourseListTabs extends Component {
 }
 
 const mapStateToProps = state => ({
+  user: state.common.user.user,
   currentList: state.dictionary.list.currentList,
   search: state.dictionary.list.search,
   major: state.dictionary.list.major,
@@ -59,6 +68,9 @@ const mapDispatchToProps = dispatch => ({
     dispatch(closeSearch());
   },
   */
+  setListMajorCodesDispatch: (majors) => {
+    dispatch(setListMajorCodes(majors));
+  },
   setCurrentListDispatch: (list) => {
     dispatch(setCurrentList(list));
   },
@@ -68,6 +80,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 CourseListTabs.propTypes = {
+  user: userShape,
   currentList: PropTypes.string.isRequired,
   search: PropTypes.shape({
     courses: PropTypes.arrayOf(courseShape),
@@ -85,6 +98,7 @@ CourseListTabs.propTypes = {
   openSearchDispatch: PropTypes.func.isRequired,
   closeSearchDispatch: PropTypes.func.isRequired,
   */
+  setListMajorCodesDispatch: PropTypes.func.isRequired,
   setCurrentListDispatch: PropTypes.func.isRequired,
   clearCourseActiveDispatch: PropTypes.func.isRequired,
 };
