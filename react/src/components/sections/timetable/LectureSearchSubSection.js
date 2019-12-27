@@ -164,6 +164,34 @@ class LectureSearchSubSection extends Component {
     const { inputVal, autoComplete } = this.state;
     const { start, end, day } = this.props;
 
+    const typeOptions = [
+      ['ALL', t('ui.type.allShort')],
+      ['GR', t('ui.type.generalRequiredShort')], ['MGC', t('ui.type.mandatoryGeneralCourseShort')],
+      ['BE', t('ui.type.basicElectiveShort')], ['BR', t('ui.type.basicRequiredShort')],
+      ['EG', t('ui.type.electiveGraduateShort')], ['HSE', t('ui.type.humanitiesSocialElectiveShort')],
+      ['OE', t('ui.type.otherElectiveShort')], ['ME', t('ui.type.majorElectiveShort')],
+      ['MR', t('ui.type.majorRequiredShort')],
+      ['ETC', t('ui.type.etcShort')],
+    ];
+    const departmentOptions = [
+      ['ALL', t('ui.department.allShort')],
+      ['HSS', t('ui.department.hssShort')],
+      ['CE', t('ui.department.ceShort')], ['MSB', t('ui.department.msbShort')],
+      ['ME', t('ui.department.meShort')], ['PH', t('ui.department.phShort')],
+      ['BiS', t('ui.department.bisShort')], ['IE', t('ui.department.ieShort')],
+      ['ID', t('ui.department.idShort')], ['BS', t('ui.department.bsShort')],
+      ['MAS', t('ui.department.masShort')], ['NQE', t('ui.department.nqeShort')],
+      ['EE', t('ui.department.eeShort')], ['CS', t('ui.department.csShort')],
+      ['AE', t('ui.department.aeShort')], ['CH', t('ui.department.chShort')],
+      ['CBE', t('ui.department.cbeShort')], ['MS', t('ui.department.msShort')],
+      ['ETC', t('ui.department.etcShort')],
+    ];
+    const levelOptions = [
+      ['ALL', t('ui.level.allShort')],
+      ['100', t('ui.level.100sShort')], ['200', t('ui.level.200sShort')],
+      ['300', t('ui.level.300sShort')], ['400', t('ui.level.400sShort')],
+    ];
+
     return (
       <div className={classNames('search-area')}>
         <form method="post">
@@ -190,22 +218,19 @@ class LectureSearchSubSection extends Component {
               clickCircle={this.clickCircle}
               inputName="type"
               titleName={t('ui.search.type')}
-              valueArr={['ALL', 'GR', 'MGC', 'BE', 'BR', 'EG', 'HSE', 'OE', 'ME', 'MR', 'ETC']}
-              nameArr={[t('ui.type.allShort'), t('ui.type.generalRequiredShort'), t('ui.type.mandatoryGeneralCourseShort'), t('ui.type.basicElectiveShort'), t('ui.type.basicRequiredShort'), t('ui.type.electiveGraduateShort'), t('ui.type.humanitiesSocialElectiveShort'), t('ui.type.otherElectiveShort'), t('ui.type.majorElectiveShort'), t('ui.type.majorRequiredShort'), t('ui.type.etcShort')]}
+              options={typeOptions}
             />
             <SearchFilter
               clickCircle={this.clickCircle}
               inputName="department"
               titleName={t('ui.search.department')}
-              valueArr={['ALL', 'HSS', 'CE', 'MSB', 'ME', 'PH', 'BiS', 'IE', 'ID', 'BS', 'MAS', 'NQE', 'EE', 'CS', 'AE', 'CH', 'CBE', 'MS', 'ETC']}
-              nameArr={[t('ui.department.allShort'), t('ui.department.hssShort'), t('ui.department.ceShort'), t('ui.department.msbShort'), t('ui.department.meShort'), t('ui.department.phShort'), t('ui.department.bisShort'), t('ui.department.ieShort'), t('ui.department.idShort'), t('ui.department.bsShort'), t('ui.department.masShort'), t('ui.department.nqeShort'), t('ui.department.eeShort'), t('ui.department.csShort'), t('ui.department.aeShort'), t('ui.department.chShort'), t('ui.department.cbeShort'), t('ui.department.msShort'), t('ui.department.etcShort')]}
+              options={departmentOptions}
             />
             <SearchFilter
               clickCircle={this.clickCircle}
               inputName="grade"
               titleName={t('ui.search.level')}
-              valueArr={['ALL', '100', '200', '300', '400']}
-              nameArr={[t('ui.level.allShort'), t('ui.level.100sShort'), t('ui.level.200sShort'), t('ui.level.300sShort'), t('ui.level.400sShort')]}
+              options={levelOptions}
             />
             <div className={classNames('attribute')}>
               <label>{t('ui.search.time')}</label>
