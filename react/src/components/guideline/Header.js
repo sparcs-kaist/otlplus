@@ -57,7 +57,7 @@ class Header extends Component {
 
 
   setNoBackground = () => {
-    const mainImage = document.getElementsByClassName(appBoundClassNames('main-image'));
+    const mainImage = document.getElementsByClassName(appBoundClassNames('section-wrap--main-search'));
     if (mainImage.length === 0) {
       this.setState({
         noBackground: false,
@@ -66,7 +66,7 @@ class Header extends Component {
     }
 
     this.setState({
-      noBackground: mainImage[0].getBoundingClientRect().bottom > 55,
+      noBackground: mainImage[0].getBoundingClientRect().top > 55,
     });
   }
 
