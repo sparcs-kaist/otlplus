@@ -1,4 +1,4 @@
-import { OPEN_SEARCH, CLOSE_SEARCH, DRAG_SEARCH } from '../../actions/timetable/search';
+import { RESET, OPEN_SEARCH, CLOSE_SEARCH, DRAG_SEARCH } from '../../actions/timetable/search';
 
 const initialState = {
   open: true,
@@ -9,6 +9,9 @@ const initialState = {
 
 const search = (state = initialState, action) => {
   switch (action.type) {
+    case RESET: {
+      return initialState;
+    }
     case OPEN_SEARCH: {
       return Object.assign({}, state, {
         open: true,

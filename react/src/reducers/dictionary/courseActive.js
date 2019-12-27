@@ -1,4 +1,4 @@
-import { SET_COURSE_ACTIVE, CLEAR_COURSE_ACTIVE, SET_REVIEWS, SET_LECTURES } from '../../actions/dictionary/courseActive';
+import { RESET, SET_COURSE_ACTIVE, CLEAR_COURSE_ACTIVE, SET_REVIEWS, SET_LECTURES } from '../../actions/dictionary/courseActive';
 
 const initialState = {
   clicked: false,
@@ -9,6 +9,9 @@ const initialState = {
 
 const courseActive = (state = initialState, action) => {
   switch (action.type) {
+    case RESET: {
+      return initialState;
+    }
     case SET_COURSE_ACTIVE: {
       const courseChanged = !state.course || (state.course.id !== action.course.id);
       return Object.assign({}, state, {

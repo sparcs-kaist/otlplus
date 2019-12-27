@@ -1,3 +1,4 @@
+export const RESET = 'RESET';
 export const SET_TIMETABLES = 'SET_TIMETABLES';
 export const CLEAR_TIMETABLES = 'CLEAR_TIMETABLES';
 export const SET_CURRENT_TIMETABLE = 'SET_CURRENT_TIMETABLE';
@@ -9,6 +10,13 @@ export const REMOVE_LECTURE_FROM_TIMETABLE = 'REMOVE_LECTURE_FROM_TIMETABLE';
 export const UPDATE_CELL_SIZE = 'UPDATE_CELL_SIZE';
 export const SET_IS_DRAGGING = 'SET_IS_DRAGGING';
 export const SET_MOBILE_SHOW_TIMETABLE_TABS = 'SET_MOBILE_SHOW_TIMETABLE_TABS';
+
+
+export function reset() {
+  return {
+    type: RESET,
+  };
+}
 
 export function addLectureToTimetable(lecture) {
     return {

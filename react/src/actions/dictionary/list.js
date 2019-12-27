@@ -1,3 +1,4 @@
+export const RESET = 'RESET';
 export const SET_CURRENT_LIST = 'SER_CURRENT_LIST';
 export const SET_LIST_MAJOR_CODES = 'SET_LIST_MAJOR_CODES';
 export const SET_LIST_COURSES = 'SET_LIST_COURSES';
@@ -5,6 +6,12 @@ export const SET_LIST_MAJOR_COURSES = 'SET_LIST_MAJOR_COURSES';
 export const CLEAR_LISTS_COURSES = 'CLEAR_LISTS_COURSES';
 export const CLEAR_SEARCH_LIST_COURSES = 'CLEAR_SEARCH_LIST_COURSES';
 
+
+export function reset() {
+  return {
+    type: RESET,
+  };
+}
 
 export function setCurrentList(list) {
   return {

@@ -1,3 +1,4 @@
+export const RESET = 'RESET';
 export const SET_CURRENT_LIST = 'SER_CURRENT_LIST';
 export const SET_LIST_MAJOR_CODES = 'SET_LIST_MAJOR_CODES';
 export const SET_LIST_LECTURES = 'SET_LIST_LECTURES';
@@ -7,6 +8,13 @@ export const SET_LIST_MAJOR_LECTURES = 'SET_LIST_MAJOR_LECTURES';
 export const ADD_LECTURE_TO_CART = 'ADD_LECTURE_TO_CART';
 export const DELETE_LECTURE_FROM_CART = 'DELETE_LECTURE_FROM_CART';
 export const SET_MOBILE_SHOW_LECTURE_LIST = 'SET_MOBILE_SHOW_LECTURE_LIST';
+
+
+export function reset() {
+  return {
+    type: RESET,
+  };
+}
 
 export function setCurrentList(list) {
     return {

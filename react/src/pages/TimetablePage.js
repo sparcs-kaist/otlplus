@@ -4,7 +4,12 @@ import PropTypes from 'prop-types';
 
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
 
-import { setMobileShowTimetableTabs } from '../actions/timetable/timetable';
+import { reset as resetLectureActive } from '../actions/timetable/lectureActive';
+import { reset as resetList } from '../actions/timetable/list';
+import { reset as resetSearch } from '../actions/timetable/search';
+import { reset as resetSemester } from '../actions/timetable/semester';
+import { reset as resetTimetable, setMobileShowTimetableTabs } from '../actions/timetable/timetable';
+
 import LectureDetailSection from '../components/sections/timetable/LectureDetailSection';
 import LectureListTabs from '../components/tabs/LectureListTabs';
 import LectureListSection from '../components/sections/timetable/LectureListSection';
@@ -17,7 +22,19 @@ import ExamSubSection from '../components/sections/timetable/ExamSubSection';
 import ShareSubSection from '../components/sections/timetable/ShareSubSection';
 import lectureActiveShape from '../shapes/LectureActiveShape';
 
+
 class TimetablePage extends Component {
+  componentWillUnmount() {
+    const { resetLectureActiveDispatch, resetListDispatch, resetSearchDispatch, resetSemesterDispatch, resetTimetableDispatch } = this.props;
+
+    resetLectureActiveDispatch();
+    resetListDispatch();
+    resetSearchDispatch();
+    resetSemesterDispatch();
+    resetTimetableDispatch();
+  }
+
+
   render() {
     const { lectureActive, mobileShowTimetableTabs, mobileShowLectureList, setMobileShowTimetableTabsDispatch } = this.props;
     return (
@@ -71,6 +88,21 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
+  resetLectureActiveDispatch: () => {
+    dispatch(resetLectureActive());
+  },
+  resetListDispatch: () => {
+    dispatch(resetList());
+  },
+  resetSearchDispatch: () => {
+    dispatch(resetSearch());
+  },
+  resetSemesterDispatch: () => {
+    dispatch(resetSemester());
+  },
+  resetTimetableDispatch: () => {
+    dispatch(resetTimetable());
+  },
   setMobileShowTimetableTabsDispatch: (mobileShowTimetableTabs) => {
     dispatch(setMobileShowTimetableTabs(mobileShowTimetableTabs));
   },
@@ -81,6 +113,11 @@ TimetablePage.propTypes = {
   lectureActive: lectureActiveShape.isRequired,
   mobileShowTimetableTabs: PropTypes.bool.isRequired,
   mobileShowLectureList: PropTypes.bool.isRequired,
+  resetLectureActiveDispatch: PropTypes.func.isRequired,
+  resetListDispatch: PropTypes.func.isRequired,
+  resetSearchDispatch: PropTypes.func.isRequired,
+  resetSemesterDispatch: PropTypes.func.isRequired,
+  resetTimetableDispatch: PropTypes.func.isRequired,
   setMobileShowTimetableTabsDispatch: PropTypes.func.isRequired,
 };
 
