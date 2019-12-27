@@ -9,7 +9,8 @@
       "exam": "exam_en",
       "common_title": "common_title_en",
       "class_title": "class_title_en",
-      "professor_short": "professor_short_en"
+      "professor_short": "professor_short_en",
+      "professors_str": "professors_str_en"
     }
   },
   "jsx": {
@@ -27,7 +28,8 @@
       "search": "Search",
       "major": "Major",
       "humanity": "Humanities & Social Elective",
-      "wishlist": "Wishlist"
+      "wishlist": "Wishlist",
+      "taken": "Taken"
     },
     "button": {
       "unfix": "Unfix",
@@ -42,7 +44,9 @@
       "professor": "Prof.",
       "classroom": "Room",
       "limit": "Limit",
-      "exam": "Exam"
+      "exam": "Exam",
+      "classification": "Class.",
+      "description": "Descr."
     },
     "score": {
       "language": "Language",
