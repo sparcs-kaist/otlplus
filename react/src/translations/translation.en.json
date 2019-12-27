@@ -24,7 +24,10 @@
       "reviews": "Reviews",
       "exams": "Exams",
       "courseHistory": "Course History",
-      "relatedCourses": "Related Courses"
+      "relatedCourses": "Related Courses",
+      "latestReviews": "Latest Reviews",
+      "famousReviews": "Famous Reviews",
+      "writeReview": "Write Review"
     },
     "tab": {
       "search": "Search",
@@ -41,7 +44,11 @@
       "cancel": "Cancel",
       "like": "Like",
       "report": "Report",
-      "upload": "Upload"
+      "upload": "Upload",
+      "seeDetails": "See Details",
+      "goToAcademicSystem": "Go to Academic System",
+      "seeMoreReviews": "See More Reviews",
+      "writeMoreReviews": "Write More Reviews"
     },
     "attribute": {
       "department": "Dept.",
@@ -142,7 +149,14 @@
       "spring": "Spring",
       "summer": "Summer",
       "fall": "Fall",
-      "winter": "Winter"
+      "winter": "Winter",
+      "springSemester": "Spring Semester",
+      "summerSemester": "Summer Semester",
+      "fallSemester": "Fall Semester",
+      "winterSemester": "Winter Semester"
+    },
+    "schedule": {
+      "courseDropDeadline": "Deadline to Course Drop"
     },
     "message": {
       "blankSearch": "Please select search conditions.",
@@ -155,6 +169,14 @@
       "creditCount_plural": "{{count}} credits",
       "auCount": "{{count}} AU",
       "auCount_plural": "{{count}} AUs",
+      "dayCount": "{{count}} day",
+      "dayCount_plural": "{{count}} days",
+      "hourCount": "{{count}} hour",
+      "hourCount_plural": "{{count}} hours",
+      "minuteCount": "{{count}} minute",
+      "minuteCount_plural": "{{count}} minutes",
+      "secondCount": "{{count}} seconds",
+      "secondCount_plural": "{{count}} seconds",
       "multipleDetailCount": "{{count}} lectures",
       "dragTimetable": "Drag timetable",
       "notOffered": "Not Offered"

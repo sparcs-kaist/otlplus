@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
@@ -21,6 +22,7 @@ class AcademicScheduleSection extends Component {
 
 
   render() {
+    const { t } = this.props;
     const { today } = this.state;
 
     const targetScheduleTime = new Date(2020, 3, 2);
@@ -35,16 +37,16 @@ class AcademicScheduleSection extends Component {
       <div className={classNames('section-content', 'section-content--widget')}>
         <div className={classNames('academic-schedule')}>
           <div>
-            {`D-${days}일 ${hours}시간 ${minutes}분 ${seconds}초`}
+            {`D-${t('ui.others.dayCount', { count: days })} ${t('ui.others.hourCount', { count: hours })} ${t('ui.others.minuteCount', { count: minutes })} ${t('ui.others.secondCount', { count: seconds })}`}
           </div>
           <div>
-            <strong>봄학기 수강취소 마감</strong>
+            <strong>{`${t('ui.semester.springSemester')} ${t('ui.schedule.courseDropDeadline')}`}</strong>
             <span>{`${targetScheduleTime.getFullYear()}.${targetScheduleTime.getMonth()}.${targetScheduleTime.getDate()}`}</span>
           </div>
         </div>
         <div className={classNames('buttons')}>
           <a href="https://ssogw6.kaist.ac.kr" className={classNames('text-button')} target="_blank" rel="noopener noreferrer">
-            학사시스템 바로가기
+            {t('ui.button.goToAcademicSystem')}
           </a>
         </div>
       </div>
@@ -53,4 +55,4 @@ class AcademicScheduleSection extends Component {
 }
 
 
-export default AcademicScheduleSection;
+export default withTranslation()(AcademicScheduleSection);
