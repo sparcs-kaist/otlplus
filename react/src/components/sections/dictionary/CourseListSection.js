@@ -137,6 +137,7 @@ class CourseListSection extends Component {
         <CourseBlock
           course={c}
           key={c.id}
+          showReadStatus={true}
           isClicked={isClicked(c, courseActive)}
           isHover={isHover(c, courseActive)}
           isInactive={isInactiveCourse(c, courseActive)}

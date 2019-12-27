@@ -1127,6 +1127,10 @@ table {
             padding-bottom: 6px;
             border-bottom: 1px solid $color-block-line;
             margin-bottom: 6px;
+
+            & > i:first-child {
+                margin-right: 4px;
+            }
         }
     }
 
@@ -2477,6 +2481,18 @@ i.icon {
         width:9px;
         height:16px;
         background-image: url(../static/icons/related_arrow.svg);
+    }
+
+    &--status-read {
+        width:10px;
+        height:12px;
+        background-image: url(../static/icons/status_read.svg);
+    }
+
+    &--status-unread {
+        width:10px;
+        height:12px;
+        background-image: url(../static/icons/status_unread.svg);
     }
 }
 
