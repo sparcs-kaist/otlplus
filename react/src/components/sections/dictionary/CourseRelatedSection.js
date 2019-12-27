@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 import CourseSimpleBlock from '../../blocks/CourseSimpleBlock';
@@ -9,11 +10,12 @@ import courses from '../../../dummy/courses';
 
 class CourseDetailSection extends Component {
   render() {
+    const { t } = this.props;
     const { course } = this.props;
 
     return (
       <>
-        <div className={classNames('small-title')}>연관 과목</div>
+        <div className={classNames('small-title')}>{t('ui.title.relatedCourses')}</div>
         <div className={classNames('related-courses')}>
           <div>
             { courses.map(c => <CourseSimpleBlock course={c} key={c.id} />) }
@@ -48,4 +50,4 @@ CourseDetailSection.propTypes = {
 };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(CourseDetailSection);
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(CourseDetailSection));

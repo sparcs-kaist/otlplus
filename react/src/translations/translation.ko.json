@@ -22,7 +22,9 @@
   "ui": {
     "title": {
       "reviews": "과목 후기",
-      "exams": "시험시간표"
+      "exams": "시험시간표",
+      "courseHistory": "개설 이력",
+      "relatedCourses": "연관 과목"
     },
     "tab": {
       "search": "검색",
@@ -36,7 +38,9 @@
       "syllabus": "실라버스",
       "dictionary": "과목사전",
       "search": "검색",
-      "cancel": "취소"
+      "cancel": "취소",
+      "like": "좋아요",
+      "report": "신고하기"
     },
     "attribute": {
       "department": "학과",
@@ -148,7 +152,8 @@
       "creditCount": "{{count}}학점",
       "auCount": "{{count}}AU",
       "multipleDetailCount": "{{count}}개의 과목",
-      "dragTimetable": "시간표에서 드래그"
+      "dragTimetable": "시간표에서 드래그",
+      "notOffered": "미개설"
     },
     "menu": {
       "timetable": "모의시간표",
