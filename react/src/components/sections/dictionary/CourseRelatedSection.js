@@ -21,13 +21,13 @@ class CourseRelatedSubSection extends Component {
             { courses.map(c => <CourseSimpleBlock course={c} key={c.id} />) }
           </div>
           <div>
-            &gt;
+            <i className={classNames('icon', 'icon--related-arrow')} />
           </div>
           <div>
             <CourseSimpleBlock course={course} />
           </div>
           <div>
-            &gt;
+            <i className={classNames('icon', 'icon--related-arrow')} />
           </div>
           <div>
             { courses.map(c => <CourseSimpleBlock course={c} key={c.id} />) }

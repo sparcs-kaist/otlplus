@@ -2472,6 +2472,12 @@ i.icon {
         height:12px;
         background-image: url(../static/icons/lecture_selector.svg);
     }
+
+    &--related-arrow {
+        width:9px;
+        height:16px;
+        background-image: url(../static/icons/related_arrow.svg);
+    }
 }
 
 .mobile-hidden {
