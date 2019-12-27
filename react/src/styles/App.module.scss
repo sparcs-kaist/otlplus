@@ -519,16 +519,9 @@ table {
             & > div:first-child {
                 align-self: flex-start;
                 margin-top: 8px + $line-height-normal + (6px * 2) + 1px;
-                margin-left: 5px;
-                margin-right: -5px;
+                margin-left: 6px;
                 @media (orientation: landscape) {
                     display: none;
-                }
-
-                & > span {
-                    display: inline-block;
-                    width: 7px;
-                    height: 14px;
                 }
             }
 
@@ -537,7 +530,7 @@ table {
             }
 
             & .scroll-placeholder {
-                height: calc(100% - (8px * 2 + #{$line-height-normal} * 2 + 6px * 2 + 1px + 6px));
+                height: calc(100% - (8px * 2 + #{$line-height-normal} * 2 + 6px * 2 + 1px + 6px + #{$section-padding}));
                 @media (orientation: landscape) {
                     display: none;
                 }
@@ -2472,6 +2465,12 @@ i.icon {
         *:hover > *:checked + & {
             background-image: url(../static/icons/checkbox_selected_hover.svg);
         }
+    }
+
+    &--lecture-selector {
+        width:10px;
+        height:12px;
+        background-image: url(../static/icons/lecture_selector.svg);
     }
 }
 

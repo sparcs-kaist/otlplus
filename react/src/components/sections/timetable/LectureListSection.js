@@ -292,7 +292,7 @@ class LectureListSection extends Component {
           </div>
           <div>
             <div ref={this.arrowRef}>
-              <span>&lt;</span>
+              <i className={classNames('icon', 'icon--lecture-selector')} />
             </div>
             <Scroller onScroll={this.selectWithArrow}>
               {mapCourses(search.courses, false)}
@@ -310,7 +310,7 @@ class LectureListSection extends Component {
           </div>
           <div>
             <div ref={this.arrowRef}>
-              <span>&lt;</span>
+              <i className={classNames('icon', 'icon--lecture-selector')} />
             </div>
             <Scroller onScroll={this.selectWithArrow}>
               {mapCourses(major[currentList].courses, false)}
@@ -328,7 +328,7 @@ class LectureListSection extends Component {
           </div>
           <div>
             <div ref={this.arrowRef}>
-              <span>&lt;</span>
+              <i className={classNames('icon', 'icon--lecture-selector')} />
             </div>
             <Scroller onScroll={this.selectWithArrow}>
               {mapCourses(humanity.courses, false)}
@@ -346,7 +346,7 @@ class LectureListSection extends Component {
           </div>
           <div>
             <div ref={this.arrowRef}>
-              <span>&lt;</span>
+              <i className={classNames('icon', 'icon--lecture-selector')} />
             </div>
             <Scroller onScroll={this.selectWithArrow}>
               {mapCourses(cart.courses, true)}
