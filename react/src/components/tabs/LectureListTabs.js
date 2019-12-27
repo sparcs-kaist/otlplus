@@ -13,6 +13,14 @@ import lectureShape from '../../shapes/LectureShape';
 
 
 class LectureListTabs extends Component {
+  componentDidMount() {
+    const { user, setListMajorCodesDispatch } = this.props;
+
+    if (user) {
+      setListMajorCodesDispatch(user.departments);
+    }
+  }
+
   componentDidUpdate(prevProps, prevState, snapshot) {
     const { user, setListMajorCodesDispatch } = this.props;
 
