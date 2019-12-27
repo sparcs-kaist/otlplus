@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { pure } from 'recompose';
+import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 
@@ -8,7 +9,7 @@ import lectureShape from '../../shapes/LectureShape';
 import classtimeShape from '../../shapes/ClasstimeShape';
 
 
-const TimetableBlock = ({ lecture, classtime, cellWidth, cellHeight, isClicked, isHover, isInactive, isTemp, isSimple, blockHover, blockOut, blockClick, deleteLecture, occupiedTime }) => {
+const TimetableBlock = ({ t, lecture, classtime, cellWidth, cellHeight, isClicked, isHover, isInactive, isTemp, isSimple, blockHover, blockOut, blockClick, deleteLecture, occupiedTime }) => {
   const indexOfTime = time => (time / 30 - 16);
 
   const activeType = (
@@ -38,13 +39,13 @@ const TimetableBlock = ({ lecture, classtime, cellWidth, cellHeight, isClicked, 
         className={classNames('block--timetable__content')}
       >
         <p className={classNames('block--timetable__content__title', (isSimple ? 'mobile-hidden' : ''))}>
-          {lecture.title}
+          {lecture[t('js.property.title')]}
         </p>
         <p className={classNames('block--timetable__content__info', 'mobile-hidden')}>
-          {lecture.professor_short}
+          {lecture[t('js.property.professor_short')]}
         </p>
         <p className={classNames('block--timetable__content__info', 'mobile-hidden')}>
-          {classtime.classroom}
+          {classtime[t('js.property.classroom')]}
         </p>
       </div>
       {
@@ -82,4 +83,4 @@ TimetableBlock.propTypes = {
   occupiedTime: PropTypes.arrayOf(PropTypes.array),
 };
 
-export default pure(TimetableBlock);
+export default withTranslation()(pure(TimetableBlock));

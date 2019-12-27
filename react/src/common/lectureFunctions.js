@@ -67,7 +67,7 @@ export const performAddToTable = (caller, lecture, currentTimetable, addLectureT
     ))
   ) {
     // eslint-disable-next-line no-alert
-    alert(false ? "You can't add lecture overlapping." : '시간표가 겹치는 과목은 추가할 수 없습니다.');
+    alert(caller.props.t('message.timetableOverlap'));
     return;
   }
 

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
@@ -205,6 +206,7 @@ class TimetableSubSection extends Component {
   }
 
   render() {
+    const { t } = this.props;
     const { firstBlock, secondBlock } = this.state;
     const { currentTimetable, lectureActive, cellWidth, cellHeight, lectureActiveFrom, lectureActiveLecture, mobileShowLectureList } = this.props;
 
@@ -347,19 +349,19 @@ class TimetableSubSection extends Component {
             <div><strong>12</strong></div>
           </div>
           <div>
-            {dragDiv('mon', '월요일')}
+            {dragDiv('mon', t('ui.day.monday'))}
           </div>
           <div>
-            {dragDiv('tue', '화요일')}
+            {dragDiv('tue', t('ui.day.tuesday'))}
           </div>
           <div>
-            {dragDiv('wed', '수요일')}
+            {dragDiv('wed', t('ui.day.wednesday'))}
           </div>
           <div>
-            {dragDiv('thu', '목요일')}
+            {dragDiv('thu', t('ui.day.thursday'))}
           </div>
           <div>
-            {dragDiv('fri', '금요일')}
+            {dragDiv('fri', t('ui.day.friday'))}
           </div>
         </div>
         {
@@ -473,4 +475,4 @@ TimetableSubSection.propTypes = {
 };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(TimetableSubSection);
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(TimetableSubSection));

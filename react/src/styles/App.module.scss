@@ -443,7 +443,6 @@ table {
 
 
     &--semester {
-        width: 90px;
         height: initial;
         padding: 5px 8px;
         flex: 0 0 auto;
@@ -451,6 +450,12 @@ table {
         line-height: $line-height-small;
         display: flex;
         flex-direction: row;
+        &.semester-ko {
+            width: 90px;
+        }
+        &.semester-en {
+            width: 100px;
+        }
         @media (orientation: portrait) {
             padding: 0;
             background: none;
@@ -587,7 +592,7 @@ table {
                 padding-left: 4px;
                 padding-right: 1px;
                 height: 100%;
-                flex: auto;
+                flex: 1 1 0;
 
                 & > div {
                     &:first-child {
@@ -1866,7 +1871,7 @@ table {
             &.fixed-ko {
                 width: 23px;
             }
-            &.fiexed-en {
+            &.fixed-en {
                 width: 32px;
             }
         }

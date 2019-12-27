@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 const lectureShape = PropTypes.shape({
   id: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
+  title_en: PropTypes.string.isRequired_en,
   course: PropTypes.number.isRequired,
   old_code: PropTypes.string.isRequired,
   class_no: PropTypes.string.isRequired,
@@ -13,6 +14,7 @@ const lectureShape = PropTypes.shape({
   department: PropTypes.number.isRequired,
   department_code: PropTypes.string.isRequired,
   department_name: PropTypes.string.isRequired,
+  department_name_en: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   type_en: PropTypes.string.isRequired,
   limit: PropTypes.number.isRequired,
@@ -21,8 +23,11 @@ const lectureShape = PropTypes.shape({
   credit: PropTypes.number.isRequired,
   credit_au: PropTypes.number.isRequired,
   common_title: PropTypes.string.isRequired,
+  common_title_en: PropTypes.string.isRequired,
   class_title: PropTypes.string.isRequired,
+  class_title_en: PropTypes.string.isRequired,
   professor_short: PropTypes.string.isRequired,
+  professor_short_en: PropTypes.string.isRequired,
 });
 
 export default lectureShape;

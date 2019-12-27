@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
@@ -30,6 +31,7 @@ class SummarySubSection extends Component {
   }
 
   typeFocus(type) {
+    const { t } = this.props;
     const { lectureActiveFrom, currentTimetable, setMultipleDetailDispatch } = this.props;
 
     if (lectureActiveFrom !== 'NONE' || !currentTimetable) {
@@ -40,14 +42,15 @@ class SummarySubSection extends Component {
       .filter(lecture => (indexOfType(lecture.type_en) === indexOfType(type)))
       .map(lecture => ({
         id: lecture.id,
-        title: lecture.title,
-        info: (lecture.credit > 0) ? `${lecture.credit.toString()}학점` : `${lecture.credit_au.toString()}AU`,
+        title: lecture[t('js.property.title')],
+        info: (lecture.credit > 0) ? t('ui.others.creditCount', { count: lecture.credit }) : t('ui.others.auCount', { count: lecture.credit_au }),
       }));
     setMultipleDetailDispatch(type, lectures);
     this.setState({ active: type });
   }
 
   creditFocus(type) {
+    const { t } = this.props;
     const { lectureActiveFrom, currentTimetable, setMultipleDetailDispatch } = this.props;
 
     if (lectureActiveFrom !== 'NONE' || !currentTimetable) {
@@ -60,8 +63,8 @@ class SummarySubSection extends Component {
           .filter(lecture => (lecture.credit > 0))
           .map(lecture => ({
             id: lecture.id,
-            title: lecture.title,
-            info: `${lecture.credit.toString()}학점`,
+            title: lecture[t('js.property.title')],
+            info: t('ui.others.creditCount', { count: lecture.credit }),
           }))
       )
       : (
@@ -71,8 +74,8 @@ class SummarySubSection extends Component {
               .filter(lecture => (lecture.credit_au > 0))
               .map(lecture => ({
                 id: lecture.id,
-                title: lecture.title,
-                info: `${lecture.credit.toString()}AU`,
+                title: lecture[t('js.property.title')],
+                info: t('ui.others.auCount', { count: lecture.credit_au }),
               }))
           )
           : []
@@ -82,6 +85,7 @@ class SummarySubSection extends Component {
   }
 
   scoreFocus(type) {
+    const { t } = this.props;
     const { lectureActiveFrom, currentTimetable, setMultipleDetailDispatch } = this.props;
 
     if (lectureActiveFrom !== 'NONE' || !currentTimetable) {
@@ -90,7 +94,7 @@ class SummarySubSection extends Component {
 
     const lectures = currentTimetable.lectures.map(lecture => ({
       id: lecture.id,
-      title: lecture.title,
+      title: lecture[t('js.property.title')],
       info: (type === 'Grade')
         ? lecture.grade_letter
         : (
@@ -120,6 +124,7 @@ class SummarySubSection extends Component {
   }
 
   render() {
+    const { t } = this.props;
     const { active } = this.state;
     const { currentTimetable, lectureActiveLecture, lectureActiveFrom } = this.props;
 
@@ -169,55 +174,55 @@ class SummarySubSection extends Component {
         <div className={classNames('section-content--summary__type')}>
           <div>
             <div className={classNames('attribute')} onMouseOver={() => this.typeFocus('Basic Required')} onMouseOut={() => this.clearFocus()}>
-              <span className={classNames('fixed-ko')}>기필</span>
+              <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.type.basicRequiredShort')}</span>
               <div>
                 <span className={classNames('mobile-hidden', (active === 'Basic Required' ? 'active' : ''))}>{currentTypeCredit[0]}</span>
                 <span className={classNames('mobile-hidden', 'active')}>{activeTypeCredit[0]}</span>
                 <span className={classNames('mobile-unhidden', (isLectureActiveFromType(lectureActiveFrom, lectureActiveLecture, 0) ? 'active' : ''))}>{totalTypeCredit[0]}</span>
               </div>
-            </div> 
+            </div>
             <div className={classNames('attribute')} onMouseOver={() => this.typeFocus('Major Required')} onMouseOut={() => this.clearFocus()}>
-              <span className={classNames('fixed-ko')}>전필</span>
+              <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.type.majorRequiredShort')}</span>
               <div>
                 <span className={classNames('mobile-hidden', (active === 'Major Required' ? 'active' : ''))}>{currentTypeCredit[2]}</span>
                 <span className={classNames('mobile-hidden', 'active')}>{activeTypeCredit[2]}</span>
                 <span className={classNames('mobile-unhidden', (isLectureActiveFromType(lectureActiveFrom, lectureActiveLecture, 2) ? 'active' : ''))}>{totalTypeCredit[2]}</span>
               </div>
-            </div> 
+            </div>
             <div className={classNames('attribute')} onMouseOver={() => this.typeFocus('Humanities & Social Elective')} onMouseOut={() => this.clearFocus()}>
-              <span className={classNames('fixed-ko')}>인문</span>
+              <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.type.humanitiesSocialElectiveShort')}</span>
               <div>
                 <span className={classNames('mobile-hidden', (active === 'Humanities & Social Elective' ? 'active' : ''))}>{currentTypeCredit[4]}</span>
                 <span className={classNames('mobile-hidden', 'active')}>{activeTypeCredit[4]}</span>
                 <span className={classNames('mobile-unhidden', (isLectureActiveFromType(lectureActiveFrom, lectureActiveLecture, 4) ? 'active' : ''))}>{totalTypeCredit[4]}</span>
               </div>
-            </div> 
+            </div>
           </div>
           <div>
             <div className={classNames('attribute')} onMouseOver={() => this.typeFocus('Basic Elective')} onMouseOut={() => this.clearFocus()}>
-              <span className={classNames('fixed-ko')}>기선</span>
+              <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.type.basicElectiveShort')}</span>
               <div>
                 <span className={classNames('mobile-hidden', (active === 'Basic Elective' ? 'active' : ''))}>{currentTypeCredit[1]}</span>
                 <span className={classNames('mobile-hidden', 'active')}>{activeTypeCredit[1]}</span>
                 <span className={classNames('mobile-unhidden', (isLectureActiveFromType(lectureActiveFrom, lectureActiveLecture, 1) ? 'active' : ''))}>{totalTypeCredit[1]}</span>
               </div>
-            </div> 
+            </div>
             <div className={classNames('attribute')} onMouseOver={() => this.typeFocus('Major Elective')} onMouseOut={() => this.clearFocus()}>
-              <span className={classNames('fixed-ko')}>전선</span>
+              <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.type.majorElectiveShort')}</span>
               <div>
                 <span className={classNames('mobile-hidden', (active === 'Major Elective' ? 'active' : ''))}>{currentTypeCredit[3]}</span>
                 <span className={classNames('mobile-hidden', 'active')}>{activeTypeCredit[3]}</span>
                 <span className={classNames('mobile-unhidden', (isLectureActiveFromType(lectureActiveFrom, lectureActiveLecture, 3) ? 'active' : ''))}>{totalTypeCredit[3]}</span>
               </div>
-            </div> 
+            </div>
             <div className={classNames('attribute')} onMouseOver={() => this.typeFocus('Etc')} onMouseOut={() => this.clearFocus()}>
-              <span className={classNames('fixed-ko')}>기타</span>
+              <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.type.etcShort')}</span>
               <div>
                 <span className={classNames('mobile-hidden', (active === 'Etc' ? 'active' : ''))}>{currentTypeCredit[5]}</span>
                 <span className={classNames('mobile-hidden', 'active')}>{activeTypeCredit[5]}</span>
                 <span className={classNames('mobile-unhidden', (isLectureActiveFromType(lectureActiveFrom, lectureActiveLecture, 5) ? 'active' : ''))}>{totalTypeCredit[5]}</span>
               </div>
-            </div> 
+            </div>
           </div>
         </div>
         <div className={classNames('scores')}>
@@ -225,27 +230,27 @@ class SummarySubSection extends Component {
             <div>
               <span className={classNames('normal', (creditAct ? 'active' : active === 'Credit' ? 'active' : ''))}>{allCreditCredit}</span>
             </div>
-            <div>학점</div>
+            <div>{t('ui.score.credit')}</div>
           </div>
           <div onMouseOver={() => this.creditFocus('Credit AU')} onMouseOut={() => this.clearFocus()}>
             <div>
               <span className={classNames('normal', (creditAuAct ? 'active' : active === 'Credit AU' ? 'active' : ''))}>{allAuCredit}</span>
             </div>
-            <div>AU</div>
+            <div>{t('ui.score.au')}</div>
           </div>
         </div>
         <div className={classNames('scores')}>
           <div onMouseOver={() => this.scoreFocus('Grade')} onMouseOut={() => this.clearFocus()}>
             <div className={classNames((active === 'Grade' ? 'active' : ''))}>{(targetNum !== 0) ? letters[Math.round(grade / targetNum)] : '?'}</div>
-            <div>성적</div>
+            <div>{t('ui.score.grade')}</div>
           </div>
           <div onMouseOver={() => this.scoreFocus('Load')} onMouseOut={() => this.clearFocus()}>
             <div className={classNames((active === 'Load' ? 'active' : ''))}>{(targetNum !== 0) ? letters[Math.round(load / targetNum)] : '?'}</div>
-            <div>널널</div>
+            <div>{t('ui.score.load')}</div>
           </div>
           <div onMouseOver={() => this.scoreFocus('Speech')} onMouseOut={() => this.clearFocus()}>
             <div className={classNames((active === 'Speech' ? 'active' : ''))}>{(targetNum !== 0) ? letters[Math.round(speech / targetNum)] : '?'}</div>
-            <div>강의</div>
+            <div>{t('ui.score.speech')}</div>
           </div>
         </div>
       </div>
@@ -277,4 +282,4 @@ SummarySubSection.propTypes = {
 };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(SummarySubSection);
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(SummarySubSection));

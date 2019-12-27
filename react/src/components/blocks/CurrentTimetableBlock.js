@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { pure } from 'recompose';
+import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 
@@ -8,7 +9,7 @@ import lectureShape from '../../shapes/LectureShape';
 import classtimeShape from '../../shapes/ClasstimeShape';
 
 
-const CurrentTimetableBlock = ({ lecture, classtime, cellWidth, cellHeight }) => {
+const CurrentTimetableBlock = ({ t, lecture, classtime, cellWidth, cellHeight }) => {
   const indexOfTime = time => (time / 30 - 16);
 
   return (
@@ -23,13 +24,13 @@ const CurrentTimetableBlock = ({ lecture, classtime, cellWidth, cellHeight }) =>
     >
       <div className={classNames('block--current-timetable__content')}>
         <p className={classNames('block--current-timetable__content__title')}>
-          {lecture.title}
+          {lecture[t('js.property.title')]}
         </p>
         <p className={classNames('block--current-timetable__content__info')}>
-          {lecture.professor_short}
+          {lecture[t('js.property.professor_short')]}
         </p>
         <p className={classNames('block--current-timetable__content__info')}>
-          {classtime.classroom}
+          {classtime[t('js.property.classroom')]}
         </p>
       </div>
     </div>
@@ -43,4 +44,4 @@ CurrentTimetableBlock.propTypes = {
   cellHeight: PropTypes.number.isRequired,
 };
 
-export default pure(CurrentTimetableBlock);
+export default withTranslation()(pure(CurrentTimetableBlock));

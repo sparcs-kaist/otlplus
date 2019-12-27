@@ -11,6 +11,7 @@ import MainPage from './pages/MainPage';
 import CreditPage from './pages/CreditPage';
 import LicensePage from './pages/LicensePage';
 
+import './common/i18n';
 import axios from './common/presetAxios';
 import { BASE_URL } from './common/constants';
 import dictionaryReducer from './reducers/dictionary/index';

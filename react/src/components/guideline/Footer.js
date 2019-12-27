@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { withTranslation } from 'react-i18next';
 
 import { guidelineBoundClassNames as classNames } from '../../common/boundClassNames';
 
@@ -9,6 +10,8 @@ import logoImage from '../../static/img/SPARCS_black.svg';
 
 class Footer extends Component {
   render() {
+    const { t } = this.props;
+
     return (
       <footer>
         <div className={classNames('content')}>
@@ -23,12 +26,12 @@ class Footer extends Component {
             <div className={classNames('menus')}>
               <span>
                 <Link to="/credits">
-                  만든 사람들
+                  {t('ui.menu.credit')}
                 </Link>
               </span>
               <span>
                 <Link to="/licenses">
-                  라이선스
+                  {t('ui.menu.licences')}
                 </Link>
               </span>
             </div>
@@ -53,4 +56,4 @@ const mapDispatchToProps = dispatch => ({
 Footer.propTypes = {
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Footer);
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(Footer));

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 import axios from '../../../common/presetAxios';
@@ -34,25 +35,26 @@ class CourseHistorySubSection extends Component {
 
 
   render() {
+    const { t } = this.props;
     const { lectures } = this.props;
 
     return (
       <>
-        <div className={classNames('small-title')}>개설 이력</div>
+        <div className={classNames('small-title')}>{t('ui.title.courseHistory')}</div>
         {
           (lectures == null)
-            ? <div>불러오는 중</div>
+            ? <div>{t('ui.placeholder.loading')}</div>
             : (
               <div className={classNames('history')}>
                 <table>
                   <tbody>
                     <tr>
-                      <th>봄</th>
+                      <th>{t('ui.semester.spring')}</th>
                       {[...Array(2019 - 2009 + 1).keys()].map((i) => {
                         const y = 2009 + i;
                         const filteredLectures = lectures.filter(l => ((l.year === y) && (l.semester === 1)));
                         if (filteredLectures.length === 0) {
-                          return <td className={classNames('history__cell--unopen')} key={`${y}-1`}>미개설</td>;
+                          return <td className={classNames('history__cell--unopen')} key={`${y}-1`}>{t('ui.others.notOffered')}</td>;
                         }
                         return <td key={`${y}-1`}><HistoryLecturesBlock lectures={filteredLectures} /></td>;
                       })}
@@ -67,12 +69,12 @@ class CourseHistorySubSection extends Component {
                       })}
                     </tr>
                     <tr>
-                      <th>가을</th>
+                      <th>{t('ui.semester.fall')}</th>
                       {[...Array(2019 - 2009 + 1).keys()].map((i) => {
                         const y = 2009 + i;
                         const filteredLectures = lectures.filter(l => ((l.year === y) && (l.semester === 3)));
                         if (filteredLectures.length === 0) {
-                          return <td className={classNames('history__cell--unopen')} key={`${y}-3`}>미개설</td>;
+                          return <td className={classNames('history__cell--unopen')} key={`${y}-3`}>{t('ui.others.notOffered')}</td>;
                         }
                         return <td key={`${y}-3`}><HistoryLecturesBlock lectures={filteredLectures} /></td>;
                       })}
@@ -107,4 +109,4 @@ CourseHistorySubSection.propTypes = {
 };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(CourseHistorySubSection);
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(CourseHistorySubSection));
