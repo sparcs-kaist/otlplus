@@ -9,7 +9,7 @@ import { inTimetable, isListHover, isTableClicked, isTableHover, isInMultiple, i
 import TimetableBlock from '../../blocks/TimetableBlock';
 import { setLectureActive, clearLectureActive } from '../../../actions/timetable/lectureActive';
 import { setCurrentList, setMobileShowLectureList } from '../../../actions/timetable/list';
-import { dragSearch } from '../../../actions/timetable/search';
+import { dragSearch, clearDrag } from '../../../actions/timetable/search';
 import { setIsDragging, updateCellSize, removeLectureFromTimetable } from '../../../actions/timetable/timetable';
 import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureActive';
 import lectureShape from '../../../shapes/LectureShape';
@@ -153,16 +153,21 @@ class TimetableSubSection extends Component {
 
   _dragEnd = () => {
     const { firstBlock, secondBlock } = this.state;
-    const { isDragging, setIsDraggingDispatch, dragSearchDispatch, setCurrentListDispatch, setMobileShowLectureListDispatch } = this.props;
+    const { isDragging, setIsDraggingDispatch, dragSearchDispatch, clearDragDispatch, setCurrentListDispatch, setMobileShowLectureListDispatch } = this.props;
 
-    if (!isDragging) return;
+    if (!isDragging) {
+      return;
+    }
     setIsDraggingDispatch(false);
     this.setState({ firstBlock: null, secondBlock: null });
 
     const startDay = this.indexOfDay(firstBlock.getAttribute('data-day'));
     const startIndex = this.indexOfTime(firstBlock.getAttribute('data-time'));
     const endIndex = this.indexOfTime(secondBlock.getAttribute('data-time'));
-    if (startIndex === endIndex) return;
+    if (startIndex === endIndex) {
+      clearDragDispatch();
+      return;
+    }
     dragSearchDispatch(startDay, Math.min(startIndex, endIndex), Math.max(startIndex, endIndex) + 1);
     setMobileShowLectureListDispatch(true);
     setCurrentListDispatch('SEARCH');
@@ -434,6 +439,9 @@ const mapDispatchToProps = dispatch => ({
   dragSearchDispatch: (day, start, end) => {
     dispatch(dragSearch(day, start, end));
   },
+  clearDragDispatch: () => {
+    dispatch(clearDrag());
+  },
   setIsDraggingDispatch: (isDragging) => {
     dispatch(setIsDragging(isDragging));
   },
@@ -466,6 +474,7 @@ TimetableSubSection.propTypes = {
   mobileShowLectureList: PropTypes.bool.isRequired,
   updateCellSizeDispatch: PropTypes.func.isRequired,
   dragSearchDispatch: PropTypes.func.isRequired,
+  clearDragDispatch: PropTypes.func.isRequired,
   setIsDraggingDispatch: PropTypes.func.isRequired,
   setLectureActiveDispatch: PropTypes.func.isRequired,
   clearLectureActiveDispatch: PropTypes.func.isRequired,

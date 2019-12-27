@@ -7,7 +7,7 @@ import { appBoundClassNames as classNames } from '../../../common/boundClassName
 import axios from '../../../common/presetAxios';
 
 import { BASE_URL } from '../../../common/constants';
-import { closeSearch } from '../../../actions/timetable/search';
+import { closeSearch, clearDrag } from '../../../actions/timetable/search';
 import { setListLectures, clearSearchListLectures } from '../../../actions/timetable/list';
 import SearchFilter from '../../SearchFilter';
 
@@ -92,7 +92,7 @@ class LectureSearchSubSection extends Component {
     }
   }
 
-  handleInput(e) {
+  handleInput = (e) => {
     const { value } = e.target;
     const { year, semester } = this.props;
 
@@ -127,21 +127,21 @@ class LectureSearchSubSection extends Component {
       });
   }
 
-  autocompleteApply() {
+  autocompleteApply = () => {
     this.setState(prevState => ({
       inputVal: prevState.inputVal + prevState.autoComplete,
       autoComplete: '',
     }));
   }
 
-  autocompleteCLear() {
+  autocompleteCLear = () => {
     this.setState({
       inputVal: '',
       autoComplete: '',
     });
   }
 
-  keyPress(e) {
+  keyPress = (e) => {
     if (e.keyCode === 9) {
       this.autocompleteApply();
       e.stopPropagation(); // Prevent move focus
@@ -151,6 +151,12 @@ class LectureSearchSubSection extends Component {
     else if (e.keyCode === 13) {
       this.searchStart();
     }
+  }
+
+  clearSearchTime = () => {
+    const { clearDragDispatch } = this.props;
+
+    clearDragDispatch();
   }
 
   render() {
@@ -205,7 +211,7 @@ class LectureSearchSubSection extends Component {
               <label>{t('ui.search.time')}</label>
               { day !== null
                 ? (
-                  <label className={classNames('text-button')}>
+                  <label className={classNames('text-button')} onClick={this.clearSearchTime}>
                     {`${[t('ui.day.monday'), t('ui.day.tuesday'), t('ui.day.wednesday'), t('ui.day.thursday'), t('ui.day.friday')][day]} \
                       ${8 + Math.floor(start / 2)}:${['00', '30'][start % 2]} ~ \
                       ${8 + Math.floor(end / 2)}:${['00', '30'][end % 2]}`}
@@ -242,6 +248,9 @@ const mapDispatchToProps = dispatch => ({
   closeSearchDispatch: () => {
     dispatch(closeSearch());
   },
+  clearDragDispatch: () => {
+    dispatch(clearDrag());
+  },
   setListLecturesDispatch: (code, lectures) => {
     dispatch(setListLectures(code, lectures));
   },
@@ -257,6 +266,7 @@ LectureSearchSubSection.propTypes = {
   year: PropTypes.number,
   semester: PropTypes.number,
   closeSearchDispatch: PropTypes.func.isRequired,
+  clearDragDispatch: PropTypes.func.isRequired,
   setListLecturesDispatch: PropTypes.func.isRequired,
   clearSearchListLecturesDispatch: PropTypes.func.isRequired,
 };
