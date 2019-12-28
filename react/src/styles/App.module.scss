@@ -134,10 +134,17 @@ table {
 
 .content {
     position: relative;
-    width: calc(#{$section-desktop-width} + (#{$section-margin-lr} * 2) + (env(safe-area-inset-left) + env(safe-area-inset-right)));
     margin-top: $header-height;
     margin-left: auto;
     margin-right: auto;
+    @media (orientation: landscape) {
+        width: calc(
+            #{$section-desktop-width}
+            + (#{$section-margin-lr} * 2)
+            + (env(safe-area-inset-left)
+            + env(safe-area-inset-right))
+        );
+    }
     @media (orientation: portrait) {
         width: 100%;
     }
@@ -169,10 +176,12 @@ table {
 
 
 .main-image {
-    height: 400px;
     background: url(../static/img/review/search/bg.jpg) center 0;
     background-size: 100% auto;
-    padding-top: 191px;
+    @media (orientation: landscape) {
+        height: 400px;
+        padding-top: 191px;
+    }
     @media (orientation: portrait) {
         height: 200px;
         padding-top: 91px;
@@ -223,9 +232,11 @@ table {
 
 
     &--main-search {
-        width: calc(#{$section-desktop-width} + (#{$section-margin-lr} * 2));
         margin: 0 auto;
         padding: 0 $section-margin-lr;
+        @media (orientation: landscape) {
+            width: calc(#{$section-desktop-width} + (#{$section-margin-lr} * 2));
+        }
         @media (orientation:portrait) {
             width: 100%
         }
@@ -234,8 +245,10 @@ table {
 
     &--course-list {
         flex: none;
-        width: calc(40vh + 186px);
         margin-top: 0px;
+        @media (orientation: landscape) {
+            width: calc(40vh + 186px);
+        }
         @media (orientation: portrait) {
             width: calc(100% - #{$section-margin-lr} * 2);
         }
@@ -251,12 +264,13 @@ table {
 
 
     &--timetable-left {
-        flex: none;
-        width: calc(15vh + 126px);
-        margin-top: 0px;
         display: flex;
         flex-direction: column;
-
+        @media (orientation: landscape) {
+            width: calc(15vh + 126px);
+            flex: none;
+            margin-top: 0px;
+        }
         @media (orientation: portrait) {
            width: calc(100% - #{$section-margin-lr} * 2);
            flex: 1 1 ($line-height-small + 8px * 2);
@@ -266,15 +280,17 @@ table {
 
 
     &--timetable-center-right {
-        flex: none;
-        width:  calc(65vh + 246px);
-        margin-top: 0px;
-        margin-left: 0;
         display: flex;
         flex-direction: column;
-
+        @media (orientation: landscape) {
+            width:  calc(65vh + 246px);
+            margin-top: 0px;
+            margin-left: 0;
+            flex: none;
+        }
         @media (orientation: portrait) {
             width: calc(100% - #{$section-margin-lr} * 2);
+            margin-top: 0px;
             margin-left: $section-margin-lr;
             margin-bottom: $section-margin-bottom;
             flex: 1 1 0;
@@ -284,10 +300,12 @@ table {
 
     &--timetable-right {
         flex: none;
-        width: calc(15vh + 126px - #{$section-margin-lr} * 2);
         margin: 0;
         display: flex;
         flex-direction: column;
+        @media (orientation: landscape) {
+            width: calc(15vh + 126px - #{$section-margin-lr} * 2);
+        }
         @media (orientation: portrait) {
             width: 100%
         }
@@ -416,19 +434,16 @@ table {
                 background-color: $color-block-background;
                 margin-bottom: 6px;
                 border-radius: $block-border-radius;
-            }
-            &.tabs__elem--active {
-                @media (orientation: portrait) {
+                &.tabs__elem--active {
                     background-color: $color-block-background-dark;
                 }
-            }
-            &:not(.tabs__elem--active) {
-                &:hover {
-                    @media (orientation: portrait) {
+                &:not(.tabs__elem--active) {
+                    &:hover {
                         background-color: $color-block-background-dark;
                     }
                 }
-
+            }
+            &:not(.tabs__elem--active) {
                 & > button {
                     @media (orientation: landscape) {
                         display:none;
@@ -497,7 +512,9 @@ table {
     &--timetable {
         flex: auto;
         display: flex;
-        flex-direction: row;
+        @media (orientation: landscape) {
+            flex-direction: row;
+        }
         @media (orientation: portrait) {
             flex-direction: column;
             border-top-left-radius: 6px;
@@ -563,7 +580,13 @@ table {
 
     &--lecture-detail {
         &--list-area {
-            min-height: calc(100% - (#{$line-height-normal} + 6px + #{$section-padding})) !important;
+            min-height: calc(
+                100% - (
+                    #{$line-height-normal}
+                    + 6px
+                    + #{$section-padding}
+                )
+            ) !important;
 
             @media (orientation: portrait) {
                 min-height: initial !important;
@@ -595,7 +618,16 @@ table {
             }
 
             & .scroll-placeholder {
-                height: calc(100% - (8px * 2 + #{$line-height-normal} * 2 + 6px * 2 + 1px + 6px + #{$section-padding}));
+                height: calc(
+                    100% - (
+                        8px * 2
+                        + #{$line-height-normal} * 2
+                        + 6px * 2
+                        + 1px
+                        + 6px
+                        + #{$section-padding}
+                    )
+                );
                 @media (orientation: landscape) {
                     display: none;
                 }
@@ -1057,11 +1089,13 @@ table {
                     line-height: $line-height-smallest;
 
                     & > div {
-                        flex: 1 1 0;
                         text-align: center;
                         padding-left: 1px;
                         &:last-child {
                             padding-right: 1px;
+                        }
+                        @media (orientation: landscape) {
+                            flex: 1 1 0;
                         }
                         @media (orientation: portrait) {
                             flex: 0 0 10vw;
@@ -1084,9 +1118,11 @@ table {
                     flex-direction: row;
 
                     & > div {
-                        flex: 1 1 0;
                         text-align: center;
                         height: 57px;
+                        @media (orientation: landscape) {
+                            flex: 1 1 0;
+                        }
                         @media (orientation: portrait) {
                             flex: 0 0 10vw;
                         }
@@ -1132,9 +1168,6 @@ table {
 
 
 .close-button {
-    display: none;
-
-    @media (orientation: portrait) {
         display: block;
         position: absolute;
         top: $section-padding;
@@ -1145,7 +1178,10 @@ table {
         .section-wrap--lecture-list & {
             z-index: 10;
         }
-    }
+
+        @media (orientation: landscape) {
+            display: none;
+        }
 }
 
 
