@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
@@ -12,6 +13,7 @@ import timetableShape from '../../../shapes/TimetableShape';
 
 class ShareSubSection extends Component {
   render() {
+    const { t } = this.props;
     const { currentTimetable, mobileShowLectureList, setMobileShowTimetableTabsDispatch, setMobileShowLectureListDispatch } = this.props;
 
     const timetableLectures = currentTimetable
@@ -26,8 +28,14 @@ class ShareSubSection extends Component {
 
         </div>
         <div>
-          <div onClick={() => setMobileShowTimetableTabsDispatch(true)}>1</div>
-          <div onClick={() => setMobileShowLectureListDispatch(true)}>2</div>
+          <button onClick={() => setMobileShowTimetableTabsDispatch(true)} className={classNames('text-button', 'text-button--black')}>
+            <i className={classNames('icon', 'icon--switch-table')} />
+            {t('ui.button.switchTable')}
+          </button>
+          <button onClick={() => setMobileShowLectureListDispatch(true)} className={classNames('text-button', 'text-button--black')}>
+            <i className={classNames('icon', 'icon--show-lectures')} />
+            {t('ui.button.showLectures')}
+          </button>
         </div>
         <div />
       </div>
@@ -57,4 +65,4 @@ ShareSubSection.propTypes = {
 };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(ShareSubSection);
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(ShareSubSection));

@@ -181,6 +181,14 @@ table {
     margin: $section-margin-top $section-margin-lr $section-margin-bottom $section-margin-lr;
 
 
+    &--with-tabs {
+        @media (orientation: portrait) {
+            display: flex;
+            flex-direction: column;
+        }
+    }
+
+
     &.mobile-modal {
             @media (orientation: portrait) {
                 position: absolute;
@@ -248,7 +256,7 @@ table {
 
         @media (orientation: portrait) {
            width: calc(100% - #{$section-margin-lr} * 2);
-           flex: 1 1 100%;
+           flex: 1 1 ($line-height-small + 8px * 2);
            margin-top: 0;
         }
     }
@@ -266,7 +274,7 @@ table {
             width: calc(100% - #{$section-margin-lr} * 2);
             margin-left: $section-margin-lr;
             margin-bottom: $section-margin-bottom;
-            flex: 1 1 100%;
+            flex: 1 1 0;
         }
     }
 
@@ -293,7 +301,6 @@ table {
 
 
     &--lecture-list {
-        position: relative;
         flex: 1 1 100%;
         margin: 0;
     }
@@ -325,24 +332,64 @@ table {
 
 
 .tabs {
+    font-size: $font-size-small;
+    line-height: $line-height-small;
+    color: $color-text-light;
+
+    & > button {
+        cursor: pointer;
+        background-color: $color-tab-background-dark;
+        &.tabs__elem--active {
+            cursor: initial;
+            background-color: $color-tab-background;
+            color: $color-text-normal;
+        }
+        &:not(.tabs__elem--active) {
+            &:hover {
+                background-color: $color-tab-background-darker;
+            }
+        }
+    }
+
+
     &--course-list,
     &--lecture-list {
-        position: absolute;
-        vertical-align: top;
-        width: 50px;
-        margin-left: -50px;
+        @media (orientation: landscape) {
+            position: absolute;
+            vertical-align: top;
+            width: 50px;
+            margin-left: -50px;
+        }
+        @media (orientation: portrait) {
+            display: flex;
+            flex-direction: row;
+        }
 
         > button {
-            display: block;
             padding: 8px;
-            margin-left: auto;
-            margin-bottom: 6px;
-            line-height: 0;
-            border-radius: $block-border-radius 0 0 $block-border-radius;
-            background-color: $color-tab-background-dark;
+            @media (orientation: landscape) {
+                display: block;
+                margin-left: auto;
+                margin-bottom: 6px;
+                border-radius: $block-border-radius 0 0 $block-border-radius;
+                line-height: 0;
+            }
+            @media (orientation: portrait) {
+                display: inline-block;
+                margin-right: 6px;
+                border-radius: $block-border-radius $block-border-radius 0 0;
+                flex: 1 1 0;
+                &:last-child {
+                    margin-right: 0;
+                }
+            }
 
-            &.tabs__elem--active {
-                background-color: $color-tab-background;
+            & > span {
+                margin-left: 6px;
+
+                @media (orientation: landscape) {
+                    display: none;
+                }
             }
         }
     }
@@ -353,17 +400,12 @@ table {
             width: 100%;
         }
 
-        & > div {
-            background-color: $color-tab-background-dark;
-            color: $color-text-light;
+        & > button {
             display: inline-block;
             vertical-align: top;
             margin-right: 6px;
             border-radius: $block-border-radius $block-border-radius 0 0;
-            font-size: $font-size-small;
-            line-height: $line-height-small;
             padding: 7px 10px;
-            cursor: pointer;
             display: inline-flex;
             flex-direction: row;
             justify-content: center;
@@ -373,26 +415,22 @@ table {
                 margin-bottom: 6px;
                 border-radius: $block-border-radius;
             }
-            &.active {
-                @media (orientation: landscape) {
-                    cursor: initial;
-                    background-color: $color-tab-background;
-                    color:$color-text-normal;
+            &.tabs__elem--active {
+                @media (orientation: portrait) {
+                    background-color: $color-block-background-dark;
                 }
             }
-            &:hover {
-                @media (orientation: landscape) {
-                    &:not(.active) {
-                        background-color: $color-tab-background-dark;
+            &:not(.tabs__elem--active) {
+                &:hover {
+                    @media (orientation: portrait) {
+                        background-color: $color-block-background-dark;
                     }
                 }
-                @media (orientation: portrait) {
-                    background-color: #DDDDDD;
-                }
-            }
-            &:not(.active) > span:not(:first-child) {
-                @media (orientation: landscape) {
-                    display:none;
+
+                & > button {
+                    @media (orientation: landscape) {
+                        display:none;
+                    }
                 }
             }
             &:last-child:not(:first-child) {
@@ -403,12 +441,28 @@ table {
                 }
             }
 
-            & > span:first-child {
+            & > span {
                 flex: 1 1 auto;
             }
 
-            & > span:not(:first-child) {
-                margin-left: 4px;
+            & > button {
+                color: $color-text-light;
+                @media (orientation: landscape) {
+                    margin-left: 4px;
+                }
+                @media (orientation: portrait) {
+                    margin-left: 8px;
+                }
+                &:hover {
+                    color: $color-text-dark;
+                }
+
+                & > span {
+                    margin-left: 4px;
+                    @media (orientation: landscape) {
+                        display: none;
+                    }
+                }
             }
         }
     }
@@ -427,7 +481,14 @@ table {
     &--with-tabs {
         display: inline-block;
         vertical-align: top;
-        border-top-left-radius: 0;
+        @media (orientation: landscape) {
+            border-top-left-radius: 0;
+        }
+        @media (orientation: portrait) {
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+            flex: 1 1 auto;
+        }
     }
 
 
@@ -438,7 +499,13 @@ table {
         @media (orientation: portrait) {
             flex-direction: column;
             border-top-left-radius: 6px;
+            border-top-right-radius: 6px;
         }
+    }
+
+
+    &--lecture-list {
+        position: relative;
     }
 
 
@@ -933,12 +1000,6 @@ table {
             float: right;
             @media (orientation: landscape) {
                 display: none;
-            }
-
-            & > * {
-                display:inline-block;
-                margin-right:10px;
-                vertical-align:top;
             }
         }
 
@@ -1682,6 +1743,9 @@ table {
 
 .text-button {
     cursor: pointer;
+    &:not(:first-child) {
+        margin-left: 8px;
+    }
 
     &,
     &:link {
@@ -1700,6 +1764,10 @@ table {
         &:hover {
             color: $color-text-dark;
         }
+    }
+
+    & > i {
+        margin-right: 4px;
     }
 
 
@@ -1722,7 +1790,7 @@ table {
         margin-top: 4px;
     }
 
-    .section-content--lecture-detail & {
+    .section-content--lecture-detail > .buttons > & {
         font-size: $font-size-small;
         line-height: $line-height-small;
 
@@ -1732,7 +1800,7 @@ table {
     }
 
     .search-area .buttons & {
-        margin-left: 6px;
+        margin-left: 8px;
     }
 }
 
@@ -2365,6 +2433,16 @@ i.icon {
         }
     }
 
+    &--delete-from-table {
+        width:13px;
+        height:13px;
+        background-image: url(../static/icons/delete_from_table.svg);
+
+        *:hover > & {
+            background-image: url(../static/icons/delete_from_table_hover.svg);
+        }
+    }
+
     &--delete-lecture {
         width:11px;
         height:11px;
@@ -2502,6 +2580,26 @@ i.icon {
 
         *:hover > & {
             background-image: url(../static/icons/close_section_hover.svg);
+        }
+    }
+
+    &--switch-table {
+        width:15px;
+        height:15px;
+        background-image: url(../static/icons/switch_table.svg);
+
+        *:hover > & {
+            background-image: url(../static/icons/switch_table_hover.svg);
+        }
+    }
+
+    &--show-lectures {
+        width:15px;
+        height:15px;
+        background-image: url(../static/icons/show_lectures.svg);
+
+        *:hover > & {
+            background-image: url(../static/icons/show_lectures_hover.svg);
         }
     }
 }
