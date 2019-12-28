@@ -89,7 +89,7 @@ class SearchFilter extends Component {
 
     return (
       <div className={classNames('attribute')}>
-        <label>{ titleName }</label>
+        <span>{ titleName }</span>
         <div>
           {options.map(mapCircle)}
         </div>

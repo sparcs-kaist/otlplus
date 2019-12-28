@@ -133,7 +133,7 @@ class LectureDetailSection extends Component {
           : <div className={classNames('section-content--lecture-detail--list-area', 'list-placeholder')}><div>{t('ui.placeholder.noResults')}</div></div>);
       return (
         <div className={classNames('section-content', 'section-content--lecture-detail', 'section-content--flex')}>
-          <div className={classNames('close-button')} onClick={this.unfix}><i className={classNames('icon', 'icon--close-section')} /></div>
+          <button className={classNames('close-button')} onClick={this.unfix}><i className={classNames('icon', 'icon--close-section')} /></button>
           <div className={classNames('title')}>
             {lecture[t('js.property.title')]}
           </div>
@@ -142,7 +142,7 @@ class LectureDetailSection extends Component {
             {lecture.class_no.length ? ` (${lecture.class_no})` : ''}
           </div>
           <div className={classNames('buttons')}>
-            <span onClick={this.unfix} className={classNames('text-button', (showUnfix ? '' : classNames('text-button--disabled')))}>{t('ui.button.unfix')}</span>
+            <button onClick={this.unfix} className={classNames('text-button', (showUnfix ? '' : classNames('text-button--disabled')))}>{t('ui.button.unfix')}</button>
             <a className={classNames('text-button', 'text-button--right')} href={`https://cais.kaist.ac.kr/syllabusInfo?year=${lecture.year}&term=${lecture.semester}&subject_no=${lecture.code}&lecture_class=${lecture.class_no}&dept_id=${lecture.department}`} target="_blank" rel="noopener noreferrer">
               {t('ui.button.syllabus')}
             </a>
@@ -151,10 +151,10 @@ class LectureDetailSection extends Component {
             </Link>
           </div>
           <div className={classNames('fixed__conditional-part', (showCloseDict ? '' : 'fixed__conditional-part--hidden'))}>
-            <div className={classNames('small-title')} onClick={this.closeDictPreview}>
+            <button className={classNames('small-title')} onClick={this.closeDictPreview}>
               <span>{t('ui.title.reviews')}</span>
               <i className={classNames('icon', 'icon--lecture-uparrow')} />
-            </div>
+            </button>
           </div>
           <Scroller
             onScroll={
@@ -240,10 +240,10 @@ class LectureDetailSection extends Component {
                 <div>{t('ui.score.speech')}</div>
               </div>
             </div>
-            <div onClick={this.openDictPreview} className={classNames('small-title')} ref={this.openDictRef}>
+            <button onClick={this.openDictPreview} className={classNames('small-title')} ref={this.openDictRef}>
               <span>{t('ui.title.reviews')}</span>
               <i className={classNames('icon', 'icon--lecture-downarrow')} />
-            </div>
+            </button>
             {reviewsDom}
           </Scroller>
           <div className={classNames('divider', 'mobile-unhidden')} />
