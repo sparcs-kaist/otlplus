@@ -34,7 +34,12 @@
       "major": "Major",
       "humanity": "Humanities & Social Elective",
       "wishlist": "Wishlist",
-      "taken": "Taken"
+      "taken": "Taken",
+      "searchShort": "Search",
+      "majorShort": "Major",
+      "humanityShort": "Humanity",
+      "wishlistShort": "Wishlist",
+      "takenShort": "Taken"
     },
     "button": {
       "unfix": "Unfix",
