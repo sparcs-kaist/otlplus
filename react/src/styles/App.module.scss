@@ -1174,10 +1174,10 @@ table {
         top: $section-padding;
         right: $section-padding;
         cursor: pointer;
-        z-index: 210;
+        z-index: 290;
 
         .section-wrap--lecture-list & {
-            z-index: 10;
+            z-index: 90;
         }
 
         @media (orientation: landscape) {
