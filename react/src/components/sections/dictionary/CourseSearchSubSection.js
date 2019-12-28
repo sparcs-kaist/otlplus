@@ -210,8 +210,8 @@ class CourseSearchSubSection extends Component {
             />
           </div>
           <div className={classNames('buttons')}>
-            <span type="button" className={classNames('text-button')} onClick={() => this.searchStart()}>{t('ui.button.search')}</span>
-            <span type="button" className={classNames('text-button')} onClick={() => this.hideSearch()}>{t('ui.button.cancel')}</span>
+            <button type="button" className={classNames('text-button')} onClick={() => this.searchStart()}>{t('ui.button.search')}</button>
+            <button type="button" className={classNames('text-button')} onClick={() => this.hideSearch()}>{t('ui.button.cancel')}</button>
           </div>
           <div className={classNames('divider')} />
         </form>

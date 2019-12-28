@@ -233,7 +233,7 @@ class LectureSearchSubSection extends Component {
               options={levelOptions}
             />
             <div className={classNames('attribute')}>
-              <label>{t('ui.search.time')}</label>
+              <span>{t('ui.search.time')}</span>
               { day !== null
                 ? (
                   <label className={classNames('text-button')} onClick={this.clearSearchTime}>
@@ -243,9 +243,9 @@ class LectureSearchSubSection extends Component {
                   </label>
                 )
                 : (
-                  <label>
+                  <span>
                     {t('ui.others.dragTimetable')}
-                  </label>
+                  </span>
                 )
               }
             </div>
