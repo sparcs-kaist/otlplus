@@ -48,7 +48,7 @@ class CourseListTabs extends Component {
     const { currentList, major } = this.props;
 
     return (
-      <div className={classNames('tabs--lecture-list')}>
+      <div className={classNames('tabs', 'tabs--lecture-list')}>
         <button className={classNames((currentList === 'SEARCH' ? 'tabs__elem--active' : ''))} onClick={() => this.changeTab('SEARCH')}>
           <i className={classNames('icon', 'icon--tab-search')} />
           <span>{t('ui.tab.searchShort')}</span>
