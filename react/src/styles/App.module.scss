@@ -334,6 +334,23 @@ table {
 .tabs {
     font-size: $font-size-small;
     line-height: $line-height-small;
+    color: $color-text-light;
+
+    & > button {
+        cursor: pointer;
+        background-color: $color-tab-background-dark;
+        &.tabs__elem--active {
+            cursor: initial;
+            background-color: $color-tab-background;
+            color: $color-text-normal;
+        }
+        &:not(.tabs__elem--active) {
+            &:hover {
+                background-color: $color-tab-background-darker;
+            }
+        }
+    }
+
 
     &--course-list,
     &--lecture-list {
@@ -350,8 +367,6 @@ table {
 
         > button {
             padding: 8px;
-            background-color: $color-tab-background-dark;
-            color: $color-text-light;
             @media (orientation: landscape) {
                 display: block;
                 margin-left: auto;
@@ -367,11 +382,6 @@ table {
                 &:last-child {
                     margin-right: 0;
                 }
-            }
-
-            &.tabs__elem--active {
-                background-color: $color-tab-background;
-                color: $color-text-normal;
             }
 
             & > span {
@@ -390,15 +400,12 @@ table {
             width: 100%;
         }
 
-        & > div {
-            background-color: $color-tab-background-dark;
-            color: $color-text-light;
+        & > button {
             display: inline-block;
             vertical-align: top;
             margin-right: 6px;
             border-radius: $block-border-radius $block-border-radius 0 0;
             padding: 7px 10px;
-            cursor: pointer;
             display: inline-flex;
             flex-direction: row;
             justify-content: center;
@@ -408,21 +415,13 @@ table {
                 margin-bottom: 6px;
                 border-radius: $block-border-radius;
             }
-            &.active {
-                @media (orientation: landscape) {
-                    cursor: initial;
-                    background-color: $color-tab-background;
-                    color:$color-text-normal;
-                }
+            &.tabs__elem--active {
                 @media (orientation: portrait) {
                     background-color: $color-block-background-dark;
                 }
             }
-            &:not(.active) {
+            &:not(.tabs__elem--active) {
                 &:hover {
-                    @media (orientation: landscape) {
-                        background-color: $color-tab-background-darker;
-                    }
                     @media (orientation: portrait) {
                         background-color: $color-block-background-dark;
                     }

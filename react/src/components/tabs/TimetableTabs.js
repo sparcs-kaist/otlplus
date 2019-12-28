@@ -111,7 +111,7 @@ class TimetableTabs extends Component {
       return (
         <div className={classNames('tabs', 'tabs--timetable')}>
           { timetables.map((timetable, idx) => (
-            <div className={classNames((timetable.id === currentTimetable.id ? 'active' : ''))} key={timetable.id} onClick={() => this.changeTab(timetable)}>
+            <button className={classNames((timetable.id === currentTimetable.id ? 'tabs__elem--active' : ''))} key={timetable.id} onClick={() => this.changeTab(timetable)}>
               <span>
                 {`${t('ui.others.table')} ${idx + 1}`}
               </span>
@@ -123,19 +123,19 @@ class TimetableTabs extends Component {
                 <i className={classNames('icon', 'icon--delete-table')} />
                 <span>{t('ui.button.deleteTable')}</span>
               </button>
-            </div>
+            </button>
           ))}
-          <div onClick={() => this.createTable()}>
+          <button onClick={() => this.createTable()}>
             <i className={classNames('icon', 'icon--add-table')} />
-          </div>
+          </button>
         </div>
       );
     }
     return (
-      <div className={classNames('tabs--timetable')}>
-        <div style={{ pointerEvents: 'none' }}>
+      <div className={classNames('tabs', 'tabs--timetable')}>
+        <button style={{ pointerEvents: 'none' }}>
           <span>{t('ui.placeholder.loading')}</span>
-        </div>
+        </button>
       </div>
     );
   }
