@@ -379,20 +379,24 @@ table {
                     background-color: $color-tab-background;
                     color:$color-text-normal;
                 }
+                @media (orientation: portrait) {
+                    background-color: $color-block-background-dark;
+                }
             }
-            &:hover {
-                @media (orientation: landscape) {
-                    &:not(.active) {
-                        background-color: $color-tab-background-dark;
+            &:not(.active) {
+                &:hover {
+                    @media (orientation: landscape) {
+                        background-color: $color-tab-background-darker;
+                    }
+                    @media (orientation: portrait) {
+                        background-color: $color-block-background-dark;
                     }
                 }
-                @media (orientation: portrait) {
-                    background-color: #DDDDDD;
-                }
-            }
-            &:not(.active) > span:not(:first-child) {
-                @media (orientation: landscape) {
-                    display:none;
+
+                & > span:not(:first-child) {
+                    @media (orientation: landscape) {
+                        display:none;
+                    }
                 }
             }
             &:last-child:not(:first-child) {
