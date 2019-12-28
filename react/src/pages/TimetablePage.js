@@ -56,7 +56,7 @@ class TimetablePage extends Component {
           <div className={classNames('section-wrap', 'section-wrap--timetable-center-right')}>
             <div className={classNames('section-wrap', 'section-wrap--timetable-tabs', 'mobile-modal', (mobileShowTimetableTabs ? '' : 'mobile-hidden'))}>
               <div>
-                <div className={classNames('close-button')} onClick={() => setMobileShowTimetableTabsDispatch(false)}>닫기</div>
+                <div className={classNames('close-button')} onClick={() => setMobileShowTimetableTabsDispatch(false)}><i className={classNames('icon', 'icon--close-section')} /></div>
                 <TimetableTabs />
                 <SemesterSection />
               </div>
