@@ -1023,7 +1023,6 @@ table {
             & > * {
                 display:inline-block;
                 margin-right:10px;
-                vertical-align:top;
             }
         }
 
@@ -1989,7 +1988,6 @@ table {
                     white-space: nowrap;
 
                     & > i {
-                        vertical-align:top;
                         margin-left: 3px;
                     }
                 }
@@ -2341,12 +2339,13 @@ table {
 i.icon {
     display: inline-block;
     background: none no-repeat center center;
-    vertical-align: middle;
+    vertical-align: top;
 
     &--lecture-uparrow {
         width: 14px;
         height: 12px;
         background-image: url(../static/icons/lecture_uparrow.svg);
+        margin: (($line-height-normal - 12px) / 2) 0;
 
         *:hover > & {
             background-image: url(../static/icons/lecture_uparrow_hover.svg)
@@ -2358,6 +2357,7 @@ i.icon {
         width: 14px;
         height: 12px;
         background-image: url(../static/icons/lecture_downarrow.svg);
+        margin: (($line-height-normal - 12px) / 2) 0;
 
         *:hover > & {
             background-image: url(../static/icons/lecture_downarrow_hover.svg)
@@ -2368,6 +2368,7 @@ i.icon {
         width: 12px;
         height: 13px;
         background-image: url(../static/icons/search.svg);
+        margin: (($line-height-big - 13px) / 2) 0;
 
         *:hover > & {
             background-image: url(../static/icons/search_hover.svg)
@@ -2433,6 +2434,7 @@ i.icon {
         width: 13px;
         height: 13px;
         background-image: url(../static/icons/add_cart.svg);
+        margin: (($line-height-normal - 13px) / 2) 0;
 
         *:hover > & {
             background-image: url(../static/icons/add_cart_hover.svg);
@@ -2447,6 +2449,7 @@ i.icon {
         width: 13px;
         height: 13px;
         background-image: url(../static/icons/delete_cart.svg);
+        margin: (($line-height-normal - 13px) / 2) 0;
 
         *:hover > & {
             background-image: url(../static/icons/delete_cart_hover.svg);
@@ -2457,6 +2460,7 @@ i.icon {
         width: 13px;
         height: 13px;
         background-image: url(../static/icons/add_lecture.svg);
+        margin: (($line-height-normal - 13px) / 2) 0;
 
         *:hover > & {
             background-image: url(../static/icons/add_lecture_hover.svg);
@@ -2471,6 +2475,7 @@ i.icon {
         width:13px;
         height:13px;
         background-image: url(../static/icons/delete_from_table.svg);
+        margin: (($line-height-normal - 13px) / 2) 0;
 
         *:hover > & {
             background-image: url(../static/icons/delete_from_table_hover.svg);
@@ -2511,6 +2516,7 @@ i.icon {
         width:10px;
         height:11px;
         background-image: url(../static/icons/duplicate_table.svg);
+        margin: (($line-height-small - 11px) / 2) 0;
 
         *:hover > & {
             background-image: url(../static/icons/duplicate_table_hover.svg);
@@ -2521,6 +2527,7 @@ i.icon {
         width:10px;
         height:11px;
         background-image: url(../static/icons/delete_table.svg);
+        margin: (($line-height-small - 11px) / 2) 0;
 
         *:hover > & {
             background-image: url(../static/icons/delete_table_hover.svg);
@@ -2541,6 +2548,7 @@ i.icon {
         width:7px;
         height:11px;
         background-image: url(../static/icons/semester_prev.svg);
+        margin: (($line-height-small - 11px) / 2) 0;
 
         *:hover > & {
             background-image: url(../static/icons/semester_prev_hover.svg);
@@ -2555,6 +2563,7 @@ i.icon {
         width:7px;
         height:11px;
         background-image: url(../static/icons/semester_next.svg);
+        margin: (($line-height-small - 11px) / 2) 0;
 
         *:hover > & {
             background-image: url(../static/icons/semester_next_hover.svg);
@@ -2569,6 +2578,7 @@ i.icon {
         width:10px;
         height:12px;
         background-image: url(../static/icons/checkbox_unselected.svg);
+        margin: (($line-height-normal - 12px) / 2) 0;
 
         *:hover > & {
             background-image: url(../static/icons/checkbox_unselected_hover.svg);
@@ -2599,12 +2609,14 @@ i.icon {
         width:10px;
         height:12px;
         background-image: url(../static/icons/status_read.svg);
+        margin: (($line-height-normal - 12px) / 2) 0;
     }
 
     &--status-unread {
         width:10px;
         height:12px;
         background-image: url(../static/icons/status_unread.svg);
+        margin: (($line-height-normal - 12px) / 2) 0;
     }
 
     &--close-section {
@@ -2621,6 +2633,7 @@ i.icon {
         width:13px;
         height:13px;
         background-image: url(../static/icons/switch_table.svg);
+        margin: (($line-height-normal - 13px) / 2) 0;
 
         *:hover > & {
             background-image: url(../static/icons/switch_table_hover.svg);
@@ -2631,6 +2644,7 @@ i.icon {
         width:13px;
         height:13px;
         background-image: url(../static/icons/show_lectures.svg);
+        margin: (($line-height-normal - 13px) / 2) 0;
 
         *:hover > & {
             background-image: url(../static/icons/show_lectures_hover.svg);
