@@ -358,6 +358,7 @@ table {
     color: $color-text-light;
 
     & > button {
+        text-align: center;
         background-color: $color-tab-background-dark;
         &.tabs__elem--active {
             cursor: initial;
