@@ -109,7 +109,7 @@ class TimetableTabs extends Component {
 
     if (timetables && timetables.length) {
       return (
-        <div className={classNames('tabs--timetable')}>
+        <div className={classNames('tabs', 'tabs--timetable')}>
           { timetables.map((timetable, idx) => (
             <div className={classNames((timetable.id === currentTimetable.id ? 'active' : ''))} key={timetable.id} onClick={() => this.changeTab(timetable)}>
               <span>
