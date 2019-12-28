@@ -285,14 +285,14 @@ class LectureListSection extends Component {
       return (
         <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
           { searchOpen ? <LectureSearchSubSection /> : null }
-          <div className={classNames('close-button')} onClick={this.mobileCloseLectureList}>닫기</div>
+          <div className={classNames('close-button')} onClick={this.mobileCloseLectureList}><i className={classNames('icon', 'icon--close-section')} /></div>
           <div className={classNames('title', 'title--search')} onClick={() => this.showSearch()}>
             <i className={classNames('icon', 'icon--search')} />
             <span>{t('ui.tab.search')}</span>
           </div>
           <div>
             <div ref={this.arrowRef}>
-              <span>&lt;</span>
+              <i className={classNames('icon', 'icon--lecture-selector')} />
             </div>
             <Scroller onScroll={this.selectWithArrow}>
               {mapCourses(search.courses, false)}
@@ -304,13 +304,13 @@ class LectureListSection extends Component {
     if (major.codes.some(code => (currentList === code))) {
       return (
         <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
-          <div className={classNames('close-button')} onClick={this.mobileCloseLectureList}>닫기</div>
+          <div className={classNames('close-button')} onClick={this.mobileCloseLectureList}><i className={classNames('icon', 'icon--close-section')} /></div>
           <div className={classNames('title')}>
             {major[currentList][t('js.property.name')]}
           </div>
           <div>
             <div ref={this.arrowRef}>
-              <span>&lt;</span>
+              <i className={classNames('icon', 'icon--lecture-selector')} />
             </div>
             <Scroller onScroll={this.selectWithArrow}>
               {mapCourses(major[currentList].courses, false)}
@@ -322,13 +322,13 @@ class LectureListSection extends Component {
     if (currentList === 'HUMANITY') {
       return (
         <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
-          <div className={classNames('close-button')} onClick={this.mobileCloseLectureList}>닫기</div>
+          <div className={classNames('close-button')} onClick={this.mobileCloseLectureList}><i className={classNames('icon', 'icon--close-section')} /></div>
           <div className={classNames('title')}>
             {t('ui.tab.humanity')}
           </div>
           <div>
             <div ref={this.arrowRef}>
-              <span>&lt;</span>
+              <i className={classNames('icon', 'icon--lecture-selector')} />
             </div>
             <Scroller onScroll={this.selectWithArrow}>
               {mapCourses(humanity.courses, false)}
@@ -340,13 +340,13 @@ class LectureListSection extends Component {
     if (currentList === 'CART') {
       return (
         <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
-          <div className={classNames('close-button')} onClick={this.mobileCloseLectureList}>닫기</div>
+          <div className={classNames('close-button')} onClick={this.mobileCloseLectureList}><i className={classNames('icon', 'icon--close-section')} /></div>
           <div className={classNames('title')}>
             {t('ui.tab.wishlist')}
           </div>
           <div>
             <div ref={this.arrowRef}>
-              <span>&lt;</span>
+              <i className={classNames('icon', 'icon--lecture-selector')} />
             </div>
             <Scroller onScroll={this.selectWithArrow}>
               {mapCourses(cart.courses, true)}

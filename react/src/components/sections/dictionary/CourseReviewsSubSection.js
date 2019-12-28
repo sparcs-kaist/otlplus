@@ -16,7 +16,7 @@ import userShape from '../../../shapes/UserShape';
 
 class CourseReviewsSubSection extends Component {
   componentDidMount() {
-    this._fetchLectures();
+    this._fetchReviews();
   }
 
 
@@ -27,11 +27,11 @@ class CourseReviewsSubSection extends Component {
       return;
     }
 
-    this._fetchLectures();
+    this._fetchReviews();
   }
 
 
-  _fetchLectures = () => {
+  _fetchReviews = () => {
     const { course, setReviewsDispatch } = this.props;
 
     axios.get(`${BASE_URL}/api/courses/${course.id}/comments`, {
@@ -41,7 +41,20 @@ class CourseReviewsSubSection extends Component {
         if (newProps.course.id !== course.id) {
           return;
         }
+        this._markRead(course);
         setReviewsDispatch(response.data);
+      })
+      .catch((response) => {
+      });
+  }
+
+
+  _markRead = (course) => {
+    axios.post(`${BASE_URL}/api/review/read`, {
+      id: course.id,
+    })
+      .then((cresponse) => {
+        // TODO: Update read status on front-end
       })
       .catch((response) => {
       });
