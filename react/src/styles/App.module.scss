@@ -519,16 +519,9 @@ table {
             & > div:first-child {
                 align-self: flex-start;
                 margin-top: 8px + $line-height-normal + (6px * 2) + 1px;
-                margin-left: 5px;
-                margin-right: -5px;
+                margin-left: 6px;
                 @media (orientation: landscape) {
                     display: none;
-                }
-
-                & > span {
-                    display: inline-block;
-                    width: 7px;
-                    height: 14px;
                 }
             }
 
@@ -537,7 +530,7 @@ table {
             }
 
             & .scroll-placeholder {
-                height: calc(100% - (8px * 2 + #{$line-height-normal} * 2 + 6px * 2 + 1px + 6px));
+                height: calc(100% - (8px * 2 + #{$line-height-normal} * 2 + 6px * 2 + 1px + 6px + #{$section-padding}));
                 @media (orientation: landscape) {
                     display: none;
                 }
@@ -1134,6 +1127,10 @@ table {
             padding-bottom: 6px;
             border-bottom: 1px solid $color-block-line;
             margin-bottom: 6px;
+
+            & > i:first-child {
+                margin-right: 4px;
+            }
         }
     }
 
@@ -2471,6 +2468,40 @@ i.icon {
 
         *:hover > *:checked + & {
             background-image: url(../static/icons/checkbox_selected_hover.svg);
+        }
+    }
+
+    &--lecture-selector {
+        width:10px;
+        height:12px;
+        background-image: url(../static/icons/lecture_selector.svg);
+    }
+
+    &--related-arrow {
+        width:9px;
+        height:16px;
+        background-image: url(../static/icons/related_arrow.svg);
+    }
+
+    &--status-read {
+        width:10px;
+        height:12px;
+        background-image: url(../static/icons/status_read.svg);
+    }
+
+    &--status-unread {
+        width:10px;
+        height:12px;
+        background-image: url(../static/icons/status_unread.svg);
+    }
+
+    &--close-section {
+        width:15px;
+        height:15px;
+        background-image: url(../static/icons/close_section.svg);
+
+        *:hover > & {
+            background-image: url(../static/icons/close_section_hover.svg);
         }
     }
 }

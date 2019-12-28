@@ -78,7 +78,7 @@ def courses_list_view(request):
             )
 
         courses = courses.distinct()
-        result = [c.toJson() for c in courses[:300]]
+        result = [c.toJson(user=request.user) for c in courses[:300]]
         return JsonResponse(result, safe=False)
 
 
@@ -87,7 +87,7 @@ def courses_intance_view(request, course_id):
     if request.method == 'GET':
         course = get_object_or_404(Course, id=course_id)
 
-        result = course.toJson()
+        result = course.toJson(user=request.user)
         return JsonResponse(result)
 
 
