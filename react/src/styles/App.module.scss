@@ -134,10 +134,17 @@ table {
 
 .content {
     position: relative;
-    width: calc(#{$section-desktop-width} + (#{$section-margin-lr} * 2) + (env(safe-area-inset-left) + env(safe-area-inset-right)));
     margin-top: $header-height;
     margin-left: auto;
     margin-right: auto;
+    @media (orientation: landscape) {
+        width: calc(
+            #{$section-desktop-width}
+            + (#{$section-margin-lr} * 2)
+            + (env(safe-area-inset-left)
+            + env(safe-area-inset-right))
+        );
+    }
     @media (orientation: portrait) {
         width: 100%;
     }
@@ -169,10 +176,12 @@ table {
 
 
 .main-image {
-    height: 400px;
     background: url(../static/img/review/search/bg.jpg) center 0;
     background-size: 100% auto;
-    padding-top: 191px;
+    @media (orientation: landscape) {
+        height: 400px;
+        padding-top: 191px;
+    }
     @media (orientation: portrait) {
         height: 200px;
         padding-top: 91px;
@@ -223,9 +232,11 @@ table {
 
 
     &--main-search {
-        width: calc(#{$section-desktop-width} + (#{$section-margin-lr} * 2));
         margin: 0 auto;
         padding: 0 $section-margin-lr;
+        @media (orientation: landscape) {
+            width: calc(#{$section-desktop-width} + (#{$section-margin-lr} * 2));
+        }
         @media (orientation:portrait) {
             width: 100%
         }
@@ -234,8 +245,10 @@ table {
 
     &--course-list {
         flex: none;
-        width: calc(40vh + 186px);
         margin-top: 0px;
+        @media (orientation: landscape) {
+            width: calc(40vh + 186px);
+        }
         @media (orientation: portrait) {
             width: calc(100% - #{$section-margin-lr} * 2);
         }
@@ -251,12 +264,13 @@ table {
 
 
     &--timetable-left {
-        flex: none;
-        width: calc(15vh + 126px);
-        margin-top: 0px;
         display: flex;
         flex-direction: column;
-
+        @media (orientation: landscape) {
+            width: calc(15vh + 126px);
+            flex: none;
+            margin-top: 0px;
+        }
         @media (orientation: portrait) {
            width: calc(100% - #{$section-margin-lr} * 2);
            flex: 1 1 ($line-height-small + 8px * 2);
@@ -266,15 +280,17 @@ table {
 
 
     &--timetable-center-right {
-        flex: none;
-        width:  calc(65vh + 246px);
-        margin-top: 0px;
-        margin-left: 0;
         display: flex;
         flex-direction: column;
-
+        @media (orientation: landscape) {
+            width:  calc(65vh + 246px);
+            margin-top: 0px;
+            margin-left: 0;
+            flex: none;
+        }
         @media (orientation: portrait) {
             width: calc(100% - #{$section-margin-lr} * 2);
+            margin-top: 0px;
             margin-left: $section-margin-lr;
             margin-bottom: $section-margin-bottom;
             flex: 1 1 0;
@@ -284,10 +300,12 @@ table {
 
     &--timetable-right {
         flex: none;
-        width: calc(15vh + 126px - #{$section-margin-lr} * 2);
         margin: 0;
         display: flex;
         flex-direction: column;
+        @media (orientation: landscape) {
+            width: calc(15vh + 126px - #{$section-margin-lr} * 2);
+        }
         @media (orientation: portrait) {
             width: 100%
         }
@@ -340,6 +358,7 @@ table {
     color: $color-text-light;
 
     & > button {
+        text-align: center;
         background-color: $color-tab-background-dark;
         &.tabs__elem--active {
             cursor: initial;
@@ -416,19 +435,16 @@ table {
                 background-color: $color-block-background;
                 margin-bottom: 6px;
                 border-radius: $block-border-radius;
-            }
-            &.tabs__elem--active {
-                @media (orientation: portrait) {
+                &.tabs__elem--active {
                     background-color: $color-block-background-dark;
                 }
-            }
-            &:not(.tabs__elem--active) {
-                &:hover {
-                    @media (orientation: portrait) {
+                &:not(.tabs__elem--active) {
+                    &:hover {
                         background-color: $color-block-background-dark;
                     }
                 }
-
+            }
+            &:not(.tabs__elem--active) {
                 & > button {
                     @media (orientation: landscape) {
                         display:none;
@@ -497,7 +513,9 @@ table {
     &--timetable {
         flex: auto;
         display: flex;
-        flex-direction: row;
+        @media (orientation: landscape) {
+            flex-direction: row;
+        }
         @media (orientation: portrait) {
             flex-direction: column;
             border-top-left-radius: 6px;
@@ -563,7 +581,13 @@ table {
 
     &--lecture-detail {
         &--list-area {
-            min-height: calc(100% - (#{$line-height-normal} + 6px + #{$section-padding})) !important;
+            min-height: calc(
+                100% - (
+                    #{$line-height-normal}
+                    + 6px
+                    + #{$section-padding}
+                )
+            ) !important;
 
             @media (orientation: portrait) {
                 min-height: initial !important;
@@ -595,7 +619,16 @@ table {
             }
 
             & .scroll-placeholder {
-                height: calc(100% - (8px * 2 + #{$line-height-normal} * 2 + 6px * 2 + 1px + 6px + #{$section-padding}));
+                height: calc(
+                    100% - (
+                        8px * 2
+                        + #{$line-height-normal} * 2
+                        + 6px * 2
+                        + 1px
+                        + 6px
+                        + #{$section-padding}
+                    )
+                );
                 @media (orientation: landscape) {
                     display: none;
                 }
@@ -990,7 +1023,6 @@ table {
             & > * {
                 display:inline-block;
                 margin-right:10px;
-                vertical-align:top;
             }
         }
 
@@ -1057,11 +1089,13 @@ table {
                     line-height: $line-height-smallest;
 
                     & > div {
-                        flex: 1 1 0;
                         text-align: center;
                         padding-left: 1px;
                         &:last-child {
                             padding-right: 1px;
+                        }
+                        @media (orientation: landscape) {
+                            flex: 1 1 0;
                         }
                         @media (orientation: portrait) {
                             flex: 0 0 10vw;
@@ -1084,9 +1118,11 @@ table {
                     flex-direction: row;
 
                     & > div {
-                        flex: 1 1 0;
                         text-align: center;
                         height: 57px;
+                        @media (orientation: landscape) {
+                            flex: 1 1 0;
+                        }
                         @media (orientation: portrait) {
                             flex: 0 0 10vw;
                         }
@@ -1132,20 +1168,20 @@ table {
 
 
 .close-button {
-    display: none;
-
-    @media (orientation: portrait) {
         display: block;
         position: absolute;
         top: $section-padding;
         right: $section-padding;
         cursor: pointer;
-        z-index: 210;
+        z-index: 290;
 
         .section-wrap--lecture-list & {
-            z-index: 10;
+            z-index: 90;
         }
-    }
+
+        @media (orientation: landscape) {
+            display: none;
+        }
 }
 
 
@@ -1952,7 +1988,6 @@ table {
                     white-space: nowrap;
 
                     & > i {
-                        vertical-align:top;
                         margin-left: 3px;
                     }
                 }
@@ -2304,12 +2339,13 @@ table {
 i.icon {
     display: inline-block;
     background: none no-repeat center center;
-    vertical-align: middle;
+    vertical-align: top;
 
     &--lecture-uparrow {
         width: 14px;
         height: 12px;
         background-image: url(../static/icons/lecture_uparrow.svg);
+        margin: (($line-height-normal - 12px) / 2) 0;
 
         *:hover > & {
             background-image: url(../static/icons/lecture_uparrow_hover.svg)
@@ -2321,6 +2357,7 @@ i.icon {
         width: 14px;
         height: 12px;
         background-image: url(../static/icons/lecture_downarrow.svg);
+        margin: (($line-height-normal - 12px) / 2) 0;
 
         *:hover > & {
             background-image: url(../static/icons/lecture_downarrow_hover.svg)
@@ -2331,6 +2368,7 @@ i.icon {
         width: 12px;
         height: 13px;
         background-image: url(../static/icons/search.svg);
+        margin: (($line-height-big - 13px) / 2) 0;
 
         *:hover > & {
             background-image: url(../static/icons/search_hover.svg)
@@ -2354,7 +2392,7 @@ i.icon {
         background-image: url(../static/icons/tab_major.svg);
 
         *:hover > &,
-        *tabs__elem--active > & {
+        *.tabs__elem--active > & {
             background-image: url(../static/icons/tab_major_hover.svg)
         }
     }
@@ -2396,6 +2434,7 @@ i.icon {
         width: 13px;
         height: 13px;
         background-image: url(../static/icons/add_cart.svg);
+        margin: (($line-height-normal - 13px) / 2) 0;
 
         *:hover > & {
             background-image: url(../static/icons/add_cart_hover.svg);
@@ -2410,6 +2449,7 @@ i.icon {
         width: 13px;
         height: 13px;
         background-image: url(../static/icons/delete_cart.svg);
+        margin: (($line-height-normal - 13px) / 2) 0;
 
         *:hover > & {
             background-image: url(../static/icons/delete_cart_hover.svg);
@@ -2420,6 +2460,7 @@ i.icon {
         width: 13px;
         height: 13px;
         background-image: url(../static/icons/add_lecture.svg);
+        margin: (($line-height-normal - 13px) / 2) 0;
 
         *:hover > & {
             background-image: url(../static/icons/add_lecture_hover.svg);
@@ -2434,6 +2475,7 @@ i.icon {
         width:13px;
         height:13px;
         background-image: url(../static/icons/delete_from_table.svg);
+        margin: (($line-height-normal - 13px) / 2) 0;
 
         *:hover > & {
             background-image: url(../static/icons/delete_from_table_hover.svg);
@@ -2474,6 +2516,7 @@ i.icon {
         width:10px;
         height:11px;
         background-image: url(../static/icons/duplicate_table.svg);
+        margin: (($line-height-small - 11px) / 2) 0;
 
         *:hover > & {
             background-image: url(../static/icons/duplicate_table_hover.svg);
@@ -2484,6 +2527,7 @@ i.icon {
         width:10px;
         height:11px;
         background-image: url(../static/icons/delete_table.svg);
+        margin: (($line-height-small - 11px) / 2) 0;
 
         *:hover > & {
             background-image: url(../static/icons/delete_table_hover.svg);
@@ -2504,6 +2548,7 @@ i.icon {
         width:7px;
         height:11px;
         background-image: url(../static/icons/semester_prev.svg);
+        margin: (($line-height-small - 11px) / 2) 0;
 
         *:hover > & {
             background-image: url(../static/icons/semester_prev_hover.svg);
@@ -2518,6 +2563,7 @@ i.icon {
         width:7px;
         height:11px;
         background-image: url(../static/icons/semester_next.svg);
+        margin: (($line-height-small - 11px) / 2) 0;
 
         *:hover > & {
             background-image: url(../static/icons/semester_next_hover.svg);
@@ -2532,6 +2578,7 @@ i.icon {
         width:10px;
         height:12px;
         background-image: url(../static/icons/checkbox_unselected.svg);
+        margin: (($line-height-normal - 12px) / 2) 0;
 
         *:hover > & {
             background-image: url(../static/icons/checkbox_unselected_hover.svg);
@@ -2562,12 +2609,14 @@ i.icon {
         width:10px;
         height:12px;
         background-image: url(../static/icons/status_read.svg);
+        margin: (($line-height-normal - 12px) / 2) 0;
     }
 
     &--status-unread {
         width:10px;
         height:12px;
         background-image: url(../static/icons/status_unread.svg);
+        margin: (($line-height-normal - 12px) / 2) 0;
     }
 
     &--close-section {
@@ -2581,9 +2630,10 @@ i.icon {
     }
 
     &--switch-table {
-        width:15px;
-        height:15px;
+        width:13px;
+        height:13px;
         background-image: url(../static/icons/switch_table.svg);
+        margin: (($line-height-normal - 13px) / 2) 0;
 
         *:hover > & {
             background-image: url(../static/icons/switch_table_hover.svg);
@@ -2591,9 +2641,10 @@ i.icon {
     }
 
     &--show-lectures {
-        width:15px;
-        height:15px;
+        width:13px;
+        height:13px;
         background-image: url(../static/icons/show_lectures.svg);
+        margin: (($line-height-normal - 13px) / 2) 0;
 
         *:hover > & {
             background-image: url(../static/icons/show_lectures_hover.svg);
