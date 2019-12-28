@@ -37,7 +37,7 @@ class CourseDetailSection extends Component {
     if (clicked && course !== null) {
       return (
         <div className={classNames('section-content', 'section-content--flex', 'section-content--course-detail')}>
-          <div className={classNames('close-button')} onClick={this.unfix}><i className={classNames('icon', 'icon--close-section')} /></div>
+          <button className={classNames('close-button')} onClick={this.unfix}><i className={classNames('icon', 'icon--close-section')} /></button>
           <div className={classNames('fixed')}>
             <div>
               <div className={classNames('title')}>

@@ -33,7 +33,7 @@ const TimetableBlock = ({ t, lecture, classtime, cellWidth, cellHeight, isClicke
       onMouseOut={blockOut}
       onClick={blockClick ? blockClick(lecture) : null}
     >
-      <div className={classNames('block--timetable__button')} onClick={deleteLecture ? deleteLecture(lecture) : null}><i className={classNames('icon', 'icon--delete-lecture')} /></div>
+      <button className={classNames('block--timetable__button')} onClick={deleteLecture ? deleteLecture(lecture) : null}><i className={classNames('icon', 'icon--delete-lecture')} /></button>
       <div
         // onMouseDown={() => onMouseDown()}
         className={classNames('block--timetable__content')}
