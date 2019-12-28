@@ -115,8 +115,14 @@ class TimetableTabs extends Component {
               <span>
                 {`${t('ui.others.table')} ${idx + 1}`}
               </span>
-              <span onClick={event => this.duplicateTable(event, timetable)}><i className={classNames('icon', 'icon--duplicate-table')} /></span>
-              <span onClick={event => this.deleteTable(event, timetable)}><i className={classNames('icon', 'icon--delete-table')} /></span>
+              <button onClick={event => this.duplicateTable(event, timetable)}>
+                <i className={classNames('icon', 'icon--duplicate-table')} />
+                <span>{t('ui.button.duplicateTable')}</span>
+              </button>
+              <button onClick={event => this.deleteTable(event, timetable)}>
+                <i className={classNames('icon', 'icon--delete-table')} />
+                <span>{t('ui.button.deleteTable')}</span>
+              </button>
             </div>
           ))}
           <div onClick={() => this.createTable()}>
