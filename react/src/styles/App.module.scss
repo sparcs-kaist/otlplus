@@ -93,15 +93,18 @@ textarea {
 
 
 button {
+    cursor: pointer;
     background-color: transparent;
     border: none;
     outline: none;
     font-size: inherit;
     line-height: inherit;
+    text-align: initial;
 }
 
 
 label {
+    cursor: pointer;
     font-weight: initial;
 }
 
@@ -337,7 +340,6 @@ table {
     color: $color-text-light;
 
     & > button {
-        cursor: pointer;
         background-color: $color-tab-background-dark;
         &.tabs__elem--active {
             cursor: initial;
@@ -530,7 +532,7 @@ table {
             margin-bottom: 10px;
         }
 
-        & > div {
+        & > button {
             flex: 0 0 auto;
             &.disable {
                 pointer-events: none;
@@ -570,10 +572,6 @@ table {
 
         &__mobile-buttons {
             text-align: right;
-
-            & > span {
-                margin-left: 10px;
-            }
         }
     }
 
@@ -1732,7 +1730,6 @@ table {
         display: inline-block;
         width: 100%;
         padding-bottom: 6px;
-        cursor: pointer;
 
         & > span {
             margin-right: 6px;
