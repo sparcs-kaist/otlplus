@@ -250,13 +250,33 @@ class LectureDetailSection extends Component {
           <div className={classNames('section-content--lecture-detail__mobile-buttons', 'mobile-unhidden')}>
             {
               !inCart(lecture, cart)
-                ? <span onClick={this.addToCart}>장바구니에 추가</span>
-                : <span onClick={this.deleteFromCart}>장바구니에서 제거</span>
+                ? (
+                  <button className={classNames('text-button', 'text-button--black')} onClick={this.addToCart}>
+                    <i className={classNames('icon', 'icon--add-cart')} />
+                    {t('ui.button.addToWishlist')}
+                  </button>
+                )
+                : (
+                  <button className={classNames('text-button', 'text-button--black')} onClick={this.deleteFromCart}>
+                    <i className={classNames('icon', 'icon--delete-cart')} />
+                    {t('ui.button.deleteFromWishlist')}
+                  </button>
+                )
             }
             {
               !inTimetable(lecture, currentTimetable)
-                ? <span onClick={this.addToTable}>시간표에 추가</span>
-                : <span onClick={this.deleteFromTable}>시간표에서 제거</span>
+                ? (
+                  <button className={classNames('text-button', 'text-button--black')} onClick={this.addToTable}>
+                    <i className={classNames('icon', 'icon--add-lecture')} />
+                    {t('ui.button.addToTable')}
+                  </button>
+                )
+                : (
+                  <button className={classNames('text-button', 'text-button--black')} onClick={this.deleteFromTable}>
+                    <i className={classNames('icon', 'icon--delete-from-table')} />
+                    {t('ui.button.deleteFromTable')}
+                  </button>
+                )
             }
           </div>
         </div>

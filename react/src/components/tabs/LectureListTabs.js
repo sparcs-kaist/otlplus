@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 
@@ -47,16 +48,29 @@ class LectureListTabs extends Component {
   }
 
   render() {
+    const { t } = this.props;
     const { currentList, major } = this.props;
 
     return (
-      <div className={classNames('tabs--lecture-list')}>
-        <button className={classNames((currentList === 'SEARCH' ? 'tabs__elem--active' : ''))} onClick={() => this.changeTab('SEARCH')}><i className={classNames('icon', 'icon--tab-search')} /></button>
+      <div className={classNames('tabs', 'tabs--lecture-list')}>
+        <button className={classNames((currentList === 'SEARCH' ? 'tabs__elem--active' : ''))} onClick={() => this.changeTab('SEARCH')}>
+          <i className={classNames('icon', 'icon--tab-search')} />
+          <span>{t('ui.tab.searchShort')}</span>
+        </button>
         {major.codes.map(code => (
-          <button className={classNames((currentList === code ? 'tabs__elem--active' : ''))} key={code} onClick={() => this.changeTab(code)}><i className={classNames('icon', 'icon--tab-major')} /></button>
+          <button className={classNames((currentList === code ? 'tabs__elem--active' : ''))} key={code} onClick={() => this.changeTab(code)}>
+            <i className={classNames('icon', 'icon--tab-major')} />
+            <span>{t('ui.tab.majorShort')}</span>
+          </button>
         ))}
-        <button className={classNames((currentList === 'HUMANITY' ? 'tabs__elem--active' : ''))} onClick={() => this.changeTab('HUMANITY')}><i className={classNames('icon', 'icon--tab-humanity')} /></button>
-        <button className={classNames((currentList === 'CART' ? 'tabs__elem--active' : ''))} onClick={() => this.changeTab('CART')}><i className={classNames('icon', 'icon--tab-cart')} /></button>
+        <button className={classNames((currentList === 'HUMANITY' ? 'tabs__elem--active' : ''))} onClick={() => this.changeTab('HUMANITY')}>
+          <i className={classNames('icon', 'icon--tab-humanity')} />
+          <span>{t('ui.tab.humanityShort')}</span>
+        </button>
+        <button className={classNames((currentList === 'CART' ? 'tabs__elem--active' : ''))} onClick={() => this.changeTab('CART')}>
+          <i className={classNames('icon', 'icon--tab-cart')} />
+          <span>{t('ui.tab.wishlistShort')}</span>
+        </button>
       </div>
     );
   }
@@ -113,4 +127,4 @@ LectureListTabs.propTypes = {
   clearLectureActiveDispatch: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(LectureListTabs);
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(LectureListTabs));

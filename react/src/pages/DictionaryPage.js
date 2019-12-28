@@ -63,7 +63,7 @@ class DictionaryPage extends Component {
     return (
       <>
         <section className={classNames('content', 'content--no-scroll')}>
-          <div className={classNames('section-wrap', 'section-wrap--course-list')}>
+          <div className={classNames('section-wrap', 'section-wrap--with-tabs', 'section-wrap--course-list')}>
             <CourseListTabs />
             <div className={classNames('section', 'section--with-tabs')}>
               <CourseListSection />
