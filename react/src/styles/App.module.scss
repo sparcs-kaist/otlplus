@@ -2392,7 +2392,7 @@ i.icon {
         background-image: url(../static/icons/tab_major.svg);
 
         *:hover > &,
-        *tabs__elem--active > & {
+        *.tabs__elem--active > & {
             background-image: url(../static/icons/tab_major_hover.svg)
         }
     }
