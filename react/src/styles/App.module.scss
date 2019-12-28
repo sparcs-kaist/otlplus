@@ -293,7 +293,6 @@ table {
 
 
     &--lecture-list {
-        position: relative;
         flex: 1 1 100%;
         margin: 0;
     }
@@ -327,22 +326,49 @@ table {
 .tabs {
     &--course-list,
     &--lecture-list {
-        position: absolute;
-        vertical-align: top;
-        width: 50px;
-        margin-left: -50px;
+        @media (orientation: landscape) {
+            position: absolute;
+            vertical-align: top;
+            width: 50px;
+            margin-left: -50px;
+        }
+        @media (orientation: portrait) {
+            display: flex;
+            flex-direction: row;
+        }
 
         > button {
-            display: block;
             padding: 8px;
-            margin-left: auto;
-            margin-bottom: 6px;
-            line-height: 0;
-            border-radius: $block-border-radius 0 0 $block-border-radius;
             background-color: $color-tab-background-dark;
+            color: $color-text-light;
+            @media (orientation: landscape) {
+                display: block;
+                margin-left: auto;
+                margin-bottom: 6px;
+                border-radius: $block-border-radius 0 0 $block-border-radius;
+                line-height: 0;
+            }
+            @media (orientation: portrait) {
+                display: inline-block;
+                margin-right: 6px;
+                border-radius: $block-border-radius $block-border-radius 0 0;
+                flex: 1 1 0;
+                &:last-child {
+                    margin-right: 0;
+                }
+            }
 
             &.tabs__elem--active {
                 background-color: $color-tab-background;
+                color: $color-text-normal;
+            }
+
+            & > span {
+                margin-left: 6px;
+
+                @media (orientation: landscape) {
+                    display: none;
+                }
             }
         }
     }
@@ -431,7 +457,13 @@ table {
     &--with-tabs {
         display: inline-block;
         vertical-align: top;
-        border-top-left-radius: 0;
+        @media (orientation: landscape) {
+            border-top-left-radius: 0;
+        }
+        @media (orientation: portrait) {
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
     }
 
 
@@ -442,7 +474,13 @@ table {
         @media (orientation: portrait) {
             flex-direction: column;
             border-top-left-radius: 6px;
+            border-top-right-radius: 6px;
         }
+    }
+
+
+    &--lecture-list {
+        position: relative;
     }
 
 

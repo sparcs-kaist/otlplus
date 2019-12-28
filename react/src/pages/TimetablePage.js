@@ -48,7 +48,7 @@ class TimetablePage extends Component {
             </div>
             <div className={classNames('section-wrap', 'section-wrap--lecture-list', (mobileShowLectureList ? '' : 'mobile-hidden'))}>
               <LectureListTabs />
-              <div className={classNames('section', 'section--with-tabs')}>
+              <div className={classNames('section', 'section--with-tabs', 'section--lecture-list')}>
                 <LectureListSection />
               </div>
             </div>
