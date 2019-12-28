@@ -419,7 +419,7 @@ table {
                     }
                 }
 
-                & > span:not(:first-child) {
+                & > button {
                     @media (orientation: landscape) {
                         display:none;
                     }
@@ -433,12 +433,28 @@ table {
                 }
             }
 
-            & > span:first-child {
+            & > span {
                 flex: 1 1 auto;
             }
 
-            & > span:not(:first-child) {
-                margin-left: 4px;
+            & > button {
+                color: $color-text-light;
+                @media (orientation: landscape) {
+                    margin-left: 4px;
+                }
+                @media (orientation: portrait) {
+                    margin-left: 8px;
+                }
+                &:hover {
+                    color: $color-text-dark;
+                }
+
+                & > span {
+                    margin-left: 4px;
+                    @media (orientation: landscape) {
+                        display: none;
+                    }
+                }
             }
         }
     }
@@ -975,12 +991,6 @@ table {
             float: right;
             @media (orientation: landscape) {
                 display: none;
-            }
-
-            & > * {
-                display:inline-block;
-                margin-right:10px;
-                vertical-align:top;
             }
         }
 
@@ -1724,6 +1734,9 @@ table {
 
 .text-button {
     cursor: pointer;
+    &:not(:first-child) {
+        margin-left: 8px;
+    }
 
     &,
     &:link {
@@ -1742,6 +1755,10 @@ table {
         &:hover {
             color: $color-text-dark;
         }
+    }
+
+    & > i {
+        margin-right: 4px;
     }
 
 
@@ -1764,7 +1781,7 @@ table {
         margin-top: 4px;
     }
 
-    .section-content--lecture-detail & {
+    .section-content--lecture-detail > .buttons > & {
         font-size: $font-size-small;
         line-height: $line-height-small;
 
@@ -1774,7 +1791,7 @@ table {
     }
 
     .search-area .buttons & {
-        margin-left: 6px;
+        margin-left: 8px;
     }
 }
 
@@ -2407,6 +2424,16 @@ i.icon {
         }
     }
 
+    &--delete-from-table {
+        width:13px;
+        height:13px;
+        background-image: url(../static/icons/delete_from_table.svg);
+
+        *:hover > & {
+            background-image: url(../static/icons/delete_from_table_hover.svg);
+        }
+    }
+
     &--delete-lecture {
         width:11px;
         height:11px;
@@ -2544,6 +2571,26 @@ i.icon {
 
         *:hover > & {
             background-image: url(../static/icons/close_section_hover.svg);
+        }
+    }
+
+    &--switch-table {
+        width:15px;
+        height:15px;
+        background-image: url(../static/icons/switch_table.svg);
+
+        *:hover > & {
+            background-image: url(../static/icons/switch_table_hover.svg);
+        }
+    }
+
+    &--show-lectures {
+        width:15px;
+        height:15px;
+        background-image: url(../static/icons/show_lectures.svg);
+
+        *:hover > & {
+            background-image: url(../static/icons/show_lectures_hover.svg);
         }
     }
 }
