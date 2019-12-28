@@ -188,7 +188,7 @@
       "hourCount_plural": "{{count}} hours",
       "minuteCount": "{{count}} minute",
       "minuteCount_plural": "{{count}} minutes",
-      "secondCount": "{{count}} seconds",
+      "secondCount": "{{count}} second",
       "secondCount_plural": "{{count}} seconds",
       "multipleDetailCount": "{{count}} lectures",
       "dragTimetable": "Drag timetable",
