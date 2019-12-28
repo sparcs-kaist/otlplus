@@ -2494,6 +2494,16 @@ i.icon {
         height:12px;
         background-image: url(../static/icons/status_unread.svg);
     }
+
+    &--close-section {
+        width:15px;
+        height:15px;
+        background-image: url(../static/icons/close_section.svg);
+
+        *:hover > & {
+            background-image: url(../static/icons/close_section_hover.svg);
+        }
+    }
 }
 
 .mobile-hidden {

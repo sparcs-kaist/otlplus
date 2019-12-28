@@ -133,7 +133,7 @@ class LectureDetailSection extends Component {
           : <div className={classNames('section-content--lecture-detail--list-area', 'list-placeholder')}><div>{t('ui.placeholder.noResults')}</div></div>);
       return (
         <div className={classNames('section-content', 'section-content--lecture-detail', 'section-content--flex')}>
-          <div className={classNames('close-button')} onClick={this.unfix}>닫기</div>
+          <div className={classNames('close-button')} onClick={this.unfix}><i className={classNames('icon', 'icon--close-section')} /></div>
           <div className={classNames('title')}>
             {lecture[t('js.property.title')]}
           </div>
