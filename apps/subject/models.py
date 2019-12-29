@@ -4,6 +4,41 @@ from apps.enum.common import * #for enum type (for choices)
 from datetime import date, time
 
 
+class Semester(models.Model):
+    year = models.IntegerField(db_index=True)
+    semester = models.IntegerField(db_index=True)
+    beginning = models.DateTimeField()
+    end = models.DateTimeField()
+
+    courseRegistrationPeriodStart = models.DateTimeField(null=True)
+    courseRegistrationPeriodEnd = models.DateTimeField(null=True)
+    # Beginning goes here in timeline
+    courseAddDropPeriodEnd = models.DateTimeField(null=True)
+    courseDropDeadline = models.DateTimeField(null=True)
+    courseEvaluationDeadline = models.DateTimeField(null=True)
+    # End goes here in timeline
+    gradePosting = models.DateTimeField(null=True)
+
+    class Meta:
+        unique_together = [['year', 'semester']]
+
+    def toJson(self) :
+        result = {
+            "year": self.year,
+            "semester": self.semester,
+            "beginning": self.beginning,
+            "end": self.end,
+            "courseRegistrationPeriodStart": self.courseRegistrationPeriodStart,
+            "courseRegistrationPeriodEnd": self.courseRegistrationPeriodEnd,
+            "courseAddDropPeriodEnd": self.courseAddDropPeriodEnd,
+            "courseDropDeadline": self.courseDropDeadline,
+            "courseEvaluationDeadline": self.courseEvaluationDeadline,
+            "gradePosting": self.gradePosting,
+        }
+
+        return result
+
+
 class Lecture(models.Model):
     # Fetched from KAIST Scholar DB
     code = models.CharField(max_length=10, db_index=True)

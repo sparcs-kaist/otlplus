@@ -4,73 +4,82 @@ import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
-import axios from '../../../common/presetAxios';
 
-import { BASE_URL } from '../../../common/constants';
 import { clearLectureActive } from '../../../actions/timetable/lectureActive';
-import { clearListsLectures } from '../../../actions/timetable/list';
 import { setSemester } from '../../../actions/timetable/semester';
-import { clearTimetables } from '../../../actions/timetable/timetable';
+import { getTimetableSemester } from '../../../common/semesterFunctions';
+import semesterShape from '../../../shapes/SemesterShape';
 
 
 class SemesterSection extends Component {
-  constructor(props) {
-    super(props);
+  componentDidMount() {
+    const { semesters } = this.props;
 
-    this.state = {
-      startYear: null,
-      startSemester: null,
-      endYear: null,
-      endSemester: null,
-    };
+    if (semesters !== null) {
+      this._initializeSemester();
+    }
   }
 
-  componentDidMount() {
-    const { setSemesterDispatch } = this.props;
+  componentDidUpdate(prevProps) {
+    const { semesters } = this.props;
 
-    axios.post(`${BASE_URL}/api/timetable/semester`, {
-    })
-      .then((response) => {
-        this.setState(prevState => ({
-          startYear: response.data.start_year,
-          startSemester: response.data.start_semester,
-          endYear: response.data.end_year,
-          endSemester: response.data.end_semester,
-        }));
-        setSemesterDispatch(response.data.current_year, response.data.current_semester);
-      })
-      .catch((response) => {
-      });
+    if ((prevProps.semesters === null) && (semesters !== null)) {
+      this._initializeSemester();
+    }
+  }
+
+  _initializeSemester = () => {
+    const { semesters, setSemesterDispatch } = this.props;
+
+    const currentSemester = getTimetableSemester(semesters);
+    setSemesterDispatch(currentSemester.year, currentSemester.semester);
+  }
+
+  _isFirstSemester = (year, semester) => {
+    const { semesters } = this.props;
+
+    const semesterIdx = semesters.findIndex(s => ((s.year === year) && (s.semester === semester)));
+    return (semesterIdx === 0);
+  }
+
+  _isLastSemester = (year, semester) => {
+    const { semesters } = this.props;
+
+    const semesterIdx = semesters.findIndex(s => ((s.year === year) && (s.semester === semester)));
+    return (semesterIdx === (semesters.length - 1));
   }
 
   semesterPrev() {
-    const { year, semester, setSemesterDispatch, clearLectureActiveDispatch, clearTimetablesDispatch, clearListsLecturesDispatch } = this.props;
+    const { semesters, year, semester, setSemesterDispatch, clearLectureActiveDispatch } = this.props;
 
-    const newYear = (semester === 1) ? year - 1 : year;
-    const newSemester = (semester === 1) ? 3 : 1;
+    if (this._isFirstSemester(year, semester)) {
+      return;
+    }
 
-    setSemesterDispatch(newYear, newSemester);
+    const semesterIdx = semesters.findIndex(s => ((s.year === year) && (s.semester === semester)));
+    const targetSemester = semesters[semesterIdx - 1];
+
+    setSemesterDispatch(targetSemester.year, targetSemester.semester);
     clearLectureActiveDispatch();
-    clearTimetablesDispatch();
-    clearListsLecturesDispatch();
   }
 
   semesterNext() {
-    const { year, semester, setSemesterDispatch, clearLectureActiveDispatch, clearTimetablesDispatch, clearListsLecturesDispatch } = this.props;
+    const { semesters, year, semester, setSemesterDispatch, clearLectureActiveDispatch } = this.props;
 
-    const newYear = (semester === 3) ? year + 1 : year;
-    const newSemester = (semester === 3) ? 1 : 3;
+    if (this._isLastSemester(year, semester)) {
+      return;
+    }
 
-    setSemesterDispatch(newYear, newSemester);
+    const semesterIdx = semesters.findIndex(s => ((s.year === year) && (s.semester === semester)));
+    const targetSemester = semesters[semesterIdx + 1];
+
+    setSemesterDispatch(targetSemester.year, targetSemester.semester);
     clearLectureActiveDispatch();
-    clearTimetablesDispatch();
-    clearListsLecturesDispatch();
   }
 
   render() {
     const { t } = this.props;
     const { year, semester } = this.props;
-    const { startYear, startSemester, endYear, endSemester } = this.state;
 
     const semesterName = {
       1: t('ui.semester.spring'),
@@ -82,9 +91,9 @@ class SemesterSection extends Component {
     if (year && semester) {
       return (
         <div className={classNames('section', 'section--semester', t('jsx.className.semesterByLang'))}>
-          <button className={classNames(((year === startYear) && (semester === startSemester) ? 'disable' : ''))} onClick={() => this.semesterPrev()}><i className={classNames('icon', 'icon--semester-prev')} /></button>
+          <button className={classNames((this._isFirstSemester(year, semester) ? 'disable' : ''))} onClick={() => this.semesterPrev()}><i className={classNames('icon', 'icon--semester-prev')} /></button>
           <span>{`${year} ${semesterName[semester]}`}</span>
-          <button className={classNames(((year === endYear) && (semester === endSemester) ? 'disable' : ''))} onClick={() => this.semesterNext()}><i className={classNames('icon', 'icon--semester-next')} /></button>
+          <button className={classNames((this._isLastSemester(year, semester) ? 'disable' : ''))} onClick={() => this.semesterNext()}><i className={classNames('icon', 'icon--semester-next')} /></button>
         </div>
       );
     }
@@ -99,6 +108,7 @@ class SemesterSection extends Component {
 }
 
 const mapStateToProps = state => ({
+  semesters: state.common.semester.semesters,
   year: state.timetable.semester.year,
   semester: state.timetable.semester.semester,
 });
@@ -110,21 +120,14 @@ const mapDispatchToProps = dispatch => ({
   clearLectureActiveDispatch: () => {
     dispatch(clearLectureActive());
   },
-  clearTimetablesDispatch: () => {
-    dispatch(clearTimetables());
-  },
-  clearListsLecturesDispatch: () => {
-    dispatch(clearListsLectures());
-  },
 });
 
 SemesterSection.propTypes = {
+  semesters: PropTypes.arrayOf(semesterShape),
   year: PropTypes.number,
   semester: PropTypes.number,
   setSemesterDispatch: PropTypes.func.isRequired,
   clearLectureActiveDispatch: PropTypes.func.isRequired,
-  clearTimetablesDispatch: PropTypes.func.isRequired,
-  clearListsLecturesDispatch: PropTypes.func.isRequired,
 };
 
 

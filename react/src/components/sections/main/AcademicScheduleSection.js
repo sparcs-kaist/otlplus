@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
+
+import { getCurrentSchedule } from '../../../common/semesterFunctions';
+import semesterShape from '../../../shapes/SemesterShape';
 
 
 class AcademicScheduleSection extends Component {
@@ -24,14 +29,39 @@ class AcademicScheduleSection extends Component {
   render() {
     const { t } = this.props;
     const { today } = this.state;
+    const { semesters } = this.props;
 
-    const targetScheduleTime = new Date(2020, 3, 2);
+    if (semesters == null) {
+      return (
+        <div className={classNames('section-content', 'section-content--widget')}>
+          <div className={classNames('academic-schedule', 'placeholder')}>
+            <div>{t('ui.placeholder.loading')}</div>
+            <div>
+              <strong>-</strong>
+              <span>-</span>
+            </div>
+          </div>
+          <div className={classNames('buttons')}>
+            <a href="https://ssogw6.kaist.ac.kr" className={classNames('text-button')} target="_blank" rel="noopener noreferrer">
+              {t('ui.button.goToAcademicSystem')}
+            </a>
+          </div>
+        </div>
+      );
+    }
+
+    const targetSchedule = getCurrentSchedule(semesters);
+    const targetScheduleTime = targetSchedule.time;
     const timeDiff = targetScheduleTime - today;
 
     const seconds = Math.floor((timeDiff / 1000) % 60);
     const minutes = Math.floor((timeDiff / (1000 * 60)) % 60);
     const hours = Math.floor((timeDiff / (1000 * 60 * 60)) % 24);
     const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+
+    const getScheduleName = schedule => (
+      t(`ui.schedule.${schedule.type}`)
+    );
 
     return (
       <div className={classNames('section-content', 'section-content--widget')}>
@@ -40,7 +70,7 @@ class AcademicScheduleSection extends Component {
             {`D-${t('ui.others.dayCount', { count: days })} ${t('ui.others.hourCount', { count: hours })} ${t('ui.others.minuteCount', { count: minutes })} ${t('ui.others.secondCount', { count: seconds })}`}
           </div>
           <div>
-            <strong>{`${t('ui.semester.springSemester')} ${t('ui.schedule.courseDropDeadline')}`}</strong>
+            <strong>{`${t('ui.semester.springSemester')} ${getScheduleName(targetSchedule)}`}</strong>
             <span>{`${targetScheduleTime.getFullYear()}.${targetScheduleTime.getMonth()}.${targetScheduleTime.getDate()}`}</span>
           </div>
         </div>
@@ -54,5 +84,16 @@ class AcademicScheduleSection extends Component {
   }
 }
 
+const mapStateToProps = state => ({
+  semesters: state.common.semester.semesters,
+});
 
-export default withTranslation()(AcademicScheduleSection);
+const mapDispatchToProps = dispatch => ({
+});
+
+AcademicScheduleSection.propTypes = {
+  semesters: PropTypes.arrayOf(semesterShape),
+};
+
+
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(AcademicScheduleSection));

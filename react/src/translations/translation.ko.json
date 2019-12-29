@@ -169,7 +169,14 @@
       "winterSemester": "겨울학기"
     },
     "schedule": {
-      "courseDropDeadline": "수강취소 마감"
+      "beginning": "개강",
+      "end": "종강",
+      "courseRegistrationPeriodStart": "수강신청기간 시작",
+      "courseRegistrationPeriodEnd": "수강신청기간 종료",
+      "courseAddDropPeriodEnd": "수강변경기간 종료",
+      "courseDropDeadline": "수강취소 마감",
+      "courseEvaluationDeadline": "강의평가 마감",
+      "gradePosting": "성적게시"
     },
     "message": {
       "blankSearch": "검색 조건을 선택해 주세요.",

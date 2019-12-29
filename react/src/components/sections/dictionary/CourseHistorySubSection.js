@@ -7,6 +7,7 @@ import { appBoundClassNames as classNames } from '../../../common/boundClassName
 import axios from '../../../common/presetAxios';
 import { BASE_URL } from '../../../common/constants';
 import { setLectures } from '../../../actions/dictionary/courseActive';
+import semesterShape from '../../../shapes/SemesterShape';
 import CourseShape from '../../../shapes/CourseShape';
 import lectureShape from '../../../shapes/LectureShape';
 import HistoryLecturesBlock from '../../blocks/HistoryLecturesBlock';
@@ -53,7 +54,18 @@ class CourseHistorySubSection extends Component {
 
   render() {
     const { t } = this.props;
-    const { lectures } = this.props;
+    const { semesters, lectures } = this.props;
+
+    const semesterYears = (semesters != null)
+      ? semesters.map(s => s.year)
+      : [];
+    const lectureYears = (lectures != null)
+      ? lectures.map(l => l.year)
+      : [];
+
+    const startYear = Math.min(...semesterYears, ...lectureYears);
+    const endYear = Math.max(...semesterYears, ...lectureYears);
+    const targetYears = [...Array(endYear - startYear + 1).keys()].map(i => (startYear + i));
 
     return (
       <>
@@ -67,8 +79,7 @@ class CourseHistorySubSection extends Component {
                   <tbody>
                     <tr>
                       <th>{t('ui.semester.spring')}</th>
-                      {[...Array(2019 - 2009 + 1).keys()].map((i) => {
-                        const y = 2009 + i;
+                      {targetYears.map((y) => {
                         const filteredLectures = lectures.filter(l => ((l.year === y) && (l.semester === 1)));
                         if (filteredLectures.length === 0) {
                           return <td className={classNames('history__cell--unopen')} key={`${y}-1`}>{t('ui.others.notOffered')}</td>;
@@ -78,8 +89,7 @@ class CourseHistorySubSection extends Component {
                     </tr>
                     <tr>
                       <th />
-                      {[...Array(2019 - 2009 + 1).keys()].map((i) => {
-                        const y = 2009 + i;
+                      {targetYears.map((y) => {
                         return (
                           <td className={classNames('history__cell--year-label')} key={`${y}-l`}>{y}</td>
                         );
@@ -87,8 +97,7 @@ class CourseHistorySubSection extends Component {
                     </tr>
                     <tr>
                       <th>{t('ui.semester.fall')}</th>
-                      {[...Array(2019 - 2009 + 1).keys()].map((i) => {
-                        const y = 2009 + i;
+                      {targetYears.map((y) => {
                         const filteredLectures = lectures.filter(l => ((l.year === y) && (l.semester === 3)));
                         if (filteredLectures.length === 0) {
                           return <td className={classNames('history__cell--unopen')} key={`${y}-3`}>{t('ui.others.notOffered')}</td>;
@@ -107,6 +116,7 @@ class CourseHistorySubSection extends Component {
 }
 
 const mapStateToProps = state => ({
+  semesters: state.common.semester.semesters,
   clicked: state.dictionary.courseActive.clicked,
   course: state.dictionary.courseActive.course,
   lectures: state.dictionary.courseActive.lectures,
@@ -119,6 +129,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 CourseHistorySubSection.propTypes = {
+  semesters: PropTypes.arrayOf(semesterShape),
   clicked: PropTypes.bool.isRequired,
   course: CourseShape,
   lectures: PropTypes.arrayOf(lectureShape),

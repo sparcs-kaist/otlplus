@@ -18,6 +18,7 @@ import dictionaryReducer from './reducers/dictionary/index';
 import timetableReducer from './reducers/timetable/index';
 import commonReducer from './reducers/common/index';
 import { setUser } from './actions/common/user';
+import { setSemesters } from './actions/common/semester';
 import TestPage from './pages/TestPage';
 
 const store = createStore(combineReducers({
@@ -31,6 +32,13 @@ class App extends Component {
     axios.get(`${BASE_URL}/session/info`)
       .then((response) => {
         store.dispatch(setUser(response.data));
+      })
+      .catch((response) => {
+      });
+    axios.get(`${BASE_URL}/api/semesters`, {
+    })
+      .then((response) => {
+        store.dispatch(setSemesters(response.data));
       })
       .catch((response) => {
       });
