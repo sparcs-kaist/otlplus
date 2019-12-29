@@ -6,9 +6,7 @@ import { withTranslation } from 'react-i18next';
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
 import { clearLectureActive } from '../../../actions/timetable/lectureActive';
-import { clearListsLectures } from '../../../actions/timetable/list';
 import { setSemester } from '../../../actions/timetable/semester';
-import { clearTimetables } from '../../../actions/timetable/timetable';
 import { getTimetableSemester } from '../../../common/semesterFunctions';
 import semesterShape from '../../../shapes/SemesterShape';
 
@@ -52,7 +50,7 @@ class SemesterSection extends Component {
   }
 
   semesterPrev() {
-    const { semesters, year, semester, setSemesterDispatch, clearLectureActiveDispatch, clearTimetablesDispatch, clearListsLecturesDispatch } = this.props;
+    const { semesters, year, semester, setSemesterDispatch, clearLectureActiveDispatch } = this.props;
 
     if (this._isFirstSemester(year, semester)) {
       return;
@@ -63,12 +61,10 @@ class SemesterSection extends Component {
 
     setSemesterDispatch(targetSemester.year, targetSemester.semester);
     clearLectureActiveDispatch();
-    clearTimetablesDispatch();
-    clearListsLecturesDispatch();
   }
 
   semesterNext() {
-    const { semesters, year, semester, setSemesterDispatch, clearLectureActiveDispatch, clearTimetablesDispatch, clearListsLecturesDispatch } = this.props;
+    const { semesters, year, semester, setSemesterDispatch, clearLectureActiveDispatch } = this.props;
 
     if (this._isLastSemester(year, semester)) {
       return;
@@ -79,8 +75,6 @@ class SemesterSection extends Component {
 
     setSemesterDispatch(targetSemester.year, targetSemester.semester);
     clearLectureActiveDispatch();
-    clearTimetablesDispatch();
-    clearListsLecturesDispatch();
   }
 
   render() {
@@ -126,12 +120,6 @@ const mapDispatchToProps = dispatch => ({
   clearLectureActiveDispatch: () => {
     dispatch(clearLectureActive());
   },
-  clearTimetablesDispatch: () => {
-    dispatch(clearTimetables());
-  },
-  clearListsLecturesDispatch: () => {
-    dispatch(clearListsLectures());
-  },
 });
 
 SemesterSection.propTypes = {
@@ -140,8 +128,6 @@ SemesterSection.propTypes = {
   semester: PropTypes.number,
   setSemesterDispatch: PropTypes.func.isRequired,
   clearLectureActiveDispatch: PropTypes.func.isRequired,
-  clearTimetablesDispatch: PropTypes.func.isRequired,
-  clearListsLecturesDispatch: PropTypes.func.isRequired,
 };
 
 
