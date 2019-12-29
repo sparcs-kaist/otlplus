@@ -169,7 +169,14 @@
       "winterSemester": "Winter Semester"
     },
     "schedule": {
-      "courseDropDeadline": "Deadline to Course Drop"
+      "beginning": "Beginning",
+      "end": "End",
+      "courseRegistrationPeriodStart": "Start of Course Registration Period",
+      "courseRegistrationPeriodEnd": "End of Course Registration Period",
+      "courseAddDropPeriodEnd": "End of Course Add & Drop Period",
+      "courseDropDeadline": "Deadline to Course Drop",
+      "courseEvaluationDeadline": "Deadline to Course Evaluation",
+      "gradePosting": "Grade Posting"
     },
     "message": {
       "blankSearch": "Please select search conditions.",
