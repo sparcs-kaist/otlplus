@@ -7,6 +7,7 @@ import { appBoundClassNames as classNames } from '../../../common/boundClassName
 import axios from '../../../common/presetAxios';
 import { BASE_URL } from '../../../common/constants';
 import { setReviews } from '../../../actions/dictionary/courseActive';
+import { addCourseRead } from '../../../actions/dictionary/list';
 import ReviewBlock from '../../blocks/ReviewBlock';
 import ReviewWriteBlock from '../../blocks/ReviewWriteBlock';
 import CourseShape from '../../../shapes/CourseShape';
@@ -50,14 +51,17 @@ class CourseReviewsSubSection extends Component {
 
 
   _markRead = (course) => {
+    const { addCourseReadDispatch } = this.props;
+
     axios.post(`${BASE_URL}/api/review/read`, {
       id: course.id,
     })
       .then((cresponse) => {
-        // TODO: Update read status on front-end
       })
       .catch((response) => {
       });
+
+    addCourseReadDispatch(course);
   }
 
 
@@ -100,6 +104,9 @@ const mapDispatchToProps = dispatch => ({
   setReviewsDispatch: (reviews) => {
     dispatch(setReviews(reviews));
   },
+  addCourseReadDispatch: (course) => {
+    dispatch(addCourseRead(course));
+  },
 });
 
 CourseReviewsSubSection.propTypes = {
@@ -108,6 +115,7 @@ CourseReviewsSubSection.propTypes = {
   course: CourseShape,
   reviews: PropTypes.arrayOf(reviewShape),
   setReviewsDispatch: PropTypes.func.isRequired,
+  addCourseReadDispatch: PropTypes.func.isRequired,
 };
 
 

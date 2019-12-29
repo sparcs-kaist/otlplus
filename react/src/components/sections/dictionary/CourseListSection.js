@@ -124,7 +124,7 @@ class CourseListSection extends Component {
 
   render() {
     const { t } = this.props;
-    const { courseActive, currentList, searchOpen, search, major, humanity, taken } = this.props;
+    const { courseActive, currentList, searchOpen, search, major, humanity, taken, readCourses } = this.props;
 
     const mapCourses = (courses) => {
       if (!courses) {
@@ -138,6 +138,7 @@ class CourseListSection extends Component {
           course={c}
           key={c.id}
           showReadStatus={true}
+          isRead={c.userspecific_is_read || readCourses.some(c2 => (c2.id === c.id))}
           isClicked={isClicked(c, courseActive)}
           isHover={isHover(c, courseActive)}
           isInactive={isInactiveCourse(c, courseActive)}
@@ -208,6 +209,7 @@ const mapStateToProps = state => ({
   major: state.dictionary.list.major,
   humanity: state.dictionary.list.humanity,
   taken: state.dictionary.list.taken,
+  readCourses: state.dictionary.list.readCourses,
   courseActive: state.dictionary.courseActive,
   courseActiveClicked: state.dictionary.courseActive.clicked,
   searchOpen: state.dictionary.search.open,
@@ -245,6 +247,7 @@ CourseListSection.propTypes = {
   taken: PropTypes.shape({
     courses: PropTypes.arrayOf(courseShape),
   }).isRequired,
+  readCourses: PropTypes.arrayOf(courseShape).isRequired,
   courseActive: courseActiveShape.isRequired,
   courseActiveClicked: PropTypes.bool.isRequired,
   searchOpen: PropTypes.bool.isRequired,
