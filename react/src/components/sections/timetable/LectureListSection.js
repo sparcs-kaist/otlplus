@@ -9,7 +9,7 @@ import axios from '../../../common/presetAxios';
 import { inTimetable, inCart, isListClicked, isListHover, isInactiveListLectures, performAddToTable, performAddToCart, performDeleteFromCart } from '../../../common/lectureFunctions';
 import { BASE_URL } from '../../../common/constants';
 import { setLectureActive, clearLectureActive } from '../../../actions/timetable/lectureActive';
-import { addLectureToCart, deleteLectureFromCart, setListLectures, setListMajorCodes, setListMajorLectures, setMobileShowLectureList } from '../../../actions/timetable/list';
+import { addLectureToCart, deleteLectureFromCart, setListLectures, clearListsLectures, setListMajorCodes, setListMajorLectures, setMobileShowLectureList } from '../../../actions/timetable/list';
 import { openSearch } from '../../../actions/timetable/search';
 import { addLectureToTimetable } from '../../../actions/timetable/timetable';
 import Scroller from '../../Scroller';
@@ -33,13 +33,14 @@ class LectureListSection extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    const { major, year, semester, currentList, lectureActive, openSearchDispatch, mobileShowLectureList } = this.props;
+    const { major, year, semester, currentList, lectureActive, clearListsLecturesDispatch, openSearchDispatch, mobileShowLectureList } = this.props;
 
     if (!this._codesAreSame(major.codes, prevProps.major.codes)) {
       this._fetchLists(true);
     }
 
     if (year !== prevProps.year || semester !== prevProps.semester) {
+      clearListsLecturesDispatch();
       this._fetchLists(false);
 
       if (currentList === 'SEARCH') {
@@ -396,6 +397,9 @@ const mapDispatchToProps = dispatch => ({
   setListLecturesDispatch: (code, lectures) => {
     dispatch(setListLectures(code, lectures));
   },
+  clearListsLecturesDispatch: () => {
+    dispatch(clearListsLectures());
+  },
   setListMajorLecturesDispatch: (majorCode, lectures) => {
     dispatch(setListMajorLectures(majorCode, lectures));
   },
@@ -432,6 +436,7 @@ LectureListSection.propTypes = {
   addLectureToCartDispatch: PropTypes.func.isRequired,
   deleteLectureFromCartDispatch: PropTypes.func.isRequired,
   setListLecturesDispatch: PropTypes.func.isRequired,
+  clearListsLecturesDispatch: PropTypes.func.isRequired,
   setListMajorLecturesDispatch: PropTypes.func.isRequired,
   setMobileShowLectureListDispatch: PropTypes.func.isRequired,
 };
