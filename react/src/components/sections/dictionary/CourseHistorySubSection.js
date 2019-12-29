@@ -7,6 +7,7 @@ import { appBoundClassNames as classNames } from '../../../common/boundClassName
 import axios from '../../../common/presetAxios';
 import { BASE_URL } from '../../../common/constants';
 import { setLectures } from '../../../actions/dictionary/courseActive';
+import semesterShape from '../../../shapes/SemesterShape';
 import CourseShape from '../../../shapes/CourseShape';
 import lectureShape from '../../../shapes/LectureShape';
 import HistoryLecturesBlock from '../../blocks/HistoryLecturesBlock';
@@ -53,10 +54,17 @@ class CourseHistorySubSection extends Component {
 
   render() {
     const { t } = this.props;
-    const { lectures } = this.props;
+    const { semesters, lectures } = this.props;
 
-    const startYear = 2009;
-    const endYear = 2019;
+    const semesterYears = (semesters != null)
+      ? semesters.map(s => s.year)
+      : [];
+    const lectureYears = (lectures != null)
+      ? lectures.map(l => l.year)
+      : [];
+
+    const startYear = Math.min(...semesterYears, ...lectureYears);
+    const endYear = Math.max(...semesterYears, ...lectureYears);
     const targetYears = [...Array(endYear - startYear + 1).keys()].map(i => (startYear + i));
 
     return (
@@ -108,6 +116,7 @@ class CourseHistorySubSection extends Component {
 }
 
 const mapStateToProps = state => ({
+  semesters: state.common.semester.semesters,
   clicked: state.dictionary.courseActive.clicked,
   course: state.dictionary.courseActive.course,
   lectures: state.dictionary.courseActive.lectures,
@@ -120,6 +129,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 CourseHistorySubSection.propTypes = {
+  semesters: PropTypes.arrayOf(semesterShape),
   clicked: PropTypes.bool.isRequired,
   course: CourseShape,
   lectures: PropTypes.arrayOf(lectureShape),
