@@ -15,17 +15,22 @@ import HistoryLecturesBlock from '../../blocks/HistoryLecturesBlock';
 class CourseHistorySubSection extends Component {
   componentDidMount() {
     this._fetchLectures();
+    // eslint-disable-next-line fp/no-mutation
+    this.scrollRef = React.createRef();
   }
 
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    const { course } = this.props;
+    const { course, lectures } = this.props;
 
-    if (prevProps.clicked && (prevProps.course.id === course.id)) {
-      return;
+    if (!(prevProps.clicked && (prevProps.course.id === course.id))) {
+      this._fetchLectures();
     }
 
-    this._fetchLectures();
+    if ((prevProps.lectures === null) && (lectures !== null)) {
+      const scrollTarget = this.scrollRef.current;
+      scrollTarget.scrollTo(scrollTarget.scrollWidth, 0);
+    }
   }
 
 
@@ -57,7 +62,7 @@ class CourseHistorySubSection extends Component {
           (lectures == null)
             ? <div>{t('ui.placeholder.loading')}</div>
             : (
-              <div className={classNames('history')}>
+              <div className={classNames('history')} ref={this.scrollRef}>
                 <table>
                   <tbody>
                     <tr>

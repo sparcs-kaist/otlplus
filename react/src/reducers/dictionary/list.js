@@ -1,4 +1,4 @@
-import { RESET, SET_CURRENT_LIST, SET_LIST_MAJOR_CODES, SET_LIST_COURSES, SET_LIST_MAJOR_COURSES, CLEAR_LISTS_COURSES, CLEAR_SEARCH_LIST_COURSES } from '../../actions/dictionary/list';
+import { RESET, SET_CURRENT_LIST, SET_LIST_MAJOR_CODES, SET_LIST_COURSES, SET_LIST_MAJOR_COURSES, CLEAR_LISTS_COURSES, CLEAR_SEARCH_LIST_COURSES, ADD_COURSE_READ } from '../../actions/dictionary/list';
 
 
 const initialState = {
@@ -20,6 +20,7 @@ const initialState = {
   taken: {
     courses: null,
   },
+  readCourses: [],
 };
 
 const list = (state = initialState, action) => {
@@ -107,6 +108,15 @@ const list = (state = initialState, action) => {
           ...state.search,
           courses: null,
         },
+      };
+      return Object.assign({}, state, newState);
+    }
+    case ADD_COURSE_READ: {
+      const newState = {
+        readCourses: [
+          ...state.readCourses,
+          action.course,
+        ],
       };
       return Object.assign({}, state, newState);
     }
