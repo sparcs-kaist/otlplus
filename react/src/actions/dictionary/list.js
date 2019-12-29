@@ -5,6 +5,7 @@ export const SET_LIST_COURSES = 'SET_LIST_COURSES';
 export const SET_LIST_MAJOR_COURSES = 'SET_LIST_MAJOR_COURSES';
 export const CLEAR_LISTS_COURSES = 'CLEAR_LISTS_COURSES';
 export const CLEAR_SEARCH_LIST_COURSES = 'CLEAR_SEARCH_LIST_COURSES';
+export const ADD_COURSE_READ = 'ADD_COURSE_READ';
 
 
 export function reset() {
@@ -52,5 +53,12 @@ export function clearListsCourses() {
 export function clearSearchListCourses() {
   return {
     type: CLEAR_SEARCH_LIST_COURSES,
+  };
+}
+
+export function addCourseRead(course) {
+  return {
+    type: ADD_COURSE_READ,
+    course: course,
   };
 }
