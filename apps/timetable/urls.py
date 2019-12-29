@@ -18,7 +18,6 @@ from django.http import HttpResponseRedirect
 from . import views
 
 urlpatterns = [
-    url(r'^semester$', views.semester),
     url(r'^table_update$', views.table_update),
     url(r'^table_create$', views.table_create),
     url(r'^table_delete$', views.table_delete),
