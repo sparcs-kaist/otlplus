@@ -3,9 +3,15 @@ import { SCHEDULE_FIELDS } from '../shapes/SemesterShape';
 export const getTimetableSemester = (semesters) => {
   // eslint-disable-next-line fp/no-mutating-methods
   const semestersDescending = semesters
+    .map(s => ({
+      year: s.year,
+      semester: s.semester,
+      beginning: new Date(s.beginning),
+    }))
     .slice()
-    .sort((a, b) => (b - a));
-  const timetableSemester = semestersDescending.find(s => s.start);
+    .sort((a, b) => (b.beginning - a.beginning));
+  const now = Date.now();
+  const timetableSemester = semestersDescending.find(s => (s.beginning < now));
   return timetableSemester;
 };
 
