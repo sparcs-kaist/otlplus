@@ -19,6 +19,7 @@ from django.http import HttpResponseRedirect
 from . import views
 
 urlpatterns = [
+    url(r'^semesters$', views.semesters_list_view),
     url(r'^courses$', views.courses_list_view),
     url(r'^courses/(?P<course_id>\d+)$', views.courses_intance_view),
     url(r'^courses/autocomplete$', views.courses_list_autocomplete_view),
