@@ -55,6 +55,10 @@ class CourseHistorySubSection extends Component {
     const { t } = this.props;
     const { lectures } = this.props;
 
+    const startYear = 2009;
+    const endYear = 2019;
+    const targetYears = [...Array(endYear - startYear + 1).keys()].map(i => (startYear + i));
+
     return (
       <>
         <div className={classNames('small-title')}>{t('ui.title.courseHistory')}</div>
@@ -67,8 +71,7 @@ class CourseHistorySubSection extends Component {
                   <tbody>
                     <tr>
                       <th>{t('ui.semester.spring')}</th>
-                      {[...Array(2019 - 2009 + 1).keys()].map((i) => {
-                        const y = 2009 + i;
+                      {targetYears.map((y) => {
                         const filteredLectures = lectures.filter(l => ((l.year === y) && (l.semester === 1)));
                         if (filteredLectures.length === 0) {
                           return <td className={classNames('history__cell--unopen')} key={`${y}-1`}>{t('ui.others.notOffered')}</td>;
@@ -78,8 +81,7 @@ class CourseHistorySubSection extends Component {
                     </tr>
                     <tr>
                       <th />
-                      {[...Array(2019 - 2009 + 1).keys()].map((i) => {
-                        const y = 2009 + i;
+                      {targetYears.map((y) => {
                         return (
                           <td className={classNames('history__cell--year-label')} key={`${y}-l`}>{y}</td>
                         );
@@ -87,8 +89,7 @@ class CourseHistorySubSection extends Component {
                     </tr>
                     <tr>
                       <th>{t('ui.semester.fall')}</th>
-                      {[...Array(2019 - 2009 + 1).keys()].map((i) => {
-                        const y = 2009 + i;
+                      {targetYears.map((y) => {
                         const filteredLectures = lectures.filter(l => ((l.year === y) && (l.semester === 3)));
                         if (filteredLectures.length === 0) {
                           return <td className={classNames('history__cell--unopen')} key={`${y}-3`}>{t('ui.others.notOffered')}</td>;
