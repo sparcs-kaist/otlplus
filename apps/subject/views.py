@@ -4,13 +4,21 @@ from django.views.decorators.http import require_http_methods
 from django.db.models import Q
 from django.http import HttpResponseBadRequest
 
-from models import Course, Lecture
+from models import Semester, Course, Lecture
 from apps.review.models import Comment
 from apps.timetable.views import _lecture_result_format
 
 import datetime
 
-# Create your views here.
+
+@require_http_methods(['GET'])
+def semesters_list_view(request):
+    if request.method == 'GET':
+        semesters = Semester.objects.all().order_by('year', 'semester')
+
+        result = [s.toJson() for s in semesters]
+        return JsonResponse(result, safe=False)
+
 
 @require_http_methods(['GET'])
 def courses_list_view(request):
