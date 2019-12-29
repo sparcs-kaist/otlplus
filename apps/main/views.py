@@ -63,43 +63,6 @@ def course_write_reco_load(request):
                         {'ensure_ascii': False})
 
 
-def academic_schedule_load(request):
-
-    body = json.loads(request.body.decode('utf-8'))
-    try:
-        year = int(body['year'])
-        semester = int(body['semester'])
-    except KeyError:
-        return HttpResponseBadRequest('Missing fields in request data')
-
-    if not _validate_year_semester(year, semester):
-        return HttpResponseBadRequest('Invalid semester')
-
-    currenttime = datetime.date.today()
-    totalSchedule = settings.SEMESTER_RANGES[(year, semester)]
-
-    if (len(totalSchedule) >= 6):
-        for i in range(2,6):
-            schedule = settings.SEMESTER_RANGES[(year, semester)][i]
-            if (currenttime<schedule):
-                if (i == 2): name = 'register_begin_day'
-                elif (i == 3): name = 'alter_end_day'
-                elif (i == 4): name = 'cancel_end_day'
-                elif (i == 5): name = 'final_evlauation_end_day'
-                break
-            name = 'null'
-            schedule = 'null'
-
-    return JsonResponse({
-        'name': name, 
-        'date': schedule, 
-    })
-
-def _validate_year_semester(year, semester):
-    return (year, semester) in settings.SEMESTER_RANGES
-
-
-
 @require_POST
 def did_you_know(request):
     try:
