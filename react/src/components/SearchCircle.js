@@ -24,7 +24,7 @@ class SearchCircle extends Component {
     return null;
   }
 
-  onClick(e) {
+  onChange(e) {
     const { isChecked } = this.state;
     const { clickCircle } = this.props;
     const { value } = e.target;
@@ -51,7 +51,7 @@ class SearchCircle extends Component {
           autoComplete="off"
           name={inputName}
           value={value}
-          onClick={e => this.onClick(e)}
+          onChange={e => this.onChange(e)}
           checked={isChecked}
         />
         {circleName}

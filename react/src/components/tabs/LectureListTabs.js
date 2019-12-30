@@ -9,7 +9,6 @@ import axios from '../../common/presetAxios';
 import { BASE_URL } from '../../common/constants';
 import { setListMajorCodes, setCurrentList, setListLectures, clearListsLectures, setListMajorLectures } from '../../actions/timetable/list';
 import { openSearch, closeSearch } from '../../actions/timetable/search';
-import { NONE, LIST, TABLE, MULTIPLE } from '../../reducers/timetable/lectureActive';
 import userShape from '../../shapes/UserShape';
 import lectureShape from '../../shapes/LectureShape';
 
@@ -104,7 +103,7 @@ class LectureListTabs extends Component {
   }
 
   changeTab = (list) => {
-    const { search, lectureActiveFrom, setCurrentListDispatch, openSearchDispatch, closeSearchDispatch } = this.props;
+    const { search, setCurrentListDispatch, openSearchDispatch, closeSearchDispatch } = this.props;
 
     setCurrentListDispatch(list);
 
@@ -154,7 +153,6 @@ const mapStateToProps = state => ({
   major: state.timetable.list.major,
   humanity: state.timetable.list.humanity,
   cart: state.timetable.list.cart,
-  lectureActiveFrom: state.timetable.lectureActive.from,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -198,7 +196,6 @@ LectureListTabs.propTypes = {
   cart: PropTypes.shape({
     courses: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)),
   }).isRequired,
-  lectureActiveFrom: PropTypes.oneOf([NONE, LIST, TABLE, MULTIPLE]).isRequired,
   openSearchDispatch: PropTypes.func.isRequired,
   closeSearchDispatch: PropTypes.func.isRequired,
   setListMajorCodesDispatch: PropTypes.func.isRequired,
