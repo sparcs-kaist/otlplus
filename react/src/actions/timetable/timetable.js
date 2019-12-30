@@ -1,6 +1,7 @@
 export const RESET = 'RESET';
 export const SET_TIMETABLES = 'SET_TIMETABLES';
 export const CLEAR_TIMETABLES = 'CLEAR_TIMETABLES';
+export const SET_MY_TIMETABLE_LECTURES = 'SET_MY_TIMETABLE_LECTURES';
 export const SET_CURRENT_TIMETABLE = 'SET_CURRENT_TIMETABLE';
 export const CREATE_TIMETABLE = 'CREATE_TIMETABLE';
 export const DELETE_TIMETABLE = 'DELETE_TIMETABLE';
@@ -43,6 +44,13 @@ export function clearTimetables() {
     return {
         type: CLEAR_TIMETABLES,
     };
+}
+
+export function setMyTimetableLectures(lectures) {
+  return {
+    type: SET_MY_TIMETABLE_LECTURES,
+    lectures: lectures,
+  };
 }
 
 export function setCurrentTimetable(timetable) {
