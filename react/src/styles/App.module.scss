@@ -11,6 +11,8 @@ $color-text-dark: #000000;
 $color-text-normal: #333333;
 $color-text-light: #555555;
 $color-text-placeholder: #AAAAAA;
+$color-text-disable: #AAAAAA;
+
 
 $color-highlight: #E54C65;
 $color-highlight-dark: #963246;
@@ -1810,7 +1812,7 @@ table {
 
     &--disabled {
         pointer-events: none;
-        color: #CCCCCC;
+        color: $color-text-disable;
     }
 
     &--review-block {
