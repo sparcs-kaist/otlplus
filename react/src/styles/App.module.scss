@@ -1282,10 +1282,29 @@ table {
 
         &__menus {
             margin-top: 8px;
+            margin-bottom: -6px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            flex-wrap: wrap;
 
 
             &__score {
                 margin-right: 8px;
+            }
+
+
+            & > span {
+                margin-bottom: 6px;
+                flex: 1 1 auto;
+                display: inline-block;
+                &:last-child {
+                    text-align: right;
+                }
+
+                & > * {
+                    display: inline-block;
+                }
             }
         }
     }
@@ -1652,6 +1671,7 @@ table {
             text-align:right;
 
             & > span {
+                display: inline-block;
                 margin-left:8px;
             }
         }
@@ -1812,11 +1832,6 @@ table {
     &--disabled {
         pointer-events: none;
         color: $color-text-disable;
-    }
-
-    &--review-block {
-        float: right;
-        margin-left: 8px;
     }
 
 
