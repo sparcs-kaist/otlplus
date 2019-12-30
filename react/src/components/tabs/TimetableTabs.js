@@ -138,12 +138,12 @@ class TimetableTabs extends Component {
 
   render() {
     const { t } = this.props;
-    const { timetables, currentTimetable, myTimetable } = this.props;
+    const { user, timetables, currentTimetable, myTimetable } = this.props;
 
     if (timetables && timetables.length) {
       return (
         <div className={classNames('tabs', 'tabs--timetable')}>
-          { true // Signed in and semester started
+          { user
             ? (
               <button className={classNames((myTimetable.id === currentTimetable.id ? 'tabs__elem--active' : ''))} key={myTimetable.id} onClick={() => this.changeTab(myTimetable)}>
                 <span>
