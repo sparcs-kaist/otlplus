@@ -604,22 +604,19 @@ table {
     }
 
     &--lecture-list {
+        &__selector {
+            position: absolute;
+            top: $section-padding + $line-height-big + 12px + 8px + $line-height-normal + (6px * 2) + 1px;
+            right: 12px;
+            @media (orientation: landscape) {
+                display: none;
+            }
+        }
+
         & > div:last-child {
             flex: auto;
-            display: flex;
-            flex-direction: row-reverse;
-
-            & > div:first-child {
-                align-self: flex-start;
-                margin-top: 8px + $line-height-normal + (6px * 2) + 1px;
-                margin-left: 6px;
-                @media (orientation: landscape) {
-                    display: none;
-                }
-            }
-
-            :global(.nano) {
-                height: auto !important;
+            :global(.nano-content) {
+                margin-right: 6px + 10px;
             }
 
             & .scroll-placeholder {
