@@ -3,7 +3,7 @@
 # Django apps
 from apps.session.models import UserProfile
 from apps.timetable.models import TimeTable, Wishlist
-from apps.subject.models import Lecture, Professor, Course
+from apps.subject.models import Lecture, Professor, Course, Semester
 from apps.review.models import Comment
 from apps.subject.models import *
 from django.contrib.auth.models import User
@@ -110,7 +110,8 @@ def _user_department(user):
 
 
 def _validate_year_semester(year, semester):
-    return (year, semester) in settings.SEMESTER_RANGES
+    return Semester.objects.filter(year=year, semester=semester).exists() \
+        or (year, semester) in settings.SEMESTER_RANGES
 
 
 
