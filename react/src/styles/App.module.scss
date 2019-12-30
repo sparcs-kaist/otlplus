@@ -10,6 +10,7 @@ $color-block-background-highlight: #F9F0F0;
 $color-text-dark: #000000;
 $color-text-normal: #333333;
 $color-text-light: #555555;
+$color-text-lighter: #888888;
 $color-text-placeholder: #AAAAAA;
 $color-text-disable: #AAAAAA;
 
@@ -468,7 +469,7 @@ table {
             }
 
             & > button {
-                color: $color-text-light;
+                color: $color-text-lighter;
                 @media (orientation: landscape) {
                     margin-left: 4px;
                 }
