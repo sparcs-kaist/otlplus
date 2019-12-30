@@ -2477,6 +2477,7 @@ i.icon {
             background-image: url(../static/icons/add_lecture_hover.svg);
         }
 
+        .text-button--disabled > &,
         .block--course-lectures__elem__button--disable > & {
             background-image: url(../static/icons/add_lecture_disabled.svg);
         }
@@ -2490,6 +2491,10 @@ i.icon {
 
         *:hover > & {
             background-image: url(../static/icons/delete_from_table_hover.svg);
+        }
+
+        .text-button--disabled > & {
+            background-image: url(../static/icons/delete_from_table_disable.svg);
         }
     }
 

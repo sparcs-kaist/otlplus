@@ -290,7 +290,7 @@ class LectureDetailSection extends Component {
               )
               : (!inTimetable(lecture, currentTimetable)
                 ? (
-                  <button className={classNames('text-button', 'text-button--black', 'text-icon--disabled')}>
+                  <button className={classNames('text-button', 'text-button--black', 'text-button--disabled')}>
                     <i className={classNames('icon', 'icon--add-lecture')} />
                     <span>{t('ui.button.addToTable')}</span>
                   </button>
