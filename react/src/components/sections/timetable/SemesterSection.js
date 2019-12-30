@@ -5,7 +5,6 @@ import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
-import { clearLectureActive } from '../../../actions/timetable/lectureActive';
 import { setSemester } from '../../../actions/timetable/semester';
 import { getTimetableSemester } from '../../../common/semesterFunctions';
 import semesterShape from '../../../shapes/SemesterShape';
@@ -50,7 +49,7 @@ class SemesterSection extends Component {
   }
 
   semesterPrev() {
-    const { semesters, year, semester, setSemesterDispatch, clearLectureActiveDispatch } = this.props;
+    const { semesters, year, semester, setSemesterDispatch } = this.props;
 
     if (this._isFirstSemester(year, semester)) {
       return;
@@ -60,11 +59,10 @@ class SemesterSection extends Component {
     const targetSemester = semesters[semesterIdx - 1];
 
     setSemesterDispatch(targetSemester.year, targetSemester.semester);
-    clearLectureActiveDispatch();
   }
 
   semesterNext() {
-    const { semesters, year, semester, setSemesterDispatch, clearLectureActiveDispatch } = this.props;
+    const { semesters, year, semester, setSemesterDispatch } = this.props;
 
     if (this._isLastSemester(year, semester)) {
       return;
@@ -74,7 +72,6 @@ class SemesterSection extends Component {
     const targetSemester = semesters[semesterIdx + 1];
 
     setSemesterDispatch(targetSemester.year, targetSemester.semester);
-    clearLectureActiveDispatch();
   }
 
   render() {
@@ -117,9 +114,6 @@ const mapDispatchToProps = dispatch => ({
   setSemesterDispatch: (year, semester) => {
     dispatch(setSemester(year, semester));
   },
-  clearLectureActiveDispatch: () => {
-    dispatch(clearLectureActive());
-  },
 });
 
 SemesterSection.propTypes = {
@@ -127,7 +121,6 @@ SemesterSection.propTypes = {
   year: PropTypes.number,
   semester: PropTypes.number,
   setSemesterDispatch: PropTypes.func.isRequired,
-  clearLectureActiveDispatch: PropTypes.func.isRequired,
 };
 
 

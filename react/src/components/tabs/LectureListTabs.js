@@ -7,7 +7,6 @@ import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 import axios from '../../common/presetAxios';
 
 import { BASE_URL } from '../../common/constants';
-import { clearLectureActive } from "../../actions/timetable/lectureActive";
 import { setListMajorCodes, setCurrentList, setListLectures, clearListsLectures, setListMajorLectures } from '../../actions/timetable/list';
 import { openSearch, closeSearch } from '../../actions/timetable/search';
 import { NONE, LIST, TABLE, MULTIPLE } from '../../reducers/timetable/lectureActive';
@@ -105,7 +104,7 @@ class LectureListTabs extends Component {
   }
 
   changeTab = (list) => {
-    const { search, lectureActiveFrom, setCurrentListDispatch, openSearchDispatch, closeSearchDispatch, clearLectureActiveDispatch } = this.props;
+    const { search, lectureActiveFrom, setCurrentListDispatch, openSearchDispatch, closeSearchDispatch } = this.props;
 
     setCurrentListDispatch(list);
 
@@ -114,10 +113,6 @@ class LectureListTabs extends Component {
     }
     else {
       closeSearchDispatch();
-    }
-
-    if (lectureActiveFrom === LIST) {
-      clearLectureActiveDispatch();
     }
   }
 
@@ -175,9 +170,6 @@ const mapDispatchToProps = dispatch => ({
   setCurrentListDispatch: (list) => {
     dispatch(setCurrentList(list));
   },
-  clearLectureActiveDispatch: () => {
-    dispatch(clearLectureActive());
-  },
   setListLecturesDispatch: (code, lectures) => {
     dispatch(setListLectures(code, lectures));
   },
@@ -211,7 +203,6 @@ LectureListTabs.propTypes = {
   closeSearchDispatch: PropTypes.func.isRequired,
   setListMajorCodesDispatch: PropTypes.func.isRequired,
   setCurrentListDispatch: PropTypes.func.isRequired,
-  clearLectureActiveDispatch: PropTypes.func.isRequired,
   setListLecturesDispatch: PropTypes.func.isRequired,
   clearListsLecturesDispatch: PropTypes.func.isRequired,
   setListMajorLecturesDispatch: PropTypes.func.isRequired,
