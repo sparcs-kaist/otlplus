@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
+import { getOngoingSemester } from '../../../common/semesterFunctions';
 import CurrentTimetableBlock from '../../blocks/CurrentTimetableBlock';
 import userShape from '../../../shapes/UserShape';
+import semesterShape from '../../../shapes/SemesterShape';
 
 
 class MyTimetableSection extends Component {
@@ -38,10 +41,13 @@ class MyTimetableSection extends Component {
   render() {
     const { t } = this.props;
     const { cellWidth, today } = this.state;
-    const { user } = this.props;
+    const { user, semesters } = this.props;
 
-    const lectures = user
-      ? user.taken_lectures.filter(l => (l.year === 2018 && l.semester === 3)) // TODO: Use current semester
+    const ongoingSemester = semesters
+      ? getOngoingSemester(semesters)
+      : undefined;
+    const lectures = (user && ongoingSemester)
+      ? user.taken_lectures.filter(l => (l.year === ongoingSemester.year && l.semester === ongoingSemester.semester))
       : [];
     const day = today.getDay();
     const hours = today.getHours();
@@ -129,6 +135,7 @@ class MyTimetableSection extends Component {
 
 const mapStateToProps = state => ({
   user: state.common.user.user,
+  semesters: state.common.semester.semesters
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -136,6 +143,7 @@ const mapDispatchToProps = dispatch => ({
 
 MyTimetableSection.propTypes = {
   user: userShape,
+  semesters: PropTypes.arrayOf(semesterShape),
 };
 
 

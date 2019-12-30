@@ -15,6 +15,14 @@ export const getTimetableSemester = (semesters) => {
   return timetableSemester;
 };
 
+export const getOngoingSemester = (semesters) => {
+  const now = Date.now();
+  const ongoingSemester = semesters.find(s => (
+    (new Date(s.beginning) < now) && (now < new Date(s.end))
+  ));
+  return ongoingSemester;
+}
+
 export const getCurrentSchedule = (semesters) => {
   // eslint-disable-next-line fp/no-mutating-methods
   const allSchedules = semesters
