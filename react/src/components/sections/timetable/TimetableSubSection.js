@@ -224,7 +224,7 @@ class TimetableSubSection extends Component {
           classtime={classtime}
           cellWidth={cellWidth}
           cellHeight={cellHeight}
-          isTimetableReadonly={currentTimetable.isReadOnly}
+          isTimetableReadonly={!currentTimetable || currentTimetable.isReadOnly}
           isClicked={isTableClicked(lecture, lectureActive)}
           isHover={isTableHover(lecture, lectureActive) || isListHover(lecture, lectureActive) || isListClicked(lecture, lectureActive) || isInMultiple(lecture, lectureActive)}
           isInactive={isInactiveTableLecture(lecture, lectureActive)}
@@ -399,7 +399,7 @@ class TimetableSubSection extends Component {
                   classtime={classtime}
                   cellWidth={cellWidth}
                   cellHeight={cellHeight}
-                  isTimetableReadonly={currentTimetable.isReadOnly}
+                  isTimetableReadonly={!currentTimetable || currentTimetable.isReadOnly}
                   isClicked={false}
                   isHover={false}
                   isInactive={false}
