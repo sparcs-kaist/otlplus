@@ -24,7 +24,7 @@ const CourseBlock = ({ t, course, showReadStatus, isRead, isClicked, isHover, is
         <span>{ course.old_code }</span>
       </div>
       <div>
-        <div className={classNames('attribute')}>
+        <div className={classNames('attribute', 'attribute--semi-long')}>
           <div>
             {t('ui.attribute.classification')}
           </div>
@@ -32,7 +32,7 @@ const CourseBlock = ({ t, course, showReadStatus, isRead, isClicked, isHover, is
             {`${course.department[t('js.property.name')]}, ${course[t('js.property.type')]}`}
           </div>
         </div>
-        <div className={classNames('attribute')}>
+        <div className={classNames('attribute', 'attribute--semi-long')}>
           <div>
             {t('ui.attribute.professor')}
           </div>
@@ -40,7 +40,7 @@ const CourseBlock = ({ t, course, showReadStatus, isRead, isClicked, isHover, is
             {course[t('js.property.professors_str')]}
           </div>
         </div>
-        <div className={classNames('attribute')}>
+        <div className={classNames('attribute', 'attribute--semi-long')}>
           <div>
             {t('ui.attribute.description')}
           </div>

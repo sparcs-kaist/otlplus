@@ -90,7 +90,7 @@ class CourseDetailSection extends Component {
           </div>
           <Scroller onScroll={() => this.onScroll()}>
             <div>
-              <div className={classNames('attribute')}>
+              <div className={classNames('attribute', 'attribute--semi-long')}>
                 <div>
                   {t('ui.attribute.classification')}
                 </div>
@@ -98,7 +98,7 @@ class CourseDetailSection extends Component {
                   {`${course.department[t('js.property.name')]}, ${course[t('js.property.type')]}`}
                 </div>
               </div>
-              <div className={classNames('attribute')}>
+              <div className={classNames('attribute', 'attribute--semi-long')}>
                 <div>
                   {t('ui.attribute.description')}
                 </div>

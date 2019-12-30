@@ -1967,6 +1967,14 @@ table {
             margin-bottom: 0;
         }
 
+        &--semi-long {
+            & > * {
+                line-height: $line-height-normal + 1px * 2;
+                margin-top: -1px;
+                margin-bottom: -1px;
+            }
+        }
+
         & > *:first-child {
             font-weight: bold;
             margin-right: 6px;
