@@ -10,6 +10,8 @@ class Semester(models.Model):
     beginning = models.DateTimeField()
     end = models.DateTimeField()
 
+    courseDesciptionSubmission = models.DateTimeField()
+
     courseRegistrationPeriodStart = models.DateTimeField(null=True)
     courseRegistrationPeriodEnd = models.DateTimeField(null=True)
     # Beginning goes here in timeline
@@ -28,6 +30,7 @@ class Semester(models.Model):
             "semester": self.semester,
             "beginning": self.beginning,
             "end": self.end,
+            "courseDesciptionSubmission": self.courseDesciptionSubmission,
             "courseRegistrationPeriodStart": self.courseRegistrationPeriodStart,
             "courseRegistrationPeriodEnd": self.courseRegistrationPeriodEnd,
             "courseAddDropPeriodEnd": self.courseAddDropPeriodEnd,
