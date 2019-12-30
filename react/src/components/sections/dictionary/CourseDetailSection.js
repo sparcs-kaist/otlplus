@@ -14,6 +14,14 @@ import CourseReviewsSubSection from './CourseReviewsSubSection';
 
 
 class CourseDetailSection extends Component {
+  componentDidUpdate(prevProps) {
+    const { currentList, clearCourseActiveDispatch } = this.props;
+
+    if (prevProps.currentList !== currentList) {
+      clearCourseActiveDispatch();
+    }
+  }
+
   onScroll() {
     if (this.refs.scores.getBoundingClientRect().top >= this.refs.scrollThreshold.getBoundingClientRect().bottom) {
       this.refs.hiddenScores.classList.add('fixed__conditional-part--hidden');
@@ -163,6 +171,7 @@ class CourseDetailSection extends Component {
 const mapStateToProps = state => ({
   clicked: state.dictionary.courseActive.clicked,
   course: state.dictionary.courseActive.course,
+  currentList: state.dictionary.list.currentList,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -174,6 +183,7 @@ const mapDispatchToProps = dispatch => ({
 CourseDetailSection.propTypes = {
   clicked: PropTypes.bool.isRequired,
   course: CourseShape,
+  currentList: PropTypes.string.isRequired,
   clearCourseActiveDispatch: PropTypes.func.isRequired,
 };
 

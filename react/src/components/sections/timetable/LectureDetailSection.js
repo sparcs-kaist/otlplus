@@ -42,7 +42,7 @@ class LectureDetailSection extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    const { clicked, lecture } = this.props;
+    const { clicked, lecture, from, currentList, currentTimetable, year, semester, clearLectureActiveDispatch } = this.props;
     if (prevProps.clicked && clicked) {
       if (prevProps.lecture.id !== lecture.id) {
         this.openDictPreview();
@@ -55,6 +55,16 @@ class LectureDetailSection extends Component {
     }
     else if (!prevProps.clicked && clicked) {
       this.openDictPreview();
+    }
+
+    if ((from === LIST) && (prevProps.currentList !== currentList)) {
+      clearLectureActiveDispatch();
+    }
+    else if ((from === TABLE) && (prevProps.currentTimetable.id !== currentTimetable.id)) {
+      clearLectureActiveDispatch();
+    }
+    else if ((prevProps.year !== year) || (prevProps.semester !== semester)) {
+      clearLectureActiveDispatch();
     }
   }
 
@@ -342,6 +352,7 @@ const mapStateToProps = state => ({
   title: state.timetable.lectureActive.title,
   multipleDetail: state.timetable.lectureActive.multipleDetail,
   clicked: state.timetable.lectureActive.clicked,
+  currentList: state.timetable.list.currentList,
   currentTimetable: state.timetable.timetable.currentTimetable,
   cart: state.timetable.list.cart,
   year: state.timetable.semester.year,
@@ -378,6 +389,7 @@ LectureDetailSection.propTypes = {
     }),
   ),
   clicked: PropTypes.bool.isRequired,
+  currentList: PropTypes.string.isRequired,
   currentTimetable: timetableShape,
   cart: PropTypes.shape({
     courses: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)),
