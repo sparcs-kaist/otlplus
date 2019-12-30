@@ -1890,6 +1890,8 @@ table {
 
 .history {
     overflow: scroll;
+    margin-right: -$section-padding;
+    padding-right: $section-padding;
 
     & > table {
         table-layout: auto;
