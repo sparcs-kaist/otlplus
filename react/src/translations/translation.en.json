@@ -180,7 +180,8 @@
     },
     "message": {
       "blankSearch": "Please select search conditions.",
-      "timetableOverlap": "You can't add lecture overlapping."
+      "timetableOverlap": "You can't add lecture overlapping.",
+      "lastTimetable": "You can't delete the last timetable."
     },
     "others": {
       "table": "Table",
