@@ -8,7 +8,7 @@ import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 import lectureShape from '../../shapes/LectureShape';
 
 
-const CourseLecturesBlock = ({ t, lecture, isClicked, isHover, inTimetable, inCart, fromCart, addToCart, addToTable, deleteFromCart, listHover, listOut, listClick }) => {
+const CourseLecturesBlock = ({ t, lecture, isClicked, isHover, inTimetable, isTimetableReadonly, inCart, fromCart, addToCart, addToTable, deleteFromCart, listHover, listOut, listClick }) => {
   const getClass = (lec) => {
     switch (lec.class_title.length) {
       case 1:
@@ -38,7 +38,7 @@ const CourseLecturesBlock = ({ t, lecture, isClicked, isHover, inTimetable, inCa
             )
         }
         {
-          !inTimetable
+          !inTimetable && !isTimetableReadonly
             ? <button className={classNames('block--course-lectures__elem__button')} onClick={event => addToTable(lecture)(event)}><i className={classNames('icon', 'icon--add-lecture')} /></button>
             : <button className={classNames('block--course-lectures__elem__button', 'block--course-lectures__elem__button--disable')}><i className={classNames('icon', 'icon--add-lecture')} /></button>
         }
@@ -52,6 +52,7 @@ CourseLecturesBlock.propTypes = {
   isClicked: PropTypes.bool.isRequired,
   isHover: PropTypes.bool.isRequired,
   inTimetable: PropTypes.bool.isRequired,
+  isTimetableReadonly: PropTypes.bool.isRequired,
   inCart: PropTypes.bool.isRequired,
   fromCart: PropTypes.bool.isRequired,
   addToCart: PropTypes.func.isRequired,

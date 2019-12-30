@@ -9,7 +9,7 @@ import lectureShape from '../../shapes/LectureShape';
 import classtimeShape from '../../shapes/ClasstimeShape';
 
 
-const TimetableBlock = ({ t, lecture, classtime, cellWidth, cellHeight, isClicked, isHover, isInactive, isTemp, isSimple, blockHover, blockOut, blockClick, deleteLecture, occupiedTime }) => {
+const TimetableBlock = ({ t, lecture, classtime, cellWidth, cellHeight, isTimetableReadonly, isClicked, isHover, isInactive, isTemp, isSimple, blockHover, blockOut, blockClick, deleteLecture, occupiedTime }) => {
   const indexOfTime = time => (time / 30 - 16);
 
   const activeType = (
@@ -33,7 +33,10 @@ const TimetableBlock = ({ t, lecture, classtime, cellWidth, cellHeight, isClicke
       onMouseOut={blockOut}
       onClick={blockClick ? blockClick(lecture) : null}
     >
-      <button className={classNames('block--timetable__button')} onClick={deleteLecture ? deleteLecture(lecture) : null}><i className={classNames('icon', 'icon--delete-lecture')} /></button>
+      { !isTemp && !isTimetableReadonly
+        ? <button className={classNames('block--timetable__button')} onClick={deleteLecture ? deleteLecture(lecture) : null}><i className={classNames('icon', 'icon--delete-lecture')} /></button>
+        : null
+      }
       <div
         // onMouseDown={() => onMouseDown()}
         className={classNames('block--timetable__content')}
@@ -71,6 +74,7 @@ TimetableBlock.propTypes = {
   classtime: classtimeShape.isRequired,
   cellWidth: PropTypes.number.isRequired,
   cellHeight: PropTypes.number.isRequired,
+  isTimetableReadonly: PropTypes.bool.isRequired,
   isClicked: PropTypes.bool.isRequired,
   isHover: PropTypes.bool.isRequired,
   isInactive: PropTypes.bool.isRequired,

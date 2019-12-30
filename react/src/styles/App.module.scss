@@ -11,6 +11,8 @@ $color-text-dark: #000000;
 $color-text-normal: #333333;
 $color-text-light: #555555;
 $color-text-placeholder: #AAAAAA;
+$color-text-disable: #AAAAAA;
+
 
 $color-highlight: #E54C65;
 $color-highlight-dark: #963246;
@@ -435,6 +437,7 @@ table {
                 background-color: $color-block-background;
                 margin-bottom: 6px;
                 border-radius: $block-border-radius;
+                text-align: left;
                 &.tabs__elem--active {
                     background-color: $color-block-background-dark;
                 }
@@ -1799,8 +1802,8 @@ table {
         }
     }
 
-    & > i {
-        margin-right: 4px;
+    & > i + * {
+        margin-left: 4px;
     }
 
 
@@ -1810,7 +1813,7 @@ table {
 
     &--disabled {
         pointer-events: none;
-        color: #CCCCCC;
+        color: $color-text-disable;
     }
 
     &--review-block {
@@ -2227,6 +2230,11 @@ table {
 }
 
 
+button.disabled {
+    color: $color-text-disable !important;
+}
+
+
 .background-color {
 
     &--1
@@ -2474,6 +2482,7 @@ i.icon {
             background-image: url(../static/icons/add_lecture_hover.svg);
         }
 
+        .text-button--disabled > &,
         .block--course-lectures__elem__button--disable > & {
             background-image: url(../static/icons/add_lecture_disabled.svg);
         }
@@ -2487,6 +2496,10 @@ i.icon {
 
         *:hover > & {
             background-image: url(../static/icons/delete_from_table_hover.svg);
+        }
+
+        .text-button--disabled > & {
+            background-image: url(../static/icons/delete_from_table_disable.svg);
         }
     }
 
@@ -2539,6 +2552,10 @@ i.icon {
 
         *:hover > & {
             background-image: url(../static/icons/delete_table_hover.svg);
+        }
+
+        *.disabled > & {
+            background-image: url(../static/icons/delete_table_disable.svg);
         }
     }
 

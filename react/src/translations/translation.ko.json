@@ -180,7 +180,8 @@
     },
     "message": {
       "blankSearch": "검색 조건을 선택해 주세요.",
-      "timetableOverlap": "시간표가 겹치는 과목은 추가할 수 없습니다."
+      "timetableOverlap": "시간표가 겹치는 과목은 추가할 수 없습니다.",
+      "lastTimetable": "마지막 시간표는 삭제할 수 없습니다."
     },
     "others": {
       "table": "시간표",
