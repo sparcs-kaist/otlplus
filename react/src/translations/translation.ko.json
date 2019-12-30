@@ -184,6 +184,7 @@
     },
     "others": {
       "table": "시간표",
+      "myTable": "내 시간표",
       "examOfDay": "{{day}} 시험",
       "creditCount": "{{count}}학점",
       "auCount": "{{count}}AU",
