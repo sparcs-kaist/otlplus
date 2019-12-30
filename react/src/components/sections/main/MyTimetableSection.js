@@ -8,7 +8,7 @@ import CurrentTimetableBlock from '../../blocks/CurrentTimetableBlock';
 import userShape from '../../../shapes/UserShape';
 
 
-class CurrentTimetableSection extends Component {
+class MyTimetableSection extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -134,9 +134,9 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
 });
 
-CurrentTimetableSection.propTypes = {
+MyTimetableSection.propTypes = {
   user: userShape,
 };
 
 
-export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(CurrentTimetableSection));
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(MyTimetableSection));
