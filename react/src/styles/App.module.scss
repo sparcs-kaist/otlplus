@@ -437,6 +437,7 @@ table {
                 background-color: $color-block-background;
                 margin-bottom: 6px;
                 border-radius: $block-border-radius;
+                text-align: left;
                 &.tabs__elem--active {
                     background-color: $color-block-background-dark;
                 }
