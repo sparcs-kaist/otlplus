@@ -2230,6 +2230,11 @@ table {
 }
 
 
+button.disabled {
+    color: $color-text-disable !important;
+}
+
+
 .background-color {
 
     &--1
@@ -2547,6 +2552,10 @@ i.icon {
 
         *:hover > & {
             background-image: url(../static/icons/delete_table_hover.svg);
+        }
+
+        *.disabled > & {
+            background-image: url(../static/icons/delete_table_disable.svg);
         }
     }
 

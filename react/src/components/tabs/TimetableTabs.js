@@ -141,6 +141,14 @@ class TimetableTabs extends Component {
                 <span>
                   {`${t('ui.others.myTable')}`}
                 </span>
+                <button>
+                  <i className={classNames('icon', 'icon--duplicate-table')} />
+                  <span>{t('ui.button.duplicateTable')}</span>
+                </button>
+                <button className={classNames('disabled')}>
+                  <i className={classNames('icon', 'icon--delete-table')} />
+                  <span>{t('ui.button.deleteTable')}</span>
+                </button>
               </button>
             )
             : null
