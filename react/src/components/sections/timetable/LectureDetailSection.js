@@ -273,8 +273,8 @@ class LectureDetailSection extends Component {
                   </button>
                 )
             }
-            {
-              !inTimetable(lecture, currentTimetable)
+            {currentTimetable && !currentTimetable.isReadOnly
+              ? (!inTimetable(lecture, currentTimetable)
                 ? (
                   <button className={classNames('text-button', 'text-button--black')} onClick={this.addToTable}>
                     <i className={classNames('icon', 'icon--add-lecture')} />
@@ -287,6 +287,22 @@ class LectureDetailSection extends Component {
                     {t('ui.button.deleteFromTable')}
                   </button>
                 )
+              )
+              : (!inTimetable(lecture, currentTimetable)
+                ? (
+                  <button className={classNames('text-button', 'text-button--black', 'text-icon--disabled')}>
+                    <i className={classNames('icon', 'icon--add-lecture')} />
+                    {t('ui.button.addToTable')}
+                  </button>
+                )
+                : (
+                  <button className={classNames('text-button', 'text-button--black', 'text-button--disabled')}>
+                    <i className={classNames('icon', 'icon--delete-from-table')} />
+                    {t('ui.button.deleteFromTable')}
+                  </button>
+                )
+
+              )
             }
           </div>
         </div>
