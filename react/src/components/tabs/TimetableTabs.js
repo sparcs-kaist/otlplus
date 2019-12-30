@@ -89,9 +89,16 @@ class TimetableTabs extends Component {
   }
 
   deleteTable(event, timetable) {
-    const { year, semester, deleteTimetableDispatch } = this.props;
+    const { t } = this.props;
+    const { timetables, year, semester, deleteTimetableDispatch } = this.props;
 
     event.stopPropagation();
+
+    if (timetables.length === 1) {
+      // eslint-disable-next-line no-alert
+      alert(t('ui.message.lastTimetable'));
+      return;
+    }
     axios.post(`${BASE_URL}/api/timetable/table_delete`, {
       table_id: timetable.id,
       year: year,
@@ -112,6 +119,7 @@ class TimetableTabs extends Component {
     const { year, semester, duplicateTimetableDispatch } = this.props;
 
     event.stopPropagation();
+
     axios.post(`${BASE_URL}/api/timetable/table_copy`, {
       table_id: timetable.id,
       year: year,
