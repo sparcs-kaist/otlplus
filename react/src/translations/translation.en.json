@@ -184,6 +184,7 @@
     },
     "others": {
       "table": "Table",
+      "myTable": "My Table",
       "examOfDay": "Exams on {{day}}",
       "creditCount": "{{count}} credit",
       "creditCount_plural": "{{count}} credits",

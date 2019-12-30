@@ -78,7 +78,7 @@ class SemesterSection extends Component {
     const { t } = this.props;
     const { year, semester } = this.props;
 
-    const semesterName = {
+    const semesterNames = {
       1: t('ui.semester.spring'),
       2: t('ui.semester.summer'),
       3: t('ui.semester.fall'),
@@ -89,7 +89,7 @@ class SemesterSection extends Component {
       return (
         <div className={classNames('section', 'section--semester', t('jsx.className.semesterByLang'))}>
           <button className={classNames((this._isFirstSemester(year, semester) ? 'disable' : ''))} onClick={() => this.semesterPrev()}><i className={classNames('icon', 'icon--semester-prev')} /></button>
-          <span>{`${year} ${semesterName[semester]}`}</span>
+          <span>{`${year} ${semesterNames[semester]}`}</span>
           <button className={classNames((this._isLastSemester(year, semester) ? 'disable' : ''))} onClick={() => this.semesterNext()}><i className={classNames('icon', 'icon--semester-next')} /></button>
         </div>
       );

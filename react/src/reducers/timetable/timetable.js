@@ -1,7 +1,14 @@
-import { RESET, SET_TIMETABLES, CLEAR_TIMETABLES, SET_CURRENT_TIMETABLE, CREATE_TIMETABLE, DELETE_TIMETABLE, DUPLICATE_TIMETABLE, ADD_LECTURE_TO_TIMETABLE, REMOVE_LECTURE_FROM_TIMETABLE, UPDATE_CELL_SIZE, SET_IS_DRAGGING, SET_MOBILE_SHOW_TIMETABLE_TABS } from '../../actions/timetable/timetable';
+import { RESET, SET_TIMETABLES, CLEAR_TIMETABLES, SET_MY_TIMETABLE_LECTURES, SET_CURRENT_TIMETABLE, CREATE_TIMETABLE, DELETE_TIMETABLE, DUPLICATE_TIMETABLE, ADD_LECTURE_TO_TIMETABLE, REMOVE_LECTURE_FROM_TIMETABLE, UPDATE_CELL_SIZE, SET_IS_DRAGGING, SET_MOBILE_SHOW_TIMETABLE_TABS } from '../../actions/timetable/timetable';
+
+const MY = 'MY';
 
 const initialState = {
   timetables: null,
+  myTimetable: {
+    id: MY,
+    lectures: [],
+    isReadOnly: true,
+  },
   currentTimetable: null,
   cellWidth: 200,
   cellHeight: 50,
@@ -24,6 +31,14 @@ const timetable = (state = initialState, action) => {
       return Object.assign({}, state, {
         timetables: null,
         currentTimetable: null,
+      });
+    }
+    case SET_MY_TIMETABLE_LECTURES: {
+      return Object.assign({}, state, {
+        myTimetable: {
+          ...state.myTimetable,
+          lectures: action.lectures,
+        },
       });
     }
     case SET_CURRENT_TIMETABLE: {
