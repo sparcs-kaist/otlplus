@@ -188,6 +188,7 @@ class LectureListSection extends Component {
                 isClicked={isListClicked(lecture, lectureActive)}
                 isHover={isListHover(lecture, lectureActive)}
                 inTimetable={inTimetable(lecture, currentTimetable)}
+                isTimetableReadonly={currentTimetable.isReadOnly}
                 inCart={inCart(lecture, cart)}
                 fromCart={fromCart}
                 addToCart={this.addToCart}

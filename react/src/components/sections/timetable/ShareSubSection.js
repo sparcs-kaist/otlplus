@@ -30,11 +30,11 @@ class ShareSubSection extends Component {
         <div>
           <button onClick={() => setMobileShowTimetableTabsDispatch(true)} className={classNames('text-button', 'text-button--black')}>
             <i className={classNames('icon', 'icon--switch-table')} />
-            {t('ui.button.switchTable')}
+            <span>{t('ui.button.switchTable')}</span>
           </button>
           <button onClick={() => setMobileShowLectureListDispatch(true)} className={classNames('text-button', 'text-button--black')}>
             <i className={classNames('icon', 'icon--show-lectures')} />
-            {t('ui.button.showLectures')}
+            <span>{t('ui.button.showLectures')}</span>
           </button>
         </div>
         <div />
