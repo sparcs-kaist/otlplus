@@ -50,6 +50,13 @@ class AcademicScheduleSection extends Component {
       );
     }
 
+    const semesterNames = {
+      1: t('ui.semester.spring'),
+      2: t('ui.semester.summer'),
+      3: t('ui.semester.fall'),
+      4: t('ui.semester.winter'),
+    };
+
     const targetSchedule = getCurrentSchedule(semesters);
     const targetScheduleTime = targetSchedule.time;
     const timeDiff = targetScheduleTime - today;
@@ -70,7 +77,7 @@ class AcademicScheduleSection extends Component {
             {`D-${t('ui.others.dayCount', { count: days })} ${t('ui.others.hourCount', { count: hours })} ${t('ui.others.minuteCount', { count: minutes })} ${t('ui.others.secondCount', { count: seconds })}`}
           </div>
           <div>
-            <strong>{`${t('ui.semester.springSemester')} ${getScheduleName(targetSchedule)}`}</strong>
+            <strong>{`${targetSchedule.year} ${semesterNames[targetSchedule.semester]} ${getScheduleName(targetSchedule)}`}</strong>
             <span>{`${targetScheduleTime.getFullYear()}.${targetScheduleTime.getMonth()}.${targetScheduleTime.getDate()}`}</span>
           </div>
         </div>
