@@ -234,6 +234,8 @@ class LectureSearchSubSection extends Component {
             />
             <div className={classNames('attribute')}>
               <span>{t('ui.search.time')}</span>
+              <div>
+                { /* eslint-disable-next-line react/jsx-indent */}
               { day !== null
                 ? (
                   <label className={classNames('text-button')} onClick={this.clearSearchTime}>
@@ -248,6 +250,7 @@ class LectureSearchSubSection extends Component {
                   </span>
                 )
               }
+              </div>
             </div>
           </div>
           <div className={classNames('buttons')}>
