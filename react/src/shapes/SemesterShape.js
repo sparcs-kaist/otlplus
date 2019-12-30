@@ -16,7 +16,7 @@ const semesterShape = PropTypes.shape({
   semester: PropTypes.number.isRequired,
   // eslint-disable-next-line fp/no-mutating-assign
   ...Object.assign(...SCHEDULE_FIELDS.map(f => ({
-    f: PropTypes.string.isRequired,
+    [f]: PropTypes.string.isRequired,
   }))),
 });
 
