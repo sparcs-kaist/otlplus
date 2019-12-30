@@ -362,6 +362,7 @@ table {
     & > button {
         text-align: center;
         background-color: $color-tab-background-dark;
+        white-space: nowrap;
         &.tabs__elem--active {
             cursor: initial;
             background-color: $color-tab-background;
