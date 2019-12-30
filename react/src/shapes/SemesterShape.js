@@ -20,6 +20,4 @@ const semesterShape = PropTypes.shape({
   }))),
 });
 
-console.log(semesterShape);
-
 export default semesterShape;
