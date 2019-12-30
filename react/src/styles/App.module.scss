@@ -1801,8 +1801,8 @@ table {
         }
     }
 
-    & > i {
-        margin-right: 4px;
+    & > i + * {
+        margin-left: 4px;
     }
 
 
