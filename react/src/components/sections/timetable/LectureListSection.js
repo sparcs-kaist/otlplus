@@ -214,14 +214,14 @@ class LectureListSection extends Component {
             <i className={classNames('icon', 'icon--search')} />
             <span>{t('ui.tab.search')}</span>
           </div>
-          <div>
-            <div ref={this.arrowRef}>
+          <>
+            <div className={classNames('section-content--lecture-list__selector')} ref={this.arrowRef}>
               <i className={classNames('icon', 'icon--lecture-selector')} />
             </div>
             <Scroller onScroll={this.selectWithArrow}>
               {mapCourses(search.courses, false)}
             </Scroller>
-          </div>
+          </>
         </div>
       );
     }
@@ -232,14 +232,14 @@ class LectureListSection extends Component {
           <div className={classNames('title')}>
             {major[currentList][t('js.property.name')]}
           </div>
-          <div>
-            <div ref={this.arrowRef}>
+          <>
+            <div className={classNames('section-content--lecture-list__selector')} ref={this.arrowRef}>
               <i className={classNames('icon', 'icon--lecture-selector')} />
             </div>
             <Scroller onScroll={this.selectWithArrow}>
               {mapCourses(major[currentList].courses, false)}
             </Scroller>
-          </div>
+          </>
         </div>
       );
     }
@@ -250,14 +250,14 @@ class LectureListSection extends Component {
           <div className={classNames('title')}>
             {t('ui.tab.humanity')}
           </div>
-          <div>
-            <div ref={this.arrowRef}>
+          <>
+            <div className={classNames('section-content--lecture-list__selector')} ref={this.arrowRef}>
               <i className={classNames('icon', 'icon--lecture-selector')} />
             </div>
             <Scroller onScroll={this.selectWithArrow}>
               {mapCourses(humanity.courses, false)}
             </Scroller>
-          </div>
+          </>
         </div>
       );
     }
@@ -268,14 +268,14 @@ class LectureListSection extends Component {
           <div className={classNames('title')}>
             {t('ui.tab.wishlist')}
           </div>
-          <div>
-            <div ref={this.arrowRef}>
+          <>
+            <div className={classNames('section-content--lecture-list__selector')} ref={this.arrowRef}>
               <i className={classNames('icon', 'icon--lecture-selector')} />
             </div>
             <Scroller onScroll={this.selectWithArrow}>
               {mapCourses(cart.courses, true)}
             </Scroller>
-          </div>
+          </>
         </div>
       );
     }

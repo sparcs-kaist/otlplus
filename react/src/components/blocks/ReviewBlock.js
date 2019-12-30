@@ -19,6 +19,7 @@ const ReviewBlock = ({ t, review }) => {
         {review.comment}
       </div>
       <div className={classNames('block--review__menus')}>
+        <span>
         <span className={classNames('block--review__menus__score')}>
           {t('ui.score.likes')}
           &nbsp;
@@ -39,12 +40,15 @@ const ReviewBlock = ({ t, review }) => {
           &nbsp;
           <strong>{review.speech_letter}</strong>
         </span>
+        </span>
+        <span>
         <button className={classNames('text-button', 'text-button--review-block')}>
           {t('ui.button.like')}
         </button>
         <button className={classNames('text-button', 'text-button--black', 'text-button--review-block')}>
           {t('ui.button.report')}
         </button>
+        </span>
       </div>
     </div>
   );

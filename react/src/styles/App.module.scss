@@ -10,6 +10,7 @@ $color-block-background-highlight: #F9F0F0;
 $color-text-dark: #000000;
 $color-text-normal: #333333;
 $color-text-light: #555555;
+$color-text-lighter: #888888;
 $color-text-placeholder: #AAAAAA;
 $color-text-disable: #AAAAAA;
 
@@ -362,6 +363,7 @@ table {
     & > button {
         text-align: center;
         background-color: $color-tab-background-dark;
+        white-space: nowrap;
         &.tabs__elem--active {
             cursor: initial;
             background-color: $color-tab-background;
@@ -467,7 +469,7 @@ table {
             }
 
             & > button {
-                color: $color-text-light;
+                color: $color-text-lighter;
                 @media (orientation: landscape) {
                     margin-left: 4px;
                 }
@@ -603,22 +605,19 @@ table {
     }
 
     &--lecture-list {
+        &__selector {
+            position: absolute;
+            top: $section-padding + $line-height-big + 12px + 8px + $line-height-normal + (6px * 2) + 1px;
+            right: 12px;
+            @media (orientation: landscape) {
+                display: none;
+            }
+        }
+
         & > div:last-child {
             flex: auto;
-            display: flex;
-            flex-direction: row-reverse;
-
-            & > div:first-child {
-                align-self: flex-start;
-                margin-top: 8px + $line-height-normal + (6px * 2) + 1px;
-                margin-left: 6px;
-                @media (orientation: landscape) {
-                    display: none;
-                }
-            }
-
-            :global(.nano) {
-                height: auto !important;
+            :global(.nano-content) {
+                margin-right: 6px + 10px;
             }
 
             & .scroll-placeholder {
@@ -1284,10 +1283,29 @@ table {
 
         &__menus {
             margin-top: 8px;
+            margin-bottom: -6px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            flex-wrap: wrap;
 
 
             &__score {
                 margin-right: 8px;
+            }
+
+
+            & > span {
+                margin-bottom: 6px;
+                flex: 1 1 auto;
+                display: inline-block;
+                &:last-child {
+                    text-align: right;
+                }
+
+                & > * {
+                    display: inline-block;
+                }
             }
         }
     }
@@ -1654,6 +1672,7 @@ table {
             text-align:right;
 
             & > span {
+                display: inline-block;
                 margin-left:8px;
             }
         }
@@ -1816,11 +1835,6 @@ table {
         color: $color-text-disable;
     }
 
-    &--review-block {
-        float: right;
-        margin-left: 8px;
-    }
-
 
     &--review-write-block {
         margin-top: 4px;
@@ -1965,6 +1979,14 @@ table {
 
         &:last-child {
             margin-bottom: 0;
+        }
+
+        &--semi-long {
+            & > * {
+                line-height: $line-height-normal + 1px * 2;
+                margin-top: -1px;
+                margin-bottom: -1px;
+            }
         }
 
         & > *:first-child {
