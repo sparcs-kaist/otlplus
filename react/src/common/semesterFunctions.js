@@ -1,4 +1,3 @@
-import { SCHEDULE_FIELDS } from '../shapes/SemesterShape';
 
 export const getTimetableSemester = (semesters) => {
   // eslint-disable-next-line fp/no-mutating-methods
@@ -6,12 +5,12 @@ export const getTimetableSemester = (semesters) => {
     .map(s => ({
       year: s.year,
       semester: s.semester,
-      beginning: new Date(s.beginning),
+      timetableStartTime: new Date(s.courseDesciptionSubmission),
     }))
     .slice()
-    .sort((a, b) => (b.beginning - a.beginning));
+    .sort((a, b) => (b.timetableStartTime - a.timetableStartTime));
   const now = Date.now();
-  const timetableSemester = semestersDescending.find(s => (s.beginning < now));
+  const timetableSemester = semestersDescending.find(s => (s.timetableStartTime < now));
   return timetableSemester;
 };
 
@@ -24,10 +23,21 @@ export const getOngoingSemester = (semesters) => {
 }
 
 export const getCurrentSchedule = (semesters) => {
+  const USED_SCHEDULE_FIELDS = [
+    'beginning',
+    'end',
+    'courseRegistrationPeriodStart',
+    'courseRegistrationPeriodEnd',
+    'courseAddDropPeriodEnd',
+    'courseDropDeadline',
+    'courseEvaluationDeadline',
+    'gradePosting',
+  ];
+
   // eslint-disable-next-line fp/no-mutating-methods
   const allSchedules = semesters
     .map(s => (
-      SCHEDULE_FIELDS.map(f => ({
+      USED_SCHEDULE_FIELDS.map(f => ({
         year: s.year,
         semester: s.semester,
         type: f,
