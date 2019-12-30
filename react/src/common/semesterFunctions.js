@@ -5,12 +5,12 @@ export const getTimetableSemester = (semesters) => {
     .map(s => ({
       year: s.year,
       semester: s.semester,
-      beginning: new Date(s.beginning),
+      timetableStartTime: new Date(s.courseDesciptionSubmission),
     }))
     .slice()
-    .sort((a, b) => (b.beginning - a.beginning));
+    .sort((a, b) => (b.timetableStartTime - a.timetableStartTime));
   const now = Date.now();
-  const timetableSemester = semestersDescending.find(s => (s.beginning < now));
+  const timetableSemester = semestersDescending.find(s => (s.timetableStartTime < now));
   return timetableSemester;
 };
 
