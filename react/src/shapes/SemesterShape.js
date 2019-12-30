@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 export const SCHEDULE_FIELDS = [
   'beginning',
   'end',
+  'courseDesciptionSubmission',
   'courseRegistrationPeriodStart',
   'courseRegistrationPeriodEnd',
   'courseAddDropPeriodEnd',
