@@ -263,13 +263,13 @@ class LectureDetailSection extends Component {
                 ? (
                   <button className={classNames('text-button', 'text-button--black')} onClick={this.addToCart}>
                     <i className={classNames('icon', 'icon--add-cart')} />
-                    {t('ui.button.addToWishlist')}
+                    <span>{t('ui.button.addToWishlist')}</span>
                   </button>
                 )
                 : (
                   <button className={classNames('text-button', 'text-button--black')} onClick={this.deleteFromCart}>
                     <i className={classNames('icon', 'icon--delete-cart')} />
-                    {t('ui.button.deleteFromWishlist')}
+                    <span>{t('ui.button.deleteFromWishlist')}</span>
                   </button>
                 )
             }
@@ -278,13 +278,13 @@ class LectureDetailSection extends Component {
                 ? (
                   <button className={classNames('text-button', 'text-button--black')} onClick={this.addToTable}>
                     <i className={classNames('icon', 'icon--add-lecture')} />
-                    {t('ui.button.addToTable')}
+                    <span>{t('ui.button.addToTable')}</span>
                   </button>
                 )
                 : (
                   <button className={classNames('text-button', 'text-button--black')} onClick={this.deleteFromTable}>
                     <i className={classNames('icon', 'icon--delete-from-table')} />
-                    {t('ui.button.deleteFromTable')}
+                    <span>{t('ui.button.deleteFromTable')}</span>
                   </button>
                 )
               )
@@ -292,13 +292,13 @@ class LectureDetailSection extends Component {
                 ? (
                   <button className={classNames('text-button', 'text-button--black', 'text-icon--disabled')}>
                     <i className={classNames('icon', 'icon--add-lecture')} />
-                    {t('ui.button.addToTable')}
+                    <span>{t('ui.button.addToTable')}</span>
                   </button>
                 )
                 : (
                   <button className={classNames('text-button', 'text-button--black', 'text-button--disabled')}>
                     <i className={classNames('icon', 'icon--delete-from-table')} />
-                    {t('ui.button.deleteFromTable')}
+                    <span>{t('ui.button.deleteFromTable')}</span>
                   </button>
                 )
 
