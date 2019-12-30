@@ -616,8 +616,10 @@ table {
 
         & > div:last-child {
             flex: auto;
-            :global(.nano-content) {
-                margin-right: 6px + 10px;
+            @media (orientation: portrait) {
+                :global(.nano-content) {
+                    margin-right: 6px + 10px;
+                }
             }
 
             & .scroll-placeholder {
@@ -2254,6 +2256,7 @@ table {
 
 button.disabled {
     color: $color-text-disable !important;
+    pointer-events: none;
 }
 
 
