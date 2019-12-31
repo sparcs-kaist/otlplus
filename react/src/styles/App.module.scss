@@ -1223,12 +1223,15 @@ iframe {
 
 
     &--credit {
+        display: flex;
+        flex-direction: column;
+
         &__blocks {
             display: flex;
             flex-direction: row;
             flex-wrap: wrap;
             margin-right: -8px;
-            margin-bottom: -8px;
+            margin-bottom: -8px + 12px;
         }
 
         &__people-list {
@@ -1826,6 +1829,10 @@ iframe {
         text-align: center;
         margin-top: 12px;
         margin-bottom: 8px;
+
+        &:first-child {
+            margin-top: 0;
+        }
     }
 
 
