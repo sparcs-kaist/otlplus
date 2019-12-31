@@ -45,7 +45,7 @@ const TimetableBlock = ({ t, lecture, classtime, cellWidth, cellHeight, isTimeta
           {lecture[t('js.property.title')]}
         </p>
         <p className={classNames('block--timetable__content__info', 'mobile-hidden')}>
-          {lecture[t('js.property.professor_short')]}
+          {lecture[t('js.property.professors_str_short')]}
         </p>
         <p className={classNames('block--timetable__content__info', 'mobile-hidden')}>
           {classtime[t('js.property.classroom')]}

@@ -28,7 +28,7 @@ const HistoryLecturesBlock = ({ t, lectures }) => {
               <div className={classNames('block--history-lectures__elem__texts')}>
                 <strong className={getClass(lecture)}>{lecture[t('js.property.class_title')]}</strong>
                 {' '}
-                <span>{lecture[t('js.property.professor_short')]}</span>
+                <span>{lecture[t('js.property.professors_str_short')]}</span>
               </div>
             </div>
           </div>

@@ -585,7 +585,7 @@ table {
     }
 
     &--lecture-detail {
-        &--list-area {
+        &__list-area {
             min-height: calc(
                 100% - (
                     #{$line-height-normal}
@@ -1039,6 +1039,20 @@ table {
 
         & > last-child {
             clear: both;
+        }
+    }
+
+    &--course-detail {
+        &__list-area {
+            min-height: calc(
+                100% - (
+                    #{$line-height-normal}
+                    + 10px
+                    + #{$line-height-normal}
+                    + 8px
+                    + #{$section-padding}
+                )
+            ) !important;
         }
     }
 
@@ -2007,7 +2021,7 @@ table {
         & > *:last-child {
             flex: initial;
 
-            .search-area & {
+            &.search-fields {
                 margin-bottom: -6px;
                 margin-right: -6px;
 

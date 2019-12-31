@@ -27,7 +27,7 @@ const CurrentTimetableBlock = ({ t, lecture, classtime, cellWidth, cellHeight })
           {lecture[t('js.property.title')]}
         </p>
         <p className={classNames('block--current-timetable__content__info')}>
-          {lecture[t('js.property.professor_short')]}
+          {lecture[t('js.property.professors_str_short')]}
         </p>
         <p className={classNames('block--current-timetable__content__info')}>
           {classtime[t('js.property.classroom')]}

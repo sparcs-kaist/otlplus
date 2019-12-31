@@ -142,7 +142,7 @@ def _getFilteredCourses(semester_filters, department_filters, type_filters, grad
 
 
 def _keyLecByProf(lecture):
-    return sorted([i.id for i in lecture.professor.all()])
+    return sorted([i.id for i in lecture.professors.all()])
 
 
 def _getLecByProf(lectures):
@@ -229,7 +229,7 @@ def professor(request,id=-1,course_id=-1):
 
 
 def professorComment(request, id=-1,course_id=-1,page=-1):
-    comments = Comment.objects.filter(lecture__professor__id=id).order_by('-lecture__year','-written_datetime')
+    comments = Comment.objects.filter(lecture__professors__id=id).order_by('-lecture__year','-written_datetime')
     if int(course_id) != -1:
         comments = comments.filter(lecture__course__id=course_id)
     paginator = Paginator(comments,10)
@@ -318,7 +318,7 @@ def insert(request):
             "year" : l.year,
             "semester" : l.semester,
             "old_code" : l.old_code,
-            "professor" : [{"professor_name":p.professor_name} for p in l.professor.all()],
+            "professor" : [{"professor_name":p.professor_name} for p in l.professors.all()],
         })
 
     return JsonResponse(result, safe=False)

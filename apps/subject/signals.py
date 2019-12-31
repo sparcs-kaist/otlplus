@@ -7,8 +7,8 @@ from django.dispatch import receiver
 
 
 
-@receiver(m2m_changed, sender=Lecture.professor.through)
-def lecture_professor_changed(**kwargs):
+@receiver(m2m_changed, sender=Lecture.professors.through)
+def lecture_professors_changed(**kwargs):
     if kwargs['action'] == 'post_add' or \
        kwargs['action'] == 'post_remove' or \
        kwargs['action'] == 'post_clear':
