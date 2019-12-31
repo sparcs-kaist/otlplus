@@ -116,7 +116,7 @@ class CourseReviewsSubSection extends Component {
     ];
 
     const takenLectureOfCourse = user
-      ? user.taken_lectures.filter(l => (l.course === course.id))
+      ? user.taken_lectures.filter(l => ((l.course === course.id) && this._lectureProfessorChecker(l, professor)))
       : [];
     const filteredReviews = reviews == null
       ? null
