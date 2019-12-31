@@ -92,7 +92,8 @@
       "type": "구분",
       "department": "학과",
       "level": "학년",
-      "time": "시간"
+      "time": "시간",
+      "professor": "교수"
     },
     "type": {
       "basicRequired": "기초필수",

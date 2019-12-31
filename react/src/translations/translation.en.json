@@ -92,7 +92,8 @@
       "type": "Type",
       "department": "Dept.",
       "level": "Level",
-      "time": "Time"
+      "time": "Time",
+      "professor": "Prof."
     },
     "type": {
       "basicRequired": "Basic Required",
