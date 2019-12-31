@@ -1,13 +1,36 @@
 import React, { Component } from 'react';
+import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
+
+import Scroller from '../components/Scroller';
+
+import MyInfoSection from '../components/sections/account/MyInfoSection';
+import AcademicInfoSection from '../components/sections/account/AcademicInfoSection';
 
 
 class AccountPage extends Component {
   render() {
+    const { t } = this.props;
     return (
       <section className={classNames('content', 'content--no-scroll')}>
-        <a href="/session/logout/">로그아웃</a>
+        <div className={classNames('section-wrap', 'section-wrap--full')}>
+          <div className={classNames('section')}>
+            <div className={classNames('section-content', 'section-content--flex', 'section-content--course-detail')}>
+              <Scroller>
+                <MyInfoSection />
+                <div className={classNames('divider')} />
+                <AcademicInfoSection />
+                <div className={classNames('divider')} />
+                <div>
+                  <a href="/session/logout/" className={classNames('text-button')}>
+                    {t('ui.button.signOut')}
+                  </a>
+                </div>
+              </Scroller>
+            </div>
+          </div>
+        </div>
       </section>
     );
   }
@@ -17,4 +40,4 @@ AccountPage.propTypes = {
 };
 
 
-export default AccountPage;
+export default withTranslation()(AccountPage);

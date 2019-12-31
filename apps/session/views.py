@@ -216,9 +216,10 @@ def info(request):
     
     userProfile = UserProfile.objects.get(user=request.user)
     ctx = {
+        "email": userProfile.user.email,
+        "student_id": userProfile.student_id,
         "firstName": request.user.first_name,
         "lastName": request.user.last_name,
-        "language": userProfile.language,
         "departments": _user_department(request.user),
         "taken_lectures": [l.toJson() for l in userProfile.take_lecture_list.all()]
     }
