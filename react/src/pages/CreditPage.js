@@ -89,7 +89,7 @@ class CreditPage extends Component {
               },
               {
                 name: '김재겸',
-                caption: '(2012)',
+                caption: '2012',
               },
             ],
           },
@@ -118,11 +118,11 @@ class CreditPage extends Component {
             people: [
               {
                 name: '유민정',
-                caption: '(2012.05 ~ 2012.09)',
+                caption: '2012.05 ~ 2012.09',
               },
               {
                 name: '마재의',
-                caption: '(2012.09 ~ 2013.03)',
+                caption: '2012.09 ~ 2013.03',
               },
             ],
           },
@@ -155,11 +155,11 @@ class CreditPage extends Component {
             people: [
               {
                 name: '황태현',
-                caption: '(2015.09 ~ 2015.11)',
+                caption: '2015.09 ~ 2015.11',
               },
               {
                 name: '서동민',
-                caption: '(2015.12 ~ 2016.06)',
+                caption: '2015.12 ~ 2016.06',
               },
             ],
           },
@@ -191,11 +191,11 @@ class CreditPage extends Component {
             people: [
               {
                 name: '김재성',
-                caption: '(2016.09 ~ 2017.05)',
+                caption: '2016.09 ~ 2017.05',
               },
               {
                 name: '한승현',
-                caption: '(2017.06 ~ )',
+                caption: '2017.06 ~ ',
               },
             ],
           },
@@ -227,7 +227,7 @@ class CreditPage extends Component {
             people: [
               {
                 name: '한승현',
-                caption: '(2018.03 ~ 2020.01)',
+                caption: '2018.03 ~ 2020.01',
               },
             ],
           },
@@ -272,11 +272,11 @@ class CreditPage extends Component {
             people: [
               {
                 name: '서창민',
-                caption: '(2009 ~ 2010)',
+                caption: '2009 ~ 2010',
               },
               {
                 name: '이근홍',
-                caption: '(2011 ~ 2012)',
+                caption: '2011 ~ 2012',
               },
             ],
           },
@@ -285,31 +285,31 @@ class CreditPage extends Component {
             people: [
               {
                 name: '배성경',
-                caption: '(2011)',
+                caption: '2011',
               },
               {
                 name: '김재겸',
-                caption: '(2012)',
+                caption: '2012',
               },
               {
                 name: '유민정',
-                caption: '(2012.05 ~ 2012.09)',
+                caption: '2012.05 ~ 2012.09',
               },
               {
                 name: '마재의',
-                caption: '(2012.09 ~ 2015.04)',
+                caption: '2012.09 ~ 2015.04',
               },
               {
                 name: '황태현',
-                caption: '(2015.05 ~ 2015.11)',
+                caption: '2015.05 ~ 2015.11',
               },
               {
                 name: '서동민',
-                caption: '(2015.12 ~ 2016.05)',
+                caption: '2015.12 ~ 2016.05',
               },
               {
                 name: '김재성',
-                caption: '(2016.06 ~ 2017.06)',
+                caption: '2016.06 ~ 2017.06',
               },
             ],
           },
@@ -318,7 +318,7 @@ class CreditPage extends Component {
             people: [
               {
                 name: '한승현',
-                caption: '(2017.06 ~ )',
+                caption: '2017.06 ~ ',
               },
             ],
           },
