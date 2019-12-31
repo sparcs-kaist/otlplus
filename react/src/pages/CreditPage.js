@@ -97,9 +97,14 @@ class CreditPage extends Component {
               { name: '김재겸' },
               { name: '박일우' },
               { name: '배성경' },
+              { name: '심규민' },
               { name: '안재만' },
+              { name: '유민정' },
               { name: '이윤석' },
               { name: '정재성' },
+              { name: '정종혁' },
+              { name: '정창제' },
+              { name: '진태진' },
               { name: '조유정' },
             ],
           },
@@ -195,21 +200,21 @@ class CreditPage extends Component {
           {
             title: 'Designer',
             people: [
-              { name: '한승현' },
+              { name: '한승현', caption: '4 credits' },
             ],
           },
           {
             title: 'Developer',
             people: [
-              { name: '고지훈' },
-              { name: '김재성' },
-              { name: '김태준' },
-              { name: '서덕담' },
-              { name: '오종훈' },
-              { name: '이강원' },
-              { name: '조형준' },
-              { name: '최정운' },
-              { name: '한승현' },
+              { name: '고지훈', caption: '3 credits' },
+              { name: '김재성', caption: '3 credits' },
+              { name: '김태준', caption: '2 credits' },
+              { name: '서덕담', caption: '2 credits' },
+              { name: '오종훈', caption: '2 credits' },
+              { name: '이강원', caption: '2 credits' },
+              { name: '조형준', caption: '3 credits' },
+              { name: '최정운', caption: '3 credits' },
+              { name: '한승현', caption: '2 credits' },
             ],
           },
         ];
@@ -338,12 +343,12 @@ class CreditPage extends Component {
                     <Button index={2} onClick={this.changePage} isClicked={currentTab === 2}
                       mainTitle="OTL"
                       subTitle="모의시간표"
-                      period="2010"
+                      period="2009"
                     />
                     <Button index={3} onClick={this.changePage} isClicked={currentTab === 3}
                       mainTitle="OTL"
                       subTitle="추가개발"
-                      period="2011 ~ 2012"
+                      period="2010 ~ 2012"
                     />
                     <Button index={4} onClick={this.changePage} isClicked={currentTab === 4}
                       mainTitle="OTL"
