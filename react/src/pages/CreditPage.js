@@ -337,42 +337,66 @@ class CreditPage extends Component {
             {/* eslint-disable-next-line react/jsx-indent */}
                 <div className={classNames('section-content', 'section-content--credit')}>
                   <div className={classNames('section-content--credit__blocks')}>
-                    <Button index={1} onClick={this.changePage} isClicked={currentTab === 1}
+                    <Button
+                      index={1}
+                      onClick={this.changePage}
+                      isClicked={currentTab === 1}
                       mainTitle="LKIN"
                       subTitle="-"
                       period="-"
                     />
-                    <Button index={2} onClick={this.changePage} isClicked={currentTab === 2}
+                    <Button
+                      index={2}
+                      onClick={this.changePage}
+                      isClicked={currentTab === 2}
                       mainTitle="OTL"
                       subTitle="모의시간표"
                       period="2009"
                     />
-                    <Button index={3} onClick={this.changePage} isClicked={currentTab === 3}
+                    <Button
+                      index={3}
+                      onClick={this.changePage}
+                      isClicked={currentTab === 3}
                       mainTitle="OTL"
                       subTitle="추가개발"
                       period="2010 ~ 2012"
                     />
-                    <Button index={4} onClick={this.changePage} isClicked={currentTab === 4}
+                    <Button
+                      index={4}
+                      onClick={this.changePage}
+                      isClicked={currentTab === 4}
                       mainTitle="OTL"
                       subTitle="과목사전"
                       period="2012 ~ 2013"
                     />
-                    <Button index={5} onClick={this.changePage} isClicked={currentTab === 5}
+                    <Button
+                      index={5}
+                      onClick={this.changePage}
+                      isClicked={currentTab === 5}
                       mainTitle="OTL PLUS"
                       subTitle="과목사전"
                       period="2015.09 ~ 2016.06"
                     />
-                    <Button index={6} onClick={this.changePage} isClicked={currentTab === 6}
+                    <Button
+                      index={6}
+                      onClick={this.changePage}
+                      isClicked={currentTab === 6}
                       mainTitle="OTL PLUS"
                       subTitle="모의시간표"
                       period="2016.07 ~ 2018.12"
                     />
-                    <Button index={8} onClick={this.changePage} isClicked={currentTab === 8}
+                    <Button
+                      index={8}
+                      onClick={this.changePage}
+                      isClicked={currentTab === 8}
                       mainTitle="OTL PLUS"
                       subTitle="Release 2020"
                       period="2018.01 ~ 2020.01"
                     />
-                    <Button index={-1} onClick={this.changePage} isClicked={currentTab === -1}
+                    <Button
+                      index={-1}
+                      onClick={this.changePage}
+                      isClicked={currentTab === -1}
                       mainTitle="System Operators"
                       subTitle="-"
                       period="-"
