@@ -195,6 +195,24 @@
       "academicInfoCaptionHead": "This information is fetched from KAIST Portal. In case the information is not correct, please contact ",
       "academicInfoCaptionTail": "."
     },
+    "error": {
+      "invalidLogin": {
+        "title": "Login Error",
+        "message": "Invalid login"
+      },
+      "noSuchUser": {
+        "title": "Login Error",
+        "message": "No such user"
+      },
+      "problemUnregister": {
+        "title": "Unregister Error",
+        "message": "Problem while unregtering"
+      },
+      "unknown": {
+        "title": "Error",
+        "message": "Unknown error"
+      }
+    },
     "others": {
       "table": "Table",
       "myTable": "My Table",

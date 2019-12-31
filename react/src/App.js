@@ -21,6 +21,7 @@ import commonReducer from './reducers/common/index';
 import { setUser } from './actions/common/user';
 import { setSemesters } from './actions/common/semester';
 import TestPage from './pages/TestPage';
+import ErrorPage from './pages/ErrorPage';
 
 const store = createStore(combineReducers({
   common: commonReducer,
@@ -60,6 +61,7 @@ class App extends Component {
             <Route exact path="/licenses" component={LicensePage} />
             {/* Temporary test page for axiom */}
             <Route exact path="/test" component={TestPage} />
+            <Route exact path="/error/:message" component={ErrorPage} />
             <Redirect from="/" to="/main/" />
           </Switch>
         </>
