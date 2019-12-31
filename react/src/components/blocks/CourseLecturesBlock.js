@@ -26,7 +26,7 @@ const CourseLecturesBlock = ({ t, lecture, isClicked, isHover, inTimetable, isTi
         <div className={classNames('block--course-lectures__elem__texts')}>
           <strong className={getClass(lecture)}>{lecture[t('js.property.class_title')]}</strong>
           {' '}
-          <span>{lecture[t('js.property.professor_short')]}</span>
+          <span>{lecture[t('js.property.professors_str_short')]}</span>
         </div>
         {
           fromCart
