@@ -1192,6 +1192,21 @@ table {
             }
         }
     }
+
+
+    &--credit {
+        &__blocks {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            margin-right: -8px;
+            margin-bottom: -8px;
+        }
+
+        &__people-list {
+            text-align: center;
+        }
+    }
 }
 
 
@@ -1703,6 +1718,32 @@ table {
             }
         }
     }
+
+
+    &--project {
+        padding: 8px 10px;
+        margin-right: 8px;
+        margin-bottom: 8px;
+        width: 114px;
+        text-align: center;
+        &:hover {
+            background-color:$color-block-background-dark;
+        }
+        &.active {
+            background-color:$color-block-background-dark;
+            box-shadow: 0 3px 0 0 $color-block-shadow-dark;
+            position: relative;
+            top: -3px;
+        }
+
+        &__title {
+            font-weight: bold;
+        }
+
+        &__content {
+            margin-top: 2px;
+        }
+    }
 }
 
 
@@ -1735,6 +1776,11 @@ table {
     .section-content--account & {
         text-align: center;
         margin-bottom: 10px;
+    }
+
+    .section-content--credit & {
+        text-align: center;
+        margin-top: 12px;
     }
 
 
