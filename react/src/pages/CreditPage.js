@@ -7,8 +7,8 @@ import Footer from '../components/guideline/Footer';
 
 class Button extends Component {
   render() {
-    const { index, current, onClick, mainTitle, subTitle, period } = this.props;
-    const className = (index === current)
+    const { index, isClicked, onClick, mainTitle, subTitle, period } = this.props;
+    const className = isClicked
       ? classNames('block', 'block--project', 'active')
       : classNames('block', 'block--project');
     return (
@@ -24,7 +24,7 @@ class Button extends Component {
 Button.propTypes = {
   index: PropTypes.number.isRequired,
   onClick: PropTypes.func.isRequired,
-  current: PropTypes.number.isRequired,
+  isClicked: PropTypes.bool.isRequired,
   mainTitle: PropTypes.string.isRequired,
   subTitle: PropTypes.string.isRequired,
   period: PropTypes.string.isRequired,
@@ -285,37 +285,37 @@ class CreditPage extends Component {
             {/* eslint-disable-next-line react/jsx-indent */}
                 <div className={classNames('section-content', 'section-content--credit')}>
                   <div className={classNames('section-content--credit__blocks')}>
-                    <Button index={1} onClick={this.changePage} current={currentTab}
+                    <Button index={1} onClick={this.changePage} isClicked={currentTab === 1}
                       mainTitle="LKIN"
                       subTitle="-"
                       period="-"
                     />
-                    <Button index={2} onClick={this.changePage} current={currentTab}
+                    <Button index={2} onClick={this.changePage} isClicked={currentTab === 2}
                       mainTitle="OTL"
                       subTitle="모의시간표"
                       period="2010"
                     />
-                    <Button index={3} onClick={this.changePage} current={currentTab}
+                    <Button index={3} onClick={this.changePage} isClicked={currentTab === 3}
                       mainTitle="OTL"
                       subTitle="추가개발"
                       period="2011 ~ 2012"
                     />
-                    <Button index={4} onClick={this.changePage} current={currentTab}
+                    <Button index={4} onClick={this.changePage} isClicked={currentTab === 4}
                       mainTitle="OTL"
                       subTitle="과목사전"
                       period="2012 ~ 2013"
                     />
-                    <Button index={5} onClick={this.changePage} current={currentTab}
+                    <Button index={5} onClick={this.changePage} isClicked={currentTab === 5}
                       mainTitle="OTL PLUS"
                       subTitle="과목사전"
                       period="2015.09 ~ 2016.06"
                     />
-                    <Button index={6} onClick={this.changePage} current={currentTab}
+                    <Button index={6} onClick={this.changePage} isClicked={currentTab === 6}
                       mainTitle="OTL PLUS"
                       subTitle="모의시간표"
                       period="2016.07 ~ 2018.12"
                     />
-                    <Button index={7} onClick={this.changePage} current={currentTab}
+                    <Button index={7} onClick={this.changePage} isClicked={currentTab === 7}
                       mainTitle="System Operators"
                       subTitle="-"
                       period="-"
