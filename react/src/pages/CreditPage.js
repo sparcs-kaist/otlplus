@@ -31,6 +31,7 @@ Button.propTypes = {
   period: PropTypes.string.isRequired,
 };
 
+
 // eslint-disable-next-line react/no-multi-comp
 class CreditPage extends Component {
   constructor(props) {
