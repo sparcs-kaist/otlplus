@@ -5,7 +5,6 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
 from django.conf import settings
-from django.utils import translation
 from apps.subject.models import Department, Lecture
 from apps.review.models import Comment
 from apps.timetable.models import OldTimeTable
@@ -125,7 +124,7 @@ def user_logout(request):
         logout(request)
         request.session['visited'] = True
         return redirect(logout_url)
-    return redirect("/main")
+    return redirect("/")
 
 
 #################### UNUSED ####################
@@ -217,26 +216,12 @@ def info(request):
     
     userProfile = UserProfile.objects.get(user=request.user)
     ctx = {
+        "email": userProfile.user.email,
+        "student_id": userProfile.student_id,
         "firstName": request.user.first_name,
         "lastName": request.user.last_name,
-        "language": userProfile.language,
         "departments": _user_department(request.user),
         "taken_lectures": [l.toJson() for l in userProfile.take_lecture_list.all()]
     }
     return JsonResponse(ctx, safe = False)
-
-
-#################### UNUSED ####################
-def language(request):
-    if translation.LANGUAGE_SESSION_KEY not in request.session:
-        to_lang = 'ko'
-    elif request.session[translation.LANGUAGE_SESSION_KEY] == 'ko':
-        to_lang = 'en'
-    else:
-        to_lang = 'ko'
-
-    request.session[translation.LANGUAGE_SESSION_KEY] = to_lang
-    translation.activate(to_lang)
-
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
