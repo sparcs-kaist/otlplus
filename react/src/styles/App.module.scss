@@ -1731,6 +1731,7 @@ table {
         margin-bottom: 10px;
     }
 
+    .section-content--license &,
     .section-content--account & {
         text-align: center;
         margin-bottom: 10px;
@@ -1823,6 +1824,10 @@ table {
         & > span {
             margin-right: 6px;
         }
+    }
+
+    .section-content--license & {
+        padding-bottom: 8px;
     }
 }
 
