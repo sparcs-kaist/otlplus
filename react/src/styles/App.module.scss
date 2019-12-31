@@ -2007,7 +2007,7 @@ table {
         & > *:last-child {
             flex: initial;
 
-            .search-area & {
+            &.search-fields {
                 margin-bottom: -6px;
                 margin-right: -6px;
 
