@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import nestedProfessorShape from './NestedProfessorShape';
 
 
 const lectureShape = PropTypes.shape({
@@ -26,6 +27,7 @@ const lectureShape = PropTypes.shape({
   common_title_en: PropTypes.string.isRequired,
   class_title: PropTypes.string.isRequired,
   class_title_en: PropTypes.string.isRequired,
+  professors: nestedProfessorShape,
   professors_str_short: PropTypes.string.isRequired,
   professors_str_short_en: PropTypes.string.isRequired,
 });

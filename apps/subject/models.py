@@ -127,13 +127,13 @@ class Lecture(models.Model):
                 'professors_str_short': prof_name_list[0] + u" 외 " + str(len(prof_name_list)-1) + u"명",
                 'professors_str_short_en': prof_name_list_en[0] + u" and " + str(len(prof_name_list)-1) + u" others",
             })
-        
-        if nested:
-            return result
 
         result.update({
             'professors': [p.toJson(nested=True) for p in self.professors.all()]
         })
+        
+        if nested:
+            return result
 
         # Add formatted score
         if self.comment_num == 0:
