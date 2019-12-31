@@ -16,7 +16,7 @@ class AccountPage extends Component {
       <section className={classNames('content', 'content--no-scroll')}>
         <div className={classNames('section-wrap', 'section-wrap--full')}>
           <div className={classNames('section')}>
-            <div className={classNames('section-content', 'section-content--flex', 'section-content--course-detail')}>
+            <div className={classNames('section-content', 'section-content--account')}>
               <Scroller>
                 <MyInfoSection />
                 <div className={classNames('divider')} />
