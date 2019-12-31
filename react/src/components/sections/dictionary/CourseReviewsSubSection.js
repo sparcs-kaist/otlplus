@@ -138,10 +138,10 @@ class CourseReviewsSubSection extends Component {
         }
         {
           (filteredReviews == null)
-            ? <div className={classNames('list-placeholder')}><div>{t('ui.placeholder.loading')}</div></div>
+            ? <div className={classNames('section-content--course-detail__list-area', 'list-placeholder')}><div>{t('ui.placeholder.loading')}</div></div>
             : (filteredReviews.length
-              ? <div>{filteredReviews.map(r => <ReviewBlock review={r} key={r.id} />)}</div>
-              : <div className={classNames('list-placeholder')}><div>{t('ui.placeholder.noResults')}</div></div>)
+              ? <div className={classNames('section-content--course-detail__list-area')}>{filteredReviews.map(r => <ReviewBlock review={r} key={r.id} />)}</div>
+              : <div className={classNames('section-content--course-detail__list-area', 'list-placeholder')}><div>{t('ui.placeholder.noResults')}</div></div>)
         }
       </>
     );
