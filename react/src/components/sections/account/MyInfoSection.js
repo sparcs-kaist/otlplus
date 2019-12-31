@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
+
+import { getFullName } from '../../guideline/Header';
 import userShape from '../../../shapes/UserShape';
 
 
@@ -22,7 +24,7 @@ class CourseDetailSection extends Component {
         </div>
         <div className={classNames('attribute')}>
           <div>{t('ui.attribute.name')}</div>
-          <div>{`${user.lastName}${user.firstName}`}</div>
+          <div>{getFullName(user)}</div>
         </div>
         <div className={classNames('attribute')}>
           <div>{t('ui.attribute.email')}</div>
