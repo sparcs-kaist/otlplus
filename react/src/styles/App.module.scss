@@ -1233,6 +1233,14 @@ iframe {
 
         &__people-list {
             text-align: center;
+
+            &__elem {
+                margin-bottom: 8px;
+
+                & > .caption {
+                    margin-top: 2px;
+                }
+            }
         }
     }
 
@@ -1817,6 +1825,7 @@ iframe {
     .section-content--credit & {
         text-align: center;
         margin-top: 12px;
+        margin-bottom: 8px;
     }
 
 
