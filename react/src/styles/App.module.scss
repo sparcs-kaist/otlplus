@@ -1760,7 +1760,7 @@ iframe {
         padding: 8px 10px;
         margin-right: 8px;
         margin-bottom: 8px;
-        width: 114px;
+        width: 154px;
         text-align: center;
         &:hover {
             background-color:$color-block-background-dark;
@@ -1774,10 +1774,10 @@ iframe {
 
         &__title {
             font-weight: bold;
+            margin-bottom: 2px;
         }
 
         &__content {
-            margin-top: 2px;
         }
     }
 }
