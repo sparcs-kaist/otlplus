@@ -13,9 +13,18 @@ import ReviewWriteBlock from '../../blocks/ReviewWriteBlock';
 import CourseShape from '../../../shapes/CourseShape';
 import reviewShape from '../../../shapes/ReviewShape';
 import userShape from '../../../shapes/UserShape';
+import SearchFilter from '../../SearchFilter';
 
 
 class CourseReviewsSubSection extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      professor: new Set(['ALL']),
+    };
+  }
+
   componentDidMount() {
     this._fetchReviews();
   }
@@ -64,29 +73,75 @@ class CourseReviewsSubSection extends Component {
     addCourseReadDispatch(course);
   }
 
+  clickCircle = (filter_) => {
+    const filterName = filter_.name;
+    const { value, isChecked } = filter_;
+
+    if (isChecked) {
+      this.setState((prevState) => {
+        const filter = prevState[filterName];
+        if (value === 'ALL') {
+          filter.clear();
+        }
+        filter.add(value);
+        return prevState;
+      });
+    }
+    else {
+      this.setState((prevState) => {
+        const filter = prevState[filterName];
+        filter.delete(value);
+        return prevState;
+      });
+    }
+  }
+
+  _lectureProfessorChecker = (lecture, professor) => {
+    if (professor.has('ALL')) {
+      return true;
+    }
+    return lecture.professors.some(p => professor.has(String(p.professor_id)));
+  }
 
   render() {
     const { t } = this.props;
+    const { professor } = this.state;
     const { user, course, reviews } = this.props;
 
+    const professorOptions = [
+      ['ALL', t('ui.type.allShort')],
+      ...(course.professors
+        .map(p => [p.professor_id, p[t('js.property.name')]])
+      ),
+    ];
+
     const takenLectureOfCourse = user
-      ? user.taken_lectures.filter(l => (l.course === course.id))
+      ? user.taken_lectures.filter(l => ((l.course === course.id) && this._lectureProfessorChecker(l, professor)))
       : [];
+    const filteredReviews = reviews == null
+      ? null
+      : reviews.filter(r => this._lectureProfessorChecker(r.lecture, professor));
 
     return (
       <>
         <div className={classNames('small-title')}>{t('ui.title.reviews')}</div>
+        <SearchFilter
+          clickCircle={this.clickCircle}
+          inputName="professor"
+          titleName={t('ui.search.professor')}
+          options={professorOptions}
+        />
         {
           takenLectureOfCourse.map(l => (
             <ReviewWriteBlock lecture={l} key={l.id} />
           ))
         }
         {
-          (reviews == null)
-            ? <div className={classNames('list-placeholder')}><div>{t('ui.placeholder.loading')}</div></div>
-            : (reviews.length
-              ? <div>{reviews.map(r => <ReviewBlock review={r} key={r.id} />)}</div>
-              : <div className={classNames('list-placeholder')}><div>{t('ui.placeholder.noResults')}</div></div>)
+          (filteredReviews == null)
+            ? <div className={classNames('section-content--course-detail__list-area', 'list-placeholder')}><div>{t('ui.placeholder.loading')}</div></div>
+            : (filteredReviews.length
+              ? <div className={classNames('section-content--course-detail__list-area')}>{filteredReviews.map(r => <ReviewBlock review={r} key={r.id} />)}</div>
+              : <div className={classNames('section-content--course-detail__list-area', 'list-placeholder')}><div>{t('ui.placeholder.noResults')}</div></div>)
         }
       </>
     );

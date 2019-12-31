@@ -34,7 +34,7 @@ const CourseBlock = ({ t, course, showReadStatus, isRead, isClicked, isHover, is
         </div>
         <div className={classNames('attribute', 'attribute--semi-long')}>
           <div>
-            {t('ui.attribute.professor')}
+            {t('ui.attribute.professors')}
           </div>
           <div>
             {course[t('js.property.professors_str')]}

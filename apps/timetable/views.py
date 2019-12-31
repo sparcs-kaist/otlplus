@@ -47,7 +47,7 @@ from PIL import Image, ImageDraw, ImageFont
 # Format raw result from models into javascript-understandable form
 def _lecture_result_format(ls, from_search = False):
     ls = ls.select_related('course', 'department') \
-           .prefetch_related('classtime_set', 'examtime_set', 'professor') \
+           .prefetch_related('classtime_set', 'examtime_set', 'professors') \
            .order_by('old_code', 'class_no')
 
     if from_search:
@@ -533,7 +533,7 @@ def share_image(request):
             _rounded_rectangle(draw, points, 4, color)
 
             points = (points[0]+12, points[1]+8, points[2]-12, points[3]-8)
-            _textbox(textDraw, points, lDict['title'], lDict['professor_short'], c['classroom_short'], font)
+            _textbox(textDraw, points, lDict['title'], lDict['professors_str_short'], c['classroom_short'], font)
 
     #image.thumbnail((600,900))
 

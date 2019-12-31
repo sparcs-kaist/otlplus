@@ -12,7 +12,7 @@ const ReviewBlock = ({ t, review }) => {
     <div className={classNames('block', 'block--review')}>
       <div className={classNames('block--review__title')}>
         <strong>{review.lecture[t('js.property.title')]}</strong>
-        <span>{review.lecture[t('js.property.professor_short')]}</span>
+        <span>{review.lecture[t('js.property.professors_str_short')]}</span>
         <span>{`${review.lecture.year} ${['', t('ui.semester.spring'), t('ui.semester.summer'), t('ui.semester.fall'), t('ui.semester.winter')][review.lecture.semester]}`}</span>
       </div>
       <div className={classNames('block--review__content')}>

@@ -12,7 +12,7 @@ const ReviewWriteBlock = ({ t, lecture }) => {
     <form className={classNames('block', 'block--review-write')}>
       <div className={classNames('block--review-write__title')}>
         <strong>{lecture[t('js.property.title')]}</strong>
-        <span>{lecture[t('js.property.professor_short')]}</span>
+        <span>{lecture[t('js.property.professors_str_short')]}</span>
         <span>{`${lecture.year} ${[undefined, t('ui.semester.spring'), t('ui.semester.summer'), t('ui.semester.fall'), t('ui.semester.winter')][lecture.semester]}`}</span>
       </div>
       <textarea className={classNames('block--review-write__content')} placeholder={t('ui.placeholder.reviewContent')} />
