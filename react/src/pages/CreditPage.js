@@ -213,7 +213,52 @@ class CreditPage extends Component {
             ],
           },
         ];
-      case 7:
+      case 8:
+        return [
+          {
+            title: 'Project Manager',
+            people: [
+              {
+                name: '한승현',
+                caption: '(2018.03 ~ 2020.01)',
+              },
+            ],
+          },
+          {
+            title: 'Designer',
+            people: [
+              { name: '한승현', caption: '4 credits' },
+            ],
+          },
+          {
+            title: 'Developer',
+            people: [
+              { name: '강찬규', caption: '1 credit' },
+              { name: '강현우', caption: '2 credits' },
+              { name: '고지훈', caption: '1 credit' },
+              { name: '김경서', caption: '1 credit' },
+              { name: '문재호', caption: '1 credit' },
+              { name: '마재의', caption: '1 credit' },
+              { name: '박수호', caption: '1 credit' },
+              { name: '박현우', caption: '1 credit' },
+              { name: '서혜인', caption: '1 credit' },
+              { name: '손주희', caption: '2 credits' },
+              { name: '엄성하', caption: '1 credit' },
+              { name: '이선민', caption: '1 credit' },
+              { name: '이세연', caption: '1 credit' },
+              { name: '이정연', caption: '1 credit' },
+              { name: '이주영', caption: '1 credit' },
+              { name: '지수환', caption: '1 credit' },
+              { name: '최윤서', caption: '1 credit' },
+              { name: '황재영', caption: '1 credit' },
+              { name: '하현정', caption: '1 credit' },
+              { name: '허미나', caption: '1 credit' },
+              { name: '한승현', caption: '4 credits' },
+              { name: '한우현', caption: '1 credit' },
+            ],
+          },
+        ];
+      case -1:
         return [
           {
             title: 'LKIN',
@@ -315,7 +360,12 @@ class CreditPage extends Component {
                       subTitle="모의시간표"
                       period="2016.07 ~ 2018.12"
                     />
-                    <Button index={7} onClick={this.changePage} isClicked={currentTab === 7}
+                    <Button index={8} onClick={this.changePage} isClicked={currentTab === 8}
+                      mainTitle="OTL PLUS"
+                      subTitle="Release 2020"
+                      period="2018.01 ~ 2020.01"
+                    />
+                    <Button index={-1} onClick={this.changePage} isClicked={currentTab === -1}
                       mainTitle="System Operators"
                       subTitle="-"
                       period="-"
