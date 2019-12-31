@@ -137,10 +137,10 @@ class LectureDetailSection extends Component {
         <ReviewSimpleBlock key={`review_${index}`} review={review} />
       );
       const reviewsDom = (reviews == null)
-        ? <div className={classNames('section-content--lecture-detail--list-area', 'list-placeholder')}><div>{t('ui.placeholder.loading')}</div></div>
+        ? <div className={classNames('section-content--lecture-detail__list-area', 'list-placeholder')}><div>{t('ui.placeholder.loading')}</div></div>
         : (reviews.length
-          ? <div className={classNames('section-content--lecture-detail--list-area')}>{reviews.map(mapreview)}</div>
-          : <div className={classNames('section-content--lecture-detail--list-area', 'list-placeholder')}><div>{t('ui.placeholder.noResults')}</div></div>);
+          ? <div className={classNames('section-content--lecture-detail__list-area')}>{reviews.map(mapreview)}</div>
+          : <div className={classNames('section-content--lecture-detail__list-area', 'list-placeholder')}><div>{t('ui.placeholder.noResults')}</div></div>);
       return (
         <div className={classNames('section-content', 'section-content--lecture-detail', 'section-content--flex')}>
           <button className={classNames('close-button')} onClick={this.unfix}><i className={classNames('icon', 'icon--close-section')} /></button>

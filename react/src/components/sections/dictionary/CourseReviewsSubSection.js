@@ -112,7 +112,7 @@ class CourseReviewsSubSection extends Component {
       ['ALL', t('ui.type.allShort')],
       ...(course.professors
         .map(p => [p.professor_id, p[t('js.property.name')]])
-      )
+      ),
     ];
 
     const takenLectureOfCourse = user

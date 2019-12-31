@@ -585,7 +585,7 @@ table {
     }
 
     &--lecture-detail {
-        &--list-area {
+        &__list-area {
             min-height: calc(
                 100% - (
                     #{$line-height-normal}
