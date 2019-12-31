@@ -246,6 +246,16 @@ table {
     }
 
 
+    &--full {
+        flex: none;
+        margin-top: 0px;
+        width: #{$section-desktop-width};
+        @media (orientation:portrait) {
+            width: calc(100% - #{$section-margin-lr} * 2);
+        }
+    }
+
+
     &--course-list {
         flex: none;
         margin-top: 0px;
@@ -1721,6 +1731,11 @@ table {
         margin-bottom: 10px;
     }
 
+    .section-content--account & {
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
 
     &--search {
         color: $color-highlight;
@@ -1868,6 +1883,13 @@ table {
     .search-area .buttons & {
         margin-left: 8px;
     }
+}
+
+
+.caption {
+    font-size: $font-size-smaller;
+    line-height: $line-height-smaller;
+    color: $color-text-placeholder;
 }
 
 

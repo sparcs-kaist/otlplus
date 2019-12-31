@@ -11,6 +11,21 @@ import { guidelineBoundClassNames as classNames, appBoundClassNames } from '../.
 import logoImage from '../../static/img/Services-OTL.svg';
 
 
+// eslint-disable-next-line import/prefer-default-export
+export const getFullName = (user) => {
+  // eslint-disable-next-line no-underscore-dangle
+  const _isKorean = (string) => {
+    const reg = new RegExp('[가-힣]+');
+    return reg.test(string);
+  };
+
+  if (_isKorean(user.firstName) && _isKorean(user.lastName)) {
+    return `${user.lastName}${user.firstName}`;
+  }
+  return `${user.firstName} ${user.lastName}`;
+};
+
+
 class Header extends Component {
   constructor(props) {
     super(props);
@@ -126,11 +141,10 @@ class Header extends Component {
               </span>
               { user
                 ? (
-                  <Link to="/settings">
+                  <Link to="/account">
                     <i className={classNames('icon--header_user')} />
                     <span>
-                      {user.lastName}
-                      {user.firstName}
+                      {getFullName(user)}
                     </span>
                   </Link>
                 )

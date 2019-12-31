@@ -27,7 +27,9 @@
       "relatedCourses": "Related Courses",
       "latestReviews": "Latest Reviews",
       "famousReviews": "Famous Reviews",
-      "writeReview": "Write Review"
+      "writeReview": "Write Review",
+      "myInformation": "My Information",
+      "academicInformation": "Academic Information"
     },
     "tab": {
       "search": "Search",
@@ -61,7 +63,8 @@
       "seeDetails": "See Details",
       "goToAcademicSystem": "Go to Academic System",
       "seeMoreReviews": "See More Reviews",
-      "writeMoreReviews": "Write More Reviews"
+      "writeMoreReviews": "Write More Reviews",
+      "signOut": "Sign Out"
     },
     "attribute": {
       "department": "Dept.",
@@ -71,7 +74,11 @@
       "limit": "Limit",
       "exam": "Exam",
       "classification": "Class.",
-      "description": "Descr."
+      "description": "Descr.",
+      "name": "Name",
+      "email": "Email",
+      "studentId": "Student ID",
+      "major": "Major"
     },
     "score": {
       "language": "Language",
@@ -182,7 +189,11 @@
     "message": {
       "blankSearch": "Please select search conditions.",
       "timetableOverlap": "You can't add lecture overlapping.",
-      "lastTimetable": "You can't delete the last timetable."
+      "lastTimetable": "You can't delete the last timetable.",
+      "myInfoCaptionHead": "You can change this information at ",
+      "myInfoCaptionTail": ".",
+      "academicInfoCaptionHead": "This information is fetched from KAIST Portal. In case the information is not correct, please contact ",
+      "academicInfoCaptionTail": "."
     },
     "others": {
       "table": "Table",
