@@ -1,14 +1,9 @@
-.credit
-{
-    line-height: 1.4; /* TODO: Change later */
-}
-
-.credit .block_wrap
+.block_wrap
 {
     font-size: 0;
 }
 
-.credit .block
+.block
 {
     display: inline-flex;
     justify-content: center;
@@ -25,16 +20,16 @@
     text-align: center;
     cursor: pointer;
 }
-.credit .block:hover
+.block:hover
 {
     background-color: #c53c50;
 }
-.credit .block.active
+.block.active
 {
     background-color: #e44e68;
 }
 
-.credit .dummy
+.dummy
 {
     display: inline-block;
     width: 90px;
@@ -43,18 +38,18 @@
     vertical-align: top;
 }
 
-.credit .content > h4
+.content > h4
 {
     margin-top : 30px;
     margin-bottom: 10px;
 }
 
-.credit .content > .people
+.content > .people
 {
     margin-bottom : 7px;
 }
 
-.credit .content > .people > div
+.content > .people > div
 {
     font-size: 0.7em;
     color: #999;
