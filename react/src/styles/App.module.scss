@@ -1042,6 +1042,20 @@ table {
         }
     }
 
+    &--course-detail {
+        &__list-area {
+            min-height: calc(
+                100% - (
+                    #{$line-height-normal}
+                    + 10px
+                    + #{$line-height-normal}
+                    + 8px
+                    + #{$section-padding}
+                )
+            ) !important;
+        }
+    }
+
     &--main-search {
         display: flex;
         font-size: $font-size-big;
