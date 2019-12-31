@@ -7,13 +7,15 @@ import Footer from '../components/guideline/Footer';
 
 class Button extends Component {
   render() {
-    const { index, current, onClick, children } = this.props;
+    const { index, current, onClick, mainTitle, subTitle, period } = this.props;
     const className = (index === current)
       ? classNames('block', 'block--project', 'active')
       : classNames('block', 'block--project');
     return (
       <button onClick={() => onClick(index)} className={className} key={index}>
-        {children}
+        <div className={classNames('block--project__title')}>{mainTitle}</div>
+        <div className={classNames('block--project__title')}>{subTitle}</div>
+        <div className={classNames('block--project__content')}>{`(${period})`}</div>
       </button>
     );
   }
@@ -23,14 +25,9 @@ Button.propTypes = {
   index: PropTypes.number.isRequired,
   onClick: PropTypes.func.isRequired,
   current: PropTypes.number.isRequired,
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.element,
-    ])),
-    PropTypes.string,
-    PropTypes.element,
-  ]).isRequired,
+  mainTitle: PropTypes.string.isRequired,
+  subTitle: PropTypes.string.isRequired,
+  period: PropTypes.string.isRequired,
 };
 
 // eslint-disable-next-line react/no-multi-comp
@@ -51,191 +48,189 @@ class CreditPage extends Component {
   _getContent = (tab) => {
     switch (tab) {
       case 1:
-        return (
-          <div className={classNames('section-content--credit__people-list')}>
-            <div className={classNames('title')}>Project Manager</div>
-
-            <div className={classNames('title')}>Designer</div>
-
-            <div className={classNames('title')}>Developer</div>
-          </div>
-        );
+        return [
+          {
+            title: 'Project Manager', people: [],
+          }, {
+            title: 'Designer', people: [],
+          }, {
+            title: 'Developer', people: [],
+          },
+        ];
       case 2:
-        return (
-          <div className={classNames('section-content--credit__people-list')}>
-            <div className={classNames('title')}>Developer</div>
-            <div className={classNames()}>김민우</div>
-            <div className={classNames()}>김종균</div>
-            <div className={classNames()}>김준기</div>
-            <div className={classNames()}>유충국</div>
-
-            <div className={classNames('title')}>Special Thanks To</div>
-            <div className={classNames()}>강철</div>
-            <div className={classNames()}>안병욱</div>
-          </div>
-        );
+        return [
+          {
+            title: 'Developer', people: [
+              { name: '김민우' },
+              { name: '김종균' },
+              { name: '김준기' },
+              { name: '유충국' },
+            ]}, {
+            title: 'Special Thanks To', people: [
+              { name: '강철' },
+              { name: '안병욱' },
+            ]},
+        ];
       case 3:
-        return (
-          <div className={classNames('section-content--credit__people-list')}>
-            <div className={classNames('title')}>Project Manager</div>
-            <div className={classNames()}>
-              배성경
-              <div className={classNames('caption')}>(2011)</div>
-            </div>
-            <div className={classNames()}>
-              김재겸
-              <div className={classNames('caption')}>(2012)</div>
-            </div>
-
-            <div className={classNames('title')}>Developer</div>
-            <div className={classNames()}>김재겸</div>
-            <div className={classNames()}>박일우</div>
-            <div className={classNames()}>배성경</div>
-            <div className={classNames()}>안재만</div>
-            <div className={classNames()}>이윤석</div>
-            <div className={classNames()}>정재성</div>
-            <div className={classNames()}>조유정</div>
-          </div>
-        );
+        return [
+          {
+            title: 'Project Manager', people: [
+              {
+                name: '배성경',
+                caption: '2011',
+              },
+              {
+                name: '김재겸',
+                caption: '(2012)',
+              },
+            ]}, {
+            title: 'Developer', people: [
+              { name: '김재겸' },
+              { name: '박일우' },
+              { name: '배성경' },
+              { name: '안재만' },
+              { name: '이윤석' },
+              { name: '정재성' },
+              { name: '조유정' },
+            ]},
+        ];
       case 4:
-        return (
-          <div className={classNames('section-content--credit__people-list')}>
-            <div className={classNames('title')}>Project Manager</div>
-            <div className={classNames()}>
-              유민정
-              <div className={classNames('caption')}>(2012.05 ~ 2012.09)</div>
-            </div>
-            <div className={classNames()}>
-              마재의
-              <div className={classNames('caption')}>(2012.09 ~ 2013.03)</div>
-            </div>
-
-            <div className={classNames('title')}>Designer</div>
-            <div className={classNames()}>박지향</div>
-
-            <div className={classNames('title')}>Developer</div>
-            <div className={classNames()}>김정민</div>
-            <div className={classNames()}>마재의</div>
-            <div className={classNames()}>박중언</div>
-            <div className={classNames()}>박지혁</div>
-            <div className={classNames()}>유민정</div>
-            <div className={classNames()}>윤필립</div>
-            <div className={classNames()}>이태현</div>
-            <div className={classNames()}>정종혁</div>
-            <div className={classNames()}>정창제</div>
-            <div className={classNames()}>채종욱</div>
-          </div>
-        );
+        return [
+          {
+            title: 'Project Manager', people: [
+              {
+                name: '유민정',
+                caption: '(2012.05 ~ 2012.09)',
+              },
+              {
+                name: '마재의',
+                caption: '(2012.09 ~ 2013.03)',
+              },
+            ]}, {
+            title: 'Designer', people: [
+              { name: '박지향' },
+            ]}, {
+            title: 'Developer', people: [
+              { name: '김정민' },
+              { name: '마재의' },
+              { name: '박중언' },
+              { name: '박지혁' },
+              { name: '유민정' },
+              { name: '윤필립' },
+              { name: '이태현' },
+              { name: '정종혁' },
+              { name: '정창제' },
+              { name: '채종욱' },
+            ]},
+        ];
       case 5:
-        return (
-          <div className={classNames('section-content--credit__people-list')}>
-            <div className={classNames('title')}>Project Manager</div>
-            <div className={classNames()}>
-              황태현
-              <div className={classNames('caption')}>(2015.09 ~ 2015.11)</div>
-            </div>
-            <div className={classNames()}>
-              서동민
-              <div className={classNames('caption')}>(2015.12 ~ 2016.06)</div>
-            </div>
-
-            <div className={classNames('title')}>Designer</div>
-            <div className={classNames()}>김찬욱</div>
-
-            <div className={classNames('title')}>Developer</div>
-            <div className={classNames()}>고지훈</div>
-            <div className={classNames()}>김강인</div>
-            <div className={classNames()}>김재성</div>
-            <div className={classNames()}>서동민</div>
-            <div className={classNames()}>이강원</div>
-            <div className={classNames()}>조성원</div>
-            <div className={classNames()}>최정운</div>
-            <div className={classNames()}>한승현</div>
-            <div className={classNames()}>황태현</div>
-          </div>
-        );
+        return [
+          {
+            title: 'Project Manager', people: [
+              {
+                name: '황태현',
+                caption: '(2015.09 ~ 2015.11)',
+              },
+              { 
+                name: '서동민',
+                caption: '(2015.12 ~ 2016.06)',
+              },
+            ]}, {
+            title: 'Designer', people: [
+              { name: '김찬욱' },
+            ]}, {
+            title: 'Developer', people: [
+              { name: '고지훈' },
+              { name: '김강인' },
+              { name: '김재성' },
+              { name: '서동민' },
+              { name: '이강원' },
+              { name: '조성원' },
+              { name: '최정운' },
+              { name: '한승현' },
+              { name: '황태현' },
+            ]},
+        ];
       case 6:
-        return (
-          <div className={classNames('section-content--credit__people-list')}>
-            <div className={classNames('title')}>Project Manager</div>
-            <div className={classNames()}>
-              김재성
-              <div className={classNames('caption')}>(2016.09 ~ 2017.05)</div>
-            </div>
-            <div className={classNames()}>
-              한승현
-              <div className={classNames('caption')}>(2017.06 ~ )</div>
-            </div>
-
-            <div className={classNames('title')}>Designer</div>
-            <div className={classNames()}>한승현</div>
-
-            <div className={classNames('title')}>Developer</div>
-            <div className={classNames()}>고지훈</div>
-            <div className={classNames()}>김재성</div>
-            <div className={classNames()}>김태준</div>
-            <div className={classNames()}>서덕담</div>
-            <div className={classNames()}>오종훈</div>
-            <div className={classNames()}>이강원</div>
-            <div className={classNames()}>조형준</div>
-            <div className={classNames()}>최정운</div>
-            <div className={classNames()}>한승현</div>
-          </div>
-        );
+        return [
+          {
+            title: 'Project Manager', people: [
+              {
+                name: '김재성',
+                caption: '(2016.09 ~ 2017.05)',
+              },
+              {
+                name: '한승현',
+                caption: '(2017.06 ~ )',
+              },
+            ]}, {
+            title: 'Designer', people: [
+              { name: '한승현' },
+            ]}, {
+            title: 'Developer', people: [
+              { name: '고지훈' },
+              { name: '김재성' },
+              { name: '김태준' },
+              { name: '서덕담' },
+              { name: '오종훈' },
+              { name: '이강원' },
+              { name: '조형준' },
+              { name: '최정운' },
+              { name: '한승현' },
+            ]},
+        ];
       case 7:
-        return (
-          <div className={classNames('section-content--credit__people-list')}>
-            <div className={classNames('title')}>LKIN</div>
-            <div className={classNames()}>
-              서창민
-              <div className={classNames('caption')}>(2009 ~ 2010)</div>
-            </div>
-            <div className={classNames()}>
-              이근홍
-              <div className={classNames('caption')}>(2011 ~ 2012)</div>
-            </div>
-
-            <div className={classNames('title')}>OTL</div>
-            <div className={classNames()}>
-              배성경
-              <div className={classNames('caption')}>(2011)</div>
-            </div>
-            <div className={classNames()}>
-              김재겸
-              <div className={classNames('caption')}>(2012)</div>
-            </div>
-            <div className={classNames()}>
-              유민정
-              <div className={classNames('caption')}>(2012.05 ~ 2012.09)</div>
-            </div>
-            <div className={classNames()}>
-              마재의
-              <div className={classNames('caption')}>(2012.09 ~ 2015.04)</div>
-            </div>
-            <div className={classNames()}>
-              황태현
-              <div className={classNames('caption')}>(2015.05 ~ 2015.11)</div>
-            </div>
-            <div className={classNames()}>
-              서동민
-              <div className={classNames('caption')}>(2015.12 ~ 2016.05)</div>
-            </div>
-            <div className={classNames()}>
-              김재성
-              <div className={classNames('caption')}>(2016.06 ~ 2017.06)</div>
-            </div>
-
-            <div className={classNames('title')}>OTL PLUS</div>
-            <div className={classNames()}>
-              한승현
-              <div className={classNames('caption')}>(2017.06 ~ )</div>
-            </div>
-          </div>
-        );
+        return [
+          {
+            title: 'LKIN', people: [
+              {
+                name: '서창민',
+                caption: '(2009 ~ 2010)',
+              },
+              {
+                name: '이근홍',
+                caption: '(2011 ~ 2012)',
+              },
+            ]}, {
+            title: 'OTL', people: [
+              {
+                name: '배성경',
+                caption: '(2011)',
+              },
+              {
+                name: '김재겸',
+                caption: '(2012)',
+              },
+              {
+                name: '유민정',
+                caption: '(2012.05 ~ 2012.09)',
+              },
+              {
+                name: '마재의',
+                caption: '(2012.09 ~ 2015.04)',
+              },
+              {
+                name: '황태현',
+                caption: '(2015.05 ~ 2015.11)',
+              },
+              {
+                name: '서동민',
+                caption: '(2015.12 ~ 2016.05)',
+              },
+              {
+                name: '김재성',
+                caption: '(2016.06 ~ 2017.06)',
+              },
+            ]}, {
+            title: 'OTL PLUS', people: [
+              {
+                name: '한승현',
+                caption: '(2017.06 ~ )',
+              },
+            ]},
+        ];
       default:
-        return (
-          <div />
-        );
+        return [];
     }
   }
 
@@ -248,40 +243,52 @@ class CreditPage extends Component {
             {/* eslint-disable-next-line react/jsx-indent */}
                 <div className={classNames('section-content', 'section-content--credit')}>
                   <div className={classNames('section-content--credit__blocks')}>
-                    <Button index={1} onClick={this.changePage} current={currentTab}>
-                      LKIN
-                    </Button>
-                    <Button index={2} onClick={this.changePage} current={currentTab}>
-                      OTL
-                      <br />
-                      모의시간표
-                    </Button>
-                    <Button index={3} onClick={this.changePage} current={currentTab}>
-                      OTL
-                      <br />
-                      추가개발
-                    </Button>
-                    <Button index={4} onClick={this.changePage} current={currentTab}>
-                      OTL
-                      <br />
-                      과목사전
-                    </Button>
-                    <Button index={5} onClick={this.changePage} current={currentTab}>
-                      OTL PLUS
-                      <br />
-                      과목사전
-                    </Button>
-                    <Button index={6} onClick={this.changePage} current={currentTab}>
-                      OTL PLUS
-                      <br />
-                      모의시간표
-                    </Button>
-                    <Button index={7} onClick={this.changePage} current={currentTab}>
-                      SYSOP
-                    </Button>
+                    <Button index={1} onClick={this.changePage} current={currentTab}
+                      mainTitle="LKIN" subTitle="-" period="-"
+                    />
+                    <Button index={2} onClick={this.changePage} current={currentTab}
+                      mainTitle="OTL"
+
+                      subTitle="모의시간표" period="2010"
+                    />
+                    <Button index={3} onClick={this.changePage} current={currentTab}
+                      mainTitle="OTL"
+
+                      subTitle="추가개발" period="2011 ~ 2012"
+                    />
+                    <Button index={4} onClick={this.changePage} current={currentTab}
+                      mainTitle="OTL"
+
+                      subTitle="과목사전" period="2012 ~ 2013"
+                    />
+                    <Button index={5} onClick={this.changePage} current={currentTab}
+                      mainTitle="OTL PLUS"
+
+                      subTitle="과목사전" period="2015.09 ~ 2016.06"
+                    />
+                    <Button index={6} onClick={this.changePage} current={currentTab}
+                      mainTitle="OTL PLUS"
+
+                      subTitle="모의시간표" period="2016.07 ~ 2018.12"
+                    />
+                    <Button index={7} onClick={this.changePage} current={currentTab}
+                      mainTitle="System Operators" subTitle="-" period="-"
+                    />
                   </div>
 
-                  {this._getContent(currentTab)}
+                  <div className={classNames('section-content--credit__people-list')}>
+                    {this._getContent(currentTab).map(f => (
+                      <>
+                        <div className={classNames('title')}>{f.title}</div>
+                        {f.people.map(p => (
+                          <div className={classNames()}>
+                            {p.name}
+                            {p.caption ? <div className={classNames('caption')}>{p.caption}</div> : null}
+                          </div>
+                        ))}
+                      </>
+                    ))}
+                  </div>
                 </div>
           </div>
         </div>
