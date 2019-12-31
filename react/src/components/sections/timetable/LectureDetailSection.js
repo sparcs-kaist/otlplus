@@ -188,8 +188,8 @@ class LectureDetailSection extends Component {
                 <span>{lecture[t('js.property.department_name')]}</span>
               </div>
               <div className={classNames('attribute')}>
-                <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.attribute.professor')}</span>
-                <span>{lecture.professor.map(p => p[t('js.property.name')]).join(', ')}</span>
+                <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.attribute.professors')}</span>
+                <span>{lecture.professors.map(p => p[t('js.property.name')]).join(', ')}</span>
               </div>
               <div className={classNames('attribute')}>
                 <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.attribute.classroom')}</span>

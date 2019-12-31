@@ -60,7 +60,7 @@ class Lecture(models.Model):
     num_labs = models.IntegerField(default=0)
     credit_au = models.IntegerField(default=0)
     limit = models.IntegerField(default=0)
-    professor = models.ManyToManyField('Professor', related_name='lecture_professor', blank=True)
+    professors = models.ManyToManyField('Professor', related_name='lecture_professor', blank=True)
     is_english = models.BooleanField()
     deleted = models.BooleanField(default=False)
 
@@ -115,24 +115,24 @@ class Lecture(models.Model):
         }
         
         # Add formatted professor name
-        prof_name_list = [p.professor_name for p in self.professor.all()]
-        prof_name_list_en = [p.professor_name_en for p in self.professor.all()]
+        prof_name_list = [p.professor_name for p in self.professors.all()]
+        prof_name_list_en = [p.professor_name_en for p in self.professors.all()]
         if len(prof_name_list) <= 2:
             result.update({
-                'professor_short': u", ".join(prof_name_list),
-                'professor_short_en': u", ".join(prof_name_list_en),
+                'professors_str_short': u", ".join(prof_name_list),
+                'professors_str_short_en': u", ".join(prof_name_list_en),
             })
         else:
             result.update({
-                'professor_short': prof_name_list[0] + u" 외 " + str(len(prof_name_list)-1) + u"명",
-                'professor_short_en': prof_name_list_en[0] + u" and " + str(len(prof_name_list)-1) + u" others",
+                'professors_str_short': prof_name_list[0] + u" 외 " + str(len(prof_name_list)-1) + u"명",
+                'professors_str_short_en': prof_name_list_en[0] + u" and " + str(len(prof_name_list)-1) + u" others",
             })
         
         if nested:
             return result
 
         result.update({
-            'professor': [p.toJson(nested=True) for p in self.professor.all()]
+            'professors': [p.toJson(nested=True) for p in self.professors.all()]
         })
 
         # Add formatted score
@@ -237,7 +237,7 @@ class Lecture(models.Model):
         self.load_sum = 0
         self.speech_sum = 0
         for c in Comment.objects.filter(lecture__course=self.course,
-                                        lecture__professor__in=self.professor.all()):
+                                        lecture__professors__in=self.professors.all()):
             if c.grade > 0:
                 self.comment_num += (c.like+1)
                 self.grade_sum += (c.like+1)*c.grade*3
@@ -326,7 +326,7 @@ class Lecture(models.Model):
         _add_title_format_en(lectures)
 
     def __unicode__(self):
-        professors_list=self.professor.all()
+        professors_list=self.professors.all()
         re_str=u"%s(%s %s"%(self.title, self.old_code, professors_list[0].professor_name)
         for i in range(1,len(professors_list)):
             re_str+=", %s"%(professors_list[i].professor_name)

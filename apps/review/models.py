@@ -65,8 +65,8 @@ class Comment(models.Model):
 
     @classmethod
     def u_create(cls, course, lecture, comment, grade, load, speech, writer):
-        professors = lecture.professor.all()
-        lectures = Lecture.objects.filter(course=course, professor__in=professors)
+        professors = lecture.professors.all()
+        lectures = Lecture.objects.filter(course=course, professors__in=professors)
         related_list = [course]+list(lectures)+list(professors)
         for related in related_list:
             related.grade_sum += grade*3
@@ -84,8 +84,8 @@ class Comment(models.Model):
     def u_update(self, comment, grade, load, speech):
         course = self.course
         lecture = self.lecture
-        professors = lecture.professor.all()
-        lectures = Lecture.objects.filter(course=course, professor__in=professors)
+        professors = lecture.professors.all()
+        lectures = Lecture.objects.filter(course=course, professors__in=professors)
         related_list = [course]+list(lectures)+list(professors)
         for related in related_list:
             print(related.grade_sum)
@@ -107,8 +107,8 @@ class Comment(models.Model):
     def u_delete(self):
         course = self.course
         lecture = self.lecture
-        professors = lecture.professor.all()
-        lectures = Lecture.objects.filter(course=course, professor__in=professors)
+        professors = lecture.professors.all()
+        lectures = Lecture.objects.filter(course=course, professors__in=professors)
         related_list = [course]+list(lectures)+list(professors)
         for related in related_list:
             related.grade_sum -= (self.like+1)*self.grade*3
@@ -127,8 +127,8 @@ class CommentVote(models.Model):
 
     @classmethod
     def cv_create(cls, comment, userprofile):
-        professors = comment.lecture.professor.all()
-        lectures = Lecture.objects.filter(course=comment.course, professor__in=professors)
+        professors = comment.lecture.professors.all()
+        lectures = Lecture.objects.filter(course=comment.course, professors__in=professors)
         related_list = [comment.course]+list(lectures)+list(professors)
         if comment.grade > 0 and comment.load > 0 and comment.speech > 0 :
             for related in related_list:

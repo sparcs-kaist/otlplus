@@ -125,11 +125,11 @@ def courses_list_autocomplete_view(request):
         if courses_filtered.exists():
             return JsonResponse(courses_filtered[0].title_en, safe=False)
 
-        courses_filtered = courses.filter(professors__professor_name__istartswith=keyword).order_by('professor__professor_name')
+        courses_filtered = courses.filter(professors__professor_name__istartswith=keyword).order_by('professors__professor_name')
         if courses_filtered.exists():
             return JsonResponse(courses_filtered[0].professors.filter(professor_name__istartswith=keyword)[0].professor_name, safe=False)
 
-        courses_filtered = courses.filter(professors__professor_name_en__istartswith=keyword).order_by('professor__professor_name_en')
+        courses_filtered = courses.filter(professors__professor_name_en__istartswith=keyword).order_by('professors__professor_name_en')
         if courses_filtered.exists():
             return JsonResponse(courses_filtered[0].professors.filter(professor_name_en__istartswith=keyword)[0].professor_name_en, safe=False)
 
@@ -233,8 +233,8 @@ def lectures_list_view(request):
                 Q(old_code__iexact=keyword) |
                 Q(department__name__iexact=keyword) |
                 Q(department__name_en__iexact=keyword) |
-                Q(professor__professor_name__icontains=keyword) |
-                Q(professor__professor_name_en__icontains=keyword)
+                Q(professors__professor_name__icontains=keyword) |
+                Q(professors__professor_name_en__icontains=keyword)
             )
 
         group = request.GET.getlist('group', [])
@@ -294,13 +294,13 @@ def lectures_list_autocomplete_view(request):
         if lectures_filtered.exists():
             return JsonResponse(lectures_filtered[0].title_en, safe=False)
 
-        lectures_filtered = lectures.filter(professor__professor_name__istartswith=keyword).order_by('professor__professor_name')
+        lectures_filtered = lectures.filter(professors__professor_name__istartswith=keyword).order_by('professor__professor_name')
         if lectures_filtered.exists():
-            return JsonResponse(lectures_filtered[0].professor.filter(professor_name__istartswith=keyword)[0].professor_name, safe=False)
+            return JsonResponse(lectures_filtered[0].professors.filter(professor_name__istartswith=keyword)[0].professor_name, safe=False)
 
-        lectures_filtered = lectures.filter(professor__professor_name_en__istartswith=keyword).order_by('professor__professor_name_en')
+        lectures_filtered = lectures.filter(professors__professor_name_en__istartswith=keyword).order_by('professor__professor_name_en')
         if lectures_filtered.exists():
-            return JsonResponse(lectures_filtered[0].professor.filter(professor_name_en__istartswith=keyword)[0].professor_name_en, safe=False)
+            return JsonResponse(lectures_filtered[0].professors.filter(professor_name_en__istartswith=keyword)[0].professor_name_en, safe=False)
 
         return JsonResponse(keyword, safe=False)
 
@@ -321,7 +321,7 @@ def lectures_intance_related_comments_view(request, lecture_id):
         lecture = get_object_or_404(Lecture, id=lecture_id)
         comments = Comment.objects.filter(
             lecture__course=lecture.course,
-            lecture__professor__in=lecture.professor.all(),
+            lecture__professors__in=lecture.professors.all(),
         ).order_by('-id')
 
         result = [c.toJson() for c in comments]

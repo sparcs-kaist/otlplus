@@ -33,8 +33,8 @@ class Command(BaseCommand):
                 continue
 
             course = comment.course
-            professors = comment.lecture.professor.all()
-            lectures = Lecture.objects.filter(course=course, professor__in=professors)
+            professors = comment.lecture.professors.all()
+            lectures = Lecture.objects.filter(course=course, professors__in=professors)
             related_list = [course]+list(lectures)+list(professors)
             for related in related_list:
                 related.grade_sum += (comment.like+1)*comment.grade*3

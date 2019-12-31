@@ -9,7 +9,7 @@
       "exam": "exam_en",
       "common_title": "common_title_en",
       "class_title": "class_title_en",
-      "professor_short": "professor_short_en",
+      "professors_str_short": "professors_str_short_en",
       "professors_str": "professors_str_en"
     }
   },
@@ -66,7 +66,7 @@
     "attribute": {
       "department": "Dept.",
       "type": "Type",
-      "professor": "Prof.",
+      "professors": "Prof.",
       "classroom": "Room",
       "limit": "Limit",
       "exam": "Exam",

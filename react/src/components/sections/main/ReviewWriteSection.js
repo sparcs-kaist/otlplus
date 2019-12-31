@@ -11,7 +11,7 @@ class ReviewWriteSection extends Component {
     const lecture = {
       title: '문제해결기법',
       title_en: 'Problem Solving',
-      professor_short: '김기응',
+      professors_str_short: '김기응',
       year: 2018,
       semester: 1,
     };
