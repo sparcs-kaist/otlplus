@@ -250,6 +250,9 @@ table {
         flex: none;
         margin-top: 0px;
         width: #{$section-desktop-width};
+        @media (orientation:portrait) {
+            width: calc(100% - #{$section-margin-lr} * 2);
+        }
     }
 
 
@@ -1724,6 +1727,11 @@ table {
 
 
     .section-content--widget & {
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    .section-content--account & {
         text-align: center;
         margin-bottom: 10px;
     }
