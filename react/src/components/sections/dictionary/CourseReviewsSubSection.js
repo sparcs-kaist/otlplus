@@ -96,6 +96,13 @@ class CourseReviewsSubSection extends Component {
     }
   }
 
+  _lectureProfessorChecker = (lecture, professor) => {
+    if (professor.has('ALL')) {
+      return true;
+    }
+    return lecture.professors.some(p => professor.has(String(p.professor_id)));
+  }
+
   render() {
     const { t } = this.props;
     const { professor } = this.state;
@@ -113,10 +120,7 @@ class CourseReviewsSubSection extends Component {
       : [];
     const filteredReviews = reviews == null
       ? null
-      : (professor.has('ALL')
-        ? reviews
-        : reviews.filter(r => r.lecture.professors.some(p => professor.has(String(p.professor_id))))
-      );
+      : reviews.filter(r => this._lectureProfessorChecker(r.lecture, professor));
 
     return (
       <>
