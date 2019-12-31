@@ -8,6 +8,7 @@ import DictionaryPage from './pages/DictionaryPage';
 import TimetablePage from './pages/TimetablePage';
 import SyllabusPage from './pages/SyllabusPage';
 import MainPage from './pages/MainPage';
+import AccountPage from './pages/AccountPage';
 import CreditPage from './pages/CreditPage';
 import LicensePage from './pages/LicensePage';
 
@@ -54,6 +55,7 @@ class App extends Component {
             <Route exact path="/timetable" component={TimetablePage} />
             <Route exact path="/timetable/syllabus" component={SyllabusPage} />
             <Route exact path="/main" component={MainPage} />
+            <Route exact path="/account" component={AccountPage} />
             <Route exact path="/credits" component={CreditPage} />
             <Route exact path="/licenses" component={LicensePage} />
             {/* Temporary test page for axiom */}

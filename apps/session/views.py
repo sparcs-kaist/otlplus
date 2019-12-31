@@ -124,7 +124,7 @@ def user_logout(request):
         logout(request)
         request.session['visited'] = True
         return redirect(logout_url)
-    return redirect("/main")
+    return redirect("/")
 
 
 #################### UNUSED ####################

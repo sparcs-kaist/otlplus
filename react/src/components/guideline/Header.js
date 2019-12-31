@@ -126,7 +126,7 @@ class Header extends Component {
               </span>
               { user
                 ? (
-                  <Link to="/settings">
+                  <Link to="/account">
                     <i className={classNames('icon--header_user')} />
                     <span>
                       {user.lastName}
