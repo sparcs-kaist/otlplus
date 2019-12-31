@@ -50,9 +50,7 @@ def login_callback(request):
     state = request.GET.get('state', 'default state')
 
     if state_before != state:
-        return render(request, 'session/login_error.html',
-                      {'error_title': "Login Error",
-                       'error_message': "Invalid login"})
+        return HttpResponseRedirect('/error/invalid-login')
 
     code = request.GET.get('code')
     sso_profile = sso_client.get_user_info(code)
@@ -111,9 +109,7 @@ def login_callback(request):
             OldTimeTable.import_in_for_user(student_id)
         login(request, user)
         return redirect(next)
-    return render(request, 'session/login_error.html',
-                  {'error_title': "Login Error",
-                   'error_message': "No such that user"})
+        return HttpResponseRedirect('/error/no-such-user')
 
 
 def user_logout(request):
@@ -189,9 +185,7 @@ def user_settings(request):
 @login_required(login_url='/session/login/')
 def unregister(request):
     if request.method != 'POST':
-        return render(request, 'session/login_error.html',
-                      {'error_title': "Unregister Error",
-                       'error_message': "please try again"})
+        return HttpResponseRedirect('/error/problem-unregister')
 
     user = request.user
     user_profile = UserProfile.objects.get(user=user)
@@ -199,9 +193,7 @@ def unregister(request):
     sid = user_profile.sid
     result = sso_client.do_unregister(sid)
     if not result:
-        return render(request, 'session/login_error.html',
-                      {'error_title': "Unregister Error",
-                       'error_message': "please try again"})
+        return HttpResponseRedirect('/error/problem-unregister')
 
     user_profile.delete()
     user.delete()
