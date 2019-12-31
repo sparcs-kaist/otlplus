@@ -327,7 +327,7 @@ class CreditPage extends Component {
                       <>
                         <div className={classNames('title')}>{f.title}</div>
                         {f.people.map(p => (
-                          <div className={classNames()}>
+                          <div className={classNames('section-content--credit__people-list__elem')}>
                             {p.name}
                             {p.caption ? <div className={classNames('caption')}>{p.caption}</div> : null}
                           </div>
