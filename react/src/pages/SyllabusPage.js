@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { syllabusBoundClassNames as classNames } from '../common/boundClassNames';
+import { appBoundClassNames as classNames } from '../common/boundClassNames';
 
 import lectureShape from '../shapes/LectureShape';
 
@@ -32,26 +32,29 @@ class SyllabusPage extends Component {
     const { currentShowingLecture } = this.state;
 
     return (
-      <div className={classNames('syllabus-page')}>
-        <div className={classNames('syllabus-wrapper')}>
-          <div className={classNames('lecture-tab-container')}>
+      <section className={classNames('content', 'content--no-scroll')}>
+        <div className={classNames('section-wrap', 'section-wrap--with-tabs', 'section-wrap--syllabus')}>
+          <div className={classNames('tabs', 'tabs--syllabus')}>
             {
               lectures.map(lecture => (
-                <div className={classNames('lecture-tab', (currentShowingLecture === lecture ? 'active' : ''))} onClick={() => this.updateShowingLecture(lecture)}>
+                <button className={classNames((currentShowingLecture === lecture ? 'tabs__elem--active' : ''))} onClick={() => this.updateShowingLecture(lecture)}>
                   { lecture.common_title }
-                </div>
+                </button>
               ))
             }
           </div>
-          <div className={classNames('syllabus-iframe-wrapper')}>
+          <div className={classNames('section', 'section--syllabus')}>
+            <div className={classNames('section-content', 'section-content--syllabus')}>
+              {/* eslint-disable-next-line react/jsx-indent */}
             { lectures.map(lecture => (
-              <iframe className={classNames('syllabus-iframe')} src={this.getLectureUrl(lecture)} title={`syllabus-${lecture.title}`} key={lecture.id} style={lecture.id === currentShowingLecture.id ? {} : { display: 'none' }}>
+              <iframe src={this.getLectureUrl(lecture)} title={`syllabus-${lecture.title}`} key={lecture.id} style={lecture.id === currentShowingLecture.id ? {} : { display: 'none' }}>
                 { lecture.common_title }
               </iframe>
             ))}
+            </div>
           </div>
         </div>
-      </div>
+      </section>
 
     );
   }
