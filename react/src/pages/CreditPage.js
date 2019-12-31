@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
 
 import Footer from '../components/guideline/Footer';
+import Scroller from '../components/Scroller';
 
 class Button extends Component {
   render() {
@@ -376,7 +377,8 @@ class CreditPage extends Component {
                       period="-"
                     />
                   </div>
-
+                  <Scroller>
+                    {/* eslint-disable-next-line react/jsx-indent */}
                   <div className={classNames('section-content--credit__people-list')}>
                     {this._getContent(currentTab).map(f => (
                       <>
@@ -390,6 +392,7 @@ class CreditPage extends Component {
                       </>
                     ))}
                   </div>
+                  </Scroller>
                 </div>
           </div>
         </div>
