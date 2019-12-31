@@ -246,6 +246,13 @@ table {
     }
 
 
+    &--full {
+        flex: none;
+        margin-top: 0px;
+        width: #{$section-desktop-width};
+    }
+
+
     &--course-list {
         flex: none;
         margin-top: 0px;
@@ -1868,6 +1875,13 @@ table {
     .search-area .buttons & {
         margin-left: 8px;
     }
+}
+
+
+.caption {
+    font-size: $font-size-smaller;
+    line-height: $line-height-smaller;
+    color: $color-text-placeholder;
 }
 
 

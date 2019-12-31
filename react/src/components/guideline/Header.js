@@ -129,8 +129,7 @@ class Header extends Component {
                   <Link to="/account">
                     <i className={classNames('icon--header_user')} />
                     <span>
-                      {user.lastName}
-                      {user.firstName}
+                      {`${user.lastName}${user.firstName}`}
                     </span>
                   </Link>
                 )
