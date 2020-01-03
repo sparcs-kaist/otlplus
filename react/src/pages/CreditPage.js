@@ -404,11 +404,21 @@ class CreditPage extends Component {
                 image: memberAsheImage,
                 caption: '2016.06 ~ 2017.06',
               },
+              {
+                name: '한승현',
+                image: memberZealotImage,
+                caption: '2017.06 ~ 2018.12',
+              },
             ],
           },
           {
             title: 'OTL PLUS',
             people: [
+              {
+                name: '김재성',
+                image: memberAsheImage,
+                caption: '2016.06 ~ 2017.06',
+              },
               {
                 name: '한승현',
                 image: memberZealotImage,
@@ -477,7 +487,7 @@ class CreditPage extends Component {
                       isClicked={currentTab === 6}
                       mainTitle="OTL PLUS"
                       subTitle="모의시간표"
-                      period="2016.07 ~ 2018.12"
+                      period="2016.09 ~ 2018.12"
                     />
                     <Button
                       index={8}
