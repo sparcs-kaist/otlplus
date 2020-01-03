@@ -83,25 +83,25 @@ def _user_department(user):
     if (u.department==None) or (u.department.code in ['AA', 'ICE']):
         departments = [{'code':'Basic', 'name':u' 기초 과목', 'name_en':u' Basic Course'}]
     else:
-        departments = [{'code':u.department.code, 'name':u.department.name+u' 전공', 'name_en':u.department.name_en+u' Major'}]
+        departments = [u.department.toJson()]
 
     for d in u.majors.all():
-        data = {'code':d.code, 'name':d.name+u' 전공', 'name_en':d.name_en+u' Major'}
+        data = d.toJson()
         if data not in departments:
             departments.append(data)
 
     for d in u.minors.all():
-        data = {'code':d.code, 'name':d.name+u' 전공', 'name_en':d.name_en+u' Major'}
+        data = d.toJson()
         if data not in departments:
             departments.append(data)
 
     for d in u.specialized_major.all():
-        data = {'code':d.code, 'name':d.name+u' 전공', 'name_en':d.name_en+u' Major'}
+        data = d.toJson()
         if data not in departments:
             departments.append(data)
 
     for d in u.favorite_departments.all():
-        data = {'code':d.code, 'name':d.name+u' 전공', 'name_en':d.name_en+u' Major'}
+        data = d.toJson()
         if data not in departments:
             departments.append(data)
 

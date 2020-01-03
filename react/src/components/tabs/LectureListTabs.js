@@ -15,18 +15,18 @@ import lectureShape from '../../shapes/LectureShape';
 
 class LectureListTabs extends Component {
   componentDidMount() {
-    const { user, setListMajorCodesDispatch } = this.props;
+    const { user } = this.props;
 
     if (user) {
-      setListMajorCodesDispatch(user.departments);
+      this._setMajorCodes(user.departments);
     }
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    const { user, major, year, semester, setListMajorCodesDispatch, clearListsLecturesDispatch } = this.props;
+    const { user, major, year, semester, clearListsLecturesDispatch } = this.props;
 
     if (user && (user !== prevProps.user)) {
-      setListMajorCodesDispatch(user.departments);
+      this._setMajorCodes(user.departments);
     }
 
     if (!this._codesAreSame(major.codes, prevProps.major.codes)) {
@@ -38,6 +38,18 @@ class LectureListTabs extends Component {
       this._fetchLists(false);
     }
   }
+
+
+  _setMajorCodes = (departments) => {
+    const { setListMajorCodesDispatch } = this.props;
+    const majors = departments.map(d => ({
+      code: d.code,
+      name: (d.code === 'Basic') ? '기초 과목' : `${d.name} 전공`,
+      name_en: (d.code === 'Basic') ? 'Basic Course' : `${d.name_en} Major`,
+    }));
+    setListMajorCodesDispatch(majors);
+  }
+
 
   _codesAreSame = (codes1, codes2) => (
     codes1.length === codes2.length
