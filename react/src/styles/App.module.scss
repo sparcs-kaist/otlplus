@@ -1102,15 +1102,7 @@ a {
 
     &--course-detail {
         &__list-area {
-            min-height: calc(
-                100% - (
-                    #{$line-height-normal}
-                    + 10px
-                    + #{$line-height-normal}
-                    + 8px
-                    + #{$section-padding}
-                )
-            ) !important;
+            min-height: calc(100% - (8px + #{$section-padding})) !important;
         }
     }
 
