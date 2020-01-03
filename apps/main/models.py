@@ -43,8 +43,6 @@ class FamousReviewDailyFeed(DailyFeed):
 
     @classmethod
     def get(cls, date, department):
-        print(date)
-        print(department)
         try:
             feed = cls.objects.get(date=date, department=department)
         except cls.DoesNotExist:
