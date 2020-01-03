@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
 import axios from '../common/presetAxios';
@@ -88,7 +89,23 @@ class MainPage extends Component {
 
 
   render() {
+    const { t } = this.props;
     const { feedDays } = this.state;
+
+    const getDateName = (dateString) => {
+      const date = new Date(dateString);
+      const currentDate = new Date();
+      date.setHours(0, 0, 0, 0);
+      currentDate.setHours(0, 0, 0, 0);
+      const timeDiff = currentDate - date;
+      if (timeDiff === 0) {
+        return t('ui.others.today');
+      }
+      if (timeDiff === 24 * 60 * 60 * 1000) {
+        return t('ui.others.yesterday');
+      }
+      return t('ui.others.day', { date: date });
+    };
 
     return (
       <>
@@ -115,7 +132,7 @@ class MainPage extends Component {
             feedDays.map(d => (
               <React.Fragment key={d.date}>
                 <div className={classNames('main-date')}>
-                  {d.date}
+                  {getDateName(d.date)}
                 </div>
                 {d.feeds.map((f) => {
                   if (f.type === 'REVIEW_WRITE') {
@@ -171,4 +188,4 @@ class MainPage extends Component {
   }
 }
 
-export default MainPage;
+export default withTranslation()(MainPage);
