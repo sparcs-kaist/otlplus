@@ -137,9 +137,10 @@ header, footer {
                     i {
                         width: 16px;
                         height: 16px;
-                        @media (orientation: portrait) {
-                            margin-right: 6px;
-                        }
+                    }
+
+                    span {
+                        margin-left: 6px;
                     }
                 }
             }
