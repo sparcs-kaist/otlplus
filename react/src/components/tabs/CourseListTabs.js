@@ -13,18 +13,28 @@ import courseShape from '../../shapes/CourseShape';
 
 class CourseListTabs extends Component {
   componentDidMount() {
-    const { user, setListMajorCodesDispatch } = this.props;
+    const { user } = this.props;
 
     if (user) {
-      setListMajorCodesDispatch(user.departments);
+      this._setMajorCodes(user.departments);
     }
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    const { user, setListMajorCodesDispatch } = this.props;
+    const { user } = this.props;
     if (user && (user !== prevProps.user)) {
-      setListMajorCodesDispatch(user.departments);
+      this._setMajorCodes(user.departments);
     }
+  }
+
+  _setMajorCodes = (departments) => {
+    const { setListMajorCodesDispatch } = this.props;
+    const majors = departments.map(d => ({
+      code: d.code,
+      name: (d.code === 'Basic') ? '기초 과목' : `${d.name} 전공`,
+      name_en: (d.code === 'Basic') ? 'Basic Course' : `${d.name_en} Major`,
+    }));
+    setListMajorCodesDispatch(majors);
   }
 
   changeTab = (list) => {
