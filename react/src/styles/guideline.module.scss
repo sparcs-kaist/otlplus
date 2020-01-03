@@ -127,7 +127,7 @@ header, footer {
 
                 & > * {
                     &:not(:last-child) {
-                        margin-right: 16px - 6px;
+                        margin-right: 16px;
 
                         span {
                             display: none;
@@ -137,7 +137,9 @@ header, footer {
                     i {
                         width: 16px;
                         height: 16px;
-                        margin-right: 6px;
+                        @media (orientation: portrait) {
+                            margin-right: 6px;
+                        }
                     }
                 }
             }
