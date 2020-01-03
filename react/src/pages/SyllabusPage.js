@@ -37,9 +37,9 @@ class SyllabusPage extends Component {
           <div className={classNames('tabs', 'tabs--syllabus')}>
             {
               lectures.map(lecture => (
-                <button className={classNames((currentShowingLecture === lecture ? 'tabs__elem--active' : ''))} onClick={() => this.updateShowingLecture(lecture)}>
+                <div className={classNames((currentShowingLecture === lecture ? 'tabs__elem--active' : ''))} onClick={() => this.updateShowingLecture(lecture)}>
                   { lecture.common_title }
-                </button>
+                </div>
               ))
             }
           </div>
