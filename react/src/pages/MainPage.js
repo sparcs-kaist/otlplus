@@ -21,18 +21,50 @@ class MainPage extends Component {
 
     this.state = {
       feedDays: [],
+      loading: false,
     };
   }
 
 
   componentDidMount() {
+    window.addEventListener('scroll', this.handleScroll);
+
     const date = new Date();
     this._fetchFeeds(date);
   }
 
 
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.handleScroll);
+  }
+
+
+  handleScroll = (e) => {
+    const { loading } = this.state;
+    const SCROLL_BOTTOM_PADDING = 100;
+    if (loading) {
+      return;
+    }
+
+    if ((window.scrollY + window.innerHeight) > (document.body.scrollHeight - SCROLL_BOTTOM_PADDING)) {
+      const { feedDays } = this.state;
+      const targetDate = new Date(feedDays[feedDays.length - 1].date);
+      targetDate.setDate(targetDate.getDate() - 1);
+      this._fetchFeeds(targetDate);
+    }
+  }
+
+
   _fetchFeeds = (date) => {
-    const { feedDays } = this.state;
+    const { feedDays, loading } = this.state;
+
+    if (loading) {
+      return;
+    }
+
+    this.setState({
+      loading: true,
+    });
     const dateString = date.toJSON().slice(0, 10);
 
     axios.get(`${BASE_URL}/api/feeds`, { params: {
@@ -40,6 +72,7 @@ class MainPage extends Component {
     } })
       .then((response) => {
         this.setState({
+          loading: false,
           feedDays: [
             ...feedDays,
             {
