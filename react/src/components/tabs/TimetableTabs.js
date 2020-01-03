@@ -145,7 +145,7 @@ class TimetableTabs extends Component {
         <div className={classNames('tabs', 'tabs--timetable')}>
           { user
             ? (
-              <button className={classNames((myTimetable.id === currentTimetable.id ? 'tabs__elem--active' : ''))} key={myTimetable.id} onClick={() => this.changeTab(myTimetable)}>
+              <div className={classNames((myTimetable.id === currentTimetable.id ? 'tabs__elem--active' : ''))} key={myTimetable.id} onClick={() => this.changeTab(myTimetable)}>
                 <span>
                   {`${t('ui.others.myTable')}`}
                 </span>
@@ -157,12 +157,12 @@ class TimetableTabs extends Component {
                   <i className={classNames('icon', 'icon--delete-table')} />
                   <span>{t('ui.button.deleteTable')}</span>
                 </button>
-              </button>
+              </div>
             )
             : null
           }
           { timetables.map((timetable, idx) => (
-            <button className={classNames((timetable.id === currentTimetable.id ? 'tabs__elem--active' : ''))} key={timetable.id} onClick={() => this.changeTab(timetable)}>
+            <div className={classNames((timetable.id === currentTimetable.id ? 'tabs__elem--active' : ''))} key={timetable.id} onClick={() => this.changeTab(timetable)}>
               <span>
                 {`${t('ui.others.table')} ${idx + 1}`}
               </span>
@@ -174,19 +174,19 @@ class TimetableTabs extends Component {
                 <i className={classNames('icon', 'icon--delete-table')} />
                 <span>{t('ui.button.deleteTable')}</span>
               </button>
-            </button>
+            </div>
           ))}
-          <button onClick={() => this.createTable()}>
+          <div onClick={() => this.createTable()}>
             <i className={classNames('icon', 'icon--add-table')} />
-          </button>
+          </div>
         </div>
       );
     }
     return (
       <div className={classNames('tabs', 'tabs--timetable')}>
-        <button style={{ pointerEvents: 'none' }}>
+        <div style={{ pointerEvents: 'none' }}>
           <span>{t('ui.placeholder.loading')}</span>
-        </button>
+        </div>
       </div>
     );
   }

@@ -140,6 +140,23 @@ iframe {
 }
 
 
+button,
+a {
+    position: relative;
+
+    &::before {
+        content: '';
+        position: absolute;
+        display: block;
+        //background-color: rgba(#f00, 0.7); // Hitbox checker
+        top: -2px;
+        bottom: -2px;
+        left: -2px;
+        right: -2px;
+    }
+}
+
+
 .content {
     position: relative;
     margin-top: $header-height;
@@ -383,10 +400,12 @@ iframe {
     line-height: $line-height-small;
     color: $color-text-light;
 
-    & > button {
+    & > div {
         text-align: center;
         background-color: $color-tab-background-dark;
         white-space: nowrap;
+        cursor: pointer;
+        display:inline-block;
         &.tabs__elem--active {
             cursor: initial;
             background-color: $color-tab-background;
@@ -405,6 +424,7 @@ iframe {
         @media (orientation: landscape) {
             position: absolute;
             vertical-align: top;
+            text-align:right;
             width: 50px;
             margin-left: -50px;
         }
@@ -413,17 +433,15 @@ iframe {
             flex-direction: row;
         }
 
-        > button {
+        > div {
             padding: 8px;
             @media (orientation: landscape) {
-                display: block;
                 margin-left: auto;
                 margin-bottom: 6px;
                 border-radius: $block-border-radius 0 0 $block-border-radius;
                 line-height: 0;
             }
             @media (orientation: portrait) {
-                display: inline-block;
                 margin-right: 6px;
                 border-radius: $block-border-radius $block-border-radius 0 0;
                 flex: 1 1 0;
@@ -448,7 +466,7 @@ iframe {
             width: 100%;
         }
 
-        & > button {
+        & > div {
             display: inline-block;
             vertical-align: top;
             margin-right: 6px;
@@ -515,7 +533,7 @@ iframe {
 
 
     &--syllabus {
-        & > button {
+        & > div {
             display: inline-block;
             vertical-align: top;
             margin-right: 6px;
