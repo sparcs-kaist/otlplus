@@ -54,6 +54,7 @@ class FamousReviewDailyFeed(DailyFeed):
 
     def toJson(self, nested=False):
         result = {
+            "type": "FAMOUS_REVIEW",
             "date": self.date,
             "priority": self.priority,
             "department": self.department.toJson(nested=False),
