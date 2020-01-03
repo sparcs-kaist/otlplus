@@ -1669,7 +1669,7 @@ a {
             position:absolute;
             cursor:pointer;
             padding:4px;
-            background-color:rgba(224,84,111,0.8);
+            background-color:rgba(#E0546F,0.8);
             .block--timetable:not(:hover) &,
             .block--timetable:not(.block--active):not(.block--clicked) & {
                 display: none;
@@ -1687,7 +1687,7 @@ a {
             &__title {
                 font-size: $font-size-small;
                 line-height: $line-height-small;
-                color:rgba(0,0,0,0.8);
+                color:rgba(#000000,0.8);
                 margin:0;
                 margin-bottom:1px;
                 pointer-events:none;
@@ -1695,21 +1695,21 @@ a {
                 .block--timetable.block--clicked &,
                 .block--timetable.block--temp &
                  {
-                    color:rgba(255,255,255,1);
+                    color:rgba(#FFFFFF,1);
                 }
             }
 
             &__info {
                 font-size: $font-size-small;
                 line-height: $line-height-small;
-                color:rgba(0,0,0,0.5);
+                color:rgba(#000000,0.5);
                 margin:0;
                 margin-top:1px;
                 pointer-events:none;
                 .block--timetable.block--active &,
                 .block--timetable.block--clicked &,
                 .block--timetable.block--temp {
-                    color:rgba(255,255,255,0.7);
+                    color:rgba(#FFFFFF,0.7);
                 }
             }
         }
@@ -1747,7 +1747,7 @@ a {
             &__title {
                 font-size: $font-size-small;
                 line-height: $line-height-small;
-                color:rgba(0,0,0,0.8);
+                color:rgba(#000000,0.8);
                 margin:0;
                 margin-bottom:1px;
             }
@@ -1755,7 +1755,7 @@ a {
             &__info {
                 font-size: $font-size-small;
                 line-height: $line-height-small;
-                color:rgba(0,0,0,0.5);
+                color:rgba(#000000,0.5);
                 margin:0;
                 margin-top:1px;
             }
