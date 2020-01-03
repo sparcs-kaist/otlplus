@@ -1,13 +1,13 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse
 from django.views.decorators.csrf import ensure_csrf_cookie
-from django.views.decorators.http import require_POST
+from django.views.decorators.http import require_http_methods, require_POST
 from django.core.exceptions import ObjectDoesNotExist
 from django.conf import settings
 
 from apps.session.models import UserProfile
-from apps.subject.models import Course
-from apps.main.models import RandomCourseReco
+from apps.subject.models import Course, Department
+from apps.main.models import RandomCourseReco, FamousReviewDailyFeed
 
 from apps.timetable.views import _lecture_to_dict
 
@@ -19,14 +19,21 @@ import json
 from datetime import date
 
 
-# Create your views here.
+@require_http_methods(['GET'])
+def feeds_list_view(request):
+    if request.method == 'GET':
+        date = request.GET.get('date', None)
 
-@ensure_csrf_cookie
-def template(request):
-    return render(request, 'index.html')
+        department = Department.objects.filter(code="ID").first()
+        famous_review_daily_feed = FamousReviewDailyFeed.get(date=date, department=department)
+
+        feeds = sorted([famous_review_daily_feed], key=(lambda f: f.priority))
+        result = [f.toJson() for f in feeds]
+        return JsonResponse(result, safe=False)
 
 
 # Fetch course recommendation for writing review
+# UNUSED
 @require_POST
 def course_write_reco_load(request):
     if not request.user.is_authenticated():
@@ -63,6 +70,7 @@ def course_write_reco_load(request):
                         {'ensure_ascii': False})
 
 
+# UNUSED
 @require_POST
 def did_you_know(request):
     try:
