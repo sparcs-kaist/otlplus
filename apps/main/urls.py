@@ -20,7 +20,4 @@ from . import views
 
 
 urlpatterns = [
-    url(r'^$', views.template),
-    url(r'^course_write_reco_load$', views.course_write_reco_load),
-    url(r'^did_you_know/$', views.did_you_know),
 ]
