@@ -1,20 +1,18 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 import ReviewBlock from '../../blocks/ReviewBlock';
-import reviews from '../../../dummy/reviews';
+import reviewShape from '../../../shapes/ReviewShape';
+import departmentShape from '../../../shapes/DepartmentShape';
 
 
 class FamousReviewSection extends Component {
   render() {
     const { t } = this.props;
-    const department = {
-      name: '전산학부',
-      name_en: 'School of Computing',
-      code: 'CS',
-    };
+    const { department, reviews } = this.props;
 
     return (
       <div className={classNames('section-content', 'section-content--widget')}>
@@ -35,6 +33,11 @@ class FamousReviewSection extends Component {
     );
   }
 }
+
+FamousReviewSection.propTypes = {
+  department: departmentShape.isRequired,
+  reviews: PropTypes.arrayOf(reviewShape).isRequired,
+};
 
 
 export default withTranslation()(FamousReviewSection);

@@ -5,20 +5,18 @@ import { withTranslation } from 'react-i18next';
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 import CourseBlock from '../../blocks/CourseBlock';
 import courses from '../../../dummy/courses';
+import courseShape from '../../../shapes/CourseShape';
 
 
 class RelatedCourseSection extends Component {
   render() {
     const { t } = this.props;
-    const lecture = {
-      title: '데이타구조',
-      title_en: 'Data Structure',
-    };
+    const { course } = this.props;
 
     return (
       <div className={classNames('section-content', 'section-content--widget')}>
         <div className={classNames('title')}>
-          {`${t('ui.title.relatedCourses')} - ${lecture[t('js.property.title')]}`}
+          {`${t('ui.title.relatedCourses')} - ${course[t('js.property.title')]}`}
         </div>
         { courses.map(c => (
           <Link to={{ pathname: '/dictionary', state: { startCourseId: c.id } }}>
@@ -34,6 +32,10 @@ class RelatedCourseSection extends Component {
     );
   }
 }
+
+RelatedCourseSection.propTypes = {
+  course: courseShape.isRequired,
+};
 
 
 export default withTranslation()(RelatedCourseSection);

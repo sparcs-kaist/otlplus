@@ -3,18 +3,13 @@ import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 import ReviewWriteBlock from '../../blocks/ReviewWriteBlock';
+import lectureShape from '../../../shapes/NestedLectureShape';
 
 
 class ReviewWriteSection extends Component {
   render() {
     const { t } = this.props;
-    const lecture = {
-      title: '문제해결기법',
-      title_en: 'Problem Solving',
-      professors_str_short: '김기응',
-      year: 2018,
-      semester: 1,
-    };
+    const { lecture } = this.props;
 
     return (
       <div className={classNames('section-content', 'section-content--widget')}>
@@ -31,6 +26,10 @@ class ReviewWriteSection extends Component {
     );
   }
 }
+
+ReviewWriteSection.propTypes = {
+  lecture: lectureShape.isRequired,
+};
 
 
 export default withTranslation()(ReviewWriteSection);
