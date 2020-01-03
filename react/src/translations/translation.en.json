@@ -231,7 +231,10 @@
       "secondCount_plural": "{{count}} seconds",
       "multipleDetailCount": "{{count}} lectures",
       "dragTimetable": "Drag timetable",
-      "notOffered": "Not Offered"
+      "notOffered": "Not Offered",
+      "today": "Today",
+      "yesterday": "Yesterday",
+      "day": "{{date, MMM Do}}"
     },
     "menu": {
       "timetable": "Timetable",

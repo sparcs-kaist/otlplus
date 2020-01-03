@@ -10,6 +10,7 @@
     "i18next-browser-languagedetector": "^4.0.1",
     "i18next-xhr-backend": "^3.2.2",
     "jquery": "^3.3.1",
+    "moment": "^2.24.0",
     "nanoscroller": "^0.8.7",
     "node-sass": "^4.10.0",
     "popper.js": "^1.14.3",
