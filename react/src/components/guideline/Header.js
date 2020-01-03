@@ -139,24 +139,24 @@ class Header extends Component {
                   <span>{t('ui.menu.notifications')}</span>
                 </Link>
               </span>
-              { user
-                ? (
-                  <Link to="/account">
-                    <i className={classNames('icon--header_user')} />
-                    <span>
-                      {getFullName(user)}
-                    </span>
-                  </Link>
-                )
-                : (
-                  <a href={`/session/login/?next=${window.location.href}`}>
-                    <i className={classNames('icon--header_user')} />
-                    <span>
-                      {t('ui.menu.signIn')}
-                    </span>
-                  </a>
-                )
-              }
+              <span>{ user
+                  ? (
+                    <Link to="/account">
+                      <i className={classNames('icon--header_user')} />
+                      <span>
+                        {getFullName(user)}
+                      </span>
+                    </Link>
+                  )
+                  : (
+                    <a href={`/session/login/?next=${window.location.href}`}>
+                      <i className={classNames('icon--header_user')} />
+                      <span>
+                        {t('ui.menu.signIn')}
+                      </span>
+                    </a>
+                  )
+              }</span>
             </div>
           </div>
         </div>
