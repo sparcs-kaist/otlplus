@@ -100,6 +100,7 @@ button {
     background-color: transparent;
     border: none;
     outline: none;
+    color: inherit;
     font-size: inherit;
     line-height: inherit;
     text-align: initial;
@@ -1223,19 +1224,34 @@ iframe {
 
 
     &--credit {
+        display: flex;
+        flex-direction: column;
+
         &__blocks {
             display: flex;
             flex-direction: row;
             flex-wrap: wrap;
             margin-right: -8px;
-            margin-bottom: -8px;
+            margin-bottom: -8px + 12px;
         }
 
         &__people-list {
             text-align: center;
 
             &__elem {
-                margin-bottom: 8px;
+                margin-top: 6px;
+
+                & > img {
+                    height: 22px;
+                    vertical-align: top;
+                }
+
+                &__name {
+                    color: #888888;
+                    font-weight: bold;
+                    font-size: 13px;
+                    line-height: 1.4;
+                }
 
                 & > .caption {
                     margin-top: 2px;
@@ -1825,7 +1841,10 @@ iframe {
     .section-content--credit & {
         text-align: center;
         margin-top: 12px;
-        margin-bottom: 8px;
+
+        &:first-child {
+            margin-top: 0;
+        }
     }
 
 
