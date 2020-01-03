@@ -20,6 +20,11 @@ header, footer {
         cursor: pointer;
     }
 
+    a:hover,
+    button:hover {
+        opacity: 0.8;
+    }
+
     .identity-bar {
         margin-left: -$side-filling;
         margin-right: -$side-filling;
