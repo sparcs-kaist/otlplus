@@ -1,7 +1,7 @@
 from django.db import models
 
 from apps.session.models import UserProfile
-from apps.subject.models import Lecture, Department
+from apps.subject.models import Lecture, Department, Course
 from apps.review.models import Comment, MajorBestComment
 
 import random
@@ -59,6 +59,58 @@ class FamousReviewDailyFeed(DailyFeed):
             "priority": self.priority,
             "department": self.department.toJson(nested=False),
             "reviews": [r.toJson(nested=False) for r in self.reviews.all()]
+        }
+        return result
+
+
+class ReviewWriteDailyUserFeed(DailyUserFeed):
+    lecture = models.ForeignKey(Lecture)
+
+    class Meta:
+        unique_together = [['date', 'user']]
+
+    @classmethod
+    def get(cls, date, user):
+        try:
+            feed = cls.objects.get(date=date, user=user)
+        except cls.DoesNotExist:
+            taken_lectures = user.take_lecture_list.all()
+            selected_lecture = random.choice(taken_lectures)
+            feed = cls.objects.create(date=date, user=user, lecture=selected_lecture, priority=random.random())
+        return feed
+
+    def toJson(self, nested=False):
+        result = {
+            "type": "REVIEW_WRITE",
+            "date": self.date,
+            "priority": self.priority,
+            "lecture": self.lecture.toJson(nested=False),
+        }
+        return result
+
+
+class RelatedCourseDailyUserFeed(DailyUserFeed):
+    course = models.ForeignKey(Course)
+
+    class Meta:
+        unique_together = [['date', 'user']]
+
+    @classmethod
+    def get(cls, date, user):
+        try:
+            feed = cls.objects.get(date=date, user=user)
+        except cls.DoesNotExist:
+            taken_lectures = user.take_lecture_list.all()
+            selected_lecture = random.choice(taken_lectures)
+            feed = cls.objects.create(date=date, user=user, course=selected_lecture.course, priority=random.random())
+        return feed
+
+    def toJson(self, nested=False):
+        result = {
+            "type": "RELATED_COURSE",
+            "date": self.date,
+            "priority": self.priority,
+            "course": self.course.toJson(nested=False),
         }
         return result
 

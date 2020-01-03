@@ -123,7 +123,7 @@ class MainPage extends Component {
                     /* eslint-disable-next-line react/jsx-indent */
           <div className={classNames('section-wrap')}>
             <div className={classNames('section')}>
-              <ReviewWriteSection />
+              <ReviewWriteSection lecture={f.lecture} />
             </div>
           </div>
                     );
@@ -133,7 +133,7 @@ class MainPage extends Component {
                     /* eslint-disable-next-line react/jsx-indent */
           <div className={classNames('section-wrap')}>
             <div className={classNames('section')}>
-              <RelatedCourseSection />
+              <RelatedCourseSection course={f.course} />
             </div>
           </div>
                     );
