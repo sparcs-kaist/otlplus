@@ -140,6 +140,23 @@ iframe {
 }
 
 
+button,
+a {
+    position: relative;
+
+    &::before {
+        content: '';
+        position: absolute;
+        display: block;
+        //background-color: rgba(#f00, 0.7); // Hitbox checker
+        top: -2px;
+        bottom: -2px;
+        left: -2px;
+        right: -2px;
+    }
+}
+
+
 .content {
     position: relative;
     margin-top: $header-height;
