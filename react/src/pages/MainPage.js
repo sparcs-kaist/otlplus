@@ -48,11 +48,16 @@ class MainPage extends Component {
     }
 
     if ((window.scrollY + window.innerHeight) > (document.body.scrollHeight - SCROLL_BOTTOM_PADDING)) {
-      const { feedDays } = this.state;
-      const targetDate = new Date(feedDays[feedDays.length - 1].date);
-      targetDate.setDate(targetDate.getDate() - 1);
-      this._fetchFeeds(targetDate);
+      this._fetchFeeds(this._getPrevDate());
     }
+  }
+
+
+  _getPrevDate = () => {
+    const { feedDays } = this.state;
+    const targetDate = new Date(feedDays[feedDays.length - 1].date);
+    targetDate.setDate(targetDate.getDate() - 1);
+    return targetDate;
   }
 
 
