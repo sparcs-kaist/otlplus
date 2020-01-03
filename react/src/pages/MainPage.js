@@ -26,23 +26,24 @@ class MainPage extends Component {
 
 
   componentDidMount() {
-    const date = new Date().toJSON().slice(0, 10);
+    const date = new Date();
     this._fetchFeeds(date);
   }
 
 
   _fetchFeeds = (date) => {
     const { feedDays } = this.state;
+    const dateString = date.toJSON().slice(0, 10);
 
     axios.get(`${BASE_URL}/api/feeds`, { params: {
-      date: date,
+      date: dateString,
     } })
       .then((response) => {
         this.setState({
           feedDays: [
             ...feedDays,
             {
-              date: date,
+              date: dateString,
               feeds: response.data,
             },
           ],
