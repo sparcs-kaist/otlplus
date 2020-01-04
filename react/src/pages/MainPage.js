@@ -143,7 +143,7 @@ class MainPage extends Component {
                   if (f.type === 'REVIEW_WRITE') {
                     return (
                     /* eslint-disable-next-line react/jsx-indent */
-          <div className={classNames('section-wrap')}>
+          <div className={classNames('section-wrap')} key={`${d.date}-${f.type}-${f.lecture.id}`}>
             <div className={classNames('section')}>
               <ReviewWriteSection lecture={f.lecture} />
             </div>
@@ -153,7 +153,7 @@ class MainPage extends Component {
                   if (f.type === 'RELATED_COURSE') {
                     return (
                     /* eslint-disable-next-line react/jsx-indent */
-          <div className={classNames('section-wrap')}>
+          <div className={classNames('section-wrap')} key={`${d.date}-${f.type}-${f.course.id}`}>
             <div className={classNames('section')}>
               <RelatedCourseSection course={f.course} />
             </div>
@@ -163,7 +163,7 @@ class MainPage extends Component {
                   if (f.type === 'LATEST_REVIEW') {
                     return (
                     /* eslint-disable-next-line react/jsx-indent */
-          <div className={classNames('section-wrap')}>
+          <div className={classNames('section-wrap')} key={`${d.date}-${f.type}`}>
             <div className={classNames('section')}>
               <LatestReviewSection />
             </div>
@@ -173,7 +173,7 @@ class MainPage extends Component {
                   if (f.type === 'FAMOUS_REVIEW') {
                     return (
                     /* eslint-disable-next-line react/jsx-indent */
-          <div className={classNames('section-wrap')}>
+          <div className={classNames('section-wrap')} key={`${d.date}-${f.type}-${f.department.code}`}>
             <div className={classNames('section')}>
               <FamousReviewSection department={f.department} reviews={f.reviews} />
             </div>
