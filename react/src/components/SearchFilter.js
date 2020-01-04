@@ -32,22 +32,15 @@ class SearchFilter extends Component {
           isChecked: false,
         });
       }
-      else {
-      }
     }
     else { // When Check out somtething
       // eslint-disable-next-line no-lonely-if
       if (checkedValues.size === 1) {
-        this.setState({
-        }); // All circle check out so have to check all
         clickCircle({
           ...filter,
           value: 'ALL',
           isChecked: true,
         });
-      }
-      else {
-        // All circle check out so have to check all
       }
     }
   }
