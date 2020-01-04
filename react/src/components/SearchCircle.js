@@ -6,9 +6,8 @@ import { appBoundClassNames } from '../common/boundClassNames';
 class SearchCircle extends Component {
   onChange(e) {
     const { clickCircle, isChecked } = this.props;
-    const { value } = e.target;
 
-    clickCircle(value, !isChecked);
+    clickCircle(!isChecked);
   }
 
 
