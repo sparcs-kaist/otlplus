@@ -157,7 +157,7 @@ class CourseListSection extends Component {
             <i className={classNames('icon', 'icon--search')} />
             <span>{t('ui.tab.search')}</span>
           </div>
-          <Scroller>
+          <Scroller key={currentList}>
             { mapCourses(search.courses) }
           </Scroller>
         </div>
@@ -169,7 +169,7 @@ class CourseListSection extends Component {
           <div className={classNames('title')}>
             {major[currentList][t('js.property.name')]}
           </div>
-          <Scroller>
+          <Scroller key={currentList}>
             { mapCourses(major[currentList].courses) }
           </Scroller>
         </div>
@@ -181,7 +181,7 @@ class CourseListSection extends Component {
           <div className={classNames('title')}>
             {t('ui.tab.humanity')}
           </div>
-          <Scroller>
+          <Scroller key={currentList}>
             { mapCourses(humanity.courses) }
           </Scroller>
         </div>
@@ -193,7 +193,7 @@ class CourseListSection extends Component {
           <div className={classNames('title')}>
             {t('ui.tab.taken')}
           </div>
-          <Scroller>
+          <Scroller key={currentList}>
             { mapCourses(taken.courses) }
           </Scroller>
         </div>
