@@ -56,6 +56,10 @@ class Comment(models.Model):
         })
 
         return result
+    
+    def recalc_like(self):
+        self.like = self.comment_vote.all().count()
+        self.save()
 
     def __unicode__(self):
         return u"%s(%s)"%(self.lecture,self.writer)
@@ -124,6 +128,9 @@ class CommentVote(models.Model):
     comment = models.ForeignKey(Comment, related_name="comment_vote", null=False)
     userprofile = models.ForeignKey(UserProfile, related_name="comment_vote", on_delete=models.SET_NULL, null=True)
     is_up = models.BooleanField(null=False)
+
+    class Meta:
+        unique_together = (("comment", "userprofile",))
 
     @classmethod
     def cv_create(cls, comment, userprofile):
