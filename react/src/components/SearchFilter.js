@@ -54,7 +54,7 @@ class SearchFilter extends Component {
 
 
   render() {
-    const { inputName, titleName, options } = this.props;
+    const { inputName, titleName, options, checkedValues } = this.props;
     const mapCircle = o => (
       <SearchCircle
         key={o[0]}
@@ -62,6 +62,7 @@ class SearchFilter extends Component {
         inputName={inputName}
         circleName={o[1]}
         clickCircle={this.clickCircle}
+        isChecked={checkedValues.has(o[0])}
         allChecked={this._isChecked('ALL')}
       />
     );
