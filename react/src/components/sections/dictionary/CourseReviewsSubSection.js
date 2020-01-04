@@ -77,27 +77,10 @@ class CourseReviewsSubSection extends Component {
       });
   }
 
-  clickCircle = (filter_) => {
-    const filterName = filter_.name;
-    const { value, isChecked } = filter_;
-
-    if (isChecked) {
-      this.setState((prevState) => {
-        const filter = prevState[filterName];
-        if (value === 'ALL') {
-          filter.clear();
-        }
-        filter.add(value);
-        return prevState;
-      });
-    }
-    else {
-      this.setState((prevState) => {
-        const filter = prevState[filterName];
-        filter.delete(value);
-        return prevState;
-      });
-    }
+  updateCheckedValues = filterName => (checkedValues) => {
+    this.setState({
+      [filterName]: checkedValues,
+    });
   }
 
   _getProfessorFormValue = (professor) => {
@@ -134,10 +117,11 @@ class CourseReviewsSubSection extends Component {
       <>
         <div className={classNames('small-title')}>{t('ui.title.reviews')}</div>
         <SearchFilter
-          clickCircle={this.clickCircle}
+          updateCheckedValues={this.updateCheckedValues('professor')}
           inputName="professor"
           titleName={t('ui.search.professor')}
           options={professorOptions}
+          checkedValues={this.state.professor}
         />
         {
           takenLectureOfCourse.map(l => (

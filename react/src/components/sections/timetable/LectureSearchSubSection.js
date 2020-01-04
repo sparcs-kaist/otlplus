@@ -69,27 +69,15 @@ class LectureSearchSubSection extends Component {
       });
   }
 
-  clickCircle = (filter_) => {
-    const filterName = filter_.name;
-    const { value, isChecked } = filter_;
+  updateCheckedValues = filterName => (checkedValues) => {
+    this.setState({
+      [filterName]: checkedValues,
+    });
+  }
 
-    if (isChecked) {
-      this.setState((prevState) => {
-        const filter = prevState[filterName];
-        if (value === 'ALL') {
-          filter.clear();
-        }
-        filter.add(value);
-        return prevState;
-      });
-    }
-    else {
-      this.setState((prevState) => {
-        const filter = prevState[filterName];
-        filter.delete(value);
-        return prevState;
-      });
-    }
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.searchStart();
   }
 
   handleInput = (e) => {
@@ -148,9 +136,6 @@ class LectureSearchSubSection extends Component {
       e.preventDefault();
       e.nativeEvent.stopImmediatePropagation();
     }
-    else if (e.keyCode === 13) {
-      this.searchStart();
-    }
   }
 
   clearSearchTime = () => {
@@ -194,7 +179,7 @@ class LectureSearchSubSection extends Component {
 
     return (
       <div className={classNames('search-area')}>
-        <form method="post">
+        <form onSubmit={this.handleSubmit}>
           <div className={classNames('title', 'title--search')}>
             <i className={classNames('icon', 'icon--search')} />
             <div>
@@ -215,22 +200,25 @@ class LectureSearchSubSection extends Component {
           </div>
           <div>
             <SearchFilter
-              clickCircle={this.clickCircle}
+              updateCheckedValues={this.updateCheckedValues('type')}
               inputName="type"
               titleName={t('ui.search.type')}
               options={typeOptions}
+              checkedValues={this.state.type}
             />
             <SearchFilter
-              clickCircle={this.clickCircle}
+              updateCheckedValues={this.updateCheckedValues('department')}
               inputName="department"
               titleName={t('ui.search.department')}
               options={departmentOptions}
+              checkedValues={this.state.department}
             />
             <SearchFilter
-              clickCircle={this.clickCircle}
+              updateCheckedValues={this.updateCheckedValues('grade')}
               inputName="grade"
               titleName={t('ui.search.level')}
               options={levelOptions}
+              checkedValues={this.state.grade}
             />
             <div className={classNames('attribute')}>
               <span>{t('ui.search.time')}</span>
@@ -254,8 +242,8 @@ class LectureSearchSubSection extends Component {
             </div>
           </div>
           <div className={classNames('buttons')}>
-            <span type="button" className={classNames('text-button')} onClick={() => this.searchStart()}>{t('ui.button.search')}</span>
-            <span type="button" className={classNames('text-button')} onClick={() => this.hideSearch()}>{t('ui.button.cancel')}</span>
+            <button type="submit" className={classNames('text-button')}>{t('ui.button.search')}</button>
+            <button type="button" className={classNames('text-button')} onClick={() => this.hideSearch()}>{t('ui.button.cancel')}</button>
           </div>
           <div className={classNames('divider')} />
         </form>

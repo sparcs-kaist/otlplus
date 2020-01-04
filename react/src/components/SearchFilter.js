@@ -7,82 +7,53 @@ import SearchCircle from './SearchCircle';
 
 
 class SearchFilter extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      allChecked: true,
-      checkNum: 1,
-    };
+  _isChecked = (value) => {
+    const { checkedValues } = this.props;
+    return checkedValues.has(value);
   }
 
-  clickCircle = (value, isChecked) => {
-    const { allChecked, checkNum } = this.state;
-    const { inputName, clickCircle } = this.props;
+  clickCircle = value => (isChecked) => {
+    const { checkedValues, updateCheckedValues } = this.props;
 
-    const filter = {
-      name: inputName,
-      value: value,
-      isChecked: isChecked,
-    };
-    clickCircle(filter);
-    if (value === 'ALL' && isChecked) {
-      this.setState({
-        allChecked: true,
-      }); // It is alreat send to Search
-    }
-    else if (isChecked) {
-      // Check without all button, checkout all button
-      if (allChecked) {
-        this.setState({
-          allChecked: false,
-          checkNum: 1,
-        });
-        clickCircle({
-          ...filter,
-          value: 'ALL',
-          isChecked: false,
-        });
-      }
-      else {
-        this.setState(state => ({
-          checkNum: state.checkNum + 1,
-        }));
-      }
-    }
-    else { // When Check out somtething
-      // eslint-disable-next-line no-lonely-if
-      if (checkNum === 1) {
-        this.setState({
-          allChecked: true,
-        }); // All circle check out so have to check all
-        clickCircle({
-          ...filter,
-          value: 'ALL',
-          isChecked: true,
-        });
-      }
-      else {
-        this.setState(state => ({
-          checkNum: state.checkNum - 1,
-        }));
-        // All circle check out so have to check all
-      }
-    }
+    if (isChecked) {
+      if (value === 'ALL') {
+        updateCheckedValues(new Set(['ALL']));
+      } 
+      else { 
+        const checkedValuesCopy = new Set(checkedValues);
+        checkedValuesCopy.add(value);
+        checkedValuesCopy.delete('ALL');
+        updateCheckedValues(checkedValuesCopy);
+      } 
+    } 
+    else { 
+      // eslint-disable-next-line no-lonely-if 
+      if (value === 'ALL') {
+        // Pass
+      } 
+      else { 
+        const checkedValuesCopy = new Set(checkedValues);
+        checkedValuesCopy.delete(value);
+        if (checkedValuesCopy.size === 0) {
+          checkedValuesCopy.add('ALL');
+        }
+        updateCheckedValues(checkedValuesCopy);
+      } 
+    } 
   }
 
 
   render() {
-    const { allChecked } = this.state;
-    const { inputName, titleName, options } = this.props;
+    const { inputName, titleName, options, checkedValues } = this.props;
     const mapCircle = o => (
       <SearchCircle
         key={o[0]}
         value={o[0]}
         inputName={inputName}
         circleName={o[1]}
-        clickCircle={this.clickCircle}
-        allChecked={allChecked}
+        clickCircle={this.clickCircle(o[0])}
+        isChecked={checkedValues.has(o[0])}
+        allChecked={this._isChecked('ALL')}
       />
     );
 
@@ -99,10 +70,11 @@ class SearchFilter extends Component {
 }
 
 SearchFilter.propTypes = {
-  clickCircle: PropTypes.func.isRequired,
+  updateCheckedValues: PropTypes.func.isRequired,
   inputName: PropTypes.string.isRequired,
   titleName: PropTypes.string.isRequired,
   options: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
+  checkedValues: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default SearchFilter;
