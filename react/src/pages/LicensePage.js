@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 
-import Footer from '../components/guideline/Footer';
-
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
 
 
