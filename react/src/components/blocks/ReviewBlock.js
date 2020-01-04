@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { pure } from 'recompose';
 import { withTranslation } from 'react-i18next';
 
@@ -10,11 +10,14 @@ import ReviewShape from '../../shapes/ReviewShape';
 
 // eslint-disable-next-line arrow-body-style
 const ReviewBlock = ({ t, review }) => {
+  const [changedIsLiked, setChangedIsLiked] = useState(review.userspecific_is_liked);
+
   const onLikeClick = (e) => {
     axios.post(`${BASE_URL}/api/review/like`, {
       commentid: review.id,
     })
       .then((response) => {
+        setChangedIsLiked(true);
       })
       .catch((error) => {
       });
@@ -54,7 +57,7 @@ const ReviewBlock = ({ t, review }) => {
         </span>
         </span>
         <span>
-          {!review.userspecific_is_liked
+          {!changedIsLiked
             ? (
               <button className={classNames('text-button', 'text-button--review-block')} onClick={onLikeClick}>
                 {t('ui.button.like')}
