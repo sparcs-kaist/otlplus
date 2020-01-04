@@ -3,11 +3,23 @@ import { pure } from 'recompose';
 import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
+import axios from '../../common/presetAxios';
+import { BASE_URL } from '../../common/constants';
 import ReviewShape from '../../shapes/ReviewShape';
 
 
 // eslint-disable-next-line arrow-body-style
 const ReviewBlock = ({ t, review }) => {
+  const onLikeClick = (e) => {
+    axios.post(`${BASE_URL}/api/review/like`, {
+      commentid: review.id,
+    })
+      .then((response) => {
+      })
+      .catch((error) => {
+      });
+  };
+
   return (
     <div className={classNames('block', 'block--review')}>
       <div className={classNames('block--review__title')}>
@@ -42,9 +54,17 @@ const ReviewBlock = ({ t, review }) => {
         </span>
         </span>
         <span>
-        <button className={classNames('text-button', 'text-button--review-block')}>
-          {t('ui.button.like')}
-        </button>
+          {!review.userspecific_is_liked
+            ? (
+              <button className={classNames('text-button', 'text-button--review-block')} onClick={onLikeClick}>
+                {t('ui.button.like')}
+              </button>
+            )
+            : (
+              <button className={classNames('text-button', 'text-button--disabled', 'text-button--review-block')}>
+                {t('ui.button.like')}
+              </button>
+            )}
         <button className={classNames('text-button', 'text-button--black', 'text-button--review-block')}>
           {t('ui.button.report')}
         </button>
