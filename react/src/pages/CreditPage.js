@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
 
-import Footer from '../components/guideline/Footer';
 import Scroller from '../components/Scroller';
 
 import memberBatteryImage from '../static/img/members/Members-05-battery_kor.png';

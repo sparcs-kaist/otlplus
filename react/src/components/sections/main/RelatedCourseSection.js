@@ -19,7 +19,7 @@ class RelatedCourseSection extends Component {
           {`${t('ui.title.relatedCourses')} - ${course[t('js.property.title')]}`}
         </div>
         { courses.map(c => (
-          <Link to={{ pathname: '/dictionary', state: { startCourseId: c.id } }}>
+          <Link to={{ pathname: '/dictionary', state: { startCourseId: c.id } }} key={c.id}>
             <CourseBlock course={c} key={c.id} />
           </Link>
         ))}
