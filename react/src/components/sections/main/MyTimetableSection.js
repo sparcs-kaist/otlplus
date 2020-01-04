@@ -68,14 +68,14 @@ class MyTimetableSection extends Component {
                     const hour = (i / 2) + 8;
                     const hourValue = ((hour - 1) % 12) + 1;
                     if (hour % 6 === 0) {
-                      return <div><strong>{hourValue}</strong></div>;
+                      return <div key={i}><strong>{hourValue}</strong></div>;
                     }
-                    return <div><span>{hourValue}</span></div>;
+                    return <div key={i}><span>{hourValue}</span></div>;
                   }
                   if (i === (24 - 8) * 2 - 1) {
-                    return <div><strong>12</strong></div>;
+                    return <div key={i}><strong>12</strong></div>;
                   }
-                  return <div />;
+                  return <div key={i} />;
                 })
               }
             </div>
@@ -85,14 +85,14 @@ class MyTimetableSection extends Component {
                   if (i % 2 === 0) {
                     const hour = (i / 2) + 8;
                     if (hour % 6 === 0) {
-                      return <div className={classNames('hcell-left', 'hcell-bold')} />;
+                      return <div className={classNames('hcell-left', 'hcell-bold')} key={i} />;
                     }
-                    return <div className={classNames('hcell-left')} />;
+                    return <div className={classNames('hcell-left')} key={i} />;
                   }
                   if (i === (24 - 8) * 2 - 1) {
-                    return <div className={classNames('hcell-right', 'hcell-last')} />;
+                    return <div className={classNames('hcell-right', 'hcell-last')} key={i} />;
                   }
-                  return <div className={classNames('hcell-right')} />;
+                  return <div className={classNames('hcell-right')} key={i} />;
                 })
               }
             </div>
