@@ -12,7 +12,6 @@ def login_required_ajax(function=None, response_content=u'You have to log in fir
         def handler(request, *args, **kwargs):
             if request.user.is_authenticated():
                 return view_func(request, *args, **kwargs)
-            print(401)
             return HttpResponse(status=401)
         return handler
 
