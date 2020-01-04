@@ -12,6 +12,7 @@ import { setCurrentList, setMobileShowLectureList } from '../../../actions/timet
 import { dragSearch, clearDrag } from '../../../actions/timetable/search';
 import { setIsDragging, updateCellSize, removeLectureFromTimetable } from '../../../actions/timetable/timetable';
 import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureActive';
+import userShape from '../../../shapes/UserShape';
 import lectureShape from '../../../shapes/LectureShape';
 import timetableShape from '../../../shapes/TimetableShape';
 import lectureActiveShape from '../../../shapes/LectureActiveShape';
@@ -201,13 +202,13 @@ class TimetableSubSection extends Component {
   }
 
   deleteLecture = lecture => (event) => {
-    const { currentTimetable, removeLectureFromTimetableDispatch } = this.props;
+    const { currentTimetable, user, removeLectureFromTimetableDispatch } = this.props;
     event.stopPropagation();
     if (!currentTimetable) {
       return;
     }
 
-    performDeleteFromTable(this, lecture, currentTimetable, removeLectureFromTimetableDispatch);
+    performDeleteFromTable(this, lecture, currentTimetable, user, removeLectureFromTimetableDispatch);
   }
 
   render() {
@@ -423,6 +424,7 @@ class TimetableSubSection extends Component {
 }
 
 const mapStateToProps = state => ({
+  user: state.common.user.user,
   currentTimetable: state.timetable.timetable.currentTimetable,
   lectureActive: state.timetable.lectureActive,
   lectureActiveFrom: state.timetable.lectureActive.from,
@@ -465,6 +467,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 TimetableSubSection.propTypes = {
+  user: userShape,
   currentTimetable: timetableShape,
   lectureActive: lectureActiveShape.isRequired,
   lectureActiveFrom: PropTypes.oneOf([NONE, LIST, TABLE, MULTIPLE]).isRequired,

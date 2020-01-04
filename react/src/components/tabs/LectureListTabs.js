@@ -57,7 +57,7 @@ class LectureListTabs extends Component {
   )
 
   _fetchLists = (majorOnly) => {
-    const { year, semester, major, setListMajorLecturesDispatch, setListLecturesDispatch } = this.props;
+    const { user, year, semester, major, setListMajorLecturesDispatch, setListLecturesDispatch } = this.props;
     const majorCodes = major.codes;
 
     axios.get(`${BASE_URL}/api/lectures`, { params: {
@@ -98,6 +98,10 @@ class LectureListTabs extends Component {
       .catch((error) => {
       });
 
+    if (!user) {
+      setListLecturesDispatch('cart', []);
+      return;
+    }
     axios.post(`${BASE_URL}/api/timetable/wishlist_load`, {
       year: year,
       semester: semester,

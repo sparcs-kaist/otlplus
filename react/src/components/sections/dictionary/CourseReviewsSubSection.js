@@ -60,17 +60,21 @@ class CourseReviewsSubSection extends Component {
 
 
   _markRead = (course) => {
-    const { addCourseReadDispatch } = this.props;
+    const { user, addCourseReadDispatch } = this.props;
+
+    if (!user) {
+      addCourseReadDispatch(course);
+      return;
+    }
 
     axios.post(`${BASE_URL}/api/review/read`, {
       id: course.id,
     })
       .then((cresponse) => {
+        addCourseReadDispatch(course);
       })
       .catch((error) => {
       });
-
-    addCourseReadDispatch(course);
   }
 
   clickCircle = (filter_) => {
