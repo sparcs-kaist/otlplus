@@ -510,10 +510,10 @@ class CreditPage extends Component {
                     {/* eslint-disable-next-line react/jsx-indent */}
                   <div className={classNames('section-content--credit__people-list')}>
                     {this._getContent(currentTab).map(f => (
-                      <>
+                      <React.Fragment key={f.title}>
                         <div className={classNames('title')}>{f.title}</div>
                         {f.people.map(p => (
-                          <div className={classNames('section-content--credit__people-list__elem')}>
+                          <div className={classNames('section-content--credit__people-list__elem')} key={p.name}>
                             {p.image
                               ? <img src={p.image} alt={p.name} />
                               : <div className={classNames('section-content--credit__people-list__elem__name')}>{p.name}</div>
@@ -521,7 +521,7 @@ class CreditPage extends Component {
                             {p.caption ? <div className={classNames('caption')}>{p.caption}</div> : null}
                           </div>
                         ))}
-                      </>
+                      </React.Fragment>
                     ))}
                   </div>
                   </Scroller>
