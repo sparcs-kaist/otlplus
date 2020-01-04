@@ -92,6 +92,11 @@ class LectureSearchSubSection extends Component {
     }
   }
 
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.searchStart();
+  }
+
   handleInput = (e) => {
     const { value } = e.target;
     const { year, semester } = this.props;
@@ -148,9 +153,6 @@ class LectureSearchSubSection extends Component {
       e.preventDefault();
       e.nativeEvent.stopImmediatePropagation();
     }
-    else if (e.keyCode === 13) {
-      this.searchStart();
-    }
   }
 
   clearSearchTime = () => {
@@ -194,7 +196,7 @@ class LectureSearchSubSection extends Component {
 
     return (
       <div className={classNames('search-area')}>
-        <form method="post">
+        <form onSubmit={this.handleSubmit}>
           <div className={classNames('title', 'title--search')}>
             <i className={classNames('icon', 'icon--search')} />
             <div>
@@ -254,8 +256,8 @@ class LectureSearchSubSection extends Component {
             </div>
           </div>
           <div className={classNames('buttons')}>
-            <span type="button" className={classNames('text-button')} onClick={() => this.searchStart()}>{t('ui.button.search')}</span>
-            <span type="button" className={classNames('text-button')} onClick={() => this.hideSearch()}>{t('ui.button.cancel')}</span>
+            <button type="submit" className={classNames('text-button')}>{t('ui.button.search')}</button>
+            <button type="button" className={classNames('text-button')} onClick={() => this.hideSearch()}>{t('ui.button.cancel')}</button>
           </div>
           <div className={classNames('divider')} />
         </form>
