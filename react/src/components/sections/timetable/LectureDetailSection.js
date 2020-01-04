@@ -177,6 +177,7 @@ class LectureDetailSection extends Component {
                 }
               }
             }
+            key={lecture.id}
           >
             <div ref={this.attributesRef}>
               <div className={classNames('attribute')}>
