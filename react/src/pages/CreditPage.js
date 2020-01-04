@@ -506,7 +506,7 @@ class CreditPage extends Component {
                       period="-"
                     />
                   </div>
-                  <Scroller>
+                  <Scroller key={currentTab}>
                     {/* eslint-disable-next-line react/jsx-indent */}
                   <div className={classNames('section-content--credit__people-list')}>
                     {this._getContent(currentTab).map(f => (

@@ -14,6 +14,10 @@ class Scroller extends Component {
     this.scrollContainer.nanoScroller();
   }
 
+  componentDidUpdate() {
+    this.scrollContainer.nanoScroller();
+  }
+
   componentWillUnmount() {
     this.scrollContainer.nanoScroller({ destroy: true });
   }

@@ -88,7 +88,7 @@ class CourseDetailSection extends Component {
               </div>
             </div>
           </div>
-          <Scroller onScroll={() => this.onScroll()}>
+          <Scroller onScroll={() => this.onScroll()} key={course.id}>
             <div>
               <div className={classNames('attribute', 'attribute--semi-long')}>
                 <div>
