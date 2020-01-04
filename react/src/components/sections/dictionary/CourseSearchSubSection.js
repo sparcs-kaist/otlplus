@@ -58,27 +58,10 @@ class CourseSearchSubSection extends Component {
       });
   }
 
-  clickCircle = (filter_) => {
-    const filterName = filter_.name;
-    const { value, isChecked } = filter_;
-
-    if (isChecked) {
-      this.setState((prevState) => {
-        const filter = prevState[filterName];
-        if (value === 'ALL') {
-          filter.clear();
-        }
-        filter.add(value);
-        return prevState;
-      });
-    }
-    else {
-      this.setState((prevState) => {
-        const filter = prevState[filterName];
-        filter.delete(value);
-        return prevState;
-      });
-    }
+  updateCheckedValues = filterName => (checkedValues) => {
+    this.setState({
+      [filterName]: checkedValues,
+    });
   }
 
   handleSubmit = (e) => {
@@ -193,22 +176,25 @@ class CourseSearchSubSection extends Component {
           </div>
           <div>
             <SearchFilter
-              clickCircle={this.clickCircle}
+              updateCheckedValues={this.updateCheckedValues('type')}
               inputName="type"
               titleName={t('ui.search.type')}
               options={typeOptions}
+              checkedValues={this.state.type}
             />
             <SearchFilter
-              clickCircle={this.clickCircle}
+              updateCheckedValues={this.updateCheckedValues('department')}
               inputName="department"
               titleName={t('ui.search.department')}
               options={departmentOptions}
+              checkedValues={this.state.department}
             />
             <SearchFilter
-              clickCircle={this.clickCircle}
+              updateCheckedValues={this.updateCheckedValues('grade')}
               inputName="grade"
               titleName={t('ui.search.level')}
               options={levelOptions}
+              checkedValues={this.state.grade}
             />
           </div>
           <div className={classNames('buttons')}>
