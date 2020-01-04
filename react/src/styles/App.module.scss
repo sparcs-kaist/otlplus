@@ -1965,7 +1965,7 @@ a {
         color: $color-highlight;
     }
 
-    &:hover {
+    &:not(&--disabled):hover {
         color: $color-highlight-dark;
     }
 
@@ -1974,7 +1974,7 @@ a {
         color: $color-text-light;
 
 
-        &:hover {
+        &:not(&--disabled):hover {
             color: $color-text-dark;
         }
     }

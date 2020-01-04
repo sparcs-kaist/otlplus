@@ -13,6 +13,7 @@ from math import exp
 from itertools import groupby
 from django.core.paginator import Paginator, InvalidPage
 from django.core import serializers
+from utils.decorators import login_required_ajax
 import json
 #testend
 import random
@@ -256,8 +257,7 @@ def course(request,id=-1,professor_id=-1):
     return JsonResponse(context,safe=False)
 
 
-# @login_required
-# login_required(login_url='/session/login/')
+@login_required_ajax
 def ReviewLike(request):
     body = json.loads(request.body.decode('utf-8'))
 

@@ -52,13 +52,13 @@ class FamousReviewDailyFeed(DailyFeed):
             feed.reviews.add(*selected_reviews)
         return feed
 
-    def toJson(self, nested=False):
+    def toJson(self, nested=False, user=None):
         result = {
             "type": "FAMOUS_REVIEW",
             "date": self.date,
             "priority": self.priority,
             "department": self.department.toJson(nested=False),
-            "reviews": [r.toJson(nested=False) for r in self.reviews.all()]
+            "reviews": [r.toJson(nested=False, user=user) for r in self.reviews.all()]
         }
         return result
 
@@ -79,7 +79,7 @@ class ReviewWriteDailyUserFeed(DailyUserFeed):
             feed = cls.objects.create(date=date, user=user, lecture=selected_lecture, priority=random.random())
         return feed
 
-    def toJson(self, nested=False):
+    def toJson(self, nested=False, user=None):
         result = {
             "type": "REVIEW_WRITE",
             "date": self.date,
@@ -105,7 +105,7 @@ class RelatedCourseDailyUserFeed(DailyUserFeed):
             feed = cls.objects.create(date=date, user=user, course=selected_lecture.course, priority=random.random())
         return feed
 
-    def toJson(self, nested=False):
+    def toJson(self, nested=False, user=None):
         result = {
             "type": "RELATED_COURSE",
             "date": self.date,
