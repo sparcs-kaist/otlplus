@@ -13,6 +13,9 @@ const ReviewBlock = ({ t, review }) => {
   const [changedIsLiked, setChangedIsLiked] = useState(review.userspecific_is_liked);
 
   const onLikeClick = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+
     axios.post(`${BASE_URL}/api/review/like`, {
       commentid: review.id,
     })
