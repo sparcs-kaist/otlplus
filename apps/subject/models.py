@@ -421,7 +421,7 @@ class ClassTime(models.Model):
         result = {
             "building": bldg_no,
             "classroom": classroom,
-            "classroom_en": classroom,
+            "classroom_en": classroom_en,
             "classroom_short": classroom_short,
             "classroom_short_en": classroom_short_en,
             "room": room,
