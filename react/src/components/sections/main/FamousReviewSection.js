@@ -20,7 +20,7 @@ class FamousReviewSection extends Component {
           {`${t('ui.title.famousReviews')} - ${department[t('js.property.name')]}`}
         </div>
         {reviews.map(r => (
-          <Link to={{ pathname: '/dictionary', state: { startCourseId: r.course.id } }}>
+          <Link to={{ pathname: '/dictionary', state: { startCourseId: r.course.id } }} key={r.id}>
             <ReviewBlock review={r} key={r.id} />
           </Link>
         ))}
