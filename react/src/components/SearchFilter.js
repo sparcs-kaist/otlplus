@@ -7,18 +7,13 @@ import SearchCircle from './SearchCircle';
 
 
 class SearchFilter extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      allChecked: true,
-      checkNum: 1,
-    };
+  _isChecked = (value) => {
+    const { checkedValues } = this.props;
+    return checkedValues.has(value);
   }
 
   clickCircle = (value, isChecked) => {
-    const { allChecked, checkNum } = this.state;
-    const { inputName, clickCircle } = this.props;
+    const { inputName, clickCircle, checkedValues } = this.props;
 
     const filter = {
       name: inputName,
@@ -27,17 +22,10 @@ class SearchFilter extends Component {
     };
     clickCircle(filter);
     if (value === 'ALL' && isChecked) {
-      this.setState({
-        allChecked: true,
-      }); // It is alreat send to Search
     }
     else if (isChecked) {
       // Check without all button, checkout all button
-      if (allChecked) {
-        this.setState({
-          allChecked: false,
-          checkNum: 1,
-        });
+      if (this._isChecked('ALL')) {
         clickCircle({
           ...filter,
           value: 'ALL',
@@ -45,16 +33,12 @@ class SearchFilter extends Component {
         });
       }
       else {
-        this.setState(state => ({
-          checkNum: state.checkNum + 1,
-        }));
       }
     }
     else { // When Check out somtething
       // eslint-disable-next-line no-lonely-if
-      if (checkNum === 1) {
+      if (checkedValues.size === 1) {
         this.setState({
-          allChecked: true,
         }); // All circle check out so have to check all
         clickCircle({
           ...filter,
@@ -63,9 +47,6 @@ class SearchFilter extends Component {
         });
       }
       else {
-        this.setState(state => ({
-          checkNum: state.checkNum - 1,
-        }));
         // All circle check out so have to check all
       }
     }
@@ -73,7 +54,6 @@ class SearchFilter extends Component {
 
 
   render() {
-    const { allChecked } = this.state;
     const { inputName, titleName, options } = this.props;
     const mapCircle = o => (
       <SearchCircle
@@ -82,7 +62,7 @@ class SearchFilter extends Component {
         inputName={inputName}
         circleName={o[1]}
         clickCircle={this.clickCircle}
-        allChecked={allChecked}
+        allChecked={this._isChecked('ALL')}
       />
     );
 
@@ -103,6 +83,7 @@ SearchFilter.propTypes = {
   inputName: PropTypes.string.isRequired,
   titleName: PropTypes.string.isRequired,
   options: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
+  checkedValues: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default SearchFilter;

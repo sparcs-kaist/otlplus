@@ -221,18 +221,21 @@ class LectureSearchSubSection extends Component {
               inputName="type"
               titleName={t('ui.search.type')}
               options={typeOptions}
+              checkedValues={this.state.type}
             />
             <SearchFilter
               clickCircle={this.clickCircle}
               inputName="department"
               titleName={t('ui.search.department')}
               options={departmentOptions}
+              checkedValues={this.state.department}
             />
             <SearchFilter
               clickCircle={this.clickCircle}
               inputName="grade"
               titleName={t('ui.search.level')}
               options={levelOptions}
+              checkedValues={this.state.grade}
             />
             <div className={classNames('attribute')}>
               <span>{t('ui.search.time')}</span>
