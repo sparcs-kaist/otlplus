@@ -8,7 +8,7 @@ import { appBoundClassNames as classNames } from '../../../common/boundClassName
 import { clearCourseActive } from '../../../actions/dictionary/courseActive';
 import Scroller from '../../Scroller';
 import CourseShape from '../../../shapes/CourseShape';
-import CourseRelatedSubSection from './CourseRelatedSection';
+import CourseRelatedSubSection from './CourseRelatedSubSection';
 import CourseHistorySubSection from './CourseHistorySubSection';
 import CourseReviewsSubSection from './CourseReviewsSubSection';
 
