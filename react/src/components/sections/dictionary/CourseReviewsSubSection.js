@@ -100,11 +100,15 @@ class CourseReviewsSubSection extends Component {
     }
   }
 
+  _getProfessorFormValue = (professor) => {
+    return String(professor.professor_id);
+  }
+
   _lectureProfessorChecker = (lecture, professor) => {
     if (professor.has('ALL')) {
       return true;
     }
-    return lecture.professors.some(p => professor.has(String(p.professor_id)));
+    return lecture.professors.some(p => professor.has(this._getProfessorFormValue(p)));
   }
 
   render() {
@@ -115,7 +119,7 @@ class CourseReviewsSubSection extends Component {
     const professorOptions = [
       ['ALL', t('ui.type.allShort')],
       ...(course.professors
-        .map(p => [String(p.professor_id), p[t('js.property.name')]])
+        .map(p => [this._getProfessorFormValue(p), p[t('js.property.name')]])
       ),
     ];
 
