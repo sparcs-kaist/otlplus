@@ -35,14 +35,14 @@ class App extends Component {
       .then((response) => {
         store.dispatch(setUser(response.data));
       })
-      .catch((response) => {
+      .catch((error) => {
       });
     axios.get(`${BASE_URL}/api/semesters`, {
     })
       .then((response) => {
         store.dispatch(setSemesters(response.data));
       })
-      .catch((response) => {
+      .catch((error) => {
       });
   }
 

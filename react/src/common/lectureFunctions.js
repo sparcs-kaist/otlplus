@@ -56,7 +56,7 @@ export const isInactiveListLectures = (lectures, lectureActive) => (
   && (lectures.every(l => (lectureActive.lecture.id !== l.id)) || (lectureActive.from !== LIST))
 );
 
-export const performAddToTable = (caller, lecture, currentTimetable, addLectureToTimetableDispatch) => {
+export const performAddToTable = (caller, lecture, currentTimetable, user, addLectureToTimetableDispatch) => {
   if (
     lecture.classtimes.some(thisClasstime => (
       currentTimetable.lectures.some(timetableLecture => (
@@ -68,6 +68,11 @@ export const performAddToTable = (caller, lecture, currentTimetable, addLectureT
   ) {
     // eslint-disable-next-line no-alert
     alert(caller.props.t('message.timetableOverlap'));
+    return;
+  }
+
+  if (!user) {
+    addLectureToTimetableDispatch(lecture);
     return;
   }
 
@@ -84,11 +89,16 @@ export const performAddToTable = (caller, lecture, currentTimetable, addLectureT
       // TODO: Fix timetable not updated when semester unchanged and timetable changed
       addLectureToTimetableDispatch(lecture);
     })
-    .catch((response) => {
+    .catch((error) => {
     });
 };
 
-export const performDeleteFromTable = (caller, lecture, currentTimetable, removeLectureFromTimetableDispatch) => {
+export const performDeleteFromTable = (caller, lecture, currentTimetable, user, removeLectureFromTimetableDispatch) => {
+  if (!user) {
+    removeLectureFromTimetableDispatch(lecture);
+    return;
+  }
+
   axios.post(`${BASE_URL}/api/timetable/table_update`, {
     table_id: currentTimetable.id,
     lecture_id: lecture.id,
@@ -102,11 +112,16 @@ export const performDeleteFromTable = (caller, lecture, currentTimetable, remove
       // TODO: Fix timetable not updated when semester unchanged and timetable changed
       removeLectureFromTimetableDispatch(lecture);
     })
-    .catch((response) => {
+    .catch((error) => {
     });
 };
 
-export const performAddToCart = (caller, lecture, year, semester, addLectureToCartDispatch) => {
+export const performAddToCart = (caller, lecture, year, semester, user, addLectureToCartDispatch) => {
+  if (!user) {
+    addLectureToCartDispatch(lecture);
+    return;
+  }
+
   axios.post(`${BASE_URL}/api/timetable/wishlist_update`, {
     lecture_id: lecture.id,
     delete: false,
@@ -119,11 +134,16 @@ export const performAddToCart = (caller, lecture, year, semester, addLectureToCa
       }
       addLectureToCartDispatch(lecture);
     })
-    .catch((response) => {
+    .catch((error) => {
     });
 };
 
-export const performDeleteFromCart = (caller, lecture, year, semester, deleteLectureFromCartDispatch) => {
+export const performDeleteFromCart = (caller, lecture, year, semester, user, deleteLectureFromCartDispatch) => {
+  if (!user) {
+    deleteLectureFromCartDispatch(lecture);
+    return;
+  }
+
   axios.post(`${BASE_URL}/api/timetable/wishlist_update`, {
     lecture_id: lecture.id,
     delete: true,
@@ -135,6 +155,6 @@ export const performDeleteFromCart = (caller, lecture, year, semester, deleteLec
       }
       deleteLectureFromCartDispatch(lecture);
     })
-    .catch((response) => {
+    .catch((error) => {
     });
 };

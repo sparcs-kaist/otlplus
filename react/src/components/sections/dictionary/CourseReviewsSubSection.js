@@ -54,23 +54,27 @@ class CourseReviewsSubSection extends Component {
         this._markRead(course);
         setReviewsDispatch(response.data);
       })
-      .catch((response) => {
+      .catch((error) => {
       });
   }
 
 
   _markRead = (course) => {
-    const { addCourseReadDispatch } = this.props;
+    const { user, addCourseReadDispatch } = this.props;
+
+    if (!user) {
+      addCourseReadDispatch(course);
+      return;
+    }
 
     axios.post(`${BASE_URL}/api/review/read`, {
       id: course.id,
     })
       .then((cresponse) => {
+        addCourseReadDispatch(course);
       })
-      .catch((response) => {
+      .catch((error) => {
       });
-
-    addCourseReadDispatch(course);
   }
 
   clickCircle = (filter_) => {
