@@ -35,7 +35,7 @@ def feeds_list_view(request):
         related_course_daily_user_feed = RelatedCourseDailyUserFeed.get(date=date, user=user)
 
         feeds = sorted([famous_review_daily_feed, review_write_daily_user_feed, related_course_daily_user_feed], key=(lambda f: f.priority))
-        result = [f.toJson() for f in feeds]
+        result = [f.toJson(user=request.user) for f in feeds]
         return JsonResponse(result, safe=False)
 
 
