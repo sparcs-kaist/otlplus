@@ -87,11 +87,11 @@ class Button extends Component {
       ? classNames('block', 'block--project', 'active')
       : classNames('block', 'block--project');
     return (
-      <button onClick={() => onClick(index)} className={className} key={index}>
+      <div onClick={() => onClick(index)} className={className} key={index}>
         <div className={classNames('block--project__title')}>{mainTitle}</div>
         <div className={classNames('block--project__title')}>{subTitle}</div>
         <div className={classNames('block--project__content')}>{`(${period})`}</div>
-      </button>
+      </div>
     );
   }
 }
@@ -121,10 +121,15 @@ class CreditPage extends Component {
     });
   }
 
-  _getContent = (tab) => {
-    switch (tab) {
-      case 1:
-        return [
+  // eslint-disable-next-line react/sort-comp
+  projects = [
+    {
+      index: 1,
+      mainTitle: 'LKIN',
+      subTitle: '-',
+      period: '-',
+      fields:
+        [
           {
             title: 'Project Manager', people: [],
           }, {
@@ -132,9 +137,15 @@ class CreditPage extends Component {
           }, {
             title: 'Developer', people: [],
           },
-        ];
-      case 2:
-        return [
+        ],
+    },
+    {
+      index: 2,
+      mainTitle: 'OTL',
+      subTitle: '모의시간표',
+      period: '2009',
+      fields:
+        [
           {
             title: 'Developer',
             people: [
@@ -151,9 +162,15 @@ class CreditPage extends Component {
               { name: '안병욱', image: memberElaborateImage },
             ],
           },
-        ];
-      case 3:
-        return [
+        ],
+    },
+    {
+      index: 3,
+      mainTitle: 'OTL',
+      subTitle: '추가개발',
+      period: '2010 ~ 2012',
+      fields:
+        [
           {
             title: 'Project Manager',
             people: [
@@ -186,9 +203,15 @@ class CreditPage extends Component {
               { name: '조유정', image: memberMayflowerImage },
             ],
           },
-        ];
-      case 4:
-        return [
+        ],
+    },
+    {
+      index: 4,
+      mainTitle: 'OTL',
+      subTitle: '과목사전',
+      period: '2012 ~ 2013',
+      fields:
+        [
           {
             title: 'Project Manager',
             people: [
@@ -225,9 +248,15 @@ class CreditPage extends Component {
               { name: '채종욱', image: memberAonImage },
             ],
           },
-        ];
-      case 5:
-        return [
+        ],
+    },
+    {
+      index: 5,
+      mainTitle: 'OTL PLUS',
+      subTitle: '과목사전',
+      period: '2015.09 ~ 2016.06',
+      fields:
+        [
           {
             title: 'Project Manager',
             people: [
@@ -263,9 +292,15 @@ class CreditPage extends Component {
               { name: '황태현', image: memberManduImage },
             ],
           },
-        ];
-      case 6:
-        return [
+        ],
+    },
+    {
+      index: 6,
+      mainTitle: 'OTL PLUS',
+      subTitle: '모의시간표',
+      period: '2016.09 ~ 2018.12',
+      fields:
+        [
           {
             title: 'Project Manager',
             people: [
@@ -301,9 +336,15 @@ class CreditPage extends Component {
               { name: '한승현', image: memberZealotImage, caption: '2 credits' },
             ],
           },
-        ];
-      case 8:
-        return [
+        ],
+    },
+    {
+      index: 8,
+      mainTitle: 'OTL PLUS',
+      subTitle: 'Release 2020',
+      period: '2018.01 ~ 2020.01',
+      fields:
+        [
           {
             title: 'Project Manager',
             people: [
@@ -347,9 +388,15 @@ class CreditPage extends Component {
               { name: '한우현', image: memberTinkImage, caption: '1 credit' },
             ],
           },
-        ];
-      case -1:
-        return [
+        ],
+    },
+    {
+      index: -1,
+      mainTitle: 'System Operators',
+      subTitle: '-',
+      period: '-',
+      fields:
+        [
           {
             title: 'LKIN',
             people: [
@@ -425,11 +472,9 @@ class CreditPage extends Component {
               },
             ],
           },
-        ];
-      default:
-        return [];
-    }
-  }
+        ],
+    },
+  ]
 
   render() {
     const { currentTab } = this.state;
@@ -440,75 +485,22 @@ class CreditPage extends Component {
             {/* eslint-disable-next-line react/jsx-indent */}
                 <div className={classNames('section-content', 'section-content--credit')}>
                   <div className={classNames('section-content--credit__blocks')}>
-                    <Button
-                      index={1}
-                      onClick={this.changePage}
-                      isClicked={currentTab === 1}
-                      mainTitle="LKIN"
-                      subTitle="-"
-                      period="-"
-                    />
-                    <Button
-                      index={2}
-                      onClick={this.changePage}
-                      isClicked={currentTab === 2}
-                      mainTitle="OTL"
-                      subTitle="모의시간표"
-                      period="2009"
-                    />
-                    <Button
-                      index={3}
-                      onClick={this.changePage}
-                      isClicked={currentTab === 3}
-                      mainTitle="OTL"
-                      subTitle="추가개발"
-                      period="2010 ~ 2012"
-                    />
-                    <Button
-                      index={4}
-                      onClick={this.changePage}
-                      isClicked={currentTab === 4}
-                      mainTitle="OTL"
-                      subTitle="과목사전"
-                      period="2012 ~ 2013"
-                    />
-                    <Button
-                      index={5}
-                      onClick={this.changePage}
-                      isClicked={currentTab === 5}
-                      mainTitle="OTL PLUS"
-                      subTitle="과목사전"
-                      period="2015.09 ~ 2016.06"
-                    />
-                    <Button
-                      index={6}
-                      onClick={this.changePage}
-                      isClicked={currentTab === 6}
-                      mainTitle="OTL PLUS"
-                      subTitle="모의시간표"
-                      period="2016.09 ~ 2018.12"
-                    />
-                    <Button
-                      index={8}
-                      onClick={this.changePage}
-                      isClicked={currentTab === 8}
-                      mainTitle="OTL PLUS"
-                      subTitle="Release 2020"
-                      period="2018.01 ~ 2020.01"
-                    />
-                    <Button
-                      index={-1}
-                      onClick={this.changePage}
-                      isClicked={currentTab === -1}
-                      mainTitle="System Operators"
-                      subTitle="-"
-                      period="-"
-                    />
+                    {this.projects.map(p => (
+                      <Button
+                        index={p.index}
+                        onClick={this.changePage}
+                        isClicked={currentTab === p.index}
+                        mainTitle={p.mainTitle}
+                        subTitle={p.subTitle}
+                        period={p.period}
+                        key={p.index}
+                      />
+                    ))}
                   </div>
                   <Scroller key={currentTab}>
                     {/* eslint-disable-next-line react/jsx-indent */}
                   <div className={classNames('section-content--credit__people-list')}>
-                    {this._getContent(currentTab).map(f => (
+                    {this.projects.find(p => (p.index === currentTab)).fields.map(f => (
                       <React.Fragment key={f.title}>
                         <div className={classNames('title')}>{f.title}</div>
                         {f.people.map(p => (
