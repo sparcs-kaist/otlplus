@@ -54,7 +54,7 @@ class CourseSearchSubSection extends Component {
       .then((response) => {
         setListCoursesDispatch('search', response.data);
       })
-      .catch((response) => {
+      .catch((error) => {
       });
   }
 
@@ -106,7 +106,7 @@ class CourseSearchSubSection extends Component {
           autoComplete: complete.substring(value.length, complete.length),
         });
       })
-      .catch((response) => {
+      .catch((error) => {
       });
   }
 

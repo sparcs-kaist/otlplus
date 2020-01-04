@@ -16,6 +16,7 @@ import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lecture
 import { clearLectureActive } from '../../../actions/timetable/lectureActive';
 import { addLectureToCart, deleteLectureFromCart } from '../../../actions/timetable/list';
 import { addLectureToTimetable, removeLectureFromTimetable } from '../../../actions/timetable/timetable';
+import userShape from '../../../shapes/UserShape';
 import lectureShape from '../../../shapes/LectureShape';
 import timetableShape from '../../../shapes/TimetableShape';
 
@@ -84,7 +85,7 @@ class LectureDetailSection extends Component {
           }
           this.setState({ reviewsLecture: lecture, reviews: response.data });
         })
-        .catch((response) => {
+        .catch((error) => {
         });
     }
   };
@@ -99,31 +100,31 @@ class LectureDetailSection extends Component {
   };
 
   addToTable = (event) => {
-    const { lecture, currentTimetable, addLectureToTimetableDispatch } = this.props;
+    const { lecture, currentTimetable, user, addLectureToTimetableDispatch } = this.props;
 
     event.stopPropagation();
-    performAddToTable(this, lecture, currentTimetable, addLectureToTimetableDispatch);
+    performAddToTable(this, lecture, currentTimetable, user, addLectureToTimetableDispatch);
   }
 
   deleteFromTable = (event) => {
-    const { lecture, currentTimetable, removeLectureFromTimetableDispatch } = this.props;
+    const { lecture, currentTimetable, user, removeLectureFromTimetableDispatch } = this.props;
 
     event.stopPropagation();
-    performDeleteFromTable(this, lecture, currentTimetable, removeLectureFromTimetableDispatch);
+    performDeleteFromTable(this, lecture, currentTimetable, user, removeLectureFromTimetableDispatch);
   }
 
   addToCart = (event) => {
-    const { lecture, year, semester, addLectureToCartDispatch } = this.props;
+    const { lecture, year, semester, user, addLectureToCartDispatch } = this.props;
 
     event.stopPropagation();
-    performAddToCart(this, lecture, year, semester, addLectureToCartDispatch);
+    performAddToCart(this, lecture, year, semester, user, addLectureToCartDispatch);
   }
 
   deleteFromCart = (event) => {
-    const { lecture, year, semester, deleteLectureFromCartDispatch } = this.props;
+    const { lecture, year, semester, user, deleteLectureFromCartDispatch } = this.props;
 
     event.stopPropagation();
-    performDeleteFromCart(this, lecture, year, semester, deleteLectureFromCartDispatch);
+    performDeleteFromCart(this, lecture, year, semester, user, deleteLectureFromCartDispatch);
   }
 
   render() {
@@ -364,6 +365,7 @@ class LectureDetailSection extends Component {
 }
 
 const mapStateToProps = state => ({
+  user: state.common.user.user,
   from: state.timetable.lectureActive.from,
   lecture: state.timetable.lectureActive.lecture,
   title: state.timetable.lectureActive.title,
@@ -395,6 +397,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 LectureDetailSection.propTypes = {
+  user: userShape,
   from: PropTypes.oneOf([NONE, LIST, TABLE, MULTIPLE]).isRequired,
   lecture: lectureShape,
   title: PropTypes.string.isRequired,

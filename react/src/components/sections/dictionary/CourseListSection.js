@@ -52,7 +52,7 @@ class CourseListSection extends Component {
           setListMajorCoursesDispatch(code, response.data.filter(lecture => (lecture.major_code === code)));
         });
       })
-      .catch((response) => {
+      .catch((error) => {
       });
 
     if (majorOnly) {
@@ -65,7 +65,7 @@ class CourseListSection extends Component {
       .then((response) => {
         setListCoursesDispatch('humanity', response.data);
       })
-      .catch((response) => {
+      .catch((error) => {
       });
 
     /*
@@ -81,7 +81,7 @@ class CourseListSection extends Component {
         }
         setListLecturesDispatch('cart', response.data);
       })
-      .catch((response) => {
+      .catch((error) => {
       });
     */
   }

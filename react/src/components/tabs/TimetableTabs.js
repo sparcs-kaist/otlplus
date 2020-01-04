@@ -39,7 +39,17 @@ class TimetableTabs extends Component {
   }
 
   _fetchTables = () => {
-    const { year, semester, setTimetablesDispatch } = this.props;
+    const { user, year, semester, setTimetablesDispatch } = this.props;
+
+    if (!user) {
+      setTimetablesDispatch([
+        {
+          id: this._createRandomTimetableId(),
+          lectures: [],
+        },
+      ]);
+      return;
+    }
 
     axios.post(`${BASE_URL}/api/timetable/table_load`, {
       year: year,
@@ -52,8 +62,12 @@ class TimetableTabs extends Component {
         }
         setTimetablesDispatch(response.data);
       })
-      .catch((response) => {
+      .catch((error) => {
       });
+  }
+
+  _createRandomTimetableId = () => {
+    return Math.floor(Math.random() * 100000000);
   }
 
   _setMyTimetable = () => {
@@ -71,7 +85,12 @@ class TimetableTabs extends Component {
   }
 
   createTable() {
-    const { year, semester, createTimetableDispatch } = this.props;
+    const { user, year, semester, createTimetableDispatch } = this.props;
+
+    if (!user) {
+      createTimetableDispatch(this._createRandomTimetableId());
+      return;
+    }
 
     axios.post(`${BASE_URL}/api/timetable/table_create`, {
       year: year,
@@ -84,15 +103,20 @@ class TimetableTabs extends Component {
         }
         createTimetableDispatch(response.data.id);
       })
-      .catch((response) => {
+      .catch((error) => {
       });
   }
 
   deleteTable(event, timetable) {
     const { t } = this.props;
-    const { timetables, year, semester, deleteTimetableDispatch } = this.props;
+    const { user, timetables, year, semester, deleteTimetableDispatch } = this.props;
 
     event.stopPropagation();
+
+    if (!user) {
+      deleteTimetableDispatch(timetable);
+      return;
+    }
 
     if (timetables.length === 1) {
       // eslint-disable-next-line no-alert
@@ -111,14 +135,19 @@ class TimetableTabs extends Component {
         }
         deleteTimetableDispatch(timetable);
       })
-      .catch((response) => {
+      .catch((error) => {
       });
   }
 
   duplicateTable(event, timetable) {
-    const { year, semester, duplicateTimetableDispatch } = this.props;
+    const { user, year, semester, duplicateTimetableDispatch } = this.props;
 
     event.stopPropagation();
+
+    if (!user) {
+      duplicateTimetableDispatch(this._createRandomTimetableId(), timetable);
+      return;
+    }
 
     axios.post(`${BASE_URL}/api/timetable/table_copy`, {
       table_id: timetable.id,
@@ -132,7 +161,7 @@ class TimetableTabs extends Component {
         }
         duplicateTimetableDispatch(response.data.id, timetable);
       })
-      .catch((response) => {
+      .catch((error) => {
       });
   }
 

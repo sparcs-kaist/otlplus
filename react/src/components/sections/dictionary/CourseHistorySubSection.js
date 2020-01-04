@@ -47,7 +47,7 @@ class CourseHistorySubSection extends Component {
         }
         setLecturesDispatch(response.data);
       })
-      .catch((response) => {
+      .catch((error) => {
       });
   }
 

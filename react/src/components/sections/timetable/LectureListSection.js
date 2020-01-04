@@ -14,6 +14,7 @@ import Scroller from '../../Scroller';
 import LectureSearchSubSection from './LectureSearchSubSection';
 import CourseLecturesBlock from '../../blocks/CourseLecturesBlock';
 import { LIST } from '../../../reducers/timetable/lectureActive';
+import userShape from '../../../shapes/UserShape';
 import lectureShape from '../../../shapes/LectureShape';
 import timetableShape from '../../../shapes/TimetableShape';
 import lectureActiveShape from '../../../shapes/LectureActiveShape';
@@ -53,24 +54,24 @@ class LectureListSection extends Component {
   }
 
   addToTable = lecture => (event) => {
-    const { currentTimetable, addLectureToTimetableDispatch } = this.props;
+    const { currentTimetable, user, addLectureToTimetableDispatch } = this.props;
 
     event.stopPropagation();
-    performAddToTable(this, lecture, currentTimetable, addLectureToTimetableDispatch);
+    performAddToTable(this, lecture, currentTimetable, user, addLectureToTimetableDispatch);
   }
 
   addToCart = lecture => (event) => {
-    const { year, semester, addLectureToCartDispatch } = this.props;
+    const { year, semester, user, addLectureToCartDispatch } = this.props;
 
     event.stopPropagation();
-    performAddToCart(this, lecture, year, semester, addLectureToCartDispatch);
+    performAddToCart(this, lecture, year, semester, user, addLectureToCartDispatch);
   }
 
   deleteFromCart = lecture => (event) => {
-    const { year, semester, deleteLectureFromCartDispatch } = this.props;
+    const { year, semester, user, deleteLectureFromCartDispatch } = this.props;
 
     event.stopPropagation();
-    performDeleteFromCart(this, lecture, year, semester, deleteLectureFromCartDispatch);
+    performDeleteFromCart(this, lecture, year, semester, user, deleteLectureFromCartDispatch);
   }
 
   listHover = lecture => () => {
@@ -284,6 +285,7 @@ class LectureListSection extends Component {
 }
 
 const mapStateToProps = state => ({
+  user: state.common.user.user,
   currentList: state.timetable.list.currentList,
   search: state.timetable.list.search,
   major: state.timetable.list.major,
@@ -323,6 +325,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 LectureListSection.propTypes = {
+  user: userShape,
   currentList: PropTypes.string.isRequired,
   search: PropTypes.shape({
     courses: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)),
