@@ -13,36 +13,33 @@ class SearchFilter extends Component {
   }
 
   clickCircle = (value, isChecked) => {
-    const { inputName, clickCircle, checkedValues } = this.props;
+    const { checkedValues, updateCheckedValues } = this.props;
 
-    const filter = {
-      name: inputName,
-      value: value,
-      isChecked: isChecked,
-    };
-    clickCircle(filter);
-    if (value === 'ALL' && isChecked) {
-    }
-    else if (isChecked) {
-      // Check without all button, checkout all button
-      if (this._isChecked('ALL')) {
-        clickCircle({
-          ...filter,
-          value: 'ALL',
-          isChecked: false,
-        });
-      }
-    }
-    else { // When Check out somtething
-      // eslint-disable-next-line no-lonely-if
-      if (checkedValues.size === 1) {
-        clickCircle({
-          ...filter,
-          value: 'ALL',
-          isChecked: true,
-        });
-      }
-    }
+    if (isChecked) {
+      if (value === 'ALL') {
+        updateCheckedValues(new Set(['ALL']));
+      } 
+      else {
+        const checkedValuesCopy = new Set(checkedValues);
+        checkedValuesCopy.add(value);
+        checkedValuesCopy.delete('ALL');
+        updateCheckedValues(checkedValuesCopy);
+      } 
+    } 
+    else {
+      // eslint-disable-next-line no-lonely-if 
+      if (value === 'ALL') {
+        // Pass
+      } 
+      else {
+        const checkedValuesCopy = new Set(checkedValues);
+        checkedValuesCopy.delete(value);
+        if (checkedValuesCopy.size === 0) {
+          checkedValuesCopy.add('ALL');
+        }
+        updateCheckedValues(checkedValuesCopy);
+      } 
+    } 
   }
 
 
@@ -73,7 +70,7 @@ class SearchFilter extends Component {
 }
 
 SearchFilter.propTypes = {
-  clickCircle: PropTypes.func.isRequired,
+  updateCheckedValues: PropTypes.func.isRequired,
   inputName: PropTypes.string.isRequired,
   titleName: PropTypes.string.isRequired,
   options: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
