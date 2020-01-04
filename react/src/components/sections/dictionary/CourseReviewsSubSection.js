@@ -111,7 +111,7 @@ class CourseReviewsSubSection extends Component {
     const professorOptions = [
       ['ALL', t('ui.type.allShort')],
       ...(course.professors
-        .map(p => [p.professor_id, p[t('js.property.name')]])
+        .map(p => [String(p.professor_id), p[t('js.property.name')]])
       ),
     ];
 
