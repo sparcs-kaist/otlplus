@@ -218,7 +218,7 @@ class LectureListSection extends Component {
             <div className={classNames('section-content--lecture-list__selector')} ref={this.arrowRef}>
               <i className={classNames('icon', 'icon--lecture-selector')} />
             </div>
-            <Scroller onScroll={this.selectWithArrow}>
+            <Scroller onScroll={this.selectWithArrow} key={currentList}>
               {mapCourses(search.courses, false)}
             </Scroller>
           </>
@@ -236,7 +236,7 @@ class LectureListSection extends Component {
             <div className={classNames('section-content--lecture-list__selector')} ref={this.arrowRef}>
               <i className={classNames('icon', 'icon--lecture-selector')} />
             </div>
-            <Scroller onScroll={this.selectWithArrow}>
+            <Scroller onScroll={this.selectWithArrow} key={currentList}>
               {mapCourses(major[currentList].courses, false)}
             </Scroller>
           </>
@@ -254,7 +254,7 @@ class LectureListSection extends Component {
             <div className={classNames('section-content--lecture-list__selector')} ref={this.arrowRef}>
               <i className={classNames('icon', 'icon--lecture-selector')} />
             </div>
-            <Scroller onScroll={this.selectWithArrow}>
+            <Scroller onScroll={this.selectWithArrow} key={currentList}>
               {mapCourses(humanity.courses, false)}
             </Scroller>
           </>
@@ -272,7 +272,7 @@ class LectureListSection extends Component {
             <div className={classNames('section-content--lecture-list__selector')} ref={this.arrowRef}>
               <i className={classNames('icon', 'icon--lecture-selector')} />
             </div>
-            <Scroller onScroll={this.selectWithArrow}>
+            <Scroller onScroll={this.selectWithArrow} key={currentList}>
               {mapCourses(cart.courses, true)}
             </Scroller>
           </>
