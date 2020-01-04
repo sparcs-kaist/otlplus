@@ -117,10 +117,8 @@ def _validate_year_semester(year, semester):
 
 # Add/Delete lecture to timetable
 @require_POST
+@login_required_ajax
 def table_update(request):
-    if not request.user.is_authenticated():
-        return JsonResponse({'success':True})
-
     userprofile = UserProfile.objects.get(user=request.user)
 
     body = json.loads(request.body.decode('utf-8'))
@@ -154,10 +152,8 @@ def table_update(request):
 
 # Copy timetable
 @require_POST
+@login_required_ajax
 def table_copy(request):
-    if not request.user.is_authenticated():
-        return JsonResponse({'id':random.randrange(1,100000000)})
-    
     userprofile = UserProfile.objects.get(user=request.user)
 
     body = json.loads(request.body.decode('utf-8'))
@@ -187,10 +183,8 @@ def table_copy(request):
 
 # Delete timetable
 @require_POST
+@login_required_ajax
 def table_delete(request):
-    if not request.user.is_authenticated():
-        return JsonResponse({})
-
     userprofile = UserProfile.objects.get(user=request.user)
 
     body = json.loads(request.body.decode('utf-8'))
@@ -210,10 +204,8 @@ def table_delete(request):
 
 # Create timetable
 @require_POST
+@login_required_ajax
 def table_create(request):
-    if not request.user.is_authenticated():
-        return JsonResponse({'id':random.randrange(1,100000000)})
-
     userprofile = UserProfile.objects.get(user=request.user)
 
     body = json.loads(request.body.decode('utf-8'))
@@ -236,13 +228,8 @@ def table_create(request):
 
 # Fetch timetable
 @require_POST
+@login_required_ajax
 def table_load(request):
-    if not request.user.is_authenticated():
-        ctx = [{'id':random.randrange(1,100000000),
-                'lectures':[]}]
-        return JsonResponse(ctx, safe=False, json_dumps_params=
-                            {'ensure_ascii': False})
-
     userprofile = UserProfile.objects.get(user=request.user)
 
     body = json.loads(request.body.decode('utf-8'))
@@ -375,11 +362,8 @@ def google_auth_return(request):
 
 # Fetch wishlist
 @require_POST
+@login_required_ajax
 def wishlist_load(request):
-    if not request.user.is_authenticated():
-        return JsonResponse([], safe=False, json_dumps_params=
-                            {'ensure_ascii': False})
-
     userprofile = UserProfile.objects.get(user=request.user)
 
 
@@ -405,10 +389,8 @@ def wishlist_load(request):
 
 # Add/delete lecture to wishlist.
 @require_POST
+@login_required_ajax
 def wishlist_update(request):
-    if not request.user.is_authenticated():
-        return JsonResponse({'success':True})
-
     userprofile = UserProfile.objects.get(user=request.user)
 
     body = json.loads(request.body.decode('utf-8'))
