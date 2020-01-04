@@ -16,7 +16,8 @@ class Comment(models.Model):
 
     writer = models.ForeignKey(UserProfile, related_name='comment_set', db_index=True, on_delete=models.SET_NULL, null=True)
     writer_label = models.CharField(max_length=200, default=u"무학과 넙죽이")
-    written_datetime = models.DateTimeField(auto_now=True, db_index=True)
+    updated_datetime = models.DateTimeField(auto_now=True, db_index=True)
+    written_datetime = models.DateTimeField(auto_now_add=True, db_index=True, null=True)
     like = models.IntegerField(default=0)
     is_deleted = models.IntegerField(default=0)
 
@@ -101,7 +102,6 @@ class Comment(models.Model):
         self.speech = speech
         self.total = (grade+load+speech)/3.0
         self.save()
-        course.latest_written_datetime = self.written_datetime
         course.save()
 
     def u_delete(self):
