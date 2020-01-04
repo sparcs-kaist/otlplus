@@ -97,7 +97,7 @@ class TimetableSubSection extends Component {
     const { currentTimetable } = this.props;
 
     if (!currentTimetable) {
-      return false;
+      return [];
     }
 
     return currentTimetable.lectures.map(lecture => (
