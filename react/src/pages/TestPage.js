@@ -14,8 +14,8 @@ class TestPage extends Component {
       .then((response) => {
         console.log(response.data);
       })
-      .catch((response) => {
-        console.log(response);
+      .catch((error) => {
+        console.log(error);
       });
   }
 

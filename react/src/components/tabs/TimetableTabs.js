@@ -52,7 +52,7 @@ class TimetableTabs extends Component {
         }
         setTimetablesDispatch(response.data);
       })
-      .catch((response) => {
+      .catch((error) => {
       });
   }
 
@@ -84,7 +84,7 @@ class TimetableTabs extends Component {
         }
         createTimetableDispatch(response.data.id);
       })
-      .catch((response) => {
+      .catch((error) => {
       });
   }
 
@@ -111,7 +111,7 @@ class TimetableTabs extends Component {
         }
         deleteTimetableDispatch(timetable);
       })
-      .catch((response) => {
+      .catch((error) => {
       });
   }
 
@@ -132,7 +132,7 @@ class TimetableTabs extends Component {
         }
         duplicateTimetableDispatch(response.data.id, timetable);
       })
-      .catch((response) => {
+      .catch((error) => {
       });
   }
 
