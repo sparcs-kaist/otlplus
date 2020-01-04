@@ -84,7 +84,7 @@ export const performAddToTable = (caller, lecture, currentTimetable, addLectureT
       // TODO: Fix timetable not updated when semester unchanged and timetable changed
       addLectureToTimetableDispatch(lecture);
     })
-    .catch((response) => {
+    .catch((error) => {
     });
 };
 
@@ -102,7 +102,7 @@ export const performDeleteFromTable = (caller, lecture, currentTimetable, remove
       // TODO: Fix timetable not updated when semester unchanged and timetable changed
       removeLectureFromTimetableDispatch(lecture);
     })
-    .catch((response) => {
+    .catch((error) => {
     });
 };
 
@@ -119,7 +119,7 @@ export const performAddToCart = (caller, lecture, year, semester, addLectureToCa
       }
       addLectureToCartDispatch(lecture);
     })
-    .catch((response) => {
+    .catch((error) => {
     });
 };
 
@@ -135,6 +135,6 @@ export const performDeleteFromCart = (caller, lecture, year, semester, deleteLec
       }
       deleteLectureFromCartDispatch(lecture);
     })
-    .catch((response) => {
+    .catch((error) => {
     });
 };

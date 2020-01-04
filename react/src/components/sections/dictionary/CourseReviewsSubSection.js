@@ -54,7 +54,7 @@ class CourseReviewsSubSection extends Component {
         this._markRead(course);
         setReviewsDispatch(response.data);
       })
-      .catch((response) => {
+      .catch((error) => {
       });
   }
 
@@ -67,7 +67,7 @@ class CourseReviewsSubSection extends Component {
     })
       .then((cresponse) => {
       })
-      .catch((response) => {
+      .catch((error) => {
       });
 
     addCourseReadDispatch(course);

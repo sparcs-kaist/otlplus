@@ -84,7 +84,7 @@ class LectureDetailSection extends Component {
           }
           this.setState({ reviewsLecture: lecture, reviews: response.data });
         })
-        .catch((response) => {
+        .catch((error) => {
         });
     }
   };

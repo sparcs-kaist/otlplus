@@ -29,7 +29,7 @@ class DictionaryPage extends Component {
         .then((response) => {
           setCourseActiveDispatch(response.data, true);
         })
-        .catch((response) => {
+        .catch((error) => {
         });
     }
 
@@ -44,7 +44,7 @@ class DictionaryPage extends Component {
         .then((response) => {
           setListCoursesDispatch('search', response.data);
         })
-        .catch((response) => {
+        .catch((error) => {
         });
     }
   }

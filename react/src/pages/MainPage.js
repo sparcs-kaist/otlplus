@@ -88,7 +88,7 @@ class MainPage extends Component {
           ],
         });
       })
-      .catch((response) => {
+      .catch((error) => {
       });
   }
 

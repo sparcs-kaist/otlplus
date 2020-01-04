@@ -76,7 +76,7 @@ class LectureListTabs extends Component {
           setListMajorLecturesDispatch(code, response.data.filter(lecture => (lecture.major_code === code)));
         });
       })
-      .catch((response) => {
+      .catch((error) => {
       });
 
     if (majorOnly) {
@@ -95,7 +95,7 @@ class LectureListTabs extends Component {
         }
         setListLecturesDispatch('humanity', response.data);
       })
-      .catch((response) => {
+      .catch((error) => {
       });
 
     axios.post(`${BASE_URL}/api/timetable/wishlist_load`, {
@@ -110,7 +110,7 @@ class LectureListTabs extends Component {
         }
         setListLecturesDispatch('cart', response.data);
       })
-      .catch((response) => {
+      .catch((error) => {
       });
   }
 

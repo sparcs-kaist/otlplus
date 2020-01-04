@@ -65,7 +65,7 @@ class LectureSearchSubSection extends Component {
         const lectures = response.data;
         setListLecturesDispatch('search', lectures);
       })
-      .catch((response) => {
+      .catch((error) => {
       });
   }
 
@@ -123,7 +123,7 @@ class LectureSearchSubSection extends Component {
           autoComplete: complete.substring(value.length, complete.length),
         });
       })
-      .catch((response) => {
+      .catch((error) => {
       });
   }
 
