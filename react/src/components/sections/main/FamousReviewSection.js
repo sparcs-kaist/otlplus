@@ -25,7 +25,7 @@ class FamousReviewSection extends Component {
           </Link>
         ))}
         <div className={classNames('buttons')}>
-          <Link to={{ pathname: '/dictionary', state: { startTab: 'CS' } }} className={classNames('text-button')}>
+          <Link to={{ pathname: '/dictionary', state: { startTab: department.code } }} className={classNames('text-button')}>
             {t('ui.button.seeMoreReviews')}
           </Link>
         </div>
