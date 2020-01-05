@@ -17,7 +17,7 @@ class FamousMajorReviewSection extends Component {
     return (
       <div className={classNames('section-content', 'section-content--widget')}>
         <div className={classNames('title')}>
-          {`${t('ui.title.famousReviews')} - ${department[t('js.property.name')]}`}
+          {`${t('ui.title.famousMajorReviews')} - ${department[t('js.property.name')]}`}
         </div>
         {reviews.map(r => (
           <Link to={{ pathname: '/dictionary', state: { startCourseId: r.course.id } }} key={r.id}>
