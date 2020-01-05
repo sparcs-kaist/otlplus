@@ -20,9 +20,11 @@ class CourseListTabs extends Component {
 
     if (user) {
       this._setMajorCodes(user.departments);
+      this._fetchUserLists();
     }
 
-    this._fetchLists(false);
+    this._fetchNormalLists();
+    this._fetchMajorLists();
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -30,13 +32,15 @@ class CourseListTabs extends Component {
 
     if (user && !prevProps.user) {
       this._setMajorCodes(user.departments);
+      this._fetchUserLists();
     }
     else if (user && prevProps.user && !this._codesAreSame(user.departments.map(d => d.code), prevProps.user.departments.map(d => d.code))) {
       this._setMajorCodes(user.departments);
+      this._fetchUserLists();
     }
 
     if (!this._codesAreSame(major.codes, prevProps.major.codes)) {
-      this._fetchLists(true);
+      this._fetchMajorLists();
     }
   }
 
@@ -55,8 +59,8 @@ class CourseListTabs extends Component {
     && codes1.every((c, i) => (c === codes2[i]))
   )
 
-  _fetchLists = (majorOnly) => {
-    const { major, setListMajorCoursesDispatch, setListCoursesDispatch } = this.props;
+  _fetchMajorLists = () => {
+    const { major, setListMajorCoursesDispatch } = this.props;
     const majorCodes = major.codes;
 
     axios.get(`${BASE_URL}/api/courses`, { params: {
@@ -73,10 +77,10 @@ class CourseListTabs extends Component {
       })
       .catch((error) => {
       });
+  }
 
-    if (majorOnly) {
-      return;
-    }
+  _fetchNormalLists = () => {
+    const { setListCoursesDispatch } = this.props;
 
     axios.get(`${BASE_URL}/api/courses`, { params: {
       group: 'Humanity',
@@ -86,23 +90,19 @@ class CourseListTabs extends Component {
       })
       .catch((error) => {
       });
+  }
 
-    /*
-    axios.post(`${BASE_URL}/api/timetable/wishlist_load`, {
-      year: year,
-      semester: semester,
-    })
+
+  _fetchUserLists = () => {
+    const { user, setListCoursesDispatch } = this.props;
+
+    axios.get(`${BASE_URL}/api/users/${user.id}/taken-courses`, { params: {
+    } })
       .then((response) => {
-        const newProps = this.props;
-        if (newProps.year !== year || newProps.semester !== semester
-        ) {
-          return;
-        }
-        setListLecturesDispatch('cart', response.data);
+        setListCoursesDispatch('taken', response.data);
       })
       .catch((error) => {
       });
-    */
   }
 
   changeTab = (list) => {
@@ -120,7 +120,7 @@ class CourseListTabs extends Component {
 
   render() {
     const { t } = this.props;
-    const { currentList, major } = this.props;
+    const { user, currentList, major } = this.props;
 
     return (
       <div className={classNames('tabs', 'tabs--lecture-list')}>
@@ -138,10 +138,16 @@ class CourseListTabs extends Component {
           <i className={classNames('icon', 'icon--tab-humanity')} />
           <span>{t('ui.tab.humanityShort')}</span>
         </div>
+        { user
+          ? (
+          /* eslint-disable-next-line react/jsx-indent */
         <div className={classNames((currentList === 'TAKEN' ? 'tabs__elem--active' : ''))} onClick={() => this.changeTab('TAKEN')}>
           <i className={classNames('icon', 'icon--tab-taken')} />
           <span>{t('ui.tab.takenShort')}</span>
         </div>
+          )
+          : null
+        }
       </div>
     );
   }

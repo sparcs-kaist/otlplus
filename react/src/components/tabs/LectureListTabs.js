@@ -33,12 +33,13 @@ class LectureListTabs extends Component {
     }
 
     if (!this._codesAreSame(major.codes, prevProps.major.codes)) {
-      this._fetchLists(true);
+      this._fetchMajorLists();
     }
 
     if (year !== prevProps.year || semester !== prevProps.semester) {
       clearListsLecturesDispatch();
-      this._fetchLists(false);
+      this._fetchNormalLists();
+      this._fetchMajorLists();
     }
   }
 
@@ -59,8 +60,8 @@ class LectureListTabs extends Component {
     && codes1.every((c, i) => (c === codes2[i]))
   )
 
-  _fetchLists = (majorOnly) => {
-    const { user, year, semester, major, setListMajorLecturesDispatch, setListLecturesDispatch } = this.props;
+  _fetchMajorLists = () => {
+    const { year, semester, major, setListMajorLecturesDispatch } = this.props;
     const majorCodes = major.codes;
 
     axios.get(`${BASE_URL}/api/lectures`, { params: {
@@ -81,10 +82,10 @@ class LectureListTabs extends Component {
       })
       .catch((error) => {
       });
+  }
 
-    if (majorOnly) {
-      return;
-    }
+  _fetchNormalLists = (majorOnly) => {
+    const { user, year, semester, setListLecturesDispatch } = this.props;
 
     axios.get(`${BASE_URL}/api/lectures`, { params: {
       year: year,

@@ -4,7 +4,10 @@ from django.views.decorators.http import require_http_methods
 from django.db.models import Q
 from django.http import HttpResponseBadRequest
 
+from utils.decorators import login_required_ajax
+
 from models import Semester, Course, Lecture
+from apps.session.models import UserProfile
 from apps.review.models import Comment
 from apps.timetable.views import _lecture_result_format
 
@@ -91,7 +94,7 @@ def courses_list_view(request):
 
 
 @require_http_methods(['GET'])
-def courses_intance_view(request, course_id):
+def courses_instance_view(request, course_id):
     if request.method == 'GET':
         course = get_object_or_404(Course, id=course_id)
 
@@ -137,7 +140,7 @@ def courses_list_autocomplete_view(request):
 
 
 @require_http_methods(['GET'])
-def courses_intance_comments_view(request, course_id):
+def courses_instance_comments_view(request, course_id):
     if request.method == 'GET':
         course = get_object_or_404(Course, id=course_id)
         comments = course.comment_set.all().order_by('-lecture__year','-written_datetime')
@@ -147,7 +150,7 @@ def courses_intance_comments_view(request, course_id):
 
 
 @require_http_methods(['GET'])
-def courses_intance_lectures_view(request, course_id):
+def courses_instance_lectures_view(request, course_id):
     if request.method == 'GET':
         course = get_object_or_404(Course, id=course_id)
         lectures = course.lecture_course.all().order_by('year','semester', 'class_no')
@@ -258,7 +261,7 @@ def lectures_list_view(request):
 
 
 @require_http_methods(['GET'])
-def lectures_intance_view(request, lecture_id):
+def lectures_instance_view(request, lecture_id):
     if request.method == 'GET':
         lecture = get_object_or_404(Lecture, id=lecture_id)
 
@@ -306,7 +309,7 @@ def lectures_list_autocomplete_view(request):
 
 
 @require_http_methods(['GET'])
-def lectures_intance_comments_view(request, lecture_id):
+def lectures_instance_comments_view(request, lecture_id):
     if request.method == 'GET':
         lecture = get_object_or_404(Lecture, id=lecture_id)
         comments = lecture.comment_set.all().order_by('-id')
@@ -316,7 +319,7 @@ def lectures_intance_comments_view(request, lecture_id):
 
 
 @require_http_methods(['GET'])
-def lectures_intance_related_comments_view(request, lecture_id):
+def lectures_instance_related_comments_view(request, lecture_id):
     if request.method == 'GET':
         lecture = get_object_or_404(Lecture, id=lecture_id)
         comments = Comment.objects.filter(
@@ -325,4 +328,18 @@ def lectures_intance_related_comments_view(request, lecture_id):
         ).order_by('-id')
 
         result = [c.toJson() for c in comments]
+        return JsonResponse(result, safe=False)
+
+
+@login_required_ajax
+@require_http_methods(['GET'])
+def users_instance_taken_courses_view(request, user_id):
+    if request.method == 'GET':
+        userprofile = UserProfile.objects.get(user=request.user)
+        print(userprofile.id)
+        if userprofile.id != int(user_id):
+            return HttpResponse(status=401)
+        courses = Course.objects.filter(lecture_course__in=userprofile.take_lecture_list.all()).order_by('old_code').distinct()
+
+        result = [c.toJson(user=request.user) for c in courses]
         return JsonResponse(result, safe=False)
