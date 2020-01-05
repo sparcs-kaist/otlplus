@@ -43,6 +43,8 @@ def feeds_list_view(request):
             + [review_write_daily_user_feed] \
             + [related_course_daily_user_feed]
         feeds = sorted(feeds, key=(lambda f: f.priority))
+        feed_num = int(round(len(feeds) * 0.7))
+        feeds = feeds[:feed_num]
         result = [f.toJson(user=request.user) for f in feeds]
         return JsonResponse(result, safe=False)
 
