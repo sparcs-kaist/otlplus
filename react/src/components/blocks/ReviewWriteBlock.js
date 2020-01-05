@@ -1,15 +1,43 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { pure } from 'recompose';
 import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
+import axios from '../../common/presetAxios';
+import { BASE_URL } from '../../common/constants';
 import lectureShape from '../../shapes/NestedLectureShape';
 
 
 // eslint-disable-next-line arrow-body-style
 const ReviewWriteBlock = ({ t, lecture }) => {
+  const [isUploading, setIsUploading] = useState(false);
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (isUploading) {
+      // eslint-disable-next-line no-alert
+      alert(t('ui.message.alreadyUploading'));
+      return;
+    }
+
+    setIsUploading(true);
+    axios.post(`${BASE_URL}/api/review/insert/${lecture.id}`, {
+      content: 'Sample Content',
+      gradescore: 4,
+      speechscore: 4,
+      loadscore: 4,
+    })
+      .then((response) => {
+        setIsUploading(false);
+      })
+      .catch((error) => {
+      });
+  };
+
   return (
-    <form className={classNames('block', 'block--review-write')}>
+    <form className={classNames('block', 'block--review-write')} onSubmit={onSubmit}>
       <div className={classNames('block--review-write__title')}>
         <strong>{lecture[t('js.property.title')]}</strong>
         <span>{lecture[t('js.property.professors_str_short')]}</span>
@@ -88,9 +116,18 @@ const ReviewWriteBlock = ({ t, lecture }) => {
         </div>
       </div>
       <div className={classNames('block--review-write__buttons')}>
-        <button className={classNames('text-button', 'text-button--review-write-block')} type="submit">
-          {t('ui.button.upload')}
-        </button>
+        { !isUploading
+          ? (
+            <button className={classNames('text-button', 'text-button--review-write-block')} type="submit">
+              {t('ui.button.upload')}
+            </button>
+          )
+          : (
+            <button className={classNames('text-button', 'text-button--review-write-block', 'text-button--disabled')}>
+              {t('ui.button.upload')}
+            </button>
+          )
+        }
       </div>
     </form>
   );

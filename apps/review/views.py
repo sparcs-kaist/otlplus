@@ -5,8 +5,9 @@ from django.template import RequestContext
 from apps.session.models import UserProfile
 from apps.subject.models import Course, Lecture, Department, CourseFiltered, Professor, CourseUser
 from apps.review.models import Comment,CommentVote, MajorBestComment, LiberalBestComment
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, Http404
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseBadRequest, JsonResponse, Http404
 from django.db.models import Q
+from django.views.decorators.http import require_http_methods
 from datetime import datetime, timedelta, time, date
 from django.utils import timezone
 from math import exp
@@ -324,15 +325,16 @@ def insert(request):
     return JsonResponse(result, safe=False)
 
 
-@login_required(login_url='/session/login/')
+@login_required_ajax
+@require_http_methods(['POST'])
 def insertReview(request,lecture_id):
     body = json.loads(request.body.decode('utf-8'))
 
     if body.has_key('content') == False:
-        return HttpResponse('후기를 입력해주세요.')
+        return HttpResponseBadRequest('후기를 입력해주세요.')
     else:
         if len(body['content']) == 0:
-            return HttpResponse('1글자 이상 입력해주세요.')
+            return HttpResponseBadRequest('1글자 이상 입력해주세요.')
         else:
             comment = body['content']
 
@@ -343,12 +345,15 @@ def insertReview(request,lecture_id):
     lecture = user_profile.take_lecture_list.get(id = lecid) # 하나로 특정되지않음, 변경요망
     course = lecture.course
     comment = body['content'] # 항목 선택 안했을시 반응 추가 요망 grade, load도
-    grade = 6-int(body['gradescore'])
-    if not 0<=grade<=5: grade=0
-    load = 6-int(body['loadscore'])
-    if not 0<=load<=5: load=0
-    speech = 6-int(body['speechscore'])
-    if not 0<=speech<=5: speech=0
+    grade = int(body['gradescore'])
+    if not 1<=grade<=5:
+        return HttpResponseBadRequest
+    load = int(body['loadscore'])
+    if not 1<=load<=5:
+        return HttpResponseBadRequest
+    speech = int(body['speechscore'])
+    if not 1<=speech<=5:
+        return HttpResponseBadRequest
     total = (grade+load+speech)/3.0
     writer = user_profile #session 완성시 변경
 
