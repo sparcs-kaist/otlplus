@@ -150,37 +150,6 @@ def table_update(request):
 
 
 
-# Copy timetable
-@require_POST
-@login_required_ajax
-def table_copy(request):
-    userprofile = UserProfile.objects.get(user=request.user)
-
-    body = json.loads(request.body.decode('utf-8'))
-    try:
-        table_id = int(body['table_id'])
-        year = int(body['year'])
-        semester = int(body['semester'])
-    except KeyError:
-        return HttpResponseBadRequest('Missing fields in request data')
-
-    # Find the right timetable
-    target_table = TimeTable.objects.get(user=userprofile, id=table_id,
-                                         year=year, semester=semester)
-
-    lectures = target_table.lecture.all()
-
-    t = TimeTable(user=userprofile, year=year, semester=semester)
-    t.save()
-    for l in lectures:
-        t.lecture.add(l)
-    t.save()
-
-    return JsonResponse({'scucess': True,
-                         'id':t.id})
-
-
-
 # Delete timetable
 @require_POST
 @login_required_ajax
@@ -209,17 +178,26 @@ def table_create(request):
     userprofile = UserProfile.objects.get(user=request.user)
 
     body = json.loads(request.body.decode('utf-8'))
+    print(body)
     try:
         year = int(body['year'])
         semester = int(body['semester'])
+        lecture_ids = body['lectures']
     except KeyError:
         return HttpResponseBadRequest('Missing fields in request data')
 
     if not _validate_year_semester(year, semester):
         return HttpResponseBadRequest('Invalid semester')
+
+    try:
+        lectures = [Lecture.objects.get(id=i, year=year, semester=semester) for i in lecture_ids]
+    except Lecture.DoexNotExist:
+        return HttpResponseBadRequest('Lecture semester not matching')
     
     t = TimeTable(user=userprofile, year=year, semester=semester)
     t.save()
+    for l in lectures:
+        t.lecture.add(l)
 
     return JsonResponse({'scucess': True,
                          'id':t.id})
