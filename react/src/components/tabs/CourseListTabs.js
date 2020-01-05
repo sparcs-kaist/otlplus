@@ -20,9 +20,11 @@ class CourseListTabs extends Component {
 
     if (user) {
       this._setMajorCodes(user.departments);
+      this._fetchUserLists();
     }
 
-    this._fetchLists(false);
+    this._fetchNormalLists();
+    this._fetchMajorLists();
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -30,13 +32,15 @@ class CourseListTabs extends Component {
 
     if (user && !prevProps.user) {
       this._setMajorCodes(user.departments);
+      this._fetchUserLists();
     }
     else if (user && prevProps.user && !this._codesAreSame(user.departments.map(d => d.code), prevProps.user.departments.map(d => d.code))) {
       this._setMajorCodes(user.departments);
+      this._fetchUserLists();
     }
 
     if (!this._codesAreSame(major.codes, prevProps.major.codes)) {
-      this._fetchLists(true);
+      this._fetchMajorLists();
     }
   }
 
@@ -55,8 +59,8 @@ class CourseListTabs extends Component {
     && codes1.every((c, i) => (c === codes2[i]))
   )
 
-  _fetchLists = (majorOnly) => {
-    const { user, major, setListCoursesDispatch, setListMajorCoursesDispatch } = this.props;
+  _fetchMajorLists = () => {
+    const { major, setListMajorCoursesDispatch } = this.props;
     const majorCodes = major.codes;
 
     axios.get(`${BASE_URL}/api/courses`, { params: {
@@ -73,10 +77,10 @@ class CourseListTabs extends Component {
       })
       .catch((error) => {
       });
+  }
 
-    if (majorOnly) {
-      return;
-    }
+  _fetchNormalLists = () => {
+    const { setListCoursesDispatch } = this.props;
 
     axios.get(`${BASE_URL}/api/courses`, { params: {
       group: 'Humanity',
@@ -86,10 +90,11 @@ class CourseListTabs extends Component {
       })
       .catch((error) => {
       });
+  }
 
-    if (!user) {
-      return;
-    }
+
+  _fetchUserLists = () => {
+    const { user, setListCoursesDispatch } = this.props;
 
     axios.get(`${BASE_URL}/api/users/${user.id}/taken-courses`, { params: {
     } })
