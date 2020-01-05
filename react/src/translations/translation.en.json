@@ -26,7 +26,8 @@
       "courseHistory": "Course History",
       "relatedCourses": "Related Courses",
       "latestReviews": "Latest Reviews",
-      "famousReviews": "Famous Reviews",
+      "famousMajorReviews": "Famous Major Reviews",
+      "famousHumanityReviews": "Famous Humanity Reviews",
       "writeReview": "Write Review",
       "myInformation": "My Information",
       "academicInformation": "Academic Information"
