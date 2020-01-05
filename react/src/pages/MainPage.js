@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
@@ -14,6 +15,7 @@ import LatestReviewSection from '../components/sections/main/LatestReviewSection
 import FamousReviewSection from '../components/sections/main/FamousReviewSection';
 import ReviewWriteSection from '../components/sections/main/ReviewWriteSection';
 import MainSearchSection from '../components/sections/main/MainSearchSection';
+import userShape from '../shapes/UserShape';
 
 
 class MainPage extends Component {
@@ -96,6 +98,7 @@ class MainPage extends Component {
   render() {
     const { t } = this.props;
     const { feedDays } = this.state;
+    const { user } = this.props;
 
     const getDateName = (dateString) => {
       const date = new Date(dateString);
@@ -140,12 +143,15 @@ class MainPage extends Component {
                   {getDateName(d.date)}
                 </div>
                 {d.feeds.map((f) => {
+                  if (!user) {
+                    return null;
+                  }
                   if (f.type === 'REVIEW_WRITE') {
                     return (
                     /* eslint-disable-next-line react/jsx-indent */
           <div className={classNames('section-wrap')} key={`${d.date}-${f.type}-${f.lecture.id}`}>
             <div className={classNames('section')}>
-              <ReviewWriteSection lecture={f.lecture} />
+              <ReviewWriteSection lecture={f.lecture} review={user.reviews.find(r => (r.lecture.id === f.lecture.id))} />
             </div>
           </div>
                     );
@@ -193,4 +199,15 @@ class MainPage extends Component {
   }
 }
 
-export default withTranslation()(MainPage);
+const mapStateToProps = state => ({
+  user: state.common.user.user,
+});
+
+const mapDispatchToProps = dispatch => ({
+});
+
+MainPage.propTypes = {
+  user: userShape,
+};
+
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(MainPage));
