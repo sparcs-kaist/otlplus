@@ -75,7 +75,6 @@ class FamousHumanityReviewDailyFeed(DailyFeed):
             feed = cls.objects.get(date=date)
         except cls.DoesNotExist:
             reviews = LiberalBestComment.objects.filter(comment__lecture__type_en="Humanities & Social Elective")
-            print(reviews)
             selected_reviews = random.sample([r.comment for r in reviews], 3)
             feed = cls.objects.create(date=date, priority=random.random())
             feed.reviews.add(*selected_reviews)
