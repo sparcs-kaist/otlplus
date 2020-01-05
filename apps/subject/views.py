@@ -91,7 +91,7 @@ def courses_list_view(request):
 
 
 @require_http_methods(['GET'])
-def courses_intance_view(request, course_id):
+def courses_instance_view(request, course_id):
     if request.method == 'GET':
         course = get_object_or_404(Course, id=course_id)
 
@@ -137,7 +137,7 @@ def courses_list_autocomplete_view(request):
 
 
 @require_http_methods(['GET'])
-def courses_intance_comments_view(request, course_id):
+def courses_instance_comments_view(request, course_id):
     if request.method == 'GET':
         course = get_object_or_404(Course, id=course_id)
         comments = course.comment_set.all().order_by('-lecture__year','-written_datetime')
@@ -147,7 +147,7 @@ def courses_intance_comments_view(request, course_id):
 
 
 @require_http_methods(['GET'])
-def courses_intance_lectures_view(request, course_id):
+def courses_instance_lectures_view(request, course_id):
     if request.method == 'GET':
         course = get_object_or_404(Course, id=course_id)
         lectures = course.lecture_course.all().order_by('year','semester', 'class_no')
@@ -258,7 +258,7 @@ def lectures_list_view(request):
 
 
 @require_http_methods(['GET'])
-def lectures_intance_view(request, lecture_id):
+def lectures_instance_view(request, lecture_id):
     if request.method == 'GET':
         lecture = get_object_or_404(Lecture, id=lecture_id)
 
@@ -306,7 +306,7 @@ def lectures_list_autocomplete_view(request):
 
 
 @require_http_methods(['GET'])
-def lectures_intance_comments_view(request, lecture_id):
+def lectures_instance_comments_view(request, lecture_id):
     if request.method == 'GET':
         lecture = get_object_or_404(Lecture, id=lecture_id)
         comments = lecture.comment_set.all().order_by('-id')
@@ -316,7 +316,7 @@ def lectures_intance_comments_view(request, lecture_id):
 
 
 @require_http_methods(['GET'])
-def lectures_intance_related_comments_view(request, lecture_id):
+def lectures_instance_related_comments_view(request, lecture_id):
     if request.method == 'GET':
         lecture = get_object_or_404(Lecture, id=lecture_id)
         comments = Comment.objects.filter(
