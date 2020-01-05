@@ -190,6 +190,7 @@
       "blankSearch": "Please select search conditions.",
       "timetableOverlap": "You can't add lecture overlapping.",
       "lastTimetable": "You can't delete the last timetable.",
+      "alreadyUploading": "The upload is already in progress. Please wait for a moment.",
       "myInfoCaptionHead": "You can change this information at ",
       "myInfoCaptionTail": ".",
       "academicInfoCaptionHead": "This information is fetched from KAIST Portal. In case the information is not correct, please contact ",
