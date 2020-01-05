@@ -125,7 +125,7 @@ class CourseReviewsSubSection extends Component {
         />
         {
           takenLectureOfCourse.map(l => (
-            <ReviewWriteBlock lecture={l} key={l.id} />
+            <ReviewWriteBlock lecture={l} key={l.id} review={user.reviews.find(r => (r.lecture.id === l.id))} />
           ))
         }
         {

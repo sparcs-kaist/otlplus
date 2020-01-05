@@ -11,6 +11,7 @@ from apps.timetable.models import OldTimeTable
 from apps.timetable.views import _user_department
 from apps.session.models import UserProfile
 from apps.session.sparcssso import Client
+from utils.decorators import login_required_ajax
 import urllib
 import json
 import random
@@ -202,10 +203,8 @@ def unregister(request):
     return JsonResponse(status=200, data={})
 
 
+@login_required_ajax
 def info(request):
-    if not request.user.is_authenticated():
-        return JsonResponse({}, status=401)
-    
     userProfile = UserProfile.objects.get(user=request.user)
     ctx = {
         "email": userProfile.user.email,
@@ -213,7 +212,8 @@ def info(request):
         "firstName": request.user.first_name,
         "lastName": request.user.last_name,
         "departments": _user_department(request.user),
-        "taken_lectures": [l.toJson() for l in userProfile.take_lecture_list.all()]
+        "taken_lectures": [l.toJson() for l in userProfile.take_lecture_list.all()],
+        "reviews": [c.toJson() for c in Comment.objects.filter(writer=userProfile)],
     }
     return JsonResponse(ctx, safe = False)
 
