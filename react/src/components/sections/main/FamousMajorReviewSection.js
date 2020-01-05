@@ -9,7 +9,7 @@ import reviewShape from '../../../shapes/ReviewShape';
 import departmentShape from '../../../shapes/DepartmentShape';
 
 
-class FamousReviewSection extends Component {
+class FamousMajorReviewSection extends Component {
   render() {
     const { t } = this.props;
     const { department, reviews } = this.props;
@@ -34,10 +34,10 @@ class FamousReviewSection extends Component {
   }
 }
 
-FamousReviewSection.propTypes = {
+FamousMajorReviewSection.propTypes = {
   department: departmentShape.isRequired,
   reviews: PropTypes.arrayOf(reviewShape).isRequired,
 };
 
 
-export default withTranslation()(FamousReviewSection);
+export default withTranslation()(FamousMajorReviewSection);
