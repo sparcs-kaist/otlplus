@@ -10,6 +10,7 @@ from apps.session.models import UserProfile
 from apps.subject.models import Course, Department
 from apps.main.models import RandomCourseReco, FamousMajorReviewDailyFeed, ReviewWriteDailyUserFeed, RelatedCourseDailyUserFeed
 
+from apps.timetable.views import _user_department
 from apps.timetable.views import _lecture_to_dict
 
 import json
@@ -27,14 +28,18 @@ def feeds_list_view(request):
         date = request.GET.get('date', None)
         user = UserProfile.objects.get(user=request.user)
 
-        department = Department.objects.filter(code="ID").first()
-        famous_major_review_daily_feed = FamousMajorReviewDailyFeed.get(date=date, department=department)
+        department_codes = [d['code'] for d in _user_department(request.user) if (d['code'] != 'Basic')]
+        departments = Department.objects.filter(code__in=department_codes, visible=True)
+        famous_major_review_daily_feed_list = [FamousMajorReviewDailyFeed.get(date=date, department=d) for d in departments]
 
         review_write_daily_user_feed = ReviewWriteDailyUserFeed.get(date=date, user=user)
 
         related_course_daily_user_feed = RelatedCourseDailyUserFeed.get(date=date, user=user)
 
-        feeds = sorted([famous_major_review_daily_feed, review_write_daily_user_feed, related_course_daily_user_feed], key=(lambda f: f.priority))
+        feeds = famous_major_review_daily_feed_list \
+            + [review_write_daily_user_feed] \
+            + [related_course_daily_user_feed]
+        feeds = sorted(feeds, key=(lambda f: f.priority))
         result = [f.toJson(user=request.user) for f in feeds]
         return JsonResponse(result, safe=False)
 
