@@ -29,6 +29,10 @@ class TimetableTabs extends Component {
       clearTimetablesDispatch();
       this._fetchTables();
     }
+    else if (!prevProps.user && user) {
+      clearTimetablesDispatch();
+      this._fetchTables();
+    }
 
     if (!prevProps.user && user) {
       this._setMyTimetable();
