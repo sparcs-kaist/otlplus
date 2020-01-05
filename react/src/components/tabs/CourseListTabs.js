@@ -22,7 +22,11 @@ class CourseListTabs extends Component {
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     const { user } = this.props;
-    if (user && (user !== prevProps.user)) {
+
+    if (user && !prevProps.user) {
+      this._setMajorCodes(user.departments);
+    }
+    else if (!this._codesAreSame(user.departments.map(d => d.code), prevProps.user.departments.map(d => d.code))) {
       this._setMajorCodes(user.departments);
     }
   }
@@ -36,6 +40,11 @@ class CourseListTabs extends Component {
     }));
     setListMajorCodesDispatch(majors);
   }
+
+  _codesAreSame = (codes1, codes2) => (
+    codes1.length === codes2.length
+    && codes1.every((c, i) => (c === codes2[i]))
+  )
 
   changeTab = (list) => {
     const { search, setCurrentListDispatch, openSearchDispatch, closeSearchDispatch } = this.props;
