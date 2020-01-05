@@ -1,4 +1,4 @@
-import { RESET, SET_COURSE_ACTIVE, CLEAR_COURSE_ACTIVE, SET_REVIEWS, SET_LECTURES } from '../../actions/dictionary/courseActive';
+import { RESET, SET_COURSE_ACTIVE, CLEAR_COURSE_ACTIVE, SET_REVIEWS, UPDATE_REVIEW, SET_LECTURES } from '../../actions/dictionary/courseActive';
 
 const initialState = {
   clicked: false,
@@ -34,6 +34,24 @@ const courseActive = (state = initialState, action) => {
     case SET_REVIEWS: {
       return Object.assign({}, state, {
         reviews: action.reviews,
+      });
+    }
+    case UPDATE_REVIEW: {
+      const originalReviews = state.reviews;
+      const { review } = action;
+      const foundIndex = originalReviews.findIndex(r => (r.id === review.id));
+      const newReviews = (foundIndex !== -1)
+        ? [
+          ...originalReviews.slice(0, foundIndex),
+          review,
+          ...originalReviews.slice(foundIndex + 1, originalReviews.length),
+        ]
+        : [
+          review,
+          ...originalReviews.slice(),
+        ];
+      return Object.assign({}, state, {
+        reviews: newReviews,
       });
     }
     case SET_LECTURES: {

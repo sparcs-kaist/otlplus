@@ -362,7 +362,7 @@ def insertReview(request,lecture_id):
         if target_comment.is_deleted == 0: target_comment.u_update(grade=grade, load=load, speech=speech, comment=comment)
     except Comment.DoesNotExist :
         target_comment = Comment.u_create(course=course, lecture=lecture, comment=comment, grade=grade, load=load, speech=speech, writer=writer)
-    return JsonResponse({"id":target_comment.id}, safe=False)
+    return JsonResponse(target_comment.toJson(), safe=False)
 
 
 def ReviewView(request, comment_id):
