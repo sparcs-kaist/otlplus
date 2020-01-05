@@ -20,30 +20,30 @@ export function reset() {
 }
 
 export function addLectureToTimetable(lecture) {
-    return {
-        type: ADD_LECTURE_TO_TIMETABLE,
-        lecture: lecture,
-    };
+  return {
+    type: ADD_LECTURE_TO_TIMETABLE,
+    lecture: lecture,
+  };
 }
 
 export function removeLectureFromTimetable(lecture) {
-    return {
-        type: REMOVE_LECTURE_FROM_TIMETABLE,
-        lecture: lecture,
-    };
+  return {
+    type: REMOVE_LECTURE_FROM_TIMETABLE,
+    lecture: lecture,
+  };
 }
 
 export function setTimetables(timetables) {
-    return {
-        type: SET_TIMETABLES,
-        timetables: timetables,
-    };
+  return {
+    type: SET_TIMETABLES,
+    timetables: timetables,
+  };
 }
 
 export function clearTimetables() {
-    return {
-        type: CLEAR_TIMETABLES,
-    };
+  return {
+    type: CLEAR_TIMETABLES,
+  };
 }
 
 export function setMyTimetableLectures(lectures) {
@@ -54,52 +54,52 @@ export function setMyTimetableLectures(lectures) {
 }
 
 export function setCurrentTimetable(timetable) {
-    return {
-        type: SET_CURRENT_TIMETABLE,
-        timetable: timetable,
-    };
+  return {
+    type: SET_CURRENT_TIMETABLE,
+    timetable: timetable,
+  };
 }
 
 export function createTimetable(id) {
-    return {
-        type: CREATE_TIMETABLE,
-        id: id,
-    };
+  return {
+    type: CREATE_TIMETABLE,
+    id: id,
+  };
 }
 
 export function deleteTimetable(timetable) {
-    return {
-        type: DELETE_TIMETABLE,
-        timetable: timetable,
-    };
+  return {
+    type: DELETE_TIMETABLE,
+    timetable: timetable,
+  };
 }
 
 export function duplicateTimetable(id, timetable) {
-    return {
-        type: DUPLICATE_TIMETABLE,
-        id: id,
-        timetable: timetable,
-    };
+  return {
+    type: DUPLICATE_TIMETABLE,
+    id: id,
+    timetable: timetable,
+  };
 }
 
 export function updateCellSize(width, height) {
-    return {
-        type: UPDATE_CELL_SIZE,
-        width: width,
-        height: height,
-    };
+  return {
+    type: UPDATE_CELL_SIZE,
+    width: width,
+    height: height,
+  };
 }
 
 export function setIsDragging(isDragging) {
-    return {
-        type: SET_IS_DRAGGING,
-        isDragging: isDragging,
-    };
+  return {
+    type: SET_IS_DRAGGING,
+    isDragging: isDragging,
+  };
 }
 
 export function setMobileShowTimetableTabs(mobileShowTimetableTabs) {
-    return {
-        type: SET_MOBILE_SHOW_TIMETABLE_TABS,
-        mobileShowTimetableTabs: mobileShowTimetableTabs,
-    };
+  return {
+    type: SET_MOBILE_SHOW_TIMETABLE_TABS,
+    mobileShowTimetableTabs: mobileShowTimetableTabs,
+  };
 }

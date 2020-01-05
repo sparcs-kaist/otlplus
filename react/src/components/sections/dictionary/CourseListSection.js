@@ -4,13 +4,10 @@ import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
-import axios from '../../../common/presetAxios';
 
 import { isClicked, isHover, isInactiveCourse } from '../../../common/courseFunctions';
-import { setListCourses, setListMajorCourses } from '../../../actions/dictionary/list';
 import { setCourseActive, clearCourseActive } from '../../../actions/dictionary/courseActive';
 import { openSearch } from '../../../actions/dictionary/search';
-import { BASE_URL } from '../../../common/constants';
 import Scroller from '../../Scroller';
 import CourseBlock from '../../blocks/CourseBlock';
 import courseShape from '../../../shapes/CourseShape';
@@ -19,73 +16,6 @@ import CourseSearchSubSection from './CourseSearchSubSection';
 
 
 class CourseListSection extends Component {
-  componentDidMount() {
-    this._fetchLists(false);
-  }
-
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    const { major } = this.props;
-
-    if (!this._codesAreSame(major.codes, prevProps.major.codes)) {
-      this._fetchLists(true);
-    }
-  }
-
-  _codesAreSame = (codes1, codes2) => (
-    codes1.length === codes2.length
-    && codes1.every((c, i) => (c === codes2[i]))
-  )
-
-  _fetchLists = (majorOnly) => {
-    const { major, setListMajorCoursesDispatch, setListCoursesDispatch } = this.props;
-    const majorCodes = major.codes;
-
-    axios.get(`${BASE_URL}/api/courses`, { params: {
-      group: majorCodes,
-    } })
-      .then((response) => {
-        const newProps = this.props;
-        if (!this._codesAreSame(newProps.major.codes, majorCodes)) {
-          return;
-        }
-        major.codes.forEach((code) => {
-          setListMajorCoursesDispatch(code, response.data.filter(lecture => (lecture.major_code === code)));
-        });
-      })
-      .catch((error) => {
-      });
-
-    if (majorOnly) {
-      return;
-    }
-
-    axios.get(`${BASE_URL}/api/courses`, { params: {
-      group: 'Humanity',
-    } })
-      .then((response) => {
-        setListCoursesDispatch('humanity', response.data);
-      })
-      .catch((error) => {
-      });
-
-    /*
-    axios.post(`${BASE_URL}/api/timetable/wishlist_load`, {
-      year: year,
-      semester: semester,
-    })
-      .then((response) => {
-        const newProps = this.props;
-        if (newProps.year !== year || newProps.semester !== semester
-        ) {
-          return;
-        }
-        setListLecturesDispatch('cart', response.data);
-      })
-      .catch((error) => {
-      });
-    */
-  }
-
   showSearch = () => {
     const { openSearchDispatch } = this.props;
     openSearchDispatch();
@@ -225,12 +155,6 @@ const mapDispatchToProps = dispatch => ({
   clearCourseActiveDispatch: () => {
     dispatch(clearCourseActive());
   },
-  setListCoursesDispatch: (code, courses) => {
-    dispatch(setListCourses(code, courses));
-  },
-  setListMajorCoursesDispatch: (majorCode, courses) => {
-    dispatch(setListMajorCourses(majorCode, courses));
-  },
 });
 
 CourseListSection.propTypes = {
@@ -254,8 +178,6 @@ CourseListSection.propTypes = {
   openSearchDispatch: PropTypes.func.isRequired,
   setCourseActiveDispatch: PropTypes.func.isRequired,
   clearCourseActiveDispatch: PropTypes.func.isRequired,
-  setListCoursesDispatch: PropTypes.func.isRequired,
-  setListMajorCoursesDispatch: PropTypes.func.isRequired,
 };
 
 

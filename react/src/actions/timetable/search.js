@@ -12,24 +12,24 @@ export function reset() {
 }
 
 export function openSearch() {
-    return {
-        type: OPEN_SEARCH,
-    };
+  return {
+    type: OPEN_SEARCH,
+  };
 }
 
 export function closeSearch() {
-    return {
-        type: CLOSE_SEARCH,
-    };
+  return {
+    type: CLOSE_SEARCH,
+  };
 }
 
 export function dragSearch(day, start, end) {
-    return {
-        type: DRAG_SEARCH,
-        day: day,
-        start: start,
-        end: end,
-    };
+  return {
+    type: DRAG_SEARCH,
+    day: day,
+    start: start,
+    end: end,
+  };
 }
 
 export function clearDrag() {

@@ -13,7 +13,7 @@ import lectureShape from '../../../shapes/LectureShape';
 import HistoryLecturesBlock from '../../blocks/HistoryLecturesBlock';
 
 
-class CourseHistorySubSection extends Component {
+class HistorySubSection extends Component {
   componentDidMount() {
     this._fetchLectures();
     // eslint-disable-next-line fp/no-mutation
@@ -128,7 +128,7 @@ const mapDispatchToProps = dispatch => ({
   },
 });
 
-CourseHistorySubSection.propTypes = {
+HistorySubSection.propTypes = {
   semesters: PropTypes.arrayOf(semesterShape),
   clicked: PropTypes.bool.isRequired,
   course: CourseShape,
@@ -137,4 +137,4 @@ CourseHistorySubSection.propTypes = {
 };
 
 
-export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(CourseHistorySubSection));
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(HistorySubSection));

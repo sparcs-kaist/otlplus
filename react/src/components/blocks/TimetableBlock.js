@@ -54,13 +54,13 @@ const TimetableBlock = ({ t, lecture, classtime, cellWidth, cellHeight, isTimeta
       {
         occupiedTime === undefined
           ? null
-          : occupiedTime.map(t => (
+          : occupiedTime.map(o => (
             <div
-              key={`${t[0]}:${t[1]}`}
+              key={`${o[0]}:${o[1]}`}
               className={classNames('block--timetable__occupied-area')}
               style={{
-                top: cellHeight * t[0],
-                height: cellHeight * (t[1] - t[0]) - 3,
+                top: cellHeight * o[0],
+                height: cellHeight * (o[1] - o[0]) - 3,
               }}
             />
           ))

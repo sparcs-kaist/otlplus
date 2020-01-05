@@ -20,7 +20,7 @@ export const getOngoingSemester = (semesters) => {
     (new Date(s.beginning) < now) && (now < new Date(s.end))
   ));
   return ongoingSemester;
-}
+};
 
 export const getCurrentSchedule = (semesters) => {
   const USED_SCHEDULE_FIELDS = [
