@@ -9,9 +9,9 @@ export function reset() {
 }
 
 export function setSemester(year, semester) {
-    return {
-        type: SET_SEMESTER,
-        year: year,
-        semester: semester,
-    };
+  return {
+    type: SET_SEMESTER,
+    year: year,
+    semester: semester,
+  };
 }

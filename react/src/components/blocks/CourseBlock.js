@@ -55,6 +55,8 @@ const CourseBlock = ({ t, course, showReadStatus, isRead, isClicked, isHover, is
 
 CourseBlock.propTypes = {
   course: CourseShape.isRequired,
+  showReadStatus: PropTypes.bool,
+  isRead: PropTypes.bool,
   isClicked: PropTypes.bool,
   isHover: PropTypes.bool,
   isInactive: PropTypes.bool,

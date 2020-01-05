@@ -45,12 +45,12 @@ class SyllabusPage extends Component {
           </div>
           <div className={classNames('section', 'section--syllabus')}>
             <div className={classNames('section-content', 'section-content--syllabus')}>
-              {/* eslint-disable-next-line react/jsx-indent */}
-            { lectures.map(lecture => (
-              <iframe src={this.getLectureUrl(lecture)} title={`syllabus-${lecture.title}`} key={lecture.id} style={lecture.id === currentShowingLecture.id ? {} : { display: 'none' }}>
-                { lecture.common_title }
-              </iframe>
-            ))}
+
+              { lectures.map(lecture => (
+                <iframe src={this.getLectureUrl(lecture)} title={`syllabus-${lecture.title}`} key={lecture.id} style={lecture.id === currentShowingLecture.id ? {} : { display: 'none' }}>
+                  { lecture.common_title }
+                </iframe>
+              ))}
             </div>
           </div>
         </div>
