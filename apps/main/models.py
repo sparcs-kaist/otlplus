@@ -2,7 +2,7 @@ from django.db import models
 
 from apps.session.models import UserProfile
 from apps.subject.models import Lecture, Department, Course
-from apps.review.models import Comment, MajorBestComment
+from apps.review.models import Comment, MajorBestComment, LiberalBestComment
 
 import random
 
@@ -58,6 +58,34 @@ class FamousMajorReviewDailyFeed(DailyFeed):
             "date": self.date,
             "priority": self.priority,
             "department": self.department.toJson(nested=False),
+            "reviews": [r.toJson(nested=False, user=user) for r in self.reviews.all()]
+        }
+        return result
+
+
+class FamousHumanityReviewDailyFeed(DailyFeed):
+    reviews = models.ManyToManyField(Comment)
+
+    class Meta:
+        unique_together = [['date']]
+
+    @classmethod
+    def get(cls, date):
+        try:
+            feed = cls.objects.get(date=date)
+        except cls.DoesNotExist:
+            reviews = LiberalBestComment.objects.filter(comment__lecture__type_en="Humanities & Social Elective")
+            print(reviews)
+            selected_reviews = random.sample([r.comment for r in reviews], 3)
+            feed = cls.objects.create(date=date, priority=random.random())
+            feed.reviews.add(*selected_reviews)
+        return feed
+
+    def toJson(self, nested=False, user=None):
+        result = {
+            "type": "FAMOUS_HUMANITY_REVIEW",
+            "date": self.date,
+            "priority": self.priority,
             "reviews": [r.toJson(nested=False, user=user) for r in self.reviews.all()]
         }
         return result

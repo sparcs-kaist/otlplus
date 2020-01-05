@@ -13,6 +13,7 @@ import AcademicScheduleSection from '../components/sections/main/AcademicSchedul
 import RelatedCourseSection from '../components/sections/main/RelatedCourseSection';
 import LatestReviewSection from '../components/sections/main/LatestReviewSection';
 import FamousMajorReviewSection from '../components/sections/main/FamousMajorReviewSection';
+import FamousHumanityReviewSection from '../components/sections/main/FamousHumanityReviewSection';
 import ReviewWriteSection from '../components/sections/main/ReviewWriteSection';
 import MainSearchSection from '../components/sections/main/MainSearchSection';
 import userShape from '../shapes/UserShape';
@@ -182,6 +183,16 @@ class MainPage extends Component {
                       <div className={classNames('section-wrap')} key={`${d.date}-${f.type}-${f.department.code}`}>
                         <div className={classNames('section')}>
                           <FamousMajorReviewSection department={f.department} reviews={f.reviews} />
+                        </div>
+                      </div>
+                    );
+                  }
+                  if (f.type === 'FAMOUS_HUMANITY_REVIEW') {
+                    return (
+
+                      <div className={classNames('section-wrap')} key={`${d.date}-${f.type}`}>
+                        <div className={classNames('section')}>
+                          <FamousHumanityReviewSection reviews={f.reviews} />
                         </div>
                       </div>
                     );
