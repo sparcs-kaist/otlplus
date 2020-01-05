@@ -34,7 +34,7 @@ class DailyUserFeed(DailyFeed):
         abstract=True
 
 
-class FamousReviewDailyFeed(DailyFeed):
+class FamousMajorReviewDailyFeed(DailyFeed):
     department = models.ForeignKey(Department)
     reviews = models.ManyToManyField(Comment)
 
@@ -54,7 +54,7 @@ class FamousReviewDailyFeed(DailyFeed):
 
     def toJson(self, nested=False, user=None):
         result = {
-            "type": "FAMOUS_REVIEW",
+            "type": "FAMOUS_MAJOR_REVIEW",
             "date": self.date,
             "priority": self.priority,
             "department": self.department.toJson(nested=False),

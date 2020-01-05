@@ -8,7 +8,7 @@ from utils.decorators import login_required_ajax
 
 from apps.session.models import UserProfile
 from apps.subject.models import Course, Department
-from apps.main.models import RandomCourseReco, FamousReviewDailyFeed, ReviewWriteDailyUserFeed, RelatedCourseDailyUserFeed
+from apps.main.models import RandomCourseReco, FamousMajorReviewDailyFeed, ReviewWriteDailyUserFeed, RelatedCourseDailyUserFeed
 
 from apps.timetable.views import _lecture_to_dict
 
@@ -28,13 +28,13 @@ def feeds_list_view(request):
         user = UserProfile.objects.get(user=request.user)
 
         department = Department.objects.filter(code="ID").first()
-        famous_review_daily_feed = FamousReviewDailyFeed.get(date=date, department=department)
+        famous_major_review_daily_feed = FamousMajorReviewDailyFeed.get(date=date, department=department)
 
         review_write_daily_user_feed = ReviewWriteDailyUserFeed.get(date=date, user=user)
 
         related_course_daily_user_feed = RelatedCourseDailyUserFeed.get(date=date, user=user)
 
-        feeds = sorted([famous_review_daily_feed, review_write_daily_user_feed, related_course_daily_user_feed], key=(lambda f: f.priority))
+        feeds = sorted([famous_major_review_daily_feed, review_write_daily_user_feed, related_course_daily_user_feed], key=(lambda f: f.priority))
         result = [f.toJson(user=request.user) for f in feeds]
         return JsonResponse(result, safe=False)
 
