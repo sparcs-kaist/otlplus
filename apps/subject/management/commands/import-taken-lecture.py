@@ -51,10 +51,15 @@ class Command(BaseCommand):
         query = 'SELECT * FROM view_OTL_attend WHERE lecture_year = %d AND lecture_term = %d' % (year, semester)
         rows = execute(host, port, user, password, query)
 
+        cleared_user_list = []
+
         lectures = Lecture.objects.filter(year = year, semester = semester,deleted=False)
         for a in rows:
             users = UserProfile.objects.filter(student_id = a[5])
             for user in users:
+                if user not in cleared_user_list:
+                    cleared_user_list.append(user)
+                    user.take_lecture_list.remove(*user.take_lecture_list.filter(year=year, semester=semester))
                 lecture = lectures.filter(code = a[2], class_no = a[3].strip())
                 if len(lecture) == 1:
                     user.take_lecture_list.add(lecture[0])
