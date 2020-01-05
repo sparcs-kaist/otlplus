@@ -17,7 +17,7 @@ import userShape from '../../../shapes/UserShape';
 import SearchFilter from '../../SearchFilter';
 
 
-class CourseReviewsSubSection extends Component {
+class ReviewsSubSection extends Component {
   constructor(props) {
     super(props);
 
@@ -169,7 +169,7 @@ const mapDispatchToProps = dispatch => ({
   },
 });
 
-CourseReviewsSubSection.propTypes = {
+ReviewsSubSection.propTypes = {
   user: userShape,
   clicked: PropTypes.bool.isRequired,
   course: CourseShape,
@@ -181,4 +181,4 @@ CourseReviewsSubSection.propTypes = {
 };
 
 
-export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(CourseReviewsSubSection));
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(ReviewsSubSection));
