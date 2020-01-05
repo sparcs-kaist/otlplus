@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
 
 import Scroller from '../components/Scroller';
+
+import ProjectBlock from '../components/blocks/ProjectBlock';
 
 import memberBatteryImage from '../static/img/members/Members-05-battery_kor.png';
 import memberDaybreakerImage from '../static/img/members/Members-05-daybreaker_kor.png';
@@ -80,33 +81,6 @@ import memberAppleseedImage from '../static/img/members/Members-18-appleseed_kor
 import memberWinrobrineImage from '../static/img/members/Members-19-winrobrine_kor.png';
 
 
-class Button extends Component {
-  render() {
-    const { index, isClicked, onClick, mainTitle, subTitle, period } = this.props;
-    const className = isClicked
-      ? classNames('block', 'block--project', 'active')
-      : classNames('block', 'block--project');
-    return (
-      <div onClick={() => onClick(index)} className={className} key={index}>
-        <div className={classNames('block--project__title')}>{mainTitle}</div>
-        <div className={classNames('block--project__title')}>{subTitle}</div>
-        <div className={classNames('block--project__content')}>{`(${period})`}</div>
-      </div>
-    );
-  }
-}
-
-Button.propTypes = {
-  index: PropTypes.number.isRequired,
-  onClick: PropTypes.func.isRequired,
-  isClicked: PropTypes.bool.isRequired,
-  mainTitle: PropTypes.string.isRequired,
-  subTitle: PropTypes.string.isRequired,
-  period: PropTypes.string.isRequired,
-};
-
-
-// eslint-disable-next-line react/no-multi-comp
 class CreditPage extends Component {
   constructor(props) {
     super(props);
@@ -486,7 +460,7 @@ class CreditPage extends Component {
                 <div className={classNames('section-content', 'section-content--credit')}>
                   <div className={classNames('section-content--credit__blocks')}>
                     {this.projects.map(p => (
-                      <Button
+                      <ProjectBlock
                         index={p.index}
                         onClick={this.changePage}
                         isClicked={currentTab === p.index}
