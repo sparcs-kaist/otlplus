@@ -74,7 +74,7 @@ SearchFilter.propTypes = {
   inputName: PropTypes.string.isRequired,
   titleName: PropTypes.string.isRequired,
   options: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
-  checkedValues: PropTypes.arrayOf(PropTypes.string).isRequired,
+  checkedValues: PropTypes.instanceOf(Set).isRequired,
 };
 
 export default SearchFilter;
