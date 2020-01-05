@@ -179,7 +179,7 @@ class TimetableTabs extends Component {
                 <span>
                   {`${t('ui.others.myTable')}`}
                 </span>
-                <button>
+                <button onClick={event => this.duplicateTable(event, myTimetable)}>
                   <i className={classNames('icon', 'icon--duplicate-table')} />
                   <span>{t('ui.button.duplicateTable')}</span>
                 </button>
