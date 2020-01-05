@@ -56,7 +56,7 @@ class CourseListTabs extends Component {
   )
 
   _fetchLists = (majorOnly) => {
-    const { major, setListMajorCoursesDispatch, setListCoursesDispatch } = this.props;
+    const { user, major, setListCoursesDispatch, setListMajorCoursesDispatch } = this.props;
     const majorCodes = major.codes;
 
     axios.get(`${BASE_URL}/api/courses`, { params: {
@@ -87,22 +87,17 @@ class CourseListTabs extends Component {
       .catch((error) => {
       });
 
-    /*
-    axios.post(`${BASE_URL}/api/timetable/wishlist_load`, {
-      year: year,
-      semester: semester,
-    })
+    if (!user) {
+      return;
+    }
+
+    axios.get(`${BASE_URL}/api/users/${user.id}/taken-courses`, { params: {
+    } })
       .then((response) => {
-        const newProps = this.props;
-        if (newProps.year !== year || newProps.semester !== semester
-        ) {
-          return;
-        }
-        setListLecturesDispatch('cart', response.data);
+        setListCoursesDispatch('taken', response.data);
       })
       .catch((error) => {
       });
-    */
   }
 
   changeTab = (list) => {

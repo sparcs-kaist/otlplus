@@ -30,4 +30,5 @@ urlpatterns = [
     url(r'^lectures/autocomplete$', views.lectures_list_autocomplete_view),
     url(r'^lectures/(?P<lecture_id>\d+)/comments$', views.lectures_instance_comments_view),
     url(r'^lectures/(?P<lecture_id>\d+)/related-comments$', views.lectures_instance_related_comments_view),
+    url(r'^users/(?P<user_id>\d+)/taken-courses$', views.users_instance_taken_courses_view),
 ]

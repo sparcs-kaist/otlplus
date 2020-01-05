@@ -4,7 +4,10 @@ from django.views.decorators.http import require_http_methods
 from django.db.models import Q
 from django.http import HttpResponseBadRequest
 
+from utils.decorators import login_required_ajax
+
 from models import Semester, Course, Lecture
+from apps.session.models import UserProfile
 from apps.review.models import Comment
 from apps.timetable.views import _lecture_result_format
 
@@ -325,4 +328,18 @@ def lectures_instance_related_comments_view(request, lecture_id):
         ).order_by('-id')
 
         result = [c.toJson() for c in comments]
+        return JsonResponse(result, safe=False)
+
+
+@login_required_ajax
+@require_http_methods(['GET'])
+def users_instance_taken_courses_view(request, user_id):
+    if request.method == 'GET':
+        userprofile = UserProfile.objects.get(user=request.user)
+        print(userprofile.id)
+        if userprofile.id != int(user_id):
+            return HttpResponse(status=401)
+        courses = Course.objects.filter(lecture_course__in=userprofile.take_lecture_list.all()).order_by('old_code').distinct()
+
+        result = [c.toJson(user=request.user) for c in courses]
         return JsonResponse(result, safe=False)

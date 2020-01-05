@@ -4,6 +4,7 @@ import reviewShape from './ReviewShape';
 
 
 const userShape = PropTypes.shape({
+  id: PropTypes.number.isRequired,
   email: PropTypes.string.isRequired,
   student_id: PropTypes.string.isRequired,
   firstName: PropTypes.string.isRequired,
