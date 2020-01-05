@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { pure } from 'recompose';
 import { withTranslation } from 'react-i18next';
 
@@ -10,7 +11,7 @@ import reviewShape from '../../shapes/ReviewShape';
 
 
 // eslint-disable-next-line arrow-body-style
-const ReviewWriteBlock = ({ t, lecture, review }) => {
+const ReviewWriteBlock = ({ t, lecture, review, updateOnSubmit }) => {
   const [isUploading, setIsUploading] = useState(false);
   const [content, setContent] = useState(review ? review.comment : '');
   const [grade, setGrade] = useState(review ? review.grade : undefined);
@@ -63,6 +64,9 @@ const ReviewWriteBlock = ({ t, lecture, review }) => {
     })
       .then((response) => {
         setIsUploading(false);
+        if (updateOnSubmit !== undefined) {
+          updateOnSubmit(response.data);
+        }
       })
       .catch((error) => {
       });
@@ -151,12 +155,12 @@ const ReviewWriteBlock = ({ t, lecture, review }) => {
         { !isUploading
           ? (
             <button className={classNames('text-button', 'text-button--review-write-block')} type="submit">
-              {t('ui.button.upload')}
+              {review ? t('ui.button.edit') : t('ui.button.upload')}
             </button>
           )
           : (
             <button className={classNames('text-button', 'text-button--review-write-block', 'text-button--disabled')}>
-              {t('ui.button.upload')}
+              {review ? t('ui.button.edit') : t('ui.button.upload')}
             </button>
           )
         }
@@ -168,6 +172,7 @@ const ReviewWriteBlock = ({ t, lecture, review }) => {
 ReviewWriteBlock.propTypes = {
   lecture: lectureShape.isRequired,
   review: reviewShape,
+  updateOnSubmit: PropTypes.func.isRequired,
 };
 
 export default withTranslation()(pure(ReviewWriteBlock));
