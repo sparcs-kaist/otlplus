@@ -25,7 +25,10 @@ class LectureListTabs extends Component {
   componentDidUpdate(prevProps, prevState, snapshot) {
     const { user, major, year, semester, clearListsLecturesDispatch } = this.props;
 
-    if (user && (user !== prevProps.user)) {
+    if (user && !prevProps.user) {
+      this._setMajorCodes(user.departments);
+    }
+    else if (!this._codesAreSame(user.departments.map(d => d.code), prevProps.user.departments.map(d => d.code))) {
       this._setMajorCodes(user.departments);
     }
 
