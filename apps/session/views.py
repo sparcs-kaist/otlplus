@@ -207,6 +207,7 @@ def unregister(request):
 def info(request):
     userProfile = UserProfile.objects.get(user=request.user)
     ctx = {
+        "id": userProfile.id,
         "email": userProfile.user.email,
         "student_id": userProfile.student_id,
         "firstName": request.user.first_name,
