@@ -155,12 +155,12 @@ const ReviewWriteBlock = ({ t, lecture, review, updateOnSubmit }) => {
         { !isUploading
           ? (
             <button className={classNames('text-button', 'text-button--review-write-block')} type="submit">
-              {t('ui.button.upload')}
+              {review ? t('ui.button.edit') : t('ui.button.upload')}
             </button>
           )
           : (
             <button className={classNames('text-button', 'text-button--review-write-block', 'text-button--disabled')}>
-              {t('ui.button.upload')}
+              {review ? t('ui.button.edit') : t('ui.button.upload')}
             </button>
           )
         }
