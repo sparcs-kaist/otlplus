@@ -95,6 +95,7 @@ class TimetableTabs extends Component {
     axios.post(`${BASE_URL}/api/timetable/table_create`, {
       year: year,
       semester: semester,
+      lectures: [],
     })
       .then((response) => {
         const newProps = this.props;
@@ -149,10 +150,10 @@ class TimetableTabs extends Component {
       return;
     }
 
-    axios.post(`${BASE_URL}/api/timetable/table_copy`, {
-      table_id: timetable.id,
+    axios.post(`${BASE_URL}/api/timetable/table_create`, {
       year: year,
       semester: semester,
+      lectures: timetable.lectures.map(l => l.id),
     })
       .then((response) => {
         const newProps = this.props;
@@ -178,7 +179,7 @@ class TimetableTabs extends Component {
                 <span>
                   {`${t('ui.others.myTable')}`}
                 </span>
-                <button>
+                <button onClick={event => this.duplicateTable(event, myTimetable)}>
                   <i className={classNames('icon', 'icon--duplicate-table')} />
                   <span>{t('ui.button.duplicateTable')}</span>
                 </button>
