@@ -12,30 +12,30 @@ export function reset() {
 }
 
 export function setLectureActive(lecture, from, clicked) {
-    return {
-        type: SET_LECTURE_ACTIVE,
-        lecture: lecture,
-        from: from,
-        clicked: clicked,
-    };
+  return {
+    type: SET_LECTURE_ACTIVE,
+    lecture: lecture,
+    from: from,
+    clicked: clicked,
+  };
 }
 
 export function clearLectureActive() {
-    return {
-        type: CLEAR_LECTURE_ACTIVE,
-    };
+  return {
+    type: CLEAR_LECTURE_ACTIVE,
+  };
 }
 
 export function setMultipleDetail(title, multipleDetail) {
-    return {
-        type: SET_MULTIPLE_DETAIL,
-        title: title,
-        multipleDetail: multipleDetail,
-    };
+  return {
+    type: SET_MULTIPLE_DETAIL,
+    title: title,
+    multipleDetail: multipleDetail,
+  };
 }
 
 export function clearMultipleDetail() {
-    return {
-        type: CLEAR_MULTIPLE_DETAIL,
-    };
+  return {
+    type: CLEAR_MULTIPLE_DETAIL,
+  };
 }
