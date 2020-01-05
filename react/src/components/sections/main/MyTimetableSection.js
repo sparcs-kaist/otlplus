@@ -135,7 +135,7 @@ class MyTimetableSection extends Component {
 
 const mapStateToProps = state => ({
   user: state.common.user.user,
-  semesters: state.common.semester.semesters
+  semesters: state.common.semester.semesters,
 });
 
 const mapDispatchToProps = dispatch => ({

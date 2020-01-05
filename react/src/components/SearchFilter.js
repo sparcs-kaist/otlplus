@@ -18,28 +18,28 @@ class SearchFilter extends Component {
     if (isChecked) {
       if (value === 'ALL') {
         updateCheckedValues(new Set(['ALL']));
-      } 
-      else { 
+      }
+      else {
         const checkedValuesCopy = new Set(checkedValues);
         checkedValuesCopy.add(value);
         checkedValuesCopy.delete('ALL');
         updateCheckedValues(checkedValuesCopy);
-      } 
-    } 
-    else { 
-      // eslint-disable-next-line no-lonely-if 
+      }
+    }
+    else {
+      // eslint-disable-next-line no-lonely-if
       if (value === 'ALL') {
         // Pass
-      } 
-      else { 
+      }
+      else {
         const checkedValuesCopy = new Set(checkedValues);
         checkedValuesCopy.delete(value);
         if (checkedValuesCopy.size === 0) {
           checkedValuesCopy.add('ALL');
         }
         updateCheckedValues(checkedValuesCopy);
-      } 
-    } 
+      }
+    }
   }
 
 

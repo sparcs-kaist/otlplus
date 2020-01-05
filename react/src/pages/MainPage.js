@@ -118,12 +118,12 @@ class MainPage extends Component {
     return (
       <>
         <section className={classNames('main-image')}>
-          {/* eslint-disable-next-line react/jsx-indent */}
-        <div className={classNames('section-wrap', 'section-wrap--main-search')}>
-          <div className={classNames('section')}>
-            <MainSearchSection />
-          </div>
-        </div>
+
+          <div className={classNames('section-wrap', 'section-wrap--main-search')}>
+            <div className={classNames('section')}>
+              <MainSearchSection />
+            </div>
+          </div> 
         </section>
         <section className={classNames('content')}>
           <div className={classNames('section-wrap')}>
@@ -148,42 +148,42 @@ class MainPage extends Component {
                   }
                   if (f.type === 'REVIEW_WRITE') {
                     return (
-                    /* eslint-disable-next-line react/jsx-indent */
-          <div className={classNames('section-wrap')} key={`${d.date}-${f.type}-${f.lecture.id}`}>
-            <div className={classNames('section')}>
-              <ReviewWriteSection lecture={f.lecture} review={user.reviews.find(r => (r.lecture.id === f.lecture.id))} />
-            </div>
-          </div>
+
+                      <div className={classNames('section-wrap')} key={`${d.date}-${f.type}-${f.lecture.id}`}>
+                        <div className={classNames('section')}>
+                          <ReviewWriteSection lecture={f.lecture} review={user.reviews.find(r => (r.lecture.id === f.lecture.id))} />
+                        </div>
+                      </div>
                     );
                   }
                   if (f.type === 'RELATED_COURSE') {
                     return (
-                    /* eslint-disable-next-line react/jsx-indent */
-          <div className={classNames('section-wrap')} key={`${d.date}-${f.type}-${f.course.id}`}>
-            <div className={classNames('section')}>
-              <RelatedCourseSection course={f.course} />
-            </div>
-          </div>
+
+                      <div className={classNames('section-wrap')} key={`${d.date}-${f.type}-${f.course.id}`}>
+                        <div className={classNames('section')}>
+                          <RelatedCourseSection course={f.course} />
+                        </div>
+                      </div>
                     );
                   }
                   if (f.type === 'LATEST_REVIEW') {
                     return (
-                    /* eslint-disable-next-line react/jsx-indent */
-          <div className={classNames('section-wrap')} key={`${d.date}-${f.type}`}>
-            <div className={classNames('section')}>
-              <LatestReviewSection />
-            </div>
-          </div>
+
+                      <div className={classNames('section-wrap')} key={`${d.date}-${f.type}`}>
+                        <div className={classNames('section')}>
+                          <LatestReviewSection />
+                        </div>
+                      </div>
                     );
                   }
                   if (f.type === 'FAMOUS_REVIEW') {
                     return (
-                    /* eslint-disable-next-line react/jsx-indent */
-          <div className={classNames('section-wrap')} key={`${d.date}-${f.type}-${f.department.code}`}>
-            <div className={classNames('section')}>
-              <FamousReviewSection department={f.department} reviews={f.reviews} />
-            </div>
-          </div>
+
+                      <div className={classNames('section-wrap')} key={`${d.date}-${f.type}-${f.department.code}`}>
+                        <div className={classNames('section')}>
+                          <FamousReviewSection department={f.department} reviews={f.reviews} />
+                        </div>
+                      </div>
                     );
                   }
                   return null;

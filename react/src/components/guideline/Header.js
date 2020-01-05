@@ -139,7 +139,8 @@ class Header extends Component {
                   <span>{t('ui.menu.notifications')}</span>
                 </Link>
               </span>
-              <span>{ user
+              <span>
+                { user
                   ? (
                     <Link to="/account">
                       <i className={classNames('icon--header_user')} />
@@ -156,7 +157,8 @@ class Header extends Component {
                       </span>
                     </a>
                   )
-              }</span>
+                }
+              </span>
             </div>
           </div>
         </div>

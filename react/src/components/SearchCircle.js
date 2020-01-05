@@ -38,7 +38,6 @@ SearchCircle.propTypes = {
   circleName: PropTypes.string.isRequired,
   clickCircle: PropTypes.func.isRequired,
   isChecked: PropTypes.bool.isRequired,
-  allChecked: PropTypes.bool.isRequired,
 };
 
 export default SearchCircle;

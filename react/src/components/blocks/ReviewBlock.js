@@ -38,26 +38,26 @@ const ReviewBlock = ({ t, review }) => {
       </div>
       <div className={classNames('block--review__menus')}>
         <span>
-        <span className={classNames('block--review__menus__score')}>
-          {t('ui.score.likes')}
-          &nbsp;
-          <strong>{review.like}</strong>
-        </span>
-        <span className={classNames('block--review__menus__score')}>
-          {t('ui.score.grade')}
-          &nbsp;
-          <strong>{review.grade_letter}</strong>
-        </span>
-        <span className={classNames('block--review__menus__score')}>
-          {t('ui.score.load')}
-          &nbsp;
-          <strong>{review.load_letter}</strong>
-        </span>
-        <span className={classNames('block--review__menus__score')}>
-          {t('ui.score.speech')}
-          &nbsp;
-          <strong>{review.speech_letter}</strong>
-        </span>
+          <span className={classNames('block--review__menus__score')}>
+            {t('ui.score.likes')}
+            &nbsp;
+            <strong>{review.like}</strong>
+          </span>
+          <span className={classNames('block--review__menus__score')}>
+            {t('ui.score.grade')}
+            &nbsp;
+            <strong>{review.grade_letter}</strong>
+          </span>
+          <span className={classNames('block--review__menus__score')}>
+            {t('ui.score.load')}
+            &nbsp;
+            <strong>{review.load_letter}</strong>
+          </span>
+          <span className={classNames('block--review__menus__score')}>
+            {t('ui.score.speech')}
+            &nbsp;
+            <strong>{review.speech_letter}</strong>
+          </span>
         </span>
         <span>
           {!changedIsLiked
@@ -71,9 +71,9 @@ const ReviewBlock = ({ t, review }) => {
                 {t('ui.button.like')}
               </button>
             )}
-        <button className={classNames('text-button', 'text-button--black', 'text-button--review-block')}>
-          {t('ui.button.report')}
-        </button>
+          <button className={classNames('text-button', 'text-button--black', 'text-button--review-block')}>
+            {t('ui.button.report')}
+          </button>
         </span>
       </div>
     </div>
