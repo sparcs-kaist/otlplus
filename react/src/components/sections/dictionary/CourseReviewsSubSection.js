@@ -6,7 +6,8 @@ import { withTranslation } from 'react-i18next';
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 import axios from '../../../common/presetAxios';
 import { BASE_URL } from '../../../common/constants';
-import { setReviews } from '../../../actions/dictionary/courseActive';
+import { setReviews, updateReview } from '../../../actions/dictionary/courseActive';
+import { updateUserReview } from '../../../actions/common/user';
 import { addCourseRead } from '../../../actions/dictionary/list';
 import ReviewBlock from '../../blocks/ReviewBlock';
 import ReviewWriteBlock from '../../blocks/ReviewWriteBlock';
@@ -94,6 +95,12 @@ class CourseReviewsSubSection extends Component {
     return lecture.professors.some(p => professor.has(this._getProfessorFormValue(p)));
   }
 
+  updateOnReviewSubmit = (review) => {
+    const { updateUserReviewDispatch, updateReviewDispatch } = this.props;
+    updateUserReviewDispatch(review);
+    updateReviewDispatch(review);
+  }
+
   render() {
     const { t } = this.props;
     const { professor } = this.state;
@@ -125,7 +132,7 @@ class CourseReviewsSubSection extends Component {
         />
         {
           takenLectureOfCourse.map(l => (
-            <ReviewWriteBlock lecture={l} key={l.id} review={user.reviews.find(r => (r.lecture.id === l.id))} />
+            <ReviewWriteBlock lecture={l} key={l.id} review={user.reviews.find(r => (r.lecture.id === l.id))} updateOnSubmit={this.updateOnReviewSubmit} />
           ))
         }
         {
@@ -154,6 +161,12 @@ const mapDispatchToProps = dispatch => ({
   addCourseReadDispatch: (course) => {
     dispatch(addCourseRead(course));
   },
+  updateUserReviewDispatch: (review) => {
+    dispatch(updateUserReview(review));
+  },
+  updateReviewDispatch: (review) => {
+    dispatch(updateReview(review));
+  },
 });
 
 CourseReviewsSubSection.propTypes = {
@@ -163,6 +176,8 @@ CourseReviewsSubSection.propTypes = {
   reviews: PropTypes.arrayOf(reviewShape),
   setReviewsDispatch: PropTypes.func.isRequired,
   addCourseReadDispatch: PropTypes.func.isRequired,
+  updateUserReviewDispatch: PropTypes.func.isRequired,
+  updateReviewDispatch: PropTypes.func.isRequired,
 };
 
 
