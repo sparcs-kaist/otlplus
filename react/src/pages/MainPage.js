@@ -74,6 +74,11 @@ class MainPage extends Component {
     this.setState({
       loading: true,
     });
+
+    if (this._getDateDifference(date) >= 7) {
+      return;
+    }
+
     const dateString = date.toJSON().slice(0, 10);
 
     axios.get(`${BASE_URL}/api/feeds`, { params: {
@@ -95,6 +100,15 @@ class MainPage extends Component {
       });
   }
 
+  _getDateDifference = (date) => {
+    const copiedDate = new Date(date);
+    const currentDate = new Date();
+    copiedDate.setHours(0, 0, 0, 0);
+    currentDate.setHours(0, 0, 0, 0);
+    const timeDiff = currentDate - copiedDate;
+    return timeDiff / (24 * 60 * 60 * 1000);
+  }
+
 
   render() {
     const { t } = this.props;
@@ -103,14 +117,11 @@ class MainPage extends Component {
 
     const getDateName = (dateString) => {
       const date = new Date(dateString);
-      const currentDate = new Date();
-      date.setHours(0, 0, 0, 0);
-      currentDate.setHours(0, 0, 0, 0);
-      const timeDiff = currentDate - date;
-      if (timeDiff === 0) {
+      const dateDiff = this._getDateDifference(date);
+      if (dateDiff === 0) {
         return t('ui.others.today');
       }
-      if (timeDiff === 24 * 60 * 60 * 1000) {
+      if (dateDiff === 1) {
         return t('ui.others.yesterday');
       }
       return t('ui.others.day', { date: date });

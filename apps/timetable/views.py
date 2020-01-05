@@ -178,7 +178,6 @@ def table_create(request):
     userprofile = UserProfile.objects.get(user=request.user)
 
     body = json.loads(request.body.decode('utf-8'))
-    print(body)
     try:
         year = int(body['year'])
         semester = int(body['semester'])
