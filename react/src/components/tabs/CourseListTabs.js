@@ -120,7 +120,7 @@ class CourseListTabs extends Component {
 
   render() {
     const { t } = this.props;
-    const { currentList, major } = this.props;
+    const { user, currentList, major } = this.props;
 
     return (
       <div className={classNames('tabs', 'tabs--lecture-list')}>
@@ -138,10 +138,16 @@ class CourseListTabs extends Component {
           <i className={classNames('icon', 'icon--tab-humanity')} />
           <span>{t('ui.tab.humanityShort')}</span>
         </div>
+        { user
+          ? (
+          /* eslint-disable-next-line react/jsx-indent */
         <div className={classNames((currentList === 'TAKEN' ? 'tabs__elem--active' : ''))} onClick={() => this.changeTab('TAKEN')}>
           <i className={classNames('icon', 'icon--tab-taken')} />
           <span>{t('ui.tab.takenShort')}</span>
         </div>
+          )
+          : null
+        }
       </div>
     );
   }
