@@ -274,9 +274,7 @@ class TimetableSubSection extends Component {
               : getTimetableBlock(lectureActiveLecture, classtime, false, true)
           ))
       )
-      : (
-        null
-      )
+      : null;
 
     const getHeaders = () => {
       const numArray = [...Array((2350 - 800) / 50 + 1).keys()].map(i => i * 50 + 800); // [800, 850, 900, ..., 2350]

@@ -136,7 +136,7 @@ class MainPage extends Component {
             <div className={classNames('section')}>
               <MainSearchSection />
             </div>
-          </div> 
+          </div>
         </section>
         <section className={classNames('content', 'content--main')}>
           <div className={classNames('section-wrap')}>
@@ -170,7 +170,6 @@ class MainPage extends Component {
                 {d.feeds.map((f) => {
                   if (f.type === 'REVIEW_WRITE') {
                     return (
-
                       <div className={classNames('section-wrap')} key={`${d.date}-${f.type}-${f.lecture.id}`}>
                         <div className={classNames('section')}>
                           <ReviewWriteSection lecture={f.lecture} review={user.reviews.find(r => (r.lecture.id === f.lecture.id))} />
@@ -180,7 +179,6 @@ class MainPage extends Component {
                   }
                   if (f.type === 'RELATED_COURSE') {
                     return (
-
                       <div className={classNames('section-wrap')} key={`${d.date}-${f.type}-${f.course.id}`}>
                         <div className={classNames('section')}>
                           <RelatedCourseSection course={f.course} />
@@ -190,7 +188,6 @@ class MainPage extends Component {
                   }
                   if (f.type === 'LATEST_REVIEW') {
                     return (
-
                       <div className={classNames('section-wrap')} key={`${d.date}-${f.type}`}>
                         <div className={classNames('section')}>
                           <LatestReviewSection />
@@ -200,7 +197,6 @@ class MainPage extends Component {
                   }
                   if (f.type === 'FAMOUS_MAJOR_REVIEW') {
                     return (
-
                       <div className={classNames('section-wrap')} key={`${d.date}-${f.type}-${f.department.code}`}>
                         <div className={classNames('section')}>
                           <FamousMajorReviewSection department={f.department} reviews={f.reviews} />
@@ -210,7 +206,6 @@ class MainPage extends Component {
                   }
                   if (f.type === 'FAMOUS_HUMANITY_REVIEW') {
                     return (
-
                       <div className={classNames('section-wrap')} key={`${d.date}-${f.type}`}>
                         <div className={classNames('section')}>
                           <FamousHumanityReviewSection reviews={f.reviews} />

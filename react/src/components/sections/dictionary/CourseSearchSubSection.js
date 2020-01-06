@@ -10,6 +10,7 @@ import { BASE_URL } from '../../../common/constants';
 import { closeSearch } from '../../../actions/dictionary/search';
 import { setListCourses, clearSearchListCourses } from '../../../actions/dictionary/list';
 import SearchFilter from '../../SearchFilter';
+import { clearCourseActive } from '../../../actions/dictionary/courseActive';
 
 
 class CourseSearchSubSection extends Component {
@@ -34,7 +35,7 @@ class CourseSearchSubSection extends Component {
   searchStart = () => {
     const { t } = this.props;
     const { type, department, grade, term, inputVal } = this.state;
-    const { closeSearchDispatch, clearSearchListCoursesDispatch, setListCoursesDispatch } = this.props;
+    const { closeSearchDispatch, clearSearchListCoursesDispatch, setListCoursesDispatch, clearCourseActiveDispatch } = this.props;
 
     if (type.size === 1 && department.size === 1 && grade.size === 1 && inputVal.length === 0) {
       if (type.has('ALL') && department.has('ALL') && grade.has('ALL')) {
@@ -45,6 +46,7 @@ class CourseSearchSubSection extends Component {
     }
     closeSearchDispatch();
     clearSearchListCoursesDispatch();
+    clearCourseActiveDispatch();
 
     axios.get(`${BASE_URL}/api/courses`, { params: {
       department: Array.from(department),
@@ -240,12 +242,16 @@ const mapDispatchToProps = dispatch => ({
   clearSearchListCoursesDispatch: () => {
     dispatch(clearSearchListCourses());
   },
+  clearCourseActiveDispatch: () => {
+    dispatch(clearCourseActive());
+  },
 });
 
 CourseSearchSubSection.propTypes = {
   closeSearchDispatch: PropTypes.func.isRequired,
   setListCoursesDispatch: PropTypes.func.isRequired,
   clearSearchListCoursesDispatch: PropTypes.func.isRequired,
+  clearCourseActiveDispatch: PropTypes.func.isRequired,
 };
 
 
