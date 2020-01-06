@@ -67,7 +67,7 @@ export const performAddToTable = (caller, lecture, currentTimetable, user, addLe
     ))
   ) {
     // eslint-disable-next-line no-alert
-    alert(caller.props.t('message.timetableOverlap'));
+    alert(caller.props.t('ui.message.timetableOverlap'));
     return;
   }
 
