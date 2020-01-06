@@ -47,6 +47,8 @@ class FamousMajorReviewDailyFeed(DailyFeed):
             feed = cls.objects.get(date=date, department=department)
         except cls.DoesNotExist:
             reviews = MajorBestComment.objects.filter(comment__lecture__department=department)
+            if reviews.count() < 3:
+                return None
             selected_reviews = random.sample([r.comment for r in reviews], 3)
             feed = cls.objects.create(date=date, department=department, priority=random.random())
             feed.reviews.add(*selected_reviews)
@@ -75,6 +77,8 @@ class FamousHumanityReviewDailyFeed(DailyFeed):
             feed = cls.objects.get(date=date)
         except cls.DoesNotExist:
             reviews = LiberalBestComment.objects.filter(comment__lecture__type_en="Humanities & Social Elective")
+            if reviews.count() < 3:
+                return None
             selected_reviews = random.sample([r.comment for r in reviews], 3)
             feed = cls.objects.create(date=date, priority=random.random())
             feed.reviews.add(*selected_reviews)
@@ -102,6 +106,8 @@ class ReviewWriteDailyUserFeed(DailyUserFeed):
             feed = cls.objects.get(date=date, user=user)
         except cls.DoesNotExist:
             taken_lectures = user.take_lecture_list.all()
+            if taken_lectures.count() == 0:
+                return None
             selected_lecture = random.choice(taken_lectures)
             feed = cls.objects.create(date=date, user=user, lecture=selected_lecture, priority=random.random())
         return feed
@@ -128,6 +134,8 @@ class RelatedCourseDailyUserFeed(DailyUserFeed):
             feed = cls.objects.get(date=date, user=user)
         except cls.DoesNotExist:
             taken_lectures = user.take_lecture_list.all()
+            if taken_lectures.count() == 0:
+                return None
             selected_lecture = random.choice(taken_lectures)
             feed = cls.objects.create(date=date, user=user, course=selected_lecture.course, priority=random.random())
         return feed
