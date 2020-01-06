@@ -470,6 +470,9 @@ class CreditPage extends Component {
                         key={p.index}
                       />
                     ))}
+                    {this.projects.map(() => (
+                      <div className={classNames('section-content--credit__blocks__dummy')} />
+                    ))}
                   </div>
                   <Scroller key={currentTab}>
 
