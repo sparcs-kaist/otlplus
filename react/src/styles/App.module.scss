@@ -797,7 +797,7 @@ a {
 
         &__drag-cell {
             position:absolute;
-            background-color:#E56C85;
+            background-color:rgba(#E0546F,0.8);
             border-radius: $small-block-border-radius;
             pointer-events:none;
             z-index:1;
