@@ -1,5 +1,6 @@
 #-*- coding: utf-8 -*-
 from django.db import models
+from django.core.cache import cache
 from apps.enum.common import * #for enum type (for choices)
 from datetime import date, time
 
@@ -87,6 +88,11 @@ class Lecture(models.Model):
     comment_num = models.IntegerField(default=0)
 
     def toJson(self, nested=False):
+        cache_id = "lecture:%d:%s" % (self.id, 'nested' if nested else 'normal')
+        result_cached = cache.get(cache_id)
+        if result_cached != None:
+            return result_cached
+
         # Don't change this into model_to_dict: for security and performance
         result = {"id": self.id,
                 "title": self.title,
@@ -134,6 +140,7 @@ class Lecture(models.Model):
         })
         
         if nested:
+            cache.set(cache_id, result)
             return result
 
         # Add formatted score
@@ -228,6 +235,8 @@ class Lecture(models.Model):
             result.update({
                 'major_code': '',
             })
+
+        cache.set(cache_id, result)
 
         return result
 
@@ -530,6 +539,28 @@ class Course(models.Model):
     latest_written_datetime = models.DateTimeField(default=None, null=True)
 
     def toJson(self, nested=False, user=None):
+        def addUserspecificData(result, user):
+            # Add user read info
+            if (not user) or (not user.is_authenticated()):
+                is_read = False
+            elif not self.read_users_courseuser.filter(user_profile__user=user).exists():
+                is_read = False
+            elif self.latest_written_datetime is None:
+                is_read = True
+            else:
+                course_user = self.read_users_courseuser.get(user_profile__user=user)
+                is_read = self.latest_written_datetime < course_user.latest_read_datetime
+            result.update({
+                'userspecific_is_read': is_read,
+            })
+
+        cache_id = "course:%d:%s" % (self.id, 'nested' if nested else 'normal')
+        result_cached = cache.get(cache_id)
+        if result_cached != None:
+            if not nested:
+                addUserspecificData(result_cached, user)
+            return result_cached
+
         # Don't change this into model_to_dict: for security and performance
         result = {
                 "id": self.id,
@@ -545,6 +576,7 @@ class Course(models.Model):
         }
 
         if nested:
+            cache.set(cache_id, result)
             return result
         
         result.update({
@@ -585,20 +617,6 @@ class Course(models.Model):
                 'speech_letter': letters[int(round(self.speech))],
             })
 
-        # Add user read info
-        if (not user) or (not user.is_authenticated()):
-            is_read = False
-        elif not self.read_users_courseuser.filter(user_profile__user=user).exists():
-            is_read = False
-        elif self.latest_written_datetime is None:
-            is_read = True
-        else:
-            course_user = self.read_users_courseuser.get(user_profile__user=user)
-            is_read = self.latest_written_datetime < course_user.latest_read_datetime
-        result.update({
-            'userspecific_is_read': is_read,
-        })
-
         if self.type_en in ["Basic Required", "Basic Elective"]:
             result.update({
                 'major_code': 'Basic',
@@ -615,6 +633,10 @@ class Course(models.Model):
             result.update({
                 'major_code': '',
             })
+
+        cache.set(cache_id, result)
+
+        addUserspecificData(result, user)
 
         return result
 
