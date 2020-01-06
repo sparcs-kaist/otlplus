@@ -586,15 +586,14 @@ class Course(models.Model):
             })
 
         # Add user read info
-        courseusers = self.read_users_courseuser.filter(user_profile__user=user)
         if (not user) or (not user.is_authenticated()):
             is_read = False
-        elif not courseusers.exists():
+        elif not self.read_users_courseuser.filter(user_profile__user=user).exists():
             is_read = False
         elif self.latest_written_datetime is None:
             is_read = True
         else:
-            course_user = courseusers.first()
+            course_user = self.read_users_courseuser.get(user_profile__user=user)
             is_read = self.latest_written_datetime < course_user.latest_read_datetime
         result.update({
             'userspecific_is_read': is_read,

@@ -20,9 +20,9 @@ class CourseListTabs extends Component {
 
     if (user) {
       this._setMajorCodes(user.departments);
-      this._fetchUserLists();
     }
 
+    this._fetchUserLists();
     this._fetchNormalLists();
     this._fetchMajorLists();
   }
@@ -36,7 +36,6 @@ class CourseListTabs extends Component {
     }
     else if (user && prevProps.user && !this._codesAreSame(user.departments.map(d => d.code), prevProps.user.departments.map(d => d.code))) {
       this._setMajorCodes(user.departments);
-      this._fetchUserLists();
     }
 
     if (!this._codesAreSame(major.codes, prevProps.major.codes)) {
@@ -98,6 +97,11 @@ class CourseListTabs extends Component {
   _fetchUserLists = () => {
     const { user, setListCoursesDispatch } = this.props;
 
+    if (!user) {
+      setListCoursesDispatch('taken', []);
+      return;
+    }
+    setListCoursesDispatch('taken', null);
     axios.get(`${BASE_URL}/api/users/${user.id}/taken-courses`, { params: {
     } })
       .then((response) => {
@@ -122,7 +126,7 @@ class CourseListTabs extends Component {
 
   render() {
     const { t } = this.props;
-    const { user, currentList, major } = this.props;
+    const { currentList, major } = this.props;
 
     return (
       <div className={classNames('tabs', 'tabs--lecture-list')}>
@@ -140,16 +144,10 @@ class CourseListTabs extends Component {
           <i className={classNames('icon', 'icon--tab-humanity')} />
           <span>{t('ui.tab.humanityShort')}</span>
         </div>
-        { user
-          ? (
-          /* eslint-disable-next-line react/jsx-indent */
         <div className={classNames((currentList === 'TAKEN' ? 'tabs__elem--active' : ''))} onClick={() => this.changeTab('TAKEN')}>
           <i className={classNames('icon', 'icon--tab-taken')} />
           <span>{t('ui.tab.takenShort')}</span>
         </div>
-          )
-          : null
-        }
       </div>
     );
   }
