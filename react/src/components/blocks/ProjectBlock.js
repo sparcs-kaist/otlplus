@@ -16,7 +16,7 @@ const ProjectBlock = ({ t, index, isClicked, onClick, mainTitle, subTitle, perio
     <div onClick={() => onClick(index)} className={className} key={index}>
       <div className={classNames('block--project__title')}>{mainTitle}</div>
       <div className={classNames('block--project__title')}>{subTitle}</div>
-      <div className={classNames('block--project__content')}>{`(${period})`}</div>
+      <div className={classNames('block--project__content')}>{period}</div>
     </div>
   );
 };
