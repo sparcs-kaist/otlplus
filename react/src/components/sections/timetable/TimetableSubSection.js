@@ -77,7 +77,7 @@ class TimetableSubSection extends Component {
     e.stopPropagation();
     e.preventDefault();
 
-    const elementAtPosition = document.elementFromPoint(e.touches[0].pageX, e.touches[0].pageY).closest(`.${classNames('cell')}`);
+    const elementAtPosition = document.elementFromPoint(e.touches[0].pageX, e.touches[0].pageY).closest(`.${classNames('cell-drag')}`);
     if (elementAtPosition === null) {
       return;
     }
@@ -118,7 +118,7 @@ class TimetableSubSection extends Component {
   }
 
   onTouchMove = (e) => {
-    const elementAtPosition = document.elementFromPoint(e.touches[0].pageX, e.touches[0].pageY).closest(`.${classNames('cell')}`);
+    const elementAtPosition = document.elementFromPoint(e.touches[0].pageX, e.touches[0].pageY).closest(`.${classNames('cell-drag')}`);
     if (elementAtPosition === null) {
       return;
     }
@@ -312,7 +312,7 @@ class TimetableSubSection extends Component {
           if (i === 1200) {
             return (
               <div
-                className={classNames('cell', 'cell-top', 'cell-bold')}
+                className={classNames('cell', 'cell-drag', 'cell-top', 'cell-bold')}
                 key={`${day}:1200`}
                 data-day={day}
                 data-time="1200"
@@ -326,7 +326,7 @@ class TimetableSubSection extends Component {
           if (i === 1800) {
             return (
               <div
-                className={classNames('cell', 'cell-top', 'cell-bold')}
+                className={classNames('cell', 'cell-drag', 'cell-top', 'cell-bold')}
                 key={`${day}:1800`}
                 data-day={day}
                 data-time="1800"
@@ -340,7 +340,7 @@ class TimetableSubSection extends Component {
           if (i === 2350) {
             return (
               <div
-                className={classNames('cell', 'cell-bottom', (mobileShowLectureList ? 'cell-bottom--mobile-noline' : ''), 'cell-last')}
+                className={classNames('cell', 'cell-drag', 'cell-bottom', (mobileShowLectureList ? 'cell-bottom--mobile-noline' : ''), 'cell-last')}
                 key={`${day}:2330`}
                 data-day={day}
                 data-time="2330"
@@ -354,7 +354,7 @@ class TimetableSubSection extends Component {
           if (i % 100 === 0) {
             return (
               <div
-                className={classNames('cell', 'cell-top')}
+                className={classNames('cell', 'cell-drag', 'cell-top')}
                 key={`${day}:${i.toString()}`}
                 data-day={day}
                 data-time={i.toString()}
@@ -367,7 +367,7 @@ class TimetableSubSection extends Component {
           }
           return (
             <div
-              className={classNames('cell', 'cell-bottom', (mobileShowLectureList ? 'cell-bottom--mobile-noline' : ''))}
+              className={classNames('cell', 'cell-drag', 'cell-bottom', (mobileShowLectureList ? 'cell-bottom--mobile-noline' : ''))}
               key={`${day}:${(i - 20).toString()}`}
               data-day={day}
               data-time={(i - 20).toString()}
