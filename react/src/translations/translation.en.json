@@ -241,6 +241,7 @@
       "multipleDetailCount": "{{count}} lectures",
       "dragTimetable": "Drag timetable",
       "notOffered": "Not Offered",
+      "timeNone": "None",
       "today": "Today",
       "yesterday": "Yesterday",
       "day": "{{date, MMM Do}}"

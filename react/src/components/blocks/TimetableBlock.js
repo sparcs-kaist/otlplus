@@ -23,7 +23,11 @@ const TimetableBlock = ({ t, lecture, classtime, dayIndex, beginIndex, endIndex,
       className={classNames('block--timetable', `background-color--${(lecture.course % 16) + 1}`, activeType)}
       style={{
         left: (cellWidth + 5) * dayIndex + 17,
-        top: cellHeight * beginIndex + 19,
+        top: cellHeight * beginIndex + 19
+          + ((beginIndex >= 32)
+            ? ((beginIndex - 32 + 3) / 3 * (cellHeight + 17))
+            : 0
+          ),
         width: cellWidth + 2,
         height: cellHeight * (endIndex - beginIndex) - 3,
       }}
@@ -46,7 +50,7 @@ const TimetableBlock = ({ t, lecture, classtime, dayIndex, beginIndex, endIndex,
           {lecture[t('js.property.professors_str_short')]}
         </p>
         <p className={classNames('block--timetable__content__info', 'mobile-hidden')}>
-          {classtime[t('js.property.classroom')]}
+          {classtime ? classtime[t('js.property.classroom')] : null}
         </p>
       </div>
       {
@@ -69,7 +73,7 @@ const TimetableBlock = ({ t, lecture, classtime, dayIndex, beginIndex, endIndex,
 
 TimetableBlock.propTypes = {
   lecture: lectureShape.isRequired,
-  classtime: classtimeShape.isRequired,
+  classtime: classtimeShape,
   dayIndex: PropTypes.number.isRequired,
   beginIndex: PropTypes.number.isRequired,
   endIndex: PropTypes.number.isRequired,
