@@ -4,7 +4,6 @@ import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 import CourseBlock from '../../blocks/CourseBlock';
-import courses from '../../../dummy/courses';
 import courseShape from '../../../shapes/CourseShape';
 
 
@@ -18,11 +17,14 @@ class RelatedCourseSection extends Component {
         <div className={classNames('title')}>
           {`${t('ui.title.relatedCourses')} - ${course[t('js.property.title')]}`}
         </div>
-        { courses.map(c => (
-          <Link to={{ pathname: '/dictionary', state: { startCourseId: c.id } }} key={c.id}>
-            <CourseBlock course={c} key={c.id} />
-          </Link>
-        ))}
+        { course.related_courses_posterior.length
+          ? course.related_courses_posterior.map(c => (
+            <Link to={{ pathname: '/dictionary', state: { startCourseId: c.id } }} key={c.id}>
+              <CourseBlock course={c} key={c.id} />
+            </Link>
+          ))
+          : <div className={classNames('list-placeholder')}><div>{t('ui.placeholder.unknown')}</div></div>
+        }
         <div className={classNames('buttons')}>
           <Link to={{ pathname: '/dictionary', state: { startCourseId: 746 } }} className={classNames('text-button')}>
             {t('ui.button.seeDetails')}

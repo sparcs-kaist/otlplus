@@ -1366,8 +1366,8 @@ a {
         justify-content: center;
         min-width: 74px;
 
-        .related-courses > div:nth-child(3) > & {
-            flex: 1 0 auto;
+        .related-courses > div > & {
+            flex: 1 0 0;
         }
 
         &:last-child {
@@ -2437,6 +2437,20 @@ a {
     color: $color-text-placeholder;
     font-size: 16px;
     line-height: 17px;
+
+    .related-courses & {
+        min-height: 100%;
+        font-size: 14px;
+        line-height: 15px;
+    }
+
+    .history & {
+        min-height: 110px;
+    }
+
+    .section-content--widget & {
+        min-height: 68px;
+    }
 }
 
 
