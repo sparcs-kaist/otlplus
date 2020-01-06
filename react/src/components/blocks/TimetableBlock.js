@@ -9,9 +9,7 @@ import lectureShape from '../../shapes/LectureShape';
 import classtimeShape from '../../shapes/ClasstimeShape';
 
 
-const TimetableBlock = ({ t, lecture, classtime, cellWidth, cellHeight, isTimetableReadonly, isClicked, isHover, isInactive, isTemp, isSimple, blockHover, blockOut, blockClick, deleteLecture, occupiedTime }) => {
-  const indexOfTime = time => (time / 30 - 16);
-
+const TimetableBlock = ({ t, lecture, classtime, dayIndex, beginIndex, endIndex, cellWidth, cellHeight, isTimetableReadonly, isClicked, isHover, isInactive, isTemp, isSimple, blockHover, blockOut, blockClick, deleteLecture, occupiedTime }) => {
   const activeType = (
     isClicked ? classNames('block--clicked')
       : isTemp ? classNames('block--temp', 'block--active')
@@ -24,10 +22,14 @@ const TimetableBlock = ({ t, lecture, classtime, cellWidth, cellHeight, isTimeta
     <div
       className={classNames('block--timetable', `background-color--${(lecture.course % 16) + 1}`, activeType)}
       style={{
-        left: (cellWidth + 5) * classtime.day + 17,
-        top: cellHeight * indexOfTime(classtime.begin) + 19,
+        left: (cellWidth + 5) * dayIndex + 17,
+        top: cellHeight * beginIndex + 19
+          + ((beginIndex >= 32)
+            ? ((beginIndex - 32 + 3) / 3 * (cellHeight + 17))
+            : 0
+          ),
         width: cellWidth + 2,
-        height: cellHeight * (indexOfTime(classtime.end) - indexOfTime(classtime.begin)) - 3,
+        height: cellHeight * (endIndex - beginIndex) - 3,
       }}
       onMouseOver={blockHover ? blockHover(lecture) : null}
       onMouseOut={blockOut}
@@ -48,7 +50,7 @@ const TimetableBlock = ({ t, lecture, classtime, cellWidth, cellHeight, isTimeta
           {lecture[t('js.property.professors_str_short')]}
         </p>
         <p className={classNames('block--timetable__content__info', 'mobile-hidden')}>
-          {classtime[t('js.property.classroom')]}
+          {classtime ? classtime[t('js.property.classroom')] : null}
         </p>
       </div>
       {
@@ -71,7 +73,10 @@ const TimetableBlock = ({ t, lecture, classtime, cellWidth, cellHeight, isTimeta
 
 TimetableBlock.propTypes = {
   lecture: lectureShape.isRequired,
-  classtime: classtimeShape.isRequired,
+  classtime: classtimeShape,
+  dayIndex: PropTypes.number.isRequired,
+  beginIndex: PropTypes.number.isRequired,
+  endIndex: PropTypes.number.isRequired,
   cellWidth: PropTypes.number.isRequired,
   cellHeight: PropTypes.number.isRequired,
   isTimetableReadonly: PropTypes.bool.isRequired,
