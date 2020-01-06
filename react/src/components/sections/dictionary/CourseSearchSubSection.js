@@ -127,26 +127,32 @@ class CourseSearchSubSection extends Component {
 
     const typeOptions = [
       ['ALL', t('ui.type.allShort')],
-      ['GR', t('ui.type.generalRequiredShort')], ['MGC', t('ui.type.mandatoryGeneralCourseShort')],
-      ['BE', t('ui.type.basicElectiveShort')], ['BR', t('ui.type.basicRequiredShort')],
-      ['EG', t('ui.type.electiveGraduateShort')], ['HSE', t('ui.type.humanitiesSocialElectiveShort')],
-      ['OE', t('ui.type.otherElectiveShort')], ['ME', t('ui.type.majorElectiveShort')],
-      ['MR', t('ui.type.majorRequiredShort')],
+      ['BR', t('ui.type.basicRequiredShort')], ['BE', t('ui.type.basicElectiveShort')],
+      ['MR', t('ui.type.majorRequiredShort')], ['ME', t('ui.type.majorElectiveShort')],
+      ['MGC', t('ui.type.mandatoryGeneralCourseShort')], ['HSE', t('ui.type.humanitiesSocialElectiveShort')],
+      ['GR', t('ui.type.generalRequiredShort')], ['EG', t('ui.type.electiveGraduateShort')],
+      ['OE', t('ui.type.otherElectiveShort')],
       ['ETC', t('ui.type.etcShort')],
     ];
+    // eslint-disable-next-line fp/no-mutating-methods
     const departmentOptions = [
-      ['ALL', t('ui.department.allShort')],
-      ['HSS', t('ui.department.hssShort')],
-      ['CE', t('ui.department.ceShort')], ['MSB', t('ui.department.msbShort')],
-      ['ME', t('ui.department.meShort')], ['PH', t('ui.department.phShort')],
-      ['BiS', t('ui.department.bisShort')], ['IE', t('ui.department.ieShort')],
-      ['ID', t('ui.department.idShort')], ['BS', t('ui.department.bsShort')],
-      ['MAS', t('ui.department.masShort')], ['NQE', t('ui.department.nqeShort')],
-      ['EE', t('ui.department.eeShort')], ['CS', t('ui.department.csShort')],
-      ['AE', t('ui.department.aeShort')], ['CH', t('ui.department.chShort')],
-      ['CBE', t('ui.department.cbeShort')], ['MS', t('ui.department.msShort')],
-      ['ETC', t('ui.department.etcShort')],
-    ];
+      ['ALL', t('ui.department.allShort'), 100],
+      ['HSS', t('ui.department.hssShort'), 200],
+      ['CE', t('ui.department.ceShort'), 500], ['MSB', t('ui.department.msbShort'), 500],
+      ['ME', t('ui.department.meShort'), 500], ['PH', t('ui.department.phShort'), 500],
+      ['BiS', t('ui.department.bisShort'), 500], ['IE', t('ui.department.ieShort'), 500],
+      ['ID', t('ui.department.idShort'), 500], ['BS', t('ui.department.bsShort'), 500],
+      ['MAS', t('ui.department.masShort'), 500], ['NQE', t('ui.department.nqeShort'), 500],
+      ['EE', t('ui.department.eeShort'), 500], ['CS', t('ui.department.csShort'), 500],
+      ['AE', t('ui.department.aeShort'), 500], ['CH', t('ui.department.chShort'), 500],
+      ['CBE', t('ui.department.cbeShort'), 500], ['MS', t('ui.department.msShort'), 500],
+      ['ETC', t('ui.department.etcShort'), 900],
+    ].sort((a, b) => {
+      if (a[2] !== b[2]) {
+        return a[2] - b[2];
+      }
+      return (a[1] < b[1]) ? -1 : 1;
+    });
     const levelOptions = [
       ['ALL', t('ui.level.allShort')],
       ['100', t('ui.level.100sShort')], ['200', t('ui.level.200sShort')],
