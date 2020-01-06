@@ -41,6 +41,7 @@ def feeds_list_view(request):
             + [famous_humanity_review_daily_feed] \
             + [review_write_daily_user_feed] \
             + [related_course_daily_user_feed]
+        feeds = [f for f in feeds if (f != None)]
         feeds = sorted(feeds, key=(lambda f: f.priority))
         feed_num = int(round(len(feeds) * 0.7))
         feeds = feeds[:feed_num]
