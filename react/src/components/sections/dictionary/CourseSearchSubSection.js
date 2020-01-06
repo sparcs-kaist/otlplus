@@ -21,6 +21,7 @@ class CourseSearchSubSection extends Component {
       type: new Set(['ALL']),
       department: new Set(['ALL']),
       grade: new Set(['ALL']),
+      term: new Set(['ALL']),
     };
   }
 
@@ -32,7 +33,7 @@ class CourseSearchSubSection extends Component {
 
   searchStart = () => {
     const { t } = this.props;
-    const { type, department, grade, inputVal } = this.state;
+    const { type, department, grade, term, inputVal } = this.state;
     const { closeSearchDispatch, clearSearchListCoursesDispatch, setListCoursesDispatch } = this.props;
 
     if (type.size === 1 && department.size === 1 && grade.size === 1 && inputVal.length === 0) {
@@ -49,6 +50,7 @@ class CourseSearchSubSection extends Component {
       department: Array.from(department),
       type: Array.from(type),
       grade: Array.from(grade),
+      term: Array.from(term),
       keyword: inputVal,
     } })
       .then((response) => {
@@ -158,6 +160,10 @@ class CourseSearchSubSection extends Component {
       ['100', t('ui.level.100sShort')], ['200', t('ui.level.200sShort')],
       ['300', t('ui.level.300sShort')], ['400', t('ui.level.400sShort')],
     ];
+    const termOptions = [
+      ['ALL', t('ui.term.allShort')],
+      ['3', t('ui.term.3yearsShort')],
+    ];
 
     return (
       <div className={classNames('search-area')}>
@@ -201,6 +207,13 @@ class CourseSearchSubSection extends Component {
               titleName={t('ui.search.level')}
               options={levelOptions}
               checkedValues={this.state.grade}
+            />
+            <SearchFilter
+              updateCheckedValues={this.updateCheckedValues('term')}
+              inputName="term"
+              titleName={t('ui.search.term')}
+              options={termOptions}
+              checkedValues={this.state.term}
             />
           </div>
           <div className={classNames('buttons')}>
