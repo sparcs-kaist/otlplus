@@ -2443,6 +2443,10 @@ a {
         font-size: 14px;
         line-height: 15px;
     }
+
+    .section-content--widget & {
+        min-height: 68px;
+    }
 }
 
 
