@@ -105,7 +105,8 @@
       "department": "학과",
       "level": "학년",
       "time": "시간",
-      "professor": "교수"
+      "professor": "교수",
+      "term": "기간"
     },
     "type": {
       "basicRequired": "기초필수",
@@ -154,6 +155,10 @@
       "400sShort": "400번대",
       "allShort": "전체",
       "etcShort": "기타"
+    },
+    "term": {
+      "3yearsShort": "3년이내",
+      "allShort": "ALL"
     },
     "day": {
       "monday": "월요일",
