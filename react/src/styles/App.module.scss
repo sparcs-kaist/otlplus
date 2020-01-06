@@ -55,6 +55,7 @@ $small-block-border-radius: 2px;
  
 
 body * {
+    font-family: sans-serif;
     box-sizing: border-box;
     margin: 0;
     padding: 0;
@@ -64,7 +65,6 @@ body * {
 
 
 body {
-    font-family: sans-serif;
     font-size: $font-size-normal;
     line-height: $line-height-normal;
     background-color: #f9f0f0;
