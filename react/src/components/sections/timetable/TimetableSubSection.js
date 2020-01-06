@@ -77,7 +77,7 @@ class TimetableSubSection extends Component {
     e.stopPropagation();
     e.preventDefault();
 
-    const elementAtPosition = document.elementFromPoint(e.touches[0].pageX, e.touches[0].pageY).closest(`.${classNames('cell')}`);
+    const elementAtPosition = document.elementFromPoint(e.touches[0].pageX, e.touches[0].pageY).closest(`.${classNames('cell-drag')}`);
     if (elementAtPosition === null) {
       return;
     }
@@ -118,7 +118,7 @@ class TimetableSubSection extends Component {
   }
 
   onTouchMove = (e) => {
-    const elementAtPosition = document.elementFromPoint(e.touches[0].pageX, e.touches[0].pageY).closest(`.${classNames('cell')}`);
+    const elementAtPosition = document.elementFromPoint(e.touches[0].pageX, e.touches[0].pageY).closest(`.${classNames('cell-drag')}`);
     if (elementAtPosition === null) {
       return;
     }
@@ -217,37 +217,102 @@ class TimetableSubSection extends Component {
     const { currentTimetable, lectureActive, cellWidth, cellHeight, lectureActiveFrom, lectureActiveLecture, mobileShowLectureList } = this.props;
 
     const lectures = currentTimetable ? currentTimetable.lectures : [];
-    const lectureBlocks = lectures.map(lecture => (
-      lecture.classtimes.map(classtime => (
+    const untimedBlockTitles = [];
+    const getTimeString = (time) => {
+      const hour = Math.floor(time / 60);
+      const minute = `00${time % 60}`.slice(-2);
+      return `${hour}:${minute}`;
+    };
+    const getTimetableBlock = (lecture, classtime, isUntimed, isTemp) => {
+      if (isUntimed) {
+        const title = classtime
+          ? `${[t('ui.day.saturdayShort'), t('ui.day.sundayShort')][classtime.day - 5]} ${getTimeString(classtime.begin)}~${getTimeString(classtime.end)}`
+          : t('ui.others.timeNone');
+        // eslint-disable-next-line fp/no-mutating-methods
+        untimedBlockTitles.push(title);
+      }
+      return (
         <TimetableBlock
-          key={`${lecture.id}:${classtime.day}:${classtime.begin}`}
+          key={classtime ? `${lecture.id}:${classtime.day}:${classtime.begin}` : `${lecture.id}:no-time`}
           lecture={lecture}
           classtime={classtime}
+          dayIndex={isUntimed ? ((untimedBlockTitles.length - 1) % 5) : classtime.day}
+          beginIndex={isUntimed ? (32 + Math.floor((untimedBlockTitles.length - 1) / 5)) : (classtime.begin / 30 - 16)}
+          endIndex={isUntimed ? (32 + Math.floor((untimedBlockTitles.length - 1) / 5) + 3) : (classtime.end / 30 - 16)}
           cellWidth={cellWidth}
           cellHeight={cellHeight}
           isTimetableReadonly={!currentTimetable || Boolean(currentTimetable.isReadOnly)}
           isClicked={isTableClicked(lecture, lectureActive)}
           isHover={isTableHover(lecture, lectureActive) || isListHover(lecture, lectureActive) || isListClicked(lecture, lectureActive) || isInMultiple(lecture, lectureActive)}
           isInactive={isInactiveTableLecture(lecture, lectureActive)}
-          isTemp={false}
-          isSimple={mobileShowLectureList}
-          blockHover={this.blockHover}
-          blockOut={this.blockOut}
-          blockClick={this.blockClick}
+          isTemp={isTemp}
+          isSimple={isTemp ? null : mobileShowLectureList}
+          blockHover={isTemp ? null : this.blockHover}
+          blockOut={isTemp ? null : this.blockOut}
+          blockClick={isTemp ? null : this.blockClick}
           deleteLecture={this.deleteLecture}
+          occupiedTime={(isTemp && !isUntimed) ? this._getOccupiedTime(classtime.day, this.indexOfMinute(classtime.begin), this.indexOfMinute(classtime.end)) : undefined}
         />
-      ))
+      );
+    };
+    const lectureBlocks = lectures.map(lecture => (
+      (lecture.classtimes.length === 0)
+        ? getTimetableBlock(lecture, null, true, false)
+        : lecture.classtimes.map(classtime => (
+          (classtime.day < 0 || classtime.day > 4 || classtime.begin < 60 * 8 || classtime.end > 60 * 24)
+            ? getTimetableBlock(lecture, classtime, true, false)
+            : getTimetableBlock(lecture, classtime, false, false)
+        ))
     ));
+    const tempBlocks = ((lectureActiveFrom === LIST) && !inTimetable(lectureActiveLecture, currentTimetable))
+      ? (
+        lectureActiveLecture.classtimes.length === 0
+          ? getTimetableBlock(lectureActiveLecture, null, true, true)
+          : lectureActiveLecture.classtimes.map(classtime => (
+            (classtime.day < 0 || classtime.day > 4 || classtime.begin < 60 * 8 || classtime.end > 60 * 24)
+              ? getTimetableBlock(lectureActiveLecture, classtime, true, true)
+              : getTimetableBlock(lectureActiveLecture, classtime, false, true)
+          ))
+      )
+      : (
+        null
+      )
 
-    const dragDiv = (day, ko) => {
+    const getHeaders = () => {
+      const numArray = [...Array((2350 - 800) / 50 + 1).keys()].map(i => i * 50 + 800); // [800, 850, 900, ..., 2350]
+      return [
+        <div className={classNames('table-head')}><strong>8</strong></div>,
+        ...numArray.map((i) => {
+          const i2 = i + 50;
+          if (i2 % 600 === 0) {
+            return <div><strong>{((i2 / 100 - 1) % 12) + 1}</strong></div>;
+          }
+          if (i2 % 100 === 0) {
+            return <div><span>{((i2 / 100 - 1) % 12) + 1}</span></div>;
+          }
+          return <div />;
+        }),
+        ...Array(Math.ceil(untimedBlockTitles.length / 5)).fill(undefined).map((_, i) => (
+          <>
+            <div />
+            <div className={classNames('table-head')} />
+            <div />
+            <div />
+            <div />
+          </>
+        )),
+      ];
+    };
+
+    const getCells = (day, ko, dayIdx) => {
       const numArray = [...Array((2350 - 800) / 50 + 1).keys()].map(i => i * 50 + 800); // [800, 850, 900, ..., 2350]
       const timeblock = [
-        <div key={day}>{ko}</div>,
+        <div className={classNames('table-head')} key={day}>{ko}</div>,
         ...numArray.map((i) => {
           if (i === 1200) {
             return (
               <div
-                className={classNames('cell', 'cell-top', 'cell-bold')}
+                className={classNames('cell', 'cell-drag', 'cell-top', 'cell-bold')}
                 key={`${day}:1200`}
                 data-day={day}
                 data-time="1200"
@@ -261,7 +326,7 @@ class TimetableSubSection extends Component {
           if (i === 1800) {
             return (
               <div
-                className={classNames('cell', 'cell-top', 'cell-bold')}
+                className={classNames('cell', 'cell-drag', 'cell-top', 'cell-bold')}
                 key={`${day}:1800`}
                 data-day={day}
                 data-time="1800"
@@ -275,7 +340,7 @@ class TimetableSubSection extends Component {
           if (i === 2350) {
             return (
               <div
-                className={classNames('cell', 'cell-bottom', (mobileShowLectureList ? 'cell-bottom--mobile-noline' : ''), 'cell-last')}
+                className={classNames('cell', 'cell-drag', 'cell-bottom', (mobileShowLectureList ? 'cell-bottom--mobile-noline' : ''), 'cell-last')}
                 key={`${day}:2330`}
                 data-day={day}
                 data-time="2330"
@@ -289,7 +354,7 @@ class TimetableSubSection extends Component {
           if (i % 100 === 0) {
             return (
               <div
-                className={classNames('cell', 'cell-top')}
+                className={classNames('cell', 'cell-drag', 'cell-top')}
                 key={`${day}:${i.toString()}`}
                 data-day={day}
                 data-time={i.toString()}
@@ -302,7 +367,7 @@ class TimetableSubSection extends Component {
           }
           return (
             <div
-              className={classNames('cell', 'cell-bottom', (mobileShowLectureList ? 'cell-bottom--mobile-noline' : ''))}
+              className={classNames('cell', 'cell-drag', 'cell-bottom', (mobileShowLectureList ? 'cell-bottom--mobile-noline' : ''))}
               key={`${day}:${(i - 20).toString()}`}
               data-day={day}
               data-time={(i - 20).toString()}
@@ -313,6 +378,15 @@ class TimetableSubSection extends Component {
             />
           );
         }),
+        ...Array(Math.ceil(untimedBlockTitles.length / 5)).fill(undefined).map((_, i) => (
+          <>
+            <div className={classNames('cell')} />
+            <div className={classNames('table-head')}>{untimedBlockTitles[i * 5 + dayIdx]}</div>
+            <div className={classNames('cell', 'cell-top')} />
+            <div className={classNames('cell', 'cell-bottom')} />
+            <div className={classNames('cell', 'cell-bottom', 'cell-last')} />
+          </>
+        )),
       ];
       return timeblock;
     };
@@ -321,54 +395,22 @@ class TimetableSubSection extends Component {
       <div className={classNames('section-content', 'section-content--timetable')} onMouseUp={e => this.onMouseUp(e)} onTouchEnd={e => this.onTouchEnd(e)}>
         <div className={classNames('section-content--timetable__table')}>
           <div>
-            <div><strong>8</strong></div>
-            <div />
-            <div><span>9</span></div>
-            <div />
-            <div><span>10</span></div>
-            <div />
-            <div><span>11</span></div>
-            <div />
-            <div><strong>12</strong></div>
-            <div />
-            <div><span>1</span></div>
-            <div />
-            <div><span>2</span></div>
-            <div />
-            <div><span>3</span></div>
-            <div />
-            <div><span>4</span></div>
-            <div />
-            <div><span>5</span></div>
-            <div />
-            <div><strong>6</strong></div>
-            <div />
-            <div><span>7</span></div>
-            <div />
-            <div><span>8</span></div>
-            <div />
-            <div><span>9</span></div>
-            <div />
-            <div><span>10</span></div>
-            <div />
-            <div><span>11</span></div>
-            <div />
-            <div><strong>12</strong></div>
+            {getHeaders()}
           </div>
           <div>
-            {dragDiv('mon', t('ui.day.monday'))}
+            {getCells('mon', t('ui.day.monday'), 0)}
           </div>
           <div>
-            {dragDiv('tue', t('ui.day.tuesday'))}
+            {getCells('tue', t('ui.day.tuesday'), 1)}
           </div>
           <div>
-            {dragDiv('wed', t('ui.day.wednesday'))}
+            {getCells('wed', t('ui.day.wednesday'), 2)}
           </div>
           <div>
-            {dragDiv('thu', t('ui.day.thursday'))}
+            {getCells('thu', t('ui.day.thursday'), 3)}
           </div>
           <div>
-            {dragDiv('fri', t('ui.day.friday'))}
+            {getCells('fri', t('ui.day.friday'), 4)}
           </div>
         </div>
         {
@@ -387,37 +429,7 @@ class TimetableSubSection extends Component {
             : null
         }
         {lectureBlocks}
-        {
-          (
-            lectureActiveFrom === LIST
-            && !inTimetable(lectureActiveLecture, currentTimetable)
-          )
-            ? (
-              lectureActiveLecture.classtimes.map(classtime => (
-                <TimetableBlock
-                  key={`${lectureActiveLecture.id}:${classtime.day}:${classtime.begin}`}
-                  lecture={lectureActiveLecture}
-                  classtime={classtime}
-                  cellWidth={cellWidth}
-                  cellHeight={cellHeight}
-                  isTimetableReadonly={!currentTimetable || Boolean(currentTimetable.isReadOnly)}
-                  isClicked={false}
-                  isHover={false}
-                  isInactive={false}
-                  isTemp={true}
-                  isSimple={mobileShowLectureList}
-                  blockHover={null}
-                  blockOut={null}
-                  blockClick={null}
-                  deleteLecture={null}
-                  occupiedTime={this._getOccupiedTime(classtime.day, this.indexOfMinute(classtime.begin), this.indexOfMinute(classtime.end))}
-                />
-              ))
-            )
-            : (
-              null
-            )
-        }
+        {tempBlocks}
       </div>
     );
   }
