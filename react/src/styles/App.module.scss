@@ -2444,6 +2444,10 @@ a {
         line-height: 15px;
     }
 
+    .history & {
+        min-height: 110px;
+    }
+
     .section-content--widget & {
         min-height: 68px;
     }

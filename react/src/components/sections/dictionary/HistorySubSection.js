@@ -72,7 +72,11 @@ class HistorySubSection extends Component {
         <div className={classNames('small-title')}>{t('ui.title.courseHistory')}</div>
         {
           (lectures == null)
-            ? <div>{t('ui.placeholder.loading')}</div>
+            ? (
+              <div className={classNames('history')} ref={this.scrollRef}>
+                <div className={classNames('list-placeholder')}><div>{t('ui.placeholder.loading')}</div></div>
+              </div>
+            )
             : (
               <div className={classNames('history')} ref={this.scrollRef}>
                 <table>
