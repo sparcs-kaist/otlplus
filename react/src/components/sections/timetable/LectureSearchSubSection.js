@@ -9,7 +9,9 @@ import axios from '../../../common/presetAxios';
 import { BASE_URL } from '../../../common/constants';
 import { closeSearch, clearDrag } from '../../../actions/timetable/search';
 import { setListLectures, clearSearchListLectures } from '../../../actions/timetable/list';
+import { clearLectureActive } from '../../../actions/timetable/lectureActive';
 import SearchFilter from '../../SearchFilter';
+import lectureActiveShape from '../../../shapes/LectureActiveShape';
 
 
 class LectureSearchSubSection extends Component {
@@ -33,7 +35,7 @@ class LectureSearchSubSection extends Component {
   searchStart = () => {
     const { t } = this.props;
     const { type, department, grade, inputVal } = this.state;
-    const { year, semester, start, day, end, closeSearchDispatch, clearSearchListLecturesDispatch, setListLecturesDispatch } = this.props;
+    const { year, semester, start, day, end, lectureActive, closeSearchDispatch, clearSearchListLecturesDispatch, setListLecturesDispatch, clearLectureActiveDispatch } = this.props;
 
     if (type.size === 1 && department.size === 1 && grade.size === 1 && inputVal.length === 0
       && !(start !== null && end !== null && day !== null)) {
@@ -45,6 +47,9 @@ class LectureSearchSubSection extends Component {
     }
     closeSearchDispatch();
     clearSearchListLecturesDispatch();
+    if (lectureActive.from === 'LIST') {
+      clearLectureActiveDispatch();
+    }
 
     axios.get(`${BASE_URL}/api/lectures`, { params: {
       year: year,
@@ -264,6 +269,7 @@ const mapStateToProps = state => ({
   day: state.timetable.search.day,
   year: state.timetable.semester.year,
   semester: state.timetable.semester.semester,
+  lectureActive: state.timetable.lectureActive,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -279,6 +285,9 @@ const mapDispatchToProps = dispatch => ({
   clearSearchListLecturesDispatch: () => {
     dispatch(clearSearchListLectures());
   },
+  clearLectureActiveDispatch: () => {
+    dispatch(clearLectureActive());
+  },
 });
 
 LectureSearchSubSection.propTypes = {
@@ -287,10 +296,12 @@ LectureSearchSubSection.propTypes = {
   day: PropTypes.number,
   year: PropTypes.number,
   semester: PropTypes.number,
+  lectureActive: lectureActiveShape,
   closeSearchDispatch: PropTypes.func.isRequired,
   clearDragDispatch: PropTypes.func.isRequired,
   setListLecturesDispatch: PropTypes.func.isRequired,
   clearSearchListLecturesDispatch: PropTypes.func.isRequired,
+  clearLectureActiveDispatch: PropTypes.func.isRequired,
 };
 
 
