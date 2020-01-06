@@ -29,6 +29,7 @@
       "famousMajorReviews": "Famous Major Reviews",
       "famousHumanityReviews": "Famous Humanity Reviews",
       "writeReview": "Write Review",
+      "notSignedIn": "You are not signed in",
       "myInformation": "My Information",
       "academicInformation": "Academic Information"
     },
@@ -64,6 +65,7 @@
       "edit": "Edit",
       "seeDetails": "See Details",
       "goToAcademicSystem": "Go to Academic System",
+      "signInWithSso": "Sign In with SPARCS SSO",
       "seeMoreReviews": "See More Reviews",
       "writeMoreReviews": "Write More Reviews",
       "signOut": "Sign Out"
@@ -189,6 +191,7 @@
       "gradePosting": "Grade Posting"
     },
     "message": {
+      "signInForMore": "Please sign in to enjoy more features.",
       "blankSearch": "Please select search conditions.",
       "timetableOverlap": "You can't add lecture overlapping.",
       "lastTimetable": "You can't delete the last timetable.",
