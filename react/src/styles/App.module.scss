@@ -2437,6 +2437,12 @@ a {
     color: $color-text-placeholder;
     font-size: 16px;
     line-height: 17px;
+
+    .related-courses & {
+        min-height: 100%;
+        font-size: 14px;
+        line-height: 15px;
+    }
 }
 
 
