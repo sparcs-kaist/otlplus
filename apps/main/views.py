@@ -11,7 +11,6 @@ from apps.subject.models import Course, Department
 from apps.main.models import RandomCourseReco, FamousMajorReviewDailyFeed, FamousHumanityReviewDailyFeed, ReviewWriteDailyUserFeed, RelatedCourseDailyUserFeed
 
 from apps.timetable.views import _user_department
-from apps.timetable.views import _lecture_to_dict
 
 import json
 import datetime
