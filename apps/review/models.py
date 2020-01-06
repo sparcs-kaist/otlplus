@@ -93,9 +93,7 @@ class Comment(models.Model):
         lectures = Lecture.objects.filter(course=course, professors__in=professors)
         related_list = [course]+list(lectures)+list(professors)
         for related in related_list:
-            print(related.grade_sum)
             related.grade_sum += (self.like+1)*(grade - self.grade)*3
-            print(related.grade_sum)
             related.load_sum += (self.like+1)*(load - self.load)*3
             related.speech_sum += (self.like+1)*(speech - self.speech)*3
             related.avg_update()

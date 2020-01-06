@@ -158,7 +158,7 @@ class CourseDetailSection extends Component {
             <a href="mailto:otlplus@sparcs.org">otlplus@sparcs.org</a>
           </div>
           <div>
-            © 2017,&nbsp;
+            © 2016,&nbsp;
             <a href="http://sparcs.kaist.ac.kr">SPARCS</a>
             &nbsp;OTL Team
           </div>

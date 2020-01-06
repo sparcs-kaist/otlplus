@@ -66,7 +66,6 @@ def courses_list_view(request):
                 pass
             else:
                 current_year = datetime.datetime.now().year
-                print(current_year-int(term))
                 courses = courses.filter(lecture_course__year__gte=current_year-int(term))
 
         group = request.GET.getlist('group', [])
@@ -226,12 +225,10 @@ def lectures_list_view(request):
 
         begin = request.GET.get('begin', None)
         if begin:
-            print(begin)
             time_query &= Q(classtime_set__begin__gte = datetime.time(int(begin)/2+8, (int(begin)%2)*30))
 
         end = request.GET.get('end', None)
         if end and False:
-            print(end)
             if int(end) == 32:
                 pass
             else:
@@ -351,7 +348,6 @@ def lectures_instance_related_comments_view(request, lecture_id):
 def users_instance_taken_courses_view(request, user_id):
     if request.method == 'GET':
         userprofile = UserProfile.objects.get(user=request.user)
-        print(userprofile.id)
         if userprofile.id != int(user_id):
             return HttpResponse(status=401)
         courses = Course.objects.filter(lecture_course__in=userprofile.take_lecture_list.all()).order_by('old_code').distinct()

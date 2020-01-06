@@ -10,6 +10,9 @@ import lectureShape from '../../shapes/LectureShape';
 
 const HistoryLecturesBlock = ({ t, lectures }) => {
   const getClass = (lec) => {
+    if (!lec.class_title) {
+      return classNames('');
+    }
     switch (lec.class_title.length) {
       case 1:
         return classNames('block--history-lectures__elem__texts__fixed-1');
