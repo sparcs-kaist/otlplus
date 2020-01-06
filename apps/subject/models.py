@@ -88,6 +88,11 @@ class Lecture(models.Model):
     comment_num = models.IntegerField(default=0)
 
     def toJson(self, nested=False):
+        cache_id = "lecture:%d:%s" % (self.id, 'nested' if nested else 'normal')
+        result_cached = cache.get(cache_id)
+        if result_cached != None:
+            return result_cached
+
         # Don't change this into model_to_dict: for security and performance
         result = {"id": self.id,
                 "title": self.title,
@@ -135,6 +140,7 @@ class Lecture(models.Model):
         })
         
         if nested:
+            cache.set(cache_id, result)
             return result
 
         # Add formatted score
@@ -229,6 +235,8 @@ class Lecture(models.Model):
             result.update({
                 'major_code': '',
             })
+
+        cache.set(cache_id, result)
 
         return result
 

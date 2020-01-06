@@ -43,37 +43,6 @@ from PIL import Image, ImageDraw, ImageFont
 
 
 
-# List(Lecture) -> List[dict-Lecture]
-# Format raw result from models into javascript-understandable form
-def _lecture_result_format(ls, from_search = False):
-    ls = ls.select_related('course', 'department') \
-           .prefetch_related('classtime_set', 'examtime_set', 'professors') \
-           .order_by('old_code', 'class_no')
-
-    if from_search:
-        ls = ls[:500]
-
-    result = [_lecture_to_dict(x) for x in ls]
-
-    return result
-
-
-
-# Lecture -> dict-Lecture
-# Convert a lecture model into dict
-def _lecture_to_dict(lecture):
-    cache_id = "lecture:%s:%d" % (_(u"ko"), lecture.id)
-    result_cached = cache.get(cache_id)
-    if result_cached != None:
-        return result_cached
-
-    result = lecture.toJson()
-
-    cache.set(cache_id, result, 60*60)
-    return result
-
-
-
 def _user_department(user):
     if not user.is_authenticated():
         return [{'code':'Basic', 'name':u' 기초 과목', 'name_en':u' Basic Course'}]
@@ -230,7 +199,7 @@ def table_load(request):
     ctx = []
     for t in timetables:
         timetable = {"id": t.id,
-                     "lectures":_lecture_result_format(t.lecture.filter(deleted=False))}
+                     "lectures":[l.toJson(nested=False) for l in t.lecture.filter(deleted=False)]}
         ctx.append(timetable)
 
     return JsonResponse(ctx, safe=False, json_dumps_params=
@@ -291,7 +260,7 @@ def share_calendar(request):
     end = settings.SEMESTER_RANGES[(year,semester)][1] + datetime.timedelta(days=1)
  
     for lecture in timetable.lecture.all():
-        lDict = _lecture_to_dict(lecture)
+        lDict = lecture.toJson(nested=False)
 
         for classtime in lDict['classtimes']:
             days_ahead = classtime['day'] - start.weekday()
@@ -357,7 +326,7 @@ def wishlist_load(request):
     w = Wishlist.objects.get_or_create(user=userprofile)[0]
 
     lectures = w.lectures.filter(year=year, semester=semester, deleted=False)
-    result = _lecture_result_format(lectures)
+    result = [l.toJson(nested=False) for l in lectures]
 
     return JsonResponse(result, safe=False, json_dumps_params=
                         {'ensure_ascii': False})
@@ -478,7 +447,7 @@ def share_image(request):
     font = ImageFont.truetype(file_path+"fonts/NanumBarunGothic.ttf", 22)
 
     for l in timetable.lecture.all():
-        lDict = _lecture_to_dict(l)
+        lDict = l.toJson(nested=False)
         color = ['#F2CECE','#F4AEAE','#F2BCA0','#F1D6B2',
                  '#F1E1A9','#f4f2b3','#dbf4be','#beedd7',
                  '#b7e2de','#c9eaf4','#b4c9ed','#b4bbef',
