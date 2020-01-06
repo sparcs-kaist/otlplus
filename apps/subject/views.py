@@ -9,7 +9,6 @@ from utils.decorators import login_required_ajax
 from models import Semester, Course, Lecture
 from apps.session.models import UserProfile
 from apps.review.models import Comment
-from apps.timetable.views import _lecture_result_format
 
 import datetime
 
@@ -267,8 +266,12 @@ def lectures_list_view(request):
                 query |= Q(type_en__in=filter_type, department__code__in=group)
             lectures = lectures.filter(query)
 
-        lectures = lectures.distinct()
-        result = _lecture_result_format(lectures, from_search = True)
+        lectures = lectures \
+            .distinct() \
+            .select_related('course', 'department') \
+            .prefetch_related('classtime_set', 'examtime_set', 'professors') \
+            .order_by('old_code', 'class_no')
+        result = [l.toJson(nested=False) for l in lectures]
         return JsonResponse(result, safe=False)
 
 
