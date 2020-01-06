@@ -97,6 +97,7 @@
     "placeholder": {
       "loading": "Loading",
       "noResults": "No Results",
+      "unknown": "Unknown",
       "reviewContent": "Please describe your evaluation on the lecture, like grade or load."
     },
     "search": {
