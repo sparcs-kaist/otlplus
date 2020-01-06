@@ -105,7 +105,8 @@
       "department": "Dept.",
       "level": "Level",
       "time": "Time",
-      "professor": "Prof."
+      "professor": "Prof.",
+      "term": "Term"
     },
     "type": {
       "basicRequired": "Basic Required",
@@ -154,6 +155,10 @@
       "400sShort": "400s",
       "allShort": "ALL",
       "etcShort": "ETC"
+    },
+    "term": {
+      "3yearsShort": "In-3-Years",
+      "allShort": "ALL"
     },
     "day": {
       "monday": "Monday",
