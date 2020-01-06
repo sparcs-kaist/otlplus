@@ -1252,6 +1252,13 @@ a {
             flex-wrap: wrap;
             margin-right: -8px;
             margin-bottom: -8px + 12px;
+
+            &__dummy {
+                margin-right: 8px;
+                width: 154px;
+                flex: 1 0 auto;
+                height: 0;
+            }
         }
 
         &__people-list {
@@ -1806,6 +1813,7 @@ a {
         margin-bottom: 8px;
         width: 154px;
         text-align: center;
+        flex: 1 0 auto;
         cursor: pointer;
         &:hover {
             background-color:$color-block-background-dark;
