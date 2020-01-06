@@ -238,6 +238,32 @@ class TimetableSubSection extends Component {
         />
       ))
     ));
+    const tempBlocks = ((lectureActiveFrom === LIST) && !inTimetable(lectureActiveLecture, currentTimetable))
+      ? (
+        lectureActiveLecture.classtimes.map(classtime => (
+          <TimetableBlock
+            key={`${lectureActiveLecture.id}:${classtime.day}:${classtime.begin}`}
+            lecture={lectureActiveLecture}
+            classtime={classtime}
+            cellWidth={cellWidth}
+            cellHeight={cellHeight}
+            isTimetableReadonly={!currentTimetable || Boolean(currentTimetable.isReadOnly)}
+            isClicked={false}
+            isHover={false}
+            isInactive={false}
+            isTemp={true}
+            isSimple={mobileShowLectureList}
+            blockHover={null}
+            blockOut={null}
+            blockClick={null}
+            deleteLecture={null}
+            occupiedTime={this._getOccupiedTime(classtime.day, this.indexOfMinute(classtime.begin), this.indexOfMinute(classtime.end))}
+          />
+        ))
+      )
+      : (
+        null
+      )
 
     const getHeaders = () => {
       const numArray = [...Array((2350 - 800) / 50 + 1).keys()].map(i => i * 50 + 800); // [800, 850, 900, ..., 2350]
@@ -372,37 +398,7 @@ class TimetableSubSection extends Component {
             : null
         }
         {lectureBlocks}
-        {
-          (
-            lectureActiveFrom === LIST
-            && !inTimetable(lectureActiveLecture, currentTimetable)
-          )
-            ? (
-              lectureActiveLecture.classtimes.map(classtime => (
-                <TimetableBlock
-                  key={`${lectureActiveLecture.id}:${classtime.day}:${classtime.begin}`}
-                  lecture={lectureActiveLecture}
-                  classtime={classtime}
-                  cellWidth={cellWidth}
-                  cellHeight={cellHeight}
-                  isTimetableReadonly={!currentTimetable || Boolean(currentTimetable.isReadOnly)}
-                  isClicked={false}
-                  isHover={false}
-                  isInactive={false}
-                  isTemp={true}
-                  isSimple={mobileShowLectureList}
-                  blockHover={null}
-                  blockOut={null}
-                  blockClick={null}
-                  deleteLecture={null}
-                  occupiedTime={this._getOccupiedTime(classtime.day, this.indexOfMinute(classtime.begin), this.indexOfMinute(classtime.end))}
-                />
-              ))
-            )
-            : (
-              null
-            )
-        }
+        {tempBlocks}
       </div>
     );
   }
