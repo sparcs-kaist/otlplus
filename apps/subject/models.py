@@ -1,5 +1,6 @@
 #-*- coding: utf-8 -*-
 from django.db import models
+from django.core.cache import cache
 from apps.enum.common import * #for enum type (for choices)
 from datetime import date, time
 
@@ -545,6 +546,13 @@ class Course(models.Model):
                 'userspecific_is_read': is_read,
             })
 
+        cache_id = "course:%d:%s" % (self.id, 'nested' if nested else 'normal')
+        result_cached = cache.get(cache_id)
+        if result_cached != None:
+            if not nested:
+                addUserspecificData(result_cached, user)
+            return result_cached
+
         # Don't change this into model_to_dict: for security and performance
         result = {
                 "id": self.id,
@@ -560,6 +568,7 @@ class Course(models.Model):
         }
 
         if nested:
+            cache.set(cache_id, result)
             return result
         
         result.update({
@@ -616,7 +625,9 @@ class Course(models.Model):
             result.update({
                 'major_code': '',
             })
-    
+
+        cache.set(cache_id, result)
+
         addUserspecificData(result, user)
 
         return result
