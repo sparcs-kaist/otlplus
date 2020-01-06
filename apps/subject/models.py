@@ -530,6 +530,21 @@ class Course(models.Model):
     latest_written_datetime = models.DateTimeField(default=None, null=True)
 
     def toJson(self, nested=False, user=None):
+        def addUserspecificData(result, user):
+            # Add user read info
+            if (not user) or (not user.is_authenticated()):
+                is_read = False
+            elif not self.read_users_courseuser.filter(user_profile__user=user).exists():
+                is_read = False
+            elif self.latest_written_datetime is None:
+                is_read = True
+            else:
+                course_user = self.read_users_courseuser.get(user_profile__user=user)
+                is_read = self.latest_written_datetime < course_user.latest_read_datetime
+            result.update({
+                'userspecific_is_read': is_read,
+            })
+
         # Don't change this into model_to_dict: for security and performance
         result = {
                 "id": self.id,
@@ -585,20 +600,6 @@ class Course(models.Model):
                 'speech_letter': letters[int(round(self.speech))],
             })
 
-        # Add user read info
-        if (not user) or (not user.is_authenticated()):
-            is_read = False
-        elif not self.read_users_courseuser.filter(user_profile__user=user).exists():
-            is_read = False
-        elif self.latest_written_datetime is None:
-            is_read = True
-        else:
-            course_user = self.read_users_courseuser.get(user_profile__user=user)
-            is_read = self.latest_written_datetime < course_user.latest_read_datetime
-        result.update({
-            'userspecific_is_read': is_read,
-        })
-
         if self.type_en in ["Basic Required", "Basic Elective"]:
             result.update({
                 'major_code': 'Basic',
@@ -615,6 +616,8 @@ class Course(models.Model):
             result.update({
                 'major_code': '',
             })
+    
+        addUserspecificData(result, user)
 
         return result
 
