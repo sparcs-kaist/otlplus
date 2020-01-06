@@ -61,6 +61,15 @@ def courses_list_view(request):
             else:
                 courses = courses.filter(code_num__in = [acronym_dic[x] for x in acronym_dic if x in level])
 
+        term = request.GET.get('term', None)
+        if term and len(term):
+            if "ALL" in term:
+                pass
+            else:
+                current_year = datetime.datetime.now().year
+                print(current_year-int(term))
+                courses = courses.filter(lecture_course__year__gte=current_year-int(term))
+
         group = request.GET.getlist('group', [])
         if group and len(group):
             query = Q()
