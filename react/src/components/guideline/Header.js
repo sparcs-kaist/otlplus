@@ -133,12 +133,14 @@ class Header extends Component {
                   <span>{t('ui.menu.toggleLang')}</span>
                 </button>
               </span>
+              {/*
               <span>
                 <Link to=".">
                   <i className={classNames('icon--header_notification')} />
                   <span>{t('ui.menu.notifications')}</span>
                 </Link>
               </span>
+              */}
               <span>
                 { user
                   ? (
