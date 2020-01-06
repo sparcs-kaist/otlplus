@@ -55,6 +55,7 @@ $small-block-border-radius: 2px;
  
 
 body * {
+    font-family: sans-serif;
     box-sizing: border-box;
     margin: 0;
     padding: 0;
@@ -64,7 +65,6 @@ body * {
 
 
 body {
-    font-family: sans-serif;
     font-size: $font-size-normal;
     line-height: $line-height-normal;
     background-color: #f9f0f0;
@@ -797,7 +797,7 @@ a {
 
         &__drag-cell {
             position:absolute;
-            background-color:#E56C85;
+            background-color:rgba(#E0546F,0.8);
             border-radius: $small-block-border-radius;
             pointer-events:none;
             z-index:1;
@@ -1252,6 +1252,13 @@ a {
             flex-wrap: wrap;
             margin-right: -8px;
             margin-bottom: -8px + 12px;
+
+            &__dummy {
+                margin-right: 8px;
+                width: 154px;
+                flex: 1 0 auto;
+                height: 0;
+            }
         }
 
         &__people-list {
@@ -1357,6 +1364,7 @@ a {
         display: flex;
         flex-direction: column;
         justify-content: center;
+        min-width: 74px;
 
         .related-courses > div:nth-child(3) > & {
             flex: 1 0 auto;
@@ -1805,6 +1813,7 @@ a {
         margin-bottom: 8px;
         width: 154px;
         text-align: center;
+        flex: 1 0 auto;
         cursor: pointer;
         &:hover {
             background-color:$color-block-background-dark;
@@ -2054,6 +2063,10 @@ a {
         strong {
             margin-right: 8px;
         }
+
+        span, strong {
+            display: inline-block;
+        }
     }
 }
 
@@ -2061,6 +2074,7 @@ a {
 .related-courses {
     display: flex;
     flex-direction: row;
+    overflow-x: scroll;
 
     & > div:nth-child(1),
     & > div:nth-child(3),
