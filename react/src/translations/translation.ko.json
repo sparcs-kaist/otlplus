@@ -235,6 +235,7 @@
       "multipleDetailCount": "{{count}}개의 과목",
       "dragTimetable": "시간표에서 드래그",
       "notOffered": "미개설",
+      "timeNone": "없음",
       "today": "오늘",
       "yesterday": "어제",
       "day": "{{date, M월 D일}}"

@@ -726,7 +726,7 @@ a {
                     position: relative;
                     padding-top: 1px;
                     width: 100%;
-                    &:first-child {
+                    &.table-head {
                         flex: none;
                         padding-top: 0;
                         height: $line-height-smallest + 6px;
@@ -756,7 +756,7 @@ a {
                 flex: 1 1 0;
 
                 & > div {
-                    &:first-child {
+                    &.table-head {
                         flex: none;
                         height: $line-height-smallest + 6px;
                         text-align: center;
@@ -766,7 +766,7 @@ a {
                         position: relative;
                     }
 
-                    &:not(:first-child) {
+                    &:not(.table-head) {
                         position: relative;
                         flex: auto;
                         width: 100%;
