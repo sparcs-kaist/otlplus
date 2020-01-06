@@ -29,6 +29,7 @@
       "famousMajorReviews": "사랑받는 전공후기",
       "famousHumanityReviews": "사랑받는 교양후기",
       "writeReview": "후기 작성",
+      "notSignedIn": "로그인 필요",
       "myInformation": "내 정보",
       "academicInformation": "학사 정보"
     },
@@ -65,6 +66,7 @@
       "seeDetails": "자세히 보기",
       "goToAcademicSystem": "학사시스템 바로가기",
       "seeMoreReviews": "후기 더 보기",
+      "signInWithSso": "SPARCS SSO로 로그인",
       "writeMoreReviews": "후기 더 작성하기",
       "signOut": "로그아웃"
     },
@@ -189,6 +191,7 @@
       "gradePosting": "성적게시"
     },
     "message": {
+      "signInForMore": "로그인하면 더 많은 기능들을 이용하실 수 있습니다",
       "blankSearch": "검색 조건을 선택해 주세요.",
       "timetableOverlap": "시간표가 겹치는 과목은 추가할 수 없습니다.",
       "lastTimetable": "마지막 시간표는 삭제할 수 없습니다.",

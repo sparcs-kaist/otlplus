@@ -193,6 +193,14 @@ a {
     }
 
 
+    &--main {
+        min-height: calc(100vh - (400px + 50px + #{$section-margin-top} + env(safe-area-inset-bottom)));
+        @media (orientation: portrait) {
+            min-height: calc(100vh - (200px + 130px + #{$section-margin-top} + env(safe-area-inset-bottom)));
+        }
+    }
+
+
     &--timetable {
         @media (orientation: portrait) {
             flex-direction: column-reverse;
@@ -2029,6 +2037,7 @@ a {
 }
 
 
+.visitor,
 .academic-schedule {
     & > div:nth-child(1) {
         font-size: 20px;

@@ -10,6 +10,7 @@ import Footer from '../components/guideline/Footer';
 
 import MyTimetableSection from '../components/sections/main/MyTimetableSection';
 import AcademicScheduleSection from '../components/sections/main/AcademicScheduleSection';
+import VisitorSection from '../components/sections/main/VisitorSection';
 import RelatedCourseSection from '../components/sections/main/RelatedCourseSection';
 import LatestReviewSection from '../components/sections/main/LatestReviewSection';
 import FamousMajorReviewSection from '../components/sections/main/FamousMajorReviewSection';
@@ -137,7 +138,7 @@ class MainPage extends Component {
             </div>
           </div> 
         </section>
-        <section className={classNames('content')}>
+        <section className={classNames('content', 'content--main')}>
           <div className={classNames('section-wrap')}>
             <div className={classNames('section')}>
               <MyTimetableSection />
@@ -148,16 +149,25 @@ class MainPage extends Component {
               <AcademicScheduleSection />
             </div>
           </div>
-          {
-            feedDays.map(d => (
+          {!user
+            ? (
+              <>
+                <div className={classNames('main-date')}>
+                  {t('ui.others.today')}
+                </div>
+                <div className={classNames('section-wrap')}>
+                  <div className={classNames('section')}>
+                    <VisitorSection />
+                  </div>
+                </div>
+              </>
+            )
+            : feedDays.map(d => (
               <React.Fragment key={d.date}>
                 <div className={classNames('main-date')}>
                   {getDateName(d.date)}
                 </div>
                 {d.feeds.map((f) => {
-                  if (!user) {
-                    return null;
-                  }
                   if (f.type === 'REVIEW_WRITE') {
                     return (
 
