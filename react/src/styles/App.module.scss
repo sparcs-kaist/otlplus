@@ -1357,6 +1357,7 @@ a {
         display: flex;
         flex-direction: column;
         justify-content: center;
+        min-width: 74px;
 
         .related-courses > div:nth-child(3) > & {
             flex: 1 0 auto;
@@ -2065,6 +2066,7 @@ a {
 .related-courses {
     display: flex;
     flex-direction: row;
+    overflow-x: scroll;
 
     & > div:nth-child(1),
     & > div:nth-child(3),
