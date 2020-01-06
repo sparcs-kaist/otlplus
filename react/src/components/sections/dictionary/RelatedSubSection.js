@@ -5,7 +5,6 @@ import { withTranslation } from 'react-i18next';
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 import CourseSimpleBlock from '../../blocks/CourseSimpleBlock';
 import CourseShape from '../../../shapes/CourseShape';
-import courses from '../../../dummy/courses';
 
 
 class RelatedSubSection extends Component {
@@ -18,7 +17,10 @@ class RelatedSubSection extends Component {
         <div className={classNames('small-title')}>{t('ui.title.relatedCourses')}</div>
         <div className={classNames('related-courses')}>
           <div>
-            { courses.map(c => <CourseSimpleBlock course={c} key={c.id} />) }
+            { course.related_courses_prior.length
+              ? course.related_courses_prior.map(c => <CourseSimpleBlock course={c} key={c.id} />)
+              : <div className={classNames('list-placeholder')}><div>{t('ui.placeholder.unknown')}</div></div>
+            }
           </div>
           <div>
             <i className={classNames('icon', 'icon--related-arrow')} />
@@ -30,7 +32,10 @@ class RelatedSubSection extends Component {
             <i className={classNames('icon', 'icon--related-arrow')} />
           </div>
           <div>
-            { courses.slice(0, 2).map(c => <CourseSimpleBlock course={c} key={c.id} />) }
+            { course.related_courses_posterior.length
+              ? course.related_courses_prior.map(c => <CourseSimpleBlock course={c} key={c.id} />)
+              : <div className={classNames('list-placeholder')}><div>{t('ui.placeholder.unknown')}</div></div>
+            }
           </div>
         </div>
       </>
