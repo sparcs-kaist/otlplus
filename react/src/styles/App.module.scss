@@ -1366,8 +1366,8 @@ a {
         justify-content: center;
         min-width: 74px;
 
-        .related-courses > div:nth-child(3) > & {
-            flex: 1 0 auto;
+        .related-courses > div > & {
+            flex: 1 0 0;
         }
 
         &:last-child {

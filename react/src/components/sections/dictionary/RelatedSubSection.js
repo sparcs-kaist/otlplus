@@ -30,7 +30,7 @@ class RelatedSubSection extends Component {
             <i className={classNames('icon', 'icon--related-arrow')} />
           </div>
           <div>
-            { courses.map(c => <CourseSimpleBlock course={c} key={c.id} />) }
+            { courses.slice(0, 2).map(c => <CourseSimpleBlock course={c} key={c.id} />) }
           </div>
         </div>
       </>
