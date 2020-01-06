@@ -88,7 +88,10 @@ def courses_list_view(request):
                 Q(professors__professor_name_en__icontains=keyword)
             )
 
-        courses = courses.distinct()
+        courses = courses \
+            .distinct() \
+            .select_related('department') \
+            .prefetch_related('related_courses_prior', 'related_courses_posterior', 'professors', 'read_users_courseuser')
         result = [c.toJson(user=request.user) for c in courses[:300]]
         return JsonResponse(result, safe=False)
 
