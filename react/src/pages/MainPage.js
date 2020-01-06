@@ -138,7 +138,7 @@ class MainPage extends Component {
             </div>
           </div> 
         </section>
-        <section className={classNames('content')}>
+        <section className={classNames('content', 'content--main')}>
           <div className={classNames('section-wrap')}>
             <div className={classNames('section')}>
               <MyTimetableSection />
