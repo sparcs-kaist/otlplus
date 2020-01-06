@@ -19,24 +19,7 @@ from . import views
 
 urlpatterns = [
     url(r'^latest/(?P<page>[0-9]+)$', views.latest),
-
-    url(r'^comment/([1-9][0-9]*)$', views.ReviewView),
-
-    url(r'^professor/([^/]+)$', views.professor),
-    url(r'^professor/([^/]+)/([^/]+)/([^/]+)$', views.professorComment),
-
-    url(r'^course/([^/]+)$', views.course),
-
-    url(r'^result$', views.resultProfessor),
-    url(r'^result/(?P<page>[0-9]+)$', views.resultCourse),
-
-    url(r'^insert$', views.insert),
     url(r'^insert/([^/]+)$', views.insertReview),
-
     url(r'^like$',views.ReviewLike),
-
-    # TODO: Implement old OTL dictionary URL redirect
-    url(r'^dictionary/([^/]+)/$', views.dictionary),
-
-    url(r'^read$',views.read_course) #remove later
+    url(r'^read$',views.read_course)
 ]

@@ -69,195 +69,6 @@ def _gradeFilters(raw_filters):
     return filters
 
 
-#################### UNUSED ####################
-def search_view(request):
-    if request.user.is_authenticated():
-        user_profile = UserProfile.objects.get(user=request.user)
-        if len(user_profile.language) == 0:
-            return redirect("/session/settings/")
-
-    comment_liberal = list(LiberalBestComment.objects.all())
-    if request.user.is_authenticated():
-        user = request.user
-        user_profile = UserProfile.objects.get(user=user)
-        comment_major = list(MajorBestComment.objects.filter(comment__course__department__code__in = [d.code for d in user_profile.favorite_departments.all()]))
-    else:
-        comment_major = list(MajorBestComment.objects.all())
-
-    liberal_comment = []
-    major_comment = []
-
-    for i in range(3):
-        try :
-            j = random.randint(0, len(comment_liberal)-1)
-            comment = comment_liberal[j].comment
-            context = comment.toJson(user=request.user)
-            liberal_comment.append(context)
-            comment_liberal.pop(j)
-
-        except Exception, e:
-            print e
-
-    for i in range(3):
-        try:
-            j = random.randint(0,len(comment_major)-1)
-
-            comment = comment_major[j].comment
-            context = comment.toJson(user=request.user)
-            major_comment.append(context)
-            comment_major.pop(j)
-
-        except Exception, e:
-            print e
-    ctx = {
-            'liberal_comment':liberal_comment,
-            'major_comment':major_comment,
-    }
-
-    return render(request, 'review/search.html',ctx)
-
-
-def _calcAvgScore(grade_sum, load_sum, speech_sum, total_sum, comment_num):
-    if comment_num == 0:
-        grade = 0.0
-        load = 0.0
-        speech = 0.0
-        total = 0.0
-    else:
-        grade = float(grade_sum)/comment_num
-        load = float(load_sum)/comment_num
-        speech = float(speech_sum)/comment_num
-        total = float(total_sum)/comment_num
-    return grade, load, speech, total
-
-
-def _getFilteredCourses(semester_filters, department_filters, type_filters, grade_filters, keyword):
-    if len(semester_filters)==0 or ("ALL" in semester_filters):
-        courses = Course.objects.filter(department__code__in=department_filters, type_en__in=type_filters, code_num__in=grade_filters)
-    else :
-        courses = CourseFiltered.objects.get(title=semester_filters[0]).courses.filter(department__code__in=department_filters, type_en__in=type_filters, code_num__in=grade_filters)
-
-    if len(keyword)>0:
-        courses = courses.filter(Q(title__icontains=keyword) | Q(title_en__icontains=keyword) | Q(old_code__iexact=keyword) | Q(department__name__iexact=keyword) | Q(department__name_en__iexact=keyword))
-
-    return courses
-
-
-def _keyLecByProf(lecture):
-    return sorted([i.id for i in lecture.professors.all()])
-
-
-def _getLecByProf(lectures):
-    lectures.sort(key = _keyLecByProf)
-    lec_by_prof = groupby(lectures, _keyLecByProf)
-    lec_by_prof = [ list(i[1]) for i in lec_by_prof ]
-    return lec_by_prof
-
-
-def resultProfessor(request):
-    keyword = request.GET.get('q')
-    if not keyword :
-        keyword = ""
-    if len(keyword)>0:
-        expectations = Professor.objects.filter(Q(professor_name__icontains=keyword)|Q(professor_name_en__icontains=keyword))
-        expectations = [{"name":i.professor_name,"id":i.id} for i in expectations]
-    else:
-        expectations = []
-
-    context = {
-            "expectations":expectations,
-    }
-
-    return JsonResponse(context,safe=False)
-
-
-def resultCourse(request, page):
-    #body = json.loads(request.body.decode('utf-8'))
-    keyword = request.GET.get('q')
-    if not keyword :
-        keyword = ""
-    semester_filters = request.GET.getlist('semester')
-    department_filters = _departmentFilters(request.GET.getlist('department'))
-    type_filters = _typeFilters(request.GET.getlist('type'))
-    grade_filters = _gradeFilters(request.GET.getlist('grade'))
-    print('hihi', semester_filters)
-    sort = request.GET.get('sort')
-
-    #semester_filters = body['semester']
-    #department_filters = _departmentFilters(body['department'])
-    #type_filters = _typeFilters(body['type'])
-    #grade_filters = _gradeFilters(body['grade'])
-
-    courses = _getFilteredCourses(semester_filters, department_filters, type_filters, grade_filters, keyword)
-
-    if sort :
-        if sort=='name':
-            courses = courses.order_by('title','old_code')
-        elif sort=='total':
-            courses = courses.order_by('-total','old_code')
-        elif sort=='grade':
-            courses = courses.order_by('-grade','old_code')
-        elif sort=='load':
-            courses = courses.order_by('-load','old_code')
-        elif sort=='speech':
-            courses = courses.order_by('-speech','old_code')
-        else:
-            courses = courses.order_by('old_code')
-    else :
-        courses = courses.order_by('old_code')
-
-    paginator = Paginator(courses,10)
-    try:
-        page_obj = paginator.page(page)
-    except InvalidPage:
-        raise Http404
-
-    results = [i.toJson(user=request.user) for i in page_obj.object_list]
-
-    context = {
-            "results":results,
-            "hasNext":page_obj.has_next(),
-            "keyword":keyword,
-    }
-    return JsonResponse(context,safe=False)
-
-
-def professor(request,id=-1,course_id=-1):
-    professor = Professor.objects.get(id=id)
-    context = {
-            "result": professor.toJson(),
-    }
-    return JsonResponse(context,safe=False)
-
-
-def professorComment(request, id=-1,course_id=-1,page=-1):
-    comments = Comment.objects.filter(lecture__professors__id=id).order_by('-lecture__year','-written_datetime')
-    if int(course_id) != -1:
-        comments = comments.filter(lecture__course__id=course_id)
-    paginator = Paginator(comments,10)
-    try:
-        page_obj = paginator.page(page)
-    except InvalidPage:
-        raise Http404
-    results = [i.toJson(user=request.user) for i in page_obj.object_list]
-
-    context = {
-            "results":results,
-            "hasNext":page_obj.has_next(),
-    }
-    return JsonResponse(context,safe=False)
-
-
-def course(request,id=-1,professor_id=-1):
-    professor_id = int(professor_id)
-    course = Course.objects.get(id=id)
-
-    context = {
-            "result": course.toJson(user=request.user),
-    }
-    return JsonResponse(context,safe=False)
-
-
 @login_required_ajax
 def ReviewLike(request):
     body = json.loads(request.body.decode('utf-8'))
@@ -280,7 +91,7 @@ def ReviewLike(request):
     ctx = {'likes_count': likes_count, 'already_up': already_up, 'is_login':is_login, 'id': body['commentid']}
     return JsonResponse(ctx,safe=False)
 
-#course읽었을 때 호출되는 함수입니다. 아마도 courseComment 함수 안에 추가되어야 할듯 합니다.
+
 @login_required(login_url='/session/login/')
 def read_course(request):
     user = request.user
@@ -294,35 +105,6 @@ def read_course(request):
     except CourseUser.DoesNotExist:
         CourseUser.objects.create(user_profile=user_profile, course=course)
     return JsonResponse({}, safe=False)
-
-@login_required(login_url='/session/login/')
-def insert(request):
-    print("insert")
-    user = request.user
-    user_profile = UserProfile.objects.get(user=user)
-    print(user_profile)
-
-    # TODO : Change here
-    if user_profile.portal_check == 1:
-        user_profile.portal_check =0
-        user_profile.save()
-        return HttpResponseRedirect('/session/logout/')
-
-    if len(user_profile.student_id) < 1:
-        raise Http404 # TODO : Change this to return 401
-
-    result = []
-    for l in user_profile.take_lecture_list.all():
-        result.append({
-            "title" : l.title,
-            "id" : l.id,
-            "year" : l.year,
-            "semester" : l.semester,
-            "old_code" : l.old_code,
-            "professor" : [{"professor_name":p.professor_name} for p in l.professors.all()],
-        })
-
-    return JsonResponse(result, safe=False)
 
 
 @login_required_ajax
@@ -365,15 +147,6 @@ def insertReview(request,lecture_id):
     return JsonResponse(target_comment.toJson(), safe=False)
 
 
-def ReviewView(request, comment_id):
-    try :
-        comment = Comment.objects.get(id=comment_id).toJson(user=request.user)
-    except Comment.DoesNotExist:
-        raise Http404
-
-    return JsonResponse(comment,safe=False)
-
-
 def latest(request, page=-1):
     filter = request.GET.get('filter')
     if filter == 'F':
@@ -402,13 +175,6 @@ def latest(request, page=-1):
             "is_login":request.user.is_authenticated(),
     }
     return JsonResponse(context,safe=False)
-
-
-def dictionary(request, course_code):
-    courses = Course.objects.filter(old_code = str(course_code))
-    if len(courses)>0:
-        return HttpResponseRedirect('/review/result/course/'+str(courses[0].id))
-    raise Http404
 
 
 
