@@ -239,7 +239,24 @@ class TimetableSubSection extends Component {
       ))
     ));
 
-    const dragDiv = (day, ko) => {
+    const getHeaders = () => {
+      const numArray = [...Array((2350 - 800) / 50 + 1).keys()].map(i => i * 50 + 800); // [800, 850, 900, ..., 2350]
+      return [
+        <div><strong>8</strong></div>,
+        ...numArray.map((i) => {
+          const i2 = i + 50;
+          if (i2 % 600 === 0) {
+            return <div><strong>{((i2 / 100 - 1) % 12) + 1}</strong></div>;
+          }
+          if (i2 % 100 === 0) {
+            return <div><span>{((i2 / 100 - 1) % 12) + 1}</span></div>;
+          }
+          return <div />;
+        }),
+      ];
+    };
+
+    const getCells = (day, ko) => {
       const numArray = [...Array((2350 - 800) / 50 + 1).keys()].map(i => i * 50 + 800); // [800, 850, 900, ..., 2350]
       const timeblock = [
         <div key={day}>{ko}</div>,
@@ -321,54 +338,22 @@ class TimetableSubSection extends Component {
       <div className={classNames('section-content', 'section-content--timetable')} onMouseUp={e => this.onMouseUp(e)} onTouchEnd={e => this.onTouchEnd(e)}>
         <div className={classNames('section-content--timetable__table')}>
           <div>
-            <div><strong>8</strong></div>
-            <div />
-            <div><span>9</span></div>
-            <div />
-            <div><span>10</span></div>
-            <div />
-            <div><span>11</span></div>
-            <div />
-            <div><strong>12</strong></div>
-            <div />
-            <div><span>1</span></div>
-            <div />
-            <div><span>2</span></div>
-            <div />
-            <div><span>3</span></div>
-            <div />
-            <div><span>4</span></div>
-            <div />
-            <div><span>5</span></div>
-            <div />
-            <div><strong>6</strong></div>
-            <div />
-            <div><span>7</span></div>
-            <div />
-            <div><span>8</span></div>
-            <div />
-            <div><span>9</span></div>
-            <div />
-            <div><span>10</span></div>
-            <div />
-            <div><span>11</span></div>
-            <div />
-            <div><strong>12</strong></div>
+            {getHeaders()}
           </div>
           <div>
-            {dragDiv('mon', t('ui.day.monday'))}
+            {getCells('mon', t('ui.day.monday'))}
           </div>
           <div>
-            {dragDiv('tue', t('ui.day.tuesday'))}
+            {getCells('tue', t('ui.day.tuesday'))}
           </div>
           <div>
-            {dragDiv('wed', t('ui.day.wednesday'))}
+            {getCells('wed', t('ui.day.wednesday'))}
           </div>
           <div>
-            {dragDiv('thu', t('ui.day.thursday'))}
+            {getCells('thu', t('ui.day.thursday'))}
           </div>
           <div>
-            {dragDiv('fri', t('ui.day.friday'))}
+            {getCells('fri', t('ui.day.friday'))}
           </div>
         </div>
         {
