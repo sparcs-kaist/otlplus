@@ -152,13 +152,6 @@ SEMESTER_RANGES = {
 # SEMESTER RANGES ORDER 
 # (year, semester#): 
 # (semesterBeginDay, semesterEndDay, registerDay(Begin), alterDay(End), cancelDay(End), finalEvalauationDay(End))
-# Did-you-knows (loading text)
-COMPLEMENT_DYK = 0
-DYK_CONTENTS = {
-    0: 'Hello World 0',
-    1: 'Burger King 1',
-    2: 'White Crane 2',
-}
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
