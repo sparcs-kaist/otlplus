@@ -65,6 +65,7 @@ class CourseListTabs extends Component {
 
     axios.get(`${BASE_URL}/api/courses`, { params: {
       group: majorCodes,
+      term: ['3'],
     } })
       .then((response) => {
         const newProps = this.props;
@@ -84,6 +85,7 @@ class CourseListTabs extends Component {
 
     axios.get(`${BASE_URL}/api/courses`, { params: {
       group: 'Humanity',
+      term: ['3'],
     } })
       .then((response) => {
         setListCoursesDispatch('humanity', response.data);
