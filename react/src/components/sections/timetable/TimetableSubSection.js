@@ -223,6 +223,9 @@ class TimetableSubSection extends Component {
           key={`${lecture.id}:${classtime.day}:${classtime.begin}`}
           lecture={lecture}
           classtime={classtime}
+          dayIndex={classtime.day}
+          beginIndex={classtime.begin / 30 - 16}
+          endIndex={classtime.end / 30 - 16}
           cellWidth={cellWidth}
           cellHeight={cellHeight}
           isTimetableReadonly={!currentTimetable || Boolean(currentTimetable.isReadOnly)}
@@ -245,6 +248,9 @@ class TimetableSubSection extends Component {
             key={`${lectureActiveLecture.id}:${classtime.day}:${classtime.begin}`}
             lecture={lectureActiveLecture}
             classtime={classtime}
+            dayIndex={classtime.day}
+            beginIndex={classtime.begin / 30 - 16}
+            endIndex={classtime.end / 30 - 16}
             cellWidth={cellWidth}
             cellHeight={cellHeight}
             isTimetableReadonly={!currentTimetable || Boolean(currentTimetable.isReadOnly)}
