@@ -32,7 +32,8 @@
       "writeReview": "Write Review",
       "notSignedIn": "You are not signed in",
       "myInformation": "My Information",
-      "academicInformation": "Academic Information"
+      "academicInformation": "Academic Information",
+      "settings": "Settings"
     },
     "tab": {
       "search": "Search",
@@ -69,6 +70,7 @@
       "signInWithSso": "Sign In with SPARCS SSO",
       "seeMoreReviews": "See More Reviews",
       "writeMoreReviews": "Write More Reviews",
+      "save": "Save",
       "signOut": "Sign Out"
     },
     "attribute": {
@@ -108,7 +110,8 @@
       "level": "Level",
       "time": "Time",
       "professor": "Prof.",
-      "term": "Term"
+      "term": "Term",
+      "favoriteDepartment": "Favorite Departments"
     },
     "type": {
       "basicRequired": "Basic Required",
