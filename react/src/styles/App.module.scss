@@ -1057,10 +1057,10 @@ a {
                         margin-right: 6px;
                         white-space: nowrap;
                         &.fixed-ko {
-                            width: 12px;
+                            min-width: 12px;
                         }
                         &.fixed-en {
-                            width: 23px;
+                            min-width: 23px;
                         }
                     }
 
@@ -2099,7 +2099,7 @@ a {
 
 
 .history {
-    overflow: scroll;
+    overflow-x: scroll;
     margin-right: -$section-padding;
     padding-right: $section-padding;
 
@@ -2188,10 +2188,10 @@ a {
             flex: none;
 
             &.fixed-ko {
-                width: 23px;
+                min-width: 23px;
             }
             &.fixed-en {
-                width: 32px;
+                min-width: 32px;
             }
         }
 
@@ -2228,11 +2228,11 @@ a {
             & > span:first-child {
                 &.fixed-ko {
                     white-space: nowrap;
-                    width: 23px;
+                    min-width: 23px;
                 }
                 &.fixed-en {
                     white-space: nowrap;
-                    width: 23px;
+                    min-width: 23px;
                 }
             }
 
