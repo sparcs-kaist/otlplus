@@ -32,7 +32,8 @@
       "writeReview": "후기 작성",
       "notSignedIn": "로그인 필요",
       "myInformation": "내 정보",
-      "academicInformation": "학사 정보"
+      "academicInformation": "학사 정보",
+      "settings": "설정"
     },
     "tab": {
       "search": "검색",
@@ -69,6 +70,7 @@
       "seeMoreReviews": "후기 더 보기",
       "signInWithSso": "SPARCS SSO로 로그인",
       "writeMoreReviews": "후기 더 작성하기",
+      "save": "저장",
       "signOut": "로그아웃"
     },
     "attribute": {
@@ -108,7 +110,8 @@
       "level": "학년",
       "time": "시간",
       "professor": "교수",
-      "term": "기간"
+      "term": "기간",
+      "favoriteDepartment": "관심학과"
     },
     "type": {
       "basicRequired": "기초필수",
