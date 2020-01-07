@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 import axios from '../../../common/presetAxios';
 import { BASE_URL } from '../../../common/constants';
 
+import { setUser } from '../../../actions/common/user';
 import SearchFilter from '../../SearchFilter';
 import userShape from '../../../shapes/UserShape';
 
@@ -77,6 +79,19 @@ class FavoriteDepartmentsSection extends Component {
       fav_department: Array.from(department),
     })
       .then((response) => {
+        this._refetchUser();
+      })
+      .catch((error) => {
+      });
+  }
+
+
+  _refetchUser = () => {
+    const { setUserDispatch } = this.props;
+
+    axios.get(`${BASE_URL}/session/info`)
+      .then((response) => {
+        setUserDispatch(response.data);
       })
       .catch((error) => {
       });
@@ -129,10 +144,14 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
+  setUserDispatch: (user) => {
+    dispatch(setUser(user));
+  },
 });
 
 FavoriteDepartmentsSection.propTypes = {
   user: userShape,
+  setUserDispatch: PropTypes.func.isRequired,
 };
 
 
