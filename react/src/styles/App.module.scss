@@ -196,9 +196,10 @@ a {
 
 
     &--main {
-        min-height: calc(100vh - (400px + 50px + #{$section-margin-top} + env(safe-area-inset-bottom)));
+        margin-bottom: $section-margin-bottom;
+        min-height: calc(100vh - (400px + 50px + #{$section-margin-top} + #{$section-margin-bottom} + env(safe-area-inset-bottom)));
         @media (orientation: portrait) {
-            min-height: calc(100vh - (240px + 130px + #{$section-margin-top} + env(safe-area-inset-bottom)));
+            min-height: calc(100vh - (240px + 130px + #{$section-margin-top} + #{$section-margin-bottom} + env(safe-area-inset-bottom)));
         }
     }
 
