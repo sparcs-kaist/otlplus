@@ -41,13 +41,13 @@ class TakenLecturesSection extends Component {
                   <span>-</span>
                   <span>/-</span>
                 </div>
-                <div>{t('ui.score.grade')}</div>
+                <div>{t('ui.score.reviewsWritten')}</div>
               </div>
               <div>
                 <div>
                   -
                 </div>
-                <div>{t('ui.score.load')}</div>
+                <div>{t('ui.score.likes')}</div>
               </div>
             </div>
             <div className={classNames('divider')} />
@@ -103,6 +103,8 @@ class TakenLecturesSection extends Component {
                 <div className={classNames('small-title')}>
                   {`${s.year} ${semesterNames[s.semester]}`}
                 </div>
+                <div className={classNames('taken-lectures')}>
+                  {/* eslint-disable-next-line react/jsx-indent */}
                 {user.taken_lectures
                   .filter(l => (l.year === s.year && l.semester === s.semester))
                   .map(l => (
@@ -127,6 +129,12 @@ class TakenLecturesSection extends Component {
                       )
                   ))
                 }
+                  <div className={classNames('taken-lectures__dummy')} />
+                  <div className={classNames('taken-lectures__dummy')} />
+                  <div className={classNames('taken-lectures__dummy')} />
+                  <div className={classNames('taken-lectures__dummy')} />
+                  <div className={classNames('taken-lectures__dummy')} />
+                </div>
               </React.Fragment>
             ))
             : <div className={classNames('list-placeholder')}>{t('ui.placeholder.noResults')}</div>
