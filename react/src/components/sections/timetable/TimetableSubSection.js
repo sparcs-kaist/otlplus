@@ -246,7 +246,7 @@ class TimetableSubSection extends Component {
           isHover={isTableHover(lecture, lectureActive) || isListHover(lecture, lectureActive) || isListClicked(lecture, lectureActive) || isInMultiple(lecture, lectureActive)}
           isInactive={isInactiveTableLecture(lecture, lectureActive)}
           isTemp={isTemp}
-          isSimple={isTemp ? null : mobileShowLectureList}
+          isSimple={mobileShowLectureList}
           blockHover={isTemp ? null : this.blockHover}
           blockOut={isTemp ? null : this.blockOut}
           blockClick={isTemp ? null : this.blockClick}

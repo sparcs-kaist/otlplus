@@ -69,6 +69,8 @@ body {
     line-height: $line-height-normal;
     background-color: #f9f0f0;
     color: $color-text-normal;
+    margin: 0;
+    padding: 0;
 }
 
 
@@ -194,9 +196,10 @@ a {
 
 
     &--main {
-        min-height: calc(100vh - (400px + 50px + #{$section-margin-top} + env(safe-area-inset-bottom)));
+        margin-bottom: $section-margin-bottom;
+        min-height: calc(100vh - (400px + 50px + #{$section-margin-top} + #{$section-margin-bottom} + env(safe-area-inset-bottom)));
         @media (orientation: portrait) {
-            min-height: calc(100vh - (200px + 130px + #{$section-margin-top} + env(safe-area-inset-bottom)));
+            min-height: calc(100vh - (240px + 130px + #{$section-margin-top} + #{$section-margin-bottom} + env(safe-area-inset-bottom)));
         }
     }
 
@@ -214,11 +217,11 @@ a {
     background-size: 100% auto;
     @media (orientation: landscape) {
         height: 400px;
-        padding-top: 191px;
+        padding-top: 400px / 2 - 9px;
     }
     @media (orientation: portrait) {
-        height: 200px;
-        padding-top: 91px;
+        height: 240px;
+        padding-top: 240px / 2 - 9px;
     }
 }
 
@@ -519,7 +522,7 @@ a {
             }
 
             & > button {
-                color: $color-text-lighter;
+                color: $color-text-light;
                 @media (orientation: landscape) {
                     margin-left: 4px;
                 }
@@ -765,7 +768,7 @@ a {
                         color: $color-text-light;
                         position: relative;
                         white-space: nowrap;
-                        margin: 0 -100px;
+                        margin: 0 -20px;
                     }
 
                     &:not(.table-head) {

@@ -88,6 +88,9 @@ class Lecture(models.Model):
     comment_num = models.IntegerField(default=0)
 
     def toJson(self, nested=False):
+        if self.deleted:
+            print("WARNING: You are serializing DELETED lecture: %s. Please check your query" % self)
+
         cache_id = "lecture:%d:%s" % (self.id, 'nested' if nested else 'normal')
         result_cached = cache.get(cache_id)
         if result_cached != None:
