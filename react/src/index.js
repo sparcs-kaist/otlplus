@@ -13,4 +13,10 @@ ReactDOM.render(
         <App/>
     </Router>,
     document.getElementById('root'));
-registerServiceWorker();
+
+try {
+    registerServiceWorker();
+}
+catch (error) {
+    console.log(error);
+}
