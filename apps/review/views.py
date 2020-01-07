@@ -149,12 +149,11 @@ def insertReview(request,lecture_id):
 
 def latest(request, page=-1):
     page = int(page)
-    PAGE_SIZE = 10
+    PAGE_SIZE = 20
 
     comments = Comment.objects.all().order_by('-written_datetime')
 
     comments = comments[PAGE_SIZE * page : PAGE_SIZE * (page+1)]
-    print(comments)
 
     if len(comments) == 0:
         raise Http404
