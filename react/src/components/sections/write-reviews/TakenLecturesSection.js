@@ -41,13 +41,13 @@ class TakenLecturesSection extends Component {
                   <span>-</span>
                   <span>/-</span>
                 </div>
-                <div>{t('ui.score.grade')}</div>
+                <div>{t('ui.score.reviewsWritten')}</div>
               </div>
               <div>
                 <div>
                   -
                 </div>
-                <div>{t('ui.score.load')}</div>
+                <div>{t('ui.score.likes')}</div>
               </div>
             </div>
             <div className={classNames('divider')} />
