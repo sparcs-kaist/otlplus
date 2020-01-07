@@ -98,7 +98,7 @@ class TakenLecturesSection extends Component {
           </div>
           {targetSemesters.length
             ? targetSemesters.map(s => (
-              <>
+              <React.Fragment key={`${s.year}-${s.semester}`}>
                 <div className={classNames('divider')} />
                 <div className={classNames('small-title')}>
                   {`${s.year} ${semesterNames[s.semester]}`}
@@ -109,6 +109,7 @@ class TakenLecturesSection extends Component {
                     !selectedLecture
                       ? (
                         <LectureSimpleBlock
+                          key={l.id}
                           lecture={l}
                           isClicked={false}
                           isInactive={false}
@@ -117,6 +118,7 @@ class TakenLecturesSection extends Component {
                       )
                       : (
                         <LectureSimpleBlock
+                          key={l.id}
                           lecture={l}
                           isClicked={selectedLecture.id === l.id}
                           isInactive={selectedLecture.id !== l.id}
@@ -125,7 +127,7 @@ class TakenLecturesSection extends Component {
                       )
                   ))
                 }
-              </>
+              </React.Fragment>
             ))
             : <div className={classNames('list-placeholder')}>{t('ui.placeholder.noResults')}</div>
           }
