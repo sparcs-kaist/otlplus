@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { pure } from 'recompose';
 import { withTranslation } from 'react-i18next';
 
@@ -7,13 +8,16 @@ import lectureShape from '../../shapes/LectureShape';
 
 
 // eslint-disable-next-line arrow-body-style
-const LectureSimpleBlock = ({ t, lecture }) => {
+const LectureSimpleBlock = ({ t, lecture, isClicked, isInactive, onClick }) => {
   return (
-    <div className={classNames('block', 'block--course-simple')}>
-      <div className={classNames('block--course-simple__title')}>
+    <div
+      className={classNames('block', 'block--lecture-simple', (isClicked ? 'block--clicked' : ''), (isInactive ? 'block--inactive' : ''))}
+      onClick={onClick}
+    >
+      <div className={classNames('block--lecture-simple__title')}>
         { lecture[t('js.property.title')] }
       </div>
-      <div className={classNames('block--course-simple__subtitle')}>
+      <div className={classNames('block--lecture-simple__subtitle')}>
         { lecture.old_code }
       </div>
     </div>
@@ -22,6 +26,9 @@ const LectureSimpleBlock = ({ t, lecture }) => {
 
 LectureSimpleBlock.propTypes = {
   lecture: lectureShape.isRequired,
+  isClicked: PropTypes.bool.isRequired,
+  isInactive: PropTypes.bool.isRequired,
+  onClick: PropTypes.func.isRequired,
 };
 
 
