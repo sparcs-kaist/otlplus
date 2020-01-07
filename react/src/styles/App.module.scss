@@ -1434,10 +1434,11 @@ a {
 
     &--lecture-simple {
         padding: 8px 10px;
+        margin-right: 8px;
         display: flex;
         flex-direction: column;
         justify-content: center;
-        min-width: 74px;
+        width: 154px;
 
         &__title {
             text-align: center;
@@ -2237,6 +2238,26 @@ a {
                 }
             }
         }
+    }
+}
+
+
+.taken-lectures {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-right: -8px;
+    margin-bottom: -8px;
+
+    & > * {
+        flex: 1 0 auto;
+    }
+
+    &__dummy {
+        margin-right: 8px;
+        width: 154px;
+        flex: 1 0 auto;
+        height: 0;
     }
 }
 
