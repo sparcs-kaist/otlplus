@@ -196,7 +196,7 @@ a {
     &--main {
         min-height: calc(100vh - (400px + 50px + #{$section-margin-top} + env(safe-area-inset-bottom)));
         @media (orientation: portrait) {
-            min-height: calc(100vh - (200px + 130px + #{$section-margin-top} + env(safe-area-inset-bottom)));
+            min-height: calc(100vh - (240px + 130px + #{$section-margin-top} + env(safe-area-inset-bottom)));
         }
     }
 
@@ -214,11 +214,11 @@ a {
     background-size: 100% auto;
     @media (orientation: landscape) {
         height: 400px;
-        padding-top: 191px;
+        padding-top: 400px / 2 - 9px;
     }
     @media (orientation: portrait) {
-        height: 200px;
-        padding-top: 91px;
+        height: 240px;
+        padding-top: 240px / 2 - 9px;
     }
 }
 
