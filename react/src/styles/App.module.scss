@@ -1144,6 +1144,11 @@ a {
         }
     }
 
+    &--write-reviews-right {
+        display: flex;
+        flex-direction: column;
+    }
+
     &--taken-lectures{
         display: flex;
         flex-direction: column;
