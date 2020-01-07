@@ -120,6 +120,11 @@ class Header extends Component {
                   {t('ui.menu.timetable')}
                 </Link>
               </span>
+              <span>
+                <Link to="/write-reviews">
+                  {t('ui.menu.writeReviews')}
+                </Link>
+              </span>
             </div>
           </div>
           <div className={classNames('content-right')}>

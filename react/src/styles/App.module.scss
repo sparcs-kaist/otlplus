@@ -280,6 +280,48 @@ a {
     }
 
 
+    &--desktop-1v3--left {
+        @media (orientation: landscape) {
+            margin-top: 0;
+            width: calc(15vh + 126px);
+        }
+    }
+
+
+    &--desktop-1v3--right {
+        @media (orientation: landscape) {
+            margin-top: 0;
+            margin-left: 0;
+            width:  calc(65vh + 246px);
+        }
+    }
+
+
+    &--desktop-2v2--left {
+        @media (orientation: landscape) {
+            margin-top: 0;
+            width: calc(40vh + 186px);
+        }
+    }
+
+
+    &--desktop-2v2--right {
+        @media (orientation: landscape) {
+            margin-top: 0;
+            margin-left: 0;
+            width: calc(40vh + 186px);
+        }
+    }
+
+
+    &--mobile-full {
+        @media (orientation: portrait) {
+            margin-top: 0px;
+            width: calc(100% - #{$section-margin-lr} * 2);
+        }
+    }
+
+
     &--full {
         flex: none;
         margin-top: 0px;
@@ -292,21 +334,15 @@ a {
 
     &--course-list {
         flex: none;
-        margin-top: 0px;
         @media (orientation: landscape) {
-            width: calc(40vh + 186px);
         }
         @media (orientation: portrait) {
-            width: calc(100% - #{$section-margin-lr} * 2);
         }
     }
 
 
     &--course-detail {
         flex: none;
-        width: calc(40vh + 186px);
-        margin-top: 0px;
-        margin-left: 0;
     }
 
 
@@ -314,14 +350,10 @@ a {
         display: flex;
         flex-direction: column;
         @media (orientation: landscape) {
-            width: calc(15vh + 126px);
             flex: none;
-            margin-top: 0px;
         }
         @media (orientation: portrait) {
-           width: calc(100% - #{$section-margin-lr} * 2);
            flex: 1 1 ($line-height-small + 8px * 2);
-           margin-top: 0;
         }
     }
 
@@ -330,16 +362,9 @@ a {
         display: flex;
         flex-direction: column;
         @media (orientation: landscape) {
-            width:  calc(65vh + 246px);
-            margin-top: 0px;
-            margin-left: 0;
             flex: none;
         }
         @media (orientation: portrait) {
-            width: calc(100% - #{$section-margin-lr} * 2);
-            margin-top: 0px;
-            margin-left: $section-margin-lr;
-            margin-bottom: $section-margin-bottom;
             flex: 1 1 0;
         }
     }
@@ -1119,6 +1144,15 @@ a {
         }
     }
 
+    &--taken-lectures{
+        display: flex;
+        flex-direction: column;
+    }
+
+    &--review-write {
+        height: initial;
+    }
+
     &--main-search {
         display: flex;
         font-size: $font-size-big;
@@ -1304,8 +1338,10 @@ a {
 .close-button {
         display: block;
         position: absolute;
-        top: $section-padding;
-        right: $section-padding;
+        padding: 4px;
+        top: $section-padding - 4px;
+        right: $section-padding - 4px;
+        background-color: rgba($color-section-background, 0.8);
         cursor: pointer;
         z-index: 290;
 
@@ -1387,6 +1423,36 @@ a {
 
         &__subtitle {
             text-align: center;
+        }
+    }
+
+
+    &--lecture-simple {
+        padding: 8px 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        min-width: 74px;
+
+        &__title {
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 2px;
+        }
+
+        &__subtitle {
+            text-align: center;
+        }
+
+        &.block--clicked {
+            background-color:$color-block-background-dark;
+            position: relative;
+            top: -3px;
+            box-shadow: 0 3px 0 0 $color-block-shadow-dark;
+        }
+
+        &.block--inactive {
+            opacity: 0.5;
         }
     }
 
@@ -1861,6 +1927,15 @@ a {
     }
 
 
+    .section-content--taken-lectures &,
+    .section-content--latest-reviews &,
+    .section-content--lecture-detail & {
+        text-align: center;
+        margin-bottom: 8px;
+    }
+
+
+    .section-content--review-write &,
     .section-content--widget & {
         text-align: center;
         margin-bottom: 10px;
@@ -2292,6 +2367,9 @@ a {
                 width: 30px;
             }
         }
+        .section-content--taken-lectures & {
+            width: calc(3.5vh + 34px);
+        }
 
         & > div:first-child {
             font-weight: 300;
@@ -2315,6 +2393,16 @@ a {
                 @media (orientation: portrait) {
                     font-size: 24px;
                     line-height: 22px;
+                }
+            }
+            .section-content--taken-lectures & {
+                font-size: calc(0.7vh + 15px);
+                line-height: calc(0.7vh + 13px);
+
+                & > span:not(:first-child) {
+                    font-size: $font-size-small;
+                    line-height: $line-height-small;
+                    font-weight: initial;
                 }
             }
 
