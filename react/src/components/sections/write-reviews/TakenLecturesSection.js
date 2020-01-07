@@ -98,7 +98,7 @@ class TakenLecturesSection extends Component {
             </div>
             <div>
               <div>
-                {user.reviews.length}
+                {user.reviews.reduce((acc, r) => (acc + r.like), 0)}
               </div>
               <div>{t('ui.score.likes')}</div>
             </div>
