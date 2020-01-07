@@ -109,7 +109,7 @@ class TimetableSubSection extends Component {
         return undefined;
       })
     ))
-      .flat()
+      .reduce((acc, val) => acc.concat(val), [])
       .filter(x => x !== undefined);
   }
 
