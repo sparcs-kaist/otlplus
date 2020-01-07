@@ -40,7 +40,7 @@ class TimetablePage extends Component {
     return (
       <>
         <section className={classNames('content', 'content--no-scroll', 'content--timetable')}>
-          <div className={classNames('section-wrap', 'section-wrap--timetable-left', (mobileShowLectureList ? '' : 'mobile-nosize'))}>
+          <div className={classNames('section-wrap', 'section-wrap--desktop-1v3--left', 'section-wrap--mobile-full', 'section-wrap--timetable-left', (mobileShowLectureList ? '' : 'mobile-nosize'))}>
             <div className={classNames('section-wrap', 'section-wrap--lecture-detail', 'mobile-modal', (lectureActive.clicked ? '' : 'mobile-hidden'))}>
               <div className={classNames('section')}>
                 <LectureDetailSection />
@@ -53,7 +53,7 @@ class TimetablePage extends Component {
               </div>
             </div>
           </div>
-          <div className={classNames('section-wrap', 'section-wrap--timetable-center-right')}>
+          <div className={classNames('section-wrap', 'section-wrap--desktop-1v3--right', 'section-wrap--mobile-full', 'section-wrap--timetable-center-right')}>
             <div className={classNames('section-wrap', 'section-wrap--timetable-tabs', 'mobile-modal', (mobileShowTimetableTabs ? '' : 'mobile-hidden'))}>
               <div>
                 <button className={classNames('close-button')} onClick={() => setMobileShowTimetableTabsDispatch(false)}><i className={classNames('icon', 'icon--close-section')} /></button>

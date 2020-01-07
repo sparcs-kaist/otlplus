@@ -6,6 +6,7 @@ import { Provider } from 'react-redux';
 import Header from './components/guideline/Header';
 import DictionaryPage from './pages/DictionaryPage';
 import TimetablePage from './pages/TimetablePage';
+import WriteReviewsPage from './pages/WriteReviewsPage';
 import SyllabusPage from './pages/SyllabusPage';
 import MainPage from './pages/MainPage';
 import AccountPage from './pages/AccountPage';
@@ -17,6 +18,7 @@ import axios from './common/presetAxios';
 import { BASE_URL } from './common/constants';
 import dictionaryReducer from './reducers/dictionary/index';
 import timetableReducer from './reducers/timetable/index';
+import writeReviewsReducer from './reducers/write-reviews/index';
 import commonReducer from './reducers/common/index';
 import { setUser } from './actions/common/user';
 import { setSemesters } from './actions/common/semester';
@@ -27,6 +29,7 @@ const store = createStore(combineReducers({
   common: commonReducer,
   dictionary: dictionaryReducer,
   timetable: timetableReducer,
+  writeReviews: writeReviewsReducer,
 }));
 
 class App extends Component {
@@ -56,6 +59,7 @@ class App extends Component {
             <Route exact path="/timetable" component={TimetablePage} />
             <Route exact path="/timetable/syllabus" component={SyllabusPage} />
             <Route exact path="/main" component={MainPage} />
+            <Route exact path="/write-reviews" component={WriteReviewsPage} />
             <Route exact path="/account" component={AccountPage} />
             <Route exact path="/credits" component={CreditPage} />
             <Route exact path="/licenses" component={LicensePage} />

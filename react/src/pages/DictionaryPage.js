@@ -63,13 +63,13 @@ class DictionaryPage extends Component {
     return (
       <>
         <section className={classNames('content', 'content--no-scroll')}>
-          <div className={classNames('section-wrap', 'section-wrap--with-tabs', 'section-wrap--course-list')}>
+          <div className={classNames('section-wrap', 'section-wrap--desktop-2v2--left', 'section-wrap--mobile-full', 'section-wrap--with-tabs', 'section-wrap--course-list')}>
             <CourseListTabs />
             <div className={classNames('section', 'section--with-tabs')}>
               <CourseListSection />
             </div>
           </div>
-          <div className={classNames('section-wrap', 'section-wrap--course-detail', 'mobile-modal', ((courseActive.course && courseActive.clicked) ? '' : 'mobile-hidden'))}>
+          <div className={classNames('section-wrap', 'section-wrap--desktop-2v2--right', 'section-wrap--course-detail', 'mobile-modal', ((courseActive.course && courseActive.clicked) ? '' : 'mobile-hidden'))}>
             <div className={classNames('section')}>
               <CourseDetailSection />
             </div>
