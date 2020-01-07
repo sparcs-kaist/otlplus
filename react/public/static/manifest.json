@@ -3,37 +3,37 @@
   "name": "OTL - Online Timetable with Lectures",
   "icons": [
     {
-      "src": "favicon-32.ico",
+      "src": "favicon-32.png",
       "sizes": "32x32",
       "type": "image/png"
     },
     {
-      "src": "favicon-128.ico",
+      "src": "favicon-128.png",
       "sizes": "128x128",
       "type": "image/png"
     },
     {
-      "src": "favicon-152.ico",
+      "src": "favicon-152.png",
       "sizes": "152x152",
       "type": "image/png"
     },
     {
-      "src": "favicon-167.ico",
+      "src": "favicon-167.png",
       "sizes": "167x167",
       "type": "image/png"
     },
     {
-      "src": "favicon-180.ico",
+      "src": "favicon-180.png",
       "sizes": "180x180",
       "type": "image/png"
     },
     {
-      "src": "favicon-192.ico",
+      "src": "favicon-192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "favicon-196.ico",
+      "src": "favicon-196.png",
       "sizes": "196x196",
       "type": "image/png"
     }
