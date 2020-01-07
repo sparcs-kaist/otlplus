@@ -7,6 +7,7 @@ import Scroller from '../components/Scroller';
 
 import MyInfoSection from '../components/sections/account/MyInfoSection';
 import AcademicInfoSection from '../components/sections/account/AcademicInfoSection';
+import FavoriteDepartmentsSection from '../components/sections/account/FavoriteDepartmentsSection';
 
 
 class AccountPage extends Component {
@@ -21,6 +22,8 @@ class AccountPage extends Component {
                 <MyInfoSection />
                 <div className={classNames('divider')} />
                 <AcademicInfoSection />
+                <div className={classNames('divider')} />
+                <FavoriteDepartmentsSection />
                 <div className={classNames('divider')} />
                 <div>
                   <a href="/session/logout/" className={classNames('text-button')}>

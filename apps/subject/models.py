@@ -501,6 +501,7 @@ class Department(models.Model):
 
     def toJson(self, nested=False):
         result = {
+            'id': self.id,
             'name': self.name,
             'name_en': self.name_en,
             'code': self.code,

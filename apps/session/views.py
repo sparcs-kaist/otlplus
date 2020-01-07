@@ -1,4 +1,4 @@
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseBadRequest, JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
@@ -124,16 +124,11 @@ def user_logout(request):
     return redirect("/")
 
 
-#################### UNUSED ####################
-@login_required(login_url='/session/login/')
-def user_settings(request):
-    user = request.user
-    user_profile = UserProfile.objects.get(user=user)
-
+def department_options(request):
     dept_under = ["CE", "MSB", "ME", "PH", "BiS",
-                  "IE", "ID", "BS", "CBE", "MAS",
-                  "MS", "NQE", "HSS", "EE", "CS",
-                  "AE", "CH"]
+                "IE", "ID", "BS", "CBE", "MAS",
+                "MS", "NQE", "HSS", "EE", "CS",
+                "AE", "CH"]
     dept_exclude = ["AA", "KSA", "URP", "ED", "INT",
                     "KJ", "CWENA", "C", "E", "S",
                     "PSY", "SK", "BIO", "CLT", "PHYS"]
@@ -149,38 +144,40 @@ def user_settings(request):
         else:
             department_3.append(d)
 
-    fav_department = user_profile.favorite_departments.all()
+    result = [
+        [d.toJson() for d in department_1],
+        [d.toJson() for d in department_2],
+        [d.toJson() for d in department_3],
+    ]
 
-    if len(user_profile.language) == 0:
-        user_profile.language = 'ko'
-        user_profile.save()
+    return JsonResponse(result, safe=False)
 
-    ctx = { 'department_1': department_1,
-            'department_2': department_2,
-            'department_3': department_3,
-            'fav_department': fav_department,
-            'usr_lang': user_profile.language}
+
+
+
+@login_required_ajax
+def favorite_departments(request):
+    user = request.user
+    user_profile = UserProfile.objects.get(user=user)
+    body = json.loads(request.body.decode('utf-8'))
 
     if request.method == 'POST':
-
-        user_profile.language = request.POST['language']
-
         favorite_departments = []
-        for dpt_id in request.POST.getlist('fav_department', []):
+
+        fav_department = body.get('fav_department', [])
+
+        for dpt_id in fav_department:
             dpt = Department.objects.get(id=dpt_id)
             user_profile.favorite_departments.add(dpt)
+
         for dpt in user_profile.favorite_departments.all():
-            favorite_departments.append(dpt)
-            if str(dpt.id) not in request.POST.getlist('fav_department', []):
+            if str(dpt.id) not in fav_department:
                user_profile.favorite_departments.remove(dpt)
 
         user_profile.save()
+        return HttpResponse()
 
-        ctx['fav_department'] = favorite_departments
-        ctx['usr_lang'] = user_profile.language
-        return HttpResponseRedirect('/main/')
-
-    return render(request, 'session/settings.html', ctx)
+    return HttpResponseBadRequest
 
 
 @login_required(login_url='/session/login/')
@@ -213,7 +210,9 @@ def info(request):
         "student_id": userProfile.student_id,
         "firstName": request.user.first_name,
         "lastName": request.user.last_name,
+        "majors": [d.toJson() for d in ( [userProfile.department] + list(userProfile.majors.all()) + list(userProfile.minors.all()) )],
         "departments": _user_department(request.user),
+        "favorite_departments": [d.toJson() for d in userProfile.favorite_departments.all()],
         "taken_lectures": [l.toJson() for l in taken_lectures],
         "reviews": [c.toJson() for c in Comment.objects.filter(writer=userProfile, lecture__in=taken_lectures)],
     }
