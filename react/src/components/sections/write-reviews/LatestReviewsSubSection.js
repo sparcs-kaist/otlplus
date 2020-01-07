@@ -16,7 +16,7 @@ class LatestReviewsSubSection extends Component {
     if (reviews.length === 0) {
       return (
         <div className={classNames('section-content', 'section-content--latest-reviews')}>
-          <div className={classNames('small-title')}>{t('ui.title.reviews')}</div>
+          <div className={classNames('title')}>{t('ui.title.latestReviews')}</div>
           <div className={classNames('section-content--course-detail__list-area', 'list-placeholder')}>
             <div>{t('ui.placeholder.noResults')}</div>
           </div>
@@ -26,7 +26,7 @@ class LatestReviewsSubSection extends Component {
 
     return (
       <div className={classNames('section-content', 'section-content--latest-reviews')}>
-        <div className={classNames('small-title')}>{t('ui.title.latestReviews')}</div>
+        <div className={classNames('title')}>{t('ui.title.latestReviews')}</div>
         {reviews == null
           ? (
             <div className={classNames('section-content--course-detail__list-area', 'list-placeholder')}>
