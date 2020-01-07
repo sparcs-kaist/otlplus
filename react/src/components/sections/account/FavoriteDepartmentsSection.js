@@ -78,7 +78,7 @@ class FavoriteDepartmentsSection extends Component {
     e.stopPropagation();
 
     axios.post(`${BASE_URL}/session/favorite-departments`, {
-      fav_department: Array.from(department),
+      fav_department: Array.from(department).filter(d => (d !== 'ALL')),
     })
       .then((response) => {
         this.setState({
