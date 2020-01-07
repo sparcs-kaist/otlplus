@@ -1144,6 +1144,11 @@ a {
         }
     }
 
+    &--taken-lectures{
+        display: flex;
+        flex-direction: column;
+    }
+
     &--main-search {
         display: flex;
         font-size: $font-size-big;
@@ -1886,6 +1891,13 @@ a {
     }
 
 
+    .section-content--taken-lectures &,
+    .section-content--lecture-detail & {
+        text-align: center;
+        margin-bottom: 8px;
+    }
+
+
     .section-content--widget & {
         text-align: center;
         margin-bottom: 10px;
@@ -2317,6 +2329,9 @@ a {
                 width: 30px;
             }
         }
+        .section-content--taken-lectures & {
+            width: calc(3.5vh + 34px);
+        }
 
         & > div:first-child {
             font-weight: 300;
@@ -2340,6 +2355,16 @@ a {
                 @media (orientation: portrait) {
                     font-size: 24px;
                     line-height: 22px;
+                }
+            }
+            .section-content--taken-lectures & {
+                font-size: calc(0.7vh + 15px);
+                line-height: calc(0.7vh + 13px);
+
+                & > span:not(:first-child) {
+                    font-size: $font-size-small;
+                    line-height: $line-height-small;
+                    font-weight: initial;
                 }
             }
 
