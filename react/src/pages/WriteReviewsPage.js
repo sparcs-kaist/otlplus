@@ -20,7 +20,11 @@ class WriteReviewsPage extends Component {
 
     this.state = {
       loading: false,
+      pageNumToLoad: 0,
     };
+
+    // eslint-disable-next-line fp/no-mutation
+    this.rightSectionRef = React.createRef();
   }
 
 
@@ -39,7 +43,7 @@ class WriteReviewsPage extends Component {
 
   _fetchReviews = () => {
     const { addReviewsDispatch } = this.props;
-    const { loading } = this.state;
+    const { loading, pageNumToLoad } = this.state;
 
     if (loading) {
       return;
@@ -48,16 +52,28 @@ class WriteReviewsPage extends Component {
     this.setState({
       loading: true,
     });
-    axios.get(`${BASE_URL}/api/review/latest/0`, {
+    axios.get(`${BASE_URL}/api/review/latest/${pageNumToLoad}`, {
     })
       .then((response) => {
-        this.setState({
+        this.setState(prevState => ({
           loading: false,
-        });
+          pageNumToLoad: prevState.pageNumToLoad + 1,
+        }));
         addReviewsDispatch(response.data);
       })
       .catch((error) => {
       });
+  }
+
+
+  handleScroll = () => {
+    const SCROLL_THRSHOLD = 100;
+    const refElement = this.rightSectionRef.current;
+    const sectionPos = refElement.getBoundingClientRect().bottom;
+    const scrollPos = refElement.querySelector(`.${classNames('section-contentt--latest-reviews__list-area')}`).getBoundingClientRect().bottom;
+    if (scrollPos - sectionPos < SCROLL_THRSHOLD) {
+      this._fetchReviews();
+    }
   }
 
 
@@ -72,8 +88,8 @@ class WriteReviewsPage extends Component {
           </div>
           <div className={classNames('section-wrap', 'section-wrap--desktop-1v3--right', 'mobile-modal', (false ? '' : 'mobile-hidden'))}>
             <div className={classNames('section')}>
-              <div className={classNames('section-content')}>
-                <Scroller>
+              <div className={classNames('section-content')} ref={this.rightSectionRef}>
+                <Scroller onScroll={this.handleScroll}>
                   <ReviewWriteSubSection />
                   <LatestReviewsSubSection />
                 </Scroller>

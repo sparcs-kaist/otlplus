@@ -17,7 +17,7 @@ class LatestReviewsSubSection extends Component {
       return (
         <div className={classNames('section-content', 'section-content--latest-reviews')}>
           <div className={classNames('title')}>{t('ui.title.latestReviews')}</div>
-          <div className={classNames('section-content--course-detail__list-area', 'list-placeholder')}>
+          <div className={classNames('list-placeholder')}>
             <div>{t('ui.placeholder.noResults')}</div>
           </div>
         </div>
@@ -27,24 +27,9 @@ class LatestReviewsSubSection extends Component {
     return (
       <div className={classNames('section-content', 'section-content--latest-reviews')}>
         <div className={classNames('title')}>{t('ui.title.latestReviews')}</div>
-        {reviews == null
-          ? (
-            <div className={classNames('section-content--course-detail__list-area', 'list-placeholder')}>
-              <div>{t('ui.placeholder.loading')}</div>
-            </div>
-          )
-          : reviews.length
-            ? (
-              <div className={classNames('section-content--course-detail__list-area')}>
-                {reviews.map(r => <ReviewBlock review={r} key={r.id} />)}
-              </div>
-            )
-            : (
-              <div className={classNames('section-content--course-detail__list-area', 'list-placeholder')}>
-                <div>{t('ui.placeholder.noResults')}</div>
-              </div>
-            )
-        }
+        <div className={classNames('section-contentt--latest-reviews__list-area')}>
+          {reviews.map(r => <ReviewBlock review={r} key={r.id} />)}
+        </div>
       </div>
     );
   }
