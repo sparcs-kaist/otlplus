@@ -1299,7 +1299,7 @@ a {
 
             &__dummy {
                 margin-right: 8px;
-                width: 154px;
+                width: 144px;
                 flex: 1 0 auto;
                 height: 0;
             }
@@ -1438,7 +1438,7 @@ a {
         display: flex;
         flex-direction: column;
         justify-content: center;
-        width: 154px;
+        width: 144px;
 
         &__title {
             text-align: center;
@@ -1593,7 +1593,7 @@ a {
                 }
 
                 input:checked ~ span {
-                    background-color: #969696;
+                    background-color: #868686;
                 }
             }
 
@@ -1910,7 +1910,7 @@ a {
         padding: 8px 10px;
         margin-right: 8px;
         margin-bottom: 8px;
-        width: 154px;
+        width: 144px;
         text-align: center;
         flex: 1 0 auto;
         cursor: pointer;
@@ -2277,7 +2277,7 @@ a {
 
     &__dummy {
         margin-right: 8px;
-        width: 154px;
+        width: 144px;
         flex: 1 0 auto;
         height: 0;
     }

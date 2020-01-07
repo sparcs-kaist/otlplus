@@ -10,8 +10,8 @@ import CourseListTabs from '../components/tabs/CourseListTabs';
 import courseActiveShape from '../shapes/CourseActiveShape';
 
 import { reset as resetCourseActive, setCourseActive } from '../actions/dictionary/courseActive';
-import { reset as resetList, setCurrentList, setListCourses } from '../actions/dictionary/list';
-import { reset as resetSearch } from '../actions/dictionary/search';
+import { reset as resetList, setCurrentList, setListCourses, clearSearchListCourses } from '../actions/dictionary/list';
+import { reset as resetSearch, closeSearch } from '../actions/dictionary/search';
 
 import axios from '../common/presetAxios';
 import { BASE_URL } from '../common/constants';
@@ -21,7 +21,7 @@ class DictionaryPage extends Component {
   componentDidMount() {
     // eslint-disable-next-line react/destructuring-assignment
     const { startCourseId, startTab, startSearchKeyword } = this.props.location.state || {};
-    const { setCourseActiveDispatch, setCurrentListDispatch, setListCoursesDispatch } = this.props;
+    const { setCourseActiveDispatch, setCurrentListDispatch, setListCoursesDispatch, closeSearchDispatch, clearSearchListCoursesDispatch } = this.props;
 
     if (startCourseId) {
       axios.get(`${BASE_URL}/api/courses/${startCourseId}`, {
@@ -38,6 +38,9 @@ class DictionaryPage extends Component {
     }
 
     if (startSearchKeyword) {
+      closeSearchDispatch();
+      clearSearchListCoursesDispatch();
+
       axios.get(`${BASE_URL}/api/courses`, { params: {
         keyword: startSearchKeyword,
       } })
@@ -103,6 +106,12 @@ const mapDispatchToProps = dispatch => ({
   setListCoursesDispatch: (code, courses) => {
     dispatch(setListCourses(code, courses));
   },
+  closeSearchDispatch: () => {
+    dispatch(closeSearch());
+  },
+  clearSearchListCoursesDispatch: () => {
+    dispatch(clearSearchListCourses());
+  },
 });
 
 DictionaryPage.propTypes = {
@@ -120,6 +129,8 @@ DictionaryPage.propTypes = {
   setCourseActiveDispatch: PropTypes.func.isRequired,
   setCurrentListDispatch: PropTypes.func.isRequired,
   setListCoursesDispatch: PropTypes.func.isRequired,
+  closeSearchDispatch: PropTypes.func.isRequired,
+  clearSearchListCoursesDispatch: PropTypes.func.isRequired,
 };
 
 

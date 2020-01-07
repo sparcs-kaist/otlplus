@@ -11,7 +11,7 @@ class Semester(models.Model):
     beginning = models.DateTimeField()
     end = models.DateTimeField()
 
-    courseDesciptionSubmission = models.DateTimeField()
+    courseDesciptionSubmission = models.DateTimeField(null=True)
 
     courseRegistrationPeriodStart = models.DateTimeField(null=True)
     courseRegistrationPeriodEnd = models.DateTimeField(null=True)
