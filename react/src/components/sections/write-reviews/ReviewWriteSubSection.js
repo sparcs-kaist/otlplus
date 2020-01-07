@@ -5,6 +5,7 @@ import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 import { updateUserReview } from '../../../actions/common/user';
+import { updateReview } from '../../../actions/write-reviews/latestReviews';
 import ReviewWriteBlock from '../../blocks/ReviewWriteBlock';
 import userShape from '../../../shapes/UserShape';
 import lectureShape from '../../../shapes/LectureShape';
@@ -12,8 +13,9 @@ import lectureShape from '../../../shapes/LectureShape';
 
 class ReviewWriteSubSection extends Component {
   updateOnReviewSubmit = (review) => {
-    const { updateUserReviewDispatch } = this.props;
+    const { updateUserReviewDispatch, updateReviewDispatch } = this.props;
     updateUserReviewDispatch(review);
+    updateReviewDispatch(review);
   }
 
 
@@ -33,6 +35,7 @@ class ReviewWriteSubSection extends Component {
           </div>
           <ReviewWriteBlock key={selectedLecture.id} lecture={selectedLecture} review={user.reviews.find(r => (r.lecture.id === selectedLecture.id))} updateOnSubmit={this.updateOnReviewSubmit} />
         </div>
+        <div className={classNames('divider')} />
       </>
     );
   }
@@ -47,12 +50,16 @@ const mapDispatchToProps = dispatch => ({
   updateUserReviewDispatch: (review) => {
     dispatch(updateUserReview(review));
   },
+  updateReviewDispatch: (review) => {
+    dispatch(updateReview(review));
+  },
 });
 
 ReviewWriteSubSection.propTypes = {
   user: userShape,
   selectedLecture: lectureShape,
   updateUserReviewDispatch: PropTypes.func.isRequired,
+  updateReviewDispatch: PropTypes.func.isRequired,
 };
 
 

@@ -148,33 +148,19 @@ def insertReview(request,lecture_id):
 
 
 def latest(request, page=-1):
-    filter = request.GET.get('filter')
-    if filter == 'F':
-        if request.user.is_authenticated():
-            user_profile = UserProfile.objects.get(user=request.user)
-            favorite_departments_code = []
-            for department in user_profile.favorite_departments.all():
-                favorite_departments_code.append(department.code)
-            department_filters = _departmentFilters(favorite_departments_code)
-        else:
-            department_filters = []
-    else:
-        department_filters = _departmentFilters([filter])
-    comments = Comment.objects.filter(course__department__code__in=department_filters).order_by('-written_datetime')
+    page = int(page)
+    PAGE_SIZE = 10
 
-    paginator = Paginator(comments,10)
-    try:
-        page_obj = paginator.page(page)
-    except InvalidPage:
+    comments = Comment.objects.all().order_by('-written_datetime')
+
+    comments = comments[PAGE_SIZE * page : PAGE_SIZE * (page+1)]
+    print(comments)
+
+    if len(comments) == 0:
         raise Http404
-    results = [i.toJson(user=request.user) for i in page_obj.object_list]
 
-    context = {
-            "results":results,
-            "hasNext":page_obj.has_next(),
-            "is_login":request.user.is_authenticated(),
-    }
-    return JsonResponse(context,safe=False)
+    results = [i.toJson(user=request.user) for i in comments]
+    return JsonResponse(results,safe=False)
 
 
 
