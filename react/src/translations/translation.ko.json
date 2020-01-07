@@ -26,6 +26,7 @@
       "courseHistory": "개설 이력",
       "relatedCourses": "연관 과목",
       "latestReviews": "따끈따끈 과목후기",
+      "takenLectures": "내가 들은 과목",
       "famousMajorReviews": "사랑받는 전공후기",
       "famousHumanityReviews": "사랑받는 교양후기",
       "writeReview": "후기 작성",
@@ -85,6 +86,7 @@
       "major": "전공"
     },
     "score": {
+      "reviewsWritten": "작성 후기",
       "language": "언어",
       "credit": "학점",
       "au": "AU",

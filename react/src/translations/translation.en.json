@@ -25,6 +25,7 @@
       "exams": "Exams",
       "courseHistory": "Course History",
       "relatedCourses": "Related Courses",
+      "takenLectures": "Taken Lectures",
       "latestReviews": "Latest Reviews",
       "famousMajorReviews": "Famous Major Reviews",
       "famousHumanityReviews": "Famous Humanity Reviews",
@@ -85,6 +86,7 @@
       "major": "Major"
     },
     "score": {
+      "reviewsWritten": "Reviews",
       "language": "Language",
       "credit": "Credit",
       "au": "AU",
