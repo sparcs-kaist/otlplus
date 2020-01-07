@@ -58,6 +58,26 @@ class AcademicScheduleSection extends Component {
     };
 
     const targetSchedule = getCurrentSchedule(semesters);
+
+    if (!targetSchedule) {
+      return (
+        <div className={classNames('section-content', 'section-content--widget')}>
+          <div className={classNames('academic-schedule', 'placeholder')}>
+            <div>{t('ui.placeholder.unknown')}</div>
+            <div>
+              <strong>-</strong>
+              <span>-</span>
+            </div>
+          </div>
+          <div className={classNames('buttons')}>
+            <a href="https://ssogw6.kaist.ac.kr" className={classNames('text-button')} target="_blank" rel="noopener noreferrer">
+              {t('ui.button.goToAcademicSystem')}
+            </a>
+          </div>
+        </div>
+      );
+    }
+
     const targetScheduleTime = targetSchedule.time;
     const timeDiff = targetScheduleTime - today;
 
@@ -78,7 +98,7 @@ class AcademicScheduleSection extends Component {
           </div>
           <div>
             <strong>{`${targetSchedule.year} ${semesterNames[targetSchedule.semester]} ${getScheduleName(targetSchedule)}`}</strong>
-            <span>{`${targetScheduleTime.getFullYear()}.${targetScheduleTime.getMonth()}.${targetScheduleTime.getDate()}`}</span>
+            <span>{`${targetScheduleTime.getFullYear()}.${targetScheduleTime.getMonth() + 1}.${targetScheduleTime.getDate()}`}</span>
           </div>
         </div>
         <div className={classNames('buttons')}>
