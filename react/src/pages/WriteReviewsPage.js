@@ -10,8 +10,9 @@ import TakenLecturesSection from '../components/sections/write-reviews/TakenLect
 import ReviewWriteSubSection from '../components/sections/write-reviews/ReviewWriteSubSection';
 import LatestReviewsSubSection from '../components/sections/write-reviews/LatestReviewsSubSection';
 import Scroller from '../components/Scroller';
-import { reset as resetLectureSelected } from '../actions/write-reviews/lectureSelected';
+import { reset as resetLectureSelected, clearLectureSelected } from '../actions/write-reviews/lectureSelected';
 import { reset as resetLatestReviews, addReviews } from '../actions/write-reviews/latestReviews';
+import lectureShape from '../shapes/LectureShape';
 
 
 class WriteReviewsPage extends Component {
@@ -77,7 +78,16 @@ class WriteReviewsPage extends Component {
   }
 
 
+  unfix = () => {
+    const { clearLectureSelectedDispatch } = this.props;
+
+    clearLectureSelectedDispatch();
+  }
+
+
   render() {
+    const { selectedLecture } = this.props;
+
     return (
       <>
         <section className={classNames('content', 'content--no-scroll')}>
@@ -86,9 +96,10 @@ class WriteReviewsPage extends Component {
               <TakenLecturesSection />
             </div>
           </div>
-          <div className={classNames('section-wrap', 'section-wrap--desktop-1v3--right', 'mobile-modal', (false ? '' : 'mobile-hidden'))}>
+          <div className={classNames('section-wrap', 'section-wrap--desktop-1v3--right', 'mobile-modal', (selectedLecture ? '' : 'mobile-hidden'))}>
             <div className={classNames('section')}>
               <div className={classNames('section-content')} ref={this.rightSectionRef}>
+                <button className={classNames('close-button')} onClick={this.unfix}><i className={classNames('icon', 'icon--close-section')} /></button>
                 <Scroller onScroll={this.handleScroll}>
                   <ReviewWriteSubSection />
                   <LatestReviewsSubSection />
@@ -103,11 +114,15 @@ class WriteReviewsPage extends Component {
 }
 
 const mapStateToProps = state => ({
+  selectedLecture: state.writeReviews.lectureSelected.lecture,
 });
 
 const mapDispatchToProps = dispatch => ({
   addReviewsDispatch: (reviews) => {
     dispatch(addReviews(reviews));
+  },
+  clearLectureSelectedDispatch: () => {
+    dispatch(clearLectureSelected());
   },
   resetLectureSelectedDispatch: () => {
     dispatch(resetLectureSelected());
@@ -118,7 +133,9 @@ const mapDispatchToProps = dispatch => ({
 });
 
 WriteReviewsPage.propTypes = {
+  selectedLecture: lectureShape,
   addReviewsDispatch: PropTypes.func.isRequired,
+  clearLectureSelectedDispatch: PropTypes.func.isRequired,
   resetLectureSelectedDispatch: PropTypes.func.isRequired,
   resetLatestReviewsDispatch: PropTypes.func.isRequired,
 };

@@ -1338,8 +1338,10 @@ a {
 .close-button {
         display: block;
         position: absolute;
-        top: $section-padding;
-        right: $section-padding;
+        padding: 4px;
+        top: $section-padding - 4px;
+        right: $section-padding - 4px;
+        background-color: rgba($color-section-background, 0.8);
         cursor: pointer;
         z-index: 290;
 
