@@ -2877,6 +2877,16 @@ i.icon {
         }
     }
 
+    &--share-syllabus {
+        width:19px;
+        height:19px;
+        background-image: url(../static/icons/share_syllabus.svg);
+
+        *:hover > & {
+            background-image: url(../static/icons/share_syllabus_hover.svg);
+        }
+    }
+
     &--duplicate-table {
         width:10px;
         height:11px;
