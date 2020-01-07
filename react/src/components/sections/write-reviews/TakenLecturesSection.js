@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
-import { reset, setLectureSelected, clearLectureSelected } from '../../../actions/write-reviews/lectureSelected';
+import { setLectureSelected, clearLectureSelected } from '../../../actions/write-reviews/lectureSelected';
 import Scroller from '../../Scroller';
 import LectureSimpleBlock from '../../blocks/LectureSimpleBlock';
 import userShape from '../../../shapes/UserShape';
@@ -12,13 +12,6 @@ import lectureShape from '../../../shapes/LectureShape';
 
 
 class TakenLecturesSection extends Component {
-  componentWillUnmount() {
-    const { resetLectureSelectedDispatch } = this.props;
-
-    resetLectureSelectedDispatch();
-  }
-
-
   handleBlockClick = lecture => (e) => {
     const { selectedLecture, setLectureSelectedDispatch, clearLectureSelectedDispatch } = this.props;
 
@@ -148,9 +141,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  resetLectureSelectedDispatch: () => {
-    dispatch(reset());
-  },
   setLectureSelectedDispatch: (lecture) => {
     dispatch(setLectureSelected(lecture));
   },
@@ -162,7 +152,6 @@ const mapDispatchToProps = dispatch => ({
 TakenLecturesSection.propTypes = {
   user: userShape,
   selectedLecture: lectureShape,
-  resetLectureSelectedDispatch: PropTypes.func.isRequired,
   setLectureSelectedDispatch: PropTypes.func.isRequired,
   clearLectureSelectedDispatch: PropTypes.func.isRequired,
 };
