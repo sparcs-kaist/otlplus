@@ -280,6 +280,48 @@ a {
     }
 
 
+    &--desktop-1v3--left {
+        @media (orientation: landscape) {
+            margin-top: 0;
+            width: calc(15vh + 126px);
+        }
+    }
+
+
+    &--desktop-1v3--right {
+        @media (orientation: landscape) {
+            margin-top: 0;
+            margin-left: 0;
+            width:  calc(65vh + 246px);
+        }
+    }
+
+
+    &--desktop-2v2--left {
+        @media (orientation: landscape) {
+            margin-top: 0;
+            width: calc(40vh + 186px);
+        }
+    }
+
+
+    &--desktop-2v2--right {
+        @media (orientation: landscape) {
+            margin-top: 0;
+            margin-left: 0;
+            width: calc(40vh + 186px);
+        }
+    }
+
+
+    &--mobile-full {
+        @media (orientation: portrait) {
+            margin-top: 0px;
+            width: calc(100% - #{$section-margin-lr} * 2);
+        }
+    }
+
+
     &--full {
         flex: none;
         margin-top: 0px;
@@ -292,21 +334,15 @@ a {
 
     &--course-list {
         flex: none;
-        margin-top: 0px;
         @media (orientation: landscape) {
-            width: calc(40vh + 186px);
         }
         @media (orientation: portrait) {
-            width: calc(100% - #{$section-margin-lr} * 2);
         }
     }
 
 
     &--course-detail {
         flex: none;
-        width: calc(40vh + 186px);
-        margin-top: 0px;
-        margin-left: 0;
     }
 
 
@@ -314,14 +350,10 @@ a {
         display: flex;
         flex-direction: column;
         @media (orientation: landscape) {
-            width: calc(15vh + 126px);
             flex: none;
-            margin-top: 0px;
         }
         @media (orientation: portrait) {
-           width: calc(100% - #{$section-margin-lr} * 2);
            flex: 1 1 ($line-height-small + 8px * 2);
-           margin-top: 0;
         }
     }
 
@@ -330,16 +362,9 @@ a {
         display: flex;
         flex-direction: column;
         @media (orientation: landscape) {
-            width:  calc(65vh + 246px);
-            margin-top: 0px;
-            margin-left: 0;
             flex: none;
         }
         @media (orientation: portrait) {
-            width: calc(100% - #{$section-margin-lr} * 2);
-            margin-top: 0px;
-            margin-left: $section-margin-lr;
-            margin-bottom: $section-margin-bottom;
             flex: 1 1 0;
         }
     }
