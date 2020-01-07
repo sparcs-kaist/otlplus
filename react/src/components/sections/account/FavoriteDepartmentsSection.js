@@ -17,7 +17,8 @@ class FavoriteDepartmentsSection extends Component {
     super(props);
 
     this.state = {
-      department: new Set(['ALL']),
+      savedDepartment: new Set([]),
+      department: new Set([]),
       departmentList: [],
     };
   }
@@ -57,6 +58,7 @@ class FavoriteDepartmentsSection extends Component {
     const { user } = this.props;
 
     this.setState({
+      savedDepartment: new Set(user.favorite_departments.map(d => String(d.id))),
       department: new Set(user.favorite_departments.map(d => String(d.id))),
     });
   }
@@ -76,9 +78,12 @@ class FavoriteDepartmentsSection extends Component {
     e.stopPropagation();
 
     axios.post(`${BASE_URL}/session/favorite-departments`, {
-      fav_department: Array.from(department),
+      fav_department: Array.from(department).filter(d => (d !== 'ALL')),
     })
       .then((response) => {
+        this.setState({
+          savedDepartment: department,
+        });
         this._refetchUser();
       })
       .catch((error) => {
@@ -101,7 +106,7 @@ class FavoriteDepartmentsSection extends Component {
   render() {
     const { t } = this.props;
     const { user } = this.props;
-    const { departmentList, department } = this.state;
+    const { departmentList, savedDepartment, department } = this.state;
 
     if (user == null) {
       return null;
@@ -120,6 +125,9 @@ class FavoriteDepartmentsSection extends Component {
     const departmentOptions = departmentList
       .map(d => [String(d.id), d[t('js.property.name')]]);
 
+    const hasChange = (department.size !== savedDepartment.size)
+      || Array.from(department).some(d => !savedDepartment.has(d));
+
     return (
       <>
         <div className={classNames('title')}>
@@ -134,7 +142,10 @@ class FavoriteDepartmentsSection extends Component {
             checkedValues={this.state.department}
           />
           <div className={classNames('buttons')}>
-            <button type="submit" className={classNames('text-button')}>{t('ui.button.save')}</button>
+            { hasChange
+              ? <button type="submit" className={classNames('text-button')}>{t('ui.button.save')}</button>
+              : <button className={classNames('text-button', 'text-button--disabled')}>{t('ui.button.save')}</button>
+            }
           </div>
         </form>
       </>

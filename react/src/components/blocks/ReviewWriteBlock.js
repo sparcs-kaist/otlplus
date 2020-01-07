@@ -13,10 +13,14 @@ import reviewShape from '../../shapes/ReviewShape';
 // eslint-disable-next-line arrow-body-style
 const ReviewWriteBlock = ({ t, lecture, review, updateOnSubmit }) => {
   const [isUploading, setIsUploading] = useState(false);
-  const [content, setContent] = useState(review ? review.comment : '');
-  const [grade, setGrade] = useState(review ? review.grade : undefined);
-  const [load, setLoad] = useState(review ? review.load : undefined);
-  const [speech, setSpeech] = useState(review ? review.speech : undefined);
+  const [savedContent, setSavedContent] = useState(review ? review.comment : '');
+  const [savedGrade, setSavedGrade] = useState(review ? review.grade : undefined);
+  const [savedLoad, setSavedLoad] = useState(review ? review.load : undefined);
+  const [savedSpeech, setSavedSpeech] = useState(review ? review.speech : undefined);
+  const [content, setContent] = useState(savedContent);
+  const [grade, setGrade] = useState(savedGrade);
+  const [load, setLoad] = useState(savedLoad);
+  const [speech, setSpeech] = useState(savedSpeech);
 
   const onContentChange = (e) => {
     setContent(e.target.value);
@@ -63,6 +67,10 @@ const ReviewWriteBlock = ({ t, lecture, review, updateOnSubmit }) => {
       loadscore: load,
     })
       .then((response) => {
+        setSavedContent(content);
+        setSavedGrade(grade);
+        setSavedLoad(load);
+        setSavedSpeech(speech);
         setIsUploading(false);
         if (updateOnSubmit !== undefined) {
           updateOnSubmit(response.data);
@@ -71,6 +79,8 @@ const ReviewWriteBlock = ({ t, lecture, review, updateOnSubmit }) => {
       .catch((error) => {
       });
   };
+
+  const hasChange = (content !== savedContent) || (grade !== savedGrade) || (load !== savedLoad) || (speech !== savedSpeech);
 
   return (
     <form className={classNames('block', 'block--review-write')} onSubmit={onSubmit}>
@@ -152,7 +162,7 @@ const ReviewWriteBlock = ({ t, lecture, review, updateOnSubmit }) => {
         </div>
       </div>
       <div className={classNames('block--review-write__buttons')}>
-        { !isUploading
+        { hasChange
           ? (
             <button className={classNames('text-button', 'text-button--review-write-block')} type="submit">
               {review ? t('ui.button.edit') : t('ui.button.upload')}
