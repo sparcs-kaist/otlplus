@@ -26,7 +26,8 @@ urlpatterns = [
     url(r'^login/callback', views.login_callback),
     url(r'^logout/$', views.user_logout),
     url(r'^unregister/$', views.unregister),
+    url(r'^department-options$', views.department_options),
+    url(r'^favorite-departments$', views.favorite_departments),
     url(r'^info', views.info),
     #url(r'^unregister/callback/$', views.unregister_callback),
-    url(r'^settings/$', TemplateView.as_view(template_name='index.html')),
 ]

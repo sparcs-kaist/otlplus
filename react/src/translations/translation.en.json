@@ -32,7 +32,8 @@
       "writeReview": "Write Review",
       "notSignedIn": "You are not signed in",
       "myInformation": "My Information",
-      "academicInformation": "Academic Information"
+      "academicInformation": "Academic Information",
+      "settings": "Settings"
     },
     "tab": {
       "search": "Search",
@@ -69,6 +70,7 @@
       "signInWithSso": "Sign In with SPARCS SSO",
       "seeMoreReviews": "See More Reviews",
       "writeMoreReviews": "Write More Reviews",
+      "save": "Save",
       "signOut": "Sign Out"
     },
     "attribute": {
@@ -108,7 +110,8 @@
       "level": "Level",
       "time": "Time",
       "professor": "Prof.",
-      "term": "Term"
+      "term": "Term",
+      "favoriteDepartment": "Favorite Departments"
     },
     "type": {
       "basicRequired": "Basic Required",
@@ -206,6 +209,7 @@
       "alreadyUploading": "The upload is already in progress. Please wait for a moment.",
       "emptyContent": "Please enter the comment.",
       "scoreNotSelected": "Please select all scores.",
+      "reportUnderDevelopment": "This featuer is under development. Please report improper reviews to otlplus@sparcs.org.",
       "myInfoCaptionHead": "You can change this information at ",
       "myInfoCaptionTail": ".",
       "academicInfoCaptionHead": "This information is fetched from KAIST Portal. In case the information is not correct, please contact ",

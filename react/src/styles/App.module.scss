@@ -1557,19 +1557,16 @@ a {
 
 
         &__score {
-            margin-top: 6px;
-
-            &:first-child {
-                margin-top: 8px;
-            }
+            margin-top: 8px;
+            width: fit-content;
+            position: relative;
 
             &__name {
                 margin-right: 6px;
+                padding: ((18px - $line-height-normal) / 2) 0;
             }
 
             &__option {
-                font-weight: bold;
-                color: $color-text-placeholder;
                 margin-right: 6px;
                 cursor: pointer;
 
@@ -1577,13 +1574,38 @@ a {
                     display: none;
                 }
 
+                & > span {
+                    display: inline-block;
+                    width: 18px;
+                    height: 18px;
+                    border-radius: 50%;
+                    background-color: #D6D6D6;
+                    text-align: center;
+                    padding: ((18px - $line-height-smaller) / 2 + 1px) 0 ((18px - $line-height-smaller) / 2 - 1px) 0;
+                    font-weight: bold;
+                    font-size: $font-size-smaller;
+                    line-height: $line-height-smaller;
+                    color: #FFFFFF;
+                }
+
                 &:hover span {
-                    color: #777777;
+                    background-color: #C6C6C6;
                 }
 
                 input:checked ~ span {
-                    color: $color-text-normal;
+                    background-color: #969696;
                 }
+            }
+
+            &::before {
+                content: '';
+                display: block;
+                width: (18px * 5 + 6px * 4);
+                height: 2px;
+                background-color: #D6D6D6;
+                position: absolute;
+                top: calc(50% - 2px / 2);
+                right: 6px;
             }
         }
 

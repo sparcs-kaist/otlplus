@@ -26,6 +26,14 @@ const ReviewBlock = ({ t, review }) => {
       });
   };
 
+  const onReportClick = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+
+    // eslint-disable-next-line no-alert
+    alert(t('ui.message.reportUnderDevelopment'));
+  };
+
   return (
     <div className={classNames('block', 'block--review')}>
       <div className={classNames('block--review__title')}>
@@ -71,7 +79,7 @@ const ReviewBlock = ({ t, review }) => {
                 {t('ui.button.like')}
               </button>
             )}
-          <button className={classNames('text-button', 'text-button--black', 'text-button--review-block')}>
+          <button className={classNames('text-button', 'text-button--black', 'text-button--review-block')} onClick={onReportClick}>
             {t('ui.button.report')}
           </button>
         </span>
