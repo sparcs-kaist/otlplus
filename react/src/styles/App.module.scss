@@ -711,7 +711,7 @@ a {
         & > div:last-child {
             flex: auto;
             @media (orientation: portrait) {
-                :global(.nano-content) {
+                .block--course-lectures {
                     margin-right: 6px + 10px;
                 }
             }
@@ -1065,7 +1065,7 @@ a {
             display: flex;
             flex-direction: column;
 
-            & > :global(.nano) {
+            & {
 
                 .section-content--exam__content__day {
                     display: flex;
