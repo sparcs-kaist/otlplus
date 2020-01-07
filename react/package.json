@@ -19,6 +19,7 @@
     "query-string": "^5.1.1",
     "react": "^16.8.6",
     "react-dom": "^16.3.2",
+    "react-ga": "^2.7.0",
     "react-i18next": "^11.2.7",
     "react-redux": "^5.0.7",
     "react-router": "^4.2.0",
