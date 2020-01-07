@@ -1144,6 +1144,11 @@ a {
         }
     }
 
+    &--write-reviews-right {
+        display: flex;
+        flex-direction: column;
+    }
+
     &--taken-lectures{
         display: flex;
         flex-direction: column;
@@ -1429,10 +1434,11 @@ a {
 
     &--lecture-simple {
         padding: 8px 10px;
+        margin-right: 8px;
         display: flex;
         flex-direction: column;
         justify-content: center;
-        min-width: 74px;
+        width: 154px;
 
         &__title {
             text-align: center;
@@ -1928,7 +1934,6 @@ a {
 
 
     .section-content--taken-lectures &,
-    .section-content--latest-reviews &,
     .section-content--lecture-detail & {
         text-align: center;
         margin-bottom: 8px;
@@ -1936,6 +1941,7 @@ a {
 
 
     .section-content--review-write &,
+    .section-content--latest-reviews &,
     .section-content--widget & {
         text-align: center;
         margin-bottom: 10px;
@@ -2232,6 +2238,26 @@ a {
                 }
             }
         }
+    }
+}
+
+
+.taken-lectures {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-right: -8px;
+    margin-bottom: -8px;
+
+    & > * {
+        flex: 1 0 auto;
+    }
+
+    &__dummy {
+        margin-right: 8px;
+        width: 154px;
+        flex: 1 0 auto;
+        height: 0;
     }
 }
 
