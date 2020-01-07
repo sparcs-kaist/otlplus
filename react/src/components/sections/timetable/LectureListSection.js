@@ -133,7 +133,7 @@ class LectureListSection extends Component {
     const courses = this._getCourses(currentList);
     const targetLecture = courses
       .map(c => c.map(l => ((l.id === targetId) ? l : null)))
-      .flat()
+      .reduce((acc, val) => acc.concat(val), [])
       .filter(l => (l !== null))[0];
     setLectureActiveDispatch(targetLecture, 'LIST', false);
   }
