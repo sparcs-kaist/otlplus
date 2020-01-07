@@ -163,7 +163,7 @@ def courses_instance_comments_view(request, course_id):
 def courses_instance_lectures_view(request, course_id):
     if request.method == 'GET':
         course = get_object_or_404(Course, id=course_id)
-        lectures = course.lecture_course.all().order_by('year','semester', 'class_no')
+        lectures = course.lecture_course.filter(deleted=False).order_by('year','semester', 'class_no')
 
         result = [l.toJson() for l in lectures]
         return JsonResponse(result, safe=False)
