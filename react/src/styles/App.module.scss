@@ -519,7 +519,7 @@ a {
             }
 
             & > button {
-                color: $color-text-lighter;
+                color: $color-text-light;
                 @media (orientation: landscape) {
                     margin-left: 4px;
                 }
@@ -765,7 +765,7 @@ a {
                         color: $color-text-light;
                         position: relative;
                         white-space: nowrap;
-                        margin: 0 -100px;
+                        margin: 0 -20px;
                     }
 
                     &:not(.table-head) {
