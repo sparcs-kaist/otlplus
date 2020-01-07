@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
 import TakenLecturesSection from '../components/sections/write-reviews/TakenLecturesSection';
+import ReviewWriteSubSection from '../components/sections/write-reviews/ReviewWriteSubSection';
 
 
 class WriteReviewsPage extends Component {
@@ -18,7 +19,7 @@ class WriteReviewsPage extends Component {
           </div>
           <div className={classNames('section-wrap', 'section-wrap--desktop-1v3--right', 'mobile-modal', (false ? '' : 'mobile-hidden'))}>
             <div className={classNames('section')}>
-              123
+              <ReviewWriteSubSection />
             </div>
           </div>
         </section>
