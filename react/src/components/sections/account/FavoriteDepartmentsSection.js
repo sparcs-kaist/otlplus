@@ -18,12 +18,13 @@ class FavoriteDepartmentsSection extends Component {
 
     this.state = {
       department: new Set(['ALL']),
-      departmentOptions: [],
+      departmentList: [],
     };
   }
 
 
   componentDidMount() {
+    const { t } = this.props;
     const { user } = this.props;
 
     if (user) {
@@ -34,9 +35,8 @@ class FavoriteDepartmentsSection extends Component {
     })
       .then((response) => {
         this.setState({
-          departmentOptions: response.data
-            .reduce((acc, val) => acc.concat(val), [])
-            .map(d => [String(d.id), d.name]),
+          departmentList: response.data
+            .reduce((acc, val) => acc.concat(val), []),
         });
       })
       .catch((error) => {
@@ -101,13 +101,13 @@ class FavoriteDepartmentsSection extends Component {
   render() {
     const { t } = this.props;
     const { user } = this.props;
-    const { departmentOptions, department } = this.state;
+    const { departmentList, department } = this.state;
 
     if (user == null) {
       return null;
     }
 
-    if (!departmentOptions.length) {
+    if (!departmentList.length) {
       return (
         <>
           <div className={classNames('title')}>
@@ -116,6 +116,9 @@ class FavoriteDepartmentsSection extends Component {
         </>
       );
     }
+
+    const departmentOptions = departmentList
+      .map(d => [String(d.id), d[t('js.property.name')]]);
 
     return (
       <>
