@@ -1421,6 +1421,36 @@ a {
     }
 
 
+    &--lecture-simple {
+        padding: 8px 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        min-width: 74px;
+
+        &__title {
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 2px;
+        }
+
+        &__subtitle {
+            text-align: center;
+        }
+
+        &.block--clicked {
+            background-color:$color-block-background-dark;
+            position: relative;
+            top: -3px;
+            box-shadow: 0 3px 0 0 $color-block-shadow-dark;
+        }
+
+        &.block--inactive {
+            opacity: 0.5;
+        }
+    }
+
+
     &--review {
 
         .section-content--course-detail &:last-child {

@@ -4,15 +4,36 @@ import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
+import { reset, setLectureSelected, clearLectureSelected } from '../../../actions/write-reviews/lectureSelected';
 import Scroller from '../../Scroller';
 import LectureSimpleBlock from '../../blocks/LectureSimpleBlock';
 import userShape from '../../../shapes/UserShape';
+import lectureShape from '../../../shapes/LectureShape';
 
 
 class TakenLecturesSection extends Component {
+  componentWillUnmount() {
+    const { resetLectureSelectedDispatch } = this.props;
+
+    resetLectureSelectedDispatch();
+  }
+
+
+  handleBlockClick = lecture => (e) => {
+    const { selectedLecture, setLectureSelectedDispatch, clearLectureSelectedDispatch } = this.props;
+
+    if (selectedLecture && (lecture.id === selectedLecture.id)) {
+      clearLectureSelectedDispatch();
+    }
+    else {
+      setLectureSelectedDispatch(lecture);
+    }
+  }
+
+
   render() {
     const { t } = this.props;
-    const { user } = this.props;
+    const { user, selectedLecture } = this.props;
 
     if (!user) {
       return (
@@ -92,7 +113,23 @@ class TakenLecturesSection extends Component {
                 {user.taken_lectures
                   .filter(l => (l.year === s.year && l.semester === s.semester))
                   .map(l => (
-                    <LectureSimpleBlock lecture={l} />
+                    !selectedLecture
+                      ? (
+                        <LectureSimpleBlock
+                          lecture={l}
+                          isClicked={false}
+                          isInactive={false}
+                          onClick={this.handleBlockClick(l)}
+                        />
+                      )
+                      : (
+                        <LectureSimpleBlock
+                          lecture={l}
+                          isClicked={selectedLecture.id === l.id}
+                          isInactive={selectedLecture.id !== l.id}
+                          onClick={this.handleBlockClick(l)}
+                        />
+                      )
                   ))
                 }
               </>
@@ -107,14 +144,27 @@ class TakenLecturesSection extends Component {
 
 const mapStateToProps = state => ({
   user: state.common.user.user,
-  semesters: state.common.semester.semesters,
+  selectedLecture: state.writeReviews.lectureSelected.lecture,
 });
 
 const mapDispatchToProps = dispatch => ({
+  resetLectureSelectedDispatch: () => {
+    dispatch(reset());
+  },
+  setLectureSelectedDispatch: (lecture) => {
+    dispatch(setLectureSelected(lecture));
+  },
+  clearLectureSelectedDispatch: () => {
+    dispatch(clearLectureSelected());
+  },
 });
 
 TakenLecturesSection.propTypes = {
   user: userShape,
+  selectedLecture: lectureShape,
+  resetLectureSelectedDispatch: PropTypes.func.isRequired,
+  setLectureSelectedDispatch: PropTypes.func.isRequired,
+  clearLectureSelectedDispatch: PropTypes.func.isRequired,
 };
 
 

@@ -18,6 +18,7 @@ import axios from './common/presetAxios';
 import { BASE_URL } from './common/constants';
 import dictionaryReducer from './reducers/dictionary/index';
 import timetableReducer from './reducers/timetable/index';
+import writeReviewsReducer from './reducers/write-reviews/index';
 import commonReducer from './reducers/common/index';
 import { setUser } from './actions/common/user';
 import { setSemesters } from './actions/common/semester';
@@ -28,6 +29,7 @@ const store = createStore(combineReducers({
   common: commonReducer,
   dictionary: dictionaryReducer,
   timetable: timetableReducer,
+  writeReviews: writeReviewsReducer,
 }));
 
 class App extends Component {
