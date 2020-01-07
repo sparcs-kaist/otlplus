@@ -156,7 +156,8 @@ class CourseSearchSubSection extends Component {
         return a[2] - b[2];
       }
       return (a[1] < b[1]) ? -1 : 1;
-    });
+    })
+      .map(o => o.slice(0, 2));
     const levelOptions = [
       ['ALL', t('ui.level.allShort')],
       ['100', t('ui.level.100sShort')], ['200', t('ui.level.200sShort')],
