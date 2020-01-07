@@ -55,6 +55,10 @@ class TimetableTabs extends Component {
       return;
     }
 
+    if ((year == null) || (semester == null)) {
+      return;
+    }
+
     axios.post(`${BASE_URL}/api/timetable/table_load`, {
       year: year,
       semester: semester,
