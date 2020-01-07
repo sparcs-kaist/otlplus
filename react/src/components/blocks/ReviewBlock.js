@@ -10,6 +10,7 @@ import ReviewShape from '../../shapes/ReviewShape';
 
 // eslint-disable-next-line arrow-body-style
 const ReviewBlock = ({ t, review }) => {
+  const [changedLikes, setChangedLikes] = useState(review.like);
   const [changedIsLiked, setChangedIsLiked] = useState(review.userspecific_is_liked);
 
   const onLikeClick = (e) => {
@@ -20,6 +21,7 @@ const ReviewBlock = ({ t, review }) => {
       commentid: review.id,
     })
       .then((response) => {
+        setChangedLikes(changedLikes + 1);
         setChangedIsLiked(true);
       })
       .catch((error) => {
@@ -49,7 +51,7 @@ const ReviewBlock = ({ t, review }) => {
           <span className={classNames('block--review__menus__score')}>
             {t('ui.score.likes')}
             &nbsp;
-            <strong>{review.like}</strong>
+            <strong>{changedLikes}</strong>
           </span>
           <span className={classNames('block--review__menus__score')}>
             {t('ui.score.grade')}
