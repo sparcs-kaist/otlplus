@@ -30,7 +30,7 @@ class HistorySubSection extends Component {
 
     if ((prevProps.lectures === null) && (lectures !== null)) {
       const scrollTarget = this.scrollRef.current;
-      scrollTarget.scrollTo(scrollTarget.scrollWidth, 0);
+      scrollTarget.scrollLeft = scrollTarget.scrollWidth;
     }
   }
 
