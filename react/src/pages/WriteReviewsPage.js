@@ -10,7 +10,8 @@ import TakenLecturesSection from '../components/sections/write-reviews/TakenLect
 import ReviewWriteSubSection from '../components/sections/write-reviews/ReviewWriteSubSection';
 import LatestReviewsSubSection from '../components/sections/write-reviews/LatestReviewsSubSection';
 import Scroller from '../components/Scroller';
-import { addReviews } from '../actions/write-reviews/latestReviews';
+import { reset as resetLectureSelected } from '../actions/write-reviews/lectureSelected';
+import { reset as resetLatestReviews, addReviews } from '../actions/write-reviews/latestReviews';
 
 
 class WriteReviewsPage extends Component {
@@ -25,6 +26,14 @@ class WriteReviewsPage extends Component {
 
   componentDidMount() {
     this._fetchReviews();
+  }
+
+
+  componentWillUnmount() {
+    const { resetLectureSelectedDispatch, resetLatestReviewsDispatch } = this.props;
+
+    resetLectureSelectedDispatch();
+    resetLatestReviewsDispatch();
   }
 
 
@@ -84,10 +93,18 @@ const mapDispatchToProps = dispatch => ({
   addReviewsDispatch: (reviews) => {
     dispatch(addReviews(reviews));
   },
+  resetLectureSelectedDispatch: () => {
+    dispatch(resetLectureSelected());
+  },
+  resetLatestReviewsDispatch: () => {
+    dispatch(resetLatestReviews());
+  },
 });
 
 WriteReviewsPage.propTypes = {
   addReviewsDispatch: PropTypes.func.isRequired,
+  resetLectureSelectedDispatch: PropTypes.func.isRequired,
+  resetLatestReviewsDispatch: PropTypes.func.isRequired,
 };
 
 
