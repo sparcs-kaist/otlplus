@@ -44,7 +44,7 @@ export const getCurrentSchedule = (semesters) => {
         time: new Date(s[f]),
       }))
     ))
-    .flat()
+    .reduce((acc, val) => acc.concat(val), [])
     .sort((a, b) => (a.time - b.time));
   const now = Date.now();
   const currentSchedule = allSchedules
