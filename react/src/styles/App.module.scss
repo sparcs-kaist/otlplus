@@ -610,6 +610,8 @@ a {
 
 
     &--syllabus {
+        white-space: nowrap;
+
         & > div {
             display: inline-block;
             vertical-align: top;
@@ -694,6 +696,7 @@ a {
         & > span {
             flex: 1 1 auto;
             text-align: center;
+            white-space: nowrap;
             @media #{$media-portrait} {
                 font-size: $font-size-big;
                 line-height: $line-height-big;
