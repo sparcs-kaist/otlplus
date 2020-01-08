@@ -1191,6 +1191,11 @@ a {
         height: initial;
     }
 
+    &--account {
+        display: flex;
+        flex-direction: column;
+    }
+
     &--main-search {
         display: flex;
         font-size: $font-size-big;
