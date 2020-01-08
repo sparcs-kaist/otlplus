@@ -204,6 +204,7 @@
     "message": {
       "signInForMore": "Please sign in to enjoy more features.",
       "blankSearch": "Please select search conditions.",
+      "blankSearchKeyword": "Please enter the search keyword.",
       "timetableOverlap": "You can't add lecture overlapping.",
       "lastTimetable": "You can't delete the last timetable.",
       "alreadyUploading": "The upload is already in progress. Please wait for a moment.",

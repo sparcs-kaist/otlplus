@@ -26,6 +26,11 @@ class Semester(models.Model):
         unique_together = [['year', 'semester']]
 
     def toJson(self) :
+        cache_id = "semester:%d-%d" % (self.year, self.semester)
+        result_cached = cache.get(cache_id)
+        if result_cached != None:
+            return result_cached
+
         result = {
             "year": self.year,
             "semester": self.semester,
@@ -39,6 +44,8 @@ class Semester(models.Model):
             "courseEvaluationDeadline": self.courseEvaluationDeadline,
             "gradePosting": self.gradePosting,
         }
+
+        cache.set(cache_id, result)
 
         return result
 
@@ -500,12 +507,19 @@ class Department(models.Model):
         return self.code
 
     def toJson(self, nested=False):
+        cache_id = "department:%d:%s" % (self.id, 'nested' if nested else 'normal')
+        result_cached = cache.get(cache_id)
+        if result_cached != None:
+            return result_cached
+
         result = {
             'id': self.id,
             'name': self.name,
             'name_en': self.name_en,
             'code': self.code,
         }
+
+        cache.set(cache_id, result)
 
         return result
 
