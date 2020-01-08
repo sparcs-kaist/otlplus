@@ -141,10 +141,10 @@ class SummarySubSection extends Component {
       + (alec && !inTimetable(alec, currentTimetable) ? alec.credit : 0);
     const allAuCredit = timetableLectures.reduce((acc, lecture) => (acc + lecture.credit_au), 0)
       + (alec && !inTimetable(alec, currentTimetable) ? alec.credit_au : 0);
-    const targetNum = timetableLectures.reduce((acc, lecture) => (acc + (lecture.credit + lecture.credit_au)), 0);
-    const grade = timetableLectures.reduce((acc, lecture) => (acc + (lecture.grade * (lecture.credit + lecture.credit_au))), 0);
-    const load = timetableLectures.reduce((acc, lecture) => (acc + (lecture.load * (lecture.credit + lecture.credit_au))), 0);
-    const speech = timetableLectures.reduce((acc, lecture) => (acc + (lecture.speech * (lecture.credit + lecture.credit_au))), 0);
+    const targetNum = timetableLectures.reduce((acc, lecture) => (acc + (lecture.has_review ? (lecture.credit + lecture.credit_au) : 0)), 0);
+    const grade = timetableLectures.reduce((acc, lecture) => (acc + (lecture.has_review ? (lecture.grade * (lecture.credit + lecture.credit_au)) : 0)), 0);
+    const load = timetableLectures.reduce((acc, lecture) => (acc + (lecture.has_review ? (lecture.load * (lecture.credit + lecture.credit_au)) : 0)), 0);
+    const speech = timetableLectures.reduce((acc, lecture) => (acc + (lecture.has_review ? (lecture.speech * (lecture.credit + lecture.credit_au)) : 0)), 0);
     const letters = ['?', 'F', 'F', 'F', 'D-', 'D', 'D+', 'C-', 'C', 'C+', 'B-', 'B', 'B+', 'A-', 'A', 'A+'];
 
     const isLectureActiveFromType = (laf, lal, typeIndex) => (
