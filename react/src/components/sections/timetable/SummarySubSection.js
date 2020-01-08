@@ -178,7 +178,7 @@ class SummarySubSection extends Component {
               <div>
                 <span className={classNames('mobile-hidden', (active === 'Basic Required' ? 'active' : ''))}>{currentTypeCredit[0]}</span>
                 <span className={classNames('mobile-hidden', 'active')}>{activeTypeCredit[0]}</span>
-                <span className={classNames('mobile-unhidden', (isLectureActiveFromType(lectureActiveFrom, lectureActiveLecture, 0) ? 'active' : ''))}>{totalTypeCredit[0]}</span>
+                <span className={classNames('mobile-unhidden', ((active === 'Basic Required') || isLectureActiveFromType(lectureActiveFrom, lectureActiveLecture, 0) ? 'active' : ''))}>{totalTypeCredit[0]}</span>
               </div>
             </div>
             <div className={classNames('attribute')} onMouseOver={() => this.typeFocus('Major Required')} onMouseOut={() => this.clearFocus()}>
@@ -186,7 +186,7 @@ class SummarySubSection extends Component {
               <div>
                 <span className={classNames('mobile-hidden', (active === 'Major Required' ? 'active' : ''))}>{currentTypeCredit[2]}</span>
                 <span className={classNames('mobile-hidden', 'active')}>{activeTypeCredit[2]}</span>
-                <span className={classNames('mobile-unhidden', (isLectureActiveFromType(lectureActiveFrom, lectureActiveLecture, 2) ? 'active' : ''))}>{totalTypeCredit[2]}</span>
+                <span className={classNames('mobile-unhidden', ((active === 'Major Required') || isLectureActiveFromType(lectureActiveFrom, lectureActiveLecture, 2) ? 'active' : ''))}>{totalTypeCredit[2]}</span>
               </div>
             </div>
             <div className={classNames('attribute')} onMouseOver={() => this.typeFocus('Humanities & Social Elective')} onMouseOut={() => this.clearFocus()}>
@@ -194,7 +194,7 @@ class SummarySubSection extends Component {
               <div>
                 <span className={classNames('mobile-hidden', (active === 'Humanities & Social Elective' ? 'active' : ''))}>{currentTypeCredit[4]}</span>
                 <span className={classNames('mobile-hidden', 'active')}>{activeTypeCredit[4]}</span>
-                <span className={classNames('mobile-unhidden', (isLectureActiveFromType(lectureActiveFrom, lectureActiveLecture, 4) ? 'active' : ''))}>{totalTypeCredit[4]}</span>
+                <span className={classNames('mobile-unhidden', ((active === 'Humanities & Social Elective') || isLectureActiveFromType(lectureActiveFrom, lectureActiveLecture, 4) ? 'active' : ''))}>{totalTypeCredit[4]}</span>
               </div>
             </div>
           </div>
@@ -204,7 +204,7 @@ class SummarySubSection extends Component {
               <div>
                 <span className={classNames('mobile-hidden', (active === 'Basic Elective' ? 'active' : ''))}>{currentTypeCredit[1]}</span>
                 <span className={classNames('mobile-hidden', 'active')}>{activeTypeCredit[1]}</span>
-                <span className={classNames('mobile-unhidden', (isLectureActiveFromType(lectureActiveFrom, lectureActiveLecture, 1) ? 'active' : ''))}>{totalTypeCredit[1]}</span>
+                <span className={classNames('mobile-unhidden', ((active === 'Basic Elective') || isLectureActiveFromType(lectureActiveFrom, lectureActiveLecture, 1) ? 'active' : ''))}>{totalTypeCredit[1]}</span>
               </div>
             </div>
             <div className={classNames('attribute')} onMouseOver={() => this.typeFocus('Major Elective')} onMouseOut={() => this.clearFocus()}>
@@ -212,7 +212,7 @@ class SummarySubSection extends Component {
               <div>
                 <span className={classNames('mobile-hidden', (active === 'Major Elective' ? 'active' : ''))}>{currentTypeCredit[3]}</span>
                 <span className={classNames('mobile-hidden', 'active')}>{activeTypeCredit[3]}</span>
-                <span className={classNames('mobile-unhidden', (isLectureActiveFromType(lectureActiveFrom, lectureActiveLecture, 3) ? 'active' : ''))}>{totalTypeCredit[3]}</span>
+                <span className={classNames('mobile-unhidden', ((active === 'Major Elective') || isLectureActiveFromType(lectureActiveFrom, lectureActiveLecture, 3) ? 'active' : ''))}>{totalTypeCredit[3]}</span>
               </div>
             </div>
             <div className={classNames('attribute')} onMouseOver={() => this.typeFocus('Etc')} onMouseOut={() => this.clearFocus()}>
@@ -220,7 +220,7 @@ class SummarySubSection extends Component {
               <div>
                 <span className={classNames('mobile-hidden', (active === 'Etc' ? 'active' : ''))}>{currentTypeCredit[5]}</span>
                 <span className={classNames('mobile-hidden', 'active')}>{activeTypeCredit[5]}</span>
-                <span className={classNames('mobile-unhidden', (isLectureActiveFromType(lectureActiveFrom, lectureActiveLecture, 5) ? 'active' : ''))}>{totalTypeCredit[5]}</span>
+                <span className={classNames('mobile-unhidden', ((active === 'Etc') || isLectureActiveFromType(lectureActiveFrom, lectureActiveLecture, 5) ? 'active' : ''))}>{totalTypeCredit[5]}</span>
               </div>
             </div>
           </div>

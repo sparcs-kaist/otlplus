@@ -85,7 +85,7 @@ class CreditPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentTab: 6,
+      currentTab: 8,
     };
   }
 
@@ -173,8 +173,8 @@ class CreditPage extends Component {
               { name: '정재성', image: memberBatteryImage },
               { name: '정종혁', image: memberSunguardImage },
               { name: '정창제', image: memberRodumaniImage },
-              { name: '진태진', image: memberDynamanImage },
               { name: '조유정', image: memberMayflowerImage },
+              { name: '진태진', image: memberDynamanImage },
             ],
           },
         ],
@@ -286,7 +286,7 @@ class CreditPage extends Component {
               {
                 name: '한승현',
                 image: memberZealotImage,
-                caption: '2017.06 ~ ',
+                caption: '2017.06 ~ 2017.12',
               },
             ],
           },
@@ -325,7 +325,7 @@ class CreditPage extends Component {
               {
                 name: '한승현',
                 image: memberZealotImage,
-                caption: '2018.03 ~ 2020.01',
+                caption: '2018.01 ~ 2020.01',
               },
             ],
           },
@@ -342,8 +342,8 @@ class CreditPage extends Component {
               { name: '강현우', image: memberLeesiaImage, caption: '2 credits' },
               { name: '고지훈', image: memberMangoImage, caption: '1 credit' },
               { name: '김경서', image: memberMossImage, caption: '1 credit' },
-              { name: '문재호', image: memberJamesImage, caption: '1 credit' },
               { name: '마재의', image: memberChaosImage, caption: '1 credit' },
+              { name: '문재호', image: memberJamesImage, caption: '1 credit' },
               { name: '박수호', image: memberEtrangerImage, caption: '1 credit' },
               { name: '박현우', image: memberWinrobrineImage, caption: '1 credit' },
               { name: '서혜인', image: memberBogoImage, caption: '1 credit' },
@@ -355,9 +355,9 @@ class CreditPage extends Component {
               { name: '이주영', image: memberNullImage, caption: '1 credit' },
               { name: '지수환', image: memberSwanImage, caption: '1 credit' },
               { name: '최윤서', image: memberYounsImage, caption: '1 credit' },
-              { name: '황재영', image: memberAkaisImage, caption: '1 credit' },
               { name: '하현정', image: memberYoloImage, caption: '1 credit' },
               { name: '허미나', image: memberHersheyImage, caption: '1 credit' },
+              { name: '황재영', image: memberAkaisImage, caption: '1 credit' },
               { name: '한승현', image: memberZealotImage, caption: '4 credits' },
               { name: '한우현', image: memberTinkImage, caption: '1 credit' },
             ],
