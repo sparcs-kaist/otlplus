@@ -1,8 +1,12 @@
-export const RESET = 'RESET';
-export const OPEN_SEARCH = 'OPEN_SEARCH';
-export const CLOSE_SEARCH = 'CLOSE_SEARCH';
-export const DRAG_SEARCH = 'DRAG_SEARCH';
-export const CLEAR_DRAG = 'CLEAR_DRAG';
+const BASE_STRING = 'T_S_';
+
+/* eslint-disable prefer-template */
+export const RESET = BASE_STRING + 'RESET';
+export const OPEN_SEARCH = BASE_STRING + 'OPEN_SEARCH';
+export const CLOSE_SEARCH = BASE_STRING + 'CLOSE_SEARCH';
+export const DRAG_SEARCH = BASE_STRING + 'DRAG_SEARCH';
+export const CLEAR_DRAG = BASE_STRING + 'CLEAR_DRAG';
+/* eslint-enable prefer-template */
 
 
 export function reset() {

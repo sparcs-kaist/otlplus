@@ -1,6 +1,10 @@
-export const RESET = 'RESET';
-export const SET_LECTURE_SELECTED = 'SET_LECTURE_SELECTED';
-export const CLEAR_LECTURE_SELECTED = 'CLEAR_LECTURE_SELECTED';
+const BASE_STRING = 'WR_LS_';
+
+/* eslint-disable prefer-template */
+export const RESET = BASE_STRING + 'RESET';
+export const SET_LECTURE_SELECTED = BASE_STRING + 'SET_LECTURE_SELECTED';
+export const CLEAR_LECTURE_SELECTED = BASE_STRING + 'CLEAR_LECTURE_SELECTED';
+/* eslint-enable prefer-template */
 
 
 export function reset() {
