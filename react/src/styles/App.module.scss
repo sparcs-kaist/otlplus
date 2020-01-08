@@ -159,6 +159,13 @@ a {
     }
 }
 
+:global(.ScrollbarsCustom-Content)::after {
+    content: '';
+    display: block;
+    height: 2px;
+    margin-top: $section-padding - 2px;
+}
+
 
 .content {
     position: relative;

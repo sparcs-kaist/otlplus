@@ -5,7 +5,7 @@ import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 import { setLectureSelected, clearLectureSelected } from '../../../actions/write-reviews/lectureSelected';
-import Scroller from '../../Scroller';
+import Scroller from '../../Scroller2';
 import LectureSimpleBlock from '../../blocks/LectureSimpleBlock';
 import userShape from '../../../shapes/UserShape';
 import lectureShape from '../../../shapes/LectureShape';

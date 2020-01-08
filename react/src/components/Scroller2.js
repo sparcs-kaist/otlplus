@@ -16,7 +16,7 @@ class Scroller extends Component {
   }
 
   render() {
-    const { onScroll, children } = this.props;
+    const { onScroll, children, hasScrollX } = this.props;
 
     return (
       <Scrollbar
@@ -58,6 +58,7 @@ class Scroller extends Component {
             height: '4px',
             borderRadius: '2px',
             margin: '4px 0',
+            backgroundColor: 'rgba(128, 128, 128, 0.5)',
           },
         }}
         thumbYProps={{
@@ -65,8 +66,11 @@ class Scroller extends Component {
             width: '4px',
             borderRadius: '2px',
             margin: '0 4px',
+            backgroundColor: 'rgba(128, 128, 128, 0.5)',
           },
         }}
+        minimalThumbSize={24}
+        noScrollX={!hasScrollX}
         onScroll={onScroll}
       >
         { children }
@@ -90,6 +94,7 @@ Scroller.propTypes = {
     PropTypes.string,
     PropTypes.element,
   ]).isRequired,
+  hasScrollX: PropTypes.bool,
 };
 
 export default Scroller;
