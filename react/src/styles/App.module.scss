@@ -307,7 +307,7 @@ a {
         @media (min-aspect-ratio: 4/3) {
             width: calc(#{$section-desktop-width} + (#{$section-margin-lr} * 2));
         }
-        @media (orientation:portrait) {
+        @media (max-aspect-ratio: 4/3) {
             width: 100%
         }
     }
@@ -359,7 +359,7 @@ a {
         flex: none;
         margin-top: 0px;
         width: #{$section-desktop-width};
-        @media (orientation:portrait) {
+        @media (max-aspect-ratio: 4/3) {
             width: calc(100% - #{$section-margin-lr} * 2);
         }
     }

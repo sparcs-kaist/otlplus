@@ -67,7 +67,7 @@ header, footer {
             align-items: center;
             &.content-right {
                 text-align: right;
-                @media (orientation:portrait) {
+                @media (max-aspect-ratio: 4/3) {
                     text-align: initial;
                     @at-root .menu-closed .content-right {
                         display: none !important;
