@@ -166,6 +166,15 @@ a {
     margin-top: $section-padding - 2px;
 }
 
+:global(.ScrollbarsCustom-Thumb)::before {
+    content: '';
+    position: absolute;
+    display: block;
+    top: -4px;
+    bottom: -4px;
+    left: -4px;
+    right: -4px;
+}
 
 .content {
     position: relative;
