@@ -37,7 +37,7 @@ class LectureSearchSubSection extends Component {
     const { type, department, grade, inputVal } = this.state;
     const { year, semester, start, day, end, lectureActive, closeSearchDispatch, clearSearchListLecturesDispatch, setListLecturesDispatch, clearLectureActiveDispatch } = this.props;
 
-    if (type.size === 1 && department.size === 1 && grade.size === 1 && inputVal.length === 0
+    if (type.size === 1 && department.size === 1 && grade.size === 1 && inputVal.trim().length === 0
       && !(start !== null && end !== null && day !== null)) {
       if (type.has('ALL') && department.has('ALL') && grade.has('ALL')) {
         // eslint-disable-next-line no-alert
@@ -94,7 +94,7 @@ class LectureSearchSubSection extends Component {
       autoComplete: '',
     });
 
-    if (!value) {
+    if (!value.trim()) {
       return;
     }
 
