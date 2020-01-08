@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
 
-import Scroller from '../components/Scroller';
+import Scroller from '../components/Scroller2';
 
 import ProjectBlock from '../components/blocks/ProjectBlock';
 

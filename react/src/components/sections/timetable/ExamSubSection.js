@@ -5,7 +5,7 @@ import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
-import Scroller from '../../Scroller';
+import Scroller from '../../Scroller2';
 import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureActive';
 import { clearMultipleDetail, setMultipleDetail } from '../../../actions/timetable/lectureActive';
 import lectureShape from '../../../shapes/LectureShape';

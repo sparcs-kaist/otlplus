@@ -9,7 +9,7 @@ import { appBoundClassNames as classNames } from '../common/boundClassNames';
 import TakenLecturesSection from '../components/sections/write-reviews/TakenLecturesSection';
 import ReviewWriteSubSection from '../components/sections/write-reviews/ReviewWriteSubSection';
 import LatestReviewsSubSection from '../components/sections/write-reviews/LatestReviewsSubSection';
-import Scroller from '../components/Scroller';
+import Scroller from '../components/Scroller2';
 import { reset as resetLectureSelected, clearLectureSelected } from '../actions/write-reviews/lectureSelected';
 import { reset as resetLatestReviews, addReviews } from '../actions/write-reviews/latestReviews';
 import lectureShape from '../shapes/LectureShape';

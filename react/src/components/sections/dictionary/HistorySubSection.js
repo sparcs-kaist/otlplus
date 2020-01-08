@@ -6,6 +6,8 @@ import { withTranslation } from 'react-i18next';
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 import axios from '../../../common/presetAxios';
 import { BASE_URL } from '../../../common/constants';
+
+import Scroller from '../../Scroller2';
 import { setLectures } from '../../../actions/dictionary/courseActive';
 import semesterShape from '../../../shapes/SemesterShape';
 import CourseShape from '../../../shapes/CourseShape';
@@ -29,7 +31,7 @@ class HistorySubSection extends Component {
     }
 
     if ((prevProps.lectures === null) && (lectures !== null)) {
-      const scrollTarget = this.scrollRef.current;
+      const scrollTarget = this.scrollRef.current.querySelector('.ScrollbarsCustom-Scroller');
       scrollTarget.scrollLeft = scrollTarget.scrollWidth;
     }
   }
@@ -79,6 +81,8 @@ class HistorySubSection extends Component {
             )
             : (
               <div className={classNames('history')} ref={this.scrollRef}>
+                {/* eslint-disable-next-line react/jsx-indent */}
+              <Scroller noScrollX={false} noScrollY={true}>
                 <table>
                   <tbody>
                     <tr>
@@ -111,6 +115,7 @@ class HistorySubSection extends Component {
                     </tr>
                   </tbody>
                 </table>
+              </Scroller>
               </div>
             )
         }

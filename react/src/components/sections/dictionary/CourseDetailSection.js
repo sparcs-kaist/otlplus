@@ -6,7 +6,7 @@ import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 import { clearCourseActive } from '../../../actions/dictionary/courseActive';
-import Scroller from '../../Scroller';
+import Scroller from '../../Scroller2';
 import CourseShape from '../../../shapes/CourseShape';
 import RelatedSubSection from './RelatedSubSection';
 import HistorySubSection from './HistorySubSection';
@@ -91,8 +91,6 @@ class CourseDetailSection extends Component {
             </div>
           </div>
           <Scroller onScroll={() => this.onScroll()} key={course.id}>
-            {/* eslint-disable-next-line react/jsx-indent */}
-          <React.Fragment key={(courseActiveReviews ? courseActiveReviews.length : -1) + (courseActiveLectures ? courseActiveLectures.length : -1)}>
             <div>
               <div className={classNames('attribute', 'attribute--semi-long')}>
                 <div>
@@ -143,7 +141,6 @@ class CourseDetailSection extends Component {
             <HistorySubSection />
             <div className={classNames('divider')} />
             <ReviewsSubSection />
-          </React.Fragment>
           </Scroller>
         </div>
       );
