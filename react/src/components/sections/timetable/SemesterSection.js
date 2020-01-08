@@ -31,7 +31,6 @@ class SemesterSection extends Component {
     const { semesters, setSemesterDispatch } = this.props;
 
     const currentSemester = getTimetableSemester(semesters);
-    console.log(currentSemester);
     setSemesterDispatch(currentSemester.year, currentSemester.semester);
   }
 
