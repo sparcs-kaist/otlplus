@@ -115,6 +115,7 @@ class TakenLecturesSection extends Component {
                           lecture={l}
                           isClicked={false}
                           isInactive={false}
+                          hasReview={user.reviews.find(r => (r.lecture.id === l.id)) !== undefined}
                           onClick={this.handleBlockClick(l)}
                         />
                       )
@@ -124,6 +125,7 @@ class TakenLecturesSection extends Component {
                           lecture={l}
                           isClicked={selectedLecture.id === l.id}
                           isInactive={selectedLecture.id !== l.id}
+                          hasReview={user.reviews.find(r => (r.lecture.id === l.id)) !== undefined}
                           onClick={this.handleBlockClick(l)}
                         />
                       )
