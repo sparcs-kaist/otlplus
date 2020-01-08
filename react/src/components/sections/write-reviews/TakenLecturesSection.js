@@ -65,7 +65,7 @@ class TakenLecturesSection extends Component {
     // eslint-disable-next-line fp/no-mutating-methods
     const targetSemesters = takenSemesters
       .filter((s, i) => ((takenSemesters.findIndex(s2 => (s2.year === s.year && s2.semester === s.semester))) === i))
-      .sort((a, b) => ((a.year !== b.year) ? (a.year - b.year) : (a.semester - b.semester)));
+      .sort((a, b) => ((a.year !== b.year) ? (b.year - a.year) : (b.semester - a.semester)));
 
     const semesterNames = [
       null,
