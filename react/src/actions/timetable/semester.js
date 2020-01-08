@@ -1,5 +1,9 @@
-export const RESET = 'RESET';
-export const SET_SEMESTER = 'SET_SEMESTER';
+const BASE_STRING = 'T_SM_';
+
+/* eslint-disable prefer-template */
+export const RESET = BASE_STRING + 'RESET';
+export const SET_SEMESTER = BASE_STRING + 'SET_SEMESTER';
+/* eslint-enable prefer-template */
 
 
 export function reset() {
