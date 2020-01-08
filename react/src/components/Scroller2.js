@@ -8,6 +8,7 @@ class Scroller extends Component {
     super(props);
 
     this.state = {
+      isMouseIn: false,
       isScrolling: false,
     };
   }
@@ -25,7 +26,7 @@ class Scroller extends Component {
 
   render() {
     const { onScroll, children, noScrollX, noScrollY } = this.props;
-    const { isScrolling } = this.state;
+    const { isScrolling, isMouseIn } = this.state;
 
     const calculatedNoScrollX = (noScrollX === undefined) ? true : noScrollX;
     const calculatedNoScrollY = (noScrollY === undefined) ? false : noScrollY;
@@ -77,7 +78,7 @@ class Scroller extends Component {
             width: '100%',
             backgroundColor: 'transparent',
             transition: 'opacity 0.3s',
-            opacity: isScrolling ? '1' : '0.01',
+            opacity: isScrolling ? '1' : (isMouseIn ? '0.25' : '0'),
           },
         }}
         trackYProps={{
@@ -88,7 +89,7 @@ class Scroller extends Component {
             height: 'calc(100% - 12px)',
             backgroundColor: 'transparent',
             transition: 'opacity 0.3s',
-            opacity: isScrolling ? '1' : '0.01',
+            opacity: isScrolling ? '1' : (isMouseIn ? '0.25' : '0'),
           },
         }}
         thumbXProps={{
@@ -96,7 +97,7 @@ class Scroller extends Component {
             height: '4px',
             borderRadius: '2px',
             margin: '4px 0',
-            backgroundColor: 'rgba(128, 128, 128, 0.3)',
+            backgroundColor: 'rgba(128, 128, 128, 0.4)',
           },
         }}
         thumbYProps={{
@@ -104,13 +105,14 @@ class Scroller extends Component {
             width: '4px',
             borderRadius: '2px',
             margin: '0 4px',
-            backgroundColor: 'rgba(128, 128, 128, 0.3)',
+            backgroundColor: 'rgba(128, 128, 128, 0.4)',
           },
         }}
         onMouseEnter={async () => {
-          this.setState({ isScrolling: true });
-          await new Promise(r => setTimeout(r, 1000));
-          this.setState({ isScrolling: false });
+          this.setState({ isMouseIn: true });
+        }}
+        onMouseLeave={async () => {
+          this.setState({ isMouseIn: false });
         }}
         onScroll={() => {
           this.setState({ isScrolling: true });
