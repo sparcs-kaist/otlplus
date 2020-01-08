@@ -1,5 +1,7 @@
-export const SET_USER = 'SET_USER';
-export const UPDATE_USER_REVIEW = 'UPDATE_USER_REVIEW';
+const BASE_STRING = 'C_U_';
+
+export const SET_USER = BASE_STRING + 'SET_USER';
+export const UPDATE_USER_REVIEW = BASE_STRING + 'UPDATE_USER_REVIEW';
 
 
 export function setUser(user) {
