@@ -37,7 +37,7 @@ class CourseSearchSubSection extends Component {
     const { type, department, grade, term, inputVal } = this.state;
     const { closeSearchDispatch, clearSearchListCoursesDispatch, setListCoursesDispatch, clearCourseActiveDispatch } = this.props;
 
-    if (type.size === 1 && department.size === 1 && grade.size === 1 && inputVal.length === 0) {
+    if (type.size === 1 && department.size === 1 && grade.size === 1 && inputVal.trim().length === 0) {
       if (type.has('ALL') && department.has('ALL') && grade.has('ALL')) {
         // eslint-disable-next-line no-alert
         alert(t('ui.message.blankSearch'));
@@ -81,7 +81,7 @@ class CourseSearchSubSection extends Component {
       autoComplete: '',
     });
 
-    if (!value) {
+    if (!value.trim()) {
       return;
     }
 
