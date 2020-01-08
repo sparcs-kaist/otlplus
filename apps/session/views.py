@@ -210,7 +210,7 @@ def info(request):
         "student_id": userProfile.student_id,
         "firstName": request.user.first_name,
         "lastName": request.user.last_name,
-        "majors": [d.toJson() for d in ( [userProfile.department] + list(userProfile.majors.all()) + list(userProfile.minors.all()) )],
+        "majors": [d.toJson() for d in ( ([userProfile.department] if (userProfile.department != None) else []) + list(userProfile.majors.all()) + list(userProfile.minors.all()) )],
         "departments": _user_department(request.user),
         "favorite_departments": [d.toJson() for d in userProfile.favorite_departments.all()],
         "taken_lectures": [l.toJson() for l in taken_lectures],
