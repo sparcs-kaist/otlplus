@@ -10,7 +10,7 @@ import { setLectureActive, clearLectureActive } from '../../../actions/timetable
 import { addLectureToCart, deleteLectureFromCart, setMobileShowLectureList } from '../../../actions/timetable/list';
 import { openSearch } from '../../../actions/timetable/search';
 import { addLectureToTimetable } from '../../../actions/timetable/timetable';
-import Scroller from '../../Scroller';
+import Scroller from '../../Scroller2';
 import LectureSearchSubSection from './LectureSearchSubSection';
 import CourseLecturesBlock from '../../blocks/CourseLecturesBlock';
 import { LIST } from '../../../reducers/timetable/lectureActive';
