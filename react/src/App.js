@@ -66,7 +66,7 @@ class App extends Component {
             {/* Temporary test page for axiom */}
             <Route exact path="/test" component={TestPage} />
             <Route exact path="/error/:message" component={ErrorPage} />
-            <Redirect from="/" to="/main/" />
+            <Redirect from="/" to="/main" />
           </Switch>
         </>
       </Provider>
