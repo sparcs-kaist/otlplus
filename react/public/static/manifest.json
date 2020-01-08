@@ -3,11 +3,6 @@
   "name": "OTL - Online Timetable with Lectures",
   "icons": [
     {
-      "src": "favicon-32.png",
-      "sizes": "32x32",
-      "type": "image/png"
-    },
-    {
       "src": "favicon-128.png",
       "sizes": "128x128",
       "type": "image/png"
@@ -38,7 +33,7 @@
       "type": "image/png"
     }
   ],
-  "start_url": "./index.html",
+  "start_url": "/main",
   "display": "standalone",
   "theme_color": "#E54C65",
   "background_color": "#F9F0F0"
