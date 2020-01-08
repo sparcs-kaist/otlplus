@@ -389,8 +389,8 @@ class TimetableSubSection extends Component {
             <div className={classNames('cell')} />
             <div className={classNames('table-head')}>{untimedBlockTitles[i * 5 + dayIdx]}</div>
             <div className={classNames('cell', 'cell-top')} />
-            <div className={classNames('cell', 'cell-bottom')} />
-            <div className={classNames('cell', 'cell-bottom', 'cell-last')} />
+            <div className={classNames('cell', 'cell-bottom', (mobileShowLectureList ? 'cell-bottom--mobile-noline' : ''))} />
+            <div className={classNames('cell', 'cell-bottom', 'cell-last', (mobileShowLectureList ? 'cell-bottom--mobile-noline' : ''))} />
           </>
         )),
       ];
