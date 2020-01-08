@@ -272,7 +272,7 @@ class CreditPage extends Component {
       index: 6,
       mainTitle: 'OTL PLUS',
       subTitle: '모의시간표',
-      period: '2016.09 ~ 2018.12',
+      period: '2016.09 ~ 2017.12',
       fields:
         [
           {
@@ -293,7 +293,7 @@ class CreditPage extends Component {
           {
             title: 'Designer',
             people: [
-              { name: '한승현', image: memberZealotImage, caption: '4 credits' },
+              { name: '한승현', image: memberZealotImage, caption: '3 credits' },
             ],
           },
           {
@@ -427,7 +427,7 @@ class CreditPage extends Component {
               {
                 name: '한승현',
                 image: memberZealotImage,
-                caption: '2017.06 ~ 2018.12',
+                caption: '2017.06 ~ 2017.12',
               },
             ],
           },
