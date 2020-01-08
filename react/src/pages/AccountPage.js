@@ -3,7 +3,7 @@ import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
 
-import Scroller from '../components/Scroller';
+import Scroller from '../components/Scroller2';
 
 import MyInfoSection from '../components/sections/account/MyInfoSection';
 import AcademicInfoSection from '../components/sections/account/AcademicInfoSection';

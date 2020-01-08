@@ -10,7 +10,7 @@ import axios from '../../../common/presetAxios';
 
 import { inTimetable, inCart, performAddToTable, performDeleteFromTable, performAddToCart, performDeleteFromCart } from '../../../common/lectureFunctions';
 import { BASE_URL } from '../../../common/constants';
-import Scroller from '../../Scroller';
+import Scroller from '../../Scroller2';
 import ReviewSimpleBlock from '../../blocks/ReviewSimpleBlock';
 import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureActive';
 import { clearLectureActive } from '../../../actions/timetable/lectureActive';

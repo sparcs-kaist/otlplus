@@ -6,7 +6,7 @@ import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 import { clearCourseActive } from '../../../actions/dictionary/courseActive';
-import Scroller from '../../Scroller';
+import Scroller from '../../Scroller2';
 import CourseShape from '../../../shapes/CourseShape';
 import RelatedSubSection from './RelatedSubSection';
 import HistorySubSection from './HistorySubSection';
