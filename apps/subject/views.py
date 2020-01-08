@@ -83,8 +83,8 @@ def courses_list_view(request):
                 query |= Q(type_en__in=filter_type, department__code__in=group)
             courses = courses.filter(query)
 
-        keyword = request.GET.get('keyword', None)
-        if keyword:
+        keyword = request.GET.get('keyword', '').strip()
+        if keyword and len(keyword):
             courses = courses.filter(
                 Q(title__icontains=keyword) |
                 Q(title_en__icontains=keyword) |
@@ -99,7 +99,7 @@ def courses_list_view(request):
             .distinct() \
             .select_related('department') \
             .prefetch_related('related_courses_prior', 'related_courses_posterior', 'professors', 'read_users_courseuser')
-        result = [c.toJson(user=request.user) for c in courses[:300]]
+        result = [c.toJson(user=request.user) for c in courses[:150]]
         return JsonResponse(result, safe=False)
 
 
@@ -236,8 +236,8 @@ def lectures_list_view(request):
 
         lectures = lectures.filter(time_query)
 
-        keyword = request.GET.get('keyword', None)
-        if keyword:
+        keyword = request.GET.get('keyword', '').strip()
+        if keyword and len(keyword):
             lectures = lectures.filter(
                 Q(title__icontains=keyword) |
                 Q(title_en__icontains=keyword) |
@@ -268,7 +268,7 @@ def lectures_list_view(request):
             .select_related('course', 'department') \
             .prefetch_related('classtime_set', 'examtime_set', 'professors') \
             .order_by('old_code', 'class_no')
-        result = [l.toJson(nested=False) for l in lectures]
+        result = [l.toJson(nested=False) for l in lectures[:300]]
         return JsonResponse(result, safe=False)
 
 

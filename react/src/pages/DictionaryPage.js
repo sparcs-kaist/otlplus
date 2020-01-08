@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
 
@@ -19,6 +20,7 @@ import { BASE_URL } from '../common/constants';
 
 class DictionaryPage extends Component {
   componentDidMount() {
+    const { t } = this.props;
     // eslint-disable-next-line react/destructuring-assignment
     const { startCourseId, startTab, startSearchKeyword } = this.props.location.state || {};
     const { setCourseActiveDispatch, setCurrentListDispatch, setListCoursesDispatch, closeSearchDispatch, clearSearchListCoursesDispatch } = this.props;
@@ -37,7 +39,7 @@ class DictionaryPage extends Component {
       setCurrentListDispatch(startTab);
     }
 
-    if (startSearchKeyword) {
+    if (startSearchKeyword && startSearchKeyword.trim()) {
       closeSearchDispatch();
       clearSearchListCoursesDispatch();
 
@@ -49,6 +51,12 @@ class DictionaryPage extends Component {
         })
         .catch((error) => {
         });
+    }
+    else if ((startSearchKeyword !== undefined) && (startSearchKeyword.trim().length === 0)) {
+      // eslint-disable-next-line no-alert
+      alert(t('ui.message.blankSearchKeyword'));
+      // eslint-disable-next-line no-useless-return
+      return;
     }
   }
 
@@ -134,4 +142,4 @@ DictionaryPage.propTypes = {
 };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(DictionaryPage);
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(DictionaryPage));
