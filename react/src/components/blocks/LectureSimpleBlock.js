@@ -8,10 +8,10 @@ import lectureShape from '../../shapes/LectureShape';
 
 
 // eslint-disable-next-line arrow-body-style
-const LectureSimpleBlock = ({ t, lecture, isClicked, isInactive, onClick }) => {
+const LectureSimpleBlock = ({ t, lecture, isClicked, isInactive, hasReview, onClick }) => {
   return (
     <div
-      className={classNames('block', 'block--lecture-simple', (isClicked ? 'block--clicked' : ''), (isInactive ? 'block--inactive' : ''))}
+      className={classNames('block', 'block--lecture-simple', (isClicked ? 'block--clicked' : ''), (isInactive ? 'block--inactive' : ''), (hasReview ? 'block--has-review' : ''))}
       onClick={onClick}
     >
       <div className={classNames('block--lecture-simple__title')}>
@@ -28,6 +28,7 @@ LectureSimpleBlock.propTypes = {
   lecture: lectureShape.isRequired,
   isClicked: PropTypes.bool.isRequired,
   isInactive: PropTypes.bool.isRequired,
+  hasReview: PropTypes.bool.isRequired,
   onClick: PropTypes.func.isRequired,
 };
 
