@@ -91,8 +91,6 @@ class CourseDetailSection extends Component {
             </div>
           </div>
           <Scroller onScroll={() => this.onScroll()} key={course.id}>
-            {/* eslint-disable-next-line react/jsx-indent */}
-          <React.Fragment key={(courseActiveReviews ? courseActiveReviews.length : -1) + (courseActiveLectures ? courseActiveLectures.length : -1)}>
             <div>
               <div className={classNames('attribute', 'attribute--semi-long')}>
                 <div>
@@ -143,7 +141,6 @@ class CourseDetailSection extends Component {
             <HistorySubSection />
             <div className={classNames('divider')} />
             <ReviewsSubSection />
-          </React.Fragment>
           </Scroller>
         </div>
       );

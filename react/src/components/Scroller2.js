@@ -24,24 +24,49 @@ class Scroller extends Component {
   }
 
   render() {
-    const { onScroll, children, hasScrollX } = this.props;
+    const { onScroll, children, noScrollX, noScrollY } = this.props;
     const { isScrolling } = this.state;
+
+    const calculatedNoScrollX = (noScrollX === undefined) ? true : noScrollX;
+    const calculatedNoScrollY = (noScrollY === undefined) ? false : noScrollY;
 
     return (
       <Scrollbar
+        className={[(calculatedNoScrollX ? 'noX' : ''), (calculatedNoScrollY ? 'noY' : '')]}
         style={{
           flex: 'auto',
           marginBottom: '-12px',
         }}
         wrapperProps={{
-          style: {
-            right: '0',
-          },
+          style: calculatedNoScrollY
+            ? {
+              top: 'initial',
+              bottom: 'initial',
+              left: 'initial',
+              right: 'initial',
+              position: 'relative',
+            }
+            : {
+              right: '0',
+            },
+        }}
+        scrollerProps={{
+          style: calculatedNoScrollY
+            ? {
+              top: 'initial',
+              bottom: 'initial',
+              left: 'initial',
+              right: 'initial',
+              position: 'initial',
+            }
+            : {
+            },
         }}
         contentProps={{
           style: {
-            width: '1px',
-            height: '1px',
+            padding: '0',
+            width: calculatedNoScrollY ? 'fit-content' : '1px',
+            height: calculatedNoScrollY ? 'fit-content' : '1px',
           },
         }}
         trackXProps={{
@@ -98,7 +123,8 @@ class Scroller extends Component {
           this.setState({ isScrolling: false });
         }}
         minimalThumbSize={24}
-        noScrollX={!hasScrollX}
+        noScrollX={calculatedNoScrollX}
+        noScrollY={calculatedNoScrollY}
       >
         { children }
       </Scrollbar>
@@ -121,7 +147,8 @@ Scroller.propTypes = {
     PropTypes.string,
     PropTypes.element,
   ]).isRequired,
-  hasScrollX: PropTypes.bool,
+  noScrollX: PropTypes.bool,
+  noScrollY: PropTypes.bool,
 };
 
 export default Scroller;
