@@ -159,6 +159,14 @@ a {
     }
 }
 
+:global(.ScrollbarsCustom.noY) {
+    width: initial !important;
+    height: initial !important;
+    :global(.ScrollbarsCustom-Wrapper) {
+        position: initial !important;
+    }
+}
+
 :global(.ScrollbarsCustom-Content)::after {
     content: '';
     display: block;
@@ -2207,7 +2215,6 @@ a {
 .related-courses {
     display: flex;
     flex-direction: row;
-    overflow-x: scroll;
 
     & > div:nth-child(1),
     & > div:nth-child(3),
@@ -2227,11 +2234,8 @@ a {
 
 
 .history {
-    overflow-x: scroll;
-    margin-right: -$section-padding;
-    padding-right: $section-padding;
 
-    & > table {
+    & table {
         table-layout: auto;
         margin-right: -10000px;
 
@@ -2603,6 +2607,7 @@ a {
     color: $color-text-placeholder;
     font-size: 16px;
     line-height: 17px;
+    white-space: nowrap;
 
     .related-courses & {
         min-height: 100%;
