@@ -77,12 +77,16 @@ class TimetableSubSection extends Component {
     e.stopPropagation();
     e.preventDefault();
 
-    const elementAtPosition = document.elementFromPoint(e.touches[0].pageX, e.touches[0].pageY).closest(`.${classNames('cell-drag')}`);
+    const elementAtPosition = document.elementFromPoint(e.touches[0].pageX, e.touches[0].pageY);
     if (elementAtPosition === null) {
       return;
     }
+    const targetElementAtPosition = elementAtPosition.closest(`.${classNames('cell-drag')}`);
+    if (targetElementAtPosition === null) {
+      return;
+    }
 
-    this._dragStart(elementAtPosition);
+    this._dragStart(targetElementAtPosition);
   }
 
   _dragStart = (target) => {
@@ -118,12 +122,16 @@ class TimetableSubSection extends Component {
   }
 
   onTouchMove = (e) => {
-    const elementAtPosition = document.elementFromPoint(e.touches[0].pageX, e.touches[0].pageY).closest(`.${classNames('cell-drag')}`);
+    const elementAtPosition = document.elementFromPoint(e.touches[0].pageX, e.touches[0].pageY);
     if (elementAtPosition === null) {
       return;
     }
+    const targetElementAtPosition = elementAtPosition.closest(`.${classNames('cell-drag')}`);
+    if (targetElementAtPosition === null) {
+      return;
+    }
 
-    this._dragMove(elementAtPosition);
+    this._dragMove(targetElementAtPosition);
   }
 
   _dragMove = (target) => {
