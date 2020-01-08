@@ -38,7 +38,7 @@ header, footer {
         cursor: pointer;
         top: (50px - 24px) / 2;
         right: 16px;
-        @media (orientation: portrait) {
+        @media (max-aspect-ratio: 4/3) {
             display: block;
         }
 
@@ -74,7 +74,7 @@ header, footer {
                     }
                 }
             }
-            @media (orientation: portrait) {
+            @media (max-aspect-ratio: 4/3) {
                 width: 100%;
                 height: initial;
                 flex-direction: column;
@@ -87,7 +87,7 @@ header, footer {
             @mixin side-menus {
                 flex: 0 0 auto;
                 margin: 0 24px;
-                @media (orientation: portrait) {
+                @media (max-aspect-ratio: 4/3) {
                     width: calc(100% - 16px * 2);
                     margin: 0 34px;
                     flex-wrap: wrap;
@@ -103,7 +103,7 @@ header, footer {
             .logo {
                 @include side-menus;
 
-                @media (orientation: portrait) {
+                @media (max-aspect-ratio: 4/3) {
                     margin: 0 16px;
                     & > * {
                         height: 50px;
@@ -117,7 +117,7 @@ header, footer {
                 @include side-menus;
                 font-size: 14px;
 
-                @media (orientation: portrait) {
+                @media (max-aspect-ratio: 4/3) {
                     font-size: 15px;
                     padding-bottom: 16px;
 
@@ -155,7 +155,7 @@ header, footer {
                 width: calc((80vh + 382px) / 2);
                 font-size: 15px;
                 white-space: nowrap;
-                @media (orientation: portrait) {
+                @media (max-aspect-ratio: 4/3) {
                     width: calc(100% - 34px);
                     margin-left: 34px;
 
@@ -171,7 +171,7 @@ header, footer {
             .menus {
                 @include center-menus;
 
-                @media (orientation: portrait) {
+                @media (max-aspect-ratio: 4/3) {
                     padding-bottom: 8px;
 
                     @at-root .menu-closed .menus {
@@ -191,7 +191,7 @@ header, footer {
             .special-menus {
                 @include center-menus;
 
-                @media (orientation: portrait) {
+                @media (max-aspect-ratio: 4/3) {
                     @at-root .menu-closed .special-menus {
                         display: none;
                     }
@@ -215,7 +215,7 @@ header, footer {
 
         & > * {
             margin: 0 24px;
-            @media (orientation: portrait) {
+            @media (max-aspect-ratio: 4/3) {
                 margin: 0 16px;
             }
         }
