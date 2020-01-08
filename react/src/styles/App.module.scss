@@ -52,7 +52,10 @@ $section-border-radius: 6px;
 $block-border-radius: 4px;
 
 $small-block-border-radius: 2px;
- 
+
+$media-landscape: (min-aspect-ratio: 4/3);
+$media-portrait: (max-aspect-ratio: 4/3);
+
 
 body * {
     font-family: sans-serif;
@@ -189,7 +192,7 @@ a {
     margin-top: $header-height;
     margin-left: auto;
     margin-right: auto;
-    @media (min-aspect-ratio: 4/3) {
+    @media #{$media-landscape} {
         width: calc(
             #{$section-desktop-width}
             + (#{$section-margin-lr} * 2)
@@ -201,7 +204,7 @@ a {
             + env(safe-area-inset-right))
         );
     }
-    @media (max-aspect-ratio: 4/3) {
+    @media #{$media-portrait} {
         width: 100%;
     }
 
@@ -227,7 +230,7 @@ a {
         margin-bottom: $section-margin-bottom;
         min-height: calc(100vh - (400px + 50px + #{$section-margin-top} + #{$section-margin-bottom})); // Fallback for IE and Edge
         min-height: calc(100vh - (400px + 50px + #{$section-margin-top} + #{$section-margin-bottom} + env(safe-area-inset-bottom)));
-        @media (max-aspect-ratio: 4/3) {
+        @media #{$media-portrait} {
             min-height: calc(100vh - (240px + 130px + #{$section-margin-top} + #{$section-margin-bottom})); // Fallback for IE and Edge
             min-height: calc(100vh - (240px + 130px + #{$section-margin-top} + #{$section-margin-bottom} + env(safe-area-inset-bottom)));
         }
@@ -235,7 +238,7 @@ a {
 
 
     &--timetable {
-        @media (max-aspect-ratio: 4/3) {
+        @media #{$media-portrait} {
             flex-direction: column-reverse;
         }
     }
@@ -245,11 +248,11 @@ a {
 .main-image {
     background: url(../static/img/review/search/bg.jpg) center 0;
     background-size: 100% auto;
-    @media (min-aspect-ratio: 4/3) {
+    @media #{$media-landscape} {
         height: 400px;
         padding-top: 400px / 2 - 9px;
     }
-    @media (max-aspect-ratio: 4/3) {
+    @media #{$media-portrait} {
         height: 240px;
         padding-top: 240px / 2 - 9px;
     }
@@ -261,7 +264,7 @@ a {
 
 
     &--with-tabs {
-        @media (max-aspect-ratio: 4/3) {
+        @media #{$media-portrait} {
             display: flex;
             flex-direction: column;
         }
@@ -269,7 +272,7 @@ a {
 
 
     &.mobile-modal {
-            @media (max-aspect-ratio: 4/3) {
+            @media #{$media-portrait} {
                 position: absolute;
                 top: $section-margin-top;
                 bottom: calc(#{$section-margin-bottom} * 2); // Fallback for IE and Edge
@@ -304,17 +307,17 @@ a {
     &--main-search {
         margin: 0 auto;
         padding: 0 $section-margin-lr;
-        @media (min-aspect-ratio: 4/3) {
+        @media #{$media-landscape} {
             width: calc(#{$section-desktop-width} + (#{$section-margin-lr} * 2));
         }
-        @media (max-aspect-ratio: 4/3) {
+        @media #{$media-portrait} {
             width: 100%
         }
     }
 
 
     &--desktop-1v3--left {
-        @media (min-aspect-ratio: 4/3) {
+        @media #{$media-landscape} {
             margin-top: 0;
             width: calc(15vh + 126px);
         }
@@ -322,7 +325,7 @@ a {
 
 
     &--desktop-1v3--right {
-        @media (min-aspect-ratio: 4/3) {
+        @media #{$media-landscape} {
             margin-top: 0;
             margin-left: 0;
             width:  calc(65vh + 246px);
@@ -331,7 +334,7 @@ a {
 
 
     &--desktop-2v2--left {
-        @media (min-aspect-ratio: 4/3) {
+        @media #{$media-landscape} {
             margin-top: 0;
             width: calc(40vh + 186px);
         }
@@ -339,7 +342,7 @@ a {
 
 
     &--desktop-2v2--right {
-        @media (min-aspect-ratio: 4/3) {
+        @media #{$media-landscape} {
             margin-top: 0;
             margin-left: 0;
             width: calc(40vh + 186px);
@@ -348,7 +351,7 @@ a {
 
 
     &--mobile-full {
-        @media (max-aspect-ratio: 4/3) {
+        @media #{$media-portrait} {
             margin-top: 0px;
             width: calc(100% - #{$section-margin-lr} * 2);
         }
@@ -359,7 +362,7 @@ a {
         flex: none;
         margin-top: 0px;
         width: #{$section-desktop-width};
-        @media (max-aspect-ratio: 4/3) {
+        @media #{$media-portrait} {
             width: calc(100% - #{$section-margin-lr} * 2);
         }
     }
@@ -367,9 +370,9 @@ a {
 
     &--course-list {
         flex: none;
-        @media (min-aspect-ratio: 4/3) {
+        @media #{$media-landscape} {
         }
-        @media (max-aspect-ratio: 4/3) {
+        @media #{$media-portrait} {
         }
     }
 
@@ -382,10 +385,10 @@ a {
     &--timetable-left {
         display: flex;
         flex-direction: column;
-        @media (min-aspect-ratio: 4/3) {
+        @media #{$media-landscape} {
             flex: none;
         }
-        @media (max-aspect-ratio: 4/3) {
+        @media #{$media-portrait} {
            flex: 1 1 ($line-height-small + 8px * 2);
         }
     }
@@ -394,10 +397,10 @@ a {
     &--timetable-center-right {
         display: flex;
         flex-direction: column;
-        @media (min-aspect-ratio: 4/3) {
+        @media #{$media-landscape} {
             flex: none;
         }
-        @media (max-aspect-ratio: 4/3) {
+        @media #{$media-portrait} {
             flex: 1 1 0;
         }
     }
@@ -408,10 +411,10 @@ a {
         margin: 0;
         display: flex;
         flex-direction: column;
-        @media (min-aspect-ratio: 4/3) {
+        @media #{$media-landscape} {
             width: calc(15vh + 126px - #{$section-margin-lr} * 2);
         }
-        @media (max-aspect-ratio: 4/3) {
+        @media #{$media-portrait} {
             width: 100%
         }
     }
@@ -443,7 +446,7 @@ a {
             display: flex;
             flex-direction: row;
             align-items: flex-start;
-            @media (max-aspect-ratio: 4/3) {
+            @media #{$media-portrait} {
                 height: 100%;
                 padding: $section-padding;
                 background-color: $color-section-background;
@@ -462,7 +465,7 @@ a {
         display: flex;
         flex-direction: column;
 
-        @media (max-aspect-ratio: 4/3) {
+        @media #{$media-portrait} {
             width: calc(100% - #{$section-margin-lr} * 2);
         }
     }
@@ -495,27 +498,27 @@ a {
 
     &--course-list,
     &--lecture-list {
-        @media (min-aspect-ratio: 4/3) {
+        @media #{$media-landscape} {
             position: absolute;
             vertical-align: top;
             text-align:right;
             width: 50px;
             margin-left: -50px;
         }
-        @media (max-aspect-ratio: 4/3) {
+        @media #{$media-portrait} {
             display: flex;
             flex-direction: row;
         }
 
         > div {
             padding: 8px;
-            @media (min-aspect-ratio: 4/3) {
+            @media #{$media-landscape} {
                 margin-left: auto;
                 margin-bottom: 6px;
                 border-radius: $block-border-radius 0 0 $block-border-radius;
                 line-height: 0;
             }
-            @media (max-aspect-ratio: 4/3) {
+            @media #{$media-portrait} {
                 margin-right: 6px;
                 border-radius: $block-border-radius $block-border-radius 0 0;
                 flex: 1 1 0;
@@ -527,7 +530,7 @@ a {
             & > span {
                 margin-left: 6px;
 
-                @media (min-aspect-ratio: 4/3) {
+                @media #{$media-landscape} {
                     display: none;
                 }
             }
@@ -536,7 +539,7 @@ a {
 
     &--timetable {
         flex: 1 1 auto;
-        @media (max-aspect-ratio: 4/3) {
+        @media #{$media-portrait} {
             width: 100%;
         }
 
@@ -549,7 +552,7 @@ a {
             display: inline-flex;
             flex-direction: row;
             justify-content: center;
-            @media (max-aspect-ratio: 4/3) {
+            @media #{$media-portrait} {
                 width: 100%;
                 background-color: $color-block-background;
                 margin-bottom: 6px;
@@ -566,7 +569,7 @@ a {
             }
             &:not(.tabs__elem--active) {
                 & > button {
-                    @media (min-aspect-ratio: 4/3) {
+                    @media #{$media-landscape} {
                         display:none;
                     }
                 }
@@ -574,7 +577,7 @@ a {
             &:last-child:not(:first-child) {
                 padding: 8px;
                 line-height: 0;
-                @media (max-aspect-ratio: 4/3) {
+                @media #{$media-portrait} {
                     margin-bottom: 0;
                 }
             }
@@ -585,10 +588,10 @@ a {
 
             & > button {
                 color: $color-text-light;
-                @media (min-aspect-ratio: 4/3) {
+                @media #{$media-landscape} {
                     margin-left: 4px;
                 }
-                @media (max-aspect-ratio: 4/3) {
+                @media #{$media-portrait} {
                     margin-left: 8px;
                 }
                 &:hover {
@@ -597,7 +600,7 @@ a {
 
                 & > span {
                     margin-left: 4px;
-                    @media (min-aspect-ratio: 4/3) {
+                    @media #{$media-landscape} {
                         display: none;
                     }
                 }
@@ -630,10 +633,10 @@ a {
     &--with-tabs {
         display: inline-block;
         vertical-align: top;
-        @media (min-aspect-ratio: 4/3) {
+        @media #{$media-landscape} {
             border-top-left-radius: 0;
         }
-        @media (max-aspect-ratio: 4/3) {
+        @media #{$media-portrait} {
             border-top-left-radius: 0;
             border-top-right-radius: 0;
             flex: 1 1 auto;
@@ -644,10 +647,10 @@ a {
     &--timetable {
         flex: auto;
         display: flex;
-        @media (min-aspect-ratio: 4/3) {
+        @media #{$media-landscape} {
             flex-direction: row;
         }
-        @media (max-aspect-ratio: 4/3) {
+        @media #{$media-portrait} {
             flex-direction: column;
             border-top-left-radius: 6px;
             border-top-right-radius: 6px;
@@ -674,7 +677,7 @@ a {
         &.semester-en {
             width: 104px;
         }
-        @media (max-aspect-ratio: 4/3) {
+        @media #{$media-portrait} {
             padding: 0;
             background: none;
             box-shadow: none;
@@ -691,7 +694,7 @@ a {
         & > span {
             flex: 1 1 auto;
             text-align: center;
-            @media (max-aspect-ratio: 4/3) {
+            @media #{$media-portrait} {
                 font-size: $font-size-big;
                 line-height: $line-height-big;
             }
@@ -725,7 +728,7 @@ a {
                 )
             ) !important;
 
-            @media (max-aspect-ratio: 4/3) {
+            @media #{$media-portrait} {
                 min-height: initial !important;
             }
         }
@@ -740,14 +743,14 @@ a {
             position: absolute;
             top: $section-padding + $line-height-big + 12px + 8px + $line-height-normal + (6px * 2) + 1px;
             right: 12px;
-            @media (min-aspect-ratio: 4/3) {
+            @media #{$media-landscape} {
                 display: none;
             }
         }
 
         & > div:last-child {
             flex: auto;
-            @media (max-aspect-ratio: 4/3) {
+            @media #{$media-portrait} {
                 .block--course-lectures {
                     margin-right: 6px + 10px;
                 }
@@ -764,7 +767,7 @@ a {
                         + #{$section-padding}
                     )
                 );
-                @media (min-aspect-ratio: 4/3) {
+                @media #{$media-landscape} {
                     display: none;
                 }
             }
@@ -848,7 +851,7 @@ a {
                         }
                         &.cell-bottom {
                             border-top:1px dashed $color-normal-line;
-                            @media (max-aspect-ratio: 4/3) {
+                            @media #{$media-portrait} {
                                 &.cell-bottom--mobile-noline {
                                     border-top-color: transparent;
                                 }
@@ -1045,7 +1048,7 @@ a {
         flex: none;
         display: flex;
         flex-direction: column;
-        @media (max-aspect-ratio: 4/3) {
+        @media #{$media-portrait} {
             flex-direction: row;
         }
 
@@ -1056,7 +1059,7 @@ a {
         &__type {
             display: flex;
             flex-direction: row;
-            @media (max-aspect-ratio: 4/3) {
+            @media #{$media-portrait} {
                 flex-direction: column;
                 flex: 3 3 (40px * 3);
             }
@@ -1067,7 +1070,7 @@ a {
                 display: flex;
                 flex-direction: column;
                 white-space: nowrap;
-                @media (max-aspect-ratio: 4/3) {
+                @media #{$media-portrait} {
                     flex-direction: row;
                     width: 100%;
                     margin-left: 0;
@@ -1075,7 +1078,7 @@ a {
                         margin-bottom: 8px;
                     }
                 }
-                @media (min-aspect-ratio: 4/3) {
+                @media #{$media-landscape} {
                     &:first-child {
                         margin-left: 10%;
                     }
@@ -1165,7 +1168,7 @@ a {
 
         & > div:nth-child(2) {
             float: right;
-            @media (min-aspect-ratio: 4/3) {
+            @media #{$media-landscape} {
                 display: none;
             }
         }
@@ -1236,7 +1239,7 @@ a {
         & > div {
             width: 100%;
             position: relative;
-            @media (min-aspect-ratio: 4/3) {
+            @media #{$media-landscape} {
                 left: 0 !important;
             }
 
@@ -1256,10 +1259,10 @@ a {
                         &:last-child {
                             padding-right: 1px;
                         }
-                        @media (min-aspect-ratio: 4/3) {
+                        @media #{$media-landscape} {
                             flex: 1 1 0;
                         }
-                        @media (max-aspect-ratio: 4/3) {
+                        @media #{$media-portrait} {
                             flex: 0 0 10vw;
                         }
 
@@ -1282,10 +1285,10 @@ a {
                     & > div {
                         text-align: center;
                         height: 57px;
-                        @media (min-aspect-ratio: 4/3) {
+                        @media #{$media-landscape} {
                             flex: 1 1 0;
                         }
-                        @media (max-aspect-ratio: 4/3) {
+                        @media #{$media-portrait} {
                             flex: 0 0 10vw;
                         }
 
@@ -1396,7 +1399,7 @@ a {
             z-index: 90;
         }
 
-        @media (min-aspect-ratio: 4/3) {
+        @media #{$media-landscape} {
             display: none;
         }
 }
@@ -1738,7 +1741,7 @@ a {
                 margin-left: 6px;
                 pointer-events: auto;
                 cursor: pointer;
-                @media (max-aspect-ratio: 4/3) {
+                @media #{$media-portrait} {
                     display: none;
                 }
 
@@ -1843,7 +1846,7 @@ a {
             .block--timetable:not(.block--active):not(.block--clicked) & {
                 display: none;
             }
-            @media (max-aspect-ratio: 4/3) {
+            @media #{$media-portrait} {
                 display: none;
             }
         }
@@ -2392,7 +2395,7 @@ a {
             &:last-child {
                 margin-bottom: 0px;
             }
-            @media (max-aspect-ratio: 4/3) {
+            @media #{$media-portrait} {
                 margin-bottom: 0px;
                 flex: 1 1 40px;
             }
@@ -2435,7 +2438,7 @@ a {
     .section-content--summary & {
         margin-top: calc(1.4vh + 2px);
         margin-bottom: 0;
-        @media (max-aspect-ratio: 4/3) {
+        @media #{$media-portrait} {
             margin-top: 0;
             display: flex;
             flex-direction: row;
@@ -2459,7 +2462,7 @@ a {
         }
         .section-content--summary & {
             width: calc(3.5vh + 34px);
-            @media (max-aspect-ratio: 4/3) {
+            @media #{$media-portrait} {
                 flex: 1 1 30px;
                 width: 30px;
             }
@@ -2487,7 +2490,7 @@ a {
             .section-content--summary & {
                 font-size: calc(0.7vh + 15px);
                 line-height: calc(0.7vh + 13px);
-                @media (max-aspect-ratio: 4/3) {
+                @media #{$media-portrait} {
                     font-size: 24px;
                     line-height: 22px;
                 }
@@ -2530,7 +2533,7 @@ a {
 
 
     &--mobile-horizontal {
-        @media (max-aspect-ratio: 4/3) {
+        @media #{$media-portrait} {
             border-right: none;
             border-bottom: 1px solid $color-divider-line;
             margin: $section-padding 0;
@@ -3104,19 +3107,19 @@ i.icon {
 }
 
 .mobile-hidden {
-    @media (max-aspect-ratio: 4/3) {
+    @media #{$media-portrait} {
         display: none !important;
     }
 }
 
 .mobile-unhidden {
-    @media (min-aspect-ratio: 4/3) {
+    @media #{$media-landscape} {
         display: none !important;
     }
 }
 
 .mobile-nosize {
-    @media (max-aspect-ratio: 4/3) {
+    @media #{$media-portrait} {
         width: 0;
         height: 0;
         padding: 0;
