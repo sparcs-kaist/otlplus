@@ -1,9 +1,13 @@
-export const RESET = 'RESET';
-export const SET_COURSE_ACTIVE = 'SET_COURSE_ACTIVE';
-export const CLEAR_COURSE_ACTIVE = 'CLEAR_COURSE_ACTIVE';
-export const SET_REVIEWS = 'SET_REVIEWS';
-export const UPDATE_REVIEW = 'UPDATE_REVIEW';
-export const SET_LECTURES = 'SET_LECTURES';
+const BASE_STRING = 'D_CA_';
+
+/* eslint-disable prefer-template */
+export const RESET = BASE_STRING + 'RESET';
+export const SET_COURSE_ACTIVE = BASE_STRING + 'SET_COURSE_ACTIVE';
+export const CLEAR_COURSE_ACTIVE = BASE_STRING + 'CLEAR_COURSE_ACTIVE';
+export const SET_REVIEWS = BASE_STRING + 'SET_REVIEWS';
+export const UPDATE_REVIEW = BASE_STRING + 'UPDATE_REVIEW';
+export const SET_LECTURES = BASE_STRING + 'SET_LECTURES';
+/* eslint-enable prefer-template */
 
 
 export function reset() {
