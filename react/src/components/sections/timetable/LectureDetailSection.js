@@ -73,7 +73,9 @@ class LectureDetailSection extends Component {
     const { reviews } = this.state;
     const { lecture } = this.props;
 
-    $(`.${classNames('section-content--lecture-detail')} .nano`).nanoScroller({ scrollTop: $(this.openDictRef.current).position().top - $(this.attributesRef.current).position().top + 1 });
+    const scrollTop = $(this.openDictRef.current).position().top - $(this.attributesRef.current).position().top + 1;
+    $(`.${classNames('section-content--lecture-detail')} .ScrollbarsCustom-Scroller`).scrollTop(scrollTop);
+    // $(`.${classNames('section-content--lecture-detail')} .nano`).nanoScroller({ scrollTop: scrollTop });
 
     if (reviews === null) {
       axios.get(`${BASE_URL}/api/lectures/${lecture.id}/related-comments`, {
@@ -91,7 +93,8 @@ class LectureDetailSection extends Component {
   };
 
   closeDictPreview = () => {
-    $(`.${classNames('section-content--lecture-detail')} .nano`).nanoScroller({ scrollTop: 0 });
+    $(`.${classNames('section-content--lecture-detail')} .ScrollbarsCustom-Scroller`).scrollTop(0);
+    // $(`.${classNames('section-content--lecture-detail')} .nano`).nanoScroller({ scrollTop: 0 });
   };
 
   unfix = () => {
