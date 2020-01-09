@@ -80,11 +80,14 @@ class HistorySubSection extends Component {
     const endYear = Math.max(...semesterYears, ...lectureYears);
     const targetYears = [...Array(endYear - startYear + 1).keys()].map(i => (startYear + i));
 
+    const specialLectures = lectures.filter(l => (l[t('js.property.class_title')].length > 3));
+    const isSpecialLectureCourse = (specialLectures.length / lectures.length) > 0.3;
+
     return (
       <>
         <div className={classNames('small-title')}>{t('ui.title.courseHistory')}</div>
         {/* eslint-disable-next-line react/jsx-indent */}
-              <div className={classNames('history')} ref={this.scrollRef}>
+              <div className={classNames('history', (isSpecialLectureCourse ? 'history--special-lecture' : ''))} ref={this.scrollRef}>
                 {/* eslint-disable-next-line react/jsx-indent */}
               <Scroller noScrollX={false} noScrollY={true}>
                 <table>
@@ -94,7 +97,7 @@ class HistorySubSection extends Component {
                       {targetYears.map((y) => {
                         const filteredLectures = lectures.filter(l => ((l.year === y) && (l.semester === 1)));
                         if (filteredLectures.length === 0) {
-                          return <td className={classNames('history__cell--unopen')} key={`${y}-1`}>{t('ui.others.notOffered')}</td>;
+                          return <td className={classNames('history__cell--unopen')} key={`${y}-1`}><div>{t('ui.others.notOffered')}</div></td>;
                         }
                         return <td key={`${y}-1`}><HistoryLecturesBlock lectures={filteredLectures} /></td>;
                       })}
@@ -112,7 +115,7 @@ class HistorySubSection extends Component {
                       {targetYears.map((y) => {
                         const filteredLectures = lectures.filter(l => ((l.year === y) && (l.semester === 3)));
                         if (filteredLectures.length === 0) {
-                          return <td className={classNames('history__cell--unopen')} key={`${y}-3`}>{t('ui.others.notOffered')}</td>;
+                          return <td className={classNames('history__cell--unopen')} key={`${y}-3`}><div>{t('ui.others.notOffered')}</div></td>;
                         }
                         return <td key={`${y}-3`}><HistoryLecturesBlock lectures={filteredLectures} /></td>;
                       })}

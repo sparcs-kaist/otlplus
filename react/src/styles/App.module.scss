@@ -2318,9 +2318,15 @@ a {
                 & > * {
                     @media #{$media-landscape} {
                         width: calc(64px + 7vh);
+                        @at-root .history--special-lecture#{&} {
+                            width: calc(108px + 7vh);
+                        }
                     }
                     @media #{$media-portrait} {
                         width: calc(64px + 19vw - 30px);
+                        @at-root .history--special-lecture#{&} {
+                            width: calc(108px + 19vw - 30px);
+                        }
                     }
                 }
             }
