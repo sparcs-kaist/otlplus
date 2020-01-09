@@ -58,6 +58,17 @@ class HistorySubSection extends Component {
     const { t } = this.props;
     const { semesters, lectures } = this.props;
 
+    if (lectures === null) {
+      return (
+        <>
+          <div className={classNames('small-title')}>{t('ui.title.courseHistory')}</div>
+          <div className={classNames('history')} ref={this.scrollRef}>
+            <div className={classNames('list-placeholder')}><div>{t('ui.placeholder.loading')}</div></div>
+          </div>
+        </>
+      );
+    }
+
     const semesterYears = (semesters != null)
       ? semesters.map(s => s.year)
       : [];
@@ -72,14 +83,7 @@ class HistorySubSection extends Component {
     return (
       <>
         <div className={classNames('small-title')}>{t('ui.title.courseHistory')}</div>
-        {
-          (lectures == null)
-            ? (
-              <div className={classNames('history')} ref={this.scrollRef}>
-                <div className={classNames('list-placeholder')}><div>{t('ui.placeholder.loading')}</div></div>
-              </div>
-            )
-            : (
+        {/* eslint-disable-next-line react/jsx-indent */}
               <div className={classNames('history')} ref={this.scrollRef}>
                 {/* eslint-disable-next-line react/jsx-indent */}
               <Scroller noScrollX={false} noScrollY={true}>
@@ -117,8 +121,6 @@ class HistorySubSection extends Component {
                 </table>
               </Scroller>
               </div>
-            )
-        }
       </>
     );
   }
