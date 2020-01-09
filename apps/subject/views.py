@@ -228,7 +228,7 @@ def lectures_list_view(request):
             time_query &= Q(classtime_set__begin__gte = datetime.time(int(begin)/2+8, (int(begin)%2)*30))
 
         end = request.GET.get('end', None)
-        if end and False:
+        if end:
             if int(end) == 32:
                 pass
             else:
