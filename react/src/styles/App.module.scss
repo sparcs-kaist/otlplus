@@ -2457,56 +2457,53 @@ a {
     & > div {
         display: inline-block;
 
-        .section-content--course-detail & {
-            width: calc(3.5vh + 54px);
+        & {
+            .section-content--course-detail & {
+                width: calc(3.5vh + 54px);
+            }
+            .section-content--lecture-detail &,
+            .section-content--summary &,
+            .section-content--taken-lectures & {
+                width: calc(3.5vh + 34px);
+            }
         }
-        .section-content--lecture-detail & {
-            width: calc(3.5vh + 34px);
-        }
-        .section-content--summary & {
-            width: calc(3.5vh + 34px);
-            @media #{$media-portrait} {
+        @media #{$media-portrait} {
+            .section-content--summary & {
                 flex: 1 1 30px;
                 width: 30px;
             }
-        }
-        .section-content--taken-lectures & {
-            width: calc(3.5vh + 34px);
         }
 
         & > div:first-child {
             font-weight: 300;
             margin-bottom: 2px;
 
-            .section-content--course-detail & {
-                font-size: calc(0.7vh + 17px);
-                line-height: calc(0.7vh + 15px);
-            }
-            .section-content--lecture-detail & {
-                font-size: calc(0.7vh + 15px);
-                line-height: calc(0.7vh + 13px);
-
-                &.scores__score-text--korean {
-                    font-size: calc(0.7vh + 13px);
+            & {
+                .section-content--course-detail & {
+                    font-size: calc(0.7vh + 17px);
+                    line-height: calc(0.7vh + 15px);
+                }
+                .section-content--lecture-detail &,
+                .section-content--summary &,
+                .section-content--taken-lectures & {
+                    font-size: calc(0.7vh + 15px);
+                    line-height: calc(0.7vh + 13px);
+                    &.scores__score-text--korean {
+                        font-size: calc(0.7vh + 13px);
+                    }
                 }
             }
-            .section-content--summary & {
-                font-size: calc(0.7vh + 15px);
-                line-height: calc(0.7vh + 13px);
-                @media #{$media-portrait} {
+            @media #{$media-portrait} {
+                .section-content--summary & {
                     font-size: 24px;
                     line-height: 22px;
                 }
             }
-            .section-content--taken-lectures & {
-                font-size: calc(0.7vh + 15px);
-                line-height: calc(0.7vh + 13px);
 
-                & > span:not(:first-child) {
+            & > span:not(:first-child) {
                     font-size: $font-size-small;
                     line-height: $line-height-small;
                     font-weight: initial;
-                }
             }
 
             &.active,
