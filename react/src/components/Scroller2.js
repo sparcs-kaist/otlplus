@@ -41,33 +41,27 @@ class Scroller extends Component {
         wrapperProps={{
           style: calculatedNoScrollY
             ? {
-              top: 'initial',
-              bottom: 'initial',
-              left: 'initial',
-              right: 'initial',
-              position: 'relative',
             }
             : {
               right: '0',
             },
         }}
         scrollerProps={{
-          style: calculatedNoScrollY
-            ? {
+          style:
+            {
               top: 'initial',
               bottom: 'initial',
               left: 'initial',
               right: 'initial',
               position: 'initial',
-            }
-            : {
+              height: '100%',
             },
         }}
         contentProps={{
           style: {
             padding: '0',
-            width: calculatedNoScrollY ? 'fit-content' : '1px',
-            height: calculatedNoScrollY ? 'fit-content' : '1px',
+            width: '100%',
+            height: '100%',
           },
         }}
         trackXProps={{
