@@ -162,12 +162,8 @@ a {
     }
 }
 
-:global(.ScrollbarsCustom.noY) {
-    width: initial !important;
-    height: initial !important;
-    :global(.ScrollbarsCustom-Wrapper) {
+:global(.noY .ScrollbarsCustom-Wrapper) {
         position: initial !important;
-    }
 }
 
 :global(.ScrollbarsCustom-Content)::after {
