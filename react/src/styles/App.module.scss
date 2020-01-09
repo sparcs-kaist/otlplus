@@ -2457,9 +2457,9 @@ a {
     & > div {
         display: inline-block;
 
-        & {
+        @media #{$media-landscape} {
             .section-content--course-detail & {
-                width: calc(3.5vh + 54px);
+                width: calc(3.5vh + 44px + 10px);
             }
             .section-content--lecture-detail &,
             .section-content--summary &,
@@ -2468,6 +2468,11 @@ a {
             }
         }
         @media #{$media-portrait} {
+            .section-content--course-detail &,
+            .section-content--lecture-detail &,
+            .section-content--taken-lectures & {
+                width: calc(9.5vw + 34px + 4px);
+            }
             .section-content--summary & {
                 flex: 1 1 30px;
                 width: 30px;
@@ -2478,7 +2483,7 @@ a {
             font-weight: 300;
             margin-bottom: 2px;
 
-            & {
+            @media #{$media-landscape} {
                 .section-content--course-detail & {
                     font-size: calc(0.7vh + 17px);
                     line-height: calc(0.7vh + 15px);
@@ -2494,6 +2499,15 @@ a {
                 }
             }
             @media #{$media-portrait} {
+                .section-content--course-detail &,
+                .section-content--lecture-detail &,
+                .section-content--taken-lectures & {
+                    font-size: calc(1.9vw + 15px);
+                    line-height: calc(1.9vw + 13px);
+                    &.scores__score-text--korean {
+                        font-size: calc(1.9vw + 13px);
+                    }
+                }
                 .section-content--summary & {
                     font-size: 24px;
                     line-height: 22px;
