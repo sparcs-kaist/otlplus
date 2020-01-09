@@ -2296,16 +2296,31 @@ a {
             & > td {
                 text-align: center;
                 padding: 0 6px;
-                width: calc(64px + 7vh + (6px * 2));
                 border-left: 1px solid $color-normal-line;
+                @media #{media-landscape} {
+                    width: calc(64px + 7vh + (6px * 2));
+                }
+                @media #{$media-portrait} {
+                    width: calc(64px + 19vw - 30px + (6px * 2));
+                }
                 &:first-of-type {
                     padding-left: 0;
-                    width: calc(64px + 7vh + 6px);
                     border-left: none;
+                    @media #{media-landscape} {
+                        width: calc(64px + 7vh + 6px);
+                    }
+                    @media #{$media-portrait} {
+                        width: calc(64px + 19vw - 30px + 6px);
+                    }
                 }
                 &:last-of-type {
                     padding-right: 0;
-                    width: calc(64px + 7vh + 6px);
+                    @media #{media-landscape} {
+                        width: calc(64px + 7vh + 6px);
+                    }
+                    @media #{$media-portrait} {
+                        width: calc(64px + 19vw - 30px + 6px);
+                    }
                 }
                 &.history__cell--year-label {
                     padding-top: 6px;
