@@ -2303,6 +2303,10 @@ a {
                     width: calc(64px + 7vh + 6px);
                     border-left: none;
                 }
+                &:last-of-type {
+                    padding-right: 0;
+                    width: calc(64px + 7vh + 6px);
+                }
                 &.history__cell--year-label {
                     padding-top: 6px;
                     padding-bottom: 6px;
