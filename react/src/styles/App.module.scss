@@ -2296,12 +2296,13 @@ a {
             & > td {
                 text-align: center;
                 padding: 0 6px;
-                width: calc(64px + 7vh + (6px * 2));
                 border-left: 1px solid $color-normal-line;
                 &:first-of-type {
                     padding-left: 0;
-                    width: calc(64px + 7vh + 6px);
                     border-left: none;
+                }
+                &:last-of-type {
+                    padding-right: 0;
                 }
                 &.history__cell--year-label {
                     padding-top: 6px;
@@ -2312,6 +2313,21 @@ a {
                     color: $color-text-placeholder;
                     padding-top: 8px;
                     padding-bottom: 8px;
+                }
+
+                & > * {
+                    @media #{$media-landscape} {
+                        width: calc(64px + 7vh);
+                        @at-root .history--special-lecture#{&} {
+                            width: calc(108px + 7vh);
+                        }
+                    }
+                    @media #{$media-portrait} {
+                        width: calc(64px + 19vw - 30px);
+                        @at-root .history--special-lecture#{&} {
+                            width: calc(108px + 19vw - 30px);
+                        }
+                    }
                 }
             }
         }
