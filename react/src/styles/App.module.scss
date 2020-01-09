@@ -2297,30 +2297,12 @@ a {
                 text-align: center;
                 padding: 0 6px;
                 border-left: 1px solid $color-normal-line;
-                @media #{media-landscape} {
-                    width: calc(64px + 7vh + (6px * 2));
-                }
-                @media #{$media-portrait} {
-                    width: calc(64px + 19vw - 30px + (6px * 2));
-                }
                 &:first-of-type {
                     padding-left: 0;
                     border-left: none;
-                    @media #{media-landscape} {
-                        width: calc(64px + 7vh + 6px);
-                    }
-                    @media #{$media-portrait} {
-                        width: calc(64px + 19vw - 30px + 6px);
-                    }
                 }
                 &:last-of-type {
                     padding-right: 0;
-                    @media #{media-landscape} {
-                        width: calc(64px + 7vh + 6px);
-                    }
-                    @media #{$media-portrait} {
-                        width: calc(64px + 19vw - 30px + 6px);
-                    }
                 }
                 &.history__cell--year-label {
                     padding-top: 6px;
@@ -2331,6 +2313,15 @@ a {
                     color: $color-text-placeholder;
                     padding-top: 8px;
                     padding-bottom: 8px;
+                }
+
+                & > * {
+                    @media #{$media-landscape} {
+                        width: calc(64px + 7vh);
+                    }
+                    @media #{$media-portrait} {
+                        width: calc(64px + 19vw - 30px);
+                    }
                 }
             }
         }
