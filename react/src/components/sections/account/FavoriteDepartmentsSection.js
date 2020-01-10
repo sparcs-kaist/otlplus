@@ -25,7 +25,6 @@ class FavoriteDepartmentsSection extends Component {
 
 
   componentDidMount() {
-    const { t } = this.props;
     const { user } = this.props;
 
     if (user) {

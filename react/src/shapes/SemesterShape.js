@@ -1,8 +1,6 @@
 import PropTypes from 'prop-types';
 
 export const SCHEDULE_FIELDS = [
-  'beginning',
-  'end',
   'courseDesciptionSubmission',
   'courseRegistrationPeriodStart',
   'courseRegistrationPeriodEnd',
@@ -15,9 +13,11 @@ export const SCHEDULE_FIELDS = [
 const semesterShape = PropTypes.shape({
   year: PropTypes.number.isRequired,
   semester: PropTypes.number.isRequired,
+  beginning: PropTypes.string.isRequired,
+  end: PropTypes.string.isRequired,
   // eslint-disable-next-line fp/no-mutating-assign
   ...Object.assign(...SCHEDULE_FIELDS.map(f => ({
-    [f]: PropTypes.string.isRequired,
+    [f]: PropTypes.string,
   }))),
 });
 
