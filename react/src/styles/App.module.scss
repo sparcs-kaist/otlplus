@@ -570,7 +570,7 @@ a {
                     }
                 }
             }
-            &:last-child:not(:first-child) {
+            &.tabs--timetable__add-button {
                 padding: 8px;
                 line-height: 0;
                 @media #{$media-portrait} {
@@ -2990,6 +2990,10 @@ i.icon {
 
         *:hover > & {
             background-image: url(../static/icons/duplicate_table_hover.svg);
+        }
+
+        *.disabled > & {
+            background-image: url(../static/icons/duplicate_table_disable.svg);
         }
     }
 
