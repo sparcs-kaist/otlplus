@@ -30,7 +30,7 @@ export const getOngoingSemester = (semesters) => {
     return (new Date(s.beginning) < now) && (now < new Date(s.end));
   });
   if (ongoingSemester === undefined) {
-    return semesters[semesters.length - 1];
+    return undefined;
   }
   return ongoingSemester;
 };
