@@ -287,25 +287,25 @@ class TimetableSubSection extends Component {
     const getHeaders = () => {
       const numArray = [...Array((2350 - 800) / 50 + 1).keys()].map(i => i * 50 + 800); // [800, 850, 900, ..., 2350]
       return [
-        <div className={classNames('table-head')}><strong>8</strong></div>,
+        <div className={classNames('table-head')} key={800}><strong>8</strong></div>,
         ...numArray.map((i) => {
           const i2 = i + 50;
           if (i2 % 600 === 0) {
-            return <div><strong>{((i2 / 100 - 1) % 12) + 1}</strong></div>;
+            return <div key={i2}><strong>{((i2 / 100 - 1) % 12) + 1}</strong></div>;
           }
           if (i2 % 100 === 0) {
-            return <div><span>{((i2 / 100 - 1) % 12) + 1}</span></div>;
+            return <div key={i2}><span>{((i2 / 100 - 1) % 12) + 1}</span></div>;
           }
-          return <div />;
+          return <div key={i2} />;
         }),
         ...Array(Math.ceil(untimedBlockTitles.length / 5)).fill(undefined).map((_, i) => (
-          <>
+          <React.Fragment key={_}>
             <div />
             <div className={classNames('table-head')} />
             <div />
             <div />
             <div />
-          </>
+          </React.Fragment>
         )),
       ];
     };
@@ -385,13 +385,13 @@ class TimetableSubSection extends Component {
           );
         }),
         ...Array(Math.ceil(untimedBlockTitles.length / 5)).fill(undefined).map((_, i) => (
-          <>
+          <React.fragment key={_}>
             <div className={classNames('cell')} />
             <div className={classNames('table-head')}>{untimedBlockTitles[i * 5 + dayIdx]}</div>
             <div className={classNames('cell', 'cell-top')} />
             <div className={classNames('cell', 'cell-bottom', (mobileShowLectureList ? 'cell-bottom--mobile-noline' : ''))} />
             <div className={classNames('cell', 'cell-bottom', 'cell-last', (mobileShowLectureList ? 'cell-bottom--mobile-noline' : ''))} />
-          </>
+          </React.fragment>
         )),
       ];
       return timeblock;

@@ -33,7 +33,7 @@ class Scroller extends Component {
 
     return (
       <Scrollbar
-        className={[(calculatedNoScrollX ? 'noX' : ''), (calculatedNoScrollY ? 'noY' : '')]}
+        className={[(calculatedNoScrollX ? 'noX' : ''), (calculatedNoScrollY ? 'noY' : '')].join(' ')}
         style={{
           flex: 'auto',
           marginBottom: '-12px',
