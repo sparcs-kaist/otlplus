@@ -28,9 +28,9 @@ class SemesterSection extends Component {
   }
 
   _initializeSemester = () => {
-    const { semesters, setSemesterDispatch } = this.props;
+    const { startSemester, semesters, setSemesterDispatch } = this.props;
 
-    const currentSemester = getTimetableSemester(semesters);
+    const currentSemester = (startSemester !== undefined) ? startSemester : getTimetableSemester(semesters);
     setSemesterDispatch(currentSemester.year, currentSemester.semester);
   }
 
@@ -115,9 +115,12 @@ const mapDispatchToProps = dispatch => ({
 });
 
 SemesterSection.propTypes = {
+  startSemester: semesterShape,
+
   semesters: PropTypes.arrayOf(semesterShape),
   year: PropTypes.number,
   semester: PropTypes.number,
+
   setSemesterDispatch: PropTypes.func.isRequired,
 };
 
