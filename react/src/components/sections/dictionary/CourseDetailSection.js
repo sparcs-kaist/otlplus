@@ -11,8 +11,6 @@ import CourseShape from '../../../shapes/CourseShape';
 import RelatedSubSection from './RelatedSubSection';
 import HistorySubSection from './HistorySubSection';
 import ReviewsSubSection from './ReviewsSubSection';
-import reviewShape from '../../../shapes/ReviewShape';
-import lectureShape from '../../../shapes/LectureShape';
 
 
 class CourseDetailSection extends Component {
@@ -42,7 +40,7 @@ class CourseDetailSection extends Component {
 
   render() {
     const { t } = this.props;
-    const { clicked, course, courseActiveReviews, courseActiveLectures } = this.props;
+    const { clicked, course } = this.props;
 
     if (clicked && course !== null) {
       return (
@@ -173,8 +171,6 @@ class CourseDetailSection extends Component {
 const mapStateToProps = state => ({
   clicked: state.dictionary.courseActive.clicked,
   course: state.dictionary.courseActive.course,
-  courseActiveReviews: state.dictionary.courseActive.reviews,
-  courseActiveLectures: state.dictionary.courseActive.reviews,
   currentList: state.dictionary.list.currentList,
 });
 
@@ -187,8 +183,6 @@ const mapDispatchToProps = dispatch => ({
 CourseDetailSection.propTypes = {
   clicked: PropTypes.bool.isRequired,
   course: CourseShape,
-  courseActiveReviews: PropTypes.arrayOf(reviewShape),
-  courseActiveLectures: PropTypes.arrayOf(lectureShape),
   currentList: PropTypes.string.isRequired,
   clearCourseActiveDispatch: PropTypes.func.isRequired,
 };
