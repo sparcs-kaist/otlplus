@@ -7,8 +7,7 @@ export const getTimetableSemester = (semesters) => {
         return undefined;
       }
       return {
-        year: s.year,
-        semester: s.semester,
+        semesterObject: s,
         timetableStartTime: new Date(s.courseDesciptionSubmission),
       };
     })
@@ -19,7 +18,7 @@ export const getTimetableSemester = (semesters) => {
   if (timetableSemester === undefined) {
     return semesters[semesters.length - 1];
   }
-  return timetableSemester;
+  return timetableSemester.semesterObject;
 };
 
 export const getOngoingSemester = (semesters) => {
