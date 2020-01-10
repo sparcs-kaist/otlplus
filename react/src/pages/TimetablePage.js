@@ -8,7 +8,7 @@ import { reset as resetLectureActive } from '../actions/timetable/lectureActive'
 import { reset as resetList } from '../actions/timetable/list';
 import { reset as resetSearch } from '../actions/timetable/search';
 import { reset as resetSemester } from '../actions/timetable/semester';
-import { reset as resetTimetable, setMobileShowTimetableTabs } from '../actions/timetable/timetable';
+import { reset as resetTimetable, setCurrentTimetable, setMobileShowTimetableTabs } from '../actions/timetable/timetable';
 
 import LectureDetailSection from '../components/sections/timetable/LectureDetailSection';
 import LectureListTabs from '../components/tabs/LectureListTabs';
@@ -21,9 +21,23 @@ import SummarySubSection from '../components/sections/timetable/SummarySubSectio
 import ExamSubSection from '../components/sections/timetable/ExamSubSection';
 import ShareSubSection from '../components/sections/timetable/ShareSubSection';
 import lectureActiveShape from '../shapes/LectureActiveShape';
+import semesterShape from '../shapes/SemesterShape';
+import timetableShape from '../shapes/TimetableShape';
+import userShape from '../shapes/UserShape';
 
 
 class TimetablePage extends Component {
+  componentDidMount() {
+    // eslint-disable-next-line react/destructuring-assignment
+    const { startInMyTable } = this.props.location.state || {};
+    const { user, myTimetable, setCurrentTimetableDispatch } = this.props;
+
+    if (startInMyTable && user) {
+      setCurrentTimetableDispatch(myTimetable);
+    }
+  }
+
+
   componentWillUnmount() {
     const { resetLectureActiveDispatch, resetListDispatch, resetSearchDispatch, resetSemesterDispatch, resetTimetableDispatch } = this.props;
 
@@ -36,7 +50,10 @@ class TimetablePage extends Component {
 
 
   render() {
+    // eslint-disable-next-line react/destructuring-assignment
+    const { startSemester } = this.props.location.state || {}
     const { lectureActive, mobileShowTimetableTabs, mobileShowLectureList, setMobileShowTimetableTabsDispatch } = this.props;
+
     return (
       <>
         <section className={classNames('content', 'content--no-scroll', 'content--timetable')}>
@@ -58,7 +75,7 @@ class TimetablePage extends Component {
               <div>
                 <button className={classNames('close-button')} onClick={() => setMobileShowTimetableTabsDispatch(false)}><i className={classNames('icon', 'icon--close-section')} /></button>
                 <TimetableTabs />
-                <SemesterSection />
+                <SemesterSection startSemester={startSemester} />
               </div>
             </div>
             <div className={classNames('section', 'section--with-tabs', 'section--timetable')}>
@@ -82,12 +99,17 @@ class TimetablePage extends Component {
 }
 
 const mapStateToProps = state => ({
+  user: state.common.user.user,
   lectureActive: state.timetable.lectureActive,
+  myTimetable: state.timetable.timetable.myTimetable,
   mobileShowTimetableTabs: state.timetable.timetable.mobileShowTimetableTabs,
   mobileShowLectureList: state.timetable.list.mobileShowLectureList,
 });
 
 const mapDispatchToProps = dispatch => ({
+  setCurrentTimetableDispatch: (timetable) => {
+    dispatch(setCurrentTimetable(timetable));
+  },
   resetLectureActiveDispatch: () => {
     dispatch(resetLectureActive());
   },
@@ -110,9 +132,20 @@ const mapDispatchToProps = dispatch => ({
 
 
 TimetablePage.propTypes = {
+  location: PropTypes.shape({
+    state: PropTypes.shape({
+      startSemester: semesterShape,
+      startInMyTable: PropTypes.bool,
+    }),
+  }).isRequired,
+
+  user: userShape,
   lectureActive: lectureActiveShape.isRequired,
+  myTimetable: timetableShape.isRequired,
   mobileShowTimetableTabs: PropTypes.bool.isRequired,
   mobileShowLectureList: PropTypes.bool.isRequired,
+
+  setCurrentTimetableDispatch: PropTypes.func.isRequired,
   resetLectureActiveDispatch: PropTypes.func.isRequired,
   resetListDispatch: PropTypes.func.isRequired,
   resetSearchDispatch: PropTypes.func.isRequired,
