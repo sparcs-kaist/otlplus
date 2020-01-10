@@ -24,13 +24,24 @@ const timetable = (state = initialState, action) => {
     case SET_TIMETABLES: {
       return Object.assign({}, state, {
         timetables: action.timetables,
-        currentTimetable: action.timetables[0],
+        currentTimetable: (
+          state.currentTimetable && (state.currentTimetable.id === state.myTimetable.id)
+            ? state.currentTimetable
+            : action.timetables[0]
+        ),
       });
     }
     case CLEAR_TIMETABLES: {
       return Object.assign({}, state, {
         timetables: null,
-        currentTimetable: null,
+        currentTimetable: (
+          state.currentTimetable && (state.currentTimetable.id === state.myTimetable.id)
+            ? {
+              ...state.currentTimetable,
+              lectures: [],
+            }
+            : null
+        ),
       });
     }
     case SET_MY_TIMETABLE_LECTURES: {
@@ -39,6 +50,14 @@ const timetable = (state = initialState, action) => {
           ...state.myTimetable,
           lectures: action.lectures,
         },
+        currentTimetable: (
+          state.currentTimetable && (state.currentTimetable.id === state.myTimetable.id)
+            ? {
+              ...state.currentTimetable,
+              lectures: action.lectures,
+            }
+            : state.currentTimetable
+        ),
       });
     }
     case SET_CURRENT_TIMETABLE: {

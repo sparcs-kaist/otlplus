@@ -214,7 +214,7 @@ class TimetableTabs extends Component {
               </button>
             </div>
           ))}
-          <div onClick={() => this.createTable()}>
+          <div className={classNames('tabs--timetable__add-button')} onClick={() => this.createTable()}>
             <i className={classNames('icon', 'icon--add-table')} />
           </div>
         </div>
@@ -222,6 +222,24 @@ class TimetableTabs extends Component {
     }
     return (
       <div className={classNames('tabs', 'tabs--timetable')}>
+        { user
+          ? (
+            <div className={classNames(((currentTimetable && (myTimetable.id === currentTimetable.id)) ? 'tabs__elem--active' : ''))} key={myTimetable.id} style={{ pointerEvents: 'none' }}>
+              <span>
+                {`${t('ui.others.myTable')}`}
+              </span>
+              <button className={classNames('disabled')}>
+                <i className={classNames('icon', 'icon--duplicate-table')} />
+                <span>{t('ui.button.duplicateTable')}</span>
+              </button>
+              <button className={classNames('disabled')}>
+                <i className={classNames('icon', 'icon--delete-table')} />
+                <span>{t('ui.button.deleteTable')}</span>
+              </button>
+            </div>
+          )
+          : null
+        }
         <div style={{ pointerEvents: 'none' }}>
           <span>{t('ui.placeholder.loading')}</span>
         </div>
