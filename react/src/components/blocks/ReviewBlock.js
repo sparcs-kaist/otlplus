@@ -36,6 +36,27 @@ const ReviewBlock = ({ t, review }) => {
     alert(t('ui.message.reportUnderDevelopment'));
   };
 
+  const commentLines = review.comment.split('\n');
+  const commentDisplay = commentLines
+    .map((l, i) => ({
+      key: i,
+      content: l,
+    })) // Workaround key error
+    .map((l, i) => (
+      (i === commentLines.length - 1)
+        ? (
+          <React.Fragment key={l.key}>
+            {l.content}
+          </React.Fragment>
+        )
+        : (
+          <React.Fragment key={l.key}>
+            {l.content}
+            <br />
+          </React.Fragment>
+        )
+    ));
+
   return (
     <div className={classNames('block', 'block--review')}>
       <div className={classNames('block--review__title')}>
@@ -44,7 +65,7 @@ const ReviewBlock = ({ t, review }) => {
         <span>{`${review.lecture.year} ${['', t('ui.semester.spring'), t('ui.semester.summer'), t('ui.semester.fall'), t('ui.semester.winter')][review.lecture.semester]}`}</span>
       </div>
       <div className={classNames('block--review__content')}>
-        {review.comment}
+        {commentDisplay}
       </div>
       <div className={classNames('block--review__menus')}>
         <span>
