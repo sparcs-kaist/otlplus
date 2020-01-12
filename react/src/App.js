@@ -40,6 +40,9 @@ class App extends Component {
         store.dispatch(setUser(response.data));
       })
       .catch((error) => {
+        if (error.response && (error.response.status === 401)) {
+          store.dispatch(setUser(null));
+        }
       });
     axios.get(`${BASE_URL}/api/semesters`, {
     })
