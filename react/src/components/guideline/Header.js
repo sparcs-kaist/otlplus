@@ -156,14 +156,25 @@ class Header extends Component {
                       </span>
                     </Link>
                   )
-                  : (
+                  : user === undefined
+                    ? (
+                  /* eslint-disable-next-line react/jsx-indent */
+                    <span>
+                      <i className={classNames('icon--header_user')} />
+                      <span>
+                        {t('ui.placeholder.loading')}
+                      </span>
+                    </span>
+                    )
+                    : (
+                  /* eslint-disable-next-line react/jsx-indent */
                     <a href={`/session/login/?next=${window.location.href}`}>
                       <i className={classNames('icon--header_user')} />
                       <span>
                         {t('ui.menu.signIn')}
                       </span>
                     </a>
-                  )
+                    )
                 }
               </span>
             </div>

@@ -1,7 +1,7 @@
 import { SET_USER, UPDATE_USER_REVIEW } from '../../actions/common/user';
 
 const initialState = {
-  user: null,
+  user: undefined,
 };
 
 export const reducer = (state = initialState, action) => {
