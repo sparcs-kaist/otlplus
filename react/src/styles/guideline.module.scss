@@ -64,20 +64,24 @@ header, footer {
 
         .content-left,
         .content-right {
-            width: 50%;
-            height: 50px;
             vertical-align: top;
             display: inline-flex;
             justify-content: space-between;
-            align-items: center;
             &.content-right {
-                text-align: right;
+                @media #{$media-landscape} {
+                    text-align: right;
+                }
                 @media #{$media-portrait} {
-                    text-align: initial;
                     @at-root .menu-closed .content-right {
                         display: none !important;
                     }
                 }
+            }
+            @media #{$media-landscape} {
+                width: 50%;
+                height: 50px;
+                flex-direction: row;
+                align-items: center;
             }
             @media #{$media-portrait} {
                 width: 100%;
@@ -91,7 +95,9 @@ header, footer {
 
             @mixin side-menus {
                 flex: 0 0 auto;
-                margin: 0 24px;
+                @media #{$media-landscape} {
+                    margin: 0 24px;
+                }
                 @media #{$media-portrait} {
                     width: calc(100% - 16px * 2);
                     margin: 0 34px;
@@ -120,15 +126,12 @@ header, footer {
             }
             .common-menus {
                 @include side-menus;
-                font-size: 14px;
-
+                @media #{$media-landscape} {
+                    font-size: 14px;
+                }
                 @media #{$media-portrait} {
                     font-size: 15px;
                     padding-bottom: 16px;
-
-                    & > span > * > span {
-                        display: initial !important;
-                    }
 
                     @at-root .menu-closed .common-menus {
                         display: none;
@@ -136,11 +139,13 @@ header, footer {
                 }
 
                 & > span {
-                    &:not(:last-child) {
-                        margin-right: 16px;
+                    @media #{$media-landscape} {
+                        &:not(:last-child) {
+                            margin-right: 16px;
 
-                        > * > span {
-                            display: none;
+                            > * > span {
+                                display: none;
+                            }
                         }
                     }
 
@@ -157,9 +162,11 @@ header, footer {
     
             @mixin center-menus {
                 flex: 0 1 auto;
-                width: calc((80vh + 382px) / 2);
                 font-size: 15px;
                 white-space: nowrap;
+                @media #{$media-landscape} {
+                    width: calc((80vh + 382px) / 2);
+                }
                 @media #{$media-portrait} {
                     width: calc(100% - 34px);
                     margin-left: 34px;
