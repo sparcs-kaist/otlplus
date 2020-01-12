@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
-import qs from 'qs';
+import queryString from 'qs';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 import { getOngoingSemester } from '../../../common/semesterFunctions';
@@ -125,7 +125,7 @@ class MyTimetableSection extends Component {
           </div>
         </div>
         <div className={classNames('buttons')}>
-          <Link to={{ pathname: '/timetable', search: qs.stringify({ startSemester: ongoingSemester, startInMyTable: true }) }} className={classNames('text-button')}>
+          <Link to={{ pathname: '/timetable', search: queryString.stringify({ startSemester: ongoingSemester, startInMyTable: true }) }} className={classNames('text-button')}>
             {t('ui.button.seeDetails')}
           </Link>
         </div>
