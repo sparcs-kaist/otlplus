@@ -155,6 +155,7 @@ def courses_instance_comments_view(request, course_id):
         course = get_object_or_404(Course, id=course_id)
         comments = course.comment_set.all().order_by('-lecture__year','-written_datetime')
 
+        comments = comments[:100]
         result = [c.toJson(user=request.user) for c in comments]
         return JsonResponse(result, safe=False)
 
