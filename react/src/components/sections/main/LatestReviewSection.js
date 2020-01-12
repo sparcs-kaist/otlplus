@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { withTranslation } from 'react-i18next';
+import qs from 'qs';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 import ReviewBlock from '../../blocks/ReviewBlock';
@@ -17,7 +18,7 @@ class LatestReviewSection extends Component {
           {t('ui.title.latestReviews')}
         </div>
         {reviews.map(r => (
-          <Link to={{ pathname: '/dictionary', state: { startCourseId: r.course.id } }}>
+          <Link to={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: r.course.id }) }}>
             <ReviewBlock review={r} key={r.id} />
           </Link>
         ))}
