@@ -214,7 +214,7 @@ def info(request):
         "departments": _user_department(request.user),
         "favorite_departments": [d.toJson() for d in userProfile.favorite_departments.all()],
         "taken_lectures": [l.toJson() for l in taken_lectures],
-        "reviews": [c.toJson() for c in Comment.objects.filter(writer=userProfile, lecture__in=taken_lectures)],
+        "reviews": [c.toJson() for c in userProfile.comment_set.filter(lecture__in=taken_lectures)],
     }
     return JsonResponse(ctx, safe = False)
 
