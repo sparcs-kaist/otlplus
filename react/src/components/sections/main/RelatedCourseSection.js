@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { withTranslation } from 'react-i18next';
+import qs from 'qs';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 import CourseBlock from '../../blocks/CourseBlock';
@@ -19,14 +20,14 @@ class RelatedCourseSection extends Component {
         </div>
         { course.related_courses_posterior.length
           ? course.related_courses_posterior.map(c => (
-            <Link to={{ pathname: '/dictionary', state: { startCourseId: c.id } }} key={c.id}>
+            <Link to={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: c.id }) }} key={c.id}>
               <CourseBlock course={c} key={c.id} />
             </Link>
           ))
           : <div className={classNames('list-placeholder')}><div>{t('ui.placeholder.unknown')}</div></div>
         }
         <div className={classNames('buttons')}>
-          <Link to={{ pathname: '/dictionary', state: { startCourseId: 746 } }} className={classNames('text-button')}>
+          <Link to={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: 746 }) }} className={classNames('text-button')}>
             {t('ui.button.seeDetails')}
           </Link>
         </div>
