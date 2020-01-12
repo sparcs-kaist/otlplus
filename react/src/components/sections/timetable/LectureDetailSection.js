@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import $ from 'jquery';
 import { withTranslation } from 'react-i18next';
+import qs from 'qs';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 import axios from '../../../common/presetAxios';
@@ -160,7 +161,7 @@ class LectureDetailSection extends Component {
             <a className={classNames('text-button', 'text-button--right')} href={`https://cais.kaist.ac.kr/syllabusInfo?year=${lecture.year}&term=${lecture.semester}&subject_no=${lecture.code}&lecture_class=${lecture.class_no}&dept_id=${lecture.department}`} target="_blank" rel="noopener noreferrer">
               {t('ui.button.syllabus')}
             </a>
-            <Link className={classNames('text-button', 'text-button--right')} to={{ pathname: '/dictionary', state: { startCourseId: lecture.course } }}>
+            <Link className={classNames('text-button', 'text-button--right')} to={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: lecture.course }) }}>
               {t('ui.button.dictionary')}
             </Link>
           </div>

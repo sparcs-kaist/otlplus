@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
+import qs from 'qs';
 
 import Header from './components/guideline/Header';
 import DictionaryPage from './pages/DictionaryPage';
@@ -55,8 +56,24 @@ class App extends Component {
         <>
           <Header />
           <Switch>
-            <Route path="/dictionary" component={DictionaryPage} />
-            <Route exact path="/timetable" component={TimetablePage} />
+            <Route
+              exact
+              path="/dictionary"
+              render={props => (
+                props.location.search
+                  ? <Redirect to={{ ...props.location, state: { ...props.location.state, ...qs.parse(props.location.search, { ignoreQueryPrefix: true }) }, search: '' }} />
+                  : <DictionaryPage {...props} />
+              )}
+            />
+            <Route
+              exact
+              path="/timetable"
+              render={props => (
+                props.location.search
+                  ? <Redirect to={{ ...props.location, state: { ...props.location.state, ...qs.parse(props.location.search, { ignoreQueryPrefix: true }) }, search: '' }} />
+                  : <TimetablePage {...props} />
+              )}
+            />
             <Route exact path="/timetable/syllabus" component={SyllabusPage} />
             <Route exact path="/main" component={MainPage} />
             <Route exact path="/write-reviews" component={WriteReviewsPage} />

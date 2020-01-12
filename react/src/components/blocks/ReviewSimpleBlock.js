@@ -2,6 +2,7 @@ import React from 'react';
 import { pure } from 'recompose';
 import { Link } from 'react-router-dom';
 import { withTranslation } from 'react-i18next';
+import qs from 'qs';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 
@@ -11,7 +12,7 @@ import reviewShape from '../../shapes/ReviewShape';
 // eslint-disable-next-line arrow-body-style
 const ReviewSimpleBlock = ({ t, review }) => {
   return (
-    <Link to={{ pathname: '/dictionary', state: { startCourseId: review.course.id } }}>
+    <Link to={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: review.course.id }) }}>
       <div className={classNames('block', 'block--review-simple')}>
         <div>
           {review.comment}

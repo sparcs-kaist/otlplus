@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
+import qs from 'qs';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 import ReviewBlock from '../../blocks/ReviewBlock';
@@ -20,12 +21,12 @@ class FamousMajorReviewSection extends Component {
           {`${t('ui.title.famousMajorReviews')} - ${department[t('js.property.name')]}`}
         </div>
         {reviews.map(r => (
-          <Link to={{ pathname: '/dictionary', state: { startCourseId: r.course.id } }} key={r.id}>
+          <Link to={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: r.course.id }) }} key={r.id}>
             <ReviewBlock review={r} key={r.id} />
           </Link>
         ))}
         <div className={classNames('buttons')}>
-          <Link to={{ pathname: '/dictionary', state: { startTab: department.code } }} className={classNames('text-button')}>
+          <Link to={{ pathname: '/dictionary', search: qs.stringify({ startTab: department.code }) }} className={classNames('text-button')}>
             {t('ui.button.seeMoreReviews')}
           </Link>
         </div>
