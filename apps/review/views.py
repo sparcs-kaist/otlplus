@@ -125,6 +125,9 @@ def insertReview(request,lecture_id):
 
     lecid = int(lecture_id)
     lecture = user_profile.take_lecture_list.get(id = lecid) # 하나로 특정되지않음, 변경요망
+    if lecture.year == 2020: # TODO: Change it into semester courseDropDeadline not passed
+        return HttpResponseBadRequest('Review not yet writable for this semester')
+
     course = lecture.course
     comment = body['content'] # 항목 선택 안했을시 반응 추가 요망 grade, load도
     grade = int(body['gradescore'])
