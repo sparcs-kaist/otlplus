@@ -81,7 +81,7 @@ def ReviewLike(request):
         is_login = True
         if request.method == 'POST':
             user = request.user
-            user_profile = UserProfile.objects.get(user=user)
+            user_profile = user.userprofile
             target_review = Comment.objects.get(id=body['commentid'])
             if CommentVote.objects.filter(comment = target_review, userprofile = user_profile).exists():
                 already_up = True
@@ -95,7 +95,7 @@ def ReviewLike(request):
 @login_required(login_url='/session/login/')
 def read_course(request):
     user = request.user
-    user_profile = UserProfile.objects.get(user=user)
+    user_profile = user.userprofile
     body = json.loads(request.body.decode('utf-8'))
     course_id = int(body['id'])
     course = Course.objects.get(id=course_id)
@@ -121,7 +121,7 @@ def insertReview(request,lecture_id):
             comment = body['content']
 
     user = request.user
-    user_profile = UserProfile.objects.get(user=user)
+    user_profile = user.userprofile
 
     lecid = int(lecture_id)
     lecture = user_profile.take_lecture_list.get(id = lecid) # 하나로 특정되지않음, 변경요망
