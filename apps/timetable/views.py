@@ -196,11 +196,10 @@ def table_load(request):
         t.save()
         timetables = [t]
 
-    ctx = []
-    for t in timetables:
-        timetable = {"id": t.id,
-                     "lectures":[l.toJson(nested=False) for l in t.lecture.filter(deleted=False)]}
-        ctx.append(timetable)
+    ctx = [{
+        "id": t.id,
+        "lectures":[l.toJson(nested=False) for l in t.lecture.filter(deleted=False)],
+    } for t in timetables]
 
     return JsonResponse(ctx, safe=False, json_dumps_params=
                         {'ensure_ascii': False})
