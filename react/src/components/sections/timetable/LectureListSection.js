@@ -206,6 +206,10 @@ class LectureListSection extends Component {
       ];
     };
 
+    if (humanity && humanity.courses) {
+      humanity.courses.forEach(c => c.forEach(l => console.log(l.cached)));
+    }
+
     if (currentList === 'SEARCH') {
       return (
         <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
