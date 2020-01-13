@@ -214,7 +214,7 @@ def info(request):
         "departments": _user_department(request.user),
         "favorite_departments": [d.toJson() for d in userProfile.favorite_departments.all()],
         "taken_lectures": [l.toJson() for l in taken_lectures],
-        "reviews": [c.toJson() for c in userProfile.comment_set.all()],
+        "reviews": [c.toJson(nested=True) for c in userProfile.comment_set.all()],
     }
     return JsonResponse(ctx, safe = False)
 
