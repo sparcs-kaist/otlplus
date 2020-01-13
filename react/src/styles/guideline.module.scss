@@ -116,7 +116,7 @@ header, footer {
 
                 @media #{$media-portrait} {
                     margin: 0 16px;
-                    & > * {
+                    & > span {
                         height: 50px;
                     }
                 }
