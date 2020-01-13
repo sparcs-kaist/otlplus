@@ -97,8 +97,8 @@ def courses_list_view(request):
 
         courses = courses \
             .distinct() \
-            .select_related('department') \
-            .prefetch_related('related_courses_prior', 'related_courses_posterior', 'professors', 'read_users_courseuser')
+            #.select_related('department') \
+            #.prefetch_related('related_courses_prior', 'related_courses_posterior', 'professors', 'read_users_courseuser')
         result = [c.toJson(user=request.user) for c in courses[:150]]
         return JsonResponse(result, safe=False)
 
@@ -266,9 +266,9 @@ def lectures_list_view(request):
 
         lectures = lectures \
             .distinct() \
-            .select_related('course', 'department') \
-            .prefetch_related('classtime_set', 'examtime_set', 'professors') \
             .order_by('old_code', 'class_no')
+            #.select_related('course', 'department') \
+            #.prefetch_related('classtime_set', 'examtime_set', 'professors') \
         result = [l.toJson(nested=False) for l in lectures[:300]]
         return JsonResponse(result, safe=False)
 
