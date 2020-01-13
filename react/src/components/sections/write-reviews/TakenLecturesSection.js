@@ -8,7 +8,9 @@ import { setLectureSelected, clearLectureSelected } from '../../../actions/write
 import Scroller from '../../Scroller2';
 import LectureSimpleBlock from '../../blocks/LectureSimpleBlock';
 import userShape from '../../../shapes/UserShape';
+import semesterShape from '../../../shapes/SemesterShape';
 import lectureShape from '../../../shapes/LectureShape';
+import { isReviewWritablePlainYearSemester } from '../../../common/semesterFunctions';
 
 
 class TakenLecturesSection extends Component {
@@ -26,7 +28,7 @@ class TakenLecturesSection extends Component {
 
   render() {
     const { t } = this.props;
-    const { user, selectedLecture } = this.props;
+    const { user, semesters, selectedLecture } = this.props;
 
     if (!user) {
       return (
@@ -64,6 +66,7 @@ class TakenLecturesSection extends Component {
       }));
     // eslint-disable-next-line fp/no-mutating-methods
     const targetSemesters = takenSemesters
+      .filter(s => isReviewWritablePlainYearSemester(semesters, s.year, s.semester))
       .filter((s, i) => ((takenSemesters.findIndex(s2 => (s2.year === s.year && s2.semester === s.semester))) === i))
       .sort((a, b) => ((a.year !== b.year) ? (b.year - a.year) : (b.semester - a.semester)));
 
@@ -149,6 +152,7 @@ class TakenLecturesSection extends Component {
 
 const mapStateToProps = state => ({
   user: state.common.user.user,
+  semesters: state.common.semester.semesters,
   selectedLecture: state.writeReviews.lectureSelected.lecture,
 });
 
@@ -163,6 +167,7 @@ const mapDispatchToProps = dispatch => ({
 
 TakenLecturesSection.propTypes = {
   user: userShape,
+  semesters: PropTypes.arrayOf(semesterShape).isRequired,
   selectedLecture: lectureShape,
   setLectureSelectedDispatch: PropTypes.func.isRequired,
   clearLectureSelectedDispatch: PropTypes.func.isRequired,

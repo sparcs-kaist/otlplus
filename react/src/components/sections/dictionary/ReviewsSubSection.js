@@ -15,6 +15,8 @@ import CourseShape from '../../../shapes/CourseShape';
 import reviewShape from '../../../shapes/ReviewShape';
 import userShape from '../../../shapes/UserShape';
 import SearchFilter from '../../SearchFilter';
+import { isReviewWritablePlainYearSemester } from '../../../common/semesterFunctions';
+import semesterShape from '../../../shapes/SemesterShape';
 
 
 class ReviewsSubSection extends Component {
@@ -104,7 +106,7 @@ class ReviewsSubSection extends Component {
   render() {
     const { t } = this.props;
     const { professor } = this.state;
-    const { user, course, reviews } = this.props;
+    const { user, semesters, course, reviews } = this.props;
 
     const professorOptions = [
       ['ALL', t('ui.type.allShort')],
@@ -114,7 +116,9 @@ class ReviewsSubSection extends Component {
     ];
 
     const takenLectureOfCourse = user
-      ? user.taken_lectures.filter(l => ((l.course === course.id) && this._lectureProfessorChecker(l, professor)))
+      ? user.taken_lectures
+        .filter(l => ((l.course === course.id) && this._lectureProfessorChecker(l, professor)))
+        .filter(l => isReviewWritablePlainYearSemester(semesters, l.year, l.semester))
       : [];
     const filteredReviews = reviews == null
       ? null
@@ -149,6 +153,7 @@ class ReviewsSubSection extends Component {
 
 const mapStateToProps = state => ({
   user: state.common.user.user,
+  semesters: state.common.semester.semesters,
   clicked: state.dictionary.courseActive.clicked,
   course: state.dictionary.courseActive.course,
   reviews: state.dictionary.courseActive.reviews,
@@ -171,6 +176,7 @@ const mapDispatchToProps = dispatch => ({
 
 ReviewsSubSection.propTypes = {
   user: userShape,
+  semesters: semesterShape,
   clicked: PropTypes.bool.isRequired,
   course: CourseShape,
   reviews: PropTypes.arrayOf(reviewShape),
