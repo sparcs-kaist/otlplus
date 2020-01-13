@@ -6,9 +6,9 @@ from apps.session.models import *
 
 class TimeTable(models.Model):
     lecture = models.ManyToManyField(Lecture)
-    user = models.ForeignKey(UserProfile, related_name="timetable_set")
-    year = models.IntegerField(null=True)  # 몇넌도의 타임테이블인지
-    semester = models.SmallIntegerField(null=True)  # 어떤학기의 타임테이블인지
+    user = models.ForeignKey(UserProfile, related_name="timetable_set", db_index=True)
+    year = models.IntegerField(null=True, db_index=True)  # 몇넌도의 타임테이블인지
+    semester = models.SmallIntegerField(null=True, db_index=True)  # 어떤학기의 타임테이블인지
 
 
 class OldTimeTable(models.Model):
