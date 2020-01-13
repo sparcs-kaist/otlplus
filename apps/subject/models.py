@@ -101,9 +101,6 @@ class Lecture(models.Model):
         cache_id = "lecture:%d:%s" % (self.id, 'nested' if nested else 'normal')
         result_cached = cache.get(cache_id)
         if result_cached != None:
-            result_cached.update({
-                'cached': True,
-            })
             return result_cached
 
         # Don't change this into model_to_dict: for security and performance
