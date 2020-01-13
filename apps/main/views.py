@@ -25,7 +25,7 @@ from datetime import date
 def feeds_list_view(request):
     if request.method == 'GET':
         date = request.GET.get('date', None)
-        user = UserProfile.objects.get(user=request.user)
+        user = request.user.userprofile
 
         department_codes = [d['code'] for d in _user_department(request.user) if (d['code'] != 'Basic')]
         departments = Department.objects.filter(code__in=department_codes, visible=True)

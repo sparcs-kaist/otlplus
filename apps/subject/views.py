@@ -348,7 +348,7 @@ def lectures_instance_related_comments_view(request, lecture_id):
 @require_http_methods(['GET'])
 def users_instance_taken_courses_view(request, user_id):
     if request.method == 'GET':
-        userprofile = UserProfile.objects.get(user=request.user)
+        userprofile = request.user.userprofile
         if userprofile.id != int(user_id):
             return HttpResponse(status=401)
         courses = Course.objects.filter(lecture_course__in=userprofile.take_lecture_list.all()).order_by('old_code').distinct()

@@ -98,7 +98,7 @@ def login_callback(request):
         user.first_name=sso_profile['first_name']
         user.last_name=sso_profile['last_name']
         user.save()
-        user_profile = UserProfile.objects.get(user=user)
+        user_profile = user.userprofile
         previous_student_id = user_profile.student_id
         user_profile.student_id = student_id
         user_profile.save()
@@ -115,7 +115,7 @@ def login_callback(request):
 
 def user_logout(request):
     if request.user.is_authenticated():
-        sid = UserProfile.objects.get(user=request.user).sid
+        sid = request.user.userprofile.sid
         redirect_url = request.GET.get('next', request.build_absolute_uri('/'))
         logout_url = sso_client.get_logout_url(sid, redirect_url)
         logout(request)
@@ -158,7 +158,7 @@ def department_options(request):
 @login_required_ajax
 def favorite_departments(request):
     user = request.user
-    user_profile = UserProfile.objects.get(user=user)
+    user_profile = user.userprofile
     body = json.loads(request.body.decode('utf-8'))
 
     if request.method == 'POST':
@@ -186,7 +186,7 @@ def unregister(request):
         return HttpResponseRedirect('/error/problem-unregister')
 
     user = request.user
-    user_profile = UserProfile.objects.get(user=user)
+    user_profile = user.userprofile
 
     sid = user_profile.sid
     result = sso_client.do_unregister(sid)
@@ -202,7 +202,7 @@ def unregister(request):
 
 @login_required_ajax
 def info(request):
-    userProfile = UserProfile.objects.get(user=request.user)
+    userProfile = request.user.userprofile
     taken_lectures = userProfile.take_lecture_list.filter(deleted=False)
     ctx = {
         "id": userProfile.id,
@@ -214,7 +214,7 @@ def info(request):
         "departments": _user_department(request.user),
         "favorite_departments": [d.toJson() for d in userProfile.favorite_departments.all()],
         "taken_lectures": [l.toJson() for l in taken_lectures],
-        "reviews": [c.toJson() for c in userProfile.comment_set.filter(lecture__in=taken_lectures)],
+        "reviews": [c.toJson() for c in userProfile.comment_set.all()],
     }
     return JsonResponse(ctx, safe = False)
 

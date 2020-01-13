@@ -13,7 +13,7 @@ sso_client = Client(settings.SSO_CLIENT_ID, settings.SSO_SECRET_KEY, is_beta=set
 
 class UserProfile(models.Model):
 
-    user = models.ForeignKey(User)
+    user = models.OneToOneField(User, related_name='userprofile', db_index=True)
 
     department = models.ForeignKey(Department, blank=True, null=True)
     majors = models.ManyToManyField(Department, related_name='major_user_set')  # 복수전공들 index 0가

@@ -47,7 +47,7 @@ def _user_department(user):
     if not user.is_authenticated():
         return [{'id': -1, 'code':'Basic', 'name':u' 기초 과목', 'name_en':u' Basic Course'}]
 
-    u = UserProfile.objects.get(user=user)
+    u = user.userprofile
 
     if (u.department==None) or (u.department.code in ['AA', 'ICE']):
         departments = [{'id': -1, 'code':'Basic', 'name':u' 기초 과목', 'name_en':u' Basic Course'}]
@@ -88,7 +88,7 @@ def _validate_year_semester(year, semester):
 @require_POST
 @login_required_ajax
 def table_update(request):
-    userprofile = UserProfile.objects.get(user=request.user)
+    userprofile = request.user.userprofile
 
     body = json.loads(request.body.decode('utf-8'))
     try:
@@ -123,7 +123,7 @@ def table_update(request):
 @require_POST
 @login_required_ajax
 def table_delete(request):
-    userprofile = UserProfile.objects.get(user=request.user)
+    userprofile = request.user.userprofile
 
     body = json.loads(request.body.decode('utf-8'))
     try:
@@ -144,7 +144,7 @@ def table_delete(request):
 @require_POST
 @login_required_ajax
 def table_create(request):
-    userprofile = UserProfile.objects.get(user=request.user)
+    userprofile = request.user.userprofile
 
     body = json.loads(request.body.decode('utf-8'))
     try:
@@ -176,7 +176,7 @@ def table_create(request):
 @require_POST
 @login_required_ajax
 def table_load(request):
-    userprofile = UserProfile.objects.get(user=request.user)
+    userprofile = request.user.userprofile
 
     body = json.loads(request.body.decode('utf-8'))
     try:
@@ -214,7 +214,7 @@ FLOW = client.flow_from_clientsecrets(settings.GOOGLE_OAUTH2_CLIENT_SECRETS_JSON
 @login_required
 def share_calendar(request):
     user = request.user
-    userprofile = UserProfile.objects.get(user=user)
+    userprofile = user.userprofile
 
     try:
         table_id = int(request.GET['table_id'])
@@ -310,7 +310,7 @@ def google_auth_return(request):
 @require_POST
 @login_required_ajax
 def wishlist_load(request):
-    userprofile = UserProfile.objects.get(user=request.user)
+    userprofile = request.user.userprofile
 
 
     body = json.loads(request.body.decode('utf-8'))
@@ -337,7 +337,7 @@ def wishlist_load(request):
 @require_POST
 @login_required_ajax
 def wishlist_update(request):
-    userprofile = UserProfile.objects.get(user=request.user)
+    userprofile = request.user.userprofile
 
     body = json.loads(request.body.decode('utf-8'))
     try:
@@ -426,7 +426,7 @@ def _textbox(draw, points, title, prof, loc, font):
 
 @login_required
 def share_image(request):
-    userprofile = UserProfile.objects.get(user=request.user)
+    userprofile = request.user.userprofile
 
     try:
         table_id = request.GET['table_id']
