@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.db import models
+from django.core.cache import cache
 from apps.subject.models import Course, Lecture, Professor
 from apps.session.models import UserProfile
 
@@ -27,6 +28,23 @@ class Comment(models.Model):
         )
 
     def toJson(self, nested=False, user=None):
+        def addUserspecificData(result, user):
+            is_liked = True
+            if (not user) or (not user.is_authenticated()):
+                is_liked = False
+            else:
+                is_liked = CommentVote.objects.filter(comment = self, userprofile__user = user).exists()
+            result.update({
+                'userspecific_is_liked': is_liked,
+            })
+
+        cache_id = "review:%d:%s" % (self.id, 'nested' if nested else 'normal')
+        result_cached = cache.get(cache_id)
+        if result_cached != None:
+            if not nested:
+                addUserspecificData(result_cached, user)
+            return result_cached
+
         letters = ['?', 'F', 'D', 'C', 'B', 'A']
         result = {
             'id': self.id,
@@ -44,21 +62,19 @@ class Comment(models.Model):
         }
 
         if nested:
+            cache.set(cache_id, result, 60 * 5)
             return result
 
-        is_liked = True
-        if (not user) or (not user.is_authenticated()):
-            is_liked = False
-        else:
-            is_liked = CommentVote.objects.filter(comment = self, userprofile__user = user).exists()
-        result.update({
-            'userspecific_is_liked': is_liked,
-        })
+        cache.set(cache_id, result, 60 * 5)
+
+        addUserspecificData(result, user)
 
         return result
     
     def recalc_like(self):
         self.like = self.comment_vote.all().count()
+        cache.delete("review:%d:nested" % self.id)
+        cache.delete("review:%d:normal" % self.id)
         self.save()
 
     def __unicode__(self):
@@ -104,6 +120,8 @@ class Comment(models.Model):
         self.speech = speech
         self.total = (grade+load+speech)/3.0
         self.save()
+        cache.delete("review:%d:nested" % self.id)
+        cache.delete("review:%d:normal" % self.id)
         course.save()
 
     def u_delete(self):
