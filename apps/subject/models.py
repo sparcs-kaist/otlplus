@@ -45,7 +45,7 @@ class Semester(models.Model):
             "gradePosting": self.gradePosting,
         }
 
-        cache.set(cache_id, result)
+        cache.set(cache_id, result, 60 * 60)
 
         return result
 
@@ -150,7 +150,7 @@ class Lecture(models.Model):
         })
         
         if nested:
-            cache.set(cache_id, result)
+            cache.set(cache_id, result, 60 * 10)
             return result
 
         # Add formatted score
@@ -246,7 +246,7 @@ class Lecture(models.Model):
                 'major_code': '',
             })
 
-        cache.set(cache_id, result)
+        cache.set(cache_id, result, 60 * 10)
 
         return result
 
@@ -519,7 +519,7 @@ class Department(models.Model):
             'code': self.code,
         }
 
-        cache.set(cache_id, result)
+        cache.set(cache_id, result, 60 * 30)
 
         return result
 
@@ -594,7 +594,7 @@ class Course(models.Model):
         }
 
         if nested:
-            cache.set(cache_id, result)
+            cache.set(cache_id, result, 60 * 10)
             return result
         
         result.update({
@@ -652,7 +652,7 @@ class Course(models.Model):
                 'major_code': '',
             })
 
-        cache.set(cache_id, result)
+        cache.set(cache_id, result, 60 * 10)
 
         addUserspecificData(result, user)
 
