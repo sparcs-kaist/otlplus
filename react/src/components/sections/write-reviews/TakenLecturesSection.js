@@ -59,14 +59,16 @@ class TakenLecturesSection extends Component {
       );
     }
 
-    const takenSemesters = user.taken_lectures
+    const writableTakenLectures = user.taken_lectures.filter(l => isReviewWritablePlainYearSemester(semesters, l.year, l.semester));
+    const editableReviews = user.reviews.filter(r => (writableTakenLectures.findIndex(l => l.id === r.lecture.id) !== -1));
+
+    const takenSemesters = writableTakenLectures
       .map(l => ({
         year: l.year,
         semester: l.semester,
       }));
     // eslint-disable-next-line fp/no-mutating-methods
     const targetSemesters = takenSemesters
-      .filter(s => isReviewWritablePlainYearSemester(semesters, s.year, s.semester))
       .filter((s, i) => ((takenSemesters.findIndex(s2 => (s2.year === s.year && s2.semester === s.semester))) === i))
       .sort((a, b) => ((a.year !== b.year) ? (b.year - a.year) : (b.semester - a.semester)));
 
@@ -87,14 +89,14 @@ class TakenLecturesSection extends Component {
           <div className={classNames('scores')}>
             <div>
               <div>
-                <span>{user.reviews.length}</span>
-                <span>{`/${user.taken_lectures.length}`}</span>
+                <span>{editableReviews.length}</span>
+                <span>{`/${writableTakenLectures.length}`}</span>
               </div>
               <div>{t('ui.score.reviewsWritten')}</div>
             </div>
             <div>
               <div>
-                {user.reviews.reduce((acc, r) => (acc + r.like), 0)}
+                {editableReviews.reduce((acc, r) => (acc + r.like), 0)}
               </div>
               <div>{t('ui.score.likes')}</div>
             </div>
@@ -108,7 +110,7 @@ class TakenLecturesSection extends Component {
                 </div>
                 <div className={classNames('taken-lectures')}>
                   {/* eslint-disable-next-line react/jsx-indent */}
-                {user.taken_lectures
+                {writableTakenLectures
                   .filter(l => (l.year === s.year && l.semester === s.semester))
                   .map(l => (
                     !selectedLecture
