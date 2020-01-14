@@ -87,7 +87,7 @@ def login_callback(request):
         if not settings.DEBUG:
             os.chdir('/var/www/otlplus/')
         os.system('python do_import_user_major.py %s' % student_id)
-        os.system('python update_taken_lecture_user.py %s' % student_id)
+        os.system('python do_import_taken_lecture_user.py %s' % student_id)
         OldTimeTable.import_in_for_user(student_id)
 
         user = authenticate(username=username)
@@ -106,7 +106,7 @@ def login_callback(request):
             if not settings.DEBUG:
                 os.chdir('/var/www/otlplus/')
             os.system('python do_import_user_major.py %s' % student_id)
-            os.system('python update_taken_lecture_user.py %s' % student_id)
+            os.system('python do_import_taken_lecture_user.py %s' % student_id)
             OldTimeTable.import_in_for_user(student_id)
         login(request, user)
         return redirect(next)
