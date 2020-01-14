@@ -8,11 +8,13 @@ import axios from '../../../common/presetAxios';
 import { BASE_URL } from '../../../common/constants';
 
 import Scroller from '../../Scroller2';
+import HistoryLecturesBlock from '../../blocks/HistoryLecturesBlock';
+
 import { setLectures } from '../../../actions/dictionary/courseActive';
+
 import semesterShape from '../../../shapes/SemesterShape';
 import CourseShape from '../../../shapes/CourseShape';
 import lectureShape from '../../../shapes/LectureShape';
-import HistoryLecturesBlock from '../../blocks/HistoryLecturesBlock';
 
 
 class HistorySubSection extends Component {

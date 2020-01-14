@@ -4,12 +4,16 @@ import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
-import { setLectureSelected, clearLectureSelected } from '../../../actions/write-reviews/lectureSelected';
+
 import Scroller from '../../Scroller2';
 import LectureSimpleBlock from '../../blocks/LectureSimpleBlock';
+
+import { setLectureSelected, clearLectureSelected } from '../../../actions/write-reviews/lectureSelected';
+
 import userShape from '../../../shapes/UserShape';
 import semesterShape from '../../../shapes/SemesterShape';
 import lectureShape from '../../../shapes/LectureShape';
+
 import { isReviewWritablePlainYearSemester } from '../../../common/semesterFunctions';
 
 

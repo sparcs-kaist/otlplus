@@ -6,8 +6,11 @@ import { withTranslation } from 'react-i18next';
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
 import Scroller from '../../Scroller2';
-import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureActive';
+
 import { clearMultipleDetail, setMultipleDetail } from '../../../actions/timetable/lectureActive';
+
+import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureActive';
+
 import lectureShape from '../../../shapes/LectureShape';
 import timetableShape from '../../../shapes/TimetableShape';
 import { inTimetable } from '../../../common/lectureFunctions';

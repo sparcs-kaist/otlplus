@@ -5,10 +5,11 @@ import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 import axios from '../../common/presetAxios';
-
 import { BASE_URL } from '../../common/constants';
+
 import { setListMajorCodes, setCurrentList, setListLectures, clearListsLectures, setListMajorLectures } from '../../actions/timetable/list';
 import { openSearch, closeSearch } from '../../actions/timetable/search';
+
 import userShape from '../../shapes/UserShape';
 import lectureShape from '../../shapes/LectureShape';
 
