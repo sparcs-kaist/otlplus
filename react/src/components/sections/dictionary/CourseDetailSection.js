@@ -13,7 +13,7 @@ import ReviewsSubSection from './ReviewsSubSection';
 
 import { clearCourseActive } from '../../../actions/dictionary/courseActive';
 
-import CourseShape from '../../../shapes/CourseShape';
+import courseShape from '../../../shapes/CourseShape';
 
 
 class CourseDetailSection extends Component {
@@ -185,7 +185,7 @@ const mapDispatchToProps = dispatch => ({
 
 CourseDetailSection.propTypes = {
   clicked: PropTypes.bool.isRequired,
-  course: CourseShape,
+  course: courseShape,
   currentList: PropTypes.string.isRequired,
   clearCourseActiveDispatch: PropTypes.func.isRequired,
 };

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import lectureShape from './LectureShape';
 import reviewShape from './ReviewShape';
-import DepartmentShape from './DepartmentShape';
+import departmentShape from './DepartmentShape';
 
 
 const userShape = PropTypes.shape({
@@ -10,9 +10,9 @@ const userShape = PropTypes.shape({
   student_id: PropTypes.string.isRequired,
   firstName: PropTypes.string.isRequired,
   lastName: PropTypes.string.isRequired,
-  majors: PropTypes.arrayOf(DepartmentShape).isRequired,
-  departments: PropTypes.arrayOf(DepartmentShape).isRequired,
-  favorite_departments: PropTypes.arrayOf(DepartmentShape),
+  majors: PropTypes.arrayOf(departmentShape).isRequired,
+  departments: PropTypes.arrayOf(departmentShape).isRequired,
+  favorite_departments: PropTypes.arrayOf(departmentShape),
   taken_lectures: PropTypes.arrayOf(lectureShape).isRequired,
   reviews: PropTypes.arrayOf(reviewShape).isRequired,
 });
