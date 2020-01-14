@@ -5,14 +5,16 @@ import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
+import Scroller from '../../Scroller2';
+import CourseSearchSubSection from './CourseSearchSubSection';
+import CourseBlock from '../../blocks/CourseBlock';
+
 import { isClicked, isHover, isInactiveCourse } from '../../../common/courseFunctions';
 import { setCourseActive, clearCourseActive } from '../../../actions/dictionary/courseActive';
 import { openSearch } from '../../../actions/dictionary/search';
-import Scroller from '../../Scroller2';
-import CourseBlock from '../../blocks/CourseBlock';
+
 import courseShape from '../../../shapes/CourseShape';
 import courseActiveShape from '../../../shapes/CourseActiveShape';
-import CourseSearchSubSection from './CourseSearchSubSection';
 
 
 class CourseListSection extends Component {

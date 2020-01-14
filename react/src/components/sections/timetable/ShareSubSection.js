@@ -8,6 +8,7 @@ import { appBoundClassNames as classNames } from '../../../common/boundClassName
 
 import { setMobileShowLectureList } from '../../../actions/timetable/list';
 import { setMobileShowTimetableTabs } from '../../../actions/timetable/timetable';
+
 import timetableShape from '../../../shapes/TimetableShape';
 
 

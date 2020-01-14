@@ -1,14 +1,14 @@
 import PropTypes from 'prop-types';
 
-import DepartmentShape from './DepartmentShape';
-import NestedCourseShape from './NestedCourseShape';
-import NestedProfessorShape from './NestedProfessorShape';
+import departmentShape from './DepartmentShape';
+import nestedCourseShape from './NestedCourseShape';
+import nestedProfessorShape from './NestedProfessorShape';
 
 
-const CourseShape = PropTypes.shape({
+const courseShape = PropTypes.shape({
   id: PropTypes.number.isRequired,
   old_code: PropTypes.string.isRequired,
-  department: DepartmentShape,
+  department: departmentShape,
   code_num: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   type_en: PropTypes.string.isRequired,
@@ -16,11 +16,11 @@ const CourseShape = PropTypes.shape({
   title_en: PropTypes.string.isRequired,
   summary: PropTypes.string.isRequired,
   comment_num: PropTypes.number.isRequired,
-  related_courses_prior: PropTypes.arrayOf(NestedCourseShape).isRequired,
-  related_courses_posterior: PropTypes.arrayOf(NestedCourseShape).isRequired,
+  related_courses_prior: PropTypes.arrayOf(nestedCourseShape).isRequired,
+  related_courses_posterior: PropTypes.arrayOf(nestedCourseShape).isRequired,
   professors_str: PropTypes.string.isRequired,
   professors_str_en: PropTypes.string.isRequired,
-  professors: PropTypes.arrayOf(NestedProfessorShape).isRequired,
+  professors: PropTypes.arrayOf(nestedProfessorShape).isRequired,
   has_review: PropTypes.bool.isRequired,
   grade: PropTypes.number.isRequired,
   load: PropTypes.number.isRequired,
@@ -31,4 +31,4 @@ const CourseShape = PropTypes.shape({
   userspecific_is_read: PropTypes.bool.isRequired,
 });
 
-export default CourseShape;
+export default courseShape;

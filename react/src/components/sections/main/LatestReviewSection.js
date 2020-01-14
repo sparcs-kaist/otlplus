@@ -4,7 +4,9 @@ import { withTranslation } from 'react-i18next';
 import qs from 'qs';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
+
 import ReviewBlock from '../../blocks/ReviewBlock';
+
 import reviews from '../../../dummy/reviews';
 
 

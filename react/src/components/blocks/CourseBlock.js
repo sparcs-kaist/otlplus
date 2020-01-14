@@ -4,7 +4,8 @@ import { pure } from 'recompose';
 import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
-import CourseShape from '../../shapes/CourseShape';
+
+import courseShape from '../../shapes/CourseShape';
 
 
 // eslint-disable-next-line arrow-body-style
@@ -54,7 +55,7 @@ const CourseBlock = ({ t, course, showReadStatus, isRead, isClicked, isHover, is
 };
 
 CourseBlock.propTypes = {
-  course: CourseShape.isRequired,
+  course: courseShape.isRequired,
   showReadStatus: PropTypes.bool,
   isRead: PropTypes.bool,
   isClicked: PropTypes.bool,

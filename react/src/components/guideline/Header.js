@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 
-import userShape from '../../shapes/UserShape';
-
 import { guidelineBoundClassNames as classNames, appBoundClassNames } from '../../common/boundClassNames';
+
+import userShape from '../../shapes/UserShape';
 
 import logoImage from '../../static/img/Services-OTL.svg';
 

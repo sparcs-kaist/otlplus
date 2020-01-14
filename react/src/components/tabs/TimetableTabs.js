@@ -5,9 +5,10 @@ import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 import axios from '../../common/presetAxios';
-
 import { BASE_URL } from '../../common/constants';
+
 import { setTimetables, clearTimetables, setMyTimetableLectures, createTimetable, setCurrentTimetable, deleteTimetable, duplicateTimetable, setMobileShowTimetableTabs } from '../../actions/timetable/timetable';
+
 import userShape from '../../shapes/UserShape';
 import timetableShape from '../../shapes/TimetableShape';
 

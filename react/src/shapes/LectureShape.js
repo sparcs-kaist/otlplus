@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 
-import ClasstimeShape from './ClasstimeShape';
-import ExamtimeShape from './ExamtimeShape';
-import NestedProfessorShape from './NestedProfessorShape';
+import classtimeShape from './ClasstimeShape';
+import examtimeShape from './ExamtimeShape';
+import nestedProfessorShape from './NestedProfessorShape';
 
 
 const lectureShape = PropTypes.shape({
@@ -32,7 +32,7 @@ const lectureShape = PropTypes.shape({
   class_title_en: PropTypes.string.isRequired,
   professors_str_short: PropTypes.string.isRequired,
   professors_str_short_en: PropTypes.string.isRequired,
-  professors: PropTypes.arrayOf(NestedProfessorShape).isRequired,
+  professors: PropTypes.arrayOf(nestedProfessorShape).isRequired,
   has_review: PropTypes.bool.isRequired,
   grade: PropTypes.number.isRequired,
   load: PropTypes.number.isRequired,
@@ -40,14 +40,14 @@ const lectureShape = PropTypes.shape({
   grade_letter: PropTypes.string.isRequired,
   load_letter: PropTypes.string.isRequired,
   speech_letter: PropTypes.string.isRequired,
-  classtimes: PropTypes.arrayOf(ClasstimeShape).isRequired,
+  classtimes: PropTypes.arrayOf(classtimeShape).isRequired,
   building: PropTypes.string.isRequired,
   classroom: PropTypes.string.isRequired,
   classroom_en: PropTypes.string.isRequired,
   classroom_short: PropTypes.string.isRequired,
   classroom_short_en: PropTypes.string.isRequired,
   room: PropTypes.string.isRequired,
-  examtimes: PropTypes.arrayOf(ExamtimeShape).isRequired,
+  examtimes: PropTypes.arrayOf(examtimeShape).isRequired,
   exam: PropTypes.string.isRequired,
   exam_en: PropTypes.string.isRequired,
 });
