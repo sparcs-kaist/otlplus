@@ -34,13 +34,13 @@ class LectureListTabs extends Component {
     }
 
     if (!this._codesAreSame(major.codes, prevProps.major.codes)) {
-      this._fetchMajorLists();
+      major.codes.forEach(c => (this._fetchMajorList(c)));
     }
 
     if (year !== prevProps.year || semester !== prevProps.semester) {
       clearListsLecturesDispatch();
       this._fetchNormalLists();
-      this._fetchMajorLists();
+      major.codes.forEach(c => (this._fetchMajorList(c)));
       this._fetchUserLists();
     }
   }
@@ -62,25 +62,22 @@ class LectureListTabs extends Component {
     && codes1.every((c, i) => (c === codes2[i]))
   )
 
-  _fetchMajorLists = () => {
-    const { year, semester, major, setListMajorLecturesDispatch } = this.props;
-    const majorCodes = major.codes;
+  _fetchMajorList = (majorCode) => {
+    const { year, semester, setListMajorLecturesDispatch } = this.props;
 
     axios.get(`${BASE_URL}/api/lectures`, { params: {
       year: year,
       semester: semester,
-      group: majorCodes,
+      group: [majorCode],
     } })
       .then((response) => {
         const newProps = this.props;
         if ((newProps.year !== year || newProps.semester !== semester)
-          || !this._codesAreSame(newProps.major.codes, majorCodes)
+          || (newProps.major.codes.findIndex(c => (c === majorCode)) === -1)
         ) {
           return;
         }
-        major.codes.forEach((code) => {
-          setListMajorLecturesDispatch(code, response.data.filter(lecture => (lecture.major_code === code)));
-        });
+        setListMajorLecturesDispatch(majorCode, response.data);
       })
       .catch((error) => {
       });

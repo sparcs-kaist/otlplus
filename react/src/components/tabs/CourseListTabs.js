@@ -16,7 +16,7 @@ import courseShape from '../../shapes/CourseShape';
 
 class CourseListTabs extends Component {
   componentDidMount() {
-    const { user } = this.props;
+    const { user, major } = this.props;
 
     if (user) {
       this._setMajorCodes(user.departments);
@@ -24,7 +24,7 @@ class CourseListTabs extends Component {
 
     this._fetchUserLists();
     this._fetchNormalLists();
-    this._fetchMajorLists();
+    major.codes.forEach(c => this._fetchMajorList(c));
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -39,7 +39,7 @@ class CourseListTabs extends Component {
     }
 
     if (!this._codesAreSame(major.codes, prevProps.major.codes)) {
-      this._fetchMajorLists();
+      major.codes.forEach(c => this._fetchMajorList(c));
     }
   }
 
@@ -58,22 +58,19 @@ class CourseListTabs extends Component {
     && codes1.every((c, i) => (c === codes2[i]))
   )
 
-  _fetchMajorLists = () => {
-    const { major, setListMajorCoursesDispatch } = this.props;
-    const majorCodes = major.codes;
+  _fetchMajorList = (majorCode) => {
+    const { setListMajorCoursesDispatch } = this.props;
 
     axios.get(`${BASE_URL}/api/courses`, { params: {
-      group: majorCodes,
+      group: [majorCode],
       term: ['3'],
     } })
       .then((response) => {
         const newProps = this.props;
-        if (!this._codesAreSame(newProps.major.codes, majorCodes)) {
+        if (newProps.major.codes.findIndex(c => (c === majorCode)) === -1) {
           return;
         }
-        major.codes.forEach((code) => {
-          setListMajorCoursesDispatch(code, response.data.filter(lecture => (lecture.major_code === code)));
-        });
+        setListMajorCoursesDispatch(majorCode, response.data);
       })
       .catch((error) => {
       });
