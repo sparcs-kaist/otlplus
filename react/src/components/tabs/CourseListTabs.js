@@ -32,9 +32,6 @@ class CourseListTabs extends Component {
         this._fetchList(currentList, true);
       }
     }
-    else if (user && prevProps.user && !this._codesAreSame(user.departments.map(d => d.code), prevProps.user.departments.map(d => d.code))) {
-      this._setMajorCodes(user.departments);
-    }
 
     if (currentList !== prevProps.currentList) {
       this._fetchList(currentList);
