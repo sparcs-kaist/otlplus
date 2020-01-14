@@ -10,10 +10,6 @@ img/credit/
 
 cronlog
 *.swp
-update_scholardb.py
-update_taken_lecture.py
-import_old-comment.py
-do_import_user_major.py
 # Distribution / packaging
 .Python
 env/
@@ -90,11 +86,9 @@ keys/
 # test file
 test1.py
 #database update file
-update_taken_lecture.py
 db_update_script.sh
-update_taken_lecture_user.py
-update_scholardb.py
 db_update_script.log
+scripts/
 
 # file for atom editor remote ftp plugin. contains confidential(ssh account info)
 .ftpconfig
