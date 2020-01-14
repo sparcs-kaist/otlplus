@@ -229,23 +229,6 @@ class Lecture(models.Model):
                 'exam_en': u'Unknown',
             })
 
-        if self.type_en in ["Basic Required", "Basic Elective"]:
-            result.update({
-                'major_code': 'Basic',
-            })
-        elif self.type_en == "Humanities & Social Elective":
-            result.update({
-                'major_code': 'Humanity',
-            })
-        elif self.type_en in ["Major Required", "Major Elective", "Elective(Graduate)"]:
-            result.update({
-                'major_code': self.department.code,
-            })
-        else:
-            result.update({
-                'major_code': '',
-            })
-
         cache.set(cache_id, result, 60 * 10)
 
         return result
@@ -639,23 +622,6 @@ class Course(models.Model):
                 'grade_letter': letters[int(round(self.grade))],
                 'load_letter': letters[int(round(self.load))],
                 'speech_letter': letters[int(round(self.speech))],
-            })
-
-        if self.type_en in ["Basic Required", "Basic Elective"]:
-            result.update({
-                'major_code': 'Basic',
-            })
-        elif self.type_en == "Humanities & Social Elective":
-            result.update({
-                'major_code': 'Humanity',
-            })
-        elif self.type_en in ["Major Required", "Major Elective", "Elective(Graduate)"]:
-            result.update({
-                'major_code': self.department.code,
-            })
-        else:
-            result.update({
-                'major_code': '',
             })
 
         cache.set(cache_id, result, 60 * 10)
