@@ -31,9 +31,6 @@ class LectureListTabs extends Component {
         this._fetchList(currentList, true);
       }
     }
-    else if (user && prevProps.user && !this._codesAreSame(user.departments.map(d => d.code), prevProps.user.departments.map(d => d.code))) {
-      this._setMajorCodes(user.departments);
-    }
 
     if (year !== prevProps.year || semester !== prevProps.semester) {
       clearListsLecturesDispatch();
