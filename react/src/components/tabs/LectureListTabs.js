@@ -27,7 +27,7 @@ class LectureListTabs extends Component {
 
     if (user && !prevProps.user) {
       this._setMajorCodes(user.departments);
-      this._fetchUserLists();
+      this._fetchCartList();
     }
     else if (user && prevProps.user && !this._codesAreSame(user.departments.map(d => d.code), prevProps.user.departments.map(d => d.code))) {
       this._setMajorCodes(user.departments);
@@ -39,9 +39,9 @@ class LectureListTabs extends Component {
 
     if (year !== prevProps.year || semester !== prevProps.semester) {
       clearListsLecturesDispatch();
-      this._fetchNormalLists();
+      this._fetchHumanityList();
       major.codes.forEach(c => (this._fetchMajorList(c)));
-      this._fetchUserLists();
+      this._fetchCartList();
     }
   }
 
@@ -83,7 +83,7 @@ class LectureListTabs extends Component {
       });
   }
 
-  _fetchNormalLists = () => {
+  _fetchHumanityList = () => {
     const { year, semester, setListLecturesDispatch } = this.props;
 
     axios.get(`${BASE_URL}/api/lectures`, { params: {
@@ -102,7 +102,7 @@ class LectureListTabs extends Component {
       });
   }
 
-  _fetchUserLists = () => {
+  _fetchCartList = () => {
     const { user, year, semester, setListLecturesDispatch } = this.props;
 
     if (!user) {
