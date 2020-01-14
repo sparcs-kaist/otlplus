@@ -5,12 +5,14 @@ import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 import axios from '../../../common/presetAxios';
-
 import { BASE_URL } from '../../../common/constants';
+
+import SearchFilter from '../../SearchFilter';
+
 import { closeSearch, clearDrag } from '../../../actions/timetable/search';
 import { setListLectures, clearSearchListLectures } from '../../../actions/timetable/list';
 import { clearLectureActive } from '../../../actions/timetable/lectureActive';
-import SearchFilter from '../../SearchFilter';
+
 import lectureActiveShape from '../../../shapes/LectureActiveShape';
 
 

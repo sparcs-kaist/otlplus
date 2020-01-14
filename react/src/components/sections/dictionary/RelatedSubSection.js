@@ -3,8 +3,10 @@ import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
+
 import Scroller from '../../Scroller2';
 import CourseSimpleBlock from '../../blocks/CourseSimpleBlock';
+
 import CourseShape from '../../../shapes/CourseShape';
 
 

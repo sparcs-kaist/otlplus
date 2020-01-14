@@ -5,19 +5,23 @@ import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
-import { inTimetable, inCart, isListClicked, isListHover, isInactiveListLectures, performAddToTable, performAddToCart, performDeleteFromCart } from '../../../common/lectureFunctions';
+import Scroller from '../../Scroller2';
+import LectureSearchSubSection from './LectureSearchSubSection';
+import CourseLecturesBlock from '../../blocks/CourseLecturesBlock';
+
 import { setLectureActive, clearLectureActive } from '../../../actions/timetable/lectureActive';
 import { addLectureToCart, deleteLectureFromCart, setMobileShowLectureList } from '../../../actions/timetable/list';
 import { openSearch } from '../../../actions/timetable/search';
 import { addLectureToTimetable } from '../../../actions/timetable/timetable';
-import Scroller from '../../Scroller2';
-import LectureSearchSubSection from './LectureSearchSubSection';
-import CourseLecturesBlock from '../../blocks/CourseLecturesBlock';
+
 import { LIST } from '../../../reducers/timetable/lectureActive';
+
 import userShape from '../../../shapes/UserShape';
 import lectureShape from '../../../shapes/LectureShape';
 import timetableShape from '../../../shapes/TimetableShape';
 import lectureActiveShape from '../../../shapes/LectureActiveShape';
+
+import { inTimetable, inCart, isListClicked, isListHover, isInactiveListLectures, performAddToTable, performAddToCart, performDeleteFromCart } from '../../../common/lectureFunctions';
 
 
 class LectureListSection extends Component {

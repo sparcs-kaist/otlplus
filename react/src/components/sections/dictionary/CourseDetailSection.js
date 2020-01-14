@@ -5,12 +5,15 @@ import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
-import { clearCourseActive } from '../../../actions/dictionary/courseActive';
+
 import Scroller from '../../Scroller2';
-import CourseShape from '../../../shapes/CourseShape';
 import RelatedSubSection from './RelatedSubSection';
 import HistorySubSection from './HistorySubSection';
 import ReviewsSubSection from './ReviewsSubSection';
+
+import { clearCourseActive } from '../../../actions/dictionary/courseActive';
+
+import CourseShape from '../../../shapes/CourseShape';
 
 
 class CourseDetailSection extends Component {

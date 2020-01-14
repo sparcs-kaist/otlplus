@@ -5,12 +5,16 @@ import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
-import mapImage from '../../../static/img/timetable/kaist_map.jpg';
-import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureActive';
 import { clearMultipleDetail, setMultipleDetail } from '../../../actions/timetable/lectureActive';
+
+import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureActive';
+
 import lectureShape from '../../../shapes/LectureShape';
 import timetableShape from '../../../shapes/TimetableShape';
+
 import { inTimetable } from '../../../common/lectureFunctions';
+
+import mapImage from '../../../static/img/timetable/kaist_map.jpg';
 
 
 class MapSubSection extends Component {

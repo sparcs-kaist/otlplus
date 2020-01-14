@@ -6,17 +6,21 @@ import { withTranslation } from 'react-i18next';
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 import axios from '../../../common/presetAxios';
 import { BASE_URL } from '../../../common/constants';
+
+import ReviewBlock from '../../blocks/ReviewBlock';
+import ReviewWriteBlock from '../../blocks/ReviewWriteBlock';
+import SearchFilter from '../../SearchFilter';
+
 import { setReviews, updateReview } from '../../../actions/dictionary/courseActive';
 import { updateUserReview } from '../../../actions/common/user';
 import { addCourseRead } from '../../../actions/dictionary/list';
-import ReviewBlock from '../../blocks/ReviewBlock';
-import ReviewWriteBlock from '../../blocks/ReviewWriteBlock';
+
 import CourseShape from '../../../shapes/CourseShape';
 import reviewShape from '../../../shapes/ReviewShape';
 import userShape from '../../../shapes/UserShape';
-import SearchFilter from '../../SearchFilter';
-import { isReviewWritablePlainYearSemester } from '../../../common/semesterFunctions';
 import semesterShape from '../../../shapes/SemesterShape';
+
+import { isReviewWritablePlainYearSemester } from '../../../common/semesterFunctions';
 
 
 class ReviewsSubSection extends Component {

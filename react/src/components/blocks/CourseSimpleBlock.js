@@ -3,6 +3,7 @@ import { pure } from 'recompose';
 import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
+
 import CourseShape from '../../shapes/CourseShape';
 
 
