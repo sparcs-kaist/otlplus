@@ -7,7 +7,7 @@ import { appBoundClassNames as classNames } from '../../../common/boundClassName
 import Scroller from '../../Scroller2';
 import CourseSimpleBlock from '../../blocks/CourseSimpleBlock';
 
-import CourseShape from '../../../shapes/CourseShape';
+import courseShape from '../../../shapes/CourseShape';
 
 
 class RelatedSubSection extends Component {
@@ -59,7 +59,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 RelatedSubSection.propTypes = {
-  course: CourseShape,
+  course: courseShape,
 };
 
 

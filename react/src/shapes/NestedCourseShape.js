@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types';
 
-import DepartmentShape from './DepartmentShape';
+import departmentShape from './DepartmentShape';
 
 
-const NestedCourseShape = PropTypes.shape({
+const nestedCourseShape = PropTypes.shape({
   id: PropTypes.number.isRequired,
   old_code: PropTypes.string.isRequired,
-  department: DepartmentShape,
+  department: departmentShape,
   code_num: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   type_en: PropTypes.string.isRequired,
@@ -16,4 +16,4 @@ const NestedCourseShape = PropTypes.shape({
   comment_num: PropTypes.number.isRequired,
 });
 
-export default NestedCourseShape;
+export default nestedCourseShape;

@@ -15,7 +15,7 @@ import { setReviews, updateReview } from '../../../actions/dictionary/courseActi
 import { updateUserReview } from '../../../actions/common/user';
 import { addCourseRead } from '../../../actions/dictionary/list';
 
-import CourseShape from '../../../shapes/CourseShape';
+import courseShape from '../../../shapes/CourseShape';
 import reviewShape from '../../../shapes/ReviewShape';
 import userShape from '../../../shapes/UserShape';
 import semesterShape from '../../../shapes/SemesterShape';
@@ -182,7 +182,7 @@ ReviewsSubSection.propTypes = {
   user: userShape,
   semesters: semesterShape,
   clicked: PropTypes.bool.isRequired,
-  course: CourseShape,
+  course: courseShape,
   reviews: PropTypes.arrayOf(reviewShape),
   setReviewsDispatch: PropTypes.func.isRequired,
   addCourseReadDispatch: PropTypes.func.isRequired,

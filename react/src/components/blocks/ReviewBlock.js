@@ -6,7 +6,7 @@ import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 import axios from '../../common/presetAxios';
 import { BASE_URL } from '../../common/constants';
 
-import ReviewShape from '../../shapes/ReviewShape';
+import reviewShape from '../../shapes/ReviewShape';
 
 
 // eslint-disable-next-line arrow-body-style
@@ -113,7 +113,7 @@ const ReviewBlock = ({ t, review }) => {
 };
 
 ReviewBlock.propTypes = {
-  review: ReviewShape.isRequired,
+  review: reviewShape.isRequired,
 };
 
 

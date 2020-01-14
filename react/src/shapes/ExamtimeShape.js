@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 
 
-const ExamtimeShape = PropTypes.shape({
+const examtimeShape = PropTypes.shape({
   day: PropTypes.number.isRequired,
   str: PropTypes.string.isRequired,
   str_en: PropTypes.string.isRequired,
@@ -9,4 +9,4 @@ const ExamtimeShape = PropTypes.shape({
   end: PropTypes.number.isRequired,
 });
 
-export default ExamtimeShape;
+export default examtimeShape;

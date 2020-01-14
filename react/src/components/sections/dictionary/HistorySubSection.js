@@ -13,7 +13,7 @@ import HistoryLecturesBlock from '../../blocks/HistoryLecturesBlock';
 import { setLectures } from '../../../actions/dictionary/courseActive';
 
 import semesterShape from '../../../shapes/SemesterShape';
-import CourseShape from '../../../shapes/CourseShape';
+import courseShape from '../../../shapes/CourseShape';
 import lectureShape from '../../../shapes/LectureShape';
 
 
@@ -147,7 +147,7 @@ const mapDispatchToProps = dispatch => ({
 HistorySubSection.propTypes = {
   semesters: PropTypes.arrayOf(semesterShape),
   clicked: PropTypes.bool.isRequired,
-  course: CourseShape,
+  course: courseShape,
   lectures: PropTypes.arrayOf(lectureShape),
   setLecturesDispatch: PropTypes.func.isRequired,
 };
