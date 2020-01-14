@@ -3,6 +3,7 @@ import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
 
+
 class ErrorPage extends Component {
   _getMessageName = (matchMessage) => {
     const messageName = {

@@ -4,7 +4,9 @@ import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
+
 import ReviewBlock from '../../blocks/ReviewBlock';
+
 import reviewShape from '../../../shapes/ReviewShape';
 
 

@@ -5,8 +5,9 @@ import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
-import { getCurrentSchedule } from '../../../common/semesterFunctions';
 import semesterShape from '../../../shapes/SemesterShape';
+
+import { getCurrentSchedule } from '../../../common/semesterFunctions';
 
 
 class AcademicScheduleSection extends Component {

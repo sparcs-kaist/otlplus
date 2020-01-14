@@ -7,7 +7,6 @@ import axios from '../common/presetAxios';
 import { BASE_URL } from '../common/constants';
 
 import Footer from '../components/guideline/Footer';
-
 import MyTimetableSection from '../components/sections/main/MyTimetableSection';
 import AcademicScheduleSection from '../components/sections/main/AcademicScheduleSection';
 import VisitorSection from '../components/sections/main/VisitorSection';

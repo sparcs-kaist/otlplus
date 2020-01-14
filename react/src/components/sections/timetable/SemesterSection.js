@@ -6,8 +6,10 @@ import { withTranslation } from 'react-i18next';
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
 import { setSemester } from '../../../actions/timetable/semester';
-import { getTimetableSemester } from '../../../common/semesterFunctions';
+
 import semesterShape from '../../../shapes/SemesterShape';
+
+import { getTimetableSemester } from '../../../common/semesterFunctions';
 
 
 class SemesterSection extends Component {

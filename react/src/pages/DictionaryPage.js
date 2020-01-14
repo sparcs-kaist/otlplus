@@ -4,18 +4,18 @@ import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
+import axios from '../common/presetAxios';
+import { BASE_URL } from '../common/constants';
 
 import CourseListSection from '../components/sections/dictionary/CourseListSection';
 import CourseDetailSection from '../components/sections/dictionary/CourseDetailSection';
 import CourseListTabs from '../components/tabs/CourseListTabs';
-import courseActiveShape from '../shapes/CourseActiveShape';
 
 import { reset as resetCourseActive, setCourseActive } from '../actions/dictionary/courseActive';
 import { reset as resetList, setCurrentList, setListCourses, clearSearchListCourses } from '../actions/dictionary/list';
 import { reset as resetSearch, closeSearch } from '../actions/dictionary/search';
 
-import axios from '../common/presetAxios';
-import { BASE_URL } from '../common/constants';
+import courseActiveShape from '../shapes/CourseActiveShape';
 
 
 class DictionaryPage extends Component {

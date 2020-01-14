@@ -6,10 +6,13 @@ import { withTranslation } from 'react-i18next';
 import queryString from 'qs';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
-import { getOngoingSemester } from '../../../common/semesterFunctions';
+
 import CurrentTimetableBlock from '../../blocks/CurrentTimetableBlock';
+
 import userShape from '../../../shapes/UserShape';
 import semesterShape from '../../../shapes/SemesterShape';
+
+import { getOngoingSemester } from '../../../common/semesterFunctions';
 
 
 class MyTimetableSection extends Component {

@@ -7,8 +7,10 @@ import { appBoundClassNames as classNames } from '../../../common/boundClassName
 import axios from '../../../common/presetAxios';
 import { BASE_URL } from '../../../common/constants';
 
-import { setUser } from '../../../actions/common/user';
 import SearchFilter from '../../SearchFilter';
+
+import { setUser } from '../../../actions/common/user';
+
 import userShape from '../../../shapes/UserShape';
 
 

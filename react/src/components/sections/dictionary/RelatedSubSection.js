@@ -3,9 +3,11 @@ import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
+
 import Scroller from '../../Scroller2';
 import CourseSimpleBlock from '../../blocks/CourseSimpleBlock';
-import CourseShape from '../../../shapes/CourseShape';
+
+import courseShape from '../../../shapes/CourseShape';
 
 
 class RelatedSubSection extends Component {
@@ -57,7 +59,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 RelatedSubSection.propTypes = {
-  course: CourseShape,
+  course: courseShape,
 };
 
 

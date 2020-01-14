@@ -20,6 +20,7 @@ import MapSubSection from '../components/sections/timetable/MapSubSection';
 import SummarySubSection from '../components/sections/timetable/SummarySubSection';
 import ExamSubSection from '../components/sections/timetable/ExamSubSection';
 import ShareSubSection from '../components/sections/timetable/ShareSubSection';
+
 import lectureActiveShape from '../shapes/LectureActiveShape';
 import semesterShape from '../shapes/SemesterShape';
 import timetableShape from '../shapes/TimetableShape';

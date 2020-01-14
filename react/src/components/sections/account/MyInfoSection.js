@@ -4,8 +4,9 @@ import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
-import { getFullName } from '../../guideline/Header';
 import userShape from '../../../shapes/UserShape';
+
+import { getFullName } from '../../guideline/Header';
 
 
 class CourseDetailSection extends Component {
