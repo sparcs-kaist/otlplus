@@ -16,30 +16,28 @@ import courseShape from '../../shapes/CourseShape';
 
 class CourseListTabs extends Component {
   componentDidMount() {
-    const { user, major } = this.props;
+    const { user } = this.props;
 
     if (user) {
       this._setMajorCodes(user.departments);
     }
-
-    this._fetchTakenList();
-    this._fetchHumanityList();
-    major.codes.forEach(c => this._fetchMajorList(c));
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    const { user, major } = this.props;
+    const { user, currentList } = this.props;
 
     if (user && !prevProps.user) {
       this._setMajorCodes(user.departments);
-      this._fetchTakenList();
+      if (currentList === 'TAKEN') {
+        this._fetchList(currentList, true);
+      }
     }
     else if (user && prevProps.user && !this._codesAreSame(user.departments.map(d => d.code), prevProps.user.departments.map(d => d.code))) {
       this._setMajorCodes(user.departments);
     }
 
-    if (!this._codesAreSame(major.codes, prevProps.major.codes)) {
-      major.codes.forEach(c => this._fetchMajorList(c));
+    if (currentList !== prevProps.currentList) {
+      this._fetchList(currentList);
     }
   }
 
@@ -58,8 +56,29 @@ class CourseListTabs extends Component {
     && codes1.every((c, i) => (c === codes2[i]))
   )
 
-  _fetchMajorList = (majorCode) => {
-    const { setListMajorCoursesDispatch } = this.props;
+  _fetchList = (listCode, force = false) => {
+    const { major } = this.props;
+
+    if (listCode === 'SEARCH') {
+      // Pass
+    }
+    else if (major.codes.findIndex(c => (c === listCode)) !== -1) {
+      this._fetchMajorList(listCode, force);
+    }
+    else if (listCode === 'HUMANITY') {
+      this._fetchHumanityList(force);
+    }
+    else if (listCode === 'TAKEN') {
+      this._fetchTakenList(force);
+    }
+  }
+
+  _fetchMajorList = (majorCode, force = false) => {
+    const { major, setListMajorCoursesDispatch } = this.props;
+
+    if (!force && major[majorCode].courses) {
+      return;
+    }
 
     axios.get(`${BASE_URL}/api/courses`, { params: {
       group: [majorCode],
@@ -76,8 +95,12 @@ class CourseListTabs extends Component {
       });
   }
 
-  _fetchHumanityList = () => {
-    const { setListCoursesDispatch } = this.props;
+  _fetchHumanityList = (force = false) => {
+    const { humanity, setListCoursesDispatch } = this.props;
+
+    if (!force && humanity.courses) {
+      return;
+    }
 
     axios.get(`${BASE_URL}/api/courses`, { params: {
       group: 'Humanity',
@@ -91,8 +114,12 @@ class CourseListTabs extends Component {
   }
 
 
-  _fetchTakenList = () => {
-    const { user, setListCoursesDispatch } = this.props;
+  _fetchTakenList = (force = false) => {
+    const { user, taken, setListCoursesDispatch } = this.props;
+
+    if (!force && taken.courses) {
+      return;
+    }
 
     if (!user) {
       setListCoursesDispatch('taken', []);
