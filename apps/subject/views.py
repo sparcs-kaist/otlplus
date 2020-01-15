@@ -175,7 +175,7 @@ def lectures_list_view(request):
     if request.method == 'GET':
         lectures = Lecture.objects \
             .filter(deleted=False) \
-            .exclude(type_en__in=['Individual Study', 'Thesis Study(Undergraduate)', 'Thesis Research(MA/phD)'])
+            .exclude(Lecture.getQueryResearch())
 
         year = request.GET.get('year', None)
         if year:
