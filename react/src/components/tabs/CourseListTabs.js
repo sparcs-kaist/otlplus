@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
+import ReactGA from 'react-ga';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 import axios from '../../common/presetAxios';
@@ -143,6 +144,17 @@ class CourseListTabs extends Component {
     else {
       closeSearchDispatch();
     }
+
+    const labelOfTabs = new Map([
+      ['SEARCH', 'Search'],
+      ['HUMANITY', 'Humanity'],
+      ['TAKEN', 'Taken'],
+    ]);
+    ReactGA.event({
+      category: 'Dictionary - List',
+      action: 'Switched Course List',
+      label: `Course List : ${labelOfTabs.get(list) || list}`,
+    });
   }
 
   render() {
