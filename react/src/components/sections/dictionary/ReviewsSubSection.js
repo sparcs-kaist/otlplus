@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
+import ReactGA from 'react-ga';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 import axios from '../../../common/presetAxios';
@@ -86,6 +87,11 @@ class ReviewsSubSection extends Component {
     this.setState({
       [filterName]: checkedValues,
     });
+
+    ReactGA.event({
+      category: 'Dictionary - Review',
+      action: 'Filtered Review',
+    });
   }
 
   _getProfessorFormValue = (professor) => {
@@ -137,14 +143,14 @@ class ReviewsSubSection extends Component {
         />
         {
           takenLectureOfCourse.map(l => (
-            <ReviewWriteBlock lecture={l} key={l.id} review={user.reviews.find(r => (r.lecture.id === l.id))} updateOnSubmit={this.updateOnReviewSubmit} />
+            <ReviewWriteBlock lecture={l} key={l.id} review={user.reviews.find(r => (r.lecture.id === l.id))} pageFrom="Dictionary" updateOnSubmit={this.updateOnReviewSubmit} />
           ))
         }
         {
           (filteredReviews == null)
             ? <div className={classNames('section-content--course-detail__list-area', 'list-placeholder')}><div>{t('ui.placeholder.loading')}</div></div>
             : (filteredReviews.length
-              ? <div className={classNames('section-content--course-detail__list-area')}>{filteredReviews.map(r => <ReviewBlock review={r} key={r.id} />)}</div>
+              ? <div className={classNames('section-content--course-detail__list-area')}>{filteredReviews.map(r => <ReviewBlock review={r} pageFrom="Dictionary" key={r.id} />)}</div>
               : <div className={classNames('section-content--course-detail__list-area', 'list-placeholder')}><div>{t('ui.placeholder.noResults')}</div></div>)
         }
       </>

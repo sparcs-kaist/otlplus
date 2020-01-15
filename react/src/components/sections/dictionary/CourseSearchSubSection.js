@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
+import ReactGA from 'react-ga';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 import axios from '../../../common/presetAxios';
@@ -61,6 +62,11 @@ class CourseSearchSubSection extends Component {
       })
       .catch((error) => {
       });
+
+    ReactGA.event({
+      category: 'Dictionary - Search',
+      action: 'Searched Course',
+    });
   }
 
   updateCheckedValues = filterName => (checkedValues) => {

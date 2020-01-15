@@ -24,7 +24,7 @@ class FamousMajorReviewSection extends Component {
         </div>
         {reviews.map(r => (
           <Link to={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: r.course.id }) }} key={r.id}>
-            <ReviewBlock review={r} key={r.id} />
+            <ReviewBlock review={r} pageFrom="Main" key={r.id} />
           </Link>
         ))}
         <div className={classNames('buttons')}>

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { pure } from 'recompose';
 import { withTranslation } from 'react-i18next';
+import ReactGA from 'react-ga';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 import axios from '../../common/presetAxios';
@@ -12,7 +13,7 @@ import reviewShape from '../../shapes/ReviewShape';
 
 
 // eslint-disable-next-line arrow-body-style
-const ReviewWriteBlock = ({ t, lecture, review, updateOnSubmit }) => {
+const ReviewWriteBlock = ({ t, lecture, review, pageFrom, updateOnSubmit }) => {
   const [isUploading, setIsUploading] = useState(false);
   const [savedContent, setSavedContent] = useState(review ? review.comment : '');
   const [savedGrade, setSavedGrade] = useState(review ? review.grade : undefined);
@@ -79,6 +80,12 @@ const ReviewWriteBlock = ({ t, lecture, review, updateOnSubmit }) => {
       })
       .catch((error) => {
       });
+
+    ReactGA.event({
+      category: 'Review',
+      action: !review ? 'Uploaded Review' : 'Edited Review',
+      label: `Lecture : ${lecture.id} / From : Page : ${pageFrom}`,
+    });
   };
 
   const hasChange = (content !== savedContent) || (grade !== savedGrade) || (load !== savedLoad) || (speech !== savedSpeech);
@@ -183,6 +190,7 @@ const ReviewWriteBlock = ({ t, lecture, review, updateOnSubmit }) => {
 ReviewWriteBlock.propTypes = {
   lecture: lectureShape.isRequired,
   review: reviewShape,
+  pageFrom: PropTypes.string.isRequired,
   updateOnSubmit: PropTypes.func.isRequired,
 };
 
