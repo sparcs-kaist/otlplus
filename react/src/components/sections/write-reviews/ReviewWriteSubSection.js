@@ -36,7 +36,7 @@ class ReviewWriteSubSection extends Component {
           <div className={classNames('title')}>
             {`${t('ui.title.writeReview')} - ${selectedLecture[t('js.property.title')]}`}
           </div>
-          <ReviewWriteBlock key={selectedLecture.id} lecture={selectedLecture} review={user.reviews.find(r => (r.lecture.id === selectedLecture.id))} updateOnSubmit={this.updateOnReviewSubmit} />
+          <ReviewWriteBlock key={selectedLecture.id} lecture={selectedLecture} review={user.reviews.find(r => (r.lecture.id === selectedLecture.id))} pageFrom="Write Reviews" updateOnSubmit={this.updateOnReviewSubmit} />
         </div>
         <div className={classNames('divider')} />
       </>
