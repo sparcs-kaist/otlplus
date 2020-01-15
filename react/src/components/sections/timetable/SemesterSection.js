@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
+import ReactGA from 'react-ga';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
@@ -61,6 +62,12 @@ class SemesterSection extends Component {
     const targetSemester = semesters[semesterIdx - 1];
 
     setSemesterDispatch(targetSemester.year, targetSemester.semester);
+
+    ReactGA.event({
+      category: 'Timetable - Semester',
+      action: 'Switched Semester',
+      label: `Semester : ${targetSemester.year}-${targetSemester.semester}`,
+    });
   }
 
   semesterNext() {
@@ -74,6 +81,12 @@ class SemesterSection extends Component {
     const targetSemester = semesters[semesterIdx + 1];
 
     setSemesterDispatch(targetSemester.year, targetSemester.semester);
+
+    ReactGA.event({
+      category: 'Timetable - Semester',
+      action: 'Switched Semester',
+      label: `Semester : ${targetSemester.year}-${targetSemester.semester}`,
+    });
   }
 
   render() {
