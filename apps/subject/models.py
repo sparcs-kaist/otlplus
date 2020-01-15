@@ -1,5 +1,6 @@
 #-*- coding: utf-8 -*-
 from django.db import models
+from django.db.models import Q
 from django.core.cache import cache
 from apps.enum.common import * #for enum type (for choices)
 from datetime import date, time
@@ -327,6 +328,10 @@ class Lecture(models.Model):
                                           year=self.year, semester=self.semester)
         _add_title_format(lectures)
         _add_title_format_en(lectures)
+
+    @classmethod
+    def getQueryResearch(cls):
+        return Q(type_en__in=['Individual Study', 'Thesis Study(Undergraduate)', 'Thesis Research(MA/phD)'])
 
     def __unicode__(self):
         professors_list=self.professors.all()
