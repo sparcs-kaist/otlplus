@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
+import ReactGA from 'react-ga';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
@@ -21,9 +22,21 @@ class TakenLecturesSection extends Component {
 
     if (selectedLecture && (lecture.id === selectedLecture.id)) {
       clearLectureSelectedDispatch();
+
+      ReactGA.event({
+        category: 'Write Reviews - Selection',
+        action: 'Selected Lecture',
+        label: `Lecture : ${lecture.id}`,
+      });
     }
     else {
       setLectureSelectedDispatch(lecture);
+
+      ReactGA.event({
+        category: 'Write Reviews - Selection',
+        action: 'Unelected Lecture',
+        label: `Lecture : ${lecture.id}`,
+      });
     }
   }
 

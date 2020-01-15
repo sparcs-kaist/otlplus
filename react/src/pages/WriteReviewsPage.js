@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import ReactGA from 'react-ga';
 
 import axios from '../common/presetAxios';
 import { BASE_URL } from '../common/constants';
@@ -66,6 +67,14 @@ class WriteReviewsPage extends Component {
       })
       .catch((error) => {
       });
+
+    if (pageNumToLoad !== 0) {
+      ReactGA.event({
+        category: 'Write Reviews - Latest Review',
+        action: 'Loaded More Review',
+        label: `Review Order : ${20 * pageNumToLoad}-${20 * (pageNumToLoad + 1) - 1}`,
+      });
+    }
   }
 
 
