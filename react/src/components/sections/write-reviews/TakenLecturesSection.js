@@ -14,8 +14,6 @@ import userShape from '../../../shapes/UserShape';
 import semesterShape from '../../../shapes/SemesterShape';
 import lectureShape from '../../../shapes/LectureShape';
 
-import { isReviewWritablePlainYearSemester } from '../../../common/semesterFunctions';
-
 
 class TakenLecturesSection extends Component {
   handleBlockClick = lecture => (e) => {
