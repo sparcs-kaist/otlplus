@@ -71,17 +71,3 @@ export const getCurrentSchedule = (semesters) => {
 
   return currentSchedule;
 };
-
-export const isReviewWritableSemester = (semester) => {
-  if (!semester || !semester.courseDropDeadline) {
-    return true;
-  }
-  return new Date(semester.courseDropDeadline) < new Date();
-};
-
-export const isReviewWritablePlainYearSemester = (semesters, year, semester) => {
-  if (!semesters) {
-    return false;
-  }
-  return isReviewWritableSemester(semesters.find(s => ((s.year === year) && (s.semester === semester))));
-};

@@ -13,7 +13,8 @@ const userShape = PropTypes.shape({
   majors: PropTypes.arrayOf(departmentShape).isRequired,
   departments: PropTypes.arrayOf(departmentShape).isRequired,
   favorite_departments: PropTypes.arrayOf(departmentShape),
-  taken_lectures: PropTypes.arrayOf(lectureShape).isRequired,
+  review_writable_lectures: PropTypes.arrayOf(lectureShape).isRequired,
+  my_timetable_lectures: PropTypes.arrayOf(lectureShape).isRequired,
   reviews: PropTypes.arrayOf(reviewShape).isRequired,
 });
 
