@@ -20,8 +20,6 @@ import reviewShape from '../../../shapes/ReviewShape';
 import userShape from '../../../shapes/UserShape';
 import semesterShape from '../../../shapes/SemesterShape';
 
-import { isReviewWritablePlainYearSemester } from '../../../common/semesterFunctions';
-
 
 class ReviewsSubSection extends Component {
   constructor(props) {
