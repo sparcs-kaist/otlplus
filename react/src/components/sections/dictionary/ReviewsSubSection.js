@@ -120,9 +120,8 @@ class ReviewsSubSection extends Component {
     ];
 
     const takenLectureOfCourse = user
-      ? user.taken_lectures
+      ? user.review_writable_lectures
         .filter(l => ((l.course === course.id) && this._lectureProfessorChecker(l, professor)))
-        .filter(l => isReviewWritablePlainYearSemester(semesters, l.year, l.semester))
       : [];
     const filteredReviews = reviews == null
       ? null

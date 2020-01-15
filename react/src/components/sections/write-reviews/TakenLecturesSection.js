@@ -63,7 +63,7 @@ class TakenLecturesSection extends Component {
       );
     }
 
-    const writableTakenLectures = user.taken_lectures.filter(l => isReviewWritablePlainYearSemester(semesters, l.year, l.semester));
+    const writableTakenLectures = user.review_writable_lectures;
     const editableReviews = user.reviews.filter(r => (writableTakenLectures.findIndex(l => l.id === r.lecture.id) !== -1));
 
     const takenSemesters = writableTakenLectures
