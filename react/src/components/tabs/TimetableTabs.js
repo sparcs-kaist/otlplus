@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
+import ReactGA from 'react-ga';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 import axios from '../../common/presetAxios';
@@ -91,6 +92,11 @@ class TimetableTabs extends Component {
 
     setCurrentTimetableDispatch(timetable);
     setMobileShowTimetableTabsDispatch(false);
+
+    ReactGA.event({
+      category: 'Timetable - Timetable',
+      action: 'Switched Timetable',
+    });
   }
 
   createTable() {
@@ -98,9 +104,8 @@ class TimetableTabs extends Component {
 
     if (!user) {
       createTimetableDispatch(this._createRandomTimetableId());
-      return;
     }
-
+    else {
     axios.post(`${BASE_URL}/api/timetable/table_create`, {
       year: year,
       semester: semester,
@@ -115,6 +120,12 @@ class TimetableTabs extends Component {
       })
       .catch((error) => {
       });
+    }
+
+    ReactGA.event({
+      category: 'Timetable - Timetable',
+      action: 'Created Timetable',
+    });
   }
 
   deleteTable(event, timetable) {
@@ -131,8 +142,8 @@ class TimetableTabs extends Component {
     if (timetables.length === 1) {
       // eslint-disable-next-line no-alert
       alert(t('ui.message.lastTimetable'));
-      return;
     }
+    else {
     axios.post(`${BASE_URL}/api/timetable/table_delete`, {
       table_id: timetable.id,
       year: year,
@@ -147,6 +158,12 @@ class TimetableTabs extends Component {
       })
       .catch((error) => {
       });
+    }
+
+    ReactGA.event({
+      category: 'Timetable - Timetable',
+      action: 'Deleted Timetable',
+    });
   }
 
   duplicateTable(event, timetable) {
@@ -156,9 +173,8 @@ class TimetableTabs extends Component {
 
     if (!user) {
       duplicateTimetableDispatch(this._createRandomTimetableId(), timetable);
-      return;
     }
-
+    else {
     axios.post(`${BASE_URL}/api/timetable/table_create`, {
       year: year,
       semester: semester,
@@ -173,6 +189,12 @@ class TimetableTabs extends Component {
       })
       .catch((error) => {
       });
+    }
+
+    ReactGA.event({
+      category: 'Timetable - Timetable',
+      action: 'Duplicated Timetable',
+    });
   }
 
   render() {
