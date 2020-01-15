@@ -203,7 +203,6 @@ def unregister(request):
 @login_required_ajax
 def info(request):
     userProfile = request.user.userprofile
-    taken_lectures = userProfile.take_lecture_list.filter(deleted=False)
     ctx = {
         "id": userProfile.id,
         "email": userProfile.user.email,
@@ -213,7 +212,8 @@ def info(request):
         "majors": [d.toJson() for d in ( ([userProfile.department] if (userProfile.department != None) else []) + list(userProfile.majors.all()) + list(userProfile.minors.all()) )],
         "departments": _user_department(request.user),
         "favorite_departments": [d.toJson() for d in userProfile.favorite_departments.all()],
-        "taken_lectures": [l.toJson() for l in taken_lectures],
+        "review_writable_lectures": [l.toJson() for l in userProfile.getReviewWritableLectureList()],
+        "my_timetable_lectures": [l.toJson() for l in userProfile.take_lecture_list.exclude(Lecture.getQueryResearch())],
         "reviews": [c.toJson(nested=True) for c in userProfile.comment_set.all()],
     }
     return JsonResponse(ctx, safe = False)

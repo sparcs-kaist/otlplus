@@ -51,7 +51,7 @@ class MyTimetableSection extends Component {
       ? getOngoingSemester(semesters)
       : undefined;
     const lectures = (user && ongoingSemester)
-      ? user.taken_lectures.filter(l => (l.year === ongoingSemester.year && l.semester === ongoingSemester.semester))
+      ? user.my_timetable_lectures.filter(l => (l.year === ongoingSemester.year && l.semester === ongoingSemester.semester))
       : [];
     const day = today.getDay();
     const hours = today.getHours();
