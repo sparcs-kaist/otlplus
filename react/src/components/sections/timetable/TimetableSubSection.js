@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
+import ReactGA from 'react-ga';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
@@ -221,6 +222,12 @@ class TimetableSubSection extends Component {
     }
 
     performDeleteFromTable(this, lecture, currentTimetable, user, removeLectureFromTimetableDispatch);
+
+    ReactGA.event({
+      category: 'Timetable - Lecture',
+      action: 'Deleted Lecture from Timetable',
+      label: `Lecture : ${lecture.id} / From : Timetable`,
+    });
   }
 
   render() {

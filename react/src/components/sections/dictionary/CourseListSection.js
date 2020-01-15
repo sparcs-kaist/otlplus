@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
+import ReactGA from 'react-ga';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
@@ -43,13 +44,35 @@ class CourseListSection extends Component {
   }
 
   listClick = course => () => {
-    const { courseActive, setCourseActiveDispatch } = this.props;
+    const { courseActive, currentList, setCourseActiveDispatch } = this.props;
 
     if (!isClicked(course, courseActive)) {
       setCourseActiveDispatch(course, true);
+
+      const labelOfTabs = new Map([
+        ['SEARCH', 'Search'],
+        ['HUMANITY', 'Humanity'],
+        ['TAKEN', 'Taken'],
+      ]);
+      ReactGA.event({
+        category: 'Dictionary - Selection',
+        action: 'Selected Course',
+        label: `Course : ${course.id} / From : Course List : ${labelOfTabs.get(currentList) || currentList}`,
+      });
     }
     else {
       setCourseActiveDispatch(course, false);
+
+      const labelOfTabs = new Map([
+        ['SEARCH', 'Search'],
+        ['HUMANITY', 'Humanity'],
+        ['TAKEN', 'Taken'],
+      ]);
+      ReactGA.event({
+        category: 'Dictionary - Selection',
+        action: 'Unselected Course',
+        label: `Course : ${course.id} / From : Course List : ${labelOfTabs.get(currentList) || currentList}`,
+      });
     }
   }
 

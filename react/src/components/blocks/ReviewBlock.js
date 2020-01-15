@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { pure } from 'recompose';
 import { withTranslation } from 'react-i18next';
+import ReactGA from 'react-ga';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 import axios from '../../common/presetAxios';
@@ -10,7 +12,7 @@ import reviewShape from '../../shapes/ReviewShape';
 
 
 // eslint-disable-next-line arrow-body-style
-const ReviewBlock = ({ t, review }) => {
+const ReviewBlock = ({ t, review, pageFrom }) => {
   const [changedLikes, setChangedLikes] = useState(review.like);
   const [changedIsLiked, setChangedIsLiked] = useState(review.userspecific_is_liked);
 
@@ -27,6 +29,12 @@ const ReviewBlock = ({ t, review }) => {
       })
       .catch((error) => {
       });
+
+    ReactGA.event({
+      category: 'Review',
+      action: 'Liked Review',
+      label: `Review : ${review.id} / From : Page : ${pageFrom}`,
+    });
   };
 
   const onReportClick = (e) => {
@@ -35,6 +43,12 @@ const ReviewBlock = ({ t, review }) => {
 
     // eslint-disable-next-line no-alert
     alert(t('ui.message.reportUnderDevelopment'));
+
+    ReactGA.event({
+      category: 'Review',
+      action: 'Reported Review',
+      label: `Review : ${review.id} / From : Page : ${pageFrom}`,
+    });
   };
 
   const commentLines = review.comment.split('\n');
@@ -114,6 +128,7 @@ const ReviewBlock = ({ t, review }) => {
 
 ReviewBlock.propTypes = {
   review: reviewShape.isRequired,
+  pageFrom: PropTypes.string.isRequired,
 };
 
 

@@ -29,7 +29,7 @@ class ReviewWriteSection extends Component {
         <div className={classNames('title')}>
           {`${t('ui.title.writeReview')} - ${lecture[t('js.property.title')]}`}
         </div>
-        <ReviewWriteBlock lecture={lecture} review={review} updateOnSubmit={this.updateOnReviewSubmit} />
+        <ReviewWriteBlock lecture={lecture} review={review} pageFrom="Main" updateOnSubmit={this.updateOnReviewSubmit} />
         <div className={classNames('buttons')}>
           <button className={classNames('text-button')}>
             {t('ui.button.writeMoreReviews')}
