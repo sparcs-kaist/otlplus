@@ -333,6 +333,10 @@ class Lecture(models.Model):
     def getQueryResearch(cls):
         return Q(type_en__in=['Individual Study', 'Thesis Study(Undergraduate)', 'Thesis Research(MA/phD)'])
 
+    @classmethod
+    def getQueryReviewWritable(cls):
+        return Q(year__lt=2020) # TODO: Change it into semester courseDropDeadline passed
+
     def __unicode__(self):
         professors_list=self.professors.all()
         re_str=u"%s(%s %s"%(self.title, self.old_code, professors_list[0].professor_name)
