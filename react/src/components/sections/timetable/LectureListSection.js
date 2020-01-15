@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
+import ReactGA from 'react-ga';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
@@ -58,24 +59,57 @@ class LectureListSection extends Component {
   }
 
   addToTable = lecture => (event) => {
-    const { currentTimetable, user, addLectureToTimetableDispatch } = this.props;
+    const { currentTimetable, user, currentList, addLectureToTimetableDispatch } = this.props;
 
     event.stopPropagation();
     performAddToTable(this, lecture, currentTimetable, user, addLectureToTimetableDispatch);
+
+    const labelOfTabs = new Map([
+      ['SEARCH', 'Search'],
+      ['HUMANITY', 'Humanity'],
+      ['CART', 'Cart'],
+    ]);
+    ReactGA.event({
+      category: 'Timetable - Lecture',
+      action: 'Added Lecture to Timetable',
+      label: `Lecture : ${lecture.id} / From : Lecture List : ${labelOfTabs.get(currentList) || currentList}`,
+    });
   }
 
   addToCart = lecture => (event) => {
-    const { year, semester, user, addLectureToCartDispatch } = this.props;
+    const { year, semester, user, currentList, addLectureToCartDispatch } = this.props;
 
     event.stopPropagation();
     performAddToCart(this, lecture, year, semester, user, addLectureToCartDispatch);
+
+    const labelOfTabs = new Map([
+      ['SEARCH', 'Search'],
+      ['HUMANITY', 'Humanity'],
+      ['CART', 'Cart'],
+    ]);
+    ReactGA.event({
+      category: 'Timetable - Lecture',
+      action: 'Added Lecture to Cart',
+      label: `Lecture : ${lecture.id} / From : Lecture List : ${labelOfTabs.get(currentList) || currentList}`,
+    });
   }
 
   deleteFromCart = lecture => (event) => {
-    const { year, semester, user, deleteLectureFromCartDispatch } = this.props;
+    const { year, semester, user, currentList, deleteLectureFromCartDispatch } = this.props;
 
     event.stopPropagation();
     performDeleteFromCart(this, lecture, year, semester, user, deleteLectureFromCartDispatch);
+
+    const labelOfTabs = new Map([
+      ['SEARCH', 'Search'],
+      ['HUMANITY', 'Humanity'],
+      ['CART', 'Cart'],
+    ]);
+    ReactGA.event({
+      category: 'Timetable - Lecture',
+      action: 'Deleted Lecture from Cart',
+      label: `Lecture : ${lecture.id} / From : Lecture List : ${labelOfTabs.get(currentList) || currentList}`,
+    });
   }
 
   listHover = lecture => () => {
@@ -107,13 +141,35 @@ class LectureListSection extends Component {
   }
 
   listClick = lecture => () => {
-    const { lectureActive, setLectureActiveDispatch } = this.props;
+    const { lectureActive, currentList, setLectureActiveDispatch } = this.props;
 
     if (!isListClicked(lecture, lectureActive)) {
       setLectureActiveDispatch(lecture, 'LIST', true);
+
+      const labelOfTabs = new Map([
+        ['SEARCH', 'Search'],
+        ['HUMANITY', 'Humanity'],
+        ['CART', 'Cart'],
+      ]);
+      ReactGA.event({
+        category: 'Timetable - Selection',
+        action: 'Selected Lecture',
+        label: `Lecture : ${lecture.id} / From : Lecture List : ${labelOfTabs.get(currentList) || currentList}`,
+      });
     }
     else {
       setLectureActiveDispatch(lecture, 'LIST', false);
+
+      const labelOfTabs = new Map([
+        ['SEARCH', 'Search'],
+        ['HUMANITY', 'Humanity'],
+        ['CART', 'Cart'],
+      ]);
+      ReactGA.event({
+        category: 'Timetable - Selection',
+        action: 'Unselected Lecture',
+        label: `Lecture : ${lecture.id} / From : Lecture List : ${labelOfTabs.get(currentList) || currentList}`,
+      });
     }
   }
 
