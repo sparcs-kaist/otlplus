@@ -143,14 +143,14 @@ class ReviewsSubSection extends Component {
         />
         {
           takenLectureOfCourse.map(l => (
-            <ReviewWriteBlock lecture={l} key={l.id} review={user.reviews.find(r => (r.lecture.id === l.id))} updateOnSubmit={this.updateOnReviewSubmit} />
+            <ReviewWriteBlock lecture={l} key={l.id} review={user.reviews.find(r => (r.lecture.id === l.id))} pageFrom="Dictionary" updateOnSubmit={this.updateOnReviewSubmit} />
           ))
         }
         {
           (filteredReviews == null)
             ? <div className={classNames('section-content--course-detail__list-area', 'list-placeholder')}><div>{t('ui.placeholder.loading')}</div></div>
             : (filteredReviews.length
-              ? <div className={classNames('section-content--course-detail__list-area')}>{filteredReviews.map(r => <ReviewBlock review={r} key={r.id} />)}</div>
+              ? <div className={classNames('section-content--course-detail__list-area')}>{filteredReviews.map(r => <ReviewBlock review={r} pageFrom="Dictionary" key={r.id} />)}</div>
               : <div className={classNames('section-content--course-detail__list-area', 'list-placeholder')}><div>{t('ui.placeholder.noResults')}</div></div>)
         }
       </>

@@ -30,7 +30,7 @@ class LatestReviewsSubSection extends Component {
       <div className={classNames('section-content', 'section-content--latest-reviews')}>
         <div className={classNames('title')}>{t('ui.title.latestReviews')}</div>
         <div className={classNames('section-contentt--latest-reviews__list-area')}>
-          {reviews.map(r => <ReviewBlock review={r} key={r.id} />)}
+          {reviews.map(r => <ReviewBlock review={r} pageFrom="Write Reviews" key={r.id} />)}
         </div>
       </div>
     );
