@@ -82,7 +82,7 @@ class TimetableTabs extends Component {
   _setMyTimetable = () => {
     const { user, year, semester, setMyTimetableLecturesDispatch } = this.props;
 
-    const lectures = user.taken_lectures.filter(l => ((l.year === year) && (l.semester === semester)));
+    const lectures = user.my_timetable_lectures.filter(l => ((l.year === year) && (l.semester === semester)));
     setMyTimetableLecturesDispatch(lectures);
   }
 
