@@ -105,7 +105,7 @@ class ReviewWriteDailyUserFeed(DailyUserFeed):
         try:
             feed = cls.objects.get(date=date, user=user)
         except cls.DoesNotExist:
-            taken_lectures = user.take_lecture_list.exclude(year=2020) # TODO: Change it into semester courseDropDeadline not passed
+            taken_lectures = user.getReviewWritableLectureList()
             if taken_lectures.count() == 0:
                 return None
             selected_lecture = random.choice(taken_lectures)

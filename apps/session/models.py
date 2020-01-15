@@ -40,5 +40,8 @@ class UserProfile(models.Model):
         result = sso_client.modify_point(self.sid, delta, message, 0)
         return result
 
+    def getReviewWritableLectureList(self):
+        return self.take_lecture_list.filter(Lecture.getQueryReviewWritable())
+
     def __unicode__(self):
         return u'%s %s' % (self.user.username, self.student_id)
