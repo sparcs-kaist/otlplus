@@ -6,7 +6,7 @@ import ReactGA from 'react-ga';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
-import Scroller from '../../Scroller2';
+import Scroller from '../../Scroller';
 import LectureSearchSubSection from './LectureSearchSubSection';
 import CourseLecturesBlock from '../../blocks/CourseLecturesBlock';
 

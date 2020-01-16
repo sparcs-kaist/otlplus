@@ -9,7 +9,7 @@ import ReactGA from 'react-ga';
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 import axios, { BASE_URL } from '../../../common/presetAxios';
 
-import Scroller from '../../Scroller2';
+import Scroller from '../../Scroller';
 import ReviewSimpleBlock from '../../blocks/ReviewSimpleBlock';
 
 import { clearLectureActive } from '../../../actions/timetable/lectureActive';
