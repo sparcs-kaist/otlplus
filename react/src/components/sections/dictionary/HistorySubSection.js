@@ -4,10 +4,9 @@ import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
-import axios from '../../../common/presetAxios';
-import { BASE_URL } from '../../../common/constants';
+import axios, { BASE_URL } from '../../../common/presetAxios';
 
-import Scroller from '../../Scroller2';
+import Scroller from '../../Scroller';
 import HistoryLecturesBlock from '../../blocks/HistoryLecturesBlock';
 
 import { setLectures } from '../../../actions/dictionary/courseActive';
@@ -18,10 +17,16 @@ import lectureShape from '../../../shapes/LectureShape';
 
 
 class HistorySubSection extends Component {
-  componentDidMount() {
-    this._fetchLectures();
+  constructor(props) {
+    super(props);
+
     // eslint-disable-next-line fp/no-mutation
     this.scrollRef = React.createRef();
+  }
+
+
+  componentDidMount() {
+    this._fetchLectures();
   }
 
 

@@ -9,13 +9,10 @@
     "i18next": "^19.0.2",
     "i18next-browser-languagedetector": "^4.0.1",
     "i18next-xhr-backend": "^3.2.2",
-    "jquery": "^3.3.1",
     "moment": "^2.24.0",
     "node-sass": "^4.10.0",
-    "popper.js": "^1.14.3",
     "prop-types": "^15.7.2",
     "qs": "^6.7.0",
-    "query-string": "^5.1.1",
     "react": "^16.8.6",
     "react-dom": "^16.3.2",
     "react-ga": "^2.7.0",
@@ -30,7 +27,6 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "start:no-host-check": "DANGEROUSLY_DISABLE_HOST_CHECK=true react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"

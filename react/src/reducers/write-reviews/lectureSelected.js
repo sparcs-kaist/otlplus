@@ -9,7 +9,7 @@ const initialState = {
   lecture: null,
 };
 
-const lectureActive = (state = initialState, action) => {
+const lectureSelected = (state = initialState, action) => {
   switch (action.type) {
     case RESET: {
       return initialState;
@@ -30,4 +30,4 @@ const lectureActive = (state = initialState, action) => {
   }
 };
 
-export default lectureActive;
+export default lectureSelected;
