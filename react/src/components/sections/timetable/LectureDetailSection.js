@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import $ from 'jquery';
 import { withTranslation } from 'react-i18next';
 import qs from 'qs';
 import ReactGA from 'react-ga';
@@ -35,10 +34,13 @@ class LectureDetailSection extends Component {
       reviewsLecture: null,
       reviews: null,
     };
+
     // eslint-disable-next-line fp/no-mutation
     this.openDictRef = React.createRef();
     // eslint-disable-next-line fp/no-mutation
     this.attributesRef = React.createRef();
+    // eslint-disable-next-line fp/no-mutation
+    this.scrollRef = React.createRef();
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -78,9 +80,8 @@ class LectureDetailSection extends Component {
     const { reviews } = this.state;
     const { lecture } = this.props;
 
-    const scrollTop = $(this.openDictRef.current).position().top - $(this.attributesRef.current).position().top + 1;
-    $(`.${classNames('section-content--lecture-detail')} .ScrollbarsCustom-Scroller`).scrollTop(scrollTop);
-    // $(`.${classNames('section-content--lecture-detail')} .nano`).nanoScroller({ scrollTop: scrollTop });
+    const scrollTop = this.openDictRef.current.getBoundingClientRect().top - this.attributesRef.current.getBoundingClientRect().top + 1;
+    this.scrollRef.current.querySelector('.ScrollbarsCustom-Scroller').scrollTop = scrollTop;
 
     if (reviews === null) {
       axios.get(`${BASE_URL}/api/lectures/${lecture.id}/related-comments`, {
@@ -98,8 +99,7 @@ class LectureDetailSection extends Component {
   };
 
   closeDictPreview = () => {
-    $(`.${classNames('section-content--lecture-detail')} .ScrollbarsCustom-Scroller`).scrollTop(0);
-    // $(`.${classNames('section-content--lecture-detail')} .nano`).nanoScroller({ scrollTop: 0 });
+    this.scrollRef.current.querySelector('.ScrollbarsCustom-Scroller').scrollTop = 0;
   };
 
   unfix = () => {
@@ -215,7 +215,7 @@ class LectureDetailSection extends Component {
           ? <div className={classNames('section-content--lecture-detail__list-area')}>{reviews.map(mapreview)}</div>
           : <div className={classNames('section-content--lecture-detail__list-area', 'list-placeholder')}><div>{t('ui.placeholder.noResults')}</div></div>);
       return (
-        <div className={classNames('section-content', 'section-content--lecture-detail', 'section-content--flex')}>
+        <div className={classNames('section-content', 'section-content--lecture-detail', 'section-content--flex')} ref={this.scrollRef}>
           <button className={classNames('close-button')} onClick={this.unfix}><i className={classNames('icon', 'icon--close-section')} /></button>
           <div className={classNames('title')}>
             {lecture[t('js.property.title')]}
@@ -242,7 +242,7 @@ class LectureDetailSection extends Component {
           <Scroller
             onScroll={
               () => {
-                if ($(this.openDictRef.current).position().top <= 0) {
+                if (this.openDictRef.current.getBoundingClientRect().top - this.openDictRef.current.closest('.ScrollbarsCustom-Scroller').getBoundingClientRect().top <= 0) {
                   this.setState({ showCloseDict: true });
                 }
                 else {
