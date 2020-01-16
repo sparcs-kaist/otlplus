@@ -17,10 +17,16 @@ import lectureShape from '../../../shapes/LectureShape';
 
 
 class HistorySubSection extends Component {
-  componentDidMount() {
-    this._fetchLectures();
+  constructor(props) {
+    super(props);
+
     // eslint-disable-next-line fp/no-mutation
     this.scrollRef = React.createRef();
+  }
+
+
+  componentDidMount() {
+    this._fetchLectures();
   }
 
 
