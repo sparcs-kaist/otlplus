@@ -6,7 +6,7 @@ import { withTranslation } from 'react-i18next';
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 import axios, { BASE_URL } from '../../../common/presetAxios';
 
-import Scroller from '../../Scroller2';
+import Scroller from '../../Scroller';
 import HistoryLecturesBlock from '../../blocks/HistoryLecturesBlock';
 
 import { setLectures } from '../../../actions/dictionary/courseActive';

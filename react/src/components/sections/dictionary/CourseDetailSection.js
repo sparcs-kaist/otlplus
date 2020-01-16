@@ -6,7 +6,7 @@ import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
-import Scroller from '../../Scroller2';
+import Scroller from '../../Scroller';
 import RelatedSubSection from './RelatedSubSection';
 import HistorySubSection from './HistorySubSection';
 import ReviewsSubSection from './ReviewsSubSection';
