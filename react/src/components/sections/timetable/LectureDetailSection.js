@@ -8,8 +8,7 @@ import qs from 'qs';
 import ReactGA from 'react-ga';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
-import axios from '../../../common/presetAxios';
-import { BASE_URL } from '../../../common/constants';
+import axios, { BASE_URL } from '../../../common/presetAxios';
 
 import Scroller from '../../Scroller2';
 import ReviewSimpleBlock from '../../blocks/ReviewSimpleBlock';
