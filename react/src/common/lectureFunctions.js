@@ -1,6 +1,5 @@
 import { LIST, TABLE, MULTIPLE } from '../reducers/timetable/lectureActive';
-import axios from './presetAxios';
-import { BASE_URL } from './constants';
+import axios, { BASE_URL } from './presetAxios';
 
 
 export const inTimetable = (lecture, timetable) => (

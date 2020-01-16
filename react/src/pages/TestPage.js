@@ -2,8 +2,7 @@
 
 import React, { Component } from 'react';
 
-import axios from '../common/presetAxios';
-import { BASE_URL } from '../common/constants';
+import axios, { BASE_URL } from '../common/presetAxios';
 
 
 class TestPage extends Component {

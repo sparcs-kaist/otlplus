@@ -13,18 +13,20 @@ import MainPage from './pages/MainPage';
 import AccountPage from './pages/AccountPage';
 import CreditPage from './pages/CreditPage';
 import LicensePage from './pages/LicensePage';
+import TestPage from './pages/TestPage';
+import ErrorPage from './pages/ErrorPage';
 
 import './common/i18n';
-import axios from './common/presetAxios';
-import { BASE_URL } from './common/constants';
+import axios, { BASE_URL } from './common/presetAxios';
+
 import dictionaryReducer from './reducers/dictionary/index';
 import timetableReducer from './reducers/timetable/index';
 import writeReviewsReducer from './reducers/write-reviews/index';
 import commonReducer from './reducers/common/index';
+
 import { setUser } from './actions/common/user';
 import { setSemesters } from './actions/common/semester';
-import TestPage from './pages/TestPage';
-import ErrorPage from './pages/ErrorPage';
+
 
 const store = createStore(combineReducers({
   common: commonReducer,
