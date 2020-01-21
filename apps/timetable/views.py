@@ -447,10 +447,10 @@ def share_image(request):
 
     for l in timetable.lecture.all():
         lDict = l.toJson(nested=False)
-        color = ['#F2CECE','#F4AEAE','#F2BCA0','#F1D6B2',
+        color = ['#F2CECE','#F4B3AE','#F2BCA0','#F0D3AB',
                  '#F1E1A9','#f4f2b3','#dbf4be','#beedd7',
-                 '#b7e2de','#c9eaf4','#b4c9ed','#b4bbef',
-                 '#c4c3e5','#bcabef','#e1caef','#f4badb'][lDict['course']%16]
+                 '#b7e2de','#c9eaf4','#B4D3ED','#B9C5ED',
+                 '#CCC6ED','#D8C1F0','#EBCAEF','#f4badb'][lDict['course']%16]
         for c in lDict['classtimes']:
             day = c['day']
             begin = c['begin'] / 30 - 16
