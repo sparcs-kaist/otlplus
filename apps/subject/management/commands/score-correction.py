@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.core.management.base import BaseCommand
 from apps.subject.models import Course,  Lecture, Professor
-from apps.review.models import Comment
+from apps.review.models import Review
 class Command(BaseCommand):
     help = '--score correction--'
     def handle(related, *args, **options):
@@ -25,11 +25,11 @@ class Command(BaseCommand):
             print str(i) + " / " + str(related_len)
             i+=1
         print "initialize completed!"
-        for comment in Comment.objects.all():
+        for comment in Review.objects.all():
             if comment.grade == 0 or \
                comment.load == 0 or \
                comment.speech == 0:
-                # Comment with scores '?'
+                # Review with scores '?'
                 continue
 
             course = comment.course

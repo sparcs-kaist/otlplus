@@ -8,7 +8,7 @@ from utils.decorators import login_required_ajax
 
 from models import Semester, Course, Lecture
 from apps.session.models import UserProfile
-from apps.review.models import Comment
+from apps.review.models import Review
 
 import datetime
 
@@ -153,7 +153,7 @@ def courses_list_autocomplete_view(request):
 def courses_instance_comments_view(request, course_id):
     if request.method == 'GET':
         course = get_object_or_404(Course, id=course_id)
-        comments = course.comment_set.all().order_by('-lecture__year','-written_datetime')
+        comments = course.reviews.all().order_by('-lecture__year','-written_datetime')
 
         comments = comments[:100]
         result = [c.toJson(user=request.user) for c in comments]
@@ -325,7 +325,7 @@ def lectures_list_autocomplete_view(request):
 def lectures_instance_comments_view(request, lecture_id):
     if request.method == 'GET':
         lecture = get_object_or_404(Lecture, id=lecture_id)
-        comments = lecture.comment_set.all().order_by('-id')
+        comments = lecture.reviews.all().order_by('-id')
 
         result = [c.toJson() for c in comments]
         return JsonResponse(result, safe=False)
@@ -335,7 +335,7 @@ def lectures_instance_comments_view(request, lecture_id):
 def lectures_instance_related_comments_view(request, lecture_id):
     if request.method == 'GET':
         lecture = get_object_or_404(Lecture, id=lecture_id)
-        comments = Comment.objects.filter(
+        comments = Review.objects.filter(
             lecture__course=lecture.course,
             lecture__professors__in=lecture.professors.all(),
         ).order_by('-id')
