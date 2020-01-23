@@ -4,7 +4,7 @@
 from apps.session.models import UserProfile
 from apps.timetable.models import TimeTable, Wishlist
 from apps.subject.models import Lecture, Professor, Course, Semester
-from apps.review.models import Comment
+from apps.review.models import Review
 from apps.subject.models import *
 from django.contrib.auth.models import User
 

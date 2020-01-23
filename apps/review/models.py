@@ -5,17 +5,17 @@ from apps.subject.models import Course, Lecture, Professor
 from apps.session.models import UserProfile
 
 
-class Comment(models.Model):
-    course = models.ForeignKey(Course, db_index=True)
-    lecture = models.ForeignKey(Lecture, db_index=True)
+class Review(models.Model):
+    course = models.ForeignKey(Course, db_index=True, related_name='reviews')
+    lecture = models.ForeignKey(Lecture, db_index=True, related_name='reviews')
 
-    comment = models.CharField(max_length=65536)
+    content = models.CharField(max_length=65536)
     grade = models.SmallIntegerField(default=0)
     load = models.SmallIntegerField(default=0)
     speech = models.SmallIntegerField(default=0)
     total = models.FloatField(default=0.0)
 
-    writer = models.ForeignKey(UserProfile, related_name='comment_set', db_index=True, on_delete=models.SET_NULL, null=True)
+    writer = models.ForeignKey(UserProfile, related_name='reviews', db_index=True, on_delete=models.SET_NULL, null=True)
     writer_label = models.CharField(max_length=200, default=u"무학과 넙죽이")
     updated_datetime = models.DateTimeField(auto_now=True, db_index=True)
     written_datetime = models.DateTimeField(auto_now_add=True, db_index=True, null=True)
@@ -33,7 +33,7 @@ class Comment(models.Model):
             if (not user) or (not user.is_authenticated()):
                 is_liked = False
             else:
-                is_liked = CommentVote.objects.filter(comment = self, userprofile__user = user).exists()
+                is_liked = ReviewVote.objects.filter(review = self, userprofile__user = user).exists()
             result.update({
                 'userspecific_is_liked': is_liked,
             })
@@ -50,7 +50,7 @@ class Comment(models.Model):
             'id': self.id,
             'course': self.course.toJson(nested=True),
             'lecture': self.lecture.toJson(nested=True),
-            'comment': self.comment if (not self.is_deleted) else '관리자에 의해 삭제된 코멘트입니다.',
+            'content': self.content if (not self.is_deleted) else '관리자에 의해 삭제된 코멘트입니다.',
             'like': self.like,
             'is_deleted': self.is_deleted,
             'grade': self.grade,
@@ -72,7 +72,7 @@ class Comment(models.Model):
         return result
     
     def recalc_like(self):
-        self.like = self.comment_vote.all().count()
+        self.like = self.votes.all().count()
         cache.delete("review:%d:nested" % self.id)
         cache.delete("review:%d:normal" % self.id)
         self.save()
@@ -85,7 +85,7 @@ class Comment(models.Model):
         return (d[self.grade], d[self.load], d[self.speech], d[int(round(self.total))])
 
     @classmethod
-    def u_create(cls, course, lecture, comment, grade, load, speech, writer):
+    def u_create(cls, course, lecture, content, grade, load, speech, writer):
         professors = lecture.professors.all()
         lectures = Lecture.objects.filter(course=course, professors__in=professors)
         related_list = [course]+list(lectures)+list(professors)
@@ -93,16 +93,16 @@ class Comment(models.Model):
             related.grade_sum += grade*3
             related.load_sum += load*3
             related.speech_sum += speech*3
-            related.comment_num += 1
+            related.review_num += 1
             related.avg_update()
             related.save()
-        new = cls(course=course, lecture=lecture, comment=comment, grade=grade, load=load, speech=speech, total=(grade+load+speech)/3.0, writer=writer)
+        new = cls(course=course, lecture=lecture, content=content, grade=grade, load=load, speech=speech, total=(grade+load+speech)/3.0, writer=writer)
         new.save()
         course.latest_written_datetime = new.written_datetime
         course.save()
         return new
 
-    def u_update(self, comment, grade, load, speech):
+    def u_update(self, content, grade, load, speech):
         course = self.course
         lecture = self.lecture
         professors = lecture.professors.all()
@@ -114,7 +114,7 @@ class Comment(models.Model):
             related.speech_sum += (self.like+1)*(speech - self.speech)*3
             related.avg_update()
             related.save()
-        self.comment = comment
+        self.content = content
         self.grade = grade
         self.load = load
         self.speech = speech
@@ -134,51 +134,51 @@ class Comment(models.Model):
             related.grade_sum -= (self.like+1)*self.grade*3
             related.load_sum -= (self.like+1)*self.load*3
             related.speech_sum -= (self.like+1)*self.speech*3
-            related.comment_num -= (self.like+1)
+            related.review_num -= (self.like+1)
             related.avg_update()
             related.save()
         self.delete()
 
 
-class CommentVote(models.Model):
-    comment = models.ForeignKey(Comment, related_name="comment_vote", null=False)
-    userprofile = models.ForeignKey(UserProfile, related_name="comment_vote", on_delete=models.SET_NULL, null=True)
+class ReviewVote(models.Model):
+    review = models.ForeignKey(Review, related_name="votes", null=False)
+    userprofile = models.ForeignKey(UserProfile, related_name="review_votes", on_delete=models.SET_NULL, null=True)
     is_up = models.BooleanField(null=False)
 
     class Meta:
-        unique_together = (("comment", "userprofile",))
+        unique_together = (("review", "userprofile",))
 
     @classmethod
-    def cv_create(cls, comment, userprofile):
-        professors = comment.lecture.professors.all()
-        lectures = Lecture.objects.filter(course=comment.course, professors__in=professors)
-        related_list = [comment.course]+list(lectures)+list(professors)
-        if comment.grade > 0 and comment.load > 0 and comment.speech > 0 :
+    def cv_create(cls, review, userprofile):
+        professors = review.lecture.professors.all()
+        lectures = Lecture.objects.filter(course=review.course, professors__in=professors)
+        related_list = [review.course]+list(lectures)+list(professors)
+        if review.grade > 0 and review.load > 0 and review.speech > 0 :
             for related in related_list:
-                related.grade_sum += comment.grade*3
-                related.load_sum += comment.load*3
-                related.speech_sum += comment.speech*3
-                related.comment_num += 1
+                related.grade_sum += review.grade*3
+                related.load_sum += review.load*3
+                related.speech_sum += review.speech*3
+                related.review_num += 1
                 related.avg_update()
                 related.save()
-        comment.like +=1
-        comment.save()
-        new = cls(userprofile=userprofile, comment=comment, is_up = True)
+        review.like +=1
+        review.save()
+        new = cls(userprofile=userprofile, review=review, is_up = True)
         new.save()
         return new
 
 
-class MajorBestComment(models.Model):
-    comment = models.OneToOneField(Comment, related_name="major_best_comment", null=False, primary_key=True)
+class MajorBestReview(models.Model):
+    review = models.OneToOneField(Review, related_name="major_best_review", null=False, primary_key=True)
 
     def __unicode__(self):
-        return u"%s(%s)"%(self.comment.lecture,self.comment.writer)
+        return u"%s(%s)"%(self.review.lecture,self.review.writer)
 
 
-class LiberalBestComment(models.Model):
-    comment = models.OneToOneField(Comment, related_name="liberal_best_comment", null=False, primary_key=True)
+class HumanityBestReview(models.Model):
+    review = models.OneToOneField(Review, related_name="liberal_best_review", null=False, primary_key=True)
 
     def __unicode__(self):
-        return u"%s(%s)"%(self.comment.lecture,self.comment.writer)
+        return u"%s(%s)"%(self.review.lecture,self.review.writer)
 
 

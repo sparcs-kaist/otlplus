@@ -1,10 +1,10 @@
 from django.contrib import admin
-from apps.review.models import Comment, MajorBestComment, LiberalBestComment
+from apps.review.models import Review, MajorBestReview, HumanityBestReview
 
-class CommentAdmin(admin.ModelAdmin):
+class ReviewAdmin(admin.ModelAdmin):
     raw_id_fields = 'course', 'lecture', 'writer',
-class MajorBestCommentAdmin(admin.ModelAdmin):
+class MajorBestReviewAdmin(admin.ModelAdmin):
     pass
-admin.site.register(Comment,CommentAdmin)
-admin.site.register(MajorBestComment)
-admin.site.register(LiberalBestComment)
+admin.site.register(Review,ReviewAdmin)
+admin.site.register(MajorBestReview)
+admin.site.register(HumanityBestReview)

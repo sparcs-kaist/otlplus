@@ -2,7 +2,7 @@ from django.db import models
 
 from apps.session.models import UserProfile
 from apps.subject.models import Lecture, Department, Course
-from apps.review.models import Comment, MajorBestComment, LiberalBestComment
+from apps.review.models import Review, MajorBestReview, HumanityBestReview
 
 import random
 
@@ -36,7 +36,7 @@ class DailyUserFeed(DailyFeed):
 
 class FamousMajorReviewDailyFeed(DailyFeed):
     department = models.ForeignKey(Department)
-    reviews = models.ManyToManyField(Comment)
+    reviews = models.ManyToManyField(Review)
 
     class Meta:
         unique_together = [['date', 'department']]
@@ -46,10 +46,10 @@ class FamousMajorReviewDailyFeed(DailyFeed):
         try:
             feed = cls.objects.get(date=date, department=department)
         except cls.DoesNotExist:
-            reviews = MajorBestComment.objects.filter(comment__lecture__department=department)
+            reviews = MajorBestReview.objects.filter(review__lecture__department=department)
             if reviews.count() < 3:
                 return None
-            selected_reviews = random.sample([r.comment for r in reviews], 3)
+            selected_reviews = random.sample([r.review for r in reviews], 3)
             feed = cls.objects.create(date=date, department=department, priority=random.random())
             feed.reviews.add(*selected_reviews)
         return feed
@@ -66,7 +66,7 @@ class FamousMajorReviewDailyFeed(DailyFeed):
 
 
 class FamousHumanityReviewDailyFeed(DailyFeed):
-    reviews = models.ManyToManyField(Comment)
+    reviews = models.ManyToManyField(Review)
 
     class Meta:
         unique_together = [['date']]
@@ -76,10 +76,10 @@ class FamousHumanityReviewDailyFeed(DailyFeed):
         try:
             feed = cls.objects.get(date=date)
         except cls.DoesNotExist:
-            reviews = LiberalBestComment.objects.filter(comment__lecture__type_en="Humanities & Social Elective")
+            reviews = HumanityBestReview.objects.filter(review__lecture__type_en="Humanities & Social Elective")
             if reviews.count() < 3:
                 return None
-            selected_reviews = random.sample([r.comment for r in reviews], 3)
+            selected_reviews = random.sample([r.review for r in reviews], 3)
             feed = cls.objects.create(date=date, priority=random.random())
             feed.reviews.add(*selected_reviews)
         return feed

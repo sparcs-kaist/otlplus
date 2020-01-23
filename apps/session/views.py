@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
 from django.conf import settings
 from apps.subject.models import Department, Lecture
-from apps.review.models import Comment
+from apps.review.models import Review
 from apps.timetable.models import OldTimeTable
 from apps.timetable.views import _user_department
 from apps.session.models import UserProfile
@@ -214,7 +214,7 @@ def info(request):
         "favorite_departments": [d.toJson() for d in userProfile.favorite_departments.all()],
         "review_writable_lectures": [l.toJson() for l in userProfile.getReviewWritableLectureList()],
         "my_timetable_lectures": [l.toJson() for l in userProfile.take_lecture_list.exclude(Lecture.getQueryResearch())],
-        "reviews": [c.toJson(nested=True) for c in userProfile.comment_set.all()],
+        "reviews": [c.toJson(nested=True) for c in userProfile.reviews.all()],
     }
     return JsonResponse(ctx, safe = False)
 
