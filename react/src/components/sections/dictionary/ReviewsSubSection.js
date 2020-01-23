@@ -49,11 +49,11 @@ class ReviewsSubSection extends Component {
     const { course, setReviewsDispatch } = this.props;
 
     axios.get(
-      `${BASE_URL}/api/courses/${course.id}/comments`,
+      `${BASE_URL}/api/courses/${course.id}/reviews`,
       {
         metadata: {
           gaCategory: 'Course',
-          gaVariable: 'GET Comments / Instance',
+          gaVariable: 'GET Reviews / Instance',
         },
       },
     )
