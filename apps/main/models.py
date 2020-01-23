@@ -2,7 +2,7 @@ from django.db import models
 
 from apps.session.models import UserProfile
 from apps.subject.models import Lecture, Department, Course
-from apps.review.models import Comment, MajorBestComment, LiberalBestComment
+from apps.review.models import Review, MajorBestComment, LiberalBestComment
 
 import random
 
@@ -36,7 +36,7 @@ class DailyUserFeed(DailyFeed):
 
 class FamousMajorReviewDailyFeed(DailyFeed):
     department = models.ForeignKey(Department)
-    reviews = models.ManyToManyField(Comment)
+    reviews = models.ManyToManyField(Review)
 
     class Meta:
         unique_together = [['date', 'department']]
@@ -66,7 +66,7 @@ class FamousMajorReviewDailyFeed(DailyFeed):
 
 
 class FamousHumanityReviewDailyFeed(DailyFeed):
-    reviews = models.ManyToManyField(Comment)
+    reviews = models.ManyToManyField(Review)
 
     class Meta:
         unique_together = [['date']]

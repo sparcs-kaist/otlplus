@@ -5,9 +5,9 @@ from apps.subject.models import Course, Lecture, Professor
 from apps.session.models import UserProfile
 
 
-class Comment(models.Model):
-    course = models.ForeignKey(Course, db_index=True)
-    lecture = models.ForeignKey(Lecture, db_index=True)
+class Review(models.Model):
+    course = models.ForeignKey(Course, db_index=True, related_name='reviews')
+    lecture = models.ForeignKey(Lecture, db_index=True, related_name='reviews')
 
     comment = models.CharField(max_length=65536)
     grade = models.SmallIntegerField(default=0)
@@ -15,7 +15,7 @@ class Comment(models.Model):
     speech = models.SmallIntegerField(default=0)
     total = models.FloatField(default=0.0)
 
-    writer = models.ForeignKey(UserProfile, related_name='comment_set', db_index=True, on_delete=models.SET_NULL, null=True)
+    writer = models.ForeignKey(UserProfile, related_name='reviews', db_index=True, on_delete=models.SET_NULL, null=True)
     writer_label = models.CharField(max_length=200, default=u"무학과 넙죽이")
     updated_datetime = models.DateTimeField(auto_now=True, db_index=True)
     written_datetime = models.DateTimeField(auto_now_add=True, db_index=True, null=True)
@@ -141,7 +141,7 @@ class Comment(models.Model):
 
 
 class CommentVote(models.Model):
-    comment = models.ForeignKey(Comment, related_name="comment_vote", null=False)
+    comment = models.ForeignKey(Review, related_name="comment_vote", null=False)
     userprofile = models.ForeignKey(UserProfile, related_name="comment_vote", on_delete=models.SET_NULL, null=True)
     is_up = models.BooleanField(null=False)
 
@@ -169,14 +169,14 @@ class CommentVote(models.Model):
 
 
 class MajorBestComment(models.Model):
-    comment = models.OneToOneField(Comment, related_name="major_best_comment", null=False, primary_key=True)
+    comment = models.OneToOneField(Review, related_name="major_best_comment", null=False, primary_key=True)
 
     def __unicode__(self):
         return u"%s(%s)"%(self.comment.lecture,self.comment.writer)
 
 
 class LiberalBestComment(models.Model):
-    comment = models.OneToOneField(Comment, related_name="liberal_best_comment", null=False, primary_key=True)
+    comment = models.OneToOneField(Review, related_name="liberal_best_comment", null=False, primary_key=True)
 
     def __unicode__(self):
         return u"%s(%s)"%(self.comment.lecture,self.comment.writer)

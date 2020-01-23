@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand
-from apps.review.models import MajorBestComment, LiberalBestComment,Comment
+from apps.review.models import MajorBestComment, LiberalBestComment, Review
 from datetime import datetime, timedelta, time, date
 from django.utils import timezone
 from django.db.models import Q
@@ -12,7 +12,7 @@ class Command(BaseCommand):
         first_date = timezone.now() - timedelta(days = 1 )
         last_date_all = timezone.now()
         first_date_all = timezone.now() - timedelta(days = 600)
-        Comment_latest = Comment.objects.filter(written_datetime__range=(first_date, last_date))
+        Comment_latest = Review.objects.filter(written_datetime__range=(first_date, last_date))
         Comment_liberal = list(Comment_latest.filter(Q(course__department__code="HSS")))
         Comment_major = list(Comment_latest.filter(~Q(course__department__code="HSS")))
 

@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect, render_to_response
 from django.template import RequestContext
 from apps.session.models import UserProfile
 from apps.subject.models import Course, Lecture, Department, CourseFiltered, Professor, CourseUser
-from apps.review.models import Comment,CommentVote, MajorBestComment, LiberalBestComment
+from apps.review.models import Review,CommentVote, MajorBestComment, LiberalBestComment
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseBadRequest, JsonResponse, Http404
 from django.db.models import Q
 from django.views.decorators.http import require_http_methods
@@ -82,7 +82,7 @@ def ReviewLike(request):
         if request.method == 'POST':
             user = request.user
             user_profile = user.userprofile
-            target_review = Comment.objects.get(id=body['commentid'])
+            target_review = Review.objects.get(id=body['commentid'])
             if CommentVote.objects.filter(comment = target_review, userprofile = user_profile).exists():
                 already_up = True
             else:
@@ -141,10 +141,10 @@ def insertReview(request,lecture_id):
     writer = user_profile #session 완성시 변경
 
     try :
-        target_comment = user_profile.comment_set.get(lecture=lecture)
+        target_comment = user_profile.reviews.get(lecture=lecture)
         if target_comment.is_deleted == 0: target_comment.u_update(grade=grade, load=load, speech=speech, comment=comment)
-    except Comment.DoesNotExist :
-        target_comment = Comment.u_create(course=course, lecture=lecture, comment=comment, grade=grade, load=load, speech=speech, writer=writer)
+    except Review.DoesNotExist :
+        target_comment = Review.u_create(course=course, lecture=lecture, comment=comment, grade=grade, load=load, speech=speech, writer=writer)
     return JsonResponse(target_comment.toJson(), safe=False)
 
 
@@ -152,7 +152,7 @@ def latest(request, page=-1):
     page = int(page)
     PAGE_SIZE = 20
 
-    comments = Comment.objects.all().order_by('-written_datetime')
+    comments = Review.objects.all().order_by('-written_datetime')
 
     comments = comments[PAGE_SIZE * page : PAGE_SIZE * (page+1)]
 

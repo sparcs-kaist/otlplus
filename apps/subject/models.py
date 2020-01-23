@@ -235,12 +235,12 @@ class Lecture(models.Model):
         return result
 
     def recalc_score(self):
-        from apps.review.models import Comment
+        from apps.review.models import Review
         self.comment_num = 0
         self.grade_sum = 0
         self.load_sum = 0
         self.speech_sum = 0
-        for c in Comment.objects.filter(lecture__course=self.course,
+        for c in Review.objects.filter(lecture__course=self.course,
                                         lecture__professors__in=self.professors.all()):
             if c.grade > 0:
                 self.comment_num += (c.like+1)
