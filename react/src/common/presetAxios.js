@@ -39,6 +39,7 @@ axios.interceptors.response.use(
   (error) => {
     error.config.metadata.endTime = new Date();
     error.config.metadata.duration = error.config.metadata.endTime - error.config.metadata.startTime;
+    return Promise.reject(error);
   },
 );
 

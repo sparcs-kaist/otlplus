@@ -236,6 +236,7 @@ header, footer {
     $names: language, notification, user, menu_list, menu_close;
     @each $name in $names {
         i.icon--header_#{$name} {
+            vertical-align: top;
             display: inline-block;
             background: none no-repeat center center;
             background-image: url('../static/icons/guideline/header_#{$name}.svg');

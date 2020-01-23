@@ -151,7 +151,7 @@ class CourseSearchSubSection extends Component {
 
   render() {
     const { t } = this.props;
-    const { inputVal, autoComplete } = this.state;
+    const { inputVal, autoComplete, type, department, grade, term } = this.state;
 
     const typeOptions = [
       ['ALL', t('ui.type.allShort')],
@@ -219,28 +219,28 @@ class CourseSearchSubSection extends Component {
               inputName="type"
               titleName={t('ui.search.type')}
               options={typeOptions}
-              checkedValues={this.state.type}
+              checkedValues={type}
             />
             <SearchFilter
               updateCheckedValues={this.updateCheckedValues('department')}
               inputName="department"
               titleName={t('ui.search.department')}
               options={departmentOptions}
-              checkedValues={this.state.department}
+              checkedValues={department}
             />
             <SearchFilter
               updateCheckedValues={this.updateCheckedValues('grade')}
               inputName="grade"
               titleName={t('ui.search.level')}
               options={levelOptions}
-              checkedValues={this.state.grade}
+              checkedValues={grade}
             />
             <SearchFilter
               updateCheckedValues={this.updateCheckedValues('term')}
               inputName="term"
               titleName={t('ui.search.term')}
               options={termOptions}
-              checkedValues={this.state.term}
+              checkedValues={term}
             />
           </div>
           <div className={classNames('buttons')}>

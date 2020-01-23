@@ -18,7 +18,6 @@ import { addCourseRead } from '../../../actions/dictionary/list';
 import courseShape from '../../../shapes/CourseShape';
 import reviewShape from '../../../shapes/ReviewShape';
 import userShape from '../../../shapes/UserShape';
-import semesterShape from '../../../shapes/SemesterShape';
 
 
 class ReviewsSubSection extends Component {
@@ -129,7 +128,7 @@ class ReviewsSubSection extends Component {
   render() {
     const { t } = this.props;
     const { professor } = this.state;
-    const { user, semesters, course, reviews } = this.props;
+    const { user, course, reviews } = this.props;
 
     const professorOptions = [
       ['ALL', t('ui.type.allShort')],
@@ -154,7 +153,7 @@ class ReviewsSubSection extends Component {
           inputName="professor"
           titleName={t('ui.search.professor')}
           options={professorOptions}
-          checkedValues={this.state.professor}
+          checkedValues={professor}
         />
         {
           takenLectureOfCourse.map(l => (
@@ -175,7 +174,6 @@ class ReviewsSubSection extends Component {
 
 const mapStateToProps = state => ({
   user: state.common.user.user,
-  semesters: state.common.semester.semesters,
   clicked: state.dictionary.courseActive.clicked,
   course: state.dictionary.courseActive.course,
   reviews: state.dictionary.courseActive.reviews,
@@ -198,7 +196,6 @@ const mapDispatchToProps = dispatch => ({
 
 ReviewsSubSection.propTypes = {
   user: userShape,
-  semesters: semesterShape,
   clicked: PropTypes.bool.isRequired,
   course: courseShape,
   reviews: PropTypes.arrayOf(reviewShape),
