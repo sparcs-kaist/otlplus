@@ -22,7 +22,7 @@ const ReviewBlock = ({ t, review, pageFrom }) => {
     axios.post(
       `${BASE_URL}/api/review/like`,
       {
-        commentid: review.id,
+        reviewid: review.id,
       },
       {
         metadata: {
