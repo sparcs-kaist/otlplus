@@ -33,7 +33,7 @@ class Review(models.Model):
             if (not user) or (not user.is_authenticated()):
                 is_liked = False
             else:
-                is_liked = CommentVote.objects.filter(comment = self, userprofile__user = user).exists()
+                is_liked = ReviewVote.objects.filter(comment = self, userprofile__user = user).exists()
             result.update({
                 'userspecific_is_liked': is_liked,
             })
@@ -140,7 +140,7 @@ class Review(models.Model):
         self.delete()
 
 
-class CommentVote(models.Model):
+class ReviewVote(models.Model):
     comment = models.ForeignKey(Review, related_name="comment_vote", null=False)
     userprofile = models.ForeignKey(UserProfile, related_name="comment_vote", on_delete=models.SET_NULL, null=True)
     is_up = models.BooleanField(null=False)
@@ -168,14 +168,14 @@ class CommentVote(models.Model):
         return new
 
 
-class MajorBestComment(models.Model):
+class MajorBestReview(models.Model):
     comment = models.OneToOneField(Review, related_name="major_best_comment", null=False, primary_key=True)
 
     def __unicode__(self):
         return u"%s(%s)"%(self.comment.lecture,self.comment.writer)
 
 
-class LiberalBestComment(models.Model):
+class HumanityBestReview(models.Model):
     comment = models.OneToOneField(Review, related_name="liberal_best_comment", null=False, primary_key=True)
 
     def __unicode__(self):

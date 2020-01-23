@@ -2,7 +2,7 @@ from django.db import models
 
 from apps.session.models import UserProfile
 from apps.subject.models import Lecture, Department, Course
-from apps.review.models import Review, MajorBestComment, LiberalBestComment
+from apps.review.models import Review, MajorBestReview, HumanityBestReview
 
 import random
 
@@ -46,7 +46,7 @@ class FamousMajorReviewDailyFeed(DailyFeed):
         try:
             feed = cls.objects.get(date=date, department=department)
         except cls.DoesNotExist:
-            reviews = MajorBestComment.objects.filter(comment__lecture__department=department)
+            reviews = MajorBestReview.objects.filter(comment__lecture__department=department)
             if reviews.count() < 3:
                 return None
             selected_reviews = random.sample([r.comment for r in reviews], 3)
@@ -76,7 +76,7 @@ class FamousHumanityReviewDailyFeed(DailyFeed):
         try:
             feed = cls.objects.get(date=date)
         except cls.DoesNotExist:
-            reviews = LiberalBestComment.objects.filter(comment__lecture__type_en="Humanities & Social Elective")
+            reviews = HumanityBestReview.objects.filter(comment__lecture__type_en="Humanities & Social Elective")
             if reviews.count() < 3:
                 return None
             selected_reviews = random.sample([r.comment for r in reviews], 3)

@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect, render_to_response
 from django.template import RequestContext
 from apps.session.models import UserProfile
 from apps.subject.models import Course, Lecture, Department, CourseFiltered, Professor, CourseUser
-from apps.review.models import Review,CommentVote, MajorBestComment, LiberalBestComment
+from apps.review.models import Review, ReviewVote, MajorBestReview, HumanityBestReview
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseBadRequest, JsonResponse, Http404
 from django.db.models import Q
 from django.views.decorators.http import require_http_methods
@@ -83,10 +83,10 @@ def ReviewLike(request):
             user = request.user
             user_profile = user.userprofile
             target_review = Review.objects.get(id=body['commentid'])
-            if CommentVote.objects.filter(comment = target_review, userprofile = user_profile).exists():
+            if ReviewVote.objects.filter(comment = target_review, userprofile = user_profile).exists():
                 already_up = True
             else:
-                CommentVote.cv_create(target_review,user_profile) #session 완성시 변경
+                ReviewVote.cv_create(target_review,user_profile) #session 완성시 변경
             likes_count = target_review.like
     ctx = {'likes_count': likes_count, 'already_up': already_up, 'is_login':is_login, 'id': body['commentid']}
     return JsonResponse(ctx,safe=False)
