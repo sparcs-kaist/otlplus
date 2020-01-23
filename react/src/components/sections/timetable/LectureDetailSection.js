@@ -84,8 +84,15 @@ class LectureDetailSection extends Component {
     this.scrollRef.current.querySelector('.ScrollbarsCustom-Scroller').scrollTop = scrollTop;
 
     if (reviews === null) {
-      axios.get(`${BASE_URL}/api/lectures/${lecture.id}/related-comments`, {
-      })
+      axios.get(
+        `${BASE_URL}/api/lectures/${lecture.id}/related-comments`,
+        {
+          metadata: {
+            gaCategory: 'Lecture',
+            gaVariable: 'GET Related Comments / Instance',
+          },
+        },
+      )
         .then((response) => {
           const newProps = this.props;
           if (newProps.lecture.id !== lecture.id) {

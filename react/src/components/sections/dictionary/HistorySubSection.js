@@ -47,8 +47,15 @@ class HistorySubSection extends Component {
   _fetchLectures = () => {
     const { course, setLecturesDispatch } = this.props;
 
-    axios.get(`${BASE_URL}/api/courses/${course.id}/lectures`, {
-    })
+    axios.get(
+      `${BASE_URL}/api/courses/${course.id}/lectures`,
+      {
+        metadata: {
+          gaCategory: 'Course',
+          gaVariable: 'GET Lectures / Instance',
+        },
+      },
+    )
       .then((response) => {
         const newProps = this.props;
         if (newProps.course.id !== course.id) {

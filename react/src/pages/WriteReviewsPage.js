@@ -55,8 +55,15 @@ class WriteReviewsPage extends Component {
     this.setState({
       loading: true,
     });
-    axios.get(`${BASE_URL}/api/review/latest/${pageNumToLoad}`, {
-    })
+    axios.get(
+      `${BASE_URL}/api/review/latest/${pageNumToLoad}`,
+      {
+        metadata: {
+          gaCategory: 'Review',
+          gaVariable: 'GET Latest / List',
+        },
+      },
+    )
       .then((response) => {
         this.setState(prevState => ({
           loading: false,

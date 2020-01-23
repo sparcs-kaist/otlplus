@@ -49,13 +49,22 @@ class CourseSearchSubSection extends Component {
     clearSearchListCoursesDispatch();
     clearCourseActiveDispatch();
 
-    axios.get(`${BASE_URL}/api/courses`, { params: {
-      department: Array.from(department),
-      type: Array.from(type),
-      grade: Array.from(grade),
-      term: Array.from(term),
-      keyword: inputVal,
-    } })
+    axios.get(
+      `${BASE_URL}/api/courses`,
+      {
+        params: {
+          department: Array.from(department),
+          type: Array.from(type),
+          grade: Array.from(grade),
+          term: Array.from(term),
+          keyword: inputVal,
+        },
+        metadata: {
+          gaCategory: 'Course',
+          gaVariable: 'GET / List',
+        },
+      },
+    )
       .then((response) => {
         setListCoursesDispatch('search', response.data);
       })
@@ -91,9 +100,18 @@ class CourseSearchSubSection extends Component {
       return;
     }
 
-    axios.get(`${BASE_URL}/api/courses/autocomplete`, { params: {
-      keyword: value,
-    } })
+    axios.get(
+      `${BASE_URL}/api/courses/autocomplete`,
+      {
+        params: {
+          keyword: value,
+        },
+        metadata: {
+          gaCategory: 'Course',
+          gaVariable: 'GET Autocomplete / List',
+        },
+      },
+    )
       .then((response) => {
         const { inputVal } = this.state;
         const complete = response.data;

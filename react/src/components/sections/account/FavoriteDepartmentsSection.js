@@ -32,8 +32,11 @@ class FavoriteDepartmentsSection extends Component {
       this._setUserDepartment();
     }
 
-    axios.get(`${BASE_URL}/session/department-options`, {
-    })
+    axios.get(
+      `${BASE_URL}/session/department-options`,
+      {
+      },
+    )
       .then((response) => {
         this.setState({
           departmentList: response.data
@@ -77,9 +80,14 @@ class FavoriteDepartmentsSection extends Component {
     e.preventDefault();
     e.stopPropagation();
 
-    axios.post(`${BASE_URL}/session/favorite-departments`, {
-      fav_department: Array.from(department).filter(d => (d !== 'ALL')),
-    })
+    axios.post(
+      `${BASE_URL}/session/favorite-departments`,
+      {
+        fav_department: Array.from(department).filter(d => (d !== 'ALL')),
+      },
+      {
+      },
+    )
       .then((response) => {
         this.setState({
           savedDepartment: department,
@@ -94,7 +102,15 @@ class FavoriteDepartmentsSection extends Component {
   _refetchUser = () => {
     const { setUserDispatch } = this.props;
 
-    axios.get(`${BASE_URL}/session/info`)
+    axios.get(
+      `${BASE_URL}/session/info`,
+      {
+        metadata: {
+          gaCategory: 'User',
+          gaVariable: 'GET / Instance',
+        },
+      },
+    )
       .then((response) => {
         setUserDispatch(response.data);
       })
