@@ -9,7 +9,6 @@ const initialState = {
   from: NONE,
   clicked: false,
   lecture: null,
-  comments: [],
   title: '',
   multipleDetail: [],
 };
@@ -31,7 +30,6 @@ const lectureActive = (state = initialState, action) => {
         from: NONE,
         clicked: false,
         lecture: null,
-        comments: [],
       });
     }
     case SET_MULTIPLE_DETAIL: {
