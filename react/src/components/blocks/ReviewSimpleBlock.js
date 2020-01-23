@@ -15,7 +15,7 @@ const ReviewSimpleBlock = ({ t, review }) => {
     <Link to={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: review.course.id }) }}>
       <div className={classNames('block', 'block--review-simple')}>
         <div>
-          {review.comment}
+          {review.content}
         </div>
         <div>
           <span>

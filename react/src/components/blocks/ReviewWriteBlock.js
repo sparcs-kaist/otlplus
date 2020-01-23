@@ -13,7 +13,7 @@ import reviewShape from '../../shapes/ReviewShape';
 // eslint-disable-next-line arrow-body-style
 const ReviewWriteBlock = ({ t, lecture, review, pageFrom, updateOnSubmit }) => {
   const [isUploading, setIsUploading] = useState(false);
-  const [savedContent, setSavedContent] = useState(review ? review.comment : '');
+  const [savedContent, setSavedContent] = useState(review ? review.content : '');
   const [savedGrade, setSavedGrade] = useState(review ? review.grade : undefined);
   const [savedLoad, setSavedLoad] = useState(review ? review.load : undefined);
   const [savedSpeech, setSavedSpeech] = useState(review ? review.speech : undefined);

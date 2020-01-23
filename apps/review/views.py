@@ -117,7 +117,7 @@ def insertReview(request,lecture_id):
         if len(body['content']) == 0:
             return HttpResponseBadRequest('1글자 이상 입력해주세요.')
         else:
-            comment = body['content']
+            content = body['content']
 
     user = request.user
     user_profile = user.userprofile
@@ -126,7 +126,7 @@ def insertReview(request,lecture_id):
     lecture = user_profile.getReviewWritableLectureList().get(id = lecid)
 
     course = lecture.course
-    comment = body['content'] # 항목 선택 안했을시 반응 추가 요망 grade, load도
+    content = body['content'] # 항목 선택 안했을시 반응 추가 요망 grade, load도
     grade = int(body['gradescore'])
     if not 1<=grade<=5:
         return HttpResponseBadRequest
@@ -141,9 +141,9 @@ def insertReview(request,lecture_id):
 
     try :
         target_comment = user_profile.reviews.get(lecture=lecture)
-        if target_comment.is_deleted == 0: target_comment.u_update(grade=grade, load=load, speech=speech, comment=comment)
+        if target_comment.is_deleted == 0: target_comment.u_update(grade=grade, load=load, speech=speech, content=content)
     except Review.DoesNotExist :
-        target_comment = Review.u_create(course=course, lecture=lecture, comment=comment, grade=grade, load=load, speech=speech, writer=writer)
+        target_comment = Review.u_create(course=course, lecture=lecture, content=content, grade=grade, load=load, speech=speech, writer=writer)
     return JsonResponse(target_comment.toJson(), safe=False)
 
 
