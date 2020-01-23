@@ -84,11 +84,20 @@ class LectureListTabs extends Component {
       return;
     }
 
-    axios.get(`${BASE_URL}/api/lectures`, { params: {
-      year: year,
-      semester: semester,
-      group: [majorCode],
-    } })
+    axios.get(
+      `${BASE_URL}/api/lectures`,
+      {
+        params: {
+          year: year,
+          semester: semester,
+          group: [majorCode],
+        },
+        metadata: {
+          gaCategory: 'Lecture',
+          gaVariable: 'GET / List',
+        },
+      },
+    )
       .then((response) => {
         const newProps = this.props;
         if ((newProps.year !== year || newProps.semester !== semester)
@@ -109,11 +118,20 @@ class LectureListTabs extends Component {
       return;
     }
 
-    axios.get(`${BASE_URL}/api/lectures`, { params: {
-      year: year,
-      semester: semester,
-      group: 'Humanity',
-    } })
+    axios.get(
+      `${BASE_URL}/api/lectures`,
+      {
+        params: {
+          year: year,
+          semester: semester,
+          group: 'Humanity',
+        },
+        metadata: {
+          gaCategory: 'Lecture',
+          gaVariable: 'GET / List',
+        },
+      },
+    )
       .then((response) => {
         const newProps = this.props;
         if (newProps.year !== year || newProps.semester !== semester) {
@@ -136,10 +154,19 @@ class LectureListTabs extends Component {
       setListLecturesDispatch('cart', []);
       return;
     }
-    axios.post(`${BASE_URL}/api/timetable/wishlist_load`, {
-      year: year,
-      semester: semester,
-    })
+    axios.post(
+      `${BASE_URL}/api/timetable/wishlist_load`,
+      {
+        year: year,
+        semester: semester,
+      },
+      {
+        metadata: {
+          gaCategory: 'User',
+          gaVariable: 'GET Wishlist / Instance',
+        },
+      },
+    )
       .then((response) => {
         const newProps = this.props;
         if (newProps.year !== year || newProps.semester !== semester

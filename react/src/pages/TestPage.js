@@ -7,9 +7,14 @@ import axios, { BASE_URL } from '../common/presetAxios';
 
 class TestPage extends Component {
   componentDidMount() {
-    axios.get(`${BASE_URL}/api/feeds`, { params: {
-      date: new Date().toJSON().slice(0, 10),
-    } })
+    axios.get(
+      `${BASE_URL}/api/feeds`,
+      {
+        params: {
+          date: new Date().toJSON().slice(0, 10),
+        },
+      },
+    )
       .then((response) => {
         console.log(response.data);
       })

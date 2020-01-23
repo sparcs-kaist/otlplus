@@ -49,8 +49,15 @@ class ReviewsSubSection extends Component {
   _fetchReviews = () => {
     const { course, setReviewsDispatch } = this.props;
 
-    axios.get(`${BASE_URL}/api/courses/${course.id}/comments`, {
-    })
+    axios.get(
+      `${BASE_URL}/api/courses/${course.id}/comments`,
+      {
+        metadata: {
+          gaCategory: 'Course',
+          gaVariable: 'GET Comments / Instance',
+        },
+      },
+    )
       .then((response) => {
         const newProps = this.props;
         if (newProps.course.id !== course.id) {
@@ -72,9 +79,18 @@ class ReviewsSubSection extends Component {
       return;
     }
 
-    axios.post(`${BASE_URL}/api/review/read`, {
-      id: course.id,
-    })
+    axios.post(
+      `${BASE_URL}/api/review/read`,
+      {
+        id: course.id,
+      },
+      {
+        metadata: {
+          gaCategory: 'Review',
+          gaVariable: 'POST Read / Instance',
+        },
+      },
+    )
       .then((cresponse) => {
         addCourseReadDispatch(course);
       })

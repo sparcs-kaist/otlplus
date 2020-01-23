@@ -80,9 +80,18 @@ class MainPage extends Component {
 
     const dateString = date.toJSON().slice(0, 10);
 
-    axios.get(`${BASE_URL}/api/feeds`, { params: {
-      date: dateString,
-    } })
+    axios.get(
+      `${BASE_URL}/api/feeds`,
+      {
+        params: {
+          date: dateString,
+        },
+        metadata: {
+          gaCategory: 'Feed',
+          gaVariable: 'GET / List',
+        },
+      },
+    )
       .then((response) => {
         this.setState({
           loading: false,
