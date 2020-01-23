@@ -169,14 +169,14 @@ class ReviewVote(models.Model):
 
 
 class MajorBestReview(models.Model):
-    review = models.OneToOneField(Review, related_name="major_best_comment", null=False, primary_key=True)
+    review = models.OneToOneField(Review, related_name="major_best_review", null=False, primary_key=True)
 
     def __unicode__(self):
         return u"%s(%s)"%(self.review.lecture,self.review.writer)
 
 
 class HumanityBestReview(models.Model):
-    review = models.OneToOneField(Review, related_name="liberal_best_comment", null=False, primary_key=True)
+    review = models.OneToOneField(Review, related_name="liberal_best_review", null=False, primary_key=True)
 
     def __unicode__(self):
         return u"%s(%s)"%(self.review.lecture,self.review.writer)

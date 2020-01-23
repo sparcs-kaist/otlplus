@@ -140,11 +140,11 @@ def insertReview(request,lecture_id):
     writer = user_profile #session 완성시 변경
 
     try :
-        target_comment = user_profile.reviews.get(lecture=lecture)
-        if target_comment.is_deleted == 0: target_comment.u_update(grade=grade, load=load, speech=speech, content=content)
+        target_review = user_profile.reviews.get(lecture=lecture)
+        if target_review.is_deleted == 0: target_review.u_update(grade=grade, load=load, speech=speech, content=content)
     except Review.DoesNotExist :
-        target_comment = Review.u_create(course=course, lecture=lecture, content=content, grade=grade, load=load, speech=speech, writer=writer)
-    return JsonResponse(target_comment.toJson(), safe=False)
+        target_review = Review.u_create(course=course, lecture=lecture, content=content, grade=grade, load=load, speech=speech, writer=writer)
+    return JsonResponse(target_review.toJson(), safe=False)
 
 
 def latest(request, page=-1):
