@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
-import axios, { BASE_URL } from '../common/presetAxios';
+import axios from '../common/presetAxios';
 
 import Footer from '../components/guideline/Footer';
 import MyTimetableSection from '../components/sections/main/MyTimetableSection';
@@ -81,7 +81,7 @@ class MainPage extends Component {
     const dateString = date.toJSON().slice(0, 10);
 
     axios.get(
-      `${BASE_URL}/api/feeds`,
+      '/api/feeds',
       {
         params: {
           date: dateString,

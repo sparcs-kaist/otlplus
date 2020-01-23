@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
-import axios, { BASE_URL } from '../../../common/presetAxios';
+import axios from '../../../common/presetAxios';
 
 import SearchFilter from '../../SearchFilter';
 
@@ -33,7 +33,7 @@ class FavoriteDepartmentsSection extends Component {
     }
 
     axios.get(
-      `${BASE_URL}/session/department-options`,
+      '/session/department-options',
       {
       },
     )
@@ -81,7 +81,7 @@ class FavoriteDepartmentsSection extends Component {
     e.stopPropagation();
 
     axios.post(
-      `${BASE_URL}/session/favorite-departments`,
+      '/session/favorite-departments',
       {
         fav_department: Array.from(department).filter(d => (d !== 'ALL')),
       },
@@ -103,7 +103,7 @@ class FavoriteDepartmentsSection extends Component {
     const { setUserDispatch } = this.props;
 
     axios.get(
-      `${BASE_URL}/session/info`,
+      '/session/info',
       {
         metadata: {
           gaCategory: 'User',

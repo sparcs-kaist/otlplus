@@ -5,7 +5,7 @@ import { withTranslation } from 'react-i18next';
 import ReactGA from 'react-ga';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
-import axios, { BASE_URL } from '../../common/presetAxios';
+import axios from '../../common/presetAxios';
 
 import { setListMajorCodes, setCurrentList, setListLectures, clearListsLectures, setListMajorLectures } from '../../actions/timetable/list';
 import { openSearch, closeSearch } from '../../actions/timetable/search';
@@ -85,7 +85,7 @@ class LectureListTabs extends Component {
     }
 
     axios.get(
-      `${BASE_URL}/api/lectures`,
+      '/api/lectures',
       {
         params: {
           year: year,
@@ -119,7 +119,7 @@ class LectureListTabs extends Component {
     }
 
     axios.get(
-      `${BASE_URL}/api/lectures`,
+      '/api/lectures',
       {
         params: {
           year: year,
@@ -155,7 +155,7 @@ class LectureListTabs extends Component {
       return;
     }
     axios.post(
-      `${BASE_URL}/api/timetable/wishlist_load`,
+      '/api/timetable/wishlist_load',
       {
         year: year,
         semester: semester,
