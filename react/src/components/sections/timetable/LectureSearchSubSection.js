@@ -53,17 +53,26 @@ class LectureSearchSubSection extends Component {
       clearLectureActiveDispatch();
     }
 
-    axios.get(`${BASE_URL}/api/lectures`, { params: {
-      year: year,
-      semester: semester,
-      department: Array.from(department),
-      type: Array.from(type),
-      grade: Array.from(grade),
-      keyword: inputVal,
-      begin: (start !== null) ? start.toString() : '',
-      end: (end !== null) ? end.toString() : '',
-      day: (day !== null) ? day.toString() : '',
-    } })
+    axios.get(
+      `${BASE_URL}/api/lectures`,
+      {
+        params: {
+          year: year,
+          semester: semester,
+          department: Array.from(department),
+          type: Array.from(type),
+          grade: Array.from(grade),
+          keyword: inputVal,
+          begin: (start !== null) ? start.toString() : '',
+          end: (end !== null) ? end.toString() : '',
+          day: (day !== null) ? day.toString() : '',
+        },
+        metadata: {
+          gaCategory: 'Timetable',
+          gaVariable: 'POST / List',
+        },
+      },
+    )
       .then((response) => {
         const newProps = this.props;
         if (newProps.year !== year || newProps.semester !== semester) {
@@ -105,11 +114,20 @@ class LectureSearchSubSection extends Component {
       return;
     }
 
-    axios.get(`${BASE_URL}/api/lectures/autocomplete`, { params: {
-      year: year,
-      semester: semester,
-      keyword: value,
-    } })
+    axios.get(
+      `${BASE_URL}/api/lectures/autocomplete`,
+      {
+        params: {
+          year: year,
+          semester: semester,
+          keyword: value,
+        },
+        metadata: {
+          gaCategory: 'Lecture',
+          gaVariable: 'GET Autocomplete / List',
+        },
+      },
+    )
       .then((response) => {
         const { inputVal } = this.state;
         const newProps = this.props;

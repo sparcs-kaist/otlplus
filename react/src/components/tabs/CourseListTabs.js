@@ -77,10 +77,19 @@ class CourseListTabs extends Component {
       return;
     }
 
-    axios.get(`${BASE_URL}/api/courses`, { params: {
-      group: [majorCode],
-      term: ['3'],
-    } })
+    axios.get(
+      `${BASE_URL}/api/courses`,
+      {
+        params: {
+          group: [majorCode],
+          term: ['3'],
+        },
+        metadata: {
+          gaCategory: 'Course',
+          gaVariable: 'GET / List',
+        },
+      },
+    )
       .then((response) => {
         const newProps = this.props;
         if (newProps.major.codes.findIndex(c => (c === majorCode)) === -1) {
@@ -99,10 +108,19 @@ class CourseListTabs extends Component {
       return;
     }
 
-    axios.get(`${BASE_URL}/api/courses`, { params: {
-      group: 'Humanity',
-      term: ['3'],
-    } })
+    axios.get(
+      `${BASE_URL}/api/courses`,
+      {
+        params: {
+          group: 'Humanity',
+          term: ['3'],
+        },
+        metadata: {
+          gaCategory: 'Course',
+          gaVariable: 'GET / List',
+        },
+      },
+    )
       .then((response) => {
         setListCoursesDispatch('humanity', response.data);
       })
@@ -123,8 +141,17 @@ class CourseListTabs extends Component {
       return;
     }
     setListCoursesDispatch('taken', null);
-    axios.get(`${BASE_URL}/api/users/${user.id}/taken-courses`, { params: {
-    } })
+    axios.get(
+      `${BASE_URL}/api/users/${user.id}/taken-courses`,
+      {
+        params: {
+        },
+        metadata: {
+          gaCategory: 'User',
+          gaVariable: 'GET Taken Courses / Instance',
+        },
+      },
+    )
       .then((response) => {
         setListCoursesDispatch('taken', response.data);
       })

@@ -60,12 +60,21 @@ const ReviewWriteBlock = ({ t, lecture, review, pageFrom, updateOnSubmit }) => {
     }
 
     setIsUploading(true);
-    axios.post(`${BASE_URL}/api/review/insert/${lecture.id}`, {
-      content: content,
-      gradescore: grade,
-      speechscore: speech,
-      loadscore: load,
-    })
+    axios.post(
+      `${BASE_URL}/api/review/insert/${lecture.id}`,
+      {
+        content: content,
+        gradescore: grade,
+        speechscore: speech,
+        loadscore: load,
+      },
+      {
+        metadata: {
+          gaCategory: 'Review',
+          gaVariable: 'POST / List',
+        },
+      },
+    )
       .then((response) => {
         setSavedContent(content);
         setSavedGrade(grade);

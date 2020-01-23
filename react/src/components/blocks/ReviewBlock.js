@@ -19,9 +19,18 @@ const ReviewBlock = ({ t, review, pageFrom }) => {
     e.stopPropagation();
     e.preventDefault();
 
-    axios.post(`${BASE_URL}/api/review/like`, {
-      commentid: review.id,
-    })
+    axios.post(
+      `${BASE_URL}/api/review/like`,
+      {
+        commentid: review.id,
+      },
+      {
+        metadata: {
+          gaCategory: 'Review',
+          gaVariable: 'POST Like / Instance',
+        },
+      },
+    )
       .then((response) => {
         setChangedLikes(changedLikes + 1);
         setChangedIsLiked(true);
