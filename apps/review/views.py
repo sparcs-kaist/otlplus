@@ -83,7 +83,7 @@ def ReviewLike(request):
             user = request.user
             user_profile = user.userprofile
             target_review = Review.objects.get(id=body['commentid'])
-            if ReviewVote.objects.filter(comment = target_review, userprofile = user_profile).exists():
+            if ReviewVote.objects.filter(review = target_review, userprofile = user_profile).exists():
                 already_up = True
             else:
                 ReviewVote.cv_create(target_review,user_profile) #session 완성시 변경
