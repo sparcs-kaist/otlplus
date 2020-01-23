@@ -17,7 +17,7 @@ import TestPage from './pages/TestPage';
 import ErrorPage from './pages/ErrorPage';
 
 import './common/i18n';
-import axios, { BASE_URL } from './common/presetAxios';
+import axios from './common/presetAxios';
 
 import dictionaryReducer from './reducers/dictionary/index';
 import timetableReducer from './reducers/timetable/index';
@@ -38,7 +38,7 @@ const store = createStore(combineReducers({
 class App extends Component {
   componentDidMount() {
     axios.get(
-      `${BASE_URL}/session/info`,
+      '/session/info',
       {
         metadata: {
           gaCategory: 'User',
@@ -55,7 +55,7 @@ class App extends Component {
         }
       });
     axios.get(
-      `${BASE_URL}/api/semesters`,
+      '/api/semesters',
       {
         metadata: {
           gaCategory: 'Semester',

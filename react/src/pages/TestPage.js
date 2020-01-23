@@ -2,13 +2,13 @@
 
 import React, { Component } from 'react';
 
-import axios, { BASE_URL } from '../common/presetAxios';
+import axios from '../common/presetAxios';
 
 
 class TestPage extends Component {
   componentDidMount() {
     axios.get(
-      `${BASE_URL}/api/feeds`,
+      '/api/feeds',
       {
         params: {
           date: new Date().toJSON().slice(0, 10),

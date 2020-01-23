@@ -5,7 +5,7 @@ import { withTranslation } from 'react-i18next';
 import ReactGA from 'react-ga';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
-import axios, { BASE_URL } from '../../common/presetAxios';
+import axios from '../../common/presetAxios';
 import lectureShape from '../../shapes/NestedLectureShape';
 import reviewShape from '../../shapes/ReviewShape';
 
@@ -61,7 +61,7 @@ const ReviewWriteBlock = ({ t, lecture, review, pageFrom, updateOnSubmit }) => {
 
     setIsUploading(true);
     axios.post(
-      `${BASE_URL}/api/review/insert/${lecture.id}`,
+      `/api/review/insert/${lecture.id}`,
       {
         content: content,
         gradescore: grade,
