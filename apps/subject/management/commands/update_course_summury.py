@@ -9,7 +9,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
 
         f = open("/var/www/GC2014.txt","r")
-        a = f.readlines();
+        a = f.readlines()
         p = re.compile('^[a-zA-Z]{2,}[0-9]{3}\s')
         for i in range(len(a)):
             print i
