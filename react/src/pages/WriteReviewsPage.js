@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import ReactGA from 'react-ga';
 
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
-import axios, { BASE_URL } from '../common/presetAxios';
+import axios from '../common/presetAxios';
 
 import Scroller from '../components/Scroller';
 import TakenLecturesSection from '../components/sections/write-reviews/TakenLecturesSection';
@@ -56,7 +56,7 @@ class WriteReviewsPage extends Component {
       loading: true,
     });
     axios.get(
-      `${BASE_URL}/api/review/latest/${pageNumToLoad}`,
+      `/api/review/latest/${pageNumToLoad}`,
       {
         metadata: {
           gaCategory: 'Review',

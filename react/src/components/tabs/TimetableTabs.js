@@ -5,7 +5,7 @@ import { withTranslation } from 'react-i18next';
 import ReactGA from 'react-ga';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
-import axios, { BASE_URL } from '../../common/presetAxios';
+import axios from '../../common/presetAxios';
 
 import { setTimetables, clearTimetables, setMyTimetableLectures, createTimetable, setCurrentTimetable, deleteTimetable, duplicateTimetable, setMobileShowTimetableTabs } from '../../actions/timetable/timetable';
 
@@ -61,7 +61,7 @@ class TimetableTabs extends Component {
     }
 
     axios.post(
-      `${BASE_URL}/api/timetable/table_load`,
+      '/api/timetable/table_load',
       {
         year: year,
         semester: semester,
@@ -115,7 +115,7 @@ class TimetableTabs extends Component {
     }
     else {
       axios.post(
-        `${BASE_URL}/api/timetable/table_create`,
+        '/api/timetable/table_create',
         {
           year: year,
           semester: semester,
@@ -162,7 +162,7 @@ class TimetableTabs extends Component {
     }
     else {
       axios.post(
-        `${BASE_URL}/api/timetable/table_delete`,
+        '/api/timetable/table_delete',
         {
           table_id: timetable.id,
           year: year,
@@ -202,7 +202,7 @@ class TimetableTabs extends Component {
     }
     else {
       axios.post(
-        `${BASE_URL}/api/timetable/table_create`,
+        '/api/timetable/table_create',
         {
           year: year,
           semester: semester,

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
-import axios, { BASE_URL } from '../../../common/presetAxios';
+import axios from '../../../common/presetAxios';
 
 import Scroller from '../../Scroller';
 import HistoryLecturesBlock from '../../blocks/HistoryLecturesBlock';
@@ -48,7 +48,7 @@ class HistorySubSection extends Component {
     const { course, setLecturesDispatch } = this.props;
 
     axios.get(
-      `${BASE_URL}/api/courses/${course.id}/lectures`,
+      `/api/courses/${course.id}/lectures`,
       {
         metadata: {
           gaCategory: 'Course',

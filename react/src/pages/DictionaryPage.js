@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
-import axios, { BASE_URL } from '../common/presetAxios';
+import axios from '../common/presetAxios';
 
 import CourseListSection from '../components/sections/dictionary/CourseListSection';
 import CourseDetailSection from '../components/sections/dictionary/CourseDetailSection';
@@ -26,7 +26,7 @@ class DictionaryPage extends Component {
 
     if (startCourseId) {
       axios.get(
-        `${BASE_URL}/api/courses/${startCourseId}`,
+        `/api/courses/${startCourseId}`,
         {
           metadata: {
             gaCategory: 'Course',
@@ -50,7 +50,7 @@ class DictionaryPage extends Component {
       clearSearchListCoursesDispatch();
 
       axios.get(
-        `${BASE_URL}/api/courses`,
+        '/api/courses',
         {
           params: {
             keyword: startSearchKeyword,

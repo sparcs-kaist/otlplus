@@ -1,5 +1,5 @@
 import { LIST, TABLE, MULTIPLE } from '../reducers/timetable/lectureActive';
-import axios, { BASE_URL } from './presetAxios';
+import axios from './presetAxios';
 
 
 export const inTimetable = (lecture, timetable) => (
@@ -76,7 +76,7 @@ export const performAddToTable = (caller, lecture, currentTimetable, user, addLe
   }
 
   axios.post(
-    `${BASE_URL}/api/timetable/table_update`,
+    '/api/timetable/table_update',
     {
       table_id: currentTimetable.id,
       lecture_id: lecture.id,
@@ -108,7 +108,7 @@ export const performDeleteFromTable = (caller, lecture, currentTimetable, user, 
   }
 
   axios.post(
-    `${BASE_URL}/api/timetable/table_update`,
+    '/api/timetable/table_update',
     {
       table_id: currentTimetable.id,
       lecture_id: lecture.id,
@@ -140,7 +140,7 @@ export const performAddToCart = (caller, lecture, year, semester, user, addLectu
   }
 
   axios.post(
-    `${BASE_URL}/api/timetable/wishlist_update`,
+    '/api/timetable/wishlist_update',
     {
       lecture_id: lecture.id,
       delete: false,
@@ -171,7 +171,7 @@ export const performDeleteFromCart = (caller, lecture, year, semester, user, del
   }
 
   axios.post(
-    `${BASE_URL}/api/timetable/wishlist_update`,
+    '/api/timetable/wishlist_update',
     {
       lecture_id: lecture.id,
       delete: true,

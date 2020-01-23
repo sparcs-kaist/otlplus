@@ -5,7 +5,7 @@ import { withTranslation } from 'react-i18next';
 import ReactGA from 'react-ga';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
-import axios, { BASE_URL } from '../../common/presetAxios';
+import axios from '../../common/presetAxios';
 
 import reviewShape from '../../shapes/ReviewShape';
 
@@ -20,7 +20,7 @@ const ReviewBlock = ({ t, review, pageFrom }) => {
     e.preventDefault();
 
     axios.post(
-      `${BASE_URL}/api/review/like`,
+      '/api/review/like',
       {
         reviewid: review.id,
       },

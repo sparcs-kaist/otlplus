@@ -5,7 +5,7 @@ import { withTranslation } from 'react-i18next';
 import ReactGA from 'react-ga';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
-import axios, { BASE_URL } from '../../../common/presetAxios';
+import axios from '../../../common/presetAxios';
 
 import SearchFilter from '../../SearchFilter';
 
@@ -50,7 +50,7 @@ class CourseSearchSubSection extends Component {
     clearCourseActiveDispatch();
 
     axios.get(
-      `${BASE_URL}/api/courses`,
+      '/api/courses',
       {
         params: {
           department: Array.from(department),
@@ -101,7 +101,7 @@ class CourseSearchSubSection extends Component {
     }
 
     axios.get(
-      `${BASE_URL}/api/courses/autocomplete`,
+      '/api/courses/autocomplete',
       {
         params: {
           keyword: value,
