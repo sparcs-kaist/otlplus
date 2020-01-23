@@ -9,7 +9,7 @@ class Review(models.Model):
     course = models.ForeignKey(Course, db_index=True, related_name='reviews')
     lecture = models.ForeignKey(Lecture, db_index=True, related_name='reviews')
 
-    comment = models.CharField(max_length=65536)
+    content = models.CharField(max_length=65536)
     grade = models.SmallIntegerField(default=0)
     load = models.SmallIntegerField(default=0)
     speech = models.SmallIntegerField(default=0)
@@ -50,7 +50,7 @@ class Review(models.Model):
             'id': self.id,
             'course': self.course.toJson(nested=True),
             'lecture': self.lecture.toJson(nested=True),
-            'comment': self.comment if (not self.is_deleted) else '관리자에 의해 삭제된 코멘트입니다.',
+            'content': self.content if (not self.is_deleted) else '관리자에 의해 삭제된 코멘트입니다.',
             'like': self.like,
             'is_deleted': self.is_deleted,
             'grade': self.grade,
@@ -85,7 +85,7 @@ class Review(models.Model):
         return (d[self.grade], d[self.load], d[self.speech], d[int(round(self.total))])
 
     @classmethod
-    def u_create(cls, course, lecture, comment, grade, load, speech, writer):
+    def u_create(cls, course, lecture, content, grade, load, speech, writer):
         professors = lecture.professors.all()
         lectures = Lecture.objects.filter(course=course, professors__in=professors)
         related_list = [course]+list(lectures)+list(professors)
@@ -96,13 +96,13 @@ class Review(models.Model):
             related.review_num += 1
             related.avg_update()
             related.save()
-        new = cls(course=course, lecture=lecture, comment=comment, grade=grade, load=load, speech=speech, total=(grade+load+speech)/3.0, writer=writer)
+        new = cls(course=course, lecture=lecture, content=content, grade=grade, load=load, speech=speech, total=(grade+load+speech)/3.0, writer=writer)
         new.save()
         course.latest_written_datetime = new.written_datetime
         course.save()
         return new
 
-    def u_update(self, comment, grade, load, speech):
+    def u_update(self, content, grade, load, speech):
         course = self.course
         lecture = self.lecture
         professors = lecture.professors.all()
@@ -114,7 +114,7 @@ class Review(models.Model):
             related.speech_sum += (self.like+1)*(speech - self.speech)*3
             related.avg_update()
             related.save()
-        self.comment = comment
+        self.content = content
         self.grade = grade
         self.load = load
         self.speech = speech

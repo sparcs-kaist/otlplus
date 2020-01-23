@@ -8,7 +8,7 @@ const reviewShape = PropTypes.shape({
   id: PropTypes.number.isRequired,
   course: nestedCourseShape.isRequired,
   lecture: nestedLectureShape.isRequired,
-  comment: PropTypes.string.isRequired,
+  content: PropTypes.string.isRequired,
   like: PropTypes.number.isRequired,
   is_deleted: PropTypes.number.isRequired,
   grade: PropTypes.number.isRequired,
