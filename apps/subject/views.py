@@ -150,13 +150,13 @@ def courses_list_autocomplete_view(request):
 
 
 @require_http_methods(['GET'])
-def courses_instance_comments_view(request, course_id):
+def courses_instance_reviews_view(request, course_id):
     if request.method == 'GET':
         course = get_object_or_404(Course, id=course_id)
-        comments = course.reviews.all().order_by('-lecture__year','-written_datetime')
+        reviews = course.reviews.all().order_by('-lecture__year','-written_datetime')
 
-        comments = comments[:100]
-        result = [c.toJson(user=request.user) for c in comments]
+        reviews = reviews[:100]
+        result = [c.toJson(user=request.user) for c in reviews]
         return JsonResponse(result, safe=False)
 
 
@@ -322,25 +322,25 @@ def lectures_list_autocomplete_view(request):
 
 
 @require_http_methods(['GET'])
-def lectures_instance_comments_view(request, lecture_id):
+def lectures_instance_reviews_view(request, lecture_id):
     if request.method == 'GET':
         lecture = get_object_or_404(Lecture, id=lecture_id)
-        comments = lecture.reviews.all().order_by('-id')
+        reviews = lecture.reviews.all().order_by('-id')
 
-        result = [c.toJson() for c in comments]
+        result = [c.toJson() for c in reviews]
         return JsonResponse(result, safe=False)
 
 
 @require_http_methods(['GET'])
-def lectures_instance_related_comments_view(request, lecture_id):
+def lectures_instance_related_reviews_view(request, lecture_id):
     if request.method == 'GET':
         lecture = get_object_or_404(Lecture, id=lecture_id)
-        comments = Review.objects.filter(
+        reviews = Review.objects.filter(
             lecture__course=lecture.course,
             lecture__professors__in=lecture.professors.all(),
         ).order_by('-id')
 
-        result = [c.toJson() for c in comments]
+        result = [c.toJson() for c in reviews]
         return JsonResponse(result, safe=False)
 
 
