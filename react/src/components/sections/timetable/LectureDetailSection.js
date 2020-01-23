@@ -85,11 +85,11 @@ class LectureDetailSection extends Component {
 
     if (reviews === null) {
       axios.get(
-        `${BASE_URL}/api/lectures/${lecture.id}/related-comments`,
+        `${BASE_URL}/api/lectures/${lecture.id}/related-reviews`,
         {
           metadata: {
             gaCategory: 'Lecture',
-            gaVariable: 'GET Related Comments / Instance',
+            gaVariable: 'GET Related Reviews / Instance',
           },
         },
       )

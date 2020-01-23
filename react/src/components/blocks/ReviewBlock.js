@@ -22,7 +22,7 @@ const ReviewBlock = ({ t, review, pageFrom }) => {
     axios.post(
       `${BASE_URL}/api/review/like`,
       {
-        commentid: review.id,
+        reviewid: review.id,
       },
       {
         metadata: {
@@ -59,14 +59,14 @@ const ReviewBlock = ({ t, review, pageFrom }) => {
     });
   };
 
-  const commentLines = review.comment.split('\n');
-  const commentDisplay = commentLines
+  const contentLines = review.content.split('\n');
+  const contentDisplay = contentLines
     .map((l, i) => ({
       key: i,
       content: l,
     })) // Workaround key error
     .map((l, i) => (
-      (i === commentLines.length - 1)
+      (i === contentLines.length - 1)
         ? (
           <React.Fragment key={l.key}>
             {l.content}
@@ -88,7 +88,7 @@ const ReviewBlock = ({ t, review, pageFrom }) => {
         <span>{`${review.lecture.year} ${['', t('ui.semester.spring'), t('ui.semester.summer'), t('ui.semester.fall'), t('ui.semester.winter')][review.lecture.semester]}`}</span>
       </div>
       <div className={classNames('block--review__content')}>
-        {commentDisplay}
+        {contentDisplay}
       </div>
       <div className={classNames('block--review__menus')}>
         <span>

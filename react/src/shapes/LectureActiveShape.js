@@ -9,7 +9,6 @@ const lectureActiveShape = PropTypes.shape({
   from: PropTypes.oneOf([NONE, LIST, TABLE, MULTIPLE]).isRequired,
   clicked: PropTypes.bool.isRequired,
   lecture: lectureShape,
-  comments: PropTypes.arrayOf(reviewShape).isRequired,
   title: PropTypes.string.isRequired,
   multipleDetail: PropTypes.arrayOf(
     PropTypes.shape({

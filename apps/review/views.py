@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect, render_to_response
 from django.template import RequestContext
 from apps.session.models import UserProfile
 from apps.subject.models import Course, Lecture, Department, CourseFiltered, Professor, CourseUser
-from apps.review.models import Comment,CommentVote, MajorBestComment, LiberalBestComment
+from apps.review.models import Review, ReviewVote, MajorBestReview, HumanityBestReview
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseBadRequest, JsonResponse, Http404
 from django.db.models import Q
 from django.views.decorators.http import require_http_methods
@@ -76,19 +76,18 @@ def ReviewLike(request):
     is_login = False
     already_up = False
     likes_count = -1
-    comment_id = -1
     if request.user.is_authenticated():
         is_login = True
         if request.method == 'POST':
             user = request.user
             user_profile = user.userprofile
-            target_review = Comment.objects.get(id=body['commentid'])
-            if CommentVote.objects.filter(comment = target_review, userprofile = user_profile).exists():
+            target_review = Review.objects.get(id=body['reviewid'])
+            if ReviewVote.objects.filter(review = target_review, userprofile = user_profile).exists():
                 already_up = True
             else:
-                CommentVote.cv_create(target_review,user_profile) #session 완성시 변경
+                ReviewVote.cv_create(target_review,user_profile) #session 완성시 변경
             likes_count = target_review.like
-    ctx = {'likes_count': likes_count, 'already_up': already_up, 'is_login':is_login, 'id': body['commentid']}
+    ctx = {'likes_count': likes_count, 'already_up': already_up, 'is_login':is_login, 'id': body['reviewid']}
     return JsonResponse(ctx,safe=False)
 
 
@@ -118,7 +117,7 @@ def insertReview(request,lecture_id):
         if len(body['content']) == 0:
             return HttpResponseBadRequest('1글자 이상 입력해주세요.')
         else:
-            comment = body['content']
+            content = body['content']
 
     user = request.user
     user_profile = user.userprofile
@@ -127,7 +126,7 @@ def insertReview(request,lecture_id):
     lecture = user_profile.getReviewWritableLectureList().get(id = lecid)
 
     course = lecture.course
-    comment = body['content'] # 항목 선택 안했을시 반응 추가 요망 grade, load도
+    content = body['content'] # 항목 선택 안했을시 반응 추가 요망 grade, load도
     grade = int(body['gradescore'])
     if not 1<=grade<=5:
         return HttpResponseBadRequest
@@ -141,25 +140,25 @@ def insertReview(request,lecture_id):
     writer = user_profile #session 완성시 변경
 
     try :
-        target_comment = user_profile.comment_set.get(lecture=lecture)
-        if target_comment.is_deleted == 0: target_comment.u_update(grade=grade, load=load, speech=speech, comment=comment)
-    except Comment.DoesNotExist :
-        target_comment = Comment.u_create(course=course, lecture=lecture, comment=comment, grade=grade, load=load, speech=speech, writer=writer)
-    return JsonResponse(target_comment.toJson(), safe=False)
+        target_review = user_profile.reviews.get(lecture=lecture)
+        if target_review.is_deleted == 0: target_review.u_update(grade=grade, load=load, speech=speech, content=content)
+    except Review.DoesNotExist :
+        target_review = Review.u_create(course=course, lecture=lecture, content=content, grade=grade, load=load, speech=speech, writer=writer)
+    return JsonResponse(target_review.toJson(), safe=False)
 
 
 def latest(request, page=-1):
     page = int(page)
     PAGE_SIZE = 20
 
-    comments = Comment.objects.all().order_by('-written_datetime')
+    reviews = Review.objects.all().order_by('-written_datetime')
 
-    comments = comments[PAGE_SIZE * page : PAGE_SIZE * (page+1)]
+    reviews = reviews[PAGE_SIZE * page : PAGE_SIZE * (page+1)]
 
-    if len(comments) == 0:
+    if len(reviews) == 0:
         raise Http404
 
-    results = [i.toJson(user=request.user) for i in comments]
+    results = [i.toJson(user=request.user) for i in reviews]
     return JsonResponse(results,safe=False)
 
 

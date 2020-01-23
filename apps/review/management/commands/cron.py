@@ -1,23 +1,23 @@
 from django.core.management.base import BaseCommand
-from apps.review.models import MajorBestComment, LiberalBestComment,Comment
+from apps.review.models import MajorBestReview, HumanityBestReview, Review
 from datetime import datetime, timedelta, time, date
 from django.utils import timezone
 from django.db.models import Q
 from apps.subject.models import Department
 class Command(BaseCommand):
-    help = 'BestComment Changer'
+    help = 'BestReview Changer'
     def handle(self, *args, **options):
-        print "BestComment changing start!"
+        print "BestReview changing start!"
         last_date = timezone.now()
         first_date = timezone.now() - timedelta(days = 1 )
         last_date_all = timezone.now()
         first_date_all = timezone.now() - timedelta(days = 600)
-        Comment_latest = Comment.objects.filter(written_datetime__range=(first_date, last_date))
-        Comment_liberal = list(Comment_latest.filter(Q(course__department__code="HSS")))
-        Comment_major = list(Comment_latest.filter(~Q(course__department__code="HSS")))
+        reviews_latest = Review.objects.filter(written_datetime__range=(first_date, last_date))
+        reviews_humanity = list(reviews_latest.filter(Q(course__department__code="HSS")))
+        reviews_major = list(reviews_latest.filter(~Q(course__department__code="HSS")))
 
         def cmp1(a,b):
-            r =(b.comment.like/float(b.comment.lecture.audience+1) - a.comment.like/float(a.comment.lecture.audience+1))
+            r =(b.review.like/float(b.review.lecture.audience+1) - a.review.like/float(a.review.lecture.audience+1))
             if r>0.0 :
                 return 1
             elif r<0.0:
@@ -27,42 +27,42 @@ class Command(BaseCommand):
 
 
         try :
-            bComment_liberal=list(LiberalBestComment.objects.filter(comment__written_datetime__range=(first_date_all, last_date_all)))
+            best_reviews_humanity=list(HumanityBestReview.objects.filter(review__written_datetime__range=(first_date_all, last_date_all)))
         except:
-            bComment_liberal=[]
+            best_reviews_humanity=[]
 
-        for sComment in Comment_liberal:
-            bComment_liberal.append(LiberalBestComment(comment=sComment))
-        bComment_liberal.sort(cmp1)
-        lbcl = LiberalBestComment.objects.all()
+        for c in reviews_humanity:
+            best_reviews_humanity.append(HumanityBestReview(review=c))
+        best_reviews_humanity.sort(cmp1)
+        lbcl = HumanityBestReview.objects.all()
         lbcl.delete()
         for i in range(50):
             try :
-                bComment_liberal[i].save()
+                best_reviews_humanity[i].save()
             except:
                 continue
 
 
         try :
-            bComment_major=list(MajorBestComment.objects.filter(comment__written_datetime__range=(first_date_all, last_date_all)))
+            best_reviews_major=list(MajorBestReview.objects.filter(review__written_datetime__range=(first_date_all, last_date_all)))
         except:
-            bComment_major=[]
+            best_reviews_major=[]
 
-        for sComment in Comment_major:
-            bComment_major.append(MajorBestComment(comment=sComment))
-        bComment_major.sort(cmp1)
-        mbcl = MajorBestComment.objects.all()
+        for c in reviews_major:
+            best_reviews_major.append(MajorBestReview(review=c))
+        best_reviews_major.sort(cmp1)
+        mbcl = MajorBestReview.objects.all()
         mbcl.delete()
         for department in Department.objects.all():
-            comment_d = []
-            for i in range(len(bComment_major)):
-                if bComment_major[i].comment.course.department.code == department.code:
-                    comment_d.append(bComment_major[i])
+            review_d = []
+            for i in range(len(best_reviews_major)):
+                if best_reviews_major[i].review.course.department.code == department.code:
+                    review_d.append(best_reviews_major[i])
                 for i in range(15):
                     try :
-                        comment_d[i].save()
+                        review_d[i].save()
                     except:
                         continue
 
 
-        print "BestComment was changed"
+        print "BestReview was changed"
