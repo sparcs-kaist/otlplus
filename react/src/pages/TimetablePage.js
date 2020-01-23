@@ -52,7 +52,7 @@ class TimetablePage extends Component {
 
   render() {
     // eslint-disable-next-line react/destructuring-assignment
-    const { startSemester } = this.props.location.state || {}
+    const { startSemester } = this.props.location.state || {};
     const { lectureActive, mobileShowTimetableTabs, mobileShowLectureList, setMobileShowTimetableTabsDispatch } = this.props;
 
     return (

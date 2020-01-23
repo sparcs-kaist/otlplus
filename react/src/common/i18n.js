@@ -4,8 +4,8 @@ import Backend from 'i18next-xhr-backend';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import moment from 'moment';
 
-import en from '../translations/translation.en';
-import ko from '../translations/translation.ko';
+import en from '../translations/translation.en.json';
+import ko from '../translations/translation.ko.json';
 
 i18n
   .use(Backend)

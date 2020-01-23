@@ -309,7 +309,7 @@ class TimetableSubSection extends Component {
           }
           return <div key={i2} />;
         }),
-        ...Array(Math.ceil(untimedBlockTitles.length / 5)).fill(undefined).map((_, i) => (
+        ...[...Array(Math.ceil(untimedBlockTitles.length / 5)).keys()].map((_, i) => (
           <React.Fragment key={_}>
             <div />
             <div className={classNames('table-head')} />
@@ -395,7 +395,7 @@ class TimetableSubSection extends Component {
             />
           );
         }),
-        ...Array(Math.ceil(untimedBlockTitles.length / 5)).fill(undefined).map((_, i) => (
+        ...[...Array(Math.ceil(untimedBlockTitles.length / 5)).keys()].map((_, i) => (
           <React.Fragment key={_}>
             <div className={classNames('cell')} />
             <div className={classNames('table-head')}>{untimedBlockTitles[i * 5 + dayIdx]}</div>
