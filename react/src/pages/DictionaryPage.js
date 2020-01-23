@@ -25,8 +25,15 @@ class DictionaryPage extends Component {
     const { setCourseActiveDispatch, setCurrentListDispatch, setListCoursesDispatch, closeSearchDispatch, clearSearchListCoursesDispatch } = this.props;
 
     if (startCourseId) {
-      axios.get(`${BASE_URL}/api/courses/${startCourseId}`, {
-      })
+      axios.get(
+        `${BASE_URL}/api/courses/${startCourseId}`,
+        {
+          metadata: {
+            gaCategory: 'Course',
+            gaVariable: 'GET / Instance',
+          },
+        },
+      )
         .then((response) => {
           setCourseActiveDispatch(response.data, true);
         })
@@ -42,9 +49,18 @@ class DictionaryPage extends Component {
       closeSearchDispatch();
       clearSearchListCoursesDispatch();
 
-      axios.get(`${BASE_URL}/api/courses`, { params: {
-        keyword: startSearchKeyword,
-      } })
+      axios.get(
+        `${BASE_URL}/api/courses`,
+        {
+          params: {
+            keyword: startSearchKeyword,
+          },
+          metadata: {
+            gaCategory: 'Course',
+            gaVariable: 'GET / List',
+          },
+        },
+      )
         .then((response) => {
           setListCoursesDispatch('search', response.data);
         })

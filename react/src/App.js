@@ -37,7 +37,15 @@ const store = createStore(combineReducers({
 
 class App extends Component {
   componentDidMount() {
-    axios.get(`${BASE_URL}/session/info`)
+    axios.get(
+      `${BASE_URL}/session/info`,
+      {
+        metadata: {
+          gaCategory: 'User',
+          gaVariable: 'Get / Instance',
+        },
+      },
+    )
       .then((response) => {
         store.dispatch(setUser(response.data));
       })
@@ -46,8 +54,15 @@ class App extends Component {
           store.dispatch(setUser(null));
         }
       });
-    axios.get(`${BASE_URL}/api/semesters`, {
-    })
+    axios.get(
+      `${BASE_URL}/api/semesters`,
+      {
+        metadata: {
+          gaCategory: 'Semester',
+          gaVariable: 'GET / List',
+        },
+      },
+    )
       .then((response) => {
         store.dispatch(setSemesters(response.data));
       })

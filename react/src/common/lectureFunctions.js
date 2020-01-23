@@ -75,11 +75,20 @@ export const performAddToTable = (caller, lecture, currentTimetable, user, addLe
     return;
   }
 
-  axios.post(`${BASE_URL}/api/timetable/table_update`, {
-    table_id: currentTimetable.id,
-    lecture_id: lecture.id,
-    delete: false,
-  })
+  axios.post(
+    `${BASE_URL}/api/timetable/table_update`,
+    {
+      table_id: currentTimetable.id,
+      lecture_id: lecture.id,
+      delete: false,
+    },
+    {
+      metadata: {
+        gaCategory: 'Timetable',
+        gaVariable: 'POST Update / Instance',
+      },
+    },
+  )
     .then((response) => {
       const newProps = caller.props;
       if (!newProps.currentTimetable || newProps.currentTimetable.id !== currentTimetable.id) {
@@ -98,11 +107,20 @@ export const performDeleteFromTable = (caller, lecture, currentTimetable, user, 
     return;
   }
 
-  axios.post(`${BASE_URL}/api/timetable/table_update`, {
-    table_id: currentTimetable.id,
-    lecture_id: lecture.id,
-    delete: true,
-  })
+  axios.post(
+    `${BASE_URL}/api/timetable/table_update`,
+    {
+      table_id: currentTimetable.id,
+      lecture_id: lecture.id,
+      delete: true,
+    },
+    {
+      metadata: {
+        gaCategory: 'Timetable',
+        gaVariable: 'POST Update / Instance',
+      },
+    },
+  )
     .then((response) => {
       const newProps = caller.props;
       if (!newProps.currentTimetable || newProps.currentTimetable.id !== currentTimetable.id) {
@@ -121,10 +139,19 @@ export const performAddToCart = (caller, lecture, year, semester, user, addLectu
     return;
   }
 
-  axios.post(`${BASE_URL}/api/timetable/wishlist_update`, {
-    lecture_id: lecture.id,
-    delete: false,
-  })
+  axios.post(
+    `${BASE_URL}/api/timetable/wishlist_update`,
+    {
+      lecture_id: lecture.id,
+      delete: false,
+    },
+    {
+      metadata: {
+        gaCategory: 'Wishlist',
+        gaVariable: 'POST Update / Instance',
+      },
+    },
+  )
     .then((response) => {
       const newProps = caller.props;
       if (newProps.year !== year || (newProps.semester !== semester)
@@ -143,10 +170,19 @@ export const performDeleteFromCart = (caller, lecture, year, semester, user, del
     return;
   }
 
-  axios.post(`${BASE_URL}/api/timetable/wishlist_update`, {
-    lecture_id: lecture.id,
-    delete: true,
-  })
+  axios.post(
+    `${BASE_URL}/api/timetable/wishlist_update`,
+    {
+      lecture_id: lecture.id,
+      delete: true,
+    },
+    {
+      metadata: {
+        gaCategory: 'Wishlist',
+        gaVariable: 'POST Update / Instance',
+      },
+    },
+  )
     .then((response) => {
       const newProps = caller.props;
       if (newProps.year !== year || newProps.semester !== semester) {
