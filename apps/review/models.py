@@ -33,7 +33,7 @@ class Review(models.Model):
             if (not user) or (not user.is_authenticated()):
                 is_liked = False
             else:
-                is_liked = ReviewVote.objects.filter(comment = self, userprofile__user = user).exists()
+                is_liked = ReviewVote.objects.filter(review = self, userprofile__user = user).exists()
             result.update({
                 'userspecific_is_liked': is_liked,
             })
@@ -72,7 +72,7 @@ class Review(models.Model):
         return result
     
     def recalc_like(self):
-        self.like = self.comment_vote.all().count()
+        self.like = self.votes.all().count()
         cache.delete("review:%d:nested" % self.id)
         cache.delete("review:%d:normal" % self.id)
         self.save()
@@ -141,12 +141,12 @@ class Review(models.Model):
 
 
 class ReviewVote(models.Model):
-    comment = models.ForeignKey(Review, related_name="comment_vote", null=False)
-    userprofile = models.ForeignKey(UserProfile, related_name="comment_vote", on_delete=models.SET_NULL, null=True)
+    review = models.ForeignKey(Review, related_name="votes", null=False)
+    userprofile = models.ForeignKey(UserProfile, related_name="review_votes", on_delete=models.SET_NULL, null=True)
     is_up = models.BooleanField(null=False)
 
     class Meta:
-        unique_together = (("comment", "userprofile",))
+        unique_together = (("review", "userprofile",))
 
     @classmethod
     def cv_create(cls, comment, userprofile):
@@ -163,22 +163,22 @@ class ReviewVote(models.Model):
                 related.save()
         comment.like +=1
         comment.save()
-        new = cls(userprofile=userprofile, comment=comment, is_up = True)
+        new = cls(userprofile=userprofile, review=comment, is_up = True)
         new.save()
         return new
 
 
 class MajorBestReview(models.Model):
-    comment = models.OneToOneField(Review, related_name="major_best_comment", null=False, primary_key=True)
+    review = models.OneToOneField(Review, related_name="major_best_comment", null=False, primary_key=True)
 
     def __unicode__(self):
-        return u"%s(%s)"%(self.comment.lecture,self.comment.writer)
+        return u"%s(%s)"%(self.review.lecture,self.review.writer)
 
 
 class HumanityBestReview(models.Model):
-    comment = models.OneToOneField(Review, related_name="liberal_best_comment", null=False, primary_key=True)
+    review = models.OneToOneField(Review, related_name="liberal_best_comment", null=False, primary_key=True)
 
     def __unicode__(self):
-        return u"%s(%s)"%(self.comment.lecture,self.comment.writer)
+        return u"%s(%s)"%(self.review.lecture,self.review.writer)
 
 
