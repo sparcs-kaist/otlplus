@@ -17,7 +17,7 @@ class Command(BaseCommand):
         Comment_major = list(Comment_latest.filter(~Q(course__department__code="HSS")))
 
         def cmp1(a,b):
-            r =(b.comment.like/float(b.comment.lecture.audience+1) - a.comment.like/float(a.comment.lecture.audience+1))
+            r =(b.review.like/float(b.review.lecture.audience+1) - a.review.like/float(a.review.lecture.audience+1))
             if r>0.0 :
                 return 1
             elif r<0.0:
@@ -27,12 +27,12 @@ class Command(BaseCommand):
 
 
         try :
-            bComment_liberal=list(HumanityBestReview.objects.filter(comment__written_datetime__range=(first_date_all, last_date_all)))
+            bComment_liberal=list(HumanityBestReview.objects.filter(review__written_datetime__range=(first_date_all, last_date_all)))
         except:
             bComment_liberal=[]
 
         for sComment in Comment_liberal:
-            bComment_liberal.append(HumanityBestReview(comment=sComment))
+            bComment_liberal.append(HumanityBestReview(review=sComment))
         bComment_liberal.sort(cmp1)
         lbcl = HumanityBestReview.objects.all()
         lbcl.delete()
@@ -44,19 +44,19 @@ class Command(BaseCommand):
 
 
         try :
-            bComment_major=list(MajorBestReview.objects.filter(comment__written_datetime__range=(first_date_all, last_date_all)))
+            bComment_major=list(MajorBestReview.objects.filter(review__written_datetime__range=(first_date_all, last_date_all)))
         except:
             bComment_major=[]
 
         for sComment in Comment_major:
-            bComment_major.append(MajorBestReview(comment=sComment))
+            bComment_major.append(MajorBestReview(review=sComment))
         bComment_major.sort(cmp1)
         mbcl = MajorBestReview.objects.all()
         mbcl.delete()
         for department in Department.objects.all():
             comment_d = []
             for i in range(len(bComment_major)):
-                if bComment_major[i].comment.course.department.code == department.code:
+                if bComment_major[i].review.course.department.code == department.code:
                     comment_d.append(bComment_major[i])
                 for i in range(15):
                     try :
