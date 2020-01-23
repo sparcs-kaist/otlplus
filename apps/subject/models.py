@@ -93,7 +93,7 @@ class Lecture(models.Model):
     load = models.FloatField(default=0.0)
     speech = models.FloatField(default=0.0)
     total = models.FloatField(default=0.0)
-    comment_num = models.IntegerField(default=0)
+    review_num = models.IntegerField(default=0)
 
     def toJson(self, nested=False):
         if self.deleted:
@@ -155,7 +155,7 @@ class Lecture(models.Model):
             return result
 
         # Add formatted score
-        if self.comment_num == 0:
+        if self.review_num == 0:
             result.update({
                 'has_review': False,
                 'grade': 0,
@@ -236,14 +236,14 @@ class Lecture(models.Model):
 
     def recalc_score(self):
         from apps.review.models import Review
-        self.comment_num = 0
+        self.review_num = 0
         self.grade_sum = 0
         self.load_sum = 0
         self.speech_sum = 0
         for c in Review.objects.filter(lecture__course=self.course,
                                         lecture__professors__in=self.professors.all()):
             if c.grade > 0:
-                self.comment_num += (c.like+1)
+                self.review_num += (c.like+1)
                 self.grade_sum += (c.like+1)*c.grade*3
                 self.load_sum += (c.like+1)*c.load*3
                 self.speech_sum += (c.like+1)*c.speech*3
@@ -252,11 +252,11 @@ class Lecture(models.Model):
 
     def avg_update(self):
         self.total_sum = (self.grade_sum+self.load_sum+self.speech_sum)/3.0
-        if self.comment_num>0:
-            self.grade = (self.grade_sum + 0.0)/self.comment_num
-            self.load = (self.load_sum + 0.0)/self.comment_num
-            self.speech = (self.speech_sum + 0.0)/self.comment_num
-            self.total = (self.total_sum + 0.0)/self.comment_num
+        if self.review_num>0:
+            self.grade = (self.grade_sum + 0.0)/self.review_num
+            self.load = (self.load_sum + 0.0)/self.review_num
+            self.speech = (self.speech_sum + 0.0)/self.review_num
+            self.total = (self.total_sum + 0.0)/self.review_num
         else:
             self.grade = 0.0
             self.load = 0.0
@@ -540,7 +540,7 @@ class Course(models.Model):
     load_sum = models.IntegerField(default=0)
     speech_sum = models.IntegerField(default=0)
     total_sum = models.FloatField(default=0.0)
-    comment_num = models.IntegerField(default=0)
+    review_num = models.IntegerField(default=0)
     grade = models.FloatField(default=0.0)
     load = models.FloatField(default=0.0)
     speech = models.FloatField(default=0.0)
@@ -588,7 +588,7 @@ class Course(models.Model):
                 "title": self.title,
                 "title_en": self.title_en,
                 "summary": self.summury if len(self.summury)>0 else '등록되지 않았습니다.',
-                "comment_num": self.comment_num,
+                "review_num": self.review_num,
         }
 
         if nested:
@@ -611,7 +611,7 @@ class Course(models.Model):
         })
 
         # Add formatted score
-        if self.comment_num == 0:
+        if self.review_num == 0:
             result.update({
                 'has_review': False,
                 'grade': 0,
@@ -641,11 +641,11 @@ class Course(models.Model):
 
     def avg_update(self):
         self.total_sum = (self.grade_sum+self.load_sum+self.speech_sum)/3.0
-        if self.comment_num>0:
-            self.grade = (self.grade_sum + 0.0)/self.comment_num
-            self.load = (self.load_sum + 0.0)/self.comment_num
-            self.speech = (self.speech_sum + 0.0)/self.comment_num
-            self.total = (self.total_sum + 0.0)/self.comment_num
+        if self.review_num>0:
+            self.grade = (self.grade_sum + 0.0)/self.review_num
+            self.load = (self.load_sum + 0.0)/self.review_num
+            self.speech = (self.speech_sum + 0.0)/self.review_num
+            self.total = (self.total_sum + 0.0)/self.review_num
         else:
             self.grade = 0.0
             self.load = 0.0
@@ -678,7 +678,7 @@ class Professor(models.Model):
     load_sum = models.IntegerField(default=0)
     speech_sum = models.IntegerField(default=0)
     total_sum = models.FloatField(default=0.0)
-    comment_num = models.IntegerField(default=0)
+    review_num = models.IntegerField(default=0)
     grade = models.FloatField(default=0.0)
     load = models.FloatField(default=0.0)
     speech = models.FloatField(default=0.0)
@@ -700,7 +700,7 @@ class Professor(models.Model):
         })
 
         # Add formatted score
-        if self.comment_num == 0:
+        if self.review_num == 0:
             result.update({
                 'has_review': False,
                 'grade': 0,
@@ -726,11 +726,11 @@ class Professor(models.Model):
 
     def avg_update(self):
         self.total_sum = (self.grade_sum+self.load_sum+self.speech_sum)/3.0
-        if self.comment_num>0:
-            self.grade = (self.grade_sum + 0.0)/self.comment_num
-            self.load = (self.load_sum + 0.0)/self.comment_num
-            self.speech = (self.speech_sum + 0.0)/self.comment_num
-            self.total = (self.total_sum + 0.0)/self.comment_num
+        if self.review_num>0:
+            self.grade = (self.grade_sum + 0.0)/self.review_num
+            self.load = (self.load_sum + 0.0)/self.review_num
+            self.speech = (self.speech_sum + 0.0)/self.review_num
+            self.total = (self.total_sum + 0.0)/self.review_num
         else:
             self.grade = 0.0
             self.load = 0.0
