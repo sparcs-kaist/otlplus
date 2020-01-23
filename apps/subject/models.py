@@ -84,7 +84,7 @@ class Lecture(models.Model):
     class_title = models.CharField(max_length=100, null=True)
     class_title_en = models.CharField(max_length=100, null=True)
 
-    # Updated by view when comments are added/deleted/modified
+    # Updated by view when reviews are added/deleted/modified
     grade_sum = models.IntegerField(default=0)
     load_sum = models.IntegerField(default=0)
     speech_sum = models.IntegerField(default=0)
@@ -535,7 +535,7 @@ class Course(models.Model):
     related_courses_prior = models.ManyToManyField('Course', related_name='+')
     related_courses_posterior = models.ManyToManyField('Course', related_name='+')
 
-    # Updated by view when comments are added/deleted/modified
+    # Updated by view when reviews are added/deleted/modified
     grade_sum = models.IntegerField(default=0)
     load_sum = models.IntegerField(default=0)
     speech_sum = models.IntegerField(default=0)
@@ -673,7 +673,7 @@ class Professor(models.Model):
     major = models.CharField(max_length=30)
     course_list = models.ManyToManyField('Course', db_index=True)
 
-    # Updated by view when comments are added/deleted/modified
+    # Updated by view when reviews are added/deleted/modified
     grade_sum = models.IntegerField(default=0)
     load_sum = models.IntegerField(default=0)
     speech_sum = models.IntegerField(default=0)

@@ -76,19 +76,18 @@ def ReviewLike(request):
     is_login = False
     already_up = False
     likes_count = -1
-    comment_id = -1
     if request.user.is_authenticated():
         is_login = True
         if request.method == 'POST':
             user = request.user
             user_profile = user.userprofile
-            target_review = Review.objects.get(id=body['commentid'])
+            target_review = Review.objects.get(id=body['reviewid'])
             if ReviewVote.objects.filter(review = target_review, userprofile = user_profile).exists():
                 already_up = True
             else:
                 ReviewVote.cv_create(target_review,user_profile) #session 완성시 변경
             likes_count = target_review.like
-    ctx = {'likes_count': likes_count, 'already_up': already_up, 'is_login':is_login, 'id': body['commentid']}
+    ctx = {'likes_count': likes_count, 'already_up': already_up, 'is_login':is_login, 'id': body['reviewid']}
     return JsonResponse(ctx,safe=False)
 
 
@@ -152,14 +151,14 @@ def latest(request, page=-1):
     page = int(page)
     PAGE_SIZE = 20
 
-    comments = Review.objects.all().order_by('-written_datetime')
+    reviews = Review.objects.all().order_by('-written_datetime')
 
-    comments = comments[PAGE_SIZE * page : PAGE_SIZE * (page+1)]
+    reviews = reviews[PAGE_SIZE * page : PAGE_SIZE * (page+1)]
 
-    if len(comments) == 0:
+    if len(reviews) == 0:
         raise Http404
 
-    results = [i.toJson(user=request.user) for i in comments]
+    results = [i.toJson(user=request.user) for i in reviews]
     return JsonResponse(results,safe=False)
 
 

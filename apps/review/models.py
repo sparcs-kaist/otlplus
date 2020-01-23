@@ -149,21 +149,21 @@ class ReviewVote(models.Model):
         unique_together = (("review", "userprofile",))
 
     @classmethod
-    def cv_create(cls, comment, userprofile):
-        professors = comment.lecture.professors.all()
-        lectures = Lecture.objects.filter(course=comment.course, professors__in=professors)
-        related_list = [comment.course]+list(lectures)+list(professors)
-        if comment.grade > 0 and comment.load > 0 and comment.speech > 0 :
+    def cv_create(cls, review, userprofile):
+        professors = review.lecture.professors.all()
+        lectures = Lecture.objects.filter(course=review.course, professors__in=professors)
+        related_list = [review.course]+list(lectures)+list(professors)
+        if review.grade > 0 and review.load > 0 and review.speech > 0 :
             for related in related_list:
-                related.grade_sum += comment.grade*3
-                related.load_sum += comment.load*3
-                related.speech_sum += comment.speech*3
+                related.grade_sum += review.grade*3
+                related.load_sum += review.load*3
+                related.speech_sum += review.speech*3
                 related.review_num += 1
                 related.avg_update()
                 related.save()
-        comment.like +=1
-        comment.save()
-        new = cls(userprofile=userprofile, review=comment, is_up = True)
+        review.like +=1
+        review.save()
+        new = cls(userprofile=userprofile, review=review, is_up = True)
         new.save()
         return new
 
