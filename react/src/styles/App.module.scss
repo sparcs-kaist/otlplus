@@ -130,6 +130,11 @@ a:link {
 
 table {
     border-spacing: 0;
+    table-layout: auto;
+}
+
+th {
+    font-weight: initial;
 }
 
 iframe {
@@ -2252,7 +2257,6 @@ a {
 .history {
 
     & table {
-        table-layout: auto;
         margin-right: -10000px;
 
         & > tbody > tr {
@@ -2280,7 +2284,6 @@ a {
                 text-align: right;
                 line-height: $line-height-small;
                 color: $color-text-normal;
-                font-weight: initial;;
             }
 
             & > td {
