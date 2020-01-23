@@ -114,29 +114,29 @@ class TimetableTabs extends Component {
       createTimetableDispatch(this._createRandomTimetableId());
     }
     else {
-    axios.post(
-      `${BASE_URL}/api/timetable/table_create`,
-      {
-        year: year,
-        semester: semester,
-        lectures: [],
-      },
-      {
-        metadata: {
-          gaCategory: 'Timetable',
-          gaVariable: 'POST / List',
-        },
-      },
-    )
-      .then((response) => {
-        const newProps = this.props;
-        if (newProps.year !== year || newProps.semester !== semester) {
-          return;
-        }
-        createTimetableDispatch(response.data.id);
-      })
-      .catch((error) => {
-      });
+      axios.post(
+        `${BASE_URL}/api/timetable/table_create`,
+        {
+          year: year,
+          semester: semester,
+          lectures: [],
+        }, 
+        {
+          metadata: {
+            gaCategory: 'Timetable',
+            gaVariable: 'POST / List',
+          },
+        }, 
+      )
+        .then((response) => {
+          const newProps = this.props;
+          if (newProps.year !== year || newProps.semester !== semester) {
+            return;
+          }
+          createTimetableDispatch(response.data.id);
+        })
+        .catch((error) => {
+        });
     }
 
     ReactGA.event({
@@ -161,29 +161,29 @@ class TimetableTabs extends Component {
       alert(t('ui.message.lastTimetable'));
     }
     else {
-    axios.post(
-      `${BASE_URL}/api/timetable/table_delete`,
-      {
-        table_id: timetable.id,
-        year: year,
-        semester: semester,
-      },
-      {
-        metadata: {
-          gaCategory: 'Timetable',
-          gaVariable: 'DELETE / Instance',
-        },
-      },
-    )
-      .then((response) => {
-        const newProps = this.props;
-        if (newProps.year !== year || newProps.semester !== semester) {
-          return;
-        }
-        deleteTimetableDispatch(timetable);
-      })
-      .catch((error) => {
-      });
+      axios.post(
+        `${BASE_URL}/api/timetable/table_delete`,
+        {
+          table_id: timetable.id,
+          year: year,
+          semester: semester,
+        }, 
+        {
+          metadata: {
+            gaCategory: 'Timetable',
+            gaVariable: 'DELETE / Instance',
+          },
+        }, 
+      )
+        .then((response) => {
+          const newProps = this.props;
+          if (newProps.year !== year || newProps.semester !== semester) {
+            return;
+          }
+          deleteTimetableDispatch(timetable);
+        })
+        .catch((error) => {
+        });
     }
 
     ReactGA.event({
@@ -201,29 +201,29 @@ class TimetableTabs extends Component {
       duplicateTimetableDispatch(this._createRandomTimetableId(), timetable);
     }
     else {
-    axios.post(
-      `${BASE_URL}/api/timetable/table_create`,
-      {
-        year: year,
-        semester: semester,
-        lectures: timetable.lectures.map(l => l.id),
-      },
-      {
-        metadata: {
-          gaCategory: 'Timetable',
-          gaVariable: 'POST / List',
-        },
-      },
-    )
-      .then((response) => {
-        const newProps = this.props;
-        if (newProps.year !== year || newProps.semester !== semester) {
-          return;
-        }
-        duplicateTimetableDispatch(response.data.id, timetable);
-      })
-      .catch((error) => {
-      });
+      axios.post(
+        `${BASE_URL}/api/timetable/table_create`,
+        {
+          year: year,
+          semester: semester,
+          lectures: timetable.lectures.map(l => l.id),
+        }, 
+        {
+          metadata: {
+            gaCategory: 'Timetable',
+            gaVariable: 'POST / List',
+          },
+        }, 
+      )
+        .then((response) => {
+          const newProps = this.props;
+          if (newProps.year !== year || newProps.semester !== semester) {
+            return;
+          }
+          duplicateTimetableDispatch(response.data.id, timetable);
+        })
+        .catch((error) => {
+        });
     }
 
     ReactGA.event({

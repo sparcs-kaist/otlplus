@@ -155,7 +155,7 @@ class FavoriteDepartmentsSection extends Component {
             inputName="department"
             titleName={t('ui.search.favoriteDepartment')}
             options={departmentOptions}
-            checkedValues={this.state.department}
+            checkedValues={department}
           />
           <div className={classNames('buttons')}>
             { hasChange

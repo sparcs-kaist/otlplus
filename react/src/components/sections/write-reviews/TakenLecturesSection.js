@@ -12,7 +12,6 @@ import LectureSimpleBlock from '../../blocks/LectureSimpleBlock';
 import { setLectureSelected, clearLectureSelected } from '../../../actions/write-reviews/lectureSelected';
 
 import userShape from '../../../shapes/UserShape';
-import semesterShape from '../../../shapes/SemesterShape';
 import lectureShape from '../../../shapes/LectureShape';
 
 
@@ -43,7 +42,7 @@ class TakenLecturesSection extends Component {
 
   render() {
     const { t } = this.props;
-    const { user, semesters, selectedLecture } = this.props;
+    const { user, selectedLecture } = this.props;
 
     if (!user) {
       return (
@@ -169,7 +168,6 @@ class TakenLecturesSection extends Component {
 
 const mapStateToProps = state => ({
   user: state.common.user.user,
-  semesters: state.common.semester.semesters,
   selectedLecture: state.writeReviews.lectureSelected.lecture,
 });
 
@@ -184,7 +182,6 @@ const mapDispatchToProps = dispatch => ({
 
 TakenLecturesSection.propTypes = {
   user: userShape,
-  semesters: PropTypes.arrayOf(semesterShape).isRequired,
   selectedLecture: lectureShape,
   setLectureSelectedDispatch: PropTypes.func.isRequired,
   clearLectureSelectedDispatch: PropTypes.func.isRequired,
