@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand
-from apps.review.models import MajorBestComment, LiberalBestComment, Review
+from apps.review.models import MajorBestReview, HumanityBestReview, Review
 from datetime import datetime, timedelta, time, date
 from django.utils import timezone
 from django.db.models import Q
@@ -27,14 +27,14 @@ class Command(BaseCommand):
 
 
         try :
-            bComment_liberal=list(LiberalBestComment.objects.filter(comment__written_datetime__range=(first_date_all, last_date_all)))
+            bComment_liberal=list(HumanityBestReview.objects.filter(comment__written_datetime__range=(first_date_all, last_date_all)))
         except:
             bComment_liberal=[]
 
         for sComment in Comment_liberal:
-            bComment_liberal.append(LiberalBestComment(comment=sComment))
+            bComment_liberal.append(HumanityBestReview(comment=sComment))
         bComment_liberal.sort(cmp1)
-        lbcl = LiberalBestComment.objects.all()
+        lbcl = HumanityBestReview.objects.all()
         lbcl.delete()
         for i in range(50):
             try :
@@ -44,14 +44,14 @@ class Command(BaseCommand):
 
 
         try :
-            bComment_major=list(MajorBestComment.objects.filter(comment__written_datetime__range=(first_date_all, last_date_all)))
+            bComment_major=list(MajorBestReview.objects.filter(comment__written_datetime__range=(first_date_all, last_date_all)))
         except:
             bComment_major=[]
 
         for sComment in Comment_major:
-            bComment_major.append(MajorBestComment(comment=sComment))
+            bComment_major.append(MajorBestReview(comment=sComment))
         bComment_major.sort(cmp1)
-        mbcl = MajorBestComment.objects.all()
+        mbcl = MajorBestReview.objects.all()
         mbcl.delete()
         for department in Department.objects.all():
             comment_d = []
