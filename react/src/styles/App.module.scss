@@ -130,6 +130,11 @@ a:link {
 
 table {
     border-spacing: 0;
+    table-layout: auto;
+}
+
+th {
+    font-weight: initial;
 }
 
 iframe {
@@ -2252,7 +2257,6 @@ a {
 .history {
 
     & table {
-        table-layout: auto;
         margin-right: -10000px;
 
         & > tbody > tr {
@@ -2280,7 +2284,6 @@ a {
                 text-align: right;
                 line-height: $line-height-small;
                 color: $color-text-normal;
-                font-weight: initial;;
             }
 
             & > td {
@@ -2500,7 +2503,7 @@ a {
                     font-size: calc(0.7vh + 15px);
                     line-height: calc(0.7vh + 13px);
                     &.scores__score-text--korean {
-                        font-size: calc(0.7vh + 13px);
+                        font-size: calc(0.7vh + 14px);
                     }
                 }
             }
@@ -2511,7 +2514,7 @@ a {
                     font-size: calc(1.9vw + 15px);
                     line-height: calc(1.9vw + 13px);
                     &.scores__score-text--korean {
-                        font-size: calc(1.9vw + 13px);
+                        font-size: calc(1.9vw + 14px);
                     }
                 }
                 .section-content--summary & {
@@ -2687,98 +2690,98 @@ button.disabled {
     {
         background-color: #F4B3AE;
         &.background-color--dark {
-            background-color: adjust-color(#F4B3AE, $saturation: 10%, $lightness: -10%);;
+            background-color: adjust-color(#F4B3AE, $saturation: 10%, $lightness: -10%);
         }
     }
     &--3
     {
         background-color: #F2BCA0;
         &.background-color--dark {
-            background-color: adjust-color(#F2BCA0, $saturation: 10%, $lightness: -10%);;
+            background-color: adjust-color(#F2BCA0, $saturation: 10%, $lightness: -10%);
         }
     }
     &--4
     {
         background-color: #F0D3AB;
         &.background-color--dark {
-            background-color: adjust-color(#F0D3AB, $saturation: 10%, $lightness: -10%);;
+            background-color: adjust-color(#F0D3AB, $saturation: 10%, $lightness: -10%);
         }
     }
     &--5
     {
         background-color: #F1E1A9;
         &.background-color--dark {
-            background-color: adjust-color(#F1E1A9, $saturation: 10%, $lightness: -10%);;
+            background-color: adjust-color(#F1E1A9, $saturation: 10%, $lightness: -10%);
         }
     }
     &--6
     {
         background-color: #f4f2b3;
         &.background-color--dark {
-            background-color: adjust-color(#f4f2b3, $saturation: 10%, $lightness: -10%);;
+            background-color: adjust-color(#f4f2b3, $saturation: 10%, $lightness: -10%);
         }
     }
     &--7
     {
         background-color: #dbf4be;
         &.background-color--dark {
-            background-color: adjust-color(#dbf4be, $saturation: 10%, $lightness: -10%);;
+            background-color: adjust-color(#dbf4be, $saturation: 10%, $lightness: -10%);
         }
     }
     &--8
     {
         background-color: #beedd7;
         &.background-color--dark {
-            background-color: adjust-color(#beedd7, $saturation: 10%, $lightness: -10%);;
+            background-color: adjust-color(#beedd7, $saturation: 10%, $lightness: -10%);
         }
     }
     &--9
     {
         background-color: #b7e2de;
         &.background-color--dark {
-            background-color: adjust-color(#b7e2de, $saturation: 10%, $lightness: -10%);;
+            background-color: adjust-color(#b7e2de, $saturation: 10%, $lightness: -10%);
         }
     }
     &--10
     {
         background-color: #c9eaf4;
         &.background-color--dark {
-            background-color: adjust-color(#c9eaf4, $saturation: 10%, $lightness: -10%);;
+            background-color: adjust-color(#c9eaf4, $saturation: 10%, $lightness: -10%);
         }
     }
     &--11
     {
         background-color: #B4D3ED;
         &.background-color--dark {
-            background-color: adjust-color(#B4D3ED, $saturation: 10%, $lightness: -10%);;
+            background-color: adjust-color(#B4D3ED, $saturation: 10%, $lightness: -10%);
         }
     }
     &--12
     {
         background-color: #B9C5ED;
         &.background-color--dark {
-            background-color: adjust-color(#B9C5ED, $saturation: 10%, $lightness: -10%);;
+            background-color: adjust-color(#B9C5ED, $saturation: 10%, $lightness: -10%);
         }
     }
     &--13
     {
         background-color: #CCC6ED;
         &.background-color--dark {
-            background-color: adjust-color(#CCC6ED, $saturation: 10%, $lightness: -10%);;
+            background-color: adjust-color(#CCC6ED, $saturation: 10%, $lightness: -10%);
         }
     }
     &--14
     {
         background-color: #D8C1F0;
         &.background-color--dark {
-            background-color: adjust-color(#D8C1F0, $saturation: 10%, $lightness: -10%);;
+            background-color: adjust-color(#D8C1F0, $saturation: 10%, $lightness: -10%);
         }
     }
     &--15
     {
         background-color: #EBCAEF;
         &.background-color--dark {
-            background-color: adjust-color(#EBCAEF, $saturation: 10%, $lightness: -10%);;
+            background-color: adjust-color(#EBCAEF, $saturation: 10%, $lightness: -10%);
         }
     }
     &--16

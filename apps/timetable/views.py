@@ -111,11 +111,11 @@ def table_update(request):
             timetable.lecture.add(lecture)
         except IntegrityError:
             # Race condition when user sent multiple identical requests
-            return JsonResponse({ 'success': False });
+            return JsonResponse({ 'success': False })
     else:
         timetable.lecture.remove(lecture)
         
-    return JsonResponse({ 'success': True });
+    return JsonResponse({ 'success': True })
 
 
 
@@ -353,7 +353,7 @@ def wishlist_update(request):
     else:
         w.lectures.remove(lecture)
         
-    return JsonResponse({ 'success': True });
+    return JsonResponse({ 'success': True })
 
 
 def _rounded_rectangle(draw, points, radius, color):
