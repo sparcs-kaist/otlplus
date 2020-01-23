@@ -19,7 +19,7 @@ class Command(BaseCommand):
             related.load_sum = 0
             related.speech_sum = 0
             related.total_sum = 0
-            related.comment_num = 0
+            related.review_num = 0
             related.avg_update()
             related.save()
             print str(i) + " / " + str(related_len)
@@ -41,7 +41,7 @@ class Command(BaseCommand):
                 related.load_sum += (comment.like+1)*comment.load*3
                 related.speech_sum += (comment.like+1)*comment.speech*3
                 related.total_sum += (comment.like+1)*comment.total*3
-                related.comment_num += comment.like+1
+                related.review_num += comment.like+1
                 related.avg_update()
                 related.save()
             print str(comment.written_datetime) + " : updated"

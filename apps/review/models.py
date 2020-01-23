@@ -93,7 +93,7 @@ class Review(models.Model):
             related.grade_sum += grade*3
             related.load_sum += load*3
             related.speech_sum += speech*3
-            related.comment_num += 1
+            related.review_num += 1
             related.avg_update()
             related.save()
         new = cls(course=course, lecture=lecture, comment=comment, grade=grade, load=load, speech=speech, total=(grade+load+speech)/3.0, writer=writer)
@@ -134,7 +134,7 @@ class Review(models.Model):
             related.grade_sum -= (self.like+1)*self.grade*3
             related.load_sum -= (self.like+1)*self.load*3
             related.speech_sum -= (self.like+1)*self.speech*3
-            related.comment_num -= (self.like+1)
+            related.review_num -= (self.like+1)
             related.avg_update()
             related.save()
         self.delete()
@@ -158,7 +158,7 @@ class ReviewVote(models.Model):
                 related.grade_sum += comment.grade*3
                 related.load_sum += comment.load*3
                 related.speech_sum += comment.speech*3
-                related.comment_num += 1
+                related.review_num += 1
                 related.avg_update()
                 related.save()
         comment.like +=1
