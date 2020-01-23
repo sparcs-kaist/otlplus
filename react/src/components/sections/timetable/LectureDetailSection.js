@@ -7,7 +7,7 @@ import qs from 'qs';
 import ReactGA from 'react-ga';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
-import axios, { BASE_URL } from '../../../common/presetAxios';
+import axios from '../../../common/presetAxios';
 
 import Scroller from '../../Scroller';
 import ReviewSimpleBlock from '../../blocks/ReviewSimpleBlock';
@@ -85,7 +85,7 @@ class LectureDetailSection extends Component {
 
     if (reviews === null) {
       axios.get(
-        `${BASE_URL}/api/lectures/${lecture.id}/related-reviews`,
+        `/api/lectures/${lecture.id}/related-reviews`,
         {
           metadata: {
             gaCategory: 'Lecture',

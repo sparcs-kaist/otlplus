@@ -5,7 +5,7 @@ import { withTranslation } from 'react-i18next';
 import ReactGA from 'react-ga';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
-import axios, { BASE_URL } from '../../common/presetAxios';
+import axios from '../../common/presetAxios';
 
 import { openSearch, closeSearch } from '../../actions/dictionary/search';
 import { setListMajorCodes, setCurrentList, setListCourses, setListMajorCourses } from '../../actions/dictionary/list';
@@ -78,7 +78,7 @@ class CourseListTabs extends Component {
     }
 
     axios.get(
-      `${BASE_URL}/api/courses`,
+      '/api/courses',
       {
         params: {
           group: [majorCode],
@@ -109,7 +109,7 @@ class CourseListTabs extends Component {
     }
 
     axios.get(
-      `${BASE_URL}/api/courses`,
+      '/api/courses',
       {
         params: {
           group: 'Humanity',
@@ -142,7 +142,7 @@ class CourseListTabs extends Component {
     }
     setListCoursesDispatch('taken', null);
     axios.get(
-      `${BASE_URL}/api/users/${user.id}/taken-courses`,
+      `/api/users/${user.id}/taken-courses`,
       {
         params: {
         },

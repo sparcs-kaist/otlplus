@@ -2,12 +2,13 @@ import axios from 'axios';
 import Qs from 'qs';
 import ReactGA from 'react-ga';
 
-export const BASE_URL = ''; // Use Relative URL
-
 // eslint-disable-next-line fp/no-mutation
 axios.defaults.xsrfHeaderName = 'X-CSRFToken';
 // eslint-disable-next-line fp/no-mutation
 axios.defaults.xsrfCookieName = 'csrftoken';
+
+// eslint-disable-next-line fp/no-mutation
+axios.defaults.baseURL = '/';
 
 // eslint-disable-next-line fp/no-mutation
 axios.defaults.paramsSerializer = params => Qs.stringify(params, { arrayFormat: 'repeat' });

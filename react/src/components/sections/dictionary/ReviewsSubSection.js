@@ -5,7 +5,7 @@ import { withTranslation } from 'react-i18next';
 import ReactGA from 'react-ga';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
-import axios, { BASE_URL } from '../../../common/presetAxios';
+import axios from '../../../common/presetAxios';
 
 import ReviewBlock from '../../blocks/ReviewBlock';
 import ReviewWriteBlock from '../../blocks/ReviewWriteBlock';
@@ -49,7 +49,7 @@ class ReviewsSubSection extends Component {
     const { course, setReviewsDispatch } = this.props;
 
     axios.get(
-      `${BASE_URL}/api/courses/${course.id}/reviews`,
+      `/api/courses/${course.id}/reviews`,
       {
         metadata: {
           gaCategory: 'Course',
@@ -79,7 +79,7 @@ class ReviewsSubSection extends Component {
     }
 
     axios.post(
-      `${BASE_URL}/api/review/read`,
+      '/api/review/read',
       {
         id: course.id,
       },
