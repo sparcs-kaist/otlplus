@@ -46,10 +46,10 @@ class FamousMajorReviewDailyFeed(DailyFeed):
         try:
             feed = cls.objects.get(date=date, department=department)
         except cls.DoesNotExist:
-            reviews = MajorBestReview.objects.filter(comment__lecture__department=department)
+            reviews = MajorBestReview.objects.filter(review__lecture__department=department)
             if reviews.count() < 3:
                 return None
-            selected_reviews = random.sample([r.comment for r in reviews], 3)
+            selected_reviews = random.sample([r.review for r in reviews], 3)
             feed = cls.objects.create(date=date, department=department, priority=random.random())
             feed.reviews.add(*selected_reviews)
         return feed
@@ -76,10 +76,10 @@ class FamousHumanityReviewDailyFeed(DailyFeed):
         try:
             feed = cls.objects.get(date=date)
         except cls.DoesNotExist:
-            reviews = HumanityBestReview.objects.filter(comment__lecture__type_en="Humanities & Social Elective")
+            reviews = HumanityBestReview.objects.filter(review__lecture__type_en="Humanities & Social Elective")
             if reviews.count() < 3:
                 return None
-            selected_reviews = random.sample([r.comment for r in reviews], 3)
+            selected_reviews = random.sample([r.review for r in reviews], 3)
             feed = cls.objects.create(date=date, priority=random.random())
             feed.reviews.add(*selected_reviews)
         return feed
