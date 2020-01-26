@@ -56,9 +56,14 @@ def courses_list_view(request):
             if "ALL" in level:
                 pass
             elif "ETC" in level:
-                courses = courses.exclude(code_num__in = [acronym_dic[x] for x in acronym_dic if x not in level])
+                numbers = ''.join([acronym_dic[x] for x in acronym_dic if x not in level])
+                regex = r'^[A-Za-z]+[{numbers}][0-9][0-9]$'.format(numbers=numbers)
+                courses = courses.exclude(old_code__regex=regex)
             else:
-                courses = courses.filter(code_num__in = [acronym_dic[x] for x in acronym_dic if x in level])
+                numbers = ''.join([acronym_dic[x] for x in acronym_dic if x in level])
+                regex = r'^[A-Za-z]+[{numbers}][0-9][0-9]$'.format(numbers=numbers)
+                print(regex)
+                courses = courses.filter(old_code__regex=regex)
 
         term = request.GET.get('term', None)
         if term and len(term):
@@ -214,9 +219,13 @@ def lectures_list_view(request):
             if "ALL" in level:
                 pass
             elif "ETC" in level:
-                lectures = lectures.exclude(course__code_num__in = [acronym_dic[x] for x in acronym_dic if x not in level])
+                numbers = ''.join([acronym_dic[x] for x in acronym_dic if x not in level])
+                regex = r'^[A-Za-z]+[{numbers}][0-9][0-9]$'.format(numbers=numbers)
+                lectures = lectures.exclude(old_code__regex=regex)
             else:
-                lectures = lectures.filter(course__code_num__in = [acronym_dic[x] for x in acronym_dic if x in level])
+                numbers = ''.join([acronym_dic[x] for x in acronym_dic if x in level])
+                regex = r'^[A-Za-z]+[{numbers}][0-9][0-9]$'.format(numbers=numbers)
+                lectures = lectures.filter(old_code__regex=regex)
 
         time_query = Q()
 

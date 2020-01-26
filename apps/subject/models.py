@@ -529,9 +529,6 @@ class Course(models.Model):
     # Updated by command update_course_summary
     summury = models.CharField(max_length=4000, default="")
 
-    # Updated by command update_CourseCodeNum
-    code_num = models.CharField(max_length=10, db_index=True, default='D')
-
     related_courses_prior = models.ManyToManyField('Course', related_name='+')
     related_courses_posterior = models.ManyToManyField('Course', related_name='+')
 
@@ -582,7 +579,6 @@ class Course(models.Model):
                 "id": self.id,
                 "old_code": self.old_code,
                 "department": self.department.toJson(nested=True),
-                "code_num": self.code_num,
                 "type": self.type,
                 "type_en": self.type_en,
                 "title": self.title,
@@ -652,10 +648,6 @@ class Course(models.Model):
             self.speech = 0.0
             self.total = 0.0
         self.save()
-
-    def update_code_num(self):
-        self.code_num = self.old_code[-3]
-        self.save(update_fields=["code_num"])
 
     def update_related_courses(self):
         pass
@@ -741,13 +733,6 @@ class Professor(models.Model):
     def __unicode__(self):
         return u"%s(id:%d)"%(self.professor_name,self.professor_id)
 
-
-class CourseFiltered(models.Model):
-    title = models.CharField(max_length=100, default="", db_index=True, unique=True)
-    courses = models.ManyToManyField('Course', db_index=True)
-
-    def __unicode__(self):
-        return self.title
 
 class CourseUser(models.Model):
     course = models.ForeignKey('Course', related_name='read_users_courseuser', on_delete=models.CASCADE)
