@@ -3,7 +3,7 @@
 from django.shortcuts import render, redirect, render_to_response
 from django.template import RequestContext
 from apps.session.models import UserProfile
-from apps.subject.models import Course, Lecture, Department, CourseFiltered, Professor, CourseUser
+from apps.subject.models import Course, Lecture, Department, Professor, CourseUser
 from apps.review.models import Review, ReviewVote, MajorBestReview, HumanityBestReview
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseBadRequest, JsonResponse, Http404
 from django.db.models import Q
