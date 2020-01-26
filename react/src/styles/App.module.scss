@@ -1095,6 +1095,7 @@ a {
         flex: 1 1 auto;
         display: flex;
         flex-direction: column;
+        min-height: calc(#{$line-height-normal} * 3 + 8px + 2px - #{$section-padding});
 
         &__title {
             flex: 0 0 auto;
