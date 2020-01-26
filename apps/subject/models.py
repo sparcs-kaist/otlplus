@@ -734,13 +734,6 @@ class Professor(models.Model):
         return u"%s(id:%d)"%(self.professor_name,self.professor_id)
 
 
-class CourseFiltered(models.Model):
-    title = models.CharField(max_length=100, default="", db_index=True, unique=True)
-    courses = models.ManyToManyField('Course', db_index=True)
-
-    def __unicode__(self):
-        return self.title
-
 class CourseUser(models.Model):
     course = models.ForeignKey('Course', related_name='read_users_courseuser', on_delete=models.CASCADE)
     user_profile = models.ForeignKey('session.UserProfile', on_delete=models.CASCADE)
