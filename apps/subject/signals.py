@@ -28,15 +28,3 @@ def lecture_saved(**kwargs):
         kwargs['instance'].update_class_title()
     else:
         pass
-
-
-
-@receiver(post_save, sender=Course)
-def course_saved(**kwargs):
-    update_fields = kwargs['update_fields']
-    if update_fields is None:
-        kwargs['instance'].update_code_num()
-    elif 'code_num' not in update_fields:
-        kwargs['instance'].update_code_num()
-    else:
-        pass

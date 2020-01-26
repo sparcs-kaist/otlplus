@@ -4,7 +4,6 @@ echo $(date +'%Y-%m-%d / %T') >db_update_script.log 2>&1
 BASEDIR=$(dirname $(readlink -f "$0"))
 python $BASEDIR/scripts/do_import_scholardb.py >>db_update_script.log 2>&1
 python $BASEDIR/manage.py update_ProfessorCourseList >>db_update_script.log 2>&1
-python $BASEDIR/manage.py update_CourseFiltered >>db_update_script.log 2>&1
 python $BASEDIR/scripts/do_import_taken_lecture.py >>db_update_script.log 2>&1
 
 echo "Done!"
