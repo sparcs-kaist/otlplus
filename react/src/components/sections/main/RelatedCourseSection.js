@@ -29,7 +29,7 @@ class RelatedCourseSection extends Component {
           : <div className={classNames('list-placeholder')}><div>{t('ui.placeholder.unknown')}</div></div>
         }
         <div className={classNames('buttons')}>
-          <Link to={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: 746 }) }} className={classNames('text-button')}>
+          <Link to={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: course.id }) }} className={classNames('text-button')}>
             {t('ui.button.seeDetails')}
           </Link>
         </div>
