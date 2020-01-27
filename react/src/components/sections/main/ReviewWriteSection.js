@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
@@ -31,9 +32,9 @@ class ReviewWriteSection extends Component {
         </div>
         <ReviewWriteBlock lecture={lecture} review={review} pageFrom="Main" updateOnSubmit={this.updateOnReviewSubmit} />
         <div className={classNames('buttons')}>
-          <button className={classNames('text-button')}>
+          <Link to="/write-reviews" className={classNames('text-button')}>
             {t('ui.button.writeMoreReviews')}
-          </button>
+          </Link>
         </div>
       </div>
     );
