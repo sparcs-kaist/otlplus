@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
+import qs from 'qs';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
@@ -30,7 +32,11 @@ class LatestReviewsSubSection extends Component {
       <div className={classNames('section-content', 'section-content--latest-reviews')}>
         <div className={classNames('title')}>{t('ui.title.latestReviews')}</div>
         <div className={classNames('section-contentt--latest-reviews__list-area')}>
-          {reviews.map(r => <ReviewBlock review={r} pageFrom="Write Reviews" key={r.id} />)}
+          {reviews.map(r => (
+            <Link to={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: r.course.id }) }} key={r.id}>
+              <ReviewBlock review={r} pageFrom="Write Reviews" key={r.id} />
+            </Link>
+          ))}
         </div>
       </div>
     );
