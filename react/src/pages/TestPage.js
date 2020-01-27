@@ -1,8 +1,7 @@
 /* eslint no-console: "off" */
 
 import React, { Component } from 'react';
-
-import axios from '../common/presetAxios';
+import axios from 'axios';
 
 
 class TestPage extends Component {
