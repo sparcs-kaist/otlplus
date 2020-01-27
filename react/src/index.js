@@ -1,15 +1,12 @@
 /* eslint-disable */
 
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
-import registerServiceWorker from './registerServiceWorker';
 
-import { Router } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
-import ReactGA from 'react-ga';
 
 const history = createBrowserHistory();
+
+
+import ReactGA from 'react-ga';
 
 const trackingId = 'UA-144615112-2';
 ReactGA.initialize(trackingId);
@@ -109,11 +106,20 @@ axios.interceptors.response.use(
   },
 );
 
+
+import { Router } from 'react-router-dom';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
+
 ReactDOM.render(
     <Router history={history}>
         <App/>
     </Router>,
     document.getElementById('root'));
+
+
+import registerServiceWorker from './registerServiceWorker';
 
 try {
     registerServiceWorker();
