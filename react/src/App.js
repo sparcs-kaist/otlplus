@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
+import axios from 'axios';
 import qs from 'qs';
 
 import Header from './components/guideline/Header';
@@ -15,8 +16,6 @@ import CreditPage from './pages/CreditPage';
 import LicensePage from './pages/LicensePage';
 import TestPage from './pages/TestPage';
 import ErrorPage from './pages/ErrorPage';
-
-import axios from './common/presetAxios';
 
 import dictionaryReducer from './reducers/dictionary/index';
 import timetableReducer from './reducers/timetable/index';

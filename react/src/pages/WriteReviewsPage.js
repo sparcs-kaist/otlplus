@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import axios from 'axios';
 import ReactGA from 'react-ga';
 
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
-import axios from '../common/presetAxios';
 
 import Scroller from '../components/Scroller';
 import TakenLecturesSection from '../components/sections/write-reviews/TakenLecturesSection';

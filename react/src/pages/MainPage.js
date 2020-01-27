@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
+import axios from 'axios';
 
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
-import axios from '../common/presetAxios';
 
 import Footer from '../components/guideline/Footer';
 import MyTimetableSection from '../components/sections/main/MyTimetableSection';
