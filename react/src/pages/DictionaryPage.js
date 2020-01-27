@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
+import axios from 'axios';
 
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
-import axios from '../common/presetAxios';
 
 import CourseListSection from '../components/sections/dictionary/CourseListSection';
 import CourseDetailSection from '../components/sections/dictionary/CourseDetailSection';
