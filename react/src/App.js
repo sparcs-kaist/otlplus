@@ -16,7 +16,6 @@ import LicensePage from './pages/LicensePage';
 import TestPage from './pages/TestPage';
 import ErrorPage from './pages/ErrorPage';
 
-import './common/i18n';
 import axios from './common/presetAxios';
 
 import dictionaryReducer from './reducers/dictionary/index';
