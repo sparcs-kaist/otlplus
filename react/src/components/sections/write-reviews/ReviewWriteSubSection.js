@@ -61,6 +61,7 @@ const mapDispatchToProps = dispatch => ({
 ReviewWriteSubSection.propTypes = {
   user: userShape,
   selectedLecture: lectureShape,
+
   updateUserReviewDispatch: PropTypes.func.isRequired,
   updateReviewDispatch: PropTypes.func.isRequired,
 };

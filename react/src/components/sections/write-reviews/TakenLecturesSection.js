@@ -183,6 +183,7 @@ const mapDispatchToProps = dispatch => ({
 TakenLecturesSection.propTypes = {
   user: userShape,
   selectedLecture: lectureShape,
+
   setLectureSelectedDispatch: PropTypes.func.isRequired,
   clearLectureSelectedDispatch: PropTypes.func.isRequired,
 };

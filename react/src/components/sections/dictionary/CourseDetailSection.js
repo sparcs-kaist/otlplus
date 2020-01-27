@@ -187,6 +187,7 @@ CourseDetailSection.propTypes = {
   clicked: PropTypes.bool.isRequired,
   course: courseShape,
   currentList: PropTypes.string.isRequired,
+
   clearCourseActiveDispatch: PropTypes.func.isRequired,
 };
 

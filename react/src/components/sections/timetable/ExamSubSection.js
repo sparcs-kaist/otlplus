@@ -167,6 +167,7 @@ ExamSubSection.propTypes = {
   currentTimetable: timetableShape,
   lectureActiveLecture: lectureShape,
   lectureActiveFrom: PropTypes.oneOf([NONE, LIST, TABLE, MULTIPLE]).isRequired,
+
   setMultipleDetailDispatch: PropTypes.func.isRequired,
   clearMultipleDetailDispatch: PropTypes.func.isRequired,
 };
