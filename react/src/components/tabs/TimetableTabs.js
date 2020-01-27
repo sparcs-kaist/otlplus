@@ -349,6 +349,7 @@ TimetableTabs.propTypes = {
   myTimetable: timetableShape.isRequired,
   year: PropTypes.number,
   semester: PropTypes.number,
+
   setTimetablesDispatch: PropTypes.func.isRequired,
   clearTimetablesDispatch: PropTypes.func.isRequired,
   setMyTimetableLecturesDispatch: PropTypes.func.isRequired,

@@ -181,6 +181,7 @@ const mapDispatchToProps = dispatch => ({
 
 FavoriteDepartmentsSection.propTypes = {
   user: userShape,
+
   setUserDispatch: PropTypes.func.isRequired,
 };
 

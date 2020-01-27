@@ -151,6 +151,7 @@ const mapDispatchToProps = dispatch => ({
 
 WriteReviewsPage.propTypes = {
   selectedLecture: lectureShape,
+
   addReviewsDispatch: PropTypes.func.isRequired,
   clearLectureSelectedDispatch: PropTypes.func.isRequired,
   resetLectureSelectedDispatch: PropTypes.func.isRequired,
