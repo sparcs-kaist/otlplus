@@ -1,4 +1,4 @@
-/* eslint-disable */
+/* eslint-disable import/first, import/order */
 
 
 import { createBrowserHistory } from 'history';
@@ -10,9 +10,9 @@ import ReactGA from 'react-ga';
 
 const trackingId = 'UA-144615112-2';
 ReactGA.initialize(trackingId);
-history.listen(location => {
-    ReactGA.set({ page: location.pathname });
-    ReactGA.pageview(location.pathname);
+history.listen((location) => {
+  ReactGA.set({ page: location.pathname });
+  ReactGA.pageview(location.pathname);
 });
 
 
@@ -113,17 +113,19 @@ import ReactDOM from 'react-dom';
 import App from './App';
 
 ReactDOM.render(
-    <Router history={history}>
-        <App/>
-    </Router>,
-    document.getElementById('root'));
+  <Router history={history}>
+    <App />
+  </Router>,
+  document.getElementById('root'),
+);
 
 
 import registerServiceWorker from './registerServiceWorker';
 
 try {
-    registerServiceWorker();
+  registerServiceWorker();
 }
 catch (error) {
-    console.log(error);
+  // eslint-disable-next-line no-console
+  console.log(error);
 }
