@@ -200,6 +200,7 @@ CourseListSection.propTypes = {
   courseActive: courseActiveShape.isRequired,
   courseActiveClicked: PropTypes.bool.isRequired,
   searchOpen: PropTypes.bool.isRequired,
+
   openSearchDispatch: PropTypes.func.isRequired,
   setCourseActiveDispatch: PropTypes.func.isRequired,
   clearCourseActiveDispatch: PropTypes.func.isRequired,

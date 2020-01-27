@@ -199,6 +199,7 @@ ReviewsSubSection.propTypes = {
   clicked: PropTypes.bool.isRequired,
   course: courseShape,
   reviews: PropTypes.arrayOf(reviewShape),
+
   setReviewsDispatch: PropTypes.func.isRequired,
   addCourseReadDispatch: PropTypes.func.isRequired,
   updateUserReviewDispatch: PropTypes.func.isRequired,

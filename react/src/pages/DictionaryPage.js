@@ -146,6 +146,7 @@ DictionaryPage.propTypes = {
       startSearchKeyword: PropTypes.string,
     }),
   }).isRequired,
+
   resetCourseActiveDispatch: PropTypes.func.isRequired,
   resetListDispatch: PropTypes.func.isRequired,
   resetSearchDispatch: PropTypes.func.isRequired,

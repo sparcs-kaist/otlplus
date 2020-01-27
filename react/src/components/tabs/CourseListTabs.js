@@ -257,6 +257,7 @@ CourseListTabs.propTypes = {
   taken: PropTypes.shape({
     courses: PropTypes.arrayOf(courseShape),
   }).isRequired,
+
   openSearchDispatch: PropTypes.func.isRequired,
   closeSearchDispatch: PropTypes.func.isRequired,
   setListMajorCodesDispatch: PropTypes.func.isRequired,

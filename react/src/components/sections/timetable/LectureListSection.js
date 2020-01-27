@@ -406,6 +406,7 @@ LectureListSection.propTypes = {
   year: PropTypes.number,
   semester: PropTypes.number,
   searchOpen: PropTypes.bool.isRequired,
+
   openSearchDispatch: PropTypes.func.isRequired,
   setLectureActiveDispatch: PropTypes.func.isRequired,
   clearLectureActiveDispatch: PropTypes.func.isRequired,
