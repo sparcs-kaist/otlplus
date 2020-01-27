@@ -495,6 +495,7 @@ LectureDetailSection.propTypes = {
   }).isRequired,
   year: PropTypes.number,
   semester: PropTypes.number,
+
   clearLectureActiveDispatch: PropTypes.func.isRequired,
   addLectureToTimetableDispatch: PropTypes.func.isRequired,
   removeLectureFromTimetableDispatch: PropTypes.func.isRequired,

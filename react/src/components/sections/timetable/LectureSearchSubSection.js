@@ -322,6 +322,7 @@ LectureSearchSubSection.propTypes = {
   year: PropTypes.number,
   semester: PropTypes.number,
   lectureActive: lectureActiveShape,
+
   closeSearchDispatch: PropTypes.func.isRequired,
   clearDragDispatch: PropTypes.func.isRequired,
   setListLecturesDispatch: PropTypes.func.isRequired,

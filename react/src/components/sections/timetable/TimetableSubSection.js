@@ -506,6 +506,7 @@ TimetableSubSection.propTypes = {
   cellHeight: PropTypes.number.isRequired,
   isDragging: PropTypes.bool.isRequired,
   mobileShowLectureList: PropTypes.bool.isRequired,
+
   updateCellSizeDispatch: PropTypes.func.isRequired,
   dragSearchDispatch: PropTypes.func.isRequired,
   clearDragDispatch: PropTypes.func.isRequired,

@@ -161,6 +161,7 @@ HistorySubSection.propTypes = {
   clicked: PropTypes.bool.isRequired,
   course: courseShape,
   lectures: PropTypes.arrayOf(lectureShape),
+
   setLecturesDispatch: PropTypes.func.isRequired,
 };
 
