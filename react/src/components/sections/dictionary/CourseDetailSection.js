@@ -162,7 +162,7 @@ class CourseDetailSection extends Component {
           </div>
           <div>
             © 2016,&nbsp;
-            <a href="http://sparcs.kaist.ac.kr">SPARCS</a>
+            <a href="http://sparcs.org">SPARCS</a>
             &nbsp;OTL Team
           </div>
         </div>
