@@ -4,55 +4,53 @@ from datetime import datetime, timedelta, time, date
 from django.utils import timezone
 from django.db.models import Q
 from apps.subject.models import Department
+import random
+
+
 class Command(BaseCommand):
     help = 'BestReview Changer'
     def handle(self, *args, **options):
         print "BestReview changing start!"
-        last_date = timezone.now()
-        first_date = timezone.now() - timedelta(days = 1 )
-        last_date_all = timezone.now()
-        first_date_all = timezone.now() - timedelta(days = 600)
-        reviews_latest = Review.objects.filter(written_datetime__range=(first_date, last_date))
-        reviews_humanity = list(reviews_latest.filter(Q(course__department__code="HSS")))
-        reviews_major = list(reviews_latest.filter(~Q(course__department__code="HSS")))
+        latest_date_end = timezone.now()
+        latest_date_start = timezone.now() - timedelta(days = 7)
 
-        def cmp1(a,b):
-            r =(b.review.like/float(b.review.lecture.audience+1) - a.review.like/float(a.review.lecture.audience+1))
-            if r>0.0 :
-                return 1
-            elif r<0.0:
-                return -1
-            else :
-                return 0
+        def key(a):
+            return a.like / float(a.lecture.audience+1)
 
 
-        best_reviews_humanity=list(HumanityBestReview.objects.filter(review__written_datetime__range=(first_date_all, last_date_all)))
-        best_reviews_humanity += [HumanityBestReview(review=c) for c in reviews_humanity]
-        best_reviews_humanity.sort(cmp1)
+        def get_best_reviews(reviews, min_liked_count, max_result_count):
+            liked_count = max(min_liked_count, len(reviews) / 10)
+            most_liked_reviews = sorted(list(reviews), key=key, reverse=True)[:liked_count]
+
+            latest_reviews = list(reviews.filter(written_datetime__range=(latest_date_start, latest_date_end)))
+
+            best_candidate_reviews = most_liked_reviews + latest_reviews
+            if len(best_candidate_reviews) > max_result_count:
+                result_reviews = random.sample(best_candidate_reviews, k=max_result_count)
+            else:
+                result_reviews = best_candidate_reviews
+
+            return result_reviews
+
+
+
+        humanity_reviews = Review.objects.filter(course__department__code="HSS")
+
+        humanity_best_reviews = get_best_reviews(humanity_reviews, 50, 20)
 
         HumanityBestReview.objects.all().delete()
-        for i in range(50):
-            try :
-                best_reviews_humanity[i].save()
-            except:
-                continue
+        for r in humanity_best_reviews:
+            HumanityBestReview.objects.create(review = r)
 
 
-        best_reviews_major=list(MajorBestReview.objects.filter(review__written_datetime__range=(first_date_all, last_date_all)))
-        best_reviews_major += [MajorBestReview(review=c) for c in reviews_major]
-        best_reviews_major.sort(cmp1)
+
+        major_reviews = Review.objects.exclude(course__department__code="HSS")
+
+        major_best_reviews = get_best_reviews(major_reviews, 2000, 1000)
 
         MajorBestReview.objects.all().delete()
-        for department in Department.objects.all():
-            review_d = []
-            for i in range(len(best_reviews_major)):
-                if best_reviews_major[i].review.course.department.code == department.code:
-                    review_d.append(best_reviews_major[i])
-                for i in range(15):
-                    try :
-                        review_d[i].save()
-                    except:
-                        continue
+        for r in major_best_reviews:
+            MajorBestReview.objects.create(review = r)
 
 
         print "BestReview was changed"
