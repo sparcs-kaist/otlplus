@@ -20,6 +20,7 @@ class RandomCourseReco(models.Model):
 class DailyFeed(models.Model):
     date = models.DateField()
     priority = models.FloatField()
+    visible = models.BooleanField()
 
     class Meta:
         unique_together = [['date']]
@@ -48,11 +49,17 @@ class FamousMajorReviewDailyFeed(DailyFeed):
         except cls.DoesNotExist:
             reviews = MajorBestReview.objects.filter(review__lecture__department=department)
             if reviews.count() < 3:
-                return None
-            selected_reviews = random.sample([r.review for r in reviews], 3)
-            feed = cls.objects.create(date=date, department=department, priority=random.random())
+                selected_reviews = reviews[:]
+                visible = False
+            else:
+                selected_reviews = random.sample([r.review for r in reviews], 3)
+                visible = random.random() > 0.7
+            feed = cls.objects.create(date=date, department=department, priority=random.random(), visible=visible)
             feed.reviews.add(*selected_reviews)
-        return feed
+        if not feed.visible:
+            return None
+        else:
+            return feed
 
     def toJson(self, nested=False, user=None):
         result = {
@@ -78,11 +85,17 @@ class FamousHumanityReviewDailyFeed(DailyFeed):
         except cls.DoesNotExist:
             reviews = HumanityBestReview.objects.filter(review__lecture__type_en="Humanities & Social Elective")
             if reviews.count() < 3:
-                return None
-            selected_reviews = random.sample([r.review for r in reviews], 3)
-            feed = cls.objects.create(date=date, priority=random.random())
+                selected_reviews = reviews[:]
+                visible = False
+            else:
+                selected_reviews = random.sample([r.review for r in reviews], 3)
+                visible = random.random() > 0.7
+            feed = cls.objects.create(date=date, priority=random.random(), visible=visible)
             feed.reviews.add(*selected_reviews)
-        return feed
+        if not feed.visible:
+            return None
+        else:
+            return feed
 
     def toJson(self, nested=False, user=None):
         result = {
@@ -109,8 +122,11 @@ class ReviewWriteDailyUserFeed(DailyUserFeed):
             if taken_lectures.count() == 0:
                 return None
             selected_lecture = random.choice(taken_lectures)
-            feed = cls.objects.create(date=date, user=user, lecture=selected_lecture, priority=random.random())
-        return feed
+            feed = cls.objects.create(date=date, user=user, lecture=selected_lecture, priority=random.random(), visible=random.random() > 0.7)
+        if not feed.visible:
+            return None
+        else:
+            return feed
 
     def toJson(self, nested=False, user=None):
         result = {
@@ -137,8 +153,11 @@ class RelatedCourseDailyUserFeed(DailyUserFeed):
             if taken_lectures.count() == 0:
                 return None
             selected_lecture = random.choice(taken_lectures)
-            feed = cls.objects.create(date=date, user=user, course=selected_lecture.course, priority=random.random())
-        return feed
+            feed = cls.objects.create(date=date, user=user, course=selected_lecture.course, priority=random.random(), visible=random.random() > 0.7)
+        if not feed.visible:
+            return None
+        else:
+            return feed
 
     def toJson(self, nested=False, user=None):
         result = {
