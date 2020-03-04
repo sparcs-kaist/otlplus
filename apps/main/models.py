@@ -53,7 +53,7 @@ class FamousMajorReviewDailyFeed(DailyFeed):
                 visible = False
             else:
                 selected_reviews = random.sample([r.review for r in reviews], 3)
-                visible = random.random() > 0.7
+                visible = random.random() < 0.7
             feed = cls.objects.create(date=date, department=department, priority=random.random(), visible=visible)
             feed.reviews.add(*selected_reviews)
         if not feed.visible:
@@ -89,7 +89,7 @@ class FamousHumanityReviewDailyFeed(DailyFeed):
                 visible = False
             else:
                 selected_reviews = random.sample([r.review for r in reviews], 3)
-                visible = random.random() > 0.7
+                visible = random.random() < 0.7
             feed = cls.objects.create(date=date, priority=random.random(), visible=visible)
             feed.reviews.add(*selected_reviews)
         if not feed.visible:
@@ -122,7 +122,7 @@ class ReviewWriteDailyUserFeed(DailyUserFeed):
             if taken_lectures.count() == 0:
                 return None
             selected_lecture = random.choice(taken_lectures)
-            feed = cls.objects.create(date=date, user=user, lecture=selected_lecture, priority=random.random(), visible=random.random() > 0.7)
+            feed = cls.objects.create(date=date, user=user, lecture=selected_lecture, priority=random.random(), visible=random.random() < 0.7)
         if not feed.visible:
             return None
         else:
@@ -153,7 +153,7 @@ class RelatedCourseDailyUserFeed(DailyUserFeed):
             if taken_lectures.count() == 0:
                 return None
             selected_lecture = random.choice(taken_lectures)
-            feed = cls.objects.create(date=date, user=user, course=selected_lecture.course, priority=random.random(), visible=random.random() > 0.7)
+            feed = cls.objects.create(date=date, user=user, course=selected_lecture.course, priority=random.random(), visible=random.random() < 0.7)
         if not feed.visible:
             return None
         else:
