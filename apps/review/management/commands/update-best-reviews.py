@@ -26,16 +26,11 @@ class Command(BaseCommand):
                 return 0
 
 
-        try :
-            best_reviews_humanity=list(HumanityBestReview.objects.filter(review__written_datetime__range=(first_date_all, last_date_all)))
-        except:
-            best_reviews_humanity=[]
-
-        for c in reviews_humanity:
-            best_reviews_humanity.append(HumanityBestReview(review=c))
+        best_reviews_humanity=list(HumanityBestReview.objects.filter(review__written_datetime__range=(first_date_all, last_date_all)))
+        best_reviews_humanity += [HumanityBestReview(review=c) for c in reviews_humanity]
         best_reviews_humanity.sort(cmp1)
-        lbcl = HumanityBestReview.objects.all()
-        lbcl.delete()
+
+        HumanityBestReview.objects.all().delete()
         for i in range(50):
             try :
                 best_reviews_humanity[i].save()
@@ -43,16 +38,11 @@ class Command(BaseCommand):
                 continue
 
 
-        try :
-            best_reviews_major=list(MajorBestReview.objects.filter(review__written_datetime__range=(first_date_all, last_date_all)))
-        except:
-            best_reviews_major=[]
-
-        for c in reviews_major:
-            best_reviews_major.append(MajorBestReview(review=c))
+        best_reviews_major=list(MajorBestReview.objects.filter(review__written_datetime__range=(first_date_all, last_date_all)))
+        best_reviews_major += [MajorBestReview(review=c) for c in reviews_major]
         best_reviews_major.sort(cmp1)
-        mbcl = MajorBestReview.objects.all()
-        mbcl.delete()
+
+        MajorBestReview.objects.all().delete()
         for department in Department.objects.all():
             review_d = []
             for i in range(len(best_reviews_major)):
