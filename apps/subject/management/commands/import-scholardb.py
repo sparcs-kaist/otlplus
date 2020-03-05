@@ -134,11 +134,11 @@ class Command(BaseCommand):
                 try:
                     lecture = Lecture.objects.get(**lecture_key)
                     lecture_key_hashable = lecture.id
-                    print 'Updating existing lecture...'
+                    print 'Updating existing lecture %s' % lecture
                 except Lecture.DoesNotExist:
                     lecture = Lecture(**lecture_key)
                     lecture.num_people = 0
-                    print 'Creating new lecture...'
+                    print 'Creating new lecture %s' % lecture
 
                 # Update lecture info.
                 lecture.department = department
