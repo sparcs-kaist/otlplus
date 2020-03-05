@@ -314,7 +314,7 @@ class CreditPage extends Component {
     {
       index: 8,
       mainTitle: 'OTL PLUS',
-      subTitle: 'Release 2020',
+      subTitle: '2020 Release',
       period: '2018.01 ~ 2020.01',
       fields:
         [
