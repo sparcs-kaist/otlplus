@@ -339,10 +339,7 @@ class Lecture(models.Model):
 
     def __unicode__(self):
         professors_list=self.professors.all()
-        re_str=u"%s(%s %s"%(self.title, self.old_code, professors_list[0].professor_name)
-        for i in range(1,len(professors_list)):
-            re_str+=", %s"%(professors_list[i].professor_name)
-        re_str+=")"
+        re_str=u"%s(%s %s)"%(self.title, self.old_code, self.class_no)
         return re_str
 
 
