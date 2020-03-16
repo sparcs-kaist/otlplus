@@ -26,5 +26,5 @@ urlpatterns = [
     url(r'^wishlist_update$', views.wishlist_update),
     url(r'^share_image$', views.share_image),
     url(r'^share_calendar$', views.share_calendar),
-    url(r'^google_auth_return$', views.google_auth_return),
+    url(r'^external/google/google_auth_return$', views.google_auth_return),
 ]
