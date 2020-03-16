@@ -234,7 +234,7 @@ def share_calendar(request):
     if credential is None or credential.invalid == True:
         FLOW.params['state'] = xsrfutil.generate_token(settings.SECRET_KEY,
                                                        request.user)
-        authorize_url = FLOW.step1_get_authorize_url(redirect_uri = request.build_absolute_uri("/api/timetable/google_auth_return"))
+        authorize_url = FLOW.step1_get_authorize_url(redirect_uri = request.build_absolute_uri("/api/external/google/google_auth_return"))
         return HttpResponseRedirect(authorize_url)
 
     http = credential.authorize(httplib2.Http())
