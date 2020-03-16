@@ -255,8 +255,19 @@ def share_calendar(request):
     created_calendar = service.calendars().insert(body=calendar).execute()
     c_id = created_calendar['id']
 
-    start = settings.SEMESTER_RANGES[(year,semester)][0]
-    end = settings.SEMESTER_RANGES[(year,semester)][1] + datetime.timedelta(days=1)
+    class KST(datetime.tzinfo):
+        _offset = datetime.timedelta(hours = 9)
+        _dst = datetime.timedelta(0)
+        _name = "KST"
+        def utcoffset(self, dt):
+            return self.__class__._offset
+        def dst(self, dt):
+            return self.__class__._dst
+        def tzname(self, dt):
+            return self.__class__._name
+    semester = Semester.objects.get(year=year, semester=semester)
+    start = semester.beginning.astimezone(KST()).date()
+    end = semester.end.astimezone(KST()).date()
  
     for lecture in timetable.lecture.all():
         lDict = lecture.toJson(nested=False)
