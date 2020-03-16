@@ -18,8 +18,8 @@ from django.http import HttpResponseRedirect
 from . import views
 
 urlpatterns = [
-    url(r'^latest/(?P<page>[0-9]+)$', views.latest),
-    url(r'^insert/([^/]+)$', views.insertReview),
-    url(r'^like$',views.ReviewLike),
-    url(r'^read$',views.read_course)
+    url(r'^review/latest/(?P<page>[0-9]+)$', views.latest),
+    url(r'^review/insert/([^/]+)$', views.insertReview),
+    url(r'^review/like$',views.ReviewLike),
+    url(r'^review/read$',views.read_course)
 ]
