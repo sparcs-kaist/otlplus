@@ -18,13 +18,13 @@ from django.http import HttpResponseRedirect
 from . import views
 
 urlpatterns = [
-    url(r'^table_update$', views.table_update),
-    url(r'^table_create$', views.table_create),
-    url(r'^table_delete$', views.table_delete),
-    url(r'^table_load$', views.table_load),
-    url(r'^wishlist_load$', views.wishlist_load),
-    url(r'^wishlist_update$', views.wishlist_update),
-    url(r'^share_image$', views.share_image),
-    url(r'^share_calendar$', views.share_calendar),
+    url(r'^timetable/table_update$', views.table_update),
+    url(r'^timetable/table_create$', views.table_create),
+    url(r'^timetable/table_delete$', views.table_delete),
+    url(r'^timetable/table_load$', views.table_load),
+    url(r'^timetable/wishlist_load$', views.wishlist_load),
+    url(r'^timetable/wishlist_update$', views.wishlist_update),
+    url(r'^timetable/share_image$', views.share_image),
+    url(r'^timetable/share_calendar$', views.share_calendar),
     url(r'^external/google/google_auth_return$', views.google_auth_return),
 ]
