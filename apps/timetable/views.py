@@ -6,6 +6,7 @@ from apps.timetable.models import TimeTable, Wishlist
 from apps.subject.models import Lecture, Professor, Course, Semester
 from apps.review.models import Review
 from apps.subject.models import *
+from apps.common.timezone import KST
 from django.contrib.auth.models import User
 
 # Django modules
@@ -255,16 +256,6 @@ def share_calendar(request):
     created_calendar = service.calendars().insert(body=calendar).execute()
     c_id = created_calendar['id']
 
-    class KST(datetime.tzinfo):
-        _offset = datetime.timedelta(hours = 9)
-        _dst = datetime.timedelta(0)
-        _name = "KST"
-        def utcoffset(self, dt):
-            return self.__class__._offset
-        def dst(self, dt):
-            return self.__class__._dst
-        def tzname(self, dt):
-            return self.__class__._name
     semester = Semester.objects.get(year=year, semester=semester)
     start = semester.beginning.astimezone(KST()).date()
     end = semester.end.astimezone(KST()).date()
