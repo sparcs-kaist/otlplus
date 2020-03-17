@@ -210,6 +210,24 @@ FLOW = client.flow_from_clientsecrets(settings.GOOGLE_OAUTH2_CLIENT_SECRETS_JSON
 
 
 
+def _get_timetable_or_my_timetable_lectures(userprofile, table_id, year, semester):
+    MY = -1
+
+    if userprofile == None:
+        return None
+
+    if table_id == MY:
+        return list(userprofile.take_lecture_list.filter(year=year, semester=semester))
+    
+    try:
+        table = TimeTable.objects.get(id=table_id, year=year, semester=semester)
+    except TimeTable.DoesNotExist:
+        return None
+    
+    return list(table.lecture.all())
+
+
+
 # Export OTL timetable to google calendar
 @login_required
 def share_calendar(request):
@@ -218,16 +236,15 @@ def share_calendar(request):
 
     try:
         table_id = int(request.GET['table_id'])
+        year = int(request.GET['year'])
+        semester = int(request.GET['semester'])
     except KeyError:
         return HttpResponseBadRequest('Missing fields in request data')
 
     # Find the right timetable
-    try:
-        timetable = TimeTable.objects.get(user=userprofile, id=table_id)
-    except TimeTable.DoesNotExist:
+    timetable_lectures = _get_timetable_or_my_timetable_lectures(userprofile, table_id, year, semester)
+    if timetable_lectures is None:
         return HttpResponseBadRequest('No such timetable')
-    year = timetable.year
-    semester = timetable.semester
 
     storage = DjangoORMStorage(UserProfile, 'user', request.user, 'google_credential')
     credential = storage.get()
@@ -260,7 +277,7 @@ def share_calendar(request):
     start = semester.beginning.astimezone(KST()).date()
     end = semester.end.astimezone(KST()).date()
  
-    for lecture in timetable.lecture.all():
+    for lecture in timetable_lectures:
         lDict = lecture.toJson(nested=False)
 
         for classtime in lDict['classtimes']:
@@ -431,10 +448,12 @@ def share_image(request):
 
     try:
         table_id = request.GET['table_id']
+        year = request.GET['year']
+        semester = request.GET['semester']
     except KeyError:
         return HttpResponseBadRequest('Missing fields in request data')
 
-    timetable = TimeTable.objects.get(user=userprofile, id=table_id)
+    timetable_lectures = _get_timetable_or_my_timetable_lectures(userprofile, table_id, year, semester)
 
     if settings.DEBUG:
         file_path = 'static/'
@@ -447,7 +466,7 @@ def share_image(request):
     textDraw = ImageDraw.Draw(textImage)
     font = ImageFont.truetype(file_path+"fonts/NanumBarunGothic.ttf", 22)
 
-    for l in timetable.lecture.all():
+    for l in timetable_lectures:
         lDict = l.toJson(nested=False)
         color = ['#F2CECE','#F4B3AE','#F2BCA0','#F0D3AB',
                  '#F1E1A9','#f4f2b3','#dbf4be','#beedd7',
