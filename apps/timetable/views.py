@@ -447,9 +447,9 @@ def share_image(request):
     userprofile = request.user.userprofile
 
     try:
-        table_id = request.GET['table_id']
-        year = request.GET['year']
-        semester = request.GET['semester']
+        table_id = int(request.GET['table_id'])
+        year = int(request.GET['year'])
+        semester = int(request.GET['semester'])
     except KeyError:
         return HttpResponseBadRequest('Missing fields in request data')
 
