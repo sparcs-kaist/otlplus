@@ -15,7 +15,7 @@ import timetableShape from '../../../shapes/TimetableShape';
 class ShareSubSection extends Component {
   render() {
     const { t } = this.props;
-    const { currentTimetable, mobileShowLectureList, setMobileShowTimetableTabsDispatch, setMobileShowLectureListDispatch } = this.props;
+    const { currentTimetable, mobileShowLectureList, year, semester, setMobileShowTimetableTabsDispatch, setMobileShowLectureListDispatch } = this.props;
 
     const timetableLectures = currentTimetable
       ? currentTimetable.lectures
@@ -23,9 +23,23 @@ class ShareSubSection extends Component {
     return (
       <div className={classNames('section-content--share', (mobileShowLectureList ? 'mobile-hidden' : ''))}>
         <div>
-          <a href={`/api/timetable/share_image?table_id=${currentTimetable ? currentTimetable.id : -1}`} download><i className={classNames('icon', 'icon--share-image')} /></a>
-          <a href={`/api/timetable/share_calendar?table_id=${currentTimetable ? currentTimetable.id : -1}`} target="_blank" rel="noopener noreferrer"><i className={classNames('icon', 'icon--share-calendar')} /></a>
+          { currentTimetable && year && semester
+            ? (
+            /* eslint-disable-next-line react/jsx-indent */
+        <>
+          <a href={`/api/timetable/share_image?table_id=${currentTimetable ? currentTimetable.id : -1}&year=${year}&semester=${semester}`} download><i className={classNames('icon', 'icon--share-image')} /></a>
+          <a href={`/api/timetable/share_calendar?table_id=${currentTimetable ? currentTimetable.id : -1}&year=${year}&semester=${semester}`} target="_blank" rel="noopener noreferrer"><i className={classNames('icon', 'icon--share-calendar')} /></a>
           <Link to={{ pathname: '/timetable/syllabus', state: { lectures: timetableLectures } }}><i className={classNames('icon', 'icon--share-syllabus')} /></Link>
+        </>
+            )
+            : (
+              <>
+                <span className={classNames('disabled')}><i className={classNames('icon', 'icon--share-image')} /></span>
+                <span className={classNames('disabled')}><i className={classNames('icon', 'icon--share-calendar')} /></span>
+                <span className={classNames('disabled')}><i className={classNames('icon', 'icon--share-syllabus')} /></span>
+              </>
+            )
+          }
 
         </div>
         <div>
@@ -47,6 +61,8 @@ class ShareSubSection extends Component {
 const mapStateToProps = state => ({
   currentTimetable: state.timetable.timetable.currentTimetable,
   mobileShowLectureList: state.timetable.list.mobileShowLectureList,
+  year: state.timetable.semester.year,
+  semester: state.timetable.semester.semester,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -61,6 +77,8 @@ const mapDispatchToProps = dispatch => ({
 ShareSubSection.propTypes = {
   currentTimetable: timetableShape,
   mobileShowLectureList: PropTypes.bool.isRequired,
+  year: PropTypes.number,
+  semester: PropTypes.number,
 
   setMobileShowTimetableTabsDispatch: PropTypes.func.isRequired,
   setMobileShowLectureListDispatch: PropTypes.func.isRequired,

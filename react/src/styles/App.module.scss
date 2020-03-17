@@ -2964,6 +2964,10 @@ i.icon {
         *:hover > & {
             background-image: url(../static/icons/share_image_hover.svg);
         }
+
+        *.disabled > & {
+            background-image: url(../static/icons/share_image_disable.svg);
+        }
     }
 
     &--share-calendar {
@@ -2974,6 +2978,10 @@ i.icon {
         *:hover > & {
             background-image: url(../static/icons/share_calendar_hover.svg);
         }
+
+        *.disabled > & {
+            background-image: url(../static/icons/share_calendar_disable.svg);
+        }
     }
 
     &--share-syllabus {
@@ -2983,6 +2991,10 @@ i.icon {
 
         *:hover > & {
             background-image: url(../static/icons/share_syllabus_hover.svg);
+        }
+
+        *.disabled > & {
+            background-image: url(../static/icons/share_syllabus_disable.svg);
         }
     }
 
