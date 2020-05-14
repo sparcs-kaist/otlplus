@@ -7,11 +7,15 @@ User 오브젝트는 로그인한 상태라면 http request가 발생할 때마�
 User 오브젝트 캐시는 userid를 이용하고, post_save/post_delete signal을 이용하여
 User 오브젝트가 변경될 때 해당 User에 대한 캐시를 invalidate한다.
 """
+import logging
+import time
 
 from django.core.cache import cache
 from django.contrib.auth import get_user, SESSION_KEY
 from django.db.models.signals import post_save, post_delete
 from django.contrib.auth.models import User, AnonymousUser
+
+from otlplus.settings import LOG_FILE
 
 class CachedAuthMiddleware(object):
     def process_request(self, request):
@@ -44,3 +48,37 @@ def invalidate_user_cache_after_change(sender, **kwargs):
 post_save.connect(invalidate_user_cache_after_change, sender=User)
 post_delete.connect(invalidate_user_cache_after_change, sender=User)
 
+
+class RequestMiddleware:
+
+    def __init__(self, next_layer=None):
+        self.get_response = next_layer
+        self.logger = self.set_logger()
+
+    @staticmethod
+    def set_logger():
+        logger = logging.getLogger('RequestMiddleware')
+        logger.setLevel('DEBUG')
+        if len(logger.handlers) == 0:
+            logger.addHandler(logging.FileHandler(filename=LOG_FILE))
+
+        return logger
+
+    def process_request(self, request):
+        log = {
+            'cookie': request.COOKIES,
+            'user_id': request.user.id if request.user else None,
+            'URI': request.path_info,
+            'method': request.method,
+            'timestamp': time.time(),
+            'requested_dt': time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),
+        }
+        self.logger.info(log)
+
+    def process_response(self, request, response):
+        return response
+
+    def __call__(self, request):
+        response = self.get_response(request)
+        response = self.process_response(request, response)
+        return response
