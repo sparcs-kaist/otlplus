@@ -4,6 +4,8 @@ from django.db.models import Q
 from django.core.cache import cache
 from apps.common.enum import * #for enum type (for choices)
 from datetime import date, time
+import datetime
+import operator
 
 
 class Semester(models.Model):
@@ -335,7 +337,14 @@ class Lecture(models.Model):
 
     @classmethod
     def getQueryReviewWritable(cls):
-        return Q(year__lt=2020) # TODO: Change it into semester courseDropDeadline passed
+        now = datetime.datetime.now()
+        not_writable_semesters = Semester.objects.filter(Q(courseAddDropPeriodEnd__gte=now) | Q(beginning__gte=now))
+        query = reduce(
+            operator.and_,
+            (~Q(year=s.year, semester=s.semester) for s in not_writable_semesters),
+            Q()
+        )
+        return query
 
     def __unicode__(self):
         professors_list=self.professors.all()
