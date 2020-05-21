@@ -7,7 +7,7 @@ from django.conf import settings
 from django.core.exceptions import *
 #from otl.apps.accounts.models import UserProfile
 #from otl.apps.timetable.models import Lecture
-from apps.subject.models import Lecture
+from apps.subject.models import Semester, Lecture
 from apps.session.models import UserProfile
 from optparse import make_option
 from datetime import datetime, timedelta, time, date
@@ -37,8 +37,13 @@ class Command(BaseCommand):
             year = int(options['year'])
             semester = int(options['semester'])
         else:
-            year = settings.CURRENT_YEAR
-            semester = settings.CURRENT_SEMESTER
+            default_semester = Semester.getImportingSemester()
+            if default_semester != None:
+                year = default_semester.year
+                semester = default_semester.semester
+            else:
+                print("Target year or semester not specified.")
+                return
 
         try:
             if password is None:

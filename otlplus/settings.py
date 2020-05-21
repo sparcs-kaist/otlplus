@@ -133,8 +133,6 @@ USE_TZ = True
 
 #  Semester INFO
 from datetime import date
-CURRENT_YEAR = 2019
-CURRENT_SEMESTER = 1
 SEMESTER_RANGES = {
     (2009, 1): (date(2009, 2, 2), date(2009, 5, 22)),
     (2009, 3): (date(2009, 9, 1), date(2009, 12, 21)),
