@@ -2,7 +2,7 @@
 from django.core.management.base import BaseCommand
 from django.conf import settings
 from django.core.exceptions import *
-from apps.subject.models import Department, Professor, Lecture, Course, ClassTime, ExamTime
+from apps.subject.models import Semester, Department, Professor, Lecture, Course, ClassTime, ExamTime
 #from otl.apps.timetable.models import ClassTime, ExamTime, Syllabus
 #from optparse import make_option
 #import argparse
@@ -40,8 +40,13 @@ class Command(BaseCommand):
             next_year = int(options['year'])
             next_semester = int(options['semester'])
         else:
-            next_year = settings.CURRENT_YEAR
-            next_semester = settings.CURRENT_SEMESTER
+            default_semester = Semester.getImportingSemester()
+            if default_semester != None:
+                next_year = default_semester.year
+                next_semester = default_semester.semester
+            else:
+                print("Target year or semester not specified.")
+                return
 
         try:
             if password is None:
