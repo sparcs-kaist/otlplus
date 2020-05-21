@@ -52,6 +52,27 @@ class Semester(models.Model):
 
         return result
 
+    # Keep synchronozed with React src/common/semesterFunctions.js getOngoingSemester()
+    @classmethod
+    def getOngoingSemester(cls):
+        now = datetime.datetime.now()
+        try:
+            ongoingSemester = cls.objects.get(beginning__lt=now, end__gt=now)
+        except cls.DoesNotExist:
+            return None
+        except cls.MultipleObjectsReturned:
+            print("WARNING: Semester.getOngoingSemester() catched multiple Semester instances with overlapping period. Please check beginning and end fields of the instances.")
+            ongoingSemester = cls.objects.filter(beginning__lt=now, end__gt=now).first()
+        return ongoingSemester
+
+    @classmethod
+    def getImportingSemester(cls):
+        now = datetime.datetime.now()
+        return cls.objects \
+            .filter(courseDesciptionSubmission__lt=now) \
+            .order_by('courseDesciptionSubmission') \
+            .last()
+
 
 class Lecture(models.Model):
     # Fetched from KAIST Scholar DB
