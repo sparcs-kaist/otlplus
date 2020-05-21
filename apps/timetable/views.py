@@ -18,7 +18,6 @@ from utils.decorators import login_required_ajax
 from django.views.decorators.http import require_POST
 from django.conf import settings
 from django.shortcuts import render, redirect
-from django.utils.translation import ugettext as _
 from django.template import RequestContext
 from django.utils import translation
 from django.core.cache import cache
