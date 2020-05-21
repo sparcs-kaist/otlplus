@@ -137,9 +137,10 @@ def department_options(request):
     department_others = Department.objects.filter(visible=True).exclude(code__in=dept_under+dept_exclude).order_by('name')
     department_2 = []
     department_3 = []
-    current_lectures = Lecture.objects.filter(year=settings.CURRENT_YEAR, semester=settings.CURRENT_SEMESTER)
+    year_threshold = datetime.datetime.now().year - 2
+    recent_lectures = Lecture.objects.filter(year__gte=year_threshold)
     for d in department_others:
-        if (current_lectures.filter(department__code=d.code).exists()):
+        if (recent_lectures.filter(department__code=d.code).exists()):
             department_2.append(d)
         else:
             department_3.append(d)
