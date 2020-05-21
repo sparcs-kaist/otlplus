@@ -131,36 +131,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-#  Semester INFO
-from datetime import date
-SEMESTER_RANGES = {
-    (2009, 1): (date(2009, 2, 2), date(2009, 5, 22)),
-    (2009, 3): (date(2009, 9, 1), date(2009, 12, 21)),
-    (2010, 1): (date(2010, 2, 1), date(2010, 5, 21)),
-    (2010, 3): (date(2010, 9, 1), date(2010, 12, 21)),
-    (2011, 1): (date(2011, 2, 7), date(2011, 5, 27)),
-    (2011, 3): (date(2011, 9, 1), date(2011, 12, 21)),
-    (2012, 1): (date(2012, 2, 6), date(2012, 5, 25)),
-    (2012, 3): (date(2012, 9, 1), date(2012, 12, 21)),
-    (2013, 1): (date(2013, 3, 2), date(2013, 6, 21)),
-    (2013, 3): (date(2013, 9, 2), date(2013, 12, 20)),
-    (2014, 1): (date(2014, 3, 3), date(2014, 6, 20)),
-    (2014, 3): (date(2014, 9, 1), date(2014, 12, 19)),
-    (2015, 1): (date(2015, 3, 2), date(2015, 6, 19)),
-    (2015, 3): (date(2015, 8, 31), date(2015, 12, 18)),
-    (2016, 1): (date(2016, 3, 2), date(2016, 6, 21)),
-    (2016, 3): (date(2016, 9, 1), date(2016, 12, 21)),
-    (2017, 1): (date(2017, 2, 27), date(2017, 6, 16)),
-    (2017, 3): (date(2017, 8, 28), date(2017, 12, 15)),
-    (2018, 1): (date(2018, 2, 26), date(2018, 6, 18)),
-    (2018, 3): (date(2018, 8, 27), date(2018, 12, 14), date(2018, 7, 9), date(2018, 9, 3), date(2018, 10, 12), date(2018, 12, 7)),
-    (2019, 1): (date(2019, 2, 25), date(2019, 6, 14), date(2019, 1, 7), date(2019, 3, 4), date(2019, 4, 12), date(2019, 6, 7)),
-}
-
-# SEMESTER RANGES ORDER 
-# (year, semester#): 
-# (semesterBeginDay, semesterEndDay, registerDay(Begin), alterDay(End), cancelDay(End), finalEvalauationDay(End))
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
