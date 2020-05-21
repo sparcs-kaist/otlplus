@@ -81,7 +81,7 @@ def _user_department(user):
 
 def _validate_year_semester(year, semester):
     return Semester.objects.filter(year=year, semester=semester).exists() \
-        or (year, semester) in settings.SEMESTER_RANGES
+        or (2009 < year < 2018 and semester in [1, 3]) # TODO: Complete Semester instances and remove this condition
 
 
 
