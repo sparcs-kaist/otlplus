@@ -28,8 +28,11 @@ class Semester(models.Model):
     class Meta:
         unique_together = [['year', 'semester']]
 
+    def getCacheKey(self):
+        return "semester:%d-%d" % (self.year, self.semester)
+
     def toJson(self) :
-        cache_id = "semester:%d-%d" % (self.year, self.semester)
+        cache_id = self.getCacheKey()
         result_cached = cache.get(cache_id)
         if result_cached != None:
             return result_cached
@@ -118,11 +121,14 @@ class Lecture(models.Model):
     total = models.FloatField(default=0.0)
     review_num = models.IntegerField(default=0)
 
+    def getCacheKey(self, nested):
+        return "lecture:%d:%s" % (self.id, 'nested' if nested else 'normal')
+
     def toJson(self, nested=False):
         if self.deleted:
             print("WARNING: You are serializing DELETED lecture: %s. Please check your query" % self)
 
-        cache_id = "lecture:%d:%s" % (self.id, 'nested' if nested else 'normal')
+        cache_id = self.getCacheKey(nested)
         result_cached = cache.get(cache_id)
         if result_cached != None:
             return result_cached
@@ -524,8 +530,11 @@ class Department(models.Model):
     def __unicode__(self):
         return self.code
 
+    def getCacheKey(self, nested):
+        return "department:%d:%s" % (self.id, 'nested' if nested else 'normal')
+
     def toJson(self, nested=False):
-        cache_id = "department:%d:%s" % (self.id, 'nested' if nested else 'normal')
+        cache_id = self.getCacheKey(nested)
         result_cached = cache.get(cache_id)
         if result_cached != None:
             return result_cached
@@ -571,6 +580,9 @@ class Course(models.Model):
 
     latest_written_datetime = models.DateTimeField(default=None, null=True)
 
+    def getCacheKey(self, nested):
+        return "course:%d:%s" % (self.id, 'nested' if nested else 'normal')
+
     def toJson(self, nested=False, user=None):
         def addUserspecificData(result, user):
             # Add user read info
@@ -593,7 +605,7 @@ class Course(models.Model):
                 'userspecific_is_read': is_read,
             })
 
-        cache_id = "course:%d:%s" % (self.id, 'nested' if nested else 'normal')
+        cache_id = self.getCacheKey(nested)
         result_cached = cache.get(cache_id)
         if result_cached != None:
             if not nested:
