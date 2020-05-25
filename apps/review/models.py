@@ -86,18 +86,24 @@ class Review(models.Model):
 
     @classmethod
     def u_create(cls, course, lecture, content, grade, load, speech, writer):
+        new = cls(course=course, lecture=lecture, content=content, grade=grade, load=load, speech=speech, total=(grade+load+speech)/3.0, writer=writer)
+        new.save()
         professors = lecture.professors.all()
         lectures = Lecture.objects.filter(course=course, professors__in=professors)
         related_list = [course]+list(lectures)+list(professors)
         for related in related_list:
             related.recalc_score()
-        new = cls(course=course, lecture=lecture, content=content, grade=grade, load=load, speech=speech, total=(grade+load+speech)/3.0, writer=writer)
-        new.save()
         course.latest_written_datetime = new.written_datetime
         course.save()
         return new
 
     def u_update(self, content, grade, load, speech):
+        self.content = content
+        self.grade = grade
+        self.load = load
+        self.speech = speech
+        self.total = (grade+load+speech)/3.0
+        self.save()
         course = self.course
         lecture = self.lecture
         professors = lecture.professors.all()
@@ -105,12 +111,6 @@ class Review(models.Model):
         related_list = [course]+list(lectures)+list(professors)
         for related in related_list:
             related.recalc_score()
-        self.content = content
-        self.grade = grade
-        self.load = load
-        self.speech = speech
-        self.total = (grade+load+speech)/3.0
-        self.save()
         cache.delete("review:%d:nested" % self.id)
         cache.delete("review:%d:normal" % self.id)
         course.save()
