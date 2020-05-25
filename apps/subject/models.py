@@ -368,7 +368,6 @@ class Lecture(models.Model):
         return query
 
     def __unicode__(self):
-        professors_list=self.professors.all()
         re_str=u"%s(%s %s)"%(self.title, self.old_code, self.class_no)
         return re_str
 

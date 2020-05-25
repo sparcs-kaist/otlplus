@@ -2,16 +2,14 @@
 export const getTimetableSemester = (semesters) => {
   // eslint-disable-next-line fp/no-mutating-methods
   const semestersDescending = semesters
+    .filter(s => (s.courseDesciptionSubmission !== null))
+    // eslint-disable-next-line arrow-body-style
     .map((s) => {
-      if (s.courseDesciptionSubmission === null) {
-        return undefined;
-      }
       return {
         semesterObject: s,
         timetableStartTime: new Date(s.courseDesciptionSubmission),
       };
     })
-    .filter(s => (s !== undefined))
     .sort((a, b) => (b.timetableStartTime - a.timetableStartTime));
   const now = Date.now();
   const timetableSemester = semestersDescending.find(s => (s.timetableStartTime < now));
@@ -24,16 +22,11 @@ export const getTimetableSemester = (semesters) => {
 // Keep synchronozed with Django apps/subject/models.py Semester.getOngoingSemester()
 export const getOngoingSemester = (semesters) => {
   const now = Date.now();
+  // eslint-disable-next-line arrow-body-style
   const ongoingSemester = semesters.find((s) => {
-    if (s.beginning === null || s.end === null) {
-      return false;
-    }
     return (new Date(s.beginning) < now) && (now < new Date(s.end));
   });
-  if (ongoingSemester === undefined) {
-    return undefined;
-  }
-  return ongoingSemester;
+  return ongoingSemester; // Should return undefined when matching semester does not exist
 };
 
 export const getCurrentSchedule = (semesters) => {
