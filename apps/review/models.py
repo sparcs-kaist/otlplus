@@ -76,8 +76,6 @@ class Review(models.Model):
     
     def recalc_like(self):
         self.like = self.votes.all().count()
-        cache.delete(self.getCacheKey(True))
-        cache.delete(self.getCacheKey(False))
         self.save()
 
     def __unicode__(self):
