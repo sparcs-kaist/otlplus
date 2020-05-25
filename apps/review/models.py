@@ -84,61 +84,6 @@ class Review(models.Model):
         d = ['?', 'F', 'D', 'C', 'B', 'A']
         return (d[self.grade], d[self.load], d[self.speech], d[int(round(self.total))])
 
-    @classmethod
-    def u_create(cls, course, lecture, content, grade, load, speech, writer):
-        professors = lecture.professors.all()
-        lectures = Lecture.objects.filter(course=course, professors__in=professors)
-        related_list = [course]+list(lectures)+list(professors)
-        for related in related_list:
-            related.grade_sum += grade*3
-            related.load_sum += load*3
-            related.speech_sum += speech*3
-            related.review_num += 1
-            related.avg_update()
-            related.save()
-        new = cls(course=course, lecture=lecture, content=content, grade=grade, load=load, speech=speech, total=(grade+load+speech)/3.0, writer=writer)
-        new.save()
-        course.latest_written_datetime = new.written_datetime
-        course.save()
-        return new
-
-    def u_update(self, content, grade, load, speech):
-        course = self.course
-        lecture = self.lecture
-        professors = lecture.professors.all()
-        lectures = Lecture.objects.filter(course=course, professors__in=professors)
-        related_list = [course]+list(lectures)+list(professors)
-        for related in related_list:
-            related.grade_sum += (self.like+1)*(grade - self.grade)*3
-            related.load_sum += (self.like+1)*(load - self.load)*3
-            related.speech_sum += (self.like+1)*(speech - self.speech)*3
-            related.avg_update()
-            related.save()
-        self.content = content
-        self.grade = grade
-        self.load = load
-        self.speech = speech
-        self.total = (grade+load+speech)/3.0
-        self.save()
-        cache.delete("review:%d:nested" % self.id)
-        cache.delete("review:%d:normal" % self.id)
-        course.save()
-
-    def u_delete(self):
-        course = self.course
-        lecture = self.lecture
-        professors = lecture.professors.all()
-        lectures = Lecture.objects.filter(course=course, professors__in=professors)
-        related_list = [course]+list(lectures)+list(professors)
-        for related in related_list:
-            related.grade_sum -= (self.like+1)*self.grade*3
-            related.load_sum -= (self.like+1)*self.load*3
-            related.speech_sum -= (self.like+1)*self.speech*3
-            related.review_num -= (self.like+1)
-            related.avg_update()
-            related.save()
-        self.delete()
-
 
 class ReviewVote(models.Model):
     review = models.ForeignKey(Review, related_name="votes", null=False)
