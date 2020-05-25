@@ -27,8 +27,8 @@ def review_saved(**kwargs):
         course.latest_written_datetime = review.written_datetime
         course.save()
     else:
-        cache.delete("review:%d:nested" % review.id)
-        cache.delete("review:%d:normal" % review.id)
+        cache.delete(review.getCacheKey(True))
+        cache.delete(review.getCacheKey(False))
 
 
 @receiver(post_delete, sender=Review)

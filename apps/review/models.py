@@ -27,6 +27,9 @@ class Review(models.Model):
             ("writer", "lecture",)
         )
 
+    def getCacheKey(self, nested):
+        return "review:%d:%s" % (self.id, 'nested' if nested else 'normal')
+
     def toJson(self, nested=False, user=None):
         def addUserspecificData(result, user):
             is_liked = True
@@ -38,7 +41,7 @@ class Review(models.Model):
                 'userspecific_is_liked': is_liked,
             })
 
-        cache_id = "review:%d:%s" % (self.id, 'nested' if nested else 'normal')
+        cache_id = self.getCacheKey(nested)
         result_cached = cache.get(cache_id)
         if result_cached != None:
             if not nested:
@@ -73,8 +76,6 @@ class Review(models.Model):
     
     def recalc_like(self):
         self.like = self.votes.all().count()
-        cache.delete("review:%d:nested" % self.id)
-        cache.delete("review:%d:normal" % self.id)
         self.save()
 
     def __unicode__(self):
