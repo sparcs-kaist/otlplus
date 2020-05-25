@@ -141,9 +141,14 @@ def insertReview(request,lecture_id):
 
     try :
         target_review = user_profile.reviews.get(lecture=lecture)
-        if target_review.is_deleted == 0: target_review.u_update(grade=grade, load=load, speech=speech, content=content)
+        if target_review.is_deleted == 0:
+            target_review.grade = grade
+            target_review.load = load
+            target_review.speech = speech
+            target_review.content = content
+            target_review.save()
     except Review.DoesNotExist :
-        target_review = Review.u_create(course=course, lecture=lecture, content=content, grade=grade, load=load, speech=speech, writer=writer)
+        target_review = Review.objects.create(course=course, lecture=lecture, content=content, grade=grade, load=load, speech=speech, writer=writer)
     return JsonResponse(target_review.toJson(), safe=False)
 
 
