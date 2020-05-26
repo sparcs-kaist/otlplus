@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from apps.review.models import Review
+from apps.review.models import Review, ReviewVote
 from apps.subject.models import Lecture
 
 from django.core.cache import cache
@@ -9,11 +9,7 @@ from django.dispatch import receiver
 
 
 def _recalc_related_score(review):
-    course = review.course
-    lecture = review.lecture
-    professors = lecture.professors.all()
-    lectures = Lecture.objects.filter(course=course, professors__in=professors)
-    related_list = [course]+list(lectures)+list(professors)
+    related_list = review.get_score_related_list()
     for related in related_list:
         related.recalc_score()
 
@@ -35,3 +31,15 @@ def review_saved(**kwargs):
 def review_deleted(**kwargs):
     review = kwargs['instance']
     _recalc_related_score(review)
+
+
+@receiver(post_save, sender=ReviewVote)
+def review_vote_saved(**kwargs):
+    review_vote = kwargs['instance']
+    review_vote.review.recalc_like()
+
+
+@receiver(post_delete, sender=ReviewVote)
+def review_vote_deleted(**kwargs):
+    review_vote = kwargs['instance']
+    review_vote.review.recalc_like()

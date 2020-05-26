@@ -85,7 +85,7 @@ def ReviewLike(request):
             if ReviewVote.objects.filter(review = target_review, userprofile = user_profile).exists():
                 already_up = True
             else:
-                ReviewVote.cv_create(target_review,user_profile) #session 완성시 변경
+                ReviewVote.objects.create(review=target_review, userprofile=user_profile) #session 완성시 변경
             likes_count = target_review.like
     ctx = {'likes_count': likes_count, 'already_up': already_up, 'is_login':is_login, 'id': body['reviewid']}
     return JsonResponse(ctx,safe=False)
