@@ -40,6 +40,6 @@ def review_vote_saved(**kwargs):
 
 
 @receiver(post_delete, sender=ReviewVote)
-def review_vote_saved(**kwargs):
+def review_vote_deleted(**kwargs):
     review_vote = kwargs['instance']
     review_vote.review.recalc_like()
