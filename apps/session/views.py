@@ -133,14 +133,15 @@ def department_options(request):
                     "KJ", "CWENA", "C", "E", "S",
                     "PSY", "SK", "BIO", "CLT", "PHYS"]
 
-    department_1 = Department.objects.filter(code__in=dept_under, visible=True).order_by('name')
-    department_others = Department.objects.filter(visible=True).exclude(code__in=dept_under+dept_exclude).order_by('name')
+    department_1 = []
     department_2 = []
     department_3 = []
     year_threshold = datetime.datetime.now().year - 2
     recent_lectures = Lecture.objects.filter(year__gte=year_threshold)
-    for d in department_others:
-        if (recent_lectures.filter(department__code=d.code).exists()):
+    for d in Department.objects.filter(visible=True).exclude(code__in=dept_exclude).order_by('name'):
+        if d.code in dept_under:
+            department_1.append(d)
+        elif (recent_lectures.filter(department__code=d.code).exists()):
             department_2.append(d)
         else:
             department_3.append(d)
@@ -167,13 +168,13 @@ def favorite_departments(request):
 
         fav_department = body.get('fav_department', [])
 
-        for dpt_id in fav_department:
-            dpt = Department.objects.get(id=dpt_id)
+        for di in fav_department:
+            dpt = Department.objects.get(id=di)
             user_profile.favorite_departments.add(dpt)
 
-        for dpt in user_profile.favorite_departments.all():
-            if str(dpt.id) not in fav_department:
-               user_profile.favorite_departments.remove(dpt)
+        for d in user_profile.favorite_departments.all():
+            if str(d.id) not in fav_department:
+               user_profile.favorite_departments.remove(d)
 
         user_profile.save()
         return HttpResponse()

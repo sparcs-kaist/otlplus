@@ -54,22 +54,9 @@ def _user_department(user):
     else:
         departments = [u.department.toJson()]
 
-    for d in u.majors.all():
-        data = d.toJson()
-        if data not in departments:
-            departments.append(data)
-
-    for d in u.minors.all():
-        data = d.toJson()
-        if data not in departments:
-            departments.append(data)
-
-    for d in u.specialized_major.all():
-        data = d.toJson()
-        if data not in departments:
-            departments.append(data)
-
-    for d in u.favorite_departments.all():
+    raw_departments = list(u.majors.all()) + list(u.minors.all()) \
+                      + list(u.specialized_major.all()) + list(u.favorite_departments.all())
+    for d in raw_departments:
         data = d.toJson()
         if data not in departments:
             departments.append(data)
@@ -276,23 +263,23 @@ def share_calendar(request):
     start = semester.beginning.astimezone(KST()).date()
     end = semester.end.astimezone(KST()).date()
  
-    for lecture in timetable_lectures:
-        lDict = lecture.toJson(nested=False)
+    for l in timetable_lectures:
+        lDict = l.toJson(nested=False)
 
-        for classtime in lDict['classtimes']:
-            days_ahead = classtime['day'] - start.weekday()
+        for ct in lDict['classtimes']:
+            days_ahead = ct['day'] - start.weekday()
             if days_ahead < 0:
                 days_ahead += 7
 
             class_date = start + datetime.timedelta(days=days_ahead)
-            begin_time = datetime.time(int(classtime['begin']/60),
-                                       int(classtime['begin']%60))
-            end_time = datetime.time(int(classtime['end']/60),
-                                     int(classtime['end']%60))
+            begin_time = datetime.time(int(ct['begin']/60),
+                                       int(ct['begin']%60))
+            end_time = datetime.time(int(ct['end']/60),
+                                     int(ct['end']%60))
 
             event = {
                 'summary': lDict['title'],
-                'location': classtime['classroom'],
+                'location': ct['classroom'],
                 'start': {
                     'dateTime' : datetime.datetime.combine(class_date, begin_time).isoformat(),
                     'timeZone' : 'Asia/Seoul'

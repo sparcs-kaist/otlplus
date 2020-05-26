@@ -31,9 +31,7 @@ gradelist = [(0,'?'),(1,'F'),(2,'F'),(3,'F'),(4,'D-'),(5,'D'),(6,'D+'),(7,'C-'),
 
 # Filter Functions################################################################
 def _departmentFilters(raw_filters):
-    department_list = []
-    for department in Department.objects.all():
-        department_list.append(department.code)
+    department_list = [d.code for d in Department.objects.all()]
     major_list = ["CE", "MSB", "MAE", "PH", "BiS", "IE", "ID", "BS", "CBE", "MAS", "MS", "NQE", "HSS", "EE", "CS", "MAE", "CH"]
     etc_list = list(set(department_list)^set(major_list))
     if ("ALL" in raw_filters) or len(raw_filters)==0 :
