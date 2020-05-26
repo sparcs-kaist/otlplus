@@ -28,22 +28,22 @@ def _increase_num_people(lecture, userProfile):
 @receiver(m2m_changed, sender=TimeTable.lecture.through)
 def timetable_lecture_changed(**kwargs):
     if kwargs['action'] == 'pre_add':
-        for id in kwargs['pk_set']:
-            _increase_num_people(Lecture.objects.get(id=id),
+        for li in kwargs['pk_set']:
+            _increase_num_people(Lecture.objects.get(id=li),
                                  kwargs['instance'].user)
     if kwargs['action'] == 'pre_remove':
-        for id in kwargs['pk_set']:
-            _decrease_num_people(Lecture.objects.get(id=id),
+        for li in kwargs['pk_set']:
+            _decrease_num_people(Lecture.objects.get(id=li),
                                  kwargs['instance'].user)
     if kwargs['action'] == 'pre_clear':
-        for lecture in kwargs['instance'].lecture.all():
-            _decrease_num_people(lecture,
+        for l in kwargs['instance'].lecture.all():
+            _decrease_num_people(l,
                                  kwargs['instance'].user)
 
 
 
 @receiver(pre_delete, sender=TimeTable)
 def timetable_deleted(**kwargs):
-    for lecture in kwargs['instance'].lecture.all():
-        _decrease_num_people(lecture,
+    for l in kwargs['instance'].lecture.all():
+        _decrease_num_people(l,
                              kwargs['instance'].user)

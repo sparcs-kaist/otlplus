@@ -10,8 +10,8 @@ from django.dispatch import receiver
 
 def _recalc_related_score(review):
     related_list = review.get_score_related_list()
-    for related in related_list:
-        related.recalc_score()
+    for r in related_list:
+        r.recalc_score()
 
 
 @receiver(post_save, sender=Review)
