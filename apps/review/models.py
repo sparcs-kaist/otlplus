@@ -74,6 +74,14 @@ class Review(models.Model):
 
         return result
     
+    def get_score_related_list(self):
+        course = self.course
+        lecture = self.lecture
+        professors = lecture.professors.all()
+        lectures = Lecture.objects.filter(course=course, professors__in=professors)
+        related_list = [course]+list(lectures)+list(professors)
+        return related_list
+
     def recalc_like(self):
         self.like = self.votes.all().count()
         self.save()

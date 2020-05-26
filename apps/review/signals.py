@@ -9,11 +9,7 @@ from django.dispatch import receiver
 
 
 def _recalc_related_score(review):
-    course = review.course
-    lecture = review.lecture
-    professors = lecture.professors.all()
-    lectures = Lecture.objects.filter(course=course, professors__in=professors)
-    related_list = [course]+list(lectures)+list(professors)
+    related_list = review.get_score_related_list()
     for related in related_list:
         related.recalc_score()
 
