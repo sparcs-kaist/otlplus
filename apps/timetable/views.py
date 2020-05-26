@@ -54,22 +54,9 @@ def _user_department(user):
     else:
         departments = [u.department.toJson()]
 
-    for d in u.majors.all():
-        data = d.toJson()
-        if data not in departments:
-            departments.append(data)
-
-    for d in u.minors.all():
-        data = d.toJson()
-        if data not in departments:
-            departments.append(data)
-
-    for d in u.specialized_major.all():
-        data = d.toJson()
-        if data not in departments:
-            departments.append(data)
-
-    for d in u.favorite_departments.all():
+    raw_departments = list(u.majors.all()) + list(u.minors.all()) \
+                      + list(u.specialized_major.all()) + list(u.favorite_departments.all())
+    for d in raw_departments:
         data = d.toJson()
         if data not in departments:
             departments.append(data)

@@ -207,9 +207,7 @@ class Lecture(models.Model):
             })
 
         # Add classtime
-        classtimes = []
-        for ct in self.classtime_set.all():
-            classtimes.append(ct.toJson(nested=True))
+        classtimes = [ct.toJson(nested=True) for ct in self.classtime_set.all()]
         result.update({
             'classtimes': classtimes,
         })
@@ -235,9 +233,7 @@ class Lecture(models.Model):
             })
 
         # Add examtime
-        examtimes = []
-        for et in self.examtime_set.all():
-            examtimes.append(et.toJson(nested=True))
+        examtimes = [et.toJson(nested=True) for et in self.examtime_set.all()]
         result.update({
             'examtimes': examtimes,
         })
@@ -265,17 +261,12 @@ class Lecture(models.Model):
 
     def recalc_score(self):
         from apps.review.models import Review
-        self.review_num = 0
-        self.grade_sum = 0
-        self.load_sum = 0
-        self.speech_sum = 0
-        for c in Review.objects.filter(lecture__course=self.course,
-                                        lecture__professors__in=self.professors.all()):
-            if c.grade > 0:
-                self.review_num += (c.like+1)
-                self.grade_sum += (c.like+1)*c.grade*3
-                self.load_sum += (c.like+1)*c.load*3
-                self.speech_sum += (c.like+1)*c.speech*3
+        reviews = Review.objects.filter(lecture__course=self.course,
+                                        lecture__professors__in=self.professors.all())
+        self.review_num = sum((c.like+1) for c in reviews)
+        self.grade_sum = sum((c.like+1)*c.grade*3 for c in reviews)
+        self.load_sum = sum((c.like+1)*c.load*3 for c in reviews)
+        self.speech_sum = sum((c.like+1)*c.speech*3 for c in reviews)
         self.avg_update()
         self.save()
 
@@ -675,16 +666,11 @@ class Course(models.Model):
 
     def recalc_score(self):
         from apps.review.models import Review
-        self.review_num = 0
-        self.grade_sum = 0
-        self.load_sum = 0
-        self.speech_sum = 0
-        for c in Review.objects.filter(lecture__course=self):
-            if c.grade > 0:
-                self.review_num += (c.like+1)
-                self.grade_sum += (c.like+1)*c.grade*3
-                self.load_sum += (c.like+1)*c.load*3
-                self.speech_sum += (c.like+1)*c.speech*3
+        reviews = Review.objects.filter(lecture__course=self)
+        self.review_num = sum((c.like+1) for c in reviews)
+        self.grade_sum = sum((c.like+1)*c.grade*3 for c in reviews)
+        self.load_sum = sum((c.like+1)*c.load*3 for c in reviews)
+        self.speech_sum = sum((c.like+1)*c.speech*3 for c in reviews)
         self.avg_update()
         self.save()
 
@@ -771,16 +757,11 @@ class Professor(models.Model):
 
     def recalc_score(self):
         from apps.review.models import Review
-        self.review_num = 0
-        self.grade_sum = 0
-        self.load_sum = 0
-        self.speech_sum = 0
-        for c in Review.objects.filter(lecture__professors=self):
-            if c.grade > 0:
-                self.review_num += (c.like+1)
-                self.grade_sum += (c.like+1)*c.grade*3
-                self.load_sum += (c.like+1)*c.load*3
-                self.speech_sum += (c.like+1)*c.speech*3
+        reviews = Review.objects.filter(lecture__professors=self)
+        self.review_num = sum((c.like+1) for c in reviews)
+        self.grade_sum = sum((c.like+1)*c.grade*3 for c in reviews)
+        self.load_sum = sum((c.like+1)*c.load*3 for c in reviews)
+        self.speech_sum = sum((c.like+1)*c.speech*3 for c in reviews)
         self.avg_update()
         self.save()
 
