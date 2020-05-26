@@ -97,7 +97,6 @@ class Review(models.Model):
 class ReviewVote(models.Model):
     review = models.ForeignKey(Review, related_name="votes", null=False)
     userprofile = models.ForeignKey(UserProfile, related_name="review_votes", on_delete=models.SET_NULL, null=True)
-    is_up = models.BooleanField(null=False)
 
     class Meta:
         unique_together = (("review", "userprofile",))
