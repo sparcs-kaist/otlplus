@@ -74,6 +74,14 @@ class Review(models.Model):
 
         return result
     
+    def get_score_related_list(self):
+        course = self.course
+        lecture = self.lecture
+        professors = lecture.professors.all()
+        lectures = Lecture.objects.filter(course=course, professors__in=professors)
+        related_list = [course]+list(lectures)+list(professors)
+        return related_list
+
     def recalc_like(self):
         self.like = self.votes.all().count()
         self.save()
@@ -89,29 +97,9 @@ class Review(models.Model):
 class ReviewVote(models.Model):
     review = models.ForeignKey(Review, related_name="votes", null=False)
     userprofile = models.ForeignKey(UserProfile, related_name="review_votes", on_delete=models.SET_NULL, null=True)
-    is_up = models.BooleanField(null=False)
 
     class Meta:
         unique_together = (("review", "userprofile",))
-
-    @classmethod
-    def cv_create(cls, review, userprofile):
-        professors = review.lecture.professors.all()
-        lectures = Lecture.objects.filter(course=review.course, professors__in=professors)
-        related_list = [review.course]+list(lectures)+list(professors)
-        if review.grade > 0 and review.load > 0 and review.speech > 0 :
-            for related in related_list:
-                related.grade_sum += review.grade*3
-                related.load_sum += review.load*3
-                related.speech_sum += review.speech*3
-                related.review_num += 1
-                related.avg_update()
-                related.save()
-        review.like +=1
-        review.save()
-        new = cls(userprofile=userprofile, review=review, is_up = True)
-        new.save()
-        return new
 
 
 class MajorBestReview(models.Model):
