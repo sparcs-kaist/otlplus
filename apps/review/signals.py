@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from apps.review.models import Review
+from apps.review.models import Review, ReviewVote
 from apps.subject.models import Lecture
 
 from django.core.cache import cache
@@ -31,3 +31,15 @@ def review_saved(**kwargs):
 def review_deleted(**kwargs):
     review = kwargs['instance']
     _recalc_related_score(review)
+
+
+@receiver(post_save, sender=ReviewVote)
+def review_vote_saved(**kwargs):
+    review_vote = kwargs['instance']
+    review_vote.review.recalc_like()
+
+
+@receiver(post_delete, sender=ReviewVote)
+def review_vote_saved(**kwargs):
+    review_vote = kwargs['instance']
+    review_vote.review.recalc_like()
