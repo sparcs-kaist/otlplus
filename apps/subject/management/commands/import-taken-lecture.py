@@ -61,13 +61,13 @@ class Command(BaseCommand):
         lectures = Lecture.objects.filter(year = year, semester = semester,deleted=False)
         for a in rows:
             users = UserProfile.objects.filter(student_id = a[5])
-            for user in users:
-                if user not in cleared_user_list:
-                    cleared_user_list.append(user)
-                    user.take_lecture_list.remove(*user.take_lecture_list.filter(year=year, semester=semester))
+            for u in users:
+                if u not in cleared_user_list:
+                    cleared_user_list.append(u)
+                    u.take_lecture_list.remove(*u.take_lecture_list.filter(year=year, semester=semester))
                 lecture = lectures.filter(code = a[2], class_no = a[3].strip())
                 if len(lecture) == 1:
-                    user.take_lecture_list.add(lecture[0])
+                    u.take_lecture_list.add(lecture[0])
                 else:
                     print>>sys.stderr, str(a[0]) + " " + str(a[1]) + " " + a[2] + " " + a[3] + "는 왜 개수가 " + str(len(lecture)) + " 지?"
 

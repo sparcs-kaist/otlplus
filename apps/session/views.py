@@ -168,13 +168,13 @@ def favorite_departments(request):
 
         fav_department = body.get('fav_department', [])
 
-        for dpt_id in fav_department:
-            dpt = Department.objects.get(id=dpt_id)
+        for di in fav_department:
+            dpt = Department.objects.get(id=di)
             user_profile.favorite_departments.add(dpt)
 
-        for dpt in user_profile.favorite_departments.all():
-            if str(dpt.id) not in fav_department:
-               user_profile.favorite_departments.remove(dpt)
+        for d in user_profile.favorite_departments.all():
+            if str(d.id) not in fav_department:
+               user_profile.favorite_departments.remove(d)
 
         user_profile.save()
         return HttpResponse()

@@ -4,8 +4,8 @@ class Command(BaseCommand):
     help = "update Professors' course_list"
     def handle(self, *args, **options):
         print "start updating Professors' course_list"
-        for aCourse in list(Course.objects.all()):
-            for aProfessor in list(aCourse.professors.all()):
-                aProfessor.course_list.add(aCourse)
+        for c in list(Course.objects.all()):
+            for p in list(c.professors.all()):
+                p.course_list.add(c)
         print "Professors' course_list changed"
     
