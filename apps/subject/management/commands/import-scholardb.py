@@ -14,7 +14,7 @@ import datetime
 
 
 class Command(BaseCommand):
-    def add_arguments(self,parser):  # from Django 1.10, we don't use OptionParser! So I changed it to ArgumentParser
+    def add_arguments(self,parser):
         parser.add_argument('--host', dest='host', help=u'Specifies server address.')
         parser.add_argument('--port', dest='port', help=u'Specifies server port.')
         parser.add_argument('--user', dest='user', help=u'Specifies user name to log in.')
