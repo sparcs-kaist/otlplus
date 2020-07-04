@@ -11,7 +11,7 @@ import random
 class RandomCourseReco(models.Model):
     userprofile = models.ForeignKey(UserProfile, related_name="random_course_reco", on_delete=models.SET_NULL, null=True)
     reco_date = models.DateField()
-    lecture = models.ForeignKey(Lecture, db_index=True)
+    lecture = models.ForeignKey(Lecture, on_delete=models.PROTECT, db_index=True)
 
     def __unicode__(self):
         return u"User: %s, RecoDate: %s, Lecture: %s" % (self.userprofile, self.reco_date, self.lecture)
@@ -28,7 +28,7 @@ class DailyFeed(models.Model):
 
 
 class DailyUserFeed(DailyFeed):
-    user = models.ForeignKey(UserProfile)
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
 
     class Meta:
         unique_together = [['date', 'user']]
@@ -36,7 +36,7 @@ class DailyUserFeed(DailyFeed):
 
 
 class FamousMajorReviewDailyFeed(DailyFeed):
-    department = models.ForeignKey(Department)
+    department = models.ForeignKey(Department, on_delete=models.PROTECT)
     reviews = models.ManyToManyField(Review)
 
     class Meta:
@@ -108,7 +108,7 @@ class FamousHumanityReviewDailyFeed(DailyFeed):
 
 
 class ReviewWriteDailyUserFeed(DailyUserFeed):
-    lecture = models.ForeignKey(Lecture)
+    lecture = models.ForeignKey(Lecture, on_delete=models.PROTECT)
 
     class Meta:
         unique_together = [['date', 'user']]
@@ -139,7 +139,7 @@ class ReviewWriteDailyUserFeed(DailyUserFeed):
 
 
 class RelatedCourseDailyUserFeed(DailyUserFeed):
-    course = models.ForeignKey(Course)
+    course = models.ForeignKey(Course, on_delete=models.PROTECT)
 
     class Meta:
         unique_together = [['date', 'user']]

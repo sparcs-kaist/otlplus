@@ -6,8 +6,8 @@ from apps.session.models import UserProfile
 
 
 class Review(models.Model):
-    course = models.ForeignKey(Course, db_index=True, related_name='reviews')
-    lecture = models.ForeignKey(Lecture, db_index=True, related_name='reviews')
+    course = models.ForeignKey(Course, on_delete=models.PROTECT, db_index=True, related_name='reviews')
+    lecture = models.ForeignKey(Lecture, on_delete=models.PROTECT, db_index=True, related_name='reviews')
 
     content = models.CharField(max_length=65536)
     grade = models.SmallIntegerField(default=0)
@@ -95,7 +95,7 @@ class Review(models.Model):
 
 
 class ReviewVote(models.Model):
-    review = models.ForeignKey(Review, related_name="votes", null=False)
+    review = models.ForeignKey(Review, related_name="votes", on_delete=models.CASCADE, null=False)
     userprofile = models.ForeignKey(UserProfile, related_name="review_votes", on_delete=models.SET_NULL, null=True)
 
     class Meta:
@@ -103,14 +103,14 @@ class ReviewVote(models.Model):
 
 
 class MajorBestReview(models.Model):
-    review = models.OneToOneField(Review, related_name="major_best_review", null=False, primary_key=True)
+    review = models.OneToOneField(Review, related_name="major_best_review", on_delete=models.CASCADE, null=False, primary_key=True)
 
     def __unicode__(self):
         return u"%s(%s)"%(self.review.lecture,self.review.writer)
 
 
 class HumanityBestReview(models.Model):
-    review = models.OneToOneField(Review, related_name="liberal_best_review", null=False, primary_key=True)
+    review = models.OneToOneField(Review, related_name="liberal_best_review", on_delete=models.CASCADE, null=False, primary_key=True)
 
     def __unicode__(self):
         return u"%s(%s)"%(self.review.lecture,self.review.writer)
