@@ -83,7 +83,7 @@ class Lecture(models.Model):
     old_code = models.CharField(max_length=10, db_index=True)
     year = models.IntegerField(db_index=True)
     semester = models.SmallIntegerField(db_index=True)
-    department = models.ForeignKey('Department', db_index=True)
+    department = models.ForeignKey('Department', on_delete=models.PROTECT, db_index=True)
     class_no = models.CharField(max_length=4, blank=True)
     title = models.CharField(max_length=100, db_index=True)
     title_en = models.CharField(max_length=200, db_index=True)
@@ -99,7 +99,7 @@ class Lecture(models.Model):
     is_english = models.BooleanField()
     deleted = models.BooleanField(default=False, db_index=True)
 
-    course = models.ForeignKey('Course', related_name='lecture_course')
+    course = models.ForeignKey('Course', on_delete=models.PROTECT, related_name='lecture_course')
 
     # Updated by signal timetable_lecture_saved, timetable_deleted
     num_people = models.IntegerField(default=0, blank=True, null=True)
@@ -371,7 +371,7 @@ class Lecture(models.Model):
 
 class ExamTime(models.Model):
     """Lecture에 배정된 시험시간 """
-    lecture = models.ForeignKey(Lecture, related_name="examtime_set")
+    lecture = models.ForeignKey(Lecture, on_delete=models.CASCADE, related_name="examtime_set")
     day = models.SmallIntegerField(choices=WEEKDAYS) #시험요일
     begin = models.TimeField() # hh:mm 형태의 시험시작시간 (24시간제)
     end = models.TimeField() # hh:mm 형태의 시험시작시간 (24시간 제)
@@ -410,7 +410,7 @@ class ExamTime(models.Model):
 
 class ClassTime(models.Model):
     """Lecture 에 배정된강의시간, 보통 하나의  Lecture 가 여러개의 강의시간을 가진다."""
-    lecture = models.ForeignKey(Lecture, related_name="classtime_set", null=True)
+    lecture = models.ForeignKey(Lecture, on_delete=models.CASCADE, related_name="classtime_set", null=True)
     day = models.SmallIntegerField(choices=WEEKDAYS) #강의 요일
     begin = models.TimeField() # hh:mm 형태의 강의 시작시각 (24시간제)
     end = models.TimeField() # hh:mm 형태의 강의 끝나는 시각 (24시간 제)
@@ -545,7 +545,7 @@ class Department(models.Model):
 class Course(models.Model):
     # Fetched from KAIST Scholar DB
     old_code = models.CharField(max_length=10, db_index=True)
-    department = models.ForeignKey('Department', db_index=True)
+    department = models.ForeignKey('Department', on_delete=models.PROTECT, db_index=True)
     professors = models.ManyToManyField('Professor', db_index=True)
     type = models.CharField(max_length=12)
     type_en = models.CharField(max_length=36)

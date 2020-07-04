@@ -13,9 +13,9 @@ sso_client = Client(settings.SSO_CLIENT_ID, settings.SSO_SECRET_KEY, is_beta=set
 
 class UserProfile(models.Model):
 
-    user = models.OneToOneField(User, related_name='userprofile', db_index=True)
+    user = models.OneToOneField(User, related_name='userprofile', on_delete=models.CASCADE, db_index=True)
 
-    department = models.ForeignKey(Department, blank=True, null=True)
+    department = models.ForeignKey(Department, on_delete=models.SET_NULL, blank=True, null=True)
     majors = models.ManyToManyField(Department, related_name='major_user_set')  # 복수전공들 index 0가
     minors = models.ManyToManyField(Department, related_name='minor_user_set')  # 부전공.
     specialized_major = models.ManyToManyField(Department, related_name = 'specialized_major_user_set')  # 심화전공.
