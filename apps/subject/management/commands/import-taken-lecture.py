@@ -9,20 +9,20 @@ from django.core.exceptions import *
 #from otl.apps.timetable.models import Lecture
 from apps.subject.models import Semester, Lecture
 from apps.session.models import UserProfile
-from optparse import make_option
 from datetime import datetime, timedelta, time, date
 from django.utils import timezone
 
+
 class Command(BaseCommand):
-    option_list = BaseCommand.option_list + (
-        make_option('--host', dest='host', help=u'Specifies server address.'),
-        make_option('--port', dest='port', help=u'Specifies server port.'),
-        make_option('--user', dest='user', help=u'Specifies user name to log in.'),
-        make_option('--year', dest='year', help=u''),
-        make_option('--semester', dest='semester', help=u''),
-        make_option('--password', dest='password', help=u'Specifies passowrd to log in.'),
-        make_option('--encoding', dest='encoding', help=u'Sepcifies character encoding to decode strings from database. (default is cp949)', default='cp949'),
-    )
+    def add_arguments(self,parser):
+        parser.add_argument('--host', dest='host', help=u'Specifies server address.')
+        parser.add_argument('--port', dest='port', help=u'Specifies server port.')
+        parser.add_argument('--user', dest='user', help=u'Specifies user name to log in.')
+        parser.add_argument('--year', dest='year', help=u'')
+        parser.add_argument('--semester', dest='semester', help=u'')
+        parser.add_argument('--password', dest='password', help=u'Specifies passowrd to log in.')
+        parser.add_argument('--encoding', dest='encoding', help=u'Sepcifies character encoding to decode strings from database. (default is cp949)', default='cp949')
+
     help = u'Imports KAIST scholar database.'
     args = u'--host=143.248.X.Y:PORT --user=USERNAME'
 

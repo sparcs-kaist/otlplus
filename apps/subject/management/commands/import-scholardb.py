@@ -14,7 +14,7 @@ import datetime
 
 
 class Command(BaseCommand):
-    def add_arguments(self,parser):  # from Django 1.10, we don't use OptionParser! So I changed it to ArgumentParser
+    def add_arguments(self,parser):
         parser.add_argument('--host', dest='host', help=u'Specifies server address.')
         parser.add_argument('--port', dest='port', help=u'Specifies server port.')
         parser.add_argument('--user', dest='user', help=u'Specifies user name to log in.')
@@ -23,8 +23,8 @@ class Command(BaseCommand):
         parser.add_argument('--exclude-lecture', action='store_true', dest='exclude_lecture', help=u'Don\'t update lecture information when you want to update time information only.', default=False)
         parser.add_argument('--year', dest='year', type=int)
         parser.add_argument('--semester', dest='semester', type=int)
-        help = u'Imports KAIST scholar database.'
-        args = u'--host=143.248.X.Y:PORT --user=USERNAME'
+    help = u'Imports KAIST scholar database.'
+    args = u'--host=143.248.X.Y:PORT --user=USERNAME'
 
     def handle(self, *args, **options):
         rx_dept_code = re.compile(ur'([a-zA-Z]+)(\d+)')
