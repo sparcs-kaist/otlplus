@@ -6,7 +6,7 @@ from apps.session.models import *
 
 class TimeTable(models.Model):
     lecture = models.ManyToManyField(Lecture)
-    user = models.ForeignKey(UserProfile, related_name="timetable_set", db_index=True)
+    user = models.ForeignKey(UserProfile, related_name="timetable_set", on_delete=models.CASCADE, db_index=True)
     year = models.IntegerField(null=True, db_index=True)  # 몇넌도의 타임테이블인지
     semester = models.SmallIntegerField(null=True, db_index=True)  # 어떤학기의 타임테이블인지
 
@@ -46,4 +46,4 @@ class OldTimeTable(models.Model):
 
 class Wishlist(models.Model):
     lectures = models.ManyToManyField(Lecture)
-    user = models.OneToOneField(UserProfile, related_name="wishlist_set")
+    user = models.OneToOneField(UserProfile, related_name="wishlist_set", on_delete=models.CASCADE)
