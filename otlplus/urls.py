@@ -22,6 +22,7 @@ import os
 
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib import admin
 
 from apps.review import views as review_views
 from apps.timetable import views as timetable_views
@@ -32,7 +33,7 @@ from apps.main import views as mainViews
 
 urlpatterns = [
     # Admin Page
-    url(r'^admin/', include(admin.site.urls)),
+    url(r'^admin/', admin.site.urls),
 
     # OTLplus Apps
     url(r'^session/', include('apps.session.urls')),
