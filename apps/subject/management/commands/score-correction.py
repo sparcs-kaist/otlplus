@@ -14,36 +14,9 @@ class Command(BaseCommand):
         related_list = list(courses) + list(lectures) + list(professors)
         related_len = len(related_list)
         i = 0
-        for related in related_list:
-            related.grade_sum = 0
-            related.load_sum = 0
-            related.speech_sum = 0
-            related.total_sum = 0
-            related.review_num = 0
-            related.avg_update()
-            related.save()
+        for r in related_list:
+            r.recalc_score()
             print str(i) + " / " + str(related_len)
             i+=1
-        print "initialize completed!"
-        for review in Review.objects.all():
-            if review.grade == 0 or \
-               review.load == 0 or \
-               review.speech == 0:
-                # Review with scores '?'
-                continue
-
-            course = review.course
-            professors = review.lecture.professors.all()
-            lectures = Lecture.objects.filter(course=course, professors__in=professors)
-            related_list = [course]+list(lectures)+list(professors)
-            for related in related_list:
-                related.grade_sum += (review.like+1)*review.grade*3
-                related.load_sum += (review.like+1)*review.load*3
-                related.speech_sum += (review.like+1)*review.speech*3
-                related.total_sum += (review.like+1)*review.total*3
-                related.review_num += review.like+1
-                related.avg_update()
-                related.save()
-            print str(review.written_datetime) + " : updated"
         print "score correction ended!"
 
