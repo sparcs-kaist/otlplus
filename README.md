@@ -1,11 +1,13 @@
-# otlplus
-Online Timeplanner with Lectures Plus @ KAIST http://otl.kaist.ac.kr/
+# OTL PLUS
+Online Timeplanner with Lectures Plus @ KAIST https://otl.kaist.ac.kr/
 
-OTLPLUS 회의록 등의 문서 열람을 원활히 하기 위해 드라이브 폴더를 공유하겠습니다.
-앞으로 모든 회의록은 이 폴더에 구글독스의 형태로 업로드 될 예정입니다.
-https://drive.google.com/folderview?id=0By2h7PuCHN8ZUmJ6cjQtQlJUNDA&usp=sharing 또는 팀원들에 한해 doc.google.com에 otlplus 공용계정: otlplus.sparcs.org@gmail.com으로 로그인해서 열람하실 수도 있습니다.
+# 공용 드라이브
+https://drive.google.com/folderview?id=0By2h7PuCHN8ZUmJ6cjQtQlJUNDA&usp=sharing  
+팀원들에 한해 doc.google.com에 otlplus 공용계정: otlplus.sparcs.org@gmail.com으로 로그인해서 열람하실 수도 있습니다.
 
-디자인 프로토타입이 Invision으로 구축되어 있습니다. 주소는
-https://invis.io/7FATPIZHK
-이고 비밀번호는 스팍스 공용비번 두번입니다. 구글 드라이브 공유 링크에 있는 Designs/디자인 변경 사항(스프레드시트) 을 참조하시면 좋습니다.
+# 디자인
+* ~~Invision 프로토타입 (deprecated): https://invis.io/7FATPIZHK~~
+* ~~구글 드라이브 (deprecated): https://drive.google.com/drive/folders/0B7OgXXGKTmCOamtPS0NRNzFXdHc?usp=sharing~~
+* XD 프로토타입: https://xd.adobe.com/view/abb6898c-eff7-42c1-b383-b9518d8c68af-fee5/?fullscreen
+* XD 개발 사양: https://xd.adobe.com/view/6a2a4884-ac98-4c59-85ea-950e2f3012d6-3f79/
 
