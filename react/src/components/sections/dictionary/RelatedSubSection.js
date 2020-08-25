@@ -18,34 +18,34 @@ class RelatedSubSection extends Component {
     return (
       <>
         <div className={classNames('small-title')}>{t('ui.title.relatedCourses')}</div>
-        {/* eslint-disable-next-line react/jsx-indent */}
-    <div>
-      <Scroller noScrollX={false} noScrollY={true}>
-        <div className={classNames('related-courses')}>
-          <div>
-            { course.related_courses_prior.length
-              ? course.related_courses_prior.map(c => <CourseSimpleBlock course={c} key={c.id} />)
-              : <div className={classNames('list-placeholder')}><div>{t('ui.placeholder.unknown')}</div></div>
-            }
-          </div>
-          <div>
-            <i className={classNames('icon', 'icon--related-arrow')} />
-          </div>
-          <div>
-            <CourseSimpleBlock course={course} />
-          </div>
-          <div>
-            <i className={classNames('icon', 'icon--related-arrow')} />
-          </div>
-          <div>
-            { course.related_courses_posterior.length
-              ? course.related_courses_prior.map(c => <CourseSimpleBlock course={c} key={c.id} />)
-              : <div className={classNames('list-placeholder')}><div>{t('ui.placeholder.unknown')}</div></div>
-            }
-          </div>
-        </div>
-      </Scroller>
-    </div>
+
+        <div>
+          <Scroller noScrollX={false} noScrollY={true}>
+            <div className={classNames('related-courses')}>
+              <div>
+                { course.related_courses_prior.length
+                  ? course.related_courses_prior.map(c => <CourseSimpleBlock course={c} key={c.id} />)
+                  : <div className={classNames('list-placeholder')}><div>{t('ui.placeholder.unknown')}</div></div>
+                }
+              </div>
+              <div>
+                <i className={classNames('icon', 'icon--related-arrow')} />
+              </div>
+              <div>
+                <CourseSimpleBlock course={course} />
+              </div>
+              <div>
+                <i className={classNames('icon', 'icon--related-arrow')} />
+              </div>
+              <div>
+                { course.related_courses_posterior.length
+                  ? course.related_courses_prior.map(c => <CourseSimpleBlock course={c} key={c.id} />)
+                  : <div className={classNames('list-placeholder')}><div>{t('ui.placeholder.unknown')}</div></div>
+                }
+              </div>
+            </div>
+          </Scroller>
+        </div> 
       </>
     );
   }

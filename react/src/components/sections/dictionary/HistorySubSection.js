@@ -100,44 +100,44 @@ class HistorySubSection extends Component {
     return (
       <>
         <div className={classNames('small-title')}>{t('ui.title.courseHistory')}</div>
-        {/* eslint-disable-next-line react/jsx-indent */}
-              <div ref={this.scrollRef}>
-                {/* eslint-disable-next-line react/jsx-indent */}
-              <Scroller noScrollX={false} noScrollY={true}>
-                <table className={classNames('history', (isSpecialLectureCourse ? 'history--special-lecture' : ''))}>
-                  <tbody>
-                    <tr>
-                      <th>{t('ui.semester.spring')}</th>
-                      {targetYears.map((y) => {
-                        const filteredLectures = lectures.filter(l => ((l.year === y) && (l.semester === 1)));
-                        if (filteredLectures.length === 0) {
-                          return <td className={classNames('history__cell--unopen')} key={`${y}-1`}><div>{t('ui.others.notOffered')}</div></td>;
-                        }
-                        return <td key={`${y}-1`}><HistoryLecturesBlock lectures={filteredLectures} /></td>;
-                      })}
-                    </tr>
-                    <tr>
-                      <th />
-                      {targetYears.map((y) => {
-                        return (
-                          <td className={classNames('history__cell--year-label')} key={`${y}-l`}>{y}</td>
-                        );
-                      })}
-                    </tr>
-                    <tr>
-                      <th>{t('ui.semester.fall')}</th>
-                      {targetYears.map((y) => {
-                        const filteredLectures = lectures.filter(l => ((l.year === y) && (l.semester === 3)));
-                        if (filteredLectures.length === 0) {
-                          return <td className={classNames('history__cell--unopen')} key={`${y}-3`}><div>{t('ui.others.notOffered')}</div></td>;
-                        }
-                        return <td key={`${y}-3`}><HistoryLecturesBlock lectures={filteredLectures} /></td>;
-                      })}
-                    </tr>
-                  </tbody>
-                </table>
-              </Scroller>
-              </div>
+
+        <div ref={this.scrollRef}>
+
+          <Scroller noScrollX={false} noScrollY={true}>
+            <table className={classNames('history', (isSpecialLectureCourse ? 'history--special-lecture' : ''))}>
+              <tbody>
+                <tr>
+                  <th>{t('ui.semester.spring')}</th>
+                  {targetYears.map((y) => {
+                    const filteredLectures = lectures.filter(l => ((l.year === y) && (l.semester === 1)));
+                    if (filteredLectures.length === 0) {
+                      return <td className={classNames('history__cell--unopen')} key={`${y}-1`}><div>{t('ui.others.notOffered')}</div></td>;
+                    }
+                    return <td key={`${y}-1`}><HistoryLecturesBlock lectures={filteredLectures} /></td>;
+                  })}
+                </tr>
+                <tr>
+                  <th />
+                  {targetYears.map((y) => {
+                    return (
+                      <td className={classNames('history__cell--year-label')} key={`${y}-l`}>{y}</td>
+                    );
+                  })}
+                </tr>
+                <tr>
+                  <th>{t('ui.semester.fall')}</th>
+                  {targetYears.map((y) => {
+                    const filteredLectures = lectures.filter(l => ((l.year === y) && (l.semester === 3)));
+                    if (filteredLectures.length === 0) {
+                      return <td className={classNames('history__cell--unopen')} key={`${y}-3`}><div>{t('ui.others.notOffered')}</div></td>;
+                    }
+                    return <td key={`${y}-3`}><HistoryLecturesBlock lectures={filteredLectures} /></td>;
+                  })}
+                </tr>
+              </tbody>
+            </table>
+          </Scroller>
+        </div>
       </>
     );
   }
