@@ -25,12 +25,12 @@ class ShareSubSection extends Component {
         <div>
           { currentTimetable && year && semester
             ? (
-            /* eslint-disable-next-line react/jsx-indent */
-        <>
-          <a href={`/api/timetable/share_image?table_id=${currentTimetable ? currentTimetable.id : -1}&year=${year}&semester=${semester}`} download><i className={classNames('icon', 'icon--share-image')} /></a>
-          <a href={`/api/timetable/share_calendar?table_id=${currentTimetable ? currentTimetable.id : -1}&year=${year}&semester=${semester}`} target="_blank" rel="noopener noreferrer"><i className={classNames('icon', 'icon--share-calendar')} /></a>
-          <Link to={{ pathname: '/timetable/syllabus', state: { lectures: timetableLectures } }}><i className={classNames('icon', 'icon--share-syllabus')} /></Link>
-        </>
+
+              <>
+                <a href={`/api/timetable/share_image?table_id=${currentTimetable ? currentTimetable.id : -1}&year=${year}&semester=${semester}`} download><i className={classNames('icon', 'icon--share-image')} /></a>
+                <a href={`/api/timetable/share_calendar?table_id=${currentTimetable ? currentTimetable.id : -1}&year=${year}&semester=${semester}`} target="_blank" rel="noopener noreferrer"><i className={classNames('icon', 'icon--share-calendar')} /></a>
+                <Link to={{ pathname: '/timetable/syllabus', state: { lectures: timetableLectures } }}><i className={classNames('icon', 'icon--share-syllabus')} /></Link>
+              </>
             )
             : (
               <>
