@@ -2259,8 +2259,9 @@ a {
 
 .history {
 
-    & table {
-        margin-right: -10000px;
+        :global(.ScrollbarsCustom-Content) > & {
+            margin-right: -10000px;
+        }
 
         & > tbody > tr {
             &:first-child {
@@ -2327,7 +2328,6 @@ a {
                 }
             }
         }
-    }
 }
 
 
