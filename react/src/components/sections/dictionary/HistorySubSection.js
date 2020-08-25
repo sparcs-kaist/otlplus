@@ -76,7 +76,7 @@ class HistorySubSection extends Component {
       return (
         <>
           <div className={classNames('small-title')}>{t('ui.title.courseHistory')}</div>
-          <div className={classNames('history')} ref={this.scrollRef}>
+          <div ref={this.scrollRef}>
             <div className={classNames('list-placeholder')}><div>{t('ui.placeholder.loading')}</div></div>
           </div>
         </>
@@ -101,10 +101,10 @@ class HistorySubSection extends Component {
       <>
         <div className={classNames('small-title')}>{t('ui.title.courseHistory')}</div>
         {/* eslint-disable-next-line react/jsx-indent */}
-              <div className={classNames('history', (isSpecialLectureCourse ? 'history--special-lecture' : ''))} ref={this.scrollRef}>
+              <div ref={this.scrollRef}>
                 {/* eslint-disable-next-line react/jsx-indent */}
               <Scroller noScrollX={false} noScrollY={true}>
-                <table>
+                <table className={classNames('history', (isSpecialLectureCourse ? 'history--special-lecture' : ''))}>
                   <tbody>
                     <tr>
                       <th>{t('ui.semester.spring')}</th>
