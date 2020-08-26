@@ -1,4 +1,5 @@
 import axios from 'axios';
+import i18n from 'i18next';
 
 import { LIST, TABLE, MULTIPLE } from '../reducers/timetable/lectureActive';
 
@@ -67,7 +68,7 @@ export const performAddToTable = (caller, lecture, currentTimetable, user, addLe
     ))
   ) {
     // eslint-disable-next-line no-alert
-    alert(caller.props.t('ui.message.timetableOverlap'));
+    alert(i18n.t('ui.message.timetableOverlap'));
     return;
   }
 

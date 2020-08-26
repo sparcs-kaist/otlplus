@@ -57,15 +57,6 @@ class TimetableSubSection extends Component {
     return days.indexOf(day);
   }
 
-  // '800':0, '830':1, ..., '2330':31
-  indexOfTime = (timeStr) => {
-    const time = parseInt(timeStr, 10);
-    const divide = time < 800 ? 60 : 100;
-    const hour = Math.floor(time / divide) - 8;
-    const min = time % divide;
-    return hour * 2 + min / 30;
-  }
-
   // eslint-disable-next-line arrow-body-style
   indexOfMinute = (minute) => {
     return minute / 30 - (2 * 8);
@@ -145,8 +136,8 @@ class TimetableSubSection extends Component {
 
     if (!isDragging) return;
     const dayIndex = this.indexOfDay(firstBlock.getAttribute('data-day'));
-    const startIndex = this.indexOfTime(firstBlock.getAttribute('data-time'));
-    const endIndex = this.indexOfTime(target.getAttribute('data-time'));
+    const startIndex = this.indexOfMinute(firstBlock.getAttribute('data-minute'));
+    const endIndex = this.indexOfMinute(target.getAttribute('data-minute'));
     const incr = startIndex < endIndex ? 1 : -1;
     // eslint-disable-next-line no-loops/no-loops, fp/no-loops, fp/no-let, fp/no-mutation
     for (let i = startIndex + incr; i !== endIndex + incr; i += incr) {
@@ -176,8 +167,8 @@ class TimetableSubSection extends Component {
     this.setState({ firstBlock: null, secondBlock: null });
 
     const startDay = this.indexOfDay(firstBlock.getAttribute('data-day'));
-    const startIndex = this.indexOfTime(firstBlock.getAttribute('data-time'));
-    const endIndex = this.indexOfTime(secondBlock.getAttribute('data-time'));
+    const startIndex = this.indexOfMinute(firstBlock.getAttribute('data-minute'));
+    const endIndex = this.indexOfMinute(secondBlock.getAttribute('data-minute'));
     if (startIndex === endIndex) {
       clearDragDispatch();
       return;
@@ -322,17 +313,17 @@ class TimetableSubSection extends Component {
     };
 
     const getCells = (day, ko, dayIdx) => {
-      const numArray = [...Array((2350 - 800) / 50 + 1).keys()].map(i => i * 50 + 800); // [800, 850, 900, ..., 2350]
+      const numArray = [...Array((24 - 8) * 2).keys()].map(i => 8 * 60 + i * 30); // [800, 850, 900, ..., 2350]
       const timeblock = [
         <div className={classNames('table-head')} key={day}>{ko}</div>,
         ...numArray.map((i) => {
-          if (i === 1200) {
+          if (i === 12 * 60) {
             return (
               <div
                 className={classNames('cell', 'cell-drag', 'cell-top', 'cell-bold')}
-                key={`${day}:1200`}
+                key={`${day}:${i.toString()}`}
                 data-day={day}
-                data-time="1200"
+                data-minute={i.toString()}
                 onMouseDown={e => this.onMouseDown(e)}
                 onTouchStart={e => this.onTouchStart(e)}
                 onMouseMove={e => this.onMouseMove(e)}
@@ -340,13 +331,13 @@ class TimetableSubSection extends Component {
               />
             );
           }
-          if (i === 1800) {
+          if (i === 18 * 60) {
             return (
               <div
                 className={classNames('cell', 'cell-drag', 'cell-top', 'cell-bold')}
-                key={`${day}:1800`}
+                key={`${day}:${i.toString()}`}
                 data-day={day}
-                data-time="1800"
+                data-minute={i.toString()}
                 onMouseDown={e => this.onMouseDown(e)}
                 onTouchStart={e => this.onTouchStart(e)}
                 onMouseMove={e => this.onMouseMove(e)}
@@ -354,13 +345,13 @@ class TimetableSubSection extends Component {
               />
             );
           }
-          if (i === 2350) {
+          if (i === 23 * 60 + 30) {
             return (
               <div
                 className={classNames('cell', 'cell-drag', 'cell-bottom', (mobileShowLectureList ? 'cell-bottom--mobile-noline' : ''), 'cell-last')}
-                key={`${day}:2330`}
+                key={`${day}:${i.toString()}`}
                 data-day={day}
-                data-time="2330"
+                data-minute={i.toString()}
                 onMouseDown={e => this.onMouseDown(e)}
                 onTouchStart={e => this.onTouchStart(e)}
                 onMouseMove={e => this.onMouseMove(e)}
@@ -368,13 +359,13 @@ class TimetableSubSection extends Component {
               />
             );
           }
-          if (i % 100 === 0) {
+          if (i % 60 === 0) {
             return (
               <div
                 className={classNames('cell', 'cell-drag', 'cell-top')}
                 key={`${day}:${i.toString()}`}
                 data-day={day}
-                data-time={i.toString()}
+                data-minute={i.toString()}
                 onMouseDown={e => this.onMouseDown(e)}
                 onTouchStart={e => this.onTouchStart(e)}
                 onMouseMove={e => this.onMouseMove(e)}
@@ -387,7 +378,7 @@ class TimetableSubSection extends Component {
               className={classNames('cell', 'cell-drag', 'cell-bottom', (mobileShowLectureList ? 'cell-bottom--mobile-noline' : ''))}
               key={`${day}:${(i - 20).toString()}`}
               data-day={day}
-              data-time={(i - 20).toString()}
+              data-minute={i.toString()}
               onMouseDown={e => this.onMouseDown(e)}
               onTouchStart={e => this.onTouchStart(e)}
               onMouseMove={e => this.onMouseMove(e)}
@@ -438,8 +429,8 @@ class TimetableSubSection extends Component {
                 style={{
                   left: (cellWidth + 5) * this.indexOfDay(firstBlock.getAttribute('data-day')) + 17,
                   width: cellWidth + 2,
-                  top: cellHeight * Math.min(this.indexOfTime(firstBlock.getAttribute('data-time')), this.indexOfTime(secondBlock.getAttribute('data-time'))) + 19,
-                  height: cellHeight * (Math.abs(this.indexOfTime(firstBlock.getAttribute('data-time')) - this.indexOfTime(secondBlock.getAttribute('data-time'))) + 1) - 3,
+                  top: cellHeight * Math.min(this.indexOfMinute(firstBlock.getAttribute('data-minute')), this.indexOfMinute(secondBlock.getAttribute('data-minute'))) + 19,
+                  height: cellHeight * (Math.abs(this.indexOfMinute(firstBlock.getAttribute('data-minute')) - this.indexOfMinute(secondBlock.getAttribute('data-minute'))) + 1) - 3,
                 }}
               />
             )

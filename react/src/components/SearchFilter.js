@@ -12,7 +12,7 @@ class SearchFilter extends Component {
     return checkedValues.has(value);
   }
 
-  clickCircle = value => (isChecked) => {
+  _clickCircle = value => (isChecked) => {
     const { checkedValues, updateCheckedValues } = this.props;
 
     if (isChecked) {
@@ -50,8 +50,8 @@ class SearchFilter extends Component {
         key={o[0]}
         value={o[0]}
         inputName={inputName}
-        circleName={o[1]}
-        clickCircle={this.clickCircle(o[0])}
+        labelNameKey={o[1]}
+        clickCircle={this._clickCircle(o[0])}
         isChecked={checkedValues.has(o[0])}
         allChecked={this._isChecked('ALL')}
       />

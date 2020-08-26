@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames } from '../common/boundClassNames';
 
@@ -13,7 +14,7 @@ class SearchCircle extends Component {
 
 
   render() {
-    const { value, inputName, circleName, isChecked } = this.props;
+    const { t, value, inputName, labelNameKey, isChecked } = this.props;
     const isAll = (value === 'ALL');
     const inputId = `${inputName}-${value}`;
     return (
@@ -28,7 +29,7 @@ class SearchCircle extends Component {
           onChange={e => this.onChange(e)}
           checked={isChecked}
         />
-        {circleName}
+        {t(labelNameKey)}
         <i className={appBoundClassNames('icon', 'icon--checkbox')} />
       </label>
     );
@@ -38,9 +39,9 @@ class SearchCircle extends Component {
 SearchCircle.propTypes = {
   value: PropTypes.string.isRequired,
   inputName: PropTypes.string.isRequired,
-  circleName: PropTypes.string.isRequired,
+  labelNameKey: PropTypes.string.isRequired,
   clickCircle: PropTypes.func.isRequired,
   isChecked: PropTypes.bool.isRequired,
 };
 
-export default SearchCircle;
+export default withTranslation()(SearchCircle);
