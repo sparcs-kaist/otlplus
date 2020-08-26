@@ -17,6 +17,19 @@ import courseShape from '../../../shapes/CourseShape';
 
 
 class CourseDetailSection extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      showHiddenScores: false,
+    };
+
+    // eslint-disable-next-line fp/no-mutation
+    this.scoresRef = React.createRef();
+    // eslint-disable-next-line fp/no-mutation
+    this.scrollThresholdRef = React.createRef();
+  }
+
   componentDidUpdate(prevProps) {
     const { currentList, clearCourseActiveDispatch } = this.props;
 
@@ -26,11 +39,15 @@ class CourseDetailSection extends Component {
   }
 
   onScroll() {
-    if (this.refs.scores.getBoundingClientRect().top >= this.refs.scrollThreshold.getBoundingClientRect().bottom) {
-      this.refs.hiddenScores.classList.add('fixed__conditional-part--hidden');
+    if (this.scoresRef.current.getBoundingClientRect().top >= this.scrollThresholdRef.current.getBoundingClientRect().bottom) {
+      this.setState({
+        showHiddenScores: false,
+      });
     }
     else {
-      this.refs.hiddenScores.classList.remove('fixed__conditional-part--hidden');
+      this.setState({
+        showHiddenScores: true,
+      });
     }
   }
 
@@ -43,6 +60,7 @@ class CourseDetailSection extends Component {
 
   render() {
     const { t } = this.props;
+    const { showHiddenScores } = this.state;
     const { clicked, course } = this.props;
 
     if (clicked && course !== null) {
@@ -58,8 +76,8 @@ class CourseDetailSection extends Component {
                 {course.old_code}
               </div>
             </div>
-            <div ref="scrollThreshold" />
-            <div className={classNames('fixed__conditional-part', 'fixed__conditional-part--hidden')} ref="hiddenScores">
+            <div ref={this.scrollThresholdRef} />
+            <div className={classNames('fixed__conditional-part', (showHiddenScores ? '' : 'fixed__conditional-part--hidden'))}>
               <div>
                 <div className={classNames('scores')}>
                   <div>
@@ -110,7 +128,7 @@ class CourseDetailSection extends Component {
                 </div>
               </div>
             </div>
-            <div className={classNames('scores')} ref="scores">
+            <div className={classNames('scores')} ref={this.scoresRef}>
               <div>
                 <div>
                   {course.grade_letter}
