@@ -81,20 +81,6 @@ import memberWinrobrineImage from '../static/img/members/Members-19-winrobrine_k
 
 
 class CreditPage extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      currentTab: 8,
-    };
-  }
-
-  changePage = (index) => {
-    this.setState({
-      currentTab: index,
-    });
-  }
-
-  // eslint-disable-next-line react/sort-comp
   projects = [
     {
       index: 1,
@@ -449,50 +435,63 @@ class CreditPage extends Component {
     },
   ]
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      currentTab: 8,
+    };
+  }
+
+  changePage = (index) => {
+    this.setState({
+      currentTab: index,
+    });
+  }
+
   render() {
     const { currentTab } = this.state;
     return (
       <section className={classNames('content', 'content--no-scroll')}>
         <div className={classNames('section-wrap', 'section-wrap--full')}>
           <div className={classNames('section')}>
-            {/* eslint-disable-next-line react/jsx-indent */}
-                <div className={classNames('section-content', 'section-content--credit')}>
-                  <div className={classNames('section-content--credit__blocks')}>
-                    {this.projects.map(p => (
-                      <ProjectBlock
-                        index={p.index}
-                        onClick={this.changePage}
-                        isClicked={currentTab === p.index}
-                        mainTitle={p.mainTitle}
-                        subTitle={p.subTitle}
-                        period={p.period}
-                        key={p.index}
-                      />
-                    ))}
-                    {this.projects.map(p => (
-                      <div key={p.index} className={classNames('section-content--credit__blocks__dummy')} />
-                    ))}
-                  </div>
-                  <Scroller key={currentTab}>
 
-                    <div className={classNames('section-content--credit__people-list')}>
-                      {this.projects.find(p => (p.index === currentTab)).fields.map(f => (
-                        <React.Fragment key={f.title}>
-                          <div className={classNames('title')}>{f.title}</div>
-                          {f.people.map(p => (
-                            <div className={classNames('section-content--credit__people-list__elem')} key={p.name}>
-                              {p.image
-                                ? <img src={p.image} alt={p.name} />
-                                : <div className={classNames('section-content--credit__people-list__elem__name')}>{p.name}</div>
-                              }
-                              {p.caption ? <div className={classNames('caption')}>{p.caption}</div> : null}
-                            </div>
-                          ))}
-                        </React.Fragment>
+            <div className={classNames('section-content', 'section-content--credit')}>
+              <div className={classNames('section-content--credit__blocks')}>
+                {this.projects.map(p => (
+                  <ProjectBlock
+                    index={p.index}
+                    onClick={this.changePage}
+                    isClicked={currentTab === p.index}
+                    mainTitle={p.mainTitle}
+                    subTitle={p.subTitle}
+                    period={p.period}
+                    key={p.index}
+                  />
+                ))}
+                {this.projects.map(p => (
+                  <div key={p.index} className={classNames('section-content--credit__blocks__dummy')} />
+                ))}
+              </div>
+              <Scroller key={currentTab}>
+
+                <div className={classNames('section-content--credit__people-list')}>
+                  {this.projects.find(p => (p.index === currentTab)).fields.map(f => (
+                    <React.Fragment key={f.title}>
+                      <div className={classNames('title')}>{f.title}</div>
+                      {f.people.map(p => (
+                        <div className={classNames('section-content--credit__people-list__elem')} key={p.name}>
+                          {p.image
+                            ? <img src={p.image} alt={p.name} />
+                            : <div className={classNames('section-content--credit__people-list__elem__name')}>{p.name}</div>
+                          }
+                          {p.caption ? <div className={classNames('caption')}>{p.caption}</div> : null}
+                        </div>
                       ))}
-                    </div>
-                  </Scroller>
+                    </React.Fragment>
+                  ))}
                 </div>
+              </Scroller>
+            </div>
           </div>
         </div>
       </section>

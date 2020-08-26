@@ -123,33 +123,33 @@ class TakenLecturesSection extends Component {
                   {`${s.year} ${semesterNames[s.semester]}`}
                 </div>
                 <div className={classNames('taken-lectures')}>
-                  {/* eslint-disable-next-line react/jsx-indent */}
-                {writableTakenLectures
-                  .filter(l => (l.year === s.year && l.semester === s.semester))
-                  .map(l => (
-                    !selectedLecture
-                      ? (
-                        <LectureSimpleBlock
-                          key={l.id}
-                          lecture={l}
-                          isClicked={false}
-                          isInactive={false}
-                          hasReview={user.reviews.find(r => (r.lecture.id === l.id)) !== undefined}
-                          onClick={this.handleBlockClick(l)}
-                        />
-                      )
-                      : (
-                        <LectureSimpleBlock
-                          key={l.id}
-                          lecture={l}
-                          isClicked={selectedLecture.id === l.id}
-                          isInactive={selectedLecture.id !== l.id}
-                          hasReview={user.reviews.find(r => (r.lecture.id === l.id)) !== undefined}
-                          onClick={this.handleBlockClick(l)}
-                        />
-                      )
-                  ))
-                }
+
+                  {writableTakenLectures
+                    .filter(l => (l.year === s.year && l.semester === s.semester))
+                    .map(l => (
+                      !selectedLecture
+                        ? (
+                          <LectureSimpleBlock
+                            key={l.id}
+                            lecture={l}
+                            isClicked={false}
+                            isInactive={false}
+                            hasReview={user.reviews.find(r => (r.lecture.id === l.id)) !== undefined}
+                            onClick={this.handleBlockClick(l)}
+                          />
+                        )
+                        : (
+                          <LectureSimpleBlock
+                            key={l.id}
+                            lecture={l}
+                            isClicked={selectedLecture.id === l.id}
+                            isInactive={selectedLecture.id !== l.id}
+                            hasReview={user.reviews.find(r => (r.lecture.id === l.id)) !== undefined}
+                            onClick={this.handleBlockClick(l)}
+                          />
+                        )
+                    ))
+                  }
                   <div className={classNames('taken-lectures__dummy')} />
                   <div className={classNames('taken-lectures__dummy')} />
                   <div className={classNames('taken-lectures__dummy')} />

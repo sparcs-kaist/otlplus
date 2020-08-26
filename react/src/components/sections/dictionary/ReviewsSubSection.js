@@ -108,6 +108,7 @@ class ReviewsSubSection extends Component {
     });
   }
 
+  // eslint-disable-next-line arrow-body-style
   _getProfessorFormValue = (professor) => {
     return String(professor.professor_id);
   }
