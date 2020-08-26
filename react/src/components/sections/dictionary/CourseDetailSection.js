@@ -78,7 +78,6 @@ class CourseDetailSection extends Component {
             </div>
             <div ref={this.scrollThresholdRef} />
             <div className={classNames('fixed__conditional-part', (showHiddenScores ? '' : 'fixed__conditional-part--hidden'))}>
-              <div>
                 <div className={classNames('scores')}>
                   <div>
                     <div>
@@ -105,8 +104,6 @@ class CourseDetailSection extends Component {
                     </div>
                   </div>
                 </div>
-                <div className={classNames('divider')} />
-              </div>
             </div>
           </div>
           <Scroller onScroll={() => this.onScroll()} key={course.id}>
