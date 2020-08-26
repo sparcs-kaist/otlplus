@@ -96,6 +96,15 @@ const ReviewWriteBlock = ({ t, lecture, review, pageFrom, updateOnSubmit }) => {
   };
 
   const hasChange = (content !== savedContent) || (grade !== savedGrade) || (load !== savedLoad) || (speech !== savedSpeech);
+  const getScoreOptionLabel = (name, value, checkedValue) => {
+    const inputId = `${name}-${value}`;
+    return (
+      <label className={classNames('block--review-write__score__option')} htmlFor={inputId}>
+        <input id={inputId} type="radio" name={name} value={`${value}`} checked={checkedValue === value} onChange={onScoreChange} />
+        <span>{[undefined, 'F', 'D', 'C', 'B', 'A'][value]}</span>
+      </label>
+    );
+  };
 
   return (
     <form className={classNames('block', 'block--review-write')} onSubmit={onSubmit}>
@@ -108,72 +117,27 @@ const ReviewWriteBlock = ({ t, lecture, review, pageFrom, updateOnSubmit }) => {
       <div>
         <div className={classNames('block--review-write__score')}>
           <span className={classNames('block--review-write__score__name')}>{t('ui.score.grade')}</span>
-          <label className={classNames('block--review-write__score__option')}>
-            <input type="radio" name="grade" value="5" checked={grade === 5} onChange={onScoreChange} />
-            <span>A</span>
-          </label>
-          <label className={classNames('block--review-write__score__option')}>
-            <input type="radio" name="grade" value="4" checked={grade === 4} onChange={onScoreChange} />
-            <span>B</span>
-          </label>
-          <label className={classNames('block--review-write__score__option')}>
-            <input type="radio" name="grade" value="3" checked={grade === 3} onChange={onScoreChange} />
-            <span>C</span>
-          </label>
-          <label className={classNames('block--review-write__score__option')}>
-            <input type="radio" name="grade" value="2" checked={grade === 2} onChange={onScoreChange} />
-            <span>D</span>
-          </label>
-          <label className={classNames('block--review-write__score__option')}>
-            <input type="radio" name="grade" value="1" checked={grade === 1} onChange={onScoreChange} />
-            <span>F</span>
-          </label>
+          {getScoreOptionLabel('grade', 5, grade)}
+          {getScoreOptionLabel('grade', 4, grade)}
+          {getScoreOptionLabel('grade', 3, grade)}
+          {getScoreOptionLabel('grade', 2, grade)}
+          {getScoreOptionLabel('grade', 1, grade)}
         </div>
         <div className={classNames('block--review-write__score')}>
           <span className={classNames('block--review-write__score__name')}>{t('ui.score.load')}</span>
-          <label className={classNames('block--review-write__score__option')}>
-            <input type="radio" name="load" value="5" checked={load === 5} onChange={onScoreChange} />
-            <span>A</span>
-          </label>
-          <label className={classNames('block--review-write__score__option')}>
-            <input type="radio" name="load" value="4" checked={load === 4} onChange={onScoreChange} />
-            <span>B</span>
-          </label>
-          <label className={classNames('block--review-write__score__option')}>
-            <input type="radio" name="load" value="3" checked={load === 3} onChange={onScoreChange} />
-            <span>C</span>
-          </label>
-          <label className={classNames('block--review-write__score__option')}>
-            <input type="radio" name="load" value="2" checked={load === 2} onChange={onScoreChange} />
-            <span>D</span>
-          </label>
-          <label className={classNames('block--review-write__score__option')}>
-            <input type="radio" name="load" value="1" checked={load === 1} onChange={onScoreChange} />
-            <span>F</span>
-          </label>
+          {getScoreOptionLabel('load', 5, load)}
+          {getScoreOptionLabel('load', 4, load)}
+          {getScoreOptionLabel('load', 3, load)}
+          {getScoreOptionLabel('load', 2, load)}
+          {getScoreOptionLabel('load', 1, load)}
         </div>
         <div className={classNames('block--review-write__score')}>
           <span className={classNames('block--review-write__score__name')}>{t('ui.score.speech')}</span>
-          <label className={classNames('block--review-write__score__option')}>
-            <input type="radio" name="speech" value="5" checked={speech === 5} onChange={onScoreChange} />
-            <span>A</span>
-          </label>
-          <label className={classNames('block--review-write__score__option')}>
-            <input type="radio" name="speech" value="4" checked={speech === 4} onChange={onScoreChange} />
-            <span>B</span>
-          </label>
-          <label className={classNames('block--review-write__score__option')}>
-            <input type="radio" name="speech" value="3" checked={speech === 3} onChange={onScoreChange} />
-            <span>C</span>
-          </label>
-          <label className={classNames('block--review-write__score__option')}>
-            <input type="radio" name="speech" value="2" checked={speech === 2} onChange={onScoreChange} />
-            <span>D</span>
-          </label>
-          <label className={classNames('block--review-write__score__option')}>
-            <input type="radio" name="speech" value="1" checked={speech === 1} onChange={onScoreChange} />
-            <span>F</span>
-          </label>
+          {getScoreOptionLabel('speech', 5, speech)}
+          {getScoreOptionLabel('speech', 4, speech)}
+          {getScoreOptionLabel('speech', 3, speech)}
+          {getScoreOptionLabel('speech', 2, speech)}
+          {getScoreOptionLabel('speech', 1, speech)}
         </div>
       </div>
       <div className={classNames('block--review-write__buttons')}>
