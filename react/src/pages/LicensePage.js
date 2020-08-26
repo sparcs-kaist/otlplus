@@ -12,7 +12,7 @@ class LicensePage extends Component {
             <div className={classNames('section-content', 'section-content--license')}>
 
               <div className={classNames('title')}> Licenses </div>
-              
+
               <div>
                 <div className={classNames('small-title')}>ZURB In Tutorial</div>
                 Joyride was made by [ZURB](http://www.zurb.com), a product design company in Campbell, CA.

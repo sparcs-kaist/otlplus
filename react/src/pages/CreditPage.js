@@ -454,7 +454,7 @@ class CreditPage extends Component {
       <section className={classNames('content', 'content--no-scroll')}>
         <div className={classNames('section-wrap', 'section-wrap--full')}>
           <div className={classNames('section')}>
-            
+
             <div className={classNames('section-content', 'section-content--credit')}>
               <div className={classNames('section-content--credit__blocks')}>
                 {this.projects.map(p => (
@@ -486,10 +486,10 @@ class CreditPage extends Component {
                           }
                           {p.caption ? <div className={classNames('caption')}>{p.caption}</div> : null}
                         </div>
-                      ))} 
+                      ))}
                     </React.Fragment>
                   ))}
-                </div> 
+                </div>
               </Scroller>
             </div>
           </div>

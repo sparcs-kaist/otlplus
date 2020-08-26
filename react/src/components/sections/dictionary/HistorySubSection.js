@@ -118,11 +118,9 @@ class HistorySubSection extends Component {
                 </tr>
                 <tr>
                   <th />
-                  {targetYears.map((y) => {
-                    return (
-                      <td className={classNames('history__cell--year-label')} key={`${y}-l`}>{y}</td>
-                    );
-                  })}
+                  {targetYears.map(y => (
+                    <td className={classNames('history__cell--year-label')} key={`${y}-l`}>{y}</td>
+                  ))}
                 </tr>
                 <tr>
                   <th>{t('ui.semester.fall')}</th>
