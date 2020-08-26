@@ -81,20 +81,6 @@ import memberWinrobrineImage from '../static/img/members/Members-19-winrobrine_k
 
 
 class CreditPage extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      currentTab: 8,
-    };
-  }
-
-  changePage = (index) => {
-    this.setState({
-      currentTab: index,
-    });
-  }
-
-  // eslint-disable-next-line react/sort-comp
   projects = [
     {
       index: 1,
@@ -448,6 +434,19 @@ class CreditPage extends Component {
         ],
     },
   ]
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      currentTab: 8,
+    };
+  }
+
+  changePage = (index) => {
+    this.setState({
+      currentTab: index,
+    });
+  }
 
   render() {
     const { currentTab } = this.state;
