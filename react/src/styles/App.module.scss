@@ -2590,7 +2590,10 @@ a {
 
 
         & > * {
-            background-color: $color-section-background
+            background-color: $color-section-background;
+            margin-top: 0 !important;
+            margin-bottom: -1000px !important;
+            padding-bottom: $section-padding;
         }
 
 

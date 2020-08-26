@@ -60,6 +60,7 @@ class Scroller extends Component {
         contentProps={{
           style: {
             padding: '0',
+            paddingRight: '1px',
             width: '100%',
             height: '100%',
           },
