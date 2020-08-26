@@ -74,6 +74,7 @@ axios.interceptors.request.use(
     };
     return config;
   },
+  // eslint-disable-next-line arrow-body-style
   (error) => {
     return Promise.reject(error);
   },

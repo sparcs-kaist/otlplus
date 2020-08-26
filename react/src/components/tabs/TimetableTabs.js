@@ -84,6 +84,7 @@ class TimetableTabs extends Component {
       });
   }
 
+  // eslint-disable-next-line arrow-body-style
   _createRandomTimetableId = () => {
     return Math.floor(Math.random() * 100000000);
   }
@@ -120,13 +121,13 @@ class TimetableTabs extends Component {
           year: year,
           semester: semester,
           lectures: [],
-        }, 
+        },
         {
           metadata: {
             gaCategory: 'Timetable',
             gaVariable: 'POST / List',
           },
-        }, 
+        },
       )
         .then((response) => {
           const newProps = this.props;
@@ -167,13 +168,13 @@ class TimetableTabs extends Component {
           table_id: timetable.id,
           year: year,
           semester: semester,
-        }, 
+        },
         {
           metadata: {
             gaCategory: 'Timetable',
             gaVariable: 'DELETE / Instance',
           },
-        }, 
+        },
       )
         .then((response) => {
           const newProps = this.props;
@@ -207,13 +208,13 @@ class TimetableTabs extends Component {
           year: year,
           semester: semester,
           lectures: timetable.lectures.map(l => l.id),
-        }, 
+        },
         {
           metadata: {
             gaCategory: 'Timetable',
             gaVariable: 'POST / List',
           },
-        }, 
+        },
       )
         .then((response) => {
           const newProps = this.props;

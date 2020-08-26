@@ -159,12 +159,12 @@ class Header extends Component {
                   : user === undefined
                     ? (
 
-                      <span> 
+                      <span>
                         <i className={classNames('icon--header_user')} />
                         <span>
                           {t('ui.placeholder.loading')}
                         </span>
-                      </span> 
+                      </span>
                     )
                     : (
 

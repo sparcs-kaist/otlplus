@@ -45,7 +45,7 @@ class RelatedSubSection extends Component {
               </div>
             </div>
           </Scroller>
-        </div> 
+        </div>
       </>
     );
   }
