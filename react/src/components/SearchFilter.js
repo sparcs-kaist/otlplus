@@ -50,7 +50,7 @@ class SearchFilter extends Component {
         key={o[0]}
         value={o[0]}
         inputName={inputName}
-        circleName={o[1]}
+        labelNameKey={o[1]}
         clickCircle={this._clickCircle(o[0])}
         isChecked={checkedValues.has(o[0])}
         allChecked={this._isChecked('ALL')}
