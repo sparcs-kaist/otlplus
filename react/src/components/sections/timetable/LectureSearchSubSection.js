@@ -262,11 +262,11 @@ class LectureSearchSubSection extends Component {
 
                 { day !== null
                   ? (
-                    <label className={classNames('text-button')} onClick={this.clearSearchTime}>
+                    <span className={classNames('text-button')} onClick={this.clearSearchTime}>
                       {`${[t('ui.day.monday'), t('ui.day.tuesday'), t('ui.day.wednesday'), t('ui.day.thursday'), t('ui.day.friday')][day]} \
                         ${8 + Math.floor(start / 2)}:${['00', '30'][start % 2]} ~ \
                         ${8 + Math.floor(end / 2)}:${['00', '30'][end % 2]}`}
-                    </label>
+                    </span>
                   )
                   : (
                     <span>

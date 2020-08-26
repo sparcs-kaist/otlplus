@@ -15,9 +15,11 @@ class SearchCircle extends Component {
   render() {
     const { value, inputName, circleName, isChecked } = this.props;
     const all = (value === 'ALL');
+    const inputId = `${inputName}-${value}`;
     return (
-      <label>
+      <label htmlFor={inputId}>
         <input
+          id={inputId}
           className={all ? 'chkall' : 'chkelem'}
           type="checkbox"
           autoComplete="off"
