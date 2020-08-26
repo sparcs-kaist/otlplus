@@ -10,15 +10,15 @@ class SyllabusPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentShowingLecture: this.getFirstLecture(props),
+      currentShowingLecture: this._getFirstLecture(props),
     };
   }
 
-  getFirstLecture = props => (
+  _getFirstLecture = props => (
     props.location.state.lectures[0]
   )
 
-  getLectureUrl = lecture => (
+  _getLectureUrl = lecture => (
     `https://cais.kaist.ac.kr/syllabusInfo?year=${lecture.year}&term=${lecture.semester}&subject_no=${lecture.code}&lecture_class=${lecture.class_no}&dept_id=${lecture.department}`
   )
 
@@ -47,7 +47,7 @@ class SyllabusPage extends Component {
             <div className={classNames('section-content', 'section-content--syllabus')}>
 
               { lectures.map(lecture => (
-                <iframe src={this.getLectureUrl(lecture)} title={`syllabus-${lecture.title}`} key={lecture.id} style={lecture.id === currentShowingLecture.id ? {} : { display: 'none' }}>
+                <iframe src={this._getLectureUrl(lecture)} title={`syllabus-${lecture.title}`} key={lecture.id} style={lecture.id === currentShowingLecture.id ? {} : { display: 'none' }}>
                   { lecture.common_title }
                 </iframe>
               ))}
