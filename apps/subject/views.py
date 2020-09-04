@@ -9,7 +9,7 @@ from utils.decorators import login_required_ajax
 from models import Semester, Course, Lecture, Professor
 from apps.session.models import UserProfile
 from apps.review.models import Review
-from apps.common.util import rgetattr
+from apps.common.util import rgetattr, getint, paginate_queryset
 
 import datetime
 
@@ -25,6 +25,8 @@ def semesters_list_view(request):
 
 @require_http_methods(['GET'])
 def courses_list_view(request):
+    MAX_LIMIT = 10
+
     if request.method == 'GET':
         courses = Course.objects.all().order_by('old_code')
 
@@ -50,7 +52,12 @@ def courses_list_view(request):
             .distinct() \
             #.select_related('department') \
             #.prefetch_related('related_courses_prior', 'related_courses_posterior', 'professors', 'read_users_courseuser')
-        result = [c.toJson(user=request.user) for c in courses[:150]]
+
+        offset = getint(request.GET, 'offset', None)
+        limit = getint(request.GET, 'limit', None)
+        courses = paginate_queryset(courses, offset, limit, MAX_LIMIT)
+
+        result = [c.toJson(user=request.user) for c in courses]
         return JsonResponse(result, safe=False)
 
 
@@ -115,6 +122,8 @@ def courses_instance_lectures_view(request, course_id):
 
 @require_http_methods(['GET'])
 def lectures_list_view(request):
+    MAX_LIMIT = 300
+
     if request.method == 'GET':
         lectures = Lecture.objects \
             .filter(deleted=False) \
@@ -149,7 +158,12 @@ def lectures_list_view(request):
             .order_by('old_code', 'class_no')
             #.select_related('course', 'department') \
             #.prefetch_related('classtime_set', 'examtime_set', 'professors') \
-        result = [l.toJson(nested=False) for l in lectures[:300]]
+
+        offset = getint(request.GET, 'offset', None)
+        limit = getint(request.GET, 'limit', None)
+        lectures = paginate_queryset(lectures, offset, limit, MAX_LIMIT)
+    
+        result = [l.toJson(nested=False) for l in lectures]
         return JsonResponse(result, safe=False)
 
 
