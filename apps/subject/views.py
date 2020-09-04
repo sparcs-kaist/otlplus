@@ -29,77 +29,22 @@ def courses_list_view(request):
         courses = Course.objects.all().order_by('old_code')
 
         department = request.GET.getlist('department', [])
-        if department and len(department):
-            major_list = ["CE", "MSB", "ME", "PH", "BiS", "IE", "ID", "BS", "CBE", "MAS",
-                          "MS", "NQE", "HSS", "EE", "CS", "AE", "CH"]
-            if 'ALL' in department:
-                pass
-            elif 'ETC' in department:
-                courses = courses.exclude(department__code__in = set(major_list) - set(department))
-            else:
-                courses = courses.filter(department__code__in = department)
+        courses = _filterDepartment(courses, department)
 
         type_ = request.GET.getlist('type', [])
-        if type_ and len(type_):
-            acronym_dic = {'GR': 'General Required', 'MGC': 'Mandatory General Courses', 'BE': 'Basic Elective',
-                           'BR': 'Basic Required', 'EG': 'Elective(Graduate)', 'HSE': 'Humanities & Social Elective',
-                           'OE': 'Other Elective', 'ME': 'Major Elective', 'MR': 'Major Required'}
-            if 'ALL' in type_:
-                pass
-            elif 'ETC' in type_:
-                courses = courses.exclude(type_en__in = [acronym_dic[x] for x in acronym_dic if x not in type_])
-            else:
-                courses = courses.filter(type_en__in = [acronym_dic[x] for x in acronym_dic if x in type_])
+        courses = _filterType(courses, type_)
 
         level = request.GET.getlist('grade', [])
-        if level and len(level):
-            acronym_dic = {'100':"1", '200':"2", '300':"3", '400':"4"}
-            if "ALL" in level:
-                pass
-            elif "ETC" in level:
-                numbers = ''.join([acronym_dic[x] for x in acronym_dic if x not in level])
-                regex = r'^[A-Za-z]+[{numbers}][0-9][0-9]$'.format(numbers=numbers)
-                courses = courses.exclude(old_code__regex=regex)
-            else:
-                numbers = ''.join([acronym_dic[x] for x in acronym_dic if x in level])
-                regex = r'^[A-Za-z]+[{numbers}][0-9][0-9]$'.format(numbers=numbers)
-                print(regex)
-                courses = courses.filter(old_code__regex=regex)
+        courses = _filterLevel(courses, level)
 
         term = request.GET.get('term', None)
-        if term and len(term):
-            if "ALL" in term:
-                pass
-            else:
-                current_year = datetime.datetime.now().year
-                courses = courses.filter(lecture_course__year__gte=current_year-int(term))
+        courses = _filterTerm(courses, term)
 
         group = request.GET.getlist('group', [])
-        if group and len(group):
-            query = Q()
-            if 'Basic' in group:
-                group.remove('Basic')
-                filter_type = ['Basic Required', 'Basic Elective']
-                query |= Q(type_en__in=filter_type)
-            if 'Humanity' in group:
-                group.remove('Humanity')
-                query |= Q(type_en='Humanities & Social Elective')
-            if len(group):
-                filter_type = ['Major Required', 'Major Elective', 'Elective(Graduate)']
-                query |= Q(type_en__in=filter_type, department__code__in=group)
-            courses = courses.filter(query)
+        courses = _filterGroup(courses, group)
 
         keyword = request.GET.get('keyword', '').strip()
-        if keyword and len(keyword):
-            courses = courses.filter(
-                Q(title__icontains=keyword) |
-                Q(title_en__icontains=keyword) |
-                Q(old_code__iexact=keyword) |
-                Q(department__name__iexact=keyword) |
-                Q(department__name_en__iexact=keyword) |
-                Q(professors__professor_name__icontains=keyword) |
-                Q(professors__professor_name_en__icontains=keyword)
-            )
+        courses = _filterKeyword(courses, keyword)
 
         courses = courses \
             .distinct() \
@@ -176,95 +121,28 @@ def lectures_list_view(request):
             .exclude(Lecture.getQueryResearch())
 
         year = request.GET.get('year', None)
-        if year:
-            lectures = lectures.filter(year=year)
-
         semester = request.GET.get('semester', None)
-        if semester:
-            lectures = lectures.filter(semester=semester)
+        lectures = _filterYearSemester(lectures, year, semester)
 
         department = request.GET.getlist('department', [])
-        if department and len(department):
-            major_list = ["CE", "MSB", "ME", "PH", "BiS", "IE", "ID", "BS", "CBE", "MAS",
-                          "MS", "NQE", "HSS", "EE", "CS", "AE", "CH"]
-            if 'ALL' in department:
-                pass
-            elif 'ETC' in department:
-                lectures = lectures.exclude(department__code__in = set(major_list) - set(department))
-            else:
-                lectures = lectures.filter(department__code__in = department)
+        lectures = _filterDepartment(lectures, department)
 
         type_ = request.GET.getlist('type', [])
-        if type_ and len(type_):
-            acronym_dic = {'GR': 'General Required', 'MGC': 'Mandatory General Courses', 'BE': 'Basic Elective',
-                           'BR': 'Basic Required', 'EG': 'Elective(Graduate)', 'HSE': 'Humanities & Social Elective',
-                           'OE': 'Other Elective', 'ME': 'Major Elective', 'MR': 'Major Required'}
-            if 'ALL' in type_:
-                pass
-            elif 'ETC' in type_:
-                lectures = lectures.exclude(type_en__in = [acronym_dic[x] for x in acronym_dic if x not in type_])
-            else:
-                lectures = lectures.filter(type_en__in = [acronym_dic[x] for x in acronym_dic if x in type_])
+        lectures = _filterType(lectures, type_)
 
         level = request.GET.getlist('grade', [])
-        if level and len(level):
-            acronym_dic = {'100':"1", '200':"2", '300':"3", '400':"4"}
-            if "ALL" in level:
-                pass
-            elif "ETC" in level:
-                numbers = ''.join([acronym_dic[x] for x in acronym_dic if x not in level])
-                regex = r'^[A-Za-z]+[{numbers}][0-9][0-9]$'.format(numbers=numbers)
-                lectures = lectures.exclude(old_code__regex=regex)
-            else:
-                numbers = ''.join([acronym_dic[x] for x in acronym_dic if x in level])
-                regex = r'^[A-Za-z]+[{numbers}][0-9][0-9]$'.format(numbers=numbers)
-                lectures = lectures.filter(old_code__regex=regex)
-
-        time_query = Q()
+        lectures = _filterLevel(lectures, level)
 
         day = request.GET.get('day', None)
-        if day:
-            time_query &= Q(classtime_set__day = day)
-
         begin = request.GET.get('begin', None)
-        if begin:
-            time_query &= Q(classtime_set__begin__gte = datetime.time(int(begin)/2+8, (int(begin)%2)*30))
-
         end = request.GET.get('end', None)
-        if end:
-            if int(end) == 32:
-                pass
-            else:
-                time_query &= Q(classtime_set__end__lte = datetime.time(int(end)/2+8, (int(end)%2)*30))
-
-        lectures = lectures.filter(time_query)
+        lectures = _filterTime(lectures, day, begin, end)
 
         keyword = request.GET.get('keyword', '').strip()
-        if keyword and len(keyword):
-            lectures = lectures.filter(
-                Q(title__icontains=keyword) |
-                Q(title_en__icontains=keyword) |
-                Q(old_code__iexact=keyword) |
-                Q(department__name__iexact=keyword) |
-                Q(department__name_en__iexact=keyword) |
-                Q(professors__professor_name__icontains=keyword) |
-                Q(professors__professor_name_en__icontains=keyword)
-            )
+        lectures = _filterKeyword(lectures, keyword)
 
         group = request.GET.getlist('group', [])
-        if group and len(group):
-            query = Q()
-            if 'Basic' in group:
-                group.remove('Basic')
-                filter_type = ['Basic Required', 'Basic Elective']
-                query |= Q(type_en__in=filter_type)
-            if 'Humanity' in group:
-                group.remove('Humanity')
-                query |= Q(type_en='Humanities & Social Elective')
-            if len(group):
-                filter_type = ['Major Required', 'Major Elective', 'Elective(Graduate)']
-                query |= Q(type_en__in=filter_type, department__code__in=group)
-            lectures = lectures.filter(query)
+        lectures = _filterGroup(lectures, group)
 
         lectures = lectures \
             .distinct() \
@@ -349,3 +227,113 @@ def users_instance_taken_courses_view(request, user_id):
 
         result = [c.toJson(user=request.user) for c in courses]
         return JsonResponse(result, safe=False)
+
+
+
+def _filterDepartment(queryset, department):
+    if not (department and len(department)):
+        return queryset
+
+    major_list = ["CE", "MSB", "ME", "PH", "BiS", "IE", "ID", "BS", "CBE", "MAS",
+                    "MS", "NQE", "HSS", "EE", "CS", "AE", "CH"]
+    if 'ALL' in department:
+        return queryset
+    elif 'ETC' in department:
+        return queryset.exclude(department__code__in = set(major_list) - set(department))
+    else:
+        return queryset.filter(department__code__in = department)
+
+
+def _filterType(queryset, type_):
+    if not (type_ and len(type_)):
+        return queryset
+
+    acronym_dic = {'GR': 'General Required', 'MGC': 'Mandatory General Courses', 'BE': 'Basic Elective',
+                    'BR': 'Basic Required', 'EG': 'Elective(Graduate)', 'HSE': 'Humanities & Social Elective',
+                    'OE': 'Other Elective', 'ME': 'Major Elective', 'MR': 'Major Required'}
+    if 'ALL' in type_:
+        return queryset
+    elif 'ETC' in type_:
+        return queryset.exclude(type_en__in = [acronym_dic[x] for x in acronym_dic if x not in type_])
+    else:
+        return queryset.filter(type_en__in = [acronym_dic[x] for x in acronym_dic if x in type_])
+
+
+def _filterLevel(queryset, level):
+    if not (level and len(level)):
+        return queryset
+
+    acronym_dic = {'100':"1", '200':"2", '300':"3", '400':"4"}
+    if "ALL" in level:
+        return queryset
+    elif "ETC" in level:
+        numbers = ''.join([acronym_dic[x] for x in acronym_dic if x not in level])
+        regex = r'^[A-Za-z]+[{numbers}][0-9][0-9]$'.format(numbers=numbers)
+        return queryset.exclude(old_code__regex=regex)
+    else:
+        numbers = ''.join([acronym_dic[x] for x in acronym_dic if x in level])
+        regex = r'^[A-Za-z]+[{numbers}][0-9][0-9]$'.format(numbers=numbers)
+        return queryset.filter(old_code__regex=regex)
+
+
+def _filterTerm(queryset, term):
+    if not (term and len(term)):
+        return queryset
+
+    if "ALL" in term:
+        return queryset
+    else:
+        current_year = datetime.datetime.now().year
+        return queryset.filter(lecture_course__year__gte=current_year-int(term))
+
+
+def _filterGroup(queryset, group):
+    if not (group and len(group)):
+        return queryset
+
+    query = Q()
+    if 'Basic' in group:
+        group.remove('Basic')
+        filter_type = ['Basic Required', 'Basic Elective']
+        query |= Q(type_en__in=filter_type)
+    if 'Humanity' in group:
+        group.remove('Humanity')
+        query |= Q(type_en='Humanities & Social Elective')
+    if len(group):
+        filter_type = ['Major Required', 'Major Elective', 'Elective(Graduate)']
+        query |= Q(type_en__in=filter_type, department__code__in=group)
+    return queryset.filter(query)
+
+
+def _filterKeyword(queryset, keyword):
+    if not (keyword and len(keyword)):
+        return queryset
+    
+    return queryset.filter(
+        Q(title__icontains=keyword) |
+        Q(title_en__icontains=keyword) |
+        Q(old_code__iexact=keyword) |
+        Q(department__name__iexact=keyword) |
+        Q(department__name_en__iexact=keyword) |
+        Q(professors__professor_name__icontains=keyword) |
+        Q(professors__professor_name_en__icontains=keyword)
+    )
+
+
+def _filterTime(queryset, day, begin, end):
+    time_query = Q()
+    if day:
+        time_query &= Q(classtime_set__day = day)
+    if begin:
+        time_query &= Q(classtime_set__begin__gte = datetime.time(int(begin)/2+8, (int(begin)%2)*30))
+    if end and (int(end) != 32):
+        time_query &= Q(classtime_set__end__lte = datetime.time(int(end)/2+8, (int(end)%2)*30))
+    return queryset.filter(time_query)
+
+
+def _filterYearSemester(queryset, year, semester):
+    if year:
+        queryset = queryset.filter(year=year)
+    if semester:
+        queryset = queryset.filter(semester=semester)
+    return queryset
