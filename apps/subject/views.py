@@ -6,9 +6,10 @@ from django.http import HttpResponseBadRequest
 
 from utils.decorators import login_required_ajax
 
-from models import Semester, Course, Lecture
+from models import Semester, Course, Lecture, Professor
 from apps.session.models import UserProfile
 from apps.review.models import Review
+from apps.common.util import rgetattr
 
 import datetime
 
@@ -126,30 +127,22 @@ def courses_list_autocomplete_view(request):
             return HttpResponseBadRequest('Missing fields in request data')
 
         courses = Course.objects.all().order_by('old_code')
+        professors = Professor.objects.exclude(course_list=None).order_by('course_list__old_code')
 
-        courses_filtered = courses.filter(department__name__istartswith=keyword).order_by('department__name')
-        if courses_filtered.exists():
-            return JsonResponse(courses_filtered[0].department.name, safe=False)
+        SEARCH_FIELDS = (
+            {'queryset': courses, 'field': ('department', 'name')},
+            {'queryset': courses, 'field': ('department', 'name_en')},
+            {'queryset': courses, 'field': ('title', )},
+            {'queryset': courses, 'field': ('title_en', )},
+            {'queryset': professors, 'field': ('professor_name', )},
+            {'queryset': professors, 'field': ('professor_name_en', )},
+        )
 
-        courses_filtered = courses.filter(department__name_en__istartswith=keyword).order_by('department__name_en')
-        if courses_filtered.exists():
-            return JsonResponse(courses_filtered[0].department.name_en, safe=False)
-
-        courses_filtered = courses.filter(title__istartswith=keyword).order_by('title')
-        if courses_filtered.exists():
-            return JsonResponse(courses_filtered[0].title, safe=False)
-
-        courses_filtered = courses.filter(title_en__istartswith=keyword).order_by('title_en')
-        if courses_filtered.exists():
-            return JsonResponse(courses_filtered[0].title_en, safe=False)
-
-        courses_filtered = courses.filter(professors__professor_name__istartswith=keyword).order_by('professors__professor_name')
-        if courses_filtered.exists():
-            return JsonResponse(courses_filtered[0].professors.filter(professor_name__istartswith=keyword)[0].professor_name, safe=False)
-
-        courses_filtered = courses.filter(professors__professor_name_en__istartswith=keyword).order_by('professors__professor_name_en')
-        if courses_filtered.exists():
-            return JsonResponse(courses_filtered[0].professors.filter(professor_name_en__istartswith=keyword)[0].professor_name_en, safe=False)
+        for f in SEARCH_FIELDS:
+            field_name = '__'.join(f['field'])
+            filtered = f['queryset'].filter(**{field_name+'__istartswith': keyword}).order_by(field_name)
+            if filtered.exists():
+                return JsonResponse(rgetattr(filtered[0], f['field'], keyword), safe=False)
 
         return JsonResponse(keyword, safe=False)
 
@@ -302,30 +295,22 @@ def lectures_list_autocomplete_view(request):
             return HttpResponseBadRequest('Missing fields in request data')
 
         lectures = Lecture.objects.filter(deleted=False, year=year, semester=semester)
+        professors = Professor.objects.filter(lecture_professor__deleted=False, lecture_professor__year=year, lecture_professor__semester=semester)
 
-        lectures_filtered = lectures.filter(department__name__istartswith=keyword).order_by('department__name')
-        if lectures_filtered.exists():
-            return JsonResponse(lectures_filtered[0].department.name, safe=False)
+        SEARCH_FIELDS = (
+            {'queryset': lectures, 'field': ('department', 'name')},
+            {'queryset': lectures, 'field': ('department', 'name_en')},
+            {'queryset': lectures, 'field': ('title', )},
+            {'queryset': lectures, 'field': ('title_en', )},
+            {'queryset': professors, 'field': ('professor_name', )},
+            {'queryset': professors, 'field': ('professor_name_en', )},
+        )
 
-        lectures_filtered = lectures.filter(department__name_en__istartswith=keyword).order_by('department__name_en')
-        if lectures_filtered.exists():
-            return JsonResponse(lectures_filtered[0].department.name_en, safe=False)
-
-        lectures_filtered = lectures.filter(title__istartswith=keyword).order_by('title')
-        if lectures_filtered.exists():
-            return JsonResponse(lectures_filtered[0].title, safe=False)
-
-        lectures_filtered = lectures.filter(title_en__istartswith=keyword).order_by('title_en')
-        if lectures_filtered.exists():
-            return JsonResponse(lectures_filtered[0].title_en, safe=False)
-
-        lectures_filtered = lectures.filter(professors__professor_name__istartswith=keyword).order_by('professor__professor_name')
-        if lectures_filtered.exists():
-            return JsonResponse(lectures_filtered[0].professors.filter(professor_name__istartswith=keyword)[0].professor_name, safe=False)
-
-        lectures_filtered = lectures.filter(professors__professor_name_en__istartswith=keyword).order_by('professor__professor_name_en')
-        if lectures_filtered.exists():
-            return JsonResponse(lectures_filtered[0].professors.filter(professor_name_en__istartswith=keyword)[0].professor_name_en, safe=False)
+        for f in SEARCH_FIELDS:
+            field_name = '__'.join(f['field'])
+            filtered = f['queryset'].filter(**{field_name+'__istartswith': keyword}).order_by(field_name)
+            if filtered.exists():
+                return JsonResponse(rgetattr(filtered[0], f['field'], keyword), safe=False)
 
         return JsonResponse(keyword, safe=False)
 
