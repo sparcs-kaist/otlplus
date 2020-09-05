@@ -48,6 +48,8 @@ class WriteReviewsPage extends Component {
     const { addReviewsDispatch } = this.props;
     const { loading, pageNumToLoad } = this.state;
 
+    const PAGE_SIZE = 10;
+
     if (loading) {
       return;
     }
@@ -56,8 +58,13 @@ class WriteReviewsPage extends Component {
       loading: true,
     });
     axios.get(
-      `/api/review/latest/${pageNumToLoad}`,
+      `/api/reviews`,
       {
+        params: {
+          order: ['-written_datetime'],
+          offset: pageNumToLoad * PAGE_SIZE,
+          limit: PAGE_SIZE,
+        },
         metadata: {
           gaCategory: 'Review',
           gaVariable: 'GET Latest / List',

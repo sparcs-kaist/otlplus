@@ -60,9 +60,12 @@ const ReviewWriteBlock = ({ t, lecture, review, pageFrom, updateOnSubmit }) => {
     }
 
     setIsUploading(true);
+    /* eslint-disable indent */
+    if (!review) {
     axios.post(
-      `/api/review/insert/${lecture.id}`,
+      '/api/reviews',
       {
+        lecture: lecture.id,
         content: content,
         gradescore: grade,
         speechscore: speech,
@@ -90,9 +93,46 @@ const ReviewWriteBlock = ({ t, lecture, review, pageFrom, updateOnSubmit }) => {
 
     ReactGA.event({
       category: 'Review',
-      action: !review ? 'Uploaded Review' : 'Edited Review',
+      action: 'Uploaded Review',
       label: `Lecture : ${lecture.id} / From : Page : ${pageFrom}`,
     });
+    }
+    else {
+      axios.patch(
+        `/api/reviews/${review.id}`,
+        {
+          content: content,
+          gradescore: grade,
+          speechscore: speech,
+          loadscore: load,
+        },
+        {
+          metadata: {
+            gaCategory: 'Review',
+            gaVariable: 'POST / List',
+          },
+        },
+      )
+        .then((response) => {
+          setSavedContent(content);
+          setSavedGrade(grade);
+          setSavedLoad(load);
+          setSavedSpeech(speech);
+          setIsUploading(false);
+          if (updateOnSubmit !== undefined) {
+            updateOnSubmit(response.data);
+          }
+        })
+        .catch((error) => {
+        });
+
+      ReactGA.event({
+        category: 'Review',
+        action: 'Edited Review',
+        label: `Lecture : ${lecture.id} / From : Page : ${pageFrom}`,
+      });
+    }
+    /* eslint-enable indent */
   };
 
   const hasChange = (content !== savedContent) || (grade !== savedGrade) || (load !== savedLoad) || (speech !== savedSpeech);
