@@ -29,28 +29,6 @@ from django.http import QueryDict
 
 
 
-@login_required_ajax
-def ReviewLike(request):
-    body = json.loads(request.body.decode('utf-8'))
-
-    is_login = False
-    already_up = False
-    likes_count = -1
-    if request.user.is_authenticated():
-        is_login = True
-        if request.method == 'POST':
-            user = request.user
-            user_profile = user.userprofile
-            target_review = Review.objects.get(id=body['reviewid'])
-            if ReviewVote.objects.filter(review = target_review, userprofile = user_profile).exists():
-                already_up = True
-            else:
-                ReviewVote.objects.create(review=target_review, userprofile=user_profile) #session 완성시 변경
-            likes_count = target_review.like
-    ctx = {'likes_count': likes_count, 'already_up': already_up, 'is_login':is_login, 'id': body['reviewid']}
-    return JsonResponse(ctx,safe=False)
-
-
 @login_required(login_url='/session/login/')
 def read_course(request):
     user = request.user
@@ -154,3 +132,20 @@ def review_instance_view(request, review_id):
         })
         return JsonResponse(review.toJson(), safe=False)
 
+
+@login_required_ajax
+@require_http_methods(['POST'])
+def review_instance_like_view(request, review_id):
+    review = get_object_or_404(Review, id=review_id)
+
+    if request.method == 'POST':
+        body = json.loads(request.body.decode('utf-8'))
+
+        user = request.user
+        user_profile = user.userprofile
+
+        if review.votes.filter(userprofile = user_profile).exists():
+            return HttpResponseBadRequest('Already Liked')
+        
+        ReviewVote.objects.create(review=review, userprofile=user_profile)
+        return HttpResponse()

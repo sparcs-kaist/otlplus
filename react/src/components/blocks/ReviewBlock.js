@@ -20,10 +20,7 @@ const ReviewBlock = ({ t, review, pageFrom }) => {
     e.preventDefault();
 
     axios.post(
-      '/api/review/like',
-      {
-        reviewid: review.id,
-      },
+      `/api/reviews/${review.id}/like`,
       {
         metadata: {
           gaCategory: 'Review',
