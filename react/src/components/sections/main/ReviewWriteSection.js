@@ -15,7 +15,7 @@ import reviewShape from '../../../shapes/ReviewShape';
 
 
 class ReviewWriteSection extends Component {
-  updateOnReviewSubmit = (review) => {
+  updateOnReviewSubmit = (review, isNew) => {
     const { updateUserReviewDispatch } = this.props;
     updateUserReviewDispatch(review);
   }

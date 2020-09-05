@@ -117,10 +117,10 @@ class ReviewsSubSection extends Component {
     return lecture.professors.some(p => professor.has(this._getProfessorFormValue(p)));
   }
 
-  updateOnReviewSubmit = (review) => {
+  updateOnReviewSubmit = (review, isNew) => {
     const { updateUserReviewDispatch, updateReviewDispatch } = this.props;
     updateUserReviewDispatch(review);
-    updateReviewDispatch(review);
+    updateReviewDispatch(review, isNew);
   }
 
   render() {
@@ -187,8 +187,8 @@ const mapDispatchToProps = dispatch => ({
   updateUserReviewDispatch: (review) => {
     dispatch(updateUserReview(review));
   },
-  updateReviewDispatch: (review) => {
-    dispatch(updateReview(review));
+  updateReviewDispatch: (review, isNew) => {
+    dispatch(updateReview(review, isNew));
   },
 });
 
