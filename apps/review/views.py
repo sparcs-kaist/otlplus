@@ -6,7 +6,7 @@ from django.template import RequestContext
 from apps.session.models import UserProfile
 from apps.subject.models import Course, Lecture, Department, Professor, CourseUser
 from apps.review.models import Review, ReviewVote, MajorBestReview, HumanityBestReview
-from apps.common.util import getint, order_queryset, paginate_queryset, patch_object
+from apps.common.util import getint, get_ordered_queryset, get_paginated_queryset, patch_object
 
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseBadRequest, JsonResponse, Http404
 from django.db.models import Q
@@ -37,14 +37,14 @@ def review_list_view(request):
         reviews = Review.objects.all()
 
         order = request.GET.getlist('order', [])
-        reviews = order_queryset(reviews, order)
+        reviews = get_ordered_queryset(reviews, order)
 
         reviews = reviews \
             .distinct()
 
         offset = getint(request.GET, 'offset', None)
         limit = getint(request.GET, 'limit', None)
-        reviews = paginate_queryset(reviews, offset, limit, MAX_LIMIT)
+        reviews = get_paginated_queryset(reviews, offset, limit, MAX_LIMIT)
 
         result = [r.toJson(user=request.user) for r in reviews]
         return JsonResponse(result, safe=False)

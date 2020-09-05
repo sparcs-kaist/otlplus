@@ -9,7 +9,7 @@ from utils.decorators import login_required_ajax
 from models import Semester, Course, Lecture, Professor, CourseUser
 from apps.session.models import UserProfile
 from apps.review.models import Review
-from apps.common.util import rgetattr, getint, paginate_queryset
+from apps.common.util import rgetattr, getint, get_paginated_queryset
 
 import datetime
 
@@ -55,7 +55,7 @@ def course_list_view(request):
 
         offset = getint(request.GET, 'offset', None)
         limit = getint(request.GET, 'limit', None)
-        courses = paginate_queryset(courses, offset, limit, MAX_LIMIT)
+        courses = get_paginated_queryset(courses, offset, limit, MAX_LIMIT)
 
         result = [c.toJson(user=request.user) for c in courses]
         return JsonResponse(result, safe=False)
@@ -178,7 +178,7 @@ def lecture_list_view(request):
 
         offset = getint(request.GET, 'offset', None)
         limit = getint(request.GET, 'limit', None)
-        lectures = paginate_queryset(lectures, offset, limit, MAX_LIMIT)
+        lectures = get_paginated_queryset(lectures, offset, limit, MAX_LIMIT)
     
         result = [l.toJson(nested=False) for l in lectures]
         return JsonResponse(result, safe=False)
