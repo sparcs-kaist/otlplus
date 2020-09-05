@@ -25,7 +25,7 @@ def semesters_list_view(request):
 
 @require_http_methods(['GET'])
 def courses_list_view(request):
-    MAX_LIMIT = 10
+    MAX_LIMIT = 150
 
     if request.method == 'GET':
         courses = Course.objects.all().order_by('old_code')
