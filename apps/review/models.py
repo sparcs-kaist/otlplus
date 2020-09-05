@@ -13,7 +13,6 @@ class Review(models.Model):
     grade = models.SmallIntegerField(default=0)
     load = models.SmallIntegerField(default=0)
     speech = models.SmallIntegerField(default=0)
-    total = models.FloatField(default=0.0)
 
     writer = models.ForeignKey(UserProfile, related_name='reviews', db_index=True, on_delete=models.SET_NULL, null=True)
     writer_label = models.CharField(max_length=200, default=u"무학과 넙죽이")
@@ -88,10 +87,6 @@ class Review(models.Model):
 
     def __unicode__(self):
         return u"%s(%s)"%(self.lecture,self.writer)
-
-    def alphabet_score(self):
-        d = ['?', 'F', 'D', 'C', 'B', 'A']
-        return (d[self.grade], d[self.load], d[self.speech], d[int(round(self.total))])
 
 
 class ReviewVote(models.Model):
