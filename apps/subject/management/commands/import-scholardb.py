@@ -187,7 +187,6 @@ class Command(BaseCommand):
                     course.grade_average = 0.0
                     course.load_average= 0.0
                     course.speech_average = 0.0
-                    course.total_average = 0.0
                     ################################### course total score
                     '''
                     course.score_average = 0

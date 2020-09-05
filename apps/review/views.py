@@ -114,7 +114,6 @@ def review_list_view(request):
         user_profile = user.userprofile
         lecture = user_profile.getReviewWritableLectureList().get(id = lecture_id)
         course = lecture.course
-        total = (grade + load + speech) / 3.0
 
         review = Review.objects.create(course=course, lecture=lecture, content=content, grade=grade, load=load, speech=speech, writer=user_profile)
         return JsonResponse(review.toJson(), safe=False)
@@ -153,9 +152,6 @@ def review_instance_view(request, review_id):
             'load': load,
             'speech': speech,
         })
-
-        total = (review.grade + review.load + review.speech) / 3.0
-        review.total = total
 
         review.save()
         return JsonResponse(review.toJson(), safe=False)
