@@ -2,9 +2,12 @@
 
 from django.shortcuts import render, redirect, render_to_response
 from django.template import RequestContext
+
 from apps.session.models import UserProfile
 from apps.subject.models import Course, Lecture, Department, Professor, CourseUser
 from apps.review.models import Review, ReviewVote, MajorBestReview, HumanityBestReview
+from apps.common.util import getint, order_queryset, paginate_queryset
+
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseBadRequest, JsonResponse, Http404
 from django.db.models import Q
 from django.views.decorators.http import require_http_methods
@@ -108,19 +111,25 @@ def insertReview(request,lecture_id):
     return JsonResponse(target_review.toJson(), safe=False)
 
 
-def latest(request, page=-1):
-    page = int(page)
-    PAGE_SIZE = 20
+@require_http_methods(['GET'])
+def review_list_view(request):
+    MAX_LIMIT = 50
 
-    reviews = Review.objects.all().order_by('-written_datetime')
+    if request.method == 'GET':
+        reviews = Review.objects.all()
 
-    reviews = reviews[PAGE_SIZE * page : PAGE_SIZE * (page+1)]
+        order = request.GET.getlist('order', [])
+        order_queryset(reviews, order)
 
-    if len(reviews) == 0:
-        raise Http404
+        reviews = reviews \
+            .distinct()
 
-    results = [i.toJson(user=request.user) for i in reviews]
-    return JsonResponse(results,safe=False)
+        offset = getint(request.GET, 'offset', None)
+        limit = getint(request.GET, 'limit', None)
+        reviews = paginate_queryset(reviews, offset, limit, MAX_LIMIT)
+
+        result = [r.toJson(user=request.user) for r in reviews]
+        return JsonResponse(result, safe=False)
 
 
 
