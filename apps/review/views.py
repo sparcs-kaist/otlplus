@@ -152,7 +152,5 @@ def review_instance_view(request, review_id):
             'load': load,
             'speech': speech,
         })
-
-        review.save()
         return JsonResponse(review.toJson(), safe=False)
 
