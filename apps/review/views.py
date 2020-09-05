@@ -82,11 +82,16 @@ def review_list_view(request):
         return JsonResponse(review.toJson(), safe=False)
 
 
-@require_http_methods(['PATCH'])
+@require_http_methods(['GET', 'PATCH'])
 def review_instance_view(request, review_id):
     review = get_object_or_404(Review, id=review_id)
 
-    if request.method == 'PATCH':
+    if request.method == 'GET':
+        result = review.toJson(user=request.user)
+        return JsonResponse(result)
+
+
+    elif request.method == 'PATCH':
         body = json.loads(request.body.decode('utf-8'))
 
         user = request.user
