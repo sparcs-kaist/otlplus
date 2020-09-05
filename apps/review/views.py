@@ -100,6 +100,9 @@ def review_instance_view(request, review_id):
         if not review.writer == user.userprofile:
             return HttpResponse(status=401)
 
+        if review.is_deleted:
+            return HttpResponseBadRequest('Target review deleted by admin')
+
         content = body.get('content', None)
         if not len(content):
             return HttpResponseBadRequest('Empty field \'content\' in request data')
