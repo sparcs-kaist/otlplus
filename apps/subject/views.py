@@ -15,7 +15,7 @@ import datetime
 
 
 @require_http_methods(['GET'])
-def semesters_list_view(request):
+def semester_list_view(request):
     if request.method == 'GET':
         semesters = Semester.objects.all().order_by('year', 'semester')
 
@@ -24,7 +24,7 @@ def semesters_list_view(request):
 
 
 @require_http_methods(['GET'])
-def courses_list_view(request):
+def course_list_view(request):
     MAX_LIMIT = 150
 
     if request.method == 'GET':
@@ -62,7 +62,7 @@ def courses_list_view(request):
 
 
 @require_http_methods(['GET'])
-def courses_instance_view(request, course_id):
+def course_instance_view(request, course_id):
     if request.method == 'GET':
         course = get_object_or_404(Course, id=course_id)
 
@@ -71,7 +71,7 @@ def courses_instance_view(request, course_id):
 
 
 @require_http_methods(['GET'])
-def courses_list_autocomplete_view(request):
+def course_list_autocomplete_view(request):
     if request.method == 'GET':
         try:
             keyword = request.GET['keyword']
@@ -100,7 +100,7 @@ def courses_list_autocomplete_view(request):
 
 
 @require_http_methods(['GET'])
-def courses_instance_reviews_view(request, course_id):
+def course_instance_reviews_view(request, course_id):
     if request.method == 'GET':
         course = get_object_or_404(Course, id=course_id)
         reviews = course.reviews.all().order_by('-lecture__year','-written_datetime')
@@ -111,7 +111,7 @@ def courses_instance_reviews_view(request, course_id):
 
 
 @require_http_methods(['GET'])
-def courses_instance_lectures_view(request, course_id):
+def course_instance_lectures_view(request, course_id):
     if request.method == 'GET':
         course = get_object_or_404(Course, id=course_id)
         lectures = course.lecture_course.filter(deleted=False).order_by('year','semester', 'class_no')
@@ -122,7 +122,7 @@ def courses_instance_lectures_view(request, course_id):
 
 @login_required_ajax
 @require_http_methods(['POST'])
-def courses_instance_read_view(request, course_id):
+def course_instance_read_view(request, course_id):
     course = get_object_or_404(Course, id=course_id)
 
     if request.method == 'POST':
@@ -138,7 +138,7 @@ def courses_instance_read_view(request, course_id):
 
 
 @require_http_methods(['GET'])
-def lectures_list_view(request):
+def lecture_list_view(request):
     MAX_LIMIT = 300
 
     if request.method == 'GET':
@@ -185,7 +185,7 @@ def lectures_list_view(request):
 
 
 @require_http_methods(['GET'])
-def lectures_instance_view(request, lecture_id):
+def lecture_instance_view(request, lecture_id):
     if request.method == 'GET':
         lecture = get_object_or_404(Lecture, id=lecture_id)
 
@@ -194,7 +194,7 @@ def lectures_instance_view(request, lecture_id):
 
 
 @require_http_methods(['GET'])
-def lectures_list_autocomplete_view(request):
+def lecture_list_autocomplete_view(request):
     if request.method == 'GET':
         try:
             year = request.GET['year']
@@ -225,7 +225,7 @@ def lectures_list_autocomplete_view(request):
 
 
 @require_http_methods(['GET'])
-def lectures_instance_reviews_view(request, lecture_id):
+def lecture_instance_reviews_view(request, lecture_id):
     if request.method == 'GET':
         lecture = get_object_or_404(Lecture, id=lecture_id)
         reviews = lecture.reviews.all().order_by('-id')
@@ -235,7 +235,7 @@ def lectures_instance_reviews_view(request, lecture_id):
 
 
 @require_http_methods(['GET'])
-def lectures_instance_related_reviews_view(request, lecture_id):
+def lecture_instance_related_reviews_view(request, lecture_id):
     if request.method == 'GET':
         lecture = get_object_or_404(Lecture, id=lecture_id)
         reviews = Review.objects.filter(
@@ -249,7 +249,7 @@ def lectures_instance_related_reviews_view(request, lecture_id):
 
 @login_required_ajax
 @require_http_methods(['GET'])
-def users_instance_taken_courses_view(request, user_id):
+def user_instance_taken_courses_view(request, user_id):
     if request.method == 'GET':
         userprofile = request.user.userprofile
         if userprofile.id != int(user_id):

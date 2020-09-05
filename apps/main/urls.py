@@ -20,5 +20,5 @@ from . import views
 
 
 urlpatterns = [
-    url(r'^feeds$', views.feeds_list_view),
+    url(r'^feeds$', views.feed_list_view),
 ]
