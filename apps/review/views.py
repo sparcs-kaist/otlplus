@@ -24,48 +24,6 @@ from django.views.decorators.http import require_POST
 from django.conf import settings
 
 
-# global val###
-
-gradelist = [(0,'?'),(1,'F'),(2,'F'),(3,'F'),(4,'D-'),(5,'D'),(6,'D+'),(7,'C-'),(8,'C'),(9,'C+'),(10,'B-'),(11,'B'),(12,'B+'),(13,'A-'),(14,'A'),(15,'A+')]
-
-
-# Filter Functions################################################################
-def _departmentFilters(raw_filters):
-    department_list = [d.code for d in Department.objects.all()]
-    major_list = ["CE", "MSB", "MAE", "PH", "BiS", "IE", "ID", "BS", "CBE", "MAS", "MS", "NQE", "HSS", "EE", "CS", "MAE", "CH"]
-    etc_list = list(set(department_list)^set(major_list))
-    if ("ALL" in raw_filters) or len(raw_filters)==0 :
-        return department_list
-    filters = list(set(department_list) & set(raw_filters))
-    if "ETC" in raw_filters:
-        filters += etc_list
-    return filters
-
-
-def _typeFilters(raw_filters):
-    acronym_dic = {'GR':'General Required', 'MGC':'Mandatory General Courses', 'BE':'Basic Elective', 'BR':'Basic Required', 'EG':'Elective(Graduate)', 'HSE':'Humanities & Social Elective', 'OE':'Other Elective', 'ME':'Major Elective', 'MR':'Major Required', 'S':'Seminar', 'I':'Interdisciplinary', 'FP':'Field Practice'}
-    type_list = acronym_dic.keys()
-    if ('ALL' in raw_filters) or len(raw_filters)==0 :
-        filters = [acronym_dic[i] for i in type_list if acronym_dic.has_key(i)]
-        return filters
-    acronym_filters = list(set(type_list) & set(raw_filters))
-    filters = [acronym_dic[i] for i in acronym_filters if acronym_dic.has_key(i)]
-    if 'ETC' in raw_filters:
-        filters +=["Seminar", "Interdisciplinary", "Field Practice"]
-    return filters
-
-
-def _gradeFilters(raw_filters):
-    acronym_dic = {'ALL':"", '000':"0", '100':"1", '200':"2", '300':"3", '400':"4", '500':"5", 'HIGH':"6"}
-    grade_list = acronym_dic.keys()
-    acronym_filters = list(set(grade_list) & set(raw_filters))
-    filters = [acronym_dic[i] for i in acronym_filters if acronym_dic.has_key(i)]
-    if 'HIGH' in raw_filters:
-        filters+=["7", "8", "9"]
-    if ('ALL' in raw_filters) or len(raw_filters)==0 :
-        filters=["0","1","2","3","4","5","6","7","8","9"]
-    return filters
-
 
 @login_required_ajax
 def ReviewLike(request):
