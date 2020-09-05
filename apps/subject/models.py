@@ -114,11 +114,9 @@ class Lecture(models.Model):
     grade_sum = models.IntegerField(default=0)
     load_sum = models.IntegerField(default=0)
     speech_sum = models.IntegerField(default=0)
-    total_sum = models.FloatField(default=0.0)
     grade = models.FloatField(default=0.0)
     load = models.FloatField(default=0.0)
     speech = models.FloatField(default=0.0)
-    total = models.FloatField(default=0.0)
     review_num = models.IntegerField(default=0)
 
     def getCacheKey(self, nested):
@@ -271,17 +269,14 @@ class Lecture(models.Model):
         self.save()
 
     def avg_update(self):
-        self.total_sum = (self.grade_sum+self.load_sum+self.speech_sum)/3.0
         if self.review_num>0:
             self.grade = (self.grade_sum + 0.0)/self.review_num
             self.load = (self.load_sum + 0.0)/self.review_num
             self.speech = (self.speech_sum + 0.0)/self.review_num
-            self.total = (self.total_sum + 0.0)/self.review_num
         else:
             self.grade = 0.0
             self.load = 0.0
             self.speech = 0.0
-            self.total = 0.0
         self.save()
 
     def update_class_title(self):
@@ -562,12 +557,10 @@ class Course(models.Model):
     grade_sum = models.IntegerField(default=0)
     load_sum = models.IntegerField(default=0)
     speech_sum = models.IntegerField(default=0)
-    total_sum = models.FloatField(default=0.0)
     review_num = models.IntegerField(default=0)
     grade = models.FloatField(default=0.0)
     load = models.FloatField(default=0.0)
     speech = models.FloatField(default=0.0)
-    total = models.FloatField(default=0.0)
 
     latest_written_datetime = models.DateTimeField(default=None, null=True)
 
@@ -675,17 +668,14 @@ class Course(models.Model):
         self.save()
 
     def avg_update(self):
-        self.total_sum = (self.grade_sum+self.load_sum+self.speech_sum)/3.0
         if self.review_num>0:
             self.grade = (self.grade_sum + 0.0)/self.review_num
             self.load = (self.load_sum + 0.0)/self.review_num
             self.speech = (self.speech_sum + 0.0)/self.review_num
-            self.total = (self.total_sum + 0.0)/self.review_num
         else:
             self.grade = 0.0
             self.load = 0.0
             self.speech = 0.0
-            self.total = 0.0
         self.save()
 
     def update_related_courses(self):
@@ -708,12 +698,10 @@ class Professor(models.Model):
     grade_sum = models.IntegerField(default=0)
     load_sum = models.IntegerField(default=0)
     speech_sum = models.IntegerField(default=0)
-    total_sum = models.FloatField(default=0.0)
     review_num = models.IntegerField(default=0)
     grade = models.FloatField(default=0.0)
     load = models.FloatField(default=0.0)
     speech = models.FloatField(default=0.0)
-    total = models.FloatField(default=0.0)
 
     def toJson(self, nested=False):
         result = {
@@ -766,17 +754,14 @@ class Professor(models.Model):
         self.save()
 
     def avg_update(self):
-        self.total_sum = (self.grade_sum+self.load_sum+self.speech_sum)/3.0
         if self.review_num>0:
             self.grade = (self.grade_sum + 0.0)/self.review_num
             self.load = (self.load_sum + 0.0)/self.review_num
             self.speech = (self.speech_sum + 0.0)/self.review_num
-            self.total = (self.total_sum + 0.0)/self.review_num
         else:
             self.grade = 0.0
             self.load = 0.0
             self.speech = 0.0
-            self.total = 0.0
         self.save()
 
     def __unicode__(self):

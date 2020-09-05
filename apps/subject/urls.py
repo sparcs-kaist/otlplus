@@ -25,6 +25,7 @@ urlpatterns = [
     url(r'^courses/autocomplete$', views.courses_list_autocomplete_view),
     url(r'^courses/(?P<course_id>\d+)/reviews$', views.courses_instance_reviews_view),
     url(r'^courses/(?P<course_id>\d+)/lectures$', views.courses_instance_lectures_view),
+    url(r'^courses/(?P<course_id>\d+)/read$', views.courses_instance_read_view),
     url(r'^lectures$', views.lectures_list_view),
     url(r'^lectures/(?P<lecture_id>\d+)$', views.lectures_instance_view),
     url(r'^lectures/autocomplete$', views.lectures_list_autocomplete_view),

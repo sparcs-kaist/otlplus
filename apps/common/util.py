@@ -11,6 +11,10 @@ def getint(querydict, key, default=None):
         return int(value)
 
 
+def order_queryset(queryset, orders):
+    return queryset.order_by(*orders)
+
+
 def paginate_queryset(queryset, offset, limit, max_limit=150):
     if offset is None:
         real_offest = 0
@@ -27,4 +31,12 @@ def paginate_queryset(queryset, offset, limit, max_limit=150):
         raise ValueError
 
     return queryset[real_offest : real_offest + real_limit]
-    
+
+
+def patch_object(object_, update_fields):
+    for k, v in update_fields.items():
+        if v is None:
+            continue
+        setattr(object_, k, v)
+
+    object_.save()
