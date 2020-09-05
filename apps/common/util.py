@@ -31,4 +31,10 @@ def paginate_queryset(queryset, offset, limit, max_limit=150):
         raise ValueError
 
     return queryset[real_offest : real_offest + real_limit]
-    
+
+
+def patch_object(object_, update_fields):
+    for k, v in update_fields.items():
+        if v is None:
+            continue
+        setattr(object_, k, v)

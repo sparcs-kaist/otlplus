@@ -19,7 +19,7 @@ from . import views
 
 urlpatterns = [
     url(r'^reviews$', views.review_list_view),
-    url(r'^review/insert/([^/]+)$', views.insertReview),
+    url(r'^reviews/(?P<review_id>\d+)$', views.review_instance_view),
     url(r'^review/like$',views.ReviewLike),
     url(r'^review/read$',views.read_course)
 ]
