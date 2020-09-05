@@ -38,3 +38,5 @@ def patch_object(object_, update_fields):
         if v is None:
             continue
         setattr(object_, k, v)
+
+    object_.save()
