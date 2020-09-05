@@ -79,7 +79,7 @@ def review_list_view(request):
         course = lecture.course
 
         review = Review.objects.create(course=course, lecture=lecture, content=content, grade=grade, load=load, speech=speech, writer=user_profile)
-        return JsonResponse(review.toJson(), safe=False)
+        return JsonResponse(review.toJson(user=request.user), safe=False)
 
 
 @require_http_methods(['GET', 'PATCH'])
@@ -120,7 +120,7 @@ def review_instance_view(request, review_id):
             'load': load,
             'speech': speech,
         })
-        return JsonResponse(review.toJson(), safe=False)
+        return JsonResponse(review.toJson(user=request.user), safe=False)
 
 
 @login_required_ajax
