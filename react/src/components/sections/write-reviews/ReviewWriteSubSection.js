@@ -15,10 +15,10 @@ import lectureShape from '../../../shapes/LectureShape';
 
 
 class ReviewWriteSubSection extends Component {
-  updateOnReviewSubmit = (review) => {
+  updateOnReviewSubmit = (review, isNew) => {
     const { updateUserReviewDispatch, updateReviewDispatch } = this.props;
     updateUserReviewDispatch(review);
-    updateReviewDispatch(review);
+    updateReviewDispatch(review, isNew);
   }
 
 
@@ -53,8 +53,8 @@ const mapDispatchToProps = dispatch => ({
   updateUserReviewDispatch: (review) => {
     dispatch(updateUserReview(review));
   },
-  updateReviewDispatch: (review) => {
-    dispatch(updateReview(review));
+  updateReviewDispatch: (review, isNew) => {
+    dispatch(updateReview(review, isNew));
   },
 });
 

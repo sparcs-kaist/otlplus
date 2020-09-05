@@ -38,7 +38,7 @@ const courseActive = (state = initialState, action) => {
     }
     case UPDATE_REVIEW: {
       const originalReviews = state.reviews;
-      const { review } = action;
+      const { review, isNew } = action;
       const foundIndex = originalReviews.findIndex(r => (r.id === review.id));
       const newReviews = (foundIndex !== -1)
         ? [
@@ -46,10 +46,15 @@ const courseActive = (state = initialState, action) => {
           review,
           ...originalReviews.slice(foundIndex + 1, originalReviews.length),
         ]
-        : [
-          review,
-          ...originalReviews.slice(),
-        ];
+        : (isNew
+          ? [
+            review,
+            ...originalReviews.slice(),
+          ]
+          : [
+            ...originalReviews.slice(),
+          ]
+        );
       return Object.assign({}, state, {
         reviews: newReviews,
       });

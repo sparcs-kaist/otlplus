@@ -20,9 +20,10 @@ export function addReviews(reviews) {
   };
 }
 
-export function updateReview(review) {
+export function updateReview(review, isNew) {
   return {
     type: UPDATE_REVIEW,
     review: review,
+    isNew: isNew,
   };
 }
