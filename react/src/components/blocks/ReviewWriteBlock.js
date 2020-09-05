@@ -85,7 +85,7 @@ const ReviewWriteBlock = ({ t, lecture, review, pageFrom, updateOnSubmit }) => {
         setSavedSpeech(speech);
         setIsUploading(false);
         if (updateOnSubmit !== undefined) {
-          updateOnSubmit(response.data);
+          updateOnSubmit(response.data, true);
         }
       })
       .catch((error) => {
@@ -120,7 +120,7 @@ const ReviewWriteBlock = ({ t, lecture, review, pageFrom, updateOnSubmit }) => {
           setSavedSpeech(speech);
           setIsUploading(false);
           if (updateOnSubmit !== undefined) {
-            updateOnSubmit(response.data);
+            updateOnSubmit(response.data, false);
           }
         })
         .catch((error) => {
