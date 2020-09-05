@@ -29,21 +29,6 @@ from django.http import QueryDict
 
 
 
-@login_required(login_url='/session/login/')
-def read_course(request):
-    user = request.user
-    user_profile = user.userprofile
-    body = json.loads(request.body.decode('utf-8'))
-    course_id = int(body['id'])
-    course = Course.objects.get(id=course_id)
-    try:
-        course_user = CourseUser.objects.get(user_profile=user_profile, course=course)
-        course_user.save()
-    except CourseUser.DoesNotExist:
-        CourseUser.objects.create(user_profile=user_profile, course=course)
-    return JsonResponse({}, safe=False)
-
-
 @require_http_methods(['GET', 'POST'])
 def review_list_view(request):
     MAX_LIMIT = 50
