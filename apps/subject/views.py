@@ -6,7 +6,7 @@ from django.http import HttpResponseBadRequest
 
 from utils.decorators import login_required_ajax
 
-from models import Semester, Course, Lecture, Professor
+from models import Semester, Course, Lecture, Professor, CourseUser
 from apps.session.models import UserProfile
 from apps.review.models import Review
 from apps.common.util import rgetattr, getint, paginate_queryset
@@ -118,6 +118,23 @@ def courses_instance_lectures_view(request, course_id):
 
         result = [l.toJson() for l in lectures]
         return JsonResponse(result, safe=False)
+
+
+@login_required_ajax
+@require_http_methods(['POST'])
+def courses_instance_read_view(request, course_id):
+    course = get_object_or_404(Course, id=course_id)
+
+    if request.method == 'POST':
+        user = request.user
+        user_profile = user.userprofile
+
+        try:
+            course_user = CourseUser.objects.get(user_profile=user_profile, course=course)
+            course_user.save()
+        except CourseUser.DoesNotExist:
+            CourseUser.objects.create(user_profile=user_profile, course=course)
+        return HttpResponse()
 
 
 @require_http_methods(['GET'])

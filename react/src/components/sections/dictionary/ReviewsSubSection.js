@@ -79,10 +79,7 @@ class ReviewsSubSection extends Component {
     }
 
     axios.post(
-      '/api/review/read',
-      {
-        id: course.id,
-      },
+      `/api/courses/${course.id}/read`,
       {
         metadata: {
           gaCategory: 'Review',
