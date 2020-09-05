@@ -37,7 +37,7 @@ def review_list_view(request):
         reviews = Review.objects.all()
 
         order = request.GET.getlist('order', [])
-        order_queryset(reviews, order)
+        reviews = order_queryset(reviews, order)
 
         reviews = reviews \
             .distinct()
