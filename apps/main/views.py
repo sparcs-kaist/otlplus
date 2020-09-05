@@ -22,7 +22,7 @@ from datetime import date
 
 @login_required_ajax
 @require_http_methods(['GET'])
-def feeds_list_view(request):
+def feed_list_view(request):
     if request.method == 'GET':
         date = request.GET.get('date', None)
         user = request.user.userprofile
