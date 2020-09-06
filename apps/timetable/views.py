@@ -218,6 +218,74 @@ def _get_timetable_or_my_timetable_lectures(userprofile, table_id, year, semeste
 
 
 
+@login_required_ajax
+@require_http_methods(['GET'])
+def user_instance_wishlist_view(request, user_id):
+    userprofile = request.user.userprofile
+    if userprofile.id != int(user_id):
+        return HttpResponse(status=401)
+
+    wishlist = Wishlist.objects.get_or_create(user=userprofile)[0]
+
+
+    if request.method == 'GET':
+        result = wishlist.toJson()
+        return JsonResponse(result)
+
+
+
+@login_required_ajax
+@require_http_methods(['POST'])
+def user_instance_wishlist_add_lecture_view(request, user_id):
+    userprofile = request.user.userprofile
+    if userprofile.id != int(user_id):
+        return HttpResponse(status=401)
+
+    wishlist = Wishlist.objects.get_or_create(user=userprofile)[0]
+
+
+    if request.method == 'POST':
+        body = json.loads(request.body.decode('utf-8'))
+
+        lecture_id = getint(body, 'lecture', None)
+        if lecture_id is None:
+            return HttpResponseBadRequest('Missing field \'lecture\' in request data')
+
+        lecture = Lecture.objects.get(id=lecture_id)
+
+        wishlist.lectures.add(lecture)
+
+        result = wishlist.toJson()
+        return JsonResponse(result)
+
+
+
+@login_required_ajax
+@require_http_methods(['POST'])
+def user_instance_wishlist_remove_lecture_view(request, user_id):
+    userprofile = request.user.userprofile
+    if userprofile.id != int(user_id):
+        return HttpResponse(status=401)
+
+    wishlist = Wishlist.objects.get_or_create(user=userprofile)[0]
+
+
+    if request.method == 'POST':
+        body = json.loads(request.body.decode('utf-8'))
+
+        lecture_id = getint(body, 'lecture', None)
+        if lecture_id is None:
+            return HttpResponseBadRequest('Missing field \'lecture\' in request data')
+
+        lecture = Lecture.objects.get(id=lecture_id)
+
+        wishlist.lectures.remove(lecture)
+
+        result = wishlist.toJson()
+        return JsonResponse(result)
+
+
+
 # Export OTL timetable to google calendar
 @login_required
 def share_calendar(request):
@@ -312,57 +380,6 @@ def google_auth_return(request):
     return HttpResponseRedirect("/timetable")
     # TODO: Add calendar entry
 
-
-
-# Fetch wishlist
-@require_POST
-@login_required_ajax
-def wishlist_load(request):
-    userprofile = request.user.userprofile
-
-
-    body = json.loads(request.body.decode('utf-8'))
-    try:
-        year = int(body['year'])
-        semester = int(body['semester'])
-    except KeyError:
-        return HttpResponseBadRequest('Missing fields in request data')
-
-    if not _validate_year_semester(year, semester):
-        return HttpResponseBadRequest('Invalid semester')
-
-    w = Wishlist.objects.get_or_create(user=userprofile)[0]
-
-    lectures = w.lectures.filter(year=year, semester=semester, deleted=False)
-    result = [l.toJson(nested=False) for l in lectures]
-
-    return JsonResponse(result, safe=False, json_dumps_params=
-                        {'ensure_ascii': False})
-
-
-
-# Add/delete lecture to wishlist.
-@require_POST
-@login_required_ajax
-def wishlist_update(request):
-    userprofile = request.user.userprofile
-
-    body = json.loads(request.body.decode('utf-8'))
-    try:
-        lecture_id = body['lecture_id']
-        delete = body['delete'] == True
-    except KeyError:
-        return HttpResponseBadRequest('Missing fields in request data')
-
-    w = Wishlist.objects.get(user=userprofile)
-    lecture = Lecture.objects.get(id=lecture_id, deleted=False)
-
-    if not delete:
-        w.lectures.add(lecture)
-    else:
-        w.lectures.remove(lecture)
-        
-    return JsonResponse({ 'success': True })
 
 
 def _rounded_rectangle(draw, points, radius, color):

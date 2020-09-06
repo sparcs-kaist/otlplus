@@ -138,10 +138,9 @@ export const performAddToCart = (caller, lecture, year, semester, user, addLectu
   }
 
   axios.post(
-    '/api/timetable/wishlist_update',
+    `/api/users/${user.id}/wishlist/add-lecture`,
     {
-      lecture_id: lecture.id,
-      delete: false,
+      lecture: lecture.id,
     },
     {
       metadata: {
@@ -169,10 +168,9 @@ export const performDeleteFromCart = (caller, lecture, year, semester, user, del
   }
 
   axios.post(
-    '/api/timetable/wishlist_update',
+    `/api/users/${user.id}/wishlist/remove-lecture`,
     {
-      lecture_id: lecture.id,
-      delete: true,
+      lecture: lecture.id,
     },
     {
       metadata: {
