@@ -5,7 +5,7 @@ import { LIST, TABLE, MULTIPLE } from '../reducers/timetable/lectureActive';
 
 
 export const inTimetable = (lecture, timetable) => (
-  timetable !== null
+  timetable
   && timetable.lectures.some(l => (l.id === lecture.id))
 );
 
@@ -78,11 +78,9 @@ export const performAddToTable = (caller, lecture, currentTimetable, user, addLe
   }
 
   axios.post(
-    '/api/timetable/table_update',
+    `/api/users/${user.id}/timetables/${currentTimetable.id}/add-lecture`,
     {
-      table_id: currentTimetable.id,
-      lecture_id: lecture.id,
-      delete: false,
+      lecture: lecture.id,
     },
     {
       metadata: {
@@ -110,11 +108,9 @@ export const performDeleteFromTable = (caller, lecture, currentTimetable, user, 
   }
 
   axios.post(
-    '/api/timetable/table_update',
+    `/api/users/${user.id}/timetables/${currentTimetable.id}/remove-lecture`,
     {
-      table_id: currentTimetable.id,
-      lecture_id: lecture.id,
-      delete: true,
+      lecture: lecture.id,
     },
     {
       metadata: {
@@ -142,10 +138,9 @@ export const performAddToCart = (caller, lecture, year, semester, user, addLectu
   }
 
   axios.post(
-    '/api/timetable/wishlist_update',
+    `/api/users/${user.id}/wishlist/add-lecture`,
     {
-      lecture_id: lecture.id,
-      delete: false,
+      lecture: lecture.id,
     },
     {
       metadata: {
@@ -173,10 +168,9 @@ export const performDeleteFromCart = (caller, lecture, year, semester, user, del
   }
 
   axios.post(
-    '/api/timetable/wishlist_update',
+    `/api/users/${user.id}/wishlist/remove-lecture`,
     {
-      lecture_id: lecture.id,
-      delete: true,
+      lecture: lecture.id,
     },
     {
       metadata: {

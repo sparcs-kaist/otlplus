@@ -2,22 +2,23 @@
 
 # Django apps
 from apps.session.models import UserProfile
-from apps.timetable.models import TimeTable, Wishlist
+from apps.timetable.models import Timetable, Wishlist
 from apps.subject.models import Lecture, Professor, Course, Semester
 from apps.review.models import Review
 from apps.subject.models import *
 from apps.common.timezone import KST
+from apps.common.util import getint
 from django.contrib.auth.models import User
 
 # Django modules
 from django.db.models import Q
 from django.db import IntegrityError
-from django.http import HttpResponse, HttpResponseRedirect, HttpResponseBadRequest, HttpResponseServerError, JsonResponse
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseBadRequest, HttpResponseNotFound, HttpResponseServerError, JsonResponse
 from django.contrib.auth.decorators import login_required
 from utils.decorators import login_required_ajax
-from django.views.decorators.http import require_POST
+from django.views.decorators.http import require_POST, require_http_methods
 from django.conf import settings
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.template import RequestContext
 from django.utils import translation
 from django.core.cache import cache
@@ -71,128 +72,130 @@ def _validate_year_semester(year, semester):
 
 
 
-# Add/Delete lecture to timetable
-@require_POST
 @login_required_ajax
-def table_update(request):
+@require_http_methods(['GET', 'POST'])
+def user_instance_timetable_list_view(request, user_id):
     userprofile = request.user.userprofile
+    if userprofile.id != int(user_id):
+        return HttpResponse(status=401)
 
-    body = json.loads(request.body.decode('utf-8'))
-    try:
-        table_id = int(body['table_id'])
-        lecture_id = body['lecture_id']
-        delete = body['delete'] == True
-    except KeyError:
-        return HttpResponseBadRequest('Missing fields in request data')
-
-    # Find the right timetable
-    timetable = TimeTable.objects.get(user=userprofile, id=table_id)
-    # Find the right lecture
-    lecture = Lecture.objects.get(id=lecture_id, deleted=False)
-
-    if timetable.year!=lecture.year or timetable.semester!=lecture.semester:
-        return HttpResponseBadRequest('Semester not matching')
-
-    if not delete:
-        try:
-            timetable.lecture.add(lecture)
-        except IntegrityError:
-            # Race condition when user sent multiple identical requests
-            return JsonResponse({ 'success': False })
-    else:
-        timetable.lecture.remove(lecture)
+    if request.method == 'GET':
+        timetables = userprofile.timetables.all()
         
-    return JsonResponse({ 'success': True })
+        year = getint(request.GET, 'year', None)
+        if year is not None:
+            timetables = timetables.filter(year=year)
 
+        semester = getint(request.GET, 'semester', None)
+        if year is not None:
+            timetables = timetables.filter(semester=semester)
 
-
-# Delete timetable
-@require_POST
-@login_required_ajax
-def table_delete(request):
-    userprofile = request.user.userprofile
-
-    body = json.loads(request.body.decode('utf-8'))
-    try:
-        table_id = int(body['table_id'])
-        year = int(body['year'])
-        semester = int(body['semester'])
-    except KeyError:
-        return HttpResponseBadRequest('Missing fields in request data')
+        result = [t.toJson() for t in timetables]
+        return JsonResponse(result, safe=False)
     
-    target_table = TimeTable.objects.get(user=userprofile, id=table_id,
-                                         year=year, semester=semester)
-    target_table.delete()
-    return JsonResponse({ 'scucess': True })
+    elif request.method == 'POST':
+        body = json.loads(request.body.decode('utf-8'))
+
+        year = body.get('year', None)
+        semester = body.get('semester', None)
+        if year is None:
+            return HttpResponseBadRequest('Missing field \'year\' in request data')
+        if semester is None:
+            return HttpResponseBadRequest('Missing field \'semester\' in request data')
+        if not _validate_year_semester(year, semester):
+            return HttpResponseBadRequest('Wrong fields \'year\' and \'semester\' in request data')
+
+        lecture_ids = body.get('lectures', None)
+        if lecture_ids is None:
+            return HttpResponseBadRequest('Missing field \'lectures\' in request data')
+        
+        timetable = Timetable.objects.create(user=userprofile, year=year, semester=semester)
+        for i in lecture_ids:
+            try:
+                lecture = Lecture.objects.get(id=i, year=year, semester=semester)
+            except Lecture.DoesNotExist:
+                return HttpResponseBadRequest('Wrong field \'lectures\' in request data')
+            timetable.lectures.add(lecture)
+        
+        return JsonResponse(timetable.toJson())
 
 
-
-# Create timetable
-@require_POST
 @login_required_ajax
-def table_create(request):
+@require_http_methods(['GET', 'DELETE'])
+def user_instance_timetable_instance_view(request, user_id, timetable_id):
     userprofile = request.user.userprofile
-
-    body = json.loads(request.body.decode('utf-8'))
-    try:
-        year = int(body['year'])
-        semester = int(body['semester'])
-        lecture_ids = body['lectures']
-    except KeyError:
-        return HttpResponseBadRequest('Missing fields in request data')
-
-    if not _validate_year_semester(year, semester):
-        return HttpResponseBadRequest('Invalid semester')
+    if userprofile.id != int(user_id):
+        return HttpResponse(status=401)
 
     try:
-        lectures = [Lecture.objects.get(id=i, year=year, semester=semester) for i in lecture_ids]
-    except Lecture.DoexNotExist:
-        return HttpResponseBadRequest('Lecture semester not matching')
-    
-    t = TimeTable(user=userprofile, year=year, semester=semester)
-    t.save()
-    for l in lectures:
-        t.lecture.add(l)
-
-    return JsonResponse({'scucess': True,
-                         'id':t.id})
+        timetable = userprofile.timetables.get(id=timetable_id)
+    except Timetable.DoesNotExist:
+        return HttpResponseNotFound()
 
 
+    if request.method == 'GET':
+        return JsonResponse(timetable.toJson())
 
-# Fetch timetable
-@require_POST
+
+    elif request.method == 'DELETE':
+        timetable.delete()
+        return HttpResponse()
+
+
+
 @login_required_ajax
-def table_load(request):
+@require_http_methods(['POST'])
+def user_instance_timetable_instance_add_lecture_view(request, user_id, timetable_id):
     userprofile = request.user.userprofile
+    if userprofile.id != int(user_id):
+        return HttpResponse(status=401)
 
-    body = json.loads(request.body.decode('utf-8'))
     try:
-        year = int(body['year'])
-        semester = int(body['semester'])
-    except KeyError:
-        return HttpResponseBadRequest('Missing fields in request data')
+        timetable = userprofile.timetables.get(id=timetable_id)
+    except Timetable.DoesNotExist:
+        return HttpResponseNotFound()
 
-    if not _validate_year_semester(year, semester):
-        return HttpResponseBadRequest('Invalid semester')
 
-    timetables = TimeTable.objects.filter(user=userprofile, year=year, semester=semester)
+    if request.method == 'POST':
+        body = json.loads(request.body.decode('utf-8'))
 
-    if not timetables.exists():
-        # Create new timetable if no timetable exists
-        t = TimeTable(user=userprofile, year=year, semester=semester)
-        t.save()
-        timetables = [t]
+        lecture_id = getint(body, 'lecture', None)
+        if lecture_id is None:
+            return HttpResponseBadRequest('Missing field \'lecture\' in request data')
 
-    ctx = [{
-        "id": t.id,
-        "lectures":[l.toJson(nested=False) for l in t.lecture.filter(deleted=False)],
-    } for t in timetables]
+        lecture = Lecture.objects.get(id=lecture_id)
+        if not (lecture.year == timetable.year and lecture.semester == timetable.semester):
+            return HttpResponseBadRequest('Wrong field \'lecture\' in request data')
 
-    return JsonResponse(ctx, safe=False, json_dumps_params=
-                        {'ensure_ascii': False})
+        timetable.lectures.add(lecture)
+        return JsonResponse(timetable.toJson())
 
-FLOW = client.flow_from_clientsecrets(settings.GOOGLE_OAUTH2_CLIENT_SECRETS_JSON,
-                                      scope='https://www.googleapis.com/auth/calendar')
+
+
+@login_required_ajax
+@require_http_methods(['POST'])
+def user_instance_timetable_instance_remove_lecture_view(request, user_id, timetable_id):
+    userprofile = request.user.userprofile
+    if userprofile.id != int(user_id):
+        return HttpResponse(status=401)
+
+    try:
+        timetable = userprofile.timetables.get(id=timetable_id)
+    except Timetable.DoesNotExist:
+        return HttpResponseNotFound()
+
+
+    if request.method == 'POST':
+        body = json.loads(request.body.decode('utf-8'))
+
+        lecture_id = getint(body, 'lecture', None)
+        if lecture_id is None:
+            return HttpResponseBadRequest('Missing field \'lecture\' in request data')
+
+        lecture = Lecture.objects.get(id=lecture_id)
+
+        timetable.lectures.remove(lecture)
+        return JsonResponse(timetable.toJson())
 
 
 
@@ -206,32 +209,109 @@ def _get_timetable_or_my_timetable_lectures(userprofile, table_id, year, semeste
         return list(userprofile.take_lecture_list.filter(year=year, semester=semester))
     
     try:
-        table = TimeTable.objects.get(id=table_id, year=year, semester=semester)
-    except TimeTable.DoesNotExist:
+        table = Timetable.objects.get(id=table_id, year=year, semester=semester)
+    except Timetable.DoesNotExist:
         return None
     
-    return list(table.lecture.all())
+    return list(table.lectures.all())
+
+
+
+@login_required_ajax
+@require_http_methods(['GET'])
+def user_instance_wishlist_view(request, user_id):
+    userprofile = request.user.userprofile
+    if userprofile.id != int(user_id):
+        return HttpResponse(status=401)
+
+    wishlist = Wishlist.objects.get_or_create(user=userprofile)[0]
+
+
+    if request.method == 'GET':
+        result = wishlist.toJson()
+        return JsonResponse(result)
+
+
+
+@login_required_ajax
+@require_http_methods(['POST'])
+def user_instance_wishlist_add_lecture_view(request, user_id):
+    userprofile = request.user.userprofile
+    if userprofile.id != int(user_id):
+        return HttpResponse(status=401)
+
+    wishlist = Wishlist.objects.get_or_create(user=userprofile)[0]
+
+
+    if request.method == 'POST':
+        body = json.loads(request.body.decode('utf-8'))
+
+        lecture_id = getint(body, 'lecture', None)
+        if lecture_id is None:
+            return HttpResponseBadRequest('Missing field \'lecture\' in request data')
+
+        lecture = Lecture.objects.get(id=lecture_id)
+
+        wishlist.lectures.add(lecture)
+
+        result = wishlist.toJson()
+        return JsonResponse(result)
+
+
+
+@login_required_ajax
+@require_http_methods(['POST'])
+def user_instance_wishlist_remove_lecture_view(request, user_id):
+    userprofile = request.user.userprofile
+    if userprofile.id != int(user_id):
+        return HttpResponse(status=401)
+
+    wishlist = Wishlist.objects.get_or_create(user=userprofile)[0]
+
+
+    if request.method == 'POST':
+        body = json.loads(request.body.decode('utf-8'))
+
+        lecture_id = getint(body, 'lecture', None)
+        if lecture_id is None:
+            return HttpResponseBadRequest('Missing field \'lecture\' in request data')
+
+        lecture = Lecture.objects.get(id=lecture_id)
+
+        wishlist.lectures.remove(lecture)
+
+        result = wishlist.toJson()
+        return JsonResponse(result)
 
 
 
 # Export OTL timetable to google calendar
 @login_required
-def share_calendar(request):
-    user = request.user
-    userprofile = user.userprofile
+@require_http_methods(['GET'])
+def share_timetable_calendar_view(request):
+    userprofile = request.user.userprofile
 
-    try:
-        table_id = int(request.GET['table_id'])
-        year = int(request.GET['year'])
-        semester = int(request.GET['semester'])
-    except KeyError:
-        return HttpResponseBadRequest('Missing fields in request data')
+    if request.method == 'GET':
+        table_id = getint(request.GET, 'timetable', None)
+        year = getint(request.GET, 'year', None)
+        semester = getint(request.GET, 'semester', None)
+        if not (
+            table_id is not None
+            and year is not None
+            and semester is not None
+        ):
+            return HttpResponseBadRequest('Missing fields in request data')
 
-    # Find the right timetable
-    timetable_lectures = _get_timetable_or_my_timetable_lectures(userprofile, table_id, year, semester)
-    if timetable_lectures is None:
-        return HttpResponseBadRequest('No such timetable')
+        timetable_lectures = _get_timetable_or_my_timetable_lectures(userprofile, table_id, year, semester)
+        if timetable_lectures is None:
+            return HttpResponseBadRequest('No such timetable')
 
+        response = _share_calendar(request, timetable_lectures, year, semester)
+        return response
+
+
+
+def _share_calendar(request, timetable_lectures, year, semester):
     storage = DjangoORMStorage(UserProfile, 'user', request.user, 'google_credential')
     credential = storage.get()
 
@@ -298,7 +378,7 @@ def share_calendar(request):
 
 
 @login_required
-def google_auth_return(request):
+def external_google_google_auth_return_view(request):
     if not xsrfutil.validate_token(settings.SECRET_KEY, str(request.GET['state']),
                                    request.user):
         return HttpResponseBadRequest('Invalid token')
@@ -306,59 +386,7 @@ def google_auth_return(request):
     storage = DjangoORMStorage(UserProfile, 'user', request.user, 'google_credential')
     storage.put(credential)
     return HttpResponseRedirect("/timetable")
-    # TODO: Add calendar entry
 
-
-
-# Fetch wishlist
-@require_POST
-@login_required_ajax
-def wishlist_load(request):
-    userprofile = request.user.userprofile
-
-
-    body = json.loads(request.body.decode('utf-8'))
-    try:
-        year = int(body['year'])
-        semester = int(body['semester'])
-    except KeyError:
-        return HttpResponseBadRequest('Missing fields in request data')
-
-    if not _validate_year_semester(year, semester):
-        return HttpResponseBadRequest('Invalid semester')
-
-    w = Wishlist.objects.get_or_create(user=userprofile)[0]
-
-    lectures = w.lectures.filter(year=year, semester=semester, deleted=False)
-    result = [l.toJson(nested=False) for l in lectures]
-
-    return JsonResponse(result, safe=False, json_dumps_params=
-                        {'ensure_ascii': False})
-
-
-
-# Add/delete lecture to wishlist.
-@require_POST
-@login_required_ajax
-def wishlist_update(request):
-    userprofile = request.user.userprofile
-
-    body = json.loads(request.body.decode('utf-8'))
-    try:
-        lecture_id = body['lecture_id']
-        delete = body['delete'] == True
-    except KeyError:
-        return HttpResponseBadRequest('Missing fields in request data')
-
-    w = Wishlist.objects.get(user=userprofile)
-    lecture = Lecture.objects.get(id=lecture_id, deleted=False)
-
-    if not delete:
-        w.lectures.add(lecture)
-    else:
-        w.lectures.remove(lecture)
-        
-    return JsonResponse({ 'success': True })
 
 
 def _rounded_rectangle(draw, points, radius, color):
@@ -429,18 +457,31 @@ def _textbox(draw, points, title, prof, loc, font):
 
 
 @login_required
-def share_image(request):
+@require_http_methods(['GET'])
+def share_timetable_image_view(request):
     userprofile = request.user.userprofile
 
-    try:
-        table_id = int(request.GET['table_id'])
-        year = int(request.GET['year'])
-        semester = int(request.GET['semester'])
-    except KeyError:
-        return HttpResponseBadRequest('Missing fields in request data')
+    if request.method == 'GET':
+        table_id = getint(request.GET, 'timetable', None)
+        year = getint(request.GET, 'year', None)
+        semester = getint(request.GET, 'semester', None)
+        if not (
+            table_id is not None
+            and year is not None
+            and semester is not None
+        ):
+            return HttpResponseBadRequest('Missing fields in request data')
 
-    timetable_lectures = _get_timetable_or_my_timetable_lectures(userprofile, table_id, year, semester)
+        timetable_lectures = _get_timetable_or_my_timetable_lectures(userprofile, table_id, year, semester)
+        if timetable_lectures is None:
+            return HttpResponseBadRequest('No such timetable')
 
+        response = _share_image(timetable_lectures)
+        return response
+
+
+
+def _share_image(timetable_lectures):
     if settings.DEBUG:
         file_path = 'static/'
     else:
