@@ -1,12 +1,12 @@
 from django.contrib import admin
-from apps.timetable.models import TimeTable
+from apps.timetable.models import Timetable
 
 
-class TimeTableAdmin(admin.ModelAdmin):
+class TimetableAdmin(admin.ModelAdmin):
     list_display = ('year', 'semester')
     ordering = ('year','semester')
 
 
-admin.site.register(TimeTable, TimeTableAdmin)
+admin.site.register(Timetable, TimetableAdmin)
 
 # Register your models here.
