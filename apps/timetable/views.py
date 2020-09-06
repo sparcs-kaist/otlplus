@@ -7,6 +7,7 @@ from apps.subject.models import Lecture, Professor, Course, Semester
 from apps.review.models import Review
 from apps.subject.models import *
 from apps.common.timezone import KST
+from apps.common.util import getint
 from django.contrib.auth.models import User
 
 # Django modules
@@ -15,7 +16,7 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseBadRequest, HttpResponseServerError, JsonResponse
 from django.contrib.auth.decorators import login_required
 from utils.decorators import login_required_ajax
-from django.views.decorators.http import require_POST
+from django.views.decorators.http import require_POST, require_http_methods
 from django.conf import settings
 from django.shortcuts import render, redirect
 from django.template import RequestContext
@@ -71,6 +72,55 @@ def _validate_year_semester(year, semester):
 
 
 
+@login_required_ajax
+@require_http_methods(['GET', 'POST'])
+def user_instance_timetable_list_view(request, user_id):
+    userprofile = request.user.userprofile
+    if userprofile.id != int(user_id):
+        return HttpResponse(status=401)
+
+    if request.method == 'GET':
+        timetables = userprofile.timetable_set.all()
+        
+        year = getint(request.GET, 'year', None)
+        if year is not None:
+            timetables = timetables.filter(year=year)
+
+        semester = getint(request.GET, 'semester', None)
+        if year is not None:
+            timetables = timetables.filter(semester=semester)
+
+        result = [t.toJson() for t in timetables]
+        return JsonResponse(result, safe=False)
+    
+    elif request.method == 'POST':
+        body = json.loads(request.body.decode('utf-8'))
+
+        year = body.get('year', None)
+        semester = body.get('semester', None)
+        if year is None:
+            return HttpResponseBadRequest('Missing field \'year\' in request data')
+        if semester is None:
+            return HttpResponseBadRequest('Missing field \'semester\' in request data')
+        if not _validate_year_semester(year, semester):
+            return HttpResponseBadRequest('Wrong fields \'year\' and \'semester\' in request data')
+
+        lecture_ids = body.get('lectures', None)
+        print(lecture_ids, type(lecture_ids))
+        if lecture_ids is None:
+            return HttpResponseBadRequest('Missing field \'lectures\' in request data')
+        
+        timetable = TimeTable.objects.create(user=userprofile, year=year, semester=semester)
+        for i in lecture_ids:
+            try:
+                lecture = Lecture.objects.get(id=i, year=year, semester=semester)
+            except Lecture.DoesNotExist:
+                return HttpResponseBadRequest('Wrong fields \'lectures\' in request data')
+            timetable.lecture.add(lecture)
+        
+        return JsonResponse(timetable.toJson())
+
+
 # Add/Delete lecture to timetable
 @require_POST
 @login_required_ajax
@@ -124,69 +174,6 @@ def table_delete(request):
                                          year=year, semester=semester)
     target_table.delete()
     return JsonResponse({ 'scucess': True })
-
-
-
-# Create timetable
-@require_POST
-@login_required_ajax
-def table_create(request):
-    userprofile = request.user.userprofile
-
-    body = json.loads(request.body.decode('utf-8'))
-    try:
-        year = int(body['year'])
-        semester = int(body['semester'])
-        lecture_ids = body['lectures']
-    except KeyError:
-        return HttpResponseBadRequest('Missing fields in request data')
-
-    if not _validate_year_semester(year, semester):
-        return HttpResponseBadRequest('Invalid semester')
-
-    try:
-        lectures = [Lecture.objects.get(id=i, year=year, semester=semester) for i in lecture_ids]
-    except Lecture.DoexNotExist:
-        return HttpResponseBadRequest('Lecture semester not matching')
-    
-    t = TimeTable(user=userprofile, year=year, semester=semester)
-    t.save()
-    for l in lectures:
-        t.lecture.add(l)
-
-    return JsonResponse({'scucess': True,
-                         'id':t.id})
-
-
-
-# Fetch timetable
-@require_POST
-@login_required_ajax
-def table_load(request):
-    userprofile = request.user.userprofile
-
-    body = json.loads(request.body.decode('utf-8'))
-    try:
-        year = int(body['year'])
-        semester = int(body['semester'])
-    except KeyError:
-        return HttpResponseBadRequest('Missing fields in request data')
-
-    if not _validate_year_semester(year, semester):
-        return HttpResponseBadRequest('Invalid semester')
-
-    timetables = TimeTable.objects.filter(user=userprofile, year=year, semester=semester)
-
-    ctx = [{
-        "id": t.id,
-        "lectures":[l.toJson(nested=False) for l in t.lecture.filter(deleted=False)],
-    } for t in timetables]
-
-    return JsonResponse(ctx, safe=False, json_dumps_params=
-                        {'ensure_ascii': False})
-
-FLOW = client.flow_from_clientsecrets(settings.GOOGLE_OAUTH2_CLIENT_SECRETS_JSON,
-                                      scope='https://www.googleapis.com/auth/calendar')
 
 
 

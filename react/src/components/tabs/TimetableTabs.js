@@ -56,13 +56,13 @@ class TimetableTabs extends Component {
       return;
     }
 
-    axios.post(
-      '/api/timetable/table_load',
+    axios.get(
+      `/api/users/${user.id}/timetables`,
       {
-        year: year,
-        semester: semester,
-      },
-      {
+        params: {
+          year: year,
+          semester: semester,
+        },
         metadata: {
           gaCategory: 'Timetable',
           gaVariable: 'GET / List',
@@ -115,7 +115,7 @@ class TimetableTabs extends Component {
     }
     else {
       axios.post(
-        '/api/timetable/table_create',
+        `/api/users/${user.id}/timetables`,
         {
           year: year,
           semester: semester,
@@ -206,7 +206,7 @@ class TimetableTabs extends Component {
     }
     else {
       axios.post(
-        '/api/timetable/table_create',
+        `/api/users/${user.id}/timetables`,
         {
           year: year,
           semester: semester,
