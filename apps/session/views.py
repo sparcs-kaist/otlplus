@@ -7,7 +7,7 @@ from django.views.decorators.http import require_http_methods
 from django.conf import settings
 from apps.subject.models import Department, Lecture
 from apps.review.models import Review
-from apps.timetable.models import OldTimeTable
+from apps.timetable.models import OldTimetable
 from apps.timetable.views import _user_department
 from apps.session.models import UserProfile
 from apps.session.sparcssso import Client
@@ -88,7 +88,7 @@ def login_callback(request):
             os.chdir('/var/www/otlplus/')
         os.system('python do_import_user_major.py %s' % student_id)
         os.system('python do_import_taken_lecture_user.py %s' % student_id)
-        OldTimeTable.import_in_for_user(student_id)
+        OldTimetable.import_in_for_user(student_id)
 
         user = authenticate(username=username)
         login(request, user)
@@ -107,7 +107,7 @@ def login_callback(request):
                 os.chdir('/var/www/otlplus/')
             os.system('python do_import_user_major.py %s' % student_id)
             os.system('python do_import_taken_lecture_user.py %s' % student_id)
-            OldTimeTable.import_in_for_user(student_id)
+            OldTimetable.import_in_for_user(student_id)
         login(request, user)
         return redirect(next)
         return HttpResponseRedirect('/error/no-such-user')

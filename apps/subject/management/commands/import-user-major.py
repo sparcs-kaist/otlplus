@@ -52,24 +52,24 @@ class Command(BaseCommand):
         user_major_minor = execute(host, port, user, password, query)
 
         for a in user_dept:
-            user = UserProfile.objects.filter(student_id=a[0])
+            userprofiles = UserProfile.objects.filter(student_id=a[0])
             try:
-                dept = Department.objects.get(id=a[1])
+                department = Department.objects.get(id=a[1])
             except ObjectDoesNotExist:
-                if len(user)>0:
+                if len(userprofiles)>0:
                     print("No department with id %d\n%s" % (a[1], a))
                 continue
 
-            for u in user:
-                u.department = dept
+            for u in userprofiles:
+                u.department = department
                 u.save()
         
         for a in user_major_minor:
-            user = UserProfile.objects.filter(student_id=a[0])
-            dept = Department.objects.filter(name=a[2].decode("cp949"))
+            userprofiles = UserProfile.objects.filter(student_id=a[0])
+            departments = Department.objects.filter(name=a[2].decode("cp949"))
 
-            for u in user:
-                for d in dept:
+            for u in userprofiles:
+                for d in departments:
                     if a[1].decode('cp949') == u"부전공신청":
                         u.minors.add(d)
                     elif a[1].decode('cp949') == u"복수전공신청":
