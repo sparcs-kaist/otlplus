@@ -115,7 +115,7 @@ def user_instance_timetable_list_view(request, user_id):
             try:
                 lecture = Lecture.objects.get(id=i, year=year, semester=semester)
             except Lecture.DoesNotExist:
-                return HttpResponseBadRequest('Wrong fields \'lectures\' in request data')
+                return HttpResponseBadRequest('Wrong field \'lectures\' in request data')
             timetable.lecture.add(lecture)
         
         return JsonResponse(timetable.toJson())
