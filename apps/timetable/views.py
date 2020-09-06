@@ -287,24 +287,27 @@ def user_instance_wishlist_remove_lecture_view(request, user_id):
 
 # Export OTL timetable to google calendar
 @login_required
-def share_calendar(request):
-    user = request.user
-    userprofile = user.userprofile
+@require_http_methods(['GET'])
+def share_timetable_calendar_view(request):
+    userprofile = request.user.userprofile
 
-    try:
-        table_id = int(request.GET['table_id'])
-        year = int(request.GET['year'])
-        semester = int(request.GET['semester'])
-    except KeyError:
-        return HttpResponseBadRequest('Missing fields in request data')
+    if request.method == 'GET':
+        table_id = getint(request.GET, 'timetable', None)
+        year = getint(request.GET, 'year', None)
+        semester = getint(request.GET, 'semester', None)
+        if not (
+            table_id is not None
+            and year is not None
+            and semester is not None
+        ):
+            return HttpResponseBadRequest('Missing fields in request data')
 
-    # Find the right timetable
-    timetable_lectures = _get_timetable_or_my_timetable_lectures(userprofile, table_id, year, semester)
-    if timetable_lectures is None:
-        return HttpResponseBadRequest('No such timetable')
+        timetable_lectures = _get_timetable_or_my_timetable_lectures(userprofile, table_id, year, semester)
+        if timetable_lectures is None:
+            return HttpResponseBadRequest('No such timetable')
 
-    response = _share_calendar(request, timetable_lectures, year, semester)
-    return response
+        response = _share_calendar(request, timetable_lectures, year, semester)
+        return response
 
 
 
@@ -375,7 +378,7 @@ def _share_calendar(request, timetable_lectures, year, semester):
 
 
 @login_required
-def google_auth_return(request):
+def external_google_google_auth_return_view(request):
     if not xsrfutil.validate_token(settings.SECRET_KEY, str(request.GET['state']),
                                    request.user):
         return HttpResponseBadRequest('Invalid token')
@@ -383,7 +386,6 @@ def google_auth_return(request):
     storage = DjangoORMStorage(UserProfile, 'user', request.user, 'google_credential')
     storage.put(credential)
     return HttpResponseRedirect("/timetable")
-    # TODO: Add calendar entry
 
 
 
@@ -455,20 +457,27 @@ def _textbox(draw, points, title, prof, loc, font):
 
 
 @login_required
-def share_image(request):
+@require_http_methods(['GET'])
+def share_timetable_image_view(request):
     userprofile = request.user.userprofile
 
-    try:
-        table_id = int(request.GET['table_id'])
-        year = int(request.GET['year'])
-        semester = int(request.GET['semester'])
-    except KeyError:
-        return HttpResponseBadRequest('Missing fields in request data')
+    if request.method == 'GET':
+        table_id = getint(request.GET, 'timetable', None)
+        year = getint(request.GET, 'year', None)
+        semester = getint(request.GET, 'semester', None)
+        if not (
+            table_id is not None
+            and year is not None
+            and semester is not None
+        ):
+            return HttpResponseBadRequest('Missing fields in request data')
 
-    timetable_lectures = _get_timetable_or_my_timetable_lectures(userprofile, table_id, year, semester)
+        timetable_lectures = _get_timetable_or_my_timetable_lectures(userprofile, table_id, year, semester)
+        if timetable_lectures is None:
+            return HttpResponseBadRequest('No such timetable')
 
-    response = _share_image(timetable_lectures)
-    return response
+        response = _share_image(timetable_lectures)
+        return response
 
 
 

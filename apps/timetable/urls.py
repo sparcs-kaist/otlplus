@@ -25,7 +25,7 @@ urlpatterns = [
     url(r'^users/(?P<user_id>\d+)/wishlist$', views.user_instance_wishlist_view),
     url(r'^users/(?P<user_id>\d+)/wishlist/add-lecture$', views.user_instance_wishlist_add_lecture_view),
     url(r'^users/(?P<user_id>\d+)/wishlist/remove-lecture$', views.user_instance_wishlist_remove_lecture_view),
-    url(r'^timetable/share_image$', views.share_image),
-    url(r'^timetable/share_calendar$', views.share_calendar),
-    url(r'^external/google/google_auth_return$', views.google_auth_return),
+    url(r'^share/timetable/image$', views.share_timetable_image_view),
+    url(r'^share/timetable/calendar$', views.share_timetable_calendar_view),
+    url(r'^external/google/google_auth_return$', views.external_google_google_auth_return_view),
 ]
