@@ -47,12 +47,8 @@ class TimetableTabs extends Component {
     const { user, year, semester, setTimetablesDispatch } = this.props;
 
     if (!user) {
-      setTimetablesDispatch([
-        {
-          id: this._createRandomTimetableId(),
-          lectures: [],
-        },
-      ]);
+      setTimetablesDispatch([]);
+      this._performCreateTable();
       return;
     }
 
@@ -79,6 +75,9 @@ class TimetableTabs extends Component {
           return;
         }
         setTimetablesDispatch(response.data);
+        if (response.data.length === 0) {
+          this._performCreateTable();
+        }
       })
       .catch((error) => {
       });
@@ -108,7 +107,7 @@ class TimetableTabs extends Component {
     });
   }
 
-  createTable() {
+  _performCreateTable() {
     const { user, year, semester, createTimetableDispatch } = this.props;
 
     if (!user) {
@@ -139,6 +138,10 @@ class TimetableTabs extends Component {
         .catch((error) => {
         });
     }
+  }
+
+  createTable() {
+    this._performCreateTable();
 
     ReactGA.event({
       category: 'Timetable - Timetable',
