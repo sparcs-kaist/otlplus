@@ -106,7 +106,6 @@ def user_instance_timetable_list_view(request, user_id):
             return HttpResponseBadRequest('Wrong fields \'year\' and \'semester\' in request data')
 
         lecture_ids = body.get('lectures', None)
-        print(lecture_ids, type(lecture_ids))
         if lecture_ids is None:
             return HttpResponseBadRequest('Missing field \'lectures\' in request data')
         
