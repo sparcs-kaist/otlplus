@@ -154,12 +154,8 @@ class LectureListTabs extends Component {
       setListLecturesDispatch('cart', []);
       return;
     }
-    axios.post(
-      '/api/timetable/wishlist_load',
-      {
-        year: year,
-        semester: semester,
-      },
+    axios.get(
+      `/api/users/${user.id}/wishlist`,
       {
         metadata: {
           gaCategory: 'User',
@@ -173,7 +169,7 @@ class LectureListTabs extends Component {
         ) {
           return;
         }
-        setListLecturesDispatch('cart', response.data);
+        setListLecturesDispatch('cart', response.data.lectures.filter(l => ((l.year === year) && (l.semester === semester))));
       })
       .catch((error) => {
       });

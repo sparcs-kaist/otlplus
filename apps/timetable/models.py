@@ -54,3 +54,9 @@ class OldTimeTable(models.Model):
 class Wishlist(models.Model):
     lectures = models.ManyToManyField(Lecture)
     user = models.OneToOneField(UserProfile, related_name="wishlist_set", on_delete=models.CASCADE)
+
+    def toJson(self, nested=False):
+        result = {
+            "lectures":[l.toJson(nested=False) for l in self.lectures.filter(deleted=False)],
+        }
+        return result
