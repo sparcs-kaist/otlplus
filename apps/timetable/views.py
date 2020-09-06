@@ -144,38 +144,59 @@ def user_instance_timetable_instance_view(request, user_id, timetable_id):
 
 
 
-# Add/Delete lecture to timetable
-@require_POST
 @login_required_ajax
-def table_update(request):
+@require_http_methods(['POST'])
+def user_instance_timetable_instance_add_lecture_view(request, user_id, timetable_id):
     userprofile = request.user.userprofile
+    if userprofile.id != int(user_id):
+        return HttpResponse(status=401)
 
-    body = json.loads(request.body.decode('utf-8'))
     try:
-        table_id = int(body['table_id'])
-        lecture_id = body['lecture_id']
-        delete = body['delete'] == True
-    except KeyError:
-        return HttpResponseBadRequest('Missing fields in request data')
+        timetable = userprofile.timetable_set.get(id=timetable_id)
+    except TimeTable.DoesNotExist:
+        return HttpResponseNotFound()
 
-    # Find the right timetable
-    timetable = TimeTable.objects.get(user=userprofile, id=table_id)
-    # Find the right lecture
-    lecture = Lecture.objects.get(id=lecture_id, deleted=False)
 
-    if timetable.year!=lecture.year or timetable.semester!=lecture.semester:
-        return HttpResponseBadRequest('Semester not matching')
+    if request.method == 'POST':
+        body = json.loads(request.body.decode('utf-8'))
 
-    if not delete:
-        try:
-            timetable.lecture.add(lecture)
-        except IntegrityError:
-            # Race condition when user sent multiple identical requests
-            return JsonResponse({ 'success': False })
-    else:
+        lecture_id = getint(body, 'lecture', None)
+        if lecture_id is None:
+            return HttpResponseBadRequest('Missing field \'lecture\' in request data')
+
+        lecture = Lecture.objects.get(id=lecture_id)
+        if not (lecture.year == timetable.year and lecture.semester == timetable.semester):
+            return HttpResponseBadRequest('Wrong field \'lecture\' in request data')
+
+        timetable.lecture.add(lecture)
+        return JsonResponse(timetable.toJson())
+
+
+
+@login_required_ajax
+@require_http_methods(['POST'])
+def user_instance_timetable_instance_remove_lecture_view(request, user_id, timetable_id):
+    userprofile = request.user.userprofile
+    if userprofile.id != int(user_id):
+        return HttpResponse(status=401)
+
+    try:
+        timetable = userprofile.timetable_set.get(id=timetable_id)
+    except TimeTable.DoesNotExist:
+        return HttpResponseNotFound()
+
+
+    if request.method == 'POST':
+        body = json.loads(request.body.decode('utf-8'))
+
+        lecture_id = getint(body, 'lecture', None)
+        if lecture_id is None:
+            return HttpResponseBadRequest('Missing field \'lecture\' in request data')
+
+        lecture = Lecture.objects.get(id=lecture_id)
+
         timetable.lecture.remove(lecture)
-        
-    return JsonResponse({ 'success': True })
+        return JsonResponse(timetable.toJson())
 
 
 

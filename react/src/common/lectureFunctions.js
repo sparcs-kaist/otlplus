@@ -78,11 +78,9 @@ export const performAddToTable = (caller, lecture, currentTimetable, user, addLe
   }
 
   axios.post(
-    '/api/timetable/table_update',
+    `/api/users/${user.id}/timetables/${currentTimetable.id}/add-lecture`,
     {
-      table_id: currentTimetable.id,
-      lecture_id: lecture.id,
-      delete: false,
+      lecture: lecture.id,
     },
     {
       metadata: {
@@ -110,11 +108,9 @@ export const performDeleteFromTable = (caller, lecture, currentTimetable, user, 
   }
 
   axios.post(
-    '/api/timetable/table_update',
+    `/api/users/${user.id}/timetables/${currentTimetable.id}/remove-lecture`,
     {
-      table_id: currentTimetable.id,
-      lecture_id: lecture.id,
-      delete: true,
+      lecture: lecture.id,
     },
     {
       metadata: {
