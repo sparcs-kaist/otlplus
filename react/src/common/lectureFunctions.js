@@ -5,7 +5,7 @@ import { LIST, TABLE, MULTIPLE } from '../reducers/timetable/lectureActive';
 
 
 export const inTimetable = (lecture, timetable) => (
-  timetable !== null
+  timetable
   && timetable.lectures.some(l => (l.id === lecture.id))
 );
 

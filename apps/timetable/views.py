@@ -177,12 +177,6 @@ def table_load(request):
 
     timetables = TimeTable.objects.filter(user=userprofile, year=year, semester=semester)
 
-    if not timetables.exists():
-        # Create new timetable if no timetable exists
-        t = TimeTable(user=userprofile, year=year, semester=semester)
-        t.save()
-        timetables = [t]
-
     ctx = [{
         "id": t.id,
         "lectures":[l.toJson(nested=False) for l in t.lecture.filter(deleted=False)],
