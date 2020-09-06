@@ -5,7 +5,7 @@ from apps.session.models import *
 
 
 class TimeTable(models.Model):
-    lecture = models.ManyToManyField(Lecture)
+    lectures = models.ManyToManyField(Lecture)
     user = models.ForeignKey(UserProfile, related_name="timetable_set", on_delete=models.CASCADE, db_index=True)
     year = models.IntegerField(null=True, db_index=True)  # 몇넌도의 타임테이블인지
     semester = models.SmallIntegerField(null=True, db_index=True)  # 어떤학기의 타임테이블인지
@@ -13,13 +13,13 @@ class TimeTable(models.Model):
     def toJson(self, nested=False):
         result = {
             "id": self.id,
-            "lectures":[l.toJson(nested=False) for l in self.lecture.filter(deleted=False)],
+            "lectures":[l.toJson(nested=False) for l in self.lectures.filter(deleted=False)],
         }
         return result
 
 
 class OldTimeTable(models.Model):
-    lecture = models.ManyToManyField(Lecture)
+    lectures = models.ManyToManyField(Lecture)
     student_id = models.CharField(max_length=10)
     year = models.IntegerField(null=True)
     semester = models.SmallIntegerField(null=True)
@@ -38,8 +38,8 @@ class OldTimeTable(models.Model):
                 print("User with student number %s has multiple userprofiles." % self.student_id)
                 return
         timetable = TimeTable.objects.create(user=userprofile, year=self.year, semester=self.semester)
-        for l in self.lecture.all():
-            timetable.lecture.add(l)
+        for l in self.lectures.all():
+            timetable.lectures.add(l)
         self.delete()
 
     @classmethod

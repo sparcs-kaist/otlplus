@@ -115,7 +115,7 @@ def user_instance_timetable_list_view(request, user_id):
                 lecture = Lecture.objects.get(id=i, year=year, semester=semester)
             except Lecture.DoesNotExist:
                 return HttpResponseBadRequest('Wrong field \'lectures\' in request data')
-            timetable.lecture.add(lecture)
+            timetable.lectures.add(lecture)
         
         return JsonResponse(timetable.toJson())
 
@@ -167,7 +167,7 @@ def user_instance_timetable_instance_add_lecture_view(request, user_id, timetabl
         if not (lecture.year == timetable.year and lecture.semester == timetable.semester):
             return HttpResponseBadRequest('Wrong field \'lecture\' in request data')
 
-        timetable.lecture.add(lecture)
+        timetable.lectures.add(lecture)
         return JsonResponse(timetable.toJson())
 
 
@@ -194,7 +194,7 @@ def user_instance_timetable_instance_remove_lecture_view(request, user_id, timet
 
         lecture = Lecture.objects.get(id=lecture_id)
 
-        timetable.lecture.remove(lecture)
+        timetable.lectures.remove(lecture)
         return JsonResponse(timetable.toJson())
 
 
@@ -213,7 +213,7 @@ def _get_timetable_or_my_timetable_lectures(userprofile, table_id, year, semeste
     except TimeTable.DoesNotExist:
         return None
     
-    return list(table.lecture.all())
+    return list(table.lectures.all())
 
 
 
