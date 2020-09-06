@@ -303,6 +303,12 @@ def share_calendar(request):
     if timetable_lectures is None:
         return HttpResponseBadRequest('No such timetable')
 
+    response = _share_calendar(request, timetable_lectures, year, semester)
+    return response
+
+
+
+def _share_calendar(request, timetable_lectures, year, semester):
     storage = DjangoORMStorage(UserProfile, 'user', request.user, 'google_credential')
     credential = storage.get()
 
@@ -461,6 +467,12 @@ def share_image(request):
 
     timetable_lectures = _get_timetable_or_my_timetable_lectures(userprofile, table_id, year, semester)
 
+    response = _share_image(timetable_lectures)
+    return response
+
+
+
+def _share_image(timetable_lectures):
     if settings.DEBUG:
         file_path = 'static/'
     else:
