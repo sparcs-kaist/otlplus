@@ -165,13 +165,8 @@ class TimetableTabs extends Component {
       alert(t('ui.message.lastTimetable'));
     }
     else {
-      axios.post(
-        '/api/timetable/table_delete',
-        {
-          table_id: timetable.id,
-          year: year,
-          semester: semester,
-        },
+      axios.delete(
+        `/api/users/${user.id}/timetables/${timetable.id}`,
         {
           metadata: {
             gaCategory: 'Timetable',

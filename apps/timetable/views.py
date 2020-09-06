@@ -13,12 +13,12 @@ from django.contrib.auth.models import User
 # Django modules
 from django.db.models import Q
 from django.db import IntegrityError
-from django.http import HttpResponse, HttpResponseRedirect, HttpResponseBadRequest, HttpResponseServerError, JsonResponse
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseBadRequest, HttpResponseNotFound, HttpResponseServerError, JsonResponse
 from django.contrib.auth.decorators import login_required
 from utils.decorators import login_required_ajax
 from django.views.decorators.http import require_POST, require_http_methods
 from django.conf import settings
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.template import RequestContext
 from django.utils import translation
 from django.core.cache import cache
@@ -121,6 +121,29 @@ def user_instance_timetable_list_view(request, user_id):
         return JsonResponse(timetable.toJson())
 
 
+@login_required_ajax
+@require_http_methods(['GET', 'DELETE'])
+def user_instance_timetable_instance_view(request, user_id, timetable_id):
+    userprofile = request.user.userprofile
+    if userprofile.id != int(user_id):
+        return HttpResponse(status=401)
+
+    try:
+        timetable = userprofile.timetable_set.get(id=timetable_id)
+    except TimeTable.DoesNotExist:
+        return HttpResponseNotFound()
+
+
+    if request.method == 'GET':
+        return JsonResponse(timetable.toJson())
+
+
+    elif request.method == 'DELETE':
+        timetable.delete()
+        return HttpResponse()
+
+
+
 # Add/Delete lecture to timetable
 @require_POST
 @login_required_ajax
@@ -153,27 +176,6 @@ def table_update(request):
         timetable.lecture.remove(lecture)
         
     return JsonResponse({ 'success': True })
-
-
-
-# Delete timetable
-@require_POST
-@login_required_ajax
-def table_delete(request):
-    userprofile = request.user.userprofile
-
-    body = json.loads(request.body.decode('utf-8'))
-    try:
-        table_id = int(body['table_id'])
-        year = int(body['year'])
-        semester = int(body['semester'])
-    except KeyError:
-        return HttpResponseBadRequest('Missing fields in request data')
-    
-    target_table = TimeTable.objects.get(user=userprofile, id=table_id,
-                                         year=year, semester=semester)
-    target_table.delete()
-    return JsonResponse({ 'scucess': True })
 
 
 
