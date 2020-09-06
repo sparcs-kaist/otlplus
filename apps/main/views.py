@@ -25,7 +25,7 @@ from datetime import date
 def feed_list_view(request):
     if request.method == 'GET':
         date = request.GET.get('date', None)
-        user = request.user.userprofile
+        userprofile = request.user.userprofile
 
         department_codes = [d['code'] for d in _user_department(request.user) if (d['code'] != 'Basic')]
         departments = Department.objects.filter(code__in=department_codes, visible=True)
@@ -33,9 +33,9 @@ def feed_list_view(request):
 
         famous_humanity_review_daily_feed = FamousHumanityReviewDailyFeed.get(date=date)
 
-        review_write_daily_user_feed = ReviewWriteDailyUserFeed.get(date=date, user=user)
+        review_write_daily_user_feed = ReviewWriteDailyUserFeed.get(date=date, user=userprofile)
 
-        related_course_daily_user_feed = RelatedCourseDailyUserFeed.get(date=date, user=user)
+        related_course_daily_user_feed = RelatedCourseDailyUserFeed.get(date=date, user=userprofile)
 
         feeds = famous_major_review_daily_feed_list \
             + [famous_humanity_review_daily_feed] \
