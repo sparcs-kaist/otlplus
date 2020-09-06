@@ -80,7 +80,7 @@ def user_instance_timetable_list_view(request, user_id):
         return HttpResponse(status=401)
 
     if request.method == 'GET':
-        timetables = userprofile.timetable_set.all()
+        timetables = userprofile.timetables.all()
         
         year = getint(request.GET, 'year', None)
         if year is not None:
@@ -128,7 +128,7 @@ def user_instance_timetable_instance_view(request, user_id, timetable_id):
         return HttpResponse(status=401)
 
     try:
-        timetable = userprofile.timetable_set.get(id=timetable_id)
+        timetable = userprofile.timetables.get(id=timetable_id)
     except TimeTable.DoesNotExist:
         return HttpResponseNotFound()
 
@@ -151,7 +151,7 @@ def user_instance_timetable_instance_add_lecture_view(request, user_id, timetabl
         return HttpResponse(status=401)
 
     try:
-        timetable = userprofile.timetable_set.get(id=timetable_id)
+        timetable = userprofile.timetables.get(id=timetable_id)
     except TimeTable.DoesNotExist:
         return HttpResponseNotFound()
 
@@ -180,7 +180,7 @@ def user_instance_timetable_instance_remove_lecture_view(request, user_id, timet
         return HttpResponse(status=401)
 
     try:
-        timetable = userprofile.timetable_set.get(id=timetable_id)
+        timetable = userprofile.timetables.get(id=timetable_id)
     except TimeTable.DoesNotExist:
         return HttpResponseNotFound()
 
