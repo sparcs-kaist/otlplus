@@ -18,10 +18,9 @@ from django.http import HttpResponseRedirect
 from . import views
 
 urlpatterns = [
+    url(r'^users/(?P<user_id>\d+)/timetables$', views.user_instance_timetable_list_view),
     url(r'^timetable/table_update$', views.table_update),
-    url(r'^timetable/table_create$', views.table_create),
     url(r'^timetable/table_delete$', views.table_delete),
-    url(r'^timetable/table_load$', views.table_load),
     url(r'^timetable/wishlist_load$', views.wishlist_load),
     url(r'^timetable/wishlist_update$', views.wishlist_update),
     url(r'^timetable/share_image$', views.share_image),

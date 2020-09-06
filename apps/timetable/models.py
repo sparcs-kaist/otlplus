@@ -10,6 +10,13 @@ class TimeTable(models.Model):
     year = models.IntegerField(null=True, db_index=True)  # 몇넌도의 타임테이블인지
     semester = models.SmallIntegerField(null=True, db_index=True)  # 어떤학기의 타임테이블인지
 
+    def toJson(self, nested=False):
+        result = {
+            "id": self.id,
+            "lectures":[l.toJson(nested=False) for l in self.lecture.filter(deleted=False)],
+        }
+        return result
+
 
 class OldTimeTable(models.Model):
     lecture = models.ManyToManyField(Lecture)
