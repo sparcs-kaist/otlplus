@@ -2,7 +2,7 @@
 
 # Django apps
 from apps.session.models import UserProfile
-from apps.timetable.models import TimeTable, Wishlist
+from apps.timetable.models import Timetable, Wishlist
 from apps.subject.models import Lecture, Professor, Course, Semester
 from apps.review.models import Review
 from apps.subject.models import *
@@ -109,7 +109,7 @@ def user_instance_timetable_list_view(request, user_id):
         if lecture_ids is None:
             return HttpResponseBadRequest('Missing field \'lectures\' in request data')
         
-        timetable = TimeTable.objects.create(user=userprofile, year=year, semester=semester)
+        timetable = Timetable.objects.create(user=userprofile, year=year, semester=semester)
         for i in lecture_ids:
             try:
                 lecture = Lecture.objects.get(id=i, year=year, semester=semester)
@@ -129,7 +129,7 @@ def user_instance_timetable_instance_view(request, user_id, timetable_id):
 
     try:
         timetable = userprofile.timetables.get(id=timetable_id)
-    except TimeTable.DoesNotExist:
+    except Timetable.DoesNotExist:
         return HttpResponseNotFound()
 
 
@@ -152,7 +152,7 @@ def user_instance_timetable_instance_add_lecture_view(request, user_id, timetabl
 
     try:
         timetable = userprofile.timetables.get(id=timetable_id)
-    except TimeTable.DoesNotExist:
+    except Timetable.DoesNotExist:
         return HttpResponseNotFound()
 
 
@@ -181,7 +181,7 @@ def user_instance_timetable_instance_remove_lecture_view(request, user_id, timet
 
     try:
         timetable = userprofile.timetables.get(id=timetable_id)
-    except TimeTable.DoesNotExist:
+    except Timetable.DoesNotExist:
         return HttpResponseNotFound()
 
 
@@ -209,8 +209,8 @@ def _get_timetable_or_my_timetable_lectures(userprofile, table_id, year, semeste
         return list(userprofile.take_lecture_list.filter(year=year, semester=semester))
     
     try:
-        table = TimeTable.objects.get(id=table_id, year=year, semester=semester)
-    except TimeTable.DoesNotExist:
+        table = Timetable.objects.get(id=table_id, year=year, semester=semester)
+    except Timetable.DoesNotExist:
         return None
     
     return list(table.lectures.all())

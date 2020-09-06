@@ -4,7 +4,7 @@ from apps.subject.models import *
 from apps.session.models import *
 
 
-class TimeTable(models.Model):
+class Timetable(models.Model):
     lectures = models.ManyToManyField(Lecture)
     user = models.ForeignKey(UserProfile, related_name="timetables", on_delete=models.CASCADE, db_index=True)
     year = models.IntegerField(null=True, db_index=True)  # 몇넌도의 타임테이블인지
@@ -18,7 +18,7 @@ class TimeTable(models.Model):
         return result
 
 
-class OldTimeTable(models.Model):
+class OldTimetable(models.Model):
     lectures = models.ManyToManyField(Lecture)
     student_id = models.CharField(max_length=10)
     year = models.IntegerField(null=True)
@@ -37,7 +37,7 @@ class OldTimeTable(models.Model):
             else:
                 print("User with student number %s has multiple userprofiles." % self.student_id)
                 return
-        timetable = TimeTable.objects.create(user=userprofile, year=self.year, semester=self.semester)
+        timetable = Timetable.objects.create(user=userprofile, year=self.year, semester=self.semester)
         for l in self.lectures.all():
             timetable.lectures.add(l)
         self.delete()
@@ -46,7 +46,7 @@ class OldTimeTable(models.Model):
     def import_in_for_user(cls, student_id):
         if student_id == "":
             return
-        target = OldTimeTable.objects.filter(student_id=student_id)
+        target = OldTimetable.objects.filter(student_id=student_id)
         for t in target:
             t.import_in()
 
