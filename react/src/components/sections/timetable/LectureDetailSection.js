@@ -44,13 +44,22 @@ class LectureDetailSection extends Component {
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    const showUnfix = (nextProps.from === 'LIST' || nextProps.from === 'TABLE') && nextProps.clicked;
-    const reviews = (!nextProps.lecture || !prevState.reviewsLecture || nextProps.lecture.id !== prevState.reviewsLecture.id) ? null : prevState.reviews;
-    return { showUnfix: showUnfix, reviews: reviews };
+    const shouldClearReviews = (
+      !nextProps.lecture
+      || !prevState.reviewsLecture
+      || nextProps.lecture.id !== prevState.reviewsLecture.id
+    );
+    return {
+      showUnfix: (nextProps.from === 'LIST' || nextProps.from === 'TABLE') && nextProps.clicked,
+      reviews: shouldClearReviews
+        ? null
+        : prevState.reviews,
+    };
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    const { clicked, lecture, from, currentList, currentTimetable, year, semester, clearLectureActiveDispatch } = this.props;
+    const { clicked, lecture, from, currentList, currentTimetable,
+      year, semester, clearLectureActiveDispatch } = this.props;
     if (prevProps.clicked && clicked) {
       if (prevProps.lecture.id !== lecture.id) {
         this.openDictPreview();
@@ -80,7 +89,9 @@ class LectureDetailSection extends Component {
     const { reviews } = this.state;
     const { lecture } = this.props;
 
-    const scrollTop = this.openDictRef.current.getBoundingClientRect().top - this.attributesRef.current.getBoundingClientRect().top + 1;
+    const scrollTop = this.openDictRef.current.getBoundingClientRect().top
+      - this.attributesRef.current.getBoundingClientRect().top
+      + 1;
     this.scrollRef.current.querySelector('.ScrollbarsCustom-Scroller').scrollTop = scrollTop;
 
     if (reviews === null) {
@@ -115,7 +126,8 @@ class LectureDetailSection extends Component {
   };
 
   addToTable = (event) => {
-    const { lecture, currentTimetable, user, from, currentList, addLectureToTimetableDispatch } = this.props;
+    const { lecture, currentTimetable, user, from, currentList,
+      addLectureToTimetableDispatch } = this.props;
 
     event.stopPropagation();
     performAddToTable(this, lecture, currentTimetable, user, addLectureToTimetableDispatch);
@@ -138,7 +150,8 @@ class LectureDetailSection extends Component {
   }
 
   deleteFromTable = (event) => {
-    const { lecture, currentTimetable, user, from, currentList, removeLectureFromTimetableDispatch } = this.props;
+    const { lecture, currentTimetable, user, from, currentList,
+      removeLectureFromTimetableDispatch } = this.props;
 
     event.stopPropagation();
     performDeleteFromTable(this, lecture, currentTimetable, user, removeLectureFromTimetableDispatch);
@@ -161,7 +174,8 @@ class LectureDetailSection extends Component {
   }
 
   addToCart = (event) => {
-    const { lecture, year, semester, user, from, currentList, addLectureToCartDispatch } = this.props;
+    const { lecture, year, semester, user, from, currentList,
+      addLectureToCartDispatch } = this.props;
 
     event.stopPropagation();
     performAddToCart(this, lecture, year, semester, user, addLectureToCartDispatch);
@@ -184,7 +198,8 @@ class LectureDetailSection extends Component {
   }
 
   deleteFromCart = (event) => {
-    const { lecture, year, semester, user, from, currentList, deleteLectureFromCartDispatch } = this.props;
+    const { lecture, year, semester, user, from, currentList,
+      deleteLectureFromCartDispatch } = this.props;
 
     event.stopPropagation();
     performDeleteFromCart(this, lecture, year, semester, user, deleteLectureFromCartDispatch);
