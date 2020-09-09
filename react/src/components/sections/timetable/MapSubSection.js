@@ -12,7 +12,7 @@ import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lecture
 import lectureShape from '../../../shapes/LectureShape';
 import timetableShape from '../../../shapes/TimetableShape';
 
-import { inTimetable } from '../../../common/lectureFunctions';
+import { inTimetable, isActive } from '../../../common/lectureFunctions';
 
 import mapImage from '../../../static/img/timetable/kaist_map.jpg';
 
@@ -87,28 +87,23 @@ class MapSubSection extends Component {
         <div>
           <img src={mapImage} alt="KAIST Map" />
           { Object.keys(mapObject).map((building) => {
-            const act = mapObject[building].some(lec => (
-              (activeLecture !== null && activeLecture.id === lec.id)
-              || activeLectures.some(lecture => (lecture.id === lec.id))
-            ))
+            const act = mapObject[building].some(lec => isActive(lec, activeLecture, activeLectures))
               ? 'block--active'
               : '';
             const location = (
               <div
                 className={classNames('section-content--map__block', `location--${building}`)}
                 key={building}
-                data-building={building}
-                data-id="1234"
                 onMouseOver={() => this.mapFocus(building)}
                 onMouseOut={() => this.clearFocus()}
               >
                 <div className={classNames('section-content--map__block__box', act)}>
                   <span>{building}</span>
                   {mapObject[building].map((lec) => {
-                    const lecAct = (activeLecture !== null && activeLecture.id === lec.id) || activeLectures.some(lecture => (lecture.id === lec.id))
+                    const lecAct = isActive(lec, activeLecture, activeLectures)
                       ? 'block--active'
                       : '';
-                    return <span className={classNames('background-color--dark', `background-color--${lec.color}`, lecAct)} key={lec.id} data-id={lec.id} />;
+                    return <span className={classNames('background-color--dark', `background-color--${lec.color}`, lecAct)} key={lec.id} />;
                   })}
                 </div>
                 <div className={classNames('section-content--map__block__arrow-shadow', act)} />

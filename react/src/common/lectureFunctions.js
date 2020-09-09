@@ -57,6 +57,11 @@ export const isInactiveListLectures = (lectures, lectureActive) => (
   && (lectures.every(l => (lectureActive.lecture.id !== l.id)) || (lectureActive.from !== LIST))
 );
 
+export const isActive = (lecture, lectureActiveLecture, activeLectures) => {
+  return (lectureActiveLecture !== null && lectureActiveLecture.id === lecture.id)
+    || (activeLectures.some(l => (l.id === lecture.id)));
+};
+
 export const performAddToTable = (caller, lecture, currentTimetable, user, addLectureToTimetableDispatch) => {
   if (
     lecture.classtimes.some(thisClasstime => (

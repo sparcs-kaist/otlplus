@@ -332,66 +332,17 @@ class TimetableSubSection extends Component {
       const timeblock = [
         <div className={classNames('table-head')} key={day}>{ko}</div>,
         ...numArray.map((i) => {
-          if (i === 12 * 60) {
-            return (
-              <div
-                className={classNames('cell', 'cell-drag', 'cell-top', 'cell-bold')}
-                key={`${day}:${i.toString()}`}
-                data-day={day}
-                data-minute={i.toString()}
-                onMouseDown={e => this.onMouseDown(e)}
-                onTouchStart={e => this.onTouchStart(e)}
-                onMouseMove={e => this.onMouseMove(e)}
-                onTouchMove={e => this.onTouchMove(e)}
-              />
-            );
-          }
-          if (i === 18 * 60) {
-            return (
-              <div
-                className={classNames('cell', 'cell-drag', 'cell-top', 'cell-bold')}
-                key={`${day}:${i.toString()}`}
-                data-day={day}
-                data-minute={i.toString()}
-                onMouseDown={e => this.onMouseDown(e)}
-                onTouchStart={e => this.onTouchStart(e)}
-                onMouseMove={e => this.onMouseMove(e)}
-                onTouchMove={e => this.onTouchMove(e)}
-              />
-            );
-          }
-          if (i === 23 * 60 + 30) {
-            return (
-              <div
-                className={classNames('cell', 'cell-drag', 'cell-bottom', (mobileShowLectureList ? 'cell-bottom--mobile-noline' : ''), 'cell-last')}
-                key={`${day}:${i.toString()}`}
-                data-day={day}
-                data-minute={i.toString()}
-                onMouseDown={e => this.onMouseDown(e)}
-                onTouchStart={e => this.onTouchStart(e)}
-                onMouseMove={e => this.onMouseMove(e)}
-                onTouchMove={e => this.onTouchMove(e)}
-              />
-            );
-          }
-          if (i % 60 === 0) {
-            return (
-              <div
-                className={classNames('cell', 'cell-drag', 'cell-top')}
-                key={`${day}:${i.toString()}`}
-                data-day={day}
-                data-minute={i.toString()}
-                onMouseDown={e => this.onMouseDown(e)}
-                onTouchStart={e => this.onTouchStart(e)}
-                onMouseMove={e => this.onMouseMove(e)}
-                onTouchMove={e => this.onTouchMove(e)}
-              />
-            );
-          }
           return (
             <div
-              className={classNames('cell', 'cell-drag', 'cell-bottom', (mobileShowLectureList ? 'cell-bottom--mobile-noline' : ''))}
-              key={`${day}:${(i - 20).toString()}`}
+              className={classNames(
+                'cell',
+                'cell-drag',
+                (i % 60 === 0) ? 'cell-top' : 'cell-bottom',
+                (i % 60 === 30) && mobileShowLectureList ? 'cell-bottom--mobile-noline' : '',
+                (i === 23 * 60 + 30) ? 'cell-last' : '',
+                (i % (6 * 60) === 0) ? 'cell-bold' : '',
+              )}
+              key={`${day}:${i.toString()}`}
               data-day={day}
               data-minute={i.toString()}
               onMouseDown={e => this.onMouseDown(e)}
