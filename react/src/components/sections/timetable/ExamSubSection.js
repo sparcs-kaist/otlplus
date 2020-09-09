@@ -13,7 +13,7 @@ import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lecture
 
 import lectureShape from '../../../shapes/LectureShape';
 import timetableShape from '../../../shapes/TimetableShape';
-import { inTimetable } from '../../../common/lectureFunctions';
+import { inTimetable, isActive } from '../../../common/lectureFunctions';
 
 
 class ExamSubSection extends Component {
@@ -62,8 +62,7 @@ class ExamSubSection extends Component {
 
     const renderLectureExam = (lec) => {
       const act = (
-        activeLectures.some(lecture => (lecture.id === lec.id))
-        || (lectureActiveLecture !== null && lectureActiveLecture.id === lec.id)
+        isActive(lec, lectureActiveLecture, activeLectures)
           ? 'active'
           : ''
       );
