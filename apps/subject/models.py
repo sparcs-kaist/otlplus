@@ -156,6 +156,7 @@ class Lecture(models.Model):
                 "common_title_en": self.common_title_en,
                 "class_title": self.class_title,
                 "class_title_en": self.class_title_en,
+                "review_num": self.review_num,
         }
         
         # Add formatted professor name
@@ -184,14 +185,12 @@ class Lecture(models.Model):
         # Add formatted score
         if self.review_num == 0:
             result.update({
-                'has_review': False,
                 'grade': 0,
                 'load': 0,
                 'speech': 0,
             })
         else:
             result.update({
-                'has_review': True,
                 'grade': self.grade,
                 'load': self.load,
                 'speech': self.speech,
@@ -624,14 +623,12 @@ class Course(models.Model):
         # Add formatted score
         if self.review_num == 0:
             result.update({
-                'has_review': False,
                 'grade': 0,
                 'load': 0,
                 'speech': 0,
             })
         else:
             result.update({
-                'has_review': True,
                 'grade': self.grade,
                 'load': self.load,
                 'speech': self.speech,
@@ -694,6 +691,7 @@ class Professor(models.Model):
             'name': self.professor_name,
             'name_en': self.professor_name_en,
             'professor_id': self.professor_id,
+            "review_num": self.review_num,
         }
 
         if nested:
@@ -707,14 +705,12 @@ class Professor(models.Model):
         # Add formatted score
         if self.review_num == 0:
             result.update({
-                'has_review': False,
                 'grade': 0,
                 'load': 0,
                 'speech': 0,
             })
         else:
             result.update({
-                'has_review': True,
                 'grade': self.grade,
                 'load': self.load,
                 'speech': self.speech,

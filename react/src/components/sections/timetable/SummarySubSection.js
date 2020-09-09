@@ -169,7 +169,7 @@ class SummarySubSection extends Component {
     const isCreditActive = (lectureActiveLecture !== null) && (lectureActiveLecture.credit > 0);
     const isAuActive = (lectureActiveLecture !== null) && (lectureActiveLecture.credit_au > 0);
 
-    const timetableLecturesWithReview = timetableLectures.filter(lecture => lecture.has_review);
+    const timetableLecturesWithReview = timetableLectures.filter(lecture => (lecture.review_num > 0));
     const targetNum = timetableLecturesWithReview.reduce((acc, lecture) => (acc + (lecture.credit + lecture.credit_au)), 0);
     const grade = timetableLecturesWithReview.reduce((acc, lecture) => (acc + (lecture.grade * (lecture.credit + lecture.credit_au))), 0);
     const load = timetableLecturesWithReview.reduce((acc, lecture) => (acc + (lecture.load * (lecture.credit + lecture.credit_au))), 0);
