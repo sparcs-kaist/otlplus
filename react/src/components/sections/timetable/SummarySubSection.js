@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
+import { getAverageScoreLabel } from '../../../common/scoreFunctions';
 
 import { clearMultipleDetail, setMultipleDetail } from '../../../actions/timetable/lectureActive';
 
@@ -99,13 +100,13 @@ class SummarySubSection extends Component {
       id: lecture.id,
       title: lecture[t('js.property.title')],
       info: (type === 'Grade')
-        ? lecture.grade_letter
+        ? getAverageScoreLabel(lecture.grade)
         : (
           (type === 'Load')
-            ? lecture.load_letter
+            ? getAverageScoreLabel(lecture.load)
             : (
               (type === 'Speech')
-                ? lecture.speech_letter
+                ? getAverageScoreLabel(lecture.speech)
                 : '?'
             )
         ),

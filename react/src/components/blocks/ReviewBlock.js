@@ -6,6 +6,7 @@ import axios from 'axios';
 import ReactGA from 'react-ga';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
+import { getSingleScoreLabel } from '../../common/scoreFunctions';
 
 import reviewShape from '../../shapes/ReviewShape';
 
@@ -97,17 +98,17 @@ const ReviewBlock = ({ t, review, pageFrom }) => {
           <span className={classNames('block--review__menus__score')}>
             {t('ui.score.grade')}
             &nbsp;
-            <strong>{review.grade_letter}</strong>
+            <strong>{getSingleScoreLabel(review.grade)}</strong>
           </span>
           <span className={classNames('block--review__menus__score')}>
             {t('ui.score.load')}
             &nbsp;
-            <strong>{review.load_letter}</strong>
+            <strong>{getSingleScoreLabel(review.load)}</strong>
           </span>
           <span className={classNames('block--review__menus__score')}>
             {t('ui.score.speech')}
             &nbsp;
-            <strong>{review.speech_letter}</strong>
+            <strong>{getSingleScoreLabel(review.speech)}</strong>
           </span>
         </span>
         <span>

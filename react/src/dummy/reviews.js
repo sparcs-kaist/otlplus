@@ -41,9 +41,6 @@ const reviews = [
     load: 0,
     grade: 0,
     speech: 0,
-    grade_letter: '?',
-    load_letter: '?',
-    speech_letter: '?',
     userspecific_is_liked: false,
   },
   {
@@ -88,9 +85,6 @@ const reviews = [
     grade: 0,
     load: 0,
     speech: 0,
-    grade_letter: '?',
-    load_letter: '?',
-    speech_letter: '?',
     userspecific_is_liked: false,
   },
   {
@@ -135,9 +129,6 @@ const reviews = [
     grade: 0,
     load: 0,
     speech: 0,
-    grade_letter: '?',
-    load_letter: '?',
-    speech_letter: '?',
     userspecific_is_liked: false,
   },
 ];

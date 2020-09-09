@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
+import { getAverageScoreLabel } from '../../../common/scoreFunctions';
 
 import Scroller from '../../Scroller';
 import RelatedSubSection from './RelatedSubSection';
@@ -81,29 +82,29 @@ class CourseDetailSection extends Component {
             <div className={classNames('fixed__conditional-part', (showHiddenScores ? '' : 'fixed__conditional-part--hidden'))}>
               <div className={classNames('scores')}>
                 <div>
-                  <div> 
-                    {course.grade_letter}
-                  </div> 
-                  <div> 
+                  <div>
+                    {getAverageScoreLabel(course.grade)}
+                  </div>
+                  <div>
                     {t('ui.score.grade')}
-                  </div> 
-                </div> 
+                  </div>
+                </div>
                 <div>
-                  <div> 
-                    {course.load_letter}
-                  </div> 
-                  <div> 
+                  <div>
+                    {getAverageScoreLabel(course.load)}
+                  </div>
+                  <div>
                     {t('ui.score.load')}
-                  </div> 
-                </div> 
+                  </div>
+                </div>
                 <div>
-                  <div> 
-                    {course.speech_letter}
-                  </div> 
-                  <div> 
+                  <div>
+                    {getAverageScoreLabel(course.speech)}
+                  </div>
+                  <div>
                     {t('ui.score.speech')}
-                  </div> 
-                </div> 
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -129,7 +130,7 @@ class CourseDetailSection extends Component {
             <div className={classNames('scores')} ref={this.scoresRef}>
               <div>
                 <div>
-                  {course.grade_letter}
+                  {getAverageScoreLabel(course.grade)}
                 </div>
                 <div>
                   {t('ui.score.grade')}
@@ -137,7 +138,7 @@ class CourseDetailSection extends Component {
               </div>
               <div>
                 <div>
-                  {course.load_letter}
+                  {getAverageScoreLabel(course.load)}
                 </div>
                 <div>
                   {t('ui.score.load')}
@@ -145,7 +146,7 @@ class CourseDetailSection extends Component {
               </div>
               <div>
                 <div>
-                  {course.speech_letter}
+                  {getAverageScoreLabel(course.speech_letter)}
                 </div>
                 <div>
                   {t('ui.score.speech')}

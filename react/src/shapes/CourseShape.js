@@ -24,9 +24,6 @@ const courseShape = PropTypes.shape({
   grade: PropTypes.number.isRequired,
   load: PropTypes.number.isRequired,
   speech: PropTypes.number.isRequired,
-  grade_letter: PropTypes.string.isRequired,
-  load_letter: PropTypes.string.isRequired,
-  speech_letter: PropTypes.string.isRequired,
   userspecific_is_read: PropTypes.bool.isRequired,
 });
 
