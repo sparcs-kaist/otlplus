@@ -59,7 +59,7 @@ class CourseListTabs extends Component {
     if (listCode === 'SEARCH') {
       // Pass
     }
-    else if (major.codes.findIndex(c => (c === listCode)) !== -1) {
+    else if (major.codes.some(c => (c === listCode))) {
       this._fetchMajorList(listCode, force);
     }
     else if (listCode === 'HUMANITY') {
@@ -92,7 +92,7 @@ class CourseListTabs extends Component {
     )
       .then((response) => {
         const newProps = this.props;
-        if (newProps.major.codes.findIndex(c => (c === majorCode)) === -1) {
+        if (!newProps.major.codes.some(c => (c === majorCode))) {
           return;
         }
         setListMajorCoursesDispatch(majorCode, response.data);

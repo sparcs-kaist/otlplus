@@ -66,7 +66,7 @@ class LectureListTabs extends Component {
     if (listCode === 'SEARCH') {
       // Pass
     }
-    else if (major.codes.findIndex(c => (c === listCode)) !== -1) {
+    else if (major.codes.some(c => (c === listCode))) {
       this._fetchMajorList(listCode, force);
     }
     else if (listCode === 'HUMANITY') {
@@ -101,7 +101,7 @@ class LectureListTabs extends Component {
       .then((response) => {
         const newProps = this.props;
         if ((newProps.year !== year || newProps.semester !== semester)
-          || (newProps.major.codes.findIndex(c => (c === majorCode)) === -1)
+          || (!newProps.major.codes.some(c => (c === majorCode)))
         ) {
           return;
         }

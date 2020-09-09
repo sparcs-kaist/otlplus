@@ -74,7 +74,7 @@ class TakenLecturesSection extends Component {
     }
 
     const writableTakenLectures = user.review_writable_lectures;
-    const editableReviews = user.reviews.filter(r => (writableTakenLectures.findIndex(l => l.id === r.lecture.id) !== -1));
+    const editableReviews = user.reviews.filter(r => writableTakenLectures.some(l => l.id === r.lecture.id));
 
     const takenSemesters = writableTakenLectures
       .map(l => ({
@@ -134,7 +134,7 @@ class TakenLecturesSection extends Component {
                             lecture={l}
                             isClicked={false}
                             isInactive={false}
-                            hasReview={user.reviews.find(r => (r.lecture.id === l.id)) !== undefined}
+                            hasReview={user.reviews.some(r => (r.lecture.id === l.id))}
                             onClick={this.handleBlockClick(l)}
                           />
                         )
@@ -144,7 +144,7 @@ class TakenLecturesSection extends Component {
                             lecture={l}
                             isClicked={selectedLecture.id === l.id}
                             isInactive={selectedLecture.id !== l.id}
-                            hasReview={user.reviews.find(r => (r.lecture.id === l.id)) !== undefined}
+                            hasReview={user.reviews.some(r => (r.lecture.id === l.id))}
                             onClick={this.handleBlockClick(l)}
                           />
                         )
