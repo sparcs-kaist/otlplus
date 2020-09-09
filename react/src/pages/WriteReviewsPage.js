@@ -58,7 +58,7 @@ class WriteReviewsPage extends Component {
       loading: true,
     });
     axios.get(
-      `/api/reviews`,
+      '/api/reviews',
       {
         params: {
           order: ['-written_datetime'],
