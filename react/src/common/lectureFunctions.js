@@ -62,7 +62,9 @@ export const performAddToTable = (caller, lecture, currentTimetable, user, addLe
     lecture.classtimes.some(thisClasstime => (
       currentTimetable.lectures.some(timetableLecture => (
         timetableLecture.classtimes.some(classtime => (
-          (classtime.day === thisClasstime.day) && (classtime.begin < thisClasstime.end) && (classtime.end > thisClasstime.begin)
+          (classtime.day === thisClasstime.day)
+          && (classtime.begin < thisClasstime.end)
+          && (classtime.end > thisClasstime.begin)
         ))
       ))
     ))

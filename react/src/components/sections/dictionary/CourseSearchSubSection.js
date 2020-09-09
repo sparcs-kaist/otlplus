@@ -38,14 +38,18 @@ class CourseSearchSubSection extends Component {
   searchStart = () => {
     const { t } = this.props;
     const { type, department, grade, term, inputVal } = this.state;
-    const { closeSearchDispatch, clearSearchListCoursesDispatch, setListCoursesDispatch, clearCourseActiveDispatch } = this.props;
+    const { closeSearchDispatch, clearSearchListCoursesDispatch,
+      setListCoursesDispatch, clearCourseActiveDispatch } = this.props;
 
-    if (type.size === 1 && department.size === 1 && grade.size === 1 && inputVal.trim().length === 0) {
-      if (type.has('ALL') && department.has('ALL') && grade.has('ALL')) {
+    if (
+      (type.size === 1 && type.has('ALL'))
+      && (department.size === 1 && department.has('ALL'))
+      && (grade.size === 1 && grade.has('ALL'))
+      && inputVal.trim().length === 0
+    ) {
         // eslint-disable-next-line no-alert
         alert(t('ui.message.blankSearch'));
         return;
-      }
     }
     closeSearchDispatch();
     clearSearchListCoursesDispatch();

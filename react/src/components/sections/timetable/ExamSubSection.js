@@ -84,7 +84,9 @@ class ExamSubSection extends Component {
       ? currentTimetable.lectures
       : [];
     const examWithLectures = timetableLectures
-      .concat((lectureActiveLecture && !inTimetable(lectureActiveLecture, currentTimetable)) ? [lectureActiveLecture] : [])
+      .concat((lectureActiveLecture && !inTimetable(lectureActiveLecture, currentTimetable))
+        ? [lectureActiveLecture]
+        : [])
       .filter(lecture => (lecture.examtimes.length > 0));
     const examTable = [0, 1, 2, 3, 4].map(day => (
       examWithLectures

@@ -22,7 +22,7 @@
 
     "brace-style": [2, "stroustrup"],
     "camelcase": 1,
-    "max-len": "off",
+    "max-len": 1,
     "no-underscore-dangle": ["error", { "allowAfterThis": true, "allowAfterSuper": true }],
     "arrow-body-style": ["warn", "as-needed"],
     "object-curly-newline": ["error", { "consistent": true }],

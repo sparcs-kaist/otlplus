@@ -135,7 +135,10 @@ const ReviewWriteBlock = ({ t, lecture, review, pageFrom, updateOnSubmit }) => {
     /* eslint-enable indent */
   };
 
-  const hasChange = (content !== savedContent) || (grade !== savedGrade) || (load !== savedLoad) || (speech !== savedSpeech);
+  const hasChange = (content !== savedContent)
+    || (grade !== savedGrade)
+    || (load !== savedLoad)
+    || (speech !== savedSpeech);
   const getScoreOptionLabel = (name, value, checkedValue) => {
     const inputId = `${name}-${value}`;
     return (

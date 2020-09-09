@@ -9,7 +9,12 @@ import courseShape from '../../shapes/CourseShape';
 
 
 // eslint-disable-next-line arrow-body-style
-const CourseBlock = ({ t, course, showReadStatus, isRead, isClicked, isHover, isInactive, listHover, listOut, listClick }) => {
+const CourseBlock = ({
+  t,
+  course,
+  showReadStatus, isRead, isClicked, isHover, isInactive,
+  listHover, listOut, listClick,
+}) => {
   return (
     <div className={classNames('block', 'block--course', (isClicked ? classNames('block--clicked') : (isHover ? classNames('block--active') : (isInactive ? classNames('block--inactive') : ''))))} onClick={listClick ? listClick(course) : null} onMouseOver={listHover ? listHover(course) : null} onMouseOut={listOut}>
       <div className={classNames('block--course__title')}>
