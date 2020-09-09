@@ -39,7 +39,8 @@ class CourseDetailSection extends Component {
   }
 
   onScroll() {
-    if (this.scoresRef.current.getBoundingClientRect().top >= this.scrollThresholdRef.current.getBoundingClientRect().bottom) {
+    if (this.scoresRef.current.getBoundingClientRect().top
+      >= this.scrollThresholdRef.current.getBoundingClientRect().bottom) {
       this.setState({
         showHiddenScores: false,
       });
@@ -78,32 +79,32 @@ class CourseDetailSection extends Component {
             </div>
             <div ref={this.scrollThresholdRef} />
             <div className={classNames('fixed__conditional-part', (showHiddenScores ? '' : 'fixed__conditional-part--hidden'))}>
-                <div className={classNames('scores')}>
-                  <div>
-                    <div>
-                      {course.grade_letter}
-                    </div>
-                    <div>
-                      {t('ui.score.grade')}
-                    </div>
-                  </div>
-                  <div>
-                    <div>
-                      {course.load_letter}
-                    </div>
-                    <div>
-                      {t('ui.score.load')}
-                    </div>
-                  </div>
-                  <div>
-                    <div>
-                      {course.speech_letter}
-                    </div>
-                    <div>
-                      {t('ui.score.speech')}
-                    </div>
-                  </div>
-                </div>
+              <div className={classNames('scores')}>
+                <div>
+                  <div> 
+                    {course.grade_letter}
+                  </div> 
+                  <div> 
+                    {t('ui.score.grade')}
+                  </div> 
+                </div> 
+                <div>
+                  <div> 
+                    {course.load_letter}
+                  </div> 
+                  <div> 
+                    {t('ui.score.load')}
+                  </div> 
+                </div> 
+                <div>
+                  <div> 
+                    {course.speech_letter}
+                  </div> 
+                  <div> 
+                    {t('ui.score.speech')}
+                  </div> 
+                </div> 
+              </div>
             </div>
           </div>
           <Scroller onScroll={() => this.onScroll()} key={course.id}>

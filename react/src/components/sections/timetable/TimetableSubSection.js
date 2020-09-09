@@ -103,8 +103,13 @@ class TimetableSubSection extends Component {
 
     return currentTimetable.lectures.map(lecture => (
       lecture.classtimes.map((classtime) => {
-        if ((classtime.day === dragDay) && (dragStart < this.indexOfMinute(classtime.end)) && (dragEnd > this.indexOfMinute(classtime.begin))) {
-          return [Math.max(dragStart, this.indexOfMinute(classtime.begin)) - dragStart, Math.min(dragEnd, this.indexOfMinute(classtime.end)) - dragStart];
+        if ((classtime.day === dragDay)
+          && (dragStart < this.indexOfMinute(classtime.end))
+          && (dragEnd > this.indexOfMinute(classtime.begin))) {
+          return [
+            Math.max(dragStart, this.indexOfMinute(classtime.begin)) - dragStart,
+            Math.min(dragEnd, this.indexOfMinute(classtime.end)) - dragStart,
+          ];
         }
         return undefined;
       })
@@ -141,7 +146,11 @@ class TimetableSubSection extends Component {
     const incr = startIndex < endIndex ? 1 : -1;
     // eslint-disable-next-line no-loops/no-loops, fp/no-loops, fp/no-let, fp/no-mutation
     for (let i = startIndex + incr; i !== endIndex + incr; i += incr) {
-      if ((incr > 0) ? this._getOccupiedTime(dayIndex, startIndex, i + 1).length > 0 : this._getOccupiedTime(dayIndex, i, startIndex + 1).length > 0) {
+      if (
+        (incr > 0)
+          ? this._getOccupiedTime(dayIndex, startIndex, i + 1).length > 0
+          : this._getOccupiedTime(dayIndex, i, startIndex + 1).length > 0
+      ) {
         return;
       }
     }
@@ -158,7 +167,8 @@ class TimetableSubSection extends Component {
 
   _dragEnd = () => {
     const { firstBlock, secondBlock } = this.state;
-    const { isDragging, setIsDraggingDispatch, dragSearchDispatch, clearDragDispatch, setCurrentListDispatch, setMobileShowLectureListDispatch } = this.props;
+    const { isDragging, setIsDraggingDispatch, dragSearchDispatch, clearDragDispatch,
+      setCurrentListDispatch, setMobileShowLectureListDispatch } = this.props;
 
     if (!isDragging) {
       return;
@@ -224,7 +234,8 @@ class TimetableSubSection extends Component {
   render() {
     const { t } = this.props;
     const { firstBlock, secondBlock } = this.state;
-    const { currentTimetable, lectureActive, cellWidth, cellHeight, lectureActiveFrom, lectureActiveLecture, mobileShowLectureList } = this.props;
+    const { currentTimetable, lectureActive, cellWidth, cellHeight,
+      lectureActiveFrom, lectureActiveLecture, mobileShowLectureList } = this.props;
 
     const lectures = currentTimetable ? currentTimetable.lectures : [];
     const untimedBlockTitles = [];
@@ -233,7 +244,7 @@ class TimetableSubSection extends Component {
       const minute = `00${time % 60}`.slice(-2);
       return `${hour}:${minute}`;
     };
-    const getTimetableBlock = (lecture, classtime, isUntimed, isTemp) => {
+    const mapClasstimeToBlock = (lecture, classtime, isUntimed, isTemp) => {
       if (isUntimed) {
         const title = classtime
           ? `${[t('ui.day.saturdayShort'), t('ui.day.sundayShort')][classtime.day - 5]} ${getTimeString(classtime.begin)}~${getTimeString(classtime.end)}`
@@ -246,14 +257,23 @@ class TimetableSubSection extends Component {
           key={classtime ? `${lecture.id}:${classtime.day}:${classtime.begin}` : `${lecture.id}:no-time`}
           lecture={lecture}
           classtime={classtime}
-          dayIndex={isUntimed ? ((untimedBlockTitles.length - 1) % 5) : classtime.day}
-          beginIndex={isUntimed ? (32 + Math.floor((untimedBlockTitles.length - 1) / 5)) : (classtime.begin / 30 - 16)}
-          endIndex={isUntimed ? (32 + Math.floor((untimedBlockTitles.length - 1) / 5) + 3) : (classtime.end / 30 - 16)}
+          dayIndex={isUntimed
+            ? ((untimedBlockTitles.length - 1) % 5)
+            : classtime.day}
+          beginIndex={isUntimed
+            ? (32 + Math.floor((untimedBlockTitles.length - 1) / 5))
+            : (classtime.begin / 30 - 16)}
+          endIndex={isUntimed
+            ? (32 + Math.floor((untimedBlockTitles.length - 1) / 5) + 3)
+            : (classtime.end / 30 - 16)}
           cellWidth={cellWidth}
           cellHeight={cellHeight}
           isTimetableReadonly={!currentTimetable || Boolean(currentTimetable.isReadOnly)}
           isClicked={isTableClicked(lecture, lectureActive)}
-          isHover={isTableHover(lecture, lectureActive) || isListHover(lecture, lectureActive) || isListClicked(lecture, lectureActive) || isInMultiple(lecture, lectureActive)}
+          isHover={isTableHover(lecture, lectureActive)
+            || isListHover(lecture, lectureActive)
+            || isListClicked(lecture, lectureActive)
+            || isInMultiple(lecture, lectureActive)}
           isInactive={isInactiveTableLecture(lecture, lectureActive)}
           isTemp={isTemp}
           isSimple={mobileShowLectureList}
@@ -261,33 +281,28 @@ class TimetableSubSection extends Component {
           blockOut={isTemp ? null : this.blockOut}
           blockClick={isTemp ? null : this.blockClick}
           deleteLecture={this.deleteLecture}
-          occupiedTime={(isTemp && !isUntimed) ? this._getOccupiedTime(classtime.day, this.indexOfMinute(classtime.begin), this.indexOfMinute(classtime.end)) : undefined}
+          occupiedTime={(isTemp && !isUntimed)
+            ? this._getOccupiedTime(classtime.day, this.indexOfMinute(classtime.begin), this.indexOfMinute(classtime.end))
+            : undefined}
         />
       );
     };
-    const lectureBlocks = lectures.map(lecture => (
-      (lecture.classtimes.length === 0)
-        ? getTimetableBlock(lecture, null, true, false)
-        : lecture.classtimes.map(classtime => (
-          (classtime.day < 0 || classtime.day > 4 || classtime.begin < 60 * 8 || classtime.end > 60 * 24)
-            ? getTimetableBlock(lecture, classtime, true, false)
-            : getTimetableBlock(lecture, classtime, false, false)
-        ))
-    ));
+    const isOutsideTable = classtime => (
+      classtime.day < 0 || classtime.day > 4 || classtime.begin < 60 * 8 || classtime.end > 60 * 24
+    );
+    const mapLectureToBlocks = (lecture, isTemp) => {
+      if (lecture.classtimes.length === 0) {
+        return mapClasstimeToBlock(lecture, null, true, isTemp);
+      }
+      return lecture.classtimes.map(c => mapClasstimeToBlock(lecture, c, isOutsideTable(c), isTemp));
+    };
+    const lectureBlocks = lectures.map(lecture => mapLectureToBlocks(lecture, false));
     const tempBlocks = ((lectureActiveFrom === LIST) && !inTimetable(lectureActiveLecture, currentTimetable))
-      ? (
-        lectureActiveLecture.classtimes.length === 0
-          ? getTimetableBlock(lectureActiveLecture, null, true, true)
-          : lectureActiveLecture.classtimes.map(classtime => (
-            (classtime.day < 0 || classtime.day > 4 || classtime.begin < 60 * 8 || classtime.end > 60 * 24)
-              ? getTimetableBlock(lectureActiveLecture, classtime, true, true)
-              : getTimetableBlock(lectureActiveLecture, classtime, false, true)
-          ))
-      )
+      ? mapLectureToBlocks(lectureActiveLecture, true)
       : null;
 
     const getHeaders = () => {
-      const numArray = [...Array((2350 - 800) / 50 + 1).keys()].map(i => i * 50 + 800); // [800, 850, 900, ..., 2350]
+      const numArray = [...Array((2350 - 800) / 50 + 1).keys()].map(i => i * 50 + 800); //
       return [
         <div className={classNames('table-head')} key={800}><strong>8</strong></div>,
         ...numArray.map((i) => {
@@ -313,7 +328,7 @@ class TimetableSubSection extends Component {
     };
 
     const getCells = (day, ko, dayIdx) => {
-      const numArray = [...Array((24 - 8) * 2).keys()].map(i => 8 * 60 + i * 30); // [800, 850, 900, ..., 2350]
+      const numArray = [...Array((24 - 8) * 2).keys()].map(i => 8 * 60 + i * 30);
       const timeblock = [
         <div className={classNames('table-head')} key={day}>{ko}</div>,
         ...numArray.map((i) => {

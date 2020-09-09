@@ -8,7 +8,13 @@ import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 import lectureShape from '../../shapes/LectureShape';
 
 
-const CourseLecturesBlock = ({ t, lecture, isClicked, isHover, inTimetable, isTimetableReadonly, inCart, fromCart, addToCart, addToTable, deleteFromCart, listHover, listOut, listClick }) => {
+const CourseLecturesBlock = ({
+  t,
+  lecture,
+  isClicked, isHover, inTimetable, isTimetableReadonly, inCart, fromCart,
+  addToCart, addToTable, deleteFromCart,
+  listHover, listOut, listClick,
+}) => {
   const getClass = (lec) => {
     switch (lec.class_title.length) {
       case 1:

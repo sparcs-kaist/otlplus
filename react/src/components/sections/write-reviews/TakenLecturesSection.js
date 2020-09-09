@@ -17,7 +17,8 @@ import lectureShape from '../../../shapes/LectureShape';
 
 class TakenLecturesSection extends Component {
   handleBlockClick = lecture => (e) => {
-    const { selectedLecture, setLectureSelectedDispatch, clearLectureSelectedDispatch } = this.props;
+    const { selectedLecture,
+      setLectureSelectedDispatch, clearLectureSelectedDispatch } = this.props;
 
     if (selectedLecture && (lecture.id === selectedLecture.id)) {
       clearLectureSelectedDispatch();
@@ -74,7 +75,7 @@ class TakenLecturesSection extends Component {
     }
 
     const writableTakenLectures = user.review_writable_lectures;
-    const editableReviews = user.reviews.filter(r => (writableTakenLectures.findIndex(l => l.id === r.lecture.id) !== -1));
+    const editableReviews = user.reviews.filter(r => writableTakenLectures.some(l => l.id === r.lecture.id));
 
     const takenSemesters = writableTakenLectures
       .map(l => ({
@@ -83,7 +84,7 @@ class TakenLecturesSection extends Component {
       }));
     // eslint-disable-next-line fp/no-mutating-methods
     const targetSemesters = takenSemesters
-      .filter((s, i) => ((takenSemesters.findIndex(s2 => (s2.year === s.year && s2.semester === s.semester))) === i))
+      .filter((s, i) => takenSemesters.findIndex(s2 => (s2.year === s.year && s2.semester === s.semester)) === i)
       .sort((a, b) => ((a.year !== b.year) ? (b.year - a.year) : (b.semester - a.semester)));
 
     const semesterNames = [
@@ -134,7 +135,7 @@ class TakenLecturesSection extends Component {
                             lecture={l}
                             isClicked={false}
                             isInactive={false}
-                            hasReview={user.reviews.find(r => (r.lecture.id === l.id)) !== undefined}
+                            hasReview={user.reviews.some(r => (r.lecture.id === l.id))}
                             onClick={this.handleBlockClick(l)}
                           />
                         )
@@ -144,7 +145,7 @@ class TakenLecturesSection extends Component {
                             lecture={l}
                             isClicked={selectedLecture.id === l.id}
                             isInactive={selectedLecture.id !== l.id}
-                            hasReview={user.reviews.find(r => (r.lecture.id === l.id)) !== undefined}
+                            hasReview={user.reviews.some(r => (r.lecture.id === l.id))}
                             onClick={this.handleBlockClick(l)}
                           />
                         )

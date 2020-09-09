@@ -90,6 +90,15 @@ class HistorySubSection extends Component {
       ? lectures.map(l => l.year)
       : [];
 
+    const getBlockOrPlaceholder = (year, semester) => {
+      const filteredLectures = lectures
+        .filter(l => ((l.year === year) && (l.semester === semester)));
+      if (filteredLectures.length === 0) {
+        return <td className={classNames('history__cell--unopen')} key={`${year}-1`}><div>{t('ui.others.notOffered')}</div></td>;
+      }
+      return <td key={`${year}-1`}><HistoryLecturesBlock lectures={filteredLectures} /></td>;
+    };
+
     const startYear = Math.min(...semesterYears, ...lectureYears);
     const endYear = Math.max(...semesterYears, ...lectureYears);
     const targetYears = [...Array(endYear - startYear + 1).keys()].map(i => (startYear + i));
@@ -108,13 +117,7 @@ class HistorySubSection extends Component {
               <tbody>
                 <tr>
                   <th>{t('ui.semester.spring')}</th>
-                  {targetYears.map((y) => {
-                    const filteredLectures = lectures.filter(l => ((l.year === y) && (l.semester === 1)));
-                    if (filteredLectures.length === 0) {
-                      return <td className={classNames('history__cell--unopen')} key={`${y}-1`}><div>{t('ui.others.notOffered')}</div></td>;
-                    }
-                    return <td key={`${y}-1`}><HistoryLecturesBlock lectures={filteredLectures} /></td>;
-                  })}
+                  {targetYears.map(y => getBlockOrPlaceholder(y, 1))}
                 </tr>
                 <tr>
                   <th />
@@ -124,13 +127,7 @@ class HistorySubSection extends Component {
                 </tr>
                 <tr>
                   <th>{t('ui.semester.fall')}</th>
-                  {targetYears.map((y) => {
-                    const filteredLectures = lectures.filter(l => ((l.year === y) && (l.semester === 3)));
-                    if (filteredLectures.length === 0) {
-                      return <td className={classNames('history__cell--unopen')} key={`${y}-3`}><div>{t('ui.others.notOffered')}</div></td>;
-                    }
-                    return <td key={`${y}-3`}><HistoryLecturesBlock lectures={filteredLectures} /></td>;
-                  })}
+                  {targetYears.map(y => getBlockOrPlaceholder(y, 3))}
                 </tr>
               </tbody>
             </table>

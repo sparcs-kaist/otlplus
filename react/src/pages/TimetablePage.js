@@ -40,7 +40,8 @@ class TimetablePage extends Component {
 
 
   componentWillUnmount() {
-    const { resetLectureActiveDispatch, resetListDispatch, resetSearchDispatch, resetSemesterDispatch, resetTimetableDispatch } = this.props;
+    const { resetLectureActiveDispatch, resetListDispatch, resetSearchDispatch,
+      resetSemesterDispatch, resetTimetableDispatch } = this.props;
 
     resetLectureActiveDispatch();
     resetListDispatch();
@@ -53,7 +54,8 @@ class TimetablePage extends Component {
   render() {
     // eslint-disable-next-line react/destructuring-assignment
     const { startSemester } = this.props.location.state || {};
-    const { lectureActive, mobileShowTimetableTabs, mobileShowLectureList, setMobileShowTimetableTabsDispatch } = this.props;
+    const { lectureActive, mobileShowTimetableTabs, mobileShowLectureList,
+      setMobileShowTimetableTabsDispatch } = this.props;
 
     return (
       <>

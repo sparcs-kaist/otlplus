@@ -64,7 +64,9 @@ class MapSubSection extends Component {
       ? currentTimetable.lectures
       : [];
     const targetLectures = timetableLectures
-      .concat((lectureActiveLecture && !inTimetable(lectureActiveLecture, currentTimetable)) ? [lectureActiveLecture] : []);
+      .concat((lectureActiveLecture && !inTimetable(lectureActiveLecture, currentTimetable))
+        ? [lectureActiveLecture]
+        : []);
     const buildings = new Set(targetLectures.map(lecture => lecture.building));
     const mapObject = Object.assign(
       {},
