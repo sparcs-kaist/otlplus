@@ -21,9 +21,6 @@ const courses = [
     grade: 0,
     load: 0,
     speech: 0,
-    grade_letter: '?',
-    load_letter: '?',
-    speech_letter: '?',
     userspecific_is_read: false,
   },
   {
@@ -48,9 +45,6 @@ const courses = [
     grade: 0,
     speech: 0,
     load: 0,
-    grade_letter: '?',
-    load_letter: '?',
-    speech_letter: '?',
     userspecific_is_read: false,
   },
   {
@@ -78,9 +72,6 @@ const courses = [
     grade: 15,
     load: 6,
     speech: 12,
-    grade_letter: 'A+',
-    load_letter: 'D+',
-    speech_letter: 'B+',
     userspecific_is_read: false,
   },
 ];

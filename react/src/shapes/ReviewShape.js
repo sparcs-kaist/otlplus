@@ -14,9 +14,6 @@ const reviewShape = PropTypes.shape({
   grade: PropTypes.number.isRequired,
   load: PropTypes.number.isRequired,
   speech: PropTypes.number.isRequired,
-  grade_letter: PropTypes.string.isRequired,
-  load_letter: PropTypes.string.isRequired,
-  speech_letter: PropTypes.string.isRequired,
 });
 
 export default reviewShape;

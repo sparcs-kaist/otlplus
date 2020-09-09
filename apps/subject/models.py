@@ -188,20 +188,13 @@ class Lecture(models.Model):
                 'grade': 0,
                 'load': 0,
                 'speech': 0,
-                'grade_letter': '?',
-                'load_letter': '?',
-                'speech_letter': '?',
             })
         else:
-            letters = ['?', 'F', 'F', 'F', 'D-', 'D', 'D+', 'C-', 'C', 'C+', 'B-', 'B', 'B+', 'A-', 'A', 'A+']
             result.update({
                 'has_review': True,
                 'grade': self.grade,
                 'load': self.load,
                 'speech': self.speech,
-                'grade_letter': letters[int(round(self.grade))],
-                'load_letter': letters[int(round(self.load))],
-                'speech_letter': letters[int(round(self.speech))],
             })
 
         # Add classtime
@@ -635,20 +628,13 @@ class Course(models.Model):
                 'grade': 0,
                 'load': 0,
                 'speech': 0,
-                'grade_letter': '?',
-                'load_letter': '?',
-                'speech_letter': '?',
             })
         else:
-            letters = ['?', 'F', 'F', 'F', 'D-', 'D', 'D+', 'C-', 'C', 'C+', 'B-', 'B', 'B+', 'A-', 'A', 'A+']
             result.update({
                 'has_review': True,
                 'grade': self.grade,
                 'load': self.load,
                 'speech': self.speech,
-                'grade_letter': letters[int(round(self.grade))],
-                'load_letter': letters[int(round(self.load))],
-                'speech_letter': letters[int(round(self.speech))],
             })
 
         cache.set(cache_id, result, 60 * 10)
@@ -725,20 +711,13 @@ class Professor(models.Model):
                 'grade': 0,
                 'load': 0,
                 'speech': 0,
-                'grade_letter': '?',
-                'load_letter': '?',
-                'speech_letter': '?',
             })
         else:
-            letters = ['?', 'F', 'F', 'F', 'D-', 'D', 'D+', 'C-', 'C', 'C+', 'B-', 'B', 'B+', 'A-', 'A', 'A+']
             result.update({
                 'has_review': True,
                 'grade': self.grade,
                 'load': self.load,
                 'speech': self.speech,
-                'grade_letter': letters[int(round(self.grade))],
-                'load_letter': letters[int(round(self.load))],
-                'speech_letter': letters[int(round(self.speech))],
             })
 
         return result
