@@ -134,28 +134,18 @@ class SummarySubSection extends Component {
     const timetableLectures = currentTimetable
       ? currentTimetable.lectures
       : [];
-    const currentTypeCredit = [0, 1, 2, 3, 4, 5].map(index => (
-      timetableLectures
-        .filter(lecture => (indexOfType(lecture.type_en) === index))
-        .reduce((acc, lecture) => (acc + (lecture.credit + lecture.credit_au)), 0)
-    ));
     const alec = lectureActiveLecture;
-    const allCreditCredit = timetableLectures.reduce((acc, lecture) => (acc + lecture.credit), 0)
-      + (alec && !inTimetable(alec, currentTimetable) ? alec.credit : 0);
-    const allAuCredit = timetableLectures.reduce((acc, lecture) => (acc + lecture.credit_au), 0)
-      + (alec && !inTimetable(alec, currentTimetable) ? alec.credit_au : 0);
-
-    const timetableLecturesWithReview = timetableLectures.filter(lecture => lecture.has_review);
-    const targetNum = timetableLecturesWithReview.reduce((acc, lecture) => (acc + (lecture.credit + lecture.credit_au)), 0);
-    const grade = timetableLecturesWithReview.reduce((acc, lecture) => (acc + (lecture.grade * (lecture.credit + lecture.credit_au))), 0);
-    const load = timetableLecturesWithReview.reduce((acc, lecture) => (acc + (lecture.load * (lecture.credit + lecture.credit_au))), 0);
-    const speech = timetableLecturesWithReview.reduce((acc, lecture) => (acc + (lecture.speech * (lecture.credit + lecture.credit_au))), 0);
-    const letters = ['?', 'F', 'F', 'F', 'D-', 'D', 'D+', 'C-', 'C', 'C+', 'B-', 'B', 'B+', 'A-', 'A', 'A+'];
 
     const isLectureActiveFromType = (laf, lal, typeIndex) => (
       (laf === LIST || lectureActiveFrom === TABLE)
       && (indexOfType(lal.type_en) === typeIndex)
     );
+
+    const currentTypeCredit = [0, 1, 2, 3, 4, 5].map(index => (
+      timetableLectures
+        .filter(lecture => (indexOfType(lecture.type_en) === index))
+        .reduce((acc, lecture) => (acc + (lecture.credit + lecture.credit_au)), 0)
+    ));
     const activeTypeCredit = [0, 1, 2, 3, 4, 5].map(i => (
       !isLectureActiveFromType(lectureActiveFrom, lectureActiveLecture, i)
         ? ''
@@ -171,8 +161,19 @@ class SummarySubSection extends Component {
           : currentTypeCredit[i] + lectureActiveLecture.credit + lectureActiveLecture.credit_au
     ));
 
-    const creditAct = (lectureActiveLecture !== null) && (lectureActiveLecture.credit > 0);
-    const creditAuAct = (lectureActiveLecture !== null) && (lectureActiveLecture.credit_au > 0);
+    const totalCredit = timetableLectures.reduce((acc, lecture) => (acc + lecture.credit), 0)
+      + (alec && !inTimetable(alec, currentTimetable) ? alec.credit : 0);
+    const totalAu = timetableLectures.reduce((acc, lecture) => (acc + lecture.credit_au), 0)
+      + (alec && !inTimetable(alec, currentTimetable) ? alec.credit_au : 0);
+    const isCreditActive = (lectureActiveLecture !== null) && (lectureActiveLecture.credit > 0);
+    const isAuActive = (lectureActiveLecture !== null) && (lectureActiveLecture.credit_au > 0);
+
+    const timetableLecturesWithReview = timetableLectures.filter(lecture => lecture.has_review);
+    const targetNum = timetableLecturesWithReview.reduce((acc, lecture) => (acc + (lecture.credit + lecture.credit_au)), 0);
+    const grade = timetableLecturesWithReview.reduce((acc, lecture) => (acc + (lecture.grade * (lecture.credit + lecture.credit_au))), 0);
+    const load = timetableLecturesWithReview.reduce((acc, lecture) => (acc + (lecture.load * (lecture.credit + lecture.credit_au))), 0);
+    const speech = timetableLecturesWithReview.reduce((acc, lecture) => (acc + (lecture.speech * (lecture.credit + lecture.credit_au))), 0);
+    const letters = ['?', 'F', 'F', 'F', 'D-', 'D', 'D+', 'C-', 'C', 'C+', 'B-', 'B', 'B+', 'A-', 'A', 'A+'];
 
     return (
       <div className={classNames('section-content--summary')}>
@@ -233,13 +234,13 @@ class SummarySubSection extends Component {
         <div className={classNames('scores')}>
           <div onMouseOver={() => this.creditFocus('Credit')} onMouseOut={() => this.clearFocus()}>
             <div>
-              <span className={classNames('normal', (creditAct ? 'active' : active === 'Credit' ? 'active' : ''))}>{allCreditCredit}</span>
+              <span className={classNames('normal', (isCreditActive ? 'active' : active === 'Credit' ? 'active' : ''))}>{totalCredit}</span>
             </div>
             <div>{t('ui.score.credit')}</div>
           </div>
           <div onMouseOver={() => this.creditFocus('Credit AU')} onMouseOut={() => this.clearFocus()}>
             <div>
-              <span className={classNames('normal', (creditAuAct ? 'active' : active === 'Credit AU' ? 'active' : ''))}>{allAuCredit}</span>
+              <span className={classNames('normal', (isAuActive ? 'active' : active === 'Credit AU' ? 'active' : ''))}>{totalAu}</span>
             </div>
             <div>{t('ui.score.au')}</div>
           </div>
