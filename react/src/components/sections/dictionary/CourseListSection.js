@@ -79,7 +79,8 @@ class CourseListSection extends Component {
 
   render() {
     const { t } = this.props;
-    const { courseActive, currentList, searchOpen, search, major, humanity, taken, readCourses } = this.props;
+    const { courseActive, currentList, searchOpen,
+      search, major, humanity, taken, readCourses } = this.props;
 
     const mapCourses = (courses) => {
       if (!courses) {
