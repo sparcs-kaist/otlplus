@@ -68,7 +68,7 @@ class ExamSubSection extends Component {
           : ''
       );
       const li = (
-        <li className={classNames(act)} key={lec.id} data-id={lec.id}>
+        <li className={classNames(act)} key={lec.id}>
           <div>
             {lec.title}
           </div>
@@ -103,7 +103,7 @@ class ExamSubSection extends Component {
         <div className={classNames('section-content--exam__title')}><span>{t('ui.title.exams')}</span></div>
         <div className={classNames('section-content--exam__content')}>
           <Scroller>
-            <div className={classNames('section-content--exam__content__day')} data-date="mon" onMouseOver={() => this.examFocus('월요일')} onMouseOut={() => this.clearFocus()}>
+            <div className={classNames('section-content--exam__content__day')} onMouseOver={() => this.examFocus('월요일')} onMouseOut={() => this.clearFocus()}>
               <div className={classNames(t('jsx.className.fixedByLang'))}>
                 {t('ui.day.mondayShort')}
               </div>
@@ -111,7 +111,7 @@ class ExamSubSection extends Component {
                 {examTable[0].map(renderLectureExam)}
               </ul>
             </div>
-            <div className={classNames('section-content--exam__content__day')} data-date="tue" onMouseOver={() => this.examFocus('화요일')} onMouseOut={() => this.clearFocus()}>
+            <div className={classNames('section-content--exam__content__day')} onMouseOver={() => this.examFocus('화요일')} onMouseOut={() => this.clearFocus()}>
               <div className={classNames(t('jsx.className.fixedByLang'))}>
                 {t('ui.day.tuesdayShort')}
               </div>
@@ -119,7 +119,7 @@ class ExamSubSection extends Component {
                 {examTable[1].map(renderLectureExam)}
               </ul>
             </div>
-            <div className={classNames('section-content--exam__content__day')} data-date="wed" onMouseOver={() => this.examFocus('수요일')} onMouseOut={() => this.clearFocus()}>
+            <div className={classNames('section-content--exam__content__day')} onMouseOver={() => this.examFocus('수요일')} onMouseOut={() => this.clearFocus()}>
               <div className={classNames(t('jsx.className.fixedByLang'))}>
                 {t('ui.day.wednesdayShort')}
               </div>
@@ -127,7 +127,7 @@ class ExamSubSection extends Component {
                 {examTable[2].map(renderLectureExam)}
               </ul>
             </div>
-            <div className={classNames('section-content--exam__content__day')} data-date="thu" onMouseOver={() => this.examFocus('목요일')} onMouseOut={() => this.clearFocus()}>
+            <div className={classNames('section-content--exam__content__day')} onMouseOver={() => this.examFocus('목요일')} onMouseOut={() => this.clearFocus()}>
               <div className={classNames(t('jsx.className.fixedByLang'))}>
                 {t('ui.day.thursdayShort')}
               </div>
@@ -135,7 +135,7 @@ class ExamSubSection extends Component {
                 {examTable[3].map(renderLectureExam)}
               </ul>
             </div>
-            <div className={classNames('section-content--exam__content__day')} data-date="fri" onMouseOver={() => this.examFocus('금요일')} onMouseOut={() => this.clearFocus()}>
+            <div className={classNames('section-content--exam__content__day')} onMouseOver={() => this.examFocus('금요일')} onMouseOut={() => this.clearFocus()}>
               <div className={classNames(t('jsx.className.fixedByLang'))}>
                 {t('ui.day.fridayShort')}
               </div>
