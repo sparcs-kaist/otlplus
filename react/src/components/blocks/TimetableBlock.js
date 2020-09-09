@@ -9,7 +9,15 @@ import lectureShape from '../../shapes/LectureShape';
 import classtimeShape from '../../shapes/ClasstimeShape';
 
 
-const TimetableBlock = ({ t, lecture, classtime, dayIndex, beginIndex, endIndex, cellWidth, cellHeight, isTimetableReadonly, isClicked, isHover, isInactive, isTemp, isSimple, blockHover, blockOut, blockClick, deleteLecture, occupiedTime }) => {
+const TimetableBlock = ({
+  t,
+  lecture, classtime,
+  dayIndex, beginIndex, endIndex,
+  cellWidth, cellHeight,
+  isTimetableReadonly, isClicked, isHover, isInactive, isTemp, isSimple,
+  blockHover, blockOut, blockClick, deleteLecture,
+  occupiedTime,
+}) => {
   const activeType = (
     isClicked ? classNames('block--clicked')
       : isTemp ? classNames('block--temp', 'block--active')

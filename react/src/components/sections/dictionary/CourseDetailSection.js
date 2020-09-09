@@ -39,7 +39,8 @@ class CourseDetailSection extends Component {
   }
 
   onScroll() {
-    if (this.scoresRef.current.getBoundingClientRect().top >= this.scrollThresholdRef.current.getBoundingClientRect().bottom) {
+    if (this.scoresRef.current.getBoundingClientRect().top
+      >= this.scrollThresholdRef.current.getBoundingClientRect().bottom) {
       this.setState({
         showHiddenScores: false,
       });

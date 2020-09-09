@@ -15,6 +15,13 @@ class RelatedSubSection extends Component {
     const { t } = this.props;
     const { course } = this.props;
 
+    const getBlocksOrPlaceholder = (courses) => {
+      if (!courses.length) {
+        return <div className={classNames('list-placeholder')}><div>{t('ui.placeholder.unknown')}</div></div>;
+      }
+      return courses.map(c => <CourseSimpleBlock course={c} key={c.id} />);
+    };
+
     return (
       <>
         <div className={classNames('small-title')}>{t('ui.title.relatedCourses')}</div>
@@ -23,10 +30,7 @@ class RelatedSubSection extends Component {
           <Scroller noScrollX={false} noScrollY={true}>
             <div className={classNames('related-courses')}>
               <div>
-                { course.related_courses_prior.length
-                  ? course.related_courses_prior.map(c => <CourseSimpleBlock course={c} key={c.id} />)
-                  : <div className={classNames('list-placeholder')}><div>{t('ui.placeholder.unknown')}</div></div>
-                }
+                { getBlocksOrPlaceholder(course.related_courses_prior)}
               </div>
               <div>
                 <i className={classNames('icon', 'icon--related-arrow')} />
@@ -38,10 +42,7 @@ class RelatedSubSection extends Component {
                 <i className={classNames('icon', 'icon--related-arrow')} />
               </div>
               <div>
-                { course.related_courses_posterior.length
-                  ? course.related_courses_prior.map(c => <CourseSimpleBlock course={c} key={c.id} />)
-                  : <div className={classNames('list-placeholder')}><div>{t('ui.placeholder.unknown')}</div></div>
-                }
+                { getBlocksOrPlaceholder(course.related_courses_posterior) }
               </div>
             </div>
           </Scroller>
