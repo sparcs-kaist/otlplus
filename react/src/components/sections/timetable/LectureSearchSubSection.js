@@ -38,7 +38,9 @@ class LectureSearchSubSection extends Component {
   searchStart = () => {
     const { t } = this.props;
     const { type, department, grade, inputVal } = this.state;
-    const { year, semester, start, day, end, lectureActive, closeSearchDispatch, clearSearchListLecturesDispatch, setListLecturesDispatch, clearLectureActiveDispatch } = this.props;
+    const { year, semester, start, day, end, lectureActive,
+      closeSearchDispatch, clearSearchListLecturesDispatch,
+      setListLecturesDispatch, clearLectureActiveDispatch } = this.props;
 
     if (type.size === 1 && department.size === 1 && grade.size === 1 && inputVal.trim().length === 0
       && !(start !== null && end !== null && day !== null)) {

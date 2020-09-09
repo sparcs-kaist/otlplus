@@ -30,7 +30,9 @@ class MainSearchSection extends Component {
       <form className={classNames('section-content', 'section-content--main-search')}>
         <i />
         <input type="text" placeholder={t('ui.tab.search')} onChange={this.onKeywordChange} />
-        <Link to={{ pathname: '/dictionary', search: qs.stringify({ startSearchKeyword: keyword }) }}><button className={classNames('text-button')} type="submit">{t('ui.button.search')}</button></Link>
+        <Link to={{ pathname: '/dictionary', search: qs.stringify({ startSearchKeyword: keyword }) }}>
+          <button className={classNames('text-button')} type="submit">{t('ui.button.search')}</button>
+        </Link>
       </form>
     );
   }
