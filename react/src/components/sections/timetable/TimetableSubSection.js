@@ -302,7 +302,7 @@ class TimetableSubSection extends Component {
       : null;
 
     const getHeaders = () => {
-      const numArray = [...Array((2350 - 800) / 50 + 1).keys()].map(i => i * 50 + 800); // [800, 850, 900, ..., 2350]
+      const numArray = [...Array((2350 - 800) / 50 + 1).keys()].map(i => i * 50 + 800); //
       return [
         <div className={classNames('table-head')} key={800}><strong>8</strong></div>,
         ...numArray.map((i) => {
@@ -328,7 +328,7 @@ class TimetableSubSection extends Component {
     };
 
     const getCells = (day, ko, dayIdx) => {
-      const numArray = [...Array((24 - 8) * 2).keys()].map(i => 8 * 60 + i * 30); // [800, 850, 900, ..., 2350]
+      const numArray = [...Array((24 - 8) * 2).keys()].map(i => 8 * 60 + i * 30);
       const timeblock = [
         <div className={classNames('table-head')} key={day}>{ko}</div>,
         ...numArray.map((i) => {
