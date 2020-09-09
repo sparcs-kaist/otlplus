@@ -97,8 +97,6 @@ class MapSubSection extends Component {
               <div
                 className={classNames('section-content--map__block', `location--${building}`)}
                 key={building}
-                data-building={building}
-                data-id="1234"
                 onMouseOver={() => this.mapFocus(building)}
                 onMouseOut={() => this.clearFocus()}
               >
@@ -108,7 +106,7 @@ class MapSubSection extends Component {
                     const lecAct = (activeLecture !== null && activeLecture.id === lec.id) || activeLectures.some(lecture => (lecture.id === lec.id))
                       ? 'block--active'
                       : '';
-                    return <span className={classNames('background-color--dark', `background-color--${lec.color}`, lecAct)} key={lec.id} data-id={lec.id} />;
+                    return <span className={classNames('background-color--dark', `background-color--${lec.color}`, lecAct)} key={lec.id} />;
                   })}
                 </div>
                 <div className={classNames('section-content--map__block__arrow-shadow', act)} />
