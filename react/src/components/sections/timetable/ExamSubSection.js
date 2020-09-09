@@ -25,22 +25,39 @@ class ExamSubSection extends Component {
     };
   }
 
-  examFocus(day) {
+  _getLecturesWithExam = () => {
+    const { lectureActiveLecture, currentTimetable } = this.props;
+
+    const timetableLectures = currentTimetable
+      ? currentTimetable.lectures
+      : [];
+    const lecturesWithExam = timetableLectures
+      .concat((lectureActiveLecture && !inTimetable(lectureActiveLecture, currentTimetable))
+        ? [lectureActiveLecture]
+        : [])
+      .filter(lecture => (lecture.examtimes.length > 0));
+
+    return lecturesWithExam;
+  }
+
+  examFocus(dayIndex) {
     const { t } = this.props;
     const { lectureActiveFrom, currentTimetable, setMultipleDetailDispatch } = this.props;
     if (lectureActiveFrom !== 'NONE' || !currentTimetable) {
       return;
     }
 
-    const activeLectures = currentTimetable.lectures.filter(lecture => (
-      day === lecture.exam.slice(0, 3)
+    const dayNames = [t('ui.day.monday'), t('ui.day.tuesday'), t('ui.day.wednesday'), t('ui.day.thursday'), t('ui.day.friday')];
+
+    const activeLectures = this._getLecturesWithExam().filter(lecture => (
+      lecture.examtimes[0].day === dayIndex
     ));
     const lectures = activeLectures.map(lecture => ({
       id: lecture.id,
       title: lecture[t('js.property.title')],
       info: lecture.room,
     }));
-    setMultipleDetailDispatch(t('ui.others.examOfDay', { day: day }), lectures);
+    setMultipleDetailDispatch(t('ui.others.examOfDay', { day: dayNames[dayIndex] }), lectures);
     this.setState({ activeLectures: activeLectures });
   }
 
@@ -58,7 +75,7 @@ class ExamSubSection extends Component {
   render() {
     const { t } = this.props;
     const { activeLectures } = this.state;
-    const { lectureActiveLecture, currentTimetable } = this.props;
+    const { lectureActiveLecture } = this.props;
 
     const renderLectureExam = (lec) => {
       const act = (
@@ -79,16 +96,9 @@ class ExamSubSection extends Component {
       return li;
     };
 
-    const timetableLectures = currentTimetable
-      ? currentTimetable.lectures
-      : [];
-    const examWithLectures = timetableLectures
-      .concat((lectureActiveLecture && !inTimetable(lectureActiveLecture, currentTimetable))
-        ? [lectureActiveLecture]
-        : [])
-      .filter(lecture => (lecture.examtimes.length > 0));
+    const lecturesWithExam = this._getLecturesWithExam();
     const examTable = [0, 1, 2, 3, 4].map(day => (
-      examWithLectures
+      lecturesWithExam
         .filter(lecture => lecture.examtimes[0].day === day)
         .map(lecture => ({
           title: lecture[t('js.property.title')],
@@ -102,7 +112,7 @@ class ExamSubSection extends Component {
         <div className={classNames('section-content--exam__title')}><span>{t('ui.title.exams')}</span></div>
         <div className={classNames('section-content--exam__content')}>
           <Scroller>
-            <div className={classNames('section-content--exam__content__day')} onMouseOver={() => this.examFocus('월요일')} onMouseOut={() => this.clearFocus()}>
+            <div className={classNames('section-content--exam__content__day')} onMouseOver={() => this.examFocus(0)} onMouseOut={() => this.clearFocus()}>
               <div className={classNames(t('jsx.className.fixedByLang'))}>
                 {t('ui.day.mondayShort')}
               </div>
@@ -110,7 +120,7 @@ class ExamSubSection extends Component {
                 {examTable[0].map(renderLectureExam)}
               </ul>
             </div>
-            <div className={classNames('section-content--exam__content__day')} onMouseOver={() => this.examFocus('화요일')} onMouseOut={() => this.clearFocus()}>
+            <div className={classNames('section-content--exam__content__day')} onMouseOver={() => this.examFocus(1)} onMouseOut={() => this.clearFocus()}>
               <div className={classNames(t('jsx.className.fixedByLang'))}>
                 {t('ui.day.tuesdayShort')}
               </div>
@@ -118,7 +128,7 @@ class ExamSubSection extends Component {
                 {examTable[1].map(renderLectureExam)}
               </ul>
             </div>
-            <div className={classNames('section-content--exam__content__day')} onMouseOver={() => this.examFocus('수요일')} onMouseOut={() => this.clearFocus()}>
+            <div className={classNames('section-content--exam__content__day')} onMouseOver={() => this.examFocus(2)} onMouseOut={() => this.clearFocus()}>
               <div className={classNames(t('jsx.className.fixedByLang'))}>
                 {t('ui.day.wednesdayShort')}
               </div>
@@ -126,7 +136,7 @@ class ExamSubSection extends Component {
                 {examTable[2].map(renderLectureExam)}
               </ul>
             </div>
-            <div className={classNames('section-content--exam__content__day')} onMouseOver={() => this.examFocus('목요일')} onMouseOut={() => this.clearFocus()}>
+            <div className={classNames('section-content--exam__content__day')} onMouseOver={() => this.examFocus(3)} onMouseOut={() => this.clearFocus()}>
               <div className={classNames(t('jsx.className.fixedByLang'))}>
                 {t('ui.day.thursdayShort')}
               </div>
@@ -134,7 +144,7 @@ class ExamSubSection extends Component {
                 {examTable[3].map(renderLectureExam)}
               </ul>
             </div>
-            <div className={classNames('section-content--exam__content__day')} onMouseOver={() => this.examFocus('금요일')} onMouseOut={() => this.clearFocus()}>
+            <div className={classNames('section-content--exam__content__day')} onMouseOver={() => this.examFocus(4)} onMouseOut={() => this.clearFocus()}>
               <div className={classNames(t('jsx.className.fixedByLang'))}>
                 {t('ui.day.fridayShort')}
               </div>
