@@ -244,7 +244,7 @@ class TimetableSubSection extends Component {
       const minute = `00${time % 60}`.slice(-2);
       return `${hour}:${minute}`;
     };
-    const getTimetableBlock = (lecture, classtime, isUntimed, isTemp) => {
+    const mapClasstimeToBlock = (lecture, classtime, isUntimed, isTemp) => {
       if (isUntimed) {
         const title = classtime
           ? `${[t('ui.day.saturdayShort'), t('ui.day.sundayShort')][classtime.day - 5]} ${getTimeString(classtime.begin)}~${getTimeString(classtime.end)}`
@@ -287,25 +287,18 @@ class TimetableSubSection extends Component {
         />
       );
     };
-    const lectureBlocks = lectures.map(lecture => (
-      (lecture.classtimes.length === 0)
-        ? getTimetableBlock(lecture, null, true, false)
-        : lecture.classtimes.map(classtime => (
-          (classtime.day < 0 || classtime.day > 4 || classtime.begin < 60 * 8 || classtime.end > 60 * 24)
-            ? getTimetableBlock(lecture, classtime, true, false)
-            : getTimetableBlock(lecture, classtime, false, false)
-        ))
-    ));
+    const isOutsideTable = classtime => (
+      classtime.day < 0 || classtime.day > 4 || classtime.begin < 60 * 8 || classtime.end > 60 * 24
+    );
+    const mapLectureToBlocks = (lecture, isTemp) => {
+      if (lecture.classtimes.length === 0) {
+        return mapClasstimeToBlock(lecture, null, true, isTemp);
+      }
+      return lecture.classtimes.map(c => mapClasstimeToBlock(lecture, c, isOutsideTable(c), isTemp));
+    };
+    const lectureBlocks = lectures.map(lecture => mapLectureToBlocks(lecture, false));
     const tempBlocks = ((lectureActiveFrom === LIST) && !inTimetable(lectureActiveLecture, currentTimetable))
-      ? (
-        lectureActiveLecture.classtimes.length === 0
-          ? getTimetableBlock(lectureActiveLecture, null, true, true)
-          : lectureActiveLecture.classtimes.map(classtime => (
-            (classtime.day < 0 || classtime.day > 4 || classtime.begin < 60 * 8 || classtime.end > 60 * 24)
-              ? getTimetableBlock(lectureActiveLecture, classtime, true, true)
-              : getTimetableBlock(lectureActiveLecture, classtime, false, true)
-          ))
-      )
+      ? mapLectureToBlocks(lectureActiveLecture, true)
       : null;
 
     const getHeaders = () => {
