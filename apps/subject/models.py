@@ -158,22 +158,8 @@ class Lecture(models.Model):
                 "class_title_en": self.class_title_en,
                 "review_num": self.review_num,
         }
-        
-        # Add formatted professor name
-        professors = self.professors.all().order_by('professor_name')
-        prof_name_list = [p.professor_name for p in professors]
-        prof_name_list_en = [p.professor_name_en for p in professors]
-        if len(prof_name_list) <= 2:
-            result.update({
-                'professors_str_short': u", ".join(prof_name_list),
-                'professors_str_short_en': u", ".join(prof_name_list_en),
-            })
-        else:
-            result.update({
-                'professors_str_short': prof_name_list[0] + u" 외 " + str(len(prof_name_list)-1) + u"명",
-                'professors_str_short_en': prof_name_list_en[0] + u" and " + str(len(prof_name_list)-1) + u" others",
-            })
 
+        professors = self.professors.all().order_by('professor_name')
         result.update({
             'professors': [p.toJson(nested=True) for p in professors]
         })
@@ -335,6 +321,13 @@ class Lecture(models.Model):
                                           year=self.year, semester=self.semester)
         _add_title_format(lectures)
         _add_title_format_en(lectures)
+
+    def get_professors_str_short(self):
+        professors = self.professors.all().order_by('professor_name')
+        prof_name_list = [p.professor_name for p in professors]
+        if len(prof_name_list) <= 2:
+            return u", ".join(prof_name_list)
+        return prof_name_list[0] + u" 외 " + str(len(prof_name_list)-1) + u"명",
 
     @classmethod
     def getQueryResearch(cls):

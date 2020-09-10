@@ -62,6 +62,18 @@ export const isActive = (lecture, lectureActiveLecture, activeLectures) => {
     || (activeLectures.some(l => (l.id === lecture.id)));
 };
 
+export const getProfessorsStrShort = (lecture) => {
+  // eslint-disable-next-line fp/no-mutating-methods
+  const professors = lecture.professors
+    .slice()
+    .sort((a, b) => (a.name < b.name ? -1 : 1));
+  const professorNames = professors.map(p => p[i18n.t('js.property.name')]);
+  if (professorNames.length <= 2) {
+    return professorNames.join(', ');
+  }
+  return i18n.t('ui.others.sthAndNumOtherPeople', { something: professorNames[0], count: professorNames.length - 1 });
+};
+
 export const performAddToTable = (caller, lecture, currentTimetable, user, addLectureToTimetableDispatch) => {
   if (
     lecture.classtimes.some(thisClasstime => (
