@@ -6,6 +6,7 @@ import axios from 'axios';
 import ReactGA from 'react-ga';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
+import { getSingleScoreLabel } from '../../common/scoreFunctions';
 import lectureShape from '../../shapes/NestedLectureShape';
 import reviewShape from '../../shapes/ReviewShape';
 
@@ -144,7 +145,7 @@ const ReviewWriteBlock = ({ t, lecture, review, pageFrom, updateOnSubmit }) => {
     return (
       <label className={classNames('block--review-write__score__option')} htmlFor={inputId}>
         <input id={inputId} type="radio" name={name} value={`${value}`} checked={checkedValue === value} onChange={onScoreChange} />
-        <span>{[undefined, 'F', 'D', 'C', 'B', 'A'][value]}</span>
+        <span>{getSingleScoreLabel(value)}</span>
       </label>
     );
   };
