@@ -9,7 +9,6 @@
       "exam": "exam_en",
       "common_title": "common_title_en",
       "class_title": "class_title_en",
-      "professors_str_short": "professors_str_short_en",
       "professors_str": "professors_str_en"
     }
   },
@@ -251,6 +250,7 @@
       "secondCount": "{{count}} second",
       "secondCount_plural": "{{count}} seconds",
       "multipleDetailCount": "{{count}} lectures",
+      "sthAndNumOtherPeople": "{{something}} and {{count}} others",
       "dragTimetable": "Drag timetable",
       "notOffered": "Not Offered",
       "timeNone": "None",

@@ -9,7 +9,6 @@
       "exam": "exam",
       "common_title": "common_title",
       "class_title": "class_title",
-      "professors_str_short": "professors_str_short",
       "professors_str": "professors_str"
     }
   },
@@ -245,6 +244,7 @@
       "minuteCount": "{{count}}분",
       "secondCount": "{{count}}초",
       "multipleDetailCount": "{{count}}개의 과목",
+      "sthAndNumOtherPeople": "{{something}} 외 {{count}}명",
       "dragTimetable": "시간표에서 드래그",
       "notOffered": "미개설",
       "timeNone": "없음",

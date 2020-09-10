@@ -4,6 +4,7 @@ import { pure } from 'recompose';
 import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
+import { getProfessorsStrShort } from '../../common/lectureFunctions';
 
 import lectureShape from '../../shapes/LectureShape';
 
@@ -31,7 +32,7 @@ const HistoryLecturesBlock = ({ t, lectures }) => {
               <div className={classNames('block--history-lectures__elem__texts')}>
                 <strong className={getClass(lecture)}>{lecture[t('js.property.class_title')]}</strong>
                 {' '}
-                <span>{lecture[t('js.property.professors_str_short')]}</span>
+                <span>{getProfessorsStrShort(lecture)}</span>
               </div>
             </div>
           </div>

@@ -4,6 +4,7 @@ import { pure } from 'recompose';
 import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
+import { getProfessorsStrShort } from '../../common/lectureFunctions';
 
 import lectureShape from '../../shapes/LectureShape';
 import classtimeShape from '../../shapes/ClasstimeShape';
@@ -55,7 +56,7 @@ const TimetableBlock = ({
           {lecture[t('js.property.title')]}
         </p>
         <p className={classNames('block--timetable__content__info', 'mobile-hidden')}>
-          {lecture[t('js.property.professors_str_short')]}
+          {getProfessorsStrShort(lecture)}
         </p>
         <p className={classNames('block--timetable__content__info', 'mobile-hidden')}>
           {classtime ? classtime[t('js.property.classroom')] : null}
