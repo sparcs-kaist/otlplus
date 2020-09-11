@@ -74,6 +74,30 @@ export const getProfessorsStrShort = (lecture) => {
   return i18n.t('ui.others.sthAndNumOtherPeople', { something: professorNames[0], count: professorNames.length - 1 });
 };
 
+export const getBuildingStr = (lecture) => {
+  const { classtimes } = lecture;
+  if (classtimes.length === 0) {
+    return i18n.t('ui.placeholder.unknown');
+  }
+  return classtimes[0].building;
+};
+
+export const getClassroomStr = (lecture) => {
+  const { classtimes } = lecture;
+  if (classtimes.length === 0) {
+    return i18n.t('ui.placeholder.unknown');
+  }
+  return classtimes[0][i18n.t('js.property.classroom')];
+};
+
+export const getRoomStr = (lecture) => {
+  const { classtimes } = lecture;
+  if (classtimes.length === 0) {
+    return i18n.t('ui.placeholder.unknown');
+  }
+  return classtimes[0][i18n.t('js.property.room')];
+};
+
 export const performAddToTable = (caller, lecture, currentTimetable, user, addLectureToTimetableDispatch) => {
   if (
     lecture.classtimes.some(thisClasstime => (

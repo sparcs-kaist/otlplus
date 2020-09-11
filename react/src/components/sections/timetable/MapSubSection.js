@@ -12,7 +12,7 @@ import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lecture
 import lectureShape from '../../../shapes/LectureShape';
 import timetableShape from '../../../shapes/TimetableShape';
 
-import { inTimetable, isActive } from '../../../common/lectureFunctions';
+import { inTimetable, isActive, getBuildingStr, getRoomStr } from '../../../common/lectureFunctions';
 
 import mapImage from '../../../static/img/timetable/kaist_map.jpg';
 
@@ -35,12 +35,12 @@ class MapSubSection extends Component {
     }
 
     const active = currentTimetable.lectures.filter(lecture => (
-      lecture.building === building
+      getBuildingStr(lecture) === building
     ));
     const lectures = active.map(lecture => ({
       id: lecture.id,
       title: lecture[t('js.property.title')],
-      info: lecture.room,
+      info: getRoomStr(lecture),
     }));
     setMultipleDetailDispatch(building, lectures);
     this.setState({ activeLectures: active });
@@ -67,13 +67,13 @@ class MapSubSection extends Component {
       .concat((lectureActiveLecture && !inTimetable(lectureActiveLecture, currentTimetable))
         ? [lectureActiveLecture]
         : []);
-    const buildings = new Set(targetLectures.map(lecture => lecture.building));
+    const buildings = new Set(targetLectures.map(lecture => getBuildingStr(lecture)));
     const mapObject = Object.assign(
       {},
       ...Array.from(buildings).map(building => (
         {
           [building]: targetLectures
-            .filter(lecture => (building === lecture.building))
+            .filter(lecture => (building === getBuildingStr(lecture)))
             .map(lecture => ({ color: (lecture.course % 16) + 1, id: lecture.id })),
         }
       )),

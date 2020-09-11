@@ -13,7 +13,7 @@ import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lecture
 
 import lectureShape from '../../../shapes/LectureShape';
 import timetableShape from '../../../shapes/TimetableShape';
-import { inTimetable, isActive } from '../../../common/lectureFunctions';
+import { inTimetable, isActive, getRoomStr } from '../../../common/lectureFunctions';
 
 
 class ExamSubSection extends Component {
@@ -55,7 +55,7 @@ class ExamSubSection extends Component {
     const lectures = activeLectures.map(lecture => ({
       id: lecture.id,
       title: lecture[t('js.property.title')],
-      info: lecture.room,
+      info: getRoomStr(lecture),
     }));
     setMultipleDetailDispatch(t('ui.others.examOfDay', { day: dayNames[dayIndex] }), lectures);
     this.setState({ activeLectures: activeLectures });
