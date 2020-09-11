@@ -17,8 +17,6 @@ const courseShape = PropTypes.shape({
   review_num: PropTypes.number.isRequired,
   related_courses_prior: PropTypes.arrayOf(nestedCourseShape).isRequired,
   related_courses_posterior: PropTypes.arrayOf(nestedCourseShape).isRequired,
-  professors_str: PropTypes.string.isRequired,
-  professors_str_en: PropTypes.string.isRequired,
   professors: PropTypes.arrayOf(nestedProfessorShape).isRequired,
   grade: PropTypes.number.isRequired,
   load: PropTypes.number.isRequired,
