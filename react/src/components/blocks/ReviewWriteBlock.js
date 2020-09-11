@@ -70,9 +70,9 @@ const ReviewWriteBlock = ({ t, lecture, review, pageFrom, updateOnSubmit }) => {
       {
         lecture: lecture.id,
         content: content,
-        gradescore: grade,
-        speechscore: speech,
-        loadscore: load,
+        grade: grade,
+        speech: speech,
+        load: load,
       },
       {
         metadata: {
@@ -105,9 +105,9 @@ const ReviewWriteBlock = ({ t, lecture, review, pageFrom, updateOnSubmit }) => {
         `/api/reviews/${review.id}`,
         {
           content: content,
-          gradescore: grade,
-          speechscore: speech,
-          loadscore: load,
+          grade: grade,
+          speech: speech,
+          load: load,
         },
         {
           metadata: {
