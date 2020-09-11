@@ -568,11 +568,7 @@ class Course(models.Model):
 
         # Add formatted professor name
         professors = self.professors.all().order_by('professor_name')
-        prof_name_list = [p.professor_name for p in professors]
-        prof_name_list_en = [p.professor_name_en for p in professors]
         result.update({
-            'professors_str': u", ".join(prof_name_list),
-            'professors_str_en': u", ".join(prof_name_list_en),
             'professors': [p.toJson(nested=True) for p in professors]
         })
 

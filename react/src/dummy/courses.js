@@ -11,8 +11,6 @@ const courses = [
     review_num: 0,
     related_courses_prior: [],
     related_courses_posterior: [],
-    professors_str: '장용근, 박승빈',
-    professors_str_en: '',
     professors: [
       { professor_id: 695, name: '장용근', name_en: '' },
       { professor_id: 708, name: '박승빈', name_en: '' },
@@ -34,8 +32,6 @@ const courses = [
     review_num: 0,
     related_courses_prior: [],
     related_courses_posterior: [],
-    professors_str: '이재우, 장용근',
-    professors_str_en: '',
     professors: [
       { professor_id: 1853, name: '이재우', name_en: '' },
       { professor_id: 695, name: '장용근', name_en: '' },
@@ -57,8 +53,6 @@ const courses = [
     review_num: 4,
     related_courses_prior: [],
     related_courses_posterior: [],
-    professors_str: '이재우, 리섕, 박선원, 이태용, 김현욱',
-    professors_str_en: '',
     professors: [
       { professor_id: 1853, name: '이재우', name_en: '' },
       { professor_id: 2023, name: '리섕', name_en: '' },
