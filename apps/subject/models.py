@@ -188,26 +188,6 @@ class Lecture(models.Model):
             'classtimes': classtimes,
         })
 
-        # Add classroom info
-        if len(classtimes) > 0:
-            result.update({
-                'building': classtimes[0]['building'],
-                'classroom': classtimes[0]['classroom'],
-                'classroom_en': classtimes[0]['classroom_en'],
-                'classroom_short': classtimes[0]['classroom_short'],
-                'classroom_short_en': classtimes[0]['classroom_short_en'],
-                'room': classtimes[0]['room'],
-            })
-        else:
-            result.update({
-                'building': '',
-                'classroom': u'정보 없음',
-                'classroom_en': u'Unknown',
-                'classroom_short': u'정보 없음',
-                'classroom_short_en': u'Unknown',
-                'room': '',
-            })
-
         # Add examtime
         examtimes = [et.toJson(nested=True) for et in self.examtime_set.all()]
         result.update({
