@@ -8,6 +8,7 @@ import qs from 'qs';
 import ReactGA from 'react-ga';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
+import { getAverageScoreLabel } from '../../../common/scoreFunctions';
 
 import Scroller from '../../Scroller';
 import ReviewSimpleBlock from '../../blocks/ReviewSimpleBlock';
@@ -22,7 +23,7 @@ import userShape from '../../../shapes/UserShape';
 import lectureShape from '../../../shapes/LectureShape';
 import timetableShape from '../../../shapes/TimetableShape';
 
-import { inTimetable, inCart, performAddToTable, performDeleteFromTable, performAddToCart, performDeleteFromCart } from '../../../common/lectureFunctions';
+import { inTimetable, inCart, getClassroomStr, performAddToTable, performDeleteFromTable, performAddToCart, performDeleteFromCart, getExamStr } from '../../../common/lectureFunctions';
 
 
 class LectureDetailSection extends Component {
@@ -289,7 +290,7 @@ class LectureDetailSection extends Component {
               </div>
               <div className={classNames('attribute')}>
                 <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.attribute.classroom')}</span>
-                <span>{lecture[t('js.property.classroom')]}</span>
+                <span>{getClassroomStr(lecture)}</span>
               </div>
               <div className={classNames('attribute')}>
                 <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.attribute.limit')}</span>
@@ -297,7 +298,7 @@ class LectureDetailSection extends Component {
               </div>
               <div className={classNames('attribute')}>
                 <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.attribute.exam')}</span>
-                <span>{lecture[t('js.property.exam')]}</span>
+                <span>{getExamStr(lecture)}</span>
               </div>
             </div>
             <div className={classNames('scores')}>
@@ -334,15 +335,15 @@ class LectureDetailSection extends Component {
             </div>
             <div className={classNames('scores')}>
               <div>
-                <div>{lecture.grade_letter}</div>
+                <div>{getAverageScoreLabel(lecture.grade)}</div>
                 <div>{t('ui.score.grade')}</div>
               </div>
               <div>
-                <div>{lecture.load_letter}</div>
+                <div>{getAverageScoreLabel(lecture.load)}</div>
                 <div>{t('ui.score.load')}</div>
               </div>
               <div>
-                <div>{lecture.speech_letter}</div>
+                <div>{getAverageScoreLabel(lecture.speech)}</div>
                 <div>{t('ui.score.speech')}</div>
               </div>
             </div>

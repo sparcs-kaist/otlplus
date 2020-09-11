@@ -64,15 +64,15 @@ def review_list_view(request):
         if not lecture_id:
             return HttpResponseBadRequest('Missing field \'lecture\' in request data')
 
-        grade = getint(body, 'gradescore')
-        load = getint(body, 'loadscore')
-        speech = getint(body, 'speechscore')
+        grade = getint(body, 'grade')
+        load = getint(body, 'load')
+        speech = getint(body, 'speech')
         if not (
             1 <= grade <= 5
             and 1 <= load <= 5
             and 1 <= speech <= 5
         ):
-            return HttpResponseBadRequest('Wrong field(s) \'gradescore\', \'loadscore\', and/or \'speechscore\' in request data')
+            return HttpResponseBadRequest('Wrong field(s) \'grade\', \'load\', and/or \'speech\' in request data')
 
         user_profile = user.userprofile
         lecture = user_profile.getReviewWritableLectureList().get(id = lecture_id)
@@ -107,15 +107,15 @@ def review_instance_view(request, review_id):
         if not len(content):
             return HttpResponseBadRequest('Empty field \'content\' in request data')
 
-        grade = getint(body, 'gradescore', None)
-        load = getint(body, 'loadscore', None)
-        speech = getint(body, 'speechscore', None)
+        grade = getint(body, 'grade', None)
+        load = getint(body, 'load', None)
+        speech = getint(body, 'speech', None)
         if not (
             1 <= grade <= 5
             and 1 <= load <= 5
             and 1 <= speech <= 5
         ):
-            return HttpResponseBadRequest('Wrong field(s) \'gradescore\', \'loadscore\', and/or \'speechscore\' in request data')
+            return HttpResponseBadRequest('Wrong field(s) \'grade\', \'load\', and/or \'speech\' in request data')
 
         patch_object(review, {
             'content': content,

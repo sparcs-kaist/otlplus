@@ -47,7 +47,6 @@ class Review(models.Model):
                 addUserspecificData(result_cached, user)
             return result_cached
 
-        letters = ['?', 'F', 'D', 'C', 'B', 'A']
         result = {
             'id': self.id,
             'course': self.course.toJson(nested=True),
@@ -58,9 +57,6 @@ class Review(models.Model):
             'grade': self.grade,
             'load': self.load,
             'speech': self.speech,
-            'grade_letter': letters[self.grade],
-            'load_letter': letters[self.load],
-            'speech_letter': letters[self.speech],
         }
 
         if nested:

@@ -62,6 +62,54 @@ export const isActive = (lecture, lectureActiveLecture, activeLectures) => {
     || (activeLectures.some(l => (l.id === lecture.id)));
 };
 
+export const getProfessorsStrShort = (lecture) => {
+  // eslint-disable-next-line fp/no-mutating-methods
+  const professors = lecture.professors
+    .slice()
+    .sort((a, b) => (a.name < b.name ? -1 : 1));
+  const professorNames = professors.map(p => p[i18n.t('js.property.name')]);
+  if (professorNames.length <= 2) {
+    return professorNames.join(', ');
+  }
+  return i18n.t('ui.others.sthAndNumOtherPeople', { something: professorNames[0], count: professorNames.length - 1 });
+};
+
+export const getBuildingStr = (lecture) => {
+  const { classtimes } = lecture;
+  if (classtimes.length === 0) {
+    return i18n.t('ui.placeholder.unknown');
+  }
+  return classtimes[0].building;
+};
+
+export const getClassroomStr = (lecture) => {
+  const { classtimes } = lecture;
+  if (classtimes.length === 0) {
+    return i18n.t('ui.placeholder.unknown');
+  }
+  return classtimes[0][i18n.t('js.property.classroom')];
+};
+
+export const getRoomStr = (lecture) => {
+  const { classtimes } = lecture;
+  if (classtimes.length === 0) {
+    return i18n.t('ui.placeholder.unknown');
+  }
+  return classtimes[0][i18n.t('js.property.room')];
+};
+
+export const getExamStr = (lecture) => {
+  const { examtimes } = lecture;
+  const examStrings = examtimes.map(e => e[i18n.t('js.property.str')]);
+  if (examStrings.length === 0) {
+    return i18n.t('ui.placeholder.unknown');
+  }
+  if (examStrings.length === 1) {
+    return examStrings[0];
+  }
+  return i18n.t('ui.others.sthAndNumOthers', { something: examStrings[0], count: examStrings.length - 1 });
+};
+
 export const performAddToTable = (caller, lecture, currentTimetable, user, addLectureToTimetableDispatch) => {
   if (
     lecture.classtimes.some(thisClasstime => (

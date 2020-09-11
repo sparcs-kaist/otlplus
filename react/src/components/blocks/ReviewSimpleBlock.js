@@ -5,6 +5,7 @@ import { withTranslation } from 'react-i18next';
 import qs from 'qs';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
+import { getSingleScoreLabel } from '../../common/scoreFunctions';
 
 import reviewShape from '../../shapes/ReviewShape';
 
@@ -26,17 +27,17 @@ const ReviewSimpleBlock = ({ t, review }) => {
           <span>
             {t('ui.score.grade')}
             &nbsp;
-            <strong>{review.grade_letter}</strong>
+            <strong>{getSingleScoreLabel(review.grade)}</strong>
           </span>
           <span>
             {t('ui.score.load')}
             &nbsp;
-            <strong>{review.load_letter}</strong>
+            <strong>{getSingleScoreLabel(review.load)}</strong>
           </span>
           <span>
             {t('ui.score.speech')}
             &nbsp;
-            <strong>{review.speech_letter}</strong>
+            <strong>{getSingleScoreLabel(review.speech)}</strong>
           </span>
         </div>
       </div>

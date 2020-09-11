@@ -156,23 +156,10 @@ class Lecture(models.Model):
                 "common_title_en": self.common_title_en,
                 "class_title": self.class_title,
                 "class_title_en": self.class_title_en,
+                "review_num": self.review_num,
         }
-        
-        # Add formatted professor name
-        professors = self.professors.all().order_by('professor_name')
-        prof_name_list = [p.professor_name for p in professors]
-        prof_name_list_en = [p.professor_name_en for p in professors]
-        if len(prof_name_list) <= 2:
-            result.update({
-                'professors_str_short': u", ".join(prof_name_list),
-                'professors_str_short_en': u", ".join(prof_name_list_en),
-            })
-        else:
-            result.update({
-                'professors_str_short': prof_name_list[0] + u" 외 " + str(len(prof_name_list)-1) + u"명",
-                'professors_str_short_en': prof_name_list_en[0] + u" and " + str(len(prof_name_list)-1) + u" others",
-            })
 
+        professors = self.professors.all().order_by('professor_name')
         result.update({
             'professors': [p.toJson(nested=True) for p in professors]
         })
@@ -181,77 +168,13 @@ class Lecture(models.Model):
             cache.set(cache_id, result, 60 * 10)
             return result
 
-        # Add formatted score
-        if self.review_num == 0:
-            result.update({
-                'has_review': False,
-                'grade': 0,
-                'load': 0,
-                'speech': 0,
-                'grade_letter': '?',
-                'load_letter': '?',
-                'speech_letter': '?',
-            })
-        else:
-            letters = ['?', 'F', 'F', 'F', 'D-', 'D', 'D+', 'C-', 'C', 'C+', 'B-', 'B', 'B+', 'A-', 'A', 'A+']
-            result.update({
-                'has_review': True,
-                'grade': self.grade,
-                'load': self.load,
-                'speech': self.speech,
-                'grade_letter': letters[int(round(self.grade))],
-                'load_letter': letters[int(round(self.load))],
-                'speech_letter': letters[int(round(self.speech))],
-            })
-
-        # Add classtime
-        classtimes = [ct.toJson(nested=True) for ct in self.classtime_set.all()]
         result.update({
-            'classtimes': classtimes,
+            'grade': self.grade,
+            'load': self.load,
+            'speech': self.speech,
+            'classtimes': [ct.toJson(nested=True) for ct in self.classtime_set.all()],
+            'examtimes': [et.toJson(nested=True) for et in self.examtime_set.all()],
         })
-
-        # Add classroom info
-        if len(classtimes) > 0:
-            result.update({
-                'building': classtimes[0]['building'],
-                'classroom': classtimes[0]['classroom'],
-                'classroom_en': classtimes[0]['classroom_en'],
-                'classroom_short': classtimes[0]['classroom_short'],
-                'classroom_short_en': classtimes[0]['classroom_short_en'],
-                'room': classtimes[0]['room'],
-            })
-        else:
-            result.update({
-                'building': '',
-                'classroom': u'정보 없음',
-                'classroom_en': u'Unknown',
-                'classroom_short': u'정보 없음',
-                'classroom_short_en': u'Unknown',
-                'room': '',
-            })
-
-        # Add examtime
-        examtimes = [et.toJson(nested=True) for et in self.examtime_set.all()]
-        result.update({
-            'examtimes': examtimes,
-        })
-
-        # Add exam info
-        if len(examtimes) > 1:
-            result.update({
-                'exam': examtimes[0]['str'] + u" 외 " + str(len(result['examtimes']-1)) + u"개",
-                'exam_en': examtimes[0]['str_en'] + u" and " + str(len(result['examtimes']-1)) + u" others",
-            })
-        elif len(examtimes) == 1:
-            result.update({
-                'exam': examtimes[0]['str'],
-                'exam_en': examtimes[0]['str_en'],
-            })
-        else:
-            result.update({
-                'exam': u'정보 없음',
-                'exam_en': u'Unknown',
-            })
 
         cache.set(cache_id, result, 60 * 10)
 
@@ -343,6 +266,13 @@ class Lecture(models.Model):
                                           year=self.year, semester=self.semester)
         _add_title_format(lectures)
         _add_title_format_en(lectures)
+
+    def get_professors_str_short(self):
+        professors = self.professors.all().order_by('professor_name')
+        prof_name_list = [p.professor_name for p in professors]
+        if len(prof_name_list) <= 2:
+            return u", ".join(prof_name_list)
+        return prof_name_list[0] + u" 외 " + str(len(prof_name_list)-1) + u"명",
 
     @classmethod
     def getQueryResearch(cls):
@@ -616,40 +546,11 @@ class Course(models.Model):
         result.update({
             "related_courses_prior": [c.toJson(nested=True) for c in self.related_courses_prior.all()],
             "related_courses_posterior": [c.toJson(nested=True) for c in self.related_courses_posterior.all()],
+            'professors': [p.toJson(nested=True) for p in self.professors.all().order_by('professor_name')],
+            'grade': self.grade,
+            'load': self.load,
+            'speech': self.speech,
         })
-
-        # Add formatted professor name
-        professors = self.professors.all().order_by('professor_name')
-        prof_name_list = [p.professor_name for p in professors]
-        prof_name_list_en = [p.professor_name_en for p in professors]
-        result.update({
-            'professors_str': u", ".join(prof_name_list),
-            'professors_str_en': u", ".join(prof_name_list_en),
-            'professors': [p.toJson(nested=True) for p in professors]
-        })
-
-        # Add formatted score
-        if self.review_num == 0:
-            result.update({
-                'has_review': False,
-                'grade': 0,
-                'load': 0,
-                'speech': 0,
-                'grade_letter': '?',
-                'load_letter': '?',
-                'speech_letter': '?',
-            })
-        else:
-            letters = ['?', 'F', 'F', 'F', 'D-', 'D', 'D+', 'C-', 'C', 'C+', 'B-', 'B', 'B+', 'A-', 'A', 'A+']
-            result.update({
-                'has_review': True,
-                'grade': self.grade,
-                'load': self.load,
-                'speech': self.speech,
-                'grade_letter': letters[int(round(self.grade))],
-                'load_letter': letters[int(round(self.load))],
-                'speech_letter': letters[int(round(self.speech))],
-            })
 
         cache.set(cache_id, result, 60 * 10)
 
@@ -708,6 +609,7 @@ class Professor(models.Model):
             'name': self.professor_name,
             'name_en': self.professor_name_en,
             'professor_id': self.professor_id,
+            "review_num": self.review_num,
         }
 
         if nested:
@@ -716,30 +618,10 @@ class Professor(models.Model):
         # Add course information
         result.update({
             'courses': [c.toJson(nested=True) for c in self.course_list.all()],
+            'grade': self.grade,
+            'load': self.load,
+            'speech': self.speech,
         })
-
-        # Add formatted score
-        if self.review_num == 0:
-            result.update({
-                'has_review': False,
-                'grade': 0,
-                'load': 0,
-                'speech': 0,
-                'grade_letter': '?',
-                'load_letter': '?',
-                'speech_letter': '?',
-            })
-        else:
-            letters = ['?', 'F', 'F', 'F', 'D-', 'D', 'D+', 'C-', 'C', 'C+', 'B-', 'B', 'B+', 'A-', 'A', 'A+']
-            result.update({
-                'has_review': True,
-                'grade': self.grade,
-                'load': self.load,
-                'speech': self.speech,
-                'grade_letter': letters[int(round(self.grade))],
-                'load_letter': letters[int(round(self.load))],
-                'speech_letter': letters[int(round(self.speech))],
-            })
 
         return result
 
