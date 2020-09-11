@@ -6,6 +6,8 @@ import axios from 'axios';
 import ReactGA from 'react-ga';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
+import { getProfessorsStrShort } from '../../common/lectureFunctions';
+import { getSingleScoreLabel } from '../../common/scoreFunctions';
 
 import reviewShape from '../../shapes/ReviewShape';
 
@@ -81,7 +83,7 @@ const ReviewBlock = ({ t, review, pageFrom }) => {
     <div className={classNames('block', 'block--review')}>
       <div className={classNames('block--review__title')}>
         <strong>{review.lecture[t('js.property.title')]}</strong>
-        <span>{review.lecture[t('js.property.professors_str_short')]}</span>
+        <span>{getProfessorsStrShort(review.lecture)}</span>
         <span>{`${review.lecture.year} ${['', t('ui.semester.spring'), t('ui.semester.summer'), t('ui.semester.fall'), t('ui.semester.winter')][review.lecture.semester]}`}</span>
       </div>
       <div className={classNames('block--review__content')}>
@@ -97,17 +99,17 @@ const ReviewBlock = ({ t, review, pageFrom }) => {
           <span className={classNames('block--review__menus__score')}>
             {t('ui.score.grade')}
             &nbsp;
-            <strong>{review.grade_letter}</strong>
+            <strong>{getSingleScoreLabel(review.grade)}</strong>
           </span>
           <span className={classNames('block--review__menus__score')}>
             {t('ui.score.load')}
             &nbsp;
-            <strong>{review.load_letter}</strong>
+            <strong>{getSingleScoreLabel(review.load)}</strong>
           </span>
           <span className={classNames('block--review__menus__score')}>
             {t('ui.score.speech')}
             &nbsp;
-            <strong>{review.speech_letter}</strong>
+            <strong>{getSingleScoreLabel(review.speech)}</strong>
           </span>
         </span>
         <span>

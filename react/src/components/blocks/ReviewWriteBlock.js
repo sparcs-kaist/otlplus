@@ -6,6 +6,9 @@ import axios from 'axios';
 import ReactGA from 'react-ga';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
+import { getProfessorsStrShort } from '../../common/lectureFunctions';
+import { getSingleScoreLabel } from '../../common/scoreFunctions';
+
 import lectureShape from '../../shapes/NestedLectureShape';
 import reviewShape from '../../shapes/ReviewShape';
 
@@ -67,9 +70,9 @@ const ReviewWriteBlock = ({ t, lecture, review, pageFrom, updateOnSubmit }) => {
       {
         lecture: lecture.id,
         content: content,
-        gradescore: grade,
-        speechscore: speech,
-        loadscore: load,
+        grade: grade,
+        speech: speech,
+        load: load,
       },
       {
         metadata: {
@@ -102,9 +105,9 @@ const ReviewWriteBlock = ({ t, lecture, review, pageFrom, updateOnSubmit }) => {
         `/api/reviews/${review.id}`,
         {
           content: content,
-          gradescore: grade,
-          speechscore: speech,
-          loadscore: load,
+          grade: grade,
+          speech: speech,
+          load: load,
         },
         {
           metadata: {
@@ -144,7 +147,7 @@ const ReviewWriteBlock = ({ t, lecture, review, pageFrom, updateOnSubmit }) => {
     return (
       <label className={classNames('block--review-write__score__option')} htmlFor={inputId}>
         <input id={inputId} type="radio" name={name} value={`${value}`} checked={checkedValue === value} onChange={onScoreChange} />
-        <span>{[undefined, 'F', 'D', 'C', 'B', 'A'][value]}</span>
+        <span>{getSingleScoreLabel(value)}</span>
       </label>
     );
   };
@@ -153,7 +156,7 @@ const ReviewWriteBlock = ({ t, lecture, review, pageFrom, updateOnSubmit }) => {
     <form className={classNames('block', 'block--review-write')} onSubmit={onSubmit}>
       <div className={classNames('block--review-write__title')}>
         <strong>{lecture[t('js.property.title')]}</strong>
-        <span>{lecture[t('js.property.professors_str_short')]}</span>
+        <span>{getProfessorsStrShort(lecture)}</span>
         <span>{`${lecture.year} ${[undefined, t('ui.semester.spring'), t('ui.semester.summer'), t('ui.semester.fall'), t('ui.semester.winter')][lecture.semester]}`}</span>
       </div>
       <textarea className={classNames('block--review-write__content')} placeholder={t('ui.placeholder.reviewContent')} value={content} onChange={onContentChange} />

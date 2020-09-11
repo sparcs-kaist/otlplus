@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
+import { getAverageScoreLabel } from '../../../common/scoreFunctions';
 
 import { clearMultipleDetail, setMultipleDetail } from '../../../actions/timetable/lectureActive';
 
@@ -99,13 +100,13 @@ class SummarySubSection extends Component {
       id: lecture.id,
       title: lecture[t('js.property.title')],
       info: (type === 'Grade')
-        ? lecture.grade_letter
+        ? getAverageScoreLabel(lecture.grade)
         : (
           (type === 'Load')
-            ? lecture.load_letter
+            ? getAverageScoreLabel(lecture.load)
             : (
               (type === 'Speech')
-                ? lecture.speech_letter
+                ? getAverageScoreLabel(lecture.speech)
                 : '?'
             )
         ),
@@ -168,12 +169,11 @@ class SummarySubSection extends Component {
     const isCreditActive = (lectureActiveLecture !== null) && (lectureActiveLecture.credit > 0);
     const isAuActive = (lectureActiveLecture !== null) && (lectureActiveLecture.credit_au > 0);
 
-    const timetableLecturesWithReview = timetableLectures.filter(lecture => lecture.has_review);
+    const timetableLecturesWithReview = timetableLectures.filter(lecture => (lecture.review_num > 0));
     const targetNum = timetableLecturesWithReview.reduce((acc, lecture) => (acc + (lecture.credit + lecture.credit_au)), 0);
     const grade = timetableLecturesWithReview.reduce((acc, lecture) => (acc + (lecture.grade * (lecture.credit + lecture.credit_au))), 0);
     const load = timetableLecturesWithReview.reduce((acc, lecture) => (acc + (lecture.load * (lecture.credit + lecture.credit_au))), 0);
     const speech = timetableLecturesWithReview.reduce((acc, lecture) => (acc + (lecture.speech * (lecture.credit + lecture.credit_au))), 0);
-    const letters = ['?', 'F', 'F', 'F', 'D-', 'D', 'D+', 'C-', 'C', 'C+', 'B-', 'B', 'B+', 'A-', 'A', 'A+'];
 
     return (
       <div className={classNames('section-content--summary')}>
@@ -247,15 +247,15 @@ class SummarySubSection extends Component {
         </div>
         <div className={classNames('scores')}>
           <div onMouseOver={() => this.scoreFocus('Grade')} onMouseOut={() => this.clearFocus()}>
-            <div className={classNames((active === 'Grade' ? 'active' : ''))}>{(targetNum !== 0) ? letters[Math.round(grade / targetNum)] : '?'}</div>
+            <div className={classNames((active === 'Grade' ? 'active' : ''))}>{(targetNum !== 0) ? getAverageScoreLabel(grade / targetNum) : '?'}</div>
             <div>{t('ui.score.grade')}</div>
           </div>
           <div onMouseOver={() => this.scoreFocus('Load')} onMouseOut={() => this.clearFocus()}>
-            <div className={classNames((active === 'Load' ? 'active' : ''))}>{(targetNum !== 0) ? letters[Math.round(load / targetNum)] : '?'}</div>
+            <div className={classNames((active === 'Load' ? 'active' : ''))}>{(targetNum !== 0) ? getAverageScoreLabel(load / targetNum) : '?'}</div>
             <div>{t('ui.score.load')}</div>
           </div>
           <div onMouseOver={() => this.scoreFocus('Speech')} onMouseOut={() => this.clearFocus()}>
-            <div className={classNames((active === 'Speech' ? 'active' : ''))}>{(targetNum !== 0) ? letters[Math.round(speech / targetNum)] : '?'}</div>
+            <div className={classNames((active === 'Speech' ? 'active' : ''))}>{(targetNum !== 0) ? getAverageScoreLabel(speech / targetNum) : '?'}</div>
             <div>{t('ui.score.speech')}</div>
           </div>
         </div>

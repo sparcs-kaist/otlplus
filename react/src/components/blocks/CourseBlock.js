@@ -4,6 +4,7 @@ import { pure } from 'recompose';
 import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
+import { getProfessorsStr } from '../../common/courseFunctions';
 
 import courseShape from '../../shapes/CourseShape';
 
@@ -43,7 +44,7 @@ const CourseBlock = ({
             {t('ui.attribute.professors')}
           </div>
           <div>
-            {course[t('js.property.professors_str')]}
+            {getProfessorsStr(course)}
           </div>
         </div>
         <div className={classNames('attribute', 'attribute--semi-long')}>
