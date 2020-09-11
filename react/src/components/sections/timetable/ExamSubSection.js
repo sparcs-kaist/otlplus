@@ -13,7 +13,7 @@ import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lecture
 
 import lectureShape from '../../../shapes/LectureShape';
 import timetableShape from '../../../shapes/TimetableShape';
-import { inTimetable, isActive, getRoomStr } from '../../../common/lectureFunctions';
+import { inTimetable, isActive, getRoomStr, getExamStr } from '../../../common/lectureFunctions';
 
 
 class ExamSubSection extends Component {
@@ -102,7 +102,7 @@ class ExamSubSection extends Component {
         .filter(lecture => lecture.examtimes[0].day === day)
         .map(lecture => ({
           title: lecture[t('js.property.title')],
-          time: lecture[t('js.property.exam')].slice(lecture[t('js.property.exam')].indexOf(' ')),
+          time: getExamStr(lecture).slice(getExamStr(lecture).indexOf(' ')),
           id: lecture.id,
         }))
     ));

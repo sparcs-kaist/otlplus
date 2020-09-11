@@ -23,7 +23,7 @@ import userShape from '../../../shapes/UserShape';
 import lectureShape from '../../../shapes/LectureShape';
 import timetableShape from '../../../shapes/TimetableShape';
 
-import { inTimetable, inCart, getClassroomStr, performAddToTable, performDeleteFromTable, performAddToCart, performDeleteFromCart } from '../../../common/lectureFunctions';
+import { inTimetable, inCart, getClassroomStr, performAddToTable, performDeleteFromTable, performAddToCart, performDeleteFromCart, getExamStr } from '../../../common/lectureFunctions';
 
 
 class LectureDetailSection extends Component {
@@ -298,7 +298,7 @@ class LectureDetailSection extends Component {
               </div>
               <div className={classNames('attribute')}>
                 <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.attribute.exam')}</span>
-                <span>{lecture[t('js.property.exam')]}</span>
+                <span>{getExamStr(lecture)}</span>
               </div>
             </div>
             <div className={classNames('scores')}>

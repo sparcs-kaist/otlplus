@@ -37,8 +37,6 @@ const lectureShape = PropTypes.shape({
   speech: PropTypes.number.isRequired,
   classtimes: PropTypes.arrayOf(classtimeShape).isRequired,
   examtimes: PropTypes.arrayOf(examtimeShape).isRequired,
-  exam: PropTypes.string.isRequired,
-  exam_en: PropTypes.string.isRequired,
 });
 
 export default lectureShape;
