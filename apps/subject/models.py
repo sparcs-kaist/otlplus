@@ -168,30 +168,12 @@ class Lecture(models.Model):
             cache.set(cache_id, result, 60 * 10)
             return result
 
-        # Add formatted score
-        if self.review_num == 0:
-            result.update({
-                'grade': 0,
-                'load': 0,
-                'speech': 0,
-            })
-        else:
-            result.update({
-                'grade': self.grade,
-                'load': self.load,
-                'speech': self.speech,
-            })
-
-        # Add classtime
-        classtimes = [ct.toJson(nested=True) for ct in self.classtime_set.all()]
         result.update({
-            'classtimes': classtimes,
-        })
-
-        # Add examtime
-        examtimes = [et.toJson(nested=True) for et in self.examtime_set.all()]
-        result.update({
-            'examtimes': examtimes,
+            'grade': self.grade,
+            'load': self.load,
+            'speech': self.speech,
+            'classtimes': [ct.toJson(nested=True) for ct in self.classtime_set.all()],
+            'examtimes': [et.toJson(nested=True) for et in self.examtime_set.all()],
         })
 
         cache.set(cache_id, result, 60 * 10)
@@ -564,27 +546,11 @@ class Course(models.Model):
         result.update({
             "related_courses_prior": [c.toJson(nested=True) for c in self.related_courses_prior.all()],
             "related_courses_posterior": [c.toJson(nested=True) for c in self.related_courses_posterior.all()],
+            'professors': [p.toJson(nested=True) for p in self.professors.all().order_by('professor_name')],
+            'grade': self.grade,
+            'load': self.load,
+            'speech': self.speech,
         })
-
-        # Add formatted professor name
-        professors = self.professors.all().order_by('professor_name')
-        result.update({
-            'professors': [p.toJson(nested=True) for p in professors]
-        })
-
-        # Add formatted score
-        if self.review_num == 0:
-            result.update({
-                'grade': 0,
-                'load': 0,
-                'speech': 0,
-            })
-        else:
-            result.update({
-                'grade': self.grade,
-                'load': self.load,
-                'speech': self.speech,
-            })
 
         cache.set(cache_id, result, 60 * 10)
 
@@ -652,21 +618,10 @@ class Professor(models.Model):
         # Add course information
         result.update({
             'courses': [c.toJson(nested=True) for c in self.course_list.all()],
+            'grade': self.grade,
+            'load': self.load,
+            'speech': self.speech,
         })
-
-        # Add formatted score
-        if self.review_num == 0:
-            result.update({
-                'grade': 0,
-                'load': 0,
-                'speech': 0,
-            })
-        else:
-            result.update({
-                'grade': self.grade,
-                'load': self.load,
-                'speech': self.speech,
-            })
 
         return result
 
