@@ -98,6 +98,18 @@ export const getRoomStr = (lecture) => {
   return classtimes[0][i18n.t('js.property.room')];
 };
 
+export const getExamStr = (lecture) => {
+  const { examtimes } = lecture;
+  const examStrings = examtimes.map(e => e[i18n.t('js.property.str')]);
+  if (examStrings.length === 0) {
+    return i18n.t('ui.placeholder.unknown');
+  }
+  if (examStrings.length === 1) {
+    return examStrings[0];
+  }
+  return i18n.t('ui.others.sthAndNumOthers', { something: examStrings[0], count: examStrings.length - 1 });
+};
+
 export const performAddToTable = (caller, lecture, currentTimetable, user, addLectureToTimetableDispatch) => {
   if (
     lecture.classtimes.some(thisClasstime => (

@@ -194,23 +194,6 @@ class Lecture(models.Model):
             'examtimes': examtimes,
         })
 
-        # Add exam info
-        if len(examtimes) > 1:
-            result.update({
-                'exam': examtimes[0]['str'] + u" 외 " + str(len(result['examtimes']-1)) + u"개",
-                'exam_en': examtimes[0]['str_en'] + u" and " + str(len(result['examtimes']-1)) + u" others",
-            })
-        elif len(examtimes) == 1:
-            result.update({
-                'exam': examtimes[0]['str'],
-                'exam_en': examtimes[0]['str_en'],
-            })
-        else:
-            result.update({
-                'exam': u'정보 없음',
-                'exam_en': u'Unknown',
-            })
-
         cache.set(cache_id, result, 60 * 10)
 
         return result
