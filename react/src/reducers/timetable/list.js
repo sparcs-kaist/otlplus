@@ -29,11 +29,11 @@ const list = (state = initialState, action) => {
       return [];
     }
 
-    const courseIds = Array.from(new Set(lectures.map(lecture => lecture.course)));
+    const courseIds = Array.from(new Set(lectures.map(l => l.course)));
     // eslint-disable-next-line fp/no-mutating-methods
     const courses = courseIds
-      .map(course => (lectures.filter(lecture => (lecture.course === course))))
-      .filter(course => (course.length > 0))
+      .map(c => (lectures.filter(l => (l.course === c))))
+      .filter(c => (c.length > 0))
       .sort((a, b) => ((a[0].old_code > b[0].old_code) ? 1 : -1));
     return courses;
   };
@@ -52,13 +52,13 @@ const list = (state = initialState, action) => {
         major: Object.assign(
           {},
           {
-            codes: action.majors.map(major => major.code),
+            codes: action.majors.map(m => m.code),
           },
-          ...(action.majors.map(major => (
+          ...(action.majors.map(m => (
             {
-              [major.code]: {
-                name: major.name,
-                name_en: major.name_en,
+              [m.code]: {
+                name: m.name,
+                name_en: m.name_en,
                 courses: null,
               },
             }

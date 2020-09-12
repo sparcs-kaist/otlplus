@@ -46,8 +46,8 @@ class OldTimetable(models.Model):
     def import_in_for_user(cls, student_id):
         if student_id == "":
             return
-        target = OldTimetable.objects.filter(student_id=student_id)
-        for t in target:
+        targets = OldTimetable.objects.filter(student_id=student_id)
+        for t in targets:
             t.import_in()
 
 

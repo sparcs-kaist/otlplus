@@ -38,13 +38,13 @@ const list = (state = initialState, action) => {
         major: Object.assign(
           {},
           {
-            codes: action.majors.map(major => major.code),
+            codes: action.majors.map(m => m.code),
           },
-          ...(action.majors.map(major => (
+          ...(action.majors.map(m => (
             {
-              [major.code]: {
-                name: major.name,
-                name_en: major.name_en,
+              [m.code]: {
+                name: m.name,
+                name_en: m.name_en,
                 courses: null,
               },
             }
