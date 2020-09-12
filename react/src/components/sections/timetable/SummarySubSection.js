@@ -43,11 +43,11 @@ class SummarySubSection extends Component {
     }
 
     const lectures = currentTimetable.lectures
-      .filter(lecture => (indexOfType(lecture.type_en) === indexOfType(type)))
-      .map(lecture => ({
-        id: lecture.id,
-        title: lecture[t('js.property.title')],
-        info: (lecture.credit > 0) ? t('ui.others.creditCount', { count: lecture.credit }) : t('ui.others.auCount', { count: lecture.credit_au }),
+      .filter(l => (indexOfType(l.type_en) === indexOfType(type)))
+      .map(l => ({
+        id: l.id,
+        title: l[t('js.property.title')],
+        info: (l.credit > 0) ? t('ui.others.creditCount', { count: l.credit }) : t('ui.others.auCount', { count: l.credit_au }),
       }));
     setMultipleDetailDispatch(type, lectures);
     this.setState({ active: type });
@@ -64,22 +64,22 @@ class SummarySubSection extends Component {
     const lectures = (type === 'Credit')
       ? (
         currentTimetable.lectures
-          .filter(lecture => (lecture.credit > 0))
-          .map(lecture => ({
-            id: lecture.id,
-            title: lecture[t('js.property.title')],
-            info: t('ui.others.creditCount', { count: lecture.credit }),
+          .filter(l => (l.credit > 0))
+          .map(l => ({
+            id: l.id,
+            title: l[t('js.property.title')],
+            info: t('ui.others.creditCount', { count: l.credit }),
           }))
       )
       : (
         (type === 'Credit AU')
           ? (
             currentTimetable.lectures
-              .filter(lecture => (lecture.credit_au > 0))
-              .map(lecture => ({
-                id: lecture.id,
-                title: lecture[t('js.property.title')],
-                info: t('ui.others.auCount', { count: lecture.credit_au }),
+              .filter(l => (l.credit_au > 0))
+              .map(l => ({
+                id: l.id,
+                title: l[t('js.property.title')],
+                info: t('ui.others.auCount', { count: l.credit_au }),
               }))
           )
           : []
@@ -96,17 +96,17 @@ class SummarySubSection extends Component {
       return;
     }
 
-    const lectures = currentTimetable.lectures.map(lecture => ({
-      id: lecture.id,
-      title: lecture[t('js.property.title')],
+    const lectures = currentTimetable.lectures.map(l => ({
+      id: l.id,
+      title: l[t('js.property.title')],
       info: (type === 'Grade')
-        ? getAverageScoreLabel(lecture.grade)
+        ? getAverageScoreLabel(l.grade)
         : (
           (type === 'Load')
-            ? getAverageScoreLabel(lecture.load)
+            ? getAverageScoreLabel(l.load)
             : (
               (type === 'Speech')
-                ? getAverageScoreLabel(lecture.speech)
+                ? getAverageScoreLabel(l.speech)
                 : '?'
             )
         ),
@@ -142,10 +142,10 @@ class SummarySubSection extends Component {
       && (indexOfType(lal.type_en) === typeIndex)
     );
 
-    const currentTypeCredit = [0, 1, 2, 3, 4, 5].map(index => (
+    const currentTypeCredit = [0, 1, 2, 3, 4, 5].map(i => (
       timetableLectures
-        .filter(lecture => (indexOfType(lecture.type_en) === index))
-        .reduce((acc, lecture) => (acc + (lecture.credit + lecture.credit_au)), 0)
+        .filter(l => (indexOfType(l.type_en) === i))
+        .reduce((acc, l) => (acc + (l.credit + l.credit_au)), 0)
     ));
     const activeTypeCredit = [0, 1, 2, 3, 4, 5].map(i => (
       !isLectureActiveFromType(lectureActiveFrom, lectureActiveLecture, i)
@@ -162,18 +162,18 @@ class SummarySubSection extends Component {
           : currentTypeCredit[i] + lectureActiveLecture.credit + lectureActiveLecture.credit_au
     ));
 
-    const totalCredit = timetableLectures.reduce((acc, lecture) => (acc + lecture.credit), 0)
+    const totalCredit = timetableLectures.reduce((acc, l) => (acc + l.credit), 0)
       + (alec && !inTimetable(alec, currentTimetable) ? alec.credit : 0);
-    const totalAu = timetableLectures.reduce((acc, lecture) => (acc + lecture.credit_au), 0)
+    const totalAu = timetableLectures.reduce((acc, l) => (acc + l.credit_au), 0)
       + (alec && !inTimetable(alec, currentTimetable) ? alec.credit_au : 0);
     const isCreditActive = (lectureActiveLecture !== null) && (lectureActiveLecture.credit > 0);
     const isAuActive = (lectureActiveLecture !== null) && (lectureActiveLecture.credit_au > 0);
 
-    const timetableLecturesWithReview = timetableLectures.filter(lecture => (lecture.review_num > 0));
-    const targetNum = timetableLecturesWithReview.reduce((acc, lecture) => (acc + (lecture.credit + lecture.credit_au)), 0);
-    const grade = timetableLecturesWithReview.reduce((acc, lecture) => (acc + (lecture.grade * (lecture.credit + lecture.credit_au))), 0);
-    const load = timetableLecturesWithReview.reduce((acc, lecture) => (acc + (lecture.load * (lecture.credit + lecture.credit_au))), 0);
-    const speech = timetableLecturesWithReview.reduce((acc, lecture) => (acc + (lecture.speech * (lecture.credit + lecture.credit_au))), 0);
+    const timetableLecturesWithReview = timetableLectures.filter(l => (l.review_num > 0));
+    const targetNum = timetableLecturesWithReview.reduce((acc, l) => (acc + (l.credit + l.credit_au)), 0);
+    const grade = timetableLecturesWithReview.reduce((acc, l) => (acc + (l.grade * (l.credit + l.credit_au))), 0);
+    const load = timetableLecturesWithReview.reduce((acc, l) => (acc + (l.load * (l.credit + l.credit_au))), 0);
+    const speech = timetableLecturesWithReview.reduce((acc, l) => (acc + (l.speech * (l.credit + l.credit_au))), 0);
 
     return (
       <div className={classNames('section-content--summary')}>

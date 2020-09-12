@@ -256,16 +256,16 @@ class TimetableTabs extends Component {
             )
             : null
           }
-          { timetables.map((timetable, idx) => (
-            <div className={classNames((timetable.id === currentTimetable.id ? 'tabs__elem--active' : ''))} key={timetable.id} onClick={() => this.changeTab(timetable)}>
+          { timetables.map((tt, i) => (
+            <div className={classNames((tt.id === currentTimetable.id ? 'tabs__elem--active' : ''))} key={tt.id} onClick={() => this.changeTab(tt)}>
               <span>
-                {`${t('ui.others.table')} ${idx + 1}`}
+                {`${t('ui.others.table')} ${i + 1}`}
               </span>
-              <button onClick={event => this.duplicateTable(event, timetable)}>
+              <button onClick={event => this.duplicateTable(event, tt)}>
                 <i className={classNames('icon', 'icon--duplicate-table')} />
                 <span>{t('ui.button.duplicateTable')}</span>
               </button>
-              <button onClick={event => this.deleteTable(event, timetable)}>
+              <button onClick={event => this.deleteTable(event, tt)}>
                 <i className={classNames('icon', 'icon--delete-table')} />
                 <span>{t('ui.button.deleteTable')}</span>
               </button>

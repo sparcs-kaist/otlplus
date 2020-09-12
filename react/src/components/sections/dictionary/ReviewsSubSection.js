@@ -135,11 +135,11 @@ class ReviewsSubSection extends Component {
       ),
     ];
 
-    const takenLectureOfCourse = user
+    const takenLecturesOfCourse = user
       ? user.review_writable_lectures
         .filter(l => ((l.course === course.id) && this._lectureProfessorChecker(l, professor)))
       : [];
-    const reviewWriteBlocks = takenLectureOfCourse.map(l => (
+    const reviewWriteBlocks = takenLecturesOfCourse.map(l => (
       <ReviewWriteBlock
         lecture={l}
         key={l.id}

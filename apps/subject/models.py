@@ -184,10 +184,10 @@ class Lecture(models.Model):
         from apps.review.models import Review
         reviews = Review.objects.filter(lecture__course=self.course,
                                         lecture__professors__in=self.professors.all())
-        self.review_num = sum((c.like+1) for c in reviews)
-        self.grade_sum = sum((c.like+1)*c.grade*3 for c in reviews)
-        self.load_sum = sum((c.like+1)*c.load*3 for c in reviews)
-        self.speech_sum = sum((c.like+1)*c.speech*3 for c in reviews)
+        self.review_num = sum((r.like+1) for r in reviews)
+        self.grade_sum = sum((r.like+1)*r.grade*3 for r in reviews)
+        self.load_sum = sum((r.like+1)*r.load*3 for r in reviews)
+        self.speech_sum = sum((r.like+1)*r.speech*3 for r in reviews)
         self.avg_update()
         self.save()
 
@@ -561,10 +561,10 @@ class Course(models.Model):
     def recalc_score(self):
         from apps.review.models import Review
         reviews = Review.objects.filter(lecture__course=self)
-        self.review_num = sum((c.like+1) for c in reviews)
-        self.grade_sum = sum((c.like+1)*c.grade*3 for c in reviews)
-        self.load_sum = sum((c.like+1)*c.load*3 for c in reviews)
-        self.speech_sum = sum((c.like+1)*c.speech*3 for c in reviews)
+        self.review_num = sum((r.like+1) for r in reviews)
+        self.grade_sum = sum((r.like+1)*r.grade*3 for r in reviews)
+        self.load_sum = sum((r.like+1)*r.load*3 for r in reviews)
+        self.speech_sum = sum((r.like+1)*r.speech*3 for r in reviews)
         self.avg_update()
         self.save()
 
@@ -628,10 +628,10 @@ class Professor(models.Model):
     def recalc_score(self):
         from apps.review.models import Review
         reviews = Review.objects.filter(lecture__professors=self)
-        self.review_num = sum((c.like+1) for c in reviews)
-        self.grade_sum = sum((c.like+1)*c.grade*3 for c in reviews)
-        self.load_sum = sum((c.like+1)*c.load*3 for c in reviews)
-        self.speech_sum = sum((c.like+1)*c.speech*3 for c in reviews)
+        self.review_num = sum((r.like+1) for r in reviews)
+        self.grade_sum = sum((r.like+1)*r.grade*3 for r in reviews)
+        self.load_sum = sum((r.like+1)*r.load*3 for r in reviews)
+        self.speech_sum = sum((r.like+1)*r.speech*3 for r in reviews)
         self.avg_update()
         self.save()
 

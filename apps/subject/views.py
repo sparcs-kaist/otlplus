@@ -106,7 +106,7 @@ def course_instance_reviews_view(request, course_id):
         reviews = course.reviews.all().order_by('-lecture__year','-written_datetime')
 
         reviews = reviews[:100]
-        result = [c.toJson(user=request.user) for c in reviews]
+        result = [r.toJson(user=request.user) for r in reviews]
         return JsonResponse(result, safe=False)
 
 
@@ -230,7 +230,7 @@ def lecture_instance_reviews_view(request, lecture_id):
         lecture = get_object_or_404(Lecture, id=lecture_id)
         reviews = lecture.reviews.all().order_by('-id')
 
-        result = [c.toJson() for c in reviews]
+        result = [r.toJson() for r in reviews]
         return JsonResponse(result, safe=False)
 
 
@@ -243,7 +243,7 @@ def lecture_instance_related_reviews_view(request, lecture_id):
             lecture__professors__in=lecture.professors.all(),
         ).order_by('-id')
 
-        result = [c.toJson() for c in reviews]
+        result = [r.toJson() for r in reviews]
         return JsonResponse(result, safe=False)
 
 

@@ -235,22 +235,22 @@ class LectureListSection extends Component {
         return <div className={classNames('list-placeholder')}><div>{t('ui.placeholder.noResults')}</div></div>;
       }
       return [
-        ...courses.map(course => (
-          <div className={classNames('block', 'block--course-lectures', (course.some(lecture => isListClicked(lecture, lectureActive)) ? 'block--clicked' : ''), (isInactiveListLectures(course, lectureActive) ? 'block--inactive' : ''))} key={course[0].course}>
+        ...courses.map(c => (
+          <div className={classNames('block', 'block--course-lectures', (c.some(l => isListClicked(l, lectureActive)) ? 'block--clicked' : ''), (isInactiveListLectures(c, lectureActive) ? 'block--inactive' : ''))} key={c[0].course}>
             <div className={classNames('block--course-lectures__title')}>
-              <strong>{course[0][t('js.property.common_title')]}</strong>
+              <strong>{c[0][t('js.property.common_title')]}</strong>
               {' '}
-              {course[0].old_code}
+              {c[0].old_code}
             </div>
-            {course.map(lecture => (
+            {c.map(l => (
               <CourseLecturesBlock
-                lecture={lecture}
-                key={lecture.id}
-                isClicked={isListClicked(lecture, lectureActive)}
-                isHover={isListHover(lecture, lectureActive)}
-                inTimetable={inTimetable(lecture, currentTimetable)}
+                lecture={l}
+                key={l.id}
+                isClicked={isListClicked(l, lectureActive)}
+                isHover={isListHover(l, lectureActive)}
+                inTimetable={inTimetable(l, currentTimetable)}
                 isTimetableReadonly={!currentTimetable || Boolean(currentTimetable.isReadOnly)}
-                inCart={inCart(lecture, cart)}
+                inCart={inCart(l, cart)}
                 fromCart={fromCart}
                 addToCart={this.addToCart}
                 addToTable={this.addToTable}
