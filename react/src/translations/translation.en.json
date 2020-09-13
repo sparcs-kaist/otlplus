@@ -6,6 +6,7 @@
       "department_name": "department_name_en",
       "name": "name_en",
       "classroom": "classroom_en",
+      "room_name": "room_name",
       "str": "str_en",
       "common_title": "common_title_en",
       "class_title": "class_title_en"

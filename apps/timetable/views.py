@@ -206,7 +206,7 @@ def _get_timetable_or_my_timetable_lectures(userprofile, table_id, year, semeste
         return None
 
     if table_id == MY:
-        return list(userprofile.take_lecture_list.filter(year=year, semester=semester))
+        return list(userprofile.taken_lectures.filter(year=year, semester=semester))
     
     try:
         table = Timetable.objects.get(id=table_id, year=year, semester=semester)
@@ -499,16 +499,16 @@ def _share_image(timetable_lectures):
                  '#F1E1A9','#f4f2b3','#dbf4be','#beedd7',
                  '#b7e2de','#c9eaf4','#B4D3ED','#B9C5ED',
                  '#CCC6ED','#D8C1F0','#EBCAEF','#f4badb'][lDict['course']%16]
-        for c in lDict['classtimes']:
-            day = c['day']
-            begin = c['begin'] / 30 - 16
-            end = c['end'] / 30 - 16
+        for ct in lDict['classtimes']:
+            day = ct['day']
+            begin = ct['begin'] / 30 - 16
+            end = ct['end'] / 30 - 16
 
             points = (178*day+76, 40*begin+158, 178*(day+1)+69, 40*end+151)
             _rounded_rectangle(draw, points, 4, color)
 
             points = (points[0]+12, points[1]+8, points[2]-12, points[3]-8)
-            _textbox(textDraw, points, lDict['title'], l.get_professors_str_short(), c['classroom_short'], font)
+            _textbox(textDraw, points, lDict['title'], l.get_professors_str_short(), ct['classroom_short'], font)
 
     #image.thumbnail((600,900))
 

@@ -36,9 +36,9 @@ class SyllabusPage extends Component {
         <div className={classNames('section-wrap', 'section-wrap--with-tabs', 'section-wrap--syllabus')}>
           <div className={classNames('tabs', 'tabs--syllabus')}>
             {
-              lectures.map(lecture => (
-                <div className={classNames((currentShowingLecture === lecture ? 'tabs__elem--active' : ''))} onClick={() => this.updateShowingLecture(lecture)}>
-                  { lecture.common_title }
+              lectures.map(l => (
+                <div className={classNames((currentShowingLecture === l ? 'tabs__elem--active' : ''))} onClick={() => this.updateShowingLecture(l)}>
+                  { l.common_title }
                 </div>
               ))
             }
@@ -46,9 +46,9 @@ class SyllabusPage extends Component {
           <div className={classNames('section', 'section--syllabus')}>
             <div className={classNames('section-content', 'section-content--syllabus')}>
 
-              { lectures.map(lecture => (
-                <iframe src={this._getLectureUrl(lecture)} title={`syllabus-${lecture.title}`} key={lecture.id} style={lecture.id === currentShowingLecture.id ? {} : { display: 'none' }}>
-                  { lecture.common_title }
+              { lectures.map(l => (
+                <iframe src={this._getLectureUrl(l)} title={`syllabus-${l.title}`} key={l.id} style={l.id === currentShowingLecture.id ? {} : { display: 'none' }}>
+                  { l.common_title }
                 </iframe>
               ))}
             </div>

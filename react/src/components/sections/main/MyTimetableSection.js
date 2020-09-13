@@ -108,12 +108,12 @@ class MyTimetableSection extends Component {
           {
             lectures.map(lecture => (
               lecture.classtimes
-                .filter(classtime => (classtime.day === day - 1))
-                .map(classtime => (
+                .filter(ct => (ct.day === day - 1))
+                .map(ct => (
                   <CurrentTimetableBlock
-                    key={`${lecture.id}:${classtime.day}:${classtime.begin}`}
+                    key={`${lecture.id}:${ct.day}:${ct.begin}`}
                     lecture={lecture}
-                    classtime={classtime}
+                    classtime={ct}
                     cellWidth={cellWidth}
                     cellHeight={51}
                   />
