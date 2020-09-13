@@ -114,7 +114,7 @@ def course_instance_reviews_view(request, course_id):
 def course_instance_lectures_view(request, course_id):
     if request.method == 'GET':
         course = get_object_or_404(Course, id=course_id)
-        lectures = course.lecture_course.filter(deleted=False).order_by('year','semester', 'class_no')
+        lectures = course.lectures.filter(deleted=False).order_by('year','semester', 'class_no')
 
         result = [l.toJson() for l in lectures]
         return JsonResponse(result, safe=False)
@@ -174,7 +174,7 @@ def lecture_list_view(request):
             .distinct() \
             .order_by('old_code', 'class_no')
             #.select_related('course', 'department') \
-            #.prefetch_related('classtime_set', 'examtime_set', 'professors') \
+            #.prefetch_related('classtimes', 'examtimes', 'professors') \
 
         offset = getint(request.GET, 'offset', None)
         limit = getint(request.GET, 'limit', None)
@@ -204,7 +204,7 @@ def lecture_list_autocomplete_view(request):
             return HttpResponseBadRequest('Missing fields in request data')
 
         lectures = Lecture.objects.filter(deleted=False, year=year, semester=semester)
-        professors = Professor.objects.filter(lecture_professor__deleted=False, lecture_professor__year=year, lecture_professor__semester=semester)
+        professors = Professor.objects.filter(lectures__deleted=False, lectures__year=year, lectures__semester=semester)
 
         SEARCH_FIELDS = (
             {'queryset': lectures, 'field': ('department', 'name')},
@@ -254,7 +254,7 @@ def user_instance_taken_courses_view(request, user_id):
         userprofile = request.user.userprofile
         if userprofile.id != int(user_id):
             return HttpResponse(status=401)
-        courses = Course.objects.filter(lecture_course__in=userprofile.take_lecture_list.all()).order_by('old_code').distinct()
+        courses = Course.objects.filter(lectures__in=userprofile.taken_lectures.all()).order_by('old_code').distinct()
 
         result = [c.toJson(user=request.user) for c in courses]
         return JsonResponse(result, safe=False)
@@ -315,7 +315,7 @@ def _filterTerm(queryset, term):
         return queryset
     else:
         current_year = datetime.datetime.now().year
-        return queryset.filter(lecture_course__year__gte=current_year-int(term))
+        return queryset.filter(lectures__year__gte=current_year-int(term))
 
 
 def _filterGroup(queryset, group):
@@ -354,11 +354,11 @@ def _filterKeyword(queryset, keyword):
 def _filterTime(queryset, day, begin, end):
     time_query = Q()
     if day:
-        time_query &= Q(classtime_set__day = day)
+        time_query &= Q(classtimes__day = day)
     if begin:
-        time_query &= Q(classtime_set__begin__gte = datetime.time(int(begin)/2+8, (int(begin)%2)*30))
+        time_query &= Q(classtimes__begin__gte = datetime.time(int(begin)/2+8, (int(begin)%2)*30))
     if end and (int(end) != 32):
-        time_query &= Q(classtime_set__end__lte = datetime.time(int(end)/2+8, (int(end)%2)*30))
+        time_query &= Q(classtimes__end__lte = datetime.time(int(end)/2+8, (int(end)%2)*30))
     return queryset.filter(time_query)
 
 

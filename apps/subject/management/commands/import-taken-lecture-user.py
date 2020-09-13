@@ -53,10 +53,10 @@ class Command(BaseCommand):
         for a in rows:
             if (a[0], a[1]) not in cleared_semester_list:
                 cleared_semester_list.append((a[0], a[1]))
-                userprofile.take_lecture_list.remove(*userprofile.take_lecture_list.filter(year=a[0], semester=a[1]))
+                userprofile.taken_lectures.remove(*userprofile.taken_lectures.filter(year=a[0], semester=a[1]))
             lecture = lectures.filter(year=a[0], semester=a[1], code=a[2], class_no = a[3].strip())
             if len(lecture) == 1:
-                userprofile.take_lecture_list.add(lecture[0])
+                userprofile.taken_lectures.add(lecture[0])
             else:
                 print>>sys.stderr, str(a[0]) + " " + str(a[1]) + " " + a[2] + " " + a[3] + "는 왜 개수가 " + str(len(lecture)) + " 지?"
 
