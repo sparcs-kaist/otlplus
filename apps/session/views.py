@@ -215,8 +215,8 @@ def info(request):
         "departments": _user_department(request.user),
         "favorite_departments": [d.toJson() for d in userProfile.favorite_departments.all()],
         "review_writable_lectures": [l.toJson() for l in userProfile.getReviewWritableLectureList()],
-        "my_timetable_lectures": [l.toJson() for l in userProfile.take_lecture_list.exclude(Lecture.getQueryResearch())],
-        "reviews": [c.toJson(nested=True) for c in userProfile.reviews.all()],
+        "my_timetable_lectures": [l.toJson() for l in userProfile.taken_lectures.exclude(Lecture.getQueryResearch())],
+        "reviews": [r.toJson(nested=True) for r in userProfile.reviews.all()],
     }
     return JsonResponse(ctx, safe = False)
 

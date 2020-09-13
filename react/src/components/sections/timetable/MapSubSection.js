@@ -34,13 +34,13 @@ class MapSubSection extends Component {
       return;
     }
 
-    const active = currentTimetable.lectures.filter(lecture => (
-      getBuildingStr(lecture) === building
+    const active = currentTimetable.lectures.filter(l => (
+      getBuildingStr(l) === building
     ));
-    const lectures = active.map(lecture => ({
-      id: lecture.id,
-      title: lecture[t('js.property.title')],
-      info: getRoomStr(lecture),
+    const lectures = active.map(l => ({
+      id: l.id,
+      title: l[t('js.property.title')],
+      info: getRoomStr(l),
     }));
     setMultipleDetailDispatch(building, lectures);
     this.setState({ activeLectures: active });
@@ -67,14 +67,14 @@ class MapSubSection extends Component {
       .concat((lectureActiveLecture && !inTimetable(lectureActiveLecture, currentTimetable))
         ? [lectureActiveLecture]
         : []);
-    const buildings = new Set(targetLectures.map(lecture => getBuildingStr(lecture)));
+    const buildings = new Set(targetLectures.map(l => getBuildingStr(l)));
     const mapObject = Object.assign(
       {},
-      ...Array.from(buildings).map(building => (
+      ...Array.from(buildings).map(b => (
         {
-          [building]: targetLectures
-            .filter(lecture => (building === getBuildingStr(lecture)))
-            .map(lecture => ({ color: (lecture.course % 16) + 1, id: lecture.id })),
+          [b]: targetLectures
+            .filter(l => (b === getBuildingStr(l)))
+            .map(l => ({ color: (l.course % 16) + 1, id: l.id })),
         }
       )),
     );
@@ -86,24 +86,24 @@ class MapSubSection extends Component {
       <div className={classNames('section-content', 'section-content--map', 'mobile-hidden')}>
         <div>
           <img src={mapImage} alt="KAIST Map" />
-          { Object.keys(mapObject).map((building) => {
-            const act = mapObject[building].some(lec => isActive(lec, activeLecture, activeLectures))
+          { Object.keys(mapObject).map((b) => {
+            const act = mapObject[b].some(lec => isActive(lec, activeLecture, activeLectures))
               ? 'block--active'
               : '';
             const location = (
               <div
-                className={classNames('section-content--map__block', `location--${building}`)}
-                key={building}
-                onMouseOver={() => this.mapFocus(building)}
+                className={classNames('section-content--map__block', `location--${b}`)}
+                key={b}
+                onMouseOver={() => this.mapFocus(b)}
                 onMouseOut={() => this.clearFocus()}
               >
                 <div className={classNames('section-content--map__block__box', act)}>
-                  <span>{building}</span>
-                  {mapObject[building].map((lec) => {
-                    const lecAct = isActive(lec, activeLecture, activeLectures)
+                  <span>{b}</span>
+                  {mapObject[b].map((l) => {
+                    const lecAct = isActive(l, activeLecture, activeLectures)
                       ? 'block--active'
                       : '';
-                    return <span className={classNames('background-color--dark', `background-color--${lec.color}`, lecAct)} key={lec.id} />;
+                    return <span className={classNames('background-color--dark', `background-color--${l.color}`, lecAct)} key={l.id} />;
                   })}
                 </div>
                 <div className={classNames('section-content--map__block__arrow-shadow', act)} />

@@ -95,11 +95,11 @@ class Lecture(models.Model):
     num_labs = models.IntegerField(default=0)
     credit_au = models.IntegerField(default=0)
     limit = models.IntegerField(default=0)
-    professors = models.ManyToManyField('Professor', related_name='lecture_professor', blank=True, db_index=True)
+    professors = models.ManyToManyField('Professor', related_name='lectures', blank=True, db_index=True)
     is_english = models.BooleanField()
     deleted = models.BooleanField(default=False, db_index=True)
 
-    course = models.ForeignKey('Course', on_delete=models.PROTECT, related_name='lecture_course')
+    course = models.ForeignKey('Course', on_delete=models.PROTECT, related_name='lectures')
 
     # Updated by signal timetable_lecture_saved, timetable_deleted
     num_people = models.IntegerField(default=0, blank=True, null=True)
@@ -172,8 +172,8 @@ class Lecture(models.Model):
             'grade': self.grade,
             'load': self.load,
             'speech': self.speech,
-            'classtimes': [ct.toJson(nested=True) for ct in self.classtime_set.all()],
-            'examtimes': [et.toJson(nested=True) for et in self.examtime_set.all()],
+            'classtimes': [ct.toJson(nested=True) for ct in self.classtimes.all()],
+            'examtimes': [et.toJson(nested=True) for et in self.examtimes.all()],
         })
 
         cache.set(cache_id, result, 60 * 10)
@@ -184,10 +184,10 @@ class Lecture(models.Model):
         from apps.review.models import Review
         reviews = Review.objects.filter(lecture__course=self.course,
                                         lecture__professors__in=self.professors.all())
-        self.review_num = sum((c.like+1) for c in reviews)
-        self.grade_sum = sum((c.like+1)*c.grade*3 for c in reviews)
-        self.load_sum = sum((c.like+1)*c.load*3 for c in reviews)
-        self.speech_sum = sum((c.like+1)*c.speech*3 for c in reviews)
+        self.review_num = sum((r.like+1) for r in reviews)
+        self.grade_sum = sum((r.like+1)*r.grade*3 for r in reviews)
+        self.load_sum = sum((r.like+1)*r.load*3 for r in reviews)
+        self.speech_sum = sum((r.like+1)*r.speech*3 for r in reviews)
         self.avg_update()
         self.save()
 
@@ -296,7 +296,7 @@ class Lecture(models.Model):
 
 class ExamTime(models.Model):
     """Lecture에 배정된 시험시간 """
-    lecture = models.ForeignKey(Lecture, on_delete=models.CASCADE, related_name="examtime_set")
+    lecture = models.ForeignKey(Lecture, on_delete=models.CASCADE, related_name="examtimes")
     day = models.SmallIntegerField(choices=WEEKDAYS) #시험요일
     begin = models.TimeField() # hh:mm 형태의 시험시작시간 (24시간제)
     end = models.TimeField() # hh:mm 형태의 시험시작시간 (24시간 제)
@@ -335,56 +335,56 @@ class ExamTime(models.Model):
 
 class ClassTime(models.Model):
     """Lecture 에 배정된강의시간, 보통 하나의  Lecture 가 여러개의 강의시간을 가진다."""
-    lecture = models.ForeignKey(Lecture, on_delete=models.CASCADE, related_name="classtime_set", null=True)
+    lecture = models.ForeignKey(Lecture, on_delete=models.CASCADE, related_name="classtimes", null=True)
     day = models.SmallIntegerField(choices=WEEKDAYS) #강의 요일
     begin = models.TimeField() # hh:mm 형태의 강의 시작시각 (24시간제)
     end = models.TimeField() # hh:mm 형태의 강의 끝나는 시각 (24시간 제)
     type = models.CharField(max_length =1, choices=CLASS_TYPES) #강의 or 실험
-    building = models.CharField(max_length=10, blank=True, null=True) #건물 고유 ID
-    roomName = models.CharField(max_length=60, blank=True, null=True) #건물 이름(ex> (E11)창의학습관)
-    roomName_en = models.CharField(max_length=60, blank=True, null=True) #건물 이름(ex> (E11)Creative learning Bldg.)
-    roomNum = models.CharField(max_length=20, null=True) #강의실 호실(ex> 304, 1104, 1209-1, 터만홀)
+    building_id = models.CharField(max_length=10, blank=True, null=True) #건물 고유 ID
+    building_full_name = models.CharField(max_length=60, blank=True, null=True) #건물 이름(ex> (E11)창의학습관)
+    building_full_name_en = models.CharField(max_length=60, blank=True, null=True) #건물 이름(ex> (E11)Creative learning Bldg.)
+    room_name = models.CharField(max_length=20, null=True) #강의실 호실(ex> 304, 1104, 1209-1, 터만홀)
     unit_time = models.SmallIntegerField(null=True) #수업 교시
 
     def toJson(self, nested=False):
-        bldg = self.roomName
-        bldg_en = self.roomName_en
+        building_full_name = self.building_full_name
+        building_full_name_en = self.building_full_name_en
         # No classroom info
-        if bldg == None:
-            room = ""
-            bldg_no = ""
+        if building_full_name == None:
+            room_name = ""
+            building_code = ""
             classroom = u"정보 없음"
             classroom_en = u"Unknown"
             classroom_short = u"정보 없음"
             classroom_short_en = u"Unknown"
         # Building name has form of "(N1) xxxxx"
-        elif bldg[0] == "(":
-            bldg_no = bldg[1:bldg.find(")")]
-            bldg_name = bldg[len(bldg_no)+2:]
-            bldg_name_en = bldg_en[len(bldg_no)+2:]
-            room = self.roomNum
-            if room == None: room=""
-            classroom = "(" + bldg_no + ") " + bldg_name + " " + room
-            classroom_en = "(" + bldg_no + ") " + bldg_name_en + " " + room
-            classroom_short = "(" + bldg_no + ") " + room
-            classroom_short_en = "(" + bldg_no + ") " + room
+        elif building_full_name[0] == "(":
+            building_code = building_full_name[1:building_full_name.find(")")]
+            building_name = building_full_name[len(building_code)+2:]
+            building_name_en = building_full_name_en[len(building_code)+2:]
+            room_name = self.room_name
+            if room_name == None: room_name=""
+            classroom = "(" + building_code + ") " + building_name + " " + room_name
+            classroom_en = "(" + building_code + ") " + building_name_en + " " + room_name
+            classroom_short = "(" + building_code + ") " + room_name
+            classroom_short_en = "(" + building_code + ") " + room_name
         # Building name has form of "xxxxx"
         else:
-            bldg_no=""
-            room = self.roomNum
-            if room == None: room=""
-            classroom = bldg + " " + room
-            classroom_en = bldg_en + " " + room
-            classroom_short = bldg + " " + room
-            classroom_short_en = bldg_en + " " + room
+            building_code=""
+            room_name = self.room_name
+            if room_name == None: room_name=""
+            classroom = building_full_name + " " + room_name
+            classroom_en = building_full_name_en + " " + room_name
+            classroom_short = building_full_name + " " + room_name
+            classroom_short_en = building_full_name_en + " " + room_name
 
         result = {
-            "building": bldg_no,
+            "building_code": building_code,
             "classroom": classroom,
             "classroom_en": classroom_en,
             "classroom_short": classroom_short,
             "classroom_short_en": classroom_short_en,
-            "room": room,
+            "room_name": room_name,
             "day": self.day,
             "begin": self.get_begin_numeric(),
             "end": self.get_end_numeric(),
@@ -409,22 +409,22 @@ class ClassTime(models.Model):
         return t
 
     def get_location(self):
-        if self.roomNum is None:
-            return u'%s' % (self.roomName_ko)
+        if self.room_name is None:
+            return u'%s' % (self.building_full_name_ko)
         try:
-            int(self.roomNum)
-            return u'%s %s호' % (self.roomName_ko, self.roomNum)
+            int(self.room_name)
+            return u'%s %s호' % (self.building_full_name_ko, self.room_name)
         except ValueError:
-            return u'%s %s' % (self.roomName_ko, self.roomNum)
+            return u'%s %s' % (self.building_full_name_ko, self.room_name)
 
     def get_location_en(self):
-        if self.roomNum is None:
-            return u'%s' % (self.roomName_en)
+        if self.room_name is None:
+            return u'%s' % (self.building_full_name_en)
         try:
-            int(self.roomNum)
-            return u'%s %s' % (self.roomName_en, self.roomNum)
+            int(self.room_name)
+            return u'%s %s' % (self.building_full_name_en, self.room_name)
         except ValueError:
-            return u'%s %s' % (self.roomName_en, self.roomNum)
+            return u'%s %s' % (self.building_full_name_en, self.room_name)
 
     @staticmethod
     def numeric_time_to_str(numeric_time):
@@ -561,10 +561,10 @@ class Course(models.Model):
     def recalc_score(self):
         from apps.review.models import Review
         reviews = Review.objects.filter(lecture__course=self)
-        self.review_num = sum((c.like+1) for c in reviews)
-        self.grade_sum = sum((c.like+1)*c.grade*3 for c in reviews)
-        self.load_sum = sum((c.like+1)*c.load*3 for c in reviews)
-        self.speech_sum = sum((c.like+1)*c.speech*3 for c in reviews)
+        self.review_num = sum((r.like+1) for r in reviews)
+        self.grade_sum = sum((r.like+1)*r.grade*3 for r in reviews)
+        self.load_sum = sum((r.like+1)*r.load*3 for r in reviews)
+        self.speech_sum = sum((r.like+1)*r.speech*3 for r in reviews)
         self.avg_update()
         self.save()
 
@@ -628,10 +628,10 @@ class Professor(models.Model):
     def recalc_score(self):
         from apps.review.models import Review
         reviews = Review.objects.filter(lecture__professors=self)
-        self.review_num = sum((c.like+1) for c in reviews)
-        self.grade_sum = sum((c.like+1)*c.grade*3 for c in reviews)
-        self.load_sum = sum((c.like+1)*c.load*3 for c in reviews)
-        self.speech_sum = sum((c.like+1)*c.speech*3 for c in reviews)
+        self.review_num = sum((r.like+1) for r in reviews)
+        self.grade_sum = sum((r.like+1)*r.grade*3 for r in reviews)
+        self.load_sum = sum((r.like+1)*r.load*3 for r in reviews)
+        self.speech_sum = sum((r.like+1)*r.speech*3 for r in reviews)
         self.avg_update()
         self.save()
 

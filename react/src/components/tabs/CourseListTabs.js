@@ -193,8 +193,8 @@ class CourseListTabs extends Component {
           <i className={classNames('icon', 'icon--tab-search')} />
           <span>{t('ui.tab.searchShort')}</span>
         </div>
-        {major.codes.map(code => (
-          <div className={classNames((currentList === code ? 'tabs__elem--active' : ''))} key={code} onClick={() => this.changeTab(code)}>
+        {major.codes.map(c => (
+          <div className={classNames((currentList === c ? 'tabs__elem--active' : ''))} key={c} onClick={() => this.changeTab(c)}>
             <i className={classNames('icon', 'icon--tab-major')} />
             <span>{t('ui.tab.majorShort')}</span>
           </div>

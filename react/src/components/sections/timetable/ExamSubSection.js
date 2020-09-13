@@ -35,7 +35,7 @@ class ExamSubSection extends Component {
       .concat((lectureActiveLecture && !inTimetable(lectureActiveLecture, currentTimetable))
         ? [lectureActiveLecture]
         : [])
-      .filter(lecture => (lecture.examtimes.length > 0));
+      .filter(l => (l.examtimes.length > 0));
 
     return lecturesWithExam;
   }
@@ -49,8 +49,8 @@ class ExamSubSection extends Component {
 
     const dayNames = [t('ui.day.monday'), t('ui.day.tuesday'), t('ui.day.wednesday'), t('ui.day.thursday'), t('ui.day.friday')];
 
-    const activeLectures = this._getLecturesWithExam().filter(lecture => (
-      lecture.examtimes[0].day === dayIndex
+    const activeLectures = this._getLecturesWithExam().filter(l => (
+      l.examtimes[0].day === dayIndex
     ));
     const lectures = activeLectures.map(lecture => ({
       id: lecture.id,
@@ -100,10 +100,10 @@ class ExamSubSection extends Component {
     const examTable = [0, 1, 2, 3, 4].map(day => (
       lecturesWithExam
         .filter(lecture => lecture.examtimes[0].day === day)
-        .map(lecture => ({
-          title: lecture[t('js.property.title')],
-          time: getExamStr(lecture).slice(getExamStr(lecture).indexOf(' ')),
-          id: lecture.id,
+        .map(l => ({
+          title: l[t('js.property.title')],
+          time: getExamStr(l).slice(getExamStr(l).indexOf(' ')),
+          id: l.id,
         }))
     ));
 

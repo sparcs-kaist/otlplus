@@ -102,13 +102,13 @@ class TimetableSubSection extends Component {
     }
 
     return currentTimetable.lectures.map(lecture => (
-      lecture.classtimes.map((classtime) => {
-        if ((classtime.day === dragDay)
-          && (dragStart < this.indexOfMinute(classtime.end))
-          && (dragEnd > this.indexOfMinute(classtime.begin))) {
+      lecture.classtimes.map((ct) => {
+        if ((ct.day === dragDay)
+          && (dragStart < this.indexOfMinute(ct.end))
+          && (dragEnd > this.indexOfMinute(ct.begin))) {
           return [
-            Math.max(dragStart, this.indexOfMinute(classtime.begin)) - dragStart,
-            Math.min(dragEnd, this.indexOfMinute(classtime.end)) - dragStart,
+            Math.max(dragStart, this.indexOfMinute(ct.begin)) - dragStart,
+            Math.min(dragEnd, this.indexOfMinute(ct.end)) - dragStart,
           ];
         }
         return undefined;
@@ -294,7 +294,7 @@ class TimetableSubSection extends Component {
       if (lecture.classtimes.length === 0) {
         return mapClasstimeToBlock(lecture, null, true, isTemp);
       }
-      return lecture.classtimes.map(c => mapClasstimeToBlock(lecture, c, isOutsideTable(c), isTemp));
+      return lecture.classtimes.map(ct => mapClasstimeToBlock(lecture, ct, isOutsideTable(ct), isTemp));
     };
     const lectureBlocks = lectures.map(lecture => mapLectureToBlocks(lecture, false));
     const tempBlocks = ((lectureActiveFrom === LIST) && !inTimetable(lectureActiveLecture, currentTimetable))
