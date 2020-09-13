@@ -1409,8 +1409,12 @@ a {
     border-radius: $block-border-radius;
     font-size: $font-size-normal;
     line-height: $line-height-normal;
+    display: block;
     padding: 10px;
     margin-bottom: 8px;
+    &:last-child {
+        margin-bottom: 0;
+    }
     a > &:hover {
         background-color:$color-block-background-dark;
     }
