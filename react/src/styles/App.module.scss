@@ -627,6 +627,7 @@ a {
 .section {
     width: 100%;
     height: 100%;
+    position: relative;
     padding: $section-padding;
     background-color: $color-section-background;
     border-radius: $section-border-radius;
@@ -2549,6 +2550,9 @@ a {
 .divider {
     border-bottom: 1px solid $color-divider-line;
     margin: $section-padding 0;
+    &:last-child {
+        margin-bottom: 0;
+    }
 
 
     &--vertical {
@@ -2605,11 +2609,42 @@ a {
 
 
 .search-area {
-    height: 0;
+    position: absolute;
+    top: $section-padding;
+    left: $section-padding;
+    right: $section-padding;
+    height: calc(100% - #{$section-padding} * 2);
     z-index: 20;
+
+    & :global(.ScrollbarsCustom) {
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        width: calc(100% + #{$section-padding}) !important;
+        margin-right: -$section-padding;
+        padding-right: $section-padding;
+    }
+
+    & :global(.ScrollbarsCustom-Wrapper) {
+        position: relative !important;
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
+    }
+
+    & :global(.ScrollbarsCustom-Track.ScrollbarsCustom-TrackY) {
+        right: 0 !important;
+    }
+
+    & :global(.ScrollbarsCustom-Scroller) {
+        flex: 1 1 auto;
+    }
 
     & > form {
         background-color:$color-section-background;
+        max-height: 100%;
+        display: flex;
+        flex-direction: column;
     }
 }
 
