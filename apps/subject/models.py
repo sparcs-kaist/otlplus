@@ -340,15 +340,15 @@ class ClassTime(models.Model):
     begin = models.TimeField() # hh:mm 형태의 강의 시작시각 (24시간제)
     end = models.TimeField() # hh:mm 형태의 강의 끝나는 시각 (24시간 제)
     type = models.CharField(max_length =1, choices=CLASS_TYPES) #강의 or 실험
-    building = models.CharField(max_length=10, blank=True, null=True) #건물 고유 ID
-    roomName = models.CharField(max_length=60, blank=True, null=True) #건물 이름(ex> (E11)창의학습관)
-    roomName_en = models.CharField(max_length=60, blank=True, null=True) #건물 이름(ex> (E11)Creative learning Bldg.)
-    roomNum = models.CharField(max_length=20, null=True) #강의실 호실(ex> 304, 1104, 1209-1, 터만홀)
+    building_id = models.CharField(max_length=10, blank=True, null=True) #건물 고유 ID
+    building_name = models.CharField(max_length=60, blank=True, null=True) #건물 이름(ex> (E11)창의학습관)
+    building_name_en = models.CharField(max_length=60, blank=True, null=True) #건물 이름(ex> (E11)Creative learning Bldg.)
+    room_name = models.CharField(max_length=20, null=True) #강의실 호실(ex> 304, 1104, 1209-1, 터만홀)
     unit_time = models.SmallIntegerField(null=True) #수업 교시
 
     def toJson(self, nested=False):
-        bldg = self.roomName
-        bldg_en = self.roomName_en
+        bldg = self.building_name
+        bldg_en = self.building_name_en
         # No classroom info
         if bldg == None:
             room = ""
@@ -362,7 +362,7 @@ class ClassTime(models.Model):
             bldg_no = bldg[1:bldg.find(")")]
             bldg_name = bldg[len(bldg_no)+2:]
             bldg_name_en = bldg_en[len(bldg_no)+2:]
-            room = self.roomNum
+            room = self.room_name
             if room == None: room=""
             classroom = "(" + bldg_no + ") " + bldg_name + " " + room
             classroom_en = "(" + bldg_no + ") " + bldg_name_en + " " + room
@@ -371,7 +371,7 @@ class ClassTime(models.Model):
         # Building name has form of "xxxxx"
         else:
             bldg_no=""
-            room = self.roomNum
+            room = self.room_name
             if room == None: room=""
             classroom = bldg + " " + room
             classroom_en = bldg_en + " " + room
@@ -409,22 +409,22 @@ class ClassTime(models.Model):
         return t
 
     def get_location(self):
-        if self.roomNum is None:
-            return u'%s' % (self.roomName_ko)
+        if self.room_name is None:
+            return u'%s' % (self.building_name_ko)
         try:
-            int(self.roomNum)
-            return u'%s %s호' % (self.roomName_ko, self.roomNum)
+            int(self.room_name)
+            return u'%s %s호' % (self.building_name_ko, self.room_name)
         except ValueError:
-            return u'%s %s' % (self.roomName_ko, self.roomNum)
+            return u'%s %s' % (self.building_name_ko, self.room_name)
 
     def get_location_en(self):
-        if self.roomNum is None:
-            return u'%s' % (self.roomName_en)
+        if self.room_name is None:
+            return u'%s' % (self.building_name_en)
         try:
-            int(self.roomNum)
-            return u'%s %s' % (self.roomName_en, self.roomNum)
+            int(self.room_name)
+            return u'%s %s' % (self.building_name_en, self.room_name)
         except ValueError:
-            return u'%s %s' % (self.roomName_en, self.roomNum)
+            return u'%s %s' % (self.building_name_en, self.room_name)
 
     @staticmethod
     def numeric_time_to_str(numeric_time):
