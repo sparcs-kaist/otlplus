@@ -764,22 +764,21 @@ a {
             @media #{$media-portrait} {
                 .block--course-lectures {
                     margin-right: 6px + 10px;
-                }
-            }
-
-            & .scroll-placeholder {
-                height: calc(
-                    100% - (
-                        8px * 2
-                        + #{$line-height-normal} * 2
-                        + 6px * 2
-                        + 1px
-                        + 6px
-                        + #{$section-padding}
-                    )
-                );
-                @media #{$media-landscape} {
-                    display: none;
+                    &:last-child {
+                        margin-bottom: calc(
+                            (
+                                100vh
+                                - 55px
+                                - (#{$section-margin-bottom} * 2)
+                                - (#{$line-height-small} + 6px * 2)
+                            ) / 2
+                            - (
+                                (#{$section-padding} * 2)
+                                + (#{$line-height-big} + 12px)
+                                + (8px * 2 + #{$line-height-normal} * 2 + 6px * 2 + 1px)
+                            )
+                        );
+                    }
                 }
             }
         }
