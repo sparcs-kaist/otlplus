@@ -149,7 +149,7 @@ class RelatedCourseDailyUserFeed(DailyUserFeed):
         try:
             feed = cls.objects.get(date=date, user=user)
         except cls.DoesNotExist:
-            taken_lectures = user.take_lecture_list.all()
+            taken_lectures = user.taken_lectures.all()
             if taken_lectures.count() == 0:
                 return None
             selected_lecture = random.choice(taken_lectures)

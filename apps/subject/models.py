@@ -95,11 +95,11 @@ class Lecture(models.Model):
     num_labs = models.IntegerField(default=0)
     credit_au = models.IntegerField(default=0)
     limit = models.IntegerField(default=0)
-    professors = models.ManyToManyField('Professor', related_name='lecture_professor', blank=True, db_index=True)
+    professors = models.ManyToManyField('Professor', related_name='lectures', blank=True, db_index=True)
     is_english = models.BooleanField()
     deleted = models.BooleanField(default=False, db_index=True)
 
-    course = models.ForeignKey('Course', on_delete=models.PROTECT, related_name='lecture_course')
+    course = models.ForeignKey('Course', on_delete=models.PROTECT, related_name='lectures')
 
     # Updated by signal timetable_lecture_saved, timetable_deleted
     num_people = models.IntegerField(default=0, blank=True, null=True)
@@ -172,8 +172,8 @@ class Lecture(models.Model):
             'grade': self.grade,
             'load': self.load,
             'speech': self.speech,
-            'classtimes': [ct.toJson(nested=True) for ct in self.classtime_set.all()],
-            'examtimes': [et.toJson(nested=True) for et in self.examtime_set.all()],
+            'classtimes': [ct.toJson(nested=True) for ct in self.classtimes.all()],
+            'examtimes': [et.toJson(nested=True) for et in self.examtimes.all()],
         })
 
         cache.set(cache_id, result, 60 * 10)
@@ -296,7 +296,7 @@ class Lecture(models.Model):
 
 class ExamTime(models.Model):
     """Lecture에 배정된 시험시간 """
-    lecture = models.ForeignKey(Lecture, on_delete=models.CASCADE, related_name="examtime_set")
+    lecture = models.ForeignKey(Lecture, on_delete=models.CASCADE, related_name="examtimes")
     day = models.SmallIntegerField(choices=WEEKDAYS) #시험요일
     begin = models.TimeField() # hh:mm 형태의 시험시작시간 (24시간제)
     end = models.TimeField() # hh:mm 형태의 시험시작시간 (24시간 제)
@@ -335,7 +335,7 @@ class ExamTime(models.Model):
 
 class ClassTime(models.Model):
     """Lecture 에 배정된강의시간, 보통 하나의  Lecture 가 여러개의 강의시간을 가진다."""
-    lecture = models.ForeignKey(Lecture, on_delete=models.CASCADE, related_name="classtime_set", null=True)
+    lecture = models.ForeignKey(Lecture, on_delete=models.CASCADE, related_name="classtimes", null=True)
     day = models.SmallIntegerField(choices=WEEKDAYS) #강의 요일
     begin = models.TimeField() # hh:mm 형태의 강의 시작시각 (24시간제)
     end = models.TimeField() # hh:mm 형태의 강의 끝나는 시각 (24시간 제)

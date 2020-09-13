@@ -25,7 +25,7 @@ class UserProfile(models.Model):
     sid = models.CharField(max_length=30)  # 서비스에 대해 고유하게 부여받은 ID
     language = models.CharField(max_length=15)
     favorite_departments = models.ManyToManyField('subject.Department', related_name='favoredby_set')
-    take_lecture_list = models.ManyToManyField('subject.Lecture', related_name='take_lecture_list', blank=True)
+    taken_lectures = models.ManyToManyField('subject.Lecture', related_name='taken_users', blank=True)
     portal_check = models.IntegerField(default=0)
     google_calendar_id = models.TextField(null=True, blank=True)
     google_credential = CredentialsField()
@@ -41,7 +41,7 @@ class UserProfile(models.Model):
         return result
 
     def getReviewWritableLectureList(self):
-        return self.take_lecture_list.filter(Lecture.getQueryReviewWritable())
+        return self.taken_lectures.filter(Lecture.getQueryReviewWritable())
 
     def __unicode__(self):
         return u'%s %s' % (self.user.username, self.student_id)

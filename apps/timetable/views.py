@@ -206,7 +206,7 @@ def _get_timetable_or_my_timetable_lectures(userprofile, table_id, year, semeste
         return None
 
     if table_id == MY:
-        return list(userprofile.take_lecture_list.filter(year=year, semester=semester))
+        return list(userprofile.taken_lectures.filter(year=year, semester=semester))
     
     try:
         table = Timetable.objects.get(id=table_id, year=year, semester=semester)
