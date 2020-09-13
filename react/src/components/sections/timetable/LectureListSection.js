@@ -262,7 +262,6 @@ class LectureListSection extends Component {
             ))}
           </div>
         )),
-        <div className={classNames('scroll-placeholder')} key="placeholder" />,
       ];
     };
 

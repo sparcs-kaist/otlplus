@@ -171,13 +171,6 @@ a {
         position: initial !important;
 }
 
-:global(.ScrollbarsCustom-Content)::after {
-    content: '';
-    display: block;
-    height: 2px;
-    margin-top: $section-padding - 2px;
-}
-
 :global(.ScrollbarsCustom-Thumb)::before {
     content: '';
     position: absolute;
@@ -2260,10 +2253,6 @@ a {
 
 .history {
 
-        :global(.ScrollbarsCustom-Content) > & {
-            margin-right: -10000px;
-        }
-
         & > tbody > tr {
             &:first-child {
                 vertical-align: bottom;
@@ -2686,7 +2675,6 @@ a {
 
 
 .list-placeholder {
-    min-height: calc(100% - #{$section-padding});
     display: flex;
     flex-direction: column;
     justify-content: center;
