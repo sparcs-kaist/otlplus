@@ -341,50 +341,50 @@ class ClassTime(models.Model):
     end = models.TimeField() # hh:mm 형태의 강의 끝나는 시각 (24시간 제)
     type = models.CharField(max_length =1, choices=CLASS_TYPES) #강의 or 실험
     building_id = models.CharField(max_length=10, blank=True, null=True) #건물 고유 ID
-    building_name = models.CharField(max_length=60, blank=True, null=True) #건물 이름(ex> (E11)창의학습관)
-    building_name_en = models.CharField(max_length=60, blank=True, null=True) #건물 이름(ex> (E11)Creative learning Bldg.)
+    building_full_name = models.CharField(max_length=60, blank=True, null=True) #건물 이름(ex> (E11)창의학습관)
+    building_full_name_en = models.CharField(max_length=60, blank=True, null=True) #건물 이름(ex> (E11)Creative learning Bldg.)
     room_name = models.CharField(max_length=20, null=True) #강의실 호실(ex> 304, 1104, 1209-1, 터만홀)
     unit_time = models.SmallIntegerField(null=True) #수업 교시
 
     def toJson(self, nested=False):
-        bldg = self.building_name
-        bldg_en = self.building_name_en
+        building_full_name = self.building_full_name
+        building_full_name_en = self.building_full_name_en
         # No classroom info
-        if bldg == None:
-            room = ""
-            bldg_no = ""
+        if building_full_name == None:
+            room_name = ""
+            building_code = ""
             classroom = u"정보 없음"
             classroom_en = u"Unknown"
             classroom_short = u"정보 없음"
             classroom_short_en = u"Unknown"
         # Building name has form of "(N1) xxxxx"
-        elif bldg[0] == "(":
-            bldg_no = bldg[1:bldg.find(")")]
-            bldg_name = bldg[len(bldg_no)+2:]
-            bldg_name_en = bldg_en[len(bldg_no)+2:]
-            room = self.room_name
-            if room == None: room=""
-            classroom = "(" + bldg_no + ") " + bldg_name + " " + room
-            classroom_en = "(" + bldg_no + ") " + bldg_name_en + " " + room
-            classroom_short = "(" + bldg_no + ") " + room
-            classroom_short_en = "(" + bldg_no + ") " + room
+        elif building_full_name[0] == "(":
+            building_code = building_full_name[1:building_full_name.find(")")]
+            building_name = building_full_name[len(building_code)+2:]
+            building_name_en = building_full_name_en[len(building_code)+2:]
+            room_name = self.room_name
+            if room_name == None: room_name=""
+            classroom = "(" + building_code + ") " + building_name + " " + room_name
+            classroom_en = "(" + building_code + ") " + building_name_en + " " + room_name
+            classroom_short = "(" + building_code + ") " + room_name
+            classroom_short_en = "(" + building_code + ") " + room_name
         # Building name has form of "xxxxx"
         else:
-            bldg_no=""
-            room = self.room_name
-            if room == None: room=""
-            classroom = bldg + " " + room
-            classroom_en = bldg_en + " " + room
-            classroom_short = bldg + " " + room
-            classroom_short_en = bldg_en + " " + room
+            building_code=""
+            room_name = self.room_name
+            if room_name == None: room_name=""
+            classroom = building_full_name + " " + room_name
+            classroom_en = building_full_name_en + " " + room_name
+            classroom_short = building_full_name + " " + room_name
+            classroom_short_en = building_full_name_en + " " + room_name
 
         result = {
-            "building": bldg_no,
+            "building_code": building_code,
             "classroom": classroom,
             "classroom_en": classroom_en,
             "classroom_short": classroom_short,
             "classroom_short_en": classroom_short_en,
-            "room": room,
+            "room_name": room_name,
             "day": self.day,
             "begin": self.get_begin_numeric(),
             "end": self.get_end_numeric(),
@@ -410,21 +410,21 @@ class ClassTime(models.Model):
 
     def get_location(self):
         if self.room_name is None:
-            return u'%s' % (self.building_name_ko)
+            return u'%s' % (self.building_full_name_ko)
         try:
             int(self.room_name)
-            return u'%s %s호' % (self.building_name_ko, self.room_name)
+            return u'%s %s호' % (self.building_full_name_ko, self.room_name)
         except ValueError:
-            return u'%s %s' % (self.building_name_ko, self.room_name)
+            return u'%s %s' % (self.building_full_name_ko, self.room_name)
 
     def get_location_en(self):
         if self.room_name is None:
-            return u'%s' % (self.building_name_en)
+            return u'%s' % (self.building_full_name_en)
         try:
             int(self.room_name)
-            return u'%s %s' % (self.building_name_en, self.room_name)
+            return u'%s %s' % (self.building_full_name_en, self.room_name)
         except ValueError:
-            return u'%s %s' % (self.building_name_en, self.room_name)
+            return u'%s %s' % (self.building_full_name_en, self.room_name)
 
     @staticmethod
     def numeric_time_to_str(numeric_time):
