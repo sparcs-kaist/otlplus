@@ -40,24 +40,30 @@ class Scroller extends Component {
         style={{
           flex: 'auto',
           marginBottom: `-${calculatedMarginBottom}px`,
+          display: 'flex',
+          flexDirection: 'column',
+          overflow: 'hidden',
+          width: 'calc(100% + 12px)',
+          marginRight: '-12px',
+          paddingRight: '12px',
         }}
         wrapperProps={{
           style: calculatedNoScrollY
             ? {
+              flex: '1 1 auto',
+              display: 'flex',
+              flexDirection: 'column',
             }
             : {
-              right: '0',
+              flex: '1 1 auto',
+              display: 'flex',
+              flexDirection: 'column',
             },
         }}
         scrollerProps={{
           style:
             {
-              top: 'initial',
-              bottom: 'initial',
-              left: 'initial',
-              right: 'initial',
-              position: 'initial',
-              height: '100%',
+              flex: '1 1 auto',
             },
         }}
         contentProps={{
@@ -76,8 +82,8 @@ class Scroller extends Component {
           style: {
             left: '0',
             bottom: '0',
-            height: `${calculatedMarginBottom}px`,
-            width: '100%',
+            height: '12px',
+            width: 'calc(100% - 12px)',
             backgroundColor: 'transparent',
             transition: 'opacity 0.3s',
             opacity: isScrolling ? '1' : (isMouseIn ? '0.25' : '0'),
@@ -86,7 +92,7 @@ class Scroller extends Component {
         trackYProps={{
           style: {
             top: '0',
-            right: '-12px',
+            right: '0',
             width: '12px',
             height: `calc(100% - ${calculatedMarginBottom}px)`,
             backgroundColor: 'transparent',

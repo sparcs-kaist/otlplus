@@ -167,6 +167,14 @@ a {
     }
 }
 
+:global(.ScrollbarsCustom-Wrapper) {
+    position: relative !important;
+}
+
+:global(.ScrollbarsCustom-Scroller) {
+    position: relative !important;
+}
+
 :global(.noY .ScrollbarsCustom-Wrapper) {
         position: initial !important;
 }
@@ -2610,27 +2618,15 @@ a {
     z-index: 20;
 
     & :global(.ScrollbarsCustom) {
-        display: flex;
-        flex-direction: column;
-        overflow: hidden;
-        width: calc(100% + #{$section-padding}) !important;
-        margin-right: -$section-padding;
-        padding-right: $section-padding;
     }
 
     & :global(.ScrollbarsCustom-Wrapper) {
-        position: relative !important;
-        flex: 1 1 auto;
-        display: flex;
-        flex-direction: column;
     }
 
     & :global(.ScrollbarsCustom-Track.ScrollbarsCustom-TrackY) {
-        right: 0 !important;
     }
 
     & :global(.ScrollbarsCustom-Scroller) {
-        flex: 1 1 auto;
     }
 
     & > form {
