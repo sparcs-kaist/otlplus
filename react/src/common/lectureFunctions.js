@@ -79,7 +79,7 @@ export const getBuildingStr = (lecture) => {
   if (classtimes.length === 0) {
     return i18n.t('ui.placeholder.unknown');
   }
-  return classtimes[0].building;
+  return classtimes[0].building_code;
 };
 
 export const getClassroomStr = (lecture) => {
@@ -95,7 +95,7 @@ export const getRoomStr = (lecture) => {
   if (classtimes.length === 0) {
     return i18n.t('ui.placeholder.unknown');
   }
-  return classtimes[0][i18n.t('js.property.room')];
+  return classtimes[0][i18n.t('js.property.room_name')];
 };
 
 export const getExamStr = (lecture) => {

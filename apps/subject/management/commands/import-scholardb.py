@@ -324,8 +324,8 @@ class Command(BaseCommand):
                 class_time.type = myrow[8]
                 class_time.building_id = myrow[9]
                 class_time.room_name = myrow[10]
-                class_time.building_name = myrow[12]
-                class_time.building_name_en = myrow[13]
+                class_time.building_full_name = myrow[12]
+                class_time.building_full_name_en = myrow[13]
                 try:
                     class_time.unit_time = int(myrow[11])
                 except (ValueError, TypeError):
