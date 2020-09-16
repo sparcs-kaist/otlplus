@@ -433,7 +433,7 @@ a {
 
     &--lecture-list {
         flex: 1 1 100%;
-        overflow: hidden;
+        height: 0;
         margin: 0;
         margin-bottom: -3px;
         padding-bottom: 3px;
@@ -648,8 +648,7 @@ a {
             border-top-left-radius: 0;
             border-top-right-radius: 0;
             flex: 1 1 auto;
-            flex-basis: 0;
-            overflow: hidden;
+            height: 0;
         }
     }
 
