@@ -14,10 +14,12 @@ class Scroller extends Component {
   }
 
   contentRenderer = (props) => {
-    const { elementRef, children, ...restProps } = props;
+    const { elementRef, children, marginBottom, ...restProps } = props;
+
+    const calculatedMarginBottom = (marginBottom === undefined) ? 12 : marginBottom;
     return (
       <div {...restProps} ref={elementRef} className="Content">
-        <div style={{ marginBottom: '12px' }}>
+        <div style={{ marginBottom: `${calculatedMarginBottom}px` }}>
           {children}
         </div>
       </div>
@@ -25,44 +27,55 @@ class Scroller extends Component {
   }
 
   render() {
-    const { onScroll, children, noScrollX, noScrollY } = this.props;
+    const { onScroll, children, noScrollX, noScrollY, marginBottom } = this.props;
     const { isScrolling, isMouseIn } = this.state;
 
     const calculatedNoScrollX = (noScrollX === undefined) ? true : noScrollX;
     const calculatedNoScrollY = (noScrollY === undefined) ? false : noScrollY;
+    const calculatedMarginBottom = (marginBottom === undefined) ? 12 : marginBottom;
 
     return (
       <Scrollbar
         className={[(calculatedNoScrollX ? 'noX' : ''), (calculatedNoScrollY ? 'noY' : '')].join(' ')}
         style={{
           flex: 'auto',
-          marginBottom: '-12px',
+          marginBottom: `-${calculatedMarginBottom}px`,
+          display: 'flex',
+          flexDirection: 'column',
+          overflow: 'hidden',
+          width: 'calc(100% + 12px)',
+          marginRight: '-12px',
+          paddingRight: '12px',
         }}
         wrapperProps={{
           style: calculatedNoScrollY
             ? {
+              flex: '1 1 auto',
+              display: 'flex',
+              flexDirection: 'column',
             }
             : {
-              right: '0',
+              flex: '1 1 auto',
+              display: 'flex',
+              flexDirection: 'column',
             },
         }}
         scrollerProps={{
           style:
             {
-              top: 'initial',
-              bottom: 'initial',
-              left: 'initial',
-              right: 'initial',
-              position: 'initial',
-              height: '100%',
+              flex: '1 1 auto',
             },
         }}
         contentProps={{
           style: {
             padding: '0',
             paddingRight: '1px',
-            width: '100%',
-            height: '100%',
+            minWidth: '100%',
+            minHeight: `calc(100% - ${calculatedMarginBottom}px`,
+            marginBottom: `${calculatedMarginBottom}px`,
+            width: (calculatedNoScrollX ? undefined : 'fit-content'),
+            height: (calculatedNoScrollY ? undefined : 'fit-content'),
+            overflow: 'hidden',
           },
         }}
         trackXProps={{
@@ -70,7 +83,7 @@ class Scroller extends Component {
             left: '0',
             bottom: '0',
             height: '12px',
-            width: '100%',
+            width: 'calc(100% - 12px)',
             backgroundColor: 'transparent',
             transition: 'opacity 0.3s',
             opacity: isScrolling ? '1' : (isMouseIn ? '0.25' : '0'),
@@ -79,9 +92,9 @@ class Scroller extends Component {
         trackYProps={{
           style: {
             top: '0',
-            right: '-12px',
+            right: '0',
             width: '12px',
-            height: 'calc(100% - 12px)',
+            height: `calc(100% - ${calculatedMarginBottom}px)`,
             backgroundColor: 'transparent',
             transition: 'opacity 0.3s',
             opacity: isScrolling ? '1' : (isMouseIn ? '0.25' : '0'),
@@ -146,6 +159,7 @@ Scroller.propTypes = {
   ]).isRequired,
   noScrollX: PropTypes.bool,
   noScrollY: PropTypes.bool,
+  marginBottom: PropTypes.number,
 };
 
 export default Scroller;

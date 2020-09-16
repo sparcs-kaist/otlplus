@@ -82,14 +82,16 @@ class CourseListSection extends Component {
     const { courseActive, currentList, searchOpen,
       search, major, humanity, taken, readCourses } = this.props;
 
-    const mapCourses = (courses) => {
+    const getListElement = (courses) => {
       if (!courses) {
         return <div className={classNames('list-placeholder')}><div>{t('ui.placeholder.loading')}</div></div>;
       }
       if (courses.length === 0) {
         return <div className={classNames('list-placeholder')}><div>{t('ui.placeholder.noResults')}</div></div>;
       }
-      return courses.map(c => (
+      return (
+    <Scroller key={currentList}>
+      {courses.map(c => (
         <CourseBlock
           course={c}
           key={c.id}
@@ -102,7 +104,9 @@ class CourseListSection extends Component {
           listOut={this.listOut}
           listClick={this.listClick}
         />
-      ));
+      ))}
+    </Scroller>
+      );
     };
 
     if (currentList === 'SEARCH') {
@@ -113,9 +117,7 @@ class CourseListSection extends Component {
             <i className={classNames('icon', 'icon--search')} />
             <span>{t('ui.tab.search')}</span>
           </div>
-          <Scroller key={currentList}>
-            { mapCourses(search.courses) }
-          </Scroller>
+          { getListElement(search.courses) }
         </div>
       );
     }
@@ -125,9 +127,7 @@ class CourseListSection extends Component {
           <div className={classNames('title')}>
             {major[currentList][t('js.property.name')]}
           </div>
-          <Scroller key={currentList}>
-            { mapCourses(major[currentList].courses) }
-          </Scroller>
+          { getListElement(major[currentList].courses) }
         </div>
       );
     }
@@ -137,9 +137,7 @@ class CourseListSection extends Component {
           <div className={classNames('title')}>
             {t('ui.tab.humanity')}
           </div>
-          <Scroller key={currentList}>
-            { mapCourses(humanity.courses) }
-          </Scroller>
+          { getListElement(humanity.courses) }
         </div>
       );
     }
@@ -149,9 +147,7 @@ class CourseListSection extends Component {
           <div className={classNames('title')}>
             {t('ui.tab.taken')}
           </div>
-          <Scroller key={currentList}>
-            { mapCourses(taken.courses) }
-          </Scroller>
+          { getListElement(taken.courses) }
         </div>
       );
     }
