@@ -222,6 +222,19 @@ class LectureDetailSection extends Component {
     });
   }
 
+  onScroll = () => {
+    const openDictElement = this.openDictRef.current;
+    const scrollElement = openDictElement.closest('.ScrollbarsCustom-Scroller');
+
+    if (openDictElement.getBoundingClientRect().top - scrollElement.getBoundingClientRect().top < 1.0) { // TODO: Change handing method for errors of 0.x differnce
+      this.setState({ showCloseDict: true });
+    }
+    else {
+      this.setState({ showCloseDict: false });
+    }
+  }
+
+
   render() {
     const { t } = this.props;
     const { showUnfix, showCloseDict } = this.state;
@@ -263,16 +276,7 @@ class LectureDetailSection extends Component {
             </button>
           </div>
           <Scroller
-            onScroll={
-              () => {
-                if (this.openDictRef.current.getBoundingClientRect().top - this.openDictRef.current.closest('.ScrollbarsCustom-Scroller').getBoundingClientRect().top <= 0) {
-                  this.setState({ showCloseDict: true });
-                }
-                else {
-                  this.setState({ showCloseDict: false });
-                }
-              }
-            }
+            onScroll={this.onScroll}
             key={lecture.id}
           >
             <div ref={this.attributesRef}>
