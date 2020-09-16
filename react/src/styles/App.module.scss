@@ -1125,6 +1125,7 @@ a {
 
         &__content {
             flex: 1 1 auto;
+            height: 0;
             display: flex;
             flex-direction: column;
 
