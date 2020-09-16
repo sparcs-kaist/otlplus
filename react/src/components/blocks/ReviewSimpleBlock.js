@@ -13,8 +13,10 @@ import reviewShape from '../../shapes/ReviewShape';
 // eslint-disable-next-line arrow-body-style
 const ReviewSimpleBlock = ({ t, review }) => {
   return (
-    <Link to={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: review.course.id }) }}>
-      <div className={classNames('block', 'block--review-simple')}>
+    <Link
+      to={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: review.course.id }) }}
+      className={classNames('block', 'block--review-simple')}
+    >
         <div>
           {review.content}
         </div>
@@ -40,7 +42,6 @@ const ReviewSimpleBlock = ({ t, review }) => {
             <strong>{getSingleScoreLabel(review.speech)}</strong>
           </span>
         </div>
-      </div>
     </Link>
   );
 };

@@ -8,6 +8,8 @@ import ReactGA from 'react-ga';
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 import SearchFilter from '../../SearchFilter';
 
+import Scroller from '../../Scroller';
+
 import { closeSearch, clearDrag } from '../../../actions/timetable/search';
 import { setListLectures, clearSearchListLectures } from '../../../actions/timetable/list';
 import { clearLectureActive } from '../../../actions/timetable/lectureActive';
@@ -203,7 +205,7 @@ class LectureSearchSubSection extends Component {
               </div>
             </div>
           </div>
-          <div>
+          <Scroller marginBottom={0}>
             <SearchFilter
               updateCheckedValues={this.updateCheckedValues('type')}
               inputName="type"
@@ -245,7 +247,7 @@ class LectureSearchSubSection extends Component {
                 }
               </div>
             </div>
-          </div>
+          </Scroller>
           <div className={classNames('buttons')}>
             <button type="submit" className={classNames('text-button')}>{t('ui.button.search')}</button>
             <button type="button" className={classNames('text-button')} onClick={() => this.hideSearch()}>{t('ui.button.cancel')}</button>

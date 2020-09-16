@@ -227,15 +227,16 @@ class LectureListSection extends Component {
     const { t } = this.props;
     const { lectureActive, currentTimetable, currentList, searchOpen, search, major, humanity, cart } = this.props;
 
-    const mapCourses = (courses, fromCart) => {
+    const getListElement = (courses, fromCart) => { // TODO: Rename courses variables which are actually lecture-group
       if (!courses) {
         return <div className={classNames('list-placeholder')}><div>{t('ui.placeholder.loading')}</div></div>;
       }
       if (courses.length === 0) {
         return <div className={classNames('list-placeholder')}><div>{t('ui.placeholder.noResults')}</div></div>;
       }
-      return [
-        ...courses.map(c => (
+      return (
+      <Scroller onScroll={this.selectWithArrow} key={currentList}>
+        {courses.map(c => (
           <div className={classNames('block', 'block--course-lectures', (c.some(l => isListClicked(l, lectureActive)) ? 'block--clicked' : ''), (isInactiveListLectures(c, lectureActive) ? 'block--inactive' : ''))} key={c[0].course}>
             <div className={classNames('block--course-lectures__title')}>
               <strong>{c[0][t('js.property.common_title')]}</strong>
@@ -261,9 +262,10 @@ class LectureListSection extends Component {
               />
             ))}
           </div>
-        )),
-        <div className={classNames('scroll-placeholder')} key="placeholder" />,
-      ];
+        ))
+        }
+      </Scroller>
+      );
     };
 
     if (currentList === 'SEARCH') {
@@ -279,9 +281,7 @@ class LectureListSection extends Component {
             <div className={classNames('section-content--lecture-list__selector')} ref={this.arrowRef}>
               <i className={classNames('icon', 'icon--lecture-selector')} />
             </div>
-            <Scroller onScroll={this.selectWithArrow} key={currentList}>
-              {mapCourses(search.courses, false)}
-            </Scroller>
+            {getListElement(search.courses, false)}
           </>
         </div>
       );
@@ -297,9 +297,7 @@ class LectureListSection extends Component {
             <div className={classNames('section-content--lecture-list__selector')} ref={this.arrowRef}>
               <i className={classNames('icon', 'icon--lecture-selector')} />
             </div>
-            <Scroller onScroll={this.selectWithArrow} key={currentList}>
-              {mapCourses(major[currentList].courses, false)}
-            </Scroller>
+            {getListElement(major[currentList].courses, false)}
           </>
         </div>
       );
@@ -315,9 +313,7 @@ class LectureListSection extends Component {
             <div className={classNames('section-content--lecture-list__selector')} ref={this.arrowRef}>
               <i className={classNames('icon', 'icon--lecture-selector')} />
             </div>
-            <Scroller onScroll={this.selectWithArrow} key={currentList}>
-              {mapCourses(humanity.courses, false)}
-            </Scroller>
+            {getListElement(humanity.courses, false)}
           </>
         </div>
       );
@@ -333,9 +329,7 @@ class LectureListSection extends Component {
             <div className={classNames('section-content--lecture-list__selector')} ref={this.arrowRef}>
               <i className={classNames('icon', 'icon--lecture-selector')} />
             </div>
-            <Scroller onScroll={this.selectWithArrow} key={currentList}>
-              {mapCourses(cart.courses, true)}
-            </Scroller>
+            {getListElement(cart.courses, true)}
           </>
         </div>
       );
