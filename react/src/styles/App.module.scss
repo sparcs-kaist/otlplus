@@ -731,16 +731,29 @@ a {
 
     &--lecture-detail {
         &__list-area {
-            min-height: calc(
-                100% - (
-                    #{$line-height-normal}
-                    + 6px
-                    + #{$section-padding}
-                )
-            ) !important;
-
+            @media #{$media-landscape} {
+                min-height: calc(
+                    (5.6vh + 276px) - (
+                        (#{$section-padding} * 2)
+                        + (#{$line-height-big} + 4px + #{$line-height-normal} + 2px)
+                        + (#{$line-height-normal} + 6px)
+                        + (#{$line-height-normal} + 6px)
+                    )
+                );
+            }
             @media #{$media-portrait} {
-                min-height: initial !important;
+                min-height: calc(
+                    100vh - (
+                        55px
+                        + (#{$section-margin-top} + #{$section-margin-bottom} * 2)
+                        + (#{$section-padding} * 2)
+                        + (#{$line-height-big} + 4px + #{$line-height-normal} + 2px)
+                        + (#{$line-height-normal} + 6px)
+                        + (#{$line-height-normal} + 6px)
+                        + (#{$line-height-normal} + #{$section-padding} + 1px)
+                        + #{$section-padding}
+                    )
+                );
             }
         }
 
@@ -760,7 +773,6 @@ a {
         }
 
         & > div:last-child {
-            flex: auto;
             @media #{$media-portrait} {
                 .block--course-lectures {
                     margin-right: 6px + 10px;
@@ -1191,7 +1203,30 @@ a {
 
     &--course-detail {
         &__list-area {
-            min-height: calc(100% - (8px + #{$section-padding})) !important;
+            @media #{$media-landscape} {
+                min-height: calc(
+                    100vh - (
+                        55px
+                        + #{$section-margin-bottom}
+                        + (#{$section-padding} * 2)
+                        + (#{$line-height-big} + 2px + #{$line-height-normal} + 10px)
+                        + ((0.7vh + 15px) + 2px + #{$line-height-smaller} + 12px)
+                        + (#{$line-height-normal} + 8px)
+                    )
+                );
+            }
+            @media #{$media-portrait} {
+                min-height: calc(
+                    100vh - (
+                        55px
+                        + (#{$section-margin-top} + #{$section-margin-bottom} * 2)
+                        + (#{$section-padding} * 2)
+                        + (#{$line-height-big} + 2px + #{$line-height-normal} + 10px)
+                        + ((1.9vw + 13px) + 2px + #{$line-height-smaller} + 12px)
+                        + (#{$line-height-normal} + 8px)
+                    )
+                );
+            }
         }
     }
 
@@ -2694,8 +2729,40 @@ a {
         line-height: 15px;
     }
 
-    .history & {
+    &--history {
         min-height: 110px;
+    }
+
+    .section-content--course-list &,
+    .section-content--lecture-list & {
+        flex: 1 0 auto;
+    }
+
+    .section-content--taken-lectures & {
+        @media #{$media-landscape} {
+            min-height: calc(
+                100vh - (
+                    55px
+                    + #{$section-margin-bottom}
+                    + (#{$section-padding} * 2)
+                    + (#{$line-height-big} + 8px)
+                    + ((0.7vh + 13px) + 2px + #{$line-height-smaller})
+                    + (#{$section-padding} * 2 + 1px)
+                )
+            );
+        }
+        @media #{$media-portrait} {
+            min-height: calc(
+                100vh - (
+                    55px
+                    + #{$section-margin-bottom}
+                    + (#{$section-padding} * 2)
+                    + (#{$line-height-big} + 8px)
+                    + ((1.9vw + 13px) + 2px + #{$line-height-smaller})
+                    + (#{$section-padding} * 2 + 1px)
+                )
+            );
+        }
     }
 
     .section-content--widget & {
