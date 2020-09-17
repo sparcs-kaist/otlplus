@@ -13,7 +13,8 @@ import { setLectureSelected, clearLectureSelected } from '../../../actions/write
 
 import userShape from '../../../shapes/UserShape';
 import lectureShape from '../../../shapes/LectureShape';
-import { unique } from '../../../common/utilFunctions';
+
+import { unique, sum } from '../../../common/utilFunctions';
 
 
 class TakenLecturesSection extends Component {
@@ -110,7 +111,7 @@ class TakenLecturesSection extends Component {
             </div>
             <div>
               <div>
-                {editableReviews.reduce((acc, r) => (acc + r.like), 0)}
+                {sum(editableReviews, r => r.like)}
               </div>
               <div>{t('ui.score.likes')}</div>
             </div>
