@@ -773,7 +773,7 @@ a {
 
         & > div:last-child {
             @media #{$media-portrait} {
-                .block--course-lectures {
+                .block--lecture-group {
                     margin-right: 6px + 10px;
                     &:last-child {
                         margin-bottom: calc(
@@ -1722,7 +1722,7 @@ a {
     }
 
 
-    &--course-lectures {
+    &--lecture-group {
         padding: 8px 10px;
         margin-bottom: 6px;
         &.block--clicked {
@@ -2998,7 +2998,7 @@ i.icon {
             background-image: url(../static/icons/add_cart_hover.svg);
         }
 
-        .block--course-lectures__elem__button--disable > & {
+        .block--lecture-group__elem__button--disable > & {
             background-image: url(../static/icons/add_cart_disabled.svg);
         }
     }
@@ -3025,7 +3025,7 @@ i.icon {
         }
 
         .text-button--disabled > &,
-        .block--course-lectures__elem__button--disable > & {
+        .block--lecture-group__elem__button--disable > & {
             background-image: url(../static/icons/add_lecture_disabled.svg);
         }
     }
