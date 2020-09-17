@@ -235,36 +235,36 @@ class LectureListSection extends Component {
         return <div className={classNames('list-placeholder')}><div>{t('ui.placeholder.noResults')}</div></div>;
       }
       return (
-      <Scroller onScroll={this.selectWithArrow} key={currentList}>
-        {lectureGroups.map(lg => (
-          <div className={classNames('block', 'block--lecture-group', (lg.some(l => isListClicked(l, lectureActive)) ? 'block--clicked' : ''), (isInactiveListLectures(lg, lectureActive) ? 'block--inactive' : ''))} key={lg[0].course}>
-            <div className={classNames('block--lecture-group__title')}>
-              <strong>{lg[0][t('js.property.common_title')]}</strong>
-              {' '}
-              {lg[0].old_code}
-            </div>
-            {lg.map(l => (
-              <LectureGroupBlockRow
-                lecture={l}
-                key={l.id}
-                isClicked={isListClicked(l, lectureActive)}
-                isHover={isListHover(l, lectureActive)}
-                inTimetable={inTimetable(l, currentTimetable)}
-                isTimetableReadonly={!currentTimetable || Boolean(currentTimetable.isReadOnly)}
-                inCart={inCart(l, cart)}
-                fromCart={fromCart}
-                addToCart={this.addToCart}
-                addToTable={this.addToTable}
-                deleteFromCart={this.deleteFromCart}
-                listHover={this.listHover}
-                listOut={this.listOut}
-                listClick={this.listClick}
-              />
-            ))}
-          </div>
-        ))
-        }
-      </Scroller>
+        <Scroller onScroll={this.selectWithArrow} key={currentList}>
+          {lectureGroups.map(lg => (
+            <div className={classNames('block', 'block--lecture-group', (lg.some(l => isListClicked(l, lectureActive)) ? 'block--clicked' : ''), (isInactiveListLectures(lg, lectureActive) ? 'block--inactive' : ''))} key={lg[0].course}>
+              <div className={classNames('block--lecture-group__title')}>
+                <strong>{lg[0][t('js.property.common_title')]}</strong>
+                {' '}
+                {lg[0].old_code}
+              </div>
+              {lg.map(l => (
+                <LectureGroupBlockRow
+                  lecture={l}
+                  key={l.id}
+                  isClicked={isListClicked(l, lectureActive)}
+                  isHover={isListHover(l, lectureActive)}
+                  inTimetable={inTimetable(l, currentTimetable)}
+                  isTimetableReadonly={!currentTimetable || Boolean(currentTimetable.isReadOnly)}
+                  inCart={inCart(l, cart)}
+                  fromCart={fromCart}
+                  addToCart={this.addToCart}
+                  addToTable={this.addToTable}
+                  deleteFromCart={this.deleteFromCart}
+                  listHover={this.listHover}
+                  listOut={this.listOut}
+                  listClick={this.listClick}
+                />
+              ))}
+            </div> 
+          ))
+          }
+        </Scroller>
       );
     };
 

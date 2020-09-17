@@ -48,9 +48,9 @@ class CourseSearchSubSection extends Component {
       && (grade.size === 1 && grade.has('ALL'))
       && inputVal.trim().length === 0
     ) {
-        // eslint-disable-next-line no-alert
-        alert(t('ui.message.blankSearch'));
-        return;
+      // eslint-disable-next-line no-alert
+      alert(t('ui.message.blankSearch'));
+      return;
     }
     closeSearchDispatch();
     clearSearchListCoursesDispatch();
