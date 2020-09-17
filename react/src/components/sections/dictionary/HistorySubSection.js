@@ -31,12 +31,13 @@ class HistorySubSection extends Component {
 
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    const { course, clicked, lectures } = this.props;
+    const { course, clicked, lectures, setLecturesDispatch } = this.props;
 
     if (
       clicked
       && course
       && (!prevProps.clicked || !prevProps.course || (prevProps.course.id !== course.id))) {
+      setLecturesDispatch(null);
       this._fetchLectures();
     }
 
