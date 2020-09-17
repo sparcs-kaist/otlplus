@@ -35,13 +35,14 @@ class ReviewsSubSection extends Component {
 
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    const { course } = this.props;
+    const { clicked, course } = this.props;
 
-    if (prevProps.clicked && (prevProps.course.id === course.id)) {
-      return;
+    if (
+      clicked
+      && course
+      && (!prevProps.clicked || !prevProps.course || (prevProps.course.id !== course.id))) {
+      this._fetchReviews();
     }
-
-    this._fetchReviews();
   }
 
 
@@ -127,6 +128,10 @@ class ReviewsSubSection extends Component {
     const { t } = this.props;
     const { professor } = this.state;
     const { user, course, reviews } = this.props;
+
+    if (!course) {
+      return null;
+    }
 
     const professorOptions = [
       ['ALL', t('ui.type.allShort')],
