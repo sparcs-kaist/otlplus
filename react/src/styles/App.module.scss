@@ -1483,7 +1483,7 @@ a {
         }
 
 
-        .section-content--widget &:nth-last-of-type(2) {
+        .section-content--feed &:nth-last-of-type(2) {
             margin-bottom: 0;
         }
 
@@ -2066,7 +2066,7 @@ a {
 
     .section-content--review-write &,
     .section-content--latest-reviews &,
-    .section-content--widget & {
+    .section-content--feed & {
         text-align: center;
         margin-bottom: 10px;
     }
@@ -2765,7 +2765,7 @@ a {
         }
     }
 
-    .section-content--widget & {
+    .section-content--feed & {
         min-height: 68px;
     }
 }
