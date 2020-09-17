@@ -79,12 +79,11 @@ class TakenLecturesSection extends Component {
     const writableTakenLectures = user.review_writable_lectures;
     const editableReviews = user.reviews.filter(r => writableTakenLectures.some(l => l.id === r.lecture.id));
 
-    const takenSemesters = unique(
+    // eslint-disable-next-line fp/no-mutating-methods
+    const targetSemesters = unique(
       writableTakenLectures.map(l => ({ year: l.year, semester: l.semester })),
       (a, b) => ((a.year === b.year) && (a.semester === b.semester)),
-    );
-    // eslint-disable-next-line fp/no-mutating-methods
-    const targetSemesters = takenSemesters
+    )
       .sort((a, b) => ((a.year !== b.year) ? (b.year - a.year) : (b.semester - a.semester)));
 
     const semesterNames = [
