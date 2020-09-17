@@ -32,28 +32,16 @@ const CourseBlock = ({
       </div>
       <div>
         <div className={classNames('attribute', 'attribute--semi-long')}>
-          <div>
-            {t('ui.attribute.classification')}
-          </div>
-          <div>
-            {`${course.department[t('js.property.name')]}, ${course[t('js.property.type')]}`}
-          </div>
+          <div>{ t('ui.attribute.classification') }</div>
+          <div>{ `${course.department[t('js.property.name')]}, ${course[t('js.property.type')]}` }</div>
         </div>
         <div className={classNames('attribute', 'attribute--semi-long')}>
-          <div>
-            {t('ui.attribute.professors')}
-          </div>
-          <div>
-            {getProfessorsStr(course)}
-          </div>
+          <div>{ t('ui.attribute.professors') }</div>
+          <div>{ getProfessorsStr(course) }</div>
         </div>
         <div className={classNames('attribute', 'attribute--semi-long')}>
-          <div>
-            {t('ui.attribute.description')}
-          </div>
-          <div>
-            {course.summary}
-          </div>
+          <div>{ t('ui.attribute.description') }</div>
+          <div>{ course.summary }</div>
         </div>
       </div>
     </div>
