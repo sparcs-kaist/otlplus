@@ -8,7 +8,7 @@ import { appBoundClassNames as classNames } from '../../../common/boundClassName
 
 import Scroller from '../../Scroller';
 import LectureSearchSubSection from './LectureSearchSubSection';
-import CourseLecturesBlock from '../../blocks/CourseLecturesBlock';
+import LectureGroupBlockRow from '../../blocks/LectureGroupBlockRow';
 
 import { setLectureActive, clearLectureActive } from '../../../actions/timetable/lectureActive';
 import { addLectureToCart, deleteLectureFromCart, setMobileShowLectureList } from '../../../actions/timetable/list';
@@ -184,7 +184,7 @@ class LectureListSection extends Component {
     const arrowPosition = (this.arrowRef.current).getBoundingClientRect();
     const arrowY = (arrowPosition.top + arrowPosition.bottom) / 2;
 
-    const elementAtPosition = document.elementFromPoint(100, arrowY).closest(`.${classNames('block--course-lectures__elem-wrap')}`);
+    const elementAtPosition = document.elementFromPoint(100, arrowY).closest(`.${classNames('block--lecture-group__elem-wrap')}`);
     if (elementAtPosition === null) {
       clearLectureActiveDispatch();
       return;
@@ -237,14 +237,14 @@ class LectureListSection extends Component {
       return (
       <Scroller onScroll={this.selectWithArrow} key={currentList}>
         {courses.map(c => (
-          <div className={classNames('block', 'block--course-lectures', (c.some(l => isListClicked(l, lectureActive)) ? 'block--clicked' : ''), (isInactiveListLectures(c, lectureActive) ? 'block--inactive' : ''))} key={c[0].course}>
-            <div className={classNames('block--course-lectures__title')}>
+          <div className={classNames('block', 'block--lecture-group', (c.some(l => isListClicked(l, lectureActive)) ? 'block--clicked' : ''), (isInactiveListLectures(c, lectureActive) ? 'block--inactive' : ''))} key={c[0].course}>
+            <div className={classNames('block--lecture-group__title')}>
               <strong>{c[0][t('js.property.common_title')]}</strong>
               {' '}
               {c[0].old_code}
             </div>
             {c.map(l => (
-              <CourseLecturesBlock
+              <LectureGroupBlockRow
                 lecture={l}
                 key={l.id}
                 isClicked={isListClicked(l, lectureActive)}
