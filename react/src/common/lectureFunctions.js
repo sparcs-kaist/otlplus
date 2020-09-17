@@ -10,9 +10,9 @@ export const inTimetable = (lecture, timetable) => (
 );
 
 export const inCart = (lecture, cart) => (
-  cart.courses !== null
-  && cart.courses.some(course => (
-    course.some(cartLecture => (
+  cart.lectureGroups !== null
+  && cart.lectureGroups.some(lg => (
+    lg.some(cartLecture => (
       cartLecture.id === lecture.id
     ))
   ))
