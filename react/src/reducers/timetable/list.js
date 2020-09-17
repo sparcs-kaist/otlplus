@@ -1,5 +1,7 @@
 import { RESET, SET_CURRENT_LIST, ADD_LECTURE_TO_CART, DELETE_LECTURE_FROM_CART, SET_LIST_MAJOR_CODES, SET_LIST_LECTURES, SET_LIST_MAJOR_LECTURES, CLEAR_LISTS_LECTURES, CLEAR_SEARCH_LIST_LECTURES, SET_MOBILE_SHOW_LECTURE_LIST } from '../../actions/timetable/list';
 
+import { unique } from '../../common/utilFunctions';
+
 
 const initialState = {
   currentList: 'SEARCH',
@@ -29,7 +31,7 @@ const list = (state = initialState, action) => {
       return [];
     }
 
-    const courseIds = Array.from(new Set(lectures.map(l => l.course)));
+    const courseIds = unique(lectures.map(l => l.course));
     // eslint-disable-next-line fp/no-mutating-methods
     const lectureGroups = courseIds
       .map(c => (lectures.filter(l => (l.course === c))))

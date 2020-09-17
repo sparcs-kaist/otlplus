@@ -14,6 +14,7 @@ import lectureShape from '../../../shapes/LectureShape';
 import timetableShape from '../../../shapes/TimetableShape';
 
 import { inTimetable } from '../../../common/lectureFunctions';
+import { sum } from '../../../common/utilFunctions';
 
 
 const indexOfType = (type) => {
@@ -142,11 +143,10 @@ class SummarySubSection extends Component {
       && (indexOfType(lal.type_en) === typeIndex)
     );
 
-    const currentTypeCredit = [0, 1, 2, 3, 4, 5].map(i => (
-      timetableLectures
-        .filter(l => (indexOfType(l.type_en) === i))
-        .reduce((acc, l) => (acc + (l.credit + l.credit_au)), 0)
-    ));
+    const currentTypeCredit = [0, 1, 2, 3, 4, 5].map((i) => {
+      const lecturesWithType = timetableLectures.filter(l => (indexOfType(l.type_en) === i));
+      return sum(lecturesWithType, l => (l.credit + l.credit_au));
+    });
     const activeTypeCredit = [0, 1, 2, 3, 4, 5].map(i => (
       !isLectureActiveFromType(lectureActiveFrom, lectureActiveLecture, i)
         ? ''
@@ -162,18 +162,18 @@ class SummarySubSection extends Component {
           : currentTypeCredit[i] + lectureActiveLecture.credit + lectureActiveLecture.credit_au
     ));
 
-    const totalCredit = timetableLectures.reduce((acc, l) => (acc + l.credit), 0)
+    const totalCredit = sum(timetableLectures, l => l.credit)
       + (alec && !inTimetable(alec, currentTimetable) ? alec.credit : 0);
-    const totalAu = timetableLectures.reduce((acc, l) => (acc + l.credit_au), 0)
+    const totalAu = sum(timetableLectures, l => l.credit_au)
       + (alec && !inTimetable(alec, currentTimetable) ? alec.credit_au : 0);
     const isCreditActive = (lectureActiveLecture !== null) && (lectureActiveLecture.credit > 0);
     const isAuActive = (lectureActiveLecture !== null) && (lectureActiveLecture.credit_au > 0);
 
     const timetableLecturesWithReview = timetableLectures.filter(l => (l.review_num > 0));
-    const targetNum = timetableLecturesWithReview.reduce((acc, l) => (acc + (l.credit + l.credit_au)), 0);
-    const grade = timetableLecturesWithReview.reduce((acc, l) => (acc + (l.grade * (l.credit + l.credit_au))), 0);
-    const load = timetableLecturesWithReview.reduce((acc, l) => (acc + (l.load * (l.credit + l.credit_au))), 0);
-    const speech = timetableLecturesWithReview.reduce((acc, l) => (acc + (l.speech * (l.credit + l.credit_au))), 0);
+    const targetNum = sum(timetableLecturesWithReview, l => (l.credit + l.credit_au));
+    const grade = sum(timetableLecturesWithReview, l => (l.grade * (l.credit + l.credit_au)));
+    const load = sum(timetableLecturesWithReview, l => (l.load * (l.credit + l.credit_au)));
+    const speech = sum(timetableLecturesWithReview, l => (l.speech * (l.credit + l.credit_au)));
 
     return (
       <div className={classNames('section-content--summary')}>
