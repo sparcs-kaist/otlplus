@@ -17,31 +17,31 @@ const ReviewSimpleBlock = ({ t, review }) => {
       to={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: review.course.id }) }}
       className={classNames('block', 'block--review-simple')}
     >
-        <div>
-          {review.content}
-        </div>
-        <div>
-          <span>
-            {t('ui.score.likes')}
-            &nbsp;
-            <strong>{review.like}</strong>
-          </span>
-          <span>
-            {t('ui.score.grade')}
-            &nbsp;
-            <strong>{getSingleScoreLabel(review.grade)}</strong>
-          </span>
-          <span>
-            {t('ui.score.load')}
-            &nbsp;
-            <strong>{getSingleScoreLabel(review.load)}</strong>
-          </span>
-          <span>
-            {t('ui.score.speech')}
-            &nbsp;
-            <strong>{getSingleScoreLabel(review.speech)}</strong>
-          </span>
-        </div>
+      <div>
+        {review.content}
+      </div>
+      <div>
+        <span>
+          {t('ui.score.likes')}
+          &nbsp;
+          <strong>{review.like}</strong>
+        </span>
+        <span>
+          {t('ui.score.grade')}
+          &nbsp;
+          <strong>{getSingleScoreLabel(review.grade)}</strong>
+        </span>
+        <span>
+          {t('ui.score.load')}
+          &nbsp;
+          <strong>{getSingleScoreLabel(review.load)}</strong>
+        </span>
+        <span>
+          {t('ui.score.speech')}
+          &nbsp;
+          <strong>{getSingleScoreLabel(review.speech)}</strong>
+        </span>
+      </div>
     </Link>
   );
 };
