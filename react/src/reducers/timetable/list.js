@@ -4,21 +4,21 @@ import { RESET, SET_CURRENT_LIST, ADD_LECTURE_TO_CART, DELETE_LECTURE_FROM_CART,
 const initialState = {
   currentList: 'SEARCH',
   search: {
-    courses: [],
+    lectureGroups: [],
   },
   major: {
     codes: ['Basic'],
     Basic: {
       name: '기초 과목',
       name_en: 'Basic Course',
-      courses: null,
+      lectureGroups: null,
     },
   },
   humanity: {
-    courses: null,
+    lectureGroups: null,
   },
   cart: {
-    courses: null,
+    lectureGroups: null,
   },
   mobileShowLectureList: false,
 };
@@ -31,11 +31,11 @@ const list = (state = initialState, action) => {
 
     const courseIds = Array.from(new Set(lectures.map(l => l.course)));
     // eslint-disable-next-line fp/no-mutating-methods
-    const courses = courseIds
+    const lectureGroups = courseIds
       .map(c => (lectures.filter(l => (l.course === c))))
       .filter(c => (c.length > 0))
       .sort((a, b) => ((a[0].old_code > b[0].old_code) ? 1 : -1));
-    return courses;
+    return lectureGroups;
   };
 
   switch (action.type) {
@@ -59,7 +59,7 @@ const list = (state = initialState, action) => {
               [m.code]: {
                 name: m.name,
                 name_en: m.name_en,
-                courses: null,
+                lectureGroups: null,
               },
             }
           ))),
@@ -71,7 +71,7 @@ const list = (state = initialState, action) => {
       const newState = {
         [action.code]: {
           ...state[action.code],
-          courses: groupLectures(action.lectures),
+          lectureGroups: groupLectures(action.lectures),
         },
       };
       return Object.assign({}, state, newState);
@@ -82,7 +82,7 @@ const list = (state = initialState, action) => {
           ...state.major,
           [action.majorCode]: {
             ...state.major[action.majorCode],
-            courses: groupLectures(action.lectures),
+            lectureGroups: groupLectures(action.lectures),
           },
         },
       };
@@ -93,7 +93,7 @@ const list = (state = initialState, action) => {
         ...state,
         search: {
           ...state.search,
-          courses: [],
+          lectureGroups: [],
         },
         major: Object.assign(
           {},
@@ -101,17 +101,17 @@ const list = (state = initialState, action) => {
           ...state.major.codes.map(c => ({
             [c]: {
               ...state.major[c],
-              courses: null,
+              lectureGroups: null,
             },
           })),
         ),
         humanity: {
           ...state.humanity,
-          courses: null,
+          lectureGroups: null,
         },
         cart: {
           ...state.cart,
-          courses: null,
+          lectureGroups: null,
         },
       };
       return Object.assign({}, state, newState);
@@ -120,53 +120,53 @@ const list = (state = initialState, action) => {
       const newState = {
         search: {
           ...state.search,
-          courses: null,
+          lectureGroups: null,
         },
       };
       return Object.assign({}, state, newState);
     }
     case ADD_LECTURE_TO_CART: {
-      const { courses } = state.cart;
-      const i = courses.findIndex(course => (course[0].old_code === action.lecture.old_code));
+      const { lectureGroups } = state.cart;
+      const i = lectureGroups.findIndex(lg => (lg[0].old_code === action.lecture.old_code));
       const j = (i !== -1)
-        ? (courses[i].findIndex(lecture => (lecture.class_no > action.lecture.class_no)) !== -1)
-          ? courses[i].findIndex(lecture => (lecture.class_no > action.lecture.class_no))
-          : courses[i].length
+        ? (lectureGroups[i].findIndex(lecture => (lecture.class_no > action.lecture.class_no)) !== -1)
+          ? lectureGroups[i].findIndex(lecture => (lecture.class_no > action.lecture.class_no))
+          : lectureGroups[i].length
         : undefined;
       const ii = (i !== -1)
         ? undefined
-        : (courses.findIndex(course => (course[0].old_code > action.lecture.old_code)) !== -1)
-          ? courses.findIndex(course => (course[0].old_code > action.lecture.old_code))
-          : courses.length;
-      const newCourses = (i !== -1)
+        : (lectureGroups.findIndex(lg => (lg[0].old_code > action.lecture.old_code)) !== -1)
+          ? lectureGroups.findIndex(lg => (lg[0].old_code > action.lecture.old_code))
+          : lectureGroups.length;
+      const newLectureGroups = (i !== -1)
         ? [
-          ...courses.slice(0, i),
-          [...courses[i].slice(0, j), action.lecture, ...courses[i].slice(j, courses[i].length)],
-          ...courses.slice(i + 1, courses.length),
+          ...lectureGroups.slice(0, i),
+          [...lectureGroups[i].slice(0, j), action.lecture, ...lectureGroups[i].slice(j, lectureGroups[i].length)],
+          ...lectureGroups.slice(i + 1, lectureGroups.length),
         ]
         : [
-          ...courses.slice(0, ii),
+          ...lectureGroups.slice(0, ii),
           [action.lecture],
-          ...courses.slice(ii, courses.length),
+          ...lectureGroups.slice(ii, lectureGroups.length),
         ];
       return Object.assign({}, state, {
         cart: {
-          courses: newCourses,
+          lectureGroups: newLectureGroups,
         },
       });
     }
     case DELETE_LECTURE_FROM_CART: {
-      const { courses } = state.cart;
-      const i2 = courses.findIndex(course => course.some(lecture => (lecture.id === action.lecture.id)));
-      const j = courses[i2].findIndex(lecture => (lecture.id === action.lecture.id));
-      const newCourses = [
-        ...courses.slice(0, i2),
-        ...((courses[i2].length === 1) ? [] : [[...courses[i2].slice(0, j), ...courses[i2].slice(j + 1, courses[i2].length)]]),
-        ...courses.slice(i2 + 1, courses.length),
+      const { lectureGroups } = state.cart;
+      const i2 = lectureGroups.findIndex(lg => lg.some(lecture => (lecture.id === action.lecture.id)));
+      const j = lectureGroups[i2].findIndex(lecture => (lecture.id === action.lecture.id));
+      const newLectureGroups = [
+        ...lectureGroups.slice(0, i2),
+        ...((lectureGroups[i2].length === 1) ? [] : [[...lectureGroups[i2].slice(0, j), ...lectureGroups[i2].slice(j + 1, lectureGroups[i2].length)]]),
+        ...lectureGroups.slice(i2 + 1, lectureGroups.length),
       ];
       return Object.assign({}, state, {
         cart: {
-          courses: newCourses,
+          lectureGroups: newLectureGroups,
         },
       });
     }

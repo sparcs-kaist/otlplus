@@ -8,7 +8,7 @@ import { appBoundClassNames as classNames } from '../../../common/boundClassName
 
 import Scroller from '../../Scroller';
 import LectureSearchSubSection from './LectureSearchSubSection';
-import CourseLecturesBlock from '../../blocks/CourseLecturesBlock';
+import LectureGroupBlockRow from '../../blocks/LectureGroupBlockRow';
 
 import { setLectureActive, clearLectureActive } from '../../../actions/timetable/lectureActive';
 import { addLectureToCart, deleteLectureFromCart, setMobileShowLectureList } from '../../../actions/timetable/list';
@@ -184,15 +184,15 @@ class LectureListSection extends Component {
     const arrowPosition = (this.arrowRef.current).getBoundingClientRect();
     const arrowY = (arrowPosition.top + arrowPosition.bottom) / 2;
 
-    const elementAtPosition = document.elementFromPoint(100, arrowY).closest(`.${classNames('block--course-lectures__elem-wrap')}`);
+    const elementAtPosition = document.elementFromPoint(100, arrowY).closest(`.${classNames('block--lecture-group__elem-wrap')}`);
     if (elementAtPosition === null) {
       clearLectureActiveDispatch();
       return;
     }
     const targetId = Number(elementAtPosition.getAttribute('data-id'));
-    const courses = this._getCourses(currentList);
-    const targetLecture = courses
-      .map(c => c.map(l => ((l.id === targetId) ? l : null)))
+    const lectureGroups = this._getLectureGroups(currentList);
+    const targetLecture = lectureGroups
+      .map(lg => lg.map(l => ((l.id === targetId) ? l : null)))
       .reduce((acc, val) => acc.concat(val), [])
       .filter(l => (l !== null))[0];
     setLectureActiveDispatch(targetLecture, 'LIST', false);
@@ -205,20 +205,20 @@ class LectureListSection extends Component {
     clearLectureActiveDispatch();
   }
 
-  _getCourses = (currentList) => {
+  _getLectureGroups = (currentList) => {
     const { search, major, humanity, cart } = this.props;
 
     if (currentList === 'SEARCH') {
-      return search.courses;
+      return search.lectureGroups;
     }
     if (major.codes.some(code => (currentList === code))) {
-      return major[currentList].courses;
+      return major[currentList].lectureGroups;
     }
     if (currentList === 'HUMANITY') {
-      return humanity.courses;
+      return humanity.lectureGroups;
     }
     if (currentList === 'CART') {
-      return cart.courses;
+      return cart.lectureGroups;
     }
     return null;
   }
@@ -227,24 +227,24 @@ class LectureListSection extends Component {
     const { t } = this.props;
     const { lectureActive, currentTimetable, currentList, searchOpen, search, major, humanity, cart } = this.props;
 
-    const getListElement = (courses, fromCart) => { // TODO: Rename courses variables which are actually lecture-group
-      if (!courses) {
+    const getListElement = (lectureGroups, fromCart) => {
+      if (!lectureGroups) {
         return <div className={classNames('list-placeholder')}><div>{t('ui.placeholder.loading')}</div></div>;
       }
-      if (courses.length === 0) {
+      if (lectureGroups.length === 0) {
         return <div className={classNames('list-placeholder')}><div>{t('ui.placeholder.noResults')}</div></div>;
       }
       return (
       <Scroller onScroll={this.selectWithArrow} key={currentList}>
-        {courses.map(c => (
-          <div className={classNames('block', 'block--course-lectures', (c.some(l => isListClicked(l, lectureActive)) ? 'block--clicked' : ''), (isInactiveListLectures(c, lectureActive) ? 'block--inactive' : ''))} key={c[0].course}>
-            <div className={classNames('block--course-lectures__title')}>
-              <strong>{c[0][t('js.property.common_title')]}</strong>
+        {lectureGroups.map(lg => (
+          <div className={classNames('block', 'block--lecture-group', (lg.some(l => isListClicked(l, lectureActive)) ? 'block--clicked' : ''), (isInactiveListLectures(lg, lectureActive) ? 'block--inactive' : ''))} key={lg[0].course}>
+            <div className={classNames('block--lecture-group__title')}>
+              <strong>{lg[0][t('js.property.common_title')]}</strong>
               {' '}
-              {c[0].old_code}
+              {lg[0].old_code}
             </div>
-            {c.map(l => (
-              <CourseLecturesBlock
+            {lg.map(l => (
+              <LectureGroupBlockRow
                 lecture={l}
                 key={l.id}
                 isClicked={isListClicked(l, lectureActive)}
@@ -281,7 +281,7 @@ class LectureListSection extends Component {
             <div className={classNames('section-content--lecture-list__selector')} ref={this.arrowRef}>
               <i className={classNames('icon', 'icon--lecture-selector')} />
             </div>
-            {getListElement(search.courses, false)}
+            {getListElement(search.lectureGroups, false)}
           </>
         </div>
       );
@@ -297,7 +297,7 @@ class LectureListSection extends Component {
             <div className={classNames('section-content--lecture-list__selector')} ref={this.arrowRef}>
               <i className={classNames('icon', 'icon--lecture-selector')} />
             </div>
-            {getListElement(major[currentList].courses, false)}
+            {getListElement(major[currentList].lectureGroups, false)}
           </>
         </div>
       );
@@ -313,7 +313,7 @@ class LectureListSection extends Component {
             <div className={classNames('section-content--lecture-list__selector')} ref={this.arrowRef}>
               <i className={classNames('icon', 'icon--lecture-selector')} />
             </div>
-            {getListElement(humanity.courses, false)}
+            {getListElement(humanity.lectureGroups, false)}
           </>
         </div>
       );
@@ -329,7 +329,7 @@ class LectureListSection extends Component {
             <div className={classNames('section-content--lecture-list__selector')} ref={this.arrowRef}>
               <i className={classNames('icon', 'icon--lecture-selector')} />
             </div>
-            {getListElement(cart.courses, true)}
+            {getListElement(cart.lectureGroups, true)}
           </>
         </div>
       );
@@ -382,16 +382,16 @@ LectureListSection.propTypes = {
   user: userShape,
   currentList: PropTypes.string.isRequired,
   search: PropTypes.shape({
-    courses: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)),
+    lectureGroups: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)),
   }).isRequired,
   major: PropTypes.shape({
     codes: PropTypes.arrayOf(PropTypes.string).isRequired,
   }).isRequired,
   humanity: PropTypes.shape({
-    courses: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)),
+    lectureGroups: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)),
   }).isRequired,
   cart: PropTypes.shape({
-    courses: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)),
+    lectureGroups: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)),
   }).isRequired,
   mobileShowLectureList: PropTypes.bool.isRequired,
   currentTimetable: timetableShape,
