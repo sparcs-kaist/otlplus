@@ -154,7 +154,7 @@ class CourseDetailSection extends Component {
               </div>
               <div>
                 <div>
-                  {getAverageScoreLabel(course.speech_letter)}
+                  {getAverageScoreLabel(course.speech)}
                 </div>
                 <div>
                   {t('ui.score.speech')}
