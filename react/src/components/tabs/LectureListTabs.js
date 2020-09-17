@@ -20,6 +20,7 @@ class LectureListTabs extends Component {
 
     if (user) {
       this._setMajorCodes(user.departments);
+      this._fetchList('CART', true);
     }
   }
 
