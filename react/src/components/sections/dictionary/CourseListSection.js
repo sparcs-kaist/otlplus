@@ -90,22 +90,22 @@ class CourseListSection extends Component {
         return <div className={classNames('list-placeholder')}><div>{t('ui.placeholder.noResults')}</div></div>;
       }
       return (
-    <Scroller key={currentList}>
-      {courses.map(c => (
-        <CourseBlock
-          course={c}
-          key={c.id}
-          showReadStatus={true}
-          isRead={c.userspecific_is_read || readCourses.some(c2 => (c2.id === c.id))}
-          isClicked={isClicked(c, courseActive)}
-          isHover={isHover(c, courseActive)}
-          isInactive={isInactiveCourse(c, courseActive)}
-          listHover={this.listHover}
-          listOut={this.listOut}
-          listClick={this.listClick}
-        />
-      ))}
-    </Scroller>
+        <Scroller key={currentList}>
+          {courses.map(c => (
+            <CourseBlock
+              course={c}
+              key={c.id}
+              showReadStatus={true}
+              isRead={c.userspecific_is_read || readCourses.some(c2 => (c2.id === c.id))}
+              isClicked={isClicked(c, courseActive)}
+              isHover={isHover(c, courseActive)}
+              isInactive={isInactiveCourse(c, courseActive)}
+              listHover={this.listHover}
+              listOut={this.listOut}
+              listClick={this.listClick}
+            />
+          ))}
+        </Scroller>
       );
     };
 
