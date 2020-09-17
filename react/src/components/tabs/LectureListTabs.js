@@ -28,14 +28,15 @@ class LectureListTabs extends Component {
 
     if (user && !prevProps.user) {
       this._setMajorCodes(user.departments);
-      if (currentList === 'CART') {
-        this._fetchList(currentList, true);
-      }
+      this._fetchList('CART', true);
     }
 
     if (year !== prevProps.year || semester !== prevProps.semester) {
       clearListsLecturesDispatch();
-      this._fetchList(currentList, true);
+      this._fetchList('CART', true);
+      if (currentList !== 'CART') {
+        this._fetchList(currentList, true);
+      }
     }
 
     if (currentList !== prevProps.currentList) {
