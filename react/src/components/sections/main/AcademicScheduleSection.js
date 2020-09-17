@@ -34,7 +34,7 @@ class AcademicScheduleSection extends Component {
 
     if (semesters == null) {
       return (
-        <div className={classNames('section-content', 'section-content--widget')}>
+        <div className={classNames('section-content', 'section-content--feed')}>
           <div className={classNames('academic-schedule', 'placeholder')}>
             <div>{t('ui.placeholder.loading')}</div>
             <div>
@@ -62,7 +62,7 @@ class AcademicScheduleSection extends Component {
 
     if (!targetSchedule) {
       return (
-        <div className={classNames('section-content', 'section-content--widget')}>
+        <div className={classNames('section-content', 'section-content--feed')}>
           <div className={classNames('academic-schedule', 'placeholder')}>
             <div>{t('ui.placeholder.unknown')}</div>
             <div>
@@ -92,7 +92,7 @@ class AcademicScheduleSection extends Component {
     );
 
     return (
-      <div className={classNames('section-content', 'section-content--widget')}>
+      <div className={classNames('section-content', 'section-content--feed')}>
         <div className={classNames('academic-schedule')}>
           <div>
             {`D-${t('ui.others.dayCount', { count: days })} ${t('ui.others.hourCount', { count: hours })} ${t('ui.others.minuteCount', { count: minutes })} ${t('ui.others.secondCount', { count: seconds })}`}

@@ -62,7 +62,7 @@ class MyTimetableSection extends Component {
     const minutes = today.getMinutes();
 
     return (
-      <div className={classNames('section-content', 'section-content--widget', 'section-content--current-timetable')}>
+      <div className={classNames('section-content', 'section-content--feed', 'section-content--current-timetable')}>
         <div
           style={{
             left: -((hours + (minutes / 60) - 8) * cellWidth * 2 + 2 - 2) + 58,
