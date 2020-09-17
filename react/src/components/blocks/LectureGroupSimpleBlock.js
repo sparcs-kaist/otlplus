@@ -9,27 +9,27 @@ import { getProfessorsStrShort } from '../../common/lectureFunctions';
 import lectureShape from '../../shapes/LectureShape';
 
 
-const HistoryLecturesBlock = ({ t, lectures }) => {
+const LectureGroupSimpleBlock = ({ t, lectures }) => {
   const getClass = (lec) => {
     if (!lec.class_title) {
       return classNames('');
     }
     switch (lec.class_title.length) {
       case 1:
-        return classNames('block--history-lectures__elem__texts__fixed-1');
+        return classNames('block--lecture-group-simple__elem__texts__fixed-1');
       case 2:
-        return classNames('block--history-lectures__elem__texts__fixed-2');
+        return classNames('block--lecture-group-simple__elem__texts__fixed-2');
       default:
         return classNames('');
     }
   };
   return (
-    <div className={classNames('block', 'block--history-lectures')}>
+    <div className={classNames('block', 'block--lecture-group-simple')}>
       {
         lectures.map(lecture => (
-          <div className={classNames('block--history-lectures__elem-wrap')} key={lecture.id}>
-            <div className={classNames('block--history-lectures__elem')}>
-              <div className={classNames('block--history-lectures__elem__texts')}>
+          <div className={classNames('block--lecture-group-simple__elem-wrap')} key={lecture.id}>
+            <div className={classNames('block--lecture-group-simple__elem')}>
+              <div className={classNames('block--lecture-group-simple__elem__texts')}>
                 <strong className={getClass(lecture)}>{lecture[t('js.property.class_title')]}</strong>
                 {' '}
                 <span>{getProfessorsStrShort(lecture)}</span>
@@ -42,8 +42,8 @@ const HistoryLecturesBlock = ({ t, lectures }) => {
   );
 };
 
-HistoryLecturesBlock.propTypes = {
+LectureGroupSimpleBlock.propTypes = {
   lectures: PropTypes.arrayOf(lectureShape).isRequired,
 };
 
-export default withTranslation()(pure(HistoryLecturesBlock));
+export default withTranslation()(pure(LectureGroupSimpleBlock));

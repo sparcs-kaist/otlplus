@@ -7,7 +7,7 @@ import axios from 'axios';
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
 import Scroller from '../../Scroller';
-import HistoryLecturesBlock from '../../blocks/HistoryLecturesBlock';
+import LectureGroupSimpleBlock from '../../blocks/LectureGroupSimpleBlock';
 
 import { setLectures } from '../../../actions/dictionary/courseActive';
 
@@ -96,7 +96,7 @@ class HistorySubSection extends Component {
       if (filteredLectures.length === 0) {
         return <td className={classNames('history__cell--unopen')} key={`${year}-1`}><div>{t('ui.others.notOffered')}</div></td>;
       }
-      return <td key={`${year}-1`}><HistoryLecturesBlock lectures={filteredLectures} /></td>;
+      return <td key={`${year}-1`}><LectureGroupSimpleBlock lectures={filteredLectures} /></td>;
     };
 
     const startYear = Math.min(...semesterYears, ...lectureYears);
