@@ -79,39 +79,23 @@ class CourseDetailSection extends Component {
           <button className={classNames('close-button')} onClick={this.unfix}><i className={classNames('icon', 'icon--close-section')} /></button>
           <div className={classNames('fixed')}>
             <div>
-              <div className={classNames('title')}>
-                {course[t('js.property.title')]}
-              </div>
-              <div className={classNames('subtitle')}>
-                {course.old_code}
-              </div>
+              <div className={classNames('title')}>{ course[t('js.property.title')] }</div>
+              <div className={classNames('subtitle')}>{ course.old_code }</div>
             </div>
             <div ref={this.scrollThresholdRef} />
             <div className={classNames('fixed__conditional-part', (showHiddenScores ? '' : 'fixed__conditional-part--hidden'))}>
               <div className={classNames('scores')}>
                 <div>
-                  <div>
-                    {getAverageScoreLabel(course.grade)}
-                  </div>
-                  <div>
-                    {t('ui.score.grade')}
-                  </div>
+                  <div>{ getAverageScoreLabel(course.grade) }</div>
+                  <div>{ t('ui.score.grade') }</div>
                 </div>
                 <div>
-                  <div>
-                    {getAverageScoreLabel(course.load)}
-                  </div>
-                  <div>
-                    {t('ui.score.load')}
-                  </div>
+                  <div>{ getAverageScoreLabel(course.load) }</div>
+                  <div>{ t('ui.score.load') }</div>
                 </div>
                 <div>
-                  <div>
-                    {getAverageScoreLabel(course.speech)}
-                  </div>
-                  <div>
-                    {t('ui.score.speech')}
-                  </div>
+                  <div>{ getAverageScoreLabel(course.speech) }</div>
+                  <div>{ t('ui.score.speech') }</div>
                 </div>
               </div>
             </div>
@@ -119,46 +103,26 @@ class CourseDetailSection extends Component {
           <Scroller onScroll={() => this.onScroll()} key={course.id}>
             <div>
               <div className={classNames('attribute', 'attribute--semi-long')}>
-                <div>
-                  {t('ui.attribute.classification')}
-                </div>
-                <div>
-                  {`${course.department[t('js.property.name')]}, ${course[t('js.property.type')]}`}
-                </div>
+                <div>{ t('ui.attribute.classification') }</div>
+                <div>{ `${course.department[t('js.property.name')]}, ${course[t('js.property.type')]}` }</div>
               </div>
               <div className={classNames('attribute', 'attribute--semi-long')}>
-                <div>
-                  {t('ui.attribute.description')}
-                </div>
-                <div>
-                  {course.summary}
-                </div>
+                <div>{ t('ui.attribute.description') }</div>
+                <div>{ course.summary }</div>
               </div>
             </div>
             <div className={classNames('scores')} ref={this.scoresRef}>
               <div>
-                <div>
-                  {getAverageScoreLabel(course.grade)}
-                </div>
-                <div>
-                  {t('ui.score.grade')}
-                </div>
+                <div>{ getAverageScoreLabel(course.grade) }</div>
+                <div>{ t('ui.score.grade') }</div>
               </div>
               <div>
-                <div>
-                  {getAverageScoreLabel(course.load)}
-                </div>
-                <div>
-                  {t('ui.score.load')}
-                </div>
+                <div>{ getAverageScoreLabel(course.load) }</div>
+                <div>{ t('ui.score.load') }</div>
               </div>
               <div>
-                <div>
-                  {getAverageScoreLabel(course.speech)}
-                </div>
-                <div>
-                  {t('ui.score.speech')}
-                </div>
+                <div>{ getAverageScoreLabel(course.speech) }</div>
+                <div>{ t('ui.score.speech') }</div>
               </div>
             </div>
             <div className={classNames('divider')} />
