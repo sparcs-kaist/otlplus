@@ -14,6 +14,8 @@ import { setLectureSelected, clearLectureSelected } from '../../../actions/write
 import userShape from '../../../shapes/UserShape';
 import lectureShape from '../../../shapes/LectureShape';
 
+import { unique, sum } from '../../../common/utilFunctions';
+
 
 class TakenLecturesSection extends Component {
   handleBlockClick = lecture => (e) => {
@@ -77,14 +79,11 @@ class TakenLecturesSection extends Component {
     const writableTakenLectures = user.review_writable_lectures;
     const editableReviews = user.reviews.filter(r => writableTakenLectures.some(l => l.id === r.lecture.id));
 
-    const takenSemesters = writableTakenLectures
-      .map(l => ({
-        year: l.year,
-        semester: l.semester,
-      }));
     // eslint-disable-next-line fp/no-mutating-methods
-    const targetSemesters = takenSemesters
-      .filter((s, i) => takenSemesters.findIndex(s2 => (s2.year === s.year && s2.semester === s.semester)) === i)
+    const targetSemesters = unique(
+      writableTakenLectures.map(l => ({ year: l.year, semester: l.semester })),
+      (a, b) => ((a.year === b.year) && (a.semester === b.semester)),
+    )
       .sort((a, b) => ((a.year !== b.year) ? (b.year - a.year) : (b.semester - a.semester)));
 
     const semesterNames = [
@@ -111,7 +110,7 @@ class TakenLecturesSection extends Component {
             </div>
             <div>
               <div>
-                {editableReviews.reduce((acc, r) => (acc + r.like), 0)}
+                {sum(editableReviews, r => r.like)}
               </div>
               <div>{t('ui.score.likes')}</div>
             </div>
