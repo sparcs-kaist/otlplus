@@ -15,6 +15,10 @@ class RelatedSubSection extends Component {
     const { t } = this.props;
     const { course } = this.props;
 
+    if (!course) {
+      return null;
+    }
+
     const getBlocksOrPlaceholder = (courses) => {
       if (!courses.length) {
         return <div className={classNames('list-placeholder')}><div>{t('ui.placeholder.unknown')}</div></div>;

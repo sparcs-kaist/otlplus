@@ -32,14 +32,22 @@ class CourseDetailSection extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { currentList, clearCourseActiveDispatch } = this.props;
+    const { currentList, clicked, course, clearCourseActiveDispatch } = this.props;
 
     if (prevProps.currentList !== currentList) {
       clearCourseActiveDispatch();
     }
+
+    if (clicked && (!prevProps.clicked || (prevProps.course !== course))) {
+      this._updateOnScrollChange();
+    }
   }
 
-  onScroll() {
+  onScroll = () => {
+    this._updateOnScrollChange();
+  }
+
+  _updateOnScrollChange = () => {
     if (this.scoresRef.current.getBoundingClientRect().top
       >= this.scrollThresholdRef.current.getBoundingClientRect().bottom) {
       this.setState({
@@ -146,7 +154,7 @@ class CourseDetailSection extends Component {
               </div>
               <div>
                 <div>
-                  {getAverageScoreLabel(course.speech_letter)}
+                  {getAverageScoreLabel(course.speech)}
                 </div>
                 <div>
                   {t('ui.score.speech')}
