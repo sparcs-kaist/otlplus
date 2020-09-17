@@ -511,7 +511,7 @@ LectureDetailSection.propTypes = {
   currentList: PropTypes.string.isRequired,
   currentTimetable: timetableShape,
   cart: PropTypes.shape({
-    courses: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)),
+    lectureGroups: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)),
   }).isRequired,
   year: PropTypes.number,
   semester: PropTypes.number,
