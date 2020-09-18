@@ -1,4 +1,4 @@
-import { RESET, SET_LECTURE_FOCUS, CLEAR_LECTURE_FOCUS, SET_MULTIPLE_DETAIL, CLEAR_MULTIPLE_DETAIL } from '../../actions/timetable/lectureFocus';
+import { RESET, SET_LECTURE_FOCUS, CLEAR_LECTURE_FOCUS, SET_REVIEWS, SET_MULTIPLE_DETAIL, CLEAR_MULTIPLE_DETAIL } from '../../actions/timetable/lectureFocus';
 
 export const NONE = 'NONE';
 export const LIST = 'LIST';
@@ -9,6 +9,7 @@ const initialState = {
   from: NONE,
   clicked: false,
   lecture: null,
+  reviews: null,
   title: '',
   multipleDetail: [],
 };
@@ -19,17 +20,28 @@ const lectureFocus = (state = initialState, action) => {
       return initialState;
     }
     case SET_LECTURE_FOCUS: {
+      const lectureChanged = !state.lecture || (state.lecture.id !== action.lecture.id);
       return Object.assign({}, state, {
         from: action.from,
         clicked: action.clicked,
         lecture: action.lecture,
-      });
+      },
+      (lectureChanged
+        ? { reviews: null }
+        : {}
+      ));
     }
     case CLEAR_LECTURE_FOCUS: {
       return Object.assign({}, state, {
         from: NONE,
         clicked: false,
         lecture: null,
+        reviews: null,
+      });
+    }
+    case SET_REVIEWS: {
+      return Object.assign({}, state, {
+        reviews: action.reviews,
       });
     }
     case SET_MULTIPLE_DETAIL: {

@@ -143,7 +143,7 @@ const ReviewWriteBlock = ({ t, lecture, review, pageFrom, updateOnSubmit }) => {
     || (load !== savedLoad)
     || (speech !== savedSpeech);
   const getScoreOptionLabel = (name, value, checkedValue) => {
-    const inputId = `${name}-${value}`;
+    const inputId = `${lecture.id}-${name}-${value}`;
     return (
       <label className={classNames('block--review-write__score__option')} htmlFor={inputId}>
         <input id={inputId} type="radio" name={name} value={`${value}`} checked={checkedValue === value} onChange={onScoreChange} />

@@ -26,18 +26,18 @@ class CourseListSection extends Component {
 
 
   listHover = course => () => {
-    const { courseFocusClicked, setCourseFocusDispatch } = this.props;
+    const { courseFocus, setCourseFocusDispatch } = this.props;
 
-    if (courseFocusClicked) {
+    if (courseFocus.clicked) {
       return;
     }
     setCourseFocusDispatch(course, false);
   }
 
   listOut = () => {
-    const { courseFocusClicked, clearCourseFocusDispatch } = this.props;
+    const { courseFocus, clearCourseFocusDispatch } = this.props;
 
-    if (courseFocusClicked) {
+    if (courseFocus.clicked) {
       return;
     }
     clearCourseFocusDispatch();
@@ -163,7 +163,6 @@ const mapStateToProps = state => ({
   taken: state.dictionary.list.taken,
   readCourses: state.dictionary.list.readCourses,
   courseFocus: state.dictionary.courseFocus,
-  courseFocusClicked: state.dictionary.courseFocus.clicked,
   searchOpen: state.dictionary.search.open,
 });
 
@@ -195,7 +194,6 @@ CourseListSection.propTypes = {
   }).isRequired,
   readCourses: PropTypes.arrayOf(courseShape).isRequired,
   courseFocus: courseFocusShape.isRequired,
-  courseFocusClicked: PropTypes.bool.isRequired,
   searchOpen: PropTypes.bool.isRequired,
 
   openSearchDispatch: PropTypes.func.isRequired,

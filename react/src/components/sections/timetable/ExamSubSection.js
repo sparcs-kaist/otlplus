@@ -9,9 +9,7 @@ import Scroller from '../../Scroller';
 
 import { clearMultipleDetail, setMultipleDetail } from '../../../actions/timetable/lectureFocus';
 
-import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureFocus';
-
-import lectureShape from '../../../shapes/LectureShape';
+import lectureFocusShape from '../../../shapes/LectureFocusShape';
 import timetableShape from '../../../shapes/TimetableShape';
 import { inTimetable, isFocused, getRoomStr, getExamStr } from '../../../common/lectureFunctions';
 
@@ -26,14 +24,14 @@ class ExamSubSection extends Component {
   }
 
   _getLecturesWithExam = () => {
-    const { lectureFocusLecture, selectedTimetable } = this.props;
+    const { lectureFocus, selectedTimetable } = this.props;
 
     const timetableLectures = selectedTimetable
       ? selectedTimetable.lectures
       : [];
     const lecturesWithExam = timetableLectures
-      .concat((lectureFocusLecture && !inTimetable(lectureFocusLecture, selectedTimetable))
-        ? [lectureFocusLecture]
+      .concat((lectureFocus.lecture && !inTimetable(lectureFocus.lecture, selectedTimetable))
+        ? [lectureFocus.lecture]
         : [])
       .filter(l => (l.examtimes.length > 0));
 
@@ -42,8 +40,8 @@ class ExamSubSection extends Component {
 
   examFocus(dayIndex) {
     const { t } = this.props;
-    const { lectureFocusFrom, selectedTimetable, setMultipleDetailDispatch } = this.props;
-    if (lectureFocusFrom !== 'NONE' || !selectedTimetable) {
+    const { lectureFocus, selectedTimetable, setMultipleDetailDispatch } = this.props;
+    if (lectureFocus.from !== 'NONE' || !selectedTimetable) {
       return;
     }
 
@@ -62,9 +60,9 @@ class ExamSubSection extends Component {
   }
 
   clearFocus() {
-    const { lectureFocusFrom, clearMultipleDetailDispatch } = this.props;
+    const { lectureFocus, clearMultipleDetailDispatch } = this.props;
 
-    if (lectureFocusFrom !== 'MULTIPLE') {
+    if (lectureFocus.from !== 'MULTIPLE') {
       return;
     }
 
@@ -75,11 +73,11 @@ class ExamSubSection extends Component {
   render() {
     const { t } = this.props;
     const { multiFocusedLectures } = this.state;
-    const { lectureFocusLecture } = this.props;
+    const { lectureFocus } = this.props;
 
     const renderLectureExam = (lec) => {
       const act = (
-        isFocused(lec, lectureFocusLecture, multiFocusedLectures)
+        isFocused(lec, lectureFocus.lecture, multiFocusedLectures)
           ? 'focused'
           : ''
       );
@@ -161,8 +159,7 @@ class ExamSubSection extends Component {
 
 const mapStateToProps = state => ({
   selectedTimetable: state.timetable.timetable.selectedTimetable,
-  lectureFocusLecture: state.timetable.lectureFocus.lecture,
-  lectureFocusFrom: state.timetable.lectureFocus.from,
+  lectureFocus: state.timetable.lectureFocus,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -176,8 +173,7 @@ const mapDispatchToProps = dispatch => ({
 
 ExamSubSection.propTypes = {
   selectedTimetable: timetableShape,
-  lectureFocusLecture: lectureShape,
-  lectureFocusFrom: PropTypes.oneOf([NONE, LIST, TABLE, MULTIPLE]).isRequired,
+  lectureFocus: lectureFocusShape.isRequired,
 
   setMultipleDetailDispatch: PropTypes.func.isRequired,
   clearMultipleDetailDispatch: PropTypes.func.isRequired,
