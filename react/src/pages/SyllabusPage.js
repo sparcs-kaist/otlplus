@@ -10,7 +10,7 @@ class SyllabusPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentShowingLecture: this._getFirstLecture(props),
+      selectedLecture: this._getFirstLecture(props),
     };
   }
 
@@ -23,13 +23,13 @@ class SyllabusPage extends Component {
   )
 
   updateShowingLecture = (lecture) => {
-    this.setState({ currentShowingLecture: lecture });
+    this.setState({ selectedLecture: lecture });
   }
 
   render() {
     // eslint-disable-next-line react/destructuring-assignment
     const { lectures } = this.props.location.state;
-    const { currentShowingLecture } = this.state;
+    const { selectedLecture } = this.state;
 
     return (
       <section className={classNames('content', 'content--no-scroll')}>
@@ -37,7 +37,7 @@ class SyllabusPage extends Component {
           <div className={classNames('tabs', 'tabs--syllabus')}>
             {
               lectures.map(l => (
-                <div className={classNames((currentShowingLecture === l ? 'tabs__elem--focused' : ''))} onClick={() => this.updateShowingLecture(l)}>
+                <div className={classNames((selectedLecture === l ? 'tabs__elem--focused' : ''))} onClick={() => this.updateShowingLecture(l)}>
                   { l.common_title }
                 </div>
               ))
@@ -47,7 +47,7 @@ class SyllabusPage extends Component {
             <div className={classNames('section-content', 'section-content--syllabus')}>
 
               { lectures.map(l => (
-                <iframe src={this._getLectureUrl(l)} title={`syllabus-${l.title}`} key={l.id} style={l.id === currentShowingLecture.id ? {} : { display: 'none' }}>
+                <iframe src={this._getLectureUrl(l)} title={`syllabus-${l.title}`} key={l.id} style={l.id === selectedLecture.id ? {} : { display: 'none' }}>
                   { l.common_title }
                 </iframe>
               ))}

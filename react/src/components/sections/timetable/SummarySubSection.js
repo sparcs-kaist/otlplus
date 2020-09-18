@@ -143,7 +143,7 @@ class SummarySubSection extends Component {
       && (indexOfType(lal.type_en) === typeIndex)
     );
 
-    const currentTypeCredit = [0, 1, 2, 3, 4, 5].map((i) => {
+    const timetableTypeCredit = [0, 1, 2, 3, 4, 5].map((i) => {
       const lecturesWithType = timetableLectures.filter(l => (indexOfType(l.type_en) === i));
       return sum(lecturesWithType, l => (l.credit + l.credit_au));
     });
@@ -156,10 +156,10 @@ class SummarySubSection extends Component {
     ));
     const totalTypeCredit = [0, 1, 2, 3, 4, 5].map(i => (
       !isLectureFocusFromType(lectureFocusFrom, lectureFocusLecture, i)
-        ? currentTypeCredit[i]
+        ? timetableTypeCredit[i]
         : inTimetable(lectureFocusLecture, selectedTimetable)
-          ? currentTypeCredit[i]
-          : currentTypeCredit[i] + lectureFocusLecture.credit + lectureFocusLecture.credit_au
+          ? timetableTypeCredit[i]
+          : timetableTypeCredit[i] + lectureFocusLecture.credit + lectureFocusLecture.credit_au
     ));
 
     const totalCredit = sum(timetableLectures, l => l.credit)
@@ -182,7 +182,7 @@ class SummarySubSection extends Component {
             <div className={classNames('attribute')} onMouseOver={() => this.typeFocus('Basic Required')} onMouseOut={() => this.clearFocus()}>
               <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.type.basicRequiredShort')}</span>
               <div>
-                <span className={classNames('mobile-hidden', (multipleFocusCode === 'Basic Required' ? 'focused' : ''))}>{currentTypeCredit[0]}</span>
+                <span className={classNames('mobile-hidden', (multipleFocusCode === 'Basic Required' ? 'focused' : ''))}>{timetableTypeCredit[0]}</span>
                 <span className={classNames('mobile-hidden', 'focused')}>{singleFocusedTypeCreditStr[0]}</span>
                 <span className={classNames('mobile-unhidden', ((multipleFocusCode === 'Basic Required') || isLectureFocusFromType(lectureFocusFrom, lectureFocusLecture, 0) ? 'focused' : ''))}>{totalTypeCredit[0]}</span>
               </div>
@@ -190,7 +190,7 @@ class SummarySubSection extends Component {
             <div className={classNames('attribute')} onMouseOver={() => this.typeFocus('Major Required')} onMouseOut={() => this.clearFocus()}>
               <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.type.majorRequiredShort')}</span>
               <div>
-                <span className={classNames('mobile-hidden', (multipleFocusCode === 'Major Required' ? 'focused' : ''))}>{currentTypeCredit[2]}</span>
+                <span className={classNames('mobile-hidden', (multipleFocusCode === 'Major Required' ? 'focused' : ''))}>{timetableTypeCredit[2]}</span>
                 <span className={classNames('mobile-hidden', 'focused')}>{singleFocusedTypeCreditStr[2]}</span>
                 <span className={classNames('mobile-unhidden', ((multipleFocusCode === 'Major Required') || isLectureFocusFromType(lectureFocusFrom, lectureFocusLecture, 2) ? 'focused' : ''))}>{totalTypeCredit[2]}</span>
               </div>
@@ -198,7 +198,7 @@ class SummarySubSection extends Component {
             <div className={classNames('attribute')} onMouseOver={() => this.typeFocus('Humanities & Social Elective')} onMouseOut={() => this.clearFocus()}>
               <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.type.humanitiesSocialElectiveShort')}</span>
               <div>
-                <span className={classNames('mobile-hidden', (multipleFocusCode === 'Humanities & Social Elective' ? 'focused' : ''))}>{currentTypeCredit[4]}</span>
+                <span className={classNames('mobile-hidden', (multipleFocusCode === 'Humanities & Social Elective' ? 'focused' : ''))}>{timetableTypeCredit[4]}</span>
                 <span className={classNames('mobile-hidden', 'focused')}>{singleFocusedTypeCreditStr[4]}</span>
                 <span className={classNames('mobile-unhidden', ((multipleFocusCode === 'Humanities & Social Elective') || isLectureFocusFromType(lectureFocusFrom, lectureFocusLecture, 4) ? 'focused' : ''))}>{totalTypeCredit[4]}</span>
               </div>
@@ -208,7 +208,7 @@ class SummarySubSection extends Component {
             <div className={classNames('attribute')} onMouseOver={() => this.typeFocus('Basic Elective')} onMouseOut={() => this.clearFocus()}>
               <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.type.basicElectiveShort')}</span>
               <div>
-                <span className={classNames('mobile-hidden', (multipleFocusCode === 'Basic Elective' ? 'focused' : ''))}>{currentTypeCredit[1]}</span>
+                <span className={classNames('mobile-hidden', (multipleFocusCode === 'Basic Elective' ? 'focused' : ''))}>{timetableTypeCredit[1]}</span>
                 <span className={classNames('mobile-hidden', 'focused')}>{singleFocusedTypeCreditStr[1]}</span>
                 <span className={classNames('mobile-unhidden', ((multipleFocusCode === 'Basic Elective') || isLectureFocusFromType(lectureFocusFrom, lectureFocusLecture, 1) ? 'focused' : ''))}>{totalTypeCredit[1]}</span>
               </div>
@@ -216,7 +216,7 @@ class SummarySubSection extends Component {
             <div className={classNames('attribute')} onMouseOver={() => this.typeFocus('Major Elective')} onMouseOut={() => this.clearFocus()}>
               <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.type.majorElectiveShort')}</span>
               <div>
-                <span className={classNames('mobile-hidden', (multipleFocusCode === 'Major Elective' ? 'focused' : ''))}>{currentTypeCredit[3]}</span>
+                <span className={classNames('mobile-hidden', (multipleFocusCode === 'Major Elective' ? 'focused' : ''))}>{timetableTypeCredit[3]}</span>
                 <span className={classNames('mobile-hidden', 'focused')}>{singleFocusedTypeCreditStr[3]}</span>
                 <span className={classNames('mobile-unhidden', ((multipleFocusCode === 'Major Elective') || isLectureFocusFromType(lectureFocusFrom, lectureFocusLecture, 3) ? 'focused' : ''))}>{totalTypeCredit[3]}</span>
               </div>
@@ -224,7 +224,7 @@ class SummarySubSection extends Component {
             <div className={classNames('attribute')} onMouseOver={() => this.typeFocus('Etc')} onMouseOut={() => this.clearFocus()}>
               <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.type.etcShort')}</span>
               <div>
-                <span className={classNames('mobile-hidden', (multipleFocusCode === 'Etc' ? 'focused' : ''))}>{currentTypeCredit[5]}</span>
+                <span className={classNames('mobile-hidden', (multipleFocusCode === 'Etc' ? 'focused' : ''))}>{timetableTypeCredit[5]}</span>
                 <span className={classNames('mobile-hidden', 'focused')}>{singleFocusedTypeCreditStr[5]}</span>
                 <span className={classNames('mobile-unhidden', ((multipleFocusCode === 'Etc') || isLectureFocusFromType(lectureFocusFrom, lectureFocusLecture, 5) ? 'focused' : ''))}>{totalTypeCredit[5]}</span>
               </div>

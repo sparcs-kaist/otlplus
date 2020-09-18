@@ -438,18 +438,18 @@ class CreditPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentTab: 8,
+      selectedProjectIndex: 8,
     };
   }
 
   changePage = (index) => {
     this.setState({
-      currentTab: index,
+      selectedProjectIndex: index,
     });
   }
 
   render() {
-    const { currentTab } = this.state;
+    const { selectedProjectIndex } = this.state;
     return (
       <section className={classNames('content', 'content--no-scroll')}>
         <div className={classNames('section-wrap', 'section-wrap--full')}>
@@ -461,7 +461,7 @@ class CreditPage extends Component {
                   <ProjectBlock
                     index={p.index}
                     onClick={this.changePage}
-                    isClicked={currentTab === p.index}
+                    isClicked={selectedProjectIndex === p.index}
                     mainTitle={p.mainTitle}
                     subTitle={p.subTitle}
                     period={p.period}
@@ -472,10 +472,10 @@ class CreditPage extends Component {
                   <div key={p.index} className={classNames('section-content--credit__blocks__dummy')} />
                 ))}
               </div>
-              <Scroller key={currentTab}>
+              <Scroller key={selectedProjectIndex}>
 
                 <div className={classNames('section-content--credit__people-list')}>
-                  {this.projects.find(p => (p.index === currentTab)).fields.map(f => (
+                  {this.projects.find(p => (p.index === selectedProjectIndex)).fields.map(f => (
                     <React.Fragment key={f.title}>
                       <div className={classNames('title')}>{f.title}</div>
                       {f.people.map(p => (

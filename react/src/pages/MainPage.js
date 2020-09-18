@@ -110,10 +110,10 @@ class MainPage extends Component {
 
   _getDateDifference = (date) => {
     const copiedDate = new Date(date);
-    const currentDate = new Date();
+    const todayDate = new Date();
     copiedDate.setHours(0, 0, 0, 0);
-    currentDate.setHours(0, 0, 0, 0);
-    const timeDiff = currentDate - copiedDate;
+    todayDate.setHours(0, 0, 0, 0);
+    const timeDiff = todayDate - copiedDate;
     return timeDiff / (24 * 60 * 60 * 1000);
   }
 
