@@ -28,13 +28,13 @@ class MapSubSection extends Component {
 
   mapFocus(building) {
     const { t } = this.props;
-    const { lectureFocusFrom, currentTimetable, setMultipleDetailDispatch } = this.props;
+    const { lectureFocusFrom, selectedTimetable, setMultipleDetailDispatch } = this.props;
 
-    if (lectureFocusFrom !== 'NONE' || !currentTimetable) {
+    if (lectureFocusFrom !== 'NONE' || !selectedTimetable) {
       return;
     }
 
-    const multiFocusedLectures = currentTimetable.lectures.filter(l => (
+    const multiFocusedLectures = selectedTimetable.lectures.filter(l => (
       getBuildingStr(l) === building
     ));
     const lectures = multiFocusedLectures.map(l => ({
@@ -58,13 +58,13 @@ class MapSubSection extends Component {
   }
 
   render() {
-    const { currentTimetable, lectureFocusLecture } = this.props;
+    const { selectedTimetable, lectureFocusLecture } = this.props;
 
-    const timetableLectures = currentTimetable
-      ? currentTimetable.lectures
+    const timetableLectures = selectedTimetable
+      ? selectedTimetable.lectures
       : [];
     const targetLectures = timetableLectures
-      .concat((lectureFocusLecture && !inTimetable(lectureFocusLecture, currentTimetable))
+      .concat((lectureFocusLecture && !inTimetable(lectureFocusLecture, selectedTimetable))
         ? [lectureFocusLecture]
         : []);
     const buildings = new Set(targetLectures.map(l => getBuildingStr(l)));
@@ -119,7 +119,7 @@ class MapSubSection extends Component {
 
 
 const mapStateToProps = state => ({
-  currentTimetable: state.timetable.timetable.currentTimetable,
+  selectedTimetable: state.timetable.timetable.selectedTimetable,
   lectureFocusLecture: state.timetable.lectureFocus.lecture,
   lectureFocusFrom: state.timetable.lectureFocus.from,
 });
@@ -134,7 +134,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 MapSubSection.propTypes = {
-  currentTimetable: timetableShape,
+  selectedTimetable: timetableShape,
   lectureFocusLecture: lectureShape,
   lectureFocusFrom: PropTypes.oneOf([NONE, LIST, TABLE, MULTIPLE]).isRequired,
 

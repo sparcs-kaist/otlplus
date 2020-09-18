@@ -59,10 +59,10 @@ class LectureListSection extends Component {
   }
 
   addToTable = lecture => (event) => {
-    const { currentTimetable, user, currentList, addLectureToTimetableDispatch } = this.props;
+    const { selectedTimetable, user, currentList, addLectureToTimetableDispatch } = this.props;
 
     event.stopPropagation();
-    performAddToTable(this, lecture, currentTimetable, user, addLectureToTimetableDispatch);
+    performAddToTable(this, lecture, selectedTimetable, user, addLectureToTimetableDispatch);
 
     const labelOfTabs = new Map([
       ['SEARCH', 'Search'],
@@ -225,7 +225,7 @@ class LectureListSection extends Component {
 
   render() {
     const { t } = this.props;
-    const { lectureFocus, currentTimetable, currentList, searchOpen, search, major, humanity, cart } = this.props;
+    const { lectureFocus, selectedTimetable, currentList, searchOpen, search, major, humanity, cart } = this.props;
 
     const getListElement = (lectureGroups, fromCart) => {
       if (!lectureGroups) {
@@ -249,8 +249,8 @@ class LectureListSection extends Component {
                   key={l.id}
                   isClicked={isListClicked(l, lectureFocus)}
                   isHover={isListHover(l, lectureFocus)}
-                  inTimetable={inTimetable(l, currentTimetable)}
-                  isTimetableReadonly={!currentTimetable || Boolean(currentTimetable.isReadOnly)}
+                  inTimetable={inTimetable(l, selectedTimetable)}
+                  isTimetableReadonly={!selectedTimetable || Boolean(selectedTimetable.isReadOnly)}
                   inCart={inCart(l, cart)}
                   fromCart={fromCart}
                   addToCart={this.addToCart}
@@ -346,7 +346,7 @@ const mapStateToProps = state => ({
   humanity: state.timetable.list.humanity,
   cart: state.timetable.list.cart,
   mobileShowLectureList: state.timetable.list.mobileShowLectureList,
-  currentTimetable: state.timetable.timetable.currentTimetable,
+  selectedTimetable: state.timetable.timetable.selectedTimetable,
   lectureFocus: state.timetable.lectureFocus,
   lectureFocusClicked: state.timetable.lectureFocus.clicked,
   year: state.timetable.semester.year,
@@ -394,7 +394,7 @@ LectureListSection.propTypes = {
     lectureGroups: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)),
   }).isRequired,
   mobileShowLectureList: PropTypes.bool.isRequired,
-  currentTimetable: timetableShape,
+  selectedTimetable: timetableShape,
   lectureFocus: lectureFocusShape.isRequired,
   lectureFocusClicked: PropTypes.bool.isRequired,
   year: PropTypes.number,

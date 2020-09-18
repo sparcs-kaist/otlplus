@@ -59,7 +59,7 @@ class LectureDetailSection extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    const { clicked, lecture, from, currentList, currentTimetable,
+    const { clicked, lecture, from, currentList, selectedTimetable,
       year, semester, clearLectureFocusDispatch } = this.props;
     if (prevProps.clicked && clicked) {
       if (prevProps.lecture.id !== lecture.id) {
@@ -78,7 +78,7 @@ class LectureDetailSection extends Component {
     if ((from === LIST) && (prevProps.currentList !== currentList)) {
       clearLectureFocusDispatch();
     }
-    else if ((from === TABLE) && (prevProps.currentTimetable.id !== currentTimetable.id)) {
+    else if ((from === TABLE) && (prevProps.selectedTimetable.id !== selectedTimetable.id)) {
       clearLectureFocusDispatch();
     }
     else if ((prevProps.year !== year) || (prevProps.semester !== semester)) {
@@ -127,11 +127,11 @@ class LectureDetailSection extends Component {
   };
 
   addToTable = (event) => {
-    const { lecture, currentTimetable, user, from, currentList,
+    const { lecture, selectedTimetable, user, from, currentList,
       addLectureToTimetableDispatch } = this.props;
 
     event.stopPropagation();
-    performAddToTable(this, lecture, currentTimetable, user, addLectureToTimetableDispatch);
+    performAddToTable(this, lecture, selectedTimetable, user, addLectureToTimetableDispatch);
 
     const labelOfTabs = new Map([
       ['SEARCH', 'Search'],
@@ -151,11 +151,11 @@ class LectureDetailSection extends Component {
   }
 
   deleteFromTable = (event) => {
-    const { lecture, currentTimetable, user, from, currentList,
+    const { lecture, selectedTimetable, user, from, currentList,
       removeLectureFromTimetableDispatch } = this.props;
 
     event.stopPropagation();
-    performDeleteFromTable(this, lecture, currentTimetable, user, removeLectureFromTimetableDispatch);
+    performDeleteFromTable(this, lecture, selectedTimetable, user, removeLectureFromTimetableDispatch);
 
     const labelOfTabs = new Map([
       ['SEARCH', 'Search'],
@@ -238,7 +238,7 @@ class LectureDetailSection extends Component {
   render() {
     const { t } = this.props;
     const { showUnfix, showCloseDict } = this.state;
-    const { from, lecture, title, multipleDetail, currentTimetable, cart } = this.props;
+    const { from, lecture, title, multipleDetail, selectedTimetable, cart } = this.props;
 
     if (from === LIST || from === TABLE) {
       const { reviews } = this.state;
@@ -374,8 +374,8 @@ class LectureDetailSection extends Component {
                   </button>
                 )
             }
-            {currentTimetable && !currentTimetable.isReadOnly
-              ? (!inTimetable(lecture, currentTimetable)
+            {selectedTimetable && !selectedTimetable.isReadOnly
+              ? (!inTimetable(lecture, selectedTimetable)
                 ? (
                   <button className={classNames('text-button', 'text-button--black')} onClick={this.addToTable}>
                     <i className={classNames('icon', 'icon--add-lecture')} />
@@ -389,7 +389,7 @@ class LectureDetailSection extends Component {
                   </button>
                 )
               )
-              : (!inTimetable(lecture, currentTimetable)
+              : (!inTimetable(lecture, selectedTimetable)
                 ? (
                   <button className={classNames('text-button', 'text-button--black', 'text-button--disabled')}>
                     <i className={classNames('icon', 'icon--add-lecture')} />
@@ -471,7 +471,7 @@ const mapStateToProps = state => ({
   multipleDetail: state.timetable.lectureFocus.multipleDetail,
   clicked: state.timetable.lectureFocus.clicked,
   currentList: state.timetable.list.currentList,
-  currentTimetable: state.timetable.timetable.currentTimetable,
+  selectedTimetable: state.timetable.timetable.selectedTimetable,
   cart: state.timetable.list.cart,
   year: state.timetable.semester.year,
   semester: state.timetable.semester.semester,
@@ -509,7 +509,7 @@ LectureDetailSection.propTypes = {
   ),
   clicked: PropTypes.bool.isRequired,
   currentList: PropTypes.string.isRequired,
-  currentTimetable: timetableShape,
+  selectedTimetable: timetableShape,
   cart: PropTypes.shape({
     lectureGroups: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)),
   }).isRequired,
