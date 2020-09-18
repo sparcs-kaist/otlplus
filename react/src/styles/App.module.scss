@@ -1011,7 +1011,7 @@ a {
                     padding: 2px 3px;
                     background-color: $color-block-background;
                     box-shadow: 0 1px 0 0 $color-block-shadow-dark;
-                    &.block--focused {
+                    &.block--highlighted {
                         background-color: $color-block-background-highlight;
                         box-shadow: 0 1px 0 0 $color-block-shadow-dark;
                         color: $color-highlight;
@@ -1028,7 +1028,7 @@ a {
                         margin-left: 1px;
                         border-radius: 50%;
 
-                        &.block--focused {
+                        &.block--highlighted {
                             background-color: $color-highlight !important;
                         }
                     }
@@ -1043,7 +1043,7 @@ a {
                     border-left: 2px solid transparent;
                     border-right: 2px solid transparent;
                     border-top: 3px solid $color-block-shadow-dark;
-                    &.block--focused {
+                    &.block--highlighted {
                         border-top-color:$color-block-shadow-highlight;
                     }
                 }
@@ -1057,7 +1057,7 @@ a {
                     border-left: 2px solid transparent;
                     border-right: 2px solid transparent;
                     border-top: 3px solid $color-block-background;
-                    &.block--focused {
+                    &.block--highlighted {
                         border-top-color:$color-block-background-highlight;
                     }
                 }
@@ -1469,7 +1469,7 @@ a {
 
     &--course {
         cursor: pointer;
-        &.block--focused {
+        &.block--highlighted {
             background-color:$color-block-background-dark;
         }
         &.block--clicked {
@@ -1748,7 +1748,7 @@ a {
                 border-radius:0px 0px $block-border-radius $block-border-radius;
             }
 
-            &.block--focused,
+            &.block--highlighted,
             &.block--clicked {
                 background-color:$color-block-background-dark;
             }
@@ -1865,7 +1865,7 @@ a {
         width: calc(100% + 2px);
         cursor: pointer;
         overflow: hidden;
-        &.block--focused {
+        &.block--highlighted {
             background-color: #E0546F;
         }
         &.block--clicked {
@@ -1878,7 +1878,8 @@ a {
             opacity: 0.5;
         }
         &.block--temp {
-            opacity: 0.9;
+            background-color: #E0546F;
+            opacity: 0.85;
             z-index: 3;
         }
 
@@ -1890,7 +1891,7 @@ a {
             padding:4px;
             background-color:rgba(#E0546F,0.8);
             .block--timetable:not(:hover) &,
-            .block--timetable:not(.block--focused):not(.block--clicked) & {
+            .block--timetable:not(.block--highlighted):not(.block--clicked) & {
                 display: none;
             }
             @media #{$media-portrait} {
@@ -1910,7 +1911,7 @@ a {
                 margin:0;
                 margin-bottom:1px;
                 pointer-events:none;
-                .block--timetable.block--focused &,
+                .block--timetable.block--highlighted &,
                 .block--timetable.block--clicked &,
                 .block--timetable.block--temp &
                  {
@@ -1925,7 +1926,7 @@ a {
                 margin:0;
                 margin-top:1px;
                 pointer-events:none;
-                .block--timetable.block--focused &,
+                .block--timetable.block--highlighted &,
                 .block--timetable.block--clicked &,
                 .block--timetable.block--temp {
                     color:rgba(#FFFFFF,0.7);
@@ -2020,7 +2021,7 @@ a {
         &:hover {
             background-color:$color-block-background-dark;
         }
-        &.focused {
+        &.block--clicked {
             background-color:$color-block-background-dark;
             box-shadow: 0 3px 0 0 $color-block-shadow-dark;
             position: relative;
