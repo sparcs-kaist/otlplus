@@ -1276,7 +1276,7 @@ a {
         }
     }
 
-    &--current-timetable {
+    &--todays-timetable {
         width: calc(100% + (#{$section-padding} * 2));
         margin: 0 (-$section-padding);
         padding: 0 $section-padding;
@@ -1289,7 +1289,7 @@ a {
                 left: 0 !important;
             }
 
-            .section-content--current-timetable__table {
+            .section-content--todays-timetable__table {
                 margin: 0 2px;
 
                 & > div:first-child {
@@ -1354,7 +1354,7 @@ a {
                 }
             }
 
-            .section-content--current-timetable__bar {
+            .section-content--todays-timetable__bar {
                 position: absolute;
                 text-align: center;
                 z-index: 4;

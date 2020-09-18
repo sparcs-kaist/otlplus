@@ -6,7 +6,7 @@ import axios from 'axios';
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
 
 import Footer from '../components/guideline/Footer';
-import MyTimetableSection from '../components/sections/main/MyTimetableSection';
+import TodaysTimetableSection from '../components/sections/main/TodaysTimetableSection';
 import AcademicScheduleSection from '../components/sections/main/AcademicScheduleSection';
 import VisitorSection from '../components/sections/main/VisitorSection';
 import RelatedCourseFeedSection from '../components/sections/main/RelatedCourseFeedSection';
@@ -148,7 +148,7 @@ class MainPage extends Component {
         <section className={classNames('content', 'content--main')}>
           <div className={classNames('section-wrap')}>
             <div className={classNames('section')}>
-              <MyTimetableSection />
+              <TodaysTimetableSection />
             </div>
           </div>
           <div className={classNames('section-wrap')}>
