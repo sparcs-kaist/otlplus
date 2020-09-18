@@ -12,9 +12,10 @@ import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lecture
 import lectureFocusShape from '../../../shapes/LectureFocusShape';
 import timetableShape from '../../../shapes/TimetableShape';
 
-import { inTimetable, isFocused, getBuildingStr, getRoomStr } from '../../../common/lectureFunctions';
+import { inTimetable, isFocused, getBuildingStr, getRoomStr, getOverallLectures } from '../../../common/lectureFunctions';
 
 import mapImage from '../../../static/img/timetable/kaist_map.jpg';
+import { unique } from '../../../common/utilFunctions';
 
 
 class MapSubSection extends Component {
@@ -26,6 +27,14 @@ class MapSubSection extends Component {
     };
   }
 
+  _getLecturesOnBuilding = (building) => {
+    const { lectureFocus, selectedTimetable } = this.props;
+
+    return getOverallLectures(selectedTimetable, lectureFocus).filter(l => (
+      getBuildingStr(l) === building
+    ));
+  }
+
   mapFocus(building) {
     const { t } = this.props;
     const { lectureFocus, selectedTimetable, setMultipleFocusDispatch } = this.props;
@@ -34,16 +43,14 @@ class MapSubSection extends Component {
       return;
     }
 
-    const multiFocusedLectures = selectedTimetable.lectures.filter(l => (
-      getBuildingStr(l) === building
-    ));
-    const lectures = multiFocusedLectures.map(l => ({
+    const lecturesOnBuilding = this._getLecturesOnBuilding(building);
+    const details = lecturesOnBuilding.map(l => ({
       id: l.id,
       title: l[t('js.property.title')],
       info: getRoomStr(l),
     }));
-    setMultipleFocusDispatch(building, lectures);
-    this.setState({ multiFocusedLectures: multiFocusedLectures });
+    setMultipleFocusDispatch(building, details);
+    this.setState({ multiFocusedLectures: lecturesOnBuilding });
   }
 
   clearFocus() {
@@ -60,21 +67,12 @@ class MapSubSection extends Component {
   render() {
     const { selectedTimetable, lectureFocus } = this.props;
 
-    const timetableLectures = selectedTimetable
-      ? selectedTimetable.lectures
-      : [];
-    const targetLectures = timetableLectures
-      .concat((lectureFocus.lecture && !inTimetable(lectureFocus.lecture, selectedTimetable))
-        ? [lectureFocus.lecture]
-        : []);
-    const buildings = new Set(targetLectures.map(l => getBuildingStr(l)));
+    const buildings = unique(getOverallLectures(selectedTimetable, lectureFocus).map(l => getBuildingStr(l)));
     const mapObject = Object.assign(
       {},
-      ...Array.from(buildings).map(b => (
+      ...buildings.map(b => (
         {
-          [b]: targetLectures
-            .filter(l => (b === getBuildingStr(l)))
-            .map(l => ({ color: (l.course % 16) + 1, id: l.id })),
+          [b]: this._getLecturesOnBuilding(b),
         }
       )),
     );
