@@ -4,7 +4,7 @@ import { pure } from 'recompose';
 import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
-import { getProfessorsStrShort } from '../../common/lectureFunctions';
+import { getProfessorsStrShort, getColorNumber } from '../../common/lectureFunctions';
 
 import lectureShape from '../../shapes/LectureShape';
 import classtimeShape from '../../shapes/ClasstimeShape';
@@ -23,7 +23,7 @@ const TimetableBlock = ({
     <div
       className={classNames(
         'block--timetable',
-        `background-color--${(lecture.course % 16) + 1}`,
+        `background-color--${getColorNumber(lecture) + 1}`,
         (isClicked ? 'block--clicked' : ''),
         (isTemp ? ['block--temp', 'block--highlighted'] : ''),
         ((isFocused && !isClicked) ? 'block--highlighted' : ''),

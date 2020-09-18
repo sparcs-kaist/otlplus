@@ -1462,7 +1462,7 @@ a {
     &:last-child {
         margin-bottom: 0;
     }
-    a > &:hover {
+    &[href]:hover {
         background-color:$color-block-background-dark;
     }
 
