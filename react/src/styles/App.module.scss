@@ -488,12 +488,12 @@ a {
         white-space: nowrap;
         cursor: pointer;
         display:inline-block;
-        &.tabs__elem--active {
+        &.tabs__elem--selected {
             cursor: initial;
             background-color: $color-tab-background;
             color: $color-text-normal;
         }
-        &:not(.tabs__elem--active) {
+        &:not(.tabs__elem--selected) {
             &:hover {
                 background-color: $color-tab-background-darker;
             }
@@ -563,16 +563,16 @@ a {
                 margin-bottom: 6px;
                 border-radius: $block-border-radius;
                 text-align: left;
-                &.tabs__elem--active {
+                &.tabs__elem--selected {
                     background-color: $color-block-background-dark;
                 }
-                &:not(.tabs__elem--active) {
+                &:not(.tabs__elem--selected) {
                     &:hover {
                         background-color: $color-block-background-dark;
                     }
                 }
             }
-            &:not(.tabs__elem--active) {
+            &:not(.tabs__elem--selected) {
                 & > button {
                     @media #{$media-landscape} {
                         display:none;
@@ -2939,7 +2939,7 @@ i.icon {
         background-image: url(../static/icons/tab_search.svg);
 
         *:hover > &,
-        *.tabs__elem--active > & {
+        *.tabs__elem--selected > & {
             background-image: url(../static/icons/tab_search_hover.svg)
         }
     }
@@ -2950,7 +2950,7 @@ i.icon {
         background-image: url(../static/icons/tab_major.svg);
 
         *:hover > &,
-        *.tabs__elem--active > & {
+        *.tabs__elem--selected > & {
             background-image: url(../static/icons/tab_major_hover.svg)
         }
     }
@@ -2961,7 +2961,7 @@ i.icon {
         background-image: url(../static/icons/tab_humanity.svg);
 
         *:hover > &,
-        *.tabs__elem--active > & {
+        *.tabs__elem--selected > & {
             background-image: url(../static/icons/tab_humanity_hover.svg)
         }
     }
@@ -2972,7 +2972,7 @@ i.icon {
         background-image: url(../static/icons/tab_cart.svg);
 
         *:hover > &,
-        *.tabs__elem--active > & {
+        *.tabs__elem--selected > & {
             background-image: url(../static/icons/tab_cart_hover.svg)
         }
     }
@@ -2983,7 +2983,7 @@ i.icon {
         background-image: url(../static/icons/tab_taken.svg);
 
         *:hover > &,
-        *.tabs__elem--active > & {
+        *.tabs__elem--selected > & {
             background-image: url(../static/icons/tab_taken_hover.svg)
         }
     }
