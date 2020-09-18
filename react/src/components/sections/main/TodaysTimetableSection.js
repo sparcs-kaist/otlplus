@@ -7,7 +7,7 @@ import queryString from 'qs';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
-import CurrentTimetableBlock from '../../blocks/CurrentTimetableBlock';
+import HorizontalTimetableBlock from '../../blocks/HorizontalTimetableBlock';
 
 import userShape from '../../../shapes/UserShape';
 import semesterShape from '../../../shapes/SemesterShape';
@@ -110,7 +110,7 @@ class TodaysTimetableSection extends Component {
               lecture.classtimes
                 .filter(ct => (ct.day === day - 1))
                 .map(ct => (
-                  <CurrentTimetableBlock
+                  <HorizontalTimetableBlock
                     key={`${lecture.id}:${ct.day}:${ct.begin}`}
                     lecture={lecture}
                     classtime={ct}

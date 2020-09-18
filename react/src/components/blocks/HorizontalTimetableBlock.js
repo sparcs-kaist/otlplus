@@ -10,12 +10,12 @@ import lectureShape from '../../shapes/LectureShape';
 import classtimeShape from '../../shapes/ClasstimeShape';
 
 
-const CurrentTimetableBlock = ({ t, lecture, classtime, cellWidth, cellHeight }) => {
+const HorizontalTimetableBlock = ({ t, lecture, classtime, cellWidth, cellHeight }) => {
   const indexOfTime = time => (time / 30 - 16);
 
   return (
     <div
-      className={classNames('block--current-timetable', `background-color--${(lecture.course % 16) + 1}`)}
+      className={classNames('block--horizonatal-timetable', `background-color--${(lecture.course % 16) + 1}`)}
       style={{
         left: cellWidth * indexOfTime(classtime.begin) + 2 + 2,
         top: 11 + 4 + 3,
@@ -23,14 +23,14 @@ const CurrentTimetableBlock = ({ t, lecture, classtime, cellWidth, cellHeight })
         height: cellHeight,
       }}
     >
-      <div className={classNames('block--current-timetable__content')}>
-        <p className={classNames('block--current-timetable__content__title')}>
+      <div className={classNames('block--horizonatal-timetable__content')}>
+        <p className={classNames('block--horizonatal-timetable__content__title')}>
           {lecture[t('js.property.title')]}
         </p>
-        <p className={classNames('block--current-timetable__content__info')}>
+        <p className={classNames('block--horizonatal-timetable__content__info')}>
           {getProfessorsStrShort(lecture)}
         </p>
-        <p className={classNames('block--current-timetable__content__info')}>
+        <p className={classNames('block--horizonatal-timetable__content__info')}>
           {classtime[t('js.property.classroom')]}
         </p>
       </div>
@@ -38,11 +38,11 @@ const CurrentTimetableBlock = ({ t, lecture, classtime, cellWidth, cellHeight })
   );
 };
 
-CurrentTimetableBlock.propTypes = {
+HorizontalTimetableBlock.propTypes = {
   lecture: lectureShape.isRequired,
   classtime: classtimeShape,
   cellWidth: PropTypes.number.isRequired,
   cellHeight: PropTypes.number.isRequired,
 };
 
-export default withTranslation()(pure(CurrentTimetableBlock));
+export default withTranslation()(pure(HorizontalTimetableBlock));
