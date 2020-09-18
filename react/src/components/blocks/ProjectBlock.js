@@ -13,7 +13,7 @@ const ProjectBlock = ({ t, index, isClicked, onClick, mainTitle, subTitle, perio
       className={classNames(
         'block',
         'block--project',
-        (isClicked ? 'focused' : ''),
+        (isClicked ? 'block--clicked' : ''),
       )}
       onClick={() => onClick(index)}
       key={index}
