@@ -1,7 +1,7 @@
 import axios from 'axios';
 import i18n from 'i18next';
 
-import { LIST, TABLE, MULTIPLE } from '../reducers/timetable/lectureActive';
+import { LIST, TABLE, MULTIPLE } from '../reducers/timetable/lectureFocus';
 
 
 export const inTimetable = (lecture, timetable) => (
@@ -18,47 +18,47 @@ export const inCart = (lecture, cart) => (
   ))
 );
 
-export const isListClicked = (lecture, lectureActive) => (
-  lectureActive.from === LIST
-  && lectureActive.clicked === true
-  && lectureActive.lecture.id === lecture.id
+export const isListClicked = (lecture, lectureFocus) => (
+  lectureFocus.from === LIST
+  && lectureFocus.clicked === true
+  && lectureFocus.lecture.id === lecture.id
 );
 
-export const isListHover = (lecture, lectureActive) => (
-  lectureActive.from === LIST
-  && lectureActive.clicked === false
-  && lectureActive.lecture.id === lecture.id
+export const isListHover = (lecture, lectureFocus) => (
+  lectureFocus.from === LIST
+  && lectureFocus.clicked === false
+  && lectureFocus.lecture.id === lecture.id
 );
 
-export const isTableClicked = (lecture, lectureActive) => (
-  lectureActive.from === TABLE
-  && lectureActive.clicked === true
-  && lectureActive.lecture.id === lecture.id
+export const isTableClicked = (lecture, lectureFocus) => (
+  lectureFocus.from === TABLE
+  && lectureFocus.clicked === true
+  && lectureFocus.lecture.id === lecture.id
 );
 
-export const isTableHover = (lecture, lectureActive) => (
-  lectureActive.from === TABLE
-  && lectureActive.clicked === false
-  && lectureActive.lecture.id === lecture.id
+export const isTableHover = (lecture, lectureFocus) => (
+  lectureFocus.from === TABLE
+  && lectureFocus.clicked === false
+  && lectureFocus.lecture.id === lecture.id
 );
 
-export const isInMultiple = (lecture, lectureActive) => (
-  lectureActive.from === MULTIPLE
-  && lectureActive.multipleDetail.some(l => (l.id === lecture.id))
+export const isInMultiple = (lecture, lectureFocus) => (
+  lectureFocus.from === MULTIPLE
+  && lectureFocus.multipleDetail.some(l => (l.id === lecture.id))
 );
 
-export const isInactiveTableLecture = (lecture, lectureActive) => (
-  lectureActive.clicked === true
-  && ((lectureActive.lecture.id !== lecture.id) || (lectureActive.from !== TABLE))
+export const isInactiveTableLecture = (lecture, lectureFocus) => (
+  lectureFocus.clicked === true
+  && ((lectureFocus.lecture.id !== lecture.id) || (lectureFocus.from !== TABLE))
 );
 
-export const isInactiveListLectures = (lectures, lectureActive) => (
-  lectureActive.clicked === true
-  && (lectures.every(l => (lectureActive.lecture.id !== l.id)) || (lectureActive.from !== LIST))
+export const isInactiveListLectures = (lectures, lectureFocus) => (
+  lectureFocus.clicked === true
+  && (lectures.every(l => (lectureFocus.lecture.id !== l.id)) || (lectureFocus.from !== LIST))
 );
 
-export const isActive = (lecture, lectureActiveLecture, activeLectures) => {
-  return (lectureActiveLecture !== null && lectureActiveLecture.id === lecture.id)
+export const isActive = (lecture, lectureFocusLecture, activeLectures) => {
+  return (lectureFocusLecture !== null && lectureFocusLecture.id === lecture.id)
     || (activeLectures.some(l => (l.id === lecture.id)));
 };
 

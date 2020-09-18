@@ -10,17 +10,17 @@ import Scroller from '../../Scroller';
 import LectureSearchSubSection from './LectureSearchSubSection';
 import LectureGroupBlockRow from '../../blocks/LectureGroupBlockRow';
 
-import { setLectureActive, clearLectureActive } from '../../../actions/timetable/lectureActive';
+import { setLectureFocus, clearLectureFocus } from '../../../actions/timetable/lectureFocus';
 import { addLectureToCart, deleteLectureFromCart, setMobileShowLectureList } from '../../../actions/timetable/list';
 import { openSearch } from '../../../actions/timetable/search';
 import { addLectureToTimetable } from '../../../actions/timetable/timetable';
 
-import { LIST } from '../../../reducers/timetable/lectureActive';
+import { LIST } from '../../../reducers/timetable/lectureFocus';
 
 import userShape from '../../../shapes/UserShape';
 import lectureShape from '../../../shapes/LectureShape';
 import timetableShape from '../../../shapes/TimetableShape';
-import lectureActiveShape from '../../../shapes/LectureActiveShape';
+import lectureFocusShape from '../../../shapes/LectureFocusShape';
 
 import { inTimetable, inCart, isListClicked, isListHover, isInactiveListLectures, performAddToTable, performAddToCart, performDeleteFromCart } from '../../../common/lectureFunctions';
 
@@ -37,14 +37,14 @@ class LectureListSection extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    const { currentList, lectureActive, mobileShowLectureList } = this.props;
+    const { currentList, lectureFocus, mobileShowLectureList } = this.props;
 
     if ((currentList !== prevProps.currentList)
       || (mobileShowLectureList && !prevProps.mobileShowLectureList)) {
       this.selectWithArrow();
     }
 
-    if (!lectureActive.clicked && prevProps.lectureActive.clicked) {
+    if (!lectureFocus.clicked && prevProps.lectureFocus.clicked) {
       this.selectWithArrow();
     }
   }
@@ -113,38 +113,38 @@ class LectureListSection extends Component {
   }
 
   listHover = lecture => () => {
-    const { lectureActiveClicked, setLectureActiveDispatch } = this.props;
+    const { lectureFocusClicked, setLectureFocusDispatch } = this.props;
 
     const arrow = this.arrowRef.current;
     if (window.getComputedStyle(arrow).getPropertyValue('display') !== 'none') {
       return;
     }
 
-    if (lectureActiveClicked) {
+    if (lectureFocusClicked) {
       return;
     }
-    setLectureActiveDispatch(lecture, LIST, false);
+    setLectureFocusDispatch(lecture, LIST, false);
   }
 
   listOut = () => {
-    const { lectureActiveClicked, clearLectureActiveDispatch } = this.props;
+    const { lectureFocusClicked, clearLectureFocusDispatch } = this.props;
 
     const arrow = this.arrowRef.current;
     if (window.getComputedStyle(arrow).getPropertyValue('display') !== 'none') {
       return;
     }
 
-    if (lectureActiveClicked) {
+    if (lectureFocusClicked) {
       return;
     }
-    clearLectureActiveDispatch();
+    clearLectureFocusDispatch();
   }
 
   listClick = lecture => () => {
-    const { lectureActive, currentList, setLectureActiveDispatch } = this.props;
+    const { lectureFocus, currentList, setLectureFocusDispatch } = this.props;
 
-    if (!isListClicked(lecture, lectureActive)) {
-      setLectureActiveDispatch(lecture, 'LIST', true);
+    if (!isListClicked(lecture, lectureFocus)) {
+      setLectureFocusDispatch(lecture, 'LIST', true);
 
       const labelOfTabs = new Map([
         ['SEARCH', 'Search'],
@@ -158,7 +158,7 @@ class LectureListSection extends Component {
       });
     }
     else {
-      setLectureActiveDispatch(lecture, 'LIST', false);
+      setLectureFocusDispatch(lecture, 'LIST', false);
 
       const labelOfTabs = new Map([
         ['SEARCH', 'Search'],
@@ -174,7 +174,7 @@ class LectureListSection extends Component {
   }
 
   selectWithArrow = () => {
-    const { currentList, clearLectureActiveDispatch, setLectureActiveDispatch } = this.props;
+    const { currentList, clearLectureFocusDispatch, setLectureFocusDispatch } = this.props;
 
     const arrow = this.arrowRef.current;
     if (window.getComputedStyle(arrow).getPropertyValue('display') === 'none') {
@@ -186,7 +186,7 @@ class LectureListSection extends Component {
 
     const elementAtPosition = document.elementFromPoint(100, arrowY).closest(`.${classNames('block--lecture-group__elem-wrap')}`);
     if (elementAtPosition === null) {
-      clearLectureActiveDispatch();
+      clearLectureFocusDispatch();
       return;
     }
     const targetId = Number(elementAtPosition.getAttribute('data-id'));
@@ -195,14 +195,14 @@ class LectureListSection extends Component {
       .map(lg => lg.map(l => ((l.id === targetId) ? l : null)))
       .reduce((acc, val) => acc.concat(val), [])
       .filter(l => (l !== null))[0];
-    setLectureActiveDispatch(targetLecture, 'LIST', false);
+    setLectureFocusDispatch(targetLecture, 'LIST', false);
   }
 
   mobileCloseLectureList = () => {
-    const { setMobileShowLectureListDispatch, clearLectureActiveDispatch } = this.props;
+    const { setMobileShowLectureListDispatch, clearLectureFocusDispatch } = this.props;
 
     setMobileShowLectureListDispatch(false);
-    clearLectureActiveDispatch();
+    clearLectureFocusDispatch();
   }
 
   _getLectureGroups = (currentList) => {
@@ -225,7 +225,7 @@ class LectureListSection extends Component {
 
   render() {
     const { t } = this.props;
-    const { lectureActive, currentTimetable, currentList, searchOpen, search, major, humanity, cart } = this.props;
+    const { lectureFocus, currentTimetable, currentList, searchOpen, search, major, humanity, cart } = this.props;
 
     const getListElement = (lectureGroups, fromCart) => {
       if (!lectureGroups) {
@@ -237,7 +237,7 @@ class LectureListSection extends Component {
       return (
         <Scroller onScroll={this.selectWithArrow} key={currentList}>
           {lectureGroups.map(lg => (
-            <div className={classNames('block', 'block--lecture-group', (lg.some(l => isListClicked(l, lectureActive)) ? 'block--clicked' : ''), (isInactiveListLectures(lg, lectureActive) ? 'block--inactive' : ''))} key={lg[0].course}>
+            <div className={classNames('block', 'block--lecture-group', (lg.some(l => isListClicked(l, lectureFocus)) ? 'block--clicked' : ''), (isInactiveListLectures(lg, lectureFocus) ? 'block--inactive' : ''))} key={lg[0].course}>
               <div className={classNames('block--lecture-group__title')}>
                 <strong>{lg[0][t('js.property.common_title')]}</strong>
                 {' '}
@@ -247,8 +247,8 @@ class LectureListSection extends Component {
                 <LectureGroupBlockRow
                   lecture={l}
                   key={l.id}
-                  isClicked={isListClicked(l, lectureActive)}
-                  isHover={isListHover(l, lectureActive)}
+                  isClicked={isListClicked(l, lectureFocus)}
+                  isHover={isListHover(l, lectureFocus)}
                   inTimetable={inTimetable(l, currentTimetable)}
                   isTimetableReadonly={!currentTimetable || Boolean(currentTimetable.isReadOnly)}
                   inCart={inCart(l, cart)}
@@ -347,8 +347,8 @@ const mapStateToProps = state => ({
   cart: state.timetable.list.cart,
   mobileShowLectureList: state.timetable.list.mobileShowLectureList,
   currentTimetable: state.timetable.timetable.currentTimetable,
-  lectureActive: state.timetable.lectureActive,
-  lectureActiveClicked: state.timetable.lectureActive.clicked,
+  lectureFocus: state.timetable.lectureFocus,
+  lectureFocusClicked: state.timetable.lectureFocus.clicked,
   year: state.timetable.semester.year,
   semester: state.timetable.semester.semester,
   searchOpen: state.timetable.search.open,
@@ -358,11 +358,11 @@ const mapDispatchToProps = dispatch => ({
   openSearchDispatch: () => {
     dispatch(openSearch());
   },
-  setLectureActiveDispatch: (lecture, from, clicked) => {
-    dispatch(setLectureActive(lecture, from, clicked));
+  setLectureFocusDispatch: (lecture, from, clicked) => {
+    dispatch(setLectureFocus(lecture, from, clicked));
   },
-  clearLectureActiveDispatch: () => {
-    dispatch(clearLectureActive());
+  clearLectureFocusDispatch: () => {
+    dispatch(clearLectureFocus());
   },
   addLectureToTimetableDispatch: (lecture) => {
     dispatch(addLectureToTimetable(lecture));
@@ -395,15 +395,15 @@ LectureListSection.propTypes = {
   }).isRequired,
   mobileShowLectureList: PropTypes.bool.isRequired,
   currentTimetable: timetableShape,
-  lectureActive: lectureActiveShape.isRequired,
-  lectureActiveClicked: PropTypes.bool.isRequired,
+  lectureFocus: lectureFocusShape.isRequired,
+  lectureFocusClicked: PropTypes.bool.isRequired,
   year: PropTypes.number,
   semester: PropTypes.number,
   searchOpen: PropTypes.bool.isRequired,
 
   openSearchDispatch: PropTypes.func.isRequired,
-  setLectureActiveDispatch: PropTypes.func.isRequired,
-  clearLectureActiveDispatch: PropTypes.func.isRequired,
+  setLectureFocusDispatch: PropTypes.func.isRequired,
+  clearLectureFocusDispatch: PropTypes.func.isRequired,
   addLectureToTimetableDispatch: PropTypes.func.isRequired,
   addLectureToCartDispatch: PropTypes.func.isRequired,
   deleteLectureFromCartDispatch: PropTypes.func.isRequired,

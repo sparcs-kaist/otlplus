@@ -5,9 +5,9 @@ import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
-import { clearMultipleDetail, setMultipleDetail } from '../../../actions/timetable/lectureActive';
+import { clearMultipleDetail, setMultipleDetail } from '../../../actions/timetable/lectureFocus';
 
-import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureActive';
+import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureFocus';
 
 import lectureShape from '../../../shapes/LectureShape';
 import timetableShape from '../../../shapes/TimetableShape';
@@ -28,9 +28,9 @@ class MapSubSection extends Component {
 
   mapFocus(building) {
     const { t } = this.props;
-    const { lectureActiveFrom, currentTimetable, setMultipleDetailDispatch } = this.props;
+    const { lectureFocusFrom, currentTimetable, setMultipleDetailDispatch } = this.props;
 
-    if (lectureActiveFrom !== 'NONE' || !currentTimetable) {
+    if (lectureFocusFrom !== 'NONE' || !currentTimetable) {
       return;
     }
 
@@ -47,9 +47,9 @@ class MapSubSection extends Component {
   }
 
   clearFocus() {
-    const { lectureActiveFrom, clearMultipleDetailDispatch } = this.props;
+    const { lectureFocusFrom, clearMultipleDetailDispatch } = this.props;
 
-    if (lectureActiveFrom !== 'MULTIPLE') {
+    if (lectureFocusFrom !== 'MULTIPLE') {
       return;
     }
 
@@ -58,14 +58,14 @@ class MapSubSection extends Component {
   }
 
   render() {
-    const { currentTimetable, lectureActiveLecture } = this.props;
+    const { currentTimetable, lectureFocusLecture } = this.props;
 
     const timetableLectures = currentTimetable
       ? currentTimetable.lectures
       : [];
     const targetLectures = timetableLectures
-      .concat((lectureActiveLecture && !inTimetable(lectureActiveLecture, currentTimetable))
-        ? [lectureActiveLecture]
+      .concat((lectureFocusLecture && !inTimetable(lectureFocusLecture, currentTimetable))
+        ? [lectureFocusLecture]
         : []);
     const buildings = new Set(targetLectures.map(l => getBuildingStr(l)));
     const mapObject = Object.assign(
@@ -79,7 +79,7 @@ class MapSubSection extends Component {
       )),
     );
 
-    const activeLecture = lectureActiveLecture;
+    const activeLecture = lectureFocusLecture;
     const { activeLectures } = this.state;
 
     return (
@@ -121,8 +121,8 @@ class MapSubSection extends Component {
 
 const mapStateToProps = state => ({
   currentTimetable: state.timetable.timetable.currentTimetable,
-  lectureActiveLecture: state.timetable.lectureActive.lecture,
-  lectureActiveFrom: state.timetable.lectureActive.from,
+  lectureFocusLecture: state.timetable.lectureFocus.lecture,
+  lectureFocusFrom: state.timetable.lectureFocus.from,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -136,8 +136,8 @@ const mapDispatchToProps = dispatch => ({
 
 MapSubSection.propTypes = {
   currentTimetable: timetableShape,
-  lectureActiveLecture: lectureShape,
-  lectureActiveFrom: PropTypes.oneOf([NONE, LIST, TABLE, MULTIPLE]).isRequired,
+  lectureFocusLecture: lectureShape,
+  lectureFocusFrom: PropTypes.oneOf([NONE, LIST, TABLE, MULTIPLE]).isRequired,
 
   setMultipleDetailDispatch: PropTypes.func.isRequired,
   clearMultipleDetailDispatch: PropTypes.func.isRequired,
