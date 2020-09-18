@@ -240,7 +240,7 @@ class TimetableTabs extends Component {
         <div className={classNames('tabs', 'tabs--timetable')}>
           { user
             ? (
-              <div className={classNames((myTimetable.id === selectedTimetable.id ? 'tabs__elem--active' : ''))} key={myTimetable.id} onClick={() => this.changeTab(myTimetable)}>
+              <div className={classNames((myTimetable.id === selectedTimetable.id ? 'tabs__elem--selected' : ''))} key={myTimetable.id} onClick={() => this.changeTab(myTimetable)}>
                 <span>
                   {`${t('ui.others.myTable')}`}
                 </span>
@@ -257,7 +257,7 @@ class TimetableTabs extends Component {
             : null
           }
           { timetables.map((tt, i) => (
-            <div className={classNames((tt.id === selectedTimetable.id ? 'tabs__elem--active' : ''))} key={tt.id} onClick={() => this.changeTab(tt)}>
+            <div className={classNames((tt.id === selectedTimetable.id ? 'tabs__elem--selected' : ''))} key={tt.id} onClick={() => this.changeTab(tt)}>
               <span>
                 {`${t('ui.others.table')} ${i + 1}`}
               </span>
@@ -281,7 +281,7 @@ class TimetableTabs extends Component {
       <div className={classNames('tabs', 'tabs--timetable')}>
         { user
           ? (
-            <div className={classNames(((selectedTimetable && (myTimetable.id === selectedTimetable.id)) ? 'tabs__elem--active' : ''))} key={myTimetable.id} style={{ pointerEvents: 'none' }}>
+            <div className={classNames(((selectedTimetable && (myTimetable.id === selectedTimetable.id)) ? 'tabs__elem--selected' : ''))} key={myTimetable.id} style={{ pointerEvents: 'none' }}>
               <span>
                 {`${t('ui.others.myTable')}`}
               </span>

@@ -189,21 +189,21 @@ class CourseListTabs extends Component {
 
     return (
       <div className={classNames('tabs', 'tabs--lecture-list')}>
-        <div className={classNames((selectedListCode === 'SEARCH' ? 'tabs__elem--active' : ''))} onClick={() => this.changeTab('SEARCH')}>
+        <div className={classNames((selectedListCode === 'SEARCH' ? 'tabs__elem--selected' : ''))} onClick={() => this.changeTab('SEARCH')}>
           <i className={classNames('icon', 'icon--tab-search')} />
           <span>{t('ui.tab.searchShort')}</span>
         </div>
         {major.codes.map(c => (
-          <div className={classNames((selectedListCode === c ? 'tabs__elem--active' : ''))} key={c} onClick={() => this.changeTab(c)}>
+          <div className={classNames((selectedListCode === c ? 'tabs__elem--selected' : ''))} key={c} onClick={() => this.changeTab(c)}>
             <i className={classNames('icon', 'icon--tab-major')} />
             <span>{t('ui.tab.majorShort')}</span>
           </div>
         ))}
-        <div className={classNames((selectedListCode === 'HUMANITY' ? 'tabs__elem--active' : ''))} onClick={() => this.changeTab('HUMANITY')}>
+        <div className={classNames((selectedListCode === 'HUMANITY' ? 'tabs__elem--selected' : ''))} onClick={() => this.changeTab('HUMANITY')}>
           <i className={classNames('icon', 'icon--tab-humanity')} />
           <span>{t('ui.tab.humanityShort')}</span>
         </div>
-        <div className={classNames((selectedListCode === 'TAKEN' ? 'tabs__elem--active' : ''))} onClick={() => this.changeTab('TAKEN')}>
+        <div className={classNames((selectedListCode === 'TAKEN' ? 'tabs__elem--selected' : ''))} onClick={() => this.changeTab('TAKEN')}>
           <i className={classNames('icon', 'icon--tab-taken')} />
           <span>{t('ui.tab.takenShort')}</span>
         </div>
