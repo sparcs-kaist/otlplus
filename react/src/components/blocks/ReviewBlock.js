@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { pure } from 'recompose';
 import { withTranslation } from 'react-i18next';
@@ -13,7 +14,7 @@ import reviewShape from '../../shapes/ReviewShape';
 
 
 // eslint-disable-next-line arrow-body-style
-const ReviewBlock = ({ t, review, pageFrom }) => {
+const ReviewBlock = ({ t, review, linkTo, pageFrom }) => {
   const [changedLikes, setChangedLikes] = useState(review.like);
   const [changedIsLiked, setChangedIsLiked] = useState(review.userspecific_is_liked);
 
@@ -58,6 +59,8 @@ const ReviewBlock = ({ t, review, pageFrom }) => {
     });
   };
 
+  const RootTag = linkTo ? Link : 'div';
+
   const contentLines = review.content.split('\n');
   const contentDisplay = contentLines
     .map((l, i) => ({
@@ -80,7 +83,7 @@ const ReviewBlock = ({ t, review, pageFrom }) => {
     ));
 
   return (
-    <div className={classNames('block', 'block--review')}>
+    <RootTag className={classNames('block', 'block--review')} to={linkTo}>
       <div className={classNames('block--review__title')}>
         <strong>{review.lecture[t('js.property.title')]}</strong>
         <span>{getProfessorsStrShort(review.lecture)}</span>
@@ -129,12 +132,13 @@ const ReviewBlock = ({ t, review, pageFrom }) => {
           </button>
         </span>
       </div>
-    </div>
+    </RootTag>
   );
 };
 
 ReviewBlock.propTypes = {
   review: reviewShape.isRequired,
+  linkTo: PropTypes.oneOf(PropTypes.string, PropTypes.object),
   pageFrom: PropTypes.string.isRequired,
 };
 
