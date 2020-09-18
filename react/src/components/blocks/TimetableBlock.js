@@ -15,14 +15,14 @@ const TimetableBlock = ({
   lecture, classtime,
   dayIndex, beginIndex, endIndex,
   cellWidth, cellHeight,
-  isTimetableReadonly, isClicked, isHover, isDimmed, isTemp, isSimple,
+  isTimetableReadonly, isClicked, isHovered, isDimmed, isTemp, isSimple,
   blockHover, blockOut, blockClick, deleteLecture,
   occupiedTime,
 }) => {
   const blockStateClassNames = (
     isClicked ? classNames('block--clicked')
       : isTemp ? classNames('block--temp', 'block--focused')
-        : isHover ? classNames('block--focused')
+        : isHovered ? classNames('block--focused')
           : isDimmed ? classNames('block--dimmed')
             : ''
   );
@@ -90,7 +90,7 @@ TimetableBlock.propTypes = {
   cellHeight: PropTypes.number.isRequired,
   isTimetableReadonly: PropTypes.bool.isRequired,
   isClicked: PropTypes.bool.isRequired,
-  isHover: PropTypes.bool.isRequired,
+  isHovered: PropTypes.bool.isRequired,
   isDimmed: PropTypes.bool.isRequired,
   isTemp: PropTypes.bool.isRequired,
   isSimple: PropTypes.bool.isRequired,
