@@ -12,7 +12,7 @@ import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lecture
 import lectureFocusShape from '../../../shapes/LectureFocusShape';
 import timetableShape from '../../../shapes/TimetableShape';
 
-import { inTimetable, isFocused, getBuildingStr, getRoomStr, getOverallLectures } from '../../../common/lectureFunctions';
+import { inTimetable, isFocused, getBuildingStr, getRoomStr, getOverallLectures, getColorNumber } from '../../../common/lectureFunctions';
 
 import mapImage from '../../../static/img/timetable/kaist_map.jpg';
 import { unique } from '../../../common/utilFunctions';
@@ -88,7 +88,7 @@ class MapSubSection extends Component {
                     const lecAct = isFocused(l, lectureFocus)
                       ? 'block--highlighted'
                       : '';
-                    return <span className={classNames('background-color--dark', `background-color--${l.color}`, lecAct)} key={l.id} />;
+                    return <span className={classNames('background-color--dark', `background-color--${getColorNumber(l)}`, lecAct)} key={l.id} />;
                   })}
                 </div>
                 <div className={classNames('section-content--map__block__arrow-shadow', act)} />

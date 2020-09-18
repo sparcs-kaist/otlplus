@@ -4,7 +4,7 @@ import { pure } from 'recompose';
 import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
-import { getProfessorsStrShort } from '../../common/lectureFunctions';
+import { getProfessorsStrShort, getColorNumber } from '../../common/lectureFunctions';
 
 import lectureShape from '../../shapes/LectureShape';
 import classtimeShape from '../../shapes/ClasstimeShape';
@@ -15,7 +15,7 @@ const HorizontalTimetableBlock = ({ t, lecture, classtime, cellWidth, cellHeight
 
   return (
     <div
-      className={classNames('block--horizonatal-timetable', `background-color--${(lecture.course % 16) + 1}`)}
+      className={classNames('block--horizonatal-timetable', `background-color--${getColorNumber(lecture)}`)}
       style={{
         left: cellWidth * indexOfTime(classtime.begin) + 2 + 2,
         top: 11 + 4 + 3,
