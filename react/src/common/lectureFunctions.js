@@ -44,7 +44,7 @@ export const isTableHover = (lecture, lectureFocus) => (
 
 export const isInMultiple = (lecture, lectureFocus) => (
   lectureFocus.from === MULTIPLE
-  && lectureFocus.multipleDetail.some(l => (l.id === lecture.id))
+  && lectureFocus.multipleDetails.some(l => (l.id === lecture.id))
 );
 
 export const isDimmedTableLecture = (lecture, lectureFocus) => (

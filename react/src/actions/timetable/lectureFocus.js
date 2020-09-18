@@ -5,8 +5,8 @@ export const RESET = BASE_STRING + 'RESET';
 export const SET_LECTURE_FOCUS = BASE_STRING + 'SET_LECTURE_FOCUS';
 export const CLEAR_LECTURE_FOCUS = BASE_STRING + 'CLEAR_LECTURE_FOCUS';
 export const SET_REVIEWS = BASE_STRING + 'SET_REVIEWS';
-export const SET_MULTIPLE_DETAIL = BASE_STRING + 'SET_MULTIPLE_DETAIL';
-export const CLEAR_MULTIPLE_DETAIL = BASE_STRING + 'CLEAR_MULTIPLE_DETAIL';
+export const SET_MULTIPLE_FOCUS = BASE_STRING + 'SET_MULTIPLE_FOCUS';
+export const CLEAR_MULTIPLE_FOCUS = BASE_STRING + 'CLEAR_MULTIPLE_FOCUS';
 /* eslint-enable prefer-template */
 
 
@@ -38,16 +38,16 @@ export function setReviews(reviews) {
   };
 }
 
-export function setMultipleDetail(title, multipleDetail) {
+export function setMultipleFocus(multipleTitle, multipleDetails) {
   return {
-    type: SET_MULTIPLE_DETAIL,
-    title: title,
-    multipleDetail: multipleDetail,
+    type: SET_MULTIPLE_FOCUS,
+    multipleTitle: multipleTitle,
+    multipleDetails: multipleDetails,
   };
 }
 
-export function clearMultipleDetail() {
+export function clearMultipleFocus() {
   return {
-    type: CLEAR_MULTIPLE_DETAIL,
+    type: CLEAR_MULTIPLE_FOCUS,
   };
 }

@@ -6,7 +6,7 @@ import { withTranslation } from 'react-i18next';
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 import { getAverageScoreLabel } from '../../../common/scoreFunctions';
 
-import { clearMultipleDetail, setMultipleDetail } from '../../../actions/timetable/lectureFocus';
+import { clearMultipleFocus, setMultipleFocus } from '../../../actions/timetable/lectureFocus';
 
 import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureFocus';
 
@@ -37,7 +37,7 @@ class SummarySubSection extends Component {
 
   typeFocus(type) {
     const { t } = this.props;
-    const { lectureFocus, selectedTimetable, setMultipleDetailDispatch } = this.props;
+    const { lectureFocus, selectedTimetable, setMultipleFocusDispatch } = this.props;
 
     if (lectureFocus.from !== 'NONE' || !selectedTimetable) {
       return;
@@ -50,13 +50,13 @@ class SummarySubSection extends Component {
         title: l[t('js.property.title')],
         info: (l.credit > 0) ? t('ui.others.creditCount', { count: l.credit }) : t('ui.others.auCount', { count: l.credit_au }),
       }));
-    setMultipleDetailDispatch(type, lectures);
+    setMultipleFocusDispatch(type, lectures);
     this.setState({ multipleFocusCode: type });
   }
 
   creditFocus(type) {
     const { t } = this.props;
-    const { lectureFocus, selectedTimetable, setMultipleDetailDispatch } = this.props;
+    const { lectureFocus, selectedTimetable, setMultipleFocusDispatch } = this.props;
 
     if (lectureFocus.from !== 'NONE' || !selectedTimetable) {
       return;
@@ -85,13 +85,13 @@ class SummarySubSection extends Component {
           )
           : []
       );
-    setMultipleDetailDispatch(type, lectures);
+    setMultipleFocusDispatch(type, lectures);
     this.setState({ multipleFocusCode: type });
   }
 
   scoreFocus(type) {
     const { t } = this.props;
-    const { lectureFocus, selectedTimetable, setMultipleDetailDispatch } = this.props;
+    const { lectureFocus, selectedTimetable, setMultipleFocusDispatch } = this.props;
 
     if (lectureFocus.from !== 'NONE' || !selectedTimetable) {
       return;
@@ -112,19 +112,19 @@ class SummarySubSection extends Component {
             )
         ),
     }));
-    setMultipleDetailDispatch(type, lectures);
+    setMultipleFocusDispatch(type, lectures);
     this.setState({ multipleFocusCode: type });
   }
 
 
   clearFocus() {
-    const { lectureFocus, clearMultipleDetailDispatch } = this.props;
+    const { lectureFocus, clearMultipleFocusDispatch } = this.props;
 
     if (lectureFocus.from !== 'MULTIPLE') {
       return;
     }
 
-    clearMultipleDetailDispatch();
+    clearMultipleFocusDispatch();
     this.setState({ multipleFocusCode: '' });
   }
 
@@ -270,11 +270,11 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  setMultipleDetailDispatch: (title, lectures) => {
-    dispatch(setMultipleDetail(title, lectures));
+  setMultipleFocusDispatch: (multipleTitle, multipleDetails) => {
+    dispatch(setMultipleFocus(multipleTitle, multipleDetails));
   },
-  clearMultipleDetailDispatch: () => {
-    dispatch(clearMultipleDetail());
+  clearMultipleFocusDispatch: () => {
+    dispatch(clearMultipleFocus());
   },
 });
 
@@ -282,8 +282,8 @@ SummarySubSection.propTypes = {
   selectedTimetable: timetableShape,
   lectureFocus: lectureFocusShape.isRequired,
 
-  setMultipleDetailDispatch: PropTypes.func.isRequired,
-  clearMultipleDetailDispatch: PropTypes.func.isRequired,
+  setMultipleFocusDispatch: PropTypes.func.isRequired,
+  clearMultipleFocusDispatch: PropTypes.func.isRequired,
 };
 
 
