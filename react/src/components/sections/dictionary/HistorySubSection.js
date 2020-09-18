@@ -12,8 +12,7 @@ import LectureGroupSimpleBlock from '../../blocks/LectureGroupSimpleBlock';
 import { setLectures } from '../../../actions/dictionary/courseFocus';
 
 import semesterShape from '../../../shapes/SemesterShape';
-import courseShape from '../../../shapes/CourseShape';
-import lectureShape from '../../../shapes/LectureShape';
+import courseFocusShape from '../../../shapes/CourseFocusShape';
 
 
 class HistorySubSection extends Component {
@@ -31,17 +30,17 @@ class HistorySubSection extends Component {
 
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    const { course, clicked, lectures, setLecturesDispatch } = this.props;
+    const { courseFocus, setLecturesDispatch } = this.props;
 
     if (
-      clicked
-      && course
-      && (!prevProps.clicked || !prevProps.course || (prevProps.course.id !== course.id))) {
+      courseFocus.clicked
+      && courseFocus.course
+      && (!prevProps.courseFocus.clicked || !prevProps.courseFocus.course || (prevProps.courseFocus.course.id !== courseFocus.course.id))) {
       setLecturesDispatch(null);
       this._fetchLectures();
     }
 
-    if ((prevProps.lectures === null) && (lectures !== null)) {
+    if ((prevProps.courseFocus.lectures === null) && (courseFocus.lectures !== null)) {
       const scrollTarget = this.scrollRef.current.querySelector('.ScrollbarsCustom-Scroller');
       scrollTarget.scrollLeft = scrollTarget.scrollWidth;
     }
@@ -49,10 +48,10 @@ class HistorySubSection extends Component {
 
 
   _fetchLectures = () => {
-    const { course, setLecturesDispatch } = this.props;
+    const { courseFocus, setLecturesDispatch } = this.props;
 
     axios.get(
-      `/api/courses/${course.id}/lectures`,
+      `/api/courses/${courseFocus.course.id}/lectures`,
       {
         metadata: {
           gaCategory: 'Course',
@@ -62,7 +61,7 @@ class HistorySubSection extends Component {
     )
       .then((response) => {
         const newProps = this.props;
-        if (newProps.course.id !== course.id) {
+        if (newProps.courseFocus.course.id !== courseFocus.course.id) {
           return;
         }
         setLecturesDispatch(response.data);
@@ -74,13 +73,13 @@ class HistorySubSection extends Component {
 
   render() {
     const { t } = this.props;
-    const { course, semesters, lectures } = this.props;
+    const { semesters, courseFocus } = this.props;
 
-    if (!course) {
+    if (!courseFocus.course) {
       return null;
     }
 
-    if (lectures === null) {
+    if (courseFocus.lectures === null) {
       return (
         <>
           <div className={classNames('small-title')}>{t('ui.title.courseHistory')}</div>
@@ -94,12 +93,12 @@ class HistorySubSection extends Component {
     const semesterYears = (semesters != null)
       ? semesters.map(s => s.year)
       : [];
-    const lectureYears = (lectures != null)
-      ? lectures.map(l => l.year)
+    const lectureYears = (courseFocus.lectures != null)
+      ? courseFocus.lectures.map(l => l.year)
       : [];
 
     const getBlockOrPlaceholder = (year, semester) => {
-      const filteredLectures = lectures
+      const filteredLectures = courseFocus.lectures
         .filter(l => ((l.year === year) && (l.semester === semester)));
       if (filteredLectures.length === 0) {
         return <td className={classNames('history__cell--unopen')} key={`${year}-1`}><div>{t('ui.others.notOffered')}</div></td>;
@@ -111,8 +110,8 @@ class HistorySubSection extends Component {
     const endYear = Math.max(...semesterYears, ...lectureYears);
     const targetYears = [...Array(endYear - startYear + 1).keys()].map(i => (startYear + i));
 
-    const specialLectures = lectures.filter(l => (l[t('js.property.class_title')].length > 3));
-    const isSpecialLectureCourse = (specialLectures.length / lectures.length) > 0.3;
+    const specialLectures = courseFocus.lectures.filter(l => (l[t('js.property.class_title')].length > 3));
+    const isSpecialLectureCourse = (specialLectures.length / courseFocus.lectures.length) > 0.3;
 
     return (
       <>
@@ -148,9 +147,7 @@ class HistorySubSection extends Component {
 
 const mapStateToProps = state => ({
   semesters: state.common.semester.semesters,
-  clicked: state.dictionary.courseFocus.clicked,
-  course: state.dictionary.courseFocus.course,
-  lectures: state.dictionary.courseFocus.lectures,
+  courseFocus: state.dictionary.courseFocus,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -161,9 +158,7 @@ const mapDispatchToProps = dispatch => ({
 
 HistorySubSection.propTypes = {
   semesters: PropTypes.arrayOf(semesterShape),
-  clicked: PropTypes.bool.isRequired,
-  course: courseShape,
-  lectures: PropTypes.arrayOf(lectureShape),
+  courseFocus: courseFocusShape.isRequired,
 
   setLecturesDispatch: PropTypes.func.isRequired,
 };

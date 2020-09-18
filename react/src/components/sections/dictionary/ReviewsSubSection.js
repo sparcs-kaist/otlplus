@@ -15,8 +15,7 @@ import { setReviews, updateReview } from '../../../actions/dictionary/courseFocu
 import { updateUserReview } from '../../../actions/common/user';
 import { addCourseRead } from '../../../actions/dictionary/list';
 
-import courseShape from '../../../shapes/CourseShape';
-import reviewShape from '../../../shapes/ReviewShape';
+import courseFocusShape from '../../../shapes/CourseFocusShape';
 import userShape from '../../../shapes/UserShape';
 
 
@@ -35,22 +34,22 @@ class ReviewsSubSection extends Component {
 
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    const { clicked, course } = this.props;
+    const { courseFocus } = this.props;
 
     if (
-      clicked
-      && course
-      && (!prevProps.clicked || !prevProps.course || (prevProps.course.id !== course.id))) {
+      courseFocus.clicked
+      && courseFocus.course
+      && (!prevProps.courseFocus.clicked || !prevProps.courseFocus.course || (prevProps.courseFocus.course.id !== courseFocus.course.id))) {
       this._fetchReviews();
     }
   }
 
 
   _fetchReviews = () => {
-    const { course, setReviewsDispatch } = this.props;
+    const { courseFocus, setReviewsDispatch } = this.props;
 
     axios.get(
-      `/api/courses/${course.id}/reviews`,
+      `/api/courses/${courseFocus.course.id}/reviews`,
       {
         metadata: {
           gaCategory: 'Course',
@@ -60,10 +59,10 @@ class ReviewsSubSection extends Component {
     )
       .then((response) => {
         const newProps = this.props;
-        if (newProps.course.id !== course.id) {
+        if (newProps.courseFocus.course.id !== courseFocus.course.id) {
           return;
         }
-        this._markRead(course);
+        this._markRead(courseFocus.course);
         setReviewsDispatch(response.data);
       })
       .catch((error) => {
@@ -127,22 +126,22 @@ class ReviewsSubSection extends Component {
   render() {
     const { t } = this.props;
     const { professor } = this.state;
-    const { user, course, reviews } = this.props;
+    const { user, courseFocus } = this.props;
 
-    if (!course) {
+    if (!courseFocus.course) {
       return null;
     }
 
     const professorOptions = [
       ['ALL', t('ui.type.allShort')],
-      ...(course.professors
+      ...(courseFocus.course.professors
         .map(p => [this._getProfessorFormValue(p), p[t('js.property.name')]])
       ),
     ];
 
     const takenLecturesOfCourse = user
       ? user.review_writable_lectures
-        .filter(l => ((l.course === course.id) && this._lectureProfessorChecker(l, professor)))
+        .filter(l => ((l.course === courseFocus.course.id) && this._lectureProfessorChecker(l, professor)))
       : [];
     const reviewWriteBlocks = takenLecturesOfCourse.map(l => (
       <ReviewWriteBlock
@@ -154,9 +153,9 @@ class ReviewsSubSection extends Component {
       />
     ));
 
-    const filteredReviews = reviews == null
+    const filteredReviews = courseFocus.reviews == null
       ? null
-      : reviews.filter(r => this._lectureProfessorChecker(r.lecture, professor));
+      : courseFocus.reviews.filter(r => this._lectureProfessorChecker(r.lecture, professor));
     const reviewBlocksArea = (filteredReviews == null)
       ? <div className={classNames('section-content--course-detail__list-area', 'list-placeholder')}><div>{t('ui.placeholder.loading')}</div></div>
       : (filteredReviews.length
@@ -182,9 +181,7 @@ class ReviewsSubSection extends Component {
 
 const mapStateToProps = state => ({
   user: state.common.user.user,
-  clicked: state.dictionary.courseFocus.clicked,
-  course: state.dictionary.courseFocus.course,
-  reviews: state.dictionary.courseFocus.reviews,
+  courseFocus: state.dictionary.courseFocus,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -204,9 +201,7 @@ const mapDispatchToProps = dispatch => ({
 
 ReviewsSubSection.propTypes = {
   user: userShape,
-  clicked: PropTypes.bool.isRequired,
-  course: courseShape,
-  reviews: PropTypes.arrayOf(reviewShape),
+  courseFocus: courseFocusShape.isRequired,
 
   setReviewsDispatch: PropTypes.func.isRequired,
   addCourseReadDispatch: PropTypes.func.isRequired,

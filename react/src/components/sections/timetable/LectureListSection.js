@@ -113,28 +113,28 @@ class LectureListSection extends Component {
   }
 
   listHover = lecture => () => {
-    const { lectureFocusClicked, setLectureFocusDispatch } = this.props;
+    const { lectureFocus, setLectureFocusDispatch } = this.props;
 
     const arrow = this.arrowRef.current;
     if (window.getComputedStyle(arrow).getPropertyValue('display') !== 'none') {
       return;
     }
 
-    if (lectureFocusClicked) {
+    if (lectureFocus.clicked) {
       return;
     }
     setLectureFocusDispatch(lecture, LIST, false);
   }
 
   listOut = () => {
-    const { lectureFocusClicked, clearLectureFocusDispatch } = this.props;
+    const { lectureFocus, clearLectureFocusDispatch } = this.props;
 
     const arrow = this.arrowRef.current;
     if (window.getComputedStyle(arrow).getPropertyValue('display') !== 'none') {
       return;
     }
 
-    if (lectureFocusClicked) {
+    if (lectureFocus.clicked) {
       return;
     }
     clearLectureFocusDispatch();
@@ -348,7 +348,6 @@ const mapStateToProps = state => ({
   mobileShowLectureList: state.timetable.list.mobileShowLectureList,
   selectedTimetable: state.timetable.timetable.selectedTimetable,
   lectureFocus: state.timetable.lectureFocus,
-  lectureFocusClicked: state.timetable.lectureFocus.clicked,
   year: state.timetable.semester.year,
   semester: state.timetable.semester.semester,
   searchOpen: state.timetable.search.open,
@@ -396,7 +395,6 @@ LectureListSection.propTypes = {
   mobileShowLectureList: PropTypes.bool.isRequired,
   selectedTimetable: timetableShape,
   lectureFocus: lectureFocusShape.isRequired,
-  lectureFocusClicked: PropTypes.bool.isRequired,
   year: PropTypes.number,
   semester: PropTypes.number,
   searchOpen: PropTypes.bool.isRequired,
