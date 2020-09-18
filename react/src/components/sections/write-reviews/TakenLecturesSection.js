@@ -133,7 +133,7 @@ class TakenLecturesSection extends Component {
                             key={l.id}
                             lecture={l}
                             isClicked={false}
-                            isInactive={false}
+                            isUnfocused={false}
                             hasReview={user.reviews.some(r => (r.lecture.id === l.id))}
                             onClick={this.handleBlockClick(l)}
                           />
@@ -143,7 +143,7 @@ class TakenLecturesSection extends Component {
                             key={l.id}
                             lecture={l}
                             isClicked={selectedLecture.id === l.id}
-                            isInactive={selectedLecture.id !== l.id}
+                            isUnfocused={selectedLecture.id !== l.id}
                             hasReview={user.reviews.some(r => (r.lecture.id === l.id))}
                             onClick={this.handleBlockClick(l)}
                           />

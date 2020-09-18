@@ -20,7 +20,7 @@ import lectureShape from '../../../shapes/LectureShape';
 import timetableShape from '../../../shapes/TimetableShape';
 import lectureFocusShape from '../../../shapes/LectureFocusShape';
 
-import { inTimetable, isListHover, isTableClicked, isTableHover, isInMultiple, isInactiveTableLecture, performDeleteFromTable, isListClicked } from '../../../common/lectureFunctions';
+import { inTimetable, isListHover, isTableClicked, isTableHover, isInMultiple, isUnfocusedTableLecture, performDeleteFromTable, isListClicked } from '../../../common/lectureFunctions';
 
 
 class TimetableSubSection extends Component {
@@ -274,7 +274,7 @@ class TimetableSubSection extends Component {
             || isListHover(lecture, lectureFocus)
             || isListClicked(lecture, lectureFocus)
             || isInMultiple(lecture, lectureFocus)}
-          isInactive={isInactiveTableLecture(lecture, lectureFocus)}
+          isUnfocused={isUnfocusedTableLecture(lecture, lectureFocus)}
           isTemp={isTemp}
           isSimple={mobileShowLectureList}
           blockHover={isTemp ? null : this.blockHover}

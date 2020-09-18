@@ -47,19 +47,19 @@ export const isInMultiple = (lecture, lectureFocus) => (
   && lectureFocus.multipleDetail.some(l => (l.id === lecture.id))
 );
 
-export const isInactiveTableLecture = (lecture, lectureFocus) => (
+export const isUnfocusedTableLecture = (lecture, lectureFocus) => (
   lectureFocus.clicked === true
   && ((lectureFocus.lecture.id !== lecture.id) || (lectureFocus.from !== TABLE))
 );
 
-export const isInactiveListLectures = (lectures, lectureFocus) => (
+export const isUnfocusedListLectureGroup = (lectureGroup, lectureFocus) => (
   lectureFocus.clicked === true
-  && (lectures.every(l => (lectureFocus.lecture.id !== l.id)) || (lectureFocus.from !== LIST))
+  && (lectureGroup.every(l => (lectureFocus.lecture.id !== l.id)) || (lectureFocus.from !== LIST))
 );
 
-export const isActive = (lecture, lectureFocusLecture, activeLectures) => {
+export const isFocused = (lecture, lectureFocusLecture, focusedLectures) => {
   return (lectureFocusLecture !== null && lectureFocusLecture.id === lecture.id)
-    || (activeLectures.some(l => (l.id === lecture.id)));
+    || (focusedLectures.some(l => (l.id === lecture.id)));
 };
 
 export const getProfessorsStrShort = (lecture) => {
