@@ -44,7 +44,7 @@ class CourseListSection extends Component {
   }
 
   listClick = course => () => {
-    const { courseFocus, currentList, setCourseFocusDispatch } = this.props;
+    const { courseFocus, selectedListCode, setCourseFocusDispatch } = this.props;
 
     if (!isClicked(course, courseFocus)) {
       setCourseFocusDispatch(course, true);
@@ -57,7 +57,7 @@ class CourseListSection extends Component {
       ReactGA.event({
         category: 'Dictionary - Selection',
         action: 'Selected Course',
-        label: `Course : ${course.id} / From : Course List : ${labelOfTabs.get(currentList) || currentList}`,
+        label: `Course : ${course.id} / From : Course List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`,
       });
     }
     else {
@@ -71,7 +71,7 @@ class CourseListSection extends Component {
       ReactGA.event({
         category: 'Dictionary - Selection',
         action: 'Unselected Course',
-        label: `Course : ${course.id} / From : Course List : ${labelOfTabs.get(currentList) || currentList}`,
+        label: `Course : ${course.id} / From : Course List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`,
       });
     }
   }
@@ -79,7 +79,7 @@ class CourseListSection extends Component {
 
   render() {
     const { t } = this.props;
-    const { courseFocus, currentList, searchOpen,
+    const { courseFocus, selectedListCode, searchOpen,
       search, major, humanity, taken, readCourses } = this.props;
 
     const getListElement = (courses) => {
@@ -90,7 +90,7 @@ class CourseListSection extends Component {
         return <div className={classNames('list-placeholder')}><div>{t('ui.placeholder.noResults')}</div></div>;
       }
       return (
-        <Scroller key={currentList}>
+        <Scroller key={selectedListCode}>
           {courses.map(c => (
             <CourseBlock
               course={c}
@@ -109,7 +109,7 @@ class CourseListSection extends Component {
       );
     };
 
-    if (currentList === 'SEARCH') {
+    if (selectedListCode === 'SEARCH') {
       return (
         <div className={classNames('section-content', 'section-content--flex', 'section-content--course-list')}>
           { searchOpen ? <CourseSearchSubSection /> : null }
@@ -121,17 +121,17 @@ class CourseListSection extends Component {
         </div>
       );
     }
-    if (major.codes.some(code => (currentList === code))) {
+    if (major.codes.some(code => (selectedListCode === code))) {
       return (
         <div className={classNames('section-content', 'section-content--flex', 'section-content--course-list')}>
           <div className={classNames('title')}>
-            {major[currentList][t('js.property.name')]}
+            {major[selectedListCode][t('js.property.name')]}
           </div>
-          { getListElement(major[currentList].courses) }
+          { getListElement(major[selectedListCode].courses) }
         </div>
       );
     }
-    if (currentList === 'HUMANITY') {
+    if (selectedListCode === 'HUMANITY') {
       return (
         <div className={classNames('section-content', 'section-content--flex', 'section-content--course-list')}>
           <div className={classNames('title')}>
@@ -141,7 +141,7 @@ class CourseListSection extends Component {
         </div>
       );
     }
-    if (currentList === 'TAKEN') {
+    if (selectedListCode === 'TAKEN') {
       return (
         <div className={classNames('section-content', 'section-content--flex', 'section-content--course-list')}>
           <div className={classNames('title')}>
@@ -156,7 +156,7 @@ class CourseListSection extends Component {
 }
 
 const mapStateToProps = state => ({
-  currentList: state.dictionary.list.currentList,
+  selectedListCode: state.dictionary.list.selectedListCode,
   search: state.dictionary.list.search,
   major: state.dictionary.list.major,
   humanity: state.dictionary.list.humanity,
@@ -180,7 +180,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 CourseListSection.propTypes = {
-  currentList: PropTypes.string.isRequired,
+  selectedListCode: PropTypes.string.isRequired,
   search: PropTypes.shape({
     courses: PropTypes.arrayOf(courseShape),
   }).isRequired,

@@ -32,9 +32,9 @@ class CourseDetailSection extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { currentList, clicked, course, clearCourseFocusDispatch } = this.props;
+    const { selectedListCode, clicked, course, clearCourseFocusDispatch } = this.props;
 
-    if (prevProps.currentList !== currentList) {
+    if (prevProps.selectedListCode !== selectedListCode) {
       clearCourseFocusDispatch();
     }
 
@@ -163,7 +163,7 @@ class CourseDetailSection extends Component {
 const mapStateToProps = state => ({
   clicked: state.dictionary.courseFocus.clicked,
   course: state.dictionary.courseFocus.course,
-  currentList: state.dictionary.list.currentList,
+  selectedListCode: state.dictionary.list.selectedListCode,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -175,7 +175,7 @@ const mapDispatchToProps = dispatch => ({
 CourseDetailSection.propTypes = {
   clicked: PropTypes.bool.isRequired,
   course: courseShape,
-  currentList: PropTypes.string.isRequired,
+  selectedListCode: PropTypes.string.isRequired,
 
   clearCourseFocusDispatch: PropTypes.func.isRequired,
 };

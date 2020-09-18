@@ -59,7 +59,7 @@ class LectureDetailSection extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    const { clicked, lecture, from, currentList, selectedTimetable,
+    const { clicked, lecture, from, selectedListCode, selectedTimetable,
       year, semester, clearLectureFocusDispatch } = this.props;
     if (prevProps.clicked && clicked) {
       if (prevProps.lecture.id !== lecture.id) {
@@ -75,7 +75,7 @@ class LectureDetailSection extends Component {
       this.openDictPreview();
     }
 
-    if ((from === LIST) && (prevProps.currentList !== currentList)) {
+    if ((from === LIST) && (prevProps.selectedListCode !== selectedListCode)) {
       clearLectureFocusDispatch();
     }
     else if ((from === TABLE) && (prevProps.selectedTimetable.id !== selectedTimetable.id)) {
@@ -127,7 +127,7 @@ class LectureDetailSection extends Component {
   };
 
   addToTable = (event) => {
-    const { lecture, selectedTimetable, user, from, currentList,
+    const { lecture, selectedTimetable, user, from, selectedListCode,
       addLectureToTimetableDispatch } = this.props;
 
     event.stopPropagation();
@@ -141,7 +141,7 @@ class LectureDetailSection extends Component {
     const fromString = (from === TABLE)
       ? 'Timetable'
       : (from === LIST)
-        ? `Lecture List : ${labelOfTabs.get(currentList) || currentList}`
+        ? `Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`
         : 'Unknown';
     ReactGA.event({
       category: 'Timetable - Lecture',
@@ -151,7 +151,7 @@ class LectureDetailSection extends Component {
   }
 
   deleteFromTable = (event) => {
-    const { lecture, selectedTimetable, user, from, currentList,
+    const { lecture, selectedTimetable, user, from, selectedListCode,
       removeLectureFromTimetableDispatch } = this.props;
 
     event.stopPropagation();
@@ -165,7 +165,7 @@ class LectureDetailSection extends Component {
     const fromString = (from === TABLE)
       ? 'Timetable'
       : (from === LIST)
-        ? `Lecture List : ${labelOfTabs.get(currentList) || currentList}`
+        ? `Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`
         : 'Unknown';
     ReactGA.event({
       category: 'Timetable - Lecture',
@@ -175,7 +175,7 @@ class LectureDetailSection extends Component {
   }
 
   addToCart = (event) => {
-    const { lecture, year, semester, user, from, currentList,
+    const { lecture, year, semester, user, from, selectedListCode,
       addLectureToCartDispatch } = this.props;
 
     event.stopPropagation();
@@ -189,7 +189,7 @@ class LectureDetailSection extends Component {
     const fromString = (from === TABLE)
       ? 'Timetable'
       : (from === LIST)
-        ? `Lecture List : ${labelOfTabs.get(currentList) || currentList}`
+        ? `Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`
         : 'Unknown';
     ReactGA.event({
       category: 'Timetable - Lecture',
@@ -199,7 +199,7 @@ class LectureDetailSection extends Component {
   }
 
   deleteFromCart = (event) => {
-    const { lecture, year, semester, user, from, currentList,
+    const { lecture, year, semester, user, from, selectedListCode,
       deleteLectureFromCartDispatch } = this.props;
 
     event.stopPropagation();
@@ -213,7 +213,7 @@ class LectureDetailSection extends Component {
     const fromString = (from === TABLE)
       ? 'Timetable'
       : (from === LIST)
-        ? `Lecture List : ${labelOfTabs.get(currentList) || currentList}`
+        ? `Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`
         : 'Unknown';
     ReactGA.event({
       category: 'Timetable - Lecture',
@@ -470,7 +470,7 @@ const mapStateToProps = state => ({
   title: state.timetable.lectureFocus.title,
   multipleDetail: state.timetable.lectureFocus.multipleDetail,
   clicked: state.timetable.lectureFocus.clicked,
-  currentList: state.timetable.list.currentList,
+  selectedListCode: state.timetable.list.selectedListCode,
   selectedTimetable: state.timetable.timetable.selectedTimetable,
   cart: state.timetable.list.cart,
   year: state.timetable.semester.year,
@@ -508,7 +508,7 @@ LectureDetailSection.propTypes = {
     }),
   ),
   clicked: PropTypes.bool.isRequired,
-  currentList: PropTypes.string.isRequired,
+  selectedListCode: PropTypes.string.isRequired,
   selectedTimetable: timetableShape,
   cart: PropTypes.shape({
     lectureGroups: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)),

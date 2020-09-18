@@ -37,9 +37,9 @@ class LectureListSection extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    const { currentList, lectureFocus, mobileShowLectureList } = this.props;
+    const { selectedListCode, lectureFocus, mobileShowLectureList } = this.props;
 
-    if ((currentList !== prevProps.currentList)
+    if ((selectedListCode !== prevProps.selectedListCode)
       || (mobileShowLectureList && !prevProps.mobileShowLectureList)) {
       this.selectWithArrow();
     }
@@ -59,7 +59,7 @@ class LectureListSection extends Component {
   }
 
   addToTable = lecture => (event) => {
-    const { selectedTimetable, user, currentList, addLectureToTimetableDispatch } = this.props;
+    const { selectedTimetable, user, selectedListCode, addLectureToTimetableDispatch } = this.props;
 
     event.stopPropagation();
     performAddToTable(this, lecture, selectedTimetable, user, addLectureToTimetableDispatch);
@@ -72,12 +72,12 @@ class LectureListSection extends Component {
     ReactGA.event({
       category: 'Timetable - Lecture',
       action: 'Added Lecture to Timetable',
-      label: `Lecture : ${lecture.id} / From : Lecture List : ${labelOfTabs.get(currentList) || currentList}`,
+      label: `Lecture : ${lecture.id} / From : Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`,
     });
   }
 
   addToCart = lecture => (event) => {
-    const { year, semester, user, currentList, addLectureToCartDispatch } = this.props;
+    const { year, semester, user, selectedListCode, addLectureToCartDispatch } = this.props;
 
     event.stopPropagation();
     performAddToCart(this, lecture, year, semester, user, addLectureToCartDispatch);
@@ -90,12 +90,12 @@ class LectureListSection extends Component {
     ReactGA.event({
       category: 'Timetable - Lecture',
       action: 'Added Lecture to Cart',
-      label: `Lecture : ${lecture.id} / From : Lecture List : ${labelOfTabs.get(currentList) || currentList}`,
+      label: `Lecture : ${lecture.id} / From : Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`,
     });
   }
 
   deleteFromCart = lecture => (event) => {
-    const { year, semester, user, currentList, deleteLectureFromCartDispatch } = this.props;
+    const { year, semester, user, selectedListCode, deleteLectureFromCartDispatch } = this.props;
 
     event.stopPropagation();
     performDeleteFromCart(this, lecture, year, semester, user, deleteLectureFromCartDispatch);
@@ -108,7 +108,7 @@ class LectureListSection extends Component {
     ReactGA.event({
       category: 'Timetable - Lecture',
       action: 'Deleted Lecture from Cart',
-      label: `Lecture : ${lecture.id} / From : Lecture List : ${labelOfTabs.get(currentList) || currentList}`,
+      label: `Lecture : ${lecture.id} / From : Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`,
     });
   }
 
@@ -141,7 +141,7 @@ class LectureListSection extends Component {
   }
 
   listClick = lecture => () => {
-    const { lectureFocus, currentList, setLectureFocusDispatch } = this.props;
+    const { lectureFocus, selectedListCode, setLectureFocusDispatch } = this.props;
 
     if (!isListClicked(lecture, lectureFocus)) {
       setLectureFocusDispatch(lecture, 'LIST', true);
@@ -154,7 +154,7 @@ class LectureListSection extends Component {
       ReactGA.event({
         category: 'Timetable - Selection',
         action: 'Selected Lecture',
-        label: `Lecture : ${lecture.id} / From : Lecture List : ${labelOfTabs.get(currentList) || currentList}`,
+        label: `Lecture : ${lecture.id} / From : Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`,
       });
     }
     else {
@@ -168,13 +168,13 @@ class LectureListSection extends Component {
       ReactGA.event({
         category: 'Timetable - Selection',
         action: 'Unselected Lecture',
-        label: `Lecture : ${lecture.id} / From : Lecture List : ${labelOfTabs.get(currentList) || currentList}`,
+        label: `Lecture : ${lecture.id} / From : Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`,
       });
     }
   }
 
   selectWithArrow = () => {
-    const { currentList, clearLectureFocusDispatch, setLectureFocusDispatch } = this.props;
+    const { selectedListCode, clearLectureFocusDispatch, setLectureFocusDispatch } = this.props;
 
     const arrow = this.arrowRef.current;
     if (window.getComputedStyle(arrow).getPropertyValue('display') === 'none') {
@@ -190,7 +190,7 @@ class LectureListSection extends Component {
       return;
     }
     const targetId = Number(elementAtPosition.getAttribute('data-id'));
-    const lectureGroups = this._getLectureGroups(currentList);
+    const lectureGroups = this._getLectureGroups(selectedListCode);
     const targetLecture = lectureGroups
       .map(lg => lg.map(l => ((l.id === targetId) ? l : null)))
       .reduce((acc, val) => acc.concat(val), [])
@@ -205,19 +205,19 @@ class LectureListSection extends Component {
     clearLectureFocusDispatch();
   }
 
-  _getLectureGroups = (currentList) => {
+  _getLectureGroups = (selectedListCode) => {
     const { search, major, humanity, cart } = this.props;
 
-    if (currentList === 'SEARCH') {
+    if (selectedListCode === 'SEARCH') {
       return search.lectureGroups;
     }
-    if (major.codes.some(code => (currentList === code))) {
-      return major[currentList].lectureGroups;
+    if (major.codes.some(code => (selectedListCode === code))) {
+      return major[selectedListCode].lectureGroups;
     }
-    if (currentList === 'HUMANITY') {
+    if (selectedListCode === 'HUMANITY') {
       return humanity.lectureGroups;
     }
-    if (currentList === 'CART') {
+    if (selectedListCode === 'CART') {
       return cart.lectureGroups;
     }
     return null;
@@ -225,7 +225,7 @@ class LectureListSection extends Component {
 
   render() {
     const { t } = this.props;
-    const { lectureFocus, selectedTimetable, currentList, searchOpen, search, major, humanity, cart } = this.props;
+    const { lectureFocus, selectedTimetable, selectedListCode, searchOpen, search, major, humanity, cart } = this.props;
 
     const getListElement = (lectureGroups, fromCart) => {
       if (!lectureGroups) {
@@ -235,7 +235,7 @@ class LectureListSection extends Component {
         return <div className={classNames('list-placeholder')}><div>{t('ui.placeholder.noResults')}</div></div>;
       }
       return (
-        <Scroller onScroll={this.selectWithArrow} key={currentList}>
+        <Scroller onScroll={this.selectWithArrow} key={selectedListCode}>
           {lectureGroups.map(lg => (
             <div className={classNames('block', 'block--lecture-group', (lg.some(l => isListClicked(l, lectureFocus)) ? 'block--clicked' : ''), (isDimmedListLectureGroup(lg, lectureFocus) ? 'block--dimmed' : ''))} key={lg[0].course}>
               <div className={classNames('block--lecture-group__title')}>
@@ -268,7 +268,7 @@ class LectureListSection extends Component {
       );
     };
 
-    if (currentList === 'SEARCH') {
+    if (selectedListCode === 'SEARCH') {
       return (
         <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
           { searchOpen ? <LectureSearchSubSection /> : null }
@@ -286,23 +286,23 @@ class LectureListSection extends Component {
         </div>
       );
     }
-    if (major.codes.some(code => (currentList === code))) {
+    if (major.codes.some(code => (selectedListCode === code))) {
       return (
         <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
           <button className={classNames('close-button')} onClick={this.mobileCloseLectureList}><i className={classNames('icon', 'icon--close-section')} /></button>
           <div className={classNames('title')}>
-            {major[currentList][t('js.property.name')]}
+            {major[selectedListCode][t('js.property.name')]}
           </div>
           <>
             <div className={classNames('section-content--lecture-list__selector')} ref={this.arrowRef}>
               <i className={classNames('icon', 'icon--lecture-selector')} />
             </div>
-            {getListElement(major[currentList].lectureGroups, false)}
+            {getListElement(major[selectedListCode].lectureGroups, false)}
           </>
         </div>
       );
     }
-    if (currentList === 'HUMANITY') {
+    if (selectedListCode === 'HUMANITY') {
       return (
         <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
           <button className={classNames('close-button')} onClick={this.mobileCloseLectureList}><i className={classNames('icon', 'icon--close-section')} /></button>
@@ -318,7 +318,7 @@ class LectureListSection extends Component {
         </div>
       );
     }
-    if (currentList === 'CART') {
+    if (selectedListCode === 'CART') {
       return (
         <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
           <button className={classNames('close-button')} onClick={this.mobileCloseLectureList}><i className={classNames('icon', 'icon--close-section')} /></button>
@@ -340,7 +340,7 @@ class LectureListSection extends Component {
 
 const mapStateToProps = state => ({
   user: state.common.user.user,
-  currentList: state.timetable.list.currentList,
+  selectedListCode: state.timetable.list.selectedListCode,
   search: state.timetable.list.search,
   major: state.timetable.list.major,
   humanity: state.timetable.list.humanity,
@@ -380,7 +380,7 @@ const mapDispatchToProps = dispatch => ({
 
 LectureListSection.propTypes = {
   user: userShape,
-  currentList: PropTypes.string.isRequired,
+  selectedListCode: PropTypes.string.isRequired,
   search: PropTypes.shape({
     lectureGroups: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)),
   }).isRequired,

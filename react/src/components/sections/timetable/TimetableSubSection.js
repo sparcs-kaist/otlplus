@@ -9,7 +9,7 @@ import { appBoundClassNames as classNames } from '../../../common/boundClassName
 import TimetableBlock from '../../blocks/TimetableBlock';
 
 import { setLectureFocus, clearLectureFocus } from '../../../actions/timetable/lectureFocus';
-import { setCurrentList, setMobileShowLectureList } from '../../../actions/timetable/list';
+import { setSelectedListCode, setMobileShowLectureList } from '../../../actions/timetable/list';
 import { dragSearch, clearDrag } from '../../../actions/timetable/search';
 import { setIsDragging, updateCellSize, removeLectureFromTimetable } from '../../../actions/timetable/timetable';
 
@@ -168,7 +168,7 @@ class TimetableSubSection extends Component {
   _dragEnd = () => {
     const { firstBlock, secondBlock } = this.state;
     const { isDragging, setIsDraggingDispatch, dragSearchDispatch, clearDragDispatch,
-      setCurrentListDispatch, setMobileShowLectureListDispatch } = this.props;
+      setSelectedListCodeDispatch, setMobileShowLectureListDispatch } = this.props;
 
     if (!isDragging) {
       return;
@@ -185,7 +185,7 @@ class TimetableSubSection extends Component {
     }
     dragSearchDispatch(startDay, Math.min(startIndex, endIndex), Math.max(startIndex, endIndex) + 1);
     setMobileShowLectureListDispatch(true);
-    setCurrentListDispatch('SEARCH');
+    setSelectedListCodeDispatch('SEARCH');
   }
 
   blockHover = lecture => () => {
@@ -444,8 +444,8 @@ const mapDispatchToProps = dispatch => ({
   removeLectureFromTimetableDispatch: (lecture) => {
     dispatch(removeLectureFromTimetable(lecture));
   },
-  setCurrentListDispatch: (list) => {
-    dispatch(setCurrentList(list));
+  setSelectedListCodeDispatch: (listCode) => {
+    dispatch(setSelectedListCode(listCode));
   },
   setMobileShowLectureListDispatch: (mobileShowLectureList) => {
     dispatch(setMobileShowLectureList(mobileShowLectureList));
@@ -471,7 +471,7 @@ TimetableSubSection.propTypes = {
   setLectureFocusDispatch: PropTypes.func.isRequired,
   clearLectureFocusDispatch: PropTypes.func.isRequired,
   removeLectureFromTimetableDispatch: PropTypes.func.isRequired,
-  setCurrentListDispatch: PropTypes.func.isRequired,
+  setSelectedListCodeDispatch: PropTypes.func.isRequired,
   setMobileShowLectureListDispatch: PropTypes.func.isRequired,
 };
 
