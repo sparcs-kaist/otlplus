@@ -8,7 +8,7 @@ import { reset as resetLectureFocus } from '../actions/timetable/lectureFocus';
 import { reset as resetList } from '../actions/timetable/list';
 import { reset as resetSearch } from '../actions/timetable/search';
 import { reset as resetSemester } from '../actions/timetable/semester';
-import { reset as resetTimetable, setCurrentTimetable, setMobileShowTimetableTabs } from '../actions/timetable/timetable';
+import { reset as resetTimetable, setSelectedTimetable, setMobileShowTimetableTabs } from '../actions/timetable/timetable';
 
 import LectureDetailSection from '../components/sections/timetable/LectureDetailSection';
 import LectureListTabs from '../components/tabs/LectureListTabs';
@@ -31,10 +31,10 @@ class TimetablePage extends Component {
   componentDidMount() {
     // eslint-disable-next-line react/destructuring-assignment
     const { startInMyTable } = this.props.location.state || {};
-    const { user, myTimetable, setCurrentTimetableDispatch } = this.props;
+    const { user, myTimetable, setSelectedTimetableDispatch } = this.props;
 
     if (startInMyTable && user) {
-      setCurrentTimetableDispatch(myTimetable);
+      setSelectedTimetableDispatch(myTimetable);
     }
   }
 
@@ -110,8 +110,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  setCurrentTimetableDispatch: (timetable) => {
-    dispatch(setCurrentTimetable(timetable));
+  setSelectedTimetableDispatch: (timetable) => {
+    dispatch(setSelectedTimetable(timetable));
   },
   resetLectureFocusDispatch: () => {
     dispatch(resetLectureFocus());
@@ -148,7 +148,7 @@ TimetablePage.propTypes = {
   mobileShowTimetableTabs: PropTypes.bool.isRequired,
   mobileShowLectureList: PropTypes.bool.isRequired,
 
-  setCurrentTimetableDispatch: PropTypes.func.isRequired,
+  setSelectedTimetableDispatch: PropTypes.func.isRequired,
   resetLectureFocusDispatch: PropTypes.func.isRequired,
   resetListDispatch: PropTypes.func.isRequired,
   resetSearchDispatch: PropTypes.func.isRequired,

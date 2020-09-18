@@ -95,13 +95,13 @@ class TimetableSubSection extends Component {
 
   // check is drag contain class time
   _getOccupiedTime = (dragDay, dragStart, dragEnd) => {
-    const { currentTimetable } = this.props;
+    const { selectedTimetable } = this.props;
 
-    if (!currentTimetable) {
+    if (!selectedTimetable) {
       return [];
     }
 
-    return currentTimetable.lectures.map(lecture => (
+    return selectedTimetable.lectures.map(lecture => (
       lecture.classtimes.map((ct) => {
         if ((ct.day === dragDay)
           && (dragStart < this.indexOfMinute(ct.end))
@@ -216,13 +216,13 @@ class TimetableSubSection extends Component {
   }
 
   deleteLecture = lecture => (event) => {
-    const { currentTimetable, user, removeLectureFromTimetableDispatch } = this.props;
+    const { selectedTimetable, user, removeLectureFromTimetableDispatch } = this.props;
     event.stopPropagation();
-    if (!currentTimetable) {
+    if (!selectedTimetable) {
       return;
     }
 
-    performDeleteFromTable(this, lecture, currentTimetable, user, removeLectureFromTimetableDispatch);
+    performDeleteFromTable(this, lecture, selectedTimetable, user, removeLectureFromTimetableDispatch);
 
     ReactGA.event({
       category: 'Timetable - Lecture',
@@ -234,10 +234,10 @@ class TimetableSubSection extends Component {
   render() {
     const { t } = this.props;
     const { firstBlock, secondBlock } = this.state;
-    const { currentTimetable, lectureFocus, cellWidth, cellHeight,
+    const { selectedTimetable, lectureFocus, cellWidth, cellHeight,
       lectureFocusFrom, lectureFocusLecture, mobileShowLectureList } = this.props;
 
-    const lectures = currentTimetable ? currentTimetable.lectures : [];
+    const lectures = selectedTimetable ? selectedTimetable.lectures : [];
     const untimedBlockTitles = [];
     const getTimeString = (time) => {
       const hour = Math.floor(time / 60);
@@ -268,7 +268,7 @@ class TimetableSubSection extends Component {
             : (classtime.end / 30 - 16)}
           cellWidth={cellWidth}
           cellHeight={cellHeight}
-          isTimetableReadonly={!currentTimetable || Boolean(currentTimetable.isReadOnly)}
+          isTimetableReadonly={!selectedTimetable || Boolean(selectedTimetable.isReadOnly)}
           isClicked={isTableClicked(lecture, lectureFocus)}
           isHover={isTableHover(lecture, lectureFocus)
             || isListHover(lecture, lectureFocus)
@@ -297,7 +297,7 @@ class TimetableSubSection extends Component {
       return lecture.classtimes.map(ct => mapClasstimeToBlock(lecture, ct, isOutsideTable(ct), isTemp));
     };
     const lectureBlocks = lectures.map(lecture => mapLectureToBlocks(lecture, false));
-    const tempBlocks = ((lectureFocusFrom === LIST) && !inTimetable(lectureFocusLecture, currentTimetable))
+    const tempBlocks = ((lectureFocusFrom === LIST) && !inTimetable(lectureFocusLecture, selectedTimetable))
       ? mapLectureToBlocks(lectureFocusLecture, true)
       : null;
 
@@ -411,7 +411,7 @@ class TimetableSubSection extends Component {
 
 const mapStateToProps = state => ({
   user: state.common.user.user,
-  currentTimetable: state.timetable.timetable.currentTimetable,
+  selectedTimetable: state.timetable.timetable.selectedTimetable,
   lectureFocus: state.timetable.lectureFocus,
   lectureFocusFrom: state.timetable.lectureFocus.from,
   lectureFocusClicked: state.timetable.lectureFocus.clicked,
@@ -454,7 +454,7 @@ const mapDispatchToProps = dispatch => ({
 
 TimetableSubSection.propTypes = {
   user: userShape,
-  currentTimetable: timetableShape,
+  selectedTimetable: timetableShape,
   lectureFocus: lectureFocusShape.isRequired,
   lectureFocusFrom: PropTypes.oneOf([NONE, LIST, TABLE, MULTIPLE]).isRequired,
   lectureFocusClicked: PropTypes.bool.isRequired,

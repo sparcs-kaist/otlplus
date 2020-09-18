@@ -26,13 +26,13 @@ class ExamSubSection extends Component {
   }
 
   _getLecturesWithExam = () => {
-    const { lectureFocusLecture, currentTimetable } = this.props;
+    const { lectureFocusLecture, selectedTimetable } = this.props;
 
-    const timetableLectures = currentTimetable
-      ? currentTimetable.lectures
+    const timetableLectures = selectedTimetable
+      ? selectedTimetable.lectures
       : [];
     const lecturesWithExam = timetableLectures
-      .concat((lectureFocusLecture && !inTimetable(lectureFocusLecture, currentTimetable))
+      .concat((lectureFocusLecture && !inTimetable(lectureFocusLecture, selectedTimetable))
         ? [lectureFocusLecture]
         : [])
       .filter(l => (l.examtimes.length > 0));
@@ -42,8 +42,8 @@ class ExamSubSection extends Component {
 
   examFocus(dayIndex) {
     const { t } = this.props;
-    const { lectureFocusFrom, currentTimetable, setMultipleDetailDispatch } = this.props;
-    if (lectureFocusFrom !== 'NONE' || !currentTimetable) {
+    const { lectureFocusFrom, selectedTimetable, setMultipleDetailDispatch } = this.props;
+    if (lectureFocusFrom !== 'NONE' || !selectedTimetable) {
       return;
     }
 
@@ -160,7 +160,7 @@ class ExamSubSection extends Component {
 }
 
 const mapStateToProps = state => ({
-  currentTimetable: state.timetable.timetable.currentTimetable,
+  selectedTimetable: state.timetable.timetable.selectedTimetable,
   lectureFocusLecture: state.timetable.lectureFocus.lecture,
   lectureFocusFrom: state.timetable.lectureFocus.from,
 });
@@ -175,7 +175,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 ExamSubSection.propTypes = {
-  currentTimetable: timetableShape,
+  selectedTimetable: timetableShape,
   lectureFocusLecture: lectureShape,
   lectureFocusFrom: PropTypes.oneOf([NONE, LIST, TABLE, MULTIPLE]).isRequired,
 

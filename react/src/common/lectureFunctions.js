@@ -110,10 +110,10 @@ export const getExamStr = (lecture) => {
   return i18n.t('ui.others.sthAndNumOthers', { something: examStrings[0], count: examStrings.length - 1 });
 };
 
-export const performAddToTable = (caller, lecture, currentTimetable, user, addLectureToTimetableDispatch) => {
+export const performAddToTable = (caller, lecture, selectedTimetable, user, addLectureToTimetableDispatch) => {
   if (
     lecture.classtimes.some(thisClasstime => (
-      currentTimetable.lectures.some(timetableLecture => (
+      selectedTimetable.lectures.some(timetableLecture => (
         timetableLecture.classtimes.some(classtime => (
           (classtime.day === thisClasstime.day)
           && (classtime.begin < thisClasstime.end)
@@ -133,7 +133,7 @@ export const performAddToTable = (caller, lecture, currentTimetable, user, addLe
   }
 
   axios.post(
-    `/api/users/${user.id}/timetables/${currentTimetable.id}/add-lecture`,
+    `/api/users/${user.id}/timetables/${selectedTimetable.id}/add-lecture`,
     {
       lecture: lecture.id,
     },
@@ -146,7 +146,7 @@ export const performAddToTable = (caller, lecture, currentTimetable, user, addLe
   )
     .then((response) => {
       const newProps = caller.props;
-      if (!newProps.currentTimetable || newProps.currentTimetable.id !== currentTimetable.id) {
+      if (!newProps.selectedTimetable || newProps.selectedTimetable.id !== selectedTimetable.id) {
         return;
       }
       // TODO: Fix timetable not updated when semester unchanged and timetable changed
@@ -156,14 +156,14 @@ export const performAddToTable = (caller, lecture, currentTimetable, user, addLe
     });
 };
 
-export const performDeleteFromTable = (caller, lecture, currentTimetable, user, removeLectureFromTimetableDispatch) => {
+export const performDeleteFromTable = (caller, lecture, selectedTimetable, user, removeLectureFromTimetableDispatch) => {
   if (!user) {
     removeLectureFromTimetableDispatch(lecture);
     return;
   }
 
   axios.post(
-    `/api/users/${user.id}/timetables/${currentTimetable.id}/remove-lecture`,
+    `/api/users/${user.id}/timetables/${selectedTimetable.id}/remove-lecture`,
     {
       lecture: lecture.id,
     },
@@ -176,7 +176,7 @@ export const performDeleteFromTable = (caller, lecture, currentTimetable, user, 
   )
     .then((response) => {
       const newProps = caller.props;
-      if (!newProps.currentTimetable || newProps.currentTimetable.id !== currentTimetable.id) {
+      if (!newProps.selectedTimetable || newProps.selectedTimetable.id !== selectedTimetable.id) {
         return;
       }
       // TODO: Fix timetable not updated when semester unchanged and timetable changed
