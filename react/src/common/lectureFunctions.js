@@ -62,6 +62,16 @@ export const isFocused = (lecture, lectureFocusLecture, focusedLectures) => {
     || (focusedLectures.some(l => (l.id === lecture.id)));
 };
 
+export const getOverallLectures = (selectedTimetable, lectureFocus) => {
+  const timetableLectures = selectedTimetable
+    ? selectedTimetable.lectures
+    : [];
+  const hasSingleFocusedLectureOutsideTable = lectureFocus.lecture && !inTimetable(lectureFocus.lecture, selectedTimetable);
+
+  return timetableLectures
+    .concat(hasSingleFocusedLectureOutsideTable ? [lectureFocus.lecture] : []);
+};
+
 export const getProfessorsStrShort = (lecture) => {
   // eslint-disable-next-line fp/no-mutating-methods
   const professors = lecture.professors

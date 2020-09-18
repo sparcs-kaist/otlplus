@@ -11,7 +11,7 @@ import { clearMultipleFocus, setMultipleFocus } from '../../../actions/timetable
 
 import lectureFocusShape from '../../../shapes/LectureFocusShape';
 import timetableShape from '../../../shapes/TimetableShape';
-import { inTimetable, isFocused, getRoomStr, getExamStr } from '../../../common/lectureFunctions';
+import { inTimetable, isFocused, getRoomStr, getExamStr, getOverallLectures } from '../../../common/lectureFunctions';
 
 
 class ExamSubSection extends Component {
@@ -23,40 +23,31 @@ class ExamSubSection extends Component {
     };
   }
 
-  _getLecturesWithExam = () => {
+  _getLecturesWithExamOnDay = (dayIndex) => {
     const { lectureFocus, selectedTimetable } = this.props;
 
-    const timetableLectures = selectedTimetable
-      ? selectedTimetable.lectures
-      : [];
-    const lecturesWithExam = timetableLectures
-      .concat((lectureFocus.lecture && !inTimetable(lectureFocus.lecture, selectedTimetable))
-        ? [lectureFocus.lecture]
-        : [])
-      .filter(l => (l.examtimes.length > 0));
-
-    return lecturesWithExam;
+    return getOverallLectures(selectedTimetable, lectureFocus).filter(l => (
+      l.examtimes.length && (l.examtimes[0].day === dayIndex)
+    ));
   }
 
   examFocus(dayIndex) {
     const { t } = this.props;
     const { lectureFocus, selectedTimetable, setMultipleFocusDispatch } = this.props;
+
     if (lectureFocus.from !== 'NONE' || !selectedTimetable) {
       return;
     }
 
     const dayNames = [t('ui.day.monday'), t('ui.day.tuesday'), t('ui.day.wednesday'), t('ui.day.thursday'), t('ui.day.friday')];
-
-    const multiFocusedLectures = this._getLecturesWithExam().filter(l => (
-      l.examtimes[0].day === dayIndex
-    ));
-    const lectures = multiFocusedLectures.map(lecture => ({
+    const lecturesWithExamOnDay = this._getLecturesWithExamOnDay(dayIndex);
+    const details = lecturesWithExamOnDay.map(lecture => ({
       id: lecture.id,
       title: lecture[t('js.property.title')],
       info: getRoomStr(lecture),
     }));
-    setMultipleFocusDispatch(t('ui.others.examOfDay', { day: dayNames[dayIndex] }), lectures);
-    this.setState({ multiFocusedLectures: multiFocusedLectures });
+    setMultipleFocusDispatch(t('ui.others.examOfDay', { day: dayNames[dayIndex] }), details);
+    this.setState({ multiFocusedLectures: lecturesWithExamOnDay });
   }
 
   clearFocus() {
@@ -94,10 +85,8 @@ class ExamSubSection extends Component {
       return li;
     };
 
-    const lecturesWithExam = this._getLecturesWithExam();
-    const examTable = [0, 1, 2, 3, 4].map(day => (
-      lecturesWithExam
-        .filter(lecture => lecture.examtimes[0].day === day)
+    const examTable = [0, 1, 2, 3, 4].map(di => (
+      this._getLecturesWithExamOnDay(di)
         .map(l => ({
           title: l[t('js.property.title')],
           time: getExamStr(l).slice(getExamStr(l).indexOf(' ')),
