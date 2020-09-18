@@ -19,17 +19,16 @@ const TimetableBlock = ({
   blockHover, blockOut, blockClick, deleteLecture,
   occupiedTime,
 }) => {
-  const blockStateClassNames = (
-    isClicked ? classNames('block--clicked')
-      : isTemp ? classNames('block--temp', 'block--focused')
-        : isHovered ? classNames('block--focused')
-          : isDimmed ? classNames('block--dimmed')
-            : ''
-  );
-
   return (
     <div
-      className={classNames('block--timetable', `background-color--${(lecture.course % 16) + 1}`, blockStateClassNames)}
+      className={classNames(
+        'block--timetable',
+        `background-color--${(lecture.course % 16) + 1}`,
+        (isClicked ? 'block--clicked' : ''),
+        (isTemp ? ['block--temp', 'block--focused'] : ''),
+        (isHovered ? 'block--focused' : ''),
+        (isDimmed ? 'block--dimmed' : ''),
+      )}
       style={{
         left: (cellWidth + 5) * dayIndex + 17,
         top: cellHeight * beginIndex + 19

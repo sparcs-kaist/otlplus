@@ -26,9 +26,18 @@ const LectureGroupBlockRow = ({
         return classNames('');
     }
   };
-  const change = isClicked ? classNames('block--clicked') : (isHovered ? classNames('block--focused') : '');
   return (
-    <div className={classNames('block--lecture-group__elem-wrap', change)} data-id={lecture.id} onClick={() => listClick(lecture)()} onMouseOver={() => listHover(lecture)()} onMouseOut={() => listOut()}>
+    <div
+      className={classNames(
+        'block--lecture-group__elem-wrap',
+        (isClicked ? 'block--clicked' : ''),
+        (isHovered ? 'block--focused' : ''),
+      )}
+      data-id={lecture.id}
+      onClick={() => listClick(lecture)()}
+      onMouseOver={() => listHover(lecture)()}
+      onMouseOut={() => listOut()}
+    >
       <div className={classNames('block--lecture-group__elem')}>
         <div className={classNames('block--lecture-group__elem__texts')}>
           <strong className={getClass(lecture)}>{lecture[t('js.property.class_title')]}</strong>
