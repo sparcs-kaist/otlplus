@@ -15,14 +15,6 @@ import { inTimetable, isFocused, getRoomStr, getExamStr, getOverallLectures } fr
 
 
 class ExamSubSection extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      multiFocusedLectures: [],
-    };
-  }
-
   _getLecturesWithExamOnDay = (dayIndex) => {
     const { lectureFocus, selectedTimetable } = this.props;
 
@@ -47,7 +39,6 @@ class ExamSubSection extends Component {
       info: getRoomStr(lecture),
     }));
     setMultipleFocusDispatch(t('ui.others.examOfDay', { day: dayNames[dayIndex] }), details);
-    this.setState({ multiFocusedLectures: lecturesWithExamOnDay });
   }
 
   clearFocus() {
@@ -58,17 +49,15 @@ class ExamSubSection extends Component {
     }
 
     clearMultipleFocusDispatch();
-    this.setState({ multiFocusedLectures: [] });
   }
 
   render() {
     const { t } = this.props;
-    const { multiFocusedLectures } = this.state;
     const { lectureFocus } = this.props;
 
     const renderLectureExam = (lec) => {
       const act = (
-        isFocused(lec, lectureFocus.lecture, multiFocusedLectures)
+        isFocused(lec, lectureFocus)
           ? 'focused'
           : ''
       );

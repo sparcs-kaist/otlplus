@@ -42,24 +42,27 @@ export const isTableHover = (lecture, lectureFocus) => (
   && lectureFocus.lecture.id === lecture.id
 );
 
-export const isInMultiple = (lecture, lectureFocus) => (
+export const isMultipleFocused = (lecture, lectureFocus) => (
   lectureFocus.from === MULTIPLE
   && lectureFocus.multipleDetails.some(l => (l.id === lecture.id))
 );
 
 export const isDimmedTableLecture = (lecture, lectureFocus) => (
   lectureFocus.clicked === true
-  && ((lectureFocus.lecture.id !== lecture.id) || (lectureFocus.from !== TABLE))
+  && (lectureFocus.lecture.id !== lecture.id)
 );
 
 export const isDimmedListLectureGroup = (lectureGroup, lectureFocus) => (
   lectureFocus.clicked === true
-  && (lectureGroup.every(l => (lectureFocus.lecture.id !== l.id)) || (lectureFocus.from !== LIST))
+  && (
+    lectureGroup.every(l => (lectureFocus.lecture.id !== l.id))
+    || (lectureFocus.from !== LIST)
+  )
 );
 
-export const isFocused = (lecture, lectureFocusLecture, focusedLectures) => {
-  return (lectureFocusLecture !== null && lectureFocusLecture.id === lecture.id)
-    || (focusedLectures.some(l => (l.id === lecture.id)));
+export const isFocused = (lecture, lectureFocus) => {
+  return (lectureFocus.lecture !== null && lectureFocus.lecture.id === lecture.id)
+    || isMultipleFocused(lecture, lectureFocus);
 };
 
 export const getOverallLectures = (selectedTimetable, lectureFocus) => {
