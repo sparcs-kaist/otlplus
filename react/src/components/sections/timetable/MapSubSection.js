@@ -73,7 +73,7 @@ class MapSubSection extends Component {
           <img src={mapImage} alt="KAIST Map" />
           { Object.keys(mapObject).map((b) => {
             const act = mapObject[b].some(lec => isFocused(lec, lectureFocus))
-              ? 'block--focused'
+              ? 'block--highlighted'
               : '';
             const location = (
               <div
@@ -86,7 +86,7 @@ class MapSubSection extends Component {
                   <span>{b}</span>
                   {mapObject[b].map((l) => {
                     const lecAct = isFocused(l, lectureFocus)
-                      ? 'block--focused'
+                      ? 'block--highlighted'
                       : '';
                     return <span className={classNames('background-color--dark', `background-color--${l.color}`, lecAct)} key={l.id} />;
                   })}

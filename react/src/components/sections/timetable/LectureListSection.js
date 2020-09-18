@@ -248,7 +248,7 @@ class LectureListSection extends Component {
                   lecture={l}
                   key={l.id}
                   isClicked={isListClicked(l, lectureFocus)}
-                  isHovered={isListHover(l, lectureFocus)}
+                  isFocused={isListHover(l, lectureFocus) || isListClicked(l, lectureFocus)}
                   inTimetable={inTimetable(l, selectedTimetable)}
                   isTimetableReadonly={!selectedTimetable || Boolean(selectedTimetable.isReadOnly)}
                   inCart={inCart(l, cart)}

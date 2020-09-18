@@ -12,7 +12,7 @@ import lectureShape from '../../shapes/LectureShape';
 const LectureGroupBlockRow = ({
   t,
   lecture,
-  isClicked, isHovered, inTimetable, isTimetableReadonly, inCart, fromCart,
+  isClicked, isFocused, inTimetable, isTimetableReadonly, inCart, fromCart,
   addToCart, addToTable, deleteFromCart,
   listHover, listOut, listClick,
 }) => {
@@ -31,7 +31,7 @@ const LectureGroupBlockRow = ({
       className={classNames(
         'block--lecture-group__elem-wrap',
         (isClicked ? 'block--clicked' : ''),
-        (isHovered ? 'block--focused' : ''),
+        ((isFocused && !isClicked) ? 'block--highlighted' : ''),
       )}
       data-id={lecture.id}
       onClick={() => listClick(lecture)()}
@@ -66,7 +66,7 @@ const LectureGroupBlockRow = ({
 LectureGroupBlockRow.propTypes = {
   lecture: lectureShape.isRequired,
   isClicked: PropTypes.bool.isRequired,
-  isHovered: PropTypes.bool.isRequired,
+  isFocused: PropTypes.bool.isRequired,
   inTimetable: PropTypes.bool.isRequired,
   isTimetableReadonly: PropTypes.bool.isRequired,
   inCart: PropTypes.bool.isRequired,
