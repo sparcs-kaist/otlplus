@@ -17,7 +17,18 @@ const CourseBlock = ({
   listHover, listOut, listClick,
 }) => {
   return (
-    <div className={classNames('block', 'block--course', (isClicked ? classNames('block--clicked') : (isHovered ? classNames('block--focused') : (isDimmed ? classNames('block--dimmed') : ''))))} onClick={listClick ? listClick(course) : null} onMouseOver={listHover ? listHover(course) : null} onMouseOut={listOut}>
+    <div
+      className={classNames(
+        'block',
+        'block--course',
+        (isClicked ? 'block--clicked' : ''),
+        (isHovered ? 'block--focused' : ''),
+        (isDimmed ? 'block--dimmed' : ''),
+      )}
+      onClick={listClick ? listClick(course) : null}
+      onMouseOver={listHover ? listHover(course) : null}
+      onMouseOut={listOut}
+    >
       <div className={classNames('block--course__title')}>
         { !showReadStatus
           ? null

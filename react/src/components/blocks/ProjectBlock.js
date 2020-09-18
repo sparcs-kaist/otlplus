@@ -8,12 +8,16 @@ import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 
 // eslint-disable-next-line arrow-body-style
 const ProjectBlock = ({ t, index, isClicked, onClick, mainTitle, subTitle, period }) => {
-  const className = isClicked
-    ? classNames('block', 'block--project', 'focused')
-    : classNames('block', 'block--project');
-
   return (
-    <div onClick={() => onClick(index)} className={className} key={index}>
+    <div
+      className={classNames(
+        'block',
+        'block--project',
+        (isClicked ? 'focused' : ''),
+      )}
+      onClick={() => onClick(index)}
+      key={index}
+    >
       <div className={classNames('block--project__title')}>{mainTitle}</div>
       <div className={classNames('block--project__title')}>{subTitle}</div>
       <div className={classNames('block--project__content')}>{period}</div>
