@@ -17,7 +17,7 @@ const LectureSimpleBlock = ({
 }) => {
   return (
     <div
-      className={classNames('block', 'block--lecture-simple', (isClicked ? 'block--clicked' : ''), (isUnfocused ? 'block--inactive' : ''), (hasReview ? 'block--has-review' : ''))}
+      className={classNames('block', 'block--lecture-simple', (isClicked ? 'block--clicked' : ''), (isUnfocused ? 'block--unfocused' : ''), (hasReview ? 'block--has-review' : ''))}
       onClick={onClick}
     >
       <div className={classNames('block--lecture-simple__title')}>
