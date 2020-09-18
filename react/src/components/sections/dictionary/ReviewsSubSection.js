@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
-import axios from 'axios';
 import ReactGA from 'react-ga';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
@@ -11,9 +10,8 @@ import ReviewBlock from '../../blocks/ReviewBlock';
 import ReviewWriteBlock from '../../blocks/ReviewWriteBlock';
 import SearchFilter from '../../SearchFilter';
 
-import { setReviews, updateReview } from '../../../actions/dictionary/courseFocus';
+import { updateReview } from '../../../actions/dictionary/courseFocus';
 import { updateUserReview } from '../../../actions/common/user';
-import { addCourseRead } from '../../../actions/dictionary/list';
 
 import courseFocusShape from '../../../shapes/CourseFocusShape';
 import userShape from '../../../shapes/UserShape';
@@ -26,72 +24,6 @@ class ReviewsSubSection extends Component {
     this.state = {
       professor: new Set(['ALL']),
     };
-  }
-
-  componentDidMount() {
-    this._fetchReviews();
-  }
-
-
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    const { courseFocus } = this.props;
-
-    if (
-      courseFocus.clicked
-      && courseFocus.course
-      && (!prevProps.courseFocus.clicked || !prevProps.courseFocus.course || (prevProps.courseFocus.course.id !== courseFocus.course.id))) {
-      this._fetchReviews();
-    }
-  }
-
-
-  _fetchReviews = () => {
-    const { courseFocus, setReviewsDispatch } = this.props;
-
-    axios.get(
-      `/api/courses/${courseFocus.course.id}/reviews`,
-      {
-        metadata: {
-          gaCategory: 'Course',
-          gaVariable: 'GET Reviews / Instance',
-        },
-      },
-    )
-      .then((response) => {
-        const newProps = this.props;
-        if (newProps.courseFocus.course.id !== courseFocus.course.id) {
-          return;
-        }
-        this._markRead(courseFocus.course);
-        setReviewsDispatch(response.data);
-      })
-      .catch((error) => {
-      });
-  }
-
-
-  _markRead = (course) => {
-    const { user, addCourseReadDispatch } = this.props;
-
-    if (!user) {
-      addCourseReadDispatch(course);
-      return;
-    }
-
-    axios.post(
-      `/api/courses/${course.id}/read`,
-      {
-        metadata: {
-          gaCategory: 'Review',
-          gaVariable: 'POST Read / Instance',
-        },
-      },
-    )
-      .then((cresponse) => {
-        addCourseReadDispatch(course);
-      })
-      .catch((error) => {
-      });
   }
 
   updateCheckedValues = filterName => (checkedValues) => {
@@ -185,12 +117,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  setReviewsDispatch: (reviews) => {
-    dispatch(setReviews(reviews));
-  },
-  addCourseReadDispatch: (course) => {
-    dispatch(addCourseRead(course));
-  },
   updateUserReviewDispatch: (review) => {
     dispatch(updateUserReview(review));
   },
@@ -203,8 +129,6 @@ ReviewsSubSection.propTypes = {
   user: userShape,
   courseFocus: courseFocusShape.isRequired,
 
-  setReviewsDispatch: PropTypes.func.isRequired,
-  addCourseReadDispatch: PropTypes.func.isRequired,
   updateUserReviewDispatch: PropTypes.func.isRequired,
   updateReviewDispatch: PropTypes.func.isRequired,
 };

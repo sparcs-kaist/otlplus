@@ -2,14 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
-import axios from 'axios';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
 import Scroller from '../../Scroller';
 import LectureGroupSimpleBlock from '../../blocks/LectureGroupSimpleBlock';
-
-import { setLectures } from '../../../actions/dictionary/courseFocus';
 
 import semesterShape from '../../../shapes/SemesterShape';
 import courseFocusShape from '../../../shapes/CourseFocusShape';
@@ -24,50 +21,13 @@ class HistorySubSection extends Component {
   }
 
 
-  componentDidMount() {
-    this._fetchLectures();
-  }
-
-
   componentDidUpdate(prevProps, prevState, snapshot) {
-    const { courseFocus, setLecturesDispatch } = this.props;
-
-    if (
-      courseFocus.clicked
-      && courseFocus.course
-      && (!prevProps.courseFocus.clicked || !prevProps.courseFocus.course || (prevProps.courseFocus.course.id !== courseFocus.course.id))) {
-      setLecturesDispatch(null);
-      this._fetchLectures();
-    }
+    const { courseFocus } = this.props;
 
     if ((prevProps.courseFocus.lectures === null) && (courseFocus.lectures !== null)) {
       const scrollTarget = this.scrollRef.current.querySelector('.ScrollbarsCustom-Scroller');
       scrollTarget.scrollLeft = scrollTarget.scrollWidth;
     }
-  }
-
-
-  _fetchLectures = () => {
-    const { courseFocus, setLecturesDispatch } = this.props;
-
-    axios.get(
-      `/api/courses/${courseFocus.course.id}/lectures`,
-      {
-        metadata: {
-          gaCategory: 'Course',
-          gaVariable: 'GET Lectures / Instance',
-        },
-      },
-    )
-      .then((response) => {
-        const newProps = this.props;
-        if (newProps.courseFocus.course.id !== courseFocus.course.id) {
-          return;
-        }
-        setLecturesDispatch(response.data);
-      })
-      .catch((error) => {
-      });
   }
 
 
@@ -151,16 +111,11 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  setLecturesDispatch: (lectures) => {
-    dispatch(setLectures(lectures));
-  },
 });
 
 HistorySubSection.propTypes = {
   semesters: PropTypes.arrayOf(semesterShape),
   courseFocus: courseFocusShape.isRequired,
-
-  setLecturesDispatch: PropTypes.func.isRequired,
 };
 
 

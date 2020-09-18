@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
+import axios from 'axios';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 import { getAverageScoreLabel } from '../../../common/scoreFunctions';
@@ -12,9 +13,11 @@ import RelatedSubSection from './RelatedSubSection';
 import HistorySubSection from './HistorySubSection';
 import ReviewsSubSection from './ReviewsSubSection';
 
-import { clearCourseFocus } from '../../../actions/dictionary/courseFocus';
+import { clearCourseFocus, setLectures, setReviews } from '../../../actions/dictionary/courseFocus';
+import { addCourseRead } from '../../../actions/dictionary/list';
 
 import courseFocusShape from '../../../shapes/CourseFocusShape';
+import userShape from '../../../shapes/UserShape';
 
 
 class CourseDetailSection extends Component {
@@ -32,7 +35,7 @@ class CourseDetailSection extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { selectedListCode, courseFocus, clearCourseFocusDispatch } = this.props;
+    const { selectedListCode, courseFocus, clearCourseFocusDispatch, setLecturesDispatch } = this.props;
 
     if (prevProps.selectedListCode !== selectedListCode) {
       clearCourseFocusDispatch();
@@ -40,8 +43,86 @@ class CourseDetailSection extends Component {
 
     if (courseFocus.clicked && (!prevProps.courseFocus.clicked || (prevProps.courseFocus.course !== courseFocus.course))) {
       this._updateOnScrollChange();
+      setLecturesDispatch(null);
+      this._fetchLectures();
+      this._fetchReviews();
     }
   }
+
+
+  _fetchLectures = () => {
+    const { courseFocus, setLecturesDispatch } = this.props;
+
+    axios.get(
+      `/api/courses/${courseFocus.course.id}/lectures`,
+      {
+        metadata: {
+          gaCategory: 'Course',
+          gaVariable: 'GET Lectures / Instance',
+        },
+      },
+    )
+      .then((response) => {
+        const newProps = this.props;
+        if (newProps.courseFocus.course.id !== courseFocus.course.id) {
+          return;
+        }
+        setLecturesDispatch(response.data);
+      })
+      .catch((error) => {
+      });
+  }
+
+
+  _fetchReviews = () => {
+    const { courseFocus, setReviewsDispatch } = this.props;
+
+    axios.get(
+      `/api/courses/${courseFocus.course.id}/reviews`,
+      {
+        metadata: {
+          gaCategory: 'Course',
+          gaVariable: 'GET Reviews / Instance',
+        },
+      },
+    )
+      .then((response) => {
+        const newProps = this.props;
+        if (newProps.courseFocus.course.id !== courseFocus.course.id) {
+          return;
+        }
+        this._markRead(courseFocus.course);
+        setReviewsDispatch(response.data);
+      })
+      .catch((error) => {
+      });
+  }
+
+
+  _markRead = (course) => {
+    const { user, addCourseReadDispatch } = this.props;
+
+    if (!user) {
+      addCourseReadDispatch(course);
+      return;
+    }
+
+    axios.post(
+      `/api/courses/${course.id}/read`,
+      {
+        metadata: {
+          gaCategory: 'Review',
+          gaVariable: 'POST Read / Instance',
+        },
+      },
+    )
+      .then((cresponse) => {
+        addCourseReadDispatch(course);
+      })
+      .catch((error) => {
+      });
+  }
+
 
   onScroll = () => {
     this._updateOnScrollChange();
@@ -126,11 +207,11 @@ class CourseDetailSection extends Component {
               </div>
             </div>
             <div className={classNames('divider')} />
-            <RelatedSubSection />
+            <RelatedSubSection key={'aaa' + (courseFocus.clicked ? courseFocus.course.id : '-1')} />
             <div className={classNames('divider')} />
             <HistorySubSection />
             <div className={classNames('divider')} />
-            <ReviewsSubSection />
+            <ReviewsSubSection key={'ccc' + (courseFocus.clicked ? courseFocus.course.id : '-1')} />
           </Scroller>
         </div>
       );
@@ -161,6 +242,7 @@ class CourseDetailSection extends Component {
 }
 
 const mapStateToProps = state => ({
+  user: state.common.user.user,
   courseFocus: state.dictionary.courseFocus,
   selectedListCode: state.dictionary.list.selectedListCode,
 });
@@ -169,13 +251,26 @@ const mapDispatchToProps = dispatch => ({
   clearCourseFocusDispatch: () => {
     dispatch(clearCourseFocus());
   },
+  setLecturesDispatch: (lectures) => {
+    dispatch(setLectures(lectures));
+  },
+  setReviewsDispatch: (reviews) => {
+    dispatch(setReviews(reviews));
+  },
+  addCourseReadDispatch: (course) => {
+    dispatch(addCourseRead(course));
+  },
 });
 
 CourseDetailSection.propTypes = {
+  user: userShape,
   courseFocus: courseFocusShape.isRequired,
   selectedListCode: PropTypes.string.isRequired,
 
   clearCourseFocusDispatch: PropTypes.func.isRequired,
+  setLecturesDispatch: PropTypes.func.isRequired,
+  setReviewsDispatch: PropTypes.func.isRequired,
+  addCourseReadDispatch: PropTypes.func.isRequired,
 };
 
 
