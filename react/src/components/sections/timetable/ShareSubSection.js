@@ -15,23 +15,23 @@ import timetableShape from '../../../shapes/TimetableShape';
 class ShareSubSection extends Component {
   render() {
     const { t } = this.props;
-    const { currentTimetable, mobileShowLectureList, year, semester,
+    const { selectedTimetable, mobileShowLectureList, year, semester,
       setMobileShowTimetableTabsDispatch, setMobileShowLectureListDispatch } = this.props;
 
-    const timetableLectures = currentTimetable
-      ? currentTimetable.lectures
+    const timetableLectures = selectedTimetable
+      ? selectedTimetable.lectures
       : [];
     return (
       <div className={classNames('section-content--share', (mobileShowLectureList ? 'mobile-hidden' : ''))}>
         <div>
-          { currentTimetable && year && semester
+          { selectedTimetable && year && semester
             ? (
 
               <>
-                <a href={`/api/share/timetable/image?timetable=${currentTimetable ? currentTimetable.id : -1}&year=${year}&semester=${semester}`} download>
+                <a href={`/api/share/timetable/image?timetable=${selectedTimetable ? selectedTimetable.id : -1}&year=${year}&semester=${semester}`} download>
                   <i className={classNames('icon', 'icon--share-image')} />
                 </a>
-                <a href={`/api/share/timetable/calendar?timetable=${currentTimetable ? currentTimetable.id : -1}&year=${year}&semester=${semester}`} target="_blank" rel="noopener noreferrer">
+                <a href={`/api/share/timetable/calendar?timetable=${selectedTimetable ? selectedTimetable.id : -1}&year=${year}&semester=${semester}`} target="_blank" rel="noopener noreferrer">
                   <i className={classNames('icon', 'icon--share-calendar')} />
                 </a>
                 <Link to={{ pathname: '/timetable/syllabus', state: { lectures: timetableLectures } }}>
@@ -66,7 +66,7 @@ class ShareSubSection extends Component {
 }
 
 const mapStateToProps = state => ({
-  currentTimetable: state.timetable.timetable.currentTimetable,
+  selectedTimetable: state.timetable.timetable.selectedTimetable,
   mobileShowLectureList: state.timetable.list.mobileShowLectureList,
   year: state.timetable.semester.year,
   semester: state.timetable.semester.semester,
@@ -82,7 +82,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 ShareSubSection.propTypes = {
-  currentTimetable: timetableShape,
+  selectedTimetable: timetableShape,
   mobileShowLectureList: PropTypes.bool.isRequired,
   year: PropTypes.number,
   semester: PropTypes.number,

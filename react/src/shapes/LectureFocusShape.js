@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 
-import { NONE, LIST, TABLE, MULTIPLE } from '../reducers/timetable/lectureActive';
+import { NONE, LIST, TABLE, MULTIPLE } from '../reducers/timetable/lectureFocus';
 import lectureShape from './LectureShape';
 
 
-const lectureActiveShape = PropTypes.shape({
+const lectureFocusShape = PropTypes.shape({
   from: PropTypes.oneOf([NONE, LIST, TABLE, MULTIPLE]).isRequired,
   clicked: PropTypes.bool.isRequired,
   lecture: lectureShape,
@@ -18,4 +18,4 @@ const lectureActiveShape = PropTypes.shape({
   ),
 });
 
-export default lectureActiveShape;
+export default lectureFocusShape;

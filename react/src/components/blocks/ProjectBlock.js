@@ -9,7 +9,7 @@ import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 // eslint-disable-next-line arrow-body-style
 const ProjectBlock = ({ t, index, isClicked, onClick, mainTitle, subTitle, period }) => {
   const className = isClicked
-    ? classNames('block', 'block--project', 'active')
+    ? classNames('block', 'block--project', 'focused')
     : classNames('block', 'block--project');
 
   return (

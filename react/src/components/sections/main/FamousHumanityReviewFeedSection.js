@@ -9,18 +9,17 @@ import { appBoundClassNames as classNames } from '../../../common/boundClassName
 import ReviewBlock from '../../blocks/ReviewBlock';
 
 import reviewShape from '../../../shapes/ReviewShape';
-import departmentShape from '../../../shapes/DepartmentShape';
 
 
-class FamousMajorReviewSection extends Component {
+class FamousHumanityReviewFeedSection extends Component {
   render() {
     const { t } = this.props;
-    const { department, reviews } = this.props;
+    const { reviews } = this.props;
 
     return (
-      <div className={classNames('section-content', 'section-content--widget')}>
+      <div className={classNames('section-content', 'section-content--feed')}>
         <div className={classNames('title')}>
-          {`${t('ui.title.famousMajorReviews')} - ${department[t('js.property.name')]}`}
+          {t('ui.title.famousHumanityReviews')}
         </div>
         {reviews.map(r => (
           <Link to={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: r.course.id }) }} key={r.id}>
@@ -28,7 +27,7 @@ class FamousMajorReviewSection extends Component {
           </Link>
         ))}
         <div className={classNames('buttons')}>
-          <Link to={{ pathname: '/dictionary', search: qs.stringify({ startTab: department.code }) }} className={classNames('text-button')}>
+          <Link to={{ pathname: '/dictionary', search: qs.stringify({ startTab: 'HUMANITY' }) }} className={classNames('text-button')}>
             {t('ui.button.seeMoreReviews')}
           </Link>
         </div>
@@ -37,10 +36,9 @@ class FamousMajorReviewSection extends Component {
   }
 }
 
-FamousMajorReviewSection.propTypes = {
-  department: departmentShape.isRequired,
+FamousHumanityReviewFeedSection.propTypes = {
   reviews: PropTypes.arrayOf(reviewShape).isRequired,
 };
 
 
-export default withTranslation()(FamousMajorReviewSection);
+export default withTranslation()(FamousHumanityReviewFeedSection);

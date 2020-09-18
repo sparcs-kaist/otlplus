@@ -15,21 +15,21 @@ const TimetableBlock = ({
   lecture, classtime,
   dayIndex, beginIndex, endIndex,
   cellWidth, cellHeight,
-  isTimetableReadonly, isClicked, isHover, isInactive, isTemp, isSimple,
+  isTimetableReadonly, isClicked, isHover, isDimmed, isTemp, isSimple,
   blockHover, blockOut, blockClick, deleteLecture,
   occupiedTime,
 }) => {
-  const activeType = (
+  const blockStateClassNames = (
     isClicked ? classNames('block--clicked')
-      : isTemp ? classNames('block--temp', 'block--active')
-        : isHover ? classNames('block--active')
-          : isInactive ? classNames('block--inactive')
+      : isTemp ? classNames('block--temp', 'block--focused')
+        : isHover ? classNames('block--focused')
+          : isDimmed ? classNames('block--dimmed')
             : ''
   );
 
   return (
     <div
-      className={classNames('block--timetable', `background-color--${(lecture.course % 16) + 1}`, activeType)}
+      className={classNames('block--timetable', `background-color--${(lecture.course % 16) + 1}`, blockStateClassNames)}
       style={{
         left: (cellWidth + 5) * dayIndex + 17,
         top: cellHeight * beginIndex + 19
@@ -91,7 +91,7 @@ TimetableBlock.propTypes = {
   isTimetableReadonly: PropTypes.bool.isRequired,
   isClicked: PropTypes.bool.isRequired,
   isHover: PropTypes.bool.isRequired,
-  isInactive: PropTypes.bool.isRequired,
+  isDimmed: PropTypes.bool.isRequired,
   isTemp: PropTypes.bool.isRequired,
   isSimple: PropTypes.bool.isRequired,
   blockHover: PropTypes.func,

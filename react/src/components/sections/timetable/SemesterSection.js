@@ -33,10 +33,10 @@ class SemesterSection extends Component {
   _initializeSemester = () => {
     const { startSemester, semesters, setSemesterDispatch } = this.props;
 
-    const currentSemester = (startSemester !== undefined)
+    const initialSemester = (startSemester !== undefined)
       ? startSemester
       : getTimetableSemester(semesters);
-    setSemesterDispatch(currentSemester.year, currentSemester.semester);
+    setSemesterDispatch(initialSemester.year, initialSemester.semester);
   }
 
   _isFirstSemester = (year, semester) => {

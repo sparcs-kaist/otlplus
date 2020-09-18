@@ -6,14 +6,14 @@ import axios from 'axios';
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
 
 import Footer from '../components/guideline/Footer';
-import MyTimetableSection from '../components/sections/main/MyTimetableSection';
+import TodaysTimetableSection from '../components/sections/main/TodaysTimetableSection';
 import AcademicScheduleSection from '../components/sections/main/AcademicScheduleSection';
 import VisitorSection from '../components/sections/main/VisitorSection';
-import RelatedCourseSection from '../components/sections/main/RelatedCourseSection';
-import LatestReviewSection from '../components/sections/main/LatestReviewSection';
-import FamousMajorReviewSection from '../components/sections/main/FamousMajorReviewSection';
-import FamousHumanityReviewSection from '../components/sections/main/FamousHumanityReviewSection';
-import ReviewWriteSection from '../components/sections/main/ReviewWriteSection';
+import RelatedCourseFeedSection from '../components/sections/main/RelatedCourseFeedSection';
+import LatestReviewFeedSection from '../components/sections/main/LatestReviewFeedSection';
+import FamousMajorReviewFeedSection from '../components/sections/main/FamousMajorReviewFeedSection';
+import FamousHumanityReviewFeedSection from '../components/sections/main/FamousHumanityReviewFeedSection';
+import ReviewWriteFeedSection from '../components/sections/main/ReviewWriteFeedSection';
 import MainSearchSection from '../components/sections/main/MainSearchSection';
 import userShape from '../shapes/UserShape';
 
@@ -110,10 +110,10 @@ class MainPage extends Component {
 
   _getDateDifference = (date) => {
     const copiedDate = new Date(date);
-    const currentDate = new Date();
+    const todayDate = new Date();
     copiedDate.setHours(0, 0, 0, 0);
-    currentDate.setHours(0, 0, 0, 0);
-    const timeDiff = currentDate - copiedDate;
+    todayDate.setHours(0, 0, 0, 0);
+    const timeDiff = todayDate - copiedDate;
     return timeDiff / (24 * 60 * 60 * 1000);
   }
 
@@ -148,7 +148,7 @@ class MainPage extends Component {
         <section className={classNames('content', 'content--main')}>
           <div className={classNames('section-wrap')}>
             <div className={classNames('section')}>
-              <MyTimetableSection />
+              <TodaysTimetableSection />
             </div>
           </div>
           <div className={classNames('section-wrap')}>
@@ -179,7 +179,7 @@ class MainPage extends Component {
                     return (
                       <div className={classNames('section-wrap')} key={`${d.date}-${f.type}-${f.lecture.id}`}>
                         <div className={classNames('section')}>
-                          <ReviewWriteSection lecture={f.lecture} review={user.reviews.find(r => (r.lecture.id === f.lecture.id))} />
+                          <ReviewWriteFeedSection lecture={f.lecture} review={user.reviews.find(r => (r.lecture.id === f.lecture.id))} />
                         </div>
                       </div>
                     );
@@ -188,7 +188,7 @@ class MainPage extends Component {
                     return (
                       <div className={classNames('section-wrap')} key={`${d.date}-${f.type}-${f.course.id}`}>
                         <div className={classNames('section')}>
-                          <RelatedCourseSection course={f.course} />
+                          <RelatedCourseFeedSection course={f.course} />
                         </div>
                       </div>
                     );
@@ -197,7 +197,7 @@ class MainPage extends Component {
                     return (
                       <div className={classNames('section-wrap')} key={`${d.date}-${f.type}`}>
                         <div className={classNames('section')}>
-                          <LatestReviewSection />
+                          <LatestReviewFeedSection />
                         </div>
                       </div>
                     );
@@ -206,7 +206,7 @@ class MainPage extends Component {
                     return (
                       <div className={classNames('section-wrap')} key={`${d.date}-${f.type}-${f.department.code}`}>
                         <div className={classNames('section')}>
-                          <FamousMajorReviewSection department={f.department} reviews={f.reviews} />
+                          <FamousMajorReviewFeedSection department={f.department} reviews={f.reviews} />
                         </div>
                       </div>
                     );
@@ -215,7 +215,7 @@ class MainPage extends Component {
                     return (
                       <div className={classNames('section-wrap')} key={`${d.date}-${f.type}`}>
                         <div className={classNames('section')}>
-                          <FamousHumanityReviewSection reviews={f.reviews} />
+                          <FamousHumanityReviewFeedSection reviews={f.reviews} />
                         </div>
                       </div>
                     );

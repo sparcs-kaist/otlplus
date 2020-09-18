@@ -1,21 +1,21 @@
 import i18n from 'i18next';
 
 
-export const isClicked = (course, courseActive) => (
-  courseActive.course
-  && courseActive.clicked === true
-  && courseActive.course.id === course.id
+export const isClicked = (course, courseFocus) => (
+  courseFocus.course
+  && courseFocus.clicked === true
+  && courseFocus.course.id === course.id
 );
 
-export const isHover = (course, courseActive) => (
-  courseActive.course
-  && courseActive.clicked === false
-  && courseActive.course.id === course.id
+export const isHover = (course, courseFocus) => (
+  courseFocus.course
+  && courseFocus.clicked === false
+  && courseFocus.course.id === course.id
 );
 
-export const isInactiveCourse = (course, courseActive) => (
-  courseActive.clicked === true
-  && (courseActive.course.id !== course.id)
+export const isDimmedCourse = (course, courseFocus) => (
+  courseFocus.clicked === true
+  && (courseFocus.course.id !== course.id)
 );
 
 export const getProfessorsStr = (course) => {

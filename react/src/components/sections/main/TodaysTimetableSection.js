@@ -7,7 +7,7 @@ import queryString from 'qs';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
-import CurrentTimetableBlock from '../../blocks/CurrentTimetableBlock';
+import HorizontalTimetableBlock from '../../blocks/HorizontalTimetableBlock';
 
 import userShape from '../../../shapes/UserShape';
 import semesterShape from '../../../shapes/SemesterShape';
@@ -15,7 +15,7 @@ import semesterShape from '../../../shapes/SemesterShape';
 import { getOngoingSemester } from '../../../common/semesterFunctions';
 
 
-class MyTimetableSection extends Component {
+class TodaysTimetableSection extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -62,13 +62,13 @@ class MyTimetableSection extends Component {
     const minutes = today.getMinutes();
 
     return (
-      <div className={classNames('section-content', 'section-content--widget', 'section-content--current-timetable')}>
+      <div className={classNames('section-content', 'section-content--feed', 'section-content--todays-timetable')}>
         <div
           style={{
             left: -((hours + (minutes / 60) - 8) * cellWidth * 2 + 2 - 2) + 58,
           }}
         >
-          <div className={classNames('section-content--current-timetable__table')}>
+          <div className={classNames('section-content--todays-timetable__table')}>
             <div>
               {
                 [...Array((24 - 8) * 2).keys()].map((i) => {
@@ -110,7 +110,7 @@ class MyTimetableSection extends Component {
               lecture.classtimes
                 .filter(ct => (ct.day === day - 1))
                 .map(ct => (
-                  <CurrentTimetableBlock
+                  <HorizontalTimetableBlock
                     key={`${lecture.id}:${ct.day}:${ct.begin}`}
                     lecture={lecture}
                     classtime={ct}
@@ -121,7 +121,7 @@ class MyTimetableSection extends Component {
             ))
           }
           <div
-            className={classNames('section-content--current-timetable__bar')}
+            className={classNames('section-content--todays-timetable__bar')}
             style={{
               top: 11 + 4 - 2,
               left: (hours + (minutes / 60) - 8) * cellWidth * 2 + 2 - 2,
@@ -149,10 +149,10 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
 });
 
-MyTimetableSection.propTypes = {
+TodaysTimetableSection.propTypes = {
   user: userShape,
   semesters: PropTypes.arrayOf(semesterShape),
 };
 
 
-export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(MyTimetableSection));
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(TodaysTimetableSection));

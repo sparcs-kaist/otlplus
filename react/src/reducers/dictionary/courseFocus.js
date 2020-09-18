@@ -1,4 +1,4 @@
-import { RESET, SET_COURSE_ACTIVE, CLEAR_COURSE_ACTIVE, SET_REVIEWS, UPDATE_REVIEW, SET_LECTURES } from '../../actions/dictionary/courseActive';
+import { RESET, SET_COURSE_FOCUS, CLEAR_COURSE_FOCUS, SET_REVIEWS, UPDATE_REVIEW, SET_LECTURES } from '../../actions/dictionary/courseFocus';
 
 const initialState = {
   clicked: false,
@@ -7,12 +7,12 @@ const initialState = {
   lectures: null,
 };
 
-const courseActive = (state = initialState, action) => {
+const courseFocus = (state = initialState, action) => {
   switch (action.type) {
     case RESET: {
       return initialState;
     }
-    case SET_COURSE_ACTIVE: {
+    case SET_COURSE_FOCUS: {
       const courseChanged = !state.course || (state.course.id !== action.course.id);
       return Object.assign({}, state, {
         clicked: action.clicked,
@@ -23,7 +23,7 @@ const courseActive = (state = initialState, action) => {
         : {}
       ));
     }
-    case CLEAR_COURSE_ACTIVE: {
+    case CLEAR_COURSE_FOCUS: {
       return Object.assign({}, state, {
         clicked: false,
         course: null,
@@ -70,4 +70,4 @@ const courseActive = (state = initialState, action) => {
   }
 };
 
-export default courseActive;
+export default courseFocus;

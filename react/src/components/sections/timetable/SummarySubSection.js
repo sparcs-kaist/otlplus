@@ -6,9 +6,9 @@ import { withTranslation } from 'react-i18next';
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 import { getAverageScoreLabel } from '../../../common/scoreFunctions';
 
-import { clearMultipleDetail, setMultipleDetail } from '../../../actions/timetable/lectureActive';
+import { clearMultipleDetail, setMultipleDetail } from '../../../actions/timetable/lectureFocus';
 
-import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureActive';
+import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureFocus';
 
 import lectureShape from '../../../shapes/LectureShape';
 import timetableShape from '../../../shapes/TimetableShape';
@@ -31,19 +31,19 @@ class SummarySubSection extends Component {
     super(props);
 
     this.state = {
-      active: '',
+      multipleFocusCode: '',
     };
   }
 
   typeFocus(type) {
     const { t } = this.props;
-    const { lectureActiveFrom, currentTimetable, setMultipleDetailDispatch } = this.props;
+    const { lectureFocusFrom, selectedTimetable, setMultipleDetailDispatch } = this.props;
 
-    if (lectureActiveFrom !== 'NONE' || !currentTimetable) {
+    if (lectureFocusFrom !== 'NONE' || !selectedTimetable) {
       return;
     }
 
-    const lectures = currentTimetable.lectures
+    const lectures = selectedTimetable.lectures
       .filter(l => (indexOfType(l.type_en) === indexOfType(type)))
       .map(l => ({
         id: l.id,
@@ -51,20 +51,20 @@ class SummarySubSection extends Component {
         info: (l.credit > 0) ? t('ui.others.creditCount', { count: l.credit }) : t('ui.others.auCount', { count: l.credit_au }),
       }));
     setMultipleDetailDispatch(type, lectures);
-    this.setState({ active: type });
+    this.setState({ multipleFocusCode: type });
   }
 
   creditFocus(type) {
     const { t } = this.props;
-    const { lectureActiveFrom, currentTimetable, setMultipleDetailDispatch } = this.props;
+    const { lectureFocusFrom, selectedTimetable, setMultipleDetailDispatch } = this.props;
 
-    if (lectureActiveFrom !== 'NONE' || !currentTimetable) {
+    if (lectureFocusFrom !== 'NONE' || !selectedTimetable) {
       return;
     }
 
     const lectures = (type === 'Credit')
       ? (
-        currentTimetable.lectures
+        selectedTimetable.lectures
           .filter(l => (l.credit > 0))
           .map(l => ({
             id: l.id,
@@ -75,7 +75,7 @@ class SummarySubSection extends Component {
       : (
         (type === 'Credit AU')
           ? (
-            currentTimetable.lectures
+            selectedTimetable.lectures
               .filter(l => (l.credit_au > 0))
               .map(l => ({
                 id: l.id,
@@ -86,18 +86,18 @@ class SummarySubSection extends Component {
           : []
       );
     setMultipleDetailDispatch(type, lectures);
-    this.setState({ active: type });
+    this.setState({ multipleFocusCode: type });
   }
 
   scoreFocus(type) {
     const { t } = this.props;
-    const { lectureActiveFrom, currentTimetable, setMultipleDetailDispatch } = this.props;
+    const { lectureFocusFrom, selectedTimetable, setMultipleDetailDispatch } = this.props;
 
-    if (lectureActiveFrom !== 'NONE' || !currentTimetable) {
+    if (lectureFocusFrom !== 'NONE' || !selectedTimetable) {
       return;
     }
 
-    const lectures = currentTimetable.lectures.map(l => ({
+    const lectures = selectedTimetable.lectures.map(l => ({
       id: l.id,
       title: l[t('js.property.title')],
       info: (type === 'Grade')
@@ -113,67 +113,67 @@ class SummarySubSection extends Component {
         ),
     }));
     setMultipleDetailDispatch(type, lectures);
-    this.setState({ active: type });
+    this.setState({ multipleFocusCode: type });
   }
 
 
   clearFocus() {
-    const { lectureActiveFrom, clearMultipleDetailDispatch } = this.props;
+    const { lectureFocusFrom, clearMultipleDetailDispatch } = this.props;
 
-    if (lectureActiveFrom !== 'MULTIPLE') {
+    if (lectureFocusFrom !== 'MULTIPLE') {
       return;
     }
 
     clearMultipleDetailDispatch();
-    this.setState({ active: '' });
+    this.setState({ multipleFocusCode: '' });
   }
 
   render() {
     const { t } = this.props;
-    const { active } = this.state;
-    const { currentTimetable, lectureActiveLecture, lectureActiveFrom } = this.props;
+    const { multipleFocusCode } = this.state;
+    const { selectedTimetable, lectureFocusLecture, lectureFocusFrom } = this.props;
 
-    const timetableLectures = currentTimetable
-      ? currentTimetable.lectures
+    const timetableLectures = selectedTimetable
+      ? selectedTimetable.lectures
       : [];
-    const alec = lectureActiveLecture;
+    const alec = lectureFocusLecture;
 
-    const isLectureActiveFromType = (laf, lal, typeIndex) => (
-      (laf === LIST || lectureActiveFrom === TABLE)
+    const isLectureFocusFromType = (laf, lal, typeIndex) => (
+      (laf === LIST || lectureFocusFrom === TABLE)
       && (indexOfType(lal.type_en) === typeIndex)
     );
 
-    const currentTypeCredit = [0, 1, 2, 3, 4, 5].map((i) => {
+    const timetableTypeCredit = [0, 1, 2, 3, 4, 5].map((i) => {
       const lecturesWithType = timetableLectures.filter(l => (indexOfType(l.type_en) === i));
       return sum(lecturesWithType, l => (l.credit + l.credit_au));
     });
-    const activeTypeCredit = [0, 1, 2, 3, 4, 5].map(i => (
-      !isLectureActiveFromType(lectureActiveFrom, lectureActiveLecture, i)
+    const singleFocusedTypeCreditStr = [0, 1, 2, 3, 4, 5].map(i => (
+      !isLectureFocusFromType(lectureFocusFrom, lectureFocusLecture, i)
         ? ''
-        : inTimetable(lectureActiveLecture, currentTimetable)
-          ? `(${lectureActiveLecture.credit + lectureActiveLecture.credit_au})`
-          : `+${lectureActiveLecture.credit + lectureActiveLecture.credit_au}`
+        : inTimetable(lectureFocusLecture, selectedTimetable)
+          ? `(${lectureFocusLecture.credit + lectureFocusLecture.credit_au})`
+          : `+${lectureFocusLecture.credit + lectureFocusLecture.credit_au}`
     ));
-    const totalTypeCredit = [0, 1, 2, 3, 4, 5].map(i => (
-      !isLectureActiveFromType(lectureActiveFrom, lectureActiveLecture, i)
-        ? currentTypeCredit[i]
-        : inTimetable(lectureActiveLecture, currentTimetable)
-          ? currentTypeCredit[i]
-          : currentTypeCredit[i] + lectureActiveLecture.credit + lectureActiveLecture.credit_au
+    const overallTypeCredit = [0, 1, 2, 3, 4, 5].map(i => (
+      !isLectureFocusFromType(lectureFocusFrom, lectureFocusLecture, i)
+        ? timetableTypeCredit[i]
+        : inTimetable(lectureFocusLecture, selectedTimetable)
+          ? timetableTypeCredit[i]
+          : timetableTypeCredit[i] + lectureFocusLecture.credit + lectureFocusLecture.credit_au
     ));
 
-    const totalCredit = sum(timetableLectures, l => l.credit)
-      + (alec && !inTimetable(alec, currentTimetable) ? alec.credit : 0);
-    const totalAu = sum(timetableLectures, l => l.credit_au)
-      + (alec && !inTimetable(alec, currentTimetable) ? alec.credit_au : 0);
-    const isCreditActive = (lectureActiveLecture !== null) && (lectureActiveLecture.credit > 0);
-    const isAuActive = (lectureActiveLecture !== null) && (lectureActiveLecture.credit_au > 0);
+    const overallCredit = sum(timetableLectures, l => l.credit)
+      + (alec && !inTimetable(alec, selectedTimetable) ? alec.credit : 0);
+    const overallAu = sum(timetableLectures, l => l.credit_au)
+      + (alec && !inTimetable(alec, selectedTimetable) ? alec.credit_au : 0);
+    const isCreditSingleFocused = (lectureFocusLecture !== null) && (lectureFocusLecture.credit > 0);
+    const isAuSingleFocused = (lectureFocusLecture !== null) && (lectureFocusLecture.credit_au > 0);
 
     const timetableLecturesWithReview = timetableLectures.filter(l => (l.review_num > 0));
     const targetNum = sum(timetableLecturesWithReview, l => (l.credit + l.credit_au));
-    const grade = sum(timetableLecturesWithReview, l => (l.grade * (l.credit + l.credit_au)));
-    const load = sum(timetableLecturesWithReview, l => (l.load * (l.credit + l.credit_au)));
-    const speech = sum(timetableLecturesWithReview, l => (l.speech * (l.credit + l.credit_au)));
+    const timetableGrade = sum(timetableLecturesWithReview, l => (l.grade * (l.credit + l.credit_au)));
+    const timetableLoad = sum(timetableLecturesWithReview, l => (l.load * (l.credit + l.credit_au)));
+    const timetableSpeech = sum(timetableLecturesWithReview, l => (l.speech * (l.credit + l.credit_au)));
 
     return (
       <div className={classNames('section-content--summary')}>
@@ -182,25 +182,25 @@ class SummarySubSection extends Component {
             <div className={classNames('attribute')} onMouseOver={() => this.typeFocus('Basic Required')} onMouseOut={() => this.clearFocus()}>
               <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.type.basicRequiredShort')}</span>
               <div>
-                <span className={classNames('mobile-hidden', (active === 'Basic Required' ? 'active' : ''))}>{currentTypeCredit[0]}</span>
-                <span className={classNames('mobile-hidden', 'active')}>{activeTypeCredit[0]}</span>
-                <span className={classNames('mobile-unhidden', ((active === 'Basic Required') || isLectureActiveFromType(lectureActiveFrom, lectureActiveLecture, 0) ? 'active' : ''))}>{totalTypeCredit[0]}</span>
+                <span className={classNames('mobile-hidden', (multipleFocusCode === 'Basic Required' ? 'focused' : ''))}>{timetableTypeCredit[0]}</span>
+                <span className={classNames('mobile-hidden', 'focused')}>{singleFocusedTypeCreditStr[0]}</span>
+                <span className={classNames('mobile-unhidden', ((multipleFocusCode === 'Basic Required') || isLectureFocusFromType(lectureFocusFrom, lectureFocusLecture, 0) ? 'focused' : ''))}>{overallTypeCredit[0]}</span>
               </div>
             </div>
             <div className={classNames('attribute')} onMouseOver={() => this.typeFocus('Major Required')} onMouseOut={() => this.clearFocus()}>
               <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.type.majorRequiredShort')}</span>
               <div>
-                <span className={classNames('mobile-hidden', (active === 'Major Required' ? 'active' : ''))}>{currentTypeCredit[2]}</span>
-                <span className={classNames('mobile-hidden', 'active')}>{activeTypeCredit[2]}</span>
-                <span className={classNames('mobile-unhidden', ((active === 'Major Required') || isLectureActiveFromType(lectureActiveFrom, lectureActiveLecture, 2) ? 'active' : ''))}>{totalTypeCredit[2]}</span>
+                <span className={classNames('mobile-hidden', (multipleFocusCode === 'Major Required' ? 'focused' : ''))}>{timetableTypeCredit[2]}</span>
+                <span className={classNames('mobile-hidden', 'focused')}>{singleFocusedTypeCreditStr[2]}</span>
+                <span className={classNames('mobile-unhidden', ((multipleFocusCode === 'Major Required') || isLectureFocusFromType(lectureFocusFrom, lectureFocusLecture, 2) ? 'focused' : ''))}>{overallTypeCredit[2]}</span>
               </div>
             </div>
             <div className={classNames('attribute')} onMouseOver={() => this.typeFocus('Humanities & Social Elective')} onMouseOut={() => this.clearFocus()}>
               <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.type.humanitiesSocialElectiveShort')}</span>
               <div>
-                <span className={classNames('mobile-hidden', (active === 'Humanities & Social Elective' ? 'active' : ''))}>{currentTypeCredit[4]}</span>
-                <span className={classNames('mobile-hidden', 'active')}>{activeTypeCredit[4]}</span>
-                <span className={classNames('mobile-unhidden', ((active === 'Humanities & Social Elective') || isLectureActiveFromType(lectureActiveFrom, lectureActiveLecture, 4) ? 'active' : ''))}>{totalTypeCredit[4]}</span>
+                <span className={classNames('mobile-hidden', (multipleFocusCode === 'Humanities & Social Elective' ? 'focused' : ''))}>{timetableTypeCredit[4]}</span>
+                <span className={classNames('mobile-hidden', 'focused')}>{singleFocusedTypeCreditStr[4]}</span>
+                <span className={classNames('mobile-unhidden', ((multipleFocusCode === 'Humanities & Social Elective') || isLectureFocusFromType(lectureFocusFrom, lectureFocusLecture, 4) ? 'focused' : ''))}>{overallTypeCredit[4]}</span>
               </div>
             </div>
           </div>
@@ -208,25 +208,25 @@ class SummarySubSection extends Component {
             <div className={classNames('attribute')} onMouseOver={() => this.typeFocus('Basic Elective')} onMouseOut={() => this.clearFocus()}>
               <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.type.basicElectiveShort')}</span>
               <div>
-                <span className={classNames('mobile-hidden', (active === 'Basic Elective' ? 'active' : ''))}>{currentTypeCredit[1]}</span>
-                <span className={classNames('mobile-hidden', 'active')}>{activeTypeCredit[1]}</span>
-                <span className={classNames('mobile-unhidden', ((active === 'Basic Elective') || isLectureActiveFromType(lectureActiveFrom, lectureActiveLecture, 1) ? 'active' : ''))}>{totalTypeCredit[1]}</span>
+                <span className={classNames('mobile-hidden', (multipleFocusCode === 'Basic Elective' ? 'focused' : ''))}>{timetableTypeCredit[1]}</span>
+                <span className={classNames('mobile-hidden', 'focused')}>{singleFocusedTypeCreditStr[1]}</span>
+                <span className={classNames('mobile-unhidden', ((multipleFocusCode === 'Basic Elective') || isLectureFocusFromType(lectureFocusFrom, lectureFocusLecture, 1) ? 'focused' : ''))}>{overallTypeCredit[1]}</span>
               </div>
             </div>
             <div className={classNames('attribute')} onMouseOver={() => this.typeFocus('Major Elective')} onMouseOut={() => this.clearFocus()}>
               <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.type.majorElectiveShort')}</span>
               <div>
-                <span className={classNames('mobile-hidden', (active === 'Major Elective' ? 'active' : ''))}>{currentTypeCredit[3]}</span>
-                <span className={classNames('mobile-hidden', 'active')}>{activeTypeCredit[3]}</span>
-                <span className={classNames('mobile-unhidden', ((active === 'Major Elective') || isLectureActiveFromType(lectureActiveFrom, lectureActiveLecture, 3) ? 'active' : ''))}>{totalTypeCredit[3]}</span>
+                <span className={classNames('mobile-hidden', (multipleFocusCode === 'Major Elective' ? 'focused' : ''))}>{timetableTypeCredit[3]}</span>
+                <span className={classNames('mobile-hidden', 'focused')}>{singleFocusedTypeCreditStr[3]}</span>
+                <span className={classNames('mobile-unhidden', ((multipleFocusCode === 'Major Elective') || isLectureFocusFromType(lectureFocusFrom, lectureFocusLecture, 3) ? 'focused' : ''))}>{overallTypeCredit[3]}</span>
               </div>
             </div>
             <div className={classNames('attribute')} onMouseOver={() => this.typeFocus('Etc')} onMouseOut={() => this.clearFocus()}>
               <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.type.etcShort')}</span>
               <div>
-                <span className={classNames('mobile-hidden', (active === 'Etc' ? 'active' : ''))}>{currentTypeCredit[5]}</span>
-                <span className={classNames('mobile-hidden', 'active')}>{activeTypeCredit[5]}</span>
-                <span className={classNames('mobile-unhidden', ((active === 'Etc') || isLectureActiveFromType(lectureActiveFrom, lectureActiveLecture, 5) ? 'active' : ''))}>{totalTypeCredit[5]}</span>
+                <span className={classNames('mobile-hidden', (multipleFocusCode === 'Etc' ? 'focused' : ''))}>{timetableTypeCredit[5]}</span>
+                <span className={classNames('mobile-hidden', 'focused')}>{singleFocusedTypeCreditStr[5]}</span>
+                <span className={classNames('mobile-unhidden', ((multipleFocusCode === 'Etc') || isLectureFocusFromType(lectureFocusFrom, lectureFocusLecture, 5) ? 'focused' : ''))}>{overallTypeCredit[5]}</span>
               </div>
             </div>
           </div>
@@ -234,28 +234,28 @@ class SummarySubSection extends Component {
         <div className={classNames('scores')}>
           <div onMouseOver={() => this.creditFocus('Credit')} onMouseOut={() => this.clearFocus()}>
             <div>
-              <span className={classNames('normal', (isCreditActive ? 'active' : active === 'Credit' ? 'active' : ''))}>{totalCredit}</span>
+              <span className={classNames('normal', (isCreditSingleFocused ? 'focused' : multipleFocusCode === 'Credit' ? 'focused' : ''))}>{overallCredit}</span>
             </div>
             <div>{t('ui.score.credit')}</div>
           </div>
           <div onMouseOver={() => this.creditFocus('Credit AU')} onMouseOut={() => this.clearFocus()}>
             <div>
-              <span className={classNames('normal', (isAuActive ? 'active' : active === 'Credit AU' ? 'active' : ''))}>{totalAu}</span>
+              <span className={classNames('normal', (isAuSingleFocused ? 'focused' : multipleFocusCode === 'Credit AU' ? 'focused' : ''))}>{overallAu}</span>
             </div>
             <div>{t('ui.score.au')}</div>
           </div>
         </div>
         <div className={classNames('scores')}>
           <div onMouseOver={() => this.scoreFocus('Grade')} onMouseOut={() => this.clearFocus()}>
-            <div className={classNames((active === 'Grade' ? 'active' : ''))}>{(targetNum !== 0) ? getAverageScoreLabel(grade / targetNum) : '?'}</div>
+            <div className={classNames((multipleFocusCode === 'Grade' ? 'focused' : ''))}>{(targetNum !== 0) ? getAverageScoreLabel(timetableGrade / targetNum) : '?'}</div>
             <div>{t('ui.score.grade')}</div>
           </div>
           <div onMouseOver={() => this.scoreFocus('Load')} onMouseOut={() => this.clearFocus()}>
-            <div className={classNames((active === 'Load' ? 'active' : ''))}>{(targetNum !== 0) ? getAverageScoreLabel(load / targetNum) : '?'}</div>
+            <div className={classNames((multipleFocusCode === 'Load' ? 'focused' : ''))}>{(targetNum !== 0) ? getAverageScoreLabel(timetableLoad / targetNum) : '?'}</div>
             <div>{t('ui.score.load')}</div>
           </div>
           <div onMouseOver={() => this.scoreFocus('Speech')} onMouseOut={() => this.clearFocus()}>
-            <div className={classNames((active === 'Speech' ? 'active' : ''))}>{(targetNum !== 0) ? getAverageScoreLabel(speech / targetNum) : '?'}</div>
+            <div className={classNames((multipleFocusCode === 'Speech' ? 'focused' : ''))}>{(targetNum !== 0) ? getAverageScoreLabel(timetableSpeech / targetNum) : '?'}</div>
             <div>{t('ui.score.speech')}</div>
           </div>
         </div>
@@ -265,9 +265,9 @@ class SummarySubSection extends Component {
 }
 
 const mapStateToProps = state => ({
-  currentTimetable: state.timetable.timetable.currentTimetable,
-  lectureActiveLecture: state.timetable.lectureActive.lecture,
-  lectureActiveFrom: state.timetable.lectureActive.from,
+  selectedTimetable: state.timetable.timetable.selectedTimetable,
+  lectureFocusLecture: state.timetable.lectureFocus.lecture,
+  lectureFocusFrom: state.timetable.lectureFocus.from,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -280,9 +280,9 @@ const mapDispatchToProps = dispatch => ({
 });
 
 SummarySubSection.propTypes = {
-  currentTimetable: timetableShape,
-  lectureActiveLecture: lectureShape,
-  lectureActiveFrom: PropTypes.oneOf([NONE, LIST, TABLE, MULTIPLE]).isRequired,
+  selectedTimetable: timetableShape,
+  lectureFocusLecture: lectureShape,
+  lectureFocusFrom: PropTypes.oneOf([NONE, LIST, TABLE, MULTIPLE]).isRequired,
 
   setMultipleDetailDispatch: PropTypes.func.isRequired,
   clearMultipleDetailDispatch: PropTypes.func.isRequired,

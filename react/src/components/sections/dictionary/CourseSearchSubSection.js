@@ -12,7 +12,7 @@ import Scroller from '../../Scroller';
 
 import { closeSearch } from '../../../actions/dictionary/search';
 import { setListCourses, clearSearchListCourses } from '../../../actions/dictionary/list';
-import { clearCourseActive } from '../../../actions/dictionary/courseActive';
+import { clearCourseFocus } from '../../../actions/dictionary/courseFocus';
 
 import { typeOptions, departmentOptions, levelOptions, termOptions } from '../../../common/seachOptions';
 
@@ -40,7 +40,7 @@ class CourseSearchSubSection extends Component {
     const { t } = this.props;
     const { type, department, grade, term, inputVal } = this.state;
     const { closeSearchDispatch, clearSearchListCoursesDispatch,
-      setListCoursesDispatch, clearCourseActiveDispatch } = this.props;
+      setListCoursesDispatch, clearCourseFocusDispatch } = this.props;
 
     if (
       (type.size === 1 && type.has('ALL'))
@@ -54,7 +54,7 @@ class CourseSearchSubSection extends Component {
     }
     closeSearchDispatch();
     clearSearchListCoursesDispatch();
-    clearCourseActiveDispatch();
+    clearCourseFocusDispatch();
 
     axios.get(
       '/api/courses',
@@ -235,8 +235,8 @@ const mapDispatchToProps = dispatch => ({
   clearSearchListCoursesDispatch: () => {
     dispatch(clearSearchListCourses());
   },
-  clearCourseActiveDispatch: () => {
-    dispatch(clearCourseActive());
+  clearCourseFocusDispatch: () => {
+    dispatch(clearCourseFocus());
   },
 });
 
@@ -244,7 +244,7 @@ CourseSearchSubSection.propTypes = {
   closeSearchDispatch: PropTypes.func.isRequired,
   setListCoursesDispatch: PropTypes.func.isRequired,
   clearSearchListCoursesDispatch: PropTypes.func.isRequired,
-  clearCourseActiveDispatch: PropTypes.func.isRequired,
+  clearCourseFocusDispatch: PropTypes.func.isRequired,
 };
 
 

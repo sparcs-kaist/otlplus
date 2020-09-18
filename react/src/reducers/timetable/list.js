@@ -1,10 +1,10 @@
-import { RESET, SET_CURRENT_LIST, ADD_LECTURE_TO_CART, DELETE_LECTURE_FROM_CART, SET_LIST_MAJOR_CODES, SET_LIST_LECTURES, SET_LIST_MAJOR_LECTURES, CLEAR_LISTS_LECTURES, CLEAR_SEARCH_LIST_LECTURES, SET_MOBILE_SHOW_LECTURE_LIST } from '../../actions/timetable/list';
+import { RESET, SET_SELECTED_LIST_CODE, ADD_LECTURE_TO_CART, DELETE_LECTURE_FROM_CART, SET_LIST_MAJOR_CODES, SET_LIST_LECTURES, SET_LIST_MAJOR_LECTURES, CLEAR_LISTS_LECTURES, CLEAR_SEARCH_LIST_LECTURES, SET_MOBILE_SHOW_LECTURE_LIST } from '../../actions/timetable/list';
 
 import { unique } from '../../common/utilFunctions';
 
 
 const initialState = {
-  currentList: 'SEARCH',
+  selectedListCode: 'SEARCH',
   search: {
     lectureGroups: [],
   },
@@ -44,9 +44,9 @@ const list = (state = initialState, action) => {
     case RESET: {
       return initialState;
     }
-    case SET_CURRENT_LIST: {
+    case SET_SELECTED_LIST_CODE: {
       return Object.assign({}, state, {
-        currentList: action.list,
+        selectedListCode: action.listCode,
       });
     }
     case SET_LIST_MAJOR_CODES: {

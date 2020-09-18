@@ -10,13 +10,13 @@ import CourseBlock from '../../blocks/CourseBlock';
 import courseShape from '../../../shapes/CourseShape';
 
 
-class RelatedCourseSection extends Component {
+class RelatedCourseFeedSection extends Component {
   render() {
     const { t } = this.props;
     const { course } = this.props;
 
     return (
-      <div className={classNames('section-content', 'section-content--widget')}>
+      <div className={classNames('section-content', 'section-content--feed')}>
         <div className={classNames('title')}>
           {`${t('ui.title.relatedCourses')} - ${course[t('js.property.title')]}`}
         </div>
@@ -38,9 +38,9 @@ class RelatedCourseSection extends Component {
   }
 }
 
-RelatedCourseSection.propTypes = {
+RelatedCourseFeedSection.propTypes = {
   course: courseShape.isRequired,
 };
 
 
-export default withTranslation()(RelatedCourseSection);
+export default withTranslation()(RelatedCourseFeedSection);

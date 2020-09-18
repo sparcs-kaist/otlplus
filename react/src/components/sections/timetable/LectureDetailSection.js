@@ -13,11 +13,11 @@ import { getAverageScoreLabel } from '../../../common/scoreFunctions';
 import Scroller from '../../Scroller';
 import ReviewSimpleBlock from '../../blocks/ReviewSimpleBlock';
 
-import { clearLectureActive } from '../../../actions/timetable/lectureActive';
+import { clearLectureFocus } from '../../../actions/timetable/lectureFocus';
 import { addLectureToCart, deleteLectureFromCart } from '../../../actions/timetable/list';
 import { addLectureToTimetable, removeLectureFromTimetable } from '../../../actions/timetable/timetable';
 
-import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureActive';
+import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureFocus';
 
 import userShape from '../../../shapes/UserShape';
 import lectureShape from '../../../shapes/LectureShape';
@@ -59,8 +59,8 @@ class LectureDetailSection extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    const { clicked, lecture, from, currentList, currentTimetable,
-      year, semester, clearLectureActiveDispatch } = this.props;
+    const { clicked, lecture, from, selectedListCode, selectedTimetable,
+      year, semester, clearLectureFocusDispatch } = this.props;
     if (prevProps.clicked && clicked) {
       if (prevProps.lecture.id !== lecture.id) {
         this.openDictPreview();
@@ -75,14 +75,14 @@ class LectureDetailSection extends Component {
       this.openDictPreview();
     }
 
-    if ((from === LIST) && (prevProps.currentList !== currentList)) {
-      clearLectureActiveDispatch();
+    if ((from === LIST) && (prevProps.selectedListCode !== selectedListCode)) {
+      clearLectureFocusDispatch();
     }
-    else if ((from === TABLE) && (prevProps.currentTimetable.id !== currentTimetable.id)) {
-      clearLectureActiveDispatch();
+    else if ((from === TABLE) && (prevProps.selectedTimetable.id !== selectedTimetable.id)) {
+      clearLectureFocusDispatch();
     }
     else if ((prevProps.year !== year) || (prevProps.semester !== semester)) {
-      clearLectureActiveDispatch();
+      clearLectureFocusDispatch();
     }
   }
 
@@ -122,16 +122,16 @@ class LectureDetailSection extends Component {
   };
 
   unfix = () => {
-    const { clearLectureActiveDispatch } = this.props;
-    clearLectureActiveDispatch();
+    const { clearLectureFocusDispatch } = this.props;
+    clearLectureFocusDispatch();
   };
 
   addToTable = (event) => {
-    const { lecture, currentTimetable, user, from, currentList,
+    const { lecture, selectedTimetable, user, from, selectedListCode,
       addLectureToTimetableDispatch } = this.props;
 
     event.stopPropagation();
-    performAddToTable(this, lecture, currentTimetable, user, addLectureToTimetableDispatch);
+    performAddToTable(this, lecture, selectedTimetable, user, addLectureToTimetableDispatch);
 
     const labelOfTabs = new Map([
       ['SEARCH', 'Search'],
@@ -141,7 +141,7 @@ class LectureDetailSection extends Component {
     const fromString = (from === TABLE)
       ? 'Timetable'
       : (from === LIST)
-        ? `Lecture List : ${labelOfTabs.get(currentList) || currentList}`
+        ? `Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`
         : 'Unknown';
     ReactGA.event({
       category: 'Timetable - Lecture',
@@ -151,11 +151,11 @@ class LectureDetailSection extends Component {
   }
 
   deleteFromTable = (event) => {
-    const { lecture, currentTimetable, user, from, currentList,
+    const { lecture, selectedTimetable, user, from, selectedListCode,
       removeLectureFromTimetableDispatch } = this.props;
 
     event.stopPropagation();
-    performDeleteFromTable(this, lecture, currentTimetable, user, removeLectureFromTimetableDispatch);
+    performDeleteFromTable(this, lecture, selectedTimetable, user, removeLectureFromTimetableDispatch);
 
     const labelOfTabs = new Map([
       ['SEARCH', 'Search'],
@@ -165,7 +165,7 @@ class LectureDetailSection extends Component {
     const fromString = (from === TABLE)
       ? 'Timetable'
       : (from === LIST)
-        ? `Lecture List : ${labelOfTabs.get(currentList) || currentList}`
+        ? `Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`
         : 'Unknown';
     ReactGA.event({
       category: 'Timetable - Lecture',
@@ -175,7 +175,7 @@ class LectureDetailSection extends Component {
   }
 
   addToCart = (event) => {
-    const { lecture, year, semester, user, from, currentList,
+    const { lecture, year, semester, user, from, selectedListCode,
       addLectureToCartDispatch } = this.props;
 
     event.stopPropagation();
@@ -189,7 +189,7 @@ class LectureDetailSection extends Component {
     const fromString = (from === TABLE)
       ? 'Timetable'
       : (from === LIST)
-        ? `Lecture List : ${labelOfTabs.get(currentList) || currentList}`
+        ? `Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`
         : 'Unknown';
     ReactGA.event({
       category: 'Timetable - Lecture',
@@ -199,7 +199,7 @@ class LectureDetailSection extends Component {
   }
 
   deleteFromCart = (event) => {
-    const { lecture, year, semester, user, from, currentList,
+    const { lecture, year, semester, user, from, selectedListCode,
       deleteLectureFromCartDispatch } = this.props;
 
     event.stopPropagation();
@@ -213,7 +213,7 @@ class LectureDetailSection extends Component {
     const fromString = (from === TABLE)
       ? 'Timetable'
       : (from === LIST)
-        ? `Lecture List : ${labelOfTabs.get(currentList) || currentList}`
+        ? `Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`
         : 'Unknown';
     ReactGA.event({
       category: 'Timetable - Lecture',
@@ -238,7 +238,7 @@ class LectureDetailSection extends Component {
   render() {
     const { t } = this.props;
     const { showUnfix, showCloseDict } = this.state;
-    const { from, lecture, title, multipleDetail, currentTimetable, cart } = this.props;
+    const { from, lecture, title, multipleDetail, selectedTimetable, cart } = this.props;
 
     if (from === LIST || from === TABLE) {
       const { reviews } = this.state;
@@ -374,8 +374,8 @@ class LectureDetailSection extends Component {
                   </button>
                 )
             }
-            {currentTimetable && !currentTimetable.isReadOnly
-              ? (!inTimetable(lecture, currentTimetable)
+            {selectedTimetable && !selectedTimetable.isReadOnly
+              ? (!inTimetable(lecture, selectedTimetable)
                 ? (
                   <button className={classNames('text-button', 'text-button--black')} onClick={this.addToTable}>
                     <i className={classNames('icon', 'icon--add-lecture')} />
@@ -389,7 +389,7 @@ class LectureDetailSection extends Component {
                   </button>
                 )
               )
-              : (!inTimetable(lecture, currentTimetable)
+              : (!inTimetable(lecture, selectedTimetable)
                 ? (
                   <button className={classNames('text-button', 'text-button--black', 'text-button--disabled')}>
                     <i className={classNames('icon', 'icon--add-lecture')} />
@@ -465,21 +465,21 @@ class LectureDetailSection extends Component {
 
 const mapStateToProps = state => ({
   user: state.common.user.user,
-  from: state.timetable.lectureActive.from,
-  lecture: state.timetable.lectureActive.lecture,
-  title: state.timetable.lectureActive.title,
-  multipleDetail: state.timetable.lectureActive.multipleDetail,
-  clicked: state.timetable.lectureActive.clicked,
-  currentList: state.timetable.list.currentList,
-  currentTimetable: state.timetable.timetable.currentTimetable,
+  from: state.timetable.lectureFocus.from,
+  lecture: state.timetable.lectureFocus.lecture,
+  title: state.timetable.lectureFocus.title,
+  multipleDetail: state.timetable.lectureFocus.multipleDetail,
+  clicked: state.timetable.lectureFocus.clicked,
+  selectedListCode: state.timetable.list.selectedListCode,
+  selectedTimetable: state.timetable.timetable.selectedTimetable,
   cart: state.timetable.list.cart,
   year: state.timetable.semester.year,
   semester: state.timetable.semester.semester,
 });
 
 const mapDispatchToProps = dispatch => ({
-  clearLectureActiveDispatch: () => {
-    dispatch(clearLectureActive());
+  clearLectureFocusDispatch: () => {
+    dispatch(clearLectureFocus());
   },
   addLectureToTimetableDispatch: (lecture) => {
     dispatch(addLectureToTimetable(lecture));
@@ -508,15 +508,15 @@ LectureDetailSection.propTypes = {
     }),
   ),
   clicked: PropTypes.bool.isRequired,
-  currentList: PropTypes.string.isRequired,
-  currentTimetable: timetableShape,
+  selectedListCode: PropTypes.string.isRequired,
+  selectedTimetable: timetableShape,
   cart: PropTypes.shape({
     lectureGroups: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)),
   }).isRequired,
   year: PropTypes.number,
   semester: PropTypes.number,
 
-  clearLectureActiveDispatch: PropTypes.func.isRequired,
+  clearLectureFocusDispatch: PropTypes.func.isRequired,
   addLectureToTimetableDispatch: PropTypes.func.isRequired,
   removeLectureFromTimetableDispatch: PropTypes.func.isRequired,
   addLectureToCartDispatch: PropTypes.func.isRequired,

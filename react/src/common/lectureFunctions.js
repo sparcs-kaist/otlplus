@@ -1,7 +1,7 @@
 import axios from 'axios';
 import i18n from 'i18next';
 
-import { LIST, TABLE, MULTIPLE } from '../reducers/timetable/lectureActive';
+import { LIST, TABLE, MULTIPLE } from '../reducers/timetable/lectureFocus';
 
 
 export const inTimetable = (lecture, timetable) => (
@@ -18,48 +18,48 @@ export const inCart = (lecture, cart) => (
   ))
 );
 
-export const isListClicked = (lecture, lectureActive) => (
-  lectureActive.from === LIST
-  && lectureActive.clicked === true
-  && lectureActive.lecture.id === lecture.id
+export const isListClicked = (lecture, lectureFocus) => (
+  lectureFocus.from === LIST
+  && lectureFocus.clicked === true
+  && lectureFocus.lecture.id === lecture.id
 );
 
-export const isListHover = (lecture, lectureActive) => (
-  lectureActive.from === LIST
-  && lectureActive.clicked === false
-  && lectureActive.lecture.id === lecture.id
+export const isListHover = (lecture, lectureFocus) => (
+  lectureFocus.from === LIST
+  && lectureFocus.clicked === false
+  && lectureFocus.lecture.id === lecture.id
 );
 
-export const isTableClicked = (lecture, lectureActive) => (
-  lectureActive.from === TABLE
-  && lectureActive.clicked === true
-  && lectureActive.lecture.id === lecture.id
+export const isTableClicked = (lecture, lectureFocus) => (
+  lectureFocus.from === TABLE
+  && lectureFocus.clicked === true
+  && lectureFocus.lecture.id === lecture.id
 );
 
-export const isTableHover = (lecture, lectureActive) => (
-  lectureActive.from === TABLE
-  && lectureActive.clicked === false
-  && lectureActive.lecture.id === lecture.id
+export const isTableHover = (lecture, lectureFocus) => (
+  lectureFocus.from === TABLE
+  && lectureFocus.clicked === false
+  && lectureFocus.lecture.id === lecture.id
 );
 
-export const isInMultiple = (lecture, lectureActive) => (
-  lectureActive.from === MULTIPLE
-  && lectureActive.multipleDetail.some(l => (l.id === lecture.id))
+export const isInMultiple = (lecture, lectureFocus) => (
+  lectureFocus.from === MULTIPLE
+  && lectureFocus.multipleDetail.some(l => (l.id === lecture.id))
 );
 
-export const isInactiveTableLecture = (lecture, lectureActive) => (
-  lectureActive.clicked === true
-  && ((lectureActive.lecture.id !== lecture.id) || (lectureActive.from !== TABLE))
+export const isDimmedTableLecture = (lecture, lectureFocus) => (
+  lectureFocus.clicked === true
+  && ((lectureFocus.lecture.id !== lecture.id) || (lectureFocus.from !== TABLE))
 );
 
-export const isInactiveListLectures = (lectures, lectureActive) => (
-  lectureActive.clicked === true
-  && (lectures.every(l => (lectureActive.lecture.id !== l.id)) || (lectureActive.from !== LIST))
+export const isDimmedListLectureGroup = (lectureGroup, lectureFocus) => (
+  lectureFocus.clicked === true
+  && (lectureGroup.every(l => (lectureFocus.lecture.id !== l.id)) || (lectureFocus.from !== LIST))
 );
 
-export const isActive = (lecture, lectureActiveLecture, activeLectures) => {
-  return (lectureActiveLecture !== null && lectureActiveLecture.id === lecture.id)
-    || (activeLectures.some(l => (l.id === lecture.id)));
+export const isFocused = (lecture, lectureFocusLecture, focusedLectures) => {
+  return (lectureFocusLecture !== null && lectureFocusLecture.id === lecture.id)
+    || (focusedLectures.some(l => (l.id === lecture.id)));
 };
 
 export const getProfessorsStrShort = (lecture) => {
@@ -110,10 +110,10 @@ export const getExamStr = (lecture) => {
   return i18n.t('ui.others.sthAndNumOthers', { something: examStrings[0], count: examStrings.length - 1 });
 };
 
-export const performAddToTable = (caller, lecture, currentTimetable, user, addLectureToTimetableDispatch) => {
+export const performAddToTable = (caller, lecture, selectedTimetable, user, addLectureToTimetableDispatch) => {
   if (
     lecture.classtimes.some(thisClasstime => (
-      currentTimetable.lectures.some(timetableLecture => (
+      selectedTimetable.lectures.some(timetableLecture => (
         timetableLecture.classtimes.some(classtime => (
           (classtime.day === thisClasstime.day)
           && (classtime.begin < thisClasstime.end)
@@ -133,7 +133,7 @@ export const performAddToTable = (caller, lecture, currentTimetable, user, addLe
   }
 
   axios.post(
-    `/api/users/${user.id}/timetables/${currentTimetable.id}/add-lecture`,
+    `/api/users/${user.id}/timetables/${selectedTimetable.id}/add-lecture`,
     {
       lecture: lecture.id,
     },
@@ -146,7 +146,7 @@ export const performAddToTable = (caller, lecture, currentTimetable, user, addLe
   )
     .then((response) => {
       const newProps = caller.props;
-      if (!newProps.currentTimetable || newProps.currentTimetable.id !== currentTimetable.id) {
+      if (!newProps.selectedTimetable || newProps.selectedTimetable.id !== selectedTimetable.id) {
         return;
       }
       // TODO: Fix timetable not updated when semester unchanged and timetable changed
@@ -156,14 +156,14 @@ export const performAddToTable = (caller, lecture, currentTimetable, user, addLe
     });
 };
 
-export const performDeleteFromTable = (caller, lecture, currentTimetable, user, removeLectureFromTimetableDispatch) => {
+export const performDeleteFromTable = (caller, lecture, selectedTimetable, user, removeLectureFromTimetableDispatch) => {
   if (!user) {
     removeLectureFromTimetableDispatch(lecture);
     return;
   }
 
   axios.post(
-    `/api/users/${user.id}/timetables/${currentTimetable.id}/remove-lecture`,
+    `/api/users/${user.id}/timetables/${selectedTimetable.id}/remove-lecture`,
     {
       lecture: lecture.id,
     },
@@ -176,7 +176,7 @@ export const performDeleteFromTable = (caller, lecture, currentTimetable, user, 
   )
     .then((response) => {
       const newProps = caller.props;
-      if (!newProps.currentTimetable || newProps.currentTimetable.id !== currentTimetable.id) {
+      if (!newProps.selectedTimetable || newProps.selectedTimetable.id !== selectedTimetable.id) {
         return;
       }
       // TODO: Fix timetable not updated when semester unchanged and timetable changed
