@@ -24,9 +24,8 @@ export const isListClicked = (lecture, lectureFocus) => (
   && lectureFocus.lecture.id === lecture.id
 );
 
-export const isListHover = (lecture, lectureFocus) => (
+export const isListFocused = (lecture, lectureFocus) => (
   lectureFocus.from === LIST
-  && lectureFocus.clicked === false
   && lectureFocus.lecture.id === lecture.id
 );
 
@@ -36,9 +35,8 @@ export const isTableClicked = (lecture, lectureFocus) => (
   && lectureFocus.lecture.id === lecture.id
 );
 
-export const isTableHover = (lecture, lectureFocus) => (
+export const isTableFocused = (lecture, lectureFocus) => (
   lectureFocus.from === TABLE
-  && lectureFocus.clicked === false
   && lectureFocus.lecture.id === lecture.id
 );
 
