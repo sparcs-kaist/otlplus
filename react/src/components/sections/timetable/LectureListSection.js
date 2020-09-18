@@ -22,7 +22,7 @@ import lectureShape from '../../../shapes/LectureShape';
 import timetableShape from '../../../shapes/TimetableShape';
 import lectureFocusShape from '../../../shapes/LectureFocusShape';
 
-import { inTimetable, inCart, isListClicked, isListHover, isUnfocusedListLectureGroup, performAddToTable, performAddToCart, performDeleteFromCart } from '../../../common/lectureFunctions';
+import { inTimetable, inCart, isListClicked, isListHover, isDimmedListLectureGroup, performAddToTable, performAddToCart, performDeleteFromCart } from '../../../common/lectureFunctions';
 
 
 class LectureListSection extends Component {
@@ -237,7 +237,7 @@ class LectureListSection extends Component {
       return (
         <Scroller onScroll={this.selectWithArrow} key={currentList}>
           {lectureGroups.map(lg => (
-            <div className={classNames('block', 'block--lecture-group', (lg.some(l => isListClicked(l, lectureFocus)) ? 'block--clicked' : ''), (isUnfocusedListLectureGroup(lg, lectureFocus) ? 'block--unfocused' : ''))} key={lg[0].course}>
+            <div className={classNames('block', 'block--lecture-group', (lg.some(l => isListClicked(l, lectureFocus)) ? 'block--clicked' : ''), (isDimmedListLectureGroup(lg, lectureFocus) ? 'block--dimmed' : ''))} key={lg[0].course}>
               <div className={classNames('block--lecture-group__title')}>
                 <strong>{lg[0][t('js.property.common_title')]}</strong>
                 {' '}

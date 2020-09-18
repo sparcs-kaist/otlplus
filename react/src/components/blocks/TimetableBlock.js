@@ -15,7 +15,7 @@ const TimetableBlock = ({
   lecture, classtime,
   dayIndex, beginIndex, endIndex,
   cellWidth, cellHeight,
-  isTimetableReadonly, isClicked, isHover, isUnfocused, isTemp, isSimple,
+  isTimetableReadonly, isClicked, isHover, isDimmed, isTemp, isSimple,
   blockHover, blockOut, blockClick, deleteLecture,
   occupiedTime,
 }) => {
@@ -23,7 +23,7 @@ const TimetableBlock = ({
     isClicked ? classNames('block--clicked')
       : isTemp ? classNames('block--temp', 'block--focused')
         : isHover ? classNames('block--focused')
-          : isUnfocused ? classNames('block--unfocused')
+          : isDimmed ? classNames('block--dimmed')
             : ''
   );
 
@@ -91,7 +91,7 @@ TimetableBlock.propTypes = {
   isTimetableReadonly: PropTypes.bool.isRequired,
   isClicked: PropTypes.bool.isRequired,
   isHover: PropTypes.bool.isRequired,
-  isUnfocused: PropTypes.bool.isRequired,
+  isDimmed: PropTypes.bool.isRequired,
   isTemp: PropTypes.bool.isRequired,
   isSimple: PropTypes.bool.isRequired,
   blockHover: PropTypes.func,
