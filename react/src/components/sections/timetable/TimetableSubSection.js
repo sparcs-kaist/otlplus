@@ -269,7 +269,7 @@ class TimetableSubSection extends Component {
           cellHeight={cellHeight}
           isTimetableReadonly={!selectedTimetable || Boolean(selectedTimetable.isReadOnly)}
           isClicked={isTableClicked(lecture, lectureFocus)}
-          isHover={isTableHover(lecture, lectureFocus)
+          isHovered={isTableHover(lecture, lectureFocus)
             || isListHover(lecture, lectureFocus)
             || isListClicked(lecture, lectureFocus)
             || isMultipleFocused(lecture, lectureFocus)}

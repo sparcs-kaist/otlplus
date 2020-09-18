@@ -7,7 +7,7 @@ export const isClicked = (course, courseFocus) => (
   && courseFocus.course.id === course.id
 );
 
-export const isHover = (course, courseFocus) => (
+export const isHovered = (course, courseFocus) => (
   courseFocus.course
   && courseFocus.clicked === false
   && courseFocus.course.id === course.id
