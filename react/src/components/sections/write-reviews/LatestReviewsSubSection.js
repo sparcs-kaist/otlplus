@@ -33,9 +33,7 @@ class LatestReviewsSubSection extends Component {
         <div className={classNames('title')}>{t('ui.title.latestReviews')}</div>
         <div className={classNames('section-contentt--latest-reviews__list-area')}>
           {reviews.map(r => (
-            <Link to={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: r.course.id }) }} key={r.id}>
-              <ReviewBlock review={r} pageFrom="Write Reviews" key={r.id} />
-            </Link>
+            <ReviewBlock review={r} linkTo={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: r.course.id }) }} pageFrom="Write Reviews" key={r.id} />
           ))}
         </div>
       </div>
