@@ -26,7 +26,7 @@ const LectureGroupBlockRow = ({
         return classNames('');
     }
   };
-  const change = isClicked ? classNames('block--clicked') : (isHover ? classNames('block--active') : '');
+  const change = isClicked ? classNames('block--clicked') : (isHover ? classNames('block--focused') : '');
   return (
     <div className={classNames('block--lecture-group__elem-wrap', change)} data-id={lecture.id} onClick={() => listClick(lecture)()} onMouseOver={() => listHover(lecture)()} onMouseOut={() => listOut()}>
       <div className={classNames('block--lecture-group__elem')}>

@@ -2,8 +2,8 @@ const BASE_STRING = 'D_CA_';
 
 /* eslint-disable prefer-template */
 export const RESET = BASE_STRING + 'RESET';
-export const SET_COURSE_ACTIVE = BASE_STRING + 'SET_COURSE_ACTIVE';
-export const CLEAR_COURSE_ACTIVE = BASE_STRING + 'CLEAR_COURSE_ACTIVE';
+export const SET_COURSE_FOCUS = BASE_STRING + 'SET_COURSE_FOCUS';
+export const CLEAR_COURSE_FOCUS = BASE_STRING + 'CLEAR_COURSE_FOCUS';
 export const SET_REVIEWS = BASE_STRING + 'SET_REVIEWS';
 export const UPDATE_REVIEW = BASE_STRING + 'UPDATE_REVIEW';
 export const SET_LECTURES = BASE_STRING + 'SET_LECTURES';
@@ -16,17 +16,17 @@ export function reset() {
   };
 }
 
-export function setCourseActive(course, clicked) {
+export function setCourseFocus(course, clicked) {
   return {
-    type: SET_COURSE_ACTIVE,
+    type: SET_COURSE_FOCUS,
     course: course,
     clicked: clicked,
   };
 }
 
-export function clearCourseActive() {
+export function clearCourseFocus() {
   return {
-    type: CLEAR_COURSE_ACTIVE,
+    type: CLEAR_COURSE_FOCUS,
   };
 }
 

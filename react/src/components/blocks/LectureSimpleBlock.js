@@ -12,12 +12,12 @@ import lectureShape from '../../shapes/LectureShape';
 const LectureSimpleBlock = ({
   t,
   lecture,
-  isClicked, isInactive, hasReview,
+  isClicked, isDimmed, hasReview,
   onClick,
 }) => {
   return (
     <div
-      className={classNames('block', 'block--lecture-simple', (isClicked ? 'block--clicked' : ''), (isInactive ? 'block--inactive' : ''), (hasReview ? 'block--has-review' : ''))}
+      className={classNames('block', 'block--lecture-simple', (isClicked ? 'block--clicked' : ''), (isDimmed ? 'block--dimmed' : ''), (hasReview ? 'block--has-review' : ''))}
       onClick={onClick}
     >
       <div className={classNames('block--lecture-simple__title')}>
@@ -33,7 +33,7 @@ const LectureSimpleBlock = ({
 LectureSimpleBlock.propTypes = {
   lecture: lectureShape.isRequired,
   isClicked: PropTypes.bool.isRequired,
-  isInactive: PropTypes.bool.isRequired,
+  isDimmed: PropTypes.bool.isRequired,
   hasReview: PropTypes.bool.isRequired,
   onClick: PropTypes.func.isRequired,
 };

@@ -7,13 +7,13 @@ import { appBoundClassNames as classNames } from '../../../common/boundClassName
 
 import Scroller from '../../Scroller';
 
-import { clearMultipleDetail, setMultipleDetail } from '../../../actions/timetable/lectureActive';
+import { clearMultipleDetail, setMultipleDetail } from '../../../actions/timetable/lectureFocus';
 
-import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureActive';
+import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureFocus';
 
 import lectureShape from '../../../shapes/LectureShape';
 import timetableShape from '../../../shapes/TimetableShape';
-import { inTimetable, isActive, getRoomStr, getExamStr } from '../../../common/lectureFunctions';
+import { inTimetable, isFocused, getRoomStr, getExamStr } from '../../../common/lectureFunctions';
 
 
 class ExamSubSection extends Component {
@@ -21,19 +21,19 @@ class ExamSubSection extends Component {
     super(props);
 
     this.state = {
-      activeLectures: [],
+      multiFocusedLectures: [],
     };
   }
 
   _getLecturesWithExam = () => {
-    const { lectureActiveLecture, currentTimetable } = this.props;
+    const { lectureFocusLecture, selectedTimetable } = this.props;
 
-    const timetableLectures = currentTimetable
-      ? currentTimetable.lectures
+    const timetableLectures = selectedTimetable
+      ? selectedTimetable.lectures
       : [];
     const lecturesWithExam = timetableLectures
-      .concat((lectureActiveLecture && !inTimetable(lectureActiveLecture, currentTimetable))
-        ? [lectureActiveLecture]
+      .concat((lectureFocusLecture && !inTimetable(lectureFocusLecture, selectedTimetable))
+        ? [lectureFocusLecture]
         : [])
       .filter(l => (l.examtimes.length > 0));
 
@@ -42,45 +42,45 @@ class ExamSubSection extends Component {
 
   examFocus(dayIndex) {
     const { t } = this.props;
-    const { lectureActiveFrom, currentTimetable, setMultipleDetailDispatch } = this.props;
-    if (lectureActiveFrom !== 'NONE' || !currentTimetable) {
+    const { lectureFocusFrom, selectedTimetable, setMultipleDetailDispatch } = this.props;
+    if (lectureFocusFrom !== 'NONE' || !selectedTimetable) {
       return;
     }
 
     const dayNames = [t('ui.day.monday'), t('ui.day.tuesday'), t('ui.day.wednesday'), t('ui.day.thursday'), t('ui.day.friday')];
 
-    const activeLectures = this._getLecturesWithExam().filter(l => (
+    const multiFocusedLectures = this._getLecturesWithExam().filter(l => (
       l.examtimes[0].day === dayIndex
     ));
-    const lectures = activeLectures.map(lecture => ({
+    const lectures = multiFocusedLectures.map(lecture => ({
       id: lecture.id,
       title: lecture[t('js.property.title')],
       info: getRoomStr(lecture),
     }));
     setMultipleDetailDispatch(t('ui.others.examOfDay', { day: dayNames[dayIndex] }), lectures);
-    this.setState({ activeLectures: activeLectures });
+    this.setState({ multiFocusedLectures: multiFocusedLectures });
   }
 
   clearFocus() {
-    const { lectureActiveFrom, clearMultipleDetailDispatch } = this.props;
+    const { lectureFocusFrom, clearMultipleDetailDispatch } = this.props;
 
-    if (lectureActiveFrom !== 'MULTIPLE') {
+    if (lectureFocusFrom !== 'MULTIPLE') {
       return;
     }
 
     clearMultipleDetailDispatch();
-    this.setState({ activeLectures: [] });
+    this.setState({ multiFocusedLectures: [] });
   }
 
   render() {
     const { t } = this.props;
-    const { activeLectures } = this.state;
-    const { lectureActiveLecture } = this.props;
+    const { multiFocusedLectures } = this.state;
+    const { lectureFocusLecture } = this.props;
 
     const renderLectureExam = (lec) => {
       const act = (
-        isActive(lec, lectureActiveLecture, activeLectures)
-          ? 'active'
+        isFocused(lec, lectureFocusLecture, multiFocusedLectures)
+          ? 'focused'
           : ''
       );
       const li = (
@@ -160,9 +160,9 @@ class ExamSubSection extends Component {
 }
 
 const mapStateToProps = state => ({
-  currentTimetable: state.timetable.timetable.currentTimetable,
-  lectureActiveLecture: state.timetable.lectureActive.lecture,
-  lectureActiveFrom: state.timetable.lectureActive.from,
+  selectedTimetable: state.timetable.timetable.selectedTimetable,
+  lectureFocusLecture: state.timetable.lectureFocus.lecture,
+  lectureFocusFrom: state.timetable.lectureFocus.from,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -175,9 +175,9 @@ const mapDispatchToProps = dispatch => ({
 });
 
 ExamSubSection.propTypes = {
-  currentTimetable: timetableShape,
-  lectureActiveLecture: lectureShape,
-  lectureActiveFrom: PropTypes.oneOf([NONE, LIST, TABLE, MULTIPLE]).isRequired,
+  selectedTimetable: timetableShape,
+  lectureFocusLecture: lectureShape,
+  lectureFocusFrom: PropTypes.oneOf([NONE, LIST, TABLE, MULTIPLE]).isRequired,
 
   setMultipleDetailDispatch: PropTypes.func.isRequired,
   clearMultipleDetailDispatch: PropTypes.func.isRequired,

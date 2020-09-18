@@ -10,19 +10,19 @@ import Scroller from '../../Scroller';
 import LectureSearchSubSection from './LectureSearchSubSection';
 import LectureGroupBlockRow from '../../blocks/LectureGroupBlockRow';
 
-import { setLectureActive, clearLectureActive } from '../../../actions/timetable/lectureActive';
+import { setLectureFocus, clearLectureFocus } from '../../../actions/timetable/lectureFocus';
 import { addLectureToCart, deleteLectureFromCart, setMobileShowLectureList } from '../../../actions/timetable/list';
 import { openSearch } from '../../../actions/timetable/search';
 import { addLectureToTimetable } from '../../../actions/timetable/timetable';
 
-import { LIST } from '../../../reducers/timetable/lectureActive';
+import { LIST } from '../../../reducers/timetable/lectureFocus';
 
 import userShape from '../../../shapes/UserShape';
 import lectureShape from '../../../shapes/LectureShape';
 import timetableShape from '../../../shapes/TimetableShape';
-import lectureActiveShape from '../../../shapes/LectureActiveShape';
+import lectureFocusShape from '../../../shapes/LectureFocusShape';
 
-import { inTimetable, inCart, isListClicked, isListHover, isInactiveListLectures, performAddToTable, performAddToCart, performDeleteFromCart } from '../../../common/lectureFunctions';
+import { inTimetable, inCart, isListClicked, isListHover, isDimmedListLectureGroup, performAddToTable, performAddToCart, performDeleteFromCart } from '../../../common/lectureFunctions';
 
 
 class LectureListSection extends Component {
@@ -37,14 +37,14 @@ class LectureListSection extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    const { currentList, lectureActive, mobileShowLectureList } = this.props;
+    const { selectedListCode, lectureFocus, mobileShowLectureList } = this.props;
 
-    if ((currentList !== prevProps.currentList)
+    if ((selectedListCode !== prevProps.selectedListCode)
       || (mobileShowLectureList && !prevProps.mobileShowLectureList)) {
       this.selectWithArrow();
     }
 
-    if (!lectureActive.clicked && prevProps.lectureActive.clicked) {
+    if (!lectureFocus.clicked && prevProps.lectureFocus.clicked) {
       this.selectWithArrow();
     }
   }
@@ -59,10 +59,10 @@ class LectureListSection extends Component {
   }
 
   addToTable = lecture => (event) => {
-    const { currentTimetable, user, currentList, addLectureToTimetableDispatch } = this.props;
+    const { selectedTimetable, user, selectedListCode, addLectureToTimetableDispatch } = this.props;
 
     event.stopPropagation();
-    performAddToTable(this, lecture, currentTimetable, user, addLectureToTimetableDispatch);
+    performAddToTable(this, lecture, selectedTimetable, user, addLectureToTimetableDispatch);
 
     const labelOfTabs = new Map([
       ['SEARCH', 'Search'],
@@ -72,12 +72,12 @@ class LectureListSection extends Component {
     ReactGA.event({
       category: 'Timetable - Lecture',
       action: 'Added Lecture to Timetable',
-      label: `Lecture : ${lecture.id} / From : Lecture List : ${labelOfTabs.get(currentList) || currentList}`,
+      label: `Lecture : ${lecture.id} / From : Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`,
     });
   }
 
   addToCart = lecture => (event) => {
-    const { year, semester, user, currentList, addLectureToCartDispatch } = this.props;
+    const { year, semester, user, selectedListCode, addLectureToCartDispatch } = this.props;
 
     event.stopPropagation();
     performAddToCart(this, lecture, year, semester, user, addLectureToCartDispatch);
@@ -90,12 +90,12 @@ class LectureListSection extends Component {
     ReactGA.event({
       category: 'Timetable - Lecture',
       action: 'Added Lecture to Cart',
-      label: `Lecture : ${lecture.id} / From : Lecture List : ${labelOfTabs.get(currentList) || currentList}`,
+      label: `Lecture : ${lecture.id} / From : Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`,
     });
   }
 
   deleteFromCart = lecture => (event) => {
-    const { year, semester, user, currentList, deleteLectureFromCartDispatch } = this.props;
+    const { year, semester, user, selectedListCode, deleteLectureFromCartDispatch } = this.props;
 
     event.stopPropagation();
     performDeleteFromCart(this, lecture, year, semester, user, deleteLectureFromCartDispatch);
@@ -108,43 +108,43 @@ class LectureListSection extends Component {
     ReactGA.event({
       category: 'Timetable - Lecture',
       action: 'Deleted Lecture from Cart',
-      label: `Lecture : ${lecture.id} / From : Lecture List : ${labelOfTabs.get(currentList) || currentList}`,
+      label: `Lecture : ${lecture.id} / From : Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`,
     });
   }
 
   listHover = lecture => () => {
-    const { lectureActiveClicked, setLectureActiveDispatch } = this.props;
+    const { lectureFocusClicked, setLectureFocusDispatch } = this.props;
 
     const arrow = this.arrowRef.current;
     if (window.getComputedStyle(arrow).getPropertyValue('display') !== 'none') {
       return;
     }
 
-    if (lectureActiveClicked) {
+    if (lectureFocusClicked) {
       return;
     }
-    setLectureActiveDispatch(lecture, LIST, false);
+    setLectureFocusDispatch(lecture, LIST, false);
   }
 
   listOut = () => {
-    const { lectureActiveClicked, clearLectureActiveDispatch } = this.props;
+    const { lectureFocusClicked, clearLectureFocusDispatch } = this.props;
 
     const arrow = this.arrowRef.current;
     if (window.getComputedStyle(arrow).getPropertyValue('display') !== 'none') {
       return;
     }
 
-    if (lectureActiveClicked) {
+    if (lectureFocusClicked) {
       return;
     }
-    clearLectureActiveDispatch();
+    clearLectureFocusDispatch();
   }
 
   listClick = lecture => () => {
-    const { lectureActive, currentList, setLectureActiveDispatch } = this.props;
+    const { lectureFocus, selectedListCode, setLectureFocusDispatch } = this.props;
 
-    if (!isListClicked(lecture, lectureActive)) {
-      setLectureActiveDispatch(lecture, 'LIST', true);
+    if (!isListClicked(lecture, lectureFocus)) {
+      setLectureFocusDispatch(lecture, 'LIST', true);
 
       const labelOfTabs = new Map([
         ['SEARCH', 'Search'],
@@ -154,11 +154,11 @@ class LectureListSection extends Component {
       ReactGA.event({
         category: 'Timetable - Selection',
         action: 'Selected Lecture',
-        label: `Lecture : ${lecture.id} / From : Lecture List : ${labelOfTabs.get(currentList) || currentList}`,
+        label: `Lecture : ${lecture.id} / From : Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`,
       });
     }
     else {
-      setLectureActiveDispatch(lecture, 'LIST', false);
+      setLectureFocusDispatch(lecture, 'LIST', false);
 
       const labelOfTabs = new Map([
         ['SEARCH', 'Search'],
@@ -168,13 +168,13 @@ class LectureListSection extends Component {
       ReactGA.event({
         category: 'Timetable - Selection',
         action: 'Unselected Lecture',
-        label: `Lecture : ${lecture.id} / From : Lecture List : ${labelOfTabs.get(currentList) || currentList}`,
+        label: `Lecture : ${lecture.id} / From : Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`,
       });
     }
   }
 
   selectWithArrow = () => {
-    const { currentList, clearLectureActiveDispatch, setLectureActiveDispatch } = this.props;
+    const { selectedListCode, clearLectureFocusDispatch, setLectureFocusDispatch } = this.props;
 
     const arrow = this.arrowRef.current;
     if (window.getComputedStyle(arrow).getPropertyValue('display') === 'none') {
@@ -186,38 +186,38 @@ class LectureListSection extends Component {
 
     const elementAtPosition = document.elementFromPoint(100, arrowY).closest(`.${classNames('block--lecture-group__elem-wrap')}`);
     if (elementAtPosition === null) {
-      clearLectureActiveDispatch();
+      clearLectureFocusDispatch();
       return;
     }
     const targetId = Number(elementAtPosition.getAttribute('data-id'));
-    const lectureGroups = this._getLectureGroups(currentList);
+    const lectureGroups = this._getLectureGroups(selectedListCode);
     const targetLecture = lectureGroups
       .map(lg => lg.map(l => ((l.id === targetId) ? l : null)))
       .reduce((acc, val) => acc.concat(val), [])
       .filter(l => (l !== null))[0];
-    setLectureActiveDispatch(targetLecture, 'LIST', false);
+    setLectureFocusDispatch(targetLecture, 'LIST', false);
   }
 
   mobileCloseLectureList = () => {
-    const { setMobileShowLectureListDispatch, clearLectureActiveDispatch } = this.props;
+    const { setMobileShowLectureListDispatch, clearLectureFocusDispatch } = this.props;
 
     setMobileShowLectureListDispatch(false);
-    clearLectureActiveDispatch();
+    clearLectureFocusDispatch();
   }
 
-  _getLectureGroups = (currentList) => {
+  _getLectureGroups = (selectedListCode) => {
     const { search, major, humanity, cart } = this.props;
 
-    if (currentList === 'SEARCH') {
+    if (selectedListCode === 'SEARCH') {
       return search.lectureGroups;
     }
-    if (major.codes.some(code => (currentList === code))) {
-      return major[currentList].lectureGroups;
+    if (major.codes.some(code => (selectedListCode === code))) {
+      return major[selectedListCode].lectureGroups;
     }
-    if (currentList === 'HUMANITY') {
+    if (selectedListCode === 'HUMANITY') {
       return humanity.lectureGroups;
     }
-    if (currentList === 'CART') {
+    if (selectedListCode === 'CART') {
       return cart.lectureGroups;
     }
     return null;
@@ -225,7 +225,7 @@ class LectureListSection extends Component {
 
   render() {
     const { t } = this.props;
-    const { lectureActive, currentTimetable, currentList, searchOpen, search, major, humanity, cart } = this.props;
+    const { lectureFocus, selectedTimetable, selectedListCode, searchOpen, search, major, humanity, cart } = this.props;
 
     const getListElement = (lectureGroups, fromCart) => {
       if (!lectureGroups) {
@@ -235,9 +235,9 @@ class LectureListSection extends Component {
         return <div className={classNames('list-placeholder')}><div>{t('ui.placeholder.noResults')}</div></div>;
       }
       return (
-        <Scroller onScroll={this.selectWithArrow} key={currentList}>
+        <Scroller onScroll={this.selectWithArrow} key={selectedListCode}>
           {lectureGroups.map(lg => (
-            <div className={classNames('block', 'block--lecture-group', (lg.some(l => isListClicked(l, lectureActive)) ? 'block--clicked' : ''), (isInactiveListLectures(lg, lectureActive) ? 'block--inactive' : ''))} key={lg[0].course}>
+            <div className={classNames('block', 'block--lecture-group', (lg.some(l => isListClicked(l, lectureFocus)) ? 'block--clicked' : ''), (isDimmedListLectureGroup(lg, lectureFocus) ? 'block--dimmed' : ''))} key={lg[0].course}>
               <div className={classNames('block--lecture-group__title')}>
                 <strong>{lg[0][t('js.property.common_title')]}</strong>
                 {' '}
@@ -247,10 +247,10 @@ class LectureListSection extends Component {
                 <LectureGroupBlockRow
                   lecture={l}
                   key={l.id}
-                  isClicked={isListClicked(l, lectureActive)}
-                  isHover={isListHover(l, lectureActive)}
-                  inTimetable={inTimetable(l, currentTimetable)}
-                  isTimetableReadonly={!currentTimetable || Boolean(currentTimetable.isReadOnly)}
+                  isClicked={isListClicked(l, lectureFocus)}
+                  isHover={isListHover(l, lectureFocus)}
+                  inTimetable={inTimetable(l, selectedTimetable)}
+                  isTimetableReadonly={!selectedTimetable || Boolean(selectedTimetable.isReadOnly)}
                   inCart={inCart(l, cart)}
                   fromCart={fromCart}
                   addToCart={this.addToCart}
@@ -268,7 +268,7 @@ class LectureListSection extends Component {
       );
     };
 
-    if (currentList === 'SEARCH') {
+    if (selectedListCode === 'SEARCH') {
       return (
         <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
           { searchOpen ? <LectureSearchSubSection /> : null }
@@ -286,23 +286,23 @@ class LectureListSection extends Component {
         </div>
       );
     }
-    if (major.codes.some(code => (currentList === code))) {
+    if (major.codes.some(code => (selectedListCode === code))) {
       return (
         <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
           <button className={classNames('close-button')} onClick={this.mobileCloseLectureList}><i className={classNames('icon', 'icon--close-section')} /></button>
           <div className={classNames('title')}>
-            {major[currentList][t('js.property.name')]}
+            {major[selectedListCode][t('js.property.name')]}
           </div>
           <>
             <div className={classNames('section-content--lecture-list__selector')} ref={this.arrowRef}>
               <i className={classNames('icon', 'icon--lecture-selector')} />
             </div>
-            {getListElement(major[currentList].lectureGroups, false)}
+            {getListElement(major[selectedListCode].lectureGroups, false)}
           </>
         </div>
       );
     }
-    if (currentList === 'HUMANITY') {
+    if (selectedListCode === 'HUMANITY') {
       return (
         <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
           <button className={classNames('close-button')} onClick={this.mobileCloseLectureList}><i className={classNames('icon', 'icon--close-section')} /></button>
@@ -318,7 +318,7 @@ class LectureListSection extends Component {
         </div>
       );
     }
-    if (currentList === 'CART') {
+    if (selectedListCode === 'CART') {
       return (
         <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
           <button className={classNames('close-button')} onClick={this.mobileCloseLectureList}><i className={classNames('icon', 'icon--close-section')} /></button>
@@ -340,15 +340,15 @@ class LectureListSection extends Component {
 
 const mapStateToProps = state => ({
   user: state.common.user.user,
-  currentList: state.timetable.list.currentList,
+  selectedListCode: state.timetable.list.selectedListCode,
   search: state.timetable.list.search,
   major: state.timetable.list.major,
   humanity: state.timetable.list.humanity,
   cart: state.timetable.list.cart,
   mobileShowLectureList: state.timetable.list.mobileShowLectureList,
-  currentTimetable: state.timetable.timetable.currentTimetable,
-  lectureActive: state.timetable.lectureActive,
-  lectureActiveClicked: state.timetable.lectureActive.clicked,
+  selectedTimetable: state.timetable.timetable.selectedTimetable,
+  lectureFocus: state.timetable.lectureFocus,
+  lectureFocusClicked: state.timetable.lectureFocus.clicked,
   year: state.timetable.semester.year,
   semester: state.timetable.semester.semester,
   searchOpen: state.timetable.search.open,
@@ -358,11 +358,11 @@ const mapDispatchToProps = dispatch => ({
   openSearchDispatch: () => {
     dispatch(openSearch());
   },
-  setLectureActiveDispatch: (lecture, from, clicked) => {
-    dispatch(setLectureActive(lecture, from, clicked));
+  setLectureFocusDispatch: (lecture, from, clicked) => {
+    dispatch(setLectureFocus(lecture, from, clicked));
   },
-  clearLectureActiveDispatch: () => {
-    dispatch(clearLectureActive());
+  clearLectureFocusDispatch: () => {
+    dispatch(clearLectureFocus());
   },
   addLectureToTimetableDispatch: (lecture) => {
     dispatch(addLectureToTimetable(lecture));
@@ -380,7 +380,7 @@ const mapDispatchToProps = dispatch => ({
 
 LectureListSection.propTypes = {
   user: userShape,
-  currentList: PropTypes.string.isRequired,
+  selectedListCode: PropTypes.string.isRequired,
   search: PropTypes.shape({
     lectureGroups: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)),
   }).isRequired,
@@ -394,16 +394,16 @@ LectureListSection.propTypes = {
     lectureGroups: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)),
   }).isRequired,
   mobileShowLectureList: PropTypes.bool.isRequired,
-  currentTimetable: timetableShape,
-  lectureActive: lectureActiveShape.isRequired,
-  lectureActiveClicked: PropTypes.bool.isRequired,
+  selectedTimetable: timetableShape,
+  lectureFocus: lectureFocusShape.isRequired,
+  lectureFocusClicked: PropTypes.bool.isRequired,
   year: PropTypes.number,
   semester: PropTypes.number,
   searchOpen: PropTypes.bool.isRequired,
 
   openSearchDispatch: PropTypes.func.isRequired,
-  setLectureActiveDispatch: PropTypes.func.isRequired,
-  clearLectureActiveDispatch: PropTypes.func.isRequired,
+  setLectureFocusDispatch: PropTypes.func.isRequired,
+  clearLectureFocusDispatch: PropTypes.func.isRequired,
   addLectureToTimetableDispatch: PropTypes.func.isRequired,
   addLectureToCartDispatch: PropTypes.func.isRequired,
   deleteLectureFromCartDispatch: PropTypes.func.isRequired,

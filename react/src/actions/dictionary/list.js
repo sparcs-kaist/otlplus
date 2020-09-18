@@ -2,7 +2,7 @@ const BASE_STRING = 'D_L_';
 
 /* eslint-disable prefer-template */
 export const RESET = BASE_STRING + 'RESET';
-export const SET_CURRENT_LIST = BASE_STRING + 'SER_CURRENT_LIST';
+export const SET_SELECTED_LIST_CODE = BASE_STRING + 'SER_SELECTED_LIST_CODE';
 export const SET_LIST_MAJOR_CODES = BASE_STRING + 'SET_LIST_MAJOR_CODES';
 export const SET_LIST_COURSES = BASE_STRING + 'SET_LIST_COURSES';
 export const SET_LIST_MAJOR_COURSES = BASE_STRING + 'SET_LIST_MAJOR_COURSES';
@@ -18,10 +18,10 @@ export function reset() {
   };
 }
 
-export function setCurrentList(list) {
+export function setSelectedListCode(listCode) {
   return {
-    type: SET_CURRENT_LIST,
-    list: list,
+    type: SET_SELECTED_LIST_CODE,
+    listCode: listCode,
   };
 }
 

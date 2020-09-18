@@ -10,12 +10,12 @@ import ReviewBlock from '../../blocks/ReviewBlock';
 import reviews from '../../../dummy/reviews';
 
 
-class LatestReviewSection extends Component {
+class LatestReviewFeedSection extends Component {
   render() {
     const { t } = this.props;
 
     return (
-      <div className={classNames('section-content', 'section-content--widget')}>
+      <div className={classNames('section-content', 'section-content--feed')}>
         <div className={classNames('title')}>
           {t('ui.title.latestReviews')}
         </div>
@@ -35,4 +35,4 @@ class LatestReviewSection extends Component {
 }
 
 
-export default withTranslation()(LatestReviewSection);
+export default withTranslation()(LatestReviewFeedSection);

@@ -12,7 +12,7 @@ import RelatedSubSection from './RelatedSubSection';
 import HistorySubSection from './HistorySubSection';
 import ReviewsSubSection from './ReviewsSubSection';
 
-import { clearCourseActive } from '../../../actions/dictionary/courseActive';
+import { clearCourseFocus } from '../../../actions/dictionary/courseFocus';
 
 import courseShape from '../../../shapes/CourseShape';
 
@@ -32,10 +32,10 @@ class CourseDetailSection extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { currentList, clicked, course, clearCourseActiveDispatch } = this.props;
+    const { selectedListCode, clicked, course, clearCourseFocusDispatch } = this.props;
 
-    if (prevProps.currentList !== currentList) {
-      clearCourseActiveDispatch();
+    if (prevProps.selectedListCode !== selectedListCode) {
+      clearCourseFocusDispatch();
     }
 
     if (clicked && (!prevProps.clicked || (prevProps.course !== course))) {
@@ -63,8 +63,8 @@ class CourseDetailSection extends Component {
 
 
   unfix = () => {
-    const { clearCourseActiveDispatch } = this.props;
-    clearCourseActiveDispatch();
+    const { clearCourseFocusDispatch } = this.props;
+    clearCourseFocusDispatch();
   }
 
 
@@ -161,23 +161,23 @@ class CourseDetailSection extends Component {
 }
 
 const mapStateToProps = state => ({
-  clicked: state.dictionary.courseActive.clicked,
-  course: state.dictionary.courseActive.course,
-  currentList: state.dictionary.list.currentList,
+  clicked: state.dictionary.courseFocus.clicked,
+  course: state.dictionary.courseFocus.course,
+  selectedListCode: state.dictionary.list.selectedListCode,
 });
 
 const mapDispatchToProps = dispatch => ({
-  clearCourseActiveDispatch: () => {
-    dispatch(clearCourseActive());
+  clearCourseFocusDispatch: () => {
+    dispatch(clearCourseFocus());
   },
 });
 
 CourseDetailSection.propTypes = {
   clicked: PropTypes.bool.isRequired,
   course: courseShape,
-  currentList: PropTypes.string.isRequired,
+  selectedListCode: PropTypes.string.isRequired,
 
-  clearCourseActiveDispatch: PropTypes.func.isRequired,
+  clearCourseFocusDispatch: PropTypes.func.isRequired,
 };
 
 

@@ -1,4 +1,4 @@
-import { RESET, SET_TIMETABLES, CLEAR_TIMETABLES, SET_MY_TIMETABLE_LECTURES, SET_CURRENT_TIMETABLE, CREATE_TIMETABLE, DELETE_TIMETABLE, DUPLICATE_TIMETABLE, ADD_LECTURE_TO_TIMETABLE, REMOVE_LECTURE_FROM_TIMETABLE, UPDATE_CELL_SIZE, SET_IS_DRAGGING, SET_MOBILE_SHOW_TIMETABLE_TABS } from '../../actions/timetable/timetable';
+import { RESET, SET_TIMETABLES, CLEAR_TIMETABLES, SET_MY_TIMETABLE_LECTURES, SET_SELECTED_TIMETABLE, CREATE_TIMETABLE, DELETE_TIMETABLE, DUPLICATE_TIMETABLE, ADD_LECTURE_TO_TIMETABLE, REMOVE_LECTURE_FROM_TIMETABLE, UPDATE_CELL_SIZE, SET_IS_DRAGGING, SET_MOBILE_SHOW_TIMETABLE_TABS } from '../../actions/timetable/timetable';
 
 const MY = -1;
 
@@ -9,7 +9,7 @@ const initialState = {
     lectures: [],
     isReadOnly: true,
   },
-  currentTimetable: null,
+  selectedTimetable: null,
   cellWidth: 200,
   cellHeight: 50,
   isDragging: false,
@@ -24,9 +24,9 @@ const timetable = (state = initialState, action) => {
     case SET_TIMETABLES: {
       return Object.assign({}, state, {
         timetables: action.timetables,
-        currentTimetable: (
-          state.currentTimetable && (state.currentTimetable.id === state.myTimetable.id)
-            ? state.currentTimetable
+        selectedTimetable: (
+          state.selectedTimetable && (state.selectedTimetable.id === state.myTimetable.id)
+            ? state.selectedTimetable
             : action.timetables[0]
         ),
       });
@@ -34,10 +34,10 @@ const timetable = (state = initialState, action) => {
     case CLEAR_TIMETABLES: {
       return Object.assign({}, state, {
         timetables: null,
-        currentTimetable: (
-          state.currentTimetable && (state.currentTimetable.id === state.myTimetable.id)
+        selectedTimetable: (
+          state.selectedTimetable && (state.selectedTimetable.id === state.myTimetable.id)
             ? {
-              ...state.currentTimetable,
+              ...state.selectedTimetable,
               lectures: [],
             }
             : null
@@ -50,19 +50,19 @@ const timetable = (state = initialState, action) => {
           ...state.myTimetable,
           lectures: action.lectures,
         },
-        currentTimetable: (
-          state.currentTimetable && (state.currentTimetable.id === state.myTimetable.id)
+        selectedTimetable: (
+          state.selectedTimetable && (state.selectedTimetable.id === state.myTimetable.id)
             ? {
-              ...state.currentTimetable,
+              ...state.selectedTimetable,
               lectures: action.lectures,
             }
-            : state.currentTimetable
+            : state.selectedTimetable
         ),
       });
     }
-    case SET_CURRENT_TIMETABLE: {
+    case SET_SELECTED_TIMETABLE: {
       return Object.assign({}, state, {
-        currentTimetable: action.timetable,
+        selectedTimetable: action.timetable,
       });
     }
     case CREATE_TIMETABLE: {
@@ -71,7 +71,7 @@ const timetable = (state = initialState, action) => {
         lectures: [],
       };
       return Object.assign({}, state, {
-        currentTimetable: newTable,
+        selectedTimetable: newTable,
         timetables: [
           ...state.timetables,
           newTable,
@@ -81,7 +81,7 @@ const timetable = (state = initialState, action) => {
     case DELETE_TIMETABLE: {
       const newTables = state.timetables.filter(t => (t.id !== action.timetable.id));
       return Object.assign({}, state, {
-        currentTimetable: newTables[0],
+        selectedTimetable: newTables[0],
         timetables: newTables,
       });
     }
@@ -91,7 +91,7 @@ const timetable = (state = initialState, action) => {
         lectures: action.timetable.lectures.slice(),
       };
       return Object.assign({}, state, {
-        currentTimetable: newTable,
+        selectedTimetable: newTable,
         timetables: [
           ...state.timetables,
           newTable,
@@ -100,8 +100,8 @@ const timetable = (state = initialState, action) => {
     }
     case ADD_LECTURE_TO_TIMETABLE: {
       const newTable = {
-        id: state.currentTimetable.id,
-        lectures: state.currentTimetable.lectures.concat([action.lecture]),
+        id: state.selectedTimetable.id,
+        lectures: state.selectedTimetable.lectures.concat([action.lecture]),
       };
       const newTables = state.timetables.map(t => (
         t.id === newTable.id
@@ -109,14 +109,14 @@ const timetable = (state = initialState, action) => {
           : t
       ));
       return Object.assign({}, state, {
-        currentTimetable: newTable,
+        selectedTimetable: newTable,
         timetables: newTables,
       });
     }
     case REMOVE_LECTURE_FROM_TIMETABLE: {
       const newTable = {
-        id: state.currentTimetable.id,
-        lectures: state.currentTimetable.lectures.slice().filter(l => (l.id !== action.lecture.id)),
+        id: state.selectedTimetable.id,
+        lectures: state.selectedTimetable.lectures.slice().filter(l => (l.id !== action.lecture.id)),
       };
       const newTables = state.timetables.map(t => (
         t.id === newTable.id
@@ -124,7 +124,7 @@ const timetable = (state = initialState, action) => {
           : t
       ));
       return Object.assign({}, state, {
-        currentTimetable: newTable,
+        selectedTimetable: newTable,
         timetables: newTables,
       });
     }

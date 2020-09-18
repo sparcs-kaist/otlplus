@@ -5,14 +5,14 @@ import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
-import { clearMultipleDetail, setMultipleDetail } from '../../../actions/timetable/lectureActive';
+import { clearMultipleDetail, setMultipleDetail } from '../../../actions/timetable/lectureFocus';
 
-import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureActive';
+import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureFocus';
 
 import lectureShape from '../../../shapes/LectureShape';
 import timetableShape from '../../../shapes/TimetableShape';
 
-import { inTimetable, isActive, getBuildingStr, getRoomStr } from '../../../common/lectureFunctions';
+import { inTimetable, isFocused, getBuildingStr, getRoomStr } from '../../../common/lectureFunctions';
 
 import mapImage from '../../../static/img/timetable/kaist_map.jpg';
 
@@ -22,50 +22,50 @@ class MapSubSection extends Component {
     super(props);
 
     this.state = {
-      activeLectures: [],
+      multiFocusedLectures: [],
     };
   }
 
   mapFocus(building) {
     const { t } = this.props;
-    const { lectureActiveFrom, currentTimetable, setMultipleDetailDispatch } = this.props;
+    const { lectureFocusFrom, selectedTimetable, setMultipleDetailDispatch } = this.props;
 
-    if (lectureActiveFrom !== 'NONE' || !currentTimetable) {
+    if (lectureFocusFrom !== 'NONE' || !selectedTimetable) {
       return;
     }
 
-    const active = currentTimetable.lectures.filter(l => (
+    const multiFocusedLectures = selectedTimetable.lectures.filter(l => (
       getBuildingStr(l) === building
     ));
-    const lectures = active.map(l => ({
+    const lectures = multiFocusedLectures.map(l => ({
       id: l.id,
       title: l[t('js.property.title')],
       info: getRoomStr(l),
     }));
     setMultipleDetailDispatch(building, lectures);
-    this.setState({ activeLectures: active });
+    this.setState({ multiFocusedLectures: multiFocusedLectures });
   }
 
   clearFocus() {
-    const { lectureActiveFrom, clearMultipleDetailDispatch } = this.props;
+    const { lectureFocusFrom, clearMultipleDetailDispatch } = this.props;
 
-    if (lectureActiveFrom !== 'MULTIPLE') {
+    if (lectureFocusFrom !== 'MULTIPLE') {
       return;
     }
 
     clearMultipleDetailDispatch();
-    this.setState({ activeLectures: [] });
+    this.setState({ multiFocusedLectures: [] });
   }
 
   render() {
-    const { currentTimetable, lectureActiveLecture } = this.props;
+    const { selectedTimetable, lectureFocusLecture } = this.props;
 
-    const timetableLectures = currentTimetable
-      ? currentTimetable.lectures
+    const timetableLectures = selectedTimetable
+      ? selectedTimetable.lectures
       : [];
     const targetLectures = timetableLectures
-      .concat((lectureActiveLecture && !inTimetable(lectureActiveLecture, currentTimetable))
-        ? [lectureActiveLecture]
+      .concat((lectureFocusLecture && !inTimetable(lectureFocusLecture, selectedTimetable))
+        ? [lectureFocusLecture]
         : []);
     const buildings = new Set(targetLectures.map(l => getBuildingStr(l)));
     const mapObject = Object.assign(
@@ -79,16 +79,15 @@ class MapSubSection extends Component {
       )),
     );
 
-    const activeLecture = lectureActiveLecture;
-    const { activeLectures } = this.state;
+    const { multiFocusedLectures } = this.state;
 
     return (
       <div className={classNames('section-content', 'section-content--map', 'mobile-hidden')}>
         <div>
           <img src={mapImage} alt="KAIST Map" />
           { Object.keys(mapObject).map((b) => {
-            const act = mapObject[b].some(lec => isActive(lec, activeLecture, activeLectures))
-              ? 'block--active'
+            const act = mapObject[b].some(lec => isFocused(lec, lectureFocusLecture, multiFocusedLectures))
+              ? 'block--focused'
               : '';
             const location = (
               <div
@@ -100,8 +99,8 @@ class MapSubSection extends Component {
                 <div className={classNames('section-content--map__block__box', act)}>
                   <span>{b}</span>
                   {mapObject[b].map((l) => {
-                    const lecAct = isActive(l, activeLecture, activeLectures)
-                      ? 'block--active'
+                    const lecAct = isFocused(l, lectureFocusLecture, multiFocusedLectures)
+                      ? 'block--focused'
                       : '';
                     return <span className={classNames('background-color--dark', `background-color--${l.color}`, lecAct)} key={l.id} />;
                   })}
@@ -120,9 +119,9 @@ class MapSubSection extends Component {
 
 
 const mapStateToProps = state => ({
-  currentTimetable: state.timetable.timetable.currentTimetable,
-  lectureActiveLecture: state.timetable.lectureActive.lecture,
-  lectureActiveFrom: state.timetable.lectureActive.from,
+  selectedTimetable: state.timetable.timetable.selectedTimetable,
+  lectureFocusLecture: state.timetable.lectureFocus.lecture,
+  lectureFocusFrom: state.timetable.lectureFocus.from,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -135,9 +134,9 @@ const mapDispatchToProps = dispatch => ({
 });
 
 MapSubSection.propTypes = {
-  currentTimetable: timetableShape,
-  lectureActiveLecture: lectureShape,
-  lectureActiveFrom: PropTypes.oneOf([NONE, LIST, TABLE, MULTIPLE]).isRequired,
+  selectedTimetable: timetableShape,
+  lectureFocusLecture: lectureShape,
+  lectureFocusFrom: PropTypes.oneOf([NONE, LIST, TABLE, MULTIPLE]).isRequired,
 
   setMultipleDetailDispatch: PropTypes.func.isRequired,
   clearMultipleDetailDispatch: PropTypes.func.isRequired,

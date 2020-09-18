@@ -14,7 +14,7 @@ import lectureShape from '../../../shapes/NestedLectureShape';
 import reviewShape from '../../../shapes/ReviewShape';
 
 
-class ReviewWriteSection extends Component {
+class ReviewWriteFeedSection extends Component {
   updateOnReviewSubmit = (review, isNew) => {
     const { updateUserReviewDispatch } = this.props;
     updateUserReviewDispatch(review);
@@ -26,7 +26,7 @@ class ReviewWriteSection extends Component {
     const { lecture, review } = this.props;
 
     return (
-      <div className={classNames('section-content', 'section-content--widget')}>
+      <div className={classNames('section-content', 'section-content--feed')}>
         <div className={classNames('title')}>
           {`${t('ui.title.writeReview')} - ${lecture[t('js.property.title')]}`}
         </div>
@@ -56,7 +56,7 @@ const mapDispatchToProps = dispatch => ({
   },
 });
 
-ReviewWriteSection.propTypes = {
+ReviewWriteFeedSection.propTypes = {
   review: reviewShape,
   lecture: lectureShape.isRequired,
 
@@ -64,4 +64,4 @@ ReviewWriteSection.propTypes = {
 };
 
 
-export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(ReviewWriteSection));
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(ReviewWriteFeedSection));

@@ -10,12 +10,12 @@ import Scroller from '../../Scroller';
 import CourseSearchSubSection from './CourseSearchSubSection';
 import CourseBlock from '../../blocks/CourseBlock';
 
-import { isClicked, isHover, isInactiveCourse } from '../../../common/courseFunctions';
-import { setCourseActive, clearCourseActive } from '../../../actions/dictionary/courseActive';
+import { isClicked, isHover, isDimmedCourse } from '../../../common/courseFunctions';
+import { setCourseFocus, clearCourseFocus } from '../../../actions/dictionary/courseFocus';
 import { openSearch } from '../../../actions/dictionary/search';
 
 import courseShape from '../../../shapes/CourseShape';
-import courseActiveShape from '../../../shapes/CourseActiveShape';
+import courseFocusShape from '../../../shapes/CourseFocusShape';
 
 
 class CourseListSection extends Component {
@@ -26,28 +26,28 @@ class CourseListSection extends Component {
 
 
   listHover = course => () => {
-    const { courseActiveClicked, setCourseActiveDispatch } = this.props;
+    const { courseFocusClicked, setCourseFocusDispatch } = this.props;
 
-    if (courseActiveClicked) {
+    if (courseFocusClicked) {
       return;
     }
-    setCourseActiveDispatch(course, false);
+    setCourseFocusDispatch(course, false);
   }
 
   listOut = () => {
-    const { courseActiveClicked, clearCourseActiveDispatch } = this.props;
+    const { courseFocusClicked, clearCourseFocusDispatch } = this.props;
 
-    if (courseActiveClicked) {
+    if (courseFocusClicked) {
       return;
     }
-    clearCourseActiveDispatch();
+    clearCourseFocusDispatch();
   }
 
   listClick = course => () => {
-    const { courseActive, currentList, setCourseActiveDispatch } = this.props;
+    const { courseFocus, selectedListCode, setCourseFocusDispatch } = this.props;
 
-    if (!isClicked(course, courseActive)) {
-      setCourseActiveDispatch(course, true);
+    if (!isClicked(course, courseFocus)) {
+      setCourseFocusDispatch(course, true);
 
       const labelOfTabs = new Map([
         ['SEARCH', 'Search'],
@@ -57,11 +57,11 @@ class CourseListSection extends Component {
       ReactGA.event({
         category: 'Dictionary - Selection',
         action: 'Selected Course',
-        label: `Course : ${course.id} / From : Course List : ${labelOfTabs.get(currentList) || currentList}`,
+        label: `Course : ${course.id} / From : Course List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`,
       });
     }
     else {
-      setCourseActiveDispatch(course, false);
+      setCourseFocusDispatch(course, false);
 
       const labelOfTabs = new Map([
         ['SEARCH', 'Search'],
@@ -71,7 +71,7 @@ class CourseListSection extends Component {
       ReactGA.event({
         category: 'Dictionary - Selection',
         action: 'Unselected Course',
-        label: `Course : ${course.id} / From : Course List : ${labelOfTabs.get(currentList) || currentList}`,
+        label: `Course : ${course.id} / From : Course List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`,
       });
     }
   }
@@ -79,7 +79,7 @@ class CourseListSection extends Component {
 
   render() {
     const { t } = this.props;
-    const { courseActive, currentList, searchOpen,
+    const { courseFocus, selectedListCode, searchOpen,
       search, major, humanity, taken, readCourses } = this.props;
 
     const getListElement = (courses) => {
@@ -90,16 +90,16 @@ class CourseListSection extends Component {
         return <div className={classNames('list-placeholder')}><div>{t('ui.placeholder.noResults')}</div></div>;
       }
       return (
-        <Scroller key={currentList}>
+        <Scroller key={selectedListCode}>
           {courses.map(c => (
             <CourseBlock
               course={c}
               key={c.id}
               showReadStatus={true}
               isRead={c.userspecific_is_read || readCourses.some(c2 => (c2.id === c.id))}
-              isClicked={isClicked(c, courseActive)}
-              isHover={isHover(c, courseActive)}
-              isInactive={isInactiveCourse(c, courseActive)}
+              isClicked={isClicked(c, courseFocus)}
+              isHover={isHover(c, courseFocus)}
+              isDimmed={isDimmedCourse(c, courseFocus)}
               listHover={this.listHover}
               listOut={this.listOut}
               listClick={this.listClick}
@@ -109,7 +109,7 @@ class CourseListSection extends Component {
       );
     };
 
-    if (currentList === 'SEARCH') {
+    if (selectedListCode === 'SEARCH') {
       return (
         <div className={classNames('section-content', 'section-content--flex', 'section-content--course-list')}>
           { searchOpen ? <CourseSearchSubSection /> : null }
@@ -121,17 +121,17 @@ class CourseListSection extends Component {
         </div>
       );
     }
-    if (major.codes.some(code => (currentList === code))) {
+    if (major.codes.some(code => (selectedListCode === code))) {
       return (
         <div className={classNames('section-content', 'section-content--flex', 'section-content--course-list')}>
           <div className={classNames('title')}>
-            {major[currentList][t('js.property.name')]}
+            {major[selectedListCode][t('js.property.name')]}
           </div>
-          { getListElement(major[currentList].courses) }
+          { getListElement(major[selectedListCode].courses) }
         </div>
       );
     }
-    if (currentList === 'HUMANITY') {
+    if (selectedListCode === 'HUMANITY') {
       return (
         <div className={classNames('section-content', 'section-content--flex', 'section-content--course-list')}>
           <div className={classNames('title')}>
@@ -141,7 +141,7 @@ class CourseListSection extends Component {
         </div>
       );
     }
-    if (currentList === 'TAKEN') {
+    if (selectedListCode === 'TAKEN') {
       return (
         <div className={classNames('section-content', 'section-content--flex', 'section-content--course-list')}>
           <div className={classNames('title')}>
@@ -156,14 +156,14 @@ class CourseListSection extends Component {
 }
 
 const mapStateToProps = state => ({
-  currentList: state.dictionary.list.currentList,
+  selectedListCode: state.dictionary.list.selectedListCode,
   search: state.dictionary.list.search,
   major: state.dictionary.list.major,
   humanity: state.dictionary.list.humanity,
   taken: state.dictionary.list.taken,
   readCourses: state.dictionary.list.readCourses,
-  courseActive: state.dictionary.courseActive,
-  courseActiveClicked: state.dictionary.courseActive.clicked,
+  courseFocus: state.dictionary.courseFocus,
+  courseFocusClicked: state.dictionary.courseFocus.clicked,
   searchOpen: state.dictionary.search.open,
 });
 
@@ -171,16 +171,16 @@ const mapDispatchToProps = dispatch => ({
   openSearchDispatch: () => {
     dispatch(openSearch());
   },
-  setCourseActiveDispatch: (lecture, clicked) => {
-    dispatch(setCourseActive(lecture, clicked));
+  setCourseFocusDispatch: (lecture, clicked) => {
+    dispatch(setCourseFocus(lecture, clicked));
   },
-  clearCourseActiveDispatch: () => {
-    dispatch(clearCourseActive());
+  clearCourseFocusDispatch: () => {
+    dispatch(clearCourseFocus());
   },
 });
 
 CourseListSection.propTypes = {
-  currentList: PropTypes.string.isRequired,
+  selectedListCode: PropTypes.string.isRequired,
   search: PropTypes.shape({
     courses: PropTypes.arrayOf(courseShape),
   }).isRequired,
@@ -194,13 +194,13 @@ CourseListSection.propTypes = {
     courses: PropTypes.arrayOf(courseShape),
   }).isRequired,
   readCourses: PropTypes.arrayOf(courseShape).isRequired,
-  courseActive: courseActiveShape.isRequired,
-  courseActiveClicked: PropTypes.bool.isRequired,
+  courseFocus: courseFocusShape.isRequired,
+  courseFocusClicked: PropTypes.bool.isRequired,
   searchOpen: PropTypes.bool.isRequired,
 
   openSearchDispatch: PropTypes.func.isRequired,
-  setCourseActiveDispatch: PropTypes.func.isRequired,
-  clearCourseActiveDispatch: PropTypes.func.isRequired,
+  setCourseFocusDispatch: PropTypes.func.isRequired,
+  clearCourseFocusDispatch: PropTypes.func.isRequired,
 };
 
 

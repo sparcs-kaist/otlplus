@@ -12,9 +12,9 @@ import Scroller from '../../Scroller';
 
 import { closeSearch, clearDrag } from '../../../actions/timetable/search';
 import { setListLectures, clearSearchListLectures } from '../../../actions/timetable/list';
-import { clearLectureActive } from '../../../actions/timetable/lectureActive';
+import { clearLectureFocus } from '../../../actions/timetable/lectureFocus';
 
-import lectureActiveShape from '../../../shapes/LectureActiveShape';
+import lectureFocusShape from '../../../shapes/LectureFocusShape';
 
 import { typeOptions, departmentOptions, levelOptions } from '../../../common/seachOptions';
 
@@ -40,9 +40,9 @@ class LectureSearchSubSection extends Component {
   searchStart = () => {
     const { t } = this.props;
     const { type, department, grade, inputVal } = this.state;
-    const { year, semester, start, day, end, lectureActive,
+    const { year, semester, start, day, end, lectureFocus,
       closeSearchDispatch, clearSearchListLecturesDispatch,
-      setListLecturesDispatch, clearLectureActiveDispatch } = this.props;
+      setListLecturesDispatch, clearLectureFocusDispatch } = this.props;
 
     if (type.size === 1 && department.size === 1 && grade.size === 1 && inputVal.trim().length === 0
       && !(start !== null && end !== null && day !== null)) {
@@ -54,8 +54,8 @@ class LectureSearchSubSection extends Component {
     }
     closeSearchDispatch();
     clearSearchListLecturesDispatch();
-    if (lectureActive.from === 'LIST') {
-      clearLectureActiveDispatch();
+    if (lectureFocus.from === 'LIST') {
+      clearLectureFocusDispatch();
     }
 
     axios.get(
@@ -265,7 +265,7 @@ const mapStateToProps = state => ({
   day: state.timetable.search.day,
   year: state.timetable.semester.year,
   semester: state.timetable.semester.semester,
-  lectureActive: state.timetable.lectureActive,
+  lectureFocus: state.timetable.lectureFocus,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -281,8 +281,8 @@ const mapDispatchToProps = dispatch => ({
   clearSearchListLecturesDispatch: () => {
     dispatch(clearSearchListLectures());
   },
-  clearLectureActiveDispatch: () => {
-    dispatch(clearLectureActive());
+  clearLectureFocusDispatch: () => {
+    dispatch(clearLectureFocus());
   },
 });
 
@@ -292,13 +292,13 @@ LectureSearchSubSection.propTypes = {
   day: PropTypes.number,
   year: PropTypes.number,
   semester: PropTypes.number,
-  lectureActive: lectureActiveShape,
+  lectureFocus: lectureFocusShape,
 
   closeSearchDispatch: PropTypes.func.isRequired,
   clearDragDispatch: PropTypes.func.isRequired,
   setListLecturesDispatch: PropTypes.func.isRequired,
   clearSearchListLecturesDispatch: PropTypes.func.isRequired,
-  clearLectureActiveDispatch: PropTypes.func.isRequired,
+  clearLectureFocusDispatch: PropTypes.func.isRequired,
 };
 
 

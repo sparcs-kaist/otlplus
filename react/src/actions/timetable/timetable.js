@@ -5,7 +5,7 @@ export const RESET = BASE_STRING + 'RESET';
 export const SET_TIMETABLES = BASE_STRING + 'SET_TIMETABLES';
 export const CLEAR_TIMETABLES = BASE_STRING + 'CLEAR_TIMETABLES';
 export const SET_MY_TIMETABLE_LECTURES = BASE_STRING + 'SET_MY_TIMETABLE_LECTURES';
-export const SET_CURRENT_TIMETABLE = BASE_STRING + 'SET_CURRENT_TIMETABLE';
+export const SET_SELECTED_TIMETABLE = BASE_STRING + 'SET_SELECTED_TIMETABLE';
 export const CREATE_TIMETABLE = BASE_STRING + 'CREATE_TIMETABLE';
 export const DELETE_TIMETABLE = BASE_STRING + 'DELETE_TIMETABLE';
 export const DUPLICATE_TIMETABLE = BASE_STRING + 'DUPLICATE_TIMETABLE';
@@ -57,9 +57,9 @@ export function setMyTimetableLectures(lectures) {
   };
 }
 
-export function setCurrentTimetable(timetable) {
+export function setSelectedTimetable(timetable) {
   return {
-    type: SET_CURRENT_TIMETABLE,
+    type: SET_SELECTED_TIMETABLE,
     timetable: timetable,
   };
 }
