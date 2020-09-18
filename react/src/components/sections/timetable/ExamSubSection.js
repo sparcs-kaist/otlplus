@@ -7,7 +7,7 @@ import { appBoundClassNames as classNames } from '../../../common/boundClassName
 
 import Scroller from '../../Scroller';
 
-import { clearMultipleDetail, setMultipleDetail } from '../../../actions/timetable/lectureFocus';
+import { clearMultipleFocus, setMultipleFocus } from '../../../actions/timetable/lectureFocus';
 
 import lectureFocusShape from '../../../shapes/LectureFocusShape';
 import timetableShape from '../../../shapes/TimetableShape';
@@ -40,7 +40,7 @@ class ExamSubSection extends Component {
 
   examFocus(dayIndex) {
     const { t } = this.props;
-    const { lectureFocus, selectedTimetable, setMultipleDetailDispatch } = this.props;
+    const { lectureFocus, selectedTimetable, setMultipleFocusDispatch } = this.props;
     if (lectureFocus.from !== 'NONE' || !selectedTimetable) {
       return;
     }
@@ -55,18 +55,18 @@ class ExamSubSection extends Component {
       title: lecture[t('js.property.title')],
       info: getRoomStr(lecture),
     }));
-    setMultipleDetailDispatch(t('ui.others.examOfDay', { day: dayNames[dayIndex] }), lectures);
+    setMultipleFocusDispatch(t('ui.others.examOfDay', { day: dayNames[dayIndex] }), lectures);
     this.setState({ multiFocusedLectures: multiFocusedLectures });
   }
 
   clearFocus() {
-    const { lectureFocus, clearMultipleDetailDispatch } = this.props;
+    const { lectureFocus, clearMultipleFocusDispatch } = this.props;
 
     if (lectureFocus.from !== 'MULTIPLE') {
       return;
     }
 
-    clearMultipleDetailDispatch();
+    clearMultipleFocusDispatch();
     this.setState({ multiFocusedLectures: [] });
   }
 
@@ -163,11 +163,11 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  setMultipleDetailDispatch: (title, lectures) => {
-    dispatch(setMultipleDetail(title, lectures));
+  setMultipleFocusDispatch: (multipleTitle, multipleDetails) => {
+    dispatch(setMultipleFocus(multipleTitle, multipleDetails));
   },
-  clearMultipleDetailDispatch: () => {
-    dispatch(clearMultipleDetail());
+  clearMultipleFocusDispatch: () => {
+    dispatch(clearMultipleFocus());
   },
 });
 
@@ -175,8 +175,8 @@ ExamSubSection.propTypes = {
   selectedTimetable: timetableShape,
   lectureFocus: lectureFocusShape.isRequired,
 
-  setMultipleDetailDispatch: PropTypes.func.isRequired,
-  clearMultipleDetailDispatch: PropTypes.func.isRequired,
+  setMultipleFocusDispatch: PropTypes.func.isRequired,
+  clearMultipleFocusDispatch: PropTypes.func.isRequired,
 };
 
 

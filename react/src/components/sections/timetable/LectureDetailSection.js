@@ -403,10 +403,10 @@ class LectureDetailSection extends Component {
       return (
         <div className={classNames('section-content', 'section-content--lecture-detail', 'section-content--flex')}>
           <div className={classNames('title')}>
-            {lectureFocus.title}
+            {lectureFocus.multipleTitle}
           </div>
           <div className={classNames('subtitle')}>
-            {t('ui.others.multipleDetailCount', { count: lectureFocus.multipleDetail.length })}
+            {t('ui.others.multipleDetailCount', { count: lectureFocus.multipleDetails.length })}
           </div>
           <div className={classNames('buttons')}>
             <span className={classNames('text-button', 'text-button--disabled')}>{t('ui.button.unfix')}</span>
@@ -414,7 +414,7 @@ class LectureDetailSection extends Component {
             <span className={classNames('text-button', 'text-button--right', 'text-button--disabled')}>{t('ui.button.dictionary')}</span>
           </div>
           <div>
-            {lectureFocus.multipleDetail.map((detail, index) => (
+            {lectureFocus.multipleDetails.map((detail, index) => (
               <div className={classNames('attribute')} key={detail.id}>
                 <span>
                   {detail.title}
