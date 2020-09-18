@@ -1478,7 +1478,7 @@ a {
             top: -3px;
             box-shadow: 0 3px 0 0 $color-block-shadow-dark;
         }
-        &.block--unfocused {
+        &.block--dimmed {
             opacity: 0.5;
         }
 
@@ -1539,7 +1539,7 @@ a {
             color: rgba($color-text-normal, 0.4);
         }
 
-        &:not(.block--unfocused) {
+        &:not(.block--dimmed) {
             cursor: pointer;
 
             &:hover {
@@ -1564,7 +1564,7 @@ a {
             box-shadow: 0 3px 0 0 $color-block-shadow-dark;
         }
 
-        &.block--unfocused {
+        &.block--dimmed {
             opacity: 0.5;
         }
     }
@@ -1730,7 +1730,7 @@ a {
             position: relative;
             top: -3px;
         }
-        &.block--unfocused {
+        &.block--dimmed {
             opacity: 0.5;
         }
 
@@ -1874,7 +1874,7 @@ a {
             margin-bottom:3px;
             box-shadow: 0 3px 0 0 #9E6068;
         }
-        &.block--unfocused {
+        &.block--dimmed {
             opacity: 0.5;
         }
         &.block--temp {

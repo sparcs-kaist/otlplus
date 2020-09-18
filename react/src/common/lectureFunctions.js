@@ -47,12 +47,12 @@ export const isInMultiple = (lecture, lectureFocus) => (
   && lectureFocus.multipleDetail.some(l => (l.id === lecture.id))
 );
 
-export const isUnfocusedTableLecture = (lecture, lectureFocus) => (
+export const isDimmedTableLecture = (lecture, lectureFocus) => (
   lectureFocus.clicked === true
   && ((lectureFocus.lecture.id !== lecture.id) || (lectureFocus.from !== TABLE))
 );
 
-export const isUnfocusedListLectureGroup = (lectureGroup, lectureFocus) => (
+export const isDimmedListLectureGroup = (lectureGroup, lectureFocus) => (
   lectureFocus.clicked === true
   && (lectureGroup.every(l => (lectureFocus.lecture.id !== l.id)) || (lectureFocus.from !== LIST))
 );
