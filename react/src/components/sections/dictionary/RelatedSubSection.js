@@ -57,7 +57,7 @@ class RelatedSubSection extends Component {
 }
 
 const mapStateToProps = state => ({
-  course: state.dictionary.courseActive.course,
+  course: state.dictionary.courseFocus.course,
 });
 
 const mapDispatchToProps = dispatch => ({

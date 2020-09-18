@@ -10,11 +10,11 @@ import CourseListSection from '../components/sections/dictionary/CourseListSecti
 import CourseDetailSection from '../components/sections/dictionary/CourseDetailSection';
 import CourseListTabs from '../components/tabs/CourseListTabs';
 
-import { reset as resetCourseActive, setCourseActive } from '../actions/dictionary/courseActive';
+import { reset as resetCourseFocus, setCourseFocus } from '../actions/dictionary/courseFocus';
 import { reset as resetList, setCurrentList, setListCourses, clearSearchListCourses } from '../actions/dictionary/list';
 import { reset as resetSearch, closeSearch } from '../actions/dictionary/search';
 
-import courseActiveShape from '../shapes/CourseActiveShape';
+import courseFocusShape from '../shapes/CourseFocusShape';
 
 
 class DictionaryPage extends Component {
@@ -22,7 +22,7 @@ class DictionaryPage extends Component {
     const { t } = this.props;
     // eslint-disable-next-line react/destructuring-assignment
     const { startCourseId, startTab, startSearchKeyword } = this.props.location.state || {};
-    const { setCourseActiveDispatch, setCurrentListDispatch, setListCoursesDispatch, closeSearchDispatch, clearSearchListCoursesDispatch } = this.props;
+    const { setCourseFocusDispatch, setCurrentListDispatch, setListCoursesDispatch, closeSearchDispatch, clearSearchListCoursesDispatch } = this.props;
 
     if (startCourseId) {
       axios.get(
@@ -35,7 +35,7 @@ class DictionaryPage extends Component {
         },
       )
         .then((response) => {
-          setCourseActiveDispatch(response.data, true);
+          setCourseFocusDispatch(response.data, true);
         })
         .catch((error) => {
         });
@@ -76,15 +76,15 @@ class DictionaryPage extends Component {
   }
 
   componentWillUnmount() {
-    const { resetCourseActiveDispatch, resetListDispatch, resetSearchDispatch } = this.props;
+    const { resetCourseFocusDispatch, resetListDispatch, resetSearchDispatch } = this.props;
 
-    resetCourseActiveDispatch();
+    resetCourseFocusDispatch();
     resetListDispatch();
     resetSearchDispatch();
   }
 
   render() {
-    const { courseActive } = this.props;
+    const { courseFocus } = this.props;
 
     return (
       <>
@@ -95,7 +95,7 @@ class DictionaryPage extends Component {
               <CourseListSection />
             </div>
           </div>
-          <div className={classNames('section-wrap', 'section-wrap--desktop-2v2--right', 'section-wrap--course-detail', 'mobile-modal', ((courseActive.course && courseActive.clicked) ? '' : 'mobile-hidden'))}>
+          <div className={classNames('section-wrap', 'section-wrap--desktop-2v2--right', 'section-wrap--course-detail', 'mobile-modal', ((courseFocus.course && courseFocus.clicked) ? '' : 'mobile-hidden'))}>
             <div className={classNames('section')}>
               <CourseDetailSection />
             </div>
@@ -107,12 +107,12 @@ class DictionaryPage extends Component {
 }
 
 const mapStateToProps = state => ({
-  courseActive: state.dictionary.courseActive,
+  courseFocus: state.dictionary.courseFocus,
 });
 
 const mapDispatchToProps = dispatch => ({
-  resetCourseActiveDispatch: () => {
-    dispatch(resetCourseActive());
+  resetCourseFocusDispatch: () => {
+    dispatch(resetCourseFocus());
   },
   resetListDispatch: () => {
     dispatch(resetList());
@@ -120,8 +120,8 @@ const mapDispatchToProps = dispatch => ({
   resetSearchDispatch: () => {
     dispatch(resetSearch());
   },
-  setCourseActiveDispatch: (lecture, clicked) => {
-    dispatch(setCourseActive(lecture, clicked));
+  setCourseFocusDispatch: (lecture, clicked) => {
+    dispatch(setCourseFocus(lecture, clicked));
   },
   setCurrentListDispatch: (list) => {
     dispatch(setCurrentList(list));
@@ -138,7 +138,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 DictionaryPage.propTypes = {
-  courseActive: courseActiveShape.isRequired,
+  courseFocus: courseFocusShape.isRequired,
   location: PropTypes.shape({
     state: PropTypes.shape({
       startCourseId: PropTypes.number,
@@ -147,10 +147,10 @@ DictionaryPage.propTypes = {
     }),
   }).isRequired,
 
-  resetCourseActiveDispatch: PropTypes.func.isRequired,
+  resetCourseFocusDispatch: PropTypes.func.isRequired,
   resetListDispatch: PropTypes.func.isRequired,
   resetSearchDispatch: PropTypes.func.isRequired,
-  setCourseActiveDispatch: PropTypes.func.isRequired,
+  setCourseFocusDispatch: PropTypes.func.isRequired,
   setCurrentListDispatch: PropTypes.func.isRequired,
   setListCoursesDispatch: PropTypes.func.isRequired,
   closeSearchDispatch: PropTypes.func.isRequired,
