@@ -19,14 +19,6 @@ import { unique } from '../../../common/utilFunctions';
 
 
 class MapSubSection extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      multiFocusedLectures: [],
-    };
-  }
-
   _getLecturesOnBuilding = (building) => {
     const { lectureFocus, selectedTimetable } = this.props;
 
@@ -50,7 +42,6 @@ class MapSubSection extends Component {
       info: getRoomStr(l),
     }));
     setMultipleFocusDispatch(building, details);
-    this.setState({ multiFocusedLectures: lecturesOnBuilding });
   }
 
   clearFocus() {
@@ -61,7 +52,6 @@ class MapSubSection extends Component {
     }
 
     clearMultipleFocusDispatch();
-    this.setState({ multiFocusedLectures: [] });
   }
 
   render() {
@@ -77,14 +67,12 @@ class MapSubSection extends Component {
       )),
     );
 
-    const { multiFocusedLectures } = this.state;
-
     return (
       <div className={classNames('section-content', 'section-content--map', 'mobile-hidden')}>
         <div>
           <img src={mapImage} alt="KAIST Map" />
           { Object.keys(mapObject).map((b) => {
-            const act = mapObject[b].some(lec => isFocused(lec, lectureFocus.lecture, multiFocusedLectures))
+            const act = mapObject[b].some(lec => isFocused(lec, lectureFocus))
               ? 'block--focused'
               : '';
             const location = (
@@ -97,7 +85,7 @@ class MapSubSection extends Component {
                 <div className={classNames('section-content--map__block__box', act)}>
                   <span>{b}</span>
                   {mapObject[b].map((l) => {
-                    const lecAct = isFocused(l, lectureFocus.lecture, multiFocusedLectures)
+                    const lecAct = isFocused(l, lectureFocus)
                       ? 'block--focused'
                       : '';
                     return <span className={classNames('background-color--dark', `background-color--${l.color}`, lecAct)} key={l.id} />;
