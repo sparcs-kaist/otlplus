@@ -9,7 +9,7 @@ import { appBoundClassNames as classNames } from '../../../common/boundClassName
 import Scroller from '../../Scroller';
 import LectureGroupSimpleBlock from '../../blocks/LectureGroupSimpleBlock';
 
-import { setLectures } from '../../../actions/dictionary/courseActive';
+import { setLectures } from '../../../actions/dictionary/courseFocus';
 
 import semesterShape from '../../../shapes/SemesterShape';
 import courseShape from '../../../shapes/CourseShape';
@@ -148,9 +148,9 @@ class HistorySubSection extends Component {
 
 const mapStateToProps = state => ({
   semesters: state.common.semester.semesters,
-  clicked: state.dictionary.courseActive.clicked,
-  course: state.dictionary.courseActive.course,
-  lectures: state.dictionary.courseActive.lectures,
+  clicked: state.dictionary.courseFocus.clicked,
+  course: state.dictionary.courseFocus.course,
+  lectures: state.dictionary.courseFocus.lectures,
 });
 
 const mapDispatchToProps = dispatch => ({

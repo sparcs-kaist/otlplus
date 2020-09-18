@@ -11,7 +11,7 @@ import ReviewBlock from '../../blocks/ReviewBlock';
 import ReviewWriteBlock from '../../blocks/ReviewWriteBlock';
 import SearchFilter from '../../SearchFilter';
 
-import { setReviews, updateReview } from '../../../actions/dictionary/courseActive';
+import { setReviews, updateReview } from '../../../actions/dictionary/courseFocus';
 import { updateUserReview } from '../../../actions/common/user';
 import { addCourseRead } from '../../../actions/dictionary/list';
 
@@ -182,9 +182,9 @@ class ReviewsSubSection extends Component {
 
 const mapStateToProps = state => ({
   user: state.common.user.user,
-  clicked: state.dictionary.courseActive.clicked,
-  course: state.dictionary.courseActive.course,
-  reviews: state.dictionary.courseActive.reviews,
+  clicked: state.dictionary.courseFocus.clicked,
+  course: state.dictionary.courseFocus.course,
+  reviews: state.dictionary.courseFocus.reviews,
 });
 
 const mapDispatchToProps = dispatch => ({
