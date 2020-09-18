@@ -13,7 +13,7 @@ export const isHover = (course, courseFocus) => (
   && courseFocus.course.id === course.id
 );
 
-export const isInactiveCourse = (course, courseFocus) => (
+export const isUnfocusedCourse = (course, courseFocus) => (
   courseFocus.clicked === true
   && (courseFocus.course.id !== course.id)
 );

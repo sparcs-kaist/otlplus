@@ -10,7 +10,7 @@ import Scroller from '../../Scroller';
 import CourseSearchSubSection from './CourseSearchSubSection';
 import CourseBlock from '../../blocks/CourseBlock';
 
-import { isClicked, isHover, isInactiveCourse } from '../../../common/courseFunctions';
+import { isClicked, isHover, isUnfocusedCourse } from '../../../common/courseFunctions';
 import { setCourseFocus, clearCourseFocus } from '../../../actions/dictionary/courseFocus';
 import { openSearch } from '../../../actions/dictionary/search';
 
@@ -99,7 +99,7 @@ class CourseListSection extends Component {
               isRead={c.userspecific_is_read || readCourses.some(c2 => (c2.id === c.id))}
               isClicked={isClicked(c, courseFocus)}
               isHover={isHover(c, courseFocus)}
-              isInactive={isInactiveCourse(c, courseFocus)}
+              isUnfocused={isUnfocusedCourse(c, courseFocus)}
               listHover={this.listHover}
               listOut={this.listOut}
               listClick={this.listClick}

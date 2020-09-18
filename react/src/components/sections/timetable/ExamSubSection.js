@@ -13,7 +13,7 @@ import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lecture
 
 import lectureShape from '../../../shapes/LectureShape';
 import timetableShape from '../../../shapes/TimetableShape';
-import { inTimetable, isActive, getRoomStr, getExamStr } from '../../../common/lectureFunctions';
+import { inTimetable, isFocused, getRoomStr, getExamStr } from '../../../common/lectureFunctions';
 
 
 class ExamSubSection extends Component {
@@ -21,7 +21,7 @@ class ExamSubSection extends Component {
     super(props);
 
     this.state = {
-      activeLectures: [],
+      multiFocusedLectures: [],
     };
   }
 
@@ -49,16 +49,16 @@ class ExamSubSection extends Component {
 
     const dayNames = [t('ui.day.monday'), t('ui.day.tuesday'), t('ui.day.wednesday'), t('ui.day.thursday'), t('ui.day.friday')];
 
-    const activeLectures = this._getLecturesWithExam().filter(l => (
+    const multiFocusedLectures = this._getLecturesWithExam().filter(l => (
       l.examtimes[0].day === dayIndex
     ));
-    const lectures = activeLectures.map(lecture => ({
+    const lectures = multiFocusedLectures.map(lecture => ({
       id: lecture.id,
       title: lecture[t('js.property.title')],
       info: getRoomStr(lecture),
     }));
     setMultipleDetailDispatch(t('ui.others.examOfDay', { day: dayNames[dayIndex] }), lectures);
-    this.setState({ activeLectures: activeLectures });
+    this.setState({ multiFocusedLectures: multiFocusedLectures });
   }
 
   clearFocus() {
@@ -69,17 +69,17 @@ class ExamSubSection extends Component {
     }
 
     clearMultipleDetailDispatch();
-    this.setState({ activeLectures: [] });
+    this.setState({ multiFocusedLectures: [] });
   }
 
   render() {
     const { t } = this.props;
-    const { activeLectures } = this.state;
+    const { multiFocusedLectures } = this.state;
     const { lectureFocusLecture } = this.props;
 
     const renderLectureExam = (lec) => {
       const act = (
-        isActive(lec, lectureFocusLecture, activeLectures)
+        isFocused(lec, lectureFocusLecture, multiFocusedLectures)
           ? 'active'
           : ''
       );
