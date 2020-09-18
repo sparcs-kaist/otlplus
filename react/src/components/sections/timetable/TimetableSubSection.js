@@ -8,17 +8,17 @@ import { appBoundClassNames as classNames } from '../../../common/boundClassName
 
 import TimetableBlock from '../../blocks/TimetableBlock';
 
-import { setLectureActive, clearLectureActive } from '../../../actions/timetable/lectureActive';
+import { setLectureFocus, clearLectureFocus } from '../../../actions/timetable/lectureFocus';
 import { setCurrentList, setMobileShowLectureList } from '../../../actions/timetable/list';
 import { dragSearch, clearDrag } from '../../../actions/timetable/search';
 import { setIsDragging, updateCellSize, removeLectureFromTimetable } from '../../../actions/timetable/timetable';
 
-import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureActive';
+import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureFocus';
 
 import userShape from '../../../shapes/UserShape';
 import lectureShape from '../../../shapes/LectureShape';
 import timetableShape from '../../../shapes/TimetableShape';
-import lectureActiveShape from '../../../shapes/LectureActiveShape';
+import lectureFocusShape from '../../../shapes/LectureFocusShape';
 
 import { inTimetable, isListHover, isTableClicked, isTableHover, isInMultiple, isInactiveTableLecture, performDeleteFromTable, isListClicked } from '../../../common/lectureFunctions';
 
@@ -86,10 +86,10 @@ class TimetableSubSection extends Component {
   }
 
   _dragStart = (target) => {
-    const { clearLectureActiveDispatch, setIsDraggingDispatch } = this.props;
+    const { clearLectureFocusDispatch, setIsDraggingDispatch } = this.props;
 
     this.setState({ firstBlock: target, secondBlock: target });
-    clearLectureActiveDispatch();
+    clearLectureFocusDispatch();
     setIsDraggingDispatch(true);
   }
 
@@ -189,29 +189,29 @@ class TimetableSubSection extends Component {
   }
 
   blockHover = lecture => () => {
-    const { lectureActiveClicked, isDragging, setLectureActiveDispatch } = this.props;
+    const { lectureFocusClicked, isDragging, setLectureFocusDispatch } = this.props;
 
-    if (!lectureActiveClicked && !isDragging) {
-      setLectureActiveDispatch(lecture, 'TABLE', false);
+    if (!lectureFocusClicked && !isDragging) {
+      setLectureFocusDispatch(lecture, 'TABLE', false);
     }
   }
 
   blockOut = () => {
-    const { lectureActiveClicked, clearLectureActiveDispatch } = this.props;
+    const { lectureFocusClicked, clearLectureFocusDispatch } = this.props;
 
-    if (!lectureActiveClicked) {
-      clearLectureActiveDispatch();
+    if (!lectureFocusClicked) {
+      clearLectureFocusDispatch();
     }
   }
 
   blockClick = lecture => () => {
-    const { lectureActive, setLectureActiveDispatch } = this.props;
+    const { lectureFocus, setLectureFocusDispatch } = this.props;
 
-    if (isTableClicked(lecture, lectureActive)) {
-      setLectureActiveDispatch(lecture, 'TABLE', false);
+    if (isTableClicked(lecture, lectureFocus)) {
+      setLectureFocusDispatch(lecture, 'TABLE', false);
     }
     else {
-      setLectureActiveDispatch(lecture, 'TABLE', true);
+      setLectureFocusDispatch(lecture, 'TABLE', true);
     }
   }
 
@@ -234,8 +234,8 @@ class TimetableSubSection extends Component {
   render() {
     const { t } = this.props;
     const { firstBlock, secondBlock } = this.state;
-    const { currentTimetable, lectureActive, cellWidth, cellHeight,
-      lectureActiveFrom, lectureActiveLecture, mobileShowLectureList } = this.props;
+    const { currentTimetable, lectureFocus, cellWidth, cellHeight,
+      lectureFocusFrom, lectureFocusLecture, mobileShowLectureList } = this.props;
 
     const lectures = currentTimetable ? currentTimetable.lectures : [];
     const untimedBlockTitles = [];
@@ -269,12 +269,12 @@ class TimetableSubSection extends Component {
           cellWidth={cellWidth}
           cellHeight={cellHeight}
           isTimetableReadonly={!currentTimetable || Boolean(currentTimetable.isReadOnly)}
-          isClicked={isTableClicked(lecture, lectureActive)}
-          isHover={isTableHover(lecture, lectureActive)
-            || isListHover(lecture, lectureActive)
-            || isListClicked(lecture, lectureActive)
-            || isInMultiple(lecture, lectureActive)}
-          isInactive={isInactiveTableLecture(lecture, lectureActive)}
+          isClicked={isTableClicked(lecture, lectureFocus)}
+          isHover={isTableHover(lecture, lectureFocus)
+            || isListHover(lecture, lectureFocus)
+            || isListClicked(lecture, lectureFocus)
+            || isInMultiple(lecture, lectureFocus)}
+          isInactive={isInactiveTableLecture(lecture, lectureFocus)}
           isTemp={isTemp}
           isSimple={mobileShowLectureList}
           blockHover={isTemp ? null : this.blockHover}
@@ -297,8 +297,8 @@ class TimetableSubSection extends Component {
       return lecture.classtimes.map(ct => mapClasstimeToBlock(lecture, ct, isOutsideTable(ct), isTemp));
     };
     const lectureBlocks = lectures.map(lecture => mapLectureToBlocks(lecture, false));
-    const tempBlocks = ((lectureActiveFrom === LIST) && !inTimetable(lectureActiveLecture, currentTimetable))
-      ? mapLectureToBlocks(lectureActiveLecture, true)
+    const tempBlocks = ((lectureFocusFrom === LIST) && !inTimetable(lectureFocusLecture, currentTimetable))
+      ? mapLectureToBlocks(lectureFocusLecture, true)
       : null;
 
     const getHeaders = () => {
@@ -412,10 +412,10 @@ class TimetableSubSection extends Component {
 const mapStateToProps = state => ({
   user: state.common.user.user,
   currentTimetable: state.timetable.timetable.currentTimetable,
-  lectureActive: state.timetable.lectureActive,
-  lectureActiveFrom: state.timetable.lectureActive.from,
-  lectureActiveClicked: state.timetable.lectureActive.clicked,
-  lectureActiveLecture: state.timetable.lectureActive.lecture,
+  lectureFocus: state.timetable.lectureFocus,
+  lectureFocusFrom: state.timetable.lectureFocus.from,
+  lectureFocusClicked: state.timetable.lectureFocus.clicked,
+  lectureFocusLecture: state.timetable.lectureFocus.lecture,
   cellWidth: state.timetable.timetable.cellWidth,
   cellHeight: state.timetable.timetable.cellHeight,
   isDragging: state.timetable.timetable.isDragging,
@@ -435,11 +435,11 @@ const mapDispatchToProps = dispatch => ({
   setIsDraggingDispatch: (isDragging) => {
     dispatch(setIsDragging(isDragging));
   },
-  setLectureActiveDispatch: (lecture, from, clicked) => {
-    dispatch(setLectureActive(lecture, from, clicked));
+  setLectureFocusDispatch: (lecture, from, clicked) => {
+    dispatch(setLectureFocus(lecture, from, clicked));
   },
-  clearLectureActiveDispatch: () => {
-    dispatch(clearLectureActive());
+  clearLectureFocusDispatch: () => {
+    dispatch(clearLectureFocus());
   },
   removeLectureFromTimetableDispatch: (lecture) => {
     dispatch(removeLectureFromTimetable(lecture));
@@ -455,10 +455,10 @@ const mapDispatchToProps = dispatch => ({
 TimetableSubSection.propTypes = {
   user: userShape,
   currentTimetable: timetableShape,
-  lectureActive: lectureActiveShape.isRequired,
-  lectureActiveFrom: PropTypes.oneOf([NONE, LIST, TABLE, MULTIPLE]).isRequired,
-  lectureActiveClicked: PropTypes.bool.isRequired,
-  lectureActiveLecture: lectureShape,
+  lectureFocus: lectureFocusShape.isRequired,
+  lectureFocusFrom: PropTypes.oneOf([NONE, LIST, TABLE, MULTIPLE]).isRequired,
+  lectureFocusClicked: PropTypes.bool.isRequired,
+  lectureFocusLecture: lectureShape,
   cellWidth: PropTypes.number.isRequired,
   cellHeight: PropTypes.number.isRequired,
   isDragging: PropTypes.bool.isRequired,
@@ -468,8 +468,8 @@ TimetableSubSection.propTypes = {
   dragSearchDispatch: PropTypes.func.isRequired,
   clearDragDispatch: PropTypes.func.isRequired,
   setIsDraggingDispatch: PropTypes.func.isRequired,
-  setLectureActiveDispatch: PropTypes.func.isRequired,
-  clearLectureActiveDispatch: PropTypes.func.isRequired,
+  setLectureFocusDispatch: PropTypes.func.isRequired,
+  clearLectureFocusDispatch: PropTypes.func.isRequired,
   removeLectureFromTimetableDispatch: PropTypes.func.isRequired,
   setCurrentListDispatch: PropTypes.func.isRequired,
   setMobileShowLectureListDispatch: PropTypes.func.isRequired,

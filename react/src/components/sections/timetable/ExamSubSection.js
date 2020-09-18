@@ -7,9 +7,9 @@ import { appBoundClassNames as classNames } from '../../../common/boundClassName
 
 import Scroller from '../../Scroller';
 
-import { clearMultipleDetail, setMultipleDetail } from '../../../actions/timetable/lectureActive';
+import { clearMultipleDetail, setMultipleDetail } from '../../../actions/timetable/lectureFocus';
 
-import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureActive';
+import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureFocus';
 
 import lectureShape from '../../../shapes/LectureShape';
 import timetableShape from '../../../shapes/TimetableShape';
@@ -26,14 +26,14 @@ class ExamSubSection extends Component {
   }
 
   _getLecturesWithExam = () => {
-    const { lectureActiveLecture, currentTimetable } = this.props;
+    const { lectureFocusLecture, currentTimetable } = this.props;
 
     const timetableLectures = currentTimetable
       ? currentTimetable.lectures
       : [];
     const lecturesWithExam = timetableLectures
-      .concat((lectureActiveLecture && !inTimetable(lectureActiveLecture, currentTimetable))
-        ? [lectureActiveLecture]
+      .concat((lectureFocusLecture && !inTimetable(lectureFocusLecture, currentTimetable))
+        ? [lectureFocusLecture]
         : [])
       .filter(l => (l.examtimes.length > 0));
 
@@ -42,8 +42,8 @@ class ExamSubSection extends Component {
 
   examFocus(dayIndex) {
     const { t } = this.props;
-    const { lectureActiveFrom, currentTimetable, setMultipleDetailDispatch } = this.props;
-    if (lectureActiveFrom !== 'NONE' || !currentTimetable) {
+    const { lectureFocusFrom, currentTimetable, setMultipleDetailDispatch } = this.props;
+    if (lectureFocusFrom !== 'NONE' || !currentTimetable) {
       return;
     }
 
@@ -62,9 +62,9 @@ class ExamSubSection extends Component {
   }
 
   clearFocus() {
-    const { lectureActiveFrom, clearMultipleDetailDispatch } = this.props;
+    const { lectureFocusFrom, clearMultipleDetailDispatch } = this.props;
 
-    if (lectureActiveFrom !== 'MULTIPLE') {
+    if (lectureFocusFrom !== 'MULTIPLE') {
       return;
     }
 
@@ -75,11 +75,11 @@ class ExamSubSection extends Component {
   render() {
     const { t } = this.props;
     const { activeLectures } = this.state;
-    const { lectureActiveLecture } = this.props;
+    const { lectureFocusLecture } = this.props;
 
     const renderLectureExam = (lec) => {
       const act = (
-        isActive(lec, lectureActiveLecture, activeLectures)
+        isActive(lec, lectureFocusLecture, activeLectures)
           ? 'active'
           : ''
       );
@@ -161,8 +161,8 @@ class ExamSubSection extends Component {
 
 const mapStateToProps = state => ({
   currentTimetable: state.timetable.timetable.currentTimetable,
-  lectureActiveLecture: state.timetable.lectureActive.lecture,
-  lectureActiveFrom: state.timetable.lectureActive.from,
+  lectureFocusLecture: state.timetable.lectureFocus.lecture,
+  lectureFocusFrom: state.timetable.lectureFocus.from,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -176,8 +176,8 @@ const mapDispatchToProps = dispatch => ({
 
 ExamSubSection.propTypes = {
   currentTimetable: timetableShape,
-  lectureActiveLecture: lectureShape,
-  lectureActiveFrom: PropTypes.oneOf([NONE, LIST, TABLE, MULTIPLE]).isRequired,
+  lectureFocusLecture: lectureShape,
+  lectureFocusFrom: PropTypes.oneOf([NONE, LIST, TABLE, MULTIPLE]).isRequired,
 
   setMultipleDetailDispatch: PropTypes.func.isRequired,
   clearMultipleDetailDispatch: PropTypes.func.isRequired,

@@ -13,11 +13,11 @@ import { getAverageScoreLabel } from '../../../common/scoreFunctions';
 import Scroller from '../../Scroller';
 import ReviewSimpleBlock from '../../blocks/ReviewSimpleBlock';
 
-import { clearLectureActive } from '../../../actions/timetable/lectureActive';
+import { clearLectureFocus } from '../../../actions/timetable/lectureFocus';
 import { addLectureToCart, deleteLectureFromCart } from '../../../actions/timetable/list';
 import { addLectureToTimetable, removeLectureFromTimetable } from '../../../actions/timetable/timetable';
 
-import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureActive';
+import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureFocus';
 
 import userShape from '../../../shapes/UserShape';
 import lectureShape from '../../../shapes/LectureShape';
@@ -60,7 +60,7 @@ class LectureDetailSection extends Component {
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     const { clicked, lecture, from, currentList, currentTimetable,
-      year, semester, clearLectureActiveDispatch } = this.props;
+      year, semester, clearLectureFocusDispatch } = this.props;
     if (prevProps.clicked && clicked) {
       if (prevProps.lecture.id !== lecture.id) {
         this.openDictPreview();
@@ -76,13 +76,13 @@ class LectureDetailSection extends Component {
     }
 
     if ((from === LIST) && (prevProps.currentList !== currentList)) {
-      clearLectureActiveDispatch();
+      clearLectureFocusDispatch();
     }
     else if ((from === TABLE) && (prevProps.currentTimetable.id !== currentTimetable.id)) {
-      clearLectureActiveDispatch();
+      clearLectureFocusDispatch();
     }
     else if ((prevProps.year !== year) || (prevProps.semester !== semester)) {
-      clearLectureActiveDispatch();
+      clearLectureFocusDispatch();
     }
   }
 
@@ -122,8 +122,8 @@ class LectureDetailSection extends Component {
   };
 
   unfix = () => {
-    const { clearLectureActiveDispatch } = this.props;
-    clearLectureActiveDispatch();
+    const { clearLectureFocusDispatch } = this.props;
+    clearLectureFocusDispatch();
   };
 
   addToTable = (event) => {
@@ -465,11 +465,11 @@ class LectureDetailSection extends Component {
 
 const mapStateToProps = state => ({
   user: state.common.user.user,
-  from: state.timetable.lectureActive.from,
-  lecture: state.timetable.lectureActive.lecture,
-  title: state.timetable.lectureActive.title,
-  multipleDetail: state.timetable.lectureActive.multipleDetail,
-  clicked: state.timetable.lectureActive.clicked,
+  from: state.timetable.lectureFocus.from,
+  lecture: state.timetable.lectureFocus.lecture,
+  title: state.timetable.lectureFocus.title,
+  multipleDetail: state.timetable.lectureFocus.multipleDetail,
+  clicked: state.timetable.lectureFocus.clicked,
   currentList: state.timetable.list.currentList,
   currentTimetable: state.timetable.timetable.currentTimetable,
   cart: state.timetable.list.cart,
@@ -478,8 +478,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  clearLectureActiveDispatch: () => {
-    dispatch(clearLectureActive());
+  clearLectureFocusDispatch: () => {
+    dispatch(clearLectureFocus());
   },
   addLectureToTimetableDispatch: (lecture) => {
     dispatch(addLectureToTimetable(lecture));
@@ -516,7 +516,7 @@ LectureDetailSection.propTypes = {
   year: PropTypes.number,
   semester: PropTypes.number,
 
-  clearLectureActiveDispatch: PropTypes.func.isRequired,
+  clearLectureFocusDispatch: PropTypes.func.isRequired,
   addLectureToTimetableDispatch: PropTypes.func.isRequired,
   removeLectureFromTimetableDispatch: PropTypes.func.isRequired,
   addLectureToCartDispatch: PropTypes.func.isRequired,

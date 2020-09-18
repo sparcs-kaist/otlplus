@@ -1,4 +1,4 @@
-import { RESET, SET_LECTURE_ACTIVE, CLEAR_LECTURE_ACTIVE, SET_MULTIPLE_DETAIL, CLEAR_MULTIPLE_DETAIL } from '../../actions/timetable/lectureActive';
+import { RESET, SET_LECTURE_FOCUS, CLEAR_LECTURE_FOCUS, SET_MULTIPLE_DETAIL, CLEAR_MULTIPLE_DETAIL } from '../../actions/timetable/lectureFocus';
 
 export const NONE = 'NONE';
 export const LIST = 'LIST';
@@ -13,19 +13,19 @@ const initialState = {
   multipleDetail: [],
 };
 
-const lectureActive = (state = initialState, action) => {
+const lectureFocus = (state = initialState, action) => {
   switch (action.type) {
     case RESET: {
       return initialState;
     }
-    case SET_LECTURE_ACTIVE: {
+    case SET_LECTURE_FOCUS: {
       return Object.assign({}, state, {
         from: action.from,
         clicked: action.clicked,
         lecture: action.lecture,
       });
     }
-    case CLEAR_LECTURE_ACTIVE: {
+    case CLEAR_LECTURE_FOCUS: {
       return Object.assign({}, state, {
         from: NONE,
         clicked: false,
@@ -52,4 +52,4 @@ const lectureActive = (state = initialState, action) => {
   }
 };
 
-export default lectureActive;
+export default lectureFocus;
