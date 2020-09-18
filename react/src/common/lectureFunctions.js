@@ -121,6 +121,10 @@ export const getExamStr = (lecture) => {
   return i18n.t('ui.others.sthAndNumOthers', { something: examStrings[0], count: examStrings.length - 1 });
 };
 
+export const getColorNumber = lecture => (
+  (lecture.course % 16) + 1
+)
+
 export const performAddToTable = (caller, lecture, selectedTimetable, user, addLectureToTimetableDispatch) => {
   if (
     lecture.classtimes.some(thisClasstime => (
