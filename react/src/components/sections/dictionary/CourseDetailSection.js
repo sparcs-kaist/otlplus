@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
+import axios from 'axios';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 import { getAverageScoreLabel } from '../../../common/scoreFunctions';
@@ -12,9 +13,11 @@ import RelatedSubSection from './RelatedSubSection';
 import HistorySubSection from './HistorySubSection';
 import ReviewsSubSection from './ReviewsSubSection';
 
-import { clearCourseFocus } from '../../../actions/dictionary/courseFocus';
+import { clearCourseFocus, setLectures, setReviews } from '../../../actions/dictionary/courseFocus';
+import { addCourseRead } from '../../../actions/dictionary/list';
 
-import courseShape from '../../../shapes/CourseShape';
+import courseFocusShape from '../../../shapes/CourseFocusShape';
+import userShape from '../../../shapes/UserShape';
 
 
 class CourseDetailSection extends Component {
@@ -32,16 +35,94 @@ class CourseDetailSection extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { selectedListCode, clicked, course, clearCourseFocusDispatch } = this.props;
+    const { selectedListCode, courseFocus, clearCourseFocusDispatch, setLecturesDispatch } = this.props;
 
     if (prevProps.selectedListCode !== selectedListCode) {
       clearCourseFocusDispatch();
     }
 
-    if (clicked && (!prevProps.clicked || (prevProps.course !== course))) {
+    if (courseFocus.clicked && (!prevProps.courseFocus.clicked || (prevProps.courseFocus.course !== courseFocus.course))) {
       this._updateOnScrollChange();
+      setLecturesDispatch(null);
+      this._fetchLectures();
+      this._fetchReviews();
     }
   }
+
+
+  _fetchLectures = () => {
+    const { courseFocus, setLecturesDispatch } = this.props;
+
+    axios.get(
+      `/api/courses/${courseFocus.course.id}/lectures`,
+      {
+        metadata: {
+          gaCategory: 'Course',
+          gaVariable: 'GET Lectures / Instance',
+        },
+      },
+    )
+      .then((response) => {
+        const newProps = this.props;
+        if (newProps.courseFocus.course.id !== courseFocus.course.id) {
+          return;
+        }
+        setLecturesDispatch(response.data);
+      })
+      .catch((error) => {
+      });
+  }
+
+
+  _fetchReviews = () => {
+    const { courseFocus, setReviewsDispatch } = this.props;
+
+    axios.get(
+      `/api/courses/${courseFocus.course.id}/reviews`,
+      {
+        metadata: {
+          gaCategory: 'Course',
+          gaVariable: 'GET Reviews / Instance',
+        },
+      },
+    )
+      .then((response) => {
+        const newProps = this.props;
+        if (newProps.courseFocus.course.id !== courseFocus.course.id) {
+          return;
+        }
+        this._markRead(courseFocus.course);
+        setReviewsDispatch(response.data);
+      })
+      .catch((error) => {
+      });
+  }
+
+
+  _markRead = (course) => {
+    const { user, addCourseReadDispatch } = this.props;
+
+    if (!user) {
+      addCourseReadDispatch(course);
+      return;
+    }
+
+    axios.post(
+      `/api/courses/${course.id}/read`,
+      {
+        metadata: {
+          gaCategory: 'Review',
+          gaVariable: 'POST Read / Instance',
+        },
+      },
+    )
+      .then((cresponse) => {
+        addCourseReadDispatch(course);
+      })
+      .catch((error) => {
+      });
+  }
+
 
   onScroll = () => {
     this._updateOnScrollChange();
@@ -71,66 +152,66 @@ class CourseDetailSection extends Component {
   render() {
     const { t } = this.props;
     const { showHiddenScores } = this.state;
-    const { clicked, course } = this.props;
+    const { courseFocus } = this.props;
 
-    if (clicked && course !== null) {
+    if (courseFocus.clicked && courseFocus.course !== null) {
       return (
         <div className={classNames('section-content', 'section-content--flex', 'section-content--course-detail')}>
           <button className={classNames('close-button')} onClick={this.unfix}><i className={classNames('icon', 'icon--close-section')} /></button>
           <div className={classNames('fixed')}>
             <div>
-              <div className={classNames('title')}>{ course[t('js.property.title')] }</div>
-              <div className={classNames('subtitle')}>{ course.old_code }</div>
+              <div className={classNames('title')}>{ courseFocus.course[t('js.property.title')] }</div>
+              <div className={classNames('subtitle')}>{ courseFocus.course.old_code }</div>
             </div>
             <div ref={this.scrollThresholdRef} />
             <div className={classNames('fixed__conditional-part', (showHiddenScores ? '' : 'fixed__conditional-part--hidden'))}>
               <div className={classNames('scores')}>
                 <div>
-                  <div>{ getAverageScoreLabel(course.grade) }</div>
+                  <div>{ getAverageScoreLabel(courseFocus.course.grade) }</div>
                   <div>{ t('ui.score.grade') }</div>
                 </div>
                 <div>
-                  <div>{ getAverageScoreLabel(course.load) }</div>
+                  <div>{ getAverageScoreLabel(courseFocus.course.load) }</div>
                   <div>{ t('ui.score.load') }</div>
                 </div>
                 <div>
-                  <div>{ getAverageScoreLabel(course.speech) }</div>
+                  <div>{ getAverageScoreLabel(courseFocus.course.speech) }</div>
                   <div>{ t('ui.score.speech') }</div>
                 </div>
               </div>
             </div>
           </div>
-          <Scroller onScroll={() => this.onScroll()} key={course.id}>
+          <Scroller onScroll={() => this.onScroll()} key={courseFocus.course.id}>
             <div>
               <div className={classNames('attribute', 'attribute--semi-long')}>
                 <div>{ t('ui.attribute.classification') }</div>
-                <div>{ `${course.department[t('js.property.name')]}, ${course[t('js.property.type')]}` }</div>
+                <div>{ `${courseFocus.course.department[t('js.property.name')]}, ${courseFocus.course[t('js.property.type')]}` }</div>
               </div>
               <div className={classNames('attribute', 'attribute--semi-long')}>
                 <div>{ t('ui.attribute.description') }</div>
-                <div>{ course.summary }</div>
+                <div>{ courseFocus.course.summary }</div>
               </div>
             </div>
             <div className={classNames('scores')} ref={this.scoresRef}>
               <div>
-                <div>{ getAverageScoreLabel(course.grade) }</div>
+                <div>{ getAverageScoreLabel(courseFocus.course.grade) }</div>
                 <div>{ t('ui.score.grade') }</div>
               </div>
               <div>
-                <div>{ getAverageScoreLabel(course.load) }</div>
+                <div>{ getAverageScoreLabel(courseFocus.course.load) }</div>
                 <div>{ t('ui.score.load') }</div>
               </div>
               <div>
-                <div>{ getAverageScoreLabel(course.speech) }</div>
+                <div>{ getAverageScoreLabel(courseFocus.course.speech) }</div>
                 <div>{ t('ui.score.speech') }</div>
               </div>
             </div>
             <div className={classNames('divider')} />
-            <RelatedSubSection />
+            <RelatedSubSection key={'aaa' + (courseFocus.clicked ? courseFocus.course.id : '-1')} />
             <div className={classNames('divider')} />
             <HistorySubSection />
             <div className={classNames('divider')} />
-            <ReviewsSubSection />
+            <ReviewsSubSection key={'ccc' + (courseFocus.clicked ? courseFocus.course.id : '-1')} />
           </Scroller>
         </div>
       );
@@ -161,8 +242,8 @@ class CourseDetailSection extends Component {
 }
 
 const mapStateToProps = state => ({
-  clicked: state.dictionary.courseFocus.clicked,
-  course: state.dictionary.courseFocus.course,
+  user: state.common.user.user,
+  courseFocus: state.dictionary.courseFocus,
   selectedListCode: state.dictionary.list.selectedListCode,
 });
 
@@ -170,14 +251,26 @@ const mapDispatchToProps = dispatch => ({
   clearCourseFocusDispatch: () => {
     dispatch(clearCourseFocus());
   },
+  setLecturesDispatch: (lectures) => {
+    dispatch(setLectures(lectures));
+  },
+  setReviewsDispatch: (reviews) => {
+    dispatch(setReviews(reviews));
+  },
+  addCourseReadDispatch: (course) => {
+    dispatch(addCourseRead(course));
+  },
 });
 
 CourseDetailSection.propTypes = {
-  clicked: PropTypes.bool.isRequired,
-  course: courseShape,
+  user: userShape,
+  courseFocus: courseFocusShape.isRequired,
   selectedListCode: PropTypes.string.isRequired,
 
   clearCourseFocusDispatch: PropTypes.func.isRequired,
+  setLecturesDispatch: PropTypes.func.isRequired,
+  setReviewsDispatch: PropTypes.func.isRequired,
+  addCourseReadDispatch: PropTypes.func.isRequired,
 };
 
 

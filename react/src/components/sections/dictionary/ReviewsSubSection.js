@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
-import axios from 'axios';
 import ReactGA from 'react-ga';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
@@ -11,12 +10,10 @@ import ReviewBlock from '../../blocks/ReviewBlock';
 import ReviewWriteBlock from '../../blocks/ReviewWriteBlock';
 import SearchFilter from '../../SearchFilter';
 
-import { setReviews, updateReview } from '../../../actions/dictionary/courseFocus';
+import { updateReview } from '../../../actions/dictionary/courseFocus';
 import { updateUserReview } from '../../../actions/common/user';
-import { addCourseRead } from '../../../actions/dictionary/list';
 
-import courseShape from '../../../shapes/CourseShape';
-import reviewShape from '../../../shapes/ReviewShape';
+import courseFocusShape from '../../../shapes/CourseFocusShape';
 import userShape from '../../../shapes/UserShape';
 
 
@@ -27,72 +24,6 @@ class ReviewsSubSection extends Component {
     this.state = {
       professor: new Set(['ALL']),
     };
-  }
-
-  componentDidMount() {
-    this._fetchReviews();
-  }
-
-
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    const { clicked, course } = this.props;
-
-    if (
-      clicked
-      && course
-      && (!prevProps.clicked || !prevProps.course || (prevProps.course.id !== course.id))) {
-      this._fetchReviews();
-    }
-  }
-
-
-  _fetchReviews = () => {
-    const { course, setReviewsDispatch } = this.props;
-
-    axios.get(
-      `/api/courses/${course.id}/reviews`,
-      {
-        metadata: {
-          gaCategory: 'Course',
-          gaVariable: 'GET Reviews / Instance',
-        },
-      },
-    )
-      .then((response) => {
-        const newProps = this.props;
-        if (newProps.course.id !== course.id) {
-          return;
-        }
-        this._markRead(course);
-        setReviewsDispatch(response.data);
-      })
-      .catch((error) => {
-      });
-  }
-
-
-  _markRead = (course) => {
-    const { user, addCourseReadDispatch } = this.props;
-
-    if (!user) {
-      addCourseReadDispatch(course);
-      return;
-    }
-
-    axios.post(
-      `/api/courses/${course.id}/read`,
-      {
-        metadata: {
-          gaCategory: 'Review',
-          gaVariable: 'POST Read / Instance',
-        },
-      },
-    )
-      .then((cresponse) => {
-        addCourseReadDispatch(course);
-      })
-      .catch((error) => {
-      });
   }
 
   updateCheckedValues = filterName => (checkedValues) => {
@@ -127,22 +58,22 @@ class ReviewsSubSection extends Component {
   render() {
     const { t } = this.props;
     const { professor } = this.state;
-    const { user, course, reviews } = this.props;
+    const { user, courseFocus } = this.props;
 
-    if (!course) {
+    if (!courseFocus.course) {
       return null;
     }
 
     const professorOptions = [
       ['ALL', t('ui.type.allShort')],
-      ...(course.professors
+      ...(courseFocus.course.professors
         .map(p => [this._getProfessorFormValue(p), p[t('js.property.name')]])
       ),
     ];
 
     const takenLecturesOfCourse = user
       ? user.review_writable_lectures
-        .filter(l => ((l.course === course.id) && this._lectureProfessorChecker(l, professor)))
+        .filter(l => ((l.course === courseFocus.course.id) && this._lectureProfessorChecker(l, professor)))
       : [];
     const reviewWriteBlocks = takenLecturesOfCourse.map(l => (
       <ReviewWriteBlock
@@ -154,9 +85,9 @@ class ReviewsSubSection extends Component {
       />
     ));
 
-    const filteredReviews = reviews == null
+    const filteredReviews = courseFocus.reviews == null
       ? null
-      : reviews.filter(r => this._lectureProfessorChecker(r.lecture, professor));
+      : courseFocus.reviews.filter(r => this._lectureProfessorChecker(r.lecture, professor));
     const reviewBlocksArea = (filteredReviews == null)
       ? <div className={classNames('section-content--course-detail__list-area', 'list-placeholder')}><div>{t('ui.placeholder.loading')}</div></div>
       : (filteredReviews.length
@@ -182,18 +113,10 @@ class ReviewsSubSection extends Component {
 
 const mapStateToProps = state => ({
   user: state.common.user.user,
-  clicked: state.dictionary.courseFocus.clicked,
-  course: state.dictionary.courseFocus.course,
-  reviews: state.dictionary.courseFocus.reviews,
+  courseFocus: state.dictionary.courseFocus,
 });
 
 const mapDispatchToProps = dispatch => ({
-  setReviewsDispatch: (reviews) => {
-    dispatch(setReviews(reviews));
-  },
-  addCourseReadDispatch: (course) => {
-    dispatch(addCourseRead(course));
-  },
   updateUserReviewDispatch: (review) => {
     dispatch(updateUserReview(review));
   },
@@ -204,12 +127,8 @@ const mapDispatchToProps = dispatch => ({
 
 ReviewsSubSection.propTypes = {
   user: userShape,
-  clicked: PropTypes.bool.isRequired,
-  course: courseShape,
-  reviews: PropTypes.arrayOf(reviewShape),
+  courseFocus: courseFocusShape.isRequired,
 
-  setReviewsDispatch: PropTypes.func.isRequired,
-  addCourseReadDispatch: PropTypes.func.isRequired,
   updateUserReviewDispatch: PropTypes.func.isRequired,
   updateReviewDispatch: PropTypes.func.isRequired,
 };
