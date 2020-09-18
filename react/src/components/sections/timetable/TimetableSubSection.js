@@ -19,7 +19,7 @@ import userShape from '../../../shapes/UserShape';
 import timetableShape from '../../../shapes/TimetableShape';
 import lectureFocusShape from '../../../shapes/LectureFocusShape';
 
-import { inTimetable, isListHover, isTableClicked, isTableHover, isInMultiple, isDimmedTableLecture, performDeleteFromTable, isListClicked } from '../../../common/lectureFunctions';
+import { inTimetable, isListFocused, isTableClicked, isTableFocused, isMultipleFocused, isDimmedTableLecture, performDeleteFromTable, isListClicked } from '../../../common/lectureFunctions';
 
 
 class TimetableSubSection extends Component {
@@ -269,10 +269,9 @@ class TimetableSubSection extends Component {
           cellHeight={cellHeight}
           isTimetableReadonly={!selectedTimetable || Boolean(selectedTimetable.isReadOnly)}
           isClicked={isTableClicked(lecture, lectureFocus)}
-          isHover={isTableHover(lecture, lectureFocus)
-            || isListHover(lecture, lectureFocus)
-            || isListClicked(lecture, lectureFocus)
-            || isInMultiple(lecture, lectureFocus)}
+          isFocused={isTableFocused(lecture, lectureFocus)
+            || isListFocused(lecture, lectureFocus)
+            || isMultipleFocused(lecture, lectureFocus)}
           isDimmed={isDimmedTableLecture(lecture, lectureFocus)}
           isTemp={isTemp}
           isSimple={mobileShowLectureList}

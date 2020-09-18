@@ -8,8 +8,8 @@ const lectureFocusShape = PropTypes.shape({
   from: PropTypes.oneOf([NONE, LIST, TABLE, MULTIPLE]).isRequired,
   clicked: PropTypes.bool.isRequired,
   lecture: lectureShape,
-  title: PropTypes.string.isRequired,
-  multipleDetail: PropTypes.arrayOf(
+  multipleTitle: PropTypes.string.isRequired,
+  multipleDetails: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,
       title: PropTypes.string.isRequired,

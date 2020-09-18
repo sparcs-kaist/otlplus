@@ -22,7 +22,7 @@ import lectureShape from '../../../shapes/LectureShape';
 import timetableShape from '../../../shapes/TimetableShape';
 import lectureFocusShape from '../../../shapes/LectureFocusShape';
 
-import { inTimetable, inCart, isListClicked, isListHover, isDimmedListLectureGroup, performAddToTable, performAddToCart, performDeleteFromCart } from '../../../common/lectureFunctions';
+import { inTimetable, inCart, isListClicked, isListFocused, isDimmedListLectureGroup, performAddToTable, performAddToCart, performDeleteFromCart } from '../../../common/lectureFunctions';
 
 
 class LectureListSection extends Component {
@@ -248,7 +248,7 @@ class LectureListSection extends Component {
                   lecture={l}
                   key={l.id}
                   isClicked={isListClicked(l, lectureFocus)}
-                  isHover={isListHover(l, lectureFocus)}
+                  isFocused={isListFocused(l, lectureFocus)}
                   inTimetable={inTimetable(l, selectedTimetable)}
                   isTimetableReadonly={!selectedTimetable || Boolean(selectedTimetable.isReadOnly)}
                   inCart={inCart(l, cart)}
