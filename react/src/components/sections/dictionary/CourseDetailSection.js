@@ -14,7 +14,7 @@ import ReviewsSubSection from './ReviewsSubSection';
 
 import { clearCourseFocus } from '../../../actions/dictionary/courseFocus';
 
-import courseShape from '../../../shapes/CourseShape';
+import courseFocusShape from '../../../shapes/CourseFocusShape';
 
 
 class CourseDetailSection extends Component {
@@ -32,13 +32,13 @@ class CourseDetailSection extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { selectedListCode, clicked, course, clearCourseFocusDispatch } = this.props;
+    const { selectedListCode, courseFocus, clearCourseFocusDispatch } = this.props;
 
     if (prevProps.selectedListCode !== selectedListCode) {
       clearCourseFocusDispatch();
     }
 
-    if (clicked && (!prevProps.clicked || (prevProps.course !== course))) {
+    if (courseFocus.clicked && (!prevProps.courseFocus.clicked || (prevProps.courseFocus.course !== courseFocus.course))) {
       this._updateOnScrollChange();
     }
   }
@@ -71,57 +71,57 @@ class CourseDetailSection extends Component {
   render() {
     const { t } = this.props;
     const { showHiddenScores } = this.state;
-    const { clicked, course } = this.props;
+    const { courseFocus } = this.props;
 
-    if (clicked && course !== null) {
+    if (courseFocus.clicked && courseFocus.course !== null) {
       return (
         <div className={classNames('section-content', 'section-content--flex', 'section-content--course-detail')}>
           <button className={classNames('close-button')} onClick={this.unfix}><i className={classNames('icon', 'icon--close-section')} /></button>
           <div className={classNames('fixed')}>
             <div>
-              <div className={classNames('title')}>{ course[t('js.property.title')] }</div>
-              <div className={classNames('subtitle')}>{ course.old_code }</div>
+              <div className={classNames('title')}>{ courseFocus.course[t('js.property.title')] }</div>
+              <div className={classNames('subtitle')}>{ courseFocus.course.old_code }</div>
             </div>
             <div ref={this.scrollThresholdRef} />
             <div className={classNames('fixed__conditional-part', (showHiddenScores ? '' : 'fixed__conditional-part--hidden'))}>
               <div className={classNames('scores')}>
                 <div>
-                  <div>{ getAverageScoreLabel(course.grade) }</div>
+                  <div>{ getAverageScoreLabel(courseFocus.course.grade) }</div>
                   <div>{ t('ui.score.grade') }</div>
                 </div>
                 <div>
-                  <div>{ getAverageScoreLabel(course.load) }</div>
+                  <div>{ getAverageScoreLabel(courseFocus.course.load) }</div>
                   <div>{ t('ui.score.load') }</div>
                 </div>
                 <div>
-                  <div>{ getAverageScoreLabel(course.speech) }</div>
+                  <div>{ getAverageScoreLabel(courseFocus.course.speech) }</div>
                   <div>{ t('ui.score.speech') }</div>
                 </div>
               </div>
             </div>
           </div>
-          <Scroller onScroll={() => this.onScroll()} key={course.id}>
+          <Scroller onScroll={() => this.onScroll()} key={courseFocus.course.id}>
             <div>
               <div className={classNames('attribute', 'attribute--semi-long')}>
                 <div>{ t('ui.attribute.classification') }</div>
-                <div>{ `${course.department[t('js.property.name')]}, ${course[t('js.property.type')]}` }</div>
+                <div>{ `${courseFocus.course.department[t('js.property.name')]}, ${courseFocus.course[t('js.property.type')]}` }</div>
               </div>
               <div className={classNames('attribute', 'attribute--semi-long')}>
                 <div>{ t('ui.attribute.description') }</div>
-                <div>{ course.summary }</div>
+                <div>{ courseFocus.course.summary }</div>
               </div>
             </div>
             <div className={classNames('scores')} ref={this.scoresRef}>
               <div>
-                <div>{ getAverageScoreLabel(course.grade) }</div>
+                <div>{ getAverageScoreLabel(courseFocus.course.grade) }</div>
                 <div>{ t('ui.score.grade') }</div>
               </div>
               <div>
-                <div>{ getAverageScoreLabel(course.load) }</div>
+                <div>{ getAverageScoreLabel(courseFocus.course.load) }</div>
                 <div>{ t('ui.score.load') }</div>
               </div>
               <div>
-                <div>{ getAverageScoreLabel(course.speech) }</div>
+                <div>{ getAverageScoreLabel(courseFocus.course.speech) }</div>
                 <div>{ t('ui.score.speech') }</div>
               </div>
             </div>
@@ -161,8 +161,7 @@ class CourseDetailSection extends Component {
 }
 
 const mapStateToProps = state => ({
-  clicked: state.dictionary.courseFocus.clicked,
-  course: state.dictionary.courseFocus.course,
+  courseFocus: state.dictionary.courseFocus,
   selectedListCode: state.dictionary.list.selectedListCode,
 });
 
@@ -173,8 +172,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 CourseDetailSection.propTypes = {
-  clicked: PropTypes.bool.isRequired,
-  course: courseShape,
+  courseFocus: courseFocusShape.isRequired,
   selectedListCode: PropTypes.string.isRequired,
 
   clearCourseFocusDispatch: PropTypes.func.isRequired,

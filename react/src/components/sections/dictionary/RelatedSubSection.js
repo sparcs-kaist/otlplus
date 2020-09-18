@@ -7,15 +7,15 @@ import { appBoundClassNames as classNames } from '../../../common/boundClassName
 import Scroller from '../../Scroller';
 import CourseSimpleBlock from '../../blocks/CourseSimpleBlock';
 
-import courseShape from '../../../shapes/CourseShape';
+import courseFocusShape from '../../../shapes/CourseFocusShape';
 
 
 class RelatedSubSection extends Component {
   render() {
     const { t } = this.props;
-    const { course } = this.props;
+    const { courseFocus } = this.props;
 
-    if (!course) {
+    if (!courseFocus.course) {
       return null;
     }
 
@@ -34,19 +34,19 @@ class RelatedSubSection extends Component {
           <Scroller noScrollX={false} noScrollY={true}>
             <div className={classNames('related-courses')}>
               <div>
-                { getBlocksOrPlaceholder(course.related_courses_prior)}
+                { getBlocksOrPlaceholder(courseFocus.course.related_courses_prior)}
               </div>
               <div>
                 <i className={classNames('icon', 'icon--related-arrow')} />
               </div>
               <div>
-                <CourseSimpleBlock course={course} />
+                <CourseSimpleBlock course={courseFocus.course} />
               </div>
               <div>
                 <i className={classNames('icon', 'icon--related-arrow')} />
               </div>
               <div>
-                { getBlocksOrPlaceholder(course.related_courses_posterior) }
+                { getBlocksOrPlaceholder(courseFocus.course.related_courses_posterior) }
               </div>
             </div>
           </Scroller>
@@ -57,14 +57,14 @@ class RelatedSubSection extends Component {
 }
 
 const mapStateToProps = state => ({
-  course: state.dictionary.courseFocus.course,
+  courseFocus: state.dictionary.courseFocus,
 });
 
 const mapDispatchToProps = dispatch => ({
 });
 
 RelatedSubSection.propTypes = {
-  course: courseShape,
+  courseFocus: courseFocusShape.isRequired,
 };
 
 

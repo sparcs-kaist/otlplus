@@ -17,10 +17,11 @@ import { clearLectureFocus } from '../../../actions/timetable/lectureFocus';
 import { addLectureToCart, deleteLectureFromCart } from '../../../actions/timetable/list';
 import { addLectureToTimetable, removeLectureFromTimetable } from '../../../actions/timetable/timetable';
 
-import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureFocus';
+import { LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureFocus';
 
 import userShape from '../../../shapes/UserShape';
 import lectureShape from '../../../shapes/LectureShape';
+import lectureFocusShape from '../../../shapes/LectureFocusShape';
 import timetableShape from '../../../shapes/TimetableShape';
 
 import { inTimetable, inCart, getClassroomStr, performAddToTable, performDeleteFromTable, performAddToCart, performDeleteFromCart, getExamStr } from '../../../common/lectureFunctions';
@@ -46,12 +47,12 @@ class LectureDetailSection extends Component {
 
   static getDerivedStateFromProps(nextProps, prevState) {
     const shouldClearReviews = (
-      !nextProps.lecture
+      !nextProps.lectureFocus.lecture
       || !prevState.reviewsLecture
-      || nextProps.lecture.id !== prevState.reviewsLecture.id
+      || nextProps.lectureFocus.lecture.id !== prevState.reviewsLecture.id
     );
     return {
-      showUnfix: (nextProps.from === 'LIST' || nextProps.from === 'TABLE') && nextProps.clicked,
+      showUnfix: (nextProps.lectureFocus.from === 'LIST' || nextProps.lectureFocus.from === 'TABLE') && nextProps.lectureFocus.clicked,
       reviews: shouldClearReviews
         ? null
         : prevState.reviews,
@@ -59,26 +60,26 @@ class LectureDetailSection extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    const { clicked, lecture, from, selectedListCode, selectedTimetable,
+    const { lectureFocus, selectedListCode, selectedTimetable,
       year, semester, clearLectureFocusDispatch } = this.props;
-    if (prevProps.clicked && clicked) {
-      if (prevProps.lecture.id !== lecture.id) {
+    if (prevProps.lectureFocus.clicked && lectureFocus.clicked) {
+      if (prevProps.lectureFocus.lecture.id !== lectureFocus.lecture.id) {
         this.openDictPreview();
       }
     }
-    else if (prevProps.clicked && !clicked) {
-      if (lecture) {
+    else if (prevProps.lectureFocus.clicked && !lectureFocus.clicked) {
+      if (lectureFocus.lecture) {
         this.closeDictPreview();
       }
     }
-    else if (!prevProps.clicked && clicked) {
+    else if (!prevProps.lectureFocus.clicked && lectureFocus.clicked) {
       this.openDictPreview();
     }
 
-    if ((from === LIST) && (prevProps.selectedListCode !== selectedListCode)) {
+    if ((lectureFocus.from === LIST) && (prevProps.selectedListCode !== selectedListCode)) {
       clearLectureFocusDispatch();
     }
-    else if ((from === TABLE) && (prevProps.selectedTimetable.id !== selectedTimetable.id)) {
+    else if ((lectureFocus.from === TABLE) && (prevProps.selectedTimetable.id !== selectedTimetable.id)) {
       clearLectureFocusDispatch();
     }
     else if ((prevProps.year !== year) || (prevProps.semester !== semester)) {
@@ -88,7 +89,7 @@ class LectureDetailSection extends Component {
 
   openDictPreview = () => {
     const { reviews } = this.state;
-    const { lecture } = this.props;
+    const { lectureFocus } = this.props;
 
     const scrollTop = this.openDictRef.current.getBoundingClientRect().top
       - this.attributesRef.current.getBoundingClientRect().top
@@ -97,7 +98,7 @@ class LectureDetailSection extends Component {
 
     if (reviews === null) {
       axios.get(
-        `/api/lectures/${lecture.id}/related-reviews`,
+        `/api/lectures/${lectureFocus.lecture.id}/related-reviews`,
         {
           metadata: {
             gaCategory: 'Lecture',
@@ -107,10 +108,10 @@ class LectureDetailSection extends Component {
       )
         .then((response) => {
           const newProps = this.props;
-          if (newProps.lecture.id !== lecture.id) {
+          if (newProps.lectureFocus.lecture.id !== lectureFocus.lecture.id) {
             return;
           }
-          this.setState({ reviewsLecture: lecture, reviews: response.data });
+          this.setState({ reviewsLecture: lectureFocus.lecture, reviews: response.data });
         })
         .catch((error) => {
         });
@@ -127,98 +128,98 @@ class LectureDetailSection extends Component {
   };
 
   addToTable = (event) => {
-    const { lecture, selectedTimetable, user, from, selectedListCode,
+    const { lectureFocus, selectedTimetable, user, selectedListCode,
       addLectureToTimetableDispatch } = this.props;
 
     event.stopPropagation();
-    performAddToTable(this, lecture, selectedTimetable, user, addLectureToTimetableDispatch);
+    performAddToTable(this, lectureFocus.lecture, selectedTimetable, user, addLectureToTimetableDispatch);
 
     const labelOfTabs = new Map([
       ['SEARCH', 'Search'],
       ['HUMANITY', 'Humanity'],
       ['CART', 'Cart'],
     ]);
-    const fromString = (from === TABLE)
+    const fromString = (lectureFocus.from === TABLE)
       ? 'Timetable'
-      : (from === LIST)
+      : (lectureFocus.from === LIST)
         ? `Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`
         : 'Unknown';
     ReactGA.event({
       category: 'Timetable - Lecture',
       action: 'Added Lecture to Timetable',
-      label: `Lecture : ${lecture.id} / From : ${fromString}`,
+      label: `Lecture : ${lectureFocus.lecture.id} / From : ${fromString}`,
     });
   }
 
   deleteFromTable = (event) => {
-    const { lecture, selectedTimetable, user, from, selectedListCode,
+    const { lectureFocus, selectedTimetable, user, selectedListCode,
       removeLectureFromTimetableDispatch } = this.props;
 
     event.stopPropagation();
-    performDeleteFromTable(this, lecture, selectedTimetable, user, removeLectureFromTimetableDispatch);
+    performDeleteFromTable(this, lectureFocus.lecture, selectedTimetable, user, removeLectureFromTimetableDispatch);
 
     const labelOfTabs = new Map([
       ['SEARCH', 'Search'],
       ['HUMANITY', 'Humanity'],
       ['CART', 'Cart'],
     ]);
-    const fromString = (from === TABLE)
+    const fromString = (lectureFocus.from === TABLE)
       ? 'Timetable'
-      : (from === LIST)
+      : (lectureFocus.from === LIST)
         ? `Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`
         : 'Unknown';
     ReactGA.event({
       category: 'Timetable - Lecture',
       action: 'Deleted Lecture from Timetable',
-      label: `Lecture : ${lecture.id} / From : ${fromString}`,
+      label: `Lecture : ${lectureFocus.lecture.id} / From : ${fromString}`,
     });
   }
 
   addToCart = (event) => {
-    const { lecture, year, semester, user, from, selectedListCode,
+    const { lectureFocus, year, semester, user, selectedListCode,
       addLectureToCartDispatch } = this.props;
 
     event.stopPropagation();
-    performAddToCart(this, lecture, year, semester, user, addLectureToCartDispatch);
+    performAddToCart(this, lectureFocus.lecture, year, semester, user, addLectureToCartDispatch);
 
     const labelOfTabs = new Map([
       ['SEARCH', 'Search'],
       ['HUMANITY', 'Humanity'],
       ['CART', 'Cart'],
     ]);
-    const fromString = (from === TABLE)
+    const fromString = (lectureFocus.from === TABLE)
       ? 'Timetable'
-      : (from === LIST)
+      : (lectureFocus.from === LIST)
         ? `Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`
         : 'Unknown';
     ReactGA.event({
       category: 'Timetable - Lecture',
       action: 'Added Lecture to Cart',
-      label: `Lecture : ${lecture.id} / From : ${fromString}`,
+      label: `Lecture : ${lectureFocus.lecture.id} / From : ${fromString}`,
     });
   }
 
   deleteFromCart = (event) => {
-    const { lecture, year, semester, user, from, selectedListCode,
+    const { lectureFocus, year, semester, user, selectedListCode,
       deleteLectureFromCartDispatch } = this.props;
 
     event.stopPropagation();
-    performDeleteFromCart(this, lecture, year, semester, user, deleteLectureFromCartDispatch);
+    performDeleteFromCart(this, lectureFocus.lecture, year, semester, user, deleteLectureFromCartDispatch);
 
     const labelOfTabs = new Map([
       ['SEARCH', 'Search'],
       ['HUMANITY', 'Humanity'],
       ['CART', 'Cart'],
     ]);
-    const fromString = (from === TABLE)
+    const fromString = (lectureFocus.from === TABLE)
       ? 'Timetable'
-      : (from === LIST)
+      : (lectureFocus.from === LIST)
         ? `Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`
         : 'Unknown';
     ReactGA.event({
       category: 'Timetable - Lecture',
       action: 'Deleted Lecture from Cart',
-      label: `Lecture : ${lecture.id} / From : ${fromString}`,
+      label: `Lecture : ${lectureFocus.lecture.id} / From : ${fromString}`,
     });
   }
 
@@ -238,9 +239,9 @@ class LectureDetailSection extends Component {
   render() {
     const { t } = this.props;
     const { showUnfix, showCloseDict } = this.state;
-    const { from, lecture, title, multipleDetail, selectedTimetable, cart } = this.props;
+    const { lectureFocus, selectedTimetable, cart } = this.props;
 
-    if (from === LIST || from === TABLE) {
+    if (lectureFocus.from === LIST || lectureFocus.from === TABLE) {
       const { reviews } = this.state;
       const mapreview = (review, index) => (
         <ReviewSimpleBlock key={`review_${index}`} review={review} />
@@ -254,18 +255,18 @@ class LectureDetailSection extends Component {
         <div className={classNames('section-content', 'section-content--lecture-detail', 'section-content--flex')} ref={this.scrollRef}>
           <button className={classNames('close-button')} onClick={this.unfix}><i className={classNames('icon', 'icon--close-section')} /></button>
           <div className={classNames('title')}>
-            {lecture[t('js.property.title')]}
+            {lectureFocus.lecture[t('js.property.title')]}
           </div>
           <div className={classNames('subtitle')}>
-            {lecture.old_code}
-            {lecture.class_no.length ? ` (${lecture.class_no})` : ''}
+            {lectureFocus.lecture.old_code}
+            {lectureFocus.lecture.class_no.length ? ` (${lectureFocus.lecture.class_no})` : ''}
           </div>
           <div className={classNames('buttons')}>
             <button onClick={this.unfix} className={classNames('text-button', (showUnfix ? '' : classNames('text-button--disabled')))}>{t('ui.button.unfix')}</button>
-            <a className={classNames('text-button', 'text-button--right')} href={`https://cais.kaist.ac.kr/syllabusInfo?year=${lecture.year}&term=${lecture.semester}&subject_no=${lecture.code}&lecture_class=${lecture.class_no}&dept_id=${lecture.department}`} target="_blank" rel="noopener noreferrer">
+            <a className={classNames('text-button', 'text-button--right')} href={`https://cais.kaist.ac.kr/syllabusInfo?year=${lectureFocus.lecture.year}&term=${lectureFocus.lecture.semester}&subject_no=${lectureFocus.lecture.code}&lecture_class=${lectureFocus.lecture.class_no}&dept_id=${lectureFocus.lecture.department}`} target="_blank" rel="noopener noreferrer">
               {t('ui.button.syllabus')}
             </a>
-            <Link className={classNames('text-button', 'text-button--right')} to={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: lecture.course }) }}>
+            <Link className={classNames('text-button', 'text-button--right')} to={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: lectureFocus.lecture.course }) }}>
               {t('ui.button.dictionary')}
             </Link>
           </div>
@@ -277,38 +278,38 @@ class LectureDetailSection extends Component {
           </div>
           <Scroller
             onScroll={this.onScroll}
-            key={lecture.id}
+            key={lectureFocus.lecture.id}
           >
             <div ref={this.attributesRef}>
               <div className={classNames('attribute')}>
                 <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.attribute.type')}</span>
-                <span>{lecture[t('js.property.type')]}</span>
+                <span>{lectureFocus.lecture[t('js.property.type')]}</span>
               </div>
               <div className={classNames('attribute')}>
                 <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.attribute.department')}</span>
-                <span>{lecture[t('js.property.department_name')]}</span>
+                <span>{lectureFocus.lecture[t('js.property.department_name')]}</span>
               </div>
               <div className={classNames('attribute')}>
                 <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.attribute.professors')}</span>
-                <span>{lecture.professors.map(p => p[t('js.property.name')]).join(', ')}</span>
+                <span>{lectureFocus.lecture.professors.map(p => p[t('js.property.name')]).join(', ')}</span>
               </div>
               <div className={classNames('attribute')}>
                 <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.attribute.classroom')}</span>
-                <span>{getClassroomStr(lecture)}</span>
+                <span>{getClassroomStr(lectureFocus.lecture)}</span>
               </div>
               <div className={classNames('attribute')}>
                 <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.attribute.limit')}</span>
-                <span>{lecture.limit}</span>
+                <span>{lectureFocus.lecture.limit}</span>
               </div>
               <div className={classNames('attribute')}>
                 <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.attribute.exam')}</span>
-                <span>{getExamStr(lecture)}</span>
+                <span>{getExamStr(lectureFocus.lecture)}</span>
               </div>
             </div>
             <div className={classNames('scores')}>
               <div>
                 {
-                  lecture.is_english
+                  lectureFocus.lecture.is_english
                     ? <div>Eng</div>
                     : <div className={(classNames('scores__score-text--korean'))}>한</div>
                 }
@@ -316,12 +317,12 @@ class LectureDetailSection extends Component {
               </div>
               <div>
                 {
-                  lecture.credit > 0
-                    ? <div>{lecture.credit}</div>
-                    : <div>{lecture.credit_au}</div>
+                  lectureFocus.lecture.credit > 0
+                    ? <div>{lectureFocus.lecture.credit}</div>
+                    : <div>{lectureFocus.lecture.credit_au}</div>
                 }
                 {
-                  lecture.credit > 0
+                  lectureFocus.lecture.credit > 0
                     ? <div>{t('ui.score.credit')}</div>
                     : <div>AU</div>
                 }
@@ -329,9 +330,9 @@ class LectureDetailSection extends Component {
               <div>
                 <div>
                   {
-                    lecture.limit === 0
+                    lectureFocus.lecture.limit === 0
                       ? '0.0:1'
-                      : `${(lecture.num_people / lecture.limit).toFixed(1).toString()}:1`
+                      : `${(lectureFocus.lecture.num_people / lectureFocus.lecture.limit).toFixed(1).toString()}:1`
                   }
                 </div>
                 <div>{t('ui.score.competition')}</div>
@@ -339,15 +340,15 @@ class LectureDetailSection extends Component {
             </div>
             <div className={classNames('scores')}>
               <div>
-                <div>{getAverageScoreLabel(lecture.grade)}</div>
+                <div>{getAverageScoreLabel(lectureFocus.lecture.grade)}</div>
                 <div>{t('ui.score.grade')}</div>
               </div>
               <div>
-                <div>{getAverageScoreLabel(lecture.load)}</div>
+                <div>{getAverageScoreLabel(lectureFocus.lecture.load)}</div>
                 <div>{t('ui.score.load')}</div>
               </div>
               <div>
-                <div>{getAverageScoreLabel(lecture.speech)}</div>
+                <div>{getAverageScoreLabel(lectureFocus.lecture.speech)}</div>
                 <div>{t('ui.score.speech')}</div>
               </div>
             </div>
@@ -360,7 +361,7 @@ class LectureDetailSection extends Component {
           <div className={classNames('divider', 'mobile-unhidden')} />
           <div className={classNames('section-content--lecture-detail__mobile-buttons', 'mobile-unhidden')}>
             {
-              !inCart(lecture, cart)
+              !inCart(lectureFocus.lecture, cart)
                 ? (
                   <button className={classNames('text-button', 'text-button--black')} onClick={this.addToCart}>
                     <i className={classNames('icon', 'icon--add-cart')} />
@@ -375,7 +376,7 @@ class LectureDetailSection extends Component {
                 )
             }
             {selectedTimetable && !selectedTimetable.isReadOnly
-              ? (!inTimetable(lecture, selectedTimetable)
+              ? (!inTimetable(lectureFocus.lecture, selectedTimetable)
                 ? (
                   <button className={classNames('text-button', 'text-button--black')} onClick={this.addToTable}>
                     <i className={classNames('icon', 'icon--add-lecture')} />
@@ -389,7 +390,7 @@ class LectureDetailSection extends Component {
                   </button>
                 )
               )
-              : (!inTimetable(lecture, selectedTimetable)
+              : (!inTimetable(lectureFocus.lecture, selectedTimetable)
                 ? (
                   <button className={classNames('text-button', 'text-button--black', 'text-button--disabled')}>
                     <i className={classNames('icon', 'icon--add-lecture')} />
@@ -409,14 +410,14 @@ class LectureDetailSection extends Component {
         </div>
       );
     }
-    if (from === MULTIPLE) {
+    if (lectureFocus.from === MULTIPLE) {
       return (
         <div className={classNames('section-content', 'section-content--lecture-detail', 'section-content--flex')}>
           <div className={classNames('title')}>
-            {title}
+            {lectureFocus.title}
           </div>
           <div className={classNames('subtitle')}>
-            {t('ui.others.multipleDetailCount', { count: multipleDetail.length })}
+            {t('ui.others.multipleDetailCount', { count: lectureFocus.multipleDetail.length })}
           </div>
           <div className={classNames('buttons')}>
             <span className={classNames('text-button', 'text-button--disabled')}>{t('ui.button.unfix')}</span>
@@ -424,7 +425,7 @@ class LectureDetailSection extends Component {
             <span className={classNames('text-button', 'text-button--right', 'text-button--disabled')}>{t('ui.button.dictionary')}</span>
           </div>
           <div>
-            {multipleDetail.map((detail, index) => (
+            {lectureFocus.multipleDetail.map((detail, index) => (
               <div className={classNames('attribute')} key={detail.id}>
                 <span>
                   {detail.title}
@@ -465,11 +466,7 @@ class LectureDetailSection extends Component {
 
 const mapStateToProps = state => ({
   user: state.common.user.user,
-  from: state.timetable.lectureFocus.from,
-  lecture: state.timetable.lectureFocus.lecture,
-  title: state.timetable.lectureFocus.title,
-  multipleDetail: state.timetable.lectureFocus.multipleDetail,
-  clicked: state.timetable.lectureFocus.clicked,
+  lectureFocus: state.timetable.lectureFocus,
   selectedListCode: state.timetable.list.selectedListCode,
   selectedTimetable: state.timetable.timetable.selectedTimetable,
   cart: state.timetable.list.cart,
@@ -497,17 +494,7 @@ const mapDispatchToProps = dispatch => ({
 
 LectureDetailSection.propTypes = {
   user: userShape,
-  from: PropTypes.oneOf([NONE, LIST, TABLE, MULTIPLE]).isRequired,
-  lecture: lectureShape,
-  title: PropTypes.string.isRequired,
-  multipleDetail: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      title: PropTypes.string.isRequired,
-      info: PropTypes.string.isRequired,
-    }),
-  ),
-  clicked: PropTypes.bool.isRequired,
+  lectureFocus: lectureFocusShape.isRequired,
   selectedListCode: PropTypes.string.isRequired,
   selectedTimetable: timetableShape,
   cart: PropTypes.shape({
