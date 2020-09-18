@@ -4,6 +4,7 @@ const BASE_STRING = 'T_LA_';
 export const RESET = BASE_STRING + 'RESET';
 export const SET_LECTURE_FOCUS = BASE_STRING + 'SET_LECTURE_FOCUS';
 export const CLEAR_LECTURE_FOCUS = BASE_STRING + 'CLEAR_LECTURE_FOCUS';
+export const SET_REVIEWS = BASE_STRING + 'SET_REVIEWS';
 export const SET_MULTIPLE_DETAIL = BASE_STRING + 'SET_MULTIPLE_DETAIL';
 export const CLEAR_MULTIPLE_DETAIL = BASE_STRING + 'CLEAR_MULTIPLE_DETAIL';
 /* eslint-enable prefer-template */
@@ -27,6 +28,13 @@ export function setLectureFocus(lecture, from, clicked) {
 export function clearLectureFocus() {
   return {
     type: CLEAR_LECTURE_FOCUS,
+  };
+}
+
+export function setReviews(reviews) {
+  return {
+    type: SET_REVIEWS,
+    reviews: reviews,
   };
 }
 

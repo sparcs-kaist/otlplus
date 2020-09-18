@@ -13,7 +13,7 @@ import { getAverageScoreLabel } from '../../../common/scoreFunctions';
 import Scroller from '../../Scroller';
 import ReviewSimpleBlock from '../../blocks/ReviewSimpleBlock';
 
-import { clearLectureFocus } from '../../../actions/timetable/lectureFocus';
+import { clearLectureFocus, setReviews } from '../../../actions/timetable/lectureFocus';
 import { addLectureToCart, deleteLectureFromCart } from '../../../actions/timetable/list';
 import { addLectureToTimetable, removeLectureFromTimetable } from '../../../actions/timetable/timetable';
 
@@ -33,8 +33,6 @@ class LectureDetailSection extends Component {
     this.state = {
       showUnfix: false,
       showCloseDict: false,
-      reviewsLecture: null,
-      reviews: null,
     };
 
     // eslint-disable-next-line fp/no-mutation
@@ -46,22 +44,15 @@ class LectureDetailSection extends Component {
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    const shouldClearReviews = (
-      !nextProps.lectureFocus.lecture
-      || !prevState.reviewsLecture
-      || nextProps.lectureFocus.lecture.id !== prevState.reviewsLecture.id
-    );
     return {
       showUnfix: (nextProps.lectureFocus.from === 'LIST' || nextProps.lectureFocus.from === 'TABLE') && nextProps.lectureFocus.clicked,
-      reviews: shouldClearReviews
-        ? null
-        : prevState.reviews,
     };
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     const { lectureFocus, selectedListCode, selectedTimetable,
       year, semester, clearLectureFocusDispatch } = this.props;
+
     if (prevProps.lectureFocus.clicked && lectureFocus.clicked) {
       if (prevProps.lectureFocus.lecture.id !== lectureFocus.lecture.id) {
         this.openDictPreview();
@@ -88,15 +79,14 @@ class LectureDetailSection extends Component {
   }
 
   openDictPreview = () => {
-    const { reviews } = this.state;
-    const { lectureFocus } = this.props;
+    const { lectureFocus, setReviewsDispatch } = this.props;
 
     const scrollTop = this.openDictRef.current.getBoundingClientRect().top
       - this.attributesRef.current.getBoundingClientRect().top
       + 1;
     this.scrollRef.current.querySelector('.ScrollbarsCustom-Scroller').scrollTop = scrollTop;
 
-    if (reviews === null) {
+    if (lectureFocus.reviews === null) {
       axios.get(
         `/api/lectures/${lectureFocus.lecture.id}/related-reviews`,
         {
@@ -111,7 +101,7 @@ class LectureDetailSection extends Component {
           if (newProps.lectureFocus.lecture.id !== lectureFocus.lecture.id) {
             return;
           }
-          this.setState({ reviewsLecture: lectureFocus.lecture, reviews: response.data });
+          setReviewsDispatch(response.data);
         })
         .catch((error) => {
         });
@@ -242,14 +232,13 @@ class LectureDetailSection extends Component {
     const { lectureFocus, selectedTimetable, cart } = this.props;
 
     if (lectureFocus.from === LIST || lectureFocus.from === TABLE) {
-      const { reviews } = this.state;
       const mapreview = (review, index) => (
         <ReviewSimpleBlock key={`review_${index}`} review={review} />
       );
-      const reviewsDom = (reviews == null)
+      const reviewsDom = (lectureFocus.reviews == null)
         ? <div className={classNames('section-content--lecture-detail__list-area', 'list-placeholder')}><div>{t('ui.placeholder.loading')}</div></div>
-        : (reviews.length
-          ? <div className={classNames('section-content--lecture-detail__list-area')}>{reviews.map(mapreview)}</div>
+        : (lectureFocus.reviews.length
+          ? <div className={classNames('section-content--lecture-detail__list-area')}>{lectureFocus.reviews.map(mapreview)}</div>
           : <div className={classNames('section-content--lecture-detail__list-area', 'list-placeholder')}><div>{t('ui.placeholder.noResults')}</div></div>);
       return (
         <div className={classNames('section-content', 'section-content--lecture-detail', 'section-content--flex')} ref={this.scrollRef}>
@@ -478,6 +467,9 @@ const mapDispatchToProps = dispatch => ({
   clearLectureFocusDispatch: () => {
     dispatch(clearLectureFocus());
   },
+  setReviewsDispatch: (reviews) => {
+    dispatch(setReviews(reviews));
+  },
   addLectureToTimetableDispatch: (lecture) => {
     dispatch(addLectureToTimetable(lecture));
   },
@@ -504,6 +496,7 @@ LectureDetailSection.propTypes = {
   semester: PropTypes.number,
 
   clearLectureFocusDispatch: PropTypes.func.isRequired,
+  setReviewsDispatch: PropTypes.func.isRequired,
   addLectureToTimetableDispatch: PropTypes.func.isRequired,
   removeLectureFromTimetableDispatch: PropTypes.func.isRequired,
   addLectureToCartDispatch: PropTypes.func.isRequired,
