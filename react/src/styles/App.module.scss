@@ -1011,7 +1011,7 @@ a {
                     padding: 2px 3px;
                     background-color: $color-block-background;
                     box-shadow: 0 1px 0 0 $color-block-shadow-dark;
-                    &.block--active {
+                    &.block--focused {
                         background-color: $color-block-background-highlight;
                         box-shadow: 0 1px 0 0 $color-block-shadow-dark;
                         color: $color-highlight;
@@ -1028,7 +1028,7 @@ a {
                         margin-left: 1px;
                         border-radius: 50%;
 
-                        &.block--active {
+                        &.block--focused {
                             background-color: $color-highlight !important;
                         }
                     }
@@ -1043,7 +1043,7 @@ a {
                     border-left: 2px solid transparent;
                     border-right: 2px solid transparent;
                     border-top: 3px solid $color-block-shadow-dark;
-                    &.block--active {
+                    &.block--focused {
                         border-top-color:$color-block-shadow-highlight;
                     }
                 }
@@ -1057,7 +1057,7 @@ a {
                     border-left: 2px solid transparent;
                     border-right: 2px solid transparent;
                     border-top: 3px solid $color-block-background;
-                    &.block--active {
+                    &.block--focused {
                         border-top-color:$color-block-background-highlight;
                     }
                 }
@@ -1162,7 +1162,7 @@ a {
                         & > li {
                             margin-bottom: 6px;
 
-                            &.active {
+                            &.focused {
                                 color: $color-highlight;
                             }
 
@@ -1469,7 +1469,7 @@ a {
 
     &--course {
         cursor: pointer;
-        &.block--active {
+        &.block--focused {
             background-color:$color-block-background-dark;
         }
         &.block--clicked {
@@ -1478,7 +1478,7 @@ a {
             top: -3px;
             box-shadow: 0 3px 0 0 $color-block-shadow-dark;
         }
-        &.block--inactive {
+        &.block--unfocused {
             opacity: 0.5;
         }
 
@@ -1539,7 +1539,7 @@ a {
             color: rgba($color-text-normal, 0.4);
         }
 
-        &:not(.block--inactive) {
+        &:not(.block--unfocused) {
             cursor: pointer;
 
             &:hover {
@@ -1564,7 +1564,7 @@ a {
             box-shadow: 0 3px 0 0 $color-block-shadow-dark;
         }
 
-        &.block--inactive {
+        &.block--unfocused {
             opacity: 0.5;
         }
     }
@@ -1730,7 +1730,7 @@ a {
             position: relative;
             top: -3px;
         }
-        &.block--inactive {
+        &.block--unfocused {
             opacity: 0.5;
         }
 
@@ -1748,7 +1748,7 @@ a {
                 border-radius:0px 0px $block-border-radius $block-border-radius;
             }
 
-            &.block--active,
+            &.block--focused,
             &.block--clicked {
                 background-color:$color-block-background-dark;
             }
@@ -1865,7 +1865,7 @@ a {
         width: calc(100% + 2px);
         cursor: pointer;
         overflow: hidden;
-        &.block--active {
+        &.block--focused {
             background-color: #E0546F;
         }
         &.block--clicked {
@@ -1874,7 +1874,7 @@ a {
             margin-bottom:3px;
             box-shadow: 0 3px 0 0 #9E6068;
         }
-        &.block--inactive {
+        &.block--unfocused {
             opacity: 0.5;
         }
         &.block--temp {
@@ -1890,7 +1890,7 @@ a {
             padding:4px;
             background-color:rgba(#E0546F,0.8);
             .block--timetable:not(:hover) &,
-            .block--timetable:not(.block--active):not(.block--clicked) & {
+            .block--timetable:not(.block--focused):not(.block--clicked) & {
                 display: none;
             }
             @media #{$media-portrait} {
@@ -1910,7 +1910,7 @@ a {
                 margin:0;
                 margin-bottom:1px;
                 pointer-events:none;
-                .block--timetable.block--active &,
+                .block--timetable.block--focused &,
                 .block--timetable.block--clicked &,
                 .block--timetable.block--temp &
                  {
@@ -1925,7 +1925,7 @@ a {
                 margin:0;
                 margin-top:1px;
                 pointer-events:none;
-                .block--timetable.block--active &,
+                .block--timetable.block--focused &,
                 .block--timetable.block--clicked &,
                 .block--timetable.block--temp {
                     color:rgba(#FFFFFF,0.7);
@@ -2020,7 +2020,7 @@ a {
         &:hover {
             background-color:$color-block-background-dark;
         }
-        &.active {
+        &.focused {
             background-color:$color-block-background-dark;
             box-shadow: 0 3px 0 0 $color-block-shadow-dark;
             position: relative;
@@ -2470,7 +2470,7 @@ a {
             & > div > span {
                 margin-right: 4px;
 
-                &.active {
+                &.focused {
                     color:$color-highlight;
                 }
             }
@@ -2573,8 +2573,8 @@ a {
                     font-weight: initial;
             }
 
-            &.active,
-            & > span.active {
+            &.focused,
+            & > span.focused {
                 color:$color-highlight;
             }
         }

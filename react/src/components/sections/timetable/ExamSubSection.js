@@ -80,7 +80,7 @@ class ExamSubSection extends Component {
     const renderLectureExam = (lec) => {
       const act = (
         isFocused(lec, lectureFocusLecture, multiFocusedLectures)
-          ? 'active'
+          ? 'focused'
           : ''
       );
       const li = (

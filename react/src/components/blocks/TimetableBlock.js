@@ -21,9 +21,9 @@ const TimetableBlock = ({
 }) => {
   const blockStateClassNames = (
     isClicked ? classNames('block--clicked')
-      : isTemp ? classNames('block--temp', 'block--active')
-        : isHover ? classNames('block--active')
-          : isUnfocused ? classNames('block--inactive')
+      : isTemp ? classNames('block--temp', 'block--focused')
+        : isHover ? classNames('block--focused')
+          : isUnfocused ? classNames('block--unfocused')
             : ''
   );
 
