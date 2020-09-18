@@ -7,7 +7,7 @@ import ReactGA from 'react-ga';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 
-import { setListMajorCodes, setCurrentList, setListLectures, clearListsLectures, setListMajorLectures } from '../../actions/timetable/list';
+import { setListMajorCodes, setSelectedListCode, setListLectures, clearListsLectures, setListMajorLectures } from '../../actions/timetable/list';
 import { openSearch, closeSearch } from '../../actions/timetable/search';
 
 import userShape from '../../shapes/UserShape';
@@ -25,7 +25,7 @@ class LectureListTabs extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    const { user, currentList, year, semester, clearListsLecturesDispatch } = this.props;
+    const { user, selectedListCode, year, semester, clearListsLecturesDispatch } = this.props;
 
     if (user && !prevProps.user) {
       this._setMajorCodes(user.departments);
@@ -35,13 +35,13 @@ class LectureListTabs extends Component {
     if (year !== prevProps.year || semester !== prevProps.semester) {
       clearListsLecturesDispatch();
       this._fetchList('CART', true);
-      if (currentList !== 'CART') {
-        this._fetchList(currentList, true);
+      if (selectedListCode !== 'CART') {
+        this._fetchList(selectedListCode, true);
       }
     }
 
-    if (currentList !== prevProps.currentList) {
-      this._fetchList(currentList);
+    if (selectedListCode !== prevProps.selectedListCode) {
+      this._fetchList(selectedListCode);
     }
   }
 
@@ -177,12 +177,12 @@ class LectureListTabs extends Component {
       });
   }
 
-  changeTab = (list) => {
-    const { search, setCurrentListDispatch, openSearchDispatch, closeSearchDispatch } = this.props;
+  changeTab = (listCode) => {
+    const { search, setSelectedListCodeDispatch, openSearchDispatch, closeSearchDispatch } = this.props;
 
-    setCurrentListDispatch(list);
+    setSelectedListCodeDispatch(listCode);
 
-    if (list === 'SEARCH' && (search.courses === null || search.courses.length === 0)) {
+    if (listCode === 'SEARCH' && (search.courses === null || search.courses.length === 0)) {
       openSearchDispatch();
     }
     else {
@@ -197,31 +197,31 @@ class LectureListTabs extends Component {
     ReactGA.event({
       category: 'Timetable - List',
       action: 'Switched Lecture List',
-      label: `Lecture List : ${labelOfTabs.get(list) || list}`,
+      label: `Lecture List : ${labelOfTabs.get(listCode) || listCode}`,
     });
   }
 
   render() {
     const { t } = this.props;
-    const { currentList, major } = this.props;
+    const { selectedListCode, major } = this.props;
 
     return (
       <div className={classNames('tabs', 'tabs--lecture-list')}>
-        <div className={classNames((currentList === 'SEARCH' ? 'tabs__elem--active' : ''))} onClick={() => this.changeTab('SEARCH')}>
+        <div className={classNames((selectedListCode === 'SEARCH' ? 'tabs__elem--active' : ''))} onClick={() => this.changeTab('SEARCH')}>
           <i className={classNames('icon', 'icon--tab-search')} />
           <span>{t('ui.tab.searchShort')}</span>
         </div>
         {major.codes.map(code => (
-          <div className={classNames((currentList === code ? 'tabs__elem--active' : ''))} key={code} onClick={() => this.changeTab(code)}>
+          <div className={classNames((selectedListCode === code ? 'tabs__elem--active' : ''))} key={code} onClick={() => this.changeTab(code)}>
             <i className={classNames('icon', 'icon--tab-major')} />
             <span>{t('ui.tab.majorShort')}</span>
           </div>
         ))}
-        <div className={classNames((currentList === 'HUMANITY' ? 'tabs__elem--active' : ''))} onClick={() => this.changeTab('HUMANITY')}>
+        <div className={classNames((selectedListCode === 'HUMANITY' ? 'tabs__elem--active' : ''))} onClick={() => this.changeTab('HUMANITY')}>
           <i className={classNames('icon', 'icon--tab-humanity')} />
           <span>{t('ui.tab.humanityShort')}</span>
         </div>
-        <div className={classNames((currentList === 'CART' ? 'tabs__elem--active' : ''))} onClick={() => this.changeTab('CART')}>
+        <div className={classNames((selectedListCode === 'CART' ? 'tabs__elem--active' : ''))} onClick={() => this.changeTab('CART')}>
           <i className={classNames('icon', 'icon--tab-cart')} />
           <span>{t('ui.tab.wishlistShort')}</span>
         </div>
@@ -232,7 +232,7 @@ class LectureListTabs extends Component {
 
 const mapStateToProps = state => ({
   user: state.common.user.user,
-  currentList: state.timetable.list.currentList,
+  selectedListCode: state.timetable.list.selectedListCode,
   year: state.timetable.semester.year,
   semester: state.timetable.semester.semester,
   search: state.timetable.list.search,
@@ -251,8 +251,8 @@ const mapDispatchToProps = dispatch => ({
   setListMajorCodesDispatch: (majors) => {
     dispatch(setListMajorCodes(majors));
   },
-  setCurrentListDispatch: (list) => {
-    dispatch(setCurrentList(list));
+  setSelectedListCodeDispatch: (listCode) => {
+    dispatch(setSelectedListCode(listCode));
   },
   setListLecturesDispatch: (code, lectures) => {
     dispatch(setListLectures(code, lectures));
@@ -267,7 +267,7 @@ const mapDispatchToProps = dispatch => ({
 
 LectureListTabs.propTypes = {
   user: userShape,
-  currentList: PropTypes.string.isRequired,
+  selectedListCode: PropTypes.string.isRequired,
   year: PropTypes.number,
   semester: PropTypes.number,
   search: PropTypes.shape({
@@ -286,7 +286,7 @@ LectureListTabs.propTypes = {
   openSearchDispatch: PropTypes.func.isRequired,
   closeSearchDispatch: PropTypes.func.isRequired,
   setListMajorCodesDispatch: PropTypes.func.isRequired,
-  setCurrentListDispatch: PropTypes.func.isRequired,
+  setSelectedListCodeDispatch: PropTypes.func.isRequired,
   setListLecturesDispatch: PropTypes.func.isRequired,
   clearListsLecturesDispatch: PropTypes.func.isRequired,
   setListMajorLecturesDispatch: PropTypes.func.isRequired,

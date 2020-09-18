@@ -11,7 +11,7 @@ import CourseDetailSection from '../components/sections/dictionary/CourseDetailS
 import CourseListTabs from '../components/tabs/CourseListTabs';
 
 import { reset as resetCourseFocus, setCourseFocus } from '../actions/dictionary/courseFocus';
-import { reset as resetList, setCurrentList, setListCourses, clearSearchListCourses } from '../actions/dictionary/list';
+import { reset as resetList, setSelectedListCode, setListCourses, clearSearchListCourses } from '../actions/dictionary/list';
 import { reset as resetSearch, closeSearch } from '../actions/dictionary/search';
 
 import courseFocusShape from '../shapes/CourseFocusShape';
@@ -22,7 +22,7 @@ class DictionaryPage extends Component {
     const { t } = this.props;
     // eslint-disable-next-line react/destructuring-assignment
     const { startCourseId, startTab, startSearchKeyword } = this.props.location.state || {};
-    const { setCourseFocusDispatch, setCurrentListDispatch, setListCoursesDispatch, closeSearchDispatch, clearSearchListCoursesDispatch } = this.props;
+    const { setCourseFocusDispatch, setSelectedListCodeDispatch, setListCoursesDispatch, closeSearchDispatch, clearSearchListCoursesDispatch } = this.props;
 
     if (startCourseId) {
       axios.get(
@@ -42,7 +42,7 @@ class DictionaryPage extends Component {
     }
 
     if (startTab) {
-      setCurrentListDispatch(startTab);
+      setSelectedListCodeDispatch(startTab);
     }
 
     if (startSearchKeyword && startSearchKeyword.trim()) {
@@ -123,8 +123,8 @@ const mapDispatchToProps = dispatch => ({
   setCourseFocusDispatch: (lecture, clicked) => {
     dispatch(setCourseFocus(lecture, clicked));
   },
-  setCurrentListDispatch: (list) => {
-    dispatch(setCurrentList(list));
+  setSelectedListCodeDispatch: (listCode) => {
+    dispatch(setSelectedListCode(listCode));
   },
   setListCoursesDispatch: (code, courses) => {
     dispatch(setListCourses(code, courses));
@@ -151,7 +151,7 @@ DictionaryPage.propTypes = {
   resetListDispatch: PropTypes.func.isRequired,
   resetSearchDispatch: PropTypes.func.isRequired,
   setCourseFocusDispatch: PropTypes.func.isRequired,
-  setCurrentListDispatch: PropTypes.func.isRequired,
+  setSelectedListCodeDispatch: PropTypes.func.isRequired,
   setListCoursesDispatch: PropTypes.func.isRequired,
   closeSearchDispatch: PropTypes.func.isRequired,
   clearSearchListCoursesDispatch: PropTypes.func.isRequired,
