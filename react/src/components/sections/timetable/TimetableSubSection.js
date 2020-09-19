@@ -230,14 +230,22 @@ class TimetableSubSection extends Component {
     const { selectedTimetable, lectureFocus, cellWidth, cellHeight,
       mobileShouldShowLectureList } = this.props;
 
-    const lectures = selectedTimetable ? selectedTimetable.lectures : [];
-    const untimedBlockTitles = [];
+    const timetableLectures = selectedTimetable ? selectedTimetable.lectures : [];
+    const tempLecture = ((lectureFocus.from === LIST) && !inTimetable(lectureFocus.lecture, selectedTimetable))
+      ? lectureFocus.lecture
+      : null;
+
     const getTimeString = (time) => {
       const hour = Math.floor(time / 60);
       const minute = `00${time % 60}`.slice(-2);
       return `${hour}:${minute}`;
     };
-    const mapClasstimeToBlock = (lecture, classtime, isUntimed, isTemp) => {
+    const isOutsideTable = classtime => (
+      classtime.day < 0 || classtime.day > 4 || classtime.begin < 60 * 8 || classtime.end > 60 * 24
+    );
+    const untimedBlockTitles = [];
+    const mapClasstimeToBlock = (lecture, classtime, isTemp) => {
+      const isUntimed = !classtime || isOutsideTable(classtime);
       if (isUntimed) {
         const title = classtime
           ? `${[t('ui.day.saturdayShort'), t('ui.day.sundayShort')][classtime.day - 5]} ${getTimeString(classtime.begin)}~${getTimeString(classtime.end)}`
@@ -277,35 +285,29 @@ class TimetableSubSection extends Component {
         />
       );
     };
-    const isOutsideTable = classtime => (
-      classtime.day < 0 || classtime.day > 4 || classtime.begin < 60 * 8 || classtime.end > 60 * 24
+    const mapLectureToBlocks = (lecture, isTemp) => (
+      lecture.classtimes.length === 0
+        ? mapClasstimeToBlock(lecture, null, isTemp)
+        : lecture.classtimes.map(ct => mapClasstimeToBlock(lecture, ct, isTemp))
     );
-    const mapLectureToBlocks = (lecture, isTemp) => {
-      if (lecture.classtimes.length === 0) {
-        return mapClasstimeToBlock(lecture, null, true, isTemp);
-      }
-      return lecture.classtimes.map(ct => mapClasstimeToBlock(lecture, ct, isOutsideTable(ct), isTemp));
-    };
-    const lectureBlocks = lectures.map(lecture => mapLectureToBlocks(lecture, false));
-    const tempBlocks = ((lectureFocus.from === LIST) && !inTimetable(lectureFocus.lecture, selectedTimetable))
-      ? mapLectureToBlocks(lectureFocus.lecture, true)
+    const timetableLectureBlocks = timetableLectures.map(lecture => mapLectureToBlocks(lecture, false));
+    const tempLectureBlocks = tempLecture
+      ? mapLectureToBlocks(tempLecture, true)
       : null;
 
+    const targetMinutes = [...Array((24 - 8) * 2).keys()].map(i => 8 * 60 + i * 30);
     const getColumnHeads = () => {
-      const numArray = [...Array((2350 - 800) / 50 + 1).keys()].map(i => i * 50 + 800); //
-      return [
-        <div className={classNames('table-head')} key={800}><strong>8</strong></div>,
-        ...numArray.map((i) => {
-          const i2 = i + 50;
-          if (i2 % 600 === 0) {
-            return <div key={i2}><strong>{((i2 / 100 - 1) % 12) + 1}</strong></div>;
+      const timedArea = targetMinutes.map((i) => {
+          const i2 = i + 30;
+          if (i2 % (6 * 60) === 0) {
+            return <div key={i2}><strong>{((i2 / 60 - 1) % 12) + 1}</strong></div>;
           }
-          if (i2 % 100 === 0) {
-            return <div key={i2}><span>{((i2 / 100 - 1) % 12) + 1}</span></div>;
+          if (i2 % 60 === 0) {
+            return <div key={i2}><span>{((i2 / 60 - 1) % 12) + 1}</span></div>;
           }
           return <div key={i2} />;
-        }),
-        ...[...Array(Math.ceil(untimedBlockTitles.length / 5)).keys()].map((_, i) => (
+      });
+      const untimedArea = [...Array(Math.ceil(untimedBlockTitles.length / 5)).keys()].map((_, i) => (
           <React.Fragment key={_}>
             <div />
             <div className={classNames('table-head')} />
@@ -313,15 +315,15 @@ class TimetableSubSection extends Component {
             <div />
             <div />
           </React.Fragment>
-        )),
+      ));
+      return [
+        <div className={classNames('table-head')} key={8 * 60}><strong>8</strong></div>,
+        timedArea,
+        untimedArea,
       ];
     };
-
     const getColumnCells = (day, dayName, dayIdx) => {
-      const numArray = [...Array((24 - 8) * 2).keys()].map(i => 8 * 60 + i * 30);
-      const timeblock = [
-        <div className={classNames('table-head')} key={day}>{dayName}</div>,
-        ...numArray.map((i) => {
+      const timedArea = targetMinutes.map((i) => {
           return (
             <div
               className={classNames(
@@ -341,8 +343,8 @@ class TimetableSubSection extends Component {
               onTouchMove={e => this.onTouchMove(e)}
             />
           );
-        }),
-        ...[...Array(Math.ceil(untimedBlockTitles.length / 5)).keys()].map((_, i) => (
+      });
+      const untimedArea = [...Array(Math.ceil(untimedBlockTitles.length / 5)).keys()].map((_, i) => (
           <React.Fragment key={_}>
             <div className={classNames('cell')} />
             <div className={classNames('table-head')}>{untimedBlockTitles[i * 5 + dayIdx]}</div>
@@ -350,10 +352,27 @@ class TimetableSubSection extends Component {
             <div className={classNames('cell', 'cell-bottom', (mobileShouldShowLectureList ? 'cell-bottom--mobile-noline' : ''))} />
             <div className={classNames('cell', 'cell-bottom', 'cell-last', (mobileShouldShowLectureList ? 'cell-bottom--mobile-noline' : ''))} />
           </React.Fragment>
-        )),
+      ));
+      return [
+        <div className={classNames('table-head')} key={day}>{dayName}</div>,
+        timedArea,
+        untimedArea,
       ];
-      return timeblock;
     };
+
+    const dragCell = firstBlock && secondBlock
+      ? (
+        <div
+          className={classNames('section-content--timetable__drag-cell')}
+          style={{
+            left: (cellWidth + 5) * this.indexOfDay(firstBlock.getAttribute('data-day')) + 17,
+            width: cellWidth + 2,
+            top: cellHeight * Math.min(this.indexOfMinute(firstBlock.getAttribute('data-minute')), this.indexOfMinute(secondBlock.getAttribute('data-minute'))) + 19,
+            height: cellHeight * (Math.abs(this.indexOfMinute(firstBlock.getAttribute('data-minute')) - this.indexOfMinute(secondBlock.getAttribute('data-minute'))) + 1) - 3,
+          }}
+        />
+      )
+      : null;
 
     return (
       <div className={classNames('section-content', 'section-content--timetable')} onMouseUp={e => this.onMouseUp(e)} onTouchEnd={e => this.onTouchEnd(e)}>
@@ -377,23 +396,9 @@ class TimetableSubSection extends Component {
             {getColumnCells('fri', t('ui.day.friday'), 4)}
           </div>
         </div>
-        {
-          firstBlock && secondBlock
-            ? (
-              <div
-                className={classNames('section-content--timetable__drag-cell')}
-                style={{
-                  left: (cellWidth + 5) * this.indexOfDay(firstBlock.getAttribute('data-day')) + 17,
-                  width: cellWidth + 2,
-                  top: cellHeight * Math.min(this.indexOfMinute(firstBlock.getAttribute('data-minute')), this.indexOfMinute(secondBlock.getAttribute('data-minute'))) + 19,
-                  height: cellHeight * (Math.abs(this.indexOfMinute(firstBlock.getAttribute('data-minute')) - this.indexOfMinute(secondBlock.getAttribute('data-minute'))) + 1) - 3,
-                }}
-              />
-            )
-            : null
-        }
-        {lectureBlocks}
-        {tempBlocks}
+        {dragCell}
+        {timetableLectureBlocks}
+        {tempLectureBlocks}
       </div>
     );
   }
