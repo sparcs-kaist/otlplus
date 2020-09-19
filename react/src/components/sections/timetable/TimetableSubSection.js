@@ -291,7 +291,7 @@ class TimetableSubSection extends Component {
       ? mapLectureToBlocks(lectureFocus.lecture, true)
       : null;
 
-    const getHeaders = () => {
+    const getColumnHeads = () => {
       const numArray = [...Array((2350 - 800) / 50 + 1).keys()].map(i => i * 50 + 800); //
       return [
         <div className={classNames('table-head')} key={800}><strong>8</strong></div>,
@@ -317,10 +317,10 @@ class TimetableSubSection extends Component {
       ];
     };
 
-    const getCells = (day, ko, dayIdx) => {
+    const getColumnCells = (day, dayName, dayIdx) => {
       const numArray = [...Array((24 - 8) * 2).keys()].map(i => 8 * 60 + i * 30);
       const timeblock = [
-        <div className={classNames('table-head')} key={day}>{ko}</div>,
+        <div className={classNames('table-head')} key={day}>{dayName}</div>,
         ...numArray.map((i) => {
           return (
             <div
@@ -359,22 +359,22 @@ class TimetableSubSection extends Component {
       <div className={classNames('section-content', 'section-content--timetable')} onMouseUp={e => this.onMouseUp(e)} onTouchEnd={e => this.onTouchEnd(e)}>
         <div className={classNames('section-content--timetable__table')}>
           <div>
-            {getHeaders()}
+            {getColumnHeads()}
           </div>
           <div>
-            {getCells('mon', t('ui.day.monday'), 0)}
+            {getColumnCells('mon', t('ui.day.monday'), 0)}
           </div>
           <div>
-            {getCells('tue', t('ui.day.tuesday'), 1)}
+            {getColumnCells('tue', t('ui.day.tuesday'), 1)}
           </div>
           <div>
-            {getCells('wed', t('ui.day.wednesday'), 2)}
+            {getColumnCells('wed', t('ui.day.wednesday'), 2)}
           </div>
           <div>
-            {getCells('thu', t('ui.day.thursday'), 3)}
+            {getColumnCells('thu', t('ui.day.thursday'), 3)}
           </div>
           <div>
-            {getCells('fri', t('ui.day.friday'), 4)}
+            {getColumnCells('fri', t('ui.day.friday'), 4)}
           </div>
         </div>
         {

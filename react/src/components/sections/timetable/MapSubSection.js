@@ -27,7 +27,7 @@ class MapSubSection extends Component {
     ));
   }
 
-  mapFocus(building) {
+  setFocusOnMap(building) {
     const { t } = this.props;
     const { lectureFocus, selectedTimetable, setMultipleFocusDispatch } = this.props;
 
@@ -79,7 +79,7 @@ class MapSubSection extends Component {
               <div
                 className={classNames('section-content--map__block', `location--${b}`)}
                 key={b}
-                onMouseOver={() => this.mapFocus(b)}
+                onMouseOver={() => this.setFocusOnMap(b)}
                 onMouseOut={() => this.clearFocus()}
               >
                 <div className={classNames('section-content--map__block__box', act)}>
