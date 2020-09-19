@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
-import axios from 'axios';
-import ReactGA from 'react-ga';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 import { getProfessorsStrShort } from '../../common/lectureFunctions';
 import { getSingleScoreLabel } from '../../common/scoreFunctions';
+import { performSubmitReview } from '../../common/reviewFunctions';
 
 import lectureShape from '../../shapes/NestedLectureShape';
 import reviewShape from '../../shapes/ReviewShape';
@@ -62,79 +61,18 @@ const ReviewWriteBlock = ({ t, lecture, review, pageFrom, updateOnSubmit }) => {
     }
 
     setIsUploading(true);
-    /* eslint-disable indent */
-    if (!review) {
-    axios.post(
-      '/api/reviews',
-      {
-        lecture: lecture.id,
-        content: content,
-        grade: grade,
-        speech: speech,
-        load: load,
-      },
-      {
-        metadata: {
-          gaCategory: 'Review',
-          gaVariable: 'POST / List',
-        },
-      },
-    )
-      .then((response) => {
-        setSavedContent(content);
-        setSavedGrade(grade);
-        setSavedLoad(load);
-        setSavedSpeech(speech);
-        setIsUploading(false);
-        if (updateOnSubmit !== undefined) {
-          updateOnSubmit(response.data, true);
-        }
-      })
-      .catch((error) => {
-      });
 
-    ReactGA.event({
-      category: 'Review',
-      action: 'Uploaded Review',
-      label: `Lecture : ${lecture.id} / From : Page : ${pageFrom}`,
-    });
-    }
-    else {
-      axios.patch(
-        `/api/reviews/${review.id}`,
-        {
-          content: content,
-          grade: grade,
-          speech: speech,
-          load: load,
-        },
-        {
-          metadata: {
-            gaCategory: 'Review',
-            gaVariable: 'POST / List',
-          },
-        },
-      )
-        .then((response) => {
-          setSavedContent(content);
-          setSavedGrade(grade);
-          setSavedLoad(load);
-          setSavedSpeech(speech);
-          setIsUploading(false);
-          if (updateOnSubmit !== undefined) {
-            updateOnSubmit(response.data, false);
-          }
-        })
-        .catch((error) => {
-        });
-
-      ReactGA.event({
-        category: 'Review',
-        action: 'Edited Review',
-        label: `Lecture : ${lecture.id} / From : Page : ${pageFrom}`,
-      });
-    }
-    /* eslint-enable indent */
+    const onResponse = (response) => {
+      setSavedContent(content);
+      setSavedGrade(grade);
+      setSavedLoad(load);
+      setSavedSpeech(speech);
+      setIsUploading(false);
+      if (updateOnSubmit !== undefined) {
+        updateOnSubmit(response.data, true);
+      }
+    };
+    performSubmitReview(review, lecture, content, grade, speech, load, `Page : ${pageFrom}`, onResponse);
   };
 
   const hasChange = (content !== savedContent)
