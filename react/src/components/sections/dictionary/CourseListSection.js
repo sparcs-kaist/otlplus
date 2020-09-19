@@ -97,8 +97,8 @@ class CourseListSection extends Component {
               key={c.id}
               showReadStatus={true}
               isRead={c.userspecific_is_read || readCourses.some(c2 => (c2.id === c.id))}
-              isClicked={isClicked(c, courseFocus)}
-              isFocused={isHovered(c, courseFocus) || isClicked(c, courseFocus)}
+              isRaised={isClicked(c, courseFocus)}
+              isHighlighted={isHovered(c, courseFocus) || isClicked(c, courseFocus)}
               isDimmed={isDimmedCourse(c, courseFocus)}
               listHover={this.listHover}
               listOut={this.listOut}

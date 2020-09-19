@@ -1472,7 +1472,7 @@ a {
         &.block--highlighted {
             background-color:$color-block-background-dark;
         }
-        &.block--clicked {
+        &.block--raised {
             background-color:$color-block-background-dark;
             position: relative;
             top: -3px;
@@ -1557,7 +1557,7 @@ a {
             text-align: center;
         }
 
-        &.block--clicked {
+        &.block--raised {
             background-color:$color-block-background-dark;
             position: relative;
             top: -3px;
@@ -1725,7 +1725,7 @@ a {
     &--lecture-group {
         padding: 8px 10px;
         margin-bottom: 6px;
-        &.block--clicked {
+        &.block--raised {
             box-shadow: 0 3px 0 0 $color-block-shadow-dark;
             position: relative;
             top: -3px;
@@ -1749,7 +1749,7 @@ a {
             }
 
             &.block--highlighted,
-            &.block--clicked {
+            &.block--raised {
                 background-color:$color-block-background-dark;
             }
         }
@@ -1868,7 +1868,7 @@ a {
         &.block--highlighted {
             background-color: #E0546F;
         }
-        &.block--clicked {
+        &.block--raised {
             background-color: #E0546F;
             margin-top:-3px;
             margin-bottom:3px;
@@ -1891,7 +1891,7 @@ a {
             padding:4px;
             background-color:rgba(#E0546F,0.8);
             .block--timetable:not(:hover) &,
-            .block--timetable:not(.block--highlighted):not(.block--clicked) & {
+            .block--timetable:not(.block--highlighted):not(.block--raised) & {
                 display: none;
             }
             @media #{$media-portrait} {
@@ -1912,7 +1912,7 @@ a {
                 margin-bottom:1px;
                 pointer-events:none;
                 .block--timetable.block--highlighted &,
-                .block--timetable.block--clicked &,
+                .block--timetable.block--raised &,
                 .block--timetable.block--temp &
                  {
                     color:rgba(#FFFFFF,1);
@@ -1927,7 +1927,7 @@ a {
                 margin-top:1px;
                 pointer-events:none;
                 .block--timetable.block--highlighted &,
-                .block--timetable.block--clicked &,
+                .block--timetable.block--raised &,
                 .block--timetable.block--temp {
                     color:rgba(#FFFFFF,0.7);
                 }
@@ -2021,7 +2021,7 @@ a {
         &:hover {
             background-color:$color-block-background-dark;
         }
-        &.block--clicked {
+        &.block--raised {
             background-color:$color-block-background-dark;
             box-shadow: 0 3px 0 0 $color-block-shadow-dark;
             position: relative;

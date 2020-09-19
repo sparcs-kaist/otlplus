@@ -11,7 +11,7 @@ import lectureShape from '../../shapes/LectureShape';
 const LectureGroupBlockRow = ({
   t,
   lecture,
-  isClicked, isFocused, inTimetable, isTimetableReadonly, inCart, fromCart,
+  isRaised, isHighlighted, inTimetable, isTimetableReadonly, inCart, fromCart,
   addToCart, addToTable, deleteFromCart,
   listHover, listOut, listClick,
 }) => {
@@ -25,12 +25,26 @@ const LectureGroupBlockRow = ({
         return classNames('');
     }
   };
+
+  const onDeleteFromCartClick = (event) => {
+    event.stopPropagation();
+    deleteFromCart(lecture);
+  };
+  const onAddToCartClick = (event) => {
+    event.stopPropagation();
+    addToCart(lecture);
+  };
+  const onAddToTableClick = (event) => {
+    event.stopPropagation();
+    addToTable(lecture);
+  };
+
   return (
     <div
       className={classNames(
         'block--lecture-group__elem-wrap',
-        (isClicked ? 'block--clicked' : ''),
-        ((isFocused && !isClicked) ? 'block--highlighted' : ''),
+        (isRaised ? 'block--raised' : ''),
+        ((isHighlighted && !isRaised) ? 'block--highlighted' : ''),
       )}
       data-id={lecture.id}
       onClick={() => listClick(lecture)()}
@@ -45,16 +59,16 @@ const LectureGroupBlockRow = ({
         </div>
         {
           fromCart
-            ? <button className={classNames('block--lecture-group__elem__button')} onClick={event => deleteFromCart(lecture)(event)}><i className={classNames('icon', 'icon--delete-cart')} /></button>
+            ? <button className={classNames('block--lecture-group__elem__button')} onClick={onDeleteFromCartClick}><i className={classNames('icon', 'icon--delete-cart')} /></button>
             : (
               !inCart
-                ? <button className={classNames('block--lecture-group__elem__button')} onClick={event => addToCart(lecture)(event)}><i className={classNames('icon', 'icon--add-cart')} /></button>
+                ? <button className={classNames('block--lecture-group__elem__button')} onClick={onAddToCartClick}><i className={classNames('icon', 'icon--add-cart')} /></button>
                 : <button className={classNames('block--lecture-group__elem__button', 'block--lecture-group__elem__button--disable')}><i className={classNames('icon', 'icon--add-cart')} /></button>
             )
         }
         {
           !inTimetable && !isTimetableReadonly
-            ? <button className={classNames('block--lecture-group__elem__button')} onClick={event => addToTable(lecture)(event)}><i className={classNames('icon', 'icon--add-lecture')} /></button>
+            ? <button className={classNames('block--lecture-group__elem__button')} onClick={onAddToTableClick}><i className={classNames('icon', 'icon--add-lecture')} /></button>
             : <button className={classNames('block--lecture-group__elem__button', 'block--lecture-group__elem__button--disable')}><i className={classNames('icon', 'icon--add-lecture')} /></button>
         }
       </div>
@@ -64,8 +78,8 @@ const LectureGroupBlockRow = ({
 
 LectureGroupBlockRow.propTypes = {
   lecture: lectureShape.isRequired,
-  isClicked: PropTypes.bool.isRequired,
-  isFocused: PropTypes.bool.isRequired,
+  isRaised: PropTypes.bool.isRequired,
+  isHighlighted: PropTypes.bool.isRequired,
   inTimetable: PropTypes.bool.isRequired,
   isTimetableReadonly: PropTypes.bool.isRequired,
   inCart: PropTypes.bool.isRequired,

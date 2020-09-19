@@ -461,7 +461,7 @@ class CreditPage extends Component {
                   <ProjectBlock
                     index={p.index}
                     onClick={this.changePage}
-                    isClicked={selectedProjectIndex === p.index}
+                    isRaised={selectedProjectIndex === p.index}
                     mainTitle={p.mainTitle}
                     subTitle={p.subTitle}
                     period={p.period}
