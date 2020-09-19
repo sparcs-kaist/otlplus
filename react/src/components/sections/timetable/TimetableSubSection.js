@@ -230,7 +230,11 @@ class TimetableSubSection extends Component {
     const { selectedTimetable, lectureFocus, cellWidth, cellHeight,
       mobileShouldShowLectureList } = this.props;
 
-    const lectures = selectedTimetable ? selectedTimetable.lectures : [];
+    const timetableLectures = selectedTimetable ? selectedTimetable.lectures : [];
+    const tempLecture = ((lectureFocus.from === LIST) && !inTimetable(lectureFocus.lecture, selectedTimetable))
+      ? lectureFocus.lecture
+      : null;
+
     const untimedBlockTitles = [];
     const getTimeString = (time) => {
       const hour = Math.floor(time / 60);
@@ -286,9 +290,9 @@ class TimetableSubSection extends Component {
       }
       return lecture.classtimes.map(ct => mapClasstimeToBlock(lecture, ct, isOutsideTable(ct), isTemp));
     };
-    const lectureBlocks = lectures.map(lecture => mapLectureToBlocks(lecture, false));
-    const tempBlocks = ((lectureFocus.from === LIST) && !inTimetable(lectureFocus.lecture, selectedTimetable))
-      ? mapLectureToBlocks(lectureFocus.lecture, true)
+    const timetableLectureBlocks = timetableLectures.map(lecture => mapLectureToBlocks(lecture, false));
+    const tempLectureBlocks = tempLecture
+      ? mapLectureToBlocks(tempLecture, true)
       : null;
 
     const targetMinutes = [...Array((24 - 8) * 2).keys()].map(i => 8 * 60 + i * 30);
@@ -393,8 +397,8 @@ class TimetableSubSection extends Component {
             )
             : null
         }
-        {lectureBlocks}
-        {tempBlocks}
+        {timetableLectureBlocks}
+        {tempLectureBlocks}
       </div>
     );
   }
