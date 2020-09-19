@@ -16,7 +16,7 @@ const TimetableBlock = ({
   cellWidth, cellHeight,
   isTimetableReadonly, isRaised, isHighlighted, isDimmed, isTemp, isSimple,
   blockHover, blockOut, blockClick, deleteLecture,
-  occupiedTime,
+  occupiedTimes,
 }) => {
   const onDeleteFromTableClick = (event) => {
     event.stopPropagation();
@@ -66,9 +66,9 @@ const TimetableBlock = ({
         </p>
       </div>
       {
-        occupiedTime === undefined
+        occupiedTimes === undefined
           ? null
-          : occupiedTime.map(o => (
+          : occupiedTimes.map(o => (
             <div
               key={`${o[0]}:${o[1]}`}
               className={classNames('block--timetable__occupied-area')}
@@ -101,7 +101,7 @@ TimetableBlock.propTypes = {
   blockOut: PropTypes.func,
   blockClick: PropTypes.func,
   deleteLecture: PropTypes.func.isRequired,
-  occupiedTime: PropTypes.arrayOf(PropTypes.array),
+  occupiedTimes: PropTypes.arrayOf(PropTypes.array),
 };
 
 export default withTranslation()(React.memo(TimetableBlock));

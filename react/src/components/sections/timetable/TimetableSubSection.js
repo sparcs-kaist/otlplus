@@ -93,7 +93,7 @@ class TimetableSubSection extends Component {
   }
 
   // check is drag contain class time
-  _getOccupiedTime = (dragDay, dragStart, dragEnd) => {
+  _getOccupiedTimes = (dragDay, dragStart, dragEnd) => {
     const { selectedTimetable } = this.props;
 
     if (!selectedTimetable) {
@@ -147,8 +147,8 @@ class TimetableSubSection extends Component {
     for (let i = startIndex + incr; i !== endIndex + incr; i += incr) {
       if (
         (incr > 0)
-          ? this._getOccupiedTime(dayIndex, startIndex, i + 1).length > 0
-          : this._getOccupiedTime(dayIndex, i, startIndex + 1).length > 0
+          ? this._getOccupiedTimes(dayIndex, startIndex, i + 1).length > 0
+          : this._getOccupiedTimes(dayIndex, i, startIndex + 1).length > 0
       ) {
         return;
       }
@@ -271,8 +271,8 @@ class TimetableSubSection extends Component {
           blockOut={isTemp ? null : this.blockOut}
           blockClick={isTemp ? null : this.blockClick}
           deleteLecture={this.deleteLecture}
-          occupiedTime={(isTemp && !isUntimed)
-            ? this._getOccupiedTime(classtime.day, this.indexOfMinute(classtime.begin), this.indexOfMinute(classtime.end))
+          occupiedTimes={(isTemp && !isUntimed)
+            ? this._getOccupiedTimes(classtime.day, this.indexOfMinute(classtime.begin), this.indexOfMinute(classtime.end))
             : undefined}
         />
       );
