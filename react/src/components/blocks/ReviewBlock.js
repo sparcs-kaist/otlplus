@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { pure } from 'recompose';
 import { withTranslation } from 'react-i18next';
 import axios from 'axios';
 import ReactGA from 'react-ga';
@@ -143,4 +142,4 @@ ReviewBlock.propTypes = {
 };
 
 
-export default withTranslation()(pure(ReviewBlock));
+export default withTranslation()(React.memo(ReviewBlock));

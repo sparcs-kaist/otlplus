@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { pure } from 'recompose';
 import { withTranslation } from 'react-i18next';
 import axios from 'axios';
 import ReactGA from 'react-ga';
@@ -211,4 +210,4 @@ ReviewWriteBlock.propTypes = {
   updateOnSubmit: PropTypes.func.isRequired,
 };
 
-export default withTranslation()(pure(ReviewWriteBlock));
+export default withTranslation()(React.memo(ReviewWriteBlock));
