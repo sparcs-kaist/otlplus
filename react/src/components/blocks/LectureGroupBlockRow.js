@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { pure } from 'recompose';
 import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
@@ -79,4 +78,4 @@ LectureGroupBlockRow.propTypes = {
   listClick: PropTypes.func.isRequired,
 };
 
-export default withTranslation()(pure(LectureGroupBlockRow));
+export default withTranslation()(React.memo(LectureGroupBlockRow));
