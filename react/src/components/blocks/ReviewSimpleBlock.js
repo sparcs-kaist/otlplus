@@ -1,5 +1,4 @@
 import React from 'react';
-import { pure } from 'recompose';
 import { Link } from 'react-router-dom';
 import { withTranslation } from 'react-i18next';
 import qs from 'qs';
@@ -50,4 +49,4 @@ ReviewSimpleBlock.propTypes = {
   review: reviewShape.isRequired,
 };
 
-export default withTranslation()(pure(ReviewSimpleBlock));
+export default withTranslation()(React.memo(ReviewSimpleBlock));

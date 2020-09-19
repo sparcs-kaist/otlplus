@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { pure } from 'recompose';
 import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
@@ -100,4 +99,4 @@ TimetableBlock.propTypes = {
   occupiedTime: PropTypes.arrayOf(PropTypes.array),
 };
 
-export default withTranslation()(pure(TimetableBlock));
+export default withTranslation()(React.memo(TimetableBlock));

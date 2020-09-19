@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { pure } from 'recompose';
 import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
@@ -46,4 +45,4 @@ LectureGroupSimpleBlock.propTypes = {
   lectures: PropTypes.arrayOf(lectureShape).isRequired,
 };
 
-export default withTranslation()(pure(LectureGroupSimpleBlock));
+export default withTranslation()(React.memo(LectureGroupSimpleBlock));

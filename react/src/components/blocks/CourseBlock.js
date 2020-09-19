@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { pure } from 'recompose';
 import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
@@ -72,4 +71,4 @@ CourseBlock.propTypes = {
 };
 
 
-export default withTranslation()(pure(CourseBlock));
+export default withTranslation()(React.memo(CourseBlock));
