@@ -14,14 +14,10 @@ import reviewShape from '../../shapes/ReviewShape';
 // eslint-disable-next-line arrow-body-style
 const ReviewWriteBlock = ({ t, lecture, review, pageFrom, updateOnSubmit }) => {
   const [isUploading, setIsUploading] = useState(false);
-  const [savedContent, setSavedContent] = useState(review ? review.content : '');
-  const [savedGrade, setSavedGrade] = useState(review ? review.grade : undefined);
-  const [savedLoad, setSavedLoad] = useState(review ? review.load : undefined);
-  const [savedSpeech, setSavedSpeech] = useState(review ? review.speech : undefined);
-  const [content, setContent] = useState(savedContent);
-  const [grade, setGrade] = useState(savedGrade);
-  const [load, setLoad] = useState(savedLoad);
-  const [speech, setSpeech] = useState(savedSpeech);
+  const [content, setContent] = useState(review.content);
+  const [grade, setGrade] = useState(review.grade);
+  const [load, setLoad] = useState(review.load);
+  const [speech, setSpeech] = useState(review.speech);
 
   const onContentChange = (e) => {
     setContent(e.target.value);
@@ -48,10 +44,6 @@ const ReviewWriteBlock = ({ t, lecture, review, pageFrom, updateOnSubmit }) => {
       setIsUploading(true);
     };
     const afterResponse = (response) => {
-      setSavedContent(content);
-      setSavedGrade(grade);
-      setSavedLoad(load);
-      setSavedSpeech(speech);
       setIsUploading(false);
       if (updateOnSubmit !== undefined) {
         updateOnSubmit(response.data, true);
@@ -60,10 +52,10 @@ const ReviewWriteBlock = ({ t, lecture, review, pageFrom, updateOnSubmit }) => {
     performSubmitReview(review, lecture, content, grade, speech, load, isUploading, `Page : ${pageFrom}`, beforeRequest, afterResponse);
   };
 
-  const hasChange = (content !== savedContent)
-    || (grade !== savedGrade)
-    || (load !== savedLoad)
-    || (speech !== savedSpeech);
+  const hasChange = (content !== review.content)
+    || (grade !== review.grade)
+    || (load !== review.load)
+    || (speech !== review.speech);
   const getScoreOptionLabel = (name, value, checkedValue) => {
     const inputId = `${lecture.id}-${name}-${value}`;
     return (
