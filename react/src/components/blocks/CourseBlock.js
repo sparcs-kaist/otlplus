@@ -12,7 +12,7 @@ import courseShape from '../../shapes/CourseShape';
 const CourseBlock = ({
   t,
   course,
-  showReadStatus, isRead, isClicked, isFocused, isDimmed,
+  showReadStatus, isRead, isClicked, isHighlighted, isDimmed,
   listHover, listOut, listClick,
 }) => {
   return (
@@ -21,7 +21,7 @@ const CourseBlock = ({
         'block',
         'block--course',
         (isClicked ? 'block--clicked' : ''),
-        ((isFocused && !isClicked) ? 'block--highlighted' : ''),
+        ((isHighlighted && !isClicked) ? 'block--highlighted' : ''),
         (isDimmed ? 'block--dimmed' : ''),
       )}
       onClick={listClick ? listClick(course) : null}
@@ -63,7 +63,7 @@ CourseBlock.propTypes = {
   showReadStatus: PropTypes.bool,
   isRead: PropTypes.bool,
   isClicked: PropTypes.bool,
-  isFocused: PropTypes.bool,
+  isHighlighted: PropTypes.bool,
   isDimmed: PropTypes.bool,
   listHover: PropTypes.func,
   listOut: PropTypes.func,
