@@ -13,7 +13,7 @@ export const ADD_LECTURE_TO_TIMETABLE = BASE_STRING + 'ADD_LECTURE_TO_TIMETABLE'
 export const REMOVE_LECTURE_FROM_TIMETABLE = BASE_STRING + 'REMOVE_LECTURE_FROM_TIMETABLE';
 export const UPDATE_CELL_SIZE = BASE_STRING + 'UPDATE_CELL_SIZE';
 export const SET_IS_DRAGGING = BASE_STRING + 'SET_IS_DRAGGING';
-export const SET_MOBILE_SHOW_TIMETABLE_TABS = BASE_STRING + 'SET_MOBILE_SHOW_TIMETABLE_TABS';
+export const SET_MOBILE_SHOULD_SHOW_TIMETABLE_TABS = BASE_STRING + 'SET_MOBILE_SHOULD_SHOW_TIMETABLE_TABS';
 /* eslint-enable prefer-template */
 
 
@@ -101,9 +101,9 @@ export function setIsDragging(isDragging) {
   };
 }
 
-export function setMobileShowTimetableTabs(mobileShowTimetableTabs) {
+export function setMobileShouldShowTimetableTabs(mobileShouldShowTimetableTabs) {
   return {
-    type: SET_MOBILE_SHOW_TIMETABLE_TABS,
-    mobileShowTimetableTabs: mobileShowTimetableTabs,
+    type: SET_MOBILE_SHOULD_SHOW_TIMETABLE_TABS,
+    mobileShouldShowTimetableTabs: mobileShouldShowTimetableTabs,
   };
 }
