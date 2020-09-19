@@ -284,12 +284,11 @@ class TimetableSubSection extends Component {
     const isOutsideTable = classtime => (
       classtime.day < 0 || classtime.day > 4 || classtime.begin < 60 * 8 || classtime.end > 60 * 24
     );
-    const mapLectureToBlocks = (lecture, isTemp) => {
-      if (lecture.classtimes.length === 0) {
-        return mapClasstimeToBlock(lecture, null, true, isTemp);
-      }
-      return lecture.classtimes.map(ct => mapClasstimeToBlock(lecture, ct, isOutsideTable(ct), isTemp));
-    };
+    const mapLectureToBlocks = (lecture, isTemp) => (
+      lecture.classtimes.length === 0
+        ? mapClasstimeToBlock(lecture, null, true, isTemp)
+        : lecture.classtimes.map(ct => mapClasstimeToBlock(lecture, ct, isOutsideTable(ct), isTemp))
+    );
     const timetableLectureBlocks = timetableLectures.map(lecture => mapLectureToBlocks(lecture, false));
     const tempLectureBlocks = tempLecture
       ? mapLectureToBlocks(tempLecture, true)
