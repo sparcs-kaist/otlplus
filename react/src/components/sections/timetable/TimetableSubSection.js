@@ -291,17 +291,17 @@ class TimetableSubSection extends Component {
       ? mapLectureToBlocks(lectureFocus.lecture, true)
       : null;
 
+    const targetMinutes = [...Array((24 - 8) * 2).keys()].map(i => 8 * 60 + i * 30);
     const getColumnHeads = () => {
-      const numArray = [...Array((2350 - 800) / 50 + 1).keys()].map(i => i * 50 + 800); //
       return [
-        <div className={classNames('table-head')} key={800}><strong>8</strong></div>,
-        ...numArray.map((i) => {
-          const i2 = i + 50;
-          if (i2 % 600 === 0) {
-            return <div key={i2}><strong>{((i2 / 100 - 1) % 12) + 1}</strong></div>;
+        <div className={classNames('table-head')} key={8 * 60}><strong>8</strong></div>,
+        ...targetMinutes.map((i) => {
+          const i2 = i + 30;
+          if (i2 % (6 * 60) === 0) {
+            return <div key={i2}><strong>{((i2 / 60 - 1) % 12) + 1}</strong></div>;
           }
-          if (i2 % 100 === 0) {
-            return <div key={i2}><span>{((i2 / 100 - 1) % 12) + 1}</span></div>;
+          if (i2 % 60 === 0) {
+            return <div key={i2}><span>{((i2 / 60 - 1) % 12) + 1}</span></div>;
           }
           return <div key={i2} />;
         }),
@@ -316,12 +316,10 @@ class TimetableSubSection extends Component {
         )),
       ];
     };
-
     const getColumnCells = (day, dayName, dayIdx) => {
-      const numArray = [...Array((24 - 8) * 2).keys()].map(i => 8 * 60 + i * 30);
       const timeblock = [
         <div className={classNames('table-head')} key={day}>{dayName}</div>,
-        ...numArray.map((i) => {
+        ...targetMinutes.map((i) => {
           return (
             <div
               className={classNames(
