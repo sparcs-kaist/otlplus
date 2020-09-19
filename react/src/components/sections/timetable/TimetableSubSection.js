@@ -293,9 +293,7 @@ class TimetableSubSection extends Component {
 
     const targetMinutes = [...Array((24 - 8) * 2).keys()].map(i => 8 * 60 + i * 30);
     const getColumnHeads = () => {
-      return [
-        <div className={classNames('table-head')} key={8 * 60}><strong>8</strong></div>,
-        ...targetMinutes.map((i) => {
+      const timedArea = targetMinutes.map((i) => {
           const i2 = i + 30;
           if (i2 % (6 * 60) === 0) {
             return <div key={i2}><strong>{((i2 / 60 - 1) % 12) + 1}</strong></div>;
@@ -304,8 +302,8 @@ class TimetableSubSection extends Component {
             return <div key={i2}><span>{((i2 / 60 - 1) % 12) + 1}</span></div>;
           }
           return <div key={i2} />;
-        }),
-        ...[...Array(Math.ceil(untimedBlockTitles.length / 5)).keys()].map((_, i) => (
+      });
+      const untimedArea = [...Array(Math.ceil(untimedBlockTitles.length / 5)).keys()].map((_, i) => (
           <React.Fragment key={_}>
             <div />
             <div className={classNames('table-head')} />
@@ -313,13 +311,15 @@ class TimetableSubSection extends Component {
             <div />
             <div />
           </React.Fragment>
-        )),
+      ));
+      return [
+        <div className={classNames('table-head')} key={8 * 60}><strong>8</strong></div>,
+        timedArea,
+        untimedArea,
       ];
     };
     const getColumnCells = (day, dayName, dayIdx) => {
-      const timeblock = [
-        <div className={classNames('table-head')} key={day}>{dayName}</div>,
-        ...targetMinutes.map((i) => {
+      const timedArea = targetMinutes.map((i) => {
           return (
             <div
               className={classNames(
@@ -339,8 +339,8 @@ class TimetableSubSection extends Component {
               onTouchMove={e => this.onTouchMove(e)}
             />
           );
-        }),
-        ...[...Array(Math.ceil(untimedBlockTitles.length / 5)).keys()].map((_, i) => (
+      });
+      const untimedArea = [...Array(Math.ceil(untimedBlockTitles.length / 5)).keys()].map((_, i) => (
           <React.Fragment key={_}>
             <div className={classNames('cell')} />
             <div className={classNames('table-head')}>{untimedBlockTitles[i * 5 + dayIdx]}</div>
@@ -348,9 +348,12 @@ class TimetableSubSection extends Component {
             <div className={classNames('cell', 'cell-bottom', (mobileShouldShowLectureList ? 'cell-bottom--mobile-noline' : ''))} />
             <div className={classNames('cell', 'cell-bottom', 'cell-last', (mobileShouldShowLectureList ? 'cell-bottom--mobile-noline' : ''))} />
           </React.Fragment>
-        )),
+      ));
+      return [
+        <div className={classNames('table-head')} key={day}>{dayName}</div>,
+        timedArea,
+        untimedArea,
       ];
-      return timeblock;
     };
 
     return (
