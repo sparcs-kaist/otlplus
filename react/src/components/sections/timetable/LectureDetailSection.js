@@ -31,8 +31,8 @@ class LectureDetailSection extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showUnfix: false,
-      showCloseDict: false,
+      shouldShowUnfix: false,
+      shouldShowCloseDict: false,
     };
 
     // eslint-disable-next-line fp/no-mutation
@@ -45,7 +45,7 @@ class LectureDetailSection extends Component {
 
   static getDerivedStateFromProps(nextProps, prevState) {
     return {
-      showUnfix: (nextProps.lectureFocus.from === 'LIST' || nextProps.lectureFocus.from === 'TABLE') && nextProps.lectureFocus.clicked,
+      shouldShowUnfix: (nextProps.lectureFocus.from === 'LIST' || nextProps.lectureFocus.from === 'TABLE') && nextProps.lectureFocus.clicked,
     };
   }
 
@@ -198,17 +198,17 @@ class LectureDetailSection extends Component {
     const scrollElement = openDictElement.closest('.ScrollbarsCustom-Scroller');
 
     if (openDictElement.getBoundingClientRect().top - scrollElement.getBoundingClientRect().top < 1.0) { // TODO: Change handing method for errors of 0.x differnce
-      this.setState({ showCloseDict: true });
+      this.setState({ shouldShowCloseDict: true });
     }
     else {
-      this.setState({ showCloseDict: false });
+      this.setState({ shouldShowCloseDict: false });
     }
   }
 
 
   render() {
     const { t } = this.props;
-    const { showUnfix, showCloseDict } = this.state;
+    const { shouldShowUnfix, shouldShowCloseDict } = this.state;
     const { lectureFocus, selectedTimetable, cart } = this.props;
 
     if (lectureFocus.from === LIST || lectureFocus.from === TABLE) {
@@ -231,7 +231,7 @@ class LectureDetailSection extends Component {
             {lectureFocus.lecture.class_no.length ? ` (${lectureFocus.lecture.class_no})` : ''}
           </div>
           <div className={classNames('buttons')}>
-            <button onClick={this.unfix} className={classNames('text-button', (showUnfix ? '' : classNames('text-button--disabled')))}>{t('ui.button.unfix')}</button>
+            <button onClick={this.unfix} className={classNames('text-button', (shouldShowUnfix ? '' : classNames('text-button--disabled')))}>{t('ui.button.unfix')}</button>
             <a className={classNames('text-button', 'text-button--right')} href={`https://cais.kaist.ac.kr/syllabusInfo?year=${lectureFocus.lecture.year}&term=${lectureFocus.lecture.semester}&subject_no=${lectureFocus.lecture.code}&lecture_class=${lectureFocus.lecture.class_no}&dept_id=${lectureFocus.lecture.department}`} target="_blank" rel="noopener noreferrer">
               {t('ui.button.syllabus')}
             </a>
@@ -239,7 +239,7 @@ class LectureDetailSection extends Component {
               {t('ui.button.dictionary')}
             </Link>
           </div>
-          <div className={classNames('fixed__conditional-part', (showCloseDict ? '' : 'fixed__conditional-part--hidden'))}>
+          <div className={classNames('fixed__conditional-part', (shouldShowCloseDict ? '' : 'fixed__conditional-part--hidden'))}>
             <button className={classNames('small-title')} onClick={this.closeDictPreview}>
               <span>{t('ui.title.reviews')}</span>
               <i className={classNames('icon', 'icon--lecture-uparrow')} />

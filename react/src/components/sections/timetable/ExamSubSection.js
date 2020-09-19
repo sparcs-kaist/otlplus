@@ -23,7 +23,7 @@ class ExamSubSection extends Component {
     ));
   }
 
-  examFocus(dayIndex) {
+  setFocusOnExam(dayIndex) {
     const { t } = this.props;
     const { lectureFocus, selectedTimetable, setMultipleFocusDispatch } = this.props;
 
@@ -88,7 +88,7 @@ class ExamSubSection extends Component {
         <div className={classNames('section-content--exam__title')}><span>{t('ui.title.exams')}</span></div>
         <div className={classNames('section-content--exam__content')}>
           <Scroller>
-            <div className={classNames('section-content--exam__content__day')} onMouseOver={() => this.examFocus(0)} onMouseOut={() => this.clearFocus()}>
+            <div className={classNames('section-content--exam__content__day')} onMouseOver={() => this.setFocusOnExam(0)} onMouseOut={() => this.clearFocus()}>
               <div className={classNames(t('jsx.className.fixedByLang'))}>
                 {t('ui.day.mondayShort')}
               </div>
@@ -96,7 +96,7 @@ class ExamSubSection extends Component {
                 {examTable[0].map(renderLectureExam)}
               </ul>
             </div>
-            <div className={classNames('section-content--exam__content__day')} onMouseOver={() => this.examFocus(1)} onMouseOut={() => this.clearFocus()}>
+            <div className={classNames('section-content--exam__content__day')} onMouseOver={() => this.setFocusOnExam(1)} onMouseOut={() => this.clearFocus()}>
               <div className={classNames(t('jsx.className.fixedByLang'))}>
                 {t('ui.day.tuesdayShort')}
               </div>
@@ -104,7 +104,7 @@ class ExamSubSection extends Component {
                 {examTable[1].map(renderLectureExam)}
               </ul>
             </div>
-            <div className={classNames('section-content--exam__content__day')} onMouseOver={() => this.examFocus(2)} onMouseOut={() => this.clearFocus()}>
+            <div className={classNames('section-content--exam__content__day')} onMouseOver={() => this.setFocusOnExam(2)} onMouseOut={() => this.clearFocus()}>
               <div className={classNames(t('jsx.className.fixedByLang'))}>
                 {t('ui.day.wednesdayShort')}
               </div>
@@ -112,7 +112,7 @@ class ExamSubSection extends Component {
                 {examTable[2].map(renderLectureExam)}
               </ul>
             </div>
-            <div className={classNames('section-content--exam__content__day')} onMouseOver={() => this.examFocus(3)} onMouseOut={() => this.clearFocus()}>
+            <div className={classNames('section-content--exam__content__day')} onMouseOver={() => this.setFocusOnExam(3)} onMouseOut={() => this.clearFocus()}>
               <div className={classNames(t('jsx.className.fixedByLang'))}>
                 {t('ui.day.thursdayShort')}
               </div>
@@ -120,7 +120,7 @@ class ExamSubSection extends Component {
                 {examTable[3].map(renderLectureExam)}
               </ul>
             </div>
-            <div className={classNames('section-content--exam__content__day')} onMouseOver={() => this.examFocus(4)} onMouseOut={() => this.clearFocus()}>
+            <div className={classNames('section-content--exam__content__day')} onMouseOver={() => this.setFocusOnExam(4)} onMouseOut={() => this.clearFocus()}>
               <div className={classNames(t('jsx.className.fixedByLang'))}>
                 {t('ui.day.fridayShort')}
               </div>

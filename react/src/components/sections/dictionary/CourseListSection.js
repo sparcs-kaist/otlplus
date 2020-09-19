@@ -95,7 +95,7 @@ class CourseListSection extends Component {
             <CourseBlock
               course={c}
               key={c.id}
-              showReadStatus={true}
+              shouldShowReadStatus={true}
               isRead={c.userspecific_is_read || readCourses.some(c2 => (c2.id === c.id))}
               isRaised={isClicked(c, courseFocus)}
               isHighlighted={isHovered(c, courseFocus) || isClicked(c, courseFocus)}
