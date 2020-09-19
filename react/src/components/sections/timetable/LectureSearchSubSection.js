@@ -150,23 +150,23 @@ class LectureSearchSubSection extends Component {
       });
   }
 
-  autocompleteApply = () => {
+  applyAutocomplete = () => {
     this.setState(prevState => ({
       inputVal: prevState.inputVal + prevState.autoComplete,
       autoComplete: '',
     }));
   }
 
-  autocompleteCLear = () => {
+  clearAutocomplete = () => {
     this.setState({
       inputVal: '',
       autoComplete: '',
     });
   }
 
-  keyPress = (e) => {
+  onKeyPress = (e) => {
     if (e.keyCode === 9) {
-      this.autocompleteApply();
+      this.applyAutocomplete();
       e.stopPropagation(); // Prevent move focus
       e.preventDefault();
       e.nativeEvent.stopImmediatePropagation();
@@ -196,7 +196,7 @@ class LectureSearchSubSection extends Component {
                 autoComplete="off"
                 placeholder={t('ui.tab.search')}
                 value={inputVal}
-                onKeyDown={e => this.keyPress(e)}
+                onKeyDown={e => this.onKeyPress(e)}
                 onChange={e => this.handleInput(e)}
               />
               <div className={classNames('search-keyword-autocomplete')}>
