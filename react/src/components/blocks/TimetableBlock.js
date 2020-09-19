@@ -14,7 +14,7 @@ const TimetableBlock = ({
   lecture, classtime,
   dayIndex, beginIndex, endIndex,
   cellWidth, cellHeight,
-  isTimetableReadonly, isClicked, isHighlighted, isDimmed, isTemp, isSimple,
+  isTimetableReadonly, isRaised, isHighlighted, isDimmed, isTemp, isSimple,
   blockHover, blockOut, blockClick, deleteLecture,
   occupiedTime,
 }) => {
@@ -23,9 +23,9 @@ const TimetableBlock = ({
       className={classNames(
         'block--timetable',
         `background-color--${getColorNumber(lecture) + 1}`,
-        (isClicked ? 'block--clicked' : ''),
+        (isRaised ? 'block--raised' : ''),
         (isTemp ? ['block--temp', 'block--highlighted'] : ''),
-        ((isHighlighted && !isClicked) ? 'block--highlighted' : ''),
+        ((isHighlighted && !isRaised) ? 'block--highlighted' : ''),
         (isDimmed ? 'block--dimmed' : ''),
       )}
       style={{
@@ -87,7 +87,7 @@ TimetableBlock.propTypes = {
   cellWidth: PropTypes.number.isRequired,
   cellHeight: PropTypes.number.isRequired,
   isTimetableReadonly: PropTypes.bool.isRequired,
-  isClicked: PropTypes.bool.isRequired,
+  isRaised: PropTypes.bool.isRequired,
   isHighlighted: PropTypes.bool.isRequired,
   isDimmed: PropTypes.bool.isRequired,
   isTemp: PropTypes.bool.isRequired,

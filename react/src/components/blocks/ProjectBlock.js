@@ -6,13 +6,13 @@ import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 
 
 // eslint-disable-next-line arrow-body-style
-const ProjectBlock = ({ t, index, isClicked, onClick, mainTitle, subTitle, period }) => {
+const ProjectBlock = ({ t, index, isRaised, onClick, mainTitle, subTitle, period }) => {
   return (
     <div
       className={classNames(
         'block',
         'block--project',
-        (isClicked ? 'block--clicked' : ''),
+        (isRaised ? 'block--raised' : ''),
       )}
       onClick={() => onClick(index)}
       key={index}
@@ -28,7 +28,7 @@ const ProjectBlock = ({ t, index, isClicked, onClick, mainTitle, subTitle, perio
 ProjectBlock.propTypes = {
   index: PropTypes.number.isRequired,
   onClick: PropTypes.func.isRequired,
-  isClicked: PropTypes.bool.isRequired,
+  isRaised: PropTypes.bool.isRequired,
   mainTitle: PropTypes.string.isRequired,
   subTitle: PropTypes.string.isRequired,
   period: PropTypes.string.isRequired,

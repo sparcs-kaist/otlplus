@@ -268,7 +268,7 @@ class TimetableSubSection extends Component {
           cellWidth={cellWidth}
           cellHeight={cellHeight}
           isTimetableReadonly={!selectedTimetable || Boolean(selectedTimetable.isReadOnly)}
-          isClicked={isTableClicked(lecture, lectureFocus)}
+          isRaised={isTableClicked(lecture, lectureFocus)}
           isHighlighted={isFocused(lecture, lectureFocus)}
           isDimmed={isDimmedTableLecture(lecture, lectureFocus)}
           isTemp={isTemp}

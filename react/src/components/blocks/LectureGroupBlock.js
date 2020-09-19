@@ -24,7 +24,7 @@ const LectureGroupBlock = ({
       className={classNames(
         'block',
         'block--lecture-group',
-        (lectureGroup.some(l => isListClicked(l, lectureFocus)) ? 'block--clicked' : ''),
+        (lectureGroup.some(l => isListClicked(l, lectureFocus)) ? 'block--raised' : ''),
         (isDimmedListLectureGroup(lectureGroup, lectureFocus) ? 'block--dimmed' : ''),
       )}
     >
@@ -37,7 +37,7 @@ const LectureGroupBlock = ({
         <LectureGroupBlockRow
           lecture={l}
           key={l.id}
-          isClicked={isListClicked(l, lectureFocus)}
+          isRaised={isListClicked(l, lectureFocus)}
           isHighlighted={isListFocused(l, lectureFocus)}
           inTimetable={inTimetable(l, selectedTimetable)}
           isTimetableReadonly={!selectedTimetable || Boolean(selectedTimetable.isReadOnly)}
