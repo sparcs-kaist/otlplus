@@ -44,25 +44,10 @@ const ReviewWriteBlock = ({ t, lecture, review, pageFrom, updateOnSubmit }) => {
     e.preventDefault();
     e.stopPropagation();
 
-    if (content.length === 0) {
-      // eslint-disable-next-line no-alert
-      alert(t('ui.message.emptyContent'));
-      return;
-    }
-    if ((grade === undefined) || (load === undefined) || (speech === undefined)) {
-      // eslint-disable-next-line no-alert
-      alert(t('ui.message.scoreNotSelected'));
-      return;
-    }
-    if (isUploading) {
-      // eslint-disable-next-line no-alert
-      alert(t('ui.message.alreadyUploading'));
-      return;
-    }
-
-    setIsUploading(true);
-
-    const onResponse = (response) => {
+    const beforeRequest = () => {
+      setIsUploading(true);
+    };
+    const afterResponse = (response) => {
       setSavedContent(content);
       setSavedGrade(grade);
       setSavedLoad(load);
@@ -72,7 +57,7 @@ const ReviewWriteBlock = ({ t, lecture, review, pageFrom, updateOnSubmit }) => {
         updateOnSubmit(response.data, true);
       }
     };
-    performSubmitReview(review, lecture, content, grade, speech, load, `Page : ${pageFrom}`, onResponse);
+    performSubmitReview(review, lecture, content, grade, speech, load, isUploading, `Page : ${pageFrom}`, beforeRequest, afterResponse);
   };
 
   const hasChange = (content !== savedContent)
