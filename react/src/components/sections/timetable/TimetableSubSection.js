@@ -235,12 +235,15 @@ class TimetableSubSection extends Component {
       ? lectureFocus.lecture
       : null;
 
-    const untimedBlockTitles = [];
     const getTimeString = (time) => {
       const hour = Math.floor(time / 60);
       const minute = `00${time % 60}`.slice(-2);
       return `${hour}:${minute}`;
     };
+    const isOutsideTable = classtime => (
+      classtime.day < 0 || classtime.day > 4 || classtime.begin < 60 * 8 || classtime.end > 60 * 24
+    );
+    const untimedBlockTitles = [];
     const mapClasstimeToBlock = (lecture, classtime, isUntimed, isTemp) => {
       if (isUntimed) {
         const title = classtime
@@ -281,9 +284,6 @@ class TimetableSubSection extends Component {
         />
       );
     };
-    const isOutsideTable = classtime => (
-      classtime.day < 0 || classtime.day > 4 || classtime.begin < 60 * 8 || classtime.end > 60 * 24
-    );
     const mapLectureToBlocks = (lecture, isTemp) => (
       lecture.classtimes.length === 0
         ? mapClasstimeToBlock(lecture, null, true, isTemp)
