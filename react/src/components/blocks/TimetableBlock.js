@@ -18,6 +18,11 @@ const TimetableBlock = ({
   blockHover, blockOut, blockClick, deleteLecture,
   occupiedTime,
 }) => {
+  const onDeleteFromTableClick = (event) => {
+    event.stopPropagation();
+    deleteLecture(lecture);
+  };
+
   return (
     <div
       className={classNames(
@@ -43,7 +48,7 @@ const TimetableBlock = ({
       onClick={blockClick ? blockClick(lecture) : null}
     >
       { !isTemp && !isTimetableReadonly
-        ? <button className={classNames('block--timetable__button')} onClick={deleteLecture ? deleteLecture(lecture) : null}><i className={classNames('icon', 'icon--delete-lecture')} /></button>
+        ? <button className={classNames('block--timetable__button')} onClick={onDeleteFromTableClick}><i className={classNames('icon', 'icon--delete-lecture')} /></button>
         : null
       }
       <div
@@ -95,7 +100,7 @@ TimetableBlock.propTypes = {
   blockHover: PropTypes.func,
   blockOut: PropTypes.func,
   blockClick: PropTypes.func,
-  deleteLecture: PropTypes.func,
+  deleteLecture: PropTypes.func.isRequired,
   occupiedTime: PropTypes.arrayOf(PropTypes.array),
 };
 

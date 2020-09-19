@@ -58,10 +58,8 @@ class LectureListSection extends Component {
     openSearchDispatch();
   }
 
-  addToTable = lecture => (event) => {
+  addToTable = (lecture) => {
     const { selectedTimetable, user, selectedListCode, addLectureToTimetableDispatch } = this.props;
-
-    event.stopPropagation();
 
     const labelOfTabs = new Map([
       ['SEARCH', 'Search'],
@@ -72,10 +70,8 @@ class LectureListSection extends Component {
     performAddToTable(this, lecture, selectedTimetable, user, fromString, addLectureToTimetableDispatch);
   }
 
-  addToCart = lecture => (event) => {
+  addToCart = (lecture) => {
     const { year, semester, user, selectedListCode, addLectureToCartDispatch } = this.props;
-
-    event.stopPropagation();
 
     const labelOfTabs = new Map([
       ['SEARCH', 'Search'],
@@ -86,10 +82,8 @@ class LectureListSection extends Component {
     performAddToCart(this, lecture, year, semester, user, fromString, addLectureToCartDispatch);
   }
 
-  deleteFromCart = lecture => (event) => {
+  deleteFromCart = (lecture) => {
     const { year, semester, user, selectedListCode, deleteLectureFromCartDispatch } = this.props;
-
-    event.stopPropagation();
 
     const labelOfTabs = new Map([
       ['SEARCH', 'Search'],
