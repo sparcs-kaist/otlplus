@@ -14,18 +14,23 @@ const TimetableBlock = ({
   lecture, classtime,
   dayIndex, beginIndex, endIndex,
   cellWidth, cellHeight,
-  isTimetableReadonly, isClicked, isFocused, isDimmed, isTemp, isSimple,
+  isTimetableReadonly, isRaised, isHighlighted, isDimmed, isTemp, isSimple,
   blockHover, blockOut, blockClick, deleteLecture,
   occupiedTime,
 }) => {
+  const onDeleteFromTableClick = (event) => {
+    event.stopPropagation();
+    deleteLecture(lecture);
+  };
+
   return (
     <div
       className={classNames(
         'block--timetable',
         `background-color--${getColorNumber(lecture) + 1}`,
-        (isClicked ? 'block--clicked' : ''),
+        (isRaised ? 'block--raised' : ''),
         (isTemp ? ['block--temp', 'block--highlighted'] : ''),
-        ((isFocused && !isClicked) ? 'block--highlighted' : ''),
+        ((isHighlighted && !isRaised) ? 'block--highlighted' : ''),
         (isDimmed ? 'block--dimmed' : ''),
       )}
       style={{
@@ -43,7 +48,7 @@ const TimetableBlock = ({
       onClick={blockClick ? blockClick(lecture) : null}
     >
       { !isTemp && !isTimetableReadonly
-        ? <button className={classNames('block--timetable__button')} onClick={deleteLecture ? deleteLecture(lecture) : null}><i className={classNames('icon', 'icon--delete-lecture')} /></button>
+        ? <button className={classNames('block--timetable__button')} onClick={onDeleteFromTableClick}><i className={classNames('icon', 'icon--delete-lecture')} /></button>
         : null
       }
       <div
@@ -87,15 +92,15 @@ TimetableBlock.propTypes = {
   cellWidth: PropTypes.number.isRequired,
   cellHeight: PropTypes.number.isRequired,
   isTimetableReadonly: PropTypes.bool.isRequired,
-  isClicked: PropTypes.bool.isRequired,
-  isFocused: PropTypes.bool.isRequired,
+  isRaised: PropTypes.bool.isRequired,
+  isHighlighted: PropTypes.bool.isRequired,
   isDimmed: PropTypes.bool.isRequired,
   isTemp: PropTypes.bool.isRequired,
   isSimple: PropTypes.bool.isRequired,
   blockHover: PropTypes.func,
   blockOut: PropTypes.func,
   blockClick: PropTypes.func,
-  deleteLecture: PropTypes.func,
+  deleteLecture: PropTypes.func.isRequired,
   occupiedTime: PropTypes.arrayOf(PropTypes.array),
 };
 

@@ -122,7 +122,6 @@ class LectureDetailSection extends Component {
       addLectureToTimetableDispatch } = this.props;
 
     event.stopPropagation();
-    performAddToTable(this, lectureFocus.lecture, selectedTimetable, user, addLectureToTimetableDispatch);
 
     const labelOfTabs = new Map([
       ['SEARCH', 'Search'],
@@ -134,11 +133,7 @@ class LectureDetailSection extends Component {
       : (lectureFocus.from === LIST)
         ? `Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`
         : 'Unknown';
-    ReactGA.event({
-      category: 'Timetable - Lecture',
-      action: 'Added Lecture to Timetable',
-      label: `Lecture : ${lectureFocus.lecture.id} / From : ${fromString}`,
-    });
+    performAddToTable(this, lectureFocus.lecture, selectedTimetable, user, fromString, addLectureToTimetableDispatch);
   }
 
   deleteFromTable = (event) => {
@@ -146,7 +141,6 @@ class LectureDetailSection extends Component {
       removeLectureFromTimetableDispatch } = this.props;
 
     event.stopPropagation();
-    performDeleteFromTable(this, lectureFocus.lecture, selectedTimetable, user, removeLectureFromTimetableDispatch);
 
     const labelOfTabs = new Map([
       ['SEARCH', 'Search'],
@@ -158,11 +152,7 @@ class LectureDetailSection extends Component {
       : (lectureFocus.from === LIST)
         ? `Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`
         : 'Unknown';
-    ReactGA.event({
-      category: 'Timetable - Lecture',
-      action: 'Deleted Lecture from Timetable',
-      label: `Lecture : ${lectureFocus.lecture.id} / From : ${fromString}`,
-    });
+    performDeleteFromTable(this, lectureFocus.lecture, selectedTimetable, user, fromString, removeLectureFromTimetableDispatch);
   }
 
   addToCart = (event) => {
@@ -170,7 +160,6 @@ class LectureDetailSection extends Component {
       addLectureToCartDispatch } = this.props;
 
     event.stopPropagation();
-    performAddToCart(this, lectureFocus.lecture, year, semester, user, addLectureToCartDispatch);
 
     const labelOfTabs = new Map([
       ['SEARCH', 'Search'],
@@ -182,11 +171,7 @@ class LectureDetailSection extends Component {
       : (lectureFocus.from === LIST)
         ? `Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`
         : 'Unknown';
-    ReactGA.event({
-      category: 'Timetable - Lecture',
-      action: 'Added Lecture to Cart',
-      label: `Lecture : ${lectureFocus.lecture.id} / From : ${fromString}`,
-    });
+    performAddToCart(this, lectureFocus.lecture, year, semester, user, fromString, addLectureToCartDispatch);
   }
 
   deleteFromCart = (event) => {
@@ -194,7 +179,6 @@ class LectureDetailSection extends Component {
       deleteLectureFromCartDispatch } = this.props;
 
     event.stopPropagation();
-    performDeleteFromCart(this, lectureFocus.lecture, year, semester, user, deleteLectureFromCartDispatch);
 
     const labelOfTabs = new Map([
       ['SEARCH', 'Search'],
@@ -206,11 +190,7 @@ class LectureDetailSection extends Component {
       : (lectureFocus.from === LIST)
         ? `Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`
         : 'Unknown';
-    ReactGA.event({
-      category: 'Timetable - Lecture',
-      action: 'Deleted Lecture from Cart',
-      label: `Lecture : ${lectureFocus.lecture.id} / From : ${fromString}`,
-    });
+    performDeleteFromCart(this, lectureFocus.lecture, year, semester, user, fromString, deleteLectureFromCartDispatch);
   }
 
   onScroll = () => {

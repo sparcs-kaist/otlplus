@@ -1,4 +1,5 @@
 import axios from 'axios';
+import ReactGA from 'react-ga';
 import i18n from 'i18next';
 
 import { LIST, TABLE, MULTIPLE } from '../reducers/timetable/lectureFocus';
@@ -125,7 +126,7 @@ export const getColorNumber = lecture => (
   (lecture.course % 16) + 1
 )
 
-export const performAddToTable = (caller, lecture, selectedTimetable, user, addLectureToTimetableDispatch) => {
+export const performAddToTable = (caller, lecture, selectedTimetable, user, fromString, addLectureToTimetableDispatch) => {
   if (
     lecture.classtimes.some(thisClasstime => (
       selectedTimetable.lectures.some(timetableLecture => (
@@ -144,9 +145,8 @@ export const performAddToTable = (caller, lecture, selectedTimetable, user, addL
 
   if (!user) {
     addLectureToTimetableDispatch(lecture);
-    return;
   }
-
+  else {
   axios.post(
     `/api/users/${user.id}/timetables/${selectedTimetable.id}/add-lecture`,
     {
@@ -169,14 +169,20 @@ export const performAddToTable = (caller, lecture, selectedTimetable, user, addL
     })
     .catch((error) => {
     });
-};
-
-export const performDeleteFromTable = (caller, lecture, selectedTimetable, user, removeLectureFromTimetableDispatch) => {
-  if (!user) {
-    removeLectureFromTimetableDispatch(lecture);
-    return;
   }
 
+  ReactGA.event({
+    category: 'Timetable - Lecture',
+    action: 'Added Lecture to Timetable',
+    label: `Lecture : ${lecture.id} / From : ${fromString}`,
+  });
+};
+
+export const performDeleteFromTable = (caller, lecture, selectedTimetable, user, fromString, removeLectureFromTimetableDispatch) => {
+  if (!user) {
+    removeLectureFromTimetableDispatch(lecture);
+  }
+  else {
   axios.post(
     `/api/users/${user.id}/timetables/${selectedTimetable.id}/remove-lecture`,
     {
@@ -199,14 +205,20 @@ export const performDeleteFromTable = (caller, lecture, selectedTimetable, user,
     })
     .catch((error) => {
     });
-};
-
-export const performAddToCart = (caller, lecture, year, semester, user, addLectureToCartDispatch) => {
-  if (!user) {
-    addLectureToCartDispatch(lecture);
-    return;
   }
 
+  ReactGA.event({
+    category: 'Timetable - Lecture',
+    action: 'Deleted Lecture from Timetable',
+    label: `Lecture : ${lecture.id} / From : ${fromString}`,
+  });
+};
+
+export const performAddToCart = (caller, lecture, year, semester, user, fromString, addLectureToCartDispatch) => {
+  if (!user) {
+    addLectureToCartDispatch(lecture);
+  }
+  else {
   axios.post(
     `/api/users/${user.id}/wishlist/add-lecture`,
     {
@@ -229,14 +241,20 @@ export const performAddToCart = (caller, lecture, year, semester, user, addLectu
     })
     .catch((error) => {
     });
-};
-
-export const performDeleteFromCart = (caller, lecture, year, semester, user, deleteLectureFromCartDispatch) => {
-  if (!user) {
-    deleteLectureFromCartDispatch(lecture);
-    return;
   }
 
+  ReactGA.event({
+    category: 'Timetable - Lecture',
+    action: 'Added Lecture to Cart',
+    label: `Lecture : ${lecture.id} / From : ${fromString}`,
+  });
+};
+
+export const performDeleteFromCart = (caller, lecture, year, semester, user, fromString, deleteLectureFromCartDispatch) => {
+  if (!user) {
+    deleteLectureFromCartDispatch(lecture);
+  }
+  else {
   axios.post(
     `/api/users/${user.id}/wishlist/remove-lecture`,
     {
@@ -258,4 +276,11 @@ export const performDeleteFromCart = (caller, lecture, year, semester, user, del
     })
     .catch((error) => {
     });
+  }
+
+  ReactGA.event({
+    category: 'Timetable - Lecture',
+    action: 'Deleted Lecture from Cart',
+    label: `Lecture : ${lecture.id} / From : ${fromString}`,
+  });
 };

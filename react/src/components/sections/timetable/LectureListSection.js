@@ -8,7 +8,6 @@ import { appBoundClassNames as classNames } from '../../../common/boundClassName
 
 import Scroller from '../../Scroller';
 import LectureSearchSubSection from './LectureSearchSubSection';
-import LectureGroupBlockRow from '../../blocks/LectureGroupBlockRow';
 
 import { setLectureFocus, clearLectureFocus } from '../../../actions/timetable/lectureFocus';
 import { addLectureToCart, deleteLectureFromCart, setMobileShowLectureList } from '../../../actions/timetable/list';
@@ -22,7 +21,8 @@ import lectureShape from '../../../shapes/LectureShape';
 import timetableShape from '../../../shapes/TimetableShape';
 import lectureFocusShape from '../../../shapes/LectureFocusShape';
 
-import { inTimetable, inCart, isListClicked, isListFocused, isDimmedListLectureGroup, performAddToTable, performAddToCart, performDeleteFromCart } from '../../../common/lectureFunctions';
+import { isListClicked, performAddToTable, performAddToCart, performDeleteFromCart } from '../../../common/lectureFunctions';
+import LectureGroupBlock from '../../blocks/LectureGroupBlock';
 
 
 class LectureListSection extends Component {
@@ -58,58 +58,40 @@ class LectureListSection extends Component {
     openSearchDispatch();
   }
 
-  addToTable = lecture => (event) => {
+  addToTable = (lecture) => {
     const { selectedTimetable, user, selectedListCode, addLectureToTimetableDispatch } = this.props;
 
-    event.stopPropagation();
-    performAddToTable(this, lecture, selectedTimetable, user, addLectureToTimetableDispatch);
-
     const labelOfTabs = new Map([
       ['SEARCH', 'Search'],
       ['HUMANITY', 'Humanity'],
       ['CART', 'Cart'],
     ]);
-    ReactGA.event({
-      category: 'Timetable - Lecture',
-      action: 'Added Lecture to Timetable',
-      label: `Lecture : ${lecture.id} / From : Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`,
-    });
+    const fromString = `Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`;
+    performAddToTable(this, lecture, selectedTimetable, user, fromString, addLectureToTimetableDispatch);
   }
 
-  addToCart = lecture => (event) => {
+  addToCart = (lecture) => {
     const { year, semester, user, selectedListCode, addLectureToCartDispatch } = this.props;
 
-    event.stopPropagation();
-    performAddToCart(this, lecture, year, semester, user, addLectureToCartDispatch);
-
     const labelOfTabs = new Map([
       ['SEARCH', 'Search'],
       ['HUMANITY', 'Humanity'],
       ['CART', 'Cart'],
     ]);
-    ReactGA.event({
-      category: 'Timetable - Lecture',
-      action: 'Added Lecture to Cart',
-      label: `Lecture : ${lecture.id} / From : Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`,
-    });
+    const fromString = `Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`;
+    performAddToCart(this, lecture, year, semester, user, fromString, addLectureToCartDispatch);
   }
 
-  deleteFromCart = lecture => (event) => {
+  deleteFromCart = (lecture) => {
     const { year, semester, user, selectedListCode, deleteLectureFromCartDispatch } = this.props;
-
-    event.stopPropagation();
-    performDeleteFromCart(this, lecture, year, semester, user, deleteLectureFromCartDispatch);
 
     const labelOfTabs = new Map([
       ['SEARCH', 'Search'],
       ['HUMANITY', 'Humanity'],
       ['CART', 'Cart'],
     ]);
-    ReactGA.event({
-      category: 'Timetable - Lecture',
-      action: 'Deleted Lecture from Cart',
-      label: `Lecture : ${lecture.id} / From : Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`,
-    });
+    const fromString = `Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`;
+    performDeleteFromCart(this, lecture, year, semester, user, fromString, deleteLectureFromCartDispatch);
   }
 
   listHover = lecture => () => {
@@ -237,31 +219,20 @@ class LectureListSection extends Component {
       return (
         <Scroller onScroll={this.selectWithArrow} key={selectedListCode}>
           {lectureGroups.map(lg => (
-            <div className={classNames('block', 'block--lecture-group', (lg.some(l => isListClicked(l, lectureFocus)) ? 'block--clicked' : ''), (isDimmedListLectureGroup(lg, lectureFocus) ? 'block--dimmed' : ''))} key={lg[0].course}>
-              <div className={classNames('block--lecture-group__title')}>
-                <strong>{lg[0][t('js.property.common_title')]}</strong>
-                {' '}
-                {lg[0].old_code}
-              </div>
-              {lg.map(l => (
-                <LectureGroupBlockRow
-                  lecture={l}
-                  key={l.id}
-                  isClicked={isListClicked(l, lectureFocus)}
-                  isFocused={isListFocused(l, lectureFocus)}
-                  inTimetable={inTimetable(l, selectedTimetable)}
-                  isTimetableReadonly={!selectedTimetable || Boolean(selectedTimetable.isReadOnly)}
-                  inCart={inCart(l, cart)}
-                  fromCart={fromCart}
-                  addToCart={this.addToCart}
-                  addToTable={this.addToTable}
-                  deleteFromCart={this.deleteFromCart}
-                  listHover={this.listHover}
-                  listOut={this.listOut}
-                  listClick={this.listClick}
-                />
-              ))}
-            </div> 
+            <LectureGroupBlock
+              lectureGroup={lg}
+              key={lg[0].course}
+              selectedTimetable={selectedTimetable}
+              cart={cart}
+              lectureFocus={lectureFocus}
+              fromCart={fromCart}
+              addToCart={this.addToCart}
+              addToTable={this.addToTable}
+              deleteFromCart={this.deleteFromCart}
+              listHover={this.listHover}
+              listOut={this.listOut}
+              listClick={this.listClick}
+            />
           ))
           }
         </Scroller>

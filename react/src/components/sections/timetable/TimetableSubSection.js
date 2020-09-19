@@ -19,7 +19,7 @@ import userShape from '../../../shapes/UserShape';
 import timetableShape from '../../../shapes/TimetableShape';
 import lectureFocusShape from '../../../shapes/LectureFocusShape';
 
-import { inTimetable, isListFocused, isTableClicked, isTableFocused, isMultipleFocused, isDimmedTableLecture, performDeleteFromTable, isListClicked } from '../../../common/lectureFunctions';
+import { inTimetable, isFocused, isTableClicked, isDimmedTableLecture, performDeleteFromTable } from '../../../common/lectureFunctions';
 
 
 class TimetableSubSection extends Component {
@@ -214,20 +214,14 @@ class TimetableSubSection extends Component {
     }
   }
 
-  deleteLecture = lecture => (event) => {
+  deleteLecture = (lecture) => {
     const { selectedTimetable, user, removeLectureFromTimetableDispatch } = this.props;
-    event.stopPropagation();
+
     if (!selectedTimetable) {
       return;
     }
 
-    performDeleteFromTable(this, lecture, selectedTimetable, user, removeLectureFromTimetableDispatch);
-
-    ReactGA.event({
-      category: 'Timetable - Lecture',
-      action: 'Deleted Lecture from Timetable',
-      label: `Lecture : ${lecture.id} / From : Timetable`,
-    });
+    performDeleteFromTable(this, lecture, selectedTimetable, user, 'Timetable', removeLectureFromTimetableDispatch);
   }
 
   render() {
@@ -268,10 +262,8 @@ class TimetableSubSection extends Component {
           cellWidth={cellWidth}
           cellHeight={cellHeight}
           isTimetableReadonly={!selectedTimetable || Boolean(selectedTimetable.isReadOnly)}
-          isClicked={isTableClicked(lecture, lectureFocus)}
-          isFocused={isTableFocused(lecture, lectureFocus)
-            || isListFocused(lecture, lectureFocus)
-            || isMultipleFocused(lecture, lectureFocus)}
+          isRaised={isTableClicked(lecture, lectureFocus)}
+          isHighlighted={isFocused(lecture, lectureFocus)}
           isDimmed={isDimmedTableLecture(lecture, lectureFocus)}
           isTemp={isTemp}
           isSimple={mobileShowLectureList}

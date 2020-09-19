@@ -132,7 +132,7 @@ class TakenLecturesSection extends Component {
                           <LectureSimpleBlock
                             key={l.id}
                             lecture={l}
-                            isClicked={false}
+                            isRaised={false}
                             isDimmed={false}
                             hasReview={user.reviews.some(r => (r.lecture.id === l.id))}
                             onClick={this.handleBlockClick(l)}
@@ -142,7 +142,7 @@ class TakenLecturesSection extends Component {
                           <LectureSimpleBlock
                             key={l.id}
                             lecture={l}
-                            isClicked={selectedLecture.id === l.id}
+                            isRaised={selectedLecture.id === l.id}
                             isDimmed={selectedLecture.id !== l.id}
                             hasReview={user.reviews.some(r => (r.lecture.id === l.id))}
                             onClick={this.handleBlockClick(l)}

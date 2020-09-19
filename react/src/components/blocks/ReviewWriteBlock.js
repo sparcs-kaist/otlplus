@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
-import axios from 'axios';
-import ReactGA from 'react-ga';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 import { getProfessorsStrShort } from '../../common/lectureFunctions';
 import { getSingleScoreLabel } from '../../common/scoreFunctions';
+import { performSubmitReview } from '../../common/reviewFunctions';
 
 import lectureShape from '../../shapes/NestedLectureShape';
 import reviewShape from '../../shapes/ReviewShape';
@@ -15,14 +14,10 @@ import reviewShape from '../../shapes/ReviewShape';
 // eslint-disable-next-line arrow-body-style
 const ReviewWriteBlock = ({ t, lecture, review, pageFrom, updateOnSubmit }) => {
   const [isUploading, setIsUploading] = useState(false);
-  const [savedContent, setSavedContent] = useState(review ? review.content : '');
-  const [savedGrade, setSavedGrade] = useState(review ? review.grade : undefined);
-  const [savedLoad, setSavedLoad] = useState(review ? review.load : undefined);
-  const [savedSpeech, setSavedSpeech] = useState(review ? review.speech : undefined);
-  const [content, setContent] = useState(savedContent);
-  const [grade, setGrade] = useState(savedGrade);
-  const [load, setLoad] = useState(savedLoad);
-  const [speech, setSpeech] = useState(savedSpeech);
+  const [content, setContent] = useState(review.content);
+  const [grade, setGrade] = useState(review.grade);
+  const [load, setLoad] = useState(review.load);
+  const [speech, setSpeech] = useState(review.speech);
 
   const onContentChange = (e) => {
     setContent(e.target.value);
@@ -45,102 +40,22 @@ const ReviewWriteBlock = ({ t, lecture, review, pageFrom, updateOnSubmit }) => {
     e.preventDefault();
     e.stopPropagation();
 
-    if (content.length === 0) {
-      // eslint-disable-next-line no-alert
-      alert(t('ui.message.emptyContent'));
-      return;
-    }
-    if ((grade === undefined) || (load === undefined) || (speech === undefined)) {
-      // eslint-disable-next-line no-alert
-      alert(t('ui.message.scoreNotSelected'));
-      return;
-    }
-    if (isUploading) {
-      // eslint-disable-next-line no-alert
-      alert(t('ui.message.alreadyUploading'));
-      return;
-    }
-
-    setIsUploading(true);
-    /* eslint-disable indent */
-    if (!review) {
-    axios.post(
-      '/api/reviews',
-      {
-        lecture: lecture.id,
-        content: content,
-        grade: grade,
-        speech: speech,
-        load: load,
-      },
-      {
-        metadata: {
-          gaCategory: 'Review',
-          gaVariable: 'POST / List',
-        },
-      },
-    )
-      .then((response) => {
-        setSavedContent(content);
-        setSavedGrade(grade);
-        setSavedLoad(load);
-        setSavedSpeech(speech);
-        setIsUploading(false);
-        if (updateOnSubmit !== undefined) {
-          updateOnSubmit(response.data, true);
-        }
-      })
-      .catch((error) => {
-      });
-
-    ReactGA.event({
-      category: 'Review',
-      action: 'Uploaded Review',
-      label: `Lecture : ${lecture.id} / From : Page : ${pageFrom}`,
-    });
-    }
-    else {
-      axios.patch(
-        `/api/reviews/${review.id}`,
-        {
-          content: content,
-          grade: grade,
-          speech: speech,
-          load: load,
-        },
-        {
-          metadata: {
-            gaCategory: 'Review',
-            gaVariable: 'POST / List',
-          },
-        },
-      )
-        .then((response) => {
-          setSavedContent(content);
-          setSavedGrade(grade);
-          setSavedLoad(load);
-          setSavedSpeech(speech);
-          setIsUploading(false);
-          if (updateOnSubmit !== undefined) {
-            updateOnSubmit(response.data, false);
-          }
-        })
-        .catch((error) => {
-        });
-
-      ReactGA.event({
-        category: 'Review',
-        action: 'Edited Review',
-        label: `Lecture : ${lecture.id} / From : Page : ${pageFrom}`,
-      });
-    }
-    /* eslint-enable indent */
+    const beforeRequest = () => {
+      setIsUploading(true);
+    };
+    const afterResponse = (response) => {
+      setIsUploading(false);
+      if (updateOnSubmit !== undefined) {
+        updateOnSubmit(response.data, true);
+      }
+    };
+    performSubmitReview(review, lecture, content, grade, speech, load, isUploading, `Page : ${pageFrom}`, beforeRequest, afterResponse);
   };
 
-  const hasChange = (content !== savedContent)
-    || (grade !== savedGrade)
-    || (load !== savedLoad)
-    || (speech !== savedSpeech);
+  const hasChange = (content !== review.content)
+    || (grade !== review.grade)
+    || (load !== review.load)
+    || (speech !== review.speech);
   const getScoreOptionLabel = (name, value, checkedValue) => {
     const inputId = `${lecture.id}-${name}-${value}`;
     return (
