@@ -244,7 +244,8 @@ class TimetableSubSection extends Component {
       classtime.day < 0 || classtime.day > 4 || classtime.begin < 60 * 8 || classtime.end > 60 * 24
     );
     const untimedBlockTitles = [];
-    const mapClasstimeToBlock = (lecture, classtime, isUntimed, isTemp) => {
+    const mapClasstimeToBlock = (lecture, classtime, isTemp) => {
+      const isUntimed = !classtime || isOutsideTable(classtime);
       if (isUntimed) {
         const title = classtime
           ? `${[t('ui.day.saturdayShort'), t('ui.day.sundayShort')][classtime.day - 5]} ${getTimeString(classtime.begin)}~${getTimeString(classtime.end)}`
@@ -286,8 +287,8 @@ class TimetableSubSection extends Component {
     };
     const mapLectureToBlocks = (lecture, isTemp) => (
       lecture.classtimes.length === 0
-        ? mapClasstimeToBlock(lecture, null, true, isTemp)
-        : lecture.classtimes.map(ct => mapClasstimeToBlock(lecture, ct, isOutsideTable(ct), isTemp))
+        ? mapClasstimeToBlock(lecture, null, isTemp)
+        : lecture.classtimes.map(ct => mapClasstimeToBlock(lecture, ct, isTemp))
     );
     const timetableLectureBlocks = timetableLectures.map(lecture => mapLectureToBlocks(lecture, false));
     const tempLectureBlocks = tempLecture
