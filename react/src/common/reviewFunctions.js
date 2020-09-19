@@ -1,13 +1,33 @@
 import axios from 'axios';
 import ReactGA from 'react-ga';
+import i18n from 'i18next';
 
 // eslint-disable-next-line import/prefer-default-export
 export const performSubmitReview = (
   existingReview,
   lecture, content, grade, speech, load,
+  isUploading,
   fromString,
-  onResponse,
+  beforeRequest, afterResponse,
 ) => {
+  if (content.length === 0) {
+    // eslint-disable-next-line no-alert
+    alert(i18n.t('ui.message.emptyContent'));
+    return;
+  }
+  if ((grade === undefined) || (load === undefined) || (speech === undefined)) {
+    // eslint-disable-next-line no-alert
+    alert(i18n.t('ui.message.scoreNotSelected'));
+    return;
+  }
+  if (isUploading) {
+    // eslint-disable-next-line no-alert
+    alert(i18n.t('ui.message.alreadyUploading'));
+    return;
+  }
+
+  beforeRequest();
+
   if (!existingReview) {
     axios.post(
       '/api/reviews',
@@ -26,7 +46,7 @@ export const performSubmitReview = (
       },
     )
       .then((response) => {
-        onResponse(response);
+        afterResponse(response);
       })
       .catch((error) => {
       });
@@ -54,7 +74,7 @@ export const performSubmitReview = (
       },
     )
       .then((response) => {
-        onResponse(response);
+        afterResponse(response);
       })
       .catch((error) => {
       });
