@@ -214,9 +214,9 @@ class TimetableSubSection extends Component {
     }
   }
 
-  deleteLecture = lecture => (event) => {
+  deleteLecture = (lecture) => {
     const { selectedTimetable, user, removeLectureFromTimetableDispatch } = this.props;
-    event.stopPropagation();
+
     if (!selectedTimetable) {
       return;
     }

@@ -25,6 +25,20 @@ const LectureGroupBlockRow = ({
         return classNames('');
     }
   };
+
+  const onDeleteFromCartClick = (event) => {
+    event.stopPropagation();
+    deleteFromCart(lecture);
+  };
+  const onAddToCartClick = (event) => {
+    event.stopPropagation();
+    addToCart(lecture);
+  };
+  const onAddToTableClick = (event) => {
+    event.stopPropagation();
+    addToTable(lecture);
+  };
+
   return (
     <div
       className={classNames(
@@ -45,16 +59,16 @@ const LectureGroupBlockRow = ({
         </div>
         {
           fromCart
-            ? <button className={classNames('block--lecture-group__elem__button')} onClick={event => deleteFromCart(lecture)(event)}><i className={classNames('icon', 'icon--delete-cart')} /></button>
+            ? <button className={classNames('block--lecture-group__elem__button')} onClick={onDeleteFromCartClick}><i className={classNames('icon', 'icon--delete-cart')} /></button>
             : (
               !inCart
-                ? <button className={classNames('block--lecture-group__elem__button')} onClick={event => addToCart(lecture)(event)}><i className={classNames('icon', 'icon--add-cart')} /></button>
+                ? <button className={classNames('block--lecture-group__elem__button')} onClick={onAddToCartClick}><i className={classNames('icon', 'icon--add-cart')} /></button>
                 : <button className={classNames('block--lecture-group__elem__button', 'block--lecture-group__elem__button--disable')}><i className={classNames('icon', 'icon--add-cart')} /></button>
             )
         }
         {
           !inTimetable && !isTimetableReadonly
-            ? <button className={classNames('block--lecture-group__elem__button')} onClick={event => addToTable(lecture)(event)}><i className={classNames('icon', 'icon--add-lecture')} /></button>
+            ? <button className={classNames('block--lecture-group__elem__button')} onClick={onAddToTableClick}><i className={classNames('icon', 'icon--add-lecture')} /></button>
             : <button className={classNames('block--lecture-group__elem__button', 'block--lecture-group__elem__button--disable')}><i className={classNames('icon', 'icon--add-lecture')} /></button>
         }
       </div>
