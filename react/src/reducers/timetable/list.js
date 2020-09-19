@@ -1,4 +1,4 @@
-import { RESET, SET_SELECTED_LIST_CODE, ADD_LECTURE_TO_CART, DELETE_LECTURE_FROM_CART, SET_LIST_MAJOR_CODES, SET_LIST_LECTURES, SET_LIST_MAJOR_LECTURES, CLEAR_LISTS_LECTURES, CLEAR_SEARCH_LIST_LECTURES, SET_MOBILE_SHOW_LECTURE_LIST } from '../../actions/timetable/list';
+import { RESET, SET_SELECTED_LIST_CODE, ADD_LECTURE_TO_CART, DELETE_LECTURE_FROM_CART, SET_LIST_MAJOR_CODES, SET_LIST_LECTURES, SET_LIST_MAJOR_LECTURES, CLEAR_LISTS_LECTURES, CLEAR_SEARCH_LIST_LECTURES, SET_MOBILE_SHOULD_SHOW_LECTURE_LIST } from '../../actions/timetable/list';
 
 import { unique } from '../../common/utilFunctions';
 
@@ -22,7 +22,7 @@ const initialState = {
   cart: {
     lectureGroups: null,
   },
-  mobileShowLectureList: false,
+  mobileShouldShowLectureList: false,
 };
 
 const list = (state = initialState, action) => {
@@ -172,9 +172,9 @@ const list = (state = initialState, action) => {
         },
       });
     }
-    case SET_MOBILE_SHOW_LECTURE_LIST: {
+    case SET_MOBILE_SHOULD_SHOW_LECTURE_LIST: {
       return Object.assign({}, state, {
-        mobileShowLectureList: action.mobileShowLectureList,
+        mobileShouldShowLectureList: action.mobileShouldShowLectureList,
       });
     }
     default: {

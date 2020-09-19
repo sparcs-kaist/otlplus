@@ -7,7 +7,7 @@ import ReactGA from 'react-ga';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 
-import { setTimetables, clearTimetables, setMyTimetableLectures, createTimetable, setSelectedTimetable, deleteTimetable, duplicateTimetable, setMobileShowTimetableTabs } from '../../actions/timetable/timetable';
+import { setTimetables, clearTimetables, setMyTimetableLectures, createTimetable, setSelectedTimetable, deleteTimetable, duplicateTimetable, setMobileShouldShowTimetableTabs } from '../../actions/timetable/timetable';
 
 import userShape from '../../shapes/UserShape';
 import timetableShape from '../../shapes/TimetableShape';
@@ -96,10 +96,10 @@ class TimetableTabs extends Component {
   }
 
   changeTab(timetable) {
-    const { setSelectedTimetableDispatch, setMobileShowTimetableTabsDispatch } = this.props;
+    const { setSelectedTimetableDispatch, setMobileShouldShowTimetableTabsDispatch } = this.props;
 
     setSelectedTimetableDispatch(timetable);
-    setMobileShowTimetableTabsDispatch(false);
+    setMobileShouldShowTimetableTabsDispatch(false);
 
     ReactGA.event({
       category: 'Timetable - Timetable',
@@ -336,8 +336,8 @@ const mapDispatchToProps = dispatch => ({
   duplicateTimetableDispatch: (id, timetable) => {
     dispatch(duplicateTimetable(id, timetable));
   },
-  setMobileShowTimetableTabsDispatch: (mobileShowTimetableTabs) => {
-    dispatch(setMobileShowTimetableTabs(mobileShowTimetableTabs));
+  setMobileShouldShowTimetableTabsDispatch: (mobileShouldShowTimetableTabs) => {
+    dispatch(setMobileShouldShowTimetableTabs(mobileShouldShowTimetableTabs));
   },
 });
 
@@ -356,7 +356,7 @@ TimetableTabs.propTypes = {
   createTimetableDispatch: PropTypes.func.isRequired,
   deleteTimetableDispatch: PropTypes.func.isRequired,
   duplicateTimetableDispatch: PropTypes.func.isRequired,
-  setMobileShowTimetableTabsDispatch: PropTypes.func.isRequired,
+  setMobileShouldShowTimetableTabsDispatch: PropTypes.func.isRequired,
 };
 
 

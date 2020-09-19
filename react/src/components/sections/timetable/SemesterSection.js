@@ -53,7 +53,7 @@ class SemesterSection extends Component {
     return (semesterIdx === (semesters.length - 1));
   }
 
-  semesterPrev() {
+  changeToPreviousSemester() {
     const { semesters, year, semester, setSemesterDispatch } = this.props;
 
     if (this._isFirstSemester(year, semester)) {
@@ -72,7 +72,7 @@ class SemesterSection extends Component {
     });
   }
 
-  semesterNext() {
+  changeToNextSemester() {
     const { semesters, year, semester, setSemesterDispatch } = this.props;
 
     if (this._isLastSemester(year, semester)) {
@@ -105,9 +105,9 @@ class SemesterSection extends Component {
     if (year && semester) {
       return (
         <div className={classNames('section', 'section--semester', t('jsx.className.semesterByLang'))}>
-          <button className={classNames((this._isFirstSemester(year, semester) ? 'disable' : ''))} onClick={() => this.semesterPrev()}><i className={classNames('icon', 'icon--semester-prev')} /></button>
+          <button className={classNames((this._isFirstSemester(year, semester) ? 'disable' : ''))} onClick={() => this.changeToPreviousSemester()}><i className={classNames('icon', 'icon--semester-prev')} /></button>
           <span>{`${year} ${semesterNames[semester]}`}</span>
-          <button className={classNames((this._isLastSemester(year, semester) ? 'disable' : ''))} onClick={() => this.semesterNext()}><i className={classNames('icon', 'icon--semester-next')} /></button>
+          <button className={classNames((this._isLastSemester(year, semester) ? 'disable' : ''))} onClick={() => this.changeToNextSemester()}><i className={classNames('icon', 'icon--semester-next')} /></button>
         </div>
       );
     }

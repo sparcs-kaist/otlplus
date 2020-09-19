@@ -12,7 +12,7 @@ import courseShape from '../../shapes/CourseShape';
 const CourseBlock = ({
   t,
   course,
-  showReadStatus, isRead, isRaised, isHighlighted, isDimmed,
+  shouldShowReadStatus, isRead, isRaised, isHighlighted, isDimmed,
   listHover, listOut, listClick,
 }) => {
   return (
@@ -29,7 +29,7 @@ const CourseBlock = ({
       onMouseOut={listOut}
     >
       <div className={classNames('block--course__title')}>
-        { !showReadStatus
+        { !shouldShowReadStatus
           ? null
           : (isRead
             ? <i className={classNames('icon', 'icon--status-read')} />
@@ -60,7 +60,7 @@ const CourseBlock = ({
 
 CourseBlock.propTypes = {
   course: courseShape.isRequired,
-  showReadStatus: PropTypes.bool,
+  shouldShowReadStatus: PropTypes.bool,
   isRead: PropTypes.bool,
   isRaised: PropTypes.bool,
   isHighlighted: PropTypes.bool,

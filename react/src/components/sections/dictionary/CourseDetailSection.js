@@ -25,7 +25,7 @@ class CourseDetailSection extends Component {
     super(props);
 
     this.state = {
-      showHiddenScores: false,
+      shouldShowHiddenScores: false,
     };
 
     // eslint-disable-next-line fp/no-mutation
@@ -132,12 +132,12 @@ class CourseDetailSection extends Component {
     if (this.scoresRef.current.getBoundingClientRect().top
       >= this.scrollThresholdRef.current.getBoundingClientRect().bottom) {
       this.setState({
-        showHiddenScores: false,
+        shouldShowHiddenScores: false,
       });
     }
     else {
       this.setState({
-        showHiddenScores: true,
+        shouldShowHiddenScores: true,
       });
     }
   }
@@ -151,7 +151,7 @@ class CourseDetailSection extends Component {
 
   render() {
     const { t } = this.props;
-    const { showHiddenScores } = this.state;
+    const { shouldShowHiddenScores } = this.state;
     const { courseFocus } = this.props;
 
     if (courseFocus.clicked && courseFocus.course !== null) {
@@ -164,7 +164,7 @@ class CourseDetailSection extends Component {
               <div className={classNames('subtitle')}>{ courseFocus.course.old_code }</div>
             </div>
             <div ref={this.scrollThresholdRef} />
-            <div className={classNames('fixed__conditional-part', (showHiddenScores ? '' : 'fixed__conditional-part--hidden'))}>
+            <div className={classNames('fixed__conditional-part', (shouldShowHiddenScores ? '' : 'fixed__conditional-part--hidden'))}>
               <div className={classNames('scores')}>
                 <div>
                   <div>{ getAverageScoreLabel(courseFocus.course.grade) }</div>
