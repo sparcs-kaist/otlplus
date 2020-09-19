@@ -221,13 +221,7 @@ class TimetableSubSection extends Component {
       return;
     }
 
-    performDeleteFromTable(this, lecture, selectedTimetable, user, removeLectureFromTimetableDispatch);
-
-    ReactGA.event({
-      category: 'Timetable - Lecture',
-      action: 'Deleted Lecture from Timetable',
-      label: `Lecture : ${lecture.id} / From : Timetable`,
-    });
+    performDeleteFromTable(this, lecture, selectedTimetable, user, 'Timetable', removeLectureFromTimetableDispatch);
   }
 
   render() {

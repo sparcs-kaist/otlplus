@@ -62,54 +62,42 @@ class LectureListSection extends Component {
     const { selectedTimetable, user, selectedListCode, addLectureToTimetableDispatch } = this.props;
 
     event.stopPropagation();
-    performAddToTable(this, lecture, selectedTimetable, user, addLectureToTimetableDispatch);
 
     const labelOfTabs = new Map([
       ['SEARCH', 'Search'],
       ['HUMANITY', 'Humanity'],
       ['CART', 'Cart'],
     ]);
-    ReactGA.event({
-      category: 'Timetable - Lecture',
-      action: 'Added Lecture to Timetable',
-      label: `Lecture : ${lecture.id} / From : Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`,
-    });
+    const fromString = `Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`;
+    performAddToTable(this, lecture, selectedTimetable, user, fromString, addLectureToTimetableDispatch);
   }
 
   addToCart = lecture => (event) => {
     const { year, semester, user, selectedListCode, addLectureToCartDispatch } = this.props;
 
     event.stopPropagation();
-    performAddToCart(this, lecture, year, semester, user, addLectureToCartDispatch);
 
     const labelOfTabs = new Map([
       ['SEARCH', 'Search'],
       ['HUMANITY', 'Humanity'],
       ['CART', 'Cart'],
     ]);
-    ReactGA.event({
-      category: 'Timetable - Lecture',
-      action: 'Added Lecture to Cart',
-      label: `Lecture : ${lecture.id} / From : Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`,
-    });
+    const fromString = `Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`;
+    performAddToCart(this, lecture, year, semester, user, fromString, addLectureToCartDispatch);
   }
 
   deleteFromCart = lecture => (event) => {
     const { year, semester, user, selectedListCode, deleteLectureFromCartDispatch } = this.props;
 
     event.stopPropagation();
-    performDeleteFromCart(this, lecture, year, semester, user, deleteLectureFromCartDispatch);
 
     const labelOfTabs = new Map([
       ['SEARCH', 'Search'],
       ['HUMANITY', 'Humanity'],
       ['CART', 'Cart'],
     ]);
-    ReactGA.event({
-      category: 'Timetable - Lecture',
-      action: 'Deleted Lecture from Cart',
-      label: `Lecture : ${lecture.id} / From : Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`,
-    });
+    const fromString = `Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`;
+    performDeleteFromCart(this, lecture, year, semester, user, fromString, deleteLectureFromCartDispatch);
   }
 
   listHover = lecture => () => {
