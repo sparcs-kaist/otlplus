@@ -360,6 +360,20 @@ class TimetableSubSection extends Component {
       ];
     };
 
+    const dragCell = firstBlock && secondBlock
+      ? (
+        <div
+          className={classNames('section-content--timetable__drag-cell')}
+          style={{
+            left: (cellWidth + 5) * this.indexOfDay(firstBlock.getAttribute('data-day')) + 17,
+            width: cellWidth + 2,
+            top: cellHeight * Math.min(this.indexOfMinute(firstBlock.getAttribute('data-minute')), this.indexOfMinute(secondBlock.getAttribute('data-minute'))) + 19,
+            height: cellHeight * (Math.abs(this.indexOfMinute(firstBlock.getAttribute('data-minute')) - this.indexOfMinute(secondBlock.getAttribute('data-minute'))) + 1) - 3,
+          }}
+        />
+      )
+      : null;
+
     return (
       <div className={classNames('section-content', 'section-content--timetable')} onMouseUp={e => this.onMouseUp(e)} onTouchEnd={e => this.onTouchEnd(e)}>
         <div className={classNames('section-content--timetable__table')}>
@@ -382,21 +396,7 @@ class TimetableSubSection extends Component {
             {getColumnCells('fri', t('ui.day.friday'), 4)}
           </div>
         </div>
-        {
-          firstBlock && secondBlock
-            ? (
-              <div
-                className={classNames('section-content--timetable__drag-cell')}
-                style={{
-                  left: (cellWidth + 5) * this.indexOfDay(firstBlock.getAttribute('data-day')) + 17,
-                  width: cellWidth + 2,
-                  top: cellHeight * Math.min(this.indexOfMinute(firstBlock.getAttribute('data-minute')), this.indexOfMinute(secondBlock.getAttribute('data-minute'))) + 19,
-                  height: cellHeight * (Math.abs(this.indexOfMinute(firstBlock.getAttribute('data-minute')) - this.indexOfMinute(secondBlock.getAttribute('data-minute'))) + 1) - 3,
-                }}
-              />
-            )
-            : null
-        }
+        {dragCell}
         {timetableLectureBlocks}
         {tempLectureBlocks}
       </div>
