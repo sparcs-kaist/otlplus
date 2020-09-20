@@ -11,7 +11,6 @@ import lectureShape from '../../shapes/NestedLectureShape';
 import reviewShape from '../../shapes/ReviewShape';
 
 
-// eslint-disable-next-line arrow-body-style
 const ReviewWriteBlock = ({
   t,
   lecture, review,

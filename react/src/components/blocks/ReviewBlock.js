@@ -12,7 +12,6 @@ import { getSingleScoreLabel } from '../../common/scoreFunctions';
 import reviewShape from '../../shapes/ReviewShape';
 
 
-// eslint-disable-next-line arrow-body-style
 const ReviewBlock = ({
   t,
   review, linkTo,
