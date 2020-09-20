@@ -19,8 +19,10 @@ import { unique, sum } from '../../../common/utilFunctions';
 
 class TakenLecturesSection extends Component {
   handleBlockClick = lecture => (e) => {
-    const { selectedLecture,
-      setLectureSelectedDispatch, clearLectureSelectedDispatch } = this.props;
+    const {
+      selectedLecture,
+      setLectureSelectedDispatch, clearLectureSelectedDispatch,
+    } = this.props;
 
     if (selectedLecture && (lecture.id === selectedLecture.id)) {
       clearLectureSelectedDispatch();

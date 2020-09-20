@@ -79,8 +79,10 @@ class CourseListSection extends Component {
 
   render() {
     const { t } = this.props;
-    const { courseFocus, selectedListCode, searchOpen,
-      search, major, humanity, taken, readCourses } = this.props;
+    const {
+      courseFocus, selectedListCode, searchOpen,
+      search, major, humanity, taken, readCourses,
+    } = this.props;
 
     const getListElement = (courses) => {
       if (!courses) {

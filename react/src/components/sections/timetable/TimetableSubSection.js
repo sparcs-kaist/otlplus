@@ -18,7 +18,11 @@ import userShape from '../../../shapes/UserShape';
 import timetableShape from '../../../shapes/TimetableShape';
 import lectureFocusShape from '../../../shapes/LectureFocusShape';
 
-import { inTimetable, isFocused, isTableClicked, isDimmedTableLecture, performDeleteFromTable } from '../../../common/lectureFunctions';
+import {
+  inTimetable,
+  isFocused, isTableClicked, isDimmedTableLecture,
+  performDeleteFromTable,
+} from '../../../common/lectureFunctions';
 
 
 class TimetableSubSection extends Component {
@@ -165,8 +169,11 @@ class TimetableSubSection extends Component {
 
   _dragEnd = () => {
     const { firstBlock, secondBlock } = this.state;
-    const { isDragging, setIsDraggingDispatch, dragSearchDispatch, clearDragDispatch,
-      setSelectedListCodeDispatch, setMobileShouldShowLectureListDispatch } = this.props;
+    const {
+      isDragging,
+      setIsDraggingDispatch, dragSearchDispatch, clearDragDispatch,
+      setSelectedListCodeDispatch, setMobileShouldShowLectureListDispatch,
+    } = this.props;
 
     if (!isDragging) {
       return;
@@ -226,8 +233,11 @@ class TimetableSubSection extends Component {
   render() {
     const { t } = this.props;
     const { firstBlock, secondBlock } = this.state;
-    const { selectedTimetable, lectureFocus, cellWidth, cellHeight,
-      mobileShouldShowLectureList } = this.props;
+    const {
+      selectedTimetable, lectureFocus,
+      cellWidth, cellHeight,
+      mobileShouldShowLectureList,
+    } = this.props;
 
     const timetableLectures = selectedTimetable ? selectedTimetable.lectures : [];
     const tempLecture = ((lectureFocus.from === LIST) && !inTimetable(lectureFocus.lecture, selectedTimetable))

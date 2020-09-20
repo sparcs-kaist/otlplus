@@ -10,9 +10,18 @@ import CourseListSection from '../components/sections/dictionary/CourseListSecti
 import CourseDetailSection from '../components/sections/dictionary/CourseDetailSection';
 import CourseListTabs from '../components/tabs/CourseListTabs';
 
-import { reset as resetCourseFocus, setCourseFocus } from '../actions/dictionary/courseFocus';
-import { reset as resetList, setSelectedListCode, setListCourses, clearSearchListCourses } from '../actions/dictionary/list';
-import { reset as resetSearch, closeSearch } from '../actions/dictionary/search';
+import {
+  reset as resetCourseFocus,
+  setCourseFocus,
+} from '../actions/dictionary/courseFocus';
+import {
+  reset as resetList,
+  setSelectedListCode, setListCourses, clearSearchListCourses,
+} from '../actions/dictionary/list';
+import {
+  reset as resetSearch,
+  closeSearch,
+} from '../actions/dictionary/search';
 
 import courseFocusShape from '../shapes/CourseFocusShape';
 
@@ -22,7 +31,10 @@ class DictionaryPage extends Component {
     const { t } = this.props;
     // eslint-disable-next-line react/destructuring-assignment
     const { startCourseId, startTab, startSearchKeyword } = this.props.location.state || {};
-    const { setCourseFocusDispatch, setSelectedListCodeDispatch, setListCoursesDispatch, closeSearchDispatch, clearSearchListCoursesDispatch } = this.props;
+    const {
+      setCourseFocusDispatch, setSelectedListCodeDispatch, setListCoursesDispatch,
+      closeSearchDispatch, clearSearchListCoursesDispatch,
+    } = this.props;
 
     if (startCourseId) {
       axios.get(

@@ -8,7 +8,9 @@ import ReactGA from 'react-ga';
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 
 import { openSearch, closeSearch } from '../../actions/dictionary/search';
-import { setListMajorCodes, setSelectedListCode, setListCourses, setListMajorCourses } from '../../actions/dictionary/list';
+import {
+  setListMajorCodes, setSelectedListCode, setListCourses, setListMajorCourses,
+} from '../../actions/dictionary/list';
 
 import userShape from '../../shapes/UserShape';
 import courseShape from '../../shapes/CourseShape';
@@ -160,7 +162,10 @@ class CourseListTabs extends Component {
   }
 
   changeTab = (listCode) => {
-    const { search, setSelectedListCodeDispatch, openSearchDispatch, closeSearchDispatch } = this.props;
+    const {
+      search,
+      setSelectedListCodeDispatch, openSearchDispatch, closeSearchDispatch,
+    } = this.props;
 
     setSelectedListCodeDispatch(listCode);
 

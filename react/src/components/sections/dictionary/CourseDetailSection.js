@@ -35,7 +35,10 @@ class CourseDetailSection extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { selectedListCode, courseFocus, clearCourseFocusDispatch, setLecturesDispatch } = this.props;
+    const {
+      selectedListCode, courseFocus,
+      clearCourseFocusDispatch, setLecturesDispatch,
+    } = this.props;
 
     if (prevProps.selectedListCode !== selectedListCode) {
       clearCourseFocusDispatch();

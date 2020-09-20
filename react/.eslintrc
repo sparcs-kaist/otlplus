@@ -23,7 +23,6 @@
     "brace-style": [2, "stroustrup"],
     "max-len": 1,
     "no-underscore-dangle": ["error", { "allowAfterThis": true, "allowAfterSuper": true }],
-    "object-curly-newline": ["error", { "consistent": true }],
     "object-shorthand": [1, "never"],
     "react/destructuring-assignment": 1,
     "react/jsx-boolean-value": "off",

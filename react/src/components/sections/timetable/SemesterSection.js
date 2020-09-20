@@ -54,7 +54,11 @@ class SemesterSection extends Component {
   }
 
   changeToPreviousSemester() {
-    const { semesters, year, semester, setSemesterDispatch } = this.props;
+    const {
+      semesters,
+      year, semester,
+      setSemesterDispatch,
+    } = this.props;
 
     if (this._isFirstSemester(year, semester)) {
       return;
@@ -73,7 +77,11 @@ class SemesterSection extends Component {
   }
 
   changeToNextSemester() {
-    const { semesters, year, semester, setSemesterDispatch } = this.props;
+    const {
+      semesters,
+      year, semester,
+      setSemesterDispatch,
+    } = this.props;
 
     if (this._isLastSemester(year, semester)) {
       return;

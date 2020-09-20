@@ -14,7 +14,10 @@ class SearchCircle extends Component {
 
 
   render() {
-    const { t, value, inputName, labelNameKey, isChecked } = this.props;
+    const {
+      t,
+      value, inputName, labelNameKey, isChecked,
+    } = this.props;
     const isAll = (value === 'ALL');
     const inputId = `${inputName}-${value}`;
     return (

@@ -44,7 +44,9 @@ class SearchFilter extends Component {
 
 
   render() {
-    const { inputName, titleName, options, checkedValues } = this.props;
+    const {
+      inputName, titleName, options, checkedValues,
+    } = this.props;
     const mapCircle = o => (
       <SearchCircle
         key={o[0]}

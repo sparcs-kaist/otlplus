@@ -10,7 +10,11 @@ import { clearMultipleFocus, setMultipleFocus } from '../../../actions/timetable
 import lectureFocusShape from '../../../shapes/LectureFocusShape';
 import timetableShape from '../../../shapes/TimetableShape';
 
-import { isFocused, getBuildingStr, getRoomStr, getOverallLectures, getColorNumber } from '../../../common/lectureFunctions';
+import {
+  isFocused,
+  getBuildingStr, getRoomStr, getColorNumber,
+  getOverallLectures,
+} from '../../../common/lectureFunctions';
 
 import mapImage from '../../../static/img/timetable/kaist_map.jpg';
 import { unique } from '../../../common/utilFunctions';
