@@ -137,7 +137,7 @@ const ReviewBlock = ({ t, review, linkTo, pageFrom }) => {
 
 ReviewBlock.propTypes = {
   review: reviewShape.isRequired,
-  linkTo: PropTypes.oneOf(PropTypes.string, PropTypes.object),
+  linkTo: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   pageFrom: PropTypes.string.isRequired,
 };
 
