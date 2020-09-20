@@ -18,10 +18,10 @@ const ReviewWriteBlock = ({
   updateOnSubmit,
 }) => {
   const [isUploading, setIsUploading] = useState(false);
-  const [content, setContent] = useState(review.content);
-  const [grade, setGrade] = useState(review.grade);
-  const [load, setLoad] = useState(review.load);
-  const [speech, setSpeech] = useState(review.speech);
+  const [content, setContent] = useState(review ? review.content : '');
+  const [grade, setGrade] = useState(review ? review.grade : undefined);
+  const [load, setLoad] = useState(review ? review.load : undefined);
+  const [speech, setSpeech] = useState(review ? review.speech : undefined);
 
   const onContentChange = (e) => {
     setContent(e.target.value);
@@ -56,10 +56,13 @@ const ReviewWriteBlock = ({
     performSubmitReview(review, lecture, content, grade, speech, load, isUploading, `Page : ${pageFrom}`, beforeRequest, afterResponse);
   };
 
-  const hasChange = (content !== review.content)
+  const hasChange = (
+    !review
+    || (content !== review.content)
     || (grade !== review.grade)
     || (load !== review.load)
-    || (speech !== review.speech);
+    || (speech !== review.speech)
+  );
   const getScoreOptionLabel = (name, value, checkedValue) => {
     const inputId = `${lecture.id}-${name}-${value}`;
     return (
