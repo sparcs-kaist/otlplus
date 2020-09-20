@@ -5,13 +5,13 @@ import { withTranslation } from 'react-i18next';
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 
 
-// eslint-disable-next-line arrow-body-style
 const ProjectBlock = ({
   t,
   index,
   isRaised,
   onClick,
   mainTitle, subTitle, period,
+// eslint-disable-next-line arrow-body-style
 }) => {
   return (
     <div

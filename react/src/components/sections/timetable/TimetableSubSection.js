@@ -332,6 +332,7 @@ class TimetableSubSection extends Component {
       ];
     };
     const getColumnCells = (day, dayName, dayIdx) => {
+      // eslint-disable-next-line arrow-body-style
       const timedArea = targetMinutes.map((i) => {
         return (
           <div
