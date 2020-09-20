@@ -9,8 +9,12 @@ import lectureShape from '../../shapes/LectureShape';
 import classtimeShape from '../../shapes/ClasstimeShape';
 
 
-const HorizontalTimetableBlock = ({ t, lecture, classtime, cellWidth, cellHeight }) => {
-  const indexOfTime = time => (time / 30 - 16);
+const HorizontalTimetableBlock = ({
+  t,
+  lecture, classtime,
+  cellWidth, cellHeight,
+}) => {
+  const indexOfTime = (time) => (time / 30 - 16);
 
   return (
     <div

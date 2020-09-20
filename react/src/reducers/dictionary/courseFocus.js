@@ -1,4 +1,8 @@
-import { RESET, SET_COURSE_FOCUS, CLEAR_COURSE_FOCUS, SET_REVIEWS, UPDATE_REVIEW, SET_LECTURES } from '../../actions/dictionary/courseFocus';
+import {
+  RESET,
+  SET_COURSE_FOCUS, CLEAR_COURSE_FOCUS,
+  SET_REVIEWS, UPDATE_REVIEW, SET_LECTURES,
+} from '../../actions/dictionary/courseFocus';
 
 const initialState = {
   clicked: false,
@@ -39,7 +43,7 @@ const courseFocus = (state = initialState, action) => {
     case UPDATE_REVIEW: {
       const originalReviews = state.reviews;
       const { review, isNew } = action;
-      const foundIndex = originalReviews.findIndex(r => (r.id === review.id));
+      const foundIndex = originalReviews.findIndex((r) => (r.id === review.id));
       const newReviews = (foundIndex !== -1)
         ? [
           ...originalReviews.slice(0, foundIndex),

@@ -13,7 +13,7 @@ export const reducer = (state = initialState, action) => {
     case UPDATE_USER_REVIEW: {
       const originalReviews = state.user.reviews;
       const { review } = action;
-      const foundIndex = originalReviews.findIndex(r => (r.id === review.id));
+      const foundIndex = originalReviews.findIndex((r) => (r.id === review.id));
       const newReviews = (foundIndex !== -1)
         ? [
           ...originalReviews.slice(0, foundIndex),

@@ -39,10 +39,17 @@ class LectureSearchSubSection extends Component {
 
   searchStart = () => {
     const { t } = this.props;
-    const { type, department, grade, inputVal } = this.state;
-    const { year, semester, start, day, end, lectureFocus,
+    const {
+      type, department, grade,
+      inputVal,
+    } = this.state;
+    const {
+      lectureFocus,
+      year, semester,
+      start, day, end,
       closeSearchDispatch, clearSearchListLecturesDispatch,
-      setListLecturesDispatch, clearLectureFocusDispatch } = this.props;
+      setListLecturesDispatch, clearLectureFocusDispatch,
+    } = this.props;
 
     if (type.size === 1 && department.size === 1 && grade.size === 1 && inputVal.trim().length === 0
       && !(start !== null && end !== null && day !== null)) {
@@ -95,7 +102,7 @@ class LectureSearchSubSection extends Component {
     });
   }
 
-  updateCheckedValues = filterName => (checkedValues) => {
+  updateCheckedValues = (filterName) => (checkedValues) => {
     this.setState({
       [filterName]: checkedValues,
     });
@@ -151,7 +158,7 @@ class LectureSearchSubSection extends Component {
   }
 
   applyAutocomplete = () => {
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       inputVal: prevState.inputVal + prevState.autoComplete,
       autoComplete: '',
     }));
@@ -181,7 +188,11 @@ class LectureSearchSubSection extends Component {
 
   render() {
     const { t } = this.props;
-    const { inputVal, autoComplete, type, department, grade } = this.state;
+    const {
+      inputVal,
+      autoComplete,
+      type, department, grade,
+    } = this.state;
     const { start, end, day } = this.props;
 
     return (
@@ -196,8 +207,8 @@ class LectureSearchSubSection extends Component {
                 autoComplete="off"
                 placeholder={t('ui.tab.search')}
                 value={inputVal}
-                onKeyDown={e => this.onKeyPress(e)}
-                onChange={e => this.handleInput(e)}
+                onKeyDown={(e) => this.onKeyPress(e)}
+                onChange={(e) => this.handleInput(e)}
               />
               <div className={classNames('search-keyword-autocomplete')}>
                 <span className={classNames('search-keyword-autocomplete-space')}>{inputVal}</span>
@@ -259,7 +270,7 @@ class LectureSearchSubSection extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   start: state.timetable.search.start,
   end: state.timetable.search.end,
   day: state.timetable.search.day,
@@ -268,7 +279,7 @@ const mapStateToProps = state => ({
   lectureFocus: state.timetable.lectureFocus,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   closeSearchDispatch: () => {
     dispatch(closeSearch());
   },

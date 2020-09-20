@@ -18,9 +18,11 @@ import { unique, sum } from '../../../common/utilFunctions';
 
 
 class TakenLecturesSection extends Component {
-  handleBlockClick = lecture => (e) => {
-    const { selectedLecture,
-      setLectureSelectedDispatch, clearLectureSelectedDispatch } = this.props;
+  handleBlockClick = (lecture) => (e) => {
+    const {
+      selectedLecture,
+      setLectureSelectedDispatch, clearLectureSelectedDispatch,
+    } = this.props;
 
     if (selectedLecture && (lecture.id === selectedLecture.id)) {
       clearLectureSelectedDispatch();
@@ -77,11 +79,11 @@ class TakenLecturesSection extends Component {
     }
 
     const writableTakenLectures = user.review_writable_lectures;
-    const editableReviews = user.reviews.filter(r => writableTakenLectures.some(l => l.id === r.lecture.id));
+    const editableReviews = user.reviews.filter((r) => writableTakenLectures.some((l) => l.id === r.lecture.id));
 
     // eslint-disable-next-line fp/no-mutating-methods
     const targetSemesters = unique(
-      writableTakenLectures.map(l => ({ year: l.year, semester: l.semester })),
+      writableTakenLectures.map((l) => ({ year: l.year, semester: l.semester })),
       (a, b) => ((a.year === b.year) && (a.semester === b.semester)),
     )
       .sort((a, b) => ((a.year !== b.year) ? (b.year - a.year) : (b.semester - a.semester)));
@@ -110,13 +112,13 @@ class TakenLecturesSection extends Component {
             </div>
             <div>
               <div>
-                {sum(editableReviews, r => r.like)}
+                {sum(editableReviews, (r) => r.like)}
               </div>
               <div>{t('ui.score.likes')}</div>
             </div>
           </div>
           {targetSemesters.length
-            ? targetSemesters.map(s => (
+            ? targetSemesters.map((s) => (
               <React.Fragment key={`${s.year}-${s.semester}`}>
                 <div className={classNames('divider')} />
                 <div className={classNames('small-title')}>
@@ -125,8 +127,8 @@ class TakenLecturesSection extends Component {
                 <div className={classNames('taken-lectures')}>
 
                   {writableTakenLectures
-                    .filter(l => (l.year === s.year && l.semester === s.semester))
-                    .map(l => (
+                    .filter((l) => (l.year === s.year && l.semester === s.semester))
+                    .map((l) => (
                       !selectedLecture
                         ? (
                           <LectureSimpleBlock
@@ -134,7 +136,7 @@ class TakenLecturesSection extends Component {
                             lecture={l}
                             isRaised={false}
                             isDimmed={false}
-                            hasReview={user.reviews.some(r => (r.lecture.id === l.id))}
+                            hasReview={user.reviews.some((r) => (r.lecture.id === l.id))}
                             onClick={this.handleBlockClick(l)}
                           />
                         )
@@ -144,7 +146,7 @@ class TakenLecturesSection extends Component {
                             lecture={l}
                             isRaised={selectedLecture.id === l.id}
                             isDimmed={selectedLecture.id !== l.id}
-                            hasReview={user.reviews.some(r => (r.lecture.id === l.id))}
+                            hasReview={user.reviews.some((r) => (r.lecture.id === l.id))}
                             onClick={this.handleBlockClick(l)}
                           />
                         )
@@ -166,12 +168,12 @@ class TakenLecturesSection extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   user: state.common.user.user,
   selectedLecture: state.writeReviews.lectureSelected.lecture,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   setLectureSelectedDispatch: (lecture) => {
     dispatch(setLectureSelected(lecture));
   },

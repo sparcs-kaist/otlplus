@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 
-import { NONE, LIST, TABLE, MULTIPLE } from '../reducers/timetable/lectureFocus';
+import {
+  NONE, LIST, TABLE, MULTIPLE,
+} from '../reducers/timetable/lectureFocus';
 import lectureShape from './LectureShape';
 
 

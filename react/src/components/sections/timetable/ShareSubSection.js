@@ -15,8 +15,12 @@ import timetableShape from '../../../shapes/TimetableShape';
 class ShareSubSection extends Component {
   render() {
     const { t } = this.props;
-    const { selectedTimetable, mobileShouldShowLectureList, year, semester,
-      setMobileShouldShowTimetableTabsDispatch, setMobileShouldShowLectureListDispatch } = this.props;
+    const {
+      selectedTimetable,
+      year, semester,
+      mobileShouldShowLectureList,
+      setMobileShouldShowTimetableTabsDispatch, setMobileShouldShowLectureListDispatch,
+    } = this.props;
 
     const timetableLectures = selectedTimetable
       ? selectedTimetable.lectures
@@ -65,14 +69,14 @@ class ShareSubSection extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   selectedTimetable: state.timetable.timetable.selectedTimetable,
   mobileShouldShowLectureList: state.timetable.list.mobileShouldShowLectureList,
   year: state.timetable.semester.year,
   semester: state.timetable.semester.semester,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   setMobileShouldShowTimetableTabsDispatch: (mobileShouldShowTimetableTabs) => {
     dispatch(setMobileShouldShowTimetableTabs(mobileShouldShowTimetableTabs));
   },

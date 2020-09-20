@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 import axios from 'axios';
 import qs from 'qs';
-import ReactGA from 'react-ga';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 import { getAverageScoreLabel } from '../../../common/scoreFunctions';
@@ -24,7 +23,11 @@ import lectureShape from '../../../shapes/LectureShape';
 import lectureFocusShape from '../../../shapes/LectureFocusShape';
 import timetableShape from '../../../shapes/TimetableShape';
 
-import { inTimetable, inCart, getClassroomStr, performAddToTable, performDeleteFromTable, performAddToCart, performDeleteFromCart, getExamStr } from '../../../common/lectureFunctions';
+import {
+  inTimetable, inCart,
+  getClassroomStr, getExamStr,
+  performAddToTable, performDeleteFromTable, performAddToCart, performDeleteFromCart,
+} from '../../../common/lectureFunctions';
 
 
 class LectureDetailSection extends Component {
@@ -50,8 +53,11 @@ class LectureDetailSection extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    const { lectureFocus, selectedListCode, selectedTimetable,
-      year, semester, clearLectureFocusDispatch } = this.props;
+    const {
+      lectureFocus, selectedListCode, selectedTimetable,
+      year, semester,
+      clearLectureFocusDispatch,
+    } = this.props;
 
     if (prevProps.lectureFocus.clicked && lectureFocus.clicked) {
       if (prevProps.lectureFocus.lecture.id !== lectureFocus.lecture.id) {
@@ -118,8 +124,11 @@ class LectureDetailSection extends Component {
   };
 
   addToTable = (event) => {
-    const { lectureFocus, selectedTimetable, user, selectedListCode,
-      addLectureToTimetableDispatch } = this.props;
+    const {
+      user,
+      lectureFocus, selectedListCode, selectedTimetable,
+      addLectureToTimetableDispatch,
+    } = this.props;
 
     event.stopPropagation();
 
@@ -137,8 +146,11 @@ class LectureDetailSection extends Component {
   }
 
   deleteFromTable = (event) => {
-    const { lectureFocus, selectedTimetable, user, selectedListCode,
-      removeLectureFromTimetableDispatch } = this.props;
+    const {
+      user,
+      lectureFocus, selectedListCode, selectedTimetable,
+      removeLectureFromTimetableDispatch,
+    } = this.props;
 
     event.stopPropagation();
 
@@ -156,8 +168,12 @@ class LectureDetailSection extends Component {
   }
 
   addToCart = (event) => {
-    const { lectureFocus, year, semester, user, selectedListCode,
-      addLectureToCartDispatch } = this.props;
+    const {
+      user,
+      lectureFocus, selectedListCode,
+      year, semester,
+      addLectureToCartDispatch,
+    } = this.props;
 
     event.stopPropagation();
 
@@ -175,8 +191,12 @@ class LectureDetailSection extends Component {
   }
 
   deleteFromCart = (event) => {
-    const { lectureFocus, year, semester, user, selectedListCode,
-      deleteLectureFromCartDispatch } = this.props;
+    const {
+      user,
+      lectureFocus, selectedListCode,
+      year, semester,
+      deleteLectureFromCartDispatch,
+    } = this.props;
 
     event.stopPropagation();
 
@@ -260,7 +280,7 @@ class LectureDetailSection extends Component {
               </div>
               <div className={classNames('attribute')}>
                 <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.attribute.professors')}</span>
-                <span>{lectureFocus.lecture.professors.map(p => p[t('js.property.name')]).join(', ')}</span>
+                <span>{lectureFocus.lecture.professors.map((p) => p[t('js.property.name')]).join(', ')}</span>
               </div>
               <div className={classNames('attribute')}>
                 <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.attribute.classroom')}</span>
@@ -433,7 +453,7 @@ class LectureDetailSection extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   user: state.common.user.user,
   lectureFocus: state.timetable.lectureFocus,
   selectedListCode: state.timetable.list.selectedListCode,
@@ -443,7 +463,7 @@ const mapStateToProps = state => ({
   semester: state.timetable.semester.semester,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   clearLectureFocusDispatch: () => {
     dispatch(clearLectureFocus());
   },

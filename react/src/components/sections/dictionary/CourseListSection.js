@@ -25,7 +25,7 @@ class CourseListSection extends Component {
   }
 
 
-  listHover = course => () => {
+  listHover = (course) => () => {
     const { courseFocus, setCourseFocusDispatch } = this.props;
 
     if (courseFocus.clicked) {
@@ -43,7 +43,7 @@ class CourseListSection extends Component {
     clearCourseFocusDispatch();
   }
 
-  listClick = course => () => {
+  listClick = (course) => () => {
     const { courseFocus, selectedListCode, setCourseFocusDispatch } = this.props;
 
     if (!isClicked(course, courseFocus)) {
@@ -79,8 +79,10 @@ class CourseListSection extends Component {
 
   render() {
     const { t } = this.props;
-    const { courseFocus, selectedListCode, searchOpen,
-      search, major, humanity, taken, readCourses } = this.props;
+    const {
+      courseFocus, selectedListCode, searchOpen,
+      search, major, humanity, taken, readCourses,
+    } = this.props;
 
     const getListElement = (courses) => {
       if (!courses) {
@@ -91,12 +93,12 @@ class CourseListSection extends Component {
       }
       return (
         <Scroller key={selectedListCode}>
-          {courses.map(c => (
+          {courses.map((c) => (
             <CourseBlock
               course={c}
               key={c.id}
               shouldShowReadStatus={true}
-              isRead={c.userspecific_is_read || readCourses.some(c2 => (c2.id === c.id))}
+              isRead={c.userspecific_is_read || readCourses.some((c2) => (c2.id === c.id))}
               isRaised={isClicked(c, courseFocus)}
               isHighlighted={isHovered(c, courseFocus) || isClicked(c, courseFocus)}
               isDimmed={isDimmedCourse(c, courseFocus)}
@@ -121,7 +123,7 @@ class CourseListSection extends Component {
         </div>
       );
     }
-    if (major.codes.some(code => (selectedListCode === code))) {
+    if (major.codes.some((cd) => (selectedListCode === cd))) {
       return (
         <div className={classNames('section-content', 'section-content--flex', 'section-content--course-list')}>
           <div className={classNames('title')}>
@@ -155,7 +157,7 @@ class CourseListSection extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   selectedListCode: state.dictionary.list.selectedListCode,
   search: state.dictionary.list.search,
   major: state.dictionary.list.major,
@@ -166,7 +168,7 @@ const mapStateToProps = state => ({
   searchOpen: state.dictionary.search.open,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   openSearchDispatch: () => {
     dispatch(openSearch());
   },

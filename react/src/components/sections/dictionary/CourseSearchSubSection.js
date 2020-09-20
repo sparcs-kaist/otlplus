@@ -14,7 +14,9 @@ import { closeSearch } from '../../../actions/dictionary/search';
 import { setListCourses, clearSearchListCourses } from '../../../actions/dictionary/list';
 import { clearCourseFocus } from '../../../actions/dictionary/courseFocus';
 
-import { typeOptions, departmentOptions, levelOptions, termOptions } from '../../../common/seachOptions';
+import {
+  typeOptions, departmentOptions, levelOptions, termOptions,
+} from '../../../common/seachOptions';
 
 
 class CourseSearchSubSection extends Component {
@@ -38,9 +40,14 @@ class CourseSearchSubSection extends Component {
 
   searchStart = () => {
     const { t } = this.props;
-    const { type, department, grade, term, inputVal } = this.state;
-    const { closeSearchDispatch, clearSearchListCoursesDispatch,
-      setListCoursesDispatch, clearCourseFocusDispatch } = this.props;
+    const {
+      type, department, grade, term,
+      inputVal,
+    } = this.state;
+    const {
+      closeSearchDispatch, clearSearchListCoursesDispatch,
+      setListCoursesDispatch, clearCourseFocusDispatch,
+    } = this.props;
 
     if (
       (type.size === 1 && type.has('ALL'))
@@ -84,7 +91,7 @@ class CourseSearchSubSection extends Component {
     });
   }
 
-  updateCheckedValues = filterName => (checkedValues) => {
+  updateCheckedValues = (filterName) => (checkedValues) => {
     this.setState({
       [filterName]: checkedValues,
     });
@@ -95,7 +102,7 @@ class CourseSearchSubSection extends Component {
     this.searchStart();
   }
 
-  handleInput(e) {
+  handleInput = (e) => {
     const { value } = e.target;
 
     this.setState({
@@ -133,21 +140,21 @@ class CourseSearchSubSection extends Component {
       });
   }
 
-  applyAutocomplete() {
-    this.setState(prevState => ({
+  applyAutocomplete = () => {
+    this.setState((prevState) => ({
       inputVal: prevState.inputVal + prevState.autoComplete,
       autoComplete: '',
     }));
   }
 
-  clearAutocomplete() {
+  clearAutocomplete = () => {
     this.setState({
       inputVal: '',
       autoComplete: '',
     });
   }
 
-  onKeyPress(e) {
+  onKeyPress = (e) => {
     if (e.keyCode === 9) {
       this.applyAutocomplete();
       e.stopPropagation(); // Prevent move focus
@@ -158,7 +165,11 @@ class CourseSearchSubSection extends Component {
 
   render() {
     const { t } = this.props;
-    const { inputVal, autoComplete, type, department, grade, term } = this.state;
+    const {
+      inputVal,
+      autoComplete,
+      type, department, grade, term,
+    } = this.state;
 
     return (
       <div className={classNames('search-area')}>
@@ -172,8 +183,8 @@ class CourseSearchSubSection extends Component {
                 autoComplete="off"
                 placeholder={t('ui.tab.search')}
                 value={inputVal}
-                onKeyDown={e => this.onKeyPress(e)}
-                onChange={e => this.handleInput(e)}
+                onKeyDown={(e) => this.onKeyPress(e)}
+                onChange={(e) => this.handleInput(e)}
               />
               <div className={classNames('search-keyword-autocomplete')}>
                 <span className={classNames('search-keyword-autocomplete-space')}>{inputVal}</span>
@@ -222,10 +233,10 @@ class CourseSearchSubSection extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   closeSearchDispatch: () => {
     dispatch(closeSearch());
   },

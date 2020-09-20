@@ -7,12 +7,12 @@ import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 import lectureShape from '../../shapes/LectureShape';
 
 
-// eslint-disable-next-line arrow-body-style
 const LectureSimpleBlock = ({
   t,
   lecture,
   isRaised, isDimmed, hasReview,
   onClick,
+// eslint-disable-next-line arrow-body-style
 }) => {
   return (
     <div

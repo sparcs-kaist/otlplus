@@ -3,7 +3,10 @@ import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
-import { isListClicked, isListFocused, inTimetable, inCart, isDimmedListLectureGroup } from '../../common/lectureFunctions';
+import {
+  isListClicked, isListFocused, isDimmedListLectureGroup,
+  inTimetable, inCart,
+} from '../../common/lectureFunctions';
 
 import LectureGroupBlockRow from './LectureGroupBlockRow';
 
@@ -18,13 +21,14 @@ const LectureGroupBlock = ({
   fromCart,
   addToCart, addToTable, deleteFromCart,
   listHover, listOut, listClick,
+// eslint-disable-next-line arrow-body-style
 }) => {
   return (
     <div
       className={classNames(
         'block',
         'block--lecture-group',
-        (lectureGroup.some(l => isListClicked(l, lectureFocus)) ? 'block--raised' : ''),
+        (lectureGroup.some((l) => isListClicked(l, lectureFocus)) ? 'block--raised' : ''),
         (isDimmedListLectureGroup(lectureGroup, lectureFocus) ? 'block--dimmed' : ''),
       )}
     >
@@ -33,7 +37,7 @@ const LectureGroupBlock = ({
         {' '}
         {lectureGroup[0].old_code}
       </div>
-      {lectureGroup.map(l => (
+      {lectureGroup.map((l) => (
         <LectureGroupBlockRow
           lecture={l}
           key={l.id}

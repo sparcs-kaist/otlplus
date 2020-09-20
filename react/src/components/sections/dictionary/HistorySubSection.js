@@ -51,15 +51,15 @@ class HistorySubSection extends Component {
     }
 
     const semesterYears = (semesters != null)
-      ? semesters.map(s => s.year)
+      ? semesters.map((s) => s.year)
       : [];
     const lectureYears = (courseFocus.lectures != null)
-      ? courseFocus.lectures.map(l => l.year)
+      ? courseFocus.lectures.map((l) => l.year)
       : [];
 
     const getBlockOrPlaceholder = (year, semester) => {
       const filteredLectures = courseFocus.lectures
-        .filter(l => ((l.year === year) && (l.semester === semester)));
+        .filter((l) => ((l.year === year) && (l.semester === semester)));
       if (filteredLectures.length === 0) {
         return <td className={classNames('history__cell--unopen')} key={`${year}-1`}><div>{t('ui.others.notOffered')}</div></td>;
       }
@@ -68,9 +68,9 @@ class HistorySubSection extends Component {
 
     const startYear = Math.min(...semesterYears, ...lectureYears);
     const endYear = Math.max(...semesterYears, ...lectureYears);
-    const targetYears = [...Array(endYear - startYear + 1).keys()].map(i => (startYear + i));
+    const targetYears = [...Array(endYear - startYear + 1).keys()].map((i) => (startYear + i));
 
-    const specialLectures = courseFocus.lectures.filter(l => (l[t('js.property.class_title')].length > 3));
+    const specialLectures = courseFocus.lectures.filter((l) => (l[t('js.property.class_title')].length > 3));
     const isSpecialLectureCourse = (specialLectures.length / courseFocus.lectures.length) > 0.3;
 
     return (
@@ -84,17 +84,17 @@ class HistorySubSection extends Component {
               <tbody>
                 <tr>
                   <th>{t('ui.semester.spring')}</th>
-                  {targetYears.map(y => getBlockOrPlaceholder(y, 1))}
+                  {targetYears.map((y) => getBlockOrPlaceholder(y, 1))}
                 </tr>
                 <tr>
                   <th />
-                  {targetYears.map(y => (
+                  {targetYears.map((y) => (
                     <td className={classNames('history__cell--year-label')} key={`${y}-l`}>{y}</td>
                   ))}
                 </tr>
                 <tr>
                   <th>{t('ui.semester.fall')}</th>
-                  {targetYears.map(y => getBlockOrPlaceholder(y, 3))}
+                  {targetYears.map((y) => getBlockOrPlaceholder(y, 3))}
                 </tr>
               </tbody>
             </table>
@@ -105,12 +105,12 @@ class HistorySubSection extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   semesters: state.common.semester.semesters,
   courseFocus: state.dictionary.courseFocus,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
 });
 
 HistorySubSection.propTypes = {

@@ -1,4 +1,10 @@
-import { RESET, SET_SELECTED_LIST_CODE, ADD_LECTURE_TO_CART, DELETE_LECTURE_FROM_CART, SET_LIST_MAJOR_CODES, SET_LIST_LECTURES, SET_LIST_MAJOR_LECTURES, CLEAR_LISTS_LECTURES, CLEAR_SEARCH_LIST_LECTURES, SET_MOBILE_SHOULD_SHOW_LECTURE_LIST } from '../../actions/timetable/list';
+import {
+  RESET,
+  SET_SELECTED_LIST_CODE,
+  SET_LIST_MAJOR_CODES, SET_LIST_LECTURES, SET_LIST_MAJOR_LECTURES, CLEAR_LISTS_LECTURES, CLEAR_SEARCH_LIST_LECTURES,
+  ADD_LECTURE_TO_CART, DELETE_LECTURE_FROM_CART,
+  SET_MOBILE_SHOULD_SHOW_LECTURE_LIST,
+} from '../../actions/timetable/list';
 
 import { unique } from '../../common/utilFunctions';
 
@@ -31,11 +37,11 @@ const list = (state = initialState, action) => {
       return [];
     }
 
-    const courseIds = unique(lectures.map(l => l.course));
+    const courseIds = unique(lectures.map((l) => l.course));
     // eslint-disable-next-line fp/no-mutating-methods
     const lectureGroups = courseIds
-      .map(c => (lectures.filter(l => (l.course === c))))
-      .filter(c => (c.length > 0))
+      .map((c) => (lectures.filter((l) => (l.course === c))))
+      .filter((c) => (c.length > 0))
       .sort((a, b) => ((a[0].old_code > b[0].old_code) ? 1 : -1));
     return lectureGroups;
   };
@@ -54,9 +60,9 @@ const list = (state = initialState, action) => {
         major: Object.assign(
           {},
           {
-            codes: action.majors.map(m => m.code),
+            codes: action.majors.map((m) => m.code),
           },
-          ...(action.majors.map(m => (
+          ...(action.majors.map((m) => (
             {
               [m.code]: {
                 name: m.name,
@@ -100,7 +106,7 @@ const list = (state = initialState, action) => {
         major: Object.assign(
           {},
           state.major,
-          ...state.major.codes.map(c => ({
+          ...state.major.codes.map((c) => ({
             [c]: {
               ...state.major[c],
               lectureGroups: null,
@@ -129,16 +135,16 @@ const list = (state = initialState, action) => {
     }
     case ADD_LECTURE_TO_CART: {
       const { lectureGroups } = state.cart;
-      const i = lectureGroups.findIndex(lg => (lg[0].old_code === action.lecture.old_code));
+      const i = lectureGroups.findIndex((lg) => (lg[0].old_code === action.lecture.old_code));
       const j = (i !== -1)
-        ? (lectureGroups[i].findIndex(lecture => (lecture.class_no > action.lecture.class_no)) !== -1)
-          ? lectureGroups[i].findIndex(lecture => (lecture.class_no > action.lecture.class_no))
+        ? (lectureGroups[i].findIndex((l) => (l.class_no > action.lecture.class_no)) !== -1)
+          ? lectureGroups[i].findIndex((l) => (l.class_no > action.lecture.class_no))
           : lectureGroups[i].length
         : undefined;
       const ii = (i !== -1)
         ? undefined
-        : (lectureGroups.findIndex(lg => (lg[0].old_code > action.lecture.old_code)) !== -1)
-          ? lectureGroups.findIndex(lg => (lg[0].old_code > action.lecture.old_code))
+        : (lectureGroups.findIndex((lg) => (lg[0].old_code > action.lecture.old_code)) !== -1)
+          ? lectureGroups.findIndex((lg) => (lg[0].old_code > action.lecture.old_code))
           : lectureGroups.length;
       const newLectureGroups = (i !== -1)
         ? [
@@ -159,8 +165,8 @@ const list = (state = initialState, action) => {
     }
     case DELETE_LECTURE_FROM_CART: {
       const { lectureGroups } = state.cart;
-      const i2 = lectureGroups.findIndex(lg => lg.some(lecture => (lecture.id === action.lecture.id)));
-      const j = lectureGroups[i2].findIndex(lecture => (lecture.id === action.lecture.id));
+      const i2 = lectureGroups.findIndex((lg) => lg.some((lecture) => (lecture.id === action.lecture.id)));
+      const j = lectureGroups[i2].findIndex((lecture) => (lecture.id === action.lecture.id));
       const newLectureGroups = [
         ...lectureGroups.slice(0, i2),
         ...((lectureGroups[i2].length === 1) ? [] : [[...lectureGroups[i2].slice(0, j), ...lectureGroups[i2].slice(j + 1, lectureGroups[i2].length)]]),

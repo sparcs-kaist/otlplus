@@ -47,10 +47,10 @@ class ReviewWriteFeedSection extends Component {
 }
 
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   updateUserReviewDispatch: (review) => {
     dispatch(updateUserReview(review));
   },

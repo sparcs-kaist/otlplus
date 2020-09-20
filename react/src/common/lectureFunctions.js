@@ -7,14 +7,14 @@ import { LIST, TABLE, MULTIPLE } from '../reducers/timetable/lectureFocus';
 
 export const inTimetable = (lecture, timetable) => (
   timetable
-  && timetable.lectures.some(l => (l.id === lecture.id))
+  && timetable.lectures.some((l) => (l.id === lecture.id))
 );
 
 export const inCart = (lecture, cart) => (
   cart.lectureGroups !== null
-  && cart.lectureGroups.some(lg => (
-    lg.some(cartLecture => (
-      cartLecture.id === lecture.id
+  && cart.lectureGroups.some((lg) => (
+    lg.some((l) => (
+      l.id === lecture.id
     ))
   ))
 );
@@ -43,7 +43,7 @@ export const isTableFocused = (lecture, lectureFocus) => (
 
 export const isMultipleFocused = (lecture, lectureFocus) => (
   lectureFocus.from === MULTIPLE
-  && lectureFocus.multipleDetails.some(l => (l.id === lecture.id))
+  && lectureFocus.multipleDetails.some((l) => (l.id === lecture.id))
 );
 
 export const isDimmedTableLecture = (lecture, lectureFocus) => (
@@ -54,21 +54,24 @@ export const isDimmedTableLecture = (lecture, lectureFocus) => (
 export const isDimmedListLectureGroup = (lectureGroup, lectureFocus) => (
   lectureFocus.clicked === true
   && (
-    lectureGroup.every(l => (lectureFocus.lecture.id !== l.id))
+    lectureGroup.every((l) => (lectureFocus.lecture.id !== l.id))
     || (lectureFocus.from !== LIST)
   )
 );
 
-export const isFocused = (lecture, lectureFocus) => {
-  return (lectureFocus.lecture !== null && lectureFocus.lecture.id === lecture.id)
-    || isMultipleFocused(lecture, lectureFocus);
-};
+export const isFocused = (lecture, lectureFocus) => (
+  (lectureFocus.lecture !== null && lectureFocus.lecture.id === lecture.id)
+  || isMultipleFocused(lecture, lectureFocus)
+);
 
 export const getOverallLectures = (selectedTimetable, lectureFocus) => {
   const timetableLectures = selectedTimetable
     ? selectedTimetable.lectures
     : [];
-  const hasSingleFocusedLectureOutsideTable = lectureFocus.lecture && !inTimetable(lectureFocus.lecture, selectedTimetable);
+  const hasSingleFocusedLectureOutsideTable = (
+    lectureFocus.lecture
+    && !inTimetable(lectureFocus.lecture, selectedTimetable)
+  );
 
   return timetableLectures
     .concat(hasSingleFocusedLectureOutsideTable ? [lectureFocus.lecture] : []);
@@ -79,7 +82,7 @@ export const getProfessorsStrShort = (lecture) => {
   const professors = lecture.professors
     .slice()
     .sort((a, b) => (a.name < b.name ? -1 : 1));
-  const professorNames = professors.map(p => p[i18n.t('js.property.name')]);
+  const professorNames = professors.map((p) => p[i18n.t('js.property.name')]);
   if (professorNames.length <= 2) {
     return professorNames.join(', ');
   }
@@ -112,7 +115,7 @@ export const getRoomStr = (lecture) => {
 
 export const getExamStr = (lecture) => {
   const { examtimes } = lecture;
-  const examStrings = examtimes.map(e => e[i18n.t('js.property.str')]);
+  const examStrings = examtimes.map((e) => e[i18n.t('js.property.str')]);
   if (examStrings.length === 0) {
     return i18n.t('ui.placeholder.unknown');
   }
@@ -122,18 +125,20 @@ export const getExamStr = (lecture) => {
   return i18n.t('ui.others.sthAndNumOthers', { something: examStrings[0], count: examStrings.length - 1 });
 };
 
-export const getColorNumber = lecture => (
+export const getColorNumber = (lecture) => (
   (lecture.course % 16) + 1
-)
+);
 
-export const performAddToTable = (caller, lecture, selectedTimetable, user, fromString, addLectureToTimetableDispatch) => {
+export const performAddToTable = (caller,
+  lecture, selectedTimetable, user, fromString,
+  addLectureToTimetableDispatch) => {
   if (
-    lecture.classtimes.some(thisClasstime => (
-      selectedTimetable.lectures.some(timetableLecture => (
-        timetableLecture.classtimes.some(classtime => (
-          (classtime.day === thisClasstime.day)
-          && (classtime.begin < thisClasstime.end)
-          && (classtime.end > thisClasstime.begin)
+    lecture.classtimes.some((ct1) => (
+      selectedTimetable.lectures.some((l) => (
+        l.classtimes.some((ct2) => (
+          (ct2.day === ct1.day)
+          && (ct2.begin < ct1.end)
+          && (ct2.end > ct1.begin)
         ))
       ))
     ))
@@ -147,28 +152,28 @@ export const performAddToTable = (caller, lecture, selectedTimetable, user, from
     addLectureToTimetableDispatch(lecture);
   }
   else {
-  axios.post(
-    `/api/users/${user.id}/timetables/${selectedTimetable.id}/add-lecture`,
-    {
-      lecture: lecture.id,
-    },
-    {
-      metadata: {
-        gaCategory: 'Timetable',
-        gaVariable: 'POST Update / Instance',
-      },
-    },
-  )
-    .then((response) => {
-      const newProps = caller.props;
-      if (!newProps.selectedTimetable || newProps.selectedTimetable.id !== selectedTimetable.id) {
-        return;
-      }
-      // TODO: Fix timetable not updated when semester unchanged and timetable changed
-      addLectureToTimetableDispatch(lecture);
-    })
-    .catch((error) => {
-    });
+    axios.post(
+      `/api/users/${user.id}/timetables/${selectedTimetable.id}/add-lecture`,
+      {
+        lecture: lecture.id,
+      }, 
+      {
+        metadata: {
+          gaCategory: 'Timetable',
+          gaVariable: 'POST Update / Instance',
+        },
+      }, 
+    )
+      .then((response) => {
+        const newProps = caller.props;
+        if (!newProps.selectedTimetable || newProps.selectedTimetable.id !== selectedTimetable.id) {
+          return;
+        }
+        // TODO: Fix timetable not updated when semester unchanged and timetable changed
+        addLectureToTimetableDispatch(lecture);
+      })
+      .catch((error) => {
+      });
   }
 
   ReactGA.event({
@@ -178,33 +183,35 @@ export const performAddToTable = (caller, lecture, selectedTimetable, user, from
   });
 };
 
-export const performDeleteFromTable = (caller, lecture, selectedTimetable, user, fromString, removeLectureFromTimetableDispatch) => {
+export const performDeleteFromTable = (caller,
+  lecture, selectedTimetable, user, fromString,
+  removeLectureFromTimetableDispatch) => {
   if (!user) {
     removeLectureFromTimetableDispatch(lecture);
   }
   else {
-  axios.post(
-    `/api/users/${user.id}/timetables/${selectedTimetable.id}/remove-lecture`,
-    {
-      lecture: lecture.id,
-    },
-    {
-      metadata: {
-        gaCategory: 'Timetable',
-        gaVariable: 'POST Update / Instance',
-      },
-    },
-  )
-    .then((response) => {
-      const newProps = caller.props;
-      if (!newProps.selectedTimetable || newProps.selectedTimetable.id !== selectedTimetable.id) {
-        return;
-      }
-      // TODO: Fix timetable not updated when semester unchanged and timetable changed
-      removeLectureFromTimetableDispatch(lecture);
-    })
-    .catch((error) => {
-    });
+    axios.post(
+      `/api/users/${user.id}/timetables/${selectedTimetable.id}/remove-lecture`,
+      {
+        lecture: lecture.id,
+      }, 
+      {
+        metadata: {
+          gaCategory: 'Timetable',
+          gaVariable: 'POST Update / Instance',
+        },
+      }, 
+    )
+      .then((response) => {
+        const newProps = caller.props;
+        if (!newProps.selectedTimetable || newProps.selectedTimetable.id !== selectedTimetable.id) {
+          return;
+        }
+        // TODO: Fix timetable not updated when semester unchanged and timetable changed
+        removeLectureFromTimetableDispatch(lecture);
+      })
+      .catch((error) => {
+      });
   }
 
   ReactGA.event({
@@ -214,33 +221,35 @@ export const performDeleteFromTable = (caller, lecture, selectedTimetable, user,
   });
 };
 
-export const performAddToCart = (caller, lecture, year, semester, user, fromString, addLectureToCartDispatch) => {
+export const performAddToCart = (caller,
+  lecture, year, semester, user, fromString,
+  addLectureToCartDispatch) => {
   if (!user) {
     addLectureToCartDispatch(lecture);
   }
   else {
-  axios.post(
-    `/api/users/${user.id}/wishlist/add-lecture`,
-    {
-      lecture: lecture.id,
-    },
-    {
-      metadata: {
-        gaCategory: 'Wishlist',
-        gaVariable: 'POST Update / Instance',
-      },
-    },
-  )
-    .then((response) => {
-      const newProps = caller.props;
-      if (newProps.year !== year || (newProps.semester !== semester)
-      ) {
-        return;
-      }
-      addLectureToCartDispatch(lecture);
-    })
-    .catch((error) => {
-    });
+    axios.post(
+      `/api/users/${user.id}/wishlist/add-lecture`,
+      {
+        lecture: lecture.id,
+      }, 
+      {
+        metadata: {
+          gaCategory: 'Wishlist',
+          gaVariable: 'POST Update / Instance',
+        },
+      }, 
+    )
+      .then((response) => {
+        const newProps = caller.props;
+        if (newProps.year !== year || (newProps.semester !== semester)
+        ) {
+          return;
+        }
+        addLectureToCartDispatch(lecture);
+      })
+      .catch((error) => {
+      });
   }
 
   ReactGA.event({
@@ -250,32 +259,34 @@ export const performAddToCart = (caller, lecture, year, semester, user, fromStri
   });
 };
 
-export const performDeleteFromCart = (caller, lecture, year, semester, user, fromString, deleteLectureFromCartDispatch) => {
+export const performDeleteFromCart = (caller,
+  lecture, year, semester, user, fromString,
+  deleteLectureFromCartDispatch) => {
   if (!user) {
     deleteLectureFromCartDispatch(lecture);
   }
   else {
-  axios.post(
-    `/api/users/${user.id}/wishlist/remove-lecture`,
-    {
-      lecture: lecture.id,
-    },
-    {
-      metadata: {
-        gaCategory: 'Wishlist',
-        gaVariable: 'POST Update / Instance',
-      },
-    },
-  )
-    .then((response) => {
-      const newProps = caller.props;
-      if (newProps.year !== year || newProps.semester !== semester) {
-        return;
-      }
-      deleteLectureFromCartDispatch(lecture);
-    })
-    .catch((error) => {
-    });
+    axios.post(
+      `/api/users/${user.id}/wishlist/remove-lecture`,
+      {
+        lecture: lecture.id,
+      }, 
+      {
+        metadata: {
+          gaCategory: 'Wishlist',
+          gaVariable: 'POST Update / Instance',
+        },
+      }, 
+    )
+      .then((response) => {
+        const newProps = caller.props;
+        if (newProps.year !== year || newProps.semester !== semester) {
+          return;
+        }
+        deleteLectureFromCartDispatch(lecture);
+      })
+      .catch((error) => {
+      });
   }
 
   ReactGA.event({

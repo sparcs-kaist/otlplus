@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { withTranslation } from 'react-i18next';
 import qs from 'qs';
 
@@ -19,7 +18,7 @@ class LatestReviewFeedSection extends Component {
         <div className={classNames('title')}>
           {t('ui.title.latestReviews')}
         </div>
-        {reviews.map(r => (
+        {reviews.map((r) => (
           <ReviewBlock review={r} linkTo={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: r.course.id }) }} pageFrom="Main" key={r.id} />
         ))}
         <div className={classNames('buttons')}>

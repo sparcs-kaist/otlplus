@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
-import ReactGA from 'react-ga';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
@@ -19,7 +18,11 @@ import userShape from '../../../shapes/UserShape';
 import timetableShape from '../../../shapes/TimetableShape';
 import lectureFocusShape from '../../../shapes/LectureFocusShape';
 
-import { inTimetable, isFocused, isTableClicked, isDimmedTableLecture, performDeleteFromTable } from '../../../common/lectureFunctions';
+import {
+  inTimetable,
+  isFocused, isTableClicked, isDimmedTableLecture,
+  performDeleteFromTable,
+} from '../../../common/lectureFunctions';
 
 
 class TimetableSubSection extends Component {
@@ -100,7 +103,7 @@ class TimetableSubSection extends Component {
       return [];
     }
 
-    return selectedTimetable.lectures.map(lecture => (
+    return selectedTimetable.lectures.map((lecture) => (
       lecture.classtimes.map((ct) => {
         if ((ct.day === dragDay)
           && (dragStart < this.indexOfMinute(ct.end))
@@ -114,7 +117,7 @@ class TimetableSubSection extends Component {
       })
     ))
       .reduce((acc, val) => acc.concat(val), [])
-      .filter(x => x !== undefined);
+      .filter((x) => x !== undefined);
   }
 
   onMouseMove = (e) => {
@@ -166,8 +169,11 @@ class TimetableSubSection extends Component {
 
   _dragEnd = () => {
     const { firstBlock, secondBlock } = this.state;
-    const { isDragging, setIsDraggingDispatch, dragSearchDispatch, clearDragDispatch,
-      setSelectedListCodeDispatch, setMobileShouldShowLectureListDispatch } = this.props;
+    const {
+      isDragging,
+      setIsDraggingDispatch, dragSearchDispatch, clearDragDispatch,
+      setSelectedListCodeDispatch, setMobileShouldShowLectureListDispatch,
+    } = this.props;
 
     if (!isDragging) {
       return;
@@ -187,7 +193,7 @@ class TimetableSubSection extends Component {
     setSelectedListCodeDispatch('SEARCH');
   }
 
-  blockHover = lecture => () => {
+  blockHover = (lecture) => () => {
     const { lectureFocus, isDragging, setLectureFocusDispatch } = this.props;
 
     if (!lectureFocus.clicked && !isDragging) {
@@ -203,7 +209,7 @@ class TimetableSubSection extends Component {
     }
   }
 
-  blockClick = lecture => () => {
+  blockClick = (lecture) => () => {
     const { lectureFocus, setLectureFocusDispatch } = this.props;
 
     if (isTableClicked(lecture, lectureFocus)) {
@@ -227,8 +233,11 @@ class TimetableSubSection extends Component {
   render() {
     const { t } = this.props;
     const { firstBlock, secondBlock } = this.state;
-    const { selectedTimetable, lectureFocus, cellWidth, cellHeight,
-      mobileShouldShowLectureList } = this.props;
+    const {
+      selectedTimetable, lectureFocus,
+      cellWidth, cellHeight,
+      mobileShouldShowLectureList,
+    } = this.props;
 
     const timetableLectures = selectedTimetable ? selectedTimetable.lectures : [];
     const tempLecture = ((lectureFocus.from === LIST) && !inTimetable(lectureFocus.lecture, selectedTimetable))
@@ -240,7 +249,7 @@ class TimetableSubSection extends Component {
       const minute = `00${time % 60}`.slice(-2);
       return `${hour}:${minute}`;
     };
-    const isOutsideTable = classtime => (
+    const isOutsideTable = (classtime) => (
       classtime.day < 0 || classtime.day > 4 || classtime.begin < 60 * 8 || classtime.end > 60 * 24
     );
     const untimedBlockTitles = [];
@@ -288,33 +297,33 @@ class TimetableSubSection extends Component {
     const mapLectureToBlocks = (lecture, isTemp) => (
       lecture.classtimes.length === 0
         ? mapClasstimeToBlock(lecture, null, isTemp)
-        : lecture.classtimes.map(ct => mapClasstimeToBlock(lecture, ct, isTemp))
+        : lecture.classtimes.map((ct) => mapClasstimeToBlock(lecture, ct, isTemp))
     );
-    const timetableLectureBlocks = timetableLectures.map(lecture => mapLectureToBlocks(lecture, false));
+    const timetableLectureBlocks = timetableLectures.map((lecture) => mapLectureToBlocks(lecture, false));
     const tempLectureBlocks = tempLecture
       ? mapLectureToBlocks(tempLecture, true)
       : null;
 
-    const targetMinutes = [...Array((24 - 8) * 2).keys()].map(i => 8 * 60 + i * 30);
+    const targetMinutes = [...Array((24 - 8) * 2).keys()].map((i) => 8 * 60 + i * 30);
     const getColumnHeads = () => {
       const timedArea = targetMinutes.map((i) => {
-          const i2 = i + 30;
-          if (i2 % (6 * 60) === 0) {
-            return <div key={i2}><strong>{((i2 / 60 - 1) % 12) + 1}</strong></div>;
-          }
-          if (i2 % 60 === 0) {
-            return <div key={i2}><span>{((i2 / 60 - 1) % 12) + 1}</span></div>;
-          }
-          return <div key={i2} />;
+        const i2 = i + 30;
+        if (i2 % (6 * 60) === 0) {
+          return <div key={i2}><strong>{((i2 / 60 - 1) % 12) + 1}</strong></div>;
+        }
+        if (i2 % 60 === 0) {
+          return <div key={i2}><span>{((i2 / 60 - 1) % 12) + 1}</span></div>;
+        }
+        return <div key={i2} />;
       });
       const untimedArea = [...Array(Math.ceil(untimedBlockTitles.length / 5)).keys()].map((_, i) => (
-          <React.Fragment key={_}>
-            <div />
-            <div className={classNames('table-head')} />
-            <div />
-            <div />
-            <div />
-          </React.Fragment>
+        <React.Fragment key={_}>
+          <div />
+          <div className={classNames('table-head')} />
+          <div />
+          <div />
+          <div />
+        </React.Fragment>
       ));
       return [
         <div className={classNames('table-head')} key={8 * 60}><strong>8</strong></div>,
@@ -323,35 +332,36 @@ class TimetableSubSection extends Component {
       ];
     };
     const getColumnCells = (day, dayName, dayIdx) => {
+      // eslint-disable-next-line arrow-body-style
       const timedArea = targetMinutes.map((i) => {
-          return (
-            <div
-              className={classNames(
-                'cell',
-                'cell-drag',
-                (i % 60 === 0) ? 'cell-top' : 'cell-bottom',
-                (i % 60 === 30) && mobileShouldShowLectureList ? 'cell-bottom--mobile-noline' : '',
-                (i === 23 * 60 + 30) ? 'cell-last' : '',
-                (i % (6 * 60) === 0) ? 'cell-bold' : '',
-              )}
-              key={`${day}:${i.toString()}`}
-              data-day={day}
-              data-minute={i.toString()}
-              onMouseDown={e => this.onMouseDown(e)}
-              onTouchStart={e => this.onTouchStart(e)}
-              onMouseMove={e => this.onMouseMove(e)}
-              onTouchMove={e => this.onTouchMove(e)}
-            />
-          );
+        return (
+          <div
+            className={classNames(
+              'cell',
+              'cell-drag',
+              (i % 60 === 0) ? 'cell-top' : 'cell-bottom',
+              (i % 60 === 30) && mobileShouldShowLectureList ? 'cell-bottom--mobile-noline' : '',
+              (i === 23 * 60 + 30) ? 'cell-last' : '',
+              (i % (6 * 60) === 0) ? 'cell-bold' : '',
+            )}
+            key={`${day}:${i.toString()}`}
+            data-day={day}
+            data-minute={i.toString()}
+            onMouseDown={(e) => this.onMouseDown(e)}
+            onTouchStart={(e) => this.onTouchStart(e)}
+            onMouseMove={(e) => this.onMouseMove(e)}
+            onTouchMove={(e) => this.onTouchMove(e)}
+          />
+        );
       });
       const untimedArea = [...Array(Math.ceil(untimedBlockTitles.length / 5)).keys()].map((_, i) => (
-          <React.Fragment key={_}>
-            <div className={classNames('cell')} />
-            <div className={classNames('table-head')}>{untimedBlockTitles[i * 5 + dayIdx]}</div>
-            <div className={classNames('cell', 'cell-top')} />
-            <div className={classNames('cell', 'cell-bottom', (mobileShouldShowLectureList ? 'cell-bottom--mobile-noline' : ''))} />
-            <div className={classNames('cell', 'cell-bottom', 'cell-last', (mobileShouldShowLectureList ? 'cell-bottom--mobile-noline' : ''))} />
-          </React.Fragment>
+        <React.Fragment key={_}>
+          <div className={classNames('cell')} />
+          <div className={classNames('table-head')}>{untimedBlockTitles[i * 5 + dayIdx]}</div>
+          <div className={classNames('cell', 'cell-top')} />
+          <div className={classNames('cell', 'cell-bottom', (mobileShouldShowLectureList ? 'cell-bottom--mobile-noline' : ''))} />
+          <div className={classNames('cell', 'cell-bottom', 'cell-last', (mobileShouldShowLectureList ? 'cell-bottom--mobile-noline' : ''))} />
+        </React.Fragment>
       ));
       return [
         <div className={classNames('table-head')} key={day}>{dayName}</div>,
@@ -375,7 +385,7 @@ class TimetableSubSection extends Component {
       : null;
 
     return (
-      <div className={classNames('section-content', 'section-content--timetable')} onMouseUp={e => this.onMouseUp(e)} onTouchEnd={e => this.onTouchEnd(e)}>
+      <div className={classNames('section-content', 'section-content--timetable')} onMouseUp={(e) => this.onMouseUp(e)} onTouchEnd={(e) => this.onTouchEnd(e)}>
         <div className={classNames('section-content--timetable__table')}>
           <div>
             {getColumnHeads()}
@@ -404,7 +414,7 @@ class TimetableSubSection extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   user: state.common.user.user,
   selectedTimetable: state.timetable.timetable.selectedTimetable,
   lectureFocus: state.timetable.lectureFocus,
@@ -414,7 +424,7 @@ const mapStateToProps = state => ({
   mobileShouldShowLectureList: state.timetable.list.mobileShouldShowLectureList,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   updateCellSizeDispatch: (width, height) => {
     dispatch(updateCellSize(width, height));
   },

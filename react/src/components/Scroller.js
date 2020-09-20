@@ -14,7 +14,10 @@ class Scroller extends Component {
   }
 
   contentRenderer = (props) => {
-    const { elementRef, children, marginBottom, ...restProps } = props;
+    const {
+      elementRef, children, marginBottom,
+      ...restProps
+    } = props;
 
     const calculatedMarginBottom = (marginBottom === undefined) ? 12 : marginBottom;
     return (
@@ -27,7 +30,12 @@ class Scroller extends Component {
   }
 
   render() {
-    const { onScroll, children, noScrollX, noScrollY, marginBottom } = this.props;
+    const {
+      onScroll,
+      children,
+      noScrollX, noScrollY,
+      marginBottom,
+    } = this.props;
     const { isScrolling, isMouseIn } = this.state;
 
     const calculatedNoScrollX = (noScrollX === undefined) ? true : noScrollX;
@@ -129,7 +137,7 @@ class Scroller extends Component {
           }
         }}
         onScrollStop={async () => {
-          await new Promise(r => setTimeout(r, 400));
+          await new Promise((r) => setTimeout(r, 400));
           this.setState({ isScrolling: false });
         }}
         minimalThumbSize={24}
@@ -144,19 +152,7 @@ class Scroller extends Component {
 
 Scroller.propTypes = {
   onScroll: PropTypes.func,
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.oneOfType([
-      PropTypes.arrayOf(PropTypes.oneOfType([
-        // Add more nesting if needed
-        PropTypes.string,
-        PropTypes.element,
-      ])),
-      PropTypes.string,
-      PropTypes.element,
-    ])),
-    PropTypes.string,
-    PropTypes.element,
-  ]).isRequired,
+  children: PropTypes.node.isRequired,
   noScrollX: PropTypes.bool,
   noScrollY: PropTypes.bool,
   marginBottom: PropTypes.number,
