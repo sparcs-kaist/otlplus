@@ -8,7 +8,7 @@ import { getAverageScoreLabel } from '../../../common/scoreFunctions';
 
 import { clearMultipleFocus, setMultipleFocus } from '../../../actions/timetable/lectureFocus';
 
-import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureFocus';
+import { LIST, TABLE } from '../../../reducers/timetable/lectureFocus';
 
 import lectureFocusShape from '../../../shapes/LectureFocusShape';
 import timetableShape from '../../../shapes/TimetableShape';

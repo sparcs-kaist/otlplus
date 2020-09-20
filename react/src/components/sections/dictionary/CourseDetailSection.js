@@ -207,11 +207,11 @@ class CourseDetailSection extends Component {
               </div>
             </div>
             <div className={classNames('divider')} />
-            <RelatedSubSection key={'aaa' + (courseFocus.clicked ? courseFocus.course.id : '-1')} />
+            <RelatedSubSection />
             <div className={classNames('divider')} />
             <HistorySubSection />
             <div className={classNames('divider')} />
-            <ReviewsSubSection key={'ccc' + (courseFocus.clicked ? courseFocus.course.id : '-1')} />
+            <ReviewsSubSection />
           </Scroller>
         </div>
       );

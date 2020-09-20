@@ -7,12 +7,10 @@ import { appBoundClassNames as classNames } from '../../../common/boundClassName
 
 import { clearMultipleFocus, setMultipleFocus } from '../../../actions/timetable/lectureFocus';
 
-import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureFocus';
-
 import lectureFocusShape from '../../../shapes/LectureFocusShape';
 import timetableShape from '../../../shapes/TimetableShape';
 
-import { inTimetable, isFocused, getBuildingStr, getRoomStr, getOverallLectures, getColorNumber } from '../../../common/lectureFunctions';
+import { isFocused, getBuildingStr, getRoomStr, getOverallLectures, getColorNumber } from '../../../common/lectureFunctions';
 
 import mapImage from '../../../static/img/timetable/kaist_map.jpg';
 import { unique } from '../../../common/utilFunctions';
