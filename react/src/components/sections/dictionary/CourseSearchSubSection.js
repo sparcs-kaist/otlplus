@@ -102,7 +102,7 @@ class CourseSearchSubSection extends Component {
     this.searchStart();
   }
 
-  handleInput(e) {
+  handleInput = (e) => {
     const { value } = e.target;
 
     this.setState({
@@ -140,21 +140,21 @@ class CourseSearchSubSection extends Component {
       });
   }
 
-  applyAutocomplete() {
+  applyAutocomplete = () => {
     this.setState((prevState) => ({
       inputVal: prevState.inputVal + prevState.autoComplete,
       autoComplete: '',
     }));
   }
 
-  clearAutocomplete() {
+  clearAutocomplete = () => {
     this.setState({
       inputVal: '',
       autoComplete: '',
     });
   }
 
-  onKeyPress(e) {
+  onKeyPress = (e) => {
     if (e.keyCode === 9) {
       this.applyAutocomplete();
       e.stopPropagation(); // Prevent move focus

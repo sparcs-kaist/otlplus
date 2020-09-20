@@ -29,7 +29,7 @@ class MapSubSection extends Component {
     ));
   }
 
-  setFocusOnMap(building) {
+  setFocusOnMap = (building) => {
     const { t } = this.props;
     const { lectureFocus, selectedTimetable, setMultipleFocusDispatch } = this.props;
 
@@ -46,7 +46,7 @@ class MapSubSection extends Component {
     setMultipleFocusDispatch(building, details);
   }
 
-  clearFocus() {
+  clearFocus = () => {
     const { lectureFocus, clearMultipleFocusDispatch } = this.props;
 
     if (lectureFocus.from !== 'MULTIPLE') {

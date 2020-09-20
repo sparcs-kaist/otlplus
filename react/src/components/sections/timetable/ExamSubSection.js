@@ -25,7 +25,7 @@ class ExamSubSection extends Component {
     ));
   }
 
-  setFocusOnExam(dayIndex) {
+  setFocusOnExam = (dayIndex) => {
     const { t } = this.props;
     const { lectureFocus, selectedTimetable, setMultipleFocusDispatch } = this.props;
 
@@ -43,7 +43,7 @@ class ExamSubSection extends Component {
     setMultipleFocusDispatch(t('ui.others.examOfDay', { day: dayNames[dayIndex] }), details);
   }
 
-  clearFocus() {
+  clearFocus = () => {
     const { lectureFocus, clearMultipleFocusDispatch } = this.props;
 
     if (lectureFocus.from !== 'MULTIPLE') {

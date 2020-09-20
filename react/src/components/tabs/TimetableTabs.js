@@ -112,7 +112,7 @@ class TimetableTabs extends Component {
     setMyTimetableLecturesDispatch(lectures);
   }
 
-  changeTab(timetable) {
+  changeTab = (timetable) => {
     const { setSelectedTimetableDispatch, setMobileShouldShowTimetableTabsDispatch } = this.props;
 
     setSelectedTimetableDispatch(timetable);
@@ -124,7 +124,7 @@ class TimetableTabs extends Component {
     });
   }
 
-  _performCreateTable() {
+  _performCreateTable = () => {
     const {
       user,
       year, semester,
@@ -161,7 +161,7 @@ class TimetableTabs extends Component {
     }
   }
 
-  createTable() {
+  createTable = () => {
     this._performCreateTable();
 
     ReactGA.event({
@@ -170,7 +170,7 @@ class TimetableTabs extends Component {
     });
   }
 
-  deleteTable(event, timetable) {
+  deleteTable = (event, timetable) => {
     const { t } = this.props;
     const {
       user,
@@ -217,7 +217,7 @@ class TimetableTabs extends Component {
     });
   }
 
-  duplicateTable(event, timetable) {
+  duplicateTable = (event, timetable) => {
     const {
       user,
       year, semester,
