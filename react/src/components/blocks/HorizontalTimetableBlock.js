@@ -14,7 +14,7 @@ const HorizontalTimetableBlock = ({
   lecture, classtime,
   cellWidth, cellHeight,
 }) => {
-  const indexOfTime = time => (time / 30 - 16);
+  const indexOfTime = (time) => (time / 30 - 16);
 
   return (
     <div

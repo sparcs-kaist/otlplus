@@ -55,7 +55,7 @@ class LectureListTabs extends Component {
 
   _setMajorCodes = (departments) => {
     const { setListMajorCodesDispatch } = this.props;
-    const majors = departments.map(d => ({
+    const majors = departments.map((d) => ({
       code: d.code,
       name: (d.code === 'Basic') ? '기초 과목' : `${d.name} 전공`,
       name_en: (d.code === 'Basic') ? 'Basic Course' : `${d.name_en} Major`,
@@ -75,7 +75,7 @@ class LectureListTabs extends Component {
     if (listCode === 'SEARCH') {
       // Pass
     }
-    else if (major.codes.some(c => (c === listCode))) {
+    else if (major.codes.some((c) => (c === listCode))) {
       this._fetchMajorList(listCode, force);
     }
     else if (listCode === 'HUMANITY') {
@@ -114,7 +114,7 @@ class LectureListTabs extends Component {
       .then((response) => {
         const newProps = this.props;
         if ((newProps.year !== year || newProps.semester !== semester)
-          || (!newProps.major.codes.some(c => (c === majorCode)))
+          || (!newProps.major.codes.some((c) => (c === majorCode)))
         ) {
           return;
         }
@@ -191,7 +191,7 @@ class LectureListTabs extends Component {
         ) {
           return;
         }
-        setListLecturesDispatch('cart', response.data.lectures.filter(l => ((l.year === year) && (l.semester === semester))));
+        setListLecturesDispatch('cart', response.data.lectures.filter((l) => ((l.year === year) && (l.semester === semester))));
       })
       .catch((error) => {
       });
@@ -234,8 +234,8 @@ class LectureListTabs extends Component {
           <i className={classNames('icon', 'icon--tab-search')} />
           <span>{t('ui.tab.searchShort')}</span>
         </div>
-        {major.codes.map(code => (
-          <div className={classNames((selectedListCode === code ? 'tabs__elem--selected' : ''))} key={code} onClick={() => this.changeTab(code)}>
+        {major.codes.map((cd) => (
+          <div className={classNames((selectedListCode === cd ? 'tabs__elem--selected' : ''))} key={cd} onClick={() => this.changeTab(cd)}>
             <i className={classNames('icon', 'icon--tab-major')} />
             <span>{t('ui.tab.majorShort')}</span>
           </div>
@@ -253,7 +253,7 @@ class LectureListTabs extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   user: state.common.user.user,
   selectedListCode: state.timetable.list.selectedListCode,
   year: state.timetable.semester.year,
@@ -264,7 +264,7 @@ const mapStateToProps = state => ({
   cart: state.timetable.list.cart,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   openSearchDispatch: () => {
     dispatch(openSearch());
   },

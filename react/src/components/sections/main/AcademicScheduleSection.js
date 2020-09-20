@@ -87,7 +87,7 @@ class AcademicScheduleSection extends Component {
     const hours = Math.floor((timeDiff / (1000 * 60 * 60)) % 24);
     const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
 
-    const getScheduleName = schedule => (
+    const getScheduleName = (schedule) => (
       t(`ui.schedule.${schedule.type}`)
     );
 
@@ -112,11 +112,11 @@ class AcademicScheduleSection extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   semesters: state.common.semester.semesters,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
 });
 
 AcademicScheduleSection.propTypes = {

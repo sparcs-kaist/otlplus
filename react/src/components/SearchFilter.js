@@ -12,7 +12,7 @@ class SearchFilter extends Component {
     return checkedValues.has(value);
   }
 
-  _clickCircle = value => (isChecked) => {
+  _clickCircle = (value) => (isChecked) => {
     const { checkedValues, updateCheckedValues } = this.props;
 
     if (isChecked) {
@@ -47,7 +47,7 @@ class SearchFilter extends Component {
     const {
       inputName, titleName, options, checkedValues,
     } = this.props;
-    const mapCircle = o => (
+    const mapCircle = (o) => (
       <SearchCircle
         key={o[0]}
         value={o[0]}

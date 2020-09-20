@@ -44,9 +44,9 @@ const list = (state = initialState, action) => {
         major: Object.assign(
           {},
           {
-            codes: action.majors.map(m => m.code),
+            codes: action.majors.map((m) => m.code),
           },
-          ...(action.majors.map(m => (
+          ...(action.majors.map((m) => (
             {
               [m.code]: {
                 name: m.name,
@@ -90,7 +90,7 @@ const list = (state = initialState, action) => {
         major: Object.assign(
           {},
           state.major,
-          ...state.major.codes.map(c => ({
+          ...state.major.codes.map((c) => ({
             [c]: {
               ...state.major[c],
               courses: null,

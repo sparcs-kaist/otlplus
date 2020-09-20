@@ -30,7 +30,7 @@ export const departmentOptions = [
     }
     return (a[1] < b[1]) ? -1 : 1;
   })
-  .map(o => o.slice(0, 2));
+  .map((o) => o.slice(0, 2));
 
 
 // eslint-disable-next-line fp/no-mutating-methods
@@ -53,7 +53,7 @@ export const getDepartmentOptions = () => ([
     }
     return (a[1] < b[1]) ? -1 : 1;
   })
-  .map(o => o.slice(0, 2))
+  .map((o) => o.slice(0, 2))
 );
 
 

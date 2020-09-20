@@ -1,4 +1,4 @@
-export const getSingleScoreLabel = score => (
+export const getSingleScoreLabel = (score) => (
   ['?', 'F', 'D', 'C', 'B', 'A'][score]
 );
 

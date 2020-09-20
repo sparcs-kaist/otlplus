@@ -137,7 +137,7 @@ class Scroller extends Component {
           }
         }}
         onScrollStop={async () => {
-          await new Promise(r => setTimeout(r, 400));
+          await new Promise((r) => setTimeout(r, 400));
           this.setState({ isScrolling: false });
         }}
         minimalThumbSize={24}

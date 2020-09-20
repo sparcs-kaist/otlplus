@@ -64,7 +64,7 @@ axios.defaults.xsrfCookieName = 'csrftoken';
 
 axios.defaults.baseURL = '/';
 
-axios.defaults.paramsSerializer = params => Qs.stringify(params, { arrayFormat: 'repeat' });
+axios.defaults.paramsSerializer = (params) => Qs.stringify(params, { arrayFormat: 'repeat' });
 
 axios.interceptors.request.use(
   (config) => {

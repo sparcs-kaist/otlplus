@@ -31,7 +31,7 @@ class LatestReviewsSubSection extends Component {
       <div className={classNames('section-content', 'section-content--latest-reviews')}>
         <div className={classNames('title')}>{t('ui.title.latestReviews')}</div>
         <div className={classNames('section-contentt--latest-reviews__list-area')}>
-          {reviews.map(r => (
+          {reviews.map((r) => (
             <ReviewBlock review={r} linkTo={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: r.course.id }) }} pageFrom="Write Reviews" key={r.id} />
           ))}
         </div>
@@ -40,11 +40,11 @@ class LatestReviewsSubSection extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   reviews: state.writeReviews.latestReviews.reviews,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
 });
 
 LatestReviewsSubSection.propTypes = {

@@ -14,11 +14,11 @@ class SyllabusPage extends Component {
     };
   }
 
-  _getFirstLecture = props => (
+  _getFirstLecture = (props) => (
     props.location.state.lectures[0]
   )
 
-  _getLectureUrl = lecture => (
+  _getLectureUrl = (lecture) => (
     `https://cais.kaist.ac.kr/syllabusInfo?year=${lecture.year}&term=${lecture.semester}&subject_no=${lecture.code}&lecture_class=${lecture.class_no}&dept_id=${lecture.department}`
   )
 
@@ -36,7 +36,7 @@ class SyllabusPage extends Component {
         <div className={classNames('section-wrap', 'section-wrap--with-tabs', 'section-wrap--syllabus')}>
           <div className={classNames('tabs', 'tabs--syllabus')}>
             {
-              lectures.map(l => (
+              lectures.map((l) => (
                 <div className={classNames((selectedLecture === l ? 'tabs__elem--selected' : ''))} onClick={() => this.updateShowingLecture(l)}>
                   { l.common_title }
                 </div>
@@ -46,7 +46,7 @@ class SyllabusPage extends Component {
           <div className={classNames('section', 'section--syllabus')}>
             <div className={classNames('section-content', 'section-content--syllabus')}>
 
-              { lectures.map(l => (
+              { lectures.map((l) => (
                 <iframe src={this._getLectureUrl(l)} title={`syllabus-${l.title}`} key={l.id} style={l.id === selectedLecture.id ? {} : { display: 'none' }}>
                   { l.common_title }
                 </iframe>

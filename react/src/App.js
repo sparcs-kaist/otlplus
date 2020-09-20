@@ -107,7 +107,7 @@ class App extends Component {
             <Route
               exact
               path="/dictionary"
-              render={props => (
+              render={(props) => (
                 props.location.search
                   ? <Redirect to={{ ...props.location, state: { ...props.location.state, ...parseQueryString(props.location.search) }, search: '' }} />
                   : <DictionaryPage {...props} />
@@ -116,7 +116,7 @@ class App extends Component {
             <Route
               exact
               path="/timetable"
-              render={props => (
+              render={(props) => (
                 props.location.search
                   ? <Redirect to={{ ...props.location, state: { ...props.location.state, ...parseQueryString(props.location.search) }, search: '' }} />
                   : <TimetablePage {...props} />

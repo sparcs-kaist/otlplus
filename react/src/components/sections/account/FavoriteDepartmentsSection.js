@@ -61,13 +61,13 @@ class FavoriteDepartmentsSection extends Component {
     const { user } = this.props;
 
     this.setState({
-      savedDepartment: new Set(user.favorite_departments.map(d => String(d.id))),
-      department: new Set(user.favorite_departments.map(d => String(d.id))),
+      savedDepartment: new Set(user.favorite_departments.map((d) => String(d.id))),
+      department: new Set(user.favorite_departments.map((d) => String(d.id))),
     });
   }
 
 
-  updateCheckedValues = filterName => (checkedValues) => {
+  updateCheckedValues = (filterName) => (checkedValues) => {
     this.setState({
       [filterName]: checkedValues,
     });
@@ -83,7 +83,7 @@ class FavoriteDepartmentsSection extends Component {
     axios.post(
       '/session/favorite-departments',
       {
-        fav_department: Array.from(department).filter(d => (d !== 'ALL')),
+        fav_department: Array.from(department).filter((d) => (d !== 'ALL')),
       },
       {
       },
@@ -139,10 +139,10 @@ class FavoriteDepartmentsSection extends Component {
     }
 
     const departmentOptions = departmentList
-      .map(d => [String(d.id), d[t('js.property.name')]]);
+      .map((d) => [String(d.id), d[t('js.property.name')]]);
 
     const hasChange = (department.size !== savedDepartment.size)
-      || Array.from(department).some(d => !savedDepartment.has(d));
+      || Array.from(department).some((d) => !savedDepartment.has(d));
 
     return (
       <>
@@ -169,11 +169,11 @@ class FavoriteDepartmentsSection extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   user: state.common.user.user,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   setUserDispatch: (user) => {
     dispatch(setUser(user));
   },

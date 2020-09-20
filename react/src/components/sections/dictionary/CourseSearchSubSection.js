@@ -91,7 +91,7 @@ class CourseSearchSubSection extends Component {
     });
   }
 
-  updateCheckedValues = filterName => (checkedValues) => {
+  updateCheckedValues = (filterName) => (checkedValues) => {
     this.setState({
       [filterName]: checkedValues,
     });
@@ -141,7 +141,7 @@ class CourseSearchSubSection extends Component {
   }
 
   applyAutocomplete() {
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       inputVal: prevState.inputVal + prevState.autoComplete,
       autoComplete: '',
     }));
@@ -183,8 +183,8 @@ class CourseSearchSubSection extends Component {
                 autoComplete="off"
                 placeholder={t('ui.tab.search')}
                 value={inputVal}
-                onKeyDown={e => this.onKeyPress(e)}
-                onChange={e => this.handleInput(e)}
+                onKeyDown={(e) => this.onKeyPress(e)}
+                onChange={(e) => this.handleInput(e)}
               />
               <div className={classNames('search-keyword-autocomplete')}>
                 <span className={classNames('search-keyword-autocomplete-space')}>{inputVal}</span>
@@ -233,10 +233,10 @@ class CourseSearchSubSection extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   closeSearchDispatch: () => {
     dispatch(closeSearch());
   },

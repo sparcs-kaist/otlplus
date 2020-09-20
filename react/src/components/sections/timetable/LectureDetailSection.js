@@ -280,7 +280,7 @@ class LectureDetailSection extends Component {
               </div>
               <div className={classNames('attribute')}>
                 <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.attribute.professors')}</span>
-                <span>{lectureFocus.lecture.professors.map(p => p[t('js.property.name')]).join(', ')}</span>
+                <span>{lectureFocus.lecture.professors.map((p) => p[t('js.property.name')]).join(', ')}</span>
               </div>
               <div className={classNames('attribute')}>
                 <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.attribute.classroom')}</span>
@@ -453,7 +453,7 @@ class LectureDetailSection extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   user: state.common.user.user,
   lectureFocus: state.timetable.lectureFocus,
   selectedListCode: state.timetable.list.selectedListCode,
@@ -463,7 +463,7 @@ const mapStateToProps = state => ({
   semester: state.timetable.semester.semester,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   clearLectureFocusDispatch: () => {
     dispatch(clearLectureFocus());
   },

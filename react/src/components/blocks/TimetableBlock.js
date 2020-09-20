@@ -68,7 +68,7 @@ const TimetableBlock = ({
       {
         occupiedTimes === undefined
           ? null
-          : occupiedTimes.map(o => (
+          : occupiedTimes.map((o) => (
             <div
               key={`${o[0]}:${o[1]}`}
               className={classNames('block--timetable__occupied-area')}

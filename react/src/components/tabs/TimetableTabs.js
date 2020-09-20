@@ -108,7 +108,7 @@ class TimetableTabs extends Component {
       setMyTimetableLecturesDispatch,
     } = this.props;
 
-    const lectures = user.my_timetable_lectures.filter(l => ((l.year === year) && (l.semester === semester)));
+    const lectures = user.my_timetable_lectures.filter((l) => ((l.year === year) && (l.semester === semester)));
     setMyTimetableLecturesDispatch(lectures);
   }
 
@@ -235,7 +235,7 @@ class TimetableTabs extends Component {
         {
           year: year,
           semester: semester,
-          lectures: timetable.lectures.map(l => l.id),
+          lectures: timetable.lectures.map((l) => l.id),
         },
         {
           metadata: {
@@ -277,7 +277,7 @@ class TimetableTabs extends Component {
                 <span>
                   {`${t('ui.others.myTable')}`}
                 </span>
-                <button onClick={event => this.duplicateTable(event, myTimetable)}>
+                <button onClick={(event) => this.duplicateTable(event, myTimetable)}>
                   <i className={classNames('icon', 'icon--duplicate-table')} />
                   <span>{t('ui.button.duplicateTable')}</span>
                 </button>
@@ -294,11 +294,11 @@ class TimetableTabs extends Component {
               <span>
                 {`${t('ui.others.table')} ${i + 1}`}
               </span>
-              <button onClick={event => this.duplicateTable(event, tt)}>
+              <button onClick={(event) => this.duplicateTable(event, tt)}>
                 <i className={classNames('icon', 'icon--duplicate-table')} />
                 <span>{t('ui.button.duplicateTable')}</span>
               </button>
-              <button onClick={event => this.deleteTable(event, tt)}>
+              <button onClick={(event) => this.deleteTable(event, tt)}>
                 <i className={classNames('icon', 'icon--delete-table')} />
                 <span>{t('ui.button.deleteTable')}</span>
               </button>
@@ -338,7 +338,7 @@ class TimetableTabs extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   user: state.common.user.user,
   timetables: state.timetable.timetable.timetables,
   selectedTimetable: state.timetable.timetable.selectedTimetable,
@@ -347,7 +347,7 @@ const mapStateToProps = state => ({
   semester: state.timetable.semester.semester,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   setTimetablesDispatch: (timetables) => {
     dispatch(setTimetables(timetables));
   },

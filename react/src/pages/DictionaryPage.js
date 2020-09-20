@@ -118,11 +118,11 @@ class DictionaryPage extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   courseFocus: state.dictionary.courseFocus,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   resetCourseFocusDispatch: () => {
     dispatch(resetCourseFocus());
   },
