@@ -109,7 +109,7 @@ class TimetablePage extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   user: state.common.user.user,
   lectureFocus: state.timetable.lectureFocus,
   myTimetable: state.timetable.timetable.myTimetable,
@@ -117,7 +117,7 @@ const mapStateToProps = state => ({
   mobileShouldShowLectureList: state.timetable.list.mobileShouldShowLectureList,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   setSelectedTimetableDispatch: (timetable) => {
     dispatch(setSelectedTimetable(timetable));
   },

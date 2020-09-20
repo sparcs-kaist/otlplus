@@ -20,6 +20,7 @@
     "react/button-has-type": 0,
     "prefer-destructuring": 1,
 
+    "arrow-parens": [2, "always"],
     "brace-style": [2, "stroustrup"],
     "max-len": 1,
     "no-underscore-dangle": ["error", { "allowAfterThis": true, "allowAfterSuper": true }],

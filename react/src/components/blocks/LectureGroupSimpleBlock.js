@@ -25,13 +25,13 @@ const LectureGroupSimpleBlock = ({ t, lectures }) => {
   return (
     <div className={classNames('block', 'block--lecture-group-simple')}>
       {
-        lectures.map(lecture => (
-          <div className={classNames('block--lecture-group-simple__elem-wrap')} key={lecture.id}>
+        lectures.map((l) => (
+          <div className={classNames('block--lecture-group-simple__elem-wrap')} key={l.id}>
             <div className={classNames('block--lecture-group-simple__elem')}>
               <div className={classNames('block--lecture-group-simple__elem__texts')}>
-                <strong className={getClass(lecture)}>{lecture[t('js.property.class_title')]}</strong>
+                <strong className={getClass(l)}>{l[t('js.property.class_title')]}</strong>
                 {' '}
-                <span>{getProfessorsStrShort(lecture)}</span>
+                <span>{getProfessorsStrShort(l)}</span>
               </div>
             </div>
           </div>

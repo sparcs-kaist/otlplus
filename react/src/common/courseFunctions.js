@@ -23,6 +23,6 @@ export const getProfessorsStr = (course) => {
   const professors = course.professors
     .slice()
     .sort((a, b) => (a.name < b.name ? -1 : 1));
-  const professorNames = professors.map(p => p[i18n.t('js.property.name')]);
+  const professorNames = professors.map((p) => p[i18n.t('js.property.name')]);
   return professorNames.join(', ');
 };

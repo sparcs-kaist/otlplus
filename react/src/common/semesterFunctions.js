@@ -2,8 +2,8 @@
 export const getTimetableSemester = (semesters) => {
   // eslint-disable-next-line fp/no-mutating-methods
   const semestersDescending = semesters
-    .filter(s => (s.courseDesciptionSubmission !== null))
-    .map(s => (
+    .filter((s) => (s.courseDesciptionSubmission !== null))
+    .map((s) => (
       {
         semesterObject: s,
         timetableStartTime: new Date(s.courseDesciptionSubmission),
@@ -11,7 +11,7 @@ export const getTimetableSemester = (semesters) => {
     ))
     .sort((a, b) => (b.timetableStartTime - a.timetableStartTime));
   const now = Date.now();
-  const timetableSemester = semestersDescending.find(s => (s.timetableStartTime < now));
+  const timetableSemester = semestersDescending.find((s) => (s.timetableStartTime < now));
   if (timetableSemester === undefined) {
     return semesters[semesters.length - 1];
   }
@@ -21,7 +21,7 @@ export const getTimetableSemester = (semesters) => {
 // Keep synchronozed with Django apps/subject/models.py Semester.getOngoingSemester()
 export const getOngoingSemester = (semesters) => {
   const now = Date.now();
-  const ongoingSemester = semesters.find(s => (
+  const ongoingSemester = semesters.find((s) => (
     (new Date(s.beginning) < now) && (now < new Date(s.end))
   ));
   return ongoingSemester; // Should return undefined when matching semester does not exist
@@ -41,7 +41,7 @@ export const getCurrentSchedule = (semesters) => {
 
   // eslint-disable-next-line fp/no-mutating-methods
   const allSchedules = semesters
-    .map(s => (
+    .map((s) => (
       USED_SCHEDULE_FIELDS.map((f) => {
         if (s[f] === null) {
           return undefined;
@@ -55,11 +55,11 @@ export const getCurrentSchedule = (semesters) => {
       })
     ))
     .reduce((acc, val) => acc.concat(val), [])
-    .filter(s => (s !== undefined))
+    .filter((s) => (s !== undefined))
     .sort((a, b) => (a.time - b.time));
   const now = Date.now();
   const currentSchedule = allSchedules
-    .find(s => (s.time > now));
+    .find((s) => (s.time > now));
 
   return currentSchedule;
 };

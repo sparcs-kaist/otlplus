@@ -24,7 +24,7 @@ class MapSubSection extends Component {
   _getLecturesOnBuilding = (building) => {
     const { lectureFocus, selectedTimetable } = this.props;
 
-    return getOverallLectures(selectedTimetable, lectureFocus).filter(l => (
+    return getOverallLectures(selectedTimetable, lectureFocus).filter((l) => (
       getBuildingStr(l) === building
     ));
   }
@@ -38,7 +38,7 @@ class MapSubSection extends Component {
     }
 
     const lecturesOnBuilding = this._getLecturesOnBuilding(building);
-    const details = lecturesOnBuilding.map(l => ({
+    const details = lecturesOnBuilding.map((l) => ({
       id: l.id,
       title: l[t('js.property.title')],
       info: getRoomStr(l),
@@ -59,10 +59,10 @@ class MapSubSection extends Component {
   render() {
     const { selectedTimetable, lectureFocus } = this.props;
 
-    const buildings = unique(getOverallLectures(selectedTimetable, lectureFocus).map(l => getBuildingStr(l)));
+    const buildings = unique(getOverallLectures(selectedTimetable, lectureFocus).map((l) => getBuildingStr(l)));
     const mapObject = Object.assign(
       {},
-      ...buildings.map(b => (
+      ...buildings.map((b) => (
         {
           [b]: this._getLecturesOnBuilding(b),
         }
@@ -74,7 +74,7 @@ class MapSubSection extends Component {
         <div>
           <img src={mapImage} alt="KAIST Map" />
           { Object.keys(mapObject).map((b) => {
-            const act = mapObject[b].some(lec => isFocused(lec, lectureFocus))
+            const act = mapObject[b].some((l) => isFocused(l, lectureFocus))
               ? 'block--highlighted'
               : '';
             const location = (
@@ -106,12 +106,12 @@ class MapSubSection extends Component {
 }
 
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   selectedTimetable: state.timetable.timetable.selectedTimetable,
   lectureFocus: state.timetable.lectureFocus,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   setMultipleFocusDispatch: (multipleTitle, multipleDetails) => {
     dispatch(setMultipleFocus(multipleTitle, multipleDetails));
   },

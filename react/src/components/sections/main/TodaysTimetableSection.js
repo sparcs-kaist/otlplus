@@ -53,7 +53,7 @@ class TodaysTimetableSection extends Component {
       ? getOngoingSemester(semesters)
       : undefined;
     const lectures = (user && ongoingSemester)
-      ? user.my_timetable_lectures.filter(l => (
+      ? user.my_timetable_lectures.filter((l) => (
         (l.year === ongoingSemester.year) && (l.semester === ongoingSemester.semester)
       ))
       : [];
@@ -106,13 +106,13 @@ class TodaysTimetableSection extends Component {
             </div>
           </div>
           {
-            lectures.map(lecture => (
-              lecture.classtimes
-                .filter(ct => (ct.day === day - 1))
-                .map(ct => (
+            lectures.map((l) => (
+              l.classtimes
+                .filter((ct) => (ct.day === day - 1))
+                .map((ct) => (
                   <HorizontalTimetableBlock
-                    key={`${lecture.id}:${ct.day}:${ct.begin}`}
-                    lecture={lecture}
+                    key={`${l.id}:${ct.day}:${ct.begin}`}
+                    lecture={l}
                     classtime={ct}
                     cellWidth={cellWidth}
                     cellHeight={51}
@@ -141,12 +141,12 @@ class TodaysTimetableSection extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   user: state.common.user.user,
   semesters: state.common.semester.semesters,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
 });
 
 TodaysTimetableSection.propTypes = {

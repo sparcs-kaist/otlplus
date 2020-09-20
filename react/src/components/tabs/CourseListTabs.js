@@ -42,7 +42,7 @@ class CourseListTabs extends Component {
 
   _setMajorCodes = (departments) => {
     const { setListMajorCodesDispatch } = this.props;
-    const majors = departments.map(d => ({
+    const majors = departments.map((d) => ({
       code: d.code,
       name: (d.code === 'Basic') ? '기초 과목' : `${d.name} 전공`,
       name_en: (d.code === 'Basic') ? 'Basic Course' : `${d.name_en} Major`,
@@ -61,7 +61,7 @@ class CourseListTabs extends Component {
     if (listCode === 'SEARCH') {
       // Pass
     }
-    else if (major.codes.some(c => (c === listCode))) {
+    else if (major.codes.some((c) => (c === listCode))) {
       this._fetchMajorList(listCode, force);
     }
     else if (listCode === 'HUMANITY') {
@@ -94,7 +94,7 @@ class CourseListTabs extends Component {
     )
       .then((response) => {
         const newProps = this.props;
-        if (!newProps.major.codes.some(c => (c === majorCode))) {
+        if (!newProps.major.codes.some((c) => (c === majorCode))) {
           return;
         }
         setListMajorCoursesDispatch(majorCode, response.data);
@@ -198,7 +198,7 @@ class CourseListTabs extends Component {
           <i className={classNames('icon', 'icon--tab-search')} />
           <span>{t('ui.tab.searchShort')}</span>
         </div>
-        {major.codes.map(c => (
+        {major.codes.map((c) => (
           <div className={classNames((selectedListCode === c ? 'tabs__elem--selected' : ''))} key={c} onClick={() => this.changeTab(c)}>
             <i className={classNames('icon', 'icon--tab-major')} />
             <span>{t('ui.tab.majorShort')}</span>
@@ -217,7 +217,7 @@ class CourseListTabs extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   user: state.common.user.user,
   selectedListCode: state.dictionary.list.selectedListCode,
   search: state.dictionary.list.search,
@@ -226,7 +226,7 @@ const mapStateToProps = state => ({
   taken: state.dictionary.list.taken,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   openSearchDispatch: () => {
     dispatch(openSearch());
   },

@@ -42,14 +42,14 @@ class SemesterSection extends Component {
   _isFirstSemester = (year, semester) => {
     const { semesters } = this.props;
 
-    const semesterIdx = semesters.findIndex(s => ((s.year === year) && (s.semester === semester)));
+    const semesterIdx = semesters.findIndex((s) => ((s.year === year) && (s.semester === semester)));
     return (semesterIdx === 0);
   }
 
   _isLastSemester = (year, semester) => {
     const { semesters } = this.props;
 
-    const semesterIdx = semesters.findIndex(s => ((s.year === year) && (s.semester === semester)));
+    const semesterIdx = semesters.findIndex((s) => ((s.year === year) && (s.semester === semester)));
     return (semesterIdx === (semesters.length - 1));
   }
 
@@ -64,7 +64,7 @@ class SemesterSection extends Component {
       return;
     }
 
-    const semesterIdx = semesters.findIndex(s => ((s.year === year) && (s.semester === semester)));
+    const semesterIdx = semesters.findIndex((s) => ((s.year === year) && (s.semester === semester)));
     const targetSemester = semesters[semesterIdx - 1];
 
     setSemesterDispatch(targetSemester.year, targetSemester.semester);
@@ -87,7 +87,7 @@ class SemesterSection extends Component {
       return;
     }
 
-    const semesterIdx = semesters.findIndex(s => ((s.year === year) && (s.semester === semester)));
+    const semesterIdx = semesters.findIndex((s) => ((s.year === year) && (s.semester === semester)));
     const targetSemester = semesters[semesterIdx + 1];
 
     setSemesterDispatch(targetSemester.year, targetSemester.semester);
@@ -127,13 +127,13 @@ class SemesterSection extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   semesters: state.common.semester.semesters,
   year: state.timetable.semester.year,
   semester: state.timetable.semester.semester,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   setSemesterDispatch: (year, semester) => {
     dispatch(setSemester(year, semester));
   },

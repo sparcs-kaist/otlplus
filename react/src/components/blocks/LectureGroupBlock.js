@@ -28,7 +28,7 @@ const LectureGroupBlock = ({
       className={classNames(
         'block',
         'block--lecture-group',
-        (lectureGroup.some(l => isListClicked(l, lectureFocus)) ? 'block--raised' : ''),
+        (lectureGroup.some((l) => isListClicked(l, lectureFocus)) ? 'block--raised' : ''),
         (isDimmedListLectureGroup(lectureGroup, lectureFocus) ? 'block--dimmed' : ''),
       )}
     >
@@ -37,7 +37,7 @@ const LectureGroupBlock = ({
         {' '}
         {lectureGroup[0].old_code}
       </div>
-      {lectureGroup.map(l => (
+      {lectureGroup.map((l) => (
         <LectureGroupBlockRow
           lecture={l}
           key={l.id}

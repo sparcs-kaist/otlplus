@@ -102,7 +102,7 @@ class LectureSearchSubSection extends Component {
     });
   }
 
-  updateCheckedValues = filterName => (checkedValues) => {
+  updateCheckedValues = (filterName) => (checkedValues) => {
     this.setState({
       [filterName]: checkedValues,
     });
@@ -158,7 +158,7 @@ class LectureSearchSubSection extends Component {
   }
 
   applyAutocomplete = () => {
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       inputVal: prevState.inputVal + prevState.autoComplete,
       autoComplete: '',
     }));
@@ -207,8 +207,8 @@ class LectureSearchSubSection extends Component {
                 autoComplete="off"
                 placeholder={t('ui.tab.search')}
                 value={inputVal}
-                onKeyDown={e => this.onKeyPress(e)}
-                onChange={e => this.handleInput(e)}
+                onKeyDown={(e) => this.onKeyPress(e)}
+                onChange={(e) => this.handleInput(e)}
               />
               <div className={classNames('search-keyword-autocomplete')}>
                 <span className={classNames('search-keyword-autocomplete-space')}>{inputVal}</span>
@@ -270,7 +270,7 @@ class LectureSearchSubSection extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   start: state.timetable.search.start,
   end: state.timetable.search.end,
   day: state.timetable.search.day,
@@ -279,7 +279,7 @@ const mapStateToProps = state => ({
   lectureFocus: state.timetable.lectureFocus,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   closeSearchDispatch: () => {
     dispatch(closeSearch());
   },

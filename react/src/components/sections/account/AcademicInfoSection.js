@@ -27,7 +27,7 @@ class CourseDetailSection extends Component {
         </div>
         <div className={classNames('attribute')}>
           <div>{t('ui.attribute.major')}</div>
-          <div>{user.majors.map(d => d[t('js.property.name')]).join(', ')}</div>
+          <div>{user.majors.map((d) => d[t('js.property.name')]).join(', ')}</div>
         </div>
         <div className={classNames('caption')}>
           {t('ui.message.academicInfoCaptionHead')}
@@ -44,11 +44,11 @@ class CourseDetailSection extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   user: state.common.user.user,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
 });
 
 CourseDetailSection.propTypes = {

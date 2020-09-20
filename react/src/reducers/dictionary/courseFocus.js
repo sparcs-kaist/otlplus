@@ -43,7 +43,7 @@ const courseFocus = (state = initialState, action) => {
     case UPDATE_REVIEW: {
       const originalReviews = state.reviews;
       const { review, isNew } = action;
-      const foundIndex = originalReviews.findIndex(r => (r.id === review.id));
+      const foundIndex = originalReviews.findIndex((r) => (r.id === review.id));
       const newReviews = (foundIndex !== -1)
         ? [
           ...originalReviews.slice(0, foundIndex),

@@ -21,7 +21,7 @@ class RelatedCourseFeedSection extends Component {
           {`${t('ui.title.relatedCourses')} - ${course[t('js.property.title')]}`}
         </div>
         { course.related_courses_posterior.length
-          ? course.related_courses_posterior.map(c => (
+          ? course.related_courses_posterior.map((c) => (
             <Link to={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: c.id }) }} key={c.id}>
               <CourseBlock course={c} key={c.id} />
             </Link>

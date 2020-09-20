@@ -29,7 +29,7 @@ class SearchCircle extends Component {
           autoComplete="off"
           name={inputName}
           value={value}
-          onChange={e => this.onChange(e)}
+          onChange={(e) => this.onChange(e)}
           checked={isChecked}
         />
         {t(labelNameKey)}
