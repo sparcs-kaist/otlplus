@@ -35,7 +35,7 @@ class SummarySubSection extends Component {
     };
   }
 
-  setFocusOnType(type) {
+  setFocusOnType = (type) => {
     const { t } = this.props;
     const { lectureFocus, selectedTimetable, setMultipleFocusDispatch } = this.props;
 
@@ -54,7 +54,7 @@ class SummarySubSection extends Component {
     this.setState({ multipleFocusCode: type });
   }
 
-  setFocusOnCredit(type) {
+  setFocusOnCredit = (type) => {
     const { t } = this.props;
     const { lectureFocus, selectedTimetable, setMultipleFocusDispatch } = this.props;
 
@@ -89,7 +89,7 @@ class SummarySubSection extends Component {
     this.setState({ multipleFocusCode: type });
   }
 
-  setFocusOnScore(type) {
+  setFocusOnScore = (type) => {
     const { t } = this.props;
     const { lectureFocus, selectedTimetable, setMultipleFocusDispatch } = this.props;
 
@@ -117,7 +117,7 @@ class SummarySubSection extends Component {
   }
 
 
-  clearFocus() {
+  clearFocus = () => {
     const { lectureFocus, clearMultipleFocusDispatch } = this.props;
 
     if (lectureFocus.from !== 'MULTIPLE') {

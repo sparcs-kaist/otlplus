@@ -68,7 +68,10 @@ export const getOverallLectures = (selectedTimetable, lectureFocus) => {
   const timetableLectures = selectedTimetable
     ? selectedTimetable.lectures
     : [];
-  const hasSingleFocusedLectureOutsideTable = lectureFocus.lecture && !inTimetable(lectureFocus.lecture, selectedTimetable);
+  const hasSingleFocusedLectureOutsideTable = (
+    lectureFocus.lecture
+    && !inTimetable(lectureFocus.lecture, selectedTimetable)
+  );
 
   return timetableLectures
     .concat(hasSingleFocusedLectureOutsideTable ? [lectureFocus.lecture] : []);
@@ -126,7 +129,9 @@ export const getColorNumber = (lecture) => (
   (lecture.course % 16) + 1
 );
 
-export const performAddToTable = (caller, lecture, selectedTimetable, user, fromString, addLectureToTimetableDispatch) => {
+export const performAddToTable = (caller,
+  lecture, selectedTimetable, user, fromString,
+  addLectureToTimetableDispatch) => {
   if (
     lecture.classtimes.some((ct1) => (
       selectedTimetable.lectures.some((l) => (
@@ -178,7 +183,9 @@ export const performAddToTable = (caller, lecture, selectedTimetable, user, from
   });
 };
 
-export const performDeleteFromTable = (caller, lecture, selectedTimetable, user, fromString, removeLectureFromTimetableDispatch) => {
+export const performDeleteFromTable = (caller,
+  lecture, selectedTimetable, user, fromString,
+  removeLectureFromTimetableDispatch) => {
   if (!user) {
     removeLectureFromTimetableDispatch(lecture);
   }
@@ -214,7 +221,9 @@ export const performDeleteFromTable = (caller, lecture, selectedTimetable, user,
   });
 };
 
-export const performAddToCart = (caller, lecture, year, semester, user, fromString, addLectureToCartDispatch) => {
+export const performAddToCart = (caller,
+  lecture, year, semester, user, fromString,
+  addLectureToCartDispatch) => {
   if (!user) {
     addLectureToCartDispatch(lecture);
   }
@@ -250,7 +259,9 @@ export const performAddToCart = (caller, lecture, year, semester, user, fromStri
   });
 };
 
-export const performDeleteFromCart = (caller, lecture, year, semester, user, fromString, deleteLectureFromCartDispatch) => {
+export const performDeleteFromCart = (caller,
+  lecture, year, semester, user, fromString,
+  deleteLectureFromCartDispatch) => {
   if (!user) {
     deleteLectureFromCartDispatch(lecture);
   }
