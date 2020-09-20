@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
-import ReactGA from 'react-ga';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
@@ -298,23 +297,23 @@ class TimetableSubSection extends Component {
     const targetMinutes = [...Array((24 - 8) * 2).keys()].map(i => 8 * 60 + i * 30);
     const getColumnHeads = () => {
       const timedArea = targetMinutes.map((i) => {
-          const i2 = i + 30;
-          if (i2 % (6 * 60) === 0) {
-            return <div key={i2}><strong>{((i2 / 60 - 1) % 12) + 1}</strong></div>;
-          }
-          if (i2 % 60 === 0) {
-            return <div key={i2}><span>{((i2 / 60 - 1) % 12) + 1}</span></div>;
-          }
-          return <div key={i2} />;
+        const i2 = i + 30;
+        if (i2 % (6 * 60) === 0) {
+          return <div key={i2}><strong>{((i2 / 60 - 1) % 12) + 1}</strong></div>;
+        }
+        if (i2 % 60 === 0) {
+          return <div key={i2}><span>{((i2 / 60 - 1) % 12) + 1}</span></div>;
+        }
+        return <div key={i2} />;
       });
       const untimedArea = [...Array(Math.ceil(untimedBlockTitles.length / 5)).keys()].map((_, i) => (
-          <React.Fragment key={_}>
-            <div />
-            <div className={classNames('table-head')} />
-            <div />
-            <div />
-            <div />
-          </React.Fragment>
+        <React.Fragment key={_}>
+          <div />
+          <div className={classNames('table-head')} />
+          <div />
+          <div />
+          <div />
+        </React.Fragment>
       ));
       return [
         <div className={classNames('table-head')} key={8 * 60}><strong>8</strong></div>,
@@ -324,34 +323,34 @@ class TimetableSubSection extends Component {
     };
     const getColumnCells = (day, dayName, dayIdx) => {
       const timedArea = targetMinutes.map((i) => {
-          return (
-            <div
-              className={classNames(
-                'cell',
-                'cell-drag',
-                (i % 60 === 0) ? 'cell-top' : 'cell-bottom',
-                (i % 60 === 30) && mobileShouldShowLectureList ? 'cell-bottom--mobile-noline' : '',
-                (i === 23 * 60 + 30) ? 'cell-last' : '',
-                (i % (6 * 60) === 0) ? 'cell-bold' : '',
-              )}
-              key={`${day}:${i.toString()}`}
-              data-day={day}
-              data-minute={i.toString()}
-              onMouseDown={e => this.onMouseDown(e)}
-              onTouchStart={e => this.onTouchStart(e)}
-              onMouseMove={e => this.onMouseMove(e)}
-              onTouchMove={e => this.onTouchMove(e)}
-            />
-          );
+        return (
+          <div
+            className={classNames(
+              'cell',
+              'cell-drag',
+              (i % 60 === 0) ? 'cell-top' : 'cell-bottom',
+              (i % 60 === 30) && mobileShouldShowLectureList ? 'cell-bottom--mobile-noline' : '',
+              (i === 23 * 60 + 30) ? 'cell-last' : '',
+              (i % (6 * 60) === 0) ? 'cell-bold' : '',
+            )}
+            key={`${day}:${i.toString()}`}
+            data-day={day}
+            data-minute={i.toString()}
+            onMouseDown={e => this.onMouseDown(e)}
+            onTouchStart={e => this.onTouchStart(e)}
+            onMouseMove={e => this.onMouseMove(e)}
+            onTouchMove={e => this.onTouchMove(e)}
+          />
+        );
       });
       const untimedArea = [...Array(Math.ceil(untimedBlockTitles.length / 5)).keys()].map((_, i) => (
-          <React.Fragment key={_}>
-            <div className={classNames('cell')} />
-            <div className={classNames('table-head')}>{untimedBlockTitles[i * 5 + dayIdx]}</div>
-            <div className={classNames('cell', 'cell-top')} />
-            <div className={classNames('cell', 'cell-bottom', (mobileShouldShowLectureList ? 'cell-bottom--mobile-noline' : ''))} />
-            <div className={classNames('cell', 'cell-bottom', 'cell-last', (mobileShouldShowLectureList ? 'cell-bottom--mobile-noline' : ''))} />
-          </React.Fragment>
+        <React.Fragment key={_}>
+          <div className={classNames('cell')} />
+          <div className={classNames('table-head')}>{untimedBlockTitles[i * 5 + dayIdx]}</div>
+          <div className={classNames('cell', 'cell-top')} />
+          <div className={classNames('cell', 'cell-bottom', (mobileShouldShowLectureList ? 'cell-bottom--mobile-noline' : ''))} />
+          <div className={classNames('cell', 'cell-bottom', 'cell-last', (mobileShouldShowLectureList ? 'cell-bottom--mobile-noline' : ''))} />
+        </React.Fragment>
       ));
       return [
         <div className={classNames('table-head')} key={day}>{dayName}</div>,

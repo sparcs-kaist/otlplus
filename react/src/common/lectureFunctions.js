@@ -124,7 +124,7 @@ export const getExamStr = (lecture) => {
 
 export const getColorNumber = lecture => (
   (lecture.course % 16) + 1
-)
+);
 
 export const performAddToTable = (caller, lecture, selectedTimetable, user, fromString, addLectureToTimetableDispatch) => {
   if (
@@ -147,28 +147,28 @@ export const performAddToTable = (caller, lecture, selectedTimetable, user, from
     addLectureToTimetableDispatch(lecture);
   }
   else {
-  axios.post(
-    `/api/users/${user.id}/timetables/${selectedTimetable.id}/add-lecture`,
-    {
-      lecture: lecture.id,
-    },
-    {
-      metadata: {
-        gaCategory: 'Timetable',
-        gaVariable: 'POST Update / Instance',
-      },
-    },
-  )
-    .then((response) => {
-      const newProps = caller.props;
-      if (!newProps.selectedTimetable || newProps.selectedTimetable.id !== selectedTimetable.id) {
-        return;
-      }
-      // TODO: Fix timetable not updated when semester unchanged and timetable changed
-      addLectureToTimetableDispatch(lecture);
-    })
-    .catch((error) => {
-    });
+    axios.post(
+      `/api/users/${user.id}/timetables/${selectedTimetable.id}/add-lecture`,
+      {
+        lecture: lecture.id,
+      }, 
+      {
+        metadata: {
+          gaCategory: 'Timetable',
+          gaVariable: 'POST Update / Instance',
+        },
+      }, 
+    )
+      .then((response) => {
+        const newProps = caller.props;
+        if (!newProps.selectedTimetable || newProps.selectedTimetable.id !== selectedTimetable.id) {
+          return;
+        }
+        // TODO: Fix timetable not updated when semester unchanged and timetable changed
+        addLectureToTimetableDispatch(lecture);
+      })
+      .catch((error) => {
+      });
   }
 
   ReactGA.event({
@@ -183,28 +183,28 @@ export const performDeleteFromTable = (caller, lecture, selectedTimetable, user,
     removeLectureFromTimetableDispatch(lecture);
   }
   else {
-  axios.post(
-    `/api/users/${user.id}/timetables/${selectedTimetable.id}/remove-lecture`,
-    {
-      lecture: lecture.id,
-    },
-    {
-      metadata: {
-        gaCategory: 'Timetable',
-        gaVariable: 'POST Update / Instance',
-      },
-    },
-  )
-    .then((response) => {
-      const newProps = caller.props;
-      if (!newProps.selectedTimetable || newProps.selectedTimetable.id !== selectedTimetable.id) {
-        return;
-      }
-      // TODO: Fix timetable not updated when semester unchanged and timetable changed
-      removeLectureFromTimetableDispatch(lecture);
-    })
-    .catch((error) => {
-    });
+    axios.post(
+      `/api/users/${user.id}/timetables/${selectedTimetable.id}/remove-lecture`,
+      {
+        lecture: lecture.id,
+      }, 
+      {
+        metadata: {
+          gaCategory: 'Timetable',
+          gaVariable: 'POST Update / Instance',
+        },
+      }, 
+    )
+      .then((response) => {
+        const newProps = caller.props;
+        if (!newProps.selectedTimetable || newProps.selectedTimetable.id !== selectedTimetable.id) {
+          return;
+        }
+        // TODO: Fix timetable not updated when semester unchanged and timetable changed
+        removeLectureFromTimetableDispatch(lecture);
+      })
+      .catch((error) => {
+      });
   }
 
   ReactGA.event({
@@ -219,28 +219,28 @@ export const performAddToCart = (caller, lecture, year, semester, user, fromStri
     addLectureToCartDispatch(lecture);
   }
   else {
-  axios.post(
-    `/api/users/${user.id}/wishlist/add-lecture`,
-    {
-      lecture: lecture.id,
-    },
-    {
-      metadata: {
-        gaCategory: 'Wishlist',
-        gaVariable: 'POST Update / Instance',
-      },
-    },
-  )
-    .then((response) => {
-      const newProps = caller.props;
-      if (newProps.year !== year || (newProps.semester !== semester)
-      ) {
-        return;
-      }
-      addLectureToCartDispatch(lecture);
-    })
-    .catch((error) => {
-    });
+    axios.post(
+      `/api/users/${user.id}/wishlist/add-lecture`,
+      {
+        lecture: lecture.id,
+      }, 
+      {
+        metadata: {
+          gaCategory: 'Wishlist',
+          gaVariable: 'POST Update / Instance',
+        },
+      }, 
+    )
+      .then((response) => {
+        const newProps = caller.props;
+        if (newProps.year !== year || (newProps.semester !== semester)
+        ) {
+          return;
+        }
+        addLectureToCartDispatch(lecture);
+      })
+      .catch((error) => {
+      });
   }
 
   ReactGA.event({
@@ -255,27 +255,27 @@ export const performDeleteFromCart = (caller, lecture, year, semester, user, fro
     deleteLectureFromCartDispatch(lecture);
   }
   else {
-  axios.post(
-    `/api/users/${user.id}/wishlist/remove-lecture`,
-    {
-      lecture: lecture.id,
-    },
-    {
-      metadata: {
-        gaCategory: 'Wishlist',
-        gaVariable: 'POST Update / Instance',
-      },
-    },
-  )
-    .then((response) => {
-      const newProps = caller.props;
-      if (newProps.year !== year || newProps.semester !== semester) {
-        return;
-      }
-      deleteLectureFromCartDispatch(lecture);
-    })
-    .catch((error) => {
-    });
+    axios.post(
+      `/api/users/${user.id}/wishlist/remove-lecture`,
+      {
+        lecture: lecture.id,
+      }, 
+      {
+        metadata: {
+          gaCategory: 'Wishlist',
+          gaVariable: 'POST Update / Instance',
+        },
+      }, 
+    )
+      .then((response) => {
+        const newProps = caller.props;
+        if (newProps.year !== year || newProps.semester !== semester) {
+          return;
+        }
+        deleteLectureFromCartDispatch(lecture);
+      })
+      .catch((error) => {
+      });
   }
 
   ReactGA.event({
