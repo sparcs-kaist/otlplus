@@ -8,7 +8,7 @@ import { getAverageScoreLabel } from '../../../common/scoreFunctions';
 
 import { clearMultipleFocus, setMultipleFocus } from '../../../actions/timetable/lectureFocus';
 
-import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureFocus';
+import { LIST, TABLE } from '../../../reducers/timetable/lectureFocus';
 
 import lectureFocusShape from '../../../shapes/LectureFocusShape';
 import timetableShape from '../../../shapes/TimetableShape';
@@ -35,7 +35,7 @@ class SummarySubSection extends Component {
     };
   }
 
-  setFocusOnType(type) {
+  setFocusOnType = (type) => {
     const { t } = this.props;
     const { lectureFocus, selectedTimetable, setMultipleFocusDispatch } = this.props;
 
@@ -44,8 +44,8 @@ class SummarySubSection extends Component {
     }
 
     const details = getOverallLectures(selectedTimetable, lectureFocus)
-      .filter(l => (indexOfType(l.type_en) === indexOfType(type)))
-      .map(l => ({
+      .filter((l) => (indexOfType(l.type_en) === indexOfType(type)))
+      .map((l) => ({
         id: l.id,
         title: l[t('js.property.title')],
         info: (l.credit > 0) ? t('ui.others.creditCount', { count: l.credit }) : t('ui.others.auCount', { count: l.credit_au }),
@@ -54,7 +54,7 @@ class SummarySubSection extends Component {
     this.setState({ multipleFocusCode: type });
   }
 
-  setFocusOnCredit(type) {
+  setFocusOnCredit = (type) => {
     const { t } = this.props;
     const { lectureFocus, selectedTimetable, setMultipleFocusDispatch } = this.props;
 
@@ -65,8 +65,8 @@ class SummarySubSection extends Component {
     const details = (type === 'Credit')
       ? (
         getOverallLectures(selectedTimetable, lectureFocus)
-          .filter(l => (l.credit > 0))
-          .map(l => ({
+          .filter((l) => (l.credit > 0))
+          .map((l) => ({
             id: l.id,
             title: l[t('js.property.title')],
             info: t('ui.others.creditCount', { count: l.credit }),
@@ -76,8 +76,8 @@ class SummarySubSection extends Component {
         (type === 'Credit AU')
           ? (
             getOverallLectures(selectedTimetable, lectureFocus)
-              .filter(l => (l.credit_au > 0))
-              .map(l => ({
+              .filter((l) => (l.credit_au > 0))
+              .map((l) => ({
                 id: l.id,
                 title: l[t('js.property.title')],
                 info: t('ui.others.auCount', { count: l.credit_au }),
@@ -89,7 +89,7 @@ class SummarySubSection extends Component {
     this.setState({ multipleFocusCode: type });
   }
 
-  setFocusOnScore(type) {
+  setFocusOnScore = (type) => {
     const { t } = this.props;
     const { lectureFocus, selectedTimetable, setMultipleFocusDispatch } = this.props;
 
@@ -97,7 +97,7 @@ class SummarySubSection extends Component {
       return;
     }
 
-    const details = getOverallLectures(selectedTimetable, lectureFocus).map(l => ({
+    const details = getOverallLectures(selectedTimetable, lectureFocus).map((l) => ({
       id: l.id,
       title: l[t('js.property.title')],
       info: (type === 'Grade')
@@ -117,7 +117,7 @@ class SummarySubSection extends Component {
   }
 
 
-  clearFocus() {
+  clearFocus = () => {
     const { lectureFocus, clearMultipleFocusDispatch } = this.props;
 
     if (lectureFocus.from !== 'MULTIPLE') {
@@ -138,23 +138,23 @@ class SummarySubSection extends Component {
       : [];
     const overallLectures = getOverallLectures(selectedTimetable, lectureFocus);
 
-    const isSingleFocusedLectureFromType = typeIndex => (
+    const isSingleFocusedLectureFromType = (typeIndex) => (
       (lectureFocus.from === LIST || lectureFocus.from === TABLE)
       && (indexOfType(lectureFocus.lecture.type_en) === typeIndex)
     );
 
     const timetableTypeCredit = [0, 1, 2, 3, 4, 5].map((i) => {
-      const lecturesWithType = timetableLectures.filter(l => (indexOfType(l.type_en) === i));
-      return sum(lecturesWithType, l => (l.credit + l.credit_au));
+      const lecturesWithType = timetableLectures.filter((l) => (indexOfType(l.type_en) === i));
+      return sum(lecturesWithType, (l) => (l.credit + l.credit_au));
     });
-    const singleFocusedTypeCreditStr = [0, 1, 2, 3, 4, 5].map(i => (
+    const singleFocusedTypeCreditStr = [0, 1, 2, 3, 4, 5].map((i) => (
       !isSingleFocusedLectureFromType(i)
         ? ''
         : inTimetable(lectureFocus.lecture, selectedTimetable)
           ? `(${lectureFocus.lecture.credit + lectureFocus.lecture.credit_au})`
           : `+${lectureFocus.lecture.credit + lectureFocus.lecture.credit_au}`
     ));
-    const overallTypeCredit = [0, 1, 2, 3, 4, 5].map(i => (
+    const overallTypeCredit = [0, 1, 2, 3, 4, 5].map((i) => (
       !isSingleFocusedLectureFromType(i)
         ? timetableTypeCredit[i]
         : inTimetable(lectureFocus.lecture, selectedTimetable)
@@ -162,16 +162,16 @@ class SummarySubSection extends Component {
           : timetableTypeCredit[i] + lectureFocus.lecture.credit + lectureFocus.lecture.credit_au
     ));
 
-    const overallCredit = sum(overallLectures, l => l.credit);
-    const overallAu = sum(overallLectures, l => l.credit_au);
+    const overallCredit = sum(overallLectures, (l) => l.credit);
+    const overallAu = sum(overallLectures, (l) => l.credit_au);
     const isCreditSingleFocused = (lectureFocus.lecture !== null) && (lectureFocus.lecture.credit > 0);
     const isAuSingleFocused = (lectureFocus.lecture !== null) && (lectureFocus.lecture.credit_au > 0);
 
-    const timetableLecturesWithReview = timetableLectures.filter(l => (l.review_num > 0));
-    const targetNum = sum(timetableLecturesWithReview, l => (l.credit + l.credit_au));
-    const timetableGrade = sum(timetableLecturesWithReview, l => (l.grade * (l.credit + l.credit_au)));
-    const timetableLoad = sum(timetableLecturesWithReview, l => (l.load * (l.credit + l.credit_au)));
-    const timetableSpeech = sum(timetableLecturesWithReview, l => (l.speech * (l.credit + l.credit_au)));
+    const timetableLecturesWithReview = timetableLectures.filter((l) => (l.review_num > 0));
+    const targetNum = sum(timetableLecturesWithReview, (l) => (l.credit + l.credit_au));
+    const timetableGrade = sum(timetableLecturesWithReview, (l) => (l.grade * (l.credit + l.credit_au)));
+    const timetableLoad = sum(timetableLecturesWithReview, (l) => (l.load * (l.credit + l.credit_au)));
+    const timetableSpeech = sum(timetableLecturesWithReview, (l) => (l.speech * (l.credit + l.credit_au)));
 
     return (
       <div className={classNames('section-content--summary')}>
@@ -262,12 +262,12 @@ class SummarySubSection extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   selectedTimetable: state.timetable.timetable.selectedTimetable,
   lectureFocus: state.timetable.lectureFocus,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   setMultipleFocusDispatch: (multipleTitle, multipleDetails) => {
     dispatch(setMultipleFocus(multipleTitle, multipleDetails));
   },

@@ -39,7 +39,7 @@ class ReviewWriteSubSection extends Component {
           <ReviewWriteBlock
             key={selectedLecture.id}
             lecture={selectedLecture}
-            review={user.reviews.find(r => (r.lecture.id === selectedLecture.id))}
+            review={user.reviews.find((r) => (r.lecture.id === selectedLecture.id))}
             pageFrom="Write Reviews"
             updateOnSubmit={this.updateOnReviewSubmit}
           />
@@ -50,12 +50,12 @@ class ReviewWriteSubSection extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   user: state.common.user.user,
   selectedLecture: state.writeReviews.lectureSelected.lecture,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   updateUserReviewDispatch: (review) => {
     dispatch(updateUserReview(review));
   },

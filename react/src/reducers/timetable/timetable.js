@@ -1,4 +1,14 @@
-import { RESET, SET_TIMETABLES, CLEAR_TIMETABLES, SET_MY_TIMETABLE_LECTURES, SET_SELECTED_TIMETABLE, CREATE_TIMETABLE, DELETE_TIMETABLE, DUPLICATE_TIMETABLE, ADD_LECTURE_TO_TIMETABLE, REMOVE_LECTURE_FROM_TIMETABLE, UPDATE_CELL_SIZE, SET_IS_DRAGGING, SET_MOBILE_SHOULD_SHOW_TIMETABLE_TABS } from '../../actions/timetable/timetable';
+import {
+  RESET,
+  SET_TIMETABLES, CLEAR_TIMETABLES,
+  SET_MY_TIMETABLE_LECTURES,
+  SET_SELECTED_TIMETABLE,
+  CREATE_TIMETABLE, DELETE_TIMETABLE, DUPLICATE_TIMETABLE,
+  ADD_LECTURE_TO_TIMETABLE, REMOVE_LECTURE_FROM_TIMETABLE,
+  UPDATE_CELL_SIZE,
+  SET_IS_DRAGGING,
+  SET_MOBILE_SHOULD_SHOW_TIMETABLE_TABS,
+} from '../../actions/timetable/timetable';
 
 const MY = -1;
 
@@ -79,7 +89,7 @@ const timetable = (state = initialState, action) => {
       });
     }
     case DELETE_TIMETABLE: {
-      const newTables = state.timetables.filter(t => (t.id !== action.timetable.id));
+      const newTables = state.timetables.filter((t) => (t.id !== action.timetable.id));
       return Object.assign({}, state, {
         selectedTimetable: newTables[0],
         timetables: newTables,
@@ -103,7 +113,7 @@ const timetable = (state = initialState, action) => {
         id: state.selectedTimetable.id,
         lectures: state.selectedTimetable.lectures.concat([action.lecture]),
       };
-      const newTables = state.timetables.map(t => (
+      const newTables = state.timetables.map((t) => (
         t.id === newTable.id
           ? newTable
           : t
@@ -116,9 +126,9 @@ const timetable = (state = initialState, action) => {
     case REMOVE_LECTURE_FROM_TIMETABLE: {
       const newTable = {
         id: state.selectedTimetable.id,
-        lectures: state.selectedTimetable.lectures.slice().filter(l => (l.id !== action.lecture.id)),
+        lectures: state.selectedTimetable.lectures.slice().filter((l) => (l.id !== action.lecture.id)),
       };
-      const newTables = state.timetables.map(t => (
+      const newTables = state.timetables.map((t) => (
         t.id === newTable.id
           ? newTable
           : t

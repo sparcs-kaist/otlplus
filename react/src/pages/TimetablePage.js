@@ -8,7 +8,10 @@ import { reset as resetLectureFocus } from '../actions/timetable/lectureFocus';
 import { reset as resetList } from '../actions/timetable/list';
 import { reset as resetSearch } from '../actions/timetable/search';
 import { reset as resetSemester } from '../actions/timetable/semester';
-import { reset as resetTimetable, setSelectedTimetable, setMobileShouldShowTimetableTabs } from '../actions/timetable/timetable';
+import {
+  reset as resetTimetable,
+  setSelectedTimetable, setMobileShouldShowTimetableTabs,
+} from '../actions/timetable/timetable';
 
 import LectureDetailSection from '../components/sections/timetable/LectureDetailSection';
 import LectureListTabs from '../components/tabs/LectureListTabs';
@@ -40,8 +43,10 @@ class TimetablePage extends Component {
 
 
   componentWillUnmount() {
-    const { resetLectureFocusDispatch, resetListDispatch, resetSearchDispatch,
-      resetSemesterDispatch, resetTimetableDispatch } = this.props;
+    const {
+      resetLectureFocusDispatch, resetListDispatch, resetSearchDispatch,
+      resetSemesterDispatch, resetTimetableDispatch,
+    } = this.props;
 
     resetLectureFocusDispatch();
     resetListDispatch();
@@ -54,8 +59,11 @@ class TimetablePage extends Component {
   render() {
     // eslint-disable-next-line react/destructuring-assignment
     const { startSemester } = this.props.location.state || {};
-    const { lectureFocus, mobileShouldShowTimetableTabs, mobileShouldShowLectureList,
-      setMobileShouldShowTimetableTabsDispatch } = this.props;
+    const {
+      lectureFocus,
+      mobileShouldShowTimetableTabs, mobileShouldShowLectureList,
+      setMobileShouldShowTimetableTabsDispatch,
+    } = this.props;
 
     return (
       <>
@@ -101,7 +109,7 @@ class TimetablePage extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   user: state.common.user.user,
   lectureFocus: state.timetable.lectureFocus,
   myTimetable: state.timetable.timetable.myTimetable,
@@ -109,7 +117,7 @@ const mapStateToProps = state => ({
   mobileShouldShowLectureList: state.timetable.list.mobileShouldShowLectureList,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   setSelectedTimetableDispatch: (timetable) => {
     dispatch(setSelectedTimetable(timetable));
   },

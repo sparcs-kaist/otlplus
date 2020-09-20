@@ -11,8 +11,12 @@ import lectureShape from '../../shapes/NestedLectureShape';
 import reviewShape from '../../shapes/ReviewShape';
 
 
-// eslint-disable-next-line arrow-body-style
-const ReviewWriteBlock = ({ t, lecture, review, pageFrom, updateOnSubmit }) => {
+const ReviewWriteBlock = ({
+  t,
+  lecture, review,
+  pageFrom,
+  updateOnSubmit,
+}) => {
   const [isUploading, setIsUploading] = useState(false);
   const [content, setContent] = useState(review.content);
   const [grade, setGrade] = useState(review.grade);

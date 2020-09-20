@@ -21,7 +21,10 @@ import lectureShape from '../../../shapes/LectureShape';
 import timetableShape from '../../../shapes/TimetableShape';
 import lectureFocusShape from '../../../shapes/LectureFocusShape';
 
-import { isListClicked, performAddToTable, performAddToCart, performDeleteFromCart } from '../../../common/lectureFunctions';
+import {
+  isListClicked,
+  performAddToTable, performAddToCart, performDeleteFromCart,
+} from '../../../common/lectureFunctions';
 import LectureGroupBlock from '../../blocks/LectureGroupBlock';
 
 
@@ -59,7 +62,11 @@ class LectureListSection extends Component {
   }
 
   addToTable = (lecture) => {
-    const { selectedTimetable, user, selectedListCode, addLectureToTimetableDispatch } = this.props;
+    const {
+      user,
+      selectedTimetable, selectedListCode,
+      addLectureToTimetableDispatch,
+    } = this.props;
 
     const labelOfTabs = new Map([
       ['SEARCH', 'Search'],
@@ -71,7 +78,12 @@ class LectureListSection extends Component {
   }
 
   addToCart = (lecture) => {
-    const { year, semester, user, selectedListCode, addLectureToCartDispatch } = this.props;
+    const {
+      user,
+      selectedListCode,
+      year, semester,
+      addLectureToCartDispatch,
+    } = this.props;
 
     const labelOfTabs = new Map([
       ['SEARCH', 'Search'],
@@ -83,7 +95,12 @@ class LectureListSection extends Component {
   }
 
   deleteFromCart = (lecture) => {
-    const { year, semester, user, selectedListCode, deleteLectureFromCartDispatch } = this.props;
+    const {
+      user,
+      selectedListCode,
+      year, semester,
+      deleteLectureFromCartDispatch,
+    } = this.props;
 
     const labelOfTabs = new Map([
       ['SEARCH', 'Search'],
@@ -94,7 +111,7 @@ class LectureListSection extends Component {
     performDeleteFromCart(this, lecture, year, semester, user, fromString, deleteLectureFromCartDispatch);
   }
 
-  listHover = lecture => () => {
+  listHover = (lecture) => () => {
     const { lectureFocus, setLectureFocusDispatch } = this.props;
 
     const arrow = this.arrowRef.current;
@@ -122,7 +139,7 @@ class LectureListSection extends Component {
     clearLectureFocusDispatch();
   }
 
-  listClick = lecture => () => {
+  listClick = (lecture) => () => {
     const { lectureFocus, selectedListCode, setLectureFocusDispatch } = this.props;
 
     if (!isListClicked(lecture, lectureFocus)) {
@@ -174,9 +191,9 @@ class LectureListSection extends Component {
     const targetId = Number(elementAtPosition.getAttribute('data-id'));
     const lectureGroups = this._getLectureGroups(selectedListCode);
     const targetLecture = lectureGroups
-      .map(lg => lg.map(l => ((l.id === targetId) ? l : null)))
+      .map((lg) => lg.map((l) => ((l.id === targetId) ? l : null)))
       .reduce((acc, val) => acc.concat(val), [])
-      .filter(l => (l !== null))[0];
+      .filter((l) => (l !== null))[0];
     setLectureFocusDispatch(targetLecture, 'LIST', false);
   }
 
@@ -188,12 +205,14 @@ class LectureListSection extends Component {
   }
 
   _getLectureGroups = (selectedListCode) => {
-    const { search, major, humanity, cart } = this.props;
+    const {
+      search, major, humanity, cart,
+    } = this.props;
 
     if (selectedListCode === 'SEARCH') {
       return search.lectureGroups;
     }
-    if (major.codes.some(code => (selectedListCode === code))) {
+    if (major.codes.some((cd) => (selectedListCode === cd))) {
       return major[selectedListCode].lectureGroups;
     }
     if (selectedListCode === 'HUMANITY') {
@@ -207,7 +226,11 @@ class LectureListSection extends Component {
 
   render() {
     const { t } = this.props;
-    const { lectureFocus, selectedTimetable, selectedListCode, searchOpen, search, major, humanity, cart } = this.props;
+    const {
+      lectureFocus, selectedTimetable, selectedListCode,
+      searchOpen,
+      search, major, humanity, cart,
+    } = this.props;
 
     const getListElement = (lectureGroups, fromCart) => {
       if (!lectureGroups) {
@@ -218,7 +241,7 @@ class LectureListSection extends Component {
       }
       return (
         <Scroller onScroll={this.selectWithArrow} key={selectedListCode}>
-          {lectureGroups.map(lg => (
+          {lectureGroups.map((lg) => (
             <LectureGroupBlock
               lectureGroup={lg}
               key={lg[0].course}
@@ -257,7 +280,7 @@ class LectureListSection extends Component {
         </div>
       );
     }
-    if (major.codes.some(code => (selectedListCode === code))) {
+    if (major.codes.some((cd) => (selectedListCode === cd))) {
       return (
         <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
           <button className={classNames('close-button')} onClick={this.mobileCloseLectureList}><i className={classNames('icon', 'icon--close-section')} /></button>
@@ -309,7 +332,7 @@ class LectureListSection extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   user: state.common.user.user,
   selectedListCode: state.timetable.list.selectedListCode,
   search: state.timetable.list.search,
@@ -324,7 +347,7 @@ const mapStateToProps = state => ({
   searchOpen: state.timetable.search.open,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   openSearchDispatch: () => {
     dispatch(openSearch());
   },

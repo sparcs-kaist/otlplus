@@ -7,12 +7,14 @@ import { appBoundClassNames as classNames } from '../../../common/boundClassName
 
 import { clearMultipleFocus, setMultipleFocus } from '../../../actions/timetable/lectureFocus';
 
-import { NONE, LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureFocus';
-
 import lectureFocusShape from '../../../shapes/LectureFocusShape';
 import timetableShape from '../../../shapes/TimetableShape';
 
-import { inTimetable, isFocused, getBuildingStr, getRoomStr, getOverallLectures, getColorNumber } from '../../../common/lectureFunctions';
+import {
+  isFocused,
+  getBuildingStr, getRoomStr, getColorNumber,
+  getOverallLectures,
+} from '../../../common/lectureFunctions';
 
 import mapImage from '../../../static/img/timetable/kaist_map.jpg';
 import { unique } from '../../../common/utilFunctions';
@@ -22,12 +24,12 @@ class MapSubSection extends Component {
   _getLecturesOnBuilding = (building) => {
     const { lectureFocus, selectedTimetable } = this.props;
 
-    return getOverallLectures(selectedTimetable, lectureFocus).filter(l => (
+    return getOverallLectures(selectedTimetable, lectureFocus).filter((l) => (
       getBuildingStr(l) === building
     ));
   }
 
-  setFocusOnMap(building) {
+  setFocusOnMap = (building) => {
     const { t } = this.props;
     const { lectureFocus, selectedTimetable, setMultipleFocusDispatch } = this.props;
 
@@ -36,7 +38,7 @@ class MapSubSection extends Component {
     }
 
     const lecturesOnBuilding = this._getLecturesOnBuilding(building);
-    const details = lecturesOnBuilding.map(l => ({
+    const details = lecturesOnBuilding.map((l) => ({
       id: l.id,
       title: l[t('js.property.title')],
       info: getRoomStr(l),
@@ -44,7 +46,7 @@ class MapSubSection extends Component {
     setMultipleFocusDispatch(building, details);
   }
 
-  clearFocus() {
+  clearFocus = () => {
     const { lectureFocus, clearMultipleFocusDispatch } = this.props;
 
     if (lectureFocus.from !== 'MULTIPLE') {
@@ -57,10 +59,10 @@ class MapSubSection extends Component {
   render() {
     const { selectedTimetable, lectureFocus } = this.props;
 
-    const buildings = unique(getOverallLectures(selectedTimetable, lectureFocus).map(l => getBuildingStr(l)));
+    const buildings = unique(getOverallLectures(selectedTimetable, lectureFocus).map((l) => getBuildingStr(l)));
     const mapObject = Object.assign(
       {},
-      ...buildings.map(b => (
+      ...buildings.map((b) => (
         {
           [b]: this._getLecturesOnBuilding(b),
         }
@@ -72,7 +74,7 @@ class MapSubSection extends Component {
         <div>
           <img src={mapImage} alt="KAIST Map" />
           { Object.keys(mapObject).map((b) => {
-            const act = mapObject[b].some(lec => isFocused(lec, lectureFocus))
+            const act = mapObject[b].some((l) => isFocused(l, lectureFocus))
               ? 'block--highlighted'
               : '';
             const location = (
@@ -104,12 +106,12 @@ class MapSubSection extends Component {
 }
 
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   selectedTimetable: state.timetable.timetable.selectedTimetable,
   lectureFocus: state.timetable.lectureFocus,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   setMultipleFocusDispatch: (multipleTitle, multipleDetails) => {
     dispatch(setMultipleFocus(multipleTitle, multipleDetails));
   },

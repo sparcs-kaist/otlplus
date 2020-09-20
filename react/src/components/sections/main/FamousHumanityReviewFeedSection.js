@@ -21,7 +21,7 @@ class FamousHumanityReviewFeedSection extends Component {
         <div className={classNames('title')}>
           {t('ui.title.famousHumanityReviews')}
         </div>
-        {reviews.map(r => (
+        {reviews.map((r) => (
           <ReviewBlock review={r} linkTo={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: r.course.id }) }} pageFrom="Main" key={r.id} />
         ))}
         <div className={classNames('buttons')}>

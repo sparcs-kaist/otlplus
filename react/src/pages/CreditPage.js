@@ -457,7 +457,7 @@ class CreditPage extends Component {
 
             <div className={classNames('section-content', 'section-content--credit')}>
               <div className={classNames('section-content--credit__blocks')}>
-                {this.projects.map(p => (
+                {this.projects.map((p) => (
                   <ProjectBlock
                     index={p.index}
                     onClick={this.changePage}
@@ -468,17 +468,17 @@ class CreditPage extends Component {
                     key={p.index}
                   />
                 ))}
-                {this.projects.map(p => (
+                {this.projects.map((p) => (
                   <div key={p.index} className={classNames('section-content--credit__blocks__dummy')} />
                 ))}
               </div>
               <Scroller key={selectedProjectIndex}>
 
                 <div className={classNames('section-content--credit__people-list')}>
-                  {this.projects.find(p => (p.index === selectedProjectIndex)).fields.map(f => (
+                  {this.projects.find((p) => (p.index === selectedProjectIndex)).fields.map((f) => (
                     <React.Fragment key={f.title}>
                       <div className={classNames('title')}>{f.title}</div>
-                      {f.people.map(p => (
+                      {f.people.map((p) => (
                         <div className={classNames('section-content--credit__people-list__elem')} key={p.name}>
                           {p.image
                             ? <img src={p.image} alt={p.name} />

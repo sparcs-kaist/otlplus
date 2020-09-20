@@ -8,12 +8,12 @@ import { getProfessorsStr } from '../../common/courseFunctions';
 import courseShape from '../../shapes/CourseShape';
 
 
-// eslint-disable-next-line arrow-body-style
 const CourseBlock = ({
   t,
   course,
   shouldShowReadStatus, isRead, isRaised, isHighlighted, isDimmed,
   listHover, listOut, listClick,
+// eslint-disable-next-line arrow-body-style
 }) => {
   return (
     <div

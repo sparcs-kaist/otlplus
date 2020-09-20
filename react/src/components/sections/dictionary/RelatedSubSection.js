@@ -23,7 +23,7 @@ class RelatedSubSection extends Component {
       if (!courses.length) {
         return <div className={classNames('list-placeholder')}><div>{t('ui.placeholder.unknown')}</div></div>;
       }
-      return courses.map(c => <CourseSimpleBlock course={c} key={c.id} />);
+      return courses.map((c) => <CourseSimpleBlock course={c} key={c.id} />);
     };
 
     return (
@@ -56,11 +56,11 @@ class RelatedSubSection extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   courseFocus: state.dictionary.courseFocus,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
 });
 
 RelatedSubSection.propTypes = {

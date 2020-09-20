@@ -12,8 +12,11 @@ import { getSingleScoreLabel } from '../../common/scoreFunctions';
 import reviewShape from '../../shapes/ReviewShape';
 
 
-// eslint-disable-next-line arrow-body-style
-const ReviewBlock = ({ t, review, linkTo, pageFrom }) => {
+const ReviewBlock = ({
+  t,
+  review, linkTo,
+  pageFrom,
+}) => {
   const [changedLikes, setChangedLikes] = useState(review.like);
   const [changedIsLiked, setChangedIsLiked] = useState(review.userspecific_is_liked);
 
@@ -137,7 +140,7 @@ const ReviewBlock = ({ t, review, linkTo, pageFrom }) => {
 
 ReviewBlock.propTypes = {
   review: reviewShape.isRequired,
-  linkTo: PropTypes.oneOf(PropTypes.string, PropTypes.object),
+  linkTo: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   pageFrom: PropTypes.string.isRequired,
 };
 

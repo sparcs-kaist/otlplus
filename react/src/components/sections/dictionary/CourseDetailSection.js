@@ -35,7 +35,10 @@ class CourseDetailSection extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { selectedListCode, courseFocus, clearCourseFocusDispatch, setLecturesDispatch } = this.props;
+    const {
+      selectedListCode, courseFocus,
+      clearCourseFocusDispatch, setLecturesDispatch,
+    } = this.props;
 
     if (prevProps.selectedListCode !== selectedListCode) {
       clearCourseFocusDispatch();
@@ -207,11 +210,11 @@ class CourseDetailSection extends Component {
               </div>
             </div>
             <div className={classNames('divider')} />
-            <RelatedSubSection key={'aaa' + (courseFocus.clicked ? courseFocus.course.id : '-1')} />
+            <RelatedSubSection />
             <div className={classNames('divider')} />
             <HistorySubSection />
             <div className={classNames('divider')} />
-            <ReviewsSubSection key={'ccc' + (courseFocus.clicked ? courseFocus.course.id : '-1')} />
+            <ReviewsSubSection />
           </Scroller>
         </div>
       );
@@ -241,13 +244,13 @@ class CourseDetailSection extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   user: state.common.user.user,
   courseFocus: state.dictionary.courseFocus,
   selectedListCode: state.dictionary.list.selectedListCode,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   clearCourseFocusDispatch: () => {
     dispatch(clearCourseFocus());
   },

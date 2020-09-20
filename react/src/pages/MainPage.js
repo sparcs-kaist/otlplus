@@ -169,7 +169,7 @@ class MainPage extends Component {
                 </div>
               </>
             )
-            : feedDays.map(d => (
+            : feedDays.map((d) => (
               <React.Fragment key={d.date}>
                 <div className={classNames('main-date')}>
                   {getDateName(d.date)}
@@ -179,7 +179,7 @@ class MainPage extends Component {
                     return (
                       <div className={classNames('section-wrap')} key={`${d.date}-${f.type}-${f.lecture.id}`}>
                         <div className={classNames('section')}>
-                          <ReviewWriteFeedSection lecture={f.lecture} review={user.reviews.find(r => (r.lecture.id === f.lecture.id))} />
+                          <ReviewWriteFeedSection lecture={f.lecture} review={user.reviews.find((r) => (r.lecture.id === f.lecture.id))} />
                         </div>
                       </div>
                     );
@@ -233,11 +233,11 @@ class MainPage extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   user: state.common.user.user,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
 });
 
 MainPage.propTypes = {

@@ -72,7 +72,7 @@ class WriteReviewsPage extends Component {
       },
     )
       .then((response) => {
-        this.setState(prevState => ({
+        this.setState((prevState) => ({
           loading: false,
           pageNumToLoad: prevState.pageNumToLoad + 1,
         }));
@@ -137,11 +137,11 @@ class WriteReviewsPage extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   selectedLecture: state.writeReviews.lectureSelected.lecture,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   addReviewsDispatch: (reviews) => {
     dispatch(addReviews(reviews));
   },

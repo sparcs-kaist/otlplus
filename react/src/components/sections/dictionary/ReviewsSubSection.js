@@ -26,7 +26,7 @@ class ReviewsSubSection extends Component {
     };
   }
 
-  updateCheckedValues = filterName => (checkedValues) => {
+  updateCheckedValues = (filterName) => (checkedValues) => {
     this.setState({
       [filterName]: checkedValues,
     });
@@ -46,7 +46,7 @@ class ReviewsSubSection extends Component {
     if (professor.has('ALL')) {
       return true;
     }
-    return lecture.professors.some(p => professor.has(this._getProfessorFormValue(p)));
+    return lecture.professors.some((p) => professor.has(this._getProfessorFormValue(p)));
   }
 
   updateOnReviewSubmit = (review, isNew) => {
@@ -67,19 +67,19 @@ class ReviewsSubSection extends Component {
     const professorOptions = [
       ['ALL', t('ui.type.allShort')],
       ...(courseFocus.course.professors
-        .map(p => [this._getProfessorFormValue(p), p[t('js.property.name')]])
+        .map((p) => [this._getProfessorFormValue(p), p[t('js.property.name')]])
       ),
     ];
 
     const takenLecturesOfCourse = user
       ? user.review_writable_lectures
-        .filter(l => ((l.course === courseFocus.course.id) && this._lectureProfessorChecker(l, professor)))
+        .filter((l) => ((l.course === courseFocus.course.id) && this._lectureProfessorChecker(l, professor)))
       : [];
-    const reviewWriteBlocks = takenLecturesOfCourse.map(l => (
+    const reviewWriteBlocks = takenLecturesOfCourse.map((l) => (
       <ReviewWriteBlock
         lecture={l}
         key={l.id}
-        review={user.reviews.find(r => (r.lecture.id === l.id))}
+        review={user.reviews.find((r) => (r.lecture.id === l.id))}
         pageFrom="Dictionary"
         updateOnSubmit={this.updateOnReviewSubmit}
       />
@@ -87,11 +87,11 @@ class ReviewsSubSection extends Component {
 
     const filteredReviews = courseFocus.reviews == null
       ? null
-      : courseFocus.reviews.filter(r => this._lectureProfessorChecker(r.lecture, professor));
+      : courseFocus.reviews.filter((r) => this._lectureProfessorChecker(r.lecture, professor));
     const reviewBlocksArea = (filteredReviews == null)
       ? <div className={classNames('section-content--course-detail__list-area', 'list-placeholder')}><div>{t('ui.placeholder.loading')}</div></div>
       : (filteredReviews.length
-        ? <div className={classNames('section-content--course-detail__list-area')}>{filteredReviews.map(r => <ReviewBlock review={r} pageFrom="Dictionary" key={r.id} />)}</div>
+        ? <div className={classNames('section-content--course-detail__list-area')}>{filteredReviews.map((r) => <ReviewBlock review={r} pageFrom="Dictionary" key={r.id} />)}</div>
         : <div className={classNames('section-content--course-detail__list-area', 'list-placeholder')}><div>{t('ui.placeholder.noResults')}</div></div>);
 
     return (
@@ -111,12 +111,12 @@ class ReviewsSubSection extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   user: state.common.user.user,
   courseFocus: state.dictionary.courseFocus,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   updateUserReviewDispatch: (review) => {
     dispatch(updateUserReview(review));
   },

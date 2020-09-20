@@ -1,4 +1,10 @@
-import { RESET, SET_SELECTED_LIST_CODE, SET_LIST_MAJOR_CODES, SET_LIST_COURSES, SET_LIST_MAJOR_COURSES, CLEAR_LISTS_COURSES, CLEAR_SEARCH_LIST_COURSES, ADD_COURSE_READ } from '../../actions/dictionary/list';
+import {
+  RESET,
+  SET_SELECTED_LIST_CODE,
+  SET_LIST_MAJOR_CODES,
+  SET_LIST_COURSES, SET_LIST_MAJOR_COURSES, CLEAR_LISTS_COURSES, CLEAR_SEARCH_LIST_COURSES,
+  ADD_COURSE_READ,
+} from '../../actions/dictionary/list';
 
 
 const initialState = {
@@ -38,9 +44,9 @@ const list = (state = initialState, action) => {
         major: Object.assign(
           {},
           {
-            codes: action.majors.map(m => m.code),
+            codes: action.majors.map((m) => m.code),
           },
-          ...(action.majors.map(m => (
+          ...(action.majors.map((m) => (
             {
               [m.code]: {
                 name: m.name,
@@ -84,7 +90,7 @@ const list = (state = initialState, action) => {
         major: Object.assign(
           {},
           state.major,
-          ...state.major.codes.map(c => ({
+          ...state.major.codes.map((c) => ({
             [c]: {
               ...state.major[c],
               courses: null,
