@@ -1,4 +1,8 @@
-import { RESET, SET_COURSE_FOCUS, CLEAR_COURSE_FOCUS, SET_REVIEWS, UPDATE_REVIEW, SET_LECTURES } from '../../actions/dictionary/courseFocus';
+import {
+  RESET,
+  SET_COURSE_FOCUS, CLEAR_COURSE_FOCUS,
+  SET_REVIEWS, UPDATE_REVIEW, SET_LECTURES,
+} from '../../actions/dictionary/courseFocus';
 
 const initialState = {
   clicked: false,

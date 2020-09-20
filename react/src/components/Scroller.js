@@ -14,7 +14,10 @@ class Scroller extends Component {
   }
 
   contentRenderer = (props) => {
-    const { elementRef, children, marginBottom, ...restProps } = props;
+    const {
+      elementRef, children, marginBottom,
+      ...restProps
+    } = props;
 
     const calculatedMarginBottom = (marginBottom === undefined) ? 12 : marginBottom;
     return (
@@ -27,7 +30,12 @@ class Scroller extends Component {
   }
 
   render() {
-    const { onScroll, children, noScrollX, noScrollY, marginBottom } = this.props;
+    const {
+      onScroll,
+      children,
+      noScrollX, noScrollY,
+      marginBottom,
+    } = this.props;
     const { isScrolling, isMouseIn } = this.state;
 
     const calculatedNoScrollX = (noScrollX === undefined) ? true : noScrollX;

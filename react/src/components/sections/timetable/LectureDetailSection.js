@@ -23,7 +23,11 @@ import lectureShape from '../../../shapes/LectureShape';
 import lectureFocusShape from '../../../shapes/LectureFocusShape';
 import timetableShape from '../../../shapes/TimetableShape';
 
-import { inTimetable, inCart, getClassroomStr, performAddToTable, performDeleteFromTable, performAddToCart, performDeleteFromCart, getExamStr } from '../../../common/lectureFunctions';
+import {
+  inTimetable, inCart,
+  getClassroomStr, getExamStr,
+  performAddToTable, performDeleteFromTable, performAddToCart, performDeleteFromCart,
+} from '../../../common/lectureFunctions';
 
 
 class LectureDetailSection extends Component {
@@ -49,8 +53,11 @@ class LectureDetailSection extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    const { lectureFocus, selectedListCode, selectedTimetable,
-      year, semester, clearLectureFocusDispatch } = this.props;
+    const {
+      lectureFocus, selectedListCode, selectedTimetable,
+      year, semester,
+      clearLectureFocusDispatch,
+    } = this.props;
 
     if (prevProps.lectureFocus.clicked && lectureFocus.clicked) {
       if (prevProps.lectureFocus.lecture.id !== lectureFocus.lecture.id) {
@@ -117,8 +124,11 @@ class LectureDetailSection extends Component {
   };
 
   addToTable = (event) => {
-    const { lectureFocus, selectedTimetable, user, selectedListCode,
-      addLectureToTimetableDispatch } = this.props;
+    const {
+      user,
+      lectureFocus, selectedListCode, selectedTimetable,
+      addLectureToTimetableDispatch,
+    } = this.props;
 
     event.stopPropagation();
 
@@ -136,8 +146,11 @@ class LectureDetailSection extends Component {
   }
 
   deleteFromTable = (event) => {
-    const { lectureFocus, selectedTimetable, user, selectedListCode,
-      removeLectureFromTimetableDispatch } = this.props;
+    const {
+      user,
+      lectureFocus, selectedListCode, selectedTimetable,
+      removeLectureFromTimetableDispatch,
+    } = this.props;
 
     event.stopPropagation();
 
@@ -155,8 +168,12 @@ class LectureDetailSection extends Component {
   }
 
   addToCart = (event) => {
-    const { lectureFocus, year, semester, user, selectedListCode,
-      addLectureToCartDispatch } = this.props;
+    const {
+      user,
+      lectureFocus, selectedListCode,
+      year, semester,
+      addLectureToCartDispatch,
+    } = this.props;
 
     event.stopPropagation();
 
@@ -174,8 +191,12 @@ class LectureDetailSection extends Component {
   }
 
   deleteFromCart = (event) => {
-    const { lectureFocus, year, semester, user, selectedListCode,
-      deleteLectureFromCartDispatch } = this.props;
+    const {
+      user,
+      lectureFocus, selectedListCode,
+      year, semester,
+      deleteLectureFromCartDispatch,
+    } = this.props;
 
     event.stopPropagation();
 

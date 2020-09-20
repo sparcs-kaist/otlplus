@@ -7,7 +7,9 @@ import ReactGA from 'react-ga';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 
-import { setListMajorCodes, setSelectedListCode, setListLectures, clearListsLectures, setListMajorLectures } from '../../actions/timetable/list';
+import {
+  setListMajorCodes, setSelectedListCode, setListLectures, clearListsLectures, setListMajorLectures,
+} from '../../actions/timetable/list';
 import { openSearch, closeSearch } from '../../actions/timetable/search';
 
 import userShape from '../../shapes/UserShape';
@@ -25,7 +27,12 @@ class LectureListTabs extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    const { user, selectedListCode, year, semester, clearListsLecturesDispatch } = this.props;
+    const {
+      user,
+      selectedListCode,
+      year, semester,
+      clearListsLecturesDispatch,
+    } = this.props;
 
     if (user && !prevProps.user) {
       this._setMajorCodes(user.departments);
@@ -80,7 +87,11 @@ class LectureListTabs extends Component {
   }
 
   _fetchMajorList = (majorCode, force = false) => {
-    const { year, semester, major, setListMajorLecturesDispatch } = this.props;
+    const {
+      year, semester,
+      major,
+      setListMajorLecturesDispatch,
+    } = this.props;
 
     if (!force && major[majorCode].courses) {
       return;
@@ -114,7 +125,11 @@ class LectureListTabs extends Component {
   }
 
   _fetchHumanityList = (force = false) => {
-    const { year, semester, humanity, setListLecturesDispatch } = this.props;
+    const {
+      year, semester,
+      humanity,
+      setListLecturesDispatch,
+    } = this.props;
 
     if (!force && humanity.courses) {
       return;
@@ -146,7 +161,12 @@ class LectureListTabs extends Component {
   }
 
   _fetchCartList = (force = false) => {
-    const { user, year, semester, cart, setListLecturesDispatch } = this.props;
+    const {
+      user,
+      year, semester,
+      cart,
+      setListLecturesDispatch,
+    } = this.props;
 
     if (!force && cart.courses) {
       return;
@@ -178,7 +198,10 @@ class LectureListTabs extends Component {
   }
 
   changeTab = (listCode) => {
-    const { search, setSelectedListCodeDispatch, openSearchDispatch, closeSearchDispatch } = this.props;
+    const {
+      search,
+      setSelectedListCodeDispatch, openSearchDispatch, closeSearchDispatch,
+    } = this.props;
 
     setSelectedListCodeDispatch(listCode);
 

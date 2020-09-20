@@ -11,7 +11,9 @@ import { clearMultipleFocus, setMultipleFocus } from '../../../actions/timetable
 
 import lectureFocusShape from '../../../shapes/LectureFocusShape';
 import timetableShape from '../../../shapes/TimetableShape';
-import { isFocused, getRoomStr, getExamStr, getOverallLectures } from '../../../common/lectureFunctions';
+import {
+  isFocused, getRoomStr, getExamStr, getOverallLectures,
+} from '../../../common/lectureFunctions';
 
 
 class ExamSubSection extends Component {

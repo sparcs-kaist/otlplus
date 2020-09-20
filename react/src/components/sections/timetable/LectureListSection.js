@@ -21,7 +21,10 @@ import lectureShape from '../../../shapes/LectureShape';
 import timetableShape from '../../../shapes/TimetableShape';
 import lectureFocusShape from '../../../shapes/LectureFocusShape';
 
-import { isListClicked, performAddToTable, performAddToCart, performDeleteFromCart } from '../../../common/lectureFunctions';
+import {
+  isListClicked,
+  performAddToTable, performAddToCart, performDeleteFromCart,
+} from '../../../common/lectureFunctions';
 import LectureGroupBlock from '../../blocks/LectureGroupBlock';
 
 
@@ -59,7 +62,11 @@ class LectureListSection extends Component {
   }
 
   addToTable = (lecture) => {
-    const { selectedTimetable, user, selectedListCode, addLectureToTimetableDispatch } = this.props;
+    const {
+      user,
+      selectedTimetable, selectedListCode,
+      addLectureToTimetableDispatch,
+    } = this.props;
 
     const labelOfTabs = new Map([
       ['SEARCH', 'Search'],
@@ -71,7 +78,12 @@ class LectureListSection extends Component {
   }
 
   addToCart = (lecture) => {
-    const { year, semester, user, selectedListCode, addLectureToCartDispatch } = this.props;
+    const {
+      user,
+      selectedListCode,
+      year, semester,
+      addLectureToCartDispatch,
+    } = this.props;
 
     const labelOfTabs = new Map([
       ['SEARCH', 'Search'],
@@ -83,7 +95,12 @@ class LectureListSection extends Component {
   }
 
   deleteFromCart = (lecture) => {
-    const { year, semester, user, selectedListCode, deleteLectureFromCartDispatch } = this.props;
+    const {
+      user,
+      selectedListCode,
+      year, semester,
+      deleteLectureFromCartDispatch,
+    } = this.props;
 
     const labelOfTabs = new Map([
       ['SEARCH', 'Search'],
@@ -188,7 +205,9 @@ class LectureListSection extends Component {
   }
 
   _getLectureGroups = (selectedListCode) => {
-    const { search, major, humanity, cart } = this.props;
+    const {
+      search, major, humanity, cart,
+    } = this.props;
 
     if (selectedListCode === 'SEARCH') {
       return search.lectureGroups;
@@ -207,7 +226,11 @@ class LectureListSection extends Component {
 
   render() {
     const { t } = this.props;
-    const { lectureFocus, selectedTimetable, selectedListCode, searchOpen, search, major, humanity, cart } = this.props;
+    const {
+      lectureFocus, selectedTimetable, selectedListCode,
+      searchOpen,
+      search, major, humanity, cart,
+    } = this.props;
 
     const getListElement = (lectureGroups, fromCart) => {
       if (!lectureGroups) {

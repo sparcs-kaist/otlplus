@@ -7,7 +7,12 @@ import ReactGA from 'react-ga';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 
-import { setTimetables, clearTimetables, setMyTimetableLectures, createTimetable, setSelectedTimetable, deleteTimetable, duplicateTimetable, setMobileShouldShowTimetableTabs } from '../../actions/timetable/timetable';
+import {
+  setTimetables, clearTimetables, setMyTimetableLectures,
+  setSelectedTimetable,
+  createTimetable, deleteTimetable, duplicateTimetable,
+  setMobileShouldShowTimetableTabs,
+} from '../../actions/timetable/timetable';
 
 import userShape from '../../shapes/UserShape';
 import timetableShape from '../../shapes/TimetableShape';
@@ -24,7 +29,11 @@ class TimetableTabs extends Component {
 
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    const { user, year, semester, clearTimetablesDispatch } = this.props;
+    const {
+      user,
+      year, semester,
+      clearTimetablesDispatch,
+    } = this.props;
 
     if (year !== prevProps.year || semester !== prevProps.semester) {
       clearTimetablesDispatch();
@@ -44,7 +53,11 @@ class TimetableTabs extends Component {
   }
 
   _fetchTables = () => {
-    const { user, year, semester, setTimetablesDispatch } = this.props;
+    const {
+      user,
+      year, semester,
+      setTimetablesDispatch,
+    } = this.props;
 
     if (!user) {
       setTimetablesDispatch([]);
@@ -89,7 +102,11 @@ class TimetableTabs extends Component {
   }
 
   _setMyTimetable = () => {
-    const { user, year, semester, setMyTimetableLecturesDispatch } = this.props;
+    const {
+      user,
+      year, semester,
+      setMyTimetableLecturesDispatch,
+    } = this.props;
 
     const lectures = user.my_timetable_lectures.filter(l => ((l.year === year) && (l.semester === semester)));
     setMyTimetableLecturesDispatch(lectures);
@@ -108,7 +125,11 @@ class TimetableTabs extends Component {
   }
 
   _performCreateTable() {
-    const { user, year, semester, createTimetableDispatch } = this.props;
+    const {
+      user,
+      year, semester,
+      createTimetableDispatch,
+    } = this.props;
 
     if (!user) {
       createTimetableDispatch(this._createRandomTimetableId());
@@ -151,7 +172,12 @@ class TimetableTabs extends Component {
 
   deleteTable(event, timetable) {
     const { t } = this.props;
-    const { user, timetables, year, semester, deleteTimetableDispatch } = this.props;
+    const {
+      user,
+      timetables,
+      year, semester,
+      deleteTimetableDispatch,
+    } = this.props;
 
     event.stopPropagation();
 
@@ -192,7 +218,11 @@ class TimetableTabs extends Component {
   }
 
   duplicateTable(event, timetable) {
-    const { user, year, semester, duplicateTimetableDispatch } = this.props;
+    const {
+      user,
+      year, semester,
+      duplicateTimetableDispatch,
+    } = this.props;
 
     event.stopPropagation();
 
@@ -233,7 +263,10 @@ class TimetableTabs extends Component {
 
   render() {
     const { t } = this.props;
-    const { user, timetables, selectedTimetable, myTimetable } = this.props;
+    const {
+      user,
+      timetables, selectedTimetable, myTimetable,
+    } = this.props;
 
     if (timetables && timetables.length) {
       return (

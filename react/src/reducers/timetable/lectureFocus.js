@@ -1,4 +1,9 @@
-import { RESET, SET_LECTURE_FOCUS, CLEAR_LECTURE_FOCUS, SET_REVIEWS, SET_MULTIPLE_FOCUS, CLEAR_MULTIPLE_FOCUS } from '../../actions/timetable/lectureFocus';
+import {
+  RESET,
+  SET_LECTURE_FOCUS, CLEAR_LECTURE_FOCUS,
+  SET_REVIEWS,
+  SET_MULTIPLE_FOCUS, CLEAR_MULTIPLE_FOCUS,
+} from '../../actions/timetable/lectureFocus';
 
 export const NONE = 'NONE';
 export const LIST = 'LIST';

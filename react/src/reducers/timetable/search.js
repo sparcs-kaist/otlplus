@@ -1,4 +1,8 @@
-import { RESET, OPEN_SEARCH, CLOSE_SEARCH, DRAG_SEARCH, CLEAR_DRAG } from '../../actions/timetable/search';
+import {
+  RESET,
+  OPEN_SEARCH, CLOSE_SEARCH,
+  DRAG_SEARCH, CLEAR_DRAG,
+} from '../../actions/timetable/search';
 
 const initialState = {
   open: true,

@@ -39,10 +39,17 @@ class LectureSearchSubSection extends Component {
 
   searchStart = () => {
     const { t } = this.props;
-    const { type, department, grade, inputVal } = this.state;
-    const { year, semester, start, day, end, lectureFocus,
+    const {
+      type, department, grade,
+      inputVal,
+    } = this.state;
+    const {
+      lectureFocus,
+      year, semester,
+      start, day, end,
       closeSearchDispatch, clearSearchListLecturesDispatch,
-      setListLecturesDispatch, clearLectureFocusDispatch } = this.props;
+      setListLecturesDispatch, clearLectureFocusDispatch,
+    } = this.props;
 
     if (type.size === 1 && department.size === 1 && grade.size === 1 && inputVal.trim().length === 0
       && !(start !== null && end !== null && day !== null)) {
@@ -181,7 +188,11 @@ class LectureSearchSubSection extends Component {
 
   render() {
     const { t } = this.props;
-    const { inputVal, autoComplete, type, department, grade } = this.state;
+    const {
+      inputVal,
+      autoComplete,
+      type, department, grade,
+    } = this.state;
     const { start, end, day } = this.props;
 
     return (

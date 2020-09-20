@@ -3,7 +3,10 @@ import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
-import { isListClicked, isListFocused, inTimetable, inCart, isDimmedListLectureGroup } from '../../common/lectureFunctions';
+import {
+  isListClicked, isListFocused, isDimmedListLectureGroup,
+  inTimetable, inCart,
+} from '../../common/lectureFunctions';
 
 import LectureGroupBlockRow from './LectureGroupBlockRow';
 
