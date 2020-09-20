@@ -93,7 +93,7 @@ class LectureListTabs extends Component {
       setListMajorLecturesDispatch,
     } = this.props;
 
-    if (!force && major[majorCode].courses) {
+    if (!force && major[majorCode].lectureGroups) {
       return;
     }
 
@@ -131,7 +131,7 @@ class LectureListTabs extends Component {
       setListLecturesDispatch,
     } = this.props;
 
-    if (!force && humanity.courses) {
+    if (!force && humanity.lectureGroups) {
       return;
     }
 
@@ -168,7 +168,7 @@ class LectureListTabs extends Component {
       setListLecturesDispatch,
     } = this.props;
 
-    if (!force && cart.courses) {
+    if (!force && cart.lectureGroups) {
       return;
     }
 
@@ -205,7 +205,7 @@ class LectureListTabs extends Component {
 
     setSelectedListCodeDispatch(listCode);
 
-    if (listCode === 'SEARCH' && (search.courses === null || search.courses.length === 0)) {
+    if (listCode === 'SEARCH' && (search.lectureGroups === null || search.lectureGroups.length === 0)) {
       openSearchDispatch();
     }
     else {
@@ -294,16 +294,16 @@ LectureListTabs.propTypes = {
   year: PropTypes.number,
   semester: PropTypes.number,
   search: PropTypes.shape({
-    courses: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)),
+    lectureGroups: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)),
   }).isRequired,
   major: PropTypes.shape({
     codes: PropTypes.arrayOf(PropTypes.string).isRequired,
   }).isRequired,
   humanity: PropTypes.shape({
-    courses: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)),
+    lectureGroups: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)),
   }).isRequired,
   cart: PropTypes.shape({
-    courses: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)),
+    lectureGroups: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)),
   }).isRequired,
 
   openSearchDispatch: PropTypes.func.isRequired,
