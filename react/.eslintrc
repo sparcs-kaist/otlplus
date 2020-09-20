@@ -23,17 +23,19 @@
     "arrow-parens": [2, "always"],
     "brace-style": [2, "stroustrup"],
     "max-len": 1,
+    "no-nested-ternary": "off",
     "no-underscore-dangle": ["error", { "allowAfterThis": true, "allowAfterSuper": true }],
+    "no-unused-vars": ["error", {"args": "none"}],
     "object-shorthand": [1, "never"],
+
     "react/destructuring-assignment": 1,
     "react/jsx-boolean-value": "off",
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "react/require-default-props": 1,
     "react/prefer-stateless-function": 0,
     "react/prop-types": [2, {"ignore": ["match", "t", "i18n"]}],
+
     "no-loops/no-loops": "error",
-    "no-nested-ternary": "off",
-    "no-unused-vars": ["error", {"args": "none"}],
 
     "fp/no-arguments": "warn",
     "fp/no-class": "off",
