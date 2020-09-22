@@ -414,13 +414,13 @@ class LectureDetailSection extends Component {
             <span className={classNames('text-button', 'text-button--right', 'text-button--disabled')}>{t('ui.button.dictionary')}</span>
           </div>
           <div>
-            {lectureFocus.multipleDetails.map((detail, index) => (
-              <div className={classNames('attribute')} key={detail.id}>
+            {lectureFocus.multipleDetails.map((d, i) => (
+              <div className={classNames('attribute')} key={d.lecture.id}>
                 <span>
-                  {detail.title}
+                  {d.title}
                 </span>
                 <span>
-                  {detail.info}
+                  {d.info}
                 </span>
               </div>
             ))}
