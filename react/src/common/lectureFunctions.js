@@ -4,6 +4,8 @@ import i18n from 'i18next';
 
 import { LIST, TABLE, MULTIPLE } from '../reducers/timetable/lectureFocus';
 
+import { getStr as getStrOfExamtime } from './examtimeFunctions';
+
 
 export const inTimetable = (lecture, timetable) => (
   timetable
@@ -41,9 +43,14 @@ export const isTableFocused = (lecture, lectureFocus) => (
   && lectureFocus.lecture.id === lecture.id
 );
 
+export const isSingleFocused = (lecture, lectureFocus) => (
+  lectureFocus.lecture !== null
+  && lectureFocus.lecture.id === lecture.id
+);
+
 export const isMultipleFocused = (lecture, lectureFocus) => (
   lectureFocus.from === MULTIPLE
-  && lectureFocus.multipleDetails.some((l) => (l.id === lecture.id))
+  && lectureFocus.multipleDetails.some((d) => (d.lecture.id === lecture.id))
 );
 
 export const isDimmedTableLecture = (lecture, lectureFocus) => (
@@ -60,7 +67,7 @@ export const isDimmedListLectureGroup = (lectureGroup, lectureFocus) => (
 );
 
 export const isFocused = (lecture, lectureFocus) => (
-  (lectureFocus.lecture !== null && lectureFocus.lecture.id === lecture.id)
+  isSingleFocused(lecture, lectureFocus)
   || isMultipleFocused(lecture, lectureFocus)
 );
 
@@ -77,7 +84,7 @@ export const getOverallLectures = (selectedTimetable, lectureFocus) => {
     .concat(hasSingleFocusedLectureOutsideTable ? [lectureFocus.lecture] : []);
 };
 
-export const getProfessorsStrShort = (lecture) => {
+export const getProfessorsShortStr = (lecture) => {
   // eslint-disable-next-line fp/no-mutating-methods
   const professors = lecture.professors
     .slice()
@@ -87,6 +94,15 @@ export const getProfessorsStrShort = (lecture) => {
     return professorNames.join(', ');
   }
   return i18n.t('ui.others.sthAndNumOtherPeople', { something: professorNames[0], count: professorNames.length - 1 });
+};
+
+export const getProfessorsFullStr = (lecture) => {
+  // eslint-disable-next-line fp/no-mutating-methods
+  const professors = lecture.professors
+    .slice()
+    .sort((a, b) => (a.name < b.name ? -1 : 1));
+  const professorNames = professors.map((p) => p[i18n.t('js.property.name')]);
+  return professorNames.join(', ');
 };
 
 export const getBuildingStr = (lecture) => {
@@ -113,16 +129,13 @@ export const getRoomStr = (lecture) => {
   return classtimes[0][i18n.t('js.property.room_name')];
 };
 
-export const getExamStr = (lecture) => {
+export const getExamFullStr = (lecture) => {
   const { examtimes } = lecture;
-  const examStrings = examtimes.map((e) => e[i18n.t('js.property.str')]);
+  const examStrings = examtimes.map((e) => getStrOfExamtime(e));
   if (examStrings.length === 0) {
     return i18n.t('ui.placeholder.unknown');
   }
-  if (examStrings.length === 1) {
-    return examStrings[0];
-  }
-  return i18n.t('ui.others.sthAndNumOthers', { something: examStrings[0], count: examStrings.length - 1 });
+  return examStrings.join(', ');
 };
 
 export const getColorNumber = (lecture) => (

@@ -12,18 +12,33 @@ import { clearMultipleFocus, setMultipleFocus } from '../../../actions/timetable
 import lectureFocusShape from '../../../shapes/LectureFocusShape';
 import timetableShape from '../../../shapes/TimetableShape';
 import {
-  isFocused, getRoomStr, getExamStr, getOverallLectures,
+  getOverallLectures, isSingleFocused,
 } from '../../../common/lectureFunctions';
+import { getTimeStr } from '../../../common/examtimeFunctions';
 
 
 class ExamSubSection extends Component {
-  _getLecturesWithExamOnDay = (dayIndex) => {
-    const { lectureFocus, selectedTimetable } = this.props;
+  constructor(props) {
+    super(props);
 
-    return getOverallLectures(selectedTimetable, lectureFocus).filter((l) => (
-      l.examtimes.length && (l.examtimes[0].day === dayIndex)
-    ));
+    this.state = {
+      multipleFocusDayIndex: null,
+    };
   }
+
+  _getOverallLecEtPairs = () => {
+    const { lectureFocus, selectedTimetable } = this.props;
+    return getOverallLectures(selectedTimetable, lectureFocus)
+      .map((l) => l.examtimes.map((et) => ({
+        lecture: l,
+        examtime: et,
+      })))
+      .flat(1);
+  }
+
+  _getLecEtPairsOnDay = (dayIndex) => (
+    this._getOverallLecEtPairs().filter((p) => (p.examtime.day === dayIndex))
+  )
 
   setFocusOnExam = (dayIndex) => {
     const { t } = this.props;
@@ -34,13 +49,16 @@ class ExamSubSection extends Component {
     }
 
     const dayNames = [t('ui.day.monday'), t('ui.day.tuesday'), t('ui.day.wednesday'), t('ui.day.thursday'), t('ui.day.friday')];
-    const lecturesWithExamOnDay = this._getLecturesWithExamOnDay(dayIndex);
-    const details = lecturesWithExamOnDay.map((l) => ({
-      id: l.id,
-      title: l[t('js.property.title')],
-      info: getRoomStr(l),
+    const lecEtPairsOnDay = this._getLecEtPairsOnDay(dayIndex);
+    const details = lecEtPairsOnDay.map((p) => ({
+      lecture: p.lecture,
+      name: p.lecture[t('js.property.title')],
+      info: getTimeStr(p.examtime),
     }));
     setMultipleFocusDispatch(t('ui.others.examOfDay', { day: dayNames[dayIndex] }), details);
+    this.setState({
+      multipleFocusDayIndex: dayIndex,
+    });
   }
 
   clearFocus = () => {
@@ -51,39 +69,34 @@ class ExamSubSection extends Component {
     }
 
     clearMultipleFocusDispatch();
+    this.setState({
+      multipleFocusDayIndex: null,
+    });
   }
 
   render() {
     const { t } = this.props;
+    const { multipleFocusDayIndex } = this.state;
     const { lectureFocus } = this.props;
 
-    const renderLectureExam = (lec) => {
+    const mapPairToElem = (lecEtPair) => {
       const act = (
-        isFocused(lec, lectureFocus)
+        isSingleFocused(lecEtPair.lecture, lectureFocus) || (multipleFocusDayIndex === lecEtPair.examtime.day)
           ? 'focused'
           : ''
       );
       const li = (
-        <li className={classNames(act)} key={lec.id}>
+        <li className={classNames(act)} key={lecEtPair.lecture.id}>
           <div>
-            {lec.title}
+            {lecEtPair.lecture[t('js.property.title')]}
           </div>
           <div>
-            {lec.time}
+            {getTimeStr(lecEtPair.examtime)}
           </div>
         </li>
       );
       return li;
     };
-
-    const examTable = [0, 1, 2, 3, 4].map((di) => (
-      this._getLecturesWithExamOnDay(di)
-        .map((l) => ({
-          title: l[t('js.property.title')],
-          time: getExamStr(l).slice(getExamStr(l).indexOf(' ')),
-          id: l.id,
-        }))
-    ));
 
     return (
       <div className={classNames('section-content--exam', 'mobile-hidden')}>
@@ -95,7 +108,7 @@ class ExamSubSection extends Component {
                 {t('ui.day.mondayShort')}
               </div>
               <ul>
-                {examTable[0].map(renderLectureExam)}
+                {this._getLecEtPairsOnDay(0).map((p) => mapPairToElem(p))}
               </ul>
             </div>
             <div className={classNames('section-content--exam__content__day')} onMouseOver={() => this.setFocusOnExam(1)} onMouseOut={() => this.clearFocus()}>
@@ -103,7 +116,7 @@ class ExamSubSection extends Component {
                 {t('ui.day.tuesdayShort')}
               </div>
               <ul>
-                {examTable[1].map(renderLectureExam)}
+                {this._getLecEtPairsOnDay(1).map((p) => mapPairToElem(p))}
               </ul>
             </div>
             <div className={classNames('section-content--exam__content__day')} onMouseOver={() => this.setFocusOnExam(2)} onMouseOut={() => this.clearFocus()}>
@@ -111,7 +124,7 @@ class ExamSubSection extends Component {
                 {t('ui.day.wednesdayShort')}
               </div>
               <ul>
-                {examTable[2].map(renderLectureExam)}
+                {this._getLecEtPairsOnDay(2).map((p) => mapPairToElem(p))}
               </ul>
             </div>
             <div className={classNames('section-content--exam__content__day')} onMouseOver={() => this.setFocusOnExam(3)} onMouseOut={() => this.clearFocus()}>
@@ -119,7 +132,7 @@ class ExamSubSection extends Component {
                 {t('ui.day.thursdayShort')}
               </div>
               <ul>
-                {examTable[3].map(renderLectureExam)}
+                {this._getLecEtPairsOnDay(3).map((p) => mapPairToElem(p))}
               </ul>
             </div>
             <div className={classNames('section-content--exam__content__day')} onMouseOver={() => this.setFocusOnExam(4)} onMouseOut={() => this.clearFocus()}>
@@ -127,7 +140,7 @@ class ExamSubSection extends Component {
                 {t('ui.day.fridayShort')}
               </div>
               <ul>
-                {examTable[4].map(renderLectureExam)}
+                {this._getLecEtPairsOnDay(4).map((p) => mapPairToElem(p))}
               </ul>
             </div>
           </Scroller>

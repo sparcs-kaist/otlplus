@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
-import { getProfessorsStrShort } from '../../common/lectureFunctions';
+import { getProfessorsShortStr } from '../../common/lectureFunctions';
 
 import lectureShape from '../../shapes/LectureShape';
 
@@ -31,7 +31,7 @@ const LectureGroupSimpleBlock = ({ t, lectures }) => {
               <div className={classNames('block--lecture-group-simple__elem__texts')}>
                 <strong className={getClass(l)}>{l[t('js.property.class_title')]}</strong>
                 {' '}
-                <span>{getProfessorsStrShort(l)}</span>
+                <span>{getProfessorsShortStr(l)}</span>
               </div>
             </div>
           </div>
