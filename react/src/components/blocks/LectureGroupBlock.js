@@ -18,7 +18,7 @@ import timetableShape from '../../shapes/TimetableShape';
 const LectureGroupBlock = ({
   t,
   lectureGroup, selectedTimetable, cart, lectureFocus,
-  fromCart,
+  isTaken, fromCart,
   addToCart, addToTable, deleteFromCart,
   listHover, listOut, listClick,
 // eslint-disable-next-line arrow-body-style
@@ -30,8 +30,10 @@ const LectureGroupBlock = ({
         'block--lecture-group',
         (lectureGroup.some((l) => isListClicked(l, lectureFocus)) ? 'block--raised' : ''),
         (isDimmedListLectureGroup(lectureGroup, lectureFocus) ? 'block--dimmed' : ''),
+        (isTaken ? 'block--completed' : ''),
       )}
     >
+      <div className={classNames('completed-text')}>{t('ui.others.taken')}</div>
       <div className={classNames('block--lecture-group__title')}>
         <strong>{lectureGroup[0][t('js.property.common_title')]}</strong>
         {' '}
@@ -66,6 +68,7 @@ LectureGroupBlock.propTypes = {
     lectureGroups: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)),
   }).isRequired,
   lectureFocus: lectureFocusShape.isRequired,
+  isTaken: PropTypes.bool.isRequired,
   fromCart: PropTypes.bool.isRequired,
   addToCart: PropTypes.func.isRequired,
   addToTable: PropTypes.func.isRequired,

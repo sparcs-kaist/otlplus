@@ -254,6 +254,7 @@
       "sthAndNumOthers": "{{something}} and {{count}} others",
       "dragTimetable": "Drag timetable",
       "notOffered": "Not Offered",
+      "taken": "TAKEN",
       "timeNone": "None",
       "today": "Today",
       "yesterday": "Yesterday",
