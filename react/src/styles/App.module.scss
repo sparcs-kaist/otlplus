@@ -1486,12 +1486,12 @@ a {
             opacity: 0.6;
         }
 
-        & > .completed-text {
+        & > .block__completed-text {
             display: initial;
         }
     }
 
-    & .completed-text {
+    & .block__completed-text {
         display: none;
         color: $color-text-normal;
         font-size: $font-size-smaller;

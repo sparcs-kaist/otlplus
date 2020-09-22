@@ -25,7 +25,7 @@ const LectureSimpleBlock = ({
       )}
       onClick={onClick}
     >
-      <div className={classNames('completed-text')}>{t('ui.others.written')}</div>
+      <div className={classNames('block__completed-text')}>{t('ui.others.written')}</div>
       <div className={classNames('block--lecture-simple__title')}>
         { lecture[t('js.property.title')] }
       </div>
