@@ -25,6 +25,7 @@ import {
   isListClicked,
   performAddToTable, performAddToCart, performDeleteFromCart,
 } from '../../../common/lectureFunctions';
+import { isTaken } from '../../../common/courseFunctions';
 import LectureGroupBlock from '../../blocks/LectureGroupBlock';
 
 
@@ -227,6 +228,7 @@ class LectureListSection extends Component {
   render() {
     const { t } = this.props;
     const {
+      user,
       lectureFocus, selectedTimetable, selectedListCode,
       searchOpen,
       search, major, humanity, cart,
@@ -248,6 +250,7 @@ class LectureListSection extends Component {
               selectedTimetable={selectedTimetable}
               cart={cart}
               lectureFocus={lectureFocus}
+              isTaken={user && isTaken(lg[0].course, user)}
               fromCart={fromCart}
               addToCart={this.addToCart}
               addToTable={this.addToTable}

@@ -18,6 +18,10 @@ export const isDimmedCourse = (course, courseFocus) => (
   && (courseFocus.course.id !== course.id)
 );
 
+export const isTaken = (courseId, user) => (
+  user.review_writable_lectures.some((l) => (l.course === courseId))
+);
+
 export const getProfessorsFullStr = (course) => {
   // eslint-disable-next-line fp/no-mutating-methods
   const professors = course.professors
