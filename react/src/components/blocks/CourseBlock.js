@@ -21,7 +21,7 @@ const CourseBlock = ({
         'block',
         'block--course',
         (isRaised ? 'block--raised' : ''),
-        ((isHighlighted && !isRaised) ? 'block--highlighted' : ''),
+        (isHighlighted ? 'block--highlighted' : ''),
         (isDimmed ? 'block--dimmed' : ''),
       )}
       onClick={listClick ? listClick(course) : null}

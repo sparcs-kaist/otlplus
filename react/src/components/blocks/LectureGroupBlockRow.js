@@ -44,7 +44,7 @@ const LectureGroupBlockRow = ({
       className={classNames(
         'block--lecture-group__elem-wrap',
         (isRaised ? 'block--raised' : ''),
-        ((isHighlighted && !isRaised) ? 'block--highlighted' : ''),
+        (isHighlighted ? 'block--highlighted' : ''),
       )}
       data-id={lecture.id}
       onClick={() => listClick(lecture)()}

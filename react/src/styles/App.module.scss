@@ -1459,6 +1459,8 @@ a {
     display: block;
     padding: 10px;
     margin-bottom: 8px;
+    position: relative;
+    overflow: hidden;
     &:last-child {
         margin-bottom: 0;
     }
@@ -1466,22 +1468,51 @@ a {
         background-color:$color-block-background-dark;
     }
 
+    &.block--highlighted {
+        background-color:$color-block-background-dark;
+    }
+    &.block--raised {
+        position: relative;
+        top: -3px;
+        box-shadow: 0 3px 0 0 $color-block-shadow-dark;
+    }
+    &.block--dimmed {
+        opacity: 0.5;
+        cursor: initial;
+    }
+    &.block--completed {
+        color: rgba($color-text-normal, 0.5);
+
+        & i.icon {
+            opacity: 0.6;
+        }
+
+        & > .block__completed-text {
+            display: initial;
+        }
+    }
+
+    & .block__completed-text {
+        display: none;
+        color: darken($color-text-normal, 20%);
+        font-size: $font-size-smaller;
+        line-height: $line-height-smaller;
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: (8px + ($font-size-normal - $font-size-smaller) / 2)
+                 10px
+                 (6px + ($font-size-normal - $font-size-smaller) / 2)
+                 8px;
+        background-color: inherit;
+        opacity: 0.8;
+        &:hover {
+            opacity: 0.15;
+        }
+    }
 
     &--course {
         cursor: pointer;
-        &.block--highlighted {
-            background-color:$color-block-background-dark;
-        }
-        &.block--raised {
-            background-color:$color-block-background-dark;
-            position: relative;
-            top: -3px;
-            box-shadow: 0 3px 0 0 $color-block-shadow-dark;
-        }
-        &.block--dimmed {
-            opacity: 0.5;
-        }
-
 
         .section-content--feed &:nth-last-of-type(2) {
             margin-bottom: 0;
@@ -1535,16 +1566,8 @@ a {
         justify-content: center;
         width: 144px;
 
-        &.block--has-review {
-            color: rgba($color-text-normal, 0.4);
-        }
-
-        &:not(.block--dimmed) {
-            cursor: pointer;
-
-            &:hover {
-                background-color: $color-block-background-dark;
-            }
+        &:hover {
+            background-color: $color-block-background-dark;
         }
 
         &__title {
@@ -1725,14 +1748,6 @@ a {
     &--lecture-group {
         padding: 8px 10px;
         margin-bottom: 6px;
-        &.block--raised {
-            box-shadow: 0 3px 0 0 $color-block-shadow-dark;
-            position: relative;
-            top: -3px;
-        }
-        &.block--dimmed {
-            opacity: 0.5;
-        }
 
         &__title {
             margin-bottom: 6px;
@@ -1869,13 +1884,9 @@ a {
             background-color: #E0546F;
         }
         &.block--raised {
-            background-color: #E0546F;
             margin-top:-3px;
             margin-bottom:3px;
             box-shadow: 0 3px 0 0 #9E6068;
-        }
-        &.block--dimmed {
-            opacity: 0.5;
         }
         &.block--temp {
             background-color: #E0546F;
