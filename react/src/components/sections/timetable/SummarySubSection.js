@@ -55,7 +55,7 @@ class SummarySubSection extends Component {
       .filter((l) => (indexOfType(l.type_en) === indexOfType(type)))
       .map((l) => ({
         lecture: l,
-        title: l[t('js.property.title')],
+        name: l[t('js.property.title')],
         info: (l.credit > 0) ? t('ui.others.creditCount', { count: l.credit }) : t('ui.others.auCount', { count: l.credit_au }),
       }));
     setMultipleFocusDispatch(type, details);
@@ -76,7 +76,7 @@ class SummarySubSection extends Component {
           .filter((l) => (l.credit > 0))
           .map((l) => ({
             lecture: l,
-            title: l[t('js.property.title')],
+            name: l[t('js.property.title')],
             info: t('ui.others.creditCount', { count: l.credit }),
           }))
       )
@@ -87,7 +87,7 @@ class SummarySubSection extends Component {
               .filter((l) => (l.credit_au > 0))
               .map((l) => ({
                 lecture: l,
-                title: l[t('js.property.title')],
+                name: l[t('js.property.title')],
                 info: t('ui.others.auCount', { count: l.credit_au }),
               }))
           )
@@ -107,7 +107,7 @@ class SummarySubSection extends Component {
 
     const details = getOverallLectures(selectedTimetable, lectureFocus).map((l) => ({
       lecture: l,
-      title: l[t('js.property.title')],
+      name: l[t('js.property.title')],
       info: (type === 'Grade')
         ? getAverageScoreLabel(l.grade)
         : (

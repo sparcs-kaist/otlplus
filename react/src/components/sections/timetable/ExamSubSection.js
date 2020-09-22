@@ -52,7 +52,7 @@ class ExamSubSection extends Component {
     const lecEtPairsOnDay = this._getLecEtPairsOnDay(dayIndex);
     const details = lecEtPairsOnDay.map((p) => ({
       lecture: p.lecture,
-      title: p.lecture[t('js.property.title')],
+      name: p.lecture[t('js.property.title')],
       info: getTimeStr(p.examtime),
     }));
     setMultipleFocusDispatch(t('ui.others.examOfDay', { day: dayNames[dayIndex] }), details);
