@@ -25,7 +25,7 @@ import timetableShape from '../../../shapes/TimetableShape';
 
 import {
   inTimetable, inCart,
-  getClassroomStr, getExamStr,
+  getClassroomStr, getExamFullStr,
   performAddToTable, performDeleteFromTable, performAddToCart, performDeleteFromCart,
 } from '../../../common/lectureFunctions';
 
@@ -292,7 +292,7 @@ class LectureDetailSection extends Component {
               </div>
               <div className={classNames('attribute')}>
                 <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.attribute.exam')}</span>
-                <span>{getExamStr(lectureFocus.lecture)}</span>
+                <span>{getExamFullStr(lectureFocus.lecture)}</span>
               </div>
             </div>
             <div className={classNames('scores')}>
