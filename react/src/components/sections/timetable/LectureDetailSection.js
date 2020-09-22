@@ -25,7 +25,7 @@ import timetableShape from '../../../shapes/TimetableShape';
 
 import {
   inTimetable, inCart,
-  getClassroomStr, getExamStr,
+  getProfessorsFullStr, getClassroomStr, getExamFullStr,
   performAddToTable, performDeleteFromTable, performAddToCart, performDeleteFromCart,
 } from '../../../common/lectureFunctions';
 
@@ -280,7 +280,7 @@ class LectureDetailSection extends Component {
               </div>
               <div className={classNames('attribute')}>
                 <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.attribute.professors')}</span>
-                <span>{lectureFocus.lecture.professors.map((p) => p[t('js.property.name')]).join(', ')}</span>
+                <span>{getProfessorsFullStr(lectureFocus.lecture)}</span>
               </div>
               <div className={classNames('attribute')}>
                 <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.attribute.classroom')}</span>
@@ -292,7 +292,7 @@ class LectureDetailSection extends Component {
               </div>
               <div className={classNames('attribute')}>
                 <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.attribute.exam')}</span>
-                <span>{getExamStr(lectureFocus.lecture)}</span>
+                <span>{getExamFullStr(lectureFocus.lecture)}</span>
               </div>
             </div>
             <div className={classNames('scores')}>
@@ -414,13 +414,13 @@ class LectureDetailSection extends Component {
             <span className={classNames('text-button', 'text-button--right', 'text-button--disabled')}>{t('ui.button.dictionary')}</span>
           </div>
           <div>
-            {lectureFocus.multipleDetails.map((detail, index) => (
-              <div className={classNames('attribute')} key={detail.id}>
+            {lectureFocus.multipleDetails.map((d, i) => (
+              <div className={classNames('attribute')} key={d.lecture.id}>
                 <span>
-                  {detail.title}
+                  {d.name}
                 </span>
                 <span>
-                  {detail.info}
+                  {d.info}
                 </span>
               </div>
             ))}

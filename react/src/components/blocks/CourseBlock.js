@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
-import { getProfessorsStr } from '../../common/courseFunctions';
+import { getProfessorsFullStr } from '../../common/courseFunctions';
 
 import courseShape from '../../shapes/CourseShape';
 
@@ -47,7 +47,7 @@ const CourseBlock = ({
         </div>
         <div className={classNames('attribute', 'attribute--semi-long')}>
           <div>{ t('ui.attribute.professors') }</div>
-          <div>{ getProfessorsStr(course) }</div>
+          <div>{ getProfessorsFullStr(course) }</div>
         </div>
         <div className={classNames('attribute', 'attribute--semi-long')}>
           <div>{ t('ui.attribute.description') }</div>
