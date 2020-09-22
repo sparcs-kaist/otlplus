@@ -21,10 +21,11 @@ const LectureSimpleBlock = ({
         'block--lecture-simple',
         (isRaised ? 'block--raised' : ''),
         (isDimmed ? 'block--dimmed' : ''),
-        (hasReview ? 'block--has-review' : ''),
+        (hasReview ? 'block--completed' : ''),
       )}
       onClick={onClick}
     >
+      <div className={classNames('completed-text')}>{t('ui.others.written')}</div>
       <div className={classNames('block--lecture-simple__title')}>
         { lecture[t('js.property.title')] }
       </div>
