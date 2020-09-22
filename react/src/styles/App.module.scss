@@ -1466,22 +1466,21 @@ a {
         background-color:$color-block-background-dark;
     }
 
+    &.block--highlighted {
+        background-color:$color-block-background-dark;
+    }
+    &.block--raised {
+        position: relative;
+        top: -3px;
+        box-shadow: 0 3px 0 0 $color-block-shadow-dark;
+    }
+    &.block--dimmed {
+        opacity: 0.5;
+        cursor: initial;
+    }
 
     &--course {
         cursor: pointer;
-        &.block--highlighted {
-            background-color:$color-block-background-dark;
-        }
-        &.block--raised {
-            background-color:$color-block-background-dark;
-            position: relative;
-            top: -3px;
-            box-shadow: 0 3px 0 0 $color-block-shadow-dark;
-        }
-        &.block--dimmed {
-            opacity: 0.5;
-        }
-
 
         .section-content--feed &:nth-last-of-type(2) {
             margin-bottom: 0;
@@ -1538,13 +1537,8 @@ a {
         &.block--has-review {
             color: rgba($color-text-normal, 0.4);
         }
-
-        &:not(.block--dimmed) {
-            cursor: pointer;
-
-            &:hover {
-                background-color: $color-block-background-dark;
-            }
+        &:hover {
+            background-color: $color-block-background-dark;
         }
 
         &__title {
@@ -1725,14 +1719,6 @@ a {
     &--lecture-group {
         padding: 8px 10px;
         margin-bottom: 6px;
-        &.block--raised {
-            box-shadow: 0 3px 0 0 $color-block-shadow-dark;
-            position: relative;
-            top: -3px;
-        }
-        &.block--dimmed {
-            opacity: 0.5;
-        }
 
         &__title {
             margin-bottom: 6px;
@@ -1869,13 +1855,9 @@ a {
             background-color: #E0546F;
         }
         &.block--raised {
-            background-color: #E0546F;
             margin-top:-3px;
             margin-bottom:3px;
             box-shadow: 0 3px 0 0 #9E6068;
-        }
-        &.block--dimmed {
-            opacity: 0.5;
         }
         &.block--temp {
             background-color: #E0546F;
