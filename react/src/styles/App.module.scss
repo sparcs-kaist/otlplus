@@ -1460,6 +1460,7 @@ a {
     padding: 10px;
     margin-bottom: 8px;
     position: relative;
+    overflow: hidden;
     &:last-child {
         margin-bottom: 0;
     }
@@ -1493,12 +1494,21 @@ a {
 
     & .block__completed-text {
         display: none;
-        color: $color-text-normal;
+        color: darken($color-text-normal, 20%);
         font-size: $font-size-smaller;
         line-height: $line-height-smaller;
         position: absolute;
-        top: 8px + ($font-size-normal - $font-size-smaller) / 2;
-        right: 10px;
+        top: 0;
+        right: 0;
+        padding: (8px + ($font-size-normal - $font-size-smaller) / 2)
+                 10px
+                 (6px + ($font-size-normal - $font-size-smaller) / 2)
+                 8px;
+        background-color: inherit;
+        opacity: 0.8;
+        &:hover {
+            opacity: 0.15;
+        }
     }
 
     &--course {
