@@ -18,6 +18,14 @@ import { getTimeStr } from '../../../common/examtimeFunctions';
 
 
 class ExamSubSection extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      multipleFocusDayIndex: null,
+    };
+  }
+
   _getOverallLecEtPairs = () => {
     const { lectureFocus, selectedTimetable } = this.props;
     return getOverallLectures(selectedTimetable, lectureFocus)
@@ -48,6 +56,9 @@ class ExamSubSection extends Component {
       info: getRoomStr(p.lecture),
     }));
     setMultipleFocusDispatch(t('ui.others.examOfDay', { day: dayNames[dayIndex] }), details);
+    this.setState({
+      multipleFocusDayIndex: dayIndex,
+    });
   }
 
   clearFocus = () => {
@@ -58,15 +69,19 @@ class ExamSubSection extends Component {
     }
 
     clearMultipleFocusDispatch();
+    this.setState({
+      multipleFocusDayIndex: null,
+    });
   }
 
   render() {
     const { t } = this.props;
+    const { multipleFocusDayIndex } = this.state;
     const { lectureFocus } = this.props;
 
     const mapPairToElem = (lecEtPair) => {
       const act = (
-        isSingleFocused(lecEtPair.lecture, lectureFocus)
+        isSingleFocused(lecEtPair.lecture, lectureFocus) || (multipleFocusDayIndex === lecEtPair.examtime.day)
           ? 'focused'
           : ''
       );
