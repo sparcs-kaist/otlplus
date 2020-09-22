@@ -120,16 +120,13 @@ export const getRoomStr = (lecture) => {
   return classtimes[0][i18n.t('js.property.room_name')];
 };
 
-export const getExamStr = (lecture) => {
+export const getExamFullStr = (lecture) => {
   const { examtimes } = lecture;
   const examStrings = examtimes.map((e) => getStrOfExamtime(e));
   if (examStrings.length === 0) {
     return i18n.t('ui.placeholder.unknown');
   }
-  if (examStrings.length === 1) {
-    return examStrings[0];
-  }
-  return i18n.t('ui.others.sthAndNumOthers', { something: examStrings[0], count: examStrings.length - 1 });
+  return examStrings.join(', ');
 };
 
 export const getColorNumber = (lecture) => (
