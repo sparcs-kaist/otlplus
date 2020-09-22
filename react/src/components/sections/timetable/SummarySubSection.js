@@ -46,7 +46,7 @@ class SummarySubSection extends Component {
     const details = getOverallLectures(selectedTimetable, lectureFocus)
       .filter((l) => (indexOfType(l.type_en) === indexOfType(type)))
       .map((l) => ({
-        id: l.id,
+        lecture: l,
         title: l[t('js.property.title')],
         info: (l.credit > 0) ? t('ui.others.creditCount', { count: l.credit }) : t('ui.others.auCount', { count: l.credit_au }),
       }));
@@ -67,7 +67,7 @@ class SummarySubSection extends Component {
         getOverallLectures(selectedTimetable, lectureFocus)
           .filter((l) => (l.credit > 0))
           .map((l) => ({
-            id: l.id,
+            lecture: l,
             title: l[t('js.property.title')],
             info: t('ui.others.creditCount', { count: l.credit }),
           }))
@@ -78,7 +78,7 @@ class SummarySubSection extends Component {
             getOverallLectures(selectedTimetable, lectureFocus)
               .filter((l) => (l.credit_au > 0))
               .map((l) => ({
-                id: l.id,
+                lecture: l,
                 title: l[t('js.property.title')],
                 info: t('ui.others.auCount', { count: l.credit_au }),
               }))
@@ -98,7 +98,7 @@ class SummarySubSection extends Component {
     }
 
     const details = getOverallLectures(selectedTimetable, lectureFocus).map((l) => ({
-      id: l.id,
+      lecture: l,
       title: l[t('js.property.title')],
       info: (type === 'Grade')
         ? getAverageScoreLabel(l.grade)

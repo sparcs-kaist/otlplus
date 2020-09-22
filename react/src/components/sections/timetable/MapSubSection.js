@@ -39,7 +39,7 @@ class MapSubSection extends Component {
 
     const lecturesOnBuilding = this._getLecturesOnBuilding(building);
     const details = lecturesOnBuilding.map((l) => ({
-      id: l.id,
+      lecture: l,
       title: l[t('js.property.title')],
       info: getRoomStr(l),
     }));
