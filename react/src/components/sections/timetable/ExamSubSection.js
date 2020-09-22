@@ -12,7 +12,7 @@ import { clearMultipleFocus, setMultipleFocus } from '../../../actions/timetable
 import lectureFocusShape from '../../../shapes/LectureFocusShape';
 import timetableShape from '../../../shapes/TimetableShape';
 import {
-  getRoomStr, getOverallLectures, isSingleFocused,
+  getOverallLectures, isSingleFocused,
 } from '../../../common/lectureFunctions';
 import { getTimeStr } from '../../../common/examtimeFunctions';
 
@@ -53,7 +53,7 @@ class ExamSubSection extends Component {
     const details = lecEtPairsOnDay.map((p) => ({
       lecture: p.lecture,
       title: p.lecture[t('js.property.title')],
-      info: getRoomStr(p.lecture),
+      info: getTimeStr(p.examtime),
     }));
     setMultipleFocusDispatch(t('ui.others.examOfDay', { day: dayNames[dayIndex] }), details);
     this.setState({
