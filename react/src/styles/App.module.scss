@@ -1556,9 +1556,6 @@ a {
         justify-content: center;
         width: 144px;
 
-        &.block--has-review {
-            color: rgba($color-text-normal, 0.4);
-        }
         &:hover {
             background-color: $color-block-background-dark;
         }
