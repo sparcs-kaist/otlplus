@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
-import { getProfessorsStrShort, getColorNumber } from '../../common/lectureFunctions';
+import { getProfessorsShortStr, getColorNumber } from '../../common/lectureFunctions';
 
 import lectureShape from '../../shapes/LectureShape';
 import classtimeShape from '../../shapes/ClasstimeShape';
@@ -59,7 +59,7 @@ const TimetableBlock = ({
           {lecture[t('js.property.title')]}
         </p>
         <p className={classNames('block--timetable__content__info', 'mobile-hidden')}>
-          {getProfessorsStrShort(lecture)}
+          {getProfessorsShortStr(lecture)}
         </p>
         <p className={classNames('block--timetable__content__info', 'mobile-hidden')}>
           {classtime ? classtime[t('js.property.classroom')] : null}

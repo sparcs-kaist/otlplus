@@ -267,7 +267,7 @@ class Lecture(models.Model):
         _add_title_format(lectures)
         _add_title_format_en(lectures)
 
-    def get_professors_str_short(self):
+    def get_professors_short_str(self):
         professors = self.professors.all().order_by('professor_name')
         prof_name_list = [p.professor_name for p in professors]
         if len(prof_name_list) <= 2:
