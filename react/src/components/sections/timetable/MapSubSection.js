@@ -11,7 +11,7 @@ import lectureFocusShape from '../../../shapes/LectureFocusShape';
 import timetableShape from '../../../shapes/TimetableShape';
 
 import {
-  isFocused,
+  isSingleFocused,
   getBuildingStr, getRoomStr, getColorNumber,
   getOverallLectures,
 } from '../../../common/lectureFunctions';
@@ -21,6 +21,15 @@ import { unique } from '../../../common/utilFunctions';
 
 
 class MapSubSection extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      multipleFocusBuilding: null,
+    };
+  }
+
+
   _getLecturesOnBuilding = (building) => {
     const { lectureFocus, selectedTimetable } = this.props;
 
@@ -44,6 +53,9 @@ class MapSubSection extends Component {
       info: getRoomStr(l),
     }));
     setMultipleFocusDispatch(building, details);
+    this.setState({
+      multipleFocusBuilding: building,
+    });
   }
 
   clearFocus = () => {
@@ -54,15 +66,19 @@ class MapSubSection extends Component {
     }
 
     clearMultipleFocusDispatch();
+    this.setState({
+      multipleFocusBuilding: null,
+    });
   }
 
   render() {
+    const { multipleFocusBuilding } = this.state;
     const { selectedTimetable, lectureFocus } = this.props;
 
     const buildings = unique(getOverallLectures(selectedTimetable, lectureFocus).map((l) => getBuildingStr(l)));
     const mapBuildingToBlock = (b) => {
       const lecturesOnBuilding = this._getLecturesOnBuilding(b);
-      const act = lecturesOnBuilding.some((l) => isFocused(l, lectureFocus))
+      const act = lecturesOnBuilding.some((l) => isSingleFocused(l, lectureFocus)) || (multipleFocusBuilding === b)
         ? 'block--highlighted'
         : '';
       return (
@@ -75,7 +91,7 @@ class MapSubSection extends Component {
           <div className={classNames('section-content--map__block__box', act)}>
             <span>{b}</span>
             {lecturesOnBuilding.map((l) => {
-              const lecAct = isFocused(l, lectureFocus)
+              const lecAct = isSingleFocused(l, lectureFocus) || (multipleFocusBuilding === b)
                 ? 'block--highlighted'
                 : '';
               return <span className={classNames('background-color--dark', `background-color--${getColorNumber(l)}`, lecAct)} key={l.id} />;
