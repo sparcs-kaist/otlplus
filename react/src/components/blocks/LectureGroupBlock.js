@@ -33,7 +33,7 @@ const LectureGroupBlock = ({
         (isTaken ? 'block--completed' : ''),
       )}
     >
-      <div className={classNames('completed-text')}>{t('ui.others.taken')}</div>
+      <div className={classNames('block__completed-text')}>{t('ui.others.taken')}</div>
       <div className={classNames('block--lecture-group__title')}>
         <strong>{lectureGroup[0][t('js.property.common_title')]}</strong>
         {' '}
