@@ -4,6 +4,8 @@ import i18n from 'i18next';
 
 import { LIST, TABLE, MULTIPLE } from '../reducers/timetable/lectureFocus';
 
+import { getStr as getStrOfExamtime } from './examtimeFunctions';
+
 
 export const inTimetable = (lecture, timetable) => (
   timetable
@@ -41,9 +43,14 @@ export const isTableFocused = (lecture, lectureFocus) => (
   && lectureFocus.lecture.id === lecture.id
 );
 
+export const isSingleFocused = (lecture, lectureFocus) => (
+  lectureFocus.lecture !== null
+  && lectureFocus.lecture.id === lecture.id
+);
+
 export const isMultipleFocused = (lecture, lectureFocus) => (
   lectureFocus.from === MULTIPLE
-  && lectureFocus.multipleDetails.some((l) => (l.id === lecture.id))
+  && lectureFocus.multipleDetails.some((d) => (d.lecture.id === lecture.id))
 );
 
 export const isDimmedTableLecture = (lecture, lectureFocus) => (
@@ -60,7 +67,7 @@ export const isDimmedListLectureGroup = (lectureGroup, lectureFocus) => (
 );
 
 export const isFocused = (lecture, lectureFocus) => (
-  (lectureFocus.lecture !== null && lectureFocus.lecture.id === lecture.id)
+  isSingleFocused(lecture, lectureFocus)
   || isMultipleFocused(lecture, lectureFocus)
 );
 
@@ -115,7 +122,7 @@ export const getRoomStr = (lecture) => {
 
 export const getExamStr = (lecture) => {
   const { examtimes } = lecture;
-  const examStrings = examtimes.map((e) => e[i18n.t('js.property.str')]);
+  const examStrings = examtimes.map((e) => getStrOfExamtime(e));
   if (examStrings.length === 0) {
     return i18n.t('ui.placeholder.unknown');
   }
