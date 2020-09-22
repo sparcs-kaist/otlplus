@@ -84,7 +84,7 @@ export const getOverallLectures = (selectedTimetable, lectureFocus) => {
     .concat(hasSingleFocusedLectureOutsideTable ? [lectureFocus.lecture] : []);
 };
 
-export const getProfessorsStrShort = (lecture) => {
+export const getProfessorsShortStr = (lecture) => {
   // eslint-disable-next-line fp/no-mutating-methods
   const professors = lecture.professors
     .slice()
@@ -94,6 +94,15 @@ export const getProfessorsStrShort = (lecture) => {
     return professorNames.join(', ');
   }
   return i18n.t('ui.others.sthAndNumOtherPeople', { something: professorNames[0], count: professorNames.length - 1 });
+};
+
+export const getProfessorsFullStr = (lecture) => {
+  // eslint-disable-next-line fp/no-mutating-methods
+  const professors = lecture.professors
+    .slice()
+    .sort((a, b) => (a.name < b.name ? -1 : 1));
+  const professorNames = professors.map((p) => p[i18n.t('js.property.name')]);
+  return professorNames.join(', ');
 };
 
 export const getBuildingStr = (lecture) => {

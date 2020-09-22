@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
-import { getProfessorsStrShort } from '../../common/lectureFunctions';
+import { getProfessorsShortStr } from '../../common/lectureFunctions';
 import { getSingleScoreLabel } from '../../common/scoreFunctions';
 import { performSubmitReview } from '../../common/reviewFunctions';
 
@@ -77,7 +77,7 @@ const ReviewWriteBlock = ({
     <form className={classNames('block', 'block--review-write')} onSubmit={onSubmit}>
       <div className={classNames('block--review-write__title')}>
         <strong>{lecture[t('js.property.title')]}</strong>
-        <span>{getProfessorsStrShort(lecture)}</span>
+        <span>{getProfessorsShortStr(lecture)}</span>
         <span>{`${lecture.year} ${[undefined, t('ui.semester.spring'), t('ui.semester.summer'), t('ui.semester.fall'), t('ui.semester.winter')][lecture.semester]}`}</span>
       </div>
       <textarea className={classNames('block--review-write__content')} placeholder={t('ui.placeholder.reviewContent')} value={content} onChange={onContentChange} />

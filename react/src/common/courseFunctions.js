@@ -18,7 +18,7 @@ export const isDimmedCourse = (course, courseFocus) => (
   && (courseFocus.course.id !== course.id)
 );
 
-export const getProfessorsStr = (course) => {
+export const getProfessorsFullStr = (course) => {
   // eslint-disable-next-line fp/no-mutating-methods
   const professors = course.professors
     .slice()
