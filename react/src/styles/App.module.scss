@@ -1565,8 +1565,9 @@ a {
         flex-direction: column;
         justify-content: center;
         width: 144px;
+        cursor: pointer;
 
-        &:hover {
+        &:not(.block--dimmed):hover {
             background-color: $color-block-background-dark;
         }
 
@@ -1755,6 +1756,10 @@ a {
             &.block--highlighted,
             &.block--raised {
                 background-color:$color-block-background-dark;
+            }
+
+            .block--dimmed & {
+                cursor: initial;
             }
         }
 
