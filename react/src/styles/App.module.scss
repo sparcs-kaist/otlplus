@@ -1579,17 +1579,6 @@ a {
         &__subtitle {
             text-align: center;
         }
-
-        &.block--raised {
-            background-color:$color-block-background-dark;
-            position: relative;
-            top: -3px;
-            box-shadow: 0 6px 3px -3px $color-block-shadow-dark;
-        }
-
-        &.block--dimmed {
-            opacity: 0.5;
-        }
     }
 
 
@@ -2031,12 +2020,6 @@ a {
         cursor: pointer;
         &:hover {
             background-color:$color-block-background-dark;
-        }
-        &.block--raised {
-            background-color:$color-block-background-dark;
-            box-shadow: 0 6px 3px -3px $color-block-shadow-dark;
-            position: relative;
-            top: -3px;
         }
 
         &__title {
