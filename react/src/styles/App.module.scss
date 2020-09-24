@@ -18,9 +18,9 @@ $color-text-disable: #AAAAAA;
 $color-highlight: #E54C65;
 $color-highlight-dark: #963246;
 
-$color-section-shadow: #F3BEC6;
-$color-block-shadow-dark: #888888;
-$color-block-shadow-highlight: $color-highlight;
+$color-section-shadow: rgba(#ED8C9C, 0.5);
+$color-block-shadow-dark: rgba(#333333, 0.5);
+$color-block-shadow-highlight: rgba(#431014, 0.5);
 
 $color-divider-line: #EDD1DC;
 $color-block-line: #C9C9C9;
@@ -1041,10 +1041,10 @@ a {
                     width: 0px;
                     height: 0px;
                     border-radius: 50%;
-                    box-shadow: 0 0 3px 3px $color-block-shadow-dark;
+                    box-shadow: 0 0 3px 3px change-color($color-block-shadow-dark, $alpha: 0.8);
                     transform: scale(1.5, 1);
                     &.block--highlighted {
-                        box-shadow: 0 0 3px 3px $color-block-shadow-highlight;
+                        box-shadow: 0 0 3px 3px change-color($color-block-shadow-highlight, $alpha: 0.8);
                     }
                 }
 
@@ -1879,7 +1879,7 @@ a {
         &.block--raised {
             margin-top:-3px;
             margin-bottom:3px;
-            box-shadow: 0 6px 3px -3px #9E6068;
+            box-shadow: 0 6px 3px -3px $color-block-shadow-highlight;
         }
         &.block--temp {
             background-color: #E0546F;
