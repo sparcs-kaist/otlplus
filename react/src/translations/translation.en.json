@@ -205,6 +205,7 @@
       "blankSearch": "Please select search conditions.",
       "blankSearchKeyword": "Please enter the search keyword.",
       "timetableOverlap": "You can't add lecture overlapping.",
+      "timetableDelete": "Do you really want to delete? The timetable can't be recovered once deleted.",
       "lastTimetable": "You can't delete the last timetable.",
       "alreadyUploading": "The upload is already in progress. Please wait for a moment.",
       "emptyContent": "Please enter the comment.",
