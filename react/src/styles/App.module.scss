@@ -1860,7 +1860,7 @@ a {
     }
 
     &--timetable {
-        position: absolute;
+        position: absolute !important;
         flex: auto;
         display: flex;
         flex-direction: column;
@@ -1885,6 +1885,7 @@ a {
             background-color: #E0546F;
             opacity: 0.85;
             z-index: 3;
+            cursor: initial;
         }
 
         &__button {
