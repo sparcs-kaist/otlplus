@@ -26,6 +26,7 @@ const TimetableBlock = ({
   return (
     <div
       className={classNames(
+        'block',
         'block--timetable',
         `background-color--${getColorNumber(lecture) + 1}`,
         (isRaised ? 'block--raised' : ''),
