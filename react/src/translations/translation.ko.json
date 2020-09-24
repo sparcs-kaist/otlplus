@@ -205,6 +205,7 @@
       "blankSearch": "검색 조건을 선택해 주세요.",
       "blankSearchKeyword": "검색어를 입력해 주세요.",
       "timetableOverlap": "시간표가 겹치는 과목은 추가할 수 없습니다.",
+      "timetableDelete": "정말 삭제하시겠습니까? 삭제된 시간표는 복구할 수 없습니다.",
       "lastTimetable": "마지막 시간표는 삭제할 수 없습니다.",
       "alreadyUploading": "이미 업로드 중입니다. 잠시만 기다려 주세요.",
       "emptyContent": "후기를 입력해 주세요.",

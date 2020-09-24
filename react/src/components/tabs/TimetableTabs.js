@@ -181,6 +181,11 @@ class TimetableTabs extends Component {
 
     event.stopPropagation();
 
+    // eslint-disable-next-line no-alert
+    if (!window.confirm(t('ui.message.timetableDelete'))) {
+      return;
+    }
+
     if (!user) {
       deleteTimetableDispatch(timetable);
       return;
