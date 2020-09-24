@@ -30,7 +30,7 @@ const TimetableBlock = ({
         'block--timetable',
         `background-color--${getColorNumber(lecture) + 1}`,
         (isRaised ? 'block--raised' : ''),
-        (isTemp ? ['block--temp', 'block--highlighted'] : ''),
+        (isTemp ? 'block--temp' : ''),
         (isHighlighted ? 'block--highlighted' : ''),
         (isDimmed ? 'block--dimmed' : ''),
       )}
