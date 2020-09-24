@@ -181,16 +181,20 @@ class TimetableTabs extends Component {
 
     event.stopPropagation();
 
+    if (timetables.length === 1) {
+      // eslint-disable-next-line no-alert
+      alert(t('ui.message.lastTimetable'));
+      return;
+    }
+    // eslint-disable-next-line no-alert
+    if (!window.confirm(t('ui.message.timetableDelete'))) {
+      return;
+    }
+
     if (!user) {
       deleteTimetableDispatch(timetable);
       return;
     }
-
-    if (timetables.length === 1) {
-      // eslint-disable-next-line no-alert
-      alert(t('ui.message.lastTimetable'));
-    }
-    else {
       axios.delete(
         `/api/users/${user.id}/timetables/${timetable.id}`,
         {
@@ -209,7 +213,6 @@ class TimetableTabs extends Component {
         })
         .catch((error) => {
         });
-    }
 
     ReactGA.event({
       category: 'Timetable - Timetable',
