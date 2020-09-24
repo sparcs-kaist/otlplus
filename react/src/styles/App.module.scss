@@ -1860,7 +1860,7 @@ a {
     }
 
     &--timetable {
-        position: absolute;
+        position: absolute !important;
         flex: auto;
         display: flex;
         flex-direction: column;
