@@ -18,9 +18,9 @@ $color-text-disable: #AAAAAA;
 $color-highlight: #E54C65;
 $color-highlight-dark: #963246;
 
-$color-section-shadow: #F3BEC6;
-$color-block-shadow-dark: #888888;
-$color-block-shadow-highlight: $color-highlight;
+$color-section-shadow: rgba(#ED8C9C, 0.5);
+$color-block-shadow-dark: rgba(#333333, 0.5);
+$color-block-shadow-highlight: rgba(#431014, 0.5);
 
 $color-divider-line: #EDD1DC;
 $color-block-line: #C9C9C9;
@@ -44,7 +44,7 @@ $header-height: 55px;
 
 $section-desktop-width: calc(80vh + 384px);
 $section-margin-top: 12px;
-$section-margin-bottom: 13px;
+$section-margin-bottom: 12px;
 $section-margin-lr: 12px;
 $section-padding: 12px;
 $section-border-radius: 6px;
@@ -456,7 +456,7 @@ a {
                 padding: $section-padding;
                 background-color: $color-section-background;
                 border-radius: $section-border-radius;
-                box-shadow: 0 3px 0 0 $color-section-shadow;
+                box-shadow: 0 6px 3px -3px $color-section-shadow;
                 flex-direction: column-reverse;
                 align-items: center;
             }
@@ -635,7 +635,7 @@ a {
     padding: $section-padding;
     background-color: $color-section-background;
     border-radius: $section-border-radius;
-    box-shadow: 0 3px 0 0 $color-section-shadow;
+    box-shadow: 0 6px 3px -3px $color-section-shadow;
 
 
     &--with-tabs {
@@ -1004,16 +1004,16 @@ a {
                 }
 
                 &__box {
+                    position: relative;
+                    z-index: 1;
                     font-size: $font-size-smallest;
                     line-height:9px;
                     height: 13px;
                     border-radius: $small-block-border-radius;
                     padding: 2px 3px;
                     background-color: $color-block-background;
-                    box-shadow: 0 1px 0 0 $color-block-shadow-dark;
                     &.block--highlighted {
                         background-color: $color-block-background-highlight;
-                        box-shadow: 0 1px 0 0 $color-block-shadow-dark;
                         color: $color-highlight;
                     }
 
@@ -1035,25 +1035,24 @@ a {
                 }
 
                 &__arrow-shadow {
-                    position: relative;
-                    top: 1px;
-                    left: 3px;
-                    width: 0;
-                    height: 0;
-                    border-left: 2px solid transparent;
-                    border-right: 2px solid transparent;
-                    border-top: 3px solid $color-block-shadow-dark;
+                    position: absolute;
+                    bottom: -3px;
+                    left: 5px;
+                    width: 0px;
+                    height: 0px;
+                    border-radius: 50%;
+                    box-shadow: 0 0 3px 3px change-color($color-block-shadow-dark, $alpha: 0.8);
+                    transform: scale(1.5, 1);
                     &.block--highlighted {
-                        border-top-color:$color-block-shadow-highlight;
+                        box-shadow: 0 0 3px 3px change-color($color-block-shadow-highlight, $alpha: 0.8);
                     }
                 }
 
                 &__arrow {
-                    position: relative;
-                    top: -3px;
-                    left: 3px;
-                    width: 0;
-                    height: 0;
+                    position: absolute;
+                    bottom: -3px;
+                    left: 5px;
+                    margin: -3px -2px 0 -2px;
                     border-left: 2px solid transparent;
                     border-right: 2px solid transparent;
                     border-top: 3px solid $color-block-background;
@@ -1474,7 +1473,7 @@ a {
     &.block--raised {
         position: relative;
         top: -3px;
-        box-shadow: 0 3px 0 0 $color-block-shadow-dark;
+        box-shadow: 0 6px 3px -3px $color-block-shadow-dark;
     }
     &.block--dimmed {
         opacity: 0.5;
@@ -1565,8 +1564,9 @@ a {
         flex-direction: column;
         justify-content: center;
         width: 144px;
+        cursor: pointer;
 
-        &:hover {
+        &:not(.block--dimmed):hover {
             background-color: $color-block-background-dark;
         }
 
@@ -1578,17 +1578,6 @@ a {
 
         &__subtitle {
             text-align: center;
-        }
-
-        &.block--raised {
-            background-color:$color-block-background-dark;
-            position: relative;
-            top: -3px;
-            box-shadow: 0 3px 0 0 $color-block-shadow-dark;
-        }
-
-        &.block--dimmed {
-            opacity: 0.5;
         }
     }
 
@@ -1767,6 +1756,10 @@ a {
             &.block--raised {
                 background-color:$color-block-background-dark;
             }
+
+            .block--dimmed & {
+                cursor: initial;
+            }
         }
 
         &__elem {
@@ -1886,7 +1879,7 @@ a {
         &.block--raised {
             margin-top:-3px;
             margin-bottom:3px;
-            box-shadow: 0 3px 0 0 #9E6068;
+            box-shadow: 0 6px 3px -3px $color-block-shadow-highlight;
         }
         &.block--temp {
             background-color: #E0546F;
@@ -2031,12 +2024,6 @@ a {
         cursor: pointer;
         &:hover {
             background-color:$color-block-background-dark;
-        }
-        &.block--raised {
-            background-color:$color-block-background-dark;
-            box-shadow: 0 3px 0 0 $color-block-shadow-dark;
-            position: relative;
-            top: -3px;
         }
 
         &__title {
