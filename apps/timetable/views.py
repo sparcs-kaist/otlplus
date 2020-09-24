@@ -209,7 +209,7 @@ def _get_timetable_or_my_timetable_lectures(userprofile, table_id, year, semeste
         return list(userprofile.taken_lectures.filter(year=year, semester=semester))
     
     try:
-        table = Timetable.objects.get(id=table_id, year=year, semester=semester)
+        table = Timetable.objects.get(user=userprofile, id=table_id, year=year, semester=semester)
     except Timetable.DoesNotExist:
         return None
     
