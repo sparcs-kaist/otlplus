@@ -37,7 +37,7 @@ class SyllabusPage extends Component {
           <div className={classNames('tabs', 'tabs--syllabus')}>
             {
               lectures.map((l) => (
-                <div className={classNames((selectedLecture === l ? 'tabs__elem--selected' : ''))} onClick={() => this.updateShowingLecture(l)}>
+                <div className={classNames('tabs__elem', (selectedLecture === l ? 'tabs__elem--selected' : ''))} onClick={() => this.updateShowingLecture(l)}>
                   { l.common_title }
                 </div>
               ))
