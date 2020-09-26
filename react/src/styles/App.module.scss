@@ -1439,14 +1439,16 @@ a {
 }
 
 
-.close-button {
+.close-button-wrap {
         display: block;
         position: absolute;
-        padding: 4px;
-        top: $section-padding - 4px;
-        right: $section-padding - 4px;
+        padding: $section-padding
+                 0
+                 ($section-padding - 2px)
+                 ($section-padding - 2px);
+        top: 0;
+        right: $section-padding;
         background-color: rgba($color-section-background, 0.8);
-        cursor: pointer;
         z-index: 290;
 
         .section-wrap--lecture-list & {

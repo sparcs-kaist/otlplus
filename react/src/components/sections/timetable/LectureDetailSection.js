@@ -242,7 +242,11 @@ class LectureDetailSection extends Component {
           : <div className={classNames('section-content--lecture-detail__list-area', 'list-placeholder')}><div>{t('ui.placeholder.noResults')}</div></div>);
       return (
         <div className={classNames('section-content', 'section-content--lecture-detail', 'section-content--flex')} ref={this.scrollRef}>
-          <button className={classNames('close-button')} onClick={this.unfix}><i className={classNames('icon', 'icon--close-section')} /></button>
+          <div className={classNames('close-button-wrap')}>
+            <button onClick={this.unfix}>
+              <i className={classNames('icon', 'icon--close-section')} />
+            </button>
+          </div>
           <div className={classNames('title')}>
             {lectureFocus.lecture[t('js.property.title')]}
           </div>
