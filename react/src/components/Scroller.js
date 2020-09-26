@@ -13,21 +13,6 @@ class Scroller extends Component {
     };
   }
 
-  contentRenderer = (props) => {
-    const {
-      elementRef, children, expandBottom,
-      ...restProps
-    } = props;
-
-    return (
-      <div {...restProps} ref={elementRef} className="Content">
-        <div style={{ marginBottom: `${expandBottom}px` }}>
-          {children}
-        </div>
-      </div>
-    );
-  }
-
   render() {
     const {
       onScroll,
@@ -157,6 +142,7 @@ Scroller.defaultProps = {
   noScrollX: true,
   noScrollY: false,
   expandBottom: 12,
+  expandRight: 12,
 };
 
 export default Scroller;
