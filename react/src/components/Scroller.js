@@ -142,7 +142,6 @@ Scroller.defaultProps = {
   noScrollX: true,
   noScrollY: false,
   expandBottom: 12,
-  expandRight: 12,
 };
 
 export default Scroller;
