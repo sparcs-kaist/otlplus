@@ -276,7 +276,7 @@ class TimetableTabs extends Component {
         <div className={classNames('tabs', 'tabs--timetable')}>
           { user
             ? (
-              <div className={classNames((myTimetable.id === selectedTimetable.id ? 'tabs__elem--selected' : ''))} key={myTimetable.id} onClick={() => this.changeTab(myTimetable)}>
+              <div className={classNames('tabs__elem', (myTimetable.id === selectedTimetable.id ? 'tabs__elem--selected' : ''))} key={myTimetable.id} onClick={() => this.changeTab(myTimetable)}>
                 <span>
                   {`${t('ui.others.myTable')}`}
                 </span>
@@ -293,7 +293,7 @@ class TimetableTabs extends Component {
             : null
           }
           { timetables.map((tt, i) => (
-            <div className={classNames((tt.id === selectedTimetable.id ? 'tabs__elem--selected' : ''))} key={tt.id} onClick={() => this.changeTab(tt)}>
+            <div className={classNames('tabs__elem', (tt.id === selectedTimetable.id ? 'tabs__elem--selected' : ''))} key={tt.id} onClick={() => this.changeTab(tt)}>
               <span>
                 {`${t('ui.others.table')} ${i + 1}`}
               </span>
@@ -307,7 +307,7 @@ class TimetableTabs extends Component {
               </button>
             </div>
           ))}
-          <div className={classNames('tabs--timetable__add-button')} onClick={() => this.createTable()}>
+          <div className={classNames('tabs__elem', 'tabs__elem--add-button')} onClick={() => this.createTable()}>
             <i className={classNames('icon', 'icon--add-table')} />
           </div>
         </div>
@@ -317,7 +317,7 @@ class TimetableTabs extends Component {
       <div className={classNames('tabs', 'tabs--timetable')}>
         { user
           ? (
-            <div className={classNames(((selectedTimetable && (myTimetable.id === selectedTimetable.id)) ? 'tabs__elem--selected' : ''))} key={myTimetable.id} style={{ pointerEvents: 'none' }}>
+            <div className={classNames('tabs__elem', ((selectedTimetable && (myTimetable.id === selectedTimetable.id)) ? 'tabs__elem--selected' : ''))} key={myTimetable.id} style={{ pointerEvents: 'none' }}>
               <span>
                 {`${t('ui.others.myTable')}`}
               </span>
@@ -333,7 +333,7 @@ class TimetableTabs extends Component {
           )
           : null
         }
-        <div style={{ pointerEvents: 'none' }}>
+        <div className={classNames(('tabs__elem'))} style={{ pointerEvents: 'none' }}>
           <span>{t('ui.placeholder.loading')}</span>
         </div>
       </div>

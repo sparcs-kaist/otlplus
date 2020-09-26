@@ -13,50 +13,31 @@ class Scroller extends Component {
     };
   }
 
-  contentRenderer = (props) => {
-    const {
-      elementRef, children, marginBottom,
-      ...restProps
-    } = props;
-
-    const calculatedMarginBottom = (marginBottom === undefined) ? 12 : marginBottom;
-    return (
-      <div {...restProps} ref={elementRef} className="Content">
-        <div style={{ marginBottom: `${calculatedMarginBottom}px` }}>
-          {children}
-        </div>
-      </div>
-    );
-  }
-
   render() {
     const {
       onScroll,
       children,
       noScrollX, noScrollY,
-      marginBottom,
+      expandBottom,
     } = this.props;
     const { isScrolling, isMouseIn } = this.state;
 
-    const calculatedNoScrollX = (noScrollX === undefined) ? true : noScrollX;
-    const calculatedNoScrollY = (noScrollY === undefined) ? false : noScrollY;
-    const calculatedMarginBottom = (marginBottom === undefined) ? 12 : marginBottom;
-
     return (
       <Scrollbar
-        className={[(calculatedNoScrollX ? 'noX' : ''), (calculatedNoScrollY ? 'noY' : '')].join(' ')}
+        className={[(noScrollX ? 'noX' : ''), (noScrollY ? 'noY' : '')].join(' ')}
         style={{
           flex: 'auto',
-          marginBottom: `-${calculatedMarginBottom}px`,
+          marginBottom: `-${expandBottom}px`,
           display: 'flex',
           flexDirection: 'column',
           overflow: 'hidden',
           width: 'calc(100% + 12px)',
+          height: 'initial',
           marginRight: '-12px',
           paddingRight: '12px',
         }}
         wrapperProps={{
-          style: calculatedNoScrollY
+          style: noScrollY
             ? {
               flex: '1 1 auto',
               display: 'flex',
@@ -77,12 +58,11 @@ class Scroller extends Component {
         contentProps={{
           style: {
             padding: '0',
-            paddingRight: '1px',
             minWidth: '100%',
-            minHeight: `calc(100% - ${calculatedMarginBottom}px`,
-            marginBottom: `${calculatedMarginBottom}px`,
-            width: (calculatedNoScrollX ? undefined : 'fit-content'),
-            height: (calculatedNoScrollY ? undefined : 'fit-content'),
+            minHeight: `calc(100% - ${expandBottom}px`,
+            marginBottom: `${expandBottom}px`,
+            width: (noScrollX ? undefined : 'fit-content'),
+            height: (noScrollY ? undefined : 'fit-content'),
             overflow: 'hidden',
           },
         }}
@@ -102,7 +82,7 @@ class Scroller extends Component {
             top: '0',
             right: '0',
             width: '12px',
-            height: `calc(100% - ${calculatedMarginBottom}px)`,
+            height: `calc(100% - ${expandBottom}px)`,
             backgroundColor: 'transparent',
             transition: 'opacity 0.3s',
             opacity: isScrolling ? '1' : (isMouseIn ? '0.25' : '0'),
@@ -141,8 +121,8 @@ class Scroller extends Component {
           this.setState({ isScrolling: false });
         }}
         minimalThumbSize={24}
-        noScrollX={calculatedNoScrollX}
-        noScrollY={calculatedNoScrollY}
+        noScrollX={noScrollX}
+        noScrollY={noScrollY}
       >
         { children }
       </Scrollbar>
@@ -155,7 +135,14 @@ Scroller.propTypes = {
   children: PropTypes.node.isRequired,
   noScrollX: PropTypes.bool,
   noScrollY: PropTypes.bool,
-  marginBottom: PropTypes.number,
+  expandBottom: PropTypes.number,
+};
+
+Scroller.defaultProps = {
+  noScrollX: true,
+  noScrollY: false,
+  expandBottom: 12,
+  expandRight: 12,
 };
 
 export default Scroller;
