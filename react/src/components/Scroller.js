@@ -32,6 +32,7 @@ class Scroller extends Component {
           flexDirection: 'column',
           overflow: 'hidden',
           width: 'calc(100% + 12px)',
+          height: 'initial',
           marginRight: '-12px',
           paddingRight: '12px',
         }}
