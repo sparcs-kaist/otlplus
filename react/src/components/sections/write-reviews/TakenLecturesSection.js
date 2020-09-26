@@ -52,7 +52,7 @@ class TakenLecturesSection extends Component {
     if (!user) {
       return (
         <div className={classNames('section-content', 'section-content--taken-lectures')}>
-          <Scroller>
+          <Scroller expandTop={12}>
             <div className={classNames('title')}>
               {t('ui.title.takenLectures')}
             </div>
@@ -98,7 +98,7 @@ class TakenLecturesSection extends Component {
 
     return (
       <div className={classNames('section-content', 'section-content--taken-lectures')}>
-        <Scroller>
+        <Scroller expandTop={12}>
           <div className={classNames('title')}>
             {t('ui.title.takenLectures')}
           </div>

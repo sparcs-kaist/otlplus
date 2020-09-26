@@ -124,7 +124,7 @@ class WriteReviewsPage extends Component {
             <div className={classNames('section')}>
               <div className={classNames('section-content', 'section-content--write-reviews-right')} ref={this.rightSectionRef}>
                 <button className={classNames('close-button')} onClick={this.unfix}><i className={classNames('icon', 'icon--close-section')} /></button>
-                <Scroller key={selectedLecture ? selectedLecture.id : 'unselected'} onScroll={this.handleScroll}>
+                <Scroller key={selectedLecture ? selectedLecture.id : 'unselected'} onScroll={this.handleScroll} expandTop={12}>
                   <ReviewWriteSubSection />
                   <LatestReviewsSubSection />
                 </Scroller>
