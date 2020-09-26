@@ -232,7 +232,7 @@ class LectureListTabs extends Component {
 
     return (
       <div className={classNames('tabs', 'tabs--lecture-list')}>
-        <Scroller noScrollX={false} noScrollY={true}>
+        <Scroller noScrollX={false} noScrollY={true} expandBottom={2}>
           <div className={classNames('tabs__flexbox')}>
         <div className={classNames('tabs__elem', (selectedListCode === 'SEARCH' ? 'tabs__elem--selected' : ''))} onClick={() => this.changeTab('SEARCH')}>
           <i className={classNames('icon', 'icon--tab-search')} />
