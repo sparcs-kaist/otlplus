@@ -482,7 +482,7 @@ a {
     line-height: $line-height-small;
     color: $color-text-light;
 
-    & > div {
+    & .tabs__elem {
         text-align: center;
         background-color: $color-tab-background-dark;
         white-space: nowrap;
@@ -511,11 +511,16 @@ a {
             margin-left: -50px;
         }
         @media #{$media-portrait} {
-            display: flex;
-            flex-direction: row;
         }
 
-        > div {
+        & .tabs__flexbox {
+            @media #{$media-portrait} {
+                display: flex;
+                flex-direction: row;
+            }
+        }
+
+        & .tabs__elem {
             padding: 8px;
             @media #{$media-landscape} {
                 margin-left: auto;
@@ -548,7 +553,7 @@ a {
             width: 100%;
         }
 
-        & > div {
+        & .tabs__elem {
             display: inline-block;
             vertical-align: top;
             margin-right: 6px;
@@ -579,7 +584,7 @@ a {
                     }
                 }
             }
-            &.tabs--timetable__add-button {
+            &--add-button {
                 padding: 8px;
                 line-height: 0;
                 @media #{$media-portrait} {
@@ -617,12 +622,16 @@ a {
     &--syllabus {
         white-space: nowrap;
 
-        & > div {
+        & .tabs__elem {
             display: inline-block;
             vertical-align: top;
             margin-right: 6px;
             border-radius: $block-border-radius $block-border-radius 0 0;
             padding: 7px 10px;
+
+            &:last-child {
+                margin-right: 0;
+            }
         }
     }
 }

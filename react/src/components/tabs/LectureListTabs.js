@@ -15,6 +15,8 @@ import { openSearch, closeSearch } from '../../actions/timetable/search';
 import userShape from '../../shapes/UserShape';
 import lectureShape from '../../shapes/LectureShape';
 
+import Scroller from '../Scroller';
+
 
 class LectureListTabs extends Component {
   componentDidMount() {
@@ -230,24 +232,28 @@ class LectureListTabs extends Component {
 
     return (
       <div className={classNames('tabs', 'tabs--lecture-list')}>
-        <div className={classNames((selectedListCode === 'SEARCH' ? 'tabs__elem--selected' : ''))} onClick={() => this.changeTab('SEARCH')}>
+        <Scroller noScrollX={false} noScrollY={true} expandBottom={2}>
+          <div className={classNames('tabs__flexbox')}>
+        <div className={classNames('tabs__elem', (selectedListCode === 'SEARCH' ? 'tabs__elem--selected' : ''))} onClick={() => this.changeTab('SEARCH')}>
           <i className={classNames('icon', 'icon--tab-search')} />
           <span>{t('ui.tab.searchShort')}</span>
         </div>
         {major.codes.map((cd) => (
-          <div className={classNames((selectedListCode === cd ? 'tabs__elem--selected' : ''))} key={cd} onClick={() => this.changeTab(cd)}>
+          <div className={classNames('tabs__elem', (selectedListCode === cd ? 'tabs__elem--selected' : ''))} key={cd} onClick={() => this.changeTab(cd)}>
             <i className={classNames('icon', 'icon--tab-major')} />
             <span>{t('ui.tab.majorShort')}</span>
           </div>
         ))}
-        <div className={classNames((selectedListCode === 'HUMANITY' ? 'tabs__elem--selected' : ''))} onClick={() => this.changeTab('HUMANITY')}>
+        <div className={classNames('tabs__elem', (selectedListCode === 'HUMANITY' ? 'tabs__elem--selected' : ''))} onClick={() => this.changeTab('HUMANITY')}>
           <i className={classNames('icon', 'icon--tab-humanity')} />
           <span>{t('ui.tab.humanityShort')}</span>
         </div>
-        <div className={classNames((selectedListCode === 'CART' ? 'tabs__elem--selected' : ''))} onClick={() => this.changeTab('CART')}>
+        <div className={classNames('tabs__elem', (selectedListCode === 'CART' ? 'tabs__elem--selected' : ''))} onClick={() => this.changeTab('CART')}>
           <i className={classNames('icon', 'icon--tab-cart')} />
           <span>{t('ui.tab.wishlistShort')}</span>
         </div>
+          </div>
+        </Scroller>
       </div>
     );
   }

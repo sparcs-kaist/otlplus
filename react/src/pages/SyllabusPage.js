@@ -5,6 +5,8 @@ import { appBoundClassNames as classNames } from '../common/boundClassNames';
 
 import lectureShape from '../shapes/LectureShape';
 
+import Scroller from '../components/Scroller';
+
 
 class SyllabusPage extends Component {
   constructor(props) {
@@ -35,13 +37,15 @@ class SyllabusPage extends Component {
       <section className={classNames('content', 'content--no-scroll')}>
         <div className={classNames('section-wrap', 'section-wrap--with-tabs', 'section-wrap--syllabus')}>
           <div className={classNames('tabs', 'tabs--syllabus')}>
+            <Scroller noScrollX={false} noScrollY={true} expandBottom={2}>
             {
               lectures.map((l) => (
-                <div className={classNames((selectedLecture === l ? 'tabs__elem--selected' : ''))} onClick={() => this.updateShowingLecture(l)}>
+                <div className={classNames('tabs__elem', (selectedLecture === l ? 'tabs__elem--selected' : ''))} onClick={() => this.updateShowingLecture(l)}>
                   { l.common_title }
                 </div>
               ))
             }
+            </Scroller>
           </div>
           <div className={classNames('section', 'section--syllabus')}>
             <div className={classNames('section-content', 'section-content--syllabus')}>
