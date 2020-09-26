@@ -160,7 +160,11 @@ class CourseDetailSection extends Component {
     if (courseFocus.clicked && courseFocus.course !== null) {
       return (
         <div className={classNames('section-content', 'section-content--flex', 'section-content--course-detail')}>
-          <button className={classNames('close-button')} onClick={this.unfix}><i className={classNames('icon', 'icon--close-section')} /></button>
+          <div className={classNames('close-button-wrap')}>
+            <button onClick={this.unfix}>
+              <i className={classNames('icon', 'icon--close-section')} />
+            </button>
+          </div>
           <div className={classNames('fixed')}>
             <div>
               <div className={classNames('title')}>{ courseFocus.course[t('js.property.title')] }</div>

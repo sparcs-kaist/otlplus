@@ -84,7 +84,11 @@ class TimetablePage extends Component {
           <div className={classNames('section-wrap', 'section-wrap--desktop-1v3--right', 'section-wrap--mobile-full', 'section-wrap--timetable-center-right')}>
             <div className={classNames('section-wrap', 'section-wrap--timetable-tabs', 'mobile-modal', (mobileShouldShowTimetableTabs ? '' : 'mobile-hidden'))}>
               <div>
-                <button className={classNames('close-button')} onClick={() => setMobileShouldShowTimetableTabsDispatch(false)}><i className={classNames('icon', 'icon--close-section')} /></button>
+                <div className={classNames('close-button-wrap')}>
+                  <button onClick={() => setMobileShouldShowTimetableTabsDispatch(false)}>
+                    <i className={classNames('icon', 'icon--close-section')} />
+                  </button>
+                </div>
                 <TimetableTabs />
                 <SemesterSection startSemester={startSemester} />
               </div>

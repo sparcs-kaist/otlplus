@@ -123,7 +123,11 @@ class WriteReviewsPage extends Component {
           <div className={classNames('section-wrap', 'section-wrap--desktop-1v3--right', 'mobile-modal', (selectedLecture ? '' : 'mobile-hidden'))}>
             <div className={classNames('section')}>
               <div className={classNames('section-content', 'section-content--write-reviews-right')} ref={this.rightSectionRef}>
-                <button className={classNames('close-button')} onClick={this.unfix}><i className={classNames('icon', 'icon--close-section')} /></button>
+                <div className={classNames('close-button-wrap')}>
+                  <button onClick={this.unfix}>
+                    <i className={classNames('icon', 'icon--close-section')} />
+                  </button>
+                </div>
                 <Scroller key={selectedLecture ? selectedLecture.id : 'unselected'} onScroll={this.handleScroll} expandTop={12}>
                   <ReviewWriteSubSection />
                   <LatestReviewsSubSection />
