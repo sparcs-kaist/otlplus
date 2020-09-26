@@ -15,6 +15,8 @@ import { openSearch, closeSearch } from '../../actions/timetable/search';
 import userShape from '../../shapes/UserShape';
 import lectureShape from '../../shapes/LectureShape';
 
+import Scroller from '../Scroller';
+
 
 class LectureListTabs extends Component {
   componentDidMount() {
@@ -230,6 +232,8 @@ class LectureListTabs extends Component {
 
     return (
       <div className={classNames('tabs', 'tabs--lecture-list')}>
+        <Scroller noScrollX={false} noScrollY={true}>
+          <div className={classNames('tabs__flexbox')}>
         <div className={classNames('tabs__elem', (selectedListCode === 'SEARCH' ? 'tabs__elem--selected' : ''))} onClick={() => this.changeTab('SEARCH')}>
           <i className={classNames('icon', 'icon--tab-search')} />
           <span>{t('ui.tab.searchShort')}</span>
@@ -248,6 +252,8 @@ class LectureListTabs extends Component {
           <i className={classNames('icon', 'icon--tab-cart')} />
           <span>{t('ui.tab.wishlistShort')}</span>
         </div>
+          </div>
+        </Scroller>
       </div>
     );
   }

@@ -511,8 +511,13 @@ a {
             margin-left: -50px;
         }
         @media #{$media-portrait} {
-            display: flex;
-            flex-direction: row;
+        }
+
+        & .tabs__flexbox {
+            @media #{$media-portrait} {
+                display: flex;
+                flex-direction: row;
+            }
         }
 
         & .tabs__elem {
@@ -623,6 +628,10 @@ a {
             margin-right: 6px;
             border-radius: $block-border-radius $block-border-radius 0 0;
             padding: 7px 10px;
+
+            &:last-child {
+                margin-right: 0;
+            }
         }
     }
 }

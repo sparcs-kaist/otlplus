@@ -15,6 +15,8 @@ import {
 import userShape from '../../shapes/UserShape';
 import courseShape from '../../shapes/CourseShape';
 
+import Scroller from '../Scroller';
+
 
 class CourseListTabs extends Component {
   componentDidMount() {
@@ -194,6 +196,8 @@ class CourseListTabs extends Component {
 
     return (
       <div className={classNames('tabs', 'tabs--lecture-list')}>
+        <Scroller noScrollX={false} noScrollY={true}>
+          <div className={classNames('tabs__flexbox')}>
         <div className={classNames('tabs__elem', (selectedListCode === 'SEARCH' ? 'tabs__elem--selected' : ''))} onClick={() => this.changeTab('SEARCH')}>
           <i className={classNames('icon', 'icon--tab-search')} />
           <span>{t('ui.tab.searchShort')}</span>
@@ -212,6 +216,8 @@ class CourseListTabs extends Component {
           <i className={classNames('icon', 'icon--tab-taken')} />
           <span>{t('ui.tab.takenShort')}</span>
         </div>
+          </div>
+        </Scroller>
       </div>
     );
   }
