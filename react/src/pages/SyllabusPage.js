@@ -37,7 +37,7 @@ class SyllabusPage extends Component {
       <section className={classNames('content', 'content--no-scroll')}>
         <div className={classNames('section-wrap', 'section-wrap--with-tabs', 'section-wrap--syllabus')}>
           <div className={classNames('tabs', 'tabs--syllabus')}>
-            <Scroller noScrollX={false} noScrollY={true}>
+            <Scroller noScrollX={false} noScrollY={true} expandBottom={2}>
             {
               lectures.map((l) => (
                 <div className={classNames('tabs__elem', (selectedLecture === l ? 'tabs__elem--selected' : ''))} onClick={() => this.updateShowingLecture(l)}>
