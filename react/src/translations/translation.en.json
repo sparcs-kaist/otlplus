@@ -36,11 +36,13 @@
     },
     "tab": {
       "search": "Search",
+      "basic": "Basic Course",
       "major": "Major",
       "humanity": "Humanities & Social Elective",
       "wishlist": "Wishlist",
       "taken": "Taken",
       "searchShort": "Search",
+      "basicShort": "Basic",
       "majorShort": "Major",
       "humanityShort": "Humanity",
       "wishlistShort": "Wishlist",
