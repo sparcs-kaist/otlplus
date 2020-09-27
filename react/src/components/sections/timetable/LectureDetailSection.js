@@ -34,7 +34,6 @@ class LectureDetailSection extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      shouldShowUnfix: false,
       shouldShowCloseDict: false,
     };
 
@@ -44,12 +43,6 @@ class LectureDetailSection extends Component {
     this.attributesRef = React.createRef();
     // eslint-disable-next-line fp/no-mutation
     this.scrollRef = React.createRef();
-  }
-
-  static getDerivedStateFromProps(nextProps, prevState) {
-    return {
-      shouldShowUnfix: (nextProps.lectureFocus.from === 'LIST' || nextProps.lectureFocus.from === 'TABLE') && nextProps.lectureFocus.clicked,
-    };
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -228,8 +221,11 @@ class LectureDetailSection extends Component {
 
   render() {
     const { t } = this.props;
-    const { shouldShowUnfix, shouldShowCloseDict } = this.state;
+    const { shouldShowCloseDict } = this.state;
     const { lectureFocus, selectedTimetable, cart } = this.props;
+
+    const shouldShowUnfix = (lectureFocus.from === 'LIST' || lectureFocus.from === 'TABLE')
+      && lectureFocus.clicked;
 
     if (lectureFocus.from === LIST || lectureFocus.from === TABLE) {
       const mapreview = (review, index) => (

@@ -23,11 +23,11 @@ class LectureSearchSubSection extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      inputVal: '',
-      autoComplete: '',
-      type: new Set(['ALL']),
-      department: new Set(['ALL']),
-      grade: new Set(['ALL']),
+      keyword: '',
+      autocompleteText: '',
+      selectedTypes: new Set(['ALL']),
+      selectedDepartments: new Set(['ALL']),
+      selectedLevels: new Set(['ALL']),
     };
   }
 
@@ -40,8 +40,8 @@ class LectureSearchSubSection extends Component {
   searchStart = () => {
     const { t } = this.props;
     const {
-      type, department, grade,
-      inputVal,
+      selectedTypes, selectedDepartments, selectedLevels,
+      keyword,
     } = this.state;
     const {
       lectureFocus,
@@ -51,13 +51,16 @@ class LectureSearchSubSection extends Component {
       setListLecturesDispatch, clearLectureFocusDispatch,
     } = this.props;
 
-    if (type.size === 1 && department.size === 1 && grade.size === 1 && inputVal.trim().length === 0
-      && !(start !== null && end !== null && day !== null)) {
-      if (type.has('ALL') && department.has('ALL') && grade.has('ALL')) {
+    if (
+      (selectedTypes.size === 1 && selectedTypes.has('ALL'))
+      && (selectedDepartments.size === 1 && selectedDepartments.has('ALL'))
+      && (selectedLevels.size === 1 && selectedLevels.has('ALL'))
+      && keyword.trim().length === 0
+      && !(start !== null && end !== null && day !== null)
+    ) {
         // eslint-disable-next-line no-alert
         alert(t('ui.message.blankSearch'));
         return;
-      }
     }
     closeSearchDispatch();
     clearSearchListLecturesDispatch();
@@ -71,10 +74,10 @@ class LectureSearchSubSection extends Component {
         params: {
           year: year,
           semester: semester,
-          department: Array.from(department),
-          type: Array.from(type),
-          grade: Array.from(grade),
-          keyword: inputVal,
+          department: Array.from(selectedDepartments),
+          type: Array.from(selectedTypes),
+          grade: Array.from(selectedLevels),
+          keyword: keyword,
           begin: (start !== null) ? start.toString() : '',
           end: (end !== null) ? end.toString() : '',
           day: (day !== null) ? day.toString() : '',
@@ -118,8 +121,8 @@ class LectureSearchSubSection extends Component {
     const { year, semester } = this.props;
 
     this.setState({
-      inputVal: e.target.value,
-      autoComplete: '',
+      keyword: e.target.value,
+      autocompleteText: '',
     });
 
     if (!value.trim()) {
@@ -141,16 +144,16 @@ class LectureSearchSubSection extends Component {
       },
     )
       .then((response) => {
-        const { inputVal } = this.state;
+        const { keyword } = this.state;
         const newProps = this.props;
         const complete = response.data;
-        if (value !== inputVal
+        if (value !== keyword
           || (newProps.year !== year || newProps.semester !== semester)
         ) {
           return;
         }
         this.setState({
-          autoComplete: complete.substring(value.length, complete.length),
+          autocompleteText: complete.substring(value.length, complete.length),
         });
       })
       .catch((error) => {
@@ -159,15 +162,15 @@ class LectureSearchSubSection extends Component {
 
   applyAutocomplete = () => {
     this.setState((prevState) => ({
-      inputVal: prevState.inputVal + prevState.autoComplete,
-      autoComplete: '',
+      keyword: prevState.keyword + prevState.autocompleteText,
+      autocompleteText: '',
     }));
   }
 
   clearAutocomplete = () => {
     this.setState({
-      inputVal: '',
-      autoComplete: '',
+      keyword: '',
+      autocompleteText: '',
     });
   }
 
@@ -189,9 +192,9 @@ class LectureSearchSubSection extends Component {
   render() {
     const { t } = this.props;
     const {
-      inputVal,
-      autoComplete,
-      type, department, grade,
+      keyword,
+      autocompleteText,
+      selectedTypes, selectedDepartments, selectedLevels,
     } = this.state;
     const { start, end, day } = this.props;
 
@@ -206,37 +209,37 @@ class LectureSearchSubSection extends Component {
                 name="keyword"
                 autoComplete="off"
                 placeholder={t('ui.tab.search')}
-                value={inputVal}
+                value={keyword}
                 onKeyDown={(e) => this.onKeyPress(e)}
                 onChange={(e) => this.handleInput(e)}
               />
               <div className={classNames('search-keyword-autocomplete')}>
-                <span className={classNames('search-keyword-autocomplete-space')}>{inputVal}</span>
-                <span className={classNames('search-keyword-autocomplete-body')}>{autoComplete}</span>
+                <span className={classNames('search-keyword-autocomplete-space')}>{keyword}</span>
+                <span className={classNames('search-keyword-autocomplete-body')}>{autocompleteText}</span>
               </div>
             </div>
           </div>
           <Scroller expandBottom={0}>
             <SearchFilter
-              updateCheckedValues={this.updateCheckedValues('type')}
+              updateCheckedValues={this.updateCheckedValues('selectedTypes')}
               inputName="type"
               titleName={t('ui.search.type')}
               options={typeOptions}
-              checkedValues={type}
+              checkedValues={selectedTypes}
             />
             <SearchFilter
-              updateCheckedValues={this.updateCheckedValues('department')}
+              updateCheckedValues={this.updateCheckedValues('selectedDepartments')}
               inputName="department"
               titleName={t('ui.search.department')}
               options={departmentOptions}
-              checkedValues={department}
+              checkedValues={selectedDepartments}
             />
             <SearchFilter
-              updateCheckedValues={this.updateCheckedValues('grade')}
+              updateCheckedValues={this.updateCheckedValues('selectedLevels')}
               inputName="grade"
               titleName={t('ui.search.level')}
               options={levelOptions}
-              checkedValues={grade}
+              checkedValues={selectedLevels}
             />
             <div className={classNames('attribute')}>
               <span>{t('ui.search.time')}</span>

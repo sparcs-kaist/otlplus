@@ -6,8 +6,8 @@ import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
-import { setMobileShouldShowLectureList } from '../../../actions/timetable/list';
-import { setMobileShouldShowTimetableTabs } from '../../../actions/timetable/timetable';
+import { setMobileIsLectureListOpen } from '../../../actions/timetable/list';
+import { setMobileIsTimetableTabsOpen } from '../../../actions/timetable/timetable';
 
 import timetableShape from '../../../shapes/TimetableShape';
 
@@ -18,15 +18,15 @@ class ShareSubSection extends Component {
     const {
       selectedTimetable,
       year, semester,
-      mobileShouldShowLectureList,
-      setMobileShouldShowTimetableTabsDispatch, setMobileShouldShowLectureListDispatch,
+      mobileIsLectureListOpen,
+      setMobileIsTimetableTabsOpenDispatch, setMobileIsLectureListOpenDispatch,
     } = this.props;
 
     const timetableLectures = selectedTimetable
       ? selectedTimetable.lectures
       : [];
     return (
-      <div className={classNames('section-content--share', (mobileShouldShowLectureList ? 'mobile-hidden' : ''))}>
+      <div className={classNames('section-content--share', (mobileIsLectureListOpen ? 'mobile-hidden' : ''))}>
         <div>
           { selectedTimetable && year && semester
             ? (
@@ -54,11 +54,11 @@ class ShareSubSection extends Component {
 
         </div>
         <div>
-          <button onClick={() => setMobileShouldShowTimetableTabsDispatch(true)} className={classNames('text-button', 'text-button--black')}>
+          <button onClick={() => setMobileIsTimetableTabsOpenDispatch(true)} className={classNames('text-button', 'text-button--black')}>
             <i className={classNames('icon', 'icon--switch-table')} />
             <span>{t('ui.button.switchTable')}</span>
           </button>
-          <button onClick={() => setMobileShouldShowLectureListDispatch(true)} className={classNames('text-button', 'text-button--black')}>
+          <button onClick={() => setMobileIsLectureListOpenDispatch(true)} className={classNames('text-button', 'text-button--black')}>
             <i className={classNames('icon', 'icon--show-lectures')} />
             <span>{t('ui.button.showLectures')}</span>
           </button>
@@ -71,28 +71,28 @@ class ShareSubSection extends Component {
 
 const mapStateToProps = (state) => ({
   selectedTimetable: state.timetable.timetable.selectedTimetable,
-  mobileShouldShowLectureList: state.timetable.list.mobileShouldShowLectureList,
+  mobileIsLectureListOpen: state.timetable.list.mobileIsLectureListOpen,
   year: state.timetable.semester.year,
   semester: state.timetable.semester.semester,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  setMobileShouldShowTimetableTabsDispatch: (mobileShouldShowTimetableTabs) => {
-    dispatch(setMobileShouldShowTimetableTabs(mobileShouldShowTimetableTabs));
+  setMobileIsTimetableTabsOpenDispatch: (mobileIsTimetableTabsOpen) => {
+    dispatch(setMobileIsTimetableTabsOpen(mobileIsTimetableTabsOpen));
   },
-  setMobileShouldShowLectureListDispatch: (mobileShouldShowLectureList) => {
-    dispatch(setMobileShouldShowLectureList(mobileShouldShowLectureList));
+  setMobileIsLectureListOpenDispatch: (mobileIsLectureListOpen) => {
+    dispatch(setMobileIsLectureListOpen(mobileIsLectureListOpen));
   },
 });
 
 ShareSubSection.propTypes = {
   selectedTimetable: timetableShape,
-  mobileShouldShowLectureList: PropTypes.bool.isRequired,
+  mobileIsLectureListOpen: PropTypes.bool.isRequired,
   year: PropTypes.number,
   semester: PropTypes.number,
 
-  setMobileShouldShowTimetableTabsDispatch: PropTypes.func.isRequired,
-  setMobileShouldShowLectureListDispatch: PropTypes.func.isRequired,
+  setMobileIsTimetableTabsOpenDispatch: PropTypes.func.isRequired,
+  setMobileIsLectureListOpenDispatch: PropTypes.func.isRequired,
 };
 
 
