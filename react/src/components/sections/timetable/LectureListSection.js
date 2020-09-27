@@ -71,6 +71,7 @@ class LectureListSection extends Component {
 
     const labelOfTabs = new Map([
       ['SEARCH', 'Search'],
+      ['BASIC', 'Basic'],
       ['HUMANITY', 'Humanity'],
       ['CART', 'Cart'],
     ]);
@@ -88,6 +89,7 @@ class LectureListSection extends Component {
 
     const labelOfTabs = new Map([
       ['SEARCH', 'Search'],
+      ['BASIC', 'Basic'],
       ['HUMANITY', 'Humanity'],
       ['CART', 'Cart'],
     ]);
@@ -105,6 +107,7 @@ class LectureListSection extends Component {
 
     const labelOfTabs = new Map([
       ['SEARCH', 'Search'],
+      ['BASIC', 'Basic'],
       ['HUMANITY', 'Humanity'],
       ['CART', 'Cart'],
     ]);
@@ -148,6 +151,7 @@ class LectureListSection extends Component {
 
       const labelOfTabs = new Map([
         ['SEARCH', 'Search'],
+        ['BASIC', 'Basic'],
         ['HUMANITY', 'Humanity'],
         ['CART', 'Cart'],
       ]);
@@ -162,6 +166,7 @@ class LectureListSection extends Component {
 
       const labelOfTabs = new Map([
         ['SEARCH', 'Search'],
+        ['BASIC', 'Basic'],
         ['HUMANITY', 'Humanity'],
         ['CART', 'Cart'],
       ]);
@@ -207,11 +212,14 @@ class LectureListSection extends Component {
 
   _getLectureGroups = (selectedListCode) => {
     const {
-      search, major, humanity, cart,
+      search, basic, major, humanity, cart,
     } = this.props;
 
     if (selectedListCode === 'SEARCH') {
       return search.lectureGroups;
+    }
+    if (selectedListCode === 'BASIC') {
+      return basic.lectureGroups;
     }
     if (major.codes.some((cd) => (selectedListCode === cd))) {
       return major[selectedListCode].lectureGroups;
@@ -231,7 +239,7 @@ class LectureListSection extends Component {
       user,
       lectureFocus, selectedTimetable, selectedListCode,
       searchOpen,
-      search, major, humanity, cart,
+      search, basic, major, humanity, cart,
     } = this.props;
 
     const getListElement = (lectureGroups, fromCart) => {
@@ -283,6 +291,26 @@ class LectureListSection extends Component {
               <i className={classNames('icon', 'icon--lecture-selector')} />
             </div>
             {getListElement(search.lectureGroups, false)}
+          </>
+        </div>
+      );
+    }
+    if (selectedListCode === 'BASIC') {
+      return (
+        <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
+          <div className={classNames('close-button-wrap')}>
+            <button onClick={this.mobileCloseLectureList}>
+              <i className={classNames('icon', 'icon--close-section')} />
+            </button>
+          </div>
+          <div className={classNames('title')}>
+            {t('ui.tab.basic')}
+          </div>
+          <>
+            <div className={classNames('section-content--lecture-list__selector')} ref={this.arrowRef}>
+              <i className={classNames('icon', 'icon--lecture-selector')} />
+            </div>
+            {getListElement(basic.lectureGroups, false)}
           </>
         </div>
       );
@@ -355,6 +383,7 @@ const mapStateToProps = (state) => ({
   user: state.common.user.user,
   selectedListCode: state.timetable.list.selectedListCode,
   search: state.timetable.list.search,
+  basic: state.timetable.list.basic,
   major: state.timetable.list.major,
   humanity: state.timetable.list.humanity,
   cart: state.timetable.list.cart,
@@ -394,6 +423,9 @@ LectureListSection.propTypes = {
   user: userShape,
   selectedListCode: PropTypes.string.isRequired,
   search: PropTypes.shape({
+    lectureGroups: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)),
+  }).isRequired,
+  basic: PropTypes.shape({
     lectureGroups: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)),
   }).isRequired,
   major: PropTypes.shape({
