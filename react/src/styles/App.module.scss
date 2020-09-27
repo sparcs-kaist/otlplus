@@ -2426,6 +2426,15 @@ a {
             }
         }
 
+        &--long-name {
+            display: block;
+            margin-bottom: 8px - 2px;
+            & > * {
+                display: inline-block;
+                margin-bottom: 2px;
+            }
+        }
+
         & > *:first-child {
             font-weight: bold;
             margin-right: 6px;
