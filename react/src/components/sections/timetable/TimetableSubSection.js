@@ -29,8 +29,8 @@ class TimetableSubSection extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      firstBlock: null,
-      secondBlock: null,
+      firstDragCell: null,
+      secondDragCell: null,
     };
   }
 
@@ -90,7 +90,7 @@ class TimetableSubSection extends Component {
   _dragStart = (target) => {
     const { clearLectureFocusDispatch, setIsDraggingDispatch } = this.props;
 
-    this.setState({ firstBlock: target, secondBlock: target });
+    this.setState({ firstDragCell: target, secondDragCell: target });
     clearLectureFocusDispatch();
     setIsDraggingDispatch(true);
   }
@@ -138,12 +138,12 @@ class TimetableSubSection extends Component {
   }
 
   _dragMove = (target) => {
-    const { firstBlock } = this.state;
+    const { firstDragCell } = this.state;
     const { isDragging } = this.props;
 
     if (!isDragging) return;
-    const dayIndex = this.indexOfDay(firstBlock.getAttribute('data-day'));
-    const startIndex = this.indexOfMinute(firstBlock.getAttribute('data-minute'));
+    const dayIndex = this.indexOfDay(firstDragCell.getAttribute('data-day'));
+    const startIndex = this.indexOfMinute(firstDragCell.getAttribute('data-minute'));
     const endIndex = this.indexOfMinute(target.getAttribute('data-minute'));
     const incr = startIndex < endIndex ? 1 : -1;
     // eslint-disable-next-line no-loops/no-loops, fp/no-loops, fp/no-let, fp/no-mutation
@@ -156,7 +156,7 @@ class TimetableSubSection extends Component {
         return;
       }
     }
-    this.setState({ secondBlock: target });
+    this.setState({ secondDragCell: target });
   }
 
   onMouseUp = (e) => {
@@ -168,7 +168,7 @@ class TimetableSubSection extends Component {
   }
 
   _dragEnd = () => {
-    const { firstBlock, secondBlock } = this.state;
+    const { firstDragCell, secondDragCell } = this.state;
     const {
       isDragging,
       setIsDraggingDispatch, dragSearchDispatch, clearDragDispatch,
@@ -179,11 +179,11 @@ class TimetableSubSection extends Component {
       return;
     }
     setIsDraggingDispatch(false);
-    this.setState({ firstBlock: null, secondBlock: null });
+    this.setState({ firstDragCell: null, secondDragCell: null });
 
-    const startDay = this.indexOfDay(firstBlock.getAttribute('data-day'));
-    const startIndex = this.indexOfMinute(firstBlock.getAttribute('data-minute'));
-    const endIndex = this.indexOfMinute(secondBlock.getAttribute('data-minute'));
+    const startDay = this.indexOfDay(firstDragCell.getAttribute('data-day'));
+    const startIndex = this.indexOfMinute(firstDragCell.getAttribute('data-minute'));
+    const endIndex = this.indexOfMinute(secondDragCell.getAttribute('data-minute'));
     if (startIndex === endIndex) {
       clearDragDispatch();
       return;
@@ -232,7 +232,7 @@ class TimetableSubSection extends Component {
 
   render() {
     const { t } = this.props;
-    const { firstBlock, secondBlock } = this.state;
+    const { firstDragCell, secondDragCell } = this.state;
     const {
       selectedTimetable, lectureFocus,
       cellWidth, cellHeight,
@@ -370,15 +370,15 @@ class TimetableSubSection extends Component {
       ];
     };
 
-    const dragCell = firstBlock && secondBlock
+    const dragCell = firstDragCell && secondDragCell
       ? (
         <div
           className={classNames('section-content--timetable__drag-cell')}
           style={{
-            left: (cellWidth + 5) * this.indexOfDay(firstBlock.getAttribute('data-day')) + 17,
+            left: (cellWidth + 5) * this.indexOfDay(firstDragCell.getAttribute('data-day')) + 17,
             width: cellWidth + 2,
-            top: cellHeight * Math.min(this.indexOfMinute(firstBlock.getAttribute('data-minute')), this.indexOfMinute(secondBlock.getAttribute('data-minute'))) + 19,
-            height: cellHeight * (Math.abs(this.indexOfMinute(firstBlock.getAttribute('data-minute')) - this.indexOfMinute(secondBlock.getAttribute('data-minute'))) + 1) - 3,
+            top: cellHeight * Math.min(this.indexOfMinute(firstDragCell.getAttribute('data-minute')), this.indexOfMinute(secondDragCell.getAttribute('data-minute'))) + 19,
+            height: cellHeight * (Math.abs(this.indexOfMinute(firstDragCell.getAttribute('data-minute')) - this.indexOfMinute(secondDragCell.getAttribute('data-minute'))) + 1) - 3,
           }}
         />
       )
