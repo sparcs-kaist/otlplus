@@ -7,7 +7,7 @@ import {
   ADD_LECTURE_TO_TIMETABLE, REMOVE_LECTURE_FROM_TIMETABLE,
   UPDATE_CELL_SIZE,
   SET_IS_DRAGGING,
-  SET_MOBILE_SHOULD_SHOW_TIMETABLE_TABS,
+  SET_MOBILE_IS_TIMETABLE_TABS_OPEN,
 } from '../../actions/timetable/timetable';
 
 const MY = -1;
@@ -23,7 +23,7 @@ const initialState = {
   cellWidth: 200,
   cellHeight: 50,
   isDragging: false,
-  mobileShouldShowTimetableTabs: false,
+  mobileIsTimetableTabsOpen: false,
 };
 
 const timetable = (state = initialState, action) => {
@@ -149,9 +149,9 @@ const timetable = (state = initialState, action) => {
         isDragging: action.isDragging,
       });
     }
-    case SET_MOBILE_SHOULD_SHOW_TIMETABLE_TABS: {
+    case SET_MOBILE_IS_TIMETABLE_TABS_OPEN: {
       return Object.assign({}, state, {
-        mobileShouldShowTimetableTabs: action.mobileShouldShowTimetableTabs,
+        mobileIsTimetableTabsOpen: action.mobileIsTimetableTabsOpen,
       });
     }
     default: {

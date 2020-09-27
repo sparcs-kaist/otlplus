@@ -10,7 +10,7 @@ import Scroller from '../../Scroller';
 import LectureSearchSubSection from './LectureSearchSubSection';
 
 import { setLectureFocus, clearLectureFocus } from '../../../actions/timetable/lectureFocus';
-import { addLectureToCart, deleteLectureFromCart, setMobileShouldShowLectureList } from '../../../actions/timetable/list';
+import { addLectureToCart, deleteLectureFromCart, setMobileIsLectureListOpen } from '../../../actions/timetable/list';
 import { openSearch } from '../../../actions/timetable/search';
 import { addLectureToTimetable } from '../../../actions/timetable/timetable';
 
@@ -41,10 +41,10 @@ class LectureListSection extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    const { selectedListCode, lectureFocus, mobileShouldShowLectureList } = this.props;
+    const { selectedListCode, lectureFocus, mobileIsLectureListOpen } = this.props;
 
     if ((selectedListCode !== prevProps.selectedListCode)
-      || (mobileShouldShowLectureList && !prevProps.mobileShouldShowLectureList)) {
+      || (mobileIsLectureListOpen && !prevProps.mobileIsLectureListOpen)) {
       this.selectWithArrow();
     }
 
@@ -199,9 +199,9 @@ class LectureListSection extends Component {
   }
 
   mobileCloseLectureList = () => {
-    const { setMobileShouldShowLectureListDispatch, clearLectureFocusDispatch } = this.props;
+    const { setMobileIsLectureListOpenDispatch, clearLectureFocusDispatch } = this.props;
 
-    setMobileShouldShowLectureListDispatch(false);
+    setMobileIsLectureListOpenDispatch(false);
     clearLectureFocusDispatch();
   }
 
@@ -358,7 +358,7 @@ const mapStateToProps = (state) => ({
   major: state.timetable.list.major,
   humanity: state.timetable.list.humanity,
   cart: state.timetable.list.cart,
-  mobileShouldShowLectureList: state.timetable.list.mobileShouldShowLectureList,
+  mobileIsLectureListOpen: state.timetable.list.mobileIsLectureListOpen,
   selectedTimetable: state.timetable.timetable.selectedTimetable,
   lectureFocus: state.timetable.lectureFocus,
   year: state.timetable.semester.year,
@@ -385,8 +385,8 @@ const mapDispatchToProps = (dispatch) => ({
   deleteLectureFromCartDispatch: (lecture) => {
     dispatch(deleteLectureFromCart(lecture));
   },
-  setMobileShouldShowLectureListDispatch: (mobileShouldShowLectureList) => {
-    dispatch(setMobileShouldShowLectureList(mobileShouldShowLectureList));
+  setMobileIsLectureListOpenDispatch: (mobileIsLectureListOpen) => {
+    dispatch(setMobileIsLectureListOpen(mobileIsLectureListOpen));
   },
 });
 
@@ -405,7 +405,7 @@ LectureListSection.propTypes = {
   cart: PropTypes.shape({
     lectureGroups: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)),
   }).isRequired,
-  mobileShouldShowLectureList: PropTypes.bool.isRequired,
+  mobileIsLectureListOpen: PropTypes.bool.isRequired,
   selectedTimetable: timetableShape,
   lectureFocus: lectureFocusShape.isRequired,
   year: PropTypes.number,
@@ -418,7 +418,7 @@ LectureListSection.propTypes = {
   addLectureToTimetableDispatch: PropTypes.func.isRequired,
   addLectureToCartDispatch: PropTypes.func.isRequired,
   deleteLectureFromCartDispatch: PropTypes.func.isRequired,
-  setMobileShouldShowLectureListDispatch: PropTypes.func.isRequired,
+  setMobileIsLectureListOpenDispatch: PropTypes.func.isRequired,
 };
 
 

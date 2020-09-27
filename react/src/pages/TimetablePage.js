@@ -10,7 +10,7 @@ import { reset as resetSearch } from '../actions/timetable/search';
 import { reset as resetSemester } from '../actions/timetable/semester';
 import {
   reset as resetTimetable,
-  setSelectedTimetable, setMobileShouldShowTimetableTabs,
+  setSelectedTimetable, setMobileIsTimetableTabsOpen,
 } from '../actions/timetable/timetable';
 
 import LectureDetailSection from '../components/sections/timetable/LectureDetailSection';
@@ -61,20 +61,20 @@ class TimetablePage extends Component {
     const { startSemester } = this.props.location.state || {};
     const {
       lectureFocus,
-      mobileShouldShowTimetableTabs, mobileShouldShowLectureList,
-      setMobileShouldShowTimetableTabsDispatch,
+      mobileIsTimetableTabsOpen, mobileIsLectureListOpen,
+      setMobileIsTimetableTabsOpenDispatch,
     } = this.props;
 
     return (
       <>
         <section className={classNames('content', 'content--no-scroll', 'content--timetable')}>
-          <div className={classNames('section-wrap', 'section-wrap--desktop-1v3--left', 'section-wrap--mobile-full', 'section-wrap--timetable-left', (mobileShouldShowLectureList ? '' : 'mobile-nosize'))}>
+          <div className={classNames('section-wrap', 'section-wrap--desktop-1v3--left', 'section-wrap--mobile-full', 'section-wrap--timetable-left', (mobileIsLectureListOpen ? '' : 'mobile-nosize'))}>
             <div className={classNames('section-wrap', 'section-wrap--lecture-detail', 'mobile-modal', (lectureFocus.clicked ? '' : 'mobile-hidden'))}>
               <div className={classNames('section')}>
                 <LectureDetailSection />
               </div>
             </div>
-            <div className={classNames('section-wrap', 'section-wrap--with-tabs', 'section-wrap--lecture-list', (mobileShouldShowLectureList ? '' : 'mobile-hidden'))}>
+            <div className={classNames('section-wrap', 'section-wrap--with-tabs', 'section-wrap--lecture-list', (mobileIsLectureListOpen ? '' : 'mobile-hidden'))}>
               <LectureListTabs />
               <div className={classNames('section', 'section--with-tabs', 'section--lecture-list')}>
                 <LectureListSection />
@@ -82,10 +82,10 @@ class TimetablePage extends Component {
             </div>
           </div>
           <div className={classNames('section-wrap', 'section-wrap--desktop-1v3--right', 'section-wrap--mobile-full', 'section-wrap--timetable-center-right')}>
-            <div className={classNames('section-wrap', 'section-wrap--timetable-tabs', 'mobile-modal', (mobileShouldShowTimetableTabs ? '' : 'mobile-hidden'))}>
+            <div className={classNames('section-wrap', 'section-wrap--timetable-tabs', 'mobile-modal', (mobileIsTimetableTabsOpen ? '' : 'mobile-hidden'))}>
               <div>
                 <div className={classNames('close-button-wrap')}>
-                  <button onClick={() => setMobileShouldShowTimetableTabsDispatch(false)}>
+                  <button onClick={() => setMobileIsTimetableTabsOpenDispatch(false)}>
                     <i className={classNames('icon', 'icon--close-section')} />
                   </button>
                 </div>
@@ -102,7 +102,7 @@ class TimetablePage extends Component {
                 <SummarySubSection />
                 <div className={classNames('divider', 'mobile-hidden')} />
                 <ExamSubSection />
-                <div className={classNames('divider', (mobileShouldShowLectureList ? 'mobile-hidden' : ''))} />
+                <div className={classNames('divider', (mobileIsLectureListOpen ? 'mobile-hidden' : ''))} />
                 <ShareSubSection />
               </div>
             </div>
@@ -117,8 +117,8 @@ const mapStateToProps = (state) => ({
   user: state.common.user.user,
   lectureFocus: state.timetable.lectureFocus,
   myTimetable: state.timetable.timetable.myTimetable,
-  mobileShouldShowTimetableTabs: state.timetable.timetable.mobileShouldShowTimetableTabs,
-  mobileShouldShowLectureList: state.timetable.list.mobileShouldShowLectureList,
+  mobileIsTimetableTabsOpen: state.timetable.timetable.mobileIsTimetableTabsOpen,
+  mobileIsLectureListOpen: state.timetable.list.mobileIsLectureListOpen,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -140,8 +140,8 @@ const mapDispatchToProps = (dispatch) => ({
   resetTimetableDispatch: () => {
     dispatch(resetTimetable());
   },
-  setMobileShouldShowTimetableTabsDispatch: (mobileShouldShowTimetableTabs) => {
-    dispatch(setMobileShouldShowTimetableTabs(mobileShouldShowTimetableTabs));
+  setMobileIsTimetableTabsOpenDispatch: (mobileIsTimetableTabsOpen) => {
+    dispatch(setMobileIsTimetableTabsOpen(mobileIsTimetableTabsOpen));
   },
 });
 
@@ -157,8 +157,8 @@ TimetablePage.propTypes = {
   user: userShape,
   lectureFocus: lectureFocusShape.isRequired,
   myTimetable: timetableShape.isRequired,
-  mobileShouldShowTimetableTabs: PropTypes.bool.isRequired,
-  mobileShouldShowLectureList: PropTypes.bool.isRequired,
+  mobileIsTimetableTabsOpen: PropTypes.bool.isRequired,
+  mobileIsLectureListOpen: PropTypes.bool.isRequired,
 
   setSelectedTimetableDispatch: PropTypes.func.isRequired,
   resetLectureFocusDispatch: PropTypes.func.isRequired,
@@ -166,7 +166,7 @@ TimetablePage.propTypes = {
   resetSearchDispatch: PropTypes.func.isRequired,
   resetSemesterDispatch: PropTypes.func.isRequired,
   resetTimetableDispatch: PropTypes.func.isRequired,
-  setMobileShouldShowTimetableTabsDispatch: PropTypes.func.isRequired,
+  setMobileIsTimetableTabsOpenDispatch: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TimetablePage);
