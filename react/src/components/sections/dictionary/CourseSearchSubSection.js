@@ -23,12 +23,12 @@ class CourseSearchSubSection extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      inputVal: '',
-      autoComplete: '',
-      type: new Set(['ALL']),
-      department: new Set(['ALL']),
-      grade: new Set(['ALL']),
-      term: new Set(['ALL']),
+      keyword: '',
+      autocompleteText: '',
+      selectedTypes: new Set(['ALL']),
+      selectedDepartments: new Set(['ALL']),
+      selectedLevels: new Set(['ALL']),
+      selectedTerms: new Set(['ALL']),
     };
   }
 
@@ -41,8 +41,8 @@ class CourseSearchSubSection extends Component {
   searchStart = () => {
     const { t } = this.props;
     const {
-      type, department, grade, term,
-      inputVal,
+      selectedTypes, selectedDepartments, selectedLevels, selectedTerms,
+      keyword,
     } = this.state;
     const {
       closeSearchDispatch, clearSearchListCoursesDispatch,
@@ -50,10 +50,10 @@ class CourseSearchSubSection extends Component {
     } = this.props;
 
     if (
-      (type.size === 1 && type.has('ALL'))
-      && (department.size === 1 && department.has('ALL'))
-      && (grade.size === 1 && grade.has('ALL'))
-      && inputVal.trim().length === 0
+      (selectedTypes.size === 1 && selectedTypes.has('ALL'))
+      && (selectedDepartments.size === 1 && selectedDepartments.has('ALL'))
+      && (selectedLevels.size === 1 && selectedLevels.has('ALL'))
+      && keyword.trim().length === 0
     ) {
       // eslint-disable-next-line no-alert
       alert(t('ui.message.blankSearch'));
@@ -67,11 +67,11 @@ class CourseSearchSubSection extends Component {
       '/api/courses',
       {
         params: {
-          department: Array.from(department),
-          type: Array.from(type),
-          grade: Array.from(grade),
-          term: Array.from(term),
-          keyword: inputVal,
+          department: Array.from(selectedDepartments),
+          type: Array.from(selectedTypes),
+          grade: Array.from(selectedLevels),
+          term: Array.from(selectedTerms),
+          keyword: keyword,
         },
         metadata: {
           gaCategory: 'Course',
@@ -106,8 +106,8 @@ class CourseSearchSubSection extends Component {
     const { value } = e.target;
 
     this.setState({
-      inputVal: e.target.value,
-      autoComplete: '',
+      keyword: e.target.value,
+      autocompleteText: '',
     });
 
     if (!value.trim()) {
@@ -127,13 +127,13 @@ class CourseSearchSubSection extends Component {
       },
     )
       .then((response) => {
-        const { inputVal } = this.state;
+        const { keyword } = this.state;
         const complete = response.data;
-        if (value !== inputVal) {
+        if (value !== keyword) {
           return;
         }
         this.setState({
-          autoComplete: complete.substring(value.length, complete.length),
+          autocompleteText: complete.substring(value.length, complete.length),
         });
       })
       .catch((error) => {
@@ -142,15 +142,15 @@ class CourseSearchSubSection extends Component {
 
   applyAutocomplete = () => {
     this.setState((prevState) => ({
-      inputVal: prevState.inputVal + prevState.autoComplete,
-      autoComplete: '',
+      keyword: prevState.keyword + prevState.autocompleteText,
+      autocompleteText: '',
     }));
   }
 
   clearAutocomplete = () => {
     this.setState({
-      inputVal: '',
-      autoComplete: '',
+      keyword: '',
+      autocompleteText: '',
     });
   }
 
@@ -166,9 +166,9 @@ class CourseSearchSubSection extends Component {
   render() {
     const { t } = this.props;
     const {
-      inputVal,
-      autoComplete,
-      type, department, grade, term,
+      keyword,
+      autocompleteText,
+      selectedTypes, selectedDepartments, selectedLevels, selectedTerms,
     } = this.state;
 
     return (
@@ -182,44 +182,44 @@ class CourseSearchSubSection extends Component {
                 name="keyword"
                 autoComplete="off"
                 placeholder={t('ui.tab.search')}
-                value={inputVal}
+                value={keyword}
                 onKeyDown={(e) => this.onKeyPress(e)}
                 onChange={(e) => this.handleInput(e)}
               />
               <div className={classNames('search-keyword-autocomplete')}>
-                <span className={classNames('search-keyword-autocomplete-space')}>{inputVal}</span>
-                <span className={classNames('search-keyword-autocomplete-body')}>{autoComplete}</span>
+                <span className={classNames('search-keyword-autocomplete-space')}>{keyword}</span>
+                <span className={classNames('search-keyword-autocomplete-body')}>{autocompleteText}</span>
               </div>
             </div>
           </div>
           <Scroller expandBottom={0}>
             <SearchFilter
-              updateCheckedValues={this.updateCheckedValues('type')}
+              updateCheckedValues={this.updateCheckedValues('selectedTypes')}
               inputName="type"
               titleName={t('ui.search.type')}
               options={typeOptions}
-              checkedValues={type}
+              checkedValues={selectedTypes}
             />
             <SearchFilter
-              updateCheckedValues={this.updateCheckedValues('department')}
+              updateCheckedValues={this.updateCheckedValues('selectedDepartments')}
               inputName="department"
               titleName={t('ui.search.department')}
               options={departmentOptions}
-              checkedValues={department}
+              checkedValues={selectedDepartments}
             />
             <SearchFilter
-              updateCheckedValues={this.updateCheckedValues('grade')}
+              updateCheckedValues={this.updateCheckedValues('selectedLevels')}
               inputName="grade"
               titleName={t('ui.search.level')}
               options={levelOptions}
-              checkedValues={grade}
+              checkedValues={selectedLevels}
             />
             <SearchFilter
-              updateCheckedValues={this.updateCheckedValues('term')}
+              updateCheckedValues={this.updateCheckedValues('selectedTerms')}
               inputName="term"
               titleName={t('ui.search.term')}
               options={termOptions}
-              checkedValues={term}
+              checkedValues={selectedTerms}
             />
           </Scroller>
           <div className={classNames('buttons')}>

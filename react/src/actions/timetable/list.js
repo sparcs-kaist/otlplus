@@ -10,7 +10,7 @@ export const CLEAR_SEARCH_LIST_LECTURES = BASE_STRING + 'CLEAR_SEARCH_LIST_LECTU
 export const SET_LIST_MAJOR_LECTURES = BASE_STRING + 'SET_LIST_MAJOR_LECTURES';
 export const ADD_LECTURE_TO_CART = BASE_STRING + 'ADD_LECTURE_TO_CART';
 export const DELETE_LECTURE_FROM_CART = BASE_STRING + 'DELETE_LECTURE_FROM_CART';
-export const SET_MOBILE_SHOULD_SHOW_LECTURE_LIST = BASE_STRING + 'SET_MOBILE_SHOULD_SHOW_LECTURE_LIST';
+export const SET_MOBILE_IS_LECTURE_LIST_OPEN = BASE_STRING + 'SET_MOBILE_IS_LECTURE_LIST_OPEN';
 /* eslint-enable prefer-template */
 
 
@@ -76,9 +76,9 @@ export function deleteLectureFromCart(lecture) {
   };
 }
 
-export function setMobileShouldShowLectureList(mobileShouldShowLectureList) {
+export function setMobileIsLectureListOpen(mobileIsLectureListOpen) {
   return {
-    type: SET_MOBILE_SHOULD_SHOW_LECTURE_LIST,
-    mobileShouldShowLectureList: mobileShouldShowLectureList,
+    type: SET_MOBILE_IS_LECTURE_LIST_OPEN,
+    mobileIsLectureListOpen: mobileIsLectureListOpen,
   };
 }

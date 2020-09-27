@@ -8,7 +8,7 @@ import { appBoundClassNames as classNames } from '../../../common/boundClassName
 import TimetableBlock from '../../blocks/TimetableBlock';
 
 import { setLectureFocus, clearLectureFocus } from '../../../actions/timetable/lectureFocus';
-import { setSelectedListCode, setMobileShouldShowLectureList } from '../../../actions/timetable/list';
+import { setSelectedListCode, setMobileIsLectureListOpen } from '../../../actions/timetable/list';
 import { dragSearch, clearDrag } from '../../../actions/timetable/search';
 import { setIsDragging, updateCellSize, removeLectureFromTimetable } from '../../../actions/timetable/timetable';
 
@@ -29,8 +29,8 @@ class TimetableSubSection extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      firstBlock: null,
-      secondBlock: null,
+      firstDragCell: null,
+      secondDragCell: null,
     };
   }
 
@@ -90,7 +90,7 @@ class TimetableSubSection extends Component {
   _dragStart = (target) => {
     const { clearLectureFocusDispatch, setIsDraggingDispatch } = this.props;
 
-    this.setState({ firstBlock: target, secondBlock: target });
+    this.setState({ firstDragCell: target, secondDragCell: target });
     clearLectureFocusDispatch();
     setIsDraggingDispatch(true);
   }
@@ -138,12 +138,12 @@ class TimetableSubSection extends Component {
   }
 
   _dragMove = (target) => {
-    const { firstBlock } = this.state;
+    const { firstDragCell } = this.state;
     const { isDragging } = this.props;
 
     if (!isDragging) return;
-    const dayIndex = this.indexOfDay(firstBlock.getAttribute('data-day'));
-    const startIndex = this.indexOfMinute(firstBlock.getAttribute('data-minute'));
+    const dayIndex = this.indexOfDay(firstDragCell.getAttribute('data-day'));
+    const startIndex = this.indexOfMinute(firstDragCell.getAttribute('data-minute'));
     const endIndex = this.indexOfMinute(target.getAttribute('data-minute'));
     const incr = startIndex < endIndex ? 1 : -1;
     // eslint-disable-next-line no-loops/no-loops, fp/no-loops, fp/no-let, fp/no-mutation
@@ -156,7 +156,7 @@ class TimetableSubSection extends Component {
         return;
       }
     }
-    this.setState({ secondBlock: target });
+    this.setState({ secondDragCell: target });
   }
 
   onMouseUp = (e) => {
@@ -168,28 +168,28 @@ class TimetableSubSection extends Component {
   }
 
   _dragEnd = () => {
-    const { firstBlock, secondBlock } = this.state;
+    const { firstDragCell, secondDragCell } = this.state;
     const {
       isDragging,
       setIsDraggingDispatch, dragSearchDispatch, clearDragDispatch,
-      setSelectedListCodeDispatch, setMobileShouldShowLectureListDispatch,
+      setSelectedListCodeDispatch, setMobileIsLectureListOpenDispatch,
     } = this.props;
 
     if (!isDragging) {
       return;
     }
     setIsDraggingDispatch(false);
-    this.setState({ firstBlock: null, secondBlock: null });
+    this.setState({ firstDragCell: null, secondDragCell: null });
 
-    const startDay = this.indexOfDay(firstBlock.getAttribute('data-day'));
-    const startIndex = this.indexOfMinute(firstBlock.getAttribute('data-minute'));
-    const endIndex = this.indexOfMinute(secondBlock.getAttribute('data-minute'));
+    const startDay = this.indexOfDay(firstDragCell.getAttribute('data-day'));
+    const startIndex = this.indexOfMinute(firstDragCell.getAttribute('data-minute'));
+    const endIndex = this.indexOfMinute(secondDragCell.getAttribute('data-minute'));
     if (startIndex === endIndex) {
       clearDragDispatch();
       return;
     }
     dragSearchDispatch(startDay, Math.min(startIndex, endIndex), Math.max(startIndex, endIndex) + 1);
-    setMobileShouldShowLectureListDispatch(true);
+    setMobileIsLectureListOpenDispatch(true);
     setSelectedListCodeDispatch('SEARCH');
   }
 
@@ -232,11 +232,11 @@ class TimetableSubSection extends Component {
 
   render() {
     const { t } = this.props;
-    const { firstBlock, secondBlock } = this.state;
+    const { firstDragCell, secondDragCell } = this.state;
     const {
       selectedTimetable, lectureFocus,
       cellWidth, cellHeight,
-      mobileShouldShowLectureList,
+      mobileIsLectureListOpen,
     } = this.props;
 
     const timetableLectures = selectedTimetable ? selectedTimetable.lectures : [];
@@ -283,7 +283,7 @@ class TimetableSubSection extends Component {
           isHighlighted={isFocused(lecture, lectureFocus)}
           isDimmed={isDimmedTableLecture(lecture, lectureFocus)}
           isTemp={isTemp}
-          isSimple={mobileShouldShowLectureList}
+          isSimple={mobileIsLectureListOpen}
           blockHover={isTemp ? null : this.blockHover}
           blockOut={isTemp ? null : this.blockOut}
           blockClick={isTemp ? null : this.blockClick}
@@ -340,7 +340,7 @@ class TimetableSubSection extends Component {
               'cell',
               'cell-drag',
               (i % 60 === 0) ? 'cell-top' : 'cell-bottom',
-              (i % 60 === 30) && mobileShouldShowLectureList ? 'cell-bottom--mobile-noline' : '',
+              (i % 60 === 30) && mobileIsLectureListOpen ? 'cell-bottom--mobile-noline' : '',
               (i === 23 * 60 + 30) ? 'cell-last' : '',
               (i % (6 * 60) === 0) ? 'cell-bold' : '',
             )}
@@ -359,8 +359,8 @@ class TimetableSubSection extends Component {
           <div className={classNames('cell')} />
           <div className={classNames('table-head')}>{untimedBlockTitles[i * 5 + dayIdx]}</div>
           <div className={classNames('cell', 'cell-top')} />
-          <div className={classNames('cell', 'cell-bottom', (mobileShouldShowLectureList ? 'cell-bottom--mobile-noline' : ''))} />
-          <div className={classNames('cell', 'cell-bottom', 'cell-last', (mobileShouldShowLectureList ? 'cell-bottom--mobile-noline' : ''))} />
+          <div className={classNames('cell', 'cell-bottom', (mobileIsLectureListOpen ? 'cell-bottom--mobile-noline' : ''))} />
+          <div className={classNames('cell', 'cell-bottom', 'cell-last', (mobileIsLectureListOpen ? 'cell-bottom--mobile-noline' : ''))} />
         </React.Fragment>
       ));
       return [
@@ -370,15 +370,15 @@ class TimetableSubSection extends Component {
       ];
     };
 
-    const dragCell = firstBlock && secondBlock
+    const dragCell = firstDragCell && secondDragCell
       ? (
         <div
           className={classNames('section-content--timetable__drag-cell')}
           style={{
-            left: (cellWidth + 5) * this.indexOfDay(firstBlock.getAttribute('data-day')) + 17,
+            left: (cellWidth + 5) * this.indexOfDay(firstDragCell.getAttribute('data-day')) + 17,
             width: cellWidth + 2,
-            top: cellHeight * Math.min(this.indexOfMinute(firstBlock.getAttribute('data-minute')), this.indexOfMinute(secondBlock.getAttribute('data-minute'))) + 19,
-            height: cellHeight * (Math.abs(this.indexOfMinute(firstBlock.getAttribute('data-minute')) - this.indexOfMinute(secondBlock.getAttribute('data-minute'))) + 1) - 3,
+            top: cellHeight * Math.min(this.indexOfMinute(firstDragCell.getAttribute('data-minute')), this.indexOfMinute(secondDragCell.getAttribute('data-minute'))) + 19,
+            height: cellHeight * (Math.abs(this.indexOfMinute(firstDragCell.getAttribute('data-minute')) - this.indexOfMinute(secondDragCell.getAttribute('data-minute'))) + 1) - 3,
           }}
         />
       )
@@ -421,7 +421,7 @@ const mapStateToProps = (state) => ({
   cellWidth: state.timetable.timetable.cellWidth,
   cellHeight: state.timetable.timetable.cellHeight,
   isDragging: state.timetable.timetable.isDragging,
-  mobileShouldShowLectureList: state.timetable.list.mobileShouldShowLectureList,
+  mobileIsLectureListOpen: state.timetable.list.mobileIsLectureListOpen,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -449,8 +449,8 @@ const mapDispatchToProps = (dispatch) => ({
   setSelectedListCodeDispatch: (listCode) => {
     dispatch(setSelectedListCode(listCode));
   },
-  setMobileShouldShowLectureListDispatch: (mobileShouldShowLectureList) => {
-    dispatch(setMobileShouldShowLectureList(mobileShouldShowLectureList));
+  setMobileIsLectureListOpenDispatch: (mobileIsLectureListOpen) => {
+    dispatch(setMobileIsLectureListOpen(mobileIsLectureListOpen));
   },
 });
 
@@ -461,7 +461,7 @@ TimetableSubSection.propTypes = {
   cellWidth: PropTypes.number.isRequired,
   cellHeight: PropTypes.number.isRequired,
   isDragging: PropTypes.bool.isRequired,
-  mobileShouldShowLectureList: PropTypes.bool.isRequired,
+  mobileIsLectureListOpen: PropTypes.bool.isRequired,
 
   updateCellSizeDispatch: PropTypes.func.isRequired,
   dragSearchDispatch: PropTypes.func.isRequired,
@@ -471,7 +471,7 @@ TimetableSubSection.propTypes = {
   clearLectureFocusDispatch: PropTypes.func.isRequired,
   removeLectureFromTimetableDispatch: PropTypes.func.isRequired,
   setSelectedListCodeDispatch: PropTypes.func.isRequired,
-  setMobileShouldShowLectureListDispatch: PropTypes.func.isRequired,
+  setMobileIsLectureListOpenDispatch: PropTypes.func.isRequired,
 };
 
 
