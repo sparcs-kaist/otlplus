@@ -263,12 +263,6 @@ class LectureDetailSection extends Component {
               {t('ui.button.dictionary')}
             </Link>
           </div>
-          <div className={classNames('fixed__conditional-part', (shouldShowCloseDict ? '' : 'fixed__conditional-part--hidden'))}>
-            <button className={classNames('small-title')} onClick={this.closeDictPreview}>
-              <span>{t('ui.title.reviews')}</span>
-              <i className={classNames('icon', 'icon--lecture-uparrow')} />
-            </button>
-          </div>
           <Scroller
             onScroll={this.onScroll}
             key={lectureFocus.lecture.id}
@@ -345,10 +339,20 @@ class LectureDetailSection extends Component {
                 <div>{t('ui.score.speech')}</div>
               </div>
             </div>
-            <button onClick={this.openDictPreview} className={classNames('small-title')} ref={this.openDictRef}>
-              <span>{t('ui.title.reviews')}</span>
-              <i className={classNames('icon', 'icon--lecture-downarrow')} />
-            </button>
+            { shouldShowCloseDict
+              ? (
+                <button className={classNames('small-title', 'top-sticky')} onClick={this.closeDictPreview} ref={this.openDictRef}>
+                  <span>{t('ui.title.reviews')}</span>
+                  <i className={classNames('icon', 'icon--lecture-uparrow')} />
+                </button>
+              )
+              : (
+                <button className={classNames('small-title', 'top-sticky')} onClick={this.openDictPreview} ref={this.openDictRef}>
+                  <span>{t('ui.title.reviews')}</span>
+                  <i className={classNames('icon', 'icon--lecture-downarrow')} />
+                </button>
+              )
+            }
             {reviewsDom}
           </Scroller>
           <div className={classNames('divider', 'mobile-unhidden')} />
