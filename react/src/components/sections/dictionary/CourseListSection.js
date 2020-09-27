@@ -51,6 +51,7 @@ class CourseListSection extends Component {
 
       const labelOfTabs = new Map([
         ['SEARCH', 'Search'],
+        ['BASIC', 'Basic'],
         ['HUMANITY', 'Humanity'],
         ['TAKEN', 'Taken'],
       ]);
@@ -65,6 +66,7 @@ class CourseListSection extends Component {
 
       const labelOfTabs = new Map([
         ['SEARCH', 'Search'],
+        ['BASIC', 'Basic'],
         ['HUMANITY', 'Humanity'],
         ['TAKEN', 'Taken'],
       ]);
@@ -81,7 +83,7 @@ class CourseListSection extends Component {
     const { t } = this.props;
     const {
       courseFocus, selectedListCode, searchOpen,
-      search, major, humanity, taken, readCourses,
+      search, basic, major, humanity, taken, readCourses,
     } = this.props;
 
     const getListElement = (courses) => {
@@ -123,6 +125,16 @@ class CourseListSection extends Component {
         </div>
       );
     }
+    if (selectedListCode === 'BASIC') {
+      return (
+        <div className={classNames('section-content', 'section-content--flex', 'section-content--course-list')}>
+          <div className={classNames('title')}>
+            {t('ui.tab.basic')}
+          </div>
+          { getListElement(basic.courses) }
+        </div>
+      );
+    }
     if (major.codes.some((cd) => (selectedListCode === cd))) {
       return (
         <div className={classNames('section-content', 'section-content--flex', 'section-content--course-list')}>
@@ -160,6 +172,7 @@ class CourseListSection extends Component {
 const mapStateToProps = (state) => ({
   selectedListCode: state.dictionary.list.selectedListCode,
   search: state.dictionary.list.search,
+  basic: state.dictionary.list.basic,
   major: state.dictionary.list.major,
   humanity: state.dictionary.list.humanity,
   taken: state.dictionary.list.taken,
@@ -183,6 +196,9 @@ const mapDispatchToProps = (dispatch) => ({
 CourseListSection.propTypes = {
   selectedListCode: PropTypes.string.isRequired,
   search: PropTypes.shape({
+    courses: PropTypes.arrayOf(courseShape),
+  }).isRequired,
+  basic: PropTypes.shape({
     courses: PropTypes.arrayOf(courseShape),
   }).isRequired,
   major: PropTypes.shape({

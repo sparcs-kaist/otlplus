@@ -46,12 +46,12 @@ from PIL import Image, ImageDraw, ImageFont
 
 def _user_department(user):
     if not user.is_authenticated():
-        return [{'id': -1, 'code':'Basic', 'name':u' 기초 과목', 'name_en':u' Basic Course'}]
+        return []
 
     u = user.userprofile
 
     if (u.department==None) or (u.department.code in ['AA', 'ICE']):
-        departments = [{'id': -1, 'code':'Basic', 'name':u' 기초 과목', 'name_en':u' Basic Course'}]
+        departments = []
     else:
         departments = [u.department.toJson()]
 

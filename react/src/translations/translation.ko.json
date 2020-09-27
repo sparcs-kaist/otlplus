@@ -36,11 +36,13 @@
     },
     "tab": {
       "search": "검색",
+      "basic": "기초 과목",
       "major": "전공",
       "humanity": "인문사회선택",
       "wishlist": "장바구니",
       "taken": "내가 들은",
       "searchShort": "검색",
+      "basicShort": "기초",
       "majorShort": "전공",
       "humanityShort": "인선",
       "wishlistShort": "장바구니",
