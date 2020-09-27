@@ -18,7 +18,7 @@ class Scroller extends Component {
       onScroll,
       children,
       noScrollX, noScrollY,
-      expandBottom,
+      expandTop, expandBottom,
     } = this.props;
     const { isScrolling, isMouseIn } = this.state;
 
@@ -27,6 +27,7 @@ class Scroller extends Component {
         className={[(noScrollX ? 'noX' : ''), (noScrollY ? 'noY' : '')].join(' ')}
         style={{
           flex: 'auto',
+          marginTop: `-${expandTop}px`,
           marginBottom: `-${expandBottom}px`,
           display: 'flex',
           flexDirection: 'column',
@@ -59,11 +60,11 @@ class Scroller extends Component {
           style: {
             padding: '0',
             minWidth: '100%',
-            minHeight: `calc(100% - ${expandBottom}px`,
+            minHeight: `calc(100% - ${expandTop + expandBottom}px`,
+            marginTop: `${expandTop}px`,
             marginBottom: `${expandBottom}px`,
             width: (noScrollX ? undefined : 'fit-content'),
             height: (noScrollY ? undefined : 'fit-content'),
-            overflow: 'hidden',
           },
         }}
         trackXProps={{
@@ -79,10 +80,10 @@ class Scroller extends Component {
         }}
         trackYProps={{
           style: {
-            top: '0',
+            top: `${expandTop}px`,
             right: '0',
             width: '12px',
-            height: `calc(100% - ${expandBottom}px)`,
+            height: `calc(100% - ${expandTop + expandBottom}px)`,
             backgroundColor: 'transparent',
             transition: 'opacity 0.3s',
             opacity: isScrolling ? '1' : (isMouseIn ? '0.25' : '0'),
@@ -135,14 +136,15 @@ Scroller.propTypes = {
   children: PropTypes.node.isRequired,
   noScrollX: PropTypes.bool,
   noScrollY: PropTypes.bool,
+  expandTop: PropTypes.number,
   expandBottom: PropTypes.number,
 };
 
 Scroller.defaultProps = {
   noScrollX: true,
   noScrollY: false,
+  expandTop: 0,
   expandBottom: 12,
-  expandRight: 12,
 };
 
 export default Scroller;
