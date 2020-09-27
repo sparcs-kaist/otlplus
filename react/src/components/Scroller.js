@@ -65,7 +65,6 @@ class Scroller extends Component {
             marginBottom: `${expandBottom}px`,
             width: (noScrollX ? undefined : 'fit-content'),
             height: (noScrollY ? undefined : 'fit-content'),
-            overflow: 'hidden',
           },
         }}
         trackXProps={{

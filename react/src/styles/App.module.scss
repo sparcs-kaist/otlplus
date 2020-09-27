@@ -2330,6 +2330,7 @@ a {
 
             & > th {
                 position: sticky;
+                z-index: 1;
                 left: 0;
                 background-color: $color-section-background;
                 width: 10px;
@@ -2407,11 +2408,12 @@ a {
         display: flex;
         flex-direction: row;
         margin-bottom: 8px;
-
         .block--course & {
             margin-bottom: 6px;
         }
-
+        .search-area & {
+            overflow: hidden;
+        }
         &:last-child {
             margin-bottom: 0;
         }
