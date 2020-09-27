@@ -8,7 +8,7 @@ import ReactGA from 'react-ga';
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 
 import {
-  setListMajorCodes, setSelectedListCode, setListLectures, clearListsLectures, setListMajorLectures,
+  setSelectedListCode, setListLectures, clearListsLectures, setListMajorLectures,
 } from '../../actions/timetable/list';
 import { openSearch, closeSearch } from '../../actions/timetable/search';
 
@@ -23,7 +23,6 @@ class LectureListTabs extends Component {
     const { user } = this.props;
 
     if (user) {
-      this._setMajorCodes(user.departments);
       this._fetchList('CART', true);
     }
   }
@@ -37,7 +36,6 @@ class LectureListTabs extends Component {
     } = this.props;
 
     if (user && !prevProps.user) {
-      this._setMajorCodes(user.departments);
       this._fetchList('CART', true);
     }
 
@@ -52,17 +50,6 @@ class LectureListTabs extends Component {
     if (selectedListCode !== prevProps.selectedListCode) {
       this._fetchList(selectedListCode);
     }
-  }
-
-
-  _setMajorCodes = (departments) => {
-    const { setListMajorCodesDispatch } = this.props;
-    const majors = departments.map((d) => ({
-      code: d.code,
-      name: `${d.name} 전공`,
-      name_en: `${d.name_en} Major`,
-    }));
-    setListMajorCodesDispatch(majors);
   }
 
   _fetchList = (listCode, force = false) => {
@@ -128,7 +115,7 @@ class LectureListTabs extends Component {
       setListMajorLecturesDispatch,
     } = this.props;
 
-    if (!force && major[majorCode].lectureGroups) {
+    if (!force && major[majorCode] && major[majorCode].lectureGroups) {
       return;
     }
 
@@ -316,9 +303,6 @@ const mapDispatchToProps = (dispatch) => ({
   closeSearchDispatch: () => {
     dispatch(closeSearch());
   },
-  setListMajorCodesDispatch: (majors) => {
-    dispatch(setListMajorCodes(majors));
-  },
   setSelectedListCodeDispatch: (listCode) => {
     dispatch(setSelectedListCode(listCode));
   },
@@ -345,7 +329,6 @@ LectureListTabs.propTypes = {
     lectureGroups: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)),
   }).isRequired,
   major: PropTypes.shape({
-    codes: PropTypes.arrayOf(PropTypes.string).isRequired,
   }).isRequired,
   humanity: PropTypes.shape({
     lectureGroups: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)),
@@ -356,7 +339,6 @@ LectureListTabs.propTypes = {
 
   openSearchDispatch: PropTypes.func.isRequired,
   closeSearchDispatch: PropTypes.func.isRequired,
-  setListMajorCodesDispatch: PropTypes.func.isRequired,
   setSelectedListCodeDispatch: PropTypes.func.isRequired,
   setListLecturesDispatch: PropTypes.func.isRequired,
   clearListsLecturesDispatch: PropTypes.func.isRequired,

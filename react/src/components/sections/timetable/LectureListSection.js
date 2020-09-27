@@ -223,6 +223,9 @@ class LectureListSection extends Component {
       return basic.lectureGroups;
     }
     if (user && user.departments.some((d) => (selectedListCode === d.code))) {
+      if (!major[selectedListCode]) {
+        return null;
+      }
       return major[selectedListCode].lectureGroups;
     }
     if (selectedListCode === 'HUMANITY') {
@@ -291,7 +294,7 @@ class LectureListSection extends Component {
             <div className={classNames('section-content--lecture-list__selector')} ref={this.arrowRef}>
               <i className={classNames('icon', 'icon--lecture-selector')} />
             </div>
-            {getListElement(search.lectureGroups, false)}
+            {getListElement(this._getLectureGroups(selectedListCode), false)}
           </>
         </div>
       );
@@ -311,12 +314,13 @@ class LectureListSection extends Component {
             <div className={classNames('section-content--lecture-list__selector')} ref={this.arrowRef}>
               <i className={classNames('icon', 'icon--lecture-selector')} />
             </div>
-            {getListElement(basic.lectureGroups, false)}
+            {getListElement(this._getLectureGroups(selectedListCode), false)}
           </>
         </div>
       );
     }
     if (user && user.departments.some((d) => (selectedListCode === d.code))) {
+      const department = user.departments.find((d) => (selectedListCode === d.code));
       return (
         <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
           <div className={classNames('close-button-wrap')}>
@@ -325,13 +329,13 @@ class LectureListSection extends Component {
             </button>
           </div>
           <div className={classNames('title')}>
-            {major[selectedListCode][t('js.property.name')]}
+            {`${department[t('js.property.name')]} ${t('ui.tab.major')}`}
           </div>
           <>
             <div className={classNames('section-content--lecture-list__selector')} ref={this.arrowRef}>
               <i className={classNames('icon', 'icon--lecture-selector')} />
             </div>
-            {getListElement(major[selectedListCode].lectureGroups, false)}
+            {getListElement(this._getLectureGroups(selectedListCode), false)}
           </>
         </div>
       );
@@ -351,7 +355,7 @@ class LectureListSection extends Component {
             <div className={classNames('section-content--lecture-list__selector')} ref={this.arrowRef}>
               <i className={classNames('icon', 'icon--lecture-selector')} />
             </div>
-            {getListElement(humanity.lectureGroups, false)}
+            {getListElement(this._getLectureGroups(selectedListCode), false)}
           </>
         </div>
       );
@@ -371,7 +375,7 @@ class LectureListSection extends Component {
             <div className={classNames('section-content--lecture-list__selector')} ref={this.arrowRef}>
               <i className={classNames('icon', 'icon--lecture-selector')} />
             </div>
-            {getListElement(cart.lectureGroups, true)}
+            {getListElement(this._getLectureGroups(selectedListCode), true)}
           </>
         </div>
       );
@@ -430,7 +434,6 @@ LectureListSection.propTypes = {
     lectureGroups: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)),
   }).isRequired,
   major: PropTypes.shape({
-    codes: PropTypes.arrayOf(PropTypes.string).isRequired,
   }).isRequired,
   humanity: PropTypes.shape({
     lectureGroups: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)),
