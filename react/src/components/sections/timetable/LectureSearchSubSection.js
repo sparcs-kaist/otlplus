@@ -51,13 +51,16 @@ class LectureSearchSubSection extends Component {
       setListLecturesDispatch, clearLectureFocusDispatch,
     } = this.props;
 
-    if (selectedTypes.size === 1 && selectedDepartments.size === 1 && selectedLevels.size === 1 && keyword.trim().length === 0
-      && !(start !== null && end !== null && day !== null)) {
-      if (selectedTypes.has('ALL') && selectedDepartments.has('ALL') && selectedLevels.has('ALL')) {
+    if (
+      (selectedTypes.size === 1 && selectedTypes.has('ALL'))
+      && (selectedDepartments.size === 1 && selectedDepartments.has('ALL'))
+      && (selectedLevels.size === 1 && selectedLevels.has('ALL'))
+      && keyword.trim().length === 0
+      && !(start !== null && end !== null && day !== null)
+    ) {
         // eslint-disable-next-line no-alert
         alert(t('ui.message.blankSearch'));
         return;
-      }
     }
     closeSearchDispatch();
     clearSearchListLecturesDispatch();
