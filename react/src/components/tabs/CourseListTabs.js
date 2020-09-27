@@ -9,7 +9,7 @@ import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 
 import { openSearch, closeSearch } from '../../actions/dictionary/search';
 import {
-  setListMajorCodes, setSelectedListCode, setListCourses, setListMajorCourses,
+  setSelectedListCode, setListCourses, setListMajorCourses,
 } from '../../actions/dictionary/list';
 
 import userShape from '../../shapes/UserShape';
@@ -19,19 +19,10 @@ import Scroller from '../Scroller';
 
 
 class CourseListTabs extends Component {
-  componentDidMount() {
-    const { user } = this.props;
-
-    if (user) {
-      this._setMajorCodes(user.departments);
-    }
-  }
-
   componentDidUpdate(prevProps, prevState, snapshot) {
     const { user, selectedListCode } = this.props;
 
     if (user && !prevProps.user) {
-      this._setMajorCodes(user.departments);
       if (selectedListCode === 'TAKEN') {
         this._fetchList(selectedListCode, true);
       }
@@ -40,16 +31,6 @@ class CourseListTabs extends Component {
     if (selectedListCode !== prevProps.selectedListCode) {
       this._fetchList(selectedListCode);
     }
-  }
-
-  _setMajorCodes = (departments) => {
-    const { setListMajorCodesDispatch } = this.props;
-    const majors = departments.map((d) => ({
-      code: d.code,
-      name: `${d.name} 전공`,
-      name_en: `${d.name_en} Major`,
-    }));
-    setListMajorCodesDispatch(majors);
   }
 
   _fetchList = (listCode, force = false) => {
@@ -102,7 +83,7 @@ class CourseListTabs extends Component {
   _fetchMajorList = (majorCode, force = false) => {
     const { major, setListMajorCoursesDispatch } = this.props;
 
-    if (!force && major[majorCode].courses) {
+    if (!force && major[majorCode] && major[majorCode].courses) {
       return;
     }
 
@@ -270,9 +251,6 @@ const mapDispatchToProps = (dispatch) => ({
   closeSearchDispatch: () => {
     dispatch(closeSearch());
   },
-  setListMajorCodesDispatch: (majors) => {
-    dispatch(setListMajorCodes(majors));
-  },
   setSelectedListCodeDispatch: (listCode) => {
     dispatch(setSelectedListCode(listCode));
   },
@@ -294,7 +272,6 @@ CourseListTabs.propTypes = {
     courses: PropTypes.arrayOf(courseShape),
   }).isRequired,
   major: PropTypes.shape({
-    codes: PropTypes.arrayOf(PropTypes.string).isRequired,
   }).isRequired,
   humanity: PropTypes.shape({
     courses: PropTypes.arrayOf(courseShape),
@@ -305,7 +282,6 @@ CourseListTabs.propTypes = {
 
   openSearchDispatch: PropTypes.func.isRequired,
   closeSearchDispatch: PropTypes.func.isRequired,
-  setListMajorCodesDispatch: PropTypes.func.isRequired,
   setSelectedListCodeDispatch: PropTypes.func.isRequired,
   setListCoursesDispatch: PropTypes.func.isRequired,
   setListMajorCoursesDispatch: PropTypes.func.isRequired,

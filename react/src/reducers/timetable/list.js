@@ -1,7 +1,7 @@
 import {
   RESET,
   SET_SELECTED_LIST_CODE,
-  SET_LIST_MAJOR_CODES, SET_LIST_LECTURES, SET_LIST_MAJOR_LECTURES, CLEAR_LISTS_LECTURES, CLEAR_SEARCH_LIST_LECTURES,
+  SET_LIST_LECTURES, SET_LIST_MAJOR_LECTURES, CLEAR_LISTS_LECTURES, CLEAR_SEARCH_LIST_LECTURES,
   ADD_LECTURE_TO_CART, DELETE_LECTURE_FROM_CART,
   SET_MOBILE_IS_LECTURE_LIST_OPEN,
 } from '../../actions/timetable/list';
@@ -18,7 +18,6 @@ const initialState = {
     lectureGroups: null,
   },
   major: {
-    codes: [],
   },
   humanity: {
     lectureGroups: null,
@@ -53,26 +52,6 @@ const list = (state = initialState, action) => {
         selectedListCode: action.listCode,
       });
     }
-    case SET_LIST_MAJOR_CODES: {
-      const newState = {
-        major: Object.assign(
-          {},
-          {
-            codes: action.majors.map((m) => m.code),
-          },
-          ...(action.majors.map((m) => (
-            {
-              [m.code]: {
-                name: m.name,
-                name_en: m.name_en,
-                lectureGroups: null,
-              },
-            }
-          ))),
-        ),
-      };
-      return Object.assign({}, state, newState);
-    }
     case SET_LIST_LECTURES: {
       const newState = {
         [action.code]: {
@@ -104,9 +83,9 @@ const list = (state = initialState, action) => {
         major: Object.assign(
           {},
           state.major,
-          ...state.major.codes.map((c) => ({
-            [c]: {
-              ...state.major[c],
+          ...Object.keys(state.major).map((k) => ({
+            [k]: {
+              ...state.major[k],
               lectureGroups: null,
             },
           })),

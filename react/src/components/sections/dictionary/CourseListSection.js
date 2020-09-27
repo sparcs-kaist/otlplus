@@ -80,6 +80,34 @@ class CourseListSection extends Component {
   }
 
 
+  _getCourses = (selectedListCode) => {
+    const {
+      user,
+      search, basic, major, humanity, taken,
+    } = this.props;
+
+    if (selectedListCode === 'SEARCH') {
+      return search.courses;
+    }
+    if (selectedListCode === 'BASIC') {
+      return basic.courses;
+    }
+    if (user && user.departments.some((d) => (selectedListCode === d.code))) {
+      if (!major[selectedListCode]) {
+        return null;
+      }
+      return major[selectedListCode].courses;
+    }
+    if (selectedListCode === 'HUMANITY') {
+      return humanity.courses;
+    }
+    if (selectedListCode === 'TAKEN') {
+      return taken.courses;
+    }
+    return null;
+  }
+
+
   render() {
     const { t } = this.props;
     const {
@@ -123,7 +151,7 @@ class CourseListSection extends Component {
             <i className={classNames('icon', 'icon--search')} />
             <span>{t('ui.tab.search')}</span>
           </div>
-          { getListElement(search.courses) }
+          { getListElement(this._getCourses(selectedListCode)) }
         </div>
       );
     }
@@ -133,17 +161,18 @@ class CourseListSection extends Component {
           <div className={classNames('title')}>
             {t('ui.tab.basic')}
           </div>
-          { getListElement(basic.courses) }
+          { getListElement(this._getCourses(selectedListCode)) }
         </div>
       );
     }
     if (user && user.departments.some((d) => (selectedListCode === d.code))) {
+      const department = user.departments.find((d) => (selectedListCode === d.code));
       return (
         <div className={classNames('section-content', 'section-content--flex', 'section-content--course-list')}>
           <div className={classNames('title')}>
-            {major[selectedListCode][t('js.property.name')]}
+            {`${department[t('js.property.name')]} ${t('ui.tab.major')}`}
           </div>
-          { getListElement(major[selectedListCode].courses) }
+          { getListElement(this._getCourses(selectedListCode)) }
         </div>
       );
     }
@@ -153,7 +182,7 @@ class CourseListSection extends Component {
           <div className={classNames('title')}>
             {t('ui.tab.humanity')}
           </div>
-          { getListElement(humanity.courses) }
+          { getListElement(this._getCourses(selectedListCode)) }
         </div>
       );
     }
@@ -163,7 +192,7 @@ class CourseListSection extends Component {
           <div className={classNames('title')}>
             {t('ui.tab.taken')}
           </div>
-          { getListElement(taken.courses) }
+          { getListElement(this._getCourses(selectedListCode)) }
         </div>
       );
     }
@@ -206,7 +235,6 @@ CourseListSection.propTypes = {
     courses: PropTypes.arrayOf(courseShape),
   }).isRequired,
   major: PropTypes.shape({
-    codes: PropTypes.arrayOf(PropTypes.string).isRequired,
   }).isRequired,
   humanity: PropTypes.shape({
     courses: PropTypes.arrayOf(courseShape),

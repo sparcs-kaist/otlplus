@@ -1,7 +1,6 @@
 import {
   RESET,
   SET_SELECTED_LIST_CODE,
-  SET_LIST_MAJOR_CODES,
   SET_LIST_COURSES, SET_LIST_MAJOR_COURSES, CLEAR_LISTS_COURSES, CLEAR_SEARCH_LIST_COURSES,
   ADD_COURSE_READ,
 } from '../../actions/dictionary/list';
@@ -16,7 +15,6 @@ const initialState = {
     lectureGroups: null,
   },
   major: {
-    codes: [],
   },
   humanity: {
     courses: null,
@@ -36,26 +34,6 @@ const list = (state = initialState, action) => {
       return Object.assign({}, state, {
         selectedListCode: action.listCode,
       });
-    }
-    case SET_LIST_MAJOR_CODES: {
-      const newState = {
-        major: Object.assign(
-          {},
-          {
-            codes: action.majors.map((m) => m.code),
-          },
-          ...(action.majors.map((m) => (
-            {
-              [m.code]: {
-                name: m.name,
-                name_en: m.name_en,
-                courses: null,
-              },
-            }
-          ))),
-        ),
-      };
-      return Object.assign({}, state, newState);
     }
     case SET_LIST_COURSES: {
       const newState = {
@@ -88,9 +66,9 @@ const list = (state = initialState, action) => {
         major: Object.assign(
           {},
           state.major,
-          ...state.major.codes.map((c) => ({
-            [c]: {
-              ...state.major[c],
+          ...Object.keys(state.major).map((k) => ({
+            [k]: {
+              ...state.major[k],
               courses: null,
             },
           })),

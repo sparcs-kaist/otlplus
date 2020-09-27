@@ -3,7 +3,6 @@ const BASE_STRING = 'T_L_';
 /* eslint-disable prefer-template */
 export const RESET = BASE_STRING + 'RESET';
 export const SET_SELECTED_LIST_CODE = BASE_STRING + 'SER_SELECTED_LIST_CODE';
-export const SET_LIST_MAJOR_CODES = BASE_STRING + 'SET_LIST_MAJOR_CODES';
 export const SET_LIST_LECTURES = BASE_STRING + 'SET_LIST_LECTURES';
 export const CLEAR_LISTS_LECTURES = BASE_STRING + 'CLEAR_LISTS_LECTURES';
 export const CLEAR_SEARCH_LIST_LECTURES = BASE_STRING + 'CLEAR_SEARCH_LIST_LECTURES';
@@ -24,13 +23,6 @@ export function setSelectedListCode(listCode) {
   return {
     type: SET_SELECTED_LIST_CODE,
     listCode: listCode,
-  };
-}
-
-export function setListMajorCodes(majors) {
-  return {
-    type: SET_LIST_MAJOR_CODES,
-    majors: majors,
   };
 }
 
