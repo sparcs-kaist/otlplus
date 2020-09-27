@@ -41,15 +41,15 @@ const CourseBlock = ({
         <span>{ course.old_code }</span>
       </div>
       <div>
-        <div className={classNames('attribute', 'attribute--semi-long')}>
+        <div className={classNames('attribute', 'attribute--long-info')}>
           <div>{ t('ui.attribute.classification') }</div>
           <div>{ `${course.department[t('js.property.name')]}, ${course[t('js.property.type')]}` }</div>
         </div>
-        <div className={classNames('attribute', 'attribute--semi-long')}>
+        <div className={classNames('attribute', 'attribute--long-info')}>
           <div>{ t('ui.attribute.professors') }</div>
           <div>{ getProfessorsFullStr(course) }</div>
         </div>
-        <div className={classNames('attribute', 'attribute--semi-long')}>
+        <div className={classNames('attribute', 'attribute--long-info')}>
           <div>{ t('ui.attribute.description') }</div>
           <div>{ course.summary }</div>
         </div>

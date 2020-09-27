@@ -423,7 +423,7 @@ class LectureDetailSection extends Component {
           </div>
           <div>
             {lectureFocus.multipleDetails.map((d, i) => (
-              <div className={classNames('attribute')} key={d.lecture.id}>
+              <div className={classNames('attribute', 'attribute--long-name')} key={d.lecture.id}>
                 <span>
                   {d.name}
                 </span>

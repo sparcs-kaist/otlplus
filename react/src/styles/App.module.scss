@@ -2418,11 +2418,20 @@ a {
             margin-bottom: 0;
         }
 
-        &--semi-long {
+        &--long-info {
             & > * {
                 line-height: $line-height-normal + 1px * 2;
                 margin-top: -1px;
                 margin-bottom: -1px;
+            }
+        }
+
+        &--long-name {
+            display: block;
+            margin-bottom: 8px - 2px;
+            & > * {
+                display: inline-block;
+                margin-bottom: 2px;
             }
         }
 
