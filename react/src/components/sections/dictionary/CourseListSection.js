@@ -16,6 +16,7 @@ import { openSearch } from '../../../actions/dictionary/search';
 
 import courseShape from '../../../shapes/CourseShape';
 import courseFocusShape from '../../../shapes/CourseFocusShape';
+import userShape from '../../../shapes/UserShape';
 
 
 class CourseListSection extends Component {
@@ -82,6 +83,7 @@ class CourseListSection extends Component {
   render() {
     const { t } = this.props;
     const {
+      user,
       courseFocus, selectedListCode, searchOpen,
       search, basic, major, humanity, taken, readCourses,
     } = this.props;
@@ -135,7 +137,7 @@ class CourseListSection extends Component {
         </div>
       );
     }
-    if (major.codes.some((cd) => (selectedListCode === cd))) {
+    if (user && user.departments.some((d) => (selectedListCode === d.code))) {
       return (
         <div className={classNames('section-content', 'section-content--flex', 'section-content--course-list')}>
           <div className={classNames('title')}>
@@ -170,6 +172,7 @@ class CourseListSection extends Component {
 }
 
 const mapStateToProps = (state) => ({
+  user: state.common.user.user,
   selectedListCode: state.dictionary.list.selectedListCode,
   search: state.dictionary.list.search,
   basic: state.dictionary.list.basic,
@@ -194,6 +197,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 CourseListSection.propTypes = {
+  user: userShape,
   selectedListCode: PropTypes.string.isRequired,
   search: PropTypes.shape({
     courses: PropTypes.arrayOf(courseShape),

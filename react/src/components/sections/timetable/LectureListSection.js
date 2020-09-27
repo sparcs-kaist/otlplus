@@ -212,6 +212,7 @@ class LectureListSection extends Component {
 
   _getLectureGroups = (selectedListCode) => {
     const {
+      user,
       search, basic, major, humanity, cart,
     } = this.props;
 
@@ -221,7 +222,7 @@ class LectureListSection extends Component {
     if (selectedListCode === 'BASIC') {
       return basic.lectureGroups;
     }
-    if (major.codes.some((cd) => (selectedListCode === cd))) {
+    if (user && user.departments.some((d) => (selectedListCode === d.code))) {
       return major[selectedListCode].lectureGroups;
     }
     if (selectedListCode === 'HUMANITY') {
@@ -315,7 +316,7 @@ class LectureListSection extends Component {
         </div>
       );
     }
-    if (major.codes.some((cd) => (selectedListCode === cd))) {
+    if (user && user.departments.some((d) => (selectedListCode === d.code))) {
       return (
         <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
           <div className={classNames('close-button-wrap')}>
