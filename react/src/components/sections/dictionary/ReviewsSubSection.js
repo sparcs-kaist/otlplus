@@ -22,7 +22,7 @@ class ReviewsSubSection extends Component {
     super(props);
 
     this.state = {
-      professor: new Set(['ALL']),
+      selectedProfessors: new Set(['ALL']),
     };
   }
 
@@ -57,7 +57,7 @@ class ReviewsSubSection extends Component {
 
   render() {
     const { t } = this.props;
-    const { professor } = this.state;
+    const { selectedProfessors } = this.state;
     const { user, courseFocus } = this.props;
 
     if (!courseFocus.course) {
@@ -73,7 +73,7 @@ class ReviewsSubSection extends Component {
 
     const takenLecturesOfCourse = user
       ? user.review_writable_lectures
-        .filter((l) => ((l.course === courseFocus.course.id) && this._lectureProfessorChecker(l, professor)))
+        .filter((l) => ((l.course === courseFocus.course.id) && this._lectureProfessorChecker(l, selectedProfessors)))
       : [];
     const reviewWriteBlocks = takenLecturesOfCourse.map((l) => (
       <ReviewWriteBlock
@@ -87,7 +87,7 @@ class ReviewsSubSection extends Component {
 
     const filteredReviews = courseFocus.reviews == null
       ? null
-      : courseFocus.reviews.filter((r) => this._lectureProfessorChecker(r.lecture, professor));
+      : courseFocus.reviews.filter((r) => this._lectureProfessorChecker(r.lecture, selectedProfessors));
     const reviewBlocksArea = (filteredReviews == null)
       ? <div className={classNames('section-content--course-detail__list-area', 'list-placeholder')}><div>{t('ui.placeholder.loading')}</div></div>
       : (filteredReviews.length
@@ -98,11 +98,11 @@ class ReviewsSubSection extends Component {
       <>
         <div className={classNames('small-title')}>{t('ui.title.reviews')}</div>
         <SearchFilter
-          updateCheckedValues={this.updateCheckedValues('professor')}
+          updateCheckedValues={this.updateCheckedValues('selectedProfessors')}
           inputName="professor"
           titleName={t('ui.search.professor')}
           options={professorOptions}
-          checkedValues={professor}
+          checkedValues={selectedProfessors}
         />
         { reviewWriteBlocks }
         { reviewBlocksArea }

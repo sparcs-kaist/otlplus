@@ -18,8 +18,8 @@ class FavoriteDepartmentsSection extends Component {
     super(props);
 
     this.state = {
-      savedDepartment: new Set([]),
-      department: new Set([]),
+      savedSelectedDepartments: new Set([]),
+      selectedDepartments: new Set([]),
       allDepartments: [],
     };
   }
@@ -61,8 +61,8 @@ class FavoriteDepartmentsSection extends Component {
     const { user } = this.props;
 
     this.setState({
-      savedDepartment: new Set(user.favorite_departments.map((d) => String(d.id))),
-      department: new Set(user.favorite_departments.map((d) => String(d.id))),
+      savedSelectedDepartments: new Set(user.favorite_departments.map((d) => String(d.id))),
+      selectedDepartments: new Set(user.favorite_departments.map((d) => String(d.id))),
     });
   }
 
@@ -75,7 +75,7 @@ class FavoriteDepartmentsSection extends Component {
 
 
   handleSubmit = (e) => {
-    const { department } = this.state;
+    const { selectedDepartments } = this.state;
 
     e.preventDefault();
     e.stopPropagation();
@@ -83,14 +83,14 @@ class FavoriteDepartmentsSection extends Component {
     axios.post(
       '/session/favorite-departments',
       {
-        fav_department: Array.from(department).filter((d) => (d !== 'ALL')),
+        fav_department: Array.from(selectedDepartments).filter((d) => (d !== 'ALL')),
       },
       {
       },
     )
       .then((response) => {
         this.setState({
-          savedDepartment: department,
+          savedSelectedDepartments: selectedDepartments,
         });
         this._refetchUser();
       })
@@ -122,7 +122,7 @@ class FavoriteDepartmentsSection extends Component {
   render() {
     const { t } = this.props;
     const { user } = this.props;
-    const { allDepartments, savedDepartment, department } = this.state;
+    const { allDepartments, savedSelectedDepartments, selectedDepartments } = this.state;
 
     if (user == null) {
       return null;
@@ -141,8 +141,8 @@ class FavoriteDepartmentsSection extends Component {
     const departmentOptions = allDepartments
       .map((d) => [String(d.id), d[t('js.property.name')]]);
 
-    const hasChange = (department.size !== savedDepartment.size)
-      || Array.from(department).some((d) => !savedDepartment.has(d));
+    const hasChange = (selectedDepartments.size !== savedSelectedDepartments.size)
+      || Array.from(selectedDepartments).some((d) => !savedSelectedDepartments.has(d));
 
     return (
       <>
@@ -151,11 +151,11 @@ class FavoriteDepartmentsSection extends Component {
         </div>
         <form onSubmit={this.handleSubmit}>
           <SearchFilter
-            updateCheckedValues={this.updateCheckedValues('department')}
+            updateCheckedValues={this.updateCheckedValues('selectedDepartments')}
             inputName="department"
             titleName={t('ui.search.favoriteDepartment')}
             options={departmentOptions}
-            checkedValues={department}
+            checkedValues={selectedDepartments}
           />
           <div className={classNames('buttons')}>
             { hasChange
