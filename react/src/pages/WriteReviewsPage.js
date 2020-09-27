@@ -22,7 +22,7 @@ class WriteReviewsPage extends Component {
     super(props);
 
     this.state = {
-      loading: false,
+      isLoading: false,
       pageNumToLoad: 0,
     };
 
@@ -46,16 +46,16 @@ class WriteReviewsPage extends Component {
 
   _fetchReviews = () => {
     const { addReviewsDispatch } = this.props;
-    const { loading, pageNumToLoad } = this.state;
+    const { isLoading, pageNumToLoad } = this.state;
 
     const PAGE_SIZE = 10;
 
-    if (loading) {
+    if (isLoading) {
       return;
     }
 
     this.setState({
-      loading: true,
+      isLoading: true,
     });
     axios.get(
       '/api/reviews',
@@ -73,7 +73,7 @@ class WriteReviewsPage extends Component {
     )
       .then((response) => {
         this.setState((prevState) => ({
-          loading: false,
+          isLoading: false,
           pageNumToLoad: prevState.pageNumToLoad + 1,
         }));
         addReviewsDispatch(response.data);

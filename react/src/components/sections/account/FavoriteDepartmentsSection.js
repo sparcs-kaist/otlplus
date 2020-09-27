@@ -20,7 +20,7 @@ class FavoriteDepartmentsSection extends Component {
     this.state = {
       savedDepartment: new Set([]),
       department: new Set([]),
-      departmentList: [],
+      allDepartments: [],
     };
   }
 
@@ -39,7 +39,7 @@ class FavoriteDepartmentsSection extends Component {
     )
       .then((response) => {
         this.setState({
-          departmentList: response.data
+          allDepartments: response.data
             .reduce((acc, val) => acc.concat(val), []),
         });
       })
@@ -122,13 +122,13 @@ class FavoriteDepartmentsSection extends Component {
   render() {
     const { t } = this.props;
     const { user } = this.props;
-    const { departmentList, savedDepartment, department } = this.state;
+    const { allDepartments, savedDepartment, department } = this.state;
 
     if (user == null) {
       return null;
     }
 
-    if (!departmentList.length) {
+    if (!allDepartments.length) {
       return (
         <>
           <div className={classNames('title')}>
@@ -138,7 +138,7 @@ class FavoriteDepartmentsSection extends Component {
       );
     }
 
-    const departmentOptions = departmentList
+    const departmentOptions = allDepartments
       .map((d) => [String(d.id), d[t('js.property.name')]]);
 
     const hasChange = (department.size !== savedDepartment.size)

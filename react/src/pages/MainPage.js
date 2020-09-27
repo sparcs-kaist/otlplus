@@ -24,7 +24,7 @@ class MainPage extends Component {
 
     this.state = {
       feedDays: [],
-      loading: false,
+      isLoading: false,
     };
   }
 
@@ -43,9 +43,9 @@ class MainPage extends Component {
 
 
   handleScroll = (e) => {
-    const { loading } = this.state;
+    const { isLoading } = this.state;
     const SCROLL_BOTTOM_PADDING = 100;
-    if (loading) {
+    if (isLoading) {
       return;
     }
 
@@ -64,14 +64,14 @@ class MainPage extends Component {
 
 
   _fetchFeeds = (date) => {
-    const { feedDays, loading } = this.state;
+    const { feedDays, isLoading } = this.state;
 
-    if (loading) {
+    if (isLoading) {
       return;
     }
 
     this.setState({
-      loading: true,
+      isLoading: true,
     });
 
     if (this._getDateDifference(date) >= 7) {
@@ -94,7 +94,7 @@ class MainPage extends Component {
     )
       .then((response) => {
         this.setState({
-          loading: false,
+          isLoading: false,
           feedDays: [
             ...feedDays,
             {
