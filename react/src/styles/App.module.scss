@@ -1439,14 +1439,16 @@ a {
 }
 
 
-.close-button {
+.close-button-wrap {
         display: block;
         position: absolute;
-        padding: 4px;
-        top: $section-padding - 4px;
-        right: $section-padding - 4px;
+        padding: $section-padding
+                 0
+                 ($section-padding - 2px)
+                 ($section-padding - 2px);
+        top: 0;
+        right: $section-padding;
         background-color: rgba($color-section-background, 0.8);
-        cursor: pointer;
         z-index: 290;
 
         .section-wrap--lecture-list & {
@@ -2328,6 +2330,7 @@ a {
 
             & > th {
                 position: sticky;
+                z-index: 1;
                 left: 0;
                 background-color: $color-section-background;
                 width: 10px;
@@ -2405,11 +2408,12 @@ a {
         display: flex;
         flex-direction: row;
         margin-bottom: 8px;
-
         .block--course & {
             margin-bottom: 6px;
         }
-
+        .search-area & {
+            overflow: hidden;
+        }
         &:last-child {
             margin-bottom: 0;
         }
@@ -2629,30 +2633,6 @@ a {
         margin-top: 0;
         margin-bottom: 6px;
         text-align: initial;
-    }
-}
-
-
-.fixed {
-    z-index: 10;
-
-
-    &__conditional-part {
-        z-index: 10;
-        height: 0;
-
-
-        & > * {
-            background-color: $color-section-background;
-            margin-top: 0 !important;
-            margin-bottom: -1000px !important;
-            padding-bottom: $section-padding;
-        }
-
-
-        &--hidden {
-            display: none;
-        }
     }
 }
 
@@ -3251,6 +3231,17 @@ i.icon {
         *:hover > & {
             background-image: url(../static/icons/show_lectures_hover.svg);
         }
+    }
+}
+
+.top-sticky {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background-color: $color-section-background;
+    .section-content--course-detail &.scores {
+        margin-bottom: -$section-padding;
+        padding-bottom: $section-padding;
     }
 }
 

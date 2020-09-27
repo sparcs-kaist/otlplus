@@ -24,10 +24,6 @@ class CourseDetailSection extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      shouldShowHiddenScores: false,
-    };
-
     // eslint-disable-next-line fp/no-mutation
     this.scoresRef = React.createRef();
     // eslint-disable-next-line fp/no-mutation
@@ -45,7 +41,6 @@ class CourseDetailSection extends Component {
     }
 
     if (courseFocus.clicked && (!prevProps.courseFocus.clicked || (prevProps.courseFocus.course !== courseFocus.course))) {
-      this._updateOnScrollChange();
       setLecturesDispatch(null);
       this._fetchLectures();
       this._fetchReviews();
@@ -127,25 +122,6 @@ class CourseDetailSection extends Component {
   }
 
 
-  onScroll = () => {
-    this._updateOnScrollChange();
-  }
-
-  _updateOnScrollChange = () => {
-    if (this.scoresRef.current.getBoundingClientRect().top
-      >= this.scrollThresholdRef.current.getBoundingClientRect().bottom) {
-      this.setState({
-        shouldShowHiddenScores: false,
-      });
-    }
-    else {
-      this.setState({
-        shouldShowHiddenScores: true,
-      });
-    }
-  }
-
-
   unfix = () => {
     const { clearCourseFocusDispatch } = this.props;
     clearCourseFocusDispatch();
@@ -154,37 +130,24 @@ class CourseDetailSection extends Component {
 
   render() {
     const { t } = this.props;
-    const { shouldShowHiddenScores } = this.state;
     const { courseFocus } = this.props;
 
     if (courseFocus.clicked && courseFocus.course !== null) {
       return (
         <div className={classNames('section-content', 'section-content--flex', 'section-content--course-detail')}>
-          <button className={classNames('close-button')} onClick={this.unfix}><i className={classNames('icon', 'icon--close-section')} /></button>
-          <div className={classNames('fixed')}>
+          <div className={classNames('close-button-wrap')}>
+            <button onClick={this.unfix}>
+              <i className={classNames('icon', 'icon--close-section')} />
+            </button>
+          </div>
+          <div>
             <div>
               <div className={classNames('title')}>{ courseFocus.course[t('js.property.title')] }</div>
               <div className={classNames('subtitle')}>{ courseFocus.course.old_code }</div>
             </div>
             <div ref={this.scrollThresholdRef} />
-            <div className={classNames('fixed__conditional-part', (shouldShowHiddenScores ? '' : 'fixed__conditional-part--hidden'))}>
-              <div className={classNames('scores')}>
-                <div>
-                  <div>{ getAverageScoreLabel(courseFocus.course.grade) }</div>
-                  <div>{ t('ui.score.grade') }</div>
-                </div>
-                <div>
-                  <div>{ getAverageScoreLabel(courseFocus.course.load) }</div>
-                  <div>{ t('ui.score.load') }</div>
-                </div>
-                <div>
-                  <div>{ getAverageScoreLabel(courseFocus.course.speech) }</div>
-                  <div>{ t('ui.score.speech') }</div>
-                </div>
-              </div>
-            </div>
           </div>
-          <Scroller onScroll={() => this.onScroll()} key={courseFocus.course.id}>
+          <Scroller key={courseFocus.course.id}>
             <div>
               <div className={classNames('attribute', 'attribute--semi-long')}>
                 <div>{ t('ui.attribute.classification') }</div>
@@ -195,7 +158,7 @@ class CourseDetailSection extends Component {
                 <div>{ courseFocus.course.summary }</div>
               </div>
             </div>
-            <div className={classNames('scores')} ref={this.scoresRef}>
+            <div className={classNames('scores', 'top-sticky')} ref={this.scoresRef}>
               <div>
                 <div>{ getAverageScoreLabel(courseFocus.course.grade) }</div>
                 <div>{ t('ui.score.grade') }</div>

@@ -269,7 +269,11 @@ class LectureListSection extends Component {
       return (
         <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
           { searchOpen ? <LectureSearchSubSection /> : null }
-          <button className={classNames('close-button')} onClick={this.mobileCloseLectureList}><i className={classNames('icon', 'icon--close-section')} /></button>
+          <div className={classNames('close-button-wrap')}>
+            <button onClick={this.mobileCloseLectureList}>
+              <i className={classNames('icon', 'icon--close-section')} />
+            </button>
+          </div>
           <div className={classNames('title', 'title--search')} onClick={() => this.showSearch()}>
             <i className={classNames('icon', 'icon--search')} />
             <span>{t('ui.tab.search')}</span>
@@ -286,7 +290,11 @@ class LectureListSection extends Component {
     if (major.codes.some((cd) => (selectedListCode === cd))) {
       return (
         <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
-          <button className={classNames('close-button')} onClick={this.mobileCloseLectureList}><i className={classNames('icon', 'icon--close-section')} /></button>
+          <div className={classNames('close-button-wrap')}>
+            <button onClick={this.mobileCloseLectureList}>
+              <i className={classNames('icon', 'icon--close-section')} />
+            </button>
+          </div>
           <div className={classNames('title')}>
             {major[selectedListCode][t('js.property.name')]}
           </div>
@@ -302,7 +310,11 @@ class LectureListSection extends Component {
     if (selectedListCode === 'HUMANITY') {
       return (
         <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
-          <button className={classNames('close-button')} onClick={this.mobileCloseLectureList}><i className={classNames('icon', 'icon--close-section')} /></button>
+          <div className={classNames('close-button-wrap')}>
+            <button onClick={this.mobileCloseLectureList}>
+              <i className={classNames('icon', 'icon--close-section')} />
+            </button>
+          </div>
           <div className={classNames('title')}>
             {t('ui.tab.humanity')}
           </div>
@@ -318,7 +330,11 @@ class LectureListSection extends Component {
     if (selectedListCode === 'CART') {
       return (
         <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
-          <button className={classNames('close-button')} onClick={this.mobileCloseLectureList}><i className={classNames('icon', 'icon--close-section')} /></button>
+          <div className={classNames('close-button-wrap')}>
+            <button onClick={this.mobileCloseLectureList}>
+              <i className={classNames('icon', 'icon--close-section')} />
+            </button>
+          </div>
           <div className={classNames('title')}>
             {t('ui.tab.wishlist')}
           </div>

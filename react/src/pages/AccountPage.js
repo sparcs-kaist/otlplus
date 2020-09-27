@@ -17,7 +17,7 @@ class AccountPage extends Component {
         <div className={classNames('section-wrap', 'section-wrap--full')}>
           <div className={classNames('section')}>
             <div className={classNames('section-content', 'section-content--account')}>
-              <Scroller>
+              <Scroller expandTop={12}>
                 <MyInfoSection />
                 <div className={classNames('divider')} />
                 <AcademicInfoSection />
