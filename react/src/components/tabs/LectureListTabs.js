@@ -66,7 +66,7 @@ class LectureListTabs extends Component {
   }
 
   _fetchList = (listCode, force = false) => {
-    const { major } = this.props;
+    const { user } = this.props;
 
     if (listCode === 'SEARCH') {
       // Pass
@@ -74,7 +74,7 @@ class LectureListTabs extends Component {
     else if (listCode === 'BASIC') {
       this._fetchBasicList(force);
     }
-    else if (major.codes.some((c) => (c === listCode))) {
+    else if (user && user.departments.some((d) => (d.code === listCode))) {
       this._fetchMajorList(listCode, force);
     }
     else if (listCode === 'HUMANITY') {
@@ -149,7 +149,7 @@ class LectureListTabs extends Component {
       .then((response) => {
         const newProps = this.props;
         if ((newProps.year !== year || newProps.semester !== semester)
-          || (!newProps.major.codes.some((c) => (c === majorCode)))
+          || (!newProps.user.departments.some((d) => (d.code === majorCode)))
         ) {
           return;
         }
@@ -262,7 +262,7 @@ class LectureListTabs extends Component {
 
   render() {
     const { t } = this.props;
-    const { selectedListCode, major } = this.props;
+    const { user, selectedListCode } = this.props;
 
     return (
       <div className={classNames('tabs', 'tabs--lecture-list')}>
@@ -276,8 +276,8 @@ class LectureListTabs extends Component {
           <i className={classNames('icon', 'icon--tab-basic')} />
           <span>{t('ui.tab.basicShort')}</span>
         </div>
-        {major.codes.map((cd) => (
-          <div className={classNames('tabs__elem', (selectedListCode === cd ? 'tabs__elem--selected' : ''))} key={cd} onClick={() => this.changeTab(cd)}>
+        {!user ? null : user.departments.map((d) => (
+          <div className={classNames('tabs__elem', (selectedListCode === d.code ? 'tabs__elem--selected' : ''))} key={d.code} onClick={() => this.changeTab(d.code)}>
             <i className={classNames('icon', 'icon--tab-major')} />
             <span>{t('ui.tab.majorShort')}</span>
           </div>
