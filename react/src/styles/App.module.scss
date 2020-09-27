@@ -2637,30 +2637,6 @@ a {
 }
 
 
-.fixed {
-    z-index: 10;
-
-
-    &__conditional-part {
-        z-index: 10;
-        height: 0;
-
-
-        & > * {
-            background-color: $color-section-background;
-            margin-top: 0 !important;
-            margin-bottom: -1000px !important;
-            padding-bottom: $section-padding;
-        }
-
-
-        &--hidden {
-            display: none;
-        }
-    }
-}
-
-
 .search-area {
     position: absolute;
     top: $section-padding;
@@ -3255,6 +3231,17 @@ i.icon {
         *:hover > & {
             background-image: url(../static/icons/show_lectures_hover.svg);
         }
+    }
+}
+
+.top-sticky {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background-color: $color-section-background;
+    .section-content--course-detail &.scores {
+        margin-bottom: -$section-padding;
+        padding-bottom: $section-padding;
     }
 }
 
