@@ -149,11 +149,11 @@ class CourseDetailSection extends Component {
           </div>
           <Scroller key={courseFocus.course.id}>
             <div>
-              <div className={classNames('attribute', 'attribute--semi-long')}>
+              <div className={classNames('attribute', 'attribute--long-info')}>
                 <div>{ t('ui.attribute.classification') }</div>
                 <div>{ `${courseFocus.course.department[t('js.property.name')]}, ${courseFocus.course[t('js.property.type')]}` }</div>
               </div>
-              <div className={classNames('attribute', 'attribute--semi-long')}>
+              <div className={classNames('attribute', 'attribute--long-info')}>
                 <div>{ t('ui.attribute.description') }</div>
                 <div>{ courseFocus.course.summary }</div>
               </div>
