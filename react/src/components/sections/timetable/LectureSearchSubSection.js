@@ -216,7 +216,7 @@ class LectureSearchSubSection extends Component {
               </div>
             </div>
           </div>
-          <Scroller marginBottom={0}>
+          <Scroller expandBottom={0}>
             <SearchFilter
               updateCheckedValues={this.updateCheckedValues('type')}
               inputName="type"
