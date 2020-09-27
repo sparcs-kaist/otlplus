@@ -46,8 +46,8 @@ class CourseListTabs extends Component {
     const { setListMajorCodesDispatch } = this.props;
     const majors = departments.map((d) => ({
       code: d.code,
-      name: (d.code === 'Basic') ? '기초 과목' : `${d.name} 전공`,
-      name_en: (d.code === 'Basic') ? 'Basic Course' : `${d.name_en} Major`,
+      name: `${d.name} 전공`,
+      name_en: `${d.name_en} Major`,
     }));
     setListMajorCodesDispatch(majors);
   }
@@ -63,6 +63,9 @@ class CourseListTabs extends Component {
     if (listCode === 'SEARCH') {
       // Pass
     }
+    else if (listCode === 'BASIC') {
+      this._fetchBasicList(force);
+    }
     else if (major.codes.some((c) => (c === listCode))) {
       this._fetchMajorList(listCode, force);
     }
@@ -72,6 +75,33 @@ class CourseListTabs extends Component {
     else if (listCode === 'TAKEN') {
       this._fetchTakenList(force);
     }
+  }
+
+  _fetchBasicList = (force = false) => {
+    const { basic, setListCoursesDispatch } = this.props;
+
+    if (!force && basic.courses) {
+      return;
+    }
+
+    axios.get(
+      '/api/courses',
+      {
+        params: {
+          group: 'Basic',
+          term: ['3'],
+        },
+        metadata: {
+          gaCategory: 'Course',
+          gaVariable: 'GET / List',
+        },
+      },
+    )
+      .then((response) => {
+        setListCoursesDispatch('basic', response.data);
+      })
+      .catch((error) => {
+      });
   }
 
   _fetchMajorList = (majorCode, force = false) => {
@@ -180,6 +210,7 @@ class CourseListTabs extends Component {
 
     const labelOfTabs = new Map([
       ['SEARCH', 'Search'],
+      ['BASIC', 'Basic'],
       ['HUMANITY', 'Humanity'],
       ['TAKEN', 'Taken'],
     ]);
@@ -201,6 +232,10 @@ class CourseListTabs extends Component {
         <div className={classNames('tabs__elem', (selectedListCode === 'SEARCH' ? 'tabs__elem--selected' : ''))} onClick={() => this.changeTab('SEARCH')}>
           <i className={classNames('icon', 'icon--tab-search')} />
           <span>{t('ui.tab.searchShort')}</span>
+        </div>
+        <div className={classNames('tabs__elem', (selectedListCode === 'BASIC' ? 'tabs__elem--selected' : ''))} onClick={() => this.changeTab('BASIC')}>
+          <i className={classNames('icon', 'icon--tab-basic')} />
+          <span>{t('ui.tab.basicShort')}</span>
         </div>
         {major.codes.map((c) => (
           <div className={classNames('tabs__elem', (selectedListCode === c ? 'tabs__elem--selected' : ''))} key={c} onClick={() => this.changeTab(c)}>
@@ -227,6 +262,7 @@ const mapStateToProps = (state) => ({
   user: state.common.user.user,
   selectedListCode: state.dictionary.list.selectedListCode,
   search: state.dictionary.list.search,
+  basic: state.dictionary.list.basic,
   major: state.dictionary.list.major,
   humanity: state.dictionary.list.humanity,
   taken: state.dictionary.list.taken,
@@ -257,6 +293,9 @@ CourseListTabs.propTypes = {
   user: userShape,
   selectedListCode: PropTypes.string.isRequired,
   search: PropTypes.shape({
+    courses: PropTypes.arrayOf(courseShape),
+  }).isRequired,
+  basic: PropTypes.shape({
     courses: PropTypes.arrayOf(courseShape),
   }).isRequired,
   major: PropTypes.shape({

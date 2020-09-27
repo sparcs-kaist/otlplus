@@ -2942,6 +2942,17 @@ i.icon {
         }
     }
 
+    &--tab-basic {
+        width: 13px;
+        height: 13px;
+        background-image: url(../static/icons/tab_humanity.svg); // TODO: Add and change to basic icon
+
+        *:hover > &,
+        *.tabs__elem--selected > & {
+            background-image: url(../static/icons/tab_humanity_hover.svg)
+        }
+    }
+
     &--tab-major {
         width: 13px;
         height: 13px;

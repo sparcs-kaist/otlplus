@@ -12,13 +12,11 @@ const initialState = {
   search: {
     courses: [],
   },
+  basic: {
+    lectureGroups: null,
+  },
   major: {
-    codes: ['Basic'],
-    Basic: {
-      name: '기초 과목',
-      name_en: 'Basic Course',
-      courses: null,
-    },
+    codes: [],
   },
   humanity: {
     courses: null,
