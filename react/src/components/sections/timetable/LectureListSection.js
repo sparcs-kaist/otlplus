@@ -15,6 +15,9 @@ import { openSearch } from '../../../actions/timetable/search';
 import { addLectureToTimetable } from '../../../actions/timetable/timetable';
 
 import { LIST } from '../../../reducers/timetable/lectureFocus';
+import {
+  SEARCH, BASIC, HUMANITY, CART,
+} from '../../../reducers/timetable/list';
 
 import userShape from '../../../shapes/UserShape';
 import lectureListsShape from '../../../shapes/LectureListsShape';
@@ -70,10 +73,10 @@ class LectureListSection extends Component {
     } = this.props;
 
     const labelOfTabs = new Map([
-      ['SEARCH', 'Search'],
-      ['BASIC', 'Basic'],
-      ['HUMANITY', 'Humanity'],
-      ['CART', 'Cart'],
+      [SEARCH, 'Search'],
+      [BASIC, 'Basic'],
+      [HUMANITY, 'Humanity'],
+      [CART, 'Cart'],
     ]);
     const fromString = `Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`;
     performAddToTable(this, lecture, selectedTimetable, user, fromString, addLectureToTimetableDispatch);
@@ -88,10 +91,10 @@ class LectureListSection extends Component {
     } = this.props;
 
     const labelOfTabs = new Map([
-      ['SEARCH', 'Search'],
-      ['BASIC', 'Basic'],
-      ['HUMANITY', 'Humanity'],
-      ['CART', 'Cart'],
+      [SEARCH, 'Search'],
+      [BASIC, 'Basic'],
+      [HUMANITY, 'Humanity'],
+      [CART, 'Cart'],
     ]);
     const fromString = `Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`;
     performAddToCart(this, lecture, year, semester, user, fromString, addLectureToCartDispatch);
@@ -106,10 +109,10 @@ class LectureListSection extends Component {
     } = this.props;
 
     const labelOfTabs = new Map([
-      ['SEARCH', 'Search'],
-      ['BASIC', 'Basic'],
-      ['HUMANITY', 'Humanity'],
-      ['CART', 'Cart'],
+      [SEARCH, 'Search'],
+      [BASIC, 'Basic'],
+      [HUMANITY, 'Humanity'],
+      [CART, 'Cart'],
     ]);
     const fromString = `Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`;
     performDeleteFromCart(this, lecture, year, semester, user, fromString, deleteLectureFromCartDispatch);
@@ -150,10 +153,10 @@ class LectureListSection extends Component {
       setLectureFocusDispatch(lecture, 'LIST', true);
 
       const labelOfTabs = new Map([
-        ['SEARCH', 'Search'],
-        ['BASIC', 'Basic'],
-        ['HUMANITY', 'Humanity'],
-        ['CART', 'Cart'],
+        [SEARCH, 'Search'],
+        [BASIC, 'Basic'],
+        [HUMANITY, 'Humanity'],
+        [CART, 'Cart'],
       ]);
       ReactGA.event({
         category: 'Timetable - Selection',
@@ -165,10 +168,10 @@ class LectureListSection extends Component {
       setLectureFocusDispatch(lecture, 'LIST', false);
 
       const labelOfTabs = new Map([
-        ['SEARCH', 'Search'],
-        ['BASIC', 'Basic'],
-        ['HUMANITY', 'Humanity'],
-        ['CART', 'Cart'],
+        [SEARCH, 'Search'],
+        [BASIC, 'Basic'],
+        [HUMANITY, 'Humanity'],
+        [CART, 'Cart'],
       ]);
       ReactGA.event({
         category: 'Timetable - Selection',
@@ -216,11 +219,11 @@ class LectureListSection extends Component {
       lists,
     } = this.props;
 
-    if (selectedListCode === 'SEARCH') {
-      return lists.search.lectureGroups;
+    if (selectedListCode === SEARCH) {
+      return lists[SEARCH].lectureGroups;
     }
-    if (selectedListCode === 'BASIC') {
-      return lists.basic.lectureGroups;
+    if (selectedListCode === BASIC) {
+      return lists[BASIC].lectureGroups;
     }
     if (user && user.departments.some((d) => (selectedListCode === d.code))) {
       if (!lists[selectedListCode]) {
@@ -228,11 +231,11 @@ class LectureListSection extends Component {
       }
       return lists[selectedListCode].lectureGroups;
     }
-    if (selectedListCode === 'HUMANITY') {
-      return lists.humanity.lectureGroups;
+    if (selectedListCode === HUMANITY) {
+      return lists[HUMANITY].lectureGroups;
     }
-    if (selectedListCode === 'CART') {
-      return lists.cart.lectureGroups;
+    if (selectedListCode === CART) {
+      return lists[CART].lectureGroups;
     }
     return null;
   }
@@ -260,7 +263,7 @@ class LectureListSection extends Component {
               lectureGroup={lg}
               key={lg[0].course}
               selectedTimetable={selectedTimetable}
-              cart={lists.cart}
+              cart={lists[CART]}
               lectureFocus={lectureFocus}
               isTaken={user && isTaken(lg[0].course, user)}
               fromCart={fromCart}
@@ -277,7 +280,7 @@ class LectureListSection extends Component {
       );
     };
 
-    if (selectedListCode === 'SEARCH') {
+    if (selectedListCode === SEARCH) {
       return (
         <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
           { searchOpen ? <LectureSearchSubSection /> : null }
@@ -299,7 +302,7 @@ class LectureListSection extends Component {
         </div>
       );
     }
-    if (selectedListCode === 'BASIC') {
+    if (selectedListCode === BASIC) {
       return (
         <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
           <div className={classNames('close-button-wrap')}>
@@ -340,7 +343,7 @@ class LectureListSection extends Component {
         </div>
       );
     }
-    if (selectedListCode === 'HUMANITY') {
+    if (selectedListCode === HUMANITY) {
       return (
         <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
           <div className={classNames('close-button-wrap')}>
@@ -360,7 +363,7 @@ class LectureListSection extends Component {
         </div>
       );
     }
-    if (selectedListCode === 'CART') {
+    if (selectedListCode === CART) {
       return (
         <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
           <div className={classNames('close-button-wrap')}>

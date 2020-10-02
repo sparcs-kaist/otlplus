@@ -6,6 +6,10 @@ import ReactGA from 'react-ga';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
+import {
+  SEARCH, BASIC, HUMANITY, TAKEN,
+} from '../../../reducers/dictionary/list';
+
 import Scroller from '../../Scroller';
 import CourseSearchSubSection from './CourseSearchSubSection';
 import CourseBlock from '../../blocks/CourseBlock';
@@ -52,10 +56,10 @@ class CourseListSection extends Component {
       setCourseFocusDispatch(course, true);
 
       const labelOfTabs = new Map([
-        ['SEARCH', 'Search'],
-        ['BASIC', 'Basic'],
-        ['HUMANITY', 'Humanity'],
-        ['TAKEN', 'Taken'],
+        [SEARCH, 'Search'],
+        [BASIC, 'Basic'],
+        [HUMANITY, 'Humanity'],
+        [TAKEN, 'Taken'],
       ]);
       ReactGA.event({
         category: 'Dictionary - Selection',
@@ -67,10 +71,10 @@ class CourseListSection extends Component {
       setCourseFocusDispatch(course, false);
 
       const labelOfTabs = new Map([
-        ['SEARCH', 'Search'],
-        ['BASIC', 'Basic'],
-        ['HUMANITY', 'Humanity'],
-        ['TAKEN', 'Taken'],
+        [SEARCH, 'Search'],
+        [BASIC, 'Basic'],
+        [HUMANITY, 'Humanity'],
+        [TAKEN, 'Taken'],
       ]);
       ReactGA.event({
         category: 'Dictionary - Selection',
@@ -87,11 +91,11 @@ class CourseListSection extends Component {
       lists,
     } = this.props;
 
-    if (selectedListCode === 'SEARCH') {
-      return lists.search.courses;
+    if (selectedListCode === SEARCH) {
+      return lists[SEARCH].courses;
     }
-    if (selectedListCode === 'BASIC') {
-      return lists.basic.courses;
+    if (selectedListCode === BASIC) {
+      return lists[BASIC].courses;
     }
     if (user && user.departments.some((d) => (selectedListCode === d.code))) {
       if (!lists[selectedListCode]) {
@@ -99,11 +103,11 @@ class CourseListSection extends Component {
       }
       return lists[selectedListCode].courses;
     }
-    if (selectedListCode === 'HUMANITY') {
-      return lists.humanity.courses;
+    if (selectedListCode === HUMANITY) {
+      return lists[HUMANITY].courses;
     }
-    if (selectedListCode === 'TAKEN') {
-      return lists.taken.courses;
+    if (selectedListCode === TAKEN) {
+      return lists[TAKEN].courses;
     }
     return null;
   }
@@ -144,7 +148,7 @@ class CourseListSection extends Component {
       );
     };
 
-    if (selectedListCode === 'SEARCH') {
+    if (selectedListCode === SEARCH) {
       return (
         <div className={classNames('section-content', 'section-content--flex', 'section-content--course-list')}>
           { searchOpen ? <CourseSearchSubSection /> : null }
@@ -156,7 +160,7 @@ class CourseListSection extends Component {
         </div>
       );
     }
-    if (selectedListCode === 'BASIC') {
+    if (selectedListCode === BASIC) {
       return (
         <div className={classNames('section-content', 'section-content--flex', 'section-content--course-list')}>
           <div className={classNames('title')}>
@@ -177,7 +181,7 @@ class CourseListSection extends Component {
         </div>
       );
     }
-    if (selectedListCode === 'HUMANITY') {
+    if (selectedListCode === HUMANITY) {
       return (
         <div className={classNames('section-content', 'section-content--flex', 'section-content--course-list')}>
           <div className={classNames('title')}>
@@ -187,7 +191,7 @@ class CourseListSection extends Component {
         </div>
       );
     }
-    if (selectedListCode === 'TAKEN') {
+    if (selectedListCode === TAKEN) {
       return (
         <div className={classNames('section-content', 'section-content--flex', 'section-content--course-list')}>
           <div className={classNames('title')}>

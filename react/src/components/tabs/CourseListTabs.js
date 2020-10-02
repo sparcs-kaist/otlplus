@@ -7,6 +7,10 @@ import ReactGA from 'react-ga';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 
+import {
+  SEARCH, BASIC, HUMANITY, TAKEN,
+} from '../../reducers/dictionary/list';
+
 import { openSearch, closeSearch } from '../../actions/dictionary/search';
 import {
   setSelectedListCode, setListCourses,
@@ -23,7 +27,7 @@ class CourseListTabs extends Component {
     const { user, selectedListCode } = this.props;
 
     if (user && !prevProps.user) {
-      if (selectedListCode === 'TAKEN') {
+      if (selectedListCode === TAKEN) {
         this._fetchList(selectedListCode, true);
       }
     }
@@ -36,19 +40,19 @@ class CourseListTabs extends Component {
   _fetchList = (listCode, force = false) => {
     const { user } = this.props;
 
-    if (listCode === 'SEARCH') {
+    if (listCode === SEARCH) {
       // Pass
     }
-    else if (listCode === 'BASIC') {
+    else if (listCode === BASIC) {
       this._fetchBasicList(force);
     }
     else if (user && user.departments.some((d) => (d.code === listCode))) {
       this._fetchMajorList(listCode, force);
     }
-    else if (listCode === 'HUMANITY') {
+    else if (listCode === HUMANITY) {
       this._fetchHumanityList(force);
     }
-    else if (listCode === 'TAKEN') {
+    else if (listCode === TAKEN) {
       this._fetchTakenList(force);
     }
   }
@@ -56,7 +60,7 @@ class CourseListTabs extends Component {
   _fetchBasicList = (force = false) => {
     const { lists, setListCoursesDispatch } = this.props;
 
-    if (!force && lists.basic.courses) {
+    if (!force && lists[BASIC].courses) {
       return;
     }
 
@@ -74,7 +78,7 @@ class CourseListTabs extends Component {
       },
     )
       .then((response) => {
-        setListCoursesDispatch('basic', response.data);
+        setListCoursesDispatch(BASIC, response.data);
       })
       .catch((error) => {
       });
@@ -114,7 +118,7 @@ class CourseListTabs extends Component {
   _fetchHumanityList = (force = false) => {
     const { lists, setListCoursesDispatch } = this.props;
 
-    if (!force && lists.humanity.courses) {
+    if (!force && lists[HUMANITY].courses) {
       return;
     }
 
@@ -132,7 +136,7 @@ class CourseListTabs extends Component {
       },
     )
       .then((response) => {
-        setListCoursesDispatch('humanity', response.data);
+        setListCoursesDispatch(HUMANITY, response.data);
       })
       .catch((error) => {
       });
@@ -142,15 +146,15 @@ class CourseListTabs extends Component {
   _fetchTakenList = (force = false) => {
     const { user, lists, setListCoursesDispatch } = this.props;
 
-    if (!force && lists.taken.courses) {
+    if (!force && lists[TAKEN].courses) {
       return;
     }
 
     if (!user) {
-      setListCoursesDispatch('taken', []);
+      setListCoursesDispatch(TAKEN, []);
       return;
     }
-    setListCoursesDispatch('taken', null);
+    setListCoursesDispatch(TAKEN, null);
     axios.get(
       `/api/users/${user.id}/taken-courses`,
       {
@@ -163,7 +167,7 @@ class CourseListTabs extends Component {
       },
     )
       .then((response) => {
-        setListCoursesDispatch('taken', response.data);
+        setListCoursesDispatch(TAKEN, response.data);
       })
       .catch((error) => {
       });
@@ -177,7 +181,7 @@ class CourseListTabs extends Component {
 
     setSelectedListCodeDispatch(listCode);
 
-    if (listCode === 'SEARCH' && (lists.search.courses === null || lists.search.courses.length === 0)) {
+    if (listCode === SEARCH && (lists[SEARCH].courses === null || lists[SEARCH].courses.length === 0)) {
       openSearchDispatch();
     }
     else {
@@ -185,10 +189,10 @@ class CourseListTabs extends Component {
     }
 
     const labelOfTabs = new Map([
-      ['SEARCH', 'Search'],
-      ['BASIC', 'Basic'],
-      ['HUMANITY', 'Humanity'],
-      ['TAKEN', 'Taken'],
+      [SEARCH, 'Search'],
+      [BASIC, 'Basic'],
+      [HUMANITY, 'Humanity'],
+      [TAKEN, 'Taken'],
     ]);
     ReactGA.event({
       category: 'Dictionary - List',
@@ -205,11 +209,11 @@ class CourseListTabs extends Component {
       <div className={classNames('tabs', 'tabs--lecture-list')}>
         <Scroller noScrollX={false} noScrollY={true} expandBottom={2}>
           <div className={classNames('tabs__flexbox')}>
-        <div className={classNames('tabs__elem', (selectedListCode === 'SEARCH' ? 'tabs__elem--selected' : ''))} onClick={() => this.changeTab('SEARCH')}>
+        <div className={classNames('tabs__elem', (selectedListCode === SEARCH ? 'tabs__elem--selected' : ''))} onClick={() => this.changeTab(SEARCH)}>
           <i className={classNames('icon', 'icon--tab-search')} />
           <span>{t('ui.tab.searchShort')}</span>
         </div>
-        <div className={classNames('tabs__elem', (selectedListCode === 'BASIC' ? 'tabs__elem--selected' : ''))} onClick={() => this.changeTab('BASIC')}>
+        <div className={classNames('tabs__elem', (selectedListCode === BASIC ? 'tabs__elem--selected' : ''))} onClick={() => this.changeTab(BASIC)}>
           <i className={classNames('icon', 'icon--tab-basic')} />
           <span>{t('ui.tab.basicShort')}</span>
         </div>
@@ -219,11 +223,11 @@ class CourseListTabs extends Component {
             <span>{t('ui.tab.majorShort')}</span>
           </div>
         ))}
-        <div className={classNames('tabs__elem', (selectedListCode === 'HUMANITY' ? 'tabs__elem--selected' : ''))} onClick={() => this.changeTab('HUMANITY')}>
+        <div className={classNames('tabs__elem', (selectedListCode === HUMANITY ? 'tabs__elem--selected' : ''))} onClick={() => this.changeTab(HUMANITY)}>
           <i className={classNames('icon', 'icon--tab-humanity')} />
           <span>{t('ui.tab.humanityShort')}</span>
         </div>
-        <div className={classNames('tabs__elem', (selectedListCode === 'TAKEN' ? 'tabs__elem--selected' : ''))} onClick={() => this.changeTab('TAKEN')}>
+        <div className={classNames('tabs__elem', (selectedListCode === TAKEN ? 'tabs__elem--selected' : ''))} onClick={() => this.changeTab(TAKEN)}>
           <i className={classNames('icon', 'icon--tab-taken')} />
           <span>{t('ui.tab.takenShort')}</span>
         </div>
