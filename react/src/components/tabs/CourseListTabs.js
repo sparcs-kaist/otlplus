@@ -38,31 +38,31 @@ class CourseListTabs extends Component {
   }
 
   _fetchList = (listCode, force = false) => {
-    const { user } = this.props;
+    const { user, lists } = this.props;
 
     if (listCode === SEARCH) {
-      // Pass
+      return;
     }
-    else if (listCode === BASIC) {
-      this._fetchBasicList(force);
+    if (!force && lists[listCode] && lists[listCode].courses) {
+      return;
+    }
+
+    if (listCode === BASIC) {
+      this._performFetchBasicList();
     }
     else if (user && user.departments.some((d) => (d.code === listCode))) {
-      this._fetchMajorList(listCode, force);
+      this._performFetchMajorList(listCode);
     }
     else if (listCode === HUMANITY) {
-      this._fetchHumanityList(force);
+      this._performFetchHumanityList();
     }
     else if (listCode === TAKEN) {
-      this._fetchTakenList(force);
+      this._performFetchTakenList();
     }
   }
 
-  _fetchBasicList = (force = false) => {
-    const { lists, setListCoursesDispatch } = this.props;
-
-    if (!force && lists[BASIC].courses) {
-      return;
-    }
+  _performFetchBasicList = () => {
+    const { setListCoursesDispatch } = this.props;
 
     axios.get(
       '/api/courses',
@@ -84,12 +84,8 @@ class CourseListTabs extends Component {
       });
   }
 
-  _fetchMajorList = (majorCode, force = false) => {
-    const { lists, setListCoursesDispatch } = this.props;
-
-    if (!force && lists[majorCode] && lists[majorCode].courses) {
-      return;
-    }
+  _performFetchMajorList = (majorCode) => {
+    const { setListCoursesDispatch } = this.props;
 
     axios.get(
       '/api/courses',
@@ -115,12 +111,8 @@ class CourseListTabs extends Component {
       });
   }
 
-  _fetchHumanityList = (force = false) => {
-    const { lists, setListCoursesDispatch } = this.props;
-
-    if (!force && lists[HUMANITY].courses) {
-      return;
-    }
+  _performFetchHumanityList = () => {
+    const { setListCoursesDispatch } = this.props;
 
     axios.get(
       '/api/courses',
@@ -143,12 +135,8 @@ class CourseListTabs extends Component {
   }
 
 
-  _fetchTakenList = (force = false) => {
-    const { user, lists, setListCoursesDispatch } = this.props;
-
-    if (!force && lists[TAKEN].courses) {
-      return;
-    }
+  _performFetchTakenList = () => {
+    const { user, setListCoursesDispatch } = this.props;
 
     if (!user) {
       setListCoursesDispatch(TAKEN, []);
