@@ -8,13 +8,20 @@ import random
 
 # Create your models here.
 
-class RandomCourseReco(models.Model):
-    userprofile = models.ForeignKey(UserProfile, related_name="random_course_reco", on_delete=models.SET_NULL, null=True)
-    reco_date = models.DateField()
-    lecture = models.ForeignKey(Lecture, on_delete=models.PROTECT, db_index=True)
+class Notice(models.Model):
+    start_time = models.DateTimeField()
+    end_time = models.DateTimeField()
+    title = models.CharField(max_length=100)
+    content = models.TextField()
 
-    def __unicode__(self):
-        return u"User: %s, RecoDate: %s, Lecture: %s" % (self.userprofile, self.reco_date, self.lecture)
+    def toJson(self):
+        result = {
+            "start_time": self.start_time,
+            "end_time": self.end_time,
+            "title": self.title,
+            "content": self.content,
+        }
+        return result
 
 
 class DailyFeed(models.Model):
@@ -36,6 +43,8 @@ class DailyUserFeed(DailyFeed):
 
 
 class FamousMajorReviewDailyFeed(DailyFeed):
+    VISIBLE_RATE_BASE = 0.5
+
     department = models.ForeignKey(Department, on_delete=models.PROTECT)
     reviews = models.ManyToManyField(Review)
 
@@ -43,7 +52,7 @@ class FamousMajorReviewDailyFeed(DailyFeed):
         unique_together = [['date', 'department']]
 
     @classmethod
-    def get(cls, date, department):
+    def get(cls, date, department, departments_num=1):
         try:
             feed = cls.objects.get(date=date, department=department)
         except cls.DoesNotExist:
@@ -53,7 +62,7 @@ class FamousMajorReviewDailyFeed(DailyFeed):
                 visible = False
             else:
                 selected_reviews = random.sample([r.review for r in reviews], 3)
-                visible = random.random() < 0.7
+                visible = random.random() < (cls.VISIBLE_RATE_BASE / (departments_num ** 0.7))
             feed = cls.objects.create(date=date, department=department, priority=random.random(), visible=visible)
             feed.reviews.add(*selected_reviews)
         if not feed.visible:
@@ -73,6 +82,8 @@ class FamousMajorReviewDailyFeed(DailyFeed):
 
 
 class FamousHumanityReviewDailyFeed(DailyFeed):
+    VISIBLE_RATE_BASE = 0.4
+
     reviews = models.ManyToManyField(Review)
 
     class Meta:
@@ -89,7 +100,7 @@ class FamousHumanityReviewDailyFeed(DailyFeed):
                 visible = False
             else:
                 selected_reviews = random.sample([r.review for r in reviews], 3)
-                visible = random.random() < 0.7
+                visible = random.random() < cls.VISIBLE_RATE_BASE
             feed = cls.objects.create(date=date, priority=random.random(), visible=visible)
             feed.reviews.add(*selected_reviews)
         if not feed.visible:
@@ -108,6 +119,8 @@ class FamousHumanityReviewDailyFeed(DailyFeed):
 
 
 class ReviewWriteDailyUserFeed(DailyUserFeed):
+    VISIBLE_RATE_BASE = 0.4
+
     lecture = models.ForeignKey(Lecture, on_delete=models.PROTECT)
 
     class Meta:
@@ -122,7 +135,8 @@ class ReviewWriteDailyUserFeed(DailyUserFeed):
             if taken_lectures.count() == 0:
                 return None
             selected_lecture = random.choice(taken_lectures)
-            feed = cls.objects.create(date=date, user=user, lecture=selected_lecture, priority=random.random(), visible=random.random() < 0.7)
+            visible = random.random() < cls.VISIBLE_RATE_BASE
+            feed = cls.objects.create(date=date, user=user, lecture=selected_lecture, priority=random.random(), visible=visible)
         if not feed.visible:
             return None
         else:
@@ -139,6 +153,8 @@ class ReviewWriteDailyUserFeed(DailyUserFeed):
 
 
 class RelatedCourseDailyUserFeed(DailyUserFeed):
+    VISIBLE_RATE_BASE = 0.25
+
     course = models.ForeignKey(Course, on_delete=models.PROTECT)
 
     class Meta:
@@ -153,7 +169,8 @@ class RelatedCourseDailyUserFeed(DailyUserFeed):
             if taken_lectures.count() == 0:
                 return None
             selected_lecture = random.choice(taken_lectures)
-            feed = cls.objects.create(date=date, user=user, course=selected_lecture.course, priority=random.random(), visible=random.random() < 0.7)
+            visible = random.random() < cls.VISIBLE_RATE_BASE
+            feed = cls.objects.create(date=date, user=user, course=selected_lecture.course, priority=random.random(), visible=visible)
         if not feed.visible:
             return None
         else:

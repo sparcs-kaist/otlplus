@@ -8,7 +8,7 @@ from utils.decorators import login_required_ajax
 
 from apps.session.models import UserProfile
 from apps.subject.models import Course, Department
-from apps.main.models import RandomCourseReco, FamousMajorReviewDailyFeed, FamousHumanityReviewDailyFeed, ReviewWriteDailyUserFeed, RelatedCourseDailyUserFeed
+from apps.main.models import Notice, FamousMajorReviewDailyFeed, FamousHumanityReviewDailyFeed, ReviewWriteDailyUserFeed, RelatedCourseDailyUserFeed
 
 from apps.timetable.views import _user_department
 
@@ -20,16 +20,31 @@ import json
 from datetime import date
 
 
+@require_http_methods(['GET'])
+def notices_view(request):
+    if request.method == 'GET':
+        notices = Notice.objects.all()
+
+        time = request.GET.get('time', None)
+        if time:
+            notices = notices.filter(start_time__lte=time, end_time__gte=time)
+        
+        result = [n.toJson() for n in notices]
+        return JsonResponse(result, safe=False)
+
+
 @login_required_ajax
 @require_http_methods(['GET'])
-def feed_list_view(request):
+def user_instance_feeds_view(request, user_id):
     if request.method == 'GET':
         date = request.GET.get('date', None)
         userprofile = request.user.userprofile
+        if userprofile.id != int(user_id):
+            return HttpResponse(status=401)
 
         department_codes = [d['code'] for d in _user_department(request.user) if (d['code'] != 'Basic')]
         departments = Department.objects.filter(code__in=department_codes, visible=True)
-        famous_major_review_daily_feed_list = [FamousMajorReviewDailyFeed.get(date=date, department=d) for d in departments]
+        famous_major_review_daily_feed_list = [FamousMajorReviewDailyFeed.get(date=date, department=d, departments_num=departments.count()) for d in departments]
 
         famous_humanity_review_daily_feed = FamousHumanityReviewDailyFeed.get(date=date)
 
