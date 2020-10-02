@@ -7,7 +7,7 @@ import { getProfessorsShortStr } from '../../common/lectureFunctions';
 import { getSingleScoreLabel } from '../../common/scoreFunctions';
 import { performSubmitReview } from '../../common/reviewFunctions';
 
-import lectureShape from '../../shapes/NestedLectureShape';
+import lectureShape from '../../shapes/LectureShape';
 import reviewShape from '../../shapes/ReviewShape';
 
 
