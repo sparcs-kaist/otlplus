@@ -108,7 +108,8 @@ class TimetableTabs extends Component {
       setMyTimetableLecturesDispatch,
     } = this.props;
 
-    const lectures = user.my_timetable_lectures.filter((l) => ((l.year === year) && (l.semester === semester)));
+    const lectures = user.my_timetable_lectures
+      .filter((l) => ((l.year === year) && (l.semester === semester)));
     setMyTimetableLecturesDispatch(lectures);
   }
 
@@ -193,8 +194,8 @@ class TimetableTabs extends Component {
 
     if (!user) {
       deleteTimetableDispatch(timetable);
-      return;
     }
+    else {
       axios.delete(
         `/api/users/${user.id}/timetables/${timetable.id}`,
         {
@@ -213,6 +214,7 @@ class TimetableTabs extends Component {
         })
         .catch((error) => {
         });
+    }
 
     ReactGA.event({
       category: 'Timetable - Timetable',

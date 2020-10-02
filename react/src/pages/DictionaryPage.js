@@ -5,6 +5,7 @@ import { withTranslation } from 'react-i18next';
 import axios from 'axios';
 
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
+import { SEARCH } from '../reducers/dictionary/list';
 
 import CourseListSection from '../components/sections/dictionary/CourseListSection';
 import CourseDetailSection from '../components/sections/dictionary/CourseDetailSection';
@@ -74,7 +75,7 @@ class DictionaryPage extends Component {
         },
       )
         .then((response) => {
-          setListCoursesDispatch('search', response.data);
+          setListCoursesDispatch(SEARCH, response.data);
         })
         .catch((error) => {
         });

@@ -17,9 +17,11 @@ import { addLectureToCart, deleteLectureFromCart } from '../../../actions/timeta
 import { addLectureToTimetable, removeLectureFromTimetable } from '../../../actions/timetable/timetable';
 
 import { LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureFocus';
+import {
+  SEARCH, BASIC, HUMANITY, CART,
+} from '../../../reducers/timetable/list';
 
 import userShape from '../../../shapes/UserShape';
-import lectureShape from '../../../shapes/LectureShape';
 import lectureFocusShape from '../../../shapes/LectureFocusShape';
 import timetableShape from '../../../shapes/TimetableShape';
 
@@ -28,6 +30,7 @@ import {
   getProfessorsFullStr, getClassroomStr, getExamFullStr,
   performAddToTable, performDeleteFromTable, performAddToCart, performDeleteFromCart,
 } from '../../../common/lectureFunctions';
+import lectureListsShape from '../../../shapes/LectureListsShape';
 
 
 class LectureDetailSection extends Component {
@@ -126,9 +129,10 @@ class LectureDetailSection extends Component {
     event.stopPropagation();
 
     const labelOfTabs = new Map([
-      ['SEARCH', 'Search'],
-      ['HUMANITY', 'Humanity'],
-      ['CART', 'Cart'],
+      [SEARCH, 'Search'],
+      [BASIC, 'Basic'],
+      [HUMANITY, 'Humanity'],
+      [CART, 'Cart'],
     ]);
     const fromString = (lectureFocus.from === TABLE)
       ? 'Timetable'
@@ -148,9 +152,10 @@ class LectureDetailSection extends Component {
     event.stopPropagation();
 
     const labelOfTabs = new Map([
-      ['SEARCH', 'Search'],
-      ['HUMANITY', 'Humanity'],
-      ['CART', 'Cart'],
+      [SEARCH, 'Search'],
+      [BASIC, 'Basic'],
+      [HUMANITY, 'Humanity'],
+      [CART, 'Cart'],
     ]);
     const fromString = (lectureFocus.from === TABLE)
       ? 'Timetable'
@@ -171,9 +176,10 @@ class LectureDetailSection extends Component {
     event.stopPropagation();
 
     const labelOfTabs = new Map([
-      ['SEARCH', 'Search'],
-      ['HUMANITY', 'Humanity'],
-      ['CART', 'Cart'],
+      [SEARCH, 'Search'],
+      [BASIC, 'Basic'],
+      [HUMANITY, 'Humanity'],
+      [CART, 'Cart'],
     ]);
     const fromString = (lectureFocus.from === TABLE)
       ? 'Timetable'
@@ -194,9 +200,10 @@ class LectureDetailSection extends Component {
     event.stopPropagation();
 
     const labelOfTabs = new Map([
-      ['SEARCH', 'Search'],
-      ['HUMANITY', 'Humanity'],
-      ['CART', 'Cart'],
+      [SEARCH, 'Search'],
+      [BASIC, 'Basic'],
+      [HUMANITY, 'Humanity'],
+      [CART, 'Cart'],
     ]);
     const fromString = (lectureFocus.from === TABLE)
       ? 'Timetable'
@@ -222,7 +229,7 @@ class LectureDetailSection extends Component {
   render() {
     const { t } = this.props;
     const { shouldShowCloseDict } = this.state;
-    const { lectureFocus, selectedTimetable, cart } = this.props;
+    const { lectureFocus, selectedTimetable, lists } = this.props;
 
     const shouldShowUnfix = (lectureFocus.from === 'LIST' || lectureFocus.from === 'TABLE')
       && lectureFocus.clicked;
@@ -354,7 +361,7 @@ class LectureDetailSection extends Component {
           <div className={classNames('divider', 'mobile-unhidden')} />
           <div className={classNames('section-content--lecture-detail__mobile-buttons', 'mobile-unhidden')}>
             {
-              !inCart(lectureFocus.lecture, cart)
+              !inCart(lectureFocus.lecture, lists[CART])
                 ? (
                   <button className={classNames('text-button', 'text-button--black')} onClick={this.addToCart}>
                     <i className={classNames('icon', 'icon--add-cart')} />
@@ -462,7 +469,7 @@ const mapStateToProps = (state) => ({
   lectureFocus: state.timetable.lectureFocus,
   selectedListCode: state.timetable.list.selectedListCode,
   selectedTimetable: state.timetable.timetable.selectedTimetable,
-  cart: state.timetable.list.cart,
+  lists: state.timetable.list.lists,
   year: state.timetable.semester.year,
   semester: state.timetable.semester.semester,
 });
@@ -493,9 +500,7 @@ LectureDetailSection.propTypes = {
   lectureFocus: lectureFocusShape.isRequired,
   selectedListCode: PropTypes.string.isRequired,
   selectedTimetable: timetableShape,
-  cart: PropTypes.shape({
-    lectureGroups: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)),
-  }).isRequired,
+  lists: lectureListsShape.isRequired,
   year: PropTypes.number,
   semester: PropTypes.number,
 

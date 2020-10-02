@@ -6,6 +6,8 @@ import qs from 'qs';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
+import { HUMANITY } from '../../../reducers/dictionary/list';
+
 import ReviewBlock from '../../blocks/ReviewBlock';
 
 import reviewShape from '../../../shapes/ReviewShape';
@@ -25,7 +27,7 @@ class FamousHumanityReviewFeedSection extends Component {
           <ReviewBlock review={r} linkTo={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: r.course.id }) }} pageFrom="Main" key={r.id} />
         ))}
         <div className={classNames('buttons')}>
-          <Link to={{ pathname: '/dictionary', search: qs.stringify({ startTab: 'HUMANITY' }) }} className={classNames('text-button')}>
+          <Link to={{ pathname: '/dictionary', search: qs.stringify({ startTab: HUMANITY }) }} className={classNames('text-button')}>
             {t('ui.button.seeMoreReviews')}
           </Link>
         </div>

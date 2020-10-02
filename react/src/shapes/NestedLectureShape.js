@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import nestedProfessorShape from './NestedProfessorShape';
 
 
-const lectureShape = PropTypes.shape({
+const nestedLectureShape = PropTypes.shape({
   id: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
   title_en: PropTypes.string.isRequired_en,
@@ -30,4 +30,4 @@ const lectureShape = PropTypes.shape({
   professors: PropTypes.arrayOf(nestedProfessorShape).isRequired,
 });
 
-export default lectureShape;
+export default nestedLectureShape;

@@ -126,7 +126,7 @@ const timetable = (state = initialState, action) => {
     case REMOVE_LECTURE_FROM_TIMETABLE: {
       const newTable = {
         id: state.selectedTimetable.id,
-        lectures: state.selectedTimetable.lectures.slice().filter((l) => (l.id !== action.lecture.id)),
+        lectures: state.selectedTimetable.lectures.filter((l) => (l.id !== action.lecture.id)),
       };
       const newTables = state.timetables.map((t) => (
         t.id === newTable.id
