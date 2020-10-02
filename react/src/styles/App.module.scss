@@ -1436,6 +1436,13 @@ a {
             height: 100%;
         }
     }
+
+
+    &--notice {
+        &__content {
+            line-height: $line-height-normal + 4px;
+        }
+    }
 }
 
 
@@ -2077,6 +2084,7 @@ a {
 
     .section-content--review-write &,
     .section-content--latest-reviews &,
+    .section-content--notice &,
     .section-content--feed & {
         text-align: center;
         margin-bottom: 10px;
