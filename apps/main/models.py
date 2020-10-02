@@ -27,6 +27,8 @@ class DailyUserFeed(DailyFeed):
 
 
 class FamousMajorReviewDailyFeed(DailyFeed):
+    VISIBLE_RATE_BASE = 0.5
+
     department = models.ForeignKey(Department, on_delete=models.PROTECT)
     reviews = models.ManyToManyField(Review)
 
@@ -34,7 +36,7 @@ class FamousMajorReviewDailyFeed(DailyFeed):
         unique_together = [['date', 'department']]
 
     @classmethod
-    def get(cls, date, department):
+    def get(cls, date, department, departments_num=1):
         try:
             feed = cls.objects.get(date=date, department=department)
         except cls.DoesNotExist:
@@ -44,7 +46,7 @@ class FamousMajorReviewDailyFeed(DailyFeed):
                 visible = False
             else:
                 selected_reviews = random.sample([r.review for r in reviews], 3)
-                visible = random.random() < 0.7
+                visible = random.random() < (cls.VISIBLE_RATE_BASE / (departments_num ** 0.7))
             feed = cls.objects.create(date=date, department=department, priority=random.random(), visible=visible)
             feed.reviews.add(*selected_reviews)
         if not feed.visible:
@@ -64,6 +66,8 @@ class FamousMajorReviewDailyFeed(DailyFeed):
 
 
 class FamousHumanityReviewDailyFeed(DailyFeed):
+    VISIBLE_RATE_BASE = 0.4
+
     reviews = models.ManyToManyField(Review)
 
     class Meta:
@@ -80,7 +84,7 @@ class FamousHumanityReviewDailyFeed(DailyFeed):
                 visible = False
             else:
                 selected_reviews = random.sample([r.review for r in reviews], 3)
-                visible = random.random() < 0.7
+                visible = random.random() < cls.VISIBLE_RATE_BASE
             feed = cls.objects.create(date=date, priority=random.random(), visible=visible)
             feed.reviews.add(*selected_reviews)
         if not feed.visible:
@@ -99,6 +103,8 @@ class FamousHumanityReviewDailyFeed(DailyFeed):
 
 
 class ReviewWriteDailyUserFeed(DailyUserFeed):
+    VISIBLE_RATE_BASE = 0.4
+
     lecture = models.ForeignKey(Lecture, on_delete=models.PROTECT)
 
     class Meta:
@@ -113,7 +119,8 @@ class ReviewWriteDailyUserFeed(DailyUserFeed):
             if taken_lectures.count() == 0:
                 return None
             selected_lecture = random.choice(taken_lectures)
-            feed = cls.objects.create(date=date, user=user, lecture=selected_lecture, priority=random.random(), visible=random.random() < 0.7)
+            visible = random.random() < cls.VISIBLE_RATE_BASE
+            feed = cls.objects.create(date=date, user=user, lecture=selected_lecture, priority=random.random(), visible=visible)
         if not feed.visible:
             return None
         else:
@@ -130,6 +137,8 @@ class ReviewWriteDailyUserFeed(DailyUserFeed):
 
 
 class RelatedCourseDailyUserFeed(DailyUserFeed):
+    VISIBLE_RATE_BASE = 0.25
+
     course = models.ForeignKey(Course, on_delete=models.PROTECT)
 
     class Meta:
@@ -144,7 +153,8 @@ class RelatedCourseDailyUserFeed(DailyUserFeed):
             if taken_lectures.count() == 0:
                 return None
             selected_lecture = random.choice(taken_lectures)
-            feed = cls.objects.create(date=date, user=user, course=selected_lecture.course, priority=random.random(), visible=random.random() < 0.7)
+            visible = random.random() < cls.VISIBLE_RATE_BASE
+            feed = cls.objects.create(date=date, user=user, course=selected_lecture.course, priority=random.random(), visible=visible)
         if not feed.visible:
             return None
         else:
