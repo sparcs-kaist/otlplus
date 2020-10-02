@@ -20,5 +20,6 @@ from . import views
 
 
 urlpatterns = [
+    url(r'^notices$', views.notices_view),
     url(r'^users/(?P<user_id>\d+)/feeds$', views.user_instance_feeds_view),
 ]
