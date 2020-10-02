@@ -6,6 +6,10 @@ import ReactGA from 'react-ga';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
+import {
+  SEARCH, BASIC, HUMANITY, TAKEN,
+} from '../../../reducers/dictionary/list';
+
 import Scroller from '../../Scroller';
 import CourseSearchSubSection from './CourseSearchSubSection';
 import CourseBlock from '../../blocks/CourseBlock';
@@ -16,6 +20,8 @@ import { openSearch } from '../../../actions/dictionary/search';
 
 import courseShape from '../../../shapes/CourseShape';
 import courseFocusShape from '../../../shapes/CourseFocusShape';
+import courseListsShape from '../../../shapes/CourseListsShape';
+import userShape from '../../../shapes/UserShape';
 
 
 class CourseListSection extends Component {
@@ -50,10 +56,10 @@ class CourseListSection extends Component {
       setCourseFocusDispatch(course, true);
 
       const labelOfTabs = new Map([
-        ['SEARCH', 'Search'],
-        ['BASIC', 'Basic'],
-        ['HUMANITY', 'Humanity'],
-        ['TAKEN', 'Taken'],
+        [SEARCH, 'Search'],
+        [BASIC, 'Basic'],
+        [HUMANITY, 'Humanity'],
+        [TAKEN, 'Taken'],
       ]);
       ReactGA.event({
         category: 'Dictionary - Selection',
@@ -65,10 +71,10 @@ class CourseListSection extends Component {
       setCourseFocusDispatch(course, false);
 
       const labelOfTabs = new Map([
-        ['SEARCH', 'Search'],
-        ['BASIC', 'Basic'],
-        ['HUMANITY', 'Humanity'],
-        ['TAKEN', 'Taken'],
+        [SEARCH, 'Search'],
+        [BASIC, 'Basic'],
+        [HUMANITY, 'Humanity'],
+        [TAKEN, 'Taken'],
       ]);
       ReactGA.event({
         category: 'Dictionary - Selection',
@@ -79,11 +85,24 @@ class CourseListSection extends Component {
   }
 
 
+  _getCourses = (selectedListCode) => {
+    const {
+      lists,
+    } = this.props;
+
+    if (!lists[selectedListCode]) {
+      return null;
+    }
+    return lists[selectedListCode].courses;
+  }
+
+
   render() {
     const { t } = this.props;
     const {
+      user,
       courseFocus, selectedListCode, searchOpen,
-      search, basic, major, humanity, taken, readCourses,
+      readCourses,
     } = this.props;
 
     const getListElement = (courses) => {
@@ -113,7 +132,7 @@ class CourseListSection extends Component {
       );
     };
 
-    if (selectedListCode === 'SEARCH') {
+    if (selectedListCode === SEARCH) {
       return (
         <div className={classNames('section-content', 'section-content--flex', 'section-content--course-list')}>
           { searchOpen ? <CourseSearchSubSection /> : null }
@@ -121,47 +140,48 @@ class CourseListSection extends Component {
             <i className={classNames('icon', 'icon--search')} />
             <span>{t('ui.tab.search')}</span>
           </div>
-          { getListElement(search.courses) }
+          { getListElement(this._getCourses(selectedListCode)) }
         </div>
       );
     }
-    if (selectedListCode === 'BASIC') {
+    if (selectedListCode === BASIC) {
       return (
         <div className={classNames('section-content', 'section-content--flex', 'section-content--course-list')}>
           <div className={classNames('title')}>
             {t('ui.tab.basic')}
           </div>
-          { getListElement(basic.courses) }
+          { getListElement(this._getCourses(selectedListCode)) }
         </div>
       );
     }
-    if (major.codes.some((cd) => (selectedListCode === cd))) {
+    if (user && user.departments.some((d) => (selectedListCode === d.code))) {
+      const department = user.departments.find((d) => (selectedListCode === d.code));
       return (
         <div className={classNames('section-content', 'section-content--flex', 'section-content--course-list')}>
           <div className={classNames('title')}>
-            {major[selectedListCode][t('js.property.name')]}
+            {`${department[t('js.property.name')]} ${t('ui.tab.major')}`}
           </div>
-          { getListElement(major[selectedListCode].courses) }
+          { getListElement(this._getCourses(selectedListCode)) }
         </div>
       );
     }
-    if (selectedListCode === 'HUMANITY') {
+    if (selectedListCode === HUMANITY) {
       return (
         <div className={classNames('section-content', 'section-content--flex', 'section-content--course-list')}>
           <div className={classNames('title')}>
             {t('ui.tab.humanity')}
           </div>
-          { getListElement(humanity.courses) }
+          { getListElement(this._getCourses(selectedListCode)) }
         </div>
       );
     }
-    if (selectedListCode === 'TAKEN') {
+    if (selectedListCode === TAKEN) {
       return (
         <div className={classNames('section-content', 'section-content--flex', 'section-content--course-list')}>
           <div className={classNames('title')}>
             {t('ui.tab.taken')}
           </div>
-          { getListElement(taken.courses) }
+          { getListElement(this._getCourses(selectedListCode)) }
         </div>
       );
     }
@@ -170,12 +190,9 @@ class CourseListSection extends Component {
 }
 
 const mapStateToProps = (state) => ({
+  user: state.common.user.user,
   selectedListCode: state.dictionary.list.selectedListCode,
-  search: state.dictionary.list.search,
-  basic: state.dictionary.list.basic,
-  major: state.dictionary.list.major,
-  humanity: state.dictionary.list.humanity,
-  taken: state.dictionary.list.taken,
+  lists: state.dictionary.list.lists,
   readCourses: state.dictionary.list.readCourses,
   courseFocus: state.dictionary.courseFocus,
   searchOpen: state.dictionary.search.open,
@@ -194,22 +211,9 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 CourseListSection.propTypes = {
+  user: userShape,
   selectedListCode: PropTypes.string.isRequired,
-  search: PropTypes.shape({
-    courses: PropTypes.arrayOf(courseShape),
-  }).isRequired,
-  basic: PropTypes.shape({
-    courses: PropTypes.arrayOf(courseShape),
-  }).isRequired,
-  major: PropTypes.shape({
-    codes: PropTypes.arrayOf(PropTypes.string).isRequired,
-  }).isRequired,
-  humanity: PropTypes.shape({
-    courses: PropTypes.arrayOf(courseShape),
-  }).isRequired,
-  taken: PropTypes.shape({
-    courses: PropTypes.arrayOf(courseShape),
-  }).isRequired,
+  lists: courseListsShape,
   readCourses: PropTypes.arrayOf(courseShape).isRequired,
   courseFocus: courseFocusShape.isRequired,
   searchOpen: PropTypes.bool.isRequired,

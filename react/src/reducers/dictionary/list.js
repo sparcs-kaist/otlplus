@@ -1,28 +1,31 @@
 import {
   RESET,
   SET_SELECTED_LIST_CODE,
-  SET_LIST_MAJOR_CODES,
-  SET_LIST_COURSES, SET_LIST_MAJOR_COURSES, CLEAR_LISTS_COURSES, CLEAR_SEARCH_LIST_COURSES,
+  SET_LIST_COURSES, CLEAR_SEARCH_LIST_COURSES,
   ADD_COURSE_READ,
 } from '../../actions/dictionary/list';
 
+export const SEARCH = 'search';
+export const BASIC = 'basic';
+export const HUMANITY = 'humanity';
+export const TAKEN = 'taken';
+
 
 const initialState = {
-  selectedListCode: 'SEARCH',
-  search: {
-    courses: [],
-  },
-  basic: {
-    lectureGroups: null,
-  },
-  major: {
-    codes: [],
-  },
-  humanity: {
-    courses: null,
-  },
-  taken: {
-    courses: null,
+  selectedListCode: SEARCH,
+  lists: {
+    [SEARCH]: {
+      courses: [],
+    },
+    [BASIC]: {
+      courses: null,
+    },
+    [HUMANITY]: {
+      courses: null,
+    },
+    [TAKEN]: {
+      courses: null,
+    },
   },
   readCourses: [],
 };
@@ -37,82 +40,18 @@ const list = (state = initialState, action) => {
         selectedListCode: action.listCode,
       });
     }
-    case SET_LIST_MAJOR_CODES: {
-      const newState = {
-        major: Object.assign(
-          {},
-          {
-            codes: action.majors.map((m) => m.code),
-          },
-          ...(action.majors.map((m) => (
-            {
-              [m.code]: {
-                name: m.name,
-                name_en: m.name_en,
-                courses: null,
-              },
-            }
-          ))),
-        ),
-      };
-      return Object.assign({}, state, newState);
-    }
     case SET_LIST_COURSES: {
-      const newState = {
-        [action.code]: {
-          ...state[action.code],
-          courses: action.courses,
-        },
-      };
-      return Object.assign({}, state, newState);
-    }
-    case SET_LIST_MAJOR_COURSES: {
-      const newState = {
-        major: {
-          ...state.major,
-          [action.majorCode]: {
-            ...state.major[action.majorCode],
-            courses: action.courses,
-          },
-        },
-      };
-      return Object.assign({}, state, newState);
-    }
-    case CLEAR_LISTS_COURSES: {
-      const newState = {
-        ...state,
-        search: {
-          ...state.search,
-          courses: [],
-        },
-        major: Object.assign(
-          {},
-          state.major,
-          ...state.major.codes.map((c) => ({
-            [c]: {
-              ...state.major[c],
-              courses: null,
-            },
-          })),
-        ),
-        humanity: {
-          ...state.humanity,
-          courses: null,
-        },
-        cart: {
-          ...state.cart,
-          courses: null,
-        },
-      };
+      const newState = { ...state };
+      newState.lists = { ...newState.lists };
+      newState.lists[action.code] = { ...newState.lists[action.code] };
+      newState.lists[action.code].courses = action.courses;
       return Object.assign({}, state, newState);
     }
     case CLEAR_SEARCH_LIST_COURSES: {
-      const newState = {
-        search: {
-          ...state.search,
-          courses: null,
-        },
-      };
+      const newState = { ...state };
+      newState.lists = { ...newState.lists };
+      newState.lists[SEARCH] = { ...newState.lists[SEARCH] };
+      newState.lists[SEARCH].courses = null;
       return Object.assign({}, state, newState);
     }
     case ADD_COURSE_READ: {

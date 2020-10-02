@@ -10,7 +10,7 @@ import ReviewWriteBlock from '../../blocks/ReviewWriteBlock';
 
 import { updateUserReview } from '../../../actions/common/user';
 
-import lectureShape from '../../../shapes/NestedLectureShape';
+import lectureShape from '../../../shapes/LectureShape';
 import reviewShape from '../../../shapes/ReviewShape';
 
 
