@@ -30,10 +30,24 @@ class MainPage extends Component {
 
 
   componentDidMount() {
+    const { user } = this.props;
+
     window.addEventListener('scroll', this.handleScroll);
 
-    const date = new Date();
-    this._fetchFeeds(date);
+    const today = new Date();
+    if (user) {
+      this._fetchFeeds(today);
+    }
+  }
+
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    const { user } = this.props;
+
+    const today = new Date();
+    if (user && !prevProps.user) {
+      this._fetchFeeds(today);
+    }
   }
 
 
@@ -69,14 +83,13 @@ class MainPage extends Component {
     if (isLoading) {
       return;
     }
+    if (this._getDateDifference(date) >= 7) {
+      return;
+    }
 
     this.setState({
       isLoading: true,
     });
-
-    if (this._getDateDifference(date) >= 7) {
-      return;
-    }
 
     const dateString = date.toJSON().slice(0, 10);
 
