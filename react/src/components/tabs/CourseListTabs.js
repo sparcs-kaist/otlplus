@@ -169,11 +169,13 @@ class CourseListTabs extends Component {
 
     setSelectedListCodeDispatch(listCode);
 
-    if (listCode === SEARCH && (lists[SEARCH].courses === null || lists[SEARCH].courses.length === 0)) {
-      openSearchDispatch();
-    }
-    else {
-      closeSearchDispatch();
+    if (listCode === SEARCH) {
+      if (lists[SEARCH].courses && lists[SEARCH].courses.length) {
+        closeSearchDispatch();
+      }
+      else {
+        openSearchDispatch();
+      }
     }
 
     const labelOfTabs = new Map([

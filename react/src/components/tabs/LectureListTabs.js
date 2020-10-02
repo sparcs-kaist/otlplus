@@ -215,11 +215,13 @@ class LectureListTabs extends Component {
 
     setSelectedListCodeDispatch(listCode);
 
-    if (listCode === SEARCH && (lists[SEARCH].lectureGroups === null || lists[SEARCH].lectureGroups.length === 0)) {
-      openSearchDispatch();
-    }
-    else {
-      closeSearchDispatch();
+    if (listCode === SEARCH) {
+      if (lists[SEARCH].lectureGroups && lists[SEARCH].lectureGroups.length) {
+        closeSearchDispatch();
+      }
+      else {
+        openSearchDispatch();
+      }
     }
 
     const labelOfTabs = new Map([
