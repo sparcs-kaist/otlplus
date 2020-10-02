@@ -61,8 +61,13 @@ class MainPage extends Component {
 
   handleScroll = (e) => {
     const { isLoading } = this.state;
+    const { user } = this.props;
     const SCROLL_BOTTOM_PADDING = 100;
+
     if (isLoading) {
+      return;
+    }
+    if (!user) {
       return;
     }
 
@@ -87,10 +92,10 @@ class MainPage extends Component {
     if (isLoading) {
       return;
     }
-    if (this._getDateDifference(date) >= 7) {
+    if (!user) {
       return;
     }
-    if (!user) {
+    if (this._getDateDifference(date) >= 7) {
       return;
     }
 
