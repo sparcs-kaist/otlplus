@@ -79,11 +79,15 @@ class MainPage extends Component {
 
   _fetchFeeds = (date) => {
     const { feedDays, isLoading } = this.state;
+    const { user } = this.props;
 
     if (isLoading) {
       return;
     }
     if (this._getDateDifference(date) >= 7) {
+      return;
+    }
+    if (!user) {
       return;
     }
 
@@ -94,7 +98,7 @@ class MainPage extends Component {
     const dateString = date.toJSON().slice(0, 10);
 
     axios.get(
-      '/api/feeds',
+      `/api/users/${user.id}/feeds`,
       {
         params: {
           date: dateString,

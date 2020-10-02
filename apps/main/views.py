@@ -22,10 +22,12 @@ from datetime import date
 
 @login_required_ajax
 @require_http_methods(['GET'])
-def feed_list_view(request):
+def user_instance_feeds_view(request, user_id):
     if request.method == 'GET':
         date = request.GET.get('date', None)
         userprofile = request.user.userprofile
+        if userprofile.id != int(user_id):
+            return HttpResponse(status=401)
 
         department_codes = [d['code'] for d in _user_department(request.user) if (d['code'] != 'Basic')]
         departments = Department.objects.filter(code__in=department_codes, visible=True)
