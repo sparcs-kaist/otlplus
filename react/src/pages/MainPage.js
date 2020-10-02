@@ -16,6 +16,7 @@ import FamousHumanityReviewFeedSection from '../components/sections/main/FamousH
 import ReviewWriteFeedSection from '../components/sections/main/ReviewWriteFeedSection';
 import MainSearchSection from '../components/sections/main/MainSearchSection';
 import userShape from '../shapes/UserShape';
+import NoticeSection from '../components/sections/main/NoticeSection';
 
 
 class MainPage extends Component {
@@ -24,16 +25,32 @@ class MainPage extends Component {
 
     this.state = {
       feedDays: [],
+      notices: null,
       isLoading: false,
     };
   }
 
 
   componentDidMount() {
+    const { user } = this.props;
+
     window.addEventListener('scroll', this.handleScroll);
 
-    const date = new Date();
-    this._fetchFeeds(date);
+    const today = new Date();
+    if (user) {
+      this._fetchFeeds(today);
+    }
+    this._fetchNotices();
+  }
+
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    const { user } = this.props;
+
+    const today = new Date();
+    if (user && !prevProps.user) {
+      this._fetchFeeds(today);
+    }
   }
 
 
@@ -44,8 +61,13 @@ class MainPage extends Component {
 
   handleScroll = (e) => {
     const { isLoading } = this.state;
+    const { user } = this.props;
     const SCROLL_BOTTOM_PADDING = 100;
+
     if (isLoading) {
+      return;
+    }
+    if (!user) {
       return;
     }
 
@@ -65,8 +87,15 @@ class MainPage extends Component {
 
   _fetchFeeds = (date) => {
     const { feedDays, isLoading } = this.state;
+    const { user } = this.props;
 
     if (isLoading) {
+      return;
+    }
+    if (!user) {
+      return;
+    }
+    if (this._getDateDifference(date) >= 7) {
       return;
     }
 
@@ -74,14 +103,10 @@ class MainPage extends Component {
       isLoading: true,
     });
 
-    if (this._getDateDifference(date) >= 7) {
-      return;
-    }
-
     const dateString = date.toJSON().slice(0, 10);
 
     axios.get(
-      '/api/feeds',
+      `/api/users/${user.id}/feeds`,
       {
         params: {
           date: dateString,
@@ -108,6 +133,29 @@ class MainPage extends Component {
       });
   }
 
+  _fetchNotices = () => {
+    const now = new Date();
+    axios.get(
+      '/api/notices',
+      {
+        params: {
+          time: now.toJSON(),
+        },
+        metadata: {
+          gaCategory: 'Notice',
+          gaVariable: 'GET / List',
+        },
+      },
+    )
+      .then((response) => {
+        this.setState({
+          notices: response.data,
+        });
+      })
+      .catch((error) => {
+      });
+  }
+
   _getDateDifference = (date) => {
     const copiedDate = new Date(date);
     const todayDate = new Date();
@@ -120,7 +168,7 @@ class MainPage extends Component {
 
   render() {
     const { t } = this.props;
-    const { feedDays } = this.state;
+    const { feedDays, notices } = this.state;
     const { user } = this.props;
 
     const getDateName = (dateString) => {
@@ -133,6 +181,61 @@ class MainPage extends Component {
         return t('ui.others.yesterday');
       }
       return t('ui.others.day', { date: date });
+    };
+
+    const mapFeedToSection = (feed, date) => {
+      if (feed.type === 'REVIEW_WRITE') {
+        return (
+          <div className={classNames('section-wrap')} key={`${date.date}-${feed.type}-${feed.lecture.id}`}>
+            <div className={classNames('section')}>
+              <ReviewWriteFeedSection
+                lecture={feed.lecture}
+                review={user.reviews.find((r) => (r.lecture.id === feed.lecture.id))}
+              />
+            </div>
+          </div>
+        );
+      }
+      if (feed.type === 'RELATED_COURSE') {
+        return (
+          <div className={classNames('section-wrap')} key={`${date.date}-${feed.type}-${feed.course.id}`}>
+            <div className={classNames('section')}>
+              <RelatedCourseFeedSection course={feed.course} />
+            </div>
+          </div>
+        );
+      }
+      if (feed.type === 'LATEST_REVIEW') {
+        return (
+          <div className={classNames('section-wrap')} key={`${date.date}-${feed.type}`}>
+            <div className={classNames('section')}>
+              <LatestReviewFeedSection />
+            </div>
+          </div>
+        );
+      }
+      if (feed.type === 'FAMOUS_MAJOR_REVIEW') {
+        return (
+          <div className={classNames('section-wrap')} key={`${date.date}-${feed.type}-${feed.department.code}`}>
+            <div className={classNames('section')}>
+              <FamousMajorReviewFeedSection
+                department={feed.department}
+                reviews={feed.reviews}
+              />
+            </div>
+          </div>
+        );
+      }
+      if (feed.type === 'FAMOUS_HUMANITY_REVIEW') {
+        return (
+          <div className={classNames('section-wrap')} key={`${date.date}-${feed.type}`}>
+            <div className={classNames('section')}>
+              <FamousHumanityReviewFeedSection reviews={feed.reviews} />
+            </div>
+          </div>
+        );
+      }
+      return null;
     };
 
     return (
@@ -156,6 +259,19 @@ class MainPage extends Component {
               <AcademicScheduleSection />
             </div>
           </div>
+          {
+            notices
+              ? (
+                notices.map((n) => (
+                  <div className={classNames('section-wrap')} key={`${n.start_date}-${n.end_date}-${n.title}`}>
+                    <div className={classNames('section')}>
+                      <NoticeSection notice={n} />
+                    </div>
+                  </div>
+                ))
+              )
+              : null
+          }
           {!user
             ? (
               <>
@@ -174,61 +290,7 @@ class MainPage extends Component {
                 <div className={classNames('main-date')}>
                   {getDateName(d.date)}
                 </div>
-                {d.feeds.map((f) => {
-                  if (f.type === 'REVIEW_WRITE') {
-                    return (
-                      <div className={classNames('section-wrap')} key={`${d.date}-${f.type}-${f.lecture.id}`}>
-                        <div className={classNames('section')}>
-                          <ReviewWriteFeedSection
-                            lecture={f.lecture}
-                            review={user.reviews.find((r) => (r.lecture.id === f.lecture.id))}
-                          />
-                        </div>
-                      </div>
-                    );
-                  }
-                  if (f.type === 'RELATED_COURSE') {
-                    return (
-                      <div className={classNames('section-wrap')} key={`${d.date}-${f.type}-${f.course.id}`}>
-                        <div className={classNames('section')}>
-                          <RelatedCourseFeedSection course={f.course} />
-                        </div>
-                      </div>
-                    );
-                  }
-                  if (f.type === 'LATEST_REVIEW') {
-                    return (
-                      <div className={classNames('section-wrap')} key={`${d.date}-${f.type}`}>
-                        <div className={classNames('section')}>
-                          <LatestReviewFeedSection />
-                        </div>
-                      </div>
-                    );
-                  }
-                  if (f.type === 'FAMOUS_MAJOR_REVIEW') {
-                    return (
-                      <div className={classNames('section-wrap')} key={`${d.date}-${f.type}-${f.department.code}`}>
-                        <div className={classNames('section')}>
-                          <FamousMajorReviewFeedSection
-                            department={f.department}
-                            reviews={f.reviews}
-                          />
-                        </div>
-                      </div>
-                    );
-                  }
-                  if (f.type === 'FAMOUS_HUMANITY_REVIEW') {
-                    return (
-                      <div className={classNames('section-wrap')} key={`${d.date}-${f.type}`}>
-                        <div className={classNames('section')}>
-                          <FamousHumanityReviewFeedSection reviews={f.reviews} />
-                        </div>
-                      </div>
-                    );
-                  }
-                  return null;
-                })
-                }
+                { d.feeds.map((f) => mapFeedToSection(f, d)) }
               </React.Fragment>
             ))
           }
