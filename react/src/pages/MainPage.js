@@ -16,6 +16,7 @@ import FamousHumanityReviewFeedSection from '../components/sections/main/FamousH
 import ReviewWriteFeedSection from '../components/sections/main/ReviewWriteFeedSection';
 import MainSearchSection from '../components/sections/main/MainSearchSection';
 import userShape from '../shapes/UserShape';
+import NoticeSection from '../components/sections/main/NoticeSection';
 
 
 class MainPage extends Component {
@@ -24,6 +25,7 @@ class MainPage extends Component {
 
     this.state = {
       feedDays: [],
+      notices: null,
       isLoading: false,
     };
   }
@@ -38,6 +40,7 @@ class MainPage extends Component {
     if (user) {
       this._fetchFeeds(today);
     }
+    this._fetchNotices();
   }
 
 
@@ -125,6 +128,29 @@ class MainPage extends Component {
       });
   }
 
+  _fetchNotices = () => {
+    const now = new Date();
+    axios.get(
+      '/api/notices',
+      {
+        params: {
+          time: now.toJSON(),
+        },
+        metadata: {
+          gaCategory: 'Notice',
+          gaVariable: 'GET / List',
+        },
+      },
+    )
+      .then((response) => {
+        this.setState({
+          notices: response.data,
+        });
+      })
+      .catch((error) => {
+      });
+  }
+
   _getDateDifference = (date) => {
     const copiedDate = new Date(date);
     const todayDate = new Date();
@@ -137,7 +163,7 @@ class MainPage extends Component {
 
   render() {
     const { t } = this.props;
-    const { feedDays } = this.state;
+    const { feedDays, notices } = this.state;
     const { user } = this.props;
 
     const getDateName = (dateString) => {
@@ -173,6 +199,19 @@ class MainPage extends Component {
               <AcademicScheduleSection />
             </div>
           </div>
+          {
+            notices
+              ? (
+                notices.map((n) => (
+                  <div className={classNames('section-wrap')} key={`${n.start_date}-${n.end_date}-${n.title}`}>
+                    <div className={classNames('section')}>
+                      <NoticeSection notice={n} />
+                    </div>
+                  </div>
+                ))
+              )
+              : null
+          }
           {!user
             ? (
               <>
