@@ -57,35 +57,34 @@ class LectureListTabs extends Component {
   }
 
   _fetchList = (listCode, force = false) => {
-    const { user } = this.props;
+    const { user, lists } = this.props;
 
     if (listCode === SEARCH) {
-      // Pass
+      return;
     }
-    else if (listCode === BASIC) {
-      this._fetchBasicList(force);
+    if (!force && lists[listCode] && lists[listCode].lectureGroups) {
+      return;
+    }
+
+    if (listCode === BASIC) {
+      this._performFetchBasicList();
     }
     else if (user && user.departments.some((d) => (d.code === listCode))) {
-      this._fetchMajorList(listCode, force);
+      this._performFetchMajorList(listCode);
     }
     else if (listCode === HUMANITY) {
-      this._fetchHumanityList(force);
+      this._performFetchHumanityList();
     }
     else if (listCode === CART) {
-      this._fetchCartList(force);
+      this._performFetchCartList();
     }
   }
 
-  _fetchBasicList = (force = false) => {
+  _performFetchBasicList = () => {
     const {
       year, semester,
-      lists,
       setListLecturesDispatch,
     } = this.props;
-
-    if (!force && lists[BASIC].lectureGroups) {
-      return;
-    }
 
     axios.get(
       '/api/lectures',
@@ -112,16 +111,11 @@ class LectureListTabs extends Component {
       });
   }
 
-  _fetchMajorList = (majorCode, force = false) => {
+  _performFetchMajorList = (majorCode) => {
     const {
       year, semester,
-      lists,
       setListLecturesDispatch,
     } = this.props;
-
-    if (!force && lists[majorCode] && lists[majorCode].lectureGroups) {
-      return;
-    }
 
     axios.get(
       '/api/lectures',
@@ -150,16 +144,11 @@ class LectureListTabs extends Component {
       });
   }
 
-  _fetchHumanityList = (force = false) => {
+  _performFetchHumanityList = (force = false) => {
     const {
       year, semester,
-      lists,
       setListLecturesDispatch,
     } = this.props;
-
-    if (!force && lists[HUMANITY].lectureGroups) {
-      return;
-    }
 
     axios.get(
       '/api/lectures',
@@ -186,17 +175,12 @@ class LectureListTabs extends Component {
       });
   }
 
-  _fetchCartList = (force = false) => {
+  _performFetchCartList = (force = false) => {
     const {
       user,
       year, semester,
-      lists,
       setListLecturesDispatch,
     } = this.props;
-
-    if (!force && lists[CART].lectureGroups) {
-      return;
-    }
 
     if (!user) {
       setListLecturesDispatch(CART, []);

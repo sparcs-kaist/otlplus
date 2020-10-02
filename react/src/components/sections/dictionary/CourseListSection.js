@@ -87,29 +87,13 @@ class CourseListSection extends Component {
 
   _getCourses = (selectedListCode) => {
     const {
-      user,
       lists,
     } = this.props;
 
-    if (selectedListCode === SEARCH) {
-      return lists[SEARCH].courses;
+    if (!lists[selectedListCode]) {
+      return null;
     }
-    if (selectedListCode === BASIC) {
-      return lists[BASIC].courses;
-    }
-    if (user && user.departments.some((d) => (selectedListCode === d.code))) {
-      if (!lists[selectedListCode]) {
-        return null;
-      }
-      return lists[selectedListCode].courses;
-    }
-    if (selectedListCode === HUMANITY) {
-      return lists[HUMANITY].courses;
-    }
-    if (selectedListCode === TAKEN) {
-      return lists[TAKEN].courses;
-    }
-    return null;
+    return lists[selectedListCode].courses;
   }
 
 

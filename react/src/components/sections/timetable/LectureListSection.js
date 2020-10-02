@@ -215,29 +215,13 @@ class LectureListSection extends Component {
 
   _getLectureGroups = (selectedListCode) => {
     const {
-      user,
       lists,
     } = this.props;
 
-    if (selectedListCode === SEARCH) {
-      return lists[SEARCH].lectureGroups;
+    if (!lists[selectedListCode]) {
+      return null;
     }
-    if (selectedListCode === BASIC) {
-      return lists[BASIC].lectureGroups;
-    }
-    if (user && user.departments.some((d) => (selectedListCode === d.code))) {
-      if (!lists[selectedListCode]) {
-        return null;
-      }
-      return lists[selectedListCode].lectureGroups;
-    }
-    if (selectedListCode === HUMANITY) {
-      return lists[HUMANITY].lectureGroups;
-    }
-    if (selectedListCode === CART) {
-      return lists[CART].lectureGroups;
-    }
-    return null;
+    return lists[selectedListCode].courses;
   }
 
   render() {
