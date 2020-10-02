@@ -5,20 +5,25 @@ import {
   ADD_COURSE_READ,
 } from '../../actions/dictionary/list';
 
+export const SEARCH = 'search';
+export const BASIC = 'basic';
+export const HUMANITY = 'humanity';
+export const TAKEN = 'taken';
+
 
 const initialState = {
-  selectedListCode: 'SEARCH',
+  selectedListCode: SEARCH,
   lists: {
-    search: {
+    [SEARCH]: {
       courses: [],
     },
-    basic: {
+    [BASIC]: {
       courses: null,
     },
-    humanity: {
+    [HUMANITY]: {
       courses: null,
     },
-    taken: {
+    [TAKEN]: {
       courses: null,
     },
   },
@@ -45,8 +50,8 @@ const list = (state = initialState, action) => {
     case CLEAR_SEARCH_LIST_COURSES: {
       const newState = { ...state };
       newState.lists = { ...newState.lists };
-      newState.lists.search = { ...newState.lists.search };
-      newState.lists.search.courses = null;
+      newState.lists[SEARCH] = { ...newState.lists[SEARCH] };
+      newState.lists[SEARCH].courses = null;
       return Object.assign({}, state, newState);
     }
     case ADD_COURSE_READ: {

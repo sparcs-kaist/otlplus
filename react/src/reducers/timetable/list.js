@@ -8,20 +8,25 @@ import {
 
 import { unique } from '../../common/utilFunctions';
 
+export const SEARCH = 'search';
+export const BASIC = 'basic';
+export const HUMANITY = 'humanity';
+export const CART = 'cart';
+
 
 const initialState = {
-  selectedListCode: 'SEARCH',
+  selectedListCode: SEARCH,
   lists: {
-    search: {
+    [SEARCH]: {
       lectureGroups: [],
     },
-    basic: {
+    [BASIC]: {
       lectureGroups: null,
     },
-    humanity: {
+    [HUMANITY]: {
       lectureGroups: null,
     },
-    cart: {
+    [CART]: {
       lectureGroups: null,
     },
   },
@@ -74,7 +79,7 @@ const list = (state = initialState, action) => {
       newState.lists = { ...newState.lists };
       Object.keys(newState.lists).forEach((k) => {
         newState.lists[k] = { ...newState.lists[k] };
-        if (k === 'search') {
+        if (k === SEARCH) {
           newState.lists[k].lectureGroups = [];
         }
         else {
@@ -86,30 +91,30 @@ const list = (state = initialState, action) => {
     case CLEAR_SEARCH_LIST_LECTURES: {
       const newState = { ...state };
       newState.lists = { ...newState.lists };
-      newState.lists.search = { ...newState.lists.search };
-      newState.lists.search.lectureGroups = null;
+      newState.lists[SEARCH] = { ...newState.lists[SEARCH] };
+      newState.lists[SEARCH].lectureGroups = null;
       return Object.assign({}, state, newState);
     }
     case ADD_LECTURE_TO_CART: {
-      const { lectureGroups } = state.lists.cart;
+      const { lectureGroups } = state.lists[CART];
       const lectures = ungroupLectureGroups(lectureGroups);
       const newLectures = [...lectures, action.lecture];
       const newLectureGroups = groupLectures(newLectures);
       const newState = { ...state };
       newState.lists = { ...newState.lists };
-      newState.lists.cart = { ...newState.lists.cart };
-      newState.lists.cart.lectureGroups = newLectureGroups;
+      newState.lists[CART] = { ...newState.lists[CART] };
+      newState.lists[CART].lectureGroups = newLectureGroups;
       return Object.assign({}, state, newState);
     }
     case DELETE_LECTURE_FROM_CART: {
-      const { lectureGroups } = state.lists.cart;
+      const { lectureGroups } = state.lists[CART];
       const lectures = ungroupLectureGroups(lectureGroups);
       const newLectures = lectures.filter((l) => (l.id !== action.lecture.id));
       const newLectureGroups = groupLectures(newLectures);
       const newState = { ...state };
       newState.lists = { ...newState.lists };
-      newState.lists.cart = { ...newState.lists.cart };
-      newState.lists.cart.lectureGroups = newLectureGroups;
+      newState.lists[CART] = { ...newState.lists[CART] };
+      newState.lists[CART].lectureGroups = newLectureGroups;
       return Object.assign({}, state, newState);
     }
     case SET_MOBILE_IS_LECTURE_LIST_OPEN: {

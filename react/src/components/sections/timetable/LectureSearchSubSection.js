@@ -6,8 +6,9 @@ import axios from 'axios';
 import ReactGA from 'react-ga';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
-import SearchFilter from '../../SearchFilter';
+import { SEARCH } from '../../../reducers/timetable/list';
 
+import SearchFilter from '../../SearchFilter';
 import Scroller from '../../Scroller';
 
 import { closeSearch, clearDrag } from '../../../actions/timetable/search';
@@ -94,7 +95,7 @@ class LectureSearchSubSection extends Component {
           return;
         }
         const lectures = response.data;
-        setListLecturesDispatch('search', lectures);
+        setListLecturesDispatch(SEARCH, lectures);
       })
       .catch((error) => {
       });
