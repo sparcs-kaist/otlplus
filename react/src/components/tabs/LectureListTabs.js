@@ -8,7 +8,7 @@ import ReactGA from 'react-ga';
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 
 import {
-  setSelectedListCode, setListLectures, clearListsLectures,
+  setSelectedListCode, setListLectures, clearAllListsLectures,
 } from '../../actions/timetable/list';
 import { openSearch, closeSearch } from '../../actions/timetable/search';
 
@@ -32,7 +32,7 @@ class LectureListTabs extends Component {
       user,
       selectedListCode,
       year, semester,
-      clearListsLecturesDispatch,
+      clearAllListsLecturesDispatch,
     } = this.props;
 
     if (user && !prevProps.user) {
@@ -40,7 +40,7 @@ class LectureListTabs extends Component {
     }
 
     if (year !== prevProps.year || semester !== prevProps.semester) {
-      clearListsLecturesDispatch();
+      clearAllListsLecturesDispatch();
       this._fetchList('CART', true);
       if (selectedListCode !== 'CART') {
         this._fetchList(selectedListCode, true);
@@ -305,8 +305,8 @@ const mapDispatchToProps = (dispatch) => ({
   setListLecturesDispatch: (code, lectures) => {
     dispatch(setListLectures(code, lectures));
   },
-  clearListsLecturesDispatch: () => {
-    dispatch(clearListsLectures());
+  clearAllListsLecturesDispatch: () => {
+    dispatch(clearAllListsLectures());
   },
 });
 
@@ -321,7 +321,7 @@ LectureListTabs.propTypes = {
   closeSearchDispatch: PropTypes.func.isRequired,
   setSelectedListCodeDispatch: PropTypes.func.isRequired,
   setListLecturesDispatch: PropTypes.func.isRequired,
-  clearListsLecturesDispatch: PropTypes.func.isRequired,
+  clearAllListsLecturesDispatch: PropTypes.func.isRequired,
 };
 
 export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(LectureListTabs));

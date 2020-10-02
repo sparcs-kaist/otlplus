@@ -4,7 +4,7 @@ const BASE_STRING = 'T_L_';
 export const RESET = BASE_STRING + 'RESET';
 export const SET_SELECTED_LIST_CODE = BASE_STRING + 'SER_SELECTED_LIST_CODE';
 export const SET_LIST_LECTURES = BASE_STRING + 'SET_LIST_LECTURES';
-export const CLEAR_LISTS_LECTURES = BASE_STRING + 'CLEAR_LISTS_LECTURES';
+export const CLEAR_ALL_LISTS_LECTURES = BASE_STRING + 'CLEAR_ALL_LISTS_LECTURES';
 export const CLEAR_SEARCH_LIST_LECTURES = BASE_STRING + 'CLEAR_SEARCH_LIST_LECTURES';
 export const ADD_LECTURE_TO_CART = BASE_STRING + 'ADD_LECTURE_TO_CART';
 export const DELETE_LECTURE_FROM_CART = BASE_STRING + 'DELETE_LECTURE_FROM_CART';
@@ -33,9 +33,9 @@ export function setListLectures(code, lectures) {
   };
 }
 
-export function clearListsLectures() {
+export function clearAllListsLectures() {
   return {
-    type: CLEAR_LISTS_LECTURES,
+    type: CLEAR_ALL_LISTS_LECTURES,
   };
 }
 

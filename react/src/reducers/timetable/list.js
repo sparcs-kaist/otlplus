@@ -1,7 +1,7 @@
 import {
   RESET,
   SET_SELECTED_LIST_CODE,
-  SET_LIST_LECTURES, CLEAR_LISTS_LECTURES, CLEAR_SEARCH_LIST_LECTURES,
+  SET_LIST_LECTURES, CLEAR_ALL_LISTS_LECTURES, CLEAR_SEARCH_LIST_LECTURES,
   ADD_LECTURE_TO_CART, DELETE_LECTURE_FROM_CART,
   SET_MOBILE_IS_LECTURE_LIST_OPEN,
 } from '../../actions/timetable/list';
@@ -59,7 +59,7 @@ const list = (state = initialState, action) => {
       newState.lists[action.code].lectureGroups = groupLectures(action.lectures);
       return Object.assign({}, state, newState);
     }
-    case CLEAR_LISTS_LECTURES: {
+    case CLEAR_ALL_LISTS_LECTURES: {
       const newState = { ...state };
       newState.lists = { ...newState.lists };
       Object.keys(newState.lists).forEach((k) => {
