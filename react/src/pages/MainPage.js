@@ -178,6 +178,61 @@ class MainPage extends Component {
       return t('ui.others.day', { date: date });
     };
 
+    const mapFeedToSection = (feed, date) => {
+      if (feed.type === 'REVIEW_WRITE') {
+        return (
+          <div className={classNames('section-wrap')} key={`${date.date}-${feed.type}-${feed.lecture.id}`}>
+            <div className={classNames('section')}>
+              <ReviewWriteFeedSection
+                lecture={feed.lecture}
+                review={user.reviews.find((r) => (r.lecture.id === feed.lecture.id))}
+              />
+            </div>
+          </div>
+        );
+      }
+      if (feed.type === 'RELATED_COURSE') {
+        return (
+          <div className={classNames('section-wrap')} key={`${date.date}-${feed.type}-${feed.course.id}`}>
+            <div className={classNames('section')}>
+              <RelatedCourseFeedSection course={feed.course} />
+            </div>
+          </div>
+        );
+      }
+      if (feed.type === 'LATEST_REVIEW') {
+        return (
+          <div className={classNames('section-wrap')} key={`${date.date}-${feed.type}`}>
+            <div className={classNames('section')}>
+              <LatestReviewFeedSection />
+            </div>
+          </div>
+        );
+      }
+      if (feed.type === 'FAMOUS_MAJOR_REVIEW') {
+        return (
+          <div className={classNames('section-wrap')} key={`${date.date}-${feed.type}-${feed.department.code}`}>
+            <div className={classNames('section')}>
+              <FamousMajorReviewFeedSection
+                department={feed.department}
+                reviews={feed.reviews}
+              />
+            </div>
+          </div>
+        );
+      }
+      if (feed.type === 'FAMOUS_HUMANITY_REVIEW') {
+        return (
+          <div className={classNames('section-wrap')} key={`${date.date}-${feed.type}`}>
+            <div className={classNames('section')}>
+              <FamousHumanityReviewFeedSection reviews={feed.reviews} />
+            </div>
+          </div>
+        );
+      }
+      return null;
+    };
+
     return (
       <>
         <section className={classNames('main-image')}>
@@ -230,61 +285,7 @@ class MainPage extends Component {
                 <div className={classNames('main-date')}>
                   {getDateName(d.date)}
                 </div>
-                {d.feeds.map((f) => {
-                  if (f.type === 'REVIEW_WRITE') {
-                    return (
-                      <div className={classNames('section-wrap')} key={`${d.date}-${f.type}-${f.lecture.id}`}>
-                        <div className={classNames('section')}>
-                          <ReviewWriteFeedSection
-                            lecture={f.lecture}
-                            review={user.reviews.find((r) => (r.lecture.id === f.lecture.id))}
-                          />
-                        </div>
-                      </div>
-                    );
-                  }
-                  if (f.type === 'RELATED_COURSE') {
-                    return (
-                      <div className={classNames('section-wrap')} key={`${d.date}-${f.type}-${f.course.id}`}>
-                        <div className={classNames('section')}>
-                          <RelatedCourseFeedSection course={f.course} />
-                        </div>
-                      </div>
-                    );
-                  }
-                  if (f.type === 'LATEST_REVIEW') {
-                    return (
-                      <div className={classNames('section-wrap')} key={`${d.date}-${f.type}`}>
-                        <div className={classNames('section')}>
-                          <LatestReviewFeedSection />
-                        </div>
-                      </div>
-                    );
-                  }
-                  if (f.type === 'FAMOUS_MAJOR_REVIEW') {
-                    return (
-                      <div className={classNames('section-wrap')} key={`${d.date}-${f.type}-${f.department.code}`}>
-                        <div className={classNames('section')}>
-                          <FamousMajorReviewFeedSection
-                            department={f.department}
-                            reviews={f.reviews}
-                          />
-                        </div>
-                      </div>
-                    );
-                  }
-                  if (f.type === 'FAMOUS_HUMANITY_REVIEW') {
-                    return (
-                      <div className={classNames('section-wrap')} key={`${d.date}-${f.type}`}>
-                        <div className={classNames('section')}>
-                          <FamousHumanityReviewFeedSection reviews={f.reviews} />
-                        </div>
-                      </div>
-                    );
-                  }
-                  return null;
-                })
-                }
+                { d.feeds.map((f) => mapFeedToSection(f, d)) }
               </React.Fragment>
             ))
           }
