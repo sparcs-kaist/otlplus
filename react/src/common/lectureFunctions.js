@@ -169,13 +169,13 @@ export const performAddToTable = (caller,
       `/api/users/${user.id}/timetables/${selectedTimetable.id}/add-lecture`,
       {
         lecture: lecture.id,
-      }, 
+      },
       {
         metadata: {
           gaCategory: 'Timetable',
           gaVariable: 'POST Update / Instance',
         },
-      }, 
+      },
     )
       .then((response) => {
         const newProps = caller.props;
@@ -207,13 +207,13 @@ export const performDeleteFromTable = (caller,
       `/api/users/${user.id}/timetables/${selectedTimetable.id}/remove-lecture`,
       {
         lecture: lecture.id,
-      }, 
+      },
       {
         metadata: {
           gaCategory: 'Timetable',
           gaVariable: 'POST Update / Instance',
         },
-      }, 
+      },
     )
       .then((response) => {
         const newProps = caller.props;
@@ -245,13 +245,13 @@ export const performAddToCart = (caller,
       `/api/users/${user.id}/wishlist/add-lecture`,
       {
         lecture: lecture.id,
-      }, 
+      },
       {
         metadata: {
           gaCategory: 'Wishlist',
           gaVariable: 'POST Update / Instance',
         },
-      }, 
+      },
     )
       .then((response) => {
         const newProps = caller.props;
@@ -283,13 +283,13 @@ export const performDeleteFromCart = (caller,
       `/api/users/${user.id}/wishlist/remove-lecture`,
       {
         lecture: lecture.id,
-      }, 
+      },
       {
         metadata: {
           gaCategory: 'Wishlist',
           gaVariable: 'POST Update / Instance',
         },
-      }, 
+      },
     )
       .then((response) => {
         const newProps = caller.props;

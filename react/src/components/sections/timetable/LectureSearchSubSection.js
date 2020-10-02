@@ -59,9 +59,9 @@ class LectureSearchSubSection extends Component {
       && keyword.trim().length === 0
       && !(start !== null && end !== null && day !== null)
     ) {
-        // eslint-disable-next-line no-alert
-        alert(t('ui.message.blankSearch'));
-        return;
+      // eslint-disable-next-line no-alert
+      alert(t('ui.message.blankSearch'));
+      return;
     }
     closeSearchDispatch();
     clearSearchListLecturesDispatch();
