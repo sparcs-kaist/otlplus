@@ -4,8 +4,6 @@ const BASE_STRING = 'D_L_';
 export const RESET = BASE_STRING + 'RESET';
 export const SET_SELECTED_LIST_CODE = BASE_STRING + 'SER_SELECTED_LIST_CODE';
 export const SET_LIST_COURSES = BASE_STRING + 'SET_LIST_COURSES';
-export const SET_LIST_MAJOR_COURSES = BASE_STRING + 'SET_LIST_MAJOR_COURSES';
-export const CLEAR_LISTS_COURSES = BASE_STRING + 'CLEAR_LISTS_COURSES';
 export const CLEAR_SEARCH_LIST_COURSES = BASE_STRING + 'CLEAR_SEARCH_LIST_COURSES';
 export const ADD_COURSE_READ = BASE_STRING + 'ADD_COURSE_READ';
 /* eslint-enable prefer-template */
@@ -29,20 +27,6 @@ export function setListCourses(code, courses) {
     type: SET_LIST_COURSES,
     code: code,
     courses: courses,
-  };
-}
-
-export function setListMajorCourses(majorCode, courses) {
-  return {
-    type: SET_LIST_MAJOR_COURSES,
-    majorCode: majorCode,
-    courses: courses,
-  };
-}
-
-export function clearListsCourses() {
-  return {
-    type: CLEAR_LISTS_COURSES,
   };
 }
 

@@ -16,6 +16,7 @@ import { openSearch } from '../../../actions/dictionary/search';
 
 import courseShape from '../../../shapes/CourseShape';
 import courseFocusShape from '../../../shapes/CourseFocusShape';
+import courseListsShape from '../../../shapes/CourseListsShape';
 import userShape from '../../../shapes/UserShape';
 
 
@@ -83,26 +84,26 @@ class CourseListSection extends Component {
   _getCourses = (selectedListCode) => {
     const {
       user,
-      search, basic, major, humanity, taken,
+      lists,
     } = this.props;
 
     if (selectedListCode === 'SEARCH') {
-      return search.courses;
+      return lists.search.courses;
     }
     if (selectedListCode === 'BASIC') {
-      return basic.courses;
+      return lists.basic.courses;
     }
     if (user && user.departments.some((d) => (selectedListCode === d.code))) {
-      if (!major[selectedListCode]) {
+      if (!lists[selectedListCode]) {
         return null;
       }
-      return major[selectedListCode].courses;
+      return lists[selectedListCode].courses;
     }
     if (selectedListCode === 'HUMANITY') {
-      return humanity.courses;
+      return lists.humanity.courses;
     }
     if (selectedListCode === 'TAKEN') {
-      return taken.courses;
+      return lists.taken.courses;
     }
     return null;
   }
@@ -113,7 +114,7 @@ class CourseListSection extends Component {
     const {
       user,
       courseFocus, selectedListCode, searchOpen,
-      search, basic, major, humanity, taken, readCourses,
+      readCourses,
     } = this.props;
 
     const getListElement = (courses) => {
@@ -203,11 +204,7 @@ class CourseListSection extends Component {
 const mapStateToProps = (state) => ({
   user: state.common.user.user,
   selectedListCode: state.dictionary.list.selectedListCode,
-  search: state.dictionary.list.search,
-  basic: state.dictionary.list.basic,
-  major: state.dictionary.list.major,
-  humanity: state.dictionary.list.humanity,
-  taken: state.dictionary.list.taken,
+  lists: state.dictionary.list.lists,
   readCourses: state.dictionary.list.readCourses,
   courseFocus: state.dictionary.courseFocus,
   searchOpen: state.dictionary.search.open,
@@ -228,20 +225,7 @@ const mapDispatchToProps = (dispatch) => ({
 CourseListSection.propTypes = {
   user: userShape,
   selectedListCode: PropTypes.string.isRequired,
-  search: PropTypes.shape({
-    courses: PropTypes.arrayOf(courseShape),
-  }).isRequired,
-  basic: PropTypes.shape({
-    courses: PropTypes.arrayOf(courseShape),
-  }).isRequired,
-  major: PropTypes.shape({
-  }).isRequired,
-  humanity: PropTypes.shape({
-    courses: PropTypes.arrayOf(courseShape),
-  }).isRequired,
-  taken: PropTypes.shape({
-    courses: PropTypes.arrayOf(courseShape),
-  }).isRequired,
+  lists: courseListsShape,
   readCourses: PropTypes.arrayOf(courseShape).isRequired,
   courseFocus: courseFocusShape.isRequired,
   searchOpen: PropTypes.bool.isRequired,
