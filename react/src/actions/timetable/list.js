@@ -6,7 +6,6 @@ export const SET_SELECTED_LIST_CODE = BASE_STRING + 'SER_SELECTED_LIST_CODE';
 export const SET_LIST_LECTURES = BASE_STRING + 'SET_LIST_LECTURES';
 export const CLEAR_LISTS_LECTURES = BASE_STRING + 'CLEAR_LISTS_LECTURES';
 export const CLEAR_SEARCH_LIST_LECTURES = BASE_STRING + 'CLEAR_SEARCH_LIST_LECTURES';
-export const SET_LIST_MAJOR_LECTURES = BASE_STRING + 'SET_LIST_MAJOR_LECTURES';
 export const ADD_LECTURE_TO_CART = BASE_STRING + 'ADD_LECTURE_TO_CART';
 export const DELETE_LECTURE_FROM_CART = BASE_STRING + 'DELETE_LECTURE_FROM_CART';
 export const SET_MOBILE_IS_LECTURE_LIST_OPEN = BASE_STRING + 'SET_MOBILE_IS_LECTURE_LIST_OPEN';
@@ -30,14 +29,6 @@ export function setListLectures(code, lectures) {
   return {
     type: SET_LIST_LECTURES,
     code: code,
-    lectures: lectures,
-  };
-}
-
-export function setListMajorLectures(majorCode, lectures) {
-  return {
-    type: SET_LIST_MAJOR_LECTURES,
-    majorCode: majorCode,
     lectures: lectures,
   };
 }
