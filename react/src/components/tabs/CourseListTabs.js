@@ -9,11 +9,11 @@ import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 
 import { openSearch, closeSearch } from '../../actions/dictionary/search';
 import {
-  setSelectedListCode, setListCourses, setListMajorCourses,
+  setSelectedListCode, setListCourses,
 } from '../../actions/dictionary/list';
 
 import userShape from '../../shapes/UserShape';
-import courseShape from '../../shapes/CourseShape';
+import courseListsShape from '../../shapes/CourseListsShape';
 
 import Scroller from '../Scroller';
 
@@ -54,9 +54,9 @@ class CourseListTabs extends Component {
   }
 
   _fetchBasicList = (force = false) => {
-    const { basic, setListCoursesDispatch } = this.props;
+    const { lists, setListCoursesDispatch } = this.props;
 
-    if (!force && basic.courses) {
+    if (!force && lists.basic.courses) {
       return;
     }
 
@@ -81,9 +81,9 @@ class CourseListTabs extends Component {
   }
 
   _fetchMajorList = (majorCode, force = false) => {
-    const { major, setListMajorCoursesDispatch } = this.props;
+    const { lists, setListCoursesDispatch } = this.props;
 
-    if (!force && major[majorCode] && major[majorCode].courses) {
+    if (!force && lists[majorCode] && lists[majorCode].courses) {
       return;
     }
 
@@ -105,16 +105,16 @@ class CourseListTabs extends Component {
         if (!newProps.user.departments.some((d) => (d.code === majorCode))) {
           return;
         }
-        setListMajorCoursesDispatch(majorCode, response.data);
+        setListCoursesDispatch(majorCode, response.data);
       })
       .catch((error) => {
       });
   }
 
   _fetchHumanityList = (force = false) => {
-    const { humanity, setListCoursesDispatch } = this.props;
+    const { lists, setListCoursesDispatch } = this.props;
 
-    if (!force && humanity.courses) {
+    if (!force && lists.humanity.courses) {
       return;
     }
 
@@ -140,9 +140,9 @@ class CourseListTabs extends Component {
 
 
   _fetchTakenList = (force = false) => {
-    const { user, taken, setListCoursesDispatch } = this.props;
+    const { user, lists, setListCoursesDispatch } = this.props;
 
-    if (!force && taken.courses) {
+    if (!force && lists.taken.courses) {
       return;
     }
 
@@ -171,13 +171,13 @@ class CourseListTabs extends Component {
 
   changeTab = (listCode) => {
     const {
-      search,
+      lists,
       setSelectedListCodeDispatch, openSearchDispatch, closeSearchDispatch,
     } = this.props;
 
     setSelectedListCodeDispatch(listCode);
 
-    if (listCode === 'SEARCH' && (search.courses === null || search.courses.length === 0)) {
+    if (listCode === 'SEARCH' && (lists.search.courses === null || lists.search.courses.length === 0)) {
       openSearchDispatch();
     }
     else {
@@ -237,11 +237,7 @@ class CourseListTabs extends Component {
 const mapStateToProps = (state) => ({
   user: state.common.user.user,
   selectedListCode: state.dictionary.list.selectedListCode,
-  search: state.dictionary.list.search,
-  basic: state.dictionary.list.basic,
-  major: state.dictionary.list.major,
-  humanity: state.dictionary.list.humanity,
-  taken: state.dictionary.list.taken,
+  lists: state.dictionary.list.lists,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -257,34 +253,17 @@ const mapDispatchToProps = (dispatch) => ({
   setListCoursesDispatch: (code, courses) => {
     dispatch(setListCourses(code, courses));
   },
-  setListMajorCoursesDispatch: (majorCode, courses) => {
-    dispatch(setListMajorCourses(majorCode, courses));
-  },
 });
 
 CourseListTabs.propTypes = {
   user: userShape,
   selectedListCode: PropTypes.string.isRequired,
-  search: PropTypes.shape({
-    courses: PropTypes.arrayOf(courseShape),
-  }).isRequired,
-  basic: PropTypes.shape({
-    courses: PropTypes.arrayOf(courseShape),
-  }).isRequired,
-  major: PropTypes.shape({
-  }).isRequired,
-  humanity: PropTypes.shape({
-    courses: PropTypes.arrayOf(courseShape),
-  }).isRequired,
-  taken: PropTypes.shape({
-    courses: PropTypes.arrayOf(courseShape),
-  }).isRequired,
+  lists: courseListsShape,
 
   openSearchDispatch: PropTypes.func.isRequired,
   closeSearchDispatch: PropTypes.func.isRequired,
   setSelectedListCodeDispatch: PropTypes.func.isRequired,
   setListCoursesDispatch: PropTypes.func.isRequired,
-  setListMajorCoursesDispatch: PropTypes.func.isRequired,
 };
 
 export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(CourseListTabs));
