@@ -22,7 +22,6 @@ import {
 } from '../../../reducers/timetable/list';
 
 import userShape from '../../../shapes/UserShape';
-import lectureShape from '../../../shapes/LectureShape';
 import lectureFocusShape from '../../../shapes/LectureFocusShape';
 import timetableShape from '../../../shapes/TimetableShape';
 

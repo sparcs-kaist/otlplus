@@ -179,7 +179,10 @@ class MainPage extends Component {
                     return (
                       <div className={classNames('section-wrap')} key={`${d.date}-${f.type}-${f.lecture.id}`}>
                         <div className={classNames('section')}>
-                          <ReviewWriteFeedSection lecture={f.lecture} review={user.reviews.find((r) => (r.lecture.id === f.lecture.id))} />
+                          <ReviewWriteFeedSection
+                            lecture={f.lecture}
+                            review={user.reviews.find((r) => (r.lecture.id === f.lecture.id))}
+                          />
                         </div>
                       </div>
                     );
@@ -206,7 +209,10 @@ class MainPage extends Component {
                     return (
                       <div className={classNames('section-wrap')} key={`${d.date}-${f.type}-${f.department.code}`}>
                         <div className={classNames('section')}>
-                          <FamousMajorReviewFeedSection department={f.department} reviews={f.reviews} />
+                          <FamousMajorReviewFeedSection
+                            department={f.department}
+                            reviews={f.reviews}
+                          />
                         </div>
                       </div>
                     );
