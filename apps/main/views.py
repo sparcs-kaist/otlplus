@@ -29,7 +29,7 @@ def feed_list_view(request):
 
         department_codes = [d['code'] for d in _user_department(request.user) if (d['code'] != 'Basic')]
         departments = Department.objects.filter(code__in=department_codes, visible=True)
-        famous_major_review_daily_feed_list = [FamousMajorReviewDailyFeed.get(date=date, department=d) for d in departments]
+        famous_major_review_daily_feed_list = [FamousMajorReviewDailyFeed.get(date=date, department=d, departments_num=departments.count()) for d in departments]
 
         famous_humanity_review_daily_feed = FamousHumanityReviewDailyFeed.get(date=date)
 
