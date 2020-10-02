@@ -8,12 +8,12 @@ import ReactGA from 'react-ga';
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 
 import {
-  setSelectedListCode, setListLectures, clearListsLectures, setListMajorLectures,
+  setSelectedListCode, setListLectures, clearListsLectures,
 } from '../../actions/timetable/list';
 import { openSearch, closeSearch } from '../../actions/timetable/search';
 
 import userShape from '../../shapes/UserShape';
-import lectureShape from '../../shapes/LectureShape';
+import lectureListsShape from '../../shapes/LectureListsShape';
 
 import Scroller from '../Scroller';
 
@@ -75,11 +75,11 @@ class LectureListTabs extends Component {
   _fetchBasicList = (force = false) => {
     const {
       year, semester,
-      basic,
+      lists,
       setListLecturesDispatch,
     } = this.props;
 
-    if (!force && basic.lectureGroups) {
+    if (!force && lists.basic.lectureGroups) {
       return;
     }
 
@@ -111,11 +111,11 @@ class LectureListTabs extends Component {
   _fetchMajorList = (majorCode, force = false) => {
     const {
       year, semester,
-      major,
-      setListMajorLecturesDispatch,
+      lists,
+      setListLecturesDispatch,
     } = this.props;
 
-    if (!force && major[majorCode] && major[majorCode].lectureGroups) {
+    if (!force && lists[majorCode] && lists[majorCode].lectureGroups) {
       return;
     }
 
@@ -140,7 +140,7 @@ class LectureListTabs extends Component {
         ) {
           return;
         }
-        setListMajorLecturesDispatch(majorCode, response.data);
+        setListLecturesDispatch(majorCode, response.data);
       })
       .catch((error) => {
       });
@@ -149,11 +149,11 @@ class LectureListTabs extends Component {
   _fetchHumanityList = (force = false) => {
     const {
       year, semester,
-      humanity,
+      lists,
       setListLecturesDispatch,
     } = this.props;
 
-    if (!force && humanity.lectureGroups) {
+    if (!force && lists.humanity.lectureGroups) {
       return;
     }
 
@@ -186,11 +186,11 @@ class LectureListTabs extends Component {
     const {
       user,
       year, semester,
-      cart,
+      lists,
       setListLecturesDispatch,
     } = this.props;
 
-    if (!force && cart.lectureGroups) {
+    if (!force && lists.cart.lectureGroups) {
       return;
     }
 
@@ -221,13 +221,13 @@ class LectureListTabs extends Component {
 
   changeTab = (listCode) => {
     const {
-      search,
+      lists,
       setSelectedListCodeDispatch, openSearchDispatch, closeSearchDispatch,
     } = this.props;
 
     setSelectedListCodeDispatch(listCode);
 
-    if (listCode === 'SEARCH' && (search.lectureGroups === null || search.lectureGroups.length === 0)) {
+    if (listCode === 'SEARCH' && (lists.search.lectureGroups === null || lists.search.lectureGroups.length === 0)) {
       openSearchDispatch();
     }
     else {
@@ -289,11 +289,7 @@ const mapStateToProps = (state) => ({
   selectedListCode: state.timetable.list.selectedListCode,
   year: state.timetable.semester.year,
   semester: state.timetable.semester.semester,
-  search: state.timetable.list.search,
-  basic: state.timetable.list.basic,
-  major: state.timetable.list.major,
-  humanity: state.timetable.list.humanity,
-  cart: state.timetable.list.cart,
+  lists: state.timetable.list.lists,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -312,9 +308,6 @@ const mapDispatchToProps = (dispatch) => ({
   clearListsLecturesDispatch: () => {
     dispatch(clearListsLectures());
   },
-  setListMajorLecturesDispatch: (majorCode, lectures) => {
-    dispatch(setListMajorLectures(majorCode, lectures));
-  },
 });
 
 LectureListTabs.propTypes = {
@@ -322,27 +315,13 @@ LectureListTabs.propTypes = {
   selectedListCode: PropTypes.string.isRequired,
   year: PropTypes.number,
   semester: PropTypes.number,
-  search: PropTypes.shape({
-    lectureGroups: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)),
-  }).isRequired,
-  basic: PropTypes.shape({
-    lectureGroups: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)),
-  }).isRequired,
-  major: PropTypes.shape({
-  }).isRequired,
-  humanity: PropTypes.shape({
-    lectureGroups: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)),
-  }).isRequired,
-  cart: PropTypes.shape({
-    lectureGroups: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)),
-  }).isRequired,
+  lists: lectureListsShape,
 
   openSearchDispatch: PropTypes.func.isRequired,
   closeSearchDispatch: PropTypes.func.isRequired,
   setSelectedListCodeDispatch: PropTypes.func.isRequired,
   setListLecturesDispatch: PropTypes.func.isRequired,
   clearListsLecturesDispatch: PropTypes.func.isRequired,
-  setListMajorLecturesDispatch: PropTypes.func.isRequired,
 };
 
 export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(LectureListTabs));

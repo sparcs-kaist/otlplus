@@ -17,7 +17,7 @@ import { addLectureToTimetable } from '../../../actions/timetable/timetable';
 import { LIST } from '../../../reducers/timetable/lectureFocus';
 
 import userShape from '../../../shapes/UserShape';
-import lectureShape from '../../../shapes/LectureShape';
+import lectureListsShape from '../../../shapes/LectureListsShape';
 import timetableShape from '../../../shapes/TimetableShape';
 import lectureFocusShape from '../../../shapes/LectureFocusShape';
 
@@ -213,26 +213,26 @@ class LectureListSection extends Component {
   _getLectureGroups = (selectedListCode) => {
     const {
       user,
-      search, basic, major, humanity, cart,
+      lists,
     } = this.props;
 
     if (selectedListCode === 'SEARCH') {
-      return search.lectureGroups;
+      return lists.search.lectureGroups;
     }
     if (selectedListCode === 'BASIC') {
-      return basic.lectureGroups;
+      return lists.basic.lectureGroups;
     }
     if (user && user.departments.some((d) => (selectedListCode === d.code))) {
-      if (!major[selectedListCode]) {
+      if (!lists[selectedListCode]) {
         return null;
       }
-      return major[selectedListCode].lectureGroups;
+      return lists[selectedListCode].lectureGroups;
     }
     if (selectedListCode === 'HUMANITY') {
-      return humanity.lectureGroups;
+      return lists.humanity.lectureGroups;
     }
     if (selectedListCode === 'CART') {
-      return cart.lectureGroups;
+      return lists.cart.lectureGroups;
     }
     return null;
   }
@@ -243,7 +243,7 @@ class LectureListSection extends Component {
       user,
       lectureFocus, selectedTimetable, selectedListCode,
       searchOpen,
-      search, basic, major, humanity, cart,
+      lists,
     } = this.props;
 
     const getListElement = (lectureGroups, fromCart) => {
@@ -260,7 +260,7 @@ class LectureListSection extends Component {
               lectureGroup={lg}
               key={lg[0].course}
               selectedTimetable={selectedTimetable}
-              cart={cart}
+              cart={lists.cart}
               lectureFocus={lectureFocus}
               isTaken={user && isTaken(lg[0].course, user)}
               fromCart={fromCart}
@@ -387,11 +387,7 @@ class LectureListSection extends Component {
 const mapStateToProps = (state) => ({
   user: state.common.user.user,
   selectedListCode: state.timetable.list.selectedListCode,
-  search: state.timetable.list.search,
-  basic: state.timetable.list.basic,
-  major: state.timetable.list.major,
-  humanity: state.timetable.list.humanity,
-  cart: state.timetable.list.cart,
+  lists: state.timetable.list.lists,
   mobileIsLectureListOpen: state.timetable.list.mobileIsLectureListOpen,
   selectedTimetable: state.timetable.timetable.selectedTimetable,
   lectureFocus: state.timetable.lectureFocus,
@@ -427,20 +423,7 @@ const mapDispatchToProps = (dispatch) => ({
 LectureListSection.propTypes = {
   user: userShape,
   selectedListCode: PropTypes.string.isRequired,
-  search: PropTypes.shape({
-    lectureGroups: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)),
-  }).isRequired,
-  basic: PropTypes.shape({
-    lectureGroups: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)),
-  }).isRequired,
-  major: PropTypes.shape({
-  }).isRequired,
-  humanity: PropTypes.shape({
-    lectureGroups: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)),
-  }).isRequired,
-  cart: PropTypes.shape({
-    lectureGroups: PropTypes.arrayOf(PropTypes.arrayOf(lectureShape)),
-  }).isRequired,
+  lists: lectureListsShape.isRequired,
   mobileIsLectureListOpen: PropTypes.bool.isRequired,
   selectedTimetable: timetableShape,
   lectureFocus: lectureFocusShape.isRequired,
