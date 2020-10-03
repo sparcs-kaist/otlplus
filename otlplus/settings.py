@@ -47,6 +47,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'apps.main',
     'apps.session',
+    'apps.support.apps.SupportConfig',
     'apps.review',
     'apps.subject',
     'apps.timetable',
