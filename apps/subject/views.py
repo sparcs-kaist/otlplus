@@ -6,7 +6,7 @@ from django.http import HttpResponseBadRequest
 
 from utils.decorators import login_required_ajax
 
-from models import Semester, Course, Lecture, Professor, CourseUser
+from .models import Semester, Course, Lecture, Professor, CourseUser
 from apps.session.models import UserProfile
 from apps.review.models import Review
 from apps.common.util import rgetattr, getint, get_paginated_queryset

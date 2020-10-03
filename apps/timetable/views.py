@@ -2,7 +2,7 @@
 
 # Django apps
 from apps.session.models import UserProfile
-from apps.timetable.models import Timetable, Wishlist
+from .models import Timetable, Wishlist
 from apps.subject.models import Lecture, Professor, Course, Semester
 from apps.review.models import Review
 from apps.subject.models import *

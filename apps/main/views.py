@@ -8,7 +8,7 @@ from utils.decorators import login_required_ajax
 
 from apps.session.models import UserProfile
 from apps.subject.models import Course, Department
-from apps.main.models import Notice, FamousMajorReviewDailyFeed, FamousHumanityReviewDailyFeed, ReviewWriteDailyUserFeed, RelatedCourseDailyUserFeed
+from .models import Notice, FamousMajorReviewDailyFeed, FamousHumanityReviewDailyFeed, ReviewWriteDailyUserFeed, RelatedCourseDailyUserFeed
 
 from apps.timetable.views import _user_department
 

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from apps.review.models import Review, MajorBestReview, HumanityBestReview
+from .models import Review, MajorBestReview, HumanityBestReview
 
 class ReviewAdmin(admin.ModelAdmin):
     raw_id_fields = 'course', 'lecture', 'writer',

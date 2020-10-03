@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from apps.subject.models import Semester, Department, Lecture, Course
+from .models import Semester, Department, Lecture, Course
 
 from django.core.cache import cache
 from django.db.models.signals import m2m_changed, post_save
