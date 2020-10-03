@@ -17,7 +17,7 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
 from django.shortcuts import render
-from settings import BASE_DIR
+from .settings import BASE_DIR
 import os
 
 from django.conf import settings

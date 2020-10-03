@@ -9,8 +9,8 @@ from apps.subject.models import Department, Lecture
 from apps.review.models import Review
 from apps.timetable.models import OldTimetable
 from apps.timetable.views import _user_department
-from apps.session.models import UserProfile
-from apps.session.sparcssso import Client
+from .models import UserProfile
+from .sparcssso import Client
 from utils.decorators import login_required_ajax
 import urllib
 import json

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from apps.session.models import UserProfile
-from apps.timetable.models import Timetable, Wishlist
+from .models import Timetable, Wishlist
 from apps.subject.models import Lecture, Professor, Course
 
 from django.db.models.signals import m2m_changed, pre_delete
