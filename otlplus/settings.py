@@ -48,9 +48,9 @@ INSTALLED_APPS = (
     'apps.main',
     'apps.session',
     'apps.support.apps.SupportConfig',
-    'apps.review',
-    'apps.subject',
-    'apps.timetable',
+    'apps.review.appss.ReviewConfig',
+    'apps.subject.appss.SubjectConfig',
+    'apps.timetable.appss.TimetableConfig',
 )
 
 MIDDLEWARE_CLASSES = (
