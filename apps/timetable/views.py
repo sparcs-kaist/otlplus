@@ -6,8 +6,8 @@ from .models import Timetable, Wishlist
 from apps.subject.models import Lecture, Professor, Course, Semester
 from apps.review.models import Review
 from apps.subject.models import *
-from apps.common.timezone import KST
-from apps.common.util import getint
+from utils.timezone import KST
+from utils.util import getint
 from django.contrib.auth.models import User
 
 # Django modules
