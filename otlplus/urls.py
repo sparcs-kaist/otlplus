@@ -41,6 +41,7 @@ urlpatterns = [
     url(r'^api/', include('apps.review.urls')),
     url(r'^api/', include('apps.timetable.urls')),
     url(r'^api/', include('apps.main.urls')),
+    url(r'^api/', include('apps.support.urls')),
     url(r'^api/status$', lambda request: HttpResponse()),
     url(r'^api/', lambda request: HttpResponseNotFound('Bad url')),
     url(r'^', lambda request: render(request, 'index.html')),
