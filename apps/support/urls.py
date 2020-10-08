@@ -14,11 +14,9 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
 """
 from django.conf.urls import include, url
-from django.contrib import admin
-from django.http import HttpResponseRedirect
 from . import views
 
 
 urlpatterns = [
-    url(r'^users/(?P<user_id>\d+)/feeds$', views.user_instance_feeds_view),
+    url(r'^notices$', views.notices_view),
 ]
