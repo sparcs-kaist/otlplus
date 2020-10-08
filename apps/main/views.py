@@ -8,7 +8,7 @@ from utils.decorators import login_required_ajax
 
 from apps.session.models import UserProfile
 from apps.subject.models import Course, Department
-from apps.main.models import Notice, FamousMajorReviewDailyFeed, FamousHumanityReviewDailyFeed, ReviewWriteDailyUserFeed, RelatedCourseDailyUserFeed
+from .models import FamousMajorReviewDailyFeed, FamousHumanityReviewDailyFeed, ReviewWriteDailyUserFeed, RelatedCourseDailyUserFeed
 
 from apps.timetable.views import _user_department
 
@@ -18,19 +18,6 @@ import random
 import json
 
 from datetime import date
-
-
-@require_http_methods(['GET'])
-def notices_view(request):
-    if request.method == 'GET':
-        notices = Notice.objects.all()
-
-        time = request.GET.get('time', None)
-        if time:
-            notices = notices.filter(start_time__lte=time, end_time__gte=time)
-        
-        result = [n.toJson() for n in notices]
-        return JsonResponse(result, safe=False)
 
 
 @login_required_ajax

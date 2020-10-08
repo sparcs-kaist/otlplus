@@ -1,5 +1,5 @@
 from django.contrib import admin
-from apps.timetable.models import Timetable
+from .models import Timetable
 
 
 class TimetableAdmin(admin.ModelAdmin):

@@ -17,7 +17,7 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
 from django.shortcuts import render
-from settings import BASE_DIR
+from .settings import BASE_DIR
 import os
 
 from django.conf import settings
@@ -41,6 +41,7 @@ urlpatterns = [
     url(r'^api/', include('apps.review.urls')),
     url(r'^api/', include('apps.timetable.urls')),
     url(r'^api/', include('apps.main.urls')),
+    url(r'^api/', include('apps.support.urls')),
     url(r'^api/status$', lambda request: HttpResponse()),
     url(r'^api/', lambda request: HttpResponseNotFound('Bad url')),
     url(r'^', lambda request: render(request, 'index.html')),

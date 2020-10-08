@@ -5,8 +5,8 @@ from django.template import RequestContext
 
 from apps.session.models import UserProfile
 from apps.subject.models import Course, Lecture, Department, Professor, CourseUser
-from apps.review.models import Review, ReviewVote, MajorBestReview, HumanityBestReview
-from apps.common.util import getint, get_ordered_queryset, get_paginated_queryset, patch_object
+from .models import Review, ReviewVote, MajorBestReview, HumanityBestReview
+from utils.util import getint, get_ordered_queryset, get_paginated_queryset, patch_object
 
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseBadRequest, JsonResponse, Http404
 from django.db.models import Q
