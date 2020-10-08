@@ -2,7 +2,7 @@ from django.apps import AppConfig
 
 
 
-class TimetableConfig(AppConfig):
-    name = "apps.timetable"
+class MainConfig(AppConfig):
+    name = "apps.main"
     def ready( self ):
         from . import signals

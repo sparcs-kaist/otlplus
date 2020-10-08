@@ -45,11 +45,12 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'apps.main',
-    'apps.session',
-    'apps.review',
-    'apps.subject',
-    'apps.timetable',
+    'apps.main.appss.MainConfig',
+    'apps.session.appss.SessionConfig',
+    'apps.support.appss.SupportConfig',
+    'apps.review.appss.ReviewConfig',
+    'apps.subject.appss.SubjectConfig',
+    'apps.timetable.appss.TimetableConfig',
 )
 
 MIDDLEWARE_CLASSES = (

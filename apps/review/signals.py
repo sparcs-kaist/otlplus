@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from apps.review.models import Review, ReviewVote
+from .models import Review, ReviewVote
 from apps.subject.models import Lecture
 
 from django.core.cache import cache

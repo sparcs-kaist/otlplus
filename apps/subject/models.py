@@ -2,7 +2,7 @@
 from django.db import models
 from django.db.models import Q
 from django.core.cache import cache
-from apps.common.enum import * #for enum type (for choices)
+from utils.enum import * #for enum type (for choices)
 from datetime import date, time
 import datetime
 import operator

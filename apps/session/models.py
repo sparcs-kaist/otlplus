@@ -3,7 +3,7 @@ from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
-from apps.session.sparcssso import Client
+from .sparcssso import Client
 from apps.subject.models import Department, Lecture
 from oauth2client.contrib.django_util.models import CredentialsField
 #from apps.timetable.models import Timetable
