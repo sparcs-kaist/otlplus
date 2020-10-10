@@ -2015,7 +2015,10 @@ a {
             line-height: $line-height-normal + 4px;
             margin-bottom: 4px;
             overflow: hidden;
-            max-height: ($line-height-normal + 4px) * 3;
+            max-height: ($line-height-normal + 4px) * 3; // Fallback, Remove after line-clamp officially supported
+            display: -webkit-box; // Remove after line-clamp officially supported
+            -webkit-box-orient: vertical; // Remove after line-clamp officially supported
+            -webkit-line-clamp: 3; // Remove after line-clamp officially supported
             line-clamp: 3;
             text-overflow: ellipsis;
         }
