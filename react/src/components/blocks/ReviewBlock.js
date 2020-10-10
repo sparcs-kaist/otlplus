@@ -14,7 +14,7 @@ import reviewShape from '../../shapes/ReviewShape';
 
 const ReviewBlock = ({
   t,
-  review, linkTo,
+  review, shouldLimitLines, linkTo,
   pageFrom,
 }) => {
   const [changedLikes, setChangedLikes] = useState(review.like);
@@ -91,7 +91,7 @@ const ReviewBlock = ({
         <span>{getProfessorsShortStr(review.lecture)}</span>
         <span>{`${review.lecture.year} ${['', t('ui.semester.spring'), t('ui.semester.summer'), t('ui.semester.fall'), t('ui.semester.winter')][review.lecture.semester]}`}</span>
       </div>
-      <div className={classNames('block--review__content')}>
+      <div className={classNames('block--review__content', (shouldLimitLines ? 'block--review__content--limit-5' : ''))}>
         {contentDisplay}
       </div>
       <div className={classNames('block--review__menus')}>
@@ -140,6 +140,7 @@ const ReviewBlock = ({
 
 ReviewBlock.propTypes = {
   review: reviewShape.isRequired,
+  shouldLimitLines: PropTypes.bool.isRequired,
   linkTo: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   pageFrom: PropTypes.string.isRequired,
 };

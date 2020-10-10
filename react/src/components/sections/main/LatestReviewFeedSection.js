@@ -19,7 +19,7 @@ class LatestReviewFeedSection extends Component {
           {t('ui.title.latestReviews')}
         </div>
         {reviews.map((r) => (
-          <ReviewBlock review={r} linkTo={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: r.course.id }) }} pageFrom="Main" key={r.id} />
+          <ReviewBlock review={r} shouldLimitLines={true} linkTo={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: r.course.id }) }} pageFrom="Main" key={r.id} />
         ))}
         <div className={classNames('buttons')}>
           <button className={classNames('text-button')}>
