@@ -1620,6 +1620,15 @@ a {
         &__content {
             color: $color-text-light;
             line-height: $line-height-normal + 4px;
+            &--limit-5 {
+                overflow: hidden;
+                max-height: ($line-height-normal + 4px) * 5; // Fallback, Remove after line-clamp officially supported
+                display: -webkit-box; // Remove after line-clamp officially supported
+                -webkit-box-orient: vertical; // Remove after line-clamp officially supported
+                -webkit-line-clamp: 5; // Remove after line-clamp officially supported
+                line-clamp: 5;
+                text-overflow: ellipsis;
+            }
         }
 
 
