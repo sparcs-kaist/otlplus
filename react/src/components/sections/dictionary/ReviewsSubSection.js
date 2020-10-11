@@ -91,7 +91,7 @@ class ReviewsSubSection extends Component {
     const reviewBlocksArea = (filteredReviews == null)
       ? <div className={classNames('section-content--course-detail__list-area', 'list-placeholder')}><div>{t('ui.placeholder.loading')}</div></div>
       : (filteredReviews.length
-        ? <div className={classNames('section-content--course-detail__list-area')}>{filteredReviews.map((r) => <ReviewBlock review={r} pageFrom="Dictionary" key={r.id} />)}</div>
+        ? <div className={classNames('section-content--course-detail__list-area')}>{filteredReviews.map((r) => <ReviewBlock review={r} shouldLimitLines={false} pageFrom="Dictionary" key={r.id} />)}</div>
         : <div className={classNames('section-content--course-detail__list-area', 'list-placeholder')}><div>{t('ui.placeholder.noResults')}</div></div>);
 
     return (

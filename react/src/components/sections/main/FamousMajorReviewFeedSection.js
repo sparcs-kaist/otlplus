@@ -23,7 +23,7 @@ class FamousMajorReviewFeedSection extends Component {
           {`${t('ui.title.famousMajorReviews')} - ${department[t('js.property.name')]}`}
         </div>
         {reviews.map((r) => (
-          <ReviewBlock review={r} linkTo={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: r.course.id }) }} pageFrom="Main" key={r.id} />
+          <ReviewBlock review={r} shouldLimitLines={true} linkTo={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: r.course.id }) }} pageFrom="Main" key={r.id} />
         ))}
         <div className={classNames('buttons')}>
           <Link to={{ pathname: '/dictionary', search: qs.stringify({ startTab: department.code }) }} className={classNames('text-button')}>
