@@ -1695,7 +1695,7 @@ a {
             color: $color-text-light;
             line-height: $line-height-normal + 4px;
             width: 100%;
-            height: 140px;
+            height: ($line-height-normal + 4px) * 9 + 8px * 2;
             border: 1px dashed #AAAAAA;
             padding: 8px;
             border-radius: 2px;
@@ -2795,7 +2795,7 @@ a {
     }
 
     .section-content--feed & {
-        min-height: 68px;
+        min-height: 218px;
     }
 }
 
