@@ -221,7 +221,7 @@ class LectureListSection extends Component {
     if (!lists[selectedListCode]) {
       return null;
     }
-    return lists[selectedListCode].courses;
+    return lists[selectedListCode].lectureGroups;
   }
 
   render() {
