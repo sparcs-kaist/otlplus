@@ -28,7 +28,7 @@ class DailyUserFeed(DailyFeed):
 
 
 class FamousMajorReviewDailyFeed(DailyFeed):
-    VISIBLE_RATE_BASE = 0.5
+    VISIBLE_RATE_BASE = 0.6
 
     department = models.ForeignKey(Department, on_delete=models.PROTECT)
     reviews = models.ManyToManyField(Review)
@@ -67,7 +67,7 @@ class FamousMajorReviewDailyFeed(DailyFeed):
 
 
 class FamousHumanityReviewDailyFeed(DailyFeed):
-    VISIBLE_RATE_BASE = 0.4
+    VISIBLE_RATE_BASE = 0.5
 
     reviews = models.ManyToManyField(Review)
 
@@ -104,7 +104,7 @@ class FamousHumanityReviewDailyFeed(DailyFeed):
 
 
 class ReviewWriteDailyUserFeed(DailyUserFeed):
-    VISIBLE_RATE_BASE = 0.4
+    VISIBLE_RATE_BASE = 0.6
 
     lecture = models.ForeignKey(Lecture, on_delete=models.PROTECT)
 
@@ -138,7 +138,7 @@ class ReviewWriteDailyUserFeed(DailyUserFeed):
 
 
 class RelatedCourseDailyUserFeed(DailyUserFeed):
-    VISIBLE_RATE_BASE = 0.25
+    VISIBLE_RATE_BASE = 0.45
 
     course = models.ForeignKey(Course, on_delete=models.PROTECT)
 
