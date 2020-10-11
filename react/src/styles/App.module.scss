@@ -189,6 +189,12 @@ a {
     right: -4px;
 }
 
+.masonry-grid {
+    display: flex;
+    width: auto;
+    margin-right: $section-margin-lr;
+}
+
 .content {
     position: relative;
     margin-top: $header-height;
@@ -315,6 +321,11 @@ a {
         @media #{$media-portrait} {
             width: 100%
         }
+    }
+
+
+    &--feed {
+        margin-right: 0;
     }
 
 
