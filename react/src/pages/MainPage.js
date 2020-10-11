@@ -67,6 +67,11 @@ class MainPage extends Component {
 
 
   handleScroll = (e) => {
+    this._checkAndLoadFeeds();
+  }
+
+
+  _checkAndLoadFeeds = () => {
     const { isLoading } = this.state;
     const { user } = this.props;
     const SCROLL_BOTTOM_PADDING = 100;
@@ -142,6 +147,7 @@ class MainPage extends Component {
             },
           ],
         });
+        this._checkAndLoadFeeds();
       })
       .catch((error) => {
       });
