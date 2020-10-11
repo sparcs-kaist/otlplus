@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 import axios from 'axios';
+import Masonry from 'react-masonry-css';
 
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
 
@@ -20,6 +21,9 @@ import NoticeSection from '../components/sections/main/NoticeSection';
 
 
 class MainPage extends Component {
+  portraitMediaQuery = window.matchMedia('(max-aspect-ratio: 4/3)')
+
+
   constructor(props) {
     super(props);
 
@@ -27,6 +31,7 @@ class MainPage extends Component {
       feedDays: [],
       notices: null,
       isLoading: false,
+      isPortrait: this.portraitMediaQuery.matches,
     };
   }
 
@@ -35,6 +40,7 @@ class MainPage extends Component {
     const { user } = this.props;
 
     window.addEventListener('scroll', this.handleScroll);
+    this.portraitMediaQuery.addEventListener('change', this.handleAspectChange);
 
     const today = new Date();
     if (user) {
@@ -56,6 +62,7 @@ class MainPage extends Component {
 
   componentWillUnmount() {
     window.removeEventListener('scroll', this.handleScroll);
+    this.portraitMediaQuery.removeEventListener('change', this.handleAspectChange);
   }
 
 
@@ -74,6 +81,13 @@ class MainPage extends Component {
     if ((window.scrollY + window.innerHeight) > (document.body.scrollHeight - SCROLL_BOTTOM_PADDING)) {
       this._fetchFeeds(this._getPrevDate());
     }
+  }
+
+
+  handleAspectChange = (e) => {
+    this.setState({
+      isPortrait: e.matches,
+    });
   }
 
 
@@ -168,7 +182,7 @@ class MainPage extends Component {
 
   render() {
     const { t } = this.props;
-    const { feedDays, notices } = this.state;
+    const { feedDays, notices, isPortrait } = this.state;
     const { user } = this.props;
 
     const getDateName = (dateString) => {
@@ -186,7 +200,7 @@ class MainPage extends Component {
     const mapFeedToSection = (feed, date) => {
       if (feed.type === 'REVIEW_WRITE') {
         return (
-          <div className={classNames('section-wrap')} key={`${date.date}-${feed.type}-${feed.lecture.id}`}>
+          <div className={classNames('section-wrap', 'section-wrap--feed')} key={`${date.date}-${feed.type}-${feed.lecture.id}`}>
             <div className={classNames('section')}>
               <ReviewWriteFeedSection
                 lecture={feed.lecture}
@@ -198,7 +212,7 @@ class MainPage extends Component {
       }
       if (feed.type === 'RELATED_COURSE') {
         return (
-          <div className={classNames('section-wrap')} key={`${date.date}-${feed.type}-${feed.course.id}`}>
+          <div className={classNames('section-wrap', 'section-wrap--feed')} key={`${date.date}-${feed.type}-${feed.course.id}`}>
             <div className={classNames('section')}>
               <RelatedCourseFeedSection course={feed.course} />
             </div>
@@ -207,7 +221,7 @@ class MainPage extends Component {
       }
       if (feed.type === 'LATEST_REVIEW') {
         return (
-          <div className={classNames('section-wrap')} key={`${date.date}-${feed.type}`}>
+          <div className={classNames('section-wrap', 'section-wrap--feed')} key={`${date.date}-${feed.type}`}>
             <div className={classNames('section')}>
               <LatestReviewFeedSection />
             </div>
@@ -216,7 +230,7 @@ class MainPage extends Component {
       }
       if (feed.type === 'FAMOUS_MAJOR_REVIEW') {
         return (
-          <div className={classNames('section-wrap')} key={`${date.date}-${feed.type}-${feed.department.code}`}>
+          <div className={classNames('section-wrap', 'section-wrap--feed')} key={`${date.date}-${feed.type}-${feed.department.code}`}>
             <div className={classNames('section')}>
               <FamousMajorReviewFeedSection
                 department={feed.department}
@@ -228,7 +242,7 @@ class MainPage extends Component {
       }
       if (feed.type === 'FAMOUS_HUMANITY_REVIEW') {
         return (
-          <div className={classNames('section-wrap')} key={`${date.date}-${feed.type}`}>
+          <div className={classNames('section-wrap', 'section-wrap--feed')} key={`${date.date}-${feed.type}`}>
             <div className={classNames('section')}>
               <FamousHumanityReviewFeedSection reviews={feed.reviews} />
             </div>
@@ -237,6 +251,39 @@ class MainPage extends Component {
       }
       return null;
     };
+
+    const feeds = [
+      <div className={classNames('section-wrap', 'section-wrap--feed')} key="TODAYS_TIMETABLE">
+        <div className={classNames('section')}>
+          <TodaysTimetableSection />
+        </div>
+      </div>,
+      <div className={classNames('section-wrap', 'section-wrap--feed')} key="ACADEMIC_SCHEDULE">
+        <div className={classNames('section')}>
+          <AcademicScheduleSection />
+        </div>
+      </div>,
+      notices
+        ? (
+          notices.map((n) => (
+            <div className={classNames('section-wrap', 'section-wrap--feed')} key={`${n.start_date}-${n.end_date}-${n.title}`}>
+              <div className={classNames('section')}>
+                <NoticeSection notice={n} />
+              </div>
+            </div>
+          ))
+        )
+        : [],
+      !user
+        ? [
+          <div className={classNames('section-wrap', 'section-wrap--feed')} key="VISITOR">
+            <div className={classNames('section')}>
+              <VisitorSection />
+            </div>
+          </div>,
+        ]
+        : feedDays.map((d) => d.feeds.map((f) => mapFeedToSection(f, d))),
+    ].flat(3);
 
     return (
       <>
@@ -249,51 +296,13 @@ class MainPage extends Component {
           </div>
         </section>
         <section className={classNames('content', 'content--main')}>
-          <div className={classNames('section-wrap')}>
-            <div className={classNames('section')}>
-              <TodaysTimetableSection />
-            </div>
-          </div>
-          <div className={classNames('section-wrap')}>
-            <div className={classNames('section')}>
-              <AcademicScheduleSection />
-            </div>
-          </div>
-          {
-            notices
-              ? (
-                notices.map((n) => (
-                  <div className={classNames('section-wrap')} key={`${n.start_date}-${n.end_date}-${n.title}`}>
-                    <div className={classNames('section')}>
-                      <NoticeSection notice={n} />
-                    </div>
-                  </div>
-                ))
-              )
-              : null
-          }
-          {!user
-            ? (
-              <>
-                <div className={classNames('main-date')}>
-                  {t('ui.others.today')}
-                </div>
-                <div className={classNames('section-wrap')}>
-                  <div className={classNames('section')}>
-                    <VisitorSection />
-                  </div>
-                </div>
-              </>
-            )
-            : feedDays.map((d) => (
-              <React.Fragment key={d.date}>
-                <div className={classNames('main-date')}>
-                  {getDateName(d.date)}
-                </div>
-                { d.feeds.map((f) => mapFeedToSection(f, d)) }
-              </React.Fragment>
-            ))
-          }
+          <Masonry
+            breakpointCols={isPortrait ? 1 : 3}
+            className={classNames('masonry-grid')}
+            columnClassName={classNames('masonry-grid_column')}
+          >
+            { feeds }
+          </Masonry>
         </section>
         <Footer />
       </>
