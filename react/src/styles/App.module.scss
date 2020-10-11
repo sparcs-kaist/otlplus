@@ -1304,9 +1304,6 @@ a {
         & > div {
             width: 100%;
             position: relative;
-            @media #{$media-landscape} {
-                left: 0 !important;
-            }
 
             .section-content--todays-timetable__table {
                 margin: 0 2px;
@@ -1325,7 +1322,7 @@ a {
                             padding-right: 1px;
                         }
                         @media #{$media-landscape} {
-                            flex: 1 1 0;
+                            flex: 0 0 4vh;
                         }
                         @media #{$media-portrait} {
                             flex: 0 0 10vw;
@@ -1351,7 +1348,7 @@ a {
                         text-align: center;
                         height: 57px;
                         @media #{$media-landscape} {
-                            flex: 1 1 0;
+                            flex: 0 0 4vh;
                         }
                         @media #{$media-portrait} {
                             flex: 0 0 10vw;
