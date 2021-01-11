@@ -15,9 +15,11 @@ import ReviewsSubSection from '../components/sections/write-reviews/ReviewsSubSe
 
 import { reset as resetReviewsFocus, clearReviewsFocus } from '../actions/write-reviews/reviewsFocus';
 import { reset as resetLatestReviews, addReviews } from '../actions/write-reviews/latestReviews';
+import { reset as resetLikedReviews, setReviews as setLikedReviews } from '../actions/write-reviews/likedReviews';
 import { NONE, LECTURE, LATEST } from '../reducers/write-reviews/reviewsFocus';
 
 import reviewsFocusShape from '../shapes/ReviewsFocusShape';
+import userShape from '../shapes/UserShape';
 
 
 class WriteReviewsPage extends Component {
@@ -35,15 +37,30 @@ class WriteReviewsPage extends Component {
 
 
   componentDidMount() {
+    const { user } = this.props;
+
     this._fetchLatestReviews();
+    if (user) {
+      this._fetchLikedReviews();
+    }
+  }
+
+
+  componentDidUpdate(prevProps) {
+    const { user } = this.props;
+
+    if (user && !prevProps.user) {
+      this._fetchLikedReviews();
+    }
   }
 
 
   componentWillUnmount() {
-    const { resetReviewsFocusDispatch, resetLatestReviewsDispatch } = this.props;
+    const { resetReviewsFocusDispatch, resetLatestReviewsDispatch, resetLikedReviewsDispatch } = this.props;
 
     resetReviewsFocusDispatch();
     resetLatestReviewsDispatch();
+    resetLikedReviewsDispatch();
   }
 
 
@@ -91,6 +108,30 @@ class WriteReviewsPage extends Component {
         label: `Review Order : ${20 * pageNumToLoad}-${20 * (pageNumToLoad + 1) - 1}`,
       });
     }
+  }
+
+
+  _fetchLikedReviews = () => {
+    const { user, setLikedReviewsDispatch } = this.props;
+
+    if (!user) {
+      return;
+    }
+
+    axios.get(
+      `/api/users/${user.id}/liked-reviews`,
+      {
+        metadata: {
+          gaCategory: 'User',
+          gaVariable: 'GET Liked Reviews / Instance',
+        },
+      },
+    )
+      .then((response) => {
+        setLikedReviewsDispatch(response.data);
+      })
+      .catch((error) => {
+      });
   }
 
 
@@ -188,12 +229,16 @@ class WriteReviewsPage extends Component {
 }
 
 const mapStateToProps = (state) => ({
+  user: state.common.user.user,
   reviewsFocus: state.writeReviews.reviewsFocus,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   addReviewsDispatch: (reviews) => {
     dispatch(addReviews(reviews));
+  },
+  setLikedReviewsDispatch: (reviews) => {
+    dispatch(setLikedReviews(reviews));
   },
   clearReviewsFocusDispatch: () => {
     dispatch(clearReviewsFocus());
@@ -204,15 +249,21 @@ const mapDispatchToProps = (dispatch) => ({
   resetLatestReviewsDispatch: () => {
     dispatch(resetLatestReviews());
   },
+  resetLikedReviewsDispatch: () => {
+    dispatch(resetLikedReviews());
+  },
 });
 
 WriteReviewsPage.propTypes = {
+  user: userShape,
   reviewsFocus: reviewsFocusShape.isRequired,
 
   addReviewsDispatch: PropTypes.func.isRequired,
+  setLikedReviewsDispatch: PropTypes.func.isRequired,
   clearReviewsFocusDispatch: PropTypes.func.isRequired,
   resetReviewsFocusDispatch: PropTypes.func.isRequired,
   resetLatestReviewsDispatch: PropTypes.func.isRequired,
+  resetLikedReviewsDispatch: PropTypes.func.isRequired,
 };
 
 

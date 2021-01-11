@@ -10,7 +10,7 @@ import Scroller from '../../Scroller';
 import LectureSimpleBlock from '../../blocks/LectureSimpleBlock';
 
 import { setReviewsFocus, clearReviewsFocus } from '../../../actions/write-reviews/reviewsFocus';
-import { LECTURE, LATEST, MY } from '../../../reducers/write-reviews/reviewsFocus';
+import { LECTURE, LATEST, MY, LIKED } from '../../../reducers/write-reviews/reviewsFocus';
 
 import userShape from '../../../shapes/UserShape';
 import lectureShape from '../../../shapes/LectureShape';
@@ -113,6 +113,16 @@ class TakenLecturesSection extends Component {
                 onClick={this.handleMenuClick(MY)}
               >
                 {t('ui.title.myReviews')}
+              </button>
+            </div>
+            <div>
+              <button
+                className={classNames(
+                  'text-button',
+                  'text-button--disabled',
+                )}
+              >
+                {t('ui.title.likedReviews')}
               </button>
             </div>
           </div>
@@ -228,6 +238,17 @@ class TakenLecturesSection extends Component {
               onClick={this.handleMenuClick(MY)}
             >
               {t('ui.title.myReviews')}
+            </button>
+          </div>
+          <div>
+            <button
+              className={classNames(
+                'text-button',
+                ((reviewsFocus.from === LIKED) ? classNames('text-button--disabled') : ''),
+              )}
+              onClick={this.handleMenuClick(LIKED)}
+            >
+              {t('ui.title.likedReviews')}
             </button>
           </div>
         </div>

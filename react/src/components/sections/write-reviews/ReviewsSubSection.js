@@ -9,7 +9,7 @@ import { appBoundClassNames as classNames } from '../../../common/boundClassName
 
 import { setReviews } from '../../../actions/write-reviews/reviewsFocus';
 import {
-  NONE, LECTURE, LATEST, MY,
+  NONE, LECTURE, LATEST, MY, LIKED,
 } from '../../../reducers/write-reviews/reviewsFocus';
 
 import ReviewBlock from '../../blocks/ReviewBlock';
@@ -71,7 +71,7 @@ class ReviewsSubSection extends Component {
     const { t } = this.props;
     const {
       reviewsFocus,
-      latestReviews,
+      latestReviews, likedReviews,
       user,
     } = this.props;
 
@@ -91,13 +91,19 @@ class ReviewsSubSection extends Component {
       ? `${t('ui.title.relatedReviews')} - ${reviewsFocus.lecture[t('js.property.title')]}`
       : (reviewsFocus.from === MY
         ? t('ui.title.myReviews')
-        : t('ui.title.latestReviews')
+        : (reviewsFocus.from === LIKED
+          ? t('ui.title.likedReviews')
+          : t('ui.title.latestReviews')
+        )
       );
     const reviews = reviewsFocus.from === LECTURE
       ? reviewsFocus.reviews
       : (reviewsFocus.from === MY
         ? user.reviews
-        : latestReviews
+        : (reviewsFocus.from === LIKED
+          ? likedReviews
+          : latestReviews
+        )
       );
 
     return (
@@ -115,6 +121,7 @@ const mapStateToProps = (state) => ({
   reviewsFocus: state.writeReviews.reviewsFocus,
   user: state.common.user.user,
   latestReviews: state.writeReviews.latestReviews.reviews,
+  likedReviews: state.writeReviews.likedReviews.reviews,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -127,6 +134,7 @@ ReviewsSubSection.propTypes = {
   reviewsFocus: reviewsFocusShape.isRequired,
   user: userShape,
   latestReviews: PropTypes.arrayOf(reviewShape),
+  likedReviews: PropTypes.arrayOf(reviewShape),
 
   setReviewsDispatch: PropTypes.func.isRequired,
 };
