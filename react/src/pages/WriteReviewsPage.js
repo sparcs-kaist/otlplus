@@ -35,7 +35,7 @@ class WriteReviewsPage extends Component {
 
 
   componentDidMount() {
-    this._fetchReviews();
+    this._fetchLatestReviews();
   }
 
 
@@ -47,7 +47,7 @@ class WriteReviewsPage extends Component {
   }
 
 
-  _fetchReviews = () => {
+  _fetchLatestReviews = () => {
     const { addReviewsDispatch } = this.props;
     const { isLoading, pageNumToLoad } = this.state;
 
@@ -106,7 +106,7 @@ class WriteReviewsPage extends Component {
     const sectionPos = refElement.getBoundingClientRect().bottom;
     const scrollPos = refElement.querySelector(`.${classNames('section-contentt--latest-reviews__list-area')}`).getBoundingClientRect().bottom;
     if (scrollPos - sectionPos < SCROLL_THRSHOLD) {
-      this._fetchReviews();
+      this._fetchLatestReviews();
     }
   }
 

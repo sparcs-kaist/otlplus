@@ -24,7 +24,7 @@ class ReviewsSubSection extends Component {
     const { reviewsFocus } = this.props;
 
     if (reviewsFocus.from === LECTURE) {
-      this._fetchReviews();
+      this._fetchLectureRelatedReviews();
     }
   }
 
@@ -36,12 +36,12 @@ class ReviewsSubSection extends Component {
         || prevProps.reviewsFocus.lecture.id !== reviewsFocus.lecture.id
       )
     ) {
-      this._fetchReviews();
+      this._fetchLectureRelatedReviews();
     }
   }
 
 
-  _fetchReviews = () => {
+  _fetchLectureRelatedReviews = () => {
     const { reviewsFocus, setReviewsDispatch } = this.props;
 
     axios.get(
