@@ -15,7 +15,7 @@ import LatestReviewsSubSection from '../components/sections/write-reviews/Latest
 
 import { reset as resetReviewsFocus, clearReviewsFocus } from '../actions/write-reviews/reviewsFocus';
 import { reset as resetLatestReviews, addReviews } from '../actions/write-reviews/latestReviews';
-import { NONE, LECTURE } from '../reducers/write-reviews/reviewsFocus';
+import { NONE, LECTURE, LATEST } from '../reducers/write-reviews/reviewsFocus';
 
 import reviewsFocusShape from '../shapes/ReviewsFocusShape';
 
@@ -96,6 +96,12 @@ class WriteReviewsPage extends Component {
 
   handleScroll = () => {
     const SCROLL_THRSHOLD = 100;
+
+    const { reviewsFocus } = this.props;
+    if (reviewsFocus.from !== LATEST) {
+      return;
+    }
+
     const refElement = this.rightSectionRef.current;
     const sectionPos = refElement.getBoundingClientRect().bottom;
     const scrollPos = refElement.querySelector(`.${classNames('section-contentt--latest-reviews__list-area')}`).getBoundingClientRect().bottom;
