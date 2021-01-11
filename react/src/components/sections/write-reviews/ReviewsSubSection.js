@@ -3,9 +3,11 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 import qs from 'qs';
+import axios from 'axios';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
+import { setReviews } from '../../../actions/write-reviews/reviewsFocus';
 import {
   NONE, LECTURE, LATEST, MY,
 } from '../../../reducers/write-reviews/reviewsFocus';
@@ -18,6 +20,53 @@ import reviewsFocusShape from '../../../shapes/ReviewsFocusShape';
 
 
 class ReviewsSubSection extends Component {
+  componentDidMount() {
+    const { reviewsFocus } = this.props;
+
+    if (reviewsFocus.from === LECTURE) {
+      this._fetchReviews();
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    const { reviewsFocus } = this.props;
+
+    if (reviewsFocus.from === LECTURE
+      && (prevProps.reviewsFocus.from !== LECTURE
+        || prevProps.reviewsFocus.lecture.id !== reviewsFocus.lecture.id
+      )
+    ) {
+      this._fetchReviews();
+    }
+  }
+
+
+  _fetchReviews = () => {
+    const { reviewsFocus, setReviewsDispatch } = this.props;
+
+    axios.get(
+      `/api/lectures/${reviewsFocus.lecture.id}/related-reviews`,
+      {
+        metadata: {
+          gaCategory: 'Course',
+          gaVariable: 'GET Reviews / Instance',
+        },
+      },
+    )
+      .then((response) => {
+        const newProps = this.props;
+        if (!newProps.reviewsFocus.lecture
+          || newProps.reviewsFocus.lecture.id !== reviewsFocus.lecture.id
+        ) {
+          return;
+        }
+        setReviewsDispatch(response.data);
+      })
+      .catch((error) => {
+      });
+  }
+
+
   render() {
     const { t } = this.props;
     const {
@@ -69,12 +118,17 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  setReviewsDispatch: (reviews) => {
+    dispatch(setReviews(reviews));
+  },
 });
 
 ReviewsSubSection.propTypes = {
   reviewsFocus: reviewsFocusShape.isRequired,
   user: userShape,
   latestReviews: PropTypes.arrayOf(reviewShape),
+
+  setReviewsDispatch: PropTypes.func.isRequired,
 };
 
 

@@ -1,4 +1,8 @@
-import { RESET, SET_REVIEWS_FOCUS, CLEAR_REVIEWS_FOCUS } from '../../actions/write-reviews/reviewsFocus';
+import {
+  RESET,
+  SET_REVIEWS_FOCUS, CLEAR_REVIEWS_FOCUS,
+  SET_REVIEWS,
+} from '../../actions/write-reviews/reviewsFocus';
 
 export const NONE = 'NONE';
 export const LECTURE = 'LECTURE';
@@ -28,6 +32,11 @@ const reviewsFocus = (state = initialState, action) => {
         from: 'NONE',
         lecture: null,
         reviews: null,
+      });
+    }
+    case SET_REVIEWS: {
+      return Object.assign({}, state, {
+        reviews: action.reviews,
       });
     }
     default: {
