@@ -8,6 +8,7 @@ export const MY = 'MY';
 const initialState = {
   from: 'NONE',
   lecture: null,
+  reviews: null,
 };
 
 const reviewsFocus = (state = initialState, action) => {
@@ -19,12 +20,14 @@ const reviewsFocus = (state = initialState, action) => {
       return Object.assign({}, state, {
         from: action.from,
         lecture: action.lecture,
+        reviews: null,
       });
     }
     case CLEAR_REVIEWS_FOCUS: {
       return Object.assign({}, state, {
         from: 'NONE',
         lecture: null,
+        reviews: null,
       });
     }
     default: {

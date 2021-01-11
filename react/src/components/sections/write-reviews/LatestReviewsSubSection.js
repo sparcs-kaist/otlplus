@@ -6,34 +6,56 @@ import qs from 'qs';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
+import {
+  NONE, LECTURE, LATEST, MY,
+} from '../../../reducers/write-reviews/reviewsFocus';
+
 import ReviewBlock from '../../blocks/ReviewBlock';
 
 import reviewShape from '../../../shapes/ReviewShape';
+import userShape from '../../../shapes/UserShape';
+import reviewsFocusShape from '../../../shapes/ReviewsFocusShape';
 
 
 class LatestReviewsSubSection extends Component {
   render() {
     const { t } = this.props;
-    const { reviews } = this.props;
+    const {
+      reviewsFocus,
+      latestReviews,
+      user,
+    } = this.props;
 
-    if (reviews.length === 0) {
-      return (
-        <div className={classNames('section-content', 'section-content--latest-reviews')}>
-          <div className={classNames('title')}>{t('ui.title.latestReviews')}</div>
-          <div className={classNames('list-placeholder')}>
-            <div>{t('ui.placeholder.noResults')}</div>
-          </div>
-        </div>
+    const mapReviewsToElement = (reviews) => {
+      if (reviews == null) {
+        return <div>{t('ui.placeholder.loading')}</div>;
+      }
+      if (reviews.length === 0) {
+        return <div>{t('ui.placeholder.noResults')}</div>;
+      }
+      return reviews.map((r) => (
+        <ReviewBlock review={r} shouldLimitLines={false} linkTo={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: r.course.id }) }} pageFrom="Write Reviews" key={r.id} />
+      ));
+    };
+
+    const title = reviewsFocus.from === LECTURE
+      ? `${t('ui.title.latestReviews')} - ${reviewsFocus.lecture[t('js.property.title')]}`
+      : (reviewsFocus.from === MY
+        ? t('ui.title.myReviews')
+        : t('ui.title.latestReviews')
       );
-    }
+    const reviews = reviewsFocus.from === LECTURE
+      ? reviewsFocus.reviews
+      : (reviewsFocus.from === MY
+        ? user.reviews
+        : latestReviews
+      );
 
     return (
       <div className={classNames('section-content', 'section-content--latest-reviews')}>
-        <div className={classNames('title')}>{t('ui.title.latestReviews')}</div>
+        <div className={classNames('title')}>{title}</div>
         <div className={classNames('section-contentt--latest-reviews__list-area')}>
-          {reviews.map((r) => (
-            <ReviewBlock review={r} shouldLimitLines={false} linkTo={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: r.course.id }) }} pageFrom="Write Reviews" key={r.id} />
-          ))}
+          {mapReviewsToElement(reviews)}
         </div>
       </div>
     );
@@ -41,14 +63,18 @@ class LatestReviewsSubSection extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  reviews: state.writeReviews.latestReviews.reviews,
+  reviewsFocus: state.writeReviews.reviewsFocus,
+  user: state.common.user.user,
+  latestReviews: state.writeReviews.latestReviews.reviews,
 });
 
 const mapDispatchToProps = (dispatch) => ({
 });
 
 LatestReviewsSubSection.propTypes = {
-  reviews: PropTypes.arrayOf(reviewShape),
+  reviewsFocus: reviewsFocusShape.isRequired,
+  user: userShape,
+  latestReviews: PropTypes.arrayOf(reviewShape),
 };
 
 
