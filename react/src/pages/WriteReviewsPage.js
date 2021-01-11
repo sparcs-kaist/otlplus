@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { withTranslation } from 'react-i18next';
 import axios from 'axios';
 import ReactGA from 'react-ga';
 
@@ -13,8 +15,10 @@ import LatestReviewsSubSection from '../components/sections/write-reviews/Latest
 
 import { reset as resetReviewsFocus, clearReviewsFocus } from '../actions/write-reviews/reviewsFocus';
 import { reset as resetLatestReviews, addReviews } from '../actions/write-reviews/latestReviews';
+import { NONE } from '../reducers/write-reviews/reviewsFocus';
 
 import lectureShape from '../shapes/LectureShape';
+import reviewsFocusShape from '../shapes/ReviewsFocusShape';
 
 
 class WriteReviewsPage extends Component {
@@ -110,7 +114,7 @@ class WriteReviewsPage extends Component {
 
 
   render() {
-    const { selectedLecture } = this.props;
+    const { t, selectedLecture, reviewsFocus } = this.props;
 
     return (
       <>
@@ -122,16 +126,42 @@ class WriteReviewsPage extends Component {
           </div>
           <div className={classNames('section-wrap', 'section-wrap--desktop-1v3--right', 'mobile-modal', (selectedLecture ? '' : 'mobile-hidden'))}>
             <div className={classNames('section')}>
-              <div className={classNames('section-content', 'section-content--write-reviews-right')} ref={this.rightSectionRef}>
+              <div className={classNames('section-content', 'section-content--flex', 'section-content--write-reviews-right')} ref={this.rightSectionRef}>
                 <div className={classNames('close-button-wrap')}>
                   <button onClick={this.unfix}>
                     <i className={classNames('icon', 'icon--close-section')} />
                   </button>
                 </div>
-                <Scroller key={selectedLecture ? selectedLecture.id : 'unselected'} onScroll={this.handleScroll} expandTop={12}>
-                  <ReviewWriteSubSection />
-                  <LatestReviewsSubSection />
-                </Scroller>
+                { reviewsFocus.from === NONE
+                  ? (
+                    <div className={classNames('otlplus-placeholder')}>
+                      <div>
+                        OTL PLUS
+                      </div>
+                      <div>
+                        <Link to="/credits/">{t('ui.menu.credit')}</Link>
+                        &nbsp;|&nbsp;
+                        <Link to="/licenses/">{t('ui.menu.licences')}</Link>
+                      </div>
+                      <div>
+                        <a href="mailto:otlplus@sparcs.org">otlplus@sparcs.org</a>
+                      </div>
+                      <div>
+                        © 2016,&nbsp;
+                        <a href="http://sparcs.org">SPARCS</a>
+                        &nbsp;OTL Team
+                      </div>
+                    </div>
+                  )
+                  : (
+                    <Scroller key={selectedLecture ? selectedLecture.id : 'unselected'} onScroll={this.handleScroll} expandTop={12}>
+                      <>
+                        <ReviewWriteSubSection />
+                        <LatestReviewsSubSection />
+                      </>
+                    </Scroller>
+                  )
+                }
               </div>
             </div>
           </div>
@@ -143,6 +173,7 @@ class WriteReviewsPage extends Component {
 
 const mapStateToProps = (state) => ({
   selectedLecture: state.writeReviews.reviewsFocus.lecture,
+  reviewsFocus: state.writeReviews.reviewsFocus,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -162,6 +193,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 WriteReviewsPage.propTypes = {
   selectedLecture: lectureShape,
+  reviewsFocus: reviewsFocusShape.isRequired,
 
   addReviewsDispatch: PropTypes.func.isRequired,
   clearReviewsFocusDispatch: PropTypes.func.isRequired,
@@ -170,4 +202,4 @@ WriteReviewsPage.propTypes = {
 };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(WriteReviewsPage);
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(WriteReviewsPage));
