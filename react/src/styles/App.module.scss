@@ -1512,10 +1512,10 @@ a {
         cursor: initial;
     }
     &.block--completed {
-        color: rgba($color-text-normal, 0.5);
+        color: rgba($color-text-normal, 0.35);
 
         & i.icon {
-            opacity: 0.6;
+            opacity: 0.45;
         }
 
         & > .block__completed-text {
