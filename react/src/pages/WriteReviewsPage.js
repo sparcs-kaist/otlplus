@@ -11,7 +11,7 @@ import { appBoundClassNames as classNames } from '../common/boundClassNames';
 import Scroller from '../components/Scroller';
 import TakenLecturesSection from '../components/sections/write-reviews/TakenLecturesSection';
 import ReviewWriteSubSection from '../components/sections/write-reviews/ReviewWriteSubSection';
-import LatestReviewsSubSection from '../components/sections/write-reviews/LatestReviewsSubSection';
+import ReviewsSubSection from '../components/sections/write-reviews/ReviewsSubSection';
 
 import { reset as resetReviewsFocus, clearReviewsFocus } from '../actions/write-reviews/reviewsFocus';
 import { reset as resetLatestReviews, addReviews } from '../actions/write-reviews/latestReviews';
@@ -173,7 +173,7 @@ class WriteReviewsPage extends Component {
                     >
                       <>
                         <ReviewWriteSubSection />
-                        <LatestReviewsSubSection />
+                        <ReviewsSubSection />
                       </>
                     </Scroller>
                   )

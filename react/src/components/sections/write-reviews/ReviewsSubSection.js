@@ -17,7 +17,7 @@ import userShape from '../../../shapes/UserShape';
 import reviewsFocusShape from '../../../shapes/ReviewsFocusShape';
 
 
-class LatestReviewsSubSection extends Component {
+class ReviewsSubSection extends Component {
   render() {
     const { t } = this.props;
     const {
@@ -71,11 +71,11 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
 });
 
-LatestReviewsSubSection.propTypes = {
+ReviewsSubSection.propTypes = {
   reviewsFocus: reviewsFocusShape.isRequired,
   user: userShape,
   latestReviews: PropTypes.arrayOf(reviewShape),
 };
 
 
-export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(LatestReviewsSubSection));
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(ReviewsSubSection));
