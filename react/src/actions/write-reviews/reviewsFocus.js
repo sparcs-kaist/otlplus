@@ -1,4 +1,4 @@
-const BASE_STRING = 'WR_LS_';
+const BASE_STRING = 'WR_RF_';
 
 /* eslint-disable prefer-template */
 export const RESET = BASE_STRING + 'RESET';

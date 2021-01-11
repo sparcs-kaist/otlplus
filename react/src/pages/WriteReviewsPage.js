@@ -14,7 +14,7 @@ import ReviewWriteSubSection from '../components/sections/write-reviews/ReviewWr
 import ReviewsSubSection from '../components/sections/write-reviews/ReviewsSubSection';
 
 import { reset as resetReviewsFocus, clearReviewsFocus } from '../actions/write-reviews/reviewsFocus';
-import { reset as resetLatestReviews, addReviews } from '../actions/write-reviews/latestReviews';
+import { reset as resetLatestReviews, addReviews as addLatestReviews } from '../actions/write-reviews/latestReviews';
 import { reset as resetLikedReviews, setReviews as setLikedReviews } from '../actions/write-reviews/likedReviews';
 import { NONE, LECTURE, LATEST } from '../reducers/write-reviews/reviewsFocus';
 
@@ -65,7 +65,7 @@ class WriteReviewsPage extends Component {
 
 
   _fetchLatestReviews = () => {
-    const { addReviewsDispatch } = this.props;
+    const { addLatestReviewsDispatch } = this.props;
     const { isLoading, pageNumToLoad } = this.state;
 
     const PAGE_SIZE = 10;
@@ -96,7 +96,7 @@ class WriteReviewsPage extends Component {
           isLoading: false,
           pageNumToLoad: prevState.pageNumToLoad + 1,
         }));
-        addReviewsDispatch(response.data);
+        addLatestReviewsDispatch(response.data);
       })
       .catch((error) => {
       });
@@ -234,8 +234,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  addReviewsDispatch: (reviews) => {
-    dispatch(addReviews(reviews));
+  addLatestReviewsDispatch: (reviews) => {
+    dispatch(addLatestReviews(reviews));
   },
   setLikedReviewsDispatch: (reviews) => {
     dispatch(setLikedReviews(reviews));
@@ -258,7 +258,7 @@ WriteReviewsPage.propTypes = {
   user: userShape,
   reviewsFocus: reviewsFocusShape.isRequired,
 
-  addReviewsDispatch: PropTypes.func.isRequired,
+  addLatestReviewsDispatch: PropTypes.func.isRequired,
   setLikedReviewsDispatch: PropTypes.func.isRequired,
   clearReviewsFocusDispatch: PropTypes.func.isRequired,
   resetReviewsFocusDispatch: PropTypes.func.isRequired,
