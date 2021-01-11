@@ -91,6 +91,31 @@ class TakenLecturesSection extends Component {
           <Scroller expandTop={12}>
             <div className={classNames('list-placeholder')}>{t('ui.placeholder.noResults')}</div>
           </Scroller>
+          <div className={classNames('divider')} />
+          <div className={classNames('section-content--taken-lectures__menus-list')}>
+            <div>
+              <button
+                className={classNames(
+                  'text-button',
+                  ((reviewsFocus.from === LATEST) ? classNames('text-button--disabled') : ''),
+                )}
+                onClick={this.handleMenuClick(LATEST)}
+              >
+                {t('ui.title.latestReviews')}
+              </button>
+            </div>
+            <div>
+              <button
+                className={classNames(
+                  'text-button',
+                  'text-button--disabled',
+                )}
+                onClick={this.handleMenuClick(MY)}
+              >
+                {t('ui.title.myReviews')}
+              </button>
+            </div>
+          </div>
         </div>
       );
     }
