@@ -15,9 +15,8 @@ import LatestReviewsSubSection from '../components/sections/write-reviews/Latest
 
 import { reset as resetReviewsFocus, clearReviewsFocus } from '../actions/write-reviews/reviewsFocus';
 import { reset as resetLatestReviews, addReviews } from '../actions/write-reviews/latestReviews';
-import { NONE } from '../reducers/write-reviews/reviewsFocus';
+import { NONE, LECTURE } from '../reducers/write-reviews/reviewsFocus';
 
-import lectureShape from '../shapes/LectureShape';
 import reviewsFocusShape from '../shapes/ReviewsFocusShape';
 
 
@@ -114,7 +113,7 @@ class WriteReviewsPage extends Component {
 
 
   render() {
-    const { t, selectedLecture, reviewsFocus } = this.props;
+    const { t, reviewsFocus } = this.props;
 
     return (
       <>
@@ -124,7 +123,14 @@ class WriteReviewsPage extends Component {
               <TakenLecturesSection />
             </div>
           </div>
-          <div className={classNames('section-wrap', 'section-wrap--desktop-1v3--right', 'mobile-modal', (selectedLecture ? '' : 'mobile-hidden'))}>
+          <div
+            className={classNames(
+              'section-wrap',
+              'section-wrap--desktop-1v3--right',
+              'mobile-modal',
+              ((reviewsFocus.from !== NONE) ? '' : 'mobile-hidden'),
+            )}
+          >
             <div className={classNames('section')}>
               <div className={classNames('section-content', 'section-content--flex', 'section-content--write-reviews-right')} ref={this.rightSectionRef}>
                 <div className={classNames('close-button-wrap')}>
@@ -154,7 +160,11 @@ class WriteReviewsPage extends Component {
                     </div>
                   )
                   : (
-                    <Scroller key={selectedLecture ? selectedLecture.id : 'unselected'} onScroll={this.handleScroll} expandTop={12}>
+                    <Scroller
+                      key={reviewsFocus.from === LECTURE ? reviewsFocus.lecture.id : reviewsFocus.from}
+                      onScroll={this.handleScroll}
+                      expandTop={12}
+                    >
                       <>
                         <ReviewWriteSubSection />
                         <LatestReviewsSubSection />
@@ -172,7 +182,6 @@ class WriteReviewsPage extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  selectedLecture: state.writeReviews.reviewsFocus.lecture,
   reviewsFocus: state.writeReviews.reviewsFocus,
 });
 
@@ -192,7 +201,6 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 WriteReviewsPage.propTypes = {
-  selectedLecture: lectureShape,
   reviewsFocus: reviewsFocusShape.isRequired,
 
   addReviewsDispatch: PropTypes.func.isRequired,
