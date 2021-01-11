@@ -97,7 +97,7 @@ class TakenLecturesSection extends Component {
               <button
                 className={classNames(
                   'text-button',
-                  ((reviewsFocus.from === LATEST) ? classNames('text-button--disabled') : ''),
+                  ((reviewsFocus.from === LATEST) ? 'text-button--disabled' : ''),
                 )}
                 onClick={this.handleMenuClick(LATEST)}
               >
@@ -222,7 +222,7 @@ class TakenLecturesSection extends Component {
             <button
               className={classNames(
                 'text-button',
-                ((reviewsFocus.from === LATEST) ? classNames('text-button--disabled') : ''),
+                ((reviewsFocus.from === LATEST) ? 'text-button--disabled' : ''),
               )}
               onClick={this.handleMenuClick(LATEST)}
             >
@@ -233,7 +233,7 @@ class TakenLecturesSection extends Component {
             <button
               className={classNames(
                 'text-button',
-                ((reviewsFocus.from === MY) ? classNames('text-button--disabled') : ''),
+                ((reviewsFocus.from === MY) ? 'text-button--disabled' : ''),
               )}
               onClick={this.handleMenuClick(MY)}
             >
@@ -244,7 +244,7 @@ class TakenLecturesSection extends Component {
             <button
               className={classNames(
                 'text-button',
-                ((reviewsFocus.from === LIKED) ? classNames('text-button--disabled') : ''),
+                ((reviewsFocus.from === LIKED) ? 'text-button--disabled' : ''),
               )}
               onClick={this.handleMenuClick(LIKED)}
             >
