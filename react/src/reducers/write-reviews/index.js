@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
-import lectureSelected from './lectureSelected';
+import reviewsFocus from './reviewsFocus';
 import latestReviews from './latestReviews';
 
 const CombinedReducer = combineReducers({
-  lectureSelected: lectureSelected,
+  reviewsFocus: reviewsFocus,
   latestReviews: latestReviews,
 });
 

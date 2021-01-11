@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { withTranslation } from 'react-i18next';
 import axios from 'axios';
 import ReactGA from 'react-ga';
 
@@ -9,12 +11,13 @@ import { appBoundClassNames as classNames } from '../common/boundClassNames';
 import Scroller from '../components/Scroller';
 import TakenLecturesSection from '../components/sections/write-reviews/TakenLecturesSection';
 import ReviewWriteSubSection from '../components/sections/write-reviews/ReviewWriteSubSection';
-import LatestReviewsSubSection from '../components/sections/write-reviews/LatestReviewsSubSection';
+import ReviewsSubSection from '../components/sections/write-reviews/ReviewsSubSection';
 
-import { reset as resetLectureSelected, clearLectureSelected } from '../actions/write-reviews/lectureSelected';
+import { reset as resetReviewsFocus, clearReviewsFocus } from '../actions/write-reviews/reviewsFocus';
 import { reset as resetLatestReviews, addReviews } from '../actions/write-reviews/latestReviews';
+import { NONE, LECTURE, LATEST } from '../reducers/write-reviews/reviewsFocus';
 
-import lectureShape from '../shapes/LectureShape';
+import reviewsFocusShape from '../shapes/ReviewsFocusShape';
 
 
 class WriteReviewsPage extends Component {
@@ -37,9 +40,9 @@ class WriteReviewsPage extends Component {
 
 
   componentWillUnmount() {
-    const { resetLectureSelectedDispatch, resetLatestReviewsDispatch } = this.props;
+    const { resetReviewsFocusDispatch, resetLatestReviewsDispatch } = this.props;
 
-    resetLectureSelectedDispatch();
+    resetReviewsFocusDispatch();
     resetLatestReviewsDispatch();
   }
 
@@ -93,6 +96,12 @@ class WriteReviewsPage extends Component {
 
   handleScroll = () => {
     const SCROLL_THRSHOLD = 100;
+
+    const { reviewsFocus } = this.props;
+    if (reviewsFocus.from !== LATEST) {
+      return;
+    }
+
     const refElement = this.rightSectionRef.current;
     const sectionPos = refElement.getBoundingClientRect().bottom;
     const scrollPos = refElement.querySelector(`.${classNames('section-contentt--latest-reviews__list-area')}`).getBoundingClientRect().bottom;
@@ -103,14 +112,14 @@ class WriteReviewsPage extends Component {
 
 
   unfix = () => {
-    const { clearLectureSelectedDispatch } = this.props;
+    const { clearReviewsFocusDispatch } = this.props;
 
-    clearLectureSelectedDispatch();
+    clearReviewsFocusDispatch();
   }
 
 
   render() {
-    const { selectedLecture } = this.props;
+    const { t, reviewsFocus } = this.props;
 
     return (
       <>
@@ -120,18 +129,55 @@ class WriteReviewsPage extends Component {
               <TakenLecturesSection />
             </div>
           </div>
-          <div className={classNames('section-wrap', 'section-wrap--desktop-1v3--right', 'mobile-modal', (selectedLecture ? '' : 'mobile-hidden'))}>
+          <div
+            className={classNames(
+              'section-wrap',
+              'section-wrap--desktop-1v3--right',
+              'mobile-modal',
+              ((reviewsFocus.from !== NONE) ? '' : 'mobile-hidden'),
+            )}
+          >
             <div className={classNames('section')}>
-              <div className={classNames('section-content', 'section-content--write-reviews-right')} ref={this.rightSectionRef}>
+              <div className={classNames('section-content', 'section-content--flex', 'section-content--write-reviews-right')} ref={this.rightSectionRef}>
                 <div className={classNames('close-button-wrap')}>
                   <button onClick={this.unfix}>
                     <i className={classNames('icon', 'icon--close-section')} />
                   </button>
                 </div>
-                <Scroller key={selectedLecture ? selectedLecture.id : 'unselected'} onScroll={this.handleScroll} expandTop={12}>
-                  <ReviewWriteSubSection />
-                  <LatestReviewsSubSection />
-                </Scroller>
+                { reviewsFocus.from === NONE
+                  ? (
+                    <div className={classNames('otlplus-placeholder')}>
+                      <div>
+                        OTL PLUS
+                      </div>
+                      <div>
+                        <Link to="/credits/">{t('ui.menu.credit')}</Link>
+                        &nbsp;|&nbsp;
+                        <Link to="/licenses/">{t('ui.menu.licences')}</Link>
+                      </div>
+                      <div>
+                        <a href="mailto:otlplus@sparcs.org">otlplus@sparcs.org</a>
+                      </div>
+                      <div>
+                        © 2016,&nbsp;
+                        <a href="http://sparcs.org">SPARCS</a>
+                        &nbsp;OTL Team
+                      </div>
+                    </div>
+                  )
+                  : (
+                    <Scroller
+                      key={reviewsFocus.from === LECTURE ? reviewsFocus.lecture.id : reviewsFocus.from}
+                      onScroll={this.handleScroll}
+                      expandTop={12}
+                    >
+                      <>
+                        <ReviewWriteSubSection />
+                        <ReviewsSubSection />
+                      </>
+                    </Scroller>
+                  )
+                }
               </div>
             </div>
           </div>
@@ -142,18 +188,18 @@ class WriteReviewsPage extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  selectedLecture: state.writeReviews.lectureSelected.lecture,
+  reviewsFocus: state.writeReviews.reviewsFocus,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   addReviewsDispatch: (reviews) => {
     dispatch(addReviews(reviews));
   },
-  clearLectureSelectedDispatch: () => {
-    dispatch(clearLectureSelected());
+  clearReviewsFocusDispatch: () => {
+    dispatch(clearReviewsFocus());
   },
-  resetLectureSelectedDispatch: () => {
-    dispatch(resetLectureSelected());
+  resetReviewsFocusDispatch: () => {
+    dispatch(resetReviewsFocus());
   },
   resetLatestReviewsDispatch: () => {
     dispatch(resetLatestReviews());
@@ -161,13 +207,13 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 WriteReviewsPage.propTypes = {
-  selectedLecture: lectureShape,
+  reviewsFocus: reviewsFocusShape.isRequired,
 
   addReviewsDispatch: PropTypes.func.isRequired,
-  clearLectureSelectedDispatch: PropTypes.func.isRequired,
-  resetLectureSelectedDispatch: PropTypes.func.isRequired,
+  clearReviewsFocusDispatch: PropTypes.func.isRequired,
+  resetReviewsFocusDispatch: PropTypes.func.isRequired,
   resetLatestReviewsDispatch: PropTypes.func.isRequired,
 };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(WriteReviewsPage);
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(WriteReviewsPage));

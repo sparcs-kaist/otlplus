@@ -52,7 +52,7 @@ class ReviewWriteSubSection extends Component {
 
 const mapStateToProps = (state) => ({
   user: state.common.user.user,
-  selectedLecture: state.writeReviews.lectureSelected.lecture,
+  selectedLecture: state.writeReviews.reviewsFocus.lecture,
 });
 
 const mapDispatchToProps = (dispatch) => ({
