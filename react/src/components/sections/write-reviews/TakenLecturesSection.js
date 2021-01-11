@@ -9,7 +9,7 @@ import { appBoundClassNames as classNames } from '../../../common/boundClassName
 import Scroller from '../../Scroller';
 import LectureSimpleBlock from '../../blocks/LectureSimpleBlock';
 
-import { setLectureSelected, clearLectureSelected } from '../../../actions/write-reviews/lectureSelected';
+import { setLectureSelected, clearLectureSelected } from '../../../actions/write-reviews/reviewsFocus';
 
 import userShape from '../../../shapes/UserShape';
 import lectureShape from '../../../shapes/LectureShape';
@@ -170,7 +170,7 @@ class TakenLecturesSection extends Component {
 
 const mapStateToProps = (state) => ({
   user: state.common.user.user,
-  selectedLecture: state.writeReviews.lectureSelected.lecture,
+  selectedLecture: state.writeReviews.reviewsFocus.lecture,
 });
 
 const mapDispatchToProps = (dispatch) => ({

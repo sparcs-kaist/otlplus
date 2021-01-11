@@ -11,7 +11,7 @@ import TakenLecturesSection from '../components/sections/write-reviews/TakenLect
 import ReviewWriteSubSection from '../components/sections/write-reviews/ReviewWriteSubSection';
 import LatestReviewsSubSection from '../components/sections/write-reviews/LatestReviewsSubSection';
 
-import { reset as resetLectureSelected, clearLectureSelected } from '../actions/write-reviews/lectureSelected';
+import { reset as resetLectureSelected, clearLectureSelected } from '../actions/write-reviews/reviewsFocus';
 import { reset as resetLatestReviews, addReviews } from '../actions/write-reviews/latestReviews';
 
 import lectureShape from '../shapes/LectureShape';
@@ -142,7 +142,7 @@ class WriteReviewsPage extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  selectedLecture: state.writeReviews.lectureSelected.lecture,
+  selectedLecture: state.writeReviews.reviewsFocus.lecture,
 });
 
 const mapDispatchToProps = (dispatch) => ({

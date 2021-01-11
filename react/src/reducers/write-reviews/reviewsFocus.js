@@ -1,4 +1,4 @@
-import { RESET, SET_LECTURE_SELECTED, CLEAR_LECTURE_SELECTED } from '../../actions/write-reviews/lectureSelected';
+import { RESET, SET_LECTURE_SELECTED, CLEAR_LECTURE_SELECTED } from '../../actions/write-reviews/reviewsFocus';
 
 export const NONE = 'NONE';
 export const LIST = 'LIST';
@@ -9,7 +9,7 @@ const initialState = {
   lecture: null,
 };
 
-const lectureSelected = (state = initialState, action) => {
+const reviewsFocus = (state = initialState, action) => {
   switch (action.type) {
     case RESET: {
       return initialState;
@@ -30,4 +30,4 @@ const lectureSelected = (state = initialState, action) => {
   }
 };
 
-export default lectureSelected;
+export default reviewsFocus;
