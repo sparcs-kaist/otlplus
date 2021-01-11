@@ -9,7 +9,8 @@ import { appBoundClassNames as classNames } from '../../../common/boundClassName
 import Scroller from '../../Scroller';
 import LectureSimpleBlock from '../../blocks/LectureSimpleBlock';
 
-import { setLectureSelected, clearLectureSelected } from '../../../actions/write-reviews/reviewsFocus';
+import { setReviewsFocus, clearReviewsFocus } from '../../../actions/write-reviews/reviewsFocus';
+import { LECTURE } from '../../../reducers/write-reviews/reviewsFocus';
 
 import userShape from '../../../shapes/UserShape';
 import lectureShape from '../../../shapes/LectureShape';
@@ -21,11 +22,11 @@ class TakenLecturesSection extends Component {
   handleBlockClick = (lecture) => (e) => {
     const {
       selectedLecture,
-      setLectureSelectedDispatch, clearLectureSelectedDispatch,
+      setReviewsFocusDispatch, clearReviewsFocusDispatch,
     } = this.props;
 
     if (selectedLecture && (lecture.id === selectedLecture.id)) {
-      clearLectureSelectedDispatch();
+      clearReviewsFocusDispatch();
 
       ReactGA.event({
         category: 'Write Reviews - Selection',
@@ -34,7 +35,7 @@ class TakenLecturesSection extends Component {
       });
     }
     else {
-      setLectureSelectedDispatch(lecture);
+      setReviewsFocusDispatch(LECTURE, lecture);
 
       ReactGA.event({
         category: 'Write Reviews - Selection',
@@ -174,11 +175,11 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  setLectureSelectedDispatch: (lecture) => {
-    dispatch(setLectureSelected(lecture));
+  setReviewsFocusDispatch: (from, lecture) => {
+    dispatch(setReviewsFocus(from, lecture));
   },
-  clearLectureSelectedDispatch: () => {
-    dispatch(clearLectureSelected());
+  clearReviewsFocusDispatch: () => {
+    dispatch(clearReviewsFocus());
   },
 });
 
@@ -186,8 +187,8 @@ TakenLecturesSection.propTypes = {
   user: userShape,
   selectedLecture: lectureShape,
 
-  setLectureSelectedDispatch: PropTypes.func.isRequired,
-  clearLectureSelectedDispatch: PropTypes.func.isRequired,
+  setReviewsFocusDispatch: PropTypes.func.isRequired,
+  clearReviewsFocusDispatch: PropTypes.func.isRequired,
 };
 
 

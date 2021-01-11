@@ -11,7 +11,7 @@ import TakenLecturesSection from '../components/sections/write-reviews/TakenLect
 import ReviewWriteSubSection from '../components/sections/write-reviews/ReviewWriteSubSection';
 import LatestReviewsSubSection from '../components/sections/write-reviews/LatestReviewsSubSection';
 
-import { reset as resetLectureSelected, clearLectureSelected } from '../actions/write-reviews/reviewsFocus';
+import { reset as resetReviewsFocus, clearReviewsFocus } from '../actions/write-reviews/reviewsFocus';
 import { reset as resetLatestReviews, addReviews } from '../actions/write-reviews/latestReviews';
 
 import lectureShape from '../shapes/LectureShape';
@@ -37,9 +37,9 @@ class WriteReviewsPage extends Component {
 
 
   componentWillUnmount() {
-    const { resetLectureSelectedDispatch, resetLatestReviewsDispatch } = this.props;
+    const { resetReviewsFocusDispatch, resetLatestReviewsDispatch } = this.props;
 
-    resetLectureSelectedDispatch();
+    resetReviewsFocusDispatch();
     resetLatestReviewsDispatch();
   }
 
@@ -103,9 +103,9 @@ class WriteReviewsPage extends Component {
 
 
   unfix = () => {
-    const { clearLectureSelectedDispatch } = this.props;
+    const { clearReviewsFocusDispatch } = this.props;
 
-    clearLectureSelectedDispatch();
+    clearReviewsFocusDispatch();
   }
 
 
@@ -149,11 +149,11 @@ const mapDispatchToProps = (dispatch) => ({
   addReviewsDispatch: (reviews) => {
     dispatch(addReviews(reviews));
   },
-  clearLectureSelectedDispatch: () => {
-    dispatch(clearLectureSelected());
+  clearReviewsFocusDispatch: () => {
+    dispatch(clearReviewsFocus());
   },
-  resetLectureSelectedDispatch: () => {
-    dispatch(resetLectureSelected());
+  resetReviewsFocusDispatch: () => {
+    dispatch(resetReviewsFocus());
   },
   resetLatestReviewsDispatch: () => {
     dispatch(resetLatestReviews());
@@ -164,8 +164,8 @@ WriteReviewsPage.propTypes = {
   selectedLecture: lectureShape,
 
   addReviewsDispatch: PropTypes.func.isRequired,
-  clearLectureSelectedDispatch: PropTypes.func.isRequired,
-  resetLectureSelectedDispatch: PropTypes.func.isRequired,
+  clearReviewsFocusDispatch: PropTypes.func.isRequired,
+  resetReviewsFocusDispatch: PropTypes.func.isRequired,
   resetLatestReviewsDispatch: PropTypes.func.isRequired,
 };
 

@@ -1,11 +1,12 @@
-import { RESET, SET_LECTURE_SELECTED, CLEAR_LECTURE_SELECTED } from '../../actions/write-reviews/reviewsFocus';
+import { RESET, SET_REVIEWS_FOCUS, CLEAR_REVIEWS_FOCUS } from '../../actions/write-reviews/reviewsFocus';
 
 export const NONE = 'NONE';
-export const LIST = 'LIST';
-export const TABLE = 'TABLE';
-export const MULTIPLE = 'MULTIPLE';
+export const LECTURE = 'LECTURE';
+export const LATEST = 'LATEST';
+export const MY = 'MY';
 
 const initialState = {
+  from: 'NONE',
   lecture: null,
 };
 
@@ -14,13 +15,15 @@ const reviewsFocus = (state = initialState, action) => {
     case RESET: {
       return initialState;
     }
-    case SET_LECTURE_SELECTED: {
+    case SET_REVIEWS_FOCUS: {
       return Object.assign({}, state, {
+        from: action.from,
         lecture: action.lecture,
       });
     }
-    case CLEAR_LECTURE_SELECTED: {
+    case CLEAR_REVIEWS_FOCUS: {
       return Object.assign({}, state, {
+        from: 'NONE',
         lecture: null,
       });
     }

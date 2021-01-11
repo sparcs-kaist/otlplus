@@ -2,8 +2,8 @@ const BASE_STRING = 'WR_LS_';
 
 /* eslint-disable prefer-template */
 export const RESET = BASE_STRING + 'RESET';
-export const SET_LECTURE_SELECTED = BASE_STRING + 'SET_LECTURE_SELECTED';
-export const CLEAR_LECTURE_SELECTED = BASE_STRING + 'CLEAR_LECTURE_SELECTED';
+export const SET_REVIEWS_FOCUS = BASE_STRING + 'SET_REVIEWS_FOCUS';
+export const CLEAR_REVIEWS_FOCUS = BASE_STRING + 'CLEAR_REVIEWS_FOCUS';
 /* eslint-enable prefer-template */
 
 
@@ -13,15 +13,16 @@ export function reset() {
   };
 }
 
-export function setLectureSelected(lecture) {
+export function setReviewsFocus(from, lecture) {
   return {
-    type: SET_LECTURE_SELECTED,
+    type: SET_REVIEWS_FOCUS,
+    from: from,
     lecture: lecture,
   };
 }
 
-export function clearLectureSelected() {
+export function clearReviewsFocus() {
   return {
-    type: CLEAR_LECTURE_SELECTED,
+    type: CLEAR_REVIEWS_FOCUS,
   };
 }
