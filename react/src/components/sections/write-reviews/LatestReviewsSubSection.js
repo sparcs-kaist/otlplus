@@ -39,7 +39,7 @@ class LatestReviewsSubSection extends Component {
     };
 
     const title = reviewsFocus.from === LECTURE
-      ? `${t('ui.title.latestReviews')} - ${reviewsFocus.lecture[t('js.property.title')]}`
+      ? `${t('ui.title.relatedReviews')} - ${reviewsFocus.lecture[t('js.property.title')]}`
       : (reviewsFocus.from === MY
         ? t('ui.title.myReviews')
         : t('ui.title.latestReviews')

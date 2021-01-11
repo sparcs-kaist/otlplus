@@ -1257,6 +1257,12 @@ a {
     &--taken-lectures{
         display: flex;
         flex-direction: column;
+
+        &__menus-list {
+            & > div:not(:first-child) {
+                margin-top: 8px;
+            }
+        }
     }
 
     &--review-write {

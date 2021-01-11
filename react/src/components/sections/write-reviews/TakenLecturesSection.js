@@ -10,12 +10,13 @@ import Scroller from '../../Scroller';
 import LectureSimpleBlock from '../../blocks/LectureSimpleBlock';
 
 import { setReviewsFocus, clearReviewsFocus } from '../../../actions/write-reviews/reviewsFocus';
-import { LECTURE } from '../../../reducers/write-reviews/reviewsFocus';
+import { LECTURE, LATEST, MY } from '../../../reducers/write-reviews/reviewsFocus';
 
 import userShape from '../../../shapes/UserShape';
 import lectureShape from '../../../shapes/LectureShape';
 
 import { unique, sum } from '../../../common/utilFunctions';
+import reviewsFocusShape from '../../../shapes/ReviewsFocusShape';
 
 
 class TakenLecturesSection extends Component {
@@ -46,33 +47,48 @@ class TakenLecturesSection extends Component {
   }
 
 
+  handleMenuClick = (from) => (e) => {
+    const {
+      setReviewsFocusDispatch,
+    } = this.props;
+
+    setReviewsFocusDispatch(from, null);
+
+    ReactGA.event({
+      category: 'Write Reviews - Selection',
+      action: 'Selected List',
+      label: `List : ${from}`,
+    });
+  }
+
+
   render() {
     const { t } = this.props;
-    const { user, selectedLecture } = this.props;
+    const { user, selectedLecture, reviewsFocus } = this.props;
 
     if (!user) {
       return (
         <div className={classNames('section-content', 'section-content--taken-lectures')}>
+          <div className={classNames('title')}>
+            {t('ui.title.takenLectures')}
+          </div>
+          <div className={classNames('scores')}>
+            <div>
+              <div> 
+                <span>-</span>
+                <span>/-</span>
+              </div> 
+              <div>{t('ui.score.reviewsWritten')}</div>
+            </div> 
+            <div>
+              <div> 
+                -
+              </div> 
+              <div>{t('ui.score.likes')}</div>
+            </div> 
+          </div>
+          <div className={classNames('divider')} />
           <Scroller expandTop={12}>
-            <div className={classNames('title')}>
-              {t('ui.title.takenLectures')}
-            </div>
-            <div className={classNames('scores')}>
-              <div>
-                <div>
-                  <span>-</span>
-                  <span>/-</span>
-                </div>
-                <div>{t('ui.score.reviewsWritten')}</div>
-              </div>
-              <div>
-                <div>
-                  -
-                </div>
-                <div>{t('ui.score.likes')}</div>
-              </div>
-            </div>
-            <div className={classNames('divider')} />
             <div className={classNames('list-placeholder')}>{t('ui.placeholder.noResults')}</div>
           </Scroller>
         </div>
@@ -99,29 +115,30 @@ class TakenLecturesSection extends Component {
 
     return (
       <div className={classNames('section-content', 'section-content--taken-lectures')}>
+        <div className={classNames('title')}>
+          {t('ui.title.takenLectures')}
+        </div>
+        <div className={classNames('scores')}>
+          <div>
+            <div> 
+              <span>{editableReviews.length}</span>
+              <span>{`/${writableTakenLectures.length}`}</span>
+            </div> 
+            <div>{t('ui.score.reviewsWritten')}</div>
+          </div> 
+          <div>
+            <div> 
+              {sum(editableReviews, (r) => r.like)}
+            </div> 
+            <div>{t('ui.score.likes')}</div>
+          </div> 
+        </div>
+        <div className={classNames('divider')} />
         <Scroller expandTop={12}>
-          <div className={classNames('title')}>
-            {t('ui.title.takenLectures')}
-          </div>
-          <div className={classNames('scores')}>
-            <div>
-              <div>
-                <span>{editableReviews.length}</span>
-                <span>{`/${writableTakenLectures.length}`}</span>
-              </div>
-              <div>{t('ui.score.reviewsWritten')}</div>
-            </div>
-            <div>
-              <div>
-                {sum(editableReviews, (r) => r.like)}
-              </div>
-              <div>{t('ui.score.likes')}</div>
-            </div>
-          </div>
           {targetSemesters.length
-            ? targetSemesters.map((s) => (
+            ? targetSemesters.map((s, i) => (
               <React.Fragment key={`${s.year}-${s.semester}`}>
-                <div className={classNames('divider')} />
+                { (i !== 0) ? <div className={classNames('divider')} /> : null }
                 <div className={classNames('small-title')}>
                   {`${s.year} ${semesterNames[s.semester]}`}
                 </div>
@@ -164,6 +181,31 @@ class TakenLecturesSection extends Component {
             : <div className={classNames('list-placeholder')}>{t('ui.placeholder.noResults')}</div>
           }
         </Scroller>
+        <div className={classNames('divider')} />
+        <div className={classNames('section-content--taken-lectures__menus-list')}>
+          <div>
+            <button
+              className={classNames(
+                'text-button',
+                ((reviewsFocus.from === LATEST) ? classNames('text-button--disabled') : ''),
+              )}
+              onClick={this.handleMenuClick(LATEST)}
+            >
+              {t('ui.title.latestReviews')}
+            </button>
+          </div>
+          <div>
+            <button
+              className={classNames(
+                'text-button',
+                ((reviewsFocus.from === MY) ? classNames('text-button--disabled') : ''),
+              )}
+              onClick={this.handleMenuClick(MY)}
+            >
+              {t('ui.title.myReviews')}
+            </button>
+          </div>
+        </div>
       </div>
     );
   }
@@ -172,6 +214,7 @@ class TakenLecturesSection extends Component {
 const mapStateToProps = (state) => ({
   user: state.common.user.user,
   selectedLecture: state.writeReviews.reviewsFocus.lecture,
+  reviewsFocus: state.writeReviews.reviewsFocus,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -186,6 +229,7 @@ const mapDispatchToProps = (dispatch) => ({
 TakenLecturesSection.propTypes = {
   user: userShape,
   selectedLecture: lectureShape,
+  reviewsFocus: reviewsFocusShape.isRequired,
 
   setReviewsFocusDispatch: PropTypes.func.isRequired,
   clearReviewsFocusDispatch: PropTypes.func.isRequired,
