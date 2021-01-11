@@ -142,3 +142,16 @@ def review_instance_like_view(request, review_id):
         
         ReviewVote.objects.create(review=review, userprofile=user_profile)
         return HttpResponse()
+
+
+@login_required_ajax
+@require_http_methods(['GET'])
+def user_instance_liked_reviews_view(request, user_id):
+    if request.method == 'GET':
+        userprofile = request.user.userprofile
+        if userprofile.id != int(user_id):
+            return HttpResponse(status=401)
+        reviews = Review.objects.filter(votes__userprofile=userprofile)[:500]
+
+        result = [r.toJson(user=request.user) for r in reviews]
+        return JsonResponse(result, safe=False)

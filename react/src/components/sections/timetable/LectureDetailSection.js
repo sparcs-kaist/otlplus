@@ -258,7 +258,7 @@ class LectureDetailSection extends Component {
             {lectureFocus.lecture.class_no.length ? ` (${lectureFocus.lecture.class_no})` : ''}
           </div>
           <div className={classNames('buttons')}>
-            <button onClick={this.unfix} className={classNames('text-button', (shouldShowUnfix ? '' : classNames('text-button--disabled')))}>{t('ui.button.unfix')}</button>
+            <button onClick={this.unfix} className={classNames('text-button', (shouldShowUnfix ? '' : 'text-button--disabled'))}>{t('ui.button.unfix')}</button>
             <a className={classNames('text-button', 'text-button--right')} href={`https://cais.kaist.ac.kr/syllabusInfo?year=${lectureFocus.lecture.year}&term=${lectureFocus.lecture.semester}&subject_no=${lectureFocus.lecture.code}&lecture_class=${lectureFocus.lecture.class_no}&dept_id=${lectureFocus.lecture.department}`} target="_blank" rel="noopener noreferrer">
               {t('ui.button.syllabus')}
             </a>
