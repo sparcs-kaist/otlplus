@@ -2821,6 +2821,10 @@ a {
         min-height: 300px;
     }
 
+    &.section-content--latest-reviews__list-area {
+        min-height: 300px;
+    }
+
     .section-content--taken-lectures & {
         @media #{$media-landscape} {
             min-height: calc(
