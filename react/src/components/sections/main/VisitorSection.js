@@ -11,7 +11,7 @@ class VisitorSection extends Component {
     return (
       <div className={classNames('section-content', 'section-content--visitor')}>
         <div className={classNames('visitor')}>
-          <div>{t('ui.title.notSignedIn')}</div>
+          <div>{t('ui.placeholder.loginRequired')}</div>
           <div>{t('ui.message.signInForMore')}</div>
         </div>
         <div className={classNames('buttons')}>
