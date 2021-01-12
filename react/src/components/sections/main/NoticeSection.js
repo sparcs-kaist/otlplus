@@ -4,11 +4,14 @@ import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
+import { formatNewlineToBr } from '../../../common/utilFunctions';
 
 
 class NoticeSection extends Component {
   render() {
     const { notice } = this.props;
+
+    const formattedContent = formatNewlineToBr(notice.content);
 
     return (
       <div className={classNames('section-content', 'section-content--notice')}>
@@ -16,7 +19,7 @@ class NoticeSection extends Component {
           { notice.title }
         </div>
         <div className={classNames('section-content--notice__content')}>
-          { notice.content }
+          { formattedContent }
         </div>
       </div>
     );

@@ -11,7 +11,7 @@ import TodaysTimetableSection from '../components/sections/main/TodaysTimetableS
 import AcademicScheduleSection from '../components/sections/main/AcademicScheduleSection';
 import VisitorSection from '../components/sections/main/VisitorSection';
 import RelatedCourseFeedSection from '../components/sections/main/RelatedCourseFeedSection';
-import LatestReviewFeedSection from '../components/sections/main/LatestReviewFeedSection';
+import LatestReviewSection from '../components/sections/main/LatestReviewSection';
 import FamousMajorReviewFeedSection from '../components/sections/main/FamousMajorReviewFeedSection';
 import FamousHumanityReviewFeedSection from '../components/sections/main/FamousHumanityReviewFeedSection';
 import ReviewWriteFeedSection from '../components/sections/main/ReviewWriteFeedSection';
@@ -231,15 +231,6 @@ class MainPage extends Component {
           </div>
         );
       }
-      if (feed.type === 'LATEST_REVIEW') {
-        return (
-          <div className={classNames('section-wrap', 'section-wrap--feed')} key={`${date.date}-${feed.type}`}>
-            <div className={classNames('section')}>
-              <LatestReviewFeedSection />
-            </div>
-          </div>
-        );
-      }
       if (feed.type === 'FAMOUS_MAJOR_REVIEW') {
         return (
           <div className={classNames('section-wrap', 'section-wrap--feed')} key={`${date.date}-${feed.type}-${feed.department.code}`}>
@@ -295,6 +286,11 @@ class MainPage extends Component {
           ))
         )
         : [],
+      <div className={classNames('section-wrap', 'section-wrap--feed')} key="LATEST_REVIEW">
+        <div className={classNames('section')}>
+          <LatestReviewSection />
+        </div>
+      </div>,
       !user
         ? [
           <div className={classNames('section-wrap', 'section-wrap--feed')} key="VISITOR">

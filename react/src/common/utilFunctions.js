@@ -1,3 +1,4 @@
+import React from 'react';
 
 export const unique = (array, compareFunction = undefined) => {
   if (!compareFunction) {
@@ -11,4 +12,27 @@ export const sum = (array, getFunction = undefined) => {
     return array.reduce((acc, v) => acc + v, 0);
   }
   return array.reduce((acc, v) => acc + getFunction(v), 0);
+};
+
+export const formatNewlineToBr = (content) => {
+  const contentLines = content.split('\n');
+  return contentLines
+    .map((l, i) => ({
+      key: i,
+      content: l,
+    })) // Workaround key error
+    .map((l, i) => (
+      (i === contentLines.length - 1)
+        ? (
+          <React.Fragment key={l.key}>
+            {l.content}
+          </React.Fragment>
+        )
+        : (
+          <React.Fragment key={l.key}>
+            {l.content}
+            <br />
+          </React.Fragment>
+        )
+    ));
 };
