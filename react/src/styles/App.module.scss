@@ -2133,15 +2133,26 @@ a {
 
 
     &--search {
-        color: $color-highlight;
         cursor: pointer;
 
-        &:hover {
-            color: $color-highlight-dark;
+        & > span:nth-child(2) {
+            margin-left: 6px;
+            color: $color-highlight;
+
+            @at-root :hover#{&} {
+                color: $color-highlight-dark;
+            }
         }
 
-        & > span {
-            margin-left: 6px;
+        & > span:nth-child(3) {
+            margin-left: 4px;
+            color: $color-text-lighter;
+            font-size: $font-size-small;
+            line-height: $line-height-small;
+
+            @at-root :hover#{&} {
+                color: $color-text-light;
+            }
         }
 
         .search-area & {

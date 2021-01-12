@@ -14,7 +14,7 @@ import {
 import {
   setSelectedListCode, setListLectures, clearAllListsLectures,
 } from '../../actions/timetable/list';
-import { openSearch, closeSearch } from '../../actions/timetable/search';
+import { openSearch, closeSearch, setLastSearchOption } from '../../actions/timetable/search';
 
 import userShape from '../../shapes/UserShape';
 import lectureListsShape from '../../shapes/LectureListsShape';
@@ -37,6 +37,7 @@ class LectureListTabs extends Component {
       selectedListCode,
       year, semester,
       clearAllListsLecturesDispatch,
+      setLastSearchOptionDispatch,
     } = this.props;
 
     if (user && !prevProps.user) {
@@ -45,6 +46,7 @@ class LectureListTabs extends Component {
 
     if (year !== prevProps.year || semester !== prevProps.semester) {
       clearAllListsLecturesDispatch();
+      setLastSearchOptionDispatch({});
       this._fetchList(CART, true);
       if (selectedListCode !== CART) {
         this._fetchList(selectedListCode, true);
@@ -298,6 +300,9 @@ const mapDispatchToProps = (dispatch) => ({
   clearAllListsLecturesDispatch: () => {
     dispatch(clearAllListsLectures());
   },
+  setLastSearchOptionDispatch: (lastSearchOption) => {
+    dispatch(setLastSearchOption(lastSearchOption));
+  },
 });
 
 LectureListTabs.propTypes = {
@@ -312,6 +317,7 @@ LectureListTabs.propTypes = {
   setSelectedListCodeDispatch: PropTypes.func.isRequired,
   setListLecturesDispatch: PropTypes.func.isRequired,
   clearAllListsLecturesDispatch: PropTypes.func.isRequired,
+  setLastSearchOptionDispatch: PropTypes.func.isRequired,
 };
 
 export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(LectureListTabs));

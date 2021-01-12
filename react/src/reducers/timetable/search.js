@@ -1,11 +1,13 @@
 import {
   RESET,
   OPEN_SEARCH, CLOSE_SEARCH,
+  SET_LAST_SEARCH_OPTION,
   DRAG_SEARCH, CLEAR_DRAG,
 } from '../../actions/timetable/search';
 
 const initialState = {
   open: true,
+  lastSearchOption: {},
   start: null,
   end: null,
   day: null,
@@ -27,6 +29,11 @@ const search = (state = initialState, action) => {
         start: null,
         end: null,
         day: null,
+      });
+    }
+    case SET_LAST_SEARCH_OPTION: {
+      return Object.assign({}, state, {
+        lastSearchOption: action.lastSearchOption,
       });
     }
     case DRAG_SEARCH: {

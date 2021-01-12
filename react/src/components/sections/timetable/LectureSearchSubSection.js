@@ -11,7 +11,7 @@ import { SEARCH } from '../../../reducers/timetable/list';
 import SearchFilter from '../../SearchFilter';
 import Scroller from '../../Scroller';
 
-import { closeSearch, clearDrag } from '../../../actions/timetable/search';
+import { closeSearch, clearDrag, setLastSearchOption } from '../../../actions/timetable/search';
 import { setListLectures, clearSearchListLectures } from '../../../actions/timetable/list';
 import { clearLectureFocus } from '../../../actions/timetable/lectureFocus';
 
@@ -50,6 +50,7 @@ class LectureSearchSubSection extends Component {
       start, day, end,
       closeSearchDispatch, clearSearchListLecturesDispatch,
       setListLecturesDispatch, clearLectureFocusDispatch,
+      setLastSearchOptionDispatch,
     } = this.props;
 
     if (
@@ -63,8 +64,20 @@ class LectureSearchSubSection extends Component {
       alert(t('ui.message.blankSearch'));
       return;
     }
+
+    const option = {
+      keyword: keyword,
+      type: Array.from(selectedTypes),
+      department: Array.from(selectedDepartments),
+      grade: Array.from(selectedLevels),
+      day: (day !== null) ? day : '',
+      begin: (start !== null) ? start.toString() : '',
+      end: (end !== null) ? end.toString() : '',
+    };
+
     closeSearchDispatch();
     clearSearchListLecturesDispatch();
+    setLastSearchOptionDispatch(option);
     if (lectureFocus.from === 'LIST') {
       clearLectureFocusDispatch();
     }
@@ -75,13 +88,7 @@ class LectureSearchSubSection extends Component {
         params: {
           year: year,
           semester: semester,
-          department: Array.from(selectedDepartments),
-          type: Array.from(selectedTypes),
-          grade: Array.from(selectedLevels),
-          keyword: keyword,
-          begin: (start !== null) ? start.toString() : '',
-          end: (end !== null) ? end.toString() : '',
-          day: (day !== null) ? day.toString() : '',
+          ...option,
         },
         metadata: {
           gaCategory: 'Timetable',
@@ -299,6 +306,9 @@ const mapDispatchToProps = (dispatch) => ({
   clearLectureFocusDispatch: () => {
     dispatch(clearLectureFocus());
   },
+  setLastSearchOptionDispatch: (lastSearchOption) => {
+    dispatch(setLastSearchOption(lastSearchOption));
+  },
 });
 
 LectureSearchSubSection.propTypes = {
@@ -314,6 +324,7 @@ LectureSearchSubSection.propTypes = {
   setListLecturesDispatch: PropTypes.func.isRequired,
   clearSearchListLecturesDispatch: PropTypes.func.isRequired,
   clearLectureFocusDispatch: PropTypes.func.isRequired,
+  setLastSearchOptionDispatch: PropTypes.func.isRequired,
 };
 
 

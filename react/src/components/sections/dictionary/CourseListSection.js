@@ -22,6 +22,7 @@ import courseShape from '../../../shapes/CourseShape';
 import courseFocusShape from '../../../shapes/CourseFocusShape';
 import courseListsShape from '../../../shapes/CourseListsShape';
 import userShape from '../../../shapes/UserShape';
+import { getNameKeyOfValue, departmentOptions, typeOptions, levelOptions, termOptions } from '../../../common/seachOptions';
 
 
 class CourseListSection extends Component {
@@ -101,7 +102,8 @@ class CourseListSection extends Component {
     const { t } = this.props;
     const {
       user,
-      courseFocus, selectedListCode, searchOpen,
+      courseFocus, selectedListCode,
+      searchOpen, lastSearchOption,
       readCourses,
     } = this.props;
 
@@ -132,6 +134,28 @@ class CourseListSection extends Component {
       );
     };
 
+    const lastSearchOptionText = Object.entries(lastSearchOption)
+      .map((e) => {
+        if (e[0] === 'keyword' && e[1].length > 0) {
+          return e[1];
+        }
+        if (e[0] === 'type' && !e[1].includes('ALL')) {
+          return e[1].map((c) => t(getNameKeyOfValue(typeOptions, c)));
+        }
+        if (e[0] === 'department' && !e[1].includes('ALL')) {
+          return e[1].map((c) => t(getNameKeyOfValue(departmentOptions, c)));
+        }
+        if (e[0] === 'grade' && !e[1].includes('ALL')) {
+          return e[1].map((c) => t(getNameKeyOfValue(levelOptions, c)));
+        }
+        if (e[0] === 'term' && !e[1].includes('ALL')) {
+          return e[1].map((c) => t(getNameKeyOfValue(termOptions, c)));
+        }
+        return [];
+      })
+      .flat(1)
+      .join(', ');
+
     if (selectedListCode === SEARCH) {
       return (
         <div className={classNames('section-content', 'section-content--flex', 'section-content--course-list')}>
@@ -139,6 +163,7 @@ class CourseListSection extends Component {
           <div className={classNames('title', 'title--search')} onClick={() => this.showSearch()}>
             <i className={classNames('icon', 'icon--search')} />
             <span>{t('ui.tab.search')}</span>
+            <span>{lastSearchOptionText.length > 0 ? `:${lastSearchOptionText}` : ''}</span>
           </div>
           { getListElement(this._getCourses(selectedListCode)) }
         </div>
@@ -196,6 +221,7 @@ const mapStateToProps = (state) => ({
   readCourses: state.dictionary.list.readCourses,
   courseFocus: state.dictionary.courseFocus,
   searchOpen: state.dictionary.search.open,
+  lastSearchOption: state.dictionary.search.lastSearchOption,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -217,6 +243,7 @@ CourseListSection.propTypes = {
   readCourses: PropTypes.arrayOf(courseShape).isRequired,
   courseFocus: courseFocusShape.isRequired,
   searchOpen: PropTypes.bool.isRequired,
+  lastSearchOption: PropTypes.object.isRequired,
 
   openSearchDispatch: PropTypes.func.isRequired,
   setCourseFocusDispatch: PropTypes.func.isRequired,
