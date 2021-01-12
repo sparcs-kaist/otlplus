@@ -10,6 +10,7 @@ import { getProfessorsShortStr } from '../../common/lectureFunctions';
 import { getSingleScoreLabel } from '../../common/scoreFunctions';
 
 import reviewShape from '../../shapes/ReviewShape';
+import { formatNewlineToBr } from '../../common/utilFunctions';
 
 
 const ReviewBlock = ({
@@ -63,26 +64,7 @@ const ReviewBlock = ({
 
   const RootTag = linkTo ? Link : 'div';
 
-  const contentLines = review.content.split('\n');
-  const contentDisplay = contentLines
-    .map((l, i) => ({
-      key: i,
-      content: l,
-    })) // Workaround key error
-    .map((l, i) => (
-      (i === contentLines.length - 1)
-        ? (
-          <React.Fragment key={l.key}>
-            {l.content}
-          </React.Fragment>
-        )
-        : (
-          <React.Fragment key={l.key}>
-            {l.content}
-            <br />
-          </React.Fragment>
-        )
-    ));
+  const contentDisplay = formatNewlineToBr(review.content);
 
   return (
     <RootTag className={classNames('block', 'block--review')} to={linkTo}>
