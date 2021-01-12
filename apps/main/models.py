@@ -185,7 +185,7 @@ class RateDailyUserFeed(DailyUserFeed):
         try:
             feed = cls.objects.get(date=date, user=user)
         except cls.DoesNotExist:
-            if Rate.objects.filter(user=user, year=datetime.datetime.now().year).exists():
+            if Rate.objects.filter(user=user, year=datetime.datetime.now().year, visible=True).exists():
                 return None
             now = datetime.datetime.now()
             if RateDailyUserFeed.objects.filter(date__gt=now-datetime.timedelta(days=cls.MIN_DAYS_INTERVAL), date__lt=now+datetime.timedelta(days=cls.MIN_DAYS_INTERVAL)).exists():
