@@ -2700,6 +2700,7 @@ a {
     z-index: 20;
 
     & :global(.ScrollbarsCustom) {
+        flex: 1 1 auto !important;
     }
 
     & :global(.ScrollbarsCustom-Wrapper) {

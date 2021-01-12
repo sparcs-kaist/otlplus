@@ -26,7 +26,7 @@ class Scroller extends Component {
       <Scrollbar
         className={[(noScrollX ? 'noX' : ''), (noScrollY ? 'noY' : '')].join(' ')}
         style={{
-          flex: 'auto',
+          flex: '1 1 0px',
           marginTop: `-${expandTop}px`,
           marginBottom: `-${expandBottom}px`,
           display: 'flex',
