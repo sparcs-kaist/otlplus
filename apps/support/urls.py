@@ -19,4 +19,5 @@ from . import views
 
 urlpatterns = [
     url(r'^notices$', views.notices_view),
+    url(r'^rates$', views.rate_list_view),
 ]
