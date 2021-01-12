@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { withTranslation } from 'react-i18next';
 import qs from 'qs';
 import axios from 'axios';
@@ -68,9 +69,9 @@ class LatestReviewSection extends Component {
         </div>
         {this.mapReviewsToElement(reviews)}
         <div className={classNames('buttons')}>
-          <button className={classNames('text-button')}>
+          <Link to="/write-reviews" className={classNames('text-button')}>
             {t('ui.button.seeMoreReviews')}
-          </button>
+          </Link>
         </div>
       </div>
     );
