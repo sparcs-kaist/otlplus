@@ -18,6 +18,7 @@ import ReviewWriteFeedSection from '../components/sections/main/ReviewWriteFeedS
 import MainSearchSection from '../components/sections/main/MainSearchSection';
 import userShape from '../shapes/UserShape';
 import NoticeSection from '../components/sections/main/NoticeSection';
+import RateFeedSection from '../components/sections/main/RateFeedSection ';
 
 
 class MainPage extends Component {
@@ -33,6 +34,9 @@ class MainPage extends Component {
       isLoading: false,
       isPortrait: this.portraitMediaQuery.matches,
     };
+
+    // eslint-disable-next-line fp/no-mutation
+    this.contentRef = React.createRef();
   }
 
 
@@ -83,7 +87,9 @@ class MainPage extends Component {
       return;
     }
 
-    if ((window.scrollY + window.innerHeight) > (document.body.scrollHeight - SCROLL_BOTTOM_PADDING)) {
+    const columns = Array.from(this.contentRef.current.querySelectorAll('.masonry-grid_column'));
+
+    if (columns.some((cl) => (cl.lastChild.getBoundingClientRect().bottom < window.innerHeight + SCROLL_BOTTOM_PADDING))) {
       this._fetchFeeds(this._getPrevDate());
     }
   }
@@ -114,7 +120,7 @@ class MainPage extends Component {
     if (!user) {
       return;
     }
-    if (this._getDateDifference(date) >= 7) {
+    if (this._getDateDifference(date) >= 14) {
       return;
     }
 
@@ -255,6 +261,15 @@ class MainPage extends Component {
           </div>
         );
       }
+      if (feed.type === 'RATE') {
+        return (
+          <div className={classNames('section-wrap', 'section-wrap--feed')} key={`${date.date}-${feed.type}`}>
+            <div className={classNames('section')}>
+              <RateFeedSection rated={feed.rated} />
+            </div>
+          </div>
+        );
+      }
       return null;
     };
 
@@ -301,7 +316,7 @@ class MainPage extends Component {
             </div>
           </div>
         </section>
-        <section className={classNames('content', 'content--main')}>
+        <section className={classNames('content', 'content--main')} ref={this.contentRef}>
           <Masonry
             breakpointCols={isPortrait ? 1 : 3}
             className={classNames('masonry-grid')}

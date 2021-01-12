@@ -2,11 +2,14 @@
 from __future__ import unicode_literals
 
 from django.views.decorators.http import require_http_methods, require_POST
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse, HttpResponseBadRequest
 from django.shortcuts import render
 
-from .models import Notice
+from .models import Notice, Rate
 
+import datetime
+import json
+from utils.util import getint
 
 # Create your views here.
 
@@ -21,3 +24,25 @@ def notices_view(request):
         
         result = [n.toJson() for n in notices]
         return JsonResponse(result, safe=False)
+
+
+@require_http_methods(['POST'])
+def rate_list_view(request):
+    if request.method == 'POST':
+        body = json.loads(request.body.decode('utf-8'))
+
+        user = request.user
+        if not (user and user.is_authenticated()):
+            return HttpResponse(status=401)
+        
+        current_year = datetime.datetime.now().year
+        if Rate.objects.filter(user=user.userprofile, year=current_year).exists():
+            return HttpResponseBadRequest('You already rated for current year')
+
+        score = getint(body, 'score')
+        if not (1 <= score <= 5):
+            return HttpResponseBadRequest('Wrong field \'score\' in request data')
+
+        rate = Rate.objects.create(score=score, user=user.userprofile, year=current_year)
+
+        return HttpResponse()

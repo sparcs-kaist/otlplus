@@ -2,6 +2,8 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.core.validators import MinValueValidator, MaxValueValidator
+from apps.session.models import UserProfile
 
 # Create your models here.
 
@@ -20,3 +22,15 @@ class Notice(models.Model):
             "content": self.content,
         }
         return result
+
+
+class Rate(models.Model):
+    score = models.SmallIntegerField(validators = [MinValueValidator(1), MaxValueValidator(5)])
+    user = models.ForeignKey(UserProfile, related_name='rates', on_delete=models.CASCADE)
+    year = models.SmallIntegerField()
+    created_datetime = models.DateTimeField(auto_now_add=True, db_index=True, null=True)
+
+    class Meta:
+        unique_together = (
+            ("user", "year",)
+        )
