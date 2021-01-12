@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from django.conf import settings
 from django.views.decorators.http import require_http_methods, require_POST
 from django.http import JsonResponse, HttpResponse, HttpResponseBadRequest
 from django.shortcuts import render
@@ -43,6 +44,6 @@ def rate_list_view(request):
         if not (1 <= score <= 5):
             return HttpResponseBadRequest('Wrong field \'score\' in request data')
 
-        rate = Rate.objects.create(score=score, user=user.userprofile, year=current_year)
+        rate = Rate.objects.create(score=score, user=user.userprofile, year=current_year, version=settings.VERSION)
 
         return HttpResponse()
