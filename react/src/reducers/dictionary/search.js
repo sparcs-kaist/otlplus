@@ -1,7 +1,8 @@
-import { RESET, OPEN_SEARCH, CLOSE_SEARCH } from '../../actions/dictionary/search';
+import { RESET, OPEN_SEARCH, CLOSE_SEARCH, SET_LAST_SEARCH_OPTION } from '../../actions/dictionary/search';
 
 const initialState = {
   open: true,
+  lastSearchOption: {},
 };
 
 const search = (state = initialState, action) => {
@@ -20,6 +21,11 @@ const search = (state = initialState, action) => {
         start: null,
         end: null,
         day: null,
+      });
+    }
+    case SET_LAST_SEARCH_OPTION: {
+      return Object.assign({}, state, {
+        lastSearchOption: action.lastSearchOption,
       });
     }
     default: {

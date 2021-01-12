@@ -6,6 +6,7 @@ export const OPEN_SEARCH = BASE_STRING + 'OPEN_SEARCH';
 export const CLOSE_SEARCH = BASE_STRING + 'CLOSE_SEARCH';
 export const DRAG_SEARCH = BASE_STRING + 'DRAG_SEARCH';
 export const CLEAR_DRAG = BASE_STRING + 'CLEAR_DRAG';
+export const SET_LAST_SEARCH_OPTION = BASE_STRING + 'SET_LAST_SEARCH_OPTION';
 /* eslint-enable prefer-template */
 
 
@@ -24,6 +25,13 @@ export function openSearch() {
 export function closeSearch() {
   return {
     type: CLOSE_SEARCH,
+  };
+}
+
+export function setLastSearchOption(lastSearchOption) {
+  return {
+    type: SET_LAST_SEARCH_OPTION,
+    lastSearchOption: lastSearchOption,
   };
 }
 

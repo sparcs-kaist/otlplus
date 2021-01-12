@@ -11,7 +11,7 @@ import { SEARCH } from '../../../reducers/dictionary/list';
 import SearchFilter from '../../SearchFilter';
 import Scroller from '../../Scroller';
 
-import { closeSearch } from '../../../actions/dictionary/search';
+import { closeSearch, setLastSearchOption } from '../../../actions/dictionary/search';
 import { setListCourses, clearSearchListCourses } from '../../../actions/dictionary/list';
 import { clearCourseFocus } from '../../../actions/dictionary/courseFocus';
 
@@ -48,6 +48,7 @@ class CourseSearchSubSection extends Component {
     const {
       closeSearchDispatch, clearSearchListCoursesDispatch,
       setListCoursesDispatch, clearCourseFocusDispatch,
+      setLastSearchOptionDispatch,
     } = this.props;
 
     if (
@@ -60,19 +61,25 @@ class CourseSearchSubSection extends Component {
       alert(t('ui.message.blankSearch'));
       return;
     }
+
+    const option = {
+      keyword: keyword,
+      type: Array.from(selectedTypes),
+      department: Array.from(selectedDepartments),
+      grade: Array.from(selectedLevels),
+      term: Array.from(selectedTerms),
+    };
+
     closeSearchDispatch();
     clearSearchListCoursesDispatch();
+    setLastSearchOptionDispatch(option);
     clearCourseFocusDispatch();
 
     axios.get(
       '/api/courses',
       {
         params: {
-          department: Array.from(selectedDepartments),
-          type: Array.from(selectedTypes),
-          grade: Array.from(selectedLevels),
-          term: Array.from(selectedTerms),
-          keyword: keyword,
+          ...option,
         },
         metadata: {
           gaCategory: 'Course',
@@ -250,6 +257,9 @@ const mapDispatchToProps = (dispatch) => ({
   clearCourseFocusDispatch: () => {
     dispatch(clearCourseFocus());
   },
+  setLastSearchOptionDispatch: (lastSearchOption) => {
+    dispatch(setLastSearchOption(lastSearchOption));
+  },
 });
 
 CourseSearchSubSection.propTypes = {
@@ -257,6 +267,7 @@ CourseSearchSubSection.propTypes = {
   setListCoursesDispatch: PropTypes.func.isRequired,
   clearSearchListCoursesDispatch: PropTypes.func.isRequired,
   clearCourseFocusDispatch: PropTypes.func.isRequired,
+  setLastSearchOptionDispatch: PropTypes.func.isRequired,
 };
 
 

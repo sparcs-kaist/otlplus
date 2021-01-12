@@ -68,3 +68,13 @@ export const termOptions = [
   ['ALL', 'ui.term.allShort'],
   ['3', 'ui.term.3yearsShort'],
 ];
+
+
+export const getNameKeyOfValue = (options, value) => {
+  const matchedOption = options.find((o) => o[0] === value);
+  console.log(matchedOption);
+  if (!matchedOption) {
+    return 'Unknown';
+  }
+  return matchedOption[1];
+};

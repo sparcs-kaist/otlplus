@@ -30,6 +30,7 @@ import {
 } from '../../../common/lectureFunctions';
 import { isTaken } from '../../../common/courseFunctions';
 import LectureGroupBlock from '../../blocks/LectureGroupBlock';
+import { getNameKeyOfValue, departmentOptions, typeOptions, levelOptions } from '../../../common/seachOptions';
 
 
 class LectureListSection extends Component {
@@ -229,7 +230,7 @@ class LectureListSection extends Component {
     const {
       user,
       lectureFocus, selectedTimetable, selectedListCode,
-      searchOpen,
+      searchOpen, lastSearchOption,
       lists,
     } = this.props;
 
@@ -264,6 +265,34 @@ class LectureListSection extends Component {
       );
     };
 
+    const lastSearchOptionText = Object.entries(lastSearchOption)
+      .map((e) => {
+        if (e[0] === 'keyword' && e[1].length > 0) {
+          return e[1];
+        }
+        if (e[0] === 'type' && !e[1].includes('ALL')) {
+          return e[1].map((c) => t(getNameKeyOfValue(typeOptions, c)));
+        }
+        if (e[0] === 'department' && !e[1].includes('ALL')) {
+          return e[1].map((c) => t(getNameKeyOfValue(departmentOptions, c)));
+        }
+        if (e[0] === 'grade' && !e[1].includes('ALL')) {
+          return e[1].map((c) => t(getNameKeyOfValue(levelOptions, c)));
+        }
+        return [];
+      })
+      .flat(1)
+      .concat(
+        (lastSearchOption.day && lastSearchOption.day !== '')
+          ? [
+            `${[t('ui.day.monday'), t('ui.day.tuesday'), t('ui.day.wednesday'), t('ui.day.thursday'), t('ui.day.friday')][lastSearchOption.day]} \
+            ${8 + Math.floor(lastSearchOption.begin / 2)}:${['00', '30'][lastSearchOption.begin % 2]} ~ \
+            ${8 + Math.floor(lastSearchOption.end / 2)}:${['00', '30'][lastSearchOption.end % 2]}`,
+          ]
+          : [],
+      )
+      .join(', ');
+
     if (selectedListCode === SEARCH) {
       return (
         <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
@@ -276,6 +305,7 @@ class LectureListSection extends Component {
           <div className={classNames('title', 'title--search')} onClick={() => this.showSearch()}>
             <i className={classNames('icon', 'icon--search')} />
             <span>{t('ui.tab.search')}</span>
+            <span>{lastSearchOptionText.length > 0 ? `:${lastSearchOptionText}` : ''}</span>
           </div>
           <>
             <div className={classNames('section-content--lecture-list__selector')} ref={this.arrowRef}>
@@ -381,6 +411,7 @@ const mapStateToProps = (state) => ({
   year: state.timetable.semester.year,
   semester: state.timetable.semester.semester,
   searchOpen: state.timetable.search.open,
+  lastSearchOption: state.timetable.search.lastSearchOption,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -417,6 +448,7 @@ LectureListSection.propTypes = {
   year: PropTypes.number,
   semester: PropTypes.number,
   searchOpen: PropTypes.bool.isRequired,
+  lastSearchOption: PropTypes.object.isRequired,
 
   openSearchDispatch: PropTypes.func.isRequired,
   setLectureFocusDispatch: PropTypes.func.isRequired,
