@@ -174,7 +174,7 @@ class RelatedCourseDailyUserFeed(DailyUserFeed):
 
 
 class RateDailyUserFeed(DailyUserFeed):
-    VISIBLE_RATE_BASE = 0.05
+    VISIBLE_RATE_BASE = 0.15
 
     class Meta:
         unique_together = [['date', 'user']]
