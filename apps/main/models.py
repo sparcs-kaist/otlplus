@@ -3,8 +3,10 @@ from django.db import models
 from apps.session.models import UserProfile
 from apps.subject.models import Lecture, Department, Course
 from apps.review.models import Review, MajorBestReview, HumanityBestReview
+from apps.support.models import Rate
 
 import random
+import datetime
 
 # Create your models here.
 
@@ -170,3 +172,32 @@ class RelatedCourseDailyUserFeed(DailyUserFeed):
         }
         return result
 
+
+class RateDailyUserFeed(DailyUserFeed):
+    VISIBLE_RATE_BASE = 0.05
+
+    class Meta:
+        unique_together = [['date', 'user']]
+
+    @classmethod
+    def get(cls, date, user):
+        try:
+            feed = cls.objects.get(date=date, user=user)
+        except cls.DoesNotExist:
+            if Rate.objects.filter(user=user, year=datetime.datetime.now().year).exists():
+                return None
+            visible = random.random() < cls.VISIBLE_RATE_BASE
+            feed = cls.objects.create(date=date, user=user, priority=random.random(), visible=visible)
+        if not feed.visible:
+            return None
+        else:
+            return feed
+
+    def toJson(self, nested=False, user=None):
+        result = {
+            "type": "RATE",
+            "date": self.date,
+            "priority": self.priority,
+            "rated": Rate.objects.filter(user=self.user, year=datetime.datetime.now().year).exists()
+        }
+        return result
