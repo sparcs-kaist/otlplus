@@ -89,7 +89,7 @@ class TakenLecturesSection extends Component {
           </div>
           <div className={classNames('divider')} />
           <Scroller expandTop={12}>
-            <div className={classNames('list-placeholder')}>{t('ui.placeholder.noResults')}</div>
+            <div className={classNames('list-placeholder')}>{t('ui.placeholder.loginRequired')}</div>
           </Scroller>
           <div className={classNames('divider')} />
           <div className={classNames('section-content--taken-lectures__menus-list')}>

@@ -77,10 +77,10 @@ class ReviewsSubSection extends Component {
 
     const mapReviewsToElement = (reviews) => {
       if (reviews == null) {
-        return <div>{t('ui.placeholder.loading')}</div>;
+        return <div className={classNames('list-placeholder')}>{t('ui.placeholder.loading')}</div>;
       }
       if (reviews.length === 0) {
-        return <div>{t('ui.placeholder.noResults')}</div>;
+        return <div className={classNames('list-placeholder')}>{t('ui.placeholder.noResults')}</div>;
       }
       return reviews.map((r) => (
         <ReviewBlock review={r} shouldLimitLines={false} linkTo={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: r.course.id }) }} pageFrom="Write Reviews" key={r.id} />
