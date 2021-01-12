@@ -149,6 +149,8 @@ LOGIN_URL = '/session/login/'
 LOGOUT_URL = '/session/logout/'
 
 
+VERSION = '3.2.1.0'
+
 
 try:
     from settings_local import *
