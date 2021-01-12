@@ -175,7 +175,7 @@ class RelatedCourseDailyUserFeed(DailyUserFeed):
 
 class RateDailyUserFeed(DailyUserFeed):
     VISIBLE_RATE_BASE = 0.15
-    MIN_DAYS_INTEVAL = 14
+    MIN_DAYS_INTERVAL = 14
 
     class Meta:
         unique_together = [['date', 'user']]
@@ -188,7 +188,7 @@ class RateDailyUserFeed(DailyUserFeed):
             if Rate.objects.filter(user=user, year=datetime.datetime.now().year).exists():
                 return None
             now = datetime.datetime.now()
-            if RateDailyUserFeed.objects.filter(date__gt=now-datetime.timedelta(days=MIN_DAYS_INTERVAL), days__lt=now+datetime.timedelta(days=MIN_DAYS_INTERVAL)).exists():
+            if RateDailyUserFeed.objects.filter(date__gt=now-datetime.timedelta(days=cls.MIN_DAYS_INTERVAL), date__lt=now+datetime.timedelta(days=cls.MIN_DAYS_INTERVAL)).exists():
                 return None
             visible = random.random() < cls.VISIBLE_RATE_BASE
             feed = cls.objects.create(date=date, user=user, priority=random.random(), visible=visible)
