@@ -31,6 +31,7 @@
       "likedReviews": "Liked Reviews",
       "famousMajorReviews": "Famous Major Reviews",
       "famousHumanityReviews": "Famous Humanity Reviews",
+      "rateOtl": "Rate OTL",
       "writeReview": "Write Review",
       "notSignedIn": "You are not signed in",
       "myInformation": "My Information",
@@ -75,6 +76,7 @@
       "seeMoreReviews": "See More Reviews",
       "writeMoreReviews": "Write More Reviews",
       "save": "Save",
+      "submit": "Submit",
       "signOut": "Sign Out"
     },
     "attribute": {
@@ -216,6 +218,7 @@
       "emptyContent": "Please enter the comment.",
       "scoreNotSelected": "Please select all scores.",
       "reportUnderDevelopment": "This featuer is under development. Please report improper reviews to otlplus@sparcs.org.",
+      "alreadyRated": "You already rated OTL.",
       "myInfoCaptionHead": "You can change this information at ",
       "myInfoCaptionTail": ".",
       "academicInfoCaptionHead": "This information is fetched from KAIST Portal. In case the information is not correct, please contact ",

@@ -18,6 +18,7 @@ import ReviewWriteFeedSection from '../components/sections/main/ReviewWriteFeedS
 import MainSearchSection from '../components/sections/main/MainSearchSection';
 import userShape from '../shapes/UserShape';
 import NoticeSection from '../components/sections/main/NoticeSection';
+import RateFeedSection from '../components/sections/main/RateFeedSection ';
 
 
 class MainPage extends Component {
@@ -256,6 +257,15 @@ class MainPage extends Component {
           <div className={classNames('section-wrap', 'section-wrap--feed')} key={`${date.date}-${feed.type}`}>
             <div className={classNames('section')}>
               <FamousHumanityReviewFeedSection reviews={feed.reviews} />
+            </div>
+          </div>
+        );
+      }
+      if (feed.type === 'RATE') {
+        return (
+          <div className={classNames('section-wrap', 'section-wrap--feed')} key={`${date.date}-${feed.type}`}>
+            <div className={classNames('section')}>
+              <RateFeedSection rated={feed.rated} />
             </div>
           </div>
         );
