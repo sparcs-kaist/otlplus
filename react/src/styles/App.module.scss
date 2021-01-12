@@ -2145,7 +2145,7 @@ a {
         }
 
         & > span:nth-child(3) {
-            margin-left: 4px;
+            margin-left: 5px;
             color: $color-text-lighter;
             font-size: $font-size-small;
             line-height: $line-height-small;
@@ -2700,6 +2700,7 @@ a {
     z-index: 20;
 
     & :global(.ScrollbarsCustom) {
+        flex: 1 1 auto !important;
     }
 
     & :global(.ScrollbarsCustom-Wrapper) {
@@ -2782,16 +2783,17 @@ a {
         flex: 1 0 auto;
     }
 
-    .section-content--taken-lectures & {
+    .section-content--lecture-detail & {
         @media #{$media-landscape} {
             min-height: calc(
-                100vh - (
-                    55px
-                    + #{$section-margin-bottom}
-                    + (#{$section-padding} * 2)
-                    + (#{$line-height-big} + 8px)
-                    + ((0.7vh + 13px) + 2px + #{$line-height-smaller})
-                    + (#{$section-padding} * 2 + 1px)
+                (5.6vh + 276px) - (
+                    #{$section-padding}
+                    + (#{$line-height-big} + 2px)
+                    + (#{$line-height-normal} + 4px)
+                    + (#{$line-height-small} + 6px)
+                    + (#{$line-height-big} + 6px)
+
+                    + #{$section-padding}
                 )
             );
         }
@@ -2799,11 +2801,56 @@ a {
             min-height: calc(
                 100vh - (
                     55px
+                    + #{$section-margin-top}
+                    + #{$section-padding}
+                    + (#{$line-height-big} + 2px)
+                    + (#{$line-height-normal} + 4px)
+                    + (#{$line-height-small} + 6px)
+                    + (#{$line-height-big} + 6px)
+
+                    + (#{$section-padding} * 2 + 1px)
+                    + #{$line-height-normal}
+                    + #{$section-padding}
+                    + (#{$section-margin-bottom} * 2)
+                )
+            );
+        }
+    }
+
+    &.section-content--course-detail__list-area {
+        min-height: 300px;
+    }
+
+    .section-content--taken-lectures & {
+        @media #{$media-landscape} {
+            min-height: calc(
+                100vh - (
+                    55px
+                    + #{$section-padding}
+                    + (#{$line-height-big} + 8px)
+                    + ((0.7vh + 13px) + 2px + #{$line-height-smaller})
+                    + (#{$section-padding} * 2 + 1px)
+
+                    + (#{$section-padding} * 2 + 1px)
+                    + (#{$line-height-normal} * 3 + 8px * 2)
+                    + #{$section-padding}
                     + #{$section-margin-bottom}
-                    + (#{$section-padding} * 2)
+                )
+            );
+        }
+        @media #{$media-portrait} {
+            min-height: calc(
+                100vh - (
+                    55px
+                    + #{$section-padding}
                     + (#{$line-height-big} + 8px)
                     + ((1.9vw + 13px) + 2px + #{$line-height-smaller})
                     + (#{$section-padding} * 2 + 1px)
+
+                    + (#{$section-padding} * 2 + 1px)
+                    + (#{$line-height-normal} * 3 + 8px * 2)
+                    + #{$section-padding}
+                    + (#{$section-margin-bottom} * 2)
                 )
             );
         }
