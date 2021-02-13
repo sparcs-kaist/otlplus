@@ -784,7 +784,7 @@ a {
     &--lecture-list {
         &__selector {
             position: absolute;
-            top: $section-padding + $line-height-big + 12px + 8px + $line-height-normal + (6px * 2) + 1px;
+            top: calc((100% + #{$line-height-big} + 12px - 12px) / 2);
             right: 12px;
             @media #{$media-landscape} {
                 display: none;
@@ -795,19 +795,50 @@ a {
             @media #{$media-portrait} {
                 .block--lecture-group {
                     margin-right: 6px + 10px;
+                    &:first-child {
+                        margin-top: calc(
+                            (
+                                (
+                                    100vh
+                                    - 55px
+                                    - (#{$section-margin-bottom} * 2)
+                                ) / 2
+                                - (
+                                    #{$line-height-small}
+                                    + (8px * 2)
+                                    + (#{$section-padding} * 2)
+                                    + (#{$line-height-big} + 12px)
+                                )
+                            ) / 2
+                            - (
+                                (#{$line-height-normal} / 2)
+                                + (6px * 2)
+                                + 1px
+                                + #{$line-height-normal}
+                                + 8px
+                            )
+                        );
+                    }
                     &:last-child {
                         margin-bottom: calc(
                             (
-                                100vh
-                                - 55px
-                                - (#{$section-margin-bottom} * 2)
-                                - (#{$line-height-small} + 6px * 2)
+                                (
+                                    100vh
+                                    - 55px
+                                    - (#{$section-margin-bottom} * 2)
+                                ) / 2
+                                - (
+                                    #{$line-height-small}
+                                    + (8px * 2)
+                                    + (#{$section-padding} * 2)
+                                    + (#{$line-height-big} + 12px)
+                                )
                             ) / 2
                             - (
-                                (#{$section-padding} * 2)
-                                + (#{$line-height-big} + 12px)
-                                + (8px * 2 + #{$line-height-normal} * 2 + 6px * 2 + 1px)
+                                #{$line-height-normal / 2}
+                                + 8px
                             )
+                            + #{$section-padding}
                         );
                     }
                 }
