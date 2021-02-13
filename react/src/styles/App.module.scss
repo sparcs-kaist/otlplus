@@ -402,7 +402,7 @@ a {
             flex: none;
         }
         @media #{$media-portrait} {
-           flex: 1 1 ($line-height-small + 8px * 2);
+           flex: 1 1 0;
         }
     }
 
@@ -2222,7 +2222,7 @@ a {
     padding-bottom: 10px;
 
     .section-content--lecture-detail & {
-        display: inline-block;
+        display: block;
         width: 100%;
         padding-bottom: 6px;
 
