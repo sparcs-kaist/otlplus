@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
-import { getProfessorsShortStr } from '../../common/lectureFunctions';
+import { getProfessorsShortStr, getClassroomStr } from '../../common/lectureFunctions';
 
 import lectureShape from '../../shapes/LectureShape';
 
@@ -18,9 +18,9 @@ const LectureGroupBlockRow = ({
   const getClass = (lec) => {
     switch (lec.class_title.length) {
       case 1:
-        return classNames('block--lecture-group__elem__texts__fixed-1');
+        return classNames('block--lecture-group__elem__texts__main__fixed-1');
       case 2:
-        return classNames('block--lecture-group__elem__texts__fixed-2');
+        return classNames('block--lecture-group__elem__texts__main__fixed-2');
       default:
         return classNames('');
     }
@@ -53,9 +53,23 @@ const LectureGroupBlockRow = ({
     >
       <div className={classNames('block--lecture-group__elem')}>
         <div className={classNames('block--lecture-group__elem__texts')}>
-          <strong className={getClass(lecture)}>{lecture[t('js.property.class_title')]}</strong>
-          {' '}
-          <span>{getProfessorsShortStr(lecture)}</span>
+          <div className={classNames('block--lecture-group__elem__texts__sub')}>
+            {lecture[t('js.property.department_name')]}
+            {' / '}
+            {lecture[t('js.property.type')]}
+          </div>
+          <div className={classNames('block--lecture-group__elem__texts__main')}>
+            <strong className={getClass(lecture)}>{lecture[t('js.property.class_title')]}</strong>
+            {' '}
+            <span>
+              {getProfessorsShortStr(lecture)}
+            </span>
+          </div>
+          <div className={classNames('block--lecture-group__elem__texts__sub')}>
+            {getClassroomStr(lecture)}
+            {' / '}
+            {lecture.limit}
+          </div>
         </div>
         {
           fromCart

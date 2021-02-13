@@ -811,7 +811,7 @@ a {
                                 )
                             ) / 2
                             - (
-                                (#{$line-height-normal} / 2)
+                                (#{$line-height-smaller} / 2)
                                 + (6px * 2)
                                 + 1px
                                 + #{$line-height-normal}
@@ -835,7 +835,7 @@ a {
                                 )
                             ) / 2
                             - (
-                                #{$line-height-normal / 2}
+                                #{$line-height-smaller / 2}
                                 + 8px
                             )
                             + #{$section-padding}
@@ -1848,19 +1848,41 @@ a {
 
             &__texts {
                 flex: 1;
-                margin-bottom: -2px;
-                text-align: left;
 
-                & > * {
-                    display: inline-block;
-                    margin-bottom: 2px;
+                &__main {
+                    margin-bottom: -2px;
+                    text-align: left;
+
+                    & > * {
+                        display: inline-block;
+                        margin-bottom: 2px;
+                    }
+                    &__fixed-1 {
+                        width: 9px;
+                    }
+                    &__fixed-2 {
+                        width: 16px;
+                    }
                 }
 
-                &__fixed-1 {
-                    width: 9px;
-                }
-                &__fixed-2 {
-                    width: 16px;
+                &__sub {
+                    font-size: $font-size-smaller;
+                    line-height: $line-height-smaller;
+                    color: $color-text-lighter;
+                    display: none;
+                    @media #{$media-portrait} {
+                        @at-root
+                        .block--highlighted #{&},
+                        .block--raised #{&} {
+                            display: block;
+                        }
+                    }
+                    &:first-child {
+                        margin-bottom: 3px;
+                    }
+                    &:last-child {
+                        margin-top: 3px;
+                    }
                 }
             }
 
