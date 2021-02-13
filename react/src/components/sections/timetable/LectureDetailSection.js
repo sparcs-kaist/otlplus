@@ -57,7 +57,10 @@ class LectureDetailSection extends Component {
 
     if (prevProps.lectureFocus.clicked && lectureFocus.clicked) {
       if (prevProps.lectureFocus.lecture.id !== lectureFocus.lecture.id) {
-        this.openDictPreview();
+        this._loadReviews();
+        if (window.matchMedia('(min-aspect-ratio: 4/3)').matches) {
+          this.openDictPreview();
+        }
       }
     }
     else if (prevProps.lectureFocus.clicked && !lectureFocus.clicked) {
@@ -66,7 +69,10 @@ class LectureDetailSection extends Component {
       }
     }
     else if (!prevProps.lectureFocus.clicked && lectureFocus.clicked) {
-      this.openDictPreview();
+      this._loadReviews();
+      if (window.matchMedia('(min-aspect-ratio: 4/3)').matches) {
+        this.openDictPreview();
+      }
     }
 
     if ((lectureFocus.from === LIST) && (prevProps.selectedListCode !== selectedListCode)) {
@@ -80,13 +86,8 @@ class LectureDetailSection extends Component {
     }
   }
 
-  openDictPreview = () => {
+  _loadReviews = () => {
     const { lectureFocus, setReviewsDispatch } = this.props;
-
-    const scrollTop = this.openDictRef.current.getBoundingClientRect().top
-      - this.attributesRef.current.getBoundingClientRect().top
-      + 1;
-    this.scrollRef.current.querySelector('.ScrollbarsCustom-Scroller').scrollTop = scrollTop;
 
     if (lectureFocus.reviews === null) {
       axios.get(
@@ -108,6 +109,13 @@ class LectureDetailSection extends Component {
         .catch((error) => {
         });
     }
+  }
+
+  openDictPreview = () => {
+    const scrollTop = this.openDictRef.current.getBoundingClientRect().top
+      - this.attributesRef.current.getBoundingClientRect().top
+      + 1;
+    this.scrollRef.current.querySelector('.ScrollbarsCustom-Scroller').scrollTop = scrollTop;
   };
 
   closeDictPreview = () => {

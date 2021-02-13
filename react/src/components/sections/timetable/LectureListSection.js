@@ -45,9 +45,10 @@ class LectureListSection extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    const { selectedListCode, lectureFocus, mobileIsLectureListOpen } = this.props;
+    const { lists, selectedListCode, lectureFocus, mobileIsLectureListOpen } = this.props;
 
     if ((selectedListCode !== prevProps.selectedListCode)
+      || (this._getLectureGroups(selectedListCode, lists) && !this._getLectureGroups(prevProps.selectedListCode, prevProps.lists))
       || (mobileIsLectureListOpen && !prevProps.mobileIsLectureListOpen)) {
       this.selectWithArrow();
     }
@@ -183,23 +184,28 @@ class LectureListSection extends Component {
   }
 
   selectWithArrow = () => {
-    const { selectedListCode, clearLectureFocusDispatch, setLectureFocusDispatch } = this.props;
+    const { lists, selectedListCode, clearLectureFocusDispatch, setLectureFocusDispatch } = this.props;
 
     const arrow = this.arrowRef.current;
-    if (window.getComputedStyle(arrow).getPropertyValue('display') === 'none') {
-      return;
-    }
-
     const arrowPosition = (this.arrowRef.current).getBoundingClientRect();
     const arrowY = (arrowPosition.top + arrowPosition.bottom) / 2;
 
-    const elementAtPosition = document.elementFromPoint(100, arrowY).closest(`.${classNames('block--lecture-group__elem-wrap')}`);
+    if (window.getComputedStyle(arrow).getPropertyValue('display') === 'none'
+      || arrowY === 0) {
+      return;
+    }
+
+    const elementAtPosition = (
+      document.elementFromPoint(100, arrowY).closest(`.${classNames('block--lecture-group__elem-wrap')}`)
+      || document.elementFromPoint(100, arrowY - 25).closest(`.${classNames('block--lecture-group__elem-wrap')}`)
+      || document.elementFromPoint(100, arrowY + 25).closest(`.${classNames('block--lecture-group__elem-wrap')}`)
+    );
     if (elementAtPosition === null) {
       clearLectureFocusDispatch();
       return;
     }
     const targetId = Number(elementAtPosition.getAttribute('data-id'));
-    const lectureGroups = this._getLectureGroups(selectedListCode);
+    const lectureGroups = this._getLectureGroups(selectedListCode, lists);
     const targetLecture = lectureGroups
       .map((lg) => lg.map((l) => ((l.id === targetId) ? l : null)))
       .reduce((acc, val) => acc.concat(val), [])
@@ -214,11 +220,7 @@ class LectureListSection extends Component {
     clearLectureFocusDispatch();
   }
 
-  _getLectureGroups = (selectedListCode) => {
-    const {
-      lists,
-    } = this.props;
-
+  _getLectureGroups = (selectedListCode, lists) => {
     if (!lists[selectedListCode]) {
       return null;
     }
@@ -311,7 +313,7 @@ class LectureListSection extends Component {
             <div className={classNames('section-content--lecture-list__selector')} ref={this.arrowRef}>
               <i className={classNames('icon', 'icon--lecture-selector')} />
             </div>
-            {getListElement(this._getLectureGroups(selectedListCode), false)}
+            {getListElement(this._getLectureGroups(selectedListCode, lists), false)}
           </>
         </div>
       );
@@ -331,7 +333,7 @@ class LectureListSection extends Component {
             <div className={classNames('section-content--lecture-list__selector')} ref={this.arrowRef}>
               <i className={classNames('icon', 'icon--lecture-selector')} />
             </div>
-            {getListElement(this._getLectureGroups(selectedListCode), false)}
+            {getListElement(this._getLectureGroups(selectedListCode, lists), false)}
           </>
         </div>
       );
@@ -352,7 +354,7 @@ class LectureListSection extends Component {
             <div className={classNames('section-content--lecture-list__selector')} ref={this.arrowRef}>
               <i className={classNames('icon', 'icon--lecture-selector')} />
             </div>
-            {getListElement(this._getLectureGroups(selectedListCode), false)}
+            {getListElement(this._getLectureGroups(selectedListCode, lists), false)}
           </>
         </div>
       );
@@ -372,7 +374,7 @@ class LectureListSection extends Component {
             <div className={classNames('section-content--lecture-list__selector')} ref={this.arrowRef}>
               <i className={classNames('icon', 'icon--lecture-selector')} />
             </div>
-            {getListElement(this._getLectureGroups(selectedListCode), false)}
+            {getListElement(this._getLectureGroups(selectedListCode, lists), false)}
           </>
         </div>
       );
@@ -392,7 +394,7 @@ class LectureListSection extends Component {
             <div className={classNames('section-content--lecture-list__selector')} ref={this.arrowRef}>
               <i className={classNames('icon', 'icon--lecture-selector')} />
             </div>
-            {getListElement(this._getLectureGroups(selectedListCode), true)}
+            {getListElement(this._getLectureGroups(selectedListCode, lists), true)}
           </>
         </div>
       );
