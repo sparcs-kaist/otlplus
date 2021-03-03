@@ -43,7 +43,7 @@ class ReviewsSubSection extends Component {
     return String(professor.professor_id);
   }
 
-  _lectureProfessorChecker = (lecture, professor) => {
+  _checkLectureProfessor = (lecture, professor) => {
     if (professor.has('ALL')) {
       return true;
     }
@@ -89,7 +89,7 @@ class ReviewsSubSection extends Component {
 
     const takenLecturesOfCourse = user
       ? user.review_writable_lectures
-        .filter((l) => ((l.course === courseFocus.course.id) && this._lectureProfessorChecker(l, selectedProfessors)))
+        .filter((l) => ((l.course === courseFocus.course.id) && this._checkLectureProfessor(l, selectedProfessors)))
       : [];
     const reviewWriteBlocks = takenLecturesOfCourse.map((l) => (
       <ReviewWriteBlock
@@ -103,7 +103,7 @@ class ReviewsSubSection extends Component {
 
     const filteredReviews = courseFocus.reviews == null
       ? null
-      : courseFocus.reviews.filter((r) => (this._lectureProfessorChecker(r.lecture, selectedProfessors) && this._checkReviewLanguage(r, selectedLanguages)));
+      : courseFocus.reviews.filter((r) => (this._checkLectureProfessor(r.lecture, selectedProfessors) && this._checkReviewLanguage(r, selectedLanguages)));
     const reviewBlocksArea = (filteredReviews == null)
       ? <div className={classNames('section-content--course-detail__list-area', 'list-placeholder')}><div>{t('ui.placeholder.loading')}</div></div>
       : (filteredReviews.length
