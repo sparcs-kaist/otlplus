@@ -116,6 +116,7 @@
       "level": "학년",
       "time": "시간",
       "professor": "교수",
+      "language": "언어",
       "term": "기간",
       "favoriteDepartment": "관심학과"
     },
@@ -169,6 +170,10 @@
     },
     "term": {
       "3yearsShort": "3년이내",
+      "allShort": "전체"
+    },
+    "language": {
+      "englishShort": "영어",
       "allShort": "전체"
     },
     "day": {

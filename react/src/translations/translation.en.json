@@ -116,6 +116,7 @@
       "level": "Level",
       "time": "Time",
       "professor": "Prof.",
+      "language": "Lang.",
       "term": "Term",
       "favoriteDepartment": "Favorite Departments"
     },
@@ -169,6 +170,10 @@
     },
     "term": {
       "3yearsShort": "In-3-Years",
+      "allShort": "ALL"
+    },
+    "language": {
+      "englishShort": "Eng",
       "allShort": "ALL"
     },
     "day": {

@@ -23,6 +23,7 @@ class ReviewsSubSection extends Component {
 
     this.state = {
       selectedProfessors: new Set(['ALL']),
+      selectedLanguages: new Set(['ALL']),
     };
   }
 
@@ -42,11 +43,22 @@ class ReviewsSubSection extends Component {
     return String(professor.professor_id);
   }
 
-  _lectureProfessorChecker = (lecture, professor) => {
+  _checkLectureProfessor = (lecture, professor) => {
     if (professor.has('ALL')) {
       return true;
     }
     return lecture.professors.some((p) => professor.has(this._getProfessorFormValue(p)));
+  }
+
+  _checkReviewLanguage = (review, languages) => {
+    if (languages.has('ALL')) {
+      return true;
+    }
+    if (languages.has('ENG')) {
+      return (review.content.match(/[A-Za-z가-힣]/g) || []).length === 0
+        || (review.content.match(/[A-Za-z]/g) || []).length / (review.content.match(/[A-Za-z가-힣]/g) || []).length > 0.55;
+    }
+    return false;
   }
 
   updateOnReviewSubmit = (review, isNew) => {
@@ -57,7 +69,7 @@ class ReviewsSubSection extends Component {
 
   render() {
     const { t } = this.props;
-    const { selectedProfessors } = this.state;
+    const { selectedProfessors, selectedLanguages } = this.state;
     const { user, courseFocus } = this.props;
 
     if (!courseFocus.course) {
@@ -70,10 +82,14 @@ class ReviewsSubSection extends Component {
         .map((p) => [this._getProfessorFormValue(p), p[t('js.property.name')]])
       ),
     ];
+    const languageOptions = [
+      ['ALL', t('ui.language.allShort')],
+      ['ENG', t('ui.language.englishShort')],
+    ];
 
     const takenLecturesOfCourse = user
       ? user.review_writable_lectures
-        .filter((l) => ((l.course === courseFocus.course.id) && this._lectureProfessorChecker(l, selectedProfessors)))
+        .filter((l) => ((l.course === courseFocus.course.id) && this._checkLectureProfessor(l, selectedProfessors)))
       : [];
     const reviewWriteBlocks = takenLecturesOfCourse.map((l) => (
       <ReviewWriteBlock
@@ -87,7 +103,7 @@ class ReviewsSubSection extends Component {
 
     const filteredReviews = courseFocus.reviews == null
       ? null
-      : courseFocus.reviews.filter((r) => this._lectureProfessorChecker(r.lecture, selectedProfessors));
+      : courseFocus.reviews.filter((r) => (this._checkLectureProfessor(r.lecture, selectedProfessors) && this._checkReviewLanguage(r, selectedLanguages)));
     const reviewBlocksArea = (filteredReviews == null)
       ? <div className={classNames('section-content--course-detail__list-area', 'list-placeholder')}><div>{t('ui.placeholder.loading')}</div></div>
       : (filteredReviews.length
@@ -103,6 +119,13 @@ class ReviewsSubSection extends Component {
           titleName={t('ui.search.professor')}
           options={professorOptions}
           checkedValues={selectedProfessors}
+        />
+        <SearchFilter
+          updateCheckedValues={this.updateCheckedValues('selectedLanguages')}
+          inputName="language"
+          titleName={t('ui.search.language')}
+          options={languageOptions}
+          checkedValues={selectedLanguages}
         />
         { reviewWriteBlocks }
         { reviewBlocksArea }
