@@ -763,7 +763,8 @@ a {
             @media #{$media-portrait} {
                 min-height: calc(
                     100vh - (
-                        55px
+                        env(safe-area-inset-top)
+                        + 55px
                         + (#{$section-margin-top} + #{$section-margin-bottom} * 2)
                         + (#{$section-padding} * 2)
                         + (#{$line-height-big} + 4px + #{$line-height-normal} + 2px)
@@ -771,6 +772,7 @@ a {
                         + (#{$line-height-normal} + 6px)
                         + (#{$line-height-normal} + #{$section-padding} + 1px)
                         + #{$section-padding}
+                        + env(safe-area-inset-bottom)
                     )
                 );
             }
@@ -800,8 +802,10 @@ a {
                             (
                                 (
                                     100vh
+                                    - env(safe-area-inset-top)
                                     - 55px
                                     - (#{$section-margin-bottom} * 2)
+                                    - env(safe-area-inset-bottom)
                                 ) / 2
                                 - (
                                     #{$line-height-small}
@@ -824,8 +828,10 @@ a {
                             (
                                 (
                                     100vh
+                                    - env(safe-area-inset-top)
                                     - 55px
                                     - (#{$section-margin-bottom} * 2)
+                                    - env(safe-area-inset-bottom)
                                 ) / 2
                                 - (
                                     #{$line-height-small}
@@ -1256,24 +1262,28 @@ a {
             @media #{$media-landscape} {
                 min-height: calc(
                     100vh - (
-                        55px
+                        env(safe-area-inset-top)
+                        + 55px
                         + #{$section-margin-bottom}
                         + (#{$section-padding} * 2)
                         + (#{$line-height-big} + 2px + #{$line-height-normal} + 10px)
                         + ((0.7vh + 15px) + 2px + #{$line-height-smaller} + 12px)
                         + (#{$line-height-normal} + 8px)
+                        + env(safe-area-inset-bottom)
                     )
                 );
             }
             @media #{$media-portrait} {
                 min-height: calc(
                     100vh - (
-                        55px
+                        env(safe-area-inset-top)
+                        + 55px
                         + (#{$section-margin-top} + #{$section-margin-bottom} * 2)
                         + (#{$section-padding} * 2)
                         + (#{$line-height-big} + 2px + #{$line-height-normal} + 10px)
                         + ((1.9vw + 13px) + 2px + #{$line-height-smaller} + 12px)
                         + (#{$line-height-normal} + 8px)
+                        + env(safe-area-inset-bottom)
                     )
                 );
             }
@@ -2853,7 +2863,8 @@ a {
         @media #{$media-portrait} {
             min-height: calc(
                 100vh - (
-                    55px
+                    env(safe-area-inset-top)
+                    + 55px
                     + #{$section-margin-top}
                     + #{$section-padding}
                     + (#{$line-height-big} + 2px)
@@ -2865,6 +2876,7 @@ a {
                     + #{$line-height-normal}
                     + #{$section-padding}
                     + (#{$section-margin-bottom} * 2)
+                    + env(safe-area-inset-bottom)
                 )
             );
         }
@@ -2882,6 +2894,7 @@ a {
         @media #{$media-landscape} {
             min-height: calc(
                 100vh - (
+                    env(safe-area-inset-top)
                     55px
                     + #{$section-padding}
                     + (#{$line-height-big} + 8px)
@@ -2892,13 +2905,15 @@ a {
                     + (#{$line-height-normal} * 3 + 8px * 2)
                     + #{$section-padding}
                     + #{$section-margin-bottom}
+                    + env(safe-area-inset-bottom)
                 )
             );
         }
         @media #{$media-portrait} {
             min-height: calc(
                 100vh - (
-                    55px
+                    env(safe-area-inset-top)
+                    + 55px
                     + #{$section-padding}
                     + (#{$line-height-big} + 8px)
                     + ((1.9vw + 13px) + 2px + #{$line-height-smaller})
@@ -2908,6 +2923,7 @@ a {
                     + (#{$line-height-normal} * 3 + 8px * 2)
                     + #{$section-padding}
                     + (#{$section-margin-bottom} * 2)
+                    + env(safe-area-inset-bottom)
                 )
             );
         }
