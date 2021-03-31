@@ -1359,10 +1359,10 @@ a {
                             padding-right: 1px;
                         }
                         @media #{$media-landscape} {
-                            flex: 0 0 4vh;
+                            flex: 0 0 7vh;
                         }
                         @media #{$media-portrait} {
-                            flex: 0 0 10vw;
+                            flex: 0 0 15vw;
                         }
 
                         & > span,
@@ -1385,10 +1385,10 @@ a {
                         text-align: center;
                         height: 57px;
                         @media #{$media-landscape} {
-                            flex: 0 0 4vh;
+                            flex: 0 0 7vh;
                         }
                         @media #{$media-portrait} {
-                            flex: 0 0 10vw;
+                            flex: 0 0 15vw;
                         }
 
                         &.hcell-left {
