@@ -66,6 +66,17 @@ class App extends Component {
       })
       .catch((error) => {
       });
+
+    this._updateSizeProperty();
+    window.addEventListener('resize', this._updateSizeProperty);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this._updateSizeProperty);
+  }
+
+  _updateSizeProperty = () => {
+    document.documentElement.style.setProperty('--window-inner-height', `${window.innerHeight}px`);
   }
 
   render() {

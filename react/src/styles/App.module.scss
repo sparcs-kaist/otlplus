@@ -56,6 +56,8 @@ $small-block-border-radius: 2px;
 $media-landscape: (min-aspect-ratio: 4/3);
 $media-portrait: (max-aspect-ratio: 4/3);
 
+$screen-height: var(--window-inner-height, calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom)));
+
 
 body * {
     font-family: sans-serif;
@@ -762,7 +764,7 @@ a {
             }
             @media #{$media-portrait} {
                 min-height: calc(
-                    100vh - (
+                    #{$screen-height} - (
                         55px
                         + (#{$section-margin-top} + #{$section-margin-bottom} * 2)
                         + (#{$section-padding} * 2)
@@ -799,7 +801,7 @@ a {
                         margin-top: calc(
                             (
                                 (
-                                    100vh
+                                    #{$screen-height}
                                     - 55px
                                     - (#{$section-margin-bottom} * 2)
                                 ) / 2
@@ -823,7 +825,7 @@ a {
                         margin-bottom: calc(
                             (
                                 (
-                                    100vh
+                                    #{$screen-height}
                                     - 55px
                                     - (#{$section-margin-bottom} * 2)
                                 ) / 2
@@ -1255,7 +1257,7 @@ a {
         &__list-area {
             @media #{$media-landscape} {
                 min-height: calc(
-                    100vh - (
+                    #{$screen-height} - (
                         55px
                         + #{$section-margin-bottom}
                         + (#{$section-padding} * 2)
@@ -1267,7 +1269,7 @@ a {
             }
             @media #{$media-portrait} {
                 min-height: calc(
-                    100vh - (
+                    #{$screen-height} - (
                         55px
                         + (#{$section-margin-top} + #{$section-margin-bottom} * 2)
                         + (#{$section-padding} * 2)
@@ -1359,10 +1361,10 @@ a {
                             padding-right: 1px;
                         }
                         @media #{$media-landscape} {
-                            flex: 0 0 4vh;
+                            flex: 0 0 7vh;
                         }
                         @media #{$media-portrait} {
-                            flex: 0 0 10vw;
+                            flex: 0 0 15vw;
                         }
 
                         & > span,
@@ -1385,10 +1387,10 @@ a {
                         text-align: center;
                         height: 57px;
                         @media #{$media-landscape} {
-                            flex: 0 0 4vh;
+                            flex: 0 0 7vh;
                         }
                         @media #{$media-portrait} {
-                            flex: 0 0 10vw;
+                            flex: 0 0 15vw;
                         }
 
                         &.hcell-left {
@@ -1547,6 +1549,10 @@ a {
 
         & i.icon {
             opacity: 0.45;
+        }
+
+        & .block--lecture-group__elem__texts__sub {
+            color: rgba($color-text-lighter, 0.35);
         }
 
         & > .block__completed-text {
@@ -2852,7 +2858,7 @@ a {
         }
         @media #{$media-portrait} {
             min-height: calc(
-                100vh - (
+                #{$screen-height} - (
                     55px
                     + #{$section-margin-top}
                     + #{$section-padding}
@@ -2881,7 +2887,7 @@ a {
     .section-content--taken-lectures & {
         @media #{$media-landscape} {
             min-height: calc(
-                100vh - (
+                #{$screen-height} - (
                     55px
                     + #{$section-padding}
                     + (#{$line-height-big} + 8px)
@@ -2897,7 +2903,7 @@ a {
         }
         @media #{$media-portrait} {
             min-height: calc(
-                100vh - (
+                #{$screen-height} - (
                     55px
                     + #{$section-padding}
                     + (#{$line-height-big} + 8px)
