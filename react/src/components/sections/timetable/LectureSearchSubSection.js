@@ -17,7 +17,7 @@ import { clearLectureFocus } from '../../../actions/timetable/lectureFocus';
 
 import lectureFocusShape from '../../../shapes/LectureFocusShape';
 
-import { typeOptions, departmentOptions, levelOptions } from '../../../common/seachOptions';
+import { typeOptions, getSotredDepartmentOptions, levelOptions } from '../../../common/seachOptions';
 
 
 class LectureSearchSubSection extends Component {
@@ -205,6 +205,8 @@ class LectureSearchSubSection extends Component {
       selectedTypes, selectedDepartments, selectedLevels,
     } = this.state;
     const { start, end, day } = this.props;
+
+    const departmentOptions = getSotredDepartmentOptions(t);
 
     return (
       <div className={classNames('search-area')}>
