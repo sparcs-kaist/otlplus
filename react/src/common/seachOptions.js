@@ -28,13 +28,13 @@ export const departmentOptions = [
     if (a[2] !== b[2]) {
       return a[2] - b[2];
     }
-    return (a[1] < b[1]) ? -1 : 1;
+    return (a[0] < b[0]) ? -1 : 1;
   })
   .map((o) => o.slice(0, 2));
 
 
 // eslint-disable-next-line fp/no-mutating-methods
-export const getDepartmentOptions = () => ([
+export const getSotredDepartmentOptions = (t) => ([
   ['ALL', 'ui.department.allShort', 100],
   ['HSS', 'ui.department.hssShort', 200],
   ['CE', 'ui.department.ceShort', 500], ['MSB', 'ui.department.msbShort', 500],
@@ -51,7 +51,7 @@ export const getDepartmentOptions = () => ([
     if (a[2] !== b[2]) {
       return a[2] - b[2];
     }
-    return (a[1] < b[1]) ? -1 : 1;
+    return (t(a[1]) < t(b[1])) ? -1 : 1;
   })
   .map((o) => o.slice(0, 2))
 );

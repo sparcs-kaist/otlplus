@@ -16,7 +16,7 @@ import { setListCourses, clearSearchListCourses } from '../../../actions/diction
 import { clearCourseFocus } from '../../../actions/dictionary/courseFocus';
 
 import {
-  typeOptions, departmentOptions, levelOptions, termOptions,
+  typeOptions, getSotredDepartmentOptions, levelOptions, termOptions,
 } from '../../../common/seachOptions';
 
 
@@ -178,6 +178,8 @@ class CourseSearchSubSection extends Component {
       autocompleteText,
       selectedTypes, selectedDepartments, selectedLevels, selectedTerms,
     } = this.state;
+
+    const departmentOptions = getSotredDepartmentOptions(t);
 
     return (
       <div className={classNames('search-area')}>
