@@ -56,7 +56,7 @@ $small-block-border-radius: 2px;
 $media-landscape: (min-aspect-ratio: 4/3);
 $media-portrait: (max-aspect-ratio: 4/3);
 
-$screen-height: var(--window-inner-height, calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom)));
+$screen-height: var(--window-inner-height, 100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
 
 
 body * {
