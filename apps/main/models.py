@@ -187,7 +187,8 @@ class RateDailyUserFeed(DailyUserFeed):
         except cls.DoesNotExist:
             if Rate.objects.filter(user=user, year=datetime.datetime.now().year).exists():
                 return None
-            if RateDailyUserFeed.objects.filter(date__gt=date-datetime.timedelta(days=cls.MIN_DAYS_INTERVAL), date__lt=date+datetime.timedelta(days=cls.MIN_DAYS_INTERVAL), user=user, visible=True).exists():
+            date_datetime = datetime.datetime(int(date[0:4]), int(date[5:7]), int(date[8:10]))
+            if RateDailyUserFeed.objects.filter(date__gt=date_datetime-datetime.timedelta(days=cls.MIN_DAYS_INTERVAL), date__lt=date_datetime+datetime.timedelta(days=cls.MIN_DAYS_INTERVAL), user=user, visible=True).exists():
                 return None
             visible = random.random() < cls.VISIBLE_RATE_BASE
             feed = cls.objects.create(date=date, user=user, priority=random.random(), visible=visible)
