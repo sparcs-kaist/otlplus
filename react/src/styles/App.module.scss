@@ -755,26 +755,33 @@ a {
             @media #{$media-landscape} {
                 min-height: calc(
                     (5.6vh + 276px) - (
-                        (#{$section-padding} * 2)
-                        + (#{$line-height-big} + 4px + #{$line-height-normal} + 2px)
-                        + (#{$line-height-normal} + 6px)
-                        + (#{$line-height-normal} + 6px)
+                        #{$section-padding}
+                        + (#{$line-height-big} + 2px)
+                        + (#{$line-height-normal} + 4px)
+                        + (#{$line-height-small} + 6px)
+                        + (#{$line-height-big} + 6px)
+    
+                        + #{$section-padding}
                     )
-                );
+                ) !important;
             }
             @media #{$media-portrait} {
                 min-height: calc(
                     #{$screen-height} - (
                         55px
-                        + (#{$section-margin-top} + #{$section-margin-bottom} * 2)
-                        + (#{$section-padding} * 2)
-                        + (#{$line-height-big} + 4px + #{$line-height-normal} + 2px)
-                        + (#{$line-height-normal} + 6px)
-                        + (#{$line-height-normal} + 6px)
-                        + (#{$line-height-normal} + #{$section-padding} + 1px)
+                        + #{$section-margin-top}
                         + #{$section-padding}
+                        + (#{$line-height-big} + 2px)
+                        + (#{$line-height-normal} + 4px)
+                        + (#{$line-height-small} + 6px)
+                        + (#{$line-height-big} + 6px)
+    
+                        + (#{$section-padding} * 2 + 1px)
+                        + #{$line-height-normal}
+                        + #{$section-padding}
+                        + (#{$section-margin-bottom} * 2)
                     )
-                );
+                ) !important;
             }
         }
 
@@ -1259,25 +1266,32 @@ a {
                 min-height: calc(
                     #{$screen-height} - (
                         55px
-                        + #{$section-margin-bottom}
-                        + (#{$section-padding} * 2)
+                        + #{$section-padding}
                         + (#{$line-height-big} + 2px + #{$line-height-normal} + 10px)
                         + ((0.7vh + 15px) + 2px + #{$line-height-smaller} + 12px)
-                        + (#{$line-height-normal} + 8px)
+                        + (#{$line-height-normal} + 10px)
+                        + ((#{$line-height-normal} + 8px) * 2)
+
+                        + #{$section-padding}
+                        + #{$section-margin-bottom}
                     )
-                );
+                ) !important;
             }
             @media #{$media-portrait} {
                 min-height: calc(
                     #{$screen-height} - (
                         55px
-                        + (#{$section-margin-top} + #{$section-margin-bottom} * 2)
-                        + (#{$section-padding} * 2)
+                        + #{$section-margin-top}
+                        + #{$section-padding}
                         + (#{$line-height-big} + 2px + #{$line-height-normal} + 10px)
                         + ((1.9vw + 13px) + 2px + #{$line-height-smaller} + 12px)
-                        + (#{$line-height-normal} + 8px)
+                        + (#{$line-height-normal} + 10px)
+                        + ((#{$line-height-normal} + 8px) * 2)
+
+                        + #{$section-padding}
+                        + (#{$section-margin-bottom} * 2)
                     )
-                );
+                ) !important;
             }
         }
     }
@@ -1300,6 +1314,36 @@ a {
 
     &--review-write {
         height: initial;
+    }
+
+    &--latest-reviews {
+        &__list-area{
+            @media #{$media-landscape} {
+                min-height: calc(
+                    #{$screen-height} - (
+                        55px
+                        + #{$section-padding}
+                        + (#{$line-height-big} + 10px)
+    
+                        + #{$section-padding}
+                        + #{$section-margin-bottom}
+                    )
+                ) !important;
+            }
+            @media #{$media-portrait} {
+                min-height: calc(
+                    #{$screen-height} - (
+                        55px
+                        + #{$section-margin-top}
+                        + #{$section-padding}
+                        + (#{$line-height-big} + 10px)
+    
+                        + #{$section-padding}
+                        + (#{$section-margin-bottom} * 2)
+                    )
+                ) !important;
+            }
+        }
     }
 
     &--account {
@@ -2825,7 +2869,7 @@ a {
     font-size: 16px;
     line-height: 17px;
     white-space: nowrap;
-    min-height: 16px + $section-padding * 2;
+    min-height: 17px + $section-padding * 2;
 
     .related-courses & {
         min-height: 100%;
@@ -2843,45 +2887,12 @@ a {
     }
 
     .section-content--lecture-detail & {
-        @media #{$media-landscape} {
-            min-height: calc(
-                (5.6vh + 276px) - (
-                    #{$section-padding}
-                    + (#{$line-height-big} + 2px)
-                    + (#{$line-height-normal} + 4px)
-                    + (#{$line-height-small} + 6px)
-                    + (#{$line-height-big} + 6px)
-
-                    + #{$section-padding}
-                )
-            );
-        }
-        @media #{$media-portrait} {
-            min-height: calc(
-                #{$screen-height} - (
-                    55px
-                    + #{$section-margin-top}
-                    + #{$section-padding}
-                    + (#{$line-height-big} + 2px)
-                    + (#{$line-height-normal} + 4px)
-                    + (#{$line-height-small} + 6px)
-                    + (#{$line-height-big} + 6px)
-
-                    + (#{$section-padding} * 2 + 1px)
-                    + #{$line-height-normal}
-                    + #{$section-padding}
-                    + (#{$section-margin-bottom} * 2)
-                )
-            );
-        }
     }
 
     &.section-content--course-detail__list-area {
-        min-height: 300px;
     }
 
     &.section-content--latest-reviews__list-area {
-        min-height: 300px;
     }
 
     .section-content--taken-lectures & {

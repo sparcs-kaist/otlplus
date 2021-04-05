@@ -105,13 +105,16 @@ class ReviewsSubSection extends Component {
           : latestReviews
         )
       );
+    const reviewBlocksArea = (reviews == null)
+      ? <div className={classNames('section-content--latest-reviews__list-area', 'list-placeholder')}><div>{t('ui.placeholder.loading')}</div></div>
+      : (reviews.length
+        ? <div className={classNames('section-content--latest-reviews__list-area')}>{reviews.map((r) => <ReviewBlock review={r} shouldLimitLines={false} linkTo={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: r.course.id }) }} pageFrom="Write Reviews" key={r.id} />)}</div>
+        : <div className={classNames('section-content--latest-reviews__list-area', 'list-placeholder')}><div>{t('ui.placeholder.noResults')}</div></div>);
 
     return (
       <div className={classNames('section-content', 'section-content--latest-reviews')}>
         <div className={classNames('title')}>{title}</div>
-        <div className={classNames('section-contentt--latest-reviews__list-area')}>
-          {mapReviewsToElement(reviews)}
-        </div>
+        { reviewBlocksArea }
       </div>
     );
   }
