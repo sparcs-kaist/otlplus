@@ -109,7 +109,7 @@ class ReviewsSubSection extends Component {
     return (
       <div className={classNames('section-content', 'section-content--latest-reviews')}>
         <div className={classNames('title')}>{title}</div>
-        <div className={classNames('section-contentt--latest-reviews__list-area')}>
+        <div className={classNames('section-content--latest-reviews__list-area')}>
           {mapReviewsToElement(reviews)}
         </div>
       </div>

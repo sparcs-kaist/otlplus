@@ -145,7 +145,7 @@ class WriteReviewsPage extends Component {
 
     const refElement = this.rightSectionRef.current;
     const sectionPos = refElement.getBoundingClientRect().bottom;
-    const scrollPos = refElement.querySelector(`.${classNames('section-contentt--latest-reviews__list-area')}`).getBoundingClientRect().bottom;
+    const scrollPos = refElement.querySelector(`.${classNames('section-content--latest-reviews__list-area')}`).getBoundingClientRect().bottom;
     if (scrollPos - sectionPos < SCROLL_THRSHOLD) {
       this._fetchLatestReviews();
     }
