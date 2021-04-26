@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 import axios from 'axios';
-import Masonry from 'react-masonry-css';
 
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
 
@@ -87,7 +86,7 @@ class MainPage extends Component {
       return;
     }
 
-    const columns = Array.from(this.contentRef.current.querySelectorAll('.masonry-grid_column'));
+    const columns = Array.from(this.contentRef.current.querySelectorAll(`.${classNames('section-wrap--main-column')}`));
 
     if (columns.some((cl) => (cl.lastChild.getBoundingClientRect().bottom < window.innerHeight + SCROLL_BOTTOM_PADDING))) {
       this._fetchFeeds(this._getPrevDate());
@@ -264,6 +263,8 @@ class MainPage extends Component {
       return null;
     };
 
+    const columnNum = isPortrait ? 1 : 3;
+
     const feeds = [
       <div className={classNames('section-wrap', 'section-wrap--feed')} key="TODAYS_TIMETABLE">
         <div className={classNames('section')}>
@@ -313,13 +314,15 @@ class MainPage extends Component {
           </div>
         </section>
         <section className={classNames('content', 'content--main')} ref={this.contentRef}>
-          <Masonry
-            breakpointCols={isPortrait ? 1 : 3}
-            className={classNames('masonry-grid')}
-            columnClassName={classNames('masonry-grid_column')}
-          >
-            { feeds }
-          </Masonry>
+          <div className={classNames('section-wrap', 'section-wrap--main-column-wrap')}>
+            {
+              [...Array(columnNum).keys()].map((i) => (
+                <div className={classNames('section-wrap', 'section-wrap--main-column')} key={i}>
+                  { feeds.filter((v, i2) => (i2 % columnNum === i)) }
+                </div>
+              ))
+            }
+          </div>
         </section>
         <Footer />
       </>
