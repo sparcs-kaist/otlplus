@@ -8,7 +8,6 @@ import { appBoundClassNames as classNames } from '../common/boundClassNames';
 import Footer from '../components/guideline/Footer';
 import TodaysTimetableSection from '../components/sections/main/TodaysTimetableSection';
 import AcademicScheduleSection from '../components/sections/main/AcademicScheduleSection';
-import VisitorSection from '../components/sections/main/VisitorSection';
 import RelatedCourseFeedSection from '../components/sections/main/RelatedCourseFeedSection';
 import LatestReviewSection from '../components/sections/main/LatestReviewSection';
 import FamousMajorReviewFeedSection from '../components/sections/main/FamousMajorReviewFeedSection';
@@ -88,7 +87,7 @@ class MainPage extends Component {
 
     const columns = Array.from(this.contentRef.current.querySelectorAll(`.${classNames('section-wrap--main-column')}`));
 
-    if (columns.some((cl) => (cl.lastChild.getBoundingClientRect().bottom < window.innerHeight + SCROLL_BOTTOM_PADDING))) {
+    if (columns.some((cl) => (cl.lastChild.getBoundingClientRect().top < window.innerHeight + SCROLL_BOTTOM_PADDING))) {
       this._fetchFeeds(this._getPrevDate());
     }
   }
@@ -293,13 +292,7 @@ class MainPage extends Component {
         </div>
       </div>,
       !user
-        ? [
-          <div className={classNames('section-wrap', 'section-wrap--feed')} key="VISITOR">
-            <div className={classNames('section')}>
-              <VisitorSection />
-            </div>
-          </div>,
-        ]
+        ? []
         : feedDays.map((d) => d.feeds.map((f) => mapFeedToSection(f, d))),
     ].flat(3);
 
@@ -319,8 +312,37 @@ class MainPage extends Component {
               [...Array(columnNum).keys()].map((i) => (
                 <div className={classNames('section-wrap', 'section-wrap--main-column')} key={i}>
                   { feeds.filter((v, i2) => (i2 % columnNum === i)) }
+                  <div className={classNames('section-wrap', 'section-wrap--feed-loading')}>
+                    {
+                      [...Array(10).keys()].map((j) => (
+                        <div className={classNames('section', 'section--feed-loading')} />
+                      ))
+                    }
+                  </div>
                 </div>
               ))
+            }
+          </div>
+          <div className={classNames('main-date')}>
+            {
+              user
+                ? (
+                  <>
+                    <span onClick={() => this._fetchFeeds(this._getPrevDate())}>
+                      {t('ui.button.loadMore')}
+                    </span>
+                  </>
+                )
+                : (
+                  <>
+                    <a href={`/session/login/?next=${window.location.href}`}>
+                      {t('ui.button.signInWithSso')}
+                    </a>
+                    <div>
+                      {t('ui.message.signInForMore')}
+                    </div>
+                  </>
+                )
             }
           </div>
         </section>
