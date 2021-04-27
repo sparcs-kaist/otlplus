@@ -2,14 +2,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 import axios from 'axios';
-import Masonry from 'react-masonry-css';
 
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
 
 import Footer from '../components/guideline/Footer';
 import TodaysTimetableSection from '../components/sections/main/TodaysTimetableSection';
 import AcademicScheduleSection from '../components/sections/main/AcademicScheduleSection';
-import VisitorSection from '../components/sections/main/VisitorSection';
 import RelatedCourseFeedSection from '../components/sections/main/RelatedCourseFeedSection';
 import LatestReviewSection from '../components/sections/main/LatestReviewSection';
 import FamousMajorReviewFeedSection from '../components/sections/main/FamousMajorReviewFeedSection';
@@ -87,9 +85,9 @@ class MainPage extends Component {
       return;
     }
 
-    const columns = Array.from(this.contentRef.current.querySelectorAll('.masonry-grid_column'));
+    const columns = Array.from(this.contentRef.current.querySelectorAll(`.${classNames('section-wrap--main-column')}`));
 
-    if (columns.some((cl) => (cl.lastChild.getBoundingClientRect().bottom < window.innerHeight + SCROLL_BOTTOM_PADDING))) {
+    if (columns.some((cl) => (cl.lastChild.getBoundingClientRect().top < window.innerHeight + SCROLL_BOTTOM_PADDING))) {
       this._fetchFeeds(this._getPrevDate());
     }
   }
@@ -264,6 +262,8 @@ class MainPage extends Component {
       return null;
     };
 
+    const columnNum = isPortrait ? 1 : 3;
+
     const feeds = [
       <div className={classNames('section-wrap', 'section-wrap--feed')} key="TODAYS_TIMETABLE">
         <div className={classNames('section')}>
@@ -292,13 +292,7 @@ class MainPage extends Component {
         </div>
       </div>,
       !user
-        ? [
-          <div className={classNames('section-wrap', 'section-wrap--feed')} key="VISITOR">
-            <div className={classNames('section')}>
-              <VisitorSection />
-            </div>
-          </div>,
-        ]
+        ? []
         : feedDays.map((d) => d.feeds.map((f) => mapFeedToSection(f, d))),
     ].flat(3);
 
@@ -313,13 +307,44 @@ class MainPage extends Component {
           </div>
         </section>
         <section className={classNames('content', 'content--main')} ref={this.contentRef}>
-          <Masonry
-            breakpointCols={isPortrait ? 1 : 3}
-            className={classNames('masonry-grid')}
-            columnClassName={classNames('masonry-grid_column')}
-          >
-            { feeds }
-          </Masonry>
+          <div className={classNames('section-wrap', 'section-wrap--main-column-wrap')}>
+            {
+              [...Array(columnNum).keys()].map((i) => (
+                <div className={classNames('section-wrap', 'section-wrap--main-column')} key={i}>
+                  { feeds.filter((v, i2) => (i2 % columnNum === i)) }
+                  <div className={classNames('section-wrap', 'section-wrap--feed-placeholder')}>
+                    {
+                      [...Array(10).keys()].map((j) => (
+                        <div className={classNames('section', 'section--feed-placeholder')} />
+                      ))
+                    }
+                  </div>
+                </div>
+              ))
+            }
+          </div>
+          <div className={classNames('main-date')}>
+            {
+              user
+                ? (
+                  <>
+                    <span onClick={() => this._fetchFeeds(this._getPrevDate())}>
+                      {t('ui.button.loadMore')}
+                    </span>
+                  </>
+                )
+                : (
+                  <>
+                    <a href={`/session/login/?next=${window.location.href}`}>
+                      {t('ui.button.signInWithSso')}
+                    </a>
+                    <div>
+                      {t('ui.message.signInForMore')}
+                    </div>
+                  </>
+                )
+            }
+          </div>
         </section>
         <Footer />
       </>
