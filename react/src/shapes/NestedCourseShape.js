@@ -12,7 +12,7 @@ const nestedCourseShape = PropTypes.shape({
   title: PropTypes.string.isRequired,
   title_en: PropTypes.string.isRequired,
   summary: PropTypes.string.isRequired,
-  review_num: PropTypes.number.isRequired,
+  review_total_weight: PropTypes.number.isRequired,
 });
 
 export default nestedCourseShape;

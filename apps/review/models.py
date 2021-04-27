@@ -81,6 +81,19 @@ class Review(models.Model):
         self.like = self.votes.all().count()
         self.save()
 
+    @classmethod
+    def calc_average(cls, reviews):
+        nonzero_reviews = reviews.exclude(grade=0, load=0, speech=0)
+        review_num = reviews.count()
+        total_weight = sum((r.like+1) for r in nonzero_reviews)
+        grade_sum = sum((r.like+1)*r.grade*3 for r in nonzero_reviews)
+        load_sum = sum((r.like+1)*r.load*3 for r in nonzero_reviews)
+        speech_sum = sum((r.like+1)*r.speech*3 for r in nonzero_reviews)
+        grade = (grade_sum + 0.0) / total_weight if (total_weight != 0) else 0.0
+        load = (load_sum + 0.0) / total_weight if (total_weight != 0) else 0.0
+        speech = (speech_sum + 0.0) / total_weight if (total_weight != 0) else 0.0
+        return (review_num, total_weight, (grade_sum, load_sum, speech_sum), (grade, load, speech))
+
     def __unicode__(self):
         return u"%s(%s)"%(self.lecture,self.writer)
 
