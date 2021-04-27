@@ -312,10 +312,10 @@ class MainPage extends Component {
               [...Array(columnNum).keys()].map((i) => (
                 <div className={classNames('section-wrap', 'section-wrap--main-column')} key={i}>
                   { feeds.filter((v, i2) => (i2 % columnNum === i)) }
-                  <div className={classNames('section-wrap', 'section-wrap--feed-loading')}>
+                  <div className={classNames('section-wrap', 'section-wrap--feed-placeholder')}>
                     {
                       [...Array(10).keys()].map((j) => (
-                        <div className={classNames('section', 'section--feed-loading')} />
+                        <div className={classNames('section', 'section--feed-placeholder')} />
                       ))
                     }
                   </div>

@@ -358,7 +358,7 @@ a {
     }
 
 
-    &--feed-loading {
+    &--feed-placeholder {
         position: absolute;
         width: 100%;
         margin: 0;
@@ -709,7 +709,7 @@ a {
     }
 
 
-    &--feed-loading {
+    &--feed-placeholder {
         opacity: 0.5;
         height: 270px;
         margin-bottom: $section-margin-bottom;
