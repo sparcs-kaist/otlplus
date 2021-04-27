@@ -43,7 +43,7 @@
       "major": "전공",
       "humanity": "인문사회선택",
       "wishlist": "장바구니",
-      "taken": "내가 들은",
+      "taken": "내가 들은 과목",
       "searchShort": "검색",
       "basicShort": "기초",
       "majorShort": "전공",
@@ -214,7 +214,7 @@
       "gradePosting": "성적게시"
     },
     "message": {
-      "signInForMore": "로그인하면 더 많은 기능들을 이용하실 수 있습니다",
+      "signInForMore": "로그인하면 더 많은 기능들을 이용하실 수 있습니다.",
       "blankSearch": "검색 조건을 선택해 주세요.",
       "blankSearchKeyword": "검색어를 입력해 주세요.",
       "timetableOverlap": "시간표가 겹치는 과목은 추가할 수 없습니다.",
