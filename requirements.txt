@@ -11,7 +11,7 @@ pyjade==4.0.0
 pyodbc==3.0.10
 pytz==2019.1
 requests==2.20.0
-rsa==4.0
+rsa==4.7
 simplejson==3.12.0
 six==1.12.0
 uritemplate==3.0.0
