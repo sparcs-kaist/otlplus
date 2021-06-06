@@ -149,7 +149,7 @@ LOGIN_URL = '/session/login/'
 LOGOUT_URL = '/session/logout/'
 
 
-VERSION = '3.2.1.2'
+VERSION = '3.2.1.3'
 
 
 try:
