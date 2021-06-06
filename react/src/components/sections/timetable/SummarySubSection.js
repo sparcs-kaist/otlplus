@@ -177,7 +177,7 @@ class SummarySubSection extends Component {
     const isCreditMultiFocused = (multipleFocusCode === 'Credit');
     const isAuMultiFocused = (multipleFocusCode === 'Credit Au');
 
-    const timetableLecturesWithReview = timetableLectures.filter((l) => (l.review_num > 0));
+    const timetableLecturesWithReview = timetableLectures.filter((l) => (l.review_total_weight > 0));
     const targetNum = sum(timetableLecturesWithReview, (l) => (l.credit + l.credit_au));
     const timetableGrade = sum(timetableLecturesWithReview, (l) => (l.grade * (l.credit + l.credit_au)));
     const timetableLoad = sum(timetableLecturesWithReview, (l) => (l.load * (l.credit + l.credit_au)));

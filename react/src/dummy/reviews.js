@@ -10,7 +10,7 @@ const reviews = [
       type: '전공선택',
       type_en: 'Major Elective',
       summary: '등록되지 않았습니다.',
-      review_num: 0,
+      review_total_weight: 0,
     },
     lecture: {
       id: 104514,
@@ -53,7 +53,7 @@ const reviews = [
       type: '교양필수',
       type_en: 'Mandatory General Courses',
       summary: '게임의 기본기술 계발. 드리블, 패스, 규칙, 기본적인 전술, 중급수준의 축구의 기술과 기교에 중점을 둔다.',
-      review_num: 4,
+      review_total_weight: 4,
     },
     lecture: {
       id: 100171,
@@ -96,7 +96,7 @@ const reviews = [
       type: '전공필수',
       type_en: 'Major Required',
       summary: '21세기는 지식과 정보가 기업경쟁력의 원천이 되는 지식기반사회이고 독자적인 기술개발과 지식재산권의확보가 국가경쟁력을 좌우하는 중요한 요소로 대두되고 있는 만큼 지식재산권 변화에 맞는 최고의 경쟁력확보를 위해 지식재산권을 강의한다.',
-      review_num: 5,
+      review_total_weight: 5,
     },
     lecture: {
       id: 105392,

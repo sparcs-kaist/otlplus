@@ -15,6 +15,7 @@ import { updateUserReview } from '../../../actions/common/user';
 
 import courseFocusShape from '../../../shapes/CourseFocusShape';
 import userShape from '../../../shapes/UserShape';
+import { calcAverage, getAverageScoreLabel } from '../../../common/scoreFunctions';
 
 
 class ReviewsSubSection extends Component {
@@ -110,6 +111,12 @@ class ReviewsSubSection extends Component {
         ? <div className={classNames('section-content--course-detail__list-area')}>{filteredReviews.map((r) => <ReviewBlock review={r} shouldLimitLines={false} pageFrom="Dictionary" key={r.id} />)}</div>
         : <div className={classNames('section-content--course-detail__list-area', 'list-placeholder')}><div>{t('ui.placeholder.noResults')}</div></div>);
 
+    const [, , , [grade, load, speech]] = (
+      filteredReviews
+        ? calcAverage(filteredReviews)
+        : [0, 0, [0, 0, 0], [0, 0, 0]]
+    );
+
     return (
       <>
         <div className={classNames('small-title')}>{t('ui.title.reviews')}</div>
@@ -127,6 +134,20 @@ class ReviewsSubSection extends Component {
           options={languageOptions}
           checkedValues={selectedLanguages}
         />
+        <div className={classNames('scores')} ref={this.scoresRef}>
+          <div>
+            <div>{ getAverageScoreLabel(grade) }</div>
+            <div>{ t('ui.score.grade') }</div>
+          </div>
+          <div>
+            <div>{ getAverageScoreLabel(load) }</div>
+            <div>{ t('ui.score.load') }</div>
+          </div>
+          <div>
+            <div>{ getAverageScoreLabel(speech) }</div>
+            <div>{ t('ui.score.speech') }</div>
+          </div>
+        </div>
         { reviewWriteBlocks }
         { reviewBlocksArea }
       </>

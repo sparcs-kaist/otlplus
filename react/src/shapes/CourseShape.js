@@ -14,7 +14,7 @@ const courseShape = PropTypes.shape({
   title: PropTypes.string.isRequired,
   title_en: PropTypes.string.isRequired,
   summary: PropTypes.string.isRequired,
-  review_num: PropTypes.number.isRequired,
+  review_total_weight: PropTypes.number.isRequired,
   related_courses_prior: PropTypes.arrayOf(nestedCourseShape).isRequired,
   related_courses_posterior: PropTypes.arrayOf(nestedCourseShape).isRequired,
   professors: PropTypes.arrayOf(nestedProfessorShape).isRequired,

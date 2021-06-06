@@ -114,10 +114,10 @@ class Lecture(models.Model):
     grade_sum = models.IntegerField(default=0)
     load_sum = models.IntegerField(default=0)
     speech_sum = models.IntegerField(default=0)
+    review_total_weight = models.IntegerField(default=0)
     grade = models.FloatField(default=0.0)
     load = models.FloatField(default=0.0)
     speech = models.FloatField(default=0.0)
-    review_num = models.IntegerField(default=0)
 
     def getCacheKey(self, nested):
         return "lecture:%d:%s" % (self.id, 'nested' if nested else 'normal')
@@ -156,7 +156,7 @@ class Lecture(models.Model):
                 "common_title_en": self.common_title_en,
                 "class_title": self.class_title,
                 "class_title_en": self.class_title_en,
-                "review_num": self.review_num,
+                "review_total_weight": self.review_total_weight,
         }
 
         professors = self.professors.all().order_by('professor_name')
@@ -184,22 +184,9 @@ class Lecture(models.Model):
         from apps.review.models import Review
         reviews = Review.objects.filter(lecture__course=self.course,
                                         lecture__professors__in=self.professors.all())
-        self.review_num = sum((r.like+1) for r in reviews)
-        self.grade_sum = sum((r.like+1)*r.grade*3 for r in reviews)
-        self.load_sum = sum((r.like+1)*r.load*3 for r in reviews)
-        self.speech_sum = sum((r.like+1)*r.speech*3 for r in reviews)
-        self.avg_update()
-        self.save()
-
-    def avg_update(self):
-        if self.review_num>0:
-            self.grade = (self.grade_sum + 0.0)/self.review_num
-            self.load = (self.load_sum + 0.0)/self.review_num
-            self.speech = (self.speech_sum + 0.0)/self.review_num
-        else:
-            self.grade = 0.0
-            self.load = 0.0
-            self.speech = 0.0
+        _, self.review_total_weight, sums, avgs = Review.calc_average(reviews)
+        self.grade_sum, self.load_sum, self.speech_sum = sums
+        self.grade, self.load, self.speech = avgs
         self.save()
 
     def update_class_title(self):
@@ -487,7 +474,7 @@ class Course(models.Model):
     grade_sum = models.IntegerField(default=0)
     load_sum = models.IntegerField(default=0)
     speech_sum = models.IntegerField(default=0)
-    review_num = models.IntegerField(default=0)
+    review_total_weight = models.IntegerField(default=0)
     grade = models.FloatField(default=0.0)
     load = models.FloatField(default=0.0)
     speech = models.FloatField(default=0.0)
@@ -536,7 +523,7 @@ class Course(models.Model):
                 "title": self.title,
                 "title_en": self.title_en,
                 "summary": self.summury if len(self.summury)>0 else '등록되지 않았습니다.',
-                "review_num": self.review_num,
+                "review_total_weight": self.review_total_weight,
         }
 
         if nested:
@@ -561,22 +548,9 @@ class Course(models.Model):
     def recalc_score(self):
         from apps.review.models import Review
         reviews = Review.objects.filter(lecture__course=self)
-        self.review_num = sum((r.like+1) for r in reviews)
-        self.grade_sum = sum((r.like+1)*r.grade*3 for r in reviews)
-        self.load_sum = sum((r.like+1)*r.load*3 for r in reviews)
-        self.speech_sum = sum((r.like+1)*r.speech*3 for r in reviews)
-        self.avg_update()
-        self.save()
-
-    def avg_update(self):
-        if self.review_num>0:
-            self.grade = (self.grade_sum + 0.0)/self.review_num
-            self.load = (self.load_sum + 0.0)/self.review_num
-            self.speech = (self.speech_sum + 0.0)/self.review_num
-        else:
-            self.grade = 0.0
-            self.load = 0.0
-            self.speech = 0.0
+        _, self.review_total_weight, sums, avgs = Review.calc_average(reviews)
+        self.grade_sum, self.load_sum, self.speech_sum = sums
+        self.grade, self.load, self.speech = avgs
         self.save()
 
     def update_related_courses(self):
@@ -599,7 +573,7 @@ class Professor(models.Model):
     grade_sum = models.IntegerField(default=0)
     load_sum = models.IntegerField(default=0)
     speech_sum = models.IntegerField(default=0)
-    review_num = models.IntegerField(default=0)
+    review_total_weight = models.IntegerField(default=0)
     grade = models.FloatField(default=0.0)
     load = models.FloatField(default=0.0)
     speech = models.FloatField(default=0.0)
@@ -609,7 +583,7 @@ class Professor(models.Model):
             'name': self.professor_name,
             'name_en': self.professor_name_en,
             'professor_id': self.professor_id,
-            "review_num": self.review_num,
+            "review_total_weight": self.review_total_weight,
         }
 
         if nested:
@@ -628,22 +602,9 @@ class Professor(models.Model):
     def recalc_score(self):
         from apps.review.models import Review
         reviews = Review.objects.filter(lecture__professors=self)
-        self.review_num = sum((r.like+1) for r in reviews)
-        self.grade_sum = sum((r.like+1)*r.grade*3 for r in reviews)
-        self.load_sum = sum((r.like+1)*r.load*3 for r in reviews)
-        self.speech_sum = sum((r.like+1)*r.speech*3 for r in reviews)
-        self.avg_update()
-        self.save()
-
-    def avg_update(self):
-        if self.review_num>0:
-            self.grade = (self.grade_sum + 0.0)/self.review_num
-            self.load = (self.load_sum + 0.0)/self.review_num
-            self.speech = (self.speech_sum + 0.0)/self.review_num
-        else:
-            self.grade = 0.0
-            self.load = 0.0
-            self.speech = 0.0
+        _, self.review_total_weight, sums, avgs = Review.calc_average(reviews)
+        self.grade_sum, self.load_sum, self.speech_sum = sums
+        self.grade, self.load, self.speech = avgs
         self.save()
 
     def __unicode__(self):
