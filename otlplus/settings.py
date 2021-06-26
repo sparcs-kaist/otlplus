@@ -23,10 +23,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 with open(os.path.join(BASE_DIR, 'keys/django_secret')) as f:
     SECRET_KEY = f.read().strip()
-
-with open(os.path.join(BASE_DIR, 'keys/sso_secret')) as f:
-    SSO_KEY = f.read().strip()
-
 GOOGLE_OAUTH2_CLIENT_SECRETS_JSON = os.path.join(BASE_DIR, 'keys/google_client_secrets.json')
 
 
@@ -145,6 +141,15 @@ AUTHENTICATION_BACKENDS = (
     'apps.session.auth_backend.PasswordlessModelBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
+
+# SPARCS SSO
+
+with open(os.path.join(BASE_DIR, 'keys/sso_secret')) as f:
+    SSO_SECRET_KEY = f.read().strip()
+SSO_CLIENT_ID=os.getenv("SSO_CLIENT_ID")
+SSO_IS_BETA=DEBUG
+
+
 LOGIN_URL = '/session/login/'
 LOGOUT_URL = '/session/logout/'
 
