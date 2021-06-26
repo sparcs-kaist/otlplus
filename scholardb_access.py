@@ -1,6 +1,5 @@
 import os
 import threading
-import pyodbc
 import cPickle as pickle
 	
 def synchronized(func):
