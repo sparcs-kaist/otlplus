@@ -1,8 +1,9 @@
-#-*- coding: utf-8 -*-
+from functools import reduce
+
 from django.db import models
 from django.db.models import Q
 from django.core.cache import cache
-from utils.enum import * #for enum type (for choices)
+from utils.enum import *
 from datetime import date, time
 import datetime
 import operator

@@ -118,7 +118,7 @@ class ReviewWriteDailyUserFeed(DailyUserFeed):
         try:
             feed = cls.objects.get(date=date, user=user)
         except cls.DoesNotExist:
-            taken_lectures = user.getReviewWritableLectureList()
+            taken_lectures = user.review_writable_lectures
             if taken_lectures.count() == 0:
                 return None
             selected_lecture = random.choice(taken_lectures)

@@ -1,12 +1,10 @@
-# -*- coding: utf-8
 from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import User
-from django.utils import timezone
+
 from .sparcssso import Client
 from apps.subject.models import Department, Lecture
 from .fields import CredentialsField
-#from apps.timetable.models import Timetable
 
 sso_client = Client(settings.SSO_CLIENT_ID, settings.SSO_SECRET_KEY, is_beta=settings.SSO_IS_BETA)
 
@@ -40,7 +38,8 @@ class UserProfile(models.Model):
         result = sso_client.modify_point(self.sid, delta, message, 0)
         return result
 
-    def getReviewWritableLectureList(self):
+    @property
+    def review_writable_lectures(self):
         return self.taken_lectures.filter(Lecture.getQueryReviewWritable())
 
     def __unicode__(self):

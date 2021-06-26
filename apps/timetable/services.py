@@ -9,41 +9,14 @@ from PIL import Image, ImageDraw, ImageFont
 
 
 MY_TIMETABLE_ID = -1
-INVALID_DEPARTMENT_CODES = ["AA", "ICE"]
 TIMETABLE_CELL_COLORS = ['#F2CECE','#F4B3AE','#F2BCA0','#F0D3AB',
                          '#F1E1A9','#f4f2b3','#dbf4be','#beedd7',
                          '#b7e2de','#c9eaf4','#B4D3ED','#B9C5ED',
                          '#CCC6ED','#D8C1F0','#EBCAEF','#f4badb']
 
 
-def get_user_department_list(user: User) -> List:
-    if not user.is_authenticated:
-        return []
-
-    profile = user.userprofile
-
-    if profile.department is None or profile.department.code in INVALID_DEPARTMENT_CODES:
-        departments = []
-    else:
-        departments = [profile.department.toJson()]
-
-    raw_departments = [
-        *list(profile.majors.all()),
-        *list(profile.minors.all()),
-        *profile.specialized_major.all(),
-        *profile.favorite_departments.all()
-    ]
-
-    for d in raw_departments:
-        data = d.toJson()
-        if data not in departments:
-            departments.append(data)
-
-    return departments
-
-
 def get_timetable_entries(profile: UserProfile, table_id: int, year: int, semester: int) -> Optional[List[Lecture]]:
-    if profile == None:
+    if profile is None:
         return None
 
     if table_id == MY_TIMETABLE_ID:
@@ -146,7 +119,7 @@ def create_timetable_image(lecture_list: List[Lecture]):
             points = (points[0]+12, points[1]+8, points[2]-12, points[3]-8)
             draw_textbox(text_draw, points, lecture_dict['title'], lecture.get_professors_short_str(), class_time['classroom_short'], font)
 
-    #image.thumbnail((600,900))
+    # image.thumbnail((600,900))
 
     image.paste(text_image, mask=text_image)
     return image

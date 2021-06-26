@@ -48,7 +48,7 @@ class ReviewListView(View):
             return HttpResponseBadRequest("Wrong field(s) 'grade', 'load', and/or 'speech' in request data")
 
         user_profile = user.userprofile
-        lecture = user_profile.getReviewWritableLectureList().get(id = lecture_id)
+        lecture = user_profile.review_writable_lectures.get(id=lecture_id)
         course = lecture.course
 
         review = Review.objects.create(course=course, lecture=lecture, content=content, grade=grade, load=load, speech=speech, writer=user_profile)

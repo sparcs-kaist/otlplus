@@ -5,8 +5,7 @@ from utils.decorators import login_required_ajax
 from apps.subject.models import Department
 from .models import FamousMajorReviewDailyFeed, FamousHumanityReviewDailyFeed, ReviewWriteDailyUserFeed, RelatedCourseDailyUserFeed, RateDailyUserFeed
 
-from apps.timetable.services import get_user_department_list
-
+from apps.session.services import get_user_department_list
 
 
 @login_required_ajax
@@ -35,7 +34,7 @@ def user_instance_feeds_view(request, user_id):
             + [review_write_daily_user_feed] \
             + [related_course_daily_user_feed] \
             + [rate_daily_user_feed]
-        feeds = [f for f in feeds if (f != None)]
+        feeds = [f for f in feeds if f is not None]
         feeds = sorted(feeds, key=(lambda f: f.priority))
         result = [f.toJson(user=request.user) for f in feeds]
         return JsonResponse(result, safe=False)
