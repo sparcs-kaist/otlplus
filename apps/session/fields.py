@@ -23,7 +23,7 @@ from django.db import models
 from django.utils import encoding
 import jsonpickle
 
-import oauth2client
+from oauth2client.client import Credentials
 
 
 class CredentialsField(models.Field):
@@ -48,7 +48,7 @@ class CredentialsField(models.Field):
         bytes (from serialization etc) to an instance of this class"""
         if value is None:
             return None
-        elif isinstance(value, oauth2client.client.Credentials):
+        elif isinstance(value, Credentials):
             return value
         else:
             try:
