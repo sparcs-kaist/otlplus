@@ -84,11 +84,11 @@ def login_callback(request):
         os.system('python do_import_taken_lecture_user.py %s' % student_id)
         OldTimetable.import_in_for_user(student_id)
 
-        user = authenticate(username=username)
+        user = authenticate(request, username=username)
         login(request, user)
         return redirect(next)
     else:
-        user = authenticate(username=user_list[0].username)
+        user = authenticate(request, username=user_list[0].username)
         user.first_name=sso_profile['first_name']
         user.last_name=sso_profile['last_name']
         user.save()

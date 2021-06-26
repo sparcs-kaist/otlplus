@@ -1,5 +1,5 @@
 apiclient==1.0.4
-Django==2.0
+Django==2.1.15
 google-api-python-client==1.6.2
 httplib2==0.19.1
 mysqlclient==2.0.3
