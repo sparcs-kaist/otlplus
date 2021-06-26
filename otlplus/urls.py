@@ -18,29 +18,17 @@ from django.contrib import admin
 from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render
 
-from django.conf import settings
-from django.conf.urls.static import static
-from django.contrib import admin
-
-from apps.review import views as review_views
-from apps.timetable import views as timetable_views
-from django import views as django_views
-from django.views import static as django_static
-
-from apps.main import views as mainViews
-
 urlpatterns = [
     # Admin Page
-    url(r'^admin/', admin.site.urls),
-
-    # OTLplus Apps
-    url(r'^session/', include('apps.session.urls')),
-    url(r'^api/', include('apps.subject.urls')),
-    url(r'^api/', include('apps.review.urls')),
-    url(r'^api/', include('apps.timetable.urls')),
-    url(r'^api/', include('apps.main.urls')),
-    url(r'^api/', include('apps.support.urls')),
-    url(r'^api/status$', lambda request: HttpResponse()),
-    # url(r'^api/', lambda request: HttpResponseNotFound('Bad url')),
-    # url(r'^', lambda request: render(request, 'index.html')),
+    url(r"^admin/", admin.site.urls),
+    # OTL Plus Apps
+    url(r"^session/", include("apps.session.urls")),
+    url(r"^api/", include("apps.subject.urls")),
+    url(r"^api/", include("apps.review.urls")),
+    url(r"^api/", include("apps.timetable.urls")),
+    url(r"^api/", include("apps.main.urls")),
+    url(r"^api/", include("apps.support.urls")),
+    url(r"^api/status$", lambda request: HttpResponse()),
+    url(r"^api/", lambda request: HttpResponseNotFound("Bad url")),
+    url(r"^", lambda request: render(request, "index.html")),
 ]

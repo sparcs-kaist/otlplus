@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from .models import Review, ReviewVote
-from apps.subject.models import Lecture
 
 from django.core.cache import cache
 from django.db.models.signals import post_save, post_delete
@@ -16,9 +15,9 @@ def _recalc_related_score(review):
 
 @receiver(post_save, sender=Review)
 def review_saved(**kwargs):
-    review = kwargs['instance']
+    review = kwargs["instance"]
     _recalc_related_score(review)
-    if kwargs['created']:
+    if kwargs["created"]:
         course = review.course
         course.latest_written_datetime = review.written_datetime
         course.save()
@@ -29,17 +28,17 @@ def review_saved(**kwargs):
 
 @receiver(post_delete, sender=Review)
 def review_deleted(**kwargs):
-    review = kwargs['instance']
+    review = kwargs["instance"]
     _recalc_related_score(review)
 
 
 @receiver(post_save, sender=ReviewVote)
 def review_vote_saved(**kwargs):
-    review_vote = kwargs['instance']
+    review_vote = kwargs["instance"]
     review_vote.review.recalc_like()
 
 
 @receiver(post_delete, sender=ReviewVote)
 def review_vote_deleted(**kwargs):
-    review_vote = kwargs['instance']
+    review_vote = kwargs["instance"]
     review_vote.review.recalc_like()

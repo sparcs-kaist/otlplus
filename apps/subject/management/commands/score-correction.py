@@ -1,10 +1,11 @@
-# -*- coding: utf-8 -*-
 from django.core.management.base import BaseCommand
-from apps.subject.models import Course,  Lecture, Professor
-from apps.review.models import Review
+from apps.subject.models import Course, Lecture, Professor
+
+
 class Command(BaseCommand):
-    help = '--score correction--'
-    def handle(related, *args, **options):
+    help = "--score correction--"
+
+    def handle(self, *args, **options):
         print("score correction start!")
         print("initializing..")
 
@@ -16,7 +17,6 @@ class Command(BaseCommand):
         i = 0
         for r in related_list:
             r.recalc_score()
-            print("{i} / {related_len}")
-            i+=1
+            print(f"{i} / {related_len}")
+            i += 1
         print("score correction ended!")
-

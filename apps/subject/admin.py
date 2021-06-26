@@ -1,22 +1,23 @@
 from django.contrib import admin
-from .models import *
+
+from apps.subject.models import Course, Department, Lecture, Professor
 
 
 @admin.register(Lecture)
 class LectureAdmin(admin.ModelAdmin):
-    raw_id_fields = ('course',)
+    raw_id_fields = ("course",)
 
 
 # @admin.register(ExamTime)
 class ExamTimeAdmin(admin.ModelAdmin):
-    list_display = ('lecture', 'day', 'begin', 'end')
-    ordering = ('lecture',)
+    list_display = ("lecture", "day", "begin", "end")
+    ordering = ("lecture",)
 
 
 # @admin.register(ClassTime)
 class ClassTimeAdmin(admin.ModelAdmin):
-    list_display = ('lecture', 'day', 'begin', 'end', 'room_name', 'building_full_name', 'building_full_name_en')
-    ordering = ('lecture',)
+    list_display = ("lecture", "day", "begin", "end", "room_name", "building_full_name", "building_full_name_en")
+    ordering = ("lecture",)
 
 
 @admin.register(Department)

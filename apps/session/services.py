@@ -1,8 +1,11 @@
 import os
 from typing import List, Dict, Union, Iterable
 
+from django.contrib.auth.models import User
+
 from apps.review.models import Review
-from apps.timetable.models import OldTimetable, User, Department, UserProfile, Lecture
+from apps.subject.models import Department
+from apps.timetable.models import OldTimetable, UserProfile, Lecture
 from django.conf import settings
 
 
@@ -14,9 +17,7 @@ def json_encode_list(items: Iterable[Union[Department, Lecture, Review]], **kwar
 
 
 def unique_id_dict_list(dict_list: List[Dict]) -> List[Dict]:
-    return list({
-        item["id"]: item for item in dict_list
-    })
+    return list({item["id"]: item for item in dict_list})
 
 
 def get_user_department_list(user: User) -> List:
@@ -30,12 +31,14 @@ def get_user_department_list(user: User) -> List:
     else:
         departments = [profile.department.toJson()]
 
-    departments.extend([
-        *list(profile.majors.all()),
-        *list(profile.minors.all()),
-        *list(profile.specialized_major.all()),
-        *list(profile.favorite_departments.all())
-    ])
+    departments.extend(
+        [
+            *list(profile.majors.all()),
+            *list(profile.minors.all()),
+            *list(profile.specialized_major.all()),
+            *list(profile.favorite_departments.all()),
+        ],
+    )
     departments = json_encode_list(departments)
     departments = unique_id_dict_list(departments)
     return departments
@@ -56,7 +59,7 @@ def get_user_major_list(profile: Union[User, UserProfile]) -> List[Dict]:
 
 def import_student_lectures(student_id: str) -> None:
     if not settings.DEBUG:
-        os.chdir('/var/www/otlplus/')
-    os.system('python do_import_user_major.py %s' % student_id)
-    os.system('python do_import_taken_lecture_user.py %s' % student_id)
+        os.chdir("/var/www/otlplus/")
+    os.system("python do_import_user_major.py %s" % student_id)
+    os.system("python do_import_taken_lecture_user.py %s" % student_id)
     OldTimetable.import_in_for_user(student_id)

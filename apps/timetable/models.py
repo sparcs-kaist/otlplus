@@ -1,7 +1,7 @@
-# -*- coding: utf-8
 from django.db import models
-from apps.subject.models import *
-from apps.session.models import *
+
+from apps.session.models import UserProfile
+from apps.subject.models import Lecture
 
 
 class Timetable(models.Model):
@@ -13,7 +13,7 @@ class Timetable(models.Model):
     def toJson(self, nested=False):
         result = {
             "id": self.id,
-            "lectures":[l.toJson(nested=False) for l in self.lectures.filter(deleted=False)],
+            "lectures": [lecture.toJson(nested=False) for lecture in self.lectures.filter(deleted=False)],
         }
         return result
 
@@ -29,17 +29,19 @@ class OldTimetable(models.Model):
         try:
             userprofile = UserProfile.objects.get(student_id=self.student_id)
         except UserProfile.DoesNotExist:
-            print("User with student number %s does not exist." % self.student_id)
+            # TODO: Use a logger instead
+            print(f"User with student number {self.student_id} does not exist.")  # noqa: T001
             return
         except UserProfile.MultipleObjectsReturned:
             if self.student_id == "":
                 return
             else:
-                print("User with student number %s has multiple userprofiles." % self.student_id)
+                # TODO: Use a logger instead
+                print(f"User with student number {self.student_id} has multiple userprofiles.")  # noqa: T001
                 return
         timetable = Timetable.objects.create(user=userprofile, year=self.year, semester=self.semester)
-        for l in self.lectures.all():
-            timetable.lectures.add(l)
+        for lecture in self.lectures.all():
+            timetable.lectures.add(lecture)
         self.delete()
 
     @classmethod
@@ -57,6 +59,6 @@ class Wishlist(models.Model):
 
     def toJson(self, nested=False):
         result = {
-            "lectures":[l.toJson(nested=False) for l in self.lectures.filter(deleted=False)],
+            "lectures": [lecture.toJson(nested=False) for lecture in self.lectures.filter(deleted=False)],
         }
         return result

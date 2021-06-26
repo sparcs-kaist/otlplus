@@ -24,13 +24,14 @@ class Notice(models.Model):
 
 
 class Rate(models.Model):
-    score = models.SmallIntegerField(validators = [MinValueValidator(1), MaxValueValidator(5)])
-    user = models.ForeignKey(UserProfile, related_name='rates', on_delete=models.CASCADE)
+    score = models.SmallIntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
+    user = models.ForeignKey(UserProfile, related_name="rates", on_delete=models.CASCADE)
     year = models.SmallIntegerField()
     version = models.CharField(max_length=20)
     created_datetime = models.DateTimeField(auto_now_add=True, db_index=True, null=True)
 
     class Meta:
         unique_together = (
-            ("user", "year",)
+            "user",
+            "year",
         )

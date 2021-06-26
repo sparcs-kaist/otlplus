@@ -4,7 +4,11 @@ from .models import Review, MajorBestReview, HumanityBestReview
 
 @admin.register(Review)
 class ReviewAdmin(admin.ModelAdmin):
-    raw_id_fields = ('course', 'lecture', 'writer',)
+    raw_id_fields = (
+        "course",
+        "lecture",
+        "writer",
+    )
 
 
 @admin.register(MajorBestReview)

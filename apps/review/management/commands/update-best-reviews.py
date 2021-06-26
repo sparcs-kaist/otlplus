@@ -1,22 +1,20 @@
 from django.core.management.base import BaseCommand
 from apps.review.models import MajorBestReview, HumanityBestReview, Review
-from datetime import datetime, timedelta, time, date
+from datetime import timedelta
 from django.utils import timezone
-from django.db.models import Q
-from apps.subject.models import Department
 import random
 
 
 class Command(BaseCommand):
-    help = 'BestReview Changer'
+    help = "BestReview Changer"
+
     def handle(self, *args, **options):
         print("BestReview changing start!")
         latest_date_end = timezone.now()
-        latest_date_start = timezone.now() - timedelta(days = 7)
+        latest_date_start = timezone.now() - timedelta(days=7)
 
         def key(a):
-            return int(a.like / float(a.lecture.audience+1))
-
+            return int(a.like / float(a.lecture.audience + 1))
 
         def get_best_reviews(reviews, min_liked_count, max_result_count):
             liked_count = max(min_liked_count, len(reviews) // 10)
@@ -32,17 +30,13 @@ class Command(BaseCommand):
 
             return result_reviews
 
-
-
         humanity_reviews = Review.objects.filter(course__department__code="HSS")
 
         humanity_best_reviews = get_best_reviews(humanity_reviews, 50, 20)
 
         HumanityBestReview.objects.all().delete()
         for r in humanity_best_reviews:
-            HumanityBestReview.objects.create(review = r)
-
-
+            HumanityBestReview.objects.create(review=r)
 
         major_reviews = Review.objects.exclude(course__department__code="HSS")
 
@@ -50,7 +44,6 @@ class Command(BaseCommand):
 
         MajorBestReview.objects.all().delete()
         for r in major_best_reviews:
-            MajorBestReview.objects.create(review = r)
-
+            MajorBestReview.objects.create(review=r)
 
         print("BestReview was changed")

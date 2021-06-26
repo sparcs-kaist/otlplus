@@ -1,59 +1,91 @@
-from django.http import HttpResponse, HttpResponseRedirect, HttpResponseBadRequest, JsonResponse
-from django.shortcuts import redirect
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.models import User
+import datetime
+import json
+import random
+
+
+from django.conf import settings
+from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseRedirect, JsonResponse
+from django.shortcuts import redirect
 from django.views.decorators.http import require_http_methods
+
 from apps.subject.models import Department, Lecture
 from apps.session.services import get_user_department_list, get_user_major_list, json_encode_list
+from utils.decorators import login_required_ajax
+
 from .models import UserProfile
 from .services import import_student_lectures
 from .sparcssso import Client
-from utils.decorators import login_required_ajax
-import json
-import random
-import datetime
-from django.conf import settings
 
-
-UNDERGRADUATE_DEPARTMENTS = ["CE", "MSB", "ME", "PH", "BiS",
-                             "IE", "ID", "BS", "CBE", "MAS",
-                             "MS", "NQE", "HSS", "EE", "CS",
-                             "AE", "CH"]
-EXCLUDED_DEPARTMENTS = ["AA", "KSA", "URP", "ED", "INT",
-                        "KJ", "CWENA", "C", "E", "S",
-                        "PSY", "SK", "BIO", "CLT", "PHYS"]
+UNDERGRADUATE_DEPARTMENTS = [
+    "CE",
+    "MSB",
+    "ME",
+    "PH",
+    "BiS",
+    "IE",
+    "ID",
+    "BS",
+    "CBE",
+    "MAS",
+    "MS",
+    "NQE",
+    "HSS",
+    "EE",
+    "CS",
+    "AE",
+    "CH",
+]
+EXCLUDED_DEPARTMENTS = [
+    "AA",
+    "KSA",
+    "URP",
+    "ED",
+    "INT",
+    "KJ",
+    "CWENA",
+    "C",
+    "E",
+    "S",
+    "PSY",
+    "SK",
+    "BIO",
+    "CLT",
+    "PHYS",
+]
 
 
 sso_client = Client(settings.SSO_CLIENT_ID, settings.SSO_SECRET_KEY, is_beta=settings.SSO_IS_BETA)
 
 
 def home(request):
-    return HttpResponseRedirect('./login/')
+    return HttpResponseRedirect("./login/")
 
 
 def user_login(request):
     user = request.user
     if user is None or not user.is_authenticated:
-        return redirect(request.GET.get('next', '/'))
+        return redirect(request.GET.get("next", "/"))
 
-    request.session['next'] = request.GET.get('next', '/')
+    request.session["next"] = request.GET.get("next", "/")
 
     login_url, state = sso_client.get_login_params()
-    request.session['sso_state'] = state
+    request.session["sso_state"] = state
     return HttpResponseRedirect(login_url)
 
 
-@require_http_methods(['GET'])
+@require_http_methods(["GET"])
 def login_callback(request):
-    state_before = request.session.get('sso_state', None)
-    state = request.GET.get('state', None)
+    state_before = request.session.get("sso_state", None)
+    state = request.GET.get("state", None)
     if state_before is None or state_before != state:
-        return HttpResponseRedirect('/error/invalid-login')
+        return HttpResponseRedirect("/error/invalid-login")
 
-    code = request.GET.get('code')
+    code = request.GET.get("code")
     sso_profile = sso_client.get_user_info(code)
-    username = sso_profile['sid']
+    username = sso_profile["sid"]
 
     try:
         user = User.objects.get(username=username)
@@ -61,32 +93,29 @@ def login_callback(request):
         user = None
 
     try:
-        kaist_info = json.loads(sso_profile['kaist_info'])
-        student_id = kaist_info.get('ku_std_no')
-    except:
-        student_id = ''
+        kaist_info = json.loads(sso_profile["kaist_info"])
+        student_id = kaist_info.get("ku_std_no")
+    except Exception:
+        student_id = ""
 
     if student_id is None:
-        student_id = ''
+        student_id = ""
 
     if user is None:
         user = User.objects.create_user(
             username=username,
-            email=sso_profile['email'],
+            email=sso_profile["email"],
             password=str(random.getrandbits(32)),
-            first_name=sso_profile['first_name'],
-            last_name=sso_profile['last_name']
+            first_name=sso_profile["first_name"],
+            last_name=sso_profile["last_name"],
         )
-        user_profile, _ = UserProfile.objects.get_or_create(
-            student_id=sso_profile['sid'],
-            defaults={'user': user}
-        )
-        user_profile.sid = sso_profile['sid']
+        user_profile, _ = UserProfile.objects.get_or_create(student_id=sso_profile["sid"], defaults={"user": user})
+        user_profile.sid = sso_profile["sid"]
         user_profile.save()
         import_student_lectures(student_id)
     else:
-        user.first_name = sso_profile['first_name']
-        user.last_name = sso_profile['last_name']
+        user.first_name = sso_profile["first_name"]
+        user.last_name = sso_profile["last_name"]
         user.save()
 
         user_profile = user.userprofile
@@ -98,17 +127,17 @@ def login_callback(request):
             import_student_lectures(student_id)
 
     login(request, user)
-    next_url = request.session.pop('next', '/')
+    next_url = request.session.pop("next", "/")
     return redirect(next_url)
 
 
 def user_logout(request):
     if request.user.is_authenticated:
         sid = request.user.userprofile.sid
-        redirect_url = request.GET.get('next', request.build_absolute_uri('/'))
+        redirect_url = request.GET.get("next", request.build_absolute_uri("/"))
         logout_url = sso_client.get_logout_url(sid, redirect_url)
         logout(request)
-        request.session['visited'] = True
+        request.session["visited"] = True
         return redirect(logout_url)
     return redirect("/")
 
@@ -120,7 +149,7 @@ def department_options(request):
     year_threshold = datetime.datetime.now().year - 2
     recent_lectures = Lecture.objects.filter(year__gte=year_threshold).prefetch_related("department")
 
-    query = Department.objects.filter(visible=True).exclude(code__in=EXCLUDED_DEPARTMENTS).order_by('name')
+    query = Department.objects.filter(visible=True).exclude(code__in=EXCLUDED_DEPARTMENTS).order_by("name")
     for department in query:
         if department.code in UNDERGRADUATE_DEPARTMENTS:
             deps_undergraduate.append(department)
@@ -142,10 +171,10 @@ def department_options(request):
 def favorite_departments(request):
     user = request.user
     user_profile = user.userprofile
-    body = json.loads(request.body.decode('utf-8'))
+    body = json.loads(request.body.decode("utf-8"))
 
-    if request.method == 'POST':
-        fav_department = body.get('fav_department', [])
+    if request.method == "POST":
+        fav_department = body.get("fav_department", [])
         user_profile.favorite_departments.clear()
         for department_id in fav_department:
             department_obj = Department.objects.get(id=department_id)
@@ -155,10 +184,10 @@ def favorite_departments(request):
     return HttpResponseBadRequest()
 
 
-@login_required(login_url='/session/login/')
+@login_required(login_url="/session/login/")
 def unregister(request):
-    if request.method != 'POST':
-        return HttpResponseRedirect('/error/problem-unregister')
+    if request.method != "POST":
+        return HttpResponseRedirect("/error/problem-unregister")
 
     user = request.user
     user_profile = user.userprofile
@@ -166,7 +195,7 @@ def unregister(request):
     sid = user_profile.sid
     result = sso_client.do_unregister(sid)
     if not result:
-        return HttpResponseRedirect('/error/problem-unregister')
+        return HttpResponseRedirect("/error/problem-unregister")
 
     user_profile.delete()
     user.delete()
@@ -192,4 +221,3 @@ def info(request):
         "reviews": json_encode_list(profile.reviews.all(), nested=True),
     }
     return JsonResponse(ctx, safe=False)
-
