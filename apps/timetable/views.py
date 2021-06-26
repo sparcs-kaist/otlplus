@@ -249,7 +249,7 @@ def share_timetable_calendar_view(request):
 
 
 
-def _rounded_rectangle(draw, points, radius, color):
+def draw_rounded_rectangle(draw, points: Tuple[int, int, int, int], radius: int, color):
     draw.pieslice([points[0], points[1], points[0]+radius*2, points[1]+radius*2], 180, 270, color)
     draw.pieslice([points[2]-radius*2, points[1], points[2], points[1]+radius*2], 270, 0, color)
     draw.pieslice([points[2]-radius*2, points[3]-radius*2, points[2], points[3]], 0, 90, color)
@@ -258,8 +258,7 @@ def _rounded_rectangle(draw, points, radius, color):
     draw.rectangle([points[0]+radius, points[1], points[2]-radius, points[3]], color)
 
 
-
-def _sliceText(text, width, font):
+def slice_text_to_fit_width(text: str, width: int, font: ImageFont) -> List[str]:
     sliced = []
     slStart = 0
 
@@ -273,34 +272,33 @@ def _sliceText(text, width, font):
 
 
 
-def _textbox(draw, points, title, prof, loc, font):
-
+def draw_textbox(draw, points, title: str, professor: str, location: str, font: ImageFont):
     width = points[2] - points[0]
     height = points[3] - points[1]
 
-    ts = _sliceText(title, width, font)
-    ps = _sliceText(prof, width, font)
-    ls = _sliceText(loc, width, font)
+    sliced_title = slice_text_to_fit_width(title, width, font)
+    sliced_professor = slice_text_to_fit_width(professor, width, font)
+    sliced_location = slice_text_to_fit_width(location, width, font)
 
     sliced = []
     textHeight = 0
 
-    for i in range(len(ts)+len(ps)+len(ls)):
-        if i == len(ts):
+    for i in range(len(sliced_title)+len(sliced_professor)+len(sliced_location)):
+        if i == len(sliced_title):
             sliced.append(("", 2, (0,0,0,128)))
             textHeight += 2
-        elif i == len(ts)+len(ps):
+        elif i == len(sliced_title)+len(sliced_professor):
             sliced.append(("", 2, (0,0,0,128)))
             textHeight += 2
 
-        if i < len(ts):
-            sliced.append((ts[i], 24, (0,0,0,204)))
+        if i < len(sliced_title):
+            sliced.append((sliced_title[i], 24, (0,0,0,204)))
             textHeight += 24
-        elif i < len(ts)+len(ps):
-            sliced.append((ps[i-len(ts)], 24, (0,0,0,128)))
+        elif i < len(sliced_title)+len(sliced_professor):
+            sliced.append((sliced_professor[i-len(sliced_title)], 24, (0,0,0,128)))
             textHeight += 24
         else:
-            sliced.append((ls[i-len(ts)-len(ps)], 24, (0,0,0,128)))
+            sliced.append((sliced_location[i-len(sliced_title)-len(sliced_professor)], 24, (0,0,0,128)))
             textHeight += 24
 
         if textHeight > height:
@@ -336,12 +334,20 @@ def share_timetable_image_view(request):
         if timetable_lectures is None:
             return HttpResponseBadRequest('No such timetable')
 
-        response = _share_image(timetable_lectures)
+        response = HttpResponse(content_type="image/png")
+        image = create_timetable_image(timetable_lectures)
+        image.save(response, 'PNG')
         return response
 
 
+TIMETABLE_CELL_COLORS = ['#F2CECE','#F4B3AE','#F2BCA0','#F0D3AB',
+                         '#F1E1A9','#f4f2b3','#dbf4be','#beedd7',
+                         '#b7e2de','#c9eaf4','#B4D3ED','#B9C5ED',
+                         '#CCC6ED','#D8C1F0','#EBCAEF','#f4badb']
 
-def _share_image(timetable_lectures):
+
+
+def create_timetable_image(timetable_lectures):
     if settings.DEBUG:
         file_path = 'static/'
     else:
@@ -349,31 +355,25 @@ def _share_image(timetable_lectures):
 
     image = Image.open(file_path+"img/Image_template.png")
     draw = ImageDraw.Draw(image)
-    textImage = Image.new("RGBA", image.size)
-    textDraw = ImageDraw.Draw(textImage)
+    text_image = Image.new("RGBA", image.size)
+    text_draw = ImageDraw.Draw(text_image)
     font = ImageFont.truetype(file_path+"fonts/NanumBarunGothic.ttf", 22)
 
-    for l in timetable_lectures:
-        lDict = l.toJson(nested=False)
-        color = ['#F2CECE','#F4B3AE','#F2BCA0','#F0D3AB',
-                 '#F1E1A9','#f4f2b3','#dbf4be','#beedd7',
-                 '#b7e2de','#c9eaf4','#B4D3ED','#B9C5ED',
-                 '#CCC6ED','#D8C1F0','#EBCAEF','#f4badb'][lDict['course']%16]
-        for ct in lDict['classtimes']:
-            day = ct['day']
-            begin = ct['begin'] // 30 - 16
-            end = ct['end'] // 30 - 16
+    for lecture in timetable_lectures:
+        lecture_dict = lecture.toJson(nested=False)
+        color = TIMETABLE_CELL_COLORS[lecture_dict['course']%16]
+        for class_time in lecture_dict['classtimes']:
+            day = class_time['day']
+            begin = class_time['begin'] // 30 - 16
+            end = class_time['end'] // 30 - 16
 
             points = (178*day+76, 40*begin+158, 178*(day+1)+69, 40*end+151)
-            _rounded_rectangle(draw, points, 4, color)
+            draw_rounded_rectangle(draw, points, 4, color)
 
             points = (points[0]+12, points[1]+8, points[2]-12, points[3]-8)
-            _textbox(textDraw, points, lDict['title'], l.get_professors_short_str(), ct['classroom_short'], font)
+            draw_textbox(text_draw, points, lecture_dict['title'], lecture.get_professors_short_str(), class_time['classroom_short'], font)
 
     #image.thumbnail((600,900))
 
-    image.paste(textImage, mask=textImage)
-    response = HttpResponse(content_type="image/png")
-    image.save(response, 'PNG')
-
-    return response
+    image.paste(text_image, mask=text_image)
+    return image
