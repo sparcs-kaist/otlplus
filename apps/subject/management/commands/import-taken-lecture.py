@@ -52,7 +52,7 @@ class Command(BaseCommand):
             print
             return
 
-        print year, semester
+        print(year, semester)
         query = 'SELECT * FROM view_OTL_attend WHERE lecture_year = %d AND lecture_term = %d' % (year, semester)
         rows = execute(host, port, user, password, query)
 
@@ -69,5 +69,5 @@ class Command(BaseCommand):
                 if len(lecture) == 1:
                     u.taken_lectures.add(lecture[0])
                 else:
-                    print>>sys.stderr, str(a[0]) + " " + str(a[1]) + " " + a[2] + " " + a[3] + "는 왜 개수가 " + str(len(lecture)) + " 지?"
+                    print(f"{str(a[0])} {str(a[1])} {a[2]} {a[3]}는 왜 개수가 {len(lecture)} 지?", file=sys.stderr)
 

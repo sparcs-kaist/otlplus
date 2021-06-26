@@ -10,7 +10,7 @@ import random
 class Command(BaseCommand):
     help = 'BestReview Changer'
     def handle(self, *args, **options):
-        print "BestReview changing start!"
+        print("BestReview changing start!")
         latest_date_end = timezone.now()
         latest_date_start = timezone.now() - timedelta(days = 7)
 
@@ -53,4 +53,4 @@ class Command(BaseCommand):
             MajorBestReview.objects.create(review = r)
 
 
-        print "BestReview was changed"
+        print("BestReview was changed")

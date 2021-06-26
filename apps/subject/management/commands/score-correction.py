@@ -5,8 +5,8 @@ from apps.review.models import Review
 class Command(BaseCommand):
     help = '--score correction--'
     def handle(related, *args, **options):
-        print "score correction start!"
-        print "initializing.."
+        print("score correction start!")
+        print("initializing..")
 
         courses = Course.objects.all()
         lectures = Lecture.objects.all()
@@ -16,7 +16,7 @@ class Command(BaseCommand):
         i = 0
         for r in related_list:
             r.recalc_score()
-            print str(i) + " / " + str(related_len)
+            print("{i} / {related_len}")
             i+=1
-        print "score correction ended!"
+        print("score correction ended!")
 

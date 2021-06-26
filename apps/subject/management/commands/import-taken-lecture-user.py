@@ -26,7 +26,7 @@ class Command(BaseCommand):
     args = u'--host=143.248.X.Y:PORT --user=USERNAME'
 
     def handle(self, *args, **options):
-        print "start"
+        print("start")
         host = options.get('host', None)
         port = options.get('port', None)
         user = options.get('user', None)
@@ -58,5 +58,5 @@ class Command(BaseCommand):
             if len(lecture) == 1:
                 userprofile.taken_lectures.add(lecture[0])
             else:
-                print>>sys.stderr, str(a[0]) + " " + str(a[1]) + " " + a[2] + " " + a[3] + "는 왜 개수가 " + str(len(lecture)) + " 지?"
+                print(f"{str(a[0])} {str(a[1])} {a[2]} {a[3]}는 왜 개수가 {len(lecture)} 지?", file=sys.stderr)
 

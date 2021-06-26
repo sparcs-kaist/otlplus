@@ -101,11 +101,11 @@ class Command(BaseCommand):
                     new_flag = False
                     try:
                         department = Department.objects.get(id = department_id)
-                        print 'Updating department: %s' % department
+                        print(f"Updating department: {department}")
                     except Department.DoesNotExist:
                         department = Department(id = department_id)
                         new_flag = True
-                        print 'Adding department: %s(%d)...' % (department_code, department_id)
+                        print(f"Adding department: {department_code}({department_id})...")
                     department.num_id = department_no
                     department.code = department_code
                     department.name = myrow[5]
@@ -139,11 +139,11 @@ class Command(BaseCommand):
                 try:
                     lecture = Lecture.objects.get(**lecture_key)
                     lecture_key_hashable = lecture.id
-                    print 'Updating existing lecture %s' % lecture
+                    print(f"Updating existing lecture {lecture}")
                 except Lecture.DoesNotExist:
                     lecture = Lecture(**lecture_key)
                     lecture.num_people = 0
-                    print 'Creating new lecture %s' % lecture
+                    print(f"Creating new lecture {lecture}")
 
                 # Update lecture info.
                 lecture.department = department
@@ -253,13 +253,13 @@ class Command(BaseCommand):
 
         # Extract exam-time, class-time info.
 
-        print 'Extracting exam time information...'
+        print("Extracting exam time information...")
         query = 'SELECT * FROM view_OTL_exam_time WHERE lecture_year = %d AND lecture_term = %d' % (next_year, next_semester)
         exam_times = execute(host, port, user, password, query)
-        print exam_times
+        print("exam_times")
         ExamTime.objects.filter(lecture__year__exact=next_year, lecture__semester=next_semester).delete()
         for row in exam_times:
-            print row
+            print(row)
             myrow = []
             for elem in row:
                 if isinstance(elem, str):
@@ -283,20 +283,20 @@ class Command(BaseCommand):
                 exam_time.day = int(myrow[5]) - 1
                 exam_time.begin = time(hour=myrow[6].hour, minute=myrow[6].minute)
                 exam_time.end = time(hour=myrow[7].hour, minute=myrow[7].minute)
-                print 'Updating exam time for %s' % lecture
+                print(f"Updating exam time for {lecture}")
                 exam_time.save()
             except Lecture.DoesNotExist:
-                print 'Exam-time for non-existing lecture %s; skip it...' % myrow[2]
+                print(f"Exam-time for non-existing lecture {myrow[2]}; skip it...")
 
         # Extract class time.
 
-        print 'Extracting class time information...'
+        print(f"Extracting class time information...")
         query = 'SELECT * FROM view_OTL_time WHERE lecture_year = %d AND lecture_term = %d' % (next_year, next_semester)
         class_times = execute(host, port, user, password, query)
         # print class_times
         ClassTime.objects.filter(lecture__year__exact=next_year, lecture__semester=next_semester).delete()
         for row in class_times:
-            print row
+            print(row)
             myrow = []
             for elem in row:
                 if isinstance(elem, str):
@@ -315,7 +315,7 @@ class Command(BaseCommand):
                 'class_no': myrow[3].strip(),
             }
             try:
-                print (myrow)
+                print(myrow)
                 lecture = Lecture.objects.get(**lecture_key)
                 class_time = ClassTime(lecture=lecture)
                 class_time.day = int(myrow[5]) - 1
@@ -330,10 +330,10 @@ class Command(BaseCommand):
                     class_time.unit_time = int(myrow[11])
                 except (ValueError, TypeError):
                     class_time.unit_time = 0
-                print 'Updating class time for %s' % lecture
+                print(f"Updating class time for {lecture}")
                 class_time.save()
             except Lecture.DoesNotExist:
-                print 'Class-time for non-existing lecture %s; skip it...' % myrow[2]
+                print(f"Class-time for non-existing lecture {myrow[2]}; skip it...")
 
         # Extract Syllabus info.
         '''
@@ -378,12 +378,12 @@ class Command(BaseCommand):
         '''
         if not exclude_lecture:
             # Mark deleted lectures to notify users.
-            print 'Marking deleted lectures...'
+            print("Marking deleted lectures...")
             for key in lectures_not_updated:
                 lecture = Lecture.objects.get(id = key)
                 lecture.deleted = True
 #                print '%s is marked as deleted...' % lecture
                 lecture.save()
 
-        print '\nTotal number of departments : %d' % Department.objects.count()
-        print 'Total number of lectures newly added : %d' % lecture_count
+        print(f"\nTotal number of departments : {Department.objects.count()}")
+        print(f"Total number of lectures newly added : {lecture_count}")
