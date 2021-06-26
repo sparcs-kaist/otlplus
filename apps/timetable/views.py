@@ -21,7 +21,6 @@ def _validate_year_semester(year, semester):
         or (2009 < year < 2018 and semester in [1, 3]) # TODO: Complete Semester instances and remove this condition
 
 
-
 @login_required_ajax
 @require_http_methods(['GET', 'POST'])
 def user_instance_timetable_list_view(request, user_id):
