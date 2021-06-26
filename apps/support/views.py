@@ -32,7 +32,7 @@ def rate_list_view(request):
         body = json.loads(request.body.decode('utf-8'))
 
         user = request.user
-        if not (user and user.is_authenticated()):
+        if user is None or not user.is_authenticated:
             return HttpResponse(status=401)
         
         current_year = datetime.datetime.now().year

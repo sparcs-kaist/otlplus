@@ -1,7 +1,5 @@
 # -*- coding: utf-8
 from django.http import *
-from django.shortcuts import render_to_response
-from django.template import RequestContext
 
 def login_required_ajax(function=None, response_content=u'You have to log in first'):
     """
@@ -10,7 +8,7 @@ def login_required_ajax(function=None, response_content=u'You have to log in fir
     """
     def decorate(view_func):
         def handler(request, *args, **kwargs):
-            if request.user.is_authenticated():
+            if request.user.is_authenticated:
                 return view_func(request, *args, **kwargs)
             return HttpResponse(status=401)
         return handler

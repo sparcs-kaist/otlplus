@@ -53,7 +53,7 @@ def review_list_view(request):
         body = json.loads(request.body.decode('utf-8'))
 
         user = request.user
-        if not (user and user.is_authenticated()):
+        if user is None or not user.is_authenticated:
             return HttpResponse(status=401)
 
         content = body.get('content', '')
@@ -95,7 +95,7 @@ def review_instance_view(request, review_id):
         body = json.loads(request.body.decode('utf-8'))
 
         user = request.user
-        if not (user and user.is_authenticated()):
+        if user is None or not user.is_authenticated:
             return HttpResponse(status=401)
         if not review.writer == user.userprofile:
             return HttpResponse(status=401)

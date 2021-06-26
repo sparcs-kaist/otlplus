@@ -32,7 +32,7 @@ class Review(models.Model):
     def toJson(self, nested=False, user=None):
         def addUserspecificData(result, user):
             is_liked = True
-            if (not user) or (not user.is_authenticated()):
+            if user is None or not user.is_authenticated:
                 is_liked = False
             else:
                 is_liked = ReviewVote.objects.filter(review = self, userprofile__user = user).exists()

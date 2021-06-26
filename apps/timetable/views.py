@@ -21,7 +21,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 
 def _user_department(user):
-    if not user.is_authenticated():
+    if not user.is_authenticated:
         return []
 
     u = user.userprofile

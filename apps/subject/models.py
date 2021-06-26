@@ -487,7 +487,7 @@ class Course(models.Model):
     def toJson(self, nested=False, user=None):
         def addUserspecificData(result, user):
             # Add user read info
-            if (not user) or (not user.is_authenticated()):
+            if user is None or not user.is_authenticated:
                 is_read = False
             else:
                 try:

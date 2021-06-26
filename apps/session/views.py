@@ -28,7 +28,7 @@ def home(request):
 
 def user_login(request):
     user = request.user
-    if user and user.is_authenticated():
+    if user is None or not user.is_authenticated:
         return redirect(request.GET.get('next', '/'))
 
     request.session['next'] = request.GET.get('next', '/')
@@ -104,11 +104,10 @@ def login_callback(request):
             OldTimetable.import_in_for_user(student_id)
         login(request, user)
         return redirect(next)
-        return HttpResponseRedirect('/error/no-such-user')
 
 
 def user_logout(request):
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         sid = request.user.userprofile.sid
         redirect_url = request.GET.get('next', request.build_absolute_uri('/'))
         logout_url = sso_client.get_logout_url(sid, redirect_url)

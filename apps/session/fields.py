@@ -80,5 +80,5 @@ class CredentialsField(models.Field):
         Returns:
             string, the serialized field value
         """
-        value = self._get_val_from_obj(obj)
+        value = self.value_from_object(obj)
         return self.get_prep_value(value)
