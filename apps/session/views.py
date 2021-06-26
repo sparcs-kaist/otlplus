@@ -1,14 +1,13 @@
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseBadRequest, JsonResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
 from django.conf import settings
 from apps.subject.models import Department, Lecture
-from apps.review.models import Review
 from apps.timetable.models import OldTimetable
-from apps.timetable.views import _user_department
+from apps.timetable.services import get_user_department_list
 from .models import UserProfile
 from .sparcssso import Client
 from utils.decorators import login_required_ajax
@@ -16,7 +15,6 @@ import json
 import random
 import os
 import datetime
-from django.db.models import Q
 from django.conf import settings
 
 
@@ -205,7 +203,7 @@ def info(request):
         "firstName": request.user.first_name,
         "lastName": request.user.last_name,
         "majors": [d.toJson() for d in ( ([userProfile.department] if (userProfile.department != None) else []) + list(userProfile.majors.all()) + list(userProfile.minors.all()) )],
-        "departments": _user_department(request.user),
+        "departments": get_user_department_list(request.user),
         "favorite_departments": [d.toJson() for d in userProfile.favorite_departments.all()],
         "review_writable_lectures": [l.toJson() for l in userProfile.getReviewWritableLectureList()],
         "my_timetable_lectures": [l.toJson() for l in userProfile.taken_lectures.exclude(Lecture.getQueryResearch())],

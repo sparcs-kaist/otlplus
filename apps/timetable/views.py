@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 # Django apps
+from apps.session.models import UserProfile
 from .models import Timetable, Wishlist
 from apps.subject.models import Lecture, Semester
 from apps.subject.models import *
@@ -12,34 +13,12 @@ from django.contrib.auth.decorators import login_required
 from utils.decorators import login_required_ajax
 from django.views.decorators.http import require_http_methods
 from django.conf import settings
+from .services import get_timetable_entries
 
 import json
 
 # Pillow
 from PIL import Image, ImageDraw, ImageFont
-
-
-
-def _user_department(user):
-    if not user.is_authenticated:
-        return []
-
-    u = user.userprofile
-
-    if (u.department==None) or (u.department.code in ['AA', 'ICE']):
-        departments = []
-    else:
-        departments = [u.department.toJson()]
-
-    raw_departments = list(u.majors.all()) + list(u.minors.all()) \
-                      + list(u.specialized_major.all()) + list(u.favorite_departments.all())
-    for d in raw_departments:
-        data = d.toJson()
-        if data not in departments:
-            departments.append(data)
-
-    return departments
-
 
 
 def _validate_year_semester(year, semester):
@@ -174,25 +153,6 @@ def user_instance_timetable_instance_remove_lecture_view(request, user_id, timet
         return JsonResponse(timetable.toJson())
 
 
-
-def _get_timetable_or_my_timetable_lectures(userprofile, table_id, year, semester):
-    MY = -1
-
-    if userprofile == None:
-        return None
-
-    if table_id == MY:
-        return list(userprofile.taken_lectures.filter(year=year, semester=semester))
-    
-    try:
-        table = Timetable.objects.get(user=userprofile, id=table_id, year=year, semester=semester)
-    except Timetable.DoesNotExist:
-        return None
-    
-    return list(table.lectures.all())
-
-
-
 @login_required_ajax
 @require_http_methods(['GET'])
 def user_instance_wishlist_view(request, user_id):
@@ -278,7 +238,7 @@ def share_timetable_calendar_view(request):
         ):
             return HttpResponseBadRequest('Missing fields in request data')
 
-        timetable_lectures = _get_timetable_or_my_timetable_lectures(userprofile, table_id, year, semester)
+        timetable_lectures = get_timetable_entries(userprofile, table_id, year, semester)
         if timetable_lectures is None:
             return HttpResponseBadRequest('No such timetable')
 
@@ -372,7 +332,7 @@ def share_timetable_image_view(request):
         ):
             return HttpResponseBadRequest('Missing fields in request data')
 
-        timetable_lectures = _get_timetable_or_my_timetable_lectures(userprofile, table_id, year, semester)
+        timetable_lectures = get_timetable_entries(userprofile, table_id, year, semester)
         if timetable_lectures is None:
             return HttpResponseBadRequest('No such timetable')
 

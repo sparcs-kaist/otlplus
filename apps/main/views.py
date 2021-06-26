@@ -1,23 +1,12 @@
-from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse
-from django.views.decorators.csrf import ensure_csrf_cookie
-from django.views.decorators.http import require_http_methods, require_POST
-from django.core.exceptions import ObjectDoesNotExist
-from django.conf import settings
+from django.http import HttpResponse, JsonResponse
+from django.views.decorators.http import require_http_methods
 from utils.decorators import login_required_ajax
 
-from apps.session.models import UserProfile
-from apps.subject.models import Course, Department
+from apps.subject.models import Department
 from .models import FamousMajorReviewDailyFeed, FamousHumanityReviewDailyFeed, ReviewWriteDailyUserFeed, RelatedCourseDailyUserFeed, RateDailyUserFeed
 
-from apps.timetable.views import _user_department
+from apps.timetable.services import get_user_department_list
 
-import json
-import datetime
-import random
-import json
-
-from datetime import date
 
 
 @login_required_ajax
@@ -29,7 +18,7 @@ def user_instance_feeds_view(request, user_id):
         if userprofile.id != int(user_id):
             return HttpResponse(status=401)
 
-        department_codes = [d['code'] for d in _user_department(request.user) if (d['code'] != 'Basic')]
+        department_codes = [d['code'] for d in get_user_department_list(request.user) if (d['code'] != 'Basic')]
         departments = Department.objects.filter(code__in=department_codes, visible=True)
         famous_major_review_daily_feed_list = [FamousMajorReviewDailyFeed.get(date=date, department=d, departments_num=departments.count()) for d in departments]
 
