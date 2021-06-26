@@ -14,12 +14,11 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
 """
 from django.conf.urls import url
-from django.http import HttpResponseRedirect
 from . import views
 
 urlpatterns = [
-    url(r'^reviews$', views.review_list_view),
-    url(r'^reviews/(?P<review_id>\d+)$', views.review_instance_view),
-    url(r'^reviews/(?P<review_id>\d+)/like$', views.review_instance_like_view),
-    url(r'^users/(?P<user_id>\d+)/liked-reviews$', views.user_instance_liked_reviews_view),
+    url(r'^reviews$', views.ReviewListView.as_view()),
+    url(r'^reviews/(?P<review_id>\d+)$', views.ReviewInstanceView.as_view()),
+    url(r'^reviews/(?P<review_id>\d+)/like$', views.ReviewLikeView.as_view()),
+    url(r'^users/(?P<user_id>\d+)/liked-reviews$', views.UserLikedReviewsView.as_view()),
 ]
