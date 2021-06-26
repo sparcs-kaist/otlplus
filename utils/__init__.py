@@ -5,7 +5,7 @@ import urllib
 from datetime import date, timedelta
 from django.db import models
 from django import forms
-import simplejson as json
+import json
 from django.http import HttpResponse
 from django.core.cache import cache
 from django.conf import settings

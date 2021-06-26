@@ -1,43 +1,19 @@
 # -*- coding: utf-8 -*-
 
 # Django apps
-from apps.session.models import UserProfile
 from .models import Timetable, Wishlist
-from apps.subject.models import Lecture, Professor, Course, Semester
-from apps.review.models import Review
+from apps.subject.models import Lecture, Semester
 from apps.subject.models import *
-from utils.timezone import KST
 from utils.util import getint
-from django.contrib.auth.models import User
 
 # Django modules
-from django.db.models import Q
-from django.db import IntegrityError
-from django.http import HttpResponse, HttpResponseRedirect, HttpResponseBadRequest, HttpResponseNotFound, HttpResponseServerError, JsonResponse
+from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseNotFound, JsonResponse
 from django.contrib.auth.decorators import login_required
 from utils.decorators import login_required_ajax
-from django.views.decorators.http import require_POST, require_http_methods
+from django.views.decorators.http import require_http_methods
 from django.conf import settings
-from django.shortcuts import render, redirect, get_object_or_404
-from django.template import RequestContext
-from django.utils import translation
-from django.core.cache import cache
-from django.contrib.staticfiles.templatetags.staticfiles import static
 
-# For google calendar
-from apiclient import discovery
-import oauth2client
-from oauth2client import client
-from oauth2client import tools
-from oauth2client.client import OAuth2WebServerFlow
-from oauth2client.contrib import xsrfutil
-from oauth2client.contrib.django_util.storage import DjangoORMStorage
-
-import datetime
-import httplib2
 import json
-import urllib
-import random
 
 # Pillow
 from PIL import Image, ImageDraw, ImageFont
@@ -306,86 +282,10 @@ def share_timetable_calendar_view(request):
         if timetable_lectures is None:
             return HttpResponseBadRequest('No such timetable')
 
-        response = _share_calendar(request, timetable_lectures, year, semester)
-        return response
-
-
-
-def _share_calendar(request, timetable_lectures, year, semester):
-    storage = DjangoORMStorage(UserProfile, 'user', request.user, 'google_credential')
-    credential = storage.get()
-
-    if credential is None or credential.invalid == True:
-        FLOW.params['state'] = xsrfutil.generate_token(settings.SECRET_KEY,
-                                                       request.user)
-        authorize_url = FLOW.step1_get_authorize_url(redirect_uri = request.build_absolute_uri("/api/external/google/google_auth_return"))
-        return HttpResponseRedirect(authorize_url)
-
-    http = credential.authorize(httplib2.Http())
-    service = discovery.build('calendar', 'v3', http=http)
-
-    calendar_name = "[OTL] %d %s" % (year, ["Spring", "Summer", "Fall", "Winter"][semester-1])
-
-    # Create new calendar
-    calendar = {
-        'summary': calendar_name,
-        'timeZone': 'Asia/Seoul',
-        'defaultReminders': [{
-            'method': 'popup',
-            'minutes': 10
-        }]
-    }
-
-    created_calendar = service.calendars().insert(body=calendar).execute()
-    c_id = created_calendar['id']
-
-    semester = Semester.objects.get(year=year, semester=semester)
-    start = semester.beginning.astimezone(KST()).date()
-    end = semester.end.astimezone(KST()).date()
- 
-    for l in timetable_lectures:
-        lDict = l.toJson(nested=False)
-
-        for ct in lDict['classtimes']:
-            days_ahead = ct['day'] - start.weekday()
-            if days_ahead < 0:
-                days_ahead += 7
-
-            class_date = start + datetime.timedelta(days=days_ahead)
-            begin_time = datetime.time(int(ct['begin']/60),
-                                       int(ct['begin']%60))
-            end_time = datetime.time(int(ct['end']/60),
-                                     int(ct['end']%60))
-
-            event = {
-                'summary': lDict['title'],
-                'location': ct['classroom'],
-                'start': {
-                    'dateTime' : datetime.datetime.combine(class_date, begin_time).isoformat(),
-                    'timeZone' : 'Asia/Seoul'
-                    },
-                'end': {
-                    'dateTime' : datetime.datetime.combine(class_date, end_time).isoformat(),
-                    'timeZone' : 'Asia/Seoul'
-                    },
-                'recurrence' : ['RRULE:FREQ=WEEKLY;UNTIL=' + end.strftime("%Y%m%d")]
-            }
-
-            service.events().insert(calendarId=c_id, body=event).execute()
-
-    return redirect("https://calendar.google.com/calendar/r/week/%d/%d/%d"%(start.year, start.month, start.day))
-
-
-
-@login_required
-def external_google_google_auth_return_view(request):
-    if not xsrfutil.validate_token(settings.SECRET_KEY, str(request.GET['state']),
-                                   request.user):
-        return HttpResponseBadRequest('Invalid token')
-    credential = FLOW.step2_exchange(request.GET)
-    storage = DjangoORMStorage(UserProfile, 'user', request.user, 'google_credential')
-    storage.put(credential)
-    return HttpResponseRedirect("/timetable")
+        # TODO: Add impl
+        return HttpResponseBadRequest('Not implemented')
+        # response = _share_calendar(request, timetable_lectures, year, semester)
+        # return response
 
 
 

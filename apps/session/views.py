@@ -12,18 +12,13 @@ from apps.timetable.views import _user_department
 from .models import UserProfile
 from .sparcssso import Client
 from utils.decorators import login_required_ajax
-import urllib
 import json
 import random
 import os
 import datetime
-import subprocess
 from django.db.models import Q
 from django.conf import settings
 
-import urlparse
-import requests
-from django.db.models import Q
 
 sso_client = Client(settings.SSO_CLIENT_ID, settings.SSO_SECRET_KEY, is_beta=settings.SSO_IS_BETA)
 
@@ -40,7 +35,6 @@ def user_login(request):
 
     login_url, state = sso_client.get_login_params()
     request.session['sso_state'] = state
-
     return HttpResponseRedirect(login_url)
 
 

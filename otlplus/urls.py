@@ -15,10 +15,8 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
+from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render
-from .settings import BASE_DIR
-import os
 
 from django.conf import settings
 from django.conf.urls.static import static
@@ -43,6 +41,6 @@ urlpatterns = [
     url(r'^api/', include('apps.main.urls')),
     url(r'^api/', include('apps.support.urls')),
     url(r'^api/status$', lambda request: HttpResponse()),
-    url(r'^api/', lambda request: HttpResponseNotFound('Bad url')),
-    url(r'^', lambda request: render(request, 'index.html')),
+    # url(r'^api/', lambda request: HttpResponseNotFound('Bad url')),
+    # url(r'^', lambda request: render(request, 'index.html')),
 ]

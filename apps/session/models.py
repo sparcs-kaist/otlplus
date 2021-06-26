@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 from .sparcssso import Client
 from apps.subject.models import Department, Lecture
-from oauth2client.contrib.django_util.models import CredentialsField
+from .fields import CredentialsField
 #from apps.timetable.models import Timetable
 
 sso_client = Client(settings.SSO_CLIENT_ID, settings.SSO_SECRET_KEY, is_beta=settings.SSO_IS_BETA)
