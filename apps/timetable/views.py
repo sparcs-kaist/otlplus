@@ -447,7 +447,7 @@ def _textbox(draw, points, title, prof, loc, font):
             textHeight -= sliced.pop()[1]
             break
 
-    topPad = (height - textHeight) / 2
+    topPad = (height - textHeight) // 2
 
     textPosition = 0
     for s in sliced:
@@ -501,8 +501,8 @@ def _share_image(timetable_lectures):
                  '#CCC6ED','#D8C1F0','#EBCAEF','#f4badb'][lDict['course']%16]
         for ct in lDict['classtimes']:
             day = ct['day']
-            begin = ct['begin'] / 30 - 16
-            end = ct['end'] / 30 - 16
+            begin = ct['begin'] // 30 - 16
+            end = ct['end'] // 30 - 16
 
             points = (178*day+76, 40*begin+158, 178*(day+1)+69, 40*end+151)
             _rounded_rectangle(draw, points, 4, color)
