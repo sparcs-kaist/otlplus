@@ -18,8 +18,8 @@ class Command(BaseCommand):
         parser.add_argument('--host', dest='host', help=u'Specifies server address.')
         parser.add_argument('--port', dest='port', help=u'Specifies server port.')
         parser.add_argument('--user', dest='user', help=u'Specifies user name to log in.')
-        parser.add_argument('--password', dest='password', help=u'Specifies passowrd to log in.')
-        parser.add_argument('--encoding', dest='encoding', help=u'Sepcifies character encoding to decode strings from database. (default is cp949)', default='cp949')
+        parser.add_argument('--password', dest='password', help=u'Specifies password to log in.')
+        parser.add_argument('--encoding', dest='encoding', help=u'Specifies character encoding to decode strings from database. (default is cp949)', default='cp949')
         parser.add_argument('--exclude-lecture', action='store_true', dest='exclude_lecture', help=u'Don\'t update lecture information when you want to update time information only.', default=False)
         parser.add_argument('--year', dest='year', type=int)
         parser.add_argument('--semester', dest='semester', type=int)
@@ -27,7 +27,7 @@ class Command(BaseCommand):
     args = u'--host=143.248.X.Y:PORT --user=USERNAME'
 
     def handle(self, *args, **options):
-        rx_dept_code = re.compile(ur'([a-zA-Z]+)(\d+)')
+        rx_dept_code = re.compile(r'([a-zA-Z]+)(\d+)')
         host = options.get('host', None)
         port = options.get('port', None)
         user = options.get('user', None)
@@ -36,12 +36,12 @@ class Command(BaseCommand):
         exclude_lecture = options.get('exclude_lecture', False)
         lecture_count = 0
 
-        if options['year']!=None and options['semester']!=None:
+        if options['year'] is not None and options['semester'] is not None:
             next_year = int(options['year'])
             next_semester = int(options['semester'])
         else:
             default_semester = Semester.getImportingSemester()
-            if default_semester != None:
+            if default_semester is not None:
                 next_year = default_semester.year
                 next_semester = default_semester.semester
             else:
@@ -52,7 +52,7 @@ class Command(BaseCommand):
             if password is None:
                 password = getpass.getpass()
         except (KeyboardInterrupt, EOFError):
-            print
+            print()
             return
 
         if not exclude_lecture:
@@ -123,9 +123,9 @@ class Command(BaseCommand):
 
                 # Extract lecture info.
                 #try:
-                    #print 'Retreiving %s: %s [%s]...' % (lecture_code, myrow[7].encode('utf-8'), lecture_class_no)
+                    #print 'Retrieving %s: %s [%s]...' % (lecture_code, myrow[7].encode('utf-8'), lecture_class_no)
                 #except UnicodeDecodeError:
-                    #print 'Retreiving %s: ??? [%s]...' % (lecture_code, lecture_class_no)
+                    #print 'Retrieving %s: ??? [%s]...' % (lecture_code, lecture_class_no)
                     #myrow[7] = u'???'
                 lecture_key = {
                     'code': lecture_no,
@@ -207,12 +207,12 @@ class Command(BaseCommand):
                     for i in match_scholar:
                         try:
                             prof_id = i[5]
-                            prof_name = unicode(i[6], 'cp949')
-                            if i[8] is None or i[8]=='':
+                            prof_name = str(i[6], 'cp949')
+                            if i[8] is None or i[8] == '':
                                 prof_name_en = ''
                             else:
-                                prof_name_en = unicode(i[8].strip(),'cp949')
-                            if i[4] is None or i[4]=='':
+                                prof_name_en = str(i[8].strip(), 'cp949')
+                            if i[4] is None or i[4] == '':
                                 prof_major = ''
                             else:
                                 prof_major = i[4]
@@ -267,7 +267,7 @@ class Command(BaseCommand):
                         elem = elem.decode(encoding)
                     except UnicodeDecodeError:
                         elem = u'???'
-                        print>> sys.stderr, 'ERROR: parsing error on lecture. cannot read in cp949.'
+                        print('ERROR: parsing error on lecture. cannot read in cp949.', file=sys.stderr)
                 myrow.append(elem)
             lecture_key = {
                 'deleted': False,
