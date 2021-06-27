@@ -16,3 +16,6 @@ urllib3==1.26.6
 jsonpickle==2.0.0
 flake8==3.9.2
 black==21.6b0
+pytest==6.2.4
+pytest-django==4.4.0
+pytest-cov==2.12.1

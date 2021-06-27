@@ -97,3 +97,4 @@ react/node_modules
 
 .vscode/
 .history/
+htmlcov/
