@@ -1,0 +1,747 @@
+day,begin,end,type,building_id,building_full_name,building_full_name_en,room_name,unit_time,lecture_id
+1,10:30:00,12:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1319,2,1716003
+3,10:30:00,12:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1319,2,1716003
+1,10:30:00,12:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1322,2,1715960
+3,10:30:00,12:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1322,2,1715960
+1,14:30:00,16:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1322,4,1715962
+3,14:30:00,16:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1322,4,1715962
+1,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,206,4,1716004
+3,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,206,4,1716004
+1,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,207,4,1715963
+3,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,207,4,1715963
+1,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,208,4,1716005
+3,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,208,4,1716005
+1,16:00:00,17:30:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1220,5,1715964
+3,16:00:00,17:30:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1220,5,1715964
+1,16:00:00,17:30:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1322,5,1715986
+3,16:00:00,17:30:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1322,5,1715986
+1,16:00:00,17:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,206,5,1716032
+3,16:00:00,17:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,206,5,1716032
+1,16:00:00,17:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,207,5,1715965
+3,16:00:00,17:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,207,5,1715965
+1,16:00:00,17:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,208,5,1716033
+3,16:00:00,17:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,208,5,1716033
+1,10:30:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,209,2,1810390
+3,10:30:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,209,2,1810390
+1,14:30:00,17:30:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1433,4,1716096
+1,09:00:00,10:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,303,1,1710771
+3,09:00:00,10:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,303,1,1710771
+1,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,410,3,1710776
+3,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,410,3,1710776
+1,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,412,3,1710790
+3,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,412,3,1710790
+0,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,201,4,1716723
+2,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,201,4,1716723
+0,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,401,4,1716726
+2,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,401,4,1716726
+1,10:30:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,207,2,1716692
+3,10:30:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,207,2,1716692
+1,10:30:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,403,2,1716698
+3,10:30:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,403,2,1716698
+1,10:30:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,101,2,1710845
+3,10:30:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,101,2,1710845
+1,10:30:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,102,2,1710841
+3,10:30:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,102,2,1710841
+1,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,202,4,1710848
+3,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,202,4,1710848
+0,09:00:00,10:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,206,1,1710862
+2,09:00:00,10:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,206,1,1710862
+0,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,410,3,1714349
+2,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,410,3,1714349
+4,10:00:00,11:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,연습반(별도 배정),0,1714349
+0,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,410,3,1714350
+2,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,410,3,1714350
+4,13:00:00,14:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,연습반(별도 배정),0,1714350
+0,09:00:00,10:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,412,1,1716944
+2,09:00:00,10:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,412,1,1716944
+4,10:00:00,11:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,연습반(별도 배정),0,1716944
+0,09:00:00,10:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,412,1,1716931
+2,09:00:00,10:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,412,1,1716931
+4,13:00:00,14:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,연습반(별도 배정),0,1716931
+0,09:00:00,10:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,301,1,1716946
+2,09:00:00,10:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,301,1,1716946
+4,11:00:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,연습반(별도 배정),0,1716946
+0,09:00:00,10:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,301,1,1716860
+2,09:00:00,10:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,301,1,1716860
+4,14:00:00,15:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,연습반(별도 배정),0,1716860
+0,10:30:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,412,2,1716947
+2,10:30:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,412,2,1716947
+4,11:00:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,연습반(별도 배정),0,1716947
+0,10:30:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,412,2,1716935
+2,10:30:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,412,2,1716935
+4,14:00:00,15:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,연습반(별도 배정),0,1716935
+1,10:30:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,309,2,1716862
+3,10:30:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,309,2,1716862
+4,11:00:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,연습반(별도 배정),0,1716862
+1,10:30:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,309,2,1716924
+3,10:30:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,309,2,1716924
+4,14:00:00,15:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,연습반(별도 배정),0,1716924
+1,13:00:00,14:30:00,l,204,(E2)산업경영학동,(E2)Industrial Engineering & Management Bldg.,1122,3,1711127
+3,13:00:00,14:30:00,l,204,(E2)산업경영학동,(E2)Industrial Engineering & Management Bldg.,1122,3,1711127
+0,13:00:00,14:30:00,l,204,(E2)산업경영학동,(E2)Industrial Engineering & Management Bldg.,1122,3,1711130
+2,13:00:00,14:30:00,l,204,(E2)산업경영학동,(E2)Industrial Engineering & Management Bldg.,1122,3,1711130
+1,14:30:00,16:00:00,l,204,(E2)산업경영학동,(E2)Industrial Engineering & Management Bldg.,1501호 공동강의실,4,1711132
+3,14:30:00,16:00:00,l,204,(E2)산업경영학동,(E2)Industrial Engineering & Management Bldg.,1501호 공동강의실,4,1711132
+0,14:30:00,16:00:00,l,204,(E2)산업경영학동,(E2)Industrial Engineering & Management Bldg.,1501,4,1711128
+2,14:30:00,16:00:00,l,204,(E2)산업경영학동,(E2)Industrial Engineering & Management Bldg.,1501,4,1711128
+0,14:30:00,18:30:00,l,213,(N25)산업디자인학과동,(N25)Dept. of Industrial Design Bldg.,208,4,1732701
+0,16:00:00,17:30:00,l,613,(N7-1)원자력및양자공학과,(N7-1)Dept. of Nuclear & Quantum Engineering,2419,5,1711033
+2,16:00:00,17:30:00,l,613,(N7-1)원자력및양자공학과,(N7-1)Dept. of Nuclear & Quantum Engineering,2419,5,1711033
+0,16:00:00,17:30:00,l,613,(N7-1)원자력및양자공학과,(N7-1)Dept. of Nuclear & Quantum Engineering,2425,5,1711032
+2,16:00:00,17:30:00,l,613,(N7-1)원자력및양자공학과,(N7-1)Dept. of Nuclear & Quantum Engineering,2425,5,1711032
+1,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,304,4,1711239
+3,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,304,4,1711239
+1,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,#210,3,1715521
+3,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,#210,3,1715521
+0,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,#201,3,1715528
+2,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,#201,3,1715528
+0,13:00:00,14:30:00,l,605,(N1)김병호·김삼열 IT융합빌딩,(N1)Kim Beang-Ho & Kim Sam-Youl ITC Building,#113,3,1715537
+2,13:00:00,14:30:00,l,605,(N1)김병호·김삼열 IT융합빌딩,(N1)Kim Beang-Ho & Kim Sam-Youl ITC Building,#113,3,1715537
+1,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,#309,4,1715533
+3,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,#309,4,1715533
+1,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,#412,4,1715534
+3,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,#412,4,1715534
+0,10:30:00,12:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,101,0,1715511
+0,13:00:00,14:30:00,e,304,(E11)창의학습관,(E11)Creative Learning Bldg.,307,3,1715511
+0,14:30:00,16:00:00,e,304,(E11)창의학습관,(E11)Creative Learning Bldg.,307,4,1715511
+0,10:30:00,12:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,101,0,1715512
+0,13:00:00,14:30:00,e,304,(E11)창의학습관,(E11)Creative Learning Bldg.,308,3,1715512
+0,14:30:00,16:00:00,e,304,(E11)창의학습관,(E11)Creative Learning Bldg.,308,4,1715512
+0,10:30:00,12:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,201,0,1715514
+2,13:00:00,14:30:00,e,304,(E11)창의학습관,(E11)Creative Learning Bldg.,307,3,1715514
+2,14:30:00,16:00:00,e,304,(E11)창의학습관,(E11)Creative Learning Bldg.,307,4,1715514
+0,10:30:00,12:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,201,0,1715515
+2,13:00:00,14:30:00,e,304,(E11)창의학습관,(E11)Creative Learning Bldg.,308,3,1715515
+2,14:30:00,16:00:00,e,304,(E11)창의학습관,(E11)Creative Learning Bldg.,308,4,1715515
+1,10:30:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,터만홀,2,1715467
+3,10:30:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,터만홀,2,1715467
+0,09:00:00,10:30:00,l,203,(E3)정보전자공학동,(E3)Information Science and Electronics Bldg.,2111,1,1715492
+2,09:00:00,10:30:00,l,203,(E3)정보전자공학동,(E3)Information Science and Electronics Bldg.,2111,1,1715492
+0,13:00:00,14:30:00,l,203,(E3)정보전자공학동,(E3)Information Science and Electronics Bldg.,1501,3,1715493
+2,13:00:00,14:30:00,l,203,(E3)정보전자공학동,(E3)Information Science and Electronics Bldg.,1501,3,1715493
+1,13:00:00,14:30:00,l,605,(N1)김병호·김삼열 IT융합빌딩,(N1)Kim Beang-Ho & Kim Sam-Youl ITC Building,111,3,1715486
+3,13:00:00,14:30:00,l,605,(N1)김병호·김삼열 IT융합빌딩,(N1)Kim Beang-Ho & Kim Sam-Youl ITC Building,111,3,1715486
+1,13:00:00,14:30:00,l,611,(W1-3)생명화학공학과,(W1-3)Dept. of Chemical & Biomolecular Engineering,영상강의실,3,1717530
+3,13:00:00,14:30:00,l,611,(W1-3)생명화학공학과,(W1-3)Dept. of Chemical & Biomolecular Engineering,영상강의실,3,1717530
+1,13:00:00,14:30:00,l,215,(E16-1)양분순빌딩,YANG Bun Soon Bldg.,#207,3,1714635
+3,13:00:00,14:30:00,l,215,(E16-1)양분순빌딩,YANG Bun Soon Bldg.,#207,3,1714635
+1,10:30:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,501,2,1716234
+3,10:30:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,501,2,1716234
+2,16:00:00,17:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,205,5,1716220
+2,17:30:00,19:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,205,6,1716220
+1,16:00:00,17:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,#210,5,1714627
+3,16:00:00,17:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,#210,5,1714627
+1,16:00:00,17:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,205,5,1715322
+3,16:00:00,17:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,205,5,1715322
+2,14:30:00,16:30:00,l,213,(N25)산업디자인학과동,(N25)Dept. of Industrial Design Bldg.,"3336,3337",4,1772197
+2,14:30:00,16:30:00,l,213,(N25)산업디자인학과동,(N25)Dept. of Industrial Design Bldg.,"3336,3337",4,1772198
+1,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,203,4,1715323
+3,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,203,4,1715323
+1,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,201,4,1715334
+3,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,201,4,1715334
+0,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,412,4,1715377
+2,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,412,4,1715377
+0,14:30:00,16:00:00,l,614,(N7-2)항공우주공학전공,(N7-2)Division of Aerospace Engineering,1316,4,1715379
+2,14:30:00,16:00:00,l,614,(N7-2)항공우주공학전공,(N7-2)Division of Aerospace Engineering,1316,4,1715379
+0,14:30:00,16:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1121,4,1836113
+2,14:30:00,16:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1121,4,1836113
+0,09:00:00,10:30:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1117,1,1830877
+2,09:00:00,10:30:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1117,1,1830877
+0,09:00:00,10:30:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1121,1,1830881
+2,09:00:00,10:30:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1121,1,1830881
+0,10:30:00,12:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1117,2,1830879
+2,10:30:00,12:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1117,2,1830879
+0,10:30:00,12:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1121,2,1830882
+2,10:30:00,12:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1121,2,1830882
+0,13:00:00,14:30:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1111,3,1830883
+2,13:00:00,14:30:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1111,3,1830883
+0,13:00:00,14:30:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1117,3,1830884
+2,13:00:00,14:30:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1117,3,1830884
+0,13:00:00,14:30:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1121,3,1830885
+2,13:00:00,14:30:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1121,3,1830885
+0,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,209,3,1830886
+2,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,209,3,1830886
+0,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,209,4,1830887
+2,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,209,4,1830887
+0,14:30:00,16:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1111,4,1830888
+2,14:30:00,16:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1111,4,1830888
+0,14:30:00,16:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1117,4,1830889
+2,14:30:00,16:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1117,4,1830889
+1,09:00:00,10:30:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1120,1,1830890
+3,09:00:00,10:30:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1120,1,1830890
+1,09:00:00,10:30:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1117,1,1830891
+3,09:00:00,10:30:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1117,1,1830891
+1,10:30:00,12:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1120,2,1830892
+3,10:30:00,12:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1120,2,1830892
+1,10:30:00,12:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1117,2,1830893
+3,10:30:00,12:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1117,2,1830893
+1,14:30:00,16:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1120,4,1830895
+3,14:30:00,16:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1120,4,1830895
+1,14:30:00,16:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1121,4,1830896
+3,14:30:00,16:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1121,4,1830896
+1,14:30:00,16:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1111,4,1830897
+3,14:30:00,16:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1111,4,1830897
+1,13:00:00,14:30:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1319,3,1836111
+3,13:00:00,14:30:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1319,3,1836111
+1,10:30:00,12:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1319,2,1830845
+3,10:30:00,12:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1319,2,1830845
+1,10:30:00,12:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1322,2,1830846
+3,10:30:00,12:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1322,2,1830846
+1,10:30:00,12:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1121,2,1830847
+3,10:30:00,12:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1121,2,1830847
+1,14:30:00,16:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1220,4,1830849
+3,14:30:00,16:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1220,4,1830849
+1,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,208,4,1830851
+3,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,208,4,1830851
+1,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,206,4,1830852
+3,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,206,4,1830852
+1,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,207,4,1830853
+3,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,207,4,1830853
+1,16:00:00,17:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,208,5,1830855
+3,16:00:00,17:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,208,5,1830855
+1,16:00:00,17:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,206,5,1830862
+3,16:00:00,17:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,206,5,1830862
+1,16:00:00,17:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,207,5,1830863
+3,16:00:00,17:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,207,5,1830863
+1,14:30:00,17:30:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1433,4,1830961
+1,13:00:00,14:30:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1213,3,1830962
+3,13:00:00,14:30:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1213,3,1830962
+0,10:30:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,311,2,1829049
+2,10:30:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,311,2,1829049
+0,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,304,4,1829039
+2,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,304,4,1829039
+1,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,205,4,1829053
+3,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,205,4,1829053
+1,09:00:00,10:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,202,1,1829054
+3,09:00:00,10:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,,1,1829054
+1,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,101,4,1829088
+3,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,101,4,1829088
+1,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,103,4,1829085
+3,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,103,4,1829085
+0,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,211,4,1829110
+2,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,211,4,1829110
+1,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,406,3,1829095
+3,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,406,3,1829095
+1,09:00:00,10:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,309,1,1829120
+3,09:00:00,10:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,309,1,1829120
+1,09:00:00,10:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,311,1,1829121
+3,09:00:00,10:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,311,1,1829121
+1,09:00:00,10:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,412,1,1829123
+3,09:00:00,10:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,412,1,1829123
+1,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,311,3,1829124
+3,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,311,3,1829124
+0,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,412,3,1831245
+2,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,412,3,1831245
+4,10:00:00,11:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,별도배정,0,1831245
+0,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,412,3,1831246
+2,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,412,3,1831246
+4,13:00:00,14:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,별도배정,0,1831246
+1,10:30:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,309,2,1831247
+3,10:30:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,309,2,1831247
+4,11:00:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,별도배정,0,1831247
+1,10:30:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,309,2,1831248
+3,10:30:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,309,2,1831248
+4,14:00:00,15:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,별도배정,0,1831248
+0,09:00:00,10:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,304,1,1831249
+2,09:00:00,10:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,304,1,1831249
+4,11:00:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,별도배정,0,1831249
+0,09:00:00,10:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,304,1,1831250
+2,09:00:00,10:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,304,1,1831250
+4,14:00:00,15:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,별도배정,0,1831250
+1,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,309,4,1831251
+3,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,309,4,1831251
+4,11:00:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,별도배정,0,1831251
+1,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,309,4,1831212
+3,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,309,4,1831212
+4,14:00:00,15:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,별도배정,0,1831212
+0,10:30:00,12:00:00,l,202,(E6)자연과학동,(E6)Natural Science Bldg.,3438,2,1829315
+2,10:30:00,12:00:00,l,202,(E6)자연과학동,(E6)Natural Science Bldg.,3438,2,1829315
+0,13:00:00,14:30:00,l,204,(E2)산업경영학동,(E2)Industrial Engineering & Management Bldg.,1122,3,1829443
+2,13:00:00,14:30:00,l,204,(E2)산업경영학동,(E2)Industrial Engineering & Management Bldg.,1122,3,1829443
+0,14:30:00,16:00:00,l,213,(N25)산업디자인학과동,(N25)Dept. of Industrial Design Bldg.,104,4,1829538
+2,14:30:00,16:00:00,l,213,(N25)산업디자인학과동,(N25)Dept. of Industrial Design Bldg.,104,4,1829538
+0,16:30:00,18:00:00,l,213,(N25)산업디자인학과동,(N25)Dept. of Industrial Design Bldg.,104,5,1829539
+2,16:30:00,18:00:00,l,213,(N25)산업디자인학과동,(N25)Dept. of Industrial Design Bldg.,104,5,1829539
+0,14:30:00,16:00:00,l,613,(N7-1)원자력및양자공학과,(N7-1)Dept. of Nuclear & Quantum Engineering,2419,4,1829329
+2,14:30:00,16:00:00,l,613,(N7-1)원자력및양자공학과,(N7-1)Dept. of Nuclear & Quantum Engineering,2419,4,1829329
+0,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,203호,3,1829593
+2,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,203호,3,1829593
+0,09:00:00,10:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,201호,1,1829594
+2,09:00:00,10:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,201호,1,1829594
+0,10:30:00,12:00:00,l,609,(W1-1)신소재공학과,(W1-1)Dept. of Materials Science & Engineering,1317,2,1829611
+2,10:30:00,12:00:00,l,609,(W1-1)신소재공학과,(W1-1)Dept. of Materials Science & Engineering,1317,2,1829611
+0,13:00:00,14:30:00,l,203,(E3)정보전자공학동,(E3)Information Science and Electronics Bldg.,1501,3,1830811
+2,13:00:00,14:30:00,l,203,(E3)정보전자공학동,(E3)Information Science and Electronics Bldg.,1501,3,1830811
+1,10:30:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,401,2,1830772
+3,10:30:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,401,2,1830772
+1,10:30:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,310,2,1830773
+3,10:30:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,310,2,1830773
+0,09:00:00,12:00:00,e,304,(E11)창의학습관,(E11)Creative Learning Bldg.,307,0,1831611
+1,10:30:00,12:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,102,0,1831611
+0,09:00:00,12:00:00,e,304,(E11)창의학습관,(E11)Creative Learning Bldg.,308,0,1831612
+1,10:30:00,12:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,102,0,1831612
+1,10:30:00,12:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,302,0,1831619
+4,09:00:00,12:00:00,e,304,(E11)창의학습관,(E11)Creative Learning Bldg.,307,0,1831619
+1,10:30:00,12:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,302,0,1831620
+4,09:00:00,12:00:00,e,304,(E11)창의학습관,(E11)Creative Learning Bldg.,308,0,1831620
+1,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,304,3,1830699
+3,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,304,3,1830699
+1,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,103,3,1830716
+3,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,103,3,1830716
+0,14:30:00,16:00:00,l,605,(N1)김병호·김삼열 IT융합빌딩,(N1)Kim Beang-Ho & Kim Sam-Youl ITC Building,111,4,1830709
+2,14:30:00,16:00:00,l,605,(N1)김병호·김삼열 IT융합빌딩,(N1)Kim Beang-Ho & Kim Sam-Youl ITC Building,111,4,1830709
+1,10:30:00,12:00:00,l,203,(E3)정보전자공학동,(E3)Information Science and Electronics Bldg.,1220,2,1831610
+3,10:30:00,12:00:00,l,203,(E3)정보전자공학동,(E3)Information Science and Electronics Bldg.,1220,2,1831610
+0,13:00:00,14:30:00,l,610,(W1-2)건설및환경공학과,(W1-2)Dept. of Civil & Environmental Engineering,1201,3,1829809
+2,13:00:00,14:30:00,l,610,(W1-2)건설및환경공학과,(W1-2)Dept. of Civil & Environmental Engineering,1201,3,1829809
+0,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,210,3,1829852
+2,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,210,3,1829852
+1,13:00:00,14:30:00,l,215,(E16-1)양분순빌딩,YANG Bun Soon Bldg.,#207,3,1829934
+3,13:00:00,14:30:00,l,215,(E16-1)양분순빌딩,YANG Bun Soon Bldg.,#207,3,1829934
+2,16:00:00,17:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,102,5,1831073
+2,17:30:00,19:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,102,6,1831073
+0,13:00:00,14:30:00,l,204,(E2)산업경영학동,(E2)Industrial Engineering & Management Bldg.,1110,3,1835398
+2,13:00:00,14:30:00,l,204,(E2)산업경영학동,(E2)Industrial Engineering & Management Bldg.,1110,3,1835398
+2,14:30:00,16:30:00,l,213,(N25)산업디자인학과동,(N25)Dept. of Industrial Design Bldg.,"3335,3337",4,1830566
+2,14:30:00,16:30:00,l,213,(N25)산업디자인학과동,(N25)Dept. of Industrial Design Bldg.,"3335,3337",4,1830567
+0,09:00:00,10:30:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1120,1,1609917
+2,09:00:00,10:30:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1120,1,1609917
+0,09:00:00,10:30:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1121,1,1609941
+2,09:00:00,10:30:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1121,1,1609941
+0,10:30:00,12:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1121,2,1609919
+2,10:30:00,12:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1121,2,1609919
+0,10:30:00,12:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1108,2,1609920
+2,10:30:00,12:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1108,2,1609920
+0,13:00:00,14:30:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1120,3,1609922
+2,13:00:00,14:30:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1120,3,1609922
+0,13:00:00,14:30:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1121,3,1609923
+2,13:00:00,14:30:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1121,3,1609923
+0,13:00:00,14:30:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1108,3,1609925
+2,13:00:00,14:30:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1108,3,1609925
+0,14:30:00,16:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1120,4,1609926
+2,14:30:00,16:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1120,4,1609926
+1,09:00:00,10:30:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1121,1,1609928
+3,09:00:00,10:30:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1121,1,1609928
+1,09:00:00,10:30:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1120,1,1609929
+3,09:00:00,10:30:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1120,1,1609929
+1,10:30:00,12:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1120,2,1609930
+3,10:30:00,12:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1120,2,1609930
+1,10:30:00,12:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1121,2,1609931
+3,10:30:00,12:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1121,2,1609931
+1,13:00:00,14:30:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1108,3,1609942
+3,13:00:00,14:30:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1108,3,1609942
+1,13:00:00,14:30:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1121,3,1609943
+3,13:00:00,14:30:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1121,3,1609943
+1,13:00:00,14:30:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1120,3,1609944
+3,13:00:00,14:30:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1120,3,1609944
+1,14:30:00,16:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1108,4,1609945
+3,14:30:00,16:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1108,4,1609945
+1,14:30:00,16:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1114,4,1609946
+3,14:30:00,16:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1114,4,1609946
+1,10:30:00,12:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1322,2,1609889
+3,10:30:00,12:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1322,2,1609889
+1,10:30:00,12:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1220,2,1609893
+3,10:30:00,12:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1220,2,1609893
+1,16:00:00,17:30:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1220,5,1609898
+3,16:00:00,17:30:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1220,5,1609898
+1,14:30:00,16:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1220,4,1658146
+3,14:30:00,16:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1220,4,1658146
+0,09:00:00,10:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,311,1,1607916
+2,09:00:00,10:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,311,1,1607916
+0,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,311,3,1607917
+2,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,311,3,1607917
+1,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,205,4,1607921
+3,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,205,4,1607921
+0,09:00:00,10:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,102,1,1607922
+2,09:00:00,10:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,102,1,1607922
+1,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,103,4,1608004
+3,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,103,4,1608004
+1,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,203,4,1608005
+3,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,203,4,1608005
+1,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,301,4,1608006
+3,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,301,4,1608006
+1,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,303,4,1608008
+3,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,303,4,1608008
+1,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,208,3,1607975
+3,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,208,3,1607975
+0,10:30:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,311,2,1608016
+2,10:30:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,311,2,1608016
+0,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,410,4,1608019
+2,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,410,4,1608019
+0,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,412,4,1608021
+2,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,412,4,1608021
+1,10:30:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,211,2,1608038
+3,10:30:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,211,2,1608038
+0,10:30:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,201,2,1608099
+2,10:30:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,201,2,1608099
+4,11:00:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,KLMS에 공지,0,1608099
+0,10:30:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,201,2,1608100
+2,10:30:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,201,2,1608100
+4,14:00:00,15:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,KLMS에 공지,0,1608100
+1,14:30:00,16:00:00,l,202,(E6)자연과학동,(E6)Natural Science Bldg.,3438,4,1608120
+3,14:30:00,16:00:00,l,202,(E6)자연과학동,(E6)Natural Science Bldg.,3438,4,1608120
+1,09:00:00,10:30:00,l,202,(E6)자연과학동,(E6)Natural Science Bldg.,2413,1,1608139
+3,09:00:00,10:30:00,l,202,(E6)자연과학동,(E6)Natural Science Bldg.,2413,1,1608139
+1,13:00:00,14:30:00,l,204,(E2)산업경영학동,(E2)Industrial Engineering & Management Bldg.,1122,3,1608454
+3,13:00:00,14:30:00,l,204,(E2)산업경영학동,(E2)Industrial Engineering & Management Bldg.,1122,3,1608454
+0,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,203,4,1608455
+2,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,203,4,1608455
+0,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,311호,4,1608567
+2,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,311호,4,1608567
+0,16:00:00,17:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,103호,5,1608568
+2,16:00:00,17:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,103호,5,1608568
+0,10:30:00,12:00:00,l,609,(W1-1)신소재공학과,(W1-1)Dept. of Materials Science & Engineering,1317,2,1608573
+2,10:30:00,12:00:00,l,609,(W1-1)신소재공학과,(W1-1)Dept. of Materials Science & Engineering,1317,2,1608573
+0,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,302,4,1609482
+2,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,302,4,1609482
+1,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,301,3,1609488
+3,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,301,3,1609488
+1,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,302,3,1609490
+3,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,302,3,1609490
+1,10:30:00,12:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,301,2,1609455
+2,09:00:00,12:00:00,e,304,(E11)창의학습관,(E11)Creative Learning Bldg.,307,0,1609455
+1,10:30:00,12:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,301,2,1609456
+2,09:00:00,12:00:00,e,304,(E11)창의학습관,(E11)Creative Learning Bldg.,308,0,1609456
+1,10:30:00,12:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,303,2,1609457
+4,09:00:00,12:00:00,e,304,(E11)창의학습관,(E11)Creative Learning Bldg.,307,0,1609457
+1,10:30:00,12:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,303,2,1609458
+4,09:00:00,12:00:00,e,304,(E11)창의학습관,(E11)Creative Learning Bldg.,308,0,1609458
+0,16:00:00,18:00:00,e,304,(E11)창의학습관,(E11)Creative Learning Bldg.,301,0,1609465
+1,09:30:00,12:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,401,2,1609465
+0,10:30:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,터만홀,2,1609466
+2,10:30:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,터만홀,2,1609466
+1,10:30:00,12:00:00,l,605,(N1)김병호·김삼열 IT융합빌딩,(N1)Kim Beang-Ho & Kim Sam-Youl ITC Building,113,2,1609442
+3,10:30:00,12:00:00,l,605,(N1)김병호·김삼열 IT융합빌딩,(N1)Kim Beang-Ho & Kim Sam-Youl ITC Building,113,2,1609442
+0,13:00:00,14:30:00,l,605,(N1)김병호·김삼열 IT융합빌딩,(N1)Kim Beang-Ho & Kim Sam-Youl ITC Building,201,3,1617819
+2,13:00:00,14:30:00,l,605,(N1)김병호·김삼열 IT융합빌딩,(N1)Kim Beang-Ho & Kim Sam-Youl ITC Building,201,3,1617819
+0,13:00:00,14:30:00,l,605,(N1)김병호·김삼열 IT융합빌딩,(N1)Kim Beang-Ho & Kim Sam-Youl ITC Building,422,3,1635319
+2,13:00:00,14:30:00,l,605,(N1)김병호·김삼열 IT융합빌딩,(N1)Kim Beang-Ho & Kim Sam-Youl ITC Building,422,3,1635319
+0,14:30:00,16:00:00,l,605,(N1)김병호·김삼열 IT융합빌딩,(N1)Kim Beang-Ho & Kim Sam-Youl ITC Building,111,4,1609447
+2,14:30:00,16:00:00,l,605,(N1)김병호·김삼열 IT융합빌딩,(N1)Kim Beang-Ho & Kim Sam-Youl ITC Building,111,4,1609447
+1,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,203,3,1608704
+3,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,203,3,1608704
+1,13:00:00,14:30:00,l,215,(E16-1)양분순빌딩,YANG Bun Soon Bldg.,#207,3,1608947
+3,13:00:00,14:30:00,l,215,(E16-1)양분순빌딩,YANG Bun Soon Bldg.,#207,3,1608947
+0,10:30:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,405,2,1610270
+2,10:30:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,405,2,1610270
+2,14:30:00,16:30:00,l,213,(N25)산업디자인학과동,(N25)Dept. of Industrial Design Bldg.,3333,4,1609318
+2,14:30:00,16:30:00,l,213,(N25)산업디자인학과동,(N25)Dept. of Industrial Design Bldg.,3333,4,1609319
+1,10:30:00,12:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1319,2,1837387
+3,10:30:00,12:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1319,2,1837387
+1,10:30:00,12:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1322,2,1837386
+3,10:30:00,12:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1322,2,1837386
+1,10:30:00,12:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1121,2,1837393
+3,10:30:00,12:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1121,2,1837393
+1,14:30:00,16:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1319,4,1837385
+3,14:30:00,16:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1319,4,1837385
+1,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,208,4,1837404
+3,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,208,4,1837404
+1,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,206,4,1837388
+3,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,206,4,1837388
+1,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,207,4,1837396
+3,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,207,4,1837396
+1,16:00:00,17:30:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1319,5,1837397
+3,16:00:00,17:30:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1319,5,1837397
+1,16:00:00,17:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,208,5,1837408
+3,16:00:00,17:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,208,5,1837408
+1,16:00:00,17:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,206,5,1837398
+3,16:00:00,17:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,206,5,1837398
+1,16:00:00,17:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,207,5,1837409
+3,16:00:00,17:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,207,5,1837409
+1,14:30:00,17:30:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1433,4,1838121
+1,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,412,4,1837634
+3,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,412,4,1837634
+1,10:30:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,309,2,1840390
+3,10:30:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,309,2,1840390
+0,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,103,4,1836240
+2,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,103,4,1836240
+0,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,201,4,1836241
+2,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,201,4,1836241
+0,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,203,4,1836242
+2,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,203,4,1836242
+0,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,301,4,1836245
+2,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,301,4,1836245
+0,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,403,4,1836232
+2,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,403,4,1836232
+1,10:30:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,208,2,1836248
+3,10:30:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,208,2,1836248
+0,09:00:00,10:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,101,1,1836406
+2,09:00:00,10:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,101,1,1836406
+0,09:00:00,10:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,102,1,1836416
+2,09:00:00,10:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,102,1,1836416
+1,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,412,3,1836576
+3,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,412,3,1836576
+4,10:00:00,11:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,별도배정,1,1836576
+1,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,412,3,1836577
+3,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,412,3,1836577
+4,13:00:00,14:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,별도배정,3,1836577
+1,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,403,3,1836578
+3,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,403,3,1836578
+4,10:00:00,11:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,별도배정,1,1836578
+1,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,403,3,1836579
+3,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,403,3,1836579
+4,13:00:00,14:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,별도배정,3,1836579
+1,09:00:00,10:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,412,1,1836584
+3,09:00:00,10:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,412,1,1836584
+4,10:00:00,11:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,별도배정,1,1836584
+1,09:00:00,10:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,412,1,1836585
+3,09:00:00,10:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,412,1,1836585
+4,13:00:00,14:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,별도배정,3,1836585
+0,10:30:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,301,2,1836592
+2,10:30:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,301,2,1836592
+4,11:00:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,별도배정,2,1836592
+0,10:30:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,301,2,1836593
+2,10:30:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,301,2,1836593
+4,14:00:00,15:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,별도배정,4,1836593
+1,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,402,4,1836596
+3,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,402,4,1836596
+4,11:00:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,별도배정,2,1836596
+1,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,402,4,1836597
+3,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,402,4,1836597
+4,14:00:00,15:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,별도배정,4,1836597
+1,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,401,4,1838356
+3,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,401,4,1838356
+4,11:00:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,별도배정,2,1838356
+1,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,401,4,1838357
+3,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,401,4,1838357
+4,14:00:00,15:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,별도배정,4,1838357
+0,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,309,3,1838358
+2,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,309,3,1838358
+4,11:00:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,별도배정,2,1838358
+0,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,309,3,1838359
+2,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,309,3,1838359
+4,14:00:00,15:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,별도배정,4,1838359
+0,13:00:00,14:30:00,l,204,(E2)산업경영학동,(E2)Industrial Engineering & Management Bldg.,1122,3,1838361
+2,13:00:00,14:30:00,l,204,(E2)산업경영학동,(E2)Industrial Engineering & Management Bldg.,1122,3,1838361
+1,14:30:00,16:00:00,l,204,(E2)산업경영학동,(E2)Industrial Engineering & Management Bldg.,1501,4,1838365
+3,14:30:00,16:00:00,l,204,(E2)산업경영학동,(E2)Industrial Engineering & Management Bldg.,1501,4,1838365
+0,13:00:00,14:30:00,l,204,(E2)산업경영학동,(E2)Industrial Engineering & Management Bldg.,1501,3,1838372
+2,13:00:00,14:30:00,l,204,(E2)산업경영학동,(E2)Industrial Engineering & Management Bldg.,1501,3,1838372
+0,16:00:00,17:30:00,l,613,(N7-1)원자력및양자공학과,(N7-1)Dept. of Nuclear & Quantum Engineering,2425,5,1836638
+2,16:00:00,17:30:00,l,613,(N7-1)원자력및양자공학과,(N7-1)Dept. of Nuclear & Quantum Engineering,2425,5,1836638
+0,10:30:00,12:00:00,l,0,,,,2,1838022
+2,10:30:00,12:00:00,l,0,,,,2,1838022
+1,13:00:00,14:30:00,l,0,,,,3,1838030
+3,13:00:00,14:30:00,l,0,,,,3,1838030
+1,13:00:00,14:30:00,l,0,,,,3,1838031
+3,13:00:00,14:30:00,l,0,,,,3,1838031
+0,10:30:00,12:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,202,0,1838230
+3,09:00:00,12:00:00,e,304,(E11)창의학습관,(E11)Creative Learning Bldg.,307,0,1838230
+0,10:30:00,12:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,202,0,1838238
+3,09:00:00,12:00:00,e,304,(E11)창의학습관,(E11)Creative Learning Bldg.,308,0,1838238
+0,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,터만홀,3,1838250
+2,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,터만홀,3,1838250
+0,13:00:00,14:30:00,l,605,(N1)김병호·김삼열 IT융합빌딩,(N1)Kim Beang-Ho & Kim Sam-Youl ITC Building,117,3,1838275
+2,13:00:00,14:30:00,l,605,(N1)김병호·김삼열 IT융합빌딩,(N1)Kim Beang-Ho & Kim Sam-Youl ITC Building,117,3,1838275
+1,10:30:00,12:00:00,l,203,(E3)정보전자공학동,(E3)Information Science and Electronics Bldg.,1101,2,1838268
+3,10:30:00,12:00:00,l,203,(E3)정보전자공학동,(E3)Information Science and Electronics Bldg.,1101,2,1838268
+1,16:00:00,17:30:00,l,203,(E3)정보전자공학동,(E3)Information Science and Electronics Bldg.,2111,5,1838272
+3,16:00:00,17:30:00,l,203,(E3)정보전자공학동,(E3)Information Science and Electronics Bldg.,2111,5,1838272
+0,10:30:00,12:00:00,l,605,(N1)김병호·김삼열 IT융합빌딩,(N1)Kim Beang-Ho & Kim Sam-Youl ITC Building,117,2,1839011
+2,10:30:00,12:00:00,l,605,(N1)김병호·김삼열 IT융합빌딩,(N1)Kim Beang-Ho & Kim Sam-Youl ITC Building,117,2,1839011
+1,13:00:00,14:30:00,l,215,(E16-1)양분순빌딩,YANG Bun Soon Bldg.,#207,3,1837070
+3,13:00:00,14:30:00,l,215,(E16-1)양분순빌딩,YANG Bun Soon Bldg.,#207,3,1837070
+1,10:30:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,407-408호,2,1837582
+3,10:30:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,407-408호,2,1837582
+0,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,411,3,1837583
+2,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,411,3,1837583
+2,16:00:00,17:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,,5,1839156
+2,17:30:00,19:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,,6,1839156
+1,16:00:00,17:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,210,5,1838805
+3,16:00:00,17:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,210,5,1838805
+1,16:00:00,17:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,205,5,1837755
+3,16:00:00,17:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,205,5,1837755
+2,14:30:00,16:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,205,4,1837694
+1,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,210,4,1837702
+3,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,210,4,1837702
+1,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,102,4,1837726
+3,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,102,4,1837726
+0,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,310,4,1837264
+2,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,310,4,1837264
+0,14:30:00,16:00:00,l,621,(N7-2)항공우주공학과,(N7-2)Department of Aerospace Engineering,1316,4,1837266
+2,14:30:00,16:00:00,l,621,(N7-2)항공우주공학과,(N7-2)Department of Aerospace Engineering,1316,4,1837266
+0,13:00:00,15:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,209,3,1847256
+1,13:00:00,15:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,209,3,1847256
+2,13:00:00,15:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,209,3,1847256
+3,13:00:00,15:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,209,3,1847256
+0,13:00:00,15:30:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1220,3,1848391
+1,13:00:00,15:30:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1220,3,1848391
+2,13:00:00,15:30:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1220,3,1848391
+3,13:00:00,15:30:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1220,3,1848391
+0,09:00:00,10:30:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1108,1,1842152
+2,09:00:00,10:30:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1108,1,1842152
+0,09:00:00,10:30:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1121,1,1842148
+2,09:00:00,10:30:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1121,1,1842148
+0,10:30:00,12:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1121,2,1842155
+2,10:30:00,12:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1121,2,1842155
+0,13:00:00,14:30:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1114,3,1842157
+2,13:00:00,14:30:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1114,3,1842157
+0,14:30:00,16:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1121,4,1842160
+2,14:30:00,16:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1121,4,1842160
+1,09:00:00,10:30:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1108,1,1842163
+3,09:00:00,10:30:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1108,1,1842163
+1,09:00:00,10:30:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1121,1,1842164
+3,09:00:00,10:30:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1121,1,1842164
+1,09:00:00,10:30:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1114,1,1842165
+3,09:00:00,10:30:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1114,1,1842165
+1,10:30:00,12:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1114,2,1842166
+3,10:30:00,12:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1114,2,1842166
+1,10:30:00,12:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1108,2,1842168
+3,10:30:00,12:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1108,2,1842168
+1,13:00:00,14:30:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1114,3,1842169
+3,13:00:00,14:30:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1114,3,1842169
+1,14:30:00,16:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1114,4,1842172
+3,14:30:00,16:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1114,4,1842172
+0,14:30:00,16:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1319,4,1844719
+2,14:30:00,16:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1319,4,1844719
+1,10:30:00,12:00:00,l,0,,,,2,1844718
+3,10:30:00,12:00:00,l,0,,,,2,1844718
+1,10:30:00,12:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1319,2,1842132
+3,10:30:00,12:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1319,2,1842132
+1,10:30:00,12:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1322,2,1842149
+3,10:30:00,12:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1322,2,1842149
+1,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,410,4,1842136
+3,14:30:00,16:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,410,4,1842136
+1,16:00:00,17:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,410,5,1842140
+3,16:00:00,17:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,410,5,1842140
+0,14:30:00,16:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1209-1,4,1842239
+2,14:30:00,16:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1209-1,4,1842239
+1,10:30:00,12:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1125,2,1842240
+3,10:30:00,12:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1125,2,1842240
+1,14:30:00,17:30:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1433,4,1842241
+0,09:00:00,10:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,203,1,1841970
+2,09:00:00,10:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,203,1,1841970
+1,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,102,4,1840532
+3,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,102,4,1840532
+1,10:30:00,12:00:00,l,305,(E6-5)궁리실험관,(E6-5)GoongNi Laboratory Building,101,2,1840538
+3,10:30:00,12:00:00,l,305,(E6-5)궁리실험관,(E6-5)GoongNi Laboratory Building,101,2,1840538
+1,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,208,3,1840546
+3,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,208,3,1840546
+0,09:00:00,10:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,311,1,1842290
+2,09:00:00,10:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,311,1,1842290
+0,09:00:00,10:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,410,1,1842291
+2,09:00:00,10:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,410,1,1842291
+0,09:00:00,10:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,412,1,1842292
+2,09:00:00,10:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,412,1,1842292
+0,09:00:00,10:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,401,1,1842293
+2,09:00:00,10:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,401,1,1842293
+0,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,412,3,1842295
+2,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,412,3,1842295
+0,14:30:00,16:00:00,l,0,,,,4,1842470
+2,14:30:00,16:00:00,l,0,,,,4,1842470
+4,10:00:00,11:00:00,l,0,,,,0,1842470
+0,14:30:00,16:00:00,l,0,,,,4,1842484
+2,14:30:00,16:00:00,l,0,,,,4,1842484
+4,13:00:00,14:00:00,l,0,,,,0,1842484
+1,10:30:00,12:00:00,l,0,,,,2,1842471
+3,10:30:00,12:00:00,l,0,,,,2,1842471
+4,11:00:00,12:00:00,l,0,,,,0,1842471
+1,10:30:00,12:00:00,l,0,,,,2,1842499
+3,10:30:00,12:00:00,l,0,,,,2,1842499
+4,14:00:00,15:00:00,l,0,,,,0,1842499
+0,09:00:00,10:30:00,l,0,,,,1,1842514
+2,09:00:00,10:30:00,l,0,,,,1,1842514
+4,11:00:00,12:00:00,l,0,,,,0,1842514
+0,09:00:00,10:30:00,l,0,,,,1,1842529
+2,09:00:00,10:30:00,l,0,,,,1,1842529
+4,14:00:00,15:00:00,l,0,,,,0,1842529
+1,13:00:00,14:30:00,l,0,,,,3,1842473
+3,13:00:00,14:30:00,l,0,,,,3,1842473
+4,11:00:00,12:00:00,l,0,,,,0,1842473
+1,13:00:00,14:30:00,l,0,,,,3,1842485
+3,13:00:00,14:30:00,l,0,,,,3,1842485
+4,14:00:00,15:00:00,l,0,,,,0,1842485
+1,14:30:00,16:00:00,l,0,,,,4,1842474
+3,14:30:00,16:00:00,l,0,,,,4,1842474
+4,11:00:00,12:00:00,l,0,,,,0,1842474
+1,14:30:00,16:00:00,l,0,,,,4,1842495
+3,14:30:00,16:00:00,l,0,,,,4,1842495
+4,14:00:00,15:00:00,l,0,,,,0,1842495
+0,13:00:00,14:30:00,l,0,,,,3,1842491
+2,13:00:00,14:30:00,l,0,,,,3,1842491
+0,13:00:00,14:30:00,l,0,,,,3,1842534
+2,13:00:00,14:30:00,l,0,,,,3,1842534
+0,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,201,3,1840729
+2,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,201,3,1840729
+0,10:30:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,303,2,1840721
+2,10:30:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,303,2,1840721
+0,10:30:00,12:00:00,l,609,(W1-1)신소재공학과,(W1-1)Dept. of Materials Science & Engineering,1317,2,1840720
+2,10:30:00,12:00:00,l,609,(W1-1)신소재공학과,(W1-1)Dept. of Materials Science & Engineering,1317,2,1840720
+0,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,402,4,1841817
+2,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,402,4,1841817
+1,13:00:00,14:30:00,l,203,(E3)정보전자공학동,(E3)Information Science and Electronics Bldg.,2216,3,1843876
+3,13:00:00,14:30:00,l,203,(E3)정보전자공학동,(E3)Information Science and Electronics Bldg.,2216,3,1843876
+1,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,202,3,1843877
+3,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,202,3,1843877
+1,10:30:00,12:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,202,0,1841698
+4,09:00:00,12:00:00,e,304,(E11)창의학습관,(E11)Creative Learning Bldg.,307,0,1841698
+1,10:30:00,12:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,202,0,1841718
+4,09:00:00,12:00:00,e,304,(E11)창의학습관,(E11)Creative Learning Bldg.,308,0,1841718
+0,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,304,3,1842097
+2,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,304,3,1842097
+1,14:30:00,16:00:00,l,203,(E3)정보전자공학동,(E3)Information Science and Electronics Bldg.,2111,4,1842115
+3,14:30:00,16:00:00,l,203,(E3)정보전자공학동,(E3)Information Science and Electronics Bldg.,2111,4,1842115
+0,13:00:00,14:30:00,l,610,(W1-2)건설및환경공학과,(W1-2)Dept. of Civil & Environmental Engineering,1201,3,1840868
+2,13:00:00,14:30:00,l,610,(W1-2)건설및환경공학과,(W1-2)Dept. of Civil & Environmental Engineering,1201,3,1840868
+0,13:00:00,14:30:00,l,611,(W1-3)생명화학공학과,(W1-3)Dept. of Chemical & Biomolecular Engineering, 2116,3,1842645
+2,13:00:00,14:30:00,l,611,(W1-3)생명화학공학과,(W1-3)Dept. of Chemical & Biomolecular Engineering, 2116,3,1842645
+1,13:00:00,14:30:00,l,215,(E16-1)양분순빌딩,YANG Bun Soon Bldg.,#207,3,1841457
+3,13:00:00,14:30:00,l,215,(E16-1)양분순빌딩,YANG Bun Soon Bldg.,#207,3,1841457
+0,10:30:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,,2,1841713
+2,10:30:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,,2,1841713
+2,16:00:00,17:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,102,5,1841714
+2,17:30:00,19:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,102,6,1841714
+1,16:00:00,17:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,205,5,1843538
+3,16:00:00,17:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,205,5,1843538
+2,14:30:00,16:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,101,0,1842862
+2,14:30:00,16:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,203,0,1842864
+1,10:30:00,12:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1322,2,1849377
+3,10:30:00,12:00:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1322,2,1849377
+1,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,409,4,1849383
+3,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,409,4,1849383
+1,16:00:00,17:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,409,5,1849388
+3,16:00:00,17:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,409,5,1849388
+1,14:30:00,17:30:00,l,306,(N4)인문사회과학부동,(N4)School of Humanities & Social Science Bldg.,1433,4,1849644
+0,09:00:00,10:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,103,1,1849125
+2,09:00:00,10:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,103,1,1849125
+0,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,412,3,1849127
+2,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,412,3,1849127
+0,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,202,4,1848418
+2,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,202,4,1848418
+0,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,403,4,1848423
+2,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,403,4,1848423
+1,10:30:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,201,2,1848430
+3,10:30:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,201,2,1848430
+1,09:00:00,10:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,311,1,1849769
+3,09:00:00,10:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,311,1,1849769
+1,13:00:00,14:30:00,l,305,(E6-5)궁리실험관,(E6-5)GoongNi Laboratory Building,202,3,1849780
+3,13:00:00,14:30:00,l,305,(E6-5)궁리실험관,(E6-5)GoongNi Laboratory Building,202,3,1849780
+0,13:00:00,14:30:00,l,0,,,,3,1849280
+2,13:00:00,14:30:00,l,0,,,,3,1849280
+1,10:30:00,12:00:00,l,0,,,,2,1849294
+3,10:30:00,12:00:00,l,0,,,,2,1849294
+0,14:30:00,18:30:00,l,213,(N25)산업디자인학과동,(N25)Dept. of Industrial Design Bldg.,208,4,1850313
+1,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,#101,4,1850204
+3,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,#101,4,1850204
+1,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,#403,4,1850205
+3,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,#403,4,1850205
+0,10:30:00,12:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,311,0,1850179
+2,13:00:00,16:00:00,e,304,(E11)창의학습관,(E11)Creative Learning Bldg.,307,0,1850179
+0,10:30:00,12:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,311,0,1850180
+2,13:00:00,16:00:00,e,304,(E11)창의학습관,(E11)Creative Learning Bldg.,308,0,1850180
+0,10:30:00,12:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,311,0,1850181
+4,13:00:00,16:00:00,e,304,(E11)창의학습관,(E11)Creative Learning Bldg.,308,0,1850181
+0,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,102,3,1850188
+2,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,102,3,1850188
+1,09:00:00,10:30:00,l,203,(E3)정보전자공학동,(E3)Information Science and Electronics Bldg.,2111,1,1851160
+3,09:00:00,10:30:00,l,203,(E3)정보전자공학동,(E3)Information Science and Electronics Bldg.,2111,1,1851160
+0,09:00:00,10:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,304,1,1851163
+2,09:00:00,10:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,304,1,1851163
+0,10:30:00,12:00:00,l,611,(W1-3)생명화학공학과,(W1-3)Dept. of Chemical & Biomolecular Engineering,2122,2,1848847
+2,10:30:00,12:00:00,l,611,(W1-3)생명화학공학과,(W1-3)Dept. of Chemical & Biomolecular Engineering,2122,2,1848847
+1,10:30:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,405,2,1849749
+3,10:30:00,12:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,405,2,1849749
+0,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,,3,1849742
+2,13:00:00,14:30:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,,3,1849742
+1,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,405,4,1849990
+3,14:30:00,16:00:00,l,304,(E11)창의학습관,(E11)Creative Learning Bldg.,405,4,1849990
