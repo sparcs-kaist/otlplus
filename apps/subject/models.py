@@ -1,11 +1,12 @@
+from datetime import time
 from functools import reduce
+import operator
 
 from django.db import models
 from django.db.models import Q
 from django.core.cache import cache
-from datetime import time
-import datetime
-import operator
+from django.utils import timezone
+
 from utils.enum import CLASS_TYPES, WEEKDAYS
 
 
@@ -59,7 +60,7 @@ class Semester(models.Model):
     # Keep synchronozed with React src/common/semesterFunctions.js getOngoingSemester()
     @classmethod
     def getOngoingSemester(cls):
-        now = datetime.datetime.now()
+        now = timezone.now()
         try:
             ongoing_semester = cls.objects.get(beginning__lt=now, end__gt=now)
         except cls.DoesNotExist:
@@ -75,7 +76,7 @@ class Semester(models.Model):
 
     @classmethod
     def getImportingSemester(cls):
-        now = datetime.datetime.now()
+        now = timezone.now()
         return cls.objects.filter(courseDesciptionSubmission__lt=now).order_by("courseDesciptionSubmission").last()
 
 
@@ -270,7 +271,7 @@ class Lecture(models.Model):
 
     @classmethod
     def getQueryReviewWritable(cls):
-        now = datetime.datetime.now()
+        now = timezone.now()
         not_writable_semesters = Semester.objects.filter(Q(courseAddDropPeriodEnd__gte=now) | Q(beginning__gte=now))
         query = reduce(operator.and_, (~Q(year=s.year, semester=s.semester) for s in not_writable_semesters), Q())
         return query

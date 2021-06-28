@@ -3,6 +3,7 @@ from typing import List, Dict, Optional
 
 from django.db.models import Q, QuerySet
 from django.http import QueryDict
+from django.utils import timezone
 
 from utils.util import rgetattr
 
@@ -105,7 +106,7 @@ def filter_by_term(queryset, term):
     if "ALL" in term:
         return queryset
     else:
-        current_year = datetime.datetime.now().year
+        current_year = timezone.now().year
         return queryset.filter(lectures__year__gte=current_year - int(term))
 
 

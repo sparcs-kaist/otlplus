@@ -13,7 +13,7 @@ def anonymize_professor_m2m(filename: str, mapping: dict):
             row[0] = mapping[row[0]]
             rows.append(row)
     with open(path.join(path.dirname(__file__), "data", filename), "w") as file:
-        writer = csv.writer(file, delimiter=',')
+        writer = csv.writer(file, delimiter=",")
         writer.writerows([header, *rows])
 
 
@@ -39,7 +39,7 @@ def execute():
         rows[i][2] = f"Professor_{rows[i][0]}"
 
     with open(path.join(path.dirname(__file__), "data/subject_professor.csv"), "w") as file:
-        writer = csv.writer(file, delimiter=',')
+        writer = csv.writer(file, delimiter=",")
         writer.writerows([header, *rows])
 
     anonymize_professor_m2m("subject_professor_course_list.csv", professor_pk_map)

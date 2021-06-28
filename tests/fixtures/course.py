@@ -1,9 +1,11 @@
 import csv
+from datetime import datetime
 import json
+import pytest
 from os import path
 
-import pytest
 from django.db import transaction
+from utils.timezone import KST
 
 from apps.subject.models import Department, Course, Lecture, Professor, ClassTime, ExamTime
 
@@ -53,6 +55,10 @@ def _import_courses(department_map):
             del item["department_id"]
             id_map.append(item["id"])
             del item["id"]
+            if item["latest_written_datetime"] is not None:
+                item["latest_written_datetime"] = datetime.strptime(
+                    item["latest_written_datetime"], "%Y-%m-%d %H:%M:%S"
+                ).replace(tzinfo=KST())
             instances.append(Course(**item))
         Course.objects.bulk_create(instances)
     for index, item in enumerate(Course.objects.all().order_by("id")):

@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 from apps.session.models import UserProfile
 from apps.subject.models import Lecture, Department, Course
@@ -197,7 +198,7 @@ class RateDailyUserFeed(DailyUserFeed):
         try:
             feed = cls.objects.get(date=date, user=user)
         except cls.DoesNotExist:
-            if Rate.objects.filter(user=user, year=datetime.datetime.now().year).exists():
+            if Rate.objects.filter(user=user, year=timezone.now().year).exists():
                 return None
             date_datetime = datetime.datetime(int(date[0:4]), int(date[5:7]), int(date[8:10]))
             if RateDailyUserFeed.objects.filter(
@@ -219,6 +220,6 @@ class RateDailyUserFeed(DailyUserFeed):
             "type": "RATE",
             "date": self.date,
             "priority": self.priority,
-            "rated": Rate.objects.filter(user=self.user, year=datetime.datetime.now().year).exists(),
+            "rated": Rate.objects.filter(user=self.user, year=timezone.now().year).exists(),
         }
         return result

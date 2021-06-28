@@ -6,9 +6,7 @@ from django.test import Client, TestCase as DjangoTestCase
 from django.utils.http import urlencode
 
 
-pytest_plugins = [
-    "tests.fixtures.course"
-]
+pytest_plugins = ["tests.fixtures.course"]
 
 
 Response = Union[HttpResponse, HttpResponseNotFound]

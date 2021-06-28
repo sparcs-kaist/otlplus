@@ -1,4 +1,3 @@
-import datetime
 import json
 import random
 
@@ -9,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseRedirect, JsonResponse
 from django.shortcuts import redirect
+from django.utils import timezone
 from django.views.decorators.http import require_http_methods
 
 from apps.subject.models import Department, Lecture
@@ -146,7 +146,7 @@ def department_options(request):
     deps_undergraduate = []
     deps_recent = []
     deps_other = []
-    year_threshold = datetime.datetime.now().year - 2
+    year_threshold = timezone.now().year - 2
     recent_lectures = Lecture.objects.filter(year__gte=year_threshold).prefetch_related("department")
 
     query = Department.objects.filter(visible=True).exclude(code__in=EXCLUDED_DEPARTMENTS).order_by("name")

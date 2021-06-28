@@ -1,12 +1,13 @@
+import json
+
 from django.conf import settings
-from django.views.decorators.http import require_http_methods
 from django.http import JsonResponse, HttpResponse, HttpResponseBadRequest
+from django.utils import timezone
+from django.views.decorators.http import require_http_methods
 
 from .models import Notice, Rate
-
-import datetime
-import json
 from utils.util import getint
+
 
 # Create your views here.
 
@@ -33,7 +34,7 @@ def rate_list_view(request):
         if user is None or not user.is_authenticated:
             return HttpResponse(status=401)
 
-        current_year = datetime.datetime.now().year
+        current_year = timezone.now().year
         if Rate.objects.filter(user=user.userprofile, year=current_year).exists():
             return HttpResponseBadRequest("You already rated for current year")
 
