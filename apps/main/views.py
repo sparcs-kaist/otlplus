@@ -22,7 +22,6 @@ def user_instance_feeds_view(request, user_id):
         userprofile = request.user.userprofile
         if userprofile.id != int(user_id):
             return HttpResponse(status=401)
-
         department_codes = [d["code"] for d in get_user_department_list(request.user) if (d["code"] != "Basic")]
         departments = Department.objects.filter(code__in=department_codes, visible=True)
         famous_major_review_daily_feed_list = [

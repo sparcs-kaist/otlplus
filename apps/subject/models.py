@@ -342,7 +342,7 @@ class ClassTime(models.Model):
         building_full_name = self.building_full_name
         building_full_name_en = self.building_full_name_en
         # No classroom info
-        if building_full_name is None:
+        if building_full_name is None or len(building_full_name) == 0:
             room_name = ""
             building_code = ""
             classroom = "정보 없음"

@@ -17,7 +17,7 @@ def json_encode_list(items: Iterable[Union[Department, Lecture, Review]], **kwar
 
 
 def unique_id_dict_list(dict_list: List[Dict]) -> List[Dict]:
-    return list({item["id"]: item for item in dict_list})
+    return list({item["id"]: item for item in dict_list}.values())
 
 
 def get_user_department_list(user: User) -> List:
@@ -29,7 +29,7 @@ def get_user_department_list(user: User) -> List:
     if profile.department is None or profile.department.code in INVALID_DEPARTMENT_CODES:
         departments = []
     else:
-        departments = [profile.department.toJson()]
+        departments = [profile.department]
 
     departments.extend(
         [
