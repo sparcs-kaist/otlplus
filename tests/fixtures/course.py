@@ -175,7 +175,7 @@ def initial_test_data(django_db_setup, django_db_blocker):
             pass
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="session", autouse=True)
 @pytest.mark.django_db
 def set_course_db(initial_test_data):
     _import_course_data()

@@ -135,7 +135,7 @@ def filter_by_keyword(queryset: QuerySet, keyword) -> QuerySet:
     return queryset.filter(
         Q(title__icontains=keyword)
         | Q(title_en__icontains=keyword)
-        | Q(old_code__iexact=keyword)
+        | Q(old_code__istartswith=keyword)
         | Q(department__name__iexact=keyword)
         | Q(department__name_en__iexact=keyword)
         | Q(professors__professor_name__icontains=keyword)

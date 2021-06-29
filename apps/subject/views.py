@@ -36,7 +36,6 @@ def course_list_view(request):
     offset = getint(request.GET, "offset", None)
     limit = getint(request.GET, "limit", None)
     courses = get_paginated_queryset(courses, offset, limit, MAX_LIMIT)
-
     result = [c.toJson(user=request.user) for c in courses]
     return JsonResponse(result, safe=False)
 
