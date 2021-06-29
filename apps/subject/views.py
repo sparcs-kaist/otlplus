@@ -13,11 +13,10 @@ from . import services
 
 @require_http_methods(["GET"])
 def semester_list_view(request):
-    if request.method == "GET":
-        semesters = Semester.objects.all().order_by("year", "semester")
+    semesters = Semester.objects.all().order_by("year", "semester")
 
-        result = [semester.toJson() for semester in semesters]
-        return JsonResponse(result, safe=False)
+    result = [semester.toJson() for semester in semesters]
+    return JsonResponse(result, safe=False)
 
 
 @require_http_methods(["GET"])

@@ -17,7 +17,7 @@ from django.conf.urls import url
 from . import views
 
 urlpatterns = [
-    url(r"^users/(?P<user_id>\d+)/timetables$", views.user_instance_timetable_list_view),
+    url(r"^users/(?P<user_id>\d+)/timetables$", views.UserTimetableListView.as_view()),
     url(r"^users/(?P<user_id>\d+)/timetables/(?P<timetable_id>\d+)$", views.user_instance_timetable_instance_view),
     url(
         r"^users/(?P<user_id>\d+)/timetables/(?P<timetable_id>\d+)/add-lecture$",
