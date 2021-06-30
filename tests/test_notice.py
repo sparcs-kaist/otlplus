@@ -20,16 +20,9 @@ class TestNotice(TestCase):
         offset_center = center_time + timedelta(hours=16)
         offset_outside = center_time + timedelta(weeks=4)
 
-        response = self.request_get(None, "/api/notices", {
-            "time": offset_edge.strftime("%Y-%m-%d %H:%M:%S%z")
-        })
+        response = self.request_get(None, "/api/notices", {"time": offset_edge.strftime("%Y-%m-%d %H:%M:%S%z")})
         assert len(response.data) == 3
-        response = self.request_get(None, "/api/notices", {
-            "time": offset_center.strftime("%Y-%m-%d %H:%M:%S%z")
-        })
+        response = self.request_get(None, "/api/notices", {"time": offset_center.strftime("%Y-%m-%d %H:%M:%S%z")})
         assert len(response.data) == 2
-        response = self.request_get(None, "/api/notices", {
-            "time": offset_outside.strftime("%Y-%m-%d %H:%M:%S%z")
-        })
+        response = self.request_get(None, "/api/notices", {"time": offset_outside.strftime("%Y-%m-%d %H:%M:%S%z")})
         assert len(response.data) == 0
-

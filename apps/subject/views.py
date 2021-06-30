@@ -122,7 +122,6 @@ def lecture_list_view(request):
     offset = getint(request.GET, "offset", None)
     limit = getint(request.GET, "limit", None)
     lectures = get_paginated_queryset(lectures, offset, limit, MAX_LIMIT)
-
     result = [lecture.toJson(nested=False) for lecture in lectures]
     return JsonResponse(result, safe=False)
 
