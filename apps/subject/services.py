@@ -144,13 +144,14 @@ def filter_by_keyword(queryset: QuerySet, keyword) -> QuerySet:
 
 
 def filter_by_time(queryset: QuerySet, day, begin, end) -> QuerySet:
+    time_query = Q()
     if day:
-        queryset = queryset.filter(classtimes__day=day)
+        time_query &= Q(classtimes__day=day)
     if begin:
-        queryset = queryset.filter(classtimes__begin__gte=datetime.time(int(begin) // 2 + 8, (int(begin) % 2) * 30))
+        time_query &= Q(classtimes__begin__gte=datetime.time(int(begin) // 2 + 8, (int(begin) % 2) * 30))
     if end and (int(end) != 32):
-        queryset = queryset.filter(classtimes__end__lte=datetime.time(int(end) // 2 + 8, (int(end) % 2) * 30))
-    return queryset
+        time_query &= Q(classtimes__end__lte=datetime.time(int(end) // 2 + 8, (int(end) % 2) * 30))
+    return queryset.filter(time_query)
 
 
 def filter_by_semester(queryset: QuerySet, year, semester) -> QuerySet:
