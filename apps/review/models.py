@@ -97,7 +97,7 @@ class Review(models.Model):
         speech = (speech_sum + 0.0) / total_weight if (total_weight != 0) else 0.0
         return (review_num, total_weight, (grade_sum, load_sum, speech_sum), (grade, load, speech))
 
-    def __unicode__(self):
+    def __str__(self):
         return "%s(%s)" % (self.lecture, self.writer)
 
 
@@ -121,7 +121,7 @@ class MajorBestReview(models.Model):
         primary_key=True,
     )
 
-    def __unicode__(self):
+    def __str__(self):
         return "%s(%s)" % (self.review.lecture, self.review.writer)
 
 
@@ -134,5 +134,5 @@ class HumanityBestReview(models.Model):
         primary_key=True,
     )
 
-    def __unicode__(self):
+    def __str__(self):
         return "%s(%s)" % (self.review.lecture, self.review.writer)

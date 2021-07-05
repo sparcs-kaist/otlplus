@@ -42,5 +42,5 @@ class UserProfile(models.Model):
     def review_writable_lectures(self):
         return self.taken_lectures.filter(Lecture.getQueryReviewWritable())
 
-    def __unicode__(self):
+    def __str__(self):
         return "%s %s" % (self.user.username, self.student_id)

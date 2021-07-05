@@ -276,7 +276,7 @@ class Lecture(models.Model):
         query = reduce(operator.and_, (~Q(year=s.year, semester=s.semester) for s in not_writable_semesters), Q())
         return query
 
-    def __unicode__(self):
+    def __str__(self):
         re_str = "%s(%s %s)" % (self.title, self.old_code, self.class_no)
         return re_str
 
@@ -289,7 +289,7 @@ class ExamTime(models.Model):
     begin = models.TimeField()  # hh:mm 형태의 시험시작시간 (24시간제)
     end = models.TimeField()  # hh:mm 형태의 시험시작시간 (24시간 제)
 
-    def __unicode__(self):
+    def __str__(self):
         return "[%s] %s, %s-%s" % (
             self.lecture.code,
             self.get_day_display(),
@@ -438,7 +438,7 @@ class Department(models.Model):
     name_en = models.CharField(max_length=60, null=True, db_index=True)
     visible = models.BooleanField(default=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.code
 
     def getCacheKey(self, nested):
@@ -569,7 +569,7 @@ class Course(models.Model):
     def update_related_courses(self):
         pass
 
-    def __unicode__(self):
+    def __str__(self):
         return "%s(%s)" % (self.title, self.old_code)
 
 
@@ -622,7 +622,7 @@ class Professor(models.Model):
         self.grade, self.load, self.speech = avgs
         self.save()
 
-    def __unicode__(self):
+    def __str__(self):
         return "%s(id:%d)" % (self.professor_name, self.professor_id)
 
 
