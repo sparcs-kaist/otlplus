@@ -1,9 +1,8 @@
-from datetime import datetime, timedelta, tzinfo
+from datetime import datetime, timedelta
 
 import pytest
 import pytz
 
-from apps.support.models import Notice
 from tests.conftest import TestCase
 
 

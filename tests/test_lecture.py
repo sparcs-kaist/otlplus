@@ -44,12 +44,7 @@ class TestLectureLookup(TestCase):
         assert len(response.data) == expected_count
 
         response = _build_request(1)
-        expected_count = (
-            ClassTime.objects.filter(day=1, lecture__deleted=False)
-            .values("lecture_id")
-            .distinct()
-            .count()
-        )
+        expected_count = ClassTime.objects.filter(day=1, lecture__deleted=False).values("lecture_id").distinct().count()
         assert len(response.data) == expected_count
 
         response = _build_request(2, 8, 19)

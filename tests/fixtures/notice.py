@@ -2,7 +2,6 @@ from datetime import timedelta, datetime
 
 import pytest
 import pytz
-from django.utils import timezone
 
 from apps.support.models import Notice
 
