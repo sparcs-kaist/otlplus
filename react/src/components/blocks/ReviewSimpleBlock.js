@@ -6,6 +6,7 @@ import qs from 'qs';
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 import { isSpecialLecture } from '../../common/lectureFunctions';
 import { getSingleScoreLabel } from '../../common/scoreFunctions';
+import { getSemesterName } from '../../common/semesterFunctions';
 
 import reviewShape from '../../shapes/ReviewShape';
 
@@ -19,7 +20,7 @@ const ReviewSimpleBlock = ({ t, review }) => {
     >
       <div>
         <span>
-          {`${review.lecture.year} ${[t('ui.semester.spring'), t('ui.semester.summer'), t('ui.semester.fall'), t('ui.semester.winter')][review.lecture.semester]}`}
+          {`${review.lecture.year} ${getSemesterName(review.lecture.semester)}`}
         </span>
         {
           isSpecialLecture(review.lecture)

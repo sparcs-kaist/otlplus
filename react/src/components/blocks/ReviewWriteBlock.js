@@ -5,6 +5,7 @@ import { withTranslation } from 'react-i18next';
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 import { getProfessorsShortStr } from '../../common/lectureFunctions';
 import { getSingleScoreLabel } from '../../common/scoreFunctions';
+import { getSemesterName } from '../../common/semesterFunctions';
 import { performSubmitReview } from '../../common/reviewFunctions';
 
 import lectureShape from '../../shapes/LectureShape';
@@ -78,7 +79,7 @@ const ReviewWriteBlock = ({
       <div className={classNames('block--review-write__title')}>
         <strong>{lecture[t('js.property.title')]}</strong>
         <span>{getProfessorsShortStr(lecture)}</span>
-        <span>{`${lecture.year} ${[undefined, t('ui.semester.spring'), t('ui.semester.summer'), t('ui.semester.fall'), t('ui.semester.winter')][lecture.semester]}`}</span>
+        <span>{`${lecture.year} ${getSemesterName(lecture.semester)}`}</span>
       </div>
       <textarea className={classNames('block--review-write__content')} placeholder={t('ui.placeholder.reviewContent')} value={content} onChange={onContentChange} />
       <div>
