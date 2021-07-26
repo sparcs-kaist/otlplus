@@ -35,6 +35,11 @@ urlpatterns = [
     # Admin Page
     url(r'^admin/', admin.site.urls),
 
+    # Service Worker
+    url(r'^index.html', lambda request: render(request, 'index.html')),
+    url(r'^precache-manifest.(?P<hash>\w+).js', lambda request, hash: render(request, "precache-manifest.{}.js".format(hash), content_type="application/javascript")),
+    url(r'^service-worker.js', lambda request: render(request, "service-worker.js", content_type="application/javascript")),
+
     # OTLplus Apps
     url(r'^session/', include('apps.session.urls')),
     url(r'^api/', include('apps.subject.urls')),
