@@ -7,6 +7,14 @@ import { LIST, TABLE, MULTIPLE } from '../reducers/timetable/lectureFocus';
 import { getStr as getStrOfExamtime } from './examtimeFunctions';
 
 
+export const isSpecialLecture = (lecture) => {
+  const isNormalLecture = (
+    (lecture.class_title === lecture.class_no)
+      || (lecture.class_title === 'A' && !lecture.class_no)
+  );
+  return !isNormalLecture;
+};
+
 export const inTimetable = (lecture, timetable) => (
   timetable
   && timetable.lectures.some((l) => (l.id === lecture.id))

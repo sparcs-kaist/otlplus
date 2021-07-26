@@ -4,6 +4,7 @@ import { withTranslation } from 'react-i18next';
 import qs from 'qs';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
+import { isSpecialLecture } from '../../common/lectureFunctions';
 import { getSingleScoreLabel } from '../../common/scoreFunctions';
 
 import reviewShape from '../../shapes/ReviewShape';
@@ -16,6 +17,16 @@ const ReviewSimpleBlock = ({ t, review }) => {
       to={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: review.course.id }) }}
       className={classNames('block', 'block--review-simple')}
     >
+      <div>
+        <span>
+          {`${review.lecture.year} ${[t('ui.semester.spring'), t('ui.semester.summer'), t('ui.semester.fall'), t('ui.semester.winter')][review.lecture.semester]}`}
+        </span>
+        {
+          isSpecialLecture(review.lecture)
+            ? <span>{review.lecture[t('js.property.class_title')]}</span>
+            : null
+        }
+      </div>
       <div>
         {review.content}
       </div>
