@@ -12,10 +12,11 @@ import LectureSimpleBlock from '../../blocks/LectureSimpleBlock';
 import { setReviewsFocus, clearReviewsFocus } from '../../../actions/write-reviews/reviewsFocus';
 import { LECTURE, LATEST, MY, LIKED } from '../../../reducers/write-reviews/reviewsFocus';
 
+import { unique, sum } from '../../../common/utilFunctions';
+import { getSemesterName } from '../../../common/semesterFunctions';
+
 import userShape from '../../../shapes/UserShape';
 import lectureShape from '../../../shapes/LectureShape';
-
-import { unique, sum } from '../../../common/utilFunctions';
 import reviewsFocusShape from '../../../shapes/ReviewsFocusShape';
 
 
@@ -140,14 +141,6 @@ class TakenLecturesSection extends Component {
     )
       .sort((a, b) => ((a.year !== b.year) ? (b.year - a.year) : (b.semester - a.semester)));
 
-    const semesterNames = [
-      null,
-      t('ui.semester.spring'),
-      t('ui.semester.summer'),
-      t('ui.semester.fall'),
-      t('ui.semester.winter'),
-    ];
-
     return (
       <div className={classNames('section-content', 'section-content--taken-lectures')}>
         <div className={classNames('title')}>
@@ -175,7 +168,7 @@ class TakenLecturesSection extends Component {
               <React.Fragment key={`${s.year}-${s.semester}`}>
                 { (i !== 0) ? <div className={classNames('divider')} /> : null }
                 <div className={classNames('small-title')}>
-                  {`${s.year} ${semesterNames[s.semester]}`}
+                  {`${s.year} ${getSemesterName(s.semester)}`}
                 </div>
                 <div className={classNames('taken-lectures')}>
 

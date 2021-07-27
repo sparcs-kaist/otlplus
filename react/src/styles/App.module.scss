@@ -2177,6 +2177,19 @@ a {
         margin-bottom: 6px;
 
         & > div:first-child {
+            color: $color-text-lighter;
+            font-size: $font-size-smaller;
+            line-height: $line-height-smaller;
+            margin-bottom: 3px;
+
+            & > span {
+                &:not(:first-child) {
+                    margin-left: 4px;
+                }
+            }
+        }
+
+        & > div:nth-child(2) {
             color: $color-text-light;
             font-size: $font-size-normal;
             line-height: $line-height-normal + 4px;

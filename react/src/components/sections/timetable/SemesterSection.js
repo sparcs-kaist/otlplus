@@ -10,7 +10,7 @@ import { setSemester } from '../../../actions/timetable/semester';
 
 import semesterShape from '../../../shapes/SemesterShape';
 
-import { getTimetableSemester } from '../../../common/semesterFunctions';
+import { getTimetableSemester, getSemesterName } from '../../../common/semesterFunctions';
 
 
 class SemesterSection extends Component {
@@ -103,18 +103,11 @@ class SemesterSection extends Component {
     const { t } = this.props;
     const { year, semester } = this.props;
 
-    const semesterNames = {
-      1: t('ui.semester.spring'),
-      2: t('ui.semester.summer'),
-      3: t('ui.semester.fall'),
-      4: t('ui.semester.winter'),
-    };
-
     if (year && semester) {
       return (
         <div className={classNames('section', 'section--semester', t('jsx.className.semesterByLang'))}>
           <button className={classNames((this._isFirstSemester(year, semester) ? 'disable' : ''))} onClick={() => this.changeToPreviousSemester()}><i className={classNames('icon', 'icon--semester-prev')} /></button>
-          <span>{`${year} ${semesterNames[semester]}`}</span>
+          <span>{`${year} ${getSemesterName(semester)}`}</span>
           <button className={classNames((this._isLastSemester(year, semester) ? 'disable' : ''))} onClick={() => this.changeToNextSemester()}><i className={classNames('icon', 'icon--semester-next')} /></button>
         </div>
       );

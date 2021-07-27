@@ -11,6 +11,7 @@ import { getSingleScoreLabel } from '../../common/scoreFunctions';
 
 import reviewShape from '../../shapes/ReviewShape';
 import { formatNewlineToBr } from '../../common/utilFunctions';
+import { getSemesterName } from '../../common/semesterFunctions';
 
 
 const ReviewBlock = ({
@@ -71,7 +72,7 @@ const ReviewBlock = ({
       <div className={classNames('block--review__title')}>
         <strong>{review.lecture[t('js.property.title')]}</strong>
         <span>{getProfessorsShortStr(review.lecture)}</span>
-        <span>{`${review.lecture.year} ${['', t('ui.semester.spring'), t('ui.semester.summer'), t('ui.semester.fall'), t('ui.semester.winter')][review.lecture.semester]}`}</span>
+        <span>{`${review.lecture.year} ${getSemesterName(review.lecture.semester)}`}</span>
       </div>
       <div className={classNames('block--review__content', (shouldLimitLines ? 'block--review__content--limit-5' : ''))}>
         {contentDisplay}
