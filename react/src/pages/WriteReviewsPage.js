@@ -13,7 +13,7 @@ import TakenLecturesSection from '../components/sections/write-reviews/TakenLect
 import ReviewWriteSubSection from '../components/sections/write-reviews/ReviewWriteSubSection';
 import ReviewsSubSection from '../components/sections/write-reviews/ReviewsSubSection';
 
-import { reset as resetReviewsFocus, clearReviewsFocus } from '../actions/write-reviews/reviewsFocus';
+import { reset as resetReviewsFocus, setReviewsFocus, clearReviewsFocus } from '../actions/write-reviews/reviewsFocus';
 import { reset as resetLatestReviews, addReviews as addLatestReviews } from '../actions/write-reviews/latestReviews';
 import { reset as resetLikedReviews, setReviews as setLikedReviews } from '../actions/write-reviews/likedReviews';
 import { NONE, LECTURE, LATEST } from '../reducers/write-reviews/reviewsFocus';
@@ -37,11 +37,16 @@ class WriteReviewsPage extends Component {
 
 
   componentDidMount() {
-    const { user } = this.props;
+    const { user, setReviewsFocusDispatch } = this.props;
+    const { startList } = this.props.location.state || {};
 
     this._fetchLatestReviews();
     if (user) {
       this._fetchLikedReviews();
+    }
+
+    if (startList) {
+      setReviewsFocusDispatch(startList, null);
     }
   }
 
@@ -240,6 +245,9 @@ const mapDispatchToProps = (dispatch) => ({
   setLikedReviewsDispatch: (reviews) => {
     dispatch(setLikedReviews(reviews));
   },
+  setReviewsFocusDispatch: (from, lecture) => {
+    dispatch(setReviewsFocus(from, lecture));
+  },
   clearReviewsFocusDispatch: () => {
     dispatch(clearReviewsFocus());
   },
@@ -260,6 +268,7 @@ WriteReviewsPage.propTypes = {
 
   addLatestReviewsDispatch: PropTypes.func.isRequired,
   setLikedReviewsDispatch: PropTypes.func.isRequired,
+  setReviewsFocusDispatch: PropTypes.func.isRequired,
   clearReviewsFocusDispatch: PropTypes.func.isRequired,
   resetReviewsFocusDispatch: PropTypes.func.isRequired,
   resetLatestReviewsDispatch: PropTypes.func.isRequired,

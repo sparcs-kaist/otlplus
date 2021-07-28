@@ -135,7 +135,15 @@ class App extends Component {
             />
             <Route exact path="/timetable/syllabus" component={SyllabusPage} />
             <Route exact path="/main" component={MainPage} />
-            <Route exact path="/write-reviews" component={WriteReviewsPage} />
+            <Route
+              exact
+              path="/write-reviews"
+              render={(props) => (
+                props.location.search
+                  ? <Redirect to={{ ...props.location, state: { ...props.location.state, ...parseQueryString(props.location.search) }, search: '' }} />
+                  : <WriteReviewsPage {...props} />
+              )}
+            />
             <Route exact path="/account" component={AccountPage} />
             <Route exact path="/credits" component={CreditPage} />
             <Route exact path="/licenses" component={LicensePage} />
