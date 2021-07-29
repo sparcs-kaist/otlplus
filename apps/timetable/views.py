@@ -310,6 +310,8 @@ def share_timetable_calendar_view(request):
         return response
 
 
+FLOW = client.flow_from_clientsecrets(settings.GOOGLE_OAUTH2_CLIENT_SECRETS_JSON,
+                                      scope='https://www.googleapis.com/auth/calendar')
 
 def _share_calendar(request, timetable_lectures, year, semester):
     storage = DjangoORMStorage(UserProfile, 'user', request.user, 'google_credential')
