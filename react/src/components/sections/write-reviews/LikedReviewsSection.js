@@ -20,18 +20,18 @@ import reviewShape from '../../../shapes/ReviewShape';
 
 class LikedReviewsSection extends Component {
   componentDidMount() {
-    const { user } = this.props;
+    const { user, likedReviews } = this.props;
 
-    if (user) {
+    if (user && !likedReviews) {
       this._fetchLikedReviews();
     }
   }
 
 
   componentDidUpdate(prevProps) {
-    const { user } = this.props;
+    const { user, likedReviews } = this.props;
 
-    if (user && !prevProps.user) {
+    if (user && !prevProps.user && !likedReviews) {
       this._fetchLikedReviews();
     }
   }
