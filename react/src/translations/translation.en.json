@@ -29,6 +29,7 @@
       "relatedReviews": "Related Reviews",
       "myReviews": "My Reviews",
       "likedReviews": "Liked Reviews",
+      "rankedReviews": "Hall of Fame",
       "famousMajorReviews": "Famous Major Reviews",
       "famousHumanityReviews": "Famous Humanity Reviews",
       "rateOtl": "Rate OTL",
@@ -99,6 +100,7 @@
       "credit": "Credit",
       "au": "AU",
       "competition": "Competition",
+      "totalReviews": "Reviews",
       "likes": "Likes",
       "grade": "Grade",
       "load": "Load",
@@ -201,7 +203,8 @@
       "springSemester": "Spring Semester",
       "summerSemester": "Summer Semester",
       "fallSemester": "Fall Semester",
-      "winterSemester": "Winter Semester"
+      "winterSemester": "Winter Semester",
+      "allSemesters": "All Semesters"
     },
     "schedule": {
       "beginning": "Beginning",

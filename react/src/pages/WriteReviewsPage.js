@@ -15,10 +15,11 @@ import LikedReviewsSection from '../components/sections/write-reviews/LikedRevie
 import { reset as resetReviewsFocus, setReviewsFocus } from '../actions/write-reviews/reviewsFocus';
 import { reset as resetLatestReviews } from '../actions/write-reviews/latestReviews';
 import { reset as resetLikedReviews } from '../actions/write-reviews/likedReviews';
-import { NONE, LECTURE, LATEST, MY, LIKED } from '../reducers/write-reviews/reviewsFocus';
+import { NONE, LECTURE, LATEST, MY, LIKED, RANKED } from '../reducers/write-reviews/reviewsFocus';
 
 import reviewsFocusShape from '../shapes/ReviewsFocusShape';
 import userShape from '../shapes/UserShape';
+import RankedReviewsSection from '../components/sections/write-reviews/RankedReviewsSection';
 
 
 class WriteReviewsPage extends Component {
@@ -56,6 +57,9 @@ class WriteReviewsPage extends Component {
       }
       if (focusFrom === LIKED) {
         return <LikedReviewsSection />;
+      }
+      if (focusFrom === RANKED) {
+        return <RankedReviewsSection />;
       }
       return null;
     };
