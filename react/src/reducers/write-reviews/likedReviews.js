@@ -1,7 +1,7 @@
 import { RESET, SET_REVIEWS, UPDATE_REVIEW } from '../../actions/write-reviews/likedReviews';
 
 const initialState = {
-  reviews: [],
+  reviews: null,
 };
 
 const latestReviews = (state = initialState, action) => {
