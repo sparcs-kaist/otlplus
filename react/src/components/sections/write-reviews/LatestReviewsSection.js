@@ -24,7 +24,6 @@ class LatestReviewsSection extends Component {
 
     this.state = {
       isLoading: false,
-      pageNumToLoad: (props.latestReviews ? props.latestReviews.length : 0),
     };
 
     // eslint-disable-next-line fp/no-mutation
@@ -42,14 +41,16 @@ class LatestReviewsSection extends Component {
 
 
   _fetchLatestReviews = () => {
-    const { addReviewsDispatch } = this.props;
-    const { isLoading, pageNumToLoad } = this.state;
+    const { latestReviews, addReviewsDispatch } = this.props;
+    const { isLoading } = this.state;
 
     const PAGE_SIZE = 10;
 
     if (isLoading) {
       return;
     }
+
+    const offset = (latestReviews || []).length;
 
     this.setState({
       isLoading: true,
@@ -59,7 +60,7 @@ class LatestReviewsSection extends Component {
       {
         params: {
           order: ['-written_datetime'],
-          offset: pageNumToLoad * PAGE_SIZE,
+          offset: offset,
           limit: PAGE_SIZE,
         },
         metadata: {
@@ -71,18 +72,17 @@ class LatestReviewsSection extends Component {
       .then((response) => {
         this.setState((prevState) => ({
           isLoading: false,
-          pageNumToLoad: prevState.pageNumToLoad + 1,
         }));
         addReviewsDispatch(response.data);
       })
       .catch((error) => {
       });
 
-    if (pageNumToLoad !== 0) {
+    if (offset !== 0) {
       ReactGA.event({
         category: 'Write Reviews - Latest Review',
         action: 'Loaded More Review',
-        label: `Review Order : ${20 * pageNumToLoad}-${20 * (pageNumToLoad + 1) - 1}`,
+        label: `Review Order : ${offset}-${offset + PAGE_SIZE - 1}`,
       });
     }
   }
