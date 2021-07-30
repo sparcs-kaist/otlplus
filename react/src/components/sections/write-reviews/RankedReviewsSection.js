@@ -13,8 +13,8 @@ import ReviewBlock from '../../blocks/ReviewBlock';
 import SemesterBlock from '../../blocks/SemesterBlock';
 
 import { clearReviewsFocus } from '../../../actions/write-reviews/reviewsFocus';
+import { addSemesterReviews, setSemesterReviewCount } from '../../../actions/write-reviews/rankedReviews';
 
-import reviewShape from '../../../shapes/ReviewShape';
 import reviewsFocusShape from '../../../shapes/ReviewsFocusShape';
 import { getSemesterName } from '../../../common/semesterFunctions';
 import semesterShape from '../../../shapes/SemesterShape';
@@ -30,8 +30,6 @@ class RankedReviewsSection extends Component {
     this.state = {
       selectedSemester: ALL,
       loadingSemesters: [],
-      _tempCount: 0,
-      _tempReviews: null,
     };
 
     // eslint-disable-next-line fp/no-mutation
@@ -40,14 +38,19 @@ class RankedReviewsSection extends Component {
 
 
   componentDidMount() {
+    const { selectedSemester } = this.state;
     const { semesters } = this.props;
 
     if (semesters) {
       this._setStartSemester();
     }
 
-    this._fetchReviewsCount();
-    this._fetchRankedReviews();
+    if (this._getReviewCountOfSemester(selectedSemester) === undefined) {
+      this._fetchReviewsCount();
+    }
+    if (this._getReviewsOfSemester(selectedSemester) === null) {
+      this._fetchRankedReviews();
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -59,8 +62,12 @@ class RankedReviewsSection extends Component {
     }
 
     if (selectedSemester !== prevState.selectedSemester) {
-      this._fetchReviewsCount();
-      this._fetchRankedReviews();
+      if (this._getReviewCountOfSemester(selectedSemester) === undefined) {
+        this._fetchReviewsCount();
+      }
+      if (this._getReviewsOfSemester(selectedSemester) === null) {
+        this._fetchRankedReviews();
+      }
     }
   }
 
@@ -81,6 +88,7 @@ class RankedReviewsSection extends Component {
 
   _fetchReviewsCount = () => {
     const { selectedSemester } = this.state;
+    const { setSemesterReviewCountDispatch } = this.props;
 
     const params = (selectedSemester === ALL)
       ? {
@@ -103,13 +111,7 @@ class RankedReviewsSection extends Component {
       },
     )
       .then((response) => {
-        const newState = this.state;
-        if (newState.selectedSemester !== selectedSemester) {
-          return;
-        }
-        this.setState((prevState) => ({
-          _tempCount: response.data,
-        }));
+        setSemesterReviewCountDispatch(this._getSemesterKey(selectedSemester), response.data);
       })
       .catch((error) => {
       });
@@ -118,7 +120,7 @@ class RankedReviewsSection extends Component {
   _fetchRankedReviews = () => {
     // const { addReviewsDispatch } = this.props;
     const { loadingSemesters, selectedSemester } = this.state;
-    const { _tempReviews } = this.state;
+    const { addSemesterReviewsDispatch } = this.props;
 
     const PAGE_SIZE = 10;
 
@@ -126,22 +128,23 @@ class RankedReviewsSection extends Component {
       return;
     }
 
+    const offset = (this._getReviewsOfSemester(selectedSemester) || []).length;
     const params = (selectedSemester === ALL)
       ? {
         order: ['-like'],
-        offset: (_tempReviews || []).length,
+        offset: offset,
         limit: PAGE_SIZE,
       }
       : {
         order: ['-like'],
-        offset: (_tempReviews || []).length,
+        offset: offset,
         limit: PAGE_SIZE,
         lecture_year: selectedSemester.year,
         lecture_semester: selectedSemester.semester,
       };
 
     this.setState({
-      loadingSemesters: loadingSemesters.concat([selectedSemester]),
+      loadingSemesters: loadingSemesters.concat([this._getSemesterKey(selectedSemester)]),
     });
     axios.get(
       '/api/reviews',
@@ -157,27 +160,30 @@ class RankedReviewsSection extends Component {
         this.setState((prevState) => ({
           loadingSemesters: prevState.loadingSemesters.filter((s) => (s !== this._getSemesterKey(selectedSemester))),
         }));
-        const newState = this.state;
-        if (newState.selectedSemester !== selectedSemester) {
-          return;
-        }
-        this.setState((prevState) => ({
-          _tempReviews: response.data,
-        }));
-        // addReviewsDispatch(response.data);
+        addSemesterReviewsDispatch(this._getSemesterKey(selectedSemester), response.data);
       })
       .catch((error) => {
       });
 
-    /*
-    if (pageNumToLoad !== 0) {
+    if (offset !== 0) {
       ReactGA.event({
-        category: 'Write Reviews - Latest Review',
+        category: 'Write Reviews - Ranked Review',
         action: 'Loaded More Review',
-        label: `Review Order : ${20 * pageNumToLoad}-${20 * (pageNumToLoad + 1) - 1}`,
+        label: `Semester : ${selectedSemester.year}-${selectedSemester.semester} / Review Order : ${offset}-${offset + PAGE_SIZE - 1}`,
       });
     }
-    */
+  }
+
+
+  _getReviewCountOfSemester = (semester) => {
+    const { reviewCountBySemester } = this.props;
+    return reviewCountBySemester[this._getSemesterKey(semester)];
+  }
+
+
+  _getReviewsOfSemester = (semester) => {
+    const { reviewsBySemester } = this.props;
+    return reviewsBySemester[this._getSemesterKey(semester)] || null;
   }
 
 
@@ -203,7 +209,6 @@ class RankedReviewsSection extends Component {
   render() {
     const { t } = this.props;
     const { selectedSemester } = this.state;
-    const { _tempCount, _tempReviews } = this.state;
     const { reviewsFocus, semesters } = this.props;
 
     const semesterBlocks = (semesters === null)
@@ -240,7 +245,7 @@ class RankedReviewsSection extends Component {
       ? t('ui.semester.allSemesters')
       : `${selectedSemester.year} ${getSemesterName(selectedSemester.semester)}`;
 
-    const reviews = _tempReviews;
+    const reviews = this._getReviewsOfSemester(selectedSemester);
     const reviewBlocksArea = (reviews == null)
       ? <div className={classNames('section-content--latest-reviews__list-area', 'list-placeholder')}><div>{t('ui.placeholder.loading')}</div></div>
       : (reviews.length
@@ -266,7 +271,11 @@ class RankedReviewsSection extends Component {
             <div className={classNames('scores')}>
               <div>
                 <div>
-                  {_tempCount}
+                  {
+                    this._getReviewCountOfSemester(selectedSemester) !== undefined
+                      ? this._getReviewCountOfSemester(selectedSemester)
+                      : '-'
+                  }
                 </div>
                 <div>{t('ui.score.totalReviews')}</div>
               </div>
@@ -282,19 +291,31 @@ class RankedReviewsSection extends Component {
 const mapStateToProps = (state) => ({
   semesters: state.common.semester.semesters,
   reviewsFocus: state.writeReviews.reviewsFocus,
+  reviewsBySemester: state.writeReviews.rankedReviews.reviewsBySemester,
+  reviewCountBySemester: state.writeReviews.rankedReviews.reviewCountBySemester,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   clearReviewsFocusDispatch: () => {
     dispatch(clearReviewsFocus());
   },
+  addSemesterReviewsDispatch: (semester, reviews) => {
+    dispatch(addSemesterReviews(semester, reviews));
+  },
+  setSemesterReviewCountDispatch: (semester, count) => {
+    dispatch(setSemesterReviewCount(semester, count));
+  },
 });
 
 RankedReviewsSection.propTypes = {
   semesters: PropTypes.arrayOf(semesterShape),
   reviewsFocus: reviewsFocusShape.isRequired,
+  reviewsBySemester: PropTypes.object.isRequired,
+  reviewCountBySemester: PropTypes.object.isRequired,
 
   clearReviewsFocusDispatch: PropTypes.func.isRequired,
+  addSemesterReviewsDispatch: PropTypes.func.isRequired,
+  setSemesterReviewCountDispatch: PropTypes.func.isRequired,
 };
 
 

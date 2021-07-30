@@ -15,6 +15,7 @@ import LikedReviewsSection from '../components/sections/write-reviews/LikedRevie
 import { reset as resetReviewsFocus, setReviewsFocus } from '../actions/write-reviews/reviewsFocus';
 import { reset as resetLatestReviews } from '../actions/write-reviews/latestReviews';
 import { reset as resetLikedReviews } from '../actions/write-reviews/likedReviews';
+import { reset as resetRankedReviews } from '../actions/write-reviews/rankedReviews';
 import { NONE, LECTURE, LATEST, MY, LIKED, RANKED } from '../reducers/write-reviews/reviewsFocus';
 
 import reviewsFocusShape from '../shapes/ReviewsFocusShape';
@@ -34,11 +35,15 @@ class WriteReviewsPage extends Component {
 
 
   componentWillUnmount() {
-    const { resetReviewsFocusDispatch, resetLatestReviewsDispatch, resetLikedReviewsDispatch } = this.props;
+    const {
+      resetReviewsFocusDispatch, resetLatestReviewsDispatch,
+      resetLikedReviewsDispatch, resetRankedReviewsDispatch,
+    } = this.props;
 
     resetReviewsFocusDispatch();
     resetLatestReviewsDispatch();
     resetLikedReviewsDispatch();
+    resetRankedReviewsDispatch();
   }
 
 
@@ -140,6 +145,9 @@ const mapDispatchToProps = (dispatch) => ({
   resetLikedReviewsDispatch: () => {
     dispatch(resetLikedReviews());
   },
+  resetRankedReviewsDispatch: () => {
+    dispatch(resetRankedReviews());
+  },
 });
 
 WriteReviewsPage.propTypes = {
@@ -150,6 +158,7 @@ WriteReviewsPage.propTypes = {
   resetReviewsFocusDispatch: PropTypes.func.isRequired,
   resetLatestReviewsDispatch: PropTypes.func.isRequired,
   resetLikedReviewsDispatch: PropTypes.func.isRequired,
+  resetRankedReviewsDispatch: PropTypes.func.isRequired,
 };
 
 
