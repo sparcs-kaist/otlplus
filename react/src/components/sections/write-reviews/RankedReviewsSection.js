@@ -81,9 +81,24 @@ class RankedReviewsSection extends Component {
   _setStartSemester = () => {
     const { semesters } = this.props;
 
-    this.setState({
-      selectedSemester: semesters[semesters.length - 1],
-    });
+    const today = new Date();
+    const yearSemester = (today.getMonth() < 6)
+      ? [today.getFullYear() - 1, 3]
+      : [today.getFullYear(), 1];
+
+    const targetSemester = semesters
+      .find((s) => ((s.year === yearSemester[0]) && (s.semester === yearSemester[1])));
+
+    if (targetSemester) {
+      this.setState({
+        selectedSemester: targetSemester,
+      });
+    }
+    else {
+      this.setState({
+        selectedSemester: semesters[semesters.length - 1],
+      });
+    }
   }
 
   _fetchReviewsCount = () => {
