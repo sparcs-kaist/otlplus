@@ -1645,14 +1645,16 @@ a {
         cursor: initial;
     }
     &.block--completed {
-        color: rgba($color-text-normal, 0.35);
-
-        & i.icon {
-            opacity: 0.45;
-        }
-
-        & .block--lecture-group__elem__texts__sub {
-            color: rgba($color-text-lighter, 0.35);
+        &:not(.block--raised) {
+            color: rgba($color-text-normal, 0.35);
+    
+            & i.icon {
+                opacity: 0.45;
+            }
+    
+            & .block--lecture-group__elem__texts__sub {
+                color: rgba($color-text-lighter, 0.35);
+            }
         }
 
         & > .block__completed-text {
