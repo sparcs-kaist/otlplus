@@ -43,7 +43,12 @@ class AcademicScheduleSection extends Component {
             </div>
           </div>
           <div className={classNames('buttons')}>
-            <a href="https://ssogw6.kaist.ac.kr" className={classNames('text-button')} target="_blank" rel="noopener noreferrer">
+            <a
+              href="https://ssogw6.kaist.ac.kr"
+              className={classNames('text-button')}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               {t('ui.button.goToAcademicSystem')}
             </a>
           </div>
@@ -64,7 +69,12 @@ class AcademicScheduleSection extends Component {
             </div>
           </div>
           <div className={classNames('buttons')}>
-            <a href="https://ssogw6.kaist.ac.kr" className={classNames('text-button')} target="_blank" rel="noopener noreferrer">
+            <a
+              href="https://ssogw6.kaist.ac.kr"
+              className={classNames('text-button')}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               {t('ui.button.goToAcademicSystem')}
             </a>
           </div>
@@ -91,12 +101,21 @@ class AcademicScheduleSection extends Component {
             {`D-${t('ui.others.dayCount', { count: days })} ${t('ui.others.hourCount', { count: hours })} ${t('ui.others.minuteCount', { count: minutes })} ${t('ui.others.secondCount', { count: seconds })}`}
           </div>
           <div>
-            <strong>{`${targetSchedule.year} ${getSemesterName(targetSchedule.semester)} ${getScheduleName(targetSchedule)}`}</strong>
-            <span>{`${targetScheduleTime.getFullYear()}.${targetScheduleTime.getMonth() + 1}.${targetScheduleTime.getDate()}`}</span>
+            <strong>
+              {`${targetSchedule.year} ${getSemesterName(targetSchedule.semester)} ${getScheduleName(targetSchedule)}`}
+            </strong>
+            <span>
+              {`${targetScheduleTime.getFullYear()}.${targetScheduleTime.getMonth() + 1}.${targetScheduleTime.getDate()}`}
+            </span>
           </div>
         </div>
         <div className={classNames('buttons')}>
-          <a href="https://ssogw6.kaist.ac.kr" className={classNames('text-button')} target="_blank" rel="noopener noreferrer">
+          <a
+            href="https://ssogw6.kaist.ac.kr"
+            className={classNames('text-button')}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             {t('ui.button.goToAcademicSystem')}
           </a>
         </div>

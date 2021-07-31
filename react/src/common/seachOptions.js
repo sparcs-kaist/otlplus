@@ -72,7 +72,6 @@ export const termOptions = [
 
 export const getNameKeyOfValue = (options, value) => {
   const matchedOption = options.find((o) => o[0] === value);
-  console.log(matchedOption);
   if (!matchedOption) {
     return 'Unknown';
   }

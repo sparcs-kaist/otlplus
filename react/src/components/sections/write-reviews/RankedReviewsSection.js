@@ -158,7 +158,9 @@ class RankedReviewsSection extends Component {
     )
       .then((response) => {
         this.setState((prevState) => ({
-          loadingSemesters: prevState.loadingSemesters.filter((s) => (s !== this._getSemesterKey(selectedSemester))),
+          loadingSemesters: (
+            prevState.loadingSemesters.filter((s) => (s !== this._getSemesterKey(selectedSemester)))
+          ),
         }));
         addSemesterReviewsDispatch(this._getSemesterKey(selectedSemester), response.data);
       })

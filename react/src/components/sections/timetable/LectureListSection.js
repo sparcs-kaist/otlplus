@@ -30,7 +30,9 @@ import {
 } from '../../../common/lectureFunctions';
 import { isTaken } from '../../../common/courseFunctions';
 import LectureGroupBlock from '../../blocks/LectureGroupBlock';
-import { getNameKeyOfValue, departmentOptions, typeOptions, levelOptions } from '../../../common/seachOptions';
+import {
+  getNameKeyOfValue, departmentOptions, typeOptions, levelOptions,
+} from '../../../common/seachOptions';
 
 
 class LectureListSection extends Component {
@@ -45,7 +47,9 @@ class LectureListSection extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    const { lists, selectedListCode, lectureFocus, mobileIsLectureListOpen } = this.props;
+    const {
+      lists, selectedListCode, lectureFocus, mobileIsLectureListOpen,
+    } = this.props;
 
     if ((selectedListCode !== prevProps.selectedListCode)
       || (this._getLectureGroups(selectedListCode, lists) && !this._getLectureGroups(prevProps.selectedListCode, prevProps.lists))
@@ -184,7 +188,10 @@ class LectureListSection extends Component {
   }
 
   selectWithArrow = () => {
-    const { lists, selectedListCode, clearLectureFocusDispatch, setLectureFocusDispatch } = this.props;
+    const {
+      lists, selectedListCode,
+      clearLectureFocusDispatch, setLectureFocusDispatch,
+    } = this.props;
 
     const arrow = this.arrowRef.current;
     const arrowPosition = (this.arrowRef.current).getBoundingClientRect();

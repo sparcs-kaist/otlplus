@@ -132,7 +132,10 @@ class TodaysTimetableSection extends Component {
           </div>
         </div>
         <div className={classNames('buttons')}>
-          <Link to={{ pathname: '/timetable', search: queryString.stringify({ startSemester: ongoingSemester, startInMyTable: true }) }} className={classNames('text-button')}>
+          <Link
+            to={{ pathname: '/timetable', search: queryString.stringify({ startSemester: ongoingSemester, startInMyTable: true }) }}
+            className={classNames('text-button')}
+          >
             {t('ui.button.seeDetails')}
           </Link>
         </div>
