@@ -54,7 +54,13 @@ class LatestReviewSection extends Component {
       return <div className={classNames('list-placeholder')}>{t('ui.placeholder.noResults')}</div>;
     }
     return reviews.map((r) => (
-      <ReviewBlock review={r} shouldLimitLines={true} linkTo={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: r.course.id }) }} pageFrom="Main" key={r.id} />
+      <ReviewBlock
+        review={r}
+        shouldLimitLines={true}
+        linkTo={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: r.course.id }) }}
+        pageFrom="Main"
+        key={r.id}
+      />
     ));
   };
 
@@ -70,7 +76,10 @@ class LatestReviewSection extends Component {
         </div>
         {this.mapReviewsToElement(reviews)}
         <div className={classNames('buttons')}>
-          <Link to={{ pathname: '/write-reviews', search: qs.stringify({ startList: LATEST }) }} className={classNames('text-button')}>
+          <Link
+            to={{ pathname: '/write-reviews', search: qs.stringify({ startList: LATEST }) }}
+            className={classNames('text-button')}
+          >
             {t('ui.button.seeMoreReviews')}
           </Link>
         </div>

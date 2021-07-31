@@ -81,7 +81,7 @@ class ExamSubSection extends Component {
 
     const mapPairToElem = (lecEtPair) => {
       const act = (
-        isSingleFocused(lecEtPair.lecture, lectureFocus) || (multipleFocusDayIndex === lecEtPair.examtime.day)
+        (isSingleFocused(lecEtPair.lecture, lectureFocus) || (multipleFocusDayIndex === lecEtPair.examtime.day))
           ? 'focused'
           : ''
       );
