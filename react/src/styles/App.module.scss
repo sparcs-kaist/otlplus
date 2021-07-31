@@ -1358,6 +1358,21 @@ a {
     }
 
     &--latest-reviews {
+        &__blocks {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            margin-right: -8px;
+            margin-bottom: -8px + 12px;
+
+            &__dummy {
+                margin-right: 8px;
+                width: 144px;
+                flex: 1 0 auto;
+                height: 0;
+            }
+        }
+
         &__list-area{
             @media #{$media-landscape} {
                 min-height: calc(
@@ -2236,6 +2251,25 @@ a {
         &__content {
         }
     }
+
+
+    &--semester {
+        padding: 8px 10px;
+        margin-right: 8px;
+        margin-bottom: 8px;
+        width: 144px;
+        text-align: center;
+        flex: 1 0 auto;
+        cursor: pointer;
+        &:hover {
+            background-color:$color-block-background-dark;
+        }
+
+        &__title {
+            font-weight: bold;
+            margin-bottom: 2px;
+        }
+    }
 }
 
 
@@ -2749,6 +2783,9 @@ a {
             }
         }
     }
+    .section-content--latest-reviews & {
+        margin-bottom: 12px;
+    }
 
     & > div {
         display: inline-block;
@@ -2759,14 +2796,16 @@ a {
             }
             .section-content--lecture-detail &,
             .section-content--summary &,
-            .section-content--taken-lectures & {
+            .section-content--taken-lectures &,
+            .section-content--latest-reviews & {
                 width: calc(3.5vh + 34px);
             }
         }
         @media #{$media-portrait} {
             .section-content--course-detail &,
             .section-content--lecture-detail &,
-            .section-content--taken-lectures & {
+            .section-content--taken-lectures &,
+            .section-content--latest-reviews & {
                 width: calc(9.5vw + 34px + 4px);
             }
             .section-content--summary & {
@@ -2786,7 +2825,8 @@ a {
                 }
                 .section-content--lecture-detail &,
                 .section-content--summary &,
-                .section-content--taken-lectures & {
+                .section-content--taken-lectures &,
+                .section-content--latest-reviews & {
                     font-size: calc(0.7vh + 15px);
                     line-height: calc(0.7vh + 13px);
                     &.scores__score-text--korean {
@@ -2797,7 +2837,8 @@ a {
             @media #{$media-portrait} {
                 .section-content--course-detail &,
                 .section-content--lecture-detail &,
-                .section-content--taken-lectures & {
+                .section-content--taken-lectures &,
+                .section-content--latest-reviews & {
                     font-size: calc(1.9vw + 15px);
                     line-height: calc(1.9vw + 13px);
                     &.scores__score-text--korean {

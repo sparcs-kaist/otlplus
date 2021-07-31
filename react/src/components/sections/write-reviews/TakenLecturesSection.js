@@ -10,7 +10,7 @@ import Scroller from '../../Scroller';
 import LectureSimpleBlock from '../../blocks/LectureSimpleBlock';
 
 import { setReviewsFocus, clearReviewsFocus } from '../../../actions/write-reviews/reviewsFocus';
-import { LECTURE, LATEST, MY, LIKED } from '../../../reducers/write-reviews/reviewsFocus';
+import { LECTURE, LATEST, MY, LIKED, RANKED } from '../../../reducers/write-reviews/reviewsFocus';
 
 import { unique, sum } from '../../../common/utilFunctions';
 import { getSemesterName } from '../../../common/semesterFunctions';
@@ -103,6 +103,17 @@ class TakenLecturesSection extends Component {
                 onClick={this.handleMenuClick(LATEST)}
               >
                 {t('ui.title.latestReviews')}
+              </button>
+            </div>
+            <div>
+              <button
+                className={classNames(
+                  'text-button',
+                  ((reviewsFocus.from === RANKED) ? 'text-button--disabled' : ''),
+                )}
+                onClick={this.handleMenuClick(RANKED)}
+              >
+                {t('ui.title.rankedReviews')}
               </button>
             </div>
             <div>
@@ -220,6 +231,17 @@ class TakenLecturesSection extends Component {
               onClick={this.handleMenuClick(LATEST)}
             >
               {t('ui.title.latestReviews')}
+            </button>
+          </div>
+          <div>
+            <button
+              className={classNames(
+                'text-button',
+                ((reviewsFocus.from === RANKED) ? 'text-button--disabled' : ''),
+              )}
+              onClick={this.handleMenuClick(RANKED)}
+            >
+              {t('ui.title.rankedReviews')}
             </button>
           </div>
           <div>

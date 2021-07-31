@@ -28,6 +28,7 @@
       "relatedReviews": "연관 후기",
       "myReviews": "내가 쓴 후기",
       "likedReviews": "좋아요한 후기",
+      "rankedReviews": "명예의 전당",
       "takenLectures": "내가 들은 과목",
       "famousMajorReviews": "사랑받는 전공후기",
       "famousHumanityReviews": "사랑받는 교양후기",
@@ -99,6 +100,7 @@
       "credit": "학점",
       "au": "AU",
       "competition": "경쟁률",
+      "totalReviews": "전체 후기",
       "likes": "추천",
       "grade": "성적",
       "load": "널널",
@@ -201,7 +203,8 @@
       "springSemester": "봄학기",
       "summerSemester": "여름학기",
       "fallSemester": "가을학기",
-      "winterSemester": "겨울학기"
+      "winterSemester": "겨울학기",
+      "allSemesters": "전체 학기"
     },
     "schedule": {
       "beginning": "개강",

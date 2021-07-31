@@ -39,8 +39,21 @@ def review_list_view(request):
         order = request.GET.getlist('order', [])
         reviews = get_ordered_queryset(reviews, order)
 
+        lecture_query = Q()
+        lecture_year = getint(request.GET, 'lecture_year', None)
+        if lecture_year is not None:
+            lecture_query &= Q(lecture__year=lecture_year)
+        lecture_semester = getint(request.GET, 'lecture_semester', None)
+        if lecture_semester is not None:
+            lecture_query &= Q(lecture__semester=lecture_semester)
+        reviews = reviews.filter(lecture_query)
+
         reviews = reviews \
             .distinct()
+
+        response_type = request.GET.get('response_type', None)
+        if response_type == 'count':
+            return JsonResponse(reviews.count(), safe=False)
 
         offset = getint(request.GET, 'offset', None)
         limit = getint(request.GET, 'limit', None)
