@@ -16,7 +16,7 @@ const SemesterBlock = ({
   onClick,
 }) => {
   const title = (semester === 'ALL')
-    ? t('ui.semester.allSemesters')
+    ? t('ui.semester.all')
     : `${semester.year} ${getSemesterName(semester.semester)}`;
 
   return (

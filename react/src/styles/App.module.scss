@@ -1367,9 +1367,13 @@ a {
 
             &__dummy {
                 margin-right: 8px;
-                width: 144px;
+                width: 114px;
                 flex: 1 0 auto;
                 height: 0;
+                @media #{$media-portrait} {
+                    width: 94px;
+                }
+        
             }
         }
 
@@ -2259,14 +2263,17 @@ a {
         padding: 8px 10px;
         margin-right: 8px;
         margin-bottom: 8px;
-        width: 144px;
+        width: 114px;
         text-align: center;
         flex: 1 0 auto;
         cursor: pointer;
+        @media #{$media-portrait} {
+            width: 94px;
+        }
+
         &:hover {
             background-color:$color-block-background-dark;
         }
-
         &__title {
             font-weight: bold;
             margin-bottom: 2px;
