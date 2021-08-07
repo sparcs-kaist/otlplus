@@ -259,7 +259,7 @@ class RankedReviewsSection extends Component {
       ];
 
     const subtitle = (selectedSemester === ALL)
-      ? t('ui.semester.allSemesters')
+      ? t('ui.semester.all')
       : `${selectedSemester.year} ${getSemesterName(selectedSemester.semester)}`;
 
     const reviews = this._getReviewsOfSemester(selectedSemester);

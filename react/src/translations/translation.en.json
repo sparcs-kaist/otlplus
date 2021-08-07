@@ -204,6 +204,7 @@
       "summerSemester": "Summer Semester",
       "fallSemester": "Fall Semester",
       "winterSemester": "Winter Semester",
+      "all": "All",
       "allSemesters": "All Semesters"
     },
     "schedule": {

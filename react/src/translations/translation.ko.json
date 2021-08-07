@@ -204,6 +204,7 @@
       "summerSemester": "여름학기",
       "fallSemester": "가을학기",
       "winterSemester": "겨울학기",
+      "all": "전체",
       "allSemesters": "전체 학기"
     },
     "schedule": {
