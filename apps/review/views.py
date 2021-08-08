@@ -3,6 +3,7 @@ from django.shortcuts import get_object_or_404
 from .models import Review, ReviewVote
 from utils.util import getint, get_ordered_queryset, get_paginated_queryset, patch_object
 
+from django.db.models import Q
 from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse
 from django.views import View
 from django.utils.decorators import method_decorator
