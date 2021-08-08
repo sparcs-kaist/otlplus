@@ -266,7 +266,7 @@ def _filterDepartment(queryset, department):
         return queryset
 
     major_list = ["CE", "MSB", "ME", "PH", "BiS", "IE", "ID", "BS", "CBE", "MAS",
-                    "MS", "NQE", "HSS", "EE", "CS", "AE", "CH"]
+                    "MS", "NQE", "HSS", "EE", "CS", "AE", "CH", "TS"]
     if 'ALL' in department:
         return queryset
     elif 'ETC' in department:

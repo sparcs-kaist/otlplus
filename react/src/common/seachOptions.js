@@ -22,6 +22,7 @@ export const departmentOptions = [
   ['EE', 'ui.department.eeShort', 500], ['CS', 'ui.department.csShort', 500],
   ['AE', 'ui.department.aeShort', 500], ['CH', 'ui.department.chShort', 500],
   ['CBE', 'ui.department.cbeShort', 500], ['MS', 'ui.department.msShort', 500],
+  ['TS', 'ui.department.tsShort', 500],
   ['ETC', 'ui.department.etcShort', 900],
 ]
   .sort((a, b) => {
@@ -45,6 +46,7 @@ export const getSotredDepartmentOptions = (t) => ([
   ['EE', 'ui.department.eeShort', 500], ['CS', 'ui.department.csShort', 500],
   ['AE', 'ui.department.aeShort', 500], ['CH', 'ui.department.chShort', 500],
   ['CBE', 'ui.department.cbeShort', 500], ['MS', 'ui.department.msShort', 500],
+  ['TS', 'ui.department.tsShort', 500],
   ['ETC', 'ui.department.etcShort', 900],
 ]
   .sort((a, b) => {
