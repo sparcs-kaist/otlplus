@@ -12,6 +12,7 @@ import RelatedCourseFeedSection from '../components/sections/main/RelatedCourseF
 import LatestReviewSection from '../components/sections/main/LatestReviewSection';
 import FamousMajorReviewFeedSection from '../components/sections/main/FamousMajorReviewFeedSection';
 import FamousHumanityReviewFeedSection from '../components/sections/main/FamousHumanityReviewFeedSection';
+import RankedReviewFeedSection from '../components/sections/main/RankedReviewFeedSection';
 import ReviewWriteFeedSection from '../components/sections/main/ReviewWriteFeedSection';
 import MainSearchSection from '../components/sections/main/MainSearchSection';
 import userShape from '../shapes/UserShape';
@@ -246,6 +247,15 @@ class MainPage extends Component {
           <div className={classNames('section-wrap', 'section-wrap--feed')} key={`${date.date}-${feed.type}`}>
             <div className={classNames('section')}>
               <FamousHumanityReviewFeedSection reviews={feed.reviews} />
+            </div>
+          </div>
+        );
+      }
+      if (feed.type === 'RANKED_REVIEW') {
+        return (
+          <div className={classNames('section-wrap', 'section-wrap--feed')} key={`${date.date}-${feed.type}`}>
+            <div className={classNames('section')}>
+              <RankedReviewFeedSection semester={feed.semester} reviews={feed.reviews} />
             </div>
           </div>
         );
