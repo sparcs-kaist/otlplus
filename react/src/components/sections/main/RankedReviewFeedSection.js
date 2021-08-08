@@ -6,22 +6,27 @@ import qs from 'qs';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
-import { HUMANITY } from '../../../reducers/dictionary/list';
-
 import ReviewBlock from '../../blocks/ReviewBlock';
 
+import { getSemesterName } from '../../../common/semesterFunctions';
+
+import { RANKED } from '../../../reducers/write-reviews/reviewsFocus';
+
 import reviewShape from '../../../shapes/ReviewShape';
+import semesterShape from '../../../shapes/SemesterShape';
 
 
-class FamousHumanityReviewFeedSection extends Component {
+class RankedReviewFeedSection extends Component {
   render() {
     const { t } = this.props;
-    const { reviews } = this.props;
+    const { semester, reviews } = this.props;
+
+    const semesterName = semester ? `${semester.year} ${getSemesterName(semester.semester)}` : t('ui.semester.all');
 
     return (
       <div className={classNames('section-content', 'section-content--feed')}>
         <div className={classNames('title')}>
-          {t('ui.title.famousHumanityReviews')}
+          {`${t('ui.title.rankedReviews')} - ${semesterName}`}
         </div>
         {reviews.map((r) => (
           <ReviewBlock
@@ -34,7 +39,7 @@ class FamousHumanityReviewFeedSection extends Component {
         ))}
         <div className={classNames('buttons')}>
           <Link
-            to={{ pathname: '/dictionary', search: qs.stringify({ startTab: HUMANITY }) }}
+            to={{ pathname: '/write-reviews', search: qs.stringify({ startList: RANKED }) }}
             className={classNames('text-button')}
           >
             {t('ui.button.seeMoreReviews')}
@@ -45,9 +50,10 @@ class FamousHumanityReviewFeedSection extends Component {
   }
 }
 
-FamousHumanityReviewFeedSection.propTypes = {
+RankedReviewFeedSection.propTypes = {
+  semester: semesterShape,
   reviews: PropTypes.arrayOf(reviewShape).isRequired,
 };
 
 
-export default withTranslation()(FamousHumanityReviewFeedSection);
+export default withTranslation()(RankedReviewFeedSection);

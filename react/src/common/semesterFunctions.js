@@ -1,3 +1,15 @@
+import i18n from 'i18next';
+
+
+export const getSemesterName = (semesterIndex) => {
+  const semesterNames = {
+    1: i18n.t('ui.semester.spring'),
+    2: i18n.t('ui.semester.summer'),
+    3: i18n.t('ui.semester.fall'),
+    4: i18n.t('ui.semester.winter'),
+  };
+  return semesterNames[semesterIndex];
+};
 
 export const getTimetableSemester = (semesters) => {
   // eslint-disable-next-line fp/no-mutating-methods

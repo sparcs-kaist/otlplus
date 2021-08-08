@@ -36,6 +36,7 @@ MAJOR_ACRONYMS = [
     "CS",
     "AE",
     "CH",
+    "TS",
 ]
 
 

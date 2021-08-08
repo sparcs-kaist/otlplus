@@ -6,11 +6,11 @@ from apps.subject.models import Department
 from .models import (
     FamousMajorReviewDailyFeed,
     FamousHumanityReviewDailyFeed,
+    RankedReviewDailyFeed,
     ReviewWriteDailyUserFeed,
     RelatedCourseDailyUserFeed,
     RateDailyUserFeed,
 )
-
 from apps.session.services import get_user_department_list
 
 
@@ -30,6 +30,8 @@ def user_instance_feeds_view(request, user_id):
 
     famous_humanity_review_daily_feed = FamousHumanityReviewDailyFeed.get(date=date)
 
+    ranked_review_daily_feed = RankedReviewDailyFeed.get(date=date)
+
     review_write_daily_user_feed = ReviewWriteDailyUserFeed.get(date=date, user=userprofile)
 
     related_course_daily_user_feed = RelatedCourseDailyUserFeed.get(date=date, user=userprofile)
@@ -39,6 +41,7 @@ def user_instance_feeds_view(request, user_id):
     feeds = (
         famous_major_review_daily_feed_list
         + [famous_humanity_review_daily_feed]
+        + [ranked_review_daily_feed]
         + [review_write_daily_user_feed]
         + [related_course_daily_user_feed]
         + [rate_daily_user_feed]

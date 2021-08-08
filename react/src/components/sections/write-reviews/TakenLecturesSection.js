@@ -10,12 +10,15 @@ import Scroller from '../../Scroller';
 import LectureSimpleBlock from '../../blocks/LectureSimpleBlock';
 
 import { setReviewsFocus, clearReviewsFocus } from '../../../actions/write-reviews/reviewsFocus';
-import { LECTURE, LATEST, MY, LIKED } from '../../../reducers/write-reviews/reviewsFocus';
+import {
+  LECTURE, LATEST, MY, LIKED, RANKED,
+} from '../../../reducers/write-reviews/reviewsFocus';
+
+import { unique, sum } from '../../../common/utilFunctions';
+import { getSemesterName } from '../../../common/semesterFunctions';
 
 import userShape from '../../../shapes/UserShape';
 import lectureShape from '../../../shapes/LectureShape';
-
-import { unique, sum } from '../../../common/utilFunctions';
 import reviewsFocusShape from '../../../shapes/ReviewsFocusShape';
 
 
@@ -74,18 +77,18 @@ class TakenLecturesSection extends Component {
           </div>
           <div className={classNames('scores')}>
             <div>
-              <div> 
+              <div>
                 <span>-</span>
                 <span>/-</span>
-              </div> 
+              </div>
               <div>{t('ui.score.reviewsWritten')}</div>
-            </div> 
+            </div>
             <div>
-              <div> 
+              <div>
                 -
-              </div> 
+              </div>
               <div>{t('ui.score.likes')}</div>
-            </div> 
+            </div>
           </div>
           <div className={classNames('divider')} />
           <Scroller expandTop={12}>
@@ -102,6 +105,17 @@ class TakenLecturesSection extends Component {
                 onClick={this.handleMenuClick(LATEST)}
               >
                 {t('ui.title.latestReviews')}
+              </button>
+            </div>
+            <div>
+              <button
+                className={classNames(
+                  'text-button',
+                  ((reviewsFocus.from === RANKED) ? 'text-button--disabled' : ''),
+                )}
+                onClick={this.handleMenuClick(RANKED)}
+              >
+                {t('ui.title.rankedReviews')}
               </button>
             </div>
             <div>
@@ -131,7 +145,8 @@ class TakenLecturesSection extends Component {
     }
 
     const writableTakenLectures = user.review_writable_lectures;
-    const editableReviews = user.reviews.filter((r) => writableTakenLectures.some((l) => l.id === r.lecture.id));
+    const editableReviews = user.reviews
+      .filter((r) => writableTakenLectures.some((l) => l.id === r.lecture.id));
 
     // eslint-disable-next-line fp/no-mutating-methods
     const targetSemesters = unique(
@@ -140,14 +155,6 @@ class TakenLecturesSection extends Component {
     )
       .sort((a, b) => ((a.year !== b.year) ? (b.year - a.year) : (b.semester - a.semester)));
 
-    const semesterNames = [
-      null,
-      t('ui.semester.spring'),
-      t('ui.semester.summer'),
-      t('ui.semester.fall'),
-      t('ui.semester.winter'),
-    ];
-
     return (
       <div className={classNames('section-content', 'section-content--taken-lectures')}>
         <div className={classNames('title')}>
@@ -155,18 +162,18 @@ class TakenLecturesSection extends Component {
         </div>
         <div className={classNames('scores')}>
           <div>
-            <div> 
+            <div>
               <span>{editableReviews.length}</span>
               <span>{`/${writableTakenLectures.length}`}</span>
-            </div> 
+            </div>
             <div>{t('ui.score.reviewsWritten')}</div>
-          </div> 
+          </div>
           <div>
-            <div> 
+            <div>
               {sum(editableReviews, (r) => r.like)}
-            </div> 
+            </div>
             <div>{t('ui.score.likes')}</div>
-          </div> 
+          </div>
         </div>
         <div className={classNames('divider')} />
         <Scroller expandTop={12}>
@@ -175,7 +182,7 @@ class TakenLecturesSection extends Component {
               <React.Fragment key={`${s.year}-${s.semester}`}>
                 { (i !== 0) ? <div className={classNames('divider')} /> : null }
                 <div className={classNames('small-title')}>
-                  {`${s.year} ${semesterNames[s.semester]}`}
+                  {`${s.year} ${getSemesterName(s.semester)}`}
                 </div>
                 <div className={classNames('taken-lectures')}>
 
@@ -227,6 +234,17 @@ class TakenLecturesSection extends Component {
               onClick={this.handleMenuClick(LATEST)}
             >
               {t('ui.title.latestReviews')}
+            </button>
+          </div>
+          <div>
+            <button
+              className={classNames(
+                'text-button',
+                ((reviewsFocus.from === RANKED) ? 'text-button--disabled' : ''),
+              )}
+              onClick={this.handleMenuClick(RANKED)}
+            >
+              {t('ui.title.rankedReviews')}
             </button>
           </div>
           <div>

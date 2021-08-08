@@ -22,14 +22,20 @@ class RelatedCourseFeedSection extends Component {
         </div>
         { course.related_courses_posterior.length
           ? course.related_courses_posterior.map((c) => (
-            <Link to={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: c.id }) }} key={c.id}>
+            <Link
+              to={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: c.id }) }}
+              key={c.id}
+            >
               <CourseBlock course={c} key={c.id} />
             </Link>
           ))
           : <div className={classNames('list-placeholder')}><div>{t('ui.placeholder.unknown')}</div></div>
         }
         <div className={classNames('buttons')}>
-          <Link to={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: course.id }) }} className={classNames('text-button')}>
+          <Link
+            to={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: course.id }) }}
+            className={classNames('text-button')}
+          >
             {t('ui.button.seeDetails')}
           </Link>
         </div>

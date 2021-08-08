@@ -1,7 +1,7 @@
 import { RESET, ADD_REVIEWS, UPDATE_REVIEW } from '../../actions/write-reviews/latestReviews';
 
 const initialState = {
-  reviews: [],
+  reviews: null,
 };
 
 const latestReviews = (state = initialState, action) => {
@@ -11,7 +11,7 @@ const latestReviews = (state = initialState, action) => {
     }
     case ADD_REVIEWS: {
       const newReviews = [
-        ...state.reviews,
+        ...(state.reviews !== null ? state.reviews : []),
         ...action.reviews,
       ];
       return Object.assign({}, state, {

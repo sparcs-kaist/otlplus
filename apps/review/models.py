@@ -104,6 +104,7 @@ class Review(models.Model):
 class ReviewVote(models.Model):
     review = models.ForeignKey(Review, related_name="votes", on_delete=models.CASCADE, null=False)
     userprofile = models.ForeignKey(UserProfile, related_name="review_votes", on_delete=models.SET_NULL, null=True)
+    created_datetime = models.DateTimeField(auto_now_add=True, db_index=True, null=True)
 
     class Meta:
         unique_together = (

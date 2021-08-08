@@ -37,6 +37,7 @@ UNDERGRADUATE_DEPARTMENTS = [
     "CS",
     "AE",
     "CH",
+    "TS",
 ]
 EXCLUDED_DEPARTMENTS = [
     "AA",

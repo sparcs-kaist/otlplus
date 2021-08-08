@@ -9,6 +9,7 @@ export const LECTURE = 'LECTURE';
 export const LATEST = 'LATEST';
 export const MY = 'MY';
 export const LIKED = 'LIKED';
+export const RANKED = 'RANKED';
 
 const initialState = {
   from: 'NONE',

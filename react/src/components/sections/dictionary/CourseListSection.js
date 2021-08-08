@@ -22,7 +22,9 @@ import courseShape from '../../../shapes/CourseShape';
 import courseFocusShape from '../../../shapes/CourseFocusShape';
 import courseListsShape from '../../../shapes/CourseListsShape';
 import userShape from '../../../shapes/UserShape';
-import { getNameKeyOfValue, departmentOptions, typeOptions, levelOptions, termOptions } from '../../../common/seachOptions';
+import {
+  getNameKeyOfValue, departmentOptions, typeOptions, levelOptions, termOptions,
+} from '../../../common/seachOptions';
 
 
 class CourseListSection extends Component {

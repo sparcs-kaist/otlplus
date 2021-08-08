@@ -1358,6 +1358,25 @@ a {
     }
 
     &--latest-reviews {
+        &__blocks {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            margin-right: -8px;
+            margin-bottom: -8px + 12px;
+
+            &__dummy {
+                margin-right: 8px;
+                width: 114px;
+                flex: 1 0 auto;
+                height: 0;
+                @media #{$media-portrait} {
+                    width: 94px;
+                }
+        
+            }
+        }
+
         &__list-area{
             @media #{$media-landscape} {
                 min-height: calc(
@@ -1630,14 +1649,16 @@ a {
         cursor: initial;
     }
     &.block--completed {
-        color: rgba($color-text-normal, 0.35);
-
-        & i.icon {
-            opacity: 0.45;
-        }
-
-        & .block--lecture-group__elem__texts__sub {
-            color: rgba($color-text-lighter, 0.35);
+        &:not(.block--raised) {
+            color: rgba($color-text-normal, 0.35);
+    
+            & i.icon {
+                opacity: 0.45;
+            }
+    
+            & .block--lecture-group__elem__texts__sub {
+                color: rgba($color-text-lighter, 0.35);
+            }
         }
 
         & > .block__completed-text {
@@ -2177,6 +2198,19 @@ a {
         margin-bottom: 6px;
 
         & > div:first-child {
+            color: $color-text-lighter;
+            font-size: $font-size-smaller;
+            line-height: $line-height-smaller;
+            margin-bottom: 3px;
+
+            & > span {
+                &:not(:first-child) {
+                    margin-left: 4px;
+                }
+            }
+        }
+
+        & > div:nth-child(2) {
             color: $color-text-light;
             font-size: $font-size-normal;
             line-height: $line-height-normal + 4px;
@@ -2221,6 +2255,28 @@ a {
         }
 
         &__content {
+        }
+    }
+
+
+    &--semester {
+        padding: 8px 10px;
+        margin-right: 8px;
+        margin-bottom: 8px;
+        width: 114px;
+        text-align: center;
+        flex: 1 0 auto;
+        cursor: pointer;
+        @media #{$media-portrait} {
+            width: 94px;
+        }
+
+        &:hover {
+            background-color:$color-block-background-dark;
+        }
+        &__title {
+            font-weight: bold;
+            margin-bottom: 2px;
         }
     }
 }
@@ -2736,6 +2792,9 @@ a {
             }
         }
     }
+    .section-content--latest-reviews & {
+        margin-bottom: 12px;
+    }
 
     & > div {
         display: inline-block;
@@ -2746,14 +2805,16 @@ a {
             }
             .section-content--lecture-detail &,
             .section-content--summary &,
-            .section-content--taken-lectures & {
+            .section-content--taken-lectures &,
+            .section-content--latest-reviews & {
                 width: calc(3.5vh + 34px);
             }
         }
         @media #{$media-portrait} {
             .section-content--course-detail &,
             .section-content--lecture-detail &,
-            .section-content--taken-lectures & {
+            .section-content--taken-lectures &,
+            .section-content--latest-reviews & {
                 width: calc(9.5vw + 34px + 4px);
             }
             .section-content--summary & {
@@ -2773,7 +2834,8 @@ a {
                 }
                 .section-content--lecture-detail &,
                 .section-content--summary &,
-                .section-content--taken-lectures & {
+                .section-content--taken-lectures &,
+                .section-content--latest-reviews & {
                     font-size: calc(0.7vh + 15px);
                     line-height: calc(0.7vh + 13px);
                     &.scores__score-text--korean {
@@ -2784,7 +2846,8 @@ a {
             @media #{$media-portrait} {
                 .section-content--course-detail &,
                 .section-content--lecture-detail &,
-                .section-content--taken-lectures & {
+                .section-content--taken-lectures &,
+                .section-content--latest-reviews & {
                     font-size: calc(1.9vw + 15px);
                     line-height: calc(1.9vw + 13px);
                     &.scores__score-text--korean {

@@ -2,7 +2,7 @@ from django.db import models
 from django.utils import timezone
 
 from apps.session.models import UserProfile
-from apps.subject.models import Lecture, Department, Course
+from apps.subject.models import Lecture, Department, Course, Semester
 from apps.review.models import Review, MajorBestReview, HumanityBestReview
 from apps.support.models import Rate
 
@@ -102,6 +102,42 @@ class FamousHumanityReviewDailyFeed(DailyFeed):
             "date": self.date,
             "priority": self.priority,
             "reviews": [r.toJson(nested=False, user=user) for r in self.reviews.all()],
+        }
+        return result
+
+
+class RankedReviewDailyFeed(DailyFeed):
+    VISIBLE_RATE_BASE = 0.15
+
+    semester = models.ForeignKey(Semester, null=True)
+
+    class Meta:
+        unique_together = [['date']]
+
+    @classmethod
+    def get(cls, date):
+        try:
+            feed = cls.objects.get(date=date)
+        except cls.DoesNotExist:
+            semester = None
+            visible = random.random() < cls.VISIBLE_RATE_BASE
+            feed = cls.objects.create(date=date, semester=semester, priority=random.random(), visible=visible)
+        if not feed.visible:
+            return None
+        else:
+            return feed
+
+    def toJson(self, nested=False, user=None):
+        if self.semester == None:
+            reviews = Review.objects.all().order_by("-like").distinct()[:3]
+        else:
+            reviews = Review.objects.filter(lecture__year=self.semester.year, lecture__semester=self.semester.semester).order_by().distinct()[:3]
+        result = {
+            "type": "RANKED_REVIEW",
+            "date": self.date,
+            "priority": self.priority,
+            "semester": self.semester.toJson() if (self.semester != None) else None,
+            "reviews": [r.toJson(nested=False, user=user) for r in reviews],
         }
         return result
 
