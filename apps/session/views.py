@@ -128,7 +128,7 @@ def department_options(request):
     dept_under = ["CE", "MSB", "ME", "PH", "BiS",
                 "IE", "ID", "BS", "CBE", "MAS",
                 "MS", "NQE", "HSS", "EE", "CS",
-                "AE", "CH"]
+                "AE", "CH", "TS"]
     dept_exclude = ["AA", "KSA", "URP", "ED", "INT",
                     "KJ", "CWENA", "C", "E", "S",
                     "PSY", "SK", "BIO", "CLT", "PHYS"]
