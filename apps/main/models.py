@@ -109,7 +109,7 @@ class FamousHumanityReviewDailyFeed(DailyFeed):
 class RankedReviewDailyFeed(DailyFeed):
     VISIBLE_RATE_BASE = 0.15
 
-    semester = models.ForeignKey(Semester, null=True)
+    semester = models.ForeignKey(Semester, null=True, on_delete=models.SET_NULL)
 
     class Meta:
         unique_together = [['date']]
