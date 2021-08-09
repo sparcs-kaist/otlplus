@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 import axios from 'axios';
 import ReactGA from 'react-ga';
+import { debounce } from 'lodash';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 import { SEARCH } from '../../../reducers/dictionary/list';
@@ -122,6 +123,11 @@ class CourseSearchSubSection extends Component {
       return;
     }
 
+    this._fetchAutocomplete(value);
+  }
+
+  // eslint-disable-next-line react/sort-comp
+  _fetchAutocomplete = debounce((value) => {
     axios.get(
       '/api/courses/autocomplete',
       {
@@ -146,7 +152,7 @@ class CourseSearchSubSection extends Component {
       })
       .catch((error) => {
       });
-  }
+  }, 500)
 
   applyAutocomplete = () => {
     this.setState((prevState) => ({
