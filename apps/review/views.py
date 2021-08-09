@@ -6,7 +6,7 @@ from django.template import RequestContext
 from apps.session.models import UserProfile
 from apps.subject.models import Course, Lecture, Department, Professor, CourseUser
 from .models import Review, ReviewVote, MajorBestReview, HumanityBestReview
-from utils.util import getint, get_ordered_queryset, get_paginated_queryset, patch_object
+from utils.util import getint, get_paginated_queryset, patch_object
 
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseBadRequest, JsonResponse, Http404
 from django.db.models import Q
@@ -37,7 +37,7 @@ def review_list_view(request):
         reviews = Review.objects.all()
 
         order = request.GET.getlist('order', [])
-        reviews = get_ordered_queryset(reviews, order)
+        reviews = reviews.order_by(*order)
 
         lecture_query = Q()
         lecture_year = getint(request.GET, 'lecture_year', None)
