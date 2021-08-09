@@ -167,6 +167,9 @@ def user_instance_timetable_instance_add_lecture_view(request, user_id, timetabl
         if not (lecture.year == timetable.year and lecture.semester == timetable.semester):
             return HttpResponseBadRequest('Wrong field \'lecture\' in request data')
 
+        if timetable.lectures.filter(id=lecture_id).exists():
+            return HttpResponseBadRequest('Wrong field \'lecture\' in request data')
+
         timetable.lectures.add(lecture)
         return JsonResponse(timetable.toJson())
 
@@ -191,6 +194,9 @@ def user_instance_timetable_instance_remove_lecture_view(request, user_id, timet
         lecture_id = getint(body, 'lecture', None)
         if lecture_id is None:
             return HttpResponseBadRequest('Missing field \'lecture\' in request data')
+
+        if not timetable.lectures.filter(id=lecture_id).exists():
+            return HttpResponseBadRequest('Wrong field \'lecture\' in request data')
 
         lecture = Lecture.objects.get(id=lecture_id)
 
@@ -250,6 +256,9 @@ def user_instance_wishlist_add_lecture_view(request, user_id):
         if lecture_id is None:
             return HttpResponseBadRequest('Missing field \'lecture\' in request data')
 
+        if wishlist.lectures.filter(id=lecture_id).exists():
+            return HttpResponseBadRequest('Wrong field \'lecture\' in request data')
+
         lecture = Lecture.objects.get(id=lecture_id)
 
         wishlist.lectures.add(lecture)
@@ -275,6 +284,9 @@ def user_instance_wishlist_remove_lecture_view(request, user_id):
         lecture_id = getint(body, 'lecture', None)
         if lecture_id is None:
             return HttpResponseBadRequest('Missing field \'lecture\' in request data')
+
+        if not wishlist.lectures.filter(id=lecture_id).exists():
+            return HttpResponseBadRequest('Wrong field \'lecture\' in request data')
 
         lecture = Lecture.objects.get(id=lecture_id)
 
