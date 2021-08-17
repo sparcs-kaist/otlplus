@@ -2,7 +2,7 @@ from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import User
 
-from .sparcssso import Client
+from .sparcsssov2 import Client
 from apps.subject.models import Department, Lecture
 from .fields import CredentialsField
 

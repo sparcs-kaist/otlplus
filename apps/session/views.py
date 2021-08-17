@@ -17,7 +17,7 @@ from utils.decorators import login_required_ajax
 
 from .models import UserProfile
 from .services import import_student_lectures
-from .sparcssso import Client
+from .sparcsssov2 import Client
 
 UNDERGRADUATE_DEPARTMENTS = [
     "CE",
@@ -67,7 +67,7 @@ def home(request):
 
 def user_login(request):
     user = request.user
-    if user is None or not user.is_authenticated:
+    if user and user.is_authenticated:
         return redirect(request.GET.get("next", "/"))
 
     request.session["next"] = request.GET.get("next", "/")
@@ -127,7 +127,7 @@ def login_callback(request):
         if previous_student_id != student_id:
             import_student_lectures(student_id)
 
-    login(request, user)
+    login(request, user, backend="apps.session.auth_backend.PasswordlessModelBackend")
     next_url = request.session.pop("next", "/")
     return redirect(next_url)
 
