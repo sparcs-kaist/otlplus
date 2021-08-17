@@ -145,7 +145,7 @@ SSO_IS_BETA = DEBUG
 LOGIN_URL = "/session/login/"
 LOGOUT_URL = "/session/logout/"
 
-VERSION = "3.2.2.1"
+VERSION = "3.2.2.2"
 
 try:
     from settings_local import *  # noqa: F401, F403

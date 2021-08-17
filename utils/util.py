@@ -13,10 +13,6 @@ def getint(querydict, key, default=None):
         return int(value)
 
 
-def get_ordered_queryset(queryset, orders):
-    return queryset.order_by(*orders)
-
-
 def get_paginated_queryset(queryset, offset, limit, max_limit=150):
     if offset is None:
         real_offest = 0
