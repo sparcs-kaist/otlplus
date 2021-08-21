@@ -28,6 +28,20 @@
     }
   ],
   "start_url": "/main",
+  "shortcuts": [
+    {
+      "name": "Dictionary",
+      "url": "/dictionary"
+    },
+    {
+      "name": "Timetable",
+      "url": "/timetable"
+    },
+    {
+      "name": "Write Reviews",
+      "url": "/write-reviews"
+    }
+  ],
   "display": "standalone",
   "theme_color": "#F9F0F0",
   "background_color": "#F9F0F0"
