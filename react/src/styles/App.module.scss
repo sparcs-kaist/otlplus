@@ -85,6 +85,7 @@ input {
     border: none;
     outline: none;
     font-size: inherit;
+    font-weight: inherit;
     line-height: inherit;
 
     &[type=checkbox] {
@@ -110,6 +111,7 @@ button {
     outline: none;
     color: inherit;
     font-size: inherit;
+    font-weight: inherit;
     line-height: inherit;
     text-align: initial;
 }
