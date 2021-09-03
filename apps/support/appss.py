@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
 
 from django.apps import AppConfig
 
 
 class SupportConfig(AppConfig):
-    name = 'apps.support'
-    def ready( self ):
-        from . import signals
+    name = "apps.support"
+
+    def ready(self):
+        from . import signals  # noqa: F401

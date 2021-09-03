@@ -1,191 +1,194 @@
-from django.http import HttpResponse, HttpResponseRedirect, HttpResponseBadRequest, JsonResponse
-from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.models import User
-from django.contrib.auth.decorators import login_required
-from django.views.decorators.http import require_http_methods
-from django.conf import settings
-from apps.subject.models import Department, Lecture
-from apps.review.models import Review
-from apps.timetable.models import OldTimetable
-from apps.timetable.views import _user_department
-from .models import UserProfile
-from .sparcssso import Client
-from utils.decorators import login_required_ajax
-import urllib
 import json
 import random
-import os
-import datetime
-import subprocess
-from django.db.models import Q
-from django.conf import settings
 
-import urlparse
-import requests
-from django.db.models import Q
+
+from django.conf import settings
+from django.contrib.auth import login, logout
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseRedirect, JsonResponse
+from django.shortcuts import redirect
+from django.utils import timezone
+from django.views.decorators.http import require_http_methods
+
+from apps.subject.models import Department, Lecture
+from apps.session.services import get_user_department_list, get_user_major_list, json_encode_list
+from utils.decorators import login_required_ajax
+
+from .models import UserProfile
+from .services import import_student_lectures
+from .sparcsssov2 import Client
+
+UNDERGRADUATE_DEPARTMENTS = [
+    "CE",
+    "MSB",
+    "ME",
+    "PH",
+    "BiS",
+    "IE",
+    "ID",
+    "BS",
+    "CBE",
+    "MAS",
+    "MS",
+    "NQE",
+    "HSS",
+    "EE",
+    "CS",
+    "AE",
+    "CH",
+    "TS",
+]
+EXCLUDED_DEPARTMENTS = [
+    "AA",
+    "KSA",
+    "URP",
+    "ED",
+    "INT",
+    "KJ",
+    "CWENA",
+    "C",
+    "E",
+    "S",
+    "PSY",
+    "SK",
+    "BIO",
+    "CLT",
+    "PHYS",
+]
+
 
 sso_client = Client(settings.SSO_CLIENT_ID, settings.SSO_SECRET_KEY, is_beta=settings.SSO_IS_BETA)
 
+
 def home(request):
-    return HttpResponseRedirect('./login/')
+    return HttpResponseRedirect("./login/")
 
 
 def user_login(request):
     user = request.user
-    if user and user.is_authenticated():
-        return redirect(request.GET.get('next', '/'))
+    if user and user.is_authenticated:
+        return redirect(request.GET.get("next", "/"))
 
-    request.session['next'] = request.GET.get('next', '/')
+    request.session["next"] = request.GET.get("next", "/")
 
     login_url, state = sso_client.get_login_params()
-    request.session['sso_state'] = state
-
+    request.session["sso_state"] = state
     return HttpResponseRedirect(login_url)
 
 
-@require_http_methods(['GET'])
+@require_http_methods(["GET"])
 def login_callback(request):
-    next = request.session.pop('next', '/')
-    state_before = request.session.get('sso_state', 'default before state')
-    state = request.GET.get('state', 'default state')
+    state_before = request.session.get("sso_state", None)
+    state = request.GET.get("state", None)
+    if state_before is None or state_before != state:
+        return HttpResponseRedirect("/error/invalid-login")
 
-    if state_before != state:
-        return HttpResponseRedirect('/error/invalid-login')
-
-    code = request.GET.get('code')
+    code = request.GET.get("code")
     sso_profile = sso_client.get_user_info(code)
-    username = sso_profile['sid']
+    username = sso_profile["sid"]
 
-    user_list = User.objects.filter(username=username)
     try:
-        kaist_info = json.loads(sso_profile['kaist_info'])
-        student_id = kaist_info.get('ku_std_no')
-    except:
-        student_id = ''
+        user = User.objects.get(username=username)
+    except User.DoesNotExist:
+        user = None
+
+    try:
+        kaist_info = json.loads(sso_profile["kaist_info"])
+        student_id = kaist_info.get("ku_std_no")
+    except Exception:
+        student_id = ""
 
     if student_id is None:
-        student_id= ''
+        student_id = ""
 
-    if len(user_list) == 0:
-        user = User.objects.create_user(username=username,
-                    email=sso_profile['email'],
-                    password=str(random.getrandbits(32)),
-                    first_name=sso_profile['first_name'],
-                    last_name=sso_profile['last_name'])
-        user.save()
-
-        try:
-            user_profile = UserProfile.objects.get(student_id=sso_profile['sid'])
-            user_profile.user = user
-        except:
-            user_profile = UserProfile(student_id=student_id, user = user)
-
-        user_profile.sid = sso_profile['sid']
+    if user is None:
+        user = User.objects.create_user(
+            username=username,
+            email=sso_profile["email"],
+            password=str(random.getrandbits(32)),
+            first_name=sso_profile["first_name"],
+            last_name=sso_profile["last_name"],
+        )
+        user_profile, _ = UserProfile.objects.get_or_create(student_id=sso_profile["sid"], defaults={"user": user})
+        user_profile.sid = sso_profile["sid"]
         user_profile.save()
-
-        if not settings.DEBUG:
-            os.chdir('/var/www/otlplus/')
-        os.system('python do_import_user_major.py %s' % student_id)
-        os.system('python do_import_taken_lecture_user.py %s' % student_id)
-        OldTimetable.import_in_for_user(student_id)
-
-        user = authenticate(username=username)
-        login(request, user)
-        return redirect(next)
+        import_student_lectures(student_id)
     else:
-        user = authenticate(username=user_list[0].username)
-        user.first_name=sso_profile['first_name']
-        user.last_name=sso_profile['last_name']
+        user.first_name = sso_profile["first_name"]
+        user.last_name = sso_profile["last_name"]
         user.save()
+
         user_profile = user.userprofile
         previous_student_id = user_profile.student_id
         user_profile.student_id = student_id
         user_profile.save()
+
         if previous_student_id != student_id:
-            if not settings.DEBUG:
-                os.chdir('/var/www/otlplus/')
-            os.system('python do_import_user_major.py %s' % student_id)
-            os.system('python do_import_taken_lecture_user.py %s' % student_id)
-            OldTimetable.import_in_for_user(student_id)
-        login(request, user)
-        return redirect(next)
-        return HttpResponseRedirect('/error/no-such-user')
+            import_student_lectures(student_id)
+
+    login(request, user, backend="apps.session.auth_backend.PasswordlessModelBackend")
+    next_url = request.session.pop("next", "/")
+    return redirect(next_url)
 
 
 def user_logout(request):
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         sid = request.user.userprofile.sid
-        redirect_url = request.GET.get('next', request.build_absolute_uri('/'))
+        redirect_url = request.GET.get("next", request.build_absolute_uri("/"))
         logout_url = sso_client.get_logout_url(sid, redirect_url)
         logout(request)
-        request.session['visited'] = True
+        request.session["visited"] = True
         return redirect(logout_url)
     return redirect("/")
 
 
 def department_options(request):
-    dept_under = ["CE", "MSB", "ME", "PH", "BiS",
-                "IE", "ID", "BS", "CBE", "MAS",
-                "MS", "NQE", "HSS", "EE", "CS",
-                "AE", "CH", "TS"]
-    dept_exclude = ["AA", "KSA", "URP", "ED", "INT",
-                    "KJ", "CWENA", "C", "E", "S",
-                    "PSY", "SK", "BIO", "CLT", "PHYS"]
+    deps_undergraduate = []
+    deps_recent = []
+    deps_other = []
+    year_threshold = timezone.now().year - 2
+    recent_lectures = Lecture.objects.filter(year__gte=year_threshold).prefetch_related("department")
 
-    department_1 = []
-    department_2 = []
-    department_3 = []
-    year_threshold = datetime.datetime.now().year - 2
-    recent_lectures = Lecture.objects.filter(year__gte=year_threshold)
-    for d in Department.objects.filter(visible=True).exclude(code__in=dept_exclude).order_by('name'):
-        if d.code in dept_under:
-            department_1.append(d)
-        elif (recent_lectures.filter(department__code=d.code).exists()):
-            department_2.append(d)
+    query = Department.objects.filter(visible=True).exclude(code__in=EXCLUDED_DEPARTMENTS).order_by("name")
+    for department in query:
+        if department.code in UNDERGRADUATE_DEPARTMENTS:
+            deps_undergraduate.append(department)
+        elif recent_lectures.filter(department__code=department.code).exists():
+            deps_recent.append(department)
         else:
-            department_3.append(d)
+            deps_other.append(department)
 
     result = [
-        [d.toJson() for d in department_1],
-        [d.toJson() for d in department_2],
-        [d.toJson() for d in department_3],
+        json_encode_list(deps_undergraduate),
+        json_encode_list(deps_recent),
+        json_encode_list(deps_other),
     ]
 
     return JsonResponse(result, safe=False)
-
-
 
 
 @login_required_ajax
 def favorite_departments(request):
     user = request.user
     user_profile = user.userprofile
-    body = json.loads(request.body.decode('utf-8'))
+    body = json.loads(request.body.decode("utf-8"))
 
-    if request.method == 'POST':
-        favorite_departments = []
-
-        fav_department = body.get('fav_department', [])
-
-        for di in fav_department:
-            dpt = Department.objects.get(id=di)
-            user_profile.favorite_departments.add(dpt)
-
-        for d in user_profile.favorite_departments.all():
-            if str(d.id) not in fav_department:
-               user_profile.favorite_departments.remove(d)
-
-        user_profile.save()
+    if request.method == "POST":
+        fav_department = body.get("fav_department", [])
+        user_profile.favorite_departments.clear()
+        for department_id in fav_department:
+            department_obj = Department.objects.get(id=department_id)
+            user_profile.favorite_departments.add(department_obj)
         return HttpResponse()
 
-    return HttpResponseBadRequest
+    return HttpResponseBadRequest()
 
 
-@login_required(login_url='/session/login/')
+@login_required(login_url="/session/login/")
 def unregister(request):
-    if request.method != 'POST':
-        return HttpResponseRedirect('/error/problem-unregister')
+    if request.method != "POST":
+        return HttpResponseRedirect("/error/problem-unregister")
 
     user = request.user
     user_profile = user.userprofile
@@ -193,7 +196,7 @@ def unregister(request):
     sid = user_profile.sid
     result = sso_client.do_unregister(sid)
     if not result:
-        return HttpResponseRedirect('/error/problem-unregister')
+        return HttpResponseRedirect("/error/problem-unregister")
 
     user_profile.delete()
     user.delete()
@@ -204,19 +207,18 @@ def unregister(request):
 
 @login_required_ajax
 def info(request):
-    userProfile = request.user.userprofile
+    profile = request.user.userprofile
     ctx = {
-        "id": userProfile.id,
-        "email": userProfile.user.email,
-        "student_id": userProfile.student_id,
+        "id": profile.id,
+        "email": profile.user.email,
+        "student_id": profile.student_id,
         "firstName": request.user.first_name,
         "lastName": request.user.last_name,
-        "majors": [d.toJson() for d in ( ([userProfile.department] if (userProfile.department != None) else []) + list(userProfile.majors.all()) + list(userProfile.minors.all()) )],
-        "departments": _user_department(request.user),
-        "favorite_departments": [d.toJson() for d in userProfile.favorite_departments.all()],
-        "review_writable_lectures": [l.toJson() for l in userProfile.getReviewWritableLectureList()],
-        "my_timetable_lectures": [l.toJson() for l in userProfile.taken_lectures.exclude(Lecture.getQueryResearch())],
-        "reviews": [r.toJson(nested=True) for r in userProfile.reviews.all()],
+        "majors": get_user_major_list(profile),
+        "departments": get_user_department_list(request.user),
+        "favorite_departments": json_encode_list(profile.favorite_departments.all()),
+        "review_writable_lectures": json_encode_list(profile.review_writable_lectures),
+        "my_timetable_lectures": json_encode_list(profile.taken_lectures.exclude(Lecture.getQueryResearch())),
+        "reviews": json_encode_list(profile.reviews.all(), nested=True),
     }
-    return JsonResponse(ctx, safe = False)
-
+    return JsonResponse(ctx, safe=False)

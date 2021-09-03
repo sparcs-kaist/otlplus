@@ -1,49 +1,30 @@
-# -*- coding:utf-8 -*-
+from django.shortcuts import get_object_or_404
 
-from django.shortcuts import render, redirect, render_to_response, get_object_or_404
-from django.template import RequestContext
-
-from apps.session.models import UserProfile
-from apps.subject.models import Course, Lecture, Department, Professor, CourseUser
-from .models import Review, ReviewVote, MajorBestReview, HumanityBestReview
+from .models import Review, ReviewVote
 from utils.util import getint, get_paginated_queryset, patch_object
 
-from django.http import HttpResponse, HttpResponseRedirect, HttpResponseBadRequest, JsonResponse, Http404
 from django.db.models import Q
-from django.views.decorators.http import require_http_methods
-from datetime import datetime, timedelta, time, date
-from django.utils import timezone
-from math import exp
-from itertools import groupby
-from django.core.paginator import Paginator, InvalidPage
-from django.core import serializers
+from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse
+from django.views import View
+from django.utils.decorators import method_decorator
 from utils.decorators import login_required_ajax
 import json
-#testend
-import random
-import os
-from django.contrib.auth.decorators import login_required
-from django.views.decorators.http import require_POST
-from django.conf import settings
-from django.http import QueryDict
 
 
-
-@require_http_methods(['GET', 'POST'])
-def review_list_view(request):
+class ReviewListView(View):
     MAX_LIMIT = 50
 
-    if request.method == 'GET':
+    def get(self, request):
         reviews = Review.objects.all()
 
-        order = request.GET.getlist('order', [])
-        reviews = reviews.order_by(*order)
+        order = request.GET.getlist("order", [])
+        reviews = reviews.order_by(*order).distinct()
 
         lecture_query = Q()
-        lecture_year = getint(request.GET, 'lecture_year', None)
+        lecture_year = getint(request.GET, "lecture_year", None)
         if lecture_year is not None:
             lecture_query &= Q(lecture__year=lecture_year)
-        lecture_semester = getint(request.GET, 'lecture_semester', None)
+        lecture_semester = getint(request.GET, "lecture_semester", None)
         if lecture_semester is not None:
             lecture_query &= Q(lecture__semester=lecture_semester)
         reviews = reviews.filter(lecture_query)
@@ -51,120 +32,115 @@ def review_list_view(request):
         reviews = reviews \
             .distinct()
 
-        response_type = request.GET.get('response_type', None)
-        if response_type == 'count':
+        response_type = request.GET.get("response_type", None)
+        if response_type == "count":
             return JsonResponse(reviews.count(), safe=False)
 
-        offset = getint(request.GET, 'offset', None)
-        limit = getint(request.GET, 'limit', None)
-        reviews = get_paginated_queryset(reviews, offset, limit, MAX_LIMIT)
+        offset = getint(request.GET, "offset", None)
+        limit = getint(request.GET, "limit", None)
+        reviews = get_paginated_queryset(reviews, offset, limit, self.MAX_LIMIT)
 
         result = [r.toJson(user=request.user) for r in reviews]
         return JsonResponse(result, safe=False)
 
-    elif request.method == 'POST':
-        body = json.loads(request.body.decode('utf-8'))
+    def post(self, request):
+        body = json.loads(request.body.decode("utf-8"))
 
         user = request.user
-        if not (user and user.is_authenticated()):
+        if user is None or not user.is_authenticated:
             return HttpResponse(status=401)
 
-        content = body.get('content', '')
+        content = body.get("content", "")
         if not (content and len(content)):
-            return HttpResponseBadRequest('Missing or empty field \'content\' in request data')
-        
-        lecture_id = body.get('lecture', None)
-        if not lecture_id:
-            return HttpResponseBadRequest('Missing field \'lecture\' in request data')
+            return HttpResponseBadRequest("Missing or empty field 'content' in request data")
 
-        grade = getint(body, 'grade')
-        load = getint(body, 'load')
-        speech = getint(body, 'speech')
-        if not (
-            1 <= grade <= 5
-            and 1 <= load <= 5
-            and 1 <= speech <= 5
-        ):
-            return HttpResponseBadRequest('Wrong field(s) \'grade\', \'load\', and/or \'speech\' in request data')
+        lecture_id = body.get("lecture", None)
+        if not lecture_id:
+            return HttpResponseBadRequest("Missing field 'lecture' in request data")
+
+        grade = getint(body, "grade")
+        load = getint(body, "load")
+        speech = getint(body, "speech")
+        if not (1 <= grade <= 5 and 1 <= load <= 5 and 1 <= speech <= 5):
+            return HttpResponseBadRequest("Wrong field(s) 'grade', 'load', and/or 'speech' in request data")
 
         user_profile = user.userprofile
-        lecture = user_profile.getReviewWritableLectureList().get(id = lecture_id)
+        lecture = user_profile.review_writable_lectures.get(id=lecture_id)
         course = lecture.course
 
-        review = Review.objects.create(course=course, lecture=lecture, content=content, grade=grade, load=load, speech=speech, writer=user_profile)
+        review = Review.objects.create(
+            course=course,
+            lecture=lecture,
+            content=content,
+            grade=grade,
+            load=load,
+            speech=speech,
+            writer=user_profile,
+        )
         return JsonResponse(review.toJson(user=request.user), safe=False)
 
 
-@require_http_methods(['GET', 'PATCH'])
-def review_instance_view(request, review_id):
-    review = get_object_or_404(Review, id=review_id)
-
-    if request.method == 'GET':
+class ReviewInstanceView(View):
+    def get(self, request, review_id):
+        review = get_object_or_404(Review, id=review_id)
         result = review.toJson(user=request.user)
         return JsonResponse(result)
 
-
-    elif request.method == 'PATCH':
-        body = json.loads(request.body.decode('utf-8'))
+    def patch(self, request, review_id):
+        review = get_object_or_404(Review, id=review_id)
+        body = json.loads(request.body.decode("utf-8"))
 
         user = request.user
-        if not (user and user.is_authenticated()):
+        if user is None or not user.is_authenticated:
             return HttpResponse(status=401)
         if not review.writer == user.userprofile:
             return HttpResponse(status=401)
 
         if review.is_deleted:
-            return HttpResponseBadRequest('Target review deleted by admin')
+            return HttpResponseBadRequest("Target review deleted by admin")
 
-        content = body.get('content', None)
+        content = body.get("content", None)
         if not len(content):
-            return HttpResponseBadRequest('Empty field \'content\' in request data')
+            return HttpResponseBadRequest("Empty field 'content' in request data")
 
-        grade = getint(body, 'grade', None)
-        load = getint(body, 'load', None)
-        speech = getint(body, 'speech', None)
-        if not (
-            1 <= grade <= 5
-            and 1 <= load <= 5
-            and 1 <= speech <= 5
-        ):
-            return HttpResponseBadRequest('Wrong field(s) \'grade\', \'load\', and/or \'speech\' in request data')
+        grade = getint(body, "grade", None)
+        load = getint(body, "load", None)
+        speech = getint(body, "speech", None)
+        if not (1 <= grade <= 5 and 1 <= load <= 5 and 1 <= speech <= 5):
+            return HttpResponseBadRequest("Wrong field(s) 'grade', 'load', and/or 'speech' in request data")
 
-        patch_object(review, {
-            'content': content,
-            'grade': grade,
-            'load': load,
-            'speech': speech,
-        })
+        patch_object(
+            review,
+            {
+                "content": content,
+                "grade": grade,
+                "load": load,
+                "speech": speech,
+            },
+        )
         return JsonResponse(review.toJson(user=request.user), safe=False)
 
 
-@login_required_ajax
-@require_http_methods(['POST'])
-def review_instance_like_view(request, review_id):
-    review = get_object_or_404(Review, id=review_id)
+@method_decorator(login_required_ajax, name="dispatch")
+class ReviewLikeView(View):
+    def post(self, request, review_id):
+        review = get_object_or_404(Review, id=review_id)
+        user_profile = request.user.userprofile
 
-    if request.method == 'POST':
-        body = json.loads(request.body.decode('utf-8'))
+        if review.votes.filter(userprofile=user_profile).exists():
+            return HttpResponseBadRequest("Already Liked")
 
-        user = request.user
-        user_profile = user.userprofile
-
-        if review.votes.filter(userprofile = user_profile).exists():
-            return HttpResponseBadRequest('Already Liked')
-        
         ReviewVote.objects.create(review=review, userprofile=user_profile)
         return HttpResponse()
 
 
-@login_required_ajax
-@require_http_methods(['GET'])
-def user_instance_liked_reviews_view(request, user_id):
-    if request.method == 'GET':
-        userprofile = request.user.userprofile
-        if userprofile.id != int(user_id):
+@method_decorator(login_required_ajax, name="dispatch")
+class UserLikedReviewsView(View):
+    def get(self, request, user_id):
+        profile = request.user.userprofile
+        if profile.id != int(user_id):
             return HttpResponse(status=401)
-        reviews = Review.objects.filter(votes__userprofile=userprofile)[:500]
+        reviews = Review.objects.filter(votes__userprofile=profile)[:500]
 
         result = [r.toJson(user=request.user) for r in reviews]
         return JsonResponse(result, safe=False)

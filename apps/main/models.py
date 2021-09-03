@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 from apps.session.models import UserProfile
 from apps.subject.models import Lecture, Department, Course, Semester
@@ -17,7 +18,7 @@ class DailyFeed(models.Model):
     visible = models.BooleanField()
 
     class Meta:
-        unique_together = [['date']]
+        unique_together = [["date"]]
         abstract = True
 
 
@@ -25,8 +26,8 @@ class DailyUserFeed(DailyFeed):
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
 
     class Meta:
-        unique_together = [['date', 'user']]
-        abstract=True
+        unique_together = [["date", "user"]]
+        abstract = True
 
 
 class FamousMajorReviewDailyFeed(DailyFeed):
@@ -36,7 +37,7 @@ class FamousMajorReviewDailyFeed(DailyFeed):
     reviews = models.ManyToManyField(Review)
 
     class Meta:
-        unique_together = [['date', 'department']]
+        unique_together = [["date", "department"]]
 
     @classmethod
     def get(cls, date, department, departments_num=1):
@@ -63,7 +64,7 @@ class FamousMajorReviewDailyFeed(DailyFeed):
             "date": self.date,
             "priority": self.priority,
             "department": self.department.toJson(nested=False),
-            "reviews": [r.toJson(nested=False, user=user) for r in self.reviews.all()]
+            "reviews": [r.toJson(nested=False, user=user) for r in self.reviews.all()],
         }
         return result
 
@@ -74,7 +75,7 @@ class FamousHumanityReviewDailyFeed(DailyFeed):
     reviews = models.ManyToManyField(Review)
 
     class Meta:
-        unique_together = [['date']]
+        unique_together = [["date"]]
 
     @classmethod
     def get(cls, date):
@@ -100,7 +101,43 @@ class FamousHumanityReviewDailyFeed(DailyFeed):
             "type": "FAMOUS_HUMANITY_REVIEW",
             "date": self.date,
             "priority": self.priority,
-            "reviews": [r.toJson(nested=False, user=user) for r in self.reviews.all()]
+            "reviews": [r.toJson(nested=False, user=user) for r in self.reviews.all()],
+        }
+        return result
+
+
+class RankedReviewDailyFeed(DailyFeed):
+    VISIBLE_RATE_BASE = 0.15
+
+    semester = models.ForeignKey(Semester, null=True, on_delete=models.SET_NULL)
+
+    class Meta:
+        unique_together = [['date']]
+
+    @classmethod
+    def get(cls, date):
+        try:
+            feed = cls.objects.get(date=date)
+        except cls.DoesNotExist:
+            semester = None
+            visible = random.random() < cls.VISIBLE_RATE_BASE
+            feed = cls.objects.create(date=date, semester=semester, priority=random.random(), visible=visible)
+        if not feed.visible:
+            return None
+        else:
+            return feed
+
+    def toJson(self, nested=False, user=None):
+        if self.semester == None:
+            reviews = Review.objects.all().order_by("-like").distinct()[:3]
+        else:
+            reviews = Review.objects.filter(lecture__year=self.semester.year, lecture__semester=self.semester.semester).order_by().distinct()[:3]
+        result = {
+            "type": "RANKED_REVIEW",
+            "date": self.date,
+            "priority": self.priority,
+            "semester": self.semester.toJson() if (self.semester != None) else None,
+            "reviews": [r.toJson(nested=False, user=user) for r in reviews],
         }
         return result
 
@@ -147,19 +184,25 @@ class ReviewWriteDailyUserFeed(DailyUserFeed):
     lecture = models.ForeignKey(Lecture, on_delete=models.PROTECT)
 
     class Meta:
-        unique_together = [['date', 'user']]
+        unique_together = [["date", "user"]]
 
     @classmethod
     def get(cls, date, user):
         try:
             feed = cls.objects.get(date=date, user=user)
         except cls.DoesNotExist:
-            taken_lectures = user.getReviewWritableLectureList()
+            taken_lectures = user.review_writable_lectures
             if taken_lectures.count() == 0:
                 return None
             selected_lecture = random.choice(taken_lectures)
             visible = random.random() < cls.VISIBLE_RATE_BASE
-            feed = cls.objects.create(date=date, user=user, lecture=selected_lecture, priority=random.random(), visible=visible)
+            feed = cls.objects.create(
+                date=date,
+                user=user,
+                lecture=selected_lecture,
+                priority=random.random(),
+                visible=visible,
+            )
         if not feed.visible:
             return None
         else:
@@ -181,7 +224,7 @@ class RelatedCourseDailyUserFeed(DailyUserFeed):
     course = models.ForeignKey(Course, on_delete=models.PROTECT)
 
     class Meta:
-        unique_together = [['date', 'user']]
+        unique_together = [["date", "user"]]
 
     @classmethod
     def get(cls, date, user):
@@ -193,7 +236,13 @@ class RelatedCourseDailyUserFeed(DailyUserFeed):
                 return None
             selected_lecture = random.choice(taken_lectures)
             visible = random.random() < cls.VISIBLE_RATE_BASE
-            feed = cls.objects.create(date=date, user=user, course=selected_lecture.course, priority=random.random(), visible=visible)
+            feed = cls.objects.create(
+                date=date,
+                user=user,
+                course=selected_lecture.course,
+                priority=random.random(),
+                visible=visible,
+            )
         if not feed.visible:
             return None
         else:
@@ -214,17 +263,22 @@ class RateDailyUserFeed(DailyUserFeed):
     MIN_DAYS_INTERVAL = 3
 
     class Meta:
-        unique_together = [['date', 'user']]
+        unique_together = [["date", "user"]]
 
     @classmethod
     def get(cls, date, user):
         try:
             feed = cls.objects.get(date=date, user=user)
         except cls.DoesNotExist:
-            if Rate.objects.filter(user=user, year=datetime.datetime.now().year).exists():
+            if Rate.objects.filter(user=user, year=timezone.now().year).exists():
                 return None
             date_datetime = datetime.datetime(int(date[0:4]), int(date[5:7]), int(date[8:10]))
-            if RateDailyUserFeed.objects.filter(date__gt=date_datetime-datetime.timedelta(days=cls.MIN_DAYS_INTERVAL), date__lt=date_datetime+datetime.timedelta(days=cls.MIN_DAYS_INTERVAL), user=user, visible=True).exists():
+            if RateDailyUserFeed.objects.filter(
+                date__gt=date_datetime - datetime.timedelta(days=cls.MIN_DAYS_INTERVAL),
+                date__lt=date_datetime + datetime.timedelta(days=cls.MIN_DAYS_INTERVAL),
+                user=user,
+                visible=True,
+            ).exists():
                 return None
             visible = random.random() < cls.VISIBLE_RATE_BASE
             feed = cls.objects.create(date=date, user=user, priority=random.random(), visible=visible)
@@ -238,6 +292,6 @@ class RateDailyUserFeed(DailyUserFeed):
             "type": "RATE",
             "date": self.date,
             "priority": self.priority,
-            "rated": Rate.objects.filter(user=self.user, year=datetime.datetime.now().year).exists()
+            "rated": Rate.objects.filter(user=self.user, year=timezone.now().year).exists(),
         }
         return result

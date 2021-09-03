@@ -1,47 +1,56 @@
 # -*- coding: utf-8
 from django.core.management.base import BaseCommand
-from django.conf import settings
-from django.core.exceptions import *
 from apps.subject.models import Semester, Department, Professor, Lecture, Course, ClassTime, ExamTime
-#from otl.apps.timetable.models import ClassTime, ExamTime, Syllabus
-#from optparse import make_option
-#import argparse
+
 from datetime import time
-import sys, getpass, re
-#import Sybase
+import sys
+import getpass
+import re
+
 from scholardb_access import execute
-import datetime
 
 
 class Command(BaseCommand):
-    def add_arguments(self,parser):
-        parser.add_argument('--host', dest='host', help=u'Specifies server address.')
-        parser.add_argument('--port', dest='port', help=u'Specifies server port.')
-        parser.add_argument('--user', dest='user', help=u'Specifies user name to log in.')
-        parser.add_argument('--password', dest='password', help=u'Specifies passowrd to log in.')
-        parser.add_argument('--encoding', dest='encoding', help=u'Sepcifies character encoding to decode strings from database. (default is cp949)', default='cp949')
-        parser.add_argument('--exclude-lecture', action='store_true', dest='exclude_lecture', help=u'Don\'t update lecture information when you want to update time information only.', default=False)
-        parser.add_argument('--year', dest='year', type=int)
-        parser.add_argument('--semester', dest='semester', type=int)
-    help = u'Imports KAIST scholar database.'
-    args = u'--host=143.248.X.Y:PORT --user=USERNAME'
+    def add_arguments(self, parser):
+        parser.add_argument("--host", dest="host", help="Specifies server address.")
+        parser.add_argument("--port", dest="port", help="Specifies server port.")
+        parser.add_argument("--user", dest="user", help="Specifies user name to log in.")
+        parser.add_argument("--password", dest="password", help="Specifies password to log in.")
+        parser.add_argument(
+            "--encoding",
+            dest="encoding",
+            help="Specifies character encoding to decode strings from database. (default is cp949)",
+            default="cp949",
+        )
+        parser.add_argument(
+            "--exclude-lecture",
+            action="store_true",
+            dest="exclude_lecture",
+            help="Don't update lecture information when you want to update time information only.",
+            default=False,
+        )
+        parser.add_argument("--year", dest="year", type=int)
+        parser.add_argument("--semester", dest="semester", type=int)
+
+    help = "Imports KAIST scholar database."
+    args = "--host=143.248.X.Y:PORT --user=USERNAME"
 
     def handle(self, *args, **options):
-        rx_dept_code = re.compile(ur'([a-zA-Z]+)(\d+)')
-        host = options.get('host', None)
-        port = options.get('port', None)
-        user = options.get('user', None)
-        password = options.get('password', None)
-        encoding = options.get('encoding', 'cp949')
-        exclude_lecture = options.get('exclude_lecture', False)
+        rx_dept_code = re.compile(r"([a-zA-Z]+)(\d+)")
+        host = options.get("host", None)
+        port = options.get("port", None)
+        user = options.get("user", None)
+        password = options.get("password", None)
+        encoding = options.get("encoding", "cp949")
+        exclude_lecture = options.get("exclude_lecture", False)
         lecture_count = 0
 
-        if options['year']!=None and options['semester']!=None:
-            next_year = int(options['year'])
-            next_semester = int(options['semester'])
+        if options["year"] is not None and options["semester"] is not None:
+            next_year = int(options["year"])
+            next_semester = int(options["semester"])
         else:
             default_semester = Semester.getImportingSemester()
-            if default_semester != None:
+            if default_semester is not None:
                 next_year = default_semester.year
                 next_semester = default_semester.semester
             else:
@@ -52,14 +61,20 @@ class Command(BaseCommand):
             if password is None:
                 password = getpass.getpass()
         except (KeyboardInterrupt, EOFError):
-            print
+            print()
             return
 
         if not exclude_lecture:
-            query = 'SELECT * FROM view_OTL_charge WHERE lecture_year = %d AND lecture_term = %d' % (next_year, next_semester)
+            query = "SELECT * FROM view_OTL_charge WHERE lecture_year = %d AND lecture_term = %d" % (
+                next_year,
+                next_semester,
+            )
             professors = execute(host, port, user, password, query)
 
-            query = 'SELECT * FROM view_OTL_lecture WHERE lecture_year = %d AND lecture_term = %d ORDER BY dept_id' % (next_year, next_semester)
+            query = "SELECT * FROM view_OTL_lecture WHERE lecture_year = %d AND lecture_term = %d ORDER BY dept_id" % (
+                next_year,
+                next_semester,
+            )
             rows = execute(host, port, user, password, query)
             departments = {}
             lectures_not_updated = set()
@@ -71,8 +86,8 @@ class Command(BaseCommand):
                 staff_professor = Professor.objects.get(professor_id=830)
             except Professor.DoesNotExist:
                 staff_professor = Professor.objects.create(professor_id=830)
-                staff_professor.professor_name = 'Staff'
-                staff_professor.professor_name_en = 'Staff'
+                staff_professor.professor_name = "Staff"
+                staff_professor.professor_name_en = "Staff"
                 staff_professor.save()
 
             prev_department = None
@@ -83,9 +98,9 @@ class Command(BaseCommand):
                         try:
                             elem = elem.decode(encoding)
                         except UnicodeDecodeError:
-                            elem = u'%s (???)' % row[20]
-                            print>>sys.stderr, 'ERROR: parsing error on lecture %s' % row[20]
-                            print>>sys.stderr, '       cannot read "%s" in cp949.' % elem
+                            elem = "%s (???)" % row[20]
+                            print(f"ERROR: parsing error on lecture {row[20]}", file=sys.stderr)
+                            print(f'       cannot read "{elem}" in cp949.', file=sys.stderr)
                     myrow.append(elem)
 
                 # Extract department info.
@@ -100,12 +115,12 @@ class Command(BaseCommand):
                 if prev_department != department_id:
                     new_flag = False
                     try:
-                        department = Department.objects.get(id = department_id)
-                        print 'Updating department: %s' % department
+                        department = Department.objects.get(id=department_id)
+                        print(f"Updating department: {department}")
                     except Department.DoesNotExist:
-                        department = Department(id = department_id)
+                        department = Department(id=department_id)
                         new_flag = True
-                        print 'Adding department: %s(%d)...' % (department_code, department_id)
+                        print(f"Adding department: {department_code}({department_id})...")
                     department.num_id = department_no
                     department.code = department_code
                     department.name = myrow[5]
@@ -113,7 +128,7 @@ class Command(BaseCommand):
                     department.save()
 
                     if new_flag:
-                        departments = Department.objects.filter(code = department_code, visible=True)
+                        departments = Department.objects.filter(code=department_code, visible=True)
                         for dept in departments:
                             if dept.id != department.id:
                                 dept.visible = False
@@ -122,48 +137,48 @@ class Command(BaseCommand):
                 prev_department = department_id
 
                 # Extract lecture info.
-                #try:
-                    #print 'Retreiving %s: %s [%s]...' % (lecture_code, myrow[7].encode('utf-8'), lecture_class_no)
-                #except UnicodeDecodeError:
-                    #print 'Retreiving %s: ??? [%s]...' % (lecture_code, lecture_class_no)
-                    #myrow[7] = u'???'
+                # try:
+                # print 'Retrieving %s: %s [%s]...' % (lecture_code, myrow[7].encode('utf-8'), lecture_class_no)
+                # except UnicodeDecodeError:
+                # print 'Retrieving %s: ??? [%s]...' % (lecture_code, lecture_class_no)
+                # myrow[7] = u'???'
                 lecture_key = {
-                    'code': lecture_no,
-                    'year': int(myrow[0]),
-                    'semester': int(myrow[1]),
-                    'deleted': False,
-                    'class_no': lecture_class_no,
+                    "code": lecture_no,
+                    "year": int(myrow[0]),
+                    "semester": int(myrow[1]),
+                    "deleted": False,
+                    "class_no": lecture_class_no,
                 }
                 # Convert the key to a hashable object
                 lecture_key_hashable = -1
                 try:
                     lecture = Lecture.objects.get(**lecture_key)
                     lecture_key_hashable = lecture.id
-                    print 'Updating existing lecture %s' % lecture
+                    print(f"Updating existing lecture {lecture}")
                 except Lecture.DoesNotExist:
                     lecture = Lecture(**lecture_key)
                     lecture.num_people = 0
-                    print 'Creating new lecture %s' % lecture
+                    print(f"Creating new lecture {lecture}")
 
                 # Update lecture info.
                 lecture.department = department
                 lecture.old_code = myrow[20]
                 lecture.title = myrow[7]
                 lecture.title_en = myrow[8]
-                lecture.type = myrow[10]        # 과목구분 (한글)
-                lecture.type_en = myrow[11]     # 과목구분 (영문)
-                lecture.audience = int(myrow[12])   # 학년 구분
-                lecture.limit= myrow[17]            # 인원제한
-                lecture.credit = myrow[16]          # 학점
-                lecture.credit_au = myrow[13]       # AU
-                lecture.num_classes = int(myrow[14])    # 강의시수
-                lecture.num_labs = int(myrow[15])       # 실험시수
-                '''
+                lecture.type = myrow[10]  # 과목구분 (한글)
+                lecture.type_en = myrow[11]  # 과목구분 (영문)
+                lecture.audience = int(myrow[12])  # 학년 구분
+                lecture.limit = myrow[17]  # 인원제한
+                lecture.credit = myrow[16]  # 학점
+                lecture.credit_au = myrow[13]  # AU
+                lecture.num_classes = int(myrow[14])  # 강의시수
+                lecture.num_labs = int(myrow[15])  # 실험시수
+                """
                 if myrow[19] != None and len(myrow[19]) >= 190:
                     myrow[19] = myrow[19][:190]
                 lecture.notice = myrow[19]          # 비고
-                '''
-                lecture.is_english = True if myrow[21] == 'Y' else False # 영어강의 여부
+                """
+                lecture.is_english = True if myrow[21] == "Y" else False  # 영어강의 여부
                 lecture.deleted = False
                 # Course save
                 try:
@@ -174,7 +189,7 @@ class Command(BaseCommand):
                     course.title = lecture.title.split("<")[0].split("[")[0]
                     course.title_en = lecture.title_en.split("<")[0].split("[")[0]
                     course.save()
-#                    print "Updating Course ... %s" % course.title
+                #                    print "Updating Course ... %s" % course.title
                 except Course.DoesNotExist:
                     course = Course()
                     course.old_code = lecture.old_code
@@ -185,21 +200,28 @@ class Command(BaseCommand):
                     course.title_en = lecture.title_en.split("<")[0].split("[")[0]
 
                     course.grade_average = 0.0
-                    course.load_average= 0.0
+                    course.load_average = 0.0
                     course.speech_average = 0.0
-                    ################################### course total score
-                    '''
+                    # course total score
+                    """
                     course.score_average = 0
                     course.load_average = 0
                     course.gain_average = 0
-                    '''
+                    """
                     course.save()
-#                    print "Making new Course ... %s" % course.title
+                #                    print "Making new Course ... %s" % course.title
                 lecture.course = course
                 lecture.save()
                 lecture_count += 1
                 # professor save
-                match_scholar = filter(lambda a: lecture.year == a[0] and lecture.semester == a[1] and lecture.code == a[2] and lecture.class_no.strip() == a[3].strip() and lecture.department_id == a[4], professors)
+                match_scholar = filter(
+                    lambda a: lecture.year == a[0]
+                    and lecture.semester == a[1]
+                    and lecture.code == a[2]
+                    and lecture.class_no.strip() == a[3].strip()
+                    and lecture.department_id == a[4],
+                    professors,
+                )
                 if len(match_scholar) != 0:
                     professors_not_updated = set()
                     for prof in lecture.professors.all():
@@ -207,20 +229,20 @@ class Command(BaseCommand):
                     for i in match_scholar:
                         try:
                             prof_id = i[5]
-                            prof_name = unicode(i[6], 'cp949')
-                            if i[8] is None or i[8]=='':
-                                prof_name_en = ''
+                            prof_name = str(i[6], "cp949")
+                            if i[8] is None or i[8] == "":
+                                prof_name_en = ""
                             else:
-                                prof_name_en = unicode(i[8].strip(),'cp949')
-                            if i[4] is None or i[4]=='':
-                                prof_major = ''
+                                prof_name_en = str(i[8].strip(), "cp949")
+                            if i[4] is None or i[4] == "":
+                                prof_major = ""
                             else:
                                 prof_major = i[4]
                             professor = Professor.objects.get(professor_id=prof_id)
-                            if professor.professor_name != prof_name and prof_id !=830:
+                            if professor.professor_name != prof_name and prof_id != 830:
                                 professor.professor_name = prof_name
                                 professor.save()
-                            if professor.professor_name_en != prof_name_en and prof_id != 830 and prof_name_en!='':
+                            if professor.professor_name_en != prof_name_en and prof_id != 830 and prof_name_en != "":
                                 professor.professor_name_en = prof_name_en
                                 professor.save()
                             if professor.major != prof_major and prof_id != 830:
@@ -233,7 +255,7 @@ class Command(BaseCommand):
                             professor.professor_name_en = prof_name_en
                             professor.major = prof_major
                             professor.save()
-#                            print "Making new Professor ... %s" % professor.professor_name
+                        #                            print "Making new Professor ... %s" % professor.professor_name
                         except KeyError:
                             pass
                         lecture.professors.add(professor)
@@ -253,29 +275,32 @@ class Command(BaseCommand):
 
         # Extract exam-time, class-time info.
 
-        print 'Extracting exam time information...'
-        query = 'SELECT * FROM view_OTL_exam_time WHERE lecture_year = %d AND lecture_term = %d' % (next_year, next_semester)
+        print("Extracting exam time information...")
+        query = "SELECT * FROM view_OTL_exam_time WHERE lecture_year = %d AND lecture_term = %d" % (
+            next_year,
+            next_semester,
+        )
         exam_times = execute(host, port, user, password, query)
-        print exam_times
+        print("exam_times")
         ExamTime.objects.filter(lecture__year__exact=next_year, lecture__semester=next_semester).delete()
         for row in exam_times:
-            print row
+            print(row)
             myrow = []
             for elem in row:
                 if isinstance(elem, str):
                     try:
                         elem = elem.decode(encoding)
                     except UnicodeDecodeError:
-                        elem = u'???'
-                        print>> sys.stderr, 'ERROR: parsing error on lecture. cannot read in cp949.'
+                        elem = "???"
+                        print("ERROR: parsing error on lecture. cannot read in cp949.", file=sys.stderr)
                 myrow.append(elem)
             lecture_key = {
-                'deleted': False,
-                'code': myrow[2],
-                'year': int(myrow[0]),
-                'semester': int(myrow[1]),
-                'department': Department.objects.filter(id = int(myrow[4]))[0],
-                'class_no': myrow[3].strip(),
+                "deleted": False,
+                "code": myrow[2],
+                "year": int(myrow[0]),
+                "semester": int(myrow[1]),
+                "department": Department.objects.filter(id=int(myrow[4]))[0],
+                "class_no": myrow[3].strip(),
             }
             try:
                 lecture = Lecture.objects.get(**lecture_key)
@@ -283,39 +308,39 @@ class Command(BaseCommand):
                 exam_time.day = int(myrow[5]) - 1
                 exam_time.begin = time(hour=myrow[6].hour, minute=myrow[6].minute)
                 exam_time.end = time(hour=myrow[7].hour, minute=myrow[7].minute)
-                print 'Updating exam time for %s' % lecture
+                print(f"Updating exam time for {lecture}")
                 exam_time.save()
             except Lecture.DoesNotExist:
-                print 'Exam-time for non-existing lecture %s; skip it...' % myrow[2]
+                print(f"Exam-time for non-existing lecture {myrow[2]}; skip it...")
 
         # Extract class time.
 
-        print 'Extracting class time information...'
-        query = 'SELECT * FROM view_OTL_time WHERE lecture_year = %d AND lecture_term = %d' % (next_year, next_semester)
+        print("Extracting class time information...")
+        query = "SELECT * FROM view_OTL_time WHERE lecture_year = %d AND lecture_term = %d" % (next_year, next_semester)
         class_times = execute(host, port, user, password, query)
         # print class_times
         ClassTime.objects.filter(lecture__year__exact=next_year, lecture__semester=next_semester).delete()
         for row in class_times:
-            print row
+            print(row)
             myrow = []
             for elem in row:
                 if isinstance(elem, str):
                     try:
                         elem = elem.decode(encoding)
                     except UnicodeDecodeError:
-                        elem = u'???'
-                        print>> sys.stderr, 'ERROR: parsing error on lecture. cannot read in cp949.'
+                        elem = "???"
+                        print("ERROR: parsing error on lecture. cannot read in cp949.", file=sys.stderr)
                 myrow.append(elem)
             lecture_key = {
-                'deleted': False,
-                'code': myrow[2],
-                'year': int(myrow[0]),
-                'semester': int(myrow[1]),
-                'department': Department.objects.filter(id=int(myrow[4]))[0],
-                'class_no': myrow[3].strip(),
+                "deleted": False,
+                "code": myrow[2],
+                "year": int(myrow[0]),
+                "semester": int(myrow[1]),
+                "department": Department.objects.filter(id=int(myrow[4]))[0],
+                "class_no": myrow[3].strip(),
             }
             try:
-                print (myrow)
+                print(myrow)
                 lecture = Lecture.objects.get(**lecture_key)
                 class_time = ClassTime(lecture=lecture)
                 class_time.day = int(myrow[5]) - 1
@@ -330,14 +355,15 @@ class Command(BaseCommand):
                     class_time.unit_time = int(myrow[11])
                 except (ValueError, TypeError):
                     class_time.unit_time = 0
-                print 'Updating class time for %s' % lecture
+                print(f"Updating class time for {lecture}")
                 class_time.save()
             except Lecture.DoesNotExist:
-                print 'Class-time for non-existing lecture %s; skip it...' % myrow[2]
+                print(f"Class-time for non-existing lecture {myrow[2]}; skip it...")
 
         # Extract Syllabus info.
-        '''
-        query = 'SELECT * FROM view_OTL_syllabus WHERE lecture_year = %d AND lecture_term = %d' % (next_year, next_semester)
+        """
+        query = 'SELECT * FROM view_OTL_syllabus WHERE lecture_year = %d AND lecture_term = %d'
+            % (next_year, next_semester)
         syllabuses = execute(host, port, user, password, query)
         Syllabus.objects.filter(lecture__year__exact=next_year, lecture__semester=next_semester).delete()
 
@@ -375,15 +401,15 @@ class Command(BaseCommand):
                 syllabus.save()
             except Lecture.DoesNotExist:
                 print 'Syllabus information for non-existing lecture %s; skip it...' % myrow[2]
-        '''
+        """
         if not exclude_lecture:
             # Mark deleted lectures to notify users.
-            print 'Marking deleted lectures...'
+            print("Marking deleted lectures...")
             for key in lectures_not_updated:
-                lecture = Lecture.objects.get(id = key)
+                lecture = Lecture.objects.get(id=key)
                 lecture.deleted = True
-#                print '%s is marked as deleted...' % lecture
+                #                print '%s is marked as deleted...' % lecture
                 lecture.save()
 
-        print '\nTotal number of departments : %d' % Department.objects.count()
-        print 'Total number of lectures newly added : %d' % lecture_count
+        print(f"\nTotal number of departments : {Department.objects.count()}")
+        print(f"Total number of lectures newly added : {lecture_count}")

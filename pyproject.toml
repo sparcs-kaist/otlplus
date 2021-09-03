@@ -1,0 +1,21 @@
+[tool.black]
+line-length = 120
+target-version = ['py38']
+exclude = '''
+/(
+    \.git
+  | venv
+  | react
+  | keys
+  | migrations
+)/
+'''
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "otlplus.settings"
+python_files = "test_*.py"
+addopts = "--reuse-db"
+
+[tool.coverage.report]
+include = ["apps/**/*"]
+omit = ["**/migrations/*", "**/__init__.py"]

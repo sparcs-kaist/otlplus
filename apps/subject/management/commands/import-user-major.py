@@ -1,79 +1,75 @@
-# -*- coding: utf-8
-#import Sybase
 from scholardb_access import execute
-import sys, getpass, re
+import getpass
 from django.core.management.base import BaseCommand
-from django.conf import settings
-from django.core.exceptions import *
-#from otl.apps.accounts.models import UserProfile
-#from otl.apps.timetable.models import Lecture
+
 from apps.subject.models import Department
 from apps.session.models import UserProfile
-from datetime import datetime, timedelta, time, date
-from django.utils import timezone
 
 
 class Command(BaseCommand):
-    def add_arguments(self,parser):
-        parser.add_argument('--host', dest='host', help=u'Specifies server address.')
-        parser.add_argument('--port', dest='port', help=u'Specifies server port.')
-        parser.add_argument('--user', dest='user', help=u'Specifies user name to log in.')
-        parser.add_argument('--password', dest='password', help=u'Specifies passowrd to log in.')
-        parser.add_argument('--encoding', dest='encoding', help=u'Sepcifies character encoding to decode strings from database. (default is cp949)', default='cp949')
-        parser.add_argument('--studentid', dest='studentid', help=u'Specifies student id to load major')
+    def add_arguments(self, parser):
+        parser.add_argument("--host", dest="host", help="Specifies server address.")
+        parser.add_argument("--port", dest="port", help="Specifies server port.")
+        parser.add_argument("--user", dest="user", help="Specifies user name to log in.")
+        parser.add_argument("--password", dest="password", help="Specifies passowrd to log in.")
+        parser.add_argument(
+            "--encoding",
+            dest="encoding",
+            help="Specifies character encoding to decode strings from database. (default is cp949)",
+            default="cp949",
+        )
+        parser.add_argument("--studentid", dest="studentid", help="Specifies student id to load major")
 
-    help = u'Imports KAIST scholar database.'
-    args = u'--host=143.248.X.Y:PORT --user=USERNAME'
+    help = "Imports KAIST scholar database."
+    args = "--host=143.248.X.Y:PORT --user=USERNAME"
 
     def handle(self, *args, **options):
-        host = options.get('host', None)
-        port = options.get('port', None)
-        user = options.get('user', None)
-        password = options.get('password', None)
-        encoding = options.get('encoding', 'cp949')
-        studentid = options.get('studentid', None)
+        host = options.get("host", None)
+        port = options.get("port", None)
+        user = options.get("user", None)
+        password = options.get("password", None)
+        student_id = options.get("studentid", None)
         try:
             if password is None:
                 password = getpass.getpass()
         except (KeyboardInterrupt, EOFError):
-            print
+            print()
             return
 
-        if studentid is None:
-            query = 'SELECT * FROM view_report_e_degree_k'
+        if student_id is None:
+            query = "SELECT * FROM view_report_e_degree_k"
         else:
-            query = 'SELECT * FROM view_report_e_degree_k WHERE student_no=%d' % int(studentid)
+            query = "SELECT * FROM view_report_e_degree_k WHERE student_no=%d" % int(student_id)
         user_dept = execute(host, port, user, password, query)
 
-        if studentid is None:
-            query = 'SELECT * FROM view_kds_students_other_major'
+        if student_id is None:
+            query = "SELECT * FROM view_kds_students_other_major"
         else:
-            query = 'SELECT * FROM view_kds_students_other_major WHERE student_no=%d' % int(studentid)
+            query = "SELECT * FROM view_kds_students_other_major WHERE student_no=%d" % int(student_id)
         user_major_minor = execute(host, port, user, password, query)
 
         for a in user_dept:
-            userprofiles = UserProfile.objects.filter(student_id=a[0])
+            profile_matches = UserProfile.objects.filter(student_id=a[0])
             try:
                 department = Department.objects.get(id=a[1])
-            except ObjectDoesNotExist:
-                if len(userprofiles)>0:
+            except Department.DoesNotExist:
+                if len(profile_matches) > 0:
                     print("No department with id %d\n%s" % (a[1], a))
                 continue
 
-            for u in userprofiles:
-                u.department = department
-                u.save()
-        
+            for user in profile_matches:
+                user.department = department
+                user.save()
+
         for a in user_major_minor:
-            userprofiles = UserProfile.objects.filter(student_id=a[0])
+            profile_matches = UserProfile.objects.filter(student_id=a[0])
             departments = Department.objects.filter(name=a[2].decode("cp949"))
 
-            for u in userprofiles:
+            for user in profile_matches:
                 for d in departments:
-                    if a[1].decode('cp949') == u"부전공신청":
-                        u.minors.add(d)
-                    elif a[1].decode('cp949') == u"복수전공신청":
-                        u.majors.add(d)
+                    if a[1].decode("cp949") == "부전공신청":
+                        user.minors.add(d)
+                    elif a[1].decode("cp949") == "복수전공신청":
+                        user.majors.add(d)
                     else:
-                        print("Major/minor type not matching : " % (a.decode('cp959')))
-
+                        print("Major/minor type not matching : " % (a.decode("cp959")))

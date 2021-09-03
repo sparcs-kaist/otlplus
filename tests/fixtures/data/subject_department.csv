@@ -1,0 +1,166 @@
+id,num_id,code,name,name_en,visible
+0,12,AA,무학과,Undecided,1
+1,09,KSA,AP 교과목,Advanced Placement,1
+4,08,URP,URP,Undergraduate Research Participation,1
+8,14,ED,Freshman Design,Freshman Design,1
+10,16,INT,인턴십 프로그램,Internship Program,1
+33,B2,CD,Capstone Design,Capstone Design,1
+56,F3,BME,경영공학부,School of Management Engineering,1
+57,F4,BIT,테크노경영대학원,Graduate School of Management,1
+58,F5,BAF,금융전문대학원,Graduate School of Finance,1
+59,F6,BIM,정보미디어경영대학원,Graduate School of Information & Media Management,1
+60,F7,BGM,녹색성장대학원,Graduate School of Green Growth,0
+98,98,KJ,광주과학기술원,Gwangju Institute of Science and Technology,1
+99,99,CWENA,창원대학교,Changwon National University,1
+100,13,NS,자연과학부,College of Natural Science,1
+110,20,PH,물리학과,Physics,1
+132,21,BS,생명과학과,Biological Sciences,1
+141,22,MA,수학전공,Mathematics,1
+142,24,AM,응용수학전공,Applied Mathematics,1
+150,23,CH,화학과,Chemistry,1
+151,25,MAS,수리과학과,Department of Mathematical Sciences,1
+210,40,MAE,기계공학과,Mechanical Engineering,0
+211,30,ME,기계공학전공,Mechanical Engineering,0
+212,38,AE,항공우주공학전공,Aerospace Engineering,0
+220,33,NE,원자력공학과,Nuclear Engineering,1
+221,33,NQE,원자력및양자공학과,Nuclear and Quantum Engineering,1
+321,50,MG,산업경영학과,Industrial Management,1
+330,31,IE,산업공학과,Industrial Engineering,0
+331,31,IE,산업및시스템공학과,Department of Industrial Systems Engineering,1
+340,32,ID,산업디자인학과,Industrial Design,1
+421,34,MS,신소재공학과,Materials Science and Engineering,1
+440,37,CE,토목공학과,Civil Engineering,0
+441,37,CE,건설및환경공학과,Civil and Environmental Engineering,1
+450,39,ChE,화학공학과,Chemical Engineering,1
+451,39,CBE,생명화학공학과,Chemical and Biomolecular Engineering,1
+460,41,BiS,바이오시스템학과,Biosystems,0
+531,35,EE,전기및전자공학전공,Electrical Engineering,0
+532,36,CS,전산학전공,Computer Science,0
+911,61,PO,신소재공학과(고분자),Advanced Materials Engineering,1
+912,60,EM,신소재공학과(전자재료),Advanced Materials Engineering,1
+920,62,AD,자동화및설계공학과,Automation and Design Technology,1
+931,63,IC,정보및통신공학과(통신),Information and Communication Engineering,1
+933,64,CO,정보및통신공학과(컴퓨터),Information and Communication Engineering,1
+934,53,MGT,테크노경영전공,Techno-MBA,0
+936,65,BUS,비즈니스,Business,1
+971,90,C,충남대학교,Chungnam National University,1
+972,91,E,이화여자대학교,Ewha Womans University,1
+973,11,CC,공통필수,General Required,1
+974,92,ICE,한국정보통신대학,Not Entered,0
+976,94,S,숙명여자대학교,Sookmyung Women's University,1
+977,95,PSY,고려대학교,Korea University,1
+978,97,SK,성균관대학교,Sungkyunkwan University,1
+979,01,BIO,연세대학교,Yonsei University,1
+980,02,CLT,전남대학교,Chonnam University,1
+981,03,PHYS,포항공과대학교,Pohang University of Science and Technology,1
+2044,10,HSS,인문사회과학과정,School of Humanities and Social Science,0
+2222,70,BM,의과학학제전공,Biomedical Science and Engineering Program,1
+2223,72,ENV,환경에너지공학학제전공,Environmental and Energy Program,1
+2410,71,PSE,고분자학학제전공,Polymer Science and Engineering Program,1
+2415,74,IS,정보보호학제전공,Information Security Program,0
+2710,F4,BIT,테크노경영대학원,Graduate School of Management,0
+3406,73,TE,정보통신공학학제전공,Telecommunication Engineering Program,1
+3484,75,NT,나노과학기술학제전공,Nano Science and Technology Program,1
+3485,76,CT,문화기술학제전공,Culture Technology Program,1
+3486,77,STS,과학기술학학제전공,"Science, Technology and Society Program",1
+3487,78,EML,e-매뉴팩쳐링리더쉽학제전공,e-Manufacturing Leadership Program,1
+3499,79,SEP,소프트웨어전문가과정학제전공,Professional Software Expert Program,0
+3511,54,EMB,이그제큐티브전공,Executive MBA,0
+3517,55,MTP,M-Tech 프로그램,M-Tech Program,1
+3520,47,RE,로봇공학학제전공,The Robotics Program,1
+3521,46,MSE,의과학대학원과정,Graduate Program of Medical Science and Engineerin,0
+3537,56,ATM,자동차기술경영전공,Automobil Technology & Management Program,1
+3539,43,GCT,문화기술대학원,Graduate School of Culture Technology,1
+3540,42,BEP,Business Economics 프로그램,Business Economics Program,1
+3548,48,STE,반도체 학제전공,Semiconductor Technology Educational Program,1
+3558,F5,BAF,금융전문대학원,Graduate School of Finance,0
+3559,45,AT,자동차기술대학원,Automobile Technology,1
+3560,57,FIN,금융전공,Finance,0
+3564,F6,BIM,정보미디어경영대학원,Graduate School of Information &  Media Management,0
+3596,B6,CoE,공과대학,College of Engineering,1
+3599,40,MAE,기계항공시스템학부,School of Mechanical Engineering &amp; Aerospac System,0
+3605,46,MSE,의과학대학원,Graduate School of Medical Science and Engineering,1
+3617,59,IMB,아이엠비에이전공,IMBA,0
+3648,41,BiS,바이오및뇌공학과,Bio and Brain Engineering,1
+3689,66,STP,과학기술정책대학원프로그램,Graduate Program of Science and Technology Policy,0
+3691,A7,ITC,정보과학기술대학,College of Information Science and Technology,0
+3692,69,NST,나노과학기술대학원,Graduate school of Nanoscience & Technology,1
+3693,67,OSE,해양시스템공학전공,Division of Ocean Systems Engineering,0
+3694,68,ISE,지적서비스공학과,Department of Intelligent Service Engineering,1
+3701,84,SPE,우주탐사공학학제전공,Space Exploration Engineering Program,1
+3703,79,SEP,소프트웨어대학원프로그램,Software Graduate Program,1
+3716,81,ITM,기술경영전문대학원,Graduate School of Innovation & Technology Management,0
+3723,26,ICE,정보통신공학과,Information and Communications Engineering,1
+3724,27,BAT,IT경영학과,IT Business,0
+3725,26,ICE,소프트웨어공학 프로그램,Software Engineering Program,0
+3726,26,ICE,디지털미디어 프로그램,Digital Media Program,0
+3727,44,MBA,경영전문대학원 프로그램,Master of Business Administration Program,1
+3728,29,ITP,IT경영학과 학제간 프로그램,IT Technology Program,0
+3799,80,EEW,EEWS대학원,Graduate school of EEWS,1
+3844,42,MSB,경영과학과,Department of Management Science,0
+3845,35,EE,전기 및 전자공학과,Department of Electrical Engineering,0
+3846,68,KSE,지식서비스공학과,Department of Knowledge Service Engineering,0
+3847,36,CS,전산학과,Department of Computer Science,0
+3882,89,MIP,지식재산대학원프로그램,Master of intellectual property,0
+3894,10,HSS,인문사회과학과,Department of Humanities & Social Sciences,0
+3895,88,BA,경영공학과,Department of Management Engineering,0
+3919,83,FEP,금융공학부전공프로그램,Financial Engineering Program,1
+3920,93,SJ,과학저널리즘대학원프로그램,Master of Science Journalism,0
+3941,29,ITP,글로벌IT기술대학원프로그램,Global Information & Telecommunication Technology Program,1
+3942,30,FMB,금융전공,Finance MBA,0
+3978,17,IP,지식재산 부전공 프로그램,Intellectual Property Minor Program for Undergraduate Studen,1
+3990,66,STP,과학기술정책대학원,Graduate School of Science and Technology Policy,0
+3992,18,PD,미래자동차 학제전공,Division of Future Vehicle,1
+3993,19,STP,과학기술정책학 부전공 프로그램,Minor Program in Science and Technology Policy,0
+3997,19,GT,조천식녹색교통대학원,The Cho Chun Shik Graduate School of Green Transportation,1
+4005,85,IS,정보보호대학원 프로그램,Graduate School of Information Security,0
+4014,86,WST,웹사이언스공학전공,Division of Web Science and Technology,0
+4094,58,IM,정보미디어전공,Information and Media MBA,0
+4141,52,CTP,문화기술학 부전공 프로그램,Minor Program in Culture Technology,1
+4144,85,IS,정보보호대학원,Graduate School of Information Security,1
+4174,38,MIM,정보경영 전공,Information Management Program,0
+4181,A3,FE,금융공학 전공,Financial Engineer Program,0
+4182,A1,PMB,프로페셔널 MBA,Professional MBA,1
+4183,A2,SMB,사회적 기업가 MBA,Social Entrepreneurship MBA,1
+4200,A8,FS,미래전략대학원 프로그램,Graduate Program for Future Strategy,0
+4201,A4,ECN,경제학 부전공 프로그램,Economics Program,1
+4264,F7,BGM,녹색성장대학원,Graduate School of Green Growth,1
+4299,42,MSB,기술경영학과,Department of Business and Technology Management,0
+4301,F3,BME,경영공학부,School of Management Engineering,1
+4302,81,ITM,기술경영전문대학원프로그램,Graduate Program for Innovation &amp; Technology Management,0
+4303,30,FMB,금융MBA,Finance MBA,1
+4304,59,IMB,IMBA,IMBA,1
+4305,54,EMB,이그제큐티브MBA,Executive MBA,1
+4306,F6,BIM,정보미디어MBA,Information and Media MBA,1
+4307,53,MGT,테크노경영MBA,Techno-MBA,1
+4310,A3,FE,금융공학프로그램,Financial Engineering Program,1
+4311,A9,GG,녹색정책프로그램,Green Policy Program,0
+4312,38,MIM,정보경영프로그램,Information Management Program,1
+4335,27,BAT,기술경영학과(IT경영학),Department of Business and Technology Management(IT Business,0
+4398,B1,FEM,금융 이그제큐티브 MBA,Finance Executive MBA(Finance EMBA),1
+4417,40,MAE,기계항공공학부,School of Mechanical and Aerospace Engineering,1
+4418,B7,ME,기계공학과,Department of Mechanical Engineering,1
+4419,B8,AE,항공우주공학과,Department of Aerospace Engineering,1
+4420,67,OSE,해양시스템대학원,Graduate School of Ocean Systems Engineering,1
+4421,36,CS,전산학부,School of Computing,1
+4422,86,WST,웹사이언스대학원,Graduate School of Web Science Technology,1
+4423,35,EE,전기및전자공학부,School of Electrical Engineering,1
+4424,10,HSS,인문사회과학부,School of Humanities & Social Sciences,1
+4425,B3,GFS,문술미래전략대학원,Moon Soul Graduate School of Future Strategy,1
+4427,B4,BCE,뇌인지공학프로그램,Program of Brain and Cognitive Engineering,1
+4431,B5,ENP,기업가정신 부전공 프로그램,Entrepreneurship Program,1
+4438,81,ITM,기술경영전문대학원,Graduate School of Innovation & Technology Management,1
+4493,A9,GG,녹색경영정책프로그램,Green Business and Policy Program,1
+4547,42,MSB,기술경영학부,School of Business and Technology Management,1
+4548,27,BAT,기술경영학부(IT경영학),School of Business and Technology Management(IT Business),1
+4549,68,KSE,지식서비스공학대학원,Graduate School of Knowledge Service Engineering,1
+4562,B9,KEI,K-School,K-School,1
+4724,F1,TS,융합기초학부 설립추진단,Promotion Committee for the Establishment of the Department ,0
+4879,F2,AI,AI대학원,Graduate School of AI,1
+4883,F1,TS,융합기초학부,School of Transdisciplinary Studies,0
+4937,66,STP,과학기술정책대학원,Graduate School of Science and Technology Policy,1
+5015,F5,BAF,디지털금융MBA,Digital Finance MBA,0
+5064,F1,TS,융합인재학부,School of Transdisciplinary Studies,1
+5122,89,MIP,지식재산대학원프로그램,Master's Program in Intellectual Property,1
+5123,93,SJ,과학저널리즘대학원프로그램,Master's Program in Science Journalism,1
+5124,A8,FS,미래전략대학원프로그램,Master's Program in Future Strategy,1

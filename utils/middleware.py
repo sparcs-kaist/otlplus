@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 User 오브젝트는 로그인한 상태라면 http request가 발생할 때마다 매번 DB로부터
 읽혀온다. 따라서 그러한 처리를 cache로 처리하면 DB 부하를 줄일 수 있다.
@@ -13,11 +12,15 @@ from django.contrib.auth import get_user, SESSION_KEY
 from django.db.models.signals import post_save, post_delete
 from django.contrib.auth.models import User, AnonymousUser
 
+
 class CachedAuthMiddleware(object):
     def process_request(self, request):
-        assert hasattr(request, 'session'), 'Cached authentication middleware requires Session middleware to work correctly.'
+        assert hasattr(
+            request,
+            "session",
+        ), "Cached authentication middleware requires Session middleware to work correctly."
         try:
-            key = 'cached-user:%d' % request.session[SESSION_KEY]
+            key = "cached-user:%d" % request.session[SESSION_KEY]
         except KeyError:
             # 로그인하지 않은 상태에서는 위 키값이 존재하지 않으므로 AnonymousUser로 처리한다.
             # 로그인한 상태에서 다시 로그인할 경우 django.contrib.auth.login() 함수에서
@@ -35,12 +38,13 @@ class CachedAuthMiddleware(object):
 
     @staticmethod
     def invalidate(user_id):
-        key = 'cached-user:%d' % user_id
+        key = "cached-user:%d" % user_id
         cache.delete(key)
 
+
 def invalidate_user_cache_after_change(sender, **kwargs):
-    CachedAuthMiddleware.invalidate(kwargs['instance'].id)
+    CachedAuthMiddleware.invalidate(kwargs["instance"].id)
+
 
 post_save.connect(invalidate_user_cache_after_change, sender=User)
 post_delete.connect(invalidate_user_cache_after_change, sender=User)
-

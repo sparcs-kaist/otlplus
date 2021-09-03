@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
 
 from django.db import models, migrations
 from django.conf import settings
@@ -23,7 +22,7 @@ class Migration(migrations.Migration):
                 ('portal_check', models.IntegerField(default=0)),
                 ('favorite_departments', models.ManyToManyField(related_name='favoredby_set', to='subject.Department')),
                 ('take_lecture_list', models.ManyToManyField(related_name='take_lecture_list', to='subject.Lecture', blank=True)),
-                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)),
             ],
         ),
     ]

@@ -1,3 +1,5 @@
+from functools import reduce
+
 
 def rgetattr(object_, names, default):
     return reduce(lambda o, n: getattr(o, n, default), names, object_)
@@ -18,7 +20,7 @@ def get_paginated_queryset(queryset, offset, limit, max_limit=150):
         real_offest = offset
     else:
         raise ValueError
-    
+
     if limit is None:
         real_limit = max_limit
     elif 0 <= limit <= max_limit:
