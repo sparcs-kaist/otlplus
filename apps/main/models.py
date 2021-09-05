@@ -62,7 +62,7 @@ class FamousMajorReviewDailyFeed(DailyFeed):
             "date": self.date,
             "priority": self.priority,
             "department": self.department.toJson(nested=False),
-            "reviews": [r.toJson(nested=False, user=user) for r in self.reviews.all()],
+            "reviews": [r.toJson(user=user) for r in self.reviews.all()],
         }
         return result
 
@@ -99,7 +99,7 @@ class FamousHumanityReviewDailyFeed(DailyFeed):
             "type": "FAMOUS_HUMANITY_REVIEW",
             "date": self.date,
             "priority": self.priority,
-            "reviews": [r.toJson(nested=False, user=user) for r in self.reviews.all()],
+            "reviews": [r.toJson(user=user) for r in self.reviews.all()],
         }
         return result
 
@@ -135,7 +135,7 @@ class RankedReviewDailyFeed(DailyFeed):
             "date": self.date,
             "priority": self.priority,
             "semester": self.semester.toJson() if (self.semester != None) else None,
-            "reviews": [r.toJson(nested=False, user=user) for r in reviews],
+            "reviews": [r.toJson(user=user) for r in reviews],
         }
         return result
 
