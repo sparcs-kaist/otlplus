@@ -60,6 +60,6 @@ def get_user_major_list(profile: Union[User, UserProfile]) -> List[Dict]:
 def import_student_lectures(student_id: str) -> None:
     if not settings.DEBUG:
         os.chdir("/var/www/otlplus/")
-    os.system("python do_import_user_major.py %s" % student_id)
-    os.system("python do_import_taken_lecture_user.py %s" % student_id)
+    os.system("python scripts/do_import_user_major.py %s" % student_id)
+    os.system("python scripts/do_import_taken_lecture_user.py %s" % student_id)
     OldTimetable.import_in_for_user(student_id)
