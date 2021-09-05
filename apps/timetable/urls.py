@@ -17,20 +17,20 @@ from django.conf.urls import url
 from . import views
 
 urlpatterns = [
-    url(r"^users/(?P<user_id>\d+)/timetables$", views.UserTimetableListView.as_view()),
-    url(r"^users/(?P<user_id>\d+)/timetables/(?P<timetable_id>\d+)$", views.user_instance_timetable_instance_view),
+    url(r"^users/(?P<user_id>\d+)/timetables$", views.UserInstanceTimetableListView.as_view()),
+    url(r"^users/(?P<user_id>\d+)/timetables/(?P<timetable_id>\d+)$", views.UserInstanceTimetableInstanceView.as_view()),
     url(
         r"^users/(?P<user_id>\d+)/timetables/(?P<timetable_id>\d+)/add-lecture$",
-        views.user_instance_timetable_instance_add_lecture_view,
+        views.UserInstanceTimetableInstanceAddLectureView.as_view(),
     ),
     url(
         r"^users/(?P<user_id>\d+)/timetables/(?P<timetable_id>\d+)/remove-lecture$",
-        views.user_instance_timetable_instance_remove_lecture_view,
+        views.UserInstanceTimetableInstanceRemoveLectureView.as_view(),
     ),
-    url(r"^users/(?P<user_id>\d+)/wishlist$", views.user_instance_wishlist_view),
-    url(r"^users/(?P<user_id>\d+)/wishlist/add-lecture$", views.user_instance_wishlist_add_lecture_view),
-    url(r"^users/(?P<user_id>\d+)/wishlist/remove-lecture$", views.user_instance_wishlist_remove_lecture_view),
-    url(r"^share/timetable/image$", views.share_timetable_image_view),
-    url(r"^share/timetable/calendar$", views.share_timetable_calendar_view),
+    url(r"^users/(?P<user_id>\d+)/wishlist$", views.UserInstanceWishlistView.as_view()),
+    url(r"^users/(?P<user_id>\d+)/wishlist/add-lecture$", views.UserInstanceWishlistAddLectureView.as_view()),
+    url(r"^users/(?P<user_id>\d+)/wishlist/remove-lecture$", views.UserInstanceWishlistRemoveLectureView.as_view()),
+    url(r"^share/timetable/image$", views.ShareTimetableImageView.as_view()),
+    url(r"^share/timetable/calendar$", views.ShareTimetableCalendarView.as_view()),
     # url(r'^external/google/google_auth_return$', views.external_google_google_auth_return_view),
 ]

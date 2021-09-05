@@ -1,15 +1,15 @@
-from django.shortcuts import get_object_or_404
-
-from .models import Review, ReviewVote
-from utils.util import getint, get_paginated_queryset, patch_object
+import json
 
 from django.db.models import Q
 from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse
-from django.views import View
+from django.shortcuts import get_object_or_404
 from django.utils.decorators import method_decorator
-from utils.decorators import login_required_ajax
-import json
+from django.views import View
 
+from utils.decorators import login_required_ajax
+from utils.util import getint, get_paginated_queryset, patch_object
+
+from .models import Review, ReviewVote
 
 class ReviewListView(View):
     MAX_LIMIT = 50
@@ -122,7 +122,7 @@ class ReviewInstanceView(View):
 
 
 @method_decorator(login_required_ajax, name="dispatch")
-class ReviewLikeView(View):
+class ReviewInstanceLikeView(View):
     def post(self, request, review_id):
         review = get_object_or_404(Review, id=review_id)
         user_profile = request.user.userprofile
@@ -135,7 +135,7 @@ class ReviewLikeView(View):
 
 
 @method_decorator(login_required_ajax, name="dispatch")
-class UserLikedReviewsView(View):
+class UserInstanceLikedReviewsView(View):
     def get(self, request, user_id):
         profile = request.user.userprofile
         if profile.id != int(user_id):

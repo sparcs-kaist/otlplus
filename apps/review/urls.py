@@ -19,6 +19,6 @@ from . import views
 urlpatterns = [
     url(r"^reviews$", views.ReviewListView.as_view()),
     url(r"^reviews/(?P<review_id>\d+)$", views.ReviewInstanceView.as_view()),
-    url(r"^reviews/(?P<review_id>\d+)/like$", views.ReviewLikeView.as_view()),
-    url(r"^users/(?P<user_id>\d+)/liked-reviews$", views.UserLikedReviewsView.as_view()),
+    url(r"^reviews/(?P<review_id>\d+)/like$", views.ReviewInstanceLikeView.as_view()),
+    url(r"^users/(?P<user_id>\d+)/liked-reviews$", views.UserInstanceLikedReviewsView.as_view()),
 ]

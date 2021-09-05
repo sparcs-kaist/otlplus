@@ -1,7 +1,6 @@
 import json
 import random
 
-
 from django.conf import settings
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
@@ -11,13 +10,14 @@ from django.shortcuts import redirect
 from django.utils import timezone
 from django.views.decorators.http import require_http_methods
 
-from apps.subject.models import Department, Lecture
-from apps.session.services import get_user_department_list, get_user_major_list, json_encode_list
 from utils.decorators import login_required_ajax
 
 from .models import UserProfile
 from .services import import_student_lectures
 from .sparcsssov2 import Client
+from apps.subject.models import Department, Lecture
+from apps.session.services import get_user_department_list, get_user_major_list, json_encode_list
+
 
 UNDERGRADUATE_DEPARTMENTS = [
     "CE",
