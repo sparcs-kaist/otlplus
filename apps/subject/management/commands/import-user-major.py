@@ -18,6 +18,7 @@ class Command(BaseCommand):
             help="Specifies character encoding to decode strings from database. (default is cp949)",
             default="cp949",
         )
+        parser.add_argument("--all", action="store_true", default=False, dest="all", help="Specifies whether to load for all students")
         parser.add_argument("--studentid", dest="studentid", help="Specifies student id to load major")
 
     help = "Imports KAIST scholar database."
@@ -28,6 +29,7 @@ class Command(BaseCommand):
         port = options.get("port", None)
         user = options.get("user", None)
         password = options.get("password", None)
+        all_ = options.get("all", None)
         student_id = options.get("studentid", None)
         try:
             if password is None:
@@ -36,16 +38,22 @@ class Command(BaseCommand):
             print()
             return
 
-        if student_id is None:
+        if all_:
             query = "SELECT * FROM view_report_e_degree_k"
-        else:
+        elif student_id is not None:
             query = "SELECT * FROM view_report_e_degree_k WHERE student_no=%d" % int(student_id)
+        else:
+            print("Target user not specified. Use argument [--studentid STUDENTID] or [--all].")
+            return
         user_dept = execute(host, port, user, password, query)
 
-        if student_id is None:
+        if all_:
             query = "SELECT * FROM view_kds_students_other_major"
-        else:
+        elif student_id is not None:
             query = "SELECT * FROM view_kds_students_other_major WHERE student_no=%d" % int(student_id)
+        else:
+            print("Target user not specified. Use argument [--studentid STUDENTID] or [--all].")
+            return
         user_major_minor = execute(host, port, user, password, query)
 
         for a in user_dept:

@@ -1,6 +1,6 @@
 import os
 import threading
-import cPickle as pickle
+import pickle
 
 
 def synchronized(func):
