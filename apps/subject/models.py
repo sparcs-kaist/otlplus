@@ -2,9 +2,9 @@ from datetime import time
 from functools import reduce
 import operator
 
+from django.core.cache import cache
 from django.db import models
 from django.db.models import Q
-from django.core.cache import cache
 from django.utils import timezone
 
 from utils.enum import CLASS_TYPES, WEEKDAYS

@@ -1,10 +1,9 @@
 from django.http import HttpResponse, JsonResponse
-from django.views import View
 from django.utils.decorators import method_decorator
+from django.views import View
 
 from utils.decorators import login_required_ajax
 
-from apps.subject.models import Department
 from .models import (
     FamousMajorReviewDailyFeed,
     FamousHumanityReviewDailyFeed,
@@ -13,6 +12,7 @@ from .models import (
     RelatedCourseDailyUserFeed,
     RateDailyUserFeed,
 )
+from apps.subject.models import Department
 from apps.session.services import get_user_department_list
 
 
@@ -20,7 +20,7 @@ from apps.session.services import get_user_department_list
 class UserInstanceFeedsView(View):
     def get(self, request, user_id):
         date = request.GET.get("date", None)
-        
+
         userprofile = request.user.userprofile
         if userprofile.id != int(user_id):
             return HttpResponse(status=401)

@@ -1,3 +1,6 @@
+import random
+import datetime
+
 from django.db import models
 from django.utils import timezone
 
@@ -5,11 +8,6 @@ from apps.session.models import UserProfile
 from apps.subject.models import Lecture, Department, Course, Semester
 from apps.review.models import Review, MajorBestReview, HumanityBestReview
 from apps.support.models import Rate
-
-import random
-import datetime
-
-# Create your models here.
 
 
 class DailyFeed(models.Model):

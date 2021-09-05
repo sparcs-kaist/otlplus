@@ -1,14 +1,14 @@
-from django.shortcuts import get_object_or_404
 from django.http import HttpResponse, JsonResponse, HttpResponseBadRequest
+from django.shortcuts import get_object_or_404
 from django.utils.decorators import method_decorator
 from django.views import View
 
 from utils.decorators import login_required_ajax
+from utils.util import getint, get_paginated_queryset
 
 from .models import Semester, Course, Lecture, Professor, CourseUser
-from apps.review.models import Review
-from utils.util import getint, get_paginated_queryset
 from . import services
+from apps.review.models import Review
 
 
 class SemesterListView(View):

@@ -1,10 +1,10 @@
 from django.conf import settings
-from django.db import models
 from django.contrib.auth.models import User
+from django.db import models
 
 from .sparcsssov2 import Client
-from apps.subject.models import Department, Lecture
 from .fields import CredentialsField
+from apps.subject.models import Department, Lecture
 
 sso_client = Client(settings.SSO_CLIENT_ID, settings.SSO_SECRET_KEY, is_beta=settings.SSO_IS_BETA)
 

@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.cache import cache
+
 from apps.subject.models import Course, Lecture
 from apps.session.models import UserProfile
 

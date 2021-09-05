@@ -6,12 +6,10 @@ from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views import View
 
-from .models import Notice, Rate
 from utils.decorators import login_required_ajax
 from utils.util import getint
 
-
-# Create your views here.
+from .models import Notice, Rate
 
 
 class NoticeListView(View):

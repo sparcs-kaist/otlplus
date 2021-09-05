@@ -1,20 +1,15 @@
-# Django apps
+import json
+
+from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseNotFound, JsonResponse
 from django.utils.decorators import method_decorator
 from django.views import View
 
-from .models import Timetable, Wishlist
+from utils.decorators import login_required_ajax
 from utils.util import getint
 
-# Django modules
-from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseNotFound, JsonResponse
-from django.contrib.auth.decorators import login_required
-from utils.decorators import login_required_ajax
-from django.views.decorators.http import require_http_methods
+from .models import Timetable, Wishlist
 from .services import create_timetable_image, get_timetable_entries
-
-import json
-
-from ..subject.models import Semester, Lecture
+from apps.subject.models import Semester, Lecture
 
 
 def _validate_year_semester(year, semester):

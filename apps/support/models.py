@@ -1,10 +1,7 @@
-# -*- coding: utf-8 -*-
-
-from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
-from apps.session.models import UserProfile
+from django.db import models
 
-# Create your models here.
+from apps.session.models import UserProfile
 
 
 class Notice(models.Model):
