@@ -43,7 +43,7 @@ def get_timetable_entries(profile: UserProfile, table_id: int, year: int, semest
     return list(table.lectures.all())
 
 
-def draw_rounded_rectangle(draw, points: Tuple[int, int, int, int], radius: int, color):
+def _draw_rounded_rectangle(draw, points: Tuple[int, int, int, int], radius: int, color):
     draw.pieslice([points[0], points[1], points[0] + radius * 2, points[1] + radius * 2], 180, 270, color)
     draw.pieslice([points[2] - radius * 2, points[1], points[2], points[1] + radius * 2], 270, 0, color)
     draw.pieslice([points[2] - radius * 2, points[3] - radius * 2, points[2], points[3]], 0, 90, color)
@@ -52,7 +52,7 @@ def draw_rounded_rectangle(draw, points: Tuple[int, int, int, int], radius: int,
     draw.rectangle([points[0] + radius, points[1], points[2] - radius, points[3]], color)
 
 
-def slice_text_to_fit_width(text: str, width: int, font: ImageFont) -> List[str]:
+def _slice_text_to_fit_width(text: str, width: int, font: ImageFont) -> List[str]:
     sliced = []
     slice_start_index = 0
 
@@ -65,13 +65,13 @@ def slice_text_to_fit_width(text: str, width: int, font: ImageFont) -> List[str]
     return sliced
 
 
-def draw_textbox(draw, points: Tuple[int, int, int, int], title: str, professor: str, location: str, font: ImageFont):
+def _draw_textbox(draw, points: Tuple[int, int, int, int], title: str, professor: str, location: str, font: ImageFont):
     width = points[2] - points[0]
     height = points[3] - points[1]
 
-    sliced_title = slice_text_to_fit_width(title, width, font)
-    sliced_professor = slice_text_to_fit_width(professor, width, font)
-    sliced_location = slice_text_to_fit_width(location, width, font)
+    sliced_title = _slice_text_to_fit_width(title, width, font)
+    sliced_professor = _slice_text_to_fit_width(professor, width, font)
+    sliced_location = _slice_text_to_fit_width(location, width, font)
 
     sliced = []
     textHeight = 0
@@ -127,10 +127,10 @@ def create_timetable_image(lecture_list: List[Lecture]):
             end = class_time["end"] // 30 - 16
 
             points = (178 * day + 76, 40 * begin + 158, 178 * (day + 1) + 69, 40 * end + 151)
-            draw_rounded_rectangle(draw, points, 4, color)
+            _draw_rounded_rectangle(draw, points, 4, color)
 
             points = (points[0] + 12, points[1] + 8, points[2] - 12, points[3] - 8)
-            draw_textbox(
+            _draw_textbox(
                 text_draw,
                 points,
                 lecture_dict["title"],
