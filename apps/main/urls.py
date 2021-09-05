@@ -18,5 +18,5 @@ from . import views
 
 
 urlpatterns = [
-    url(r"^users/(?P<user_id>\d+)/feeds$", views.user_instance_feeds_view),
+    url(r"^users/(?P<user_id>\d+)/feeds$", views.UserInstanceFeedsView.as_view()),
 ]
