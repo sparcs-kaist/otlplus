@@ -27,10 +27,10 @@ class Review(models.Model):
             "lecture",
         )
 
-    def getCacheKey(self, nested):
-        return "review:%d:%s" % (self.id, "nested" if nested else "normal")
+    def getCacheKey(self):
+        return "review:%d" % (self.id,)
 
-    def toJson(self, nested=False, user=None):
+    def toJson(self, user=None):
         def addUserspecificData(result, user):
             is_liked = True
             if user is None or not user.is_authenticated:
@@ -43,11 +43,10 @@ class Review(models.Model):
                 },
             )
 
-        cache_id = self.getCacheKey(nested)
+        cache_id = self.getCacheKey()
         result_cached = cache.get(cache_id)
         if result_cached is not None:
-            if not nested:
-                addUserspecificData(result_cached, user)
+            addUserspecificData(result_cached, user)
             return result_cached
 
         result = {
@@ -61,10 +60,6 @@ class Review(models.Model):
             "load": self.load,
             "speech": self.speech,
         }
-
-        if nested:
-            cache.set(cache_id, result, 60 * 5)
-            return result
 
         cache.set(cache_id, result, 60 * 5)
 
