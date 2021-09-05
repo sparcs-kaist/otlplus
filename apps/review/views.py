@@ -122,7 +122,7 @@ class ReviewInstanceView(View):
 
 
 @method_decorator(login_required_ajax, name="dispatch")
-class ReviewLikeView(View):
+class ReviewInstanceLikeView(View):
     def post(self, request, review_id):
         review = get_object_or_404(Review, id=review_id)
         user_profile = request.user.userprofile
@@ -135,7 +135,7 @@ class ReviewLikeView(View):
 
 
 @method_decorator(login_required_ajax, name="dispatch")
-class UserLikedReviewsView(View):
+class UserInstanceLikedReviewsView(View):
     def get(self, request, user_id):
         profile = request.user.userprofile
         if profile.id != int(user_id):
