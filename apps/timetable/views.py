@@ -24,7 +24,7 @@ def _validate_year_semester(year, semester):
 
 
 @method_decorator(login_required_ajax, name="dispatch")
-class UserTimetableListView(View):
+class UserInstanceTimetableListView(View):
     def get(self, request, user_id):
         userprofile = request.user.userprofile
         if userprofile.id != int(user_id):
@@ -74,189 +74,196 @@ class UserTimetableListView(View):
         return JsonResponse(timetable.toJson())
 
 
-@login_required_ajax
-@require_http_methods(["GET", "DELETE"])
-def user_instance_timetable_instance_view(request, user_id, timetable_id):
-    userprofile = request.user.userprofile
-    if userprofile.id != int(user_id):
-        return HttpResponse(status=401)
+@method_decorator(login_required_ajax, name="dispatch")
+class UserInstanceTimetableInstanceView(View):
+    def get(self, request, user_id, timetable_id):
+        userprofile = request.user.userprofile
+        if userprofile.id != int(user_id):
+            return HttpResponse(status=401)
 
-    try:
-        timetable = userprofile.timetables.get(id=timetable_id)
-    except Timetable.DoesNotExist:
-        return HttpResponseNotFound()
-
-    if request.method == "GET":
+        try:
+            timetable = userprofile.timetables.get(id=timetable_id)
+        except Timetable.DoesNotExist:
+            return HttpResponseNotFound()
+        
         return JsonResponse(timetable.toJson())
+    
+    def delete(self, request, user_id, timetable_id):
+        userprofile = request.user.userprofile
+        if userprofile.id != int(user_id):
+            return HttpResponse(status=401)
 
-    elif request.method == "DELETE":
+        try:
+            timetable = userprofile.timetables.get(id=timetable_id)
+        except Timetable.DoesNotExist:
+            return HttpResponseNotFound()
+        
         timetable.delete()
         return HttpResponse()
 
 
-@login_required_ajax
-@require_http_methods(["POST"])
-def user_instance_timetable_instance_add_lecture_view(request, user_id, timetable_id):
-    userprofile = request.user.userprofile
-    if userprofile.id != int(user_id):
-        return HttpResponse(status=401)
+@method_decorator(login_required_ajax, name="dispatch")
+class UserInstanceTimetableInstanceAddLectureView(View):
+    def post(self, request, user_id, timetable_id):
+        userprofile = request.user.userprofile
+        if userprofile.id != int(user_id):
+            return HttpResponse(status=401)
 
-    try:
-        timetable = userprofile.timetables.get(id=timetable_id)
-    except Timetable.DoesNotExist:
-        return HttpResponseNotFound()
+        try:
+            timetable = userprofile.timetables.get(id=timetable_id)
+        except Timetable.DoesNotExist:
+            return HttpResponseNotFound()
 
-    if request.method == "POST":
+        if request.method == "POST":
+            body = json.loads(request.body.decode("utf-8"))
+
+            lecture_id = getint(body, "lecture", None)
+            if lecture_id is None:
+                return HttpResponseBadRequest("Missing field 'lecture' in request data")
+
+            lecture = Lecture.objects.get(id=lecture_id)
+            if not (lecture.year == timetable.year and lecture.semester == timetable.semester):
+                return HttpResponseBadRequest("Wrong field 'lecture' in request data")
+
+            if timetable.lectures.filter(id=lecture_id).exists():
+                return HttpResponseBadRequest('Wrong field \'lecture\' in request data')
+
+            if timetable.lectures.filter(id=lecture_id).exists():
+                return HttpResponseBadRequest('Wrong field \'lecture\' in request data')
+
+            timetable.lectures.add(lecture)
+            return JsonResponse(timetable.toJson())
+
+
+@method_decorator(login_required_ajax, name="dispatch")
+class UserInstanceTimetableInstanceRemoveLectureView(View):
+    def post(self, request, user_id, timetable_id):
+        userprofile = request.user.userprofile
+        if userprofile.id != int(user_id):
+            return HttpResponse(status=401)
+
+        try:
+            timetable = userprofile.timetables.get(id=timetable_id)
+        except Timetable.DoesNotExist:
+            return HttpResponseNotFound()
+
         body = json.loads(request.body.decode("utf-8"))
 
         lecture_id = getint(body, "lecture", None)
         if lecture_id is None:
             return HttpResponseBadRequest("Missing field 'lecture' in request data")
 
-        lecture = Lecture.objects.get(id=lecture_id)
-        if not (lecture.year == timetable.year and lecture.semester == timetable.semester):
+        if not timetable.lectures.filter(id=lecture_id).exists():
             return HttpResponseBadRequest("Wrong field 'lecture' in request data")
 
-        if timetable.lectures.filter(id=lecture_id).exists():
-            return HttpResponseBadRequest('Wrong field \'lecture\' in request data')
+        lecture = Lecture.objects.get(id=lecture_id)
 
-        if timetable.lectures.filter(id=lecture_id).exists():
-            return HttpResponseBadRequest('Wrong field \'lecture\' in request data')
-
-        timetable.lectures.add(lecture)
+        timetable.lectures.remove(lecture)
         return JsonResponse(timetable.toJson())
 
 
-@login_required_ajax
-@require_http_methods(["POST"])
-def user_instance_timetable_instance_remove_lecture_view(request, user_id, timetable_id):
-    userprofile = request.user.userprofile
-    if userprofile.id != int(user_id):
-        return HttpResponse(status=401)
+@method_decorator(login_required_ajax, name="dispatch")
+class UserInstanceWishlistView(View):
+    def get(self, request, user_id):
+        userprofile = request.user.userprofile
+        if userprofile.id != int(user_id):
+            return HttpResponse(status=401)
 
-    try:
-        timetable = userprofile.timetables.get(id=timetable_id)
-    except Timetable.DoesNotExist:
-        return HttpResponseNotFound()
+        wishlist = Wishlist.objects.get_or_create(user=userprofile)[0]
 
-    body = json.loads(request.body.decode("utf-8"))
-
-    lecture_id = getint(body, "lecture", None)
-    if lecture_id is None:
-        return HttpResponseBadRequest("Missing field 'lecture' in request data")
-
-    if not timetable.lectures.filter(id=lecture_id).exists():
-        return HttpResponseBadRequest("Wrong field 'lecture' in request data")
-
-    lecture = Lecture.objects.get(id=lecture_id)
-
-    timetable.lectures.remove(lecture)
-    return JsonResponse(timetable.toJson())
+        result = wishlist.toJson()
+        return JsonResponse(result)
 
 
-@login_required_ajax
-@require_http_methods(["GET"])
-def user_instance_wishlist_view(request, user_id):
-    userprofile = request.user.userprofile
-    if userprofile.id != int(user_id):
-        return HttpResponse(status=401)
+@method_decorator(login_required_ajax, name="dispatch")
+class UserInstanceWishlistAddLectureView(View):
+    def post(self, request, user_id):
+        userprofile = request.user.userprofile
+        if userprofile.id != int(user_id):
+            return HttpResponse(status=401)
 
-    wishlist = Wishlist.objects.get_or_create(user=userprofile)[0]
+        wishlist = Wishlist.objects.get_or_create(user=userprofile)[0]
 
-    result = wishlist.toJson()
-    return JsonResponse(result)
+        body = json.loads(request.body.decode("utf-8"))
 
+        lecture_id = getint(body, "lecture", None)
+        if lecture_id is None:
+            return HttpResponseBadRequest("Missing field 'lecture' in request data")
 
-@login_required_ajax
-@require_http_methods(["POST"])
-def user_instance_wishlist_add_lecture_view(request, user_id):
-    userprofile = request.user.userprofile
-    if userprofile.id != int(user_id):
-        return HttpResponse(status=401)
+        if wishlist.lectures.filter(id=lecture_id).exists():
+            return HttpResponseBadRequest("Wrong field 'lecture' in request data")
 
-    wishlist = Wishlist.objects.get_or_create(user=userprofile)[0]
+        lecture = Lecture.objects.get(id=lecture_id)
 
-    body = json.loads(request.body.decode("utf-8"))
+        wishlist.lectures.add(lecture)
 
-    lecture_id = getint(body, "lecture", None)
-    if lecture_id is None:
-        return HttpResponseBadRequest("Missing field 'lecture' in request data")
-
-    if wishlist.lectures.filter(id=lecture_id).exists():
-        return HttpResponseBadRequest("Wrong field 'lecture' in request data")
-
-    lecture = Lecture.objects.get(id=lecture_id)
-
-    wishlist.lectures.add(lecture)
-
-    result = wishlist.toJson()
-    return JsonResponse(result)
+        result = wishlist.toJson()
+        return JsonResponse(result)
 
 
-@login_required_ajax
-@require_http_methods(["POST"])
-def user_instance_wishlist_remove_lecture_view(request, user_id):
-    userprofile = request.user.userprofile
-    if userprofile.id != int(user_id):
-        return HttpResponse(status=401)
+@method_decorator(login_required_ajax, name="dispatch")
+class UserInstanceWishlistRemoveLectureView(View):
+    def post(self, request, user_id):
+        userprofile = request.user.userprofile
+        if userprofile.id != int(user_id):
+            return HttpResponse(status=401)
 
-    wishlist = Wishlist.objects.get_or_create(user=userprofile)[0]
+        wishlist = Wishlist.objects.get_or_create(user=userprofile)[0]
 
-    body = json.loads(request.body.decode("utf-8"))
+        body = json.loads(request.body.decode("utf-8"))
 
-    lecture_id = getint(body, "lecture", None)
-    if lecture_id is None:
-        return HttpResponseBadRequest("Missing field 'lecture' in request data")
+        lecture_id = getint(body, "lecture", None)
+        if lecture_id is None:
+            return HttpResponseBadRequest("Missing field 'lecture' in request data")
 
-    if not wishlist.lectures.filter(id=lecture_id).exists():
-        return HttpResponseBadRequest("Wrong field 'lecture' in request data")
+        if not wishlist.lectures.filter(id=lecture_id).exists():
+            return HttpResponseBadRequest("Wrong field 'lecture' in request data")
 
-    lecture = Lecture.objects.get(id=lecture_id)
+        lecture = Lecture.objects.get(id=lecture_id)
 
-    wishlist.lectures.remove(lecture)
+        wishlist.lectures.remove(lecture)
 
-    result = wishlist.toJson()
-    return JsonResponse(result)
-
-
-# Export OTL timetable to google calendar
-@login_required
-@require_http_methods(["GET"])
-def share_timetable_calendar_view(request):
-    userprofile = request.user.userprofile
-
-    table_id = getint(request.GET, "timetable", None)
-    year = getint(request.GET, "year", None)
-    semester = getint(request.GET, "semester", None)
-    if not (table_id is not None and year is not None and semester is not None):
-        return HttpResponseBadRequest("Missing fields in request data")
-
-    timetable_lectures = get_timetable_entries(userprofile, table_id, year, semester)
-    if timetable_lectures is None:
-        return HttpResponseBadRequest("No such timetable")
-
-    # TODO: Add impl
-    return HttpResponseBadRequest("Not implemented")
-    # response = _share_calendar(request, timetable_lectures, year, semester)
-    # return response
+        result = wishlist.toJson()
+        return JsonResponse(result)
 
 
-@login_required
-@require_http_methods(["GET"])
-def share_timetable_image_view(request):
-    userprofile = request.user.userprofile
+@method_decorator(login_required_ajax, name="dispatch")
+class ShareTimetableCalendarView(View):
+    def get(self, request):
+        userprofile = request.user.userprofile
 
-    table_id = getint(request.GET, "timetable", None)
-    year = getint(request.GET, "year", None)
-    semester = getint(request.GET, "semester", None)
-    if not (table_id is not None and year is not None and semester is not None):
-        return HttpResponseBadRequest("Missing fields in request data")
+        table_id = getint(request.GET, "timetable", None)
+        year = getint(request.GET, "year", None)
+        semester = getint(request.GET, "semester", None)
+        if not (table_id is not None and year is not None and semester is not None):
+            return HttpResponseBadRequest("Missing fields in request data")
 
-    timetable_lectures = get_timetable_entries(userprofile, table_id, year, semester)
-    if timetable_lectures is None:
-        return HttpResponseBadRequest("No such timetable")
+        timetable_lectures = get_timetable_entries(userprofile, table_id, year, semester)
+        if timetable_lectures is None:
+            return HttpResponseBadRequest("No such timetable")
 
-    response = HttpResponse(content_type="image/png")
-    image = create_timetable_image(timetable_lectures)
-    image.save(response, "PNG")
-    return response
+        # TODO: Add impl
+        return HttpResponseBadRequest("Not implemented")
+        # response = _share_calendar(request, timetable_lectures, year, semester)
+        # return response
+
+
+@method_decorator(login_required_ajax, name="dispatch")
+class ShareTimetableImageView(View):
+    def get(self, request):
+        userprofile = request.user.userprofile
+
+        table_id = getint(request.GET, "timetable", None)
+        year = getint(request.GET, "year", None)
+        semester = getint(request.GET, "semester", None)
+        if not (table_id is not None and year is not None and semester is not None):
+            return HttpResponseBadRequest("Missing fields in request data")
+
+        timetable_lectures = get_timetable_entries(userprofile, table_id, year, semester)
+        if timetable_lectures is None:
+            return HttpResponseBadRequest("No such timetable")
+
+        response = HttpResponse(content_type="image/png")
+        image = create_timetable_image(timetable_lectures)
+        image.save(response, "PNG")
+        return response

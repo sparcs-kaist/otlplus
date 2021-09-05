@@ -18,6 +18,6 @@ from . import views
 
 
 urlpatterns = [
-    url(r"^notices$", views.notices_view),
-    url(r"^rates$", views.rate_list_view),
+    url(r"^notices$", views.NoticeListView.as_view()),
+    url(r"^rates$", views.RateListView.as_view()),
 ]
