@@ -219,6 +219,6 @@ def info(request):
         "favorite_departments": json_encode_list(profile.favorite_departments.all()),
         "review_writable_lectures": json_encode_list(profile.review_writable_lectures),
         "my_timetable_lectures": json_encode_list(profile.taken_lectures.exclude(Lecture.getQueryResearch())),
-        "reviews": json_encode_list(profile.reviews.all(), nested=True),
+        "reviews": json_encode_list(profile.reviews.all()),
     }
     return JsonResponse(ctx, safe=False)
