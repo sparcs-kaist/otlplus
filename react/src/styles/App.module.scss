@@ -3402,6 +3402,20 @@ i.icon {
         }
     }
 
+    &--share-icalendar {
+        width:19px;
+        height:19px;
+        background-image: url(../static/icons/share_icalendar.svg);
+
+        *:hover > & {
+            background-image: url(../static/icons/share_icalendar_hover.svg);
+        }
+
+        *.disabled > & {
+            background-image: url(../static/icons/share_icalendar_disable.svg);
+        }
+    }
+
     &--share-syllabus {
         width:19px;
         height:19px;
