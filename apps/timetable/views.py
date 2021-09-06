@@ -8,7 +8,7 @@ from utils.decorators import login_required_ajax
 from utils.util import getint
 
 from .models import Timetable, Wishlist
-from .services import create_timetable_image, get_timetable_entries
+from .services import create_timetable_ical, create_timetable_image, get_timetable_entries
 from apps.subject.models import Semester, Lecture
 
 
@@ -237,10 +237,27 @@ class ShareTimetableCalendarView(View):
         if timetable_lectures is None:
             return HttpResponseBadRequest("No such timetable")
 
-        # TODO: Add impl
         return HttpResponseBadRequest("Not implemented")
-        # response = _share_calendar(request, timetable_lectures, year, semester)
-        # return response
+
+
+@method_decorator(login_required_ajax, name="dispatch")
+class ShareTimetableIcalView(View):
+    def get(self, request):
+        userprofile = request.user.userprofile
+
+        table_id = getint(request.GET, "timetable", None)
+        year = getint(request.GET, "year", None)
+        semester = getint(request.GET, "semester", None)
+        if not (table_id is not None and year is not None and semester is not None):
+            return HttpResponseBadRequest("Missing fields in request data")
+
+        timetable_lectures = get_timetable_entries(userprofile, table_id, year, semester)
+        if timetable_lectures is None:
+            return HttpResponseBadRequest("No such timetable")
+
+        calendar = create_timetable_ical(Semester.objects.get(year=year, semester=semester), timetable_lectures)
+        response = HttpResponse(calendar.to_ical(), content_type="text/calendar")
+        return response
 
 
 @method_decorator(login_required_ajax, name="dispatch")
