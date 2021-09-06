@@ -115,6 +115,7 @@ class App extends Component {
         <>
           <Header />
           <Switch>
+            <Route exact path="/" component={MainPage} />
             <Route
               exact
               path="/dictionary"
@@ -134,7 +135,6 @@ class App extends Component {
               )}
             />
             <Route exact path="/timetable/syllabus" component={SyllabusPage} />
-            <Route exact path="/" component={MainPage} />
             <Route
               exact
               path="/write-reviews"
