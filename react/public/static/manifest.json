@@ -27,7 +27,7 @@
       "purpose": "maskable"
     }
   ],
-  "start_url": "/main",
+  "start_url": "/",
   "shortcuts": [
     {
       "name": "Dictionary",

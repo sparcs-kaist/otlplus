@@ -115,6 +115,7 @@ class App extends Component {
         <>
           <Header />
           <Switch>
+            <Route exact path="/" component={MainPage} />
             <Route
               exact
               path="/dictionary"
@@ -134,7 +135,6 @@ class App extends Component {
               )}
             />
             <Route exact path="/timetable/syllabus" component={SyllabusPage} />
-            <Route exact path="/main" component={MainPage} />
             <Route
               exact
               path="/write-reviews"
@@ -150,7 +150,11 @@ class App extends Component {
             {/* Temporary test page for axiom */}
             <Route exact path="/test" component={TestPage} />
             <Route exact path="/error/:message" component={ErrorPage} />
-            <Redirect from="/" to="/main" />
+            <Redirect exact from="/index.html" to="/" />
+            {/* Redirection for old url */}
+            <Redirect exact from="/main" to="/" />
+            {/* TODO: implement 404 page and remove below */}
+            <Redirect from="/" to="/" />
           </Switch>
         </>
       </Provider>
