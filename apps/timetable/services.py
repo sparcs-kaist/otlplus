@@ -1,10 +1,14 @@
-from apps.subject.models import Lecture
+from apps.subject.models import Lecture, Semester
 from .models import Timetable
 from apps.session.models import UserProfile
 from typing import List, Optional, Tuple
 
+import datetime
+import pytz
+
 from django.conf import settings
 from PIL import Image, ImageDraw, ImageFont
+from icalendar import Calendar, Timezone, Event, Alarm
 
 
 MY_TIMETABLE_ID = -1
@@ -143,3 +147,40 @@ def create_timetable_image(lecture_list: List[Lecture]):
 
     image.paste(text_image, mask=text_image)
     return image
+
+
+def create_timetable_ical(semester: Semester, lectures: List[Lecture]):
+    timezone = pytz.timezone("Asia/Seoul")
+
+    calendar = Calendar()
+    calendar.add("prodid", "-//SPARCS//OTL Plus//")
+    calendar.add("version", "2.0")
+    calendar.add("x-wr-timezone", timezone)
+
+    season_name = ["Spring", "Summer", "Fall", "Winter"][semester.semester-1]
+    title = f"[OTL] {semester.year} {season_name}"
+    calendar.add("summary", title)
+    calendar.add("x-wr-calname", title)
+
+    for l in lectures:
+        for ct in l.classtimes.all():
+            event = Event()
+            event.add("summary", l.title)
+            event.add("location", ct.toJson()["classroom"])
+
+            days_ahead = ct.day - semester.beginning.weekday()
+            if days_ahead < 0:
+                days_ahead += 7
+            first_class_date = semester.beginning + datetime.timedelta(days=days_ahead)
+            event.add("dtstart", datetime.datetime.combine(first_class_date, ct.begin, timezone))
+            event.add("dtend", datetime.datetime.combine(first_class_date, ct.end, timezone))
+            event.add("rrule", {"freq": "weekly", "until": semester.end})
+
+            alarm = Alarm()
+            alarm.add("action", "DISPLAY")
+            alarm.add("trigger", datetime.timedelta(minutes=-15))
+            event.add_component(alarm)
+
+            calendar.add_component(event)
+    
+    return calendar

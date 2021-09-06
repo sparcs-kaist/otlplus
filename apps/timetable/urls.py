@@ -32,5 +32,6 @@ urlpatterns = [
     url(r"^users/(?P<user_id>\d+)/wishlist/remove-lecture$", views.UserInstanceWishlistRemoveLectureView.as_view()),
     url(r"^share/timetable/image$", views.ShareTimetableImageView.as_view()),
     url(r"^share/timetable/calendar$", views.ShareTimetableCalendarView.as_view()),
+    url(r"^share/timetable/ical$", views.ShareTimetableIcalView.as_view()),
     # url(r'^external/google/google_auth_return$', views.external_google_google_auth_return_view),
 ]
