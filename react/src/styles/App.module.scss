@@ -3388,17 +3388,17 @@ i.icon {
         }
     }
 
-    &--share-calendar {
+    &--share-googlecalendar {
         width:19px;
         height:19px;
-        background-image: url(../static/icons/share_calendar.svg);
+        background-image: url(../static/icons/share_googlecalendar.svg);
 
         *:hover > & {
-            background-image: url(../static/icons/share_calendar_hover.svg);
+            background-image: url(../static/icons/share_googlecalendar_hover.svg);
         }
 
         *.disabled > & {
-            background-image: url(../static/icons/share_calendar_disable.svg);
+            background-image: url(../static/icons/share_googlecalendar_disable.svg);
         }
     }
 

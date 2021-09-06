@@ -36,7 +36,7 @@ class ShareSubSection extends Component {
                   <i className={classNames('icon', 'icon--share-image')} />
                 </a>
                 <a href={`/api/share/timetable/calendar?timetable=${selectedTimetable ? selectedTimetable.id : -1}&year=${year}&semester=${semester}`} target="_blank" rel="noopener noreferrer">
-                  <i className={classNames('icon', 'icon--share-calendar')} />
+                  <i className={classNames('icon', 'icon--share-googlecalendar')} />
                 </a>
                 <a href={`/api/share/timetable/ical?timetable=${selectedTimetable ? selectedTimetable.id : -1}&year=${year}&semester=${semester}`} download>
                   <i className={classNames('icon', 'icon--share-icalendar')} />
@@ -49,7 +49,7 @@ class ShareSubSection extends Component {
             : (
               <>
                 <span className={classNames('disabled')}><i className={classNames('icon', 'icon--share-image')} /></span>
-                <span className={classNames('disabled')}><i className={classNames('icon', 'icon--share-calendar')} /></span>
+                <span className={classNames('disabled')}><i className={classNames('icon', 'icon--share-googlecalendar')} /></span>
                 <span className={classNames('disabled')}><i className={classNames('icon', 'icon--share-icalendar')} /></span>
                 <span className={classNames('disabled')}><i className={classNames('icon', 'icon--share-syllabus')} /></span>
               </>
