@@ -11,7 +11,6 @@ import userShape from '../../shapes/UserShape';
 import logoImage from '../../static/img/Services-OTL.svg';
 
 
-// eslint-disable-next-line import/prefer-default-export
 export const getFullName = (user) => {
   // eslint-disable-next-line no-underscore-dangle
   const _isKorean = (string) => {

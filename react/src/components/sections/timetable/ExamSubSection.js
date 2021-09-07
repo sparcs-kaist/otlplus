@@ -80,13 +80,12 @@ class ExamSubSection extends Component {
     const { lectureFocus } = this.props;
 
     const mapPairToElem = (lecEtPair) => {
-      const act = (
-        (isSingleFocused(lecEtPair.lecture, lectureFocus) || (multipleFocusDayIndex === lecEtPair.examtime.day))
-          ? 'focused'
-          : ''
+      const isFocused = (
+        isSingleFocused(lecEtPair.lecture, lectureFocus)
+        || (multipleFocusDayIndex === lecEtPair.examtime.day)
       );
       const li = (
-        <li className={classNames(act)} key={lecEtPair.lecture.id}>
+        <li className={classNames(isFocused ? 'focused' : '')} key={lecEtPair.lecture.id}>
           <div>
             {lecEtPair.lecture[t('js.property.title')]}
           </div>

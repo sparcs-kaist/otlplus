@@ -40,7 +40,9 @@ class CourseDetailSection extends Component {
       clearCourseFocusDispatch();
     }
 
-    if (courseFocus.clicked && (!prevProps.courseFocus.clicked || (prevProps.courseFocus.course !== courseFocus.course))) {
+    if ((courseFocus.clicked && !prevProps.courseFocus.clicked)
+      || (courseFocus.clicked && (prevProps.courseFocus.course !== courseFocus.course))
+    ) {
       setLecturesDispatch(null);
       this._fetchLectures();
       this._fetchReviews();

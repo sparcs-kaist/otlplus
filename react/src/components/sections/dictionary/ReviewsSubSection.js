@@ -106,10 +106,23 @@ class ReviewsSubSection extends Component {
       ? null
       : courseFocus.reviews.filter((r) => (this._checkLectureProfessor(r.lecture, selectedProfessors) && this._checkReviewLanguage(r, selectedLanguages)));
     const reviewBlocksArea = (filteredReviews == null)
-      ? <div className={classNames('section-content--course-detail__list-area', 'list-placeholder')}><div>{t('ui.placeholder.loading')}</div></div>
+      ? (
+        <div className={classNames('section-content--course-detail__list-area', 'list-placeholder')}>
+          <div>{t('ui.placeholder.loading')}</div>
+        </div>
+      )
       : (filteredReviews.length
-        ? <div className={classNames('section-content--course-detail__list-area')}>{filteredReviews.map((r) => <ReviewBlock review={r} shouldLimitLines={false} pageFrom="Dictionary" key={r.id} />)}</div>
-        : <div className={classNames('section-content--course-detail__list-area', 'list-placeholder')}><div>{t('ui.placeholder.noResults')}</div></div>);
+        ? (
+          <div className={classNames('section-content--course-detail__list-area')}>
+            {filteredReviews.map((r) => <ReviewBlock review={r} shouldLimitLines={false} pageFrom="Dictionary" key={r.id} />)}
+          </div>
+        )
+        : (
+          <div className={classNames('section-content--course-detail__list-area', 'list-placeholder')}>
+            <div>{t('ui.placeholder.noResults')}</div>
+          </div>
+        )
+      );
 
     const [, , , [grade, load, speech]] = (
       filteredReviews

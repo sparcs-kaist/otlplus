@@ -28,7 +28,8 @@ import timetableShape from '../../../shapes/TimetableShape';
 import {
   inTimetable, inCart,
   getProfessorsFullStr, getClassroomStr, getExamFullStr,
-  performAddToTable, performDeleteFromTable, performAddToCart, performDeleteFromCart, getSyllabusUrl,
+  performAddToTable, performDeleteFromTable, performAddToCart, performDeleteFromCart,
+  getSyllabusUrl,
 } from '../../../utils/lectureUtils';
 import lectureListsShape from '../../../shapes/LectureListsShape';
 
@@ -521,4 +522,5 @@ LectureDetailSection.propTypes = {
 };
 
 
+// eslint-disable-next-line max-len
 export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(LectureDetailSection));

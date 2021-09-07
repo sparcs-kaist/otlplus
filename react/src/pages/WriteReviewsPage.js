@@ -16,16 +16,18 @@ import { reset as resetReviewsFocus, setReviewsFocus } from '../actions/write-re
 import { reset as resetLatestReviews } from '../actions/write-reviews/latestReviews';
 import { reset as resetLikedReviews } from '../actions/write-reviews/likedReviews';
 import { reset as resetRankedReviews } from '../actions/write-reviews/rankedReviews';
-import { NONE, LECTURE, LATEST, MY, LIKED, RANKED } from '../reducers/write-reviews/reviewsFocus';
+import {
+  NONE, LECTURE, LATEST, MY, LIKED, RANKED,
+} from '../reducers/write-reviews/reviewsFocus';
 
 import reviewsFocusShape from '../shapes/ReviewsFocusShape';
-import userShape from '../shapes/UserShape';
 import RankedReviewsSection from '../components/sections/write-reviews/RankedReviewsSection';
 
 
 class WriteReviewsPage extends Component {
   componentDidMount() {
     const { setReviewsFocusDispatch } = this.props;
+    // eslint-disable-next-line react/destructuring-assignment
     const { startList } = this.props.location.state || {};
 
     if (startList) {
@@ -128,7 +130,6 @@ class WriteReviewsPage extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  user: state.common.user.user,
   reviewsFocus: state.writeReviews.reviewsFocus,
 });
 
@@ -151,7 +152,12 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 WriteReviewsPage.propTypes = {
-  user: userShape,
+  location: PropTypes.shape({
+    state: PropTypes.shape({
+      startList: PropTypes.oneOf([NONE, LECTURE, LATEST, MY, LIKED, RANKED]),
+    }),
+  }).isRequired,
+
   reviewsFocus: reviewsFocusShape.isRequired,
 
   setReviewsFocusDispatch: PropTypes.func.isRequired,
