@@ -7,13 +7,6 @@ export const unique = (array, compareFunction = undefined) => {
   return array.filter((v, i) => (array.findIndex((v2) => compareFunction(v, v2)) === i));
 };
 
-export const sum = (array, getFunction = undefined) => {
-  if (!getFunction) {
-    return array.reduce((acc, v) => acc + v, 0);
-  }
-  return array.reduce((acc, v) => acc + getFunction(v), 0);
-};
-
 export const formatNewlineToBr = (content) => {
   const contentLines = content.split('\n');
   return contentLines

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 import ReactGA from 'react-ga';
+import { sumBy } from 'lodash';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
@@ -14,7 +15,7 @@ import {
   LECTURE, LATEST, MY, LIKED, RANKED,
 } from '../../../reducers/write-reviews/reviewsFocus';
 
-import { unique, sum } from '../../../utils/commonUtils';
+import { unique } from '../../../utils/commonUtils';
 import { getSemesterName } from '../../../utils/semesterUtils';
 
 import userShape from '../../../shapes/UserShape';
@@ -170,7 +171,7 @@ class TakenLecturesSection extends Component {
           </div>
           <div>
             <div>
-              {sum(editableReviews, (r) => r.like)}
+              {sumBy(editableReviews, (r) => r.like)}
             </div>
             <div>{t('ui.score.likes')}</div>
           </div>

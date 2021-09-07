@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
+import { sumBy } from 'lodash';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 import { getAverageScoreLabel } from '../../../utils/scoreUtils';
@@ -14,7 +15,6 @@ import lectureFocusShape from '../../../shapes/LectureFocusShape';
 import timetableShape from '../../../shapes/TimetableShape';
 
 import { inTimetable, getOverallLectures } from '../../../utils/lectureUtils';
-import { sum } from '../../../utils/commonUtils';
 
 
 const indexOfType = (type) => {
@@ -156,7 +156,7 @@ class SummarySubSection extends Component {
 
     const timetableTypeCredit = [0, 1, 2, 3, 4, 5].map((i) => {
       const lecturesWithType = timetableLectures.filter((l) => (indexOfType(l.type_en) === i));
-      return sum(lecturesWithType, (l) => (l.credit + l.credit_au));
+      return sumBy(lecturesWithType, (l) => (l.credit + l.credit_au));
     });
     const singleFocusedTypeCreditStr = [0, 1, 2, 3, 4, 5].map((i) => (
       !isTypeCreditSingleFocused(i)
@@ -167,21 +167,21 @@ class SummarySubSection extends Component {
     ));
     const overallTypeCredit = [0, 1, 2, 3, 4, 5].map((i) => {
       const lecturesWithType = overallLectures.filter((l) => (indexOfType(l.type_en) === i));
-      return sum(lecturesWithType, (l) => (l.credit + l.credit_au));
+      return sumBy(lecturesWithType, (l) => (l.credit + l.credit_au));
     });
 
-    const overallCredit = sum(overallLectures, (l) => l.credit);
-    const overallAu = sum(overallLectures, (l) => l.credit_au);
+    const overallCredit = sumBy(overallLectures, (l) => l.credit);
+    const overallAu = sumBy(overallLectures, (l) => l.credit_au);
     const isCreditSingleFocused = (lectureFocus.lecture !== null) && (lectureFocus.lecture.credit > 0);
     const isAuSingleFocused = (lectureFocus.lecture !== null) && (lectureFocus.lecture.credit_au > 0);
     const isCreditMultiFocused = (multipleFocusCode === 'Credit');
     const isAuMultiFocused = (multipleFocusCode === 'Credit Au');
 
     const timetableLecturesWithReview = timetableLectures.filter((l) => (l.review_total_weight > 0));
-    const targetNum = sum(timetableLecturesWithReview, (l) => (l.credit + l.credit_au));
-    const timetableGrade = sum(timetableLecturesWithReview, (l) => (l.grade * (l.credit + l.credit_au)));
-    const timetableLoad = sum(timetableLecturesWithReview, (l) => (l.load * (l.credit + l.credit_au)));
-    const timetableSpeech = sum(timetableLecturesWithReview, (l) => (l.speech * (l.credit + l.credit_au)));
+    const targetNum = sumBy(timetableLecturesWithReview, (l) => (l.credit + l.credit_au));
+    const timetableGrade = sumBy(timetableLecturesWithReview, (l) => (l.grade * (l.credit + l.credit_au)));
+    const timetableLoad = sumBy(timetableLecturesWithReview, (l) => (l.load * (l.credit + l.credit_au)));
+    const timetableSpeech = sumBy(timetableLecturesWithReview, (l) => (l.speech * (l.credit + l.credit_au)));
     const isGradeMultiFocused = (multipleFocusCode === 'Grade');
     const isLoadMultiFocused = (multipleFocusCode === 'Load');
     const isSpeechMultiFocused = (multipleFocusCode === 'Speech');
