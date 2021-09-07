@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
+import qs from 'qs';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
@@ -22,40 +23,61 @@ class ShareSubSection extends Component {
       setMobileIsTimetableTabsOpenDispatch, setMobileIsLectureListOpenDispatch,
     } = this.props;
 
-    const timetableLectures = selectedTimetable
-      ? selectedTimetable.lectures
-      : [];
     return (
       <div className={classNames('section-content--share', (mobileIsLectureListOpen ? 'mobile-hidden' : ''))}>
         <div>
           { selectedTimetable && year && semester
             ? (
-
               <>
-                <a href={`/api/share/timetable/image?timetable=${selectedTimetable ? selectedTimetable.id : -1}&year=${year}&semester=${semester}`} download>
+                <a
+                  href={`/api/share/timetable/image?timetable=${selectedTimetable.id}&year=${year}&semester=${semester}`}
+                  download
+                >
                   <i className={classNames('icon', 'icon--share-image')} />
                 </a>
-                <a style={{ display: 'none' }} href={`/api/share/timetable/calendar?timetable=${selectedTimetable ? selectedTimetable.id : -1}&year=${year}&semester=${semester}`} target="_blank" rel="noopener noreferrer">
+                <a
+                  style={{ display: 'none' }}
+                  href={`/api/share/timetable/calendar?timetable=${selectedTimetable.id}&year=${year}&semester=${semester}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <i className={classNames('icon', 'icon--share-googlecalendar')} />
                 </a>
-                <a href={`/api/share/timetable/ical?timetable=${selectedTimetable ? selectedTimetable.id : -1}&year=${year}&semester=${semester}`} download>
+                <a
+                  href={`/api/share/timetable/ical?timetable=${selectedTimetable.id}&year=${year}&semester=${semester}`}
+                  download
+                >
                   <i className={classNames('icon', 'icon--share-icalendar')} />
                 </a>
-                <Link to={{ pathname: '/timetable/syllabus', state: { lectures: timetableLectures } }}>
+                <Link
+                  to={{
+                    pathname: '/timetable/syllabus',
+                    search: qs.stringify({ timetable: (selectedTimetable.id), year: year, semester: semester }),
+                  }}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <i className={classNames('icon', 'icon--share-syllabus')} />
                 </Link>
               </>
             )
             : (
               <>
-                <span className={classNames('disabled')}><i className={classNames('icon', 'icon--share-image')} /></span>
-                <span style={{ display: 'none' }} className={classNames('disabled')}><i className={classNames('icon', 'icon--share-googlecalendar')} /></span>
-                <span className={classNames('disabled')}><i className={classNames('icon', 'icon--share-icalendar')} /></span>
-                <span className={classNames('disabled')}><i className={classNames('icon', 'icon--share-syllabus')} /></span>
+                <span className={classNames('disabled')}>
+                  <i className={classNames('icon', 'icon--share-image')} />
+                </span>
+                <span style={{ display: 'none' }} className={classNames('disabled')}>
+                  <i className={classNames('icon', 'icon--share-googlecalendar')} />
+                </span>
+                <span className={classNames('disabled')}>
+                  <i className={classNames('icon', 'icon--share-icalendar')} />
+                </span>
+                <span className={classNames('disabled')}>
+                  <i className={classNames('icon', 'icon--share-syllabus')} />
+                </span>
               </>
             )
           }
-
         </div>
         <div>
           <button onClick={() => setMobileIsTimetableTabsOpenDispatch(true)} className={classNames('text-button', 'text-button--black')}>

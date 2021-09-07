@@ -87,7 +87,7 @@ class App extends Component {
           .reduce((acc, val) => Object.assign({}, acc, { [val[0]]: val[1] }), {});
       }
 
-      if (/^[0-9]+$/.test(object)) {
+      if (/^-?[0-9]+$/.test(object)) {
         return parseInt(object, 10);
       }
 
@@ -134,7 +134,15 @@ class App extends Component {
                   : <TimetablePage {...props} />
               )}
             />
-            <Route exact path="/timetable/syllabus" component={SyllabusPage} />
+            <Route
+              exact
+              path="/timetable/syllabus"
+              render={(props) => (
+                props.location.search
+                  ? <Redirect to={{ ...props.location, state: { ...props.location.state, ...parseQueryString(props.location.search) }, search: '' }} />
+                  : <SyllabusPage {...props} />
+              )}
+            />
             <Route
               exact
               path="/write-reviews"
