@@ -22,9 +22,6 @@ class ShareSubSection extends Component {
       setMobileIsTimetableTabsOpenDispatch, setMobileIsLectureListOpenDispatch,
     } = this.props;
 
-    const timetableLectures = selectedTimetable
-      ? selectedTimetable.lectures
-      : [];
     return (
       <div className={classNames('section-content--share', (mobileIsLectureListOpen ? 'mobile-hidden' : ''))}>
         <div>
@@ -41,7 +38,12 @@ class ShareSubSection extends Component {
                 <a href={`/api/share/timetable/ical?timetable=${selectedTimetable ? selectedTimetable.id : -1}&year=${year}&semester=${semester}`} download>
                   <i className={classNames('icon', 'icon--share-icalendar')} />
                 </a>
-                <Link to={{ pathname: '/timetable/syllabus', state: { lectures: timetableLectures } }}>
+                <Link
+                  to={{
+                    pathname: '/timetable/syllabus',
+                    state: { timetable: (selectedTimetable ? selectedTimetable.id : -1), year: year, semester: semester },
+                  }}
+                >
                   <i className={classNames('icon', 'icon--share-syllabus')} />
                 </Link>
               </>
