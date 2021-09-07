@@ -87,7 +87,7 @@ class App extends Component {
           .reduce((acc, val) => Object.assign({}, acc, { [val[0]]: val[1] }), {});
       }
 
-      if (/^[0-9]+$/.test(object)) {
+      if (/^-?[0-9]+$/.test(object)) {
         return parseInt(object, 10);
       }
 
