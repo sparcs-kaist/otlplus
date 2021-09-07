@@ -151,7 +151,6 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 DictionaryPage.propTypes = {
-  courseFocus: courseFocusShape.isRequired,
   location: PropTypes.shape({
     state: PropTypes.shape({
       startCourseId: PropTypes.number,
@@ -159,6 +158,8 @@ DictionaryPage.propTypes = {
       startSearchKeyword: PropTypes.string,
     }),
   }).isRequired,
+
+  courseFocus: courseFocusShape.isRequired,
 
   resetCourseFocusDispatch: PropTypes.func.isRequired,
   resetListDispatch: PropTypes.func.isRequired,
