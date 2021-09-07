@@ -28,7 +28,7 @@ import timetableShape from '../../../shapes/TimetableShape';
 import {
   inTimetable, inCart,
   getProfessorsFullStr, getClassroomStr, getExamFullStr,
-  performAddToTable, performDeleteFromTable, performAddToCart, performDeleteFromCart,
+  performAddToTable, performDeleteFromTable, performAddToCart, performDeleteFromCart, getSyllabusUrl,
 } from '../../../common/lectureFunctions';
 import lectureListsShape from '../../../shapes/LectureListsShape';
 
@@ -267,7 +267,7 @@ class LectureDetailSection extends Component {
           </div>
           <div className={classNames('buttons')}>
             <button onClick={this.unfix} className={classNames('text-button', (shouldShowUnfix ? '' : 'text-button--disabled'))}>{t('ui.button.unfix')}</button>
-            <a className={classNames('text-button', 'text-button--right')} href={`https://cais.kaist.ac.kr/syllabusInfo?year=${lectureFocus.lecture.year}&term=${lectureFocus.lecture.semester}&subject_no=${lectureFocus.lecture.code}&lecture_class=${lectureFocus.lecture.class_no}&dept_id=${lectureFocus.lecture.department}`} target="_blank" rel="noopener noreferrer">
+            <a className={classNames('text-button', 'text-button--right')} href={getSyllabusUrl(lectureFocus.lecture)} target="_blank" rel="noopener noreferrer">
               {t('ui.button.syllabus')}
             </a>
             <Link className={classNames('text-button', 'text-button--right')} to={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: lectureFocus.lecture.course }) }} target="_blank" rel="noopener noreferrer">

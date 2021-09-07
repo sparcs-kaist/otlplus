@@ -150,6 +150,10 @@ export const getColorNumber = (lecture) => (
   (lecture.course % 16) + 1
 );
 
+export const getSyllabusUrl = (lecture) => (
+  `https://cais.kaist.ac.kr/syllabusInfo?year=${lecture.year}&term=${lecture.semester}&subject_no=${lecture.code}&lecture_class=${lecture.class_no}&dept_id=${lecture.department}`
+);
+
 export const performAddToTable = (caller,
   lecture, selectedTimetable, user, fromString,
   addLectureToTimetableDispatch) => {
