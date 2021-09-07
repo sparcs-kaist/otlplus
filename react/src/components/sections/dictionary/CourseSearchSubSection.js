@@ -185,7 +185,7 @@ class CourseSearchSubSection extends Component {
       selectedTypes, selectedDepartments, selectedLevels, selectedTerms,
     } = this.state;
 
-    const departmentOptions = getSotredDepartmentOptions(t);
+    const departmentOptions = getSotredDepartmentOptions();
 
     return (
       <div className={classNames('search-area')}>

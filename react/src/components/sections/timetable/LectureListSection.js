@@ -283,7 +283,7 @@ class LectureListSection extends Component {
           return e[1].map((c) => t(getNameKeyOfValue(typeOptions, c)));
         }
         if (e[0] === 'department' && !e[1].includes('ALL')) {
-          return e[1].map((c) => t(getNameKeyOfValue(getSotredDepartmentOptions(t), c)));
+          return e[1].map((c) => t(getNameKeyOfValue(getSotredDepartmentOptions(), c)));
         }
         if (e[0] === 'grade' && !e[1].includes('ALL')) {
           return e[1].map((c) => t(getNameKeyOfValue(levelOptions, c)));

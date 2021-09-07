@@ -1,3 +1,5 @@
+import i18n from 'i18next';
+
 
 export const typeOptions = [
   ['ALL', 'ui.type.allShort'],
@@ -11,7 +13,7 @@ export const typeOptions = [
 
 
 // eslint-disable-next-line fp/no-mutating-methods
-export const getSotredDepartmentOptions = (t) => ([
+export const getSotredDepartmentOptions = () => ([
   ['ALL', 'ui.department.allShort', 100],
   ['HSS', 'ui.department.hssShort', 200],
   ['CE', 'ui.department.ceShort', 500], ['MSB', 'ui.department.msbShort', 500],
@@ -29,7 +31,7 @@ export const getSotredDepartmentOptions = (t) => ([
     if (a[2] !== b[2]) {
       return a[2] - b[2];
     }
-    return (t(a[1]) < t(b[1])) ? -1 : 1;
+    return (i18n.t(a[1]) < i18n.t(b[1])) ? -1 : 1;
   })
   .map((o) => o.slice(0, 2))
 );

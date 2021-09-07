@@ -213,7 +213,7 @@ class LectureSearchSubSection extends Component {
     } = this.state;
     const { start, end, day } = this.props;
 
-    const departmentOptions = getSotredDepartmentOptions(t);
+    const departmentOptions = getSotredDepartmentOptions();
 
     return (
       <div className={classNames('search-area')}>
