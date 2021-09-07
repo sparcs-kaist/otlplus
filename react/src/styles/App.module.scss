@@ -3255,7 +3255,7 @@ i.icon {
     &--tab-basic {
         width: 13px;
         height: 13px;
-        background-image: url(../static/icons/tab_basic.svg); // TODO: Add and change to basic icon
+        background-image: url(../static/icons/tab_basic.svg);
 
         *:hover > &,
         *.tabs__elem--selected > & {
