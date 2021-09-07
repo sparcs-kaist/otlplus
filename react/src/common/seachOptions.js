@@ -11,30 +11,6 @@ export const typeOptions = [
 
 
 // eslint-disable-next-line fp/no-mutating-methods
-export const departmentOptions = [
-  ['ALL', 'ui.department.allShort', 100],
-  ['HSS', 'ui.department.hssShort', 200],
-  ['CE', 'ui.department.ceShort', 500], ['MSB', 'ui.department.msbShort', 500],
-  ['ME', 'ui.department.meShort', 500], ['PH', 'ui.department.phShort', 500],
-  ['BiS', 'ui.department.bisShort', 500], ['IE', 'ui.department.ieShort', 500],
-  ['ID', 'ui.department.idShort', 500], ['BS', 'ui.department.bsShort', 500],
-  ['MAS', 'ui.department.masShort', 500], ['NQE', 'ui.department.nqeShort', 500],
-  ['EE', 'ui.department.eeShort', 500], ['CS', 'ui.department.csShort', 500],
-  ['AE', 'ui.department.aeShort', 500], ['CH', 'ui.department.chShort', 500],
-  ['CBE', 'ui.department.cbeShort', 500], ['MS', 'ui.department.msShort', 500],
-  ['TS', 'ui.department.tsShort', 500],
-  ['ETC', 'ui.department.etcShort', 900],
-]
-  .sort((a, b) => {
-    if (a[2] !== b[2]) {
-      return a[2] - b[2];
-    }
-    return (a[0] < b[0]) ? -1 : 1;
-  })
-  .map((o) => o.slice(0, 2));
-
-
-// eslint-disable-next-line fp/no-mutating-methods
 export const getSotredDepartmentOptions = (t) => ([
   ['ALL', 'ui.department.allShort', 100],
   ['HSS', 'ui.department.hssShort', 200],
