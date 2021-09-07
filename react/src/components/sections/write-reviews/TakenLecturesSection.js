@@ -14,8 +14,8 @@ import {
   LECTURE, LATEST, MY, LIKED, RANKED,
 } from '../../../reducers/write-reviews/reviewsFocus';
 
-import { unique, sum } from '../../../common/utilFunctions';
-import { getSemesterName } from '../../../common/semesterFunctions';
+import { unique, sum } from '../../../utils/commonUtils';
+import { getSemesterName } from '../../../utils/semesterUtils';
 
 import userShape from '../../../shapes/UserShape';
 import lectureShape from '../../../shapes/LectureShape';

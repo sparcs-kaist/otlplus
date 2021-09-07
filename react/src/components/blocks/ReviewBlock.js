@@ -6,12 +6,12 @@ import axios from 'axios';
 import ReactGA from 'react-ga';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
-import { getProfessorsShortStr } from '../../common/lectureFunctions';
-import { getSingleScoreLabel } from '../../common/scoreFunctions';
+import { getProfessorsShortStr } from '../../utils/lectureUtils';
+import { getSingleScoreLabel } from '../../utils/scoreUtils';
 
 import reviewShape from '../../shapes/ReviewShape';
-import { formatNewlineToBr } from '../../common/utilFunctions';
-import { getSemesterName } from '../../common/semesterFunctions';
+import { formatNewlineToBr } from '../../utils/commonUtils';
+import { getSemesterName } from '../../utils/semesterUtils';
 
 
 const ReviewBlock = ({

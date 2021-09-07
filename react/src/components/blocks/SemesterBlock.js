@@ -6,7 +6,7 @@ import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 
 import semesterShape from '../../shapes/SemesterShape';
 
-import { getSemesterName } from '../../common/semesterFunctions';
+import { getSemesterName } from '../../utils/semesterUtils';
 
 
 const SemesterBlock = ({

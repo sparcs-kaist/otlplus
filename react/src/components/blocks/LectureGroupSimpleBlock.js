@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
-import { getProfessorsShortStr } from '../../common/lectureFunctions';
+import { getProfessorsShortStr } from '../../utils/lectureUtils';
 
 import lectureShape from '../../shapes/LectureShape';
 

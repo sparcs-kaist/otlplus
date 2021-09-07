@@ -4,7 +4,7 @@ import i18n from 'i18next';
 
 import { LIST, TABLE, MULTIPLE } from '../reducers/timetable/lectureFocus';
 
-import { getStr as getStrOfExamtime } from './examtimeFunctions';
+import { getStr as getStrOfExamtime } from './examtimeUtils';
 
 
 export const isSpecialLecture = (lecture) => {

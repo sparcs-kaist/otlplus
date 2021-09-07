@@ -15,7 +15,7 @@ import { updateUserReview } from '../../../actions/common/user';
 
 import courseFocusShape from '../../../shapes/CourseFocusShape';
 import userShape from '../../../shapes/UserShape';
-import { calcAverage, getAverageScoreLabel } from '../../../common/scoreFunctions';
+import { calcAverage, getAverageScoreLabel } from '../../../utils/scoreUtils';
 
 
 class ReviewsSubSection extends Component {

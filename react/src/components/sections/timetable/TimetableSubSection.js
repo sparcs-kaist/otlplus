@@ -23,7 +23,7 @@ import {
   inTimetable,
   isFocused, isTableClicked, isDimmedTableLecture,
   performDeleteFromTable,
-} from '../../../common/lectureFunctions';
+} from '../../../utils/lectureUtils';
 
 
 class TimetableSubSection extends Component {

@@ -27,8 +27,8 @@ import lectureFocusShape from '../../../shapes/LectureFocusShape';
 import {
   isListClicked,
   performAddToTable, performAddToCart, performDeleteFromCart,
-} from '../../../common/lectureFunctions';
-import { isTaken } from '../../../common/courseFunctions';
+} from '../../../utils/lectureUtils';
+import { isTaken } from '../../../utils/courseUtils';
 import LectureGroupBlock from '../../blocks/LectureGroupBlock';
 import {
   getNameKeyOfValue, departmentOptions, typeOptions, levelOptions,

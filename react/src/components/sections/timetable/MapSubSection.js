@@ -14,10 +14,10 @@ import {
   isSingleFocused,
   getBuildingStr, getRoomStr, getColorNumber,
   getOverallLectures,
-} from '../../../common/lectureFunctions';
+} from '../../../utils/lectureUtils';
 
 import mapImage from '../../../static/img/timetable/kaist_map.jpg';
-import { unique } from '../../../common/utilFunctions';
+import { unique } from '../../../utils/commonUtils';
 
 
 class MapSubSection extends Component {

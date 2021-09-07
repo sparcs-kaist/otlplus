@@ -7,7 +7,7 @@ import axios from 'axios';
 import qs from 'qs';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
-import { getAverageScoreLabel } from '../../../common/scoreFunctions';
+import { getAverageScoreLabel } from '../../../utils/scoreUtils';
 
 import Scroller from '../../Scroller';
 import ReviewSimpleBlock from '../../blocks/ReviewSimpleBlock';
@@ -29,7 +29,7 @@ import {
   inTimetable, inCart,
   getProfessorsFullStr, getClassroomStr, getExamFullStr,
   performAddToTable, performDeleteFromTable, performAddToCart, performDeleteFromCart, getSyllabusUrl,
-} from '../../../common/lectureFunctions';
+} from '../../../utils/lectureUtils';
 import lectureListsShape from '../../../shapes/LectureListsShape';
 
 

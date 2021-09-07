@@ -12,7 +12,7 @@ import HorizontalTimetableBlock from '../../blocks/HorizontalTimetableBlock';
 import userShape from '../../../shapes/UserShape';
 import semesterShape from '../../../shapes/SemesterShape';
 
-import { getOngoingSemester } from '../../../common/semesterFunctions';
+import { getOngoingSemester } from '../../../utils/semesterUtils';
 
 
 class TodaysTimetableSection extends Component {

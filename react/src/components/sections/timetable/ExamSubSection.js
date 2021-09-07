@@ -13,8 +13,8 @@ import lectureFocusShape from '../../../shapes/LectureFocusShape';
 import timetableShape from '../../../shapes/TimetableShape';
 import {
   getOverallLectures, isSingleFocused,
-} from '../../../common/lectureFunctions';
-import { getTimeStr } from '../../../common/examtimeFunctions';
+} from '../../../utils/lectureUtils';
+import { getTimeStr } from '../../../utils/examtimeUtils';
 
 
 class ExamSubSection extends Component {

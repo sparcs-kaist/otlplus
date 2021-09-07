@@ -10,7 +10,7 @@ import userShape from '../shapes/UserShape';
 
 import Scroller from '../components/Scroller';
 
-import { getSyllabusUrl } from '../common/lectureFunctions';
+import { getSyllabusUrl } from '../utils/lectureUtils';
 
 
 class SyllabusPage extends Component {

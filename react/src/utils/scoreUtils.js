@@ -1,4 +1,4 @@
-import { sum } from './utilFunctions';
+import { sum } from './commonUtils';
 
 
 export const getSingleScoreLabel = (score) => (

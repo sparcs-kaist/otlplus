@@ -4,9 +4,9 @@ import { withTranslation } from 'react-i18next';
 import qs from 'qs';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
-import { isSpecialLecture } from '../../common/lectureFunctions';
-import { getSingleScoreLabel } from '../../common/scoreFunctions';
-import { getSemesterName } from '../../common/semesterFunctions';
+import { isSpecialLecture } from '../../utils/lectureUtils';
+import { getSingleScoreLabel } from '../../utils/scoreUtils';
+import { getSemesterName } from '../../utils/semesterUtils';
 
 import reviewShape from '../../shapes/ReviewShape';
 

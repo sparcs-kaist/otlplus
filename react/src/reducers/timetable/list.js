@@ -6,7 +6,7 @@ import {
   SET_MOBILE_IS_LECTURE_LIST_OPEN,
 } from '../../actions/timetable/list';
 
-import { unique } from '../../common/utilFunctions';
+import { unique } from '../../utils/commonUtils';
 
 export const SEARCH = 'search';
 export const BASIC = 'basic';

@@ -8,7 +8,7 @@ import { appBoundClassNames as classNames } from '../../../common/boundClassName
 
 import ReviewBlock from '../../blocks/ReviewBlock';
 
-import { getSemesterName } from '../../../common/semesterFunctions';
+import { getSemesterName } from '../../../utils/semesterUtils';
 
 import { RANKED } from '../../../reducers/write-reviews/reviewsFocus';
 

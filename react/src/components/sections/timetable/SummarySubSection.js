@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
-import { getAverageScoreLabel } from '../../../common/scoreFunctions';
+import { getAverageScoreLabel } from '../../../utils/scoreUtils';
 
 import { clearMultipleFocus, setMultipleFocus } from '../../../actions/timetable/lectureFocus';
 
@@ -13,8 +13,8 @@ import { LIST, TABLE } from '../../../reducers/timetable/lectureFocus';
 import lectureFocusShape from '../../../shapes/LectureFocusShape';
 import timetableShape from '../../../shapes/TimetableShape';
 
-import { inTimetable, getOverallLectures } from '../../../common/lectureFunctions';
-import { sum } from '../../../common/utilFunctions';
+import { inTimetable, getOverallLectures } from '../../../utils/lectureUtils';
+import { sum } from '../../../utils/commonUtils';
 
 
 const indexOfType = (type) => {

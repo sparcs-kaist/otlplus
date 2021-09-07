@@ -6,7 +6,7 @@ import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 import {
   isListClicked, isListFocused, isDimmedListLectureGroup,
   inTimetable, inCart,
-} from '../../common/lectureFunctions';
+} from '../../utils/lectureUtils';
 
 import LectureGroupBlockRow from './LectureGroupBlockRow';
 

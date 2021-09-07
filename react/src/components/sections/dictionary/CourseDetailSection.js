@@ -6,7 +6,7 @@ import { withTranslation } from 'react-i18next';
 import axios from 'axios';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
-import { getAverageScoreLabel } from '../../../common/scoreFunctions';
+import { getAverageScoreLabel } from '../../../utils/scoreUtils';
 
 import Scroller from '../../Scroller';
 import RelatedSubSection from './RelatedSubSection';
