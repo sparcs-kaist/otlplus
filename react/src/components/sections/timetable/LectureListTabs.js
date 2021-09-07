@@ -5,29 +5,50 @@ import { withTranslation } from 'react-i18next';
 import axios from 'axios';
 import ReactGA from 'react-ga';
 
-import { appBoundClassNames as classNames } from '../../common/boundClassNames';
+import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
 import {
-  SEARCH, BASIC, HUMANITY, TAKEN,
-} from '../../reducers/dictionary/list';
+  SEARCH, BASIC, HUMANITY, CART,
+} from '../../../reducers/timetable/list';
 
-import { openSearch, closeSearch } from '../../actions/dictionary/search';
 import {
-  setSelectedListCode, setListCourses,
-} from '../../actions/dictionary/list';
+  setSelectedListCode, setListLectures, clearAllListsLectures,
+} from '../../../actions/timetable/list';
+import { openSearch, closeSearch, setLastSearchOption } from '../../../actions/timetable/search';
 
-import userShape from '../../shapes/UserShape';
-import courseListsShape from '../../shapes/CourseListsShape';
+import userShape from '../../../shapes/UserShape';
+import lectureListsShape from '../../../shapes/LectureListsShape';
 
-import Scroller from '../Scroller';
+import Scroller from '../../Scroller';
 
 
-class CourseListTabs extends Component {
+class LectureListTabs extends Component {
+  componentDidMount() {
+    const { user } = this.props;
+
+    if (user) {
+      this._fetchList(CART, true);
+    }
+  }
+
   componentDidUpdate(prevProps, prevState, snapshot) {
-    const { user, selectedListCode } = this.props;
+    const {
+      user,
+      selectedListCode,
+      year, semester,
+      clearAllListsLecturesDispatch,
+      setLastSearchOptionDispatch,
+    } = this.props;
 
     if (user && !prevProps.user) {
-      if (selectedListCode === TAKEN) {
+      this._fetchList(CART, true);
+    }
+
+    if (year !== prevProps.year || semester !== prevProps.semester) {
+      clearAllListsLecturesDispatch();
+      setLastSearchOptionDispatch({});
+      this._fetchList(CART, true);
+      if (selectedListCode !== CART) {
         this._fetchList(selectedListCode, true);
       }
     }
@@ -43,7 +64,7 @@ class CourseListTabs extends Component {
     if (listCode === SEARCH) {
       return;
     }
-    if (!force && lists[listCode] && lists[listCode].courses) {
+    if (!force && lists[listCode] && lists[listCode].lectureGroups) {
       return;
     }
 
@@ -56,106 +77,133 @@ class CourseListTabs extends Component {
     else if (listCode === HUMANITY) {
       this._performFetchHumanityList();
     }
-    else if (listCode === TAKEN) {
-      this._performFetchTakenList();
+    else if (listCode === CART) {
+      this._performFetchCartList();
     }
   }
 
   _performFetchBasicList = () => {
-    const { setListCoursesDispatch } = this.props;
+    const {
+      year, semester,
+      setListLecturesDispatch,
+    } = this.props;
 
     axios.get(
-      '/api/courses',
+      '/api/lectures',
       {
         params: {
+          year: year,
+          semester: semester,
           group: 'Basic',
-          term: ['3'],
         },
         metadata: {
-          gaCategory: 'Course',
-          gaVariable: 'GET / List',
-        },
-      },
-    )
-      .then((response) => {
-        setListCoursesDispatch(BASIC, response.data);
-      })
-      .catch((error) => {
-      });
-  }
-
-  _performFetchMajorList = (majorCode) => {
-    const { setListCoursesDispatch } = this.props;
-
-    axios.get(
-      '/api/courses',
-      {
-        params: {
-          group: [majorCode],
-          term: ['3'],
-        },
-        metadata: {
-          gaCategory: 'Course',
+          gaCategory: 'Lecture',
           gaVariable: 'GET / List',
         },
       },
     )
       .then((response) => {
         const newProps = this.props;
-        if (!newProps.user.departments.some((d) => (d.code === majorCode))) {
+        if (newProps.year !== year || newProps.semester !== semester) {
           return;
         }
-        setListCoursesDispatch(majorCode, response.data);
+        setListLecturesDispatch(BASIC, response.data);
       })
       .catch((error) => {
       });
   }
 
-  _performFetchHumanityList = () => {
-    const { setListCoursesDispatch } = this.props;
+  _performFetchMajorList = (majorCode) => {
+    const {
+      year, semester,
+      setListLecturesDispatch,
+    } = this.props;
 
     axios.get(
-      '/api/courses',
+      '/api/lectures',
       {
         params: {
-          group: 'Humanity',
-          term: ['3'],
+          year: year,
+          semester: semester,
+          group: [majorCode],
         },
         metadata: {
-          gaCategory: 'Course',
+          gaCategory: 'Lecture',
           gaVariable: 'GET / List',
         },
       },
     )
       .then((response) => {
-        setListCoursesDispatch(HUMANITY, response.data);
+        const newProps = this.props;
+        if ((newProps.year !== year || newProps.semester !== semester)
+          || (!newProps.user.departments.some((d) => (d.code === majorCode)))
+        ) {
+          return;
+        }
+        setListLecturesDispatch(majorCode, response.data);
       })
       .catch((error) => {
       });
   }
 
+  _performFetchHumanityList = (force = false) => {
+    const {
+      year, semester,
+      setListLecturesDispatch,
+    } = this.props;
 
-  _performFetchTakenList = () => {
-    const { user, setListCoursesDispatch } = this.props;
-
-    if (!user) {
-      setListCoursesDispatch(TAKEN, []);
-      return;
-    }
-    setListCoursesDispatch(TAKEN, null);
     axios.get(
-      `/api/users/${user.id}/taken-courses`,
+      '/api/lectures',
       {
         params: {
+          year: year,
+          semester: semester,
+          group: 'Humanity',
         },
         metadata: {
-          gaCategory: 'User',
-          gaVariable: 'GET Taken Courses / Instance',
+          gaCategory: 'Lecture',
+          gaVariable: 'GET / List',
         },
       },
     )
       .then((response) => {
-        setListCoursesDispatch(TAKEN, response.data);
+        const newProps = this.props;
+        if (newProps.year !== year || newProps.semester !== semester) {
+          return;
+        }
+        setListLecturesDispatch(HUMANITY, response.data);
+      })
+      .catch((error) => {
+      });
+  }
+
+  _performFetchCartList = (force = false) => {
+    const {
+      user,
+      year, semester,
+      setListLecturesDispatch,
+    } = this.props;
+
+    if (!user) {
+      setListLecturesDispatch(CART, []);
+      return;
+    }
+    axios.get(
+      `/api/users/${user.id}/wishlist`,
+      {
+        metadata: {
+          gaCategory: 'User',
+          gaVariable: 'GET Wishlist / Instance',
+        },
+      },
+    )
+      .then((response) => {
+        const newProps = this.props;
+        if (newProps.year !== year || newProps.semester !== semester
+        ) {
+          return;
+        }
+        setListLecturesDispatch(CART, response.data.lectures.filter((l) => ((l.year === year) && (l.semester === semester))));
       })
       .catch((error) => {
       });
@@ -170,7 +218,7 @@ class CourseListTabs extends Component {
     setSelectedListCodeDispatch(listCode);
 
     if (listCode === SEARCH) {
-      if (lists[SEARCH].courses && lists[SEARCH].courses.length) {
+      if (lists[SEARCH].lectureGroups && lists[SEARCH].lectureGroups.length) {
         closeSearchDispatch();
       }
       else {
@@ -182,12 +230,12 @@ class CourseListTabs extends Component {
       [SEARCH, 'Search'],
       [BASIC, 'Basic'],
       [HUMANITY, 'Humanity'],
-      [TAKEN, 'Taken'],
+      [CART, 'Cart'],
     ]);
     ReactGA.event({
-      category: 'Dictionary - List',
-      action: 'Switched Course List',
-      label: `Course List : ${labelOfTabs.get(listCode) || listCode}`,
+      category: 'Timetable - List',
+      action: 'Switched Lecture List',
+      label: `Lecture List : ${labelOfTabs.get(listCode) || listCode}`,
     });
   }
 
@@ -217,9 +265,9 @@ class CourseListTabs extends Component {
               <i className={classNames('icon', 'icon--tab-humanity')} />
               <span>{t('ui.tab.humanityShort')}</span>
             </div>
-            <div className={classNames('tabs__elem', (selectedListCode === TAKEN ? 'tabs__elem--selected' : ''))} onClick={() => this.changeTab(TAKEN)}>
-              <i className={classNames('icon', 'icon--tab-taken')} />
-              <span>{t('ui.tab.takenShort')}</span>
+            <div className={classNames('tabs__elem', (selectedListCode === CART ? 'tabs__elem--selected' : ''))} onClick={() => this.changeTab(CART)}>
+              <i className={classNames('icon', 'icon--tab-cart')} />
+              <span>{t('ui.tab.wishlistShort')}</span>
             </div>
           </div>
         </Scroller>
@@ -230,8 +278,10 @@ class CourseListTabs extends Component {
 
 const mapStateToProps = (state) => ({
   user: state.common.user.user,
-  selectedListCode: state.dictionary.list.selectedListCode,
-  lists: state.dictionary.list.lists,
+  selectedListCode: state.timetable.list.selectedListCode,
+  year: state.timetable.semester.year,
+  semester: state.timetable.semester.semester,
+  lists: state.timetable.list.lists,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -244,20 +294,30 @@ const mapDispatchToProps = (dispatch) => ({
   setSelectedListCodeDispatch: (listCode) => {
     dispatch(setSelectedListCode(listCode));
   },
-  setListCoursesDispatch: (code, courses) => {
-    dispatch(setListCourses(code, courses));
+  setListLecturesDispatch: (code, lectures) => {
+    dispatch(setListLectures(code, lectures));
+  },
+  clearAllListsLecturesDispatch: () => {
+    dispatch(clearAllListsLectures());
+  },
+  setLastSearchOptionDispatch: (lastSearchOption) => {
+    dispatch(setLastSearchOption(lastSearchOption));
   },
 });
 
-CourseListTabs.propTypes = {
+LectureListTabs.propTypes = {
   user: userShape,
   selectedListCode: PropTypes.string.isRequired,
-  lists: courseListsShape,
+  year: PropTypes.number,
+  semester: PropTypes.number,
+  lists: lectureListsShape,
 
   openSearchDispatch: PropTypes.func.isRequired,
   closeSearchDispatch: PropTypes.func.isRequired,
   setSelectedListCodeDispatch: PropTypes.func.isRequired,
-  setListCoursesDispatch: PropTypes.func.isRequired,
+  setListLecturesDispatch: PropTypes.func.isRequired,
+  clearAllListsLecturesDispatch: PropTypes.func.isRequired,
+  setLastSearchOptionDispatch: PropTypes.func.isRequired,
 };
 
-export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(CourseListTabs));
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(LectureListTabs));

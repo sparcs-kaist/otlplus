@@ -14,9 +14,9 @@ import {
 } from '../actions/timetable/timetable';
 
 import LectureDetailSection from '../components/sections/timetable/LectureDetailSection';
-import LectureListTabs from '../components/tabs/LectureListTabs';
+import LectureListTabs from '../components/sections/timetable/LectureListTabs';
 import LectureListSection from '../components/sections/timetable/LectureListSection';
-import TimetableTabs from '../components/tabs/TimetableTabs';
+import TimetableTabs from '../components/sections/timetable/TimetableTabs';
 import SemesterSection from '../components/sections/timetable/SemesterSection';
 import TimetableSubSection from '../components/sections/timetable/TimetableSubSection';
 import MapSubSection from '../components/sections/timetable/MapSubSection';

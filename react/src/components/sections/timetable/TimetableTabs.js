@@ -5,17 +5,17 @@ import { withTranslation } from 'react-i18next';
 import axios from 'axios';
 import ReactGA from 'react-ga';
 
-import { appBoundClassNames as classNames } from '../../common/boundClassNames';
+import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
 import {
   setTimetables, clearTimetables, setMyTimetableLectures,
   setSelectedTimetable,
   createTimetable, deleteTimetable, duplicateTimetable,
   setMobileIsTimetableTabsOpen,
-} from '../../actions/timetable/timetable';
+} from '../../../actions/timetable/timetable';
 
-import userShape from '../../shapes/UserShape';
-import timetableShape from '../../shapes/TimetableShape';
+import userShape from '../../../shapes/UserShape';
+import timetableShape from '../../../shapes/TimetableShape';
 
 
 class TimetableTabs extends Component {

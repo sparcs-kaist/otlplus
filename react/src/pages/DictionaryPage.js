@@ -9,7 +9,7 @@ import { SEARCH } from '../reducers/dictionary/list';
 
 import CourseListSection from '../components/sections/dictionary/CourseListSection';
 import CourseDetailSection from '../components/sections/dictionary/CourseDetailSection';
-import CourseListTabs from '../components/tabs/CourseListTabs';
+import CourseListTabs from '../components/sections/dictionary/CourseListTabs';
 
 import {
   reset as resetCourseFocus,
