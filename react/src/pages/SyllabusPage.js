@@ -93,7 +93,7 @@ class SyllabusPage extends Component {
         ? (
           lectures.map((l) => (
             <div className={classNames('tabs__elem', (selectedLecture === l ? 'tabs__elem--selected' : ''))} onClick={() => this.updateShowingLecture(l)}>
-              { l.common_title }
+              { l[t('js.property.title')] }
             </div>
           ))
         )
@@ -108,7 +108,7 @@ class SyllabusPage extends Component {
         ? (
           lectures.map((l) => (
             <iframe src={this._getLectureUrl(l)} title={`syllabus-${l.title}`} key={l.id} style={l.id === selectedLecture.id ? {} : { display: 'none' }}>
-              { l.common_title }
+              { l[t('js.property.title')] }
             </iframe>
           ))
         )
