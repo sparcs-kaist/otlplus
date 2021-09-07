@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
+import { range } from 'lodash';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
@@ -305,7 +306,7 @@ class TimetableSubSection extends Component {
       ? mapLectureToBlocks(tempLecture, true)
       : null;
 
-    const targetMinutes = [...Array((24 - 8) * 2).keys()].map((i) => 8 * 60 + i * 30);
+    const targetMinutes = range(8 * 60, 24 * 60, 30);
     const getColumnHeads = () => {
       const timedArea = targetMinutes.map((i) => {
         const i2 = i + 30;
@@ -317,7 +318,7 @@ class TimetableSubSection extends Component {
         }
         return <div key={i2} />;
       });
-      const untimedArea = [...Array(Math.ceil(untimedBlockTitles.length / 5)).keys()].map((_, i) => (
+      const untimedArea = range(Math.ceil(untimedBlockTitles.length / 5)).map((_, i) => (
         <React.Fragment key={_}>
           <div />
           <div className={classNames('table-head')} />
@@ -355,7 +356,7 @@ class TimetableSubSection extends Component {
           />
         );
       });
-      const untimedArea = [...Array(Math.ceil(untimedBlockTitles.length / 5)).keys()].map((_, i) => (
+      const untimedArea = range(Math.ceil(untimedBlockTitles.length / 5)).map((_, i) => (
         <React.Fragment key={_}>
           <div className={classNames('cell')} />
           <div className={classNames('table-head')}>{untimedBlockTitles[i * 5 + dayIdx]}</div>
