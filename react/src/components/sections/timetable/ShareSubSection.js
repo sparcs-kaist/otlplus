@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
+import qs from 'qs';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
@@ -41,8 +42,10 @@ class ShareSubSection extends Component {
                 <Link
                   to={{
                     pathname: '/timetable/syllabus',
-                    state: { timetable: (selectedTimetable ? selectedTimetable.id : -1), year: year, semester: semester },
+                    search: qs.stringify({ timetable: (selectedTimetable ? selectedTimetable.id : -1), year: year, semester: semester }),
                   }}
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
                   <i className={classNames('icon', 'icon--share-syllabus')} />
                 </Link>
