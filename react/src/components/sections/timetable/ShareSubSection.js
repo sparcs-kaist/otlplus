@@ -28,21 +28,31 @@ class ShareSubSection extends Component {
         <div>
           { selectedTimetable && year && semester
             ? (
-
               <>
-                <a href={`/api/share/timetable/image?timetable=${selectedTimetable ? selectedTimetable.id : -1}&year=${year}&semester=${semester}`} download>
+                <a
+                  href={`/api/share/timetable/image?timetable=${selectedTimetable.id}&year=${year}&semester=${semester}`}
+                  download
+                >
                   <i className={classNames('icon', 'icon--share-image')} />
                 </a>
-                <a style={{ display: 'none' }} href={`/api/share/timetable/calendar?timetable=${selectedTimetable ? selectedTimetable.id : -1}&year=${year}&semester=${semester}`} target="_blank" rel="noopener noreferrer">
+                <a
+                  style={{ display: 'none' }}
+                  href={`/api/share/timetable/calendar?timetable=${selectedTimetable.id}&year=${year}&semester=${semester}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <i className={classNames('icon', 'icon--share-googlecalendar')} />
                 </a>
-                <a href={`/api/share/timetable/ical?timetable=${selectedTimetable ? selectedTimetable.id : -1}&year=${year}&semester=${semester}`} download>
+                <a
+                  href={`/api/share/timetable/ical?timetable=${selectedTimetable.id}&year=${year}&semester=${semester}`}
+                  download
+                >
                   <i className={classNames('icon', 'icon--share-icalendar')} />
                 </a>
                 <Link
                   to={{
                     pathname: '/timetable/syllabus',
-                    search: qs.stringify({ timetable: (selectedTimetable ? selectedTimetable.id : -1), year: year, semester: semester }),
+                    search: qs.stringify({ timetable: (selectedTimetable.id), year: year, semester: semester }),
                   }}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -53,14 +63,21 @@ class ShareSubSection extends Component {
             )
             : (
               <>
-                <span className={classNames('disabled')}><i className={classNames('icon', 'icon--share-image')} /></span>
-                <span style={{ display: 'none' }} className={classNames('disabled')}><i className={classNames('icon', 'icon--share-googlecalendar')} /></span>
-                <span className={classNames('disabled')}><i className={classNames('icon', 'icon--share-icalendar')} /></span>
-                <span className={classNames('disabled')}><i className={classNames('icon', 'icon--share-syllabus')} /></span>
+                <span className={classNames('disabled')}>
+                  <i className={classNames('icon', 'icon--share-image')} />
+                </span>
+                <span style={{ display: 'none' }} className={classNames('disabled')}>
+                  <i className={classNames('icon', 'icon--share-googlecalendar')} />
+                </span>
+                <span className={classNames('disabled')}>
+                  <i className={classNames('icon', 'icon--share-icalendar')} />
+                </span>
+                <span className={classNames('disabled')}>
+                  <i className={classNames('icon', 'icon--share-syllabus')} />
+                </span>
               </>
             )
           }
-
         </div>
         <div>
           <button onClick={() => setMobileIsTimetableTabsOpenDispatch(true)} className={classNames('text-button', 'text-button--black')}>
