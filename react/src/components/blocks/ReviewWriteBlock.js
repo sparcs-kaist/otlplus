@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
-import { getProfessorsShortStr } from '../../common/lectureFunctions';
-import { getSingleScoreLabel } from '../../common/scoreFunctions';
-import { getSemesterName } from '../../common/semesterFunctions';
-import { performSubmitReview } from '../../common/reviewFunctions';
+import { getProfessorsShortStr } from '../../utils/lectureUtils';
+import { getSingleScoreLabel } from '../../utils/scoreUtils';
+import { getSemesterName } from '../../utils/semesterUtils';
+import { performSubmitReview } from '../../utils/reviewUtils';
 
 import lectureShape from '../../shapes/LectureShape';
 import reviewShape from '../../shapes/ReviewShape';

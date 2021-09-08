@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
-import { formatNewlineToBr } from '../../../common/utilFunctions';
+import { formatNewlineToBr } from '../../../utils/commonUtils';
 
 
 class NoticeSection extends Component {

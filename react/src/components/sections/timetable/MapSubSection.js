@@ -14,10 +14,10 @@ import {
   isSingleFocused,
   getBuildingStr, getRoomStr, getColorNumber,
   getOverallLectures,
-} from '../../../common/lectureFunctions';
+} from '../../../utils/lectureUtils';
 
 import mapImage from '../../../static/img/timetable/kaist_map.jpg';
-import { unique } from '../../../common/utilFunctions';
+import { unique } from '../../../utils/commonUtils';
 
 
 class MapSubSection extends Component {
@@ -75,12 +75,12 @@ class MapSubSection extends Component {
     const { multipleFocusBuilding } = this.state;
     const { selectedTimetable, lectureFocus } = this.props;
 
-    const buildings = unique(getOverallLectures(selectedTimetable, lectureFocus).map((l) => getBuildingStr(l)));
+    const buildings = unique(
+      getOverallLectures(selectedTimetable, lectureFocus).map((l) => getBuildingStr(l)),
+    );
     const mapBuildingToBlock = (b) => {
       const lecturesOnBuilding = this._getLecturesOnBuilding(b);
-      const act = lecturesOnBuilding.some((l) => isSingleFocused(l, lectureFocus)) || (multipleFocusBuilding === b)
-        ? 'block--highlighted'
-        : '';
+      const isHighlighted = lecturesOnBuilding.some((l) => isSingleFocused(l, lectureFocus)) || (multipleFocusBuilding === b);
       return (
         <div
           className={classNames('section-content--map__block', `location--${b}`)}
@@ -88,7 +88,7 @@ class MapSubSection extends Component {
           onMouseOver={() => this.setFocusOnMap(b)}
           onMouseOut={() => this.clearFocus()}
         >
-          <div className={classNames('section-content--map__block__box', act)}>
+          <div className={classNames('section-content--map__block__box', (isHighlighted ? 'block--highlighted' : ''))}>
             <span>{b}</span>
             {lecturesOnBuilding.map((l) => {
               const lecAct = isSingleFocused(l, lectureFocus) || (multipleFocusBuilding === b)
@@ -97,8 +97,8 @@ class MapSubSection extends Component {
               return <span className={classNames('background-color--dark', `background-color--${getColorNumber(l)}`, lecAct)} key={l.id} />;
             })}
           </div>
-          <div className={classNames('section-content--map__block__arrow-shadow', act)} />
-          <div className={classNames('section-content--map__block__arrow', act)} />
+          <div className={classNames('section-content--map__block__arrow-shadow', (isHighlighted ? 'block--highlighted' : ''))} />
+          <div className={classNames('section-content--map__block__arrow', (isHighlighted ? 'block--highlighted' : ''))} />
         </div>
       );
     };

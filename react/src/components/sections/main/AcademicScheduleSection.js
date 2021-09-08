@@ -7,7 +7,7 @@ import { appBoundClassNames as classNames } from '../../../common/boundClassName
 
 import semesterShape from '../../../shapes/SemesterShape';
 
-import { getCurrentSchedule, getSemesterName } from '../../../common/semesterFunctions';
+import { getCurrentSchedule, getSemesterName } from '../../../utils/semesterUtils';
 
 
 class AcademicScheduleSection extends Component {
@@ -136,4 +136,5 @@ AcademicScheduleSection.propTypes = {
 };
 
 
+// eslint-disable-next-line max-len
 export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(AcademicScheduleSection));

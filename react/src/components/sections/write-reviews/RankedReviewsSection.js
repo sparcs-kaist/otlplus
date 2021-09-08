@@ -16,7 +16,7 @@ import { clearReviewsFocus } from '../../../actions/write-reviews/reviewsFocus';
 import { addSemesterReviews, setSemesterReviewCount } from '../../../actions/write-reviews/rankedReviews';
 
 import reviewsFocusShape from '../../../shapes/ReviewsFocusShape';
-import { getSemesterName } from '../../../common/semesterFunctions';
+import { getSemesterName } from '../../../utils/semesterUtils';
 import semesterShape from '../../../shapes/SemesterShape';
 
 

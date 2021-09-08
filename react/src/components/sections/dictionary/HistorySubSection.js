@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
+import { range } from 'lodash';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
@@ -68,7 +69,7 @@ class HistorySubSection extends Component {
 
     const startYear = Math.min(...semesterYears, ...lectureYears);
     const endYear = Math.max(...semesterYears, ...lectureYears);
-    const targetYears = [...Array(endYear - startYear + 1).keys()].map((i) => (startYear + i));
+    const targetYears = range(startYear, endYear + 1);
 
     const specialLectures = courseFocus.lectures.filter((l) => (l[t('js.property.class_title')].length > 3));
     const isSpecialLectureCourse = (specialLectures.length / courseFocus.lectures.length) > 0.3;

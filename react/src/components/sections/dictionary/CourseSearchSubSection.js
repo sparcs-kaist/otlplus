@@ -185,7 +185,7 @@ class CourseSearchSubSection extends Component {
       selectedTypes, selectedDepartments, selectedLevels, selectedTerms,
     } = this.state;
 
-    const departmentOptions = getSotredDepartmentOptions(t);
+    const departmentOptions = getSotredDepartmentOptions();
 
     return (
       <div className={classNames('search-area')}>
@@ -279,4 +279,5 @@ CourseSearchSubSection.propTypes = {
 };
 
 
+// eslint-disable-next-line max-len
 export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(CourseSearchSubSection));

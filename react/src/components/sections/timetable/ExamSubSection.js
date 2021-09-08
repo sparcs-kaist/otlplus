@@ -13,8 +13,8 @@ import lectureFocusShape from '../../../shapes/LectureFocusShape';
 import timetableShape from '../../../shapes/TimetableShape';
 import {
   getOverallLectures, isSingleFocused,
-} from '../../../common/lectureFunctions';
-import { getTimeStr } from '../../../common/examtimeFunctions';
+} from '../../../utils/lectureUtils';
+import { getTimeStr } from '../../../utils/examtimeUtils';
 
 
 class ExamSubSection extends Component {
@@ -80,13 +80,12 @@ class ExamSubSection extends Component {
     const { lectureFocus } = this.props;
 
     const mapPairToElem = (lecEtPair) => {
-      const act = (
-        (isSingleFocused(lecEtPair.lecture, lectureFocus) || (multipleFocusDayIndex === lecEtPair.examtime.day))
-          ? 'focused'
-          : ''
+      const isFocused = (
+        isSingleFocused(lecEtPair.lecture, lectureFocus)
+        || (multipleFocusDayIndex === lecEtPair.examtime.day)
       );
       const li = (
-        <li className={classNames(act)} key={lecEtPair.lecture.id}>
+        <li className={classNames(isFocused ? 'focused' : '')} key={lecEtPair.lecture.id}>
           <div>
             {lecEtPair.lecture[t('js.property.title')]}
           </div>

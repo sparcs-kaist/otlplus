@@ -4,14 +4,13 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 
-import { guidelineBoundClassNames as classNames, appBoundClassNames } from '../../common/boundClassNames';
+import { guidelineBoundClassNames as classNames, appBoundClassNames } from '../../boundClassNames';
 
-import userShape from '../../shapes/UserShape';
+import userShape from '../../../shapes/UserShape';
 
-import logoImage from '../../static/img/Services-OTL.svg';
+import logoImage from '../images/Services-OTL.svg';
 
 
-// eslint-disable-next-line import/prefer-default-export
 export const getFullName = (user) => {
   // eslint-disable-next-line no-underscore-dangle
   const _isKorean = (string) => {

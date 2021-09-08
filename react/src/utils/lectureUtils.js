@@ -4,7 +4,7 @@ import i18n from 'i18next';
 
 import { LIST, TABLE, MULTIPLE } from '../reducers/timetable/lectureFocus';
 
-import { getStr as getStrOfExamtime } from './examtimeFunctions';
+import { getStr as getStrOfExamtime } from './examtimeUtils';
 
 
 export const isSpecialLecture = (lecture) => {
@@ -148,6 +148,10 @@ export const getExamFullStr = (lecture) => {
 
 export const getColorNumber = (lecture) => (
   (lecture.course % 16) + 1
+);
+
+export const getSyllabusUrl = (lecture) => (
+  `https://cais.kaist.ac.kr/syllabusInfo?year=${lecture.year}&term=${lecture.semester}&subject_no=${lecture.code}&lecture_class=${lecture.class_no}&dept_id=${lecture.department}`
 );
 
 export const performAddToTable = (caller,

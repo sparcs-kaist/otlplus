@@ -1,4 +1,4 @@
-import { sum } from './utilFunctions';
+import { sumBy } from 'lodash';
 
 
 export const getSingleScoreLabel = (score) => (
@@ -17,10 +17,10 @@ export const getAverageScoreLabel = (score, reviewNum) => {
 export const calcAverage = (reviews) => {
   const nonzeroReviews = reviews.filter((r) => (r.grade !== 0 && r.load !== 0 && r.speech !== 0));
   const reviewNum = reviews.length;
-  const totalWeight = sum(nonzeroReviews.map((r) => (r.like + 1)));
-  const gradeSum = sum(nonzeroReviews.map((r) => (r.like + 1) * r.grade * 3));
-  const loadSum = sum(nonzeroReviews.map((r) => (r.like + 1) * r.load * 3));
-  const speechSum = sum(nonzeroReviews.map((r) => (r.like + 1) * r.speech * 3));
+  const totalWeight = sumBy(nonzeroReviews, (r) => (r.like + 1));
+  const gradeSum = sumBy(nonzeroReviews, (r) => ((r.like + 1) * r.grade * 3));
+  const loadSum = sumBy(nonzeroReviews, (r) => ((r.like + 1) * r.load * 3));
+  const speechSum = sumBy(nonzeroReviews, (r) => ((r.like + 1) * r.speech * 3));
   const grade = (totalWeight !== 0) ? (gradeSum + 0.0) / totalWeight : 0.0;
   const load = (totalWeight !== 0) ? (loadSum + 0.0) / totalWeight : 0.0;
   const speech = (totalWeight !== 0) ? ((speechSum + 0.0) / totalWeight) : 0.0;

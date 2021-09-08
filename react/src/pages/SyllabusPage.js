@@ -10,6 +10,8 @@ import userShape from '../shapes/UserShape';
 
 import Scroller from '../components/Scroller';
 
+import { getSyllabusUrl } from '../utils/lectureUtils';
+
 
 class SyllabusPage extends Component {
   constructor(props) {
@@ -76,10 +78,6 @@ class SyllabusPage extends Component {
     }
   }
 
-  _getLectureUrl = (lecture) => (
-    `https://cais.kaist.ac.kr/syllabusInfo?year=${lecture.year}&term=${lecture.semester}&subject_no=${lecture.code}&lecture_class=${lecture.class_no}&dept_id=${lecture.department}`
-  )
-
   updateShowingLecture = (lecture) => {
     this.setState({ selectedLecture: lecture });
   }
@@ -107,7 +105,7 @@ class SyllabusPage extends Component {
       lectures
         ? (
           lectures.map((l) => (
-            <iframe src={this._getLectureUrl(l)} title={`syllabus-${l.title}`} key={l.id} style={l.id === selectedLecture.id ? {} : { display: 'none' }}>
+            <iframe src={getSyllabusUrl(l)} title={`syllabus-${l.title}`} key={l.id} style={l.id === selectedLecture.id ? {} : { display: 'none' }}>
               { l[t('js.property.title')] }
             </iframe>
           ))

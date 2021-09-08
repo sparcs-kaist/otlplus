@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 import queryString from 'qs';
+import { range } from 'lodash';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
@@ -12,7 +13,7 @@ import HorizontalTimetableBlock from '../../blocks/HorizontalTimetableBlock';
 import userShape from '../../../shapes/UserShape';
 import semesterShape from '../../../shapes/SemesterShape';
 
-import { getOngoingSemester } from '../../../common/semesterFunctions';
+import { getOngoingSemester } from '../../../utils/semesterUtils';
 
 
 class TodaysTimetableSection extends Component {
@@ -71,9 +72,9 @@ class TodaysTimetableSection extends Component {
           <div className={classNames('section-content--todays-timetable__table')}>
             <div>
               {
-                [...Array((24 - 8) * 2).keys()].map((i) => {
+                range(8 * 2, 24 * 2).map((i) => {
                   if (i % 2 === 0) {
-                    const hour = (i / 2) + 8;
+                    const hour = i / 2;
                     const hourValue = ((hour - 1) % 12) + 1;
                     if (hour % 6 === 0) {
                       return <div key={i}><strong>{hourValue}</strong></div>;
@@ -89,15 +90,15 @@ class TodaysTimetableSection extends Component {
             </div>
             <div>
               {
-                [...Array((24 - 8) * 2).keys()].map((i) => {
+                range(8 * 2, 24 * 2).map((i) => {
                   if (i % 2 === 0) {
-                    const hour = (i / 2) + 8;
+                    const hour = i / 2;
                     if (hour % 6 === 0) {
                       return <div className={classNames('hcell-left', 'hcell-bold')} key={i} />;
                     }
                     return <div className={classNames('hcell-left')} key={i} />;
                   }
-                  if (i === (24 - 8) * 2 - 1) {
+                  if (i === 24 * 2 - 1) {
                     return <div className={classNames('hcell-right', 'hcell-last')} key={i} />;
                   }
                   return <div className={classNames('hcell-right')} key={i} />;
@@ -158,4 +159,5 @@ TodaysTimetableSection.propTypes = {
 };
 
 
+// eslint-disable-next-line max-len
 export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(TodaysTimetableSection));

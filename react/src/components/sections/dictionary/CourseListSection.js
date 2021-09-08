@@ -14,7 +14,7 @@ import Scroller from '../../Scroller';
 import CourseSearchSubSection from './CourseSearchSubSection';
 import CourseBlock from '../../blocks/CourseBlock';
 
-import { isClicked, isHovered, isDimmedCourse } from '../../../common/courseFunctions';
+import { isClicked, isHovered, isDimmedCourse } from '../../../utils/courseUtils';
 import { setCourseFocus, clearCourseFocus } from '../../../actions/dictionary/courseFocus';
 import { openSearch } from '../../../actions/dictionary/search';
 
@@ -23,7 +23,7 @@ import courseFocusShape from '../../../shapes/CourseFocusShape';
 import courseListsShape from '../../../shapes/CourseListsShape';
 import userShape from '../../../shapes/UserShape';
 import {
-  getNameKeyOfValue, departmentOptions, typeOptions, levelOptions, termOptions,
+  getNameKeyOfValue, getSotredDepartmentOptions, typeOptions, levelOptions, termOptions,
 } from '../../../common/seachOptions';
 
 
@@ -145,7 +145,7 @@ class CourseListSection extends Component {
           return e[1].map((c) => t(getNameKeyOfValue(typeOptions, c)));
         }
         if (e[0] === 'department' && !e[1].includes('ALL')) {
-          return e[1].map((c) => t(getNameKeyOfValue(departmentOptions, c)));
+          return e[1].map((c) => t(getNameKeyOfValue(getSotredDepartmentOptions(), c)));
         }
         if (e[0] === 'grade' && !e[1].includes('ALL')) {
           return e[1].map((c) => t(getNameKeyOfValue(levelOptions, c)));

@@ -10,7 +10,7 @@ import { setSemester } from '../../../actions/timetable/semester';
 
 import semesterShape from '../../../shapes/SemesterShape';
 
-import { getTimetableSemester, getSemesterName } from '../../../common/semesterFunctions';
+import { getTimetableSemester, getSemesterName } from '../../../utils/semesterUtils';
 
 
 class SemesterSection extends Component {
