@@ -36,14 +36,14 @@ $ python manage.py migrate
 ```
 
 ### SPARCS SSO 설정
-SSO 설정 방법은 변경될 수 있습니다. SSO 공식 설정 방법을 참고하세요.
+SSO 설정 방법은 변경될 수 있습니다. SSO 공식 설정 방법을 참고하세요.  
 URL: `sparcssso.kaist.ac.kr > Dev Center > Test Services > Register`
-> Alias: (Any name)
-> Main URL: http://localhost:8000
-> Login Callback URL: http://localhost:8000/session/login/callback
-> Unregister URL: http://localhost:8000/session/unregister
-> Cooltime: 0
->
+> Alias: (Any name)  
+> Main URL: http://localhost:8000  
+> Login Callback URL: http://localhost:8000/session/login/callback  
+> Unregister URL: http://localhost:8000/session/unregister  
+> Cooltime: 0  
+> 
 Working directory: `PROJECT_ROOT`
 ```shell
 $ vi settings_local.py
