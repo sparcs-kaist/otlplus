@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import axios from 'axios';
 import qs from 'qs';
 
-import Header from './components/guideline/Header';
+import Header from './common/guideline/components/Header';
 import DictionaryPage from './pages/DictionaryPage';
 import TimetablePage from './pages/TimetablePage';
 import WriteReviewsPage from './pages/WriteReviewsPage';

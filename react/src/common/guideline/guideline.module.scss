@@ -239,9 +239,9 @@ header, footer {
             vertical-align: top;
             display: inline-block;
             background: none no-repeat center center;
-            background-image: url('../static/icons/guideline/header_#{$name}.svg');
+            background-image: url('./icons/header_#{$name}.svg');
             @at-root .no-background i.icon--header_#{$name} {
-                background-image: url('../static/icons/guideline/header_#{$name}_light.svg');
+                background-image: url('./icons/header_#{$name}_light.svg');
             }
         }
     }

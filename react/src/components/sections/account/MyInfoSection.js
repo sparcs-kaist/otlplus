@@ -6,7 +6,7 @@ import { appBoundClassNames as classNames } from '../../../common/boundClassName
 
 import userShape from '../../../shapes/UserShape';
 
-import { getFullName } from '../../guideline/Header';
+import { getFullName } from '../../../common/guideline/components/Header';
 
 
 class CourseDetailSection extends Component {

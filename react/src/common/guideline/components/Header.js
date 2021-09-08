@@ -4,11 +4,11 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 
-import { guidelineBoundClassNames as classNames, appBoundClassNames } from '../../common/boundClassNames';
+import { guidelineBoundClassNames as classNames, appBoundClassNames } from '../../boundClassNames';
 
-import userShape from '../../shapes/UserShape';
+import userShape from '../../../shapes/UserShape';
 
-import logoImage from '../../static/img/Services-OTL.svg';
+import logoImage from '../images/Services-OTL.svg';
 
 
 export const getFullName = (user) => {

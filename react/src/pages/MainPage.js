@@ -6,7 +6,7 @@ import { range } from 'lodash';
 
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
 
-import Footer from '../components/guideline/Footer';
+import Footer from '../common/guideline/components/Footer';
 import TodaysTimetableSection from '../components/sections/main/TodaysTimetableSection';
 import AcademicScheduleSection from '../components/sections/main/AcademicScheduleSection';
 import RelatedCourseFeedSection from '../components/sections/main/RelatedCourseFeedSection';

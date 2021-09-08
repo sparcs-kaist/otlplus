@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 
-import { guidelineBoundClassNames as classNames } from '../../common/boundClassNames';
+import { guidelineBoundClassNames as classNames } from '../../boundClassNames';
 
-import logoImage from '../../static/img/SPARCS_black.svg';
+import logoImage from '../images/SPARCS_black.svg';
 
 
 class Footer extends Component {
