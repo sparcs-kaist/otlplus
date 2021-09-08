@@ -36,14 +36,14 @@ $ python manage.py migrate
 ```
 
 ### SPARCS SSO 설정
-SSO 설정 방법은 변경될 수 있습니다. SSO 공식 설정 방법을 참고하세요.  
+SSO 설정 방법은 변경될 수 있습니다. SSO 공식 설정 방법을 참고하세요.
 URL: `sparcssso.kaist.ac.kr > Dev Center > Test Services > Register`
-> Alias: (Any name)  
-> Main URL: http://localhost:8000  
-> Login Callback URL: http://localhost:8000/session/login/callback  
-> Unregister URL: http://localhost:8000/session/unregister  
-> Cooltime: 0  
-> 
+> Alias: (Any name)
+> Main URL: http://localhost:8000
+> Login Callback URL: http://localhost:8000/session/login/callback
+> Unregister URL: http://localhost:8000/session/unregister
+> Cooltime: 0
+>
 Working directory: `PROJECT_ROOT`
 ```shell
 $ vi settings_local.py
@@ -54,7 +54,7 @@ File: `PROJECT_ROOT/settings_local.py`
 # ...
 
 SSO_IS_BETA = False
-SSO_CLIENT_ID = "test0000000000000000" # SSO의 'Name' 필드
+SSO_CLIENT_ID = "test0000000000000000" # SSO의 'Name' (또는 'Client ID') 필드
 SSO_SECRET_KEY = "00000000000000000000" # SSO의 'Secret Key' 필드
 ```
 
@@ -64,12 +64,26 @@ Working directory: `PROJECT_ROOT/react`
 # 패키지 설치
 $ npm install
 
+# 개발 서버 실행
+$ npm start
+
 # 프로젝트 빌드
 $ npm run build
 ```
+
+#### node-sass 설치 시 오류가 발생한다면
+1. [node-sass 호환 node.js 버전](https://github.com/sass/node-sass#node-version-support-policy)을 확인해서 적절한 버전을 사용
+2. `gyp: No Xcode or CLT version detected!` 라는 메시지와 함께 설치에 실패한다면 [관련 이슈](https://github.com/schnerd/d3-scale-cluster/issues/7)의 코멘트 참고
 
 ### 서버 실행
 Working directory: `PROJECT_ROOT`
 ```shell
 $ python manage.py runserver 0.0.0.0:8000
+```
+
+#### mysqlclient 설치 시 오류가 발생한다면
+mysql@5.7 ([5.7 버전이어야 하는 이유](https://stackoverflow.com/a/50342229)) 을 설치 후 PATH에 해당 실행 파일 디렉터리를 추가한다. 예를 들면 (macOS 기준),
+```shell
+$ brew install mysql@5.7
+$ export PATH="/opt/homebrew/opt/mysql@5.7/bin:$PATH" # add this line to ~/.bashrc, .zshrc, etc.
 ```
