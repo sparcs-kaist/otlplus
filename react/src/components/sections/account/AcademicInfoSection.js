@@ -7,7 +7,7 @@ import { appBoundClassNames as classNames } from '../../../common/boundClassName
 import userShape from '../../../shapes/UserShape';
 
 
-class CourseDetailSection extends Component {
+class AcademicInfoSection extends Component {
   render() {
     const { t } = this.props;
     const { user } = this.props;
@@ -51,9 +51,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
 });
 
-CourseDetailSection.propTypes = {
+AcademicInfoSection.propTypes = {
   user: userShape,
 };
 
 
-export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(CourseDetailSection));
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(AcademicInfoSection));

@@ -9,7 +9,7 @@ import userShape from '../../../shapes/UserShape';
 import { getFullName } from '../../../common/guideline/components/Header';
 
 
-class CourseDetailSection extends Component {
+class MyInfoSection extends Component {
   render() {
     const { t } = this.props;
     const { user } = this.props;
@@ -55,9 +55,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
 });
 
-CourseDetailSection.propTypes = {
+MyInfoSection.propTypes = {
   user: userShape,
 };
 
 
-export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(CourseDetailSection));
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(MyInfoSection));
