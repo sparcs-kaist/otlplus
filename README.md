@@ -1,9 +1,12 @@
 # OTL PLUS
 Online Timeplanner with Lectures Plus @ KAIST https://otl.kaist.ac.kr/
 
-# 공용 드라이브
-https://drive.google.com/folderview?id=0By2h7PuCHN8ZUmJ6cjQtQlJUNDA&usp=sharing  
-팀원들에 한해 doc.google.com에 otlplus 공용계정: otlplus.sparcs.org@gmail.com으로 로그인해서 열람하실 수도 있습니다.
+# 채널
+* ~~구글 드라이브 (archived): https://drive.google.com/folderview?id=0By2h7PuCHN8ZUmJ6cjQtQlJUNDA&usp=sharing~~
+  * 팀원들에 한해 doc.google.com에 otlplus 공용계정: otlplus.sparcs.org@gmail.com으로 로그인해서 열람하실 수도 있습니다.
+* Notion: https://www.notion.so/sparcs/OTL-Plus-69724cd9c1434d64ac379e8f6590c885
+* Slack: #otl, #otl-plus, #otl-notify
+* Contact: otlplus@sparcs.org
 
 # 디자인
 * ~~Invision 프로토타입 (deprecated): https://invis.io/7FATPIZHK~~
