@@ -3,7 +3,6 @@ from django.contrib.auth.models import User
 from django.db import models
 
 from .sparcsssov2 import Client
-from .fields import CredentialsField
 from apps.subject.models import Department, Lecture
 
 sso_client = Client(settings.SSO_CLIENT_ID, settings.SSO_SECRET_KEY, is_beta=settings.SSO_IS_BETA)
@@ -25,8 +24,6 @@ class UserProfile(models.Model):
     favorite_departments = models.ManyToManyField("subject.Department", related_name="favoredby_set")
     taken_lectures = models.ManyToManyField("subject.Lecture", related_name="taken_users", blank=True)
     portal_check = models.IntegerField(default=0)
-    google_calendar_id = models.TextField(null=True, blank=True)
-    google_credential = CredentialsField()
     point = 0
     point_updated_time = None
 
