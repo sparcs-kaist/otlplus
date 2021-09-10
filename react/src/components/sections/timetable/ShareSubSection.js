@@ -11,6 +11,7 @@ import { setMobileIsLectureListOpen } from '../../../actions/timetable/list';
 import { setMobileIsTimetableTabsOpen } from '../../../actions/timetable/timetable';
 
 import timetableShape from '../../../shapes/TimetableShape';
+import userShape from '../../../shapes/UserShape';
 
 
 class ShareSubSection extends Component {
@@ -19,6 +20,7 @@ class ShareSubSection extends Component {
     const {
       selectedTimetable,
       year, semester,
+      user,
       mobileIsLectureListOpen,
       setMobileIsTimetableTabsOpenDispatch, setMobileIsLectureListOpenDispatch,
     } = this.props;
@@ -26,7 +28,7 @@ class ShareSubSection extends Component {
     return (
       <div className={classNames('section-content--share', (mobileIsLectureListOpen ? 'mobile-hidden' : ''))}>
         <div>
-          { selectedTimetable && year && semester
+          { user && selectedTimetable && year && semester
             ? (
               <>
                 <a
@@ -100,6 +102,7 @@ const mapStateToProps = (state) => ({
   mobileIsLectureListOpen: state.timetable.list.mobileIsLectureListOpen,
   year: state.timetable.semester.year,
   semester: state.timetable.semester.semester,
+  user: state.common.user.user,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -116,6 +119,7 @@ ShareSubSection.propTypes = {
   mobileIsLectureListOpen: PropTypes.bool.isRequired,
   year: PropTypes.number,
   semester: PropTypes.number,
+  user: userShape,
 
   setMobileIsTimetableTabsOpenDispatch: PropTypes.func.isRequired,
   setMobileIsLectureListOpenDispatch: PropTypes.func.isRequired,
