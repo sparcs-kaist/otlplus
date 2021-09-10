@@ -26,6 +26,10 @@ import jsonpickle
 from oauth2client.client import Credentials
 
 
+# WARNING: Do not delete this file even if you don't impelemt Google Calendar, because it is used by migration file
+# TODO: Fix UnicodeDecodeError
+
+
 class CredentialsField(models.Field):
     """Django ORM field for storing OAuth2 Credentials."""
 
