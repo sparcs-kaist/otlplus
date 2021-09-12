@@ -148,6 +148,6 @@ LOGOUT_URL = "/session/logout/"
 VERSION = "3.2.3.0"
 
 try:
-    from settings_local import *  # noqa: F401, F403
+    from .settings_local import *  # noqa: F401, F403
 except ImportError:
     pass
