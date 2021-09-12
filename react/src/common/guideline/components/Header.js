@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 
 import { guidelineBoundClassNames as classNames, appBoundClassNames } from '../../boundClassNames';
+import API_BASE_URL from '../../apiBaseUrl';
 
 import userShape from '../../../shapes/UserShape';
 
@@ -167,7 +168,7 @@ class Header extends Component {
                     )
                     : (
 
-                      <a href={`/session/login/?next=${window.location.href}`}>
+                      <a href={`${API_BASE_URL}/session/login/?next=${window.location.href}`}>
                         <i className={classNames('icon--header_user')} />
                         <span>
                           {t('ui.menu.signIn')}
