@@ -81,6 +81,7 @@ def user_login(request):
 def login_callback(request):
     state_before = request.session.get("sso_state", None)
     state = request.GET.get("state", None)
+    # TODO: server host 를 유지한채로 행해지는 모든 리디렉트 응답에 대해 새로운 리액트 앱 호스트를 사용한다
     if state_before is None or state_before != state:
         return HttpResponseRedirect("/error/invalid-login")
 

@@ -29,6 +29,17 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_ALL_ORIGINS = DEBUG
+CORS_ALLOWED_ORIGINS = [
+    "https://otl.kaist.ac.kr",
+]
+CSRF_TRUSTED_ORIGINS = [
+    "localhost:3000" if DEBUG else "otl.kaist.ac.kr",
+]
+
+SESSION_COOKIE_SAMESITE = None
+
 # Application definition
 
 INSTALLED_APPS = (
@@ -44,9 +55,11 @@ INSTALLED_APPS = (
     "apps.review.appss.ReviewConfig",
     "apps.subject.appss.SubjectConfig",
     "apps.timetable.appss.TimetableConfig",
+    "corsheaders",
 )
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.locale.LocaleMiddleware",
