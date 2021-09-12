@@ -1,5 +1,6 @@
 apiclient==1.0.4
 Django==2.2.24
+django-cors-headers==3.8.0
 httplib2==0.19.1
 icalendar==4.0.7
 mysqlclient==2.0.3
