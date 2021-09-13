@@ -55,7 +55,7 @@ $section-width-desktop-1v3-left: calc(15vh + 126px);
 $section-width-desktop-1v3-right: calc(
     #{$content-width-desktop}
     - #{$section-margin-lr}
-    - (15vh + 126px)
+    - #{$section-width-desktop-1v3-left}
 );
 $section-width-desktop-2v2: calc(
     (#{$content-width-desktop} - #{$section-margin-lr}) / 2
