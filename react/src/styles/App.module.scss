@@ -71,6 +71,10 @@ $section-height-desktop-lecture-detail: calc(
     + #{$section-padding}
 );
 
+$block-margin: 8px;
+$block-margin-small: 6px;
+$block-padding: 10px;
+$block-padding-small: 8px;
 $block-border-radius: 4px;
 
 $small-block-border-radius: 2px;
@@ -888,7 +892,7 @@ a {
                                 + (6px * 2)
                                 + 1px
                                 + #{$line-height-normal}
-                                + 8px
+                                + #{$block-padding-small}
                             )
                         );
                     }
@@ -909,7 +913,7 @@ a {
                             ) / 2
                             - (
                                 #{$line-height-smaller / 2}
-                                + 8px
+                                + #{$block-padding-small}
                             )
                             + #{$section-padding}
                         );
@@ -1648,8 +1652,8 @@ a {
     font-size: $font-size-normal;
     line-height: $line-height-normal;
     display: block;
-    padding: 10px;
-    margin-bottom: 8px;
+    padding: $block-padding;
+    margin-bottom: $block-margin;
     position: relative;
     overflow: hidden;
     &:last-child {
@@ -1697,10 +1701,10 @@ a {
         position: absolute;
         top: 0;
         right: 0;
-        padding: (8px + ($font-size-normal - $font-size-smaller) / 2)
-                 10px
-                 (6px + ($font-size-normal - $font-size-smaller) / 2)
-                 8px;
+        padding: ($block-padding-small + ($font-size-normal - $font-size-smaller) / 2)
+                 $block-padding
+                 (($block-padding-small - 2px) + ($font-size-normal - $font-size-smaller) / 2)
+                 ($block-padding - 2px);
         background-color: inherit;
         opacity: 0.8;
         &:hover {
@@ -1729,7 +1733,7 @@ a {
 
 
     &--course-simple {
-        padding: 8px 10px;
+        padding: $block-padding-small $block-padding;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -1756,8 +1760,8 @@ a {
 
 
     &--lecture-simple {
-        padding: 8px 10px;
-        margin-right: 8px;
+        padding: $block-padding-small $block-padding;
+        margin-right: $block-margin;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -1843,7 +1847,6 @@ a {
 
 
     &--review-write {
-        padding: 10px;
 
         .section-content--course-detail &:last-child {
             margin-bottom: 0;
@@ -1942,20 +1945,20 @@ a {
 
 
     &--lecture-group {
-        padding: 8px 10px;
-        margin-bottom: 6px;
+        padding: $block-padding-small $block-padding;
+        margin-bottom: $block-margin-small;
 
         &__title {
             margin-bottom: 6px;
         }
 
         &__elem-wrap {
-            margin: 0px -10px;
-            padding: 0 10px 0 18px;
+            margin: 0px (-$block-padding);
+            padding: 0 $block-padding 0 ($block-padding + 8px);
             cursor: pointer;
 
             &:last-child {
-                margin-bottom: -8px;
+                margin-bottom: -$block-padding-small;
                 border-radius:0px 0px $block-border-radius $block-border-radius;
             }
 
@@ -1978,7 +1981,7 @@ a {
             align-items: center;
 
             *:last-child > & {
-                padding-bottom: 8px;
+                padding-bottom: $block-padding-small;
             }
 
             &__texts {
@@ -2038,17 +2041,17 @@ a {
 
 
     &--lecture-group-simple {
-        padding: 8px 10px;
+        padding: $block-padding-small $block-padding;
         margin-bottom: 0;
 
         &__elem-wrap {
-            margin: 0px -10px;
-            padding: 0 10px 0 10px;
+            margin: 0px (-$block-padding);
+            padding: 0 $block-padding 0 $block-padding;
             &:first-child {
-                margin-top: -8px;
+                margin-top: -$block-padding-small;
             }
             &:last-child {
-                margin-bottom: -8px;
+                margin-bottom: -$block-padding-small;
             }
         }
 
@@ -2062,10 +2065,10 @@ a {
 
             *:first-child > & {
                 border-top: none;
-                padding-top: 8px;
+                padding-top: $block-padding-small;
             }
             *:last-child > & {
-                padding-bottom: 8px;
+                padding-bottom: $block-padding-small;
             }
 
             &__texts {
@@ -2217,8 +2220,8 @@ a {
     }
 
     &--review-simple {
-        padding: 8px 10px;
-        margin-bottom: 6px;
+        padding: $block-padding-small $block-padding;
+        margin-bottom: $block-margin-small;
 
         & > div:first-child {
             color: $color-text-lighter;
@@ -2261,9 +2264,8 @@ a {
 
 
     &--project {
-        padding: 8px 10px;
-        margin-right: 8px;
-        margin-bottom: 8px;
+        padding: $block-padding-small $block-padding;
+        margin-right: $block-margin;
         width: 144px;
         text-align: center;
         flex: 1 0 auto;
@@ -2283,9 +2285,8 @@ a {
 
 
     &--semester {
-        padding: 8px 10px;
-        margin-right: 8px;
-        margin-bottom: 8px;
+        padding: $block-padding-small $block-padding;
+        margin-right: $block-margin;
         width: 114px;
         text-align: center;
         flex: 1 0 auto;
