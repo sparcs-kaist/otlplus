@@ -50,6 +50,7 @@ $section-margin-bottom: 12px;
 $section-margin-lr: 12px;
 $section-padding: 12px;
 $section-border-radius: 6px;
+$section-box-shadow: 0 6px 3px -3px $color-section-shadow;
 $section-width-desktop-full: $content-width-desktop;
 $section-width-desktop-1v3-left: calc(15vh + 126px);
 $section-width-desktop-1v3-right: calc(
@@ -70,6 +71,9 @@ $section-height-desktop-lecture-detail: calc(
     + #{$line-height-normal}
     + #{$section-padding}
 );
+
+$tabs-height-horizontal: 27px;
+$tabs-width-vertical: 29px;
 
 $block-margin: 8px;
 $block-margin-small: 6px;
@@ -276,10 +280,77 @@ a {
 
     &--timetable {
         @media #{$media-portrait} {
-            flex-direction: column-reverse;
         }
     }
 }
+
+
+.page-grid {
+    display: grid;
+    @media #{$media-portrait} {
+        width: calc(100% - (#{$section-margin-lr} * 2));
+    }
+
+
+    &--timetable {
+        @media #{$media-landscape} {
+            margin-left: -$tabs-width-vertical;
+            grid-template-columns:
+                $tabs-width-vertical
+                $section-width-desktop-1v3-left
+                $section-margin-lr
+                $section-width-desktop-1v3-right
+            ;
+            grid-template-rows:
+                $tabs-height-horizontal
+                calc(#{$section-height-desktop-lecture-detail} - #{$tabs-height-horizontal})
+                $section-margin-bottom
+                1fr
+                $section-margin-bottom
+            ;
+            grid-template-areas:
+                ".                  lecture-detail .   semester-and-timetable-tabs"
+                ".                  lecture-detail .   timetable-and-infos"
+                ".                  .              .   timetable-and-infos"
+                "lecture-list-tabs  lecture-list   .   timetable-and-infos"
+                ".                  .              .   ."
+            ;
+        }
+        @media #{$media-portrait} {
+            grid-template-columns:
+                1fr
+            ;
+            grid-template-rows:
+                1fr
+                $tabs-height-horizontal
+                $section-margin-bottom
+            ;
+            grid-template-areas:
+                "timetable-and-infos"
+                "timetable-and-infos"
+                "."
+            ;
+            &--mobile-expanded {
+                grid-template-rows:
+                    1fr
+                    $tabs-height-horizontal
+                    $section-margin-bottom
+                    $tabs-height-horizontal
+                    1fr
+                    $section-margin-bottom
+                ;
+                grid-template-areas:
+                    "timetable-and-infos"
+                    "timetable-and-infos"
+                    "."
+                    "lecture-list-tabs"
+                    "lecture-list"
+                    "."
+                ;
+            }
+        } 
+    } 
+} 
 
 
 .main-image {
@@ -514,30 +585,6 @@ a {
     }
 
 
-    &--timetable-tabs {
-        flex: none;
-        margin: 0;
-        display: flex;
-        flex-direction: row;
-
-        & > div {
-            width: 100%;
-            display: flex;
-            flex-direction: row;
-            align-items: flex-start;
-            @media #{$media-portrait} {
-                height: 100%;
-                padding: $section-padding;
-                background-color: $color-section-background;
-                border-radius: $section-border-radius;
-                box-shadow: 0 6px 3px -3px $color-section-shadow;
-                flex-direction: column-reverse;
-                align-items: center;
-            }
-        }
-    }
-
-
     &--syllabus {
         width: 900px + ($section-padding * 2);
         margin-top: 0;
@@ -577,15 +624,6 @@ a {
 
     &--course-list,
     &--lecture-list {
-        @media #{$media-landscape} {
-            position: absolute;
-            vertical-align: top;
-            text-align:right;
-            width: 50px;
-            margin-left: -50px;
-        }
-        @media #{$media-portrait} {
-        }
 
         & .tabs__flexbox {
             @media #{$media-portrait} {
@@ -621,11 +659,14 @@ a {
         }
     }
 
+
+    &--lecture-list {
+        grid-area: lecture-list-tabs;
+    }
+
+
     &--timetable {
-        flex: 1 1 auto;
-        @media #{$media-portrait} {
-            width: 100%;
-        }
+        grid-area: timetable-tabs;
 
         & .tabs__elem {
             display: inline-block;
@@ -718,22 +759,55 @@ a {
     padding: $section-padding;
     background-color: $color-section-background;
     border-radius: $section-border-radius;
-    box-shadow: 0 6px 3px -3px $color-section-shadow;
+    box-shadow: $section-box-shadow;
 
 
     &--with-tabs {
-        display: inline-block;
-        vertical-align: top;
         @media #{$media-landscape} {
             border-top-left-radius: 0;
         }
         @media #{$media-portrait} {
             border-top-left-radius: 0;
             border-top-right-radius: 0;
-            flex: 1 1 auto;
-            height: 0;
         }
     }
+
+    
+    &--mobile-modal {
+        @media #{$media-portrait} {
+            position: absolute;
+            top: $section-margin-top;
+            bottom: calc(#{$section-margin-bottom} * 2 + env(safe-area-inset-bottom));
+            left: calc(#{$section-margin-lr} * 2 + env(safe-area-inset-left));
+            right: calc(#{$section-margin-lr} * 2 + env(safe-area-inset-right));
+            width: initial;
+            height: initial;
+            z-index: 200;
+            box-shadow: $section-box-shadow, 0 0 0 1000px rgba(#000, 0.3);
+        } 
+    } 
+
+
+    &--desktop-transparent {
+        @media #{$media-landscape} {
+            padding: initial !important;
+            background-color: initial;
+            border-radius: initial;
+            background-origin: initial;
+            box-shadow: initial;
+        } 
+    } 
+
+
+    &--mobile-transparent {
+        @media #{$media-portrait} {
+            padding: initial !important;
+            background-color: initial;
+            border-radius: initial;
+            background-origin: initial;
+            box-shadow: initial;
+        } 
+    } 
 
 
     &--feed-placeholder {
@@ -743,29 +817,80 @@ a {
     }
 
 
-    &--timetable {
-        flex: auto;
-        display: flex;
+    &--timetable-and-infos {
+        grid-area: timetable-and-infos;
+        display: grid;
         @media #{$media-landscape} {
-            flex-direction: row;
+            grid-template-columns: 1fr min-content calc(#{$section-width-desktop-1v3-left} - (#{$section-padding} * 2));
+            grid-template-rows: min-content min-content min-content min-content 1fr min-content min-content;
+            grid-template-areas:
+                "timetable  divider-main    map"
+                "timetable  divider-main    divider-sub-1"
+                "timetable  divider-main    summary"
+                "timetable  divider-main    divider-sub-2"
+                "timetable  divider-main    exam"
+                "timetable  divider-main    divider-sub-3"
+                "timetable  divider-main    share"
+            ;
         }
         @media #{$media-portrait} {
-            flex-direction: column;
-            border-top-left-radius: 6px;
-            border-top-right-radius: 6px;
+            grid-template-columns: 1fr;
+            grid-template-rows: 1fr min-content min-content min-content min-content;
+            grid-template-areas:
+                "timetable"
+                "divider-main"
+                "summary"
+                "divider-sub-3"
+                "share"
+            ;
+            border-top-left-radius: $section-border-radius;
+            border-top-right-radius: $section-border-radius;
         }
     }
 
 
+    &--semester-and-timetable-list {
+        display: grid;
+        @media #{$media-landscape} {
+            grid-area: semester-and-timetable-tabs;
+            grid-template-columns: 1fr min-content;
+            grid-template-rows: min-content 1fr;
+            grid-template-areas:
+                "timetable-tabs semester"
+                "timetable-tabs ."
+            ;
+        }
+        @media #{$media-portrait} {
+            grid-template-columns: 1fr min-content 1fr;
+            grid-template-rows: min-content min-content;
+            grid-template-areas:
+                ".              semester        ."
+                "timetable-tabs timetable-tabs  timetable-tabs"a
+            ;
+        } 
+    } 
+
+
+    &--lecture-detail {
+        @media #{$media-landscape} {
+            grid-area: lecture-detail;
+        }
+        @media #{$media-portrait} {
+            
+        } 
+    } 
+
+
     &--lecture-list {
+        grid-area: lecture-list;
         position: relative;
     }
 
 
     &--semester {
+        grid-area: semester;
         height: initial;
         padding: 5px 8px;
-        flex: 0 0 auto;
         font-size: $font-size-small;
         line-height: $line-height-small;
         display: flex;
@@ -777,9 +902,6 @@ a {
             width: 104px;
         }
         @media #{$media-portrait} {
-            padding: 0;
-            background: none;
-            box-shadow: none;
             margin-bottom: 10px;
         }
 
@@ -924,7 +1046,7 @@ a {
     }
 
     &--timetable {
-        flex: 1 1 auto;
+        grid-area: timetable;
         position: relative;
 
         &__table {
@@ -1024,8 +1146,8 @@ a {
     }
 
     &--map {
+        grid-area: map;
         height: initial;
-        flex: 0 0 auto;
 
         & > div {
             position: relative;
@@ -1193,7 +1315,7 @@ a {
     }
 
     &--summary {
-        flex: none;
+        grid-area: summary;
         display: flex;
         flex-direction: column;
         @media #{$media-portrait} {
@@ -1236,7 +1358,7 @@ a {
     }
 
     &--exam {
-        flex: 1 1 auto;
+        grid-area: exam;
         display: flex;
         flex-direction: column;
         min-height: calc(#{$line-height-normal} * 3 + 8px + 2px - #{$section-padding});
@@ -1305,7 +1427,7 @@ a {
     }
 
     &--share {
-        flex: none;
+        grid-area: share;
 
         & > div:first-child {
             float: left;
@@ -1636,7 +1758,7 @@ a {
         background-color: rgba($color-section-background, 0.8);
         z-index: 290;
 
-        .section-wrap--lecture-list & {
+        .section--lecture-list & {
             z-index: 90;
         }
 
@@ -3630,19 +3752,5 @@ i.icon {
 .mobile-unhidden {
     @media #{$media-landscape} {
         display: none !important;
-    }
-}
-
-.mobile-nosize {
-    @media #{$media-portrait} {
-        width: 0;
-        height: 0;
-        padding: 0;
-        margin: 0;
-        flex: none;
-
-        &.section-wrap--timetable-left {
-            margin-left: $section-margin-lr;
-        }
     }
 }
