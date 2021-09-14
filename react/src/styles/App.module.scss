@@ -419,6 +419,41 @@ a {
     } 
 
 
+    &--syllabus {
+        @media #{$media-landscape} {
+            width: calc(900px + #{$section-padding} * 2);
+            grid-template-columns:
+                100%
+            ;
+            grid-template-rows:
+                $tabs-height-horizontal
+                1fr
+                $section-margin-bottom
+            ;
+            grid-template-areas:
+                "syllabus-tabs"
+                "syllabus"
+                "."
+            ;
+        }
+        @media #{$media-portrait} {
+            grid-template-columns:
+                1fr
+            ;
+            grid-template-rows:
+                $tabs-height-horizontal
+                1fr
+                $section-margin-bottom
+            ;
+            grid-template-areas:
+                "syllabus-tabs"
+                "syllabus"
+                "."
+            ;
+        } 
+    } 
+
+
     &--write-reviews {
         @media #{$media-landscape} {
             grid-template-columns:
@@ -870,6 +905,7 @@ a {
 
 
     &--syllabus {
+        grid-area: syllabus-tabs;
         white-space: nowrap;
 
         & .tabs__elem {
@@ -1072,6 +1108,7 @@ a {
 
 
     &--syllabus {
+        grid-area: syllabus;
         flex: auto;
     }
 
