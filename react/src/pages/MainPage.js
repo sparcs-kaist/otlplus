@@ -212,62 +212,56 @@ class MainPage extends Component {
     const mapFeedToSection = (feed, date) => {
       if (feed.type === 'REVIEW_WRITE') {
         return (
-          <div className={classNames('section-wrap', 'section-wrap--feed')} key={`${date.date}-${feed.type}-${feed.lecture.id}`}>
-            <div className={classNames('section')}>
+        // eslint-disable-next-line react/jsx-indent
+            <div className={classNames('section', 'section--feed')} key={`${date.date}-${feed.type}-${feed.lecture.id}`}>
               <ReviewWriteFeedSection
                 lecture={feed.lecture}
                 review={user.reviews.find((r) => (r.lecture.id === feed.lecture.id))}
               />
             </div>
-          </div>
         );
       }
       if (feed.type === 'RELATED_COURSE') {
         return (
-          <div className={classNames('section-wrap', 'section-wrap--feed')} key={`${date.date}-${feed.type}-${feed.course.id}`}>
-            <div className={classNames('section')}>
+        // eslint-disable-next-line react/jsx-indent
+            <div className={classNames('section', 'section--feed')} key={`${date.date}-${feed.type}-${feed.course.id}`}>
               <RelatedCourseFeedSection course={feed.course} />
             </div>
-          </div>
         );
       }
       if (feed.type === 'FAMOUS_MAJOR_REVIEW') {
         return (
-          <div className={classNames('section-wrap', 'section-wrap--feed')} key={`${date.date}-${feed.type}-${feed.department.code}`}>
-            <div className={classNames('section')}>
+        // eslint-disable-next-line react/jsx-indent
+            <div className={classNames('section', 'section--feed')} key={`${date.date}-${feed.type}-${feed.department.code}`}>
               <FamousMajorReviewFeedSection
                 department={feed.department}
                 reviews={feed.reviews}
               />
             </div>
-          </div>
         );
       }
       if (feed.type === 'FAMOUS_HUMANITY_REVIEW') {
         return (
-          <div className={classNames('section-wrap', 'section-wrap--feed')} key={`${date.date}-${feed.type}`}>
-            <div className={classNames('section')}>
+        // eslint-disable-next-line react/jsx-indent
+            <div className={classNames('section', 'section--feed')} key={`${date.date}-${feed.type}`}>
               <FamousHumanityReviewFeedSection reviews={feed.reviews} />
             </div>
-          </div>
         );
       }
       if (feed.type === 'RANKED_REVIEW') {
         return (
-          <div className={classNames('section-wrap', 'section-wrap--feed')} key={`${date.date}-${feed.type}`}>
-            <div className={classNames('section')}>
+        // eslint-disable-next-line react/jsx-indent
+            <div className={classNames('section', 'section--feed')} key={`${date.date}-${feed.type}`}>
               <RankedReviewFeedSection semester={feed.semester} reviews={feed.reviews} />
             </div>
-          </div>
         );
       }
       if (feed.type === 'RATE') {
         return (
-          <div className={classNames('section-wrap', 'section-wrap--feed')} key={`${date.date}-${feed.type}`}>
-            <div className={classNames('section')}>
+        // eslint-disable-next-line react/jsx-indent
+            <div className={classNames('section', 'section--feed')} key={`${date.date}-${feed.type}`}>
               <RateFeedSection rated={feed.rated} />
             </div>
-          </div>
         );
       }
       return null;
@@ -276,32 +270,31 @@ class MainPage extends Component {
     const columnNum = isPortrait ? 1 : 3;
 
     const feeds = [
-      <div className={classNames('section-wrap', 'section-wrap--feed')} key="TODAYS_TIMETABLE">
-        <div className={classNames('section')}>
+      (
+        <div className={classNames('section', 'section--feed')} key="TODAYS_TIMETABLE">
           <TodaysTimetableSection />
         </div>
-      </div>,
-      <div className={classNames('section-wrap', 'section-wrap--feed')} key="ACADEMIC_SCHEDULE">
-        <div className={classNames('section')}>
+      ),
+      (
+        <div className={classNames('section', 'section--feed')} key="ACADEMIC_SCHEDULE">
           <AcademicScheduleSection />
         </div>
-      </div>,
+      ),
       notices
         ? (
           notices.map((n) => (
-            <div className={classNames('section-wrap', 'section-wrap--feed')} key={`${n.start_date}-${n.end_date}-${n.title}`}>
-              <div className={classNames('section')}>
+            // eslint-disable-next-line react/jsx-indent
+              <div className={classNames('section', 'section--feed')} key={`${n.start_date}-${n.end_date}-${n.title}`}>
                 <NoticeSection notice={n} />
               </div>
-            </div>
           ))
         )
         : [],
-      <div className={classNames('section-wrap', 'section-wrap--feed')} key="LATEST_REVIEW">
-        <div className={classNames('section')}>
+      (
+        <div className={classNames('section', 'section--feed')} key="LATEST_REVIEW">
           <LatestReviewSection />
         </div>
-      </div>,
+      ),
       !user
         ? []
         : feedDays.map((d) => d.feeds.map((f) => mapFeedToSection(f, d))),
@@ -311,11 +304,9 @@ class MainPage extends Component {
       <>
         <section className={classNames('main-image')}>
 
-          <div className={classNames('section-wrap', 'section-wrap--main-search')}>
-            <div className={classNames('section')}>
+            <div className={classNames('section', 'section--main-search')}>
               <MainSearchSection />
             </div>
-          </div>
         </section>
         <section className={classNames('content', 'content--main')} ref={this.contentRef}>
           <div className={classNames('page-grid', 'page-grid--main')}>
@@ -326,7 +317,7 @@ class MainPage extends Component {
                   <div style={{ position: 'absolute', width: '100%' }}>
                     {
                       range(10).map((j) => (
-                        <div className={classNames('section', 'section--feed-placeholder')} />
+                        <div className={classNames('section', 'section--feed--placeholder')} />
                       ))
                     }
                   </div>
