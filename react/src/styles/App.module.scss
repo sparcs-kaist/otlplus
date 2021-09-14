@@ -1699,21 +1699,19 @@ a {
 
     &--latest-reviews {
         &__blocks {
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-            margin-right: -8px;
-            margin-bottom: -8px + 12px;
+            display: grid;
+            grid-auto-rows: auto;
+            gap: $block-margin;
+            margin-bottom: 12px;
+            @media #{$media-landscape} {
+                grid-template-columns: repeat(auto-fill, minmax(114px, 1fr));
+            }
+            @media #{$media-portrait} {
+                grid-template-columns: repeat(auto-fill, minmax(94px, 1fr));
+            }
 
-            &__dummy {
-                margin-right: 8px;
-                width: 114px;
-                flex: 1 0 auto;
-                height: 0;
-                @media #{$media-portrait} {
-                    width: 94px;
-                }
-        
+            & > .block {
+                margin: 0;
             }
         }
 
@@ -1881,17 +1879,14 @@ a {
         flex-direction: column;
 
         &__blocks {
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-            margin-right: -8px;
-            margin-bottom: -8px + 12px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(144px, 1fr));
+            grid-auto-rows: auto;
+            gap: $block-margin;
+            margin-bottom: 12px;
 
-            &__dummy {
-                margin-right: 8px;
-                width: 144px;
-                flex: 1 0 auto;
-                height: 0;
+            & > .block {
+                margin: 0;
             }
         }
 
@@ -2074,11 +2069,9 @@ a {
 
     &--lecture-simple {
         padding: $block-padding-small $block-padding;
-        margin-right: $block-margin;
         display: flex;
         flex-direction: column;
         justify-content: center;
-        width: 144px;
         cursor: pointer;
 
         &:not(.block--dimmed):hover {
@@ -2578,10 +2571,7 @@ a {
 
     &--project {
         padding: $block-padding-small $block-padding;
-        margin-right: $block-margin;
-        width: 144px;
         text-align: center;
-        flex: 1 0 auto;
         cursor: pointer;
         &:hover {
             background-color:$color-block-background-dark;
@@ -2599,14 +2589,8 @@ a {
 
     &--semester {
         padding: $block-padding-small $block-padding;
-        margin-right: $block-margin;
-        width: 114px;
         text-align: center;
-        flex: 1 0 auto;
         cursor: pointer;
-        @media #{$media-portrait} {
-            width: 94px;
-        }
 
         &:hover {
             background-color:$color-block-background-dark;
@@ -2984,21 +2968,13 @@ a {
 
 
 .taken-lectures {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    margin-right: -8px;
-    margin-bottom: -8px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(144px, 1fr));
+    grid-auto-rows: auto;
+    gap: $block-margin;
 
-    & > * {
-        flex: 1 0 auto;
-    }
-
-    &__dummy {
-        margin-right: 8px;
-        width: 144px;
-        flex: 1 0 auto;
-        height: 0;
+    & > .block {
+        margin: 0;
     }
 }
 

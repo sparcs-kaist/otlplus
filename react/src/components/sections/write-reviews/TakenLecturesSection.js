@@ -218,11 +218,6 @@ class TakenLecturesSection extends Component {
                         )
                     ))
                   }
-                  <div className={classNames('taken-lectures__dummy')} />
-                  <div className={classNames('taken-lectures__dummy')} />
-                  <div className={classNames('taken-lectures__dummy')} />
-                  <div className={classNames('taken-lectures__dummy')} />
-                  <div className={classNames('taken-lectures__dummy')} />
                 </div>
               </React.Fragment>
             ))

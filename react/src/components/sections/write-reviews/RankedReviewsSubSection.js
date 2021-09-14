@@ -253,9 +253,6 @@ class RankedReviewsSubSection extends Component {
               key={`${s.year}-${s.semester}`}
             />
           )),
-        ...semesters.map((s) => (
-          <div key={`dummy-${s.year}-${s.semester}`} className={classNames('section-content--latest-reviews__blocks__dummy')} />
-        )),
       ];
 
     const subtitle = (selectedSemester === ALL)

@@ -468,9 +468,6 @@ class CreditPage extends Component {
                     key={p.index}
                   />
                 ))}
-                {this.projects.map((p) => (
-                  <div key={p.index} className={classNames('section-content--credit__blocks__dummy')} />
-                ))}
               </div>
               <Scroller key={selectedProjectIndex}>
 
