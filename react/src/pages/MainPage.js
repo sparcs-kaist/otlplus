@@ -87,7 +87,7 @@ class MainPage extends Component {
       return;
     }
 
-    const columns = Array.from(this.contentRef.current.querySelectorAll(`.${classNames('section-wrap--main-column')}`));
+    const columns = Array.from(this.contentRef.current.querySelectorAll(`.${classNames('page-grid--main')} > div`));
 
     if (columns.some((cl) => (cl.lastChild.getBoundingClientRect().top < window.innerHeight + SCROLL_BOTTOM_PADDING))) {
       this._fetchFeeds(this._getPrevDate());
@@ -318,12 +318,12 @@ class MainPage extends Component {
           </div>
         </section>
         <section className={classNames('content', 'content--main')} ref={this.contentRef}>
-          <div className={classNames('section-wrap', 'section-wrap--main-column-wrap')}>
+          <div className={classNames('page-grid', 'page-grid--main')}>
             {
               range(columnNum).map((i) => (
-                <div className={classNames('section-wrap', 'section-wrap--main-column')} key={i}>
+                <div style={{ gridArea: `feeds-column-${i + 1}`, position: 'relative' }} key={i}>
                   { feeds.filter((v, i2) => (i2 % columnNum === i)) }
-                  <div className={classNames('section-wrap', 'section-wrap--feed-placeholder')}>
+                  <div style={{ position: 'absolute', width: '100%' }}>
                     {
                       range(10).map((j) => (
                         <div className={classNames('section', 'section--feed-placeholder')} />
@@ -333,28 +333,28 @@ class MainPage extends Component {
                 </div>
               ))
             }
-          </div>
-          <div className={classNames('main-date')}>
-            {
-              user
-                ? (
-                  <>
-                    <span onClick={() => this._fetchFeeds(this._getPrevDate())}>
-                      {t('ui.button.loadMore')}
-                    </span>
-                  </>
-                )
-                : (
-                  <>
-                    <a href={`/session/login/?next=${window.location.href}`}>
-                      {t('ui.button.signInWithSso')}
-                    </a>
-                    <div>
-                      {t('ui.message.signInForMore')}
-                    </div>
-                  </>
-                )
-            }
+            <div className={classNames('main-date')}>
+              {
+                user
+                  ? (
+                    <>
+                      <span onClick={() => this._fetchFeeds(this._getPrevDate())}>
+                        {t('ui.button.loadMore')}
+                      </span>
+                    </>
+                  )
+                  : (
+                    <>
+                      <a href={`/session/login/?next=${window.location.href}`}>
+                        {t('ui.button.signInWithSso')}
+                      </a>
+                      <div>
+                        {t('ui.message.signInForMore')}
+                      </div>
+                    </>
+                  )
+              }
+            </div>
           </div>
         </section>
         <Footer />

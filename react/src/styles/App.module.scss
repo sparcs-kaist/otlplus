@@ -58,6 +58,9 @@ $section-width-desktop-1v3-right: calc(
     - #{$section-margin-lr}
     - #{$section-width-desktop-1v3-left}
 );
+$section-width-desktop-1v1v1 : calc(
+    (#{$content-width-desktop} - #{$section-margin-lr} * 2) / 3
+);
 $section-width-desktop-2v2: calc(
     (#{$content-width-desktop} - #{$section-margin-lr}) / 2
 );
@@ -223,17 +226,15 @@ a {
     right: -4px;
 }
 
-.masonry-grid {
-    display: flex;
-    width: auto;
-    margin-right: $section-margin-lr;
-}
 
 .content {
     position: relative;
     margin-top: $header-height;
     margin-left: auto;
     margin-right: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     @media #{$media-landscape} {
         width: calc(
             #{$content-width-desktop}
@@ -262,9 +263,9 @@ a {
         bottom: 0;
         left: 0;
         right: 0;
-        display: flex;
         flex-direction: row;
         justify-content: center;
+        align-items: initial;
     }
 
 
@@ -415,6 +416,42 @@ a {
             grid-template-areas:
                 "taken-lectures"
                 "."
+            ;
+        } 
+    } 
+
+
+    &--main {
+        overflow: hidden;
+
+        @media #{$media-landscape} {
+            grid-template-columns:
+                $section-width-desktop-1v1v1
+                $section-margin-lr
+                $section-width-desktop-1v1v1
+                $section-margin-lr
+                $section-width-desktop-1v1v1
+            ;
+            grid-template-rows:
+                max-content
+                min-content
+            ;
+            grid-template-areas:
+                "feeds-column-1 .           feeds-column-2  .           feeds-column-3"
+                "main-date      main-date   main-date       main-date   main-date"
+            ;
+        }
+        @media #{$media-portrait} {
+            grid-template-columns:
+                1fr
+            ;
+            grid-template-rows:
+                max-content
+                min-content
+            ;
+            grid-template-areas:
+                "feeds-column-1"
+                "main-date"
             ;
         } 
     } 
@@ -2742,14 +2779,13 @@ a {
 
 
 .main-date {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
+    grid-area: main-date;
     height: 300px;
     padding: calc(300px / 2 - 24px) 0;
     background-image: linear-gradient(rgba($color-page-background, 0) 80%, rgba($color-page-background, 1));
     color: rgba($color-highlight, 0.5);
     text-align: center;
+    z-index: 50;
 
     & > span:first-child,
     & > a:first-child {
