@@ -75,7 +75,8 @@ $section-height-desktop-lecture-detail: calc(
     + #{$section-padding}
 );
 
-$tabs-height-horizontal: 27px;
+$tabs-height-horizontal-small: 27px;
+$tabs-height-horizontal: 29px;
 $tabs-width-vertical: 29px;
 
 $block-margin: 8px;
@@ -263,6 +264,7 @@ a {
         bottom: 0;
         left: 0;
         right: 0;
+        margin-bottom: $section-margin-bottom;
         flex-direction: row;
         justify-content: center;
         align-items: initial;
@@ -300,24 +302,20 @@ a {
             ;
             grid-template-rows:
                 1fr
-                $section-margin-bottom
             ;
             grid-template-areas:
                 "full"
-                "."
             ;
         }
         @media #{$media-portrait} {
             grid-template-columns:
-                1fr
+                100%
             ;
             grid-template-rows:
                 1fr
-                $section-margin-bottom
             ;
             grid-template-areas:
                 "full"
-                "."
             ;
         }
     }
@@ -333,33 +331,29 @@ a {
                 $section-width-desktop-1v3-right
             ;
             grid-template-rows:
-                $tabs-height-horizontal
-                calc(#{$section-height-desktop-lecture-detail} - #{$tabs-height-horizontal})
+                $tabs-height-horizontal-small
+                calc(#{$section-height-desktop-lecture-detail} - #{$tabs-height-horizontal-small})
                 $section-margin-bottom
                 1fr
-                $section-margin-bottom
             ;
             grid-template-areas:
                 ".                  lecture-detail .   semester-and-timetable-tabs"
                 ".                  lecture-detail .   timetable-and-infos"
                 ".                  .              .   timetable-and-infos"
                 "lecture-list-tabs  lecture-list   .   timetable-and-infos"
-                ".                  .              .   ."
             ;
         }
         @media #{$media-portrait} {
             grid-template-columns:
-                1fr
+                100%
             ;
             grid-template-rows:
                 1fr
                 $tabs-height-horizontal
-                $section-margin-bottom
             ;
             grid-template-areas:
                 "timetable-and-infos"
                 "timetable-and-infos"
-                "."
             ;
             &--mobile-expanded {
                 grid-template-rows:
@@ -368,7 +362,6 @@ a {
                     $section-margin-bottom
                     $tabs-height-horizontal
                     1fr
-                    $section-margin-bottom
                 ;
                 grid-template-areas:
                     "timetable-and-infos"
@@ -376,7 +369,6 @@ a {
                     "."
                     "lecture-list-tabs"
                     "lecture-list"
-                    "."
                 ;
             }
         } 
@@ -394,26 +386,22 @@ a {
             ;
             grid-template-rows:
                 1fr
-                $section-margin-bottom
             ;
             grid-template-areas:
                 "course-list-tabs   course-list .   course-detail"
-                ".                  .           .   ."
             ;
         }
         @media #{$media-portrait} {
             grid-template-columns:
-                1fr
+                100%
             ;
             grid-template-rows:
                 $tabs-height-horizontal
                 1fr
-                $section-margin-bottom
             ;
             grid-template-areas:
                 "course-list-tabs"
                 "course-list"
-                "."
             ;
         } 
     } 
@@ -426,29 +414,25 @@ a {
                 100%
             ;
             grid-template-rows:
-                $tabs-height-horizontal
+                $tabs-height-horizontal-small
                 1fr
-                $section-margin-bottom
             ;
             grid-template-areas:
                 "syllabus-tabs"
                 "syllabus"
-                "."
             ;
         }
         @media #{$media-portrait} {
             grid-template-columns:
-                1fr
+                100%
             ;
             grid-template-rows:
-                $tabs-height-horizontal
+                $tabs-height-horizontal-small
                 1fr
-                $section-margin-bottom
             ;
             grid-template-areas:
                 "syllabus-tabs"
                 "syllabus"
-                "."
             ;
         } 
     } 
@@ -463,24 +447,20 @@ a {
             ;
             grid-template-rows:
                 1fr
-                $section-margin-bottom
             ;
             grid-template-areas:
                 "taken-lectures  .   write-reviews-right"
-                ".              .   ."
             ;
         }
         @media #{$media-portrait} {
             grid-template-columns:
-                1fr
+                100%
             ;
             grid-template-rows:
                 1fr
-                $section-margin-bottom
             ;
             grid-template-areas:
                 "taken-lectures"
-                "."
             ;
         } 
     } 
@@ -508,7 +488,7 @@ a {
         }
         @media #{$media-portrait} {
             grid-template-columns:
-                1fr
+                100%
             ;
             grid-template-rows:
                 max-content
