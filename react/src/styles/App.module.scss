@@ -293,6 +293,36 @@ a {
     }
 
 
+    &--full {
+        @media #{$media-landscape} {
+            grid-template-columns:
+                $section-width-desktop-full
+            ;
+            grid-template-rows:
+                1fr
+                $section-margin-bottom
+            ;
+            grid-template-areas:
+                "full"
+                "."
+            ;
+        }
+        @media #{$media-portrait} {
+            grid-template-columns:
+                1fr
+            ;
+            grid-template-rows:
+                1fr
+                $section-margin-bottom
+            ;
+            grid-template-areas:
+                "full"
+                "."
+            ;
+        }
+    }
+
+
     &--timetable {
         @media #{$media-landscape} {
             margin-left: -$tabs-width-vertical;

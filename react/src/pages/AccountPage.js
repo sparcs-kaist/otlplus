@@ -14,7 +14,7 @@ class AccountPage extends Component {
     const { t } = this.props;
     return (
       <section className={classNames('content', 'content--no-scroll')}>
-        <div className={classNames('section-wrap', 'section-wrap--full')}>
+        <div className={classNames('page-grid', 'page-grid--full')}>
           <div className={classNames('section')}>
             <div className={classNames('section-content', 'section-content--account')}>
               <Scroller expandTop={12}>
