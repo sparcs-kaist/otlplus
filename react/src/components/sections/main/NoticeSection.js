@@ -14,6 +14,8 @@ class NoticeSection extends Component {
     const formattedContent = formatNewlineToBr(notice.content);
 
     return (
+    // eslint-disable-next-line react/jsx-indent
+    <div className={classNames('section', 'section--feed')}>
       <div className={classNames('section-content', 'section-content--notice')}>
         <div className={classNames('title')}>
           { notice.title }
@@ -22,6 +24,7 @@ class NoticeSection extends Component {
           { formattedContent }
         </div>
       </div>
+    </div>
     );
   }
 }

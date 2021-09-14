@@ -160,6 +160,8 @@ class CourseListSection extends Component {
 
     if (selectedListCode === SEARCH) {
       return (
+      // eslint-disable-next-line react/jsx-indent
+      <div className={classNames('section', 'section--course-list', 'section--with-tabs')}>
         <div className={classNames('section-content', 'section-content--flex', 'section-content--course-list')}>
           { searchOpen ? <CourseSearchSubSection /> : null }
           <div className={classNames('title', 'title--search')} onClick={() => this.showSearch()}>
@@ -169,47 +171,60 @@ class CourseListSection extends Component {
           </div>
           { getListElement(this._getCourses(selectedListCode)) }
         </div>
+      </div>
       );
     }
     if (selectedListCode === BASIC) {
       return (
+      // eslint-disable-next-line react/jsx-indent
+      <div className={classNames('section', 'section--course-list', 'section--with-tabs')}>
         <div className={classNames('section-content', 'section-content--flex', 'section-content--course-list')}>
           <div className={classNames('title')}>
             {t('ui.tab.basic')}
           </div>
           { getListElement(this._getCourses(selectedListCode)) }
         </div>
+      </div>
       );
     }
     if (user && user.departments.some((d) => (selectedListCode === d.code))) {
       const department = user.departments.find((d) => (selectedListCode === d.code));
       return (
+      // eslint-disable-next-line react/jsx-indent
+      <div className={classNames('section', 'section--course-list', 'section--with-tabs')}>
         <div className={classNames('section-content', 'section-content--flex', 'section-content--course-list')}>
           <div className={classNames('title')}>
             {`${department[t('js.property.name')]} ${t('ui.tab.major')}`}
           </div>
           { getListElement(this._getCourses(selectedListCode)) }
         </div>
+      </div>
       );
     }
     if (selectedListCode === HUMANITY) {
       return (
+      // eslint-disable-next-line react/jsx-indent
+      <div className={classNames('section', 'section--course-list', 'section--with-tabs')}>
         <div className={classNames('section-content', 'section-content--flex', 'section-content--course-list')}>
           <div className={classNames('title')}>
             {t('ui.tab.humanity')}
           </div>
           { getListElement(this._getCourses(selectedListCode)) }
         </div>
+      </div>
       );
     }
     if (selectedListCode === TAKEN) {
       return (
+      // eslint-disable-next-line react/jsx-indent
+      <div className={classNames('section', 'section--course-list', 'section--with-tabs')}>
         <div className={classNames('section-content', 'section-content--flex', 'section-content--course-list')}>
           <div className={classNames('title')}>
             {t('ui.tab.taken')}
           </div>
           { getListElement(this._getCourses(selectedListCode)) }
         </div>
+      </div>
       );
     }
     return null;

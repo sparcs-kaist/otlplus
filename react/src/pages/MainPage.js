@@ -212,56 +212,53 @@ class MainPage extends Component {
     const mapFeedToSection = (feed, date) => {
       if (feed.type === 'REVIEW_WRITE') {
         return (
-        // eslint-disable-next-line react/jsx-indent
-            <div className={classNames('section', 'section--feed')} key={`${date.date}-${feed.type}-${feed.lecture.id}`}>
-              <ReviewWriteFeedSection
-                lecture={feed.lecture}
-                review={user.reviews.find((r) => (r.lecture.id === feed.lecture.id))}
-              />
-            </div>
+          <ReviewWriteFeedSection
+            lecture={feed.lecture}
+            review={user.reviews.find((r) => (r.lecture.id === feed.lecture.id))}
+            key={`${date.date}-${feed.type}-${feed.lecture.id}`}
+          />
         );
       }
       if (feed.type === 'RELATED_COURSE') {
         return (
-        // eslint-disable-next-line react/jsx-indent
-            <div className={classNames('section', 'section--feed')} key={`${date.date}-${feed.type}-${feed.course.id}`}>
-              <RelatedCourseFeedSection course={feed.course} />
-            </div>
+          <RelatedCourseFeedSection
+            course={feed.course}
+            key={`${date.date}-${feed.type}-${feed.course.id}`}
+          />
         );
       }
       if (feed.type === 'FAMOUS_MAJOR_REVIEW') {
         return (
-        // eslint-disable-next-line react/jsx-indent
-            <div className={classNames('section', 'section--feed')} key={`${date.date}-${feed.type}-${feed.department.code}`}>
-              <FamousMajorReviewFeedSection
-                department={feed.department}
-                reviews={feed.reviews}
-              />
-            </div>
+          <FamousMajorReviewFeedSection
+            department={feed.department}
+            reviews={feed.reviews}
+            key={`${date.date}-${feed.type}-${feed.department.code}`}
+          />
         );
       }
       if (feed.type === 'FAMOUS_HUMANITY_REVIEW') {
         return (
-        // eslint-disable-next-line react/jsx-indent
-            <div className={classNames('section', 'section--feed')} key={`${date.date}-${feed.type}`}>
-              <FamousHumanityReviewFeedSection reviews={feed.reviews} />
-            </div>
+          <FamousHumanityReviewFeedSection
+            reviews={feed.reviews}
+            key={`${date.date}-${feed.type}`}
+          />
         );
       }
       if (feed.type === 'RANKED_REVIEW') {
         return (
-        // eslint-disable-next-line react/jsx-indent
-            <div className={classNames('section', 'section--feed')} key={`${date.date}-${feed.type}`}>
-              <RankedReviewFeedSection semester={feed.semester} reviews={feed.reviews} />
-            </div>
+          <RankedReviewFeedSection
+            semester={feed.semester}
+            reviews={feed.reviews}
+            key={`${date.date}-${feed.type}`}
+          />
         );
       }
       if (feed.type === 'RATE') {
         return (
-        // eslint-disable-next-line react/jsx-indent
-            <div className={classNames('section', 'section--feed')} key={`${date.date}-${feed.type}`}>
-              <RateFeedSection rated={feed.rated} />
-            </div>
+          <RateFeedSection
+            rated={feed.rated}
+            key={`${date.date}-${feed.type}`}
+          />
         );
       }
       return null;
@@ -270,31 +267,16 @@ class MainPage extends Component {
     const columnNum = isPortrait ? 1 : 3;
 
     const feeds = [
-      (
-        <div className={classNames('section', 'section--feed')} key="TODAYS_TIMETABLE">
-          <TodaysTimetableSection />
-        </div>
-      ),
-      (
-        <div className={classNames('section', 'section--feed')} key="ACADEMIC_SCHEDULE">
-          <AcademicScheduleSection />
-        </div>
-      ),
+      <TodaysTimetableSection key="TODAYS_TIMETABLE" />,
+      <AcademicScheduleSection key="ACADEMIC_SCHEDULE" />,
       notices
         ? (
           notices.map((n) => (
-            // eslint-disable-next-line react/jsx-indent
-              <div className={classNames('section', 'section--feed')} key={`${n.start_date}-${n.end_date}-${n.title}`}>
-                <NoticeSection notice={n} />
-              </div>
+            <NoticeSection notice={n} key={`${n.start_date}-${n.end_date}-${n.title}`} />
           ))
         )
         : [],
-      (
-        <div className={classNames('section', 'section--feed')} key="LATEST_REVIEW">
-          <LatestReviewSection />
-        </div>
-      ),
+      <LatestReviewSection key="LATEST_REVIEW" />,
       !user
         ? []
         : feedDays.map((d) => d.feeds.map((f) => mapFeedToSection(f, d))),
@@ -303,10 +285,7 @@ class MainPage extends Component {
     return (
       <>
         <section className={classNames('main-image')}>
-
-            <div className={classNames('section', 'section--main-search')}>
-              <MainSearchSection />
-            </div>
+          <MainSearchSection />
         </section>
         <section className={classNames('content', 'content--main')} ref={this.contentRef}>
           <div className={classNames('page-grid', 'page-grid--main')}>

@@ -24,8 +24,6 @@ import {
   closeSearch,
 } from '../actions/dictionary/search';
 
-import courseFocusShape from '../shapes/CourseFocusShape';
-
 
 class DictionaryPage extends Component {
   componentDidMount() {
@@ -97,19 +95,13 @@ class DictionaryPage extends Component {
   }
 
   render() {
-    const { courseFocus } = this.props;
-
     return (
       <>
         <section className={classNames('content', 'content--no-scroll')}>
           <div className={classNames('page-grid', 'page-grid--dictionary')}>
             <CourseListTabs />
-            <div className={classNames('section', 'section--course-list', 'section--with-tabs')}>
-              <CourseListSection />
-            </div>
-            <div className={classNames('section', 'section--course-detail', 'section--mobile-modal', ((courseFocus.course && courseFocus.clicked) ? '' : 'mobile-hidden'))}>
-              <CourseDetailSection />
-            </div>
+            <CourseListSection />
+            <CourseDetailSection />
           </div>
         </section>
       </>
@@ -118,7 +110,6 @@ class DictionaryPage extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  courseFocus: state.dictionary.courseFocus,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -156,8 +147,6 @@ DictionaryPage.propTypes = {
       startSearchKeyword: PropTypes.string,
     }),
   }).isRequired,
-
-  courseFocus: courseFocusShape.isRequired,
 
   resetCourseFocusDispatch: PropTypes.func.isRequired,
   resetListDispatch: PropTypes.func.isRequired,

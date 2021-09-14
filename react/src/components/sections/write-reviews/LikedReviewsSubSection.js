@@ -18,7 +18,7 @@ import reviewsFocusShape from '../../../shapes/ReviewsFocusShape';
 import reviewShape from '../../../shapes/ReviewShape';
 
 
-class LikedReviewsSection extends Component {
+class LikedReviewsSubSection extends Component {
   componentDidMount() {
     const { user, likedReviews } = this.props;
 
@@ -119,7 +119,7 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-LikedReviewsSection.propTypes = {
+LikedReviewsSubSection.propTypes = {
   user: userShape,
   reviewsFocus: reviewsFocusShape.isRequired,
   likedReviews: PropTypes.arrayOf(reviewShape),
@@ -129,4 +129,5 @@ LikedReviewsSection.propTypes = {
 };
 
 
-export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(LikedReviewsSection));
+// eslint-disable-next-line max-len
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(LikedReviewsSubSection));

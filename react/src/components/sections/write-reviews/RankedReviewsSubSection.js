@@ -23,7 +23,7 @@ import semesterShape from '../../../shapes/SemesterShape';
 export const ALL = 'ALL';
 
 
-class RankedReviewsSection extends Component {
+class RankedReviewsSubSection extends Component {
   constructor(props) {
     super(props);
 
@@ -324,7 +324,7 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-RankedReviewsSection.propTypes = {
+RankedReviewsSubSection.propTypes = {
   semesters: PropTypes.arrayOf(semesterShape),
   reviewsFocus: reviewsFocusShape.isRequired,
   reviewsBySemester: PropTypes.object.isRequired,
@@ -336,4 +336,5 @@ RankedReviewsSection.propTypes = {
 };
 
 
-export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(RankedReviewsSection));
+// eslint-disable-next-line max-len
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(RankedReviewsSubSection));

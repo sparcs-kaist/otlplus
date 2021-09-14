@@ -34,6 +34,8 @@ class AcademicScheduleSection extends Component {
 
     if (semesters == null) {
       return (
+      // eslint-disable-next-line react/jsx-indent
+      <div className={classNames('section', 'section--feed')}>
         <div className={classNames('section-content', 'section-content--feed')}>
           <div className={classNames('academic-schedule', 'placeholder')}>
             <div>{t('ui.placeholder.loading')}</div>
@@ -53,6 +55,7 @@ class AcademicScheduleSection extends Component {
             </a>
           </div>
         </div>
+      </div>
       );
     }
 
@@ -60,6 +63,8 @@ class AcademicScheduleSection extends Component {
 
     if (!targetSchedule) {
       return (
+      // eslint-disable-next-line react/jsx-indent
+      <div className={classNames('section', 'section--feed')}>
         <div className={classNames('section-content', 'section-content--feed')}>
           <div className={classNames('academic-schedule', 'placeholder')}>
             <div>{t('ui.placeholder.unknown')}</div>
@@ -79,6 +84,7 @@ class AcademicScheduleSection extends Component {
             </a>
           </div>
         </div>
+      </div>
       );
     }
 

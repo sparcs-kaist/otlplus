@@ -19,7 +19,7 @@ import userShape from '../../../shapes/UserShape';
 import reviewsFocusShape from '../../../shapes/ReviewsFocusShape';
 
 
-class LectureReviewsSection extends Component {
+class LectureReviewsSubSection extends Component {
   componentDidMount() {
     this._fetchLectureRelatedReviews();
   }
@@ -141,7 +141,7 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-LectureReviewsSection.propTypes = {
+LectureReviewsSubSection.propTypes = {
   user: userShape,
   reviewsFocus: reviewsFocusShape.isRequired,
 
@@ -152,4 +152,5 @@ LectureReviewsSection.propTypes = {
 };
 
 
-export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(LectureReviewsSection));
+// eslint-disable-next-line max-len
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(LectureReviewsSubSection));

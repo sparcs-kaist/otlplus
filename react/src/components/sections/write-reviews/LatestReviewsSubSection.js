@@ -18,7 +18,7 @@ import reviewShape from '../../../shapes/ReviewShape';
 import reviewsFocusShape from '../../../shapes/ReviewsFocusShape';
 
 
-class LatestReviewsSection extends Component {
+class LatestReviewsSubSection extends Component {
   constructor(props) {
     super(props);
 
@@ -154,7 +154,7 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-LatestReviewsSection.propTypes = {
+LatestReviewsSubSection.propTypes = {
   latestReviews: PropTypes.arrayOf(reviewShape),
   reviewsFocus: reviewsFocusShape.isRequired,
 
@@ -164,4 +164,4 @@ LatestReviewsSection.propTypes = {
 
 
 // eslint-disable-next-line max-len
-export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(LatestReviewsSection));
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(LatestReviewsSubSection));

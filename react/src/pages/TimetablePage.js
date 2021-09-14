@@ -60,7 +60,6 @@ class TimetablePage extends Component {
     // eslint-disable-next-line react/destructuring-assignment
     const { startSemester } = this.props.location.state || {};
     const {
-      lectureFocus,
       mobileIsTimetableTabsOpen, mobileIsLectureListOpen,
       setMobileIsTimetableTabsOpenDispatch,
     } = this.props;
@@ -69,13 +68,9 @@ class TimetablePage extends Component {
       <>
         <section className={classNames('content', 'content--no-scroll', 'content--timetable')}>
           <div className={classNames('page-grid', 'page-grid--timetable', (mobileIsLectureListOpen ? 'page-grid--timetable--mobile-expanded' : ''))}>
-            <div className={classNames('section', 'section--lecture-detail', 'section--mobile-modal', (lectureFocus.clicked ? '' : 'mobile-hidden'))}>
-              <LectureDetailSection />
-            </div> 
+            <LectureDetailSection />
             <LectureListTabs />
-            <div className={classNames('section', 'section--with-tabs', 'section--lecture-list', (mobileIsLectureListOpen ? '' : 'mobile-hidden'))}>
-              <LectureListSection />
-            </div> 
+            <LectureListSection />
             <div className={classNames('section', 'section--semester-and-timetable-list', 'section--desktop-transparent', 'section--mobile-modal', (mobileIsTimetableTabsOpen ? '' : 'mobile-hidden'))}>
               <div className={classNames('close-button-wrap')}>
                 <button onClick={() => setMobileIsTimetableTabsOpenDispatch(false)}>

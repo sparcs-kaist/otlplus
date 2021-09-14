@@ -72,6 +72,8 @@ class TakenLecturesSection extends Component {
 
     if (!user) {
       return (
+      // eslint-disable-next-line react/jsx-indent
+      <div className={classNames('section', 'section--taken-lectures')}>
         <div className={classNames('section-content', 'section-content--taken-lectures')}>
           <div className={classNames('title')}>
             {t('ui.title.takenLectures')}
@@ -142,6 +144,7 @@ class TakenLecturesSection extends Component {
             </div>
           </div>
         </div>
+      </div>
       );
     }
 
@@ -157,6 +160,8 @@ class TakenLecturesSection extends Component {
       .sort((a, b) => ((a.year !== b.year) ? (b.year - a.year) : (b.semester - a.semester)));
 
     return (
+    // eslint-disable-next-line react/jsx-indent
+    <div className={classNames('section', 'section--taken-lectures')}>
       <div className={classNames('section-content', 'section-content--taken-lectures')}>
         <div className={classNames('title')}>
           {t('ui.title.takenLectures')}
@@ -272,6 +277,7 @@ class TakenLecturesSection extends Component {
           </div>
         </div>
       </div>
+    </div>
     );
   }
 }

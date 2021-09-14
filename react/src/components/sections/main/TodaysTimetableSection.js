@@ -63,6 +63,8 @@ class TodaysTimetableSection extends Component {
     const minutes = today.getMinutes();
 
     return (
+    // eslint-disable-next-line react/jsx-indent
+    <div className={classNames('section', 'section--feed')}>
       <div className={classNames('section-content', 'section-content--feed', 'section-content--todays-timetable')}>
         <div
           style={{
@@ -141,6 +143,7 @@ class TodaysTimetableSection extends Component {
           </Link>
         </div>
       </div>
+    </div>
     );
   }
 }

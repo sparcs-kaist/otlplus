@@ -75,6 +75,8 @@ class RateFeedSection extends Component {
     const { score } = this.state;
 
     return (
+    // eslint-disable-next-line react/jsx-indent
+    <div className={classNames('section', 'section--feed')}>
       <div className={classNames('section-content', 'section-content--feed')}>
         <div className={classNames('title')}>
           {t('ui.title.rateOtl')}
@@ -102,6 +104,7 @@ class RateFeedSection extends Component {
           </button>
         </div>
       </div>
+    </div>
     );
   }
 }
