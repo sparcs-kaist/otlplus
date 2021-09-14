@@ -350,6 +350,74 @@ a {
             }
         } 
     } 
+
+
+    &--dictionary {
+        @media #{$media-landscape} {
+            margin-left: -$tabs-width-vertical;
+            grid-template-columns:
+                $tabs-width-vertical
+                $section-width-desktop-2v2
+                $section-margin-lr
+                $section-width-desktop-2v2
+            ;
+            grid-template-rows:
+                1fr
+                $section-margin-bottom
+            ;
+            grid-template-areas:
+                "course-list-tabs   course-list .   course-detail"
+                ".                  .           .   ."
+            ;
+        }
+        @media #{$media-portrait} {
+            grid-template-columns:
+                1fr
+            ;
+            grid-template-rows:
+                $tabs-height-horizontal
+                1fr
+                $section-margin-bottom
+            ;
+            grid-template-areas:
+                "course-list-tabs"
+                "course-list"
+                "."
+            ;
+        } 
+    } 
+
+
+    &--write-reviews {
+        @media #{$media-landscape} {
+            grid-template-columns:
+                $section-width-desktop-1v3-left
+                $section-margin-lr
+                $section-width-desktop-1v3-right
+            ;
+            grid-template-rows:
+                1fr
+                $section-margin-bottom
+            ;
+            grid-template-areas:
+                "taken-lectures  .   write-reviews-right"
+                ".              .   ."
+            ;
+        }
+        @media #{$media-portrait} {
+            grid-template-columns:
+                1fr
+            ;
+            grid-template-rows:
+                1fr
+                $section-margin-bottom
+            ;
+            grid-template-areas:
+                "taken-lectures"
+                "."
+            ;
+        } 
+    } 
 } 
 
 
@@ -817,6 +885,18 @@ a {
     }
 
 
+    &--course-list {
+        grid-area: course-list;
+    }
+
+
+    &--course-detail {
+        @media #{$media-landscape} {
+            grid-area: course-detail;
+        }
+    }
+
+
     &--timetable-and-infos {
         grid-area: timetable-and-infos;
         display: grid;
@@ -926,6 +1006,18 @@ a {
 
     &--syllabus {
         flex: auto;
+    }
+
+
+    &--taken-lectures {
+        grid-area: taken-lectures;
+    }
+
+
+    &--write-reviews-right {
+        @media #{$media-landscape} {
+            grid-area: write-reviews-right;
+        }
     }
 }
 

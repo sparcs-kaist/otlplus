@@ -102,20 +102,11 @@ class WriteReviewsPage extends Component {
     return (
       <>
         <section className={classNames('content', 'content--no-scroll')}>
-          <div className={classNames('section-wrap', 'section-wrap--desktop-1v3--left', 'section-wrap--mobile-full')}>
-            <div className={classNames('section')}>
+          <div className={classNames('page-grid', 'page-grid--write-reviews')}>
+            <div className={classNames('section', 'section--taken-lectures')}>
               <TakenLecturesSection />
             </div>
-          </div>
-          <div
-            className={classNames(
-              'section-wrap',
-              'section-wrap--desktop-1v3--right',
-              'mobile-modal',
-              ((reviewsFocus.from !== NONE) ? '' : 'mobile-hidden'),
-            )}
-          >
-            <div className={classNames('section')}>
+            <div className={classNames('section', 'section--write-reviews-right', 'section--mobile-modal', ((reviewsFocus.from !== NONE) ? '' : 'mobile-hidden'))}>
               {
                 reviewsFocus.from === NONE
                   ? rightSectionPlaceholder
