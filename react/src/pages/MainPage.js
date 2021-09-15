@@ -307,11 +307,9 @@ class MainPage extends Component {
               {
                 user
                   ? (
-                    <>
-                      <span onClick={() => this._fetchFeeds(this._getPrevDate())}>
-                        {t('ui.button.loadMore')}
-                      </span>
-                    </>
+                    <span onClick={() => this._fetchFeeds(this._getPrevDate())}>
+                      {t('ui.button.loadMore')}
+                    </span>
                   )
                   : (
                     <>
