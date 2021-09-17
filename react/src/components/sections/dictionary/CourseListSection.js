@@ -23,7 +23,7 @@ import courseFocusShape from '../../../shapes/CourseFocusShape';
 import courseListsShape from '../../../shapes/CourseListsShape';
 import userShape from '../../../shapes/UserShape';
 import {
-  getNameKeyOfValue, getSotredDepartmentOptions, typeOptions, levelOptions, termOptions,
+  getLabelOfValue, getDepartmentOptions, getTypeOptions, getLevelOptions, getTermOptions,
 } from '../../../common/seachOptions';
 
 
@@ -142,16 +142,16 @@ class CourseListSection extends Component {
           return e[1];
         }
         if (e[0] === 'type' && !e[1].includes('ALL')) {
-          return e[1].map((c) => t(getNameKeyOfValue(typeOptions, c)));
+          return e[1].map((c) => getLabelOfValue(getTypeOptions(), c));
         }
         if (e[0] === 'department' && !e[1].includes('ALL')) {
-          return e[1].map((c) => t(getNameKeyOfValue(getSotredDepartmentOptions(), c)));
+          return e[1].map((c) => getLabelOfValue(getDepartmentOptions(), c));
         }
         if (e[0] === 'grade' && !e[1].includes('ALL')) {
-          return e[1].map((c) => t(getNameKeyOfValue(levelOptions, c)));
+          return e[1].map((c) => getLabelOfValue(getLevelOptions(), c));
         }
         if (e[0] === 'term' && !e[1].includes('ALL')) {
-          return e[1].map((c) => t(getNameKeyOfValue(termOptions, c)));
+          return e[1].map((c) => getLabelOfValue(getTermOptions(), c));
         }
         return [];
       })

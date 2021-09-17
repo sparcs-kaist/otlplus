@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
 
-import SearchCircle from './SearchCircle';
+import SearchFilterEntity from './SearchFilterEntity';
 
 
 class SearchFilter extends Component {
@@ -12,7 +12,7 @@ class SearchFilter extends Component {
     return checkedValues.has(value);
   }
 
-  _clickCircle = (value) => (isChecked) => {
+  _handleValueCheckedChange = (value, isChecked) => {
     const { checkedValues, updateCheckedValues } = this.props;
 
     if (isChecked) {
@@ -47,15 +47,18 @@ class SearchFilter extends Component {
     const {
       inputName, titleName, options, checkedValues,
     } = this.props;
+
+    const VALUE_INDEX = 0;
+    const LABEL_INDEX = 1;
+
     const mapCircle = (o) => (
-      <SearchCircle
-        key={o[0]}
-        value={o[0]}
-        inputName={inputName}
-        labelNameKey={o[1]}
-        clickCircle={this._clickCircle(o[0])}
-        isChecked={checkedValues.has(o[0])}
-        allChecked={this._isChecked('ALL')}
+      <SearchFilterEntity
+        key={o[VALUE_INDEX]}
+        value={o[VALUE_INDEX]}
+        name={inputName}
+        label={o[LABEL_INDEX]}
+        onChange={(e) => this._handleValueCheckedChange(e.target.value, e.target.checked)}
+        isChecked={checkedValues.has(o[VALUE_INDEX])}
       />
     );
 

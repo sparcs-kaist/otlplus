@@ -32,7 +32,7 @@ import {
 } from '../../../utils/lectureUtils';
 import { isTaken } from '../../../utils/courseUtils';
 import {
-  getNameKeyOfValue, getSotredDepartmentOptions, typeOptions, levelOptions,
+  getLabelOfValue, getDepartmentOptions, getTypeOptions, getLevelOptions,
 } from '../../../common/seachOptions';
 
 
@@ -282,13 +282,13 @@ class LectureListSection extends Component {
           return e[1];
         }
         if (e[0] === 'type' && !e[1].includes('ALL')) {
-          return e[1].map((c) => t(getNameKeyOfValue(typeOptions, c)));
+          return e[1].map((c) => getLabelOfValue(getTypeOptions(), c));
         }
         if (e[0] === 'department' && !e[1].includes('ALL')) {
-          return e[1].map((c) => t(getNameKeyOfValue(getSotredDepartmentOptions(), c)));
+          return e[1].map((c) => getLabelOfValue(getDepartmentOptions(), c));
         }
         if (e[0] === 'grade' && !e[1].includes('ALL')) {
-          return e[1].map((c) => t(getNameKeyOfValue(levelOptions, c)));
+          return e[1].map((c) => getLabelOfValue(getLevelOptions(), c));
         }
         return [];
       })

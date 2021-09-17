@@ -1,25 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames } from '../common/boundClassNames';
 
 
-class SearchCircle extends Component {
-  onChange(e) {
-    const { clickCircle, isChecked } = this.props;
-
-    clickCircle(!isChecked);
-  }
-
-
+class SearchFilterEntity extends Component {
   render() {
     const {
-      t,
-      value, inputName, labelNameKey, isChecked,
+      value, name, label, onChange, isChecked,
     } = this.props;
     const isAll = (value === 'ALL');
-    const inputId = `${inputName}-${value}`;
+    const inputId = `${name}-${value}`;
     return (
       <label htmlFor={inputId}>
         <input
@@ -27,24 +18,24 @@ class SearchCircle extends Component {
           className={isAll ? 'chkall' : 'chkelem'}
           type="checkbox"
           autoComplete="off"
-          name={inputName}
+          name={name}
           value={value}
-          onChange={(e) => this.onChange(e)}
+          onChange={onChange}
           checked={isChecked}
         />
-        {t(labelNameKey)}
+        { label }
         <i className={appBoundClassNames('icon', 'icon--checkbox')} />
       </label>
     );
   }
 }
 
-SearchCircle.propTypes = {
+SearchFilterEntity.propTypes = {
   value: PropTypes.string.isRequired,
-  inputName: PropTypes.string.isRequired,
-  labelNameKey: PropTypes.string.isRequired,
-  clickCircle: PropTypes.func.isRequired,
+  name: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
   isChecked: PropTypes.bool.isRequired,
 };
 
-export default withTranslation()(SearchCircle);
+export default SearchFilterEntity;

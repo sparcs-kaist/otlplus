@@ -17,7 +17,7 @@ import { setListCourses, clearSearchListCourses } from '../../../actions/diction
 import { clearCourseFocus } from '../../../actions/dictionary/courseFocus';
 
 import {
-  typeOptions, getSotredDepartmentOptions, levelOptions, termOptions,
+  getTypeOptions, getDepartmentOptions, getLevelOptions, getTermOptions,
 } from '../../../common/seachOptions';
 
 
@@ -185,8 +185,6 @@ class CourseSearchSubSection extends Component {
       selectedTypes, selectedDepartments, selectedLevels, selectedTerms,
     } = this.state;
 
-    const departmentOptions = getSotredDepartmentOptions();
-
     return (
       <div className={classNames('search-area')}>
         <form onSubmit={this.handleSubmit}>
@@ -213,28 +211,28 @@ class CourseSearchSubSection extends Component {
               updateCheckedValues={this.updateCheckedValues('selectedTypes')}
               inputName="type"
               titleName={t('ui.search.type')}
-              options={typeOptions}
+              options={getTypeOptions()}
               checkedValues={selectedTypes}
             />
             <SearchFilter
               updateCheckedValues={this.updateCheckedValues('selectedDepartments')}
               inputName="department"
               titleName={t('ui.search.department')}
-              options={departmentOptions}
+              options={getDepartmentOptions()}
               checkedValues={selectedDepartments}
             />
             <SearchFilter
               updateCheckedValues={this.updateCheckedValues('selectedLevels')}
               inputName="grade"
               titleName={t('ui.search.level')}
-              options={levelOptions}
+              options={getLevelOptions()}
               checkedValues={selectedLevels}
             />
             <SearchFilter
               updateCheckedValues={this.updateCheckedValues('selectedTerms')}
               inputName="term"
               titleName={t('ui.search.term')}
-              options={termOptions}
+              options={getTermOptions()}
               checkedValues={selectedTerms}
             />
           </Scroller>
