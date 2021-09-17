@@ -9,7 +9,7 @@ import lectureShape from '../../shapes/LectureShape';
 import classtimeShape from '../../shapes/ClasstimeShape';
 
 
-const HorizontalTimetableBlock = ({
+const HorizontalTimetableTile = ({
   t,
   lecture, classtime,
   cellWidth, cellHeight,
@@ -41,11 +41,11 @@ const HorizontalTimetableBlock = ({
   );
 };
 
-HorizontalTimetableBlock.propTypes = {
+HorizontalTimetableTile.propTypes = {
   lecture: lectureShape.isRequired,
   classtime: classtimeShape,
   cellWidth: PropTypes.number.isRequired,
   cellHeight: PropTypes.number.isRequired,
 };
 
-export default withTranslation()(React.memo(HorizontalTimetableBlock));
+export default withTranslation()(React.memo(HorizontalTimetableTile));

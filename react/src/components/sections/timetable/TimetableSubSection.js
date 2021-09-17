@@ -6,7 +6,7 @@ import { range } from 'lodash';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
-import TimetableBlock from '../../blocks/TimetableBlock';
+import TimetableTile from '../../tiles/TimetableTile';
 
 import { setLectureFocus, clearLectureFocus } from '../../../actions/timetable/lectureFocus';
 import { setSelectedListCode, setMobileIsLectureListOpen } from '../../../actions/timetable/list';
@@ -265,7 +265,7 @@ class TimetableSubSection extends Component {
         untimedBlockTitles.push(title);
       }
       return (
-        <TimetableBlock
+        <TimetableTile
           key={classtime ? `${lecture.id}:${classtime.day}:${classtime.begin}` : `${lecture.id}:no-time`}
           lecture={lecture}
           classtime={classtime}

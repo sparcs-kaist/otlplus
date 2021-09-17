@@ -8,7 +8,7 @@ import { range } from 'lodash';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
-import HorizontalTimetableBlock from '../../blocks/HorizontalTimetableBlock';
+import HorizontalTimetableTile from '../../tiles/HorizontalTimetableTile';
 
 import userShape from '../../../shapes/UserShape';
 import semesterShape from '../../../shapes/SemesterShape';
@@ -113,7 +113,7 @@ class TodaysTimetableSection extends Component {
               l.classtimes
                 .filter((ct) => (ct.day === day - 1))
                 .map((ct) => (
-                  <HorizontalTimetableBlock
+                  <HorizontalTimetableTile
                     key={`${l.id}:${ct.day}:${ct.begin}`}
                     lecture={l}
                     classtime={ct}

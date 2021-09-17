@@ -9,7 +9,7 @@ import lectureShape from '../../shapes/LectureShape';
 import classtimeShape from '../../shapes/ClasstimeShape';
 
 
-const TimetableBlock = ({
+const TimetableTile = ({
   t,
   lecture, classtime,
   dayIndex, beginIndex, endIndex,
@@ -84,7 +84,7 @@ const TimetableBlock = ({
   );
 };
 
-TimetableBlock.propTypes = {
+TimetableTile.propTypes = {
   lecture: lectureShape.isRequired,
   classtime: classtimeShape,
   dayIndex: PropTypes.number.isRequired,
@@ -105,4 +105,4 @@ TimetableBlock.propTypes = {
   occupiedTimes: PropTypes.arrayOf(PropTypes.array),
 };
 
-export default withTranslation()(React.memo(TimetableBlock));
+export default withTranslation()(React.memo(TimetableTile));
