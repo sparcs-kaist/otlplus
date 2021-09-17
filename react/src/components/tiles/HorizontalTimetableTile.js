@@ -18,7 +18,7 @@ const HorizontalTimetableTile = ({
 
   return (
     <div
-      className={classNames('block--horizonatal-timetable', `background-color--${getColorNumber(lecture)}`)}
+      className={classNames('tile--horizonatal-timetable', `background-color--${getColorNumber(lecture)}`)}
       style={{
         left: cellWidth * indexOfTime(classtime.begin) + 2 + 2,
         top: 11 + 4 + 3,
@@ -26,14 +26,14 @@ const HorizontalTimetableTile = ({
         height: cellHeight,
       }}
     >
-      <div className={classNames('block--horizonatal-timetable__content')}>
-        <p className={classNames('block--horizonatal-timetable__content__title')}>
+      <div className={classNames('tile--horizonatal-timetable__content')}>
+        <p className={classNames('tile--horizonatal-timetable__content__title')}>
           {lecture[t('js.property.title')]}
         </p>
-        <p className={classNames('block--horizonatal-timetable__content__info')}>
+        <p className={classNames('tile--horizonatal-timetable__content__info')}>
           {getProfessorsShortStr(lecture)}
         </p>
-        <p className={classNames('block--horizonatal-timetable__content__info')}>
+        <p className={classNames('tile--horizonatal-timetable__content__info')}>
           {classtime[t('js.property.classroom')]}
         </p>
       </div>
