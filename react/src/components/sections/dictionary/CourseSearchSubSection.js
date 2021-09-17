@@ -9,6 +9,7 @@ import { debounce } from 'lodash';
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 import { SEARCH } from '../../../reducers/dictionary/list';
 
+import Divider from '../../Divider';
 import SearchFilter from '../../SearchFilter';
 import Scroller from '../../Scroller';
 
@@ -240,7 +241,7 @@ class CourseSearchSubSection extends Component {
             <button type="submit" className={classNames('text-button')}>{t('ui.button.search')}</button>
             <button type="button" className={classNames('text-button')} onClick={() => this.hideSearch()}>{t('ui.button.cancel')}</button>
           </div>
-          <div className={classNames('divider')} />
+          <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
         </form>
       </div>
     );

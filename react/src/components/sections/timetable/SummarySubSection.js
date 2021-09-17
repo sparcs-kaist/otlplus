@@ -195,7 +195,7 @@ class SummarySubSection extends Component {
               <div>
                 <span className={classNames('mobile-hidden', (isTypeCreditMultiFocused(0) ? 'focused' : ''))}>{timetableTypeCredit[0]}</span>
                 <span className={classNames('mobile-hidden', 'focused')}>{singleFocusedTypeCreditStr[0]}</span>
-                <span className={classNames('mobile-unhidden', ((isTypeCreditMultiFocused(0) || isTypeCreditSingleFocused(0)) ? 'focused' : ''))}>{overallTypeCredit[0]}</span>
+                <span className={classNames('desktop-hidden', ((isTypeCreditMultiFocused(0) || isTypeCreditSingleFocused(0)) ? 'focused' : ''))}>{overallTypeCredit[0]}</span>
               </div>
             </div>
             <div className={classNames('attribute')} onMouseOver={() => this.setFocusOnType('Major Required')} onMouseOut={() => this.clearFocus()}>
@@ -203,7 +203,7 @@ class SummarySubSection extends Component {
               <div>
                 <span className={classNames('mobile-hidden', (isTypeCreditMultiFocused(2) ? 'focused' : ''))}>{timetableTypeCredit[2]}</span>
                 <span className={classNames('mobile-hidden', 'focused')}>{singleFocusedTypeCreditStr[2]}</span>
-                <span className={classNames('mobile-unhidden', ((isTypeCreditMultiFocused(2) || isTypeCreditSingleFocused(2)) ? 'focused' : ''))}>{overallTypeCredit[2]}</span>
+                <span className={classNames('desktop-hidden', ((isTypeCreditMultiFocused(2) || isTypeCreditSingleFocused(2)) ? 'focused' : ''))}>{overallTypeCredit[2]}</span>
               </div>
             </div>
             <div className={classNames('attribute')} onMouseOver={() => this.setFocusOnType('Humanities & Social Elective')} onMouseOut={() => this.clearFocus()}>
@@ -211,7 +211,7 @@ class SummarySubSection extends Component {
               <div>
                 <span className={classNames('mobile-hidden', (isTypeCreditMultiFocused(4) ? 'focused' : ''))}>{timetableTypeCredit[4]}</span>
                 <span className={classNames('mobile-hidden', 'focused')}>{singleFocusedTypeCreditStr[4]}</span>
-                <span className={classNames('mobile-unhidden', ((isTypeCreditMultiFocused(4) || isTypeCreditSingleFocused(4)) ? 'focused' : ''))}>{overallTypeCredit[4]}</span>
+                <span className={classNames('desktop-hidden', ((isTypeCreditMultiFocused(4) || isTypeCreditSingleFocused(4)) ? 'focused' : ''))}>{overallTypeCredit[4]}</span>
               </div>
             </div>
           </div>
@@ -221,7 +221,7 @@ class SummarySubSection extends Component {
               <div>
                 <span className={classNames('mobile-hidden', (isTypeCreditMultiFocused(1) ? 'focused' : ''))}>{timetableTypeCredit[1]}</span>
                 <span className={classNames('mobile-hidden', 'focused')}>{singleFocusedTypeCreditStr[1]}</span>
-                <span className={classNames('mobile-unhidden', ((isTypeCreditMultiFocused(1) || isTypeCreditSingleFocused(1)) ? 'focused' : ''))}>{overallTypeCredit[1]}</span>
+                <span className={classNames('desktop-hidden', ((isTypeCreditMultiFocused(1) || isTypeCreditSingleFocused(1)) ? 'focused' : ''))}>{overallTypeCredit[1]}</span>
               </div>
             </div>
             <div className={classNames('attribute')} onMouseOver={() => this.setFocusOnType('Major Elective')} onMouseOut={() => this.clearFocus()}>
@@ -229,7 +229,7 @@ class SummarySubSection extends Component {
               <div>
                 <span className={classNames('mobile-hidden', (isTypeCreditMultiFocused(3) ? 'focused' : ''))}>{timetableTypeCredit[3]}</span>
                 <span className={classNames('mobile-hidden', 'focused')}>{singleFocusedTypeCreditStr[3]}</span>
-                <span className={classNames('mobile-unhidden', ((isTypeCreditMultiFocused(3) || isTypeCreditSingleFocused(3)) ? 'focused' : ''))}>{overallTypeCredit[3]}</span>
+                <span className={classNames('desktop-hidden', ((isTypeCreditMultiFocused(3) || isTypeCreditSingleFocused(3)) ? 'focused' : ''))}>{overallTypeCredit[3]}</span>
               </div>
             </div>
             <div className={classNames('attribute')} onMouseOver={() => this.setFocusOnType('Etc')} onMouseOut={() => this.clearFocus()}>
@@ -237,7 +237,7 @@ class SummarySubSection extends Component {
               <div>
                 <span className={classNames('mobile-hidden', (isTypeCreditMultiFocused(5) ? 'focused' : ''))}>{timetableTypeCredit[5]}</span>
                 <span className={classNames('mobile-hidden', 'focused')}>{singleFocusedTypeCreditStr[5]}</span>
-                <span className={classNames('mobile-unhidden', ((isTypeCreditMultiFocused(5) || isTypeCreditSingleFocused(5)) ? 'focused' : ''))}>{overallTypeCredit[5]}</span>
+                <span className={classNames('desktop-hidden', ((isTypeCreditMultiFocused(5) || isTypeCreditSingleFocused(5)) ? 'focused' : ''))}>{overallTypeCredit[5]}</span>
               </div>
             </div>
           </div>

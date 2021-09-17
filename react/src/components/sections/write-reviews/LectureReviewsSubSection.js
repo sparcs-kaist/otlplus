@@ -9,6 +9,7 @@ import { appBoundClassNames as classNames } from '../../../common/boundClassName
 
 import Scroller from '../../Scroller';
 import CloseButton from '../../CloseButton';
+import Divider from '../../Divider';
 import ReviewWriteBlock from '../../blocks/ReviewWriteBlock';
 import ReviewBlock from '../../blocks/ReviewBlock';
 
@@ -107,7 +108,7 @@ class LectureReviewsSubSection extends Component {
               updateOnSubmit={this.updateOnReviewSubmit}
             />
           </div>
-          <div className={classNames('divider')} />
+          <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
           <div className={classNames('section-content', 'section-content--latest-reviews')}>
             <div className={classNames('title')}>{`${t('ui.title.relatedReviews')} - ${reviewsFocus.lecture[t('js.property.title')]}`}</div>
             { reviewBlocksArea }

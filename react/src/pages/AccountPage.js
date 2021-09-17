@@ -3,6 +3,7 @@ import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
 
+import Divider from '../components/Divider';
 import Scroller from '../components/Scroller';
 import MyInfoSection from '../components/sections/account/MyInfoSection';
 import AcademicInfoSection from '../components/sections/account/AcademicInfoSection';
@@ -19,11 +20,11 @@ class AccountPage extends Component {
             <div className={classNames('section-content', 'section-content--account')}>
               <Scroller expandTop={12}>
                 <MyInfoSection />
-                <div className={classNames('divider')} />
+                <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
                 <AcademicInfoSection />
-                <div className={classNames('divider')} />
+                <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
                 <FavoriteDepartmentsSection />
-                <div className={classNames('divider')} />
+                <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
                 <div>
                   <a href="/session/logout/" className={classNames('text-button')}>
                     {t('ui.button.signOut')}

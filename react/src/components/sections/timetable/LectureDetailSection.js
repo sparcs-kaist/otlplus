@@ -33,6 +33,7 @@ import {
   getSyllabusUrl,
 } from '../../../utils/lectureUtils';
 import lectureListsShape from '../../../shapes/LectureListsShape';
+import Divider from '../../Divider';
 
 
 class LectureDetailSection extends Component {
@@ -366,8 +367,8 @@ class LectureDetailSection extends Component {
             }
             {reviewsDom}
           </Scroller>
-          <div className={classNames('divider', 'mobile-unhidden')} />
-          <div className={classNames('section-content--lecture-detail__mobile-buttons', 'mobile-unhidden')}>
+          <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={{ desktop: false, mobile: true }} />
+          <div className={classNames('section-content--lecture-detail__mobile-buttons', 'desktop-hidden')}>
             {
               !inCart(lectureFocus.lecture, lists[CART])
                 ? (

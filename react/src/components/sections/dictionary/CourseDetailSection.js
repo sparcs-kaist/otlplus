@@ -10,6 +10,7 @@ import { getAverageScoreLabel } from '../../../utils/scoreUtils';
 
 import Scroller from '../../Scroller';
 import CloseButton from '../../CloseButton';
+import Divider from '../../Divider';
 import RelatedSubSection from './RelatedSubSection';
 import HistorySubSection from './HistorySubSection';
 import ReviewsSubSection from './ReviewsSubSection';
@@ -173,11 +174,11 @@ class CourseDetailSection extends Component {
                 <div>{ t('ui.score.speech') }</div>
               </div>
             </div>
-            <div className={classNames('divider')} />
+            <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
             <RelatedSubSection />
-            <div className={classNames('divider')} />
+            <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
             <HistorySubSection />
-            <div className={classNames('divider')} />
+            <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
             <ReviewsSubSection />
           </Scroller>
         </div>

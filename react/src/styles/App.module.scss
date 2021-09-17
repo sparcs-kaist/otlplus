@@ -3184,25 +3184,28 @@ a {
 
 
 .divider {
-    border-bottom: 1px solid $color-divider-line;
-    margin: $section-padding 0;
-    &:last-child {
-        margin-bottom: 0;
-    }
-
-
-    &--vertical {
-        border-bottom: none;
-        border-right: 1px solid $color-divider-line;
-        margin: 0 $section-padding;
-    }
-
-
-    &--mobile-horizontal {
-        @media #{$media-portrait} {
-            border-right: none;
+    &--desktop-horizontal {
+        @media #{$media-landscape} {
             border-bottom: 1px solid $color-divider-line;
             margin: $section-padding 0;
+        }
+    } 
+    &--desktop-vertical {
+        @media #{$media-landscape} {
+            border-right: 1px solid $color-divider-line;
+            margin: 0 $section-padding;
+        }
+    } 
+    &--mobile-horizontal {
+        @media #{$media-portrait} {
+            border-bottom: 1px solid $color-divider-line;
+            margin: $section-padding 0;
+        }
+    }
+    &--mobile-vertical {
+        @media #{$media-portrait} {
+            border-right: 1px solid $color-divider-line;
+            margin: 0 $section-padding;
         }
     }
 }
@@ -3906,7 +3909,7 @@ i.icon {
     }
 }
 
-.mobile-unhidden {
+.desktop-hidden {
     @media #{$media-landscape} {
         display: none !important;
     }
