@@ -16,6 +16,8 @@ class RelatedCourseFeedSection extends Component {
     const { course } = this.props;
 
     return (
+    // eslint-disable-next-line react/jsx-indent
+    <div className={classNames('section', 'section--feed')}>
       <div className={classNames('section-content', 'section-content--feed')}>
         <div className={classNames('title')}>
           {`${t('ui.title.relatedCourses')} - ${course[t('js.property.title')]}`}
@@ -40,6 +42,7 @@ class RelatedCourseFeedSection extends Component {
           </Link>
         </div>
       </div>
+    </div>
     );
   }
 }

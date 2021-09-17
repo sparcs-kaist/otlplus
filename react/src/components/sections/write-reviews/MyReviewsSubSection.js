@@ -15,7 +15,7 @@ import userShape from '../../../shapes/UserShape';
 import reviewsFocusShape from '../../../shapes/ReviewsFocusShape';
 
 
-class MyReviewsSection extends Component {
+class MyReviewsSubSection extends Component {
   unfix = () => {
     const { clearReviewsFocusDispatch } = this.props;
 
@@ -70,7 +70,7 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-MyReviewsSection.propTypes = {
+MyReviewsSubSection.propTypes = {
   user: userShape,
   reviewsFocus: reviewsFocusShape.isRequired,
 
@@ -78,4 +78,4 @@ MyReviewsSection.propTypes = {
 };
 
 
-export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(MyReviewsSection));
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(MyReviewsSubSection));

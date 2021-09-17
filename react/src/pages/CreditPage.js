@@ -452,7 +452,7 @@ class CreditPage extends Component {
     const { selectedProjectIndex } = this.state;
     return (
       <section className={classNames('content', 'content--no-scroll')}>
-        <div className={classNames('section-wrap', 'section-wrap--full')}>
+        <div className={classNames('page-grid', 'page-grid--full')}>
           <div className={classNames('section')}>
 
             <div className={classNames('section-content', 'section-content--credit')}>
@@ -467,9 +467,6 @@ class CreditPage extends Component {
                     period={p.period}
                     key={p.index}
                   />
-                ))}
-                {this.projects.map((p) => (
-                  <div key={p.index} className={classNames('section-content--credit__blocks__dummy')} />
                 ))}
               </div>
               <Scroller key={selectedProjectIndex}>

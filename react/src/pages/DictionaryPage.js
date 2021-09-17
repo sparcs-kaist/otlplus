@@ -24,8 +24,6 @@ import {
   closeSearch,
 } from '../actions/dictionary/search';
 
-import courseFocusShape from '../shapes/CourseFocusShape';
-
 
 class DictionaryPage extends Component {
   componentDidMount() {
@@ -97,21 +95,13 @@ class DictionaryPage extends Component {
   }
 
   render() {
-    const { courseFocus } = this.props;
-
     return (
       <>
         <section className={classNames('content', 'content--no-scroll')}>
-          <div className={classNames('section-wrap', 'section-wrap--desktop-2v2--left', 'section-wrap--mobile-full', 'section-wrap--with-tabs', 'section-wrap--course-list')}>
+          <div className={classNames('page-grid', 'page-grid--dictionary')}>
             <CourseListTabs />
-            <div className={classNames('section', 'section--with-tabs')}>
-              <CourseListSection />
-            </div>
-          </div>
-          <div className={classNames('section-wrap', 'section-wrap--desktop-2v2--right', 'section-wrap--course-detail', 'mobile-modal', ((courseFocus.course && courseFocus.clicked) ? '' : 'mobile-hidden'))}>
-            <div className={classNames('section')}>
-              <CourseDetailSection />
-            </div>
+            <CourseListSection />
+            <CourseDetailSection />
           </div>
         </section>
       </>
@@ -120,7 +110,6 @@ class DictionaryPage extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  courseFocus: state.dictionary.courseFocus,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -158,8 +147,6 @@ DictionaryPage.propTypes = {
       startSearchKeyword: PropTypes.string,
     }),
   }).isRequired,
-
-  courseFocus: courseFocusShape.isRequired,
 
   resetCourseFocusDispatch: PropTypes.func.isRequired,
   resetListDispatch: PropTypes.func.isRequired,

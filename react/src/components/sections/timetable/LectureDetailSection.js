@@ -253,6 +253,8 @@ class LectureDetailSection extends Component {
           ? <div className={classNames('section-content--lecture-detail__list-area')}>{lectureFocus.reviews.map(mapreview)}</div>
           : <div className={classNames('section-content--lecture-detail__list-area', 'list-placeholder')}><div>{t('ui.placeholder.noResults')}</div></div>);
       return (
+      // eslint-disable-next-line react/jsx-indent
+      <div className={classNames('section', 'section--lecture-detail', 'section--mobile-modal', (lectureFocus.clicked ? '' : 'mobile-hidden'))}>
         <div className={classNames('section-content', 'section-content--lecture-detail', 'section-content--flex')} ref={this.scrollRef}>
           <div className={classNames('close-button-wrap')}>
             <button onClick={this.unfix}>
@@ -417,10 +419,13 @@ class LectureDetailSection extends Component {
             }
           </div>
         </div>
+      </div>
       );
     }
     if (lectureFocus.from === MULTIPLE) {
       return (
+      // eslint-disable-next-line react/jsx-indent
+      <div className={classNames('section', 'section--lecture-detail', 'section--mobile-modal', (lectureFocus.clicked ? '' : 'mobile-hidden'))}>
         <div className={classNames('section-content', 'section-content--lecture-detail', 'section-content--flex')}>
           <div className={classNames('title')}>
             {lectureFocus.multipleTitle}
@@ -446,9 +451,12 @@ class LectureDetailSection extends Component {
             ))}
           </div>
         </div>
+      </div>
       );
     }
     return (
+    // eslint-disable-next-line react/jsx-indent
+    <div className={classNames('section', 'section--lecture-detail', 'section--mobile-modal', (lectureFocus.clicked ? '' : 'mobile-hidden'))}>
       <div className={classNames('section-content', 'section-content--lecture-detail', 'section-content--flex')}>
         <div className={classNames('otlplus-placeholder')}>
           <div>
@@ -469,6 +477,7 @@ class LectureDetailSection extends Component {
           </div>
         </div>
       </div>
+    </div>
     );
   }
 }

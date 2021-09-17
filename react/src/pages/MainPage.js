@@ -87,7 +87,7 @@ class MainPage extends Component {
       return;
     }
 
-    const columns = Array.from(this.contentRef.current.querySelectorAll(`.${classNames('section-wrap--main-column')}`));
+    const columns = Array.from(this.contentRef.current.querySelectorAll(`.${classNames('page-grid--main')} > div`));
 
     if (columns.some((cl) => (cl.lastChild.getBoundingClientRect().top < window.innerHeight + SCROLL_BOTTOM_PADDING))) {
       this._fetchFeeds(this._getPrevDate());
@@ -212,62 +212,53 @@ class MainPage extends Component {
     const mapFeedToSection = (feed, date) => {
       if (feed.type === 'REVIEW_WRITE') {
         return (
-          <div className={classNames('section-wrap', 'section-wrap--feed')} key={`${date.date}-${feed.type}-${feed.lecture.id}`}>
-            <div className={classNames('section')}>
-              <ReviewWriteFeedSection
-                lecture={feed.lecture}
-                review={user.reviews.find((r) => (r.lecture.id === feed.lecture.id))}
-              />
-            </div>
-          </div>
+          <ReviewWriteFeedSection
+            lecture={feed.lecture}
+            review={user.reviews.find((r) => (r.lecture.id === feed.lecture.id))}
+            key={`${date.date}-${feed.type}-${feed.lecture.id}`}
+          />
         );
       }
       if (feed.type === 'RELATED_COURSE') {
         return (
-          <div className={classNames('section-wrap', 'section-wrap--feed')} key={`${date.date}-${feed.type}-${feed.course.id}`}>
-            <div className={classNames('section')}>
-              <RelatedCourseFeedSection course={feed.course} />
-            </div>
-          </div>
+          <RelatedCourseFeedSection
+            course={feed.course}
+            key={`${date.date}-${feed.type}-${feed.course.id}`}
+          />
         );
       }
       if (feed.type === 'FAMOUS_MAJOR_REVIEW') {
         return (
-          <div className={classNames('section-wrap', 'section-wrap--feed')} key={`${date.date}-${feed.type}-${feed.department.code}`}>
-            <div className={classNames('section')}>
-              <FamousMajorReviewFeedSection
-                department={feed.department}
-                reviews={feed.reviews}
-              />
-            </div>
-          </div>
+          <FamousMajorReviewFeedSection
+            department={feed.department}
+            reviews={feed.reviews}
+            key={`${date.date}-${feed.type}-${feed.department.code}`}
+          />
         );
       }
       if (feed.type === 'FAMOUS_HUMANITY_REVIEW') {
         return (
-          <div className={classNames('section-wrap', 'section-wrap--feed')} key={`${date.date}-${feed.type}`}>
-            <div className={classNames('section')}>
-              <FamousHumanityReviewFeedSection reviews={feed.reviews} />
-            </div>
-          </div>
+          <FamousHumanityReviewFeedSection
+            reviews={feed.reviews}
+            key={`${date.date}-${feed.type}`}
+          />
         );
       }
       if (feed.type === 'RANKED_REVIEW') {
         return (
-          <div className={classNames('section-wrap', 'section-wrap--feed')} key={`${date.date}-${feed.type}`}>
-            <div className={classNames('section')}>
-              <RankedReviewFeedSection semester={feed.semester} reviews={feed.reviews} />
-            </div>
-          </div>
+          <RankedReviewFeedSection
+            semester={feed.semester}
+            reviews={feed.reviews}
+            key={`${date.date}-${feed.type}`}
+          />
         );
       }
       if (feed.type === 'RATE') {
         return (
-          <div className={classNames('section-wrap', 'section-wrap--feed')} key={`${date.date}-${feed.type}`}>
-            <div className={classNames('section')}>
-              <RateFeedSection rated={feed.rated} />
-            </div>
-          </div>
+          <RateFeedSection
+            rated={feed.rated}
+            key={`${date.date}-${feed.type}`}
+          />
         );
       }
       return null;
@@ -276,32 +267,16 @@ class MainPage extends Component {
     const columnNum = isPortrait ? 1 : 3;
 
     const feeds = [
-      <div className={classNames('section-wrap', 'section-wrap--feed')} key="TODAYS_TIMETABLE">
-        <div className={classNames('section')}>
-          <TodaysTimetableSection />
-        </div>
-      </div>,
-      <div className={classNames('section-wrap', 'section-wrap--feed')} key="ACADEMIC_SCHEDULE">
-        <div className={classNames('section')}>
-          <AcademicScheduleSection />
-        </div>
-      </div>,
+      <TodaysTimetableSection key="TODAYS_TIMETABLE" />,
+      <AcademicScheduleSection key="ACADEMIC_SCHEDULE" />,
       notices
         ? (
           notices.map((n) => (
-            <div className={classNames('section-wrap', 'section-wrap--feed')} key={`${n.start_date}-${n.end_date}-${n.title}`}>
-              <div className={classNames('section')}>
-                <NoticeSection notice={n} />
-              </div>
-            </div>
+            <NoticeSection notice={n} key={`${n.start_date}-${n.end_date}-${n.title}`} />
           ))
         )
         : [],
-      <div className={classNames('section-wrap', 'section-wrap--feed')} key="LATEST_REVIEW">
-        <div className={classNames('section')}>
-          <LatestReviewSection />
-        </div>
-      </div>,
+      <LatestReviewSection key="LATEST_REVIEW" />,
       !user
         ? []
         : feedDays.map((d) => d.feeds.map((f) => mapFeedToSection(f, d))),
@@ -310,51 +285,44 @@ class MainPage extends Component {
     return (
       <>
         <section className={classNames('main-image')}>
-
-          <div className={classNames('section-wrap', 'section-wrap--main-search')}>
-            <div className={classNames('section')}>
-              <MainSearchSection />
-            </div>
-          </div>
+          <MainSearchSection />
         </section>
         <section className={classNames('content', 'content--main')} ref={this.contentRef}>
-          <div className={classNames('section-wrap', 'section-wrap--main-column-wrap')}>
+          <div className={classNames('page-grid', 'page-grid--main')}>
             {
               range(columnNum).map((i) => (
-                <div className={classNames('section-wrap', 'section-wrap--main-column')} key={i}>
+                <div style={{ gridArea: `feeds-column-${i + 1}`, position: 'relative' }} key={i}>
                   { feeds.filter((v, i2) => (i2 % columnNum === i)) }
-                  <div className={classNames('section-wrap', 'section-wrap--feed-placeholder')}>
+                  <div style={{ position: 'absolute', width: '100%' }}>
                     {
                       range(10).map((j) => (
-                        <div className={classNames('section', 'section--feed-placeholder')} />
+                        <div className={classNames('section', 'section--feed--placeholder')} />
                       ))
                     }
                   </div>
                 </div>
               ))
             }
-          </div>
-          <div className={classNames('main-date')}>
-            {
-              user
-                ? (
-                  <>
+            <div className={classNames('main-date')}>
+              {
+                user
+                  ? (
                     <span onClick={() => this._fetchFeeds(this._getPrevDate())}>
                       {t('ui.button.loadMore')}
                     </span>
-                  </>
-                )
-                : (
-                  <>
-                    <a href={`/session/login/?next=${window.location.href}`}>
-                      {t('ui.button.signInWithSso')}
-                    </a>
-                    <div>
-                      {t('ui.message.signInForMore')}
-                    </div>
-                  </>
-                )
-            }
+                  )
+                  : (
+                    <>
+                      <a href={`/session/login/?next=${window.location.href}`}>
+                        {t('ui.button.signInWithSso')}
+                      </a>
+                      <div>
+                        {t('ui.message.signInForMore')}
+                      </div>
+                    </>
+                  )
+              }
+            </div>
           </div>
         </section>
         <Footer />

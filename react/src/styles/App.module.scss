@@ -43,13 +43,46 @@ $line-height-smallest: 11px;
 
 $header-height: 55px;
 
-$section-desktop-width: calc(80vh + 384px);
+$content-width-desktop: calc(80vh + 384px);
+
 $section-margin-top: 12px;
 $section-margin-bottom: 12px;
 $section-margin-lr: 12px;
 $section-padding: 12px;
 $section-border-radius: 6px;
+$section-box-shadow: 0 6px 3px -3px $color-section-shadow;
+$section-width-desktop-full: $content-width-desktop;
+$section-width-desktop-1v3-left: calc(15vh + 126px);
+$section-width-desktop-1v3-right: calc(
+    #{$content-width-desktop}
+    - #{$section-margin-lr}
+    - #{$section-width-desktop-1v3-left}
+);
+$section-width-desktop-1v1v1 : calc(
+    (#{$content-width-desktop} - #{$section-margin-lr} * 2) / 3
+);
+$section-width-desktop-2v2: calc(
+    (#{$content-width-desktop} - #{$section-margin-lr}) / 2
+);
+$section-height-desktop-lecture-detail: calc(
+    #{$section-padding}
+    + (#{$line-height-big} + 2px)
+    + (#{$line-height-normal} + 4px)
+    + (#{$line-height-small} + 6px)
+    + ((#{$line-height-normal} * 6) + (8px * 5))
+    + (((0.7vh + 13px) + 2px + #{$line-height-smaller}) * 2 + ((1.4vh + 2px) * 3))
+    + #{$line-height-normal}
+    + #{$section-padding}
+);
 
+$tabs-height-horizontal-small: 27px;
+$tabs-height-horizontal: 29px;
+$tabs-width-vertical: 29px;
+
+$block-margin: 8px;
+$block-margin-small: 6px;
+$block-padding: 10px;
+$block-padding-small: 8px;
 $block-border-radius: 4px;
 
 $small-block-border-radius: 2px;
@@ -194,24 +227,22 @@ a {
     right: -4px;
 }
 
-.masonry-grid {
-    display: flex;
-    width: auto;
-    margin-right: $section-margin-lr;
-}
 
 .content {
     position: relative;
     margin-top: $header-height;
     margin-left: auto;
     margin-right: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     @media #{$media-landscape} {
         width: calc(
-            #{$section-desktop-width}
+            #{$content-width-desktop}
             + (#{$section-margin-lr} * 2)
         ); // Fallback for IE and Edge
         width: calc(
-            #{$section-desktop-width}
+            #{$content-width-desktop}
             + (#{$section-margin-lr} * 2)
             + (env(safe-area-inset-left)
             + env(safe-area-inset-right))
@@ -223,7 +254,7 @@ a {
 
 
     .main-image + & {
-        margin-top: 0;
+        margin-top: $section-margin-top;
     }
 
 
@@ -233,9 +264,10 @@ a {
         bottom: 0;
         left: 0;
         right: 0;
-        display: flex;
+        margin-bottom: $section-margin-bottom;
         flex-direction: row;
         justify-content: center;
+        align-items: initial;
     }
 
 
@@ -251,10 +283,224 @@ a {
 
     &--timetable {
         @media #{$media-portrait} {
-            flex-direction: column-reverse;
         }
     }
 }
+
+
+.page-grid {
+    display: grid;
+    @media #{$media-portrait} {
+        width: calc(100% - (#{$section-margin-lr} * 2));
+    }
+
+
+    &--full {
+        @media #{$media-landscape} {
+            grid-template-columns:
+                $section-width-desktop-full
+            ;
+            grid-template-rows:
+                1fr
+            ;
+            grid-template-areas:
+                "full"
+            ;
+        }
+        @media #{$media-portrait} {
+            grid-template-columns:
+                100%
+            ;
+            grid-template-rows:
+                1fr
+            ;
+            grid-template-areas:
+                "full"
+            ;
+        }
+    }
+
+
+    &--timetable {
+        @media #{$media-landscape} {
+            margin-left: -$tabs-width-vertical;
+            grid-template-columns:
+                $tabs-width-vertical
+                $section-width-desktop-1v3-left
+                $section-margin-lr
+                $section-width-desktop-1v3-right
+            ;
+            grid-template-rows:
+                $tabs-height-horizontal-small
+                calc(#{$section-height-desktop-lecture-detail} - #{$tabs-height-horizontal-small})
+                $section-margin-bottom
+                1fr
+            ;
+            grid-template-areas:
+                ".                  lecture-detail .   semester-and-timetable-tabs"
+                ".                  lecture-detail .   timetable-and-infos"
+                ".                  .              .   timetable-and-infos"
+                "lecture-list-tabs  lecture-list   .   timetable-and-infos"
+            ;
+        }
+        @media #{$media-portrait} {
+            grid-template-columns:
+                100%
+            ;
+            grid-template-rows:
+                1fr
+                $tabs-height-horizontal
+            ;
+            grid-template-areas:
+                "timetable-and-infos"
+                "timetable-and-infos"
+            ;
+            &--mobile-expanded {
+                grid-template-rows:
+                    1fr
+                    $tabs-height-horizontal
+                    $section-margin-bottom
+                    $tabs-height-horizontal
+                    1fr
+                ;
+                grid-template-areas:
+                    "timetable-and-infos"
+                    "timetable-and-infos"
+                    "."
+                    "lecture-list-tabs"
+                    "lecture-list"
+                ;
+            }
+        } 
+    } 
+
+
+    &--dictionary {
+        @media #{$media-landscape} {
+            margin-left: -$tabs-width-vertical;
+            grid-template-columns:
+                $tabs-width-vertical
+                $section-width-desktop-2v2
+                $section-margin-lr
+                $section-width-desktop-2v2
+            ;
+            grid-template-rows:
+                1fr
+            ;
+            grid-template-areas:
+                "course-list-tabs   course-list .   course-detail"
+            ;
+        }
+        @media #{$media-portrait} {
+            grid-template-columns:
+                100%
+            ;
+            grid-template-rows:
+                $tabs-height-horizontal
+                1fr
+            ;
+            grid-template-areas:
+                "course-list-tabs"
+                "course-list"
+            ;
+        } 
+    } 
+
+
+    &--syllabus {
+        @media #{$media-landscape} {
+            width: calc(900px + #{$section-padding} * 2);
+            grid-template-columns:
+                100%
+            ;
+            grid-template-rows:
+                $tabs-height-horizontal-small
+                1fr
+            ;
+            grid-template-areas:
+                "syllabus-tabs"
+                "syllabus"
+            ;
+        }
+        @media #{$media-portrait} {
+            grid-template-columns:
+                100%
+            ;
+            grid-template-rows:
+                $tabs-height-horizontal-small
+                1fr
+            ;
+            grid-template-areas:
+                "syllabus-tabs"
+                "syllabus"
+            ;
+        } 
+    } 
+
+
+    &--write-reviews {
+        @media #{$media-landscape} {
+            grid-template-columns:
+                $section-width-desktop-1v3-left
+                $section-margin-lr
+                $section-width-desktop-1v3-right
+            ;
+            grid-template-rows:
+                1fr
+            ;
+            grid-template-areas:
+                "taken-lectures  .   write-reviews-right"
+            ;
+        }
+        @media #{$media-portrait} {
+            grid-template-columns:
+                100%
+            ;
+            grid-template-rows:
+                1fr
+            ;
+            grid-template-areas:
+                "taken-lectures"
+            ;
+        } 
+    } 
+
+
+    &--main {
+        overflow: hidden;
+
+        @media #{$media-landscape} {
+            grid-template-columns:
+                $section-width-desktop-1v1v1
+                $section-margin-lr
+                $section-width-desktop-1v1v1
+                $section-margin-lr
+                $section-width-desktop-1v1v1
+            ;
+            grid-template-rows:
+                max-content
+                min-content
+            ;
+            grid-template-areas:
+                "feeds-column-1 .           feeds-column-2  .           feeds-column-3"
+                "main-date      main-date   main-date       main-date   main-date"
+            ;
+        }
+        @media #{$media-portrait} {
+            grid-template-columns:
+                100%
+            ;
+            grid-template-rows:
+                max-content
+                min-content
+            ;
+            grid-template-areas:
+                "feeds-column-1"
+                "main-date"
+            ;
+        } 
+    } 
+} 
 
 
 .main-image {
@@ -271,6 +517,8 @@ a {
 }
 
 
+// TODO: Remove section-wrap
+/*
 .section-wrap {
     margin: $section-margin-top $section-margin-lr $section-margin-bottom $section-margin-lr;
 
@@ -320,7 +568,7 @@ a {
         margin: 0 auto;
         padding: 0 $section-margin-lr;
         @media #{$media-landscape} {
-            width: calc(#{$section-desktop-width} + (#{$section-margin-lr} * 2));
+            width: calc(#{$content-width-desktop} + (#{$section-margin-lr} * 2));
         }
         @media #{$media-portrait} {
             width: 100%
@@ -343,10 +591,10 @@ a {
         margin-bottom: 300px;
         position: relative;
         @media #{$media-landscape} {
-            width: calc((100% - 12px * (3 + 1)) / 3);
+            width: calc((100% - #{$section-margin-lr} * (3 + 1)) / 3);
         }
         @media #{$media-portrait} {
-            width: calc((100% - 12px * (1 + 1)) / 1);
+            width: calc((100% - #{$section-margin-lr} * (1 + 1)) / 1);
         }
         &:last-child {
             margin-right: $section-margin-lr;
@@ -370,7 +618,7 @@ a {
     &--desktop-1v3--left {
         @media #{$media-landscape} {
             margin-top: 0;
-            width: calc(15vh + 126px);
+            width: $section-width-desktop-1v3-left;
         }
     }
 
@@ -379,7 +627,7 @@ a {
         @media #{$media-landscape} {
             margin-top: 0;
             margin-left: 0;
-            width:  calc(65vh + 246px);
+            width: $section-width-desktop-1v3-right;
         }
     }
 
@@ -387,7 +635,7 @@ a {
     &--desktop-2v2--left {
         @media #{$media-landscape} {
             margin-top: 0;
-            width: calc(40vh + 186px);
+            width: $section-width-desktop-2v2;
         }
     }
 
@@ -396,7 +644,7 @@ a {
         @media #{$media-landscape} {
             margin-top: 0;
             margin-left: 0;
-            width: calc(40vh + 186px);
+            width: $section-width-desktop-2v2;
         }
     }
 
@@ -412,7 +660,7 @@ a {
     &--full {
         flex: none;
         margin-top: 0px;
-        width: #{$section-desktop-width};
+        width: #{$section-width-desktop-full};
         @media #{$media-portrait} {
             width: calc(100% - #{$section-margin-lr} * 2);
         }
@@ -463,7 +711,7 @@ a {
         display: flex;
         flex-direction: column;
         @media #{$media-landscape} {
-            width: calc(15vh + 126px - #{$section-margin-lr} * 2);
+            width: calc(#{$section-width-desktop-1v3-left} - #{$section-margin-lr} * 2);
         }
         @media #{$media-portrait} {
             width: 100%
@@ -473,7 +721,7 @@ a {
 
     &--lecture-detail {
         flex: none;
-        height: calc(5.6vh + 276px);
+        height: $section-height-desktop-lecture-detail;
         margin-top: 0;
         margin-left: 0;
         margin-right: 0;
@@ -489,30 +737,6 @@ a {
     }
 
 
-    &--timetable-tabs {
-        flex: none;
-        margin: 0;
-        display: flex;
-        flex-direction: row;
-
-        & > div {
-            width: 100%;
-            display: flex;
-            flex-direction: row;
-            align-items: flex-start;
-            @media #{$media-portrait} {
-                height: 100%;
-                padding: $section-padding;
-                background-color: $color-section-background;
-                border-radius: $section-border-radius;
-                box-shadow: 0 6px 3px -3px $color-section-shadow;
-                flex-direction: column-reverse;
-                align-items: center;
-            }
-        }
-    }
-
-
     &--syllabus {
         width: 900px + ($section-padding * 2);
         margin-top: 0;
@@ -524,6 +748,7 @@ a {
         }
     }
 }
+*/
 
 
 .tabs {
@@ -552,15 +777,6 @@ a {
 
     &--course-list,
     &--lecture-list {
-        @media #{$media-landscape} {
-            position: absolute;
-            vertical-align: top;
-            text-align:right;
-            width: 50px;
-            margin-left: -50px;
-        }
-        @media #{$media-portrait} {
-        }
 
         & .tabs__flexbox {
             @media #{$media-portrait} {
@@ -596,11 +812,14 @@ a {
         }
     }
 
+
+    &--lecture-list {
+        grid-area: lecture-list-tabs;
+    }
+
+
     &--timetable {
-        flex: 1 1 auto;
-        @media #{$media-portrait} {
-            width: 100%;
-        }
+        grid-area: timetable-tabs;
 
         & .tabs__elem {
             display: inline-block;
@@ -669,6 +888,7 @@ a {
 
 
     &--syllabus {
+        grid-area: syllabus-tabs;
         white-space: nowrap;
 
         & .tabs__elem {
@@ -687,60 +907,168 @@ a {
 
 
 .section {
-    width: 100%;
-    height: 100%;
     position: relative;
     padding: $section-padding;
     background-color: $color-section-background;
     border-radius: $section-border-radius;
-    box-shadow: 0 6px 3px -3px $color-section-shadow;
+    box-shadow: $section-box-shadow;
 
 
     &--with-tabs {
-        display: inline-block;
-        vertical-align: top;
         @media #{$media-landscape} {
             border-top-left-radius: 0;
         }
         @media #{$media-portrait} {
             border-top-left-radius: 0;
             border-top-right-radius: 0;
-            flex: 1 1 auto;
-            height: 0;
         }
     }
 
+    
+    &--mobile-modal {
+        @media #{$media-portrait} {
+            position: absolute;
+            top: $section-margin-top;
+            bottom: calc(#{$section-margin-bottom} * 2 + env(safe-area-inset-bottom));
+            left: calc(#{$section-margin-lr} * 2 + env(safe-area-inset-left));
+            right: calc(#{$section-margin-lr} * 2 + env(safe-area-inset-right));
+            width: initial;
+            height: initial;
+            z-index: 200;
+            box-shadow: $section-box-shadow, 0 0 0 1000px rgba(#000, 0.3);
+        } 
+    } 
 
-    &--feed-placeholder {
-        opacity: 0.5;
-        height: 270px;
-        margin-bottom: $section-margin-bottom;
-    }
 
-
-    &--timetable {
-        flex: auto;
-        display: flex;
+    &--desktop-transparent {
         @media #{$media-landscape} {
-            flex-direction: row;
+            padding: initial !important;
+            background-color: initial;
+            border-radius: initial;
+            background-origin: initial;
+            box-shadow: initial;
+        } 
+    } 
+
+
+    &--mobile-transparent {
+        @media #{$media-portrait} {
+            padding: initial !important;
+            background-color: initial;
+            border-radius: initial;
+            background-origin: initial;
+            box-shadow: initial;
+        } 
+    } 
+
+
+    &--main-search {
+        margin: 0 auto;
+        @media #{$media-landscape} {
+            width: calc(#{$content-width-desktop});
         }
         @media #{$media-portrait} {
-            flex-direction: column;
-            border-top-left-radius: 6px;
-            border-top-right-radius: 6px;
+            width: calc(100% - #{$section-margin-lr} * 2);
+        }
+    } 
+
+
+    &--feed {
+        margin-bottom: $section-margin-bottom;
+
+        &--placeholder {
+            opacity: 0.5;
+            height: 270px;
+        }
+    } 
+
+
+    &--course-list {
+        grid-area: course-list;
+    }
+
+
+    &--course-detail {
+        @media #{$media-landscape} {
+            grid-area: course-detail;
         }
     }
+
+
+    &--timetable-and-infos {
+        grid-area: timetable-and-infos;
+        display: grid;
+        @media #{$media-landscape} {
+            grid-template-columns: 1fr min-content calc(#{$section-width-desktop-1v3-left} - (#{$section-padding} * 2));
+            grid-template-rows: min-content min-content min-content min-content 1fr min-content min-content;
+            grid-template-areas:
+                "timetable  divider-main    map"
+                "timetable  divider-main    divider-sub-1"
+                "timetable  divider-main    summary"
+                "timetable  divider-main    divider-sub-2"
+                "timetable  divider-main    exam"
+                "timetable  divider-main    divider-sub-3"
+                "timetable  divider-main    share"
+            ;
+        }
+        @media #{$media-portrait} {
+            grid-template-columns: 1fr;
+            grid-template-rows: 1fr min-content min-content min-content min-content;
+            grid-template-areas:
+                "timetable"
+                "divider-main"
+                "summary"
+                "divider-sub-3"
+                "share"
+            ;
+            border-top-left-radius: $section-border-radius;
+            border-top-right-radius: $section-border-radius;
+        }
+    }
+
+
+    &--semester-and-timetable-list {
+        display: grid;
+        @media #{$media-landscape} {
+            grid-area: semester-and-timetable-tabs;
+            grid-template-columns: 1fr min-content;
+            grid-template-rows: min-content 1fr;
+            grid-template-areas:
+                "timetable-tabs semester"
+                "timetable-tabs ."
+            ;
+        }
+        @media #{$media-portrait} {
+            grid-template-columns: 1fr min-content 1fr;
+            grid-template-rows: min-content min-content;
+            grid-template-areas:
+                ".              semester        ."
+                "timetable-tabs timetable-tabs  timetable-tabs"a
+            ;
+        } 
+    } 
+
+
+    &--lecture-detail {
+        @media #{$media-landscape} {
+            grid-area: lecture-detail;
+        }
+        @media #{$media-portrait} {
+            
+        } 
+    } 
 
 
     &--lecture-list {
+        grid-area: lecture-list;
         position: relative;
     }
 
 
     &--semester {
+        grid-area: semester;
         height: initial;
         padding: 5px 8px;
-        flex: 0 0 auto;
         font-size: $font-size-small;
         line-height: $line-height-small;
         display: flex;
@@ -752,9 +1080,6 @@ a {
             width: 104px;
         }
         @media #{$media-portrait} {
-            padding: 0;
-            background: none;
-            box-shadow: none;
             margin-bottom: 10px;
         }
 
@@ -778,7 +1103,20 @@ a {
 
 
     &--syllabus {
+        grid-area: syllabus;
         flex: auto;
+    }
+
+
+    &--taken-lectures {
+        grid-area: taken-lectures;
+    }
+
+
+    &--write-reviews-right {
+        @media #{$media-landscape} {
+            grid-area: write-reviews-right;
+        }
     }
 }
 
@@ -797,7 +1135,7 @@ a {
         &__list-area {
             @media #{$media-landscape} {
                 min-height: calc(
-                    (5.6vh + 276px) - (
+                    #{$section-height-desktop-lecture-detail} - (
                         #{$section-padding}
                         + (#{$line-height-big} + 2px)
                         + (#{$line-height-normal} + 4px)
@@ -811,7 +1149,7 @@ a {
             @media #{$media-portrait} {
                 min-height: calc(
                     #{$screen-height} - (
-                        55px
+                        #{$header-height}
                         + #{$section-margin-top}
                         + #{$section-padding}
                         + (#{$line-height-big} + 2px)
@@ -852,7 +1190,7 @@ a {
                             (
                                 (
                                     #{$screen-height}
-                                    - 55px
+                                    - #{$header-height}
                                     - (#{$section-margin-bottom} * 2)
                                 ) / 2
                                 - (
@@ -867,7 +1205,7 @@ a {
                                 + (6px * 2)
                                 + 1px
                                 + #{$line-height-normal}
-                                + 8px
+                                + #{$block-padding-small}
                             )
                         );
                     }
@@ -876,7 +1214,7 @@ a {
                             (
                                 (
                                     #{$screen-height}
-                                    - 55px
+                                    - #{$header-height}
                                     - (#{$section-margin-bottom} * 2)
                                 ) / 2
                                 - (
@@ -888,7 +1226,7 @@ a {
                             ) / 2
                             - (
                                 #{$line-height-smaller / 2}
-                                + 8px
+                                + #{$block-padding-small}
                             )
                             + #{$section-padding}
                         );
@@ -899,7 +1237,7 @@ a {
     }
 
     &--timetable {
-        flex: 1 1 auto;
+        grid-area: timetable;
         position: relative;
 
         &__table {
@@ -999,8 +1337,8 @@ a {
     }
 
     &--map {
+        grid-area: map;
         height: initial;
-        flex: 0 0 auto;
 
         & > div {
             position: relative;
@@ -1168,7 +1506,7 @@ a {
     }
 
     &--summary {
-        flex: none;
+        grid-area: summary;
         display: flex;
         flex-direction: column;
         @media #{$media-portrait} {
@@ -1211,7 +1549,7 @@ a {
     }
 
     &--exam {
-        flex: 1 1 auto;
+        grid-area: exam;
         display: flex;
         flex-direction: column;
         min-height: calc(#{$line-height-normal} * 3 + 8px + 2px - #{$section-padding});
@@ -1280,7 +1618,7 @@ a {
     }
 
     &--share {
-        flex: none;
+        grid-area: share;
 
         & > div:first-child {
             float: left;
@@ -1308,7 +1646,7 @@ a {
             @media #{$media-landscape} {
                 min-height: calc(
                     #{$screen-height} - (
-                        55px
+                        #{$header-height}
                         + #{$section-padding}
                         + (#{$line-height-big} + 2px + #{$line-height-normal} + 10px)
                         + ((0.7vh + 15px) + 2px + #{$line-height-smaller} + 12px)
@@ -1323,7 +1661,7 @@ a {
             @media #{$media-portrait} {
                 min-height: calc(
                     #{$screen-height} - (
-                        55px
+                        #{$header-height}
                         + #{$section-margin-top}
                         + #{$section-padding}
                         + (#{$line-height-big} + 2px + #{$line-height-normal} + 10px)
@@ -1361,21 +1699,19 @@ a {
 
     &--latest-reviews {
         &__blocks {
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-            margin-right: -8px;
-            margin-bottom: -8px + 12px;
+            display: grid;
+            grid-auto-rows: auto;
+            gap: $block-margin;
+            margin-bottom: 12px;
+            @media #{$media-landscape} {
+                grid-template-columns: repeat(auto-fill, minmax(114px, 1fr));
+            }
+            @media #{$media-portrait} {
+                grid-template-columns: repeat(auto-fill, minmax(94px, 1fr));
+            }
 
-            &__dummy {
-                margin-right: 8px;
-                width: 114px;
-                flex: 1 0 auto;
-                height: 0;
-                @media #{$media-portrait} {
-                    width: 94px;
-                }
-        
+            & > .block {
+                margin: 0;
             }
         }
 
@@ -1383,7 +1719,7 @@ a {
             @media #{$media-landscape} {
                 min-height: calc(
                     #{$screen-height} - (
-                        55px
+                        #{$header-height}
                         + #{$section-padding}
                         + (#{$line-height-big} + 10px)
     
@@ -1395,7 +1731,7 @@ a {
             @media #{$media-portrait} {
                 min-height: calc(
                     #{$screen-height} - (
-                        55px
+                        #{$header-height}
                         + #{$section-margin-top}
                         + #{$section-padding}
                         + (#{$line-height-big} + 10px)
@@ -1543,17 +1879,14 @@ a {
         flex-direction: column;
 
         &__blocks {
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-            margin-right: -8px;
-            margin-bottom: -8px + 12px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(144px, 1fr));
+            grid-auto-rows: auto;
+            gap: $block-margin;
+            margin-bottom: 12px;
 
-            &__dummy {
-                margin-right: 8px;
-                width: 144px;
-                flex: 1 0 auto;
-                height: 0;
+            & > .block {
+                margin: 0;
             }
         }
 
@@ -1611,7 +1944,7 @@ a {
         background-color: rgba($color-section-background, 0.8);
         z-index: 290;
 
-        .section-wrap--lecture-list & {
+        .section--lecture-list & {
             z-index: 90;
         }
 
@@ -1627,8 +1960,8 @@ a {
     font-size: $font-size-normal;
     line-height: $line-height-normal;
     display: block;
-    padding: 10px;
-    margin-bottom: 8px;
+    padding: $block-padding;
+    margin-bottom: $block-margin;
     position: relative;
     overflow: hidden;
     &:last-child {
@@ -1676,10 +2009,10 @@ a {
         position: absolute;
         top: 0;
         right: 0;
-        padding: (8px + ($font-size-normal - $font-size-smaller) / 2)
-                 10px
-                 (6px + ($font-size-normal - $font-size-smaller) / 2)
-                 8px;
+        padding: ($block-padding-small + ($font-size-normal - $font-size-smaller) / 2)
+                 $block-padding
+                 (($block-padding-small - 2px) + ($font-size-normal - $font-size-smaller) / 2)
+                 ($block-padding - 2px);
         background-color: inherit;
         opacity: 0.8;
         &:hover {
@@ -1708,7 +2041,7 @@ a {
 
 
     &--course-simple {
-        padding: 8px 10px;
+        padding: $block-padding-small $block-padding;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -1735,12 +2068,10 @@ a {
 
 
     &--lecture-simple {
-        padding: 8px 10px;
-        margin-right: 8px;
+        padding: $block-padding-small $block-padding;
         display: flex;
         flex-direction: column;
         justify-content: center;
-        width: 144px;
         cursor: pointer;
 
         &:not(.block--dimmed):hover {
@@ -1822,7 +2153,6 @@ a {
 
 
     &--review-write {
-        padding: 10px;
 
         .section-content--course-detail &:last-child {
             margin-bottom: 0;
@@ -1921,20 +2251,20 @@ a {
 
 
     &--lecture-group {
-        padding: 8px 10px;
-        margin-bottom: 6px;
+        padding: $block-padding-small $block-padding;
+        margin-bottom: $block-margin-small;
 
         &__title {
             margin-bottom: 6px;
         }
 
         &__elem-wrap {
-            margin: 0px -10px;
-            padding: 0 10px 0 18px;
+            margin: 0px (-$block-padding);
+            padding: 0 $block-padding 0 ($block-padding + 8px);
             cursor: pointer;
 
             &:last-child {
-                margin-bottom: -8px;
+                margin-bottom: -$block-padding-small;
                 border-radius:0px 0px $block-border-radius $block-border-radius;
             }
 
@@ -1957,7 +2287,7 @@ a {
             align-items: center;
 
             *:last-child > & {
-                padding-bottom: 8px;
+                padding-bottom: $block-padding-small;
             }
 
             &__texts {
@@ -2017,17 +2347,17 @@ a {
 
 
     &--lecture-group-simple {
-        padding: 8px 10px;
+        padding: $block-padding-small $block-padding;
         margin-bottom: 0;
 
         &__elem-wrap {
-            margin: 0px -10px;
-            padding: 0 10px 0 10px;
+            margin: 0px (-$block-padding);
+            padding: 0 $block-padding 0 $block-padding;
             &:first-child {
-                margin-top: -8px;
+                margin-top: -$block-padding-small;
             }
             &:last-child {
-                margin-bottom: -8px;
+                margin-bottom: -$block-padding-small;
             }
         }
 
@@ -2041,10 +2371,10 @@ a {
 
             *:first-child > & {
                 border-top: none;
-                padding-top: 8px;
+                padding-top: $block-padding-small;
             }
             *:last-child > & {
-                padding-bottom: 8px;
+                padding-bottom: $block-padding-small;
             }
 
             &__texts {
@@ -2196,8 +2526,8 @@ a {
     }
 
     &--review-simple {
-        padding: 8px 10px;
-        margin-bottom: 6px;
+        padding: $block-padding-small $block-padding;
+        margin-bottom: $block-margin-small;
 
         & > div:first-child {
             color: $color-text-lighter;
@@ -2240,12 +2570,8 @@ a {
 
 
     &--project {
-        padding: 8px 10px;
-        margin-right: 8px;
-        margin-bottom: 8px;
-        width: 144px;
+        padding: $block-padding-small $block-padding;
         text-align: center;
-        flex: 1 0 auto;
         cursor: pointer;
         &:hover {
             background-color:$color-block-background-dark;
@@ -2262,16 +2588,9 @@ a {
 
 
     &--semester {
-        padding: 8px 10px;
-        margin-right: 8px;
-        margin-bottom: 8px;
-        width: 114px;
+        padding: $block-padding-small $block-padding;
         text-align: center;
-        flex: 1 0 auto;
         cursor: pointer;
-        @media #{$media-portrait} {
-            width: 94px;
-        }
 
         &:hover {
             background-color:$color-block-background-dark;
@@ -2506,14 +2825,13 @@ a {
 
 
 .main-date {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
+    grid-area: main-date;
     height: 300px;
     padding: calc(300px / 2 - 24px) 0;
     background-image: linear-gradient(rgba($color-page-background, 0) 80%, rgba($color-page-background, 1));
     color: rgba($color-highlight, 0.5);
     text-align: center;
+    z-index: 50;
 
     & > span:first-child,
     & > a:first-child {
@@ -2650,21 +2968,13 @@ a {
 
 
 .taken-lectures {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    margin-right: -8px;
-    margin-bottom: -8px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(144px, 1fr));
+    grid-auto-rows: auto;
+    gap: $block-margin;
 
-    & > * {
-        flex: 1 0 auto;
-    }
-
-    &__dummy {
-        margin-right: 8px;
-        width: 144px;
-        flex: 1 0 auto;
-        height: 0;
+    & > .block {
+        margin: 0;
     }
 }
 
@@ -3024,7 +3334,7 @@ a {
         @media #{$media-landscape} {
             min-height: calc(
                 #{$screen-height} - (
-                    55px
+                    #{$header-height}
                     + #{$section-padding}
                     + (#{$line-height-big} + 8px)
                     + ((0.7vh + 13px) + 2px + #{$line-height-smaller})
@@ -3040,7 +3350,7 @@ a {
         @media #{$media-portrait} {
             min-height: calc(
                 #{$screen-height} - (
-                    55px
+                    #{$header-height}
                     + #{$section-padding}
                     + (#{$line-height-big} + 8px)
                     + ((1.9vw + 13px) + 2px + #{$line-height-smaller})
@@ -3608,19 +3918,5 @@ i.icon {
 .mobile-unhidden {
     @media #{$media-landscape} {
         display: none !important;
-    }
-}
-
-.mobile-nosize {
-    @media #{$media-portrait} {
-        width: 0;
-        height: 0;
-        padding: 0;
-        margin: 0;
-        flex: none;
-
-        &.section-wrap--timetable-left {
-            margin-left: $section-margin-lr;
-        }
     }
 }

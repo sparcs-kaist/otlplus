@@ -60,7 +60,6 @@ class TimetablePage extends Component {
     // eslint-disable-next-line react/destructuring-assignment
     const { startSemester } = this.props.location.state || {};
     const {
-      lectureFocus,
       mobileIsTimetableTabsOpen, mobileIsLectureListOpen,
       setMobileIsTimetableTabsOpenDispatch,
     } = this.props;
@@ -68,43 +67,29 @@ class TimetablePage extends Component {
     return (
       <>
         <section className={classNames('content', 'content--no-scroll', 'content--timetable')}>
-          <div className={classNames('section-wrap', 'section-wrap--desktop-1v3--left', 'section-wrap--mobile-full', 'section-wrap--timetable-left', (mobileIsLectureListOpen ? '' : 'mobile-nosize'))}>
-            <div className={classNames('section-wrap', 'section-wrap--lecture-detail', 'mobile-modal', (lectureFocus.clicked ? '' : 'mobile-hidden'))}>
-              <div className={classNames('section')}>
-                <LectureDetailSection />
-              </div>
-            </div>
-            <div className={classNames('section-wrap', 'section-wrap--with-tabs', 'section-wrap--lecture-list', (mobileIsLectureListOpen ? '' : 'mobile-hidden'))}>
-              <LectureListTabs />
-              <div className={classNames('section', 'section--with-tabs', 'section--lecture-list')}>
-                <LectureListSection />
-              </div>
-            </div>
-          </div>
-          <div className={classNames('section-wrap', 'section-wrap--desktop-1v3--right', 'section-wrap--mobile-full', 'section-wrap--timetable-center-right')}>
-            <div className={classNames('section-wrap', 'section-wrap--timetable-tabs', 'mobile-modal', (mobileIsTimetableTabsOpen ? '' : 'mobile-hidden'))}>
-              <div>
-                <div className={classNames('close-button-wrap')}>
-                  <button onClick={() => setMobileIsTimetableTabsOpenDispatch(false)}>
-                    <i className={classNames('icon', 'icon--close-section')} />
-                  </button>
-                </div>
-                <TimetableTabs />
-                <SemesterSection startSemester={startSemester} />
-              </div>
-            </div>
-            <div className={classNames('section', 'section--with-tabs', 'section--timetable')}>
-              <TimetableSubSection />
-              <div className={classNames('divider', 'divider--vertical', 'divider--mobile-horizontal')} />
-              <div className={classNames('section-wrap', 'section-wrap--timetable-right')}>
-                <MapSubSection />
-                <div className={classNames('divider', 'mobile-hidden')} />
-                <SummarySubSection />
-                <div className={classNames('divider', 'mobile-hidden')} />
-                <ExamSubSection />
-                <div className={classNames('divider', (mobileIsLectureListOpen ? 'mobile-hidden' : ''))} />
-                <ShareSubSection />
-              </div>
+          <div className={classNames('page-grid', 'page-grid--timetable', (mobileIsLectureListOpen ? 'page-grid--timetable--mobile-expanded' : ''))}>
+            <LectureDetailSection />
+            <LectureListTabs />
+            <LectureListSection />
+            <div className={classNames('section', 'section--semester-and-timetable-list', 'section--desktop-transparent', 'section--mobile-modal', (mobileIsTimetableTabsOpen ? '' : 'mobile-hidden'))}>
+              <div className={classNames('close-button-wrap')}>
+                <button onClick={() => setMobileIsTimetableTabsOpenDispatch(false)}>
+                  <i className={classNames('icon', 'icon--close-section')} />
+                </button>
+              </div> 
+              <TimetableTabs />
+              <SemesterSection startSemester={startSemester} />
+            </div> 
+            <div className={classNames('section', 'section--with-tabs', 'section--timetable-and-infos')}>
+              <TimetableSubSection /> 
+              <div className={classNames('divider', 'divider--vertical', 'divider--mobile-horizontal')} style={{ gridArea: 'divider-main' }} />
+              <MapSubSection />
+              <div className={classNames('divider', 'mobile-hidden')} style={{ gridArea: 'divider-sub-1' }} />
+              <SummarySubSection />
+              <div className={classNames('divider', 'mobile-hidden')} style={{ gridArea: 'divider-sub-2' }} />
+              <ExamSubSection />
+              <div className={classNames('divider', (mobileIsLectureListOpen ? 'mobile-hidden' : ''))} style={{ gridArea: 'divider-sub-3' }} />
+              <ShareSubSection />
             </div>
           </div>
         </section>

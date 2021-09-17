@@ -136,6 +136,8 @@ class CourseDetailSection extends Component {
 
     if (courseFocus.clicked && courseFocus.course !== null) {
       return (
+      // eslint-disable-next-line react/jsx-indent
+      <div className={classNames('section', 'section--course-detail', 'section--mobile-modal', ((courseFocus.course && courseFocus.clicked) ? '' : 'mobile-hidden'))}>
         <div className={classNames('section-content', 'section-content--flex', 'section-content--course-detail')}>
           <div className={classNames('close-button-wrap')}>
             <button onClick={this.unfix}>
@@ -182,9 +184,12 @@ class CourseDetailSection extends Component {
             <ReviewsSubSection />
           </Scroller>
         </div>
+      </div>
       );
     }
     return (
+    // eslint-disable-next-line react/jsx-indent
+    <div className={classNames('section', 'section--course-detail', 'section--mobile-modal', ((courseFocus.course && courseFocus.clicked) ? '' : 'mobile-hidden'))}>
       <div className={classNames('section-content', 'section-content--flex', 'section-content--course-detail')}>
         <div className={classNames('otlplus-placeholder')}>
           <div>
@@ -205,6 +210,7 @@ class CourseDetailSection extends Component {
           </div>
         </div>
       </div>
+    </div>
     );
   }
 }

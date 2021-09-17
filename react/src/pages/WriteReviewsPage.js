@@ -7,10 +7,11 @@ import { withTranslation } from 'react-i18next';
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
 
 import TakenLecturesSection from '../components/sections/write-reviews/TakenLecturesSection';
-import LectureReviewsSection from '../components/sections/write-reviews/LectureReviewsSection';
-import LatestReviewsSection from '../components/sections/write-reviews/LatestReviewsSection';
-import MyReviewsSection from '../components/sections/write-reviews/MyReviewsSection';
-import LikedReviewsSection from '../components/sections/write-reviews/LikedReviewsSection';
+import LectureReviewsSubSection from '../components/sections/write-reviews/LectureReviewsSubSection';
+import LatestReviewsSubSection from '../components/sections/write-reviews/LatestReviewsSubSection';
+import MyReviewsSubSection from '../components/sections/write-reviews/MyReviewsSubSection';
+import LikedReviewsSubSection from '../components/sections/write-reviews/LikedReviewsSubSection';
+import RankedReviewsSubSection from '../components/sections/write-reviews/RankedReviewsSubSection';
 
 import { reset as resetReviewsFocus, setReviewsFocus } from '../actions/write-reviews/reviewsFocus';
 import { reset as resetLatestReviews } from '../actions/write-reviews/latestReviews';
@@ -21,7 +22,6 @@ import {
 } from '../reducers/write-reviews/reviewsFocus';
 
 import reviewsFocusShape from '../shapes/ReviewsFocusShape';
-import RankedReviewsSection from '../components/sections/write-reviews/RankedReviewsSection';
 
 
 class WriteReviewsPage extends Component {
@@ -54,19 +54,19 @@ class WriteReviewsPage extends Component {
 
     const getReviewsSubSection = (focusFrom) => {
       if (focusFrom === LECTURE) {
-        return <LectureReviewsSection />;
+        return <LectureReviewsSubSection />;
       }
       if (focusFrom === LATEST) {
-        return <LatestReviewsSection />;
+        return <LatestReviewsSubSection />;
       }
       if (focusFrom === MY) {
-        return <MyReviewsSection />;
+        return <MyReviewsSubSection />;
       }
       if (focusFrom === LIKED) {
-        return <LikedReviewsSection />;
+        return <LikedReviewsSubSection />;
       }
       if (focusFrom === RANKED) {
-        return <RankedReviewsSection />;
+        return <RankedReviewsSubSection />;
       }
       return null;
     };
@@ -102,20 +102,9 @@ class WriteReviewsPage extends Component {
     return (
       <>
         <section className={classNames('content', 'content--no-scroll')}>
-          <div className={classNames('section-wrap', 'section-wrap--desktop-1v3--left', 'section-wrap--mobile-full')}>
-            <div className={classNames('section')}>
-              <TakenLecturesSection />
-            </div>
-          </div>
-          <div
-            className={classNames(
-              'section-wrap',
-              'section-wrap--desktop-1v3--right',
-              'mobile-modal',
-              ((reviewsFocus.from !== NONE) ? '' : 'mobile-hidden'),
-            )}
-          >
-            <div className={classNames('section')}>
+          <div className={classNames('page-grid', 'page-grid--write-reviews')}>
+            <TakenLecturesSection />
+            <div className={classNames('section', 'section--write-reviews-right', 'section--mobile-modal', ((reviewsFocus.from !== NONE) ? '' : 'mobile-hidden'))}>
               {
                 reviewsFocus.from === NONE
                   ? rightSectionPlaceholder

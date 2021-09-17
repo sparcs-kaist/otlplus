@@ -241,6 +241,7 @@ class LectureListSection extends Component {
       lectureFocus, selectedTimetable, selectedListCode,
       searchOpen, lastSearchOption,
       lists,
+      mobileIsLectureListOpen,
     } = this.props;
 
     const getListElement = (lectureGroups, fromCart) => {
@@ -304,6 +305,8 @@ class LectureListSection extends Component {
 
     if (selectedListCode === SEARCH) {
       return (
+      // eslint-disable-next-line react/jsx-indent
+      <div className={classNames('section', 'section--with-tabs', 'section--lecture-list', (mobileIsLectureListOpen ? '' : 'mobile-hidden'))}>
         <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
           { searchOpen ? <LectureSearchSubSection /> : null }
           <div className={classNames('close-button-wrap')}>
@@ -323,10 +326,13 @@ class LectureListSection extends Component {
             {getListElement(this._getLectureGroups(selectedListCode, lists), false)}
           </>
         </div>
+      </div>
       );
     }
     if (selectedListCode === BASIC) {
       return (
+      // eslint-disable-next-line react/jsx-indent
+      <div className={classNames('section', 'section--with-tabs', 'section--lecture-list', (mobileIsLectureListOpen ? '' : 'mobile-hidden'))}>
         <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
           <div className={classNames('close-button-wrap')}>
             <button onClick={this.mobileCloseLectureList}>
@@ -343,11 +349,14 @@ class LectureListSection extends Component {
             {getListElement(this._getLectureGroups(selectedListCode, lists), false)}
           </>
         </div>
+      </div>
       );
     }
     if (user && user.departments.some((d) => (selectedListCode === d.code))) {
       const department = user.departments.find((d) => (selectedListCode === d.code));
       return (
+      // eslint-disable-next-line react/jsx-indent
+      <div className={classNames('section', 'section--with-tabs', 'section--lecture-list', (mobileIsLectureListOpen ? '' : 'mobile-hidden'))}>
         <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
           <div className={classNames('close-button-wrap')}>
             <button onClick={this.mobileCloseLectureList}>
@@ -364,10 +373,13 @@ class LectureListSection extends Component {
             {getListElement(this._getLectureGroups(selectedListCode, lists), false)}
           </>
         </div>
+      </div>
       );
     }
     if (selectedListCode === HUMANITY) {
       return (
+      // eslint-disable-next-line react/jsx-indent
+      <div className={classNames('section', 'section--with-tabs', 'section--lecture-list', (mobileIsLectureListOpen ? '' : 'mobile-hidden'))}>
         <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
           <div className={classNames('close-button-wrap')}>
             <button onClick={this.mobileCloseLectureList}>
@@ -384,10 +396,13 @@ class LectureListSection extends Component {
             {getListElement(this._getLectureGroups(selectedListCode, lists), false)}
           </>
         </div>
+      </div>
       );
     }
     if (selectedListCode === CART) {
       return (
+      // eslint-disable-next-line react/jsx-indent
+      <div className={classNames('section', 'section--with-tabs', 'section--lecture-list', (mobileIsLectureListOpen ? '' : 'mobile-hidden'))}>
         <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
           <div className={classNames('close-button-wrap')}>
             <button onClick={this.mobileCloseLectureList}>
@@ -404,6 +419,7 @@ class LectureListSection extends Component {
             {getListElement(this._getLectureGroups(selectedListCode, lists), true)}
           </>
         </div>
+      </div>
       );
     }
     return null;
@@ -421,6 +437,7 @@ const mapStateToProps = (state) => ({
   semester: state.timetable.semester.semester,
   searchOpen: state.timetable.search.open,
   lastSearchOption: state.timetable.search.lastSearchOption,
+  mobileIsLectureListOpen: state.timetable.list.mobileIsLectureListOpen,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -458,6 +475,7 @@ LectureListSection.propTypes = {
   semester: PropTypes.number,
   searchOpen: PropTypes.bool.isRequired,
   lastSearchOption: PropTypes.object.isRequired,
+  mobileIsLectureListOpen: PropTypes.bool.isRequired,
 
   openSearchDispatch: PropTypes.func.isRequired,
   setLectureFocusDispatch: PropTypes.func.isRequired,
