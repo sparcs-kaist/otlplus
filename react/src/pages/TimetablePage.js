@@ -74,7 +74,7 @@ class TimetablePage extends Component {
             <LectureListTabs />
             <LectureListSection />
             <div className={classNames('section', 'section--semester-and-timetable-list', 'section--desktop-transparent', 'section--mobile-modal', (mobileIsTimetableTabsOpen ? '' : 'mobile-hidden'))}>
-              <CloseButton onClick={this.unfix} />
+              <CloseButton onClick={() => setMobileIsTimetableTabsOpenDispatch(false)} />
               <TimetableTabs />
               <SemesterSection startSemester={startSemester} />
             </div> 
