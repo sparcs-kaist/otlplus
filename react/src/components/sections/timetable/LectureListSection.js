@@ -7,7 +7,9 @@ import ReactGA from 'react-ga';
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
 import Scroller from '../../Scroller';
+import CloseButton from '../../CloseButton';
 import LectureSearchSubSection from './LectureSearchSubSection';
+import LectureGroupBlock from '../../blocks/LectureGroupBlock';
 
 import { setLectureFocus, clearLectureFocus } from '../../../actions/timetable/lectureFocus';
 import { addLectureToCart, deleteLectureFromCart, setMobileIsLectureListOpen } from '../../../actions/timetable/list';
@@ -29,7 +31,6 @@ import {
   performAddToTable, performAddToCart, performDeleteFromCart,
 } from '../../../utils/lectureUtils';
 import { isTaken } from '../../../utils/courseUtils';
-import LectureGroupBlock from '../../blocks/LectureGroupBlock';
 import {
   getNameKeyOfValue, getSotredDepartmentOptions, typeOptions, levelOptions,
 } from '../../../common/seachOptions';
@@ -309,11 +310,7 @@ class LectureListSection extends Component {
       <div className={classNames('section', 'section--with-tabs', 'section--lecture-list', (mobileIsLectureListOpen ? '' : 'mobile-hidden'))}>
         <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
           { searchOpen ? <LectureSearchSubSection /> : null }
-          <div className={classNames('close-button-wrap')}>
-            <button onClick={this.mobileCloseLectureList}>
-              <i className={classNames('icon', 'icon--close-section')} />
-            </button>
-          </div>
+          <CloseButton onClick={this.mobileCloseLectureList} />
           <div className={classNames('title', 'title--search')} onClick={() => this.showSearch()}>
             <i className={classNames('icon', 'icon--search')} />
             <span>{t('ui.tab.search')}</span>
@@ -334,11 +331,7 @@ class LectureListSection extends Component {
       // eslint-disable-next-line react/jsx-indent
       <div className={classNames('section', 'section--with-tabs', 'section--lecture-list', (mobileIsLectureListOpen ? '' : 'mobile-hidden'))}>
         <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
-          <div className={classNames('close-button-wrap')}>
-            <button onClick={this.mobileCloseLectureList}>
-              <i className={classNames('icon', 'icon--close-section')} />
-            </button>
-          </div>
+          <CloseButton onClick={this.mobileCloseLectureList} />
           <div className={classNames('title')}>
             {t('ui.tab.basic')}
           </div>
@@ -358,11 +351,7 @@ class LectureListSection extends Component {
       // eslint-disable-next-line react/jsx-indent
       <div className={classNames('section', 'section--with-tabs', 'section--lecture-list', (mobileIsLectureListOpen ? '' : 'mobile-hidden'))}>
         <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
-          <div className={classNames('close-button-wrap')}>
-            <button onClick={this.mobileCloseLectureList}>
-              <i className={classNames('icon', 'icon--close-section')} />
-            </button>
-          </div>
+          <CloseButton onClick={this.mobileCloseLectureList} />
           <div className={classNames('title')}>
             {`${department[t('js.property.name')]} ${t('ui.tab.major')}`}
           </div>
@@ -381,11 +370,7 @@ class LectureListSection extends Component {
       // eslint-disable-next-line react/jsx-indent
       <div className={classNames('section', 'section--with-tabs', 'section--lecture-list', (mobileIsLectureListOpen ? '' : 'mobile-hidden'))}>
         <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
-          <div className={classNames('close-button-wrap')}>
-            <button onClick={this.mobileCloseLectureList}>
-              <i className={classNames('icon', 'icon--close-section')} />
-            </button>
-          </div>
+          <CloseButton onClick={this.mobileCloseLectureList} />
           <div className={classNames('title')}>
             {t('ui.tab.humanity')}
           </div>
@@ -404,11 +389,7 @@ class LectureListSection extends Component {
       // eslint-disable-next-line react/jsx-indent
       <div className={classNames('section', 'section--with-tabs', 'section--lecture-list', (mobileIsLectureListOpen ? '' : 'mobile-hidden'))}>
         <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
-          <div className={classNames('close-button-wrap')}>
-            <button onClick={this.mobileCloseLectureList}>
-              <i className={classNames('icon', 'icon--close-section')} />
-            </button>
-          </div>
+          <CloseButton onClick={this.mobileCloseLectureList} />
           <div className={classNames('title')}>
             {t('ui.tab.wishlist')}
           </div>

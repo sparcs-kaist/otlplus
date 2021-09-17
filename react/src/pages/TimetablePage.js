@@ -13,6 +13,7 @@ import {
   setSelectedTimetable, setMobileIsTimetableTabsOpen,
 } from '../actions/timetable/timetable';
 
+import CloseButton from '../components/CloseButton';
 import LectureDetailSection from '../components/sections/timetable/LectureDetailSection';
 import LectureListTabs from '../components/sections/timetable/LectureListTabs';
 import LectureListSection from '../components/sections/timetable/LectureListSection';
@@ -72,11 +73,7 @@ class TimetablePage extends Component {
             <LectureListTabs />
             <LectureListSection />
             <div className={classNames('section', 'section--semester-and-timetable-list', 'section--desktop-transparent', 'section--mobile-modal', (mobileIsTimetableTabsOpen ? '' : 'mobile-hidden'))}>
-              <div className={classNames('close-button-wrap')}>
-                <button onClick={() => setMobileIsTimetableTabsOpenDispatch(false)}>
-                  <i className={classNames('icon', 'icon--close-section')} />
-                </button>
-              </div> 
+              <CloseButton onClick={this.unfix} />
               <TimetableTabs />
               <SemesterSection startSemester={startSemester} />
             </div> 

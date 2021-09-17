@@ -9,6 +9,7 @@ import ReactGA from 'react-ga';
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
 import Scroller from '../../Scroller';
+import CloseButton from '../../CloseButton';
 import ReviewBlock from '../../blocks/ReviewBlock';
 
 import { addReviews } from '../../../actions/write-reviews/latestReviews';
@@ -120,11 +121,7 @@ class LatestReviewsSubSection extends Component {
 
     return (
       <div className={classNames('section-content', 'section-content--flex', 'section-content--write-reviews-right')} ref={this.rightSectionRef}>
-        <div className={classNames('close-button-wrap')}>
-          <button onClick={this.unfix}>
-            <i className={classNames('icon', 'icon--close-section')} />
-          </button>
-        </div>
+        <CloseButton onClick={this.unfix} />
         <Scroller
           key={reviewsFocus.from}
           onScroll={this.handleScroll}
