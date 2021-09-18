@@ -15,7 +15,7 @@ const TimetableTile = ({
   dayIndex, beginIndex, endIndex,
   cellWidth, cellHeight,
   isTimetableReadonly, isRaised, isHighlighted, isDimmed, isTemp, isSimple,
-  blockHover, blockOut, blockClick, deleteLecture,
+  tileHover, tileOut, tileClick, deleteLecture,
   occupiedTimes,
 }) => {
   const onDeleteFromTableClick = (event) => {
@@ -44,9 +44,9 @@ const TimetableTile = ({
         width: cellWidth + 2,
         height: cellHeight * (endIndex - beginIndex) - 3,
       }}
-      onMouseOver={blockHover ? blockHover(lecture) : null}
-      onMouseOut={blockOut}
-      onClick={blockClick ? blockClick(lecture) : null}
+      onMouseOver={tileHover ? tileHover(lecture) : null}
+      onMouseOut={tileOut}
+      onClick={tileClick ? tileClick(lecture) : null}
     >
       { !isTemp && !isTimetableReadonly
         ? <button className={classNames('tile--timetable__button')} onClick={onDeleteFromTableClick}><i className={classNames('icon', 'icon--delete-lecture')} /></button>
@@ -98,9 +98,9 @@ TimetableTile.propTypes = {
   isDimmed: PropTypes.bool.isRequired,
   isTemp: PropTypes.bool.isRequired,
   isSimple: PropTypes.bool.isRequired,
-  blockHover: PropTypes.func,
-  blockOut: PropTypes.func,
-  blockClick: PropTypes.func,
+  tileHover: PropTypes.func,
+  tileOut: PropTypes.func,
+  tileClick: PropTypes.func,
   deleteLecture: PropTypes.func.isRequired,
   occupiedTimes: PropTypes.arrayOf(PropTypes.array),
 };
