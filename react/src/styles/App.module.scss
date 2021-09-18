@@ -1947,28 +1947,28 @@ a {
     overflow: hidden;
     font-size: $font-size-small;
     line-height: $line-height-small;
+    &.tile--highlighted {
+        background-color: #E0546F;
+    }
+    &.tile--raised {
+        margin-top: -3px;
+        margin-bottom: 3px;
+        box-shadow: 0 6px 3px -3px $color-block-shadow-highlight;
+    }
+    &.tile--temp {
+        background-color: #E0546F;
+        opacity: 0.85;
+        z-index: 3;
+        cursor: initial;
+    }
+    &.tile--dimmed {
+        opacity: 0.5;
+        cursor: initial;
+    }
     
 
     &--timetable {
         cursor: pointer;
-        &.tile--highlighted {
-            background-color: #E0546F;
-        }
-        &.tile--raised {
-            margin-top: -3px;
-            margin-bottom: 3px;
-            box-shadow: 0 6px 3px -3px $color-block-shadow-highlight;
-        }
-        &.tile--temp {
-            background-color: #E0546F;
-            opacity: 0.85;
-            z-index: 3;
-            cursor: initial;
-        }
-        &.tile--dimmed {
-            opacity: 0.5;
-            cursor: initial;
-        }
 
         &__button {
             top: 0px;
