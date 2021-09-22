@@ -1,4 +1,5 @@
 from functools import reduce
+import re
 
 from django.db.models import QuerySet
 from django.http import QueryDict
@@ -37,7 +38,16 @@ def apply_offset_and_limit(queryset: QuerySet, params: QueryDict, max_limit: int
 
 
 def apply_order(queryset: QuerySet, params: QueryDict, default_order: list = []) -> QuerySet:
+    PROHIBITED_FIELD_PATTERN = [
+        r"\?",
+        r"user", r"profile", r"owner", r"writer",
+        r"__.*__"
+    ]
+
     order = params.getlist("order", default_order)
+    if any(re.match(p, o) for p in PROHIBITED_FIELD_PATTERN for o in order):
+        raise ValueError
+
     return queryset.order_by(*order).distinct()
 
 
