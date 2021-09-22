@@ -7,18 +7,18 @@ from django.utils.decorators import method_decorator
 from django.views import View
 
 from utils.decorators import login_required_ajax
-from utils.util import getint, get_paginated_queryset, patch_object
+from utils.util import apply_offset_and_limit, apply_order, getint, patch_object
 
 from .models import Review, ReviewVote
 
 class ReviewListView(View):
     MAX_LIMIT = 50
+    DEFAULT_ORDER = []
 
     def get(self, request):
         reviews = Review.objects.all()
 
-        order = request.GET.getlist("order", [])
-        reviews = reviews.order_by(*order).distinct()
+        reviews = apply_order(reviews, request.GET, ReviewListView.DEFAULT_ORDER)
 
         lecture_query = Q()
         lecture_year = getint(request.GET, "lecture_year", None)
@@ -36,9 +36,7 @@ class ReviewListView(View):
         if response_type == "count":
             return JsonResponse(reviews.count(), safe=False)
 
-        offset = getint(request.GET, "offset", None)
-        limit = getint(request.GET, "limit", None)
-        reviews = get_paginated_queryset(reviews, offset, limit, self.MAX_LIMIT)
+        reviews = apply_offset_and_limit(reviews, request.GET, ReviewListView.MAX_LIMIT)
 
         result = [r.toJson(user=request.user) for r in reviews]
         return JsonResponse(result, safe=False)

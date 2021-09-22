@@ -4,7 +4,7 @@ from django.utils.decorators import method_decorator
 from django.views import View
 
 from utils.decorators import login_required_ajax
-from utils.util import getint, get_paginated_queryset
+from utils.util import apply_offset_and_limit
 
 from .models import Semester, Course, Lecture, Professor, CourseUser
 from . import services
@@ -33,9 +33,7 @@ class CourseListView(View):
         # .select_related('department') \
         # .prefetch_related('related_courses_prior', 'related_courses_posterior', 'professors', 'read_users_courseuser')
 
-        offset = getint(request.GET, "offset", None)
-        limit = getint(request.GET, "limit", None)
-        courses = get_paginated_queryset(courses, offset, limit, self.MAX_LIMIT)
+        courses = apply_offset_and_limit(courses, request.GET, CourseListView.MAX_LIMIT)
         result = [c.toJson(user=request.user) for c in courses]
         return JsonResponse(result, safe=False)
 
@@ -118,9 +116,7 @@ class LectureListView(View):
         # .select_related('course', 'department') \
         # .prefetch_related('classtimes', 'examtimes', 'professors') \
 
-        offset = getint(request.GET, "offset", None)
-        limit = getint(request.GET, "limit", None)
-        lectures = get_paginated_queryset(lectures, offset, limit, self.MAX_LIMIT)
+        lectures = apply_offset_and_limit(lectures, request.GET, LectureListView.MAX_LIMIT)
         result = [lecture.toJson(nested=False) for lecture in lectures]
         return JsonResponse(result, safe=False)
 
