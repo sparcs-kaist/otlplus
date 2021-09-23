@@ -214,14 +214,16 @@ class Command(BaseCommand):
                 lecture.save()
                 lecture_count += 1
                 # professor save
-                match_scholar = filter(
-                    lambda a: lecture.year == a[0]
-                    and lecture.semester == a[1]
-                    and lecture.code == a[2]
-                    and lecture.class_no.strip() == a[3].strip()
-                    and lecture.department_id == a[4],
+                match_scholar = list(filter(
+                    lambda p: (
+                        lecture.year == p[0]
+                        and lecture.semester == p[1]
+                        and lecture.code == p[2]
+                        and lecture.class_no.strip() == p[3].strip()
+                        and lecture.department_id == p[4]
+                    ),
                     professors,
-                )
+                ))
                 if len(match_scholar) != 0:
                     professors_not_updated = set()
                     for prof in lecture.professors.all():
