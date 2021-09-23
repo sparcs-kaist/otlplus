@@ -6,7 +6,7 @@
     "node": "< 13.0.0"
   },
   "dependencies": {
-    "axios": "^0.20.0",
+    "axios": "^0.21.2",
     "classnames": "^2.2.6",
     "history": "^4.7.2",
     "i18next": "^19.7.0",
