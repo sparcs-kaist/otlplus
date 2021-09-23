@@ -231,11 +231,11 @@ class Command(BaseCommand):
                     for i in match_scholar:
                         try:
                             prof_id = i[5]
-                            prof_name = str(i[6], "cp949")
+                            prof_name = str(i[6], "cp949") if isinstance(i[6], bytes) else i[6]
                             if i[8] is None or i[8] == "":
                                 prof_name_en = ""
                             else:
-                                prof_name_en = str(i[8].strip(), "cp949")
+                                prof_name_en = str(i[8].strip(), "cp949") if isinstance(i[8], bytes) else i[8].strip()
                             if i[4] is None or i[4] == "":
                                 prof_major = ""
                             else:

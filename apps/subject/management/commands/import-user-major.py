@@ -76,9 +76,10 @@ class Command(BaseCommand):
 
             for user in profile_matches:
                 for d in departments:
-                    if a[1].decode(encoding) == "부전공신청":
+                    application_type = a[1].decode(encoding) if isinstance(a[1], bytes) else a[1]
+                    if application_type == "부전공신청":
                         user.minors.add(d)
-                    elif a[1].decode("cp949") == "복수전공신청":
+                    elif application_type == "복수전공신청":
                         user.majors.add(d)
                     else:
                         print("Major/minor type not matching : " % (a.decode("cp959")))
