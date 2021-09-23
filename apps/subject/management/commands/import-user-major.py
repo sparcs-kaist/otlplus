@@ -29,6 +29,7 @@ class Command(BaseCommand):
         port = options.get("port", None)
         user = options.get("user", None)
         password = options.get("password", None)
+        encoding = options.get("encoding")
         all_ = options.get("all", None)
         student_id = options.get("studentid", None)
         try:
@@ -71,11 +72,11 @@ class Command(BaseCommand):
 
         for a in user_major_minor:
             profile_matches = UserProfile.objects.filter(student_id=a[0])
-            departments = Department.objects.filter(name=a[2].decode("cp949"))
+            departments = Department.objects.filter(name=a[2].decode(encoding))
 
             for user in profile_matches:
                 for d in departments:
-                    if a[1].decode("cp949") == "부전공신청":
+                    if a[1].decode(encoding) == "부전공신청":
                         user.minors.add(d)
                     elif a[1].decode("cp949") == "복수전공신청":
                         user.majors.add(d)

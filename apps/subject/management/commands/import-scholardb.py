@@ -41,7 +41,7 @@ class Command(BaseCommand):
         port = options.get("port", None)
         user = options.get("user", None)
         password = options.get("password", None)
-        encoding = options.get("encoding", "cp949")
+        encoding = options.get("encoding")
         exclude_lecture = options.get("exclude_lecture", False)
         lecture_count = 0
 
@@ -94,7 +94,7 @@ class Command(BaseCommand):
             for row in rows:
                 myrow = []
                 for elem in row:
-                    if isinstance(elem, str):
+                    if isinstance(elem, bytes):
                         try:
                             elem = elem.decode(encoding)
                         except UnicodeDecodeError:
@@ -287,7 +287,7 @@ class Command(BaseCommand):
             print(row)
             myrow = []
             for elem in row:
-                if isinstance(elem, str):
+                if isinstance(elem, bytes):
                     try:
                         elem = elem.decode(encoding)
                     except UnicodeDecodeError:
@@ -324,7 +324,7 @@ class Command(BaseCommand):
             print(row)
             myrow = []
             for elem in row:
-                if isinstance(elem, str):
+                if isinstance(elem, bytes):
                     try:
                         elem = elem.decode(encoding)
                     except UnicodeDecodeError:
@@ -370,7 +370,7 @@ class Command(BaseCommand):
         for row in syllabuses:
             myrow = []
             for elem in row:
-                if isinstance(elem, str):
+                if isinstance(elem, bytes):
                     try:
                         elem = elem.decode(encoding)
                     except UnicodeDecodeError:
