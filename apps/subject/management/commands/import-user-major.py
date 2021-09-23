@@ -72,11 +72,11 @@ class Command(BaseCommand):
 
         for a in user_major_minor:
             profile_matches = UserProfile.objects.filter(student_id=a[0])
-            departments = Department.objects.filter(name=a[2].decode(encoding))
+            departments = Department.objects.filter(name=a[2])
 
             for user in profile_matches:
                 for d in departments:
-                    application_type = a[1].decode(encoding) if isinstance(a[1], bytes) else a[1]
+                    application_type = a[1]
                     if application_type == "부전공신청":
                         user.minors.add(d)
                     elif application_type == "복수전공신청":
