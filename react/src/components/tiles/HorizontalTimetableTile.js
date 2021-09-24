@@ -9,7 +9,7 @@ import lectureShape from '../../shapes/LectureShape';
 import classtimeShape from '../../shapes/ClasstimeShape';
 
 
-const HorizontalTimetableBlock = ({
+const HorizontalTimetableTile = ({
   t,
   lecture, classtime,
   cellWidth, cellHeight,
@@ -18,7 +18,7 @@ const HorizontalTimetableBlock = ({
 
   return (
     <div
-      className={classNames('block--horizonatal-timetable', `background-color--${getColorNumber(lecture)}`)}
+      className={classNames('tile--horizonatal-timetable', `background-color--${getColorNumber(lecture)}`)}
       style={{
         left: cellWidth * indexOfTime(classtime.begin) + 2 + 2,
         top: 11 + 4 + 3,
@@ -26,14 +26,14 @@ const HorizontalTimetableBlock = ({
         height: cellHeight,
       }}
     >
-      <div className={classNames('block--horizonatal-timetable__content')}>
-        <p className={classNames('block--horizonatal-timetable__content__title')}>
+      <div className={classNames('tile--horizonatal-timetable__content')}>
+        <p className={classNames('tile--horizonatal-timetable__content__title')}>
           {lecture[t('js.property.title')]}
         </p>
-        <p className={classNames('block--horizonatal-timetable__content__info')}>
+        <p className={classNames('tile--horizonatal-timetable__content__info')}>
           {getProfessorsShortStr(lecture)}
         </p>
-        <p className={classNames('block--horizonatal-timetable__content__info')}>
+        <p className={classNames('tile--horizonatal-timetable__content__info')}>
           {classtime[t('js.property.classroom')]}
         </p>
       </div>
@@ -41,11 +41,11 @@ const HorizontalTimetableBlock = ({
   );
 };
 
-HorizontalTimetableBlock.propTypes = {
+HorizontalTimetableTile.propTypes = {
   lecture: lectureShape.isRequired,
   classtime: classtimeShape,
   cellWidth: PropTypes.number.isRequired,
   cellHeight: PropTypes.number.isRequired,
 };
 
-export default withTranslation()(React.memo(HorizontalTimetableBlock));
+export default withTranslation()(React.memo(HorizontalTimetableTile));

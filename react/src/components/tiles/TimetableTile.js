@@ -9,13 +9,13 @@ import lectureShape from '../../shapes/LectureShape';
 import classtimeShape from '../../shapes/ClasstimeShape';
 
 
-const TimetableBlock = ({
+const TimetableTile = ({
   t,
   lecture, classtime,
   dayIndex, beginIndex, endIndex,
   cellWidth, cellHeight,
   isTimetableReadonly, isRaised, isHighlighted, isDimmed, isTemp, isSimple,
-  blockHover, blockOut, blockClick, deleteLecture,
+  tileHover, tileOut, tileClick, deleteLecture,
   occupiedTimes,
 }) => {
   const onDeleteFromTableClick = (event) => {
@@ -26,13 +26,13 @@ const TimetableBlock = ({
   return (
     <div
       className={classNames(
-        'block',
-        'block--timetable',
+        'tile',
+        'tile--timetable',
         `background-color--${getColorNumber(lecture) + 1}`,
-        (isRaised ? 'block--raised' : ''),
-        (isTemp ? 'block--temp' : ''),
-        (isHighlighted ? 'block--highlighted' : ''),
-        (isDimmed ? 'block--dimmed' : ''),
+        (isRaised ? 'tile--raised' : ''),
+        (isTemp ? 'tile--temp' : ''),
+        (isHighlighted ? 'tile--highlighted' : ''),
+        (isDimmed ? 'tile--dimmed' : ''),
       )}
       style={{
         left: (cellWidth + 5) * dayIndex + 17,
@@ -44,25 +44,25 @@ const TimetableBlock = ({
         width: cellWidth + 2,
         height: cellHeight * (endIndex - beginIndex) - 3,
       }}
-      onMouseOver={blockHover ? blockHover(lecture) : null}
-      onMouseOut={blockOut}
-      onClick={blockClick ? blockClick(lecture) : null}
+      onMouseOver={tileHover ? tileHover(lecture) : null}
+      onMouseOut={tileOut}
+      onClick={tileClick ? tileClick(lecture) : null}
     >
       { !isTemp && !isTimetableReadonly
-        ? <button className={classNames('block--timetable__button')} onClick={onDeleteFromTableClick}><i className={classNames('icon', 'icon--delete-lecture')} /></button>
+        ? <button className={classNames('tile--timetable__button')} onClick={onDeleteFromTableClick}><i className={classNames('icon', 'icon--delete-lecture')} /></button>
         : null
       }
       <div
         // onMouseDown={() => onMouseDown()}
-        className={classNames('block--timetable__content')}
+        className={classNames('tile--timetable__content')}
       >
-        <p className={classNames('block--timetable__content__title', (isSimple ? 'mobile-hidden' : ''))}>
+        <p className={classNames('tile--timetable__content__title', (isSimple ? 'mobile-hidden' : ''))}>
           {lecture[t('js.property.title')]}
         </p>
-        <p className={classNames('block--timetable__content__info', 'mobile-hidden')}>
+        <p className={classNames('tile--timetable__content__info', 'mobile-hidden')}>
           {getProfessorsShortStr(lecture)}
         </p>
-        <p className={classNames('block--timetable__content__info', 'mobile-hidden')}>
+        <p className={classNames('tile--timetable__content__info', 'mobile-hidden')}>
           {classtime ? classtime[t('js.property.classroom')] : null}
         </p>
       </div>
@@ -72,7 +72,7 @@ const TimetableBlock = ({
           : occupiedTimes.map((o) => (
             <div
               key={`${o[0]}:${o[1]}`}
-              className={classNames('block--timetable__occupied-area')}
+              className={classNames('tile--timetable__occupied-area')}
               style={{
                 top: cellHeight * o[0],
                 height: cellHeight * (o[1] - o[0]) - 3,
@@ -84,7 +84,7 @@ const TimetableBlock = ({
   );
 };
 
-TimetableBlock.propTypes = {
+TimetableTile.propTypes = {
   lecture: lectureShape.isRequired,
   classtime: classtimeShape,
   dayIndex: PropTypes.number.isRequired,
@@ -98,11 +98,11 @@ TimetableBlock.propTypes = {
   isDimmed: PropTypes.bool.isRequired,
   isTemp: PropTypes.bool.isRequired,
   isSimple: PropTypes.bool.isRequired,
-  blockHover: PropTypes.func,
-  blockOut: PropTypes.func,
-  blockClick: PropTypes.func,
+  tileHover: PropTypes.func,
+  tileOut: PropTypes.func,
+  tileClick: PropTypes.func,
   deleteLecture: PropTypes.func.isRequired,
   occupiedTimes: PropTypes.arrayOf(PropTypes.array),
 };
 
-export default withTranslation()(React.memo(TimetableBlock));
+export default withTranslation()(React.memo(TimetableTile));

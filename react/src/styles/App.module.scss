@@ -1932,6 +1932,125 @@ a {
 }
 
 
+.tile {
+    position: absolute;
+    flex: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0px;
+    border-radius: $small-block-border-radius;
+    z-index: 2;
+    top: 1px;
+    left: -1px;
+    width: calc(100% + 2px);
+    overflow: hidden;
+    font-size: $font-size-small;
+    line-height: $line-height-small;
+    &.tile--highlighted {
+        background-color: #E0546F;
+    }
+    &.tile--raised {
+        margin-top: -3px;
+        margin-bottom: 3px;
+        box-shadow: 0 6px 3px -3px $color-block-shadow-highlight;
+    }
+    &.tile--temp {
+        background-color: #E0546F;
+        opacity: 0.85;
+        z-index: 3;
+        cursor: initial;
+    }
+    &.tile--dimmed {
+        opacity: 0.5;
+        cursor: initial;
+    }
+    
+
+    &--timetable {
+        cursor: pointer;
+
+        &__button {
+            top: 0px;
+            right: 0px;
+            position: absolute;
+            cursor: pointer;
+            padding: 4px;
+            background-color: rgba(#E0546F,0.8);
+            .tile--timetable:not(:hover) &,
+            .tile--timetable:not(.tile--highlighted):not(.tile--raised) & {
+                display: none;
+            }
+            @media #{$media-portrait} {
+                display: none;
+            }
+        }
+
+        &__content {
+            padding: 4px 6px;
+            overflow: hidden;
+            max-height: 100%;
+
+            &__title {
+                color: rgba(#000000,0.8);
+                margin: 0;
+                margin-bottom: 1px;
+                pointer-events: none;
+                .tile--timetable.tile--highlighted &,
+                .tile--timetable.tile--raised &,
+                .tile--timetable.tile--temp &
+                 {
+                    color: rgba(#FFFFFF,1);
+                }
+            }
+
+            &__info {
+                color: rgba(#000000,0.5);
+                margin: 0;
+                margin-top: 1px;
+                pointer-events: none;
+                .tile--timetable.tile--highlighted &,
+                .tile--timetable.tile--raised &,
+                .tile--timetable.tile--temp {
+                    color: rgba(#FFFFFF,0.7);
+                }
+            }
+        }
+
+        &__occupied-area { 
+            background-color: #888;
+            position: absolute;
+            left: 0;
+            width: 100%;
+            z-index: -1;
+            border-radius: $small-block-border-radius;
+        }
+    }
+
+    &--horizonatal-timetable {
+        overflow: hidden;
+
+        &__content {
+            padding: 4px 6px;
+            overflow: hidden;
+            max-height: 100%;
+
+            &__title {
+                color: rgba(#000000,0.8);
+                margin: 0;
+                margin-bottom: 1px;
+            }
+
+            &__info {
+                color: rgba(#000000,0.5);
+                margin: 0;
+                margin-top: 1px;
+            }
+        }
+    }
+}
+
+
 .close-button-wrap {
         display: block;
         position: absolute;
@@ -2393,134 +2512,6 @@ a {
                 &__fixed-2 {
                     width: 16px;
                 }
-            }
-        }
-    }
-
-    &--timetable {
-        position: absolute !important;
-        flex: auto;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        padding: 0px;
-        border-radius: $small-block-border-radius;
-        z-index: 2;
-        top: 1px;
-        left: -1px;
-        width: calc(100% + 2px);
-        cursor: pointer;
-        overflow: hidden;
-        &.block--highlighted {
-            background-color: #E0546F;
-        }
-        &.block--raised {
-            margin-top:-3px;
-            margin-bottom:3px;
-            box-shadow: 0 6px 3px -3px $color-block-shadow-highlight;
-        }
-        &.block--temp {
-            background-color: #E0546F;
-            opacity: 0.85;
-            z-index: 3;
-            cursor: initial;
-        }
-
-        &__button {
-            top:0px;
-            right:0px;
-            position:absolute;
-            cursor:pointer;
-            padding:4px;
-            background-color:rgba(#E0546F,0.8);
-            .block--timetable:not(:hover) &,
-            .block--timetable:not(.block--highlighted):not(.block--raised) & {
-                display: none;
-            }
-            @media #{$media-portrait} {
-                display: none;
-            }
-        }
-
-        &__content {
-            padding: 4px 6px;
-            overflow: hidden;
-            max-height: 100%;
-
-            &__title {
-                font-size: $font-size-small;
-                line-height: $line-height-small;
-                color:rgba(#000000,0.8);
-                margin:0;
-                margin-bottom:1px;
-                pointer-events:none;
-                .block--timetable.block--highlighted &,
-                .block--timetable.block--raised &,
-                .block--timetable.block--temp &
-                 {
-                    color:rgba(#FFFFFF,1);
-                }
-            }
-
-            &__info {
-                font-size: $font-size-small;
-                line-height: $line-height-small;
-                color:rgba(#000000,0.5);
-                margin:0;
-                margin-top:1px;
-                pointer-events:none;
-                .block--timetable.block--highlighted &,
-                .block--timetable.block--raised &,
-                .block--timetable.block--temp {
-                    color:rgba(#FFFFFF,0.7);
-                }
-            }
-        }
-
-        &__occupied-area { 
-            background-color: #888;
-            position: absolute;
-            left: 0;
-            width: 100%;
-            z-index: -1;
-            border-radius: $small-block-border-radius;
-        }
-    }
-
-    &--horizonatal-timetable {
-        position: absolute;
-        flex: auto;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        padding: 0px;
-        border-radius: $small-block-border-radius;
-        z-index: 2;
-        top: 1px;
-        left: -1px;
-        width: calc(100% + 2px);
-        overflow: hidden;
-        white-space: nowrap;
-
-        &__content {
-            padding: 4px 6px;
-            overflow: hidden;
-            max-height: 100%;
-
-            &__title {
-                font-size: $font-size-small;
-                line-height: $line-height-small;
-                color:rgba(#000000,0.8);
-                margin:0;
-                margin-bottom:1px;
-            }
-
-            &__info {
-                font-size: $font-size-small;
-                line-height: $line-height-small;
-                color:rgba(#000000,0.5);
-                margin:0;
-                margin-top:1px;
             }
         }
     }
