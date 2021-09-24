@@ -30,6 +30,10 @@ def execute(host, port, user, password, query):
     for row in result:
         for j, elem in enumerate(row):
             if isinstance(elem, bytes):
-                row[j] = elem.decode("cp949")
+                try:
+                    row[j] = elem.decode("cp949")
+                except UnicodeDecodeError as e:
+                    print(f"Cannot decode {elem}")
+                    print(e)
 
     return result
