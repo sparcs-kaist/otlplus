@@ -86,7 +86,7 @@ $block-padding-lr: 10px;
 $block-padding-tb: 8px;
 $block-border-radius: 4px;
 
-$small-block-border-radius: 2px;
+$tile-border-radius: 2px;
 
 $media-landscape: (min-aspect-ratio: 4/3);
 $media-portrait: (max-aspect-ratio: 4/3);
@@ -1335,7 +1335,7 @@ a {
         &__drag-cell {
             position:absolute;
             background-color:rgba(#E0546F,0.8);
-            border-radius: $small-block-border-radius;
+            border-radius: $tile-border-radius;
             pointer-events:none;
             z-index:1;
         }
@@ -1455,7 +1455,7 @@ a {
                     font-size: $font-size-smallest;
                     line-height:9px;
                     height: 13px;
-                    border-radius: $small-block-border-radius;
+                    border-radius: 2px;
                     padding: 2px 3px;
                     background-color: $color-block-background;
                     &.block--highlighted {
@@ -1944,7 +1944,7 @@ a {
     flex-direction: column;
     justify-content: center;
     padding: 0px;
-    border-radius: $small-block-border-radius;
+    border-radius: $tile-border-radius;
     z-index: 2;
     top: 1px;
     left: -1px;
@@ -2028,7 +2028,7 @@ a {
             left: 0;
             width: 100%;
             z-index: -1;
-            border-radius: $small-block-border-radius;
+            border-radius: $tile-border-radius;
         }
     }
 
