@@ -28,7 +28,7 @@ const TimetableTile = ({
       className={classNames(
         'tile',
         'tile--timetable',
-        `background-color--${getColorNumber(lecture) + 1}`,
+        `background-color--${getColorNumber(lecture)}`,
         (isRaised ? 'tile--raised' : ''),
         (isTemp ? 'tile--temp' : ''),
         (isHighlighted ? 'tile--highlighted' : ''),
