@@ -9,6 +9,8 @@ import { appBoundClassNames as classNames } from '../../../common/boundClassName
 import { getAverageScoreLabel } from '../../../utils/scoreUtils';
 
 import Scroller from '../../Scroller';
+import CloseButton from '../../CloseButton';
+import Divider from '../../Divider';
 import RelatedSubSection from './RelatedSubSection';
 import HistorySubSection from './HistorySubSection';
 import ReviewsSubSection from './ReviewsSubSection';
@@ -139,11 +141,7 @@ class CourseDetailSection extends Component {
       // eslint-disable-next-line react/jsx-indent
       <div className={classNames('section', 'section--course-detail', 'section--mobile-modal', ((courseFocus.course && courseFocus.clicked) ? '' : 'mobile-hidden'))}>
         <div className={classNames('section-content', 'section-content--flex', 'section-content--course-detail')}>
-          <div className={classNames('close-button-wrap')}>
-            <button onClick={this.unfix}>
-              <i className={classNames('icon', 'icon--close-section')} />
-            </button>
-          </div>
+          <CloseButton onClick={this.unfix} />
           <div>
             <div>
               <div className={classNames('title')}>{ courseFocus.course[t('js.property.title')] }</div>
@@ -176,11 +174,11 @@ class CourseDetailSection extends Component {
                 <div>{ t('ui.score.speech') }</div>
               </div>
             </div>
-            <div className={classNames('divider')} />
+            <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
             <RelatedSubSection />
-            <div className={classNames('divider')} />
+            <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
             <HistorySubSection />
-            <div className={classNames('divider')} />
+            <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
             <ReviewsSubSection />
           </Scroller>
         </div>

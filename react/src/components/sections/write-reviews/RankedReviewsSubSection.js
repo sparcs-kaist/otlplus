@@ -9,6 +9,7 @@ import ReactGA from 'react-ga';
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
 import Scroller from '../../Scroller';
+import CloseButton from '../../CloseButton';
 import ReviewBlock from '../../blocks/ReviewBlock';
 import SemesterBlock from '../../blocks/SemesterBlock';
 
@@ -268,11 +269,7 @@ class RankedReviewsSubSection extends Component {
 
     return (
       <div className={classNames('section-content', 'section-content--flex', 'section-content--write-reviews-right')} ref={this.rightSectionRef}>
-        <div className={classNames('close-button-wrap')}>
-          <button onClick={this.unfix}>
-            <i className={classNames('icon', 'icon--close-section')} />
-          </button>
-        </div>
+        <CloseButton onClick={this.unfix} />
         <div className={classNames('section-content--latest-reviews__blocks')}>
           { semesterBlocks }
         </div>

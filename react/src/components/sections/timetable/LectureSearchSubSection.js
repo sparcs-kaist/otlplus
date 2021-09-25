@@ -9,6 +9,7 @@ import { debounce } from 'lodash';
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 import { SEARCH } from '../../../reducers/timetable/list';
 
+import Divider from '../../Divider';
 import SearchFilter from '../../SearchFilter';
 import Scroller from '../../Scroller';
 
@@ -18,7 +19,7 @@ import { clearLectureFocus } from '../../../actions/timetable/lectureFocus';
 
 import lectureFocusShape from '../../../shapes/LectureFocusShape';
 
-import { typeOptions, getSotredDepartmentOptions, levelOptions } from '../../../common/seachOptions';
+import { getTypeOptions, getDepartmentOptions, getLevelOptions } from '../../../common/seachOptions';
 
 
 class LectureSearchSubSection extends Component {
@@ -213,8 +214,6 @@ class LectureSearchSubSection extends Component {
     } = this.state;
     const { start, end, day } = this.props;
 
-    const departmentOptions = getSotredDepartmentOptions();
-
     return (
       <div className={classNames('search-area')}>
         <form onSubmit={this.handleSubmit}>
@@ -241,21 +240,21 @@ class LectureSearchSubSection extends Component {
               updateCheckedValues={this.updateCheckedValues('selectedTypes')}
               inputName="type"
               titleName={t('ui.search.type')}
-              options={typeOptions}
+              options={getTypeOptions()}
               checkedValues={selectedTypes}
             />
             <SearchFilter
               updateCheckedValues={this.updateCheckedValues('selectedDepartments')}
               inputName="department"
               titleName={t('ui.search.department')}
-              options={departmentOptions}
+              options={getDepartmentOptions()}
               checkedValues={selectedDepartments}
             />
             <SearchFilter
               updateCheckedValues={this.updateCheckedValues('selectedLevels')}
               inputName="grade"
               titleName={t('ui.search.level')}
-              options={levelOptions}
+              options={getLevelOptions()}
               checkedValues={selectedLevels}
             />
             <div className={classNames('attribute')}>
@@ -283,7 +282,7 @@ class LectureSearchSubSection extends Component {
             <button type="submit" className={classNames('text-button')}>{t('ui.button.search')}</button>
             <button type="button" className={classNames('text-button')} onClick={() => this.hideSearch()}>{t('ui.button.cancel')}</button>
           </div>
-          <div className={classNames('divider')} />
+          <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
         </form>
       </div>
     );

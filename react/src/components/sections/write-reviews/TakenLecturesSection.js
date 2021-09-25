@@ -7,6 +7,7 @@ import { sumBy } from 'lodash';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
+import Divider from '../../Divider';
 import Scroller from '../../Scroller';
 import LectureSimpleBlock from '../../blocks/LectureSimpleBlock';
 
@@ -93,11 +94,11 @@ class TakenLecturesSection extends Component {
               <div>{t('ui.score.likes')}</div>
             </div>
           </div>
-          <div className={classNames('divider')} />
+          <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
           <Scroller expandTop={12}>
             <div className={classNames('list-placeholder')}>{t('ui.placeholder.loginRequired')}</div>
           </Scroller>
-          <div className={classNames('divider')} />
+          <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
           <div className={classNames('section-content--taken-lectures__menus-list')}>
             <div>
               <button
@@ -181,12 +182,12 @@ class TakenLecturesSection extends Component {
             <div>{t('ui.score.likes')}</div>
           </div>
         </div>
-        <div className={classNames('divider')} />
+        <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
         <Scroller expandTop={12}>
           {targetSemesters.length
             ? targetSemesters.map((s, i) => (
               <React.Fragment key={`${s.year}-${s.semester}`}>
-                { (i !== 0) ? <div className={classNames('divider')} /> : null }
+                { (i !== 0) ? <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} /> : null }
                 <div className={classNames('small-title')}>
                   {`${s.year} ${getSemesterName(s.semester)}`}
                 </div>
@@ -224,7 +225,7 @@ class TakenLecturesSection extends Component {
             : <div className={classNames('list-placeholder')}>{t('ui.placeholder.noResults')}</div>
           }
         </Scroller>
-        <div className={classNames('divider')} />
+        <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
         <div className={classNames('section-content--taken-lectures__menus-list')}>
           <div>
             <button

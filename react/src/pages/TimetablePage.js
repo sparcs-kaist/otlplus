@@ -13,6 +13,8 @@ import {
   setSelectedTimetable, setMobileIsTimetableTabsOpen,
 } from '../actions/timetable/timetable';
 
+import CloseButton from '../components/CloseButton';
+import Divider from '../components/Divider';
 import LectureDetailSection from '../components/sections/timetable/LectureDetailSection';
 import LectureListTabs from '../components/sections/timetable/LectureListTabs';
 import LectureListSection from '../components/sections/timetable/LectureListSection';
@@ -72,23 +74,19 @@ class TimetablePage extends Component {
             <LectureListTabs />
             <LectureListSection />
             <div className={classNames('section', 'section--semester-and-timetable-list', 'section--desktop-transparent', 'section--mobile-modal', (mobileIsTimetableTabsOpen ? '' : 'mobile-hidden'))}>
-              <div className={classNames('close-button-wrap')}>
-                <button onClick={() => setMobileIsTimetableTabsOpenDispatch(false)}>
-                  <i className={classNames('icon', 'icon--close-section')} />
-                </button>
-              </div> 
+              <CloseButton onClick={() => setMobileIsTimetableTabsOpenDispatch(false)} />
               <TimetableTabs />
               <SemesterSection startSemester={startSemester} />
             </div> 
             <div className={classNames('section', 'section--with-tabs', 'section--timetable-and-infos')}>
               <TimetableSubSection /> 
-              <div className={classNames('divider', 'divider--vertical', 'divider--mobile-horizontal')} style={{ gridArea: 'divider-main' }} />
+              <Divider orientation={{ desktop: Divider.Orientation.VERTICAL, mobile: Divider.Orientation.HORIZONTAL }} isVisible={true} gridArea="divider-main" />
               <MapSubSection />
-              <div className={classNames('divider', 'mobile-hidden')} style={{ gridArea: 'divider-sub-1' }} />
+              <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={{ desktop: true, mobile: false }} gridArea="divider-sub-1" />
               <SummarySubSection />
-              <div className={classNames('divider', 'mobile-hidden')} style={{ gridArea: 'divider-sub-2' }} />
+              <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={{ desktop: true, mobile: false }} gridArea="divider-sub-2" />
               <ExamSubSection />
-              <div className={classNames('divider', (mobileIsLectureListOpen ? 'mobile-hidden' : ''))} style={{ gridArea: 'divider-sub-3' }} />
+              <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={{ desktop: true, mobile: !mobileIsLectureListOpen }} gridArea="divider-sub-3" />
               <ShareSubSection />
             </div>
           </div>

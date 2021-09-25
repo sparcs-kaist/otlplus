@@ -8,6 +8,8 @@ import qs from 'qs';
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
 import Scroller from '../../Scroller';
+import CloseButton from '../../CloseButton';
+import Divider from '../../Divider';
 import ReviewWriteBlock from '../../blocks/ReviewWriteBlock';
 import ReviewBlock from '../../blocks/ReviewBlock';
 
@@ -89,11 +91,7 @@ class LectureReviewsSubSection extends Component {
 
     return (
       <div className={classNames('section-content', 'section-content--flex', 'section-content--write-reviews-right')}>
-        <div className={classNames('close-button-wrap')}>
-          <button onClick={this.unfix}>
-            <i className={classNames('icon', 'icon--close-section')} />
-          </button>
-        </div>
+        <CloseButton onClick={this.unfix} />
         <Scroller
           key={reviewsFocus.lecture.id}
           expandTop={12}
@@ -110,7 +108,7 @@ class LectureReviewsSubSection extends Component {
               updateOnSubmit={this.updateOnReviewSubmit}
             />
           </div>
-          <div className={classNames('divider')} />
+          <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
           <div className={classNames('section-content', 'section-content--latest-reviews')}>
             <div className={classNames('title')}>{`${t('ui.title.relatedReviews')} - ${reviewsFocus.lecture[t('js.property.title')]}`}</div>
             { reviewBlocksArea }

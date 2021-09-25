@@ -7,6 +7,7 @@ import qs from 'qs';
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
 import Scroller from '../../Scroller';
+import CloseButton from '../../CloseButton';
 import ReviewBlock from '../../blocks/ReviewBlock';
 
 import { clearReviewsFocus } from '../../../actions/write-reviews/reviewsFocus';
@@ -40,11 +41,7 @@ class MyReviewsSubSection extends Component {
 
     return (
       <div className={classNames('section-content', 'section-content--flex', 'section-content--write-reviews-right')}>
-        <div className={classNames('close-button-wrap')}>
-          <button onClick={this.unfix}>
-            <i className={classNames('icon', 'icon--close-section')} />
-          </button>
-        </div>
+        <CloseButton onClick={this.unfix} />
         <Scroller
           key={reviewsFocus.from}
           expandTop={12}
