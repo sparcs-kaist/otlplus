@@ -75,9 +75,11 @@ $section-height-desktop-lecture-detail: calc(
     + #{$section-padding}
 );
 
-$tabs-height-horizontal-small: 27px;
-$tabs-height-horizontal: 29px;
-$tabs-width-vertical: 29px;
+$tab-padding: 8px;
+$tab-margin: 6px;
+$tab-border-radius: 4px;
+$tabs-height-horizontal: (13px + $tab-padding * 2);
+$tabs-width-vertical: (13px + $tab-padding * 2);
 
 $block-margin: 8px;
 $block-padding-lr: 10px;
@@ -330,8 +332,8 @@ a {
                 $section-width-desktop-1v3-right
             ;
             grid-template-rows:
-                $tabs-height-horizontal-small
-                calc(#{$section-height-desktop-lecture-detail} - #{$tabs-height-horizontal-small})
+                $tabs-height-horizontal
+                calc(#{$section-height-desktop-lecture-detail} - #{$tabs-height-horizontal})
                 $section-margin-bottom
                 1fr
             ;
@@ -413,7 +415,7 @@ a {
                 100%
             ;
             grid-template-rows:
-                $tabs-height-horizontal-small
+                $tabs-height-horizontal
                 1fr
             ;
             grid-template-areas:
@@ -426,7 +428,7 @@ a {
                 100%
             ;
             grid-template-rows:
-                $tabs-height-horizontal-small
+                $tabs-height-horizontal
                 1fr
             ;
             grid-template-areas:
@@ -756,6 +758,7 @@ a {
     color: $color-text-light;
 
     & .tabs__elem {
+        padding: $tab-padding;
         text-align: center;
         background-color: $color-tab-background-dark;
         white-space: nowrap;
@@ -785,16 +788,15 @@ a {
         }
 
         & .tabs__elem {
-            padding: 8px;
             @media #{$media-landscape} {
                 margin-left: auto;
-                margin-bottom: 6px;
-                border-radius: $block-border-radius 0 0 $block-border-radius;
+                margin-bottom: $tab-margin;
+                border-radius: $tab-border-radius 0 0 $tab-border-radius;
                 line-height: 0;
             }
             @media #{$media-portrait} {
-                margin-right: 6px;
-                border-radius: $block-border-radius $block-border-radius 0 0;
+                margin-right: $tab-margin;
+                border-radius: $tab-border-radius $tab-border-radius 0 0;
                 flex: 1 1 0;
                 &:last-child {
                     margin-right: 0;
@@ -817,15 +819,20 @@ a {
     }
 
 
+    &--course-list {
+        grid-area: course-list-tabs;
+    }
+
+
     &--timetable {
         grid-area: timetable-tabs;
 
         & .tabs__elem {
             display: inline-block;
             vertical-align: top;
-            margin-right: 6px;
-            border-radius: $block-border-radius $block-border-radius 0 0;
-            padding: 7px 10px;
+            margin-right: $tab-margin;
+            border-radius: $tab-border-radius $tab-border-radius 0 0;
+            padding: $tab-padding ($tab-padding + 2px);
             display: inline-flex;
             flex-direction: row;
             justify-content: center;
@@ -852,7 +859,7 @@ a {
                 }
             }
             &--add-button {
-                padding: 8px;
+                padding: $tab-padding;
                 line-height: 0;
                 @media #{$media-portrait} {
                     margin-bottom: 0;
@@ -893,9 +900,9 @@ a {
         & .tabs__elem {
             display: inline-block;
             vertical-align: top;
-            margin-right: 6px;
-            border-radius: $block-border-radius $block-border-radius 0 0;
-            padding: 7px 10px;
+            margin-right: $tab-margin;
+            border-radius: $tab-border-radius $tab-border-radius 0 0;
+            padding: $tab-padding ($tab-padding + 2px);
 
             &:last-child {
                 margin-right: 0;
@@ -1067,7 +1074,7 @@ a {
     &--semester {
         grid-area: semester;
         height: initial;
-        padding: 5px 8px;
+        padding: 6px 8px;
         font-size: $font-size-small;
         line-height: $line-height-small;
         display: flex;
