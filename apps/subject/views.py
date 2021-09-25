@@ -69,7 +69,7 @@ class CourseListAutocompleteView(View):
 
 class CourseInstanceReviewsView(View):
     MAX_LIMIT = 100
-    DEFAULT_ORDER = ['-lecture__year', '-lecture__semester', '-written_datetime']
+    DEFAULT_ORDER = ['-lecture__year', '-lecture__semester', '-written_datetime', '-id']
 
     def get(self, request, course_id):
         course = get_object_or_404(Course, id=course_id)
