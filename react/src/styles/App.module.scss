@@ -838,8 +838,9 @@ a {
             justify-content: center;
             @media #{$media-portrait} {
                 width: 100%;
+                padding: $block-padding-tb $block-padding-lr;
                 background-color: $color-block-background;
-                margin-bottom: 6px;
+                margin-bottom: $block-margin;
                 border-radius: $block-border-radius;
                 text-align: left;
                 &.tabs__elem--selected {
@@ -1037,18 +1038,19 @@ a {
         display: grid;
         @media #{$media-landscape} {
             grid-area: semester-and-timetable-tabs;
-            grid-template-columns: 1fr min-content;
+            grid-template-columns: 1fr 8px min-content;
             grid-template-rows: min-content 1fr;
             grid-template-areas:
-                "timetable-tabs semester"
-                "timetable-tabs ."
+                "timetable-tabs .   semester"
+                "timetable-tabs .   ."
             ;
         }
         @media #{$media-portrait} {
             grid-template-columns: 1fr min-content 1fr;
-            grid-template-rows: min-content min-content;
+            grid-template-rows: min-content 12px min-content;
             grid-template-areas:
                 ".              semester        ."
+                ".              .               ."
                 "timetable-tabs timetable-tabs  timetable-tabs"
             ;
         } 
@@ -1084,9 +1086,6 @@ a {
         }
         &.semester-en {
             width: 104px;
-        }
-        @media #{$media-portrait} {
-            margin-bottom: 10px;
         }
 
         & > button {
