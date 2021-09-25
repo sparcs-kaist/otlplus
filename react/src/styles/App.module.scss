@@ -80,9 +80,8 @@ $tabs-height-horizontal: 29px;
 $tabs-width-vertical: 29px;
 
 $block-margin: 8px;
-$block-margin-small: 6px;
-$block-padding: 10px;
-$block-padding-small: 8px;
+$block-padding-lr: 10px;
+$block-padding-tb: 8px;
 $block-border-radius: 4px;
 
 $small-block-border-radius: 2px;
@@ -1205,7 +1204,7 @@ a {
                                 + (6px * 2)
                                 + 1px
                                 + #{$line-height-normal}
-                                + #{$block-padding-small}
+                                + #{$block-padding-tb}
                             )
                         );
                     }
@@ -1226,7 +1225,7 @@ a {
                             ) / 2
                             - (
                                 #{$line-height-smaller / 2}
-                                + #{$block-padding-small}
+                                + #{$block-padding-tb}
                             )
                             + #{$section-padding}
                         );
@@ -2079,7 +2078,7 @@ a {
     font-size: $font-size-normal;
     line-height: $line-height-normal;
     display: block;
-    padding: $block-padding;
+    padding: $block-padding-tb $block-padding-lr;
     margin-bottom: $block-margin;
     position: relative;
     overflow: hidden;
@@ -2128,10 +2127,10 @@ a {
         position: absolute;
         top: 0;
         right: 0;
-        padding: ($block-padding-small + ($font-size-normal - $font-size-smaller) / 2)
-                 $block-padding
-                 (($block-padding-small - 2px) + ($font-size-normal - $font-size-smaller) / 2)
-                 ($block-padding - 2px);
+        padding: ($block-padding-tb + ($font-size-normal - $font-size-smaller) / 2)
+                 $block-padding-lr
+                 (($block-padding-tb - 2px) + ($font-size-normal - $font-size-smaller) / 2)
+                 ($block-padding-lr - 2px);
         background-color: inherit;
         opacity: 0.8;
         &:hover {
@@ -2160,7 +2159,6 @@ a {
 
 
     &--course-simple {
-        padding: $block-padding-small $block-padding;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -2187,7 +2185,6 @@ a {
 
 
     &--lecture-simple {
-        padding: $block-padding-small $block-padding;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -2370,20 +2367,18 @@ a {
 
 
     &--lecture-group {
-        padding: $block-padding-small $block-padding;
-        margin-bottom: $block-margin-small;
 
         &__title {
             margin-bottom: 6px;
         }
 
         &__elem-wrap {
-            margin: 0px (-$block-padding);
-            padding: 0 $block-padding 0 ($block-padding + 8px);
+            margin: 0px (-$block-padding-lr);
+            padding: 0 $block-padding-lr 0 ($block-padding-lr + 8px);
             cursor: pointer;
 
             &:last-child {
-                margin-bottom: -$block-padding-small;
+                margin-bottom: -$block-padding-tb;
                 border-radius:0px 0px $block-border-radius $block-border-radius;
             }
 
@@ -2406,7 +2401,7 @@ a {
             align-items: center;
 
             *:last-child > & {
-                padding-bottom: $block-padding-small;
+                padding-bottom: $block-padding-tb;
             }
 
             &__texts {
@@ -2466,17 +2461,16 @@ a {
 
 
     &--lecture-group-simple {
-        padding: $block-padding-small $block-padding;
         margin-bottom: 0;
 
         &__elem-wrap {
-            margin: 0px (-$block-padding);
-            padding: 0 $block-padding 0 $block-padding;
+            margin: 0px (-$block-padding-lr);
+            padding: 0 $block-padding-lr 0 $block-padding-lr;
             &:first-child {
-                margin-top: -$block-padding-small;
+                margin-top: -$block-padding-tb;
             }
             &:last-child {
-                margin-bottom: -$block-padding-small;
+                margin-bottom: -$block-padding-tb;
             }
         }
 
@@ -2490,10 +2484,10 @@ a {
 
             *:first-child > & {
                 border-top: none;
-                padding-top: $block-padding-small;
+                padding-top: $block-padding-tb;
             }
             *:last-child > & {
-                padding-bottom: $block-padding-small;
+                padding-bottom: $block-padding-tb;
             }
 
             &__texts {
@@ -2517,8 +2511,6 @@ a {
     }
 
     &--review-simple {
-        padding: $block-padding-small $block-padding;
-        margin-bottom: $block-margin-small;
 
         & > div:first-child {
             color: $color-text-lighter;
@@ -2561,7 +2553,6 @@ a {
 
 
     &--project {
-        padding: $block-padding-small $block-padding;
         text-align: center;
         cursor: pointer;
         &:hover {
@@ -2579,7 +2570,6 @@ a {
 
 
     &--semester {
-        padding: $block-padding-small $block-padding;
         text-align: center;
         cursor: pointer;
 
@@ -2736,7 +2726,7 @@ a {
     .section-content--lecture-detail & {
         display: block;
         width: 100%;
-        padding-bottom: 6px;
+        padding-bottom: 8px;
 
         & > span {
             margin-right: 6px;
