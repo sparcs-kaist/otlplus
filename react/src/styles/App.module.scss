@@ -88,6 +88,19 @@ $block-border-radius: 4px;
 
 $tile-border-radius: 2px;
 
+$score-margin-tb-desktop-big: calc(1.4vh + 2px + 4px);
+$score-margin-tb-desktop: calc(1.4vh + 2px);
+$score-margin-tb-mobile: calc(3.8vw + 2px);
+$score-width-desktop-big: calc(3.5vh + 34px + 20px);
+$score-width-desktop: calc(3.5vh + 34px);
+$score-width-mobile: calc(9.5vw + 34px);
+$score-font-size-desktop-big: calc(0.7vh + 15px + 2px);
+$score-font-size-desktop: calc(0.7vh + 15px);
+$score-font-size-mobile: calc(1.9vw + 15px);
+$score-line-height-desktop-big: calc(#{$score-font-size-desktop-big} - 2px);
+$score-line-height-desktop: calc(#{$score-font-size-desktop} - 2px);
+$score-line-height-mobile: calc(#{$score-font-size-mobile} - 2px);
+
 $media-landscape: (min-aspect-ratio: 4/3);
 $media-portrait: (max-aspect-ratio: 4/3);
 
@@ -3064,20 +3077,25 @@ a {
 
 .scores {
     text-align: center;
-
-    .section-content--course-detail & {
-        margin-top: calc(1.4vh + 6px);
-        margin-bottom: calc(1.4vh + 6px);
+    @media #{$media-landscape} {
+        margin-top: $score-margin-tb-desktop;
+        margin-bottom: $score-margin-tb-desktop;
+        .section-content--course-detail & {
+            margin-top: $score-margin-tb-desktop-big;
+            margin-bottom: $score-margin-tb-desktop-big;
+        }
+    }
+    @media #{$media-portrait} {
+        margin-top: $score-margin-tb-mobile;
+        margin-bottom: $score-margin-tb-mobile;
     }
     .section-content--lecture-detail & {
-        margin-top: calc(1.4vh + 2px);
-        margin-bottom: calc(1.4vh + 2px);
         &:last-child {
             margin-bottom: 0;
         }
     }
     .section-content--summary & {
-        margin-top: calc(1.4vh + 2px);
+        margin-top: $score-margin-tb-desktop;
         margin-bottom: 0;
         @media #{$media-portrait} {
             margin-top: 0;
@@ -3092,30 +3110,25 @@ a {
         }
     }
     .section-content--latest-reviews & {
+        margin-top: 0;
         margin-bottom: 12px;
+    }
+    .section-content--taken-lectures & {
+        margin-top: 0;
+        margin-bottom: 0;
     }
 
     & > div {
         display: inline-block;
 
         @media #{$media-landscape} {
+            width: $score-width-desktop;
             .section-content--course-detail & {
-                width: calc(3.5vh + 44px + 10px);
-            }
-            .section-content--lecture-detail &,
-            .section-content--summary &,
-            .section-content--taken-lectures &,
-            .section-content--latest-reviews & {
-                width: calc(3.5vh + 34px);
+                width: $score-width-desktop-big;
             }
         }
         @media #{$media-portrait} {
-            .section-content--course-detail &,
-            .section-content--lecture-detail &,
-            .section-content--taken-lectures &,
-            .section-content--latest-reviews & {
-                width: calc(9.5vw + 34px + 4px);
-            }
+            width: $score-width-mobile;
             .section-content--summary & {
                 flex: 1 1 30px;
                 width: 30px;
@@ -3127,31 +3140,24 @@ a {
             margin-bottom: 2px;
 
             @media #{$media-landscape} {
-                .section-content--course-detail & {
-                    font-size: calc(0.7vh + 17px);
-                    line-height: calc(0.7vh + 15px);
+                font-size: $score-font-size-desktop;
+                line-height: $score-line-height-desktop;
+                &.scores__score-text--korean {
+                    font-size: calc(#{$score-font-size-desktop} - 1px);
                 }
-                .section-content--lecture-detail &,
-                .section-content--summary &,
-                .section-content--taken-lectures &,
-                .section-content--latest-reviews & {
-                    font-size: calc(0.7vh + 15px);
-                    line-height: calc(0.7vh + 13px);
+                .section-content--course-detail & {
+                    font-size: $score-font-size-desktop-big;
+                    line-height: $score-line-height-desktop-big;
                     &.scores__score-text--korean {
-                        font-size: calc(0.7vh + 14px);
+                        font-size: calc(#{$score-font-size-desktop-big} - 1px);
                     }
                 }
             }
             @media #{$media-portrait} {
-                .section-content--course-detail &,
-                .section-content--lecture-detail &,
-                .section-content--taken-lectures &,
-                .section-content--latest-reviews & {
-                    font-size: calc(1.9vw + 15px);
-                    line-height: calc(1.9vw + 13px);
-                    &.scores__score-text--korean {
-                        font-size: calc(1.9vw + 14px);
-                    }
+                font-size: $score-font-size-mobile;
+                line-height: $score-line-height-mobile;
+                &.scores__score-text--korean {
+                    font-size: calc(#{$score-font-size-mobile} - 1px);
                 }
                 .section-content--summary & {
                     font-size: 24px;
