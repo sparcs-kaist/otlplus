@@ -16,10 +16,13 @@ class Review(models.Model):
 
     writer = models.ForeignKey(UserProfile, related_name="reviews", db_index=True, on_delete=models.SET_NULL, null=True)
     writer_label = models.CharField(max_length=200, default="무학과 넙죽이")
-    updated_datetime = models.DateTimeField(auto_now=True, db_index=True)
-    written_datetime = models.DateTimeField(auto_now_add=True, db_index=True, null=True)
     like = models.IntegerField(default=0)
     is_deleted = models.IntegerField(default=0)
+
+    # WARNING: Some old reviews have written_datetime = null. You may need extra filtering/ordering with id.
+    written_datetime = models.DateTimeField(auto_now_add=True, db_index=True, null=True)
+    # TODO: Modify updated_datetime not to capture changes on field 'like' and all other changes not triggered by writer
+    updated_datetime = models.DateTimeField(auto_now=True, db_index=True)
 
     class Meta:
         unique_together = (
