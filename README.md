@@ -23,7 +23,7 @@ $ python3 -m venv env # Python 버전 3.9 이상 권장
 $ source env/bin/activate
 
 # 패키지 설치
-$ pip install -r requirements.txt
+$ pip install -r requirements.txt # unixodbc, mysql@5.7 등을 먼저 설치해야 할 수 있음 (apt, brew 등으로 설치)
 
 # Secret key 설정
 $ mkdir keys

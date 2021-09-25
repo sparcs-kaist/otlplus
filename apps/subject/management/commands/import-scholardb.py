@@ -41,7 +41,7 @@ class Command(BaseCommand):
         port = options.get("port", None)
         user = options.get("user", None)
         password = options.get("password", None)
-        encoding = options.get("encoding", "cp949")
+        encoding = options.get("encoding")
         exclude_lecture = options.get("exclude_lecture", False)
         lecture_count = 0
 
@@ -92,16 +92,7 @@ class Command(BaseCommand):
 
             prev_department = None
             for row in rows:
-                myrow = []
-                for elem in row:
-                    if isinstance(elem, str):
-                        try:
-                            elem = elem.decode(encoding)
-                        except UnicodeDecodeError:
-                            elem = "%s (???)" % row[20]
-                            print(f"ERROR: parsing error on lecture {row[20]}", file=sys.stderr)
-                            print(f'       cannot read "{elem}" in cp949.', file=sys.stderr)
-                    myrow.append(elem)
+                myrow = row[:]
 
                 # Extract department info.
                 lecture_no = myrow[2]
@@ -214,14 +205,16 @@ class Command(BaseCommand):
                 lecture.save()
                 lecture_count += 1
                 # professor save
-                match_scholar = filter(
-                    lambda a: lecture.year == a[0]
-                    and lecture.semester == a[1]
-                    and lecture.code == a[2]
-                    and lecture.class_no.strip() == a[3].strip()
-                    and lecture.department_id == a[4],
+                match_scholar = list(filter(
+                    lambda p: (
+                        lecture.year == p[0]
+                        and lecture.semester == p[1]
+                        and lecture.code == p[2]
+                        and lecture.class_no.strip() == p[3].strip()
+                        and lecture.department_id == p[4]
+                    ),
                     professors,
-                )
+                ))
                 if len(match_scholar) != 0:
                     professors_not_updated = set()
                     for prof in lecture.professors.all():
@@ -229,11 +222,11 @@ class Command(BaseCommand):
                     for i in match_scholar:
                         try:
                             prof_id = i[5]
-                            prof_name = str(i[6], "cp949")
+                            prof_name = i[6]
                             if i[8] is None or i[8] == "":
                                 prof_name_en = ""
                             else:
-                                prof_name_en = str(i[8].strip(), "cp949")
+                                prof_name_en = i[8].strip()
                             if i[4] is None or i[4] == "":
                                 prof_major = ""
                             else:
@@ -285,15 +278,7 @@ class Command(BaseCommand):
         ExamTime.objects.filter(lecture__year__exact=next_year, lecture__semester=next_semester).delete()
         for row in exam_times:
             print(row)
-            myrow = []
-            for elem in row:
-                if isinstance(elem, str):
-                    try:
-                        elem = elem.decode(encoding)
-                    except UnicodeDecodeError:
-                        elem = "???"
-                        print("ERROR: parsing error on lecture. cannot read in cp949.", file=sys.stderr)
-                myrow.append(elem)
+            myrow = row[:]
             lecture_key = {
                 "deleted": False,
                 "code": myrow[2],
@@ -322,15 +307,7 @@ class Command(BaseCommand):
         ClassTime.objects.filter(lecture__year__exact=next_year, lecture__semester=next_semester).delete()
         for row in class_times:
             print(row)
-            myrow = []
-            for elem in row:
-                if isinstance(elem, str):
-                    try:
-                        elem = elem.decode(encoding)
-                    except UnicodeDecodeError:
-                        elem = "???"
-                        print("ERROR: parsing error on lecture. cannot read in cp949.", file=sys.stderr)
-                myrow.append(elem)
+            myrow = row[:]
             lecture_key = {
                 "deleted": False,
                 "code": myrow[2],
@@ -368,16 +345,7 @@ class Command(BaseCommand):
         Syllabus.objects.filter(lecture__year__exact=next_year, lecture__semester=next_semester).delete()
 
         for row in syllabuses:
-            myrow = []
-            for elem in row:
-                if isinstance(elem, str):
-                    try:
-                        elem = elem.decode(encoding)
-                    except UnicodeDecodeError:
-                        eleme = u'%s (???)' % row[2]
-                        print>>sys.stderr, 'ERROR: parsing error on lecture %s' % row[2]
-                        print>>sys.stderr, '       cannot read "%s" in cp949.' % elem
-                myrow.append(elem)
+            myrow = row[:]
             lecture_key = {
                 'code': myrow[2],
                 'year': int(myrow[0]),
