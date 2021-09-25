@@ -27,6 +27,8 @@ import {
 
 class DictionaryPage extends Component {
   componentDidMount() {
+    const LIMIT = 300;
+
     const { t } = this.props;
     // eslint-disable-next-line react/destructuring-assignment
     const { startCourseId, startTab, startSearchKeyword } = this.props.location.state || {};
@@ -66,6 +68,7 @@ class DictionaryPage extends Component {
           params: {
             keyword: startSearchKeyword,
             order: ['old_code'],
+            limit: LIMIT,
           },
           metadata: {
             gaCategory: 'Course',
@@ -74,6 +77,10 @@ class DictionaryPage extends Component {
         },
       )
         .then((response) => {
+          if (response.data.length === LIMIT) {
+            // eslint-disable-next-line no-alert
+            alert(t('ui.message.tooManySearchResults', { count: LIMIT }));
+          }
           setListCoursesDispatch(SEARCH, response.data);
         })
         .catch((error) => {

@@ -90,13 +90,18 @@ class LectureDetailSection extends Component {
   }
 
   _loadReviews = () => {
+    const LIMIT = 100;
+
     const { lectureFocus, setReviewsDispatch } = this.props;
 
     if (lectureFocus.reviews === null) {
       axios.get(
         `/api/lectures/${lectureFocus.lecture.id}/related-reviews`,
         {
-          order: ['-written_datetime', '-id'],
+          params: {
+            order: ['-written_datetime', '-id'],
+            limit: LIMIT,
+          },
           metadata: {
             gaCategory: 'Lecture',
             gaVariable: 'GET Related Reviews / Instance',
@@ -107,6 +112,9 @@ class LectureDetailSection extends Component {
           const newProps = this.props;
           if (newProps.lectureFocus.lecture.id !== lectureFocus.lecture.id) {
             return;
+          }
+          if (response.data === LIMIT) {
+            // TODO: handle limit overflow
           }
           setReviewsDispatch(response.data);
         })
