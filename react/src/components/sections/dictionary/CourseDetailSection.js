@@ -58,6 +58,9 @@ class CourseDetailSection extends Component {
     axios.get(
       `/api/courses/${courseFocus.course.id}/lectures`,
       {
+        params: {
+          order: ['year', 'semester', 'class_no'],
+        },
         metadata: {
           gaCategory: 'Course',
           gaVariable: 'GET Lectures / Instance',
@@ -82,6 +85,9 @@ class CourseDetailSection extends Component {
     axios.get(
       `/api/courses/${courseFocus.course.id}/reviews`,
       {
+        params: {
+          order: ['-lecture__year', '-lecture__semester', '-written_datetime', '-id'],
+        },
         metadata: {
           gaCategory: 'Course',
           gaVariable: 'GET Reviews / Instance',

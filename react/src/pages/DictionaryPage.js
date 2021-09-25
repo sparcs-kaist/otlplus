@@ -65,6 +65,7 @@ class DictionaryPage extends Component {
         {
           params: {
             keyword: startSearchKeyword,
+            order: ['old_code'],
           },
           metadata: {
             gaCategory: 'Course',

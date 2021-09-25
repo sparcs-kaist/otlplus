@@ -70,6 +70,7 @@ class CourseListTabs extends Component {
         params: {
           group: 'Basic',
           term: ['3'],
+          order: ['old_code'],
         },
         metadata: {
           gaCategory: 'Course',
@@ -93,6 +94,7 @@ class CourseListTabs extends Component {
         params: {
           group: [majorCode],
           term: ['3'],
+          order: ['old_code'],
         },
         metadata: {
           gaCategory: 'Course',
@@ -120,6 +122,7 @@ class CourseListTabs extends Component {
         params: {
           group: 'Humanity',
           term: ['3'],
+          order: ['old_code'],
         },
         metadata: {
           gaCategory: 'Course',
@@ -147,6 +150,7 @@ class CourseListTabs extends Component {
       `/api/users/${user.id}/taken-courses`,
       {
         params: {
+          order: ['old_code'],
         },
         metadata: {
           gaCategory: 'User',

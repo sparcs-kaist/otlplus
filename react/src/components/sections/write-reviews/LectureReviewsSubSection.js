@@ -42,6 +42,9 @@ class LectureReviewsSubSection extends Component {
     axios.get(
       `/api/lectures/${reviewsFocus.lecture.id}/related-reviews`,
       {
+        params: {
+          order: ['-written_datetime', '-id'],
+        },
         metadata: {
           gaCategory: 'Course',
           gaVariable: 'GET Reviews / Instance',

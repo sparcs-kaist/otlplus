@@ -82,6 +82,7 @@ class CourseSearchSubSection extends Component {
       {
         params: {
           ...option,
+          order: ['old_code'],
         },
         metadata: {
           gaCategory: 'Course',

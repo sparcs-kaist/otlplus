@@ -55,6 +55,9 @@ class App extends Component {
     axios.get(
       '/api/semesters',
       {
+        params: {
+          order: ['year', 'semester'],
+        },
         metadata: {
           gaCategory: 'Semester',
           gaVariable: 'GET / List',

@@ -24,7 +24,7 @@ class LatestReviewSection extends Component {
       '/api/reviews',
       {
         params: {
-          order: ['-written_datetime'],
+          order: ['-written_datetime', '-id'],
           offset: 0,
           limit: 3,
         },

@@ -91,6 +91,7 @@ class LectureSearchSubSection extends Component {
           year: year,
           semester: semester,
           ...option,
+          order: ['old_code', 'class_no'],
         },
         metadata: {
           gaCategory: 'Timetable',

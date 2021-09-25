@@ -48,6 +48,9 @@ class LikedReviewsSubSection extends Component {
     axios.get(
       `/api/users/${user.id}/liked-reviews`,
       {
+        params: {
+          order: ['-written_datetime', '-id'],
+        },
         metadata: {
           gaCategory: 'User',
           gaVariable: 'GET Liked Reviews / Instance',

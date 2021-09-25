@@ -96,6 +96,7 @@ class LectureDetailSection extends Component {
       axios.get(
         `/api/lectures/${lectureFocus.lecture.id}/related-reviews`,
         {
+          order: ['-written_datetime', '-id'],
           metadata: {
             gaCategory: 'Lecture',
             gaVariable: 'GET Related Reviews / Instance',
