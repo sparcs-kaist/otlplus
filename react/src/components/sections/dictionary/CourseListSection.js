@@ -22,6 +22,8 @@ import courseShape from '../../../shapes/CourseShape';
 import courseFocusShape from '../../../shapes/CourseFocusShape';
 import courseListsShape from '../../../shapes/CourseListsShape';
 import userShape from '../../../shapes/UserShape';
+import courseLastSearchOptionShape from '../../../shapes/CourseLastSearchOptionShape';
+
 import {
   getLabelOfValue, getDepartmentOptions, getTypeOptions, getLevelOptions, getTermOptions,
 } from '../../../common/seachOptions';
@@ -260,7 +262,7 @@ CourseListSection.propTypes = {
   readCourses: PropTypes.arrayOf(courseShape).isRequired,
   courseFocus: courseFocusShape.isRequired,
   searchOpen: PropTypes.bool.isRequired,
-  lastSearchOption: PropTypes.object.isRequired,
+  lastSearchOption: courseLastSearchOptionShape.isRequired,
 
   openSearchDispatch: PropTypes.func.isRequired,
   setCourseFocusDispatch: PropTypes.func.isRequired,

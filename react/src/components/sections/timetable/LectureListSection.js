@@ -25,12 +25,14 @@ import userShape from '../../../shapes/UserShape';
 import lectureListsShape from '../../../shapes/LectureListsShape';
 import timetableShape from '../../../shapes/TimetableShape';
 import lectureFocusShape from '../../../shapes/LectureFocusShape';
+import lectureLastSearchOptionShape from '../../../shapes/LectureLastSearchOptionShape';
 
 import {
   isListClicked,
   performAddToTable, performAddToCart, performDeleteFromCart,
 } from '../../../utils/lectureUtils';
 import { isTaken } from '../../../utils/courseUtils';
+
 import {
   getLabelOfValue, getDepartmentOptions, getTypeOptions, getLevelOptions,
 } from '../../../common/seachOptions';
@@ -52,13 +54,17 @@ class LectureListSection extends Component {
       lists, selectedListCode, lectureFocus, mobileIsLectureListOpen,
     } = this.props;
 
-    if ((selectedListCode !== prevProps.selectedListCode)
-      || (this._getLectureGroups(selectedListCode, lists) && !this._getLectureGroups(prevProps.selectedListCode, prevProps.lists))
-      || (mobileIsLectureListOpen && !prevProps.mobileIsLectureListOpen)) {
+    if (selectedListCode !== prevProps.selectedListCode) {
       this.selectWithArrow();
     }
-
-    if (!lectureFocus.clicked && prevProps.lectureFocus.clicked) {
+    if (!this._getLectureGroups(prevProps.selectedListCode, prevProps.lists)
+      && this._getLectureGroups(selectedListCode, lists)) {
+      this.selectWithArrow();
+    }
+    if (!prevProps.mobileIsLectureListOpen && mobileIsLectureListOpen) {
+      this.selectWithArrow();
+    }
+    if (prevProps.lectureFocus.clicked && !lectureFocus.clicked) {
       this.selectWithArrow();
     }
   }
@@ -86,7 +92,11 @@ class LectureListSection extends Component {
       [CART, 'Cart'],
     ]);
     const fromString = `Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`;
-    performAddToTable(this, lecture, selectedTimetable, user, fromString, addLectureToTimetableDispatch);
+    performAddToTable(
+      this,
+      lecture, selectedTimetable, user, fromString,
+      addLectureToTimetableDispatch
+    );
   }
 
   addToCart = (lecture) => {
@@ -104,7 +114,11 @@ class LectureListSection extends Component {
       [CART, 'Cart'],
     ]);
     const fromString = `Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`;
-    performAddToCart(this, lecture, year, semester, user, fromString, addLectureToCartDispatch);
+    performAddToCart(
+      this,
+      lecture, year, semester, user, fromString,
+      addLectureToCartDispatch
+    );
   }
 
   deleteFromCart = (lecture) => {
@@ -122,7 +136,11 @@ class LectureListSection extends Component {
       [CART, 'Cart'],
     ]);
     const fromString = `Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`;
-    performDeleteFromCart(this, lecture, year, semester, user, fromString, deleteLectureFromCartDispatch);
+    performDeleteFromCart(
+      this,
+      lecture, year, semester, user, fromString,
+      deleteLectureFromCartDispatch
+    );
   }
 
   listHover = (lecture) => () => {
@@ -418,7 +436,6 @@ const mapStateToProps = (state) => ({
   semester: state.timetable.semester.semester,
   searchOpen: state.timetable.search.open,
   lastSearchOption: state.timetable.search.lastSearchOption,
-  mobileIsLectureListOpen: state.timetable.list.mobileIsLectureListOpen,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -455,8 +472,7 @@ LectureListSection.propTypes = {
   year: PropTypes.number,
   semester: PropTypes.number,
   searchOpen: PropTypes.bool.isRequired,
-  lastSearchOption: PropTypes.object.isRequired,
-  mobileIsLectureListOpen: PropTypes.bool.isRequired,
+  lastSearchOption: lectureLastSearchOptionShape.isRequired,
 
   openSearchDispatch: PropTypes.func.isRequired,
   setLectureFocusDispatch: PropTypes.func.isRequired,

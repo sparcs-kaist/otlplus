@@ -19,6 +19,7 @@ import { addSemesterReviews, setSemesterReviewCount } from '../../../actions/wri
 import reviewsFocusShape from '../../../shapes/ReviewsFocusShape';
 import { getSemesterName } from '../../../utils/semesterUtils';
 import semesterShape from '../../../shapes/SemesterShape';
+import reviewShape from '../../../shapes/ReviewShape';
 
 
 export const ALL = 'ALL';
@@ -321,8 +322,8 @@ const mapDispatchToProps = (dispatch) => ({
 RankedReviewsSubSection.propTypes = {
   semesters: PropTypes.arrayOf(semesterShape),
   reviewsFocus: reviewsFocusShape.isRequired,
-  reviewsBySemester: PropTypes.object.isRequired,
-  reviewCountBySemester: PropTypes.object.isRequired,
+  reviewsBySemester: PropTypes.objectOf(PropTypes.arrayOf(reviewShape)).isRequired,
+  reviewCountBySemester: PropTypes.objectOf(PropTypes.number).isRequired,
 
   clearReviewsFocusDispatch: PropTypes.func.isRequired,
   addSemesterReviewsDispatch: PropTypes.func.isRequired,

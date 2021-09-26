@@ -80,7 +80,10 @@ class MapSubSection extends Component {
     );
     const mapBuildingToBlock = (b) => {
       const lecturesOnBuilding = this._getLecturesOnBuilding(b);
-      const isHighlighted = lecturesOnBuilding.some((l) => isSingleFocused(l, lectureFocus)) || (multipleFocusBuilding === b);
+      const isHighlighted = (
+        lecturesOnBuilding.some((l) => isSingleFocused(l, lectureFocus))
+        || (multipleFocusBuilding === b)
+      );
       return (
         <div
           className={classNames('section-content--map__block', `location--${b}`)}

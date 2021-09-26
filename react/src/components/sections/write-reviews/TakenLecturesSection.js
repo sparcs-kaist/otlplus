@@ -187,7 +187,11 @@ class TakenLecturesSection extends Component {
           {targetSemesters.length
             ? targetSemesters.map((s, i) => (
               <React.Fragment key={`${s.year}-${s.semester}`}>
-                { (i !== 0) ? <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} /> : null }
+                {
+                  (i !== 0)
+                    ? <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
+                    : null
+                }
                 <div className={classNames('small-title')}>
                   {`${s.year} ${getSemesterName(s.semester)}`}
                 </div>

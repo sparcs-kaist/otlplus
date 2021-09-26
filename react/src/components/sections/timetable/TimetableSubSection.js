@@ -190,7 +190,10 @@ class TimetableSubSection extends Component {
       clearDragDispatch();
       return;
     }
-    dragSearchDispatch(startDay, Math.min(startIndex, endIndex), Math.max(startIndex, endIndex) + 1);
+
+    const upIndex = Math.min(startIndex, endIndex);
+    const downIndex = Math.max(startIndex, endIndex) + 1;
+    dragSearchDispatch(startDay, upIndex, downIndex);
     setMobileIsLectureListOpenDispatch(true);
     setSelectedListCodeDispatch(SEARCH);
   }
@@ -242,7 +245,11 @@ class TimetableSubSection extends Component {
     } = this.props;
 
     const timetableLectures = selectedTimetable ? selectedTimetable.lectures : [];
-    const tempLecture = ((lectureFocus.from === LIST) && !inTimetable(lectureFocus.lecture, selectedTimetable))
+    const isFocusedLectureTemporary = (
+      (lectureFocus.from === LIST)
+      && !inTimetable(lectureFocus.lecture, selectedTimetable)
+    );
+    const tempLecture = isFocusedLectureTemporary
       ? lectureFocus.lecture
       : null;
 
@@ -290,9 +297,15 @@ class TimetableSubSection extends Component {
           tileOut={isTemp ? null : this.tileOut}
           tileClick={isTemp ? null : this.tileClick}
           deleteLecture={this.deleteLecture}
-          occupiedTimes={(isTemp && !isUntimed)
-            ? this._getOccupiedTimes(classtime.day, this.indexOfMinute(classtime.begin), this.indexOfMinute(classtime.end))
-            : undefined}
+          occupiedTimes={
+            (isTemp && !isUntimed)
+              ? this._getOccupiedTimes(
+                classtime.day,
+                this.indexOfMinute(classtime.begin),
+                this.indexOfMinute(classtime.end)
+              )
+              : undefined
+          }
         />
       );
     };
@@ -301,7 +314,9 @@ class TimetableSubSection extends Component {
         ? mapClasstimeToTile(lecture, null, isTemp)
         : lecture.classtimes.map((ct) => mapClasstimeToTile(lecture, ct, isTemp))
     );
-    const timetableLectureTiles = timetableLectures.map((lecture) => mapLectureToTiles(lecture, false));
+    const timetableLectureTiles = timetableLectures.map((lecture) => (
+      mapLectureToTiles(lecture, false)
+    ));
     const tempLectureTiles = tempLecture
       ? mapLectureToTiles(tempLecture, true)
       : null;

@@ -39,19 +39,24 @@ class Divider extends Component {
   }
 }
 
+const orientationType = PropTypes.oneOf([
+  Divider.Orientation.HORIZONTAL,
+  Divider.Orientation.VERTICAL,
+]);
+
 Divider.propTypes = {
   orientation: PropTypes.oneOfType([
-    PropTypes.oneOf([Divider.Orientation.HORIZONTAL, Divider.Orientation.VERTICAL]),
+    orientationType,
     PropTypes.shape({
-      desktop: PropTypes.oneOf([Divider.Orientation.HORIZONTAL, Divider.Orientation.VERTICAL]).isRequired,
-      mobile: PropTypes.oneOf([Divider.Orientation.HORIZONTAL, Divider.Orientation.VERTICAL]).isRequired,
+      desktop: orientationType.isRequired,
+      mobile: orientationType.isRequired,
     }),
   ]).isRequired,
   isVisible: PropTypes.oneOfType([
     PropTypes.bool,
     PropTypes.shape({
-      desktop: PropTypes.bool,
-      mobile: PropTypes.bool,
+      desktop: PropTypes.bool.isRequired,
+      mobile: PropTypes.bool.isRequired,
     }),
   ]).isRequired,
   gridArea: PropTypes.string,

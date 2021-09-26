@@ -41,17 +41,21 @@ const list = (state = initialState, action) => {
       });
     }
     case SET_LIST_COURSES: {
+      /* eslint-disable fp/no-mutation */
       const newState = { ...state };
       newState.lists = { ...newState.lists };
       newState.lists[action.code] = { ...newState.lists[action.code] };
       newState.lists[action.code].courses = action.courses;
+      /* eslint-enable fp/no-mutation */
       return Object.assign({}, state, newState);
     }
     case CLEAR_SEARCH_LIST_COURSES: {
+      /* eslint-disable fp/no-mutation */
       const newState = { ...state };
       newState.lists = { ...newState.lists };
       newState.lists[SEARCH] = { ...newState.lists[SEARCH] };
       newState.lists[SEARCH].courses = null;
+      /* eslint-enable fp/no-mutation */
       return Object.assign({}, state, newState);
     }
     case ADD_COURSE_READ: {

@@ -78,10 +78,12 @@ class LectureDetailSection extends Component {
       }
     }
 
-    if ((lectureFocus.from === LIST) && (prevProps.selectedListCode !== selectedListCode)) {
+    if ((lectureFocus.from === LIST)
+      && (prevProps.selectedListCode !== selectedListCode)) {
       clearLectureFocusDispatch();
     }
-    else if ((lectureFocus.from === TABLE) && (prevProps.selectedTimetable.id !== selectedTimetable.id)) {
+    else if ((lectureFocus.from === TABLE)
+      && (prevProps.selectedTimetable.id !== selectedTimetable.id)) {
       clearLectureFocusDispatch();
     }
     else if ((prevProps.year !== year) || (prevProps.semester !== semester)) {
@@ -159,7 +161,11 @@ class LectureDetailSection extends Component {
       : (lectureFocus.from === LIST)
         ? `Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`
         : 'Unknown';
-    performAddToTable(this, lectureFocus.lecture, selectedTimetable, user, fromString, addLectureToTimetableDispatch);
+    performAddToTable(
+      this,
+      lectureFocus.lecture, selectedTimetable, user, fromString,
+      addLectureToTimetableDispatch
+    );
   }
 
   deleteFromTable = (event) => {
@@ -182,7 +188,11 @@ class LectureDetailSection extends Component {
       : (lectureFocus.from === LIST)
         ? `Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`
         : 'Unknown';
-    performDeleteFromTable(this, lectureFocus.lecture, selectedTimetable, user, fromString, removeLectureFromTimetableDispatch);
+    performDeleteFromTable(
+      this,
+      lectureFocus.lecture, selectedTimetable, user, fromString,
+      removeLectureFromTimetableDispatch
+    );
   }
 
   addToCart = (event) => {
@@ -206,7 +216,11 @@ class LectureDetailSection extends Component {
       : (lectureFocus.from === LIST)
         ? `Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`
         : 'Unknown';
-    performAddToCart(this, lectureFocus.lecture, year, semester, user, fromString, addLectureToCartDispatch);
+    performAddToCart(
+      this,
+      lectureFocus.lecture, year, semester, user, fromString,
+      addLectureToCartDispatch
+    );
   }
 
   deleteFromCart = (event) => {
@@ -230,14 +244,21 @@ class LectureDetailSection extends Component {
       : (lectureFocus.from === LIST)
         ? `Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`
         : 'Unknown';
-    performDeleteFromCart(this, lectureFocus.lecture, year, semester, user, fromString, deleteLectureFromCartDispatch);
+    performDeleteFromCart(
+      this,
+      lectureFocus.lecture, year, semester, user, fromString,
+      deleteLectureFromCartDispatch
+    );
   }
 
   onScroll = () => {
     const openDictElement = this.openDictRef.current;
     const scrollElement = openDictElement.closest('.ScrollbarsCustom-Scroller');
 
-    if (openDictElement.getBoundingClientRect().top - scrollElement.getBoundingClientRect().top < 1.0) { // TODO: Change handing method for errors of 0.x differnce
+    const topOffset = (
+      openDictElement.getBoundingClientRect().top - scrollElement.getBoundingClientRect().top
+    );
+    if (topOffset < 1.0) { // TODO: Change handing method for errors of 0.x differnce
       this.setState({ shouldShowCloseDict: true });
     }
     else {
@@ -376,7 +397,10 @@ class LectureDetailSection extends Component {
             }
             {reviewsDom}
           </Scroller>
-          <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={{ desktop: false, mobile: true }} />
+          <Divider
+            orientation={Divider.Orientation.HORIZONTAL}
+            isVisible={{ desktop: false, mobile: true }}
+          />
           <div className={classNames('section-content--lecture-detail__mobile-buttons', 'desktop-hidden')}>
             {
               !inCart(lectureFocus.lecture, lists[CART])

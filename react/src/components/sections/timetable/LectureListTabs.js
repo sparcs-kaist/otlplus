@@ -206,7 +206,10 @@ class LectureListTabs extends Component {
         ) {
           return;
         }
-        setListLecturesDispatch(CART, response.data.lectures.filter((l) => ((l.year === year) && (l.semester === semester))));
+        const cartLecturesOfThisSemester = response.data.lectures.filter((l) => (
+          (l.year === year) && (l.semester === semester)
+        ));
+        setListLecturesDispatch(CART, cartLecturesOfThisSemester);
       })
       .catch((error) => {
       });

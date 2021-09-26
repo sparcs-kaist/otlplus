@@ -89,7 +89,10 @@ class MainPage extends Component {
 
     const columns = Array.from(this.contentRef.current.querySelectorAll(`.${classNames('page-grid--main')} > div`));
 
-    if (columns.some((cl) => (cl.lastChild.getBoundingClientRect().top < window.innerHeight + SCROLL_BOTTOM_PADDING))) {
+    const isBottomReached = columns.some((cl) => (
+      cl.lastChild.getBoundingClientRect().top < window.innerHeight + SCROLL_BOTTOM_PADDING
+    ));
+    if (isBottomReached) {
       this._fetchFeeds(this._getPrevDate());
     }
   }

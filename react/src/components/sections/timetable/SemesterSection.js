@@ -39,21 +39,24 @@ class SemesterSection extends Component {
     setSemesterDispatch(initialSemester.year, initialSemester.semester);
   }
 
-  _isFirstSemester = (year, semester) => {
+  _getSemesterIndex = (year, semester) => {
     const { semesters } = this.props;
+    return semesters.findIndex((s) => ((s.year === year) && (s.semester === semester)));
+  }
 
-    const semesterIdx = semesters.findIndex((s) => ((s.year === year) && (s.semester === semester)));
+  _isFirstSemester = (year, semester) => {
+    const semesterIdx = this._getSemesterIndex(year, semester);
     return (semesterIdx === 0);
   }
 
   _isLastSemester = (year, semester) => {
     const { semesters } = this.props;
 
-    const semesterIdx = semesters.findIndex((s) => ((s.year === year) && (s.semester === semester)));
+    const semesterIdx = this._getSemesterIndex(year, semester);
     return (semesterIdx === (semesters.length - 1));
   }
 
-  changeToPreviousSemester() {
+  changeToPreviousSemester = () => {
     const {
       semesters,
       year, semester,
@@ -64,7 +67,7 @@ class SemesterSection extends Component {
       return;
     }
 
-    const semesterIdx = semesters.findIndex((s) => ((s.year === year) && (s.semester === semester)));
+    const semesterIdx = this._getSemesterIndex(year, semester);
     const targetSemester = semesters[semesterIdx - 1];
 
     setSemesterDispatch(targetSemester.year, targetSemester.semester);
@@ -76,7 +79,7 @@ class SemesterSection extends Component {
     });
   }
 
-  changeToNextSemester() {
+  changeToNextSemester = () => {
     const {
       semesters,
       year, semester,
@@ -87,7 +90,7 @@ class SemesterSection extends Component {
       return;
     }
 
-    const semesterIdx = semesters.findIndex((s) => ((s.year === year) && (s.semester === semester)));
+    const semesterIdx = this._getSemesterIndex(year, semester);
     const targetSemester = semesters[semesterIdx + 1];
 
     setSemesterDispatch(targetSemester.year, targetSemester.semester);
