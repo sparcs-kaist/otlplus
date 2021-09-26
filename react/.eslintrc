@@ -17,8 +17,6 @@
     "jsx-a11y/click-events-have-key-events": 0,
     "jsx-a11y/mouse-events-have-key-events": 0,
     "jsx-a11y/no-static-element-interactions": 0,
-    "react/button-has-type": 0,
-    "prefer-destructuring": 0,
 
     "arrow-parens": [2, "always"],
     "brace-style": [2, "stroustrup"],
@@ -28,7 +26,9 @@
     "no-underscore-dangle": ["error", { "allowAfterThis": true, "allowAfterSuper": true }],
     "no-unused-vars": ["error", {"args": "none"}],
     "object-shorthand": [1, "never"],
+    "prefer-destructuring": "off",
 
+    "react/button-has-type": "off",
     "react/destructuring-assignment": 1,
     "react/jsx-boolean-value": "off",
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
