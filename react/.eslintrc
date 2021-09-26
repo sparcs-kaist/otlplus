@@ -22,6 +22,7 @@
 
     "arrow-parens": [2, "always"],
     "brace-style": [2, "stroustrup"],
+    "comma-dangle": ["error", {"arrays": "always-multiline", "objects": "always-multiline", "imports": "always-multiline", "exports": "always-multiline", "functions": "only-multiline"}],
     "max-len": 1,
     "no-nested-ternary": "off",
     "no-underscore-dangle": ["error", { "allowAfterThis": true, "allowAfterSuper": true }],

@@ -76,7 +76,7 @@ class MapSubSection extends Component {
     const { selectedTimetable, lectureFocus } = this.props;
 
     const buildings = unique(
-      getOverallLectures(selectedTimetable, lectureFocus).map((l) => getBuildingStr(l)),
+      getOverallLectures(selectedTimetable, lectureFocus).map((l) => getBuildingStr(l))
     );
     const mapBuildingToBlock = (b) => {
       const lecturesOnBuilding = this._getLecturesOnBuilding(b);
