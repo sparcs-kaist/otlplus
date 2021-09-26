@@ -152,4 +152,8 @@ SyllabusPage.propTypes = {
   user: userShape,
 };
 
-export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(SyllabusPage));
+export default withTranslation()(
+  connect(mapStateToProps, mapDispatchToProps)(
+    SyllabusPage
+  )
+);

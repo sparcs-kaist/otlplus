@@ -303,4 +303,8 @@ TakenLecturesSection.propTypes = {
 };
 
 
-export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(TakenLecturesSection));
+export default withTranslation()(
+  connect(mapStateToProps, mapDispatchToProps)(
+    TakenLecturesSection
+  )
+);

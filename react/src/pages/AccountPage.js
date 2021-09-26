@@ -43,4 +43,6 @@ AccountPage.propTypes = {
 };
 
 
-export default withTranslation()(AccountPage);
+export default withTranslation()(
+  AccountPage
+);

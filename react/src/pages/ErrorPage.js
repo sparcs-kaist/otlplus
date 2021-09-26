@@ -50,4 +50,6 @@ ErrorPage.propTypes = {
 };
 
 
-export default withTranslation()(ErrorPage);
+export default withTranslation()(
+  ErrorPage
+);

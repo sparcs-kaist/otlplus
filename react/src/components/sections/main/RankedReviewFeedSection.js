@@ -59,4 +59,6 @@ RankedReviewFeedSection.propTypes = {
 };
 
 
-export default withTranslation()(RankedReviewFeedSection);
+export default withTranslation()(
+  RankedReviewFeedSection
+);

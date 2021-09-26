@@ -78,4 +78,8 @@ LectureGroupBlock.propTypes = {
   listClick: PropTypes.func.isRequired,
 };
 
-export default withTranslation()(React.memo(LectureGroupBlock));
+export default withTranslation()(
+  React.memo(
+    LectureGroupBlock
+  )
+);

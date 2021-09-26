@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
 
@@ -23,4 +22,4 @@ CloseButton.propTypes = {
   onClick: PropTypes.func.isRequired,
 };
 
-export default withTranslation()(CloseButton);
+export default CloseButton;

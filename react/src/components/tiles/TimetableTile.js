@@ -105,4 +105,8 @@ TimetableTile.propTypes = {
   occupiedTimes: PropTypes.arrayOf(PropTypes.array),
 };
 
-export default withTranslation()(React.memo(TimetableTile));
+export default withTranslation()(
+  React.memo(
+    TimetableTile
+  )
+);

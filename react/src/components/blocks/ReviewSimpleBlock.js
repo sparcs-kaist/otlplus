@@ -61,4 +61,8 @@ ReviewSimpleBlock.propTypes = {
   review: reviewShape.isRequired,
 };
 
-export default withTranslation()(React.memo(ReviewSimpleBlock));
+export default withTranslation()(
+  React.memo(
+    ReviewSimpleBlock
+  )
+);

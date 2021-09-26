@@ -45,4 +45,8 @@ LectureSimpleBlock.propTypes = {
 };
 
 
-export default withTranslation()(React.memo(LectureSimpleBlock));
+export default withTranslation()(
+  React.memo(
+    LectureSimpleBlock
+  )
+);

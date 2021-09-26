@@ -325,4 +325,8 @@ LectureListTabs.propTypes = {
   setLastSearchOptionDispatch: PropTypes.func.isRequired,
 };
 
-export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(LectureListTabs));
+export default withTranslation()(
+  connect(mapStateToProps, mapDispatchToProps)(
+    LectureListTabs
+  )
+);

@@ -343,4 +343,8 @@ MainPage.propTypes = {
   user: userShape,
 };
 
-export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(MainPage));
+export default withTranslation()(
+  connect(mapStateToProps, mapDispatchToProps)(
+    MainPage
+  )
+);

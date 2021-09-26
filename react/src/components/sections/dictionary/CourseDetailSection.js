@@ -258,4 +258,8 @@ CourseDetailSection.propTypes = {
 };
 
 
-export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(CourseDetailSection));
+export default withTranslation()(
+  connect(mapStateToProps, mapDispatchToProps)(
+    CourseDetailSection
+  )
+);

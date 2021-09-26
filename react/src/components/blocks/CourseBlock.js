@@ -71,4 +71,8 @@ CourseBlock.propTypes = {
 };
 
 
-export default withTranslation()(React.memo(CourseBlock));
+export default withTranslation()(
+  React.memo(
+    CourseBlock
+  )
+);

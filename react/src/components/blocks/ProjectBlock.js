@@ -41,4 +41,8 @@ ProjectBlock.propTypes = {
 };
 
 
-export default withTranslation()(React.memo(ProjectBlock));
+export default withTranslation()(
+  React.memo(
+    ProjectBlock
+  )
+);

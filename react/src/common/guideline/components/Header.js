@@ -199,4 +199,10 @@ Header.propTypes = {
   user: userShape,
 };
 
-export default withTranslation()(withRouter(connect(mapStateToProps, mapDispatchToProps)(Header)));
+export default withTranslation()(
+  withRouter(
+    connect(mapStateToProps, mapDispatchToProps)(
+      Header
+    )
+  )
+);

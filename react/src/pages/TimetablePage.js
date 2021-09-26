@@ -152,4 +152,6 @@ TimetablePage.propTypes = {
   setMobileIsTimetableTabsOpenDispatch: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(TimetablePage);
+export default connect(mapStateToProps, mapDispatchToProps)(
+  TimetablePage
+);

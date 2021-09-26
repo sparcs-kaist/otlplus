@@ -52,4 +52,6 @@ RelatedCourseFeedSection.propTypes = {
 };
 
 
-export default withTranslation()(RelatedCourseFeedSection);
+export default withTranslation()(
+  RelatedCourseFeedSection
+);

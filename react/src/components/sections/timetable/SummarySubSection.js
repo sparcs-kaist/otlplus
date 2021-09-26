@@ -298,4 +298,8 @@ SummarySubSection.propTypes = {
 };
 
 
-export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(SummarySubSection));
+export default withTranslation()(
+  connect(mapStateToProps, mapDispatchToProps)(
+    SummarySubSection
+  )
+);

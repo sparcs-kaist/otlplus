@@ -477,4 +477,8 @@ TimetableSubSection.propTypes = {
 };
 
 
-export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(TimetableSubSection));
+export default withTranslation()(
+  connect(mapStateToProps, mapDispatchToProps)(
+    TimetableSubSection
+  )
+);

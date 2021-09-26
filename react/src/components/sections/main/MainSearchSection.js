@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { withTranslation } from 'react-i18next';
 import qs from 'qs';
@@ -43,15 +42,10 @@ class MainSearchSection extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  user: state.common.user.user,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-});
-
 MainSearchSection.propTypes = {
 };
 
 
-export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(MainSearchSection));
+export default withTranslation()(
+  MainSearchSection
+);

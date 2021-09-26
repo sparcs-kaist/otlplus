@@ -114,4 +114,6 @@ RateFeedSection.propTypes = {
 };
 
 
-export default withTranslation()(RateFeedSection);
+export default withTranslation()(
+  RateFeedSection
+);

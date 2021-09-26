@@ -399,4 +399,8 @@ TimetableTabs.propTypes = {
 };
 
 
-export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(TimetableTabs));
+export default withTranslation()(
+  connect(mapStateToProps, mapDispatchToProps)(
+    TimetableTabs
+  )
+);

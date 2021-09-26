@@ -154,4 +154,8 @@ WriteReviewsPage.propTypes = {
 };
 
 
-export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(WriteReviewsPage));
+export default withTranslation()(
+  connect(mapStateToProps, mapDispatchToProps)(
+    WriteReviewsPage
+  )
+);

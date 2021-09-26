@@ -143,4 +143,8 @@ SemesterSection.propTypes = {
 };
 
 
-export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(SemesterSection));
+export default withTranslation()(
+  connect(mapStateToProps, mapDispatchToProps)(
+    SemesterSection
+  )
+);

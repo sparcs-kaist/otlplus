@@ -133,4 +133,8 @@ ReviewWriteBlock.propTypes = {
   updateOnSubmit: PropTypes.func.isRequired,
 };
 
-export default withTranslation()(React.memo(ReviewWriteBlock));
+export default withTranslation()(
+  React.memo(
+    ReviewWriteBlock
+  )
+);

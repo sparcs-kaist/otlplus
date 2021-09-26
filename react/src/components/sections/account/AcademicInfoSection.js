@@ -56,4 +56,8 @@ AcademicInfoSection.propTypes = {
 };
 
 
-export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(AcademicInfoSection));
+export default withTranslation()(
+  connect(mapStateToProps, mapDispatchToProps)(
+    AcademicInfoSection
+  )
+);

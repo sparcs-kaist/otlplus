@@ -67,4 +67,8 @@ ReviewWriteFeedSection.propTypes = {
 };
 
 
-export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(ReviewWriteFeedSection));
+export default withTranslation()(
+  connect(mapStateToProps, mapDispatchToProps)(
+    ReviewWriteFeedSection
+  )
+);
