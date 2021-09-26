@@ -97,7 +97,6 @@ class TimetableTabs extends Component {
       });
   }
 
-  // eslint-disable-next-line arrow-body-style
   _createRandomTimetableId = () => {
     return Math.floor(Math.random() * 100000000);
   }

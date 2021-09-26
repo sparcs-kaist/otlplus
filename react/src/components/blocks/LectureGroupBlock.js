@@ -21,7 +21,6 @@ const LectureGroupBlock = ({
   isTaken, fromCart,
   addToCart, addToTable, deleteFromCart,
   listHover, listOut, listClick,
-// eslint-disable-next-line arrow-body-style
 }) => {
   return (
     <div

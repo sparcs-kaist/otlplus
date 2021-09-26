@@ -18,6 +18,7 @@
     "jsx-a11y/mouse-events-have-key-events": 0,
     "jsx-a11y/no-static-element-interactions": 0,
 
+    "arrow-body-style": "off",
     "arrow-parens": [2, "always"],
     "brace-style": [2, "stroustrup"],
     "comma-dangle": ["error", {"arrays": "always-multiline", "objects": "always-multiline", "imports": "always-multiline", "exports": "always-multiline", "functions": "only-multiline"}],

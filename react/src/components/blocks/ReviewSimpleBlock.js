@@ -11,7 +11,6 @@ import { getSemesterName } from '../../utils/semesterUtils';
 import reviewShape from '../../shapes/ReviewShape';
 
 
-// eslint-disable-next-line arrow-body-style
 const ReviewSimpleBlock = ({ t, review }) => {
   return (
     <Link

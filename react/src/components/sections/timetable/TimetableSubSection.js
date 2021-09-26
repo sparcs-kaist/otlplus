@@ -61,7 +61,6 @@ class TimetableSubSection extends Component {
     return days.indexOf(day);
   }
 
-  // eslint-disable-next-line arrow-body-style
   indexOfMinute = (minute) => {
     return minute / 30 - (2 * 8);
   }
@@ -349,7 +348,6 @@ class TimetableSubSection extends Component {
       ];
     };
     const getColumnCells = (day, dayName, dayIdx) => {
-      // eslint-disable-next-line arrow-body-style
       const timedArea = targetMinutes.map((i) => {
         return (
           <div
