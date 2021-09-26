@@ -146,16 +146,10 @@ class TimetableSubSection extends Component {
     const dayIndex = this.indexOfDay(firstDragCell.getAttribute('data-day'));
     const startIndex = this.indexOfMinute(firstDragCell.getAttribute('data-minute'));
     const endIndex = this.indexOfMinute(target.getAttribute('data-minute'));
-    const incr = startIndex < endIndex ? 1 : -1;
-    // eslint-disable-next-line no-loops/no-loops, fp/no-loops, fp/no-let, fp/no-mutation
-    for (let i = startIndex + incr; i !== endIndex + incr; i += incr) {
-      if (
-        (incr > 0)
-          ? this._getOccupiedTimes(dayIndex, startIndex, i + 1).length > 0
-          : this._getOccupiedTimes(dayIndex, i, startIndex + 1).length > 0
-      ) {
-        return;
-      }
+    const upIndex = Math.min(startIndex, endIndex);
+    const downIndex = Math.max(startIndex, endIndex) + 1;
+    if (this._getOccupiedTimes(dayIndex, upIndex, downIndex).length > 0) {
+      return;
     }
     this.setState({ secondDragCell: target });
   }
