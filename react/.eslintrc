@@ -28,6 +28,8 @@
     "object-shorthand": [1, "never"],
     "prefer-destructuring": "off",
 
+    "import/prefer-default-export": "off",
+
     "react/button-has-type": "off",
     "react/destructuring-assignment": 1,
     "react/jsx-boolean-value": "off",

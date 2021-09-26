@@ -2,7 +2,6 @@ import axios from 'axios';
 import ReactGA from 'react-ga';
 import i18n from 'i18next';
 
-// eslint-disable-next-line import/prefer-default-export
 export const performSubmitReview = (
   existingReview,
   lecture, content, grade, speech, load,
