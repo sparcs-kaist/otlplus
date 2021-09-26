@@ -201,18 +201,6 @@ class MainPage extends Component {
     const { feedDays, notices, isPortrait } = this.state;
     const { user } = this.props;
 
-    const getDateName = (dateString) => {
-      const date = new Date(dateString);
-      const dateDiff = this._getDateDifference(date);
-      if (dateDiff === 0) {
-        return t('ui.others.today');
-      }
-      if (dateDiff === 1) {
-        return t('ui.others.yesterday');
-      }
-      return t('ui.others.day', { date: date });
-    };
-
     const mapFeedToSection = (feed, date) => {
       if (feed.type === 'REVIEW_WRITE') {
         return (
@@ -300,7 +288,7 @@ class MainPage extends Component {
                   <div style={{ position: 'absolute', width: '100%' }}>
                     {
                       range(10).map((j) => (
-                        <div className={classNames('section', 'section--feed--placeholder')} />
+                        <div className={classNames('section', 'section--feed--placeholder')} key={j} />
                       ))
                     }
                   </div>

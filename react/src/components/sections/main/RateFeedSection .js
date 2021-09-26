@@ -86,6 +86,7 @@ class RateFeedSection extends Component {
             <button
               className={classNames('rate__star', ((score >= s && !this.isRated()) ? 'rate__star--selected' : ''))}
               onClick={() => this.setScore(s)}
+              key={s}
             >
               <i className={classNames('icon', 'icon--star')} />
             </button>
