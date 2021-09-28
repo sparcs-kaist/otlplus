@@ -38,14 +38,14 @@ def get_timetable_entries(profile: UserProfile, table_id: int, year: int, semest
         return None
 
     if table_id == MY_TIMETABLE_ID:
-        return list(profile.taken_lectures.filter(year=year, semester=semester))
+        return list(profile.taken_lectures.filter(year=year, semester=semester, deleted=False))
 
     try:
         table = Timetable.objects.get(user=profile, id=table_id, year=year, semester=semester)
     except Timetable.DoesNotExist:
         return None
 
-    return list(table.lectures.all())
+    return list(table.lectures.filter(deleted=False))
 
 
 def _draw_rounded_rectangle(draw, points: Tuple[int, int, int, int], radius: int, color):
