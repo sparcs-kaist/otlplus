@@ -17,7 +17,7 @@ def getint(querydict, key, default=None):
         return int(value)
 
 
-def apply_offset_and_limit(queryset: QuerySet, params: QueryDict, max_limit: int = 150) -> QuerySet:
+def apply_offset_and_limit(queryset: QuerySet, params: QueryDict, max_limit: int) -> QuerySet:
     offset = getint(params, "offset", None)
     if offset is None:
         real_offest = 0
@@ -37,7 +37,7 @@ def apply_offset_and_limit(queryset: QuerySet, params: QueryDict, max_limit: int
     return queryset[real_offest : real_offest + real_limit]
 
 
-def apply_order(queryset: QuerySet, params: QueryDict, default_order: list = []) -> QuerySet:
+def apply_order(queryset: QuerySet, params: QueryDict, default_order: list) -> QuerySet:
     PROHIBITED_FIELD_PATTERN = [
         r"\?",
         r"user", r"profile", r"owner", r"writer",

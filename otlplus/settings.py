@@ -148,6 +148,6 @@ LOGOUT_URL = "/session/logout/"
 VERSION = "3.2.3.2"
 
 try:
-    from settings_local import *
+    from settings_local import * # pylint: disable=wildcard-import, unused-wildcard-import
 except ImportError:
     pass
