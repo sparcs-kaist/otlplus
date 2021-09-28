@@ -75,17 +75,31 @@ $section-height-desktop-lecture-detail: calc(
     + #{$section-padding}
 );
 
-$tabs-height-horizontal-small: 27px;
-$tabs-height-horizontal: 29px;
-$tabs-width-vertical: 29px;
+$tab-padding: 8px;
+$tab-margin: 6px;
+$tab-border-radius: 4px;
+$tabs-height-horizontal: (13px + $tab-padding * 2);
+$tabs-width-vertical: (13px + $tab-padding * 2);
 
 $block-margin: 8px;
-$block-margin-small: 6px;
-$block-padding: 10px;
-$block-padding-small: 8px;
+$block-padding-lr: 10px;
+$block-padding-tb: 8px;
 $block-border-radius: 4px;
 
-$small-block-border-radius: 2px;
+$tile-border-radius: 2px;
+
+$score-margin-tb-desktop-big: calc(1.4vh + 2px + 4px);
+$score-margin-tb-desktop: calc(1.4vh + 2px);
+$score-margin-tb-mobile: calc(3.8vw + 2px);
+$score-width-desktop-big: calc(3.5vh + 34px + 20px);
+$score-width-desktop: calc(3.5vh + 34px);
+$score-width-mobile: calc(9.5vw + 34px);
+$score-font-size-desktop-big: calc(0.7vh + 15px + 2px);
+$score-font-size-desktop: calc(0.7vh + 15px);
+$score-font-size-mobile: calc(1.9vw + 15px);
+$score-line-height-desktop-big: calc(#{$score-font-size-desktop-big} - 2px);
+$score-line-height-desktop: calc(#{$score-font-size-desktop} - 2px);
+$score-line-height-mobile: calc(#{$score-font-size-mobile} - 2px);
 
 $media-landscape: (min-aspect-ratio: 4/3);
 $media-portrait: (max-aspect-ratio: 4/3);
@@ -331,8 +345,8 @@ a {
                 $section-width-desktop-1v3-right
             ;
             grid-template-rows:
-                $tabs-height-horizontal-small
-                calc(#{$section-height-desktop-lecture-detail} - #{$tabs-height-horizontal-small})
+                $tabs-height-horizontal
+                calc(#{$section-height-desktop-lecture-detail} - #{$tabs-height-horizontal})
                 $section-margin-bottom
                 1fr
             ;
@@ -414,7 +428,7 @@ a {
                 100%
             ;
             grid-template-rows:
-                $tabs-height-horizontal-small
+                $tabs-height-horizontal
                 1fr
             ;
             grid-template-areas:
@@ -427,7 +441,7 @@ a {
                 100%
             ;
             grid-template-rows:
-                $tabs-height-horizontal-small
+                $tabs-height-horizontal
                 1fr
             ;
             grid-template-areas:
@@ -757,6 +771,7 @@ a {
     color: $color-text-light;
 
     & .tabs__elem {
+        padding: $tab-padding;
         text-align: center;
         background-color: $color-tab-background-dark;
         white-space: nowrap;
@@ -786,16 +801,15 @@ a {
         }
 
         & .tabs__elem {
-            padding: 8px;
             @media #{$media-landscape} {
                 margin-left: auto;
-                margin-bottom: 6px;
-                border-radius: $block-border-radius 0 0 $block-border-radius;
+                margin-bottom: $tab-margin;
+                border-radius: $tab-border-radius 0 0 $tab-border-radius;
                 line-height: 0;
             }
             @media #{$media-portrait} {
-                margin-right: 6px;
-                border-radius: $block-border-radius $block-border-radius 0 0;
+                margin-right: $tab-margin;
+                border-radius: $tab-border-radius $tab-border-radius 0 0;
                 flex: 1 1 0;
                 &:last-child {
                     margin-right: 0;
@@ -818,22 +832,28 @@ a {
     }
 
 
+    &--course-list {
+        grid-area: course-list-tabs;
+    }
+
+
     &--timetable {
         grid-area: timetable-tabs;
 
         & .tabs__elem {
             display: inline-block;
             vertical-align: top;
-            margin-right: 6px;
-            border-radius: $block-border-radius $block-border-radius 0 0;
-            padding: 7px 10px;
+            margin-right: $tab-margin;
+            border-radius: $tab-border-radius $tab-border-radius 0 0;
+            padding: $tab-padding ($tab-padding + 2px);
             display: inline-flex;
             flex-direction: row;
             justify-content: center;
             @media #{$media-portrait} {
                 width: 100%;
+                padding: $block-padding-tb $block-padding-lr;
                 background-color: $color-block-background;
-                margin-bottom: 6px;
+                margin-bottom: $block-margin;
                 border-radius: $block-border-radius;
                 text-align: left;
                 &.tabs__elem--selected {
@@ -853,7 +873,7 @@ a {
                 }
             }
             &--add-button {
-                padding: 8px;
+                padding: $tab-padding;
                 line-height: 0;
                 @media #{$media-portrait} {
                     margin-bottom: 0;
@@ -894,9 +914,9 @@ a {
         & .tabs__elem {
             display: inline-block;
             vertical-align: top;
-            margin-right: 6px;
-            border-radius: $block-border-radius $block-border-radius 0 0;
-            padding: 7px 10px;
+            margin-right: $tab-margin;
+            border-radius: $tab-border-radius $tab-border-radius 0 0;
+            padding: $tab-padding ($tab-padding + 2px);
 
             &:last-child {
                 margin-right: 0;
@@ -1031,18 +1051,19 @@ a {
         display: grid;
         @media #{$media-landscape} {
             grid-area: semester-and-timetable-tabs;
-            grid-template-columns: 1fr min-content;
+            grid-template-columns: 1fr 8px min-content;
             grid-template-rows: min-content 1fr;
             grid-template-areas:
-                "timetable-tabs semester"
-                "timetable-tabs ."
+                "timetable-tabs .   semester"
+                "timetable-tabs .   ."
             ;
         }
         @media #{$media-portrait} {
             grid-template-columns: 1fr min-content 1fr;
-            grid-template-rows: min-content min-content;
+            grid-template-rows: min-content 12px min-content;
             grid-template-areas:
                 ".              semester        ."
+                ".              .               ."
                 "timetable-tabs timetable-tabs  timetable-tabs"
             ;
         } 
@@ -1068,7 +1089,7 @@ a {
     &--semester {
         grid-area: semester;
         height: initial;
-        padding: 5px 8px;
+        padding: 6px 8px;
         font-size: $font-size-small;
         line-height: $line-height-small;
         display: flex;
@@ -1078,9 +1099,6 @@ a {
         }
         &.semester-en {
             width: 104px;
-        }
-        @media #{$media-portrait} {
-            margin-bottom: 10px;
         }
 
         & > button {
@@ -1205,7 +1223,7 @@ a {
                                 + (6px * 2)
                                 + 1px
                                 + #{$line-height-normal}
-                                + #{$block-padding-small}
+                                + #{$block-padding-tb}
                             )
                         );
                     }
@@ -1226,7 +1244,7 @@ a {
                             ) / 2
                             - (
                                 #{$line-height-smaller / 2}
-                                + #{$block-padding-small}
+                                + #{$block-padding-tb}
                             )
                             + #{$section-padding}
                         );
@@ -1330,7 +1348,7 @@ a {
         &__drag-cell {
             position:absolute;
             background-color:rgba(#E0546F,0.8);
-            border-radius: $small-block-border-radius;
+            border-radius: $tile-border-radius;
             pointer-events:none;
             z-index:1;
         }
@@ -1450,7 +1468,7 @@ a {
                     font-size: $font-size-smallest;
                     line-height:9px;
                     height: 13px;
-                    border-radius: $small-block-border-radius;
+                    border-radius: 2px;
                     padding: 2px 3px;
                     background-color: $color-block-background;
                     &.block--highlighted {
@@ -1939,7 +1957,7 @@ a {
     flex-direction: column;
     justify-content: center;
     padding: 0px;
-    border-radius: $small-block-border-radius;
+    border-radius: $tile-border-radius;
     z-index: 2;
     top: 1px;
     left: -1px;
@@ -2023,7 +2041,7 @@ a {
             left: 0;
             width: 100%;
             z-index: -1;
-            border-radius: $small-block-border-radius;
+            border-radius: $tile-border-radius;
         }
     }
 
@@ -2079,7 +2097,7 @@ a {
     font-size: $font-size-normal;
     line-height: $line-height-normal;
     display: block;
-    padding: $block-padding;
+    padding: $block-padding-tb $block-padding-lr;
     margin-bottom: $block-margin;
     position: relative;
     overflow: hidden;
@@ -2128,10 +2146,10 @@ a {
         position: absolute;
         top: 0;
         right: 0;
-        padding: ($block-padding-small + ($font-size-normal - $font-size-smaller) / 2)
-                 $block-padding
-                 (($block-padding-small - 2px) + ($font-size-normal - $font-size-smaller) / 2)
-                 ($block-padding - 2px);
+        padding: ($block-padding-tb + ($font-size-normal - $font-size-smaller) / 2)
+                 $block-padding-lr
+                 (($block-padding-tb - 2px) + ($font-size-normal - $font-size-smaller) / 2)
+                 ($block-padding-lr - 2px);
         background-color: inherit;
         opacity: 0.8;
         &:hover {
@@ -2160,7 +2178,6 @@ a {
 
 
     &--course-simple {
-        padding: $block-padding-small $block-padding;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -2187,7 +2204,6 @@ a {
 
 
     &--lecture-simple {
-        padding: $block-padding-small $block-padding;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -2370,20 +2386,18 @@ a {
 
 
     &--lecture-group {
-        padding: $block-padding-small $block-padding;
-        margin-bottom: $block-margin-small;
 
         &__title {
             margin-bottom: 6px;
         }
 
         &__elem-wrap {
-            margin: 0px (-$block-padding);
-            padding: 0 $block-padding 0 ($block-padding + 8px);
+            margin: 0px (-$block-padding-lr);
+            padding: 0 $block-padding-lr 0 ($block-padding-lr + 8px);
             cursor: pointer;
 
             &:last-child {
-                margin-bottom: -$block-padding-small;
+                margin-bottom: -$block-padding-tb;
                 border-radius:0px 0px $block-border-radius $block-border-radius;
             }
 
@@ -2406,7 +2420,7 @@ a {
             align-items: center;
 
             *:last-child > & {
-                padding-bottom: $block-padding-small;
+                padding-bottom: $block-padding-tb;
             }
 
             &__texts {
@@ -2466,17 +2480,16 @@ a {
 
 
     &--lecture-group-simple {
-        padding: $block-padding-small $block-padding;
         margin-bottom: 0;
 
         &__elem-wrap {
-            margin: 0px (-$block-padding);
-            padding: 0 $block-padding 0 $block-padding;
+            margin: 0px (-$block-padding-lr);
+            padding: 0 $block-padding-lr 0 $block-padding-lr;
             &:first-child {
-                margin-top: -$block-padding-small;
+                margin-top: -$block-padding-tb;
             }
             &:last-child {
-                margin-bottom: -$block-padding-small;
+                margin-bottom: -$block-padding-tb;
             }
         }
 
@@ -2490,10 +2503,10 @@ a {
 
             *:first-child > & {
                 border-top: none;
-                padding-top: $block-padding-small;
+                padding-top: $block-padding-tb;
             }
             *:last-child > & {
-                padding-bottom: $block-padding-small;
+                padding-bottom: $block-padding-tb;
             }
 
             &__texts {
@@ -2517,8 +2530,6 @@ a {
     }
 
     &--review-simple {
-        padding: $block-padding-small $block-padding;
-        margin-bottom: $block-margin-small;
 
         & > div:first-child {
             color: $color-text-lighter;
@@ -2561,7 +2572,6 @@ a {
 
 
     &--project {
-        padding: $block-padding-small $block-padding;
         text-align: center;
         cursor: pointer;
         &:hover {
@@ -2579,7 +2589,6 @@ a {
 
 
     &--semester {
-        padding: $block-padding-small $block-padding;
         text-align: center;
         cursor: pointer;
 
@@ -2736,7 +2745,7 @@ a {
     .section-content--lecture-detail & {
         display: block;
         width: 100%;
-        padding-bottom: 6px;
+        padding-bottom: 8px;
 
         & > span {
             margin-right: 6px;
@@ -3068,20 +3077,25 @@ a {
 
 .scores {
     text-align: center;
-
-    .section-content--course-detail & {
-        margin-top: calc(1.4vh + 6px);
-        margin-bottom: calc(1.4vh + 6px);
+    @media #{$media-landscape} {
+        margin-top: $score-margin-tb-desktop;
+        margin-bottom: $score-margin-tb-desktop;
+        .section-content--course-detail & {
+            margin-top: $score-margin-tb-desktop-big;
+            margin-bottom: $score-margin-tb-desktop-big;
+        }
+    }
+    @media #{$media-portrait} {
+        margin-top: $score-margin-tb-mobile;
+        margin-bottom: $score-margin-tb-mobile;
     }
     .section-content--lecture-detail & {
-        margin-top: calc(1.4vh + 2px);
-        margin-bottom: calc(1.4vh + 2px);
         &:last-child {
             margin-bottom: 0;
         }
     }
     .section-content--summary & {
-        margin-top: calc(1.4vh + 2px);
+        margin-top: $score-margin-tb-desktop;
         margin-bottom: 0;
         @media #{$media-portrait} {
             margin-top: 0;
@@ -3096,30 +3110,25 @@ a {
         }
     }
     .section-content--latest-reviews & {
+        margin-top: 0;
         margin-bottom: 12px;
+    }
+    .section-content--taken-lectures & {
+        margin-top: 0;
+        margin-bottom: 0;
     }
 
     & > div {
         display: inline-block;
 
         @media #{$media-landscape} {
+            width: $score-width-desktop;
             .section-content--course-detail & {
-                width: calc(3.5vh + 44px + 10px);
-            }
-            .section-content--lecture-detail &,
-            .section-content--summary &,
-            .section-content--taken-lectures &,
-            .section-content--latest-reviews & {
-                width: calc(3.5vh + 34px);
+                width: $score-width-desktop-big;
             }
         }
         @media #{$media-portrait} {
-            .section-content--course-detail &,
-            .section-content--lecture-detail &,
-            .section-content--taken-lectures &,
-            .section-content--latest-reviews & {
-                width: calc(9.5vw + 34px + 4px);
-            }
+            width: $score-width-mobile;
             .section-content--summary & {
                 flex: 1 1 30px;
                 width: 30px;
@@ -3131,31 +3140,24 @@ a {
             margin-bottom: 2px;
 
             @media #{$media-landscape} {
-                .section-content--course-detail & {
-                    font-size: calc(0.7vh + 17px);
-                    line-height: calc(0.7vh + 15px);
+                font-size: $score-font-size-desktop;
+                line-height: $score-line-height-desktop;
+                &.scores__score-text--korean {
+                    font-size: calc(#{$score-font-size-desktop} - 1px);
                 }
-                .section-content--lecture-detail &,
-                .section-content--summary &,
-                .section-content--taken-lectures &,
-                .section-content--latest-reviews & {
-                    font-size: calc(0.7vh + 15px);
-                    line-height: calc(0.7vh + 13px);
+                .section-content--course-detail & {
+                    font-size: $score-font-size-desktop-big;
+                    line-height: $score-line-height-desktop-big;
                     &.scores__score-text--korean {
-                        font-size: calc(0.7vh + 14px);
+                        font-size: calc(#{$score-font-size-desktop-big} - 1px);
                     }
                 }
             }
             @media #{$media-portrait} {
-                .section-content--course-detail &,
-                .section-content--lecture-detail &,
-                .section-content--taken-lectures &,
-                .section-content--latest-reviews & {
-                    font-size: calc(1.9vw + 15px);
-                    line-height: calc(1.9vw + 13px);
-                    &.scores__score-text--korean {
-                        font-size: calc(1.9vw + 14px);
-                    }
+                font-size: $score-font-size-mobile;
+                line-height: $score-line-height-mobile;
+                &.scores__score-text--korean {
+                    font-size: calc(#{$score-font-size-mobile} - 1px);
                 }
                 .section-content--summary & {
                     font-size: 24px;
@@ -3335,7 +3337,7 @@ a {
                     + (#{$section-padding} * 2 + 1px)
 
                     + (#{$section-padding} * 2 + 1px)
-                    + (#{$line-height-normal} * 3 + 8px * 2)
+                    + (#{$line-height-normal} * 4 + 8px * 3)
                     + #{$section-padding}
                     + #{$section-margin-bottom}
                 )
