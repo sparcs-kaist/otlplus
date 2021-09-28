@@ -78,9 +78,11 @@ def filter_by_type(queryset: QuerySet, types: List[str]) -> QuerySet:
     if "ALL" in types:
         return queryset
     elif "ETC" in types:
-        return queryset.exclude(type_en__in=[TYPE_ACRONYMS[x] for x in TYPE_ACRONYMS if x not in types])
+        unselected_types = [TYPE_ACRONYMS[x] for x in TYPE_ACRONYMS if x not in types]
+        return queryset.exclude(type_en__in=unselected_types)
     else:
-        return queryset.filter(type_en__in=[TYPE_ACRONYMS[x] for x in TYPE_ACRONYMS if x in types])
+        selected_types = [TYPE_ACRONYMS[x] for x in TYPE_ACRONYMS if x in types]
+        return queryset.filter(type_en__in=selected_types)
 
 
 def filter_by_level(queryset: QuerySet, levels: List[str]) -> QuerySet:
@@ -149,9 +151,13 @@ def filter_by_time(queryset: QuerySet, day, begin, end) -> QuerySet:
     if day:
         time_query &= Q(classtimes__day=day)
     if begin:
-        time_query &= Q(classtimes__begin__gte=datetime.time(int(begin) // 2 + 8, (int(begin) % 2) * 30))
+        begin_hour = int(begin) // 2 + 8
+        begin_minute = (int(begin) % 2) * 30
+        time_query &= Q(classtimes__begin__gte=datetime.time(begin_hour, begin_minute))
     if end and (int(end) != 32):
-        time_query &= Q(classtimes__end__lte=datetime.time(int(end) // 2 + 8, (int(end) % 2) * 30))
+        end_hour = int(end) // 2 + 8
+        end_minute = (int(end) % 2) * 30
+        time_query &= Q(classtimes__end__lte=datetime.time(end_hour, end_minute))
     return queryset.filter(time_query)
 
 

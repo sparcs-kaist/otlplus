@@ -6,9 +6,9 @@ from django.views import View
 from utils.decorators import login_required_ajax
 from utils.util import apply_offset_and_limit, apply_order
 
+from apps.review.models import Review
 from .models import Semester, Course, Lecture, Professor, CourseUser
 from . import services
-from apps.review.models import Review
 
 
 class SemesterListView(View):
@@ -35,7 +35,10 @@ class CourseListView(View):
 
         courses = courses.distinct()
         # .select_related('department') \
-        # .prefetch_related('related_courses_prior', 'related_courses_posterior', 'professors', 'read_users_courseuser')
+        # .prefetch_related('related_courses_prior',
+        #                   'related_courses_posterior',
+        #                   'professors',
+        #                   'read_users_courseuser')
 
         courses = apply_order(courses, request.GET, CourseListView.DEFAULT_ORDER)
         courses = apply_offset_and_limit(courses, request.GET, CourseListView.MAX_LIMIT)
@@ -153,7 +156,9 @@ class LectureListAutocompleteView(View):
             return HttpResponseBadRequest("Missing fields in request data")
 
         lectures = Lecture.objects.filter(deleted=False, year=year, semester=semester)
-        professors = Professor.objects.filter(lectures__deleted=False, lectures__year=year, lectures__semester=semester)
+        professors = Professor.objects.filter(lectures__deleted=False,
+                                              lectures__year=year,
+                                              lectures__semester=semester)
 
         match = services.match_autocomplete(keyword, lectures, professors)
         if not match:
@@ -187,7 +192,8 @@ class LectureInstanceRelatedReviewsView(View):
         )
 
         reviews = apply_order(reviews, request.GET, LectureInstanceRelatedReviewsView.DEFAULT_ORDER)
-        reviews = apply_offset_and_limit(reviews, request.GET, LectureInstanceRelatedReviewsView.MAX_LIMIT)
+        reviews = apply_offset_and_limit(reviews, request.GET,
+                                         LectureInstanceRelatedReviewsView.MAX_LIMIT)
         result = [review.toJson() for review in reviews]
         return JsonResponse(result, safe=False)
 

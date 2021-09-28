@@ -4,6 +4,8 @@ from django.views import View
 
 from utils.decorators import login_required_ajax
 
+from apps.subject.models import Department
+from apps.session.services import get_user_department_list
 from .models import (
     FamousMajorReviewDailyFeed,
     FamousHumanityReviewDailyFeed,
@@ -12,8 +14,6 @@ from .models import (
     RelatedCourseDailyUserFeed,
     RateDailyUserFeed,
 )
-from apps.subject.models import Department
-from apps.session.services import get_user_department_list
 
 
 @method_decorator(login_required_ajax, name="dispatch")
@@ -25,10 +25,16 @@ class UserInstanceFeedsView(View):
         if userprofile.id != int(user_id):
             return HttpResponse(status=401)
 
-        department_codes = [d["code"] for d in get_user_department_list(request.user) if (d["code"] != "Basic")]
+        department_codes = [
+            d["code"]
+            for d in get_user_department_list(request.user)
+            if d["code"] != "Basic"
+        ]
         departments = Department.objects.filter(code__in=department_codes, visible=True)
         famous_major_review_daily_feed_list = [
-            FamousMajorReviewDailyFeed.get(date=date, department=d, departments_num=departments.count())
+            FamousMajorReviewDailyFeed.get(date=date,
+                                           department=d,
+                                           departments_num=departments.count())
             for d in departments
         ]
 

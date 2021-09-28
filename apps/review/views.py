@@ -58,7 +58,8 @@ class ReviewListView(View):
         load = getint(body, "load")
         speech = getint(body, "speech")
         if not (1 <= grade <= 5 and 1 <= load <= 5 and 1 <= speech <= 5):
-            return HttpResponseBadRequest("Wrong field(s) 'grade', 'load', and/or 'speech' in request data")
+            return HttpResponseBadRequest(
+                "Wrong field(s) 'grade', 'load', and/or 'speech' in request data")
 
         user_profile = user.userprofile
         lecture = user_profile.review_writable_lectures.get(id=lecture_id)
@@ -96,14 +97,15 @@ class ReviewInstanceView(View):
             return HttpResponseBadRequest("Target review deleted by admin")
 
         content = body.get("content", None)
-        if not len(content):
+        if len(content) == 0:
             return HttpResponseBadRequest("Empty field 'content' in request data")
 
         grade = getint(body, "grade", None)
         load = getint(body, "load", None)
         speech = getint(body, "speech", None)
         if not (1 <= grade <= 5 and 1 <= load <= 5 and 1 <= speech <= 5):
-            return HttpResponseBadRequest("Wrong field(s) 'grade', 'load', and/or 'speech' in request data")
+            return HttpResponseBadRequest(
+                "Wrong field(s) 'grade', 'load', and/or 'speech' in request data")
 
         patch_object(
             review,
@@ -142,6 +144,7 @@ class UserInstanceLikedReviewsView(View):
         reviews = Review.objects.filter(votes__userprofile=profile)
 
         reviews = apply_order(reviews, request.GET, UserInstanceLikedReviewsView.DEFAULT_ORDER)
-        reviews = apply_offset_and_limit(reviews, request.GET, UserInstanceLikedReviewsView.MAX_LIMIT)
+        reviews = apply_offset_and_limit(reviews, request.GET,
+                                         UserInstanceLikedReviewsView.MAX_LIMIT)
         result = [r.toJson(user=request.user) for r in reviews]
         return JsonResponse(result, safe=False)

@@ -7,9 +7,9 @@ from django.views import View
 from utils.decorators import login_required_ajax
 from utils.util import apply_offset_and_limit, apply_order, getint
 
+from apps.subject.models import Semester, Lecture
 from .models import Timetable, Wishlist
 from .services import create_timetable_ical, create_timetable_image, get_timetable_entries
-from apps.subject.models import Semester, Lecture
 
 
 def _validate_year_semester(year, semester):
@@ -38,8 +38,10 @@ class UserInstanceTimetableListView(View):
         if year is not None:
             timetables = timetables.filter(semester=semester)
 
-        timetables = apply_order(timetables, request.GET, UserInstanceTimetableListView.DEFAULT_ORDER)
-        timetables = apply_offset_and_limit(timetables, request.GET, UserInstanceTimetableListView.MAX_LIMIT)
+        timetables = apply_order(timetables, request.GET,
+                                 UserInstanceTimetableListView.DEFAULT_ORDER)
+        timetables = apply_offset_and_limit(timetables, request.GET,
+                                            UserInstanceTimetableListView.MAX_LIMIT)
         result = [t.toJson() for t in timetables]
         return JsonResponse(result, safe=False)
 
@@ -85,9 +87,9 @@ class UserInstanceTimetableInstanceView(View):
             timetable = userprofile.timetables.get(id=timetable_id)
         except Timetable.DoesNotExist:
             return HttpResponseNotFound()
-        
+
         return JsonResponse(timetable.toJson())
-    
+
     def delete(self, request, user_id, timetable_id):
         userprofile = request.user.userprofile
         if userprofile.id != int(user_id):
@@ -97,7 +99,7 @@ class UserInstanceTimetableInstanceView(View):
             timetable = userprofile.timetables.get(id=timetable_id)
         except Timetable.DoesNotExist:
             return HttpResponseNotFound()
-        
+
         timetable.delete()
         return HttpResponse()
 
@@ -260,7 +262,8 @@ class ShareTimetableIcalView(View):
         if timetable_lectures is None:
             return HttpResponseBadRequest("No such timetable")
 
-        calendar = create_timetable_ical(Semester.objects.get(year=year, semester=semester), timetable_lectures)
+        calendar = create_timetable_ical(Semester.objects.get(year=year, semester=semester),
+                                         timetable_lectures)
         response = HttpResponse(calendar.to_ical(), content_type="text/calendar")
         return response
 

@@ -1,12 +1,12 @@
 import os
 from typing import List, Dict, Union, Iterable
 
+from django.conf import settings
 from django.contrib.auth.models import User
 
 from apps.review.models import Review
 from apps.subject.models import Department
 from apps.timetable.models import OldTimetable, UserProfile, Lecture
-from django.conf import settings
 
 
 INVALID_DEPARTMENT_CODES = ["AA", "ICE"]

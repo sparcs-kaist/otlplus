@@ -41,9 +41,12 @@ class RateListView(View):
             return HttpResponseBadRequest("You already rated for current year")
 
         score = getint(body, "score")
-        if not (1 <= score <= 5):
+        if not 1 <= score <= 5:
             return HttpResponseBadRequest("Wrong field 'score' in request data")
 
-        Rate.objects.create(score=score, user=user.userprofile, year=current_year, version=settings.VERSION)
+        Rate.objects.create(score=score,
+                            user=user.userprofile,
+                            year=current_year,
+                            version=settings.VERSION)
 
         return HttpResponse()
