@@ -5,4 +5,4 @@ class ReviewConfig(AppConfig):
     name = "apps.review"
 
     def ready(self):
-        from . import signals  # noqa: F401
+        from . import signals

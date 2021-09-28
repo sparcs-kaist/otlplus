@@ -67,7 +67,7 @@ class Semester(models.Model):
             return None
         except cls.MultipleObjectsReturned:
             # TODO: Use a logger instead
-            print(  # noqa: T001
+            print(
                 "WARNING: Semester.getOngoingSemester() catched multiple Semester instances with overlapping period."
                 "Please check beginning and end fields of the instances.",
             )
@@ -128,7 +128,7 @@ class Lecture(models.Model):
     def toJson(self, nested=False):
         if self.deleted:
             # TODO: Use a logger instead
-            print("WARNING: You are serializing DELETED lecture: %s. Please check your query" % self)  # noqa: T001
+            print("WARNING: You are serializing DELETED lecture: %s. Please check your query" % self)
 
         cache_id = self.getCacheKey(nested)
         result_cached = cache.get(cache_id)

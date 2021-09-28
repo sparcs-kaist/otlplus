@@ -30,14 +30,14 @@ class OldTimetable(models.Model):
             userprofile = UserProfile.objects.get(student_id=self.student_id)
         except UserProfile.DoesNotExist:
             # TODO: Use a logger instead
-            print(f"User with student number {self.student_id} does not exist.")  # noqa: T001
+            print(f"User with student number {self.student_id} does not exist.")
             return
         except UserProfile.MultipleObjectsReturned:
             if self.student_id == "":
                 return
             else:
                 # TODO: Use a logger instead
-                print(f"User with student number {self.student_id} has multiple userprofiles.")  # noqa: T001
+                print(f"User with student number {self.student_id} has multiple userprofiles.")
                 return
         timetable = Timetable.objects.create(user=userprofile, year=self.year, semester=self.semester)
         for lecture in self.lectures.all():
