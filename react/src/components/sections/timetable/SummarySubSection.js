@@ -172,16 +172,37 @@ class SummarySubSection extends Component {
 
     const overallCredit = sumBy(overallLectures, (l) => l.credit);
     const overallAu = sumBy(overallLectures, (l) => l.credit_au);
-    const isCreditSingleFocused = (lectureFocus.lecture !== null) && (lectureFocus.lecture.credit > 0);
-    const isAuSingleFocused = (lectureFocus.lecture !== null) && (lectureFocus.lecture.credit_au > 0);
+    const isCreditSingleFocused = (
+      lectureFocus.lecture !== null
+      && lectureFocus.lecture.credit > 0
+    );
+    const isAuSingleFocused = (
+      lectureFocus.lecture !== null
+      && lectureFocus.lecture.credit_au > 0
+    );
     const isCreditMultiFocused = (multipleFocusCode === 'Credit');
     const isAuMultiFocused = (multipleFocusCode === 'Credit Au');
 
-    const timetableLecturesWithReview = timetableLectures.filter((l) => (l.review_total_weight > 0));
-    const targetNum = sumBy(timetableLecturesWithReview, (l) => (l.credit + l.credit_au));
-    const timetableGrade = sumBy(timetableLecturesWithReview, (l) => (l.grade * (l.credit + l.credit_au)));
-    const timetableLoad = sumBy(timetableLecturesWithReview, (l) => (l.load * (l.credit + l.credit_au)));
-    const timetableSpeech = sumBy(timetableLecturesWithReview, (l) => (l.speech * (l.credit + l.credit_au)));
+    const timetableLecturesWithReview = timetableLectures.filter((l) => (
+      l.review_total_weight > 0
+    ));
+    const getWeightOfLecture = (lecture) => (lecture.credit + lecture.credit_au);
+    const totalWeight = sumBy(
+      timetableLecturesWithReview,
+      (l) => getWeightOfLecture(l)
+    );
+    const gradeWeightedSum = sumBy(
+      timetableLecturesWithReview,
+      (l) => (l.grade * getWeightOfLecture(l))
+    );
+    const loadWeightedSum = sumBy(
+      timetableLecturesWithReview,
+      (l) => (l.load * getWeightOfLecture(l))
+    );
+    const timetableWeightedSum = sumBy(
+      timetableLecturesWithReview,
+      (l) => (l.speech * getWeightOfLecture(l))
+    );
     const isGradeMultiFocused = (multipleFocusCode === 'Grade');
     const isLoadMultiFocused = (multipleFocusCode === 'Load');
     const isSpeechMultiFocused = (multipleFocusCode === 'Speech');
@@ -258,15 +279,15 @@ class SummarySubSection extends Component {
         </div>
         <div className={classNames('scores')}>
           <div onMouseOver={() => this.setFocusOnScore('Grade')} onMouseOut={() => this.clearFocus()}>
-            <div className={classNames((isGradeMultiFocused ? 'focused' : ''))}>{(targetNum !== 0) ? getAverageScoreLabel(timetableGrade / targetNum) : '?'}</div>
+            <div className={classNames((isGradeMultiFocused ? 'focused' : ''))}>{(totalWeight !== 0) ? getAverageScoreLabel(gradeWeightedSum / totalWeight) : '?'}</div>
             <div>{t('ui.score.grade')}</div>
           </div>
           <div onMouseOver={() => this.setFocusOnScore('Load')} onMouseOut={() => this.clearFocus()}>
-            <div className={classNames((isLoadMultiFocused ? 'focused' : ''))}>{(targetNum !== 0) ? getAverageScoreLabel(timetableLoad / targetNum) : '?'}</div>
+            <div className={classNames((isLoadMultiFocused ? 'focused' : ''))}>{(totalWeight !== 0) ? getAverageScoreLabel(loadWeightedSum / totalWeight) : '?'}</div>
             <div>{t('ui.score.load')}</div>
           </div>
           <div onMouseOver={() => this.setFocusOnScore('Speech')} onMouseOut={() => this.clearFocus()}>
-            <div className={classNames((isSpeechMultiFocused ? 'focused' : ''))}>{(targetNum !== 0) ? getAverageScoreLabel(timetableSpeech / targetNum) : '?'}</div>
+            <div className={classNames((isSpeechMultiFocused ? 'focused' : ''))}>{(totalWeight !== 0) ? getAverageScoreLabel(timetableWeightedSum / totalWeight) : '?'}</div>
             <div>{t('ui.score.speech')}</div>
           </div>
         </div>
@@ -298,4 +319,8 @@ SummarySubSection.propTypes = {
 };
 
 
-export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(SummarySubSection));
+export default withTranslation()(
+  connect(mapStateToProps, mapDispatchToProps)(
+    SummarySubSection
+  )
+);

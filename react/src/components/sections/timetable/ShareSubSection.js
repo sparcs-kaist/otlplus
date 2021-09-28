@@ -126,4 +126,8 @@ ShareSubSection.propTypes = {
 };
 
 
-export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(ShareSubSection));
+export default withTranslation()(
+  connect(mapStateToProps, mapDispatchToProps)(
+    ShareSubSection
+  )
+);

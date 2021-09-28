@@ -6,7 +6,6 @@ import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
 
-import CloseButton from '../components/CloseButton';
 import TakenLecturesSection from '../components/sections/write-reviews/TakenLecturesSection';
 import LectureReviewsSubSection from '../components/sections/write-reviews/LectureReviewsSubSection';
 import LatestReviewsSubSection from '../components/sections/write-reviews/LatestReviewsSubSection';
@@ -74,7 +73,6 @@ class WriteReviewsPage extends Component {
 
     const rightSectionPlaceholder = (
       <div className={classNames('section-content', 'section-content--flex', 'section-content--write-reviews-right')} ref={this.rightSectionRef}>
-        <CloseButton onClick={this.unfix} />
         <div className={classNames('otlplus-placeholder')}>
           <div>
             OTL PLUS
@@ -154,4 +152,8 @@ WriteReviewsPage.propTypes = {
 };
 
 
-export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(WriteReviewsPage));
+export default withTranslation()(
+  connect(mapStateToProps, mapDispatchToProps)(
+    WriteReviewsPage
+  )
+);

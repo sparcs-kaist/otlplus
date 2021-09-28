@@ -129,4 +129,8 @@ ReviewBlock.propTypes = {
 };
 
 
-export default withTranslation()(React.memo(ReviewBlock));
+export default withTranslation()(
+  React.memo(
+    ReviewBlock
+  )
+);

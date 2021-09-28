@@ -264,4 +264,8 @@ CourseListTabs.propTypes = {
   setListCoursesDispatch: PropTypes.func.isRequired,
 };
 
-export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(CourseListTabs));
+export default withTranslation()(
+  connect(mapStateToProps, mapDispatchToProps)(
+    CourseListTabs
+  )
+);

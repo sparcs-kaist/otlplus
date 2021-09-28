@@ -129,5 +129,8 @@ LikedReviewsSubSection.propTypes = {
 };
 
 
-// eslint-disable-next-line max-len
-export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(LikedReviewsSubSection));
+export default withTranslation()(
+  connect(mapStateToProps, mapDispatchToProps)(
+    LikedReviewsSubSection
+  )
+);

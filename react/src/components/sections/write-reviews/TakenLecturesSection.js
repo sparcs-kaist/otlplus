@@ -156,7 +156,7 @@ class TakenLecturesSection extends Component {
     // eslint-disable-next-line fp/no-mutating-methods
     const targetSemesters = unique(
       writableTakenLectures.map((l) => ({ year: l.year, semester: l.semester })),
-      (a, b) => ((a.year === b.year) && (a.semester === b.semester)),
+      (a, b) => ((a.year === b.year) && (a.semester === b.semester))
     )
       .sort((a, b) => ((a.year !== b.year) ? (b.year - a.year) : (b.semester - a.semester)));
 
@@ -187,7 +187,11 @@ class TakenLecturesSection extends Component {
           {targetSemesters.length
             ? targetSemesters.map((s, i) => (
               <React.Fragment key={`${s.year}-${s.semester}`}>
-                { (i !== 0) ? <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} /> : null }
+                {
+                  (i !== 0)
+                    ? <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
+                    : null
+                }
                 <div className={classNames('small-title')}>
                   {`${s.year} ${getSemesterName(s.semester)}`}
                 </div>
@@ -303,4 +307,8 @@ TakenLecturesSection.propTypes = {
 };
 
 
-export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(TakenLecturesSection));
+export default withTranslation()(
+  connect(mapStateToProps, mapDispatchToProps)(
+    TakenLecturesSection
+  )
+);

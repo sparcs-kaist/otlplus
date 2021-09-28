@@ -120,4 +120,8 @@ HistorySubSection.propTypes = {
 };
 
 
-export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(HistorySubSection));
+export default withTranslation()(
+  connect(mapStateToProps, mapDispatchToProps)(
+    HistorySubSection
+  )
+);

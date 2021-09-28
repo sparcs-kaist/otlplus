@@ -17,21 +17,25 @@
     "jsx-a11y/click-events-have-key-events": 0,
     "jsx-a11y/mouse-events-have-key-events": 0,
     "jsx-a11y/no-static-element-interactions": 0,
-    "react/button-has-type": 0,
-    "prefer-destructuring": 0,
 
+    "arrow-body-style": "off",
     "arrow-parens": [2, "always"],
     "brace-style": [2, "stroustrup"],
+    "comma-dangle": ["error", {"arrays": "always-multiline", "objects": "always-multiline", "imports": "always-multiline", "exports": "always-multiline", "functions": "only-multiline"}],
     "max-len": 1,
     "no-nested-ternary": "off",
     "no-underscore-dangle": ["error", { "allowAfterThis": true, "allowAfterSuper": true }],
     "no-unused-vars": ["error", {"args": "none"}],
     "object-shorthand": [1, "never"],
+    "prefer-destructuring": "off",
 
+    "import/prefer-default-export": "off",
+
+    "react/button-has-type": "off",
     "react/destructuring-assignment": 1,
     "react/jsx-boolean-value": "off",
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
-    "react/require-default-props": 1,
+    "react/require-default-props": "off",
     "react/prefer-stateless-function": 0,
     "react/prop-types": [2, {"ignore": ["match", "t", "i18n"]}],
 

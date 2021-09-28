@@ -92,4 +92,6 @@ class LatestReviewSection extends Component {
 }
 
 
-export default withTranslation()(LatestReviewSection);
+export default withTranslation()(
+  LatestReviewSection
+);

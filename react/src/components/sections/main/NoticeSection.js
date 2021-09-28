@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
@@ -29,13 +28,6 @@ class NoticeSection extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  semesters: state.common.semester.semesters,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-});
-
 NoticeSection.propTypes = {
   notice: PropTypes.shape({
     title: PropTypes.string.isRequired,
@@ -44,4 +36,4 @@ NoticeSection.propTypes = {
 };
 
 
-export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(NoticeSection));
+export default withTranslation()(NoticeSection);

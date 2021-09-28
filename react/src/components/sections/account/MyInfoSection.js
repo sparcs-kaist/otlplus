@@ -60,4 +60,8 @@ MyInfoSection.propTypes = {
 };
 
 
-export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(MyInfoSection));
+export default withTranslation()(
+  connect(mapStateToProps, mapDispatchToProps)(
+    MyInfoSection
+  )
+);

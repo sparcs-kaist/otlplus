@@ -53,4 +53,6 @@ FamousHumanityReviewFeedSection.propTypes = {
 };
 
 
-export default withTranslation()(FamousHumanityReviewFeedSection);
+export default withTranslation()(
+  FamousHumanityReviewFeedSection
+);

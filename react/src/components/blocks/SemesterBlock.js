@@ -41,4 +41,8 @@ SemesterBlock.propTypes = {
 };
 
 
-export default withTranslation()(React.memo(SemesterBlock));
+export default withTranslation()(
+  React.memo(
+    SemesterBlock
+  )
+);

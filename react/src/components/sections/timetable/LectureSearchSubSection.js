@@ -74,9 +74,9 @@ class LectureSearchSubSection extends Component {
       type: Array.from(selectedTypes),
       department: Array.from(selectedDepartments),
       grade: Array.from(selectedLevels),
-      day: (day !== null) ? day : '',
-      begin: (start !== null) ? start.toString() : '',
-      end: (end !== null) ? end.toString() : '',
+      day: (day !== null) ? day : undefined,
+      begin: (start !== null) ? start : undefined,
+      end: (end !== null) ? end : undefined,
     };
 
     closeSearchDispatch();
@@ -343,5 +343,8 @@ LectureSearchSubSection.propTypes = {
 };
 
 
-// eslint-disable-next-line max-len
-export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(LectureSearchSubSection));
+export default withTranslation()(
+  connect(mapStateToProps, mapDispatchToProps)(
+    LectureSearchSubSection
+  )
+);

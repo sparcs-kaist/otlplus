@@ -154,9 +154,11 @@ export const getSyllabusUrl = (lecture) => (
   `https://cais.kaist.ac.kr/syllabusInfo?year=${lecture.year}&term=${lecture.semester}&subject_no=${lecture.code}&lecture_class=${lecture.class_no}&dept_id=${lecture.department}`
 );
 
-export const performAddToTable = (caller,
+export const performAddToTable = (
+  caller,
   lecture, selectedTimetable, user, fromString,
-  addLectureToTimetableDispatch) => {
+  addLectureToTimetableDispatch
+) => {
   if (
     lecture.classtimes.some((ct1) => (
       selectedTimetable.lectures.some((l) => (
@@ -208,9 +210,11 @@ export const performAddToTable = (caller,
   });
 };
 
-export const performDeleteFromTable = (caller,
+export const performDeleteFromTable = (
+  caller,
   lecture, selectedTimetable, user, fromString,
-  removeLectureFromTimetableDispatch) => {
+  removeLectureFromTimetableDispatch
+) => {
   if (!user) {
     removeLectureFromTimetableDispatch(lecture);
   }
@@ -246,9 +250,11 @@ export const performDeleteFromTable = (caller,
   });
 };
 
-export const performAddToCart = (caller,
+export const performAddToCart = (
+  caller,
   lecture, year, semester, user, fromString,
-  addLectureToCartDispatch) => {
+  addLectureToCartDispatch
+) => {
   if (!user) {
     addLectureToCartDispatch(lecture);
   }
@@ -284,9 +290,11 @@ export const performAddToCart = (caller,
   });
 };
 
-export const performDeleteFromCart = (caller,
+export const performDeleteFromCart = (
+  caller,
   lecture, year, semester, user, fromString,
-  deleteLectureFromCartDispatch) => {
+  deleteLectureFromCartDispatch
+) => {
   if (!user) {
     deleteLectureFromCartDispatch(lecture);
   }

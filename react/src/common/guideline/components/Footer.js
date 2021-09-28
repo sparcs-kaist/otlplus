@@ -56,4 +56,8 @@ const mapDispatchToProps = (dispatch) => ({
 Footer.propTypes = {
 };
 
-export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(Footer));
+export default withTranslation()(
+  connect(mapStateToProps, mapDispatchToProps)(
+    Footer
+  )
+);

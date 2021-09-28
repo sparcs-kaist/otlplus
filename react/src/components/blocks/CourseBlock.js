@@ -13,7 +13,6 @@ const CourseBlock = ({
   course,
   shouldShowReadStatus, isRead, isRaised, isHighlighted, isDimmed,
   listHover, listOut, listClick,
-// eslint-disable-next-line arrow-body-style
 }) => {
   return (
     <div
@@ -71,4 +70,8 @@ CourseBlock.propTypes = {
 };
 
 
-export default withTranslation()(React.memo(CourseBlock));
+export default withTranslation()(
+  React.memo(
+    CourseBlock
+  )
+);

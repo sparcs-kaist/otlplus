@@ -11,7 +11,6 @@ const ProjectBlock = ({
   isRaised,
   onClick,
   mainTitle, subTitle, period,
-// eslint-disable-next-line arrow-body-style
 }) => {
   return (
     <div
@@ -41,4 +40,8 @@ ProjectBlock.propTypes = {
 };
 
 
-export default withTranslation()(React.memo(ProjectBlock));
+export default withTranslation()(
+  React.memo(
+    ProjectBlock
+  )
+);

@@ -145,5 +145,8 @@ AcademicScheduleSection.propTypes = {
 };
 
 
-// eslint-disable-next-line max-len
-export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(AcademicScheduleSection));
+export default withTranslation()(
+  connect(mapStateToProps, mapDispatchToProps)(
+    AcademicScheduleSection
+  )
+);

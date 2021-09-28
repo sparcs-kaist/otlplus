@@ -61,7 +61,6 @@ class TimetableSubSection extends Component {
     return days.indexOf(day);
   }
 
-  // eslint-disable-next-line arrow-body-style
   indexOfMinute = (minute) => {
     return minute / 30 - (2 * 8);
   }
@@ -147,16 +146,10 @@ class TimetableSubSection extends Component {
     const dayIndex = this.indexOfDay(firstDragCell.getAttribute('data-day'));
     const startIndex = this.indexOfMinute(firstDragCell.getAttribute('data-minute'));
     const endIndex = this.indexOfMinute(target.getAttribute('data-minute'));
-    const incr = startIndex < endIndex ? 1 : -1;
-    // eslint-disable-next-line no-loops/no-loops, fp/no-loops, fp/no-let, fp/no-mutation
-    for (let i = startIndex + incr; i !== endIndex + incr; i += incr) {
-      if (
-        (incr > 0)
-          ? this._getOccupiedTimes(dayIndex, startIndex, i + 1).length > 0
-          : this._getOccupiedTimes(dayIndex, i, startIndex + 1).length > 0
-      ) {
-        return;
-      }
+    const upIndex = Math.min(startIndex, endIndex);
+    const downIndex = Math.max(startIndex, endIndex) + 1;
+    if (this._getOccupiedTimes(dayIndex, upIndex, downIndex).length > 0) {
+      return;
     }
     this.setState({ secondDragCell: target });
   }
@@ -190,7 +183,10 @@ class TimetableSubSection extends Component {
       clearDragDispatch();
       return;
     }
-    dragSearchDispatch(startDay, Math.min(startIndex, endIndex), Math.max(startIndex, endIndex) + 1);
+
+    const upIndex = Math.min(startIndex, endIndex);
+    const downIndex = Math.max(startIndex, endIndex) + 1;
+    dragSearchDispatch(startDay, upIndex, downIndex);
     setMobileIsLectureListOpenDispatch(true);
     setSelectedListCodeDispatch(SEARCH);
   }
@@ -242,7 +238,11 @@ class TimetableSubSection extends Component {
     } = this.props;
 
     const timetableLectures = selectedTimetable ? selectedTimetable.lectures : [];
-    const tempLecture = ((lectureFocus.from === LIST) && !inTimetable(lectureFocus.lecture, selectedTimetable))
+    const isFocusedLectureTemporary = (
+      (lectureFocus.from === LIST)
+      && !inTimetable(lectureFocus.lecture, selectedTimetable)
+    );
+    const tempLecture = isFocusedLectureTemporary
       ? lectureFocus.lecture
       : null;
 
@@ -290,9 +290,15 @@ class TimetableSubSection extends Component {
           tileOut={isTemp ? null : this.tileOut}
           tileClick={isTemp ? null : this.tileClick}
           deleteLecture={this.deleteLecture}
-          occupiedTimes={(isTemp && !isUntimed)
-            ? this._getOccupiedTimes(classtime.day, this.indexOfMinute(classtime.begin), this.indexOfMinute(classtime.end))
-            : undefined}
+          occupiedTimes={
+            (isTemp && !isUntimed)
+              ? this._getOccupiedTimes(
+                classtime.day,
+                this.indexOfMinute(classtime.begin),
+                this.indexOfMinute(classtime.end)
+              )
+              : undefined
+          }
         />
       );
     };
@@ -301,7 +307,9 @@ class TimetableSubSection extends Component {
         ? mapClasstimeToTile(lecture, null, isTemp)
         : lecture.classtimes.map((ct) => mapClasstimeToTile(lecture, ct, isTemp))
     );
-    const timetableLectureTiles = timetableLectures.map((lecture) => mapLectureToTiles(lecture, false));
+    const timetableLectureTiles = timetableLectures.map((lecture) => (
+      mapLectureToTiles(lecture, false)
+    ));
     const tempLectureTiles = tempLecture
       ? mapLectureToTiles(tempLecture, true)
       : null;
@@ -334,7 +342,6 @@ class TimetableSubSection extends Component {
       ];
     };
     const getColumnCells = (day, dayName, dayIdx) => {
-      // eslint-disable-next-line arrow-body-style
       const timedArea = targetMinutes.map((i) => {
         return (
           <div
@@ -477,4 +484,8 @@ TimetableSubSection.propTypes = {
 };
 
 
-export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(TimetableSubSection));
+export default withTranslation()(
+  connect(mapStateToProps, mapDispatchToProps)(
+    TimetableSubSection
+  )
+);

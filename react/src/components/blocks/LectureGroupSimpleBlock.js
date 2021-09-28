@@ -45,4 +45,8 @@ LectureGroupSimpleBlock.propTypes = {
   lectures: PropTypes.arrayOf(lectureShape).isRequired,
 };
 
-export default withTranslation()(React.memo(LectureGroupSimpleBlock));
+export default withTranslation()(
+  React.memo(
+    LectureGroupSimpleBlock
+  )
+);

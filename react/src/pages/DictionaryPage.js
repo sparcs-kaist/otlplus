@@ -167,5 +167,8 @@ DictionaryPage.propTypes = {
 };
 
 
-// eslint-disable-next-line max-len
-export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(DictionaryPage));
+export default withTranslation()(
+  connect(mapStateToProps, mapDispatchToProps)(
+    DictionaryPage
+  )
+);

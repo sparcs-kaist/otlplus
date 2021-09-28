@@ -12,7 +12,6 @@ const LectureSimpleBlock = ({
   lecture,
   isRaised, isDimmed, hasReview,
   onClick,
-// eslint-disable-next-line arrow-body-style
 }) => {
   return (
     <div
@@ -45,4 +44,8 @@ LectureSimpleBlock.propTypes = {
 };
 
 
-export default withTranslation()(React.memo(LectureSimpleBlock));
+export default withTranslation()(
+  React.memo(
+    LectureSimpleBlock
+  )
+);

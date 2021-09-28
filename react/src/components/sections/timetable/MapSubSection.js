@@ -76,11 +76,14 @@ class MapSubSection extends Component {
     const { selectedTimetable, lectureFocus } = this.props;
 
     const buildings = unique(
-      getOverallLectures(selectedTimetable, lectureFocus).map((l) => getBuildingStr(l)),
+      getOverallLectures(selectedTimetable, lectureFocus).map((l) => getBuildingStr(l))
     );
     const mapBuildingToBlock = (b) => {
       const lecturesOnBuilding = this._getLecturesOnBuilding(b);
-      const isHighlighted = lecturesOnBuilding.some((l) => isSingleFocused(l, lectureFocus)) || (multipleFocusBuilding === b);
+      const isHighlighted = (
+        lecturesOnBuilding.some((l) => isSingleFocused(l, lectureFocus))
+        || (multipleFocusBuilding === b)
+      );
       return (
         <div
           className={classNames('section-content--map__block', `location--${b}`)}
@@ -138,4 +141,8 @@ MapSubSection.propTypes = {
 };
 
 
-export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(MapSubSection));
+export default withTranslation()(
+  connect(mapStateToProps, mapDispatchToProps)(
+    MapSubSection
+  )
+);

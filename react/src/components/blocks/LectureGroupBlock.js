@@ -21,7 +21,6 @@ const LectureGroupBlock = ({
   isTaken, fromCart,
   addToCart, addToTable, deleteFromCart,
   listHover, listOut, listClick,
-// eslint-disable-next-line arrow-body-style
 }) => {
   return (
     <div
@@ -78,4 +77,8 @@ LectureGroupBlock.propTypes = {
   listClick: PropTypes.func.isRequired,
 };
 
-export default withTranslation()(React.memo(LectureGroupBlock));
+export default withTranslation()(
+  React.memo(
+    LectureGroupBlock
+  )
+);

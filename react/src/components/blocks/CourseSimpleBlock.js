@@ -6,7 +6,6 @@ import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 import courseShape from '../../shapes/CourseShape';
 
 
-// eslint-disable-next-line arrow-body-style
 const CourseSimpleBlock = ({ t, course }) => {
   return (
     <div className={classNames('block', 'block--course-simple')}>
@@ -25,4 +24,8 @@ CourseSimpleBlock.propTypes = {
 };
 
 
-export default withTranslation()(React.memo(CourseSimpleBlock));
+export default withTranslation()(
+  React.memo(
+    CourseSimpleBlock
+  )
+);

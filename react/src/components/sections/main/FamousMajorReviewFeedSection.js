@@ -53,4 +53,6 @@ FamousMajorReviewFeedSection.propTypes = {
 };
 
 
-export default withTranslation()(FamousMajorReviewFeedSection);
+export default withTranslation()(
+  FamousMajorReviewFeedSection
+);

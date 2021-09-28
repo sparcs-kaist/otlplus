@@ -39,25 +39,32 @@ class ReviewsSubSection extends Component {
     });
   }
 
-  // eslint-disable-next-line arrow-body-style
   _getProfessorFormValue = (professor) => {
     return String(professor.professor_id);
   }
 
-  _checkLectureProfessor = (lecture, professor) => {
-    if (professor.has('ALL')) {
+  _checkLectureProfessor = (lecture) => {
+    const { selectedProfessors } = this.state;
+    if (selectedProfessors.has('ALL')) {
       return true;
     }
-    return lecture.professors.some((p) => professor.has(this._getProfessorFormValue(p)));
+    return lecture.professors.some((p) => selectedProfessors.has(this._getProfessorFormValue(p)));
   }
 
-  _checkReviewLanguage = (review, languages) => {
-    if (languages.has('ALL')) {
+  _checkLectureCourse = (lecture) => {
+    const { courseFocus } = this.props;
+    return lecture.course === courseFocus.course.id;
+  }
+
+  _checkReviewLanguage = (review) => {
+    const { selectedLanguages } = this.state;
+    if (selectedLanguages.has('ALL')) {
       return true;
     }
-    if (languages.has('ENG')) {
-      return (review.content.match(/[A-Za-z가-힣]/g) || []).length === 0
-        || (review.content.match(/[A-Za-z]/g) || []).length / (review.content.match(/[A-Za-z가-힣]/g) || []).length > 0.55;
+    if (selectedLanguages.has('ENG')) {
+      const engAndKorLength = (review.content.match(/[A-Za-z가-힣]/g) || []).length;
+      const engLength = (review.content.match(/[A-Za-z]/g) || []).length;
+      return (engAndKorLength === 0) || (engLength / engAndKorLength > 0.55);
     }
     return false;
   }
@@ -89,8 +96,9 @@ class ReviewsSubSection extends Component {
     ];
 
     const takenLecturesOfCourse = user
-      ? user.review_writable_lectures
-        .filter((l) => ((l.course === courseFocus.course.id) && this._checkLectureProfessor(l, selectedProfessors)))
+      ? user.review_writable_lectures.filter((l) => (
+        this._checkLectureCourse(l) && this._checkLectureProfessor(l)
+      ))
       : [];
     const reviewWriteBlocks = takenLecturesOfCourse.map((l) => (
       <ReviewWriteBlock
@@ -104,7 +112,9 @@ class ReviewsSubSection extends Component {
 
     const filteredReviews = courseFocus.reviews == null
       ? null
-      : courseFocus.reviews.filter((r) => (this._checkLectureProfessor(r.lecture, selectedProfessors) && this._checkReviewLanguage(r, selectedLanguages)));
+      : courseFocus.reviews.filter((r) => (
+        this._checkLectureProfessor(r.lecture) && this._checkReviewLanguage(r)
+      ));
     const reviewBlocksArea = (filteredReviews == null)
       ? (
         <div className={classNames('section-content--course-detail__list-area', 'list-placeholder')}>
@@ -191,4 +201,8 @@ ReviewsSubSection.propTypes = {
 };
 
 
-export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(ReviewsSubSection));
+export default withTranslation()(
+  connect(mapStateToProps, mapDispatchToProps)(
+    ReviewsSubSection
+  )
+);

@@ -26,7 +26,6 @@ import SummarySubSection from '../components/sections/timetable/SummarySubSectio
 import ExamSubSection from '../components/sections/timetable/ExamSubSection';
 import ShareSubSection from '../components/sections/timetable/ShareSubSection';
 
-import lectureFocusShape from '../shapes/LectureFocusShape';
 import semesterShape from '../shapes/SemesterShape';
 import timetableShape from '../shapes/TimetableShape';
 import userShape from '../shapes/UserShape';
@@ -77,9 +76,9 @@ class TimetablePage extends Component {
               <CloseButton onClick={() => setMobileIsTimetableTabsOpenDispatch(false)} />
               <TimetableTabs />
               <SemesterSection startSemester={startSemester} />
-            </div> 
+            </div>
             <div className={classNames('section', 'section--with-tabs', 'section--timetable-and-infos')}>
-              <TimetableSubSection /> 
+              <TimetableSubSection />
               <Divider orientation={{ desktop: Divider.Orientation.VERTICAL, mobile: Divider.Orientation.HORIZONTAL }} isVisible={true} gridArea="divider-main" />
               <MapSubSection />
               <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={{ desktop: true, mobile: false }} gridArea="divider-sub-1" />
@@ -98,7 +97,6 @@ class TimetablePage extends Component {
 
 const mapStateToProps = (state) => ({
   user: state.common.user.user,
-  lectureFocus: state.timetable.lectureFocus,
   myTimetable: state.timetable.timetable.myTimetable,
   mobileIsTimetableTabsOpen: state.timetable.timetable.mobileIsTimetableTabsOpen,
   mobileIsLectureListOpen: state.timetable.list.mobileIsLectureListOpen,
@@ -138,7 +136,6 @@ TimetablePage.propTypes = {
   }).isRequired,
 
   user: userShape,
-  lectureFocus: lectureFocusShape.isRequired,
   myTimetable: timetableShape.isRequired,
   mobileIsTimetableTabsOpen: PropTypes.bool.isRequired,
   mobileIsLectureListOpen: PropTypes.bool.isRequired,
@@ -152,4 +149,6 @@ TimetablePage.propTypes = {
   setMobileIsTimetableTabsOpenDispatch: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(TimetablePage);
+export default connect(mapStateToProps, mapDispatchToProps)(
+  TimetablePage
+);

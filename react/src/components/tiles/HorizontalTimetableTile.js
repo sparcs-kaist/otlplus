@@ -48,4 +48,8 @@ HorizontalTimetableTile.propTypes = {
   cellHeight: PropTypes.number.isRequired,
 };
 
-export default withTranslation()(React.memo(HorizontalTimetableTile));
+export default withTranslation()(
+  React.memo(
+    HorizontalTimetableTile
+  )
+);

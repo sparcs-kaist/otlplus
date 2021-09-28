@@ -68,4 +68,8 @@ RelatedSubSection.propTypes = {
 };
 
 
-export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(RelatedSubSection));
+export default withTranslation()(
+  connect(mapStateToProps, mapDispatchToProps)(
+    RelatedSubSection
+  )
+);

@@ -172,4 +172,8 @@ ExamSubSection.propTypes = {
 };
 
 
-export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(ExamSubSection));
+export default withTranslation()(
+  connect(mapStateToProps, mapDispatchToProps)(
+    ExamSubSection
+  )
+);

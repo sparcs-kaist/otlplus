@@ -162,5 +162,8 @@ TodaysTimetableSection.propTypes = {
 };
 
 
-// eslint-disable-next-line max-len
-export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(TodaysTimetableSection));
+export default withTranslation()(
+  connect(mapStateToProps, mapDispatchToProps)(
+    TodaysTimetableSection
+  )
+);

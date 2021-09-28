@@ -75,4 +75,8 @@ MyReviewsSubSection.propTypes = {
 };
 
 
-export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(MyReviewsSubSection));
+export default withTranslation()(
+  connect(mapStateToProps, mapDispatchToProps)(
+    MyReviewsSubSection
+  )
+);
