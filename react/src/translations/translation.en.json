@@ -230,6 +230,7 @@
       "scoreNotSelected": "Please select all scores.",
       "reportUnderDevelopment": "This featuer is under development. Please report improper reviews to otlplus@sparcs.org.",
       "alreadyRated": "You already rated OTL.",
+      "tooManySearchResults": "There are too many search results. Only {{count}} will be displayed.",
       "myInfoCaptionHead": "You can change this information at ",
       "myInfoCaptionTail": ".",
       "academicInfoCaptionHead": "This information is fetched from KAIST Portal. In case the information is not correct, please contact ",

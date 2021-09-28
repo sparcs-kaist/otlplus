@@ -166,6 +166,7 @@ class MainPage extends Component {
       {
         params: {
           time: now.toJSON(),
+          order: ['start_time', 'id'],
         },
         metadata: {
           gaCategory: 'Notice',

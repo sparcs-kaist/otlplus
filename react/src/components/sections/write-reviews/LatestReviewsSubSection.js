@@ -60,7 +60,7 @@ class LatestReviewsSubSection extends Component {
       '/api/reviews',
       {
         params: {
-          order: ['-written_datetime'],
+          order: ['-written_datetime', '-id'],
           offset: offset,
           limit: PAGE_SIZE,
         },

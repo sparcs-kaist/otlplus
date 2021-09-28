@@ -75,6 +75,7 @@ class TimetableTabs extends Component {
         params: {
           year: year,
           semester: semester,
+          order: ['id'],
         },
         metadata: {
           gaCategory: 'Timetable',

@@ -7,18 +7,16 @@ from django.utils.decorators import method_decorator
 from django.views import View
 
 from utils.decorators import login_required_ajax
-from utils.util import getint, get_paginated_queryset, patch_object
+from utils.util import apply_offset_and_limit, apply_order, getint, patch_object
 
 from .models import Review, ReviewVote
 
 class ReviewListView(View):
     MAX_LIMIT = 50
+    DEFAULT_ORDER = ['-written_datetime', '-id']
 
     def get(self, request):
         reviews = Review.objects.all()
-
-        order = request.GET.getlist("order", [])
-        reviews = reviews.order_by(*order).distinct()
 
         lecture_query = Q()
         lecture_year = getint(request.GET, "lecture_year", None)
@@ -36,10 +34,8 @@ class ReviewListView(View):
         if response_type == "count":
             return JsonResponse(reviews.count(), safe=False)
 
-        offset = getint(request.GET, "offset", None)
-        limit = getint(request.GET, "limit", None)
-        reviews = get_paginated_queryset(reviews, offset, limit, self.MAX_LIMIT)
-
+        reviews = apply_order(reviews, request.GET, ReviewListView.DEFAULT_ORDER)
+        reviews = apply_offset_and_limit(reviews, request.GET, ReviewListView.MAX_LIMIT)
         result = [r.toJson(user=request.user) for r in reviews]
         return JsonResponse(result, safe=False)
 
@@ -136,11 +132,16 @@ class ReviewInstanceLikeView(View):
 
 @method_decorator(login_required_ajax, name="dispatch")
 class UserInstanceLikedReviewsView(View):
+    MAX_LIMIT = 300
+    DEFAULT_ORDER = ['-written_datetime', '-id']
+
     def get(self, request, user_id):
         profile = request.user.userprofile
         if profile.id != int(user_id):
             return HttpResponse(status=401)
-        reviews = Review.objects.filter(votes__userprofile=profile)[:500]
+        reviews = Review.objects.filter(votes__userprofile=profile)
 
+        reviews = apply_order(reviews, request.GET, UserInstanceLikedReviewsView.DEFAULT_ORDER)
+        reviews = apply_offset_and_limit(reviews, request.GET, UserInstanceLikedReviewsView.MAX_LIMIT)
         result = [r.toJson(user=request.user) for r in reviews]
         return JsonResponse(result, safe=False)

@@ -5,7 +5,7 @@ from django.utils.decorators import method_decorator
 from django.views import View
 
 from utils.decorators import login_required_ajax
-from utils.util import getint
+from utils.util import apply_offset_and_limit, apply_order, getint
 
 from .models import Timetable, Wishlist
 from .services import create_timetable_ical, create_timetable_image, get_timetable_entries
@@ -20,6 +20,9 @@ def _validate_year_semester(year, semester):
 
 @method_decorator(login_required_ajax, name="dispatch")
 class UserInstanceTimetableListView(View):
+    MAX_LIMIT = 50
+    DEFAULT_ORDER = ['year', 'semester', 'id']
+
     def get(self, request, user_id):
         userprofile = request.user.userprofile
         if userprofile.id != int(user_id):
@@ -35,6 +38,8 @@ class UserInstanceTimetableListView(View):
         if year is not None:
             timetables = timetables.filter(semester=semester)
 
+        timetables = apply_order(timetables, request.GET, UserInstanceTimetableListView.DEFAULT_ORDER)
+        timetables = apply_offset_and_limit(timetables, request.GET, UserInstanceTimetableListView.MAX_LIMIT)
         result = [t.toJson() for t in timetables]
         return JsonResponse(result, safe=False)
 

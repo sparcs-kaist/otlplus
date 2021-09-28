@@ -42,6 +42,8 @@ class CourseSearchSubSection extends Component {
   }
 
   searchStart = () => {
+    const LIMIT = 150;
+
     const { t } = this.props;
     const {
       selectedTypes, selectedDepartments, selectedLevels, selectedTerms,
@@ -82,6 +84,8 @@ class CourseSearchSubSection extends Component {
       {
         params: {
           ...option,
+          order: ['old_code'],
+          limit: LIMIT,
         },
         metadata: {
           gaCategory: 'Course',
@@ -90,6 +94,10 @@ class CourseSearchSubSection extends Component {
       },
     )
       .then((response) => {
+        if (response.data.length === LIMIT) {
+          // eslint-disable-next-line no-alert
+          alert(t('ui.message.tooManySearchResults', { count: LIMIT }));
+        }
         setListCoursesDispatch(SEARCH, response.data);
       })
       .catch((error) => {

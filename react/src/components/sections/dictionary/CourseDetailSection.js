@@ -58,6 +58,9 @@ class CourseDetailSection extends Component {
     axios.get(
       `/api/courses/${courseFocus.course.id}/lectures`,
       {
+        params: {
+          order: ['year', 'semester', 'class_no'],
+        },
         metadata: {
           gaCategory: 'Course',
           gaVariable: 'GET Lectures / Instance',
@@ -77,11 +80,17 @@ class CourseDetailSection extends Component {
 
 
   _fetchReviews = () => {
+    const LIMIT = 100;
+
     const { courseFocus, setReviewsDispatch } = this.props;
 
     axios.get(
       `/api/courses/${courseFocus.course.id}/reviews`,
       {
+        params: {
+          order: ['-lecture__year', '-lecture__semester', '-written_datetime', '-id'],
+          limit: LIMIT,
+        },
         metadata: {
           gaCategory: 'Course',
           gaVariable: 'GET Reviews / Instance',
@@ -94,6 +103,9 @@ class CourseDetailSection extends Component {
           return;
         }
         this._markRead(courseFocus.course);
+        if (response.data.length === LIMIT) {
+          // TODO: handle limit overflow
+        }
         setReviewsDispatch(response.data);
       })
       .catch((error) => {

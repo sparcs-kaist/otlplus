@@ -106,12 +106,10 @@ class RankedReviewsSubSection extends Component {
     const { selectedSemester } = this.state;
     const { setSemesterReviewCountDispatch } = this.props;
 
-    const params = (selectedSemester === ALL)
+    const options = (selectedSemester === ALL)
       ? {
-        response_type: 'count',
       }
       : {
-        response_type: 'count',
         lecture_year: selectedSemester.year,
         lecture_semester: selectedSemester.semester,
       };
@@ -119,7 +117,10 @@ class RankedReviewsSubSection extends Component {
     axios.get(
       '/api/reviews',
       {
-        params: params,
+        params: {
+          ...options,
+          response_type: 'count',
+        },
         metadata: {
           gaCategory: 'Review',
           gaVariable: 'GET / List Count',
@@ -145,16 +146,10 @@ class RankedReviewsSubSection extends Component {
     }
 
     const offset = (this._getReviewsOfSemester(selectedSemester) || []).length;
-    const params = (selectedSemester === ALL)
+    const options = (selectedSemester === ALL)
       ? {
-        order: ['-like'],
-        offset: offset,
-        limit: PAGE_SIZE,
       }
       : {
-        order: ['-like'],
-        offset: offset,
-        limit: PAGE_SIZE,
         lecture_year: selectedSemester.year,
         lecture_semester: selectedSemester.semester,
       };
@@ -165,7 +160,12 @@ class RankedReviewsSubSection extends Component {
     axios.get(
       '/api/reviews',
       {
-        params: params,
+        params: {
+          ...options,
+          order: ['-like'],
+          offset: offset,
+          limit: PAGE_SIZE,
+        },
         metadata: {
           gaCategory: 'Review',
           gaVariable: 'GET Latest / List',

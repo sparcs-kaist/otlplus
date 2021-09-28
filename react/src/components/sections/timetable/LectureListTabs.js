@@ -95,6 +95,7 @@ class LectureListTabs extends Component {
           year: year,
           semester: semester,
           group: 'Basic',
+          order: ['old_code', 'class_no'],
         },
         metadata: {
           gaCategory: 'Lecture',
@@ -126,6 +127,7 @@ class LectureListTabs extends Component {
           year: year,
           semester: semester,
           group: [majorCode],
+          order: ['old_code', 'class_no'],
         },
         metadata: {
           gaCategory: 'Lecture',
@@ -159,6 +161,7 @@ class LectureListTabs extends Component {
           year: year,
           semester: semester,
           group: 'Humanity',
+          order: ['old_code', 'class_no'],
         },
         metadata: {
           gaCategory: 'Lecture',
