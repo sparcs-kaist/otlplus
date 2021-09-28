@@ -2,6 +2,7 @@ from datetime import time
 from functools import reduce
 import operator
 import datetime
+import traceback
 
 from django.core.cache import cache
 from django.db import models
@@ -130,8 +131,8 @@ class Lecture(models.Model):
 
     def to_json(self, nested=False):
         if self.deleted:
-            # TODO: Use a logger instead
             print("WARNING: You are serializing DELETED lecture: %s. Please check your query" % self)
+            traceback.print_stack()
 
         cache_id = self.get_cache_key(nested)
         result_cached = cache.get(cache_id)
