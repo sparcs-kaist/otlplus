@@ -356,38 +356,7 @@ class ClassTime(models.Model):
     unit_time = models.SmallIntegerField(null=True)  # 수업 교시
 
     def to_json(self, nested=False):
-        building_full_name = self.building_full_name
-        building_full_name_en = self.building_full_name_en
-        # No classroom info
-        if building_full_name is None or len(building_full_name) == 0:
-            room_name = ""
-            building_code = ""
-            classroom = "정보 없음"
-            classroom_en = "Unknown"
-            classroom_short = "정보 없음"
-            classroom_short_en = "Unknown"
-        # Building name has form of "(N1) xxxxx"
-        elif building_full_name[0] == "(":
-            building_code = building_full_name[1 : building_full_name.find(")")]
-            building_name = building_full_name[len(building_code) + 2 :]
-            building_name_en = building_full_name_en[len(building_code) + 2 :]
-            room_name = self.room_name
-            if room_name is None:
-                room_name = ""
-            classroom = "(" + building_code + ") " + building_name + " " + room_name
-            classroom_en = "(" + building_code + ") " + building_name_en + " " + room_name
-            classroom_short = "(" + building_code + ") " + room_name
-            classroom_short_en = "(" + building_code + ") " + room_name
-        # Building name has form of "xxxxx"
-        else:
-            building_code = ""
-            room_name = self.room_name
-            if room_name is None:
-                room_name = ""
-            classroom = building_full_name + " " + room_name
-            classroom_en = building_full_name_en + " " + room_name
-            classroom_short = building_full_name + " " + room_name
-            classroom_short_en = building_full_name_en + " " + room_name
+        building_code, room_name, classroom, classroom_en, classroom_short, classroom_short_en = self.get_classroom_strs()
 
         result = {
             "building_code": building_code,
@@ -418,6 +387,38 @@ class ClassTime(models.Model):
         if end_numeric % 30 != 0:
             end_numeric = end_numeric + (30 - (end_numeric % 30))
         return end_numeric
+    
+    def get_classroom_strs(self):
+        building_full_name = self.building_full_name
+        building_full_name_en = self.building_full_name_en
+        # No classroom info
+        if building_full_name is None or len(building_full_name) == 0:
+            building_code = ""
+            room_name = ""
+            classroom = "정보 없음"
+            classroom_en = "Unknown"
+            classroom_short = "정보 없음"
+            classroom_short_en = "Unknown"
+        # Building name has form of "(N1) xxxxx"
+        elif building_full_name[0] == "(":
+            building_code = building_full_name[1 : building_full_name.find(")")]
+            building_name = building_full_name[len(building_code) + 2 :]
+            building_name_en = building_full_name_en[len(building_code) + 2 :]
+            room_name = self.room_name if (self.room_name is not None) else ""
+            classroom = "(" + building_code + ") " + building_name + " " + room_name
+            classroom_en = "(" + building_code + ") " + building_name_en + " " + room_name
+            classroom_short = "(" + building_code + ") " + room_name
+            classroom_short_en = "(" + building_code + ") " + room_name
+        # Building name has form of "xxxxx"
+        else:
+            building_code = ""
+            room_name = self.room_name if (self.room_name is not None) else ""
+            classroom = building_full_name + " " + room_name
+            classroom_en = building_full_name_en + " " + room_name
+            classroom_short = building_full_name + " " + room_name
+            classroom_short_en = building_full_name_en + " " + room_name
+        return building_code, room_name, classroom, classroom_en, classroom_short, classroom_short_en
+
 
     def get_location(self):
         if self.room_name is None:
