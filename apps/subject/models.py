@@ -264,7 +264,7 @@ class Lecture(models.Model):
         prof_name_list = [p.professor_name for p in professors]
         if len(prof_name_list) <= 2:
             return ", ".join(prof_name_list)
-        return (prof_name_list[0] + " 외 " + str(len(prof_name_list) - 1) + "명",)
+        return f"{prof_name_list[0]} 외 {len(prof_name_list) - 1} 명"
 
     @classmethod
     def get_query_for_research(cls):
