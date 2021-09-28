@@ -28,6 +28,7 @@ urlpatterns = [
     url(r"^lectures/(?P<lecture_id>\d+)$", views.LectureInstanceView.as_view()),
     url(r"^lectures/autocomplete$", views.LectureListAutocompleteView.as_view()),
     url(r"^lectures/(?P<lecture_id>\d+)/reviews$", views.LectureInstanceReviewsView.as_view()),
-    url(r"^lectures/(?P<lecture_id>\d+)/related-reviews$", views.LectureInstanceRelatedReviewsView.as_view()),
+    url(r"^lectures/(?P<lecture_id>\d+)/related-reviews$",
+        views.LectureInstanceRelatedReviewsView.as_view()),
     url(r"^users/(?P<user_id>\d+)/taken-courses$", views.UserInstanceTakenCoursesView.as_view()),
 ]

@@ -7,4 +7,4 @@ class SupportConfig(AppConfig):
     name = "apps.support"
 
     def ready(self):
-        from . import signals
+        from . import signals # pylint: disable=import-outside-toplevel, unused-import

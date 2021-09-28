@@ -5,4 +5,4 @@ class SessionConfig(AppConfig):
     name = "apps.session"
 
     def ready(self):
-        from . import signals
+        from . import signals # pylint: disable=import-outside-toplevel, unused-import
