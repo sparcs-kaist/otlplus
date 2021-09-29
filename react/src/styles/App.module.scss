@@ -41,7 +41,12 @@ $font-size-smallest: 10px;
 $line-height-smallest: 11px;
 
 
+$transition-duration-short: 0.06s;
+
+
 $screen-height: var(--window-inner-height, 100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+
+
 $header-height: 55px;
 $footer-height-desktop: 50px;
 $footer-height-mobile: 130px;
@@ -1541,6 +1546,7 @@ a {
     overflow: hidden;
     font-size: $font-size-small;
     line-height: $line-height-small;
+    transition: margin $transition-duration-short ease-out, box-shadow $transition-duration-short ease-out;
     &.tile--highlighted {
         background-color: #E0546F;
     }
@@ -1680,7 +1686,9 @@ a {
     display: block;
     padding: $block-padding-tb $block-padding-lr;
     position: relative;
+    top: 0;
     overflow: hidden;
+    transition: top $transition-duration-short ease-out, box-shadow $transition-duration-short ease-out;
     &[href]:not(.block--dimmed):hover,
     &.block--clickable:not(.block--dimmed):hover {
         background-color:$color-block-background-dark;
