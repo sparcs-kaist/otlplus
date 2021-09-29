@@ -293,7 +293,7 @@ class LectureListSection extends Component {
     const {
       user,
       lectureFocus, selectedTimetable, selectedListCode,
-      searchOpen, lastSearchOption,
+      lastSearchOption,
       lists,
       mobileIsLectureListOpen,
     } = this.props;
@@ -420,7 +420,7 @@ class LectureListSection extends Component {
       // eslint-disable-next-line react/jsx-indent
       <div className={classNames('section', 'section--lecture-list', (mobileIsLectureListOpen ? null : 'mobile-hidden'))}>
         <div className={classNames('subsection', 'subsection--flex', 'subsection--lecture-list')}>
-          { ((selectedListCode === LectureListCode.SEARCH) && searchOpen) ? <LectureSearchSubSection /> : null }
+          { ((selectedListCode === LectureListCode.SEARCH)) ? <LectureSearchSubSection /> : null }
           <CloseButton onClick={this.mobileCloseLectureList} />
           { getListTitle() }
           <div
@@ -448,7 +448,6 @@ const mapStateToProps = (state) => ({
   lectureFocus: state.timetable.lectureFocus,
   year: state.timetable.semester.year,
   semester: state.timetable.semester.semester,
-  searchOpen: state.timetable.search.open,
   lastSearchOption: state.timetable.search.lastSearchOption,
 });
 
@@ -485,7 +484,6 @@ LectureListSection.propTypes = {
   lectureFocus: lectureFocusShape.isRequired,
   year: PropTypes.number,
   semester: PropTypes.number,
-  searchOpen: PropTypes.bool.isRequired,
   lastSearchOption: lectureLastSearchOptionShape.isRequired,
 
   openSearchDispatch: PropTypes.func.isRequired,
