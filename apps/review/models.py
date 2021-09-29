@@ -6,15 +6,19 @@ from apps.session.models import UserProfile
 
 
 class Review(models.Model):
-    course = models.ForeignKey(Course, on_delete=models.PROTECT, db_index=True, related_name="reviews")
-    lecture = models.ForeignKey(Lecture, on_delete=models.PROTECT, db_index=True, related_name="reviews")
+    course = models.ForeignKey(Course,
+                               on_delete=models.PROTECT, db_index=True, related_name="reviews")
+    lecture = models.ForeignKey(Lecture,
+                                on_delete=models.PROTECT, db_index=True, related_name="reviews")
 
     content = models.CharField(max_length=65536)
     grade = models.SmallIntegerField(default=0)
     load = models.SmallIntegerField(default=0)
     speech = models.SmallIntegerField(default=0)
 
-    writer = models.ForeignKey(UserProfile, related_name="reviews", db_index=True, on_delete=models.SET_NULL, null=True)
+    writer = models.ForeignKey(UserProfile,
+                               related_name="reviews", db_index=True, on_delete=models.SET_NULL,
+                               null=True)
     writer_label = models.CharField(max_length=200, default="무학과 넙죽이")
     like = models.IntegerField(default=0)
     is_deleted = models.IntegerField(default=0)
@@ -102,7 +106,9 @@ class Review(models.Model):
 
 class ReviewVote(models.Model):
     review = models.ForeignKey(Review, related_name="votes", on_delete=models.CASCADE, null=False)
-    userprofile = models.ForeignKey(UserProfile, related_name="review_votes", on_delete=models.SET_NULL, null=True)
+    userprofile = models.ForeignKey(UserProfile,
+                                    related_name="review_votes", on_delete=models.SET_NULL,
+                                    null=True)
     created_datetime = models.DateTimeField(auto_now_add=True, db_index=True, null=True)
 
     class Meta:

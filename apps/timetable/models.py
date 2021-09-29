@@ -6,14 +6,16 @@ from apps.subject.models import Lecture
 
 class Timetable(models.Model):
     lectures = models.ManyToManyField(Lecture)
-    user = models.ForeignKey(UserProfile, related_name="timetables", on_delete=models.CASCADE, db_index=True)
+    user = models.ForeignKey(UserProfile,
+                             related_name="timetables", on_delete=models.CASCADE, db_index=True)
     year = models.IntegerField(null=True, db_index=True)  # 몇넌도의 타임테이블인지
     semester = models.SmallIntegerField(null=True, db_index=True)  # 어떤학기의 타임테이블인지
 
     def toJson(self, nested=False):
         result = {
             "id": self.id,
-            "lectures": [lecture.toJson(nested=False) for lecture in self.lectures.filter(deleted=False)],
+            "lectures": [lecture.toJson(nested=False)
+                         for lecture in self.lectures.filter(deleted=False)],
         }
         return result
 
@@ -39,7 +41,8 @@ class OldTimetable(models.Model):
                 # TODO: Use a logger instead
                 print(f"User with student number {self.student_id} has multiple userprofiles.")
                 return
-        timetable = Timetable.objects.create(user=userprofile, year=self.year, semester=self.semester)
+        timetable = Timetable.objects.create(user=userprofile,
+                                             year=self.year, semester=self.semester)
         for lecture in self.lectures.all():
             timetable.lectures.add(lecture)
         self.delete()
@@ -59,6 +62,7 @@ class Wishlist(models.Model):
 
     def toJson(self, nested=False):
         result = {
-            "lectures": [lecture.toJson(nested=False) for lecture in self.lectures.filter(deleted=False)],
+            "lectures": [lecture.toJson(nested=False)
+                         for lecture in self.lectures.filter(deleted=False)],
         }
         return result

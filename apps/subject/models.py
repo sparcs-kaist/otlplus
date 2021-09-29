@@ -1,6 +1,7 @@
 from datetime import time
 from functools import reduce
 import operator
+import datetime
 
 from django.core.cache import cache
 from django.db import models
@@ -77,7 +78,8 @@ class Semester(models.Model):
     @classmethod
     def getImportingSemester(cls):
         now = timezone.now()
-        return cls.objects.filter(courseDesciptionSubmission__lt=now).order_by("courseDesciptionSubmission").last()
+        return cls.objects.filter(courseDesciptionSubmission__lt=now) \
+                          .order_by("courseDesciptionSubmission").last()
 
 
 class Lecture(models.Model):
@@ -98,7 +100,8 @@ class Lecture(models.Model):
     num_labs = models.IntegerField(default=0)
     credit_au = models.IntegerField(default=0)
     limit = models.IntegerField(default=0)
-    professors = models.ManyToManyField("Professor", related_name="lectures", blank=True, db_index=True)
+    professors = models.ManyToManyField("Professor",
+                                        related_name="lectures", blank=True, db_index=True)
     is_english = models.BooleanField()
     deleted = models.BooleanField(default=False, db_index=True)
 
@@ -186,9 +189,10 @@ class Lecture(models.Model):
         return result
 
     def recalc_score(self):
-        from apps.review.models import Review
+        from apps.review.models import Review # pylint: disable=import-outside-toplevel
 
-        reviews = Review.objects.filter(lecture__course=self.course, lecture__professors__in=self.professors.all())
+        reviews = Review.objects.filter(lecture__course=self.course,
+                                        lecture__professors__in=self.professors.all())
         _, self.review_total_weight, sums, avgs = Review.calc_average(reviews)
         self.grade_sum, self.load_sum, self.speech_sum = sums
         self.grade, self.load, self.speech = avgs
@@ -196,20 +200,16 @@ class Lecture(models.Model):
 
     def update_class_title(self):
         # Finds logest common string from front of given strings
-        def _lcs_front(ls):
-            if len(ls) == 0:
+        def _lcs_front(lecture_titles):
+            if len(lecture_titles) == 0:
                 return ""
             result = ""
-            for i in range(len(ls[0]), 0, -1):  # [len(ls[0]),...,2,1]
-                flag = True
-                for string in ls:
-                    if string[0:i] != ls[0][0:i]:
-                        flag = False
-                if flag:
-                    result = string[0:i]
+            for i in range(len(lecture_titles[0]), 0, -1):  # [len(ls[0]),...,2,1]
+                target_substring = lecture_titles[0][0:i]
+                if all(t[0:i] == target_substring for t in lecture_titles):
+                    result = target_substring
                     break
-            while (len(result) > 0) and (result[-1] in ["<", "(", "[", "{"]):
-                result = result[:-1]
+            result = result.rstrip("<([{")
             return result
 
         # Add common and class title for lectures like 'XXX<AAA>', 'XXX<BBB>'
@@ -254,7 +254,8 @@ class Lecture(models.Model):
                     lecture.class_title_en = "A"
                 lecture.save(update_fields=["common_title_en", "class_title_en"])
 
-        lectures = Lecture.objects.filter(course=self.course, deleted=False, year=self.year, semester=self.semester)
+        lectures = Lecture.objects.filter(course=self.course, deleted=False,
+                                          year=self.year, semester=self.semester)
         _add_title_format(lectures)
         _add_title_format_en(lectures)
 
@@ -267,13 +268,17 @@ class Lecture(models.Model):
 
     @classmethod
     def getQueryResearch(cls):
-        return Q(type_en__in=["Individual Study", "Thesis Study(Undergraduate)", "Thesis Research(MA/phD)"])
+        return Q(type_en__in=["Individual Study", "Thesis Study(Undergraduate)",
+                              "Thesis Research(MA/phD)"])
 
     @classmethod
     def getQueryReviewWritable(cls):
         now = timezone.now()
-        not_writable_semesters = Semester.objects.filter(Q(courseAddDropPeriodEnd__gte=now) | Q(beginning__gte=now))
-        query = reduce(operator.and_, (~Q(year=s.year, semester=s.semester) for s in not_writable_semesters), Q())
+        not_writable_semesters = Semester.objects.filter(Q(courseAddDropPeriodEnd__gte=now)
+                                                         | Q(beginning__gte=now))
+        query = reduce(operator.and_,
+                       (~Q(year=s.year, semester=s.semester) for s in not_writable_semesters),
+                       Q())
         return query
 
     def __str__(self):
@@ -298,12 +303,24 @@ class ExamTime(models.Model):
         )
 
     def toJson(self, nested=False):
-        day_str = ["월요일", "화요일", "수요일", "목요일", "금요일", "토요일", "일요일"]
-        day_str_en = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+        def _format_day(day: int) -> str:
+            DAY_STR = ["월요일", "화요일", "수요일", "목요일", "금요일", "토요일", "일요일"]
+            return DAY_STR[day]
+
+        def _format_day_en(day: int) -> str:
+            DAY_STR_EN = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday",
+                          "Sunday"]
+            return DAY_STR_EN[day]
+
+        def _format_time(time_: datetime.time) -> str:
+            return time_.strftime("%H:%M")
+
         result = {
             "day": self.day,
-            "str": day_str[self.day] + " " + self.begin.strftime("%H:%M") + " ~ " + self.end.strftime("%H:%M"),
-            "str_en": day_str_en[self.day] + " " + self.begin.strftime("%H:%M") + " ~ " + self.end.strftime("%H:%M"),
+            "str": \
+                f"{_format_day(self.day)} {_format_time(self.begin)} ~ {_format_time(self.end)}",
+            "str_en": \
+                f"{_format_day_en(self.day)} {_format_time(self.begin)} ~ {_format_time(self.end)}",
             "begin": self.get_begin_numeric(),
             "end": self.get_end_numeric(),
         }
@@ -324,18 +341,17 @@ class ExamTime(models.Model):
 class ClassTime(models.Model):
     """Lecture 에 배정된강의시간, 보통 하나의  Lecture 가 여러개의 강의시간을 가진다."""
 
-    lecture = models.ForeignKey(Lecture, on_delete=models.CASCADE, related_name="classtimes", null=True)
+    lecture = models.ForeignKey(Lecture,
+                                on_delete=models.CASCADE, related_name="classtimes", null=True)
     day = models.SmallIntegerField(choices=WEEKDAYS)  # 강의 요일
     begin = models.TimeField()  # hh:mm 형태의 강의 시작시각 (24시간제)
     end = models.TimeField()  # hh:mm 형태의 강의 끝나는 시각 (24시간 제)
     type = models.CharField(max_length=1, choices=CLASS_TYPES)  # 강의 or 실험
     building_id = models.CharField(max_length=10, blank=True, null=True)  # 건물 고유 ID
-    building_full_name = models.CharField(max_length=60, blank=True, null=True)  # 건물 이름(ex> (E11)창의학습관)
-    building_full_name_en = models.CharField(
-        max_length=60,
-        blank=True,
-        null=True,
-    )  # 건물 이름(ex> (E11)Creative learning Bldg.)
+    building_full_name = models.CharField(max_length=60, blank=True,
+                                          null=True)  # 건물 이름(ex> (E11)창의학습관)
+    building_full_name_en = models.CharField(max_length=60, blank=True,
+                                             null=True)  # 건물 이름(ex> (E11)Creative learning Bldg.)
     room_name = models.CharField(max_length=20, null=True)  # 강의실 호실(ex> 304, 1104, 1209-1, 터만홀)
     unit_time = models.SmallIntegerField(null=True)  # 수업 교시
 
@@ -405,12 +421,12 @@ class ClassTime(models.Model):
 
     def get_location(self):
         if self.room_name is None:
-            return "%s" % (self.building_full_name_ko)
+            return "%s" % (self.building_full_name)
         try:
             int(self.room_name)
-            return "%s %s호" % (self.building_full_name_ko, self.room_name)
+            return "%s %s호" % (self.building_full_name, self.room_name)
         except ValueError:
-            return "%s %s" % (self.building_full_name_ko, self.room_name)
+            return "%s %s" % (self.building_full_name, self.room_name)
 
     def get_location_en(self):
         if self.room_name is None:
@@ -542,9 +558,12 @@ class Course(models.Model):
 
         result.update(
             {
-                "related_courses_prior": [c.toJson(nested=True) for c in self.related_courses_prior.all()],
-                "related_courses_posterior": [c.toJson(nested=True) for c in self.related_courses_posterior.all()],
-                "professors": [p.toJson(nested=True) for p in self.professors.all().order_by("professor_name")],
+                "related_courses_prior": [c.toJson(nested=True)
+                                          for c in self.related_courses_prior.all()],
+                "related_courses_posterior": [c.toJson(nested=True)
+                                              for c in self.related_courses_posterior.all()],
+                "professors": [p.toJson(nested=True)
+                               for p in self.professors.all().order_by("professor_name")],
                 "grade": self.grade,
                 "load": self.load,
                 "speech": self.speech,
@@ -558,7 +577,7 @@ class Course(models.Model):
         return result
 
     def recalc_score(self):
-        from apps.review.models import Review
+        from apps.review.models import Review # pylint: disable=import-outside-toplevel
 
         reviews = Review.objects.filter(lecture__course=self)
         _, self.review_total_weight, sums, avgs = Review.calc_average(reviews)
@@ -614,7 +633,7 @@ class Professor(models.Model):
         return result
 
     def recalc_score(self):
-        from apps.review.models import Review
+        from apps.review.models import Review # pylint: disable=import-outside-toplevel
 
         reviews = Review.objects.filter(lecture__professors=self)
         _, self.review_total_weight, sums, avgs = Review.calc_average(reviews)
@@ -627,7 +646,8 @@ class Professor(models.Model):
 
 
 class CourseUser(models.Model):
-    course = models.ForeignKey("Course", related_name="read_users_courseuser", on_delete=models.CASCADE)
+    course = models.ForeignKey("Course",
+                               related_name="read_users_courseuser", on_delete=models.CASCADE)
     user_profile = models.ForeignKey("session.UserProfile", on_delete=models.CASCADE)
     latest_read_datetime = models.DateTimeField(auto_now=True)
 
