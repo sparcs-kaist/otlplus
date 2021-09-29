@@ -36,7 +36,7 @@ class Command(BaseCommand):
             year = int(options["year"])
             semester = int(options["semester"])
         else:
-            default_semester = Semester.getImportingSemester()
+            default_semester = Semester.get_semester_to_default_import()
             if default_semester is not None:
                 year = default_semester.year
                 semester = default_semester.semester

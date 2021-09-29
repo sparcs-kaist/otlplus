@@ -1,14 +1,14 @@
-from apps.subject.models import Lecture, Semester
-from .models import Timetable
-from apps.session.models import UserProfile
 from typing import List, Optional, Tuple
-
 import datetime
 import pytz
+from PIL import Image, ImageDraw, ImageFont
+from icalendar import Calendar, Event, Alarm
 
 from django.conf import settings
-from PIL import Image, ImageDraw, ImageFont
-from icalendar import Calendar, Timezone, Event, Alarm
+
+from apps.session.models import UserProfile
+from apps.subject.models import Lecture, Semester
+from .models import Timetable
 
 
 MY_TIMETABLE_ID = -1
@@ -32,7 +32,8 @@ TIMETABLE_CELL_COLORS = [
 ]
 
 
-def get_timetable_entries(profile: UserProfile, table_id: int, year: int, semester: int) -> Optional[List[Lecture]]:
+def get_timetable_entries(profile: UserProfile, table_id: int, year: int, semester: int) \
+                         -> Optional[List[Lecture]]:
     if profile is None:
         return None
 
@@ -48,10 +49,18 @@ def get_timetable_entries(profile: UserProfile, table_id: int, year: int, semest
 
 
 def _draw_rounded_rectangle(draw, points: Tuple[int, int, int, int], radius: int, color):
-    draw.pieslice([points[0], points[1], points[0] + radius * 2, points[1] + radius * 2], 180, 270, color)
-    draw.pieslice([points[2] - radius * 2, points[1], points[2], points[1] + radius * 2], 270, 0, color)
-    draw.pieslice([points[2] - radius * 2, points[3] - radius * 2, points[2], points[3]], 0, 90, color)
-    draw.pieslice([points[0], points[3] - radius * 2, points[0] + radius * 2, points[3]], 90, 180, color)
+    draw.pieslice([points[0], points[1], points[0] + radius * 2, points[1] + radius * 2],
+                  180, 270,
+                  color)
+    draw.pieslice([points[2] - radius * 2, points[1], points[2], points[1] + radius * 2],
+                  270, 0,
+                  color)
+    draw.pieslice([points[2] - radius * 2, points[3] - radius * 2, points[2], points[3]],
+                  0, 90,
+                  color)
+    draw.pieslice([points[0], points[3] - radius * 2, points[0] + radius * 2, points[3]],
+                  90, 180,
+                  color)
     draw.rectangle([points[0], points[1] + radius, points[2], points[3] - radius], color)
     draw.rectangle([points[0] + radius, points[1], points[2] - radius, points[3]], color)
 
@@ -69,7 +78,10 @@ def _slice_text_to_fit_width(text: str, width: int, font: ImageFont) -> List[str
     return sliced
 
 
-def _draw_textbox(draw, points: Tuple[int, int, int, int], title: str, professor: str, location: str, font: ImageFont):
+def _draw_textbox(draw,
+                  points: Tuple[int, int, int, int],
+                  title: str, professor: str, location: str,
+                  font: ImageFont):
     width = points[2] - points[0]
     height = points[3] - points[1]
 
@@ -78,31 +90,32 @@ def _draw_textbox(draw, points: Tuple[int, int, int, int], title: str, professor
     sliced_location = _slice_text_to_fit_width(location, width, font)
 
     sliced = []
-    textHeight = 0
+    text_total_height = 0
 
     for i in range(len(sliced_title) + len(sliced_professor) + len(sliced_location)):
-        if i == len(sliced_title):
+        is_entry_ended = (i == len(sliced_title)) \
+                         or (i == len(sliced_title) + len(sliced_professor))
+        if is_entry_ended:
             sliced.append(("", 2, (0, 0, 0, 128)))
-            textHeight += 2
-        elif i == len(sliced_title) + len(sliced_professor):
-            sliced.append(("", 2, (0, 0, 0, 128)))
-            textHeight += 2
+            text_total_height += 2
 
         if i < len(sliced_title):
-            sliced.append((sliced_title[i], 24, (0, 0, 0, 204)))
-            textHeight += 24
+            target_character = sliced_title[i]
+            opacity = 204
         elif i < len(sliced_title) + len(sliced_professor):
-            sliced.append((sliced_professor[i - len(sliced_title)], 24, (0, 0, 0, 128)))
-            textHeight += 24
+            target_character = sliced_professor[i - len(sliced_title)]
+            opacity = 128
         else:
-            sliced.append((sliced_location[i - len(sliced_title) - len(sliced_professor)], 24, (0, 0, 0, 128)))
-            textHeight += 24
+            target_character = sliced_location[i - len(sliced_title) - len(sliced_professor)]
+            opacity = 204
+        sliced.append((target_character, 24, (0, 0, 0, opacity)))
+        text_total_height += 24
 
-        if textHeight > height:
-            textHeight -= sliced.pop()[1]
+        if text_total_height > height:
+            text_total_height -= sliced.pop()[1]
             break
 
-    topPad = (height - textHeight) // 2
+    topPad = (height - text_total_height) // 2
 
     textPosition = 0
     for s in sliced:
@@ -123,7 +136,7 @@ def create_timetable_image(lecture_list: List[Lecture]):
     font = ImageFont.truetype(file_path + "fonts/NanumBarunGothic.ttf", 22)
 
     for lecture in lecture_list:
-        lecture_dict = lecture.toJson(nested=False)
+        lecture_dict = lecture.to_json(nested=False)
         color = TIMETABLE_CELL_COLORS[lecture_dict["course"] % 16]
         for class_time in lecture_dict["classtimes"]:
             day = class_time["day"]
@@ -166,7 +179,7 @@ def create_timetable_ical(semester: Semester, lectures: List[Lecture]):
         for ct in l.classtimes.all():
             event = Event()
             event.add("summary", l.title)
-            event.add("location", ct.toJson()["classroom"])
+            event.add("location", ct.to_json()["classroom"])
 
             days_ahead = ct.day - semester.beginning.weekday()
             if days_ahead < 0:
@@ -182,5 +195,5 @@ def create_timetable_ical(semester: Semester, lectures: List[Lecture]):
             event.add_component(alarm)
 
             calendar.add_component(event)
-    
+
     return calendar

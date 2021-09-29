@@ -12,11 +12,11 @@ from django.views.decorators.http import require_http_methods
 
 from utils.decorators import login_required_ajax
 
+from apps.subject.models import Department, Lecture
+from apps.session.services import get_user_department_list, get_user_major_list, json_encode_list
 from .models import UserProfile
 from .services import import_student_lectures
 from .sparcsssov2 import Client
-from apps.subject.models import Department, Lecture
-from apps.session.services import get_user_department_list, get_user_major_list, json_encode_list
 
 
 UNDERGRADUATE_DEPARTMENTS = [
@@ -110,7 +110,8 @@ def login_callback(request):
             first_name=sso_profile["first_name"],
             last_name=sso_profile["last_name"],
         )
-        user_profile, _ = UserProfile.objects.get_or_create(student_id=sso_profile["sid"], defaults={"user": user})
+        user_profile, _ = UserProfile.objects.get_or_create(student_id=sso_profile["sid"],
+                                                            defaults={"user": user})
         user_profile.sid = sso_profile["sid"]
         user_profile.save()
         import_student_lectures(student_id)
@@ -148,9 +149,12 @@ def department_options(request):
     deps_recent = []
     deps_other = []
     year_threshold = timezone.now().year - 2
-    recent_lectures = Lecture.objects.filter(year__gte=year_threshold).prefetch_related("department")
+    recent_lectures = Lecture.objects.filter(year__gte=year_threshold) \
+                                     .prefetch_related("department")
 
-    query = Department.objects.filter(visible=True).exclude(code__in=EXCLUDED_DEPARTMENTS).order_by("name")
+    query = Department.objects.filter(visible=True) \
+                              .exclude(code__in=EXCLUDED_DEPARTMENTS) \
+                              .order_by("name")
     for department in query:
         if department.code in UNDERGRADUATE_DEPARTMENTS:
             deps_undergraduate.append(department)
@@ -218,7 +222,7 @@ def info(request):
         "departments": get_user_department_list(request.user),
         "favorite_departments": json_encode_list(profile.favorite_departments.all()),
         "review_writable_lectures": json_encode_list(profile.review_writable_lectures),
-        "my_timetable_lectures": json_encode_list(profile.taken_lectures.exclude(Lecture.getQueryResearch())),
+        "my_timetable_lectures": json_encode_list(profile.taken_lectures.exclude(Lecture.get_query_for_research())),
         "reviews": json_encode_list(profile.reviews.all()),
     }
     return JsonResponse(ctx, safe=False)

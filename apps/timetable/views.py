@@ -7,9 +7,9 @@ from django.views import View
 from utils.decorators import login_required_ajax
 from utils.util import apply_offset_and_limit, apply_order, getint
 
+from apps.subject.models import Semester, Lecture
 from .models import Timetable, Wishlist
 from .services import create_timetable_ical, create_timetable_image, get_timetable_entries
-from apps.subject.models import Semester, Lecture
 
 
 def _validate_year_semester(year, semester):
@@ -38,9 +38,11 @@ class UserInstanceTimetableListView(View):
         if year is not None:
             timetables = timetables.filter(semester=semester)
 
-        timetables = apply_order(timetables, request.GET, UserInstanceTimetableListView.DEFAULT_ORDER)
-        timetables = apply_offset_and_limit(timetables, request.GET, UserInstanceTimetableListView.MAX_LIMIT)
-        result = [t.toJson() for t in timetables]
+        timetables = apply_order(timetables, request.GET,
+                                 UserInstanceTimetableListView.DEFAULT_ORDER)
+        timetables = apply_offset_and_limit(timetables, request.GET,
+                                            UserInstanceTimetableListView.MAX_LIMIT)
+        result = [t.to_json() for t in timetables]
         return JsonResponse(result, safe=False)
 
     def post(self, request, user_id):
@@ -71,7 +73,7 @@ class UserInstanceTimetableListView(View):
                 return HttpResponseBadRequest("Wrong field 'lectures' in request data")
             timetable.lectures.add(lecture)
 
-        return JsonResponse(timetable.toJson())
+        return JsonResponse(timetable.to_json())
 
 
 @method_decorator(login_required_ajax, name="dispatch")
@@ -85,9 +87,9 @@ class UserInstanceTimetableInstanceView(View):
             timetable = userprofile.timetables.get(id=timetable_id)
         except Timetable.DoesNotExist:
             return HttpResponseNotFound()
-        
-        return JsonResponse(timetable.toJson())
-    
+
+        return JsonResponse(timetable.to_json())
+
     def delete(self, request, user_id, timetable_id):
         userprofile = request.user.userprofile
         if userprofile.id != int(user_id):
@@ -97,7 +99,7 @@ class UserInstanceTimetableInstanceView(View):
             timetable = userprofile.timetables.get(id=timetable_id)
         except Timetable.DoesNotExist:
             return HttpResponseNotFound()
-        
+
         timetable.delete()
         return HttpResponse()
 
@@ -132,7 +134,7 @@ class UserInstanceTimetableInstanceAddLectureView(View):
                 return HttpResponseBadRequest('Wrong field \'lecture\' in request data')
 
             timetable.lectures.add(lecture)
-            return JsonResponse(timetable.toJson())
+            return JsonResponse(timetable.to_json())
 
 
 @method_decorator(login_required_ajax, name="dispatch")
@@ -159,7 +161,7 @@ class UserInstanceTimetableInstanceRemoveLectureView(View):
         lecture = Lecture.objects.get(id=lecture_id)
 
         timetable.lectures.remove(lecture)
-        return JsonResponse(timetable.toJson())
+        return JsonResponse(timetable.to_json())
 
 
 @method_decorator(login_required_ajax, name="dispatch")
@@ -171,7 +173,7 @@ class UserInstanceWishlistView(View):
 
         wishlist = Wishlist.objects.get_or_create(user=userprofile)[0]
 
-        result = wishlist.toJson()
+        result = wishlist.to_json()
         return JsonResponse(result)
 
 
@@ -197,7 +199,7 @@ class UserInstanceWishlistAddLectureView(View):
 
         wishlist.lectures.add(lecture)
 
-        result = wishlist.toJson()
+        result = wishlist.to_json()
         return JsonResponse(result)
 
 
@@ -223,7 +225,7 @@ class UserInstanceWishlistRemoveLectureView(View):
 
         wishlist.lectures.remove(lecture)
 
-        result = wishlist.toJson()
+        result = wishlist.to_json()
         return JsonResponse(result)
 
 
@@ -260,7 +262,8 @@ class ShareTimetableIcalView(View):
         if timetable_lectures is None:
             return HttpResponseBadRequest("No such timetable")
 
-        calendar = create_timetable_ical(Semester.objects.get(year=year, semester=semester), timetable_lectures)
+        calendar = create_timetable_ical(Semester.objects.get(year=year, semester=semester),
+                                         timetable_lectures)
         response = HttpResponse(calendar.to_ical(), content_type="text/calendar")
         return response
 

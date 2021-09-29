@@ -5,4 +5,4 @@ class MainConfig(AppConfig):
     name = "apps.main"
 
     def ready(self):
-        from . import signals  # noqa: F401
+        from . import signals # pylint: disable=import-outside-toplevel, unused-import

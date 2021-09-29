@@ -6,15 +6,19 @@ from apps.session.models import UserProfile
 
 
 class Review(models.Model):
-    course = models.ForeignKey(Course, on_delete=models.PROTECT, db_index=True, related_name="reviews")
-    lecture = models.ForeignKey(Lecture, on_delete=models.PROTECT, db_index=True, related_name="reviews")
+    course = models.ForeignKey(Course,
+                               on_delete=models.PROTECT, db_index=True, related_name="reviews")
+    lecture = models.ForeignKey(Lecture,
+                                on_delete=models.PROTECT, db_index=True, related_name="reviews")
 
     content = models.CharField(max_length=65536)
     grade = models.SmallIntegerField(default=0)
     load = models.SmallIntegerField(default=0)
     speech = models.SmallIntegerField(default=0)
 
-    writer = models.ForeignKey(UserProfile, related_name="reviews", db_index=True, on_delete=models.SET_NULL, null=True)
+    writer = models.ForeignKey(UserProfile,
+                               related_name="reviews", db_index=True, on_delete=models.SET_NULL,
+                               null=True)
     writer_label = models.CharField(max_length=200, default="무학과 넙죽이")
     like = models.IntegerField(default=0)
     is_deleted = models.IntegerField(default=0)
@@ -30,11 +34,11 @@ class Review(models.Model):
             "lecture",
         )
 
-    def getCacheKey(self):
+    def get_cache_key(self):
         return "review:%d" % (self.id,)
 
-    def toJson(self, user=None):
-        def addUserspecificData(result, user):
+    def to_json(self, user=None):
+        def add_userspecific_data(result, user):
             is_liked = True
             if user is None or not user.is_authenticated:
                 is_liked = False
@@ -46,16 +50,16 @@ class Review(models.Model):
                 },
             )
 
-        cache_id = self.getCacheKey()
+        cache_id = self.get_cache_key()
         result_cached = cache.get(cache_id)
         if result_cached is not None:
-            addUserspecificData(result_cached, user)
+            add_userspecific_data(result_cached, user)
             return result_cached
 
         result = {
             "id": self.id,
-            "course": self.course.toJson(nested=True),
-            "lecture": self.lecture.toJson(nested=True),
+            "course": self.course.to_json(nested=True),
+            "lecture": self.lecture.to_json(nested=True),
             "content": self.content if (not self.is_deleted) else "관리자에 의해 삭제된 코멘트입니다.",
             "like": self.like,
             "is_deleted": self.is_deleted,
@@ -66,7 +70,7 @@ class Review(models.Model):
 
         cache.set(cache_id, result, 60 * 5)
 
-        addUserspecificData(result, user)
+        add_userspecific_data(result, user)
 
         return result
 
@@ -102,7 +106,9 @@ class Review(models.Model):
 
 class ReviewVote(models.Model):
     review = models.ForeignKey(Review, related_name="votes", on_delete=models.CASCADE, null=False)
-    userprofile = models.ForeignKey(UserProfile, related_name="review_votes", on_delete=models.SET_NULL, null=True)
+    userprofile = models.ForeignKey(UserProfile,
+                                    related_name="review_votes", on_delete=models.SET_NULL,
+                                    null=True)
     created_datetime = models.DateTimeField(auto_now_add=True, db_index=True, null=True)
 
     class Meta:

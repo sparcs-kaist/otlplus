@@ -1,6 +1,7 @@
 from datetime import time
 from functools import reduce
 import operator
+import datetime
 
 from django.core.cache import cache
 from django.db import models
@@ -30,11 +31,11 @@ class Semester(models.Model):
     class Meta:
         unique_together = [["year", "semester"]]
 
-    def getCacheKey(self):
+    def get_cache_key(self):
         return "semester:%d-%d" % (self.year, self.semester)
 
-    def toJson(self):
-        cache_id = self.getCacheKey()
+    def to_json(self):
+        cache_id = self.get_cache_key()
         result_cached = cache.get(cache_id)
         if result_cached is not None:
             return result_cached
@@ -57,9 +58,9 @@ class Semester(models.Model):
 
         return result
 
-    # Keep synchronozed with React src/common/semesterFunctions.js getOngoingSemester()
+    # Keep synchronozed with React src/common/semesterFunctions.js get_ongoing_semester()
     @classmethod
-    def getOngoingSemester(cls):
+    def get_ongoing_semester(cls):
         now = timezone.now()
         try:
             ongoing_semester = cls.objects.get(beginning__lt=now, end__gt=now)
@@ -67,17 +68,18 @@ class Semester(models.Model):
             return None
         except cls.MultipleObjectsReturned:
             # TODO: Use a logger instead
-            print(  # noqa: T001
-                "WARNING: Semester.getOngoingSemester() catched multiple Semester instances with overlapping period."
+            print(
+                "WARNING: Semester.get_ongoing_semester() catched multiple Semester instances with overlapping period."
                 "Please check beginning and end fields of the instances.",
             )
             ongoing_semester = cls.objects.filter(beginning__lt=now, end__gt=now).first()
         return ongoing_semester
 
     @classmethod
-    def getImportingSemester(cls):
+    def get_semester_to_default_import(cls):
         now = timezone.now()
-        return cls.objects.filter(courseDesciptionSubmission__lt=now).order_by("courseDesciptionSubmission").last()
+        return cls.objects.filter(courseDesciptionSubmission__lt=now) \
+                          .order_by("courseDesciptionSubmission").last()
 
 
 class Lecture(models.Model):
@@ -98,7 +100,8 @@ class Lecture(models.Model):
     num_labs = models.IntegerField(default=0)
     credit_au = models.IntegerField(default=0)
     limit = models.IntegerField(default=0)
-    professors = models.ManyToManyField("Professor", related_name="lectures", blank=True, db_index=True)
+    professors = models.ManyToManyField("Professor",
+                                        related_name="lectures", blank=True, db_index=True)
     is_english = models.BooleanField()
     deleted = models.BooleanField(default=False, db_index=True)
 
@@ -122,15 +125,15 @@ class Lecture(models.Model):
     load = models.FloatField(default=0.0)
     speech = models.FloatField(default=0.0)
 
-    def getCacheKey(self, nested):
+    def get_cache_key(self, nested):
         return "lecture:%d:%s" % (self.id, "nested" if nested else "normal")
 
-    def toJson(self, nested=False):
+    def to_json(self, nested=False):
         if self.deleted:
             # TODO: Use a logger instead
-            print("WARNING: You are serializing DELETED lecture: %s. Please check your query" % self)  # noqa: T001
+            print("WARNING: You are serializing DELETED lecture: %s. Please check your query" % self)
 
-        cache_id = self.getCacheKey(nested)
+        cache_id = self.get_cache_key(nested)
         result_cached = cache.get(cache_id)
         if result_cached is not None:
             return result_cached
@@ -165,7 +168,7 @@ class Lecture(models.Model):
         }
 
         professors = self.professors.all().order_by("professor_name")
-        result.update({"professors": [p.toJson(nested=True) for p in professors]})
+        result.update({"professors": [p.to_json(nested=True) for p in professors]})
 
         if nested:
             cache.set(cache_id, result, 60 * 10)
@@ -176,8 +179,8 @@ class Lecture(models.Model):
                 "grade": self.grade,
                 "load": self.load,
                 "speech": self.speech,
-                "classtimes": [ct.toJson(nested=True) for ct in self.classtimes.all()],
-                "examtimes": [et.toJson(nested=True) for et in self.examtimes.all()],
+                "classtimes": [ct.to_json(nested=True) for ct in self.classtimes.all()],
+                "examtimes": [et.to_json(nested=True) for et in self.examtimes.all()],
             },
         )
 
@@ -186,9 +189,10 @@ class Lecture(models.Model):
         return result
 
     def recalc_score(self):
-        from apps.review.models import Review
+        from apps.review.models import Review # pylint: disable=import-outside-toplevel
 
-        reviews = Review.objects.filter(lecture__course=self.course, lecture__professors__in=self.professors.all())
+        reviews = Review.objects.filter(lecture__course=self.course,
+                                        lecture__professors__in=self.professors.all())
         _, self.review_total_weight, sums, avgs = Review.calc_average(reviews)
         self.grade_sum, self.load_sum, self.speech_sum = sums
         self.grade, self.load, self.speech = avgs
@@ -196,20 +200,16 @@ class Lecture(models.Model):
 
     def update_class_title(self):
         # Finds logest common string from front of given strings
-        def _lcs_front(ls):
-            if len(ls) == 0:
+        def _lcs_front(lecture_titles):
+            if len(lecture_titles) == 0:
                 return ""
             result = ""
-            for i in range(len(ls[0]), 0, -1):  # [len(ls[0]),...,2,1]
-                flag = True
-                for string in ls:
-                    if string[0:i] != ls[0][0:i]:
-                        flag = False
-                if flag:
-                    result = string[0:i]
+            for i in range(len(lecture_titles[0]), 0, -1):  # [len(ls[0]),...,2,1]
+                target_substring = lecture_titles[0][0:i]
+                if all(t[0:i] == target_substring for t in lecture_titles):
+                    result = target_substring
                     break
-            while (len(result) > 0) and (result[-1] in ["<", "(", "[", "{"]):
-                result = result[:-1]
+            result = result.rstrip("<([{")
             return result
 
         # Add common and class title for lectures like 'XXX<AAA>', 'XXX<BBB>'
@@ -254,7 +254,8 @@ class Lecture(models.Model):
                     lecture.class_title_en = "A"
                 lecture.save(update_fields=["common_title_en", "class_title_en"])
 
-        lectures = Lecture.objects.filter(course=self.course, deleted=False, year=self.year, semester=self.semester)
+        lectures = Lecture.objects.filter(course=self.course, deleted=False,
+                                          year=self.year, semester=self.semester)
         _add_title_format(lectures)
         _add_title_format_en(lectures)
 
@@ -266,14 +267,18 @@ class Lecture(models.Model):
         return (prof_name_list[0] + " 외 " + str(len(prof_name_list) - 1) + "명",)
 
     @classmethod
-    def getQueryResearch(cls):
-        return Q(type_en__in=["Individual Study", "Thesis Study(Undergraduate)", "Thesis Research(MA/phD)"])
+    def get_query_for_research(cls):
+        return Q(type_en__in=["Individual Study", "Thesis Study(Undergraduate)",
+                              "Thesis Research(MA/phD)"])
 
     @classmethod
-    def getQueryReviewWritable(cls):
+    def get_query_for_review_writable(cls):
         now = timezone.now()
-        not_writable_semesters = Semester.objects.filter(Q(courseAddDropPeriodEnd__gte=now) | Q(beginning__gte=now))
-        query = reduce(operator.and_, (~Q(year=s.year, semester=s.semester) for s in not_writable_semesters), Q())
+        not_writable_semesters = Semester.objects.filter(Q(courseAddDropPeriodEnd__gte=now)
+                                                         | Q(beginning__gte=now))
+        query = reduce(operator.and_,
+                       (~Q(year=s.year, semester=s.semester) for s in not_writable_semesters),
+                       Q())
         return query
 
     def __str__(self):
@@ -297,13 +302,25 @@ class ExamTime(models.Model):
             self.end.strftime("%H:%M"),
         )
 
-    def toJson(self, nested=False):
-        day_str = ["월요일", "화요일", "수요일", "목요일", "금요일", "토요일", "일요일"]
-        day_str_en = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+    def to_json(self, nested=False):
+        def _format_day(day: int) -> str:
+            DAY_STR = ["월요일", "화요일", "수요일", "목요일", "금요일", "토요일", "일요일"]
+            return DAY_STR[day]
+
+        def _format_day_en(day: int) -> str:
+            DAY_STR_EN = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday",
+                          "Sunday"]
+            return DAY_STR_EN[day]
+
+        def _format_time(time_: datetime.time) -> str:
+            return time_.strftime("%H:%M")
+
         result = {
             "day": self.day,
-            "str": day_str[self.day] + " " + self.begin.strftime("%H:%M") + " ~ " + self.end.strftime("%H:%M"),
-            "str_en": day_str_en[self.day] + " " + self.begin.strftime("%H:%M") + " ~ " + self.end.strftime("%H:%M"),
+            "str": \
+                f"{_format_day(self.day)} {_format_time(self.begin)} ~ {_format_time(self.end)}",
+            "str_en": \
+                f"{_format_day_en(self.day)} {_format_time(self.begin)} ~ {_format_time(self.end)}",
             "begin": self.get_begin_numeric(),
             "end": self.get_end_numeric(),
         }
@@ -312,34 +329,33 @@ class ExamTime(models.Model):
 
     def get_begin_numeric(self):
         """0시 0분을 기준으로 분 단위로 계산된 시작 시간을 반환한다."""
-        t = self.begin.hour * 60 + self.begin.minute
-        return t
+        begin_numeric = self.begin.hour * 60 + self.begin.minute
+        return begin_numeric
 
     def get_end_numeric(self):
         """0시 0분을 기준으로 분 단위로 계산된 종료 시간을 반환한다."""
-        t = self.end.hour * 60 + self.end.minute
-        return t
+        end_numeric = self.end.hour * 60 + self.end.minute
+        return end_numeric
 
 
 class ClassTime(models.Model):
     """Lecture 에 배정된강의시간, 보통 하나의  Lecture 가 여러개의 강의시간을 가진다."""
 
-    lecture = models.ForeignKey(Lecture, on_delete=models.CASCADE, related_name="classtimes", null=True)
+    lecture = models.ForeignKey(Lecture,
+                                on_delete=models.CASCADE, related_name="classtimes", null=True)
     day = models.SmallIntegerField(choices=WEEKDAYS)  # 강의 요일
     begin = models.TimeField()  # hh:mm 형태의 강의 시작시각 (24시간제)
     end = models.TimeField()  # hh:mm 형태의 강의 끝나는 시각 (24시간 제)
     type = models.CharField(max_length=1, choices=CLASS_TYPES)  # 강의 or 실험
     building_id = models.CharField(max_length=10, blank=True, null=True)  # 건물 고유 ID
-    building_full_name = models.CharField(max_length=60, blank=True, null=True)  # 건물 이름(ex> (E11)창의학습관)
-    building_full_name_en = models.CharField(
-        max_length=60,
-        blank=True,
-        null=True,
-    )  # 건물 이름(ex> (E11)Creative learning Bldg.)
+    building_full_name = models.CharField(max_length=60, blank=True,
+                                          null=True)  # 건물 이름(ex> (E11)창의학습관)
+    building_full_name_en = models.CharField(max_length=60, blank=True,
+                                             null=True)  # 건물 이름(ex> (E11)Creative learning Bldg.)
     room_name = models.CharField(max_length=20, null=True)  # 강의실 호실(ex> 304, 1104, 1209-1, 터만홀)
     unit_time = models.SmallIntegerField(null=True)  # 수업 교시
 
-    def toJson(self, nested=False):
+    def to_json(self, nested=False):
         building_full_name = self.building_full_name
         building_full_name_en = self.building_full_name_en
         # No classroom info
@@ -390,27 +406,27 @@ class ClassTime(models.Model):
     def get_begin_numeric(self):
         """0시 0분을 기준으로 분 단위로 계산된 시작 시간을 반환한다."""
         """30분 단위로 내림한다"""
-        t = self.begin.hour * 60 + self.begin.minute
-        if t % 30 != 0:
-            t = t - (t % 30)
-        return t
+        begin_numeric = self.begin.hour * 60 + self.begin.minute
+        if begin_numeric % 30 != 0:
+            begin_numeric = begin_numeric - (begin_numeric % 30)
+        return begin_numeric
 
     def get_end_numeric(self):
         """0시 0분을 기준으로 분 단위로 계산된 종료 시간을 반환한다."""
         """30분 단위로 올림한다"""
-        t = self.end.hour * 60 + self.end.minute
-        if t % 30 != 0:
-            t = t + (30 - (t % 30))
-        return t
+        end_numeric = self.end.hour * 60 + self.end.minute
+        if end_numeric % 30 != 0:
+            end_numeric = end_numeric + (30 - (end_numeric % 30))
+        return end_numeric
 
     def get_location(self):
         if self.room_name is None:
-            return "%s" % (self.building_full_name_ko)
+            return "%s" % (self.building_full_name)
         try:
             int(self.room_name)
-            return "%s %s호" % (self.building_full_name_ko, self.room_name)
+            return "%s %s호" % (self.building_full_name, self.room_name)
         except ValueError:
-            return "%s %s" % (self.building_full_name_ko, self.room_name)
+            return "%s %s" % (self.building_full_name, self.room_name)
 
     def get_location_en(self):
         if self.room_name is None:
@@ -441,11 +457,11 @@ class Department(models.Model):
     def __str__(self):
         return self.code
 
-    def getCacheKey(self, nested):
+    def get_cache_key(self, nested):
         return "department:%d:%s" % (self.id, "nested" if nested else "normal")
 
-    def toJson(self, nested=False):
-        cache_id = self.getCacheKey(nested)
+    def to_json(self, nested=False):
+        cache_id = self.get_cache_key(nested)
         result_cached = cache.get(cache_id)
         if result_cached is not None:
             return result_cached
@@ -489,11 +505,11 @@ class Course(models.Model):
 
     latest_written_datetime = models.DateTimeField(default=None, null=True)
 
-    def getCacheKey(self, nested):
+    def get_cache_key(self, nested):
         return "course:%d:%s" % (self.id, "nested" if nested else "normal")
 
-    def toJson(self, nested=False, user=None):
-        def addUserspecificData(result, user):
+    def to_json(self, nested=False, user=None):
+        def add_userspecific_data(result, user):
             # Add user read info
             if user is None or not user.is_authenticated:
                 is_read = False
@@ -516,18 +532,18 @@ class Course(models.Model):
                 },
             )
 
-        cache_id = self.getCacheKey(nested)
+        cache_id = self.get_cache_key(nested)
         result_cached = cache.get(cache_id)
         if result_cached is not None:
             if not nested:
-                addUserspecificData(result_cached, user)
+                add_userspecific_data(result_cached, user)
             return result_cached
 
         # Don't change this into model_to_dict: for security and performance
         result = {
             "id": self.id,
             "old_code": self.old_code,
-            "department": self.department.toJson(nested=True),
+            "department": self.department.to_json(nested=True),
             "type": self.type,
             "type_en": self.type_en,
             "title": self.title,
@@ -542,9 +558,12 @@ class Course(models.Model):
 
         result.update(
             {
-                "related_courses_prior": [c.toJson(nested=True) for c in self.related_courses_prior.all()],
-                "related_courses_posterior": [c.toJson(nested=True) for c in self.related_courses_posterior.all()],
-                "professors": [p.toJson(nested=True) for p in self.professors.all().order_by("professor_name")],
+                "related_courses_prior": [c.to_json(nested=True)
+                                          for c in self.related_courses_prior.all()],
+                "related_courses_posterior": [c.to_json(nested=True)
+                                              for c in self.related_courses_posterior.all()],
+                "professors": [p.to_json(nested=True)
+                               for p in self.professors.all().order_by("professor_name")],
                 "grade": self.grade,
                 "load": self.load,
                 "speech": self.speech,
@@ -553,12 +572,12 @@ class Course(models.Model):
 
         cache.set(cache_id, result, 60 * 10)
 
-        addUserspecificData(result, user)
+        add_userspecific_data(result, user)
 
         return result
 
     def recalc_score(self):
-        from apps.review.models import Review
+        from apps.review.models import Review # pylint: disable=import-outside-toplevel
 
         reviews = Review.objects.filter(lecture__course=self)
         _, self.review_total_weight, sums, avgs = Review.calc_average(reviews)
@@ -590,7 +609,7 @@ class Professor(models.Model):
     load = models.FloatField(default=0.0)
     speech = models.FloatField(default=0.0)
 
-    def toJson(self, nested=False):
+    def to_json(self, nested=False):
         result = {
             "name": self.professor_name,
             "name_en": self.professor_name_en,
@@ -604,7 +623,7 @@ class Professor(models.Model):
         # Add course information
         result.update(
             {
-                "courses": [c.toJson(nested=True) for c in self.course_list.all()],
+                "courses": [c.to_json(nested=True) for c in self.course_list.all()],
                 "grade": self.grade,
                 "load": self.load,
                 "speech": self.speech,
@@ -614,7 +633,7 @@ class Professor(models.Model):
         return result
 
     def recalc_score(self):
-        from apps.review.models import Review
+        from apps.review.models import Review # pylint: disable=import-outside-toplevel
 
         reviews = Review.objects.filter(lecture__professors=self)
         _, self.review_total_weight, sums, avgs = Review.calc_average(reviews)
@@ -627,7 +646,8 @@ class Professor(models.Model):
 
 
 class CourseUser(models.Model):
-    course = models.ForeignKey("Course", related_name="read_users_courseuser", on_delete=models.CASCADE)
+    course = models.ForeignKey("Course",
+                               related_name="read_users_courseuser", on_delete=models.CASCADE)
     user_profile = models.ForeignKey("session.UserProfile", on_delete=models.CASCADE)
     latest_read_datetime = models.DateTimeField(auto_now=True)
 

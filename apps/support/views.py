@@ -23,7 +23,7 @@ class NoticeListView(View):
             notices = notices.filter(start_time__lte=time, end_time__gte=time)
 
         notices = apply_order(notices, request.GET, NoticeListView.DEFAULT_ORDER)
-        result = [n.toJson() for n in notices]
+        result = [n.to_json() for n in notices]
         return JsonResponse(result, safe=False)
 
 
@@ -41,9 +41,12 @@ class RateListView(View):
             return HttpResponseBadRequest("You already rated for current year")
 
         score = getint(body, "score")
-        if not (1 <= score <= 5):
+        if not 1 <= score <= 5:
             return HttpResponseBadRequest("Wrong field 'score' in request data")
 
-        Rate.objects.create(score=score, user=user.userprofile, year=current_year, version=settings.VERSION)
+        Rate.objects.create(score=score,
+                            user=user.userprofile,
+                            year=current_year,
+                            version=settings.VERSION)
 
         return HttpResponse()

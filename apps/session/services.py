@@ -1,19 +1,19 @@
 import os
 from typing import List, Dict, Union, Iterable
 
+from django.conf import settings
 from django.contrib.auth.models import User
 
 from apps.review.models import Review
 from apps.subject.models import Department
 from apps.timetable.models import OldTimetable, UserProfile, Lecture
-from django.conf import settings
 
 
 INVALID_DEPARTMENT_CODES = ["AA", "ICE"]
 
 
 def json_encode_list(items: Iterable[Union[Department, Lecture, Review]], **kwargs) -> List[Dict]:
-    return [item.toJson(**kwargs) for item in items]
+    return [item.to_json(**kwargs) for item in items]
 
 
 def unique_id_dict_list(dict_list: List[Dict]) -> List[Dict]:

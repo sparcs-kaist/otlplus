@@ -13,7 +13,7 @@ import HorizontalTimetableTile from '../../tiles/HorizontalTimetableTile';
 import userShape from '../../../shapes/UserShape';
 import semesterShape from '../../../shapes/SemesterShape';
 
-import { getOngoingSemester } from '../../../utils/semesterUtils';
+import { get_ongoing_semester } from '../../../utils/semesterUtils';
 
 
 class TodaysTimetableSection extends Component {
@@ -51,7 +51,7 @@ class TodaysTimetableSection extends Component {
     const { user, semesters } = this.props;
 
     const ongoingSemester = semesters
-      ? getOngoingSemester(semesters)
+      ? get_ongoing_semester(semesters)
       : undefined;
     const lectures = (user && ongoingSemester)
       ? user.my_timetable_lectures.filter((l) => (

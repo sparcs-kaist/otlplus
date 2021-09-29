@@ -41,18 +41,18 @@ def cache_with_default(key, default, timeout=300):
 
 def respond_as_json(request, obj):
     output = json.dumps(obj, ensure_ascii=False, indent=4 if settings.DEBUG else 0)
-    type = "application/json" if request.is_ajax() else "text/plain"
-    return HttpResponse(output, mimetype=type)
+    type_ = "application/json" if request.is_ajax() else "text/plain"
+    return HttpResponse(output, mimetype=type_)
 
 
 def respond_as_attachment(request, file_path, original_filename, no_attach=False):
     fp = open(file_path, "rb")
     response = HttpResponse(fp.read())
     fp.close()
-    type, encoding = mimetypes.guess_type(original_filename)
-    if type is None:
-        type = "application/octet-stream"
-    response["Content-Type"] = type
+    type_, encoding = mimetypes.guess_type(original_filename)
+    if type_ is None:
+        type_ = "application/octet-stream"
+    response["Content-Type"] = type_
     response["Content-Length"] = str(os.stat(file_path).st_size)
     if encoding is not None:
         response["Content-Encoding"] = encoding
@@ -68,7 +68,7 @@ def respond_as_attachment(request, file_path, original_filename, no_attach=False
             filename_header = ""
         else:
             # For others like Firefox, we follow RFC2231 (encoding extension in HTTP headers).
-            filename_header = "filename*=UTF-8''%s" % urllib.quote(original_filename.encode("utf-8"))
+            filename_header = "filename*=UTF-8''%s" % urllib.parse.quote(original_filename.encode("utf-8"))
         response["Content-Disposition"] = "attachment; " + filename_header
     return response
 

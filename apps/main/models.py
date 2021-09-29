@@ -49,20 +49,21 @@ class FamousMajorReviewDailyFeed(DailyFeed):
             else:
                 selected_reviews = random.sample([r.review for r in reviews], 3)
                 visible = random.random() < (cls.VISIBLE_RATE_BASE / (departments_num ** 0.7))
-            feed = cls.objects.create(date=date, department=department, priority=random.random(), visible=visible)
+            feed = cls.objects.create(date=date, department=department, priority=random.random(),
+                                      visible=visible)
             feed.reviews.add(*selected_reviews)
         if not feed.visible:
             return None
         else:
             return feed
 
-    def toJson(self, nested=False, user=None):
+    def to_json(self, nested=False, user=None):
         result = {
             "type": "FAMOUS_MAJOR_REVIEW",
             "date": self.date,
             "priority": self.priority,
-            "department": self.department.toJson(nested=False),
-            "reviews": [r.toJson(user=user) for r in self.reviews.all()],
+            "department": self.department.to_json(nested=False),
+            "reviews": [r.to_json(user=user) for r in self.reviews.all()],
         }
         return result
 
@@ -80,7 +81,8 @@ class FamousHumanityReviewDailyFeed(DailyFeed):
         try:
             feed = cls.objects.get(date=date)
         except cls.DoesNotExist:
-            reviews = HumanityBestReview.objects.filter(review__lecture__type_en="Humanities & Social Elective")
+            reviews = HumanityBestReview.objects.filter(review__lecture__type_en=
+                                                        "Humanities & Social Elective")
             if reviews.count() < 3:
                 selected_reviews = reviews[:]
                 visible = False
@@ -94,12 +96,12 @@ class FamousHumanityReviewDailyFeed(DailyFeed):
         else:
             return feed
 
-    def toJson(self, nested=False, user=None):
+    def to_json(self, nested=False, user=None):
         result = {
             "type": "FAMOUS_HUMANITY_REVIEW",
             "date": self.date,
             "priority": self.priority,
-            "reviews": [r.toJson(user=user) for r in self.reviews.all()],
+            "reviews": [r.to_json(user=user) for r in self.reviews.all()],
         }
         return result
 
@@ -119,23 +121,26 @@ class RankedReviewDailyFeed(DailyFeed):
         except cls.DoesNotExist:
             semester = None
             visible = random.random() < cls.VISIBLE_RATE_BASE
-            feed = cls.objects.create(date=date, semester=semester, priority=random.random(), visible=visible)
+            feed = cls.objects.create(date=date, semester=semester, priority=random.random(),
+                                      visible=visible)
         if not feed.visible:
             return None
         else:
             return feed
 
-    def toJson(self, nested=False, user=None):
-        if self.semester == None:
-            reviews = Review.objects.all().order_by("-like").distinct()[:3]
+    def to_json(self, nested=False, user=None):
+        if self.semester is None:
+            reviews = Review.objects.all()
         else:
-            reviews = Review.objects.filter(lecture__year=self.semester.year, lecture__semester=self.semester.semester).order_by().distinct()[:3]
+            reviews = Review.objects.filter(lecture__year=self.semester.year,
+                                            lecture__semester=self.semester.semester)
+        reviews = reviews.order_by("-like").distinct()[:3]
         result = {
             "type": "RANKED_REVIEW",
             "date": self.date,
             "priority": self.priority,
-            "semester": self.semester.toJson() if (self.semester != None) else None,
-            "reviews": [r.toJson(user=user) for r in reviews],
+            "semester": self.semester.to_json() if (self.semester is not None) else None,
+            "reviews": [r.to_json(user=user) for r in reviews],
         }
         return result
 
@@ -170,12 +175,12 @@ class ReviewWriteDailyUserFeed(DailyUserFeed):
         else:
             return feed
 
-    def toJson(self, nested=False, user=None):
+    def to_json(self, nested=False, user=None):
         result = {
             "type": "REVIEW_WRITE",
             "date": self.date,
             "priority": self.priority,
-            "lecture": self.lecture.toJson(nested=False),
+            "lecture": self.lecture.to_json(nested=False),
         }
         return result
 
@@ -210,12 +215,12 @@ class RelatedCourseDailyUserFeed(DailyUserFeed):
         else:
             return feed
 
-    def toJson(self, nested=False, user=None):
+    def to_json(self, nested=False, user=None):
         result = {
             "type": "RELATED_COURSE",
             "date": self.date,
             "priority": self.priority,
-            "course": self.course.toJson(nested=False),
+            "course": self.course.to_json(nested=False),
         }
         return result
 
@@ -236,20 +241,21 @@ class RateDailyUserFeed(DailyUserFeed):
                 return None
             date_datetime = datetime.datetime(int(date[0:4]), int(date[5:7]), int(date[8:10]))
             if RateDailyUserFeed.objects.filter(
-                date__gt=date_datetime - datetime.timedelta(days=cls.MIN_DAYS_INTERVAL),
-                date__lt=date_datetime + datetime.timedelta(days=cls.MIN_DAYS_INTERVAL),
-                user=user,
-                visible=True,
-            ).exists():
+                    date__gt=date_datetime - datetime.timedelta(days=cls.MIN_DAYS_INTERVAL),
+                    date__lt=date_datetime + datetime.timedelta(days=cls.MIN_DAYS_INTERVAL),
+                    user=user,
+                    visible=True,
+                ).exists():
                 return None
             visible = random.random() < cls.VISIBLE_RATE_BASE
-            feed = cls.objects.create(date=date, user=user, priority=random.random(), visible=visible)
+            feed = cls.objects.create(date=date, user=user, priority=random.random(),
+                                      visible=visible)
         if not feed.visible:
             return None
         else:
             return feed
 
-    def toJson(self, nested=False, user=None):
+    def to_json(self, nested=False, user=None):
         result = {
             "type": "RATE",
             "date": self.date,

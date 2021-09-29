@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
-from .models import Review, ReviewVote
-
 from django.core.cache import cache
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
+
+from .models import Review, ReviewVote
 
 
 def _recalc_related_score(review):
@@ -22,8 +22,8 @@ def review_saved(**kwargs):
         course.latest_written_datetime = review.written_datetime
         course.save()
     else:
-        cache.delete(review.getCacheKey(True))
-        cache.delete(review.getCacheKey(False))
+        cache.delete(review.get_cache_key(True))
+        cache.delete(review.get_cache_key(False))
 
 
 @receiver(post_delete, sender=Review)

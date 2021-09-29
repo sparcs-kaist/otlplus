@@ -18,18 +18,17 @@ from . import views
 
 urlpatterns = [
     url(r"^users/(?P<user_id>\d+)/timetables$", views.UserInstanceTimetableListView.as_view()),
-    url(r"^users/(?P<user_id>\d+)/timetables/(?P<timetable_id>\d+)$", views.UserInstanceTimetableInstanceView.as_view()),
-    url(
-        r"^users/(?P<user_id>\d+)/timetables/(?P<timetable_id>\d+)/add-lecture$",
-        views.UserInstanceTimetableInstanceAddLectureView.as_view(),
-    ),
-    url(
-        r"^users/(?P<user_id>\d+)/timetables/(?P<timetable_id>\d+)/remove-lecture$",
-        views.UserInstanceTimetableInstanceRemoveLectureView.as_view(),
-    ),
+    url(r"^users/(?P<user_id>\d+)/timetables/(?P<timetable_id>\d+)$",
+        views.UserInstanceTimetableInstanceView.as_view()),
+    url(r"^users/(?P<user_id>\d+)/timetables/(?P<timetable_id>\d+)/add-lecture$",
+        views.UserInstanceTimetableInstanceAddLectureView.as_view()),
+    url(r"^users/(?P<user_id>\d+)/timetables/(?P<timetable_id>\d+)/remove-lecture$",
+        views.UserInstanceTimetableInstanceRemoveLectureView.as_view()),
     url(r"^users/(?P<user_id>\d+)/wishlist$", views.UserInstanceWishlistView.as_view()),
-    url(r"^users/(?P<user_id>\d+)/wishlist/add-lecture$", views.UserInstanceWishlistAddLectureView.as_view()),
-    url(r"^users/(?P<user_id>\d+)/wishlist/remove-lecture$", views.UserInstanceWishlistRemoveLectureView.as_view()),
+    url(r"^users/(?P<user_id>\d+)/wishlist/add-lecture$",
+        views.UserInstanceWishlistAddLectureView.as_view()),
+    url(r"^users/(?P<user_id>\d+)/wishlist/remove-lecture$",
+        views.UserInstanceWishlistRemoveLectureView.as_view()),
     url(r"^share/timetable/image$", views.ShareTimetableImageView.as_view()),
     url(r"^share/timetable/calendar$", views.ShareTimetableCalendarView.as_view()),
     url(r"^share/timetable/ical$", views.ShareTimetableIcalView.as_view()),
