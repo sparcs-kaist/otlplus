@@ -106,8 +106,6 @@ class Command(BaseCommand):
         rx_dept_code = re.compile(r"([a-zA-Z]+)(\d+)")
         lecture_count = 0
 
-        return
-
         if not exclude_lecture:
             query = "SELECT * FROM view_OTL_charge WHERE lecture_year = %d AND lecture_term = %d" % (
                 target_year,
