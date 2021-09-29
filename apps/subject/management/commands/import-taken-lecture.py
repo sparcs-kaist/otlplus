@@ -12,6 +12,10 @@ class Command(BaseCommand):
         parser.add_argument("--host", dest="host", help="Specifies server address.")
         parser.add_argument("--port", dest="port", help="Specifies server port.")
         parser.add_argument("--user", dest="user", help="Specifies user name to log in.")
+        parser.add_argument("--use-default-semester",
+                            action="store_true",
+                            default=False,
+                            dest="use_default_semester")
         parser.add_argument("--year", dest="year", help="")
         parser.add_argument("--semester", dest="semester", help="")
         parser.add_argument("--password", dest="password", help="Specifies passowrd to log in.")
@@ -30,19 +34,22 @@ class Command(BaseCommand):
         port = options.get("port", None)
         user = options.get("user", None)
         password = options.get("password", None)
-        # encoding = options.get("encoding", "cp949")
+        encoding = options.get("encoding")
+        use_default_semester = options.get("use_default_semester")
+        year = options.get("year", None)
+        semester = options.get("semester", None)
 
-        if options["year"] is not None and options["semester"] is not None:
-            year = int(options["year"])
-            semester = int(options["semester"])
-        else:
+        if year is not None and semester is not None:
+            target_semesters = [(year, semester)]
+        elif use_default_semester:
             default_semester = Semester.get_semester_to_default_import()
             if default_semester is not None:
-                year = default_semester.year
-                semester = default_semester.semester
+                target_semesters = [(default_semester.year, default_semester.semester)]
             else:
-                print("Target year or semester not specified.")
-                return
+                print("Failed to load default semester.")
+        else:
+            print("Target semester not specified. Use --year and --semester, or --use-default-semester")
+            return
 
         try:
             if password is None:
@@ -51,19 +58,37 @@ class Command(BaseCommand):
             print()
             return
 
-        print(year, semester)
-        query = "SELECT * FROM view_OTL_attend WHERE lecture_year = %d AND lecture_term = %d" % (year, semester)
+        for s in target_semesters:
+            self._import_taken_lecture(s[0], s[1], {
+                "host": host,
+                "port": port,
+                "user": user,
+                "password": password,
+                "encoding": encoding,
+            })
+
+
+    def _import_taken_lecture(self, target_year, target_semester, db_specification):
+        print(target_year, target_semester)
+
+        host = db_specification["host"]
+        port = db_specification["port"]
+        user = db_specification["user"]
+        password = db_specification["password"]
+        encoding = db_specification["encoding"]
+
+        query = "SELECT * FROM view_OTL_attend WHERE lecture_year = %d AND lecture_term = %d" % (target_year, target_semester)
         rows = execute(host, port, user, password, query)
 
         cleared_user_list = []
 
-        lectures = Lecture.objects.filter(year=year, semester=semester, deleted=False)
+        lectures = Lecture.objects.filter(year=target_year, semester=target_semester, deleted=False)
         for a in rows:
             users = UserProfile.objects.filter(student_id=a[5])
             for u in users:
                 if u not in cleared_user_list:
                     cleared_user_list.append(u)
-                    u.taken_lectures.remove(*u.taken_lectures.filter(year=year, semester=semester))
+                    u.taken_lectures.remove(*u.taken_lectures.filter(year=target_year, semester=target_semester))
                 lecture = lectures.filter(code=a[2], class_no=a[3].strip())
                 if len(lecture) == 1:
                     u.taken_lectures.add(lecture[0])
