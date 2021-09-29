@@ -55,6 +55,9 @@ class Command(BaseCommand):
 
         if expand_semester_by is None:
             offsets = [0]
+        elif abs(expand_semester_by) > 4:
+            print("Too big number for --expand-semester-by is given. -4 to 4 is allowed")
+            return
         elif expand_semester_by > 0:
             offsets = range(0, expand_semester_by + 1)
         else:
