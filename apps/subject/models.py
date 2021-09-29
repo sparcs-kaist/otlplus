@@ -81,6 +81,19 @@ class Semester(models.Model):
         return cls.objects.filter(courseDesciptionSubmission__lt=now) \
                           .order_by("courseDesciptionSubmission").last()
 
+    @classmethod
+    def get_offsetted_semester(cls, semester: "Semester", offset: int):
+        original_year = semester.year
+        original_semester = semester.semester
+
+        temp_semester = original_semester + offset
+        year_diff = (temp_semester - 1) // 4
+
+        new_year = original_year + year_diff
+        new_semester = temp_semester - year_diff * 4
+        # TODO: Change to resturn Semester after adding summer/winter semester
+        return new_year, new_semester
+
 
 class Lecture(models.Model):
     # Fetched from KAIST Scholar DB
