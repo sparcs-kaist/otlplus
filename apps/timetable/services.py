@@ -90,14 +90,14 @@ def _draw_textbox(draw,
     sliced_location = _slice_text_to_fit_width(location, width, font)
 
     sliced = []
-    textHeight = 0
+    text_total_height = 0
 
     for i in range(len(sliced_title) + len(sliced_professor) + len(sliced_location)):
         is_entry_ended = (i == len(sliced_title)) \
                          or (i == len(sliced_title) + len(sliced_professor))
         if is_entry_ended:
             sliced.append(("", 2, (0, 0, 0, 128)))
-            textHeight += 2
+            text_total_height += 2
 
         if i < len(sliced_title):
             target_character = sliced_title[i]
@@ -109,13 +109,13 @@ def _draw_textbox(draw,
             target_character = sliced_location[i - len(sliced_title) - len(sliced_professor)]
             opacity = 204
         sliced.append((target_character, 24, (0, 0, 0, opacity)))
-        textHeight += 24
+        text_total_height += 24
 
-        if textHeight > height:
-            textHeight -= sliced.pop()[1]
+        if text_total_height > height:
+            text_total_height -= sliced.pop()[1]
             break
 
-    topPad = (height - textHeight) // 2
+    topPad = (height - text_total_height) // 2
 
     textPosition = 0
     for s in sliced:
@@ -136,7 +136,7 @@ def create_timetable_image(lecture_list: List[Lecture]):
     font = ImageFont.truetype(file_path + "fonts/NanumBarunGothic.ttf", 22)
 
     for lecture in lecture_list:
-        lecture_dict = lecture.toJson(nested=False)
+        lecture_dict = lecture.to_json(nested=False)
         color = TIMETABLE_CELL_COLORS[lecture_dict["course"] % 16]
         for class_time in lecture_dict["classtimes"]:
             day = class_time["day"]
@@ -179,7 +179,7 @@ def create_timetable_ical(semester: Semester, lectures: List[Lecture]):
         for ct in l.classtimes.all():
             event = Event()
             event.add("summary", l.title)
-            event.add("location", ct.toJson()["classroom"])
+            event.add("location", ct.to_json()["classroom"])
 
             days_ahead = ct.day - semester.beginning.weekday()
             if days_ahead < 0:

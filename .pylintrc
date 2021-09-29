@@ -144,7 +144,6 @@ disable=print-statement,
         missing-class-docstring,
         missing-function-docstring,
         imported-auth-user,
-        invalid-name,
 
 # Enable the message, report, category or checker with the given id(s). You can
 # either give multiple identifier separated by comma (,) or put this option
@@ -426,6 +425,12 @@ function-naming-style=snake_case
 good-names=i,
            j,
            k,
+           v,
+           c,
+           l,
+           t,
+           ct,
+           et,
            ex,
            Run,
            _

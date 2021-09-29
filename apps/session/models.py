@@ -41,7 +41,7 @@ class UserProfile(models.Model):
 
     @property
     def review_writable_lectures(self):
-        return self.taken_lectures.filter(Lecture.getQueryReviewWritable())
+        return self.taken_lectures.filter(Lecture.get_query_for_review_writable())
 
     def __str__(self):
         return "%s %s" % (self.user.username, self.student_id)

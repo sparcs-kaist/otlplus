@@ -10,7 +10,7 @@ from .models import Semester, Department, Lecture, Course
 @receiver(post_save, sender=Semester)
 def semester_saved(**kwargs):
     if not kwargs["created"]:
-        cache.delete(kwargs["instance"].getCacheKey())
+        cache.delete(kwargs["instance"].get_cache_key())
 
 
 @receiver(m2m_changed, sender=Lecture.professors.through)
@@ -34,19 +34,19 @@ def lecture_saved(**kwargs):
     else:
         pass
     if not kwargs["created"]:
-        cache.delete(kwargs["instance"].getCacheKey(True))
-        cache.delete(kwargs["instance"].getCacheKey(False))
+        cache.delete(kwargs["instance"].get_cache_key(True))
+        cache.delete(kwargs["instance"].get_cache_key(False))
 
 
 @receiver(post_save, sender=Department)
 def department_saved(**kwargs):
     if not kwargs["created"]:
-        cache.delete(kwargs["instance"].getCacheKey(True))
-        cache.delete(kwargs["instance"].getCacheKey(False))
+        cache.delete(kwargs["instance"].get_cache_key(True))
+        cache.delete(kwargs["instance"].get_cache_key(False))
 
 
 @receiver(post_save, sender=Course)
 def course_saved(**kwargs):
     if not kwargs["created"]:
-        cache.delete(kwargs["instance"].getCacheKey(True))
-        cache.delete(kwargs["instance"].getCacheKey(False))
+        cache.delete(kwargs["instance"].get_cache_key(True))
+        cache.delete(kwargs["instance"].get_cache_key(False))

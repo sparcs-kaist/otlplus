@@ -36,7 +36,7 @@ class ReviewListView(View):
 
         reviews = apply_order(reviews, request.GET, ReviewListView.DEFAULT_ORDER)
         reviews = apply_offset_and_limit(reviews, request.GET, ReviewListView.MAX_LIMIT)
-        result = [r.toJson(user=request.user) for r in reviews]
+        result = [r.to_json(user=request.user) for r in reviews]
         return JsonResponse(result, safe=False)
 
     def post(self, request):
@@ -74,13 +74,13 @@ class ReviewListView(View):
             speech=speech,
             writer=user_profile,
         )
-        return JsonResponse(review.toJson(user=request.user), safe=False)
+        return JsonResponse(review.to_json(user=request.user), safe=False)
 
 
 class ReviewInstanceView(View):
     def get(self, request, review_id):
         review = get_object_or_404(Review, id=review_id)
-        result = review.toJson(user=request.user)
+        result = review.to_json(user=request.user)
         return JsonResponse(result)
 
     def patch(self, request, review_id):
@@ -116,7 +116,7 @@ class ReviewInstanceView(View):
                 "speech": speech,
             },
         )
-        return JsonResponse(review.toJson(user=request.user), safe=False)
+        return JsonResponse(review.to_json(user=request.user), safe=False)
 
 
 @method_decorator(login_required_ajax, name="dispatch")
@@ -146,5 +146,5 @@ class UserInstanceLikedReviewsView(View):
         reviews = apply_order(reviews, request.GET, UserInstanceLikedReviewsView.DEFAULT_ORDER)
         reviews = apply_offset_and_limit(reviews, request.GET,
                                          UserInstanceLikedReviewsView.MAX_LIMIT)
-        result = [r.toJson(user=request.user) for r in reviews]
+        result = [r.to_json(user=request.user) for r in reviews]
         return JsonResponse(result, safe=False)

@@ -18,7 +18,7 @@ class SemesterListView(View):
         semesters = Semester.objects.all()
 
         semesters = apply_order(semesters, request.GET, SemesterListView.DEFAULT_ORDER)
-        result = [semester.toJson() for semester in semesters]
+        result = [semester.to_json() for semester in semesters]
         return JsonResponse(result, safe=False)
 
 
@@ -42,7 +42,7 @@ class CourseListView(View):
 
         courses = apply_order(courses, request.GET, CourseListView.DEFAULT_ORDER)
         courses = apply_offset_and_limit(courses, request.GET, CourseListView.MAX_LIMIT)
-        result = [c.toJson(user=request.user) for c in courses]
+        result = [c.to_json(user=request.user) for c in courses]
         return JsonResponse(result, safe=False)
 
 
@@ -50,7 +50,7 @@ class CourseInstanceView(View):
     def get(self, request, course_id):
         course = get_object_or_404(Course, id=course_id)
 
-        result = course.toJson(user=request.user)
+        result = course.to_json(user=request.user)
         return JsonResponse(result)
 
 
@@ -80,7 +80,7 @@ class CourseInstanceReviewsView(View):
 
         reviews = apply_order(reviews, request.GET, CourseInstanceReviewsView.DEFAULT_ORDER)
         reviews = apply_offset_and_limit(reviews, request.GET, CourseInstanceReviewsView.MAX_LIMIT)
-        result = [review.toJson(user=request.user) for review in reviews]
+        result = [review.to_json(user=request.user) for review in reviews]
         return JsonResponse(result, safe=False)
 
 
@@ -92,7 +92,7 @@ class CourseInstanceLecturesView(View):
         lectures = course.lectures.filter(deleted=False)
 
         lectures = apply_order(lectures, request.GET, CourseInstanceLecturesView.DEFAULT_ORDER)
-        result = [lecture.toJson() for lecture in lectures]
+        result = [lecture.to_json() for lecture in lectures]
         return JsonResponse(result, safe=False)
 
 
@@ -115,7 +115,7 @@ class LectureListView(View):
     DEFAULT_ORDER = ['year', 'semester', 'old_code', 'class_no']
 
     def get(self, request):
-        lectures = Lecture.objects.filter(deleted=False).exclude(Lecture.getQueryResearch())
+        lectures = Lecture.objects.filter(deleted=False).exclude(Lecture.get_query_for_research())
 
         year = request.GET.get("year", None)
         semester = request.GET.get("semester", None)
@@ -134,7 +134,7 @@ class LectureListView(View):
 
         lectures = apply_order(lectures, request.GET, LectureListView.DEFAULT_ORDER)
         lectures = apply_offset_and_limit(lectures, request.GET, LectureListView.MAX_LIMIT)
-        result = [lecture.toJson(nested=False) for lecture in lectures]
+        result = [lecture.to_json(nested=False) for lecture in lectures]
         return JsonResponse(result, safe=False)
 
 
@@ -142,7 +142,7 @@ class LectureInstanceView(View):
     def get(self, request, lecture_id):
         lecture = get_object_or_404(Lecture, id=lecture_id)
 
-        result = lecture.toJson()
+        result = lecture.to_json()
         return JsonResponse(result)
 
 
@@ -176,7 +176,7 @@ class LectureInstanceReviewsView(View):
 
         reviews = apply_order(reviews, request.GET, LectureInstanceReviewsView.DEFAULT_ORDER)
         reviews = apply_offset_and_limit(reviews, request.GET, LectureInstanceReviewsView.MAX_LIMIT)
-        result = [review.toJson() for review in reviews]
+        result = [review.to_json() for review in reviews]
         return JsonResponse(result, safe=False)
 
 
@@ -194,7 +194,7 @@ class LectureInstanceRelatedReviewsView(View):
         reviews = apply_order(reviews, request.GET, LectureInstanceRelatedReviewsView.DEFAULT_ORDER)
         reviews = apply_offset_and_limit(reviews, request.GET,
                                          LectureInstanceRelatedReviewsView.MAX_LIMIT)
-        result = [review.toJson() for review in reviews]
+        result = [review.to_json() for review in reviews]
         return JsonResponse(result, safe=False)
 
 
@@ -209,5 +209,5 @@ class UserInstanceTakenCoursesView(View):
         courses = Course.objects.filter(lectures__in=userprofile.taken_lectures.all())
 
         courses = apply_order(courses, request.GET, UserInstanceTakenCoursesView.DEFAULT_ORDER)
-        result = [course.toJson(user=request.user) for course in courses]
+        result = [course.to_json(user=request.user) for course in courses]
         return JsonResponse(result, safe=False)

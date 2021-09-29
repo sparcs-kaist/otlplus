@@ -13,7 +13,7 @@ INVALID_DEPARTMENT_CODES = ["AA", "ICE"]
 
 
 def json_encode_list(items: Iterable[Union[Department, Lecture, Review]], **kwargs) -> List[Dict]:
-    return [item.toJson(**kwargs) for item in items]
+    return [item.to_json(**kwargs) for item in items]
 
 
 def unique_id_dict_list(dict_list: List[Dict]) -> List[Dict]:

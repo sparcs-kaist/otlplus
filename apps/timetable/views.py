@@ -42,7 +42,7 @@ class UserInstanceTimetableListView(View):
                                  UserInstanceTimetableListView.DEFAULT_ORDER)
         timetables = apply_offset_and_limit(timetables, request.GET,
                                             UserInstanceTimetableListView.MAX_LIMIT)
-        result = [t.toJson() for t in timetables]
+        result = [t.to_json() for t in timetables]
         return JsonResponse(result, safe=False)
 
     def post(self, request, user_id):
@@ -73,7 +73,7 @@ class UserInstanceTimetableListView(View):
                 return HttpResponseBadRequest("Wrong field 'lectures' in request data")
             timetable.lectures.add(lecture)
 
-        return JsonResponse(timetable.toJson())
+        return JsonResponse(timetable.to_json())
 
 
 @method_decorator(login_required_ajax, name="dispatch")
@@ -88,7 +88,7 @@ class UserInstanceTimetableInstanceView(View):
         except Timetable.DoesNotExist:
             return HttpResponseNotFound()
 
-        return JsonResponse(timetable.toJson())
+        return JsonResponse(timetable.to_json())
 
     def delete(self, request, user_id, timetable_id):
         userprofile = request.user.userprofile
@@ -134,7 +134,7 @@ class UserInstanceTimetableInstanceAddLectureView(View):
                 return HttpResponseBadRequest('Wrong field \'lecture\' in request data')
 
             timetable.lectures.add(lecture)
-            return JsonResponse(timetable.toJson())
+            return JsonResponse(timetable.to_json())
 
 
 @method_decorator(login_required_ajax, name="dispatch")
@@ -161,7 +161,7 @@ class UserInstanceTimetableInstanceRemoveLectureView(View):
         lecture = Lecture.objects.get(id=lecture_id)
 
         timetable.lectures.remove(lecture)
-        return JsonResponse(timetable.toJson())
+        return JsonResponse(timetable.to_json())
 
 
 @method_decorator(login_required_ajax, name="dispatch")
@@ -173,7 +173,7 @@ class UserInstanceWishlistView(View):
 
         wishlist = Wishlist.objects.get_or_create(user=userprofile)[0]
 
-        result = wishlist.toJson()
+        result = wishlist.to_json()
         return JsonResponse(result)
 
 
@@ -199,7 +199,7 @@ class UserInstanceWishlistAddLectureView(View):
 
         wishlist.lectures.add(lecture)
 
-        result = wishlist.toJson()
+        result = wishlist.to_json()
         return JsonResponse(result)
 
 
@@ -225,7 +225,7 @@ class UserInstanceWishlistRemoveLectureView(View):
 
         wishlist.lectures.remove(lecture)
 
-        result = wishlist.toJson()
+        result = wishlist.to_json()
         return JsonResponse(result)
 
 

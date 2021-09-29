@@ -10,7 +10,7 @@ class Notice(models.Model):
     title = models.CharField(max_length=100)
     content = models.TextField()
 
-    def toJson(self):
+    def to_json(self):
         result = {
             "start_time": self.start_time,
             "end_time": self.end_time,

@@ -49,7 +49,7 @@ class Command(BaseCommand):
             next_year = int(options["year"])
             next_semester = int(options["semester"])
         else:
-            default_semester = Semester.getImportingSemester()
+            default_semester = Semester.get_semester_to_default_import()
             if default_semester is not None:
                 next_year = default_semester.year
                 next_semester = default_semester.semester

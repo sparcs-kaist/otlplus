@@ -34,11 +34,11 @@ class Review(models.Model):
             "lecture",
         )
 
-    def getCacheKey(self):
+    def get_cache_key(self):
         return "review:%d" % (self.id,)
 
-    def toJson(self, user=None):
-        def addUserspecificData(result, user):
+    def to_json(self, user=None):
+        def add_userspecific_data(result, user):
             is_liked = True
             if user is None or not user.is_authenticated:
                 is_liked = False
@@ -50,16 +50,16 @@ class Review(models.Model):
                 },
             )
 
-        cache_id = self.getCacheKey()
+        cache_id = self.get_cache_key()
         result_cached = cache.get(cache_id)
         if result_cached is not None:
-            addUserspecificData(result_cached, user)
+            add_userspecific_data(result_cached, user)
             return result_cached
 
         result = {
             "id": self.id,
-            "course": self.course.toJson(nested=True),
-            "lecture": self.lecture.toJson(nested=True),
+            "course": self.course.to_json(nested=True),
+            "lecture": self.lecture.to_json(nested=True),
             "content": self.content if (not self.is_deleted) else "관리자에 의해 삭제된 코멘트입니다.",
             "like": self.like,
             "is_deleted": self.is_deleted,
@@ -70,7 +70,7 @@ class Review(models.Model):
 
         cache.set(cache_id, result, 60 * 5)
 
-        addUserspecificData(result, user)
+        add_userspecific_data(result, user)
 
         return result
 

@@ -23,7 +23,7 @@ class NoticeListView(View):
             notices = notices.filter(start_time__lte=time, end_time__gte=time)
 
         notices = apply_order(notices, request.GET, NoticeListView.DEFAULT_ORDER)
-        result = [n.toJson() for n in notices]
+        result = [n.to_json() for n in notices]
         return JsonResponse(result, safe=False)
 
 

@@ -11,10 +11,10 @@ class Timetable(models.Model):
     year = models.IntegerField(null=True, db_index=True)  # 몇넌도의 타임테이블인지
     semester = models.SmallIntegerField(null=True, db_index=True)  # 어떤학기의 타임테이블인지
 
-    def toJson(self, nested=False):
+    def to_json(self, nested=False):
         result = {
             "id": self.id,
-            "lectures": [lecture.toJson(nested=False)
+            "lectures": [lecture.to_json(nested=False)
                          for lecture in self.lectures.filter(deleted=False)],
         }
         return result
@@ -60,9 +60,9 @@ class Wishlist(models.Model):
     lectures = models.ManyToManyField(Lecture)
     user = models.OneToOneField(UserProfile, related_name="wishlist", on_delete=models.CASCADE)
 
-    def toJson(self, nested=False):
+    def to_json(self, nested=False):
         result = {
-            "lectures": [lecture.toJson(nested=False)
+            "lectures": [lecture.to_json(nested=False)
                          for lecture in self.lectures.filter(deleted=False)],
         }
         return result
