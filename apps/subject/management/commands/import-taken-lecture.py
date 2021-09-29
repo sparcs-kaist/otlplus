@@ -18,6 +18,7 @@ class Command(BaseCommand):
                             dest="use_default_semester")
         parser.add_argument("--year", dest="year", help="")
         parser.add_argument("--semester", dest="semester", help="")
+        parser.add_argument("--expand-semester-by", dest="expand_semester_by", type=int)
         parser.add_argument("--password", dest="password", help="Specifies passowrd to log in.")
         parser.add_argument(
             "--encoding",
@@ -38,18 +39,30 @@ class Command(BaseCommand):
         use_default_semester = options.get("use_default_semester")
         year = options.get("year", None)
         semester = options.get("semester", None)
+        expand_semester_by = options.get("expand_semester_by", None)
 
         if year is not None and semester is not None:
-            target_semesters = [(year, semester)]
+            target_semester = (year, semester)
         elif use_default_semester:
             default_semester = Semester.get_semester_to_default_import()
             if default_semester is not None:
-                target_semesters = [(default_semester.year, default_semester.semester)]
+                target_semester = (default_semester.year, default_semester.semester)
             else:
                 print("Failed to load default semester.")
         else:
             print("Target semester not specified. Use --year and --semester, or --use-default-semester")
             return
+
+        if expand_semester_by is None:
+            offsets = [0]
+        elif expand_semester_by > 0:
+            offsets = range(0, expand_semester_by + 1)
+        else:
+            offsets = range(expand_semester_by, 1)
+        target_semesters = [
+            Semester.get_offsetted_semester(target_semester[0], target_semester[1], o)
+            for o in offsets
+        ]
 
         try:
             if password is None:

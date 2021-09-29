@@ -82,16 +82,13 @@ class Semester(models.Model):
                           .order_by("courseDesciptionSubmission").last()
 
     @classmethod
-    def get_offsetted_semester(cls, semester: "Semester", offset: int):
-        original_year = semester.year
-        original_semester = semester.semester
-
+    def get_offsetted_semester(cls, original_year: int, original_semester: int, offset: int):
+        # TODO: Change to get and resturn Semester after adding summer/winter semester
         temp_semester = original_semester + offset
         year_diff = (temp_semester - 1) // 4
 
         new_year = original_year + year_diff
         new_semester = temp_semester - year_diff * 4
-        # TODO: Change to resturn Semester after adding summer/winter semester
         return new_year, new_semester
 
 
