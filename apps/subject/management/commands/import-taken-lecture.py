@@ -124,7 +124,7 @@ class Command(BaseCommand):
                     cleared_user_list.append(u)
                     u.taken_lectures.remove(*u.taken_lectures.filter(year=target_year, semester=target_semester))
                 try:
-                    lecture = lectures.get(code=a[2], class_no=a[3].strip())
+                    lecture = lectures.get(code=a[2], class_no=a[3].strip(), deleted=False)
                     u.taken_lectures.add(lecture)
                 except (Lecture.DoesNotExist, Lecture.MultipleObjectsReturned) as exception:
                     print(f"error on getting lecture for {str(a[0])} {str(a[1])} {a[2]} {a[3]}", file=sys.stderr)
