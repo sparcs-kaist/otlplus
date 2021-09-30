@@ -3,6 +3,8 @@ import sys
 import getpass
 from django.core.management.base import BaseCommand
 
+from utils.command_utils import get_target_semesters
+
 from apps.subject.models import Semester, Lecture
 from apps.session.models import UserProfile
 
@@ -51,12 +53,8 @@ class Command(BaseCommand):
             print()
             return
 
-        target_semesters = self._get_target_semesters({
-            "use_default_semester": use_default_semester,
-            "year": year,
-            "semester": semester,
-            "expand_semester_by": expand_semester_by,
-        })
+        target_semesters = get_target_semesters(use_default_semester, year, semester,
+                                                expand_semester_by)
 
         if target_semesters is None:
             return
@@ -69,38 +67,6 @@ class Command(BaseCommand):
                 "password": password,
                 "encoding": encoding,
             })
-    
-    def _get_target_semesters(self, semester_specification):
-        use_default_semester = semester_specification["use_default_semester"]
-        year = semester_specification["year"]
-        semester = semester_specification["semester"]
-        expand_semester_by = semester_specification["expand_semester_by"]
-
-        if year is not None and semester is not None:
-            target_semester = (year, semester)
-        elif use_default_semester:
-            default_semester = Semester.get_semester_to_default_import()
-            if default_semester is not None:
-                target_semester = (default_semester.year, default_semester.semester)
-            else:
-                print("Failed to load default semester.")
-                return
-        else:
-            print("Target semester not specified. Use --year and --semester, or --use-default-semester")
-            return
-
-        if expand_semester_by is None:
-            offsets = [0]
-        elif expand_semester_by > 0:
-            offsets = range(0, expand_semester_by + 1)
-        else:
-            offsets = range(expand_semester_by, 1)
-
-        return [
-            Semester.get_offsetted_semester(target_semester[0], target_semester[1], o)
-            for o in offsets
-        ]
-
 
     def _import_taken_lecture(self, target_year, target_semester, db_specification):
         print(target_year, target_semester)
