@@ -244,9 +244,6 @@ class ShareTimetableIcalView(View):
 
         userprofile = request.user.userprofile
 
-        if not (table_id is not None and year is not None and semester is not None):
-            return HttpResponseBadRequest("Missing fields in request data")
-
         timetable_lectures = get_timetable_entries(userprofile, table_id, year, semester)
         if timetable_lectures is None:
             return HttpResponseBadRequest("No such timetable")
