@@ -55,6 +55,38 @@ class Command(BaseCommand):
         semester = options.get("semester", None)
         expand_semester_by = options.get("expand_semester_by", None)
 
+        try:
+            if password is None:
+                password = getpass.getpass()
+        except (KeyboardInterrupt, EOFError):
+            print()
+            return
+
+        target_semesters = self._get_target_semesters({
+            "use_default_semester": use_default_semester,
+            "year": year,
+            "semester": semester,
+            "expand_semester_by": expand_semester_by,
+        })
+
+        if target_semesters is None:
+            return
+
+        for y, s in target_semesters:
+            self._import_scholardb(y, s, exclude_lecture, {
+                "host": host,
+                "port": port,
+                "user": user,
+                "password": password,
+                "encoding": encoding,
+            })
+    
+    def _get_target_semesters(self, semester_specification):
+        use_default_semester = semester_specification["use_default_semester"]
+        year = semester_specification["year"]
+        semester = semester_specification["semester"]
+        expand_semester_by = semester_specification["expand_semester_by"]
+
         if year is not None and semester is not None:
             target_semester = (year, semester)
         elif use_default_semester:
@@ -74,26 +106,11 @@ class Command(BaseCommand):
             offsets = range(0, expand_semester_by + 1)
         else:
             offsets = range(expand_semester_by, 1)
-        target_semesters = [
+
+        return [
             Semester.get_offsetted_semester(target_semester[0], target_semester[1], o)
             for o in offsets
         ]
-
-        try:
-            if password is None:
-                password = getpass.getpass()
-        except (KeyboardInterrupt, EOFError):
-            print()
-            return
-
-        for y, s in target_semesters:
-            self._import_scholardb(y, s, exclude_lecture, {
-                "host": host,
-                "port": port,
-                "user": user,
-                "password": password,
-                "encoding": encoding,
-            })
 
     def _import_scholardb(self, target_year, target_semester, exclude_lecture, db_specification):
         print(f"Importing scholardb for {target_year}-{target_semester}")
