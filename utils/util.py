@@ -14,26 +14,27 @@ def rgetattr(object_, names, default):
 Validator = Callable[[Any], bool]
 
 
-class ParamsType(Enum):
+class ParseType(Enum):
     STR = auto()
     INT = auto()
     LIST_STR = auto()
     LIST_INT = auto()
 
+
 def parse_params(
         params: QueryDict,
-        config: Tuple[str, ParamsType, bool, List[Validator]]
+        config: Tuple[str, ParseType, bool, List[Validator]]
 ) -> Optional[Union[str, int, List[str], List[int]]]:
 
     key, type_, is_required, validators = config
 
-    if type_ == ParamsType.STR:
+    if type_ == ParseType.STR:
         value: Optional[str] = params.get(key, None)
-    elif type_ == ParamsType.INT:
+    elif type_ == ParseType.INT:
         value: Optional[int] = _get_int(params, key)
-    elif type_ == ParamsType.LIST_STR:
+    elif type_ == ParseType.LIST_STR:
         value: Optional[List[str]] = params.getlist(key, None)
-    elif type_ == ParamsType.LIST_INT:
+    elif type_ == ParseType.LIST_INT:
         value: Optional[List[int]] = _get_int_list(params, key)
 
     if is_required and (value is None):
@@ -47,31 +48,25 @@ def parse_params(
     return value
 
 
-class BodyType(Enum):
-    STR = auto()
-    INT = auto()
-    LIST_STR = auto()
-    LIST_INT = auto()
-
 def parse_body(
         body: QueryDict,
-        config: Tuple[str, ParamsType, bool, List[Validator]]
+        config: Tuple[str, ParseType, bool, List[Validator]]
 ) -> Optional[Union[str, int, List[str], List[int]]]:
 
     key, type_, is_required, validators = config
 
     value = body.get(key, None)
     if value is not None:
-        if type_ == BodyType.STR:
+        if type_ == ParseType.STR:
             if not isinstance(value, str):
                 ValueError(f"Body '{key}' does not match type STR")
-        elif type_ == BodyType.INT:
+        elif type_ == ParseType.INT:
             if not isinstance(value, int):
                 ValueError(f"Body '{key}' does not match type INT")
-        elif type_ == BodyType.LIST_STR:
+        elif type_ == ParseType.LIST_STR:
             if (not isinstance(value, list)) or any((not isinstance(e, str) for e in value)):
                 ValueError(f"Body '{key}' does not match type LIST_STR")
-        elif type_ == BodyType.LIST_INT:
+        elif type_ == ParseType.LIST_INT:
             if (not isinstance(value, list)) or any((not isinstance(e, int) for e in value)):
                 ValueError(f"Body '{key}' does not match type LIST_INT")
 
@@ -101,8 +96,8 @@ def _get_int_list(querydict: QueryDict, key: str) -> Optional[List[int]]:
         return [int(v) for v in values]
 
 
-OFFSET_DEFAULT_CONFIG = ("offset", ParamsType.INT, False, [lambda offset: offset >= 0])
-LIMIT_DEFAULT_CONFIG = ("limit", ParamsType.INT, False, [lambda limit: limit >= 0])
+OFFSET_DEFAULT_CONFIG = ("offset", ParseType.INT, False, [lambda offset: offset >= 0])
+LIMIT_DEFAULT_CONFIG = ("limit", ParseType.INT, False, [lambda limit: limit >= 0])
 
 def apply_offset_and_limit(queryset: QuerySet, offset: Optional[int], limit: Optional[int],
                            max_limit: int) -> QuerySet:
@@ -128,7 +123,7 @@ _PROHIBITED_FIELD_PATTERN = [
     r"user", r"profile", r"owner", r"writer",
     r"__.*__"
 ]
-ORDER_DEFAULT_CONFIG = ("order", ParamsType.LIST_STR, False, [
+ORDER_DEFAULT_CONFIG = ("order", ParseType.LIST_STR, False, [
     lambda order: all((not re.match(p, o)) for p in _PROHIBITED_FIELD_PATTERN for o in order)
 ])
 

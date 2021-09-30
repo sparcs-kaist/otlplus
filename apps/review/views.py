@@ -7,7 +7,7 @@ from django.utils.decorators import method_decorator
 from django.views import View
 
 from utils.decorators import login_required_ajax
-from utils.util import ParamsType, BodyType, parse_params, parse_body, ORDER_DEFAULT_CONFIG, OFFSET_DEFAULT_CONFIG, LIMIT_DEFAULT_CONFIG, apply_offset_and_limit, apply_order, patch_object
+from utils.util import ParseType, parse_params, parse_body, ORDER_DEFAULT_CONFIG, OFFSET_DEFAULT_CONFIG, LIMIT_DEFAULT_CONFIG, apply_offset_and_limit, apply_order, patch_object
 
 from .models import Review, ReviewVote
 
@@ -16,9 +16,9 @@ class ReviewListView(View):
     DEFAULT_ORDER = ['-written_datetime', '-id']
 
     def get(self, request):
-        lecture_year = parse_params(request.GET, ("lecture_year", ParamsType.INT, False, []))
-        lecture_semester = parse_params(request.GET, ("lecture_semester", ParamsType.INT, False, []))
-        response_type = parse_params(request.GET, ("response_type", ParamsType.STR, False, []))
+        lecture_year = parse_params(request.GET, ("lecture_year", ParseType.INT, False, []))
+        lecture_semester = parse_params(request.GET, ("lecture_semester", ParseType.INT, False, []))
+        response_type = parse_params(request.GET, ("response_type", ParseType.STR, False, []))
         order = parse_params(request.GET, ORDER_DEFAULT_CONFIG)
         offset = parse_params(request.GET, OFFSET_DEFAULT_CONFIG)
         limit = parse_params(request.GET, LIMIT_DEFAULT_CONFIG)
@@ -46,13 +46,13 @@ class ReviewListView(View):
     def post(self, request):
         body = json.loads(request.body.decode("utf-8"))
 
-        content = parse_body(body, ("content", BodyType.STR, True, [
+        content = parse_body(body, ("content", ParseType.STR, True, [
             lambda content: len(content.strip()) > 0
         ]))
-        lecture_id = parse_body(body, ("lecture", BodyType.INT, True, []))
-        grade = parse_body(body, ("grade", BodyType.INT, True, [lambda grade: 1 <= grade <= 5]))
-        load = parse_body(body, ("load", BodyType.INT, True, [lambda load: 1 <= load <= 5]))
-        speech = parse_body(body, ("speech", BodyType.INT, True, [lambda speech: 1 <= speech <= 5]))
+        lecture_id = parse_body(body, ("lecture", ParseType.INT, True, []))
+        grade = parse_body(body, ("grade", ParseType.INT, True, [lambda grade: 1 <= grade <= 5]))
+        load = parse_body(body, ("load", ParseType.INT, True, [lambda load: 1 <= load <= 5]))
+        speech = parse_body(body, ("speech", ParseType.INT, True, [lambda speech: 1 <= speech <= 5]))
 
         user = request.user
         if user is None or not user.is_authenticated:
@@ -85,12 +85,12 @@ class ReviewInstanceView(View):
 
         body = json.loads(request.body.decode("utf-8"))
 
-        content = parse_body(body, ("content", BodyType.STR, False, [
+        content = parse_body(body, ("content", ParseType.STR, False, [
             lambda content: len(content.strip()) > 0
         ]))
-        grade = parse_body(body, ("grade", BodyType.INT, False, [lambda grade: 1 <= grade <= 5]))
-        load = parse_body(body, ("load", BodyType.INT, False, [lambda load: 1 <= load <= 5]))
-        speech = parse_body(body, ("speech", BodyType.INT, False, [lambda speech: 1 <= speech <= 5]))
+        grade = parse_body(body, ("grade", ParseType.INT, False, [lambda grade: 1 <= grade <= 5]))
+        load = parse_body(body, ("load", ParseType.INT, False, [lambda load: 1 <= load <= 5]))
+        speech = parse_body(body, ("speech", ParseType.INT, False, [lambda speech: 1 <= speech <= 5]))
 
 
         user = request.user
@@ -134,8 +134,8 @@ class UserInstanceLikedReviewsView(View):
 
     def get(self, request, user_id):
         order = parse_params(request.GET, ORDER_DEFAULT_CONFIG)
-        offset = parse_params(request.GET, ("offset", ParamsType.INT, False, []))
-        limit = parse_params(request.GET, ("limit", ParamsType.INT, False, []))
+        offset = parse_params(request.GET, ("offset", ParseType.INT, False, []))
+        limit = parse_params(request.GET, ("limit", ParseType.INT, False, []))
 
         profile = request.user.userprofile
         if profile.id != int(user_id):

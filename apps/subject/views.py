@@ -4,7 +4,7 @@ from django.utils.decorators import method_decorator
 from django.views import View
 
 from utils.decorators import login_required_ajax
-from utils.util import ParamsType, parse_params, ORDER_DEFAULT_CONFIG, OFFSET_DEFAULT_CONFIG, LIMIT_DEFAULT_CONFIG, apply_offset_and_limit, apply_order
+from utils.util import ParseType, parse_params, ORDER_DEFAULT_CONFIG, OFFSET_DEFAULT_CONFIG, LIMIT_DEFAULT_CONFIG, apply_offset_and_limit, apply_order
 
 
 from apps.review.models import Review
@@ -30,12 +30,12 @@ class CourseListView(View):
     DEFAULT_ORDER = ['old_code']
 
     def get(self, request):
-        department = parse_params(request.GET, ("department", ParamsType.LIST_STR, False, []))
-        type_ = parse_params(request.GET, ("type", ParamsType.LIST_STR, False, []))
-        level = parse_params(request.GET, ("level", ParamsType.LIST_STR, False, []))
-        group = parse_params(request.GET, ("group", ParamsType.LIST_STR, False, []))
-        keyword = parse_params(request.GET, ("keyword", ParamsType.STR, False, []))
-        term = parse_params(request.GET, ("term", ParamsType.STR, False, []))
+        department = parse_params(request.GET, ("department", ParseType.LIST_STR, False, []))
+        type_ = parse_params(request.GET, ("type", ParseType.LIST_STR, False, []))
+        level = parse_params(request.GET, ("level", ParseType.LIST_STR, False, []))
+        group = parse_params(request.GET, ("group", ParseType.LIST_STR, False, []))
+        keyword = parse_params(request.GET, ("keyword", ParseType.STR, False, []))
+        term = parse_params(request.GET, ("term", ParseType.STR, False, []))
         order = parse_params(request.GET, ORDER_DEFAULT_CONFIG)
         offset = parse_params(request.GET, OFFSET_DEFAULT_CONFIG)
         limit = parse_params(request.GET, LIMIT_DEFAULT_CONFIG)
@@ -72,7 +72,7 @@ class CourseInstanceView(View):
 
 class CourseListAutocompleteView(View):
     def get(self, request):
-        keyword = parse_params(request.GET, ("keyword", ParamsType.STR, True, []))
+        keyword = parse_params(request.GET, ("keyword", ParseType.STR, True, []))
 
         courses = Course.objects.all().order_by("old_code")
         professors = Professor.objects.exclude(course_list=None).order_by("course_list__old_code")
@@ -135,16 +135,16 @@ class LectureListView(View):
     DEFAULT_ORDER = ['year', 'semester', 'old_code', 'class_no']
 
     def get(self, request):
-        year = parse_params(request.GET, ("year", ParamsType.INT, False, []))
-        semester = parse_params(request.GET, ("semester", ParamsType.INT, False, []))
-        day = parse_params(request.GET, ("day", ParamsType.INT, False, []))
-        begin = parse_params(request.GET, ("begin", ParamsType.INT, False, []))
-        end = parse_params(request.GET, ("end", ParamsType.INT, False, []))
-        department = parse_params(request.GET, ("department", ParamsType.LIST_STR, False, []))
-        type_ = parse_params(request.GET, ("type", ParamsType.LIST_STR, False, []))
-        level = parse_params(request.GET, ("level", ParamsType.LIST_STR, False, []))
-        group = parse_params(request.GET, ("group", ParamsType.LIST_STR, False, []))
-        keyword = parse_params(request.GET, ("keyword", ParamsType.STR, False, []))
+        year = parse_params(request.GET, ("year", ParseType.INT, False, []))
+        semester = parse_params(request.GET, ("semester", ParseType.INT, False, []))
+        day = parse_params(request.GET, ("day", ParseType.INT, False, []))
+        begin = parse_params(request.GET, ("begin", ParseType.INT, False, []))
+        end = parse_params(request.GET, ("end", ParseType.INT, False, []))
+        department = parse_params(request.GET, ("department", ParseType.LIST_STR, False, []))
+        type_ = parse_params(request.GET, ("type", ParseType.LIST_STR, False, []))
+        level = parse_params(request.GET, ("level", ParseType.LIST_STR, False, []))
+        group = parse_params(request.GET, ("group", ParseType.LIST_STR, False, []))
+        keyword = parse_params(request.GET, ("keyword", ParseType.STR, False, []))
         order = parse_params(request.GET, ORDER_DEFAULT_CONFIG)
         offset = parse_params(request.GET, OFFSET_DEFAULT_CONFIG)
         limit = parse_params(request.GET, LIMIT_DEFAULT_CONFIG)
@@ -179,9 +179,9 @@ class LectureInstanceView(View):
 
 class LectureListAutocompleteView(View):
     def get(self, request):
-        year = parse_params(request.GET, ("year", ParamsType.INT, True, []))
-        semester = parse_params(request.GET, ("semester", ParamsType.INT, True, []))
-        keyword = parse_params(request.GET, ("keyword", ParamsType.STR, True, []))
+        year = parse_params(request.GET, ("year", ParseType.INT, True, []))
+        semester = parse_params(request.GET, ("semester", ParseType.INT, True, []))
+        keyword = parse_params(request.GET, ("keyword", ParseType.STR, True, []))
 
         lectures = Lecture.objects.filter(deleted=False, year=year, semester=semester)
         professors = Professor.objects.filter(lectures__deleted=False,

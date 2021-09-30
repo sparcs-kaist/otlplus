@@ -5,7 +5,7 @@ from django.utils.decorators import method_decorator
 from django.views import View
 
 from utils.decorators import login_required_ajax
-from utils.util import ParamsType, BodyType, parse_params, parse_body, ORDER_DEFAULT_CONFIG, OFFSET_DEFAULT_CONFIG, LIMIT_DEFAULT_CONFIG, apply_offset_and_limit, apply_order
+from utils.util import ParseType, parse_params, parse_body, ORDER_DEFAULT_CONFIG, OFFSET_DEFAULT_CONFIG, LIMIT_DEFAULT_CONFIG, apply_offset_and_limit, apply_order
 
 
 from apps.subject.models import Semester, Lecture
@@ -25,8 +25,8 @@ class UserInstanceTimetableListView(View):
     DEFAULT_ORDER = ['year', 'semester', 'id']
 
     def get(self, request, user_id):
-        year = parse_params(request.GET, ("year", ParamsType.INT, False, []))
-        semester = parse_params(request.GET, ("semester", ParamsType.INT, False, []))
+        year = parse_params(request.GET, ("year", ParseType.INT, False, []))
+        semester = parse_params(request.GET, ("semester", ParseType.INT, False, []))
         order = parse_params(request.GET, ORDER_DEFAULT_CONFIG)
         offset = parse_params(request.GET, OFFSET_DEFAULT_CONFIG)
         limit = parse_params(request.GET, LIMIT_DEFAULT_CONFIG)
@@ -56,9 +56,9 @@ class UserInstanceTimetableListView(View):
 
         body = json.loads(request.body.decode("utf-8"))
 
-        year = parse_body(body, ("year", BodyType.INT, True, []))
-        semester = parse_body(body, ("semester", BodyType.INT, True, []))
-        lecture_ids = parse_body(body, ("lectures", BodyType.LIST_INT, True, []))
+        year = parse_body(body, ("year", ParseType.INT, True, []))
+        semester = parse_body(body, ("semester", ParseType.INT, True, []))
+        lecture_ids = parse_body(body, ("lectures", ParseType.LIST_INT, True, []))
 
         if not _validate_year_semester(year, semester):
             return HttpResponseBadRequest("Wrong fields 'year' and 'semester' in request data")
@@ -117,7 +117,7 @@ class UserInstanceTimetableInstanceAddLectureView(View):
         if request.method == "POST":
             body = json.loads(request.body.decode("utf-8"))
 
-            lecture_id = parse_body(body, ("lecture", BodyType.INT, True, []))
+            lecture_id = parse_body(body, ("lecture", ParseType.INT, True, []))
 
             lecture = Lecture.objects.get(id=lecture_id)
             if not (lecture.year == timetable.year and lecture.semester == timetable.semester):
@@ -147,7 +147,7 @@ class UserInstanceTimetableInstanceRemoveLectureView(View):
 
         body = json.loads(request.body.decode("utf-8"))
 
-        lecture_id = parse_body(body, ("lecture", BodyType.INT, True, []))
+        lecture_id = parse_body(body, ("lecture", ParseType.INT, True, []))
 
         if not timetable.lectures.filter(id=lecture_id).exists():
             return HttpResponseBadRequest("Wrong field 'lecture' in request data")
@@ -182,7 +182,7 @@ class UserInstanceWishlistAddLectureView(View):
 
         body = json.loads(request.body.decode("utf-8"))
 
-        lecture_id = parse_body(body, ("lecture", BodyType.INT, True, []))
+        lecture_id = parse_body(body, ("lecture", ParseType.INT, True, []))
 
         if wishlist.lectures.filter(id=lecture_id).exists():
             return HttpResponseBadRequest("Wrong field 'lecture' in request data")
@@ -206,7 +206,7 @@ class UserInstanceWishlistRemoveLectureView(View):
 
         body = json.loads(request.body.decode("utf-8"))
 
-        lecture_id = parse_body(body, ("lecture", BodyType.INT, True, []))
+        lecture_id = parse_body(body, ("lecture", ParseType.INT, True, []))
 
         if not wishlist.lectures.filter(id=lecture_id).exists():
             return HttpResponseBadRequest("Wrong field 'lecture' in request data")
@@ -222,9 +222,9 @@ class UserInstanceWishlistRemoveLectureView(View):
 @method_decorator(login_required_ajax, name="dispatch")
 class ShareTimetableCalendarView(View):
     def get(self, request):
-        table_id = parse_params(request.GET, ("table_id", ParamsType.INT, True, []))
-        year = parse_params(request.GET, ("year", ParamsType.INT, True, []))
-        semester = parse_params(request.GET, ("semester", ParamsType.INT, True, []))
+        table_id = parse_params(request.GET, ("table_id", ParseType.INT, True, []))
+        year = parse_params(request.GET, ("year", ParseType.INT, True, []))
+        semester = parse_params(request.GET, ("semester", ParseType.INT, True, []))
 
         userprofile = request.user.userprofile
 
@@ -238,9 +238,9 @@ class ShareTimetableCalendarView(View):
 @method_decorator(login_required_ajax, name="dispatch")
 class ShareTimetableIcalView(View):
     def get(self, request):
-        table_id = parse_params(request.GET, ("table_id", ParamsType.INT, True, []))
-        year = parse_params(request.GET, ("year", ParamsType.INT, True, []))
-        semester = parse_params(request.GET, ("semester", ParamsType.INT, True, []))
+        table_id = parse_params(request.GET, ("table_id", ParseType.INT, True, []))
+        year = parse_params(request.GET, ("year", ParseType.INT, True, []))
+        semester = parse_params(request.GET, ("semester", ParseType.INT, True, []))
 
         userprofile = request.user.userprofile
 
@@ -260,9 +260,9 @@ class ShareTimetableIcalView(View):
 @method_decorator(login_required_ajax, name="dispatch")
 class ShareTimetableImageView(View):
     def get(self, request):
-        table_id = parse_params(request.GET, ("table_id", ParamsType.INT, True, []))
-        year = parse_params(request.GET, ("year", ParamsType.INT, True, []))
-        semester = parse_params(request.GET, ("semester", ParamsType.INT, True, []))
+        table_id = parse_params(request.GET, ("table_id", ParseType.INT, True, []))
+        year = parse_params(request.GET, ("year", ParseType.INT, True, []))
+        semester = parse_params(request.GET, ("semester", ParseType.INT, True, []))
 
         userprofile = request.user.userprofile
 
