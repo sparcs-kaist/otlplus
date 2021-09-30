@@ -5,7 +5,7 @@ from django.utils.decorators import method_decorator
 from django.views import View
 
 from utils.decorators import login_required_ajax
-from utils.util import ParamsType, BodyType, parse_params, parse_body, ORDER_DEFAULT_CONFIG, OFFSET_DEFAULT_CONFIG, LIMIT_DEFAULT_CONFIG, apply_offset_and_limit, apply_order, getint
+from utils.util import ParamsType, BodyType, parse_params, parse_body, ORDER_DEFAULT_CONFIG, OFFSET_DEFAULT_CONFIG, LIMIT_DEFAULT_CONFIG, apply_offset_and_limit, apply_order
 
 
 from apps.subject.models import Semester, Lecture

@@ -11,14 +11,6 @@ def rgetattr(object_, names, default):
     return reduce(lambda o, n: getattr(o, n, default), names, object_)
 
 
-def getint(querydict, key, default=None):
-    value = querydict.get(key)
-    if value is None:
-        return default
-    else:
-        return int(value)
-
-
 Validator = Callable[[Any], bool]
 
 
