@@ -246,7 +246,7 @@ class Command(BaseCommand):
                 ))
                 if len(match_scholar) != 0:
                     professors_not_updated = set()
-                    for prof in lecture.professor.all():
+                    for prof in lecture.professors.all():
                         professors_not_updated.add(prof.id)
                     for i in match_scholar:
                         try:
@@ -280,15 +280,15 @@ class Command(BaseCommand):
                         #                            print "Making new Professor ... %s" % professor.professor_name
                         except KeyError:
                             pass
-                        lecture.professor.add(professor)
+                        lecture.professors.add(professor)
                         if professor.professor_id != Professor.STAFF_ID:
                             lecture.course.professor_lecture_charge_rows.add(professor)
 
                     for key in professors_not_updated:
                         professor = Professor.objects.get(id=key)
-                        lecture.professor.remove(professor)
+                        lecture.professors.remove(professor)
                 else:
-                    lecture.professor.add(staff_professor)
+                    lecture.professors.add(staff_professor)
 
                 try:
                     lectures_not_updated.remove(lecture_key_hashable)
