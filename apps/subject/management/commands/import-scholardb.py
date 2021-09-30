@@ -126,9 +126,9 @@ class Command(BaseCommand):
                 lectures_not_updated.add(lecture.id)
             # Make Staff Professor with ID 830
             try:
-                staff_professor = Professor.objects.get(professor_id=830)
+                staff_professor = Professor.objects.get(professor_id=Professor.STAFF_ID)
             except Professor.DoesNotExist:
-                staff_professor = Professor.objects.create(professor_id=830)
+                staff_professor = Professor.objects.create(professor_id=Professor.STAFF_ID)
                 staff_professor.professor_name = "Staff"
                 staff_professor.professor_name_en = "Staff"
                 staff_professor.save()
@@ -275,13 +275,13 @@ class Command(BaseCommand):
                             else:
                                 prof_major = i[4]
                             professor = Professor.objects.get(professor_id=prof_id)
-                            if professor.professor_name != prof_name and prof_id != 830:
+                            if professor.professor_name != prof_name and prof_id != Professor.STAFF_ID:
                                 professor.professor_name = prof_name
                                 professor.save()
-                            if professor.professor_name_en != prof_name_en and prof_id != 830 and prof_name_en != "":
+                            if professor.professor_name_en != prof_name_en and prof_id != Professor.STAFF_ID and prof_name_en != "":
                                 professor.professor_name_en = prof_name_en
                                 professor.save()
-                            if professor.major != prof_major and prof_id != 830:
+                            if professor.major != prof_major and prof_id != Professor.STAFF_ID:
                                 professor.major = prof_major
                                 professor.save()
                             professors_not_updated.remove(professor.id)
@@ -295,7 +295,7 @@ class Command(BaseCommand):
                         except KeyError:
                             pass
                         lecture.professors.add(professor)
-                        if professor.professor_id != 830:
+                        if professor.professor_id != Professor.STAFF_ID:
                             lecture.course.professors.add(professor)
 
                     for key in professors_not_updated:

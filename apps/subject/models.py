@@ -603,6 +603,8 @@ class Course(models.Model):
 
 
 class Professor(models.Model):
+    STAFF_ID = 830
+
     # Fetched from KAIST Scholar DB
     professor_name = models.CharField(max_length=100, db_index=True)
     professor_name_en = models.CharField(max_length=100, blank=True, null=True)
