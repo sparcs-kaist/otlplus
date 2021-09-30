@@ -121,8 +121,10 @@ class Command(BaseCommand):
         password = db_specification["password"]
         encoding = db_specification["encoding"]
 
-        rx_dept_code = re.compile(r"([a-zA-Z]+)(\d+)")
         lecture_count = 0
+
+        def _extract_department_code(lecture_old_code):
+            return re.compile(r"([a-zA-Z]+)(\d+)").match(lecture_old_code).group(1)
 
         if not exclude_lecture:
             query = "SELECT * FROM view_OTL_charge WHERE lecture_year = %d AND lecture_term = %d" % (
@@ -160,7 +162,7 @@ class Command(BaseCommand):
                 lecture_class_no = myrow[3].strip()
                 department_no = lecture_no[0:2]
                 department_id = int(myrow[4])
-                department_code = rx_dept_code.match(lecture_code).group(1)
+                department_code = _extract_department_code(lecture_code)
 
                 # Update department info.
                 if prev_department != department_id:
