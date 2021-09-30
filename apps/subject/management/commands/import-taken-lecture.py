@@ -123,8 +123,9 @@ class Command(BaseCommand):
                 if u not in cleared_user_list:
                     cleared_user_list.append(u)
                     u.taken_lectures.remove(*u.taken_lectures.filter(year=target_year, semester=target_semester))
-                lecture = lectures.filter(code=a[2], class_no=a[3].strip())
-                if len(lecture) == 1:
-                    u.taken_lectures.add(lecture[0])
-                else:
-                    print(f"{str(a[0])} {str(a[1])} {a[2]} {a[3]}는 왜 개수가 {len(lecture)} 지?", file=sys.stderr)
+                try:
+                    lecture = lectures.get(code=a[2], class_no=a[3].strip())
+                    u.taken_lectures.add(lecture)
+                except (Lecture.DoesNotExist, Lecture.MultipleObjectsReturned) as exception:
+                    print(f"error on getting lecture for {str(a[0])} {str(a[1])} {a[2]} {a[3]}", file=sys.stderr)
+                    print(exception, file=sys.stderr)
