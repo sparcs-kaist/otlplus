@@ -83,7 +83,7 @@ class Semester(models.Model):
 
     @classmethod
     def get_offsetted_semester(cls, original_year: int, original_semester: int, offset: int):
-        # TODO: Change to get and resturn Semester after adding summer/winter semester
+        # TODO: Change to receive and return Semester after adding summer/winter semester
         temp_semester = original_semester + offset
         year_diff = (temp_semester - 1) // 4
 
