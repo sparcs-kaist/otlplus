@@ -28,7 +28,21 @@ class CourseListView(View):
 
     def get(self, request):
         courses = Course.objects.all()
-        courses = services.filter_lectures_from_querystring(courses, request.GET)
+
+        department = request.GET.getlist("department", [])
+        courses = services.filter_by_department(courses, department)
+
+        type_ = request.GET.getlist("type", [])
+        courses = services.filter_by_type(courses, type_)
+
+        level = request.GET.getlist("grade", [])
+        courses = services.filter_by_level(courses, level)
+
+        group = request.GET.getlist("group", [])
+        courses = services.filter_by_group(courses, group)
+
+        keyword = request.GET.get("keyword", "")
+        courses = services.filter_by_keyword(courses, keyword)
 
         term = request.GET.get("term", None)
         courses = services.filter_by_term(courses, term)
@@ -126,7 +140,20 @@ class LectureListView(View):
         end = request.GET.get("end", None)
         lectures = services.filter_by_time(lectures, day, begin, end)
 
-        lectures = services.filter_lectures_from_querystring(lectures, request.GET)
+        department = request.GET.getlist("department", [])
+        lectures = services.filter_by_department(lectures, department)
+
+        type_ = request.GET.getlist("type", [])
+        lectures = services.filter_by_type(lectures, type_)
+
+        level = request.GET.getlist("grade", [])
+        lectures = services.filter_by_level(lectures, level)
+
+        group = request.GET.getlist("group", [])
+        lectures = services.filter_by_group(lectures, group)
+
+        keyword = request.GET.get("keyword", "")
+        lectures = services.filter_by_keyword(lectures, keyword)
 
         # lectures = lectures
         # .select_related('course', 'department') \

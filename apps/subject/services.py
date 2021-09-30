@@ -40,25 +40,6 @@ MAJOR_ACRONYMS = [
 ]
 
 
-def filter_lectures_from_querystring(queryset: QuerySet, query_params: QueryDict) -> QuerySet:
-    department = query_params.getlist("department", [])
-    queryset = filter_by_department(queryset, department)
-
-    type_ = query_params.getlist("type", [])
-    queryset = filter_by_type(queryset, type_)
-
-    level = query_params.getlist("grade", [])
-    queryset = filter_by_level(queryset, level)
-
-    group = query_params.getlist("group", [])
-    queryset = filter_by_group(queryset, group)
-
-    keyword = query_params.get("keyword", "").strip()
-    queryset = filter_by_keyword(queryset, keyword)
-
-    return queryset
-
-
 def filter_by_department(queryset: QuerySet, department: List[str]) -> QuerySet:
     if department is None or len(department) == 0:
         return queryset
@@ -102,7 +83,7 @@ def filter_by_level(queryset: QuerySet, levels: List[str]) -> QuerySet:
         return queryset.filter(old_code__regex=regex)
 
 
-def filter_by_term(queryset, term):
+def filter_by_term(queryset: QuerySet, term: List[str]) -> QuerySet:
     if not (term and len(term)):
         return queryset
 
@@ -113,7 +94,7 @@ def filter_by_term(queryset, term):
         return queryset.filter(lectures__year__gte=current_year - int(term))
 
 
-def filter_by_group(queryset, group):
+def filter_by_group(queryset: QuerySet, group: List[str]) -> QuerySet:
     if not group or len(group) == 0:
         return queryset
 
@@ -131,7 +112,9 @@ def filter_by_group(queryset, group):
     return queryset.filter(query)
 
 
-def filter_by_keyword(queryset: QuerySet, keyword) -> QuerySet:
+def filter_by_keyword(queryset: QuerySet, keyword: str) -> QuerySet:
+    keyword = keyword.strip()
+
     if not keyword or len(keyword) == 0:
         return queryset
 
