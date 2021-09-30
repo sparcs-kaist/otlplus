@@ -86,8 +86,8 @@ class Command(BaseCommand):
             print()
             return
 
-        for s in target_semesters:
-            self._import_scholardb(s[0], s[1], exclude_lecture, {
+        for y, s in target_semesters:
+            self._import_scholardb(y, s, exclude_lecture, {
                 "host": host,
                 "port": port,
                 "user": user,
