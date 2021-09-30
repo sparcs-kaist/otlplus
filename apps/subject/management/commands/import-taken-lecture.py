@@ -18,7 +18,10 @@ class Command(BaseCommand):
                             dest="use_default_semester")
         parser.add_argument("--year", dest="year", help="")
         parser.add_argument("--semester", dest="semester", help="")
-        parser.add_argument("--expand-semester-by", dest="expand_semester_by", type=int)
+        parser.add_argument("--expand-semester-by",
+                            dest="expand_semester_by",
+                            type=int,
+                            choices=range(-4, 5))
         parser.add_argument("--password", dest="password", help="Specifies passowrd to log in.")
         parser.add_argument(
             "--encoding",
@@ -56,9 +59,6 @@ class Command(BaseCommand):
 
         if expand_semester_by is None:
             offsets = [0]
-        elif abs(expand_semester_by) > 4:
-            print("Too big number for --expand-semester-by is given. -4 to 4 is allowed")
-            return
         elif expand_semester_by > 0:
             offsets = range(0, expand_semester_by + 1)
         else:

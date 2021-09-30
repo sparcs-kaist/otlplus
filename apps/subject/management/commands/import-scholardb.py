@@ -35,7 +35,10 @@ class Command(BaseCommand):
                             dest="use_default_semester")
         parser.add_argument("--year", dest="year", type=int)
         parser.add_argument("--semester", dest="semester", type=int)
-        parser.add_argument("--expand-semester-by", dest="expand_semester_by", type=int)
+        parser.add_argument("--expand-semester-by",
+                            dest="expand_semester_by",
+                            type=int,
+                            choices=range(-4, 5))
 
     help = "Imports KAIST scholar database."
     args = "--host=143.248.X.Y:PORT --user=USERNAME"
@@ -67,9 +70,6 @@ class Command(BaseCommand):
 
         if expand_semester_by is None:
             offsets = [0]
-        elif abs(expand_semester_by) > 4:
-            print("Too big number for --expand-semester-by is given. -4 to 4 is allowed")
-            return
         elif expand_semester_by > 0:
             offsets = range(0, expand_semester_by + 1)
         else:
