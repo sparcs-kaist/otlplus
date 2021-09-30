@@ -5,7 +5,7 @@ from django.utils.decorators import method_decorator
 from django.views import View
 
 from utils.decorators import login_required_ajax
-from utils.util import ParamsType, parse_params, ORDER_DEFAULT_CONFIG, OFFSET_DEFAULT_CONFIG, LIMIT_DEFAULT_CONFIG, apply_offset_and_limit, apply_order, getint
+from utils.util import ParamsType, BodyType, parse_params, parse_body, ORDER_DEFAULT_CONFIG, OFFSET_DEFAULT_CONFIG, LIMIT_DEFAULT_CONFIG, apply_offset_and_limit, apply_order, getint
 
 
 from apps.subject.models import Semester, Lecture
@@ -56,18 +56,12 @@ class UserInstanceTimetableListView(View):
 
         body = json.loads(request.body.decode("utf-8"))
 
-        year = body.get("year", None)
-        semester = body.get("semester", None)
-        if year is None:
-            return HttpResponseBadRequest("Missing field 'year' in request data")
-        if semester is None:
-            return HttpResponseBadRequest("Missing field 'semester' in request data")
+        year = parse_body(body, ("year", BodyType.INT, True, []))
+        semester = parse_body(body, ("semester", BodyType.INT, True, []))
+        lecture_ids = parse_body(body, ("lectures", BodyType.LIST_INT, True, []))
+
         if not _validate_year_semester(year, semester):
             return HttpResponseBadRequest("Wrong fields 'year' and 'semester' in request data")
-
-        lecture_ids = body.get("lectures", None)
-        if lecture_ids is None:
-            return HttpResponseBadRequest("Missing field 'lectures' in request data")
 
         timetable = Timetable.objects.create(user=userprofile, year=year, semester=semester)
         for i in lecture_ids:
@@ -123,9 +117,7 @@ class UserInstanceTimetableInstanceAddLectureView(View):
         if request.method == "POST":
             body = json.loads(request.body.decode("utf-8"))
 
-            lecture_id = getint(body, "lecture", None)
-            if lecture_id is None:
-                return HttpResponseBadRequest("Missing field 'lecture' in request data")
+            lecture_id = parse_body(body, ("lecture", BodyType.INT, True, []))
 
             lecture = Lecture.objects.get(id=lecture_id)
             if not (lecture.year == timetable.year and lecture.semester == timetable.semester):
@@ -155,9 +147,7 @@ class UserInstanceTimetableInstanceRemoveLectureView(View):
 
         body = json.loads(request.body.decode("utf-8"))
 
-        lecture_id = getint(body, "lecture", None)
-        if lecture_id is None:
-            return HttpResponseBadRequest("Missing field 'lecture' in request data")
+        lecture_id = parse_body(body, ("lecture", BodyType.INT, True, []))
 
         if not timetable.lectures.filter(id=lecture_id).exists():
             return HttpResponseBadRequest("Wrong field 'lecture' in request data")
@@ -192,9 +182,7 @@ class UserInstanceWishlistAddLectureView(View):
 
         body = json.loads(request.body.decode("utf-8"))
 
-        lecture_id = getint(body, "lecture", None)
-        if lecture_id is None:
-            return HttpResponseBadRequest("Missing field 'lecture' in request data")
+        lecture_id = parse_body(body, ("lecture", BodyType.INT, True, []))
 
         if wishlist.lectures.filter(id=lecture_id).exists():
             return HttpResponseBadRequest("Wrong field 'lecture' in request data")
@@ -218,9 +206,7 @@ class UserInstanceWishlistRemoveLectureView(View):
 
         body = json.loads(request.body.decode("utf-8"))
 
-        lecture_id = getint(body, "lecture", None)
-        if lecture_id is None:
-            return HttpResponseBadRequest("Missing field 'lecture' in request data")
+        lecture_id = parse_body(body, ("lecture", BodyType.INT, True, []))
 
         if not wishlist.lectures.filter(id=lecture_id).exists():
             return HttpResponseBadRequest("Wrong field 'lecture' in request data")

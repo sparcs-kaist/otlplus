@@ -7,7 +7,7 @@ from django.utils.decorators import method_decorator
 from django.views import View
 
 from utils.decorators import login_required_ajax
-from utils.util import ParamsType, parse_params, getint, ORDER_DEFAULT_CONFIG, OFFSET_DEFAULT_CONFIG, LIMIT_DEFAULT_CONFIG, apply_offset_and_limit, apply_order, patch_object
+from utils.util import ParamsType, BodyType, parse_params, parse_body, ORDER_DEFAULT_CONFIG, OFFSET_DEFAULT_CONFIG, LIMIT_DEFAULT_CONFIG, apply_offset_and_limit, apply_order, patch_object
 
 from .models import Review, ReviewVote
 
@@ -46,24 +46,17 @@ class ReviewListView(View):
     def post(self, request):
         body = json.loads(request.body.decode("utf-8"))
 
+        content = parse_body(body, ("content", BodyType.STR, True, [
+            lambda content: len(content.strip()) > 0
+        ]))
+        lecture_id = parse_body(body, ("lecture", BodyType.INT, True, []))
+        grade = parse_body(body, ("grade", BodyType.INT, True, [lambda grade: 1 <= grade <= 5]))
+        load = parse_body(body, ("load", BodyType.INT, True, [lambda load: 1 <= load <= 5]))
+        speech = parse_body(body, ("speech", BodyType.INT, True, [lambda speech: 1 <= speech <= 5]))
+
         user = request.user
         if user is None or not user.is_authenticated:
             return HttpResponse(status=401)
-
-        content = body.get("content", "")
-        if not (content and len(content)):
-            return HttpResponseBadRequest("Missing or empty field 'content' in request data")
-
-        lecture_id = body.get("lecture", None)
-        if not lecture_id:
-            return HttpResponseBadRequest("Missing field 'lecture' in request data")
-
-        grade = getint(body, "grade")
-        load = getint(body, "load")
-        speech = getint(body, "speech")
-        if not (1 <= grade <= 5 and 1 <= load <= 5 and 1 <= speech <= 5):
-            return HttpResponseBadRequest(
-                "Wrong field(s) 'grade', 'load', and/or 'speech' in request data")
 
         user_profile = user.userprofile
         lecture = user_profile.review_writable_lectures.get(id=lecture_id)
@@ -89,7 +82,16 @@ class ReviewInstanceView(View):
 
     def patch(self, request, review_id):
         review = get_object_or_404(Review, id=review_id)
+
         body = json.loads(request.body.decode("utf-8"))
+
+        content = parse_body(body, ("content", BodyType.STR, False, [
+            lambda content: len(content.strip()) > 0
+        ]))
+        grade = parse_body(body, ("grade", BodyType.INT, False, [lambda grade: 1 <= grade <= 5]))
+        load = parse_body(body, ("load", BodyType.INT, False, [lambda load: 1 <= load <= 5]))
+        speech = parse_body(body, ("speech", BodyType.INT, False, [lambda speech: 1 <= speech <= 5]))
+
 
         user = request.user
         if user is None or not user.is_authenticated:
@@ -99,17 +101,6 @@ class ReviewInstanceView(View):
 
         if review.is_deleted:
             return HttpResponseBadRequest("Target review deleted by admin")
-
-        content = body.get("content", None)
-        if len(content) == 0:
-            return HttpResponseBadRequest("Empty field 'content' in request data")
-
-        grade = getint(body, "grade", None)
-        load = getint(body, "load", None)
-        speech = getint(body, "speech", None)
-        if not (1 <= grade <= 5 and 1 <= load <= 5 and 1 <= speech <= 5):
-            return HttpResponseBadRequest(
-                "Wrong field(s) 'grade', 'load', and/or 'speech' in request data")
 
         patch_object(
             review,

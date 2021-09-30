@@ -55,6 +55,45 @@ def parse_params(
     return value
 
 
+class BodyType(Enum):
+    STR = auto()
+    INT = auto()
+    LIST_STR = auto()
+    LIST_INT = auto()
+
+def parse_body(
+        body: QueryDict,
+        config: Tuple[str, ParamsType, bool, List[Validator]]
+) -> Optional[Union[str, int, List[str], List[int]]]:
+
+    key, type_, is_required, validators = config
+
+    value = body.get(key, None)
+    if value is not None:
+        if type_ == BodyType.STR:
+            if not isinstance(value, str):
+                ValueError(f"Body '{key}' does not match type STR")
+        elif type_ == BodyType.INT:
+            if not isinstance(value, int):
+                ValueError(f"Body '{key}' does not match type INT")
+        elif type_ == BodyType.LIST_STR:
+            if (not isinstance(value, list)) or any((not isinstance(e, str) for e in value)):
+                ValueError(f"Body '{key}' does not match type LIST_STR")
+        elif type_ == BodyType.LIST_INT:
+            if (not isinstance(value, list)) or any((not isinstance(e, int) for e in value)):
+                ValueError(f"Body '{key}' does not match type LIST_INT")
+
+    if is_required and (value is None):
+        raise ValueError(f"Body '{key}' is marked as required but not given")
+
+    if value is not None:
+        for v in validators:
+            if not v(value):
+                raise ValueError(f"Body '{key}' did not pass validator: {v}")
+
+    return value
+
+
 def _get_int(querydict: Dict, key: str) -> Optional[int]:
     value = querydict.get(key, None)
     if value is None:

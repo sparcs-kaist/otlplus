@@ -7,7 +7,7 @@ from django.utils.decorators import method_decorator
 from django.views import View
 
 from utils.decorators import login_required_ajax
-from utils.util import ParamsType, parse_params, ORDER_DEFAULT_CONFIG, apply_order, getint
+from utils.util import ParamsType, BodyType, parse_params, parse_body, ORDER_DEFAULT_CONFIG, apply_order
 
 from .models import Notice, Rate
 
@@ -34,6 +34,8 @@ class RateListView(View):
     def post(self, request):
         body = json.loads(request.body.decode("utf-8"))
 
+        score = parse_body(body, ("score", BodyType.INT, True, [lambda score: 1 <= score <= 5]))
+
         user = request.user
         if user is None or not user.is_authenticated:
             return HttpResponse(status=401)
@@ -41,10 +43,6 @@ class RateListView(View):
         current_year = timezone.now().year
         if Rate.objects.filter(user=user.userprofile, year=current_year).exists():
             return HttpResponseBadRequest("You already rated for current year")
-
-        score = getint(body, "score")
-        if not 1 <= score <= 5:
-            return HttpResponseBadRequest("Wrong field 'score' in request data")
 
         Rate.objects.create(score=score,
                             user=user.userprofile,
