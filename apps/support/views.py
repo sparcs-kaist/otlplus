@@ -7,7 +7,7 @@ from django.utils.decorators import method_decorator
 from django.views import View
 
 from utils.decorators import login_required_ajax
-from utils.util import apply_order, getint
+from utils.util import ParamsType, parse_params, ORDER_DEFAULT_CONFIG, apply_order, getint
 
 from .models import Notice, Rate
 
@@ -16,13 +16,15 @@ class NoticeListView(View):
     DEFAULT_ORDER = ['start_time', 'id']
 
     def get(self, request):
+        time = parse_params(request.GET, ("time", ParamsType.STR, False, []))
+        order = parse_params(request.GET, ORDER_DEFAULT_CONFIG)
+
         notices = Notice.objects.all()
 
-        time = request.GET.get("time", None)
         if time:
             notices = notices.filter(start_time__lte=time, end_time__gte=time)
 
-        notices = apply_order(notices, request.GET, NoticeListView.DEFAULT_ORDER)
+        notices = apply_order(notices, order, NoticeListView.DEFAULT_ORDER)
         result = [n.to_json() for n in notices]
         return JsonResponse(result, safe=False)
 

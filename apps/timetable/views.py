@@ -5,7 +5,8 @@ from django.utils.decorators import method_decorator
 from django.views import View
 
 from utils.decorators import login_required_ajax
-from utils.util import apply_offset_and_limit, apply_order, getint
+from utils.util import ParamsType, parse_params, ORDER_DEFAULT_CONFIG, OFFSET_DEFAULT_CONFIG, LIMIT_DEFAULT_CONFIG, apply_offset_and_limit, apply_order, getint
+
 
 from apps.subject.models import Semester, Lecture
 from .models import Timetable, Wishlist
@@ -24,23 +25,26 @@ class UserInstanceTimetableListView(View):
     DEFAULT_ORDER = ['year', 'semester', 'id']
 
     def get(self, request, user_id):
+        year = parse_params(request.GET, ("year", ParamsType.INT, False, []))
+        semester = parse_params(request.GET, ("semester", ParamsType.INT, False, []))
+        order = parse_params(request.GET, ORDER_DEFAULT_CONFIG)
+        offset = parse_params(request.GET, OFFSET_DEFAULT_CONFIG)
+        limit = parse_params(request.GET, LIMIT_DEFAULT_CONFIG)
+
         userprofile = request.user.userprofile
         if userprofile.id != int(user_id):
             return HttpResponse(status=401)
 
         timetables = userprofile.timetables.all()
 
-        year = getint(request.GET, "year", None)
         if year is not None:
             timetables = timetables.filter(year=year)
-
-        semester = getint(request.GET, "semester", None)
         if year is not None:
             timetables = timetables.filter(semester=semester)
 
-        timetables = apply_order(timetables, request.GET,
+        timetables = apply_order(timetables, order,
                                  UserInstanceTimetableListView.DEFAULT_ORDER)
-        timetables = apply_offset_and_limit(timetables, request.GET,
+        timetables = apply_offset_and_limit(timetables, offset, limit,
                                             UserInstanceTimetableListView.MAX_LIMIT)
         result = [t.to_json() for t in timetables]
         return JsonResponse(result, safe=False)
@@ -232,13 +236,11 @@ class UserInstanceWishlistRemoveLectureView(View):
 @method_decorator(login_required_ajax, name="dispatch")
 class ShareTimetableCalendarView(View):
     def get(self, request):
-        userprofile = request.user.userprofile
+        table_id = parse_params(request.GET, ("table_id", ParamsType.INT, True, []))
+        year = parse_params(request.GET, ("year", ParamsType.INT, True, []))
+        semester = parse_params(request.GET, ("semester", ParamsType.INT, True, []))
 
-        table_id = getint(request.GET, "timetable", None)
-        year = getint(request.GET, "year", None)
-        semester = getint(request.GET, "semester", None)
-        if not (table_id is not None and year is not None and semester is not None):
-            return HttpResponseBadRequest("Missing fields in request data")
+        userprofile = request.user.userprofile
 
         timetable_lectures = get_timetable_entries(userprofile, table_id, year, semester)
         if timetable_lectures is None:
@@ -250,11 +252,12 @@ class ShareTimetableCalendarView(View):
 @method_decorator(login_required_ajax, name="dispatch")
 class ShareTimetableIcalView(View):
     def get(self, request):
+        table_id = parse_params(request.GET, ("table_id", ParamsType.INT, True, []))
+        year = parse_params(request.GET, ("year", ParamsType.INT, True, []))
+        semester = parse_params(request.GET, ("semester", ParamsType.INT, True, []))
+
         userprofile = request.user.userprofile
 
-        table_id = getint(request.GET, "timetable", None)
-        year = getint(request.GET, "year", None)
-        semester = getint(request.GET, "semester", None)
         if not (table_id is not None and year is not None and semester is not None):
             return HttpResponseBadRequest("Missing fields in request data")
 
@@ -271,13 +274,11 @@ class ShareTimetableIcalView(View):
 @method_decorator(login_required_ajax, name="dispatch")
 class ShareTimetableImageView(View):
     def get(self, request):
-        userprofile = request.user.userprofile
+        table_id = parse_params(request.GET, ("table_id", ParamsType.INT, True, []))
+        year = parse_params(request.GET, ("year", ParamsType.INT, True, []))
+        semester = parse_params(request.GET, ("semester", ParamsType.INT, True, []))
 
-        table_id = getint(request.GET, "timetable", None)
-        year = getint(request.GET, "year", None)
-        semester = getint(request.GET, "semester", None)
-        if not (table_id is not None and year is not None and semester is not None):
-            return HttpResponseBadRequest("Missing fields in request data")
+        userprofile = request.user.userprofile
 
         timetable_lectures = get_timetable_entries(userprofile, table_id, year, semester)
         if timetable_lectures is None:

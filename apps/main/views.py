@@ -3,6 +3,7 @@ from django.utils.decorators import method_decorator
 from django.views import View
 
 from utils.decorators import login_required_ajax
+from utils.util import ParamsType, parse_params
 
 from apps.subject.models import Department
 from apps.session.services import get_user_department_list
@@ -19,7 +20,7 @@ from .models import (
 @method_decorator(login_required_ajax, name="dispatch")
 class UserInstanceFeedsView(View):
     def get(self, request, user_id):
-        date = request.GET.get("date", None)
+        date = parse_params(request.GET, ("date", ParamsType.STR, True, []))
 
         userprofile = request.user.userprofile
         if userprofile.id != int(user_id):

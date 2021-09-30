@@ -66,8 +66,8 @@ def filter_by_type(queryset: QuerySet, types: List[str]) -> QuerySet:
         return queryset.filter(type_en__in=selected_types)
 
 
-def filter_by_level(queryset: QuerySet, levels: List[str]) -> QuerySet:
-    if not levels or len(levels) == 0:
+def filter_by_level(queryset: QuerySet, levels: Optional[List[str]]) -> QuerySet:
+    if (levels is None) or (len(levels) == 0):
         return queryset
 
     acronym_dic = {"100": "1", "200": "2", "300": "3", "400": "4"}
@@ -83,8 +83,8 @@ def filter_by_level(queryset: QuerySet, levels: List[str]) -> QuerySet:
         return queryset.filter(old_code__regex=regex)
 
 
-def filter_by_term(queryset: QuerySet, term: List[str]) -> QuerySet:
-    if not (term and len(term)):
+def filter_by_term(queryset: QuerySet, term: Optional[List[str]]) -> QuerySet:
+    if (term is None) or (len(term) == 0):
         return queryset
 
     if "ALL" in term:
@@ -94,8 +94,8 @@ def filter_by_term(queryset: QuerySet, term: List[str]) -> QuerySet:
         return queryset.filter(lectures__year__gte=current_year - int(term))
 
 
-def filter_by_group(queryset: QuerySet, group: List[str]) -> QuerySet:
-    if not group or len(group) == 0:
+def filter_by_group(queryset: QuerySet, group: Optional[List[str]]) -> QuerySet:
+    if (group is None) or (len(group) == 0):
         return queryset
 
     query = Q()
@@ -112,10 +112,13 @@ def filter_by_group(queryset: QuerySet, group: List[str]) -> QuerySet:
     return queryset.filter(query)
 
 
-def filter_by_keyword(queryset: QuerySet, keyword: str) -> QuerySet:
+def filter_by_keyword(queryset: QuerySet, keyword: Optional[str]) -> QuerySet:
+    if keyword is None:
+        return queryset
+
     keyword = keyword.strip()
 
-    if not keyword or len(keyword) == 0:
+    if len(keyword) == 0:
         return queryset
 
     return queryset.filter(
@@ -129,25 +132,26 @@ def filter_by_keyword(queryset: QuerySet, keyword: str) -> QuerySet:
     )
 
 
-def filter_by_time(queryset: QuerySet, day, begin, end) -> QuerySet:
+def filter_by_time(queryset: QuerySet, day: Optional[int], begin: Optional[int],
+                   end:Optional[int]) -> QuerySet:
     time_query = Q()
-    if day:
+    if day is not None:
         time_query &= Q(classtimes__day=day)
-    if begin:
+    if begin is not None:
         begin_hour = int(begin) // 2 + 8
         begin_minute = (int(begin) % 2) * 30
         time_query &= Q(classtimes__begin__gte=datetime.time(begin_hour, begin_minute))
-    if end and (int(end) != 32):
+    if (end is not None) and (end != 32):
         end_hour = int(end) // 2 + 8
         end_minute = (int(end) % 2) * 30
         time_query &= Q(classtimes__end__lte=datetime.time(end_hour, end_minute))
     return queryset.filter(time_query)
 
 
-def filter_by_semester(queryset: QuerySet, year, semester) -> QuerySet:
-    if year:
+def filter_by_semester(queryset: QuerySet, year: Optional[int], semester: Optional[int]) -> QuerySet:
+    if year is not None:
         queryset = queryset.filter(year=year)
-    if semester:
+    if semester is not None:
         queryset = queryset.filter(semester=semester)
     return queryset
 

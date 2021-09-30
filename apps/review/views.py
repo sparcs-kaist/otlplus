@@ -7,7 +7,7 @@ from django.utils.decorators import method_decorator
 from django.views import View
 
 from utils.decorators import login_required_ajax
-from utils.util import apply_offset_and_limit, apply_order, getint, patch_object
+from utils.util import ParamsType, parse_params, getint, ORDER_DEFAULT_CONFIG, OFFSET_DEFAULT_CONFIG, LIMIT_DEFAULT_CONFIG, apply_offset_and_limit, apply_order, patch_object
 
 from .models import Review, ReviewVote
 
@@ -16,13 +16,18 @@ class ReviewListView(View):
     DEFAULT_ORDER = ['-written_datetime', '-id']
 
     def get(self, request):
+        lecture_year = parse_params(request.GET, ("lecture_year", ParamsType.INT, False, []))
+        lecture_semester = parse_params(request.GET, ("lecture_semester", ParamsType.INT, False, []))
+        response_type = parse_params(request.GET, ("response_type", ParamsType.STR, False, []))
+        order = parse_params(request.GET, ORDER_DEFAULT_CONFIG)
+        offset = parse_params(request.GET, OFFSET_DEFAULT_CONFIG)
+        limit = parse_params(request.GET, LIMIT_DEFAULT_CONFIG)
+
         reviews = Review.objects.all()
 
         lecture_query = Q()
-        lecture_year = getint(request.GET, "lecture_year", None)
         if lecture_year is not None:
             lecture_query &= Q(lecture__year=lecture_year)
-        lecture_semester = getint(request.GET, "lecture_semester", None)
         if lecture_semester is not None:
             lecture_query &= Q(lecture__semester=lecture_semester)
         reviews = reviews.filter(lecture_query)
@@ -30,12 +35,11 @@ class ReviewListView(View):
         reviews = reviews \
             .distinct()
 
-        response_type = request.GET.get("response_type", None)
         if response_type == "count":
             return JsonResponse(reviews.count(), safe=False)
 
-        reviews = apply_order(reviews, request.GET, ReviewListView.DEFAULT_ORDER)
-        reviews = apply_offset_and_limit(reviews, request.GET, ReviewListView.MAX_LIMIT)
+        reviews = apply_order(reviews, order, ReviewListView.DEFAULT_ORDER)
+        reviews = apply_offset_and_limit(reviews, offset, limit, ReviewListView.MAX_LIMIT)
         result = [r.to_json(user=request.user) for r in reviews]
         return JsonResponse(result, safe=False)
 
@@ -138,13 +142,17 @@ class UserInstanceLikedReviewsView(View):
     DEFAULT_ORDER = ['-written_datetime', '-id']
 
     def get(self, request, user_id):
+        order = parse_params(request.GET, ORDER_DEFAULT_CONFIG)
+        offset = parse_params(request.GET, ("offset", ParamsType.INT, False, []))
+        limit = parse_params(request.GET, ("limit", ParamsType.INT, False, []))
+
         profile = request.user.userprofile
         if profile.id != int(user_id):
             return HttpResponse(status=401)
         reviews = Review.objects.filter(votes__userprofile=profile)
 
-        reviews = apply_order(reviews, request.GET, UserInstanceLikedReviewsView.DEFAULT_ORDER)
-        reviews = apply_offset_and_limit(reviews, request.GET,
+        reviews = apply_order(reviews, order, UserInstanceLikedReviewsView.DEFAULT_ORDER)
+        reviews = apply_offset_and_limit(reviews, offset, limit,
                                          UserInstanceLikedReviewsView.MAX_LIMIT)
         result = [r.to_json(user=request.user) for r in reviews]
         return JsonResponse(result, safe=False)
