@@ -144,13 +144,13 @@ class Command(BaseCommand):
             for lecture in Lecture.objects.filter(year=target_year, semester=target_semester):
                 lectures_not_updated.add(lecture.id)
             # Make Staff Professor with ID 830
-            try:
-                staff_professor = Professor.objects.get(professor_id=Professor.STAFF_ID)
-            except Professor.DoesNotExist:
-                staff_professor = Professor.objects.create(professor_id=Professor.STAFF_ID)
-                staff_professor.professor_name = "Staff"
-                staff_professor.professor_name_en = "Staff"
-                staff_professor.save()
+            staff_professor, _ = Professor.objects.get_or_create(
+                professor_id=Professor.STAFF_ID,
+                defaults={
+                    "professor_name": "Staff",
+                    "professor_name_en": "Staff",
+                }
+            )
 
             prev_department = None
             for row in lecture_rows:
