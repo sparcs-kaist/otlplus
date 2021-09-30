@@ -60,6 +60,7 @@ class Command(BaseCommand):
                 target_semester = (default_semester.year, default_semester.semester)
             else:
                 print("Failed to load default semester.")
+                return
         else:
             print("Target semester not specified. Use --year and --semester, or --use-default-semester")
             return
