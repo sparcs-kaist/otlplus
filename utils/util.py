@@ -12,9 +12,6 @@ def rgetattr(object_, names, default):
     return reduce(lambda o, n: getattr(o, n, default), names, object_)
 
 
-Validator = Callable[[Any], bool]
-
-
 class ParseType(Enum):
     STR = auto()
     INT = auto()
@@ -22,17 +19,22 @@ class ParseType(Enum):
     LIST_INT = auto()
 
 
+Validator = Callable[[Any], bool]
+ParseConfig = Tuple[str, ParseType, bool, List[Validator]]
+ParseResult = Optional[Union[str, int, List[str], List[int]]]
+
+
 def parse_params(
         params: QueryDict,
-        configs: List[Tuple[str, ParseType, bool, List[Validator]]]
-) -> List[Optional[Union[str, int, List[str], List[int]]]]:
+        configs: List[ParseConfig]
+) -> List[ParseResult]:
     return [_parse_params_entry(params, c) for c in configs]
 
 
 def _parse_params_entry(
         params: QueryDict,
-        config: Tuple[str, ParseType, bool, List[Validator]]
-) -> Optional[Union[str, int, List[str], List[int]]]:
+        config: ParseConfig
+) -> ParseResult:
 
     key, type_, is_required, validators = config
 
@@ -58,16 +60,16 @@ def _parse_params_entry(
 
 def parse_body(
         body: bytes,
-        configs: List[Tuple[str, ParseType, bool, List[Validator]]]
-) -> List[Optional[Union[str, int, List[str], List[int]]]]:
+        configs: List[ParseConfig]
+) -> List[ParseResult]:
     body_json = json.loads(body.decode("utf-8"))
     return [_parse_body_entry(body_json, c) for c in configs]
 
 
 def _parse_body_entry(
         body: QueryDict,
-        config: Tuple[str, ParseType, bool, List[Validator]]
-) -> Optional[Union[str, int, List[str], List[int]]]:
+        config: ParseConfig
+) -> ParseResult:
 
     key, type_, is_required, validators = config
 
