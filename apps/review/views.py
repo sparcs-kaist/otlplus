@@ -56,8 +56,7 @@ class ReviewListView(View):
             ("speech", ParseType.INT, True, [lambda speech: 1 <= speech <= 5]),
         ]
 
-        body = json.loads(request.body.decode("utf-8"))
-        content, lecture_id, grade, load, speech = parse_body(body, BODY_STRUCTURE)
+        content, lecture_id, grade, load, speech = parse_body(request.body, BODY_STRUCTURE)
 
         user = request.user
         if user is None or not user.is_authenticated:
@@ -95,8 +94,7 @@ class ReviewInstanceView(View):
 
         review = get_object_or_404(Review, id=review_id)
 
-        body = json.loads(request.body.decode("utf-8"))
-        content, grade, load, speech = parse_body(body, BODY_STRUCTURE)
+        content, grade, load, speech = parse_body(request.body, BODY_STRUCTURE)
 
         user = request.user
         if user is None or not user.is_authenticated:

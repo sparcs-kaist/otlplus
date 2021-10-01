@@ -61,8 +61,7 @@ class UserInstanceTimetableListView(View):
         if userprofile.id != int(user_id):
             return HttpResponse(status=401)
 
-        body = json.loads(request.body.decode("utf-8"))
-        year, semester, lecture_ids = parse_body(body, BODY_STRUCTURE)
+        year, semester, lecture_ids = parse_body(request.body, BODY_STRUCTURE)
 
         if not _validate_year_semester(year, semester):
             return HttpResponseBadRequest("Wrong fields 'year' and 'semester' in request data")
@@ -123,8 +122,7 @@ class UserInstanceTimetableInstanceAddLectureView(View):
             return HttpResponseNotFound()
 
         if request.method == "POST":
-            body = json.loads(request.body.decode("utf-8"))
-            lecture_id, = parse_body(body, BODY_STRUCTURE)
+            lecture_id, = parse_body(request.body, BODY_STRUCTURE)
 
             lecture = Lecture.objects.get(id=lecture_id)
             if not (lecture.year == timetable.year and lecture.semester == timetable.semester):
@@ -156,8 +154,7 @@ class UserInstanceTimetableInstanceRemoveLectureView(View):
         except Timetable.DoesNotExist:
             return HttpResponseNotFound()
 
-        body = json.loads(request.body.decode("utf-8"))
-        lecture_id, = parse_body(body, BODY_STRUCTURE)
+        lecture_id, = parse_body(request.body, BODY_STRUCTURE)
 
         if not timetable.lectures.filter(id=lecture_id).exists():
             return HttpResponseBadRequest("Wrong field 'lecture' in request data")
@@ -194,8 +191,7 @@ class UserInstanceWishlistAddLectureView(View):
 
         wishlist = Wishlist.objects.get_or_create(user=userprofile)[0]
 
-        body = json.loads(request.body.decode("utf-8"))
-        lecture_id, = parse_body(body, BODY_STRUCTURE)
+        lecture_id, = parse_body(request.body, BODY_STRUCTURE)
 
         if wishlist.lectures.filter(id=lecture_id).exists():
             return HttpResponseBadRequest("Wrong field 'lecture' in request data")
@@ -221,8 +217,7 @@ class UserInstanceWishlistRemoveLectureView(View):
 
         wishlist = Wishlist.objects.get_or_create(user=userprofile)[0]
 
-        body = json.loads(request.body.decode("utf-8"))
-        lecture_id, = parse_body(body, BODY_STRUCTURE)
+        lecture_id, = parse_body(request.body, BODY_STRUCTURE)
 
         if not wishlist.lectures.filter(id=lecture_id).exists():
             return HttpResponseBadRequest("Wrong field 'lecture' in request data")

@@ -39,8 +39,7 @@ class RateListView(View):
             ("score", ParseType.INT, True, [lambda score: 1 <= score <= 5]),
         ]
 
-        body = json.loads(request.body.decode("utf-8"))
-        score, = parse_body(body, BODY_STRUCTURE)
+        score, = parse_body(request.body, BODY_STRUCTURE)
 
         user = request.user
         if user is None or not user.is_authenticated:

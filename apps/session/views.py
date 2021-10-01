@@ -183,8 +183,7 @@ def favorite_departments(request):
             ("fav_department", ParseType.LIST_INT, True, []),
         ]
 
-        body = json.loads(request.body.decode("utf-8"))
-        fav_department, = parse_body(body, BODY_STRUCTURE)
+        fav_department, = parse_body(request.body, BODY_STRUCTURE)
 
         user_profile.favorite_departments.clear()
         for department_id in fav_department:

@@ -2,6 +2,7 @@ from functools import reduce
 import re
 from enum import Enum, auto
 from typing import Tuple, List, Dict, Callable, Any, Optional, Union
+import json
 
 from django.db.models import QuerySet
 from django.http import QueryDict
@@ -56,10 +57,11 @@ def _parse_params_entry(
 
 
 def parse_body(
-        body: QueryDict,
+        body: bytes,
         configs: List[Tuple[str, ParseType, bool, List[Validator]]]
 ) -> List[Optional[Union[str, int, List[str], List[int]]]]:
-    return [_parse_body_entry(body, c) for c in configs]
+    body_json = json.loads(body.decode("utf-8"))
+    return [_parse_body_entry(body_json, c) for c in configs]
 
 
 def _parse_body_entry(
