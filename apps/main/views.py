@@ -20,7 +20,11 @@ from .models import (
 @method_decorator(login_required_ajax, name="dispatch")
 class UserInstanceFeedsView(View):
     def get(self, request, user_id):
-        date = parse_params(request.GET, ("date", ParseType.STR, True, []))
+        PARAMS_STRUCTURE = [
+            ("date", ParseType.STR, True, []),
+        ]
+
+        date, = parse_params(request.GET, PARAMS_STRUCTURE)
 
         userprofile = request.user.userprofile
         if userprofile.id != int(user_id):

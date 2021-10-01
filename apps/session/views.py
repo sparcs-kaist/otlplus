@@ -179,9 +179,12 @@ def favorite_departments(request):
     user_profile = user.userprofile
 
     if request.method == "POST":
-        body = json.loads(request.body.decode("utf-8"))
+        BODY_STRUCTURE = [
+            ("fav_department", ParseType.LIST_INT, True, []),
+        ]
 
-        fav_department = parse_body(body, ("fav_department", ParseType.LIST_INT, True, []))
+        body = json.loads(request.body.decode("utf-8"))
+        fav_department, = parse_body(body, BODY_STRUCTURE)
 
         user_profile.favorite_departments.clear()
         for department_id in fav_department:

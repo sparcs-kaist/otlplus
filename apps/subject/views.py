@@ -13,32 +13,40 @@ from . import services
 
 
 class SemesterListView(View):
-    DEFAULT_ORDER = ['year', 'semester']
-
     def get(self, request):
-        order = parse_params(request.GET, ORDER_DEFAULT_CONFIG)
+        DEFAULT_ORDER = ['year', 'semester']
+        PARAMS_STRUCTURE = [
+            ORDER_DEFAULT_CONFIG,
+        ]
+
+        order, = parse_params(request.GET, PARAMS_STRUCTURE)
 
         semesters = Semester.objects.all()
 
-        semesters = apply_order(semesters, order, SemesterListView.DEFAULT_ORDER)
+        semesters = apply_order(semesters, order, DEFAULT_ORDER)
         result = [semester.to_json() for semester in semesters]
         return JsonResponse(result, safe=False)
 
 
 class CourseListView(View):
-    MAX_LIMIT = 150
-    DEFAULT_ORDER = ['old_code']
-
     def get(self, request):
-        department = parse_params(request.GET, ("department", ParseType.LIST_STR, False, []))
-        type_ = parse_params(request.GET, ("type", ParseType.LIST_STR, False, []))
-        level = parse_params(request.GET, ("level", ParseType.LIST_STR, False, []))
-        group = parse_params(request.GET, ("group", ParseType.LIST_STR, False, []))
-        keyword = parse_params(request.GET, ("keyword", ParseType.STR, False, []))
-        term = parse_params(request.GET, ("term", ParseType.STR, False, []))
-        order = parse_params(request.GET, ORDER_DEFAULT_CONFIG)
-        offset = parse_params(request.GET, OFFSET_DEFAULT_CONFIG)
-        limit = parse_params(request.GET, LIMIT_DEFAULT_CONFIG)
+        MAX_LIMIT = 150
+        DEFAULT_ORDER = ['old_code']
+        PARAMS_STRUCTURE = [
+            ("department", ParseType.LIST_STR, False, []),
+            ("type", ParseType.LIST_STR, False, []),
+            ("level", ParseType.LIST_STR, False, []),
+            ("group", ParseType.LIST_STR, False, []),
+            ("keyword", ParseType.STR, False, []),
+            ("term", ParseType.STR, False, []),
+            ORDER_DEFAULT_CONFIG,
+            OFFSET_DEFAULT_CONFIG,
+            LIMIT_DEFAULT_CONFIG,
+        ]
+
+        department, type_, level, group, keyword, \
+        term, order, offset, limit = \
+            parse_params(request.GET, PARAMS_STRUCTURE)
 
         courses = Course.objects.all()
 
@@ -56,8 +64,8 @@ class CourseListView(View):
         #                   'professors',
         #                   'read_users_courseuser')
 
-        courses = apply_order(courses, order, CourseListView.DEFAULT_ORDER)
-        courses = apply_offset_and_limit(courses, offset, limit, CourseListView.MAX_LIMIT)
+        courses = apply_order(courses, order, DEFAULT_ORDER)
+        courses = apply_offset_and_limit(courses, offset, limit, MAX_LIMIT)
         result = [c.to_json(user=request.user) for c in courses]
         return JsonResponse(result, safe=False)
 
@@ -72,7 +80,11 @@ class CourseInstanceView(View):
 
 class CourseListAutocompleteView(View):
     def get(self, request):
-        keyword = parse_params(request.GET, ("keyword", ParseType.STR, True, []))
+        PARAMS_STRUCTURE = [
+            ("keyword", ParseType.STR, True, [])
+        ]
+
+        keyword, = parse_params(request.GET, PARAMS_STRUCTURE)
 
         courses = Course.objects.all().order_by("old_code")
         professors = Professor.objects.exclude(course_list=None).order_by("course_list__old_code")
@@ -84,34 +96,40 @@ class CourseListAutocompleteView(View):
 
 
 class CourseInstanceReviewsView(View):
-    MAX_LIMIT = 100
-    DEFAULT_ORDER = ['-lecture__year', '-lecture__semester', '-written_datetime', '-id']
 
     def get(self, request, course_id):
-        order = parse_params(request.GET, ORDER_DEFAULT_CONFIG)
-        offset = parse_params(request.GET, OFFSET_DEFAULT_CONFIG)
-        limit = parse_params(request.GET, LIMIT_DEFAULT_CONFIG)
+        MAX_LIMIT = 100
+        DEFAULT_ORDER = ['-lecture__year', '-lecture__semester', '-written_datetime', '-id']
+        PARAMS_STRUCTURE = [
+            ORDER_DEFAULT_CONFIG,
+            OFFSET_DEFAULT_CONFIG,
+            LIMIT_DEFAULT_CONFIG,
+        ]
+
+        order, offset, limit = parse_params(request.GET, PARAMS_STRUCTURE)
 
         course = get_object_or_404(Course, id=course_id)
         reviews = course.reviews.all()
 
-        reviews = apply_order(reviews, order, CourseInstanceReviewsView.DEFAULT_ORDER)
-        reviews = apply_offset_and_limit(reviews, offset, limit,
-                                         CourseInstanceReviewsView.MAX_LIMIT)
+        reviews = apply_order(reviews, order, DEFAULT_ORDER)
+        reviews = apply_offset_and_limit(reviews, offset, limit, MAX_LIMIT)
         result = [review.to_json(user=request.user) for review in reviews]
         return JsonResponse(result, safe=False)
 
 
 class CourseInstanceLecturesView(View):
-    DEFAULT_ORDER = ['year', 'semester', 'class_no']
-
     def get(self, request, course_id):
-        order = parse_params(request.GET, ORDER_DEFAULT_CONFIG)
+        DEFAULT_ORDER = ['year', 'semester', 'class_no']
+        PARAMS_STRUCTURE = [
+            ORDER_DEFAULT_CONFIG,
+        ]
+
+        order, = parse_params(request.GET, PARAMS_STRUCTURE)
 
         course = get_object_or_404(Course, id=course_id)
         lectures = course.lectures.filter(deleted=False)
 
-        lectures = apply_order(lectures, order, CourseInstanceLecturesView.DEFAULT_ORDER)
+        lectures = apply_order(lectures, order, DEFAULT_ORDER)
         result = [lecture.to_json() for lecture in lectures]
         return JsonResponse(result, safe=False)
 
@@ -131,23 +149,29 @@ class CourseInstanceReadView(View):
 
 
 class LectureListView(View):
-    MAX_LIMIT = 300
-    DEFAULT_ORDER = ['year', 'semester', 'old_code', 'class_no']
-
     def get(self, request):
-        year = parse_params(request.GET, ("year", ParseType.INT, False, []))
-        semester = parse_params(request.GET, ("semester", ParseType.INT, False, []))
-        day = parse_params(request.GET, ("day", ParseType.INT, False, []))
-        begin = parse_params(request.GET, ("begin", ParseType.INT, False, []))
-        end = parse_params(request.GET, ("end", ParseType.INT, False, []))
-        department = parse_params(request.GET, ("department", ParseType.LIST_STR, False, []))
-        type_ = parse_params(request.GET, ("type", ParseType.LIST_STR, False, []))
-        level = parse_params(request.GET, ("level", ParseType.LIST_STR, False, []))
-        group = parse_params(request.GET, ("group", ParseType.LIST_STR, False, []))
-        keyword = parse_params(request.GET, ("keyword", ParseType.STR, False, []))
-        order = parse_params(request.GET, ORDER_DEFAULT_CONFIG)
-        offset = parse_params(request.GET, OFFSET_DEFAULT_CONFIG)
-        limit = parse_params(request.GET, LIMIT_DEFAULT_CONFIG)
+        MAX_LIMIT = 300
+        DEFAULT_ORDER = ['year', 'semester', 'old_code', 'class_no']
+        PARAMS_STRUCTURE = [
+            ("year", ParseType.INT, False, []),
+            ("semester", ParseType.INT, False, []),
+            ("day", ParseType.INT, False, []),
+            ("begin", ParseType.INT, False, []),
+            ("end", ParseType.INT, False, []),
+            ("department", ParseType.LIST_STR, False, []),
+            ("type", ParseType.LIST_STR, False, []),
+            ("level", ParseType.LIST_STR, False, []),
+            ("group", ParseType.LIST_STR, False, []),
+            ("keyword", ParseType.STR, False, []),
+            ORDER_DEFAULT_CONFIG,
+            OFFSET_DEFAULT_CONFIG,
+            LIMIT_DEFAULT_CONFIG,
+        ]
+
+        year, semester, day, begin, end, \
+        department, type_, level, group, keyword, \
+        order, offset, limit = \
+            parse_params(request.GET, PARAMS_STRUCTURE)
 
         lectures = Lecture.objects.filter(deleted=False).exclude(Lecture.get_query_for_research())
 
@@ -163,8 +187,8 @@ class LectureListView(View):
         # .select_related('course', 'department') \
         # .prefetch_related('classtimes', 'examtimes', 'professors') \
 
-        lectures = apply_order(lectures, order, LectureListView.DEFAULT_ORDER)
-        lectures = apply_offset_and_limit(lectures, offset, limit, LectureListView.MAX_LIMIT)
+        lectures = apply_order(lectures, order, DEFAULT_ORDER)
+        lectures = apply_offset_and_limit(lectures, offset, limit, MAX_LIMIT)
         result = [lecture.to_json(nested=False) for lecture in lectures]
         return JsonResponse(result, safe=False)
 
@@ -179,9 +203,13 @@ class LectureInstanceView(View):
 
 class LectureListAutocompleteView(View):
     def get(self, request):
-        year = parse_params(request.GET, ("year", ParseType.INT, True, []))
-        semester = parse_params(request.GET, ("semester", ParseType.INT, True, []))
-        keyword = parse_params(request.GET, ("keyword", ParseType.STR, True, []))
+        PARAMS_STRUCTURE = [
+            ("year", ParseType.INT, True, []),
+            ("semester", ParseType.INT, True, []),
+            ("keyword", ParseType.STR, True, []),
+        ]
+
+        year, semester, keyword = parse_params(request.GET, PARAMS_STRUCTURE)
 
         lectures = Lecture.objects.filter(deleted=False, year=year, semester=semester)
         professors = Professor.objects.filter(lectures__deleted=False,
@@ -195,32 +223,37 @@ class LectureListAutocompleteView(View):
 
 
 class LectureInstanceReviewsView(View):
-    MAX_LIMIT = 100
-    DEFAULT_ORDER = ['-written_datetime', '-id']
-
     def get(self, request, lecture_id):
-        order = parse_params(request.GET, ORDER_DEFAULT_CONFIG)
-        offset = parse_params(request.GET, OFFSET_DEFAULT_CONFIG)
-        limit = parse_params(request.GET, LIMIT_DEFAULT_CONFIG)
+        MAX_LIMIT = 100
+        DEFAULT_ORDER = ['-written_datetime', '-id']
+        PARAMS_STRUCTURE = [
+            ORDER_DEFAULT_CONFIG,
+            OFFSET_DEFAULT_CONFIG,
+            LIMIT_DEFAULT_CONFIG,
+        ]
+
+        order, offset, limit = parse_params(request.GET, PARAMS_STRUCTURE)
 
         lecture = get_object_or_404(Lecture, id=lecture_id)
         reviews = lecture.reviews.all()
 
-        reviews = apply_order(reviews, order, LectureInstanceReviewsView.DEFAULT_ORDER)
-        reviews = apply_offset_and_limit(reviews, offset, limit,
-                                         LectureInstanceReviewsView.MAX_LIMIT)
+        reviews = apply_order(reviews, order, DEFAULT_ORDER)
+        reviews = apply_offset_and_limit(reviews, offset, limit, MAX_LIMIT)
         result = [review.to_json() for review in reviews]
         return JsonResponse(result, safe=False)
 
 
 class LectureInstanceRelatedReviewsView(View):
-    MAX_LIMIT = 100
-    DEFAULT_ORDER = ['-written_datetime', '-id']
-
     def get(self, request, lecture_id):
-        order = parse_params(request.GET, ORDER_DEFAULT_CONFIG)
-        offset = parse_params(request.GET, OFFSET_DEFAULT_CONFIG)
-        limit = parse_params(request.GET, LIMIT_DEFAULT_CONFIG)
+        MAX_LIMIT = 100
+        DEFAULT_ORDER = ['-written_datetime', '-id']
+        PARAMS_STRUCTURE = [
+            ORDER_DEFAULT_CONFIG,
+            OFFSET_DEFAULT_CONFIG,
+            LIMIT_DEFAULT_CONFIG,
+        ]
+
+        order, offset, limit = parse_params(request.GET, PARAMS_STRUCTURE)
 
         lecture = get_object_or_404(Lecture, id=lecture_id)
         reviews = Review.objects.filter(
@@ -228,25 +261,27 @@ class LectureInstanceRelatedReviewsView(View):
             lecture__professors__in=lecture.professors.all(),
         )
 
-        reviews = apply_order(reviews, order, LectureInstanceRelatedReviewsView.DEFAULT_ORDER)
-        reviews = apply_offset_and_limit(reviews, offset, limit,
-                                         LectureInstanceRelatedReviewsView.MAX_LIMIT)
+        reviews = apply_order(reviews, order, DEFAULT_ORDER)
+        reviews = apply_offset_and_limit(reviews, offset, limit, MAX_LIMIT)
         result = [review.to_json() for review in reviews]
         return JsonResponse(result, safe=False)
 
 
 @method_decorator(login_required_ajax, name="dispatch")
 class UserInstanceTakenCoursesView(View):
-    DEFAULT_ORDER = ['old_code']
-
     def get(self, request, user_id):
-        order = parse_params(request.GET, ORDER_DEFAULT_CONFIG)
+        DEFAULT_ORDER = ['old_code']
+        PARAMS_STRUCTURE = [
+            ORDER_DEFAULT_CONFIG,
+        ]
+
+        order, = parse_params(request.GET, PARAMS_STRUCTURE)
 
         userprofile = request.user.userprofile
         if userprofile.id != int(user_id):
             return HttpResponse(status=401)
         courses = Course.objects.filter(lectures__in=userprofile.taken_lectures.all())
 
-        courses = apply_order(courses, order, UserInstanceTakenCoursesView.DEFAULT_ORDER)
+        courses = apply_order(courses, order, DEFAULT_ORDER)
         result = [course.to_json(user=request.user) for course in courses]
         return JsonResponse(result, safe=False)

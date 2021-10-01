@@ -23,6 +23,13 @@ class ParseType(Enum):
 
 def parse_params(
         params: QueryDict,
+        configs: List[Tuple[str, ParseType, bool, List[Validator]]]
+) -> List[Optional[Union[str, int, List[str], List[int]]]]:
+    return [_parse_params_entry(params, c) for c in configs]
+
+
+def _parse_params_entry(
+        params: QueryDict,
         config: Tuple[str, ParseType, bool, List[Validator]]
 ) -> Optional[Union[str, int, List[str], List[int]]]:
 
@@ -49,6 +56,13 @@ def parse_params(
 
 
 def parse_body(
+        body: QueryDict,
+        configs: List[Tuple[str, ParseType, bool, List[Validator]]]
+) -> List[Optional[Union[str, int, List[str], List[int]]]]:
+    return [_parse_body_entry(body, c) for c in configs]
+
+
+def _parse_body_entry(
         body: QueryDict,
         config: Tuple[str, ParseType, bool, List[Validator]]
 ) -> Optional[Union[str, int, List[str], List[int]]]:

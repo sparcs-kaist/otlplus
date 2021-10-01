@@ -13,18 +13,21 @@ from .models import Notice, Rate
 
 
 class NoticeListView(View):
-    DEFAULT_ORDER = ['start_time', 'id']
-
     def get(self, request):
-        time = parse_params(request.GET, ("time", ParseType.STR, False, []))
-        order = parse_params(request.GET, ORDER_DEFAULT_CONFIG)
+        DEFAULT_ORDER = ['start_time', 'id']
+        PARAMS_STRUCTURE = [
+            ("time", ParseType.STR, False, []),
+            ORDER_DEFAULT_CONFIG,
+        ]
+
+        time, order = parse_params(request.GET, PARAMS_STRUCTURE)
 
         notices = Notice.objects.all()
 
         if time:
             notices = notices.filter(start_time__lte=time, end_time__gte=time)
 
-        notices = apply_order(notices, order, NoticeListView.DEFAULT_ORDER)
+        notices = apply_order(notices, order, DEFAULT_ORDER)
         result = [n.to_json() for n in notices]
         return JsonResponse(result, safe=False)
 
@@ -32,9 +35,12 @@ class NoticeListView(View):
 @method_decorator(login_required_ajax, name="dispatch")
 class RateListView(View):
     def post(self, request):
-        body = json.loads(request.body.decode("utf-8"))
+        BODY_STRUCTURE = [
+            ("score", ParseType.INT, True, [lambda score: 1 <= score <= 5]),
+        ]
 
-        score = parse_body(body, ("score", ParseType.INT, True, [lambda score: 1 <= score <= 5]))
+        body = json.loads(request.body.decode("utf-8"))
+        score, = parse_body(body, BODY_STRUCTURE)
 
         user = request.user
         if user is None or not user.is_authenticated:
