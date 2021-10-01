@@ -28,65 +28,38 @@ def parse_params(
         params: QueryDict,
         configs: List[ParseConfig]
 ) -> List[ParseResult]:
-    return [_parse_params_entry(params, c) for c in configs]
-
-
-def _parse_params_entry(
-        params: QueryDict,
-        config: ParseConfig
-) -> ParseResult:
-
-    key, type_, is_required, validators = config
-
-    if type_ == ParseType.STR:
-        value: Optional[str] = params.get(key, None)
-    elif type_ == ParseType.INT:
-        value: Optional[int] = _get_int(params, key)
-    elif type_ == ParseType.LIST_STR:
-        value: Optional[List[str]] = params.getlist(key, None)
-    elif type_ == ParseType.LIST_INT:
-        value: Optional[List[int]] = _get_int_list(params, key)
-
-    if is_required and (value is None):
-        raise ValueError(f"Params '{key}' is marked as required but not given")
-
-    if value is not None:
-        for v in validators:
-            if not v(value):
-                raise ValueError(f"Params '{key}' did not pass validator: {v}")
-
-    return value
+    return [_parse_entry(params, c) for c in configs]
 
 
 def parse_body(
         body: bytes,
         configs: List[ParseConfig]
 ) -> List[ParseResult]:
-    body_json = json.loads(body.decode("utf-8"))
-    return [_parse_body_entry(body_json, c) for c in configs]
+    body_json: Dict = json.loads(body.decode("utf-8"))
+    return [_parse_entry(body_json, c) for c in configs]
 
 
-def _parse_body_entry(
-        body: QueryDict,
+def _parse_entry(
+        dict_: Union[QueryDict, Dict],
         config: ParseConfig
 ) -> ParseResult:
 
     key, type_, is_required, validators = config
 
-    value = body.get(key, None)
-    if value is not None:
-        if type_ == ParseType.STR:
-            if not isinstance(value, str):
-                ValueError(f"Body '{key}' does not match type STR")
-        elif type_ == ParseType.INT:
-            if not isinstance(value, int):
-                ValueError(f"Body '{key}' does not match type INT")
-        elif type_ == ParseType.LIST_STR:
-            if (not isinstance(value, list)) or any((not isinstance(e, str) for e in value)):
-                ValueError(f"Body '{key}' does not match type LIST_STR")
-        elif type_ == ParseType.LIST_INT:
-            if (not isinstance(value, list)) or any((not isinstance(e, int) for e in value)):
-                ValueError(f"Body '{key}' does not match type LIST_INT")
+    if type_ == ParseType.STR:
+        value: Optional[str] = dict_.get(key, None)
+    elif type_ == ParseType.INT:
+        value: Optional[int] = _get_int(dict_, key) \
+                               if isinstance(dict_, QueryDict) \
+                               else dict_.get(key, None)
+    elif type_ == ParseType.LIST_STR:
+        value: Optional[List[str]] = dict_.getlist(key, None) \
+                                     if isinstance(dict_, QueryDict) \
+                                     else dict_.get(key, None)
+    elif type_ == ParseType.LIST_INT:
+        value: Optional[List[int]] = _get_int_list(dict_, key) \
+                                     if isinstance(dict_, QueryDict) \
+                                     else dict_.get(key, None)
 
     if is_required and (value is None):
         raise ValueError(f"Body '{key}' is marked as required but not given")
@@ -99,7 +72,7 @@ def _parse_body_entry(
     return value
 
 
-def _get_int(querydict: Dict, key: str) -> Optional[int]:
+def _get_int(querydict: QueryDict, key: str) -> Optional[int]:
     value = querydict.get(key, None)
     if value is None:
         return None
