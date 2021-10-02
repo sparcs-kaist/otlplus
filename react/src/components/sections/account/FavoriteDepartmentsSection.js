@@ -128,42 +128,40 @@ class FavoriteDepartmentsSection extends Component {
       return null;
     }
 
-    if (!allDepartments.length) {
-      return (
-        <>
-          <div className={classNames('title')}>
-            {t('ui.title.settings')}
-          </div>
-        </>
-      );
-    }
-
     const departmentOptions = allDepartments
       .map((d) => [String(d.id), d[t('js.property.name')]]);
 
     const hasChange = (selectedDepartments.size !== savedSelectedDepartments.size)
       || Array.from(selectedDepartments).some((d) => !savedSelectedDepartments.has(d));
 
+    const favoriteDepartmentForm = (
+      allDepartments.length === 0
+        ? null
+        : (
+          <form onSubmit={this.handleSubmit}>
+            <SearchFilter
+              updateCheckedValues={this.updateCheckedValues('selectedDepartments')}
+              inputName="department"
+              titleName={t('ui.search.favoriteDepartment')}
+              options={departmentOptions}
+              checkedValues={selectedDepartments}
+            />
+            <div className={classNames('buttons')}>
+              { hasChange
+                ? <button type="submit" className={classNames('text-button')}>{t('ui.button.save')}</button>
+                : <button className={classNames('text-button', 'text-button--disabled')}>{t('ui.button.save')}</button>
+              }
+            </div>
+          </form>
+        )
+    );
+
     return (
       <>
         <div className={classNames('title')}>
           {t('ui.title.settings')}
         </div>
-        <form onSubmit={this.handleSubmit}>
-          <SearchFilter
-            updateCheckedValues={this.updateCheckedValues('selectedDepartments')}
-            inputName="department"
-            titleName={t('ui.search.favoriteDepartment')}
-            options={departmentOptions}
-            checkedValues={selectedDepartments}
-          />
-          <div className={classNames('buttons')}>
-            { hasChange
-              ? <button type="submit" className={classNames('text-button')}>{t('ui.button.save')}</button>
-              : <button className={classNames('text-button', 'text-button--disabled')}>{t('ui.button.save')}</button>
-            }
-          </div>
-        </form>
+        { favoriteDepartmentForm }
       </>
     );
   }

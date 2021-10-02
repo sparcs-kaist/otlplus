@@ -275,19 +275,20 @@ class LectureDetailSection extends Component {
     const shouldShowUnfix = (lectureFocus.from === 'LIST' || lectureFocus.from === 'TABLE')
       && lectureFocus.clicked;
 
-    if (lectureFocus.from === LIST || lectureFocus.from === TABLE) {
-      const mapreview = (review, index) => (
-        <ReviewSimpleBlock key={`review_${index}`} review={review} />
-      );
-      const reviewsDom = (lectureFocus.reviews == null)
-        ? <div className={classNames('section-content--lecture-detail__list-area', 'list-placeholder')}><div>{t('ui.placeholder.loading')}</div></div>
-        : (lectureFocus.reviews.length
-          ? <div className={classNames('section-content--lecture-detail__list-area')}>{lectureFocus.reviews.map(mapreview)}</div>
-          : <div className={classNames('section-content--lecture-detail__list-area', 'list-placeholder')}><div>{t('ui.placeholder.noResults')}</div></div>);
-      return (
-      // eslint-disable-next-line react/jsx-indent
-      <div className={classNames('section', 'section--lecture-detail', 'section--mobile-modal', (lectureFocus.clicked ? '' : 'mobile-hidden'))}>
-        <div className={classNames('section-content', 'section-content--lecture-detail', 'section-content--flex')} ref={this.scrollRef}>
+    const mapReviewToBlock = (review, index) => (
+      <ReviewSimpleBlock key={`review_${index}`} review={review} />
+    );
+
+    const getSectionContent = () => {
+      if (lectureFocus.from === LIST || lectureFocus.from === TABLE) {
+        const reviewBlocks = (lectureFocus.reviews == null)
+          ? <div className={classNames('section-content--lecture-detail__list-area', 'list-placeholder')}><div>{t('ui.placeholder.loading')}</div></div>
+          : (lectureFocus.reviews.length
+            ? <div className={classNames('section-content--lecture-detail__list-area')}>{lectureFocus.reviews.map(mapReviewToBlock)}</div>
+            : <div className={classNames('section-content--lecture-detail__list-area', 'list-placeholder')}><div>{t('ui.placeholder.noResults')}</div></div>);
+        return (
+        // eslint-disable-next-line react/jsx-indent
+        <>
           <CloseButton onClick={this.unfix} />
           <div className={classNames('title')}>
             {lectureFocus.lecture[t('js.property.title')]}
@@ -395,7 +396,7 @@ class LectureDetailSection extends Component {
                 </button>
               )
             }
-            {reviewsDom}
+            { reviewBlocks }
           </Scroller>
           <Divider
             orientation={Divider.Orientation.HORIZONTAL}
@@ -445,19 +446,16 @@ class LectureDetailSection extends Component {
                     <span>{t('ui.button.deleteFromTable')}</span>
                   </button>
                 )
-
               )
             }
           </div>
-        </div>
-      </div>
-      );
-    }
-    if (lectureFocus.from === MULTIPLE) {
-      return (
-      // eslint-disable-next-line react/jsx-indent
-      <div className={classNames('section', 'section--lecture-detail', 'section--mobile-modal', (lectureFocus.clicked ? '' : 'mobile-hidden'))}>
-        <div className={classNames('section-content', 'section-content--lecture-detail', 'section-content--flex')}>
+        </>
+        );
+      }
+      if (lectureFocus.from === MULTIPLE) {
+        return (
+        // eslint-disable-next-line react/jsx-indent
+        <>
           <div className={classNames('title')}>
             {lectureFocus.multipleTitle}
           </div>
@@ -481,14 +479,10 @@ class LectureDetailSection extends Component {
               </div>
             ))}
           </div>
-        </div>
-      </div>
-      );
-    }
-    return (
-    // eslint-disable-next-line react/jsx-indent
-    <div className={classNames('section', 'section--lecture-detail', 'section--mobile-modal', (lectureFocus.clicked ? '' : 'mobile-hidden'))}>
-      <div className={classNames('section-content', 'section-content--lecture-detail', 'section-content--flex')}>
+        </>
+        );
+      }
+      return (
         <div className={classNames('otlplus-placeholder')}>
           <div>
             OTL PLUS
@@ -507,8 +501,15 @@ class LectureDetailSection extends Component {
             &nbsp;OTL Team
           </div>
         </div>
+      );
+    };
+
+    return (
+      <div className={classNames('section', 'section--lecture-detail', 'section--mobile-modal', (lectureFocus.clicked ? '' : 'mobile-hidden'))}>
+        <div className={classNames('section-content', 'section-content--lecture-detail', 'section-content--flex')} ref={this.scrollRef}>
+          { getSectionContent() }
+        </div>
       </div>
-    </div>
     );
   }
 }

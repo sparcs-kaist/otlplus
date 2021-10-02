@@ -29,7 +29,6 @@ class RelatedSubSection extends Component {
     return (
       <>
         <div className={classNames('small-title')}>{t('ui.title.relatedCourses')}</div>
-
         <div>
           <Scroller noScrollX={false} noScrollY={true}>
             <div className={classNames('related-courses')}>

@@ -71,87 +71,10 @@ class TakenLecturesSection extends Component {
     const { t } = this.props;
     const { user, selectedLecture, reviewsFocus } = this.props;
 
-    if (!user) {
-      return (
-      // eslint-disable-next-line react/jsx-indent
-      <div className={classNames('section', 'section--taken-lectures')}>
-        <div className={classNames('section-content', 'section-content--taken-lectures')}>
-          <div className={classNames('title')}>
-            {t('ui.title.takenLectures')}
-          </div>
-          <div className={classNames('scores')}>
-            <div>
-              <div>
-                <span>-</span>
-                <span>/-</span>
-              </div>
-              <div>{t('ui.score.reviewsWritten')}</div>
-            </div>
-            <div>
-              <div>
-                -
-              </div>
-              <div>{t('ui.score.likes')}</div>
-            </div>
-          </div>
-          <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
-          <Scroller expandTop={12}>
-            <div className={classNames('list-placeholder')}>{t('ui.placeholder.loginRequired')}</div>
-          </Scroller>
-          <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
-          <div className={classNames('section-content--taken-lectures__menus-list')}>
-            <div>
-              <button
-                className={classNames(
-                  'text-button',
-                  ((reviewsFocus.from === LATEST) ? 'text-button--disabled' : ''),
-                )}
-                onClick={this.handleMenuClick(LATEST)}
-              >
-                {t('ui.title.latestReviews')}
-              </button>
-            </div>
-            <div>
-              <button
-                className={classNames(
-                  'text-button',
-                  ((reviewsFocus.from === RANKED) ? 'text-button--disabled' : ''),
-                )}
-                onClick={this.handleMenuClick(RANKED)}
-              >
-                {t('ui.title.rankedReviews')}
-              </button>
-            </div>
-            <div>
-              <button
-                className={classNames(
-                  'text-button',
-                  'text-button--disabled',
-                )}
-                onClick={this.handleMenuClick(MY)}
-              >
-                {t('ui.title.myReviews')}
-              </button>
-            </div>
-            <div>
-              <button
-                className={classNames(
-                  'text-button',
-                  'text-button--disabled',
-                )}
-              >
-                {t('ui.title.likedReviews')}
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-      );
-    }
-
-    const writableTakenLectures = user.review_writable_lectures;
-    const editableReviews = user.reviews
-      .filter((r) => writableTakenLectures.some((l) => l.id === r.lecture.id));
+    const writableTakenLectures = user ? user.review_writable_lectures : [];
+    const editableReviews = user
+      ? user.reviews.filter((r) => writableTakenLectures.some((l) => l.id === r.lecture.id))
+      : [];
 
     // eslint-disable-next-line fp/no-mutating-methods
     const targetSemesters = unique(
@@ -159,6 +82,62 @@ class TakenLecturesSection extends Component {
       (a, b) => ((a.year === b.year) && (a.semester === b.semester))
     )
       .sort((a, b) => ((a.year !== b.year) ? (b.year - a.year) : (b.semester - a.semester)));
+
+    const getTakenLecturesArea = () => {
+      if (!user) {
+        return (
+          <div className={classNames('list-placeholder')}>{t('ui.placeholder.loginRequired')}</div>
+        );
+      }
+      if (targetSemesters.length === 0) {
+        return (
+          <div className={classNames('list-placeholder')}>{t('ui.placeholder.noResults')}</div>
+        );
+      }
+      return (
+        targetSemesters.map((s, i) => (
+          <React.Fragment key={`${s.year}-${s.semester}`}>
+            {
+              (i !== 0)
+                ? <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
+                : null
+            }
+            <div className={classNames('small-title')}>
+              {`${s.year} ${getSemesterName(s.semester)}`}
+            </div>
+            <div className={classNames('taken-lectures')}>
+              {
+                writableTakenLectures
+                  .filter((l) => (l.year === s.year && l.semester === s.semester))
+                  .map((l) => (
+                    !selectedLecture
+                      ? (
+                        <LectureSimpleBlock
+                          key={l.id}
+                          lecture={l}
+                          isRaised={false}
+                          isDimmed={false}
+                          hasReview={user.reviews.some((r) => (r.lecture.id === l.id))}
+                          onClick={this.handleBlockClick(l)}
+                        />
+                      )
+                      : (
+                        <LectureSimpleBlock
+                          key={l.id}
+                          lecture={l}
+                          isRaised={selectedLecture.id === l.id}
+                          isDimmed={selectedLecture.id !== l.id}
+                          hasReview={user.reviews.some((r) => (r.lecture.id === l.id))}
+                          onClick={this.handleBlockClick(l)}
+                        />
+                      )
+                  ))
+              }
+            </div>
+          </React.Fragment>
+        ))
+      );
+    };
 
     return (
     // eslint-disable-next-line react/jsx-indent
@@ -170,64 +149,21 @@ class TakenLecturesSection extends Component {
         <div className={classNames('scores')}>
           <div>
             <div>
-              <span>{editableReviews.length}</span>
-              <span>{`/${writableTakenLectures.length}`}</span>
+              <span>{user ? editableReviews.length : '-'}</span>
+              <span>{user ? `/${writableTakenLectures.length}` : '/-'}</span>
             </div>
             <div>{t('ui.score.reviewsWritten')}</div>
           </div>
           <div>
             <div>
-              {sumBy(editableReviews, (r) => r.like)}
+              {user ? sumBy(editableReviews, (r) => r.like) : '-'}
             </div>
             <div>{t('ui.score.likes')}</div>
           </div>
         </div>
         <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
         <Scroller expandTop={12}>
-          {targetSemesters.length
-            ? targetSemesters.map((s, i) => (
-              <React.Fragment key={`${s.year}-${s.semester}`}>
-                {
-                  (i !== 0)
-                    ? <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
-                    : null
-                }
-                <div className={classNames('small-title')}>
-                  {`${s.year} ${getSemesterName(s.semester)}`}
-                </div>
-                <div className={classNames('taken-lectures')}>
-
-                  {writableTakenLectures
-                    .filter((l) => (l.year === s.year && l.semester === s.semester))
-                    .map((l) => (
-                      !selectedLecture
-                        ? (
-                          <LectureSimpleBlock
-                            key={l.id}
-                            lecture={l}
-                            isRaised={false}
-                            isDimmed={false}
-                            hasReview={user.reviews.some((r) => (r.lecture.id === l.id))}
-                            onClick={this.handleBlockClick(l)}
-                          />
-                        )
-                        : (
-                          <LectureSimpleBlock
-                            key={l.id}
-                            lecture={l}
-                            isRaised={selectedLecture.id === l.id}
-                            isDimmed={selectedLecture.id !== l.id}
-                            hasReview={user.reviews.some((r) => (r.lecture.id === l.id))}
-                            onClick={this.handleBlockClick(l)}
-                          />
-                        )
-                    ))
-                  }
-                </div>
-              </React.Fragment>
-            ))
-            : <div className={classNames('list-placeholder')}>{t('ui.placeholder.noResults')}</div>
-          }
+          { getTakenLecturesArea() }
         </Scroller>
         <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
         <div className={classNames('section-content--taken-lectures__menus-list')}>
@@ -257,7 +193,7 @@ class TakenLecturesSection extends Component {
             <button
               className={classNames(
                 'text-button',
-                ((reviewsFocus.from === MY) ? 'text-button--disabled' : ''),
+                ((!user || (reviewsFocus.from === MY)) ? 'text-button--disabled' : ''),
               )}
               onClick={this.handleMenuClick(MY)}
             >
@@ -268,7 +204,7 @@ class TakenLecturesSection extends Component {
             <button
               className={classNames(
                 'text-button',
-                ((reviewsFocus.from === LIKED) ? 'text-button--disabled' : ''),
+                ((!user || (reviewsFocus.from === LIKED)) ? 'text-button--disabled' : ''),
               )}
               onClick={this.handleMenuClick(LIKED)}
             >

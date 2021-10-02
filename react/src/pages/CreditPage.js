@@ -450,42 +450,49 @@ class CreditPage extends Component {
 
   render() {
     const { selectedProjectIndex } = this.state;
+
+    const selectedProject = this.projects.find((p) => (p.index === selectedProjectIndex));
+
     return (
       <section className={classNames('content', 'content--no-scroll')}>
         <div className={classNames('page-grid', 'page-grid--full')}>
           <div className={classNames('section')}>
-
             <div className={classNames('section-content', 'section-content--credit')}>
               <div className={classNames('section-content--credit__blocks')}>
-                {this.projects.map((p) => (
-                  <ProjectBlock
-                    index={p.index}
-                    onClick={this.changePage}
-                    isRaised={selectedProjectIndex === p.index}
-                    mainTitle={p.mainTitle}
-                    subTitle={p.subTitle}
-                    period={p.period}
-                    key={p.index}
-                  />
-                ))}
+                {
+                  this.projects.map((p) => (
+                    <ProjectBlock
+                      index={p.index}
+                      onClick={this.changePage}
+                      isRaised={selectedProjectIndex === p.index}
+                      mainTitle={p.mainTitle}
+                      subTitle={p.subTitle}
+                      period={p.period}
+                      key={p.index}
+                    />
+                  ))
+                }
               </div>
               <Scroller key={selectedProjectIndex}>
-
                 <div className={classNames('section-content--credit__people-list')}>
-                  {this.projects.find((p) => (p.index === selectedProjectIndex)).fields.map((f) => (
-                    <React.Fragment key={f.title}>
-                      <div className={classNames('title')}>{f.title}</div>
-                      {f.people.map((p) => (
-                        <div className={classNames('section-content--credit__people-list__elem')} key={p.name}>
-                          {p.image
-                            ? <img src={p.image} alt={p.name} />
-                            : <div className={classNames('section-content--credit__people-list__elem__name')}>{p.name}</div>
-                          }
-                          {p.caption ? <div className={classNames('caption')}>{p.caption}</div> : null}
-                        </div>
-                      ))}
-                    </React.Fragment>
-                  ))}
+                  {
+                    selectedProject.fields.map((f) => (
+                      <React.Fragment key={f.title}>
+                        <div className={classNames('title')}>{f.title}</div>
+                        {
+                          f.people.map((p) => (
+                            <div className={classNames('section-content--credit__people-list__elem')} key={p.name}>
+                              {p.image
+                                ? <img src={p.image} alt={p.name} />
+                                : <div className={classNames('section-content--credit__people-list__elem__name')}>{p.name}</div>
+                              }
+                              {p.caption ? <div className={classNames('caption')}>{p.caption}</div> : null}
+                            </div>
+                          ))
+                        }
+                      </React.Fragment>
+                    ))
+                  }
                 </div>
               </Scroller>
             </div>

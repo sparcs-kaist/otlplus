@@ -53,6 +53,30 @@ class WriteReviewsPage extends Component {
     const { t, reviewsFocus } = this.props;
 
     const getReviewsSubSection = (focusFrom) => {
+      if (focusFrom === NONE) {
+        return (
+          <div className={classNames('section-content', 'section-content--flex', 'section-content--write-reviews-right')}>
+            <div className={classNames('otlplus-placeholder')}>
+              <div>
+                OTL PLUS
+              </div>
+              <div>
+                <Link to="/credits/">{t('ui.menu.credit')}</Link>
+                &nbsp;|&nbsp;
+                <Link to="/licenses/">{t('ui.menu.licences')}</Link>
+              </div>
+              <div>
+                <a href="mailto:otlplus@sparcs.org">otlplus@sparcs.org</a>
+              </div>
+              <div>
+                © 2016,&nbsp;
+                <a href="http://sparcs.org">SPARCS</a>
+                &nbsp;OTL Team
+              </div>
+            </div>
+          </div>
+        );
+      }
       if (focusFrom === LECTURE) {
         return <LectureReviewsSubSection />;
       }
@@ -71,29 +95,6 @@ class WriteReviewsPage extends Component {
       return null;
     };
 
-    const rightSectionPlaceholder = (
-      <div className={classNames('section-content', 'section-content--flex', 'section-content--write-reviews-right')} ref={this.rightSectionRef}>
-        <div className={classNames('otlplus-placeholder')}>
-          <div>
-            OTL PLUS
-          </div>
-          <div>
-            <Link to="/credits/">{t('ui.menu.credit')}</Link>
-            &nbsp;|&nbsp;
-            <Link to="/licenses/">{t('ui.menu.licences')}</Link>
-          </div>
-          <div>
-            <a href="mailto:otlplus@sparcs.org">otlplus@sparcs.org</a>
-          </div>
-          <div>
-            © 2016,&nbsp;
-            <a href="http://sparcs.org">SPARCS</a>
-            &nbsp;OTL Team
-          </div>
-        </div>
-      </div>
-    );
-
     return (
       <>
         <section className={classNames('content', 'content--no-scroll')}>
@@ -101,9 +102,7 @@ class WriteReviewsPage extends Component {
             <TakenLecturesSection />
             <div className={classNames('section', 'section--write-reviews-right', 'section--mobile-modal', ((reviewsFocus.from !== NONE) ? '' : 'mobile-hidden'))}>
               {
-                reviewsFocus.from === NONE
-                  ? rightSectionPlaceholder
-                  : getReviewsSubSection(reviewsFocus.from)
+                getReviewsSubSection(reviewsFocus.from)
               }
             </div>
           </div>

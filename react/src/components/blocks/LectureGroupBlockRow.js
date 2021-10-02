@@ -39,6 +39,41 @@ const LectureGroupBlockRow = ({
     addToTable(lecture);
   };
 
+  const cartButton = (
+    fromCart
+      ? (
+        <button className={classNames('block--lecture-group__elem__button')} onClick={onDeleteFromCartClick}>
+          <i className={classNames('icon', 'icon--delete-cart')} />
+        </button>
+      )
+      : (
+        !inCart
+          ? (
+            <button className={classNames('block--lecture-group__elem__button')} onClick={onAddToCartClick}>
+              <i className={classNames('icon', 'icon--add-cart')} />
+            </button>
+          )
+          : (
+            <button className={classNames('block--lecture-group__elem__button', 'block--lecture-group__elem__button--disable')}>
+              <i className={classNames('icon', 'icon--add-cart')} />
+            </button>
+          )
+      )
+  );
+  const timetableButton = (
+    !inTimetable && !isTimetableReadonly
+      ? (
+        <button className={classNames('block--lecture-group__elem__button')} onClick={onAddToTableClick}>
+          <i className={classNames('icon', 'icon--add-lecture')} />
+        </button>
+      )
+      : (
+        <button className={classNames('block--lecture-group__elem__button', 'block--lecture-group__elem__button--disable')}>
+          <i className={classNames('icon', 'icon--add-lecture')} />
+        </button>
+      )
+  );
+
   return (
     <div
       className={classNames(
@@ -71,20 +106,8 @@ const LectureGroupBlockRow = ({
             {lecture.limit}
           </div>
         </div>
-        {
-          fromCart
-            ? <button className={classNames('block--lecture-group__elem__button')} onClick={onDeleteFromCartClick}><i className={classNames('icon', 'icon--delete-cart')} /></button>
-            : (
-              !inCart
-                ? <button className={classNames('block--lecture-group__elem__button')} onClick={onAddToCartClick}><i className={classNames('icon', 'icon--add-cart')} /></button>
-                : <button className={classNames('block--lecture-group__elem__button', 'block--lecture-group__elem__button--disable')}><i className={classNames('icon', 'icon--add-cart')} /></button>
-            )
-        }
-        {
-          !inTimetable && !isTimetableReadonly
-            ? <button className={classNames('block--lecture-group__elem__button')} onClick={onAddToTableClick}><i className={classNames('icon', 'icon--add-lecture')} /></button>
-            : <button className={classNames('block--lecture-group__elem__button', 'block--lecture-group__elem__button--disable')}><i className={classNames('icon', 'icon--add-lecture')} /></button>
-        }
+        { cartButton }
+        { timetableButton }
       </div>
     </div>
   );

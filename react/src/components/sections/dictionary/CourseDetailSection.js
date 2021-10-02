@@ -148,11 +148,9 @@ class CourseDetailSection extends Component {
     const { t } = this.props;
     const { courseFocus } = this.props;
 
-    if (courseFocus.clicked && courseFocus.course !== null) {
-      return (
-      // eslint-disable-next-line react/jsx-indent
-      <div className={classNames('section', 'section--course-detail', 'section--mobile-modal', ((courseFocus.course && courseFocus.clicked) ? '' : 'mobile-hidden'))}>
-        <div className={classNames('section-content', 'section-content--flex', 'section-content--course-detail')}>
+    const sectionContent = (courseFocus.clicked && courseFocus.course !== null)
+      ? (
+        <>
           <CloseButton onClick={this.unfix} />
           <div>
             <div>
@@ -193,14 +191,9 @@ class CourseDetailSection extends Component {
             <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
             <ReviewsSubSection />
           </Scroller>
-        </div>
-      </div>
-      );
-    }
-    return (
-    // eslint-disable-next-line react/jsx-indent
-    <div className={classNames('section', 'section--course-detail', 'section--mobile-modal', ((courseFocus.course && courseFocus.clicked) ? '' : 'mobile-hidden'))}>
-      <div className={classNames('section-content', 'section-content--flex', 'section-content--course-detail')}>
+        </>
+      )
+      : (
         <div className={classNames('otlplus-placeholder')}>
           <div>
             OTL PLUS
@@ -219,8 +212,14 @@ class CourseDetailSection extends Component {
             &nbsp;OTL Team
           </div>
         </div>
+      );
+
+    return (
+      <div className={classNames('section', 'section--course-detail', 'section--mobile-modal', ((courseFocus.course && courseFocus.clicked) ? '' : 'mobile-hidden'))}>
+        <div className={classNames('section-content', 'section-content--flex', 'section-content--course-detail')}>
+          { sectionContent }
+        </div>
       </div>
-    </div>
     );
   }
 }

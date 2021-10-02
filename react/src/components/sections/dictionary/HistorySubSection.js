@@ -77,9 +77,7 @@ class HistorySubSection extends Component {
     return (
       <>
         <div className={classNames('small-title')}>{t('ui.title.courseHistory')}</div>
-
         <div ref={this.scrollRef}>
-
           <Scroller noScrollX={false} noScrollY={true}>
             <table className={classNames('history', (isSpecialLectureCourse ? 'history--special-lecture' : ''))}>
               <tbody>

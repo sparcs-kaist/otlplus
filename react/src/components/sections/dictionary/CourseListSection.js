@@ -111,7 +111,71 @@ class CourseListSection extends Component {
       readCourses,
     } = this.props;
 
-    const getListElement = (courses) => {
+    const getListTitle = () => {
+      if (selectedListCode === SEARCH) {
+        const lastSearchOptionText = Object.entries(lastSearchOption)
+          .map((e) => {
+            if (e[0] === 'keyword' && e[1].length > 0) {
+              return e[1];
+            }
+            if (e[0] === 'type' && !e[1].includes('ALL')) {
+              return e[1].map((c) => getLabelOfValue(getTypeOptions(), c));
+            }
+            if (e[0] === 'department' && !e[1].includes('ALL')) {
+              return e[1].map((c) => getLabelOfValue(getDepartmentOptions(), c));
+            }
+            if (e[0] === 'grade' && !e[1].includes('ALL')) {
+              return e[1].map((c) => getLabelOfValue(getLevelOptions(), c));
+            }
+            if (e[0] === 'term' && !e[1].includes('ALL')) {
+              return e[1].map((c) => getLabelOfValue(getTermOptions(), c));
+            }
+            return [];
+          })
+          .flat(1)
+          .join(', ');
+        return (
+          <div className={classNames('title', 'title--search')} onClick={() => this.showSearch()}>
+            <i className={classNames('icon', 'icon--search')} />
+            <span>{t('ui.tab.search')}</span>
+            <span>{lastSearchOptionText.length > 0 ? `:${lastSearchOptionText}` : ''}</span>
+          </div>
+        );
+      }
+      if (selectedListCode === BASIC) {
+        return (
+          <div className={classNames('title')}>
+            {t('ui.tab.basic')}
+          </div>
+        );
+      }
+      if (user && user.departments.some((d) => (selectedListCode === d.code))) {
+        const department = user.departments.find((d) => (selectedListCode === d.code));
+        return (
+          <div className={classNames('title')}>
+            {`${department[t('js.property.name')]} ${t('ui.tab.major')}`}
+          </div>
+        );
+      }
+      if (selectedListCode === HUMANITY) {
+        return (
+          <div className={classNames('title')}>
+            {t('ui.tab.humanity')}
+          </div>
+        );
+      }
+      if (selectedListCode === TAKEN) {
+        return (
+          <div className={classNames('title')}>
+            {t('ui.tab.taken')}
+          </div>
+        );
+      }
+      return null;
+    };
+
+    const getListElement = () => {
+      const courses = this._getCourses(selectedListCode);
       if (!courses) {
         return <div className={classNames('list-placeholder')}><div>{t('ui.placeholder.loading')}</div></div>;
       }
@@ -138,98 +202,15 @@ class CourseListSection extends Component {
       );
     };
 
-    const lastSearchOptionText = Object.entries(lastSearchOption)
-      .map((e) => {
-        if (e[0] === 'keyword' && e[1].length > 0) {
-          return e[1];
-        }
-        if (e[0] === 'type' && !e[1].includes('ALL')) {
-          return e[1].map((c) => getLabelOfValue(getTypeOptions(), c));
-        }
-        if (e[0] === 'department' && !e[1].includes('ALL')) {
-          return e[1].map((c) => getLabelOfValue(getDepartmentOptions(), c));
-        }
-        if (e[0] === 'grade' && !e[1].includes('ALL')) {
-          return e[1].map((c) => getLabelOfValue(getLevelOptions(), c));
-        }
-        if (e[0] === 'term' && !e[1].includes('ALL')) {
-          return e[1].map((c) => getLabelOfValue(getTermOptions(), c));
-        }
-        return [];
-      })
-      .flat(1)
-      .join(', ');
-
-    if (selectedListCode === SEARCH) {
-      return (
-      // eslint-disable-next-line react/jsx-indent
+    return (
       <div className={classNames('section', 'section--course-list', 'section--with-tabs')}>
         <div className={classNames('section-content', 'section-content--flex', 'section-content--course-list')}>
-          { searchOpen ? <CourseSearchSubSection /> : null }
-          <div className={classNames('title', 'title--search')} onClick={() => this.showSearch()}>
-            <i className={classNames('icon', 'icon--search')} />
-            <span>{t('ui.tab.search')}</span>
-            <span>{lastSearchOptionText.length > 0 ? `:${lastSearchOptionText}` : ''}</span>
-          </div>
-          { getListElement(this._getCourses(selectedListCode)) }
+          { ((selectedListCode === SEARCH) && searchOpen) ? <CourseSearchSubSection /> : null }
+          { getListTitle() }
+          { getListElement() }
         </div>
       </div>
-      );
-    }
-    if (selectedListCode === BASIC) {
-      return (
-      // eslint-disable-next-line react/jsx-indent
-      <div className={classNames('section', 'section--course-list', 'section--with-tabs')}>
-        <div className={classNames('section-content', 'section-content--flex', 'section-content--course-list')}>
-          <div className={classNames('title')}>
-            {t('ui.tab.basic')}
-          </div>
-          { getListElement(this._getCourses(selectedListCode)) }
-        </div>
-      </div>
-      );
-    }
-    if (user && user.departments.some((d) => (selectedListCode === d.code))) {
-      const department = user.departments.find((d) => (selectedListCode === d.code));
-      return (
-      // eslint-disable-next-line react/jsx-indent
-      <div className={classNames('section', 'section--course-list', 'section--with-tabs')}>
-        <div className={classNames('section-content', 'section-content--flex', 'section-content--course-list')}>
-          <div className={classNames('title')}>
-            {`${department[t('js.property.name')]} ${t('ui.tab.major')}`}
-          </div>
-          { getListElement(this._getCourses(selectedListCode)) }
-        </div>
-      </div>
-      );
-    }
-    if (selectedListCode === HUMANITY) {
-      return (
-      // eslint-disable-next-line react/jsx-indent
-      <div className={classNames('section', 'section--course-list', 'section--with-tabs')}>
-        <div className={classNames('section-content', 'section-content--flex', 'section-content--course-list')}>
-          <div className={classNames('title')}>
-            {t('ui.tab.humanity')}
-          </div>
-          { getListElement(this._getCourses(selectedListCode)) }
-        </div>
-      </div>
-      );
-    }
-    if (selectedListCode === TAKEN) {
-      return (
-      // eslint-disable-next-line react/jsx-indent
-      <div className={classNames('section', 'section--course-list', 'section--with-tabs')}>
-        <div className={classNames('section-content', 'section-content--flex', 'section-content--course-list')}>
-          <div className={classNames('title')}>
-            {t('ui.tab.taken')}
-          </div>
-          { getListElement(this._getCourses(selectedListCode)) }
-        </div>
-      </div>
-      );
-    }
-    return null;
+    );
   }
 }
 
