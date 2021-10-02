@@ -48,13 +48,10 @@ class TodaysTimetableSection extends Component {
   }
 
   setInitialScrollPosition = () => {
-    const { cellWidth, today } = this.state;
+    const INITIAL_BAR_POSITION = 58;
 
     const scrollTarget = this.scrollRef.current.querySelector('.ScrollbarsCustom-Scroller');
-    const hours = today.getHours();
-    const minutes = today.getMinutes();
-    const left = ((hours + (minutes / 60) - 8) * cellWidth * 2 + 2 - 2) - 58;
-    scrollTarget.scrollLeft = left;
+    scrollTarget.scrollLeft = this._getBarLeftPosition() - INITIAL_BAR_POSITION;
   }
 
   resize = () => {
@@ -64,6 +61,23 @@ class TodaysTimetableSection extends Component {
     this.setState({
       cellWidth: cell.width,
     });
+  }
+
+  _getBarLeftPosition = () => {
+    const BAR_CIRCLE_WIDTH = 5;
+    const BAR_LINE_WIDTH = 1;
+    const TABLE_LEFT_MARGIN = 2;
+
+    const { cellWidth, today } = this.state;
+
+    const hours = today.getHours();
+    const minutes = today.getMinutes();
+
+    const floatHours = hours + (minutes / 60);
+
+    return (floatHours - 8) * cellWidth * 2
+      + TABLE_LEFT_MARGIN
+      - (BAR_CIRCLE_WIDTH - BAR_LINE_WIDTH) / 2;
   }
 
   render() {
@@ -80,8 +94,6 @@ class TodaysTimetableSection extends Component {
       ))
       : [];
     const day = today.getDay();
-    const hours = today.getHours();
-    const minutes = today.getMinutes();
 
     return (
     // eslint-disable-next-line react/jsx-indent
@@ -144,7 +156,7 @@ class TodaysTimetableSection extends Component {
             className={classNames('section-content--todays-timetable__bar')}
             style={{
               top: 11 + 4 - 2,
-              left: (hours + (minutes / 60) - 8) * cellWidth * 2 + 2 - 2,
+              left: this._getBarLeftPosition(),
             }}
           >
             <div />
