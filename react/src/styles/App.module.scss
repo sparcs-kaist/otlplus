@@ -1723,23 +1723,6 @@ a {
     }
 
     &--latest-reviews {
-        &__blocks {
-            display: grid;
-            grid-auto-rows: auto;
-            gap: $block-margin;
-            margin-bottom: 12px;
-            @media #{$media-landscape} {
-                grid-template-columns: repeat(auto-fill, minmax(114px, 1fr));
-            }
-            @media #{$media-portrait} {
-                grid-template-columns: repeat(auto-fill, minmax(94px, 1fr));
-            }
-
-            & > .block {
-                margin: 0;
-            }
-        }
-
         &__list-area{
             @media #{$media-landscape} {
                 min-height: calc(
@@ -1902,18 +1885,6 @@ a {
     &--credit {
         display: flex;
         flex-direction: column;
-
-        &__blocks {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(144px, 1fr));
-            grid-auto-rows: auto;
-            gap: $block-margin;
-            margin-bottom: 12px;
-
-            & > .block {
-                margin: 0;
-            }
-        }
 
         &__people-list {
             text-align: center;
@@ -2610,6 +2581,30 @@ a {
 }
 
 
+.block-grid {
+    display: grid;
+    grid-auto-rows: auto;
+    gap: $block-margin;
+    grid-template-columns: repeat(auto-fill, minmax(144px, 1fr));
+    .section-content--write-reviews-right & {
+        margin-bottom: 12px;
+        @media #{$media-landscape} {
+            grid-template-columns: repeat(auto-fill, minmax(114px, 1fr));
+        }
+        @media #{$media-portrait} {
+            grid-template-columns: repeat(auto-fill, minmax(94px, 1fr));
+        }
+    }
+    .section-content--credit & {
+        margin-bottom: 12px;
+    }
+
+    & > .block {
+        margin: 0;
+    }
+}
+
+
 .title {
     font-weight: bold;
     font-size: $font-size-big;
@@ -2971,18 +2966,6 @@ a {
                 }
             }
         }
-}
-
-
-.taken-lectures {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(144px, 1fr));
-    grid-auto-rows: auto;
-    gap: $block-margin;
-
-    & > .block {
-        margin: 0;
-    }
 }
 
 

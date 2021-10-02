@@ -105,7 +105,7 @@ class TakenLecturesSection extends Component {
             <div className={classNames('small-title')}>
               {`${s.year} ${getSemesterName(s.semester)}`}
             </div>
-            <div className={classNames('taken-lectures')}>
+            <div className={classNames('block-grid')}>
               {
                 writableTakenLectures
                   .filter((l) => (l.year === s.year && l.semester === s.semester))

@@ -271,7 +271,7 @@ class RankedReviewsSubSection extends Component {
     return (
       <div className={classNames('section-content', 'section-content--flex', 'section-content--write-reviews-right')} ref={this.rightSectionRef}>
         <CloseButton onClick={this.unfix} />
-        <div className={classNames('section-content--latest-reviews__blocks')}>
+        <div className={classNames('block-grid')}>
           { semesterBlocks }
         </div>
         <Scroller

@@ -458,7 +458,7 @@ class CreditPage extends Component {
         <div className={classNames('page-grid', 'page-grid--full')}>
           <div className={classNames('section')}>
             <div className={classNames('section-content', 'section-content--credit')}>
-              <div className={classNames('section-content--credit__blocks')}>
+              <div className={classNames('block-grid')}>
                 {
                   this.projects.map((p) => (
                     <ProjectBlock
