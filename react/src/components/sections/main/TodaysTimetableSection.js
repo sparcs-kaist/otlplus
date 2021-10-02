@@ -8,6 +8,7 @@ import { range } from 'lodash';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
+import Scroller from '../../Scroller';
 import HorizontalTimetableTile from '../../tiles/HorizontalTimetableTile';
 
 import userShape from '../../../shapes/UserShape';
@@ -23,6 +24,9 @@ class TodaysTimetableSection extends Component {
       cellWidth: 0,
       today: new Date(),
     };
+
+    // eslint-disable-next-line fp/no-mutation
+    this.scrollRef = React.createRef();
   }
 
   componentDidMount() {
@@ -31,9 +35,26 @@ class TodaysTimetableSection extends Component {
     this.interval = setInterval(() => this.setState({ today: new Date() }), 100);
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    const { cellWidth } = this.state;
+    if (prevState.cellWidth === 0 && cellWidth > 0) {
+      this.setInitialScrollPosition();
+    }
+  }
+
   componentWillUnmount() {
     window.removeEventListener('resize', this.resize);
     clearInterval(this.interval);
+  }
+
+  setInitialScrollPosition = () => {
+    const { cellWidth, today } = this.state;
+
+    const scrollTarget = this.scrollRef.current.querySelector('.ScrollbarsCustom-Scroller');
+    const hours = today.getHours();
+    const minutes = today.getMinutes();
+    const left = ((hours + (minutes / 60) - 8) * cellWidth * 2 + 2 - 2) - 58;
+    scrollTarget.scrollLeft = left;
   }
 
   resize = () => {
@@ -65,12 +86,8 @@ class TodaysTimetableSection extends Component {
     return (
     // eslint-disable-next-line react/jsx-indent
     <div className={classNames('section', 'section--feed')}>
-      <div className={classNames('section-content', 'section-content--feed', 'section-content--todays-timetable')}>
-        <div
-          style={{
-            left: -((hours + (minutes / 60) - 8) * cellWidth * 2 + 2 - 2) + 58,
-          }}
-        >
+      <div className={classNames('section-content', 'section-content--feed', 'section-content--todays-timetable')} ref={this.scrollRef}>
+        <Scroller noScrollX={false} noScrollY={true}>
           <div className={classNames('section-content--todays-timetable__table')}>
             <div>
               {
@@ -133,7 +150,7 @@ class TodaysTimetableSection extends Component {
             <div />
             <div />
           </div>
-        </div>
+        </Scroller>
         <div className={classNames('buttons')}>
           <Link
             to={{ pathname: '/timetable', search: queryString.stringify({ startSemester: ongoingSemester, startInMyTable: true }) }}
