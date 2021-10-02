@@ -18,7 +18,7 @@ const HorizontalTimetableTile = ({
 
   return (
     <div
-      className={classNames('tile--horizonatal-timetable', `background-color--${getColorNumber(lecture)}`)}
+      className={classNames('tile', 'tile--horizonatal-timetable', `background-color--${getColorNumber(lecture)}`)}
       style={{
         left: cellWidth * indexOfTime(classtime.begin) + 2 + 2,
         top: 11 + 4 + 3,
