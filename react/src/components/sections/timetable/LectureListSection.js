@@ -366,7 +366,7 @@ class LectureListSection extends Component {
 
     return (
       // eslint-disable-next-line react/jsx-indent
-      <div className={classNames('section', 'section--with-tabs', 'section--lecture-list', (mobileIsLectureListOpen ? '' : 'mobile-hidden'))}>
+      <div className={classNames('section', 'section--lecture-list', (mobileIsLectureListOpen ? '' : 'mobile-hidden'))}>
         <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
           { ((selectedListCode === SEARCH) && searchOpen) ? <LectureSearchSubSection /> : null }
           <CloseButton onClick={this.mobileCloseLectureList} />

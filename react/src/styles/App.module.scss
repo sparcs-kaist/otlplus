@@ -934,17 +934,6 @@ a {
     box-shadow: $section-box-shadow;
 
 
-    &--with-tabs {
-        @media #{$media-landscape} {
-            border-top-left-radius: 0;
-        }
-        @media #{$media-portrait} {
-            border-top-left-radius: 0;
-            border-top-right-radius: 0;
-        }
-    }
-
-    
     &--mobile-modal {
         @media #{$media-portrait} {
             position: absolute;
@@ -1005,6 +994,13 @@ a {
 
     &--course-list {
         grid-area: course-list;
+        @media #{$media-landscape} {
+            border-top-left-radius: 0;
+        }
+        @media #{$media-portrait} {
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
     }
 
 
@@ -1019,6 +1015,7 @@ a {
         grid-area: timetable-and-infos;
         display: grid;
         @media #{$media-landscape} {
+            border-top-left-radius: 0;
             grid-template-columns: 1fr min-content calc(#{$section-width-desktop-1v3-left} - (#{$section-padding} * 2));
             grid-template-rows: min-content min-content min-content min-content 1fr min-content min-content;
             grid-template-areas:
@@ -1041,8 +1038,6 @@ a {
                 "divider-sub-3"
                 "share"
             ;
-            border-top-left-radius: $section-border-radius;
-            border-top-right-radius: $section-border-radius;
         }
     }
 
@@ -1050,6 +1045,7 @@ a {
     &--semester-and-timetable-list {
         display: grid;
         @media #{$media-landscape} {
+            border-top-left-radius: 0;
             grid-area: semester-and-timetable-tabs;
             grid-template-columns: 1fr 8px min-content;
             grid-template-rows: min-content 1fr;
@@ -1059,6 +1055,8 @@ a {
             ;
         }
         @media #{$media-portrait} {
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
             grid-template-columns: 1fr min-content 1fr;
             grid-template-rows: min-content 12px min-content;
             grid-template-areas:
@@ -1083,6 +1081,13 @@ a {
     &--lecture-list {
         grid-area: lecture-list;
         position: relative;
+        @media #{$media-landscape} {
+            border-top-left-radius: 0;
+        }
+        @media #{$media-portrait} {
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
     }
 
 
@@ -1123,6 +1128,8 @@ a {
     &--syllabus {
         grid-area: syllabus;
         flex: auto;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
     }
 
 

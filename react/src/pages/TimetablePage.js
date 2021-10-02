@@ -77,7 +77,7 @@ class TimetablePage extends Component {
               <TimetableTabs />
               <SemesterSection startSemester={startSemester} />
             </div>
-            <div className={classNames('section', 'section--with-tabs', 'section--timetable-and-infos')}>
+            <div className={classNames('section', 'section--timetable-and-infos')}>
               <TimetableSubSection />
               <Divider orientation={{ desktop: Divider.Orientation.VERTICAL, mobile: Divider.Orientation.HORIZONTAL }} isVisible={true} gridArea="divider-main" />
               <MapSubSection />

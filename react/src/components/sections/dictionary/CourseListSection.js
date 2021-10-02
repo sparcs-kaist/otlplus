@@ -203,7 +203,7 @@ class CourseListSection extends Component {
     };
 
     return (
-      <div className={classNames('section', 'section--course-list', 'section--with-tabs')}>
+      <div className={classNames('section', 'section--course-list')}>
         <div className={classNames('section-content', 'section-content--flex', 'section-content--course-list')}>
           { ((selectedListCode === SEARCH) && searchOpen) ? <CourseSearchSubSection /> : null }
           { getListTitle() }
