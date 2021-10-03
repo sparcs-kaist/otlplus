@@ -11,6 +11,7 @@ from django.utils import timezone
 from django.views.decorators.http import require_http_methods
 
 from utils.decorators import login_required_ajax
+from utils.util import ParseType, parse_body
 
 from apps.subject.models import Department, Lecture
 from apps.session.services import get_user_department_list, get_user_major_list, json_encode_list
@@ -176,10 +177,14 @@ def department_options(request):
 def favorite_departments(request):
     user = request.user
     user_profile = user.userprofile
-    body = json.loads(request.body.decode("utf-8"))
 
     if request.method == "POST":
-        fav_department = body.get("fav_department", [])
+        BODY_STRUCTURE = [
+            ("fav_department", ParseType.LIST_INT, True, []),
+        ]
+
+        fav_department, = parse_body(request.body, BODY_STRUCTURE)
+
         user_profile.favorite_departments.clear()
         for department_id in fav_department:
             department_obj = Department.objects.get(id=department_id)

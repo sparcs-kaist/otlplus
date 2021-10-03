@@ -433,6 +433,10 @@ good-names=i,
            et,
            ex,
            Run,
+           DEFAULT_ORDER,
+           MAX_LIMIT,
+           PARAMS_STRUCTURE,
+           BODY_STRUCTURE,
            _
 
 # Include a hint for the correct naming format with invalid-name.
