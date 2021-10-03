@@ -38,14 +38,14 @@ def get_timetable_entries(profile: UserProfile, table_id: int, year: int, semest
         return None
 
     if table_id == MY_TIMETABLE_ID:
-        return list(profile.taken_lectures.filter(year=year, semester=semester))
+        return list(profile.taken_lectures.filter(year=year, semester=semester, deleted=False))
 
     try:
         table = Timetable.objects.get(user=profile, id=table_id, year=year, semester=semester)
     except Timetable.DoesNotExist:
         return None
 
-    return list(table.lectures.all())
+    return list(table.lectures.filter(deleted=False))
 
 
 def _draw_rounded_rectangle(draw, points: Tuple[int, int, int, int], radius: int, color):
@@ -123,7 +123,7 @@ def _draw_textbox(draw,
         textPosition += s[1]
 
 
-def create_timetable_image(lecture_list: List[Lecture]):
+def create_timetable_image(lectures: List[Lecture]):
     if settings.DEBUG:
         file_path = "static/"
     else:
@@ -135,13 +135,12 @@ def create_timetable_image(lecture_list: List[Lecture]):
     text_draw = ImageDraw.Draw(text_image)
     font = ImageFont.truetype(file_path + "fonts/NanumBarunGothic.ttf", 22)
 
-    for lecture in lecture_list:
-        lecture_dict = lecture.to_json(nested=False)
-        color = TIMETABLE_CELL_COLORS[lecture_dict["course"] % 16]
-        for class_time in lecture_dict["classtimes"]:
-            day = class_time["day"]
-            begin = class_time["begin"] // 30 - 16
-            end = class_time["end"] // 30 - 16
+    for l in lectures:
+        color = TIMETABLE_CELL_COLORS[l.course.id % 16]
+        for ct in l.classtimes.all():
+            day = ct.day
+            begin = ct.get_begin_numeric() // 30 - 16
+            end = ct.get_end_numeric() // 30 - 16
 
             points = (178 * day + 76, 40 * begin + 158, 178 * (day + 1) + 69, 40 * end + 151)
             _draw_rounded_rectangle(draw, points, 4, color)
@@ -150,9 +149,9 @@ def create_timetable_image(lecture_list: List[Lecture]):
             _draw_textbox(
                 text_draw,
                 points,
-                lecture_dict["title"],
-                lecture.get_professors_short_str(),
-                class_time["classroom_short"],
+                l.title,
+                l.get_professors_short_str(),
+                ct.get_classroom_strs()[4],
                 font,
             )
 
@@ -179,7 +178,7 @@ def create_timetable_ical(semester: Semester, lectures: List[Lecture]):
         for ct in l.classtimes.all():
             event = Event()
             event.add("summary", l.title)
-            event.add("location", ct.to_json()["classroom"])
+            event.add("location", ct.get_classroom_strs()[2])
 
             days_ahead = ct.day - semester.beginning.weekday()
             if days_ahead < 0:
