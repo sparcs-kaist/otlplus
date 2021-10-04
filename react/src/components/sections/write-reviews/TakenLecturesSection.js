@@ -12,9 +12,7 @@ import Scroller from '../../Scroller';
 import LectureSimpleBlock from '../../blocks/LectureSimpleBlock';
 
 import { setReviewsFocus, clearReviewsFocus } from '../../../actions/write-reviews/reviewsFocus';
-import {
-  LECTURE, LATEST, MY, LIKED, RANKED,
-} from '../../../reducers/write-reviews/reviewsFocus';
+import { ReviewsFocusFrom } from '../../../reducers/write-reviews/reviewsFocus';
 
 import { unique } from '../../../utils/commonUtils';
 import { getSemesterName } from '../../../utils/semesterUtils';
@@ -41,7 +39,7 @@ class TakenLecturesSection extends Component {
       });
     }
     else {
-      setReviewsFocusDispatch(LECTURE, lecture);
+      setReviewsFocusDispatch(ReviewsFocusFrom.LECTURE, lecture);
 
       ReactGA.event({
         category: 'Write Reviews - Selection',
@@ -173,9 +171,9 @@ class TakenLecturesSection extends Component {
             <button
               className={classNames(
                 'text-button',
-                ((reviewsFocus.from === LATEST) ? 'text-button--disabled' : ''),
+                ((reviewsFocus.from === ReviewsFocusFrom.REVIEWS_LATEST) ? 'text-button--disabled' : ''),
               )}
-              onClick={this.handleMenuClick(LATEST)}
+              onClick={this.handleMenuClick(ReviewsFocusFrom.REVIEWS_LATEST)}
             >
               {t('ui.title.latestReviews')}
             </button>
@@ -184,9 +182,9 @@ class TakenLecturesSection extends Component {
             <button
               className={classNames(
                 'text-button',
-                ((reviewsFocus.from === RANKED) ? 'text-button--disabled' : ''),
+                ((reviewsFocus.from === ReviewsFocusFrom.REVIEWS_RANKED) ? 'text-button--disabled' : ''),
               )}
-              onClick={this.handleMenuClick(RANKED)}
+              onClick={this.handleMenuClick(ReviewsFocusFrom.REVIEWS_RANKED)}
             >
               {t('ui.title.rankedReviews')}
             </button>
@@ -195,9 +193,9 @@ class TakenLecturesSection extends Component {
             <button
               className={classNames(
                 'text-button',
-                ((!user || (reviewsFocus.from === MY)) ? 'text-button--disabled' : ''),
+                ((!user || (reviewsFocus.from === ReviewsFocusFrom.REVIEWS_MY)) ? 'text-button--disabled' : ''),
               )}
-              onClick={this.handleMenuClick(MY)}
+              onClick={this.handleMenuClick(ReviewsFocusFrom.REVIEWS_MY)}
             >
               {t('ui.title.myReviews')}
             </button>
@@ -206,9 +204,9 @@ class TakenLecturesSection extends Component {
             <button
               className={classNames(
                 'text-button',
-                ((!user || (reviewsFocus.from === LIKED)) ? 'text-button--disabled' : ''),
+                ((!user || (reviewsFocus.from === ReviewsFocusFrom.REVIEWS_LIKED)) ? 'text-button--disabled' : ''),
               )}
-              onClick={this.handleMenuClick(LIKED)}
+              onClick={this.handleMenuClick(ReviewsFocusFrom.REVIEWS_LIKED)}
             >
               {t('ui.title.likedReviews')}
             </button>

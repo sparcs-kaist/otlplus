@@ -16,7 +16,7 @@ import { addLectureToCart, deleteLectureFromCart, setMobileIsLectureListOpen } f
 import { openSearch } from '../../../actions/timetable/search';
 import { addLectureToTimetable } from '../../../actions/timetable/timetable';
 
-import { LIST } from '../../../reducers/timetable/lectureFocus';
+import { LectureFocusFrom } from '../../../reducers/timetable/lectureFocus';
 import { LectureListCode } from '../../../reducers/timetable/list';
 
 import userShape from '../../../shapes/UserShape';
@@ -153,7 +153,7 @@ class LectureListSection extends Component {
     if (lectureFocus.clicked) {
       return;
     }
-    setLectureFocusDispatch(lecture, LIST, false);
+    setLectureFocusDispatch(lecture, LectureFocusFrom.LIST, false);
   }
 
   unfocusLectureWithHover = (lecture) => {
@@ -174,7 +174,7 @@ class LectureListSection extends Component {
     const { lectureFocus, selectedListCode, setLectureFocusDispatch } = this.props;
 
     if (!isListClicked(lecture, lectureFocus)) {
-      setLectureFocusDispatch(lecture, 'LIST', true);
+      setLectureFocusDispatch(lecture, LectureFocusFrom.LIST, true);
 
       const labelOfTabs = new Map([
         [LectureListCode.SEARCH, 'Search'],
@@ -189,7 +189,7 @@ class LectureListSection extends Component {
       });
     }
     else {
-      setLectureFocusDispatch(lecture, 'LIST', false);
+      setLectureFocusDispatch(lecture, LectureFocusFrom.LIST, false);
 
       const labelOfTabs = new Map([
         [LectureListCode.SEARCH, 'Search'],
@@ -235,7 +235,7 @@ class LectureListSection extends Component {
       .map((lg) => lg.map((l) => ((l.id === targetId) ? l : null)))
       .reduce((acc, val) => acc.concat(val), [])
       .filter((l) => (l !== null))[0];
-    setLectureFocusDispatch(targetLecture, 'LIST', false);
+    setLectureFocusDispatch(targetLecture, LectureFocusFrom.LIST, false);
   }
 
   mobileCloseLectureList = () => {

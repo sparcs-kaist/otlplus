@@ -19,6 +19,8 @@ import {
 import mapImage from '../../../static/img/timetable/kaist_map.jpg';
 import { unique } from '../../../utils/commonUtils';
 
+import { LectureFocusFrom } from '../../../reducers/timetable/lectureFocus';
+
 
 const POSITION_OF_LOCATIONS = new Map([
   ['E2', { left: 60, top: 81 }],
@@ -64,7 +66,7 @@ class MapSubSection extends Component {
     const { t } = this.props;
     const { lectureFocus, selectedTimetable, setMultipleFocusDispatch } = this.props;
 
-    if (lectureFocus.from !== 'NONE' || !selectedTimetable) {
+    if (lectureFocus.from !== LectureFocusFrom.NONE || !selectedTimetable) {
       return;
     }
 
@@ -83,7 +85,7 @@ class MapSubSection extends Component {
   clearFocus = () => {
     const { lectureFocus, clearMultipleFocusDispatch } = this.props;
 
-    if (lectureFocus.from !== 'MULTIPLE') {
+    if (lectureFocus.from !== LectureFocusFrom.MULTIPLE) {
       return;
     }
 

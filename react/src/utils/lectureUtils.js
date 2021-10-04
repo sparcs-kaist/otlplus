@@ -2,7 +2,7 @@ import axios from 'axios';
 import ReactGA from 'react-ga';
 import i18n from 'i18next';
 
-import { LIST, TABLE, MULTIPLE } from '../reducers/timetable/lectureFocus';
+import { LectureFocusFrom } from '../reducers/timetable/lectureFocus';
 
 import { getStr as getStrOfExamtime } from './examtimeUtils';
 
@@ -30,24 +30,24 @@ export const inCart = (lecture, cart) => (
 );
 
 export const isListClicked = (lecture, lectureFocus) => (
-  lectureFocus.from === LIST
+  lectureFocus.from === LectureFocusFrom.LIST
   && lectureFocus.clicked === true
   && lectureFocus.lecture.id === lecture.id
 );
 
 export const isListFocused = (lecture, lectureFocus) => (
-  lectureFocus.from === LIST
+  lectureFocus.from === LectureFocusFrom.LIST
   && lectureFocus.lecture.id === lecture.id
 );
 
 export const isTableClicked = (lecture, lectureFocus) => (
-  lectureFocus.from === TABLE
+  lectureFocus.from === LectureFocusFrom.TABLE
   && lectureFocus.clicked === true
   && lectureFocus.lecture.id === lecture.id
 );
 
 export const isTableFocused = (lecture, lectureFocus) => (
-  lectureFocus.from === TABLE
+  lectureFocus.from === LectureFocusFrom.TABLE
   && lectureFocus.lecture.id === lecture.id
 );
 
@@ -57,7 +57,7 @@ export const isSingleFocused = (lecture, lectureFocus) => (
 );
 
 export const isMultipleFocused = (lecture, lectureFocus) => (
-  lectureFocus.from === MULTIPLE
+  lectureFocus.from === LectureFocusFrom.MULTIPLE
   && lectureFocus.multipleDetails.some((d) => (d.lecture.id === lecture.id))
 );
 
@@ -70,7 +70,7 @@ export const isDimmedListLectureGroup = (lectureGroup, lectureFocus) => (
   lectureFocus.clicked === true
   && (
     lectureGroup.every((l) => (lectureFocus.lecture.id !== l.id))
-    || (lectureFocus.from !== LIST)
+    || (lectureFocus.from !== LectureFocusFrom.LIST)
   )
 );
 

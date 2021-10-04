@@ -17,9 +17,7 @@ import { reset as resetReviewsFocus, setReviewsFocus } from '../actions/write-re
 import { reset as resetLatestReviews } from '../actions/write-reviews/latestReviews';
 import { reset as resetLikedReviews } from '../actions/write-reviews/likedReviews';
 import { reset as resetRankedReviews } from '../actions/write-reviews/rankedReviews';
-import {
-  NONE, LECTURE, LATEST, MY, LIKED, RANKED,
-} from '../reducers/write-reviews/reviewsFocus';
+import { ReviewsFocusFrom } from '../reducers/write-reviews/reviewsFocus';
 
 import reviewsFocusShape from '../shapes/ReviewsFocusShape';
 
@@ -53,7 +51,7 @@ class WriteReviewsPage extends Component {
     const { t, reviewsFocus } = this.props;
 
     const getReviewsSubSection = (focusFrom) => {
-      if (focusFrom === NONE) {
+      if (focusFrom === ReviewsFocusFrom.NONE) {
         return (
           <div className={classNames('section-content', 'section-content--flex', 'section-content--write-reviews-right')}>
             <div className={classNames('otlplus-placeholder')}>
@@ -77,19 +75,19 @@ class WriteReviewsPage extends Component {
           </div>
         );
       }
-      if (focusFrom === LECTURE) {
+      if (focusFrom === ReviewsFocusFrom.LECTURE) {
         return <LectureReviewsSubSection />;
       }
-      if (focusFrom === LATEST) {
+      if (focusFrom === ReviewsFocusFrom.REVIEWS_LATEST) {
         return <LatestReviewsSubSection />;
       }
-      if (focusFrom === MY) {
+      if (focusFrom === ReviewsFocusFrom.REVIEWS_MY) {
         return <MyReviewsSubSection />;
       }
-      if (focusFrom === LIKED) {
+      if (focusFrom === ReviewsFocusFrom.REVIEWS_LIKED) {
         return <LikedReviewsSubSection />;
       }
-      if (focusFrom === RANKED) {
+      if (focusFrom === ReviewsFocusFrom.REVIEWS_RANKED) {
         return <RankedReviewsSubSection />;
       }
       return null;
@@ -100,7 +98,7 @@ class WriteReviewsPage extends Component {
         <section className={classNames('content', 'content--no-scroll')}>
           <div className={classNames('page-grid', 'page-grid--write-reviews')}>
             <TakenLecturesSection />
-            <div className={classNames('section', 'section--write-reviews-right', 'section--mobile-modal', ((reviewsFocus.from !== NONE) ? '' : 'mobile-hidden'))}>
+            <div className={classNames('section', 'section--write-reviews-right', 'section--mobile-modal', ((reviewsFocus.from !== ReviewsFocusFrom.NONE) ? '' : 'mobile-hidden'))}>
               {
                 getReviewsSubSection(reviewsFocus.from)
               }
@@ -137,7 +135,7 @@ const mapDispatchToProps = (dispatch) => ({
 WriteReviewsPage.propTypes = {
   location: PropTypes.shape({
     state: PropTypes.shape({
-      startList: PropTypes.oneOf([NONE, LECTURE, LATEST, MY, LIKED, RANKED]),
+      startList: PropTypes.oneOf(Object.values(ReviewsFocusFrom)),
     }),
   }).isRequired,
 

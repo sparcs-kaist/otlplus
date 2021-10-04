@@ -9,7 +9,7 @@ import { getAverageScoreLabel } from '../../../utils/scoreUtils';
 
 import { clearMultipleFocus, setMultipleFocus } from '../../../actions/timetable/lectureFocus';
 
-import { LIST, TABLE } from '../../../reducers/timetable/lectureFocus';
+import { LectureFocusFrom } from '../../../reducers/timetable/lectureFocus';
 
 import lectureFocusShape from '../../../shapes/LectureFocusShape';
 import timetableShape from '../../../shapes/TimetableShape';
@@ -47,7 +47,7 @@ class SummarySubSection extends Component {
     const { t } = this.props;
     const { lectureFocus, selectedTimetable, setMultipleFocusDispatch } = this.props;
 
-    if (lectureFocus.from !== 'NONE' || !selectedTimetable) {
+    if (lectureFocus.from !== LectureFocusFrom.NONE || !selectedTimetable) {
       return;
     }
 
@@ -66,7 +66,7 @@ class SummarySubSection extends Component {
     const { t } = this.props;
     const { lectureFocus, selectedTimetable, setMultipleFocusDispatch } = this.props;
 
-    if (lectureFocus.from !== 'NONE' || !selectedTimetable) {
+    if (lectureFocus.from !== LectureFocusFrom.NONE || !selectedTimetable) {
       return;
     }
 
@@ -101,7 +101,7 @@ class SummarySubSection extends Component {
     const { t } = this.props;
     const { lectureFocus, selectedTimetable, setMultipleFocusDispatch } = this.props;
 
-    if (lectureFocus.from !== 'NONE' || !selectedTimetable) {
+    if (lectureFocus.from !== LectureFocusFrom.NONE || !selectedTimetable) {
       return;
     }
 
@@ -128,7 +128,7 @@ class SummarySubSection extends Component {
   clearFocus = () => {
     const { lectureFocus, clearMultipleFocusDispatch } = this.props;
 
-    if (lectureFocus.from !== 'MULTIPLE') {
+    if (lectureFocus.from !== LectureFocusFrom.MULTIPLE) {
       return;
     }
 
@@ -147,7 +147,7 @@ class SummarySubSection extends Component {
     const overallLectures = getOverallLectures(selectedTimetable, lectureFocus);
 
     const isTypeCreditSingleFocused = (typeIndex) => (
-      (lectureFocus.from === LIST || lectureFocus.from === TABLE)
+      (lectureFocus.from === LectureFocusFrom.LIST || lectureFocus.from === LectureFocusFrom.TABLE)
       && (indexOfType(lectureFocus.lecture.type_en) === typeIndex)
     );
     const isTypeCreditMultiFocused = (typeIndex) => (

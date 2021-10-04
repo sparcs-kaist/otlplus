@@ -10,7 +10,7 @@ import ReviewBlock from '../../blocks/ReviewBlock';
 
 import { getSemesterName } from '../../../utils/semesterUtils';
 
-import { RANKED } from '../../../reducers/write-reviews/reviewsFocus';
+import { ReviewsFocusFrom } from '../../../reducers/write-reviews/reviewsFocus';
 
 import reviewShape from '../../../shapes/ReviewShape';
 import semesterShape from '../../../shapes/SemesterShape';
@@ -45,7 +45,7 @@ class RankedReviewFeedSection extends Component {
         </div>
         <div className={classNames('buttons')}>
           <Link
-            to={{ pathname: '/write-reviews', search: qs.stringify({ startList: RANKED }) }}
+            to={{ pathname: '/write-reviews', search: qs.stringify({ startList: ReviewsFocusFrom.REVIEWS_RANKED }) }}
             className={classNames('text-button')}
           >
             {t('ui.button.seeMoreReviews')}

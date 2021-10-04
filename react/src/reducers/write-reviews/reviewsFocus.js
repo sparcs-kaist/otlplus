@@ -4,12 +4,15 @@ import {
   SET_REVIEWS,
 } from '../../actions/write-reviews/reviewsFocus';
 
-export const NONE = 'NONE';
-export const LECTURE = 'LECTURE';
-export const LATEST = 'LATEST';
-export const MY = 'MY';
-export const LIKED = 'LIKED';
-export const RANKED = 'RANKED';
+
+export const ReviewsFocusFrom = {
+  NONE: 'NONE',
+  LECTURE: 'LECTURE',
+  REVIEWS_LATEST: 'LATEST',
+  REVIEWS_MY: 'MY',
+  REVIEWS_LIKED: 'LIKED',
+  REVIEWS_RANKED: 'RANKED',
+};
 
 const initialState = {
   from: 'NONE',

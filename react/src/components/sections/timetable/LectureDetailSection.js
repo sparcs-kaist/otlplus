@@ -17,7 +17,7 @@ import { clearLectureFocus, setReviews } from '../../../actions/timetable/lectur
 import { addLectureToCart, deleteLectureFromCart } from '../../../actions/timetable/list';
 import { addLectureToTimetable, removeLectureFromTimetable } from '../../../actions/timetable/timetable';
 
-import { LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureFocus';
+import { LectureFocusFrom } from '../../../reducers/timetable/lectureFocus';
 import { LectureListCode } from '../../../reducers/timetable/list';
 
 import userShape from '../../../shapes/UserShape';
@@ -76,11 +76,11 @@ class LectureDetailSection extends Component {
       }
     }
 
-    if ((lectureFocus.from === LIST)
+    if ((lectureFocus.from === LectureFocusFrom.LIST)
       && (prevProps.selectedListCode !== selectedListCode)) {
       clearLectureFocusDispatch();
     }
-    else if ((lectureFocus.from === TABLE)
+    else if ((lectureFocus.from === LectureFocusFrom.TABLE)
       && (prevProps.selectedTimetable.id !== selectedTimetable.id)) {
       clearLectureFocusDispatch();
     }
@@ -154,9 +154,9 @@ class LectureDetailSection extends Component {
       [LectureListCode.HUMANITY, 'Humanity'],
       [LectureListCode.CART, 'Cart'],
     ]);
-    const fromString = (lectureFocus.from === TABLE)
+    const fromString = (lectureFocus.from === LectureFocusFrom.TABLE)
       ? 'Timetable'
-      : (lectureFocus.from === LIST)
+      : (lectureFocus.from === LectureFocusFrom.LIST)
         ? `Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`
         : 'Unknown';
     performAddToTable(
@@ -181,9 +181,9 @@ class LectureDetailSection extends Component {
       [LectureListCode.HUMANITY, 'Humanity'],
       [LectureListCode.CART, 'Cart'],
     ]);
-    const fromString = (lectureFocus.from === TABLE)
+    const fromString = (lectureFocus.from === LectureFocusFrom.TABLE)
       ? 'Timetable'
-      : (lectureFocus.from === LIST)
+      : (lectureFocus.from === LectureFocusFrom.LIST)
         ? `Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`
         : 'Unknown';
     performDeleteFromTable(
@@ -209,9 +209,9 @@ class LectureDetailSection extends Component {
       [LectureListCode.HUMANITY, 'Humanity'],
       [LectureListCode.CART, 'Cart'],
     ]);
-    const fromString = (lectureFocus.from === TABLE)
+    const fromString = (lectureFocus.from === LectureFocusFrom.TABLE)
       ? 'Timetable'
-      : (lectureFocus.from === LIST)
+      : (lectureFocus.from === LectureFocusFrom.LIST)
         ? `Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`
         : 'Unknown';
     performAddToCart(
@@ -237,9 +237,9 @@ class LectureDetailSection extends Component {
       [LectureListCode.HUMANITY, 'Humanity'],
       [LectureListCode.CART, 'Cart'],
     ]);
-    const fromString = (lectureFocus.from === TABLE)
+    const fromString = (lectureFocus.from === LectureFocusFrom.TABLE)
       ? 'Timetable'
-      : (lectureFocus.from === LIST)
+      : (lectureFocus.from === LectureFocusFrom.LIST)
         ? `Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`
         : 'Unknown';
     performDeleteFromCart(
@@ -270,7 +270,7 @@ class LectureDetailSection extends Component {
     const { shouldShowCloseDict } = this.state;
     const { lectureFocus, selectedTimetable, lists } = this.props;
 
-    const shouldShowUnfix = (lectureFocus.from === 'LIST' || lectureFocus.from === 'TABLE')
+    const shouldShowUnfix = (lectureFocus.from === LectureFocusFrom.LIST || lectureFocus.from === LectureFocusFrom.TABLE)
       && lectureFocus.clicked;
 
     const mapReviewToBlock = (review, index) => (
@@ -282,7 +282,7 @@ class LectureDetailSection extends Component {
     );
 
     const getSectionContent = () => {
-      if (lectureFocus.from === LIST || lectureFocus.from === TABLE) {
+      if (lectureFocus.from === LectureFocusFrom.LIST || lectureFocus.from === LectureFocusFrom.TABLE) {
         const reviewBlocks = (lectureFocus.reviews == null)
           ? <div className={classNames('list-placeholder', 'min-height-area')}><div>{t('ui.placeholder.loading')}</div></div>
           : (lectureFocus.reviews.length
@@ -454,7 +454,7 @@ class LectureDetailSection extends Component {
         </>
         );
       }
-      if (lectureFocus.from === MULTIPLE) {
+      if (lectureFocus.from === LectureFocusFrom.MULTIPLE) {
         return (
         // eslint-disable-next-line react/jsx-indent
         <>

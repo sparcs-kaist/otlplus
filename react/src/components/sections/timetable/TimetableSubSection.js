@@ -13,7 +13,7 @@ import { setSelectedListCode, setMobileIsLectureListOpen } from '../../../action
 import { dragSearch, clearDrag } from '../../../actions/timetable/search';
 import { setIsDragging, updateCellSize, removeLectureFromTimetable } from '../../../actions/timetable/timetable';
 
-import { LIST } from '../../../reducers/timetable/lectureFocus';
+import { LectureFocusFrom } from '../../../reducers/timetable/lectureFocus';
 import { LectureListCode } from '../../../reducers/timetable/list';
 
 import userShape from '../../../shapes/UserShape';
@@ -195,7 +195,7 @@ class TimetableSubSection extends Component {
     const { lectureFocus, isDragging, setLectureFocusDispatch } = this.props;
 
     if (!lectureFocus.clicked && !isDragging) {
-      setLectureFocusDispatch(lecture, 'TABLE', false);
+      setLectureFocusDispatch(lecture, LectureFocusFrom.TABLE, false);
     }
   }
 
@@ -211,10 +211,10 @@ class TimetableSubSection extends Component {
     const { lectureFocus, setLectureFocusDispatch } = this.props;
 
     if (isTableClicked(lecture, lectureFocus)) {
-      setLectureFocusDispatch(lecture, 'TABLE', false);
+      setLectureFocusDispatch(lecture, LectureFocusFrom.TABLE, false);
     }
     else {
-      setLectureFocusDispatch(lecture, 'TABLE', true);
+      setLectureFocusDispatch(lecture, LectureFocusFrom.TABLE, true);
     }
   }
 
@@ -239,7 +239,7 @@ class TimetableSubSection extends Component {
 
     const timetableLectures = selectedTimetable ? selectedTimetable.lectures : [];
     const isFocusedLectureTemporary = (
-      (lectureFocus.from === LIST)
+      (lectureFocus.from === LectureFocusFrom.LIST)
       && !inTimetable(lectureFocus.lecture, selectedTimetable)
     );
     const tempLecture = isFocusedLectureTemporary

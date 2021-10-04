@@ -17,6 +17,8 @@ import { closeSearch, clearDrag, setLastSearchOption } from '../../../actions/ti
 import { setListLectures, clearSearchListLectures } from '../../../actions/timetable/list';
 import { clearLectureFocus } from '../../../actions/timetable/lectureFocus';
 
+import { LectureFocusFrom } from '../../../reducers/timetable/lectureFocus';
+
 import lectureFocusShape from '../../../shapes/LectureFocusShape';
 
 import { getTypeOptions, getDepartmentOptions, getLevelOptions } from '../../../common/seachOptions';
@@ -82,7 +84,7 @@ class LectureSearchSubSection extends Component {
     closeSearchDispatch();
     clearSearchListLecturesDispatch();
     setLastSearchOptionDispatch(option);
-    if (lectureFocus.from === 'LIST') {
+    if (lectureFocus.from === LectureFocusFrom.LIST) {
       clearLectureFocusDispatch();
     }
 
