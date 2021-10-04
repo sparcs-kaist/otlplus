@@ -1984,14 +1984,12 @@ a {
     padding: $block-padding-tb $block-padding-lr;
     position: relative;
     overflow: hidden;
-    &[href]:hover {
-        background-color:$color-block-background-dark;
-    }
-
-    &.block--highlighted {
+    &[href]:not(.block--dimmed):hover,
+    &.block--clickable:not(.block--dimmed):hover {
         background-color:$color-block-background-dark;
     }
     &.block--raised {
+        background-color:$color-block-background-dark;
         position: relative;
         top: -3px;
         box-shadow: 0 6px 3px -3px $color-block-shadow-dark;
@@ -2084,10 +2082,6 @@ a {
         flex-direction: column;
         justify-content: center;
         cursor: pointer;
-
-        &:not(.block--dimmed):hover {
-            background-color: $color-block-background-dark;
-        }
 
         &__title {
             text-align: center;
@@ -2262,6 +2256,9 @@ a {
 
 
     &--lecture-group {
+        &.block--raised {
+            background-color: $color-block-background;
+        }
 
         &__title {
             margin-bottom: 6px;
@@ -2277,7 +2274,7 @@ a {
                 border-radius:0px 0px $block-border-radius $block-border-radius;
             }
 
-            &.block--highlighted {
+            &.block--raised {
                 background-color:$color-block-background-dark;
             }
 
@@ -2324,7 +2321,6 @@ a {
                     display: none;
                     @media #{$media-portrait} {
                         @at-root
-                        .block--highlighted #{&},
                         .block--raised #{&} {
                             display: block;
                         }
@@ -2448,9 +2444,6 @@ a {
     &--project {
         text-align: center;
         cursor: pointer;
-        &:hover {
-            background-color:$color-block-background-dark;
-        }
 
         &__title {
             font-weight: bold;
@@ -2466,9 +2459,6 @@ a {
         text-align: center;
         cursor: pointer;
 
-        &:hover {
-            background-color:$color-block-background-dark;
-        }
         &__title {
             font-weight: bold;
             margin-bottom: 2px;

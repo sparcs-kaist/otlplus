@@ -24,6 +24,7 @@ const LectureSimpleBlock = ({
       className={classNames(
         'block',
         'block--lecture-simple',
+        (onClick ? 'block--clickable' : ''),
         (isRaised ? 'block--raised' : ''),
         (isDimmed ? 'block--dimmed' : ''),
         (hasReview ? 'block--completed' : ''),

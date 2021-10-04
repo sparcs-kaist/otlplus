@@ -13,7 +13,7 @@ import linkShape from '../../shapes/LinkShape';
 const CourseBlock = ({
   t,
   course,
-  shouldShowReadStatus, isRead, isRaised, isHighlighted, isDimmed,
+  shouldShowReadStatus, isRead, isRaised, isDimmed,
   onMouseOver, onMouseOut, onClick,
   linkTo,
 }) => {
@@ -40,8 +40,8 @@ const CourseBlock = ({
       className={classNames(
         'block',
         'block--course',
+        (onClick ? 'block--clickable' : ''),
         (isRaised ? 'block--raised' : ''),
-        (isHighlighted ? 'block--highlighted' : ''),
         (isDimmed ? 'block--dimmed' : ''),
       )}
       onClick={handleClick}
@@ -84,7 +84,6 @@ CourseBlock.propTypes = {
   shouldShowReadStatus: PropTypes.bool,
   isRead: PropTypes.bool,
   isRaised: PropTypes.bool,
-  isHighlighted: PropTypes.bool,
   isDimmed: PropTypes.bool,
   onMouseOver: PropTypes.func,
   onMouseOut: PropTypes.func,

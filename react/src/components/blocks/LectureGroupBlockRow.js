@@ -11,7 +11,7 @@ import lectureShape from '../../shapes/LectureShape';
 const LectureGroupBlockRow = ({
   t,
   lecture,
-  isHighlighted,
+  isRaised,
   inTimetable, isTimetableReadonly, inCart, fromCart,
   addToCart, addToTable, deleteFromCart,
   onMouseOver, onMouseOut, onClick,
@@ -94,7 +94,7 @@ const LectureGroupBlockRow = ({
     <div
       className={classNames(
         'block--lecture-group__elem-wrap',
-        (isHighlighted ? 'block--highlighted' : ''),
+        (isRaised ? 'block--raised' : ''),
       )}
       data-id={lecture.id}
       onClick={handleClick}
@@ -130,7 +130,7 @@ const LectureGroupBlockRow = ({
 
 LectureGroupBlockRow.propTypes = {
   lecture: lectureShape.isRequired,
-  isHighlighted: PropTypes.bool.isRequired,
+  isRaised: PropTypes.bool.isRequired,
   inTimetable: PropTypes.bool.isRequired,
   isTimetableReadonly: PropTypes.bool.isRequired,
   inCart: PropTypes.bool.isRequired,

@@ -22,6 +22,7 @@ const ProjectBlock = ({
       className={classNames(
         'block',
         'block--project',
+        (onClick ? 'block--clickable' : ''),
         (isRaised ? 'block--raised' : ''),
       )}
       onClick={handleClick}

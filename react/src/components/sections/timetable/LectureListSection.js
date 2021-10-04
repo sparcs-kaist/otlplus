@@ -358,7 +358,7 @@ class LectureListSection extends Component {
                       <LectureGroupBlockRow
                         lecture={l}
                         key={l.id}
-                        isHighlighted={isListClicked(l, lectureFocus) || isListFocused(l, lectureFocus)}
+                        isRaised={isListClicked(l, lectureFocus) || isListFocused(l, lectureFocus)}
                         inTimetable={inTimetable(l, selectedTimetable)}
                         isTimetableReadonly={Boolean(!selectedTimetable || selectedTimetable.isReadOnly)}
                         inCart={inCart(l, lists[CART])}
