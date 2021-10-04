@@ -172,7 +172,7 @@ class LectureListSection extends Component {
     clearLectureFocusDispatch();
   }
 
-  focusLectureWIthClick = (lecture) => {
+  focusLectureWithClick = (lecture) => {
     const { lectureFocus, selectedListCode, setLectureFocusDispatch } = this.props;
 
     if (!isListClicked(lecture, lectureFocus)) {
@@ -363,12 +363,12 @@ class LectureListSection extends Component {
                         isTimetableReadonly={Boolean(!selectedTimetable || selectedTimetable.isReadOnly)}
                         inCart={inCart(l, lists[CART])}
                         fromCart={(selectedListCode === CART)}
-                        addLectureToCart={this.addLectureToCart}
-                        addLectureToTable={this.addLectureToTable}
-                        deleteLectureFromCart={this.deleteLectureFromCart}
+                        addToCart={this.addLectureToCart}
+                        addToTable={this.addLectureToTable}
+                        deleteFromCart={this.deleteLectureFromCart}
                         onMouseOver={this.focusLectureWithHover}
                         onMouseOut={this.unfocusLectureWithHover}
-                        onClick={this.focusLectureWIthClick}
+                        onClick={this.focusLectureWithClick}
                       />
                     ))
                   }
