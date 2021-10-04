@@ -223,9 +223,9 @@ class LectureListSection extends Component {
     }
 
     const elementAtPosition = (
-      document.elementFromPoint(100, arrowY).closest(`.${classNames('block--lecture-group__elem-wrap')}`)
-      || document.elementFromPoint(100, arrowY - 25).closest(`.${classNames('block--lecture-group__elem-wrap')}`)
-      || document.elementFromPoint(100, arrowY + 25).closest(`.${classNames('block--lecture-group__elem-wrap')}`)
+      document.elementFromPoint(100, arrowY).closest(`.${classNames('block--lecture-group__row')}`)
+      || document.elementFromPoint(100, arrowY - 25).closest(`.${classNames('block--lecture-group__row')}`)
+      || document.elementFromPoint(100, arrowY + 25).closest(`.${classNames('block--lecture-group__row')}`)
     );
     if (elementAtPosition === null) {
       clearLectureFocusDispatch();
@@ -358,7 +358,7 @@ class LectureListSection extends Component {
                       <LectureGroupBlockRow
                         lecture={l}
                         key={l.id}
-                        isRaised={isListClicked(l, lectureFocus) || isListFocused(l, lectureFocus)}
+                        isHighlighted={isListClicked(l, lectureFocus) || isListFocused(l, lectureFocus)}
                         inTimetable={inTimetable(l, selectedTimetable)}
                         isTimetableReadonly={Boolean(!selectedTimetable || selectedTimetable.isReadOnly)}
                         inCart={inCart(l, lists[CART])}

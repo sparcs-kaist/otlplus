@@ -2006,7 +2006,7 @@ a {
                 opacity: 0.45;
             }
     
-            & .block--lecture-group__elem__texts__sub {
+            & .block--lecture-group__row-content__texts__sub {
                 color: rgba($color-text-lighter, 0.35);
             }
         }
@@ -2264,7 +2264,7 @@ a {
             margin-bottom: 6px;
         }
 
-        &__elem-wrap {
+        &__row {
             margin: 0px (-$block-padding-lr);
             padding: 0 $block-padding-lr 0 ($block-padding-lr + 8px);
             cursor: pointer;
@@ -2274,7 +2274,7 @@ a {
                 border-radius:0px 0px $block-border-radius $block-border-radius;
             }
 
-            &.block--raised {
+            &--highlighted {
                 background-color:$color-block-background-dark;
             }
 
@@ -2283,7 +2283,7 @@ a {
             }
         }
 
-        &__elem {
+        &__row-content {
             padding: 6px 0;
             border-top:1px solid $color-block-line;
             display: flex;
@@ -2321,7 +2321,7 @@ a {
                     display: none;
                     @media #{$media-portrait} {
                         @at-root
-                        .block--raised #{&} {
+                        .block--lecture-group__row--highlighted #{&} {
                             display: block;
                         }
                     }
@@ -2352,7 +2352,7 @@ a {
 
     &--lecture-group-simple {
 
-        &__elem-wrap {
+        &__row {
             margin: 0px (-$block-padding-lr);
             padding: 0 $block-padding-lr 0 $block-padding-lr;
             &:first-child {
@@ -2363,7 +2363,7 @@ a {
             }
         }
 
-        &__elem {
+        &__row-content {
             padding: 6px 0;
             border-top:1px solid $color-block-line;
             display: flex;
@@ -3565,7 +3565,7 @@ i.icon {
             background-image: url(../static/icons/add_cart_hover.svg);
         }
 
-        .block--lecture-group__elem__button--disable > & {
+        .block--lecture-group__row-content__button--disable > & {
             background-image: url(../static/icons/add_cart_disabled.svg);
         }
     }
@@ -3592,7 +3592,7 @@ i.icon {
         }
 
         .text-button--disabled > &,
-        .block--lecture-group__elem__button--disable > & {
+        .block--lecture-group__row-content__button--disable > & {
             background-image: url(../static/icons/add_lecture_disabled.svg);
         }
     }
