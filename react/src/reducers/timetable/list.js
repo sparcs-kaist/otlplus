@@ -8,25 +8,27 @@ import {
 
 import { unique } from '../../utils/commonUtils';
 
-export const SEARCH = 'search';
-export const BASIC = 'basic';
-export const HUMANITY = 'humanity';
-export const CART = 'cart';
+export const LectureListCode = {
+  SEARCH: 'search',
+  BASIC: 'basic',
+  HUMANITY: 'humanity',
+  CART: 'cart',
+};
 
 
 const initialState = {
-  selectedListCode: SEARCH,
+  selectedListCode: LectureListCode.SEARCH,
   lists: {
-    [SEARCH]: {
+    [LectureListCode.SEARCH]: {
       lectureGroups: [],
     },
-    [BASIC]: {
+    [LectureListCode.BASIC]: {
       lectureGroups: null,
     },
-    [HUMANITY]: {
+    [LectureListCode.HUMANITY]: {
       lectureGroups: null,
     },
-    [CART]: {
+    [LectureListCode.CART]: {
       lectureGroups: null,
     },
   },
@@ -82,7 +84,7 @@ const list = (state = initialState, action) => {
       newState.lists = { ...newState.lists };
       Object.keys(newState.lists).forEach((k) => {
         newState.lists[k] = { ...newState.lists[k] };
-        if (k === SEARCH) {
+        if (k === LectureListCode.SEARCH) {
           newState.lists[k].lectureGroups = [];
         }
         else {
@@ -96,34 +98,34 @@ const list = (state = initialState, action) => {
       /* eslint-disable fp/no-mutation */
       const newState = { ...state };
       newState.lists = { ...newState.lists };
-      newState.lists[SEARCH] = { ...newState.lists[SEARCH] };
-      newState.lists[SEARCH].lectureGroups = null;
+      newState.lists[LectureListCode.SEARCH] = { ...newState.lists[LectureListCode.SEARCH] };
+      newState.lists[LectureListCode.SEARCH].lectureGroups = null;
       /* eslint-enable fp/no-mutation */
       return Object.assign({}, state, newState);
     }
     case ADD_LECTURE_TO_CART: {
-      const { lectureGroups } = state.lists[CART];
+      const { lectureGroups } = state.lists[LectureListCode.CART];
       const lectures = ungroupLectureGroups(lectureGroups);
       const newLectures = [...lectures, action.lecture];
       const newLectureGroups = groupLectures(newLectures);
       /* eslint-disable fp/no-mutation */
       const newState = { ...state };
       newState.lists = { ...newState.lists };
-      newState.lists[CART] = { ...newState.lists[CART] };
-      newState.lists[CART].lectureGroups = newLectureGroups;
+      newState.lists[LectureListCode.CART] = { ...newState.lists[LectureListCode.CART] };
+      newState.lists[LectureListCode.CART].lectureGroups = newLectureGroups;
       /* eslint-enable fp/no-mutation */
       return Object.assign({}, state, newState);
     }
     case DELETE_LECTURE_FROM_CART: {
-      const { lectureGroups } = state.lists[CART];
+      const { lectureGroups } = state.lists[LectureListCode.CART];
       const lectures = ungroupLectureGroups(lectureGroups);
       const newLectures = lectures.filter((l) => (l.id !== action.lecture.id));
       const newLectureGroups = groupLectures(newLectures);
       /* eslint-disable fp/no-mutation */
       const newState = { ...state };
       newState.lists = { ...newState.lists };
-      newState.lists[CART] = { ...newState.lists[CART] };
-      newState.lists[CART].lectureGroups = newLectureGroups;
+      newState.lists[LectureListCode.CART] = { ...newState.lists[LectureListCode.CART] };
+      newState.lists[LectureListCode.CART].lectureGroups = newLectureGroups;
       /* eslint-enable fp/no-mutation */
       return Object.assign({}, state, newState);
     }

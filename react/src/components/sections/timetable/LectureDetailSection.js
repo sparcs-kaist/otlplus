@@ -18,9 +18,7 @@ import { addLectureToCart, deleteLectureFromCart } from '../../../actions/timeta
 import { addLectureToTimetable, removeLectureFromTimetable } from '../../../actions/timetable/timetable';
 
 import { LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureFocus';
-import {
-  SEARCH, BASIC, HUMANITY, CART,
-} from '../../../reducers/timetable/list';
+import { LectureListCode } from '../../../reducers/timetable/list';
 
 import userShape from '../../../shapes/UserShape';
 import lectureFocusShape from '../../../shapes/LectureFocusShape';
@@ -151,10 +149,10 @@ class LectureDetailSection extends Component {
     event.stopPropagation();
 
     const labelOfTabs = new Map([
-      [SEARCH, 'Search'],
-      [BASIC, 'Basic'],
-      [HUMANITY, 'Humanity'],
-      [CART, 'Cart'],
+      [LectureListCode.SEARCH, 'Search'],
+      [LectureListCode.BASIC, 'Basic'],
+      [LectureListCode.HUMANITY, 'Humanity'],
+      [LectureListCode.CART, 'Cart'],
     ]);
     const fromString = (lectureFocus.from === TABLE)
       ? 'Timetable'
@@ -178,10 +176,10 @@ class LectureDetailSection extends Component {
     event.stopPropagation();
 
     const labelOfTabs = new Map([
-      [SEARCH, 'Search'],
-      [BASIC, 'Basic'],
-      [HUMANITY, 'Humanity'],
-      [CART, 'Cart'],
+      [LectureListCode.SEARCH, 'Search'],
+      [LectureListCode.BASIC, 'Basic'],
+      [LectureListCode.HUMANITY, 'Humanity'],
+      [LectureListCode.CART, 'Cart'],
     ]);
     const fromString = (lectureFocus.from === TABLE)
       ? 'Timetable'
@@ -206,10 +204,10 @@ class LectureDetailSection extends Component {
     event.stopPropagation();
 
     const labelOfTabs = new Map([
-      [SEARCH, 'Search'],
-      [BASIC, 'Basic'],
-      [HUMANITY, 'Humanity'],
-      [CART, 'Cart'],
+      [LectureListCode.SEARCH, 'Search'],
+      [LectureListCode.BASIC, 'Basic'],
+      [LectureListCode.HUMANITY, 'Humanity'],
+      [LectureListCode.CART, 'Cart'],
     ]);
     const fromString = (lectureFocus.from === TABLE)
       ? 'Timetable'
@@ -234,10 +232,10 @@ class LectureDetailSection extends Component {
     event.stopPropagation();
 
     const labelOfTabs = new Map([
-      [SEARCH, 'Search'],
-      [BASIC, 'Basic'],
-      [HUMANITY, 'Humanity'],
-      [CART, 'Cart'],
+      [LectureListCode.SEARCH, 'Search'],
+      [LectureListCode.BASIC, 'Basic'],
+      [LectureListCode.HUMANITY, 'Humanity'],
+      [LectureListCode.CART, 'Cart'],
     ]);
     const fromString = (lectureFocus.from === TABLE)
       ? 'Timetable'
@@ -408,7 +406,7 @@ class LectureDetailSection extends Component {
           />
           <div className={classNames('section-content--lecture-detail__mobile-buttons', 'desktop-hidden')}>
             {
-              !inCart(lectureFocus.lecture, lists[CART])
+              !inCart(lectureFocus.lecture, lists[LectureListCode.CART])
                 ? (
                   <button className={classNames('text-button', 'text-button--black')} onClick={this.addToCart}>
                     <i className={classNames('icon', 'icon--add-cart')} />

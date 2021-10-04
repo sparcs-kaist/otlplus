@@ -7,7 +7,7 @@ import ReactGA from 'react-ga';
 import { debounce } from 'lodash';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
-import { SEARCH } from '../../../reducers/timetable/list';
+import { LectureListCode } from '../../../reducers/timetable/list';
 
 import Divider from '../../Divider';
 import SearchFilter from '../../SearchFilter';
@@ -111,7 +111,7 @@ class LectureSearchSubSection extends Component {
           // eslint-disable-next-line no-alert
           alert(t('ui.message.tooManySearchResults', { count: LIMIT }));
         }
-        setListLecturesDispatch(SEARCH, response.data);
+        setListLecturesDispatch(LectureListCode.SEARCH, response.data);
       })
       .catch((error) => {
       });

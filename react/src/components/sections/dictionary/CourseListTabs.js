@@ -7,9 +7,7 @@ import ReactGA from 'react-ga';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
-import {
-  SEARCH, BASIC, HUMANITY, TAKEN,
-} from '../../../reducers/dictionary/list';
+import { CourseListCode } from '../../../reducers/dictionary/list';
 
 import { openSearch, closeSearch } from '../../../actions/dictionary/search';
 import {
@@ -27,7 +25,7 @@ class CourseListTabs extends Component {
     const { user, selectedListCode } = this.props;
 
     if (user && !prevProps.user) {
-      if (selectedListCode === TAKEN) {
+      if (selectedListCode === CourseListCode.TAKEN) {
         this._fetchList(selectedListCode, true);
       }
     }
@@ -40,23 +38,23 @@ class CourseListTabs extends Component {
   _fetchList = (listCode, force = false) => {
     const { user, lists } = this.props;
 
-    if (listCode === SEARCH) {
+    if (listCode === CourseListCode.SEARCH) {
       return;
     }
     if (!force && lists[listCode] && lists[listCode].courses) {
       return;
     }
 
-    if (listCode === BASIC) {
+    if (listCode === CourseListCode.BASIC) {
       this._performFetchBasicList();
     }
     else if (user && user.departments.some((d) => (d.code === listCode))) {
       this._performFetchMajorList(listCode);
     }
-    else if (listCode === HUMANITY) {
+    else if (listCode === CourseListCode.HUMANITY) {
       this._performFetchHumanityList();
     }
-    else if (listCode === TAKEN) {
+    else if (listCode === CourseListCode.TAKEN) {
       this._performFetchTakenList();
     }
   }
@@ -79,7 +77,7 @@ class CourseListTabs extends Component {
       },
     )
       .then((response) => {
-        setListCoursesDispatch(BASIC, response.data);
+        setListCoursesDispatch(CourseListCode.BASIC, response.data);
       })
       .catch((error) => {
       });
@@ -131,7 +129,7 @@ class CourseListTabs extends Component {
       },
     )
       .then((response) => {
-        setListCoursesDispatch(HUMANITY, response.data);
+        setListCoursesDispatch(CourseListCode.HUMANITY, response.data);
       })
       .catch((error) => {
       });
@@ -142,10 +140,10 @@ class CourseListTabs extends Component {
     const { user, setListCoursesDispatch } = this.props;
 
     if (!user) {
-      setListCoursesDispatch(TAKEN, []);
+      setListCoursesDispatch(CourseListCode.TAKEN, []);
       return;
     }
-    setListCoursesDispatch(TAKEN, null);
+    setListCoursesDispatch(CourseListCode.TAKEN, null);
     axios.get(
       `/api/users/${user.id}/taken-courses`,
       {
@@ -159,7 +157,7 @@ class CourseListTabs extends Component {
       },
     )
       .then((response) => {
-        setListCoursesDispatch(TAKEN, response.data);
+        setListCoursesDispatch(CourseListCode.TAKEN, response.data);
       })
       .catch((error) => {
       });
@@ -173,8 +171,8 @@ class CourseListTabs extends Component {
 
     setSelectedListCodeDispatch(listCode);
 
-    if (listCode === SEARCH) {
-      if (lists[SEARCH].courses && lists[SEARCH].courses.length) {
+    if (listCode === CourseListCode.SEARCH) {
+      if (lists[CourseListCode.SEARCH].courses && lists[CourseListCode.SEARCH].courses.length) {
         closeSearchDispatch();
       }
       else {
@@ -183,10 +181,10 @@ class CourseListTabs extends Component {
     }
 
     const labelOfTabs = new Map([
-      [SEARCH, 'Search'],
-      [BASIC, 'Basic'],
-      [HUMANITY, 'Humanity'],
-      [TAKEN, 'Taken'],
+      [CourseListCode.SEARCH, 'Search'],
+      [CourseListCode.BASIC, 'Basic'],
+      [CourseListCode.HUMANITY, 'Humanity'],
+      [CourseListCode.TAKEN, 'Taken'],
     ]);
     ReactGA.event({
       category: 'Dictionary - List',
@@ -203,11 +201,11 @@ class CourseListTabs extends Component {
       <div className={classNames('tabs', 'tabs--course-list')}>
         <Scroller noScrollX={false} noScrollY={true} expandBottom={2}>
           <div className={classNames('tabs__flexbox')}>
-            <div className={classNames('tabs__elem', (selectedListCode === SEARCH ? 'tabs__elem--selected' : ''))} onClick={() => this.changeTab(SEARCH)}>
+            <div className={classNames('tabs__elem', (selectedListCode === CourseListCode.SEARCH ? 'tabs__elem--selected' : ''))} onClick={() => this.changeTab(CourseListCode.SEARCH)}>
               <i className={classNames('icon', 'icon--tab-search')} />
               <span>{t('ui.tab.searchShort')}</span>
             </div>
-            <div className={classNames('tabs__elem', (selectedListCode === BASIC ? 'tabs__elem--selected' : ''))} onClick={() => this.changeTab(BASIC)}>
+            <div className={classNames('tabs__elem', (selectedListCode === CourseListCode.BASIC ? 'tabs__elem--selected' : ''))} onClick={() => this.changeTab(CourseListCode.BASIC)}>
               <i className={classNames('icon', 'icon--tab-basic')} />
               <span>{t('ui.tab.basicShort')}</span>
             </div>
@@ -217,11 +215,11 @@ class CourseListTabs extends Component {
                 <span>{t('ui.tab.majorShort')}</span>
               </div>
             ))}
-            <div className={classNames('tabs__elem', (selectedListCode === HUMANITY ? 'tabs__elem--selected' : ''))} onClick={() => this.changeTab(HUMANITY)}>
+            <div className={classNames('tabs__elem', (selectedListCode === CourseListCode.HUMANITY ? 'tabs__elem--selected' : ''))} onClick={() => this.changeTab(CourseListCode.HUMANITY)}>
               <i className={classNames('icon', 'icon--tab-humanity')} />
               <span>{t('ui.tab.humanityShort')}</span>
             </div>
-            <div className={classNames('tabs__elem', (selectedListCode === TAKEN ? 'tabs__elem--selected' : ''))} onClick={() => this.changeTab(TAKEN)}>
+            <div className={classNames('tabs__elem', (selectedListCode === CourseListCode.TAKEN ? 'tabs__elem--selected' : ''))} onClick={() => this.changeTab(CourseListCode.TAKEN)}>
               <i className={classNames('icon', 'icon--tab-taken')} />
               <span>{t('ui.tab.takenShort')}</span>
             </div>

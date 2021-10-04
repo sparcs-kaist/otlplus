@@ -5,7 +5,7 @@ import { withTranslation } from 'react-i18next';
 import axios from 'axios';
 
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
-import { SEARCH } from '../reducers/dictionary/list';
+import { CourseListCode } from '../reducers/dictionary/list';
 
 import CourseListSection from '../components/sections/dictionary/CourseListSection';
 import CourseDetailSection from '../components/sections/dictionary/CourseDetailSection';
@@ -81,7 +81,7 @@ class DictionaryPage extends Component {
             // eslint-disable-next-line no-alert
             alert(t('ui.message.tooManySearchResults', { count: LIMIT }));
           }
-          setListCoursesDispatch(SEARCH, response.data);
+          setListCoursesDispatch(CourseListCode.SEARCH, response.data);
         })
         .catch((error) => {
         });

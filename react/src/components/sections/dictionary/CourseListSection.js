@@ -6,9 +6,7 @@ import ReactGA from 'react-ga';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
-import {
-  SEARCH, BASIC, HUMANITY, TAKEN,
-} from '../../../reducers/dictionary/list';
+import { CourseListCode } from '../../../reducers/dictionary/list';
 
 import Scroller from '../../Scroller';
 import CourseSearchSubSection from './CourseSearchSubSection';
@@ -61,10 +59,10 @@ class CourseListSection extends Component {
       setCourseFocusDispatch(course, true);
 
       const labelOfTabs = new Map([
-        [SEARCH, 'Search'],
-        [BASIC, 'Basic'],
-        [HUMANITY, 'Humanity'],
-        [TAKEN, 'Taken'],
+        [CourseListCode.SEARCH, 'Search'],
+        [CourseListCode.BASIC, 'Basic'],
+        [CourseListCode.HUMANITY, 'Humanity'],
+        [CourseListCode.TAKEN, 'Taken'],
       ]);
       ReactGA.event({
         category: 'Dictionary - Selection',
@@ -76,10 +74,10 @@ class CourseListSection extends Component {
       setCourseFocusDispatch(course, false);
 
       const labelOfTabs = new Map([
-        [SEARCH, 'Search'],
-        [BASIC, 'Basic'],
-        [HUMANITY, 'Humanity'],
-        [TAKEN, 'Taken'],
+        [CourseListCode.SEARCH, 'Search'],
+        [CourseListCode.BASIC, 'Basic'],
+        [CourseListCode.HUMANITY, 'Humanity'],
+        [CourseListCode.TAKEN, 'Taken'],
       ]);
       ReactGA.event({
         category: 'Dictionary - Selection',
@@ -112,7 +110,7 @@ class CourseListSection extends Component {
     } = this.props;
 
     const getListTitle = () => {
-      if (selectedListCode === SEARCH) {
+      if (selectedListCode === CourseListCode.SEARCH) {
         const lastSearchOptionText = Object.entries(lastSearchOption)
           .map((e) => {
             if (e[0] === 'keyword' && e[1].length > 0) {
@@ -142,7 +140,7 @@ class CourseListSection extends Component {
           </div>
         );
       }
-      if (selectedListCode === BASIC) {
+      if (selectedListCode === CourseListCode.BASIC) {
         return (
           <div className={classNames('title')}>
             {t('ui.tab.basic')}
@@ -157,14 +155,14 @@ class CourseListSection extends Component {
           </div>
         );
       }
-      if (selectedListCode === HUMANITY) {
+      if (selectedListCode === CourseListCode.HUMANITY) {
         return (
           <div className={classNames('title')}>
             {t('ui.tab.humanity')}
           </div>
         );
       }
-      if (selectedListCode === TAKEN) {
+      if (selectedListCode === CourseListCode.TAKEN) {
         return (
           <div className={classNames('title')}>
             {t('ui.tab.taken')}
@@ -208,7 +206,7 @@ class CourseListSection extends Component {
     return (
       <div className={classNames('section', 'section--course-list')}>
         <div className={classNames('section-content', 'section-content--flex', 'section-content--course-list')}>
-          { ((selectedListCode === SEARCH) && searchOpen) ? <CourseSearchSubSection /> : null }
+          { ((selectedListCode === CourseListCode.SEARCH) && searchOpen) ? <CourseSearchSubSection /> : null }
           { getListTitle() }
           { getListElement() }
         </div>

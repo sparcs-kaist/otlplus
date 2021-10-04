@@ -5,25 +5,28 @@ import {
   ADD_COURSE_READ,
 } from '../../actions/dictionary/list';
 
-export const SEARCH = 'search';
-export const BASIC = 'basic';
-export const HUMANITY = 'humanity';
-export const TAKEN = 'taken';
+
+export const CourseListCode = {
+  SEARCH: 'search',
+  BASIC: 'basic',
+  HUMANITY: 'humanity',
+  TAKEN: 'taken',
+};
 
 
 const initialState = {
-  selectedListCode: SEARCH,
+  selectedListCode: CourseListCode.SEARCH,
   lists: {
-    [SEARCH]: {
+    [CourseListCode.SEARCH]: {
       courses: [],
     },
-    [BASIC]: {
+    [CourseListCode.BASIC]: {
       courses: null,
     },
-    [HUMANITY]: {
+    [CourseListCode.HUMANITY]: {
       courses: null,
     },
-    [TAKEN]: {
+    [CourseListCode.TAKEN]: {
       courses: null,
     },
   },
@@ -53,8 +56,8 @@ const list = (state = initialState, action) => {
       /* eslint-disable fp/no-mutation */
       const newState = { ...state };
       newState.lists = { ...newState.lists };
-      newState.lists[SEARCH] = { ...newState.lists[SEARCH] };
-      newState.lists[SEARCH].courses = null;
+      newState.lists[CourseListCode.SEARCH] = { ...newState.lists[CourseListCode.SEARCH] };
+      newState.lists[CourseListCode.SEARCH].courses = null;
       /* eslint-enable fp/no-mutation */
       return Object.assign({}, state, newState);
     }

@@ -14,7 +14,7 @@ import { dragSearch, clearDrag } from '../../../actions/timetable/search';
 import { setIsDragging, updateCellSize, removeLectureFromTimetable } from '../../../actions/timetable/timetable';
 
 import { LIST } from '../../../reducers/timetable/lectureFocus';
-import { SEARCH } from '../../../reducers/timetable/list';
+import { LectureListCode } from '../../../reducers/timetable/list';
 
 import userShape from '../../../shapes/UserShape';
 import timetableShape from '../../../shapes/TimetableShape';
@@ -188,7 +188,7 @@ class TimetableSubSection extends Component {
     const downIndex = Math.max(startIndex, endIndex) + 1;
     dragSearchDispatch(startDay, upIndex, downIndex);
     setMobileIsLectureListOpenDispatch(true);
-    setSelectedListCodeDispatch(SEARCH);
+    setSelectedListCodeDispatch(LectureListCode.SEARCH);
   }
 
   focusLectureWithHover = (lecture) => {
