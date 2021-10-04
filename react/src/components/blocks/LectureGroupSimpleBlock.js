@@ -9,11 +9,11 @@ import lectureShape from '../../shapes/LectureShape';
 
 
 const LectureGroupSimpleBlock = ({ t, lectures }) => {
-  const getClass = (lec) => {
-    if (!lec.class_title) {
+  const getClass = (lecture) => {
+    if (!lecture.class_title) {
       return classNames('');
     }
-    switch (lec.class_title.length) {
+    switch (lecture.class_title.length) {
       case 1:
         return classNames('block--lecture-group-simple__elem__texts__fixed-1');
       case 2:

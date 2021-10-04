@@ -2277,8 +2277,7 @@ a {
                 border-radius:0px 0px $block-border-radius $block-border-radius;
             }
 
-            &.block--highlighted,
-            &.block--raised {
+            &.block--highlighted {
                 background-color:$color-block-background-dark;
             }
 

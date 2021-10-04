@@ -225,6 +225,11 @@ class RankedReviewsSubSection extends Component {
   }
 
 
+  selectSemester = (semester) => {
+    this.setState({ selectedSemester: semester });
+  }
+
+
   render() {
     const { t } = this.props;
     const { selectedSemester } = this.state;
@@ -238,9 +243,7 @@ class RankedReviewsSubSection extends Component {
         <SemesterBlock
           semester={ALL}
           isRaised={selectedSemester === ALL}
-          onClick={() => {
-            this.setState({ selectedSemester: ALL });
-          }}
+          onClick={this.selectSemester}
           key={ALL}
         />,
         ...semesters
@@ -249,9 +252,7 @@ class RankedReviewsSubSection extends Component {
             <SemesterBlock
               semester={s}
               isRaised={selectedSemester === s}
-              onClick={() => {
-                this.setState({ selectedSemester: s });
-              }}
+              onClick={this.selectSemester}
               key={`${s.year}-${s.semester}`}
             />
           )),

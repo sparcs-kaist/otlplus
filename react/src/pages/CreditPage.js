@@ -442,9 +442,9 @@ class CreditPage extends Component {
     };
   }
 
-  changePage = (index) => {
+  selectProject = (project) => {
     this.setState({
-      selectedProjectIndex: index,
+      selectedProjectIndex: project.index,
     });
   }
 
@@ -462,12 +462,10 @@ class CreditPage extends Component {
                 {
                   this.projects.map((p) => (
                     <ProjectBlock
+                      project={p}
                       index={p.index}
-                      onClick={this.changePage}
+                      onClick={this.selectProject}
                       isRaised={selectedProjectIndex === p.index}
-                      mainTitle={p.mainTitle}
-                      subTitle={p.subTitle}
-                      period={p.period}
                       key={p.index}
                     />
                   ))

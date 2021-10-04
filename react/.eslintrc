@@ -37,7 +37,7 @@
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "react/require-default-props": "off",
     "react/prefer-stateless-function": 0,
-    "react/prop-types": [2, {"ignore": ["match", "t", "i18n"]}],
+    "react/prop-types": [2, {"ignore": ["children", "match", "t", "i18n"]}],
 
     "no-loops/no-loops": "error",
 

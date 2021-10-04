@@ -29,13 +29,14 @@ import lectureLastSearchOptionShape from '../../../shapes/LectureLastSearchOptio
 
 import {
   isListClicked,
-  performAddToTable, performAddToCart, performDeleteFromCart,
+  performAddToTable, performAddToCart, performDeleteFromCart, isListFocused, inTimetable, inCart, isDimmedListLectureGroup,
 } from '../../../utils/lectureUtils';
 import { isTaken } from '../../../utils/courseUtils';
 
 import {
   getLabelOfValue, getDepartmentOptions, getTypeOptions, getLevelOptions,
 } from '../../../common/seachOptions';
+import LectureGroupBlockRow from '../../blocks/LectureGroupBlockRow';
 
 
 class LectureListSection extends Component {
@@ -78,7 +79,7 @@ class LectureListSection extends Component {
     openSearchDispatch();
   }
 
-  addToTable = (lecture) => {
+  addLectureToTable = (lecture) => {
     const {
       user,
       selectedTimetable, selectedListCode,
@@ -99,7 +100,7 @@ class LectureListSection extends Component {
     );
   }
 
-  addToCart = (lecture) => {
+  addLectureToCart = (lecture) => {
     const {
       user,
       selectedListCode,
@@ -121,7 +122,7 @@ class LectureListSection extends Component {
     );
   }
 
-  deleteFromCart = (lecture) => {
+  deleteLectureFromCart = (lecture) => {
     const {
       user,
       selectedListCode,
@@ -143,7 +144,7 @@ class LectureListSection extends Component {
     );
   }
 
-  listHover = (lecture) => () => {
+  focusLectureWithHover = (lecture) => {
     const { lectureFocus, setLectureFocusDispatch } = this.props;
 
     const arrow = this.arrowRef.current;
@@ -157,7 +158,7 @@ class LectureListSection extends Component {
     setLectureFocusDispatch(lecture, LIST, false);
   }
 
-  listOut = () => {
+  unfocusLectureWithHover = (lecture) => {
     const { lectureFocus, clearLectureFocusDispatch } = this.props;
 
     const arrow = this.arrowRef.current;
@@ -171,7 +172,7 @@ class LectureListSection extends Component {
     clearLectureFocusDispatch();
   }
 
-  listClick = (lecture) => () => {
+  focusLectureWIthClick = (lecture) => {
     const { lectureFocus, selectedListCode, setLectureFocusDispatch } = this.props;
 
     if (!isListClicked(lecture, lectureFocus)) {
@@ -348,18 +349,30 @@ class LectureListSection extends Component {
                 <LectureGroupBlock
                   lectureGroup={lg}
                   key={lg[0].course}
-                  selectedTimetable={selectedTimetable}
-                  cart={lists[CART]}
-                  lectureFocus={lectureFocus}
+                  isRaised={lg.some((l) => isListClicked(l, lectureFocus))}
+                  isDimmed={isDimmedListLectureGroup(lg, lectureFocus)}
                   isTaken={user && isTaken(lg[0].course, user)}
-                  fromCart={(selectedListCode === CART)}
-                  addToCart={this.addToCart}
-                  addToTable={this.addToTable}
-                  deleteFromCart={this.deleteFromCart}
-                  listHover={this.listHover}
-                  listOut={this.listOut}
-                  listClick={this.listClick}
-                />
+                >
+                  {
+                    lg.map((l) => (
+                      <LectureGroupBlockRow
+                        lecture={l}
+                        key={l.id}
+                        isHighlighted={isListClicked(l, lectureFocus) || isListFocused(l, lectureFocus)}
+                        inTimetable={inTimetable(l, selectedTimetable)}
+                        isTimetableReadonly={Boolean(!selectedTimetable || selectedTimetable.isReadOnly)}
+                        inCart={inCart(l, lists[CART])}
+                        fromCart={(selectedListCode === CART)}
+                        addLectureToCart={this.addLectureToCart}
+                        addLectureToTable={this.addLectureToTable}
+                        deleteLectureFromCart={this.deleteLectureFromCart}
+                        onMouseOver={this.focusLectureWithHover}
+                        onMouseOut={this.unfocusLectureWithHover}
+                        onClick={this.focusLectureWIthClick}
+                      />
+                    ))
+                  }
+                </LectureGroupBlock>
               ))
             }
           </div>

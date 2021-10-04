@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { withTranslation } from 'react-i18next';
-import qs from 'qs';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 import { isSpecialLecture } from '../../utils/lectureUtils';
@@ -9,12 +8,15 @@ import { getSingleScoreLabel } from '../../utils/scoreUtils';
 import { getSemesterName } from '../../utils/semesterUtils';
 
 import reviewShape from '../../shapes/ReviewShape';
+import linkShape from '../../shapes/LinkShape';
 
 
-const ReviewSimpleBlock = ({ t, review }) => {
+const ReviewSimpleBlock = ({ t, review, linkTo }) => {
+  const RootTag = linkTo ? Link : 'div';
+
   return (
-    <Link
-      to={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: review.course.id }) }}
+    <RootTag
+      to={linkTo}
       className={classNames('block', 'block--review-simple')}
     >
       <div>
@@ -52,12 +54,13 @@ const ReviewSimpleBlock = ({ t, review }) => {
           <strong>{getSingleScoreLabel(review.speech)}</strong>
         </span>
       </div>
-    </Link>
+    </RootTag>
   );
 };
 
 ReviewSimpleBlock.propTypes = {
   review: reviewShape.isRequired,
+  linkTo: linkShape,
 };
 
 export default withTranslation()(

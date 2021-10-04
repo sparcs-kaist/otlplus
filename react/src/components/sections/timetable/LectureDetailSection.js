@@ -276,7 +276,11 @@ class LectureDetailSection extends Component {
       && lectureFocus.clicked;
 
     const mapReviewToBlock = (review, index) => (
-      <ReviewSimpleBlock key={`review_${index}`} review={review} />
+      <ReviewSimpleBlock
+        key={`review_${index}`}
+        review={review}
+        linkTo={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: review.course.id }) }}
+      />
     );
 
     const getSectionContent = () => {

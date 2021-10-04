@@ -36,7 +36,7 @@ class CourseListSection extends Component {
   }
 
 
-  listHover = (course) => () => {
+  focusCourseWithHover = (course) => {
     const { courseFocus, setCourseFocusDispatch } = this.props;
 
     if (courseFocus.clicked) {
@@ -45,7 +45,7 @@ class CourseListSection extends Component {
     setCourseFocusDispatch(course, false);
   }
 
-  listOut = () => {
+  unfocusCourseWithHover = (course) => {
     const { courseFocus, clearCourseFocusDispatch } = this.props;
 
     if (courseFocus.clicked) {
@@ -54,7 +54,7 @@ class CourseListSection extends Component {
     clearCourseFocusDispatch();
   }
 
-  listClick = (course) => () => {
+  focusCourseWithClick = (course) => {
     const { courseFocus, selectedListCode, setCourseFocusDispatch } = this.props;
 
     if (!isClicked(course, courseFocus)) {
@@ -195,9 +195,9 @@ class CourseListSection extends Component {
                   isRaised={isClicked(c, courseFocus)}
                   isHighlighted={isHovered(c, courseFocus) || isClicked(c, courseFocus)}
                   isDimmed={isDimmedCourse(c, courseFocus)}
-                  listHover={this.listHover}
-                  listOut={this.listOut}
-                  listClick={this.listClick}
+                  onMouseOver={this.focusCourseWithHover}
+                  onMouseOut={this.unfocusCourseWithHover}
+                  onClick={this.focusCourseWithClick}
                 />
               ))
             }

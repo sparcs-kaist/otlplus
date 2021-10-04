@@ -191,7 +191,7 @@ class TimetableSubSection extends Component {
     setSelectedListCodeDispatch(SEARCH);
   }
 
-  tileHover = (lecture) => () => {
+  focusLectureWithHover = (lecture) => {
     const { lectureFocus, isDragging, setLectureFocusDispatch } = this.props;
 
     if (!lectureFocus.clicked && !isDragging) {
@@ -199,7 +199,7 @@ class TimetableSubSection extends Component {
     }
   }
 
-  tileOut = () => {
+  unfocusLectureWithHover = (lecture) => {
     const { lectureFocus, clearLectureFocusDispatch } = this.props;
 
     if (!lectureFocus.clicked) {
@@ -207,7 +207,7 @@ class TimetableSubSection extends Component {
     }
   }
 
-  tileClick = (lecture) => () => {
+  focusLectureWithClick = (lecture) => {
     const { lectureFocus, setLectureFocusDispatch } = this.props;
 
     if (isTableClicked(lecture, lectureFocus)) {
@@ -218,7 +218,7 @@ class TimetableSubSection extends Component {
     }
   }
 
-  deleteLecture = (lecture) => {
+  deleteLectureFromTimetable = (lecture) => {
     const { selectedTimetable, user, removeLectureFromTimetableDispatch } = this.props;
 
     if (!selectedTimetable) {
@@ -286,10 +286,10 @@ class TimetableSubSection extends Component {
           isDimmed={isDimmedTableLecture(lecture, lectureFocus)}
           isTemp={isTemp}
           isSimple={mobileIsLectureListOpen}
-          tileHover={isTemp ? null : this.tileHover}
-          tileOut={isTemp ? null : this.tileOut}
-          tileClick={isTemp ? null : this.tileClick}
-          deleteLecture={this.deleteLecture}
+          onMouseOver={isTemp ? null : this.focusLectureWithHover}
+          onMouseOut={isTemp ? null : this.unfocusLectureWithHover}
+          onClick={isTemp ? null : this.focusLectureWithClick}
+          deleteLecture={this.deleteLectureFromTimetable}
           occupiedTimes={
             (isTemp && !isUntimed)
               ? this._getOccupiedTimes(

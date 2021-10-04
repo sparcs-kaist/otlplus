@@ -25,7 +25,7 @@ import reviewsFocusShape from '../../../shapes/ReviewsFocusShape';
 
 
 class TakenLecturesSection extends Component {
-  handleBlockClick = (lecture) => (e) => {
+  focusLectureWithClick = (lecture) => {
     const {
       selectedLecture,
       setReviewsFocusDispatch, clearReviewsFocusDispatch,
@@ -120,7 +120,7 @@ class TakenLecturesSection extends Component {
                               isRaised={false}
                               isDimmed={false}
                               hasReview={user.reviews.some((r) => (r.lecture.id === l.id))}
-                              onClick={this.handleBlockClick(l)}
+                              onClick={this.focusLectureWithClick}
                             />
                           )
                           : (
@@ -130,7 +130,7 @@ class TakenLecturesSection extends Component {
                               isRaised={selectedLecture.id === l.id}
                               isDimmed={selectedLecture.id !== l.id}
                               hasReview={user.reviews.some((r) => (r.lecture.id === l.id))}
-                              onClick={this.handleBlockClick(l)}
+                              onClick={this.focusLectureWithClick}
                             />
                           )
                       ))
