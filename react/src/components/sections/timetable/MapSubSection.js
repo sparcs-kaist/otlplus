@@ -78,30 +78,28 @@ class MapSubSection extends Component {
     const buildings = unique(
       getOverallLectures(selectedTimetable, lectureFocus).map((l) => getBuildingStr(l))
     );
-    const mapBuildingToBlock = (b) => {
+    const mapBuildingToPin = (b) => {
       const lecturesOnBuilding = this._getLecturesOnBuilding(b);
-      const isHighlighted = (
+      const isPinHighlighted = (
         lecturesOnBuilding.some((l) => isSingleFocused(l, lectureFocus))
         || (multipleFocusBuilding === b)
       );
       return (
         <div
-          className={classNames('section-content--map__block', `location--${b}`)}
+          className={classNames('section-content--map__pin', `location--${b}`)}
           key={b}
           onMouseOver={() => this.setFocusOnMap(b)}
           onMouseOut={() => this.clearFocus()}
         >
-          <div className={classNames('section-content--map__block__box', (isHighlighted ? 'block--highlighted' : ''))}>
+          <div className={classNames('section-content--map__pin__box', (isPinHighlighted ? 'highlighted' : ''))}>
             <span>{b}</span>
             {lecturesOnBuilding.map((l) => {
-              const lecAct = isSingleFocused(l, lectureFocus) || (multipleFocusBuilding === b)
-                ? 'block--highlighted'
-                : '';
-              return <span className={classNames('background-color--dark', `background-color--${getColorNumber(l)}`, lecAct)} key={l.id} />;
+              const isCircleHighlighted = isSingleFocused(l, lectureFocus) || (multipleFocusBuilding === b);
+              return <span className={classNames('background-color--dark', `background-color--${getColorNumber(l)}`, (isCircleHighlighted ? 'highlighted' : ''))} key={l.id} />;
             })}
           </div>
-          <div className={classNames('section-content--map__block__arrow-shadow', (isHighlighted ? 'block--highlighted' : ''))} />
-          <div className={classNames('section-content--map__block__arrow', (isHighlighted ? 'block--highlighted' : ''))} />
+          <div className={classNames('section-content--map__pin__arrow-shadow', (isPinHighlighted ? 'highlighted' : ''))} />
+          <div className={classNames('section-content--map__pin__arrow', (isPinHighlighted ? 'highlighted' : ''))} />
         </div>
       );
     };
@@ -110,7 +108,7 @@ class MapSubSection extends Component {
       <div className={classNames('section-content', 'section-content--map', 'mobile-hidden')}>
         <div>
           <img src={mapImage} alt="KAIST Map" />
-          { buildings.map((b) => mapBuildingToBlock(b)) }
+          { buildings.map((b) => mapBuildingToPin(b)) }
         </div>
       </div>
     );

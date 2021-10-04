@@ -1338,7 +1338,7 @@ a {
                 width: 100%;
             }
 
-            .section-content--map__block {
+            .section-content--map__pin {
                 position: absolute;
                 margin-left: -5px;
                 margin-top: -16px;
@@ -1444,7 +1444,7 @@ a {
                     border-radius: 2px;
                     padding: 2px 3px;
                     background-color: $color-block-background;
-                    &.block--highlighted {
+                    &.highlighted {
                         background-color: $color-block-background-highlight;
                         color: $color-highlight;
                     }
@@ -1460,7 +1460,7 @@ a {
                         margin-left: 1px;
                         border-radius: 50%;
 
-                        &.block--highlighted {
+                        &.highlighted {
                             background-color: $color-highlight !important;
                         }
                     }
@@ -1475,7 +1475,7 @@ a {
                     border-radius: 50%;
                     box-shadow: 0 0 3px 3px change-color($color-block-shadow-dark, $alpha: 0.8);
                     transform: scale(1.5, 1);
-                    &.block--highlighted {
+                    &.highlighted {
                         box-shadow: 0 0 3px 3px change-color($color-block-shadow-highlight, $alpha: 0.8);
                     }
                 }
@@ -1488,7 +1488,7 @@ a {
                     border-left: 2px solid transparent;
                     border-right: 2px solid transparent;
                     border-top: 3px solid $color-block-background;
-                    &.block--highlighted {
+                    &.highlighted {
                         border-top-color:$color-block-background-highlight;
                     }
                 }
