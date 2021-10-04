@@ -100,15 +100,25 @@ class ReviewsSubSection extends Component {
         this._checkLectureCourse(l) && this._checkLectureProfessor(l)
       ))
       : [];
-    const reviewWriteBlocks = takenLecturesOfCourse.map((l) => (
-      <ReviewWriteBlock
-        lecture={l}
-        key={l.id}
-        review={user.reviews.find((r) => (r.lecture.id === l.id))}
-        pageFrom="Dictionary"
-        updateOnSubmit={this.updateOnReviewSubmit}
-      />
-    ));
+    const reviewWriteBlocksArea = (
+      takenLecturesOfCourse.length === 0
+        ? undefined
+        : (
+          <div className={classNames('block-list')}>
+            {
+              takenLecturesOfCourse.map((l) => (
+                <ReviewWriteBlock
+                  lecture={l}
+                  key={l.id}
+                  review={user.reviews.find((r) => (r.lecture.id === l.id))}
+                  pageFrom="Dictionary"
+                  updateOnSubmit={this.updateOnReviewSubmit}
+                />
+              ))
+            }
+          </div>
+        )
+    );
 
     const filteredReviews = courseFocus.reviews == null
       ? null
@@ -117,18 +127,18 @@ class ReviewsSubSection extends Component {
       ));
     const reviewBlocksArea = (filteredReviews == null)
       ? (
-        <div className={classNames('section-content--course-detail__list-area', 'list-placeholder')}>
+        <div className={classNames('list-placeholder', 'min-height-area')}>
           <div>{t('ui.placeholder.loading')}</div>
         </div>
       )
       : (filteredReviews.length
         ? (
-          <div className={classNames('section-content--course-detail__list-area')}>
+          <div className={classNames('block-list', 'min-height-area')}>
             {filteredReviews.map((r) => <ReviewBlock review={r} shouldLimitLines={false} pageFrom="Dictionary" key={r.id} />)}
           </div>
         )
         : (
-          <div className={classNames('section-content--course-detail__list-area', 'list-placeholder')}>
+          <div className={classNames('list-placeholder', 'min-height-area')}>
             <div>{t('ui.placeholder.noResults')}</div>
           </div>
         )
@@ -171,7 +181,7 @@ class ReviewsSubSection extends Component {
             <div>{ t('ui.score.speech') }</div>
           </div>
         </div>
-        { reviewWriteBlocks }
+        { reviewWriteBlocksArea }
         { reviewBlocksArea }
       </>
     );

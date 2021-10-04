@@ -342,24 +342,27 @@ class LectureListSection extends Component {
       }
       return (
         <Scroller onScroll={this.selectWithArrow} key={selectedListCode}>
-          {lectureGroups.map((lg) => (
-            <LectureGroupBlock
-              lectureGroup={lg}
-              key={lg[0].course}
-              selectedTimetable={selectedTimetable}
-              cart={lists[CART]}
-              lectureFocus={lectureFocus}
-              isTaken={user && isTaken(lg[0].course, user)}
-              fromCart={(selectedListCode === CART)}
-              addToCart={this.addToCart}
-              addToTable={this.addToTable}
-              deleteFromCart={this.deleteFromCart}
-              listHover={this.listHover}
-              listOut={this.listOut}
-              listClick={this.listClick}
-            />
-          ))
-          }
+          <div className={classNames('block-list')}>
+            {
+              lectureGroups.map((lg) => (
+                <LectureGroupBlock
+                  lectureGroup={lg}
+                  key={lg[0].course}
+                  selectedTimetable={selectedTimetable}
+                  cart={lists[CART]}
+                  lectureFocus={lectureFocus}
+                  isTaken={user && isTaken(lg[0].course, user)}
+                  fromCart={(selectedListCode === CART)}
+                  addToCart={this.addToCart}
+                  addToTable={this.addToTable}
+                  deleteFromCart={this.deleteFromCart}
+                  listHover={this.listHover}
+                  listOut={this.listOut}
+                  listClick={this.listClick}
+                />
+              ))
+            }
+          </div>
         </Scroller>
       );
     };

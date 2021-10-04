@@ -94,7 +94,7 @@ class LatestReviewsSubSection extends Component {
 
     const refElement = this.rightSectionRef.current;
     const sectionPos = refElement.getBoundingClientRect().bottom;
-    const scrollPos = refElement.querySelector(`.${classNames('section-content--latest-reviews__list-area')}`).getBoundingClientRect().bottom;
+    const scrollPos = refElement.querySelector(`.${classNames('block-list')}`).getBoundingClientRect().bottom;
     if (scrollPos - sectionPos < SCROLL_THRSHOLD) {
       this._fetchLatestReviews();
     }
@@ -114,10 +114,10 @@ class LatestReviewsSubSection extends Component {
 
     const reviews = latestReviews;
     const reviewBlocksArea = (reviews == null)
-      ? <div className={classNames('section-content--latest-reviews__list-area', 'list-placeholder')}><div>{t('ui.placeholder.loading')}</div></div>
+      ? <div className={classNames('list-placeholder', 'min-height-area')}><div>{t('ui.placeholder.loading')}</div></div>
       : (reviews.length
-        ? <div className={classNames('section-content--latest-reviews__list-area')}>{reviews.map((r) => <ReviewBlock review={r} shouldLimitLines={false} linkTo={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: r.course.id }) }} pageFrom="Write Reviews" key={r.id} />)}</div>
-        : <div className={classNames('section-content--latest-reviews__list-area', 'list-placeholder')}><div>{t('ui.placeholder.noResults')}</div></div>);
+        ? <div className={classNames('block-list', 'min-height-area')}>{reviews.map((r) => <ReviewBlock review={r} shouldLimitLines={false} linkTo={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: r.course.id }) }} pageFrom="Write Reviews" key={r.id} />)}</div>
+        : <div className={classNames('list-placeholder', 'min-height-area')}><div>{t('ui.placeholder.noResults')}</div></div>);
 
     return (
       <div className={classNames('section-content', 'section-content--flex', 'section-content--write-reviews-right')} ref={this.rightSectionRef}>

@@ -282,10 +282,10 @@ class LectureDetailSection extends Component {
     const getSectionContent = () => {
       if (lectureFocus.from === LIST || lectureFocus.from === TABLE) {
         const reviewBlocks = (lectureFocus.reviews == null)
-          ? <div className={classNames('section-content--lecture-detail__list-area', 'list-placeholder')}><div>{t('ui.placeholder.loading')}</div></div>
+          ? <div className={classNames('list-placeholder', 'min-height-area')}><div>{t('ui.placeholder.loading')}</div></div>
           : (lectureFocus.reviews.length
-            ? <div className={classNames('section-content--lecture-detail__list-area')}>{lectureFocus.reviews.map(mapReviewToBlock)}</div>
-            : <div className={classNames('section-content--lecture-detail__list-area', 'list-placeholder')}><div>{t('ui.placeholder.noResults')}</div></div>);
+            ? <div className={classNames('block-list', 'min-height-area')}>{lectureFocus.reviews.map(mapReviewToBlock)}</div>
+            : <div className={classNames('list-placeholder', 'min-height-area')}><div>{t('ui.placeholder.noResults')}</div></div>);
         return (
         // eslint-disable-next-line react/jsx-indent
         <>

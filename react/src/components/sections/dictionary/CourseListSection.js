@@ -184,20 +184,24 @@ class CourseListSection extends Component {
       }
       return (
         <Scroller key={selectedListCode}>
-          {courses.map((c) => (
-            <CourseBlock
-              course={c}
-              key={c.id}
-              shouldShowReadStatus={true}
-              isRead={c.userspecific_is_read || readCourses.some((c2) => (c2.id === c.id))}
-              isRaised={isClicked(c, courseFocus)}
-              isHighlighted={isHovered(c, courseFocus) || isClicked(c, courseFocus)}
-              isDimmed={isDimmedCourse(c, courseFocus)}
-              listHover={this.listHover}
-              listOut={this.listOut}
-              listClick={this.listClick}
-            />
-          ))}
+          <div className={classNames('block-list')}>
+            {
+              courses.map((c) => (
+                <CourseBlock
+                  course={c}
+                  key={c.id}
+                  shouldShowReadStatus={true}
+                  isRead={c.userspecific_is_read || readCourses.some((c2) => (c2.id === c.id))}
+                  isRaised={isClicked(c, courseFocus)}
+                  isHighlighted={isHovered(c, courseFocus) || isClicked(c, courseFocus)}
+                  isDimmed={isDimmedCourse(c, courseFocus)}
+                  listHover={this.listHover}
+                  listOut={this.listOut}
+                  listClick={this.listClick}
+                />
+              ))
+            }
+          </div>
         </Scroller>
       );
     };

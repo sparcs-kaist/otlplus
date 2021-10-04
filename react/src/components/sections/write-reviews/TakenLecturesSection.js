@@ -95,47 +95,51 @@ class TakenLecturesSection extends Component {
         );
       }
       return (
-        targetSemesters.map((s, i) => (
-          <React.Fragment key={`${s.year}-${s.semester}`}>
-            {
-              (i !== 0)
-                ? <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
-                : null
-            }
-            <div className={classNames('small-title')}>
-              {`${s.year} ${getSemesterName(s.semester)}`}
-            </div>
-            <div className={classNames('block-grid')}>
-              {
-                writableTakenLectures
-                  .filter((l) => (l.year === s.year && l.semester === s.semester))
-                  .map((l) => (
-                    !selectedLecture
-                      ? (
-                        <LectureSimpleBlock
-                          key={l.id}
-                          lecture={l}
-                          isRaised={false}
-                          isDimmed={false}
-                          hasReview={user.reviews.some((r) => (r.lecture.id === l.id))}
-                          onClick={this.handleBlockClick(l)}
-                        />
-                      )
-                      : (
-                        <LectureSimpleBlock
-                          key={l.id}
-                          lecture={l}
-                          isRaised={selectedLecture.id === l.id}
-                          isDimmed={selectedLecture.id !== l.id}
-                          hasReview={user.reviews.some((r) => (r.lecture.id === l.id))}
-                          onClick={this.handleBlockClick(l)}
-                        />
-                      )
-                  ))
-              }
-            </div>
-          </React.Fragment>
-        ))
+        <Scroller expandTop={12}>
+          {
+            targetSemesters.map((s, i) => (
+              <React.Fragment key={`${s.year}-${s.semester}`}>
+                {
+                  (i !== 0)
+                    ? <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
+                    : null
+                }
+                <div className={classNames('small-title')}>
+                  {`${s.year} ${getSemesterName(s.semester)}`}
+                </div>
+                <div className={classNames('block-grid')}>
+                  {
+                    writableTakenLectures
+                      .filter((l) => (l.year === s.year && l.semester === s.semester))
+                      .map((l) => (
+                        !selectedLecture
+                          ? (
+                            <LectureSimpleBlock
+                              key={l.id}
+                              lecture={l}
+                              isRaised={false}
+                              isDimmed={false}
+                              hasReview={user.reviews.some((r) => (r.lecture.id === l.id))}
+                              onClick={this.handleBlockClick(l)}
+                            />
+                          )
+                          : (
+                            <LectureSimpleBlock
+                              key={l.id}
+                              lecture={l}
+                              isRaised={selectedLecture.id === l.id}
+                              isDimmed={selectedLecture.id !== l.id}
+                              hasReview={user.reviews.some((r) => (r.lecture.id === l.id))}
+                              onClick={this.handleBlockClick(l)}
+                            />
+                          )
+                      ))
+                  }
+                </div>
+              </React.Fragment>
+            ))
+          }
+        </Scroller>
       );
     };
 
@@ -162,9 +166,7 @@ class TakenLecturesSection extends Component {
           </div>
         </div>
         <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
-        <Scroller expandTop={12}>
-          { getTakenLecturesArea() }
-        </Scroller>
+        { getTakenLecturesArea() }
         <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
         <div className={classNames('section-content--taken-lectures__menus-list')}>
           <div>

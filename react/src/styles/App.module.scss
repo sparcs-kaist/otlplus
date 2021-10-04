@@ -1157,40 +1157,6 @@ a {
     }
 
     &--lecture-detail {
-        &__list-area {
-            @media #{$media-landscape} {
-                min-height: calc(
-                    #{$section-height-desktop-lecture-detail} - (
-                        #{$section-padding}
-                        + (#{$line-height-big} + 2px)
-                        + (#{$line-height-normal} + 4px)
-                        + (#{$line-height-small} + 6px)
-                        + (#{$line-height-big} + 6px)
-    
-                        + #{$section-padding}
-                    )
-                ) !important;
-            }
-            @media #{$media-portrait} {
-                min-height: calc(
-                    #{$screen-height} - (
-                        #{$header-height}
-                        + #{$section-margin-top}
-                        + #{$section-padding}
-                        + (#{$line-height-big} + 2px)
-                        + (#{$line-height-normal} + 4px)
-                        + (#{$line-height-small} + 6px)
-                        + (#{$line-height-big} + 6px)
-    
-                        + (#{$section-padding} * 2 + 1px)
-                        + #{$line-height-normal}
-                        + #{$section-padding}
-                        + (#{$section-margin-bottom} * 2)
-                    )
-                ) !important;
-            }
-        }
-
         &__mobile-buttons {
             text-align: right;
         }
@@ -1667,39 +1633,6 @@ a {
     }
 
     &--course-detail {
-        &__list-area {
-            @media #{$media-landscape} {
-                min-height: calc(
-                    #{$screen-height} - (
-                        #{$header-height}
-                        + #{$section-padding}
-                        + (#{$line-height-big} + 2px + #{$line-height-normal} + 10px)
-                        + ((0.7vh + 15px) + 2px + #{$line-height-smaller} + 12px)
-                        + (#{$line-height-normal} + 10px)
-                        + ((#{$line-height-normal} + 8px) * 2)
-
-                        + #{$section-padding}
-                        + #{$section-margin-bottom}
-                    )
-                ) !important;
-            }
-            @media #{$media-portrait} {
-                min-height: calc(
-                    #{$screen-height} - (
-                        #{$header-height}
-                        + #{$section-margin-top}
-                        + #{$section-padding}
-                        + (#{$line-height-big} + 2px + #{$line-height-normal} + 10px)
-                        + ((1.9vw + 13px) + 2px + #{$line-height-smaller} + 12px)
-                        + (#{$line-height-normal} + 10px)
-                        + ((#{$line-height-normal} + 8px) * 2)
-
-                        + #{$section-padding}
-                        + (#{$section-margin-bottom} * 2)
-                    )
-                ) !important;
-            }
-        }
     }
 
     &--write-reviews-right {
@@ -1723,33 +1656,6 @@ a {
     }
 
     &--latest-reviews {
-        &__list-area{
-            @media #{$media-landscape} {
-                min-height: calc(
-                    #{$screen-height} - (
-                        #{$header-height}
-                        + #{$section-padding}
-                        + (#{$line-height-big} + 10px)
-    
-                        + #{$section-padding}
-                        + #{$section-margin-bottom}
-                    )
-                ) !important;
-            }
-            @media #{$media-portrait} {
-                min-height: calc(
-                    #{$screen-height} - (
-                        #{$header-height}
-                        + #{$section-margin-top}
-                        + #{$section-padding}
-                        + (#{$line-height-big} + 10px)
-    
-                        + #{$section-padding}
-                        + (#{$section-margin-bottom} * 2)
-                    )
-                ) !important;
-            }
-        }
     }
 
     &--account {
@@ -2076,12 +1982,8 @@ a {
     line-height: $line-height-normal;
     display: block;
     padding: $block-padding-tb $block-padding-lr;
-    margin-bottom: $block-margin;
     position: relative;
     overflow: hidden;
-    &:last-child {
-        margin-bottom: 0;
-    }
     &[href]:hover {
         background-color:$color-block-background-dark;
     }
@@ -2160,10 +2062,6 @@ a {
         flex-direction: column;
         justify-content: center;
         min-width: 74px;
-
-        .related-courses > div > & {
-            flex: 1 0 0;
-        }
 
         &:last-child {
             margin-bottom: 0;
@@ -2458,7 +2356,6 @@ a {
 
 
     &--lecture-group-simple {
-        margin-bottom: 0;
 
         &__elem-wrap {
             margin: 0px (-$block-padding-lr);
@@ -2581,6 +2478,17 @@ a {
 }
 
 
+.block-list {
+    #{&} + & {
+        margin-top: $block-margin;
+    }
+
+    > .block:not(:last-child) {
+        margin-bottom: $block-margin;
+    }
+}
+
+
 .block-grid {
     display: grid;
     grid-auto-rows: auto;
@@ -2597,10 +2505,6 @@ a {
     }
     .section-content--credit & {
         margin-bottom: 12px;
-    }
-
-    & > .block {
-        margin: 0;
     }
 }
 
@@ -2888,6 +2792,11 @@ a {
         width: 100%;
         display: flex;
         flex-direction: column;
+        gap: $block-margin;
+
+        > .block {
+            flex: 1 0 0;
+        }
     }
 
     & > div:nth-child(2),
@@ -3245,6 +3154,103 @@ a {
 }
 
 
+.min-height-area {
+    .section-content--lecture-detail & {
+        @media #{$media-landscape} {
+            min-height: calc(
+                #{$section-height-desktop-lecture-detail} - (
+                    #{$section-padding}
+                    + (#{$line-height-big} + 2px)
+                    + (#{$line-height-normal} + 4px)
+                    + (#{$line-height-small} + 6px)
+                    + (#{$line-height-big} + 6px)
+
+                    + #{$section-padding}
+                )
+            ) !important;
+        }
+        @media #{$media-portrait} {
+            min-height: calc(
+                #{$screen-height} - (
+                    #{$header-height}
+                    + #{$section-margin-top}
+                    + #{$section-padding}
+                    + (#{$line-height-big} + 2px)
+                    + (#{$line-height-normal} + 4px)
+                    + (#{$line-height-small} + 6px)
+                    + (#{$line-height-big} + 6px)
+
+                    + (#{$section-padding} * 2 + 1px)
+                    + #{$line-height-normal}
+                    + #{$section-padding}
+                    + (#{$section-margin-bottom} * 2)
+                )
+            ) !important;
+        }
+    }
+    .section-content--course-detail & {
+        @media #{$media-landscape} {
+            min-height: calc(
+                #{$screen-height} - (
+                    #{$header-height}
+                    + #{$section-padding}
+                    + (#{$line-height-big} + 2px + #{$line-height-normal} + 10px)
+                    + (#{$score-line-height-desktop-big} + 2px + #{$line-height-smaller} + 12px)
+                    + (#{$line-height-normal} + 10px)
+                    + ((#{$line-height-normal} + 8px) * 2)
+
+                    + #{$section-padding}
+                    + #{$section-margin-bottom}
+                )
+            ) !important;
+        }
+        @media #{$media-portrait} {
+            min-height: calc(
+                #{$screen-height} - (
+                    #{$header-height}
+                    + #{$section-margin-top}
+                    + #{$section-padding}
+                    + (#{$line-height-big} + 2px + #{$line-height-normal} + 10px)
+                    + (#{$score-line-height-mobile} + 2px + #{$line-height-smaller} + 12px)
+                    + (#{$line-height-normal} + 10px)
+                    + ((#{$line-height-normal} + 8px) * 2)
+
+                    + #{$section-padding}
+                    + (#{$section-margin-bottom} * 2)
+                )
+            ) !important;
+        }
+    }
+    .section-content--write-reviews-right & {
+        @media #{$media-landscape} {
+            min-height: calc(
+                #{$screen-height} - (
+                    #{$header-height}
+                    + #{$section-padding}
+                    + (#{$line-height-big} + 10px)
+
+                    + #{$section-padding}
+                    + #{$section-margin-bottom}
+                )
+            ) !important;
+        }
+        @media #{$media-portrait} {
+            min-height: calc(
+                #{$screen-height} - (
+                    #{$header-height}
+                    + #{$section-margin-top}
+                    + #{$section-padding}
+                    + (#{$line-height-big} + 10px)
+
+                    + #{$section-padding}
+                    + (#{$section-margin-bottom} * 2)
+                )
+            ) !important;
+        }
+    }
+}
+
+
 .placeholder {
     color: $color-text-placeholder;
 }
@@ -3303,52 +3309,9 @@ a {
     }
 
     .section-content--course-list &,
-    .section-content--lecture-list & {
-        flex: 1 0 auto;
-    }
-
-    .section-content--lecture-detail & {
-    }
-
-    &.section-content--course-detail__list-area {
-    }
-
-    &.section-content--latest-reviews__list-area {
-    }
-
+    .section-content--lecture-list &,
     .section-content--taken-lectures & {
-        @media #{$media-landscape} {
-            min-height: calc(
-                #{$screen-height} - (
-                    #{$header-height}
-                    + #{$section-padding}
-                    + (#{$line-height-big} + 8px)
-                    + ((0.7vh + 13px) + 2px + #{$line-height-smaller})
-                    + (#{$section-padding} * 2 + 1px)
-
-                    + (#{$section-padding} * 2 + 1px)
-                    + (#{$line-height-normal} * 4 + 8px * 3)
-                    + #{$section-padding}
-                    + #{$section-margin-bottom}
-                )
-            );
-        }
-        @media #{$media-portrait} {
-            min-height: calc(
-                #{$screen-height} - (
-                    #{$header-height}
-                    + #{$section-padding}
-                    + (#{$line-height-big} + 8px)
-                    + ((1.9vw + 13px) + 2px + #{$line-height-smaller})
-                    + (#{$section-padding} * 2 + 1px)
-
-                    + (#{$section-padding} * 2 + 1px)
-                    + (#{$line-height-normal} * 3 + 8px * 2)
-                    + #{$section-padding}
-                    + (#{$section-margin-bottom} * 2)
-                )
-            );
-        }
+        flex: 1 0 auto;
     }
 
     .section-content--feed & {
