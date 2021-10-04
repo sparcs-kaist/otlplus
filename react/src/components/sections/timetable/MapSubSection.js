@@ -20,6 +20,28 @@ import mapImage from '../../../static/img/timetable/kaist_map.jpg';
 import { unique } from '../../../utils/commonUtils';
 
 
+const POSITION_OF_LOCATIONS = new Map([
+  ['E2', { left: 60, top: 81 }],
+  ['E3', { left: 67, top: 75 }],
+  ['E6', { left: 68, top: 63 }],
+  ['E7', { left: 77, top: 61 }],
+  ['E11', { left: 53, top: 58 }],
+  ['E16', { left: 53, top: 49 }],
+  ['N1', { left: 88, top: 39 }],
+  ['N3', { left: 53, top: 45 }],
+  ['N4', { left: 62, top: 41 }],
+  ['N5', { left: 74, top: 39 }],
+  ['N7', { left: 33, top: 41 }],
+  ['N22', { left: 79, top: 35 }],
+  ['N24', { left: 76, top: 31 }],
+  ['N25', { left: 59, top: 36 }],
+  ['N27', { left: 57, top: 24 }],
+  ['W1', { left: 31, top: 84 }],
+  ['W8', { left: 35, top: 55 }],
+  ['W16', { left: 40, top: 87 }],
+]);
+
+
 class MapSubSection extends Component {
   constructor(props) {
     super(props);
@@ -84,12 +106,18 @@ class MapSubSection extends Component {
         lecturesOnBuilding.some((l) => isSingleFocused(l, lectureFocus))
         || (multipleFocusBuilding === b)
       );
+      const position = POSITION_OF_LOCATIONS.get(b) || {};
       return (
         <div
-          className={classNames('section-content--map__pin', `location--${b}`)}
+          className={classNames('section-content--map__pin')}
           key={b}
           onMouseOver={() => this.setFocusOnMap(b)}
           onMouseOut={() => this.clearFocus()}
+          style={{
+            left: `${position.left}%`,
+            top: `${position.top}%`,
+            zIndex: position.top,
+          }}
         >
           <div className={classNames('section-content--map__pin__box', (isPinHighlighted ? 'highlighted' : ''))}>
             <span>{b}</span>
