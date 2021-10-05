@@ -9,6 +9,8 @@ import re
 
 from scholardb_access import execute
 
+from utils.command_utils import get_target_semesters
+
 
 class Command(BaseCommand):
     def add_arguments(self, parser):
@@ -29,33 +31,31 @@ class Command(BaseCommand):
             help="Don't update lecture information when you want to update time information only.",
             default=False,
         )
+        parser.add_argument("--use-default-semester",
+                            action="store_true",
+                            default=False,
+                            dest="use_default_semester")
         parser.add_argument("--year", dest="year", type=int)
         parser.add_argument("--semester", dest="semester", type=int)
+        parser.add_argument("--expand-semester-by",
+                            dest="expand_semester_by",
+                            type=int,
+                            choices=range(-4, 5))
 
     help = "Imports KAIST scholar database."
     args = "--host=143.248.X.Y:PORT --user=USERNAME"
 
     def handle(self, *args, **options):
-        rx_dept_code = re.compile(r"([a-zA-Z]+)(\d+)")
         host = options.get("host", None)
         port = options.get("port", None)
         user = options.get("user", None)
         password = options.get("password", None)
         encoding = options.get("encoding")
         exclude_lecture = options.get("exclude_lecture", False)
-        lecture_count = 0
-
-        if options["year"] is not None and options["semester"] is not None:
-            next_year = int(options["year"])
-            next_semester = int(options["semester"])
-        else:
-            default_semester = Semester.get_semester_to_default_import()
-            if default_semester is not None:
-                next_year = default_semester.year
-                next_semester = default_semester.semester
-            else:
-                print("Target year or semester not specified.")
-                return
+        use_default_semester = options.get("use_default_semester")
+        year = options.get("year", None)
+        semester = options.get("semester", None)
+        expand_semester_by = options.get("expand_semester_by", None)
 
         try:
             if password is None:
@@ -64,34 +64,63 @@ class Command(BaseCommand):
             print()
             return
 
-        if not exclude_lecture:
-            query = "SELECT * FROM view_OTL_charge WHERE lecture_year = %d AND lecture_term = %d" % (
-                next_year,
-                next_semester,
-            )
-            professors = execute(host, port, user, password, query)
+        target_semesters = get_target_semesters(use_default_semester, year, semester,
+                                                expand_semester_by)
 
-            query = "SELECT * FROM view_OTL_lecture WHERE lecture_year = %d AND lecture_term = %d ORDER BY dept_id" % (
-                next_year,
-                next_semester,
+        if target_semesters is None:
+            return
+
+        for y, s in target_semesters:
+            self._import_scholardb(y, s, exclude_lecture, {
+                "host": host,
+                "port": port,
+                "user": user,
+                "password": password,
+                "encoding": encoding,
+            })
+
+    def _import_scholardb(self, target_year, target_semester, exclude_lecture, db_specification):
+        print(f"Importing scholardb for {target_year}-{target_semester}")
+
+        host = db_specification["host"]
+        port = db_specification["port"]
+        user = db_specification["user"]
+        password = db_specification["password"]
+        encoding = db_specification["encoding"]
+
+        lecture_count = 0
+
+        def _extract_department_code(lecture_old_code):
+            return re.compile(r"([a-zA-Z]+)(\d+)").match(lecture_old_code).group(1)
+
+        if not exclude_lecture:
+            professor_lecture_charge_query = "SELECT * FROM view_OTL_charge WHERE lecture_year = %d AND lecture_term = %d" % (
+                target_year,
+                target_semester,
             )
-            rows = execute(host, port, user, password, query)
+            professor_lecture_charge_rows = execute(host, port, user, password, professor_lecture_charge_query)
+
+            lecture_query = "SELECT * FROM view_OTL_lecture WHERE lecture_year = %d AND lecture_term = %d ORDER BY dept_id" % (
+                target_year,
+                target_semester,
+            )
+            lecture_rows = execute(host, port, user, password, lecture_query)
             departments = {}
             lectures_not_updated = set()
 
-            for lecture in Lecture.objects.filter(year=next_year, semester=next_semester):
+            for lecture in Lecture.objects.filter(year=target_year, semester=target_semester):
                 lectures_not_updated.add(lecture.id)
             # Make Staff Professor with ID 830
-            try:
-                staff_professor = Professor.objects.get(professor_id=830)
-            except Professor.DoesNotExist:
-                staff_professor = Professor.objects.create(professor_id=830)
-                staff_professor.professor_name = "Staff"
-                staff_professor.professor_name_en = "Staff"
-                staff_professor.save()
+            staff_professor, _ = Professor.objects.get_or_create(
+                professor_id=Professor.STAFF_ID,
+                defaults={
+                    "professor_name": "Staff",
+                    "professor_name_en": "Staff",
+                }
+            )
 
             prev_department = None
-            for row in rows:
+            for row in lecture_rows:
                 myrow = row[:]
 
                 # Extract department info.
@@ -100,7 +129,7 @@ class Command(BaseCommand):
                 lecture_class_no = myrow[3].strip()
                 department_no = lecture_no[0:2]
                 department_id = int(myrow[4])
-                department_code = rx_dept_code.match(lecture_code).group(1)
+                department_code = _extract_department_code(lecture_code)
 
                 # Update department info.
                 if prev_department != department_id:
@@ -213,7 +242,7 @@ class Command(BaseCommand):
                         and lecture.class_no.strip() == p[3].strip()
                         and lecture.department_id == p[4]
                     ),
-                    professors,
+                    professor_lecture_charge_rows,
                 ))
                 if len(match_scholar) != 0:
                     professors_not_updated = set()
@@ -232,13 +261,13 @@ class Command(BaseCommand):
                             else:
                                 prof_major = i[4]
                             professor = Professor.objects.get(professor_id=prof_id)
-                            if professor.professor_name != prof_name and prof_id != 830:
+                            if professor.professor_name != prof_name and prof_id != Professor.STAFF_ID:
                                 professor.professor_name = prof_name
                                 professor.save()
-                            if professor.professor_name_en != prof_name_en and prof_id != 830 and prof_name_en != "":
+                            if professor.professor_name_en != prof_name_en and prof_id != Professor.STAFF_ID and prof_name_en != "":
                                 professor.professor_name_en = prof_name_en
                                 professor.save()
-                            if professor.major != prof_major and prof_id != 830:
+                            if professor.major != prof_major and prof_id != Professor.STAFF_ID:
                                 professor.major = prof_major
                                 professor.save()
                             professors_not_updated.remove(professor.id)
@@ -252,8 +281,8 @@ class Command(BaseCommand):
                         except KeyError:
                             pass
                         lecture.professors.add(professor)
-                        if professor.professor_id != 830:
-                            lecture.course.professors.add(professor)
+                        if professor.professor_id != Professor.STAFF_ID:
+                            lecture.course.professor_lecture_charge_rows.add(professor)
 
                     for key in professors_not_updated:
                         professor = Professor.objects.get(id=key)
@@ -269,14 +298,14 @@ class Command(BaseCommand):
         # Extract exam-time, class-time info.
 
         print("Extracting exam time information...")
-        query = "SELECT * FROM view_OTL_exam_time WHERE lecture_year = %d AND lecture_term = %d" % (
-            next_year,
-            next_semester,
+        exam_time_query = "SELECT * FROM view_OTL_exam_time WHERE lecture_year = %d AND lecture_term = %d" % (
+            target_year,
+            target_semester,
         )
-        exam_times = execute(host, port, user, password, query)
+        exam_time_rows = execute(host, port, user, password, exam_time_query)
         print("exam_times")
-        ExamTime.objects.filter(lecture__year__exact=next_year, lecture__semester=next_semester).delete()
-        for row in exam_times:
+        ExamTime.objects.filter(lecture__year__exact=target_year, lecture__semester=target_semester).delete()
+        for row in exam_time_rows:
             print(row)
             myrow = row[:]
             lecture_key = {
@@ -301,11 +330,11 @@ class Command(BaseCommand):
         # Extract class time.
 
         print("Extracting class time information...")
-        query = "SELECT * FROM view_OTL_time WHERE lecture_year = %d AND lecture_term = %d" % (next_year, next_semester)
-        class_times = execute(host, port, user, password, query)
+        class_time_query = "SELECT * FROM view_OTL_time WHERE lecture_year = %d AND lecture_term = %d" % (target_year, target_semester)
+        class_time_rows = execute(host, port, user, password, class_time_query)
         # print class_times
-        ClassTime.objects.filter(lecture__year__exact=next_year, lecture__semester=next_semester).delete()
-        for row in class_times:
+        ClassTime.objects.filter(lecture__year__exact=target_year, lecture__semester=target_semester).delete()
+        for row in class_time_rows:
             print(row)
             myrow = row[:]
             lecture_key = {
@@ -339,12 +368,12 @@ class Command(BaseCommand):
 
         # Extract Syllabus info.
         """
-        query = 'SELECT * FROM view_OTL_syllabus WHERE lecture_year = %d AND lecture_term = %d'
-            % (next_year, next_semester)
-        syllabuses = execute(host, port, user, password, query)
-        Syllabus.objects.filter(lecture__year__exact=next_year, lecture__semester=next_semester).delete()
+        syllabus_query = 'SELECT * FROM view_OTL_syllabus WHERE lecture_year = %d AND lecture_term = %d'
+            % (target_year, target_semester)
+        syllabus_rows = execute(host, port, user, password, syllabus_query)
+        Syllabus.objects.filter(lecture__year__exact=target_year, lecture__semester=target_semester).delete()
 
-        for row in syllabuses:
+        for row in syllabus_rows:
             myrow = row[:]
             lecture_key = {
                 'code': myrow[2],

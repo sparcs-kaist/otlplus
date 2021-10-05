@@ -1,5 +1,6 @@
 from datetime import time
 from functools import reduce
+from typing import Tuple
 import operator
 import datetime
 import traceback
@@ -81,6 +82,33 @@ class Semester(models.Model):
         now = timezone.now()
         return cls.objects.filter(courseDesciptionSubmission__lt=now) \
                           .order_by("courseDesciptionSubmission").last()
+
+    # TODO: Change methods below to receive and return Semester class instance instead of
+    #       integer type year and semester value
+    #       See issue #845
+
+    @classmethod
+    def get_prev_semester(cls, year: int, semester: int) -> Tuple[int, int]:
+        if semester == 1:
+            return year - 1, 4
+        else:
+            return year, semester - 1
+
+    @classmethod
+    def get_next_semester(cls, year: int, semester: int) -> Tuple[int, int]:
+        if semester == 4:
+            return year + 1, 1
+        else:
+            return year, semester + 1
+
+    @classmethod
+    def get_offsetted_semester(cls, year: int, semester: int, offset: int) -> Tuple[int, int]:
+        for _ in range(abs(offset)):
+            if offset > 0:
+                year, semester = Semester.get_next_semester(year, semester)
+            else:
+                year, semester = Semester.get_prev_semester(year, semester)
+        return year, semester
 
 
 class Lecture(models.Model):
@@ -595,6 +623,8 @@ class Course(models.Model):
 
 
 class Professor(models.Model):
+    STAFF_ID = 830
+
     # Fetched from KAIST Scholar DB
     professor_name = models.CharField(max_length=100, db_index=True)
     professor_name_en = models.CharField(max_length=100, blank=True, null=True)
