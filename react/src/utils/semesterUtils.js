@@ -31,7 +31,7 @@ export const getTimetableSemester = (semesters) => {
 };
 
 // Keep synchronozed with Django apps/subject/models.py Semester.get_ongoing_semester()
-export const get_ongoing_semester = (semesters) => {
+export const getOngoingSemester = (semesters) => {
   const now = Date.now();
   const ongoingSemester = semesters.find((s) => (
     (new Date(s.beginning) < now) && (now < new Date(s.end))
