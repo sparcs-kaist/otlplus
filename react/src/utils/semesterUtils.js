@@ -30,7 +30,7 @@ export const getTimetableSemester = (semesters) => {
   return timetableSemester.semesterObject;
 };
 
-// Keep synchronozed with Django apps/subject/models.py Semester.get_ongoing_semester()
+// SYNC: Keep synchronized with Django apps/subject/models.py Semester.get_ongoing_semester()
 export const getOngoingSemester = (semesters) => {
   const now = Date.now();
   const ongoingSemester = semesters.find((s) => (

@@ -60,7 +60,7 @@ class Semester(models.Model):
 
         return result
 
-    # Keep synchronozed with React src/common/semesterFunctions.js get_ongoing_semester()
+    # SYNC: Keep synchronized with React src/utils/semesterUtils.js getOngoingSemester()
     @classmethod
     def get_ongoing_semester(cls):
         now = timezone.now()
@@ -288,6 +288,7 @@ class Lecture(models.Model):
         _add_title_format(lectures)
         _add_title_format_en(lectures)
 
+    # SYNC: Keep synchronized with React src/utils/lectureUtils.js getProfessorsShortStr()
     def get_professors_short_str(self):
         professors = self.professors.all().order_by("professor_name")
         prof_name_list = [p.professor_name for p in professors]

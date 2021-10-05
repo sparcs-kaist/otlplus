@@ -92,6 +92,7 @@ export const getOverallLectures = (selectedTimetable, lectureFocus) => {
     .concat(hasSingleFocusedLectureOutsideTable ? [lectureFocus.lecture] : []);
 };
 
+// SYNC: Keep synchronized with Django apps/subject/models.py Lecture.get_professors_short_str()
 export const getProfessorsShortStr = (lecture) => {
   // eslint-disable-next-line fp/no-mutating-methods
   const professors = lecture.professors
