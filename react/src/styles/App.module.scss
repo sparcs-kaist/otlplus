@@ -86,6 +86,8 @@ $block-padding-lr: 10px;
 $block-padding-tb: 8px;
 $block-border-radius: 4px;
 
+$tile-padding-lr: 6px;
+$tile-padding-tb: 4px;
 $tile-border-radius: 2px;
 
 $score-margin-tb-desktop-big: calc(1.4vh + 2px + 4px);
@@ -1605,11 +1607,7 @@ a {
         padding: 0 $section-padding;
         overflow: hidden;
 
-        & > div {
-            width: 100%;
-            position: relative;
-
-            .section-content--todays-timetable__table {
+        &__table {
                 margin: 0 2px;
 
                 & > div:first-child {
@@ -1622,14 +1620,15 @@ a {
                     & > div {
                         text-align: center;
                         padding-left: 1px;
+                        flex: 0 0 auto;
                         &:last-child {
                             padding-right: 1px;
                         }
                         @media #{$media-landscape} {
-                            flex: 0 0 7vh;
+                            width: 7vh;
                         }
                         @media #{$media-portrait} {
-                            flex: 0 0 15vw;
+                            width: 15vw;
                         }
 
                         & > span,
@@ -1650,12 +1649,13 @@ a {
 
                     & > div {
                         text-align: center;
-                        height: 57px;
+                        height: (3px * 2) + ($tile-padding-tb * 2) + ($line-height-small * 3) + (1px * 2);
+                        flex: 0 0 auto;
                         @media #{$media-landscape} {
-                            flex: 0 0 7vh;
+                            width: 7vh;
                         }
                         @media #{$media-portrait} {
-                            flex: 0 0 15vw;
+                            width: 15vw;
                         }
 
                         &.hcell-left {
@@ -1672,9 +1672,9 @@ a {
                         }
                     }
                 }
-            }
+        }
 
-            .section-content--todays-timetable__bar {
+        &__bar {
                 position: absolute;
                 text-align: center;
                 z-index: 4;
@@ -1692,7 +1692,6 @@ a {
                     margin: 0 2px;
                     background-color: $color-highlight;
                 }
-            }
         }
     }
 
@@ -1752,9 +1751,6 @@ a {
     padding: 0px;
     border-radius: $tile-border-radius;
     z-index: 2;
-    top: 1px;
-    left: -1px;
-    width: calc(100% + 2px);
     overflow: hidden;
     font-size: $font-size-small;
     line-height: $line-height-small;
@@ -1798,7 +1794,7 @@ a {
         }
 
         &__content {
-            padding: 4px 6px;
+            padding: $tile-padding-tb $tile-padding-lr;
             overflow: hidden;
             max-height: 100%;
 
@@ -1842,7 +1838,7 @@ a {
         overflow: hidden;
 
         &__content {
-            padding: 4px 6px;
+            padding: $tile-padding-tb $tile-padding-lr;
             overflow: hidden;
             max-height: 100%;
 

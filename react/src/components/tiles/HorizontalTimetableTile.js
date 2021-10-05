@@ -23,7 +23,7 @@ const HorizontalTimetableTile = ({
         left: cellWidth * indexOfTime(classtime.begin) + 2 + 2,
         top: 11 + 4 + 3,
         width: cellWidth * (indexOfTime(classtime.end) - indexOfTime(classtime.begin)) - 3,
-        height: cellHeight,
+        height: cellHeight - 3 * 2,
       }}
     >
       <div className={classNames('tile--horizonatal-timetable__content')}>
