@@ -30,7 +30,7 @@ class CourseInfoSubSection extends Component {
             <div>{ courseFocus.course.summary }</div>
           </div>
         </div>
-        <div className={classNames('scores', 'top-sticky')} ref={this.scoresRef}>
+        <div className={classNames('scores')} ref={this.scoresRef}>
           <div>
             <div>{ getAverageScoreLabel(courseFocus.course.grade) }</div>
             <div>{ t('ui.score.grade') }</div>

@@ -3748,10 +3748,6 @@ i.icon {
     top: 0;
     z-index: 10;
     background-color: $color-section-background;
-    .subsection--course-info &.scores {
-        margin-bottom: -$section-padding;
-        padding-bottom: $section-padding;
-    }
 }
 
 .mobile-hidden {
