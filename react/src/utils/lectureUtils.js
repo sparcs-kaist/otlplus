@@ -1,5 +1,3 @@
-import axios from 'axios';
-import ReactGA from 'react-ga';
 import i18n from 'i18next';
 
 import { LectureFocusFrom } from '../reducers/timetable/lectureFocus';
