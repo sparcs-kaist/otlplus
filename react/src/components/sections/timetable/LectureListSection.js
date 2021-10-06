@@ -27,8 +27,11 @@ import lectureLastSearchOptionShape from '../../../shapes/LectureLastSearchOptio
 
 import {
   isListClicked,
-  performAddToTable, performAddToCart, performDeleteFromCart, isListFocused, inTimetable, inCart, isDimmedListLectureGroup,
+  isListFocused, inTimetable, inCart, isDimmedListLectureGroup,
 } from '../../../utils/lectureUtils';
+import {
+  performAddToTable, performAddToCart, performDeleteFromCart,
+} from '../../../common/commonOperations';
 import { isTaken } from '../../../utils/courseUtils';
 
 import {

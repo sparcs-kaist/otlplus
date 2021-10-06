@@ -27,9 +27,11 @@ import timetableShape from '../../../shapes/TimetableShape';
 import {
   inTimetable, inCart,
   getProfessorsFullStr, getClassroomStr, getExamFullStr,
-  performAddToTable, performDeleteFromTable, performAddToCart, performDeleteFromCart,
   getSyllabusUrl,
 } from '../../../utils/lectureUtils';
+import {
+  performAddToTable, performDeleteFromTable, performAddToCart, performDeleteFromCart,
+} from '../../../common/commonOperations';
 import lectureListsShape from '../../../shapes/LectureListsShape';
 import Divider from '../../Divider';
 

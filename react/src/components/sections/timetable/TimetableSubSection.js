@@ -23,8 +23,8 @@ import lectureFocusShape from '../../../shapes/LectureFocusShape';
 import {
   inTimetable,
   isFocused, isTableClicked, isDimmedTableLecture,
-  performDeleteFromTable,
 } from '../../../utils/lectureUtils';
+import { performDeleteFromTable } from '../../../common/commonOperations';
 
 
 class TimetableSubSection extends Component {
