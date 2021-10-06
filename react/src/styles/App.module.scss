@@ -1095,35 +1095,7 @@ a {
 
     &--semester {
         grid-area: semester;
-        height: initial;
         padding: 6px 8px;
-        font-size: $font-size-small;
-        line-height: $line-height-small;
-        display: flex;
-        flex-direction: row;
-        &.semester-ko {
-            width: 94px;
-        }
-        &.semester-en {
-            width: 104px;
-        }
-
-        & > button {
-            flex: 0 0 auto;
-            &.disable {
-                pointer-events: none;
-            }
-        }
-
-        & > span {
-            flex: 1 1 auto;
-            text-align: center;
-            white-space: nowrap;
-            @media #{$media-portrait} {
-                font-size: $font-size-big;
-                line-height: $line-height-big;
-            }
-        }
     }
 
 
@@ -1225,6 +1197,36 @@ a {
                         );
                     }
                 }
+            }
+        }
+    }
+
+    &--semester {
+        font-size: $font-size-small;
+        line-height: $line-height-small;
+        display: flex;
+        flex-direction: row;
+        &.semester-ko {
+            width: 78px;
+        }
+        &.semester-en {
+            width: 88px;
+        }
+
+        & > button {
+            flex: 0 0 auto;
+            &.disable {
+                pointer-events: none;
+            }
+        }
+
+        & > span {
+            flex: 1 1 auto;
+            text-align: center;
+            white-space: nowrap;
+            @media #{$media-portrait} {
+                font-size: $font-size-big;
+                line-height: $line-height-big;
             }
         }
     }
