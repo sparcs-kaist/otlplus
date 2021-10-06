@@ -100,9 +100,9 @@ class TodaysTimetableSection extends Component {
     return (
     // eslint-disable-next-line react/jsx-indent
     <div className={classNames('section', 'section--feed')}>
-      <div className={classNames('section-content', 'section-content--feed', 'section-content--todays-timetable')} ref={this.scrollRef}>
+      <div className={classNames('subsection', 'subsection--feed', 'subsection--todays-timetable')} ref={this.scrollRef}>
         <Scroller noScrollX={false} noScrollY={true}>
-          <div className={classNames('section-content--todays-timetable__table')}>
+          <div className={classNames('subsection--todays-timetable__table')}>
             <div>
               {
                 range(8 * 2, 24 * 2).map((i) => {
@@ -155,7 +155,7 @@ class TodaysTimetableSection extends Component {
             ))
           }
           <div
-            className={classNames('section-content--todays-timetable__bar')}
+            className={classNames('subsection--todays-timetable__bar')}
             style={{
               top: 11 + 4 - 2,
               left: this._getBarLeftPosition(),

@@ -120,14 +120,14 @@ class LatestReviewsSubSection extends Component {
         : <div className={classNames('list-placeholder', 'min-height-area')}><div>{t('ui.placeholder.noResults')}</div></div>);
 
     return (
-      <div className={classNames('section-content', 'section-content--flex', 'section-content--write-reviews-right')} ref={this.rightSectionRef}>
+      <div className={classNames('subsection', 'subsection--flex', 'subsection--write-reviews-right')} ref={this.rightSectionRef}>
         <CloseButton onClick={this.unfix} />
         <Scroller
           key={reviewsFocus.from}
           onScroll={this.handleScroll}
           expandTop={12}
         >
-          <div className={classNames('section-content', 'section-content--latest-reviews')}>
+          <div className={classNames('subsection', 'subsection--latest-reviews')}>
             <div className={classNames('title')}>{t('ui.title.latestReviews')}</div>
             { reviewBlocksArea }
           </div>

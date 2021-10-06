@@ -270,7 +270,7 @@ class RankedReviewsSubSection extends Component {
         : <div className={classNames('list-placeholder', 'min-height-area')}><div>{t('ui.placeholder.noResults')}</div></div>);
 
     return (
-      <div className={classNames('section-content', 'section-content--flex', 'section-content--write-reviews-right')} ref={this.rightSectionRef}>
+      <div className={classNames('subsection', 'subsection--flex', 'subsection--write-reviews-right')} ref={this.rightSectionRef}>
         <CloseButton onClick={this.unfix} />
         <div className={classNames('block-grid')}>
           { semesterBlocks }
@@ -279,7 +279,7 @@ class RankedReviewsSubSection extends Component {
           key={`${reviewsFocus.from}-${this._getSemesterKey(selectedSemester)}`}
           onScroll={this.handleScroll}
         >
-          <div className={classNames('section-content', 'section-content--latest-reviews')}>
+          <div className={classNames('subsection', 'subsection--latest-reviews')}>
             <div className={classNames('title')}>{`${t('ui.title.rankedReviews')} - ${subtitle}`}</div>
             <div className={classNames('scores')}>
               <div>

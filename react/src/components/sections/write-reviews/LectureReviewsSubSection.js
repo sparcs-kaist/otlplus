@@ -93,13 +93,13 @@ class LectureReviewsSubSection extends Component {
         : <div className={classNames('list-placeholder', 'min-height-area')}><div>{t('ui.placeholder.noResults')}</div></div>);
 
     return (
-      <div className={classNames('section-content', 'section-content--flex', 'section-content--write-reviews-right')}>
+      <div className={classNames('subsection', 'subsection--flex', 'subsection--write-reviews-right')}>
         <CloseButton onClick={this.unfix} />
         <Scroller
           key={reviewsFocus.lecture.id}
           expandTop={12}
         >
-          <div className={classNames('section-content', 'section-content--review-write')}>
+          <div className={classNames('subsection', 'subsection--review-write')}>
             <div className={classNames('title')}>
               {`${t('ui.title.writeReview')} - ${selectedLecture[t('js.property.title')]}`}
             </div>
@@ -112,7 +112,7 @@ class LectureReviewsSubSection extends Component {
             />
           </div>
           <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
-          <div className={classNames('section-content', 'section-content--latest-reviews')}>
+          <div className={classNames('subsection', 'subsection--latest-reviews')}>
             <div className={classNames('title')}>{`${t('ui.title.relatedReviews')} - ${reviewsFocus.lecture[t('js.property.title')]}`}</div>
             { reviewBlocksArea }
           </div>

@@ -81,7 +81,7 @@ class AcademicScheduleSection extends Component {
 
     return (
       <div className={classNames('section', 'section--feed')}>
-        <div className={classNames('section-content', 'section-content--feed')}>
+        <div className={classNames('subsection', 'subsection--feed')}>
           { getAcademicScheduleContent() }
           <div className={classNames('buttons')}>
             <a

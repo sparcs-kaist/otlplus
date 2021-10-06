@@ -15,11 +15,11 @@ class NoticeSection extends Component {
     return (
     // eslint-disable-next-line react/jsx-indent
     <div className={classNames('section', 'section--feed')}>
-      <div className={classNames('section-content', 'section-content--notice')}>
+      <div className={classNames('subsection', 'subsection--notice')}>
         <div className={classNames('title')}>
           { notice.title }
         </div>
-        <div className={classNames('section-content--notice__content')}>
+        <div className={classNames('subsection--notice__content')}>
           { formattedContent }
         </div>
       </div>

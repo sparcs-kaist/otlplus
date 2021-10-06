@@ -218,7 +218,7 @@ class CourseDetailSection extends Component {
 
     return (
       <div className={classNames('section', 'section--course-detail', 'section--mobile-modal', ((courseFocus.course && courseFocus.clicked) ? '' : 'mobile-hidden'))}>
-        <div className={classNames('section-content', 'section-content--flex', 'section-content--course-detail')}>
+        <div className={classNames('subsection', 'subsection--flex', 'subsection--course-detail')}>
           { sectionContent }
         </div>
       </div>

@@ -144,7 +144,7 @@ class TakenLecturesSection extends Component {
     return (
     // eslint-disable-next-line react/jsx-indent
     <div className={classNames('section', 'section--taken-lectures')}>
-      <div className={classNames('section-content', 'section-content--taken-lectures')}>
+      <div className={classNames('subsection', 'subsection--taken-lectures')}>
         <div className={classNames('title')}>
           {t('ui.title.takenLectures')}
         </div>
@@ -166,7 +166,7 @@ class TakenLecturesSection extends Component {
         <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
         { getTakenLecturesArea() }
         <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
-        <div className={classNames('section-content--taken-lectures__menus-list')}>
+        <div className={classNames('subsection--taken-lectures__menus-list')}>
           <div>
             <button
               className={classNames(

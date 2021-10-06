@@ -1119,7 +1119,7 @@ a {
 }
 
 
-.section-content {
+.subsection {
     width: 100%;
     height: 100%;
 
@@ -1341,7 +1341,7 @@ a {
                 width: 100%;
             }
 
-            .section-content--map__pin {
+            .subsection--map__pin {
                 position: absolute;
                 margin-left: -5px;
                 margin-top: -16px;
@@ -1473,7 +1473,7 @@ a {
 
             & {
 
-                .section-content--exam__content__day {
+                .subsection--exam__content__day {
                     display: flex;
                     flex-direction: row;
                     width: 100%;
@@ -1944,7 +1944,7 @@ a {
     &--course {
         cursor: pointer;
 
-        .section-content--feed &:nth-last-of-type(2) {
+        .subsection--feed &:nth-last-of-type(2) {
             margin-bottom: 0;
         }
 
@@ -2003,7 +2003,7 @@ a {
 
     &--review {
 
-        .section-content--course-detail &:last-child {
+        .subsection--course-detail &:last-child {
             margin-bottom: 0;
         }
 
@@ -2065,7 +2065,7 @@ a {
 
     &--review-write {
 
-        .section-content--course-detail &:last-child {
+        .subsection--course-detail &:last-child {
             margin-bottom: 0;
         }
 
@@ -2389,7 +2389,7 @@ a {
     grid-auto-rows: auto;
     gap: $block-margin;
     grid-template-columns: repeat(auto-fill, minmax(144px, 1fr));
-    .section-content--write-reviews-right & {
+    .subsection--write-reviews-right & {
         margin-bottom: 12px;
         @media #{$media-landscape} {
             grid-template-columns: repeat(auto-fill, minmax(114px, 1fr));
@@ -2398,7 +2398,7 @@ a {
             grid-template-columns: repeat(auto-fill, minmax(94px, 1fr));
         }
     }
-    .section-content--credit & {
+    .subsection--credit & {
         margin-bottom: 12px;
     }
 }
@@ -2410,41 +2410,41 @@ a {
     line-height: $line-height-big;
 
 
-    .section-content--course-list &,
-    .section-content--lecture-list & {
+    .subsection--course-list &,
+    .subsection--lecture-list & {
         font-weight: initial;
         margin-bottom: 12px;
     }
 
 
-    .section-content--course-detail &,
-    .section-content--lecture-detail & {
+    .subsection--course-detail &,
+    .subsection--lecture-detail & {
         text-align: center;
         margin-bottom: 2px;
     }
 
 
-    .section-content--taken-lectures & {
+    .subsection--taken-lectures & {
         text-align: center;
         margin-bottom: 8px;
     }
 
 
-    .section-content--review-write &,
-    .section-content--latest-reviews &,
-    .section-content--notice &,
-    .section-content--feed & {
+    .subsection--review-write &,
+    .subsection--latest-reviews &,
+    .subsection--notice &,
+    .subsection--feed & {
         text-align: center;
         margin-bottom: 10px;
     }
 
-    .section-content--license &,
-    .section-content--account & {
+    .subsection--license &,
+    .subsection--account & {
         text-align: center;
         margin-bottom: 10px;
     }
 
-    .section-content--credit & {
+    .subsection--credit & {
         text-align: center;
         margin-top: 12px;
 
@@ -2527,11 +2527,11 @@ a {
     line-height: $line-height-normal;
     text-align: center;
 
-    .section-content--course-detail & {
+    .subsection--course-detail & {
         margin-bottom: 10px;
     }
 
-    .section-content--lecture-detail & {
+    .subsection--lecture-detail & {
         margin-bottom: 4px;
     }
 }
@@ -2543,7 +2543,7 @@ a {
     line-height: $line-height-normal;
     padding-bottom: 10px;
 
-    .section-content--lecture-detail & {
+    .subsection--lecture-detail & {
         display: block;
         width: 100%;
         padding-bottom: 8px;
@@ -2553,7 +2553,7 @@ a {
         }
     }
 
-    .section-content--license & {
+    .subsection--license & {
         padding-bottom: 8px;
     }
 }
@@ -2603,7 +2603,7 @@ a {
         margin-top: 4px;
     }
 
-    .section-content--lecture-detail > .buttons > & {
+    .subsection--lecture-detail > .buttons > & {
         font-size: $font-size-small;
         line-height: $line-height-small;
 
@@ -2837,7 +2837,7 @@ a {
             }
         }
 
-        .section-content--summary__type & {
+        .subsection--summary__type & {
             overflow: hidden;
             &:last-child {
                 margin-bottom: 0px;
@@ -2874,7 +2874,7 @@ a {
     @media #{$media-landscape} {
         margin-top: $score-margin-tb-desktop;
         margin-bottom: $score-margin-tb-desktop;
-        .section-content--course-detail & {
+        .subsection--course-detail & {
             margin-top: $score-margin-tb-desktop-big;
             margin-bottom: $score-margin-tb-desktop-big;
         }
@@ -2883,12 +2883,12 @@ a {
         margin-top: $score-margin-tb-mobile;
         margin-bottom: $score-margin-tb-mobile;
     }
-    .section-content--lecture-detail & {
+    .subsection--lecture-detail & {
         &:last-child {
             margin-bottom: 0;
         }
     }
-    .section-content--summary & {
+    .subsection--summary & {
         margin-top: $score-margin-tb-desktop;
         margin-bottom: 0;
         @media #{$media-portrait} {
@@ -2903,11 +2903,11 @@ a {
             }
         }
     }
-    .section-content--latest-reviews & {
+    .subsection--latest-reviews & {
         margin-top: 0;
         margin-bottom: 12px;
     }
-    .section-content--taken-lectures & {
+    .subsection--taken-lectures & {
         margin-top: 0;
         margin-bottom: 0;
     }
@@ -2917,13 +2917,13 @@ a {
 
         @media #{$media-landscape} {
             width: $score-width-desktop;
-            .section-content--course-detail & {
+            .subsection--course-detail & {
                 width: $score-width-desktop-big;
             }
         }
         @media #{$media-portrait} {
             width: $score-width-mobile;
-            .section-content--summary & {
+            .subsection--summary & {
                 flex: 1 1 30px;
                 width: 30px;
             }
@@ -2939,7 +2939,7 @@ a {
                 &.scores__score-text--korean {
                     font-size: calc(#{$score-font-size-desktop} - 1px);
                 }
-                .section-content--course-detail & {
+                .subsection--course-detail & {
                     font-size: $score-font-size-desktop-big;
                     line-height: $score-line-height-desktop-big;
                     &.scores__score-text--korean {
@@ -2953,7 +2953,7 @@ a {
                 &.scores__score-text--korean {
                     font-size: calc(#{$score-font-size-mobile} - 1px);
                 }
-                .section-content--summary & {
+                .subsection--summary & {
                     font-size: 24px;
                     line-height: 22px;
                 }
@@ -3011,7 +3011,7 @@ a {
     margin-top: 10px;
     text-align: right;
 
-    .section-content--lecture-detail & {
+    .subsection--lecture-detail & {
         margin-top: 0;
         margin-bottom: 6px;
         text-align: initial;
@@ -3050,7 +3050,7 @@ a {
 
 
 .min-height-area {
-    .section-content--lecture-detail & {
+    .subsection--lecture-detail & {
         @media #{$media-landscape} {
             min-height: calc(
                 #{$section-height-desktop-lecture-detail} - (
@@ -3083,7 +3083,7 @@ a {
             ) !important;
         }
     }
-    .section-content--course-detail & {
+    .subsection--course-detail & {
         @media #{$media-landscape} {
             min-height: calc(
                 #{$screen-height} - (
@@ -3116,7 +3116,7 @@ a {
             ) !important;
         }
     }
-    .section-content--write-reviews-right & {
+    .subsection--write-reviews-right & {
         @media #{$media-landscape} {
             min-height: calc(
                 #{$screen-height} - (
@@ -3203,13 +3203,13 @@ a {
         min-height: 110px;
     }
 
-    .section-content--course-list &,
-    .section-content--lecture-list &,
-    .section-content--taken-lectures & {
+    .subsection--course-list &,
+    .subsection--lecture-list &,
+    .subsection--taken-lectures & {
         flex: 1 0 auto;
     }
 
-    .section-content--feed & {
+    .subsection--feed & {
         min-height: 218px;
     }
 }
@@ -3747,7 +3747,7 @@ i.icon {
     top: 0;
     z-index: 10;
     background-color: $color-section-background;
-    .section-content--course-detail &.scores {
+    .subsection--course-detail &.scores {
         margin-bottom: -$section-padding;
         padding-bottom: $section-padding;
     }

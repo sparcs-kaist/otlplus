@@ -128,7 +128,7 @@ class SemesterSection extends Component {
 
     return (
       <div className={classNames('section', 'section--semester', 'section--mobile-transparent')}>
-        <div className={classNames('section-content', 'section-content--semester', t('jsx.className.semesterByLang'))}>
+        <div className={classNames('subsection', 'subsection--semester', t('jsx.className.semesterByLang'))}>
           { sectionContent }
         </div>
       </div>

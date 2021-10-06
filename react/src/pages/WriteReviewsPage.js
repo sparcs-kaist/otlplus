@@ -53,7 +53,7 @@ class WriteReviewsPage extends Component {
     const getReviewsSubSection = (focusFrom) => {
       if (focusFrom === ReviewsFocusFrom.NONE) {
         return (
-          <div className={classNames('section-content', 'section-content--flex', 'section-content--write-reviews-right')}>
+          <div className={classNames('subsection', 'subsection--flex', 'subsection--write-reviews-right')}>
             <div className={classNames('otlplus-placeholder')}>
               <div>
                 OTL PLUS

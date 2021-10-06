@@ -26,7 +26,7 @@ class ShareSubSection extends Component {
     } = this.props;
 
     return (
-      <div className={classNames('section-content--share', (mobileIsLectureListOpen ? 'mobile-hidden' : ''))}>
+      <div className={classNames('subsection--share', (mobileIsLectureListOpen ? 'mobile-hidden' : ''))}>
         <div>
           { user && selectedTimetable && year && semester
             ? (

@@ -28,7 +28,7 @@ class MainSearchSection extends Component {
     return (
     // eslint-disable-next-line react/jsx-indent
     <div className={classNames('section', 'section--main-search')}>
-      <form className={classNames('section-content', 'section-content--main-search')}>
+      <form className={classNames('subsection', 'subsection--main-search')}>
         <i />
         <input type="text" placeholder={t('ui.tab.search')} onChange={this.onKeywordChange} />
         <Link to={{ pathname: '/dictionary', search: qs.stringify({ startSearchKeyword: keyword }) }}>

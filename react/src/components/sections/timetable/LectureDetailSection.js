@@ -440,7 +440,7 @@ class LectureDetailSection extends Component {
             orientation={Divider.Orientation.HORIZONTAL}
             isVisible={{ desktop: false, mobile: true }}
           />
-          <div className={classNames('section-content--lecture-detail__mobile-buttons', 'desktop-hidden')}>
+          <div className={classNames('subsection--lecture-detail__mobile-buttons', 'desktop-hidden')}>
             {
               !inCart(lectureFocus.lecture, lists[LectureListCode.CART])
                 ? (
@@ -544,7 +544,7 @@ class LectureDetailSection extends Component {
 
     return (
       <div className={classNames('section', 'section--lecture-detail', 'section--mobile-modal', (lectureFocus.clicked ? '' : 'mobile-hidden'))}>
-        <div className={classNames('section-content', 'section-content--lecture-detail', 'section-content--flex')} ref={this.scrollRef}>
+        <div className={classNames('subsection', 'subsection--lecture-detail', 'subsection--flex')} ref={this.scrollRef}>
           { getSectionContent() }
         </div>
       </div>

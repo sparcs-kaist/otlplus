@@ -17,7 +17,7 @@ class AccountPage extends Component {
       <section className={classNames('content', 'content--no-scroll')}>
         <div className={classNames('page-grid', 'page-grid--full')}>
           <div className={classNames('section')}>
-            <div className={classNames('section-content', 'section-content--account')}>
+            <div className={classNames('subsection', 'subsection--account')}>
               <Scroller expandTop={12}>
                 <MyInfoSection />
                 <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
