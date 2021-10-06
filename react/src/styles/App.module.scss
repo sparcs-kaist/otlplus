@@ -265,10 +265,6 @@ a {
         width: calc(
             #{$content-width-desktop}
             + (#{$section-margin-lr} * 2)
-        ); // Fallback for IE and Edge
-        width: calc(
-            #{$content-width-desktop}
-            + (#{$section-margin-lr} * 2)
             + (env(safe-area-inset-left)
             + env(safe-area-inset-right))
         );
@@ -297,10 +293,8 @@ a {
 
 
     &--main {
-        min-height: calc(100vh - (400px + 50px + #{$section-margin-top} + #{$section-margin-bottom})); // Fallback for IE and Edge
         min-height: calc(100vh - (400px + 50px + #{$section-margin-top} + #{$section-margin-bottom} + env(safe-area-inset-bottom)));
         @media #{$media-portrait} {
-            min-height: calc(100vh - (240px + 130px + #{$section-margin-top} + #{$section-margin-bottom})); // Fallback for IE and Edge
             min-height: calc(100vh - (240px + 130px + #{$section-margin-top} + #{$section-margin-bottom} + env(safe-area-inset-bottom)));
         }
     }
@@ -560,11 +554,8 @@ a {
             @media #{$media-portrait} {
                 position: absolute;
                 top: $section-margin-top;
-                bottom: calc(#{$section-margin-bottom} * 2); // Fallback for IE and Edge
                 bottom: calc(#{$section-margin-bottom} * 2 + env(safe-area-inset-bottom));
-                left: calc(#{$section-margin-lr} * 2 ); // Fallback for IE and Edge
                 left: calc(#{$section-margin-lr} * 2 + env(safe-area-inset-left));
-                right: calc(#{$section-margin-lr} * 2); // Fallback for IE and Edge
                 right: calc(#{$section-margin-lr} * 2 + env(safe-area-inset-right));
                 width: initial;
                 height: initial;
@@ -2026,7 +2017,6 @@ a {
             line-height: $line-height-normal + 4px;
             &--limit-5 {
                 overflow: hidden;
-                max-height: ($line-height-normal + 4px) * 5; // Fallback, Remove after line-clamp officially supported
                 display: -webkit-box; // Remove after line-clamp officially supported
                 -webkit-box-orient: vertical; // Remove after line-clamp officially supported
                 -webkit-line-clamp: 5; // Remove after line-clamp officially supported
