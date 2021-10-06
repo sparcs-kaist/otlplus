@@ -320,7 +320,7 @@ class LectureListSection extends Component {
           )
           .join(', ');
         return (
-          <div className={classNames('title', 'title--search')} onClick={() => this.showSearch()}>
+          <div className={classNames('list-title', 'list-title--search')} onClick={() => this.showSearch()}>
             <i className={classNames('icon', 'icon--search')} />
             <span>{t('ui.tab.search')}</span>
             <span>{lastSearchOptionText.length > 0 ? `:${lastSearchOptionText}` : ''}</span>
@@ -329,7 +329,7 @@ class LectureListSection extends Component {
       }
       if (selectedListCode === LectureListCode.BASIC) {
         return (
-          <div className={classNames('title')}>
+          <div className={classNames('list-title')}>
             {t('ui.tab.basic')}
           </div>
         );
@@ -337,21 +337,21 @@ class LectureListSection extends Component {
       if (user && user.departments.some((d) => (selectedListCode === d.code))) {
         const department = user.departments.find((d) => (selectedListCode === d.code));
         return (
-          <div className={classNames('title')}>
+          <div className={classNames('list-title')}>
             {`${department[t('js.property.name')]} ${t('ui.tab.major')}`}
           </div>
         );
       }
       if (selectedListCode === LectureListCode.HUMANITY) {
         return (
-          <div className={classNames('title')}>
+          <div className={classNames('list-title')}>
             {t('ui.tab.humanity')}
           </div>
         );
       }
       if (selectedListCode === LectureListCode.CART) {
         return (
-          <div className={classNames('title')}>
+          <div className={classNames('list-title')}>
             {t('ui.tab.wishlist')}
           </div>
         );
