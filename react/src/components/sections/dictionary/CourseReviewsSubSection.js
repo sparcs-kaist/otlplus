@@ -18,7 +18,7 @@ import userShape from '../../../shapes/UserShape';
 import { calcAverage, getAverageScoreLabel } from '../../../utils/scoreUtils';
 
 
-class ReviewsSubSection extends Component {
+class CourseReviewsSubSection extends Component {
   constructor(props) {
     super(props);
 
@@ -151,7 +151,7 @@ class ReviewsSubSection extends Component {
     );
 
     return (
-      <>
+      <div className={classNames('subsection', 'subsection--course-reviews')}>
         <div className={classNames('small-title')}>{t('ui.title.reviews')}</div>
         <SearchFilter
           updateCheckedValues={this.updateCheckedValues('selectedProfessors')}
@@ -183,7 +183,7 @@ class ReviewsSubSection extends Component {
         </div>
         { reviewWriteBlocksArea }
         { reviewBlocksArea }
-      </>
+      </div>
     );
   }
 }
@@ -202,7 +202,7 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-ReviewsSubSection.propTypes = {
+CourseReviewsSubSection.propTypes = {
   user: userShape,
   courseFocus: courseFocusShape.isRequired,
 
@@ -213,6 +213,6 @@ ReviewsSubSection.propTypes = {
 
 export default withTranslation()(
   connect(mapStateToProps, mapDispatchToProps)(
-    ReviewsSubSection
+    CourseReviewsSubSection
   )
 );

@@ -5,9 +5,9 @@ import { appBoundClassNames as classNames } from '../common/boundClassNames';
 
 import Divider from '../components/Divider';
 import Scroller from '../components/Scroller';
-import MyInfoSection from '../components/sections/account/MyInfoSection';
-import AcademicInfoSection from '../components/sections/account/AcademicInfoSection';
-import FavoriteDepartmentsSection from '../components/sections/account/FavoriteDepartmentsSection';
+import MyInfoSubSection from '../components/sections/account/MyInfoSubSection';
+import AcademicInfoSubSection from '../components/sections/account/AcademicInfoSubSection';
+import FavoriteDepartmentsSubSection from '../components/sections/account/FavoriteDepartmentsSubSection';
 
 
 class AccountPage extends Component {
@@ -16,22 +16,20 @@ class AccountPage extends Component {
     return (
       <section className={classNames('content', 'content--no-scroll')}>
         <div className={classNames('page-grid', 'page-grid--full')}>
-          <div className={classNames('section')}>
-            <div className={classNames('subsection', 'subsection--account')}>
-              <Scroller expandTop={12}>
-                <MyInfoSection />
-                <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
-                <AcademicInfoSection />
-                <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
-                <FavoriteDepartmentsSection />
-                <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
-                <div>
-                  <a href="/session/logout/" className={classNames('text-button')}>
-                    {t('ui.button.signOut')}
-                  </a>
-                </div>
-              </Scroller>
-            </div>
+          <div className={classNames('section', 'section--account')}>
+            <Scroller expandTop={12}>
+              <MyInfoSubSection />
+              <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
+              <AcademicInfoSubSection />
+              <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
+              <FavoriteDepartmentsSubSection />
+              <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
+              <div>
+                <a href="/session/logout/" className={classNames('text-button')}>
+                  {t('ui.button.signOut')}
+                </a>
+              </div>
+            </Scroller>
           </div>
         </div>
       </section>

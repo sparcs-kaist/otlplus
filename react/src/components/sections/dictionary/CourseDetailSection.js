@@ -6,14 +6,14 @@ import { withTranslation } from 'react-i18next';
 import axios from 'axios';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
-import { getAverageScoreLabel } from '../../../utils/scoreUtils';
 
 import Scroller from '../../Scroller';
 import CloseButton from '../../CloseButton';
 import Divider from '../../Divider';
-import RelatedSubSection from './RelatedSubSection';
-import HistorySubSection from './HistorySubSection';
-import ReviewsSubSection from './ReviewsSubSection';
+import CourseInfoSubSection from './CourseInfoSubSection';
+import CourseRelatedCoursesSubSection from './CourseRelatedCoursesSubSection';
+import CourseHistorySubSection from './CourseHistorySubSection';
+import CourseReviewsSubSection from './CourseReviewsSubSection';
 
 import { clearCourseFocus, setLectures, setReviews } from '../../../actions/dictionary/courseFocus';
 import { addCourseRead } from '../../../actions/dictionary/list';
@@ -162,36 +162,13 @@ class CourseDetailSection extends Component {
             <div ref={this.scrollThresholdRef} />
           </div>
           <Scroller key={courseFocus.course.id}>
-            <div>
-              <div className={classNames('attribute', 'attribute--long-info')}>
-                <div>{ t('ui.attribute.classification') }</div>
-                <div>{ `${courseFocus.course.department[t('js.property.name')]}, ${courseFocus.course[t('js.property.type')]}` }</div>
-              </div>
-              <div className={classNames('attribute', 'attribute--long-info')}>
-                <div>{ t('ui.attribute.description') }</div>
-                <div>{ courseFocus.course.summary }</div>
-              </div>
-            </div>
-            <div className={classNames('scores', 'top-sticky')} ref={this.scoresRef}>
-              <div>
-                <div>{ getAverageScoreLabel(courseFocus.course.grade) }</div>
-                <div>{ t('ui.score.grade') }</div>
-              </div>
-              <div>
-                <div>{ getAverageScoreLabel(courseFocus.course.load) }</div>
-                <div>{ t('ui.score.load') }</div>
-              </div>
-              <div>
-                <div>{ getAverageScoreLabel(courseFocus.course.speech) }</div>
-                <div>{ t('ui.score.speech') }</div>
-              </div>
-            </div>
+            <CourseInfoSubSection />
             <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
-            <RelatedSubSection />
+            <CourseRelatedCoursesSubSection />
             <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
-            <HistorySubSection />
+            <CourseHistorySubSection />
             <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
-            <ReviewsSubSection />
+            <CourseReviewsSubSection />
           </Scroller>
         </>
       )

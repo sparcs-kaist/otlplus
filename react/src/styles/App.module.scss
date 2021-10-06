@@ -1116,6 +1116,12 @@ a {
             grid-area: write-reviews-right;
         }
     }
+    
+
+    &--account {
+        display: flex;
+        flex-direction: column;
+    }
 }
 
 
@@ -1571,8 +1577,6 @@ a {
     }
 
     &--account {
-        display: flex;
-        flex-direction: column;
     }
 
     &--main-search {
@@ -2003,10 +2007,6 @@ a {
 
     &--review {
 
-        .subsection--course-detail &:last-child {
-            margin-bottom: 0;
-        }
-
         &__title {
             margin-bottom: 8px;
 
@@ -2064,10 +2064,6 @@ a {
 
 
     &--review-write {
-
-        .subsection--course-detail &:last-child {
-            margin-bottom: 0;
-        }
 
         &__title {
             margin-bottom: 8px;
@@ -2417,8 +2413,8 @@ a {
     }
 
 
-    .subsection--course-detail &,
-    .subsection--lecture-detail & {
+    .section--course-detail &,
+    .section--lecture-detail & {
         text-align: center;
         margin-bottom: 2px;
     }
@@ -2439,7 +2435,9 @@ a {
     }
 
     .subsection--license &,
-    .subsection--account & {
+    .subsection--my-info &,
+    .subsection--academic-info &,
+    .subsection--favorite-department & {
         text-align: center;
         margin-bottom: 10px;
     }
@@ -2527,11 +2525,11 @@ a {
     line-height: $line-height-normal;
     text-align: center;
 
-    .subsection--course-detail & {
+    .section--course-detail & {
         margin-bottom: 10px;
     }
 
-    .subsection--lecture-detail & {
+    .section--lecture-detail & {
         margin-bottom: 4px;
     }
 }
@@ -2874,7 +2872,8 @@ a {
     @media #{$media-landscape} {
         margin-top: $score-margin-tb-desktop;
         margin-bottom: $score-margin-tb-desktop;
-        .subsection--course-detail & {
+        .subsection--course-info &,
+        .subsection--course-reviews & {
             margin-top: $score-margin-tb-desktop-big;
             margin-bottom: $score-margin-tb-desktop-big;
         }
@@ -2917,7 +2916,8 @@ a {
 
         @media #{$media-landscape} {
             width: $score-width-desktop;
-            .subsection--course-detail & {
+            .subsection--course-info &,
+            .subsection--course-reviews & {
                 width: $score-width-desktop-big;
             }
         }
@@ -2939,7 +2939,8 @@ a {
                 &.scores__score-text--korean {
                     font-size: calc(#{$score-font-size-desktop} - 1px);
                 }
-                .subsection--course-detail & {
+                .subsection--course-info &,
+                .subsection--course-reviews & {
                     font-size: $score-font-size-desktop-big;
                     line-height: $score-line-height-desktop-big;
                     &.scores__score-text--korean {
@@ -3083,7 +3084,7 @@ a {
             ) !important;
         }
     }
-    .subsection--course-detail & {
+    .subsection--course-reviews & {
         @media #{$media-landscape} {
             min-height: calc(
                 #{$screen-height} - (
@@ -3747,7 +3748,7 @@ i.icon {
     top: 0;
     z-index: 10;
     background-color: $color-section-background;
-    .subsection--course-detail &.scores {
+    .subsection--course-info &.scores {
         margin-bottom: -$section-padding;
         padding-bottom: $section-padding;
     }
