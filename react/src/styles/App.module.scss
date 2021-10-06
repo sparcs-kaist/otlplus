@@ -51,6 +51,44 @@ $section-margin-lr: 12px;
 $section-padding: 12px;
 $section-border-radius: 6px;
 $section-box-shadow: 0 6px 3px -3px $color-section-shadow;
+
+$tab-padding: 8px;
+$tab-margin: 6px;
+$tab-border-radius: 4px;
+$tabs-height-horizontal: (13px + $tab-padding * 2);
+$tabs-width-vertical: (13px + $tab-padding * 2);
+
+$block-margin: 8px;
+$block-padding-lr: 10px;
+$block-padding-tb: 8px;
+$block-border-radius: 4px;
+
+$tile-padding-lr: 6px;
+$tile-padding-tb: 4px;
+$tile-border-radius: 2px;
+
+$title-margin-bottom: 10px;
+$list-title-margin-bottom: 12px;
+
+$score-margin-tb-desktop-big: calc(1.4vh + 2px + 4px);
+$score-margin-tb-desktop: calc(1.4vh + 2px);
+$score-margin-tb-mobile: calc(3.8vw + 2px);
+$score-width-desktop-big: calc(3.5vh + 34px + 20px);
+$score-width-desktop: calc(3.5vh + 34px);
+$score-width-mobile: calc(9.5vw + 34px);
+$score-font-size-desktop-big: calc(0.7vh + 15px + 2px);
+$score-font-size-desktop: calc(0.7vh + 15px);
+$score-font-size-mobile: calc(1.9vw + 15px);
+$score-line-height-desktop-big: calc(#{$score-font-size-desktop-big} - 2px);
+$score-line-height-desktop: calc(#{$score-font-size-desktop} - 2px);
+$score-line-height-mobile: calc(#{$score-font-size-mobile} - 2px);
+
+
+$media-landscape: (min-aspect-ratio: 4/3);
+$media-portrait: (max-aspect-ratio: 4/3);
+
+$screen-height: var(--window-inner-height, 100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+
 $section-width-desktop-full: $content-width-desktop;
 $section-width-desktop-1v3-left: calc(15vh + 126px);
 $section-width-desktop-1v3-right: calc(
@@ -68,45 +106,12 @@ $section-height-desktop-lecture-detail: calc(
     #{$section-padding}
     + (#{$line-height-big} + 2px)
     + (#{$line-height-normal} + 4px)
-    + (#{$line-height-small} + 10px)
+    + (#{$line-height-small} + #{$title-margin-bottom})
     + ((#{$line-height-normal} * 6) + (8px * 5))
     + (((0.7vh + 13px) + 2px + #{$line-height-smaller}) * 2 + ((1.4vh + 2px) * 3))
     + #{$line-height-normal}
     + #{$section-padding}
 );
-
-$tab-padding: 8px;
-$tab-margin: 6px;
-$tab-border-radius: 4px;
-$tabs-height-horizontal: (13px + $tab-padding * 2);
-$tabs-width-vertical: (13px + $tab-padding * 2);
-
-$block-margin: 8px;
-$block-padding-lr: 10px;
-$block-padding-tb: 8px;
-$block-border-radius: 4px;
-
-$tile-padding-lr: 6px;
-$tile-padding-tb: 4px;
-$tile-border-radius: 2px;
-
-$score-margin-tb-desktop-big: calc(1.4vh + 2px + 4px);
-$score-margin-tb-desktop: calc(1.4vh + 2px);
-$score-margin-tb-mobile: calc(3.8vw + 2px);
-$score-width-desktop-big: calc(3.5vh + 34px + 20px);
-$score-width-desktop: calc(3.5vh + 34px);
-$score-width-mobile: calc(9.5vw + 34px);
-$score-font-size-desktop-big: calc(0.7vh + 15px + 2px);
-$score-font-size-desktop: calc(0.7vh + 15px);
-$score-font-size-mobile: calc(1.9vw + 15px);
-$score-line-height-desktop-big: calc(#{$score-font-size-desktop-big} - 2px);
-$score-line-height-desktop: calc(#{$score-font-size-desktop} - 2px);
-$score-line-height-mobile: calc(#{$score-font-size-mobile} - 2px);
-
-$media-landscape: (min-aspect-ratio: 4/3);
-$media-portrait: (max-aspect-ratio: 4/3);
-
-$screen-height: var(--window-inner-height, 100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
 
 
 body * {
@@ -1144,8 +1149,8 @@ a {
     &--lecture-list {
         &__selector {
             position: absolute;
-            top: calc((100% + #{$line-height-big} + 12px - 12px) / 2);
-            right: 12px;
+            top: calc((100% + #{$line-height-big} + #{$list-title-margin-bottom} - 12px) / 2);
+            right: #{$section-padding};
             @media #{$media-landscape} {
                 display: none;
             }
@@ -1164,10 +1169,9 @@ a {
                                     - (#{$section-margin-bottom} * 2)
                                 ) / 2
                                 - (
-                                    #{$line-height-small}
-                                    + (8px * 2)
+                                    #{$tabs-height-horizontal}
                                     + (#{$section-padding} * 2)
-                                    + (#{$line-height-big} + 12px)
+                                    + (#{$line-height-big} + #{$list-title-margin-bottom})
                                 )
                             ) / 2
                             - (
@@ -1188,10 +1192,9 @@ a {
                                     - (#{$section-margin-bottom} * 2)
                                 ) / 2
                                 - (
-                                    #{$line-height-small}
-                                    + (8px * 2)
+                                    #{$tabs-height-horizontal}
                                     + (#{$section-padding} * 2)
-                                    + (#{$line-height-big} + 12px)
+                                    + (#{$line-height-big} + #{$list-title-margin-bottom})
                                 )
                             ) / 2
                             - (
@@ -2405,9 +2408,15 @@ a {
     font-size: $font-size-big;
     line-height: $line-height-big;
     text-align: center;
-    margin-bottom: 10px;
+    margin-bottom: $title-margin-bottom;
 
 
+    // TODO: Change after :has supported. See issue #852
+    /*
+    &:has(+ .subtitle) {
+        margin-bottom: 2px;
+    }
+    */
     .section--course-detail &,
     .section--lecture-detail & {
         margin-bottom: 2px;
@@ -2428,11 +2437,15 @@ a {
     font-size: $font-size-normal;
     line-height: $line-height-normal;
     text-align: center;
+    margin-bottom: $title-margin-bottom;
 
-    .section--course-detail & {
-        margin-bottom: 10px;
+
+    // TODO: Change after :has supported. See issue #852
+    /*
+    &:has(+ .buttons) {
+        margin-bottom: 4px;
     }
-
+    */
     .section--lecture-detail & {
         margin-bottom: 4px;
     }
@@ -2443,7 +2456,7 @@ a {
     font-weight: initial;
     font-size: $font-size-big;
     line-height: $line-height-big;
-    margin-bottom: 12px;
+    margin-bottom: $list-title-margin-bottom;
 
 
     &--search { 
@@ -2519,12 +2532,12 @@ a {
     font-weight: bold;
     font-size: $font-size-normal;
     line-height: $line-height-normal;
-    padding-bottom: 10px;
+    margin-bottom: $title-margin-bottom;
 
     .subsection--lecture-detail & {
         display: block;
         width: 100%;
-        padding-bottom: 8px;
+        margin-bottom: 8px;
 
         & > span {
             margin-right: 6px;
@@ -2538,7 +2551,7 @@ a {
 
 
 .detail-title-area {
-    margin-bottom: 10px;
+    margin-bottom: $title-margin-bottom;
 
     & > *:last-child {
         margin-bottom: 0;
@@ -3046,7 +3059,7 @@ a {
                     #{$section-padding}
                     + (#{$line-height-big} + 2px)
                     + (#{$line-height-normal} + 4px)
-                    + (#{$line-height-small} + 10px)
+                    + (#{$line-height-small} + #{$title-margin-bottom})
                     + (#{$line-height-big} + 6px)
 
                     + #{$section-padding}
@@ -3061,7 +3074,7 @@ a {
                     + #{$section-padding}
                     + (#{$line-height-big} + 2px)
                     + (#{$line-height-normal} + 4px)
-                    + (#{$line-height-small} + 10px)
+                    + (#{$line-height-small} + #{$title-margin-bottom})
                     + (#{$line-height-big} + 6px)
 
                     + (#{$section-padding} * 2 + 1px)
@@ -3078,9 +3091,10 @@ a {
                 #{$screen-height} - (
                     #{$header-height}
                     + #{$section-padding}
-                    + (#{$line-height-big} + 2px + #{$line-height-normal} + 10px)
+                    + (#{$line-height-big} + 2px)
+                    + (#{$line-height-normal} + #{$title-margin-bottom})
                     + (#{$score-line-height-desktop-big} + 2px + #{$line-height-smaller} + 12px)
-                    + (#{$line-height-normal} + 10px)
+                    + (#{$line-height-normal} + #{$title-margin-bottom})
                     + ((#{$line-height-normal} + 8px) * 2)
 
                     + #{$section-padding}
@@ -3094,9 +3108,10 @@ a {
                     #{$header-height}
                     + #{$section-margin-top}
                     + #{$section-padding}
-                    + (#{$line-height-big} + 2px + #{$line-height-normal} + 10px)
+                    + (#{$line-height-big} + 2px)
+                    + (#{$line-height-normal} + #{$title-margin-bottom})
                     + (#{$score-line-height-mobile} + 2px + #{$line-height-smaller} + 12px)
-                    + (#{$line-height-normal} + 10px)
+                    + (#{$line-height-normal} + #{$title-margin-bottom})
                     + ((#{$line-height-normal} + 8px) * 2)
 
                     + #{$section-padding}
@@ -3111,7 +3126,7 @@ a {
                 #{$screen-height} - (
                     #{$header-height}
                     + #{$section-padding}
-                    + (#{$line-height-big} + 10px)
+                    + (#{$line-height-big} + #{$title-margin-bottom})
 
                     + #{$section-padding}
                     + #{$section-margin-bottom}
@@ -3124,7 +3139,7 @@ a {
                     #{$header-height}
                     + #{$section-margin-top}
                     + #{$section-padding}
-                    + (#{$line-height-big} + 10px)
+                    + (#{$line-height-big} + #{$title-margin-bottom})
 
                     + #{$section-padding}
                     + (#{$section-margin-bottom} * 2)
@@ -3152,12 +3167,13 @@ a {
 
     & > div {
         flex: none;
-        margin-top: 12px;
-
         &:first-child {
             margin-top: 0;
             font-size: 20px;
             line-height: 20px;
+        }
+        &:not(:first-child) {
+            margin-top: 12px;
         }
     }
 
