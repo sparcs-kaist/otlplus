@@ -159,10 +159,19 @@ class LectureDetailSection extends Component {
       : (lectureFocus.from === LectureFocusFrom.LIST)
         ? `Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`
         : 'Unknown';
+    const beforeRequest = () => {
+    };
+    const afterResponse = () => {
+      const newProps = this.props;
+      if (!newProps.selectedTimetable || newProps.selectedTimetable.id !== selectedTimetable.id) {
+        return;
+      }
+      // TODO: Fix timetable not updated when semester unchanged and timetable changed
+      addLectureToTimetableDispatch(lectureFocus.lecture);
+    };
     performAddToTable(
-      this,
       lectureFocus.lecture, selectedTimetable, user, fromString,
-      addLectureToTimetableDispatch
+      beforeRequest, afterResponse,
     );
   }
 
@@ -186,10 +195,19 @@ class LectureDetailSection extends Component {
       : (lectureFocus.from === LectureFocusFrom.LIST)
         ? `Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`
         : 'Unknown';
+    const beforeRequest = () => {
+    };
+    const afterResponse = () => {
+      const newProps = this.props;
+      if (!newProps.selectedTimetable || newProps.selectedTimetable.id !== selectedTimetable.id) {
+        return;
+      }
+      // TODO: Fix timetable not updated when semester unchanged and timetable changed
+      removeLectureFromTimetableDispatch(lectureFocus.lecture);
+    };
     performDeleteFromTable(
-      this,
       lectureFocus.lecture, selectedTimetable, user, fromString,
-      removeLectureFromTimetableDispatch
+      beforeRequest, afterResponse,
     );
   }
 
@@ -214,10 +232,18 @@ class LectureDetailSection extends Component {
       : (lectureFocus.from === LectureFocusFrom.LIST)
         ? `Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`
         : 'Unknown';
+    const beforeRequest = () => {
+    };
+    const afterResponse = () => {
+      const newProps = this.props;
+      if (newProps.year !== year || newProps.semester !== semester) {
+        return;
+      }
+      addLectureToCartDispatch(lectureFocus.lecture);
+    };
     performAddToCart(
-      this,
-      lectureFocus.lecture, year, semester, user, fromString,
-      addLectureToCartDispatch
+      lectureFocus.lecture, user, fromString,
+      beforeRequest, afterResponse,
     );
   }
 
@@ -242,10 +268,18 @@ class LectureDetailSection extends Component {
       : (lectureFocus.from === LectureFocusFrom.LIST)
         ? `Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`
         : 'Unknown';
+    const beforeRequest = () => {
+    };
+    const afterResponse = () => {
+      const newProps = this.props;
+      if (newProps.year !== year || newProps.semester !== semester) {
+        return;
+      }
+      deleteLectureFromCartDispatch(lectureFocus.lecture);
+    };
     performDeleteFromCart(
-      this,
-      lectureFocus.lecture, year, semester, user, fromString,
-      deleteLectureFromCartDispatch
+      lectureFocus.lecture, user, fromString,
+      beforeRequest, afterResponse,
     );
   }
 

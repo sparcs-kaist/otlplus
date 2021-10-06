@@ -91,10 +91,19 @@ class LectureListSection extends Component {
       [LectureListCode.CART, 'Cart'],
     ]);
     const fromString = `Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`;
+    const beforeRequest = () => {
+    };
+    const afterResponse = () => {
+      const newProps = this.props;
+      if (!newProps.selectedTimetable || newProps.selectedTimetable.id !== selectedTimetable.id) {
+        return;
+      }
+      // TODO: Fix timetable not updated when semester unchanged and timetable changed
+      addLectureToTimetableDispatch(lecture);
+    };
     performAddToTable(
-      this,
       lecture, selectedTimetable, user, fromString,
-      addLectureToTimetableDispatch
+      beforeRequest, afterResponse,
     );
   }
 
@@ -113,10 +122,18 @@ class LectureListSection extends Component {
       [LectureListCode.CART, 'Cart'],
     ]);
     const fromString = `Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`;
+    const beforeRequest = () => {
+    };
+    const afterResponse = () => {
+      const newProps = this.props;
+      if (newProps.year !== year || newProps.semester !== semester) {
+        return;
+      }
+      addLectureToCartDispatch(lecture);
+    };
     performAddToCart(
-      this,
-      lecture, year, semester, user, fromString,
-      addLectureToCartDispatch
+      lecture, user, fromString,
+      beforeRequest, afterResponse,
     );
   }
 
@@ -135,10 +152,18 @@ class LectureListSection extends Component {
       [LectureListCode.CART, 'Cart'],
     ]);
     const fromString = `Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`;
+    const beforeRequest = () => {
+    };
+    const afterResponse = () => {
+      const newProps = this.props;
+      if (newProps.year !== year || newProps.semester !== semester) {
+        return;
+      }
+      deleteLectureFromCartDispatch(lecture);
+    };
     performDeleteFromCart(
-      this,
-      lecture, year, semester, user, fromString,
-      deleteLectureFromCartDispatch
+      lecture, user, fromString,
+      beforeRequest, afterResponse,
     );
   }
 

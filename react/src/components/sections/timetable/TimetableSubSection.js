@@ -225,7 +225,20 @@ class TimetableSubSection extends Component {
       return;
     }
 
-    performDeleteFromTable(this, lecture, selectedTimetable, user, 'Timetable', removeLectureFromTimetableDispatch);
+    const beforeRequest = () => {
+    };
+    const afterResponse = () => {
+      const newProps = this.props;
+      if (!newProps.selectedTimetable || newProps.selectedTimetable.id !== selectedTimetable.id) {
+        return;
+      }
+      // TODO: Fix timetable not updated when semester unchanged and timetable changed
+      removeLectureFromTimetableDispatch(lecture);
+    };
+    performDeleteFromTable(
+      lecture, selectedTimetable, user, 'Timetable',
+      beforeRequest, afterResponse,
+    );
   }
 
   render() {

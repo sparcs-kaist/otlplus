@@ -6,7 +6,7 @@ import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 import { getProfessorsShortStr } from '../../utils/lectureUtils';
 import { getSingleScoreLabel } from '../../utils/scoreUtils';
 import { getSemesterName } from '../../utils/semesterUtils';
-import { performSubmitReview } from '../../utils/reviewUtils';
+import { performSubmitReview } from '../../common/commonOperations';
 
 import lectureShape from '../../shapes/LectureShape';
 import reviewShape from '../../shapes/ReviewShape';
@@ -48,13 +48,19 @@ const ReviewWriteBlock = ({
     const beforeRequest = () => {
       setIsUploading(true);
     };
-    const afterResponse = (response) => {
+    const afterResponse = (newReview) => {
       setIsUploading(false);
       if (updateOnSubmit !== undefined) {
-        updateOnSubmit(response.data, true);
+        updateOnSubmit(newReview, true);
       }
     };
-    performSubmitReview(review, lecture, content, grade, speech, load, isUploading, `Page : ${pageFrom}`, beforeRequest, afterResponse);
+    performSubmitReview(
+      review,
+      lecture, content, grade, speech, load,
+      isUploading,
+      `Page : ${pageFrom}`,
+      beforeRequest, afterResponse,
+    );
   };
 
   const hasChange = (
