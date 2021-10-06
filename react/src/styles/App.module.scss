@@ -2405,6 +2405,7 @@ a {
     font-size: $font-size-big;
     line-height: $line-height-big;
     text-align: center;
+    margin-bottom: 10px;
 
 
     .section--course-detail &,
@@ -2413,29 +2414,10 @@ a {
     }
 
 
-    .subsection--taken-lectures & {
-        margin-bottom: 8px;
-    }
-
-
-    .subsection--review-write &,
-    .subsection--latest-reviews &,
-    .subsection--notice &,
-    .subsection--feed & {
-        margin-bottom: 10px;
-    }
-
-    .subsection--license &,
-    .subsection--my-info &,
-    .subsection--academic-info &,
-    .subsection--favorite-department & {
-        margin-bottom: 10px;
-    }
-
     .subsection--credit & {
         margin-top: 12px;
 
-        &:first-child {
+        &:not(:first-child) {
             margin-top: 0;
         }
     }
