@@ -68,7 +68,7 @@ $section-height-desktop-lecture-detail: calc(
     #{$section-padding}
     + (#{$line-height-big} + 2px)
     + (#{$line-height-normal} + 4px)
-    + (#{$line-height-small} + 6px)
+    + (#{$line-height-small} + 10px)
     + ((#{$line-height-normal} * 6) + (8px * 5))
     + (((0.7vh + 13px) + 2px + #{$line-height-smaller}) * 2 + ((1.4vh + 2px) * 3))
     + #{$line-height-normal}
@@ -2537,6 +2537,29 @@ a {
 }
 
 
+.detail-title-area {
+    margin-bottom: 10px;
+
+    & > *:last-child {
+        margin-bottom: 0;
+    }
+
+    & > .buttons {
+        margin-top: 0;
+        text-align: initial;
+
+        & > .text-button {
+            font-size: $font-size-small;
+            line-height: $line-height-small;
+
+            &:not(:first-child) {
+                margin-left: 6px;
+            }
+        }
+    }
+}
+
+
 .text-button {
     cursor: pointer;
     &:not(:first-child) {
@@ -2579,15 +2602,6 @@ a {
 
     &--review-write-block {
         margin-top: 4px;
-    }
-
-    .subsection--lecture-detail > .buttons > & {
-        font-size: $font-size-small;
-        line-height: $line-height-small;
-
-        &:not(:first-child) {
-            margin-left: 6px;
-        }
     }
 
     .search-area .buttons & {
@@ -2991,12 +3005,6 @@ a {
 .buttons {
     margin-top: 10px;
     text-align: right;
-
-    .subsection--lecture-detail & {
-        margin-top: 0;
-        margin-bottom: 6px;
-        text-align: initial;
-    }
 }
 
 
@@ -3038,7 +3046,7 @@ a {
                     #{$section-padding}
                     + (#{$line-height-big} + 2px)
                     + (#{$line-height-normal} + 4px)
-                    + (#{$line-height-small} + 6px)
+                    + (#{$line-height-small} + 10px)
                     + (#{$line-height-big} + 6px)
 
                     + #{$section-padding}
@@ -3053,7 +3061,7 @@ a {
                     + #{$section-padding}
                     + (#{$line-height-big} + 2px)
                     + (#{$line-height-normal} + 4px)
-                    + (#{$line-height-small} + 6px)
+                    + (#{$line-height-small} + 10px)
                     + (#{$line-height-big} + 6px)
 
                     + (#{$section-padding} * 2 + 1px)

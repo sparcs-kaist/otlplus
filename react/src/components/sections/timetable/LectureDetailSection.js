@@ -328,21 +328,23 @@ class LectureDetailSection extends Component {
         // eslint-disable-next-line react/jsx-indent
         <>
           <CloseButton onClick={this.unfix} />
-          <div className={classNames('title')}>
-            {lectureFocus.lecture[t('js.property.title')]}
-          </div>
-          <div className={classNames('subtitle')}>
-            {lectureFocus.lecture.old_code}
-            {lectureFocus.lecture.class_no.length ? ` (${lectureFocus.lecture.class_no})` : ''}
-          </div>
-          <div className={classNames('buttons')}>
-            <button onClick={this.unfix} className={classNames('text-button', (shouldShowUnfix ? '' : 'text-button--disabled'))}>{t('ui.button.unfix')}</button>
-            <a className={classNames('text-button', 'text-button--right')} href={getSyllabusUrl(lectureFocus.lecture)} target="_blank" rel="noopener noreferrer">
-              {t('ui.button.syllabus')}
-            </a>
-            <Link className={classNames('text-button', 'text-button--right')} to={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: lectureFocus.lecture.course }) }} target="_blank" rel="noopener noreferrer">
-              {t('ui.button.dictionary')}
-            </Link>
+          <div className={classNames('detail-title-area')}>
+            <div className={classNames('title')}>
+              {lectureFocus.lecture[t('js.property.title')]}
+            </div>
+            <div className={classNames('subtitle')}>
+              {lectureFocus.lecture.old_code}
+              {lectureFocus.lecture.class_no.length ? ` (${lectureFocus.lecture.class_no})` : ''}
+            </div>
+            <div className={classNames('buttons')}>
+              <button onClick={this.unfix} className={classNames('text-button', (shouldShowUnfix ? '' : 'text-button--disabled'))}>{t('ui.button.unfix')}</button>
+              <a className={classNames('text-button', 'text-button--right')} href={getSyllabusUrl(lectureFocus.lecture)} target="_blank" rel="noopener noreferrer">
+                {t('ui.button.syllabus')}
+              </a>
+              <Link className={classNames('text-button', 'text-button--right')} to={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: lectureFocus.lecture.course }) }} target="_blank" rel="noopener noreferrer">
+                {t('ui.button.dictionary')}
+              </Link>
+            </div>
           </div>
           <Scroller
             onScroll={this.onScroll}
@@ -494,16 +496,18 @@ class LectureDetailSection extends Component {
         return (
         // eslint-disable-next-line react/jsx-indent
         <>
-          <div className={classNames('title')}>
-            {lectureFocus.multipleTitle}
-          </div>
-          <div className={classNames('subtitle')}>
-            {t('ui.others.multipleDetailCount', { count: lectureFocus.multipleDetails.length })}
-          </div>
-          <div className={classNames('buttons')}>
-            <span className={classNames('text-button', 'text-button--disabled')}>{t('ui.button.unfix')}</span>
-            <span className={classNames('text-button', 'text-button--right', 'text-button--disabled')}>{t('ui.button.syllabus')}</span>
-            <span className={classNames('text-button', 'text-button--right', 'text-button--disabled')}>{t('ui.button.dictionary')}</span>
+          <div className={classNames('detail-title-area')}>
+            <div className={classNames('title')}>
+              {lectureFocus.multipleTitle}
+            </div>
+            <div className={classNames('subtitle')}>
+              {t('ui.others.multipleDetailCount', { count: lectureFocus.multipleDetails.length })}
+            </div>
+            <div className={classNames('buttons')}>
+              <span className={classNames('text-button', 'text-button--disabled')}>{t('ui.button.unfix')}</span>
+              <span className={classNames('text-button', 'text-button--right', 'text-button--disabled')}>{t('ui.button.syllabus')}</span>
+              <span className={classNames('text-button', 'text-button--right', 'text-button--disabled')}>{t('ui.button.dictionary')}</span>
+            </div>
           </div>
           <div>
             {lectureFocus.multipleDetails.map((d, i) => (

@@ -28,8 +28,6 @@ class CourseDetailSection extends Component {
 
     // eslint-disable-next-line fp/no-mutation
     this.scoresRef = React.createRef();
-    // eslint-disable-next-line fp/no-mutation
-    this.scrollThresholdRef = React.createRef();
   }
 
   componentDidUpdate(prevProps) {
@@ -154,12 +152,9 @@ class CourseDetailSection extends Component {
       ? (
         <>
           <CloseButton onClick={this.unfix} />
-          <div>
-            <div>
-              <div className={classNames('title')}>{ courseFocus.course[t('js.property.title')] }</div>
-              <div className={classNames('subtitle')}>{ courseFocus.course.old_code }</div>
-            </div>
-            <div ref={this.scrollThresholdRef} />
+          <div className={classNames('detail-title-area')}>
+            <div className={classNames('title')}>{ courseFocus.course[t('js.property.title')] }</div>
+            <div className={classNames('subtitle')}>{ courseFocus.course.old_code }</div>
           </div>
           <Scroller key={courseFocus.course.id}>
             <CourseInfoSubSection />
