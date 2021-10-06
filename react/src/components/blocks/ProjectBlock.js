@@ -7,36 +7,43 @@ import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 
 const ProjectBlock = ({
   t,
-  index,
+  project,
   isRaised,
   onClick,
-  mainTitle, subTitle, period,
 }) => {
+  const handleClick = onClick
+    ? (event) => {
+      onClick(project);
+    }
+    : null;
+
   return (
     <div
       className={classNames(
         'block',
         'block--project',
+        (onClick ? 'block--clickable' : ''),
         (isRaised ? 'block--raised' : ''),
       )}
-      onClick={() => onClick(index)}
-      key={index}
+      onClick={handleClick}
     >
-      <div className={classNames('block--project__title')}>{mainTitle}</div>
-      <div className={classNames('block--project__title')}>{subTitle}</div>
-      <div className={classNames('block--project__content')}>{period}</div>
+      <div className={classNames('block--project__title')}>{project.mainTitle}</div>
+      <div className={classNames('block--project__title')}>{project.subTitle}</div>
+      <div className={classNames('block--project__content')}>{project.period}</div>
     </div>
   );
 };
 
 
 ProjectBlock.propTypes = {
-  index: PropTypes.number.isRequired,
-  onClick: PropTypes.func.isRequired,
+  project: PropTypes.shape({
+    index: PropTypes.number.isRequired,
+    mainTitle: PropTypes.string.isRequired,
+    subTitle: PropTypes.string.isRequired,
+    period: PropTypes.string.isRequired,
+  }).isRequired,
+  onClick: PropTypes.func,
   isRaised: PropTypes.bool.isRequired,
-  mainTitle: PropTypes.string.isRequired,
-  subTitle: PropTypes.string.isRequired,
-  period: PropTypes.string.isRequired,
 };
 
 

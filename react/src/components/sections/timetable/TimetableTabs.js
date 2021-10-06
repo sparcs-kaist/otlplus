@@ -273,71 +273,67 @@ class TimetableTabs extends Component {
       timetables, selectedTimetable, myTimetable,
     } = this.props;
 
-    if (timetables && timetables.length) {
-      return (
-        <div className={classNames('tabs', 'tabs--timetable')}>
-          { user
-            ? (
-              <div className={classNames('tabs__elem', (myTimetable.id === selectedTimetable.id ? 'tabs__elem--selected' : ''))} key={myTimetable.id} onClick={() => this.changeTab(myTimetable)}>
-                <span>
-                  {`${t('ui.others.myTable')}`}
-                </span>
-                <button onClick={(event) => this.duplicateTable(event, myTimetable)}>
-                  <i className={classNames('icon', 'icon--duplicate-table')} />
-                  <span>{t('ui.button.duplicateTable')}</span>
-                </button>
-                <button className={classNames('disabled')}>
-                  <i className={classNames('icon', 'icon--delete-table')} />
-                  <span>{t('ui.button.deleteTable')}</span>
-                </button>
-              </div>
-            )
-            : null
-          }
-          { timetables.map((tt, i) => (
-            <div className={classNames('tabs__elem', (tt.id === selectedTimetable.id ? 'tabs__elem--selected' : ''))} key={tt.id} onClick={() => this.changeTab(tt)}>
-              <span>
-                {`${t('ui.others.table')} ${i + 1}`}
-              </span>
-              <button onClick={(event) => this.duplicateTable(event, tt)}>
-                <i className={classNames('icon', 'icon--duplicate-table')} />
-                <span>{t('ui.button.duplicateTable')}</span>
-              </button>
-              <button onClick={(event) => this.deleteTable(event, tt)}>
-                <i className={classNames('icon', 'icon--delete-table')} />
-                <span>{t('ui.button.deleteTable')}</span>
-              </button>
-            </div>
-          ))}
-          <div className={classNames('tabs__elem', 'tabs__elem--add-button')} onClick={() => this.createTable()}>
-            <i className={classNames('icon', 'icon--add-table')} />
+    const myTimetableTab = (
+      user
+        ? (
+          <div
+            className={classNames('tabs__elem', ((selectedTimetable && (myTimetable.id === selectedTimetable.id)) ? 'tabs__elem--selected' : ''))}
+            key={myTimetable.id}
+            onClick={() => this.changeTab(myTimetable)}
+          >
+            <span>
+              {`${t('ui.others.myTable')}`}
+            </span>
+            <button onClick={(event) => this.duplicateTable(event, myTimetable)}>
+              <i className={classNames('icon', 'icon--duplicate-table')} />
+              <span>{t('ui.button.duplicateTable')}</span>
+            </button>
+            <button className={classNames('disabled')}>
+              <i className={classNames('icon', 'icon--delete-table')} />
+              <span>{t('ui.button.deleteTable')}</span>
+            </button>
           </div>
-        </div>
-      );
-    }
+        )
+        : null
+    );
+
+    const normalTimetableTabs = (
+      (timetables && timetables.length)
+        ? (
+          <>
+            {
+              timetables.map((tt, i) => (
+                <div className={classNames('tabs__elem', (tt.id === selectedTimetable.id ? 'tabs__elem--selected' : ''))} key={tt.id} onClick={() => this.changeTab(tt)}>
+                  <span>
+                    {`${t('ui.others.table')} ${i + 1}`}
+                  </span>
+                  <button onClick={(event) => this.duplicateTable(event, tt)}>
+                    <i className={classNames('icon', 'icon--duplicate-table')} />
+                    <span>{t('ui.button.duplicateTable')}</span>
+                  </button>
+                  <button onClick={(event) => this.deleteTable(event, tt)}>
+                    <i className={classNames('icon', 'icon--delete-table')} />
+                    <span>{t('ui.button.deleteTable')}</span>
+                  </button>
+                </div>
+              ))
+            }
+            <div className={classNames('tabs__elem', 'tabs__elem--add-button')} onClick={() => this.createTable()}>
+              <i className={classNames('icon', 'icon--add-table')} />
+            </div>
+          </>
+        )
+        : (
+          <div className={classNames(('tabs__elem'))} style={{ pointerEvents: 'none' }}>
+            <span>{t('ui.placeholder.loading')}</span>
+          </div>
+        )
+    );
+
     return (
       <div className={classNames('tabs', 'tabs--timetable')}>
-        { user
-          ? (
-            <div className={classNames('tabs__elem', ((selectedTimetable && (myTimetable.id === selectedTimetable.id)) ? 'tabs__elem--selected' : ''))} key={myTimetable.id} style={{ pointerEvents: 'none' }}>
-              <span>
-                {`${t('ui.others.myTable')}`}
-              </span>
-              <button className={classNames('disabled')}>
-                <i className={classNames('icon', 'icon--duplicate-table')} />
-                <span>{t('ui.button.duplicateTable')}</span>
-              </button>
-              <button className={classNames('disabled')}>
-                <i className={classNames('icon', 'icon--delete-table')} />
-                <span>{t('ui.button.deleteTable')}</span>
-              </button>
-            </div>
-          )
-          : null
-        }
-        <div className={classNames(('tabs__elem'))} style={{ pointerEvents: 'none' }}>
-          <span>{t('ui.placeholder.loading')}</span>
-        </div>
+        { myTimetableTab }
+        { normalTimetableTabs }
       </div>
     );
   }

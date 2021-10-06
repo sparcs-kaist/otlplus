@@ -16,10 +16,8 @@ import { addLectureToCart, deleteLectureFromCart, setMobileIsLectureListOpen } f
 import { openSearch } from '../../../actions/timetable/search';
 import { addLectureToTimetable } from '../../../actions/timetable/timetable';
 
-import { LIST } from '../../../reducers/timetable/lectureFocus';
-import {
-  SEARCH, BASIC, HUMANITY, CART,
-} from '../../../reducers/timetable/list';
+import { LectureFocusFrom } from '../../../reducers/timetable/lectureFocus';
+import { LectureListCode } from '../../../reducers/timetable/list';
 
 import userShape from '../../../shapes/UserShape';
 import lectureListsShape from '../../../shapes/LectureListsShape';
@@ -29,13 +27,14 @@ import lectureLastSearchOptionShape from '../../../shapes/LectureLastSearchOptio
 
 import {
   isListClicked,
-  performAddToTable, performAddToCart, performDeleteFromCart,
+  performAddToTable, performAddToCart, performDeleteFromCart, isListFocused, inTimetable, inCart, isDimmedListLectureGroup,
 } from '../../../utils/lectureUtils';
 import { isTaken } from '../../../utils/courseUtils';
 
 import {
   getLabelOfValue, getDepartmentOptions, getTypeOptions, getLevelOptions,
 } from '../../../common/seachOptions';
+import LectureGroupBlockRow from '../../blocks/LectureGroupBlockRow';
 
 
 class LectureListSection extends Component {
@@ -78,7 +77,7 @@ class LectureListSection extends Component {
     openSearchDispatch();
   }
 
-  addToTable = (lecture) => {
+  addLectureToTable = (lecture) => {
     const {
       user,
       selectedTimetable, selectedListCode,
@@ -86,20 +85,29 @@ class LectureListSection extends Component {
     } = this.props;
 
     const labelOfTabs = new Map([
-      [SEARCH, 'Search'],
-      [BASIC, 'Basic'],
-      [HUMANITY, 'Humanity'],
-      [CART, 'Cart'],
+      [LectureListCode.SEARCH, 'Search'],
+      [LectureListCode.BASIC, 'Basic'],
+      [LectureListCode.HUMANITY, 'Humanity'],
+      [LectureListCode.CART, 'Cart'],
     ]);
     const fromString = `Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`;
+    const beforeRequest = () => {
+    };
+    const afterResponse = () => {
+      const newProps = this.props;
+      if (!newProps.selectedTimetable || newProps.selectedTimetable.id !== selectedTimetable.id) {
+        return;
+      }
+      // TODO: Fix timetable not updated when semester unchanged and timetable changed
+      addLectureToTimetableDispatch(lecture);
+    };
     performAddToTable(
-      this,
       lecture, selectedTimetable, user, fromString,
-      addLectureToTimetableDispatch
+      beforeRequest, afterResponse,
     );
   }
 
-  addToCart = (lecture) => {
+  addLectureToCart = (lecture) => {
     const {
       user,
       selectedListCode,
@@ -108,20 +116,28 @@ class LectureListSection extends Component {
     } = this.props;
 
     const labelOfTabs = new Map([
-      [SEARCH, 'Search'],
-      [BASIC, 'Basic'],
-      [HUMANITY, 'Humanity'],
-      [CART, 'Cart'],
+      [LectureListCode.SEARCH, 'Search'],
+      [LectureListCode.BASIC, 'Basic'],
+      [LectureListCode.HUMANITY, 'Humanity'],
+      [LectureListCode.CART, 'Cart'],
     ]);
     const fromString = `Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`;
+    const beforeRequest = () => {
+    };
+    const afterResponse = () => {
+      const newProps = this.props;
+      if (newProps.year !== year || newProps.semester !== semester) {
+        return;
+      }
+      addLectureToCartDispatch(lecture);
+    };
     performAddToCart(
-      this,
-      lecture, year, semester, user, fromString,
-      addLectureToCartDispatch
+      lecture, user, fromString,
+      beforeRequest, afterResponse,
     );
   }
 
-  deleteFromCart = (lecture) => {
+  deleteLectureFromCart = (lecture) => {
     const {
       user,
       selectedListCode,
@@ -130,20 +146,28 @@ class LectureListSection extends Component {
     } = this.props;
 
     const labelOfTabs = new Map([
-      [SEARCH, 'Search'],
-      [BASIC, 'Basic'],
-      [HUMANITY, 'Humanity'],
-      [CART, 'Cart'],
+      [LectureListCode.SEARCH, 'Search'],
+      [LectureListCode.BASIC, 'Basic'],
+      [LectureListCode.HUMANITY, 'Humanity'],
+      [LectureListCode.CART, 'Cart'],
     ]);
     const fromString = `Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`;
+    const beforeRequest = () => {
+    };
+    const afterResponse = () => {
+      const newProps = this.props;
+      if (newProps.year !== year || newProps.semester !== semester) {
+        return;
+      }
+      deleteLectureFromCartDispatch(lecture);
+    };
     performDeleteFromCart(
-      this,
-      lecture, year, semester, user, fromString,
-      deleteLectureFromCartDispatch
+      lecture, user, fromString,
+      beforeRequest, afterResponse,
     );
   }
 
-  listHover = (lecture) => () => {
+  focusLectureWithHover = (lecture) => {
     const { lectureFocus, setLectureFocusDispatch } = this.props;
 
     const arrow = this.arrowRef.current;
@@ -154,10 +178,10 @@ class LectureListSection extends Component {
     if (lectureFocus.clicked) {
       return;
     }
-    setLectureFocusDispatch(lecture, LIST, false);
+    setLectureFocusDispatch(lecture, LectureFocusFrom.LIST, false);
   }
 
-  listOut = () => {
+  unfocusLectureWithHover = (lecture) => {
     const { lectureFocus, clearLectureFocusDispatch } = this.props;
 
     const arrow = this.arrowRef.current;
@@ -171,17 +195,17 @@ class LectureListSection extends Component {
     clearLectureFocusDispatch();
   }
 
-  listClick = (lecture) => () => {
+  focusLectureWithClick = (lecture) => {
     const { lectureFocus, selectedListCode, setLectureFocusDispatch } = this.props;
 
     if (!isListClicked(lecture, lectureFocus)) {
-      setLectureFocusDispatch(lecture, 'LIST', true);
+      setLectureFocusDispatch(lecture, LectureFocusFrom.LIST, true);
 
       const labelOfTabs = new Map([
-        [SEARCH, 'Search'],
-        [BASIC, 'Basic'],
-        [HUMANITY, 'Humanity'],
-        [CART, 'Cart'],
+        [LectureListCode.SEARCH, 'Search'],
+        [LectureListCode.BASIC, 'Basic'],
+        [LectureListCode.HUMANITY, 'Humanity'],
+        [LectureListCode.CART, 'Cart'],
       ]);
       ReactGA.event({
         category: 'Timetable - Selection',
@@ -190,13 +214,13 @@ class LectureListSection extends Component {
       });
     }
     else {
-      setLectureFocusDispatch(lecture, 'LIST', false);
+      setLectureFocusDispatch(lecture, LectureFocusFrom.LIST, false);
 
       const labelOfTabs = new Map([
-        [SEARCH, 'Search'],
-        [BASIC, 'Basic'],
-        [HUMANITY, 'Humanity'],
-        [CART, 'Cart'],
+        [LectureListCode.SEARCH, 'Search'],
+        [LectureListCode.BASIC, 'Basic'],
+        [LectureListCode.HUMANITY, 'Humanity'],
+        [LectureListCode.CART, 'Cart'],
       ]);
       ReactGA.event({
         category: 'Timetable - Selection',
@@ -222,9 +246,9 @@ class LectureListSection extends Component {
     }
 
     const elementAtPosition = (
-      document.elementFromPoint(100, arrowY).closest(`.${classNames('block--lecture-group__elem-wrap')}`)
-      || document.elementFromPoint(100, arrowY - 25).closest(`.${classNames('block--lecture-group__elem-wrap')}`)
-      || document.elementFromPoint(100, arrowY + 25).closest(`.${classNames('block--lecture-group__elem-wrap')}`)
+      document.elementFromPoint(100, arrowY).closest(`.${classNames('block--lecture-group__row')}`)
+      || document.elementFromPoint(100, arrowY - 25).closest(`.${classNames('block--lecture-group__row')}`)
+      || document.elementFromPoint(100, arrowY + 25).closest(`.${classNames('block--lecture-group__row')}`)
     );
     if (elementAtPosition === null) {
       clearLectureFocusDispatch();
@@ -236,7 +260,7 @@ class LectureListSection extends Component {
       .map((lg) => lg.map((l) => ((l.id === targetId) ? l : null)))
       .reduce((acc, val) => acc.concat(val), [])
       .filter((l) => (l !== null))[0];
-    setLectureFocusDispatch(targetLecture, 'LIST', false);
+    setLectureFocusDispatch(targetLecture, LectureFocusFrom.LIST, false);
   }
 
   mobileCloseLectureList = () => {
@@ -263,7 +287,77 @@ class LectureListSection extends Component {
       mobileIsLectureListOpen,
     } = this.props;
 
-    const getListElement = (lectureGroups, fromCart) => {
+    const getListTitle = () => {
+      if (selectedListCode === LectureListCode.SEARCH) {
+        const lastSearchOptionText = Object.entries(lastSearchOption)
+          .map((e) => {
+            if (e[0] === 'keyword' && e[1].length > 0) {
+              return e[1];
+            }
+            if (e[0] === 'type' && !e[1].includes('ALL')) {
+              return e[1].map((c) => getLabelOfValue(getTypeOptions(), c));
+            }
+            if (e[0] === 'department' && !e[1].includes('ALL')) {
+              return e[1].map((c) => getLabelOfValue(getDepartmentOptions(), c));
+            }
+            if (e[0] === 'grade' && !e[1].includes('ALL')) {
+              return e[1].map((c) => getLabelOfValue(getLevelOptions(), c));
+            }
+            return [];
+          })
+          .flat(1)
+          .concat(
+            (lastSearchOption.day && lastSearchOption.day !== '')
+              ? [
+                `${[t('ui.day.monday'), t('ui.day.tuesday'), t('ui.day.wednesday'), t('ui.day.thursday'), t('ui.day.friday')][lastSearchOption.day]} \
+                ${8 + Math.floor(lastSearchOption.begin / 2)}:${['00', '30'][lastSearchOption.begin % 2]} ~ \
+                ${8 + Math.floor(lastSearchOption.end / 2)}:${['00', '30'][lastSearchOption.end % 2]}`,
+              ]
+              : [],
+          )
+          .join(', ');
+        return (
+          <div className={classNames('title', 'title--search')} onClick={() => this.showSearch()}>
+            <i className={classNames('icon', 'icon--search')} />
+            <span>{t('ui.tab.search')}</span>
+            <span>{lastSearchOptionText.length > 0 ? `:${lastSearchOptionText}` : ''}</span>
+          </div>
+        );
+      }
+      if (selectedListCode === LectureListCode.BASIC) {
+        return (
+          <div className={classNames('title')}>
+            {t('ui.tab.basic')}
+          </div>
+        );
+      }
+      if (user && user.departments.some((d) => (selectedListCode === d.code))) {
+        const department = user.departments.find((d) => (selectedListCode === d.code));
+        return (
+          <div className={classNames('title')}>
+            {`${department[t('js.property.name')]} ${t('ui.tab.major')}`}
+          </div>
+        );
+      }
+      if (selectedListCode === LectureListCode.HUMANITY) {
+        return (
+          <div className={classNames('title')}>
+            {t('ui.tab.humanity')}
+          </div>
+        );
+      }
+      if (selectedListCode === LectureListCode.CART) {
+        return (
+          <div className={classNames('title')}>
+            {t('ui.tab.wishlist')}
+          </div>
+        );
+      }
+      return null;
+    };
+
+    const getListElement = () => {
+      const lectureGroups = this._getLectureGroups(selectedListCode, lists);
       if (!lectureGroups) {
         return <div className={classNames('list-placeholder')}><div>{t('ui.placeholder.loading')}</div></div>;
       }
@@ -272,156 +366,57 @@ class LectureListSection extends Component {
       }
       return (
         <Scroller onScroll={this.selectWithArrow} key={selectedListCode}>
-          {lectureGroups.map((lg) => (
-            <LectureGroupBlock
-              lectureGroup={lg}
-              key={lg[0].course}
-              selectedTimetable={selectedTimetable}
-              cart={lists[CART]}
-              lectureFocus={lectureFocus}
-              isTaken={user && isTaken(lg[0].course, user)}
-              fromCart={fromCart}
-              addToCart={this.addToCart}
-              addToTable={this.addToTable}
-              deleteFromCart={this.deleteFromCart}
-              listHover={this.listHover}
-              listOut={this.listOut}
-              listClick={this.listClick}
-            />
-          ))
-          }
+          <div className={classNames('block-list')}>
+            {
+              lectureGroups.map((lg) => (
+                <LectureGroupBlock
+                  lectureGroup={lg}
+                  key={lg[0].course}
+                  isRaised={lg.some((l) => isListClicked(l, lectureFocus))}
+                  isDimmed={isDimmedListLectureGroup(lg, lectureFocus)}
+                  isTaken={user && isTaken(lg[0].course, user)}
+                >
+                  {
+                    lg.map((l) => (
+                      <LectureGroupBlockRow
+                        lecture={l}
+                        key={l.id}
+                        isHighlighted={isListClicked(l, lectureFocus) || isListFocused(l, lectureFocus)}
+                        inTimetable={inTimetable(l, selectedTimetable)}
+                        isTimetableReadonly={Boolean(!selectedTimetable || selectedTimetable.isReadOnly)}
+                        inCart={inCart(l, lists[LectureListCode.CART])}
+                        fromCart={(selectedListCode === LectureListCode.CART)}
+                        addToCart={this.addLectureToCart}
+                        addToTable={this.addLectureToTable}
+                        deleteFromCart={this.deleteLectureFromCart}
+                        onMouseOver={this.focusLectureWithHover}
+                        onMouseOut={this.unfocusLectureWithHover}
+                        onClick={this.focusLectureWithClick}
+                      />
+                    ))
+                  }
+                </LectureGroupBlock>
+              ))
+            }
+          </div>
         </Scroller>
       );
     };
 
-    const lastSearchOptionText = Object.entries(lastSearchOption)
-      .map((e) => {
-        if (e[0] === 'keyword' && e[1].length > 0) {
-          return e[1];
-        }
-        if (e[0] === 'type' && !e[1].includes('ALL')) {
-          return e[1].map((c) => getLabelOfValue(getTypeOptions(), c));
-        }
-        if (e[0] === 'department' && !e[1].includes('ALL')) {
-          return e[1].map((c) => getLabelOfValue(getDepartmentOptions(), c));
-        }
-        if (e[0] === 'grade' && !e[1].includes('ALL')) {
-          return e[1].map((c) => getLabelOfValue(getLevelOptions(), c));
-        }
-        return [];
-      })
-      .flat(1)
-      .concat(
-        (lastSearchOption.day && lastSearchOption.day !== '')
-          ? [
-            `${[t('ui.day.monday'), t('ui.day.tuesday'), t('ui.day.wednesday'), t('ui.day.thursday'), t('ui.day.friday')][lastSearchOption.day]} \
-            ${8 + Math.floor(lastSearchOption.begin / 2)}:${['00', '30'][lastSearchOption.begin % 2]} ~ \
-            ${8 + Math.floor(lastSearchOption.end / 2)}:${['00', '30'][lastSearchOption.end % 2]}`,
-          ]
-          : [],
-      )
-      .join(', ');
-
-    if (selectedListCode === SEARCH) {
-      return (
+    return (
       // eslint-disable-next-line react/jsx-indent
-      <div className={classNames('section', 'section--with-tabs', 'section--lecture-list', (mobileIsLectureListOpen ? '' : 'mobile-hidden'))}>
+      <div className={classNames('section', 'section--lecture-list', (mobileIsLectureListOpen ? '' : 'mobile-hidden'))}>
         <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
-          { searchOpen ? <LectureSearchSubSection /> : null }
+          { ((selectedListCode === LectureListCode.SEARCH) && searchOpen) ? <LectureSearchSubSection /> : null }
           <CloseButton onClick={this.mobileCloseLectureList} />
-          <div className={classNames('title', 'title--search')} onClick={() => this.showSearch()}>
-            <i className={classNames('icon', 'icon--search')} />
-            <span>{t('ui.tab.search')}</span>
-            <span>{lastSearchOptionText.length > 0 ? `:${lastSearchOptionText}` : ''}</span>
+          { getListTitle() }
+          <div className={classNames('section-content--lecture-list__selector')} ref={this.arrowRef}>
+            <i className={classNames('icon', 'icon--lecture-selector')} />
           </div>
-          <>
-            <div className={classNames('section-content--lecture-list__selector')} ref={this.arrowRef}>
-              <i className={classNames('icon', 'icon--lecture-selector')} />
-            </div>
-            {getListElement(this._getLectureGroups(selectedListCode, lists), false)}
-          </>
+          { getListElement() }
         </div>
       </div>
-      );
-    }
-    if (selectedListCode === BASIC) {
-      return (
-      // eslint-disable-next-line react/jsx-indent
-      <div className={classNames('section', 'section--with-tabs', 'section--lecture-list', (mobileIsLectureListOpen ? '' : 'mobile-hidden'))}>
-        <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
-          <CloseButton onClick={this.mobileCloseLectureList} />
-          <div className={classNames('title')}>
-            {t('ui.tab.basic')}
-          </div>
-          <>
-            <div className={classNames('section-content--lecture-list__selector')} ref={this.arrowRef}>
-              <i className={classNames('icon', 'icon--lecture-selector')} />
-            </div>
-            {getListElement(this._getLectureGroups(selectedListCode, lists), false)}
-          </>
-        </div>
-      </div>
-      );
-    }
-    if (user && user.departments.some((d) => (selectedListCode === d.code))) {
-      const department = user.departments.find((d) => (selectedListCode === d.code));
-      return (
-      // eslint-disable-next-line react/jsx-indent
-      <div className={classNames('section', 'section--with-tabs', 'section--lecture-list', (mobileIsLectureListOpen ? '' : 'mobile-hidden'))}>
-        <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
-          <CloseButton onClick={this.mobileCloseLectureList} />
-          <div className={classNames('title')}>
-            {`${department[t('js.property.name')]} ${t('ui.tab.major')}`}
-          </div>
-          <>
-            <div className={classNames('section-content--lecture-list__selector')} ref={this.arrowRef}>
-              <i className={classNames('icon', 'icon--lecture-selector')} />
-            </div>
-            {getListElement(this._getLectureGroups(selectedListCode, lists), false)}
-          </>
-        </div>
-      </div>
-      );
-    }
-    if (selectedListCode === HUMANITY) {
-      return (
-      // eslint-disable-next-line react/jsx-indent
-      <div className={classNames('section', 'section--with-tabs', 'section--lecture-list', (mobileIsLectureListOpen ? '' : 'mobile-hidden'))}>
-        <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
-          <CloseButton onClick={this.mobileCloseLectureList} />
-          <div className={classNames('title')}>
-            {t('ui.tab.humanity')}
-          </div>
-          <>
-            <div className={classNames('section-content--lecture-list__selector')} ref={this.arrowRef}>
-              <i className={classNames('icon', 'icon--lecture-selector')} />
-            </div>
-            {getListElement(this._getLectureGroups(selectedListCode, lists), false)}
-          </>
-        </div>
-      </div>
-      );
-    }
-    if (selectedListCode === CART) {
-      return (
-      // eslint-disable-next-line react/jsx-indent
-      <div className={classNames('section', 'section--with-tabs', 'section--lecture-list', (mobileIsLectureListOpen ? '' : 'mobile-hidden'))}>
-        <div className={classNames('section-content', 'section-content--flex', 'section-content--lecture-list')}>
-          <CloseButton onClick={this.mobileCloseLectureList} />
-          <div className={classNames('title')}>
-            {t('ui.tab.wishlist')}
-          </div>
-          <>
-            <div className={classNames('section-content--lecture-list__selector')} ref={this.arrowRef}>
-              <i className={classNames('icon', 'icon--lecture-selector')} />
-            </div>
-            {getListElement(this._getLectureGroups(selectedListCode, lists), true)}
-          </>
-        </div>
-      </div>
-      );
-    }
-    return null;
+    );
   }
 }
 

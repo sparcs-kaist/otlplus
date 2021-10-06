@@ -17,10 +17,8 @@ import { clearLectureFocus, setReviews } from '../../../actions/timetable/lectur
 import { addLectureToCart, deleteLectureFromCart } from '../../../actions/timetable/list';
 import { addLectureToTimetable, removeLectureFromTimetable } from '../../../actions/timetable/timetable';
 
-import { LIST, TABLE, MULTIPLE } from '../../../reducers/timetable/lectureFocus';
-import {
-  SEARCH, BASIC, HUMANITY, CART,
-} from '../../../reducers/timetable/list';
+import { LectureFocusFrom } from '../../../reducers/timetable/lectureFocus';
+import { LectureListCode } from '../../../reducers/timetable/list';
 
 import userShape from '../../../shapes/UserShape';
 import lectureFocusShape from '../../../shapes/LectureFocusShape';
@@ -78,11 +76,11 @@ class LectureDetailSection extends Component {
       }
     }
 
-    if ((lectureFocus.from === LIST)
+    if ((lectureFocus.from === LectureFocusFrom.LIST)
       && (prevProps.selectedListCode !== selectedListCode)) {
       clearLectureFocusDispatch();
     }
-    else if ((lectureFocus.from === TABLE)
+    else if ((lectureFocus.from === LectureFocusFrom.TABLE)
       && (prevProps.selectedTimetable.id !== selectedTimetable.id)) {
       clearLectureFocusDispatch();
     }
@@ -151,20 +149,29 @@ class LectureDetailSection extends Component {
     event.stopPropagation();
 
     const labelOfTabs = new Map([
-      [SEARCH, 'Search'],
-      [BASIC, 'Basic'],
-      [HUMANITY, 'Humanity'],
-      [CART, 'Cart'],
+      [LectureListCode.SEARCH, 'Search'],
+      [LectureListCode.BASIC, 'Basic'],
+      [LectureListCode.HUMANITY, 'Humanity'],
+      [LectureListCode.CART, 'Cart'],
     ]);
-    const fromString = (lectureFocus.from === TABLE)
+    const fromString = (lectureFocus.from === LectureFocusFrom.TABLE)
       ? 'Timetable'
-      : (lectureFocus.from === LIST)
+      : (lectureFocus.from === LectureFocusFrom.LIST)
         ? `Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`
         : 'Unknown';
+    const beforeRequest = () => {
+    };
+    const afterResponse = () => {
+      const newProps = this.props;
+      if (!newProps.selectedTimetable || newProps.selectedTimetable.id !== selectedTimetable.id) {
+        return;
+      }
+      // TODO: Fix timetable not updated when semester unchanged and timetable changed
+      addLectureToTimetableDispatch(lectureFocus.lecture);
+    };
     performAddToTable(
-      this,
       lectureFocus.lecture, selectedTimetable, user, fromString,
-      addLectureToTimetableDispatch
+      beforeRequest, afterResponse,
     );
   }
 
@@ -178,20 +185,29 @@ class LectureDetailSection extends Component {
     event.stopPropagation();
 
     const labelOfTabs = new Map([
-      [SEARCH, 'Search'],
-      [BASIC, 'Basic'],
-      [HUMANITY, 'Humanity'],
-      [CART, 'Cart'],
+      [LectureListCode.SEARCH, 'Search'],
+      [LectureListCode.BASIC, 'Basic'],
+      [LectureListCode.HUMANITY, 'Humanity'],
+      [LectureListCode.CART, 'Cart'],
     ]);
-    const fromString = (lectureFocus.from === TABLE)
+    const fromString = (lectureFocus.from === LectureFocusFrom.TABLE)
       ? 'Timetable'
-      : (lectureFocus.from === LIST)
+      : (lectureFocus.from === LectureFocusFrom.LIST)
         ? `Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`
         : 'Unknown';
+    const beforeRequest = () => {
+    };
+    const afterResponse = () => {
+      const newProps = this.props;
+      if (!newProps.selectedTimetable || newProps.selectedTimetable.id !== selectedTimetable.id) {
+        return;
+      }
+      // TODO: Fix timetable not updated when semester unchanged and timetable changed
+      removeLectureFromTimetableDispatch(lectureFocus.lecture);
+    };
     performDeleteFromTable(
-      this,
       lectureFocus.lecture, selectedTimetable, user, fromString,
-      removeLectureFromTimetableDispatch
+      beforeRequest, afterResponse,
     );
   }
 
@@ -206,20 +222,28 @@ class LectureDetailSection extends Component {
     event.stopPropagation();
 
     const labelOfTabs = new Map([
-      [SEARCH, 'Search'],
-      [BASIC, 'Basic'],
-      [HUMANITY, 'Humanity'],
-      [CART, 'Cart'],
+      [LectureListCode.SEARCH, 'Search'],
+      [LectureListCode.BASIC, 'Basic'],
+      [LectureListCode.HUMANITY, 'Humanity'],
+      [LectureListCode.CART, 'Cart'],
     ]);
-    const fromString = (lectureFocus.from === TABLE)
+    const fromString = (lectureFocus.from === LectureFocusFrom.TABLE)
       ? 'Timetable'
-      : (lectureFocus.from === LIST)
+      : (lectureFocus.from === LectureFocusFrom.LIST)
         ? `Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`
         : 'Unknown';
+    const beforeRequest = () => {
+    };
+    const afterResponse = () => {
+      const newProps = this.props;
+      if (newProps.year !== year || newProps.semester !== semester) {
+        return;
+      }
+      addLectureToCartDispatch(lectureFocus.lecture);
+    };
     performAddToCart(
-      this,
-      lectureFocus.lecture, year, semester, user, fromString,
-      addLectureToCartDispatch
+      lectureFocus.lecture, user, fromString,
+      beforeRequest, afterResponse,
     );
   }
 
@@ -234,20 +258,28 @@ class LectureDetailSection extends Component {
     event.stopPropagation();
 
     const labelOfTabs = new Map([
-      [SEARCH, 'Search'],
-      [BASIC, 'Basic'],
-      [HUMANITY, 'Humanity'],
-      [CART, 'Cart'],
+      [LectureListCode.SEARCH, 'Search'],
+      [LectureListCode.BASIC, 'Basic'],
+      [LectureListCode.HUMANITY, 'Humanity'],
+      [LectureListCode.CART, 'Cart'],
     ]);
-    const fromString = (lectureFocus.from === TABLE)
+    const fromString = (lectureFocus.from === LectureFocusFrom.TABLE)
       ? 'Timetable'
-      : (lectureFocus.from === LIST)
+      : (lectureFocus.from === LectureFocusFrom.LIST)
         ? `Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`
         : 'Unknown';
+    const beforeRequest = () => {
+    };
+    const afterResponse = () => {
+      const newProps = this.props;
+      if (newProps.year !== year || newProps.semester !== semester) {
+        return;
+      }
+      deleteLectureFromCartDispatch(lectureFocus.lecture);
+    };
     performDeleteFromCart(
-      this,
-      lectureFocus.lecture, year, semester, user, fromString,
-      deleteLectureFromCartDispatch
+      lectureFocus.lecture, user, fromString,
+      beforeRequest, afterResponse,
     );
   }
 
@@ -272,22 +304,27 @@ class LectureDetailSection extends Component {
     const { shouldShowCloseDict } = this.state;
     const { lectureFocus, selectedTimetable, lists } = this.props;
 
-    const shouldShowUnfix = (lectureFocus.from === 'LIST' || lectureFocus.from === 'TABLE')
+    const shouldShowUnfix = (lectureFocus.from === LectureFocusFrom.LIST || lectureFocus.from === LectureFocusFrom.TABLE)
       && lectureFocus.clicked;
 
-    if (lectureFocus.from === LIST || lectureFocus.from === TABLE) {
-      const mapreview = (review, index) => (
-        <ReviewSimpleBlock key={`review_${index}`} review={review} />
-      );
-      const reviewsDom = (lectureFocus.reviews == null)
-        ? <div className={classNames('section-content--lecture-detail__list-area', 'list-placeholder')}><div>{t('ui.placeholder.loading')}</div></div>
-        : (lectureFocus.reviews.length
-          ? <div className={classNames('section-content--lecture-detail__list-area')}>{lectureFocus.reviews.map(mapreview)}</div>
-          : <div className={classNames('section-content--lecture-detail__list-area', 'list-placeholder')}><div>{t('ui.placeholder.noResults')}</div></div>);
-      return (
-      // eslint-disable-next-line react/jsx-indent
-      <div className={classNames('section', 'section--lecture-detail', 'section--mobile-modal', (lectureFocus.clicked ? '' : 'mobile-hidden'))}>
-        <div className={classNames('section-content', 'section-content--lecture-detail', 'section-content--flex')} ref={this.scrollRef}>
+    const mapReviewToBlock = (review, index) => (
+      <ReviewSimpleBlock
+        key={`review_${index}`}
+        review={review}
+        linkTo={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: review.course.id }) }}
+      />
+    );
+
+    const getSectionContent = () => {
+      if (lectureFocus.from === LectureFocusFrom.LIST || lectureFocus.from === LectureFocusFrom.TABLE) {
+        const reviewBlocks = (lectureFocus.reviews == null)
+          ? <div className={classNames('list-placeholder', 'min-height-area')}><div>{t('ui.placeholder.loading')}</div></div>
+          : (lectureFocus.reviews.length
+            ? <div className={classNames('block-list', 'min-height-area')}>{lectureFocus.reviews.map(mapReviewToBlock)}</div>
+            : <div className={classNames('list-placeholder', 'min-height-area')}><div>{t('ui.placeholder.noResults')}</div></div>);
+        return (
+        // eslint-disable-next-line react/jsx-indent
+        <>
           <CloseButton onClick={this.unfix} />
           <div className={classNames('title')}>
             {lectureFocus.lecture[t('js.property.title')]}
@@ -395,7 +432,7 @@ class LectureDetailSection extends Component {
                 </button>
               )
             }
-            {reviewsDom}
+            { reviewBlocks }
           </Scroller>
           <Divider
             orientation={Divider.Orientation.HORIZONTAL}
@@ -403,7 +440,7 @@ class LectureDetailSection extends Component {
           />
           <div className={classNames('section-content--lecture-detail__mobile-buttons', 'desktop-hidden')}>
             {
-              !inCart(lectureFocus.lecture, lists[CART])
+              !inCart(lectureFocus.lecture, lists[LectureListCode.CART])
                 ? (
                   <button className={classNames('text-button', 'text-button--black')} onClick={this.addToCart}>
                     <i className={classNames('icon', 'icon--add-cart')} />
@@ -445,19 +482,16 @@ class LectureDetailSection extends Component {
                     <span>{t('ui.button.deleteFromTable')}</span>
                   </button>
                 )
-
               )
             }
           </div>
-        </div>
-      </div>
-      );
-    }
-    if (lectureFocus.from === MULTIPLE) {
-      return (
-      // eslint-disable-next-line react/jsx-indent
-      <div className={classNames('section', 'section--lecture-detail', 'section--mobile-modal', (lectureFocus.clicked ? '' : 'mobile-hidden'))}>
-        <div className={classNames('section-content', 'section-content--lecture-detail', 'section-content--flex')}>
+        </>
+        );
+      }
+      if (lectureFocus.from === LectureFocusFrom.MULTIPLE) {
+        return (
+        // eslint-disable-next-line react/jsx-indent
+        <>
           <div className={classNames('title')}>
             {lectureFocus.multipleTitle}
           </div>
@@ -481,14 +515,10 @@ class LectureDetailSection extends Component {
               </div>
             ))}
           </div>
-        </div>
-      </div>
-      );
-    }
-    return (
-    // eslint-disable-next-line react/jsx-indent
-    <div className={classNames('section', 'section--lecture-detail', 'section--mobile-modal', (lectureFocus.clicked ? '' : 'mobile-hidden'))}>
-      <div className={classNames('section-content', 'section-content--lecture-detail', 'section-content--flex')}>
+        </>
+        );
+      }
+      return (
         <div className={classNames('otlplus-placeholder')}>
           <div>
             OTL PLUS
@@ -507,8 +537,15 @@ class LectureDetailSection extends Component {
             &nbsp;OTL Team
           </div>
         </div>
+      );
+    };
+
+    return (
+      <div className={classNames('section', 'section--lecture-detail', 'section--mobile-modal', (lectureFocus.clicked ? '' : 'mobile-hidden'))}>
+        <div className={classNames('section-content', 'section-content--lecture-detail', 'section-content--flex')} ref={this.scrollRef}>
+          { getSectionContent() }
+        </div>
       </div>
-    </div>
     );
   }
 }

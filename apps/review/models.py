@@ -86,7 +86,7 @@ class Review(models.Model):
         self.like = self.votes.all().count()
         self.save()
 
-    # Keep synchronozed with React src/common/scoreFunctions.js calcAverage()
+    # SYNC: Keep synchronized with React src/utils/scoreUtils.js calcAverage()
     @classmethod
     def calc_average(cls, reviews):
         nonzero_reviews = reviews.exclude(grade=0, load=0, speech=0)

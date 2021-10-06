@@ -13,8 +13,8 @@ import { setSelectedListCode, setMobileIsLectureListOpen } from '../../../action
 import { dragSearch, clearDrag } from '../../../actions/timetable/search';
 import { setIsDragging, updateCellSize, removeLectureFromTimetable } from '../../../actions/timetable/timetable';
 
-import { LIST } from '../../../reducers/timetable/lectureFocus';
-import { SEARCH } from '../../../reducers/timetable/list';
+import { LectureFocusFrom } from '../../../reducers/timetable/lectureFocus';
+import { LectureListCode } from '../../../reducers/timetable/list';
 
 import userShape from '../../../shapes/UserShape';
 import timetableShape from '../../../shapes/TimetableShape';
@@ -188,18 +188,18 @@ class TimetableSubSection extends Component {
     const downIndex = Math.max(startIndex, endIndex) + 1;
     dragSearchDispatch(startDay, upIndex, downIndex);
     setMobileIsLectureListOpenDispatch(true);
-    setSelectedListCodeDispatch(SEARCH);
+    setSelectedListCodeDispatch(LectureListCode.SEARCH);
   }
 
-  tileHover = (lecture) => () => {
+  focusLectureWithHover = (lecture) => {
     const { lectureFocus, isDragging, setLectureFocusDispatch } = this.props;
 
     if (!lectureFocus.clicked && !isDragging) {
-      setLectureFocusDispatch(lecture, 'TABLE', false);
+      setLectureFocusDispatch(lecture, LectureFocusFrom.TABLE, false);
     }
   }
 
-  tileOut = () => {
+  unfocusLectureWithHover = (lecture) => {
     const { lectureFocus, clearLectureFocusDispatch } = this.props;
 
     if (!lectureFocus.clicked) {
@@ -207,25 +207,38 @@ class TimetableSubSection extends Component {
     }
   }
 
-  tileClick = (lecture) => () => {
+  focusLectureWithClick = (lecture) => {
     const { lectureFocus, setLectureFocusDispatch } = this.props;
 
     if (isTableClicked(lecture, lectureFocus)) {
-      setLectureFocusDispatch(lecture, 'TABLE', false);
+      setLectureFocusDispatch(lecture, LectureFocusFrom.TABLE, false);
     }
     else {
-      setLectureFocusDispatch(lecture, 'TABLE', true);
+      setLectureFocusDispatch(lecture, LectureFocusFrom.TABLE, true);
     }
   }
 
-  deleteLecture = (lecture) => {
+  deleteLectureFromTimetable = (lecture) => {
     const { selectedTimetable, user, removeLectureFromTimetableDispatch } = this.props;
 
     if (!selectedTimetable) {
       return;
     }
 
-    performDeleteFromTable(this, lecture, selectedTimetable, user, 'Timetable', removeLectureFromTimetableDispatch);
+    const beforeRequest = () => {
+    };
+    const afterResponse = () => {
+      const newProps = this.props;
+      if (!newProps.selectedTimetable || newProps.selectedTimetable.id !== selectedTimetable.id) {
+        return;
+      }
+      // TODO: Fix timetable not updated when semester unchanged and timetable changed
+      removeLectureFromTimetableDispatch(lecture);
+    };
+    performDeleteFromTable(
+      lecture, selectedTimetable, user, 'Timetable',
+      beforeRequest, afterResponse,
+    );
   }
 
   render() {
@@ -239,7 +252,7 @@ class TimetableSubSection extends Component {
 
     const timetableLectures = selectedTimetable ? selectedTimetable.lectures : [];
     const isFocusedLectureTemporary = (
-      (lectureFocus.from === LIST)
+      (lectureFocus.from === LectureFocusFrom.LIST)
       && !inTimetable(lectureFocus.lecture, selectedTimetable)
     );
     const tempLecture = isFocusedLectureTemporary
@@ -286,10 +299,10 @@ class TimetableSubSection extends Component {
           isDimmed={isDimmedTableLecture(lecture, lectureFocus)}
           isTemp={isTemp}
           isSimple={mobileIsLectureListOpen}
-          tileHover={isTemp ? null : this.tileHover}
-          tileOut={isTemp ? null : this.tileOut}
-          tileClick={isTemp ? null : this.tileClick}
-          deleteLecture={this.deleteLecture}
+          onMouseOver={isTemp ? null : this.focusLectureWithHover}
+          onMouseOut={isTemp ? null : this.unfocusLectureWithHover}
+          onClick={isTemp ? null : this.focusLectureWithClick}
+          deleteLecture={this.deleteLectureFromTimetable}
           occupiedTimes={
             (isTemp && !isUntimed)
               ? this._getOccupiedTimes(

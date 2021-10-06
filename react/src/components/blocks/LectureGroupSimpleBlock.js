@@ -9,15 +9,15 @@ import lectureShape from '../../shapes/LectureShape';
 
 
 const LectureGroupSimpleBlock = ({ t, lectures }) => {
-  const getClass = (lec) => {
-    if (!lec.class_title) {
+  const getClass = (lecture) => {
+    if (!lecture.class_title) {
       return classNames('');
     }
-    switch (lec.class_title.length) {
+    switch (lecture.class_title.length) {
       case 1:
-        return classNames('block--lecture-group-simple__elem__texts__fixed-1');
+        return classNames('block--lecture-group-simple__row-content__texts__fixed-1');
       case 2:
-        return classNames('block--lecture-group-simple__elem__texts__fixed-2');
+        return classNames('block--lecture-group-simple__row-content__texts__fixed-2');
       default:
         return classNames('');
     }
@@ -26,9 +26,9 @@ const LectureGroupSimpleBlock = ({ t, lectures }) => {
     <div className={classNames('block', 'block--lecture-group-simple')}>
       {
         lectures.map((l) => (
-          <div className={classNames('block--lecture-group-simple__elem-wrap')} key={l.id}>
-            <div className={classNames('block--lecture-group-simple__elem')}>
-              <div className={classNames('block--lecture-group-simple__elem__texts')}>
+          <div className={classNames('block--lecture-group-simple__row')} key={l.id}>
+            <div className={classNames('block--lecture-group-simple__row-content')}>
+              <div className={classNames('block--lecture-group-simple__row-content__texts')}>
                 <strong className={getClass(l)}>{l[t('js.property.class_title')]}</strong>
                 {' '}
                 <span>{getProfessorsShortStr(l)}</span>

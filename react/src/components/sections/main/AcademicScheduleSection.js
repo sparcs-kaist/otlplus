@@ -32,11 +32,9 @@ class AcademicScheduleSection extends Component {
     const { today } = this.state;
     const { semesters } = this.props;
 
-    if (semesters == null) {
-      return (
-      // eslint-disable-next-line react/jsx-indent
-      <div className={classNames('section', 'section--feed')}>
-        <div className={classNames('section-content', 'section-content--feed')}>
+    const getAcademicScheduleContent = () => {
+      if (semesters == null) {
+        return (
           <div className={classNames('academic-schedule', 'placeholder')}>
             <div>{t('ui.placeholder.loading')}</div>
             <div>
@@ -44,28 +42,11 @@ class AcademicScheduleSection extends Component {
               <span>-</span>
             </div>
           </div>
-          <div className={classNames('buttons')}>
-            <a
-              href="https://ssogw6.kaist.ac.kr"
-              className={classNames('text-button')}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {t('ui.button.goToAcademicSystem')}
-            </a>
-          </div>
-        </div>
-      </div>
-      );
-    }
-
-    const targetSchedule = getCurrentSchedule(semesters);
-
-    if (!targetSchedule) {
-      return (
-      // eslint-disable-next-line react/jsx-indent
-      <div className={classNames('section', 'section--feed')}>
-        <div className={classNames('section-content', 'section-content--feed')}>
+        );
+      }
+      const targetSchedule = getCurrentSchedule(semesters);
+      if (!targetSchedule) {
+        return (
           <div className={classNames('academic-schedule', 'placeholder')}>
             <div>{t('ui.placeholder.unknown')}</div>
             <div>
@@ -73,6 +54,35 @@ class AcademicScheduleSection extends Component {
               <span>-</span>
             </div>
           </div>
+        );
+      }
+      const targetScheduleTime = targetSchedule.time;
+      const timeDiff = targetScheduleTime - today;
+      const seconds = Math.floor((timeDiff / 1000) % 60);
+      const minutes = Math.floor((timeDiff / (1000 * 60)) % 60);
+      const hours = Math.floor((timeDiff / (1000 * 60 * 60)) % 24);
+      const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+      return (
+        <div className={classNames('academic-schedule')}>
+          <div>
+            {`D-${t('ui.others.dayCount', { count: days })} ${t('ui.others.hourCount', { count: hours })} ${t('ui.others.minuteCount', { count: minutes })} ${t('ui.others.secondCount', { count: seconds })}`}
+          </div>
+          <div>
+            <strong>
+              {`${targetSchedule.year} ${getSemesterName(targetSchedule.semester)} ${t(`ui.schedule.${targetSchedule.type}`)}`}
+            </strong>
+            <span>
+              {`${targetScheduleTime.getFullYear()}.${targetScheduleTime.getMonth() + 1}.${targetScheduleTime.getDate()}`}
+            </span>
+          </div>
+        </div>
+      );
+    };
+
+    return (
+      <div className={classNames('section', 'section--feed')}>
+        <div className={classNames('section-content', 'section-content--feed')}>
+          { getAcademicScheduleContent() }
           <div className={classNames('buttons')}>
             <a
               href="https://ssogw6.kaist.ac.kr"
@@ -83,52 +93,8 @@ class AcademicScheduleSection extends Component {
               {t('ui.button.goToAcademicSystem')}
             </a>
           </div>
-        </div>
-      </div>
-      );
-    }
-
-    const targetScheduleTime = targetSchedule.time;
-    const timeDiff = targetScheduleTime - today;
-
-    const seconds = Math.floor((timeDiff / 1000) % 60);
-    const minutes = Math.floor((timeDiff / (1000 * 60)) % 60);
-    const hours = Math.floor((timeDiff / (1000 * 60 * 60)) % 24);
-    const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-
-    const getScheduleName = (schedule) => (
-      t(`ui.schedule.${schedule.type}`)
-    );
-
-    return (
-    // eslint-disable-next-line react/jsx-indent
-    <div className={classNames('section', 'section--feed')}>
-      <div className={classNames('section-content', 'section-content--feed')}>
-        <div className={classNames('academic-schedule')}>
-          <div>
-            {`D-${t('ui.others.dayCount', { count: days })} ${t('ui.others.hourCount', { count: hours })} ${t('ui.others.minuteCount', { count: minutes })} ${t('ui.others.secondCount', { count: seconds })}`}
-          </div>
-          <div>
-            <strong>
-              {`${targetSchedule.year} ${getSemesterName(targetSchedule.semester)} ${getScheduleName(targetSchedule)}`}
-            </strong>
-            <span>
-              {`${targetScheduleTime.getFullYear()}.${targetScheduleTime.getMonth() + 1}.${targetScheduleTime.getDate()}`}
-            </span>
-          </div>
-        </div>
-        <div className={classNames('buttons')}>
-          <a
-            href="https://ssogw6.kaist.ac.kr"
-            className={classNames('text-button')}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {t('ui.button.goToAcademicSystem')}
-          </a>
-        </div>
-      </div>
-    </div>
+        </div> 
+      </div> 
     );
   }
 }

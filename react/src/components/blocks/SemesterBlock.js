@@ -15,6 +15,12 @@ const SemesterBlock = ({
   isRaised,
   onClick,
 }) => {
+  const handleClick = onClick
+    ? (event) => {
+      onClick(semester);
+    }
+    : null;
+
   const title = (semester === 'ALL')
     ? t('ui.semester.all')
     : `${semester.year} ${getSemesterName(semester.semester)}`;
@@ -24,9 +30,10 @@ const SemesterBlock = ({
       className={classNames(
         'block',
         'block--semester',
+        (onClick ? 'block--clickable' : ''),
         (isRaised ? 'block--raised' : ''),
       )}
-      onClick={() => onClick(semester)}
+      onClick={handleClick}
     >
       <div className={classNames('block--semester__title')}>{ title }</div>
     </div>

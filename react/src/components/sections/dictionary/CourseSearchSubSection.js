@@ -7,7 +7,7 @@ import ReactGA from 'react-ga';
 import { debounce } from 'lodash';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
-import { SEARCH } from '../../../reducers/dictionary/list';
+import { CourseListCode } from '../../../reducers/dictionary/list';
 
 import Divider from '../../Divider';
 import SearchFilter from '../../SearchFilter';
@@ -98,7 +98,7 @@ class CourseSearchSubSection extends Component {
           // eslint-disable-next-line no-alert
           alert(t('ui.message.tooManySearchResults', { count: LIMIT }));
         }
-        setListCoursesDispatch(SEARCH, response.data);
+        setListCoursesDispatch(CourseListCode.SEARCH, response.data);
       })
       .catch((error) => {
       });

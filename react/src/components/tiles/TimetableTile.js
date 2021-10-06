@@ -15,10 +15,25 @@ const TimetableTile = ({
   dayIndex, beginIndex, endIndex,
   cellWidth, cellHeight,
   isTimetableReadonly, isRaised, isHighlighted, isDimmed, isTemp, isSimple,
-  tileHover, tileOut, tileClick, deleteLecture,
+  onMouseOver, onMouseOut, onClick, deleteLecture,
   occupiedTimes,
 }) => {
-  const onDeleteFromTableClick = (event) => {
+  const handleMouseOver = onMouseOver
+    ? (event) => {
+      onMouseOver(lecture);
+    }
+    : null;
+  const handleMouseOut = onMouseOut
+    ? (event) => {
+      onMouseOut(lecture);
+    }
+    : null;
+  const handleClick = onClick
+    ? (event) => {
+      onClick(lecture);
+    }
+    : null;
+  const handleDeleteFromTableClick = (event) => {
     event.stopPropagation();
     deleteLecture(lecture);
   };
@@ -44,12 +59,12 @@ const TimetableTile = ({
         width: cellWidth + 2,
         height: cellHeight * (endIndex - beginIndex) - 3,
       }}
-      onMouseOver={tileHover ? tileHover(lecture) : null}
-      onMouseOut={tileOut}
-      onClick={tileClick ? tileClick(lecture) : null}
+      onMouseOver={handleMouseOver}
+      onMouseOut={handleMouseOut}
+      onClick={handleClick}
     >
       { !isTemp && !isTimetableReadonly
-        ? <button className={classNames('tile--timetable__button')} onClick={onDeleteFromTableClick}><i className={classNames('icon', 'icon--delete-lecture')} /></button>
+        ? <button className={classNames('tile--timetable__button')} onClick={handleDeleteFromTableClick}><i className={classNames('icon', 'icon--delete-lecture')} /></button>
         : null
       }
       <div
@@ -98,9 +113,9 @@ TimetableTile.propTypes = {
   isDimmed: PropTypes.bool.isRequired,
   isTemp: PropTypes.bool.isRequired,
   isSimple: PropTypes.bool.isRequired,
-  tileHover: PropTypes.func,
-  tileOut: PropTypes.func,
-  tileClick: PropTypes.func,
+  onMouseOver: PropTypes.func,
+  onMouseOut: PropTypes.func,
+  onClick: PropTypes.func,
   deleteLecture: PropTypes.func.isRequired,
   occupiedTimes: PropTypes.arrayOf(PropTypes.array),
 };

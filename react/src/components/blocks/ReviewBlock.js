@@ -10,14 +10,16 @@ import { getProfessorsShortStr } from '../../utils/lectureUtils';
 import { getSingleScoreLabel } from '../../utils/scoreUtils';
 
 import reviewShape from '../../shapes/ReviewShape';
+import linkShape from '../../shapes/LinkShape';
+
 import { formatNewlineToBr } from '../../utils/commonUtils';
 import { getSemesterName } from '../../utils/semesterUtils';
 
 
 const ReviewBlock = ({
   t,
-  review, shouldLimitLines, linkTo,
-  pageFrom,
+  review,
+  shouldLimitLines, linkTo, pageFrom,
 }) => {
   const [changedLikes, setChangedLikes] = useState(review.like);
   const [changedIsLiked, setChangedIsLiked] = useState(review.userspecific_is_liked);
@@ -28,6 +30,8 @@ const ReviewBlock = ({
 
     axios.post(
       `/api/reviews/${review.id}/like`,
+      {
+      },
       {
         metadata: {
           gaCategory: 'Review',
@@ -124,7 +128,7 @@ const ReviewBlock = ({
 ReviewBlock.propTypes = {
   review: reviewShape.isRequired,
   shouldLimitLines: PropTypes.bool.isRequired,
-  linkTo: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  linkTo: linkShape,
   pageFrom: PropTypes.string.isRequired,
 };
 

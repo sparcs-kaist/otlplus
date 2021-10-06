@@ -7,9 +7,7 @@ import ReactGA from 'react-ga';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
-import {
-  SEARCH, BASIC, HUMANITY, CART,
-} from '../../../reducers/timetable/list';
+import { LectureListCode } from '../../../reducers/timetable/list';
 
 import {
   setSelectedListCode, setListLectures, clearAllListsLectures,
@@ -27,7 +25,7 @@ class LectureListTabs extends Component {
     const { user } = this.props;
 
     if (user) {
-      this._fetchList(CART, true);
+      this._fetchList(LectureListCode.CART, true);
     }
   }
 
@@ -41,14 +39,14 @@ class LectureListTabs extends Component {
     } = this.props;
 
     if (user && !prevProps.user) {
-      this._fetchList(CART, true);
+      this._fetchList(LectureListCode.CART, true);
     }
 
     if (year !== prevProps.year || semester !== prevProps.semester) {
       clearAllListsLecturesDispatch();
       setLastSearchOptionDispatch({});
-      this._fetchList(CART, true);
-      if (selectedListCode !== CART) {
+      this._fetchList(LectureListCode.CART, true);
+      if (selectedListCode !== LectureListCode.CART) {
         this._fetchList(selectedListCode, true);
       }
     }
@@ -61,23 +59,23 @@ class LectureListTabs extends Component {
   _fetchList = (listCode, force = false) => {
     const { user, lists } = this.props;
 
-    if (listCode === SEARCH) {
+    if (listCode === LectureListCode.SEARCH) {
       return;
     }
     if (!force && lists[listCode] && lists[listCode].lectureGroups) {
       return;
     }
 
-    if (listCode === BASIC) {
+    if (listCode === LectureListCode.BASIC) {
       this._performFetchBasicList();
     }
     else if (user && user.departments.some((d) => (d.code === listCode))) {
       this._performFetchMajorList(listCode);
     }
-    else if (listCode === HUMANITY) {
+    else if (listCode === LectureListCode.HUMANITY) {
       this._performFetchHumanityList();
     }
-    else if (listCode === CART) {
+    else if (listCode === LectureListCode.CART) {
       this._performFetchCartList();
     }
   }
@@ -108,7 +106,7 @@ class LectureListTabs extends Component {
         if (newProps.year !== year || newProps.semester !== semester) {
           return;
         }
-        setListLecturesDispatch(BASIC, response.data);
+        setListLecturesDispatch(LectureListCode.BASIC, response.data);
       })
       .catch((error) => {
       });
@@ -174,7 +172,7 @@ class LectureListTabs extends Component {
         if (newProps.year !== year || newProps.semester !== semester) {
           return;
         }
-        setListLecturesDispatch(HUMANITY, response.data);
+        setListLecturesDispatch(LectureListCode.HUMANITY, response.data);
       })
       .catch((error) => {
       });
@@ -188,7 +186,7 @@ class LectureListTabs extends Component {
     } = this.props;
 
     if (!user) {
-      setListLecturesDispatch(CART, []);
+      setListLecturesDispatch(LectureListCode.CART, []);
       return;
     }
     axios.get(
@@ -209,7 +207,7 @@ class LectureListTabs extends Component {
         const cartLecturesOfThisSemester = response.data.lectures.filter((l) => (
           (l.year === year) && (l.semester === semester)
         ));
-        setListLecturesDispatch(CART, cartLecturesOfThisSemester);
+        setListLecturesDispatch(LectureListCode.CART, cartLecturesOfThisSemester);
       })
       .catch((error) => {
       });
@@ -223,8 +221,8 @@ class LectureListTabs extends Component {
 
     setSelectedListCodeDispatch(listCode);
 
-    if (listCode === SEARCH) {
-      if (lists[SEARCH].lectureGroups && lists[SEARCH].lectureGroups.length) {
+    if (listCode === LectureListCode.SEARCH) {
+      if (lists[LectureListCode.SEARCH].lectureGroups && lists[LectureListCode.SEARCH].lectureGroups.length) {
         closeSearchDispatch();
       }
       else {
@@ -233,10 +231,10 @@ class LectureListTabs extends Component {
     }
 
     const labelOfTabs = new Map([
-      [SEARCH, 'Search'],
-      [BASIC, 'Basic'],
-      [HUMANITY, 'Humanity'],
-      [CART, 'Cart'],
+      [LectureListCode.SEARCH, 'Search'],
+      [LectureListCode.BASIC, 'Basic'],
+      [LectureListCode.HUMANITY, 'Humanity'],
+      [LectureListCode.CART, 'Cart'],
     ]);
     ReactGA.event({
       category: 'Timetable - List',
@@ -253,11 +251,11 @@ class LectureListTabs extends Component {
       <div className={classNames('tabs', 'tabs--lecture-list', (mobileIsLectureListOpen ? '' : 'mobile-hidden'))}>
         <Scroller noScrollX={false} noScrollY={true} expandBottom={2}>
           <div className={classNames('tabs__flexbox')}>
-            <div className={classNames('tabs__elem', (selectedListCode === SEARCH ? 'tabs__elem--selected' : ''))} onClick={() => this.changeTab(SEARCH)}>
+            <div className={classNames('tabs__elem', (selectedListCode === LectureListCode.SEARCH ? 'tabs__elem--selected' : ''))} onClick={() => this.changeTab(LectureListCode.SEARCH)}>
               <i className={classNames('icon', 'icon--tab-search')} />
               <span>{t('ui.tab.searchShort')}</span>
             </div>
-            <div className={classNames('tabs__elem', (selectedListCode === BASIC ? 'tabs__elem--selected' : ''))} onClick={() => this.changeTab(BASIC)}>
+            <div className={classNames('tabs__elem', (selectedListCode === LectureListCode.BASIC ? 'tabs__elem--selected' : ''))} onClick={() => this.changeTab(LectureListCode.BASIC)}>
               <i className={classNames('icon', 'icon--tab-basic')} />
               <span>{t('ui.tab.basicShort')}</span>
             </div>
@@ -267,11 +265,11 @@ class LectureListTabs extends Component {
                 <span>{t('ui.tab.majorShort')}</span>
               </div>
             ))}
-            <div className={classNames('tabs__elem', (selectedListCode === HUMANITY ? 'tabs__elem--selected' : ''))} onClick={() => this.changeTab(HUMANITY)}>
+            <div className={classNames('tabs__elem', (selectedListCode === LectureListCode.HUMANITY ? 'tabs__elem--selected' : ''))} onClick={() => this.changeTab(LectureListCode.HUMANITY)}>
               <i className={classNames('icon', 'icon--tab-humanity')} />
               <span>{t('ui.tab.humanityShort')}</span>
             </div>
-            <div className={classNames('tabs__elem', (selectedListCode === CART ? 'tabs__elem--selected' : ''))} onClick={() => this.changeTab(CART)}>
+            <div className={classNames('tabs__elem', (selectedListCode === LectureListCode.CART ? 'tabs__elem--selected' : ''))} onClick={() => this.changeTab(LectureListCode.CART)}>
               <i className={classNames('icon', 'icon--tab-cart')} />
               <span>{t('ui.tab.wishlistShort')}</span>
             </div>

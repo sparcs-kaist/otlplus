@@ -106,18 +106,29 @@ class SemesterSection extends Component {
     const { t } = this.props;
     const { year, semester } = this.props;
 
-    if (year && semester) {
-      return (
-        <div className={classNames('section', 'section--semester', 'section--mobile-transparent', t('jsx.className.semesterByLang'))}>
-          <button className={classNames((this._isFirstSemester(year, semester) ? 'disable' : ''))} onClick={() => this.changeToPreviousSemester()}><i className={classNames('icon', 'icon--semester-prev')} /></button>
-          <span>{`${year} ${getSemesterName(semester)}`}</span>
-          <button className={classNames((this._isLastSemester(year, semester) ? 'disable' : ''))} onClick={() => this.changeToNextSemester()}><i className={classNames('icon', 'icon--semester-next')} /></button>
-        </div>
-      );
-    }
+    const sectionContent = (
+      year && semester
+        ? (
+          <>
+            <button className={classNames((this._isFirstSemester(year, semester) ? 'disable' : ''))} onClick={() => this.changeToPreviousSemester()}>
+              <i className={classNames('icon', 'icon--semester-prev')} />
+            </button>
+            <span>
+              {`${year} ${getSemesterName(semester)}`}
+            </span>
+            <button className={classNames((this._isLastSemester(year, semester) ? 'disable' : ''))} onClick={() => this.changeToNextSemester()}>
+              <i className={classNames('icon', 'icon--semester-next')} />
+            </button>
+          </>
+        )
+        : (
+          <span className={classNames('placeholder')}>{t('ui.placeholder.loading')}</span>
+        )
+    );
+
     return (
-      <div className={classNames('section', 'section--semester', t('jsx.className.semesterByLang'))}>
-        <span className={classNames('placeholder')}>{t('ui.placeholder.loading')}</span>
+      <div className={classNames('section', 'section--semester', 'section--mobile-transparent', t('jsx.className.semesterByLang'))}>
+        { sectionContent }
       </div>
     );
   }

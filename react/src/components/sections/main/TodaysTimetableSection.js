@@ -14,7 +14,7 @@ import HorizontalTimetableTile from '../../tiles/HorizontalTimetableTile';
 import userShape from '../../../shapes/UserShape';
 import semesterShape from '../../../shapes/SemesterShape';
 
-import { get_ongoing_semester } from '../../../utils/semesterUtils';
+import { getOngoingSemester } from '../../../utils/semesterUtils';
 
 
 class TodaysTimetableSection extends Component {
@@ -22,6 +22,7 @@ class TodaysTimetableSection extends Component {
     super(props);
     this.state = {
       cellWidth: 0,
+      cellHeight: 0,
       today: new Date(),
     };
 
@@ -60,6 +61,7 @@ class TodaysTimetableSection extends Component {
       .getBoundingClientRect();
     this.setState({
       cellWidth: cell.width,
+      cellHeight: cell.height,
     });
   }
 
@@ -82,11 +84,11 @@ class TodaysTimetableSection extends Component {
 
   render() {
     const { t } = this.props;
-    const { cellWidth, today } = this.state;
+    const { cellWidth, cellHeight, today } = this.state;
     const { user, semesters } = this.props;
 
     const ongoingSemester = semesters
-      ? get_ongoing_semester(semesters)
+      ? getOngoingSemester(semesters)
       : undefined;
     const lectures = (user && ongoingSemester)
       ? user.my_timetable_lectures.filter((l) => (
@@ -112,7 +114,7 @@ class TodaysTimetableSection extends Component {
                     }
                     return <div key={i}><span>{hourValue}</span></div>;
                   }
-                  if (i === (24 - 8) * 2 - 1) {
+                  if (i === 24 * 2 - 1) {
                     return <div key={i}><strong>12</strong></div>;
                   }
                   return <div key={i} />;
@@ -147,7 +149,7 @@ class TodaysTimetableSection extends Component {
                     lecture={l}
                     classtime={ct}
                     cellWidth={cellWidth}
-                    cellHeight={51}
+                    cellHeight={cellHeight}
                   />
                 ))
             ))

@@ -7,7 +7,7 @@ import axios from 'axios';
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
 import ReviewBlock from '../../blocks/ReviewBlock';
-import { LATEST } from '../../../reducers/write-reviews/reviewsFocus';
+import { ReviewsFocusFrom } from '../../../reducers/write-reviews/reviewsFocus';
 
 
 class LatestReviewSection extends Component {
@@ -53,15 +53,21 @@ class LatestReviewSection extends Component {
     if (reviews.length === 0) {
       return <div className={classNames('list-placeholder')}>{t('ui.placeholder.noResults')}</div>;
     }
-    return reviews.map((r) => (
-      <ReviewBlock
-        review={r}
-        shouldLimitLines={true}
-        linkTo={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: r.course.id }) }}
-        pageFrom="Main"
-        key={r.id}
-      />
-    ));
+    return (
+      <div className={classNames('block-list')}>
+        {
+          reviews.map((r) => (
+            <ReviewBlock
+              review={r}
+              shouldLimitLines={true}
+              linkTo={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: r.course.id }) }}
+              pageFrom="Main"
+              key={r.id}
+            />
+          ))
+        }
+      </div>
+    );
   };
 
 
@@ -79,7 +85,7 @@ class LatestReviewSection extends Component {
         {this.mapReviewsToElement(reviews)}
         <div className={classNames('buttons')}>
           <Link
-            to={{ pathname: '/write-reviews', search: qs.stringify({ startList: LATEST }) }}
+            to={{ pathname: '/write-reviews', search: qs.stringify({ startList: ReviewsFocusFrom.REVIEWS_LATEST }) }}
             className={classNames('text-button')}
           >
             {t('ui.button.seeMoreReviews')}

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 
@@ -6,26 +7,47 @@ import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 import { getProfessorsFullStr } from '../../utils/courseUtils';
 
 import courseShape from '../../shapes/CourseShape';
+import linkShape from '../../shapes/LinkShape';
 
 
 const CourseBlock = ({
   t,
   course,
-  shouldShowReadStatus, isRead, isRaised, isHighlighted, isDimmed,
-  listHover, listOut, listClick,
+  shouldShowReadStatus, isRead, isRaised, isDimmed,
+  onMouseOver, onMouseOut, onClick,
+  linkTo,
 }) => {
+  const handleMouseOver = onMouseOver
+    ? (event) => {
+      onMouseOver(course);
+    }
+    : null;
+  const handleMouseOut = onMouseOut
+    ? (event) => {
+      onMouseOut(course);
+    }
+    : null;
+  const handleClick = onClick
+    ? (event) => {
+      onClick(course);
+    }
+    : null;
+
+  const RootTag = linkTo ? Link : 'div';
+
   return (
-    <div
+    <RootTag
       className={classNames(
         'block',
         'block--course',
+        (onClick ? 'block--clickable' : ''),
         (isRaised ? 'block--raised' : ''),
-        (isHighlighted ? 'block--highlighted' : ''),
         (isDimmed ? 'block--dimmed' : ''),
       )}
-      onClick={listClick ? listClick(course) : null}
-      onMouseOver={listHover ? listHover(course) : null}
-      onMouseOut={listOut}
+      onClick={handleClick}
+      onMouseOver={handleMouseOver}
+      onMouseOut={handleMouseOut}
+      to={linkTo}
     >
       <div className={classNames('block--course__title')}>
         { !shouldShowReadStatus
@@ -53,7 +75,7 @@ const CourseBlock = ({
           <div>{ course.summary }</div>
         </div>
       </div>
-    </div>
+    </RootTag>
   );
 };
 
@@ -62,11 +84,11 @@ CourseBlock.propTypes = {
   shouldShowReadStatus: PropTypes.bool,
   isRead: PropTypes.bool,
   isRaised: PropTypes.bool,
-  isHighlighted: PropTypes.bool,
   isDimmed: PropTypes.bool,
-  listHover: PropTypes.func,
-  listOut: PropTypes.func,
-  listClick: PropTypes.func,
+  onMouseOver: PropTypes.func,
+  onMouseOut: PropTypes.func,
+  onClick: PropTypes.func,
+  linkTo: linkShape,
 };
 
 

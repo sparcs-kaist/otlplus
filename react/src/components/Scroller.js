@@ -133,7 +133,6 @@ class Scroller extends Component {
 
 Scroller.propTypes = {
   onScroll: PropTypes.func,
-  children: PropTypes.node.isRequired,
   noScrollX: PropTypes.bool,
   noScrollY: PropTypes.bool,
   expandTop: PropTypes.number,

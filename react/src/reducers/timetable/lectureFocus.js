@@ -5,13 +5,17 @@ import {
   SET_MULTIPLE_FOCUS, CLEAR_MULTIPLE_FOCUS,
 } from '../../actions/timetable/lectureFocus';
 
-export const NONE = 'NONE';
-export const LIST = 'LIST';
-export const TABLE = 'TABLE';
-export const MULTIPLE = 'MULTIPLE';
+
+export const LectureFocusFrom = {
+  NONE: 'NONE',
+  LIST: 'LIST',
+  TABLE: 'TABLE',
+  MULTIPLE: 'MULTIPLE',
+};
+
 
 const initialState = {
-  from: NONE,
+  from: LectureFocusFrom.NONE,
   clicked: false,
   lecture: null,
   reviews: null,
@@ -38,7 +42,7 @@ const lectureFocus = (state = initialState, action) => {
     }
     case CLEAR_LECTURE_FOCUS: {
       return Object.assign({}, state, {
-        from: NONE,
+        from: LectureFocusFrom.NONE,
         clicked: false,
         lecture: null,
         reviews: null,
@@ -51,14 +55,14 @@ const lectureFocus = (state = initialState, action) => {
     }
     case SET_MULTIPLE_FOCUS: {
       return Object.assign({}, state, {
-        from: MULTIPLE,
+        from: LectureFocusFrom.MULTIPLE,
         multipleTitle: action.multipleTitle,
         multipleDetails: action.multipleDetails,
       });
     }
     case CLEAR_MULTIPLE_FOCUS: {
       return Object.assign({}, state, {
-        from: NONE,
+        from: LectureFocusFrom.NONE,
         multipleTitle: '',
         multipleDetails: [],
       });

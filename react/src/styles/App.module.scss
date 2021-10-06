@@ -86,6 +86,8 @@ $block-padding-lr: 10px;
 $block-padding-tb: 8px;
 $block-border-radius: 4px;
 
+$tile-padding-lr: 6px;
+$tile-padding-tb: 4px;
 $tile-border-radius: 2px;
 
 $score-margin-tb-desktop-big: calc(1.4vh + 2px + 4px);
@@ -934,17 +936,6 @@ a {
     box-shadow: $section-box-shadow;
 
 
-    &--with-tabs {
-        @media #{$media-landscape} {
-            border-top-left-radius: 0;
-        }
-        @media #{$media-portrait} {
-            border-top-left-radius: 0;
-            border-top-right-radius: 0;
-        }
-    }
-
-    
     &--mobile-modal {
         @media #{$media-portrait} {
             position: absolute;
@@ -1005,6 +996,13 @@ a {
 
     &--course-list {
         grid-area: course-list;
+        @media #{$media-landscape} {
+            border-top-left-radius: 0;
+        }
+        @media #{$media-portrait} {
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
     }
 
 
@@ -1019,6 +1017,7 @@ a {
         grid-area: timetable-and-infos;
         display: grid;
         @media #{$media-landscape} {
+            border-top-left-radius: 0;
             grid-template-columns: 1fr min-content calc(#{$section-width-desktop-1v3-left} - (#{$section-padding} * 2));
             grid-template-rows: min-content min-content min-content min-content 1fr min-content min-content;
             grid-template-areas:
@@ -1041,8 +1040,6 @@ a {
                 "divider-sub-3"
                 "share"
             ;
-            border-top-left-radius: $section-border-radius;
-            border-top-right-radius: $section-border-radius;
         }
     }
 
@@ -1050,6 +1047,7 @@ a {
     &--semester-and-timetable-list {
         display: grid;
         @media #{$media-landscape} {
+            border-top-left-radius: 0;
             grid-area: semester-and-timetable-tabs;
             grid-template-columns: 1fr 8px min-content;
             grid-template-rows: min-content 1fr;
@@ -1059,6 +1057,8 @@ a {
             ;
         }
         @media #{$media-portrait} {
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
             grid-template-columns: 1fr min-content 1fr;
             grid-template-rows: min-content 12px min-content;
             grid-template-areas:
@@ -1083,6 +1083,13 @@ a {
     &--lecture-list {
         grid-area: lecture-list;
         position: relative;
+        @media #{$media-landscape} {
+            border-top-left-radius: 0;
+        }
+        @media #{$media-portrait} {
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
     }
 
 
@@ -1123,6 +1130,8 @@ a {
     &--syllabus {
         grid-area: syllabus;
         flex: auto;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
     }
 
 
@@ -1150,40 +1159,6 @@ a {
     }
 
     &--lecture-detail {
-        &__list-area {
-            @media #{$media-landscape} {
-                min-height: calc(
-                    #{$section-height-desktop-lecture-detail} - (
-                        #{$section-padding}
-                        + (#{$line-height-big} + 2px)
-                        + (#{$line-height-normal} + 4px)
-                        + (#{$line-height-small} + 6px)
-                        + (#{$line-height-big} + 6px)
-    
-                        + #{$section-padding}
-                    )
-                ) !important;
-            }
-            @media #{$media-portrait} {
-                min-height: calc(
-                    #{$screen-height} - (
-                        #{$header-height}
-                        + #{$section-margin-top}
-                        + #{$section-padding}
-                        + (#{$line-height-big} + 2px)
-                        + (#{$line-height-normal} + 4px)
-                        + (#{$line-height-small} + 6px)
-                        + (#{$line-height-big} + 6px)
-    
-                        + (#{$section-padding} * 2 + 1px)
-                        + #{$line-height-normal}
-                        + #{$section-padding}
-                        + (#{$section-margin-bottom} * 2)
-                    )
-                ) !important;
-            }
-        }
-
         &__mobile-buttons {
             text-align: right;
         }
@@ -1365,102 +1340,11 @@ a {
                 width: 100%;
             }
 
-            .section-content--map__block {
+            .section-content--map__pin {
                 position: absolute;
                 margin-left: -5px;
                 margin-top: -16px;
                 margin-right: -100px;
-                &.location--E2 {
-                    left:60%;
-                    top:81%;
-                    z-index:81;
-                }
-                &.location--E3 {
-                    left:67%;
-                    top:75%;
-                    z-index:75;
-                }
-                &.location--E6 {
-                    left:68%;
-                    top:63%;
-                    z-index:63;
-                }
-                &.location--E7 {
-                    left:77%;
-                    top:61%;
-                    z-index:61;
-                }
-                &.location--E11 {
-                    left:53%;
-                    top:58%;
-                    z-index:58;
-                }
-                &.location--E16
-                {
-                    left:53%;
-                    top:49%;
-                    z-index:49;
-                }
-                &.location--N1 {
-                    left:88%;
-                    top:39%;
-                    z-index:39;
-                }
-                &.location--N3 {
-                    left:53%;
-                    top:45%;
-                    z-index:45;
-                }
-                &.location--N4 {
-                    left:62%;
-                    top:41%;
-                    z-index:41;
-                }
-                &.location--N5 {
-                    left:74%;
-                    top:39%;
-                    z-index:39;
-                }
-                &.location--N7 {
-                    left:33%;
-                    top:41%;
-                    z-index:41;
-                }
-                &.location--N22 {
-                    left:79%;
-                    top:35%;
-                    z-index:35;
-                }
-                &.location--N24 {
-                    left:76%;
-                    top:31%;
-                    z-index:31;
-                }
-                &.location--N25 {
-                    left:59%;
-                    top:36%;
-                    z-index:36;
-                }
-                &.location--N27 {
-                    left:57%;
-                    top:24%;
-                    z-index:24;
-                }
-                &.location--W1 {
-                    left:31%;
-                    top:84%;
-                    z-index:84;
-                }
-                &.location--W8 {
-                    left:35%;
-                    top:55%;
-                    z-index:44;
-                }
-                &.location--W16 {
-                    left:40%;
-                    top:87%;
-                    z-index:87;
-                }
 
                 &__box {
                     position: relative;
@@ -1471,7 +1355,7 @@ a {
                     border-radius: 2px;
                     padding: 2px 3px;
                     background-color: $color-block-background;
-                    &.block--highlighted {
+                    &.highlighted {
                         background-color: $color-block-background-highlight;
                         color: $color-highlight;
                     }
@@ -1487,7 +1371,7 @@ a {
                         margin-left: 1px;
                         border-radius: 50%;
 
-                        &.block--highlighted {
+                        &.highlighted {
                             background-color: $color-highlight !important;
                         }
                     }
@@ -1502,7 +1386,7 @@ a {
                     border-radius: 50%;
                     box-shadow: 0 0 3px 3px change-color($color-block-shadow-dark, $alpha: 0.8);
                     transform: scale(1.5, 1);
-                    &.block--highlighted {
+                    &.highlighted {
                         box-shadow: 0 0 3px 3px change-color($color-block-shadow-highlight, $alpha: 0.8);
                     }
                 }
@@ -1515,7 +1399,7 @@ a {
                     border-left: 2px solid transparent;
                     border-right: 2px solid transparent;
                     border-top: 3px solid $color-block-background;
-                    &.block--highlighted {
+                    &.highlighted {
                         border-top-color:$color-block-background-highlight;
                     }
                 }
@@ -1660,39 +1544,6 @@ a {
     }
 
     &--course-detail {
-        &__list-area {
-            @media #{$media-landscape} {
-                min-height: calc(
-                    #{$screen-height} - (
-                        #{$header-height}
-                        + #{$section-padding}
-                        + (#{$line-height-big} + 2px + #{$line-height-normal} + 10px)
-                        + ((0.7vh + 15px) + 2px + #{$line-height-smaller} + 12px)
-                        + (#{$line-height-normal} + 10px)
-                        + ((#{$line-height-normal} + 8px) * 2)
-
-                        + #{$section-padding}
-                        + #{$section-margin-bottom}
-                    )
-                ) !important;
-            }
-            @media #{$media-portrait} {
-                min-height: calc(
-                    #{$screen-height} - (
-                        #{$header-height}
-                        + #{$section-margin-top}
-                        + #{$section-padding}
-                        + (#{$line-height-big} + 2px + #{$line-height-normal} + 10px)
-                        + ((1.9vw + 13px) + 2px + #{$line-height-smaller} + 12px)
-                        + (#{$line-height-normal} + 10px)
-                        + ((#{$line-height-normal} + 8px) * 2)
-
-                        + #{$section-padding}
-                        + (#{$section-margin-bottom} * 2)
-                    )
-                ) !important;
-            }
-        }
     }
 
     &--write-reviews-right {
@@ -1716,50 +1567,6 @@ a {
     }
 
     &--latest-reviews {
-        &__blocks {
-            display: grid;
-            grid-auto-rows: auto;
-            gap: $block-margin;
-            margin-bottom: 12px;
-            @media #{$media-landscape} {
-                grid-template-columns: repeat(auto-fill, minmax(114px, 1fr));
-            }
-            @media #{$media-portrait} {
-                grid-template-columns: repeat(auto-fill, minmax(94px, 1fr));
-            }
-
-            & > .block {
-                margin: 0;
-            }
-        }
-
-        &__list-area{
-            @media #{$media-landscape} {
-                min-height: calc(
-                    #{$screen-height} - (
-                        #{$header-height}
-                        + #{$section-padding}
-                        + (#{$line-height-big} + 10px)
-    
-                        + #{$section-padding}
-                        + #{$section-margin-bottom}
-                    )
-                ) !important;
-            }
-            @media #{$media-portrait} {
-                min-height: calc(
-                    #{$screen-height} - (
-                        #{$header-height}
-                        + #{$section-margin-top}
-                        + #{$section-padding}
-                        + (#{$line-height-big} + 10px)
-    
-                        + #{$section-padding}
-                        + (#{$section-margin-bottom} * 2)
-                    )
-                ) !important;
-            }
-        }
     }
 
     &--account {
@@ -1800,11 +1607,7 @@ a {
         padding: 0 $section-padding;
         overflow: hidden;
 
-        & > div {
-            width: 100%;
-            position: relative;
-
-            .section-content--todays-timetable__table {
+        &__table {
                 margin: 0 2px;
 
                 & > div:first-child {
@@ -1817,14 +1620,15 @@ a {
                     & > div {
                         text-align: center;
                         padding-left: 1px;
+                        flex: 0 0 auto;
                         &:last-child {
                             padding-right: 1px;
                         }
                         @media #{$media-landscape} {
-                            flex: 0 0 7vh;
+                            width: 7vh;
                         }
                         @media #{$media-portrait} {
-                            flex: 0 0 15vw;
+                            width: 15vw;
                         }
 
                         & > span,
@@ -1845,12 +1649,13 @@ a {
 
                     & > div {
                         text-align: center;
-                        height: 57px;
+                        height: (3px * 2) + ($tile-padding-tb * 2) + ($line-height-small * 3) + (1px * 2);
+                        flex: 0 0 auto;
                         @media #{$media-landscape} {
-                            flex: 0 0 7vh;
+                            width: 7vh;
                         }
                         @media #{$media-portrait} {
-                            flex: 0 0 15vw;
+                            width: 15vw;
                         }
 
                         &.hcell-left {
@@ -1867,9 +1672,9 @@ a {
                         }
                     }
                 }
-            }
+        }
 
-            .section-content--todays-timetable__bar {
+        &__bar {
                 position: absolute;
                 text-align: center;
                 z-index: 4;
@@ -1887,7 +1692,6 @@ a {
                     margin: 0 2px;
                     background-color: $color-highlight;
                 }
-            }
         }
     }
 
@@ -1895,18 +1699,6 @@ a {
     &--credit {
         display: flex;
         flex-direction: column;
-
-        &__blocks {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(144px, 1fr));
-            grid-auto-rows: auto;
-            gap: $block-margin;
-            margin-bottom: 12px;
-
-            & > .block {
-                margin: 0;
-            }
-        }
 
         &__people-list {
             text-align: center;
@@ -1959,9 +1751,6 @@ a {
     padding: 0px;
     border-radius: $tile-border-radius;
     z-index: 2;
-    top: 1px;
-    left: -1px;
-    width: calc(100% + 2px);
     overflow: hidden;
     font-size: $font-size-small;
     line-height: $line-height-small;
@@ -2005,7 +1794,7 @@ a {
         }
 
         &__content {
-            padding: 4px 6px;
+            padding: $tile-padding-tb $tile-padding-lr;
             overflow: hidden;
             max-height: 100%;
 
@@ -2049,7 +1838,7 @@ a {
         overflow: hidden;
 
         &__content {
-            padding: 4px 6px;
+            padding: $tile-padding-tb $tile-padding-lr;
             overflow: hidden;
             max-height: 100%;
 
@@ -2098,20 +1887,14 @@ a {
     line-height: $line-height-normal;
     display: block;
     padding: $block-padding-tb $block-padding-lr;
-    margin-bottom: $block-margin;
     position: relative;
     overflow: hidden;
-    &:last-child {
-        margin-bottom: 0;
-    }
-    &[href]:hover {
-        background-color:$color-block-background-dark;
-    }
-
-    &.block--highlighted {
+    &[href]:not(.block--dimmed):hover,
+    &.block--clickable:not(.block--dimmed):hover {
         background-color:$color-block-background-dark;
     }
     &.block--raised {
+        background-color:$color-block-background-dark;
         position: relative;
         top: -3px;
         box-shadow: 0 6px 3px -3px $color-block-shadow-dark;
@@ -2128,7 +1911,7 @@ a {
                 opacity: 0.45;
             }
     
-            & .block--lecture-group__elem__texts__sub {
+            & .block--lecture-group__row-content__texts__sub {
                 color: rgba($color-text-lighter, 0.35);
             }
         }
@@ -2183,10 +1966,6 @@ a {
         justify-content: center;
         min-width: 74px;
 
-        .related-courses > div > & {
-            flex: 1 0 0;
-        }
-
         &:last-child {
             margin-bottom: 0;
         }
@@ -2208,10 +1987,6 @@ a {
         flex-direction: column;
         justify-content: center;
         cursor: pointer;
-
-        &:not(.block--dimmed):hover {
-            background-color: $color-block-background-dark;
-        }
 
         &__title {
             text-align: center;
@@ -2386,12 +2161,15 @@ a {
 
 
     &--lecture-group {
+        &.block--raised {
+            background-color: $color-block-background;
+        }
 
         &__title {
             margin-bottom: 6px;
         }
 
-        &__elem-wrap {
+        &__row {
             margin: 0px (-$block-padding-lr);
             padding: 0 $block-padding-lr 0 ($block-padding-lr + 8px);
             cursor: pointer;
@@ -2401,8 +2179,7 @@ a {
                 border-radius:0px 0px $block-border-radius $block-border-radius;
             }
 
-            &.block--highlighted,
-            &.block--raised {
+            &--highlighted {
                 background-color:$color-block-background-dark;
             }
 
@@ -2411,7 +2188,7 @@ a {
             }
         }
 
-        &__elem {
+        &__row-content {
             padding: 6px 0;
             border-top:1px solid $color-block-line;
             display: flex;
@@ -2449,8 +2226,7 @@ a {
                     display: none;
                     @media #{$media-portrait} {
                         @at-root
-                        .block--highlighted #{&},
-                        .block--raised #{&} {
+                        .block--lecture-group__row--highlighted #{&} {
                             display: block;
                         }
                     }
@@ -2480,9 +2256,8 @@ a {
 
 
     &--lecture-group-simple {
-        margin-bottom: 0;
 
-        &__elem-wrap {
+        &__row {
             margin: 0px (-$block-padding-lr);
             padding: 0 $block-padding-lr 0 $block-padding-lr;
             &:first-child {
@@ -2493,7 +2268,7 @@ a {
             }
         }
 
-        &__elem {
+        &__row-content {
             padding: 6px 0;
             border-top:1px solid $color-block-line;
             display: flex;
@@ -2574,9 +2349,6 @@ a {
     &--project {
         text-align: center;
         cursor: pointer;
-        &:hover {
-            background-color:$color-block-background-dark;
-        }
 
         &__title {
             font-weight: bold;
@@ -2592,13 +2364,41 @@ a {
         text-align: center;
         cursor: pointer;
 
-        &:hover {
-            background-color:$color-block-background-dark;
-        }
         &__title {
             font-weight: bold;
             margin-bottom: 2px;
         }
+    }
+}
+
+
+.block-list {
+    #{&} + & {
+        margin-top: $block-margin;
+    }
+
+    > .block:not(:last-child) {
+        margin-bottom: $block-margin;
+    }
+}
+
+
+.block-grid {
+    display: grid;
+    grid-auto-rows: auto;
+    gap: $block-margin;
+    grid-template-columns: repeat(auto-fill, minmax(144px, 1fr));
+    .section-content--write-reviews-right & {
+        margin-bottom: 12px;
+        @media #{$media-landscape} {
+            grid-template-columns: repeat(auto-fill, minmax(114px, 1fr));
+        }
+        @media #{$media-portrait} {
+            grid-template-columns: repeat(auto-fill, minmax(94px, 1fr));
+        }
+    }
+    .section-content--credit & {
+        margin-bottom: 12px;
     }
 }
 
@@ -2886,6 +2686,11 @@ a {
         width: 100%;
         display: flex;
         flex-direction: column;
+        gap: $block-margin;
+
+        > .block {
+            flex: 1 0 0;
+        }
     }
 
     & > div:nth-child(2),
@@ -2964,18 +2769,6 @@ a {
                 }
             }
         }
-}
-
-
-.taken-lectures {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(144px, 1fr));
-    grid-auto-rows: auto;
-    gap: $block-margin;
-
-    & > .block {
-        margin: 0;
-    }
 }
 
 
@@ -3255,6 +3048,103 @@ a {
 }
 
 
+.min-height-area {
+    .section-content--lecture-detail & {
+        @media #{$media-landscape} {
+            min-height: calc(
+                #{$section-height-desktop-lecture-detail} - (
+                    #{$section-padding}
+                    + (#{$line-height-big} + 2px)
+                    + (#{$line-height-normal} + 4px)
+                    + (#{$line-height-small} + 6px)
+                    + (#{$line-height-big} + 6px)
+
+                    + #{$section-padding}
+                )
+            ) !important;
+        }
+        @media #{$media-portrait} {
+            min-height: calc(
+                #{$screen-height} - (
+                    #{$header-height}
+                    + #{$section-margin-top}
+                    + #{$section-padding}
+                    + (#{$line-height-big} + 2px)
+                    + (#{$line-height-normal} + 4px)
+                    + (#{$line-height-small} + 6px)
+                    + (#{$line-height-big} + 6px)
+
+                    + (#{$section-padding} * 2 + 1px)
+                    + #{$line-height-normal}
+                    + #{$section-padding}
+                    + (#{$section-margin-bottom} * 2)
+                )
+            ) !important;
+        }
+    }
+    .section-content--course-detail & {
+        @media #{$media-landscape} {
+            min-height: calc(
+                #{$screen-height} - (
+                    #{$header-height}
+                    + #{$section-padding}
+                    + (#{$line-height-big} + 2px + #{$line-height-normal} + 10px)
+                    + (#{$score-line-height-desktop-big} + 2px + #{$line-height-smaller} + 12px)
+                    + (#{$line-height-normal} + 10px)
+                    + ((#{$line-height-normal} + 8px) * 2)
+
+                    + #{$section-padding}
+                    + #{$section-margin-bottom}
+                )
+            ) !important;
+        }
+        @media #{$media-portrait} {
+            min-height: calc(
+                #{$screen-height} - (
+                    #{$header-height}
+                    + #{$section-margin-top}
+                    + #{$section-padding}
+                    + (#{$line-height-big} + 2px + #{$line-height-normal} + 10px)
+                    + (#{$score-line-height-mobile} + 2px + #{$line-height-smaller} + 12px)
+                    + (#{$line-height-normal} + 10px)
+                    + ((#{$line-height-normal} + 8px) * 2)
+
+                    + #{$section-padding}
+                    + (#{$section-margin-bottom} * 2)
+                )
+            ) !important;
+        }
+    }
+    .section-content--write-reviews-right & {
+        @media #{$media-landscape} {
+            min-height: calc(
+                #{$screen-height} - (
+                    #{$header-height}
+                    + #{$section-padding}
+                    + (#{$line-height-big} + 10px)
+
+                    + #{$section-padding}
+                    + #{$section-margin-bottom}
+                )
+            ) !important;
+        }
+        @media #{$media-portrait} {
+            min-height: calc(
+                #{$screen-height} - (
+                    #{$header-height}
+                    + #{$section-margin-top}
+                    + #{$section-padding}
+                    + (#{$line-height-big} + 10px)
+
+                    + #{$section-padding}
+                    + (#{$section-margin-bottom} * 2)
+                )
+            ) !important;
+        }
+    }
+}
+
+
 .placeholder {
     color: $color-text-placeholder;
 }
@@ -3313,52 +3203,9 @@ a {
     }
 
     .section-content--course-list &,
-    .section-content--lecture-list & {
-        flex: 1 0 auto;
-    }
-
-    .section-content--lecture-detail & {
-    }
-
-    &.section-content--course-detail__list-area {
-    }
-
-    &.section-content--latest-reviews__list-area {
-    }
-
+    .section-content--lecture-list &,
     .section-content--taken-lectures & {
-        @media #{$media-landscape} {
-            min-height: calc(
-                #{$screen-height} - (
-                    #{$header-height}
-                    + #{$section-padding}
-                    + (#{$line-height-big} + 8px)
-                    + ((0.7vh + 13px) + 2px + #{$line-height-smaller})
-                    + (#{$section-padding} * 2 + 1px)
-
-                    + (#{$section-padding} * 2 + 1px)
-                    + (#{$line-height-normal} * 4 + 8px * 3)
-                    + #{$section-padding}
-                    + #{$section-margin-bottom}
-                )
-            );
-        }
-        @media #{$media-portrait} {
-            min-height: calc(
-                #{$screen-height} - (
-                    #{$header-height}
-                    + #{$section-padding}
-                    + (#{$line-height-big} + 8px)
-                    + ((1.9vw + 13px) + 2px + #{$line-height-smaller})
-                    + (#{$section-padding} * 2 + 1px)
-
-                    + (#{$section-padding} * 2 + 1px)
-                    + (#{$line-height-normal} * 3 + 8px * 2)
-                    + #{$section-padding}
-                    + (#{$section-margin-bottom} * 2)
-                )
-            );
-        }
+        flex: 1 0 auto;
     }
 
     .section-content--feed & {
@@ -3623,7 +3470,7 @@ i.icon {
             background-image: url(../static/icons/add_cart_hover.svg);
         }
 
-        .block--lecture-group__elem__button--disable > & {
+        .block--lecture-group__row-content__button--disable > & {
             background-image: url(../static/icons/add_cart_disabled.svg);
         }
     }
@@ -3650,7 +3497,7 @@ i.icon {
         }
 
         .text-button--disabled > &,
-        .block--lecture-group__elem__button--disable > & {
+        .block--lecture-group__row-content__button--disable > & {
             background-image: url(../static/icons/add_lecture_disabled.svg);
         }
     }

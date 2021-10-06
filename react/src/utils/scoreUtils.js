@@ -13,7 +13,7 @@ export const getAverageScoreLabel = (score, reviewNum) => {
   return ['?', 'F', 'F', 'F', 'D-', 'D', 'D+', 'C-', 'C', 'C+', 'B-', 'B', 'B+', 'A-', 'A', 'A+'][Math.round(score)];
 };
 
-// Keep synchronozed with Django apps/subject/models.py Review.calc_average()
+// SYNC: Keep synchronized with Django apps/subject/models.py Review.calc_average()
 export const calcAverage = (reviews) => {
   const nonzeroReviews = reviews.filter((r) => (r.grade !== 0 && r.load !== 0 && r.speech !== 0));
   const reviewNum = reviews.length;

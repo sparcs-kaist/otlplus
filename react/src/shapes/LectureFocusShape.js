@@ -1,13 +1,11 @@
 import PropTypes from 'prop-types';
 
-import {
-  NONE, LIST, TABLE, MULTIPLE,
-} from '../reducers/timetable/lectureFocus';
+import { LectureFocusFrom } from '../reducers/timetable/lectureFocus';
 import lectureShape from './LectureShape';
 
 
 const lectureFocusShape = PropTypes.shape({
-  from: PropTypes.oneOf([NONE, LIST, TABLE, MULTIPLE]).isRequired,
+  from: PropTypes.oneOf(Object.values(LectureFocusFrom)).isRequired,
   clicked: PropTypes.bool.isRequired,
   lecture: lectureShape,
   multipleTitle: PropTypes.string.isRequired,

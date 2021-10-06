@@ -13,16 +13,23 @@ const LectureSimpleBlock = ({
   isRaised, isDimmed, hasReview,
   onClick,
 }) => {
+  const handleClick = onClick
+    ? (event) => {
+      onClick(lecture);
+    }
+    : null;
+
   return (
     <div
       className={classNames(
         'block',
         'block--lecture-simple',
+        (onClick ? 'block--clickable' : ''),
         (isRaised ? 'block--raised' : ''),
         (isDimmed ? 'block--dimmed' : ''),
         (hasReview ? 'block--completed' : ''),
       )}
-      onClick={onClick}
+      onClick={handleClick}
     >
       <div className={classNames('block__completed-text')}>{t('ui.others.written')}</div>
       <div className={classNames('block--lecture-simple__title')}>

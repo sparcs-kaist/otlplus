@@ -211,7 +211,7 @@ class RankedReviewsSubSection extends Component {
 
     const refElement = this.rightSectionRef.current;
     const sectionPos = refElement.getBoundingClientRect().bottom;
-    const scrollPos = refElement.querySelector(`.${classNames('section-content--latest-reviews__list-area')}`).getBoundingClientRect().bottom;
+    const scrollPos = refElement.querySelector(`.${classNames('block-list')}`).getBoundingClientRect().bottom;
     if (scrollPos - sectionPos < SCROLL_THRSHOLD) {
       this._fetchRankedReviews();
     }
@@ -222,6 +222,11 @@ class RankedReviewsSubSection extends Component {
     const { clearReviewsFocusDispatch } = this.props;
 
     clearReviewsFocusDispatch();
+  }
+
+
+  selectSemester = (semester) => {
+    this.setState({ selectedSemester: semester });
   }
 
 
@@ -238,9 +243,7 @@ class RankedReviewsSubSection extends Component {
         <SemesterBlock
           semester={ALL}
           isRaised={selectedSemester === ALL}
-          onClick={() => {
-            this.setState({ selectedSemester: ALL });
-          }}
+          onClick={this.selectSemester}
           key={ALL}
         />,
         ...semesters
@@ -249,9 +252,7 @@ class RankedReviewsSubSection extends Component {
             <SemesterBlock
               semester={s}
               isRaised={selectedSemester === s}
-              onClick={() => {
-                this.setState({ selectedSemester: s });
-              }}
+              onClick={this.selectSemester}
               key={`${s.year}-${s.semester}`}
             />
           )),
@@ -263,15 +264,15 @@ class RankedReviewsSubSection extends Component {
 
     const reviews = this._getReviewsOfSemester(selectedSemester);
     const reviewBlocksArea = (reviews == null)
-      ? <div className={classNames('section-content--latest-reviews__list-area', 'list-placeholder')}><div>{t('ui.placeholder.loading')}</div></div>
+      ? <div className={classNames('list-placeholder', 'min-height-area')}><div>{t('ui.placeholder.loading')}</div></div>
       : (reviews.length
-        ? <div className={classNames('section-content--latest-reviews__list-area')}>{reviews.map((r) => <ReviewBlock review={r} shouldLimitLines={false} linkTo={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: r.course.id }) }} pageFrom="Write Reviews" key={r.id} />)}</div>
-        : <div className={classNames('section-content--latest-reviews__list-area', 'list-placeholder')}><div>{t('ui.placeholder.noResults')}</div></div>);
+        ? <div className={classNames('block-list', 'min-height-area')}>{reviews.map((r) => <ReviewBlock review={r} shouldLimitLines={false} linkTo={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: r.course.id }) }} pageFrom="Write Reviews" key={r.id} />)}</div>
+        : <div className={classNames('list-placeholder', 'min-height-area')}><div>{t('ui.placeholder.noResults')}</div></div>);
 
     return (
       <div className={classNames('section-content', 'section-content--flex', 'section-content--write-reviews-right')} ref={this.rightSectionRef}>
         <CloseButton onClick={this.unfix} />
-        <div className={classNames('section-content--latest-reviews__blocks')}>
+        <div className={classNames('block-grid')}>
           { semesterBlocks }
         </div>
         <Scroller

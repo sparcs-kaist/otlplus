@@ -6,9 +6,7 @@ import ReactGA from 'react-ga';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
-import {
-  SEARCH, BASIC, HUMANITY, TAKEN,
-} from '../../../reducers/dictionary/list';
+import { CourseListCode } from '../../../reducers/dictionary/list';
 
 import Scroller from '../../Scroller';
 import CourseSearchSubSection from './CourseSearchSubSection';
@@ -36,7 +34,7 @@ class CourseListSection extends Component {
   }
 
 
-  listHover = (course) => () => {
+  focusCourseWithHover = (course) => {
     const { courseFocus, setCourseFocusDispatch } = this.props;
 
     if (courseFocus.clicked) {
@@ -45,7 +43,7 @@ class CourseListSection extends Component {
     setCourseFocusDispatch(course, false);
   }
 
-  listOut = () => {
+  unfocusCourseWithHover = (course) => {
     const { courseFocus, clearCourseFocusDispatch } = this.props;
 
     if (courseFocus.clicked) {
@@ -54,17 +52,17 @@ class CourseListSection extends Component {
     clearCourseFocusDispatch();
   }
 
-  listClick = (course) => () => {
+  focusCourseWithClick = (course) => {
     const { courseFocus, selectedListCode, setCourseFocusDispatch } = this.props;
 
     if (!isClicked(course, courseFocus)) {
       setCourseFocusDispatch(course, true);
 
       const labelOfTabs = new Map([
-        [SEARCH, 'Search'],
-        [BASIC, 'Basic'],
-        [HUMANITY, 'Humanity'],
-        [TAKEN, 'Taken'],
+        [CourseListCode.SEARCH, 'Search'],
+        [CourseListCode.BASIC, 'Basic'],
+        [CourseListCode.HUMANITY, 'Humanity'],
+        [CourseListCode.TAKEN, 'Taken'],
       ]);
       ReactGA.event({
         category: 'Dictionary - Selection',
@@ -76,10 +74,10 @@ class CourseListSection extends Component {
       setCourseFocusDispatch(course, false);
 
       const labelOfTabs = new Map([
-        [SEARCH, 'Search'],
-        [BASIC, 'Basic'],
-        [HUMANITY, 'Humanity'],
-        [TAKEN, 'Taken'],
+        [CourseListCode.SEARCH, 'Search'],
+        [CourseListCode.BASIC, 'Basic'],
+        [CourseListCode.HUMANITY, 'Humanity'],
+        [CourseListCode.TAKEN, 'Taken'],
       ]);
       ReactGA.event({
         category: 'Dictionary - Selection',
@@ -111,7 +109,71 @@ class CourseListSection extends Component {
       readCourses,
     } = this.props;
 
-    const getListElement = (courses) => {
+    const getListTitle = () => {
+      if (selectedListCode === CourseListCode.SEARCH) {
+        const lastSearchOptionText = Object.entries(lastSearchOption)
+          .map((e) => {
+            if (e[0] === 'keyword' && e[1].length > 0) {
+              return e[1];
+            }
+            if (e[0] === 'type' && !e[1].includes('ALL')) {
+              return e[1].map((c) => getLabelOfValue(getTypeOptions(), c));
+            }
+            if (e[0] === 'department' && !e[1].includes('ALL')) {
+              return e[1].map((c) => getLabelOfValue(getDepartmentOptions(), c));
+            }
+            if (e[0] === 'grade' && !e[1].includes('ALL')) {
+              return e[1].map((c) => getLabelOfValue(getLevelOptions(), c));
+            }
+            if (e[0] === 'term' && !e[1].includes('ALL')) {
+              return e[1].map((c) => getLabelOfValue(getTermOptions(), c));
+            }
+            return [];
+          })
+          .flat(1)
+          .join(', ');
+        return (
+          <div className={classNames('title', 'title--search')} onClick={() => this.showSearch()}>
+            <i className={classNames('icon', 'icon--search')} />
+            <span>{t('ui.tab.search')}</span>
+            <span>{lastSearchOptionText.length > 0 ? `:${lastSearchOptionText}` : ''}</span>
+          </div>
+        );
+      }
+      if (selectedListCode === CourseListCode.BASIC) {
+        return (
+          <div className={classNames('title')}>
+            {t('ui.tab.basic')}
+          </div>
+        );
+      }
+      if (user && user.departments.some((d) => (selectedListCode === d.code))) {
+        const department = user.departments.find((d) => (selectedListCode === d.code));
+        return (
+          <div className={classNames('title')}>
+            {`${department[t('js.property.name')]} ${t('ui.tab.major')}`}
+          </div>
+        );
+      }
+      if (selectedListCode === CourseListCode.HUMANITY) {
+        return (
+          <div className={classNames('title')}>
+            {t('ui.tab.humanity')}
+          </div>
+        );
+      }
+      if (selectedListCode === CourseListCode.TAKEN) {
+        return (
+          <div className={classNames('title')}>
+            {t('ui.tab.taken')}
+          </div>
+        );
+      }
+      return null;
+    };
+
+    const getListElement = () => {
+      const courses = this._getCourses(selectedListCode);
       if (!courses) {
         return <div className={classNames('list-placeholder')}><div>{t('ui.placeholder.loading')}</div></div>;
       }
@@ -120,116 +182,36 @@ class CourseListSection extends Component {
       }
       return (
         <Scroller key={selectedListCode}>
-          {courses.map((c) => (
-            <CourseBlock
-              course={c}
-              key={c.id}
-              shouldShowReadStatus={true}
-              isRead={c.userspecific_is_read || readCourses.some((c2) => (c2.id === c.id))}
-              isRaised={isClicked(c, courseFocus)}
-              isHighlighted={isHovered(c, courseFocus) || isClicked(c, courseFocus)}
-              isDimmed={isDimmedCourse(c, courseFocus)}
-              listHover={this.listHover}
-              listOut={this.listOut}
-              listClick={this.listClick}
-            />
-          ))}
+          <div className={classNames('block-list')}>
+            {
+              courses.map((c) => (
+                <CourseBlock
+                  course={c}
+                  key={c.id}
+                  shouldShowReadStatus={true}
+                  isRead={c.userspecific_is_read || readCourses.some((c2) => (c2.id === c.id))}
+                  isRaised={isClicked(c, courseFocus)}
+                  isDimmed={isDimmedCourse(c, courseFocus)}
+                  onMouseOver={this.focusCourseWithHover}
+                  onMouseOut={this.unfocusCourseWithHover}
+                  onClick={this.focusCourseWithClick}
+                />
+              ))
+            }
+          </div>
         </Scroller>
       );
     };
 
-    const lastSearchOptionText = Object.entries(lastSearchOption)
-      .map((e) => {
-        if (e[0] === 'keyword' && e[1].length > 0) {
-          return e[1];
-        }
-        if (e[0] === 'type' && !e[1].includes('ALL')) {
-          return e[1].map((c) => getLabelOfValue(getTypeOptions(), c));
-        }
-        if (e[0] === 'department' && !e[1].includes('ALL')) {
-          return e[1].map((c) => getLabelOfValue(getDepartmentOptions(), c));
-        }
-        if (e[0] === 'grade' && !e[1].includes('ALL')) {
-          return e[1].map((c) => getLabelOfValue(getLevelOptions(), c));
-        }
-        if (e[0] === 'term' && !e[1].includes('ALL')) {
-          return e[1].map((c) => getLabelOfValue(getTermOptions(), c));
-        }
-        return [];
-      })
-      .flat(1)
-      .join(', ');
-
-    if (selectedListCode === SEARCH) {
-      return (
-      // eslint-disable-next-line react/jsx-indent
-      <div className={classNames('section', 'section--course-list', 'section--with-tabs')}>
+    return (
+      <div className={classNames('section', 'section--course-list')}>
         <div className={classNames('section-content', 'section-content--flex', 'section-content--course-list')}>
-          { searchOpen ? <CourseSearchSubSection /> : null }
-          <div className={classNames('title', 'title--search')} onClick={() => this.showSearch()}>
-            <i className={classNames('icon', 'icon--search')} />
-            <span>{t('ui.tab.search')}</span>
-            <span>{lastSearchOptionText.length > 0 ? `:${lastSearchOptionText}` : ''}</span>
-          </div>
-          { getListElement(this._getCourses(selectedListCode)) }
+          { ((selectedListCode === CourseListCode.SEARCH) && searchOpen) ? <CourseSearchSubSection /> : null }
+          { getListTitle() }
+          { getListElement() }
         </div>
       </div>
-      );
-    }
-    if (selectedListCode === BASIC) {
-      return (
-      // eslint-disable-next-line react/jsx-indent
-      <div className={classNames('section', 'section--course-list', 'section--with-tabs')}>
-        <div className={classNames('section-content', 'section-content--flex', 'section-content--course-list')}>
-          <div className={classNames('title')}>
-            {t('ui.tab.basic')}
-          </div>
-          { getListElement(this._getCourses(selectedListCode)) }
-        </div>
-      </div>
-      );
-    }
-    if (user && user.departments.some((d) => (selectedListCode === d.code))) {
-      const department = user.departments.find((d) => (selectedListCode === d.code));
-      return (
-      // eslint-disable-next-line react/jsx-indent
-      <div className={classNames('section', 'section--course-list', 'section--with-tabs')}>
-        <div className={classNames('section-content', 'section-content--flex', 'section-content--course-list')}>
-          <div className={classNames('title')}>
-            {`${department[t('js.property.name')]} ${t('ui.tab.major')}`}
-          </div>
-          { getListElement(this._getCourses(selectedListCode)) }
-        </div>
-      </div>
-      );
-    }
-    if (selectedListCode === HUMANITY) {
-      return (
-      // eslint-disable-next-line react/jsx-indent
-      <div className={classNames('section', 'section--course-list', 'section--with-tabs')}>
-        <div className={classNames('section-content', 'section-content--flex', 'section-content--course-list')}>
-          <div className={classNames('title')}>
-            {t('ui.tab.humanity')}
-          </div>
-          { getListElement(this._getCourses(selectedListCode)) }
-        </div>
-      </div>
-      );
-    }
-    if (selectedListCode === TAKEN) {
-      return (
-      // eslint-disable-next-line react/jsx-indent
-      <div className={classNames('section', 'section--course-list', 'section--with-tabs')}>
-        <div className={classNames('section-content', 'section-content--flex', 'section-content--course-list')}>
-          <div className={classNames('title')}>
-            {t('ui.tab.taken')}
-          </div>
-          { getListElement(this._getCourses(selectedListCode)) }
-        </div>
-      </div>
-      );
-    }
-    return null;
+    );
   }
 }
 

@@ -11,10 +11,13 @@ import { clearMultipleFocus, setMultipleFocus } from '../../../actions/timetable
 
 import lectureFocusShape from '../../../shapes/LectureFocusShape';
 import timetableShape from '../../../shapes/TimetableShape';
+
 import {
   getOverallLectures, isSingleFocused,
 } from '../../../utils/lectureUtils';
 import { getTimeStr } from '../../../utils/examtimeUtils';
+
+import { LectureFocusFrom } from '../../../reducers/timetable/lectureFocus';
 
 
 class ExamSubSection extends Component {
@@ -44,7 +47,7 @@ class ExamSubSection extends Component {
     const { t } = this.props;
     const { lectureFocus, selectedTimetable, setMultipleFocusDispatch } = this.props;
 
-    if (lectureFocus.from !== 'NONE' || !selectedTimetable) {
+    if (lectureFocus.from !== LectureFocusFrom.NONE || !selectedTimetable) {
       return;
     }
 
@@ -64,7 +67,7 @@ class ExamSubSection extends Component {
   clearFocus = () => {
     const { lectureFocus, clearMultipleFocusDispatch } = this.props;
 
-    if (lectureFocus.from !== 'MULTIPLE') {
+    if (lectureFocus.from !== LectureFocusFrom.MULTIPLE) {
       return;
     }
 

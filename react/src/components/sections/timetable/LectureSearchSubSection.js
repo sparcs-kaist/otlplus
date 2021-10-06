@@ -7,7 +7,7 @@ import ReactGA from 'react-ga';
 import { debounce } from 'lodash';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
-import { SEARCH } from '../../../reducers/timetable/list';
+import { LectureListCode } from '../../../reducers/timetable/list';
 
 import Divider from '../../Divider';
 import SearchFilter from '../../SearchFilter';
@@ -16,6 +16,8 @@ import Scroller from '../../Scroller';
 import { closeSearch, clearDrag, setLastSearchOption } from '../../../actions/timetable/search';
 import { setListLectures, clearSearchListLectures } from '../../../actions/timetable/list';
 import { clearLectureFocus } from '../../../actions/timetable/lectureFocus';
+
+import { LectureFocusFrom } from '../../../reducers/timetable/lectureFocus';
 
 import lectureFocusShape from '../../../shapes/LectureFocusShape';
 
@@ -82,7 +84,7 @@ class LectureSearchSubSection extends Component {
     closeSearchDispatch();
     clearSearchListLecturesDispatch();
     setLastSearchOptionDispatch(option);
-    if (lectureFocus.from === 'LIST') {
+    if (lectureFocus.from === LectureFocusFrom.LIST) {
       clearLectureFocusDispatch();
     }
 
@@ -111,7 +113,7 @@ class LectureSearchSubSection extends Component {
           // eslint-disable-next-line no-alert
           alert(t('ui.message.tooManySearchResults', { count: LIMIT }));
         }
-        setListLecturesDispatch(SEARCH, response.data);
+        setListLecturesDispatch(LectureListCode.SEARCH, response.data);
       })
       .catch((error) => {
       });

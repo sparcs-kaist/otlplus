@@ -10,9 +10,7 @@ class LicensePage extends Component {
         <div className={classNames('page-grid', 'page-grid--full')}>
           <div className={classNames('section')}>
             <div className={classNames('section-content', 'section-content--license')}>
-
               <div className={classNames('title')}> Licenses </div>
-
               <div>
                 {`Copyright © 2016-${(new Date()).getFullYear()}, SPARCS OTL Team. All rights reserved.`}
               </div>
