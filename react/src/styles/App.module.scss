@@ -112,7 +112,7 @@ $section-height-desktop-lecture-detail: calc(
     + (#{$line-height-normal} + 4px)
     + (#{$line-height-small} + #{$title-margin-bottom})
     + ((#{$line-height-normal} * 6) + (#{$attribute-margin-bottom} * 5))
-    + (((0.7vh + 13px) + 2px + #{$line-height-smaller}) * 2 + ((1.4vh + 2px) * 3))
+    + ((#{$score-line-height-desktop} + 2px + #{$line-height-smaller}) * 2 + (#{$score-margin-tb-desktop} * 3))
     + #{$line-height-normal}
     + #{$section-padding}
 );
@@ -3060,7 +3060,7 @@ a {
                     + (#{$line-height-big} + 2px)
                     + (#{$line-height-normal} + 4px)
                     + (#{$line-height-small} + #{$title-margin-bottom})
-                    + (#{$line-height-big} + 6px)
+                    + (#{$line-height-big} + 8px)
 
                     + #{$section-padding}
                 )
@@ -3075,7 +3075,7 @@ a {
                     + (#{$line-height-big} + 2px)
                     + (#{$line-height-normal} + 4px)
                     + (#{$line-height-small} + #{$title-margin-bottom})
-                    + (#{$line-height-big} + 6px)
+                    + (#{$line-height-big} + 8px)
 
                     + (#{$section-padding} * 2 + 1px)
                     + #{$line-height-normal}
