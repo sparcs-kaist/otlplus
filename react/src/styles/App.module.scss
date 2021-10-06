@@ -1460,14 +1460,17 @@ a {
         grid-area: exam;
         display: flex;
         flex-direction: column;
-        min-height: calc(#{$line-height-normal} + 8px + #{$line-height-normal} + 2px + #{$line-height-normal});
+        min-height: calc(
+            (#{$line-height-normal} + #{$title-margin-bottom})
+            + (#{$line-height-normal} + 2px + #{$line-height-normal})
+        );
 
         &__title {
             flex: 0 0 auto;
             text-align: center;
             font-size: $font-size-normal;
             line-height: $line-height-normal;
-            margin-bottom: 8px;
+            margin-bottom: $title-margin-bottom;
         }
 
         &__content {
@@ -2072,11 +2075,13 @@ a {
         &__content {
             color: $color-text-light;
             line-height: $line-height-normal + 4px;
+            display: block;
             width: 100%;
             height: ($line-height-normal + 4px) * 9 + 8px * 2;
             border: 1px dashed #AAAAAA;
             padding: 8px;
             border-radius: 2px;
+            margin-bottom: 8px;
 
 
             &:hover,
@@ -2092,17 +2097,19 @@ a {
 
 
         &__score {
-            margin-top: 8px;
             width: fit-content;
             position: relative;
+            &:not(:last-child) {
+                margin-bottom: $attribute-margin-bottom;
+            }
 
             &__name {
-                margin-right: 6px;
+                margin-right: $attribute-name-margin-right;
                 padding: ((18px - $line-height-normal) / 2) 0;
             }
 
             &__option {
-                margin-right: 6px;
+                margin-right: $attribute-info-margin-between;
                 cursor: pointer;
 
                 input {
