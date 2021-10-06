@@ -31,6 +31,8 @@ const ReviewBlock = ({
     axios.post(
       `/api/reviews/${review.id}/like`,
       {
+      },
+      {
         metadata: {
           gaCategory: 'Review',
           gaVariable: 'POST Like / Instance',

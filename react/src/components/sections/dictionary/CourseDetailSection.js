@@ -124,6 +124,8 @@ class CourseDetailSection extends Component {
     axios.post(
       `/api/courses/${course.id}/read`,
       {
+      },
+      {
         metadata: {
           gaCategory: 'Review',
           gaVariable: 'POST Read / Instance',
