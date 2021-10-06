@@ -70,6 +70,10 @@ $tile-border-radius: 2px;
 $title-margin-bottom: 10px;
 $list-title-margin-bottom: 12px;
 
+$attribute-margin-bottom: 8px;
+$attribute-name-margin-right: 6px;
+$attribute-info-margin-between: 6px;
+
 $score-margin-tb-desktop-big: calc(1.4vh + 2px + 4px);
 $score-margin-tb-desktop: calc(1.4vh + 2px);
 $score-margin-tb-mobile: calc(3.8vw + 2px);
@@ -107,7 +111,7 @@ $section-height-desktop-lecture-detail: calc(
     + (#{$line-height-big} + 2px)
     + (#{$line-height-normal} + 4px)
     + (#{$line-height-small} + #{$title-margin-bottom})
-    + ((#{$line-height-normal} * 6) + (8px * 5))
+    + ((#{$line-height-normal} * 6) + (#{$attribute-margin-bottom} * 5))
     + (((0.7vh + 13px) + 2px + #{$line-height-smaller}) * 2 + ((1.4vh + 2px) * 3))
     + #{$line-height-normal}
     + #{$section-padding}
@@ -1273,9 +1277,10 @@ a {
                         text-align: right;
                         color: $color-text-light;
                         font-size: $font-size-smallest;
+                        line-height: $line-height-smallest;
                         position: absolute;
                         display: inline-block;
-                        bottom: -8px;
+                        bottom: -($line-height-smallest / 2) - 1px;
                     }
                 }
             }
@@ -1448,7 +1453,7 @@ a {
                     width: 100%;
                     margin-left: 0;
                     &:not(:last-child) {
-                        margin-bottom: 8px;
+                        margin-bottom: $attribute-margin-bottom;
                     }
                 }
                 @media #{$media-landscape} {
@@ -1464,7 +1469,7 @@ a {
         grid-area: exam;
         display: flex;
         flex-direction: column;
-        min-height: calc(#{$line-height-normal} * 3 + 8px + 2px - #{$section-padding});
+        min-height: calc(#{$line-height-normal} + 8px + #{$line-height-normal} + 2px + #{$line-height-normal});
 
         &__title {
             flex: 0 0 auto;
@@ -1480,21 +1485,17 @@ a {
             display: flex;
             flex-direction: column;
 
-            & {
-
-                .subsection--exam__content__day {
+            .subsection--exam__content__day {
                     display: flex;
                     flex-direction: row;
                     width: 100%;
-                    margin-bottom: 8px - 6px;
-                    &:last-child {
-                        margin-bottom: - 6px;
+                    &:not(:last-child) {
+                        margin-bottom: $attribute-margin-bottom;
                     }
 
                     & > div:first-child {
                         flex: 0 0 auto;
-                        margin-bottom: 6px;
-                        margin-right: 6px;
+                        margin-right: $attribute-name-margin-right;
                         white-space: nowrap;
                         &.fixed-ko {
                             min-width: 12px;
@@ -1508,11 +1509,11 @@ a {
                         flex: 1 1 auto;
                         padding-left: 0;
                         margin-bottom: 0;
-                        display: flex;
-                        flex-direction: column;
 
                         & > li {
-                            margin-bottom: 6px;
+                            &:not(:last-child) {
+                                margin-bottom: $attribute-info-margin-between;
+                            }
 
                             &.focused {
                                 color: $color-highlight;
@@ -1524,7 +1525,6 @@ a {
                             }
                         }
                     }
-                }
             }
         }
     }
@@ -2781,7 +2781,7 @@ a {
 .attribute {
         display: flex;
         flex-direction: row;
-        margin-bottom: 8px;
+        margin-bottom: $attribute-margin-bottom;
         .block--course & {
             margin-bottom: 6px;
         }
@@ -2802,7 +2802,7 @@ a {
 
         &--long-name {
             display: block;
-            margin-bottom: 8px - 2px;
+            margin-bottom: $attribute-margin-bottom - 2px;
             & > * {
                 display: inline-block;
                 margin-bottom: 2px;
@@ -2811,7 +2811,7 @@ a {
 
         & > *:first-child {
             font-weight: bold;
-            margin-right: 6px;
+            margin-right: $attribute-name-margin-right;
             flex: none;
 
             &.fixed-ko {
@@ -2826,13 +2826,13 @@ a {
             flex: initial;
 
             &.search-fields {
-                margin-bottom: -6px;
-                margin-right: -6px;
+                margin-bottom: -$attribute-info-margin-between;
+                margin-right: -$attribute-info-margin-between;
 
                 & > label {
                     display: inline-block;
-                    margin-bottom: 6px;
-                    margin-right: 6px;
+                    margin-bottom: $attribute-info-margin-between;
+                    margin-right: $attribute-info-margin-between;
                     white-space: nowrap;
 
                     & > i {
@@ -3095,7 +3095,7 @@ a {
                     + (#{$line-height-normal} + #{$title-margin-bottom})
                     + (#{$score-line-height-desktop-big} + 2px + #{$line-height-smaller} + 12px)
                     + (#{$line-height-normal} + #{$title-margin-bottom})
-                    + ((#{$line-height-normal} + 8px) * 2)
+                    + ((#{$line-height-normal} + #{$attribute-margin-bottom}) * 2)
 
                     + #{$section-padding}
                     + #{$section-margin-bottom}
@@ -3112,7 +3112,7 @@ a {
                     + (#{$line-height-normal} + #{$title-margin-bottom})
                     + (#{$score-line-height-mobile} + 2px + #{$line-height-smaller} + 12px)
                     + (#{$line-height-normal} + #{$title-margin-bottom})
-                    + ((#{$line-height-normal} + 8px) * 2)
+                    + ((#{$line-height-normal} + #{$attribute-margin-bottom}) * 2)
 
                     + #{$section-padding}
                     + (#{$section-margin-bottom} * 2)
