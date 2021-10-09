@@ -468,7 +468,7 @@ a {
                 1fr
             ;
             grid-template-areas:
-                "taken-lectures  .   write-reviews-right"
+                "write-reviews-left .   write-reviews-right"
             ;
         }
         @media #{$media-portrait} {
@@ -479,7 +479,7 @@ a {
                 1fr
             ;
             grid-template-areas:
-                "taken-lectures"
+                "write-reviews-left"
             ;
         } 
     } 
@@ -1106,8 +1106,10 @@ a {
     }
 
 
-    &--taken-lectures {
-        grid-area: taken-lectures;
+    &--write-reviews-left {
+        grid-area: write-reviews-left;
+        display: flex;
+        flex-direction: column;
     }
 
 
@@ -1555,16 +1557,23 @@ a {
         flex-direction: column;
     }
 
+    &--my-summary {
+        height: initial;
+    }
+
     &--taken-lectures{
+        flex: 1 1;
         display: flex;
         flex-direction: column;
-
-        &__menus-list {
-            & > div:not(:first-child) {
-                margin-top: 8px;
-            }
-        }
     }
+
+    &--reviews-menus {
+        height: initial;
+
+        & > div:not(:first-child) {
+            margin-top: 8px;
+        } 
+    } 
 
     &--review-write {
         height: initial;
@@ -2910,7 +2919,7 @@ a {
         margin-top: 0;
         margin-bottom: 12px;
     }
-    .subsection--taken-lectures & {
+    .subsection--my-summary & {
         margin-top: 0;
         margin-bottom: 0;
     }
