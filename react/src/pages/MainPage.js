@@ -271,7 +271,15 @@ class MainPage extends Component {
           <div className={classNames('page-grid', 'page-grid--main')}>
             {
               range(columnNum).map((i) => (
-                <div style={{ gridArea: `feeds-column-${i + 1}`, position: 'relative' }} key={i}>
+                <div
+                  style={{
+                    gridArea: `feeds-column-${i + 1}`,
+                    position: 'relative',
+                    overflow: 'initial',
+                    minWidth: 0,
+                  }}
+                  key={i}
+                >
                   { feeds.filter((v, i2) => (i2 % columnNum === i)) }
                   <div style={{ position: 'absolute', width: '100%' }}>
                     {
