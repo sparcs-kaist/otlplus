@@ -41,7 +41,12 @@ $font-size-smallest: 10px;
 $line-height-smallest: 11px;
 
 
+$screen-height: var(--window-inner-height, 100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
 $header-height: 55px;
+$footer-height-desktop: 50px;
+$footer-height-mobile: 130px;
+$main-image-height-desktop: 400px;
+$main-image-height-mobile: 240px;
 
 $content-width-desktop: calc(80vh + 384px);
 
@@ -90,8 +95,6 @@ $score-line-height-mobile: calc(#{$score-font-size-mobile} - 2px);
 
 $media-landscape: (min-aspect-ratio: 4/3);
 $media-portrait: (max-aspect-ratio: 4/3);
-
-$screen-height: var(--window-inner-height, 100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
 
 $section-width-desktop-full: $content-width-desktop;
 $section-width-desktop-1v3-left: calc(15vh + 126px);
@@ -255,12 +258,14 @@ a {
 
 .content {
     position: relative;
-    margin-top: $header-height;
     margin-left: auto;
     margin-right: auto;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
+    header + & {
+        margin-top: $header-height;
+    }
     @media #{$media-landscape} {
         width: calc(
             #{$content-width-desktop}
@@ -274,44 +279,28 @@ a {
     }
 
 
-    .main-image + & {
-        margin-top: $section-margin-top;
-    }
-
-
     &--no-scroll {
         position: absolute;
         top: 0;
         bottom: 0;
         left: 0;
         right: 0;
-        margin-bottom: $section-margin-bottom;
-        flex-direction: row;
-        justify-content: center;
-        align-items: initial;
-    }
-
-
-    &--main {
-        min-height: calc(100vh - (400px + 50px + #{$section-margin-top} + #{$section-margin-bottom} + env(safe-area-inset-bottom)));
-        @media #{$media-portrait} {
-            min-height: calc(100vh - (240px + 130px + #{$section-margin-top} + #{$section-margin-bottom} + env(safe-area-inset-bottom)));
+        > .page-grid {
+            height: 100%;
+            padding-bottom: $section-margin-bottom;
         }
     }
 
 
-    &--timetable {
-        @media #{$media-portrait} {
-        }
-    }
+
+
 }
 
 
 .page-grid {
     display: grid;
-    @media #{$media-portrait} {
-        width: calc(100% - (#{$section-margin-lr} * 2));
-    }
+    padding-left: $section-margin-lr;
+    padding-right: $section-margin-lr;
 
 
     &--full {
@@ -487,6 +476,13 @@ a {
 
     &--main {
         overflow: hidden;
+        padding-top: $section-margin-top;
+        @media #{$media-landscape} {
+            min-height: calc(#{$screen-height} - (#{$main-image-height-desktop} + #{$footer-height-desktop} + #{$section-margin-top}));
+        }
+        @media #{$media-portrait} {
+            min-height: calc(#{$screen-height} - (#{$main-image-height-mobile} + #{$footer-height-mobile} + #{$section-margin-top}));
+        }
 
         @media #{$media-landscape} {
             grid-template-columns:
@@ -526,12 +522,19 @@ a {
     background: url(../static/img/review/search/bg.jpg) center 0;
     background-size: 100% auto;
     @media #{$media-landscape} {
-        height: 400px;
-        padding-top: 400px / 2 - 9px;
+        height: $main-image-height-desktop;
+        padding-top: $main-image-height-desktop / 2 - 9px;
+        min-width: calc(
+            #{$content-width-desktop}
+            + (#{$section-margin-lr} * 2)
+            + (env(safe-area-inset-left)
+            + env(safe-area-inset-right))
+        );
     }
     @media #{$media-portrait} {
-        height: 240px;
-        padding-top: 240px / 2 - 9px;
+        height: $main-image-height-mobile;
+        padding-top: $main-image-height-mobile / 2 - 9px;
+        min-width: 100%;
     }
 }
 

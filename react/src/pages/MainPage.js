@@ -279,7 +279,7 @@ class MainPage extends Component {
         <section className={classNames('main-image')}>
           <MainSearchSection />
         </section>
-        <section className={classNames('content', 'content--main')} ref={this.contentRef}>
+        <section className={classNames('content')} ref={this.contentRef}>
           <div className={classNames('page-grid', 'page-grid--main')}>
             {
               range(columnNum).map((i) => (
