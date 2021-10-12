@@ -1879,10 +1879,9 @@ a {
         top: 0;
         right: $section-padding;
         background-color: rgba($color-section-background, 0.8);
-        z-index: 290;
-
-        .section--lecture-list & {
-            z-index: 90;
+        z-index: 90;
+        .section--mobile-modal & {
+            z-index: 290;
         }
 
         @media #{$media-landscape} {
