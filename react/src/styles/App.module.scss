@@ -96,19 +96,7 @@ $score-line-height-mobile: calc(#{$score-font-size-mobile} - 2px);
 $media-landscape: (min-aspect-ratio: 4/3);
 $media-portrait: (max-aspect-ratio: 4/3);
 
-$section-width-desktop-full: $content-width-desktop;
 $section-width-desktop-1v3-left: calc(15vh + 126px);
-$section-width-desktop-1v3-right: calc(
-    #{$content-width-desktop}
-    - #{$section-margin-lr}
-    - #{$section-width-desktop-1v3-left}
-);
-$section-width-desktop-1v1v1 : calc(
-    (#{$content-width-desktop} - #{$section-margin-lr} * 2) / 3
-);
-$section-width-desktop-2v2: calc(
-    (#{$content-width-desktop} - #{$section-margin-lr}) / 2
-);
 $section-height-desktop-lecture-detail: calc(
     #{$section-padding}
     + (#{$line-height-big} + 2px)
@@ -260,9 +248,6 @@ a {
     position: relative;
     margin-left: auto;
     margin-right: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
     header + & {
         margin-top: $header-height;
     }
@@ -303,10 +288,15 @@ a {
     padding-right: $section-margin-lr;
 
 
+    > * {
+        overflow: hidden;
+    }
+
+
     &--full {
         @media #{$media-landscape} {
             grid-template-columns:
-                $section-width-desktop-full
+                1fr
             ;
             grid-template-rows:
                 1fr
@@ -317,7 +307,7 @@ a {
         }
         @media #{$media-portrait} {
             grid-template-columns:
-                100%
+                1fr
             ;
             grid-template-rows:
                 1fr
@@ -336,7 +326,7 @@ a {
                 $tabs-width-vertical
                 $section-width-desktop-1v3-left
                 $section-margin-lr
-                $section-width-desktop-1v3-right
+                1fr
             ;
             grid-template-rows:
                 $tabs-height-horizontal
@@ -353,7 +343,7 @@ a {
         }
         @media #{$media-portrait} {
             grid-template-columns:
-                100%
+                1fr
             ;
             grid-template-rows:
                 1fr
@@ -388,9 +378,9 @@ a {
             margin-left: -$tabs-width-vertical;
             grid-template-columns:
                 $tabs-width-vertical
-                $section-width-desktop-2v2
+                1fr
                 $section-margin-lr
-                $section-width-desktop-2v2
+                1fr
             ;
             grid-template-rows:
                 1fr
@@ -401,7 +391,7 @@ a {
         }
         @media #{$media-portrait} {
             grid-template-columns:
-                100%
+                1fr
             ;
             grid-template-rows:
                 $tabs-height-horizontal
@@ -419,7 +409,7 @@ a {
         @media #{$media-landscape} {
             width: calc(900px + #{$section-padding} * 2);
             grid-template-columns:
-                100%
+                1fr
             ;
             grid-template-rows:
                 $tabs-height-horizontal
@@ -432,7 +422,7 @@ a {
         }
         @media #{$media-portrait} {
             grid-template-columns:
-                100%
+                1fr
             ;
             grid-template-rows:
                 $tabs-height-horizontal
@@ -451,7 +441,7 @@ a {
             grid-template-columns:
                 $section-width-desktop-1v3-left
                 $section-margin-lr
-                $section-width-desktop-1v3-right
+                1fr
             ;
             grid-template-rows:
                 1fr
@@ -462,7 +452,7 @@ a {
         }
         @media #{$media-portrait} {
             grid-template-columns:
-                100%
+                1fr
             ;
             grid-template-rows:
                 1fr
@@ -486,11 +476,11 @@ a {
 
         @media #{$media-landscape} {
             grid-template-columns:
-                $section-width-desktop-1v1v1
+                1fr
                 $section-margin-lr
-                $section-width-desktop-1v1v1
+                1fr
                 $section-margin-lr
-                $section-width-desktop-1v1v1
+                1fr
             ;
             grid-template-rows:
                 max-content
@@ -503,7 +493,7 @@ a {
         }
         @media #{$media-portrait} {
             grid-template-columns:
-                100%
+                1fr
             ;
             grid-template-rows:
                 max-content
@@ -543,6 +533,7 @@ a {
     font-size: $font-size-small;
     line-height: $line-height-small;
     color: $color-text-light;
+    overflow: hidden;
 
     & .tabs__elem {
         padding: $tab-padding;
@@ -706,6 +697,7 @@ a {
     background-color: $color-section-background;
     border-radius: $section-border-radius;
     box-shadow: $section-box-shadow;
+    overflow: hidden;
 
 
     &--mobile-modal {
