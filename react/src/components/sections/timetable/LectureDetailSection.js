@@ -53,6 +53,7 @@ class LectureDetailSection extends Component {
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     const {
+      isPortrait,
       lectureFocus, selectedListCode, selectedTimetable,
       year, semester,
       clearLectureFocusDispatch,
@@ -61,7 +62,7 @@ class LectureDetailSection extends Component {
     if (prevProps.lectureFocus.clicked && lectureFocus.clicked) {
       if (prevProps.lectureFocus.lecture.id !== lectureFocus.lecture.id) {
         this._loadReviews();
-        if (window.matchMedia('(min-aspect-ratio: 4/3)').matches) {
+        if (!isPortrait) {
           this.openDictPreview();
         }
       }
@@ -73,7 +74,7 @@ class LectureDetailSection extends Component {
     }
     else if (!prevProps.lectureFocus.clicked && lectureFocus.clicked) {
       this._loadReviews();
-      if (window.matchMedia('(min-aspect-ratio: 4/3)').matches) {
+      if (!isPortrait) {
         this.openDictPreview();
       }
     }
@@ -558,6 +559,7 @@ class LectureDetailSection extends Component {
 
 const mapStateToProps = (state) => ({
   user: state.common.user.user,
+  isPortrait: state.common.media.isPortrait,
   lectureFocus: state.timetable.lectureFocus,
   selectedListCode: state.timetable.list.selectedListCode,
   selectedTimetable: state.timetable.timetable.selectedTimetable,
@@ -589,6 +591,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 LectureDetailSection.propTypes = {
   user: userShape,
+  isPortrait: PropTypes.bool.isRequired,
   lectureFocus: lectureFocusShape.isRequired,
   selectedListCode: PropTypes.string.isRequired,
   selectedTimetable: timetableShape,

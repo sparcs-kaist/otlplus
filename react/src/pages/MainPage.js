@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
 import axios from 'axios';
 import { range } from 'lodash';
 
@@ -22,9 +23,6 @@ import RateFeedSection from '../components/sections/main/RateFeedSection ';
 
 
 class MainPage extends Component {
-  portraitMediaQuery = window.matchMedia('(max-aspect-ratio: 4/3)')
-
-
   constructor(props) {
     super(props);
 
@@ -32,7 +30,6 @@ class MainPage extends Component {
       feedDays: [],
       notices: null,
       isLoading: false,
-      isPortrait: this.portraitMediaQuery.matches,
     };
 
     // eslint-disable-next-line fp/no-mutation
@@ -44,7 +41,6 @@ class MainPage extends Component {
     const { user } = this.props;
 
     window.addEventListener('scroll', this.handleScroll);
-    this.portraitMediaQuery.addEventListener('change', this.handleAspectChange);
 
     const today = new Date();
     if (user) {
@@ -66,7 +62,6 @@ class MainPage extends Component {
 
   componentWillUnmount() {
     window.removeEventListener('scroll', this.handleScroll);
-    this.portraitMediaQuery.removeEventListener('change', this.handleAspectChange);
   }
 
 
@@ -95,13 +90,6 @@ class MainPage extends Component {
     if (isBottomReached) {
       this._fetchFeeds(this._getPrevDate());
     }
-  }
-
-
-  handleAspectChange = (e) => {
-    this.setState({
-      isPortrait: e.matches,
-    });
   }
 
 
@@ -198,8 +186,8 @@ class MainPage extends Component {
 
   render() {
     const { t } = this.props;
-    const { feedDays, notices, isPortrait } = this.state;
-    const { user } = this.props;
+    const { feedDays, notices } = this.state;
+    const { user, isPortrait } = this.props;
 
     const mapFeedToSection = (feed, date) => {
       if (feed.type === 'REVIEW_WRITE') {
@@ -325,6 +313,7 @@ class MainPage extends Component {
 
 const mapStateToProps = (state) => ({
   user: state.common.user.user,
+  isPortrait: state.common.media.isPortrait,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -332,6 +321,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 MainPage.propTypes = {
   user: userShape,
+  isPortrait: PropTypes.bool.isRequired,
 };
 
 export default withTranslation()(
