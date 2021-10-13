@@ -5,6 +5,7 @@ import { withTranslation } from 'react-i18next';
 import { range } from 'lodash';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
+import { TIMETABLE_START_HOUR, TIMETABLE_END_HOUR } from '../../../common/constants';
 
 import TimetableTile from '../../tiles/TimetableTile';
 
@@ -62,7 +63,7 @@ class TimetableSubSection extends Component {
   }
 
   indexOfMinute = (minute) => {
-    return minute / 30 - (2 * 8);
+    return minute / 30 - (2 * TIMETABLE_START_HOUR);
   }
 
   onMouseDown = (e) => {
@@ -265,7 +266,8 @@ class TimetableSubSection extends Component {
       return `${hour}:${minute}`;
     };
     const isOutsideTable = (classtime) => (
-      classtime.day < 0 || classtime.day > 4 || classtime.begin < 60 * 8 || classtime.end > 60 * 24
+      (classtime.day < 0 || classtime.day > 4)
+      || (classtime.begin < 60 * TIMETABLE_START_HOUR || classtime.end > 60 * TIMETABLE_END_HOUR)
     );
     const untimedTileTitles = [];
     const mapClasstimeToTile = (lecture, classtime, isTemp) => {
@@ -286,11 +288,11 @@ class TimetableSubSection extends Component {
             ? ((untimedTileTitles.length - 1) % 5)
             : classtime.day}
           beginIndex={isUntimed
-            ? (32 + Math.floor((untimedTileTitles.length - 1) / 5))
-            : (classtime.begin / 30 - 16)}
+            ? ((TIMETABLE_END_HOUR - TIMETABLE_START_HOUR) * 2 + Math.floor((untimedTileTitles.length - 1) / 5))
+            : (classtime.begin / 30 - TIMETABLE_START_HOUR * 2)}
           endIndex={isUntimed
-            ? (32 + Math.floor((untimedTileTitles.length - 1) / 5) + 3)
-            : (classtime.end / 30 - 16)}
+            ? ((TIMETABLE_END_HOUR - TIMETABLE_START_HOUR) * 2 + Math.floor((untimedTileTitles.length - 1) / 5) + 3)
+            : (classtime.end / 30 - TIMETABLE_START_HOUR * 2)}
           cellWidth={cellWidth}
           cellHeight={cellHeight}
           isTimetableReadonly={!selectedTimetable || Boolean(selectedTimetable.isReadOnly)}
@@ -327,7 +329,7 @@ class TimetableSubSection extends Component {
       ? mapLectureToTiles(tempLecture, true)
       : null;
 
-    const targetMinutes = range(8 * 60, 24 * 60, 30);
+    const targetMinutes = range(TIMETABLE_START_HOUR * 60, TIMETABLE_END_HOUR * 60, 30);
     const getColumnHeads = () => {
       const timedArea = targetMinutes.map((i) => {
         const i2 = i + 30;
@@ -349,7 +351,7 @@ class TimetableSubSection extends Component {
         </React.Fragment>
       ));
       return [
-        <div className={classNames('table-head')} key={8 * 60}><strong>8</strong></div>,
+        <div className={classNames('table-head')} key={TIMETABLE_START_HOUR * 60}><strong>{TIMETABLE_START_HOUR}</strong></div>,
         timedArea,
         untimedArea,
       ];

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
+import { TIMETABLE_START_HOUR, TIMETABLE_END_HOUR } from '../../common/constants';
 import { getProfessorsShortStr, getColorNumber } from '../../utils/lectureUtils';
 
 import lectureShape from '../../shapes/LectureShape';
@@ -52,8 +53,8 @@ const TimetableTile = ({
       style={{
         left: (cellWidth + 5) * dayIndex + 17,
         top: cellHeight * beginIndex + 19
-          + ((beginIndex >= 32)
-            ? ((beginIndex - 32 + 3) / 3 * (cellHeight + 17))
+          + ((beginIndex >= (TIMETABLE_END_HOUR - TIMETABLE_START_HOUR) * 2)
+            ? ((beginIndex - (TIMETABLE_END_HOUR - TIMETABLE_START_HOUR) * 2 + 3) / 3 * (cellHeight + 17))
             : 0
           ),
         width: cellWidth + 2,

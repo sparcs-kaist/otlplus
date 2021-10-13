@@ -7,6 +7,7 @@ import queryString from 'qs';
 import { range } from 'lodash';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
+import { TIMETABLE_START_HOUR, TIMETABLE_END_HOUR } from '../../../common/constants';
 
 import Scroller from '../../Scroller';
 import HorizontalTimetableTile from '../../tiles/HorizontalTimetableTile';
@@ -77,7 +78,7 @@ class TodaysTimetableSection extends Component {
 
     const floatHours = hours + (minutes / 60);
 
-    return (floatHours - 8) * cellWidth * 2
+    return (floatHours - TIMETABLE_START_HOUR) * cellWidth * 2
       + TABLE_LEFT_MARGIN
       - (BAR_CIRCLE_WIDTH - BAR_LINE_WIDTH) / 2;
   }
@@ -105,7 +106,7 @@ class TodaysTimetableSection extends Component {
           <div className={classNames('subsection--todays-timetable__table')}>
             <div>
               {
-                range(8 * 2, 24 * 2).map((i) => {
+                range(TIMETABLE_START_HOUR * 2, TIMETABLE_END_HOUR * 2).map((i) => {
                   if (i % 2 === 0) {
                     const hour = i / 2;
                     const hourValue = ((hour - 1) % 12) + 1;
@@ -114,7 +115,7 @@ class TodaysTimetableSection extends Component {
                     }
                     return <div key={i}><span>{hourValue}</span></div>;
                   }
-                  if (i === 24 * 2 - 1) {
+                  if (i === TIMETABLE_END_HOUR * 2 - 1) {
                     return <div key={i}><strong>12</strong></div>;
                   }
                   return <div key={i} />;
@@ -123,7 +124,7 @@ class TodaysTimetableSection extends Component {
             </div>
             <div>
               {
-                range(8 * 2, 24 * 2).map((i) => {
+                range(TIMETABLE_START_HOUR * 2, TIMETABLE_END_HOUR * 2).map((i) => {
                   if (i % 2 === 0) {
                     const hour = i / 2;
                     if (hour % 6 === 0) {
@@ -131,7 +132,7 @@ class TodaysTimetableSection extends Component {
                     }
                     return <div className={classNames('hcell-left')} key={i} />;
                   }
-                  if (i === 24 * 2 - 1) {
+                  if (i === TIMETABLE_END_HOUR * 2 - 1) {
                     return <div className={classNames('hcell-right', 'hcell-last')} key={i} />;
                   }
                   return <div className={classNames('hcell-right')} key={i} />;

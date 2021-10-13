@@ -32,6 +32,7 @@ import {
 import {
   performAddToTable, performAddToCart, performDeleteFromCart,
 } from '../../../common/commonOperations';
+import { TIMETABLE_START_HOUR } from '../../../common/constants';
 import { isTaken } from '../../../utils/courseUtils';
 
 import {
@@ -313,8 +314,8 @@ class LectureListSection extends Component {
             (lastSearchOption.day && lastSearchOption.day !== '')
               ? [
                 `${[t('ui.day.monday'), t('ui.day.tuesday'), t('ui.day.wednesday'), t('ui.day.thursday'), t('ui.day.friday')][lastSearchOption.day]} \
-                ${8 + Math.floor(lastSearchOption.begin / 2)}:${['00', '30'][lastSearchOption.begin % 2]} ~ \
-                ${8 + Math.floor(lastSearchOption.end / 2)}:${['00', '30'][lastSearchOption.end % 2]}`,
+                ${TIMETABLE_START_HOUR + Math.floor(lastSearchOption.begin / 2)}:${['00', '30'][lastSearchOption.begin % 2]} ~ \
+                ${TIMETABLE_START_HOUR + Math.floor(lastSearchOption.end / 2)}:${['00', '30'][lastSearchOption.end % 2]}`,
               ]
               : [],
           )

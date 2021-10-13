@@ -7,6 +7,7 @@ import ReactGA from 'react-ga';
 import { debounce } from 'lodash';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
+import { TIMETABLE_START_HOUR } from '../../../common/constants';
 import { LectureListCode } from '../../../reducers/timetable/list';
 
 import Divider from '../../Divider';
@@ -77,8 +78,8 @@ class LectureSearchSubSection extends Component {
       department: Array.from(selectedDepartments),
       grade: Array.from(selectedLevels),
       day: (day !== null) ? day : undefined,
-      begin: (start !== null) ? start : undefined,
-      end: (end !== null) ? end : undefined,
+      begin: (start !== null) ? (start + (TIMETABLE_START_HOUR - 8) * 2) : undefined,
+      end: (end !== null) ? (end + (TIMETABLE_START_HOUR - 8) * 2) : undefined,
     };
 
     closeSearchDispatch();
@@ -274,8 +275,8 @@ class LectureSearchSubSection extends Component {
                   ? (
                     <span className={classNames('text-button')} onClick={this.clearSearchTime}>
                       {`${[t('ui.day.monday'), t('ui.day.tuesday'), t('ui.day.wednesday'), t('ui.day.thursday'), t('ui.day.friday')][day]} \
-                        ${8 + Math.floor(start / 2)}:${['00', '30'][start % 2]} ~ \
-                        ${8 + Math.floor(end / 2)}:${['00', '30'][end % 2]}`}
+                        ${TIMETABLE_START_HOUR + Math.floor(start / 2)}:${['00', '30'][start % 2]} ~ \
+                        ${TIMETABLE_START_HOUR + Math.floor(end / 2)}:${['00', '30'][end % 2]}`}
                     </span>
                   )
                   : (

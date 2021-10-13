@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
+import { TIMETABLE_START_HOUR } from '../../common/constants';
 import { getProfessorsShortStr, getColorNumber } from '../../utils/lectureUtils';
 
 import lectureShape from '../../shapes/LectureShape';
@@ -14,7 +15,7 @@ const HorizontalTimetableTile = ({
   lecture, classtime,
   cellWidth, cellHeight,
 }) => {
-  const indexOfTime = (time) => (time / 30 - 16);
+  const indexOfTime = (time) => (time / 30 - TIMETABLE_START_HOUR * 2);
 
   return (
     <div
