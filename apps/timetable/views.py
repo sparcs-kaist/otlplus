@@ -234,7 +234,7 @@ class UserInstanceWishlistRemoveLectureView(View):
 class ShareTimetableCalendarView(View):
     def get(self, request):
         PARAMS_STRUCTURE = [
-            ("table_id", ParseType.INT, True, []),
+            ("timetable", ParseType.INT, True, []),
             ("year", ParseType.INT, True, []),
             ("semester", ParseType.INT, True, []),
         ]
@@ -254,7 +254,7 @@ class ShareTimetableCalendarView(View):
 class ShareTimetableIcalView(View):
     def get(self, request):
         PARAMS_STRUCTURE = [
-            ("table_id", ParseType.INT, True, []),
+            ("timetable", ParseType.INT, True, []),
             ("year", ParseType.INT, True, []),
             ("semester", ParseType.INT, True, []),
         ]
@@ -277,7 +277,7 @@ class ShareTimetableIcalView(View):
 class ShareTimetableImageView(View):
     def get(self, request):
         PARAMS_STRUCTURE = [
-            ("table_id", ParseType.INT, True, []),
+            ("timetable", ParseType.INT, True, []),
             ("year", ParseType.INT, True, []),
             ("semester", ParseType.INT, True, []),
         ]
