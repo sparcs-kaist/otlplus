@@ -120,11 +120,37 @@ class LatestReviewsSubSection extends Component {
     const { reviewsFocus, latestReviews } = this.props;
 
     const reviews = latestReviews;
-    const reviewBlocksArea = (reviews == null)
-      ? <div className={classNames('list-placeholder', 'min-height-area')}><div>{t('ui.placeholder.loading')}</div></div>
-      : (reviews.length
-        ? <div className={classNames('block-list', 'min-height-area')} ref={this.blockListRef}>{reviews.map((r) => <ReviewBlock review={r} shouldLimitLines={false} linkTo={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: r.course.id }) }} pageFrom="Write Reviews" key={r.id} />)}</div>
-        : <div className={classNames('list-placeholder', 'min-height-area')}><div>{t('ui.placeholder.noResults')}</div></div>);
+    const reviewBlocksArea = (
+      reviews == null
+        ? (
+          <div className={classNames('list-placeholder', 'min-height-area')}>
+            <div>{t('ui.placeholder.loading')}</div>
+          </div>
+        )
+        : (
+          reviews.length
+            ? (
+              <div className={classNames('block-list', 'min-height-area')} ref={this.blockListRef}>
+                {
+                  reviews.map((r) => (
+                    <ReviewBlock
+                      review={r}
+                      shouldLimitLines={false}
+                      linkTo={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: r.course.id }) }}
+                      pageFrom="Write Reviews"
+                      key={r.id}
+                    />
+                  ))
+                }
+              </div>
+            )
+            : (
+              <div className={classNames('list-placeholder', 'min-height-area')}>
+                <div>{t('ui.placeholder.noResults')}</div>
+              </div>
+            )
+        )
+    );
 
     return (
       <div className={classNames('subsection', 'subsection--flex', 'subsection--various-reviews')}>
