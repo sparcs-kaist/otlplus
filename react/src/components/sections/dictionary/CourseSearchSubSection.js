@@ -20,6 +20,7 @@ import { clearCourseFocus } from '../../../actions/dictionary/courseFocus';
 import {
   getTypeOptions, getDepartmentOptions, getLevelOptions, getTermOptions,
 } from '../../../common/seachOptions';
+import { performSearchCourses } from '../../../common/commonOperations';
 
 
 class CourseSearchSubSection extends Component {
@@ -55,53 +56,31 @@ class CourseSearchSubSection extends Component {
       setLastSearchOptionDispatch,
     } = this.props;
 
-    if (
-      (selectedTypes.size === 1 && selectedTypes.has('ALL'))
-      && (selectedDepartments.size === 1 && selectedDepartments.has('ALL'))
-      && (selectedLevels.size === 1 && selectedLevels.has('ALL'))
-      && keyword.trim().length === 0
-    ) {
-      // eslint-disable-next-line no-alert
-      alert(t('ui.message.blankSearch'));
-      return;
-    }
-
     const option = {
-      keyword: keyword,
+      keyword: keyword.trim(),
       type: Array.from(selectedTypes),
       department: Array.from(selectedDepartments),
       grade: Array.from(selectedLevels),
       term: Array.from(selectedTerms),
     };
 
-    closeSearchDispatch();
-    clearSearchListCoursesDispatch();
-    setLastSearchOptionDispatch(option);
-    clearCourseFocusDispatch();
-
-    axios.get(
-      '/api/courses',
-      {
-        params: {
-          ...option,
-          order: ['old_code'],
-          limit: LIMIT,
-        },
-        metadata: {
-          gaCategory: 'Course',
-          gaVariable: 'GET / List',
-        },
-      },
-    )
-      .then((response) => {
-        if (response.data.length === LIMIT) {
-          // eslint-disable-next-line no-alert
-          alert(t('ui.message.tooManySearchResults', { count: LIMIT }));
-        }
-        setListCoursesDispatch(CourseListCode.SEARCH, response.data);
-      })
-      .catch((error) => {
-      });
+    const beforeRequest = () => {
+      closeSearchDispatch();
+      clearSearchListCoursesDispatch();
+      setLastSearchOptionDispatch(option);
+      clearCourseFocusDispatch();
+    };
+    const afterResponse = (courses) => {
+      if (courses.length === LIMIT) {
+        // eslint-disable-next-line no-alert
+        alert(t('ui.message.tooManySearchResults', { count: LIMIT }));
+      }
+      setListCoursesDispatch(CourseListCode.SEARCH, courses);
+    };
+    performSearchCourses(
+      option, LIMIT,
+      beforeRequest, afterResponse,
+    );
 
     ReactGA.event({
       category: 'Dictionary - Search',

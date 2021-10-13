@@ -23,12 +23,11 @@ import {
   reset as resetSearch,
   closeSearch,
 } from '../actions/dictionary/search';
+import { performSearchCourses } from '../common/commonOperations';
 
 
 class DictionaryPage extends Component {
   componentDidMount() {
-    const LIMIT = 150;
-
     const { t } = this.props;
     // eslint-disable-next-line react/destructuring-assignment
     const { startCourseId, startTab, startSearchKeyword } = this.props.location.state || {};
@@ -59,32 +58,26 @@ class DictionaryPage extends Component {
     }
 
     if (startSearchKeyword && startSearchKeyword.trim()) {
-      closeSearchDispatch();
-      clearSearchListCoursesDispatch();
+      const LIMIT = 150;
 
-      axios.get(
-        '/api/courses',
-        {
-          params: {
-            keyword: startSearchKeyword,
-            order: ['old_code'],
-            limit: LIMIT,
-          },
-          metadata: {
-            gaCategory: 'Course',
-            gaVariable: 'GET / List',
-          },
-        },
-      )
-        .then((response) => {
-          if (response.data.length === LIMIT) {
-            // eslint-disable-next-line no-alert
-            alert(t('ui.message.tooManySearchResults', { count: LIMIT }));
-          }
-          setListCoursesDispatch(CourseListCode.SEARCH, response.data);
-        })
-        .catch((error) => {
-        });
+      const option = {
+        keyword: startSearchKeyword.trim(),
+      };
+      const beforeRequest = () => {
+        closeSearchDispatch();
+        clearSearchListCoursesDispatch();
+      };
+      const afterResponse = (courses) => {
+        if (courses.length === LIMIT) {
+          // eslint-disable-next-line no-alert
+          alert(t('ui.message.tooManySearchResults', { count: LIMIT }));
+        }
+        setListCoursesDispatch(CourseListCode.SEARCH, courses);
+      };
+      performSearchCourses(
+        option, LIMIT,
+        beforeRequest, afterResponse,
+      );
     }
     else if ((startSearchKeyword !== undefined) && (startSearchKeyword.trim().length === 0)) {
       // eslint-disable-next-line no-alert
