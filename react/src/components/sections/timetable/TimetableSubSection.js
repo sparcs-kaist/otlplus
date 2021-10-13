@@ -57,11 +57,6 @@ class TimetableSubSection extends Component {
     updateCellSizeDispatch(cell.width, cell.height);
   }
 
-  indexOfDay = (day) => {
-    const days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
-    return days.indexOf(day);
-  }
-
   indexOfMinute = (minute) => {
     return minute / 30 - (2 * TIMETABLE_START_HOUR);
   }
@@ -144,7 +139,7 @@ class TimetableSubSection extends Component {
     const { isDragging } = this.props;
 
     if (!isDragging) return;
-    const dayIndex = this.indexOfDay(firstDragCell.getAttribute('data-day'));
+    const dayIndex = firstDragCell.getAttribute('data-day');
     const startIndex = this.indexOfMinute(firstDragCell.getAttribute('data-minute'));
     const endIndex = this.indexOfMinute(target.getAttribute('data-minute'));
     const upIndex = Math.min(startIndex, endIndex);
@@ -177,7 +172,7 @@ class TimetableSubSection extends Component {
     setIsDraggingDispatch(false);
     this.setState({ firstDragCell: null, secondDragCell: null });
 
-    const startDay = this.indexOfDay(firstDragCell.getAttribute('data-day'));
+    const startDay = firstDragCell.getAttribute('data-day');
     const startIndex = this.indexOfMinute(firstDragCell.getAttribute('data-minute'));
     const endIndex = this.indexOfMinute(secondDragCell.getAttribute('data-minute'));
     if (startIndex === endIndex) {
@@ -356,7 +351,7 @@ class TimetableSubSection extends Component {
         untimedArea,
       ];
     };
-    const getColumnCells = (day, dayName, dayIdx) => {
+    const getColumnCells = (dayName, dayIdx) => {
       const timedArea = targetMinutes.map((i) => {
         return (
           <div
@@ -368,8 +363,8 @@ class TimetableSubSection extends Component {
               (i === 23 * 60 + 30) ? 'cell-last' : '',
               (i % (6 * 60) === 0) ? 'cell-bold' : '',
             )}
-            key={`${day}:${i.toString()}`}
-            data-day={day}
+            key={`${dayIdx}:${i.toString()}`}
+            data-day={dayIdx}
             data-minute={i.toString()}
             onMouseDown={(e) => this.onMouseDown(e)}
             onTouchStart={(e) => this.onTouchStart(e)}
@@ -388,7 +383,7 @@ class TimetableSubSection extends Component {
         </React.Fragment>
       ));
       return [
-        <div className={classNames('table-head')} key={day}>{dayName}</div>,
+        <div className={classNames('table-head')} key={dayIdx}>{dayName}</div>,
         timedArea,
         untimedArea,
       ];
@@ -399,7 +394,7 @@ class TimetableSubSection extends Component {
         <div
           className={classNames('subsection--timetable__drag-cell')}
           style={{
-            left: (cellWidth + 5) * this.indexOfDay(firstDragCell.getAttribute('data-day')) + 17,
+            left: (cellWidth + 5) * firstDragCell.getAttribute('data-day') + 17,
             width: cellWidth + 2,
             top: cellHeight * Math.min(this.indexOfMinute(firstDragCell.getAttribute('data-minute')), this.indexOfMinute(secondDragCell.getAttribute('data-minute'))) + 19,
             height: cellHeight * (Math.abs(this.indexOfMinute(firstDragCell.getAttribute('data-minute')) - this.indexOfMinute(secondDragCell.getAttribute('data-minute'))) + 1) - 3,
@@ -415,19 +410,19 @@ class TimetableSubSection extends Component {
             {getColumnHeads()}
           </div>
           <div>
-            {getColumnCells('mon', t('ui.day.monday'), 0)}
+            {getColumnCells(t('ui.day.monday'), 0)}
           </div>
           <div>
-            {getColumnCells('tue', t('ui.day.tuesday'), 1)}
+            {getColumnCells(t('ui.day.tuesday'), 1)}
           </div>
           <div>
-            {getColumnCells('wed', t('ui.day.wednesday'), 2)}
+            {getColumnCells(t('ui.day.wednesday'), 2)}
           </div>
           <div>
-            {getColumnCells('thu', t('ui.day.thursday'), 3)}
+            {getColumnCells(t('ui.day.thursday'), 3)}
           </div>
           <div>
-            {getColumnCells('fri', t('ui.day.friday'), 4)}
+            {getColumnCells(t('ui.day.friday'), 4)}
           </div>
         </div>
         {dragCell}
