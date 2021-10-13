@@ -93,29 +93,25 @@ class LectureReviewsSubSection extends Component {
         : <div className={classNames('list-placeholder', 'min-height-area')}><div>{t('ui.placeholder.noResults')}</div></div>);
 
     return (
-      <div className={classNames('subsection', 'subsection--flex', 'subsection--write-reviews-right')}>
+      <div className={classNames('subsection', 'subsection--flex', 'subsection--various-reviews')}>
         <CloseButton onClick={this.unfix} />
         <Scroller
           key={reviewsFocus.lecture.id}
           expandTop={12}
         >
-          <div className={classNames('subsection', 'subsection--review-write')}>
-            <div className={classNames('title')}>
-              {`${t('ui.title.writeReview')} - ${selectedLecture[t('js.property.title')]}`}
-            </div>
-            <ReviewWriteBlock
-              key={selectedLecture.id}
-              lecture={selectedLecture}
-              review={user.reviews.find((r) => (r.lecture.id === selectedLecture.id))}
-              pageFrom="Write Reviews"
-              updateOnSubmit={this.updateOnReviewSubmit}
-            />
-          </div>
+          <div className={classNames('title')}>
+            {`${t('ui.title.writeReview')} - ${selectedLecture[t('js.property.title')]}`}
+          </div> 
+          <ReviewWriteBlock
+            key={selectedLecture.id}
+            lecture={selectedLecture}
+            review={user.reviews.find((r) => (r.lecture.id === selectedLecture.id))}
+            pageFrom="Write Reviews"
+            updateOnSubmit={this.updateOnReviewSubmit}
+          />
           <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
-          <div className={classNames('subsection', 'subsection--latest-reviews')}>
-            <div className={classNames('title')}>{`${t('ui.title.relatedReviews')} - ${reviewsFocus.lecture[t('js.property.title')]}`}</div>
-            { reviewBlocksArea }
-          </div>
+          <div className={classNames('title')}>{`${t('ui.title.relatedReviews')} - ${reviewsFocus.lecture[t('js.property.title')]}`}</div>
+          { reviewBlocksArea }
         </Scroller>
       </div>
     );

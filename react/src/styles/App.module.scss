@@ -1316,11 +1316,6 @@ a {
     &--course-detail {
     }
 
-    &--write-reviews-right {
-        display: flex;
-        flex-direction: column;
-    }
-
     &--my-summary {
         height: initial;
     }
@@ -1339,11 +1334,9 @@ a {
         } 
     } 
 
-    &--review-write {
-        height: initial;
-    }
-
-    &--latest-reviews {
+    &--various-reviews {
+        display: flex;
+        flex-direction: column;
     }
 
     &--account {
@@ -2157,7 +2150,7 @@ a {
     grid-auto-rows: auto;
     gap: $block-margin;
     grid-template-columns: repeat(auto-fill, minmax(144px, 1fr));
-    .subsection--write-reviews-right & {
+    .subsection--various-reviews & {
         margin-bottom: 12px;
         @media #{$media-landscape} {
             grid-template-columns: repeat(auto-fill, minmax(114px, 1fr));
@@ -2678,7 +2671,7 @@ a {
             }
         }
     }
-    .subsection--latest-reviews & {
+    .subsection--various-reviews & {
         margin-top: 0;
         margin-bottom: 12px;
     }
@@ -2889,7 +2882,7 @@ a {
             ) !important;
         }
     }
-    .subsection--write-reviews-right & {
+    .subsection--various-reviews & {
         @media #{$media-landscape} {
             min-height: calc(
                 #{$screen-height} - (

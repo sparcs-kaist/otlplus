@@ -28,7 +28,7 @@ class LatestReviewsSubSection extends Component {
     };
 
     // eslint-disable-next-line fp/no-mutation
-    this.rightSectionRef = React.createRef();
+    this.blockListRef = React.createRef();
   }
 
 
@@ -92,10 +92,17 @@ class LatestReviewsSubSection extends Component {
   handleScroll = () => {
     const SCROLL_THRSHOLD = 100;
 
-    const refElement = this.rightSectionRef.current;
-    const sectionPos = refElement.getBoundingClientRect().bottom;
-    const scrollPos = refElement.querySelector(`.${classNames('block-list')}`).getBoundingClientRect().bottom;
-    if (scrollPos - sectionPos < SCROLL_THRSHOLD) {
+    if (!this.blockListRef.current) {
+      return;
+    }
+
+    const blockListElement = this.blockListRef.current;
+    const scrollElement = blockListElement.closest('.ScrollbarsCustom-Scroller');
+
+    const bottomOffset = (
+      blockListElement.getBoundingClientRect().bottom - scrollElement.getBoundingClientRect().bottom
+    );
+    if (bottomOffset < SCROLL_THRSHOLD) {
       this._fetchLatestReviews();
     }
   }
@@ -116,21 +123,19 @@ class LatestReviewsSubSection extends Component {
     const reviewBlocksArea = (reviews == null)
       ? <div className={classNames('list-placeholder', 'min-height-area')}><div>{t('ui.placeholder.loading')}</div></div>
       : (reviews.length
-        ? <div className={classNames('block-list', 'min-height-area')}>{reviews.map((r) => <ReviewBlock review={r} shouldLimitLines={false} linkTo={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: r.course.id }) }} pageFrom="Write Reviews" key={r.id} />)}</div>
+        ? <div className={classNames('block-list', 'min-height-area')} ref={this.blockListRef}>{reviews.map((r) => <ReviewBlock review={r} shouldLimitLines={false} linkTo={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: r.course.id }) }} pageFrom="Write Reviews" key={r.id} />)}</div>
         : <div className={classNames('list-placeholder', 'min-height-area')}><div>{t('ui.placeholder.noResults')}</div></div>);
 
     return (
-      <div className={classNames('subsection', 'subsection--flex', 'subsection--write-reviews-right')} ref={this.rightSectionRef}>
+      <div className={classNames('subsection', 'subsection--flex', 'subsection--various-reviews')}>
         <CloseButton onClick={this.unfix} />
         <Scroller
           key={reviewsFocus.from}
           onScroll={this.handleScroll}
           expandTop={12}
         >
-          <div className={classNames('subsection', 'subsection--latest-reviews')}>
-            <div className={classNames('title')}>{t('ui.title.latestReviews')}</div>
-            { reviewBlocksArea }
-          </div>
+          <div className={classNames('title')}>{t('ui.title.latestReviews')}</div>
+          { reviewBlocksArea }
         </Scroller>
       </div>
     );

@@ -88,16 +88,14 @@ class LikedReviewsSubSection extends Component {
         : <div className={classNames('list-placeholder', 'min-height-area')}><div>{t('ui.placeholder.noResults')}</div></div>);
 
     return (
-      <div className={classNames('subsection', 'subsection--flex', 'subsection--write-reviews-right')}>
+      <div className={classNames('subsection', 'subsection--flex', 'subsection--various-reviews')}>
         <CloseButton onClick={this.unfix} />
         <Scroller
           key={reviewsFocus.from}
           expandTop={12}
         >
-          <div className={classNames('subsection', 'subsection--latest-reviews')}>
-            <div className={classNames('title')}>{t('ui.title.likedReviews')}</div>
-            { reviewBlocksArea }
-          </div>
+          <div className={classNames('title')}>{t('ui.title.likedReviews')}</div>
+          { reviewBlocksArea }
         </Scroller>
       </div>
     );
