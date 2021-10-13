@@ -27,7 +27,7 @@ import {
 
 class DictionaryPage extends Component {
   componentDidMount() {
-    const LIMIT = 300;
+    const LIMIT = 150;
 
     const { t } = this.props;
     // eslint-disable-next-line react/destructuring-assignment
