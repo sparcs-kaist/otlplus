@@ -38,6 +38,24 @@ class App extends Component {
   portraitMediaQuery = window.matchMedia('(max-aspect-ratio: 4/3)')
 
   componentDidMount() {
+    this._fetchUser();
+
+    this._fetchSemesters();
+
+    this._updateSizeProperty();
+    window.addEventListener('resize', this._updateSizeProperty);
+
+    this._updateIsPortrait();
+    this.portraitMediaQuery.addEventListener('change', this._updateIsPortrait);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this._updateSizeProperty);
+
+    this.portraitMediaQuery.removeEventListener('change', this._updateIsPortrait);
+  }
+
+  _fetchUser = () => {
     axios.get(
       '/session/info',
       {
@@ -55,6 +73,9 @@ class App extends Component {
           store.dispatch(setUser(null));
         }
       });
+  }
+
+  _fetchSemesters = () => {
     axios.get(
       '/api/semesters',
       {
@@ -72,18 +93,6 @@ class App extends Component {
       })
       .catch((error) => {
       });
-
-    this._updateSizeProperty();
-    window.addEventListener('resize', this._updateSizeProperty);
-
-    this._updateIsPortrait();
-    this.portraitMediaQuery.addEventListener('change', this._updateIsPortrait);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('resize', this._updateSizeProperty);
-
-    this.portraitMediaQuery.removeEventListener('change', this._updateIsPortrait);
   }
 
   _updateSizeProperty = () => {
