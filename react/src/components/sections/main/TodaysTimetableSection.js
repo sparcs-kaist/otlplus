@@ -23,7 +23,7 @@ class TodaysTimetableSection extends Component {
     this.state = {
       cellWidth: 0,
       cellHeight: 0,
-      today: new Date(),
+      now: new Date(),
     };
 
     // eslint-disable-next-line fp/no-mutation
@@ -33,7 +33,7 @@ class TodaysTimetableSection extends Component {
   componentDidMount() {
     this.resize();
     window.addEventListener('resize', this.resize);
-    this.interval = setInterval(() => this.setState({ today: new Date() }), 100);
+    this.interval = setInterval(() => this.setState({ now: new Date() }), 100);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -70,10 +70,10 @@ class TodaysTimetableSection extends Component {
     const BAR_LINE_WIDTH = 1;
     const TABLE_LEFT_MARGIN = 2;
 
-    const { cellWidth, today } = this.state;
+    const { cellWidth, now } = this.state;
 
-    const hours = today.getHours();
-    const minutes = today.getMinutes();
+    const hours = now.getHours();
+    const minutes = now.getMinutes();
 
     const floatHours = hours + (minutes / 60);
 
@@ -84,7 +84,7 @@ class TodaysTimetableSection extends Component {
 
   render() {
     const { t } = this.props;
-    const { cellWidth, cellHeight, today } = this.state;
+    const { cellWidth, cellHeight, now } = this.state;
     const { user, semesters } = this.props;
 
     const ongoingSemester = semesters
@@ -95,7 +95,7 @@ class TodaysTimetableSection extends Component {
         (l.year === ongoingSemester.year) && (l.semester === ongoingSemester.semester)
       ))
       : [];
-    const day = today.getDay();
+    const day = now.getDay();
 
     return (
     // eslint-disable-next-line react/jsx-indent
