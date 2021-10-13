@@ -208,8 +208,8 @@ class SummarySubSection extends Component {
     const isSpeechMultiFocused = (multipleFocusCode === 'Speech');
 
     return (
-      <div className={classNames('section-content--summary')}>
-        <div className={classNames('section-content--summary__type')}>
+      <div className={classNames('subsection--summary')}>
+        <div className={classNames('subsection--summary__type')}>
           <div>
             <div className={classNames('attribute')} onMouseOver={() => this.setFocusOnType('Basic Required')} onMouseOut={() => this.clearFocus()}>
               <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.type.basicRequiredShort')}</span>

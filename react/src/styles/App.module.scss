@@ -41,7 +41,12 @@ $font-size-smallest: 10px;
 $line-height-smallest: 11px;
 
 
+$screen-height: var(--window-inner-height, 100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
 $header-height: 55px;
+$footer-height-desktop: 50px;
+$footer-height-mobile: 130px;
+$main-image-height-desktop: 400px;
+$main-image-height-mobile: 240px;
 
 $content-width-desktop: calc(80vh + 384px);
 
@@ -51,29 +56,6 @@ $section-margin-lr: 12px;
 $section-padding: 12px;
 $section-border-radius: 6px;
 $section-box-shadow: 0 6px 3px -3px $color-section-shadow;
-$section-width-desktop-full: $content-width-desktop;
-$section-width-desktop-1v3-left: calc(15vh + 126px);
-$section-width-desktop-1v3-right: calc(
-    #{$content-width-desktop}
-    - #{$section-margin-lr}
-    - #{$section-width-desktop-1v3-left}
-);
-$section-width-desktop-1v1v1 : calc(
-    (#{$content-width-desktop} - #{$section-margin-lr} * 2) / 3
-);
-$section-width-desktop-2v2: calc(
-    (#{$content-width-desktop} - #{$section-margin-lr}) / 2
-);
-$section-height-desktop-lecture-detail: calc(
-    #{$section-padding}
-    + (#{$line-height-big} + 2px)
-    + (#{$line-height-normal} + 4px)
-    + (#{$line-height-small} + 6px)
-    + ((#{$line-height-normal} * 6) + (8px * 5))
-    + (((0.7vh + 13px) + 2px + #{$line-height-smaller}) * 2 + ((1.4vh + 2px) * 3))
-    + #{$line-height-normal}
-    + #{$section-padding}
-);
 
 $tab-padding: 8px;
 $tab-margin: 6px;
@@ -90,6 +72,13 @@ $tile-padding-lr: 6px;
 $tile-padding-tb: 4px;
 $tile-border-radius: 2px;
 
+$title-margin-bottom: 10px;
+$list-title-margin-bottom: 12px;
+
+$attribute-margin-bottom: 8px;
+$attribute-name-margin-right: 6px;
+$attribute-info-margin-between: 6px;
+
 $score-margin-tb-desktop-big: calc(1.4vh + 2px + 4px);
 $score-margin-tb-desktop: calc(1.4vh + 2px);
 $score-margin-tb-mobile: calc(3.8vw + 2px);
@@ -103,10 +92,21 @@ $score-line-height-desktop-big: calc(#{$score-font-size-desktop-big} - 2px);
 $score-line-height-desktop: calc(#{$score-font-size-desktop} - 2px);
 $score-line-height-mobile: calc(#{$score-font-size-mobile} - 2px);
 
+
 $media-landscape: (min-aspect-ratio: 4/3);
 $media-portrait: (max-aspect-ratio: 4/3);
 
-$screen-height: var(--window-inner-height, 100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+$section-width-desktop-1v3-left: calc(15vh + 126px);
+$section-height-desktop-lecture-detail: calc(
+    #{$section-padding}
+    + (#{$line-height-big} + 2px)
+    + (#{$line-height-normal} + 4px)
+    + (#{$line-height-small} + #{$title-margin-bottom})
+    + ((#{$line-height-normal} * 6) + (#{$attribute-margin-bottom} * 5))
+    + ((#{$score-line-height-desktop} + 2px + #{$line-height-smaller}) * 2 + (#{$score-margin-tb-desktop} * 3))
+    + #{$line-height-normal}
+    + #{$section-padding}
+);
 
 
 body * {
@@ -246,17 +246,12 @@ a {
 
 .content {
     position: relative;
-    margin-top: $header-height;
     margin-left: auto;
     margin-right: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    header + & {
+        margin-top: $header-height;
+    }
     @media #{$media-landscape} {
-        width: calc(
-            #{$content-width-desktop}
-            + (#{$section-margin-lr} * 2)
-        ); // Fallback for IE and Edge
         width: calc(
             #{$content-width-desktop}
             + (#{$section-margin-lr} * 2)
@@ -269,52 +264,39 @@ a {
     }
 
 
-    .main-image + & {
-        margin-top: $section-margin-top;
-    }
-
-
     &--no-scroll {
         position: absolute;
         top: 0;
         bottom: 0;
         left: 0;
         right: 0;
-        margin-bottom: $section-margin-bottom;
-        flex-direction: row;
-        justify-content: center;
-        align-items: initial;
-    }
-
-
-    &--main {
-        min-height: calc(100vh - (400px + 50px + #{$section-margin-top} + #{$section-margin-bottom})); // Fallback for IE and Edge
-        min-height: calc(100vh - (400px + 50px + #{$section-margin-top} + #{$section-margin-bottom} + env(safe-area-inset-bottom)));
-        @media #{$media-portrait} {
-            min-height: calc(100vh - (240px + 130px + #{$section-margin-top} + #{$section-margin-bottom})); // Fallback for IE and Edge
-            min-height: calc(100vh - (240px + 130px + #{$section-margin-top} + #{$section-margin-bottom} + env(safe-area-inset-bottom)));
+        > .page-grid {
+            height: 100%;
+            padding-bottom: $section-margin-bottom;
         }
     }
 
 
-    &--timetable {
-        @media #{$media-portrait} {
-        }
-    }
+
+
 }
 
 
 .page-grid {
     display: grid;
-    @media #{$media-portrait} {
-        width: calc(100% - (#{$section-margin-lr} * 2));
+    padding-left: $section-margin-lr;
+    padding-right: $section-margin-lr;
+
+
+    > * {
+        overflow: hidden;
     }
 
 
     &--full {
         @media #{$media-landscape} {
             grid-template-columns:
-                $section-width-desktop-full
+                1fr
             ;
             grid-template-rows:
                 1fr
@@ -325,7 +307,7 @@ a {
         }
         @media #{$media-portrait} {
             grid-template-columns:
-                100%
+                1fr
             ;
             grid-template-rows:
                 1fr
@@ -344,7 +326,7 @@ a {
                 $tabs-width-vertical
                 $section-width-desktop-1v3-left
                 $section-margin-lr
-                $section-width-desktop-1v3-right
+                1fr
             ;
             grid-template-rows:
                 $tabs-height-horizontal
@@ -361,7 +343,7 @@ a {
         }
         @media #{$media-portrait} {
             grid-template-columns:
-                100%
+                1fr
             ;
             grid-template-rows:
                 1fr
@@ -396,9 +378,9 @@ a {
             margin-left: -$tabs-width-vertical;
             grid-template-columns:
                 $tabs-width-vertical
-                $section-width-desktop-2v2
+                1fr
                 $section-margin-lr
-                $section-width-desktop-2v2
+                1fr
             ;
             grid-template-rows:
                 1fr
@@ -409,7 +391,7 @@ a {
         }
         @media #{$media-portrait} {
             grid-template-columns:
-                100%
+                1fr
             ;
             grid-template-rows:
                 $tabs-height-horizontal
@@ -427,7 +409,7 @@ a {
         @media #{$media-landscape} {
             width: calc(900px + #{$section-padding} * 2);
             grid-template-columns:
-                100%
+                1fr
             ;
             grid-template-rows:
                 $tabs-height-horizontal
@@ -440,7 +422,7 @@ a {
         }
         @media #{$media-portrait} {
             grid-template-columns:
-                100%
+                1fr
             ;
             grid-template-rows:
                 $tabs-height-horizontal
@@ -459,24 +441,24 @@ a {
             grid-template-columns:
                 $section-width-desktop-1v3-left
                 $section-margin-lr
-                $section-width-desktop-1v3-right
+                1fr
             ;
             grid-template-rows:
                 1fr
             ;
             grid-template-areas:
-                "taken-lectures  .   write-reviews-right"
+                "write-reviews-left .   write-reviews-right"
             ;
         }
         @media #{$media-portrait} {
             grid-template-columns:
-                100%
+                1fr
             ;
             grid-template-rows:
                 1fr
             ;
             grid-template-areas:
-                "taken-lectures"
+                "write-reviews-left"
             ;
         } 
     } 
@@ -484,14 +466,21 @@ a {
 
     &--main {
         overflow: hidden;
+        padding-top: $section-margin-top;
+        @media #{$media-landscape} {
+            min-height: calc(#{$screen-height} - (#{$main-image-height-desktop} + #{$footer-height-desktop} + #{$section-margin-top}));
+        }
+        @media #{$media-portrait} {
+            min-height: calc(#{$screen-height} - (#{$main-image-height-mobile} + #{$footer-height-mobile} + #{$section-margin-top}));
+        }
 
         @media #{$media-landscape} {
             grid-template-columns:
-                $section-width-desktop-1v1v1
+                1fr
                 $section-margin-lr
-                $section-width-desktop-1v1v1
+                1fr
                 $section-margin-lr
-                $section-width-desktop-1v1v1
+                1fr
             ;
             grid-template-rows:
                 max-content
@@ -504,7 +493,7 @@ a {
         }
         @media #{$media-portrait} {
             grid-template-columns:
-                100%
+                1fr
             ;
             grid-template-rows:
                 max-content
@@ -523,254 +512,28 @@ a {
     background: url(../static/img/review/search/bg.jpg) center 0;
     background-size: 100% auto;
     @media #{$media-landscape} {
-        height: 400px;
-        padding-top: 400px / 2 - 9px;
+        height: $main-image-height-desktop;
+        padding-top: $main-image-height-desktop / 2 - 9px;
+        min-width: calc(
+            #{$content-width-desktop}
+            + (#{$section-margin-lr} * 2)
+            + (env(safe-area-inset-left)
+            + env(safe-area-inset-right))
+        );
     }
     @media #{$media-portrait} {
-        height: 240px;
-        padding-top: 240px / 2 - 9px;
+        height: $main-image-height-mobile;
+        padding-top: $main-image-height-mobile / 2 - 9px;
+        min-width: 100%;
     }
 }
-
-
-// TODO: Remove section-wrap
-/*
-.section-wrap {
-    margin: $section-margin-top $section-margin-lr $section-margin-bottom $section-margin-lr;
-
-
-    &--with-tabs {
-        @media #{$media-portrait} {
-            display: flex;
-            flex-direction: column;
-        }
-    }
-
-
-    &.mobile-modal {
-            @media #{$media-portrait} {
-                position: absolute;
-                top: $section-margin-top;
-                bottom: calc(#{$section-margin-bottom} * 2); // Fallback for IE and Edge
-                bottom: calc(#{$section-margin-bottom} * 2 + env(safe-area-inset-bottom));
-                left: calc(#{$section-margin-lr} * 2 ); // Fallback for IE and Edge
-                left: calc(#{$section-margin-lr} * 2 + env(safe-area-inset-left));
-                right: calc(#{$section-margin-lr} * 2); // Fallback for IE and Edge
-                right: calc(#{$section-margin-lr} * 2 + env(safe-area-inset-right));
-                width: initial;
-                height: initial;
-                margin: 0;
-
-                & > * {
-                    position: relative;
-                    z-index: 200;
-                }
-
-                &::before {
-                    content: '';
-                    position: fixed;
-                    top: 0;
-                    bottom: 0;
-                    left: 0;
-                    right: 0;
-                    background-color: rgba(#000, 0.3);
-                    z-index: 100;
-                }
-            }
-    }
-
-
-    &--main-search {
-        margin: 0 auto;
-        padding: 0 $section-margin-lr;
-        @media #{$media-landscape} {
-            width: calc(#{$content-width-desktop} + (#{$section-margin-lr} * 2));
-        }
-        @media #{$media-portrait} {
-            width: 100%
-        }
-    }
-
-
-    &--main-column-wrap {
-        margin: 0;
-        overflow: hidden;
-        position: relative;
-    }
-
-
-    &--main-column {
-        display: inline-block;
-        vertical-align: top;
-        margin: 0;
-        margin-left: $section-margin-lr;
-        margin-bottom: 300px;
-        position: relative;
-        @media #{$media-landscape} {
-            width: calc((100% - #{$section-margin-lr} * (3 + 1)) / 3);
-        }
-        @media #{$media-portrait} {
-            width: calc((100% - #{$section-margin-lr} * (1 + 1)) / 1);
-        }
-        &:last-child {
-            margin-right: $section-margin-lr;
-        }
-    }
-
-
-    &--feed {
-        margin-left: 0;
-        margin-right: 0;
-    }
-
-
-    &--feed-placeholder {
-        position: absolute;
-        width: 100%;
-        margin: 0;
-    }
-
-
-    &--desktop-1v3--left {
-        @media #{$media-landscape} {
-            margin-top: 0;
-            width: $section-width-desktop-1v3-left;
-        }
-    }
-
-
-    &--desktop-1v3--right {
-        @media #{$media-landscape} {
-            margin-top: 0;
-            margin-left: 0;
-            width: $section-width-desktop-1v3-right;
-        }
-    }
-
-
-    &--desktop-2v2--left {
-        @media #{$media-landscape} {
-            margin-top: 0;
-            width: $section-width-desktop-2v2;
-        }
-    }
-
-
-    &--desktop-2v2--right {
-        @media #{$media-landscape} {
-            margin-top: 0;
-            margin-left: 0;
-            width: $section-width-desktop-2v2;
-        }
-    }
-
-
-    &--mobile-full {
-        @media #{$media-portrait} {
-            margin-top: 0px;
-            width: calc(100% - #{$section-margin-lr} * 2);
-        }
-    }
-
-
-    &--full {
-        flex: none;
-        margin-top: 0px;
-        width: #{$section-width-desktop-full};
-        @media #{$media-portrait} {
-            width: calc(100% - #{$section-margin-lr} * 2);
-        }
-    }
-
-
-    &--course-list {
-        flex: none;
-        @media #{$media-landscape} {
-        }
-        @media #{$media-portrait} {
-        }
-    }
-
-
-    &--course-detail {
-        flex: none;
-    }
-
-
-    &--timetable-left {
-        display: flex;
-        flex-direction: column;
-        @media #{$media-landscape} {
-            flex: none;
-        }
-        @media #{$media-portrait} {
-           flex: 1 1 0;
-        }
-    }
-
-
-    &--timetable-center-right {
-        display: flex;
-        flex-direction: column;
-        @media #{$media-landscape} {
-            flex: none;
-        }
-        @media #{$media-portrait} {
-            flex: 1 1 0;
-        }
-    }
-
-
-    &--timetable-right {
-        flex: none;
-        margin: 0;
-        display: flex;
-        flex-direction: column;
-        @media #{$media-landscape} {
-            width: calc(#{$section-width-desktop-1v3-left} - #{$section-margin-lr} * 2);
-        }
-        @media #{$media-portrait} {
-            width: 100%
-        }
-    }
-
-
-    &--lecture-detail {
-        flex: none;
-        height: $section-height-desktop-lecture-detail;
-        margin-top: 0;
-        margin-left: 0;
-        margin-right: 0;
-    }
-
-
-    &--lecture-list {
-        flex: 1 1 100%;
-        height: 0;
-        margin: 0;
-        margin-bottom: -3px;
-        padding-bottom: 3px;
-    }
-
-
-    &--syllabus {
-        width: 900px + ($section-padding * 2);
-        margin-top: 0;
-        display: flex;
-        flex-direction: column;
-
-        @media #{$media-portrait} {
-            width: calc(100% - #{$section-margin-lr} * 2);
-        }
-    }
-}
-*/
 
 
 .tabs {
     font-size: $font-size-small;
     line-height: $line-height-small;
     color: $color-text-light;
+    overflow: hidden;
 
     & .tabs__elem {
         padding: $tab-padding;
@@ -934,6 +697,7 @@ a {
     background-color: $color-section-background;
     border-radius: $section-border-radius;
     box-shadow: $section-box-shadow;
+    overflow: hidden;
 
 
     &--mobile-modal {
@@ -1095,48 +859,21 @@ a {
 
     &--semester {
         grid-area: semester;
-        height: initial;
         padding: 6px 8px;
-        font-size: $font-size-small;
-        line-height: $line-height-small;
-        display: flex;
-        flex-direction: row;
-        &.semester-ko {
-            width: 94px;
-        }
-        &.semester-en {
-            width: 104px;
-        }
-
-        & > button {
-            flex: 0 0 auto;
-            &.disable {
-                pointer-events: none;
-            }
-        }
-
-        & > span {
-            flex: 1 1 auto;
-            text-align: center;
-            white-space: nowrap;
-            @media #{$media-portrait} {
-                font-size: $font-size-big;
-                line-height: $line-height-big;
-            }
-        }
     }
 
 
     &--syllabus {
         grid-area: syllabus;
-        flex: auto;
         border-top-left-radius: 0;
         border-top-right-radius: 0;
     }
 
 
-    &--taken-lectures {
-        grid-area: taken-lectures;
+    &--write-reviews-left {
+        grid-area: write-reviews-left;
+        display: flex;
+        flex-direction: column;
     }
 
 
@@ -1145,10 +882,16 @@ a {
             grid-area: write-reviews-right;
         }
     }
+    
+
+    &--account {
+        display: flex;
+        flex-direction: column;
+    }
 }
 
 
-.section-content {
+.subsection {
     width: 100%;
     height: 100%;
 
@@ -1167,8 +910,8 @@ a {
     &--lecture-list {
         &__selector {
             position: absolute;
-            top: calc((100% + #{$line-height-big} + 12px - 12px) / 2);
-            right: 12px;
+            top: calc((100% + #{$line-height-big} + #{$list-title-margin-bottom} - 12px) / 2);
+            right: #{$section-padding};
             @media #{$media-landscape} {
                 display: none;
             }
@@ -1187,10 +930,9 @@ a {
                                     - (#{$section-margin-bottom} * 2)
                                 ) / 2
                                 - (
-                                    #{$line-height-small}
-                                    + (8px * 2)
+                                    #{$tabs-height-horizontal}
                                     + (#{$section-padding} * 2)
-                                    + (#{$line-height-big} + 12px)
+                                    + (#{$line-height-big} + #{$list-title-margin-bottom})
                                 )
                             ) / 2
                             - (
@@ -1211,10 +953,9 @@ a {
                                     - (#{$section-margin-bottom} * 2)
                                 ) / 2
                                 - (
-                                    #{$line-height-small}
-                                    + (8px * 2)
+                                    #{$tabs-height-horizontal}
                                     + (#{$section-padding} * 2)
-                                    + (#{$line-height-big} + 12px)
+                                    + (#{$line-height-big} + #{$list-title-margin-bottom})
                                 )
                             ) / 2
                             - (
@@ -1225,6 +966,36 @@ a {
                         );
                     }
                 }
+            }
+        }
+    }
+
+    &--semester {
+        font-size: $font-size-small;
+        line-height: $line-height-small;
+        display: flex;
+        flex-direction: row;
+        &.semester-ko {
+            width: 78px;
+        }
+        &.semester-en {
+            width: 88px;
+        }
+
+        & > button {
+            flex: 0 0 auto;
+            &.disable {
+                pointer-events: none;
+            }
+        }
+
+        & > span {
+            flex: 1 1 auto;
+            text-align: center;
+            white-space: nowrap;
+            @media #{$media-portrait} {
+                font-size: $font-size-big;
+                line-height: $line-height-big;
             }
         }
     }
@@ -1263,9 +1034,10 @@ a {
                         text-align: right;
                         color: $color-text-light;
                         font-size: $font-size-smallest;
+                        line-height: $line-height-smallest;
                         position: absolute;
                         display: inline-block;
-                        bottom: -8px;
+                        bottom: -($line-height-smallest / 2) - 1px;
                     }
                 }
             }
@@ -1340,7 +1112,7 @@ a {
                 width: 100%;
             }
 
-            .section-content--map__pin {
+            .subsection--map__pin {
                 position: absolute;
                 margin-left: -5px;
                 margin-top: -16px;
@@ -1438,7 +1210,7 @@ a {
                     width: 100%;
                     margin-left: 0;
                     &:not(:last-child) {
-                        margin-bottom: 8px;
+                        margin-bottom: $attribute-margin-bottom;
                     }
                 }
                 @media #{$media-landscape} {
@@ -1454,14 +1226,17 @@ a {
         grid-area: exam;
         display: flex;
         flex-direction: column;
-        min-height: calc(#{$line-height-normal} * 3 + 8px + 2px - #{$section-padding});
+        min-height: calc(
+            (#{$line-height-normal} + #{$title-margin-bottom})
+            + (#{$line-height-normal} + 2px + #{$line-height-normal})
+        );
 
         &__title {
             flex: 0 0 auto;
             text-align: center;
             font-size: $font-size-normal;
             line-height: $line-height-normal;
-            margin-bottom: 8px;
+            margin-bottom: $title-margin-bottom;
         }
 
         &__content {
@@ -1470,21 +1245,17 @@ a {
             display: flex;
             flex-direction: column;
 
-            & {
-
-                .section-content--exam__content__day {
+            .subsection--exam__content__day {
                     display: flex;
                     flex-direction: row;
                     width: 100%;
-                    margin-bottom: 8px - 6px;
-                    &:last-child {
-                        margin-bottom: - 6px;
+                    &:not(:last-child) {
+                        margin-bottom: $attribute-margin-bottom;
                     }
 
                     & > div:first-child {
                         flex: 0 0 auto;
-                        margin-bottom: 6px;
-                        margin-right: 6px;
+                        margin-right: $attribute-name-margin-right;
                         white-space: nowrap;
                         &.fixed-ko {
                             min-width: 12px;
@@ -1498,11 +1269,11 @@ a {
                         flex: 1 1 auto;
                         padding-left: 0;
                         margin-bottom: 0;
-                        display: flex;
-                        flex-direction: column;
 
                         & > li {
-                            margin-bottom: 6px;
+                            &:not(:last-child) {
+                                margin-bottom: $attribute-info-margin-between;
+                            }
 
                             &.focused {
                                 color: $color-highlight;
@@ -1514,7 +1285,6 @@ a {
                             }
                         }
                     }
-                }
             }
         }
     }
@@ -1546,32 +1316,30 @@ a {
     &--course-detail {
     }
 
-    &--write-reviews-right {
-        display: flex;
-        flex-direction: column;
-    }
-
-    &--taken-lectures{
-        display: flex;
-        flex-direction: column;
-
-        &__menus-list {
-            & > div:not(:first-child) {
-                margin-top: 8px;
-            }
-        }
-    }
-
-    &--review-write {
+    &--my-summary {
         height: initial;
     }
 
-    &--latest-reviews {
+    &--taken-lectures{
+        flex: 1 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    &--reviews-menus {
+        height: initial;
+
+        & > div:not(:first-child) {
+            margin-top: 8px;
+        } 
+    } 
+
+    &--various-reviews {
+        display: flex;
+        flex-direction: column;
     }
 
     &--account {
-        display: flex;
-        flex-direction: column;
     }
 
     &--main-search {
@@ -1868,10 +1636,9 @@ a {
         top: 0;
         right: $section-padding;
         background-color: rgba($color-section-background, 0.8);
-        z-index: 290;
-
-        .section--lecture-list & {
-            z-index: 90;
+        z-index: 90;
+        .section--mobile-modal & {
+            z-index: 290;
         }
 
         @media #{$media-landscape} {
@@ -1943,7 +1710,7 @@ a {
     &--course {
         cursor: pointer;
 
-        .section-content--feed &:nth-last-of-type(2) {
+        .subsection--feed &:nth-last-of-type(2) {
             margin-bottom: 0;
         }
 
@@ -2002,10 +1769,6 @@ a {
 
     &--review {
 
-        .section-content--course-detail &:last-child {
-            margin-bottom: 0;
-        }
-
         &__title {
             margin-bottom: 8px;
 
@@ -2022,7 +1785,6 @@ a {
             line-height: $line-height-normal + 4px;
             &--limit-5 {
                 overflow: hidden;
-                max-height: ($line-height-normal + 4px) * 5; // Fallback, Remove after line-clamp officially supported
                 display: -webkit-box; // Remove after line-clamp officially supported
                 -webkit-box-orient: vertical; // Remove after line-clamp officially supported
                 -webkit-line-clamp: 5; // Remove after line-clamp officially supported
@@ -2064,10 +1826,6 @@ a {
 
     &--review-write {
 
-        .section-content--course-detail &:last-child {
-            margin-bottom: 0;
-        }
-
         &__title {
             margin-bottom: 8px;
 
@@ -2082,11 +1840,13 @@ a {
         &__content {
             color: $color-text-light;
             line-height: $line-height-normal + 4px;
+            display: block;
             width: 100%;
             height: ($line-height-normal + 4px) * 9 + 8px * 2;
             border: 1px dashed #AAAAAA;
             padding: 8px;
             border-radius: 2px;
+            margin-bottom: 8px;
 
 
             &:hover,
@@ -2102,17 +1862,19 @@ a {
 
 
         &__score {
-            margin-top: 8px;
             width: fit-content;
             position: relative;
+            &:not(:last-child) {
+                margin-bottom: $attribute-margin-bottom;
+            }
 
             &__name {
-                margin-right: 6px;
+                margin-right: $attribute-name-margin-right;
                 padding: ((18px - $line-height-normal) / 2) 0;
             }
 
             &__option {
-                margin-right: 6px;
+                margin-right: $attribute-info-margin-between;
                 cursor: pointer;
 
                 input {
@@ -2388,7 +2150,7 @@ a {
     grid-auto-rows: auto;
     gap: $block-margin;
     grid-template-columns: repeat(auto-fill, minmax(144px, 1fr));
-    .section-content--write-reviews-right & {
+    .subsection--various-reviews & {
         margin-bottom: 12px;
         @media #{$media-landscape} {
             grid-template-columns: repeat(auto-fill, minmax(114px, 1fr));
@@ -2397,7 +2159,7 @@ a {
             grid-template-columns: repeat(auto-fill, minmax(94px, 1fr));
         }
     }
-    .section-content--credit & {
+    .subsection--credit & {
         margin-bottom: 12px;
     }
 }
@@ -2407,115 +2169,27 @@ a {
     font-weight: bold;
     font-size: $font-size-big;
     line-height: $line-height-big;
+    text-align: center;
+    margin-bottom: $title-margin-bottom;
 
 
-    .section-content--course-list &,
-    .section-content--lecture-list & {
-        font-weight: initial;
-        margin-bottom: 12px;
+    // TODO: Change after :has supported. See issue #852
+    /*
+    &:has(+ .subtitle) {
+        margin-bottom: 2px;
     }
-
-
-    .section-content--course-detail &,
-    .section-content--lecture-detail & {
-        text-align: center;
+    */
+    .section--course-detail &,
+    .section--lecture-detail & {
         margin-bottom: 2px;
     }
 
 
-    .section-content--taken-lectures & {
-        text-align: center;
-        margin-bottom: 8px;
-    }
-
-
-    .section-content--review-write &,
-    .section-content--latest-reviews &,
-    .section-content--notice &,
-    .section-content--feed & {
-        text-align: center;
-        margin-bottom: 10px;
-    }
-
-    .section-content--license &,
-    .section-content--account & {
-        text-align: center;
-        margin-bottom: 10px;
-    }
-
-    .section-content--credit & {
-        text-align: center;
+    .subsection--credit & {
         margin-top: 12px;
 
-        &:first-child {
+        &:not(:first-child) {
             margin-top: 0;
-        }
-    }
-
-
-    &--search {
-        cursor: pointer;
-
-        & > span:nth-child(2) {
-            margin-left: 6px;
-            color: $color-highlight;
-
-            @at-root :hover#{&} {
-                color: $color-highlight-dark;
-            }
-        }
-
-        & > span:nth-child(3) {
-            margin-left: 5px;
-            color: $color-text-lighter;
-            font-size: $font-size-small;
-            line-height: $line-height-small;
-
-            @at-root :hover#{&} {
-                color: $color-text-light;
-            }
-        }
-
-        .search-area & {
-            display: flex;
-            flex-direction: row;
-
-            & > div:last-child {
-                flex: auto;
-                height: $line-height-big;
-                margin-left: 6px;
-                position: relative;
-
-                & > input {
-                    width: 100%;
-                    position: absolute;
-                    top: 0px;
-                    z-index: 2;
-                    color: $color-text-normal;
-
-                    &::placeholder {
-                        color: $color-text-placeholder;
-                    }
-                }
-
-                & > div {
-                    width: 100%;
-                    position: absolute;
-                    top: 0px;
-                    z-index: 1;
-                    color: $color-text-placeholder;
-                    height: 100%;
-                    overflow: hidden;
-                    display: none;
-                }
-                & > input:focus + div {
-                    display: block;
-
-                    & > span:first-child {
-                        opacity: 0;
-                    }
-                }
-            }
         }
     }
 }
@@ -2525,35 +2199,138 @@ a {
     font-size: $font-size-normal;
     line-height: $line-height-normal;
     text-align: center;
+    margin-bottom: $title-margin-bottom;
 
-    .section-content--course-detail & {
-        margin-bottom: 10px;
+
+    // TODO: Change after :has supported. See issue #852
+    /*
+    &:has(+ .buttons) {
+        margin-bottom: 4px;
     }
-
-    .section-content--lecture-detail & {
+    */
+    .section--lecture-detail & {
         margin-bottom: 4px;
     }
 }
+
+
+.list-title {
+    font-weight: initial;
+    font-size: $font-size-big;
+    line-height: $line-height-big;
+    margin-bottom: $list-title-margin-bottom;
+
+
+    &--search { 
+        cursor: pointer; 
+    
+        & > *:nth-child(2) {
+            margin-left: 6px; 
+            color: $color-highlight; 
+        
+            @at-root :hover#{&} { 
+                color: $color-highlight-dark; 
+            } 
+        } 
+    
+        & > *:nth-child(3) {
+            margin-left: 5px; 
+            color: $color-text-lighter; 
+            font-size: $font-size-small; 
+            line-height: $line-height-small; 
+    
+            @at-root :hover#{&} { 
+                color: $color-text-light; 
+            } 
+        } 
+    }
+ 
+ 
+    &--search-input {
+        display: flex;
+        flex-direction: row;
+    
+        & > *:nth-child(2) {
+            flex: auto;
+            height: $line-height-big;
+            margin-left: 6px;
+            position: relative;
+    
+            & > input {
+                width: 100%;
+                position: absolute;
+                top: 0px;
+                z-index: 2;
+                color: $color-text-normal;
+ 
+                &::placeholder {
+                    color: $color-text-placeholder;
+                }
+            }
+    
+            & > div {
+                width: 100%;
+                position: absolute;
+                top: 0px;
+                z-index: 1;
+                color: $color-text-placeholder;
+                height: 100%;
+                overflow: hidden;
+                display: none;
+            }
+            & > input:focus + div {
+                display: block;
+                
+                & > span:first-child {
+                    opacity: 0;
+                } 
+            } 
+        } 
+    } 
+} 
 
 
 .small-title {
     font-weight: bold;
     font-size: $font-size-normal;
     line-height: $line-height-normal;
-    padding-bottom: 10px;
+    margin-bottom: $title-margin-bottom;
 
-    .section-content--lecture-detail & {
+    .subsection--lecture-detail & {
         display: block;
         width: 100%;
-        padding-bottom: 8px;
+        margin-bottom: 8px;
 
         & > span {
             margin-right: 6px;
         }
     }
 
-    .section-content--license & {
+    .subsection--license & {
         padding-bottom: 8px;
+    }
+}
+
+
+.detail-title-area {
+    margin-bottom: $title-margin-bottom;
+
+    & > *:last-child {
+        margin-bottom: 0;
+    }
+
+    & > .buttons {
+        margin-top: 0;
+        text-align: initial;
+
+        & > .text-button {
+            font-size: $font-size-small;
+            line-height: $line-height-small;
+
+            &:not(:first-child) {
+                margin-left: 6px;
+            }
+        }
     }
 }
 
@@ -2600,15 +2377,6 @@ a {
 
     &--review-write-block {
         margin-top: 4px;
-    }
-
-    .section-content--lecture-detail > .buttons > & {
-        font-size: $font-size-small;
-        line-height: $line-height-small;
-
-        &:not(:first-child) {
-            margin-left: 6px;
-        }
     }
 
     .search-area .buttons & {
@@ -2775,7 +2543,7 @@ a {
 .attribute {
         display: flex;
         flex-direction: row;
-        margin-bottom: 8px;
+        margin-bottom: $attribute-margin-bottom;
         .block--course & {
             margin-bottom: 6px;
         }
@@ -2796,7 +2564,7 @@ a {
 
         &--long-name {
             display: block;
-            margin-bottom: 8px - 2px;
+            margin-bottom: $attribute-margin-bottom - 2px;
             & > * {
                 display: inline-block;
                 margin-bottom: 2px;
@@ -2805,7 +2573,7 @@ a {
 
         & > *:first-child {
             font-weight: bold;
-            margin-right: 6px;
+            margin-right: $attribute-name-margin-right;
             flex: none;
 
             &.fixed-ko {
@@ -2820,13 +2588,13 @@ a {
             flex: initial;
 
             &.search-fields {
-                margin-bottom: -6px;
-                margin-right: -6px;
+                margin-bottom: -$attribute-info-margin-between;
+                margin-right: -$attribute-info-margin-between;
 
                 & > label {
                     display: inline-block;
-                    margin-bottom: 6px;
-                    margin-right: 6px;
+                    margin-bottom: $attribute-info-margin-between;
+                    margin-right: $attribute-info-margin-between;
                     white-space: nowrap;
 
                     & > i {
@@ -2836,7 +2604,7 @@ a {
             }
         }
 
-        .section-content--summary__type & {
+        .subsection--summary__type & {
             overflow: hidden;
             &:last-child {
                 margin-bottom: 0px;
@@ -2873,7 +2641,8 @@ a {
     @media #{$media-landscape} {
         margin-top: $score-margin-tb-desktop;
         margin-bottom: $score-margin-tb-desktop;
-        .section-content--course-detail & {
+        .subsection--course-info &,
+        .subsection--course-reviews & {
             margin-top: $score-margin-tb-desktop-big;
             margin-bottom: $score-margin-tb-desktop-big;
         }
@@ -2882,12 +2651,12 @@ a {
         margin-top: $score-margin-tb-mobile;
         margin-bottom: $score-margin-tb-mobile;
     }
-    .section-content--lecture-detail & {
+    .subsection--lecture-detail & {
         &:last-child {
             margin-bottom: 0;
         }
     }
-    .section-content--summary & {
+    .subsection--summary & {
         margin-top: $score-margin-tb-desktop;
         margin-bottom: 0;
         @media #{$media-portrait} {
@@ -2902,11 +2671,11 @@ a {
             }
         }
     }
-    .section-content--latest-reviews & {
+    .subsection--various-reviews & {
         margin-top: 0;
         margin-bottom: 12px;
     }
-    .section-content--taken-lectures & {
+    .subsection--my-summary & {
         margin-top: 0;
         margin-bottom: 0;
     }
@@ -2916,13 +2685,14 @@ a {
 
         @media #{$media-landscape} {
             width: $score-width-desktop;
-            .section-content--course-detail & {
+            .subsection--course-info &,
+            .subsection--course-reviews & {
                 width: $score-width-desktop-big;
             }
         }
         @media #{$media-portrait} {
             width: $score-width-mobile;
-            .section-content--summary & {
+            .subsection--summary & {
                 flex: 1 1 30px;
                 width: 30px;
             }
@@ -2938,7 +2708,8 @@ a {
                 &.scores__score-text--korean {
                     font-size: calc(#{$score-font-size-desktop} - 1px);
                 }
-                .section-content--course-detail & {
+                .subsection--course-info &,
+                .subsection--course-reviews & {
                     font-size: $score-font-size-desktop-big;
                     line-height: $score-line-height-desktop-big;
                     &.scores__score-text--korean {
@@ -2952,7 +2723,7 @@ a {
                 &.scores__score-text--korean {
                     font-size: calc(#{$score-font-size-mobile} - 1px);
                 }
-                .section-content--summary & {
+                .subsection--summary & {
                     font-size: 24px;
                     line-height: 22px;
                 }
@@ -3009,12 +2780,6 @@ a {
 .buttons {
     margin-top: 10px;
     text-align: right;
-
-    .section-content--lecture-detail & {
-        margin-top: 0;
-        margin-bottom: 6px;
-        text-align: initial;
-    }
 }
 
 
@@ -3049,15 +2814,15 @@ a {
 
 
 .min-height-area {
-    .section-content--lecture-detail & {
+    .subsection--lecture-detail & {
         @media #{$media-landscape} {
             min-height: calc(
                 #{$section-height-desktop-lecture-detail} - (
                     #{$section-padding}
                     + (#{$line-height-big} + 2px)
                     + (#{$line-height-normal} + 4px)
-                    + (#{$line-height-small} + 6px)
-                    + (#{$line-height-big} + 6px)
+                    + (#{$line-height-small} + #{$title-margin-bottom})
+                    + (#{$line-height-big} + 8px)
 
                     + #{$section-padding}
                 )
@@ -3071,8 +2836,8 @@ a {
                     + #{$section-padding}
                     + (#{$line-height-big} + 2px)
                     + (#{$line-height-normal} + 4px)
-                    + (#{$line-height-small} + 6px)
-                    + (#{$line-height-big} + 6px)
+                    + (#{$line-height-small} + #{$title-margin-bottom})
+                    + (#{$line-height-big} + 8px)
 
                     + (#{$section-padding} * 2 + 1px)
                     + #{$line-height-normal}
@@ -3082,16 +2847,17 @@ a {
             ) !important;
         }
     }
-    .section-content--course-detail & {
+    .subsection--course-reviews & {
         @media #{$media-landscape} {
             min-height: calc(
                 #{$screen-height} - (
                     #{$header-height}
                     + #{$section-padding}
-                    + (#{$line-height-big} + 2px + #{$line-height-normal} + 10px)
+                    + (#{$line-height-big} + 2px)
+                    + (#{$line-height-normal} + #{$title-margin-bottom})
                     + (#{$score-line-height-desktop-big} + 2px + #{$line-height-smaller} + 12px)
-                    + (#{$line-height-normal} + 10px)
-                    + ((#{$line-height-normal} + 8px) * 2)
+                    + (#{$line-height-normal} + #{$title-margin-bottom})
+                    + ((#{$line-height-normal} + #{$attribute-margin-bottom}) * 2)
 
                     + #{$section-padding}
                     + #{$section-margin-bottom}
@@ -3104,10 +2870,11 @@ a {
                     #{$header-height}
                     + #{$section-margin-top}
                     + #{$section-padding}
-                    + (#{$line-height-big} + 2px + #{$line-height-normal} + 10px)
+                    + (#{$line-height-big} + 2px)
+                    + (#{$line-height-normal} + #{$title-margin-bottom})
                     + (#{$score-line-height-mobile} + 2px + #{$line-height-smaller} + 12px)
-                    + (#{$line-height-normal} + 10px)
-                    + ((#{$line-height-normal} + 8px) * 2)
+                    + (#{$line-height-normal} + #{$title-margin-bottom})
+                    + ((#{$line-height-normal} + #{$attribute-margin-bottom}) * 2)
 
                     + #{$section-padding}
                     + (#{$section-margin-bottom} * 2)
@@ -3115,13 +2882,13 @@ a {
             ) !important;
         }
     }
-    .section-content--write-reviews-right & {
+    .subsection--various-reviews & {
         @media #{$media-landscape} {
             min-height: calc(
                 #{$screen-height} - (
                     #{$header-height}
                     + #{$section-padding}
-                    + (#{$line-height-big} + 10px)
+                    + (#{$line-height-big} + #{$title-margin-bottom})
 
                     + #{$section-padding}
                     + #{$section-margin-bottom}
@@ -3134,7 +2901,7 @@ a {
                     #{$header-height}
                     + #{$section-margin-top}
                     + #{$section-padding}
-                    + (#{$line-height-big} + 10px)
+                    + (#{$line-height-big} + #{$title-margin-bottom})
 
                     + #{$section-padding}
                     + (#{$section-margin-bottom} * 2)
@@ -3162,12 +2929,13 @@ a {
 
     & > div {
         flex: none;
-        margin-top: 12px;
-
         &:first-child {
             margin-top: 0;
             font-size: 20px;
             line-height: 20px;
+        }
+        &:not(:first-child) {
+            margin-top: 12px;
         }
     }
 
@@ -3202,13 +2970,13 @@ a {
         min-height: 110px;
     }
 
-    .section-content--course-list &,
-    .section-content--lecture-list &,
-    .section-content--taken-lectures & {
+    .subsection--course-list &,
+    .subsection--lecture-list &,
+    .subsection--taken-lectures & {
         flex: 1 0 auto;
     }
 
-    .section-content--feed & {
+    .subsection--feed & {
         min-height: 218px;
     }
 }
@@ -3746,10 +3514,6 @@ i.icon {
     top: 0;
     z-index: 10;
     background-color: $color-section-background;
-    .section-content--course-detail &.scores {
-        margin-bottom: -$section-padding;
-        padding-bottom: $section-padding;
-    }
 }
 
 .mobile-hidden {

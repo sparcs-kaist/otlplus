@@ -31,7 +31,7 @@ class ErrorPage extends Component {
       <section className={classNames('content', 'content--no-scroll')}>
         <div className={classNames('page-grid', 'page-grid--full')}>
           <div className={classNames('section')}>
-            <div className={classNames('section-content', 'section-content--error')}>
+            <div className={classNames('subsection', 'subsection--error')}>
               <div>
                 { title }
               </div>

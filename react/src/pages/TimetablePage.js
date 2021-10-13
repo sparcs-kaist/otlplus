@@ -67,7 +67,7 @@ class TimetablePage extends Component {
 
     return (
       <>
-        <section className={classNames('content', 'content--no-scroll', 'content--timetable')}>
+        <section className={classNames('content', 'content--no-scroll')}>
           <div className={classNames('page-grid', 'page-grid--timetable', (mobileIsLectureListOpen ? 'page-grid--timetable--mobile-expanded' : ''))}>
             <LectureDetailSection />
             <LectureListTabs />

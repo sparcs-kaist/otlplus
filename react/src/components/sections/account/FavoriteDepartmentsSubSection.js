@@ -13,7 +13,7 @@ import { setUser } from '../../../actions/common/user';
 import userShape from '../../../shapes/UserShape';
 
 
-class FavoriteDepartmentsSection extends Component {
+class FavoriteDepartmentsSubSection extends Component {
   constructor(props) {
     super(props);
 
@@ -157,12 +157,12 @@ class FavoriteDepartmentsSection extends Component {
     );
 
     return (
-      <>
+      <div className={classNames('subsection', 'subsection--favorite-department')}>
         <div className={classNames('title')}>
           {t('ui.title.settings')}
         </div>
         { favoriteDepartmentForm }
-      </>
+      </div>
     );
   }
 }
@@ -177,7 +177,7 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-FavoriteDepartmentsSection.propTypes = {
+FavoriteDepartmentsSubSection.propTypes = {
   user: userShape,
 
   setUserDispatch: PropTypes.func.isRequired,
@@ -186,6 +186,6 @@ FavoriteDepartmentsSection.propTypes = {
 
 export default withTranslation()(
   connect(mapStateToProps, mapDispatchToProps)(
-    FavoriteDepartmentsSection
+    FavoriteDepartmentsSubSection
   )
 );

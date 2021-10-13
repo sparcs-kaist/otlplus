@@ -457,7 +457,7 @@ class CreditPage extends Component {
       <section className={classNames('content', 'content--no-scroll')}>
         <div className={classNames('page-grid', 'page-grid--full')}>
           <div className={classNames('section')}>
-            <div className={classNames('section-content', 'section-content--credit')}>
+            <div className={classNames('subsection', 'subsection--credit')}>
               <div className={classNames('block-grid')}>
                 {
                   this.projects.map((p) => (
@@ -472,17 +472,17 @@ class CreditPage extends Component {
                 }
               </div>
               <Scroller key={selectedProjectIndex}>
-                <div className={classNames('section-content--credit__people-list')}>
+                <div className={classNames('subsection--credit__people-list')}>
                   {
                     selectedProject.fields.map((f) => (
                       <React.Fragment key={f.title}>
                         <div className={classNames('title')}>{f.title}</div>
                         {
                           f.people.map((p) => (
-                            <div className={classNames('section-content--credit__people-list__elem')} key={p.name}>
+                            <div className={classNames('subsection--credit__people-list__elem')} key={p.name}>
                               {p.image
                                 ? <img src={p.image} alt={p.name} />
-                                : <div className={classNames('section-content--credit__people-list__elem__name')}>{p.name}</div>
+                                : <div className={classNames('subsection--credit__people-list__elem__name')}>{p.name}</div>
                               }
                               {p.caption ? <div className={classNames('caption')}>{p.caption}</div> : null}
                             </div>

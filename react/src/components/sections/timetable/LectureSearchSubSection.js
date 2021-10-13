@@ -226,7 +226,7 @@ class LectureSearchSubSection extends Component {
     return (
       <div className={classNames('search-area')}>
         <form onSubmit={this.handleSubmit}>
-          <div className={classNames('title', 'title--search')}>
+          <div className={classNames('list-title', 'list-title--search-input')}>
             <i className={classNames('icon', 'icon--search')} />
             <div>
               <input

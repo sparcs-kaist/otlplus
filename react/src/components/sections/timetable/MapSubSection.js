@@ -111,7 +111,7 @@ class MapSubSection extends Component {
       const position = POSITION_OF_LOCATIONS.get(b) || {};
       return (
         <div
-          className={classNames('section-content--map__pin')}
+          className={classNames('subsection--map__pin')}
           key={b}
           onMouseOver={() => this.setFocusOnMap(b)}
           onMouseOut={() => this.clearFocus()}
@@ -121,21 +121,21 @@ class MapSubSection extends Component {
             zIndex: position.top,
           }}
         >
-          <div className={classNames('section-content--map__pin__box', (isPinHighlighted ? 'highlighted' : ''))}>
+          <div className={classNames('subsection--map__pin__box', (isPinHighlighted ? 'highlighted' : ''))}>
             <span>{b}</span>
             {lecturesOnBuilding.map((l) => {
               const isCircleHighlighted = isSingleFocused(l, lectureFocus) || (multipleFocusBuilding === b);
               return <span className={classNames('background-color--dark', `background-color--${getColorNumber(l)}`, (isCircleHighlighted ? 'highlighted' : ''))} key={l.id} />;
             })}
           </div>
-          <div className={classNames('section-content--map__pin__arrow-shadow', (isPinHighlighted ? 'highlighted' : ''))} />
-          <div className={classNames('section-content--map__pin__arrow', (isPinHighlighted ? 'highlighted' : ''))} />
+          <div className={classNames('subsection--map__pin__arrow-shadow', (isPinHighlighted ? 'highlighted' : ''))} />
+          <div className={classNames('subsection--map__pin__arrow', (isPinHighlighted ? 'highlighted' : ''))} />
         </div>
       );
     };
 
     return (
-      <div className={classNames('section-content', 'section-content--map', 'mobile-hidden')}>
+      <div className={classNames('subsection', 'subsection--map', 'mobile-hidden')}>
         <div>
           <img src={mapImage} alt="KAIST Map" />
           { buildings.map((b) => mapBuildingToPin(b)) }

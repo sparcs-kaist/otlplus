@@ -53,6 +53,7 @@ class LectureDetailSection extends Component {
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     const {
+      isPortrait,
       lectureFocus, selectedListCode, selectedTimetable,
       year, semester,
       clearLectureFocusDispatch,
@@ -61,7 +62,7 @@ class LectureDetailSection extends Component {
     if (prevProps.lectureFocus.clicked && lectureFocus.clicked) {
       if (prevProps.lectureFocus.lecture.id !== lectureFocus.lecture.id) {
         this._loadReviews();
-        if (window.matchMedia('(min-aspect-ratio: 4/3)').matches) {
+        if (!isPortrait) {
           this.openDictPreview();
         }
       }
@@ -73,7 +74,7 @@ class LectureDetailSection extends Component {
     }
     else if (!prevProps.lectureFocus.clicked && lectureFocus.clicked) {
       this._loadReviews();
-      if (window.matchMedia('(min-aspect-ratio: 4/3)').matches) {
+      if (!isPortrait) {
         this.openDictPreview();
       }
     }
@@ -328,21 +329,23 @@ class LectureDetailSection extends Component {
         // eslint-disable-next-line react/jsx-indent
         <>
           <CloseButton onClick={this.unfix} />
-          <div className={classNames('title')}>
-            {lectureFocus.lecture[t('js.property.title')]}
-          </div>
-          <div className={classNames('subtitle')}>
-            {lectureFocus.lecture.old_code}
-            {lectureFocus.lecture.class_no.length ? ` (${lectureFocus.lecture.class_no})` : ''}
-          </div>
-          <div className={classNames('buttons')}>
-            <button onClick={this.unfix} className={classNames('text-button', (shouldShowUnfix ? '' : 'text-button--disabled'))}>{t('ui.button.unfix')}</button>
-            <a className={classNames('text-button', 'text-button--right')} href={getSyllabusUrl(lectureFocus.lecture)} target="_blank" rel="noopener noreferrer">
-              {t('ui.button.syllabus')}
-            </a>
-            <Link className={classNames('text-button', 'text-button--right')} to={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: lectureFocus.lecture.course }) }} target="_blank" rel="noopener noreferrer">
-              {t('ui.button.dictionary')}
-            </Link>
+          <div className={classNames('detail-title-area')}>
+            <div className={classNames('title')}>
+              {lectureFocus.lecture[t('js.property.title')]}
+            </div>
+            <div className={classNames('subtitle')}>
+              {lectureFocus.lecture.old_code}
+              {lectureFocus.lecture.class_no.length ? ` (${lectureFocus.lecture.class_no})` : ''}
+            </div>
+            <div className={classNames('buttons')}>
+              <button onClick={this.unfix} className={classNames('text-button', (shouldShowUnfix ? '' : 'text-button--disabled'))}>{t('ui.button.unfix')}</button>
+              <a className={classNames('text-button', 'text-button--right')} href={getSyllabusUrl(lectureFocus.lecture)} target="_blank" rel="noopener noreferrer">
+                {t('ui.button.syllabus')}
+              </a>
+              <Link className={classNames('text-button', 'text-button--right')} to={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: lectureFocus.lecture.course }) }} target="_blank" rel="noopener noreferrer">
+                {t('ui.button.dictionary')}
+              </Link>
+            </div>
           </div>
           <Scroller
             onScroll={this.onScroll}
@@ -440,7 +443,7 @@ class LectureDetailSection extends Component {
             orientation={Divider.Orientation.HORIZONTAL}
             isVisible={{ desktop: false, mobile: true }}
           />
-          <div className={classNames('section-content--lecture-detail__mobile-buttons', 'desktop-hidden')}>
+          <div className={classNames('subsection--lecture-detail__mobile-buttons', 'desktop-hidden')}>
             {
               !inCart(lectureFocus.lecture, lists[LectureListCode.CART])
                 ? (
@@ -494,16 +497,18 @@ class LectureDetailSection extends Component {
         return (
         // eslint-disable-next-line react/jsx-indent
         <>
-          <div className={classNames('title')}>
-            {lectureFocus.multipleTitle}
-          </div>
-          <div className={classNames('subtitle')}>
-            {t('ui.others.multipleDetailCount', { count: lectureFocus.multipleDetails.length })}
-          </div>
-          <div className={classNames('buttons')}>
-            <span className={classNames('text-button', 'text-button--disabled')}>{t('ui.button.unfix')}</span>
-            <span className={classNames('text-button', 'text-button--right', 'text-button--disabled')}>{t('ui.button.syllabus')}</span>
-            <span className={classNames('text-button', 'text-button--right', 'text-button--disabled')}>{t('ui.button.dictionary')}</span>
+          <div className={classNames('detail-title-area')}>
+            <div className={classNames('title')}>
+              {lectureFocus.multipleTitle}
+            </div>
+            <div className={classNames('subtitle')}>
+              {t('ui.others.multipleDetailCount', { count: lectureFocus.multipleDetails.length })}
+            </div>
+            <div className={classNames('buttons')}>
+              <span className={classNames('text-button', 'text-button--disabled')}>{t('ui.button.unfix')}</span>
+              <span className={classNames('text-button', 'text-button--right', 'text-button--disabled')}>{t('ui.button.syllabus')}</span>
+              <span className={classNames('text-button', 'text-button--right', 'text-button--disabled')}>{t('ui.button.dictionary')}</span>
+            </div>
           </div>
           <div>
             {lectureFocus.multipleDetails.map((d, i) => (
@@ -544,7 +549,7 @@ class LectureDetailSection extends Component {
 
     return (
       <div className={classNames('section', 'section--lecture-detail', 'section--mobile-modal', (lectureFocus.clicked ? '' : 'mobile-hidden'))}>
-        <div className={classNames('section-content', 'section-content--lecture-detail', 'section-content--flex')} ref={this.scrollRef}>
+        <div className={classNames('subsection', 'subsection--lecture-detail', 'subsection--flex')} ref={this.scrollRef}>
           { getSectionContent() }
         </div>
       </div>
@@ -554,6 +559,7 @@ class LectureDetailSection extends Component {
 
 const mapStateToProps = (state) => ({
   user: state.common.user.user,
+  isPortrait: state.common.media.isPortrait,
   lectureFocus: state.timetable.lectureFocus,
   selectedListCode: state.timetable.list.selectedListCode,
   selectedTimetable: state.timetable.timetable.selectedTimetable,
@@ -585,6 +591,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 LectureDetailSection.propTypes = {
   user: userShape,
+  isPortrait: PropTypes.bool.isRequired,
   lectureFocus: lectureFocusShape.isRequired,
   selectedListCode: PropTypes.string.isRequired,
   selectedTimetable: timetableShape,

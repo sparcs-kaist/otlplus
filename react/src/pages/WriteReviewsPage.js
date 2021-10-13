@@ -6,7 +6,10 @@ import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
 
-import TakenLecturesSection from '../components/sections/write-reviews/TakenLecturesSection';
+import Divider from '../components/Divider';
+import MySummarySubSection from '../components/sections/write-reviews/MySummarySubSection';
+import TakenLecturesSubSection from '../components/sections/write-reviews/TakenLecturesSubSection';
+import ReviewsMenusSubSection from '../components/sections/write-reviews/ReviewsMenusSubSection';
 import LectureReviewsSubSection from '../components/sections/write-reviews/LectureReviewsSubSection';
 import LatestReviewsSubSection from '../components/sections/write-reviews/LatestReviewsSubSection';
 import MyReviewsSubSection from '../components/sections/write-reviews/MyReviewsSubSection';
@@ -53,7 +56,7 @@ class WriteReviewsPage extends Component {
     const getReviewsSubSection = (focusFrom) => {
       if (focusFrom === ReviewsFocusFrom.NONE) {
         return (
-          <div className={classNames('section-content', 'section-content--flex', 'section-content--write-reviews-right')}>
+          <div className={classNames('subsection', 'subsection--flex', 'subsection--write-reviews-right')}>
             <div className={classNames('otlplus-placeholder')}>
               <div>
                 OTL PLUS
@@ -97,7 +100,13 @@ class WriteReviewsPage extends Component {
       <>
         <section className={classNames('content', 'content--no-scroll')}>
           <div className={classNames('page-grid', 'page-grid--write-reviews')}>
-            <TakenLecturesSection />
+            <div className={classNames('section', 'section--write-reviews-left')}>
+              <MySummarySubSection />
+              <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
+              <TakenLecturesSubSection />
+              <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
+              <ReviewsMenusSubSection />
+            </div>
             <div className={classNames('section', 'section--write-reviews-right', 'section--mobile-modal', ((reviewsFocus.from !== ReviewsFocusFrom.NONE) ? '' : 'mobile-hidden'))}>
               {
                 getReviewsSubSection(reviewsFocus.from)

@@ -395,7 +395,7 @@ class TimetableSubSection extends Component {
     const dragCell = firstDragCell && secondDragCell
       ? (
         <div
-          className={classNames('section-content--timetable__drag-cell')}
+          className={classNames('subsection--timetable__drag-cell')}
           style={{
             left: (cellWidth + 5) * this.indexOfDay(firstDragCell.getAttribute('data-day')) + 17,
             width: cellWidth + 2,
@@ -407,8 +407,8 @@ class TimetableSubSection extends Component {
       : null;
 
     return (
-      <div className={classNames('section-content', 'section-content--timetable')} onMouseUp={(e) => this.onMouseUp(e)} onTouchEnd={(e) => this.onTouchEnd(e)}>
-        <div className={classNames('section-content--timetable__table')}>
+      <div className={classNames('subsection', 'subsection--timetable')} onMouseUp={(e) => this.onMouseUp(e)} onTouchEnd={(e) => this.onTouchEnd(e)}>
+        <div className={classNames('subsection--timetable__table')}>
           <div>
             {getColumnHeads()}
           </div>

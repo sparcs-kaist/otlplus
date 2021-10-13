@@ -101,11 +101,11 @@ class ExamSubSection extends Component {
     };
 
     return (
-      <div className={classNames('section-content--exam', 'mobile-hidden')}>
-        <div className={classNames('section-content--exam__title')}><span>{t('ui.title.exams')}</span></div>
-        <div className={classNames('section-content--exam__content')}>
+      <div className={classNames('subsection--exam', 'mobile-hidden')}>
+        <div className={classNames('subsection--exam__title')}><span>{t('ui.title.exams')}</span></div>
+        <div className={classNames('subsection--exam__content')}>
           <Scroller>
-            <div className={classNames('section-content--exam__content__day')} onMouseOver={() => this.setFocusOnExam(0)} onMouseOut={() => this.clearFocus()}>
+            <div className={classNames('subsection--exam__content__day')} onMouseOver={() => this.setFocusOnExam(0)} onMouseOut={() => this.clearFocus()}>
               <div className={classNames(t('jsx.className.fixedByLang'))}>
                 {t('ui.day.mondayShort')}
               </div>
@@ -113,7 +113,7 @@ class ExamSubSection extends Component {
                 {this._getLecEtPairsOnDay(0).map((p) => mapPairToElem(p))}
               </ul>
             </div>
-            <div className={classNames('section-content--exam__content__day')} onMouseOver={() => this.setFocusOnExam(1)} onMouseOut={() => this.clearFocus()}>
+            <div className={classNames('subsection--exam__content__day')} onMouseOver={() => this.setFocusOnExam(1)} onMouseOut={() => this.clearFocus()}>
               <div className={classNames(t('jsx.className.fixedByLang'))}>
                 {t('ui.day.tuesdayShort')}
               </div>
@@ -121,7 +121,7 @@ class ExamSubSection extends Component {
                 {this._getLecEtPairsOnDay(1).map((p) => mapPairToElem(p))}
               </ul>
             </div>
-            <div className={classNames('section-content--exam__content__day')} onMouseOver={() => this.setFocusOnExam(2)} onMouseOut={() => this.clearFocus()}>
+            <div className={classNames('subsection--exam__content__day')} onMouseOver={() => this.setFocusOnExam(2)} onMouseOut={() => this.clearFocus()}>
               <div className={classNames(t('jsx.className.fixedByLang'))}>
                 {t('ui.day.wednesdayShort')}
               </div>
@@ -129,7 +129,7 @@ class ExamSubSection extends Component {
                 {this._getLecEtPairsOnDay(2).map((p) => mapPairToElem(p))}
               </ul>
             </div>
-            <div className={classNames('section-content--exam__content__day')} onMouseOver={() => this.setFocusOnExam(3)} onMouseOut={() => this.clearFocus()}>
+            <div className={classNames('subsection--exam__content__day')} onMouseOver={() => this.setFocusOnExam(3)} onMouseOut={() => this.clearFocus()}>
               <div className={classNames(t('jsx.className.fixedByLang'))}>
                 {t('ui.day.thursdayShort')}
               </div>
@@ -137,7 +137,7 @@ class ExamSubSection extends Component {
                 {this._getLecEtPairsOnDay(3).map((p) => mapPairToElem(p))}
               </ul>
             </div>
-            <div className={classNames('section-content--exam__content__day')} onMouseOver={() => this.setFocusOnExam(4)} onMouseOut={() => this.clearFocus()}>
+            <div className={classNames('subsection--exam__content__day')} onMouseOver={() => this.setFocusOnExam(4)} onMouseOut={() => this.clearFocus()}>
               <div className={classNames(t('jsx.className.fixedByLang'))}>
                 {t('ui.day.fridayShort')}
               </div>

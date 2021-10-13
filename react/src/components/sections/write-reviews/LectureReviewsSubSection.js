@@ -86,36 +86,58 @@ class LectureReviewsSubSection extends Component {
     const selectedLecture = reviewsFocus.lecture;
 
     const reviews = reviewsFocus.reviews;
-    const reviewBlocksArea = (reviews == null)
-      ? <div className={classNames('list-placeholder', 'min-height-area')}><div>{t('ui.placeholder.loading')}</div></div>
-      : (reviews.length
-        ? <div className={classNames('block-list', 'min-height-area')}>{reviews.map((r) => <ReviewBlock review={r} shouldLimitLines={false} linkTo={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: r.course.id }) }} pageFrom="Write Reviews" key={r.id} />)}</div>
-        : <div className={classNames('list-placeholder', 'min-height-area')}><div>{t('ui.placeholder.noResults')}</div></div>);
+    const reviewBlocksArea = (
+      reviews == null
+        ? (
+          <div className={classNames('list-placeholder', 'min-height-area')}>
+            <div>{t('ui.placeholder.loading')}</div>
+          </div>
+        )
+        : (
+          reviews.length
+            ? (
+              <div className={classNames('block-list', 'min-height-area')}>
+                {
+                  reviews.map((r) => (
+                    <ReviewBlock
+                      review={r}
+                      shouldLimitLines={false}
+                      linkTo={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: r.course.id }) }}
+                      pageFrom="Write Reviews"
+                      key={r.id}
+                    />
+                  ))
+                }
+              </div>
+            )
+            : (
+              <div className={classNames('list-placeholder', 'min-height-area')}>
+                <div>{t('ui.placeholder.noResults')}</div>
+              </div>
+            )
+        )
+    );
 
     return (
-      <div className={classNames('section-content', 'section-content--flex', 'section-content--write-reviews-right')}>
+      <div className={classNames('subsection', 'subsection--flex', 'subsection--various-reviews')}>
         <CloseButton onClick={this.unfix} />
         <Scroller
           key={reviewsFocus.lecture.id}
           expandTop={12}
         >
-          <div className={classNames('section-content', 'section-content--review-write')}>
-            <div className={classNames('title')}>
-              {`${t('ui.title.writeReview')} - ${selectedLecture[t('js.property.title')]}`}
-            </div>
-            <ReviewWriteBlock
-              key={selectedLecture.id}
-              lecture={selectedLecture}
-              review={user.reviews.find((r) => (r.lecture.id === selectedLecture.id))}
-              pageFrom="Write Reviews"
-              updateOnSubmit={this.updateOnReviewSubmit}
-            />
-          </div>
+          <div className={classNames('title')}>
+            {`${t('ui.title.writeReview')} - ${selectedLecture[t('js.property.title')]}`}
+          </div> 
+          <ReviewWriteBlock
+            key={selectedLecture.id}
+            lecture={selectedLecture}
+            review={user.reviews.find((r) => (r.lecture.id === selectedLecture.id))}
+            pageFrom="Write Reviews"
+            updateOnSubmit={this.updateOnReviewSubmit}
+          />
           <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
-          <div className={classNames('section-content', 'section-content--latest-reviews')}>
-            <div className={classNames('title')}>{`${t('ui.title.relatedReviews')} - ${reviewsFocus.lecture[t('js.property.title')]}`}</div>
-            { reviewBlocksArea }
-          </div>
+          <div className={classNames('title')}>{`${t('ui.title.relatedReviews')} - ${reviewsFocus.lecture[t('js.property.title')]}`}</div>
+          { reviewBlocksArea }
         </Scroller>
       </div>
     );

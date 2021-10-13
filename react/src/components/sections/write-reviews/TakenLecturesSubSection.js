@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 import ReactGA from 'react-ga';
-import { sumBy } from 'lodash';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
@@ -19,10 +18,9 @@ import { getSemesterName } from '../../../utils/semesterUtils';
 
 import userShape from '../../../shapes/UserShape';
 import lectureShape from '../../../shapes/LectureShape';
-import reviewsFocusShape from '../../../shapes/ReviewsFocusShape';
 
 
-class TakenLecturesSection extends Component {
+class TakenLecturesSubSection extends Component {
   focusLectureWithClick = (lecture) => {
     const {
       selectedLecture,
@@ -50,30 +48,11 @@ class TakenLecturesSection extends Component {
   }
 
 
-  handleMenuClick = (from) => (e) => {
-    const {
-      setReviewsFocusDispatch,
-    } = this.props;
-
-    setReviewsFocusDispatch(from, null);
-
-    ReactGA.event({
-      category: 'Write Reviews - Selection',
-      action: 'Selected List',
-      label: `List : ${from}`,
-    });
-  }
-
-
   render() {
     const { t } = this.props;
-    const { user, selectedLecture, reviewsFocus } = this.props;
+    const { user, selectedLecture } = this.props;
 
     const writableTakenLectures = user ? user.review_writable_lectures : [];
-    const editableReviews = user
-      ? user.reviews.filter((r) => writableTakenLectures.some((l) => l.id === r.lecture.id))
-      : [];
-
     // eslint-disable-next-line fp/no-mutating-methods
     const targetSemesters = unique(
       writableTakenLectures.map((l) => ({ year: l.year, semester: l.semester })),
@@ -142,78 +121,9 @@ class TakenLecturesSection extends Component {
     };
 
     return (
-    // eslint-disable-next-line react/jsx-indent
-    <div className={classNames('section', 'section--taken-lectures')}>
-      <div className={classNames('section-content', 'section-content--taken-lectures')}>
-        <div className={classNames('title')}>
-          {t('ui.title.takenLectures')}
-        </div>
-        <div className={classNames('scores')}>
-          <div>
-            <div>
-              <span>{user ? editableReviews.length : '-'}</span>
-              <span>{user ? `/${writableTakenLectures.length}` : '/-'}</span>
-            </div>
-            <div>{t('ui.score.reviewsWritten')}</div>
-          </div>
-          <div>
-            <div>
-              {user ? sumBy(editableReviews, (r) => r.like) : '-'}
-            </div>
-            <div>{t('ui.score.likes')}</div>
-          </div>
-        </div>
-        <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
+      <div className={classNames('subsection', 'subsection--taken-lectures')}>
         { getTakenLecturesArea() }
-        <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
-        <div className={classNames('section-content--taken-lectures__menus-list')}>
-          <div>
-            <button
-              className={classNames(
-                'text-button',
-                ((reviewsFocus.from === ReviewsFocusFrom.REVIEWS_LATEST) ? 'text-button--disabled' : ''),
-              )}
-              onClick={this.handleMenuClick(ReviewsFocusFrom.REVIEWS_LATEST)}
-            >
-              {t('ui.title.latestReviews')}
-            </button>
-          </div>
-          <div>
-            <button
-              className={classNames(
-                'text-button',
-                ((reviewsFocus.from === ReviewsFocusFrom.REVIEWS_RANKED) ? 'text-button--disabled' : ''),
-              )}
-              onClick={this.handleMenuClick(ReviewsFocusFrom.REVIEWS_RANKED)}
-            >
-              {t('ui.title.rankedReviews')}
-            </button>
-          </div>
-          <div>
-            <button
-              className={classNames(
-                'text-button',
-                ((!user || (reviewsFocus.from === ReviewsFocusFrom.REVIEWS_MY)) ? 'text-button--disabled' : ''),
-              )}
-              onClick={this.handleMenuClick(ReviewsFocusFrom.REVIEWS_MY)}
-            >
-              {t('ui.title.myReviews')}
-            </button>
-          </div>
-          <div>
-            <button
-              className={classNames(
-                'text-button',
-                ((!user || (reviewsFocus.from === ReviewsFocusFrom.REVIEWS_LIKED)) ? 'text-button--disabled' : ''),
-              )}
-              onClick={this.handleMenuClick(ReviewsFocusFrom.REVIEWS_LIKED)}
-            >
-              {t('ui.title.likedReviews')}
-            </button>
-          </div>
-        </div>
       </div>
-    </div>
     );
   }
 }
@@ -221,7 +131,6 @@ class TakenLecturesSection extends Component {
 const mapStateToProps = (state) => ({
   user: state.common.user.user,
   selectedLecture: state.writeReviews.reviewsFocus.lecture,
-  reviewsFocus: state.writeReviews.reviewsFocus,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -233,10 +142,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-TakenLecturesSection.propTypes = {
+TakenLecturesSubSection.propTypes = {
   user: userShape,
   selectedLecture: lectureShape,
-  reviewsFocus: reviewsFocusShape.isRequired,
 
   setReviewsFocusDispatch: PropTypes.func.isRequired,
   clearReviewsFocusDispatch: PropTypes.func.isRequired,
@@ -245,6 +153,6 @@ TakenLecturesSection.propTypes = {
 
 export default withTranslation()(
   connect(mapStateToProps, mapDispatchToProps)(
-    TakenLecturesSection
+    TakenLecturesSubSection
   )
 );

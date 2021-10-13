@@ -7,7 +7,7 @@ import { appBoundClassNames as classNames } from '../../../common/boundClassName
 import userShape from '../../../shapes/UserShape';
 
 
-class AcademicInfoSection extends Component {
+class AcademicInfoSubSection extends Component {
   render() {
     const { t } = this.props;
     const { user } = this.props;
@@ -17,7 +17,7 @@ class AcademicInfoSection extends Component {
     }
 
     return (
-      <>
+      <div className={classNames('subsection', 'subsection--academic-info')}>
         <div className={classNames('title')}>
           {t('ui.title.academicInformation')}
         </div>
@@ -39,7 +39,7 @@ class AcademicInfoSection extends Component {
           </a>
           {t('ui.message.academicInfoCaptionTail')}
         </div>
-      </>
+      </div>
     );
   }
 }
@@ -51,13 +51,13 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
 });
 
-AcademicInfoSection.propTypes = {
+AcademicInfoSubSection.propTypes = {
   user: userShape,
 };
 
 
 export default withTranslation()(
   connect(mapStateToProps, mapDispatchToProps)(
-    AcademicInfoSection
+    AcademicInfoSubSection
   )
 );

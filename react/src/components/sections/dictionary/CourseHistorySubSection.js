@@ -13,7 +13,7 @@ import semesterShape from '../../../shapes/SemesterShape';
 import courseFocusShape from '../../../shapes/CourseFocusShape';
 
 
-class HistorySubSection extends Component {
+class CourseHistorySubSection extends Component {
   constructor(props) {
     super(props);
 
@@ -75,7 +75,7 @@ class HistorySubSection extends Component {
     const isSpecialLectureCourse = (specialLectures.length / courseFocus.lectures.length) > 0.3;
 
     return (
-      <>
+      <div className={classNames('subsection', 'subsection--course-history')}>
         <div className={classNames('small-title')}>{t('ui.title.courseHistory')}</div>
         <div ref={this.scrollRef}>
           <Scroller noScrollX={false} noScrollY={true}>
@@ -99,7 +99,7 @@ class HistorySubSection extends Component {
             </table>
           </Scroller>
         </div>
-      </>
+      </div>
     );
   }
 }
@@ -112,7 +112,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
 });
 
-HistorySubSection.propTypes = {
+CourseHistorySubSection.propTypes = {
   semesters: PropTypes.arrayOf(semesterShape),
   courseFocus: courseFocusShape.isRequired,
 };
@@ -120,6 +120,6 @@ HistorySubSection.propTypes = {
 
 export default withTranslation()(
   connect(mapStateToProps, mapDispatchToProps)(
-    HistorySubSection
+    CourseHistorySubSection
   )
 );

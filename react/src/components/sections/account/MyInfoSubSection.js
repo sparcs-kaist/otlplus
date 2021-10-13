@@ -9,7 +9,7 @@ import userShape from '../../../shapes/UserShape';
 import { getFullName } from '../../../common/guideline/components/Header';
 
 
-class MyInfoSection extends Component {
+class MyInfoSubSection extends Component {
   render() {
     const { t } = this.props;
     const { user } = this.props;
@@ -19,7 +19,7 @@ class MyInfoSection extends Component {
     }
 
     return (
-      <>
+      <div className={classNames('subsection', 'subsection--my-info')}>
         <div className={classNames('title')}>
           {t('ui.title.myInformation')}
         </div>
@@ -43,7 +43,7 @@ class MyInfoSection extends Component {
           </a>
           {t('ui.message.myInfoCaptionTail')}
         </div>
-      </>
+      </div>
     );
   }
 }
@@ -55,13 +55,13 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
 });
 
-MyInfoSection.propTypes = {
+MyInfoSubSection.propTypes = {
   user: userShape,
 };
 
 
 export default withTranslation()(
   connect(mapStateToProps, mapDispatchToProps)(
-    MyInfoSection
+    MyInfoSubSection
   )
 );

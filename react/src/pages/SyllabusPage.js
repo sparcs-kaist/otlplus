@@ -122,7 +122,7 @@ class SyllabusPage extends Component {
             </Scroller>
           </div>
           <div className={classNames('section', 'section--syllabus')}>
-            <div className={classNames('section-content', 'section-content--syllabus')}>
+            <div className={classNames('subsection', 'subsection--syllabus')}>
               { contents }
             </div>
           </div>

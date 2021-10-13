@@ -10,7 +10,7 @@ import CourseSimpleBlock from '../../blocks/CourseSimpleBlock';
 import courseFocusShape from '../../../shapes/CourseFocusShape';
 
 
-class RelatedSubSection extends Component {
+class CourseRelatedCoursesSubSection extends Component {
   render() {
     const { t } = this.props;
     const { courseFocus } = this.props;
@@ -27,7 +27,7 @@ class RelatedSubSection extends Component {
     };
 
     return (
-      <>
+      <div className={classNames('subsection', 'subsection--course-related-courses')}>
         <div className={classNames('small-title')}>{t('ui.title.relatedCourses')}</div>
         <div>
           <Scroller noScrollX={false} noScrollY={true}>
@@ -50,7 +50,7 @@ class RelatedSubSection extends Component {
             </div>
           </Scroller>
         </div>
-      </>
+      </div>
     );
   }
 }
@@ -62,13 +62,13 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
 });
 
-RelatedSubSection.propTypes = {
+CourseRelatedCoursesSubSection.propTypes = {
   courseFocus: courseFocusShape.isRequired,
 };
 
 
 export default withTranslation()(
   connect(mapStateToProps, mapDispatchToProps)(
-    RelatedSubSection
+    CourseRelatedCoursesSubSection
   )
 );
