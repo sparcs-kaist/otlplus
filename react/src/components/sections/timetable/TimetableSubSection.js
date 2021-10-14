@@ -23,7 +23,7 @@ import lectureFocusShape from '../../../shapes/LectureFocusShape';
 
 import {
   inTimetable,
-  isFocused, isTableClicked, isDimmedTableLecture,
+  isFocused, isTableClicked, isDimmedTableLecture, getOverallLectures,
 } from '../../../utils/lectureUtils';
 import { performDeleteFromTable } from '../../../common/commonOperations';
 
@@ -236,45 +236,47 @@ class TimetableSubSection extends Component {
       mobileIsLectureListOpen,
     } = this.props;
 
-    const timetableLectures = selectedTimetable ? selectedTimetable.lectures : [];
-    const isFocusedLectureTemporary = (
-      (lectureFocus.from === LectureFocusFrom.LIST)
-      && !inTimetable(lectureFocus.lecture, selectedTimetable)
-    );
-    const tempLecture = isFocusedLectureTemporary
-      ? lectureFocus.lecture
-      : null;
+    const overallLectures = getOverallLectures(selectedTimetable, lectureFocus);
+    const isOutsideTable = (classtime) => (
+      (classtime.day < 0 || classtime.day > 4)
+      || (classtime.begin < 60 * TIMETABLE_START_HOUR || classtime.end > 60 * TIMETABLE_END_HOUR)
+    ); 
+    const lecCtPairsWithClasstime = overallLectures
+      .map((l) => l.classtimes.map((ct) => ({ lecture: l, classtime: ct })))
+      .flat(1);
+    const lecCtPairsWithoutClasstime = overallLectures
+      .filter((l) => (l.classtimes.length === 0))
+      .map((l) => ({ lecture: l, classtime: null }));
+    const lecCtPairsInsideTable = (
+      lecCtPairsWithClasstime.filter((p) => !isOutsideTable(p.classtime))
+    ); 
+    const lecCtPairsOutsideTable = [
+      ...lecCtPairsWithClasstime.filter((p) => isOutsideTable(p.classtime)),
+      ...lecCtPairsWithoutClasstime,
+    ]; 
 
     const getTimeString = (time) => {
       const hour = Math.floor(time / 60);
       const minute = `00${time % 60}`.slice(-2);
       return `${hour}:${minute}`;
     };
-    const isOutsideTable = (classtime) => (
-      (classtime.day < 0 || classtime.day > 4)
-      || (classtime.begin < 60 * TIMETABLE_START_HOUR || classtime.end > 60 * TIMETABLE_END_HOUR)
-    );
-    const untimedTileTitles = [];
-    const mapClasstimeToTile = (lecture, classtime, isTemp) => {
-      const isUntimed = !classtime || isOutsideTable(classtime);
-      if (isUntimed) {
-        const title = classtime
-          ? `${[t('ui.day.saturdayShort'), t('ui.day.sundayShort')][classtime.day - 5]} ${getTimeString(classtime.begin)}~${getTimeString(classtime.end)}`
-          : t('ui.others.timeNone');
-        // eslint-disable-next-line fp/no-mutating-methods
-        untimedTileTitles.push(title);
-      }
+    const getUntimedTitle = (classtime) => (
+      classtime
+        ? `${[t('ui.day.saturdayShort'), t('ui.day.sundayShort')][classtime.day - 5]} ${getTimeString(classtime.begin)}~${getTimeString(classtime.end)}`
+        : t('ui.others.timeNone')
+    ); 
+    const getTimetableTile = (lecture, classtime, isUntimed, untimedIndex, isTemp) => {
       return (
         <TimetableTile
           key={classtime ? `${lecture.id}:${classtime.day}:${classtime.begin}` : `${lecture.id}:no-time`}
           lecture={lecture}
           classtime={classtime}
           tableIndex={isUntimed
-            ? Math.floor((untimedTileTitles.length - 1) / 5) + 1
+            ? Math.floor(untimedIndex / 5) + 1
             : 0
           }
           dayIndex={isUntimed
-            ? ((untimedTileTitles.length - 1) % 5)
+            ? (untimedIndex % 5)
             : classtime.day}
           beginIndex={isUntimed
             ? 0
@@ -303,17 +305,20 @@ class TimetableSubSection extends Component {
         />
       );
     };
-    const mapLectureToTiles = (lecture, isTemp) => (
-      lecture.classtimes.length === 0
-        ? mapClasstimeToTile(lecture, null, isTemp)
-        : lecture.classtimes.map((ct) => mapClasstimeToTile(lecture, ct, isTemp))
-    );
-    const timetableLectureTiles = timetableLectures.map((lecture) => (
-      mapLectureToTiles(lecture, false)
-    ));
-    const tempLectureTiles = tempLecture
-      ? mapLectureToTiles(tempLecture, true)
-      : null;
+    const isTemp = (lecture) => (
+      lectureFocus.from === LectureFocusFrom.LIST
+      && lectureFocus.lecture.id === lecture.id
+      && !inTimetable(lectureFocus.lecture, selectedTimetable)
+    ); 
+    const tilesInsideTable = lecCtPairsInsideTable.map((p) => (
+      getTimetableTile(p.lecture, p.classtime, false, undefined, isTemp(p.lecture))
+    )); 
+    const tilesOutsideTable = lecCtPairsOutsideTable.map((p, i) => (
+      getTimetableTile(p.lecture, p.classtime, true, i, isTemp(p.lecture))
+    )); 
+    const untimedTileTitles = lecCtPairsOutsideTable.map((p) => (
+      getUntimedTitle(p.classtime)
+    )); 
 
     const targetMinutes = range(TIMETABLE_START_HOUR * 60, TIMETABLE_END_HOUR * 60, 30);
     const getColumnHeads = () => {
@@ -417,8 +422,8 @@ class TimetableSubSection extends Component {
           </div>
         </div>
         {dragCell}
-        {timetableLectureTiles}
-        {tempLectureTiles}
+        {tilesInsideTable}
+        {tilesOutsideTable}
       </div>
     );
   }
