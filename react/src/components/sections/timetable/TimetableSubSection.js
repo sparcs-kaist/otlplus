@@ -99,21 +99,11 @@ class TimetableSubSection extends Component {
       return [];
     }
 
-    return selectedTimetable.lectures.map((lecture) => (
-      lecture.classtimes.map((ct) => {
-        if ((ct.day === day)
-          && (begin < ct.end)
-          && (end > ct.begin)) {
-          return [
-            Math.max(begin, ct.begin),
-            Math.min(end, ct.end),
-          ];
-        }
-        return undefined;
-      })
-    ))
-      .reduce((acc, val) => acc.concat(val), [])
-      .filter((x) => x !== undefined);
+    const timetableClasstimes = selectedTimetable.lectures
+      .reduce((acc, val) => acc.concat(val.classtimes), []);
+    return timetableClasstimes
+      .filter((ct) => ((ct.day === day) && (begin < ct.end) && (end > ct.begin)))
+      .map((ct) => [Math.max(begin, ct.begin), Math.min(end, ct.end)]);
   }
 
   onMouseMove = (e) => {
