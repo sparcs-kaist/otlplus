@@ -321,9 +321,9 @@ class TimetableSubSection extends Component {
       getUntimedTitle(p.classtime)
     )); 
 
-    const targetMinutes = range(TIMETABLE_START_HOUR * 60, TIMETABLE_END_HOUR * 60, 30);
-    const getColumnHeads = () => {
-      const timedArea = targetMinutes.map((i) => {
+    const cellMinutes = range(TIMETABLE_START_HOUR * 60, TIMETABLE_END_HOUR * 60, 30);
+    const getHeadColumn = () => {
+      const timedArea = cellMinutes.map((i) => {
         const i2 = i + 30;
         if (i2 % (6 * 60) === 0) {
           return <div key={i2}><strong>{((i2 / 60 - 1) % 12) + 1}</strong></div>;
@@ -348,8 +348,8 @@ class TimetableSubSection extends Component {
         untimedArea,
       ];
     };
-    const getColumnCells = (dayName, dayIdx) => {
-      const timedArea = targetMinutes.map((i) => {
+    const getDayColumn = (dayName, dayIdx) => {
+      const timedArea = cellMinutes.map((i) => {
         return (
           <div
             className={classNames(
@@ -412,22 +412,22 @@ class TimetableSubSection extends Component {
       <div className={classNames('subsection', 'subsection--timetable')} onMouseUp={(e) => this.onMouseUp(e)} onTouchEnd={(e) => this.onTouchEnd(e)}>
         <div className={classNames('subsection--timetable__table')}>
           <div>
-            {getColumnHeads()}
+            {getHeadColumn()}
           </div>
           <div>
-            {getColumnCells(t('ui.day.monday'), 0)}
+            {getDayColumn(t('ui.day.monday'), 0)}
           </div>
           <div>
-            {getColumnCells(t('ui.day.tuesday'), 1)}
+            {getDayColumn(t('ui.day.tuesday'), 1)}
           </div>
           <div>
-            {getColumnCells(t('ui.day.wednesday'), 2)}
+            {getDayColumn(t('ui.day.wednesday'), 2)}
           </div>
           <div>
-            {getColumnCells(t('ui.day.thursday'), 3)}
+            {getDayColumn(t('ui.day.thursday'), 3)}
           </div>
           <div>
-            {getColumnCells(t('ui.day.friday'), 4)}
+            {getDayColumn(t('ui.day.friday'), 4)}
           </div>
         </div>
         {dragTile}
