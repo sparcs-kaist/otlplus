@@ -20,6 +20,7 @@ import { LectureListCode } from '../../../reducers/timetable/list';
 import userShape from '../../../shapes/UserShape';
 import timetableShape from '../../../shapes/TimetableShape';
 import lectureFocusShape from '../../../shapes/LectureFocusShape';
+import { getDayStr, getRangeStr } from '../../../utils/timeUtils';
 
 import {
   inTimetable,
@@ -256,14 +257,9 @@ class TimetableSubSection extends Component {
       ...lecCtPairsWithoutClasstime,
     ]; 
 
-    const getTimeString = (time) => {
-      const hour = Math.floor(time / 60);
-      const minute = `00${time % 60}`.slice(-2);
-      return `${hour}:${minute}`;
-    };
     const getUntimedTitle = (classtime) => (
       classtime
-        ? `${[t('ui.day.saturdayShort'), t('ui.day.sundayShort')][classtime.day - 5]} ${getTimeString(classtime.begin)}~${getTimeString(classtime.end)}`
+        ? getRangeStr(classtime.day, classtime.begin, classtime.end)
         : t('ui.others.timeNone')
     ); 
     const getTimetableTile = (lecture, classtime, isUntimed, untimedIndex, isTemp) => {
@@ -350,7 +346,7 @@ class TimetableSubSection extends Component {
         </div>
       );
     };
-    const getDayColumn = (dayName, dayIdx) => {
+    const getDayColumn = (dayIdx) => {
       const timedArea = cellMinutes.map((i) => {
         return (
           <div
@@ -383,7 +379,7 @@ class TimetableSubSection extends Component {
       ));
       return (
         <div>
-          <div className={classNames('table-head')} key={dayIdx}>{dayName}</div>
+          <div className={classNames('table-head')} key={dayIdx}>{getDayStr(dayIdx)}</div>
           { timedArea }
           { untimedArea }
         </div>
@@ -416,11 +412,11 @@ class TimetableSubSection extends Component {
       <div className={classNames('subsection', 'subsection--timetable')} onMouseUp={(e) => this.onMouseUp(e)} onTouchEnd={(e) => this.onTouchEnd(e)}>
         <div className={classNames('subsection--timetable__table')}>
           {getHeadColumn()}
-          {getDayColumn(t('ui.day.monday'), 0)}
-          {getDayColumn(t('ui.day.tuesday'), 1)}
-          {getDayColumn(t('ui.day.wednesday'), 2)}
-          {getDayColumn(t('ui.day.thursday'), 3)}
-          {getDayColumn(t('ui.day.friday'), 4)}
+          {getDayColumn(0)}
+          {getDayColumn(1)}
+          {getDayColumn(2)}
+          {getDayColumn(3)}
+          {getDayColumn(4)}
         </div>
         {dragTile}
         {tilesInsideTable}

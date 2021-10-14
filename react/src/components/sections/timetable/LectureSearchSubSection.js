@@ -9,6 +9,8 @@ import { debounce } from 'lodash';
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 import { LectureListCode } from '../../../reducers/timetable/list';
 
+import { getRangeStr } from '../../../utils/timeUtils';
+
 import Divider from '../../Divider';
 import SearchFilter from '../../SearchFilter';
 import Scroller from '../../Scroller';
@@ -273,9 +275,7 @@ class LectureSearchSubSection extends Component {
                 { day !== null
                   ? (
                     <span className={classNames('text-button')} onClick={this.clearSearchTime}>
-                      {`${[t('ui.day.monday'), t('ui.day.tuesday'), t('ui.day.wednesday'), t('ui.day.thursday'), t('ui.day.friday')][day]} \
-                        ${Math.floor(start / 60)}:${String(start % 60).padStart(2, '0')} ~ \
-                        ${Math.floor(end / 60)}:${String(end % 60).padStart(2, '0')}`}
+                      {`${getRangeStr(day, start, end)}`}
                     </span>
                   )
                   : (

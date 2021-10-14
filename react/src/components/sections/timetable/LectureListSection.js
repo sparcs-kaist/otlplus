@@ -32,13 +32,14 @@ import {
 import {
   performAddToTable, performAddToCart, performDeleteFromCart,
 } from '../../../common/commonOperations';
-import { TIMETABLE_START_HOUR } from '../../../common/constants';
 import { isTaken } from '../../../utils/courseUtils';
+import { getRangeStr } from '../../../utils/timeUtils';
 
 import {
   getLabelOfValue, getDepartmentOptions, getTypeOptions, getLevelOptions,
 } from '../../../common/seachOptions';
 import LectureGroupBlockRow from '../../blocks/LectureGroupBlockRow';
+import { TIMETABLE_START_HOUR } from '../../../common/constants';
 
 
 class LectureListSection extends Component {
@@ -313,9 +314,11 @@ class LectureListSection extends Component {
           .concat(
             (lastSearchOption.day && lastSearchOption.day !== '')
               ? [
-                `${[t('ui.day.monday'), t('ui.day.tuesday'), t('ui.day.wednesday'), t('ui.day.thursday'), t('ui.day.friday')][lastSearchOption.day]} \
-                ${TIMETABLE_START_HOUR + Math.floor(lastSearchOption.begin / 2)}:${['00', '30'][lastSearchOption.begin % 2]} ~ \
-                ${TIMETABLE_START_HOUR + Math.floor(lastSearchOption.end / 2)}:${['00', '30'][lastSearchOption.end % 2]}`,
+                `${getRangeStr(
+                  lastSearchOption.day,
+                  (lastSearchOption.begin + TIMETABLE_START_HOUR * 2) * 30,
+                  (lastSearchOption.end + TIMETABLE_START_HOUR * 2) * 30
+                )}`,
               ]
               : [],
           )

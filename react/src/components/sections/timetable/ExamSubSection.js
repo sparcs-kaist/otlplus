@@ -16,6 +16,7 @@ import {
   getOverallLectures, isSingleFocused,
 } from '../../../utils/lectureUtils';
 import { getTimeStr } from '../../../utils/examtimeUtils';
+import { getDayStr } from '../../../utils/timeUtils';
 
 import { LectureFocusFrom } from '../../../reducers/timetable/lectureFocus';
 
@@ -51,14 +52,13 @@ class ExamSubSection extends Component {
       return;
     }
 
-    const dayNames = [t('ui.day.monday'), t('ui.day.tuesday'), t('ui.day.wednesday'), t('ui.day.thursday'), t('ui.day.friday')];
     const lecEtPairsOnDay = this._getLecEtPairsOnDay(dayIndex);
     const details = lecEtPairsOnDay.map((p) => ({
       lecture: p.lecture,
       name: p.lecture[t('js.property.title')],
       info: getTimeStr(p.examtime),
     }));
-    setMultipleFocusDispatch(t('ui.others.examOfDay', { day: dayNames[dayIndex] }), details);
+    setMultipleFocusDispatch(t('ui.others.examOfDay', { day: getDayStr(dayIndex) }), details);
     this.setState({
       multipleFocusDayIndex: dayIndex,
     });
