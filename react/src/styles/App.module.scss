@@ -1091,14 +1091,6 @@ a {
                 }
             }
         }
-
-        &__drag-cell {
-            position:absolute;
-            background-color:rgba(#E0546F,0.8);
-            border-radius: $tile-border-radius;
-            pointer-events:none;
-            z-index:1;
-        }
     }
 
     &--map {
@@ -1600,6 +1592,12 @@ a {
             z-index: -1;
             border-radius: $tile-border-radius;
         }
+    }
+
+    &--timetable-drag {
+        background-color:rgba(#E0546F,0.8);
+        pointer-events:none;
+        z-index:1;
     }
 
     &--horizonatal-timetable {

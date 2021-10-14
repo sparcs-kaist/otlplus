@@ -26,6 +26,7 @@ import {
   isFocused, isTableClicked, isDimmedTableLecture, getOverallLectures,
 } from '../../../utils/lectureUtils';
 import { performDeleteFromTable } from '../../../common/commonOperations';
+import TimetableDragTile from '../../tiles/TimetableDragTile';
 
 
 class TimetableSubSection extends Component {
@@ -385,16 +386,24 @@ class TimetableSubSection extends Component {
       ];
     };
 
-    const dragCell = firstDragCell && secondDragCell
+    const dragTile = firstDragCell && secondDragCell
       ? (
-        <div
-          className={classNames('subsection--timetable__drag-cell')}
-          style={{
-            left: (cellWidth + 5) * Number(firstDragCell.dataset.day) + 17,
-            width: cellWidth + 2,
-            top: cellHeight * Math.min(this._getIndexOfMinute(Number(firstDragCell.dataset.minute)), this._getIndexOfMinute(Number(secondDragCell.dataset.minute))) + 19,
-            height: cellHeight * (Math.abs(this._getIndexOfMinute(Number(firstDragCell.dataset.minute)) - this._getIndexOfMinute(Number(secondDragCell.dataset.minute))) + 1) - 3,
-          }}
+        <TimetableDragTile
+          dayIndex={Number(firstDragCell.dataset.day)}
+          beginIndex={
+            Math.min(
+              this._getIndexOfMinute(Number(firstDragCell.dataset.minute)),
+              this._getIndexOfMinute(Number(secondDragCell.dataset.minute))
+            )
+          }
+          endIndex={
+            Math.max(
+              this._getIndexOfMinute(Number(firstDragCell.dataset.minute)),
+              this._getIndexOfMinute(Number(secondDragCell.dataset.minute))
+            ) + 1
+          }
+          cellWidth={cellWidth}
+          cellHeight={cellHeight}
         />
       )
       : null;
@@ -421,7 +430,7 @@ class TimetableSubSection extends Component {
             {getColumnCells(t('ui.day.friday'), 4)}
           </div>
         </div>
-        {dragCell}
+        {dragTile}
         {tilesInsideTable}
         {tilesOutsideTable}
       </div>
