@@ -38,7 +38,6 @@ const search = (state = initialState, action) => {
     }
     case SET_CLASSTIME_OPTIONS: {
       return Object.assign({}, state, {
-        open: true,
         classtimeBegin: action.classtimeBegin,
         classtimeEnd: action.classtimeEnd,
         classtimeDay: action.classtimeDay,

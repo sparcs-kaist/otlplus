@@ -11,7 +11,7 @@ import TimetableTile from '../../tiles/TimetableTile';
 
 import { setLectureFocus, clearLectureFocus } from '../../../actions/timetable/lectureFocus';
 import { setSelectedListCode, setMobileIsLectureListOpen } from '../../../actions/timetable/list';
-import { setClasstimeOptions, clearClasstimeOptions } from '../../../actions/timetable/search';
+import { setClasstimeOptions, clearClasstimeOptions, openSearch } from '../../../actions/timetable/search';
 import { setIsDragging, updateCellSize, removeLectureFromTimetable } from '../../../actions/timetable/timetable';
 
 import { LectureFocusFrom } from '../../../reducers/timetable/lectureFocus';
@@ -154,7 +154,7 @@ class TimetableSubSection extends Component {
     const { firstDragCell, secondDragCell } = this.state;
     const {
       isDragging,
-      setIsDraggingDispatch, setClasstimeOptionsDispatch, clearClasstimeOptionsDispatch,
+      setIsDraggingDispatch, openSearchDispatch, setClasstimeOptionsDispatch, clearClasstimeOptionsDispatch,
       setSelectedListCodeDispatch, setMobileIsLectureListOpenDispatch,
     } = this.props;
 
@@ -177,6 +177,7 @@ class TimetableSubSection extends Component {
     setClasstimeOptionsDispatch(day, upperTime, lowerTime);
     setMobileIsLectureListOpenDispatch(true);
     setSelectedListCodeDispatch(LectureListCode.SEARCH);
+    openSearchDispatch();
   }
 
   focusLectureWithHover = (lecture) => {
@@ -440,6 +441,9 @@ const mapDispatchToProps = (dispatch) => ({
   updateCellSizeDispatch: (width, height) => {
     dispatch(updateCellSize(width, height));
   },
+  openSearchDispatch: () => {
+    dispatch(openSearch());
+  },
   setClasstimeOptionsDispatch: (day, start, end) => {
     dispatch(setClasstimeOptions(day, start, end));
   },
@@ -476,6 +480,7 @@ TimetableSubSection.propTypes = {
   mobileIsLectureListOpen: PropTypes.bool.isRequired,
 
   updateCellSizeDispatch: PropTypes.func.isRequired,
+  openSearchDispatch: PropTypes.func.isRequired,
   setClasstimeOptionsDispatch: PropTypes.func.isRequired,
   clearClasstimeOptionsDispatch: PropTypes.func.isRequired,
   setIsDraggingDispatch: PropTypes.func.isRequired,
