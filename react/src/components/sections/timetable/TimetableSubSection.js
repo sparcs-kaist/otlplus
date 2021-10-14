@@ -128,9 +128,9 @@ class TimetableSubSection extends Component {
     const { isDragging } = this.props;
 
     if (!isDragging) return;
-    const day = firstDragCell.getAttribute('data-day');
-    const firstCellTime = firstDragCell.getAttribute('data-minute');
-    const secondCellTime = target.getAttribute('data-minute');
+    const day = Number(firstDragCell.dataset.day);
+    const firstCellTime = Number(firstDragCell.dataset.minute);
+    const secondCellTime = Number(target.dataset.minute);
     const upperTime = Math.min(firstCellTime, secondCellTime);
     const lowerTime = Math.max(firstCellTime, secondCellTime) + 30;
     if (this._getOccupiedTimes(day, upperTime, lowerTime).length > 0) {
@@ -161,9 +161,9 @@ class TimetableSubSection extends Component {
     setIsDraggingDispatch(false);
     this.setState({ firstDragCell: null, secondDragCell: null });
 
-    const day = firstDragCell.getAttribute('data-day');
-    const firstCellTime = firstDragCell.getAttribute('data-minute');
-    const secondCellTime = secondDragCell.getAttribute('data-minute');
+    const day = Number(firstDragCell.dataset.day);
+    const firstCellTime = Number(firstDragCell.dataset.minute);
+    const secondCellTime = Number(secondDragCell.dataset.minute);
     if (firstCellTime === secondCellTime) {
       clearDragDispatch();
       return;
@@ -384,10 +384,10 @@ class TimetableSubSection extends Component {
         <div
           className={classNames('subsection--timetable__drag-cell')}
           style={{
-            left: (cellWidth + 5) * firstDragCell.getAttribute('data-day') + 17,
+            left: (cellWidth + 5) * Number(firstDragCell.dataset.day) + 17,
             width: cellWidth + 2,
-            top: cellHeight * Math.min(this._getIndexOfMinute(firstDragCell.getAttribute('data-minute')), this._getIndexOfMinute(secondDragCell.getAttribute('data-minute'))) + 19,
-            height: cellHeight * (Math.abs(this._getIndexOfMinute(firstDragCell.getAttribute('data-minute')) - this._getIndexOfMinute(secondDragCell.getAttribute('data-minute'))) + 1) - 3,
+            top: cellHeight * Math.min(this._getIndexOfMinute(Number(firstDragCell.dataset.minute)), this._getIndexOfMinute(Number(secondDragCell.dataset.minute))) + 19,
+            height: cellHeight * (Math.abs(this._getIndexOfMinute(Number(firstDragCell.dataset.minute)) - this._getIndexOfMinute(Number(secondDragCell.dataset.minute))) + 1) - 3,
           }}
         />
       )

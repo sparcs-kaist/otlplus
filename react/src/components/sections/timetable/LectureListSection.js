@@ -258,7 +258,7 @@ class LectureListSection extends Component {
       clearLectureFocusDispatch();
       return;
     }
-    const targetId = Number(elementAtPosition.getAttribute('data-id'));
+    const targetId = Number(elementAtPosition.dataset.id);
     const lectureGroups = this._getLectureGroups(selectedListCode, lists);
     const targetLecture = lectureGroups
       .map((lg) => lg.map((l) => ((l.id === targetId) ? l : null)))
