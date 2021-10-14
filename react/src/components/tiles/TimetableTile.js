@@ -17,7 +17,7 @@ const TimetableTile = ({
   cellWidth, cellHeight,
   isTimetableReadonly, isRaised, isHighlighted, isDimmed, isTemp, isSimple,
   onMouseOver, onMouseOut, onClick, deleteLecture,
-  occupiedTimes,
+  occupiedIndices,
 }) => {
   const handleMouseOver = onMouseOver
     ? (event) => {
@@ -97,14 +97,14 @@ const TimetableTile = ({
         </p>
       </div>
       {
-        occupiedTimes === undefined
+        occupiedIndices === undefined
           ? null
-          : occupiedTimes.map((o) => (
+          : occupiedIndices.map((o) => (
             <div
               key={`${o[0]}:${o[1]}`}
               className={classNames('tile--timetable__occupied-area')}
               style={{
-                top: cellHeight * o[0],
+                top: cellHeight * (o[0] - beginIndex),
                 height: cellHeight * (o[1] - o[0]) - 3,
               }}
             />
@@ -133,7 +133,7 @@ TimetableTile.propTypes = {
   onMouseOut: PropTypes.func,
   onClick: PropTypes.func,
   deleteLecture: PropTypes.func.isRequired,
-  occupiedTimes: PropTypes.arrayOf(PropTypes.array),
+  occupiedIndices: PropTypes.arrayOf(PropTypes.array),
 };
 
 export default withTranslation()(

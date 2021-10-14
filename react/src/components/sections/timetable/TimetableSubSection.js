@@ -57,7 +57,7 @@ class TimetableSubSection extends Component {
     updateCellSizeDispatch(cell.width, cell.height);
   }
 
-  indexOfMinute = (minute) => {
+  _getIndexOfMinute = (minute) => {
     return minute / 30 - (2 * TIMETABLE_START_HOUR);
   }
 
@@ -92,8 +92,7 @@ class TimetableSubSection extends Component {
     setIsDraggingDispatch(true);
   }
 
-  // check is drag contain class time
-  _getOccupiedTimes = (dragDay, dragStart, dragEnd) => {
+  _getOccupiedTimes = (day, begin, end) => {
     const { selectedTimetable } = this.props;
 
     if (!selectedTimetable) {
@@ -102,12 +101,12 @@ class TimetableSubSection extends Component {
 
     return selectedTimetable.lectures.map((lecture) => (
       lecture.classtimes.map((ct) => {
-        if ((ct.day === dragDay)
-          && (dragStart < this.indexOfMinute(ct.end))
-          && (dragEnd > this.indexOfMinute(ct.begin))) {
+        if ((ct.day === day)
+          && (begin < ct.end)
+          && (end > ct.begin)) {
           return [
-            Math.max(dragStart, this.indexOfMinute(ct.begin)) - dragStart,
-            Math.min(dragEnd, this.indexOfMinute(ct.end)) - dragStart,
+            Math.max(begin, ct.begin),
+            Math.min(end, ct.end),
           ];
         }
         return undefined;
@@ -139,12 +138,12 @@ class TimetableSubSection extends Component {
     const { isDragging } = this.props;
 
     if (!isDragging) return;
-    const dayIndex = firstDragCell.getAttribute('data-day');
-    const startIndex = this.indexOfMinute(firstDragCell.getAttribute('data-minute'));
-    const endIndex = this.indexOfMinute(target.getAttribute('data-minute'));
-    const upIndex = Math.min(startIndex, endIndex);
-    const downIndex = Math.max(startIndex, endIndex) + 1;
-    if (this._getOccupiedTimes(dayIndex, upIndex, downIndex).length > 0) {
+    const day = firstDragCell.getAttribute('data-day');
+    const firstCellTime = firstDragCell.getAttribute('data-minute');
+    const secondCellTime = target.getAttribute('data-minute');
+    const upperTime = Math.min(firstCellTime, secondCellTime);
+    const lowerTime = Math.max(firstCellTime, secondCellTime) + 30;
+    if (this._getOccupiedTimes(day, upperTime, lowerTime).length > 0) {
       return;
     }
     this.setState({ secondDragCell: target });
@@ -172,17 +171,17 @@ class TimetableSubSection extends Component {
     setIsDraggingDispatch(false);
     this.setState({ firstDragCell: null, secondDragCell: null });
 
-    const startDay = firstDragCell.getAttribute('data-day');
-    const startIndex = this.indexOfMinute(firstDragCell.getAttribute('data-minute'));
-    const endIndex = this.indexOfMinute(secondDragCell.getAttribute('data-minute'));
-    if (startIndex === endIndex) {
+    const day = firstDragCell.getAttribute('data-day');
+    const firstCellTime = firstDragCell.getAttribute('data-minute');
+    const secondCellTime = secondDragCell.getAttribute('data-minute');
+    if (firstCellTime === secondCellTime) {
       clearDragDispatch();
       return;
     }
 
-    const upIndex = Math.min(startIndex, endIndex);
-    const downIndex = Math.max(startIndex, endIndex) + 1;
-    dragSearchDispatch(startDay, upIndex, downIndex);
+    const upperTime = Math.min(firstCellTime, secondCellTime);
+    const lowerTime = Math.max(firstCellTime, secondCellTime) + 30;
+    dragSearchDispatch(day, upperTime, lowerTime);
     setMobileIsLectureListOpenDispatch(true);
     setSelectedListCodeDispatch(LectureListCode.SEARCH);
   }
@@ -304,13 +303,10 @@ class TimetableSubSection extends Component {
           onMouseOut={isTemp ? null : this.unfocusLectureWithHover}
           onClick={isTemp ? null : this.focusLectureWithClick}
           deleteLecture={this.deleteLectureFromTimetable}
-          occupiedTimes={
+          occupiedIndices={
             (isTemp && !isUntimed)
-              ? this._getOccupiedTimes(
-                classtime.day,
-                this.indexOfMinute(classtime.begin),
-                this.indexOfMinute(classtime.end)
-              )
+              ? this._getOccupiedTimes(classtime.day, classtime.begin, classtime.end)
+                .map((ot) => [this._getIndexOfMinute(ot[0]), this._getIndexOfMinute(ot[1])])
               : undefined
           }
         />
@@ -400,8 +396,8 @@ class TimetableSubSection extends Component {
           style={{
             left: (cellWidth + 5) * firstDragCell.getAttribute('data-day') + 17,
             width: cellWidth + 2,
-            top: cellHeight * Math.min(this.indexOfMinute(firstDragCell.getAttribute('data-minute')), this.indexOfMinute(secondDragCell.getAttribute('data-minute'))) + 19,
-            height: cellHeight * (Math.abs(this.indexOfMinute(firstDragCell.getAttribute('data-minute')) - this.indexOfMinute(secondDragCell.getAttribute('data-minute'))) + 1) - 3,
+            top: cellHeight * Math.min(this._getIndexOfMinute(firstDragCell.getAttribute('data-minute')), this._getIndexOfMinute(secondDragCell.getAttribute('data-minute'))) + 19,
+            height: cellHeight * (Math.abs(this._getIndexOfMinute(firstDragCell.getAttribute('data-minute')) - this._getIndexOfMinute(secondDragCell.getAttribute('data-minute'))) + 1) - 3,
           }}
         />
       )
