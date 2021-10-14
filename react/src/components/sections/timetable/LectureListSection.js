@@ -262,7 +262,7 @@ class LectureListSection extends Component {
     const lectureGroups = this._getLectureGroups(selectedListCode, lists);
     const targetLecture = lectureGroups
       .map((lg) => lg.map((l) => ((l.id === targetId) ? l : null)))
-      .reduce((acc, val) => acc.concat(val), [])
+      .flat(1)
       .filter((l) => (l !== null))[0];
     setLectureFocusDispatch(targetLecture, LectureFocusFrom.LIST, false);
   }

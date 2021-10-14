@@ -100,7 +100,8 @@ class TimetableSubSection extends Component {
     }
 
     const timetableClasstimes = selectedTimetable.lectures
-      .reduce((acc, val) => acc.concat(val.classtimes), []);
+      .map((l) => l.classtimes)
+      .flat(1);
     return timetableClasstimes
       .filter((ct) => ((ct.day === day) && (begin < ct.end) && (end > ct.begin)))
       .map((ct) => [Math.max(begin, ct.begin), Math.min(end, ct.end)]);
