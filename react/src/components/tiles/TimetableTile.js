@@ -13,7 +13,7 @@ import classtimeShape from '../../shapes/ClasstimeShape';
 const TimetableTile = ({
   t,
   lecture, classtime,
-  dayIndex, beginIndex, endIndex,
+  tableIndex, dayIndex, beginIndex, endIndex,
   cellWidth, cellHeight,
   isTimetableReadonly, isRaised, isHighlighted, isDimmed, isTemp, isSimple,
   onMouseOver, onMouseOut, onClick, deleteLecture,
@@ -39,6 +39,24 @@ const TimetableTile = ({
     deleteLecture(lecture);
   };
 
+  const getTop = () => {
+    if (tableIndex === 0) {
+      const timedTableOffset = 17 + (cellHeight * beginIndex);
+      return timedTableOffset + 2;
+    }
+    const timedTableHeight = 17 + (cellHeight * ((TIMETABLE_END_HOUR - TIMETABLE_START_HOUR) * 2));
+    const untimedTableHeight = 17 + (cellHeight * 3);
+    const tableSpacing = cellHeight;
+    const untimedTableOffset = 17 + (cellHeight * beginIndex);
+    return (
+      timedTableHeight
+      + untimedTableHeight * (tableIndex - 1)
+      + tableSpacing * tableIndex
+      + untimedTableOffset
+      + 2
+    );
+  };
+
   return (
     <div
       className={classNames(
@@ -51,12 +69,8 @@ const TimetableTile = ({
         (isDimmed ? 'tile--dimmed' : ''),
       )}
       style={{
-        left: (cellWidth + 5) * dayIndex + 17,
-        top: cellHeight * beginIndex + 19
-          + ((beginIndex >= (TIMETABLE_END_HOUR - TIMETABLE_START_HOUR) * 2)
-            ? ((beginIndex - (TIMETABLE_END_HOUR - TIMETABLE_START_HOUR) * 2 + 3) / 3 * (cellHeight + 17))
-            : 0
-          ),
+        left: 18 + (cellWidth + 5) * dayIndex - 1,
+        top: getTop(),
         width: cellWidth + 2,
         height: cellHeight * (endIndex - beginIndex) - 3,
       }}
@@ -103,6 +117,7 @@ const TimetableTile = ({
 TimetableTile.propTypes = {
   lecture: lectureShape.isRequired,
   classtime: classtimeShape,
+  tableIndex: PropTypes.number.isRequired,
   dayIndex: PropTypes.number.isRequired,
   beginIndex: PropTypes.number.isRequired,
   endIndex: PropTypes.number.isRequired,

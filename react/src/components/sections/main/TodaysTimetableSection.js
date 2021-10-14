@@ -149,6 +149,8 @@ class TodaysTimetableSection extends Component {
                     key={`${l.id}:${ct.day}:${ct.begin}`}
                     lecture={l}
                     classtime={ct}
+                    beginIndex={ct.begin / 30 - TIMETABLE_START_HOUR * 2}
+                    endIndex={ct.end / 30 - TIMETABLE_START_HOUR * 2}
                     cellWidth={cellWidth}
                     cellHeight={cellHeight}
                   />

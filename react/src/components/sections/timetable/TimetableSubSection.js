@@ -279,14 +279,18 @@ class TimetableSubSection extends Component {
           key={classtime ? `${lecture.id}:${classtime.day}:${classtime.begin}` : `${lecture.id}:no-time`}
           lecture={lecture}
           classtime={classtime}
+          tableIndex={isUntimed
+            ? Math.floor((untimedTileTitles.length - 1) / 5) + 1
+            : 0
+          }
           dayIndex={isUntimed
             ? ((untimedTileTitles.length - 1) % 5)
             : classtime.day}
           beginIndex={isUntimed
-            ? ((TIMETABLE_END_HOUR - TIMETABLE_START_HOUR) * 2 + Math.floor((untimedTileTitles.length - 1) / 5))
+            ? 0
             : (classtime.begin / 30 - TIMETABLE_START_HOUR * 2)}
           endIndex={isUntimed
-            ? ((TIMETABLE_END_HOUR - TIMETABLE_START_HOUR) * 2 + Math.floor((untimedTileTitles.length - 1) / 5) + 3)
+            ? 3
             : (classtime.end / 30 - TIMETABLE_START_HOUR * 2)}
           cellWidth={cellWidth}
           cellHeight={cellHeight}

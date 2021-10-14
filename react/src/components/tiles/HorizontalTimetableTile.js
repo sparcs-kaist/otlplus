@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
-import { TIMETABLE_START_HOUR } from '../../common/constants';
 import { getProfessorsShortStr, getColorNumber } from '../../utils/lectureUtils';
 
 import lectureShape from '../../shapes/LectureShape';
@@ -13,17 +12,16 @@ import classtimeShape from '../../shapes/ClasstimeShape';
 const HorizontalTimetableTile = ({
   t,
   lecture, classtime,
+  beginIndex, endIndex,
   cellWidth, cellHeight,
 }) => {
-  const indexOfTime = (time) => (time / 30 - TIMETABLE_START_HOUR * 2);
-
   return (
     <div
       className={classNames('tile', 'tile--horizonatal-timetable', `background-color--${getColorNumber(lecture)}`)}
       style={{
-        left: cellWidth * indexOfTime(classtime.begin) + 2 + 2,
-        top: 11 + 4 + 3,
-        width: cellWidth * (indexOfTime(classtime.end) - indexOfTime(classtime.begin)) - 3,
+        left: 2 + cellWidth * beginIndex + 2,
+        top: 15 + 3,
+        width: cellWidth * (endIndex - beginIndex) - 3,
         height: cellHeight - 3 * 2,
       }}
     >
@@ -45,6 +43,8 @@ const HorizontalTimetableTile = ({
 HorizontalTimetableTile.propTypes = {
   lecture: lectureShape.isRequired,
   classtime: classtimeShape,
+  beginIndex: PropTypes.number.isRequired,
+  endIndex: PropTypes.number.isRequired,
   cellWidth: PropTypes.number.isRequired,
   cellHeight: PropTypes.number.isRequired,
 };
