@@ -342,11 +342,13 @@ class TimetableSubSection extends Component {
           <div />
         </React.Fragment>
       ));
-      return [
-        <div className={classNames('table-head')} key={TIMETABLE_START_HOUR * 60}><strong>{TIMETABLE_START_HOUR}</strong></div>,
-        timedArea,
-        untimedArea,
-      ];
+      return (
+        <div>
+          <div className={classNames('table-head')} key={TIMETABLE_START_HOUR * 60}><strong>{TIMETABLE_START_HOUR}</strong></div>
+          { timedArea }
+          { untimedArea }
+        </div>
+      );
     };
     const getDayColumn = (dayName, dayIdx) => {
       const timedArea = cellMinutes.map((i) => {
@@ -379,11 +381,13 @@ class TimetableSubSection extends Component {
           <div className={classNames('cell', 'cell-bottom', 'cell-last', (mobileIsLectureListOpen ? 'cell-bottom--mobile-noline' : ''))} />
         </React.Fragment>
       ));
-      return [
-        <div className={classNames('table-head')} key={dayIdx}>{dayName}</div>,
-        timedArea,
-        untimedArea,
-      ];
+      return (
+        <div>
+          <div className={classNames('table-head')} key={dayIdx}>{dayName}</div>
+          { timedArea }
+          { untimedArea }
+        </div>
+      );
     };
 
     const dragTile = firstDragCell && secondDragCell
@@ -411,24 +415,12 @@ class TimetableSubSection extends Component {
     return (
       <div className={classNames('subsection', 'subsection--timetable')} onMouseUp={(e) => this.onMouseUp(e)} onTouchEnd={(e) => this.onTouchEnd(e)}>
         <div className={classNames('subsection--timetable__table')}>
-          <div>
-            {getHeadColumn()}
-          </div>
-          <div>
-            {getDayColumn(t('ui.day.monday'), 0)}
-          </div>
-          <div>
-            {getDayColumn(t('ui.day.tuesday'), 1)}
-          </div>
-          <div>
-            {getDayColumn(t('ui.day.wednesday'), 2)}
-          </div>
-          <div>
-            {getDayColumn(t('ui.day.thursday'), 3)}
-          </div>
-          <div>
-            {getDayColumn(t('ui.day.friday'), 4)}
-          </div>
+          {getHeadColumn()}
+          {getDayColumn(t('ui.day.monday'), 0)}
+          {getDayColumn(t('ui.day.tuesday'), 1)}
+          {getDayColumn(t('ui.day.wednesday'), 2)}
+          {getDayColumn(t('ui.day.thursday'), 3)}
+          {getDayColumn(t('ui.day.friday'), 4)}
         </div>
         {dragTile}
         {tilesInsideTable}
