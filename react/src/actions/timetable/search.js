@@ -4,8 +4,8 @@ const BASE_STRING = 'T_S_';
 export const RESET = BASE_STRING + 'RESET';
 export const OPEN_SEARCH = BASE_STRING + 'OPEN_SEARCH';
 export const CLOSE_SEARCH = BASE_STRING + 'CLOSE_SEARCH';
-export const DRAG_SEARCH = BASE_STRING + 'DRAG_SEARCH';
-export const CLEAR_DRAG = BASE_STRING + 'CLEAR_DRAG';
+export const SET_CLASSTIME_OPTIONS = BASE_STRING + 'SET_CLASSTIME_OPTIONS';
+export const CLEAR_CLASSTIME_OPTIONS = BASE_STRING + 'CLEAR_CLASSTIME_OPTIONS';
 export const SET_LAST_SEARCH_OPTION = BASE_STRING + 'SET_LAST_SEARCH_OPTION';
 /* eslint-enable prefer-template */
 
@@ -35,17 +35,17 @@ export function setLastSearchOption(lastSearchOption) {
   };
 }
 
-export function dragSearch(day, start, end) {
+export function setClasstimeOptions(classtimeDay, classtimeBegin, classtimeEnd) {
   return {
-    type: DRAG_SEARCH,
-    day: day,
-    start: start,
-    end: end,
+    type: SET_CLASSTIME_OPTIONS,
+    classtimeDay: classtimeDay,
+    classtimeBegin: classtimeBegin,
+    classtimeEnd: classtimeEnd,
   };
 }
 
-export function clearDrag() {
+export function clearClasstimeOptions() {
   return {
-    type: CLEAR_DRAG,
+    type: CLEAR_CLASSTIME_OPTIONS,
   };
 }

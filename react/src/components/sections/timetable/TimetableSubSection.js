@@ -11,7 +11,7 @@ import TimetableTile from '../../tiles/TimetableTile';
 
 import { setLectureFocus, clearLectureFocus } from '../../../actions/timetable/lectureFocus';
 import { setSelectedListCode, setMobileIsLectureListOpen } from '../../../actions/timetable/list';
-import { dragSearch, clearDrag } from '../../../actions/timetable/search';
+import { setClasstimeOptions, clearClasstimeOptions } from '../../../actions/timetable/search';
 import { setIsDragging, updateCellSize, removeLectureFromTimetable } from '../../../actions/timetable/timetable';
 
 import { LectureFocusFrom } from '../../../reducers/timetable/lectureFocus';
@@ -154,7 +154,7 @@ class TimetableSubSection extends Component {
     const { firstDragCell, secondDragCell } = this.state;
     const {
       isDragging,
-      setIsDraggingDispatch, dragSearchDispatch, clearDragDispatch,
+      setIsDraggingDispatch, setClasstimeOptionsDispatch, clearClasstimeOptionsDispatch,
       setSelectedListCodeDispatch, setMobileIsLectureListOpenDispatch,
     } = this.props;
 
@@ -168,13 +168,13 @@ class TimetableSubSection extends Component {
     const firstCellTime = Number(firstDragCell.dataset.minute);
     const secondCellTime = Number(secondDragCell.dataset.minute);
     if (firstCellTime === secondCellTime) {
-      clearDragDispatch();
+      clearClasstimeOptionsDispatch();
       return;
     }
 
     const upperTime = Math.min(firstCellTime, secondCellTime);
     const lowerTime = Math.max(firstCellTime, secondCellTime) + 30;
-    dragSearchDispatch(day, upperTime, lowerTime);
+    setClasstimeOptionsDispatch(day, upperTime, lowerTime);
     setMobileIsLectureListOpenDispatch(true);
     setSelectedListCodeDispatch(LectureListCode.SEARCH);
   }
@@ -440,11 +440,11 @@ const mapDispatchToProps = (dispatch) => ({
   updateCellSizeDispatch: (width, height) => {
     dispatch(updateCellSize(width, height));
   },
-  dragSearchDispatch: (day, start, end) => {
-    dispatch(dragSearch(day, start, end));
+  setClasstimeOptionsDispatch: (day, start, end) => {
+    dispatch(setClasstimeOptions(day, start, end));
   },
-  clearDragDispatch: () => {
-    dispatch(clearDrag());
+  clearClasstimeOptionsDispatch: () => {
+    dispatch(clearClasstimeOptions());
   },
   setIsDraggingDispatch: (isDragging) => {
     dispatch(setIsDragging(isDragging));
@@ -476,8 +476,8 @@ TimetableSubSection.propTypes = {
   mobileIsLectureListOpen: PropTypes.bool.isRequired,
 
   updateCellSizeDispatch: PropTypes.func.isRequired,
-  dragSearchDispatch: PropTypes.func.isRequired,
-  clearDragDispatch: PropTypes.func.isRequired,
+  setClasstimeOptionsDispatch: PropTypes.func.isRequired,
+  clearClasstimeOptionsDispatch: PropTypes.func.isRequired,
   setIsDraggingDispatch: PropTypes.func.isRequired,
   setLectureFocusDispatch: PropTypes.func.isRequired,
   clearLectureFocusDispatch: PropTypes.func.isRequired,
