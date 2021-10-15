@@ -6,6 +6,7 @@ import { withTranslation } from 'react-i18next';
 import { guidelineBoundClassNames as classNames } from '../../boundClassNames';
 
 import logoImage from '../images/SPARCS_black.svg';
+import { CONTACT } from '../../constants';
 
 
 class Footer extends Component {
@@ -38,7 +39,7 @@ class Footer extends Component {
           </div>
           <div className={classNames('contact')}>
             <span>
-              <a href="mailto:otlplus@sparcs.org">otlplus@sparcs.org</a>
+              <a href={`mailto:${CONTACT}`}>{ CONTACT }</a>
             </span>
           </div>
         </div>

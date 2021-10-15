@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
+import { CONTACT } from '../common/constants';
 
 
 class OtlplusPlaceholder extends Component {
@@ -20,7 +21,7 @@ class OtlplusPlaceholder extends Component {
           <Link to="/licenses/">{t('ui.menu.licences')}</Link>
         </div>
         <div>
-          <a href="mailto:otlplus@sparcs.org">otlplus@sparcs.org</a>
+          <a href={`mailto:${CONTACT}`}>{ CONTACT }</a>
         </div>
         <div>
           © 2016,&nbsp;
