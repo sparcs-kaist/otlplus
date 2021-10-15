@@ -34,6 +34,7 @@ import {
 } from '../../../common/commonOperations';
 import lectureListsShape from '../../../shapes/LectureListsShape';
 import Divider from '../../Divider';
+import OtlplusPlaceholder from '../../OtlplusPlaceholder';
 
 
 class LectureDetailSection extends Component {
@@ -526,24 +527,7 @@ class LectureDetailSection extends Component {
         );
       }
       return (
-        <div className={classNames('otlplus-placeholder')}>
-          <div>
-            OTL PLUS
-          </div>
-          <div>
-            <Link to="/credits/">{t('ui.menu.credit')}</Link>
-            &nbsp;|&nbsp;
-            <Link to="/licenses/">{t('ui.menu.licences')}</Link>
-          </div>
-          <div>
-            <a href="mailto:otlplus@sparcs.org">otlplus@sparcs.org</a>
-          </div>
-          <div>
-            © 2016,&nbsp;
-            <a href="http://sparcs.org">SPARCS</a>
-            &nbsp;OTL Team
-          </div>
-        </div>
+        <OtlplusPlaceholder />
       );
     };
 
