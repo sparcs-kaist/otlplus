@@ -1009,86 +1009,89 @@ a {
             flex-direction: row;
             height: 100%;
 
-            & > div:first-child {
+            &__label {
                 display: flex;
                 flex-direction: column;
-                width:10px;
-                margin-right:4px;
-
-                & > div {
-                    flex: 1 1 auto;
-                    position: relative;
-                    padding-top: 1px;
-                    width: 100%;
-                    &.table-head {
-                        flex: none;
-                        padding-top: 0;
-                        height: $line-height-smallest + 6px;
-                    }
-                    &:last-child {
-                        padding-bottom: 1px;
-                    }
-
-                    & > * {
+                width: 10px;
+                margin-right: 7px;
+    
+    
+                &__title {
+                    flex: none;
+                    height: $line-height-smallest + 6px;
+                }
+    
+                &__line {
+                    flex: none;
+                    height: 1px;
+    
+                    > span,
+                    > strong {
                         width: 100%;
                         text-align: right;
                         color: $color-text-light;
                         font-size: $font-size-smallest;
                         line-height: $line-height-smallest;
-                        position: absolute;
-                        display: inline-block;
-                        bottom: -($line-height-smallest / 2) - 1px;
-                    }
-                }
+                        display: block;
+                        margin-top: -($line-height-smallest / 2) + 1px;
+                    } 
+                } 
+    
+                &__cell {
+                    flex: auto;
+                } 
+    
+                &__gap {
+                    flex: auto;
+                } 
             }
 
-            & > div:not(:first-child) {
+            &__body {
                 display: flex;
                 flex-direction: column;
-                padding-left: 4px;
-                padding-right: 1px;
-                height: 100%;
+                padding: 0 1px;
+                margin-right: 3px;
                 flex: 1 1 0;
+                &:last-child {
+                    margin-right: 0;
+                } 
 
-                & > div {
-                    &.table-head {
-                        flex: none;
-                        height: $line-height-smallest + 6px;
-                        text-align: center;
-                        font-size: $font-size-smallest;
-                        line-height: $line-height-smallest;
-                        color: $color-text-light;
-                        position: relative;
-                        white-space: nowrap;
-                        margin: 0 -20px;
-                    }
-
-                    &:not(.table-head) {
-                        position: relative;
-                        flex: auto;
-                        width: 100%;
-                        &.cell {
-                            touch-action: none;
-                        }
-                        &.cell-top {
-                            border-top:1px solid $color-normal-line;
-                            &.cell-bold {
-                                border-top:1px solid $color-normal-line-dark;
-                            }
-                        }
-                        &.cell-bottom {
-                            border-top:1px dashed $color-normal-line;
-                            @media #{$media-portrait} {
-                                &.cell-bottom--mobile-noline {
-                                    border-top-color: transparent;
-                                }
-                            }
-                            &.cell-last {
-                                border-bottom:1px solid $color-normal-line-dark;
-                            }
-                        }
-                    }
-                }
+                &__title {
+                    flex: none;
+                    height: $line-height-smallest + 6px;
+                    text-align: center;
+                    font-size: $font-size-smallest;
+                    line-height: $line-height-smallest;
+                    color: $color-text-light;
+                    padding-bottom: 6px;
+                    margin: 0 -20px;
+                } 
+    
+                &__line {
+                    flex: none;
+                    height: 1px;
+                    border-bottom: 1px solid $color-normal-line;
+                    &--bold {
+                        border-bottom-color: $color-normal-line-dark;
+                    } 
+                    &--dashed {
+                        border-bottom-style: dashed;
+                        @media #{$media-portrait} {
+                            border-bottom: none;
+                        } 
+                    } 
+                } 
+    
+                &__cell {
+                    flex: auto;
+                    &--drag {
+                        touch-action: pan-x pinch-zoom;
+                    } 
+                } 
+    
+                &__gap {
+                    flex: auto;
+                } 
             }
         }
     }
@@ -1368,70 +1371,67 @@ a {
         overflow: hidden;
 
         &__table {
-                margin: 0 2px;
-
-                & > div:first-child {
-                    display: flex;
-                    flex-direction: row;
-                    margin-bottom: 4px;
-                    font-size: $font-size-smallest;
-                    line-height: $line-height-smallest;
-
-                    & > div {
-                        text-align: center;
-                        padding-left: 1px;
-                        flex: 0 0 auto;
-                        &:last-child {
-                            padding-right: 1px;
-                        }
-                        @media #{$media-landscape} {
-                            width: 7vh;
-                        }
-                        @media #{$media-portrait} {
-                            width: 15vw;
-                        }
-
-                        & > span,
-                        & > strong {
-                            position: relative;
-                            left: -50%;
-                        }
-                        &:last-child > strong {
-                            left: initial;
-                            right: -50%;
-                        }
-                    }
-                }
-
-                & > div:last-child {
-                    display: flex;
-                    flex-direction: row;
-
-                    & > div {
-                        text-align: center;
-                        height: (3px * 2) + ($tile-padding-tb * 2) + ($line-height-small * 3) + (1px * 2);
-                        flex: 0 0 auto;
-                        @media #{$media-landscape} {
-                            width: 7vh;
-                        }
-                        @media #{$media-portrait} {
-                            width: 15vw;
-                        }
-
-                        &.hcell-left {
-                            border-left: 1px solid $color-normal-line;
-                        }
-                        &.hcell-right {
-                            border-left: 1px dashed $color-normal-line;
-                        }
-                        &.hcell-bold {
-                            border-left: 1px solid $color-normal-line-dark;
-                        }
-                        &.hcell-last {
-                            border-right: 1px solid $color-normal-line-dark;
-                        }
-                    }
-                }
+            margin: 0 ((5px - 1px) / 2);
+            
+            &__label {
+                display: flex;
+                flex-direction: row;
+                height: $line-height-smallest;
+                margin-bottom: 4px;
+    
+                &__line {
+                    flex: none;
+                    width: 1px;
+    
+                    > span,
+                    > strong {
+                        text-align: center; 
+                        color: $color-text-light;
+                        font-size: $font-size-smallest;
+                        line-height: $line-height-smallest;
+                        display: block;
+                        margin: 0 -5px;
+                    } 
+                } 
+    
+                &__cell {
+                    flex: none;
+                    @media #{$media-landscape} {
+                        width: 7vh;
+                    } 
+                    @media #{$media-portrait} {
+                        width: 15vw;
+                    } 
+                } 
+            }
+    
+            &__body {
+                display: flex;
+                flex-direction: row;
+                height: (3px * 2) + ($tile-padding-tb * 2) + ($line-height-small * 3) + (1px * 2);
+    
+                &__line {
+                    flex: none;
+                    width: 1px;
+                    border-left: 1px solid $color-normal-line;
+                    &--bold {
+                        border-left-color: $color-normal-line-dark;
+                    } 
+                    &--dashed {
+                        border-left-style: dashed;
+                    } 
+                } 
+    
+                &__cell {
+                    flex: none;
+                    @media #{$media-landscape} {
+                        width: 7vh;
+                    } 
+                    @media #{$media-portrait} {
+                        width: 15vw;
+                    } 
+                } 
+            }
         }
 
         &__bar {

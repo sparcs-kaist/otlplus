@@ -58,10 +58,10 @@ class TodaysTimetableSection extends Component {
 
   resize = () => {
     const cell = document
-      .getElementsByClassName(classNames('hcell-left'))[0]
+      .getElementsByClassName(classNames('subsection--todays-timetable__table__body__cell'))[0]
       .getBoundingClientRect();
     this.setState({
-      cellWidth: cell.width,
+      cellWidth: cell.width + 1,
       cellHeight: cell.height,
     });
   }
@@ -104,39 +104,72 @@ class TodaysTimetableSection extends Component {
       <div className={classNames('subsection', 'subsection--feed', 'subsection--todays-timetable')} ref={this.scrollRef}>
         <Scroller noScrollX={false} noScrollY={true}>
           <div className={classNames('subsection--todays-timetable__table')}>
-            <div>
+            <div className={classNames('subsection--todays-timetable__table__label')}>
               {
-                range(TIMETABLE_START_HOUR * 2, TIMETABLE_END_HOUR * 2).map((i) => {
-                  if (i % 2 === 0) {
-                    const hour = i / 2;
-                    const hourValue = ((hour - 1) % 12) + 1;
-                    if (hour % 6 === 0) {
-                      return <div key={i}><strong>{hourValue}</strong></div>;
-                    }
-                    return <div key={i}><span>{hourValue}</span></div>;
-                  }
-                  if (i === TIMETABLE_END_HOUR * 2 - 1) {
-                    return <div key={i}><strong>12</strong></div>;
-                  }
-                  return <div key={i} />;
-                })
+                [
+                  ...(
+                    range(TIMETABLE_START_HOUR, TIMETABLE_END_HOUR).map((h) => {
+                      const HourTag = (h % 6 === 0) ? 'strong' : 'span';
+                      return [
+                        <div className={classNames('subsection--todays-timetable__table__label__line')} key={`line:${h * 60}`}>
+                          <HourTag>{((h - 1) % 12) + 1}</HourTag>
+                        </div>,
+                        <div className={classNames('subsection--todays-timetable__table__label__cell')} key={`cell:${h * 60}`} />,
+                        <div className={classNames('subsection--todays-timetable__table__label__line')} key={`line:${h * 60 + 30}`} />,
+                        <div className={classNames('subsection--todays-timetable__table__label__cell')} key={`cell:${h * 60 + 30}`} />,
+                      ];
+                    })
+                      .flat(1)
+                  ),
+                  <div className={classNames('subsection--todays-timetable__table__label__line')} key="line:1440">
+                    <strong>{12}</strong>
+                  </div>,
+                ]
               }
             </div>
-            <div>
+            <div className={classNames('subsection--todays-timetable__table__body')}>
               {
-                range(TIMETABLE_START_HOUR * 2, TIMETABLE_END_HOUR * 2).map((i) => {
-                  if (i % 2 === 0) {
-                    const hour = i / 2;
-                    if (hour % 6 === 0) {
-                      return <div className={classNames('hcell-left', 'hcell-bold')} key={i} />;
-                    }
-                    return <div className={classNames('hcell-left')} key={i} />;
-                  }
-                  if (i === TIMETABLE_END_HOUR * 2 - 1) {
-                    return <div className={classNames('hcell-right', 'hcell-last')} key={i} />;
-                  }
-                  return <div className={classNames('hcell-right')} key={i} />;
-                })
+                [
+                  ...(
+                    range(TIMETABLE_START_HOUR, TIMETABLE_END_HOUR).map((h) => {
+                      return [
+                        <div
+                          className={classNames(
+                            'subsection--todays-timetable__table__body__line',
+                            (h % 6 === 0) ? 'subsection--todays-timetable__table__body__line--bold' : null,
+                          )}
+                          key={`line:${h * 60}`}
+                        />,
+                        <div
+                          className={classNames(
+                            'subsection--todays-timetable__table__body__cell',
+                          )}
+                          key={`cell:${h * 60}`}
+                        />,
+                        <div
+                          className={classNames(
+                            'subsection--todays-timetable__table__body__line',
+                            'subsection--todays-timetable__table__body__line--dashed',
+                          )}
+                          key={`line:${h * 60 + 30}`}
+                        />,
+                        <div
+                          className={classNames(
+                            'subsection--todays-timetable__table__body__cell',
+                          )}
+                          key={`cell:${h * 60 + 30}`}
+                        />,
+                      ];
+                    })
+                  ),
+                  <div
+                    className={classNames(
+                      'subsection--todays-timetable__table__body__line',
+                      'subsection--todays-timetable__table__body__line--bold',
+                    )}
+                    key="line:1440"
+                  />,
+                ]
               }
             </div>
           </div>

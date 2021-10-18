@@ -55,8 +55,8 @@ class TimetableSubSection extends Component {
   resize = () => {
     const { updateCellSizeDispatch } = this.props;
 
-    const cell = document.getElementsByClassName(classNames('cell-top'))[0].getBoundingClientRect();
-    updateCellSizeDispatch(cell.width, cell.height);
+    const cell = document.getElementsByClassName(classNames('subsection--timetable__table__body__cell'))[0].getBoundingClientRect();
+    updateCellSizeDispatch(cell.width, cell.height + 1);
   }
 
   _getIndexOfMinute = (minute) => {
@@ -78,7 +78,7 @@ class TimetableSubSection extends Component {
     if (elementAtPosition === null) {
       return;
     }
-    const targetElementAtPosition = elementAtPosition.closest(`.${classNames('cell-drag')}`);
+    const targetElementAtPosition = elementAtPosition.closest(`.${classNames('subsection--timetable__table__body__cell--drag')}`);
     if (targetElementAtPosition === null) {
       return;
     }
@@ -118,7 +118,7 @@ class TimetableSubSection extends Component {
     if (elementAtPosition === null) {
       return;
     }
-    const targetElementAtPosition = elementAtPosition.closest(`.${classNames('cell-drag')}`);
+    const targetElementAtPosition = elementAtPosition.closest(`.${classNames('subsection--timetable__table__body__cell--drag')}`);
     if (targetElementAtPosition === null) {
       return;
     }
@@ -318,69 +318,149 @@ class TimetableSubSection extends Component {
       getUntimedTitle(p.classtime)
     )); 
 
-    const cellMinutes = range(TIMETABLE_START_HOUR * 60, TIMETABLE_END_HOUR * 60, 30);
+    const tableHours = range(TIMETABLE_START_HOUR, TIMETABLE_END_HOUR);
     const getHeadColumn = () => {
-      const timedArea = cellMinutes.map((i) => {
-        const i2 = i + 30;
-        if (i2 % (6 * 60) === 0) {
-          return <div key={i2}><strong>{((i2 / 60 - 1) % 12) + 1}</strong></div>;
-        }
-        if (i2 % 60 === 0) {
-          return <div key={i2}><span>{((i2 / 60 - 1) % 12) + 1}</span></div>;
-        }
-        return <div key={i2} />;
-      });
+      const timedArea = [
+        <div className={classNames('subsection--timetable__table__label__title')} key="title" />,
+        ...(
+          tableHours.map((h) => {
+            const HourTag = (h % 6 === 0) ? 'strong' : 'span';
+            return [
+              <div className={classNames('subsection--timetable__table__label__line')} key={`line:${h * 60}`}>
+                <HourTag>{((h - 1) % 12) + 1}</HourTag>
+              </div>,
+              <div className={classNames('subsection--timetable__table__label__cell')} key={`cell:${h * 60}`} />,
+              <div className={classNames('subsection--timetable__table__label__line')} key={`line:${h * 60 + 30}`} />,
+              <div className={classNames('subsection--timetable__table__label__cell')} key={`cell:${h * 60 + 30}`} />,
+            ];
+          })
+            .flat(1)
+        ),
+        <div className={classNames('subsection--timetable__table__label__line')} key="line:1440">
+          <strong>{12}</strong>
+        </div>,
+      ];
       const untimedArea = range(Math.ceil(untimedTileTitles.length / 5)).map((_, i) => (
-        <React.Fragment key={_}>
-          <div />
-          <div className={classNames('table-head')} />
-          <div />
-          <div />
-          <div />
-        </React.Fragment>
+        [
+          <div className={classNames('subsection--timetable__table__label__gap')} key="gap" />,
+          <div className={classNames('subsection--timetable__table__label__title')} key="title" />,
+          <div className={classNames('subsection--timetable__table__label__line')} key="line:1" />,
+          <div className={classNames('subsection--timetable__table__label__cell')} key="cell:1" />,
+          <div className={classNames('subsection--timetable__table__label__line')} key="line:2" />,
+          <div className={classNames('subsection--timetable__table__label__cell')} key="cell:2" />,
+          <div className={classNames('subsection--timetable__table__label__line')} key="line:3" />,
+          <div className={classNames('subsection--timetable__table__label__cell')} key="cell:3" />,
+          <div className={classNames('subsection--timetable__table__label__line')} key="line:4" />,
+        ]
       ));
       return (
-        <div>
-          <div className={classNames('table-head')} key={TIMETABLE_START_HOUR * 60}><strong>{TIMETABLE_START_HOUR}</strong></div>
+        <div className={classNames('subsection--timetable__table__label')}>
           { timedArea }
           { untimedArea }
         </div>
       );
     };
     const getDayColumn = (dayIdx) => {
-      const timedArea = cellMinutes.map((i) => {
-        return (
-          <div
-            className={classNames(
-              'cell',
-              'cell-drag',
-              (i % 60 === 0) ? 'cell-top' : 'cell-bottom',
-              (i % 60 === 30) && mobileIsLectureListOpen ? 'cell-bottom--mobile-noline' : '',
-              (i === 23 * 60 + 30) ? 'cell-last' : '',
-              (i % (6 * 60) === 0) ? 'cell-bold' : '',
-            )}
-            key={`${dayIdx}:${i.toString()}`}
-            data-day={dayIdx}
-            data-minute={i.toString()}
-            onMouseDown={(e) => this.onMouseDown(e)}
-            onTouchStart={(e) => this.onTouchStart(e)}
-            onMouseMove={(e) => this.onMouseMove(e)}
-            onTouchMove={(e) => this.onTouchMove(e)}
-          />
-        );
-      });
-      const untimedArea = range(Math.ceil(untimedTileTitles.length / 5)).map((_, i) => (
-        <React.Fragment key={_}>
-          <div className={classNames('cell')} />
-          <div className={classNames('table-head')}>{untimedTileTitles[i * 5 + dayIdx]}</div>
-          <div className={classNames('cell', 'cell-top')} />
-          <div className={classNames('cell', 'cell-bottom', (mobileIsLectureListOpen ? 'cell-bottom--mobile-noline' : ''))} />
-          <div className={classNames('cell', 'cell-bottom', 'cell-last', (mobileIsLectureListOpen ? 'cell-bottom--mobile-noline' : ''))} />
-        </React.Fragment>
+      const timedArea = [
+        <div className={classNames('subsection--timetable__table__body__title')} key="title">
+          {getDayStr(dayIdx)}
+        </div>,
+        ...(
+          tableHours.map((h) => {
+            return [
+              <div
+                className={classNames(
+                  'subsection--timetable__table__body__line',
+                  (h % 6 === 0) ? 'subsection--timetable__table__body__line--bold' : null,
+                )}
+                key={`line:${h * 60}`}
+              />,
+              <div
+                className={classNames(
+                  'subsection--timetable__table__body__cell',
+                  'subsection--timetable__table__body__cell--drag',
+                )}
+                key={`cell:${h * 60}`}
+                data-day={dayIdx}
+                data-minute={h * 60}
+                onMouseDown={(e) => this.onMouseDown(e)}
+                onTouchStart={(e) => this.onTouchStart(e)}
+                onMouseMove={(e) => this.onMouseMove(e)}
+                onTouchMove={(e) => this.onTouchMove(e)}
+              />,
+              <div
+                className={classNames(
+                  'subsection--timetable__table__body__line',
+                  'subsection--timetable__table__body__line--dashed',
+                )}
+                key={`line:${h * 60 + 30}`}
+              />,
+              <div
+                className={classNames(
+                  'subsection--timetable__table__body__cell',
+                  'subsection--timetable__table__body__cell--drag',
+                )}
+                key={`cell:${h * 60 + 30}`}
+                data-day={dayIdx}
+                data-minute={h * 60 + 30}
+                onMouseDown={(e) => this.onMouseDown(e)}
+                onTouchStart={(e) => this.onTouchStart(e)}
+                onMouseMove={(e) => this.onMouseMove(e)}
+                onTouchMove={(e) => this.onTouchMove(e)}
+              />,
+            ];
+          })
+            .flat(1)
+        ),
+        <div
+          className={classNames(
+            'subsection--timetable__table__body__line',
+            'subsection--timetable__table__body__line--bold',
+          )}
+          key="line:1440"
+        />,
+      ];
+      const untimedArea = range(Math.ceil(untimedTileTitles.length / 5)).map((i) => (
+        [
+          <div className={classNames('subsection--timetable__table__body__gap')} key="gap" />,
+          <div className={classNames('subsection--timetable__table__body__title')} key="title">
+            { untimedTileTitles[i * 5 + dayIdx] }
+          </div>,
+          <div 
+            className={classNames( 
+              'subsection--timetable__table__body__line',
+              'subsection--timetable__table__body__line--bold',
+            )} 
+            key="line:1"
+          />,
+          <div className={classNames('subsection--timetable__table__body__cell')} key="cell:1" />,
+          <div 
+            className={classNames( 
+              'subsection--timetable__table__body__line',
+              'subsection--timetable__table__body__line--dashed',
+            )} 
+            key="line:2"
+          />,
+          <div className={classNames('subsection--timetable__table__body__cell')} key="cell:2" />,
+          <div 
+            className={classNames( 
+              'subsection--timetable__table__body__line',
+              'subsection--timetable__table__body__line--dashed',
+            )} 
+            key="line:3"
+          />,
+          <div className={classNames('subsection--timetable__table__body__cell')} key="cell:3" />,
+          <div 
+            className={classNames( 
+              'subsection--timetable__table__body__line',
+              'subsection--timetable__table__body__line--bold',
+            )} 
+            key="line:4"
+          />,
+        ]
       ));
       return (
-        <div>
-          <div className={classNames('table-head')} key={dayIdx}>{getDayStr(dayIdx)}</div>
+        <div className={classNames('subsection--timetable__table__body')}>
           { timedArea }
           { untimedArea }
         </div>
