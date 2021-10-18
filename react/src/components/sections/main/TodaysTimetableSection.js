@@ -75,8 +75,9 @@ class TodaysTimetableSection extends Component {
 
     const hours = now.getHours();
     const minutes = now.getMinutes();
+    const seconds = now.getSeconds();
 
-    const floatHours = hours + (minutes / 60);
+    const floatHours = hours + (minutes / 60) + (seconds / 60 / 60);
 
     return (floatHours - TIMETABLE_START_HOUR) * cellWidth * 2
       + TABLE_LEFT_MARGIN
