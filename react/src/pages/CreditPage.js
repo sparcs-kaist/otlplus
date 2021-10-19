@@ -8,6 +8,7 @@ import ProjectBlock from '../components/blocks/ProjectBlock';
 import memberBatteryImage from '../static/images/members/Members-05-battery_kor.png';
 import memberDaybreakerImage from '../static/images/members/Members-05-daybreaker_kor.png';
 import memberJulingksImage from '../static/images/members/Members-05-julingks_kor.png';
+import memberMajjaImage from '../static/images/members/Members-ext-majja_kor.png';
 
 import memberCanchoImage from '../static/images/members/Members-07-cancho_kor.png';
 import memberDynamanImage from '../static/images/members/Members-07-dynaman_kor.png';
@@ -111,7 +112,7 @@ class CreditPage extends Component {
               { name: '김민우', image: memberJulingksImage },
               { name: '김종균', image: memberTruthImage },
               { name: '김준기', image: memberDaybreakerImage },
-              { name: '유충국' },
+              { name: '유충국', image: memberMajjaImage },
             ],
           },
           {
@@ -480,10 +481,7 @@ class CreditPage extends Component {
                         {
                           f.people.map((p) => (
                             <div className={classNames('subsection--credit__people-list__group__elem')} key={p.name}>
-                              {p.image
-                                ? <img src={p.image} alt={p.name} />
-                                : <div className={classNames('subsection--credit__people-list__group__elem__name')}>{p.name}</div>
-                              }
+                              <img src={p.image} alt={p.name} />
                               {p.caption ? <div className={classNames('caption')}>{p.caption}</div> : null}
                             </div>
                           ))
