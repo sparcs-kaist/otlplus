@@ -36,6 +36,7 @@ import lectureListsShape from '../../../shapes/LectureListsShape';
 import Divider from '../../Divider';
 import OtlplusPlaceholder from '../../OtlplusPlaceholder';
 import Attributes from '../../Attributes';
+import Scores from '../../Scores';
 
 
 class LectureDetailSection extends Component {
@@ -362,52 +363,38 @@ class LectureDetailSection extends Component {
               ]}
               fixedWidthName
             />
-            <div className={classNames('scores')}>
-              <div>
-                {
-                  lectureFocus.lecture.is_english
-                    ? <div>Eng</div>
-                    : <div className={(classNames('scores__score-text--korean'))}>한</div>
-                }
-                <div>{t('ui.score.language')}</div>
-              </div>
-              <div>
-                {
-                  lectureFocus.lecture.credit > 0
-                    ? <div>{lectureFocus.lecture.credit}</div>
-                    : <div>{lectureFocus.lecture.credit_au}</div>
-                }
-                {
-                  lectureFocus.lecture.credit > 0
-                    ? <div>{t('ui.score.credit')}</div>
-                    : <div>AU</div>
-                }
-              </div>
-              <div>
-                <div>
-                  {
-                    lectureFocus.lecture.limit === 0
-                      ? '0.0:1'
-                      : `${(lectureFocus.lecture.num_people / lectureFocus.lecture.limit).toFixed(1).toString()}:1`
-                  }
-                </div>
-                <div>{t('ui.score.competition')}</div>
-              </div>
-            </div>
-            <div className={classNames('scores')}>
-              <div>
-                <div>{getAverageScoreLabel(lectureFocus.lecture.grade)}</div>
-                <div>{t('ui.score.grade')}</div>
-              </div>
-              <div>
-                <div>{getAverageScoreLabel(lectureFocus.lecture.load)}</div>
-                <div>{t('ui.score.load')}</div>
-              </div>
-              <div>
-                <div>{getAverageScoreLabel(lectureFocus.lecture.speech)}</div>
-                <div>{t('ui.score.speech')}</div>
-              </div>
-            </div>
+            <Scores
+              entries={[
+                { 
+                  name: t('ui.score.language'),
+                  score: lectureFocus.lecture.is_english ? 'Eng' : '한',
+                },
+                { 
+                  name: (lectureFocus.lecture.credit > 0) ? t('ui.score.credit') : 'AU',
+                  score: (lectureFocus.lecture.credit > 0) ? lectureFocus.lecture.credit : lectureFocus.lecture.credit_au,
+                },
+                { 
+                  name: t('ui.score.competition'),
+                  score: (lectureFocus.lecture.limit === 0) ? '0.0:1' : `${(lectureFocus.lecture.num_people / lectureFocus.lecture.limit).toFixed(1).toString()}:1`,
+                },
+              ]}
+            />
+            <Scores
+              entries={[
+                { 
+                  name: t('ui.score.grade'),
+                  score: getAverageScoreLabel(lectureFocus.lecture.grade),
+                },
+                { 
+                  name: t('ui.score.load'),
+                  score: getAverageScoreLabel(lectureFocus.lecture.load),
+                },
+                { 
+                  name: t('ui.score.speech'),
+                  score: getAverageScoreLabel(lectureFocus.lecture.speech),
+                },
+              ]}
+            />
             { shouldShowCloseDict
               ? (
                 <button className={classNames('small-title', 'top-sticky')} onClick={this.closeDictPreview} ref={this.openDictRef}>

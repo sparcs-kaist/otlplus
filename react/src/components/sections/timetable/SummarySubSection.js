@@ -16,6 +16,7 @@ import timetableShape from '../../../shapes/TimetableShape';
 
 import { inTimetable, getOverallLectures } from '../../../utils/lectureUtils';
 import Attributes from '../../Attributes';
+import Scores from '../../Scores';
 
 
 const indexOfType = (type) => {
@@ -182,7 +183,7 @@ class SummarySubSection extends Component {
       && lectureFocus.lecture.credit_au > 0
     );
     const isCreditMultiFocused = (multipleFocusCode === 'Credit');
-    const isAuMultiFocused = (multipleFocusCode === 'Credit Au');
+    const isAuMultiFocused = (multipleFocusCode === 'Credit AU');
 
     const timetableLecturesWithReview = timetableLectures.filter((l) => (
       l.review_total_weight > 0
@@ -256,34 +257,44 @@ class SummarySubSection extends Component {
             fixedWidthName
           />
         </div>
-        <div className={classNames('scores')}>
-          <div onMouseOver={() => this.setFocusOnCredit('Credit')} onMouseOut={() => this.clearFocus()}>
-            <div>
-              <span className={classNames('normal', ((isCreditSingleFocused || isCreditMultiFocused) ? 'focused' : ''))}>{overallCredit}</span>
-            </div>
-            <div>{t('ui.score.credit')}</div>
-          </div>
-          <div onMouseOver={() => this.setFocusOnCredit('Credit AU')} onMouseOut={() => this.clearFocus()}>
-            <div>
-              <span className={classNames('normal', ((isAuSingleFocused || isAuMultiFocused) ? 'focused' : ''))}>{overallAu}</span>
-            </div>
-            <div>{t('ui.score.au')}</div>
-          </div>
-        </div>
-        <div className={classNames('scores')}>
-          <div onMouseOver={() => this.setFocusOnScore('Grade')} onMouseOut={() => this.clearFocus()}>
-            <div className={classNames((isGradeMultiFocused ? 'focused' : ''))}>{(totalWeight !== 0) ? getAverageScoreLabel(gradeWeightedSum / totalWeight) : '?'}</div>
-            <div>{t('ui.score.grade')}</div>
-          </div>
-          <div onMouseOver={() => this.setFocusOnScore('Load')} onMouseOut={() => this.clearFocus()}>
-            <div className={classNames((isLoadMultiFocused ? 'focused' : ''))}>{(totalWeight !== 0) ? getAverageScoreLabel(loadWeightedSum / totalWeight) : '?'}</div>
-            <div>{t('ui.score.load')}</div>
-          </div>
-          <div onMouseOver={() => this.setFocusOnScore('Speech')} onMouseOut={() => this.clearFocus()}>
-            <div className={classNames((isSpeechMultiFocused ? 'focused' : ''))}>{(totalWeight !== 0) ? getAverageScoreLabel(timetableWeightedSum / totalWeight) : '?'}</div>
-            <div>{t('ui.score.speech')}</div>
-          </div>
-        </div>
+        <Scores
+          entries={[
+            {
+              name: t('ui.score.au'),
+              score: <span className={classNames(((isCreditSingleFocused || isCreditMultiFocused) ? 'focused' : ''))}>{overallCredit}</span>,
+              onMouseOver: () => this.setFocusOnCredit('Credit'),
+              onMouseOut: () => this.clearFocus(),
+            },
+            {
+              name: t('ui.score.credit'),
+              score: <span className={classNames(((isAuSingleFocused || isAuMultiFocused) ? 'focused' : ''))}>{overallAu}</span>,
+              onMouseOver: () => this.setFocusOnCredit('Credit AU'),
+              onMouseOut: () => this.clearFocus(),
+            },
+          ]}
+        />
+        <Scores
+          entries={[
+            {
+              name: t('ui.score.grade'),
+              score: <span className={classNames((isGradeMultiFocused ? 'focused' : ''))}>{(totalWeight !== 0) ? getAverageScoreLabel(gradeWeightedSum / totalWeight) : '?'}</span>,
+              onMouseOver: () => this.setFocusOnScore('Grade'),
+              onMouseOut: () => this.clearFocus(),
+            },
+            {
+              name: t('ui.score.load'),
+              score: <span className={classNames((isLoadMultiFocused ? 'focused' : ''))}>{(totalWeight !== 0) ? getAverageScoreLabel(loadWeightedSum / totalWeight) : '?'}</span>,
+              onMouseOver: () => this.setFocusOnScore('Load'),
+              onMouseOut: () => this.clearFocus(),
+            },
+            {
+              name: t('ui.score.speech'),
+              score: <span className={classNames((isSpeechMultiFocused ? 'focused' : ''))}>{(totalWeight !== 0) ? getAverageScoreLabel(timetableWeightedSum / totalWeight) : '?'}</span>,
+              onMouseOver: () => this.setFocusOnScore('Speech'),
+              onMouseOut: () => this.clearFocus(),
+            },
+          ]}
+        />
       </div>
     );
   }

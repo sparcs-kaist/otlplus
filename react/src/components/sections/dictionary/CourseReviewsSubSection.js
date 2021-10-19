@@ -16,6 +16,7 @@ import { updateUserReview } from '../../../actions/common/user';
 import courseFocusShape from '../../../shapes/CourseFocusShape';
 import userShape from '../../../shapes/UserShape';
 import { calcAverage, getAverageScoreLabel } from '../../../utils/scoreUtils';
+import Scores from '../../Scores';
 
 
 class CourseReviewsSubSection extends Component {
@@ -167,20 +168,13 @@ class CourseReviewsSubSection extends Component {
           options={languageOptions}
           checkedValues={selectedLanguages}
         />
-        <div className={classNames('scores')} ref={this.scoresRef}>
-          <div>
-            <div>{ getAverageScoreLabel(grade) }</div>
-            <div>{ t('ui.score.grade') }</div>
-          </div>
-          <div>
-            <div>{ getAverageScoreLabel(load) }</div>
-            <div>{ t('ui.score.load') }</div>
-          </div>
-          <div>
-            <div>{ getAverageScoreLabel(speech) }</div>
-            <div>{ t('ui.score.speech') }</div>
-          </div>
-        </div>
+        <Scores
+          entries={[
+            { name: t('ui.score.grade'), score: getAverageScoreLabel(grade) },
+            { name: t('ui.score.load'), score: getAverageScoreLabel(load) },
+            { name: t('ui.score.speech'), score: getAverageScoreLabel(speech) },
+          ]}
+        />
         { reviewWriteBlocksArea }
         { reviewBlocksArea }
       </div>
