@@ -68,11 +68,17 @@ class TimetablePage extends Component {
     return (
       <>
         <section className={classNames('content', 'content--no-scroll')}>
-          <div className={classNames('page-grid', 'page-grid--timetable', (mobileIsLectureListOpen ? 'page-grid--timetable--mobile-expanded' : ''))}>
+          <div
+            className={classNames(
+              'page-grid',
+              'page-grid--timetable',
+              (mobileIsLectureListOpen ? 'page-grid--timetable--mobile-expanded' : null)
+            )}
+          >
             <LectureDetailSection />
             <LectureListTabs />
             <LectureListSection />
-            <div className={classNames('section', 'section--semester-and-timetable-list', 'section--desktop-transparent', 'section--mobile-modal', (mobileIsTimetableTabsOpen ? '' : 'mobile-hidden'))}>
+            <div className={classNames('section', 'section--semester-and-timetable-list', 'section--desktop-transparent', 'section--mobile-modal', (mobileIsTimetableTabsOpen ? null : 'mobile-hidden'))}>
               <CloseButton onClick={() => setMobileIsTimetableTabsOpenDispatch(false)} />
               <TimetableTabs />
               <SemesterSection startSemester={startSemester} />

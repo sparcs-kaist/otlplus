@@ -277,7 +277,10 @@ class TimetableTabs extends Component {
       user
         ? (
           <div
-            className={classNames('tabs__elem', ((selectedTimetable && (myTimetable.id === selectedTimetable.id)) ? 'tabs__elem--selected' : ''))}
+            className={classNames(
+              'tabs__elem',
+              ((selectedTimetable && (myTimetable.id === selectedTimetable.id)) ? 'tabs__elem--selected' : null),
+            )}
             key={myTimetable.id}
             onClick={() => this.changeTab(myTimetable)}
           >
@@ -303,7 +306,14 @@ class TimetableTabs extends Component {
           <>
             {
               timetables.map((tt, i) => (
-                <div className={classNames('tabs__elem', (tt.id === selectedTimetable.id ? 'tabs__elem--selected' : ''))} key={tt.id} onClick={() => this.changeTab(tt)}>
+                <div
+                  className={classNames(
+                    'tabs__elem',
+                    (tt.id === selectedTimetable.id ? 'tabs__elem--selected' : null),
+                  )}
+                  key={tt.id}
+                  onClick={() => this.changeTab(tt)}
+                >
                   <span>
                     {`${t('ui.others.table')} ${i + 1}`}
                   </span>

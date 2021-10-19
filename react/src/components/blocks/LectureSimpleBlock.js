@@ -24,10 +24,10 @@ const LectureSimpleBlock = ({
       className={classNames(
         'block',
         'block--lecture-simple',
-        (onClick ? 'block--clickable' : ''),
-        (isRaised ? 'block--raised' : ''),
-        (isDimmed ? 'block--dimmed' : ''),
-        (hasReview ? 'block--completed' : ''),
+        (onClick ? 'block--clickable' : null),
+        (isRaised ? 'block--raised' : null),
+        (isDimmed ? 'block--dimmed' : null),
+        (hasReview ? 'block--completed' : null),
       )}
       onClick={handleClick}
     >

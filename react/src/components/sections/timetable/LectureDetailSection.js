@@ -339,7 +339,7 @@ class LectureDetailSection extends Component {
               {lectureFocus.lecture.class_no.length ? ` (${lectureFocus.lecture.class_no})` : ''}
             </div>
             <div className={classNames('buttons')}>
-              <button onClick={this.unfix} className={classNames('text-button', (shouldShowUnfix ? '' : 'text-button--disabled'))}>{t('ui.button.unfix')}</button>
+              <button onClick={this.unfix} className={classNames('text-button', (shouldShowUnfix ? null : 'text-button--disabled'))}>{t('ui.button.unfix')}</button>
               <a className={classNames('text-button', 'text-button--right')} href={getSyllabusUrl(lectureFocus.lecture)} target="_blank" rel="noopener noreferrer">
                 {t('ui.button.syllabus')}
               </a>
@@ -497,7 +497,7 @@ class LectureDetailSection extends Component {
     };
 
     return (
-      <div className={classNames('section', 'section--lecture-detail', 'section--mobile-modal', (lectureFocus.clicked ? '' : 'mobile-hidden'))}>
+      <div className={classNames('section', 'section--lecture-detail', 'section--mobile-modal', (lectureFocus.clicked ? null : 'mobile-hidden'))}>
         <div className={classNames('subsection', 'subsection--lecture-detail', 'subsection--flex')} ref={this.scrollRef}>
           { getSectionContent() }
         </div>

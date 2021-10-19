@@ -94,7 +94,7 @@ const LectureGroupBlockRow = ({
     <div
       className={classNames(
         'block--lecture-group__row',
-        (isHighlighted ? 'block--lecture-group__row--highlighted' : ''),
+        (isHighlighted ? 'block--lecture-group__row--highlighted' : null),
       )}
       data-id={lecture.id}
       onClick={handleClick}

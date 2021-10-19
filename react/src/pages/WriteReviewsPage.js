@@ -91,7 +91,14 @@ class WriteReviewsPage extends Component {
               <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
               <ReviewsMenusSubSection />
             </div>
-            <div className={classNames('section', 'section--write-reviews-right', 'section--mobile-modal', ((reviewsFocus.from !== ReviewsFocusFrom.NONE) ? '' : 'mobile-hidden'))}>
+            <div
+              className={classNames(
+                'section',
+                'section--write-reviews-right',
+                'section--mobile-modal',
+                ((reviewsFocus.from !== ReviewsFocusFrom.NONE) ? null : 'mobile-hidden'),
+              )}
+            >
               {
                 getReviewsSubSection(reviewsFocus.from)
               }

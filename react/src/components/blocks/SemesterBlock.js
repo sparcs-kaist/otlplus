@@ -30,8 +30,8 @@ const SemesterBlock = ({
       className={classNames(
         'block',
         'block--semester',
-        (onClick ? 'block--clickable' : ''),
-        (isRaised ? 'block--raised' : ''),
+        (onClick ? 'block--clickable' : null),
+        (isRaised ? 'block--raised' : null),
       )}
       onClick={handleClick}
     >

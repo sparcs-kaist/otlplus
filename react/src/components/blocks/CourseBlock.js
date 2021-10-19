@@ -41,9 +41,9 @@ const CourseBlock = ({
       className={classNames(
         'block',
         'block--course',
-        (onClick ? 'block--clickable' : ''),
-        (isRaised ? 'block--raised' : ''),
-        (isDimmed ? 'block--dimmed' : ''),
+        (onClick ? 'block--clickable' : null),
+        (isRaised ? 'block--raised' : null),
+        (isDimmed ? 'block--dimmed' : null),
       )}
       onClick={handleClick}
       onMouseOver={handleMouseOver}

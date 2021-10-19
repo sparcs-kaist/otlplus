@@ -88,7 +88,7 @@ class ExamSubSection extends Component {
         || (multipleFocusDayIndex === lecEtPair.examtime.day)
       );
       const li = (
-        <li className={classNames(isFocused ? 'focused' : '')} key={lecEtPair.lecture.id}>
+        <li className={classNames(isFocused ? 'focused' : null)} key={lecEtPair.lecture.id}>
           <div>
             {lecEtPair.lecture[t('js.property.title')]}
           </div>

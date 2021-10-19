@@ -63,10 +63,10 @@ const TimetableTile = ({
         'tile',
         'tile--timetable',
         `background-color--${getColorNumber(lecture)}`,
-        (isRaised ? 'tile--raised' : ''),
-        (isTemp ? 'tile--temp' : ''),
-        (isHighlighted ? 'tile--highlighted' : ''),
-        (isDimmed ? 'tile--dimmed' : ''),
+        (isRaised ? 'tile--raised' : null),
+        (isTemp ? 'tile--temp' : null),
+        (isHighlighted ? 'tile--highlighted' : null),
+        (isDimmed ? 'tile--dimmed' : null),
       )}
       style={{
         left: 18 + (cellWidth + 5) * dayIndex - 1,
@@ -86,7 +86,7 @@ const TimetableTile = ({
         // onMouseDown={() => onMouseDown()}
         className={classNames('tile--timetable__content')}
       >
-        <p className={classNames('tile--timetable__content__title', (isSimple ? 'mobile-hidden' : ''))}>
+        <p className={classNames('tile--timetable__content__title', (isSimple ? 'mobile-hidden' : null))}>
           {lecture[t('js.property.title')]}
         </p>
         <p className={classNames('tile--timetable__content__info', 'mobile-hidden')}>

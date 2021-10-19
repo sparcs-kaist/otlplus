@@ -79,7 +79,12 @@ const ReviewBlock = ({
         <span>{getProfessorsShortStr(review.lecture)}</span>
         <span>{`${review.lecture.year} ${getSemesterName(review.lecture.semester)}`}</span>
       </div>
-      <div className={classNames('block--review__content', (shouldLimitLines ? 'block--review__content--limit-5' : ''))}>
+      <div
+        className={classNames(
+          'block--review__content',
+          (shouldLimitLines ? 'block--review__content--limit-5' : null),
+        )}
+      >
         {contentDisplay}
       </div>
       <div className={classNames('block--review__menus')}>
