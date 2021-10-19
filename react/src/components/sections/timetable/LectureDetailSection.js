@@ -44,6 +44,7 @@ class LectureDetailSection extends Component {
     super(props);
     this.state = {
       shouldShowCloseDict: false,
+      isReviewLoading: false,
     };
 
     // eslint-disable-next-line fp/no-mutation
@@ -65,11 +66,15 @@ class LectureDetailSection extends Component {
     }
     if ((prevProps.lectureFocus.lecture && lectureFocus.lecture)
       && (prevProps.lectureFocus.lecture.id !== lectureFocus.lecture.id)) {
+      this._resetIsReviewLoading();
       this._checkAndLoadReviews();
     }
     if ((prevProps.lectureFocus.lecture && lectureFocus.lecture)
       && (prevProps.lectureFocus.clicked !== lectureFocus.clicked)) {
       this._checkAndLoadReviews();
+    }
+    if (prevProps.lectureFocus.lecture && !lectureFocus.lecture) {
+      this._resetIsReviewLoading();
     }
 
     if (prevProps.lectureFocus.clicked && lectureFocus.clicked) {
@@ -101,6 +106,12 @@ class LectureDetailSection extends Component {
     else if ((prevProps.year !== year) || (prevProps.semester !== semester)) {
       clearLectureFocusDispatch();
     }
+  }
+
+  _resetIsReviewLoading = () => {
+    this.setState({
+      isReviewLoading: false,
+    });
   }
 
   openDictPreview = () => {
@@ -286,9 +297,10 @@ class LectureDetailSection extends Component {
   _checkAndLoadReviews = () => {
     const LIMIT = 100;
 
+    const { isReviewLoading } = this.state;
     const { lectureFocus, setReviewsDispatch } = this.props;
 
-    if (lectureFocus.reviews !== null) {
+    if (isReviewLoading || (lectureFocus.reviews !== null)) {
       return;
     }
 
@@ -303,6 +315,9 @@ class LectureDetailSection extends Component {
       return;
     }
 
+    this.setState({
+      isReviewLoading: true,
+    });
     axios.get(
       `/api/lectures/${lectureFocus.lecture.id}/related-reviews`,
       {
@@ -324,6 +339,9 @@ class LectureDetailSection extends Component {
         if (response.data === LIMIT) {
           // TODO: handle limit overflow
         }
+        this.setState({
+          isReviewLoading: false,
+        });
         setReviewsDispatch(response.data);
       })
       .catch((error) => {
