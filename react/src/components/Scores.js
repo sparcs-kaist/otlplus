@@ -8,10 +8,16 @@ class Scores extends Component {
   render() {
     const {
       entries,
+      big,
     } = this.props;
 
     return (
-      <div className={classNames('scores')}>
+      <div
+        className={classNames(
+          'scores',
+          (big ? 'scores--big' : null)
+        )}
+      >
         {
           entries.map((e) => (
             <div
@@ -38,6 +44,7 @@ Scores.propTypes = {
       onMouseOut: PropTypes.func,
     })
   ).isRequired,
+  big: PropTypes.bool,
 };
 
 export default Scores;

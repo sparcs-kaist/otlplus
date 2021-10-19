@@ -174,6 +174,7 @@ class CourseReviewsSubSection extends Component {
             { name: t('ui.score.load'), score: getAverageScoreLabel(load) },
             { name: t('ui.score.speech'), score: getAverageScoreLabel(speech) },
           ]}
+          big
         />
         { reviewWriteBlocksArea }
         { reviewBlocksArea }

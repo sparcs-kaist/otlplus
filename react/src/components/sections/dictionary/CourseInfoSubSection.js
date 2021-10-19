@@ -35,6 +35,7 @@ class CourseInfoSubSection extends Component {
             { name: t('ui.score.load'), score: getAverageScoreLabel(courseFocus.course.load) },
             { name: t('ui.score.speech'), score: getAverageScoreLabel(courseFocus.course.speech) },
           ]}
+          big
         />
       </div>
     );

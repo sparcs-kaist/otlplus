@@ -2645,8 +2645,7 @@ a {
     @media #{$media-landscape} {
         margin-top: $score-margin-tb-desktop;
         margin-bottom: $score-margin-tb-desktop;
-        .subsection--course-info &,
-        .subsection--course-reviews & {
+        @at-root .scores--big#{&} {
             margin-top: $score-margin-tb-desktop-big;
             margin-bottom: $score-margin-tb-desktop-big;
         }
@@ -2689,8 +2688,7 @@ a {
 
         @media #{$media-landscape} {
             width: $score-width-desktop;
-            .subsection--course-info &,
-            .subsection--course-reviews & {
+            @at-root .scores--big#{&} {
                 width: $score-width-desktop-big;
             }
         }
@@ -2709,8 +2707,7 @@ a {
             @media #{$media-landscape} {
                 font-size: $score-font-size-desktop;
                 line-height: $score-line-height-desktop;
-                .subsection--course-info &,
-                .subsection--course-reviews & {
+                @at-root .scores--big#{&} {
                     font-size: $score-font-size-desktop-big;
                     line-height: $score-line-height-desktop-big; 
                 }
