@@ -475,20 +475,20 @@ class CreditPage extends Component {
                 <div className={classNames('subsection--credit__people-list')}>
                   {
                     selectedProject.fields.map((f) => (
-                      <React.Fragment key={f.title}>
+                      <div className={classNames('subsection--credit__people-list__group')} key={f.title}>
                         <div className={classNames('title')}>{f.title}</div>
                         {
                           f.people.map((p) => (
-                            <div className={classNames('subsection--credit__people-list__elem')} key={p.name}>
+                            <div className={classNames('subsection--credit__people-list__group__elem')} key={p.name}>
                               {p.image
                                 ? <img src={p.image} alt={p.name} />
-                                : <div className={classNames('subsection--credit__people-list__elem__name')}>{p.name}</div>
+                                : <div className={classNames('subsection--credit__people-list__group__elem__name')}>{p.name}</div>
                               }
                               {p.caption ? <div className={classNames('caption')}>{p.caption}</div> : null}
                             </div>
                           ))
                         }
-                      </React.Fragment>
+                      </div>
                     ))
                   }
                 </div>

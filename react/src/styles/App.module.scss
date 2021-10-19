@@ -1480,25 +1480,31 @@ a {
         &__people-list {
             text-align: center;
 
-            &__elem {
-                margin-top: 6px;
-
-                & > img {
-                    height: 22px;
-                    vertical-align: top;
-                }
-
-                &__name {
-                    color: #888888;
-                    font-weight: bold;
-                    font-size: 13px;
-                    line-height: 1.4;
-                }
-
-                & > .caption {
-                    margin-top: 2px;
-                }
-            }
+            &__group {
+                &:not(:last-child) {
+                    margin-bottom: 12px;
+                } 
+                
+                &__elem {
+                    margin-top: 6px;
+    
+                    & > img {
+                        height: 22px;
+                        vertical-align: top;
+                    }
+    
+                    &__name {
+                        color: #888888;
+                        font-weight: bold;
+                        font-size: 13px;
+                        line-height: 1.4;
+                    }
+    
+                    & > .caption {
+                        margin-top: 2px;
+                    }
+                } 
+            } 
         }
     }
 
