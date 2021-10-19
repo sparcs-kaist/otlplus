@@ -2023,6 +2023,11 @@ a {
                 @media #{$media-portrait} {
                     display: none;
                 }
+                @media #{$media-no-hover} {
+                    .block--lecture-group__row:not(.block--lecture-group__row--highlighted) & {
+                        display: none;
+                    }
+                }
 
                 &--disable {
                     pointer-events: none;
