@@ -1484,6 +1484,10 @@ a {
                 &:not(:last-child) {
                     margin-bottom: 12px;
                 } 
+
+                .title {
+                    margin-bottom: 0;
+                }
                 
                 &__elem {
                     margin-top: 6px;
