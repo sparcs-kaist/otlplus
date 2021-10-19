@@ -100,7 +100,7 @@ class CreditPage extends Component {
         ],
     },
     {
-      index: 2,
+      index: 20,
       mainTitle: 'OTL',
       subTitle: '모의시간표',
       period: '2009',
@@ -125,7 +125,7 @@ class CreditPage extends Component {
         ],
     },
     {
-      index: 3,
+      index: 21,
       mainTitle: 'OTL',
       subTitle: '추가개발',
       period: '2010 ~ 2012',
@@ -166,7 +166,7 @@ class CreditPage extends Component {
         ],
     },
     {
-      index: 4,
+      index: 22,
       mainTitle: 'OTL',
       subTitle: '과목사전',
       period: '2012 ~ 2013',
@@ -211,7 +211,7 @@ class CreditPage extends Component {
         ],
     },
     {
-      index: 5,
+      index: 30,
       mainTitle: 'OTL PLUS',
       subTitle: '과목사전',
       period: '2015.09 ~ 2016.06',
@@ -255,7 +255,7 @@ class CreditPage extends Component {
         ],
     },
     {
-      index: 6,
+      index: 31,
       mainTitle: 'OTL PLUS',
       subTitle: '모의시간표',
       period: '2016.09 ~ 2017.12',
@@ -299,7 +299,7 @@ class CreditPage extends Component {
         ],
     },
     {
-      index: 8,
+      index: 32,
       mainTitle: 'OTL PLUS',
       subTitle: '모바일 & 리뉴얼',
       period: '2018.01 ~ 2020.01',
@@ -351,7 +351,7 @@ class CreditPage extends Component {
         ],
     },
     {
-      index: -1,
+      index: 9000,
       mainTitle: 'System Operators',
       subTitle: '-',
       period: '-',
@@ -439,7 +439,7 @@ class CreditPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedProjectIndex: 8,
+      selectedProjectIndex: 32,
     };
   }
 
