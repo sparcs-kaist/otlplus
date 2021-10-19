@@ -44,8 +44,19 @@ class TimetableSubSection extends Component {
     window.addEventListener('resize', this.resize);
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
+    const { mobileIsLectureListOpen } = this.props;
     this.resize();
+
+    if (prevProps.mobileIsLectureListOpen !== mobileIsLectureListOpen) {
+      const TOTAL_DURATION = 0.15;
+      const INTERVAL = 0.05;
+
+      range(TOTAL_DURATION / INTERVAL + 1).forEach((i) => {
+        const millis = (i + 2) * 0.05 * 1000;
+        window.setTimeout(this.resize, millis);
+      });
+    }
   }
 
   componentWillUnmount() {
