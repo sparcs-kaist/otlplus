@@ -917,6 +917,10 @@ a {
             @media #{$media-no-hover} {
                 display: initial;
             }
+
+            &--dimmed {
+                opacity: 0.3;
+            }
         }
 
         & > div:last-child {

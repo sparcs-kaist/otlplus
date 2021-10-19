@@ -238,8 +238,13 @@ class LectureListSection extends Component {
   selectWithArrow = () => {
     const {
       lists, selectedListCode,
+      lectureFocus,
       clearLectureFocusDispatch, setLectureFocusDispatch,
     } = this.props;
+
+    if (lectureFocus.clicked) {
+      return;
+    }
 
     const arrow = this.arrowRef.current;
     const arrowPosition = (this.arrowRef.current).getBoundingClientRect();
@@ -417,7 +422,13 @@ class LectureListSection extends Component {
           { ((selectedListCode === LectureListCode.SEARCH) && searchOpen) ? <LectureSearchSubSection /> : null }
           <CloseButton onClick={this.mobileCloseLectureList} />
           { getListTitle() }
-          <div className={classNames('subsection--lecture-list__selector')} ref={this.arrowRef}>
+          <div
+            className={classNames(
+              'subsection--lecture-list__selector',
+              (lectureFocus.clicked ? 'subsection--lecture-list__selector--dimmed' : null),
+            )}
+            ref={this.arrowRef}
+          >
             <i className={classNames('icon', 'icon--lecture-selector')} />
           </div>
           { getListElement() }
