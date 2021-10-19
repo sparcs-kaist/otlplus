@@ -2268,6 +2268,8 @@ a {
                 position: absolute;
                 top: 0px;
                 z-index: 2;
+                line-height: $line-height-big + 1px * 2;
+                margin: -1px 0;
                 color: $color-text-normal;
  
                 &::placeholder {
