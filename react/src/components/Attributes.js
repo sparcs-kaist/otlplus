@@ -49,7 +49,7 @@ Attributes.propTypes = {
   entries: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string.isRequired,
-      info: PropTypes.oneOf(PropTypes.string, PropTypes.node).isRequired,
+      info: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
       onMouseOver: PropTypes.func,
       onMouseOut: PropTypes.func,
     })

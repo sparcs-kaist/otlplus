@@ -39,7 +39,7 @@ Scores.propTypes = {
   entries: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string.isRequired,
-      score: PropTypes.oneOf(PropTypes.string, PropTypes.node).isRequired,
+      score: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
       onMouseOver: PropTypes.func,
       onMouseOut: PropTypes.func,
     })
