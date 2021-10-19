@@ -24,7 +24,7 @@ class AcademicInfoSubSection extends Component {
           {t('ui.title.academicInformation')}
         </div>
         <Attributes
-          rows={[
+          entries={[
             { name: t('ui.attribute.studentId'), info: user.student_id },
             { name: t('ui.attribute.major'), info: user.majors.map((d) => d[t('js.property.name')]).join(', ') },
           ]}

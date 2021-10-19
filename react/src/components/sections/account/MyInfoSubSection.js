@@ -25,7 +25,7 @@ class MyInfoSubSection extends Component {
           {t('ui.title.myInformation')}
         </div>
         <Attributes
-          rows={[
+          entries={[
             { name: t('ui.attribute.name'), info: getFullName(user) },
             { name: t('ui.attribute.email'), info: user.email },
           ]}

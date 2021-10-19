@@ -63,7 +63,7 @@ const CourseBlock = ({
         <span>{ course.old_code }</span>
       </div>
       <Attributes
-        rows={[
+        entries={[
           { name: t('ui.attribute.classification'), info: `${course.department[t('js.property.name')]}, ${course[t('js.property.type')]}` },
           { name: t('ui.attribute.professors'), info: getProfessorsFullStr(course) },
           { name: t('ui.attribute.description'), info: course.summary },

@@ -213,7 +213,7 @@ class SummarySubSection extends Component {
       <div className={classNames('subsection--summary')}>
         <div className={classNames('subsection--summary__type')}>
           <Attributes
-            rows={
+            entries={
               [
                 [0, t('ui.type.basicRequiredShort'), 'Basic Required'],
                 [2, t('ui.type.majorRequiredShort'), 'Major Required'],
@@ -235,7 +235,7 @@ class SummarySubSection extends Component {
             fixedWidthName
           />
           <Attributes
-            rows={
+            entries={
               [
                 [1, t('ui.type.basicElectiveShort'), 'Basic Elective'],
                 [3, t('ui.type.majorElectiveShort'), 'Major Elective'],

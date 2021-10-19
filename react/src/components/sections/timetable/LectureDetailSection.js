@@ -353,7 +353,7 @@ class LectureDetailSection extends Component {
             key={lectureFocus.lecture.id}
           >
             <Attributes
-              rows={[
+              entries={[
                 { name: t('ui.attribute.type'), info: lectureFocus.lecture[t('js.property.type')] },
                 { name: t('ui.attribute.department'), info: lectureFocus.lecture[t('js.property.department_name')] },
                 { name: t('ui.attribute.professors'), info: getProfessorsFullStr(lectureFocus.lecture) },
@@ -483,7 +483,7 @@ class LectureDetailSection extends Component {
             </div>
           </div>
           <Attributes
-            rows={lectureFocus.multipleDetails.map((d) => (
+            entries={lectureFocus.multipleDetails.map((d) => (
               { name: d.name, info: d.info }
             ))} 
             longName

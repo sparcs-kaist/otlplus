@@ -9,33 +9,33 @@ class Attributes extends Component {
   render() {
     const {
       t,
-      rows,
+      entries,
       fixedWidthName, longName, longInfo,
     } = this.props;
 
     return (
       <div>
         {
-          rows.map((r) => (
+          entries.map((e) => (
             <div
               className={classNames(
                 'attribute',
                 (longName ? 'attribute--long-name' : null),
                 (longInfo ? 'attribute--long-info' : null),
               )}
-              onMouseOver={r.onMouseOver}
-              onMouseOut={r.onMouseOut}
-              key={r.name}
+              onMouseOver={e.onMouseOver}
+              onMouseOut={e.onMouseOut}
+              key={e.name}
             >
               <div
                 className={classNames(
                   (fixedWidthName ? t('jsx.className.fixedByLang') : null)
                 )}
               >
-                { r.name }
+                { e.name }
               </div>
               <div>
-                { r.info }
+                { e.info }
               </div>
             </div>
           ))
@@ -46,7 +46,7 @@ class Attributes extends Component {
 }
 
 Attributes.propTypes = {
-  rows: PropTypes.arrayOf(
+  entries: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string.isRequired,
       info: PropTypes.oneOf(PropTypes.string, PropTypes.node).isRequired,

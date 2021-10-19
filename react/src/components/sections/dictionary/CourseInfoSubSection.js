@@ -23,7 +23,7 @@ class CourseInfoSubSection extends Component {
     return (
       <div className={classNames('subsection', 'subsection--course-info')}>
         <Attributes
-          rows={[
+          entries={[
             { name: t('ui.attribute.classification'), info: `${courseFocus.course.department[t('js.property.name')]}, ${courseFocus.course[t('js.property.type')]}` },
             { name: t('ui.attribute.description'), info: courseFocus.course.summary },
           ]}
