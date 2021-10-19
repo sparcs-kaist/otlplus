@@ -303,8 +303,6 @@ class TimetableTabs extends Component {
     const normalTimetableTabs = (
       (timetables && timetables.length)
         ? (
-          <>
-            {
               timetables.map((tt, i) => (
                 <div
                   className={classNames(
@@ -327,11 +325,6 @@ class TimetableTabs extends Component {
                   </button>
                 </div>
               ))
-            }
-            <div className={classNames('tabs__elem', 'tabs__elem--add-button')} onClick={() => this.createTable()}>
-              <i className={classNames('icon', 'icon--add-table')} />
-            </div>
-          </>
         )
         : (
           <div className={classNames(('tabs__elem'))} style={{ pointerEvents: 'none' }}>
@@ -339,11 +332,21 @@ class TimetableTabs extends Component {
           </div>
         )
     );
+    const addTabButton = (
+      (timetables && timetables.length)
+        ? (
+          <div className={classNames('tabs__elem', 'tabs__elem--add-button')} onClick={() => this.createTable()}>
+            <i className={classNames('icon', 'icon--add-table')} />
+          </div>
+        )
+        : null
+    );
 
     return (
       <div className={classNames('tabs', 'tabs--timetable')}>
         { myTimetableTab }
         { normalTimetableTabs }
+        { addTabButton }
       </div>
     );
   }
