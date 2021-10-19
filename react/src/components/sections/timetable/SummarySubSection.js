@@ -19,9 +19,10 @@ import Attributes from '../../Attributes';
 import Scores from '../../Scores';
 
 
+const TAGET_TYPES = ['Basic Required', 'Basic Elective', 'Major Required', 'Major Elective', 'Humanities & Social Elective'];
+
 const indexOfType = (type) => {
-  const types = ['Basic Required', 'Basic Elective', 'Major Required', 'Major Elective', 'Humanities & Social Elective'];
-  const index = types.indexOf(type);
+  const index = TAGET_TYPES.indexOf(type);
   if (index === -1) {
     return 5;
   }
@@ -32,8 +33,7 @@ const typeOfIndex = (index) => {
   if (index === 5) {
     return 'Etc';
   }
-  const types = ['Basic Required', 'Basic Elective', 'Major Required', 'Major Elective', 'Humanities & Social Elective'];
-  return types[index];
+  return TAGET_TYPES[index];
 };
 
 class SummarySubSection extends Component {
@@ -219,7 +219,7 @@ class SummarySubSection extends Component {
                 [2, t('ui.type.majorRequiredShort'), 'Major Required'],
                 [4, t('ui.type.humanitiesSocialElectiveShort'), 'Humanities & Social Elective'],
               ]
-                .map(([ti, tn, tc]) => ({
+                .map(([ti, tn]) => ({
                   name: tn,
                   info: (
                     <>
@@ -228,7 +228,7 @@ class SummarySubSection extends Component {
                       <span className={classNames('desktop-hidden', ((isTypeCreditMultiFocused(ti) || isTypeCreditSingleFocused(ti)) ? 'focused' : ''))}>{overallTypeCredit[ti]}</span>
                     </>
                   ),
-                  onMouseOver: () => this.setFocusOnType(tc),
+                  onMouseOver: () => this.setFocusOnType(typeOfIndex(ti)),
                   onMouseOut: () => this.clearFocus(),
                 }))
             }
@@ -241,7 +241,7 @@ class SummarySubSection extends Component {
                 [3, t('ui.type.majorElectiveShort'), 'Major Elective'],
                 [5, t('ui.type.etcShort'), 'Etc'],
               ]
-                .map(([ti, tn, tc]) => ({
+                .map(([ti, tn]) => ({
                   name: tn,
                   info: (
                     <>
@@ -250,7 +250,7 @@ class SummarySubSection extends Component {
                       <span className={classNames('desktop-hidden', ((isTypeCreditMultiFocused(ti) || isTypeCreditSingleFocused(ti)) ? 'focused' : ''))}>{overallTypeCredit[ti]}</span>
                     </>
                   ),
-                  onMouseOver: () => this.setFocusOnType(tc),
+                  onMouseOver: () => this.setFocusOnType(typeOfIndex(ti)),
                   onMouseOut: () => this.clearFocus(),
                 }))
             }
