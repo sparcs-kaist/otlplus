@@ -7,6 +7,7 @@ import { appBoundClassNames as classNames } from '../../../common/boundClassName
 import courseFocusShape from '../../../shapes/CourseFocusShape';
 
 import { getAverageScoreLabel } from '../../../utils/scoreUtils';
+import Attributes from '../../Attributes';
 
 
 class CourseInfoSubSection extends Component {
@@ -20,16 +21,13 @@ class CourseInfoSubSection extends Component {
 
     return (
       <div className={classNames('subsection', 'subsection--course-info')}>
-        <div>
-          <div className={classNames('attribute', 'attribute--long-info')}>
-            <div>{ t('ui.attribute.classification') }</div>
-            <div>{ `${courseFocus.course.department[t('js.property.name')]}, ${courseFocus.course[t('js.property.type')]}` }</div>
-          </div>
-          <div className={classNames('attribute', 'attribute--long-info')}>
-            <div>{ t('ui.attribute.description') }</div>
-            <div>{ courseFocus.course.summary }</div>
-          </div>
-        </div>
+        <Attributes
+          rows={[
+            { name: t('ui.attribute.classification'), info: `${courseFocus.course.department[t('js.property.name')]}, ${courseFocus.course[t('js.property.type')]}` },
+            { name: t('ui.attribute.description'), info: courseFocus.course.summary },
+          ]}
+          longInfo
+        />
         <div className={classNames('scores')} ref={this.scoresRef}>
           <div>
             <div>{ getAverageScoreLabel(courseFocus.course.grade) }</div>

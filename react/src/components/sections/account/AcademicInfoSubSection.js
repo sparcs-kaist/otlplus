@@ -6,6 +6,7 @@ import { appBoundClassNames as classNames } from '../../../common/boundClassName
 
 import userShape from '../../../shapes/UserShape';
 import { CONTACT } from '../../../common/constants';
+import Attributes from '../../Attributes';
 
 
 class AcademicInfoSubSection extends Component {
@@ -22,14 +23,12 @@ class AcademicInfoSubSection extends Component {
         <div className={classNames('title')}>
           {t('ui.title.academicInformation')}
         </div>
-        <div className={classNames('attribute')}>
-          <div>{t('ui.attribute.studentId')}</div>
-          <div>{user.student_id}</div>
-        </div>
-        <div className={classNames('attribute')}>
-          <div>{t('ui.attribute.major')}</div>
-          <div>{user.majors.map((d) => d[t('js.property.name')]).join(', ')}</div>
-        </div>
+        <Attributes
+          rows={[
+            { name: t('ui.attribute.studentId'), info: user.student_id },
+            { name: t('ui.attribute.major'), info: user.majors.map((d) => d[t('js.property.name')]).join(', ') },
+          ]}
+        />
         <div className={classNames('caption')}>
           {t('ui.message.academicInfoCaptionHead')}
           <a

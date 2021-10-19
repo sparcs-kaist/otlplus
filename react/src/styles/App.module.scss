@@ -1334,7 +1334,16 @@ a {
         flex-direction: column;
     }
 
-    &--account {
+    &--my-info {
+        .caption {
+            margin-top: 8px;
+        }
+    }
+
+    &--academic-info {
+        .caption {
+            margin-top: 8px;
+        }
     }
 
     &--main-search {
@@ -2548,6 +2557,13 @@ a {
         .search-area & {
             overflow: hidden;
         }
+        .subsection--summary & {
+            overflow: hidden;
+            @media #{$media-portrait} {
+                margin-bottom: 0px;
+                flex: 1 1 40px;
+            }
+        }
         &:last-child {
             margin-bottom: 0;
         }
@@ -2574,16 +2590,36 @@ a {
             margin-right: $attribute-name-margin-right;
             flex: none;
 
-            &.fixed-ko {
-                min-width: 23px;
+            .subsection--lecture-detail & {
+                &.fixed-ko {
+                    min-width: 23px;
+                }
+                &.fixed-en {
+                    min-width: 32px;
+                }
             }
-            &.fixed-en {
-                min-width: 32px;
+            .subsection--summary & {
+                &.fixed-ko {
+                    min-width: 23px;
+                }
+                &.fixed-en {
+                    min-width: 23px;
+                }
             }
         }
 
         & > *:last-child {
             flex: initial;
+
+            .subsection--summary & {
+                > span {
+                    margin-right: 4px;
+
+                    &.focused {
+                        color:$color-highlight;
+                    }
+                }
+            }
 
             &.search-fields {
                 margin-bottom: -$attribute-info-margin-between;
@@ -2598,36 +2634,6 @@ a {
                     & > i {
                         margin-left: 3px;
                     }
-                }
-            }
-        }
-
-        .subsection--summary__type & {
-            overflow: hidden;
-            &:last-child {
-                margin-bottom: 0px;
-            }
-            @media #{$media-portrait} {
-                margin-bottom: 0px;
-                flex: 1 1 40px;
-            }
-
-            & > span:first-child {
-                &.fixed-ko {
-                    white-space: nowrap;
-                    min-width: 23px;
-                }
-                &.fixed-en {
-                    white-space: nowrap;
-                    min-width: 23px;
-                }
-            }
-
-            & > div > span {
-                margin-right: 4px;
-
-                &.focused {
-                    color:$color-highlight;
                 }
             }
         }

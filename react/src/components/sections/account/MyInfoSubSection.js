@@ -7,6 +7,7 @@ import { appBoundClassNames as classNames } from '../../../common/boundClassName
 import userShape from '../../../shapes/UserShape';
 
 import { getFullName } from '../../../common/guideline/components/Header';
+import Attributes from '../../Attributes';
 
 
 class MyInfoSubSection extends Component {
@@ -23,14 +24,12 @@ class MyInfoSubSection extends Component {
         <div className={classNames('title')}>
           {t('ui.title.myInformation')}
         </div>
-        <div className={classNames('attribute')}>
-          <div>{t('ui.attribute.name')}</div>
-          <div>{getFullName(user)}</div>
-        </div>
-        <div className={classNames('attribute')}>
-          <div>{t('ui.attribute.email')}</div>
-          <div>{user.email}</div>
-        </div>
+        <Attributes
+          rows={[
+            { name: t('ui.attribute.name'), info: getFullName(user) },
+            { name: t('ui.attribute.email'), info: user.email },
+          ]}
+        />
         <div className={classNames('caption')}>
           {t('ui.message.myInfoCaptionHead')}
           <a

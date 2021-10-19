@@ -15,6 +15,7 @@ import lectureFocusShape from '../../../shapes/LectureFocusShape';
 import timetableShape from '../../../shapes/TimetableShape';
 
 import { inTimetable, getOverallLectures } from '../../../utils/lectureUtils';
+import Attributes from '../../Attributes';
 
 
 const indexOfType = (type) => {
@@ -210,58 +211,50 @@ class SummarySubSection extends Component {
     return (
       <div className={classNames('subsection--summary')}>
         <div className={classNames('subsection--summary__type')}>
-          <div>
-            <div className={classNames('attribute')} onMouseOver={() => this.setFocusOnType('Basic Required')} onMouseOut={() => this.clearFocus()}>
-              <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.type.basicRequiredShort')}</span>
-              <div>
-                <span className={classNames('mobile-hidden', (isTypeCreditMultiFocused(0) ? 'focused' : ''))}>{timetableTypeCredit[0]}</span>
-                <span className={classNames('mobile-hidden', 'focused')}>{singleFocusedTypeCreditStr[0]}</span>
-                <span className={classNames('desktop-hidden', ((isTypeCreditMultiFocused(0) || isTypeCreditSingleFocused(0)) ? 'focused' : ''))}>{overallTypeCredit[0]}</span>
-              </div>
-            </div>
-            <div className={classNames('attribute')} onMouseOver={() => this.setFocusOnType('Major Required')} onMouseOut={() => this.clearFocus()}>
-              <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.type.majorRequiredShort')}</span>
-              <div>
-                <span className={classNames('mobile-hidden', (isTypeCreditMultiFocused(2) ? 'focused' : ''))}>{timetableTypeCredit[2]}</span>
-                <span className={classNames('mobile-hidden', 'focused')}>{singleFocusedTypeCreditStr[2]}</span>
-                <span className={classNames('desktop-hidden', ((isTypeCreditMultiFocused(2) || isTypeCreditSingleFocused(2)) ? 'focused' : ''))}>{overallTypeCredit[2]}</span>
-              </div>
-            </div>
-            <div className={classNames('attribute')} onMouseOver={() => this.setFocusOnType('Humanities & Social Elective')} onMouseOut={() => this.clearFocus()}>
-              <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.type.humanitiesSocialElectiveShort')}</span>
-              <div>
-                <span className={classNames('mobile-hidden', (isTypeCreditMultiFocused(4) ? 'focused' : ''))}>{timetableTypeCredit[4]}</span>
-                <span className={classNames('mobile-hidden', 'focused')}>{singleFocusedTypeCreditStr[4]}</span>
-                <span className={classNames('desktop-hidden', ((isTypeCreditMultiFocused(4) || isTypeCreditSingleFocused(4)) ? 'focused' : ''))}>{overallTypeCredit[4]}</span>
-              </div>
-            </div>
-          </div>
-          <div>
-            <div className={classNames('attribute')} onMouseOver={() => this.setFocusOnType('Basic Elective')} onMouseOut={() => this.clearFocus()}>
-              <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.type.basicElectiveShort')}</span>
-              <div>
-                <span className={classNames('mobile-hidden', (isTypeCreditMultiFocused(1) ? 'focused' : ''))}>{timetableTypeCredit[1]}</span>
-                <span className={classNames('mobile-hidden', 'focused')}>{singleFocusedTypeCreditStr[1]}</span>
-                <span className={classNames('desktop-hidden', ((isTypeCreditMultiFocused(1) || isTypeCreditSingleFocused(1)) ? 'focused' : ''))}>{overallTypeCredit[1]}</span>
-              </div>
-            </div>
-            <div className={classNames('attribute')} onMouseOver={() => this.setFocusOnType('Major Elective')} onMouseOut={() => this.clearFocus()}>
-              <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.type.majorElectiveShort')}</span>
-              <div>
-                <span className={classNames('mobile-hidden', (isTypeCreditMultiFocused(3) ? 'focused' : ''))}>{timetableTypeCredit[3]}</span>
-                <span className={classNames('mobile-hidden', 'focused')}>{singleFocusedTypeCreditStr[3]}</span>
-                <span className={classNames('desktop-hidden', ((isTypeCreditMultiFocused(3) || isTypeCreditSingleFocused(3)) ? 'focused' : ''))}>{overallTypeCredit[3]}</span>
-              </div>
-            </div>
-            <div className={classNames('attribute')} onMouseOver={() => this.setFocusOnType('Etc')} onMouseOut={() => this.clearFocus()}>
-              <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.type.etcShort')}</span>
-              <div>
-                <span className={classNames('mobile-hidden', (isTypeCreditMultiFocused(5) ? 'focused' : ''))}>{timetableTypeCredit[5]}</span>
-                <span className={classNames('mobile-hidden', 'focused')}>{singleFocusedTypeCreditStr[5]}</span>
-                <span className={classNames('desktop-hidden', ((isTypeCreditMultiFocused(5) || isTypeCreditSingleFocused(5)) ? 'focused' : ''))}>{overallTypeCredit[5]}</span>
-              </div>
-            </div>
-          </div>
+          <Attributes
+            rows={
+              [
+                [0, t('ui.type.basicRequiredShort'), 'Basic Required'],
+                [2, t('ui.type.majorRequiredShort'), 'Major Required'],
+                [4, t('ui.type.humanitiesSocialElectiveShort'), 'Humanities & Social Elective'],
+              ]
+                .map(([ti, tn, tc]) => ({
+                  name: tn,
+                  info: (
+                    <>
+                      <span className={classNames('mobile-hidden', (isTypeCreditMultiFocused(ti) ? 'focused' : ''))}>{timetableTypeCredit[ti]}</span>
+                      <span className={classNames('mobile-hidden', 'focused')}>{singleFocusedTypeCreditStr[ti]}</span>
+                      <span className={classNames('desktop-hidden', ((isTypeCreditMultiFocused(ti) || isTypeCreditSingleFocused(ti)) ? 'focused' : ''))}>{overallTypeCredit[ti]}</span>
+                    </>
+                  ),
+                  onMouseOver: () => this.setFocusOnType(tc),
+                  onMouseOut: () => this.clearFocus(),
+                }))
+            }
+            fixedWidthName
+          />
+          <Attributes
+            rows={
+              [
+                [1, t('ui.type.basicElectiveShort'), 'Basic Elective'],
+                [3, t('ui.type.majorElectiveShort'), 'Major Elective'],
+                [5, t('ui.type.etcShort'), 'Etc'],
+              ]
+                .map(([ti, tn, tc]) => ({
+                  name: tn,
+                  info: (
+                    <>
+                      <span className={classNames('mobile-hidden', (isTypeCreditMultiFocused(ti) ? 'focused' : ''))}>{timetableTypeCredit[ti]}</span>
+                      <span className={classNames('mobile-hidden', 'focused')}>{singleFocusedTypeCreditStr[ti]}</span>
+                      <span className={classNames('desktop-hidden', ((isTypeCreditMultiFocused(ti) || isTypeCreditSingleFocused(ti)) ? 'focused' : ''))}>{overallTypeCredit[ti]}</span>
+                    </>
+                  ),
+                  onMouseOver: () => this.setFocusOnType(tc),
+                  onMouseOut: () => this.clearFocus(),
+                }))
+            }
+            fixedWidthName
+          />
         </div>
         <div className={classNames('scores')}>
           <div onMouseOver={() => this.setFocusOnCredit('Credit')} onMouseOut={() => this.clearFocus()}>

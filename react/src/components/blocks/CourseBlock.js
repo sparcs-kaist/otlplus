@@ -8,6 +8,7 @@ import { getProfessorsFullStr } from '../../utils/courseUtils';
 
 import courseShape from '../../shapes/CourseShape';
 import linkShape from '../../shapes/LinkShape';
+import Attributes from '../Attributes';
 
 
 const CourseBlock = ({
@@ -61,20 +62,14 @@ const CourseBlock = ({
         &nbsp;
         <span>{ course.old_code }</span>
       </div>
-      <div>
-        <div className={classNames('attribute', 'attribute--long-info')}>
-          <div>{ t('ui.attribute.classification') }</div>
-          <div>{ `${course.department[t('js.property.name')]}, ${course[t('js.property.type')]}` }</div>
-        </div>
-        <div className={classNames('attribute', 'attribute--long-info')}>
-          <div>{ t('ui.attribute.professors') }</div>
-          <div>{ getProfessorsFullStr(course) }</div>
-        </div>
-        <div className={classNames('attribute', 'attribute--long-info')}>
-          <div>{ t('ui.attribute.description') }</div>
-          <div>{ course.summary }</div>
-        </div>
-      </div>
+      <Attributes
+        rows={[
+          { name: t('ui.attribute.classification'), info: `${course.department[t('js.property.name')]}, ${course[t('js.property.type')]}` },
+          { name: t('ui.attribute.professors'), info: getProfessorsFullStr(course) },
+          { name: t('ui.attribute.description'), info: course.summary },
+        ]}
+        longInfo
+      />
     </RootTag>
   );
 };

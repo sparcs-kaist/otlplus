@@ -35,6 +35,7 @@ import {
 import lectureListsShape from '../../../shapes/LectureListsShape';
 import Divider from '../../Divider';
 import OtlplusPlaceholder from '../../OtlplusPlaceholder';
+import Attributes from '../../Attributes';
 
 
 class LectureDetailSection extends Component {
@@ -46,8 +47,6 @@ class LectureDetailSection extends Component {
 
     // eslint-disable-next-line fp/no-mutation
     this.openDictRef = React.createRef();
-    // eslint-disable-next-line fp/no-mutation
-    this.attributesRef = React.createRef();
     // eslint-disable-next-line fp/no-mutation
     this.scrollRef = React.createRef();
   }
@@ -129,7 +128,7 @@ class LectureDetailSection extends Component {
 
   openDictPreview = () => {
     const scrollTop = this.openDictRef.current.getBoundingClientRect().top
-      - this.attributesRef.current.getBoundingClientRect().top
+      - this.scrollRef.current.querySelector('.ScrollbarsCustom-Content').getBoundingClientRect().top
       + 1;
     this.scrollRef.current.querySelector('.ScrollbarsCustom-Scroller').scrollTop = scrollTop;
   };
@@ -352,32 +351,17 @@ class LectureDetailSection extends Component {
             onScroll={this.onScroll}
             key={lectureFocus.lecture.id}
           >
-            <div ref={this.attributesRef}>
-              <div className={classNames('attribute')}>
-                <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.attribute.type')}</span>
-                <span>{lectureFocus.lecture[t('js.property.type')]}</span>
-              </div>
-              <div className={classNames('attribute')}>
-                <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.attribute.department')}</span>
-                <span>{lectureFocus.lecture[t('js.property.department_name')]}</span>
-              </div>
-              <div className={classNames('attribute')}>
-                <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.attribute.professors')}</span>
-                <span>{getProfessorsFullStr(lectureFocus.lecture)}</span>
-              </div>
-              <div className={classNames('attribute')}>
-                <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.attribute.classroom')}</span>
-                <span>{getClassroomStr(lectureFocus.lecture)}</span>
-              </div>
-              <div className={classNames('attribute')}>
-                <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.attribute.limit')}</span>
-                <span>{lectureFocus.lecture.limit}</span>
-              </div>
-              <div className={classNames('attribute')}>
-                <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.attribute.exam')}</span>
-                <span>{getExamFullStr(lectureFocus.lecture)}</span>
-              </div>
-            </div>
+            <Attributes
+              rows={[
+                { name: t('ui.attribute.type'), info: lectureFocus.lecture[t('js.property.type')] },
+                { name: t('ui.attribute.department'), info: lectureFocus.lecture[t('js.property.department_name')] },
+                { name: t('ui.attribute.professors'), info: getProfessorsFullStr(lectureFocus.lecture) },
+                { name: t('ui.attribute.classroom'), info: getClassroomStr(lectureFocus.lecture) },
+                { name: t('ui.attribute.limit'), info: lectureFocus.lecture.limit },
+                { name: t('ui.attribute.exam'), info: getExamFullStr(lectureFocus.lecture) },
+              ]}
+              fixedWidthName
+            />
             <div className={classNames('scores')}>
               <div>
                 {
@@ -511,18 +495,12 @@ class LectureDetailSection extends Component {
               <span className={classNames('text-button', 'text-button--right', 'text-button--disabled')}>{t('ui.button.dictionary')}</span>
             </div>
           </div>
-          <div>
-            {lectureFocus.multipleDetails.map((d, i) => (
-              <div className={classNames('attribute', 'attribute--long-name')} key={d.lecture.id}>
-                <span>
-                  {d.name}
-                </span>
-                <span>
-                  {d.info}
-                </span>
-              </div>
-            ))}
-          </div>
+          <Attributes
+            rows={lectureFocus.multipleDetails.map((d) => (
+              { name: d.name, info: d.info }
+            ))} 
+            longName
+          />
         </>
         );
       }
