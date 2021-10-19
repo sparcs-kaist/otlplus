@@ -3,6 +3,45 @@ import ReactGA from 'react-ga';
 import i18n from 'i18next';
 
 
+export const performSearchCourses = (
+  option, limit,
+  beforeRequest, afterResponse,
+) => {
+  if (
+    (!option.keyword || (option.keyword.length === 0))
+    && (!option.type || option.type.includes('ALL'))
+    && (!option.department || option.department.includes('ALL'))
+    && (!option.grade || option.grade.includes('ALL'))
+    // Should not check for option.term
+  ) {
+    // eslint-disable-next-line no-alert
+    alert(i18n.t('ui.message.blankSearch'));
+    return;
+  }
+
+  beforeRequest();
+  axios.get(
+    '/api/courses',
+    {
+      params: {
+        ...option,
+        order: ['old_code'],
+        limit: limit,
+      },
+      metadata: {
+        gaCategory: 'Course',
+        gaVariable: 'GET / List',
+      },
+    },
+  )
+    .then((response) => {
+      afterResponse(response.data);
+    })
+    .catch((error) => {
+    });
+};
+
+
 export const performAddToTable = (
   lecture, selectedTimetable, user, fromString,
   beforeRequest, afterResponse,
