@@ -14,12 +14,12 @@ class AcademicScheduleSection extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      today: new Date(),
+      now: new Date(),
     };
   }
 
   componentDidMount() {
-    this.interval = setInterval(() => this.setState({ today: new Date() }), 100);
+    this.interval = setInterval(() => this.setState({ now: new Date() }), 100);
   }
 
   componentWillUnmount() {
@@ -29,7 +29,7 @@ class AcademicScheduleSection extends Component {
 
   render() {
     const { t } = this.props;
-    const { today } = this.state;
+    const { now } = this.state;
     const { semesters } = this.props;
 
     const getAcademicScheduleContent = () => {
@@ -57,7 +57,7 @@ class AcademicScheduleSection extends Component {
         );
       }
       const targetScheduleTime = targetSchedule.time;
-      const timeDiff = targetScheduleTime - today;
+      const timeDiff = targetScheduleTime - now;
       const seconds = Math.floor((timeDiff / 1000) % 60);
       const minutes = Math.floor((timeDiff / (1000 * 60)) % 60);
       const hours = Math.floor((timeDiff / (1000 * 60 * 60)) % 24);

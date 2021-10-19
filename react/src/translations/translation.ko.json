@@ -228,7 +228,7 @@
       "alreadyUploading": "이미 업로드 중입니다. 잠시만 기다려 주세요.",
       "emptyContent": "후기를 입력해 주세요.",
       "scoreNotSelected": "평가를 선택해 주세요.",
-      "reportUnderDevelopment": "이 기능은 현재 개발중입니다. 부적절한 후기는 otlplus@sparcs.org로 신고해 주세요.",
+      "reportUnderDevelopment": "이 기능은 현재 개발중입니다. 부적절한 후기는 {{contact}}로 신고해 주세요.",
       "alreadyRated": "이미 평가하였습니다.",
       "tooManySearchResults": "검색 결과가 너무 많습니다. {{count}}개만 표시됩니다.",
       "myInfoCaptionHead": "이 정보는 ",

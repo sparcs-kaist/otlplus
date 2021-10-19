@@ -66,7 +66,7 @@ export const getCurrentSchedule = (semesters) => {
         };
       })
     ))
-    .reduce((acc, val) => acc.concat(val), [])
+    .flat(1)
     .filter((s) => (s !== undefined))
     .sort((a, b) => (a.time - b.time));
   const now = Date.now();

@@ -277,7 +277,10 @@ class TimetableTabs extends Component {
       user
         ? (
           <div
-            className={classNames('tabs__elem', ((selectedTimetable && (myTimetable.id === selectedTimetable.id)) ? 'tabs__elem--selected' : ''))}
+            className={classNames(
+              'tabs__elem',
+              ((selectedTimetable && (myTimetable.id === selectedTimetable.id)) ? 'tabs__elem--selected' : null),
+            )}
             key={myTimetable.id}
             onClick={() => this.changeTab(myTimetable)}
           >
@@ -300,10 +303,15 @@ class TimetableTabs extends Component {
     const normalTimetableTabs = (
       (timetables && timetables.length)
         ? (
-          <>
-            {
               timetables.map((tt, i) => (
-                <div className={classNames('tabs__elem', (tt.id === selectedTimetable.id ? 'tabs__elem--selected' : ''))} key={tt.id} onClick={() => this.changeTab(tt)}>
+                <div
+                  className={classNames(
+                    'tabs__elem',
+                    (tt.id === selectedTimetable.id ? 'tabs__elem--selected' : null),
+                  )}
+                  key={tt.id}
+                  onClick={() => this.changeTab(tt)}
+                >
                   <span>
                     {`${t('ui.others.table')} ${i + 1}`}
                   </span>
@@ -317,11 +325,6 @@ class TimetableTabs extends Component {
                   </button>
                 </div>
               ))
-            }
-            <div className={classNames('tabs__elem', 'tabs__elem--add-button')} onClick={() => this.createTable()}>
-              <i className={classNames('icon', 'icon--add-table')} />
-            </div>
-          </>
         )
         : (
           <div className={classNames(('tabs__elem'))} style={{ pointerEvents: 'none' }}>
@@ -329,11 +332,21 @@ class TimetableTabs extends Component {
           </div>
         )
     );
+    const addTabButton = (
+      (timetables && timetables.length)
+        ? (
+          <div className={classNames('tabs__elem', 'tabs__elem--add-button')} onClick={() => this.createTable()}>
+            <i className={classNames('icon', 'icon--add-table')} />
+          </div>
+        )
+        : null
+    );
 
     return (
       <div className={classNames('tabs', 'tabs--timetable')}>
         { myTimetableTab }
         { normalTimetableTabs }
+        { addTabButton }
       </div>
     );
   }

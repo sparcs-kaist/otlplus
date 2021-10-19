@@ -20,6 +20,7 @@ import { addCourseRead } from '../../../actions/dictionary/list';
 
 import courseFocusShape from '../../../shapes/CourseFocusShape';
 import userShape from '../../../shapes/UserShape';
+import OtlplusPlaceholder from '../../OtlplusPlaceholder';
 
 
 class CourseDetailSection extends Component {
@@ -168,28 +169,11 @@ class CourseDetailSection extends Component {
         </>
       )
       : (
-        <div className={classNames('otlplus-placeholder')}>
-          <div>
-            OTL PLUS
-          </div>
-          <div>
-            <Link to="/credits/">{t('ui.menu.credit')}</Link>
-            &nbsp;|&nbsp;
-            <Link to="/licenses/">{t('ui.menu.licences')}</Link>
-          </div>
-          <div>
-            <a href="mailto:otlplus@sparcs.org">otlplus@sparcs.org</a>
-          </div>
-          <div>
-            © 2016,&nbsp;
-            <a href="http://sparcs.org">SPARCS</a>
-            &nbsp;OTL Team
-          </div>
-        </div>
+        <OtlplusPlaceholder />
       );
 
     return (
-      <div className={classNames('section', 'section--course-detail', 'section--mobile-modal', ((courseFocus.course && courseFocus.clicked) ? '' : 'mobile-hidden'))}>
+      <div className={classNames('section', 'section--course-detail', 'section--mobile-modal', ((courseFocus.course && courseFocus.clicked) ? null : 'mobile-hidden'))}>
         <div className={classNames('subsection', 'subsection--flex', 'subsection--course-detail')}>
           { sectionContent }
         </div>

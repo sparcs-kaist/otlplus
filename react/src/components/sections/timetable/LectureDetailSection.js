@@ -34,6 +34,9 @@ import {
 } from '../../../common/commonOperations';
 import lectureListsShape from '../../../shapes/LectureListsShape';
 import Divider from '../../Divider';
+import OtlplusPlaceholder from '../../OtlplusPlaceholder';
+import Attributes from '../../Attributes';
+import Scores from '../../Scores';
 
 
 class LectureDetailSection extends Component {
@@ -45,8 +48,6 @@ class LectureDetailSection extends Component {
 
     // eslint-disable-next-line fp/no-mutation
     this.openDictRef = React.createRef();
-    // eslint-disable-next-line fp/no-mutation
-    this.attributesRef = React.createRef();
     // eslint-disable-next-line fp/no-mutation
     this.scrollRef = React.createRef();
   }
@@ -128,7 +129,7 @@ class LectureDetailSection extends Component {
 
   openDictPreview = () => {
     const scrollTop = this.openDictRef.current.getBoundingClientRect().top
-      - this.attributesRef.current.getBoundingClientRect().top
+      - this.scrollRef.current.querySelector('.ScrollbarsCustom-Content').getBoundingClientRect().top
       + 1;
     this.scrollRef.current.querySelector('.ScrollbarsCustom-Scroller').scrollTop = scrollTop;
   };
@@ -338,7 +339,7 @@ class LectureDetailSection extends Component {
               {lectureFocus.lecture.class_no.length ? ` (${lectureFocus.lecture.class_no})` : ''}
             </div>
             <div className={classNames('buttons')}>
-              <button onClick={this.unfix} className={classNames('text-button', (shouldShowUnfix ? '' : 'text-button--disabled'))}>{t('ui.button.unfix')}</button>
+              <button onClick={this.unfix} className={classNames('text-button', (shouldShowUnfix ? null : 'text-button--disabled'))}>{t('ui.button.unfix')}</button>
               <a className={classNames('text-button', 'text-button--right')} href={getSyllabusUrl(lectureFocus.lecture)} target="_blank" rel="noopener noreferrer">
                 {t('ui.button.syllabus')}
               </a>
@@ -351,78 +352,49 @@ class LectureDetailSection extends Component {
             onScroll={this.onScroll}
             key={lectureFocus.lecture.id}
           >
-            <div ref={this.attributesRef}>
-              <div className={classNames('attribute')}>
-                <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.attribute.type')}</span>
-                <span>{lectureFocus.lecture[t('js.property.type')]}</span>
-              </div>
-              <div className={classNames('attribute')}>
-                <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.attribute.department')}</span>
-                <span>{lectureFocus.lecture[t('js.property.department_name')]}</span>
-              </div>
-              <div className={classNames('attribute')}>
-                <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.attribute.professors')}</span>
-                <span>{getProfessorsFullStr(lectureFocus.lecture)}</span>
-              </div>
-              <div className={classNames('attribute')}>
-                <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.attribute.classroom')}</span>
-                <span>{getClassroomStr(lectureFocus.lecture)}</span>
-              </div>
-              <div className={classNames('attribute')}>
-                <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.attribute.limit')}</span>
-                <span>{lectureFocus.lecture.limit}</span>
-              </div>
-              <div className={classNames('attribute')}>
-                <span className={classNames(t('jsx.className.fixedByLang'))}>{t('ui.attribute.exam')}</span>
-                <span>{getExamFullStr(lectureFocus.lecture)}</span>
-              </div>
-            </div>
-            <div className={classNames('scores')}>
-              <div>
-                {
-                  lectureFocus.lecture.is_english
-                    ? <div>Eng</div>
-                    : <div className={(classNames('scores__score-text--korean'))}>한</div>
-                }
-                <div>{t('ui.score.language')}</div>
-              </div>
-              <div>
-                {
-                  lectureFocus.lecture.credit > 0
-                    ? <div>{lectureFocus.lecture.credit}</div>
-                    : <div>{lectureFocus.lecture.credit_au}</div>
-                }
-                {
-                  lectureFocus.lecture.credit > 0
-                    ? <div>{t('ui.score.credit')}</div>
-                    : <div>AU</div>
-                }
-              </div>
-              <div>
-                <div>
-                  {
-                    lectureFocus.lecture.limit === 0
-                      ? '0.0:1'
-                      : `${(lectureFocus.lecture.num_people / lectureFocus.lecture.limit).toFixed(1).toString()}:1`
-                  }
-                </div>
-                <div>{t('ui.score.competition')}</div>
-              </div>
-            </div>
-            <div className={classNames('scores')}>
-              <div>
-                <div>{getAverageScoreLabel(lectureFocus.lecture.grade)}</div>
-                <div>{t('ui.score.grade')}</div>
-              </div>
-              <div>
-                <div>{getAverageScoreLabel(lectureFocus.lecture.load)}</div>
-                <div>{t('ui.score.load')}</div>
-              </div>
-              <div>
-                <div>{getAverageScoreLabel(lectureFocus.lecture.speech)}</div>
-                <div>{t('ui.score.speech')}</div>
-              </div>
-            </div>
+            <Attributes
+              entries={[
+                { name: t('ui.attribute.type'), info: lectureFocus.lecture[t('js.property.type')] },
+                { name: t('ui.attribute.department'), info: lectureFocus.lecture[t('js.property.department_name')] },
+                { name: t('ui.attribute.professors'), info: getProfessorsFullStr(lectureFocus.lecture) },
+                { name: t('ui.attribute.classroom'), info: getClassroomStr(lectureFocus.lecture) },
+                { name: t('ui.attribute.limit'), info: lectureFocus.lecture.limit },
+                { name: t('ui.attribute.exam'), info: getExamFullStr(lectureFocus.lecture) },
+              ]}
+              fixedWidthName
+            />
+            <Scores
+              entries={[
+                { 
+                  name: t('ui.score.language'),
+                  score: lectureFocus.lecture.is_english ? 'Eng' : '한',
+                },
+                { 
+                  name: (lectureFocus.lecture.credit > 0) ? t('ui.score.credit') : 'AU',
+                  score: (lectureFocus.lecture.credit > 0) ? lectureFocus.lecture.credit : lectureFocus.lecture.credit_au,
+                },
+                { 
+                  name: t('ui.score.competition'),
+                  score: (lectureFocus.lecture.limit === 0) ? '0.0:1' : `${(lectureFocus.lecture.num_people / lectureFocus.lecture.limit).toFixed(1).toString()}:1`,
+                },
+              ]}
+            />
+            <Scores
+              entries={[
+                { 
+                  name: t('ui.score.grade'),
+                  score: getAverageScoreLabel(lectureFocus.lecture.grade),
+                },
+                { 
+                  name: t('ui.score.load'),
+                  score: getAverageScoreLabel(lectureFocus.lecture.load),
+                },
+                { 
+                  name: t('ui.score.speech'),
+                  score: getAverageScoreLabel(lectureFocus.lecture.speech),
+                },
+              ]}
+            />
             { shouldShowCloseDict
               ? (
                 <button className={classNames('small-title', 'top-sticky')} onClick={this.closeDictPreview} ref={this.openDictRef}>
@@ -510,45 +482,22 @@ class LectureDetailSection extends Component {
               <span className={classNames('text-button', 'text-button--right', 'text-button--disabled')}>{t('ui.button.dictionary')}</span>
             </div>
           </div>
-          <div>
-            {lectureFocus.multipleDetails.map((d, i) => (
-              <div className={classNames('attribute', 'attribute--long-name')} key={d.lecture.id}>
-                <span>
-                  {d.name}
-                </span>
-                <span>
-                  {d.info}
-                </span>
-              </div>
-            ))}
-          </div>
+          <Attributes
+            entries={lectureFocus.multipleDetails.map((d) => (
+              { name: d.name, info: d.info }
+            ))} 
+            longName
+          />
         </>
         );
       }
       return (
-        <div className={classNames('otlplus-placeholder')}>
-          <div>
-            OTL PLUS
-          </div>
-          <div>
-            <Link to="/credits/">{t('ui.menu.credit')}</Link>
-            &nbsp;|&nbsp;
-            <Link to="/licenses/">{t('ui.menu.licences')}</Link>
-          </div>
-          <div>
-            <a href="mailto:otlplus@sparcs.org">otlplus@sparcs.org</a>
-          </div>
-          <div>
-            © 2016,&nbsp;
-            <a href="http://sparcs.org">SPARCS</a>
-            &nbsp;OTL Team
-          </div>
-        </div>
+        <OtlplusPlaceholder />
       );
     };
 
     return (
-      <div className={classNames('section', 'section--lecture-detail', 'section--mobile-modal', (lectureFocus.clicked ? '' : 'mobile-hidden'))}>
+      <div className={classNames('section', 'section--lecture-detail', 'section--mobile-modal', (lectureFocus.clicked ? null : 'mobile-hidden'))}>
         <div className={classNames('subsection', 'subsection--lecture-detail', 'subsection--flex')} ref={this.scrollRef}>
           { getSectionContent() }
         </div>

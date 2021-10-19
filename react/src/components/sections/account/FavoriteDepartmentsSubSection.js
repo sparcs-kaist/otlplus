@@ -40,7 +40,7 @@ class FavoriteDepartmentsSubSection extends Component {
       .then((response) => {
         this.setState({
           allDepartments: response.data
-            .reduce((acc, val) => acc.concat(val), []),
+            .flat(1),
         });
       })
       .catch((error) => {

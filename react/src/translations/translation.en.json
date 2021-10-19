@@ -228,7 +228,7 @@
       "alreadyUploading": "The upload is already in progress. Please wait for a moment.",
       "emptyContent": "Please enter the comment.",
       "scoreNotSelected": "Please select all scores.",
-      "reportUnderDevelopment": "This featuer is under development. Please report improper reviews to otlplus@sparcs.org.",
+      "reportUnderDevelopment": "This featuer is under development. Please report improper reviews to {{contact}}.",
       "alreadyRated": "You already rated OTL.",
       "tooManySearchResults": "There are too many search results. Only {{count}} will be displayed.",
       "myInfoCaptionHead": "You can change this information at ",

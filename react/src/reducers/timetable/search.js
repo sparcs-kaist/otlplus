@@ -2,15 +2,15 @@ import {
   RESET,
   OPEN_SEARCH, CLOSE_SEARCH,
   SET_LAST_SEARCH_OPTION,
-  DRAG_SEARCH, CLEAR_DRAG,
+  SET_CLASSTIME_OPTIONS, CLEAR_CLASSTIME_OPTIONS,
 } from '../../actions/timetable/search';
 
 const initialState = {
   open: true,
   lastSearchOption: {},
-  start: null,
-  end: null,
-  day: null,
+  classtimeBegin: null,
+  classtimeEnd: null,
+  classtimeDay: null,
 };
 
 const search = (state = initialState, action) => {
@@ -26,9 +26,9 @@ const search = (state = initialState, action) => {
     case CLOSE_SEARCH: {
       return Object.assign({}, state, {
         open: false,
-        start: null,
-        end: null,
-        day: null,
+        classtimeBegin: null,
+        classtimeEnd: null,
+        classtimeDay: null,
       });
     }
     case SET_LAST_SEARCH_OPTION: {
@@ -36,19 +36,18 @@ const search = (state = initialState, action) => {
         lastSearchOption: action.lastSearchOption,
       });
     }
-    case DRAG_SEARCH: {
+    case SET_CLASSTIME_OPTIONS: {
       return Object.assign({}, state, {
-        open: true,
-        start: action.start,
-        end: action.end,
-        day: action.day,
+        classtimeBegin: action.classtimeBegin,
+        classtimeEnd: action.classtimeEnd,
+        classtimeDay: action.classtimeDay,
       });
     }
-    case CLEAR_DRAG: {
+    case CLEAR_CLASSTIME_OPTIONS: {
       return Object.assign({}, state, {
-        start: null,
-        end: null,
-        day: null,
+        classtimeBegin: null,
+        classtimeEnd: null,
+        classtimeDay: null,
       });
     }
     default: {

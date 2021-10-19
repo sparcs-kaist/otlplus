@@ -9,11 +9,13 @@ import { debounce } from 'lodash';
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 import { LectureListCode } from '../../../reducers/timetable/list';
 
+import { getRangeStr } from '../../../utils/timeUtils';
+
 import Divider from '../../Divider';
 import SearchFilter from '../../SearchFilter';
 import Scroller from '../../Scroller';
 
-import { closeSearch, clearDrag, setLastSearchOption } from '../../../actions/timetable/search';
+import { closeSearch, clearClasstimeOptions, setLastSearchOption } from '../../../actions/timetable/search';
 import { setListLectures, clearSearchListLectures } from '../../../actions/timetable/list';
 import { clearLectureFocus } from '../../../actions/timetable/lectureFocus';
 
@@ -53,7 +55,7 @@ class LectureSearchSubSection extends Component {
     const {
       lectureFocus,
       year, semester,
-      start, day, end,
+      classtimeBegin, classtimeDay, classtimeEnd,
       closeSearchDispatch, clearSearchListLecturesDispatch,
       setListLecturesDispatch, clearLectureFocusDispatch,
       setLastSearchOptionDispatch,
@@ -64,7 +66,7 @@ class LectureSearchSubSection extends Component {
       && (selectedDepartments.size === 1 && selectedDepartments.has('ALL'))
       && (selectedLevels.size === 1 && selectedLevels.has('ALL'))
       && keyword.trim().length === 0
-      && !(start !== null && end !== null && day !== null)
+      && !(classtimeBegin !== null && classtimeEnd !== null && classtimeDay !== null)
     ) {
       // eslint-disable-next-line no-alert
       alert(t('ui.message.blankSearch'));
@@ -76,9 +78,9 @@ class LectureSearchSubSection extends Component {
       type: Array.from(selectedTypes),
       department: Array.from(selectedDepartments),
       grade: Array.from(selectedLevels),
-      day: (day !== null) ? day : undefined,
-      begin: (start !== null) ? start : undefined,
-      end: (end !== null) ? end : undefined,
+      day: (classtimeDay !== null) ? classtimeDay : undefined,
+      begin: (classtimeBegin !== null) ? (classtimeBegin / 30 - 8 * 2) : undefined,
+      end: (classtimeEnd !== null) ? (classtimeEnd / 30 - 8 * 2) : undefined,
     };
 
     closeSearchDispatch();
@@ -209,9 +211,9 @@ class LectureSearchSubSection extends Component {
   }
 
   clearSearchTime = () => {
-    const { clearDragDispatch } = this.props;
+    const { clearClasstimeOptionsDispatch } = this.props;
 
-    clearDragDispatch();
+    clearClasstimeOptionsDispatch();
   }
 
   render() {
@@ -221,7 +223,7 @@ class LectureSearchSubSection extends Component {
       autocompleteText,
       selectedTypes, selectedDepartments, selectedLevels,
     } = this.state;
-    const { start, end, day } = this.props;
+    const { classtimeBegin, classtimeEnd, classtimeDay } = this.props;
 
     return (
       <div className={classNames('search-area')}>
@@ -270,12 +272,10 @@ class LectureSearchSubSection extends Component {
               <span>{t('ui.search.time')}</span>
               <div>
 
-                { day !== null
+                { classtimeDay !== null
                   ? (
                     <span className={classNames('text-button')} onClick={this.clearSearchTime}>
-                      {`${[t('ui.day.monday'), t('ui.day.tuesday'), t('ui.day.wednesday'), t('ui.day.thursday'), t('ui.day.friday')][day]} \
-                        ${8 + Math.floor(start / 2)}:${['00', '30'][start % 2]} ~ \
-                        ${8 + Math.floor(end / 2)}:${['00', '30'][end % 2]}`}
+                      {`${getRangeStr(classtimeDay, classtimeBegin, classtimeEnd)}`}
                     </span>
                   )
                   : (
@@ -299,9 +299,9 @@ class LectureSearchSubSection extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  start: state.timetable.search.start,
-  end: state.timetable.search.end,
-  day: state.timetable.search.day,
+  classtimeBegin: state.timetable.search.classtimeBegin,
+  classtimeEnd: state.timetable.search.classtimeEnd,
+  classtimeDay: state.timetable.search.classtimeDay,
   year: state.timetable.semester.year,
   semester: state.timetable.semester.semester,
   lectureFocus: state.timetable.lectureFocus,
@@ -311,8 +311,8 @@ const mapDispatchToProps = (dispatch) => ({
   closeSearchDispatch: () => {
     dispatch(closeSearch());
   },
-  clearDragDispatch: () => {
-    dispatch(clearDrag());
+  clearClasstimeOptionsDispatch: () => {
+    dispatch(clearClasstimeOptions());
   },
   setListLecturesDispatch: (code, lectures) => {
     dispatch(setListLectures(code, lectures));
@@ -329,15 +329,15 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 LectureSearchSubSection.propTypes = {
-  start: PropTypes.number,
-  end: PropTypes.number,
-  day: PropTypes.number,
+  classtimeBegin: PropTypes.number,
+  classtimeEnd: PropTypes.number,
+  classtimeDay: PropTypes.number,
   year: PropTypes.number,
   semester: PropTypes.number,
   lectureFocus: lectureFocusShape,
 
   closeSearchDispatch: PropTypes.func.isRequired,
-  clearDragDispatch: PropTypes.func.isRequired,
+  clearClasstimeOptionsDispatch: PropTypes.func.isRequired,
   setListLecturesDispatch: PropTypes.func.isRequired,
   clearSearchListLecturesDispatch: PropTypes.func.isRequired,
   clearLectureFocusDispatch: PropTypes.func.isRequired,

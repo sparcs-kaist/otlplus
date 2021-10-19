@@ -18,9 +18,9 @@ const LectureGroupBlock = ({
       className={classNames(
         'block',
         'block--lecture-group',
-        (isRaised ? 'block--raised' : ''),
-        (isDimmed ? 'block--dimmed' : ''),
-        (isTaken ? 'block--completed' : ''),
+        (isRaised ? 'block--raised' : null),
+        (isDimmed ? 'block--dimmed' : null),
+        (isTaken ? 'block--completed' : null),
       )}
     >
       <div className={classNames('block__completed-text')}>{t('ui.others.taken')}</div>

@@ -7,6 +7,8 @@ import { appBoundClassNames as classNames } from '../../../common/boundClassName
 import courseFocusShape from '../../../shapes/CourseFocusShape';
 
 import { getAverageScoreLabel } from '../../../utils/scoreUtils';
+import Attributes from '../../Attributes';
+import Scores from '../../Scores';
 
 
 class CourseInfoSubSection extends Component {
@@ -20,30 +22,21 @@ class CourseInfoSubSection extends Component {
 
     return (
       <div className={classNames('subsection', 'subsection--course-info')}>
-        <div>
-          <div className={classNames('attribute', 'attribute--long-info')}>
-            <div>{ t('ui.attribute.classification') }</div>
-            <div>{ `${courseFocus.course.department[t('js.property.name')]}, ${courseFocus.course[t('js.property.type')]}` }</div>
-          </div>
-          <div className={classNames('attribute', 'attribute--long-info')}>
-            <div>{ t('ui.attribute.description') }</div>
-            <div>{ courseFocus.course.summary }</div>
-          </div>
-        </div>
-        <div className={classNames('scores')} ref={this.scoresRef}>
-          <div>
-            <div>{ getAverageScoreLabel(courseFocus.course.grade) }</div>
-            <div>{ t('ui.score.grade') }</div>
-          </div>
-          <div>
-            <div>{ getAverageScoreLabel(courseFocus.course.load) }</div>
-            <div>{ t('ui.score.load') }</div>
-          </div>
-          <div>
-            <div>{ getAverageScoreLabel(courseFocus.course.speech) }</div>
-            <div>{ t('ui.score.speech') }</div>
-          </div>
-        </div>
+        <Attributes
+          entries={[
+            { name: t('ui.attribute.classification'), info: `${courseFocus.course.department[t('js.property.name')]}, ${courseFocus.course[t('js.property.type')]}` },
+            { name: t('ui.attribute.description'), info: courseFocus.course.summary },
+          ]}
+          longInfo
+        />
+        <Scores
+          entries={[
+            { name: t('ui.score.grade'), score: getAverageScoreLabel(courseFocus.course.grade) },
+            { name: t('ui.score.load'), score: getAverageScoreLabel(courseFocus.course.load) },
+            { name: t('ui.score.speech'), score: getAverageScoreLabel(courseFocus.course.speech) },
+          ]}
+          big
+        />
       </div>
     );
   }

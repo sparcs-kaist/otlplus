@@ -33,11 +33,13 @@ import {
   performAddToTable, performAddToCart, performDeleteFromCart,
 } from '../../../common/commonOperations';
 import { isTaken } from '../../../utils/courseUtils';
+import { getRangeStr } from '../../../utils/timeUtils';
 
 import {
   getLabelOfValue, getDepartmentOptions, getTypeOptions, getLevelOptions,
 } from '../../../common/seachOptions';
 import LectureGroupBlockRow from '../../blocks/LectureGroupBlockRow';
+import { TIMETABLE_START_HOUR } from '../../../common/constants';
 
 
 class LectureListSection extends Component {
@@ -257,11 +259,11 @@ class LectureListSection extends Component {
       clearLectureFocusDispatch();
       return;
     }
-    const targetId = Number(elementAtPosition.getAttribute('data-id'));
+    const targetId = Number(elementAtPosition.dataset.id);
     const lectureGroups = this._getLectureGroups(selectedListCode, lists);
     const targetLecture = lectureGroups
       .map((lg) => lg.map((l) => ((l.id === targetId) ? l : null)))
-      .reduce((acc, val) => acc.concat(val), [])
+      .flat(1)
       .filter((l) => (l !== null))[0];
     setLectureFocusDispatch(targetLecture, LectureFocusFrom.LIST, false);
   }
@@ -312,9 +314,11 @@ class LectureListSection extends Component {
           .concat(
             (lastSearchOption.day && lastSearchOption.day !== '')
               ? [
-                `${[t('ui.day.monday'), t('ui.day.tuesday'), t('ui.day.wednesday'), t('ui.day.thursday'), t('ui.day.friday')][lastSearchOption.day]} \
-                ${8 + Math.floor(lastSearchOption.begin / 2)}:${['00', '30'][lastSearchOption.begin % 2]} ~ \
-                ${8 + Math.floor(lastSearchOption.end / 2)}:${['00', '30'][lastSearchOption.end % 2]}`,
+                `${getRangeStr(
+                  lastSearchOption.day,
+                  (lastSearchOption.begin + TIMETABLE_START_HOUR * 2) * 30,
+                  (lastSearchOption.end + TIMETABLE_START_HOUR * 2) * 30
+                )}`,
               ]
               : [],
           )
@@ -408,7 +412,7 @@ class LectureListSection extends Component {
 
     return (
       // eslint-disable-next-line react/jsx-indent
-      <div className={classNames('section', 'section--lecture-list', (mobileIsLectureListOpen ? '' : 'mobile-hidden'))}>
+      <div className={classNames('section', 'section--lecture-list', (mobileIsLectureListOpen ? null : 'mobile-hidden'))}>
         <div className={classNames('subsection', 'subsection--flex', 'subsection--lecture-list')}>
           { ((selectedListCode === LectureListCode.SEARCH) && searchOpen) ? <LectureSearchSubSection /> : null }
           <CloseButton onClick={this.mobileCloseLectureList} />

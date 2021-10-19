@@ -20,6 +20,7 @@ import reviewsFocusShape from '../../../shapes/ReviewsFocusShape';
 import { getSemesterName } from '../../../utils/semesterUtils';
 import semesterShape from '../../../shapes/SemesterShape';
 import reviewShape from '../../../shapes/ReviewShape';
+import Scores from '../../Scores';
 
 
 export const ALL = 'ALL';
@@ -83,10 +84,10 @@ class RankedReviewsSubSection extends Component {
   _setStartSemester = () => {
     const { semesters } = this.props;
 
-    const today = new Date();
-    const yearSemester = (today.getMonth() < 6)
-      ? [today.getFullYear() - 1, 3]
-      : [today.getFullYear(), 1];
+    const now = new Date();
+    const yearSemester = (now.getMonth() < 6)
+      ? [now.getFullYear() - 1, 3]
+      : [now.getFullYear(), 1];
 
     const targetSemester = semesters
       .find((s) => ((s.year === yearSemester[0]) && (s.semester === yearSemester[1])));
@@ -313,18 +314,18 @@ class RankedReviewsSubSection extends Component {
           onScroll={this.handleScroll}
         >
           <div className={classNames('title')}>{`${t('ui.title.rankedReviews')} - ${subtitle}`}</div>
-          <div className={classNames('scores')}>
-            <div> 
-              <div> 
-                {
+          <Scores
+            entries={[
+              {
+                name: t('ui.score.totalReviews'),
+                score: (
                   this._getReviewCountOfSemester(selectedSemester) !== undefined
                     ? this._getReviewCountOfSemester(selectedSemester)
                     : '-'
-                }
-              </div> 
-              <div>{t('ui.score.totalReviews')}</div>
-            </div> 
-          </div> 
+                ),
+              },
+            ]}
+          />
           { reviewBlocksArea }
         </Scroller>
       </div>

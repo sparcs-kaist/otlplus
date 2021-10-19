@@ -84,7 +84,7 @@ class RateFeedSection extends Component {
         <div className={classNames('rate')}>
           {[1, 2, 3, 4, 5].map((s) => (
             <button
-              className={classNames('rate__star', ((score >= s && !this.isRated()) ? 'rate__star--selected' : ''))}
+              className={classNames('rate__star', ((score >= s && !this.isRated()) ? 'rate__star--selected' : null))}
               onClick={() => this.setScore(s)}
               key={s}
             >
@@ -98,7 +98,7 @@ class RateFeedSection extends Component {
         </div>
         <div className={classNames('buttons')}>
           <button
-            className={classNames('text-button', (this.isRated() ? 'text-button--disabled' : ''))}
+            className={classNames('text-button', (this.isRated() ? 'text-button--disabled' : null))}
             onClick={this.submit}
           >
             {t('ui.button.submit')}

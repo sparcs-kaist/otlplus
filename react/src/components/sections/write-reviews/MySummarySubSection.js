@@ -6,6 +6,7 @@ import { sumBy } from 'lodash';
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
 import userShape from '../../../shapes/UserShape';
+import Scores from '../../Scores';
 
 
 class MySummarySubSection extends Component {
@@ -23,21 +24,23 @@ class MySummarySubSection extends Component {
         <div className={classNames('title')}>
           {t('ui.title.takenLectures')}
         </div>
-        <div className={classNames('scores')}>
-          <div>
-            <div>
-              <span>{user ? editableReviews.length : '-'}</span>
-              <span>{user ? `/${writableTakenLectures.length}` : '/-'}</span>
-            </div>
-            <div>{t('ui.score.reviewsWritten')}</div>
-          </div>
-          <div>
-            <div>
-              {user ? sumBy(editableReviews, (r) => r.like) : '-'}
-            </div>
-            <div>{t('ui.score.likes')}</div>
-          </div>
-        </div>
+        <Scores
+          entries={[
+            {
+              name: t('ui.score.reviewsWritten'),
+              score: (
+                <>
+                  <span>{user ? editableReviews.length : '-'}</span>
+                  <span>{user ? `/${writableTakenLectures.length}` : '/-'}</span>
+                </>
+              ),
+            },
+            {
+              name: t('ui.score.likes'),
+              score: (user ? sumBy(editableReviews, (r) => r.like) : '-'),
+            },
+          ]}
+        />
       </div>
     );
   }

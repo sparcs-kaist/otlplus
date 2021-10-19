@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
+import { TIMETABLE_START_HOUR, TIMETABLE_END_HOUR } from '../../common/constants';
 import { getProfessorsShortStr, getColorNumber } from '../../utils/lectureUtils';
 
 import lectureShape from '../../shapes/LectureShape';
@@ -12,11 +13,11 @@ import classtimeShape from '../../shapes/ClasstimeShape';
 const TimetableTile = ({
   t,
   lecture, classtime,
-  dayIndex, beginIndex, endIndex,
+  tableIndex, dayIndex, beginIndex, endIndex,
   cellWidth, cellHeight,
   isTimetableReadonly, isRaised, isHighlighted, isDimmed, isTemp, isSimple,
   onMouseOver, onMouseOut, onClick, deleteLecture,
-  occupiedTimes,
+  occupiedIndices,
 }) => {
   const handleMouseOver = onMouseOver
     ? (event) => {
@@ -38,24 +39,38 @@ const TimetableTile = ({
     deleteLecture(lecture);
   };
 
+  const getTop = () => {
+    if (tableIndex === 0) {
+      const timedTableOffset = 17 + (cellHeight * beginIndex);
+      return timedTableOffset + 2;
+    }
+    const timedTableHeight = 17 + (cellHeight * ((TIMETABLE_END_HOUR - TIMETABLE_START_HOUR) * 2));
+    const untimedTableHeight = 17 + (cellHeight * 3);
+    const tableSpacing = cellHeight;
+    const untimedTableOffset = 17 + (cellHeight * beginIndex);
+    return (
+      timedTableHeight
+      + untimedTableHeight * (tableIndex - 1)
+      + tableSpacing * tableIndex
+      + untimedTableOffset
+      + 2
+    );
+  };
+
   return (
     <div
       className={classNames(
         'tile',
         'tile--timetable',
         `background-color--${getColorNumber(lecture)}`,
-        (isRaised ? 'tile--raised' : ''),
-        (isTemp ? 'tile--temp' : ''),
-        (isHighlighted ? 'tile--highlighted' : ''),
-        (isDimmed ? 'tile--dimmed' : ''),
+        (isRaised ? 'tile--raised' : null),
+        (isTemp ? 'tile--temp' : null),
+        (isHighlighted ? 'tile--highlighted' : null),
+        (isDimmed ? 'tile--dimmed' : null),
       )}
       style={{
-        left: (cellWidth + 5) * dayIndex + 17,
-        top: cellHeight * beginIndex + 19
-          + ((beginIndex >= 32)
-            ? ((beginIndex - 32 + 3) / 3 * (cellHeight + 17))
-            : 0
-          ),
+        left: 18 + (cellWidth + 5) * dayIndex - 1,
+        top: getTop(),
         width: cellWidth + 2,
         height: cellHeight * (endIndex - beginIndex) - 3,
       }}
@@ -71,7 +86,7 @@ const TimetableTile = ({
         // onMouseDown={() => onMouseDown()}
         className={classNames('tile--timetable__content')}
       >
-        <p className={classNames('tile--timetable__content__title', (isSimple ? 'mobile-hidden' : ''))}>
+        <p className={classNames('tile--timetable__content__title', (isSimple ? 'mobile-hidden' : null))}>
           {lecture[t('js.property.title')]}
         </p>
         <p className={classNames('tile--timetable__content__info', 'mobile-hidden')}>
@@ -82,14 +97,14 @@ const TimetableTile = ({
         </p>
       </div>
       {
-        occupiedTimes === undefined
+        occupiedIndices === undefined
           ? null
-          : occupiedTimes.map((o) => (
+          : occupiedIndices.map((o) => (
             <div
               key={`${o[0]}:${o[1]}`}
               className={classNames('tile--timetable__occupied-area')}
               style={{
-                top: cellHeight * o[0],
+                top: cellHeight * (o[0] - beginIndex),
                 height: cellHeight * (o[1] - o[0]) - 3,
               }}
             />
@@ -102,6 +117,7 @@ const TimetableTile = ({
 TimetableTile.propTypes = {
   lecture: lectureShape.isRequired,
   classtime: classtimeShape,
+  tableIndex: PropTypes.number.isRequired,
   dayIndex: PropTypes.number.isRequired,
   beginIndex: PropTypes.number.isRequired,
   endIndex: PropTypes.number.isRequired,
@@ -117,7 +133,7 @@ TimetableTile.propTypes = {
   onMouseOut: PropTypes.func,
   onClick: PropTypes.func,
   deleteLecture: PropTypes.func.isRequired,
-  occupiedTimes: PropTypes.arrayOf(PropTypes.array),
+  occupiedIndices: PropTypes.arrayOf(PropTypes.array),
 };
 
 export default withTranslation()(

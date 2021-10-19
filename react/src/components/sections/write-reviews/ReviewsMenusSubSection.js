@@ -39,7 +39,7 @@ class ReviewsMenusSubSection extends Component {
           <button
             className={classNames(
               'text-button',
-              ((reviewsFocus.from === ReviewsFocusFrom.REVIEWS_LATEST) ? 'text-button--disabled' : ''),
+              ((reviewsFocus.from === ReviewsFocusFrom.REVIEWS_LATEST) ? 'text-button--disabled' : null),
             )}
             onClick={this.handleMenuClick(ReviewsFocusFrom.REVIEWS_LATEST)}
           >
@@ -50,7 +50,7 @@ class ReviewsMenusSubSection extends Component {
           <button
             className={classNames(
               'text-button',
-              ((reviewsFocus.from === ReviewsFocusFrom.REVIEWS_RANKED) ? 'text-button--disabled' : ''),
+              ((reviewsFocus.from === ReviewsFocusFrom.REVIEWS_RANKED) ? 'text-button--disabled' : null),
             )}
             onClick={this.handleMenuClick(ReviewsFocusFrom.REVIEWS_RANKED)}
           >
@@ -61,7 +61,7 @@ class ReviewsMenusSubSection extends Component {
           <button
             className={classNames(
               'text-button',
-              ((!user || (reviewsFocus.from === ReviewsFocusFrom.REVIEWS_MY)) ? 'text-button--disabled' : ''),
+              ((!user || (reviewsFocus.from === ReviewsFocusFrom.REVIEWS_MY)) ? 'text-button--disabled' : null),
             )}
             onClick={this.handleMenuClick(ReviewsFocusFrom.REVIEWS_MY)}
           >
@@ -72,7 +72,7 @@ class ReviewsMenusSubSection extends Component {
           <button
             className={classNames(
               'text-button',
-              ((!user || (reviewsFocus.from === ReviewsFocusFrom.REVIEWS_LIKED)) ? 'text-button--disabled' : ''),
+              ((!user || (reviewsFocus.from === ReviewsFocusFrom.REVIEWS_LIKED)) ? 'text-button--disabled' : null),
             )}
             onClick={this.handleMenuClick(ReviewsFocusFrom.REVIEWS_LIKED)}
           >

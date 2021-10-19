@@ -93,7 +93,13 @@ class Header extends Component {
     return (
       <header>
         <div className={classNames('identity-bar')} />
-        <div className={classNames('content', (mobileIsMenuOpen ? '' : 'menu-closed'), (noBackground && !mobileIsMenuOpen ? 'no-background' : ''))}>
+        <div
+          className={classNames(
+            'content',
+            (mobileIsMenuOpen ? null : 'menu-closed'),
+            (noBackground && !mobileIsMenuOpen ? 'no-background' : null),
+          )}
+        >
           <button className={classNames('menu-icon-icon')} onClick={this.toggleMenu}>
             { mobileIsMenuOpen
               ? <i className={classNames('icon--header_menu_close')} />

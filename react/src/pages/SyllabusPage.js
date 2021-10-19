@@ -90,7 +90,7 @@ class SyllabusPage extends Component {
       lectures
         ? (
           lectures.map((l) => (
-            <div className={classNames('tabs__elem', (selectedLecture === l ? 'tabs__elem--selected' : ''))} onClick={() => this.updateShowingLecture(l)}>
+            <div className={classNames('tabs__elem', (selectedLecture === l ? 'tabs__elem--selected' : null))} onClick={() => this.updateShowingLecture(l)}>
               { l[t('js.property.title')] }
             </div>
           ))

@@ -23,6 +23,7 @@ import { reset as resetRankedReviews } from '../actions/write-reviews/rankedRevi
 import { ReviewsFocusFrom } from '../reducers/write-reviews/reviewsFocus';
 
 import reviewsFocusShape from '../shapes/ReviewsFocusShape';
+import OtlplusPlaceholder from '../components/OtlplusPlaceholder';
 
 
 class WriteReviewsPage extends Component {
@@ -51,30 +52,13 @@ class WriteReviewsPage extends Component {
 
 
   render() {
-    const { t, reviewsFocus } = this.props;
+    const { reviewsFocus } = this.props;
 
     const getReviewsSubSection = (focusFrom) => {
       if (focusFrom === ReviewsFocusFrom.NONE) {
         return (
           <div className={classNames('subsection', 'subsection--flex', 'subsection--write-reviews-right')}>
-            <div className={classNames('otlplus-placeholder')}>
-              <div>
-                OTL PLUS
-              </div>
-              <div>
-                <Link to="/credits/">{t('ui.menu.credit')}</Link>
-                &nbsp;|&nbsp;
-                <Link to="/licenses/">{t('ui.menu.licences')}</Link>
-              </div>
-              <div>
-                <a href="mailto:otlplus@sparcs.org">otlplus@sparcs.org</a>
-              </div>
-              <div>
-                © 2016,&nbsp;
-                <a href="http://sparcs.org">SPARCS</a>
-                &nbsp;OTL Team
-              </div>
-            </div>
+            <OtlplusPlaceholder />
           </div>
         );
       }
@@ -107,7 +91,14 @@ class WriteReviewsPage extends Component {
               <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
               <ReviewsMenusSubSection />
             </div>
-            <div className={classNames('section', 'section--write-reviews-right', 'section--mobile-modal', ((reviewsFocus.from !== ReviewsFocusFrom.NONE) ? '' : 'mobile-hidden'))}>
+            <div
+              className={classNames(
+                'section',
+                'section--write-reviews-right',
+                'section--mobile-modal',
+                ((reviewsFocus.from !== ReviewsFocusFrom.NONE) ? null : 'mobile-hidden'),
+              )}
+            >
               {
                 getReviewsSubSection(reviewsFocus.from)
               }

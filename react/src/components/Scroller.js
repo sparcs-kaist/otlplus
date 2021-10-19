@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+
+import { appBoundClassNames as classNames } from '../common/boundClassNames';
+
 import Scrollbar from 'react-scrollbars-custom';
+
 
 
 class Scroller extends Component {
@@ -24,7 +28,10 @@ class Scroller extends Component {
 
     return (
       <Scrollbar
-        className={[(noScrollX ? 'noX' : ''), (noScrollY ? 'noY' : '')].join(' ')}
+        className={classNames(
+          (noScrollX ? 'noX' : ''),
+          (noScrollY ? 'noY' : ''),
+        )}
         style={{
           flex: '1 1 0px',
           marginTop: `-${expandTop}px`,

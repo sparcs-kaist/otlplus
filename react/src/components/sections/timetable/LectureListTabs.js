@@ -248,28 +248,28 @@ class LectureListTabs extends Component {
     const { user, selectedListCode, mobileIsLectureListOpen } = this.props;
 
     return (
-      <div className={classNames('tabs', 'tabs--lecture-list', (mobileIsLectureListOpen ? '' : 'mobile-hidden'))}>
+      <div className={classNames('tabs', 'tabs--lecture-list', (mobileIsLectureListOpen ? null : 'mobile-hidden'))}>
         <Scroller noScrollX={false} noScrollY={true} expandBottom={2}>
           <div className={classNames('tabs__flexbox')}>
-            <div className={classNames('tabs__elem', (selectedListCode === LectureListCode.SEARCH ? 'tabs__elem--selected' : ''))} onClick={() => this.changeTab(LectureListCode.SEARCH)}>
+            <div className={classNames('tabs__elem', (selectedListCode === LectureListCode.SEARCH ? 'tabs__elem--selected' : null))} onClick={() => this.changeTab(LectureListCode.SEARCH)}>
               <i className={classNames('icon', 'icon--tab-search')} />
               <span>{t('ui.tab.searchShort')}</span>
             </div>
-            <div className={classNames('tabs__elem', (selectedListCode === LectureListCode.BASIC ? 'tabs__elem--selected' : ''))} onClick={() => this.changeTab(LectureListCode.BASIC)}>
+            <div className={classNames('tabs__elem', (selectedListCode === LectureListCode.BASIC ? 'tabs__elem--selected' : null))} onClick={() => this.changeTab(LectureListCode.BASIC)}>
               <i className={classNames('icon', 'icon--tab-basic')} />
               <span>{t('ui.tab.basicShort')}</span>
             </div>
             {!user ? null : user.departments.map((d) => (
-              <div className={classNames('tabs__elem', (selectedListCode === d.code ? 'tabs__elem--selected' : ''))} key={d.code} onClick={() => this.changeTab(d.code)}>
+              <div className={classNames('tabs__elem', (selectedListCode === d.code ? 'tabs__elem--selected' : null))} key={d.code} onClick={() => this.changeTab(d.code)}>
                 <i className={classNames('icon', 'icon--tab-major')} />
                 <span>{t('ui.tab.majorShort')}</span>
               </div>
             ))}
-            <div className={classNames('tabs__elem', (selectedListCode === LectureListCode.HUMANITY ? 'tabs__elem--selected' : ''))} onClick={() => this.changeTab(LectureListCode.HUMANITY)}>
+            <div className={classNames('tabs__elem', (selectedListCode === LectureListCode.HUMANITY ? 'tabs__elem--selected' : null))} onClick={() => this.changeTab(LectureListCode.HUMANITY)}>
               <i className={classNames('icon', 'icon--tab-humanity')} />
               <span>{t('ui.tab.humanityShort')}</span>
             </div>
-            <div className={classNames('tabs__elem', (selectedListCode === LectureListCode.CART ? 'tabs__elem--selected' : ''))} onClick={() => this.changeTab(LectureListCode.CART)}>
+            <div className={classNames('tabs__elem', (selectedListCode === LectureListCode.CART ? 'tabs__elem--selected' : null))} onClick={() => this.changeTab(LectureListCode.CART)}>
               <i className={classNames('icon', 'icon--tab-cart')} />
               <span>{t('ui.tab.wishlistShort')}</span>
             </div>

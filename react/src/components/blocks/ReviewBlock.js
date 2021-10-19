@@ -14,6 +14,7 @@ import linkShape from '../../shapes/LinkShape';
 
 import { formatNewlineToBr } from '../../utils/commonUtils';
 import { getSemesterName } from '../../utils/semesterUtils';
+import { CONTACT } from '../../common/constants';
 
 
 const ReviewBlock = ({
@@ -58,7 +59,7 @@ const ReviewBlock = ({
     e.preventDefault();
 
     // eslint-disable-next-line no-alert
-    alert(t('ui.message.reportUnderDevelopment'));
+    alert(t('ui.message.reportUnderDevelopment', { contact: CONTACT }));
 
     ReactGA.event({
       category: 'Review',
@@ -78,7 +79,12 @@ const ReviewBlock = ({
         <span>{getProfessorsShortStr(review.lecture)}</span>
         <span>{`${review.lecture.year} ${getSemesterName(review.lecture.semester)}`}</span>
       </div>
-      <div className={classNames('block--review__content', (shouldLimitLines ? 'block--review__content--limit-5' : ''))}>
+      <div
+        className={classNames(
+          'block--review__content',
+          (shouldLimitLines ? 'block--review__content--limit-5' : null),
+        )}
+      >
         {contentDisplay}
       </div>
       <div className={classNames('block--review__menus')}>
