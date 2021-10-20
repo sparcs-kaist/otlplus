@@ -16,8 +16,8 @@ import { ReviewsFocusFrom } from '../../../reducers/write-reviews/reviewsFocus';
 import { unique } from '../../../utils/commonUtils';
 import { getSemesterName } from '../../../utils/semesterUtils';
 
-import userShape from '../../../shapes/UserShape';
-import lectureShape from '../../../shapes/LectureShape';
+import userShape from '../../../shapes/model/UserShape';
+import lectureShape from '../../../shapes/model/LectureShape';
 
 
 class TakenLecturesSubSection extends Component {

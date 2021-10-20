@@ -12,8 +12,8 @@ import ReviewBlock from '../../blocks/ReviewBlock';
 
 import { clearReviewsFocus } from '../../../actions/write-reviews/reviewsFocus';
 
-import userShape from '../../../shapes/UserShape';
-import reviewsFocusShape from '../../../shapes/ReviewsFocusShape';
+import userShape from '../../../shapes/model/UserShape';
+import reviewsFocusShape from '../../../shapes/state/ReviewsFocusShape';
 
 
 class MyReviewsSubSection extends Component {

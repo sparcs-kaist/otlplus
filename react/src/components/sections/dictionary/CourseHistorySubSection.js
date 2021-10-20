@@ -9,8 +9,8 @@ import { appBoundClassNames as classNames } from '../../../common/boundClassName
 import Scroller from '../../Scroller';
 import LectureGroupSimpleBlock from '../../blocks/LectureGroupSimpleBlock';
 
-import semesterShape from '../../../shapes/SemesterShape';
-import courseFocusShape from '../../../shapes/CourseFocusShape';
+import semesterShape from '../../../shapes/model/SemesterShape';
+import courseFocusShape from '../../../shapes/state/CourseFocusShape';
 
 
 class CourseHistorySubSection extends Component {

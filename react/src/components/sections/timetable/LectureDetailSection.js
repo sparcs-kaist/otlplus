@@ -20,9 +20,9 @@ import { addLectureToTimetable, removeLectureFromTimetable } from '../../../acti
 import { LectureFocusFrom } from '../../../reducers/timetable/lectureFocus';
 import { LectureListCode } from '../../../reducers/timetable/list';
 
-import userShape from '../../../shapes/UserShape';
-import lectureFocusShape from '../../../shapes/LectureFocusShape';
-import timetableShape from '../../../shapes/TimetableShape';
+import userShape from '../../../shapes/model/UserShape';
+import lectureFocusShape from '../../../shapes/state/LectureFocusShape';
+import timetableShape from '../../../shapes/model/TimetableShape';
 
 import {
   inTimetable, inCart,
@@ -32,7 +32,7 @@ import {
 import {
   performAddToTable, performDeleteFromTable, performAddToCart, performDeleteFromCart,
 } from '../../../common/commonOperations';
-import lectureListsShape from '../../../shapes/LectureListsShape';
+import lectureListsShape from '../../../shapes/state/LectureListsShape';
 import Divider from '../../Divider';
 import OtlplusPlaceholder from '../../OtlplusPlaceholder';
 import Attributes from '../../Attributes';

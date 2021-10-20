@@ -4,7 +4,7 @@ import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 
-import lectureShape from '../../shapes/LectureShape';
+import lectureShape from '../../shapes/model/LectureShape';
 
 
 const LectureGroupBlock = ({

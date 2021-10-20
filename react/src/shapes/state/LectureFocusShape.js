@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 
-import { LectureFocusFrom } from '../reducers/timetable/lectureFocus';
-import lectureShape from './LectureShape';
-import reviewShape from './ReviewShape';
+import { LectureFocusFrom } from '../../reducers/timetable/lectureFocus';
+import lectureShape from '../model/LectureShape';
+import reviewShape from '../model/ReviewShape';
 
 
 const lectureFocusShape = PropTypes.shape({

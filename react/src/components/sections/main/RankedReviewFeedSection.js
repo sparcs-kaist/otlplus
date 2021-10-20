@@ -12,8 +12,8 @@ import { getSemesterName } from '../../../utils/semesterUtils';
 
 import { ReviewsFocusFrom } from '../../../reducers/write-reviews/reviewsFocus';
 
-import reviewShape from '../../../shapes/ReviewShape';
-import semesterShape from '../../../shapes/SemesterShape';
+import reviewShape from '../../../shapes/model/ReviewShape';
+import semesterShape from '../../../shapes/model/SemesterShape';
 
 
 class RankedReviewFeedSection extends Component {

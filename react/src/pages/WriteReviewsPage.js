@@ -21,7 +21,7 @@ import { reset as resetLikedReviews } from '../actions/write-reviews/likedReview
 import { reset as resetRankedReviews } from '../actions/write-reviews/rankedReviews';
 import { ReviewsFocusFrom } from '../reducers/write-reviews/reviewsFocus';
 
-import reviewsFocusShape from '../shapes/ReviewsFocusShape';
+import reviewsFocusShape from '../shapes/state/ReviewsFocusShape';
 import OtlplusPlaceholder from '../components/OtlplusPlaceholder';
 
 

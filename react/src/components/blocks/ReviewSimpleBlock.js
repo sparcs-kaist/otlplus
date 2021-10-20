@@ -7,7 +7,7 @@ import { isSpecialLecture } from '../../utils/lectureUtils';
 import { getSingleScoreLabel } from '../../utils/scoreUtils';
 import { getSemesterName } from '../../utils/semesterUtils';
 
-import reviewShape from '../../shapes/ReviewShape';
+import reviewShape from '../../shapes/model/ReviewShape';
 import linkShape from '../../shapes/LinkShape';
 
 

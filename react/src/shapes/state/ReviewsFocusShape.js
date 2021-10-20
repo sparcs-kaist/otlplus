@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 
-import { ReviewsFocusFrom } from '../reducers/write-reviews/reviewsFocus';
+import { ReviewsFocusFrom } from '../../reducers/write-reviews/reviewsFocus';
 
-import lectureShape from './LectureShape';
-import reviewShape from './ReviewShape';
+import lectureShape from '../model/LectureShape';
+import reviewShape from '../model/ReviewShape';
 
 
 const reviewsFocusShape = PropTypes.shape({

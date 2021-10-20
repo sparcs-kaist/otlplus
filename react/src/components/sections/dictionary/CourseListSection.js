@@ -16,11 +16,11 @@ import { isFocused, isDimmedCourse } from '../../../utils/courseUtils';
 import { setCourseFocus, clearCourseFocus } from '../../../actions/dictionary/courseFocus';
 import { openSearch } from '../../../actions/dictionary/search';
 
-import courseShape from '../../../shapes/CourseShape';
-import courseFocusShape from '../../../shapes/CourseFocusShape';
-import courseListsShape from '../../../shapes/CourseListsShape';
-import userShape from '../../../shapes/UserShape';
-import courseLastSearchOptionShape from '../../../shapes/CourseLastSearchOptionShape';
+import courseShape from '../../../shapes/model/CourseShape';
+import courseFocusShape from '../../../shapes/state/CourseFocusShape';
+import courseListsShape from '../../../shapes/state/CourseListsShape';
+import userShape from '../../../shapes/model/UserShape';
+import courseLastSearchOptionShape from '../../../shapes/state/CourseLastSearchOptionShape';
 
 import {
   getLabelOfValue, getDepartmentOptions, getTypeOptions, getLevelOptions, getTermOptions,

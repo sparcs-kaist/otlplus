@@ -7,8 +7,8 @@ import { appBoundClassNames as classNames } from '../../../common/boundClassName
 
 import { clearMultipleFocus, setMultipleFocus } from '../../../actions/timetable/lectureFocus';
 
-import lectureFocusShape from '../../../shapes/LectureFocusShape';
-import timetableShape from '../../../shapes/TimetableShape';
+import lectureFocusShape from '../../../shapes/state/LectureFocusShape';
+import timetableShape from '../../../shapes/model/TimetableShape';
 
 import {
   isSingleFocused,

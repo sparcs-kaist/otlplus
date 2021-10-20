@@ -8,8 +8,8 @@ import { getSingleScoreLabel } from '../../utils/scoreUtils';
 import { getSemesterName } from '../../utils/semesterUtils';
 import { performSubmitReview } from '../../common/commonOperations';
 
-import lectureShape from '../../shapes/LectureShape';
-import reviewShape from '../../shapes/ReviewShape';
+import lectureShape from '../../shapes/model/LectureShape';
+import reviewShape from '../../shapes/model/ReviewShape';
 
 
 const ReviewWriteBlock = ({

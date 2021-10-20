@@ -11,8 +11,8 @@ import { clearMultipleFocus, setMultipleFocus } from '../../../actions/timetable
 
 import { LectureFocusFrom } from '../../../reducers/timetable/lectureFocus';
 
-import lectureFocusShape from '../../../shapes/LectureFocusShape';
-import timetableShape from '../../../shapes/TimetableShape';
+import lectureFocusShape from '../../../shapes/state/LectureFocusShape';
+import timetableShape from '../../../shapes/model/TimetableShape';
 
 import { inTimetable, getOverallLectures } from '../../../utils/lectureUtils';
 import Attributes from '../../Attributes';
