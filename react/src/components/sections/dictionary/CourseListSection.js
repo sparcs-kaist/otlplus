@@ -12,7 +12,7 @@ import Scroller from '../../Scroller';
 import CourseSearchSubSection from './CourseSearchSubSection';
 import CourseBlock from '../../blocks/CourseBlock';
 
-import { isClicked, isHovered, isDimmedCourse } from '../../../utils/courseUtils';
+import { isClicked, isDimmedCourse } from '../../../utils/courseUtils';
 import { setCourseFocus, clearCourseFocus } from '../../../actions/dictionary/courseFocus';
 import { openSearch } from '../../../actions/dictionary/search';
 
