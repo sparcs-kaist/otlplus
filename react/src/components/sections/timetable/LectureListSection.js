@@ -248,6 +248,7 @@ class LectureListSection extends Component {
 
     const arrow = this.arrowRef.current;
     const arrowPosition = (this.arrowRef.current).getBoundingClientRect();
+    const arrowX = arrowPosition.left;
     const arrowY = (arrowPosition.top + arrowPosition.bottom) / 2;
 
     if (window.getComputedStyle(arrow).getPropertyValue('display') === 'none'
@@ -256,9 +257,9 @@ class LectureListSection extends Component {
     }
 
     const elementAtPosition = (
-      document.elementFromPoint(100, arrowY).closest(`.${classNames('block--lecture-group__row')}`)
-      || document.elementFromPoint(100, arrowY - 25).closest(`.${classNames('block--lecture-group__row')}`)
-      || document.elementFromPoint(100, arrowY + 25).closest(`.${classNames('block--lecture-group__row')}`)
+      document.elementFromPoint(arrowX - 15, arrowY).closest(`.${classNames('block--lecture-group__row')}`)
+      || document.elementFromPoint(arrowX - 15, arrowY - 25).closest(`.${classNames('block--lecture-group__row')}`)
+      || document.elementFromPoint(arrowX - 15, arrowY + 25).closest(`.${classNames('block--lecture-group__row')}`)
     );
     if (elementAtPosition === null) {
       clearLectureFocusDispatch();
