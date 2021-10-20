@@ -16,11 +16,10 @@ export function reset() {
   };
 }
 
-export function setCourseFocus(course, clicked) {
+export function setCourseFocus(course) {
   return {
     type: SET_COURSE_FOCUS,
     course: course,
-    clicked: clicked,
   };
 }
 

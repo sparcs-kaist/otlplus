@@ -4,7 +4,6 @@ import courseShape from './CourseShape';
 
 
 const courseFocusShape = PropTypes.shape({
-  clicked: PropTypes.bool.isRequired,
   course: courseShape,
 });
 

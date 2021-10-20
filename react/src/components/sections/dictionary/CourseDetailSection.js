@@ -40,9 +40,13 @@ class CourseDetailSection extends Component {
       clearCourseFocusDispatch();
     }
 
-    if ((courseFocus.clicked && !prevProps.courseFocus.clicked)
-      || (courseFocus.clicked && (prevProps.courseFocus.course !== courseFocus.course))
-    ) {
+    if (!prevProps.courseFocus.course && courseFocus.course) {
+      setLecturesDispatch(null);
+      this._fetchLectures();
+      this._fetchReviews();
+    }
+    if ((prevProps.courseFocus.course && courseFocus.course)
+    && (prevProps.courseFocus.course.id !== courseFocus.course.id)) {
       setLecturesDispatch(null);
       this._fetchLectures();
       this._fetchReviews();
@@ -148,7 +152,7 @@ class CourseDetailSection extends Component {
     const { t } = this.props;
     const { courseFocus } = this.props;
 
-    const sectionContent = (courseFocus.clicked && courseFocus.course !== null)
+    const sectionContent = courseFocus.course
       ? (
         <>
           <CloseButton onClick={this.unfix} />
@@ -172,7 +176,7 @@ class CourseDetailSection extends Component {
       );
 
     return (
-      <div className={classNames('section', 'section--course-detail', 'section--mobile-modal', ((courseFocus.course && courseFocus.clicked) ? null : 'mobile-hidden'))}>
+      <div className={classNames('section', 'section--course-detail', 'section--mobile-modal', (courseFocus.course ? null : 'mobile-hidden'))}>
         <div className={classNames('subsection', 'subsection--flex', 'subsection--course-detail')}>
           { sectionContent }
         </div>

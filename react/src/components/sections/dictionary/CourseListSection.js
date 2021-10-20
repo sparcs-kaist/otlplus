@@ -12,7 +12,7 @@ import Scroller from '../../Scroller';
 import CourseSearchSubSection from './CourseSearchSubSection';
 import CourseBlock from '../../blocks/CourseBlock';
 
-import { isClicked, isDimmedCourse } from '../../../utils/courseUtils';
+import { isFocused, isDimmedCourse } from '../../../utils/courseUtils';
 import { setCourseFocus, clearCourseFocus } from '../../../actions/dictionary/courseFocus';
 import { openSearch } from '../../../actions/dictionary/search';
 
@@ -34,29 +34,14 @@ class CourseListSection extends Component {
   }
 
 
-  focusCourseWithHover = (course) => {
-    const { courseFocus, setCourseFocusDispatch } = this.props;
-
-    if (courseFocus.clicked) {
-      return;
-    }
-    setCourseFocusDispatch(course, false);
-  }
-
-  unfocusCourseWithHover = (course) => {
-    const { courseFocus, clearCourseFocusDispatch } = this.props;
-
-    if (courseFocus.clicked) {
-      return;
-    }
-    clearCourseFocusDispatch();
-  }
-
   focusCourseWithClick = (course) => {
-    const { courseFocus, selectedListCode, setCourseFocusDispatch } = this.props;
+    const {
+      courseFocus, selectedListCode,
+      setCourseFocusDispatch, clearCourseFocusDispatch,
+    } = this.props;
 
-    if (!isClicked(course, courseFocus)) {
-      setCourseFocusDispatch(course, true);
+    if (!isFocused(course, courseFocus)) {
+      setCourseFocusDispatch(course);
 
       const labelOfTabs = new Map([
         [CourseListCode.SEARCH, 'Search'],
@@ -71,7 +56,7 @@ class CourseListSection extends Component {
       });
     }
     else {
-      setCourseFocusDispatch(course, false);
+      clearCourseFocusDispatch();
 
       const labelOfTabs = new Map([
         [CourseListCode.SEARCH, 'Search'],
@@ -190,10 +175,8 @@ class CourseListSection extends Component {
                   key={c.id}
                   shouldShowReadStatus={true}
                   isRead={c.userspecific_is_read || readCourses.some((c2) => (c2.id === c.id))}
-                  isRaised={isClicked(c, courseFocus)}
+                  isRaised={isFocused(c, courseFocus)}
                   isDimmed={isDimmedCourse(c, courseFocus)}
-                  onMouseOver={this.focusCourseWithHover}
-                  onMouseOut={this.unfocusCourseWithHover}
                   onClick={this.focusCourseWithClick}
                 />
               ))
@@ -229,8 +212,8 @@ const mapDispatchToProps = (dispatch) => ({
   openSearchDispatch: () => {
     dispatch(openSearch());
   },
-  setCourseFocusDispatch: (lecture, clicked) => {
-    dispatch(setCourseFocus(lecture, clicked));
+  setCourseFocusDispatch: (course) => {
+    dispatch(setCourseFocus(course));
   },
   clearCourseFocusDispatch: () => {
     dispatch(clearCourseFocus());
