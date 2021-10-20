@@ -1076,10 +1076,12 @@ a {
                     } 
                     &--dashed {
                         border-bottom-style: dashed;
+                    } 
+                    &--mobile-noline {
                         @media #{$media-portrait} {
                             border-bottom: none;
                         } 
-                    } 
+                    }
                 } 
     
                 &__cell {

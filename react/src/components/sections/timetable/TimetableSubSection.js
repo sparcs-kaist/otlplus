@@ -392,6 +392,7 @@ class TimetableSubSection extends Component {
                 className={classNames(
                   'subsection--timetable__table__body__line',
                   'subsection--timetable__table__body__line--dashed',
+                  (mobileIsLectureListOpen ? 'subsection--timetable__table__body__line--mobile-noline' : null),
                 )}
                 key={`line:${h * 60 + 30}`}
               />,
@@ -438,6 +439,7 @@ class TimetableSubSection extends Component {
             className={classNames( 
               'subsection--timetable__table__body__line',
               'subsection--timetable__table__body__line--dashed',
+              (mobileIsLectureListOpen ? 'subsection--timetable__table__body__line--mobile-noline' : null),
             )} 
             key="line:2"
           />,
@@ -446,6 +448,7 @@ class TimetableSubSection extends Component {
             className={classNames( 
               'subsection--timetable__table__body__line',
               'subsection--timetable__table__body__line--dashed',
+              (mobileIsLectureListOpen ? 'subsection--timetable__table__body__line--mobile-noline' : null),
             )} 
             key="line:3"
           />,
