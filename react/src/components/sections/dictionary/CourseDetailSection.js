@@ -33,7 +33,7 @@ class CourseDetailSection extends Component {
   componentDidUpdate(prevProps) {
     const {
       selectedListCode, courseFocus,
-      clearCourseFocusDispatch, setLecturesDispatch,
+      clearCourseFocusDispatch,
     } = this.props;
 
     if (prevProps.selectedListCode !== selectedListCode) {
@@ -41,13 +41,11 @@ class CourseDetailSection extends Component {
     }
 
     if (!prevProps.courseFocus.course && courseFocus.course) {
-      setLecturesDispatch(null);
       this._fetchLectures();
       this._fetchReviews();
     }
     if ((prevProps.courseFocus.course && courseFocus.course)
     && (prevProps.courseFocus.course.id !== courseFocus.course.id)) {
-      setLecturesDispatch(null);
       this._fetchLectures();
       this._fetchReviews();
     }
