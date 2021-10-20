@@ -15,7 +15,7 @@ export const ReviewsFocusFrom = {
 };
 
 const initialState = {
-  from: 'NONE',
+  from: ReviewsFocusFrom.NONE,
   lecture: null,
   reviews: null,
 };
@@ -34,7 +34,7 @@ const reviewsFocus = (state = initialState, action) => {
     }
     case CLEAR_REVIEWS_FOCUS: {
       return Object.assign({}, state, {
-        from: 'NONE',
+        from: ReviewsFocusFrom.NONE,
         lecture: null,
         reviews: null,
       });
