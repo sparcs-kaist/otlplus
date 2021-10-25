@@ -4,7 +4,7 @@ import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
-import courseFocusShape from '../../../shapes/CourseFocusShape';
+import courseFocusShape from '../../../shapes/state/CourseFocusShape';
 
 import { getAverageScoreLabel } from '../../../utils/scoreUtils';
 import Attributes from '../../Attributes';

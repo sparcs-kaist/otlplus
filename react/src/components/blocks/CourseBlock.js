@@ -6,7 +6,7 @@ import { withTranslation } from 'react-i18next';
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 import { getProfessorsFullStr } from '../../utils/courseUtils';
 
-import courseShape from '../../shapes/CourseShape';
+import courseShape from '../../shapes/model/CourseShape';
 import linkShape from '../../shapes/LinkShape';
 import Attributes from '../Attributes';
 

@@ -509,7 +509,7 @@ a {
 
 
 .main-image {
-    background: url(../static/img/review/search/bg.jpg) center 0;
+    background: url(../static/images/main/background_photo.jpg) center 0;
     background-size: 100% auto;
     @media #{$media-landscape} {
         height: $main-image-height-desktop;
@@ -1076,10 +1076,12 @@ a {
                     } 
                     &--dashed {
                         border-bottom-style: dashed;
+                    } 
+                    &--mobile-noline {
                         @media #{$media-portrait} {
                             border-bottom: none;
                         } 
-                    } 
+                    }
                 } 
     
                 &__cell {

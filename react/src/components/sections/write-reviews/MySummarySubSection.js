@@ -5,7 +5,7 @@ import { sumBy } from 'lodash';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
-import userShape from '../../../shapes/UserShape';
+import userShape from '../../../shapes/model/UserShape';
 import Scores from '../../Scores';
 
 

@@ -6,8 +6,8 @@ import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 import { TIMETABLE_START_HOUR, TIMETABLE_END_HOUR } from '../../common/constants';
 import { getProfessorsShortStr, getColorNumber } from '../../utils/lectureUtils';
 
-import lectureShape from '../../shapes/LectureShape';
-import classtimeShape from '../../shapes/ClasstimeShape';
+import lectureShape from '../../shapes/model/LectureShape';
+import classtimeShape from '../../shapes/model/ClasstimeShape';
 
 
 const TimetableTile = ({

@@ -5,8 +5,8 @@ import { withTranslation } from 'react-i18next';
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 import { getProfessorsShortStr, getColorNumber } from '../../utils/lectureUtils';
 
-import lectureShape from '../../shapes/LectureShape';
-import classtimeShape from '../../shapes/ClasstimeShape';
+import lectureShape from '../../shapes/model/LectureShape';
+import classtimeShape from '../../shapes/model/ClasstimeShape';
 
 
 const HorizontalTimetableTile = ({

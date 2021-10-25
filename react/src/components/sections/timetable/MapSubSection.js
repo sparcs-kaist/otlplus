@@ -7,8 +7,8 @@ import { appBoundClassNames as classNames } from '../../../common/boundClassName
 
 import { clearMultipleFocus, setMultipleFocus } from '../../../actions/timetable/lectureFocus';
 
-import lectureFocusShape from '../../../shapes/LectureFocusShape';
-import timetableShape from '../../../shapes/TimetableShape';
+import lectureFocusShape from '../../../shapes/state/LectureFocusShape';
+import timetableShape from '../../../shapes/model/TimetableShape';
 
 import {
   isSingleFocused,
@@ -16,7 +16,7 @@ import {
   getOverallLectures,
 } from '../../../utils/lectureUtils';
 
-import mapImage from '../../../static/img/timetable/kaist_map.jpg';
+import mapImage from '../../../static/images/timetable/kaist_map.jpg';
 import { unique } from '../../../utils/commonUtils';
 
 import { LectureFocusFrom } from '../../../reducers/timetable/lectureFocus';

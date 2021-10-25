@@ -9,7 +9,7 @@ import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 import { getProfessorsShortStr } from '../../utils/lectureUtils';
 import { getSingleScoreLabel } from '../../utils/scoreUtils';
 
-import reviewShape from '../../shapes/ReviewShape';
+import reviewShape from '../../shapes/model/ReviewShape';
 import linkShape from '../../shapes/LinkShape';
 
 import { formatNewlineToBr } from '../../utils/commonUtils';

@@ -26,9 +26,9 @@ import SummarySubSection from '../components/sections/timetable/SummarySubSectio
 import ExamSubSection from '../components/sections/timetable/ExamSubSection';
 import ShareSubSection from '../components/sections/timetable/ShareSubSection';
 
-import semesterShape from '../shapes/SemesterShape';
-import timetableShape from '../shapes/TimetableShape';
-import userShape from '../shapes/UserShape';
+import semesterShape from '../shapes/model/SemesterShape';
+import timetableShape from '../shapes/model/TimetableShape';
+import userShape from '../shapes/model/UserShape';
 
 
 class TimetablePage extends Component {

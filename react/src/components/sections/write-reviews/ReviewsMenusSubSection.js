@@ -9,8 +9,8 @@ import { appBoundClassNames as classNames } from '../../../common/boundClassName
 import { setReviewsFocus } from '../../../actions/write-reviews/reviewsFocus';
 import { ReviewsFocusFrom } from '../../../reducers/write-reviews/reviewsFocus';
 
-import userShape from '../../../shapes/UserShape';
-import reviewsFocusShape from '../../../shapes/ReviewsFocusShape';
+import userShape from '../../../shapes/model/UserShape';
+import reviewsFocusShape from '../../../shapes/state/ReviewsFocusShape';
 
 
 class ReviewsMenusSubSection extends Component {

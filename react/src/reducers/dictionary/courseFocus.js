@@ -5,7 +5,6 @@ import {
 } from '../../actions/dictionary/courseFocus';
 
 const initialState = {
-  clicked: false,
   course: null,
   reviews: null,
   lectures: null,
@@ -19,7 +18,6 @@ const courseFocus = (state = initialState, action) => {
     case SET_COURSE_FOCUS: {
       const courseChanged = !state.course || (state.course.id !== action.course.id);
       return Object.assign({}, state, {
-        clicked: action.clicked,
         course: action.course,
       },
       (courseChanged
@@ -29,7 +27,6 @@ const courseFocus = (state = initialState, action) => {
     }
     case CLEAR_COURSE_FOCUS: {
       return Object.assign({}, state, {
-        clicked: false,
         course: null,
         reviews: null,
         lectures: null,

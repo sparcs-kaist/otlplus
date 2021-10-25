@@ -3,7 +3,7 @@ import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 
-import courseShape from '../../shapes/CourseShape';
+import courseShape from '../../shapes/model/CourseShape';
 
 
 const CourseSimpleBlock = ({ t, course }) => {

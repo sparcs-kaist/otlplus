@@ -10,8 +10,8 @@ import ReviewWriteBlock from '../../blocks/ReviewWriteBlock';
 
 import { updateUserReview } from '../../../actions/common/user';
 
-import lectureShape from '../../../shapes/LectureShape';
-import reviewShape from '../../../shapes/ReviewShape';
+import lectureShape from '../../../shapes/model/LectureShape';
+import reviewShape from '../../../shapes/model/ReviewShape';
 
 
 class ReviewWriteFeedSection extends Component {

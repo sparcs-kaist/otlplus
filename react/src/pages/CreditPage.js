@@ -5,79 +5,79 @@ import { appBoundClassNames as classNames } from '../common/boundClassNames';
 import Scroller from '../components/Scroller';
 import ProjectBlock from '../components/blocks/ProjectBlock';
 
-import memberBatteryImage from '../static/img/members/Members-05-battery_kor.png';
-import memberDaybreakerImage from '../static/img/members/Members-05-daybreaker_kor.png';
-import memberJulingksImage from '../static/img/members/Members-05-julingks_kor.png';
+import memberBatteryImage from '../static/images/members/Members-05-battery_kor.png';
+import memberDaybreakerImage from '../static/images/members/Members-05-daybreaker_kor.png';
+import memberJulingksImage from '../static/images/members/Members-05-julingks_kor.png';
 
-import memberCanchoImage from '../static/img/members/Members-07-cancho_kor.png';
-import memberDynamanImage from '../static/img/members/Members-07-dynaman_kor.png';
-import memberElaborateImage from '../static/img/members/Members-07-elaborate_kor.png';
-import memberGangokImage from '../static/img/members/Members-07-gangok_kor.png';
-import memberTruthImage from '../static/img/members/Members-07-truth_kor.png';
+import memberCanchoImage from '../static/images/members/Members-07-cancho_kor.png';
+import memberDynamanImage from '../static/images/members/Members-07-dynaman_kor.png';
+import memberElaborateImage from '../static/images/members/Members-07-elaborate_kor.png';
+import memberGangokImage from '../static/images/members/Members-07-gangok_kor.png';
+import memberTruthImage from '../static/images/members/Members-07-truth_kor.png';
 
-import memberMayflowerImage from '../static/img/members/Members-08-mayflower_kor.png';
-import memberRenoImage from '../static/img/members/Members-08-reno_kor.png';
+import memberMayflowerImage from '../static/images/members/Members-08-mayflower_kor.png';
+import memberRenoImage from '../static/images/members/Members-08-reno_kor.png';
 
-import memberImaiImage from '../static/img/members/Members-09-imai_kor.png';
-import memberKussImage from '../static/img/members/Members-09-kuss_kor.png';
+import memberImaiImage from '../static/images/members/Members-09-imai_kor.png';
+import memberKussImage from '../static/images/members/Members-09-kuss_kor.png';
 
-import memberAlphaminImage from '../static/img/members/Members-10-alphamin_kor.png';
-import memberBoolgomImage from '../static/img/members/Members-10-boolgom_kor.png';
-import memberNonameImage from '../static/img/members/Members-10-noname_kor.png';
-import memberLeeopopImage from '../static/img/members/Members-10-leeopop_kor.png';
-import memberPillibiImage from '../static/img/members/Members-10-pillibi_kor.png';
+import memberAlphaminImage from '../static/images/members/Members-10-alphamin_kor.png';
+import memberBoolgomImage from '../static/images/members/Members-10-boolgom_kor.png';
+import memberNonameImage from '../static/images/members/Members-10-noname_kor.png';
+import memberLeeopopImage from '../static/images/members/Members-10-leeopop_kor.png';
+import memberPillibiImage from '../static/images/members/Members-10-pillibi_kor.png';
 
-import memberOvermaniaImage from '../static/img/members/Members-11-overmania_kor.png';
-import memberRaonImage from '../static/img/members/Members-11-raon_kor.png';
-import memberRodumaniImage from '../static/img/members/Members-11-rodumani_kor.png';
-import memberSealImage from '../static/img/members/Members-11-seal_kor.png';
-import memberSunguardImage from '../static/img/members/Members-11-sunguard_kor.png';
+import memberOvermaniaImage from '../static/images/members/Members-11-overmania_kor.png';
+import memberRaonImage from '../static/images/members/Members-11-raon_kor.png';
+import memberRodumaniImage from '../static/images/members/Members-11-rodumani_kor.png';
+import memberSealImage from '../static/images/members/Members-11-seal_kor.png';
+import memberSunguardImage from '../static/images/members/Members-11-sunguard_kor.png';
 
-import memberAonImage from '../static/img/members/Members-12-aon_kor.png';
-import memberChaosImage from '../static/img/members/Members-12-chaos_kor.png';
-import memberCoffeeImage from '../static/img/members/Members-12-coffee_kor.png';
-import memberDaedooImage from '../static/img/members/Members-12-daedoo_kor.png';
-import memberNaldoImage from '../static/img/members/Members-12-naldo_kor.png';
-import memberWhitegoldImage from '../static/img/members/Members-12-whitegold_kor.png';
-import memberYasikImage from '../static/img/members/Members-12-yasik_kor.png';
+import memberAonImage from '../static/images/members/Members-12-aon_kor.png';
+import memberChaosImage from '../static/images/members/Members-12-chaos_kor.png';
+import memberCoffeeImage from '../static/images/members/Members-12-coffee_kor.png';
+import memberDaedooImage from '../static/images/members/Members-12-daedoo_kor.png';
+import memberNaldoImage from '../static/images/members/Members-12-naldo_kor.png';
+import memberWhitegoldImage from '../static/images/members/Members-12-whitegold_kor.png';
+import memberYasikImage from '../static/images/members/Members-12-yasik_kor.png';
 
-import memberManduImage from '../static/img/members/Members-13-mandu_kor.png';
-import memberNobrainImage from '../static/img/members/Members-13-nobrain_kor.png';
-import memberSamjoImage from '../static/img/members/Members-13-samjo_kor.png';
+import memberManduImage from '../static/images/members/Members-13-mandu_kor.png';
+import memberNobrainImage from '../static/images/members/Members-13-nobrain_kor.png';
+import memberSamjoImage from '../static/images/members/Members-13-samjo_kor.png';
 
-import memberAsheImage from '../static/img/members/Members-14-ashe_kor.png';
-import memberCoearthImage from '../static/img/members/Members-14-coearth_kor.png';
-import memberGeorgeImage from '../static/img/members/Members-14-george_kor.png';
-import memberLeejeokImage from '../static/img/members/Members-14-leejeok_kor.png';
+import memberAsheImage from '../static/images/members/Members-14-ashe_kor.png';
+import memberCoearthImage from '../static/images/members/Members-14-coearth_kor.png';
+import memberGeorgeImage from '../static/images/members/Members-14-george_kor.png';
+import memberLeejeokImage from '../static/images/members/Members-14-leejeok_kor.png';
 
-import memberAllkindsImage from '../static/img/members/Members-15-allkinds_kor.png';
-import memberBogoImage from '../static/img/members/Members-15-bogo_kor.png';
-import memberCheshireImage from '../static/img/members/Members-15-cheshire_kor.png';
-import memberDideeImage from '../static/img/members/Members-15-didee_kor.png';
-import memberEtrangerImage from '../static/img/members/Members-15-etranger_kor.png';
-import memberHoodImage from '../static/img/members/Members-15-hood_kor.png';
-import memberMangoImage from '../static/img/members/Members-15-mango_kor.png';
-import memberMossImage from '../static/img/members/Members-15-moss_kor.png';
-import memberNullImage from '../static/img/members/Members-15-null_kor.png';
-import memberPotatoImage from '../static/img/members/Members-15-potato_kor.png';
-import memberSwanImage from '../static/img/members/Members-15-swan_kor.png';
-import memberZealotImage from '../static/img/members/Members-15-zealot_kor.png';
+import memberAllkindsImage from '../static/images/members/Members-15-allkinds_kor.png';
+import memberBogoImage from '../static/images/members/Members-15-bogo_kor.png';
+import memberCheshireImage from '../static/images/members/Members-15-cheshire_kor.png';
+import memberDideeImage from '../static/images/members/Members-15-didee_kor.png';
+import memberEtrangerImage from '../static/images/members/Members-15-etranger_kor.png';
+import memberHoodImage from '../static/images/members/Members-15-hood_kor.png';
+import memberMangoImage from '../static/images/members/Members-15-mango_kor.png';
+import memberMossImage from '../static/images/members/Members-15-moss_kor.png';
+import memberNullImage from '../static/images/members/Members-15-null_kor.png';
+import memberPotatoImage from '../static/images/members/Members-15-potato_kor.png';
+import memberSwanImage from '../static/images/members/Members-15-swan_kor.png';
+import memberZealotImage from '../static/images/members/Members-15-zealot_kor.png';
 
-import memberAkaisImage from '../static/img/members/Members-16-akais_kor.png';
-import memberHersheyImage from '../static/img/members/Members-16-hershey_kor.png';
-import memberJamesImage from '../static/img/members/Members-16-james_kor.png';
-import memberJuheeuuImage from '../static/img/members/Members-16-juheeuu_kor.png';
-import memberLeesiaImage from '../static/img/members/Members-16-leesia_kor.png';
-import memberParangImage from '../static/img/members/Members-16-parang_kor.png';
-import memberSemiImage from '../static/img/members/Members-16-semi_kor.png';
-import memberYounsImage from '../static/img/members/Members-16-youns_kor.png';
+import memberAkaisImage from '../static/images/members/Members-16-akais_kor.png';
+import memberHersheyImage from '../static/images/members/Members-16-hershey_kor.png';
+import memberJamesImage from '../static/images/members/Members-16-james_kor.png';
+import memberJuheeuuImage from '../static/images/members/Members-16-juheeuu_kor.png';
+import memberLeesiaImage from '../static/images/members/Members-16-leesia_kor.png';
+import memberParangImage from '../static/images/members/Members-16-parang_kor.png';
+import memberSemiImage from '../static/images/members/Members-16-semi_kor.png';
+import memberYounsImage from '../static/images/members/Members-16-youns_kor.png';
 
-import memberTinkImage from '../static/img/members/Members-17-tink_kor.png';
-import memberYoloImage from '../static/img/members/Members-17-yolo_kor.png';
+import memberTinkImage from '../static/images/members/Members-17-tink_kor.png';
+import memberYoloImage from '../static/images/members/Members-17-yolo_kor.png';
 
-import memberAppleseedImage from '../static/img/members/Members-18-appleseed_kor.png';
+import memberAppleseedImage from '../static/images/members/Members-18-appleseed_kor.png';
 
-import memberWinrobrineImage from '../static/img/members/Members-19-winrobrine_kor.png';
+import memberWinrobrineImage from '../static/images/members/Members-19-winrobrine_kor.png';
 
 
 class CreditPage extends Component {

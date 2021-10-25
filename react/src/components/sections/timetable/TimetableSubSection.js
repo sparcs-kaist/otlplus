@@ -17,9 +17,9 @@ import { setIsDragging, updateCellSize, removeLectureFromTimetable } from '../..
 import { LectureFocusFrom } from '../../../reducers/timetable/lectureFocus';
 import { LectureListCode } from '../../../reducers/timetable/list';
 
-import userShape from '../../../shapes/UserShape';
-import timetableShape from '../../../shapes/TimetableShape';
-import lectureFocusShape from '../../../shapes/LectureFocusShape';
+import userShape from '../../../shapes/model/UserShape';
+import timetableShape from '../../../shapes/model/TimetableShape';
+import lectureFocusShape from '../../../shapes/state/LectureFocusShape';
 import { getDayStr, getRangeStr } from '../../../utils/timeUtils';
 
 import {
@@ -392,6 +392,7 @@ class TimetableSubSection extends Component {
                 className={classNames(
                   'subsection--timetable__table__body__line',
                   'subsection--timetable__table__body__line--dashed',
+                  (mobileIsLectureListOpen ? 'subsection--timetable__table__body__line--mobile-noline' : null),
                 )}
                 key={`line:${h * 60 + 30}`}
               />,
@@ -438,6 +439,7 @@ class TimetableSubSection extends Component {
             className={classNames( 
               'subsection--timetable__table__body__line',
               'subsection--timetable__table__body__line--dashed',
+              (mobileIsLectureListOpen ? 'subsection--timetable__table__body__line--mobile-noline' : null),
             )} 
             key="line:2"
           />,
@@ -446,6 +448,7 @@ class TimetableSubSection extends Component {
             className={classNames( 
               'subsection--timetable__table__body__line',
               'subsection--timetable__table__body__line--dashed',
+              (mobileIsLectureListOpen ? 'subsection--timetable__table__body__line--mobile-noline' : null),
             )} 
             key="line:3"
           />,

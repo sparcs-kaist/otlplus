@@ -4,7 +4,7 @@ import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 
-import semesterShape from '../../shapes/SemesterShape';
+import semesterShape from '../../shapes/model/SemesterShape';
 
 import { getSemesterName } from '../../utils/semesterUtils';
 

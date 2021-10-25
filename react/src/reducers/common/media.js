@@ -1,7 +1,7 @@
 import { SET_IS_PORTRAIT } from '../../actions/common/media';
 
 const initialState = {
-  isPortrait: undefined,
+  isPortrait: false,
 };
 
 export const reducer = (state = initialState, action) => {

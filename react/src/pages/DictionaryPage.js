@@ -47,7 +47,7 @@ class DictionaryPage extends Component {
         },
       )
         .then((response) => {
-          setCourseFocusDispatch(response.data, true);
+          setCourseFocusDispatch(response.data);
         })
         .catch((error) => {
         });
@@ -123,8 +123,8 @@ const mapDispatchToProps = (dispatch) => ({
   resetSearchDispatch: () => {
     dispatch(resetSearch());
   },
-  setCourseFocusDispatch: (lecture, clicked) => {
-    dispatch(setCourseFocus(lecture, clicked));
+  setCourseFocusDispatch: (course) => {
+    dispatch(setCourseFocus(course));
   },
   setSelectedListCodeDispatch: (listCode) => {
     dispatch(setSelectedListCode(listCode));

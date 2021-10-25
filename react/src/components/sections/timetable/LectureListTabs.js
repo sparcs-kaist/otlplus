@@ -14,8 +14,8 @@ import {
 } from '../../../actions/timetable/list';
 import { openSearch, closeSearch, setLastSearchOption } from '../../../actions/timetable/search';
 
-import userShape from '../../../shapes/UserShape';
-import lectureListsShape from '../../../shapes/LectureListsShape';
+import userShape from '../../../shapes/model/UserShape';
+import lectureListsShape from '../../../shapes/state/LectureListsShape';
 
 import Scroller from '../../Scroller';
 

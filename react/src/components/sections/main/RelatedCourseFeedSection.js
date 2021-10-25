@@ -7,7 +7,7 @@ import { appBoundClassNames as classNames } from '../../../common/boundClassName
 
 import CourseBlock from '../../blocks/CourseBlock';
 
-import courseShape from '../../../shapes/CourseShape';
+import courseShape from '../../../shapes/model/CourseShape';
 
 
 class RelatedCourseFeedSection extends Component {

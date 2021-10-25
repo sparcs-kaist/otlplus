@@ -14,8 +14,8 @@ import {
   setSelectedListCode, setListCourses,
 } from '../../../actions/dictionary/list';
 
-import userShape from '../../../shapes/UserShape';
-import courseListsShape from '../../../shapes/CourseListsShape';
+import userShape from '../../../shapes/model/UserShape';
+import courseListsShape from '../../../shapes/state/CourseListsShape';
 
 import Scroller from '../../Scroller';
 

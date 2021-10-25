@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 import axios from 'axios';
@@ -18,8 +17,8 @@ import CourseReviewsSubSection from './CourseReviewsSubSection';
 import { clearCourseFocus, setLectures, setReviews } from '../../../actions/dictionary/courseFocus';
 import { addCourseRead } from '../../../actions/dictionary/list';
 
-import courseFocusShape from '../../../shapes/CourseFocusShape';
-import userShape from '../../../shapes/UserShape';
+import courseFocusShape from '../../../shapes/state/CourseFocusShape';
+import userShape from '../../../shapes/model/UserShape';
 import OtlplusPlaceholder from '../../OtlplusPlaceholder';
 
 
@@ -34,17 +33,19 @@ class CourseDetailSection extends Component {
   componentDidUpdate(prevProps) {
     const {
       selectedListCode, courseFocus,
-      clearCourseFocusDispatch, setLecturesDispatch,
+      clearCourseFocusDispatch,
     } = this.props;
 
     if (prevProps.selectedListCode !== selectedListCode) {
       clearCourseFocusDispatch();
     }
 
-    if ((courseFocus.clicked && !prevProps.courseFocus.clicked)
-      || (courseFocus.clicked && (prevProps.courseFocus.course !== courseFocus.course))
-    ) {
-      setLecturesDispatch(null);
+    if (!prevProps.courseFocus.course && courseFocus.course) {
+      this._fetchLectures();
+      this._fetchReviews();
+    }
+    if ((prevProps.courseFocus.course && courseFocus.course)
+    && (prevProps.courseFocus.course.id !== courseFocus.course.id)) {
       this._fetchLectures();
       this._fetchReviews();
     }
@@ -149,7 +150,7 @@ class CourseDetailSection extends Component {
     const { t } = this.props;
     const { courseFocus } = this.props;
 
-    const sectionContent = (courseFocus.clicked && courseFocus.course !== null)
+    const sectionContent = courseFocus.course
       ? (
         <>
           <CloseButton onClick={this.unfix} />
@@ -173,7 +174,7 @@ class CourseDetailSection extends Component {
       );
 
     return (
-      <div className={classNames('section', 'section--course-detail', 'section--mobile-modal', ((courseFocus.course && courseFocus.clicked) ? null : 'mobile-hidden'))}>
+      <div className={classNames('section', 'section--course-detail', 'section--mobile-modal', (courseFocus.course ? null : 'mobile-hidden'))}>
         <div className={classNames('subsection', 'subsection--flex', 'subsection--course-detail')}>
           { sectionContent }
         </div>

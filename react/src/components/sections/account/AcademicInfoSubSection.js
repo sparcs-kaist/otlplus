@@ -4,7 +4,7 @@ import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
-import userShape from '../../../shapes/UserShape';
+import userShape from '../../../shapes/model/UserShape';
 import { CONTACT } from '../../../common/constants';
 import Attributes from '../../Attributes';
 
