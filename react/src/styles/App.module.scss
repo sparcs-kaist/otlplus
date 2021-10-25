@@ -2268,6 +2268,8 @@ a {
                 position: absolute;
                 top: 0px;
                 z-index: 2;
+                line-height: $line-height-big + 1px * 2;
+                margin: -1px 0;
                 color: $color-text-normal;
  
                 &::placeholder {
@@ -2765,6 +2767,9 @@ a {
             border-right: 1px solid $color-divider-line;
             margin: 0 $section-padding;
         }
+    }
+    .search-area & {
+        margin-bottom: 0;
     }
 }
 
