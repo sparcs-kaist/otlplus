@@ -1,7 +1,7 @@
 import datetime
 import json
 import random
-from typing import List, Dict
+from typing import List, Dict, Callable
 
 from django.conf import settings
 from django.core import management
@@ -14,11 +14,12 @@ class Command(BaseCommand):
         self._dump_data()
 
 
-    def _drop_instance(self, target_json: List[Dict], model: str, keeping_rate: float):
+    def _drop_instance(self, target_json: List[Dict], model: str, keeping_rate: float,
+                       seed_func: Callable[[Dict], str]=(lambda x: x["pk"])):
         for d in list(target_json):
             if d['model'] != model:
                 continue
-            random.seed(f'{model}-{d["pk"]}')
+            random.seed(seed_func(d))
             if random.random() > keeping_rate:
                 target_json.remove(d)
 
@@ -59,7 +60,10 @@ class Command(BaseCommand):
                                 'review.MajorBestReview', 'review.HumanityBestReview',
                                 indent=INDENT, output=review_filename)
         review_json = json.load(open(review_filename))
-        self._drop_instance(review_json, 'review.review', 0.4)
+        self._drop_instance(review_json, 'review.review', 0.4, lambda r: f'review-{r["pk"]}')
+        self._drop_instance(review_json, 'review.reviewvote', 0.4, lambda r: f'review-{r["fields"]["review"]}')
+        self._drop_instance(review_json, 'review.majorbestreview', 0.4, lambda r: f'review-{r["pk"]}')
+        self._drop_instance(review_json, 'review.humanitybestreview', 0.4, lambda r: f'review-{r["pk"]}')
         self._clear_field(review_json, 'review.review', 'writer')
         self._clear_field(review_json, 'review.reviewvote', 'userprofile')
         json.dump(review_json, open(review_filename, 'w'), indent=INDENT)
