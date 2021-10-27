@@ -14,11 +14,18 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         info_filename = options.get("info-filename")
 
+        if not settings.DEBUG:
+            print("settings.DEBUG is set to False. This command should only be executed on development server")
+            return
+
         self._load_data(info_filename)
 
 
     def _load_data(self, info_filename: str):
         info_json = json.load(open(info_filename))
+        
+        if settings.VERSION != info_json['version']:
+            print("WARNING: OTL version does not match dumped version.")
 
         management.call_command('loaddata',
                                 *info_json['files'],
