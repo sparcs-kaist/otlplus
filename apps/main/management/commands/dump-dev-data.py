@@ -50,8 +50,8 @@ class Command(BaseCommand):
 
         management.call_command('dumpdata',
                                 'subject.Semester',
+                                'subject.Department', 'subject.Professor', 'subject.Course',
                                 'subject.Lecture', 'subject.ExamTime', 'subject.ClassTime',
-                                'subject.Department', 'subject.Course', 'subject.Professor',
                                 indent=INDENT, output=subject_filename)
 
         management.call_command('dumpdata',
