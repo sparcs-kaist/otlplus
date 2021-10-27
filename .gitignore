@@ -89,7 +89,7 @@ test1.py
 db_update_script.sh
 db_update_script.log
 scripts/
-dumps/data/*.json
+dumps/
 
 # file for atom editor remote ftp plugin. contains confidential(ssh account info)
 .ftpconfig
