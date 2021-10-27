@@ -19,7 +19,7 @@ Online Timeplanner with Lectures Plus @ KAIST https://otl.kaist.ac.kr/
 Working directory: `PROJECT_ROOT`
 ```shell
 # 가상환경 설정
-$ python3 -m venv env # Python 버전 3.9 이상 권장
+$ python3 -m venv env # Python 버전 3.6 이상 권장
 $ source env/bin/activate
 
 # 패키지 설치
@@ -31,8 +31,15 @@ $ vi keys/django_secret # Random string 입력, Django SECRET_KEY 명세 참고
 $ touch keys/sso_secret
 
 # DB migrate
-$ cp SOME_DIRECTORY/db.sqlite3 . # Optional, DB 파일이 필요할 경우 PM에게 요청하세요
 $ python manage.py migrate
+```
+
+### 개별용 DB 설정 (Optional)
+dump 데이터는 PM에게 요청하세요.  
+Working directory: `PROJECT_ROOT`
+```shell
+# Dump 파일 불러오기
+$ python manage.py load-dev-data dumps/otldump_DATE_info.json
 ```
 
 ### SPARCS SSO 설정
