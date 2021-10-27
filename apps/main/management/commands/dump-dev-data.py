@@ -1,9 +1,9 @@
-import os
 import datetime
 import json
 import random
 from typing import List, Dict
 
+from django.core import management
 from django.core.management.base import BaseCommand
 
 
@@ -37,15 +37,17 @@ class Command(BaseCommand):
         date_str = today.strftime('%y%m%d')
 
         subject_filename = f'{target_dir}/otldump_{date_str}_subject.json'
-        os.system(f'python manage.py dumpdata ' \
-                f'subject.Semester subject.Lecture subject.ExamTime subject.ClassTime ' \
-                f'subject.Department subject.Course subject.Professor ' \
-                f'--indent {INDENT} --output {subject_filename}')
+        management.call_command('dumpdata',
+                                'subject.Semester',
+                                'subject.Lecture', 'subject.ExamTime', 'subject.ClassTime',
+                                'subject.Department', 'subject.Course', 'subject.Professor',
+                                indent=INDENT, output=subject_filename)
 
         review_filename = f'{target_dir}/otldump_{date_str}_review.json'
-        os.system(f'python manage.py dumpdata ' \
-                f'review.Review review.ReviewVote review.MajorBestReview review.HumanityBestReview ' \
-                f'--indent {INDENT} --output {review_filename}')
+        management.call_command('dumpdata',
+                                'review.Review', 'review.ReviewVote',
+                                'review.MajorBestReview', 'review.HumanityBestReview',
+                                indent=INDENT, output=review_filename)
         review_json = json.load(open(review_filename))
         self._drop_instance(review_json, 'review.review', 0.4)
         self._clear_field(review_json, 'review.review', 'writer')
