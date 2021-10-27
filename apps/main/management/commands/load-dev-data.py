@@ -21,4 +21,5 @@ class Command(BaseCommand):
         info_json = json.load(open(info_filename))
 
         management.call_command('loaddata',
-                                *info_json['files'])
+                                *info_json['files'],
+                                verbosity=3)
