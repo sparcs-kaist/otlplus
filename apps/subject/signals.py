@@ -22,8 +22,10 @@ def lecture_professors_changed(**kwargs):
 
 
 def _check_class_title_update_required(lecture):
-    is_title_equal = lecture.title in [lecture.common_title + lecture.class_title, lecture.common_title]
-    is_title_en_equal = lecture.title_en in [lecture.common_title_en + lecture.class_title_en, lecture.common_title_en]
+    is_title_equal = (lecture.common_title is not None and lecture.class_title is not None) \
+                     and (lecture.title in [lecture.common_title + lecture.class_title, lecture.common_title])
+    is_title_en_equal = (lecture.common_title_en is not None and lecture.class_title_en is not None) \
+                        and (lecture.title_en in [lecture.common_title_en + lecture.class_title_en, lecture.common_title_en])
     return not (is_title_equal and is_title_en_equal)
 
 
