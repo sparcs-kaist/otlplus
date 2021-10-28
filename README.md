@@ -19,7 +19,7 @@ Online Timeplanner with Lectures Plus @ KAIST https://otl.kaist.ac.kr/
 Working directory: `PROJECT_ROOT`
 ```shell
 # 가상환경 설정
-$ python3 -m venv env # Python 버전 3.9 이상 권장
+$ python3 -m venv env # Python 버전 3.6 이상 권장
 $ source env/bin/activate
 
 # 패키지 설치
@@ -31,8 +31,15 @@ $ vi keys/django_secret # Random string 입력, Django SECRET_KEY 명세 참고
 $ touch keys/sso_secret
 
 # DB migrate
-$ cp SOME_DIRECTORY/db.sqlite3 . # Optional, DB 파일이 필요할 경우 PM에게 요청하세요
 $ python manage.py migrate
+```
+
+### 개발용 DB 설정 (Optional)
+dump 데이터는 PM에게 요청하세요.  
+Working directory: `PROJECT_ROOT`
+```shell
+# Dump 파일 불러오기
+$ python manage.py load-dev-data dumps/otldump_DATE_info.json
 ```
 
 ### SPARCS SSO 설정
@@ -71,15 +78,24 @@ $ npm start
 $ npm run build
 ```
 
-#### node-sass 설치 시 오류가 발생한다면
-1. [node-sass 호환 node.js 버전](https://github.com/sass/node-sass#node-version-support-policy)을 확인해서 적절한 버전을 사용
-2. `gyp: No Xcode or CLT version detected!` 라는 메시지와 함께 설치에 실패한다면 [관련 이슈](https://github.com/schnerd/d3-scale-cluster/issues/7)의 코멘트 참고
-
 ### 서버 실행
 Working directory: `PROJECT_ROOT`
 ```shell
 $ python manage.py runserver 0.0.0.0:8000
 ```
+
+### 설정 중 오류
+
+#### DB migrate 시 "... SQLite < 3.26 ..." 오류가 발생한다면
+아래 명령어로 python에 적용된 sqlite3 버전 확인
+```shell
+$ python -c "import sqlite3;print(sqlite3.sqlite_version)"
+```
+3.26.0 이하라면 높은 버전의 python으로 재설치 후 처음부터 재설정
+
+#### node-sass 설치 시 오류가 발생한다면
+1. [node-sass 호환 node.js 버전](https://github.com/sass/node-sass#node-version-support-policy)을 확인해서 적절한 버전을 사용
+2. `gyp: No Xcode or CLT version detected!` 라는 메시지와 함께 설치에 실패한다면 [관련 이슈](https://github.com/schnerd/d3-scale-cluster/issues/7)의 코멘트 참고
 
 #### mysqlclient 설치 시 오류가 발생한다면
 mysql@5.7 ([5.7 버전이어야 하는 이유](https://stackoverflow.com/a/50342229)) 을 설치 후 PATH에 해당 실행 파일 디렉터리를 추가한다. 예를 들면 (macOS 기준),
@@ -87,3 +103,16 @@ mysql@5.7 ([5.7 버전이어야 하는 이유](https://stackoverflow.com/a/50342
 $ brew install mysql@5.7
 $ export PATH="/opt/homebrew/opt/mysql@5.7/bin:$PATH" # add this line to ~/.bashrc, .zshrc, etc.
 ```
+
+#### 설정 완료 후 no-such-column 오류가 발생한다면
+일부 조건에서 `no such column: main_famoushumanityreviewdailyfeed_reviews.review_id` 오류가 발생할 수 있음  
+Working directory: `PROJECT_ROOT`
+```shell
+# DB 초기화
+$ rm db.sqlite3
+# DB migrate 재실행
+$ python manage.py migrate main 0006
+$ python manage.py migrate review 0009
+$ python manage.py migrate
+```
+이후 [개발용 DB 설정](#개발용-db-설정-Optional) 재실행
