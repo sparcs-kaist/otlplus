@@ -9,6 +9,8 @@ from django.core.management.base import BaseCommand
 
 
 class Command(BaseCommand):
+    REVIEW_KEEPING_RATE = 0.4
+
 
     def handle(self, *args, **options):
         self._dump_data()
@@ -45,6 +47,7 @@ class Command(BaseCommand):
         info_json = {
             'date': today.isoformat(),
             'version': settings.VERSION,
+            'review_keeping_rate': Command.REVIEW_KEEPING_RATE,
             'files': [subject_filename, review_filename],
         }
         json.dump(info_json, open(info_filename, 'w'), indent=INDENT)
@@ -59,8 +62,8 @@ class Command(BaseCommand):
                                 'review.Review', 'review.ReviewVote',
                                 indent=INDENT, output=review_filename)
         review_json = json.load(open(review_filename))
-        self._drop_instance(review_json, 'review.review', 0.4, lambda r: f'review-{r["pk"]}')
-        self._drop_instance(review_json, 'review.reviewvote', 0.4, lambda r: f'review-{r["fields"]["review"]}')
+        self._drop_instance(review_json, 'review.review', Command.REVIEW_KEEPING_RATE, lambda r: f'review-{r["pk"]}')
+        self._drop_instance(review_json, 'review.reviewvote', Command.REVIEW_KEEPING_RATE, lambda r: f'review-{r["fields"]["review"]}')
         self._clear_field(review_json, 'review.review', 'writer')
         self._clear_field(review_json, 'review.reviewvote', 'userprofile')
         json.dump(review_json, open(review_filename, 'w'), indent=INDENT)
