@@ -9,7 +9,7 @@ from django.core.management.base import BaseCommand
 
 
 class Command(BaseCommand):
-    REVIEW_KEEPING_RATE = 0.4
+    REVIEW_KEEPING_RATE = 0.25
 
 
     def handle(self, *args, **options):
