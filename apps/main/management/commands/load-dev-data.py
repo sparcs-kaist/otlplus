@@ -5,6 +5,8 @@ from django.conf import settings
 from django.core import management
 from django.core.management.base import BaseCommand
 
+from apps.subject.models import Lecture, Course, Professor
+
 
 class Command(BaseCommand):
     def add_arguments(self, parser):
@@ -19,6 +21,7 @@ class Command(BaseCommand):
             return
 
         self._load_data(info_filename)
+        self._update_data()
 
 
     def _load_data(self, info_filename: str):
@@ -30,3 +33,14 @@ class Command(BaseCommand):
         management.call_command('loaddata',
                                 *info_json['files'],
                                 verbosity=3)
+
+
+    def _update_data(self):
+        management.call_command('update-best-reviews')
+
+        for c in Course.objects.all():
+            c.recalc_score()
+        for l in Lecture.objects.all():
+            l.recalc_score()
+        for p in Professor.objects.all():
+            p.recalc_score()
