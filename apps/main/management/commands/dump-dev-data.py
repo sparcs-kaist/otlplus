@@ -57,13 +57,10 @@ class Command(BaseCommand):
 
         management.call_command('dumpdata',
                                 'review.Review', 'review.ReviewVote',
-                                'review.MajorBestReview', 'review.HumanityBestReview',
                                 indent=INDENT, output=review_filename)
         review_json = json.load(open(review_filename))
         self._drop_instance(review_json, 'review.review', 0.4, lambda r: f'review-{r["pk"]}')
         self._drop_instance(review_json, 'review.reviewvote', 0.4, lambda r: f'review-{r["fields"]["review"]}')
-        self._drop_instance(review_json, 'review.majorbestreview', 0.4, lambda r: f'review-{r["pk"]}')
-        self._drop_instance(review_json, 'review.humanitybestreview', 0.4, lambda r: f'review-{r["pk"]}')
         self._clear_field(review_json, 'review.review', 'writer')
         self._clear_field(review_json, 'review.reviewvote', 'userprofile')
         json.dump(review_json, open(review_filename, 'w'), indent=INDENT)
