@@ -194,6 +194,8 @@ class Lecture(models.Model):
             "class_title": self.class_title,
             "class_title_en": self.class_title_en,
             "review_total_weight": self.review_total_weight,
+            "num_classes": self.num_classes,
+            "num_labs": self.num_labs,
         }
 
         professors = self.professors.all().order_by("professor_name")
