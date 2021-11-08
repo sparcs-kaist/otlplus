@@ -20,6 +20,17 @@ class CourseInfoSubSection extends Component {
       return null;
     }
 
+    // Onboarding task
+    var num_classes = "?";
+    var num_labs = "?";
+    var credit = "?";
+    if (courseFocus.lectures) {
+      const length = courseFocus.lectures.length;
+      num_classes = courseFocus.lectures[length-1].num_classes;
+      num_labs = courseFocus.lectures[length-1].num_labs;
+      credit = courseFocus.lectures[length-1].credit;
+    }
+
     return (
       <div className={classNames('subsection', 'subsection--course-info')}>
         <Attributes
@@ -28,6 +39,14 @@ class CourseInfoSubSection extends Component {
             { name: t('ui.attribute.description'), info: courseFocus.course.summary },
           ]}
           longInfo
+        />
+        <Scores
+          entries={[
+            { name: t('ui.score.lecture'), score: num_classes },
+            { name: t('ui.score.lab'), score: num_labs },
+            { name: t('ui.score.credit'), score: credit },
+          ]}
+          big
         />
         <Scores
           entries={[
