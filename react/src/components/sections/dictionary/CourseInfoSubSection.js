@@ -19,6 +19,11 @@ class CourseInfoSubSection extends Component {
     if (!courseFocus.course) {
       return null;
     }
+    if(!courseFocus.lectures) {
+      return null;
+    }
+
+    const recentLecture = courseFocus.lectures[courseFocus.lectures.length-1];
 
     return (
       <div className={classNames('subsection', 'subsection--course-info')}>
@@ -28,6 +33,15 @@ class CourseInfoSubSection extends Component {
             { name: t('ui.attribute.description'), info: courseFocus.course.summary },
           ]}
           longInfo
+        />
+        <Scores
+          entries={[
+            { name: t('ui.score.numClasses'), score: recentLecture?recentLecture.num_classes:'-'},
+            { name: t('ui.score.numLabs'), score: recentLecture?recentLecture.num_labs: '-'},
+            recentLecture.credit>=1 
+              ?{ name: t('ui.score.credit'), score: recentLecture.credit}
+              :{ name: t('ui.score.au'), score: recentLecture?recentLecture.credit_au:'-'}
+          ]}
         />
         <Scores
           entries={[
