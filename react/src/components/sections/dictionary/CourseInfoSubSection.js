@@ -19,6 +19,9 @@ class CourseInfoSubSection extends Component {
     if (!courseFocus.course) {
       return null;
     }
+    if (!courseFocus.lectures){
+      return null;
+    }
 
     return (
       <div className={classNames('subsection', 'subsection--course-info')}>
@@ -34,6 +37,15 @@ class CourseInfoSubSection extends Component {
             { name: t('ui.score.grade'), score: getAverageScoreLabel(courseFocus.course.grade) },
             { name: t('ui.score.load'), score: getAverageScoreLabel(courseFocus.course.load) },
             { name: t('ui.score.speech'), score: getAverageScoreLabel(courseFocus.course.speech) },
+          ]}
+          big
+        />
+        <Scores
+          entries={[
+            { name: t('ui.score.classes'), score: courseFocus.lectures[0].num_classes },  //last lecture가 0이 맞나?
+            { name: t('ui.score.labs'), score: courseFocus.lectures[0].num_labs },
+            courseFocus.lectures[0].credit>1 ? { name: t('ui.score.credit'), score: courseFocus.lectures[0].credit} :
+            { name: t('ui.score.au'), score: courseFocus.lectures[0].credit_au}
           ]}
           big
         />

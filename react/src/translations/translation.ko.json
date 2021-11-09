@@ -104,7 +104,9 @@
       "likes": "추천",
       "grade": "성적",
       "load": "널널",
-      "speech": "강의"
+      "speech": "강의",
+      "classes": "강의",
+      "labs" : "실험"
     },
     "placeholder": {
       "loading": "불러오는 중",

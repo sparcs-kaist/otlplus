@@ -104,7 +104,9 @@
       "likes": "Likes",
       "grade": "Grade",
       "load": "Load",
-      "speech": "Speech"
+      "speech": "Speech",
+      "classes": "Classes",
+      "labs" : "Labs"
     },
     "placeholder": {
       "loading": "Loading",
