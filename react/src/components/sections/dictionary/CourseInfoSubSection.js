@@ -38,7 +38,7 @@ class CourseInfoSubSection extends Component {
         <Scores
           entries={[
             {
-              name: '강의시간',
+              name: t('ui.score.lectureHours'),
               score: (
                 representativeLecture
                   ? representativeLecture.num_classes
@@ -46,7 +46,7 @@ class CourseInfoSubSection extends Component {
               ),
             },
             {
-              name: '실습시간',
+              name: t('ui.score.labHours'),
               score: (
                 representativeLecture
                   ? representativeLecture.num_labs
@@ -56,8 +56,8 @@ class CourseInfoSubSection extends Component {
             {
               name: (
                 representativeLecture
-                  ? (representativeLecture.credit === 0) ? 'AU' : '학점'
-                  : '학점'
+                  ? (representativeLecture.credit === 0) ? t('ui.score.au') : t('ui.score.credit')
+                  : t('ui.score.credit')
               ),
               score: (
                 representativeLecture
