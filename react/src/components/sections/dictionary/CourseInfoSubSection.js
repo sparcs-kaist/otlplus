@@ -20,6 +20,12 @@ class CourseInfoSubSection extends Component {
       return null;
     }
 
+    const representativeLecture = (
+      courseFocus.lectures && (courseFocus.lectures.length > 0)
+        ? courseFocus.lectures[courseFocus.lectures.length - 1]
+        : null
+    );
+
     return (
       <div className={classNames('subsection', 'subsection--course-info')}>
         <Attributes
@@ -28,6 +34,39 @@ class CourseInfoSubSection extends Component {
             { name: t('ui.attribute.description'), info: courseFocus.course.summary },
           ]}
           longInfo
+        />
+        <Scores
+          entries={[
+            {
+              name: '강의시간',
+              score: (
+                representativeLecture
+                  ? representativeLecture.num_classes
+                  : '-'
+              ),
+            },
+            {
+              name: '실습시간',
+              score: (
+                representativeLecture
+                  ? representativeLecture.num_labs
+                  : '-'
+              ),
+            },
+            {
+              name: (
+                representativeLecture
+                  ? (representativeLecture.credit === 0) ? 'AU' : '학점'
+                  : '학점'
+              ),
+              score: (
+                representativeLecture
+                  ? (representativeLecture.credit === 0) ? representativeLecture.credit_au : representativeLecture.credit
+                  : '-'
+              ),
+            },
+          ]}
+          big
         />
         <Scores
           entries={[
