@@ -19,9 +19,10 @@ class CourseInfoSubSection extends Component {
     if (!courseFocus.course) {
       return null;
     }
-    if (!courseFocus.lectures){
-      return null;
-    }
+    
+    const lastLecture = (
+      courseFocus.lectures ? (courseFocus.lectures[courseFocus.lectures.length-1]) : null
+    )
 
     return (
       <div className={classNames('subsection', 'subsection--course-info')}>
@@ -42,10 +43,10 @@ class CourseInfoSubSection extends Component {
         />
         <Scores
           entries={[
-            { name: t('ui.score.classes'), score: courseFocus.lectures[0].num_classes },  //last lecture가 0이 맞나?
-            { name: t('ui.score.labs'), score: courseFocus.lectures[0].num_labs },
-            courseFocus.lectures[0].credit>1 ? { name: t('ui.score.credit'), score: courseFocus.lectures[0].credit} :
-            { name: t('ui.score.au'), score: courseFocus.lectures[0].credit_au}
+            { name: t('ui.score.classes'), score: lastLecture ? lastLecture.num_classes : '-' },
+            { name: t('ui.score.labs'), score: lastLecture ? lastLecture.num_labs : '-' },
+            { name: lastLecture ? lastLecture.credit > 0 ? t('ui.score.credit') : t('ui.score.au') : t('ui.score.credit'),
+              score: lastLecture ? lastLecture.credit > 0 ? lastLecture.credit : lastLecture.credit_au : '-'}
           ]}
           big
         />
