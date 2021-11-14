@@ -402,6 +402,43 @@ a {
                 "course-list"
             ;
         } 
+    }
+
+    &--planner {
+        @media #{$media-landscape} {
+            margin-left: -$tabs-width-vertical;
+            grid-template-columns:
+                $tabs-width-vertical
+                1fr  // need to modify
+                $section-margin-lr
+                2fr
+            ;
+            grid-template-rows:
+                $tabs-height-horizontal
+                2fr  // need to modify $section planner
+                $section-margin-bottom
+                1fr
+            ;
+            grid-template-areas:
+                ".                  planner-tabs   .                ."
+                ".                  planner-detial planner-detial   planner-detial"
+                ".                  .              .                ."
+                "course-list-tabs   course-list    .                course-info"
+            ;
+        }
+        // @media #{$media-portrait} {  // mobile?
+        //     grid-template-columns:
+        //         1fr
+        //     ;
+        //     grid-template-rows:
+        //         $tabs-height-horizontal
+        //         1fr
+        //     ;
+        //     grid-template-areas:
+        //         "course-list-tabs"
+        //         "course-list"
+        //     ;
+        // } 
     } 
 
 
@@ -671,6 +708,75 @@ a {
         }
     }
 
+    &--planner {
+        grid-area: planner-tabs;
+
+        & .tabs__elem {
+            display: inline-block;
+            vertical-align: top;
+            margin-right: $tab-margin;
+            border-radius: $tab-border-radius $tab-border-radius 0 0;
+            padding: $tab-padding ($tab-padding + 2px);
+            display: inline-flex;
+            flex-direction: row;
+            justify-content: center;
+            @media #{$media-portrait} {
+                width: 100%;
+                padding: $block-padding-tb $block-padding-lr;
+                background-color: $color-block-background;
+                margin-bottom: $block-margin;
+                border-radius: $block-border-radius;
+                text-align: left;
+                &.tabs__elem--selected {
+                    background-color: $color-block-background-dark;
+                }
+                &:not(.tabs__elem--selected) {
+                    &:hover {
+                        background-color: $color-block-background-dark;
+                    }
+                }
+            }
+            &:not(.tabs__elem--selected) {
+                & > button {
+                    @media #{$media-landscape} {
+                        display:none;
+                    }
+                }
+            }
+            &--add-button {
+                padding: $tab-padding;
+                line-height: 0;
+                @media #{$media-portrait} {
+                    margin-bottom: 0;
+                }
+            }
+
+            & > span {
+                flex: 1 1 auto;
+            }
+
+            & > button {
+                color: $color-text-light;
+                @media #{$media-landscape} {
+                    margin-left: 4px;
+                }
+                @media #{$media-portrait} {
+                    margin-left: 8px;
+                }
+                &:hover {
+                    color: $color-text-dark;
+                }
+
+                & > span {
+                    margin-left: 4px;
+                    @media #{$media-landscape} {
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
+
 
     &--syllabus {
         grid-area: syllabus-tabs;
@@ -860,6 +966,46 @@ a {
     &--semester {
         grid-area: semester;
         padding: 6px 8px;
+    }
+
+    &--planner-detial {   // 수정하기
+        grid-area: planner-detial;
+        display: grid;
+        @media #{$media-landscape} {
+            border-top-left-radius: 0;
+            grid-template-columns: 1fr min-content calc(#{$section-width-desktop-1v3-left} - (#{$section-padding} * 2));
+            grid-template-rows: min-content min-content 1fr min-content min-content;
+            grid-template-areas:
+                "planner  divider-main    planner-setting"
+                "planner  divider-main    divider-sub-1"
+                "planner  divider-main    summary"
+                "planner  divider-main    divider-sub-2"
+                "planner  divider-main    share"
+            ;
+        }
+        @media #{$media-portrait} {
+            grid-template-columns: 1fr;
+            grid-template-rows: 1fr min-content min-content min-content min-content;
+            grid-template-areas:
+                "timetable"
+                "divider-main"
+                "summary"
+                "divider-sub-3"
+                "share"
+            ;
+        }
+    }
+
+    &--course-info {
+        grid-area: course-info;
+        display: grid;
+        @media #{$media-landscape} {
+            grid-template-columns: 1fr min-content min-content;
+            grid-template-rows: 1fr;
+            grid-template-areas:
+                "course-info-sub  divider-main    course-detail"
+            ;
+        }
     }
 
 
@@ -2415,7 +2561,7 @@ a {
     & > span:first-child,
     & > a:first-child {
         font-size: 18px;
-        line-height: 19px;
+        line-height: 19px; 
         cursor: pointer;
         &:hover {
             color: rgba($color-highlight-dark, 0.5);

@@ -7,6 +7,7 @@ import qs from 'qs';
 
 import Header from './common/guideline/components/Header';
 import DictionaryPage from './pages/DictionaryPage';
+import PlannerPage from './pages/PlannerPage';
 import TimetablePage from './pages/TimetablePage';
 import WriteReviewsPage from './pages/WriteReviewsPage';
 import SyllabusPage from './pages/SyllabusPage';
@@ -147,6 +148,15 @@ class App extends Component {
                 props.location.search
                   ? <Redirect to={{ ...props.location, state: { ...props.location.state, ...parseQueryString(props.location.search) }, search: '' }} />
                   : <DictionaryPage {...props} />
+              )}
+            />
+            <Route
+              exact
+              path="/planner"
+              render={(props) => (
+                props.location.search
+                  ? <Redirect to={{ ...props.location, state: { ...props.location.state, ...parseQueryString(props.location.search) }, search: '' }} />
+                  : <PlannerPage {...props} />
               )}
             />
             <Route

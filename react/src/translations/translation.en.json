@@ -257,6 +257,7 @@
     "others": {
       "table": "Table",
       "myTable": "My Table",
+      "planner": "Planner",
       "examOfDay": "Exams on {{day}}",
       "creditCount": "{{count}} credit",
       "creditCount_plural": "{{count}} credits",
@@ -285,6 +286,7 @@
     "menu": {
       "timetable": "Timetable",
       "dictionary": "Dictionary",
+      "planner": "Planner",
       "writeReviews": "Write Reviews",
       "toggleLang": "한국어",
       "notifications": "Notifications",

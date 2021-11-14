@@ -257,6 +257,7 @@
     "others": {
       "table": "시간표",
       "myTable": "내 시간표",
+      "planner": "플래너",
       "examOfDay": "{{day}} 시험",
       "creditCount": "{{count}}학점",
       "auCount": "{{count}}AU",
@@ -279,6 +280,7 @@
     "menu": {
       "timetable": "모의시간표",
       "dictionary": "과목사전",
+      "planner": "졸업플래너",
       "writeReviews": "과목후기 작성하기",
       "toggleLang": "English",
       "notifications": "알림",
