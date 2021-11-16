@@ -1000,10 +1000,12 @@ a {
         grid-area: course-info;
         display: grid;
         @media #{$media-landscape} {
-            grid-template-columns: 1fr min-content min-content;
-            grid-template-rows: 1fr;
+            grid-template-columns: 3fr min-content 1fr;
+            grid-template-rows: 1fr min-content 1fr;
             grid-template-areas:
-                "course-info-sub  divider-main    course-detail"
+                "course-info-sub  divider-main  course-info-detail"
+                "course-info-sub  divider-main  divider-sub-1"
+                "course-info-sub  divider-main  course-info-setting"
             ;
         }
     }
@@ -1655,6 +1657,18 @@ a {
         &__content {
             line-height: $line-height-normal + 4px;
         }
+    }
+
+    &--course-info-sub {
+        grid-area: course-info-sub;
+    }
+
+    &--course-info-detail {
+        grid-area: course-info-detail;
+    }
+
+    &--course-info-setting {
+        grid-area: course-info-setting;
     }
 }
 
