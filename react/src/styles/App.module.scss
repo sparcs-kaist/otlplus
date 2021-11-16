@@ -978,9 +978,9 @@ a {
             grid-template-areas:
                 "planner  divider-main    planner-setting"
                 "planner  divider-main    divider-sub-1"
-                "planner  divider-main    summary"
+                "planner  divider-main    planner-summary"
                 "planner  divider-main    divider-sub-2"
-                "planner  divider-main    share"
+                "planner  divider-main    planner-share"
             ;
         }
         @media #{$media-portrait} {
@@ -1655,6 +1655,22 @@ a {
         &__content {
             line-height: $line-height-normal + 4px;
         }
+    }
+
+    &--planner {
+        grid-area: planner;
+    }
+
+    &--planner-setting {
+        grid-area: planner-setting;
+    }
+
+    &--planner-summary {
+        grid-area: planner-summary;
+    }
+
+    &--planner-share {
+        grid-area: planner-share;
     }
 }
 
