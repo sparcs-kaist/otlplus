@@ -38,12 +38,12 @@ INSTALLED_APPS = (
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "apps.main.appss.MainConfig",
-    "apps.session.appss.SessionConfig",
-    "apps.support.appss.SupportConfig",
-    "apps.review.appss.ReviewConfig",
-    "apps.subject.appss.SubjectConfig",
-    "apps.timetable.appss.TimetableConfig",
+    "apps.main.apps.MainConfig",
+    "apps.session.apps.SessionConfig",
+    "apps.support.apps.SupportConfig",
+    "apps.review.apps.ReviewConfig",
+    "apps.subject.apps.SubjectConfig",
+    "apps.timetable.apps.TimetableConfig",
 )
 
 MIDDLEWARE = [
