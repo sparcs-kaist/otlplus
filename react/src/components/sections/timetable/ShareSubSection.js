@@ -28,6 +28,7 @@ class ShareSubSection extends Component {
     return (
       <div className={classNames('subsection--share', (mobileIsLectureListOpen ? 'mobile-hidden' : null))}>
         <div>
+          <div>{t('ui.title.share')}</div>
           { user && selectedTimetable && year && semester
             ? (
               <>
