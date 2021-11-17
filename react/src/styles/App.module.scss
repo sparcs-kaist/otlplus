@@ -95,6 +95,7 @@ $score-line-height-mobile: calc(#{$score-font-size-mobile} - 2px);
 
 $media-landscape: (min-aspect-ratio: 4/3);
 $media-portrait: (max-aspect-ratio: 4/3);
+$media-no-hover: (hover: none);
 
 $section-width-desktop-1v3-left: calc(15vh + 126px);
 $section-height-desktop-lecture-detail: calc(
@@ -912,13 +913,18 @@ a {
             position: absolute;
             top: calc((100% + #{$line-height-big} + #{$list-title-margin-bottom} - 12px) / 2);
             right: #{$section-padding};
-            @media #{$media-landscape} {
-                display: none;
+            display: none;
+            @media #{$media-no-hover} {
+                display: initial;
+            }
+
+            &--dimmed {
+                opacity: 0.3;
             }
         }
 
         & > div:last-child {
-            @media #{$media-portrait} {
+            @media #{$media-no-hover} {
                 .block--lecture-group {
                     margin-right: 6px + 10px;
                     &:first-child {
@@ -1995,7 +2001,7 @@ a {
                     line-height: $line-height-smaller;
                     color: $color-text-lighter;
                     display: none;
-                    @media #{$media-portrait} {
+                    @media #{$media-no-hover} {
                         @at-root
                         .block--lecture-group__row--highlighted #{&} {
                             display: block;
@@ -2016,6 +2022,11 @@ a {
                 cursor: pointer;
                 @media #{$media-portrait} {
                     display: none;
+                }
+                @media #{$media-no-hover} {
+                    .block--lecture-group__row:not(.block--lecture-group__row--highlighted) & {
+                        display: none;
+                    }
                 }
 
                 &--disable {

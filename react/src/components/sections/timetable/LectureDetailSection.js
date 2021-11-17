@@ -44,6 +44,7 @@ class LectureDetailSection extends Component {
     super(props);
     this.state = {
       shouldShowCloseDict: false,
+      isReviewLoading: false,
     };
 
     // eslint-disable-next-line fp/no-mutation
@@ -60,9 +61,24 @@ class LectureDetailSection extends Component {
       clearLectureFocusDispatch,
     } = this.props;
 
+    if (!prevProps.lectureFocus.lecture && lectureFocus.lecture) {
+      this._checkAndLoadReviews();
+    }
+    if ((prevProps.lectureFocus.lecture && lectureFocus.lecture)
+      && (prevProps.lectureFocus.lecture.id !== lectureFocus.lecture.id)) {
+      this._resetIsReviewLoading();
+      this._checkAndLoadReviews();
+    }
+    if ((prevProps.lectureFocus.lecture && lectureFocus.lecture)
+      && (prevProps.lectureFocus.clicked !== lectureFocus.clicked)) {
+      this._checkAndLoadReviews();
+    }
+    if (prevProps.lectureFocus.lecture && !lectureFocus.lecture) {
+      this._resetIsReviewLoading();
+    }
+
     if (prevProps.lectureFocus.clicked && lectureFocus.clicked) {
       if (prevProps.lectureFocus.lecture.id !== lectureFocus.lecture.id) {
-        this._loadReviews();
         if (!isPortrait) {
           this.openDictPreview();
         }
@@ -74,7 +90,6 @@ class LectureDetailSection extends Component {
       }
     }
     else if (!prevProps.lectureFocus.clicked && lectureFocus.clicked) {
-      this._loadReviews();
       if (!isPortrait) {
         this.openDictPreview();
       }
@@ -93,38 +108,10 @@ class LectureDetailSection extends Component {
     }
   }
 
-  _loadReviews = () => {
-    const LIMIT = 100;
-
-    const { lectureFocus, setReviewsDispatch } = this.props;
-
-    if (lectureFocus.reviews === null) {
-      axios.get(
-        `/api/lectures/${lectureFocus.lecture.id}/related-reviews`,
-        {
-          params: {
-            order: ['-written_datetime', '-id'],
-            limit: LIMIT,
-          },
-          metadata: {
-            gaCategory: 'Lecture',
-            gaVariable: 'GET Related Reviews / Instance',
-          },
-        },
-      )
-        .then((response) => {
-          const newProps = this.props;
-          if (newProps.lectureFocus.lecture.id !== lectureFocus.lecture.id) {
-            return;
-          }
-          if (response.data === LIMIT) {
-            // TODO: handle limit overflow
-          }
-          setReviewsDispatch(response.data);
-        })
-        .catch((error) => {
-        });
-    }
+  _resetIsReviewLoading = () => {
+    this.setState({
+      isReviewLoading: false,
+    });
   }
 
   openDictPreview = () => {
@@ -288,6 +275,11 @@ class LectureDetailSection extends Component {
   }
 
   onScroll = () => {
+    this._updateDictButton();
+    this._checkAndLoadReviews();
+  }
+
+  _updateDictButton = () => {
     const openDictElement = this.openDictRef.current;
     const scrollElement = openDictElement.closest('.ScrollbarsCustom-Scroller');
 
@@ -302,6 +294,59 @@ class LectureDetailSection extends Component {
     }
   }
 
+  _checkAndLoadReviews = () => {
+    const LIMIT = 100;
+
+    const { isReviewLoading } = this.state;
+    const { lectureFocus, setReviewsDispatch } = this.props;
+
+    if (isReviewLoading || (lectureFocus.reviews !== null)) {
+      return;
+    }
+
+    const openDictElement = this.openDictRef.current;
+    const scrollElement = openDictElement.closest('.ScrollbarsCustom-Scroller');
+
+    const bottomSpace = (
+      scrollElement.getBoundingClientRect().bottom - openDictElement.getBoundingClientRect().bottom
+    );
+
+    if (bottomSpace < 12 + 1) {
+      return;
+    }
+
+    this.setState({
+      isReviewLoading: true,
+    });
+    axios.get(
+      `/api/lectures/${lectureFocus.lecture.id}/related-reviews`,
+      {
+        params: {
+          order: ['-written_datetime', '-id'],
+          limit: LIMIT,
+        },
+        metadata: {
+          gaCategory: 'Lecture',
+          gaVariable: 'GET Related Reviews / Instance',
+        },
+      },
+    )
+      .then((response) => {
+        const newProps = this.props;
+        if (newProps.lectureFocus.lecture.id !== lectureFocus.lecture.id) {
+          return;
+        }
+        if (response.data === LIMIT) {
+          // TODO: handle limit overflow
+        }
+        this.setState({
+          isReviewLoading: false,
+        });
+        setReviewsDispatch(response.data);
+      })
+      .catch((error) => {
+      });
+  }
 
   render() {
     const { t } = this.props;
