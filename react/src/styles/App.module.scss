@@ -1300,7 +1300,14 @@ a {
 
             & > * {
                 display:inline-block;
-                margin-right:10px;
+                margin-right: 8px;
+                vertical-align: middle;
+
+                &:first-child {
+                    font-weight: bold;
+                    font-size: $font-size-small;
+                    line-height: $line-height-small;
+                }
             }
         }
 
