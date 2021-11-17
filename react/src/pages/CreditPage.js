@@ -8,6 +8,7 @@ import ProjectBlock from '../components/blocks/ProjectBlock';
 import memberBatteryImage from '../static/images/members/Members-05-battery_kor.png';
 import memberDaybreakerImage from '../static/images/members/Members-05-daybreaker_kor.png';
 import memberJulingksImage from '../static/images/members/Members-05-julingks_kor.png';
+import memberMajjaImage from '../static/images/members/Members-ext-majja_kor.png';
 
 import memberCanchoImage from '../static/images/members/Members-07-cancho_kor.png';
 import memberDynamanImage from '../static/images/members/Members-07-dynaman_kor.png';
@@ -45,7 +46,7 @@ import memberManduImage from '../static/images/members/Members-13-mandu_kor.png'
 import memberNobrainImage from '../static/images/members/Members-13-nobrain_kor.png';
 import memberSamjoImage from '../static/images/members/Members-13-samjo_kor.png';
 
-import memberAsheImage from '../static/images/members/Members-14-ashe_kor.png';
+import memberSteinImage from '../static/images/members/Members-14-stein_kor.png';
 import memberCoearthImage from '../static/images/members/Members-14-coearth_kor.png';
 import memberGeorgeImage from '../static/images/members/Members-14-george_kor.png';
 import memberLeejeokImage from '../static/images/members/Members-14-leejeok_kor.png';
@@ -66,6 +67,7 @@ import memberZealotImage from '../static/images/members/Members-15-zealot_kor.pn
 import memberAkaisImage from '../static/images/members/Members-16-akais_kor.png';
 import memberHersheyImage from '../static/images/members/Members-16-hershey_kor.png';
 import memberJamesImage from '../static/images/members/Members-16-james_kor.png';
+import memberJaydubImage from '../static/images/members/Members-16-jaydub_kor.png';
 import memberJuheeuuImage from '../static/images/members/Members-16-juheeuu_kor.png';
 import memberLeesiaImage from '../static/images/members/Members-16-leesia_kor.png';
 import memberParangImage from '../static/images/members/Members-16-parang_kor.png';
@@ -77,7 +79,13 @@ import memberYoloImage from '../static/images/members/Members-17-yolo_kor.png';
 
 import memberAppleseedImage from '../static/images/members/Members-18-appleseed_kor.png';
 
+import memberMiniImage from '../static/images/members/Members-19-mini_kor.png';
 import memberWinrobrineImage from '../static/images/members/Members-19-winrobrine_kor.png';
+
+import memberDoraImage from '../static/images/members/Members-20-dora_kor.png';
+
+import memberKkomaImage from '../static/images/members/Members-21-kkoma_kor.png';
+import memberPlatypusImage from '../static/images/members/Members-21-platypus_kor.png';
 
 
 class CreditPage extends Component {
@@ -99,7 +107,7 @@ class CreditPage extends Component {
         ],
     },
     {
-      index: 2,
+      index: 20,
       mainTitle: 'OTL',
       subTitle: '모의시간표',
       period: '2009',
@@ -111,7 +119,7 @@ class CreditPage extends Component {
               { name: '김민우', image: memberJulingksImage },
               { name: '김종균', image: memberTruthImage },
               { name: '김준기', image: memberDaybreakerImage },
-              { name: '유충국' },
+              { name: '유충국', image: memberMajjaImage },
             ],
           },
           {
@@ -124,7 +132,7 @@ class CreditPage extends Component {
         ],
     },
     {
-      index: 3,
+      index: 21,
       mainTitle: 'OTL',
       subTitle: '추가개발',
       period: '2010 ~ 2012',
@@ -165,7 +173,7 @@ class CreditPage extends Component {
         ],
     },
     {
-      index: 4,
+      index: 22,
       mainTitle: 'OTL',
       subTitle: '과목사전',
       period: '2012 ~ 2013',
@@ -210,7 +218,7 @@ class CreditPage extends Component {
         ],
     },
     {
-      index: 5,
+      index: 30,
       mainTitle: 'OTL PLUS',
       subTitle: '과목사전',
       period: '2015.09 ~ 2016.06',
@@ -242,7 +250,7 @@ class CreditPage extends Component {
             people: [
               { name: '고지훈', image: memberMangoImage },
               { name: '김강인', image: memberRaonImage },
-              { name: '김재성', image: memberAsheImage },
+              { name: '김재성', image: memberSteinImage },
               { name: '서동민', image: memberHoodImage },
               { name: '이강원', image: memberPotatoImage },
               { name: '조성원', image: memberSamjoImage },
@@ -254,7 +262,7 @@ class CreditPage extends Component {
         ],
     },
     {
-      index: 6,
+      index: 31,
       mainTitle: 'OTL PLUS',
       subTitle: '모의시간표',
       period: '2016.09 ~ 2017.12',
@@ -265,7 +273,7 @@ class CreditPage extends Component {
             people: [
               {
                 name: '김재성',
-                image: memberAsheImage,
+                image: memberSteinImage,
                 caption: '2016.09 ~ 2017.05',
               },
               {
@@ -285,7 +293,7 @@ class CreditPage extends Component {
             title: 'Developer',
             people: [
               { name: '고지훈', image: memberMangoImage, caption: '3 credits' },
-              { name: '김재성', image: memberAsheImage, caption: '3 credits' },
+              { name: '김재성', image: memberSteinImage, caption: '3 credits' },
               { name: '김태준', image: memberNobrainImage, caption: '2 credits' },
               { name: '서덕담', image: memberDideeImage, caption: '2 credits' },
               { name: '오종훈', image: memberLeejeokImage, caption: '2 credits' },
@@ -298,9 +306,9 @@ class CreditPage extends Component {
         ],
     },
     {
-      index: 8,
+      index: 32,
       mainTitle: 'OTL PLUS',
-      subTitle: '2020 Release',
+      subTitle: '모바일 & 리뉴얼',
       period: '2018.01 ~ 2020.01',
       fields:
         [
@@ -350,7 +358,60 @@ class CreditPage extends Component {
         ],
     },
     {
-      index: -1,
+      index: 1000,
+      mainTitle: 'OTL APP',
+      subTitle: 'Beta',
+      period: '2020.02 ~ 2021.11',
+      fields:
+        [
+          {
+            title: 'Developer',
+            people: [
+              { name: '박현우', image: memberWinrobrineImage, caption: '2020.02 ~ 2021.01' },
+              { name: '오승빈', image: memberPlatypusImage, caption: '2021.07 ~ 2021.11' },
+            ],
+          },
+        ],
+    },
+    {
+      index: 33,
+      mainTitle: 'OTL PLUS',
+      subTitle: '???',
+      period: '2021.09 ~',
+      fields:
+        [
+          {
+            title: 'Project Manager',
+            people: [
+              {
+                name: '한승현',
+                image: memberZealotImage,
+                caption: '2021.09 ~',
+              },
+            ],
+          },
+          {
+            title: 'Designer',
+            people: [
+              { name: '한승현', image: memberZealotImage, caption: '1 credit' },
+            ],
+          },
+          {
+            title: 'Developer',
+            people: [
+              { name: '김동혁', image: memberKkomaImage, caption: '1 credit' },
+              { name: '김민희', image: memberMiniImage, caption: '1 credit' },
+              { name: '김재성', image: memberSteinImage, caption: '1 credit' },
+              { name: '오승빈', image: memberPlatypusImage, caption: '1 credit' },
+              { name: '이지윤', image: memberDoraImage, caption: '1 credit' },
+              { name: '이진우', image: memberJaydubImage, caption: '1 credit' },
+              { name: '한승현', image: memberZealotImage, caption: '1 credit' },
+            ],
+          },
+        ],
+    },
+    {
+      index: 9000,
       mainTitle: 'System Operators',
       subTitle: '-',
       period: '-',
@@ -406,7 +467,7 @@ class CreditPage extends Component {
               },
               {
                 name: '김재성',
-                image: memberAsheImage,
+                image: memberSteinImage,
                 caption: '2016.06 ~ 2017.06',
               },
               {
@@ -421,7 +482,7 @@ class CreditPage extends Component {
             people: [
               {
                 name: '김재성',
-                image: memberAsheImage,
+                image: memberSteinImage,
                 caption: '2016.06 ~ 2017.06',
               },
               {
@@ -438,7 +499,7 @@ class CreditPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedProjectIndex: 8,
+      selectedProjectIndex: 32,
     };
   }
 
@@ -475,20 +536,17 @@ class CreditPage extends Component {
                 <div className={classNames('subsection--credit__people-list')}>
                   {
                     selectedProject.fields.map((f) => (
-                      <React.Fragment key={f.title}>
+                      <div className={classNames('subsection--credit__people-list__group')} key={f.title}>
                         <div className={classNames('title')}>{f.title}</div>
                         {
                           f.people.map((p) => (
-                            <div className={classNames('subsection--credit__people-list__elem')} key={p.name}>
-                              {p.image
-                                ? <img src={p.image} alt={p.name} />
-                                : <div className={classNames('subsection--credit__people-list__elem__name')}>{p.name}</div>
-                              }
+                            <div className={classNames('subsection--credit__people-list__group__elem')} key={p.name}>
+                              <img src={p.image} alt={p.name} />
                               {p.caption ? <div className={classNames('caption')}>{p.caption}</div> : null}
                             </div>
                           ))
                         }
-                      </React.Fragment>
+                      </div>
                     ))
                   }
                 </div>
