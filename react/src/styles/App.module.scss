@@ -423,7 +423,7 @@ a {
                 ".                  planner-tabs   .                ."
                 ".                  planner-detial planner-detial   planner-detial"
                 ".                  .              .                ."
-                "course-list-tabs   course-list    .                course-info"
+                "course-list-tabs   course-list    .                course-info-detail"
             ;
         }
         // @media #{$media-portrait} {  // mobile?
@@ -996,17 +996,11 @@ a {
         }
     }
 
-    &--course-info {
-        grid-area: course-info;
-        display: grid;
+    &--course-info-detail {
         @media #{$media-landscape} {
-            grid-template-columns: 3fr min-content 1fr;
-            grid-template-rows: 1fr min-content 1fr;
-            grid-template-areas:
-                "course-info-sub  divider-main  course-info-detail"
-                "course-info-sub  divider-main  divider-sub-1"
-                "course-info-sub  divider-main  course-info-setting"
-            ;
+            grid-area: course-info-detail;
+            display: flex;
+            flex-direction: row-reverse;
         }
     }
 
@@ -1661,16 +1655,15 @@ a {
 
     &--course-info-sub {
         grid-area: course-info-sub;
-    }
-
-    &--course-info-detail {
-        grid-area: course-info-detail;
+        flex-basis: 1px;
+        flex-grow: 1;
     }
 
     &--course-info-setting {
         grid-area: course-info-setting;
+        flex-basis: calc(#{$section-width-desktop-1v3-left} - (#{$section-padding} * 2));
     }
-
+    
     &--planner {
         grid-area: planner;
     }
@@ -3106,6 +3099,7 @@ a {
     color: $color-text-placeholder;
     font-size: $font-size-normal;
     line-height: $line-height-normal;
+    flex-grow: 1;
 
     & > div {
         flex: none;
