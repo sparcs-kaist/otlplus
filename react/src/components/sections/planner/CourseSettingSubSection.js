@@ -5,7 +5,7 @@ class CourseSettingSubSection extends Component {
     render() {
         return(
             <div className={classNames('subsection', 'subsection--course-info-setting')}>
-                CSSubSection
+                CSSubSection1
             </div>
         );
     }

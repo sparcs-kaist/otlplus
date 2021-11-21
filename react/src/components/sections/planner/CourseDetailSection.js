@@ -1,27 +1,18 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { withTranslation } from 'react-i18next';
-import axios from 'axios';
-
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
-import qs from 'qs';
-import Scroller from '../../Scroller';
-import CloseButton from '../../CloseButton';
+import { connect } from 'react-redux';
 import Divider from '../../Divider';
-
+import CourseInfoSubSection from './CourseInfoSubSection';
+import CourseSettingSubSection from './CourseSettingSubSection';
+import OtlplusPlaceholder from '../../OtlplusPlaceholder';
+import axios from 'axios';
 import { clearCourseFocus, setLectures, setReviews } from '../../../actions/dictionary/courseFocus';
 import { addCourseRead } from '../../../actions/dictionary/list';
-
+import PropTypes from 'prop-types';
 import courseFocusShape from '../../../shapes/state/CourseFocusShape';
 import userShape from '../../../shapes/model/UserShape';
 
-import CourseSummarySubSection from './CourseSummarySubSection';
-import CourseReviewsSubSection from './CourseReviewSubSection';
-
-
-class CourseInfoSubSection extends Component {
+class CourseDetailSection extends Component {
   constructor(props) {
     super(props);
 
@@ -144,38 +135,26 @@ class CourseInfoSubSection extends Component {
     clearCourseFocusDispatch();
   }
 
-
-  render() {
+    render() {
     const { t } = this.props;
     const { courseFocus } = this.props;
-
-    const sectionContent = 
-      (
+    const sectionContent = courseFocus.course
+      ? (
         <>
-          <CloseButton onClick={this.unfix} />
-          <div className={classNames('detail-title-area')}>
-            <div className={classNames('title')}>{ courseFocus.course[t('js.property.title')] }</div>
-            <div className={classNames('subtitle')}>{ courseFocus.course.old_code }</div>
-            <Link className={classNames('text-button', 'text-button--right')} to={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: courseFocus.course.id }) }} target="_blank" rel="noopener noreferrer">
-                {t('ui.button.dictionary')}
-            </Link>
-          </div>
-          <Scroller key={courseFocus.course.id}>
-            <CourseSummarySubSection/>
-            <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
-            <CourseReviewsSubSection />
-          </Scroller>
+            <CourseSettingSubSection/>
+            <Divider orientation={{ desktop: Divider.Orientation.VERTICAL, mobile: Divider.Orientation.HORIZONTAL }} isVisible={true} gridArea="divider-main" />
+            <CourseInfoSubSection/>
         </>
+      ) 
+      : (
+        <OtlplusPlaceholder/>
       );
-
-    return (
-        <div className={classNames('subsection', 'subsection--course-info-sub')}>
-          <div className={classNames('subsection','subsection--flex')}>
-            { sectionContent }
+        return(
+          <div className={classNames('section', 'section--course-info-detail')}>
+              { sectionContent }
           </div>
-        </div>
-    );
-  }
+        );
+    }
 }
 
 const mapStateToProps = (state) => ({
@@ -199,7 +178,7 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-CourseInfoSubSection.propTypes = {
+CourseDetailSection.propTypes = {
   user: userShape,
   courseFocus: courseFocusShape.isRequired,
   selectedListCode: PropTypes.string.isRequired,
@@ -210,9 +189,8 @@ CourseInfoSubSection.propTypes = {
   addCourseReadDispatch: PropTypes.func.isRequired,
 };
 
-
-export default withTranslation()(
+export default (
   connect(mapStateToProps, mapDispatchToProps)(
-    CourseInfoSubSection
+    CourseDetailSection
   )
 );
