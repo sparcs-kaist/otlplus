@@ -409,7 +409,7 @@ a {
             margin-left: -$tabs-width-vertical;
             grid-template-columns:
                 $tabs-width-vertical
-                1fr  // need to modify
+                1.1fr  // need to modify
                 $section-margin-lr
                 2fr
             ;
@@ -1669,6 +1669,7 @@ a {
 
     &--course-info-setting {
         grid-area: course-info-setting;
+    }
 
     &--planner {
         grid-area: planner;
@@ -1916,6 +1917,7 @@ a {
         flex-direction: column;
         justify-content: center;
         min-width: 74px;
+        height: 50px;
 
         &:last-child {
             margin-bottom: 0;
@@ -2326,7 +2328,11 @@ a {
     > .block:not(:last-child) {
         margin-bottom: $block-margin;
     }
-}
+
+    &--two-columns {
+        columns: 2;
+    }
+} 
 
 
 .block-grid {
@@ -3154,7 +3160,6 @@ a {
         min-height: 218px;
     }
 }
-
 
 .rate {
     text-align: center;

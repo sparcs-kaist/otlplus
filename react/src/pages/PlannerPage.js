@@ -1,6 +1,17 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
+
+import { reset as resetLectureFocus } from '../actions/timetable/lectureFocus';
+import { reset as resetList } from '../actions/timetable/list';
+import { reset as resetSearch } from '../actions/timetable/search';
+import { reset as resetSemester } from '../actions/timetable/semester';
+import {
+  reset as resetTimetable,
+  setSelectedTimetable, setMobileIsTimetableTabsOpen,
+} from '../actions/timetable/timetable';
 
 import Divider from '../components/Divider';
 import PlannerTabs from '../components/sections/planner/PlannerTabs';
@@ -10,12 +21,33 @@ import CourseListSection from '../components/sections/planner/CourseListSection'
 import CourseInfoSubSection from '../components/sections/planner/CourseInfoSubSection';
 import CourseDetailSubSection from '../components/sections/planner/CourseDetailSubsection';
 import CourseSettingSubSection from '../components/sections/planner/CourseSettingSubSection';
-import Divider from '../components/Divider';
 import SettingSubSection from '../components/sections/planner/SettingSubSection';
 import SummarySubSection from '../components/sections/planner/SummarySubSection';
 import ShareSubSection from '../components/sections/planner/ShareSubSection';
 
 class PlannerPage extends Component {
+    componentDidMount() {
+        const { startInMyTable } = this.props.location.state || {};
+        const { user, myTimetable, setSelectedTimetableDispatch } = this.props;
+    
+        if (startInMyTable && user) {
+          setSelectedTimetableDispatch(myTimetable);
+        }
+    }
+
+    componentWillUnmount() {
+      const {
+        resetLectureFocusDispatch, resetListDispatch, resetSearchDispatch,
+        resetSemesterDispatch, resetTimetableDispatch,
+      } = this.props;
+
+      resetLectureFocusDispatch();
+      resetListDispatch();
+      resetSearchDispatch();
+      resetSemesterDispatch();
+      resetTimetableDispatch();
+    }
+
 
     render() {
         return(
@@ -48,8 +80,43 @@ class PlannerPage extends Component {
     }
 }
 
+const mapStateToProps = (state) => ({
+    user: state.common.user.user,
+    myTimetable: state.timetable.timetable.myTimetable,
+    mobileIsTimetableTabsOpen: state.timetable.timetable.mobileIsTimetableTabsOpen,
+    mobileIsLectureListOpen: state.timetable.list.mobileIsLectureListOpen,
+  });
+  
+  const mapDispatchToProps = (dispatch) => ({
+    setSelectedTimetableDispatch: (timetable) => {
+      dispatch(setSelectedTimetable(timetable));
+    },
+    resetLectureFocusDispatch: () => {
+      dispatch(resetLectureFocus());
+    },
+    resetListDispatch: () => {
+      dispatch(resetList());
+    },
+    resetSearchDispatch: () => {
+      dispatch(resetSearch());
+    },
+    resetSemesterDispatch: () => {
+      dispatch(resetSemester());
+    },
+    resetTimetableDispatch: () => {
+      dispatch(resetTimetable());
+    },
+    setMobileIsTimetableTabsOpenDispatch: (mobileIsTimetableTabsOpen) => {
+      dispatch(setMobileIsTimetableTabsOpen(mobileIsTimetableTabsOpen));
+    },
+  });
 
-export default (
+  // PlannerPage.PropTypes = {
+
+  // }
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(
     PlannerPage
   );
   

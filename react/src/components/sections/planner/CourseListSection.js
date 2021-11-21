@@ -1,25 +1,3 @@
-// import React, { Component } from 'react';
-
-// import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
-
-// class CourseListSection extends Component {
-
-//     render() {
-//         return(
-//             <>
-//                 <div className={classNames('section', 'section--course-list')}>
-//                     CourseListSection
-//                 </div>
-//             </>
-//         )
-//     }
-// }
-
-// export default (
-//     CourseListSection
-//   );
-  
-
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -32,7 +10,7 @@ import { CourseListCode } from '../../../reducers/dictionary/list';
 
 import Scroller from '../../Scroller';
 import CourseSearchSubSection from '../dictionary/CourseSearchSubSection';
-import CourseBlock from '../../blocks/CourseBlock';
+import PlannerCourseBlock from '../../blocks/PlannerCourseBlock';
 
 import { isFocused, isDimmedCourse } from '../../../utils/courseUtils';
 import { setCourseFocus, clearCourseFocus } from '../../../actions/dictionary/courseFocus';
@@ -189,10 +167,10 @@ class CourseListSection extends Component {
       }
       return (
         <Scroller key={selectedListCode}>
-          <div className={classNames('block-list')}>
+          <div className={classNames('block-list', 'block-list--two-columns')}>
             {
               courses.map((c) => (
-                <CourseBlock
+                <PlannerCourseBlock
                   course={c}
                   key={c.id}
                   shouldShowReadStatus={true}
@@ -200,6 +178,11 @@ class CourseListSection extends Component {
                   isRaised={isFocused(c, courseFocus)}
                   isDimmed={isDimmedCourse(c, courseFocus)}
                   onClick={this.focusCourseWithClick}
+                  // inCart={inCart(l, lists[CourseListCode.CART])}
+                  // fromCart={(selectedListCode === CourseListCode.CART)}
+                  // addToCart={this.addLectureToCart}
+                  // addToTable={this.addLectureToTable}
+                  // deleteFromCart={this.deleteLectureFromCart}
                 />
               ))
             }
