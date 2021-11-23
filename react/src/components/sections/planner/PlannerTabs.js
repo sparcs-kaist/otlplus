@@ -8,17 +8,17 @@ import ReactGA from 'react-ga';
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
 import {
-  setTimetables, clearTimetables, setMyTimetableLectures,
-  setSelectedTimetable,
-  createTimetable, deleteTimetable, duplicateTimetable,
-  setMobileIsTimetableTabsOpen,
-} from '../../../actions/timetable/timetable';
+  setPlanners, clearPlanners, setMyPlannerLectures,
+  setSelectedPlanner,
+  createPlanner, deletePlanner, duplicatePlanner,
+  setMobileIsPlannerTabsOpen,
+} from '../../../actions/planner/planner';
 
 import userShape from '../../../shapes/model/UserShape';
 import timetableShape from '../../../shapes/model/TimetableShape';
 
 
-class TimetableTabs extends Component {
+class PlannerTabs extends Component {
   componentDidMount() {
     const { user } = this.props;
 
@@ -363,32 +363,32 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   setTimetablesDispatch: (timetables) => {
-    dispatch(setTimetables(timetables));
+    dispatch(setPlanners(timetables));
   },
   clearTimetablesDispatch: () => {
-    dispatch(clearTimetables());
+    dispatch(clearPlanners());
   },
   setMyTimetableLecturesDispatch: (lectures) => {
-    dispatch(setMyTimetableLectures(lectures));
+    dispatch(setMyPlannerLectures(lectures));
   },
   setSelectedTimetableDispatch: (timetable) => {
-    dispatch(setSelectedTimetable(timetable));
+    dispatch(setSelectedPlanner(timetable));
   },
   createTimetableDispatch: (id) => {
-    dispatch(createTimetable(id));
+    dispatch(createPlanner(id));
   },
   deleteTimetableDispatch: (timetable) => {
-    dispatch(deleteTimetable(timetable));
+    dispatch(deletePlanner(timetable));
   },
   duplicateTimetableDispatch: (id, timetable) => {
-    dispatch(duplicateTimetable(id, timetable));
+    dispatch(duplicatePlanner(id, timetable));
   },
   setMobileIsTimetableTabsOpenDispatch: (mobileIsTimetableTabsOpen) => {
-    dispatch(setMobileIsTimetableTabsOpen(mobileIsTimetableTabsOpen));
+    dispatch(setMobileIsPlannerTabsOpen(mobileIsTimetableTabsOpen));
   },
 });
 
-TimetableTabs.propTypes = {
+PlannerTabs.propTypes = {
   user: userShape,
   timetables: PropTypes.arrayOf(timetableShape),
   selectedTimetable: timetableShape,
@@ -409,6 +409,6 @@ TimetableTabs.propTypes = {
 
 export default withTranslation()(
   connect(mapStateToProps, mapDispatchToProps)(
-    TimetableTabs
+    PlannerTabs
   )
 );

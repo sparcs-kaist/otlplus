@@ -167,7 +167,10 @@ class CourseListSection extends Component {
       }
       return (
         <Scroller key={selectedListCode}>
-          <div className={classNames('block-list', 'block-list--two-columns')}>
+          <div className={classNames(
+              'block-list',
+              'block-list--two-columns'
+          )}>
             {
               courses.map((c) => (
                 <PlannerCourseBlock
