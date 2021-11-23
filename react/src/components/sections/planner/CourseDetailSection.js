@@ -136,7 +136,6 @@ class CourseDetailSection extends Component {
   }
 
     render() {
-    const { t } = this.props;
     const { courseFocus } = this.props;
     const sectionContent = courseFocus.course
       ? (
