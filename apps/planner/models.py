@@ -1,7 +1,7 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 
-from apps.subject.models import Department
+from apps.subject.models import Department, Course
 
 class MajorGraduationRequirement(models.Model):
     class MajorType(models.TextChoices):
@@ -18,3 +18,8 @@ class MajorGraduationRequirement(models.Model):
     mandatory_major = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(200)])
     elective_major = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(200)])
     elective_basic = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(200)])
+
+
+class RecognizedCourse(models.Model):
+    original_course = models.ForeignKey(Course, related_name="recognized_course_original_course")
+    recognized_course = models.ForeignKey(Course, related_name="recognized_course_recognized_course")
