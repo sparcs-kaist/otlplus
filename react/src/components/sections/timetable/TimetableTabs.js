@@ -19,6 +19,17 @@ import timetableShape from '../../../shapes/model/TimetableShape';
 
 
 class TimetableTabs extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isDragging: false,
+      dragStartPosition: undefined,
+      dragCurrentPosition: undefined,
+    };
+  }
+
+
   componentDidMount() {
     const { user } = this.props;
 
@@ -266,6 +277,49 @@ class TimetableTabs extends Component {
     });
   }
 
+  handleMouseDown = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+
+    const { isDragging } = this.state;
+
+    if (!isDragging) {
+      this.setState({
+        isDragging: true,
+        dragStartPosition: e.clientX,
+        dragCurrentPosition: e.clientX,
+      });
+
+      document.addEventListener('mousemove', this.handleMouseMove);
+      document.addEventListener('mouseup', this.handleMouseUp);
+    }
+  }
+
+  handleMouseMove = (e) => {
+    const { isDragging } = this.state;
+
+    if (isDragging) {
+      this.setState({
+        dragCurrentPosition: e.clientX,
+      });
+    }
+  }
+
+  handleMouseUp = (e) => {
+    const { isDragging } = this.state;
+
+    if (isDragging) {
+      this.setState({
+        isDragging: false,
+        dragStartPosition: undefined,
+        dragCurrentPosition: undefined,
+      });
+
+      document.removeEventListener('mousemove', this.handleMouseMove);
+      document.removeEventListener('mouseup', this.handleMouseUp);
+    }
+  }
+
   _isSelected = (timetable) => {
     const { selectedTimetable } = this.props;
 
@@ -274,6 +328,7 @@ class TimetableTabs extends Component {
 
   render() {
     const { t } = this.props;
+    const { isDragging, dragStartPosition, dragCurrentPosition } = this.state;
     const {
       user,
       timetables, myTimetable,
@@ -314,9 +369,14 @@ class TimetableTabs extends Component {
                   className={classNames(
                     'tabs__elem',
                     (this._isSelected(tt) ? 'tabs__elem--selected' : null),
+                    ((this._isSelected(tt) && isDragging) ? 'tabs__elem--dragging' : null),
                   )}
                   key={tt.id}
                   onClick={() => this.changeTab(tt)}
+                  onMouseDown={this.handleMouseDown}
+                  style={{
+                    left: (this._isSelected(tt) && isDragging) ? (dragCurrentPosition - dragStartPosition) : undefined,
+                  }}
                 >
                   <span>
                     {`${t('ui.others.table')} ${i + 1}`}
