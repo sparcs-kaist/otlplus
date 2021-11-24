@@ -266,11 +266,17 @@ class TimetableTabs extends Component {
     });
   }
 
+  _isSelected = (timetable) => {
+    const { selectedTimetable } = this.props;
+
+    return selectedTimetable && (timetable.id === selectedTimetable.id);
+  }
+
   render() {
     const { t } = this.props;
     const {
       user,
-      timetables, selectedTimetable, myTimetable,
+      timetables, myTimetable,
     } = this.props;
 
     const myTimetableTab = (
@@ -279,7 +285,7 @@ class TimetableTabs extends Component {
           <div
             className={classNames(
               'tabs__elem',
-              ((selectedTimetable && (myTimetable.id === selectedTimetable.id)) ? 'tabs__elem--selected' : null),
+              (this._isSelected(myTimetable) ? 'tabs__elem--selected' : null),
             )}
             key={myTimetable.id}
             onClick={() => this.changeTab(myTimetable)}
@@ -307,7 +313,7 @@ class TimetableTabs extends Component {
                 <div
                   className={classNames(
                     'tabs__elem',
-                    (tt.id === selectedTimetable.id ? 'tabs__elem--selected' : null),
+                    (this._isSelected(tt) ? 'tabs__elem--selected' : null),
                   )}
                   key={tt.id}
                   onClick={() => this.changeTab(tt)}
