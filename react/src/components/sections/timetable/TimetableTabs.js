@@ -282,12 +282,13 @@ class TimetableTabs extends Component {
     e.preventDefault();
 
     const { isDragging } = this.state;
+    const { isPortrait } = this.props;
 
     if (!isDragging) {
       this.setState({
         isDragging: true,
-        dragStartPosition: e.clientX,
-        dragCurrentPosition: e.clientX,
+        dragStartPosition: isPortrait ? e.clientY : e.clientX,
+        dragCurrentPosition: isPortrait ? e.clientY : e.clientX,
       });
 
       document.addEventListener('mousemove', this.handleMouseMove);
@@ -297,10 +298,11 @@ class TimetableTabs extends Component {
 
   handleMouseMove = (e) => {
     const { isDragging } = this.state;
+    const { isPortrait } = this.props;
 
     if (isDragging) {
       this.setState({
-        dragCurrentPosition: e.clientX,
+        dragCurrentPosition: isPortrait ? e.clientY : e.clientX,
       });
     }
   }
@@ -331,6 +333,7 @@ class TimetableTabs extends Component {
     const { isDragging, dragStartPosition, dragCurrentPosition } = this.state;
     const {
       user,
+      isPortrait,
       timetables, myTimetable,
     } = this.props;
 
@@ -375,7 +378,7 @@ class TimetableTabs extends Component {
                   onClick={() => this.changeTab(tt)}
                   onMouseDown={this.handleMouseDown}
                   style={{
-                    left: (this._isSelected(tt) && isDragging) ? (dragCurrentPosition - dragStartPosition) : undefined,
+                    [isPortrait ? 'top' : 'left']: (this._isSelected(tt) && isDragging) ? (dragCurrentPosition - dragStartPosition) : undefined,
                   }}
                 >
                   <span>
@@ -420,6 +423,7 @@ class TimetableTabs extends Component {
 
 const mapStateToProps = (state) => ({
   user: state.common.user.user,
+  isPortrait: state.common.media.isPortrait,
   timetables: state.timetable.timetable.timetables,
   selectedTimetable: state.timetable.timetable.selectedTimetable,
   myTimetable: state.timetable.timetable.myTimetable,
@@ -456,6 +460,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 TimetableTabs.propTypes = {
   user: userShape,
+  isPortrait: PropTypes.bool.isRequired,
   timetables: PropTypes.arrayOf(timetableShape),
   selectedTimetable: timetableShape,
   myTimetable: timetableShape.isRequired,

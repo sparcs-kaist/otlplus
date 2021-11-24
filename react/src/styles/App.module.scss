@@ -836,7 +836,7 @@ a {
             border-top-left-radius: 0;
             border-top-right-radius: 0;
             grid-template-columns: 1fr min-content 1fr;
-            grid-template-rows: min-content 12px min-content;
+            grid-template-rows: min-content 12px 1fr;
             grid-template-areas:
                 ".              semester        ."
                 ".              .               ."
