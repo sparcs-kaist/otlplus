@@ -16,7 +16,10 @@ export const getAverageScoreLabel = (score, reviewNum) => {
 
 // SYNC: Keep synchronized with Django apps/subject/models.py Review.get_weight()
 export const getWeight = (review) => {
-  return review.like + 1;
+  const baseYear = (new Date()).getFullYear();
+  const lectureYear = review.lecture.year;
+  const yearDiff = (baseYear > lectureYear) ? (baseYear - lectureYear) : 0;
+  return (review.like + 1) * (0.85 ** yearDiff);
 };
 
 

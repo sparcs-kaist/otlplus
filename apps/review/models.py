@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.cache import cache
+from django.utils import timezone
 
 from apps.subject.models import Course, Lecture
 from apps.session.models import UserProfile
@@ -88,7 +89,10 @@ class Review(models.Model):
     
     # SYNC: Keep synchronized with React src/utils/scoreUtils.js getWeight()
     def get_weight(self):
-        return self.like + 1
+        base_year = timezone.now().year
+        lecture_year = self.lecture.year
+        year_diff = base_year - lecture_year if (base_year > lecture_year) else 0
+        return (self.like + 1) * (0.85 ** year_diff)
 
     # SYNC: Keep synchronized with React src/utils/scoreUtils.js calcAverage()
     @classmethod
