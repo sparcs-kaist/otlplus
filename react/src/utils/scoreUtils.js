@@ -19,7 +19,7 @@ export const getWeight = (review) => {
   const baseYear = (new Date()).getFullYear();
   const lectureYear = review.lecture.year;
   const yearDiff = (baseYear > lectureYear) ? (baseYear - lectureYear) : 0;
-  return (review.like + 1) * (0.85 ** yearDiff);
+  return (Math.sqrt(review.like) + 2) * (0.85 ** yearDiff);
 };
 
 
