@@ -277,7 +277,7 @@ class TimetableTabs extends Component {
     });
   }
 
-  handleMouseDown = (e) => {
+  handlePointerDown = (e) => {
     e.stopPropagation();
     e.preventDefault();
 
@@ -291,12 +291,12 @@ class TimetableTabs extends Component {
         dragCurrentPosition: isPortrait ? e.clientY : e.clientX,
       });
 
-      document.addEventListener('mousemove', this.handleMouseMove);
-      document.addEventListener('mouseup', this.handleMouseUp);
+      document.addEventListener('pointermove', this.handlePointerMove);
+      document.addEventListener('pointerup', this.handlePointerUp);
     }
   }
 
-  handleMouseMove = (e) => {
+  handlePointerMove = (e) => {
     const { draggingTimetableId } = this.state;
     const { isPortrait } = this.props;
 
@@ -307,7 +307,7 @@ class TimetableTabs extends Component {
     }
   }
 
-  handleMouseUp = (e) => {
+  handlePointerUp = (e) => {
     const { draggingTimetableId } = this.state;
 
     if (draggingTimetableId !== undefined) {
@@ -317,8 +317,8 @@ class TimetableTabs extends Component {
         dragCurrentPosition: undefined,
       });
 
-      document.removeEventListener('mousemove', this.handleMouseMove);
-      document.removeEventListener('mouseup', this.handleMouseUp);
+      document.removeEventListener('pointermove', this.handlePointerMove);
+      document.removeEventListener('pointerup', this.handlePointerUp);
     }
   }
 
@@ -382,7 +382,7 @@ class TimetableTabs extends Component {
                   )}
                   key={tt.id}
                   onClick={() => this.changeTab(tt)}
-                  onMouseDown={this.handleMouseDown}
+                  onPointerDown={this.handlePointerDown}
                   data-id={tt.id}
                   style={{
                     [isPortrait ? 'top' : 'left']: this._isDragging(tt) ? (dragCurrentPosition - dragStartPosition) : undefined,

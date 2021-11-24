@@ -528,6 +528,12 @@ a {
         background-color: $color-tab-background-dark;
         white-space: nowrap;
         display:inline-block;
+        @media #{$media-landscape} {
+            touch-action: pinch-zoom;
+        }
+        @media #{$media-portrait} {
+            touch-action: pan-x pinch-zoom;
+        }
         &.tabs__elem--selected {
             cursor: grab;
             background-color: $color-tab-background;
