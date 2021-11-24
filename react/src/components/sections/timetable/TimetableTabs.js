@@ -23,7 +23,7 @@ class TimetableTabs extends Component {
     super(props);
 
     this.state = {
-      isDragging: false,
+      draggingTimetableId: undefined,
       dragStartPosition: undefined,
       dragCurrentPosition: undefined,
     };
@@ -281,12 +281,12 @@ class TimetableTabs extends Component {
     e.stopPropagation();
     e.preventDefault();
 
-    const { isDragging } = this.state;
+    const { draggingTimetableId } = this.state;
     const { isPortrait } = this.props;
 
-    if (!isDragging) {
+    if (draggingTimetableId === undefined) {
       this.setState({
-        isDragging: true,
+        draggingTimetableId: Number(e.currentTarget.dataset.id),
         dragStartPosition: isPortrait ? e.clientY : e.clientX,
         dragCurrentPosition: isPortrait ? e.clientY : e.clientX,
       });
@@ -297,10 +297,10 @@ class TimetableTabs extends Component {
   }
 
   handleMouseMove = (e) => {
-    const { isDragging } = this.state;
+    const { draggingTimetableId } = this.state;
     const { isPortrait } = this.props;
 
-    if (isDragging) {
+    if (draggingTimetableId !== undefined) {
       this.setState({
         dragCurrentPosition: isPortrait ? e.clientY : e.clientX,
       });
@@ -308,11 +308,11 @@ class TimetableTabs extends Component {
   }
 
   handleMouseUp = (e) => {
-    const { isDragging } = this.state;
+    const { draggingTimetableId } = this.state;
 
-    if (isDragging) {
+    if (draggingTimetableId !== undefined) {
       this.setState({
-        isDragging: false,
+        draggingTimetableId: undefined,
         dragStartPosition: undefined,
         dragCurrentPosition: undefined,
       });
@@ -328,9 +328,15 @@ class TimetableTabs extends Component {
     return selectedTimetable && (timetable.id === selectedTimetable.id);
   }
 
+  _isDragging = (timetable) => {
+    const { draggingTimetableId } = this.state;
+
+    return (draggingTimetableId !== undefined) && (timetable.id === draggingTimetableId);
+  }
+
   render() {
     const { t } = this.props;
-    const { isDragging, dragStartPosition, dragCurrentPosition } = this.state;
+    const { dragStartPosition, dragCurrentPosition } = this.state;
     const {
       user,
       isPortrait,
@@ -372,13 +378,14 @@ class TimetableTabs extends Component {
                   className={classNames(
                     'tabs__elem',
                     (this._isSelected(tt) ? 'tabs__elem--selected' : null),
-                    ((this._isSelected(tt) && isDragging) ? 'tabs__elem--dragging' : null),
+                    (this._isDragging(tt) ? 'tabs__elem--dragging' : null),
                   )}
                   key={tt.id}
                   onClick={() => this.changeTab(tt)}
                   onMouseDown={this.handleMouseDown}
+                  data-id={tt.id}
                   style={{
-                    [isPortrait ? 'top' : 'left']: (this._isSelected(tt) && isDragging) ? (dragCurrentPosition - dragStartPosition) : undefined,
+                    [isPortrait ? 'top' : 'left']: this._isDragging(tt) ? (dragCurrentPosition - dragStartPosition) : undefined,
                   }}
                 >
                   <span>
