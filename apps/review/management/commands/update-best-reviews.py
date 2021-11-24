@@ -14,7 +14,10 @@ class Command(BaseCommand):
         latest_date_start = timezone.now() - timedelta(days=7)
 
         def get_key(r):
-            return int(r.like / float(r.lecture.audience + 1))
+            base_year = timezone.now().year
+            lecture_year = r.lecture.year
+            year_diff = base_year - lecture_year if (base_year > lecture_year) else 0
+            return int(r.like / float(r.lecture.audience + 1) * (0.85 ** year_diff))
 
         def get_best_reviews(reviews, min_liked_count, max_result_count):
             liked_count = max(min_liked_count, len(reviews) // 10)
