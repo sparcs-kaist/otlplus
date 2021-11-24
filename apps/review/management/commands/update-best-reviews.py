@@ -13,12 +13,12 @@ class Command(BaseCommand):
         latest_date_end = timezone.now()
         latest_date_start = timezone.now() - timedelta(days=7)
 
-        def key(a):
-            return int(a.like / float(a.lecture.audience + 1))
+        def get_key(r):
+            return int(r.like / float(r.lecture.audience + 1))
 
         def get_best_reviews(reviews, min_liked_count, max_result_count):
             liked_count = max(min_liked_count, len(reviews) // 10)
-            most_liked_reviews = sorted(list(reviews), key=key, reverse=True)[:liked_count]
+            most_liked_reviews = sorted(list(reviews), key=get_key, reverse=True)[:liked_count]
 
             latest_reviews = list(reviews.filter(written_datetime__range=(latest_date_start, latest_date_end)))
 
