@@ -803,7 +803,7 @@ a {
                         + (#{$line-height-normal} + 4px)
                         + (#{$line-height-small} + 6px)
                         + (#{$line-height-big} + 6px)
-    
+
                         + #{$section-padding}
                     )
                 ) !important;
@@ -818,7 +818,7 @@ a {
                         + (#{$line-height-normal} + 4px)
                         + (#{$line-height-small} + 6px)
                         + (#{$line-height-big} + 6px)
-    
+
                         + (#{$section-padding} * 2 + 1px)
                         + #{$line-height-normal}
                         + #{$section-padding}
@@ -1375,7 +1375,7 @@ a {
                 @media #{$media-portrait} {
                     width: 94px;
                 }
-        
+
             }
         }
 
@@ -1386,7 +1386,7 @@ a {
                         55px
                         + #{$section-padding}
                         + (#{$line-height-big} + 10px)
-    
+
                         + #{$section-padding}
                         + #{$section-margin-bottom}
                     )
@@ -1399,7 +1399,7 @@ a {
                         + #{$section-margin-top}
                         + #{$section-padding}
                         + (#{$line-height-big} + 10px)
-    
+
                         + #{$section-padding}
                         + (#{$section-margin-bottom} * 2)
                     )
@@ -1596,6 +1596,35 @@ a {
             line-height: $line-height-normal + 4px;
         }
     }
+
+    &--privacy {
+        line-height: $line-height-big;
+
+        a {
+            text-decoration: underline;
+        }
+
+        ul {
+            padding-left: 8px;
+            list-style-position: inside;
+        }
+
+        & > p, & > ul {
+            margin-bottom: 4px;
+        }
+
+        & > ul {
+            list-style-type: disc;
+
+            & > li > ul {
+                list-style-type: circle;
+
+                & > li > ul {
+                    list-style-type: square;
+                }
+            }
+        }
+    }
 }
 
 
@@ -1653,11 +1682,11 @@ a {
     &.block--completed {
         &:not(.block--raised) {
             color: rgba($color-text-normal, 0.35);
-    
+
             & i.icon {
                 opacity: 0.45;
             }
-    
+
             & .block--lecture-group__elem__texts__sub {
                 color: rgba($color-text-lighter, 0.35);
             }
@@ -2147,7 +2176,7 @@ a {
             }
         }
 
-        &__occupied-area { 
+        &__occupied-area {
             background-color: #888;
             position: absolute;
             left: 0;
@@ -2319,6 +2348,7 @@ a {
     }
 
     .section-content--license &,
+    .section-content--privacy &,
     .section-content--account & {
         text-align: center;
         margin-bottom: 10px;
@@ -2435,6 +2465,11 @@ a {
 
     .section-content--license & {
         padding-bottom: 8px;
+    }
+
+    .section-content--privacy & {
+        padding: 0;
+        margin: 8px 0 4px;
     }
 }
 

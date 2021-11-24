@@ -14,6 +14,7 @@ import MainPage from './pages/MainPage';
 import AccountPage from './pages/AccountPage';
 import CreditPage from './pages/CreditPage';
 import LicensePage from './pages/LicensePage';
+import PrivacyPage from './pages/PrivacyPage';
 import TestPage from './pages/TestPage';
 import ErrorPage from './pages/ErrorPage';
 
@@ -155,6 +156,7 @@ class App extends Component {
             <Route exact path="/account" component={AccountPage} />
             <Route exact path="/credits" component={CreditPage} />
             <Route exact path="/licenses" component={LicensePage} />
+            <Route exact path="/privacy" component={PrivacyPage} />
             {/* Temporary test page for axiom */}
             <Route exact path="/test" component={TestPage} />
             <Route exact path="/error/:message" component={ErrorPage} />

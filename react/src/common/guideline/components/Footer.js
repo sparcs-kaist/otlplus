@@ -34,6 +34,11 @@ class Footer extends Component {
                   {t('ui.menu.licences')}
                 </Link>
               </span>
+              <span>
+                <Link to="/privacy">
+                  {t('ui.menu.privacy')}
+                </Link>
+              </span>
             </div>
           </div>
           <div className={classNames('contact')}>
