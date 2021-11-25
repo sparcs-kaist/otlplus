@@ -15,9 +15,9 @@ class PrivacyPage extends Component {
   render() {
     return (
       <section className={classNames('content')}>
-        <div className={classNames('section-wrap', 'section-wrap--full')}>
+        <div className={classNames('page-grid', 'page-grid--full')}>
           <div className={classNames('section')}>
-            <div className={classNames('section-content', 'section-content--privacy')}>
+            <div className={classNames('subsection', 'subsection--privacy')}>
               <ReactMarkdown components={markdownComponents}>{privacyMarkdown}</ReactMarkdown>
             </div>
           </div>
