@@ -3,6 +3,17 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 
 from apps.subject.models import Department, Course
 
+class BasicGraduationRequirement(models.Model):
+    entrance_from = models.IntegerField(validators=[MinValueValidator(1900), MaxValueValidator(9999)])
+    entrance_to = models.IntegerField(validators=[MinValueValidator(1900), MaxValueValidator(9999)])
+    total_credit = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(999)])
+    mandatory_basic = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(200)])
+    mandatory_general = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(200)])
+    mandatory_general_au = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(200)])
+    elective_hss = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(200)])
+    research = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(200)])
+
+
 class MajorGraduationRequirement(models.Model):
     class MajorType(models.TextChoices):
         MAJOR = "major"                             # 주전공
