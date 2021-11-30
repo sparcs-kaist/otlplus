@@ -1666,6 +1666,135 @@ a {
     
     &--planner {
         grid-area: planner;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        position: relative;
+
+        &__table {
+            display: flex;
+            flex-direction: row;
+            height: 100%;
+
+            &__label {
+                display: flex;
+                flex-direction: column;
+                width: 20px;
+                // margin-right: 7px;
+                padding-right : 6px;
+                border-right: 1px solid $color-normal-line;
+    
+    
+                &__title {
+                    flex: none;
+                    height: $line-height-smallest + 6px;
+                }
+    
+                &__line {
+                    flex: none;
+                    height: 1px;
+    
+                    > span,
+                    > strong {
+                        width: 100%;
+                        text-align: right;
+                        color: $color-text-light;
+                        font-size: $font-size-smallest;
+                        line-height: $line-height-smallest;
+                        display: block;
+                        margin-top: -($line-height-smallest / 2) + 1px;
+                    } 
+                } 
+    
+                &__cell {
+                    flex: auto;
+                } 
+    
+                &__gap {
+                    flex: auto;
+                } 
+            }
+
+            &__body {   // for planner
+                display: flex;
+                flex-direction: column;
+                padding: 0 6px;  // TODO
+                margin-right: 0px;
+                flex: 1 1 0;
+                border-right: 1px solid $color-normal-line;
+                &:last-child {
+                    margin-right: 0;
+                }
+
+                &__title {
+                    flex: none;
+                    height: $line-height-smallest + 6px;
+                    text-align: center;
+                    font-size: $font-size-smallest;
+                    line-height: $line-height-smallest;
+                    color: $color-text-light;
+                    padding-bottom: 6px;
+                    margin: 0 -20px;
+                }
+
+                &__title2 {
+                    flex: none;
+                    height: $line-height-smallest + 6px;
+                    text-align: center;
+                    font-size: $font-size-smallest;
+                    line-height: $line-height-smallest;
+                    color: $color-text-light;
+                    padding-top: 6px;
+                    margin: 0 -20px;
+                }
+
+                &__semester {
+                    flex: 1;
+                    flex-direction: column;
+                    align-items: stretch;
+                }
+
+                &__year {
+                    flex: none;
+                    height: $line-height-smallest + 6px;
+                    text-align: center;
+                    font-size: $font-size-smallest;
+                    line-height: $line-height-smallest + 5px;  //vertical align하는 방법?
+                    color: $color-text-light;
+                    vertical-align: middle;
+                    padding-top: 0px;
+                    margin: 0 -20px;
+                }
+    
+                &__line {
+                    flex: none;
+                    height: 1px;
+                    border-bottom: 1px solid $color-normal-line;
+                    &--bold {
+                        border-bottom-color: $color-normal-line-dark;
+                    } 
+                    &--dashed {
+                        border-bottom-style: dashed;
+                    } 
+                    &--mobile-noline {
+                        @media #{$media-portrait} {
+                            border-bottom: none;
+                        } 
+                    }
+                } 
+    
+                &__cell {
+                    flex: auto;
+                    &--drag {
+                        touch-action: pan-x pinch-zoom;
+                    } 
+                } 
+    
+                &__gap {
+                    flex: auto;
+                } 
+            }
+        }
     }
 
     &--planner-setting {
@@ -2933,6 +3062,36 @@ a {
         @media #{$media-landscape} {
             border-right: 1px solid $color-divider-line;
             margin: 0 $section-padding;
+        }
+    } 
+    &--mobile-horizontal {
+        @media #{$media-portrait} {
+            border-bottom: 1px solid $color-divider-line;
+            margin: $section-padding 0;
+        }
+    }
+    &--mobile-vertical {
+        @media #{$media-portrait} {
+            border-right: 1px solid $color-divider-line;
+            margin: 0 $section-padding;
+        }
+    }
+    .search-area & {
+        margin-bottom: 0;
+    }
+}
+
+.divider-planner {
+    &--desktop-horizontal {
+        @media #{$media-landscape} {
+            border-bottom: 1px solid $color-divider-line;
+            margin: $section-padding 0;
+        }
+    } 
+    &--desktop-vertical {
+        @media #{$media-landscape} {
+            border-right: 1px solid $color-normal-line;
+            margin: 0 5px;  //TODO
         }
     } 
     &--mobile-horizontal {
