@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 import ReactGA from 'react-ga';
+import { range } from 'lodash';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
@@ -65,11 +66,17 @@ class LectureListSection extends Component {
       && this._getLectureGroups(selectedListCode, lists)) {
       this.selectWithArrow();
     }
-    if (!prevProps.mobileIsLectureListOpen && mobileIsLectureListOpen) {
-      this.selectWithArrow();
-    }
     if (prevProps.lectureFocus.clicked && !lectureFocus.clicked) {
       this.selectWithArrow();
+    }
+    if (!prevProps.mobileIsLectureListOpen && mobileIsLectureListOpen) {
+      const TOTAL_DURATION = 0.15;
+      const INTERVAL = 0.05;
+
+      range(TOTAL_DURATION / INTERVAL + 1).forEach((i) => {
+        const millis = (i + 2) * 0.05 * 1000;
+        window.setTimeout(this.selectWithArrow, millis);
+      });
     }
   }
 
@@ -256,16 +263,17 @@ class LectureListSection extends Component {
       return;
     }
 
-    const elementAtPosition = (
-      document.elementFromPoint(arrowX - 15, arrowY).closest(`.${classNames('block--lecture-group__row')}`)
-      || document.elementFromPoint(arrowX - 15, arrowY - 25).closest(`.${classNames('block--lecture-group__row')}`)
-      || document.elementFromPoint(arrowX - 15, arrowY + 25).closest(`.${classNames('block--lecture-group__row')}`)
-    );
-    if (elementAtPosition === null) {
+    const elementsAtPosition = [
+      document.elementFromPoint(arrowX - 15, arrowY),
+      document.elementFromPoint(arrowX - 15, arrowY - 25),
+      document.elementFromPoint(arrowX - 15, arrowY + 25),
+    ];
+    const targetElements = elementsAtPosition.filter((e) => (e && e.closest(`.${classNames('block--lecture-group__row')}`)));
+    if (targetElements.length === 0) {
       clearLectureFocusDispatch();
       return;
     }
-    const targetId = Number(elementAtPosition.dataset.id);
+    const targetId = Number(targetElements[0].closest(`.${classNames('block--lecture-group__row')}`).dataset.id);
     const lectureGroups = this._getLectureGroups(selectedListCode, lists);
     const targetLecture = lectureGroups
       .map((lg) => lg.map((l) => ((l.id === targetId) ? l : null)))
@@ -293,7 +301,7 @@ class LectureListSection extends Component {
     const {
       user,
       lectureFocus, selectedTimetable, selectedListCode,
-      searchOpen, lastSearchOption,
+      lastSearchOption,
       lists,
       mobileIsLectureListOpen,
     } = this.props;
@@ -418,9 +426,9 @@ class LectureListSection extends Component {
 
     return (
       // eslint-disable-next-line react/jsx-indent
-      <div className={classNames('section', 'section--lecture-list', (mobileIsLectureListOpen ? null : 'mobile-hidden'))}>
+      <div className={classNames('section', 'section--lecture-list')}>
         <div className={classNames('subsection', 'subsection--flex', 'subsection--lecture-list')}>
-          { ((selectedListCode === LectureListCode.SEARCH) && searchOpen) ? <LectureSearchSubSection /> : null }
+          { ((selectedListCode === LectureListCode.SEARCH)) ? <LectureSearchSubSection /> : null }
           <CloseButton onClick={this.mobileCloseLectureList} />
           { getListTitle() }
           <div
@@ -448,7 +456,6 @@ const mapStateToProps = (state) => ({
   lectureFocus: state.timetable.lectureFocus,
   year: state.timetable.semester.year,
   semester: state.timetable.semester.semester,
-  searchOpen: state.timetable.search.open,
   lastSearchOption: state.timetable.search.lastSearchOption,
 });
 
@@ -485,7 +492,6 @@ LectureListSection.propTypes = {
   lectureFocus: lectureFocusShape.isRequired,
   year: PropTypes.number,
   semester: PropTypes.number,
-  searchOpen: PropTypes.bool.isRequired,
   lastSearchOption: lectureLastSearchOptionShape.isRequired,
 
   openSearchDispatch: PropTypes.func.isRequired,

@@ -41,7 +41,13 @@ $font-size-smallest: 10px;
 $line-height-smallest: 11px;
 
 
+$transition-duration-normal: 0.15s;
+$transition-duration-short: 0.06s;
+
+
 $screen-height: var(--window-inner-height, 100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+
+
 $header-height: 55px;
 $footer-height-desktop: 50px;
 $footer-height-mobile: 130px;
@@ -343,33 +349,13 @@ a {
             ;
         }
         @media #{$media-portrait} {
-            grid-template-columns:
-                1fr
-            ;
-            grid-template-rows:
-                1fr
-                $tabs-height-horizontal
-            ;
-            grid-template-areas:
-                "timetable-and-infos"
-                "timetable-and-infos"
-            ;
-            &--mobile-expanded {
-                grid-template-rows:
-                    1fr
-                    $tabs-height-horizontal
-                    $section-margin-bottom
-                    $tabs-height-horizontal
-                    1fr
-                ;
-                grid-template-areas:
-                    "timetable-and-infos"
-                    "timetable-and-infos"
-                    "."
-                    "lecture-list-tabs"
-                    "lecture-list"
-                ;
-            }
+            // See issue #???
+            // Change to grid after grid animation supported
+            display: flex;
+            flex-direction: column;
+            margin-bottom: -$section-margin-bottom;
+            padding-bottom: $section-margin-bottom;
+            overflow: hidden;
         } 
     } 
 
@@ -594,7 +580,15 @@ a {
 
 
     &--lecture-list {
-        grid-area: lecture-list-tabs;
+        @media #{$media-landscape} {
+            grid-area: lecture-list-tabs;
+        }
+        @media #{$media-portrait} {
+            // See issue #???
+            // Change to grid after grid animation supported
+            order: 2;
+            flex: 0 0 auto;
+        }
     }
 
 
@@ -779,10 +773,10 @@ a {
 
 
     &--timetable-and-infos {
-        grid-area: timetable-and-infos;
         display: grid;
         @media #{$media-landscape} {
             border-top-left-radius: 0;
+            grid-area: timetable-and-infos;
             grid-template-columns: 1fr min-content calc(#{$section-width-desktop-1v3-left} - (#{$section-padding} * 2));
             grid-template-rows: min-content min-content min-content min-content 1fr min-content min-content;
             grid-template-areas:
@@ -796,6 +790,18 @@ a {
             ;
         }
         @media #{$media-portrait} {
+            // See issue #???
+            // Change to grid after grid animation supported
+            order: 1;
+            flex: 0 0 auto;
+            height: 100%;
+            max-height: 100%;
+            margin-bottom: $section-margin-bottom;
+            transition: max-height $transition-duration-normal ease-out;
+            .page-grid--timetable--mobile-expanded & {
+                max-height: calc((100% - #{$section-margin-bottom}) / 2);
+            }
+
             grid-template-columns: 1fr;
             grid-template-rows: 1fr min-content min-content min-content min-content;
             grid-template-areas:
@@ -846,14 +852,19 @@ a {
 
 
     &--lecture-list {
-        grid-area: lecture-list;
         position: relative;
         @media #{$media-landscape} {
             border-top-left-radius: 0;
+            grid-area: lecture-list;
         }
         @media #{$media-portrait} {
             border-top-left-radius: 0;
             border-top-right-radius: 0;
+            // See issue #???
+            // Change to grid after grid animation supported
+            order: 3;
+            flex: 0 0 auto;
+            height: calc((100% - #{$section-margin-bottom}) / 2 - #{$tabs-height-horizontal});
         }
     }
 
@@ -1541,6 +1552,7 @@ a {
     overflow: hidden;
     font-size: $font-size-small;
     line-height: $line-height-small;
+    transition: margin $transition-duration-short ease-out, box-shadow $transition-duration-short ease-out;
     &.tile--highlighted {
         background-color: #E0546F;
     }
@@ -1680,7 +1692,9 @@ a {
     display: block;
     padding: $block-padding-tb $block-padding-lr;
     position: relative;
+    top: 0;
     overflow: hidden;
+    transition: top $transition-duration-short ease-out, box-shadow $transition-duration-short ease-out;
     &[href]:not(.block--dimmed):hover,
     &.block--clickable:not(.block--dimmed):hover {
         background-color:$color-block-background-dark;
@@ -2810,6 +2824,13 @@ a {
     right: $section-padding;
     height: calc(100% - #{$section-padding} * 2);
     z-index: 20;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+
+    &--hidden {
+        pointer-events: none;
+    }
 
     & :global(.ScrollbarsCustom) {
         flex: 1 1 auto !important;
@@ -2825,10 +2846,23 @@ a {
     }
 
     & > form {
+        flex: 0 0 auto;
         background-color:$color-section-background;
-        max-height: 100%;
         display: flex;
         flex-direction: column;
+        overflow: hidden;
+        transition: flex $transition-duration-normal ease-out;
+    
+        @at-root .search-area--hidden#{&} {
+            flex: 0 1 auto;
+        }
+    }
+
+    &::after {
+        content: '';
+        display: block;
+        height: 100%;
+        flex: 0 0 auto;
     }
 }
 
