@@ -282,7 +282,7 @@ class Command(BaseCommand):
                             pass
                         lecture.professors.add(professor)
                         if professor.professor_id != Professor.STAFF_ID:
-                            lecture.course.professor_lecture_charge_rows.add(professor)
+                            lecture.course.professors.add(professor)
 
                     for key in professors_not_updated:
                         professor = Professor.objects.get(id=key)
