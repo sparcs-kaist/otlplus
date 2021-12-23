@@ -1528,7 +1528,7 @@ a {
     }
 
     &--privacy {
-        line-height: $line-height-big;
+        line-height: $line-height-normal + 4px;
 
         a {
             text-decoration: underline;
