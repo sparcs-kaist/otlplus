@@ -187,6 +187,8 @@ class Lecture(models.Model):
             "limit": self.limit,
             "num_people": self.num_people,
             "is_english": self.is_english,
+            "num_classes": self.num_classes,
+            "num_labs": self.num_labs,
             "credit": self.credit,
             "credit_au": self.credit_au,
             "common_title": self.common_title,

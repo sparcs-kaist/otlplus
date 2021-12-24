@@ -98,6 +98,8 @@
     "score": {
       "reviewsWritten": "Reviews",
       "language": "Language",
+      "lectureHours": "Lec. Hours",
+      "labHours": "Lab Hours",
       "credit": "Credit",
       "au": "AU",
       "competition": "Competition",

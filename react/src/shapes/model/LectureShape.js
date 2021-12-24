@@ -24,6 +24,8 @@ const lectureShape = PropTypes.shape({
   limit: PropTypes.number.isRequired,
   num_people: PropTypes.number.isRequired,
   is_english: PropTypes.bool.isRequired,
+  num_classes: PropTypes.number.isRequired,
+  num_labs: PropTypes.number.isRequired,
   credit: PropTypes.number.isRequired,
   credit_au: PropTypes.number.isRequired,
   common_title: PropTypes.string.isRequired,
