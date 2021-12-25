@@ -1537,6 +1537,35 @@ a {
             line-height: $line-height-normal + 4px;
         }
     }
+
+    &--privacy {
+        line-height: $line-height-normal + 4px;
+
+        a {
+            text-decoration: underline;
+        }
+
+        ul {
+            padding-left: 8px;
+            list-style-position: inside;
+        }
+
+        & > p, & > ul {
+            margin-bottom: 4px;
+        }
+
+        & > ul {
+            list-style-type: disc;
+
+            & > li > ul {
+                list-style-type: circle;
+
+                & > li > ul {
+                    list-style-type: square;
+                }
+            }
+        }
+    }
 }
 
 
@@ -2354,6 +2383,11 @@ a {
 
     .subsection--license & {
         padding-bottom: 8px;
+    }
+
+    .subsection--privacy & {
+        padding: 0;
+        margin: 8px 0 4px;
     }
 }
 
