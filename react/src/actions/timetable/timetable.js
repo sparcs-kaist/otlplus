@@ -11,6 +11,7 @@ export const DELETE_TIMETABLE = BASE_STRING + 'DELETE_TIMETABLE';
 export const DUPLICATE_TIMETABLE = BASE_STRING + 'DUPLICATE_TIMETABLE';
 export const ADD_LECTURE_TO_TIMETABLE = BASE_STRING + 'ADD_LECTURE_TO_TIMETABLE';
 export const REMOVE_LECTURE_FROM_TIMETABLE = BASE_STRING + 'REMOVE_LECTURE_FROM_TIMETABLE';
+export const REORDER_TIMETABLE = BASE_STRING + 'REORDER_TIMETABLE';
 export const UPDATE_CELL_SIZE = BASE_STRING + 'UPDATE_CELL_SIZE';
 export const SET_IS_DRAGGING = BASE_STRING + 'SET_IS_DRAGGING';
 export const SET_MOBILE_IS_TIMETABLE_TABS_OPEN = BASE_STRING + 'SET_MOBILE_IS_TIMETABLE_TABS_OPEN';
@@ -83,6 +84,14 @@ export function duplicateTimetable(id, timetable) {
     type: DUPLICATE_TIMETABLE,
     id: id,
     timetable: timetable,
+  };
+}
+
+export function reorderTimetable(timetable, offset) {
+  return {
+    type: REORDER_TIMETABLE,
+    timetable: timetable,
+    offset: offset,
   };
 }
 

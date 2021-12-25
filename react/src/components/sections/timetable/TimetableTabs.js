@@ -11,6 +11,7 @@ import {
   setTimetables, clearTimetables, setMyTimetableLectures,
   setSelectedTimetable,
   createTimetable, deleteTimetable, duplicateTimetable,
+  reorderTimetable,
   setMobileIsTimetableTabsOpen,
 } from '../../../actions/timetable/timetable';
 
@@ -296,6 +297,46 @@ class TimetableTabs extends Component {
     }
   }
 
+  _checkAndReorderTimetable = (dragPosition, isX) => {
+    const { draggingTimetableId, dragStartPosition } = this.state;
+    const { timetables, reorderTimetableDispatch } = this.props;
+
+    const startPositionName = isX ? 'left' : 'top';
+    const endPositionName = isX ? 'right' : 'bottom';
+    const sizeName = isX ? 'width' : 'height';
+    const tabMargin = isX ? 6 : 8;
+
+    const tabElements = Array.from(
+      document.querySelectorAll(
+        `.${classNames('tabs--timetable')} .${classNames('tabs__elem')}:not(.${classNames('tabs__elem--add-button')})`
+      )
+    );
+    const draggingTabElement = document.querySelector(
+      `.${classNames('tabs--timetable')} .${classNames('tabs__elem')}.${classNames('tabs__elem--dragging')}:not(.${classNames('tabs__elem--add-button')})`
+    );
+
+    const draggingTabIndex = tabElements.findIndex((te) => (te === draggingTabElement));
+
+    if (draggingTabIndex > 0) {
+      const prevTabElement = tabElements[draggingTabIndex - 1];
+      if (dragPosition < prevTabElement.getBoundingClientRect()[endPositionName]) {
+        reorderTimetableDispatch(timetables.find((t) => (t.id === draggingTimetableId)), -1);
+        this.setState({
+          dragStartPosition: dragStartPosition - (prevTabElement.getBoundingClientRect()[sizeName] + tabMargin),
+        });
+      }
+    }
+    if (draggingTabIndex < tabElements.length - 1) {
+      const nextTabElement = tabElements[draggingTabIndex + 1];
+      if (dragPosition > nextTabElement.getBoundingClientRect()[startPositionName]) {
+        reorderTimetableDispatch(timetables.find((t) => (t.id === draggingTimetableId)), 1);
+        this.setState({
+          dragStartPosition: dragStartPosition + (nextTabElement.getBoundingClientRect()[sizeName] + tabMargin),
+        });
+      }
+    }
+  }
+
   handlePointerMove = (e) => {
     const { draggingTimetableId } = this.state;
     const { isPortrait } = this.props;
@@ -304,6 +345,7 @@ class TimetableTabs extends Component {
       this.setState({
         dragCurrentPosition: isPortrait ? e.clientY : e.clientX,
       });
+      this._checkAndReorderTimetable(isPortrait ? e.clientY : e.clientX, !isPortrait);
     }
   }
 
@@ -460,6 +502,9 @@ const mapDispatchToProps = (dispatch) => ({
   duplicateTimetableDispatch: (id, timetable) => {
     dispatch(duplicateTimetable(id, timetable));
   },
+  reorderTimetableDispatch: (timetable, offset) => {
+    dispatch(reorderTimetable(timetable, offset));
+  },
   setMobileIsTimetableTabsOpenDispatch: (mobileIsTimetableTabsOpen) => {
     dispatch(setMobileIsTimetableTabsOpen(mobileIsTimetableTabsOpen));
   },
@@ -481,6 +526,7 @@ TimetableTabs.propTypes = {
   createTimetableDispatch: PropTypes.func.isRequired,
   deleteTimetableDispatch: PropTypes.func.isRequired,
   duplicateTimetableDispatch: PropTypes.func.isRequired,
+  reorderTimetableDispatch: PropTypes.func.isRequired,
   setMobileIsTimetableTabsOpenDispatch: PropTypes.func.isRequired,
 };
 

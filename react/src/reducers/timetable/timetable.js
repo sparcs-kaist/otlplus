@@ -5,6 +5,7 @@ import {
   SET_SELECTED_TIMETABLE,
   CREATE_TIMETABLE, DELETE_TIMETABLE, DUPLICATE_TIMETABLE,
   ADD_LECTURE_TO_TIMETABLE, REMOVE_LECTURE_FROM_TIMETABLE,
+  REORDER_TIMETABLE,
   UPDATE_CELL_SIZE,
   SET_IS_DRAGGING,
   SET_MOBILE_IS_TIMETABLE_TABS_OPEN,
@@ -135,6 +136,17 @@ const timetable = (state = initialState, action) => {
       ));
       return Object.assign({}, state, {
         selectedTimetable: newTable,
+        timetables: newTables,
+      });
+    }
+    case REORDER_TIMETABLE: {
+      const originalIndex = state.timetables.findIndex((t) => (t.id === action.timetable.id));
+      const newTables = [...state.timetables];
+      // eslint-disable-next-line fp/no-mutating-methods
+      newTables.splice(originalIndex, 1);
+      // eslint-disable-next-line fp/no-mutating-methods
+      newTables.splice(originalIndex + action.offset, 0, action.timetable);
+      return Object.assign({}, state, {
         timetables: newTables,
       });
     }
