@@ -376,9 +376,26 @@ class TimetableTabs extends Component {
     return (draggingTimetableId !== undefined) && (timetable.id === draggingTimetableId);
   }
 
+  _getTabRelativePosition = (timetable) => {
+    if (!this._isDragging(timetable)) {
+      return undefined;
+    }
+
+    const { dragStartPosition, dragCurrentPosition } = this.state;
+    const { timetables } = this.props;
+
+    const relativePosition = dragCurrentPosition - dragStartPosition;
+    if ((timetables.findIndex((t) => (t.id === timetable.id)) === 0) && relativePosition < 0) {
+      return 0;
+    }
+    if ((timetables.findIndex((t) => (t.id === timetable.id)) === timetables.length - 1) && relativePosition > 0) {
+      return 0
+    }
+    return relativePosition;
+  }
+
   render() {
     const { t } = this.props;
-    const { dragStartPosition, dragCurrentPosition } = this.state;
     const {
       user,
       isPortrait,
@@ -427,7 +444,7 @@ class TimetableTabs extends Component {
                   onPointerDown={this.handlePointerDown}
                   data-id={tt.id}
                   style={{
-                    [isPortrait ? 'top' : 'left']: this._isDragging(tt) ? (dragCurrentPosition - dragStartPosition) : undefined,
+                    [isPortrait ? 'top' : 'left']: this._getTabRelativePosition(tt),
                   }}
                 >
                   <span>
