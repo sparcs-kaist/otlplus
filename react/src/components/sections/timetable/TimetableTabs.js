@@ -297,11 +297,10 @@ class TimetableTabs extends Component {
     }
   }
 
-  _checkAndReorderTimetable = (dragPosition, isX) => {
+  _checkAndReorderTimetablePrev = (dragPosition, isX) => {
     const { draggingTimetableId, dragStartPosition } = this.state;
     const { timetables, reorderTimetableDispatch } = this.props;
 
-    const startPositionName = isX ? 'left' : 'top';
     const endPositionName = isX ? 'right' : 'bottom';
     const sizeName = isX ? 'width' : 'height';
     const tabMargin = isX ? 6 : 8;
@@ -326,6 +325,27 @@ class TimetableTabs extends Component {
         });
       }
     }
+  }
+
+  _checkAndReorderTimetableNext = (dragPosition, isX) => {
+    const { draggingTimetableId, dragStartPosition } = this.state;
+    const { timetables, reorderTimetableDispatch } = this.props;
+
+    const startPositionName = isX ? 'left' : 'top';
+    const sizeName = isX ? 'width' : 'height';
+    const tabMargin = isX ? 6 : 8;
+
+    const tabElements = Array.from(
+      document.querySelectorAll(
+        `.${classNames('tabs--timetable')} .${classNames('tabs__elem')}:not(.${classNames('tabs__elem--add-button')})`
+      )
+    );
+    const draggingTabElement = document.querySelector(
+      `.${classNames('tabs--timetable')} .${classNames('tabs__elem')}.${classNames('tabs__elem--dragging')}:not(.${classNames('tabs__elem--add-button')})`
+    );
+
+    const draggingTabIndex = tabElements.findIndex((te) => (te === draggingTabElement));
+
     if (draggingTabIndex < tabElements.length - 1) {
       const nextTabElement = tabElements[draggingTabIndex + 1];
       if (dragPosition > nextTabElement.getBoundingClientRect()[startPositionName]) {
@@ -338,14 +358,23 @@ class TimetableTabs extends Component {
   }
 
   handlePointerMove = (e) => {
-    const { draggingTimetableId } = this.state;
+    const { dragCurrentPosition, draggingTimetableId } = this.state;
     const { isPortrait } = this.props;
+
+    const newPosition = isPortrait ? e.clientY : e.clientX;
+    const deltaPosition = newPosition - dragCurrentPosition;
 
     if (draggingTimetableId !== undefined) {
       this.setState({
-        dragCurrentPosition: isPortrait ? e.clientY : e.clientX,
+        dragCurrentPosition: newPosition,
       });
-      this._checkAndReorderTimetable(isPortrait ? e.clientY : e.clientX, !isPortrait);
+
+      if (deltaPosition > 0) {
+        this._checkAndReorderTimetableNext(newPosition, !isPortrait);
+      }
+      else if (deltaPosition < 0) {
+        this._checkAndReorderTimetablePrev(newPosition, !isPortrait);
+      }
     }
   }
 
