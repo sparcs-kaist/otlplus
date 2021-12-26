@@ -315,15 +315,17 @@ class TimetableTabs extends Component {
     );
 
     const draggingTabIndex = tabElements.findIndex((te) => (te === draggingTabElement));
+    if (draggingTabIndex === 0) {
+      return;
+    }
 
-    if (draggingTabIndex > 0) {
-      const prevTabElement = tabElements[draggingTabIndex - 1];
-      if (dragPosition < prevTabElement.getBoundingClientRect()[endPositionName]) {
-        reorderTimetableDispatch(timetables.find((t) => (t.id === draggingTimetableId)), -1);
-        this.setState({
-          dragStartPosition: dragStartPosition - (prevTabElement.getBoundingClientRect()[sizeName] + tabMargin),
-        });
-      }
+    const prevTabElement = tabElements[draggingTabIndex - 1];
+    if (dragPosition < prevTabElement.getBoundingClientRect()[endPositionName]) {
+      reorderTimetableDispatch(timetables.find((t) => (t.id === draggingTimetableId)), -1);
+      this.setState({
+        dragStartPosition:
+          dragStartPosition - (prevTabElement.getBoundingClientRect()[sizeName] + tabMargin),
+      });
     }
   }
 
@@ -345,15 +347,17 @@ class TimetableTabs extends Component {
     );
 
     const draggingTabIndex = tabElements.findIndex((te) => (te === draggingTabElement));
+    if (draggingTabIndex === tabElements.length - 1) {
+      return;
+    }
 
-    if (draggingTabIndex < tabElements.length - 1) {
-      const nextTabElement = tabElements[draggingTabIndex + 1];
-      if (dragPosition > nextTabElement.getBoundingClientRect()[startPositionName]) {
-        reorderTimetableDispatch(timetables.find((t) => (t.id === draggingTimetableId)), 1);
-        this.setState({
-          dragStartPosition: dragStartPosition + (nextTabElement.getBoundingClientRect()[sizeName] + tabMargin),
-        });
-      }
+    const nextTabElement = tabElements[draggingTabIndex + 1];
+    if (dragPosition > nextTabElement.getBoundingClientRect()[startPositionName]) {
+      reorderTimetableDispatch(timetables.find((t) => (t.id === draggingTimetableId)), 1);
+      this.setState({
+        dragStartPosition:
+          dragStartPosition + (nextTabElement.getBoundingClientRect()[sizeName] + tabMargin),
+      });
     }
   }
 
