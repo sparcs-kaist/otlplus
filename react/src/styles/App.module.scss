@@ -2881,6 +2881,7 @@ a {
 
     & > form {
         flex: 0 0 auto;
+        max-height: 100%;
         background-color:$color-section-background;
         display: flex;
         flex-direction: column;
