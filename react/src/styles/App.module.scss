@@ -2854,13 +2854,12 @@ a {
 .search-area {
     position: absolute;
     top: $section-padding;
-    left: $section-padding;
-    right: $section-padding;
+    left: 0;
+    right: 0;
     height: calc(100% - #{$section-padding} * 2);
     z-index: 20;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
 
     &--hidden {
         pointer-events: none;
@@ -2881,6 +2880,8 @@ a {
 
     & > form {
         flex: 0 0 auto;
+        max-height: 100%;
+        padding: 0 $section-padding;
         background-color:$color-section-background;
         display: flex;
         flex-direction: column;
