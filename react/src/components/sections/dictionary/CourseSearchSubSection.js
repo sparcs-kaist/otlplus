@@ -63,7 +63,7 @@ class CourseSearchSubSection extends Component {
       keyword: keyword.trim(),
       type: Array.from(selectedTypes),
       department: Array.from(selectedDepartments),
-      grade: Array.from(selectedLevels),
+      level: Array.from(selectedLevels),
       term: Array.from(selectedTerms),
     };
 
@@ -215,7 +215,7 @@ class CourseSearchSubSection extends Component {
             />
             <SearchFilter
               updateCheckedValues={this.updateCheckedValues('selectedLevels')}
-              inputName="grade"
+              inputName="level"
               titleName={t('ui.search.level')}
               options={getLevelOptions()}
               checkedValues={selectedLevels}

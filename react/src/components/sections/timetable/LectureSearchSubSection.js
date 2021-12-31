@@ -80,7 +80,7 @@ class LectureSearchSubSection extends Component {
       keyword: keyword,
       type: Array.from(selectedTypes),
       department: Array.from(selectedDepartments),
-      grade: Array.from(selectedLevels),
+      level: Array.from(selectedLevels),
       day: (classtimeDay !== null) ? classtimeDay : undefined,
       begin: (classtimeBegin !== null) ? (classtimeBegin / 30 - 8 * 2) : undefined,
       end: (classtimeEnd !== null) ? (classtimeEnd / 30 - 8 * 2) : undefined,
@@ -267,7 +267,7 @@ class LectureSearchSubSection extends Component {
             />
             <SearchFilter
               updateCheckedValues={this.updateCheckedValues('selectedLevels')}
-              inputName="grade"
+              inputName="level"
               titleName={t('ui.search.level')}
               options={getLevelOptions()}
               checkedValues={selectedLevels}
