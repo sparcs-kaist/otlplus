@@ -188,7 +188,7 @@ class TimetableTabs extends Component {
       return;
     }
     // eslint-disable-next-line no-alert
-    if (!window.confirm(t('ui.message.timetableDelete'))) {
+    if ((timetable.lectures.length > 0) && !window.confirm(t('ui.message.timetableDelete'))) {
       return;
     }
 

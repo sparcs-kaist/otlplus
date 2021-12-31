@@ -89,9 +89,13 @@ const timetable = (state = initialState, action) => {
       });
     }
     case DELETE_TIMETABLE: {
+      const indexOfTable = state.timetables.findIndex((t) => (t.id === action.timetable.id));
       const newTables = state.timetables.filter((t) => (t.id !== action.timetable.id));
+      const newSelectedTimetable = (indexOfTable !== state.timetables.length - 1)
+        ? newTables[indexOfTable]
+        : newTables[indexOfTable - 1];
       return Object.assign({}, state, {
-        selectedTimetable: newTables[0],
+        selectedTimetable: newSelectedTimetable,
         timetables: newTables,
       });
     }
