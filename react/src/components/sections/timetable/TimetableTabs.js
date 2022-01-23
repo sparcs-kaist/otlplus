@@ -27,6 +27,7 @@ class TimetableTabs extends Component {
       draggingTimetableId: undefined,
       dragStartPosition: undefined,
       dragCurrentPosition: undefined,
+      dragOrderChanged: false,
     };
   }
 
@@ -290,6 +291,7 @@ class TimetableTabs extends Component {
         draggingTimetableId: Number(e.currentTarget.dataset.id),
         dragStartPosition: isPortrait ? e.clientY : e.clientX,
         dragCurrentPosition: isPortrait ? e.clientY : e.clientX,
+        dragOrderChanged: false,
       });
 
       document.addEventListener('pointermove', this.handlePointerMove);
@@ -402,7 +404,7 @@ class TimetableTabs extends Component {
   }
 
   handlePointerMove = (e) => {
-    const { dragCurrentPosition, draggingTimetableId } = this.state;
+    const { dragStartPosition, dragCurrentPosition, draggingTimetableId } = this.state;
     const { isPortrait } = this.props;
 
     const newPosition = isPortrait ? e.clientY : e.clientX;
@@ -412,6 +414,12 @@ class TimetableTabs extends Component {
       this.setState({
         dragCurrentPosition: newPosition,
       });
+
+      if (Math.abs(newPosition - dragStartPosition) > 10) {
+        this.setState({
+          dragOrderChanged: true,
+        });
+      }
 
       if (deltaPosition > 0) {
         this._checkAndReorderTimetableNext(newPosition, !isPortrait);
@@ -430,6 +438,7 @@ class TimetableTabs extends Component {
         draggingTimetableId: undefined,
         dragStartPosition: undefined,
         dragCurrentPosition: undefined,
+        dragOrderChanged: false,
       });
 
       document.removeEventListener('pointermove', this.handlePointerMove);
@@ -470,6 +479,7 @@ class TimetableTabs extends Component {
   }
 
   render() {
+    const { dragOrderChanged } = this.state;
     const { t } = this.props;
     const {
       user,
@@ -520,6 +530,7 @@ class TimetableTabs extends Component {
                   data-id={tt.id}
                   style={{
                     [isPortrait ? 'top' : 'left']: this._getTabRelativePosition(tt),
+                    pointerEvents: dragOrderChanged ? 'none' : undefined,
                   }}
                 >
                   <span>
