@@ -317,7 +317,7 @@ class TimetableTabs extends Component {
     );
 
     const draggingTabIndex = tabElements.findIndex((te) => (te === draggingTabElement));
-    if (draggingTabIndex === 0) {
+    if (draggingTabIndex === (user ? 1 : 0)) {
       return;
     }
 
