@@ -52,7 +52,7 @@ class OldTimetable(models.Model):
                 return
         timetable = Timetable.objects.create(user=userprofile,
                                              year=self.year, semester=self.semester,
-                                             order=self.table_no)
+                                             arrange_order=self.table_no)
         for lecture in self.lectures.all():
             timetable.lectures.add(lecture)
         self.delete()
