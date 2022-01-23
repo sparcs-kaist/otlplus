@@ -547,8 +547,8 @@ a {
         }
         &.tabs__elem--dragging {
             opacity: 0.7;
-            cursor: grabbing;
             position: relative;
+            pointer-events: none;
         }
     }
 

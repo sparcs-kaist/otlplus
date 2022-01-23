@@ -294,6 +294,8 @@ class TimetableTabs extends Component {
 
       document.addEventListener('pointermove', this.handlePointerMove);
       document.addEventListener('pointerup', this.handlePointerUp);
+      // eslint-disable-next-line fp/no-mutation
+      document.body.style.cursor = 'grabbing';
     }
   }
 
@@ -432,6 +434,8 @@ class TimetableTabs extends Component {
 
       document.removeEventListener('pointermove', this.handlePointerMove);
       document.removeEventListener('pointerup', this.handlePointerUp);
+      // eslint-disable-next-line fp/no-mutation
+      document.body.style.cursor = '';
     }
   }
 
