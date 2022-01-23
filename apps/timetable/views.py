@@ -1,5 +1,6 @@
 import json
 
+from django.db.models import F
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseNotFound, JsonResponse
 from django.utils.decorators import method_decorator
 from django.views import View
@@ -23,7 +24,7 @@ def _validate_year_semester(year, semester):
 class UserInstanceTimetableListView(View):
     def get(self, request, user_id):
         MAX_LIMIT = 50
-        DEFAULT_ORDER = ['year', 'semester', 'id']
+        DEFAULT_ORDER = ['year', 'semester', 'order', 'id']
         PARAMS_STRUCTURE = [
             ("year", ParseType.INT, False, []),
             ("semester", ParseType.INT, False, []),
@@ -66,7 +67,14 @@ class UserInstanceTimetableListView(View):
         if not _validate_year_semester(year, semester):
             return HttpResponseBadRequest("Wrong fields 'year' and 'semester' in request data")
 
-        timetable = Timetable.objects.create(user=userprofile, year=year, semester=semester)
+        related_timetables = Timetable.get_related_timetables(userprofile, year, semester)
+        if related_timetables.exists():
+            order = related_timetables.order_by("order").last().order + 1
+        else:
+            order = 0
+
+        timetable = Timetable.objects.create(user=userprofile, year=year, semester=semester,
+                                             order=order)
         for i in lecture_ids:
             try:
                 lecture = Lecture.objects.get(id=i, year=year, semester=semester)
@@ -102,6 +110,9 @@ class UserInstanceTimetableInstanceView(View):
             return HttpResponseNotFound()
 
         timetable.delete()
+        related_timetables = Timetable.get_related_timetables(userprofile,
+                                                              timetable.year, timetable.semester)
+        related_timetables.filter(order__gt=timetable.order).update(order=F('order')-1)
         return HttpResponse()
 
 
