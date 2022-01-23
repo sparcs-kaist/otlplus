@@ -19,6 +19,8 @@ class OtlplusPlaceholder extends Component {
           <Link to="/credits/">{t('ui.menu.credit')}</Link>
           &nbsp;|&nbsp;
           <Link to="/licenses/">{t('ui.menu.licences')}</Link>
+          &nbsp;|&nbsp;
+          <Link to="/privacy/">{t('ui.menu.privacy')}</Link>
         </div>
         <div>
           <a href={`mailto:${CONTACT}`}>{ CONTACT }</a>
