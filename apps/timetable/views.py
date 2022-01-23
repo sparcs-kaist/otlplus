@@ -178,6 +178,44 @@ class UserInstanceTimetableInstanceRemoveLectureView(View):
 
 
 @method_decorator(login_required_ajax, name="dispatch")
+class UserInstanceTimetableInstanceReorderView(View):
+    def post(self, request, user_id, timetable_id):
+        BODY_STRUCTURE = [
+            ("arrange_order", ParseType.INT, True, []),
+        ]
+
+        userprofile = request.user.userprofile
+        if userprofile.id != int(user_id):
+            return HttpResponse(status=401)
+
+        try:
+            timetable = userprofile.timetables.get(id=timetable_id)
+        except Timetable.DoesNotExist:
+            return HttpResponseNotFound()
+
+        arrange_order, = parse_body(request.body, BODY_STRUCTURE)
+
+        related_timetables = Timetable.get_related_timetables(userprofile,
+                                                              timetable.year, timetable.semester)
+        original_arrange_order = timetable.arrange_order
+        temp_arrange_order = related_timetables.order_by("arrange_order").last().arrange_order + 100
+        timetable.arrange_order = temp_arrange_order
+        timetable.save()
+        if arrange_order < original_arrange_order:
+            related_timetables.filter(arrange_order__gte=arrange_order,
+                                      arrange_order__lt=original_arrange_order) \
+                              .update(arrange_order=F("arrange_order")+1)
+        elif arrange_order > original_arrange_order:
+            print(123)
+            related_timetables.filter(arrange_order__gt=original_arrange_order,
+                                      arrange_order__lte=arrange_order) \
+                              .update(arrange_order=F("arrange_order")-1)
+        timetable.arrange_order = arrange_order
+        timetable.save()
+        return JsonResponse(timetable.to_json())
+
+
+@method_decorator(login_required_ajax, name="dispatch")
 class UserInstanceWishlistView(View):
     def get(self, request, user_id):
         userprofile = request.user.userprofile

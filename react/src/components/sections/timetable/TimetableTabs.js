@@ -87,7 +87,7 @@ class TimetableTabs extends Component {
         params: {
           year: year,
           semester: semester,
-          order: ['id'],
+          order: ['arrange_order', 'id'],
         },
         metadata: {
           gaCategory: 'Timetable',
@@ -299,7 +299,7 @@ class TimetableTabs extends Component {
 
   _checkAndReorderTimetablePrev = (dragPosition, isX) => {
     const { draggingTimetableId, dragStartPosition } = this.state;
-    const { timetables, reorderTimetableDispatch } = this.props;
+    const { user, timetables, reorderTimetableDispatch } = this.props;
 
     const endPositionName = isX ? 'right' : 'bottom';
     const sizeName = isX ? 'width' : 'height';
@@ -321,7 +321,26 @@ class TimetableTabs extends Component {
 
     const prevTabElement = tabElements[draggingTabIndex - 1];
     if (dragPosition < prevTabElement.getBoundingClientRect()[endPositionName]) {
-      reorderTimetableDispatch(timetables.find((t) => (t.id === draggingTimetableId)), -1);
+      const draggingTimetableIndex = timetables.findIndex((t) => (t.id === draggingTimetableId));
+      const draggingTimetable = timetables[draggingTimetableIndex];
+      const prevTimetable = timetables[draggingTimetableIndex - 1];
+      axios.post(
+        `/api/users/${user.id}/timetables/${draggingTimetable.id}/reorder`,
+        {
+          arrange_order: prevTimetable.arrange_order,
+        },
+        {
+          metadata: {
+            gaCategory: 'Timetable',
+            gaVariable: 'POST Reorder / Instance',
+          },
+        },
+      )
+        .then((response) => {
+        })
+        .catch((error) => {
+        });
+      reorderTimetableDispatch(draggingTimetable, prevTimetable.arrange_order);
       this.setState({
         dragStartPosition:
           dragStartPosition - (prevTabElement.getBoundingClientRect()[sizeName] + tabMargin),
@@ -331,7 +350,7 @@ class TimetableTabs extends Component {
 
   _checkAndReorderTimetableNext = (dragPosition, isX) => {
     const { draggingTimetableId, dragStartPosition } = this.state;
-    const { timetables, reorderTimetableDispatch } = this.props;
+    const { user, timetables, reorderTimetableDispatch } = this.props;
 
     const startPositionName = isX ? 'left' : 'top';
     const sizeName = isX ? 'width' : 'height';
@@ -353,7 +372,26 @@ class TimetableTabs extends Component {
 
     const nextTabElement = tabElements[draggingTabIndex + 1];
     if (dragPosition > nextTabElement.getBoundingClientRect()[startPositionName]) {
-      reorderTimetableDispatch(timetables.find((t) => (t.id === draggingTimetableId)), 1);
+      const draggingTimetableIndex = timetables.findIndex((t) => (t.id === draggingTimetableId));
+      const draggingTimetable = timetables[draggingTimetableIndex];
+      const nextTimetable = timetables[draggingTimetableIndex + 1];
+      axios.post(
+        `/api/users/${user.id}/timetables/${draggingTimetable.id}/reorder`,
+        {
+          arrange_order: nextTimetable.arrange_order,
+        },
+        {
+          metadata: {
+            gaCategory: 'Timetable',
+            gaVariable: 'POST Reorder / Instance',
+          },
+        },
+      )
+        .then((response) => {
+        })
+        .catch((error) => {
+        });
+      reorderTimetableDispatch(draggingTimetable, nextTimetable.arrange_order);
       this.setState({
         dragStartPosition:
           dragStartPosition + (nextTabElement.getBoundingClientRect()[sizeName] + tabMargin),
@@ -552,8 +590,8 @@ const mapDispatchToProps = (dispatch) => ({
   duplicateTimetableDispatch: (id, timetable) => {
     dispatch(duplicateTimetable(id, timetable));
   },
-  reorderTimetableDispatch: (timetable, offset) => {
-    dispatch(reorderTimetable(timetable, offset));
+  reorderTimetableDispatch: (timetable, arrangeOrder) => {
+    dispatch(reorderTimetable(timetable, arrangeOrder));
   },
   setMobileIsTimetableTabsOpenDispatch: (mobileIsTimetableTabsOpen) => {
     dispatch(setMobileIsTimetableTabsOpen(mobileIsTimetableTabsOpen));

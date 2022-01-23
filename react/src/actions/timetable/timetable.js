@@ -87,11 +87,11 @@ export function duplicateTimetable(id, timetable) {
   };
 }
 
-export function reorderTimetable(timetable, offset) {
+export function reorderTimetable(timetable, arrangeOrder) {
   return {
     type: REORDER_TIMETABLE,
     timetable: timetable,
-    offset: offset,
+    arrangeOrder: arrangeOrder,
   };
 }
 
