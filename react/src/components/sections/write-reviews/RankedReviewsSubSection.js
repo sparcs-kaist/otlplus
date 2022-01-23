@@ -74,6 +74,16 @@ class RankedReviewsSubSection extends Component {
     }
   }
 
+  _getTargetSemesters = () => {
+    const { semesters } = this.props;
+
+    const now = new Date();
+    return semesters.filter((s) => (
+      s.year >= 2013
+        && (now - new Date(s.gradePosting)) > 30 * 24 * 60 * 60 * 1000
+    ));
+  }
+
   _getSemesterKey = (semester) => {
     if (semester === ALL) {
       return 'ALL';
@@ -82,26 +92,10 @@ class RankedReviewsSubSection extends Component {
   }
 
   _setStartSemester = () => {
-    const { semesters } = this.props;
-
-    const now = new Date();
-    const yearSemester = (now.getMonth() < 6)
-      ? [now.getFullYear() - 1, 3]
-      : [now.getFullYear(), 1];
-
-    const targetSemester = semesters
-      .find((s) => ((s.year === yearSemester[0]) && (s.semester === yearSemester[1])));
-
-    if (targetSemester) {
-      this.setState({
-        selectedSemester: targetSemester,
-      });
-    }
-    else {
-      this.setState({
-        selectedSemester: semesters[semesters.length - 1],
-      });
-    }
+    const targetSemesters = this._getTargetSemesters();
+    this.setState({
+      selectedSemester: targetSemesters[targetSemesters.length - 1],
+    });
   }
 
   _fetchReviewsCount = () => {
@@ -254,8 +248,7 @@ class RankedReviewsSubSection extends Component {
           onClick={this.selectSemester}
           key={ALL}
         />,
-        ...semesters
-          .filter((s) => (s.year >= 2013))
+        this._getTargetSemesters()
           .map((s) => (
             <SemesterBlock
               semester={s}
