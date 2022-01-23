@@ -10,10 +10,10 @@ class Timetable(models.Model):
                              related_name="timetables", on_delete=models.CASCADE, db_index=True)
     year = models.IntegerField(null=True, db_index=True)  # 몇넌도의 타임테이블인지
     semester = models.SmallIntegerField(null=True, db_index=True)  # 어떤학기의 타임테이블인지
-    order = models.SmallIntegerField(db_index=True)
+    arrange_order = models.SmallIntegerField(db_index=True)
 
     class Meta:
-        unique_together = [["user", "year", "semester", "order"]]
+        unique_together = [["user", "year", "semester", "arrange_order"]]
 
     def to_json(self, nested=False):
         result = {

@@ -24,7 +24,7 @@ def _validate_year_semester(year, semester):
 class UserInstanceTimetableListView(View):
     def get(self, request, user_id):
         MAX_LIMIT = 50
-        DEFAULT_ORDER = ['year', 'semester', 'order', 'id']
+        DEFAULT_ORDER = ['year', 'semester', 'arrange_order', 'id']
         PARAMS_STRUCTURE = [
             ("year", ParseType.INT, False, []),
             ("semester", ParseType.INT, False, []),
@@ -69,12 +69,12 @@ class UserInstanceTimetableListView(View):
 
         related_timetables = Timetable.get_related_timetables(userprofile, year, semester)
         if related_timetables.exists():
-            order = related_timetables.order_by("order").last().order + 1
+            arrange_order = related_timetables.order_by("arrange_order").last().arrange_order + 1
         else:
-            order = 0
+            arrange_order = 0
 
         timetable = Timetable.objects.create(user=userprofile, year=year, semester=semester,
-                                             order=order)
+                                             arrange_order=arrange_order)
         for i in lecture_ids:
             try:
                 lecture = Lecture.objects.get(id=i, year=year, semester=semester)
@@ -112,7 +112,8 @@ class UserInstanceTimetableInstanceView(View):
         timetable.delete()
         related_timetables = Timetable.get_related_timetables(userprofile,
                                                               timetable.year, timetable.semester)
-        related_timetables.filter(order__gt=timetable.order).update(order=F('order')-1)
+        related_timetables.filter(arrange_order__gt=timetable.arrange_order) \
+                          .update(arrange_order=F('arrange_order')-1)
         return HttpResponse()
 
 
