@@ -5,6 +5,7 @@ from PIL import Image, ImageDraw, ImageFont
 from icalendar import Calendar, Event, Alarm
 
 from django.conf import settings
+from django.db.models import F
 
 from apps.session.models import UserProfile
 from apps.subject.models import Lecture, Semester
@@ -30,6 +31,26 @@ TIMETABLE_CELL_COLORS = [
     "#EBCAEF",
     "#f4badb",
 ]
+
+
+def reorder_timetable(timetable: Timetable, target_arrange_order: int):
+    related_timetables = Timetable.get_related_timetables(timetable.user,
+                                                          timetable.year, timetable.semester)
+    original_arrange_order = timetable.arrange_order
+
+    temp_arrange_order = related_timetables.order_by("arrange_order").last().arrange_order + 100
+    timetable.arrange_order = temp_arrange_order
+    timetable.save()
+    if target_arrange_order < original_arrange_order:
+        related_timetables.filter(arrange_order__gte=target_arrange_order,
+                                  arrange_order__lt=original_arrange_order) \
+                          .update(arrange_order=F("arrange_order")+1)
+    elif target_arrange_order > original_arrange_order:
+        related_timetables.filter(arrange_order__gt=original_arrange_order,
+                                  arrange_order__lte=target_arrange_order) \
+                          .update(arrange_order=F("arrange_order")-1)
+    timetable.arrange_order = target_arrange_order
+    timetable.save()
 
 
 def get_timetable_entries(profile: UserProfile, table_id: int, year: int, semester: int) \

@@ -11,7 +11,7 @@ from utils.util import ParseType, parse_params, parse_body, ORDER_DEFAULT_CONFIG
 
 from apps.subject.models import Semester, Lecture
 from .models import Timetable, Wishlist
-from .services import create_timetable_ical, create_timetable_image, get_timetable_entries
+from .services import reorder_timetable, create_timetable_ical, create_timetable_image, get_timetable_entries
 
 
 def _validate_year_semester(year, semester):
@@ -195,22 +195,7 @@ class UserInstanceTimetableInstanceReorderView(View):
 
         arrange_order, = parse_body(request.body, BODY_STRUCTURE)
 
-        related_timetables = Timetable.get_related_timetables(userprofile,
-                                                              timetable.year, timetable.semester)
-        original_arrange_order = timetable.arrange_order
-        temp_arrange_order = related_timetables.order_by("arrange_order").last().arrange_order + 100
-        timetable.arrange_order = temp_arrange_order
-        timetable.save()
-        if arrange_order < original_arrange_order:
-            related_timetables.filter(arrange_order__gte=arrange_order,
-                                      arrange_order__lt=original_arrange_order) \
-                              .update(arrange_order=F("arrange_order")+1)
-        elif arrange_order > original_arrange_order:
-            related_timetables.filter(arrange_order__gt=original_arrange_order,
-                                      arrange_order__lte=arrange_order) \
-                              .update(arrange_order=F("arrange_order")-1)
-        timetable.arrange_order = arrange_order
-        timetable.save()
+        reorder_timetable(timetable, arrange_order)
         return JsonResponse(timetable.to_json())
 
 
