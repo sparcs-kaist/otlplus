@@ -6,11 +6,11 @@ from django.db import migrations, models
 def set_order(apps, schema_editor):
     Timetable = apps.get_model('timetable', 'Timetable')
     for u, y, s in Timetable.objects.values_list('user', 'year', 'semester'):
-        order = 0
+        arrange_order = 0
         for t in Timetable.objects.filter(user=u, year=y, semester=s):
-            t.order = order
+            t.arrange_order = arrange_order
             t.save()
-            order += 1
+            arrange_order += 1
 
 
 class Migration(migrations.Migration):
@@ -23,7 +23,7 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AddField(
             model_name='timetable',
-            name='order',
+            name='arrange_order',
             field=models.SmallIntegerField(db_index=True, default=0),
             preserve_default=False,
         ),
@@ -33,6 +33,6 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterUniqueTogether(
             name='timetable',
-            unique_together={('user', 'year', 'semester', 'order')},
+            unique_together={('user', 'year', 'semester', 'arrange_order')},
         ),
     ]
