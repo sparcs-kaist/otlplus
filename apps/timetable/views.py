@@ -206,7 +206,6 @@ class UserInstanceTimetableInstanceReorderView(View):
                                       arrange_order__lt=original_arrange_order) \
                               .update(arrange_order=F("arrange_order")+1)
         elif arrange_order > original_arrange_order:
-            print(123)
             related_timetables.filter(arrange_order__gt=original_arrange_order,
                                       arrange_order__lte=arrange_order) \
                               .update(arrange_order=F("arrange_order")-1)
