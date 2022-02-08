@@ -5,6 +5,7 @@ import {
   SET_SELECTED_TIMETABLE,
   CREATE_TIMETABLE, DELETE_TIMETABLE, DUPLICATE_TIMETABLE,
   ADD_LECTURE_TO_TIMETABLE, REMOVE_LECTURE_FROM_TIMETABLE,
+  REORDER_TIMETABLE,
   UPDATE_CELL_SIZE,
   SET_IS_DRAGGING,
   SET_MOBILE_IS_TIMETABLE_TABS_OPEN,
@@ -79,6 +80,7 @@ const timetable = (state = initialState, action) => {
       const newTable = {
         id: action.id,
         lectures: [],
+        arrange_order: Math.max(...state.timetables.map((t) => t.arrange_order)) + 1,
       };
       return Object.assign({}, state, {
         selectedTimetable: newTable,
@@ -103,6 +105,7 @@ const timetable = (state = initialState, action) => {
       const newTable = {
         id: action.id,
         lectures: action.timetable.lectures.slice(),
+        arrange_order: Math.max(...state.timetables.map((t) => t.arrange_order)) + 1,
       };
       return Object.assign({}, state, {
         selectedTimetable: newTable,
@@ -140,6 +143,36 @@ const timetable = (state = initialState, action) => {
       return Object.assign({}, state, {
         selectedTimetable: newTable,
         timetables: newTables,
+      });
+    }
+    case REORDER_TIMETABLE: {
+      const newTables = state.timetables.map((t) => {
+        if (t.id === action.timetable.id) {
+          return {
+            ...t,
+            arrange_order: action.arrangeOrder,
+          };
+        }
+        if (action.arrangeOrder <= t.arrange_order && t.arrange_order < action.timetable.arrange_order) {
+          return {
+            ...t,
+            arrange_order: t.arrange_order + 1,
+          };
+        }
+        if (action.timetable.arrange_order < t.arrange_order && t.arrange_order <= action.arrangeOrder) {
+          return {
+            ...t,
+            arrange_order: t.arrange_order - 1,
+          };
+        }
+        return t;
+      });
+      // eslint-disable-next-line fp/no-mutating-methods
+      newTables.sort((t1, t2) => (t1.arrange_order - t2.arrange_order));
+      const updatedTable = newTables.find((t) => (t.id === state.selectedTimetable.id));
+      return Object.assign({}, state, {
+        timetables: newTables,
+        selectedTimetable: updatedTable,
       });
     }
     case UPDATE_CELL_SIZE: {

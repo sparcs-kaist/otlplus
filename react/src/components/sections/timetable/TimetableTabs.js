@@ -11,6 +11,7 @@ import {
   setTimetables, clearTimetables, setMyTimetableLectures,
   setSelectedTimetable,
   createTimetable, deleteTimetable, duplicateTimetable,
+  reorderTimetable,
   setMobileIsTimetableTabsOpen,
 } from '../../../actions/timetable/timetable';
 
@@ -19,6 +20,18 @@ import timetableShape from '../../../shapes/model/TimetableShape';
 
 
 class TimetableTabs extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      draggingTimetableId: undefined,
+      dragStartPosition: undefined,
+      dragCurrentPosition: undefined,
+      dragOrderChanged: false,
+    };
+  }
+
+
   componentDidMount() {
     const { user } = this.props;
 
@@ -75,7 +88,7 @@ class TimetableTabs extends Component {
         params: {
           year: year,
           semester: semester,
-          order: ['id'],
+          order: ['arrange_order', 'id'],
         },
         metadata: {
           gaCategory: 'Timetable',
@@ -266,11 +279,212 @@ class TimetableTabs extends Component {
     });
   }
 
+  handlePointerDown = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+
+    const { draggingTimetableId } = this.state;
+    const { isPortrait } = this.props;
+
+    if (draggingTimetableId === undefined) {
+      this.setState({
+        draggingTimetableId: Number(e.currentTarget.dataset.id),
+        dragStartPosition: isPortrait ? e.clientY : e.clientX,
+        dragCurrentPosition: isPortrait ? e.clientY : e.clientX,
+        dragOrderChanged: false,
+      });
+
+      document.addEventListener('pointermove', this.handlePointerMove);
+      document.addEventListener('pointerup', this.handlePointerUp);
+      // eslint-disable-next-line fp/no-mutation
+      document.body.style.cursor = 'grabbing';
+    }
+  }
+
+  _checkAndReorderTimetablePrev = (dragPosition, isX) => {
+    const { draggingTimetableId, dragStartPosition } = this.state;
+    const { user, timetables, reorderTimetableDispatch } = this.props;
+
+    const endPositionName = isX ? 'right' : 'bottom';
+    const sizeName = isX ? 'width' : 'height';
+    const tabMargin = isX ? 6 : 8;
+
+    const tabElements = Array.from(
+      document.querySelectorAll(
+        `.${classNames('tabs--timetable')} .${classNames('tabs__elem')}:not(.${classNames('tabs__elem--add-button')})`
+      )
+    );
+    const draggingTabElement = document.querySelector(
+      `.${classNames('tabs--timetable')} .${classNames('tabs__elem')}.${classNames('tabs__elem--dragging')}:not(.${classNames('tabs__elem--add-button')})`
+    );
+
+    const draggingTabIndex = tabElements.findIndex((te) => (te === draggingTabElement));
+    if (draggingTabIndex === (user ? 1 : 0)) {
+      return;
+    }
+
+    const prevTabElement = tabElements[draggingTabIndex - 1];
+    if (dragPosition < prevTabElement.getBoundingClientRect()[endPositionName]) {
+      const draggingTimetableIndex = timetables.findIndex((t) => (t.id === draggingTimetableId));
+      const draggingTimetable = timetables[draggingTimetableIndex];
+      const prevTimetable = timetables[draggingTimetableIndex - 1];
+      axios.post(
+        `/api/users/${user.id}/timetables/${draggingTimetable.id}/reorder`,
+        {
+          arrange_order: prevTimetable.arrange_order,
+        },
+        {
+          metadata: {
+            gaCategory: 'Timetable',
+            gaVariable: 'POST Reorder / Instance',
+          },
+        },
+      )
+        .then((response) => {
+        })
+        .catch((error) => {
+        });
+      reorderTimetableDispatch(draggingTimetable, prevTimetable.arrange_order);
+      this.setState({
+        dragStartPosition:
+          dragStartPosition - (prevTabElement.getBoundingClientRect()[sizeName] + tabMargin),
+      });
+    }
+  }
+
+  _checkAndReorderTimetableNext = (dragPosition, isX) => {
+    const { draggingTimetableId, dragStartPosition } = this.state;
+    const { user, timetables, reorderTimetableDispatch } = this.props;
+
+    const startPositionName = isX ? 'left' : 'top';
+    const sizeName = isX ? 'width' : 'height';
+    const tabMargin = isX ? 6 : 8;
+
+    const tabElements = Array.from(
+      document.querySelectorAll(
+        `.${classNames('tabs--timetable')} .${classNames('tabs__elem')}:not(.${classNames('tabs__elem--add-button')})`
+      )
+    );
+    const draggingTabElement = document.querySelector(
+      `.${classNames('tabs--timetable')} .${classNames('tabs__elem')}.${classNames('tabs__elem--dragging')}:not(.${classNames('tabs__elem--add-button')})`
+    );
+
+    const draggingTabIndex = tabElements.findIndex((te) => (te === draggingTabElement));
+    if (draggingTabIndex === tabElements.length - 1) {
+      return;
+    }
+
+    const nextTabElement = tabElements[draggingTabIndex + 1];
+    if (dragPosition > nextTabElement.getBoundingClientRect()[startPositionName]) {
+      const draggingTimetableIndex = timetables.findIndex((t) => (t.id === draggingTimetableId));
+      const draggingTimetable = timetables[draggingTimetableIndex];
+      const nextTimetable = timetables[draggingTimetableIndex + 1];
+      axios.post(
+        `/api/users/${user.id}/timetables/${draggingTimetable.id}/reorder`,
+        {
+          arrange_order: nextTimetable.arrange_order,
+        },
+        {
+          metadata: {
+            gaCategory: 'Timetable',
+            gaVariable: 'POST Reorder / Instance',
+          },
+        },
+      )
+        .then((response) => {
+        })
+        .catch((error) => {
+        });
+      reorderTimetableDispatch(draggingTimetable, nextTimetable.arrange_order);
+      this.setState({
+        dragStartPosition:
+          dragStartPosition + (nextTabElement.getBoundingClientRect()[sizeName] + tabMargin),
+      });
+    }
+  }
+
+  handlePointerMove = (e) => {
+    const { dragStartPosition, dragCurrentPosition, draggingTimetableId } = this.state;
+    const { isPortrait } = this.props;
+
+    const newPosition = isPortrait ? e.clientY : e.clientX;
+    const deltaPosition = newPosition - dragCurrentPosition;
+
+    if (draggingTimetableId !== undefined) {
+      this.setState({
+        dragCurrentPosition: newPosition,
+      });
+
+      if (Math.abs(newPosition - dragStartPosition) > 10) {
+        this.setState({
+          dragOrderChanged: true,
+        });
+      }
+
+      if (deltaPosition > 0) {
+        this._checkAndReorderTimetableNext(newPosition, !isPortrait);
+      }
+      else if (deltaPosition < 0) {
+        this._checkAndReorderTimetablePrev(newPosition, !isPortrait);
+      }
+    }
+  }
+
+  handlePointerUp = (e) => {
+    const { draggingTimetableId } = this.state;
+
+    if (draggingTimetableId !== undefined) {
+      this.setState({
+        draggingTimetableId: undefined,
+        dragStartPosition: undefined,
+        dragCurrentPosition: undefined,
+        dragOrderChanged: false,
+      });
+
+      document.removeEventListener('pointermove', this.handlePointerMove);
+      document.removeEventListener('pointerup', this.handlePointerUp);
+      // eslint-disable-next-line fp/no-mutation
+      document.body.style.cursor = '';
+    }
+  }
+
+  _isSelected = (timetable) => {
+    const { selectedTimetable } = this.props;
+
+    return selectedTimetable && (timetable.id === selectedTimetable.id);
+  }
+
+  _isDragging = (timetable) => {
+    const { draggingTimetableId } = this.state;
+
+    return (draggingTimetableId !== undefined) && (timetable.id === draggingTimetableId);
+  }
+
+  _getTabRelativePosition = (timetable) => {
+    if (!this._isDragging(timetable)) {
+      return undefined;
+    }
+
+    const { dragStartPosition, dragCurrentPosition } = this.state;
+    const { timetables } = this.props;
+
+    const relativePosition = dragCurrentPosition - dragStartPosition;
+    if ((timetables.findIndex((t) => (t.id === timetable.id)) === 0) && relativePosition < 0) {
+      return 0;
+    }
+    if ((timetables.findIndex((t) => (t.id === timetable.id)) === timetables.length - 1) && relativePosition > 0) {
+      return 0
+    }
+    return relativePosition;
+  }
+
   render() {
+    const { dragOrderChanged } = this.state;
     const { t } = this.props;
     const {
       user,
-      timetables, selectedTimetable, myTimetable,
+      isPortrait,
+      timetables, myTimetable,
     } = this.props;
 
     const myTimetableTab = (
@@ -279,7 +493,7 @@ class TimetableTabs extends Component {
           <div
             className={classNames(
               'tabs__elem',
-              ((selectedTimetable && (myTimetable.id === selectedTimetable.id)) ? 'tabs__elem--selected' : null),
+              (this._isSelected(myTimetable) ? 'tabs__elem--selected' : null),
             )}
             key={myTimetable.id}
             onClick={() => this.changeTab(myTimetable)}
@@ -307,10 +521,17 @@ class TimetableTabs extends Component {
                 <div
                   className={classNames(
                     'tabs__elem',
-                    (tt.id === selectedTimetable.id ? 'tabs__elem--selected' : null),
+                    (this._isSelected(tt) ? 'tabs__elem--selected' : null),
+                    (this._isDragging(tt) ? 'tabs__elem--dragging' : null),
                   )}
                   key={tt.id}
                   onClick={() => this.changeTab(tt)}
+                  onPointerDown={this.handlePointerDown}
+                  data-id={tt.id}
+                  style={{
+                    [isPortrait ? 'top' : 'left']: this._getTabRelativePosition(tt),
+                    pointerEvents: dragOrderChanged ? 'none' : undefined,
+                  }}
                 >
                   <span>
                     {`${t('ui.others.table')} ${i + 1}`}
@@ -354,6 +575,7 @@ class TimetableTabs extends Component {
 
 const mapStateToProps = (state) => ({
   user: state.common.user.user,
+  isPortrait: state.common.media.isPortrait,
   timetables: state.timetable.timetable.timetables,
   selectedTimetable: state.timetable.timetable.selectedTimetable,
   myTimetable: state.timetable.timetable.myTimetable,
@@ -383,6 +605,9 @@ const mapDispatchToProps = (dispatch) => ({
   duplicateTimetableDispatch: (id, timetable) => {
     dispatch(duplicateTimetable(id, timetable));
   },
+  reorderTimetableDispatch: (timetable, arrangeOrder) => {
+    dispatch(reorderTimetable(timetable, arrangeOrder));
+  },
   setMobileIsTimetableTabsOpenDispatch: (mobileIsTimetableTabsOpen) => {
     dispatch(setMobileIsTimetableTabsOpen(mobileIsTimetableTabsOpen));
   },
@@ -390,6 +615,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 TimetableTabs.propTypes = {
   user: userShape,
+  isPortrait: PropTypes.bool.isRequired,
   timetables: PropTypes.arrayOf(timetableShape),
   selectedTimetable: timetableShape,
   myTimetable: timetableShape.isRequired,
@@ -403,6 +629,7 @@ TimetableTabs.propTypes = {
   createTimetableDispatch: PropTypes.func.isRequired,
   deleteTimetableDispatch: PropTypes.func.isRequired,
   duplicateTimetableDispatch: PropTypes.func.isRequired,
+  reorderTimetableDispatch: PropTypes.func.isRequired,
   setMobileIsTimetableTabsOpenDispatch: PropTypes.func.isRequired,
 };
 

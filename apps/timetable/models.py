@@ -10,14 +10,20 @@ class Timetable(models.Model):
                              related_name="timetables", on_delete=models.CASCADE, db_index=True)
     year = models.IntegerField(null=True, db_index=True)  # 몇넌도의 타임테이블인지
     semester = models.SmallIntegerField(null=True, db_index=True)  # 어떤학기의 타임테이블인지
+    arrange_order = models.SmallIntegerField(db_index=True)
 
     def to_json(self, nested=False):
         result = {
             "id": self.id,
             "lectures": [lecture.to_json(nested=False)
                          for lecture in self.lectures.filter(deleted=False)],
+            "arrange_order": self.arrange_order,
         }
         return result
+
+    @classmethod
+    def get_related_timetables(cls, user, year, semester):
+        return Timetable.objects.filter(user=user, year=year, semester=semester)
 
 
 class OldTimetable(models.Model):
@@ -42,7 +48,8 @@ class OldTimetable(models.Model):
                 print(f"User with student number {self.student_id} has multiple userprofiles.")
                 return
         timetable = Timetable.objects.create(user=userprofile,
-                                             year=self.year, semester=self.semester)
+                                             year=self.year, semester=self.semester,
+                                             arrange_order=self.table_no)
         for lecture in self.lectures.all():
             timetable.lectures.add(lecture)
         self.delete()

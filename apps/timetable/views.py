@@ -1,5 +1,6 @@
 import json
 
+from django.db.models import F
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseNotFound, JsonResponse
 from django.utils.decorators import method_decorator
 from django.views import View
@@ -10,7 +11,7 @@ from utils.util import ParseType, parse_params, parse_body, ORDER_DEFAULT_CONFIG
 
 from apps.subject.models import Semester, Lecture
 from .models import Timetable, Wishlist
-from .services import create_timetable_ical, create_timetable_image, get_timetable_entries
+from .services import reorder_timetable, create_timetable_ical, create_timetable_image, get_timetable_entries
 
 
 def _validate_year_semester(year, semester):
@@ -23,7 +24,7 @@ def _validate_year_semester(year, semester):
 class UserInstanceTimetableListView(View):
     def get(self, request, user_id):
         MAX_LIMIT = 50
-        DEFAULT_ORDER = ['year', 'semester', 'id']
+        DEFAULT_ORDER = ['year', 'semester', 'arrange_order', 'id']
         PARAMS_STRUCTURE = [
             ("year", ParseType.INT, False, []),
             ("semester", ParseType.INT, False, []),
@@ -66,7 +67,14 @@ class UserInstanceTimetableListView(View):
         if not _validate_year_semester(year, semester):
             return HttpResponseBadRequest("Wrong fields 'year' and 'semester' in request data")
 
-        timetable = Timetable.objects.create(user=userprofile, year=year, semester=semester)
+        related_timetables = Timetable.get_related_timetables(userprofile, year, semester)
+        if related_timetables.exists():
+            arrange_order = related_timetables.order_by("arrange_order").last().arrange_order + 1
+        else:
+            arrange_order = 0
+
+        timetable = Timetable.objects.create(user=userprofile, year=year, semester=semester,
+                                             arrange_order=arrange_order)
         for i in lecture_ids:
             try:
                 lecture = Lecture.objects.get(id=i, year=year, semester=semester)
@@ -102,6 +110,10 @@ class UserInstanceTimetableInstanceView(View):
             return HttpResponseNotFound()
 
         timetable.delete()
+        related_timetables = Timetable.get_related_timetables(userprofile,
+                                                              timetable.year, timetable.semester)
+        related_timetables.filter(arrange_order__gt=timetable.arrange_order) \
+                          .update(arrange_order=F('arrange_order')-1)
         return HttpResponse()
 
 
@@ -162,6 +174,28 @@ class UserInstanceTimetableInstanceRemoveLectureView(View):
         lecture = Lecture.objects.get(id=lecture_id)
 
         timetable.lectures.remove(lecture)
+        return JsonResponse(timetable.to_json())
+
+
+@method_decorator(login_required_ajax, name="dispatch")
+class UserInstanceTimetableInstanceReorderView(View):
+    def post(self, request, user_id, timetable_id):
+        BODY_STRUCTURE = [
+            ("arrange_order", ParseType.INT, True, []),
+        ]
+
+        userprofile = request.user.userprofile
+        if userprofile.id != int(user_id):
+            return HttpResponse(status=401)
+
+        try:
+            timetable = userprofile.timetables.get(id=timetable_id)
+        except Timetable.DoesNotExist:
+            return HttpResponseNotFound()
+
+        arrange_order, = parse_body(request.body, BODY_STRUCTURE)
+
+        reorder_timetable(timetable, arrange_order)
         return JsonResponse(timetable.to_json())
 
 
