@@ -31,8 +31,4 @@ class Migration(migrations.Migration):
             set_order,
             reverse_code=migrations.RunPython.noop,
         ),
-        migrations.AlterUniqueTogether(
-            name='timetable',
-            unique_together={('user', 'year', 'semester', 'arrange_order')},
-        ),
     ]
