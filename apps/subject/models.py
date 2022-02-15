@@ -146,10 +146,10 @@ class Lecture(models.Model):
     class_title_en = models.CharField(max_length=100, null=True)
 
     # Updated by view when reviews are added/deleted/modified
-    grade_sum = models.IntegerField(default=0)
-    load_sum = models.IntegerField(default=0)
-    speech_sum = models.IntegerField(default=0)
-    review_total_weight = models.IntegerField(default=0)
+    grade_sum = models.FloatField(default=0)
+    load_sum = models.FloatField(default=0)
+    speech_sum = models.FloatField(default=0)
+    review_total_weight = models.FloatField(default=0)
     grade = models.FloatField(default=0.0)
     load = models.FloatField(default=0.0)
     speech = models.FloatField(default=0.0)
@@ -528,10 +528,10 @@ class Course(models.Model):
     related_courses_posterior = models.ManyToManyField("Course", related_name="+")
 
     # Updated by view when reviews are added/deleted/modified
-    grade_sum = models.IntegerField(default=0)
-    load_sum = models.IntegerField(default=0)
-    speech_sum = models.IntegerField(default=0)
-    review_total_weight = models.IntegerField(default=0)
+    grade_sum = models.FloatField(default=0)
+    load_sum = models.FloatField(default=0)
+    speech_sum = models.FloatField(default=0)
+    review_total_weight = models.FloatField(default=0)
     grade = models.FloatField(default=0.0)
     load = models.FloatField(default=0.0)
     speech = models.FloatField(default=0.0)
@@ -636,10 +636,10 @@ class Professor(models.Model):
     course_list = models.ManyToManyField("Course", db_index=True)
 
     # Updated by view when reviews are added/deleted/modified
-    grade_sum = models.IntegerField(default=0)
-    load_sum = models.IntegerField(default=0)
-    speech_sum = models.IntegerField(default=0)
-    review_total_weight = models.IntegerField(default=0)
+    grade_sum = models.FloatField(default=0)
+    load_sum = models.FloatField(default=0)
+    speech_sum = models.FloatField(default=0)
+    review_total_weight = models.FloatField(default=0)
     grade = models.FloatField(default=0.0)
     load = models.FloatField(default=0.0)
     speech = models.FloatField(default=0.0)
