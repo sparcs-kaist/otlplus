@@ -39,7 +39,7 @@ class MajorGraduationRequirement(models.Model):
         DOUBLE_MAJOR = "double_major"               # 복수전공
         MINOR = "minor"                             # 부전공
         SPECIALIZED_MAJOR = "specialized_major"     # 심화전공
-        SELF_DESIGNED_MAJRO = "self_designed_major" # 융합전공
+        SELF_DESIGNED_MAJOR = "self_designed_major" # 융합전공
     
     department = models.ForeignKey(Department)
     entrance_from = models.IntegerField(validators=[MinValueValidator(1900), MaxValueValidator(9999)])
