@@ -15,6 +15,13 @@ class Planner(models.Model):
     self_designed_majors = models.ManyToManyField(Department, related_name="self_designed_major_user_set")  # 융합전공
 
 
+class PlannerItem(models.Model):
+    planner = models.ForeignKey(Planner, on_delete=models.PROTECT, db_index=True)
+    year = models.IntegerField(db_index=True)
+    semester = models.IntegerField(db_index=True)
+    course = models.ForeignKey(Course, on_delete=models.PROTECT, db_index=True)
+
+
 class BasicGraduationRequirement(models.Model):
     entrance_from = models.IntegerField(validators=[MinValueValidator(1900), MaxValueValidator(9999)])
     entrance_to = models.IntegerField(validators=[MinValueValidator(1900), MaxValueValidator(9999)])
