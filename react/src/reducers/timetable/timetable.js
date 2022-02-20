@@ -77,10 +77,13 @@ const timetable = (state = initialState, action) => {
       });
     }
     case CREATE_TIMETABLE: {
+      const newArrangeOrder = state.timetables.length > 0
+        ? Math.max(...state.timetables.map((t) => t.arrange_order)) + 1
+        : 0;
       const newTable = {
         id: action.id,
         lectures: [],
-        arrange_order: Math.max(...state.timetables.map((t) => t.arrange_order)) + 1,
+        arrange_order: newArrangeOrder,
       };
       return Object.assign({}, state, {
         selectedTimetable: newTable,

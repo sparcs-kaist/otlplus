@@ -328,22 +328,24 @@ class TimetableTabs extends Component {
       const draggingTimetableIndex = timetables.findIndex((t) => (t.id === draggingTimetableId));
       const draggingTimetable = timetables[draggingTimetableIndex];
       const prevTimetable = timetables[draggingTimetableIndex - 1];
-      axios.post(
-        `/api/users/${user.id}/timetables/${draggingTimetable.id}/reorder`,
-        {
-          arrange_order: prevTimetable.arrange_order,
-        },
-        {
-          metadata: {
-            gaCategory: 'Timetable',
-            gaVariable: 'POST Reorder / Instance',
-          },
-        },
-      )
-        .then((response) => {
-        })
-        .catch((error) => {
-        });
+      if (user) {
+        axios.post(
+          `/api/users/${user.id}/timetables/${draggingTimetable.id}/reorder`,
+          {
+            arrange_order: prevTimetable.arrange_order,
+          }, 
+          {
+            metadata: {
+              gaCategory: 'Timetable',
+              gaVariable: 'POST Reorder / Instance',
+            },
+          }, 
+        )
+          .then((response) => {
+          })
+          .catch((error) => {
+          });
+      }
       reorderTimetableDispatch(draggingTimetable, prevTimetable.arrange_order);
       this.setState({
         dragStartPosition:
@@ -379,22 +381,24 @@ class TimetableTabs extends Component {
       const draggingTimetableIndex = timetables.findIndex((t) => (t.id === draggingTimetableId));
       const draggingTimetable = timetables[draggingTimetableIndex];
       const nextTimetable = timetables[draggingTimetableIndex + 1];
-      axios.post(
-        `/api/users/${user.id}/timetables/${draggingTimetable.id}/reorder`,
-        {
-          arrange_order: nextTimetable.arrange_order,
-        },
-        {
-          metadata: {
-            gaCategory: 'Timetable',
-            gaVariable: 'POST Reorder / Instance',
-          },
-        },
-      )
-        .then((response) => {
-        })
-        .catch((error) => {
-        });
+      if (user) {
+        axios.post(
+          `/api/users/${user.id}/timetables/${draggingTimetable.id}/reorder`,
+          {
+            arrange_order: nextTimetable.arrange_order,
+          }, 
+          {
+            metadata: {
+              gaCategory: 'Timetable',
+              gaVariable: 'POST Reorder / Instance',
+            },
+          }, 
+        )
+          .then((response) => {
+          })
+          .catch((error) => {
+          });
+      }
       reorderTimetableDispatch(draggingTimetable, nextTimetable.arrange_order);
       this.setState({
         dragStartPosition:
