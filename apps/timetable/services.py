@@ -121,13 +121,13 @@ def _draw_textbox(draw,
 
         if i < len(sliced_title):
             target_character = sliced_title[i]
-            opacity = 204
+            opacity = int(255 * 0.8)
         elif i < len(sliced_title) + len(sliced_professor):
             target_character = sliced_professor[i - len(sliced_title)]
-            opacity = 128
+            opacity = int(255 * 0.5)
         else:
             target_character = sliced_location[i - len(sliced_title) - len(sliced_professor)]
-            opacity = 204
+            opacity = int(255 * 0.5)
         sliced.append((target_character, 26, (0, 0, 0, opacity)))
         text_total_height += 24
 
