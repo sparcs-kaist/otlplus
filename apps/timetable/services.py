@@ -163,7 +163,7 @@ def create_timetable_image(lectures: List[Lecture]):
             begin = ct.get_begin_numeric() // 30 - 16
             end = ct.get_end_numeric() // 30 - 16
 
-            points = (178 * day + 76, 40 * begin + 158, 178 * (day + 1) + 69, 40 * end + 151)
+            points = (178 * day + 76, 40 * begin + 154, 178 * (day + 1) + 69, 40 * end + 147)
             _draw_rounded_rectangle(draw, points, 4, color)
 
             points = (points[0] + 12, points[1] + 8, points[2] - 12, points[3] - 8)
