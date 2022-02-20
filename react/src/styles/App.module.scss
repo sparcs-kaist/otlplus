@@ -839,8 +839,6 @@ a {
             ;
         }
         @media #{$media-portrait} {
-            border-top-left-radius: 0;
-            border-top-right-radius: 0;
             grid-template-columns: 1fr min-content 1fr;
             grid-template-rows: min-content 12px 1fr;
             grid-template-areas:
@@ -3490,6 +3488,7 @@ i.icon {
         width:11px;
         height:11px;
         background-image: url(../static/icons/add_table.svg);
+        margin: 1px 1px;
 
         *:hover > & {
             background-image: url(../static/icons/add_table_hover.svg);
