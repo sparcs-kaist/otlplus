@@ -136,10 +136,11 @@ def _draw_textbox(draw,
             break
 
     topPad = (height - text_total_height) // 2
+    offsetY = -6
 
     textPosition = 0
     for s in sliced:
-        draw.text((points[0], points[1] + topPad + textPosition), s[0], fill=s[2], font=font)
+        draw.text((points[0], points[1] + topPad + offsetY + textPosition), s[0], fill=s[2], font=font)
         textPosition += s[1]
 
 
@@ -153,7 +154,7 @@ def create_timetable_image(lectures: List[Lecture]):
     draw = ImageDraw.Draw(image)
     text_image = Image.new("RGBA", image.size)
     text_draw = ImageDraw.Draw(text_image)
-    font = ImageFont.truetype(file_path + "fonts/NanumBarunGothic.ttf", 22)
+    font = ImageFont.truetype(file_path + "fonts/NotoSansKR-Regular.otf", 22)
 
     for l in lectures:
         color = TIMETABLE_CELL_COLORS[l.course.id % 16]
