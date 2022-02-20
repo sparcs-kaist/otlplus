@@ -3488,6 +3488,7 @@ i.icon {
         width:11px;
         height:11px;
         background-image: url(../static/icons/add_table.svg);
+        margin: 1px 1px;
 
         *:hover > & {
             background-image: url(../static/icons/add_table_hover.svg);
