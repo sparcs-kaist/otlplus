@@ -4,24 +4,6 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from apps.session.models import UserProfile
 from apps.subject.models import Department, Course
 
-class Planner(models.Model):
-    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, db_index=True)
-    entrance_year = models.IntegerField(db_index=True)
-
-    major = models.ForeignKey(Department, on_delete=models.SET_NULL, blank=True, null=True, related_name="major_user_set") # 주전공
-    double_majors = models.ManyToManyField(Department, related_name="double_major_user_set")  # 복수전공
-    minors = models.ManyToManyField(Department, related_name="minor_user_set")  # 부전공
-    specialized_majors = models.ManyToManyField(Department, related_name="specialized_major_user_set")  # 심화전공
-    self_designed_majors = models.ManyToManyField(Department, related_name="self_designed_major_user_set")  # 융합전공
-
-
-class PlannerItem(models.Model):
-    planner = models.ForeignKey(Planner, on_delete=models.PROTECT, db_index=True)
-    year = models.IntegerField(db_index=True)
-    semester = models.IntegerField(db_index=True)
-    course = models.ForeignKey(Course, on_delete=models.PROTECT, db_index=True)
-
-
 class BasicGraduationRequirement(models.Model):
     entrance_from = models.IntegerField(validators=[MinValueValidator(1900), MaxValueValidator(9999)])
     entrance_to = models.IntegerField(validators=[MinValueValidator(1900), MaxValueValidator(9999)])
@@ -53,3 +35,20 @@ class MajorGraduationRequirement(models.Model):
 class RecognizedCourse(models.Model):
     original_course = models.ForeignKey(Course, related_name="recognized_course_original_course")
     recognized_course = models.ForeignKey(Course, related_name="recognized_course_recognized_course")
+
+
+class Planner(models.Model):
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, db_index=True)
+    entrance_year = models.IntegerField(db_index=True)
+
+    basic_graduation_requirement = models.ForeignKey(BasicGraduationRequirement, on_delete=models.PROTECT, db_index=True)
+    major_graduation_requirements = models.ManyToManyField(MajorGraduationRequirement, related_name="graduation_requirement_user_set")
+    recognized_courses = models.ManyToManyField(RecognizedCourse, related_name="recognized_course_user_set")
+
+
+class PlannerItem(models.Model):
+    planner = models.ForeignKey(Planner, on_delete=models.PROTECT, db_index=True)
+    year = models.IntegerField(db_index=True)
+    semester = models.IntegerField(db_index=True)
+    course = models.ForeignKey(Course, on_delete=models.PROTECT, db_index=True)
+    
