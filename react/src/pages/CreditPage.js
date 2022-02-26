@@ -361,14 +361,14 @@ class CreditPage extends Component {
       index: 1000,
       mainTitle: 'OTL APP',
       subTitle: 'Beta',
-      period: '2020.02 ~ 2021.11',
+      period: '2020.02 ~',
       fields:
         [
           {
             title: 'Developer',
             people: [
               { name: '박현우', image: memberWinrobrineImage, caption: '2020.02 ~ 2021.01' },
-              { name: '오승빈', image: memberPlatypusImage, caption: '2021.07 ~ 2021.11' },
+              { name: '오승빈', image: memberPlatypusImage, caption: '2021.07 ~' },
             ],
           },
         ],
