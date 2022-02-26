@@ -129,14 +129,14 @@ def _draw_textbox(draw,
             target_character = sliced_location[i - len(sliced_title) - len(sliced_professor)]
             opacity = int(255 * 0.5)
         sliced.append((target_character, 26, (0, 0, 0, opacity)))
-        text_total_height += 24
+        text_total_height += 26
 
         if text_total_height > height:
             text_total_height -= sliced.pop()[1]
             break
 
     topPad = (height - text_total_height) // 2
-    offsetY = -10
+    offsetY = -6
 
     textPosition = 0
     for s in sliced:
