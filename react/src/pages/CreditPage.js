@@ -219,7 +219,7 @@ class CreditPage extends Component {
     },
     {
       index: 30,
-      mainTitle: 'OTL PLUS',
+      mainTitle: 'OTL Plus',
       subTitle: '과목사전',
       period: '2015.09 ~ 2016.06',
       fields:
@@ -263,7 +263,7 @@ class CreditPage extends Component {
     },
     {
       index: 31,
-      mainTitle: 'OTL PLUS',
+      mainTitle: 'OTL Plus',
       subTitle: '모의시간표',
       period: '2016.09 ~ 2017.12',
       fields:
@@ -307,7 +307,7 @@ class CreditPage extends Component {
     },
     {
       index: 32,
-      mainTitle: 'OTL PLUS',
+      mainTitle: 'OTL Plus',
       subTitle: '모바일 & 리뉴얼',
       period: '2018.01 ~ 2020.01',
       fields:
@@ -359,7 +359,7 @@ class CreditPage extends Component {
     },
     {
       index: 1000,
-      mainTitle: 'OTL APP',
+      mainTitle: 'OTL App',
       subTitle: 'Beta',
       period: '2020.02 ~',
       fields:
@@ -375,7 +375,7 @@ class CreditPage extends Component {
     },
     {
       index: 33,
-      mainTitle: 'OTL PLUS',
+      mainTitle: 'OTL Plus',
       subTitle: '???',
       period: '2021.09 ~',
       fields:
@@ -478,7 +478,7 @@ class CreditPage extends Component {
             ],
           },
           {
-            title: 'OTL PLUS',
+            title: 'OTL Plus',
             people: [
               {
                 name: '김재성',
