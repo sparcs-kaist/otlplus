@@ -143,7 +143,7 @@ def _draw_textbox(draw,
         textPosition += s[1]
 
 
-def create_timetable_image(lectures: List[Lecture]):
+def create_timetable_image(lectures: List[Lecture], language: str):
     if settings.DEBUG:
         file_path = "static/"
     else:
@@ -154,6 +154,8 @@ def create_timetable_image(lectures: List[Lecture]):
     text_image = Image.new("RGBA", image.size)
     text_draw = ImageDraw.Draw(text_image)
     font = ImageFont.truetype(file_path + "fonts/NanumBarunGothic.ttf", 22)
+
+    is_english = language and ("en" in language)
 
     for l in lectures:
         color = TIMETABLE_CELL_COLORS[l.course.id % 16]
@@ -169,9 +171,9 @@ def create_timetable_image(lectures: List[Lecture]):
             _draw_textbox(
                 text_draw,
                 points,
-                l.title,
-                l.get_professors_short_str(),
-                ct.get_classroom_strs()[4],
+                l.title if not is_english else l.title_en,
+                l.get_professors_short_str() if not is_english else l.get_professors_short_str_en(),
+                ct.get_classroom_strs()[4] if not is_english else ct.get_classroom_strs()[5],
                 font,
             )
 
@@ -181,7 +183,9 @@ def create_timetable_image(lectures: List[Lecture]):
     return image
 
 
-def create_timetable_ical(semester: Semester, lectures: List[Lecture]):
+def create_timetable_ical(semester: Semester, lectures: List[Lecture], language: str):
+    is_english = language and ("en" in language)
+
     timezone = pytz.timezone("Asia/Seoul")
 
     calendar = Calendar()
@@ -197,8 +201,10 @@ def create_timetable_ical(semester: Semester, lectures: List[Lecture]):
     for l in lectures:
         for ct in l.classtimes.all():
             event = Event()
-            event.add("summary", l.title)
-            event.add("location", ct.get_classroom_strs()[2])
+            event.add("summary",
+                      l.title if not is_english else l.title_en)
+            event.add("location",
+                      ct.get_classroom_strs()[2] if not is_english else ct.get_classroom_strs()[3])
 
             days_ahead = ct.day - semester.beginning.weekday()
             if days_ahead < 0:
