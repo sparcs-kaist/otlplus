@@ -159,8 +159,7 @@ def create_timetable_image(semester: Semester, lectures: List[Lecture], language
 
     is_english = language and ("en" in language)
 
-    season_name = ["Spring", "Summer", "Fall", "Winter"][semester.semester-1]
-    semester_name = f"{semester.year} {season_name}"
+    semester_name = semester.get_name(language=language).title()
     text_draw.text((952, 78),
                    semester_name,
                    fill=(204, 204, 204),
@@ -203,8 +202,7 @@ def create_timetable_ical(semester: Semester, lectures: List[Lecture], language:
     calendar.add("version", "2.0")
     calendar.add("x-wr-timezone", timezone)
 
-    season_name = ["Spring", "Summer", "Fall", "Winter"][semester.semester-1]
-    title = f"[OTL] {semester.year} {season_name}"
+    title = f"[OTL] {semester.get_name(language='en').title()}"
     calendar.add("summary", title)
     calendar.add("x-wr-calname", title)
 

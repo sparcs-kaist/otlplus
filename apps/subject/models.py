@@ -59,6 +59,13 @@ class Semester(models.Model):
         cache.set(cache_id, result, 60 * 60)
 
         return result
+    
+    def get_name(self, language: str="kr"):
+        if "en" in language:
+            season_name = ["spring", "summer", "fall", "winter"][self.semester-1]
+        else:
+            season_name = ["봄", "여름", "가을", "겨울"][self.semester-1]
+        return f"{self.year} {season_name}"
 
     # SYNC: Keep synchronized with React src/utils/semesterUtils.js getOngoingSemester()
     @classmethod
