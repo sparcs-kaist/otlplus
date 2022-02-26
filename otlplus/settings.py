@@ -145,7 +145,7 @@ SSO_IS_BETA = DEBUG
 LOGIN_URL = "/session/login/"
 LOGOUT_URL = "/session/logout/"
 
-VERSION = "3.2.4.0"
+VERSION = "3.2.4.1"
 
 try:
     from settings_local import * # pylint: disable=wildcard-import, unused-wildcard-import
