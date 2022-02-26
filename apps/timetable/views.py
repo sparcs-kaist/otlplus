@@ -329,6 +329,8 @@ class ShareTimetableImageView(View):
             return HttpResponseBadRequest("No such timetable")
 
         response = HttpResponse(content_type="image/png")
-        image = create_timetable_image(timetable_lectures, language)
+        image = create_timetable_image(Semester.objects.get(year=year, semester=semester),
+                                       timetable_lectures,
+                                       language)
         image.save(response, "PNG")
         return response

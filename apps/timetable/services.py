@@ -121,29 +121,30 @@ def _draw_textbox(draw,
 
         if i < len(sliced_title):
             target_character = sliced_title[i]
-            opacity = 204
+            opacity = int(255 * 0.8)
         elif i < len(sliced_title) + len(sliced_professor):
             target_character = sliced_professor[i - len(sliced_title)]
-            opacity = 128
+            opacity = int(255 * 0.5)
         else:
             target_character = sliced_location[i - len(sliced_title) - len(sliced_professor)]
-            opacity = 204
-        sliced.append((target_character, 24, (0, 0, 0, opacity)))
-        text_total_height += 24
+            opacity = int(255 * 0.5)
+        sliced.append((target_character, 26, (0, 0, 0, opacity)))
+        text_total_height += 26
 
         if text_total_height > height:
             text_total_height -= sliced.pop()[1]
             break
 
     topPad = (height - text_total_height) // 2
+    offsetY = -6
 
     textPosition = 0
     for s in sliced:
-        draw.text((points[0], points[1] + topPad + textPosition), s[0], fill=s[2], font=font)
+        draw.text((points[0], points[1] + topPad + offsetY + textPosition), s[0], fill=s[2], font=font)
         textPosition += s[1]
 
 
-def create_timetable_image(lectures: List[Lecture], language: str):
+def create_timetable_image(semester: Semester, lectures: List[Lecture], language: str):
     if settings.DEBUG:
         file_path = "static/"
     else:
@@ -153,9 +154,17 @@ def create_timetable_image(lectures: List[Lecture], language: str):
     draw = ImageDraw.Draw(image)
     text_image = Image.new("RGBA", image.size)
     text_draw = ImageDraw.Draw(text_image)
-    font = ImageFont.truetype(file_path + "fonts/NanumBarunGothic.ttf", 22)
+    semester_font = ImageFont.truetype(file_path + "fonts/NotoSansKR-Regular.otf", 30)
+    tile_font = ImageFont.truetype(file_path + "fonts/NotoSansKR-Regular.otf", 24)
 
     is_english = language and ("en" in language)
+
+    semester_name = semester.get_name(language=language).title()
+    text_draw.text((952, 78),
+                   semester_name,
+                   fill=(204, 204, 204),
+                   font=semester_font,
+                   anchor="rs")
 
     for l in lectures:
         color = TIMETABLE_CELL_COLORS[l.course.id % 16]
@@ -164,7 +173,7 @@ def create_timetable_image(lectures: List[Lecture], language: str):
             begin = ct.get_begin_numeric() // 30 - 16
             end = ct.get_end_numeric() // 30 - 16
 
-            points = (178 * day + 76, 40 * begin + 158, 178 * (day + 1) + 69, 40 * end + 151)
+            points = (178 * day + 76, 40 * begin + 154, 178 * (day + 1) + 69, 40 * end + 147)
             _draw_rounded_rectangle(draw, points, 4, color)
 
             points = (points[0] + 12, points[1] + 8, points[2] - 12, points[3] - 8)
@@ -174,7 +183,7 @@ def create_timetable_image(lectures: List[Lecture], language: str):
                 l.title if not is_english else l.title_en,
                 l.get_professors_short_str() if not is_english else l.get_professors_short_str_en(),
                 ct.get_classroom_strs()[4] if not is_english else ct.get_classroom_strs()[5],
-                font,
+                tile_font,
             )
 
     # image.thumbnail((600,900))
@@ -193,8 +202,7 @@ def create_timetable_ical(semester: Semester, lectures: List[Lecture], language:
     calendar.add("version", "2.0")
     calendar.add("x-wr-timezone", timezone)
 
-    season_name = ["Spring", "Summer", "Fall", "Winter"][semester.semester-1]
-    title = f"[OTL] {semester.year} {season_name}"
+    title = f"[OTL] {semester.get_name(language='en').title()}"
     calendar.add("summary", title)
     calendar.add("x-wr-calname", title)
 
