@@ -144,7 +144,7 @@ def _draw_textbox(draw,
         textPosition += s[1]
 
 
-def create_timetable_image(lectures: List[Lecture], language: str):
+def create_timetable_image(semester: Semester, lectures: List[Lecture], language: str):
     if settings.DEBUG:
         file_path = "static/"
     else:
@@ -154,9 +154,18 @@ def create_timetable_image(lectures: List[Lecture], language: str):
     draw = ImageDraw.Draw(image)
     text_image = Image.new("RGBA", image.size)
     text_draw = ImageDraw.Draw(text_image)
-    font = ImageFont.truetype(file_path + "fonts/NotoSansKR-Regular.otf", 24)
+    semester_font = ImageFont.truetype(file_path + "fonts/NotoSansKR-Regular.otf", 30)
+    tile_font = ImageFont.truetype(file_path + "fonts/NotoSansKR-Regular.otf", 24)
 
     is_english = language and ("en" in language)
+
+    season_name = ["Spring", "Summer", "Fall", "Winter"][semester.semester-1]
+    semester_name = f"{semester.year} {season_name}"
+    text_draw.text((952, 78),
+                   semester_name,
+                   fill=(204, 204, 204),
+                   font=semester_font,
+                   anchor="rs")
 
     for l in lectures:
         color = TIMETABLE_CELL_COLORS[l.course.id % 16]
@@ -175,7 +184,7 @@ def create_timetable_image(lectures: List[Lecture], language: str):
                 l.title if not is_english else l.title_en,
                 l.get_professors_short_str() if not is_english else l.get_professors_short_str_en(),
                 ct.get_classroom_strs()[4] if not is_english else ct.get_classroom_strs()[5],
-                font,
+                tile_font,
             )
 
     # image.thumbnail((600,900))
