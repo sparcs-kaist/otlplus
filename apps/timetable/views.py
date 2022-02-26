@@ -271,9 +271,10 @@ class ShareTimetableCalendarView(View):
             ("timetable", ParseType.INT, True, []),
             ("year", ParseType.INT, True, []),
             ("semester", ParseType.INT, True, []),
+            ("language", ParseType.STR, False, []),
         ]
 
-        table_id, year, semester = parse_params(request.GET, PARAMS_STRUCTURE)
+        table_id, year, semester, language = parse_params(request.GET, PARAMS_STRUCTURE)
 
         userprofile = request.user.userprofile
 
@@ -291,9 +292,10 @@ class ShareTimetableIcalView(View):
             ("timetable", ParseType.INT, True, []),
             ("year", ParseType.INT, True, []),
             ("semester", ParseType.INT, True, []),
+            ("language", ParseType.STR, False, []),
         ]
 
-        table_id, year, semester = parse_params(request.GET, PARAMS_STRUCTURE)
+        table_id, year, semester, language = parse_params(request.GET, PARAMS_STRUCTURE)
 
         userprofile = request.user.userprofile
 
@@ -302,7 +304,8 @@ class ShareTimetableIcalView(View):
             return HttpResponseBadRequest("No such timetable")
 
         calendar = create_timetable_ical(Semester.objects.get(year=year, semester=semester),
-                                         timetable_lectures)
+                                         timetable_lectures,
+                                         language)
         response = HttpResponse(calendar.to_ical(), content_type="text/calendar")
         return response
 
@@ -314,9 +317,10 @@ class ShareTimetableImageView(View):
             ("timetable", ParseType.INT, True, []),
             ("year", ParseType.INT, True, []),
             ("semester", ParseType.INT, True, []),
+            ("language", ParseType.STR, False, []),
         ]
 
-        table_id, year, semester = parse_params(request.GET, PARAMS_STRUCTURE)
+        table_id, year, semester, language = parse_params(request.GET, PARAMS_STRUCTURE)
 
         userprofile = request.user.userprofile
 
@@ -325,6 +329,6 @@ class ShareTimetableImageView(View):
             return HttpResponseBadRequest("No such timetable")
 
         response = HttpResponse(content_type="image/png")
-        image = create_timetable_image(timetable_lectures)
+        image = create_timetable_image(timetable_lectures, language)
         image.save(response, "PNG")
         return response
