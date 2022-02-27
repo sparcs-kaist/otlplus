@@ -36,7 +36,8 @@
       "writeReview": "Write Review",
       "myInformation": "My Information",
       "academicInformation": "Academic Information",
-      "settings": "Settings"
+      "settings": "Settings",
+      "lectureInformation": "Lecture Information"
     },
     "tab": {
       "search": "Search",
@@ -78,7 +79,8 @@
       "writeMoreReviews": "Write More Reviews",
       "save": "Save",
       "submit": "Submit",
-      "signOut": "Sign Out"
+      "signOut": "Sign Out",
+      "reset": "Reset"
     },
     "attribute": {
       "department": "Dept.",
@@ -92,7 +94,9 @@
       "name": "Name",
       "email": "Email",
       "studentId": "Student ID",
-      "major": "Major"
+      "major": "Major",
+      "semester": "Semester",
+      "retake": "Retake"
     },
     "score": {
       "reviewsWritten": "Reviews",
@@ -123,7 +127,17 @@
       "professor": "Prof.",
       "language": "Lang.",
       "term": "Term",
-      "favoriteDepartment": "Favorite Departments"
+      "favoriteDepartment": "Favorite Departments",
+      "semester": "Semester",
+      "retake": "Retake"
+    },
+    "semesterInfo": {
+      "normal": "Normal",
+      "seasonal": "Seasonal"
+    },
+    "retake": {
+      "normal": "Normal",
+      "retake": "Retake"
     },
     "type": {
       "basicRequired": "Basic Required",

@@ -36,7 +36,8 @@
       "writeReview": "후기 작성",
       "myInformation": "내 정보",
       "academicInformation": "학사 정보",
-      "settings": "설정"
+      "settings": "설정",
+      "lectureInformation": "수강 정보"
     },
     "tab": {
       "search": "검색",
@@ -78,7 +79,8 @@
       "writeMoreReviews": "후기 더 작성하기",
       "save": "저장",
       "submit": "제출하기",
-      "signOut": "로그아웃"
+      "signOut": "로그아웃",
+      "reset": "초기화"
     },
     "attribute": {
       "department": "학과",
@@ -123,7 +125,17 @@
       "professor": "교수",
       "language": "언어",
       "term": "기간",
-      "favoriteDepartment": "관심학과"
+      "favoriteDepartment": "관심학과",
+      "semester": "학기",
+      "retake": "회차"
+    },
+    "semesterInfo": {
+      "normal": "일반",
+      "seasonal": "계절학기"
+    },
+    "retake": {
+      "normal": "일반",
+      "retake": "재수강"
     },
     "type": {
       "basicRequired": "기초필수",

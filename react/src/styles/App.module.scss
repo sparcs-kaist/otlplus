@@ -1662,6 +1662,8 @@ a {
     &--course-info-setting {
         grid-area: course-info-setting;
         flex-basis: calc(#{$section-width-desktop-1v3-left} - (#{$section-padding} * 2));
+        display: flex;
+        flex-direction: column;
     }
     
     &--planner {
@@ -2856,6 +2858,32 @@ a {
         }
 }
 
+.setting {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    &--name {
+        font-weight: bold;
+        margin-bottom: $attribute-margin-bottom;
+    }
+
+    &--info {
+        align-self: center;
+        width: 95%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        margin-bottom: $attribute-margin-bottom;
+        margin-left: $attribute-margin-bottom;
+
+        &--controller {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+    }
+}
 
 .attribute {
         display: flex;
@@ -3841,6 +3869,22 @@ i.icon {
         *.rate__star--selected > & {
             background-image: url(../static/icons/star_selected.svg);
         }
+    }
+
+    &--planner-plus {
+        width:12px;
+        height:12px;
+        background-image: url(../static/icons/plus_circled.svg);
+        margin: (($line-height-normal - 12px) / 2) 0;
+        margin-left: 8px;
+    }
+
+    &--planner-minus {
+        width:12px;
+        height:12px;
+        background-image: url(../static/icons/minus_circled.svg);
+        margin: (($line-height-normal - 12px) / 2) 0; 
+        margin-right: 8px;
     }
 }
 
