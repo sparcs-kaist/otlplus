@@ -52,6 +52,18 @@ class CourseSettingSubSection extends Component {
           });
       }
 
+      initialize = () => {
+        this.setState({
+            basicRequired: 0,
+            basicElective: 0,
+            majorRequired: 0,
+            majorElective: 0,
+            secondMajorRequired: 0,
+            secondMajorElective: 0,
+            totalCredit: 0
+        });
+      }
+
     render() {
         const { t } = this.props;
         const {
@@ -62,7 +74,7 @@ class CourseSettingSubSection extends Component {
                 <div className={classNames('detail-title-area')}>
                     <div className={classNames('title')}>{t('ui.title.lectureInformation')}</div> 
                     <div className={classNames('subtitle')}>수강 완료 - 2016 봄</div>
-                    <button type="reset" className={classNames('text-button', 'text-button--right')}>{t('ui.button.reset')}</button>
+                    <button type="reset" className={classNames('text-button', 'text-button--right')} onClick={this.initialize}>{t('ui.button.reset')}</button>
                 </div>
             </>
         );
