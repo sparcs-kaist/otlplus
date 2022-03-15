@@ -3906,3 +3906,43 @@ i.icon {
         display: none !important;
     }
 }
+
+.credit-status {
+    &--container {
+        display: flex;
+        width: 50%;
+    }
+
+    &--back {
+        width: 100px;
+        height: 6px;
+        border-radius: 3px;
+        background-color: $color-highlight;
+        position: absolute;
+    }
+
+    &--front {
+        width: 80px;
+        height: 6px;
+        border-radius: 3px 0 0 3px;
+        background-color: #f3b6b5;
+        position: absolute;
+    }
+
+    &--front-full { // front와 한번에 작성하는 법?
+        width: 80px;
+        height: 6px;
+        border-radius: 3px;
+        background-color: #f3b6b5;
+        position: absolute;
+    }
+
+    &--textbox {
+        position: absolute;
+    }
+
+    &--text {
+        display: inline-block;
+        font-size: $font-size-smallest;
+    }
+}

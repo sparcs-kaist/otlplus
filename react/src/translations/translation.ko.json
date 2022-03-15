@@ -94,7 +94,9 @@
       "name": "이름",
       "email": "메일",
       "studentId": "학번",
-      "major": "전공"
+      "major": "전공",
+      "default": "기본",
+      "additional": "추가"
     },
     "score": {
       "reviewsWritten": "작성 후기",
