@@ -39,6 +39,17 @@ class MajorGraduationRequirement(models.Model):
     recognized_courses = models.ManyToManyField(RecognizedCourse, related_name="recognized_course_user_set")
 
 
+class RequiredCourseSet(models.Model):
+    class RequiredCourseType(models.TextChoices):
+        MAJOR_REQUIRED  = "major_required"      # 전필 필수과목
+        MAJOR_ELECTIVE = "major_elective"       # 전선 필수과목
+        BASIC_ELECTIVE = "basic_elective"       # 기선 필수과목
+        
+    graduation_requirement = models.ForeignKey(MajorGraduationRequirement)
+    course = models.ForeignKey(Course, related_name="required_course_set_course")
+    type = models.CharField(choices=RequiredCourseType.choices)
+
+
 class Planner(models.Model):
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, db_index=True)
     entrance_year = models.IntegerField(db_index=True)
