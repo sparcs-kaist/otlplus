@@ -9,10 +9,7 @@
     "__DEV__": "readonly",
     "FormData": "readonly"
   },
-  "plugins": [
-    "no-loops",
-    "fp"
-  ],
+  "plugins": ["no-loops", "fp", "plugin:prettier/recommended"],
   "rules": {
     "jsx-a11y/click-events-have-key-events": 0,
     "jsx-a11y/mouse-events-have-key-events": 0,
