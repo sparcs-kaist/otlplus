@@ -15,7 +15,11 @@ import Divider from '../../Divider';
 import SearchFilter from '../../SearchFilter';
 import Scroller from '../../Scroller';
 
-import { closeSearch, clearClasstimeOptions, setLastSearchOption } from '../../../actions/timetable/search';
+import {
+  closeSearch,
+  clearClasstimeOptions,
+  setLastSearchOption,
+} from '../../../actions/timetable/search';
 import { setListLectures, clearSearchListLectures } from '../../../actions/timetable/list';
 import { clearLectureFocus } from '../../../actions/timetable/lectureFocus';
 
@@ -23,8 +27,11 @@ import { LectureFocusFrom } from '../../../reducers/timetable/lectureFocus';
 
 import lectureFocusShape from '../../../shapes/state/LectureFocusShape';
 
-import { getTypeOptions, getDepartmentOptions, getLevelOptions } from '../../../common/seachOptions';
-
+import {
+  getTypeOptions,
+  getDepartmentOptions,
+  getLevelOptions,
+} from '../../../common/seachOptions';
 
 class LectureSearchSubSection extends Component {
   INITIAL_STATE = {
@@ -33,7 +40,7 @@ class LectureSearchSubSection extends Component {
     selectedTypes: new Set(['ALL']),
     selectedDepartments: new Set(['ALL']),
     selectedLevels: new Set(['ALL']),
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -45,31 +52,36 @@ class LectureSearchSubSection extends Component {
 
     this.setState(this.INITIAL_STATE);
     closeSearchDispatch();
-  }
+  };
 
   searchStart = () => {
     const LIMIT = 300;
 
     const { t } = this.props;
-    const {
-      selectedTypes, selectedDepartments, selectedLevels,
-      keyword,
-    } = this.state;
+    const { selectedTypes, selectedDepartments, selectedLevels, keyword } = this.state;
     const {
       lectureFocus,
-      year, semester,
-      classtimeBegin, classtimeDay, classtimeEnd,
-      closeSearchDispatch, clearSearchListLecturesDispatch,
-      setListLecturesDispatch, clearLectureFocusDispatch,
+      year,
+      semester,
+      classtimeBegin,
+      classtimeDay,
+      classtimeEnd,
+      closeSearchDispatch,
+      clearSearchListLecturesDispatch,
+      setListLecturesDispatch,
+      clearLectureFocusDispatch,
       setLastSearchOptionDispatch,
     } = this.props;
 
     if (
-      (selectedTypes.size === 1 && selectedTypes.has('ALL'))
-      && (selectedDepartments.size === 1 && selectedDepartments.has('ALL'))
-      && (selectedLevels.size === 1 && selectedLevels.has('ALL'))
-      && keyword.trim().length === 0
-      && !(classtimeBegin !== null && classtimeEnd !== null && classtimeDay !== null)
+      selectedTypes.size === 1 &&
+      selectedTypes.has('ALL') &&
+      selectedDepartments.size === 1 &&
+      selectedDepartments.has('ALL') &&
+      selectedLevels.size === 1 &&
+      selectedLevels.has('ALL') &&
+      keyword.trim().length === 0 &&
+      !(classtimeBegin !== null && classtimeEnd !== null && classtimeDay !== null)
     ) {
       // eslint-disable-next-line no-alert
       alert(t('ui.message.blankSearch'));
@@ -81,9 +93,9 @@ class LectureSearchSubSection extends Component {
       type: Array.from(selectedTypes),
       department: Array.from(selectedDepartments),
       level: Array.from(selectedLevels),
-      day: (classtimeDay !== null) ? classtimeDay : undefined,
-      begin: (classtimeBegin !== null) ? (classtimeBegin / 30 - 8 * 2) : undefined,
-      end: (classtimeEnd !== null) ? (classtimeEnd / 30 - 8 * 2) : undefined,
+      day: classtimeDay !== null ? classtimeDay : undefined,
+      begin: classtimeBegin !== null ? classtimeBegin / 30 - 8 * 2 : undefined,
+      end: classtimeEnd !== null ? classtimeEnd / 30 - 8 * 2 : undefined,
     };
 
     this.setState(this.INITIAL_STATE);
@@ -94,9 +106,8 @@ class LectureSearchSubSection extends Component {
       clearLectureFocusDispatch();
     }
 
-    axios.get(
-      '/api/lectures',
-      {
+    axios
+      .get('/api/lectures', {
         params: {
           year: year,
           semester: semester,
@@ -108,8 +119,7 @@ class LectureSearchSubSection extends Component {
           gaCategory: 'Timetable',
           gaVariable: 'POST / List',
         },
-      },
-    )
+      })
       .then((response) => {
         const newProps = this.props;
         if (newProps.year !== year || newProps.semester !== semester) {
@@ -121,25 +131,24 @@ class LectureSearchSubSection extends Component {
         }
         setListLecturesDispatch(LectureListCode.SEARCH, response.data);
       })
-      .catch((error) => {
-      });
+      .catch((error) => {});
 
     ReactGA.event({
       category: 'Timetable - Search',
       action: 'Searched Lecture',
     });
-  }
+  };
 
   updateCheckedValues = (filterName) => (checkedValues) => {
     this.setState({
       [filterName]: checkedValues,
     });
-  }
+  };
 
   handleSubmit = (e) => {
     e.preventDefault();
     this.searchStart();
-  }
+  };
 
   handleInput = (e) => {
     const { value } = e.target;
@@ -154,15 +163,14 @@ class LectureSearchSubSection extends Component {
     }
 
     this._fetchAutocomplete(value);
-  }
+  };
 
   // eslint-disable-next-line react/sort-comp
   _fetchAutocomplete = debounce((value) => {
     const { year, semester } = this.props;
 
-    axios.get(
-      '/api/lectures/autocomplete',
-      {
+    axios
+      .get('/api/lectures/autocomplete', {
         params: {
           year: year,
           semester: semester,
@@ -172,38 +180,34 @@ class LectureSearchSubSection extends Component {
           gaCategory: 'Lecture',
           gaVariable: 'GET Autocomplete / List',
         },
-      },
-    )
+      })
       .then((response) => {
         const { keyword } = this.state;
         const newProps = this.props;
         const complete = response.data;
-        if (value !== keyword
-          || (newProps.year !== year || newProps.semester !== semester)
-        ) {
+        if (value !== keyword || newProps.year !== year || newProps.semester !== semester) {
           return;
         }
         this.setState({
           autocompleteText: complete.substring(value.length, complete.length),
         });
       })
-      .catch((error) => {
-      });
-  }, 500)
+      .catch((error) => {});
+  }, 500);
 
   applyAutocomplete = () => {
     this.setState((prevState) => ({
       keyword: prevState.keyword + prevState.autocompleteText,
       autocompleteText: '',
     }));
-  }
+  };
 
   clearAutocomplete = () => {
     this.setState({
       keyword: '',
       autocompleteText: '',
     });
-  }
+  };
 
   onKeyPress = (e) => {
     if (e.keyCode === 9) {
@@ -212,25 +216,27 @@ class LectureSearchSubSection extends Component {
       e.preventDefault();
       e.nativeEvent.stopImmediatePropagation();
     }
-  }
+  };
 
   clearSearchTime = () => {
     const { clearClasstimeOptionsDispatch } = this.props;
 
     clearClasstimeOptionsDispatch();
-  }
+  };
 
   render() {
     const { t, searchOpen } = this.props;
     const {
       keyword,
       autocompleteText,
-      selectedTypes, selectedDepartments, selectedLevels,
+      selectedTypes,
+      selectedDepartments,
+      selectedLevels,
     } = this.state;
     const { classtimeBegin, classtimeEnd, classtimeDay } = this.props;
 
     return (
-      <div className={classNames('search-area', (searchOpen ? null : 'search-area--hidden'))}>
+      <div className={classNames('search-area', searchOpen ? null : 'search-area--hidden')}>
         <form onSubmit={this.handleSubmit}>
           <div className={classNames('list-title', 'list-title--search-input')}>
             <i className={classNames('icon', 'icon--search')} />
@@ -246,7 +252,9 @@ class LectureSearchSubSection extends Component {
               />
               <div className={classNames('search-keyword-autocomplete')}>
                 <span className={classNames('search-keyword-autocomplete-space')}>{keyword}</span>
-                <span className={classNames('search-keyword-autocomplete-body')}>{autocompleteText}</span>
+                <span className={classNames('search-keyword-autocomplete-body')}>
+                  {autocompleteText}
+                </span>
               </div>
             </div>
           </div>
@@ -275,25 +283,27 @@ class LectureSearchSubSection extends Component {
             <div className={classNames('attribute')}>
               <span>{t('ui.search.time')}</span>
               <div>
-
-                { classtimeDay !== null
-                  ? (
-                    <span className={classNames('text-button')} onClick={this.clearSearchTime}>
-                      {`${getRangeStr(classtimeDay, classtimeBegin, classtimeEnd)}`}
-                    </span>
-                  )
-                  : (
-                    <span>
-                      {t('ui.others.dragTimetable')}
-                    </span>
-                  )
-                }
+                {classtimeDay !== null ? (
+                  <span className={classNames('text-button')} onClick={this.clearSearchTime}>
+                    {`${getRangeStr(classtimeDay, classtimeBegin, classtimeEnd)}`}
+                  </span>
+                ) : (
+                  <span>{t('ui.others.dragTimetable')}</span>
+                )}
               </div>
             </div>
           </Scroller>
           <div className={classNames('buttons')}>
-            <button type="submit" className={classNames('text-button')}>{t('ui.button.search')}</button>
-            <button type="button" className={classNames('text-button')} onClick={() => this.hideSearch()}>{t('ui.button.cancel')}</button>
+            <button type="submit" className={classNames('text-button')}>
+              {t('ui.button.search')}
+            </button>
+            <button
+              type="button"
+              className={classNames('text-button')}
+              onClick={() => this.hideSearch()}
+            >
+              {t('ui.button.cancel')}
+            </button>
           </div>
           <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
         </form>
@@ -350,9 +360,6 @@ LectureSearchSubSection.propTypes = {
   setLastSearchOptionDispatch: PropTypes.func.isRequired,
 };
 
-
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(
-    LectureSearchSubSection
-  )
+  connect(mapStateToProps, mapDispatchToProps)(LectureSearchSubSection),
 );

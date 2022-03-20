@@ -9,7 +9,6 @@ import MyInfoSubSection from '../components/sections/account/MyInfoSubSection';
 import AcademicInfoSubSection from '../components/sections/account/AcademicInfoSubSection';
 import FavoriteDepartmentsSubSection from '../components/sections/account/FavoriteDepartmentsSubSection';
 
-
 class AccountPage extends Component {
   render() {
     const { t } = this.props;
@@ -37,10 +36,6 @@ class AccountPage extends Component {
   }
 }
 
-AccountPage.propTypes = {
-};
+AccountPage.propTypes = {};
 
-
-export default withTranslation()(
-  AccountPage
-);
+export default withTranslation()(AccountPage);

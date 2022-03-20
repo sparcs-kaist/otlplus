@@ -12,7 +12,9 @@ import timetableShape from '../../../shapes/model/TimetableShape';
 
 import {
   isSingleFocused,
-  getBuildingStr, getRoomStr, getColorNumber,
+  getBuildingStr,
+  getRoomStr,
+  getColorNumber,
   getOverallLectures,
 } from '../../../utils/lectureUtils';
 
@@ -20,7 +22,6 @@ import mapImage from '../../../static/images/timetable/kaist_map.jpg';
 import { unique } from '../../../utils/commonUtils';
 
 import { LectureFocusFrom } from '../../../reducers/timetable/lectureFocus';
-
 
 const POSITION_OF_LOCATIONS = new Map([
   ['E2', { left: 60, top: 81 }],
@@ -43,7 +44,6 @@ const POSITION_OF_LOCATIONS = new Map([
   ['W16', { left: 40, top: 87 }],
 ]);
 
-
 class MapSubSection extends Component {
   constructor(props) {
     super(props);
@@ -53,14 +53,13 @@ class MapSubSection extends Component {
     };
   }
 
-
   _getLecturesOnBuilding = (building) => {
     const { lectureFocus, selectedTimetable } = this.props;
 
-    return getOverallLectures(selectedTimetable, lectureFocus).filter((l) => (
-      getBuildingStr(l) === building
-    ));
-  }
+    return getOverallLectures(selectedTimetable, lectureFocus).filter(
+      (l) => getBuildingStr(l) === building,
+    );
+  };
 
   setFocusOnMap = (building) => {
     const { t } = this.props;
@@ -80,7 +79,7 @@ class MapSubSection extends Component {
     this.setState({
       multipleFocusBuilding: building,
     });
-  }
+  };
 
   clearFocus = () => {
     const { lectureFocus, clearMultipleFocusDispatch } = this.props;
@@ -93,21 +92,20 @@ class MapSubSection extends Component {
     this.setState({
       multipleFocusBuilding: null,
     });
-  }
+  };
 
   render() {
     const { multipleFocusBuilding } = this.state;
     const { selectedTimetable, lectureFocus } = this.props;
 
     const buildings = unique(
-      getOverallLectures(selectedTimetable, lectureFocus).map((l) => getBuildingStr(l))
+      getOverallLectures(selectedTimetable, lectureFocus).map((l) => getBuildingStr(l)),
     );
     const mapBuildingToPin = (b) => {
       const lecturesOnBuilding = this._getLecturesOnBuilding(b);
-      const isPinHighlighted = (
-        lecturesOnBuilding.some((l) => isSingleFocused(l, lectureFocus))
-        || (multipleFocusBuilding === b)
-      );
+      const isPinHighlighted =
+        lecturesOnBuilding.some((l) => isSingleFocused(l, lectureFocus)) ||
+        multipleFocusBuilding === b;
       const position = POSITION_OF_LOCATIONS.get(b) || {};
       return (
         <div
@@ -121,15 +119,40 @@ class MapSubSection extends Component {
             zIndex: position.top,
           }}
         >
-          <div className={classNames('subsection--map__pin__box', (isPinHighlighted ? 'highlighted' : null))}>
+          <div
+            className={classNames(
+              'subsection--map__pin__box',
+              isPinHighlighted ? 'highlighted' : null,
+            )}
+          >
             <span>{b}</span>
             {lecturesOnBuilding.map((l) => {
-              const isCircleHighlighted = isSingleFocused(l, lectureFocus) || (multipleFocusBuilding === b);
-              return <span className={classNames('background-color--dark', `background-color--${getColorNumber(l)}`, (isCircleHighlighted ? 'highlighted' : null))} key={l.id} />;
+              const isCircleHighlighted =
+                isSingleFocused(l, lectureFocus) || multipleFocusBuilding === b;
+              return (
+                <span
+                  className={classNames(
+                    'background-color--dark',
+                    `background-color--${getColorNumber(l)}`,
+                    isCircleHighlighted ? 'highlighted' : null,
+                  )}
+                  key={l.id}
+                />
+              );
             })}
           </div>
-          <div className={classNames('subsection--map__pin__arrow-shadow', (isPinHighlighted ? 'highlighted' : null))} />
-          <div className={classNames('subsection--map__pin__arrow', (isPinHighlighted ? 'highlighted' : null))} />
+          <div
+            className={classNames(
+              'subsection--map__pin__arrow-shadow',
+              isPinHighlighted ? 'highlighted' : null,
+            )}
+          />
+          <div
+            className={classNames(
+              'subsection--map__pin__arrow',
+              isPinHighlighted ? 'highlighted' : null,
+            )}
+          />
         </div>
       );
     };
@@ -138,13 +161,12 @@ class MapSubSection extends Component {
       <div className={classNames('subsection', 'subsection--map', 'mobile-hidden')}>
         <div>
           <img src={mapImage} alt="KAIST Map" />
-          { buildings.map((b) => mapBuildingToPin(b)) }
+          {buildings.map((b) => mapBuildingToPin(b))}
         </div>
       </div>
     );
   }
 }
-
 
 const mapStateToProps = (state) => ({
   selectedTimetable: state.timetable.timetable.selectedTimetable,
@@ -168,9 +190,4 @@ MapSubSection.propTypes = {
   clearMultipleFocusDispatch: PropTypes.func.isRequired,
 };
 
-
-export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(
-    MapSubSection
-  )
-);
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(MapSubSection));

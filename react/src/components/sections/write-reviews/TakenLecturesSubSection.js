@@ -19,15 +19,11 @@ import { getSemesterName } from '../../../utils/semesterUtils';
 import userShape from '../../../shapes/model/UserShape';
 import lectureShape from '../../../shapes/model/LectureShape';
 
-
 class TakenLecturesSubSection extends Component {
   focusLectureWithClick = (lecture) => {
-    const {
-      selectedLecture,
-      setReviewsFocusDispatch, clearReviewsFocusDispatch,
-    } = this.props;
+    const { selectedLecture, setReviewsFocusDispatch, clearReviewsFocusDispatch } = this.props;
 
-    if (selectedLecture && (lecture.id === selectedLecture.id)) {
+    if (selectedLecture && lecture.id === selectedLecture.id) {
       clearReviewsFocusDispatch();
 
       ReactGA.event({
@@ -35,8 +31,7 @@ class TakenLecturesSubSection extends Component {
         action: 'Selected Lecture',
         label: `Lecture : ${lecture.id}`,
       });
-    }
-    else {
+    } else {
       setReviewsFocusDispatch(ReviewsFocusFrom.LECTURE, lecture);
 
       ReactGA.event({
@@ -45,8 +40,7 @@ class TakenLecturesSubSection extends Component {
         label: `Lecture : ${lecture.id}`,
       });
     }
-  }
-
+  };
 
   render() {
     const { t } = this.props;
@@ -56,9 +50,8 @@ class TakenLecturesSubSection extends Component {
     // eslint-disable-next-line fp/no-mutating-methods
     const targetSemesters = unique(
       writableTakenLectures.map((l) => ({ year: l.year, semester: l.semester })),
-      (a, b) => ((a.year === b.year) && (a.semester === b.semester))
-    )
-      .sort((a, b) => ((a.year !== b.year) ? (b.year - a.year) : (b.semester - a.semester)));
+      (a, b) => a.year === b.year && a.semester === b.semester,
+    ).sort((a, b) => (a.year !== b.year ? b.year - a.year : b.semester - a.semester));
 
     const getTakenLecturesArea = () => {
       if (!user) {
@@ -73,56 +66,48 @@ class TakenLecturesSubSection extends Component {
       }
       return (
         <Scroller expandTop={12}>
-          {
-            targetSemesters.map((s, i) => (
-              <React.Fragment key={`${s.year}-${s.semester}`}>
-                {
-                  (i !== 0)
-                    ? <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
-                    : null
-                }
-                <div className={classNames('small-title')}>
-                  {`${s.year} ${getSemesterName(s.semester)}`}
-                </div>
-                <div className={classNames('block-grid')}>
-                  {
-                    writableTakenLectures
-                      .filter((l) => (l.year === s.year && l.semester === s.semester))
-                      .map((l) => (
-                        !selectedLecture
-                          ? (
-                            <LectureSimpleBlock
-                              key={l.id}
-                              lecture={l}
-                              isRaised={false}
-                              isDimmed={false}
-                              hasReview={user.reviews.some((r) => (r.lecture.id === l.id))}
-                              onClick={this.focusLectureWithClick}
-                            />
-                          )
-                          : (
-                            <LectureSimpleBlock
-                              key={l.id}
-                              lecture={l}
-                              isRaised={selectedLecture.id === l.id}
-                              isDimmed={selectedLecture.id !== l.id}
-                              hasReview={user.reviews.some((r) => (r.lecture.id === l.id))}
-                              onClick={this.focusLectureWithClick}
-                            />
-                          )
-                      ))
-                  }
-                </div>
-              </React.Fragment>
-            ))
-          }
+          {targetSemesters.map((s, i) => (
+            <React.Fragment key={`${s.year}-${s.semester}`}>
+              {i !== 0 ? (
+                <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
+              ) : null}
+              <div className={classNames('small-title')}>
+                {`${s.year} ${getSemesterName(s.semester)}`}
+              </div>
+              <div className={classNames('block-grid')}>
+                {writableTakenLectures
+                  .filter((l) => l.year === s.year && l.semester === s.semester)
+                  .map((l) =>
+                    !selectedLecture ? (
+                      <LectureSimpleBlock
+                        key={l.id}
+                        lecture={l}
+                        isRaised={false}
+                        isDimmed={false}
+                        hasReview={user.reviews.some((r) => r.lecture.id === l.id)}
+                        onClick={this.focusLectureWithClick}
+                      />
+                    ) : (
+                      <LectureSimpleBlock
+                        key={l.id}
+                        lecture={l}
+                        isRaised={selectedLecture.id === l.id}
+                        isDimmed={selectedLecture.id !== l.id}
+                        hasReview={user.reviews.some((r) => r.lecture.id === l.id)}
+                        onClick={this.focusLectureWithClick}
+                      />
+                    ),
+                  )}
+              </div>
+            </React.Fragment>
+          ))}
         </Scroller>
       );
     };
 
     return (
       <div className={classNames('subsection', 'subsection--taken-lectures')}>
-        { getTakenLecturesArea() }
+        {getTakenLecturesArea()}
       </div>
     );
   }
@@ -150,9 +135,6 @@ TakenLecturesSubSection.propTypes = {
   clearReviewsFocusDispatch: PropTypes.func.isRequired,
 };
 
-
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(
-    TakenLecturesSubSection
-  )
+  connect(mapStateToProps, mapDispatchToProps)(TakenLecturesSubSection),
 );

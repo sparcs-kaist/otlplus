@@ -16,12 +16,7 @@ import { formatNewlineToBr } from '../../utils/commonUtils';
 import { getSemesterName } from '../../utils/semesterUtils';
 import { CONTACT } from '../../common/constants';
 
-
-const ReviewBlock = ({
-  t,
-  review,
-  shouldLimitLines, linkTo, pageFrom,
-}) => {
+const ReviewBlock = ({ t, review, shouldLimitLines, linkTo, pageFrom }) => {
   const [changedLikes, setChangedLikes] = useState(review.like);
   const [changedIsLiked, setChangedIsLiked] = useState(review.userspecific_is_liked);
 
@@ -29,23 +24,22 @@ const ReviewBlock = ({
     e.stopPropagation();
     e.preventDefault();
 
-    axios.post(
-      `/api/reviews/${review.id}/like`,
-      {
-      },
-      {
-        metadata: {
-          gaCategory: 'Review',
-          gaVariable: 'POST Like / Instance',
+    axios
+      .post(
+        `/api/reviews/${review.id}/like`,
+        {},
+        {
+          metadata: {
+            gaCategory: 'Review',
+            gaVariable: 'POST Like / Instance',
+          },
         },
-      },
-    )
+      )
       .then((response) => {
         setChangedLikes(changedLikes + 1);
         setChangedIsLiked(true);
       })
-      .catch((error) => {
-      });
+      .catch((error) => {});
 
     ReactGA.event({
       category: 'Review',
@@ -82,7 +76,7 @@ const ReviewBlock = ({
       <div
         className={classNames(
           'block--review__content',
-          (shouldLimitLines ? 'block--review__content--limit-5' : null),
+          shouldLimitLines ? 'block--review__content--limit-5' : null,
         )}
       >
         {contentDisplay}
@@ -111,18 +105,28 @@ const ReviewBlock = ({
           </span>
         </span>
         <span>
-          {!changedIsLiked
-            ? (
-              <button className={classNames('text-button', 'text-button--review-block')} onClick={onLikeClick}>
-                {t('ui.button.like')}
-              </button>
-            )
-            : (
-              <button className={classNames('text-button', 'text-button--disabled', 'text-button--review-block')}>
-                {t('ui.button.like')}
-              </button>
-            )}
-          <button className={classNames('text-button', 'text-button--black', 'text-button--review-block')} onClick={onReportClick}>
+          {!changedIsLiked ? (
+            <button
+              className={classNames('text-button', 'text-button--review-block')}
+              onClick={onLikeClick}
+            >
+              {t('ui.button.like')}
+            </button>
+          ) : (
+            <button
+              className={classNames(
+                'text-button',
+                'text-button--disabled',
+                'text-button--review-block',
+              )}
+            >
+              {t('ui.button.like')}
+            </button>
+          )}
+          <button
+            className={classNames('text-button', 'text-button--black', 'text-button--review-block')}
+            onClick={onReportClick}
+          >
             {t('ui.button.report')}
           </button>
         </span>
@@ -138,9 +142,4 @@ ReviewBlock.propTypes = {
   pageFrom: PropTypes.string.isRequired,
 };
 
-
-export default withTranslation()(
-  React.memo(
-    ReviewBlock
-  )
-);
+export default withTranslation()(React.memo(ReviewBlock));

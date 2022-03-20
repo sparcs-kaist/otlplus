@@ -18,11 +18,20 @@
     "arrow-body-style": "off",
     "arrow-parens": [2, "always"],
     "brace-style": [2, "stroustrup"],
-    "comma-dangle": ["error", {"arrays": "always-multiline", "objects": "always-multiline", "imports": "always-multiline", "exports": "always-multiline", "functions": "only-multiline"}],
+    "comma-dangle": [
+      "error",
+      {
+        "arrays": "always-multiline",
+        "objects": "always-multiline",
+        "imports": "always-multiline",
+        "exports": "always-multiline",
+        "functions": "only-multiline"
+      }
+    ],
     "max-len": 1,
     "no-nested-ternary": "off",
     "no-underscore-dangle": ["error", { "allowAfterThis": true, "allowAfterSuper": true }],
-    "no-unused-vars": ["error", {"args": "none"}],
+    "no-unused-vars": ["error", { "args": "none" }],
     "object-shorthand": [1, "never"],
     "prefer-destructuring": "off",
 
@@ -34,7 +43,7 @@
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "react/require-default-props": "off",
     "react/prefer-stateless-function": 0,
-    "react/prop-types": [2, {"ignore": ["children", "match", "t", "i18n"]}],
+    "react/prop-types": [2, { "ignore": ["children", "match", "t", "i18n"] }],
 
     "no-loops/no-loops": "error",
 
@@ -47,7 +56,19 @@
     "fp/no-loops": "warn",
     "fp/no-mutating-assign": "warn",
     "fp/no-mutating-methods": "warn",
-    "fp/no-mutation": ["warn", {"exceptions": [{"property": "propTypes"}, {"property": "defaultProps"}, {"property": "state"}, {"property": "interval"}, {"property": "scrollTop"}, {"property": "scrollLeft"}]}],
+    "fp/no-mutation": [
+      "warn",
+      {
+        "exceptions": [
+          { "property": "propTypes" },
+          { "property": "defaultProps" },
+          { "property": "state" },
+          { "property": "interval" },
+          { "property": "scrollTop" },
+          { "property": "scrollLeft" }
+        ]
+      }
+    ],
     "fp/no-nil": "off",
     "fp/no-proxy": "warn",
     "fp/no-rest-parameters": "warn",

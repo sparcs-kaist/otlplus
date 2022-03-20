@@ -9,7 +9,6 @@ export const CLEAR_CLASSTIME_OPTIONS = BASE_STRING + 'CLEAR_CLASSTIME_OPTIONS';
 export const SET_LAST_SEARCH_OPTION = BASE_STRING + 'SET_LAST_SEARCH_OPTION';
 /* eslint-enable prefer-template */
 
-
 export function reset() {
   return {
     type: RESET,

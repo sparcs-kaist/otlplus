@@ -7,7 +7,6 @@ export const CLOSE_SEARCH = BASE_STRING + 'CLOSE_SEARCH';
 export const SET_LAST_SEARCH_OPTION = BASE_STRING + 'SET_LAST_SEARCH_OPTION';
 /* eslint-enable prefer-template */
 
-
 export function reset() {
   return {
     type: RESET,

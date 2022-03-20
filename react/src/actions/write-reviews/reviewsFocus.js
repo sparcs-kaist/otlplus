@@ -7,7 +7,6 @@ export const CLEAR_REVIEWS_FOCUS = BASE_STRING + 'CLEAR_REVIEWS_FOCUS';
 export const SET_REVIEWS = BASE_STRING + 'SET_REVIEWS';
 /* eslint-enable prefer-template */
 
-
 export function reset() {
   return {
     type: RESET,

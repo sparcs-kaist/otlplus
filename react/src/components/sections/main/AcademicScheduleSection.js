@@ -9,7 +9,6 @@ import semesterShape from '../../../shapes/model/SemesterShape';
 
 import { getCurrentSchedule, getSemesterName } from '../../../utils/semesterUtils';
 
-
 class AcademicScheduleSection extends Component {
   constructor(props) {
     super(props);
@@ -25,7 +24,6 @@ class AcademicScheduleSection extends Component {
   componentWillUnmount() {
     clearInterval(this.interval);
   }
-
 
   render() {
     const { t } = this.props;
@@ -65,14 +63,22 @@ class AcademicScheduleSection extends Component {
       return (
         <div className={classNames('academic-schedule')}>
           <div>
-            {`D-${t('ui.others.dayCount', { count: days })} ${t('ui.others.hourCount', { count: hours })} ${t('ui.others.minuteCount', { count: minutes })} ${t('ui.others.secondCount', { count: seconds })}`}
+            {`D-${t('ui.others.dayCount', { count: days })} ${t('ui.others.hourCount', {
+              count: hours,
+            })} ${t('ui.others.minuteCount', { count: minutes })} ${t('ui.others.secondCount', {
+              count: seconds,
+            })}`}
           </div>
           <div>
             <strong>
-              {`${targetSchedule.year} ${getSemesterName(targetSchedule.semester)} ${t(`ui.schedule.${targetSchedule.type}`)}`}
+              {`${targetSchedule.year} ${getSemesterName(targetSchedule.semester)} ${t(
+                `ui.schedule.${targetSchedule.type}`,
+              )}`}
             </strong>
             <span>
-              {`${targetScheduleTime.getFullYear()}.${targetScheduleTime.getMonth() + 1}.${targetScheduleTime.getDate()}`}
+              {`${targetScheduleTime.getFullYear()}.${
+                targetScheduleTime.getMonth() + 1
+              }.${targetScheduleTime.getDate()}`}
             </span>
           </div>
         </div>
@@ -82,7 +88,7 @@ class AcademicScheduleSection extends Component {
     return (
       <div className={classNames('section', 'section--feed')}>
         <div className={classNames('subsection', 'subsection--feed')}>
-          { getAcademicScheduleContent() }
+          {getAcademicScheduleContent()}
           <div className={classNames('buttons')}>
             <a
               href="https://ssogw6.kaist.ac.kr"
@@ -93,8 +99,8 @@ class AcademicScheduleSection extends Component {
               {t('ui.button.goToAcademicSystem')}
             </a>
           </div>
-        </div> 
-      </div> 
+        </div>
+      </div>
     );
   }
 }
@@ -103,16 +109,12 @@ const mapStateToProps = (state) => ({
   semesters: state.common.semester.semesters,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-});
+const mapDispatchToProps = (dispatch) => ({});
 
 AcademicScheduleSection.propTypes = {
   semesters: PropTypes.arrayOf(semesterShape),
 };
 
-
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(
-    AcademicScheduleSection
-  )
+  connect(mapStateToProps, mapDispatchToProps)(AcademicScheduleSection),
 );

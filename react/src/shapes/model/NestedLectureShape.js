@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import nestedProfessorShape from './NestedProfessorShape';
 
-
 const nestedLectureShape = PropTypes.shape({
   id: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,

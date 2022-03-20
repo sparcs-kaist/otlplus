@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
 
-
 class CloseButton extends Component {
   render() {
     const { onClick } = this.props;

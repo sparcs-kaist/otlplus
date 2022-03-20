@@ -6,17 +6,11 @@ import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 
 import lectureShape from '../../shapes/model/LectureShape';
 
-
-const LectureSimpleBlock = ({
-  t,
-  lecture,
-  isRaised, isDimmed, hasReview,
-  onClick,
-}) => {
+const LectureSimpleBlock = ({ t, lecture, isRaised, isDimmed, hasReview, onClick }) => {
   const handleClick = onClick
     ? (event) => {
-      onClick(lecture);
-    }
+        onClick(lecture);
+      }
     : null;
 
   return (
@@ -24,20 +18,18 @@ const LectureSimpleBlock = ({
       className={classNames(
         'block',
         'block--lecture-simple',
-        (onClick ? 'block--clickable' : null),
-        (isRaised ? 'block--raised' : null),
-        (isDimmed ? 'block--dimmed' : null),
-        (hasReview ? 'block--completed' : null),
+        onClick ? 'block--clickable' : null,
+        isRaised ? 'block--raised' : null,
+        isDimmed ? 'block--dimmed' : null,
+        hasReview ? 'block--completed' : null,
       )}
       onClick={handleClick}
     >
       <div className={classNames('block__completed-text')}>{t('ui.others.written')}</div>
       <div className={classNames('block--lecture-simple__title')}>
-        { lecture[t('js.property.title')] }
+        {lecture[t('js.property.title')]}
       </div>
-      <div className={classNames('block--lecture-simple__subtitle')}>
-        { lecture.old_code }
-      </div>
+      <div className={classNames('block--lecture-simple__subtitle')}>{lecture.old_code}</div>
     </div>
   );
 };
@@ -50,9 +42,4 @@ LectureSimpleBlock.propTypes = {
   onClick: PropTypes.func.isRequired,
 };
 
-
-export default withTranslation()(
-  React.memo(
-    LectureSimpleBlock
-  )
-);
+export default withTranslation()(React.memo(LectureSimpleBlock));

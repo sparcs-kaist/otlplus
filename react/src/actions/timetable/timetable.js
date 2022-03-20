@@ -17,7 +17,6 @@ export const SET_IS_DRAGGING = BASE_STRING + 'SET_IS_DRAGGING';
 export const SET_MOBILE_IS_TIMETABLE_TABS_OPEN = BASE_STRING + 'SET_MOBILE_IS_TIMETABLE_TABS_OPEN';
 /* eslint-enable prefer-template */
 
-
 export function reset() {
   return {
     type: RESET,

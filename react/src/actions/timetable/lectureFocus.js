@@ -9,7 +9,6 @@ export const SET_MULTIPLE_FOCUS = BASE_STRING + 'SET_MULTIPLE_FOCUS';
 export const CLEAR_MULTIPLE_FOCUS = BASE_STRING + 'CLEAR_MULTIPLE_FOCUS';
 /* eslint-enable prefer-template */
 
-
 export function reset() {
   return {
     type: RESET,

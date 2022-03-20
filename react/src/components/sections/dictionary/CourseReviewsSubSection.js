@@ -18,7 +18,6 @@ import userShape from '../../../shapes/model/UserShape';
 import { calcAverage, getAverageScoreLabel } from '../../../utils/scoreUtils';
 import Scores from '../../Scores';
 
-
 class CourseReviewsSubSection extends Component {
   constructor(props) {
     super(props);
@@ -38,11 +37,11 @@ class CourseReviewsSubSection extends Component {
       category: 'Dictionary - Review',
       action: 'Filtered Review',
     });
-  }
+  };
 
   _getProfessorFormValue = (professor) => {
     return String(professor.professor_id);
-  }
+  };
 
   _checkLectureProfessor = (lecture) => {
     const { selectedProfessors } = this.state;
@@ -50,12 +49,12 @@ class CourseReviewsSubSection extends Component {
       return true;
     }
     return lecture.professors.some((p) => selectedProfessors.has(this._getProfessorFormValue(p)));
-  }
+  };
 
   _checkLectureCourse = (lecture) => {
     const { courseFocus } = this.props;
     return lecture.course === courseFocus.course.id;
-  }
+  };
 
   _checkReviewLanguage = (review) => {
     const { selectedLanguages } = this.state;
@@ -65,16 +64,16 @@ class CourseReviewsSubSection extends Component {
     if (selectedLanguages.has('ENG')) {
       const engAndKorLength = (review.content.match(/[A-Za-z가-힣]/g) || []).length;
       const engLength = (review.content.match(/[A-Za-z]/g) || []).length;
-      return (engAndKorLength === 0) || (engLength / engAndKorLength > 0.55);
+      return engAndKorLength === 0 || engLength / engAndKorLength > 0.55;
     }
     return false;
-  }
+  };
 
   updateOnReviewSubmit = (review, isNew) => {
     const { updateUserReviewDispatch, updateReviewDispatch } = this.props;
     updateUserReviewDispatch(review);
     updateReviewDispatch(review, isNew);
-  }
+  };
 
   render() {
     const { t } = this.props;
@@ -87,9 +86,10 @@ class CourseReviewsSubSection extends Component {
 
     const professorOptions = [
       ['ALL', t('ui.type.allShort')],
-      ...(courseFocus.course.professors
-        .map((p) => [this._getProfessorFormValue(p), p[t('js.property.name')]])
-      ),
+      ...courseFocus.course.professors.map((p) => [
+        this._getProfessorFormValue(p),
+        p[t('js.property.name')],
+      ]),
     ];
     const languageOptions = [
       ['ALL', t('ui.language.allShort')],
@@ -97,59 +97,51 @@ class CourseReviewsSubSection extends Component {
     ];
 
     const takenLecturesOfCourse = user
-      ? user.review_writable_lectures.filter((l) => (
-        this._checkLectureCourse(l) && this._checkLectureProfessor(l)
-      ))
-      : [];
-    const reviewWriteBlocksArea = (
-      takenLecturesOfCourse.length === 0
-        ? undefined
-        : (
-          <div className={classNames('block-list')}>
-            {
-              takenLecturesOfCourse.map((l) => (
-                <ReviewWriteBlock
-                  lecture={l}
-                  key={l.id}
-                  review={user.reviews.find((r) => (r.lecture.id === l.id))}
-                  pageFrom="Dictionary"
-                  updateOnSubmit={this.updateOnReviewSubmit}
-                />
-              ))
-            }
-          </div>
+      ? user.review_writable_lectures.filter(
+          (l) => this._checkLectureCourse(l) && this._checkLectureProfessor(l),
         )
-    );
+      : [];
+    const reviewWriteBlocksArea =
+      takenLecturesOfCourse.length === 0 ? undefined : (
+        <div className={classNames('block-list')}>
+          {takenLecturesOfCourse.map((l) => (
+            <ReviewWriteBlock
+              lecture={l}
+              key={l.id}
+              review={user.reviews.find((r) => r.lecture.id === l.id)}
+              pageFrom="Dictionary"
+              updateOnSubmit={this.updateOnReviewSubmit}
+            />
+          ))}
+        </div>
+      );
 
-    const filteredReviews = courseFocus.reviews == null
-      ? null
-      : courseFocus.reviews.filter((r) => (
-        this._checkLectureProfessor(r.lecture) && this._checkReviewLanguage(r)
-      ));
-    const reviewBlocksArea = (filteredReviews == null)
-      ? (
+    const filteredReviews =
+      courseFocus.reviews == null
+        ? null
+        : courseFocus.reviews.filter(
+            (r) => this._checkLectureProfessor(r.lecture) && this._checkReviewLanguage(r),
+          );
+    const reviewBlocksArea =
+      filteredReviews == null ? (
         <div className={classNames('list-placeholder', 'min-height-area')}>
           <div>{t('ui.placeholder.loading')}</div>
         </div>
-      )
-      : (filteredReviews.length
-        ? (
-          <div className={classNames('block-list', 'min-height-area')}>
-            {filteredReviews.map((r) => <ReviewBlock review={r} shouldLimitLines={false} pageFrom="Dictionary" key={r.id} />)}
-          </div>
-        )
-        : (
-          <div className={classNames('list-placeholder', 'min-height-area')}>
-            <div>{t('ui.placeholder.noResults')}</div>
-          </div>
-        )
+      ) : filteredReviews.length ? (
+        <div className={classNames('block-list', 'min-height-area')}>
+          {filteredReviews.map((r) => (
+            <ReviewBlock review={r} shouldLimitLines={false} pageFrom="Dictionary" key={r.id} />
+          ))}
+        </div>
+      ) : (
+        <div className={classNames('list-placeholder', 'min-height-area')}>
+          <div>{t('ui.placeholder.noResults')}</div>
+        </div>
       );
 
-    const [, , , [grade, load, speech]] = (
-      filteredReviews
-        ? calcAverage(filteredReviews)
-        : [0, 0, [0, 0, 0], [0, 0, 0]]
-    );
+    const [, , , [grade, load, speech]] = filteredReviews
+      ? calcAverage(filteredReviews)
+      : [0, 0, [0, 0, 0], [0, 0, 0]];
 
     return (
       <div className={classNames('subsection', 'subsection--course-reviews')}>
@@ -176,8 +168,8 @@ class CourseReviewsSubSection extends Component {
           ]}
           big
         />
-        { reviewWriteBlocksArea }
-        { reviewBlocksArea }
+        {reviewWriteBlocksArea}
+        {reviewBlocksArea}
       </div>
     );
   }
@@ -205,9 +197,6 @@ CourseReviewsSubSection.propTypes = {
   updateReviewDispatch: PropTypes.func.isRequired,
 };
 
-
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(
-    CourseReviewsSubSection
-  )
+  connect(mapStateToProps, mapDispatchToProps)(CourseReviewsSubSection),
 );

@@ -11,20 +11,15 @@ import CourseListSection from '../components/sections/dictionary/CourseListSecti
 import CourseDetailSection from '../components/sections/dictionary/CourseDetailSection';
 import CourseListTabs from '../components/sections/dictionary/CourseListTabs';
 
-import {
-  reset as resetCourseFocus,
-  setCourseFocus,
-} from '../actions/dictionary/courseFocus';
+import { reset as resetCourseFocus, setCourseFocus } from '../actions/dictionary/courseFocus';
 import {
   reset as resetList,
-  setSelectedListCode, setListCourses, clearSearchListCourses,
+  setSelectedListCode,
+  setListCourses,
+  clearSearchListCourses,
 } from '../actions/dictionary/list';
-import {
-  reset as resetSearch,
-  closeSearch,
-} from '../actions/dictionary/search';
+import { reset as resetSearch, closeSearch } from '../actions/dictionary/search';
 import { performSearchCourses } from '../common/commonOperations';
-
 
 class DictionaryPage extends Component {
   componentDidMount() {
@@ -32,25 +27,25 @@ class DictionaryPage extends Component {
     // eslint-disable-next-line react/destructuring-assignment
     const { startCourseId, startTab, startSearchKeyword } = this.props.location.state || {};
     const {
-      setCourseFocusDispatch, setSelectedListCodeDispatch, setListCoursesDispatch,
-      closeSearchDispatch, clearSearchListCoursesDispatch,
+      setCourseFocusDispatch,
+      setSelectedListCodeDispatch,
+      setListCoursesDispatch,
+      closeSearchDispatch,
+      clearSearchListCoursesDispatch,
     } = this.props;
 
     if (startCourseId) {
-      axios.get(
-        `/api/courses/${startCourseId}`,
-        {
+      axios
+        .get(`/api/courses/${startCourseId}`, {
           metadata: {
             gaCategory: 'Course',
             gaVariable: 'GET / Instance',
           },
-        },
-      )
+        })
         .then((response) => {
           setCourseFocusDispatch(response.data);
         })
-        .catch((error) => {
-        });
+        .catch((error) => {});
     }
 
     if (startTab) {
@@ -74,12 +69,8 @@ class DictionaryPage extends Component {
         }
         setListCoursesDispatch(CourseListCode.SEARCH, courses);
       };
-      performSearchCourses(
-        option, LIMIT,
-        beforeRequest, afterResponse,
-      );
-    }
-    else if ((startSearchKeyword !== undefined) && (startSearchKeyword.trim().length === 0)) {
+      performSearchCourses(option, LIMIT, beforeRequest, afterResponse);
+    } else if (startSearchKeyword !== undefined && startSearchKeyword.trim().length === 0) {
       // eslint-disable-next-line no-alert
       alert(t('ui.message.blankSearchKeyword'));
       // eslint-disable-next-line no-useless-return
@@ -110,8 +101,7 @@ class DictionaryPage extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-});
+const mapStateToProps = (state) => ({});
 
 const mapDispatchToProps = (dispatch) => ({
   resetCourseFocusDispatch: () => {
@@ -159,9 +149,4 @@ DictionaryPage.propTypes = {
   clearSearchListCoursesDispatch: PropTypes.func.isRequired,
 };
 
-
-export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(
-    DictionaryPage
-  )
-);
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(DictionaryPage));

@@ -11,42 +11,42 @@ import ReviewBlock from '../../blocks/ReviewBlock';
 import reviewShape from '../../../shapes/model/ReviewShape';
 import departmentShape from '../../../shapes/model/DepartmentShape';
 
-
 class FamousMajorReviewFeedSection extends Component {
   render() {
     const { t } = this.props;
     const { department, reviews } = this.props;
 
     return (
-    // eslint-disable-next-line react/jsx-indent
-    <div className={classNames('section', 'section--feed')}>
-      <div className={classNames('subsection', 'subsection--feed')}>
-        <div className={classNames('title')}>
-          {`${t('ui.title.famousMajorReviews')} - ${department[t('js.property.name')]}`}
-        </div>
-        <div className={classNames('block-list')}>
-          {
-            reviews.map((r) => (
+      // eslint-disable-next-line react/jsx-indent
+      <div className={classNames('section', 'section--feed')}>
+        <div className={classNames('subsection', 'subsection--feed')}>
+          <div className={classNames('title')}>
+            {`${t('ui.title.famousMajorReviews')} - ${department[t('js.property.name')]}`}
+          </div>
+          <div className={classNames('block-list')}>
+            {reviews.map((r) => (
               <ReviewBlock
                 review={r}
                 shouldLimitLines={true}
-                linkTo={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: r.course.id }) }}
+                linkTo={{
+                  pathname: '/dictionary',
+                  search: qs.stringify({ startCourseId: r.course.id }),
+                }}
                 pageFrom="Main"
                 key={r.id}
               />
-            ))
-          }
-        </div>
-        <div className={classNames('buttons')}>
-          <Link
-            to={{ pathname: '/dictionary', search: qs.stringify({ startTab: department.code }) }}
-            className={classNames('text-button')}
-          >
-            {t('ui.button.seeMoreReviews')}
-          </Link>
+            ))}
+          </div>
+          <div className={classNames('buttons')}>
+            <Link
+              to={{ pathname: '/dictionary', search: qs.stringify({ startTab: department.code }) }}
+              className={classNames('text-button')}
+            >
+              {t('ui.button.seeMoreReviews')}
+            </Link>
+          </div>
         </div>
       </div>
-    </div>
     );
   }
 }
@@ -56,7 +56,4 @@ FamousMajorReviewFeedSection.propTypes = {
   reviews: PropTypes.arrayOf(reviewShape).isRequired,
 };
 
-
-export default withTranslation()(
-  FamousMajorReviewFeedSection
-);
+export default withTranslation()(FamousMajorReviewFeedSection);

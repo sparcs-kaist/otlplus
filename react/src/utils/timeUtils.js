@@ -1,6 +1,5 @@
 import i18n from 'i18next';
 
-
 export const getDayStr = (day) => {
   const dayNames = [
     i18n.t('ui.day.monday'),

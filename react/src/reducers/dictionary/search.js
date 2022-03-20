@@ -1,5 +1,8 @@
 import {
-  RESET, OPEN_SEARCH, CLOSE_SEARCH, SET_LAST_SEARCH_OPTION,
+  RESET,
+  OPEN_SEARCH,
+  CLOSE_SEARCH,
+  SET_LAST_SEARCH_OPTION,
 } from '../../actions/dictionary/search';
 
 const initialState = {

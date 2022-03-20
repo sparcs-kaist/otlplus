@@ -1,10 +1,10 @@
 import {
   RESET,
   SET_SELECTED_LIST_CODE,
-  SET_LIST_COURSES, CLEAR_SEARCH_LIST_COURSES,
+  SET_LIST_COURSES,
+  CLEAR_SEARCH_LIST_COURSES,
   ADD_COURSE_READ,
 } from '../../actions/dictionary/list';
-
 
 export const CourseListCode = {
   SEARCH: 'search',
@@ -12,7 +12,6 @@ export const CourseListCode = {
   HUMANITY: 'humanity',
   TAKEN: 'taken',
 };
-
 
 const initialState = {
   selectedListCode: CourseListCode.SEARCH,
@@ -63,10 +62,7 @@ const list = (state = initialState, action) => {
     }
     case ADD_COURSE_READ: {
       const newState = {
-        readCourses: [
-          ...state.readCourses,
-          action.course,
-        ],
+        readCourses: [...state.readCourses, action.course],
       };
       return Object.assign({}, state, newState);
     }

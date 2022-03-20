@@ -6,7 +6,6 @@ import { appBoundClassNames as classNames } from '../common/boundClassNames';
 
 import Scroller from '../components/Scroller';
 
-
 const privacyMarkdown = raw('../../PRIVACY.md');
 
 const markdownComponents = {
@@ -23,9 +22,7 @@ class PrivacyPage extends Component {
             <div className={classNames('subsection', 'subsection--privacy')}>
               <Scroller>
                 <div className={classNames('subsection--privacy__content')}>
-                  <ReactMarkdown components={markdownComponents}>
-                    { privacyMarkdown }
-                  </ReactMarkdown>
+                  <ReactMarkdown components={markdownComponents}>{privacyMarkdown}</ReactMarkdown>
                 </div>
               </Scroller>
             </div>

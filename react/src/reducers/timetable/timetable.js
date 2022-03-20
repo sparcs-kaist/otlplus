@@ -1,10 +1,14 @@
 import {
   RESET,
-  SET_TIMETABLES, CLEAR_TIMETABLES,
+  SET_TIMETABLES,
+  CLEAR_TIMETABLES,
   SET_MY_TIMETABLE_LECTURES,
   SET_SELECTED_TIMETABLE,
-  CREATE_TIMETABLE, DELETE_TIMETABLE, DUPLICATE_TIMETABLE,
-  ADD_LECTURE_TO_TIMETABLE, REMOVE_LECTURE_FROM_TIMETABLE,
+  CREATE_TIMETABLE,
+  DELETE_TIMETABLE,
+  DUPLICATE_TIMETABLE,
+  ADD_LECTURE_TO_TIMETABLE,
+  REMOVE_LECTURE_FROM_TIMETABLE,
   REORDER_TIMETABLE,
   UPDATE_CELL_SIZE,
   SET_IS_DRAGGING,
@@ -35,24 +39,22 @@ const timetable = (state = initialState, action) => {
     case SET_TIMETABLES: {
       return Object.assign({}, state, {
         timetables: action.timetables,
-        selectedTimetable: (
-          state.selectedTimetable && (state.selectedTimetable.id === state.myTimetable.id)
+        selectedTimetable:
+          state.selectedTimetable && state.selectedTimetable.id === state.myTimetable.id
             ? state.selectedTimetable
-            : action.timetables[0]
-        ),
+            : action.timetables[0],
       });
     }
     case CLEAR_TIMETABLES: {
       return Object.assign({}, state, {
         timetables: null,
-        selectedTimetable: (
-          state.selectedTimetable && (state.selectedTimetable.id === state.myTimetable.id)
+        selectedTimetable:
+          state.selectedTimetable && state.selectedTimetable.id === state.myTimetable.id
             ? {
-              ...state.selectedTimetable,
-              lectures: [],
-            }
-            : null
-        ),
+                ...state.selectedTimetable,
+                lectures: [],
+              }
+            : null,
       });
     }
     case SET_MY_TIMETABLE_LECTURES: {
@@ -61,14 +63,13 @@ const timetable = (state = initialState, action) => {
           ...state.myTimetable,
           lectures: action.lectures,
         },
-        selectedTimetable: (
-          state.selectedTimetable && (state.selectedTimetable.id === state.myTimetable.id)
+        selectedTimetable:
+          state.selectedTimetable && state.selectedTimetable.id === state.myTimetable.id
             ? {
-              ...state.selectedTimetable,
-              lectures: action.lectures,
-            }
-            : state.selectedTimetable
-        ),
+                ...state.selectedTimetable,
+                lectures: action.lectures,
+              }
+            : state.selectedTimetable,
       });
     }
     case SET_SELECTED_TIMETABLE: {
@@ -77,9 +78,10 @@ const timetable = (state = initialState, action) => {
       });
     }
     case CREATE_TIMETABLE: {
-      const newArrangeOrder = state.timetables.length > 0
-        ? Math.max(...state.timetables.map((t) => t.arrange_order)) + 1
-        : 0;
+      const newArrangeOrder =
+        state.timetables.length > 0
+          ? Math.max(...state.timetables.map((t) => t.arrange_order)) + 1
+          : 0;
       const newTable = {
         id: action.id,
         lectures: [],
@@ -87,18 +89,16 @@ const timetable = (state = initialState, action) => {
       };
       return Object.assign({}, state, {
         selectedTimetable: newTable,
-        timetables: [
-          ...state.timetables,
-          newTable,
-        ],
+        timetables: [...state.timetables, newTable],
       });
     }
     case DELETE_TIMETABLE: {
-      const indexOfTable = state.timetables.findIndex((t) => (t.id === action.timetable.id));
-      const newTables = state.timetables.filter((t) => (t.id !== action.timetable.id));
-      const newSelectedTimetable = (indexOfTable !== state.timetables.length - 1)
-        ? newTables[indexOfTable]
-        : newTables[indexOfTable - 1];
+      const indexOfTable = state.timetables.findIndex((t) => t.id === action.timetable.id);
+      const newTables = state.timetables.filter((t) => t.id !== action.timetable.id);
+      const newSelectedTimetable =
+        indexOfTable !== state.timetables.length - 1
+          ? newTables[indexOfTable]
+          : newTables[indexOfTable - 1];
       return Object.assign({}, state, {
         selectedTimetable: newSelectedTimetable,
         timetables: newTables,
@@ -112,10 +112,7 @@ const timetable = (state = initialState, action) => {
       };
       return Object.assign({}, state, {
         selectedTimetable: newTable,
-        timetables: [
-          ...state.timetables,
-          newTable,
-        ],
+        timetables: [...state.timetables, newTable],
       });
     }
     case ADD_LECTURE_TO_TIMETABLE: {
@@ -123,11 +120,7 @@ const timetable = (state = initialState, action) => {
         id: state.selectedTimetable.id,
         lectures: state.selectedTimetable.lectures.concat([action.lecture]),
       };
-      const newTables = state.timetables.map((t) => (
-        t.id === newTable.id
-          ? newTable
-          : t
-      ));
+      const newTables = state.timetables.map((t) => (t.id === newTable.id ? newTable : t));
       return Object.assign({}, state, {
         selectedTimetable: newTable,
         timetables: newTables,
@@ -136,13 +129,9 @@ const timetable = (state = initialState, action) => {
     case REMOVE_LECTURE_FROM_TIMETABLE: {
       const newTable = {
         id: state.selectedTimetable.id,
-        lectures: state.selectedTimetable.lectures.filter((l) => (l.id !== action.lecture.id)),
+        lectures: state.selectedTimetable.lectures.filter((l) => l.id !== action.lecture.id),
       };
-      const newTables = state.timetables.map((t) => (
-        t.id === newTable.id
-          ? newTable
-          : t
-      ));
+      const newTables = state.timetables.map((t) => (t.id === newTable.id ? newTable : t));
       return Object.assign({}, state, {
         selectedTimetable: newTable,
         timetables: newTables,
@@ -156,13 +145,19 @@ const timetable = (state = initialState, action) => {
             arrange_order: action.arrangeOrder,
           };
         }
-        if (action.arrangeOrder <= t.arrange_order && t.arrange_order < action.timetable.arrange_order) {
+        if (
+          action.arrangeOrder <= t.arrange_order &&
+          t.arrange_order < action.timetable.arrange_order
+        ) {
           return {
             ...t,
             arrange_order: t.arrange_order + 1,
           };
         }
-        if (action.timetable.arrange_order < t.arrange_order && t.arrange_order <= action.arrangeOrder) {
+        if (
+          action.timetable.arrange_order < t.arrange_order &&
+          t.arrange_order <= action.arrangeOrder
+        ) {
           return {
             ...t,
             arrange_order: t.arrange_order - 1,
@@ -171,8 +166,8 @@ const timetable = (state = initialState, action) => {
         return t;
       });
       // eslint-disable-next-line fp/no-mutating-methods
-      newTables.sort((t1, t2) => (t1.arrange_order - t2.arrange_order));
-      const updatedTable = newTables.find((t) => (t.id === state.selectedTimetable.id));
+      newTables.sort((t1, t2) => t1.arrange_order - t2.arrange_order);
+      const updatedTable = newTables.find((t) => t.id === state.selectedTimetable.id);
       return Object.assign({}, state, {
         timetables: newTables,
         selectedTimetable: updatedTable,

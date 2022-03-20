@@ -8,7 +8,6 @@ import { appBoundClassNames as classNames } from '../../../common/boundClassName
 import userShape from '../../../shapes/model/UserShape';
 import Scores from '../../Scores';
 
-
 class MySummarySubSection extends Component {
   render() {
     const { t } = this.props;
@@ -21,9 +20,7 @@ class MySummarySubSection extends Component {
 
     return (
       <div className={classNames('subsection', 'subsection--my-summary')}>
-        <div className={classNames('title')}>
-          {t('ui.title.takenLectures')}
-        </div>
+        <div className={classNames('title')}>{t('ui.title.takenLectures')}</div>
         <Scores
           entries={[
             {
@@ -37,7 +34,7 @@ class MySummarySubSection extends Component {
             },
             {
               name: t('ui.score.likes'),
-              score: (user ? sumBy(editableReviews, (r) => r.like) : '-'),
+              score: user ? sumBy(editableReviews, (r) => r.like) : '-',
             },
           ]}
         />
@@ -50,16 +47,10 @@ const mapStateToProps = (state) => ({
   user: state.common.user.user,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-});
+const mapDispatchToProps = (dispatch) => ({});
 
 MySummarySubSection.propTypes = {
   user: userShape,
 };
 
-
-export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(
-    MySummarySubSection
-  )
-);
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(MySummarySubSection));

@@ -4,7 +4,7 @@ export const unique = (array, compareFunction = undefined) => {
   if (!compareFunction) {
     return Array.from(new Set(array));
   }
-  return array.filter((v, i) => (array.findIndex((v2) => compareFunction(v, v2)) === i));
+  return array.filter((v, i) => array.findIndex((v2) => compareFunction(v, v2)) === i);
 };
 
 export const formatNewlineToBr = (content) => {
@@ -14,18 +14,14 @@ export const formatNewlineToBr = (content) => {
       key: i,
       content: l,
     })) // Workaround key error
-    .map((l, i) => (
-      (i === contentLines.length - 1)
-        ? (
-          <React.Fragment key={l.key}>
-            {l.content}
-          </React.Fragment>
-        )
-        : (
-          <React.Fragment key={l.key}>
-            {l.content}
-            <br />
-          </React.Fragment>
-        )
-    ));
+    .map((l, i) =>
+      i === contentLines.length - 1 ? (
+        <React.Fragment key={l.key}>{l.content}</React.Fragment>
+      ) : (
+        <React.Fragment key={l.key}>
+          {l.content}
+          <br />
+        </React.Fragment>
+      ),
+    );
 };

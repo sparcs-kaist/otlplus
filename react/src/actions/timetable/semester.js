@@ -5,7 +5,6 @@ export const RESET = BASE_STRING + 'RESET';
 export const SET_SEMESTER = BASE_STRING + 'SET_SEMESTER';
 /* eslint-enable prefer-template */
 
-
 export function reset() {
   return {
     type: RESET,

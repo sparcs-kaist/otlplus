@@ -1,10 +1,8 @@
 /* eslint-disable no-param-reassign, fp/no-mutation, import/first, import/order */
 
-
 import { createBrowserHistory } from 'history';
 
 const history = createBrowserHistory();
-
 
 import ReactGA from 'react-ga';
 
@@ -14,7 +12,6 @@ history.listen((location) => {
   ReactGA.set({ page: location.pathname });
   ReactGA.pageview(location.pathname);
 });
-
 
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
@@ -55,7 +52,6 @@ i18n
     },
   });
 
-
 import axios from 'axios';
 import Qs from 'qs';
 
@@ -83,7 +79,8 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
   (response) => {
     response.config.metadata.endTime = new Date();
-    response.config.metadata.duration = response.config.metadata.endTime - response.config.metadata.startTime;
+    response.config.metadata.duration =
+      response.config.metadata.endTime - response.config.metadata.startTime;
     ReactGA.timing({
       category: response.config.metadata.gaCategory || 'Undefined',
       variable: response.config.metadata.gaVariable || 'Undefined',
@@ -93,11 +90,11 @@ axios.interceptors.response.use(
   },
   (error) => {
     error.config.metadata.endTime = new Date();
-    error.config.metadata.duration = error.config.metadata.endTime - error.config.metadata.startTime;
+    error.config.metadata.duration =
+      error.config.metadata.endTime - error.config.metadata.startTime;
     return Promise.reject(error);
   },
 );
-
 
 import { Router } from 'react-router-dom';
 import React from 'react';
@@ -111,13 +108,11 @@ ReactDOM.render(
   document.getElementById('root'),
 );
 
-
 import registerServiceWorker from './registerServiceWorker';
 
 try {
   registerServiceWorker();
-}
-catch (error) {
+} catch (error) {
   // eslint-disable-next-line no-console
   console.log(error);
 }

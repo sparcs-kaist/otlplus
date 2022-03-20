@@ -21,7 +21,6 @@ import userShape from '../shapes/model/UserShape';
 import NoticeSection from '../components/sections/main/NoticeSection';
 import RateFeedSection from '../components/sections/main/RateFeedSection ';
 
-
 class MainPage extends Component {
   constructor(props) {
     super(props);
@@ -36,7 +35,6 @@ class MainPage extends Component {
     this.contentRef = React.createRef();
   }
 
-
   componentDidMount() {
     const { user } = this.props;
 
@@ -49,7 +47,6 @@ class MainPage extends Component {
     this._fetchNotices();
   }
 
-
   componentDidUpdate(prevProps, prevState, snapshot) {
     const { user } = this.props;
 
@@ -59,16 +56,13 @@ class MainPage extends Component {
     }
   }
 
-
   componentWillUnmount() {
     window.removeEventListener('scroll', this.handleScroll);
   }
 
-
   handleScroll = (e) => {
     this._checkAndLoadFeeds();
-  }
-
+  };
 
   _checkAndLoadFeeds = () => {
     const { isLoading } = this.state;
@@ -82,24 +76,24 @@ class MainPage extends Component {
       return;
     }
 
-    const columns = Array.from(this.contentRef.current.querySelectorAll(`.${classNames('page-grid--main')} > div`));
+    const columns = Array.from(
+      this.contentRef.current.querySelectorAll(`.${classNames('page-grid--main')} > div`),
+    );
 
-    const isBottomReached = columns.some((cl) => (
-      cl.lastChild.getBoundingClientRect().top < window.innerHeight + SCROLL_BOTTOM_PADDING
-    ));
+    const isBottomReached = columns.some(
+      (cl) => cl.lastChild.getBoundingClientRect().top < window.innerHeight + SCROLL_BOTTOM_PADDING,
+    );
     if (isBottomReached) {
       this._fetchFeeds(this._getPrevDate());
     }
-  }
-
+  };
 
   _getPrevDate = () => {
     const { feedDays } = this.state;
     const targetDate = new Date(feedDays[feedDays.length - 1].date);
     targetDate.setDate(targetDate.getDate() - 1);
     return targetDate;
-  }
-
+  };
 
   _fetchFeeds = (date) => {
     const { feedDays, isLoading } = this.state;
@@ -121,9 +115,8 @@ class MainPage extends Component {
 
     const dateString = date.toJSON().slice(0, 10);
 
-    axios.get(
-      `/api/users/${user.id}/feeds`,
-      {
+    axios
+      .get(`/api/users/${user.id}/feeds`, {
         params: {
           date: dateString,
         },
@@ -131,8 +124,7 @@ class MainPage extends Component {
           gaCategory: 'Feed',
           gaVariable: 'GET / List',
         },
-      },
-    )
+      })
       .then((response) => {
         this.setState({
           isLoading: false,
@@ -146,15 +138,13 @@ class MainPage extends Component {
         });
         this._checkAndLoadFeeds();
       })
-      .catch((error) => {
-      });
-  }
+      .catch((error) => {});
+  };
 
   _fetchNotices = () => {
     const now = new Date();
-    axios.get(
-      '/api/notices',
-      {
+    axios
+      .get('/api/notices', {
         params: {
           time: now.toJSON(),
           order: ['start_time', 'id'],
@@ -163,16 +153,14 @@ class MainPage extends Component {
           gaCategory: 'Notice',
           gaVariable: 'GET / List',
         },
-      },
-    )
+      })
       .then((response) => {
         this.setState({
           notices: response.data,
         });
       })
-      .catch((error) => {
-      });
-  }
+      .catch((error) => {});
+  };
 
   _getDateDifference = (date) => {
     const copiedDate = new Date(date);
@@ -181,8 +169,7 @@ class MainPage extends Component {
     todayDate.setHours(0, 0, 0, 0);
     const timeDiff = todayDate - copiedDate;
     return timeDiff / (24 * 60 * 60 * 1000);
-  }
-
+  };
 
   render() {
     const { t } = this.props;
@@ -194,7 +181,7 @@ class MainPage extends Component {
         return (
           <ReviewWriteFeedSection
             lecture={feed.lecture}
-            review={user.reviews.find((r) => (r.lecture.id === feed.lecture.id))}
+            review={user.reviews.find((r) => r.lecture.id === feed.lecture.id)}
             key={`${date.date}-${feed.type}-${feed.lecture.id}`}
           />
         );
@@ -234,12 +221,7 @@ class MainPage extends Component {
         );
       }
       if (feed.type === 'RATE') {
-        return (
-          <RateFeedSection
-            rated={feed.rated}
-            key={`${date.date}-${feed.type}`}
-          />
-        );
+        return <RateFeedSection rated={feed.rated} key={`${date.date}-${feed.type}`} />;
       }
       return null;
     };
@@ -250,16 +232,12 @@ class MainPage extends Component {
       <TodaysTimetableSection key="TODAYS_TIMETABLE" />,
       <AcademicScheduleSection key="ACADEMIC_SCHEDULE" />,
       notices
-        ? (
-          notices.map((n) => (
+        ? notices.map((n) => (
             <NoticeSection notice={n} key={`${n.start_date}-${n.end_date}-${n.title}`} />
           ))
-        )
         : [],
       <LatestReviewSection key="LATEST_REVIEW" />,
-      !user
-        ? []
-        : feedDays.map((d) => d.feeds.map((f) => mapFeedToSection(f, d))),
+      !user ? [] : feedDays.map((d) => d.feeds.map((f) => mapFeedToSection(f, d))),
     ].flat(3);
 
     return (
@@ -269,47 +247,37 @@ class MainPage extends Component {
         </section>
         <section className={classNames('content')} ref={this.contentRef}>
           <div className={classNames('page-grid', 'page-grid--main')}>
-            {
-              range(columnNum).map((i) => (
-                <div
-                  style={{
-                    gridArea: `feeds-column-${i + 1}`,
-                    position: 'relative',
-                    overflow: 'initial',
-                    minWidth: 0,
-                  }}
-                  key={i}
-                >
-                  { feeds.filter((v, i2) => (i2 % columnNum === i)) }
-                  <div style={{ position: 'absolute', width: '100%' }}>
-                    {
-                      range(10).map((j) => (
-                        <div className={classNames('section', 'section--feed--placeholder')} key={j} />
-                      ))
-                    }
-                  </div>
+            {range(columnNum).map((i) => (
+              <div
+                style={{
+                  gridArea: `feeds-column-${i + 1}`,
+                  position: 'relative',
+                  overflow: 'initial',
+                  minWidth: 0,
+                }}
+                key={i}
+              >
+                {feeds.filter((v, i2) => i2 % columnNum === i)}
+                <div style={{ position: 'absolute', width: '100%' }}>
+                  {range(10).map((j) => (
+                    <div className={classNames('section', 'section--feed--placeholder')} key={j} />
+                  ))}
                 </div>
-              ))
-            }
+              </div>
+            ))}
             <div className={classNames('main-date')}>
-              {
-                user
-                  ? (
-                    <span onClick={() => this._fetchFeeds(this._getPrevDate())}>
-                      {t('ui.button.loadMore')}
-                    </span>
-                  )
-                  : (
-                    <>
-                      <a href={`/session/login/?next=${window.location.href}`}>
-                        {t('ui.button.signInWithSso')}
-                      </a>
-                      <div>
-                        {t('ui.message.signInForMore')}
-                      </div>
-                    </>
-                  )
-              }
+              {user ? (
+                <span onClick={() => this._fetchFeeds(this._getPrevDate())}>
+                  {t('ui.button.loadMore')}
+                </span>
+              ) : (
+                <>
+                  <a href={`/session/login/?next=${window.location.href}`}>
+                    {t('ui.button.signInWithSso')}
+                  </a>
+                  <div>{t('ui.message.signInForMore')}</div>
+                </>
+              )}
             </div>
           </div>
         </section>
@@ -324,16 +292,11 @@ const mapStateToProps = (state) => ({
   isPortrait: state.common.media.isPortrait,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-});
+const mapDispatchToProps = (dispatch) => ({});
 
 MainPage.propTypes = {
   user: userShape,
   isPortrait: PropTypes.bool.isRequired,
 };
 
-export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(
-    MainPage
-  )
-);
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(MainPage));

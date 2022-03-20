@@ -9,30 +9,42 @@ import { getProfessorsShortStr, getColorNumber } from '../../utils/lectureUtils'
 import lectureShape from '../../shapes/model/LectureShape';
 import classtimeShape from '../../shapes/model/ClasstimeShape';
 
-
 const TimetableTile = ({
   t,
-  lecture, classtime,
-  tableIndex, dayIndex, beginIndex, endIndex,
-  cellWidth, cellHeight,
-  isTimetableReadonly, isRaised, isHighlighted, isDimmed, isTemp, isSimple,
-  onMouseOver, onMouseOut, onClick, deleteLecture,
+  lecture,
+  classtime,
+  tableIndex,
+  dayIndex,
+  beginIndex,
+  endIndex,
+  cellWidth,
+  cellHeight,
+  isTimetableReadonly,
+  isRaised,
+  isHighlighted,
+  isDimmed,
+  isTemp,
+  isSimple,
+  onMouseOver,
+  onMouseOut,
+  onClick,
+  deleteLecture,
   occupiedIndices,
 }) => {
   const handleMouseOver = onMouseOver
     ? (event) => {
-      onMouseOver(lecture);
-    }
+        onMouseOver(lecture);
+      }
     : null;
   const handleMouseOut = onMouseOut
     ? (event) => {
-      onMouseOut(lecture);
-    }
+        onMouseOut(lecture);
+      }
     : null;
   const handleClick = onClick
     ? (event) => {
-      onClick(lecture);
-    }
+        onClick(lecture);
+      }
     : null;
   const handleDeleteFromTableClick = (event) => {
     event.stopPropagation();
@@ -41,19 +53,19 @@ const TimetableTile = ({
 
   const getTop = () => {
     if (tableIndex === 0) {
-      const timedTableOffset = 17 + (cellHeight * beginIndex);
+      const timedTableOffset = 17 + cellHeight * beginIndex;
       return timedTableOffset + 2;
     }
-    const timedTableHeight = 17 + (cellHeight * ((TIMETABLE_END_HOUR - TIMETABLE_START_HOUR) * 2));
-    const untimedTableHeight = 17 + (cellHeight * 3);
+    const timedTableHeight = 17 + cellHeight * ((TIMETABLE_END_HOUR - TIMETABLE_START_HOUR) * 2);
+    const untimedTableHeight = 17 + cellHeight * 3;
     const tableSpacing = cellHeight;
-    const untimedTableOffset = 17 + (cellHeight * beginIndex);
+    const untimedTableOffset = 17 + cellHeight * beginIndex;
     return (
-      timedTableHeight
-      + untimedTableHeight * (tableIndex - 1)
-      + tableSpacing * tableIndex
-      + untimedTableOffset
-      + 2
+      timedTableHeight +
+      untimedTableHeight * (tableIndex - 1) +
+      tableSpacing * tableIndex +
+      untimedTableOffset +
+      2
     );
   };
 
@@ -63,10 +75,10 @@ const TimetableTile = ({
         'tile',
         'tile--timetable',
         `background-color--${getColorNumber(lecture)}`,
-        (isRaised ? 'tile--raised' : null),
-        (isTemp ? 'tile--temp' : null),
-        (isHighlighted ? 'tile--highlighted' : null),
-        (isDimmed ? 'tile--dimmed' : null),
+        isRaised ? 'tile--raised' : null,
+        isTemp ? 'tile--temp' : null,
+        isHighlighted ? 'tile--highlighted' : null,
+        isDimmed ? 'tile--dimmed' : null,
       )}
       style={{
         left: 18 + (cellWidth + 5) * dayIndex - 1,
@@ -78,15 +90,24 @@ const TimetableTile = ({
       onMouseOut={handleMouseOut}
       onClick={handleClick}
     >
-      { !isTemp && !isTimetableReadonly
-        ? <button className={classNames('tile--timetable__button')} onClick={handleDeleteFromTableClick}><i className={classNames('icon', 'icon--delete-lecture')} /></button>
-        : null
-      }
+      {!isTemp && !isTimetableReadonly ? (
+        <button
+          className={classNames('tile--timetable__button')}
+          onClick={handleDeleteFromTableClick}
+        >
+          <i className={classNames('icon', 'icon--delete-lecture')} />
+        </button>
+      ) : null}
       <div
         // onMouseDown={() => onMouseDown()}
         className={classNames('tile--timetable__content')}
       >
-        <p className={classNames('tile--timetable__content__title', (isSimple ? 'mobile-hidden' : null))}>
+        <p
+          className={classNames(
+            'tile--timetable__content__title',
+            isSimple ? 'mobile-hidden' : null,
+          )}
+        >
           {lecture[t('js.property.title')]}
         </p>
         <p className={classNames('tile--timetable__content__info', 'mobile-hidden')}>
@@ -96,10 +117,9 @@ const TimetableTile = ({
           {classtime ? classtime[t('js.property.classroom')] : null}
         </p>
       </div>
-      {
-        occupiedIndices === undefined
-          ? null
-          : occupiedIndices.map((o) => (
+      {occupiedIndices === undefined
+        ? null
+        : occupiedIndices.map((o) => (
             <div
               key={`${o[0]}:${o[1]}`}
               className={classNames('tile--timetable__occupied-area')}
@@ -108,8 +128,7 @@ const TimetableTile = ({
                 height: cellHeight * (o[1] - o[0]) - 3,
               }}
             />
-          ))
-      }
+          ))}
     </div>
   );
 };
@@ -136,8 +155,4 @@ TimetableTile.propTypes = {
   occupiedIndices: PropTypes.arrayOf(PropTypes.array),
 };
 
-export default withTranslation()(
-  React.memo(
-    TimetableTile
-  )
-);
+export default withTranslation()(React.memo(TimetableTile));

@@ -2,9 +2,7 @@ import PropTypes from 'prop-types';
 
 import lectureShape from '../model/LectureShape';
 
-
 const lectureGroupShape = PropTypes.arrayOf(lectureShape);
-
 
 const lectureListsShape = PropTypes.shape({
   search: {

@@ -10,10 +10,7 @@ const latestReviews = (state = initialState, action) => {
       return initialState;
     }
     case ADD_REVIEWS: {
-      const newReviews = [
-        ...(state.reviews !== null ? state.reviews : []),
-        ...action.reviews,
-      ];
+      const newReviews = [...(state.reviews !== null ? state.reviews : []), ...action.reviews];
       return Object.assign({}, state, {
         reviews: newReviews,
       });
@@ -21,22 +18,17 @@ const latestReviews = (state = initialState, action) => {
     case UPDATE_REVIEW: {
       const originalReviews = state.reviews;
       const { review, isNew } = action;
-      const foundIndex = originalReviews.findIndex((r) => (r.id === review.id));
-      const newReviews = (foundIndex !== -1)
-        ? [
-          ...originalReviews.slice(0, foundIndex),
-          review,
-          ...originalReviews.slice(foundIndex + 1, originalReviews.length),
-        ]
-        : (isNew
+      const foundIndex = originalReviews.findIndex((r) => r.id === review.id);
+      const newReviews =
+        foundIndex !== -1
           ? [
-            review,
-            ...originalReviews.slice(),
-          ]
-          : [
-            ...originalReviews.slice(),
-          ]
-        );
+              ...originalReviews.slice(0, foundIndex),
+              review,
+              ...originalReviews.slice(foundIndex + 1, originalReviews.length),
+            ]
+          : isNew
+          ? [review, ...originalReviews.slice()]
+          : [...originalReviews.slice()];
       return Object.assign({}, state, {
         reviews: newReviews,
       });

@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 
-
 const classtimeShape = PropTypes.shape({
   building_code: PropTypes.string.isRequired,
   classroom: PropTypes.string.isRequired,

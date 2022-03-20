@@ -3,7 +3,6 @@ import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
 
-
 class ErrorPage extends Component {
   _getMessageName = (matchMessage) => {
     const messageName = {
@@ -16,7 +15,7 @@ class ErrorPage extends Component {
       return 'unknown';
     }
     return messageName;
-  }
+  };
 
   render() {
     const { t } = this.props;
@@ -32,12 +31,8 @@ class ErrorPage extends Component {
         <div className={classNames('page-grid', 'page-grid--full')}>
           <div className={classNames('section')}>
             <div className={classNames('subsection', 'subsection--error')}>
-              <div>
-                { title }
-              </div>
-              <div>
-                { message }
-              </div>
+              <div>{title}</div>
+              <div>{message}</div>
             </div>
           </div>
         </div>
@@ -46,10 +41,6 @@ class ErrorPage extends Component {
   }
 }
 
-ErrorPage.propTypes = {
-};
+ErrorPage.propTypes = {};
 
-
-export default withTranslation()(
-  ErrorPage
-);
+export default withTranslation()(ErrorPage);

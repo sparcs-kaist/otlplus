@@ -10,7 +10,8 @@ import { reset as resetSearch } from '../actions/timetable/search';
 import { reset as resetSemester } from '../actions/timetable/semester';
 import {
   reset as resetTimetable,
-  setSelectedTimetable, setMobileIsTimetableTabsOpen,
+  setSelectedTimetable,
+  setMobileIsTimetableTabsOpen,
 } from '../actions/timetable/timetable';
 
 import CloseButton from '../components/CloseButton';
@@ -30,7 +31,6 @@ import semesterShape from '../shapes/model/SemesterShape';
 import timetableShape from '../shapes/model/TimetableShape';
 import userShape from '../shapes/model/UserShape';
 
-
 class TimetablePage extends Component {
   componentDidMount() {
     // eslint-disable-next-line react/destructuring-assignment
@@ -42,11 +42,13 @@ class TimetablePage extends Component {
     }
   }
 
-
   componentWillUnmount() {
     const {
-      resetLectureFocusDispatch, resetListDispatch, resetSearchDispatch,
-      resetSemesterDispatch, resetTimetableDispatch,
+      resetLectureFocusDispatch,
+      resetListDispatch,
+      resetSearchDispatch,
+      resetSemesterDispatch,
+      resetTimetableDispatch,
     } = this.props;
 
     resetLectureFocusDispatch();
@@ -56,12 +58,12 @@ class TimetablePage extends Component {
     resetTimetableDispatch();
   }
 
-
   render() {
     // eslint-disable-next-line react/destructuring-assignment
     const { startSemester } = this.props.location.state || {};
     const {
-      mobileIsTimetableTabsOpen, mobileIsLectureListOpen,
+      mobileIsTimetableTabsOpen,
+      mobileIsLectureListOpen,
       setMobileIsTimetableTabsOpenDispatch,
     } = this.props;
 
@@ -72,26 +74,53 @@ class TimetablePage extends Component {
             className={classNames(
               'page-grid',
               'page-grid--timetable',
-              (mobileIsLectureListOpen ? 'page-grid--timetable--mobile-expanded' : null)
+              mobileIsLectureListOpen ? 'page-grid--timetable--mobile-expanded' : null,
             )}
           >
             <LectureDetailSection />
             <LectureListTabs />
             <LectureListSection />
-            <div className={classNames('section', 'section--semester-and-timetable-list', 'section--desktop-transparent', 'section--mobile-modal', (mobileIsTimetableTabsOpen ? null : 'mobile-hidden'))}>
+            <div
+              className={classNames(
+                'section',
+                'section--semester-and-timetable-list',
+                'section--desktop-transparent',
+                'section--mobile-modal',
+                mobileIsTimetableTabsOpen ? null : 'mobile-hidden',
+              )}
+            >
               <CloseButton onClick={() => setMobileIsTimetableTabsOpenDispatch(false)} />
               <TimetableTabs />
               <SemesterSection startSemester={startSemester} />
             </div>
             <div className={classNames('section', 'section--timetable-and-infos')}>
               <TimetableSubSection />
-              <Divider orientation={{ desktop: Divider.Orientation.VERTICAL, mobile: Divider.Orientation.HORIZONTAL }} isVisible={true} gridArea="divider-main" />
+              <Divider
+                orientation={{
+                  desktop: Divider.Orientation.VERTICAL,
+                  mobile: Divider.Orientation.HORIZONTAL,
+                }}
+                isVisible={true}
+                gridArea="divider-main"
+              />
               <MapSubSection />
-              <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={{ desktop: true, mobile: false }} gridArea="divider-sub-1" />
+              <Divider
+                orientation={Divider.Orientation.HORIZONTAL}
+                isVisible={{ desktop: true, mobile: false }}
+                gridArea="divider-sub-1"
+              />
               <SummarySubSection />
-              <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={{ desktop: true, mobile: false }} gridArea="divider-sub-2" />
+              <Divider
+                orientation={Divider.Orientation.HORIZONTAL}
+                isVisible={{ desktop: true, mobile: false }}
+                gridArea="divider-sub-2"
+              />
               <ExamSubSection />
-              <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={{ desktop: true, mobile: !mobileIsLectureListOpen }} gridArea="divider-sub-3" />
+              <Divider
+                orientation={Divider.Orientation.HORIZONTAL}
+                isVisible={{ desktop: true, mobile: !mobileIsLectureListOpen }}
+                gridArea="divider-sub-3"
+              />
               <ShareSubSection />
             </div>
           </div>
@@ -132,7 +161,6 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-
 TimetablePage.propTypes = {
   location: PropTypes.shape({
     state: PropTypes.shape({
@@ -155,6 +183,4 @@ TimetablePage.propTypes = {
   setMobileIsTimetableTabsOpenDispatch: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  TimetablePage
-);
+export default connect(mapStateToProps, mapDispatchToProps)(TimetablePage);

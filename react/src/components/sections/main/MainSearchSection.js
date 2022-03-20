@@ -5,7 +5,6 @@ import qs from 'qs';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
-
 class MainSearchSection extends Component {
   constructor(props) {
     super(props);
@@ -19,33 +18,31 @@ class MainSearchSection extends Component {
     this.setState({
       keyword: e.target.value,
     });
-  }
+  };
 
   render() {
     const { t } = this.props;
     const { keyword } = this.state;
 
     return (
-    // eslint-disable-next-line react/jsx-indent
-    <div className={classNames('section', 'section--main-search')}>
-      <form className={classNames('subsection', 'subsection--main-search')}>
-        <i />
-        <input type="text" placeholder={t('ui.tab.search')} onChange={this.onKeywordChange} />
-        <Link to={{ pathname: '/dictionary', search: qs.stringify({ startSearchKeyword: keyword }) }}>
-          <button className={classNames('text-button')} type="submit">
-            {t('ui.button.search')}
-          </button>
-        </Link>
-      </form>
-    </div>
+      // eslint-disable-next-line react/jsx-indent
+      <div className={classNames('section', 'section--main-search')}>
+        <form className={classNames('subsection', 'subsection--main-search')}>
+          <i />
+          <input type="text" placeholder={t('ui.tab.search')} onChange={this.onKeywordChange} />
+          <Link
+            to={{ pathname: '/dictionary', search: qs.stringify({ startSearchKeyword: keyword }) }}
+          >
+            <button className={classNames('text-button')} type="submit">
+              {t('ui.button.search')}
+            </button>
+          </Link>
+        </form>
+      </div>
     );
   }
 }
 
-MainSearchSection.propTypes = {
-};
+MainSearchSection.propTypes = {};
 
-
-export default withTranslation()(
-  MainSearchSection
-);
+export default withTranslation()(MainSearchSection);

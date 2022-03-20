@@ -12,14 +12,11 @@ import { clearMultipleFocus, setMultipleFocus } from '../../../actions/timetable
 import lectureFocusShape from '../../../shapes/state/LectureFocusShape';
 import timetableShape from '../../../shapes/model/TimetableShape';
 
-import {
-  getOverallLectures, isSingleFocused,
-} from '../../../utils/lectureUtils';
+import { getOverallLectures, isSingleFocused } from '../../../utils/lectureUtils';
 import { getTimeStr } from '../../../utils/examtimeUtils';
 import { getDayStr } from '../../../utils/timeUtils';
 
 import { LectureFocusFrom } from '../../../reducers/timetable/lectureFocus';
-
 
 class ExamSubSection extends Component {
   constructor(props) {
@@ -33,16 +30,17 @@ class ExamSubSection extends Component {
   _getOverallLecEtPairs = () => {
     const { lectureFocus, selectedTimetable } = this.props;
     return getOverallLectures(selectedTimetable, lectureFocus)
-      .map((l) => l.examtimes.map((et) => ({
-        lecture: l,
-        examtime: et,
-      })))
+      .map((l) =>
+        l.examtimes.map((et) => ({
+          lecture: l,
+          examtime: et,
+        })),
+      )
       .flat(1);
-  }
+  };
 
-  _getLecEtPairsOnDay = (dayIndex) => (
-    this._getOverallLecEtPairs().filter((p) => (p.examtime.day === dayIndex))
-  )
+  _getLecEtPairsOnDay = (dayIndex) =>
+    this._getOverallLecEtPairs().filter((p) => p.examtime.day === dayIndex);
 
   setFocusOnExam = (dayIndex) => {
     const { t } = this.props;
@@ -62,7 +60,7 @@ class ExamSubSection extends Component {
     this.setState({
       multipleFocusDayIndex: dayIndex,
     });
-  }
+  };
 
   clearFocus = () => {
     const { lectureFocus, clearMultipleFocusDispatch } = this.props;
@@ -75,7 +73,7 @@ class ExamSubSection extends Component {
     this.setState({
       multipleFocusDayIndex: null,
     });
-  }
+  };
 
   render() {
     const { t } = this.props;
@@ -83,18 +81,13 @@ class ExamSubSection extends Component {
     const { lectureFocus } = this.props;
 
     const mapPairToElem = (lecEtPair) => {
-      const isFocused = (
-        isSingleFocused(lecEtPair.lecture, lectureFocus)
-        || (multipleFocusDayIndex === lecEtPair.examtime.day)
-      );
+      const isFocused =
+        isSingleFocused(lecEtPair.lecture, lectureFocus) ||
+        multipleFocusDayIndex === lecEtPair.examtime.day;
       const li = (
         <li className={classNames(isFocused ? 'focused' : null)} key={lecEtPair.lecture.id}>
-          <div>
-            {lecEtPair.lecture[t('js.property.title')]}
-          </div>
-          <div>
-            {getTimeStr(lecEtPair.examtime)}
-          </div>
+          <div>{lecEtPair.lecture[t('js.property.title')]}</div>
+          <div>{getTimeStr(lecEtPair.examtime)}</div>
         </li>
       );
       return li;
@@ -102,48 +95,60 @@ class ExamSubSection extends Component {
 
     return (
       <div className={classNames('subsection--exam', 'mobile-hidden')}>
-        <div className={classNames('subsection--exam__title')}><span>{t('ui.title.exams')}</span></div>
+        <div className={classNames('subsection--exam__title')}>
+          <span>{t('ui.title.exams')}</span>
+        </div>
         <div className={classNames('subsection--exam__content')}>
           <Scroller>
-            <div className={classNames('subsection--exam__content__day')} onMouseOver={() => this.setFocusOnExam(0)} onMouseOut={() => this.clearFocus()}>
+            <div
+              className={classNames('subsection--exam__content__day')}
+              onMouseOver={() => this.setFocusOnExam(0)}
+              onMouseOut={() => this.clearFocus()}
+            >
               <div className={classNames(t('jsx.className.fixedByLang'))}>
                 {t('ui.day.mondayShort')}
               </div>
-              <ul>
-                {this._getLecEtPairsOnDay(0).map((p) => mapPairToElem(p))}
-              </ul>
+              <ul>{this._getLecEtPairsOnDay(0).map((p) => mapPairToElem(p))}</ul>
             </div>
-            <div className={classNames('subsection--exam__content__day')} onMouseOver={() => this.setFocusOnExam(1)} onMouseOut={() => this.clearFocus()}>
+            <div
+              className={classNames('subsection--exam__content__day')}
+              onMouseOver={() => this.setFocusOnExam(1)}
+              onMouseOut={() => this.clearFocus()}
+            >
               <div className={classNames(t('jsx.className.fixedByLang'))}>
                 {t('ui.day.tuesdayShort')}
               </div>
-              <ul>
-                {this._getLecEtPairsOnDay(1).map((p) => mapPairToElem(p))}
-              </ul>
+              <ul>{this._getLecEtPairsOnDay(1).map((p) => mapPairToElem(p))}</ul>
             </div>
-            <div className={classNames('subsection--exam__content__day')} onMouseOver={() => this.setFocusOnExam(2)} onMouseOut={() => this.clearFocus()}>
+            <div
+              className={classNames('subsection--exam__content__day')}
+              onMouseOver={() => this.setFocusOnExam(2)}
+              onMouseOut={() => this.clearFocus()}
+            >
               <div className={classNames(t('jsx.className.fixedByLang'))}>
                 {t('ui.day.wednesdayShort')}
               </div>
-              <ul>
-                {this._getLecEtPairsOnDay(2).map((p) => mapPairToElem(p))}
-              </ul>
+              <ul>{this._getLecEtPairsOnDay(2).map((p) => mapPairToElem(p))}</ul>
             </div>
-            <div className={classNames('subsection--exam__content__day')} onMouseOver={() => this.setFocusOnExam(3)} onMouseOut={() => this.clearFocus()}>
+            <div
+              className={classNames('subsection--exam__content__day')}
+              onMouseOver={() => this.setFocusOnExam(3)}
+              onMouseOut={() => this.clearFocus()}
+            >
               <div className={classNames(t('jsx.className.fixedByLang'))}>
                 {t('ui.day.thursdayShort')}
               </div>
-              <ul>
-                {this._getLecEtPairsOnDay(3).map((p) => mapPairToElem(p))}
-              </ul>
+              <ul>{this._getLecEtPairsOnDay(3).map((p) => mapPairToElem(p))}</ul>
             </div>
-            <div className={classNames('subsection--exam__content__day')} onMouseOver={() => this.setFocusOnExam(4)} onMouseOut={() => this.clearFocus()}>
+            <div
+              className={classNames('subsection--exam__content__day')}
+              onMouseOver={() => this.setFocusOnExam(4)}
+              onMouseOut={() => this.clearFocus()}
+            >
               <div className={classNames(t('jsx.className.fixedByLang'))}>
                 {t('ui.day.fridayShort')}
               </div>
-              <ul>
-                {this._getLecEtPairsOnDay(4).map((p) => mapPairToElem(p))}
-              </ul>
+              <ul>{this._getLecEtPairsOnDay(4).map((p) => mapPairToElem(p))}</ul>
             </div>
           </Scroller>
         </div>
@@ -174,9 +179,4 @@ ExamSubSection.propTypes = {
   clearMultipleFocusDispatch: PropTypes.func.isRequired,
 };
 
-
-export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(
-    ExamSubSection
-  )
-);
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(ExamSubSection));

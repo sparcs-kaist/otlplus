@@ -3,13 +3,10 @@ import PropTypes from 'prop-types';
 
 import { appBoundClassNames } from '../common/boundClassNames';
 
-
 class SearchFilterEntity extends Component {
   render() {
-    const {
-      value, name, label, onChange, isChecked,
-    } = this.props;
-    const isAll = (value === 'ALL');
+    const { value, name, label, onChange, isChecked } = this.props;
+    const isAll = value === 'ALL';
     const inputId = `${name}-${value}`;
     return (
       <label htmlFor={inputId}>
@@ -23,7 +20,7 @@ class SearchFilterEntity extends Component {
           onChange={onChange}
           checked={isChecked}
         />
-        { label }
+        {label}
         <i className={appBoundClassNames('icon', 'icon--checkbox')} />
       </label>
     );

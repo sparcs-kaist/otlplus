@@ -8,38 +8,32 @@ import semesterShape from '../../shapes/model/SemesterShape';
 
 import { getSemesterName } from '../../utils/semesterUtils';
 
-
-const SemesterBlock = ({
-  t,
-  semester,
-  isRaised,
-  onClick,
-}) => {
+const SemesterBlock = ({ t, semester, isRaised, onClick }) => {
   const handleClick = onClick
     ? (event) => {
-      onClick(semester);
-    }
+        onClick(semester);
+      }
     : null;
 
-  const title = (semester === 'ALL')
-    ? t('ui.semester.all')
-    : `${semester.year} ${getSemesterName(semester.semester)}`;
+  const title =
+    semester === 'ALL'
+      ? t('ui.semester.all')
+      : `${semester.year} ${getSemesterName(semester.semester)}`;
 
   return (
     <div
       className={classNames(
         'block',
         'block--semester',
-        (onClick ? 'block--clickable' : null),
-        (isRaised ? 'block--raised' : null),
+        onClick ? 'block--clickable' : null,
+        isRaised ? 'block--raised' : null,
       )}
       onClick={handleClick}
     >
-      <div className={classNames('block--semester__title')}>{ title }</div>
+      <div className={classNames('block--semester__title')}>{title}</div>
     </div>
   );
 };
-
 
 SemesterBlock.propTypes = {
   semester: PropTypes.oneOfType([semesterShape, PropTypes.oneOf(['ALL'])]).isRequired,
@@ -47,9 +41,4 @@ SemesterBlock.propTypes = {
   onClick: PropTypes.func.isRequired,
 };
 
-
-export default withTranslation()(
-  React.memo(
-    SemesterBlock
-  )
-);
+export default withTranslation()(React.memo(SemesterBlock));

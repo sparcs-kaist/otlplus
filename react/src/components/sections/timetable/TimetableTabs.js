@@ -8,16 +8,19 @@ import ReactGA from 'react-ga';
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
 import {
-  setTimetables, clearTimetables, setMyTimetableLectures,
+  setTimetables,
+  clearTimetables,
+  setMyTimetableLectures,
   setSelectedTimetable,
-  createTimetable, deleteTimetable, duplicateTimetable,
+  createTimetable,
+  deleteTimetable,
+  duplicateTimetable,
   reorderTimetable,
   setMobileIsTimetableTabsOpen,
 } from '../../../actions/timetable/timetable';
 
 import userShape from '../../../shapes/model/UserShape';
 import timetableShape from '../../../shapes/model/TimetableShape';
-
 
 class TimetableTabs extends Component {
   constructor(props) {
@@ -31,7 +34,6 @@ class TimetableTabs extends Component {
     };
   }
 
-
   componentDidMount() {
     const { user } = this.props;
 
@@ -40,37 +42,26 @@ class TimetableTabs extends Component {
     }
   }
 
-
   componentDidUpdate(prevProps, prevState, snapshot) {
-    const {
-      user,
-      year, semester,
-      clearTimetablesDispatch,
-    } = this.props;
+    const { user, year, semester, clearTimetablesDispatch } = this.props;
 
     if (year !== prevProps.year || semester !== prevProps.semester) {
       clearTimetablesDispatch();
       this._fetchTables();
-    }
-    else if (!prevProps.user && user) {
+    } else if (!prevProps.user && user) {
       clearTimetablesDispatch();
       this._fetchTables();
     }
 
     if (!prevProps.user && user) {
       this._setMyTimetable();
-    }
-    else if (user && ((prevProps.year !== year) || (semester !== prevProps.semester))) {
+    } else if (user && (prevProps.year !== year || semester !== prevProps.semester)) {
       this._setMyTimetable();
     }
   }
 
   _fetchTables = () => {
-    const {
-      user,
-      year, semester,
-      setTimetablesDispatch,
-    } = this.props;
+    const { user, year, semester, setTimetablesDispatch } = this.props;
 
     if (!user) {
       setTimetablesDispatch([]);
@@ -78,13 +69,12 @@ class TimetableTabs extends Component {
       return;
     }
 
-    if ((year == null) || (semester == null)) {
+    if (year == null || semester == null) {
       return;
     }
 
-    axios.get(
-      `/api/users/${user.id}/timetables`,
-      {
+    axios
+      .get(`/api/users/${user.id}/timetables`, {
         params: {
           year: year,
           semester: semester,
@@ -94,8 +84,7 @@ class TimetableTabs extends Component {
           gaCategory: 'Timetable',
           gaVariable: 'GET / List',
         },
-      },
-    )
+      })
       .then((response) => {
         const newProps = this.props;
         if (newProps.year !== year || newProps.semester !== semester) {
@@ -106,25 +95,21 @@ class TimetableTabs extends Component {
           this._performCreateTable();
         }
       })
-      .catch((error) => {
-      });
-  }
+      .catch((error) => {});
+  };
 
   _createRandomTimetableId = () => {
     return Math.floor(Math.random() * 100000000);
-  }
+  };
 
   _setMyTimetable = () => {
-    const {
-      user,
-      year, semester,
-      setMyTimetableLecturesDispatch,
-    } = this.props;
+    const { user, year, semester, setMyTimetableLecturesDispatch } = this.props;
 
-    const lectures = user.my_timetable_lectures
-      .filter((l) => ((l.year === year) && (l.semester === semester)));
+    const lectures = user.my_timetable_lectures.filter(
+      (l) => l.year === year && l.semester === semester,
+    );
     setMyTimetableLecturesDispatch(lectures);
-  }
+  };
 
   changeTab = (timetable) => {
     const { setSelectedTimetableDispatch, setMobileIsTimetableTabsOpenDispatch } = this.props;
@@ -136,33 +121,29 @@ class TimetableTabs extends Component {
       category: 'Timetable - Timetable',
       action: 'Switched Timetable',
     });
-  }
+  };
 
   _performCreateTable = () => {
-    const {
-      user,
-      year, semester,
-      createTimetableDispatch,
-    } = this.props;
+    const { user, year, semester, createTimetableDispatch } = this.props;
 
     if (!user) {
       createTimetableDispatch(this._createRandomTimetableId());
-    }
-    else {
-      axios.post(
-        `/api/users/${user.id}/timetables`,
-        {
-          year: year,
-          semester: semester,
-          lectures: [],
-        },
-        {
-          metadata: {
-            gaCategory: 'Timetable',
-            gaVariable: 'POST / List',
+    } else {
+      axios
+        .post(
+          `/api/users/${user.id}/timetables`,
+          {
+            year: year,
+            semester: semester,
+            lectures: [],
           },
-        },
-      )
+          {
+            metadata: {
+              gaCategory: 'Timetable',
+              gaVariable: 'POST / List',
+            },
+          },
+        )
         .then((response) => {
           const newProps = this.props;
           if (newProps.year !== year || newProps.semester !== semester) {
@@ -170,10 +151,9 @@ class TimetableTabs extends Component {
           }
           createTimetableDispatch(response.data.id);
         })
-        .catch((error) => {
-        });
+        .catch((error) => {});
     }
-  }
+  };
 
   createTable = () => {
     this._performCreateTable();
@@ -182,16 +162,11 @@ class TimetableTabs extends Component {
       category: 'Timetable - Timetable',
       action: 'Created Timetable',
     });
-  }
+  };
 
   deleteTable = (event, timetable) => {
     const { t } = this.props;
-    const {
-      user,
-      timetables,
-      year, semester,
-      deleteTimetableDispatch,
-    } = this.props;
+    const { user, timetables, year, semester, deleteTimetableDispatch } = this.props;
 
     event.stopPropagation();
 
@@ -201,23 +176,20 @@ class TimetableTabs extends Component {
       return;
     }
     // eslint-disable-next-line no-alert
-    if ((timetable.lectures.length > 0) && !window.confirm(t('ui.message.timetableDelete'))) {
+    if (timetable.lectures.length > 0 && !window.confirm(t('ui.message.timetableDelete'))) {
       return;
     }
 
     if (!user) {
       deleteTimetableDispatch(timetable);
-    }
-    else {
-      axios.delete(
-        `/api/users/${user.id}/timetables/${timetable.id}`,
-        {
+    } else {
+      axios
+        .delete(`/api/users/${user.id}/timetables/${timetable.id}`, {
           metadata: {
             gaCategory: 'Timetable',
             gaVariable: 'DELETE / Instance',
           },
-        },
-      )
+        })
         .then((response) => {
           const newProps = this.props;
           if (newProps.year !== year || newProps.semester !== semester) {
@@ -225,43 +197,38 @@ class TimetableTabs extends Component {
           }
           deleteTimetableDispatch(timetable);
         })
-        .catch((error) => {
-        });
+        .catch((error) => {});
     }
 
     ReactGA.event({
       category: 'Timetable - Timetable',
       action: 'Deleted Timetable',
     });
-  }
+  };
 
   duplicateTable = (event, timetable) => {
-    const {
-      user,
-      year, semester,
-      duplicateTimetableDispatch,
-    } = this.props;
+    const { user, year, semester, duplicateTimetableDispatch } = this.props;
 
     event.stopPropagation();
 
     if (!user) {
       duplicateTimetableDispatch(this._createRandomTimetableId(), timetable);
-    }
-    else {
-      axios.post(
-        `/api/users/${user.id}/timetables`,
-        {
-          year: year,
-          semester: semester,
-          lectures: timetable.lectures.map((l) => l.id),
-        },
-        {
-          metadata: {
-            gaCategory: 'Timetable',
-            gaVariable: 'POST / List',
+    } else {
+      axios
+        .post(
+          `/api/users/${user.id}/timetables`,
+          {
+            year: year,
+            semester: semester,
+            lectures: timetable.lectures.map((l) => l.id),
           },
-        },
-      )
+          {
+            metadata: {
+              gaCategory: 'Timetable',
+              gaVariable: 'POST / List',
+            },
+          },
+        )
         .then((response) => {
           const newProps = this.props;
           if (newProps.year !== year || newProps.semester !== semester) {
@@ -269,15 +236,14 @@ class TimetableTabs extends Component {
           }
           duplicateTimetableDispatch(response.data.id, timetable);
         })
-        .catch((error) => {
-        });
+        .catch((error) => {});
     }
 
     ReactGA.event({
       category: 'Timetable - Timetable',
       action: 'Duplicated Timetable',
     });
-  }
+  };
 
   handlePointerDown = (e) => {
     e.stopPropagation();
@@ -299,7 +265,7 @@ class TimetableTabs extends Component {
       // eslint-disable-next-line fp/no-mutation
       document.body.style.cursor = 'grabbing';
     }
-  }
+  };
 
   _checkAndReorderTimetablePrev = (dragPosition, isX) => {
     const { draggingTimetableId, dragStartPosition } = this.state;
@@ -311,40 +277,43 @@ class TimetableTabs extends Component {
 
     const tabElements = Array.from(
       document.querySelectorAll(
-        `.${classNames('tabs--timetable')} .${classNames('tabs__elem')}:not(.${classNames('tabs__elem--add-button')})`
-      )
+        `.${classNames('tabs--timetable')} .${classNames('tabs__elem')}:not(.${classNames(
+          'tabs__elem--add-button',
+        )})`,
+      ),
     );
     const draggingTabElement = document.querySelector(
-      `.${classNames('tabs--timetable')} .${classNames('tabs__elem')}.${classNames('tabs__elem--dragging')}:not(.${classNames('tabs__elem--add-button')})`
+      `.${classNames('tabs--timetable')} .${classNames('tabs__elem')}.${classNames(
+        'tabs__elem--dragging',
+      )}:not(.${classNames('tabs__elem--add-button')})`,
     );
 
-    const draggingTabIndex = tabElements.findIndex((te) => (te === draggingTabElement));
+    const draggingTabIndex = tabElements.findIndex((te) => te === draggingTabElement);
     if (draggingTabIndex === (user ? 1 : 0)) {
       return;
     }
 
     const prevTabElement = tabElements[draggingTabIndex - 1];
     if (dragPosition < prevTabElement.getBoundingClientRect()[endPositionName]) {
-      const draggingTimetableIndex = timetables.findIndex((t) => (t.id === draggingTimetableId));
+      const draggingTimetableIndex = timetables.findIndex((t) => t.id === draggingTimetableId);
       const draggingTimetable = timetables[draggingTimetableIndex];
       const prevTimetable = timetables[draggingTimetableIndex - 1];
       if (user) {
-        axios.post(
-          `/api/users/${user.id}/timetables/${draggingTimetable.id}/reorder`,
-          {
-            arrange_order: prevTimetable.arrange_order,
-          }, 
-          {
-            metadata: {
-              gaCategory: 'Timetable',
-              gaVariable: 'POST Reorder / Instance',
+        axios
+          .post(
+            `/api/users/${user.id}/timetables/${draggingTimetable.id}/reorder`,
+            {
+              arrange_order: prevTimetable.arrange_order,
             },
-          }, 
-        )
-          .then((response) => {
-          })
-          .catch((error) => {
-          });
+            {
+              metadata: {
+                gaCategory: 'Timetable',
+                gaVariable: 'POST Reorder / Instance',
+              },
+            },
+          )
+          .then((response) => {})
+          .catch((error) => {});
       }
       reorderTimetableDispatch(draggingTimetable, prevTimetable.arrange_order);
       this.setState({
@@ -352,7 +321,7 @@ class TimetableTabs extends Component {
           dragStartPosition - (prevTabElement.getBoundingClientRect()[sizeName] + tabMargin),
       });
     }
-  }
+  };
 
   _checkAndReorderTimetableNext = (dragPosition, isX) => {
     const { draggingTimetableId, dragStartPosition } = this.state;
@@ -364,40 +333,43 @@ class TimetableTabs extends Component {
 
     const tabElements = Array.from(
       document.querySelectorAll(
-        `.${classNames('tabs--timetable')} .${classNames('tabs__elem')}:not(.${classNames('tabs__elem--add-button')})`
-      )
+        `.${classNames('tabs--timetable')} .${classNames('tabs__elem')}:not(.${classNames(
+          'tabs__elem--add-button',
+        )})`,
+      ),
     );
     const draggingTabElement = document.querySelector(
-      `.${classNames('tabs--timetable')} .${classNames('tabs__elem')}.${classNames('tabs__elem--dragging')}:not(.${classNames('tabs__elem--add-button')})`
+      `.${classNames('tabs--timetable')} .${classNames('tabs__elem')}.${classNames(
+        'tabs__elem--dragging',
+      )}:not(.${classNames('tabs__elem--add-button')})`,
     );
 
-    const draggingTabIndex = tabElements.findIndex((te) => (te === draggingTabElement));
+    const draggingTabIndex = tabElements.findIndex((te) => te === draggingTabElement);
     if (draggingTabIndex === tabElements.length - 1) {
       return;
     }
 
     const nextTabElement = tabElements[draggingTabIndex + 1];
     if (dragPosition > nextTabElement.getBoundingClientRect()[startPositionName]) {
-      const draggingTimetableIndex = timetables.findIndex((t) => (t.id === draggingTimetableId));
+      const draggingTimetableIndex = timetables.findIndex((t) => t.id === draggingTimetableId);
       const draggingTimetable = timetables[draggingTimetableIndex];
       const nextTimetable = timetables[draggingTimetableIndex + 1];
       if (user) {
-        axios.post(
-          `/api/users/${user.id}/timetables/${draggingTimetable.id}/reorder`,
-          {
-            arrange_order: nextTimetable.arrange_order,
-          }, 
-          {
-            metadata: {
-              gaCategory: 'Timetable',
-              gaVariable: 'POST Reorder / Instance',
+        axios
+          .post(
+            `/api/users/${user.id}/timetables/${draggingTimetable.id}/reorder`,
+            {
+              arrange_order: nextTimetable.arrange_order,
             },
-          }, 
-        )
-          .then((response) => {
-          })
-          .catch((error) => {
-          });
+            {
+              metadata: {
+                gaCategory: 'Timetable',
+                gaVariable: 'POST Reorder / Instance',
+              },
+            },
+          )
+          .then((response) => {})
+          .catch((error) => {});
       }
       reorderTimetableDispatch(draggingTimetable, nextTimetable.arrange_order);
       this.setState({
@@ -405,7 +377,7 @@ class TimetableTabs extends Component {
           dragStartPosition + (nextTabElement.getBoundingClientRect()[sizeName] + tabMargin),
       });
     }
-  }
+  };
 
   handlePointerMove = (e) => {
     const { dragStartPosition, dragCurrentPosition, draggingTimetableId } = this.state;
@@ -427,12 +399,11 @@ class TimetableTabs extends Component {
 
       if (deltaPosition > 0) {
         this._checkAndReorderTimetableNext(newPosition, !isPortrait);
-      }
-      else if (deltaPosition < 0) {
+      } else if (deltaPosition < 0) {
         this._checkAndReorderTimetablePrev(newPosition, !isPortrait);
       }
     }
-  }
+  };
 
   handlePointerUp = (e) => {
     const { draggingTimetableId } = this.state;
@@ -450,19 +421,19 @@ class TimetableTabs extends Component {
       // eslint-disable-next-line fp/no-mutation
       document.body.style.cursor = '';
     }
-  }
+  };
 
   _isSelected = (timetable) => {
     const { selectedTimetable } = this.props;
 
-    return selectedTimetable && (timetable.id === selectedTimetable.id);
-  }
+    return selectedTimetable && timetable.id === selectedTimetable.id;
+  };
 
   _isDragging = (timetable) => {
     const { draggingTimetableId } = this.state;
 
-    return (draggingTimetableId !== undefined) && (timetable.id === draggingTimetableId);
-  }
+    return draggingTimetableId !== undefined && timetable.id === draggingTimetableId;
+  };
 
   _getTabRelativePosition = (timetable) => {
     if (!this._isDragging(timetable)) {
@@ -473,105 +444,93 @@ class TimetableTabs extends Component {
     const { timetables } = this.props;
 
     const relativePosition = dragCurrentPosition - dragStartPosition;
-    if ((timetables.findIndex((t) => (t.id === timetable.id)) === 0) && relativePosition < 0) {
+    if (timetables.findIndex((t) => t.id === timetable.id) === 0 && relativePosition < 0) {
       return 0;
     }
-    if ((timetables.findIndex((t) => (t.id === timetable.id)) === timetables.length - 1) && relativePosition > 0) {
-      return 0
+    if (
+      timetables.findIndex((t) => t.id === timetable.id) === timetables.length - 1 &&
+      relativePosition > 0
+    ) {
+      return 0;
     }
     return relativePosition;
-  }
+  };
 
   render() {
     const { dragOrderChanged } = this.state;
     const { t } = this.props;
-    const {
-      user,
-      isPortrait,
-      timetables, myTimetable,
-    } = this.props;
+    const { user, isPortrait, timetables, myTimetable } = this.props;
 
-    const myTimetableTab = (
-      user
-        ? (
+    const myTimetableTab = user ? (
+      <div
+        className={classNames(
+          'tabs__elem',
+          this._isSelected(myTimetable) ? 'tabs__elem--selected' : null,
+        )}
+        key={myTimetable.id}
+        onClick={() => this.changeTab(myTimetable)}
+      >
+        <span>{`${t('ui.others.myTable')}`}</span>
+        <button onClick={(event) => this.duplicateTable(event, myTimetable)}>
+          <i className={classNames('icon', 'icon--duplicate-table')} />
+          <span>{t('ui.button.duplicateTable')}</span>
+        </button>
+        <button className={classNames('disabled')}>
+          <i className={classNames('icon', 'icon--delete-table')} />
+          <span>{t('ui.button.deleteTable')}</span>
+        </button>
+      </div>
+    ) : null;
+
+    const normalTimetableTabs =
+      timetables && timetables.length ? (
+        timetables.map((tt, i) => (
           <div
             className={classNames(
               'tabs__elem',
-              (this._isSelected(myTimetable) ? 'tabs__elem--selected' : null),
+              this._isSelected(tt) ? 'tabs__elem--selected' : null,
+              this._isDragging(tt) ? 'tabs__elem--dragging' : null,
             )}
-            key={myTimetable.id}
-            onClick={() => this.changeTab(myTimetable)}
+            key={tt.id}
+            onClick={() => this.changeTab(tt)}
+            onPointerDown={this.handlePointerDown}
+            data-id={tt.id}
+            style={{
+              [isPortrait ? 'top' : 'left']: this._getTabRelativePosition(tt),
+              pointerEvents: dragOrderChanged ? 'none' : undefined,
+            }}
           >
-            <span>
-              {`${t('ui.others.myTable')}`}
-            </span>
-            <button onClick={(event) => this.duplicateTable(event, myTimetable)}>
+            <span>{`${t('ui.others.table')} ${i + 1}`}</span>
+            <button onClick={(event) => this.duplicateTable(event, tt)}>
               <i className={classNames('icon', 'icon--duplicate-table')} />
               <span>{t('ui.button.duplicateTable')}</span>
             </button>
-            <button className={classNames('disabled')}>
+            <button onClick={(event) => this.deleteTable(event, tt)}>
               <i className={classNames('icon', 'icon--delete-table')} />
               <span>{t('ui.button.deleteTable')}</span>
             </button>
           </div>
-        )
-        : null
-    );
-
-    const normalTimetableTabs = (
-      (timetables && timetables.length)
-        ? (
-              timetables.map((tt, i) => (
-                <div
-                  className={classNames(
-                    'tabs__elem',
-                    (this._isSelected(tt) ? 'tabs__elem--selected' : null),
-                    (this._isDragging(tt) ? 'tabs__elem--dragging' : null),
-                  )}
-                  key={tt.id}
-                  onClick={() => this.changeTab(tt)}
-                  onPointerDown={this.handlePointerDown}
-                  data-id={tt.id}
-                  style={{
-                    [isPortrait ? 'top' : 'left']: this._getTabRelativePosition(tt),
-                    pointerEvents: dragOrderChanged ? 'none' : undefined,
-                  }}
-                >
-                  <span>
-                    {`${t('ui.others.table')} ${i + 1}`}
-                  </span>
-                  <button onClick={(event) => this.duplicateTable(event, tt)}>
-                    <i className={classNames('icon', 'icon--duplicate-table')} />
-                    <span>{t('ui.button.duplicateTable')}</span>
-                  </button>
-                  <button onClick={(event) => this.deleteTable(event, tt)}>
-                    <i className={classNames('icon', 'icon--delete-table')} />
-                    <span>{t('ui.button.deleteTable')}</span>
-                  </button>
-                </div>
-              ))
-        )
-        : (
-          <div className={classNames(('tabs__elem'))} style={{ pointerEvents: 'none' }}>
-            <span>{t('ui.placeholder.loading')}</span>
-          </div>
-        )
-    );
-    const addTabButton = (
-      (timetables && timetables.length)
-        ? (
-          <div className={classNames('tabs__elem', 'tabs__elem--add-button')} onClick={() => this.createTable()}>
-            <i className={classNames('icon', 'icon--add-table')} />
-          </div>
-        )
-        : null
-    );
+        ))
+      ) : (
+        <div className={classNames('tabs__elem')} style={{ pointerEvents: 'none' }}>
+          <span>{t('ui.placeholder.loading')}</span>
+        </div>
+      );
+    const addTabButton =
+      timetables && timetables.length ? (
+        <div
+          className={classNames('tabs__elem', 'tabs__elem--add-button')}
+          onClick={() => this.createTable()}
+        >
+          <i className={classNames('icon', 'icon--add-table')} />
+        </div>
+      ) : null;
 
     return (
       <div className={classNames('tabs', 'tabs--timetable')}>
-        { myTimetableTab }
-        { normalTimetableTabs }
-        { addTabButton }
+        {myTimetableTab}
+        {normalTimetableTabs}
+        {addTabButton}
       </div>
     );
   }
@@ -637,9 +596,4 @@ TimetableTabs.propTypes = {
   setMobileIsTimetableTabsOpenDispatch: PropTypes.func.isRequired,
 };
 
-
-export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(
-    TimetableTabs
-  )
-);
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(TimetableTabs));

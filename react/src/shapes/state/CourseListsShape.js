@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 
 import courseShape from '../model/CourseShape';
 
-
 const lectureListsShape = PropTypes.shape({
   search: {
     courses: PropTypes.arrayOf(courseShape),

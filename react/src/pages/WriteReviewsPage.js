@@ -24,7 +24,6 @@ import { ReviewsFocusFrom } from '../reducers/write-reviews/reviewsFocus';
 import reviewsFocusShape from '../shapes/state/ReviewsFocusShape';
 import OtlplusPlaceholder from '../components/OtlplusPlaceholder';
 
-
 class WriteReviewsPage extends Component {
   componentDidMount() {
     const { setReviewsFocusDispatch } = this.props;
@@ -36,11 +35,12 @@ class WriteReviewsPage extends Component {
     }
   }
 
-
   componentWillUnmount() {
     const {
-      resetReviewsFocusDispatch, resetLatestReviewsDispatch,
-      resetLikedReviewsDispatch, resetRankedReviewsDispatch,
+      resetReviewsFocusDispatch,
+      resetLatestReviewsDispatch,
+      resetLikedReviewsDispatch,
+      resetRankedReviewsDispatch,
     } = this.props;
 
     resetReviewsFocusDispatch();
@@ -49,14 +49,19 @@ class WriteReviewsPage extends Component {
     resetRankedReviewsDispatch();
   }
 
-
   render() {
     const { reviewsFocus } = this.props;
 
     const getReviewsSubSection = (focusFrom) => {
       if (focusFrom === ReviewsFocusFrom.NONE) {
         return (
-          <div className={classNames('subsection', 'subsection--flex', 'subsection--write-reviews-right')}>
+          <div
+            className={classNames(
+              'subsection',
+              'subsection--flex',
+              'subsection--write-reviews-right',
+            )}
+          >
             <OtlplusPlaceholder />
           </div>
         );
@@ -95,12 +100,10 @@ class WriteReviewsPage extends Component {
                 'section',
                 'section--write-reviews-right',
                 'section--mobile-modal',
-                ((reviewsFocus.from !== ReviewsFocusFrom.NONE) ? null : 'mobile-hidden'),
+                reviewsFocus.from !== ReviewsFocusFrom.NONE ? null : 'mobile-hidden',
               )}
             >
-              {
-                getReviewsSubSection(reviewsFocus.from)
-              }
+              {getReviewsSubSection(reviewsFocus.from)}
             </div>
           </div>
         </section>
@@ -147,9 +150,4 @@ WriteReviewsPage.propTypes = {
   resetRankedReviewsDispatch: PropTypes.func.isRequired,
 };
 
-
-export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(
-    WriteReviewsPage
-  )
-);
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(WriteReviewsPage));

@@ -4,7 +4,6 @@ import departmentShape from './DepartmentShape';
 import nestedCourseShape from './NestedCourseShape';
 import nestedProfessorShape from './NestedProfessorShape';
 
-
 const courseShape = PropTypes.shape({
   id: PropTypes.number.isRequired,
   old_code: PropTypes.string.isRequired,

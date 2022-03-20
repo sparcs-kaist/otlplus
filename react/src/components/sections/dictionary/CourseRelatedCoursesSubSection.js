@@ -9,7 +9,6 @@ import CourseSimpleBlock from '../../blocks/CourseSimpleBlock';
 
 import courseFocusShape from '../../../shapes/state/CourseFocusShape';
 
-
 class CourseRelatedCoursesSubSection extends Component {
   render() {
     const { t } = this.props;
@@ -21,7 +20,11 @@ class CourseRelatedCoursesSubSection extends Component {
 
     const getBlocksOrPlaceholder = (courses) => {
       if (!courses.length) {
-        return <div className={classNames('list-placeholder')}><div>{t('ui.placeholder.unknown')}</div></div>;
+        return (
+          <div className={classNames('list-placeholder')}>
+            <div>{t('ui.placeholder.unknown')}</div>
+          </div>
+        );
       }
       return courses.map((c) => <CourseSimpleBlock course={c} key={c.id} />);
     };
@@ -32,9 +35,7 @@ class CourseRelatedCoursesSubSection extends Component {
         <div>
           <Scroller noScrollX={false} noScrollY={true}>
             <div className={classNames('related-courses')}>
-              <div>
-                { getBlocksOrPlaceholder(courseFocus.course.related_courses_prior)}
-              </div>
+              <div>{getBlocksOrPlaceholder(courseFocus.course.related_courses_prior)}</div>
               <div>
                 <i className={classNames('icon', 'icon--related-arrow')} />
               </div>
@@ -44,9 +45,7 @@ class CourseRelatedCoursesSubSection extends Component {
               <div>
                 <i className={classNames('icon', 'icon--related-arrow')} />
               </div>
-              <div>
-                { getBlocksOrPlaceholder(courseFocus.course.related_courses_posterior) }
-              </div>
+              <div>{getBlocksOrPlaceholder(courseFocus.course.related_courses_posterior)}</div>
             </div>
           </Scroller>
         </div>
@@ -59,16 +58,12 @@ const mapStateToProps = (state) => ({
   courseFocus: state.dictionary.courseFocus,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-});
+const mapDispatchToProps = (dispatch) => ({});
 
 CourseRelatedCoursesSubSection.propTypes = {
   courseFocus: courseFocusShape.isRequired,
 };
 
-
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(
-    CourseRelatedCoursesSubSection
-  )
+  connect(mapStateToProps, mapDispatchToProps)(CourseRelatedCoursesSubSection),
 );

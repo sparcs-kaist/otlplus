@@ -18,10 +18,12 @@ import { setListCourses, clearSearchListCourses } from '../../../actions/diction
 import { clearCourseFocus } from '../../../actions/dictionary/courseFocus';
 
 import {
-  getTypeOptions, getDepartmentOptions, getLevelOptions, getTermOptions,
+  getTypeOptions,
+  getDepartmentOptions,
+  getLevelOptions,
+  getTermOptions,
 } from '../../../common/seachOptions';
 import { performSearchCourses } from '../../../common/commonOperations';
-
 
 class CourseSearchSubSection extends Component {
   INITIAL_STATE = {
@@ -31,7 +33,7 @@ class CourseSearchSubSection extends Component {
     selectedDepartments: new Set(['ALL']),
     selectedLevels: new Set(['ALL']),
     selectedTerms: new Set(['ALL']),
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -43,19 +45,24 @@ class CourseSearchSubSection extends Component {
 
     this.setState(this.INITIAL_STATE);
     closeSearchDispatch();
-  }
+  };
 
   searchStart = () => {
     const LIMIT = 150;
 
     const { t } = this.props;
     const {
-      selectedTypes, selectedDepartments, selectedLevels, selectedTerms,
+      selectedTypes,
+      selectedDepartments,
+      selectedLevels,
+      selectedTerms,
       keyword,
     } = this.state;
     const {
-      closeSearchDispatch, clearSearchListCoursesDispatch,
-      setListCoursesDispatch, clearCourseFocusDispatch,
+      closeSearchDispatch,
+      clearSearchListCoursesDispatch,
+      setListCoursesDispatch,
+      clearCourseFocusDispatch,
       setLastSearchOptionDispatch,
     } = this.props;
 
@@ -81,27 +88,24 @@ class CourseSearchSubSection extends Component {
       }
       setListCoursesDispatch(CourseListCode.SEARCH, courses);
     };
-    performSearchCourses(
-      option, LIMIT,
-      beforeRequest, afterResponse,
-    );
+    performSearchCourses(option, LIMIT, beforeRequest, afterResponse);
 
     ReactGA.event({
       category: 'Dictionary - Search',
       action: 'Searched Course',
     });
-  }
+  };
 
   updateCheckedValues = (filterName) => (checkedValues) => {
     this.setState({
       [filterName]: checkedValues,
     });
-  }
+  };
 
   handleSubmit = (e) => {
     e.preventDefault();
     this.searchStart();
-  }
+  };
 
   handleInput = (e) => {
     const { value } = e.target;
@@ -116,13 +120,12 @@ class CourseSearchSubSection extends Component {
     }
 
     this._fetchAutocomplete(value);
-  }
+  };
 
   // eslint-disable-next-line react/sort-comp
   _fetchAutocomplete = debounce((value) => {
-    axios.get(
-      '/api/courses/autocomplete',
-      {
+    axios
+      .get('/api/courses/autocomplete', {
         params: {
           keyword: value,
         },
@@ -130,8 +133,7 @@ class CourseSearchSubSection extends Component {
           gaCategory: 'Course',
           gaVariable: 'GET Autocomplete / List',
         },
-      },
-    )
+      })
       .then((response) => {
         const { keyword } = this.state;
         const complete = response.data;
@@ -142,23 +144,22 @@ class CourseSearchSubSection extends Component {
           autocompleteText: complete.substring(value.length, complete.length),
         });
       })
-      .catch((error) => {
-      });
-  }, 500)
+      .catch((error) => {});
+  }, 500);
 
   applyAutocomplete = () => {
     this.setState((prevState) => ({
       keyword: prevState.keyword + prevState.autocompleteText,
       autocompleteText: '',
     }));
-  }
+  };
 
   clearAutocomplete = () => {
     this.setState({
       keyword: '',
       autocompleteText: '',
     });
-  }
+  };
 
   onKeyPress = (e) => {
     if (e.keyCode === 9) {
@@ -167,18 +168,21 @@ class CourseSearchSubSection extends Component {
       e.preventDefault();
       e.nativeEvent.stopImmediatePropagation();
     }
-  }
+  };
 
   render() {
     const { t, searchOpen } = this.props;
     const {
       keyword,
       autocompleteText,
-      selectedTypes, selectedDepartments, selectedLevels, selectedTerms,
+      selectedTypes,
+      selectedDepartments,
+      selectedLevels,
+      selectedTerms,
     } = this.state;
 
     return (
-      <div className={classNames('search-area', (searchOpen ? null : 'search-area--hidden'))}>
+      <div className={classNames('search-area', searchOpen ? null : 'search-area--hidden')}>
         <form onSubmit={this.handleSubmit}>
           <div className={classNames('list-title', 'list-title--search-input')}>
             <i className={classNames('icon', 'icon--search')} />
@@ -194,7 +198,9 @@ class CourseSearchSubSection extends Component {
               />
               <div className={classNames('search-keyword-autocomplete')}>
                 <span className={classNames('search-keyword-autocomplete-space')}>{keyword}</span>
-                <span className={classNames('search-keyword-autocomplete-body')}>{autocompleteText}</span>
+                <span className={classNames('search-keyword-autocomplete-body')}>
+                  {autocompleteText}
+                </span>
               </div>
             </div>
           </div>
@@ -229,8 +235,16 @@ class CourseSearchSubSection extends Component {
             />
           </Scroller>
           <div className={classNames('buttons')}>
-            <button type="submit" className={classNames('text-button')}>{t('ui.button.search')}</button>
-            <button type="button" className={classNames('text-button')} onClick={() => this.hideSearch()}>{t('ui.button.cancel')}</button>
+            <button type="submit" className={classNames('text-button')}>
+              {t('ui.button.search')}
+            </button>
+            <button
+              type="button"
+              className={classNames('text-button')}
+              onClick={() => this.hideSearch()}
+            >
+              {t('ui.button.cancel')}
+            </button>
           </div>
           <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
         </form>
@@ -271,9 +285,6 @@ CourseSearchSubSection.propTypes = {
   setLastSearchOptionDispatch: PropTypes.func.isRequired,
 };
 
-
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(
-    CourseSearchSubSection
-  )
+  connect(mapStateToProps, mapDispatchToProps)(CourseSearchSubSection),
 );

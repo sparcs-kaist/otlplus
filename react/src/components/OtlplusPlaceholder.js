@@ -5,16 +5,13 @@ import { withTranslation } from 'react-i18next';
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
 import { CONTACT } from '../common/constants';
 
-
 class OtlplusPlaceholder extends Component {
   render() {
     const { t } = this.props;
 
     return (
       <div className={classNames('otlplus-placeholder')}>
-        <div>
-          OTL PLUS
-        </div>
+        <div>OTL PLUS</div>
         <div>
           <Link to="/credits/">{t('ui.menu.credit')}</Link>
           &nbsp;|&nbsp;
@@ -23,7 +20,7 @@ class OtlplusPlaceholder extends Component {
           <Link to="/privacy/">{t('ui.menu.privacy')}</Link>
         </div>
         <div>
-          <a href={`mailto:${CONTACT}`}>{ CONTACT }</a>
+          <a href={`mailto:${CONTACT}`}>{CONTACT}</a>
         </div>
         <div>
           © 2016,&nbsp;
@@ -35,9 +32,6 @@ class OtlplusPlaceholder extends Component {
   }
 }
 
-OtlplusPlaceholder.propTypes = {
-};
+OtlplusPlaceholder.propTypes = {};
 
-export default withTranslation()(
-  OtlplusPlaceholder
-);
+export default withTranslation()(OtlplusPlaceholder);

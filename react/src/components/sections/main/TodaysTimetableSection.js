@@ -17,7 +17,6 @@ import semesterShape from '../../../shapes/model/SemesterShape';
 
 import { getOngoingSemester } from '../../../utils/semesterUtils';
 
-
 class TodaysTimetableSection extends Component {
   constructor(props) {
     super(props);
@@ -54,7 +53,7 @@ class TodaysTimetableSection extends Component {
 
     const scrollTarget = this.scrollRef.current.querySelector('.ScrollbarsCustom-Scroller');
     scrollTarget.scrollLeft = this._getBarLeftPosition() - INITIAL_BAR_POSITION;
-  }
+  };
 
   resize = () => {
     const cell = document
@@ -64,7 +63,7 @@ class TodaysTimetableSection extends Component {
       cellWidth: cell.width + 1,
       cellHeight: cell.height,
     });
-  }
+  };
 
   _getBarLeftPosition = () => {
     const BAR_CIRCLE_WIDTH = 5;
@@ -77,92 +76,103 @@ class TodaysTimetableSection extends Component {
     const minutes = now.getMinutes();
     const seconds = now.getSeconds();
 
-    const floatHours = hours + (minutes / 60) + (seconds / 60 / 60);
+    const floatHours = hours + minutes / 60 + seconds / 60 / 60;
 
-    return (floatHours - TIMETABLE_START_HOUR) * cellWidth * 2
-      + TABLE_LEFT_MARGIN
-      - (BAR_CIRCLE_WIDTH - BAR_LINE_WIDTH) / 2;
-  }
+    return (
+      (floatHours - TIMETABLE_START_HOUR) * cellWidth * 2 +
+      TABLE_LEFT_MARGIN -
+      (BAR_CIRCLE_WIDTH - BAR_LINE_WIDTH) / 2
+    );
+  };
 
   render() {
     const { t } = this.props;
     const { cellWidth, cellHeight, now } = this.state;
     const { user, semesters } = this.props;
 
-    const ongoingSemester = semesters
-      ? getOngoingSemester(semesters)
-      : undefined;
-    const lectures = (user && ongoingSemester)
-      ? user.my_timetable_lectures.filter((l) => (
-        (l.year === ongoingSemester.year) && (l.semester === ongoingSemester.semester)
-      ))
-      : [];
+    const ongoingSemester = semesters ? getOngoingSemester(semesters) : undefined;
+    const lectures =
+      user && ongoingSemester
+        ? user.my_timetable_lectures.filter(
+            (l) => l.year === ongoingSemester.year && l.semester === ongoingSemester.semester,
+          )
+        : [];
     const day = now.getDay();
 
     return (
-    // eslint-disable-next-line react/jsx-indent
-    <div className={classNames('section', 'section--feed')}>
-      <div className={classNames('subsection', 'subsection--feed', 'subsection--todays-timetable')} ref={this.scrollRef}>
-        <Scroller noScrollX={false} noScrollY={true}>
-          <div className={classNames('subsection--todays-timetable__table')}>
-            <div className={classNames('subsection--todays-timetable__table__label')}>
-              {
-                [
-                  ...(
-                    range(TIMETABLE_START_HOUR, TIMETABLE_END_HOUR).map((h) => {
-                      const HourTag = (h % 6 === 0) ? 'strong' : 'span';
+      // eslint-disable-next-line react/jsx-indent
+      <div className={classNames('section', 'section--feed')}>
+        <div
+          className={classNames('subsection', 'subsection--feed', 'subsection--todays-timetable')}
+          ref={this.scrollRef}
+        >
+          <Scroller noScrollX={false} noScrollY={true}>
+            <div className={classNames('subsection--todays-timetable__table')}>
+              <div className={classNames('subsection--todays-timetable__table__label')}>
+                {[
+                  ...range(TIMETABLE_START_HOUR, TIMETABLE_END_HOUR)
+                    .map((h) => {
+                      const HourTag = h % 6 === 0 ? 'strong' : 'span';
                       return [
-                        <div className={classNames('subsection--todays-timetable__table__label__line')} key={`line:${h * 60}`}>
+                        <div
+                          className={classNames('subsection--todays-timetable__table__label__line')}
+                          key={`line:${h * 60}`}
+                        >
                           <HourTag>{((h - 1) % 12) + 1}</HourTag>
                         </div>,
-                        <div className={classNames('subsection--todays-timetable__table__label__cell')} key={`cell:${h * 60}`} />,
-                        <div className={classNames('subsection--todays-timetable__table__label__line')} key={`line:${h * 60 + 30}`} />,
-                        <div className={classNames('subsection--todays-timetable__table__label__cell')} key={`cell:${h * 60 + 30}`} />,
-                      ];
-                    })
-                      .flat(1)
-                  ),
-                  <div className={classNames('subsection--todays-timetable__table__label__line')} key="line:1440">
-                    <strong>{12}</strong>
-                  </div>,
-                ]
-              }
-            </div>
-            <div className={classNames('subsection--todays-timetable__table__body')}>
-              {
-                [
-                  ...(
-                    range(TIMETABLE_START_HOUR, TIMETABLE_END_HOUR).map((h) => {
-                      return [
                         <div
-                          className={classNames(
-                            'subsection--todays-timetable__table__body__line',
-                            (h % 6 === 0) ? 'subsection--todays-timetable__table__body__line--bold' : null,
-                          )}
-                          key={`line:${h * 60}`}
-                        />,
-                        <div
-                          className={classNames(
-                            'subsection--todays-timetable__table__body__cell',
-                          )}
+                          className={classNames('subsection--todays-timetable__table__label__cell')}
                           key={`cell:${h * 60}`}
                         />,
                         <div
-                          className={classNames(
-                            'subsection--todays-timetable__table__body__line',
-                            'subsection--todays-timetable__table__body__line--dashed',
-                          )}
+                          className={classNames('subsection--todays-timetable__table__label__line')}
                           key={`line:${h * 60 + 30}`}
                         />,
                         <div
-                          className={classNames(
-                            'subsection--todays-timetable__table__body__cell',
-                          )}
+                          className={classNames('subsection--todays-timetable__table__label__cell')}
                           key={`cell:${h * 60 + 30}`}
                         />,
                       ];
                     })
-                  ),
+                    .flat(1),
+                  <div
+                    className={classNames('subsection--todays-timetable__table__label__line')}
+                    key="line:1440"
+                  >
+                    <strong>{12}</strong>
+                  </div>,
+                ]}
+              </div>
+              <div className={classNames('subsection--todays-timetable__table__body')}>
+                {[
+                  ...range(TIMETABLE_START_HOUR, TIMETABLE_END_HOUR).map((h) => {
+                    return [
+                      <div
+                        className={classNames(
+                          'subsection--todays-timetable__table__body__line',
+                          h % 6 === 0
+                            ? 'subsection--todays-timetable__table__body__line--bold'
+                            : null,
+                        )}
+                        key={`line:${h * 60}`}
+                      />,
+                      <div
+                        className={classNames('subsection--todays-timetable__table__body__cell')}
+                        key={`cell:${h * 60}`}
+                      />,
+                      <div
+                        className={classNames(
+                          'subsection--todays-timetable__table__body__line',
+                          'subsection--todays-timetable__table__body__line--dashed',
+                        )}
+                        key={`line:${h * 60 + 30}`}
+                      />,
+                      <div
+                        className={classNames('subsection--todays-timetable__table__body__cell')}
+                        key={`cell:${h * 60 + 30}`}
+                      />,
+                    ];
+                  }),
                   <div
                     className={classNames(
                       'subsection--todays-timetable__table__body__line',
@@ -170,14 +180,12 @@ class TodaysTimetableSection extends Component {
                     )}
                     key="line:1440"
                   />,
-                ]
-              }
+                ]}
+              </div>
             </div>
-          </div>
-          {
-            lectures.map((l) => (
+            {lectures.map((l) =>
               l.classtimes
-                .filter((ct) => (ct.day === day - 1))
+                .filter((ct) => ct.day === day - 1)
                 .map((ct) => (
                   <HorizontalTimetableTile
                     key={`${l.id}:${ct.day}:${ct.begin}`}
@@ -188,30 +196,35 @@ class TodaysTimetableSection extends Component {
                     cellWidth={cellWidth}
                     cellHeight={cellHeight}
                   />
-                ))
-            ))
-          }
-          <div
-            className={classNames('subsection--todays-timetable__bar')}
-            style={{
-              top: 11 + 4 - 2,
-              left: this._getBarLeftPosition(),
-            }}
-          >
-            <div />
-            <div />
+                )),
+            )}
+            <div
+              className={classNames('subsection--todays-timetable__bar')}
+              style={{
+                top: 11 + 4 - 2,
+                left: this._getBarLeftPosition(),
+              }}
+            >
+              <div />
+              <div />
+            </div>
+          </Scroller>
+          <div className={classNames('buttons')}>
+            <Link
+              to={{
+                pathname: '/timetable',
+                search: queryString.stringify({
+                  startSemester: ongoingSemester,
+                  startInMyTable: true,
+                }),
+              }}
+              className={classNames('text-button')}
+            >
+              {t('ui.button.seeDetails')}
+            </Link>
           </div>
-        </Scroller>
-        <div className={classNames('buttons')}>
-          <Link
-            to={{ pathname: '/timetable', search: queryString.stringify({ startSemester: ongoingSemester, startInMyTable: true }) }}
-            className={classNames('text-button')}
-          >
-            {t('ui.button.seeDetails')}
-          </Link>
         </div>
       </div>
-    </div>
     );
   }
 }
@@ -221,17 +234,13 @@ const mapStateToProps = (state) => ({
   semesters: state.common.semester.semesters,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-});
+const mapDispatchToProps = (dispatch) => ({});
 
 TodaysTimetableSection.propTypes = {
   user: userShape,
   semesters: PropTypes.arrayOf(semesterShape),
 };
 
-
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(
-    TodaysTimetableSection
-  )
+  connect(mapStateToProps, mapDispatchToProps)(TodaysTimetableSection),
 );

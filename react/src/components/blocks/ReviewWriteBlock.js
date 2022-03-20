@@ -11,13 +11,7 @@ import { performSubmitReview } from '../../common/commonOperations';
 import lectureShape from '../../shapes/model/LectureShape';
 import reviewShape from '../../shapes/model/ReviewShape';
 
-
-const ReviewWriteBlock = ({
-  t,
-  lecture, review,
-  pageFrom,
-  updateOnSubmit,
-}) => {
+const ReviewWriteBlock = ({ t, lecture, review, pageFrom, updateOnSubmit }) => {
   const [isUploading, setIsUploading] = useState(false);
   const [content, setContent] = useState(review ? review.content : '');
   const [grade, setGrade] = useState(review ? review.grade : undefined);
@@ -32,11 +26,9 @@ const ReviewWriteBlock = ({
     const { name, value } = e.target;
     if (name === 'grade') {
       setGrade(Number(value));
-    }
-    else if (name === 'load') {
+    } else if (name === 'load') {
       setLoad(Number(value));
-    }
-    else if (name === 'speech') {
+    } else if (name === 'speech') {
       setSpeech(Number(value));
     }
   };
@@ -56,25 +48,36 @@ const ReviewWriteBlock = ({
     };
     performSubmitReview(
       review,
-      lecture, content, grade, speech, load,
+      lecture,
+      content,
+      grade,
+      speech,
+      load,
       isUploading,
       `Page : ${pageFrom}`,
-      beforeRequest, afterResponse,
+      beforeRequest,
+      afterResponse,
     );
   };
 
-  const hasChange = (
-    !review
-    || (content !== review.content)
-    || (grade !== review.grade)
-    || (load !== review.load)
-    || (speech !== review.speech)
-  );
+  const hasChange =
+    !review ||
+    content !== review.content ||
+    grade !== review.grade ||
+    load !== review.load ||
+    speech !== review.speech;
   const getScoreOptionLabel = (name, value, checkedValue) => {
     const inputId = `${lecture.id}-${name}-${value}`;
     return (
       <label className={classNames('block--review-write__score__option')} htmlFor={inputId}>
-        <input id={inputId} type="radio" name={name} value={`${value}`} checked={checkedValue === value} onChange={onScoreChange} />
+        <input
+          id={inputId}
+          type="radio"
+          name={name}
+          value={`${value}`}
+          checked={checkedValue === value}
+          onChange={onScoreChange}
+        />
         <span>{getSingleScoreLabel(value)}</span>
       </label>
     );
@@ -87,10 +90,17 @@ const ReviewWriteBlock = ({
         <span>{getProfessorsShortStr(lecture)}</span>
         <span>{`${lecture.year} ${getSemesterName(lecture.semester)}`}</span>
       </div>
-      <textarea className={classNames('block--review-write__content')} placeholder={t('ui.placeholder.reviewContent')} value={content} onChange={onContentChange} />
+      <textarea
+        className={classNames('block--review-write__content')}
+        placeholder={t('ui.placeholder.reviewContent')}
+        value={content}
+        onChange={onContentChange}
+      />
       <div>
         <div className={classNames('block--review-write__score')}>
-          <span className={classNames('block--review-write__score__name')}>{t('ui.score.grade')}</span>
+          <span className={classNames('block--review-write__score__name')}>
+            {t('ui.score.grade')}
+          </span>
           {getScoreOptionLabel('grade', 5, grade)}
           {getScoreOptionLabel('grade', 4, grade)}
           {getScoreOptionLabel('grade', 3, grade)}
@@ -98,7 +108,9 @@ const ReviewWriteBlock = ({
           {getScoreOptionLabel('grade', 1, grade)}
         </div>
         <div className={classNames('block--review-write__score')}>
-          <span className={classNames('block--review-write__score__name')}>{t('ui.score.load')}</span>
+          <span className={classNames('block--review-write__score__name')}>
+            {t('ui.score.load')}
+          </span>
           {getScoreOptionLabel('load', 5, load)}
           {getScoreOptionLabel('load', 4, load)}
           {getScoreOptionLabel('load', 3, load)}
@@ -106,7 +118,9 @@ const ReviewWriteBlock = ({
           {getScoreOptionLabel('load', 1, load)}
         </div>
         <div className={classNames('block--review-write__score')}>
-          <span className={classNames('block--review-write__score__name')}>{t('ui.score.speech')}</span>
+          <span className={classNames('block--review-write__score__name')}>
+            {t('ui.score.speech')}
+          </span>
           {getScoreOptionLabel('speech', 5, speech)}
           {getScoreOptionLabel('speech', 4, speech)}
           {getScoreOptionLabel('speech', 3, speech)}
@@ -115,18 +129,24 @@ const ReviewWriteBlock = ({
         </div>
       </div>
       <div className={classNames('block--review-write__buttons')}>
-        { hasChange
-          ? (
-            <button className={classNames('text-button', 'text-button--review-write-block')} type="submit">
-              {review ? t('ui.button.edit') : t('ui.button.upload')}
-            </button>
-          )
-          : (
-            <button className={classNames('text-button', 'text-button--review-write-block', 'text-button--disabled')}>
-              {review ? t('ui.button.edit') : t('ui.button.upload')}
-            </button>
-          )
-        }
+        {hasChange ? (
+          <button
+            className={classNames('text-button', 'text-button--review-write-block')}
+            type="submit"
+          >
+            {review ? t('ui.button.edit') : t('ui.button.upload')}
+          </button>
+        ) : (
+          <button
+            className={classNames(
+              'text-button',
+              'text-button--review-write-block',
+              'text-button--disabled',
+            )}
+          >
+            {review ? t('ui.button.edit') : t('ui.button.upload')}
+          </button>
+        )}
       </div>
     </form>
   );
@@ -139,8 +159,4 @@ ReviewWriteBlock.propTypes = {
   updateOnSubmit: PropTypes.func.isRequired,
 };
 
-export default withTranslation()(
-  React.memo(
-    ReviewWriteBlock
-  )
-);
+export default withTranslation()(React.memo(ReviewWriteBlock));

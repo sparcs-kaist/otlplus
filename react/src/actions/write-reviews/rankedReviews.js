@@ -6,7 +6,6 @@ export const ADD_SEMESTER_REVIEWS = BASE_STRING + 'ADD_SEMESTER_REVIEWS';
 export const SET_SEMESTER_REVIEW_COUNT = BASE_STRING + 'SET_SEMESTER_REVIEW_COUNT';
 /* eslint-enable prefer-template */
 
-
 export function reset() {
   return {
     type: RESET,

@@ -4,7 +4,6 @@ import { LectureFocusFrom } from '../../reducers/timetable/lectureFocus';
 import lectureShape from '../model/LectureShape';
 import reviewShape from '../model/ReviewShape';
 
-
 const lectureFocusShape = PropTypes.shape({
   from: PropTypes.oneOf(Object.values(LectureFocusFrom)).isRequired,
   clicked: PropTypes.bool.isRequired,

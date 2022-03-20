@@ -3,7 +3,6 @@ import lectureShape from './LectureShape';
 import reviewShape from './ReviewShape';
 import departmentShape from './DepartmentShape';
 
-
 const userShape = PropTypes.shape({
   id: PropTypes.number.isRequired,
   email: PropTypes.string.isRequired,

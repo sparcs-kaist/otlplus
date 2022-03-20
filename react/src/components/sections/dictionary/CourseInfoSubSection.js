@@ -10,7 +10,6 @@ import { getAverageScoreLabel } from '../../../utils/scoreUtils';
 import Attributes from '../../Attributes';
 import Scores from '../../Scores';
 
-
 class CourseInfoSubSection extends Component {
   render() {
     const { t } = this.props;
@@ -20,17 +19,21 @@ class CourseInfoSubSection extends Component {
       return null;
     }
 
-    const representativeLecture = (
-      courseFocus.lectures && (courseFocus.lectures.length > 0)
+    const representativeLecture =
+      courseFocus.lectures && courseFocus.lectures.length > 0
         ? courseFocus.lectures[courseFocus.lectures.length - 1]
-        : null
-    );
+        : null;
 
     return (
       <div className={classNames('subsection', 'subsection--course-info')}>
         <Attributes
           entries={[
-            { name: t('ui.attribute.classification'), info: `${courseFocus.course.department[t('js.property.name')]}, ${courseFocus.course[t('js.property.type')]}` },
+            {
+              name: t('ui.attribute.classification'),
+              info: `${courseFocus.course.department[t('js.property.name')]}, ${
+                courseFocus.course[t('js.property.type')]
+              }`,
+            },
             { name: t('ui.attribute.description'), info: courseFocus.course.summary },
           ]}
           longInfo
@@ -39,31 +42,23 @@ class CourseInfoSubSection extends Component {
           entries={[
             {
               name: t('ui.score.lectureHours'),
-              score: (
-                representativeLecture
-                  ? representativeLecture.num_classes
-                  : '-'
-              ),
+              score: representativeLecture ? representativeLecture.num_classes : '-',
             },
             {
               name: t('ui.score.labHours'),
-              score: (
-                representativeLecture
-                  ? representativeLecture.num_labs
-                  : '-'
-              ),
+              score: representativeLecture ? representativeLecture.num_labs : '-',
             },
             {
-              name: (
-                representativeLecture
-                  ? (representativeLecture.credit === 0) ? t('ui.score.au') : t('ui.score.credit')
+              name: representativeLecture
+                ? representativeLecture.credit === 0
+                  ? t('ui.score.au')
                   : t('ui.score.credit')
-              ),
-              score: (
-                representativeLecture
-                  ? (representativeLecture.credit === 0) ? representativeLecture.credit_au : representativeLecture.credit
-                  : '-'
-              ),
+                : t('ui.score.credit'),
+              score: representativeLecture
+                ? representativeLecture.credit === 0
+                  ? representativeLecture.credit_au
+                  : representativeLecture.credit
+                : '-',
             },
           ]}
           big
@@ -85,16 +80,12 @@ const mapStateToProps = (state) => ({
   courseFocus: state.dictionary.courseFocus,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-});
+const mapDispatchToProps = (dispatch) => ({});
 
 CourseInfoSubSection.propTypes = {
   courseFocus: courseFocusShape.isRequired,
 };
 
-
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(
-    CourseInfoSubSection
-  )
+  connect(mapStateToProps, mapDispatchToProps)(CourseInfoSubSection),
 );

@@ -10,28 +10,32 @@ import courseShape from '../../shapes/model/CourseShape';
 import linkShape from '../../shapes/LinkShape';
 import Attributes from '../Attributes';
 
-
 const CourseBlock = ({
   t,
   course,
-  shouldShowReadStatus, isRead, isRaised, isDimmed,
-  onMouseOver, onMouseOut, onClick,
+  shouldShowReadStatus,
+  isRead,
+  isRaised,
+  isDimmed,
+  onMouseOver,
+  onMouseOut,
+  onClick,
   linkTo,
 }) => {
   const handleMouseOver = onMouseOver
     ? (event) => {
-      onMouseOver(course);
-    }
+        onMouseOver(course);
+      }
     : null;
   const handleMouseOut = onMouseOut
     ? (event) => {
-      onMouseOut(course);
-    }
+        onMouseOut(course);
+      }
     : null;
   const handleClick = onClick
     ? (event) => {
-      onClick(course);
-    }
+        onClick(course);
+      }
     : null;
 
   const RootTag = linkTo ? Link : 'div';
@@ -41,9 +45,9 @@ const CourseBlock = ({
       className={classNames(
         'block',
         'block--course',
-        (onClick ? 'block--clickable' : null),
-        (isRaised ? 'block--raised' : null),
-        (isDimmed ? 'block--dimmed' : null),
+        onClick ? 'block--clickable' : null,
+        isRaised ? 'block--raised' : null,
+        isDimmed ? 'block--dimmed' : null,
       )}
       onClick={handleClick}
       onMouseOver={handleMouseOver}
@@ -51,20 +55,21 @@ const CourseBlock = ({
       to={linkTo}
     >
       <div className={classNames('block--course__title')}>
-        { !shouldShowReadStatus
-          ? null
-          : (isRead
-            ? <i className={classNames('icon', 'icon--status-read')} />
-            : <i className={classNames('icon', 'icon--status-unread')} />
-          )
-        }
-        <strong>{ course[t('js.property.title')] }</strong>
+        {!shouldShowReadStatus ? null : isRead ? (
+          <i className={classNames('icon', 'icon--status-read')} />
+        ) : (
+          <i className={classNames('icon', 'icon--status-unread')} />
+        )}
+        <strong>{course[t('js.property.title')]}</strong>
         &nbsp;
-        <span>{ course.old_code }</span>
+        <span>{course.old_code}</span>
       </div>
       <Attributes
         entries={[
-          { name: t('ui.attribute.classification'), info: `${course.department[t('js.property.name')]}, ${course[t('js.property.type')]}` },
+          {
+            name: t('ui.attribute.classification'),
+            info: `${course.department[t('js.property.name')]}, ${course[t('js.property.type')]}`,
+          },
           { name: t('ui.attribute.professors'), info: getProfessorsFullStr(course) },
           { name: t('ui.attribute.description'), info: course.summary },
         ]}
@@ -86,9 +91,4 @@ CourseBlock.propTypes = {
   linkTo: linkShape,
 };
 
-
-export default withTranslation()(
-  React.memo(
-    CourseBlock
-  )
-);
+export default withTranslation()(React.memo(CourseBlock));

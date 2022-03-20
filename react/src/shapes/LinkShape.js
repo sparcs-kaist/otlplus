@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 
-
 const linkShape = PropTypes.oneOfType([
   PropTypes.string,
   PropTypes.shape({

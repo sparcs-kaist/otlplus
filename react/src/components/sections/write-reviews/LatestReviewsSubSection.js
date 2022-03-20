@@ -18,7 +18,6 @@ import { clearReviewsFocus } from '../../../actions/write-reviews/reviewsFocus';
 import reviewShape from '../../../shapes/model/ReviewShape';
 import reviewsFocusShape from '../../../shapes/state/ReviewsFocusShape';
 
-
 class LatestReviewsSubSection extends Component {
   constructor(props) {
     super(props);
@@ -31,7 +30,6 @@ class LatestReviewsSubSection extends Component {
     this.blockListRef = React.createRef();
   }
 
-
   componentDidMount() {
     const { latestReviews } = this.props;
 
@@ -39,7 +37,6 @@ class LatestReviewsSubSection extends Component {
       this._fetchLatestReviews();
     }
   }
-
 
   _fetchLatestReviews = () => {
     const { latestReviews, addReviewsDispatch } = this.props;
@@ -56,9 +53,8 @@ class LatestReviewsSubSection extends Component {
     this.setState({
       isLoading: true,
     });
-    axios.get(
-      '/api/reviews',
-      {
+    axios
+      .get('/api/reviews', {
         params: {
           order: ['-written_datetime', '-id'],
           offset: offset,
@@ -68,16 +64,14 @@ class LatestReviewsSubSection extends Component {
           gaCategory: 'Review',
           gaVariable: 'GET Latest / List',
         },
-      },
-    )
+      })
       .then((response) => {
         this.setState((prevState) => ({
           isLoading: false,
         }));
         addReviewsDispatch(response.data);
       })
-      .catch((error) => {
-      });
+      .catch((error) => {});
 
     if (offset !== 0) {
       ReactGA.event({
@@ -86,8 +80,7 @@ class LatestReviewsSubSection extends Component {
         label: `Review Order : ${offset}-${offset + PAGE_SIZE - 1}`,
       });
     }
-  }
-
+  };
 
   handleScroll = () => {
     const SCROLL_THRSHOLD = 100;
@@ -99,69 +92,57 @@ class LatestReviewsSubSection extends Component {
     const blockListElement = this.blockListRef.current;
     const scrollElement = blockListElement.closest('.ScrollbarsCustom-Scroller');
 
-    const bottomOffset = (
-      blockListElement.getBoundingClientRect().bottom - scrollElement.getBoundingClientRect().bottom
-    );
+    const bottomOffset =
+      blockListElement.getBoundingClientRect().bottom -
+      scrollElement.getBoundingClientRect().bottom;
     if (bottomOffset < SCROLL_THRSHOLD) {
       this._fetchLatestReviews();
     }
-  }
-
+  };
 
   unfix = () => {
     const { clearReviewsFocusDispatch } = this.props;
 
     clearReviewsFocusDispatch();
-  }
-
+  };
 
   render() {
     const { t } = this.props;
     const { reviewsFocus, latestReviews } = this.props;
 
     const reviews = latestReviews;
-    const reviewBlocksArea = (
-      reviews == null
-        ? (
-          <div className={classNames('list-placeholder', 'min-height-area')}>
-            <div>{t('ui.placeholder.loading')}</div>
-          </div>
-        )
-        : (
-          reviews.length
-            ? (
-              <div className={classNames('block-list', 'min-height-area')} ref={this.blockListRef}>
-                {
-                  reviews.map((r) => (
-                    <ReviewBlock
-                      review={r}
-                      shouldLimitLines={false}
-                      linkTo={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: r.course.id }) }}
-                      pageFrom="Write Reviews"
-                      key={r.id}
-                    />
-                  ))
-                }
-              </div>
-            )
-            : (
-              <div className={classNames('list-placeholder', 'min-height-area')}>
-                <div>{t('ui.placeholder.noResults')}</div>
-              </div>
-            )
-        )
-    );
+    const reviewBlocksArea =
+      reviews == null ? (
+        <div className={classNames('list-placeholder', 'min-height-area')}>
+          <div>{t('ui.placeholder.loading')}</div>
+        </div>
+      ) : reviews.length ? (
+        <div className={classNames('block-list', 'min-height-area')} ref={this.blockListRef}>
+          {reviews.map((r) => (
+            <ReviewBlock
+              review={r}
+              shouldLimitLines={false}
+              linkTo={{
+                pathname: '/dictionary',
+                search: qs.stringify({ startCourseId: r.course.id }),
+              }}
+              pageFrom="Write Reviews"
+              key={r.id}
+            />
+          ))}
+        </div>
+      ) : (
+        <div className={classNames('list-placeholder', 'min-height-area')}>
+          <div>{t('ui.placeholder.noResults')}</div>
+        </div>
+      );
 
     return (
       <div className={classNames('subsection', 'subsection--flex', 'subsection--various-reviews')}>
         <CloseButton onClick={this.unfix} />
-        <Scroller
-          key={reviewsFocus.from}
-          onScroll={this.handleScroll}
-          expandTop={12}
-        >
+        <Scroller key={reviewsFocus.from} onScroll={this.handleScroll} expandTop={12}>
           <div className={classNames('title')}>{t('ui.title.latestReviews')}</div>
-          { reviewBlocksArea }
+          {reviewBlocksArea}
         </Scroller>
       </div>
     );
@@ -190,9 +171,6 @@ LatestReviewsSubSection.propTypes = {
   clearReviewsFocusDispatch: PropTypes.func.isRequired,
 };
 
-
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(
-    LatestReviewsSubSection
-  )
+  connect(mapStateToProps, mapDispatchToProps)(LatestReviewsSubSection),
 );

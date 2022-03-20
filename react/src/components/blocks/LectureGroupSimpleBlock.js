@@ -7,7 +7,6 @@ import { getProfessorsShortStr } from '../../utils/lectureUtils';
 
 import lectureShape from '../../shapes/model/LectureShape';
 
-
 const LectureGroupSimpleBlock = ({ t, lectures }) => {
   const getClass = (lecture) => {
     if (!lecture.class_title) {
@@ -24,19 +23,16 @@ const LectureGroupSimpleBlock = ({ t, lectures }) => {
   };
   return (
     <div className={classNames('block', 'block--lecture-group-simple')}>
-      {
-        lectures.map((l) => (
-          <div className={classNames('block--lecture-group-simple__row')} key={l.id}>
-            <div className={classNames('block--lecture-group-simple__row-content')}>
-              <div className={classNames('block--lecture-group-simple__row-content__texts')}>
-                <strong className={getClass(l)}>{l[t('js.property.class_title')]}</strong>
-                {' '}
-                <span>{getProfessorsShortStr(l)}</span>
-              </div>
+      {lectures.map((l) => (
+        <div className={classNames('block--lecture-group-simple__row')} key={l.id}>
+          <div className={classNames('block--lecture-group-simple__row-content')}>
+            <div className={classNames('block--lecture-group-simple__row-content__texts')}>
+              <strong className={getClass(l)}>{l[t('js.property.class_title')]}</strong>{' '}
+              <span>{getProfessorsShortStr(l)}</span>
             </div>
           </div>
-        ))
-      }
+        </div>
+      ))}
     </div>
   );
 };
@@ -45,8 +41,4 @@ LectureGroupSimpleBlock.propTypes = {
   lectures: PropTypes.arrayOf(lectureShape).isRequired,
 };
 
-export default withTranslation()(
-  React.memo(
-    LectureGroupSimpleBlock
-  )
-);
+export default withTranslation()(React.memo(LectureGroupSimpleBlock));

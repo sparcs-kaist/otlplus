@@ -9,7 +9,6 @@ import { appBoundClassNames as classNames } from '../../../common/boundClassName
 import ReviewBlock from '../../blocks/ReviewBlock';
 import { ReviewsFocusFrom } from '../../../reducers/write-reviews/reviewsFocus';
 
-
 class LatestReviewSection extends Component {
   constructor(props) {
     super(props);
@@ -18,11 +17,9 @@ class LatestReviewSection extends Component {
     };
   }
 
-
   componentDidMount() {
-    axios.get(
-      '/api/reviews',
-      {
+    axios
+      .get('/api/reviews', {
         params: {
           order: ['-written_datetime', '-id'],
           offset: 0,
@@ -32,17 +29,14 @@ class LatestReviewSection extends Component {
           gaCategory: 'Review',
           gaVariable: 'GET Latest / List',
         },
-      },
-    )
+      })
       .then((response) => {
         this.setState((prevState) => ({
           reviews: response.data,
         }));
       })
-      .catch((error) => {
-      });
+      .catch((error) => {});
   }
-
 
   mapReviewsToElement = (reviews) => {
     const { t } = this.props;
@@ -55,49 +49,47 @@ class LatestReviewSection extends Component {
     }
     return (
       <div className={classNames('block-list')}>
-        {
-          reviews.map((r) => (
-            <ReviewBlock
-              review={r}
-              shouldLimitLines={true}
-              linkTo={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: r.course.id }) }}
-              pageFrom="Main"
-              key={r.id}
-            />
-          ))
-        }
+        {reviews.map((r) => (
+          <ReviewBlock
+            review={r}
+            shouldLimitLines={true}
+            linkTo={{
+              pathname: '/dictionary',
+              search: qs.stringify({ startCourseId: r.course.id }),
+            }}
+            pageFrom="Main"
+            key={r.id}
+          />
+        ))}
       </div>
     );
   };
-
 
   render() {
     const { t } = this.props;
     const { reviews } = this.state;
 
     return (
-    // eslint-disable-next-line react/jsx-indent
-    <div className={classNames('section', 'section--feed')}>
-      <div className={classNames('subsection', 'subsection--feed')}>
-        <div className={classNames('title')}>
-          {t('ui.title.latestReviews')}
-        </div>
-        {this.mapReviewsToElement(reviews)}
-        <div className={classNames('buttons')}>
-          <Link
-            to={{ pathname: '/write-reviews', search: qs.stringify({ startList: ReviewsFocusFrom.REVIEWS_LATEST }) }}
-            className={classNames('text-button')}
-          >
-            {t('ui.button.seeMoreReviews')}
-          </Link>
+      // eslint-disable-next-line react/jsx-indent
+      <div className={classNames('section', 'section--feed')}>
+        <div className={classNames('subsection', 'subsection--feed')}>
+          <div className={classNames('title')}>{t('ui.title.latestReviews')}</div>
+          {this.mapReviewsToElement(reviews)}
+          <div className={classNames('buttons')}>
+            <Link
+              to={{
+                pathname: '/write-reviews',
+                search: qs.stringify({ startList: ReviewsFocusFrom.REVIEWS_LATEST }),
+              }}
+              className={classNames('text-button')}
+            >
+              {t('ui.button.seeMoreReviews')}
+            </Link>
+          </div>
         </div>
       </div>
-    </div>
     );
   }
 }
 
-
-export default withTranslation()(
-  LatestReviewSection
-);
+export default withTranslation()(LatestReviewSection);

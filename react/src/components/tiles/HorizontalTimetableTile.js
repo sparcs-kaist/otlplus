@@ -8,16 +8,22 @@ import { getProfessorsShortStr, getColorNumber } from '../../utils/lectureUtils'
 import lectureShape from '../../shapes/model/LectureShape';
 import classtimeShape from '../../shapes/model/ClasstimeShape';
 
-
 const HorizontalTimetableTile = ({
   t,
-  lecture, classtime,
-  beginIndex, endIndex,
-  cellWidth, cellHeight,
+  lecture,
+  classtime,
+  beginIndex,
+  endIndex,
+  cellWidth,
+  cellHeight,
 }) => {
   return (
     <div
-      className={classNames('tile', 'tile--horizonatal-timetable', `background-color--${getColorNumber(lecture)}`)}
+      className={classNames(
+        'tile',
+        'tile--horizonatal-timetable',
+        `background-color--${getColorNumber(lecture)}`,
+      )}
       style={{
         left: 2 + cellWidth * beginIndex + 2,
         top: 15 + 3,
@@ -49,8 +55,4 @@ HorizontalTimetableTile.propTypes = {
   cellHeight: PropTypes.number.isRequired,
 };
 
-export default withTranslation()(
-  React.memo(
-    HorizontalTimetableTile
-  )
-);
+export default withTranslation()(React.memo(HorizontalTimetableTile));

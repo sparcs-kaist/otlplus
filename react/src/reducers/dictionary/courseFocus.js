@@ -1,7 +1,10 @@
 import {
   RESET,
-  SET_COURSE_FOCUS, CLEAR_COURSE_FOCUS,
-  SET_REVIEWS, UPDATE_REVIEW, SET_LECTURES,
+  SET_COURSE_FOCUS,
+  CLEAR_COURSE_FOCUS,
+  SET_REVIEWS,
+  UPDATE_REVIEW,
+  SET_LECTURES,
 } from '../../actions/dictionary/courseFocus';
 
 const initialState = {
@@ -16,14 +19,15 @@ const courseFocus = (state = initialState, action) => {
       return initialState;
     }
     case SET_COURSE_FOCUS: {
-      const courseChanged = !state.course || (state.course.id !== action.course.id);
-      return Object.assign({}, state, {
-        course: action.course,
-      },
-      (courseChanged
-        ? { reviews: null, lectures: null }
-        : {}
-      ));
+      const courseChanged = !state.course || state.course.id !== action.course.id;
+      return Object.assign(
+        {},
+        state,
+        {
+          course: action.course,
+        },
+        courseChanged ? { reviews: null, lectures: null } : {},
+      );
     }
     case CLEAR_COURSE_FOCUS: {
       return Object.assign({}, state, {
@@ -40,22 +44,17 @@ const courseFocus = (state = initialState, action) => {
     case UPDATE_REVIEW: {
       const originalReviews = state.reviews;
       const { review, isNew } = action;
-      const foundIndex = originalReviews.findIndex((r) => (r.id === review.id));
-      const newReviews = (foundIndex !== -1)
-        ? [
-          ...originalReviews.slice(0, foundIndex),
-          review,
-          ...originalReviews.slice(foundIndex + 1, originalReviews.length),
-        ]
-        : (isNew
+      const foundIndex = originalReviews.findIndex((r) => r.id === review.id);
+      const newReviews =
+        foundIndex !== -1
           ? [
-            review,
-            ...originalReviews.slice(),
-          ]
-          : [
-            ...originalReviews.slice(),
-          ]
-        );
+              ...originalReviews.slice(0, foundIndex),
+              review,
+              ...originalReviews.slice(foundIndex + 1, originalReviews.length),
+            ]
+          : isNew
+          ? [review, ...originalReviews.slice()]
+          : [...originalReviews.slice()];
       return Object.assign({}, state, {
         reviews: newReviews,
       });

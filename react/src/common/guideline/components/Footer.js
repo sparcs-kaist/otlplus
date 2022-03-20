@@ -8,7 +8,6 @@ import { guidelineBoundClassNames as classNames } from '../../boundClassNames';
 import logoImage from '../images/SPARCS_black.svg';
 import { CONTACT } from '../../constants';
 
-
 class Footer extends Component {
   render() {
     const { t } = this.props;
@@ -26,25 +25,19 @@ class Footer extends Component {
             </div>
             <div className={classNames('menus')}>
               <span>
-                <Link to="/credits">
-                  {t('ui.menu.credit')}
-                </Link>
+                <Link to="/credits">{t('ui.menu.credit')}</Link>
               </span>
               <span>
-                <Link to="/licenses">
-                  {t('ui.menu.licences')}
-                </Link>
+                <Link to="/licenses">{t('ui.menu.licences')}</Link>
               </span>
               <span>
-                <Link to="/privacy">
-                  {t('ui.menu.privacy')}
-                </Link>
+                <Link to="/privacy">{t('ui.menu.privacy')}</Link>
               </span>
             </div>
           </div>
           <div className={classNames('contact')}>
             <span>
-              <a href={`mailto:${CONTACT}`}>{ CONTACT }</a>
+              <a href={`mailto:${CONTACT}`}>{CONTACT}</a>
             </span>
           </div>
         </div>
@@ -53,17 +46,10 @@ class Footer extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-});
+const mapStateToProps = (state) => ({});
 
-const mapDispatchToProps = (dispatch) => ({
-});
+const mapDispatchToProps = (dispatch) => ({});
 
-Footer.propTypes = {
-};
+Footer.propTypes = {};
 
-export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(
-    Footer
-  )
-);
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(Footer));

@@ -6,7 +6,6 @@ export const ADD_REVIEWS = BASE_STRING + 'ADD_REVIEWS';
 export const UPDATE_REVIEW = BASE_STRING + 'UPDATE_REVIEW';
 /* eslint-enable prefer-template */
 
-
 export function reset() {
   return {
     type: RESET,

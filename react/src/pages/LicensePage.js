@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
 
-
 class LicensePage extends Component {
   render() {
     return (
@@ -12,7 +11,7 @@ class LicensePage extends Component {
             <div className={classNames('subsection', 'subsection--license')}>
               <div className={classNames('title')}> Licenses </div>
               <div>
-                {`Copyright © 2016-${(new Date()).getFullYear()}, SPARCS OTL Team. All rights reserved.`}
+                {`Copyright © 2016-${new Date().getFullYear()}, SPARCS OTL Team. All rights reserved.`}
               </div>
             </div>
           </div>

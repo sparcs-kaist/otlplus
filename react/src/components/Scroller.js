@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { appBoundClassNames as classNames } from '../common/boundClassNames';
-
 import Scrollbar from 'react-scrollbars-custom';
-
-
+import { appBoundClassNames as classNames } from '../common/boundClassNames';
 
 class Scroller extends Component {
   constructor(props) {
@@ -18,20 +15,12 @@ class Scroller extends Component {
   }
 
   render() {
-    const {
-      onScroll,
-      children,
-      noScrollX, noScrollY,
-      expandTop, expandBottom,
-    } = this.props;
+    const { onScroll, children, noScrollX, noScrollY, expandTop, expandBottom } = this.props;
     const { isScrolling, isMouseIn } = this.state;
 
     return (
       <Scrollbar
-        className={classNames(
-          (noScrollX ? 'noX' : ''),
-          (noScrollY ? 'noY' : ''),
-        )}
+        className={classNames(noScrollX ? 'noX' : '', noScrollY ? 'noY' : '')}
         style={{
           flex: '1 1 0px',
           marginTop: `-${expandTop}px`,
@@ -47,21 +36,20 @@ class Scroller extends Component {
         wrapperProps={{
           style: noScrollY
             ? {
-              flex: '1 1 auto',
-              display: 'flex',
-              flexDirection: 'column',
-            }
+                flex: '1 1 auto',
+                display: 'flex',
+                flexDirection: 'column',
+              }
             : {
-              flex: '1 1 auto',
-              display: 'flex',
-              flexDirection: 'column',
-            },
+                flex: '1 1 auto',
+                display: 'flex',
+                flexDirection: 'column',
+              },
         }}
         scrollerProps={{
-          style:
-            {
-              flex: '1 1 auto',
-            },
+          style: {
+            flex: '1 1 auto',
+          },
         }}
         contentProps={{
           style: {
@@ -70,8 +58,8 @@ class Scroller extends Component {
             minHeight: `calc(100% - ${expandTop + expandBottom}px`,
             marginTop: `${expandTop}px`,
             marginBottom: `${expandBottom}px`,
-            width: (noScrollX ? undefined : 'fit-content'),
-            height: (noScrollY ? undefined : 'fit-content'),
+            width: noScrollX ? undefined : 'fit-content',
+            height: noScrollY ? undefined : 'fit-content',
           },
         }}
         trackXProps={{
@@ -82,7 +70,7 @@ class Scroller extends Component {
             width: 'calc(100% - 12px)',
             backgroundColor: 'transparent',
             transition: 'opacity 0.3s',
-            opacity: isScrolling ? '1' : (isMouseIn ? '0.25' : '0'),
+            opacity: isScrolling ? '1' : isMouseIn ? '0.25' : '0',
           },
         }}
         trackYProps={{
@@ -93,7 +81,7 @@ class Scroller extends Component {
             height: `calc(100% - ${expandTop + expandBottom}px)`,
             backgroundColor: 'transparent',
             transition: 'opacity 0.3s',
-            opacity: isScrolling ? '1' : (isMouseIn ? '0.25' : '0'),
+            opacity: isScrolling ? '1' : isMouseIn ? '0.25' : '0',
           },
         }}
         thumbXProps={{
@@ -132,7 +120,7 @@ class Scroller extends Component {
         noScrollX={noScrollX}
         noScrollY={noScrollY}
       >
-        { children }
+        {children}
       </Scrollbar>
     );
   }

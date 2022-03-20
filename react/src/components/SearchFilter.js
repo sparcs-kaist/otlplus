@@ -5,12 +5,11 @@ import { appBoundClassNames as classNames } from '../common/boundClassNames';
 
 import SearchFilterEntity from './SearchFilterEntity';
 
-
 class SearchFilter extends Component {
   _isChecked = (value) => {
     const { checkedValues } = this.props;
     return checkedValues.has(value);
-  }
+  };
 
   _handleValueCheckedChange = (value, isChecked) => {
     const { checkedValues, updateCheckedValues } = this.props;
@@ -18,20 +17,17 @@ class SearchFilter extends Component {
     if (isChecked) {
       if (value === 'ALL') {
         updateCheckedValues(new Set(['ALL']));
-      }
-      else {
+      } else {
         const checkedValuesCopy = new Set(checkedValues);
         checkedValuesCopy.add(value);
         checkedValuesCopy.delete('ALL');
         updateCheckedValues(checkedValuesCopy);
       }
-    }
-    else {
+    } else {
       // eslint-disable-next-line no-lonely-if
       if (value === 'ALL') {
         // Pass
-      }
-      else {
+      } else {
         const checkedValuesCopy = new Set(checkedValues);
         checkedValuesCopy.delete(value);
         if (checkedValuesCopy.size === 0) {
@@ -40,13 +36,10 @@ class SearchFilter extends Component {
         updateCheckedValues(checkedValuesCopy);
       }
     }
-  }
-
+  };
 
   render() {
-    const {
-      inputName, titleName, options, checkedValues,
-    } = this.props;
+    const { inputName, titleName, options, checkedValues } = this.props;
 
     const VALUE_INDEX = 0;
     const LABEL_INDEX = 1;
@@ -62,13 +55,10 @@ class SearchFilter extends Component {
       />
     );
 
-
     return (
       <div className={classNames('attribute')}>
-        <span>{ titleName }</span>
-        <div className={classNames('search-fields')}>
-          {options.map(mapCircle)}
-        </div>
+        <span>{titleName}</span>
+        <div className={classNames('search-fields')}>{options.map(mapCircle)}</div>
       </div>
     );
   }

@@ -15,14 +15,12 @@ import { clearReviewsFocus } from '../../../actions/write-reviews/reviewsFocus';
 import userShape from '../../../shapes/model/UserShape';
 import reviewsFocusShape from '../../../shapes/state/ReviewsFocusShape';
 
-
 class MyReviewsSubSection extends Component {
   unfix = () => {
     const { clearReviewsFocusDispatch } = this.props;
 
     clearReviewsFocusDispatch();
-  }
-
+  };
 
   render() {
     const { t } = this.props;
@@ -33,47 +31,38 @@ class MyReviewsSubSection extends Component {
     }
 
     const reviews = user.reviews;
-    const reviewBlocksArea = (
-      reviews == null
-        ? (
-          <div className={classNames('list-placeholder', 'min-height-area')}>
-            <div>{t('ui.placeholder.loading')}</div>
-          </div>
-        )
-        : (
-          reviews.length
-            ? (
-              <div className={classNames('block-list', 'min-height-area')}>
-                {
-                  reviews.map((r) => (
-                    <ReviewBlock
-                      review={r}
-                      shouldLimitLines={false}
-                      linkTo={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: r.course.id }) }}
-                      pageFrom="Write Reviews"
-                      key={r.id}
-                    />
-                  ))
-                }
-              </div>
-            )
-            : (
-              <div className={classNames('list-placeholder', 'min-height-area')}>
-                <div>{t('ui.placeholder.noResults')}</div>
-              </div>
-            )
-        )
-    );
+    const reviewBlocksArea =
+      reviews == null ? (
+        <div className={classNames('list-placeholder', 'min-height-area')}>
+          <div>{t('ui.placeholder.loading')}</div>
+        </div>
+      ) : reviews.length ? (
+        <div className={classNames('block-list', 'min-height-area')}>
+          {reviews.map((r) => (
+            <ReviewBlock
+              review={r}
+              shouldLimitLines={false}
+              linkTo={{
+                pathname: '/dictionary',
+                search: qs.stringify({ startCourseId: r.course.id }),
+              }}
+              pageFrom="Write Reviews"
+              key={r.id}
+            />
+          ))}
+        </div>
+      ) : (
+        <div className={classNames('list-placeholder', 'min-height-area')}>
+          <div>{t('ui.placeholder.noResults')}</div>
+        </div>
+      );
 
     return (
       <div className={classNames('subsection', 'subsection--flex', 'subsection--various-reviews')}>
         <CloseButton onClick={this.unfix} />
-        <Scroller
-          key={reviewsFocus.from}
-          expandTop={12}
-        >
+        <Scroller key={reviewsFocus.from} expandTop={12}>
           <div className={classNames('title')}>{t('ui.title.myReviews')}</div>
-          { reviewBlocksArea }
+          {reviewBlocksArea}
         </Scroller>
       </div>
     );
@@ -98,9 +87,4 @@ MyReviewsSubSection.propTypes = {
   clearReviewsFocusDispatch: PropTypes.func.isRequired,
 };
 
-
-export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(
-    MyReviewsSubSection
-  )
-);
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(MyReviewsSubSection));

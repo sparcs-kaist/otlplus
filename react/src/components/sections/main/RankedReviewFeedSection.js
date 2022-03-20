@@ -15,44 +15,49 @@ import { ReviewsFocusFrom } from '../../../reducers/write-reviews/reviewsFocus';
 import reviewShape from '../../../shapes/model/ReviewShape';
 import semesterShape from '../../../shapes/model/SemesterShape';
 
-
 class RankedReviewFeedSection extends Component {
   render() {
     const { t } = this.props;
     const { semester, reviews } = this.props;
 
-    const semesterName = semester ? `${semester.year} ${getSemesterName(semester.semester)}` : t('ui.semester.all');
+    const semesterName = semester
+      ? `${semester.year} ${getSemesterName(semester.semester)}`
+      : t('ui.semester.all');
 
     return (
-    // eslint-disable-next-line react/jsx-indent
-    <div className={classNames('section', 'section--feed')}>
-      <div className={classNames('subsection', 'subsection--feed')}>
-        <div className={classNames('title')}>
-          {`${t('ui.title.rankedReviews')} - ${semesterName}`}
-        </div>
-        <div className={classNames('block-list')}>
-          {
-            reviews.map((r) => (
+      // eslint-disable-next-line react/jsx-indent
+      <div className={classNames('section', 'section--feed')}>
+        <div className={classNames('subsection', 'subsection--feed')}>
+          <div className={classNames('title')}>
+            {`${t('ui.title.rankedReviews')} - ${semesterName}`}
+          </div>
+          <div className={classNames('block-list')}>
+            {reviews.map((r) => (
               <ReviewBlock
                 review={r}
                 shouldLimitLines={true}
-                linkTo={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: r.course.id }) }}
+                linkTo={{
+                  pathname: '/dictionary',
+                  search: qs.stringify({ startCourseId: r.course.id }),
+                }}
                 pageFrom="Main"
                 key={r.id}
               />
-            ))
-          }
-        </div>
-        <div className={classNames('buttons')}>
-          <Link
-            to={{ pathname: '/write-reviews', search: qs.stringify({ startList: ReviewsFocusFrom.REVIEWS_RANKED }) }}
-            className={classNames('text-button')}
-          >
-            {t('ui.button.seeMoreReviews')}
-          </Link>
+            ))}
+          </div>
+          <div className={classNames('buttons')}>
+            <Link
+              to={{
+                pathname: '/write-reviews',
+                search: qs.stringify({ startList: ReviewsFocusFrom.REVIEWS_RANKED }),
+              }}
+              className={classNames('text-button')}
+            >
+              {t('ui.button.seeMoreReviews')}
+            </Link>
+          </div>
         </div>
       </div>
-    </div>
     );
   }
 }
@@ -62,7 +67,4 @@ RankedReviewFeedSection.propTypes = {
   reviews: PropTypes.arrayOf(reviewShape).isRequired,
 };
 
-
-export default withTranslation()(
-  RankedReviewFeedSection
-);
+export default withTranslation()(RankedReviewFeedSection);

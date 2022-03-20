@@ -6,30 +6,22 @@ import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 
 import lectureShape from '../../shapes/model/LectureShape';
 
-
-const LectureGroupBlock = ({
-  t,
-  lectureGroup,
-  isRaised, isDimmed, isTaken,
-  children,
-}) => {
+const LectureGroupBlock = ({ t, lectureGroup, isRaised, isDimmed, isTaken, children }) => {
   return (
     <div
       className={classNames(
         'block',
         'block--lecture-group',
-        (isRaised ? 'block--raised' : null),
-        (isDimmed ? 'block--dimmed' : null),
-        (isTaken ? 'block--completed' : null),
+        isRaised ? 'block--raised' : null,
+        isDimmed ? 'block--dimmed' : null,
+        isTaken ? 'block--completed' : null,
       )}
     >
       <div className={classNames('block__completed-text')}>{t('ui.others.taken')}</div>
       <div className={classNames('block--lecture-group__title')}>
-        <strong>{lectureGroup[0][t('js.property.common_title')]}</strong>
-        {' '}
-        {lectureGroup[0].old_code}
+        <strong>{lectureGroup[0][t('js.property.common_title')]}</strong> {lectureGroup[0].old_code}
       </div>
-      { children }
+      {children}
     </div>
   );
 };
@@ -41,8 +33,4 @@ LectureGroupBlock.propTypes = {
   isTaken: PropTypes.bool.isRequired,
 };
 
-export default withTranslation()(
-  React.memo(
-    LectureGroupBlock
-  )
-);
+export default withTranslation()(React.memo(LectureGroupBlock));

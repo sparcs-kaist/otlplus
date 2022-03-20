@@ -1,8 +1,11 @@
 import {
   RESET,
   SET_SELECTED_LIST_CODE,
-  SET_LIST_LECTURES, CLEAR_ALL_LISTS_LECTURES, CLEAR_SEARCH_LIST_LECTURES,
-  ADD_LECTURE_TO_CART, DELETE_LECTURE_FROM_CART,
+  SET_LIST_LECTURES,
+  CLEAR_ALL_LISTS_LECTURES,
+  CLEAR_SEARCH_LIST_LECTURES,
+  ADD_LECTURE_TO_CART,
+  DELETE_LECTURE_FROM_CART,
   SET_MOBILE_IS_LECTURE_LIST_OPEN,
 } from '../../actions/timetable/list';
 
@@ -14,7 +17,6 @@ export const LectureListCode = {
   HUMANITY: 'humanity',
   CART: 'cart',
 };
-
 
 const initialState = {
   selectedListCode: LectureListCode.SEARCH,
@@ -44,21 +46,18 @@ const list = (state = initialState, action) => {
     // eslint-disable-next-line fp/no-mutating-methods
     const sortedLectures = lectures.sort((a, b) => {
       if (a.old_code !== b.old_code) {
-        return (a.old_code > b.old_code) ? 10 : -10;
+        return a.old_code > b.old_code ? 10 : -10;
       }
-      return (a.class_no > b.class_no) ? 1 : -1;
+      return a.class_no > b.class_no ? 1 : -1;
     });
     const courseIds = unique(sortedLectures.map((l) => l.course));
     const lectureGroups = courseIds
-      .map((c) => (sortedLectures.filter((l) => (l.course === c))))
-      .filter((c) => (c.length > 0));
+      .map((c) => sortedLectures.filter((l) => l.course === c))
+      .filter((c) => c.length > 0);
     return lectureGroups;
   };
 
-  const ungroupLectureGroups = (lectureGroups) => (
-    lectureGroups.flat(1)
-  );
-
+  const ungroupLectureGroups = (lectureGroups) => lectureGroups.flat(1);
 
   switch (action.type) {
     case RESET: {
@@ -86,8 +85,7 @@ const list = (state = initialState, action) => {
         newState.lists[k] = { ...newState.lists[k] };
         if (k === LectureListCode.SEARCH) {
           newState.lists[k].lectureGroups = [];
-        }
-        else {
+        } else {
           newState.lists[k].lectureGroups = null;
         }
       });
@@ -119,7 +117,7 @@ const list = (state = initialState, action) => {
     case DELETE_LECTURE_FROM_CART: {
       const { lectureGroups } = state.lists[LectureListCode.CART];
       const lectures = ungroupLectureGroups(lectureGroups);
-      const newLectures = lectures.filter((l) => (l.id !== action.lecture.id));
+      const newLectures = lectures.filter((l) => l.id !== action.lecture.id);
       const newLectureGroups = groupLectures(newLectures);
       /* eslint-disable fp/no-mutation */
       const newState = { ...state };

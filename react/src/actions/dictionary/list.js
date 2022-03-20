@@ -8,7 +8,6 @@ export const CLEAR_SEARCH_LIST_COURSES = BASE_STRING + 'CLEAR_SEARCH_LIST_COURSE
 export const ADD_COURSE_READ = BASE_STRING + 'ADD_COURSE_READ';
 /* eslint-enable prefer-template */
 
-
 export function reset() {
   return {
     type: RESET,

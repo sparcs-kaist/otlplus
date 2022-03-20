@@ -11,7 +11,6 @@ export const DELETE_LECTURE_FROM_CART = BASE_STRING + 'DELETE_LECTURE_FROM_CART'
 export const SET_MOBILE_IS_LECTURE_LIST_OPEN = BASE_STRING + 'SET_MOBILE_IS_LECTURE_LIST_OPEN';
 /* eslint-enable prefer-template */
 
-
 export function reset() {
   return {
     type: RESET,

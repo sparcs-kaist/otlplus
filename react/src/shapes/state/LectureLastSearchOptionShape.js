@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 
-
 const lectureLastSearchOptionShape = PropTypes.shape({
   keyword: PropTypes.string,
   type: PropTypes.arrayOf(PropTypes.string),

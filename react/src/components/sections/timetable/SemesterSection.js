@@ -12,7 +12,6 @@ import semesterShape from '../../../shapes/model/SemesterShape';
 
 import { getTimetableSemester, getSemesterName } from '../../../utils/semesterUtils';
 
-
 class SemesterSection extends Component {
   componentDidMount() {
     const { semesters } = this.props;
@@ -25,7 +24,7 @@ class SemesterSection extends Component {
   componentDidUpdate(prevProps) {
     const { semesters } = this.props;
 
-    if ((prevProps.semesters === null) && (semesters !== null)) {
+    if (prevProps.semesters === null && semesters !== null) {
       this._initializeSemester();
     }
   }
@@ -33,35 +32,30 @@ class SemesterSection extends Component {
   _initializeSemester = () => {
     const { startSemester, semesters, setSemesterDispatch } = this.props;
 
-    const initialSemester = (startSemester !== undefined)
-      ? startSemester
-      : getTimetableSemester(semesters);
+    const initialSemester =
+      startSemester !== undefined ? startSemester : getTimetableSemester(semesters);
     setSemesterDispatch(initialSemester.year, initialSemester.semester);
-  }
+  };
 
   _getSemesterIndex = (year, semester) => {
     const { semesters } = this.props;
-    return semesters.findIndex((s) => ((s.year === year) && (s.semester === semester)));
-  }
+    return semesters.findIndex((s) => s.year === year && s.semester === semester);
+  };
 
   _isFirstSemester = (year, semester) => {
     const semesterIdx = this._getSemesterIndex(year, semester);
-    return (semesterIdx === 0);
-  }
+    return semesterIdx === 0;
+  };
 
   _isLastSemester = (year, semester) => {
     const { semesters } = this.props;
 
     const semesterIdx = this._getSemesterIndex(year, semester);
-    return (semesterIdx === (semesters.length - 1));
-  }
+    return semesterIdx === semesters.length - 1;
+  };
 
   changeToPreviousSemester = () => {
-    const {
-      semesters,
-      year, semester,
-      setSemesterDispatch,
-    } = this.props;
+    const { semesters, year, semester, setSemesterDispatch } = this.props;
 
     if (this._isFirstSemester(year, semester)) {
       return;
@@ -77,14 +71,10 @@ class SemesterSection extends Component {
       action: 'Switched Semester',
       label: `Semester : ${targetSemester.year}-${targetSemester.semester}`,
     });
-  }
+  };
 
   changeToNextSemester = () => {
-    const {
-      semesters,
-      year, semester,
-      setSemesterDispatch,
-    } = this.props;
+    const { semesters, year, semester, setSemesterDispatch } = this.props;
 
     if (this._isLastSemester(year, semester)) {
       return;
@@ -100,36 +90,43 @@ class SemesterSection extends Component {
       action: 'Switched Semester',
       label: `Semester : ${targetSemester.year}-${targetSemester.semester}`,
     });
-  }
+  };
 
   render() {
     const { t } = this.props;
     const { year, semester } = this.props;
 
-    const sectionContent = (
-      year && semester
-        ? (
-          <>
-            <button className={classNames((this._isFirstSemester(year, semester) ? 'disable' : null))} onClick={() => this.changeToPreviousSemester()}>
-              <i className={classNames('icon', 'icon--semester-prev')} />
-            </button>
-            <span>
-              {`${year} ${getSemesterName(semester)}`}
-            </span>
-            <button className={classNames((this._isLastSemester(year, semester) ? 'disable' : null))} onClick={() => this.changeToNextSemester()}>
-              <i className={classNames('icon', 'icon--semester-next')} />
-            </button>
-          </>
-        )
-        : (
-          <span className={classNames('placeholder')}>{t('ui.placeholder.loading')}</span>
-        )
-    );
+    const sectionContent =
+      year && semester ? (
+        <>
+          <button
+            className={classNames(this._isFirstSemester(year, semester) ? 'disable' : null)}
+            onClick={() => this.changeToPreviousSemester()}
+          >
+            <i className={classNames('icon', 'icon--semester-prev')} />
+          </button>
+          <span>{`${year} ${getSemesterName(semester)}`}</span>
+          <button
+            className={classNames(this._isLastSemester(year, semester) ? 'disable' : null)}
+            onClick={() => this.changeToNextSemester()}
+          >
+            <i className={classNames('icon', 'icon--semester-next')} />
+          </button>
+        </>
+      ) : (
+        <span className={classNames('placeholder')}>{t('ui.placeholder.loading')}</span>
+      );
 
     return (
       <div className={classNames('section', 'section--semester', 'section--mobile-transparent')}>
-        <div className={classNames('subsection', 'subsection--semester', t('jsx.className.semesterByLang'))}>
-          { sectionContent }
+        <div
+          className={classNames(
+            'subsection',
+            'subsection--semester',
+            t('jsx.className.semesterByLang'),
+          )}
+        >
+          {sectionContent}
         </div>
       </div>
     );
@@ -158,9 +155,4 @@ SemesterSection.propTypes = {
   setSemesterDispatch: PropTypes.func.isRequired,
 };
 
-
-export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(
-    SemesterSection
-  )
-);
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(SemesterSection));

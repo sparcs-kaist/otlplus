@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 
-
 const examtimeShape = PropTypes.shape({
   day: PropTypes.number.isRequired,
   str: PropTypes.string.isRequired,

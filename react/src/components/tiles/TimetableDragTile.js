@@ -4,12 +4,7 @@ import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 
-
-const TimetableDragTile = ({
-  t,
-  dayIndex, beginIndex, endIndex,
-  cellWidth, cellHeight,
-}) => {
+const TimetableDragTile = ({ t, dayIndex, beginIndex, endIndex, cellWidth, cellHeight }) => {
   return (
     <div
       className={classNames('tile', 'tile--timetable-drag')}
@@ -31,8 +26,4 @@ TimetableDragTile.propTypes = {
   cellHeight: PropTypes.number.isRequired,
 };
 
-export default withTranslation()(
-  React.memo(
-    TimetableDragTile
-  )
-);
+export default withTranslation()(React.memo(TimetableDragTile));

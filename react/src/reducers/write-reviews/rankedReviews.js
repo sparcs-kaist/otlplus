@@ -1,4 +1,8 @@
-import { RESET, ADD_SEMESTER_REVIEWS, SET_SEMESTER_REVIEW_COUNT } from '../../actions/write-reviews/rankedReviews';
+import {
+  RESET,
+  ADD_SEMESTER_REVIEWS,
+  SET_SEMESTER_REVIEW_COUNT,
+} from '../../actions/write-reviews/rankedReviews';
 
 const initialState = {
   reviewsBySemester: {},

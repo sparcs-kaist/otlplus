@@ -10,15 +10,12 @@ import { appBoundClassNames as classNames } from '../../../common/boundClassName
 import { CourseListCode } from '../../../reducers/dictionary/list';
 
 import { openSearch, closeSearch } from '../../../actions/dictionary/search';
-import {
-  setSelectedListCode, setListCourses,
-} from '../../../actions/dictionary/list';
+import { setSelectedListCode, setListCourses } from '../../../actions/dictionary/list';
 
 import userShape from '../../../shapes/model/UserShape';
 import courseListsShape from '../../../shapes/state/CourseListsShape';
 
 import Scroller from '../../Scroller';
-
 
 class CourseListTabs extends Component {
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -47,24 +44,20 @@ class CourseListTabs extends Component {
 
     if (listCode === CourseListCode.BASIC) {
       this._performFetchBasicList();
-    }
-    else if (user && user.departments.some((d) => (d.code === listCode))) {
+    } else if (user && user.departments.some((d) => d.code === listCode)) {
       this._performFetchMajorList(listCode);
-    }
-    else if (listCode === CourseListCode.HUMANITY) {
+    } else if (listCode === CourseListCode.HUMANITY) {
       this._performFetchHumanityList();
-    }
-    else if (listCode === CourseListCode.TAKEN) {
+    } else if (listCode === CourseListCode.TAKEN) {
       this._performFetchTakenList();
     }
-  }
+  };
 
   _performFetchBasicList = () => {
     const { setListCoursesDispatch } = this.props;
 
-    axios.get(
-      '/api/courses',
-      {
+    axios
+      .get('/api/courses', {
         params: {
           group: 'Basic',
           term: ['3'],
@@ -74,21 +67,18 @@ class CourseListTabs extends Component {
           gaCategory: 'Course',
           gaVariable: 'GET / List',
         },
-      },
-    )
+      })
       .then((response) => {
         setListCoursesDispatch(CourseListCode.BASIC, response.data);
       })
-      .catch((error) => {
-      });
-  }
+      .catch((error) => {});
+  };
 
   _performFetchMajorList = (majorCode) => {
     const { setListCoursesDispatch } = this.props;
 
-    axios.get(
-      '/api/courses',
-      {
+    axios
+      .get('/api/courses', {
         params: {
           group: [majorCode],
           term: ['3'],
@@ -98,25 +88,22 @@ class CourseListTabs extends Component {
           gaCategory: 'Course',
           gaVariable: 'GET / List',
         },
-      },
-    )
+      })
       .then((response) => {
         const newProps = this.props;
-        if (!newProps.user.departments.some((d) => (d.code === majorCode))) {
+        if (!newProps.user.departments.some((d) => d.code === majorCode)) {
           return;
         }
         setListCoursesDispatch(majorCode, response.data);
       })
-      .catch((error) => {
-      });
-  }
+      .catch((error) => {});
+  };
 
   _performFetchHumanityList = () => {
     const { setListCoursesDispatch } = this.props;
 
-    axios.get(
-      '/api/courses',
-      {
+    axios
+      .get('/api/courses', {
         params: {
           group: 'Humanity',
           term: ['3'],
@@ -126,15 +113,12 @@ class CourseListTabs extends Component {
           gaCategory: 'Course',
           gaVariable: 'GET / List',
         },
-      },
-    )
+      })
       .then((response) => {
         setListCoursesDispatch(CourseListCode.HUMANITY, response.data);
       })
-      .catch((error) => {
-      });
-  }
-
+      .catch((error) => {});
+  };
 
   _performFetchTakenList = () => {
     const { user, setListCoursesDispatch } = this.props;
@@ -144,9 +128,8 @@ class CourseListTabs extends Component {
       return;
     }
     setListCoursesDispatch(CourseListCode.TAKEN, null);
-    axios.get(
-      `/api/users/${user.id}/taken-courses`,
-      {
+    axios
+      .get(`/api/users/${user.id}/taken-courses`, {
         params: {
           order: ['old_code'],
         },
@@ -154,19 +137,19 @@ class CourseListTabs extends Component {
           gaCategory: 'User',
           gaVariable: 'GET Taken Courses / Instance',
         },
-      },
-    )
+      })
       .then((response) => {
         setListCoursesDispatch(CourseListCode.TAKEN, response.data);
       })
-      .catch((error) => {
-      });
-  }
+      .catch((error) => {});
+  };
 
   changeTab = (listCode) => {
     const {
       lists,
-      setSelectedListCodeDispatch, openSearchDispatch, closeSearchDispatch,
+      setSelectedListCodeDispatch,
+      openSearchDispatch,
+      closeSearchDispatch,
     } = this.props;
 
     setSelectedListCodeDispatch(listCode);
@@ -174,8 +157,7 @@ class CourseListTabs extends Component {
     if (listCode === CourseListCode.SEARCH) {
       if (lists[CourseListCode.SEARCH].courses && lists[CourseListCode.SEARCH].courses.length) {
         closeSearchDispatch();
-      }
-      else {
+      } else {
         openSearchDispatch();
       }
     }
@@ -191,7 +173,7 @@ class CourseListTabs extends Component {
       action: 'Switched Course List',
       label: `Course List : ${labelOfTabs.get(listCode) || listCode}`,
     });
-  }
+  };
 
   render() {
     const { t } = this.props;
@@ -201,25 +183,58 @@ class CourseListTabs extends Component {
       <div className={classNames('tabs', 'tabs--course-list')}>
         <Scroller noScrollX={false} noScrollY={true} expandBottom={2}>
           <div className={classNames('tabs__flexbox')}>
-            <div className={classNames('tabs__elem', (selectedListCode === CourseListCode.SEARCH ? 'tabs__elem--selected' : null))} onClick={() => this.changeTab(CourseListCode.SEARCH)}>
+            <div
+              className={classNames(
+                'tabs__elem',
+                selectedListCode === CourseListCode.SEARCH ? 'tabs__elem--selected' : null,
+              )}
+              onClick={() => this.changeTab(CourseListCode.SEARCH)}
+            >
               <i className={classNames('icon', 'icon--tab-search')} />
               <span>{t('ui.tab.searchShort')}</span>
             </div>
-            <div className={classNames('tabs__elem', (selectedListCode === CourseListCode.BASIC ? 'tabs__elem--selected' : null))} onClick={() => this.changeTab(CourseListCode.BASIC)}>
+            <div
+              className={classNames(
+                'tabs__elem',
+                selectedListCode === CourseListCode.BASIC ? 'tabs__elem--selected' : null,
+              )}
+              onClick={() => this.changeTab(CourseListCode.BASIC)}
+            >
               <i className={classNames('icon', 'icon--tab-basic')} />
               <span>{t('ui.tab.basicShort')}</span>
             </div>
-            {!user ? null : user.departments.map((d) => (
-              <div className={classNames('tabs__elem', (selectedListCode === d.code ? 'tabs__elem--selected' : null))} key={d.code} onClick={() => this.changeTab(d.code)}>
-                <i className={classNames('icon', 'icon--tab-major')} />
-                <span>{t('ui.tab.majorShort')}</span>
-              </div>
-            ))}
-            <div className={classNames('tabs__elem', (selectedListCode === CourseListCode.HUMANITY ? 'tabs__elem--selected' : null))} onClick={() => this.changeTab(CourseListCode.HUMANITY)}>
+            {!user
+              ? null
+              : user.departments.map((d) => (
+                  <div
+                    className={classNames(
+                      'tabs__elem',
+                      selectedListCode === d.code ? 'tabs__elem--selected' : null,
+                    )}
+                    key={d.code}
+                    onClick={() => this.changeTab(d.code)}
+                  >
+                    <i className={classNames('icon', 'icon--tab-major')} />
+                    <span>{t('ui.tab.majorShort')}</span>
+                  </div>
+                ))}
+            <div
+              className={classNames(
+                'tabs__elem',
+                selectedListCode === CourseListCode.HUMANITY ? 'tabs__elem--selected' : null,
+              )}
+              onClick={() => this.changeTab(CourseListCode.HUMANITY)}
+            >
               <i className={classNames('icon', 'icon--tab-humanity')} />
               <span>{t('ui.tab.humanityShort')}</span>
             </div>
-            <div className={classNames('tabs__elem', (selectedListCode === CourseListCode.TAKEN ? 'tabs__elem--selected' : null))} onClick={() => this.changeTab(CourseListCode.TAKEN)}>
+            <div
+              className={classNames(
+                'tabs__elem',
+                selectedListCode === CourseListCode.TAKEN ? 'tabs__elem--selected' : null,
+              )}
+              onClick={() => this.changeTab(CourseListCode.TAKEN)}
+            >
               <i className={classNames('icon', 'icon--tab-taken')} />
               <span>{t('ui.tab.takenShort')}</span>
             </div>
@@ -262,8 +277,4 @@ CourseListTabs.propTypes = {
   setListCoursesDispatch: PropTypes.func.isRequired,
 };
 
-export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(
-    CourseListTabs
-  )
-);
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(CourseListTabs));
