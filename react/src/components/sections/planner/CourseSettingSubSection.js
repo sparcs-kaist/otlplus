@@ -54,6 +54,8 @@ class CourseSettingSubSection extends Component {
 
       initialize = () => {
         this.setState({
+            selectedSemester: new Set(['ALL']),
+            selectedRetake: new Set(['ALL']),
             basicRequired: 0,
             basicElective: 0,
             majorRequired: 0,

@@ -29,7 +29,7 @@ class Setting extends Component {
               {
                   e.info.map((k) => (
                     <div className={classNames('setting--info')}>
-                        {k.name}
+                        <div className={classNames('setting--info--name')}>{k.name}</div>
                         <div/>
                         {k.controller}
                     </div>

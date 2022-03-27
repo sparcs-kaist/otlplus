@@ -34,9 +34,10 @@ class CreditStatusBar extends Component {
           { credit>=totalCredit ? 
             <div className={classNames('credit-status--text')}>{credit} / {totalCredit}</div> :
             <>
-              <div className={classNames('credit-status--text')}>{credit}&nbsp;</div>
+              {/* <div className={classNames('credit-status--text')}>{credit}&nbsp;</div>
               <div className={classNames('credit-status--text')}>({totalCredit-credit}) / </div>
-              <div className={classNames('credit-status--text')}>{totalCredit}</div>
+              <div className={classNames('credit-status--text')}>{totalCredit}</div> */}
+              <div className={classNames('credit-status--text')}>{credit}&nbsp; ({totalCredit-credit}) / {totalCredit}</div>
             </>
           }
         </div>
