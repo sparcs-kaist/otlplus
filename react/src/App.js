@@ -22,6 +22,7 @@ import dictionaryReducer from './reducers/dictionary/index';
 import timetableReducer from './reducers/timetable/index';
 import writeReviewsReducer from './reducers/write-reviews/index';
 import commonReducer from './reducers/common/index';
+import plannerReducer from './reducers/planner/index';
 
 import { setUser } from './actions/common/user';
 import { setSemesters } from './actions/common/semester';
@@ -33,6 +34,7 @@ const store = createStore(combineReducers({
   dictionary: dictionaryReducer,
   timetable: timetableReducer,
   writeReviews: writeReviewsReducer,
+  planner: plannerReducer,
 }));
 
 class App extends Component {

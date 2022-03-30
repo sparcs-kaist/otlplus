@@ -7,12 +7,12 @@ import ReactGA from 'react-ga';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
-import { CourseListCode } from '../../../reducers/dictionary/list';
+import { CourseListCode } from '../../../reducers/planner/list';
 
-import { openSearch, closeSearch } from '../../../actions/dictionary/search';
+import { openSearch, closeSearch } from '../../../actions/planner/search';
 import {
   setSelectedListCode, setListCourses,
-} from '../../../actions/dictionary/list';
+} from '../../../actions/planner/list';
 
 import userShape from '../../../shapes/model/UserShape';
 import courseListsShape from '../../../shapes/state/CourseListsShape';
@@ -232,8 +232,8 @@ class CourseListTabs extends Component {
 
 const mapStateToProps = (state) => ({
   user: state.common.user.user,
-  selectedListCode: state.dictionary.list.selectedListCode,
-  lists: state.dictionary.list.lists,
+  selectedListCode: state.planner.list.selectedListCode,
+  lists: state.planner.list.lists,
 });
 
 const mapDispatchToProps = (dispatch) => ({

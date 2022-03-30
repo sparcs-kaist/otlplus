@@ -6,15 +6,15 @@ import ReactGA from 'react-ga';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
-import { CourseListCode } from '../../../reducers/dictionary/list';
+import { CourseListCode } from '../../../reducers/planner/list';
 
 import Scroller from '../../Scroller';
 import CourseSearchSubSection from '../dictionary/CourseSearchSubSection';
 import PlannerCourseBlock from '../../blocks/PlannerCourseBlock';
 
 import { isFocused, isDimmedCourse } from '../../../utils/courseUtils';
-import { setCourseFocus, clearCourseFocus } from '../../../actions/dictionary/courseFocus';
-import { openSearch } from '../../../actions/dictionary/search';
+import { setCourseFocus, clearCourseFocus } from '../../../actions/planner/courseFocus';
+import { openSearch } from '../../../actions/planner/search';
 
 import courseShape from '../../../shapes/model/CourseShape';
 import courseFocusShape from '../../../shapes/state/CourseFocusShape';
@@ -208,12 +208,12 @@ class CourseListSection extends Component {
 
 const mapStateToProps = (state) => ({
   user: state.common.user.user,
-  selectedListCode: state.dictionary.list.selectedListCode,
-  lists: state.dictionary.list.lists,
-  readCourses: state.dictionary.list.readCourses,
-  courseFocus: state.dictionary.courseFocus,
-  searchOpen: state.dictionary.search.open,
-  lastSearchOption: state.dictionary.search.lastSearchOption,
+  selectedListCode: state.planner.list.selectedListCode,
+  lists: state.planner.list.lists,
+  readCourses: state.planner.list.readCourses,
+  courseFocus: state.planner.courseFocus,
+  searchOpen: state.planner.search.open,
+  lastSearchOption: state.planner.search.lastSearchOption,
 });
 
 const mapDispatchToProps = (dispatch) => ({

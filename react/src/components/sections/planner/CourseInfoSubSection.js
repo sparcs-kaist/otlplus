@@ -11,8 +11,8 @@ import Scroller from '../../Scroller';
 import CloseButton from '../../CloseButton';
 import Divider from '../../Divider';
 
-import { clearCourseFocus, setLectures, setReviews } from '../../../actions/dictionary/courseFocus';
-import { addCourseRead } from '../../../actions/dictionary/list';
+import { clearCourseFocus, setLectures, setReviews } from '../../../actions/planner/courseFocus';
+import { addCourseRead } from '../../../actions/planner/list';
 
 import courseFocusShape from '../../../shapes/state/CourseFocusShape';
 import userShape from '../../../shapes/model/UserShape';
@@ -28,6 +28,11 @@ class CourseInfoSubSection extends Component {
     // eslint-disable-next-line fp/no-mutation
     this.scoresRef = React.createRef();
   }
+
+  componentDidMount() {
+    this._fetchLectures();
+    this._fetchReviews();
+  } //처음 코스 클릭시 과목 정보가 불러와지지 않는 오류를 위한 함수
 
   componentDidUpdate(prevProps) {
     const {
@@ -180,8 +185,8 @@ class CourseInfoSubSection extends Component {
 
 const mapStateToProps = (state) => ({
   user: state.common.user.user,
-  courseFocus: state.dictionary.courseFocus,
-  selectedListCode: state.dictionary.list.selectedListCode,
+  courseFocus: state.planner.courseFocus,
+  selectedListCode: state.planner.list.selectedListCode,
 });
 
 const mapDispatchToProps = (dispatch) => ({
