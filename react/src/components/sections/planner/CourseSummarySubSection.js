@@ -55,7 +55,7 @@ class CourseSummarySubSection extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  courseFocus: state.dictionary.courseFocus,
+  courseFocus: state.planner.courseFocus,
 });
 
 const mapDispatchToProps = (dispatch) => ({

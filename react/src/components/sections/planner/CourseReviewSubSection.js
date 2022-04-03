@@ -185,7 +185,7 @@ class CourseReviewsSubSection extends Component {
 
 const mapStateToProps = (state) => ({
   user: state.common.user.user,
-  courseFocus: state.dictionary.courseFocus,
+  courseFocus: state.planner.courseFocus,
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -9,7 +9,7 @@ import { appBoundClassNames as classNames } from '../../../common/boundClassName
 import { CourseListCode } from '../../../reducers/planner/list';
 
 import Scroller from '../../Scroller';
-import CourseSearchSubSection from '../dictionary/CourseSearchSubSection';
+import CourseSearchSubSection from '../planner/CourseSearchSubSection';
 import PlannerCourseBlock from '../../blocks/PlannerCourseBlock';
 
 import { isFocused, isDimmedCourse } from '../../../utils/courseUtils';
