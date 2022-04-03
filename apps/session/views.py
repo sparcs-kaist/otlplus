@@ -73,7 +73,11 @@ def user_login(request):
 
     request.session["next"] = request.GET.get("next", "/")
 
+    social_login = request.GET.get("social_login", None)
+
     login_url, state = sso_client.get_login_params()
+    if social_login == '0':
+        login_url += '&social_enabled=0&show_disabled_button=0'
     request.session["sso_state"] = state
     return HttpResponseRedirect(login_url)
 
