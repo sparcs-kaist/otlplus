@@ -1,7 +1,8 @@
 import datetime
 from typing import List, Dict, Optional
 
-from django.db.models import Q, QuerySet
+from django.db.models import Q, QuerySet, Value
+from django.db.models.functions import Replace
 from django.http import QueryDict
 from django.utils import timezone
 
@@ -117,13 +118,17 @@ def filter_by_keyword(queryset: QuerySet, keyword: Optional[str]) -> QuerySet:
         return queryset
 
     keyword = keyword.strip()
+    keyword_space_removed = keyword.replace(' ', '')
 
     if len(keyword) == 0:
         return queryset
 
-    return queryset.filter(
-        Q(title__icontains=keyword)
-        | Q(title_en__icontains=keyword)
+    return queryset.annotate(
+        title_space_removed=Replace('title', Value(' '), Value('')),
+        title_en_space_removed=Replace('title_en', Value(' '), Value(''))
+    ).filter(
+        Q(title_space_removed__icontains=keyword_space_removed)
+        | Q(title_en_space_removed__icontains=keyword_space_removed)
         | Q(old_code__istartswith=keyword)
         | Q(department__name__iexact=keyword)
         | Q(department__name_en__iexact=keyword)
