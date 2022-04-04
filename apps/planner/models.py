@@ -57,6 +57,12 @@ class Planner(models.Model):
     basic_graduation_requirement = models.ForeignKey(BasicGraduationRequirement, on_delete=models.PROTECT, db_index=True)
     major_graduation_requirements = models.ManyToManyField(MajorGraduationRequirement, related_name="graduation_requirement_user_set")
 
+    def to_json(self, nested=False):
+        result = {
+            "id": self.id,
+        }
+        return result
+
 
 class PlannerItem(models.Model):
     planner = models.ForeignKey(Planner, on_delete=models.PROTECT, db_index=True)
