@@ -78,8 +78,8 @@ class App extends Component {
           lastName: "김",
           majors: [{
             id: 1,
-            name: "산디과",
-            name_en: "sandi",
+            name: "산업디자인학과",
+            name_en: "industrial design",
             code: "industrial"
           }],
           my_timetable_lectures: [],

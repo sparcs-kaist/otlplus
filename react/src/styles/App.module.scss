@@ -3924,9 +3924,19 @@ i.icon {
         width: 100px;
         height: 6px;
         border-radius: 3px;
-        background-color: $color-highlight;
+        background-color: #dfdfdf;
         position: absolute;
         z-index: 1;
+    }
+
+    &--highlight {
+        align-self: flex-start;
+        width: 80px;
+        height: 6px;
+        border-radius: 3px;
+        background-color: $color-highlight;
+        position: absolute;
+        z-index: 2;
     }
 
     &--front {
@@ -3936,7 +3946,7 @@ i.icon {
         border-radius: 3px 0 0 3px;
         background-color: #f3b6b5;
         position: absolute;
-        z-index: 2;
+        z-index: 3;
     }
 
     &--front-full { // front와 한번에 작성하는 법?
@@ -3945,7 +3955,7 @@ i.icon {
         border-radius: 3px;
         background-color: #f3b6b5;
         position: absolute;
-        z-index: 2;
+        z-index: 3;
     }
 
     &--textbox {
@@ -3955,7 +3965,7 @@ i.icon {
         flex-direction: row;
         justify-content: center;
         align-items: center;
-        z-index: 3;
+        z-index: 4;
     }
 
     &--text {

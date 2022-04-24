@@ -12,6 +12,7 @@ class CreditStatusBar extends Component {
     const {
       credit,
       totalCredit,
+      focused,
       statusColor
     } = this.props;
 
@@ -21,9 +22,19 @@ class CreditStatusBar extends Component {
       statusWidth = 100 :
       statusWidth = credit/totalCredit*100}
 
+    console.log("hi", focused, focused<=0);
+
     return(
       <div className={classNames('credit-status--container')}>
         {statusWidth==100?<></>:<div className={classNames('credit-status--back')}/>}
+        {focused <= 0 ? null
+          :
+          <div className={classNames('credit-status--highlight')}
+					style={{
+            width: (credit+focused)/totalCredit*100,
+          }}
+				  />
+        }
 				<div className={statusWidth==100?classNames('credit-status--front-full'):classNames('credit-status--front')}
 					style={{
             width: statusWidth,
@@ -34,10 +45,13 @@ class CreditStatusBar extends Component {
           { credit>=totalCredit ? 
             <div className={classNames('credit-status--text')}>{credit} / {totalCredit}</div> :
             <>
-              {/* <div className={classNames('credit-status--text')}>{credit}&nbsp;</div>
-              <div className={classNames('credit-status--text')}>({totalCredit-credit}) / </div>
-              <div className={classNames('credit-status--text')}>{totalCredit}</div> */}
-              <div className={classNames('credit-status--text')}>{credit}&nbsp; ({totalCredit-credit}) / {totalCredit}</div>
+              <div className={classNames('credit-status--text')}>{credit}&nbsp;</div>
+              { focused > 0 ?
+                <div className={classNames('credit-status--text')}>({focused})</div>
+                : null
+              }
+              <div className={classNames('credit-status--text')}>/&nbsp;{totalCredit}</div>
+              {/* <div className={classNames('credit-status--text')}>{credit}&nbsp; ({totalCredit-credit}) / {totalCredit}</div> */}
             </>
           }
         </div>

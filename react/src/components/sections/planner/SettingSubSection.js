@@ -26,7 +26,7 @@ class SettingSubSection extends Component {
             entries={[
                 { name: t('ui.attribute.default'), info: entranceYear },
 								{ name: t('ui.attribute.major'), info: user.majors.map((d) => d[t('js.property.name')]).join(', ') },
-                { name: t('ui.attribute.additional'), info: "s냠" },
+                { name: t('ui.attribute.additional'), info: "복수 - 전산학부" },
             ]}
             longInfo
           />
