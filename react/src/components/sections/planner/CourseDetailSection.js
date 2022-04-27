@@ -35,12 +35,10 @@ class CourseDetailSection extends Component {
 }
 
 const mapStateToProps = (state) => ({
- // user: state.common.user.user,
   courseFocus: state.planner.courseFocus,
 });
 
 CourseDetailSection.propTypes = {
-  user: userShape,
   courseFocus: courseFocusShape.isRequired,
 };
 

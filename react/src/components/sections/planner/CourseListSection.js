@@ -186,6 +186,7 @@ class CourseListSection extends Component {
                   // addToCart={this.addLectureToCart}
                   // addToTable={this.addLectureToTable}
                   // deleteFromCart={this.deleteLectureFromCart}
+                  // 나중에 장바구니 만들어야 함!
                 />
               ))
             }

@@ -223,6 +223,7 @@ class CourseListTabs extends Component {
               <i className={classNames('icon', 'icon--tab-taken')} />
               <span>{t('ui.tab.takenShort')}</span>
             </div>
+            {/* 장바구니로 바꾸기 */}
           </div>
         </Scroller>
       </div>

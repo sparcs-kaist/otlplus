@@ -10,7 +10,7 @@ import ReviewBlock from '../../blocks/ReviewBlock';
 import ReviewWriteBlock from '../../blocks/ReviewWriteBlock';
 import SearchFilter from '../../SearchFilter';
 
-import { updateReview } from '../../../actions/dictionary/courseFocus';
+import { updateReview } from '../../../actions/planner/courseFocus';
 import { updateUserReview } from '../../../actions/common/user';
 
 import courseFocusShape from '../../../shapes/state/CourseFocusShape';
