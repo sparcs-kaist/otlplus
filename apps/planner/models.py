@@ -76,3 +76,17 @@ class PlannerItem(models.Model):
     course_type = models.CharField(choices=CourseType.choices)
     department = models.ForeignKey(Department, on_delete=models.PROTECT)
     credit = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(10)])
+    
+    def to_json(self):
+        result = {
+            "planner": self.planner,
+            "year": self.year,
+            "semester": self.semester,
+            "is_generic": self.is_generic,
+            "course": self.course.to_json(nested=True),
+            "course_type": self.course_type,
+            "department": self.department.to_json(),
+            "credit": self.credit,
+        }
+
+        return result
