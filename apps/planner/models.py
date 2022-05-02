@@ -59,7 +59,20 @@ class Planner(models.Model):
 
 
 class PlannerItem(models.Model):
+    class CourseType(models.TextChoices):
+        MAJOR_REQUIRED  = "major_required"
+        MAJOR_ELECTIVE = "major_elective"
+        BASIC_REQUIRED = "basic_required"
+        BASIC_ELECTIVE = "basic_elective"
+        HSS_REQUIRED = "hss_required"
+        HSS_ELECTIVE = "hss_elective"
+
     planner = models.ForeignKey(Planner, on_delete=models.PROTECT, db_index=True)
     year = models.IntegerField(db_index=True)
     semester = models.IntegerField(db_index=True)
-    course = models.ForeignKey(Course, on_delete=models.PROTECT, db_index=True)
+
+    is_generic = models.BooleanField
+    course = models.ForeignKey(Course, on_delete=models.PROTECT)
+    course_type = models.CharField(choices=CourseType.choices)
+    department = models.ForeignKey(Department, on_delete=models.PROTECT)
+    credit = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(10)])
