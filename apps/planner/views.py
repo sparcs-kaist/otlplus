@@ -1,6 +1,8 @@
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse, HttpResponseNotFound
 from django.utils.decorators import method_decorator
 from django.views import View
+
+from .models import Planner, PlannerItem
 
 from utils.decorators import login_required_ajax
 from utils.util import ParseType, parse_body
@@ -17,4 +19,19 @@ class UserInstancePlannerInstancePlannerItemView(View):
         return JsonResponse()
     
     def delete(self, request, user_id, planner_id, planner_item_id):
-        return JsonResponse()
+        userprofile = request.user.userprofile
+        if userprofile.id != int(user_id):
+            return HttpResponse(status=401)
+
+        try:
+            _ = Planner.objects.get(id=planner_id)
+        except Planner.DoesNotExist:
+            return HttpResponseNotFound()
+        
+        try:
+            plannerItem = PlannerItem.objects.get(id=planner_item_id)
+        except PlannerItem.DoesNotExist:
+            return HttpResponseNotFound()
+
+        plannerItem.delete()
+        return HttpResponse()
