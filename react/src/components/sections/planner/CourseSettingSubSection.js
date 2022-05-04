@@ -39,7 +39,7 @@ class CourseSettingSubSection extends Component {
             totalCredit: 0
         };
       }
-    
+      
       updateCheckedValues = (filterName) => (checkedValues) => {
         this.setState({
           [filterName]: checkedValues,
@@ -58,6 +58,8 @@ class CourseSettingSubSection extends Component {
             selectedRetake: new Set(['ALL']),
             basicRequired: 0,
             basicElective: 0,
+            generalRequired: 0,
+            generalElective: 0,
             majorRequired: 0,
             majorElective: 0,
             secondMajorRequired: 0,
@@ -66,10 +68,54 @@ class CourseSettingSubSection extends Component {
         });
       }
 
+      initialize2 = () => {
+
+        const { t } = this.props;
+        const { courseFocus } = this.props;
+
+        const recentLecture = courseFocus.lectures[courseFocus.lectures.length-1];
+        const credit = recentLecture.credit>=1 
+                ?recentLecture.credit
+                :recentLecture.credit_au;
+        const lectureType = courseFocus.course[t('js.property.type')];
+
+        this.setState({
+            selectedSemester: new Set(['ALL']),
+            selectedRetake: new Set(['ALL']),
+            basicRequired: lectureType=="기초필수"?credit:0,
+            basicElective: lectureType=="기초선택"?credit:0,
+            generalRequired: lectureType=="교양필수"?credit:0,
+            generalElective: lectureType=="교양선택"?credit:0,
+            majorRequired: lectureType=="전공필수"?credit:0,
+            majorElective: lectureType=="전공선택"?credit:0,
+            secondMajorRequired: lectureType=="전공필수"?credit:0,
+            secondMajorElective: lectureType=="전공선택"?credit:0,
+            totalCredit: credit
+        });
+      }
+
+    componentDidUpdate(prevProps) {
+        const {
+            selectedListCode, courseFocus,
+            clearCourseFocusDispatch,
+        } = this.props;
+        console.log("courseFocuslog at didupdate",courseFocus);
+
+        if (!courseFocus.course || !courseFocus.lectures) {
+            return null;
+        }
+
+        if (!prevProps.courseFocus.lectures && courseFocus.lectures){
+            console.log(prevProps, courseFocus);
+            this.initialize2(courseFocus)
+        }
+    }  
+
     render() {
         const { t } = this.props;
+
         const {
-            selectedSemester, selectedRetake, totalCredit, basicRequired, basicElective, majorRequired, majorElective, secondMajorRequired, secondMajorElective
+            selectedSemester, selectedRetake, totalCredit, basicRequired, basicElective, generalRequired, generalElective, majorRequired, majorElective, secondMajorRequired, secondMajorElective
           } = this.state;
         const sectionHead = (
             <>
@@ -101,9 +147,22 @@ class CourseSettingSubSection extends Component {
                     <Setting 
                         entries={[
                             {name: '전체', info: [{name: '총학점', controller: <Controller count={totalCredit} updateFunct={this.updateCredits('totalCredit')}/>}]},
-                            {name: '기초', info: [{name: '기초필수', controller: <Controller count={basicRequired} updateFunct={this.updateCredits('basicRequired')}/>}, {name: '기초선택', controller: <Controller count={basicElective} updateFunct={this.updateCredits('basicElective')}/>}]},
-                            {name: '전공', info: [{name: '전공필수', controller: <Controller count={majorRequired} updateFunct={this.updateCredits('majorRequired')}/>}, {name: '전공선택', controller: <Controller count={majorElective} updateFunct={this.updateCredits('majorElective')}/>}]},
-                            {name: '복수전공', info: [{name: '전공필수', controller: <Controller count={secondMajorRequired} updateFunct={this.updateCredits('secondMajorRequired')}/>}, {name: '전공선택', controller: <Controller count={secondMajorElective} updateFunct={this.updateCredits('secondMajorElective')}/>}]},
+                            {name: '기초', info: [
+                                {name: '기초필수', controller: <Controller count={basicRequired} updateFunct={this.updateCredits('basicRequired')}/>}, 
+                                {name: '기초선택', controller: <Controller count={basicElective} updateFunct={this.updateCredits('basicElective')}/>}
+                            ]},
+                            {name: '교양', info: [
+                                {name: '교양필수', controller: <Controller count={generalRequired} updateFunct={this.updateCredits('majorRequired')}/>}, 
+                                {name: '교양선택', controller: <Controller count={generalElective} updateFunct={this.updateCredits('majorElective')}/>}
+                            ]},
+                            {name: '전공', info: [
+                                {name: '전공필수', controller: <Controller count={majorRequired} updateFunct={this.updateCredits('majorRequired')}/>}, 
+                                {name: '전공선택', controller: <Controller count={majorElective} updateFunct={this.updateCredits('majorElective')}/>}
+                            ]},
+                            {name: '복수전공', info: [
+                                {name: '전공필수', controller: <Controller count={secondMajorRequired} updateFunct={this.updateCredits('secondMajorRequired')}/>}, 
+                                {name: '전공선택', controller: <Controller count={secondMajorElective} updateFunct={this.updateCredits('secondMajorElective')}/>}
+                            ]},
                         ]}
                     />
                 </Scroller>
@@ -120,6 +179,14 @@ class CourseSettingSubSection extends Component {
     }
 }
 
+const mapStateToProps = (state) => ({
+    user: state.common.user.user,
+    courseFocus: state.planner.courseFocus,
+    selectedListCode: state.planner.list.selectedListCode,
+  });
+
 export default withTranslation()(
-    CourseSettingSubSection
+    connect(mapStateToProps)(
+        CourseSettingSubSection
+    )
 );

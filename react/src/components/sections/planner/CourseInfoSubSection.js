@@ -149,7 +149,6 @@ class CourseInfoSubSection extends Component {
     clearCourseFocusDispatch();
   }
 
-
   render() {
     const { t } = this.props;
     const { courseFocus } = this.props;
@@ -168,7 +167,7 @@ class CourseInfoSubSection extends Component {
           <Scroller key={courseFocus.course.id}>
             <CourseSummarySubSection/>
             <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
-            <CourseReviewsSubSection />
+            <CourseReviewsSubSection/>
           </Scroller>
         </>
       );
