@@ -56,7 +56,8 @@ class RequiredCourseSet(models.Model):
     ]
         
     graduation_requirement = models.ForeignKey(MajorGraduationRequirement, on_delete=models.PROTECT)
-    course = models.ForeignKey(Course, related_name="required_course_set_course", on_delete=models.PROTECT)
+    course = models.ManyToManyField(Course)
+    min_credit = models.IntegerField(default=0)
     type = models.CharField(choices=RequiredCourseType, max_length=20)
 
 
