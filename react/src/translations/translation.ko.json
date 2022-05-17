@@ -94,6 +94,8 @@
       "name": "이름",
       "email": "메일",
       "studentId": "학번",
+      "all": "전체",
+      "basic": "기초",
       "major": "전공",
       "default": "기본",
       "additional": "추가"

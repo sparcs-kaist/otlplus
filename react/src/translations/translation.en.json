@@ -94,9 +94,11 @@
       "name": "Name",
       "email": "Email",
       "studentId": "Student ID",
+      "all": "ALL",
+      "basic": "Basic",
       "major": "Major",
-      "semester": "Semester",
-      "retake": "Retake"
+      "default": "Default",
+      "additional": "Additional"
     },
     "score": {
       "reviewsWritten": "Reviews",

@@ -22,8 +22,6 @@ class CreditStatusBar extends Component {
       statusWidth = 100 :
       statusWidth = credit/totalCredit*100}
 
-    console.log("hi", focused, focused<=0);
-
     return(
       <div className={classNames('credit-status--container')}>
         {statusWidth==100?<></>:<div className={classNames('credit-status--back')}/>}
