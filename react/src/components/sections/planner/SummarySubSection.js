@@ -8,7 +8,7 @@ import userShape from '../../../shapes/model/UserShape';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 import CreditStatusBar from '../../CreditStatusBar';
-import Setting from '../../Setting';
+import CourseStatus from '../../CourseStatus';
 import Scroller from '../../Scroller';
 
 const TAGET_TYPES = ['Total', 'Basic Required', 'Basic Elective', 'Major Required', 'Major Elective'];
@@ -75,7 +75,7 @@ class SummarySubSection extends Component {
 			<>
 				<div className={classNames('subsection', 'subsection--planner-summary')}>
 					<Scroller>
-						<Setting 
+						<CourseStatus 
 							entries={[
 								{name: t('ui.attribute.all'), info: [
 									{name: '총학점', controller: <CreditStatusBar credit={100} totalCredit={130} focused={singleFocusedTypeCredit(0)} statusColor={'#cccccc'}/>}]},
@@ -84,7 +84,7 @@ class SummarySubSection extends Component {
 									{name: t('ui.type.basicElective'), controller: <CreditStatusBar credit={2} totalCredit={12} focused={singleFocusedTypeCredit(2)} statusColor={'#f3c8ae'}/>}]},
 								{name: `${t('ui.attribute.major')} - ${user.majors[0][t('js.property.name')]}`, info: [
 									{name: t('ui.type.majorRequired'), controller: <CreditStatusBar credit={12} totalCredit={15} focused={singleFocusedTypeCredit(3)} statusColor={'#eee9a0'}/>},
-									{name: t('ui.type.majorElective'), controller: <CreditStatusBar credit={24} totalCredit={30} focused={singleFocusedTypeCredit(4)} statusColor={'#e5f2a0'}/>}]},
+									{name: t('ui.type.majorElective'), controller: <CreditStatusBar credit={24} totalCredit={25} focused={singleFocusedTypeCredit(4)} statusColor={'#e5f2a0'}/>}]},
 								{name: '복수전공', info: [
 									{name: t('ui.type.majorRequired'), controller: <CreditStatusBar credit={19} totalCredit={19} focused={0} statusColor={'#cdf2c1'}/>},
 									{name: t('ui.type.majorElective'), controller: <CreditStatusBar credit={23} totalCredit={21} focused={0} statusColor={'#c2ebcd'}/>}]},

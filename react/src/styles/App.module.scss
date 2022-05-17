@@ -2858,7 +2858,7 @@ a {
         }
 }
 
-.setting {
+.course-status {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -3970,5 +3970,11 @@ i.icon {
 
     &--text {
         font-size: $font-size-smallest;
+    }
+
+    &--text-focused {
+        font-weight: bold;
+        font-size: $font-size-smallest;
+        color: $color-highlight;
     }
 }

@@ -5,7 +5,7 @@ import { withTranslation } from 'react-i18next';
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
 
 
-class Setting extends Component {
+class CourseStatus extends Component {
   render() {
     const {
       t,
@@ -18,18 +18,18 @@ class Setting extends Component {
           entries.map((e) => (
             <div
               className={classNames(
-                'setting',
+                'course-status',
               )}
               key={e.name}
             >
-              <div className={classNames('setting--name')}>
+              <div className={classNames('course-status--name')}>
                 { e.name }
               </div>
               <div>
               {
                   e.info.map((k) => (
-                    <div className={classNames('setting--info')}>
-                        <div className={classNames('setting--info--name')}>{k.name}</div>
+                    <div className={classNames('course-status--info')}>
+                        <div className={classNames('course-status--info--name')}>{k.name}</div>
                         <div/>
                         {k.controller}
                     </div>
@@ -44,7 +44,7 @@ class Setting extends Component {
   }
 }
 
-Setting.propTypes = {
+CourseStatus.propTypes = {
   entries: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string.isRequired,
@@ -54,5 +54,5 @@ Setting.propTypes = {
 };
 
 export default withTranslation()(
-  Setting
+  CourseStatus
 );

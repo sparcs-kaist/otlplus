@@ -29,7 +29,7 @@ class CreditStatusBar extends Component {
           :
           <div className={classNames('credit-status--highlight')}
 					style={{
-            width: (credit+focused)/totalCredit*100,
+            width: (credit+focused)>totalCredit ? 100 : (credit+focused)/totalCredit*100
           }}
 				  />
         }
@@ -45,10 +45,10 @@ class CreditStatusBar extends Component {
             <>
               <div className={classNames('credit-status--text')}>{credit}&nbsp;</div>
               { focused > 0 ?
-                <div className={classNames('credit-status--text')}>({focused})</div>
+                <div className={classNames('credit-status--text-focused')}>({focused})</div>
                 : null
               }
-              <div className={classNames('credit-status--text')}>/&nbsp;{totalCredit}</div>
+              <div className={classNames('credit-status--text')}>&nbsp;/&nbsp;{totalCredit}</div>
               {/* <div className={classNames('credit-status--text')}>{credit}&nbsp; ({totalCredit-credit}) / {totalCredit}</div> */}
             </>
           }
