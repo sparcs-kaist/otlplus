@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 import axios from 'axios';
-import ReactGA from 'react-ga';
 import { debounce } from 'lodash';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';

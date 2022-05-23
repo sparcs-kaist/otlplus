@@ -5,7 +5,9 @@ import { withTranslation } from 'react-i18next';
 import { range } from 'lodash';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
-import { TIMETABLE_START_HOUR, TIMETABLE_END_HOUR, PLANNER_START_CREDIT, PLANNER_END_CREDIT } from '../../../common/constants';
+import {
+  TIMETABLE_START_HOUR, TIMETABLE_END_HOUR, PLANNER_START_CREDIT, PLANNER_END_CREDIT,
+} from '../../../common/constants';
 
 import TimetableTile from '../../tiles/TimetableTile';
 
@@ -243,7 +245,7 @@ class PlannerSubSection extends Component {
     const isOutsideTable = (classtime) => (
       (classtime.day < 0 || classtime.day > 4)
       || (classtime.begin < 60 * TIMETABLE_START_HOUR || classtime.end > 60 * TIMETABLE_END_HOUR)
-    ); 
+    );
     const lecCtPairsWithClasstime = overallLectures
       .map((l) => l.classtimes.map((ct) => ({ lecture: l, classtime: ct })))
       .flat(1);
@@ -252,17 +254,17 @@ class PlannerSubSection extends Component {
       .map((l) => ({ lecture: l, classtime: null }));
     const lecCtPairsInsideTable = (
       lecCtPairsWithClasstime.filter((p) => !isOutsideTable(p.classtime))
-    ); 
+    );
     const lecCtPairsOutsideTable = [
       ...lecCtPairsWithClasstime.filter((p) => isOutsideTable(p.classtime)),
       ...lecCtPairsWithoutClasstime,
-    ]; 
+    ];
 
     const getUntimedTitle = (classtime) => (
       classtime
         ? getRangeStr(classtime.day, classtime.begin, classtime.end)
         : t('ui.others.timeNone')
-    ); 
+    );
     const getTimetableTile = (lecture, classtime, isUntimed, untimedIndex, isTemp) => {
       return (
         <TimetableTile
@@ -307,16 +309,16 @@ class PlannerSubSection extends Component {
       lectureFocus.from === LectureFocusFrom.LIST
       && lectureFocus.lecture.id === lecture.id
       && !inTimetable(lectureFocus.lecture, selectedTimetable)
-    ); 
+    );
     const tilesInsideTable = lecCtPairsInsideTable.map((p) => (
       getTimetableTile(p.lecture, p.classtime, false, undefined, isTemp(p.lecture))
-    )); 
+    ));
     const tilesOutsideTable = lecCtPairsOutsideTable.map((p, i) => (
       getTimetableTile(p.lecture, p.classtime, true, i, isTemp(p.lecture))
-    )); 
+    ));
     const untimedTileTitles = lecCtPairsOutsideTable.map((p) => (
       getUntimedTitle(p.classtime)
-    )); 
+    ));
 
     const plannerCredits = range(PLANNER_START_CREDIT, PLANNER_END_CREDIT);
     const plannerCreditsReversed = range(PLANNER_END_CREDIT, PLANNER_START_CREDIT);
@@ -324,15 +326,15 @@ class PlannerSubSection extends Component {
       const timedArea = [
         <div className={classNames('subsection--planner__table__label__title')} key="title" />,
         ...(
-        plannerCredits.map((h) => {
-            const HourTag = (3*h % 12 === 0 && h !== 0) ? 'strong' : 'span';
+          plannerCredits.map((h) => {
+            const HourTag = ((3 * h) % 12 === 0 && h !== 0) ? 'strong' : 'span';
             return [
-              <div className={classNames('subsection--planner__table__label__line')} key={`line:${3*h}`}>
-                <HourTag>{((3*h - 1) % 24) + 1}</HourTag>
+              <div className={classNames('subsection--planner__table__label__line')} key={`line:${3 * h}`}>
+                <HourTag>{((3 * h - 1) % 24) + 1}</HourTag>
               </div>,
-              <div className={classNames('subsection--planner__table__label__cell')} key={`cell:${3*h}`} />,
-              <div className={classNames('subsection--planner__table__label__line')} key={`line:${3*h + 1}`} />,
-              <div className={classNames('subsection--planner__table__label__cell')} key={`cell:${3*h + 1}`} />,
+              <div className={classNames('subsection--planner__table__label__cell')} key={`cell:${3 * h}`} />,
+              <div className={classNames('subsection--planner__table__label__line')} key={`line:${3 * h + 1}`} />,
+              <div className={classNames('subsection--planner__table__label__cell')} key={`cell:${3 * h + 1}`} />,
             ];
           })
             .flat(1)
@@ -343,20 +345,21 @@ class PlannerSubSection extends Component {
         <div className={classNames(
           'subsection--planner__table__body__cell',
           'subsection--planner__table__body__cell--drag',
-        )}/>,
+        )}
+        />,
       ];
       const timedAreaReversed = [
         <div className={classNames('subsection--planner__table__label__title')} key="title" />,
         ...(
-        plannerCreditsReversed.map((h) => {
-            const HourTag = (3*h % 12 === 0 && h !== 0) ? 'strong' : 'span';
+          plannerCreditsReversed.map((h) => {
+            const HourTag = ((3 * h) % 12 === 0 && h !== 0) ? 'strong' : 'span';
             return [
-              <div className={classNames('subsection--planner__table__label__line')} key={`line:${3*h}`}>
-                <HourTag>{((3*h - 1) % 24) + 1}</HourTag>
+              <div className={classNames('subsection--planner__table__label__line')} key={`line:${3 * h}`}>
+                <HourTag>{((3 * h - 1) % 24) + 1}</HourTag>
               </div>,
-              <div className={classNames('subsection--planner__table__label__cell')} key={`cell:${3*h}`} />,
-              <div className={classNames('subsection--planner__table__label__line')} key={`line:${3*h + 1}`} />,
-              <div className={classNames('subsection--planner__table__label__cell')} key={`cell:${3*h + 1}`} />,
+              <div className={classNames('subsection--planner__table__label__cell')} key={`cell:${3 * h}`} />,
+              <div className={classNames('subsection--planner__table__label__line')} key={`line:${3 * h + 1}`} />,
+              <div className={classNames('subsection--planner__table__label__cell')} key={`cell:${3 * h + 1}`} />,
             ];
           })
             .flat(1)
@@ -381,10 +384,10 @@ class PlannerSubSection extends Component {
       ));
       return (
         <div className={classNames('subsection--planner__table__label')}>
-          { timedArea }
-          { untimedArea }
-          { timedAreaReversed }
-          { untimedArea }
+          {timedArea}
+          {untimedArea}
+          {timedAreaReversed}
+          {untimedArea}
         </div>
       );
     };
@@ -392,31 +395,31 @@ class PlannerSubSection extends Component {
       <div className={classNames('subsection--planner__tabel__body__semester')}>
         {2020}
         {10}
-      </div>
-    ]
+      </div>,
+    ];
     const getYearColumn = (dayIdx) => {
       const timedArea = [
         <div className={classNames('subsection--planner__table__body__title')} key="title">
           {semesterInfo}
         </div>,
         ...(
-        plannerCredits.map((h) => {
+          plannerCredits.map((h) => {
             return [
               <div
                 className={classNames(
                   'subsection--planner__table__body__line',
-                  (3*h % 12 === 0) ? 'subsection--planner__table__body__line--bold' : null,
+                  ((3 * h) % 12 === 0) ? 'subsection--planner__table__body__line--bold' : null,
                 )}
-                key={`line:${3*h}`}
+                key={`line:${3 * h}`}
               />,
               <div
                 className={classNames(
                   'subsection--planner__table__body__cell',
                   'subsection--planner__table__body__cell--drag',
                 )}
-                key={`cell:${3*h}`}
+                key={`cell:${3 * h}`}
                 data-day={dayIdx}
-                data-minute={3*h}
+                data-minute={3 * h}
                 onMouseDown={(e) => this.onMouseDown(e)}
                 onTouchStart={(e) => this.onTouchStart(e)}
                 onMouseMove={(e) => this.onMouseMove(e)}
@@ -428,16 +431,16 @@ class PlannerSubSection extends Component {
                   'subsection--planner__table__body__line--dashed',
                   (mobileIsLectureListOpen ? 'subsection--planner__table__body__line--mobile-noline' : null),
                 )}
-                key={`line:${3*h + 1}`}
+                key={`line:${3 * h + 1}`}
               />,
               <div
                 className={classNames(
                   'subsection--planner__table__body__cell',
                   'subsection--planner__table__body__cell--drag',
                 )}
-                key={`cell:${3*h + 1}`}
+                key={`cell:${3 * h + 1}`}
                 data-day={dayIdx}
-                data-minute={3*h + 1}
+                data-minute={3 * h + 1}
                 onMouseDown={(e) => this.onMouseDown(e)}
                 onTouchStart={(e) => this.onTouchStart(e)}
                 onMouseMove={(e) => this.onMouseMove(e)}
@@ -449,16 +452,16 @@ class PlannerSubSection extends Component {
                   'subsection--planner__table__body__line--dashed',
                   (mobileIsLectureListOpen ? 'subsection--planner__table__body__line--mobile-noline' : null),
                 )}
-                key={`line:${3*h + 2}`}
+                key={`line:${3 * h + 2}`}
               />,
               <div
                 className={classNames(
                   'subsection--planner__table__body__cell',
                   'subsection--planner__table__body__cell--drag',
                 )}
-                key={`cell:${3*h + 2}`}
+                key={`cell:${3 * h + 2}`}
                 data-day={dayIdx}
-                data-minute={3*h + 2}
+                data-minute={3 * h + 2}
                 onMouseDown={(e) => this.onMouseDown(e)}
                 onTouchStart={(e) => this.onTouchStart(e)}
                 onMouseMove={(e) => this.onMouseMove(e)}
@@ -478,37 +481,39 @@ class PlannerSubSection extends Component {
       ];
       const timedAreaReversed = [
         <div
-        className={classNames(
-          'subsection--planner__table__body__cell',
-        //   'subsection--planner__table__body__cell--drag',
-        )}/>,
+          className={classNames(
+            'subsection--planner__table__body__cell',
+            //   'subsection--planner__table__body__cell--drag',
+          )}
+        />,
         <div className={classNames('subsection--planner__table__body__year')} key="year">
-            <strong>{2020}</strong>
-            {/* {getDayStr(dayIdx)} */}
+          <strong>{2020}</strong>
+          {/* {getDayStr(dayIdx)} */}
         </div>,
         <div
-        className={classNames(
-          'subsection--planner__table__body__cell',
-        //   'subsection--planner__table__body__cell--drag',
-        )}/>,
+          className={classNames(
+            'subsection--planner__table__body__cell',
+            //   'subsection--planner__table__body__cell--drag',
+          )}
+        />,
         ...(
-        plannerCredits.map((h) => {
+          plannerCredits.map((h) => {
             return [
               <div
                 className={classNames(
                   'subsection--planner__table__body__line',
-                  (3*h % 12 === 0) ? 'subsection--planner__table__body__line--bold' : null,
+                  ((3 * h) % 12 === 0) ? 'subsection--planner__table__body__line--bold' : null,
                 )}
-                key={`line:${3*h}`}
+                key={`line:${3 * h}`}
               />,
               <div
                 className={classNames(
                   'subsection--planner__table__body__cell',
                   'subsection--planner__table__body__cell--drag',
                 )}
-                key={`cell:${3*h}`}
+                key={`cell:${3 * h}`}
                 data-day={dayIdx}
-                data-minute={3*h}
+                data-minute={3 * h}
                 onMouseDown={(e) => this.onMouseDown(e)}
                 onTouchStart={(e) => this.onTouchStart(e)}
                 onMouseMove={(e) => this.onMouseMove(e)}
@@ -520,16 +525,16 @@ class PlannerSubSection extends Component {
                   'subsection--planner__table__body__line--dashed',
                   (mobileIsLectureListOpen ? 'subsection--planner__table__body__line--mobile-noline' : null),
                 )}
-                key={`line:${3*h + 1}`}
+                key={`line:${3 * h + 1}`}
               />,
               <div
                 className={classNames(
                   'subsection--planner__table__body__cell',
                   'subsection--planner__table__body__cell--drag',
                 )}
-                key={`cell:${3*h + 1}`}
+                key={`cell:${3 * h + 1}`}
                 data-day={dayIdx}
-                data-minute={3*h + 1}
+                data-minute={3 * h + 1}
                 onMouseDown={(e) => this.onMouseDown(e)}
                 onTouchStart={(e) => this.onTouchStart(e)}
                 onMouseMove={(e) => this.onMouseMove(e)}
@@ -541,16 +546,16 @@ class PlannerSubSection extends Component {
                   'subsection--planner__table__body__line--dashed',
                   (mobileIsLectureListOpen ? 'subsection--planner__table__body__line--mobile-noline' : null),
                 )}
-                key={`line:${3*h + 2}`}
+                key={`line:${3 * h + 2}`}
               />,
               <div
                 className={classNames(
                   'subsection--planner__table__body__cell',
                   'subsection--planner__table__body__cell--drag',
                 )}
-                key={`cell:${3*h + 2}`}
+                key={`cell:${3 * h + 2}`}
                 data-day={dayIdx}
-                data-minute={3*h + 2}
+                data-minute={3 * h + 2}
                 onMouseDown={(e) => this.onMouseDown(e)}
                 onTouchStart={(e) => this.onTouchStart(e)}
                 onMouseMove={(e) => this.onMouseMove(e)}
@@ -568,56 +573,56 @@ class PlannerSubSection extends Component {
           key="line:1440"
         />,
         <div className={classNames('subsection--planner__table__body__title2')} key="title">
-            {getDayStr(dayIdx)}
+          {getDayStr(dayIdx)}
         </div>,
       ];
-      const untimedArea = range(Math.ceil(untimedTileTitles.length / 5)).map((i) => (  //untimedArea 역할?
+      const untimedArea = range(Math.ceil(untimedTileTitles.length / 5)).map((i) => ( // untimedArea 역할?
         [
           <div className={classNames('subsection--planner__table__body__gap')} key="gap" />,
           <div className={classNames('subsection--planner__table__body__title')} key="title">
-            { untimedTileTitles[i * 5 + dayIdx] }
+            {untimedTileTitles[i * 5 + dayIdx]}
           </div>,
-          <div 
-            className={classNames( 
+          <div
+            className={classNames(
               'subsection--planner__table__body__line',
               'subsection--planner__table__body__line--bold',
-            )} 
+            )}
             key="line:1"
           />,
           <div className={classNames('subsection--planner__table__body__cell')} key="cell:1" />,
-          <div 
-            className={classNames( 
+          <div
+            className={classNames(
               'subsection--planner__table__body__line',
               'subsection--planner__table__body__line--dashed',
               (mobileIsLectureListOpen ? 'subsection--planner__table__body__line--mobile-noline' : null),
-            )} 
+            )}
             key="line:2"
           />,
           <div className={classNames('subsection--planner__table__body__cell')} key="cell:2" />,
-          <div 
-            className={classNames( 
+          <div
+            className={classNames(
               'subsection--planner__table__body__line',
               'subsection--planner__table__body__line--dashed',
               (mobileIsLectureListOpen ? 'subsection--planner__table__body__line--mobile-noline' : null),
-            )} 
+            )}
             key="line:3"
           />,
           <div className={classNames('subsection--planner__table__body__cell')} key="cell:3" />,
-          <div 
-            className={classNames( 
+          <div
+            className={classNames(
               'subsection--planner__table__body__line',
               'subsection--planner__table__body__line--bold',
-            )} 
+            )}
             key="line:4"
           />,
         ]
       ));
       return (
         <div className={classNames('subsection--planner__table__body')}>
-          { timedArea }
-          { untimedArea }
-          { timedAreaReversed }
-          { untimedArea }
+          {timedArea}
+          {untimedArea}
+          {timedAreaReversed}
+          {untimedArea}
         </div>
       );
     };

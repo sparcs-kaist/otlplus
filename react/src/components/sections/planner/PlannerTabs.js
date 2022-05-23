@@ -303,28 +303,28 @@ class PlannerTabs extends Component {
     const normalTimetableTabs = (
       (timetables && timetables.length)
         ? (
-              timetables.map((tt, i) => (
-                <div
-                  className={classNames(
-                    'tabs__elem',
-                    (tt.id === selectedTimetable.id ? 'tabs__elem--selected' : null),
-                  )}
-                  key={tt.id}
-                  onClick={() => this.changeTab(tt)}
-                >
-                  <span>
-                    {`${t('ui.others.table')} ${i + 1}`}
-                  </span>
-                  <button onClick={(event) => this.duplicateTable(event, tt)}>
-                    <i className={classNames('icon', 'icon--duplicate-table')} />
-                    <span>{t('ui.button.duplicateTable')}</span>
-                  </button>
-                  <button onClick={(event) => this.deleteTable(event, tt)}>
-                    <i className={classNames('icon', 'icon--delete-table')} />
-                    <span>{t('ui.button.deleteTable')}</span>
-                  </button>
-                </div>
-              ))
+          timetables.map((tt, i) => (
+            <div
+              className={classNames(
+                'tabs__elem',
+                (tt.id === selectedTimetable.id ? 'tabs__elem--selected' : null),
+              )}
+              key={tt.id}
+              onClick={() => this.changeTab(tt)}
+            >
+              <span>
+                {`${t('ui.others.table')} ${i + 1}`}
+              </span>
+              <button onClick={(event) => this.duplicateTable(event, tt)}>
+                <i className={classNames('icon', 'icon--duplicate-table')} />
+                <span>{t('ui.button.duplicateTable')}</span>
+              </button>
+              <button onClick={(event) => this.deleteTable(event, tt)}>
+                <i className={classNames('icon', 'icon--delete-table')} />
+                <span>{t('ui.button.deleteTable')}</span>
+              </button>
+            </div>
+          ))
         )
         : (
           <div className={classNames(('tabs__elem'))} style={{ pointerEvents: 'none' }}>
@@ -344,9 +344,9 @@ class PlannerTabs extends Component {
 
     return (
       <div className={classNames('tabs', 'tabs--planner')}>
-        { myTimetableTab }
-        { normalTimetableTabs }
-        { addTabButton }
+        {myTimetableTab}
+        {normalTimetableTabs}
+        {addTabButton}
       </div>
     );
   }

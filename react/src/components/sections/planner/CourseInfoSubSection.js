@@ -5,8 +5,8 @@ import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 import axios from 'axios';
 
-import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 import qs from 'qs';
+import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 import Scroller from '../../Scroller';
 import CloseButton from '../../CloseButton';
 import Divider from '../../Divider';
@@ -32,7 +32,7 @@ class CourseInfoSubSection extends Component {
   componentDidMount() {
     this._fetchLectures();
     this._fetchReviews();
-  } //처음 코스 클릭시 과목 정보가 불러와지지 않는 오류를 위한 함수
+  } // 처음 코스 클릭시 과목 정보가 불러와지지 않는 오류를 위한 함수
 
   componentDidUpdate(prevProps) {
     const {
@@ -49,7 +49,7 @@ class CourseInfoSubSection extends Component {
       this._fetchReviews();
     }
     if ((prevProps.courseFocus.course && courseFocus.course)
-    && (prevProps.courseFocus.course.id !== courseFocus.course.id)) {
+      && (prevProps.courseFocus.course.id !== courseFocus.course.id)) {
       this._fetchLectures();
       this._fetchReviews();
     }
@@ -153,31 +153,30 @@ class CourseInfoSubSection extends Component {
     const { t } = this.props;
     const { courseFocus } = this.props;
 
-    const sectionContent = 
-      (
-        <>
-          <CloseButton onClick={this.unfix} />
-          <div className={classNames('detail-title-area')}>
-            <div className={classNames('title')}>{ courseFocus.course[t('js.property.title')] }</div>
-            <div className={classNames('subtitle')}>{ courseFocus.course.old_code }</div>
-            <Link className={classNames('text-button', 'text-button--right')} to={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: courseFocus.course.id }) }} target="_blank" rel="noopener noreferrer">
-                {t('ui.button.dictionary')}
-            </Link>
-          </div>
-          <Scroller key={courseFocus.course.id}>
-            <CourseSummarySubSection/>
-            <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
-            <CourseReviewsSubSection/>
-          </Scroller>
-        </>
-      );
+    const sectionContent = (
+      <>
+        <CloseButton onClick={this.unfix} />
+        <div className={classNames('detail-title-area')}>
+          <div className={classNames('title')}>{courseFocus.course[t('js.property.title')]}</div>
+          <div className={classNames('subtitle')}>{courseFocus.course.old_code}</div>
+          <Link className={classNames('text-button', 'text-button--right')} to={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: courseFocus.course.id }) }} target="_blank" rel="noopener noreferrer">
+            {t('ui.button.dictionary')}
+          </Link>
+        </div>
+        <Scroller key={courseFocus.course.id}>
+          <CourseSummarySubSection />
+          <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
+          <CourseReviewsSubSection />
+        </Scroller>
+      </>
+    );
 
     return (
-        <div className={classNames('subsection', 'subsection--course-info-sub')}>
-          <div className={classNames('subsection','subsection--flex')}>
-            { sectionContent }
-          </div>
+      <div className={classNames('subsection', 'subsection--course-info-sub')}>
+        <div className={classNames('subsection', 'subsection--flex')}>
+          {sectionContent}
         </div>
+      </div>
     );
   }
 }

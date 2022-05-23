@@ -9,7 +9,7 @@ import { appBoundClassNames as classNames } from '../../../common/boundClassName
 import { CourseListCode } from '../../../reducers/planner/list';
 
 import Scroller from '../../Scroller';
-import CourseSearchSubSection from '../planner/CourseSearchSubSection';
+import CourseSearchSubSection from './CourseSearchSubSection';
 import PlannerCourseBlock from '../../blocks/PlannerCourseBlock';
 
 import { isFocused, isDimmedCourse } from '../../../utils/courseUtils';
@@ -168,9 +168,10 @@ class CourseListSection extends Component {
       return (
         <Scroller key={selectedListCode}>
           <div className={classNames(
-              'block-list',
-              'block-list--two-columns'
-          )}>
+            'block-list',
+            'block-list--two-columns'
+          )}
+          >
             {
               courses.map((c) => (
                 <PlannerCourseBlock
@@ -181,12 +182,12 @@ class CourseListSection extends Component {
                   isRaised={isFocused(c, courseFocus)}
                   isDimmed={isDimmedCourse(c, courseFocus)}
                   onClick={this.focusCourseWithClick}
-                  // inCart={inCart(l, lists[CourseListCode.CART])}
-                  // fromCart={(selectedListCode === CourseListCode.CART)}
-                  // addToCart={this.addLectureToCart}
-                  // addToTable={this.addLectureToTable}
-                  // deleteFromCart={this.deleteLectureFromCart}
-                  // 나중에 장바구니 만들어야 함!
+                // inCart={inCart(l, lists[CourseListCode.CART])}
+                // fromCart={(selectedListCode === CourseListCode.CART)}
+                // addToCart={this.addLectureToCart}
+                // addToTable={this.addLectureToTable}
+                // deleteFromCart={this.deleteLectureFromCart}
+                // 나중에 장바구니 만들어야 함!
                 />
               ))
             }
@@ -198,9 +199,9 @@ class CourseListSection extends Component {
     return (
       <div className={classNames('section', 'section--course-list')}>
         <div className={classNames('subsection', 'subsection--flex', 'subsection--course-list')}>
-          { ((selectedListCode === CourseListCode.SEARCH) && searchOpen) ? <CourseSearchSubSection /> : null }
-          { getListTitle() }
-          { getListElement() }
+          {((selectedListCode === CourseListCode.SEARCH) && searchOpen) ? <CourseSearchSubSection /> : null}
+          {getListTitle()}
+          {getListElement()}
         </div>
       </div>
     );

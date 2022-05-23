@@ -176,8 +176,8 @@ class CourseReviewsSubSection extends Component {
           ]}
           big
         />
-        { reviewWriteBlocksArea }
-        { reviewBlocksArea }
+        {reviewWriteBlocksArea}
+        {reviewBlocksArea}
       </div>
     );
   }
