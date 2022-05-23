@@ -1,6 +1,7 @@
 from django.http import JsonResponse, HttpResponse, HttpResponseNotFound, HttpResponseBadRequest
 from django.utils.decorators import method_decorator
 from django.views import View
+from django.db import transaction
 
 from apps.subject.models import Department
 
@@ -112,3 +113,37 @@ class UserInstancePlannerInstancePlannerItemView(View):
 
         plannerItem.delete()
         return HttpResponse()
+
+@method_decorator(login_required_ajax, name="dispatch")
+class UserInstancePlannerInstanceApplyHistoryView(View):
+    def patch(self, request, user_id, planner_id):
+        userprofile = request.user.userprofile
+        if userprofile.id != int(user_id):
+            return HttpResponse(status=401)
+
+        try:
+            Planner.objects.get(id=planner_id)
+        except Planner.DoesNotExist:
+            return HttpResponseNotFound()
+        
+        takenLectures = userprofile.taken_lectures # ref: Lecture schema
+        lastYear, lastSemester = 0, 0
+        plannerItems = []
+        
+        for lecture in takenLectures:
+            if lecture.year > lastYear:
+                lastYear = lecture.year
+                lastSemester = lecture.semester
+            elif lecture.year == lastYear and lecture.semester > lastSemester:
+                lastSemester = lecture.semester
+            plannerItem = PlannerItem(planner_id, lecture.year, lecture.semester, False, lecture.course, lecture.type_en, lecture.department, lecture.credit)
+            plannerItems.append(plannerItem)
+        
+        try:
+            with transaction.atomic():
+                PlannerItem.objects.filter(year__lte=lastYear).filter(semester__lte=lastSemester).delete()
+                PlannerItem.objects.bulk_create(plannerItems)
+        except:
+            return HttpResponse(status=500)
+        
+        return HttpResponse(status=200)
