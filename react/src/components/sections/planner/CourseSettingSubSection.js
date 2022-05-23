@@ -31,16 +31,24 @@ class CourseSettingSubSection extends Component {
 
   componentDidUpdate(prevProps) {
     const { courseFocus } = this.props;
-    console.log('courseFocuslog at didupdate', courseFocus);
-
     if (!courseFocus.course || !courseFocus.lectures) {
       return null;
     }
 
     if (!prevProps.courseFocus.lectures && courseFocus.lectures) {
-      console.log(prevProps, courseFocus);
       this.initialize2(courseFocus);
     }
+
+    const {
+      basicElective, basicRequired, majorRequired, majorElective, secondMajorElective, secondMajorRequired, totalCredit,
+    } = this.state;
+    const currTotalCredit = basicElective + basicRequired + majorRequired + majorElective + secondMajorRequired + secondMajorElective;
+    if (currTotalCredit !== totalCredit) {
+      this.setState({
+        totalCredit: currTotalCredit,
+      });
+    }
+
     return null;
   }
 
@@ -93,7 +101,7 @@ class CourseSettingSubSection extends Component {
       majorElective: lectureType === '전공선택' ? credit : 0,
       secondMajorRequired: lectureType === '전공필수' ? credit : 0,
       secondMajorElective: lectureType === '전공선택' ? credit : 0,
-      totalCredit: credit,
+      totalCredit: 0,
     });
   }
 
@@ -144,8 +152,8 @@ class CourseSettingSubSection extends Component {
               {
                 name: '교양',
                 info: [
-                  { name: '교양필수', controller: <CountController count={generalRequired} updateFunct={this.updateCredits('majorRequired')} /> },
-                  { name: '교양선택', controller: <CountController count={generalElective} updateFunct={this.updateCredits('majorElective')} /> },
+                  { name: '교양필수', controller: <CountController count={generalRequired} updateFunct={this.updateCredits('generalRequired')} /> },
+                  { name: '교양선택', controller: <CountController count={generalElective} updateFunct={this.updateCredits('generalElective')} /> },
                 ],
               },
               {
