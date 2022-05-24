@@ -136,7 +136,7 @@ class UserInstancePlannerInstanceApplyHistoryView(View):
                 lastSemester = lecture.semester
             elif lecture.year == lastYear and lecture.semester > lastSemester:
                 lastSemester = lecture.semester
-            plannerItem = PlannerItem(planner_id, lecture.year, lecture.semester, False, lecture.course, lecture.type_en, lecture.department, lecture.credit)
+            plannerItem = PlannerItem(planner_id, lecture.year, lecture.semester, False, lecture.course, None, None, None)
             plannerItems.append(plannerItem)
         
         try:
