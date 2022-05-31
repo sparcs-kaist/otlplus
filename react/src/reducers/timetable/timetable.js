@@ -172,7 +172,9 @@ const timetable = (state = initialState, action) => {
       });
       // eslint-disable-next-line fp/no-mutating-methods
       newTables.sort((t1, t2) => (t1.arrange_order - t2.arrange_order));
-      const updatedTable = newTables.find((t) => (t.id === state.selectedTimetable.id));
+      const updatedTable = state.selectedTimetable.id === MY
+        ? state.selectedTimetable
+        : newTables.find((t) => (t.id === state.selectedTimetable.id));
       return Object.assign({}, state, {
         timetables: newTables,
         selectedTimetable: updatedTable,
