@@ -525,6 +525,7 @@ class TimetableTabs extends Component {
                 <div
                   className={classNames(
                     'tabs__elem',
+                    'tabs__elem--draggable',
                     (this._isSelected(tt) ? 'tabs__elem--selected' : null),
                     (this._isDragging(tt) ? 'tabs__elem--dragging' : null),
                   )}
