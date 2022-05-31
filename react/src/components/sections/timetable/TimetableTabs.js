@@ -311,15 +311,15 @@ class TimetableTabs extends Component {
 
     const tabElements = Array.from(
       document.querySelectorAll(
-        `.${classNames('tabs--timetable')} .${classNames('tabs__elem')}:not(.${classNames('tabs__elem--add-button')})`
+        `.${classNames('tabs--timetable')} .${classNames('tabs__elem--draggable')}`
       )
     );
     const draggingTabElement = document.querySelector(
-      `.${classNames('tabs--timetable')} .${classNames('tabs__elem')}.${classNames('tabs__elem--dragging')}:not(.${classNames('tabs__elem--add-button')})`
+      `.${classNames('tabs--timetable')} .${classNames('tabs__elem--dragging')}`
     );
 
     const draggingTabIndex = tabElements.findIndex((te) => (te === draggingTabElement));
-    if (draggingTabIndex === (user ? 1 : 0)) {
+    if (draggingTabIndex === 0) {
       return;
     }
 
@@ -364,11 +364,11 @@ class TimetableTabs extends Component {
 
     const tabElements = Array.from(
       document.querySelectorAll(
-        `.${classNames('tabs--timetable')} .${classNames('tabs__elem')}:not(.${classNames('tabs__elem--add-button')})`
+        `.${classNames('tabs--timetable')} .${classNames('tabs__elem--draggable')}`
       )
     );
     const draggingTabElement = document.querySelector(
-      `.${classNames('tabs--timetable')} .${classNames('tabs__elem')}.${classNames('tabs__elem--dragging')}:not(.${classNames('tabs__elem--add-button')})`
+      `.${classNames('tabs--timetable')} .${classNames('tabs__elem--dragging')}`
     );
 
     const draggingTabIndex = tabElements.findIndex((te) => (te === draggingTabElement));
