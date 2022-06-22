@@ -106,7 +106,7 @@ def filter_by_group(queryset: QuerySet, group: Optional[List[str]]) -> QuerySet:
         query |= Q(type_en__in=filter_type)
     if "Humanity" in group:
         group.remove("Humanity")
-        query |= Q(type_en="Humanities & Social Elective")
+        query |= Q(type_en__startswith="Humanities & Social Elective")
     if len(group) > 0:
         filter_type = ["Major Required", "Major Elective", "Elective(Graduate)"]
         query |= Q(type_en__in=filter_type, department__code__in=group)
