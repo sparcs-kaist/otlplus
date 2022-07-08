@@ -22,7 +22,7 @@ import Scores from '../../Scores';
 const TAGET_TYPES = ['Basic Required', 'Basic Elective', 'Major Required', 'Major Elective', 'Humanities & Social Elective'];
 
 const indexOfType = (type) => {
-  const index = TAGET_TYPES.indexOf(type);
+  const index = TAGET_TYPES.findIndex((t) => type.startsWith(t));
   if (index === -1) {
     return 5;
   }
