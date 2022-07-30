@@ -245,7 +245,7 @@ class LectureListTabs extends Component {
 
   render() {
     const { t } = this.props;
-    const { user, selectedListCode, mobileIsLectureListOpen } = this.props;
+    const { user, selectedListCode } = this.props;
 
     return (
       <div className={classNames('tabs', 'tabs--lecture-list')}>
