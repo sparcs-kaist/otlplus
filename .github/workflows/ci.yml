@@ -60,5 +60,10 @@ jobs:
           cache: 'pip'
       - name: Install dependencies
         run: pip install -r requirements.txt 
+      - name: Add dummy keys
+        run: >
+          mkdir keys
+          echo "DJANGO_SECRET_KEY"> keys/django_secret
+          touch keys/sso_secret
       - name: Run tests
         run: pytest tests/   
