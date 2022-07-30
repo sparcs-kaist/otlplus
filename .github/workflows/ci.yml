@@ -1,4 +1,4 @@
-name: Front-end
+name: CI
 
 on:
   push:
@@ -7,15 +7,15 @@ on:
     branches: [ develop ]
 
 jobs:
-  build:
-    name: Build
+  front-build:
+    name: Front-end Build
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./react
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
@@ -27,15 +27,15 @@ jobs:
       - name: Build
         run: npm run build
   
-  test:
-    name: Test
+  front-test:
+    name: Front-end Test
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./react
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
@@ -46,3 +46,19 @@ jobs:
         run: npm ci
       - name: Run tests
         run: npm t
+
+  back-test:
+    name: Back-end Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.8
+          cache: 'pip'
+      - name: Install dependencies
+        run: pip install -r requirements.txt 
+      - name: Run tests
+        run: pytest tests/   
