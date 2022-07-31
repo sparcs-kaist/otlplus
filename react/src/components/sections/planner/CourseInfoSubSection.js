@@ -73,10 +73,9 @@ class CourseInfoSubSection extends Component {
     )
       .then((response) => {
         const newProps = this.props;
-        if (newProps.courseFocus.course.id !== courseFocus.course.id) {
-          return;
+        if (newProps.courseFocus.course.id === courseFocus.course.id) {
+          setLecturesDispatch(response.data);
         }
-        setLecturesDispatch(response.data);
       })
       .catch((error) => {
       });

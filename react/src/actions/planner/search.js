@@ -1,4 +1,4 @@
-const BASE_STRING = 'P_CA_';
+const BASE_STRING = 'P_S_';
 
 /* eslint-disable prefer-template */
 export const RESET = BASE_STRING + 'RESET';
