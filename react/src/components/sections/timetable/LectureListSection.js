@@ -303,7 +303,7 @@ class LectureListSection extends Component {
       lectureFocus, selectedTimetable, selectedListCode,
       lastSearchOption,
       lists,
-      mobileIsLectureListOpen,
+      // mobileIsLectureListOpen,
     } = this.props;
 
     const getListTitle = () => {

@@ -245,7 +245,10 @@ class LectureListTabs extends Component {
 
   render() {
     const { t } = this.props;
-    const { user, selectedListCode, mobileIsLectureListOpen } = this.props;
+    const {
+      user, selectedListCode,
+    // mobileIsLectureListOpen
+    } = this.props;
 
     return (
       <div className={classNames('tabs', 'tabs--lecture-list')}>
@@ -316,6 +319,7 @@ LectureListTabs.propTypes = {
   year: PropTypes.number,
   semester: PropTypes.number,
   lists: lectureListsShape,
+  // eslint-disable-next-line react/no-unused-prop-types
   mobileIsLectureListOpen: PropTypes.bool.isRequired,
 
   openSearchDispatch: PropTypes.func.isRequired,
