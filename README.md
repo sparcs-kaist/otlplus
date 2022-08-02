@@ -116,3 +116,35 @@ $ python manage.py migrate review 0009
 $ python manage.py migrate
 ```
 이후 [개발용 DB 설정](#개발용-db-설정-Optional) 재실행
+
+#### (Apple Silicon) pip install에서 pyobdc가 설치되지 않는다면
+
+```bash
+/otlplus/include -arch arm64 -I/opt/homebrew/Caskroom/miniconda/base/envs/otlplus/include -arch arm64 -DPYODBC_VERSION=4.0.32 -UMAC_OS_X_VERSION_10_7 -I/opt/homebrew/Caskroom/miniconda/base/envs/otlplus/include/python3.8 -c src/buffer.cpp -o build/temp.macosx-11.1-arm64-3.8/src/buffer.o -Wno-write-strings -Wno-deprecated-declarations
+      In file included from src/buffer.cpp:12:
+      src/pyodbc.h:56:10: fatal error: 'sql.h' file not found
+      #include <sql.h>
+               ^~~~~~~
+      1 error generated.
+      error: command '/usr/bin/gcc' failed with exit code 1
+      [end of output]
+  
+  note: This error originates from a subprocess, and is likely not a problem with pip.
+error: legacy-install-failure
+
+× Encountered error while trying to install package.
+╰─> pyodbc
+
+note: This is an issue with the package mentioned above, not pip.
+hint: See above for output from the failure.
+```
+
+[https://github.com/mkleehammer/pyodbc/issues/846#issuecomment-1122715983](https://github.com/mkleehammer/pyodbc/issues/846#issuecomment-1122715983) 참조
+
+```sh
+brew install unixodbc
+export LDFLAGS="-L/opt/homebrew/lib"
+export CFLAGS="-I/opt/homebrew/include"
+export CPPFLAGS="-I/opt/homebrew/include"
+pip install -r requirements.txt
+```
