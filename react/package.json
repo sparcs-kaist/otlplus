@@ -47,7 +47,8 @@
     "@testing-library/react": "^12.1.5",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-plugin-fp": "^2.3.0",
-    "eslint-plugin-no-loops": "^0.3.0"
+    "eslint-plugin-no-loops": "^0.3.0",
+    "eslint-plugin-react": "^7.30.1"
   },
   "proxy": "http://localhost:8000",
   "jest": {
