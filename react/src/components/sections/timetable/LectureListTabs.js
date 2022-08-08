@@ -245,10 +245,7 @@ class LectureListTabs extends Component {
 
   render() {
     const { t } = this.props;
-    const {
-      user, selectedListCode,
-    // mobileIsLectureListOpen
-    } = this.props;
+    const { user, selectedListCode } = this.props;
 
     return (
       <div className={classNames('tabs', 'tabs--lecture-list')}>
@@ -289,7 +286,6 @@ const mapStateToProps = (state) => ({
   year: state.timetable.semester.year,
   semester: state.timetable.semester.semester,
   lists: state.timetable.list.lists,
-  mobileIsLectureListOpen: state.timetable.list.mobileIsLectureListOpen,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -319,8 +315,6 @@ LectureListTabs.propTypes = {
   year: PropTypes.number,
   semester: PropTypes.number,
   lists: lectureListsShape,
-  // eslint-disable-next-line react/no-unused-prop-types
-  mobileIsLectureListOpen: PropTypes.bool.isRequired,
 
   openSearchDispatch: PropTypes.func.isRequired,
   closeSearchDispatch: PropTypes.func.isRequired,
