@@ -94,7 +94,7 @@ class TestCourseLookup(TestCase):
         assert len(response.data) == Course.objects.filter(department__code="CS").count()
 
         response = self.request_get(None, "/api/courses", {"department": "ETC"})
-        assert len(response.data) == 36
+        assert len(response.data) == 34
 
     def test_level_search(self):
         def _build_request(level, department="ALL"):
