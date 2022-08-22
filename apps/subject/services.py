@@ -64,12 +64,12 @@ def filter_by_type(queryset: QuerySet, types: List[str]) -> QuerySet:
     elif "ETC" in types:
         unselected_types = [TYPE_ACRONYMS[x] for x in TYPE_ACRONYMS if x not in types]
         return queryset.exclude(
-            functools.reduce(operator.and_, (Q(type_en__startswith=t) for t in unselected_types))
+            functools.reduce(operator.or_, (Q(type_en__startswith=t) for t in unselected_types))
         )
     else:
         selected_types = [TYPE_ACRONYMS[x] for x in TYPE_ACRONYMS if x in types]
         return queryset.filter(
-            functools.reduce(operator.and_, (Q(type_en__startswith=t) for t in selected_types))
+            functools.reduce(operator.or_, (Q(type_en__startswith=t) for t in selected_types))
         )
 
 
