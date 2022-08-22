@@ -254,7 +254,7 @@ class TimetableSubSection extends Component {
     const isOutsideTable = (classtime) => (
       (classtime.day < 0 || classtime.day > 4)
       || (classtime.begin < 60 * TIMETABLE_START_HOUR || classtime.end > 60 * TIMETABLE_END_HOUR)
-    ); 
+    );
     const lecCtPairsWithClasstime = overallLectures
       .map((l) => l.classtimes.map((ct) => ({ lecture: l, classtime: ct })))
       .flat(1);
@@ -263,17 +263,17 @@ class TimetableSubSection extends Component {
       .map((l) => ({ lecture: l, classtime: null }));
     const lecCtPairsInsideTable = (
       lecCtPairsWithClasstime.filter((p) => !isOutsideTable(p.classtime))
-    ); 
+    );
     const lecCtPairsOutsideTable = [
       ...lecCtPairsWithClasstime.filter((p) => isOutsideTable(p.classtime)),
       ...lecCtPairsWithoutClasstime,
-    ]; 
+    ];
 
     const getUntimedTitle = (classtime) => (
       classtime
         ? getRangeStr(classtime.day, classtime.begin, classtime.end)
         : t('ui.others.timeNone')
-    ); 
+    );
     const getTimetableTile = (lecture, classtime, isUntimed, untimedIndex, isTemp) => {
       return (
         <TimetableTile
@@ -318,16 +318,16 @@ class TimetableSubSection extends Component {
       lectureFocus.from === LectureFocusFrom.LIST
       && lectureFocus.lecture.id === lecture.id
       && !inTimetable(lectureFocus.lecture, selectedTimetable)
-    ); 
+    );
     const tilesInsideTable = lecCtPairsInsideTable.map((p) => (
       getTimetableTile(p.lecture, p.classtime, false, undefined, isTemp(p.lecture))
-    )); 
+    ));
     const tilesOutsideTable = lecCtPairsOutsideTable.map((p, i) => (
       getTimetableTile(p.lecture, p.classtime, true, i, isTemp(p.lecture))
-    )); 
+    ));
     const untimedTileTitles = lecCtPairsOutsideTable.map((p) => (
       getUntimedTitle(p.classtime)
-    )); 
+    ));
 
     const tableHours = range(TIMETABLE_START_HOUR, TIMETABLE_END_HOUR);
     const getHeadColumn = () => {
@@ -438,37 +438,37 @@ class TimetableSubSection extends Component {
           <div className={classNames('subsection--timetable__table__body__title')} key="title">
             { untimedTileTitles[i * 5 + dayIdx] }
           </div>,
-          <div 
-            className={classNames( 
+          <div
+            className={classNames(
               'subsection--timetable__table__body__line',
               'subsection--timetable__table__body__line--bold',
-            )} 
+            )}
             key="line:1"
           />,
           <div className={classNames('subsection--timetable__table__body__cell')} key="cell:1" />,
-          <div 
-            className={classNames( 
+          <div
+            className={classNames(
               'subsection--timetable__table__body__line',
               'subsection--timetable__table__body__line--dashed',
               (mobileIsLectureListOpen ? 'subsection--timetable__table__body__line--mobile-noline' : null),
-            )} 
+            )}
             key="line:2"
           />,
           <div className={classNames('subsection--timetable__table__body__cell')} key="cell:2" />,
-          <div 
-            className={classNames( 
+          <div
+            className={classNames(
               'subsection--timetable__table__body__line',
               'subsection--timetable__table__body__line--dashed',
               (mobileIsLectureListOpen ? 'subsection--timetable__table__body__line--mobile-noline' : null),
-            )} 
+            )}
             key="line:3"
           />,
           <div className={classNames('subsection--timetable__table__body__cell')} key="cell:3" />,
-          <div 
-            className={classNames( 
+          <div
+            className={classNames(
               'subsection--timetable__table__body__line',
               'subsection--timetable__table__body__line--bold',
-            )} 
+            )}
             key="line:4"
           />,
         ]

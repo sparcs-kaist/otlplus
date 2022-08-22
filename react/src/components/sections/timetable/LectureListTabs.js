@@ -286,7 +286,6 @@ const mapStateToProps = (state) => ({
   year: state.timetable.semester.year,
   semester: state.timetable.semester.semester,
   lists: state.timetable.list.lists,
-  mobileIsLectureListOpen: state.timetable.list.mobileIsLectureListOpen,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -316,7 +315,6 @@ LectureListTabs.propTypes = {
   year: PropTypes.number,
   semester: PropTypes.number,
   lists: lectureListsShape,
-  mobileIsLectureListOpen: PropTypes.bool.isRequired,
 
   openSearchDispatch: PropTypes.func.isRequired,
   closeSearchDispatch: PropTypes.func.isRequired,

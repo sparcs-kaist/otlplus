@@ -372,168 +372,166 @@ class LectureDetailSection extends Component {
             ? <div className={classNames('block-list', 'min-height-area')}>{lectureFocus.reviews.map(mapReviewToBlock)}</div>
             : <div className={classNames('list-placeholder', 'min-height-area')}><div>{t('ui.placeholder.noResults')}</div></div>);
         return (
-        // eslint-disable-next-line react/jsx-indent
-        <>
-          <CloseButton onClick={this.unfix} />
-          <div className={classNames('detail-title-area')}>
-            <div className={classNames('title')}>
-              {lectureFocus.lecture[t('js.property.title')]}
+          <>
+            <CloseButton onClick={this.unfix} />
+            <div className={classNames('detail-title-area')}>
+              <div className={classNames('title')}>
+                {lectureFocus.lecture[t('js.property.title')]}
+              </div>
+              <div className={classNames('subtitle')}>
+                {lectureFocus.lecture.old_code}
+                {lectureFocus.lecture.class_no.length ? ` (${lectureFocus.lecture.class_no})` : ''}
+              </div>
+              <div className={classNames('buttons')}>
+                <button onClick={this.unfix} className={classNames('text-button', (shouldShowUnfix ? null : 'text-button--disabled'))}>{t('ui.button.unfix')}</button>
+                <a className={classNames('text-button', 'text-button--right')} href={getSyllabusUrl(lectureFocus.lecture)} target="_blank" rel="noopener noreferrer">
+                  {t('ui.button.syllabus')}
+                </a>
+                <Link className={classNames('text-button', 'text-button--right')} to={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: lectureFocus.lecture.course }) }} target="_blank" rel="noopener noreferrer">
+                  {t('ui.button.dictionary')}
+                </Link>
+              </div>
             </div>
-            <div className={classNames('subtitle')}>
-              {lectureFocus.lecture.old_code}
-              {lectureFocus.lecture.class_no.length ? ` (${lectureFocus.lecture.class_no})` : ''}
-            </div>
-            <div className={classNames('buttons')}>
-              <button onClick={this.unfix} className={classNames('text-button', (shouldShowUnfix ? null : 'text-button--disabled'))}>{t('ui.button.unfix')}</button>
-              <a className={classNames('text-button', 'text-button--right')} href={getSyllabusUrl(lectureFocus.lecture)} target="_blank" rel="noopener noreferrer">
-                {t('ui.button.syllabus')}
-              </a>
-              <Link className={classNames('text-button', 'text-button--right')} to={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: lectureFocus.lecture.course }) }} target="_blank" rel="noopener noreferrer">
-                {t('ui.button.dictionary')}
-              </Link>
-            </div>
-          </div>
-          <Scroller
-            onScroll={this.onScroll}
-            key={lectureFocus.lecture.id}
-          >
-            <Attributes
-              entries={[
-                { name: t('ui.attribute.type'), info: lectureFocus.lecture[t('js.property.type')] },
-                { name: t('ui.attribute.department'), info: lectureFocus.lecture[t('js.property.department_name')] },
-                { name: t('ui.attribute.professors'), info: getProfessorsFullStr(lectureFocus.lecture) },
-                { name: t('ui.attribute.classroom'), info: getClassroomStr(lectureFocus.lecture) },
-                { name: t('ui.attribute.limit'), info: lectureFocus.lecture.limit },
-                { name: t('ui.attribute.exam'), info: getExamFullStr(lectureFocus.lecture) },
-              ]}
-              fixedWidthName
-            />
-            <Scores
-              entries={[
-                { 
-                  name: t('ui.score.language'),
-                  score: lectureFocus.lecture.is_english ? 'Eng' : '한',
-                },
-                { 
-                  name: (lectureFocus.lecture.credit > 0) ? t('ui.score.credit') : 'AU',
-                  score: (lectureFocus.lecture.credit > 0) ? lectureFocus.lecture.credit : lectureFocus.lecture.credit_au,
-                },
-                { 
-                  name: t('ui.score.competition'),
-                  score: (lectureFocus.lecture.limit === 0) ? '0.0:1' : `${(lectureFocus.lecture.num_people / lectureFocus.lecture.limit).toFixed(1).toString()}:1`,
-                },
-              ]}
-            />
-            <Scores
-              entries={[
-                { 
-                  name: t('ui.score.grade'),
-                  score: getAverageScoreLabel(lectureFocus.lecture.grade),
-                },
-                { 
-                  name: t('ui.score.load'),
-                  score: getAverageScoreLabel(lectureFocus.lecture.load),
-                },
-                { 
-                  name: t('ui.score.speech'),
-                  score: getAverageScoreLabel(lectureFocus.lecture.speech),
-                },
-              ]}
-            />
-            { shouldShowCloseDict
-              ? (
-                <button className={classNames('small-title', 'top-sticky')} onClick={this.closeDictPreview} ref={this.openDictRef}>
-                  <span>{t('ui.title.reviews')}</span>
-                  <i className={classNames('icon', 'icon--lecture-uparrow')} />
-                </button>
-              )
-              : (
-                <button className={classNames('small-title', 'top-sticky')} onClick={this.openDictPreview} ref={this.openDictRef}>
-                  <span>{t('ui.title.reviews')}</span>
-                  <i className={classNames('icon', 'icon--lecture-downarrow')} />
-                </button>
-              )
-            }
-            { reviewBlocks }
-          </Scroller>
-          <Divider
-            orientation={Divider.Orientation.HORIZONTAL}
-            isVisible={{ desktop: false, mobile: true }}
-          />
-          <div className={classNames('subsection--lecture-detail__mobile-buttons', 'desktop-hidden')}>
-            {
-              !inCart(lectureFocus.lecture, lists[LectureListCode.CART])
+            <Scroller
+              onScroll={this.onScroll}
+              key={lectureFocus.lecture.id}
+            >
+              <Attributes
+                entries={[
+                  { name: t('ui.attribute.type'), info: lectureFocus.lecture[t('js.property.type')] },
+                  { name: t('ui.attribute.department'), info: lectureFocus.lecture[t('js.property.department_name')] },
+                  { name: t('ui.attribute.professors'), info: getProfessorsFullStr(lectureFocus.lecture) },
+                  { name: t('ui.attribute.classroom'), info: getClassroomStr(lectureFocus.lecture) },
+                  { name: t('ui.attribute.limit'), info: lectureFocus.lecture.limit },
+                  { name: t('ui.attribute.exam'), info: getExamFullStr(lectureFocus.lecture) },
+                ]}
+                fixedWidthName
+              />
+              <Scores
+                entries={[
+                  {
+                    name: t('ui.score.language'),
+                    score: lectureFocus.lecture.is_english ? 'Eng' : '한',
+                  },
+                  {
+                    name: (lectureFocus.lecture.credit > 0) ? t('ui.score.credit') : 'AU',
+                    score: (lectureFocus.lecture.credit > 0) ? lectureFocus.lecture.credit : lectureFocus.lecture.credit_au,
+                  },
+                  {
+                    name: t('ui.score.competition'),
+                    score: (lectureFocus.lecture.limit === 0) ? '0.0:1' : `${(lectureFocus.lecture.num_people / lectureFocus.lecture.limit).toFixed(1).toString()}:1`,
+                  },
+                ]}
+              />
+              <Scores
+                entries={[
+                  {
+                    name: t('ui.score.grade'),
+                    score: getAverageScoreLabel(lectureFocus.lecture.grade),
+                  },
+                  {
+                    name: t('ui.score.load'),
+                    score: getAverageScoreLabel(lectureFocus.lecture.load),
+                  },
+                  {
+                    name: t('ui.score.speech'),
+                    score: getAverageScoreLabel(lectureFocus.lecture.speech),
+                  },
+                ]}
+              />
+              { shouldShowCloseDict
                 ? (
-                  <button className={classNames('text-button', 'text-button--black')} onClick={this.addToCart}>
-                    <i className={classNames('icon', 'icon--add-cart')} />
-                    <span>{t('ui.button.addToWishlist')}</span>
+                  <button className={classNames('small-title', 'top-sticky')} onClick={this.closeDictPreview} ref={this.openDictRef}>
+                    <span>{t('ui.title.reviews')}</span>
+                    <i className={classNames('icon', 'icon--lecture-uparrow')} />
                   </button>
                 )
                 : (
-                  <button className={classNames('text-button', 'text-button--black')} onClick={this.deleteFromCart}>
-                    <i className={classNames('icon', 'icon--delete-cart')} />
-                    <span>{t('ui.button.deleteFromWishlist')}</span>
+                  <button className={classNames('small-title', 'top-sticky')} onClick={this.openDictPreview} ref={this.openDictRef}>
+                    <span>{t('ui.title.reviews')}</span>
+                    <i className={classNames('icon', 'icon--lecture-downarrow')} />
                   </button>
                 )
-            }
-            {selectedTimetable && !selectedTimetable.isReadOnly
-              ? (!inTimetable(lectureFocus.lecture, selectedTimetable)
-                ? (
-                  <button className={classNames('text-button', 'text-button--black')} onClick={this.addToTable}>
-                    <i className={classNames('icon', 'icon--add-lecture')} />
-                    <span>{t('ui.button.addToTable')}</span>
-                  </button>
+              }
+              { reviewBlocks }
+            </Scroller>
+            <Divider
+              orientation={Divider.Orientation.HORIZONTAL}
+              isVisible={{ desktop: false, mobile: true }}
+            />
+            <div className={classNames('subsection--lecture-detail__mobile-buttons', 'desktop-hidden')}>
+              {
+                !inCart(lectureFocus.lecture, lists[LectureListCode.CART])
+                  ? (
+                    <button className={classNames('text-button', 'text-button--black')} onClick={this.addToCart}>
+                      <i className={classNames('icon', 'icon--add-cart')} />
+                      <span>{t('ui.button.addToWishlist')}</span>
+                    </button>
+                  )
+                  : (
+                    <button className={classNames('text-button', 'text-button--black')} onClick={this.deleteFromCart}>
+                      <i className={classNames('icon', 'icon--delete-cart')} />
+                      <span>{t('ui.button.deleteFromWishlist')}</span>
+                    </button>
+                  )
+              }
+              {selectedTimetable && !selectedTimetable.isReadOnly
+                ? (!inTimetable(lectureFocus.lecture, selectedTimetable)
+                  ? (
+                    <button className={classNames('text-button', 'text-button--black')} onClick={this.addToTable}>
+                      <i className={classNames('icon', 'icon--add-lecture')} />
+                      <span>{t('ui.button.addToTable')}</span>
+                    </button>
+                  )
+                  : (
+                    <button className={classNames('text-button', 'text-button--black')} onClick={this.deleteFromTable}>
+                      <i className={classNames('icon', 'icon--delete-from-table')} />
+                      <span>{t('ui.button.deleteFromTable')}</span>
+                    </button>
+                  )
                 )
-                : (
-                  <button className={classNames('text-button', 'text-button--black')} onClick={this.deleteFromTable}>
-                    <i className={classNames('icon', 'icon--delete-from-table')} />
-                    <span>{t('ui.button.deleteFromTable')}</span>
-                  </button>
+                : (!inTimetable(lectureFocus.lecture, selectedTimetable)
+                  ? (
+                    <button className={classNames('text-button', 'text-button--black', 'text-button--disabled')}>
+                      <i className={classNames('icon', 'icon--add-lecture')} />
+                      <span>{t('ui.button.addToTable')}</span>
+                    </button>
+                  )
+                  : (
+                    <button className={classNames('text-button', 'text-button--black', 'text-button--disabled')}>
+                      <i className={classNames('icon', 'icon--delete-from-table')} />
+                      <span>{t('ui.button.deleteFromTable')}</span>
+                    </button>
+                  )
                 )
-              )
-              : (!inTimetable(lectureFocus.lecture, selectedTimetable)
-                ? (
-                  <button className={classNames('text-button', 'text-button--black', 'text-button--disabled')}>
-                    <i className={classNames('icon', 'icon--add-lecture')} />
-                    <span>{t('ui.button.addToTable')}</span>
-                  </button>
-                )
-                : (
-                  <button className={classNames('text-button', 'text-button--black', 'text-button--disabled')}>
-                    <i className={classNames('icon', 'icon--delete-from-table')} />
-                    <span>{t('ui.button.deleteFromTable')}</span>
-                  </button>
-                )
-              )
-            }
-          </div>
-        </>
+              }
+            </div>
+          </>
         );
       }
       if (lectureFocus.from === LectureFocusFrom.MULTIPLE) {
         return (
-        // eslint-disable-next-line react/jsx-indent
-        <>
-          <div className={classNames('detail-title-area')}>
-            <div className={classNames('title')}>
-              {lectureFocus.multipleTitle}
+          <>
+            <div className={classNames('detail-title-area')}>
+              <div className={classNames('title')}>
+                {lectureFocus.multipleTitle}
+              </div>
+              <div className={classNames('subtitle')}>
+                {t('ui.others.multipleDetailCount', { count: lectureFocus.multipleDetails.length })}
+              </div>
+              <div className={classNames('buttons')}>
+                <span className={classNames('text-button', 'text-button--disabled')}>{t('ui.button.unfix')}</span>
+                <span className={classNames('text-button', 'text-button--right', 'text-button--disabled')}>{t('ui.button.syllabus')}</span>
+                <span className={classNames('text-button', 'text-button--right', 'text-button--disabled')}>{t('ui.button.dictionary')}</span>
+              </div>
             </div>
-            <div className={classNames('subtitle')}>
-              {t('ui.others.multipleDetailCount', { count: lectureFocus.multipleDetails.length })}
-            </div>
-            <div className={classNames('buttons')}>
-              <span className={classNames('text-button', 'text-button--disabled')}>{t('ui.button.unfix')}</span>
-              <span className={classNames('text-button', 'text-button--right', 'text-button--disabled')}>{t('ui.button.syllabus')}</span>
-              <span className={classNames('text-button', 'text-button--right', 'text-button--disabled')}>{t('ui.button.dictionary')}</span>
-            </div>
-          </div>
-          <Attributes
-            entries={lectureFocus.multipleDetails.map((d) => (
-              { name: d.name, info: d.info }
-            ))} 
-            longName
-          />
-        </>
+            <Attributes
+              entries={lectureFocus.multipleDetails.map((d) => (
+                { name: d.name, info: d.info }
+              ))}
+              longName
+            />
+          </>
         );
       }
       return (

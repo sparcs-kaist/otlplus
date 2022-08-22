@@ -333,13 +333,13 @@ class TimetableTabs extends Component {
           `/api/users/${user.id}/timetables/${draggingTimetable.id}/reorder`,
           {
             arrange_order: prevTimetable.arrange_order,
-          }, 
+          },
           {
             metadata: {
               gaCategory: 'Timetable',
               gaVariable: 'POST Reorder / Instance',
             },
-          }, 
+          },
         )
           .then((response) => {
           })
@@ -386,13 +386,13 @@ class TimetableTabs extends Component {
           `/api/users/${user.id}/timetables/${draggingTimetable.id}/reorder`,
           {
             arrange_order: nextTimetable.arrange_order,
-          }, 
+          },
           {
             metadata: {
               gaCategory: 'Timetable',
               gaVariable: 'POST Reorder / Instance',
             },
-          }, 
+          },
         )
           .then((response) => {
           })
@@ -477,7 +477,7 @@ class TimetableTabs extends Component {
       return 0;
     }
     if ((timetables.findIndex((t) => (t.id === timetable.id)) === timetables.length - 1) && relativePosition > 0) {
-      return 0
+      return 0;
     }
     return relativePosition;
   }
@@ -521,36 +521,36 @@ class TimetableTabs extends Component {
     const normalTimetableTabs = (
       (timetables && timetables.length)
         ? (
-              timetables.map((tt, i) => (
-                <div
-                  className={classNames(
-                    'tabs__elem',
-                    'tabs__elem--draggable',
-                    (this._isSelected(tt) ? 'tabs__elem--selected' : null),
-                    (this._isDragging(tt) ? 'tabs__elem--dragging' : null),
-                  )}
-                  key={tt.id}
-                  onClick={() => this.changeTab(tt)}
-                  onPointerDown={this.handlePointerDown}
-                  data-id={tt.id}
-                  style={{
-                    [isPortrait ? 'top' : 'left']: this._getTabRelativePosition(tt),
-                    pointerEvents: dragOrderChanged ? 'none' : undefined,
-                  }}
-                >
-                  <span>
-                    {`${t('ui.others.table')} ${i + 1}`}
-                  </span>
-                  <button onClick={(event) => this.duplicateTable(event, tt)}>
-                    <i className={classNames('icon', 'icon--duplicate-table')} />
-                    <span>{t('ui.button.duplicateTable')}</span>
-                  </button>
-                  <button onClick={(event) => this.deleteTable(event, tt)}>
-                    <i className={classNames('icon', 'icon--delete-table')} />
-                    <span>{t('ui.button.deleteTable')}</span>
-                  </button>
-                </div>
-              ))
+          timetables.map((tt, i) => (
+            <div
+              className={classNames(
+                'tabs__elem',
+                'tabs__elem--draggable',
+                (this._isSelected(tt) ? 'tabs__elem--selected' : null),
+                (this._isDragging(tt) ? 'tabs__elem--dragging' : null),
+              )}
+              key={tt.id}
+              onClick={() => this.changeTab(tt)}
+              onPointerDown={this.handlePointerDown}
+              data-id={tt.id}
+              style={{
+                [isPortrait ? 'top' : 'left']: this._getTabRelativePosition(tt),
+                pointerEvents: dragOrderChanged ? 'none' : undefined,
+              }}
+            >
+              <span>
+                {`${t('ui.others.table')} ${i + 1}`}
+              </span>
+              <button onClick={(event) => this.duplicateTable(event, tt)}>
+                <i className={classNames('icon', 'icon--duplicate-table')} />
+                <span>{t('ui.button.duplicateTable')}</span>
+              </button>
+              <button onClick={(event) => this.deleteTable(event, tt)}>
+                <i className={classNames('icon', 'icon--delete-table')} />
+                <span>{t('ui.button.deleteTable')}</span>
+              </button>
+            </div>
+          ))
         )
         : (
           <div className={classNames(('tabs__elem'))} style={{ pointerEvents: 'none' }}>

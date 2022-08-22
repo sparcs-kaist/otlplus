@@ -127,7 +127,7 @@ class LectureReviewsSubSection extends Component {
         >
           <div className={classNames('title')}>
             {`${t('ui.title.writeReview')} - ${selectedLecture[t('js.property.title')]}`}
-          </div> 
+          </div>
           <ReviewWriteBlock
             key={selectedLecture.id}
             lecture={selectedLecture}

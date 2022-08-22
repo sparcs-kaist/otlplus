@@ -19,7 +19,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 12
           cache: npm
           cache-dependency-path: react/package-lock.json
       - name: Install npm dependencies
@@ -39,7 +39,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 12
           cache: npm
           cache-dependency-path: react/package-lock.json
       - name: Install npm dependencies
@@ -56,11 +56,11 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: 3.8
+          python-version: 3.6
           cache: 'pip'
       - name: Install dependencies
         run: pip install -r requirements.txt 
       - name: Add dummy keys
         run: mkdir keys && echo "DJANGO_SECRET_KEY" > keys/django_secret && touch keys/sso_secret
       - name: Run tests
-        run: pytest tests/   
+        run: pytest tests/
