@@ -121,7 +121,7 @@ ORDER_DEFAULT_CONFIG = ("order", ParseType.LIST_STR, False, [
 def apply_order(queryset: QuerySet, order: Optional[List[str]],
                 default_order: list) -> QuerySet:
 
-    if order is None:
+    if order is None or len(order) == 0:
         real_order = default_order
     else:
         real_order = order
