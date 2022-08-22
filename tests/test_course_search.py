@@ -97,13 +97,13 @@ class TestCourseLookup(TestCase):
         assert len(response.data) == 36
 
     def test_level_search(self):
-        def _build_request(grade, department="ALL"):
+        def _build_request(level, department="ALL"):
             return self.request_get(
                 None,
                 "/api/courses",
                 {
                     "department": department,
-                    "grade": grade,
+                    "level": level,
                     "term": "ALL",
                 },
             )
