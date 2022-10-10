@@ -75,8 +75,8 @@ class Track():
 
         assert len((mj & dm) | (dm & mn) | (mn & mj)) == 0, \
             "Invalid TrackInfo: major, double, minor cannot contain duplicates of each other"
-        assert (mj | dm).issubset(am), \
-            "Invalid TrackInfo: (major + double) must be subset of advanced"
+        assert (mj | dm).issuperset(am), \
+            "Invalid TrackInfo: (major + double) must contain advanced"
         assert len(dm) != 0 \
             or len(mn) != 0 \
             or len(am) != 0 \
@@ -151,6 +151,7 @@ class Department():
 
 
 dept_list: List[Department] = [Department(name) for name in Dept_name]
+# instance 말고 static method로 바꿔도 될 것 같다; data repr 바꾼다고 생각하기 => filter, view?
 
 
 class User:
@@ -166,13 +167,10 @@ class User:
     def get_track(self) -> Track:
         return self.track
 
-    def is_track_self_designed(self) -> bool:
-        return self.track.is_self_designed()
-
-    def required_credit(self) -> Dict[Dept_name, Tuple[int, int]]:
+    def required_track_credit(self) -> Dict[Dept_name, Tuple[int, int]]:
         # return credits for each dept. that require to graduate from user's info
         credit_list = {}
-        assert not self.is_track_self_designed(), "we cannot handle yet :("
+        assert not self.track.is_self_designed(), "we cannot handle yet :("
         for dept in dept_list:
             for track_type in User.track_type_order:
                 if self.track.contain_dept_as_track_type(dept, track_type):
