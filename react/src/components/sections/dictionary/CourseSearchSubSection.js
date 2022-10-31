@@ -24,21 +24,24 @@ import { performSearchCourses } from '../../../common/commonOperations';
 
 
 class CourseSearchSubSection extends Component {
+  INITIAL_STATE = {
+    keyword: '',
+    autocompleteText: '',
+    selectedTypes: new Set(['ALL']),
+    selectedDepartments: new Set(['ALL']),
+    selectedLevels: new Set(['ALL']),
+    selectedTerms: new Set(['ALL']),
+  }
+
   constructor(props) {
     super(props);
-    this.state = {
-      keyword: '',
-      autocompleteText: '',
-      selectedTypes: new Set(['ALL']),
-      selectedDepartments: new Set(['ALL']),
-      selectedLevels: new Set(['ALL']),
-      selectedTerms: new Set(['ALL']),
-    };
+    this.state = this.INITIAL_STATE;
   }
 
   hideSearch = () => {
     const { closeSearchDispatch } = this.props;
 
+    this.setState(this.INITIAL_STATE);
     closeSearchDispatch();
   }
 
@@ -60,11 +63,12 @@ class CourseSearchSubSection extends Component {
       keyword: keyword.trim(),
       type: Array.from(selectedTypes),
       department: Array.from(selectedDepartments),
-      grade: Array.from(selectedLevels),
+      level: Array.from(selectedLevels),
       term: Array.from(selectedTerms),
     };
 
     const beforeRequest = () => {
+      this.setState(this.INITIAL_STATE);
       closeSearchDispatch();
       clearSearchListCoursesDispatch();
       setLastSearchOptionDispatch(option);
@@ -166,7 +170,7 @@ class CourseSearchSubSection extends Component {
   }
 
   render() {
-    const { t } = this.props;
+    const { t, searchOpen } = this.props;
     const {
       keyword,
       autocompleteText,
@@ -174,7 +178,7 @@ class CourseSearchSubSection extends Component {
     } = this.state;
 
     return (
-      <div className={classNames('search-area')}>
+      <div className={classNames('search-area', (searchOpen ? null : 'search-area--hidden'))}>
         <form onSubmit={this.handleSubmit}>
           <div className={classNames('list-title', 'list-title--search-input')}>
             <i className={classNames('icon', 'icon--search')} />
@@ -211,7 +215,7 @@ class CourseSearchSubSection extends Component {
             />
             <SearchFilter
               updateCheckedValues={this.updateCheckedValues('selectedLevels')}
-              inputName="grade"
+              inputName="level"
               titleName={t('ui.search.level')}
               options={getLevelOptions()}
               checkedValues={selectedLevels}
@@ -236,6 +240,7 @@ class CourseSearchSubSection extends Component {
 }
 
 const mapStateToProps = (state) => ({
+  searchOpen: state.dictionary.search.open,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -257,6 +262,8 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 CourseSearchSubSection.propTypes = {
+  searchOpen: PropTypes.bool.isRequired,
+
   closeSearchDispatch: PropTypes.func.isRequired,
   setListCoursesDispatch: PropTypes.func.isRequired,
   clearSearchListCoursesDispatch: PropTypes.func.isRequired,

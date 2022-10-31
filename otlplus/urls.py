@@ -89,6 +89,8 @@ urlpatterns = [
         timetable_views.UserInstanceTimetableInstanceAddLectureView.as_view()),
     url(r"^api/users/(?P<user_id>\d+)/timetables/(?P<timetable_id>\d+)/remove-lecture$",
         timetable_views.UserInstanceTimetableInstanceRemoveLectureView.as_view()),
+    url(r"^api/users/(?P<user_id>\d+)/timetables/(?P<timetable_id>\d+)/reorder",
+        timetable_views.UserInstanceTimetableInstanceReorderView.as_view()),
 
     url(r"^api/users/(?P<user_id>\d+)/wishlist$",
         timetable_views.UserInstanceWishlistView.as_view()),

@@ -16,7 +16,7 @@ import userShape from '../../../shapes/model/UserShape';
 
 class ShareSubSection extends Component {
   render() {
-    const { t } = this.props;
+    const { t, i18n } = this.props;
     const {
       selectedTimetable,
       year, semester,
@@ -28,25 +28,26 @@ class ShareSubSection extends Component {
     return (
       <div className={classNames('subsection--share', (mobileIsLectureListOpen ? 'mobile-hidden' : null))}>
         <div>
+          <div>{t('ui.title.share')}</div>
           { user && selectedTimetable && year && semester
             ? (
               <>
                 <a
-                  href={`/api/share/timetable/image?timetable=${selectedTimetable.id}&year=${year}&semester=${semester}`}
+                  href={`/api/share/timetable/image?timetable=${selectedTimetable.id}&year=${year}&semester=${semester}&language=${i18n.language}`}
                   download
                 >
                   <i className={classNames('icon', 'icon--share-image')} />
                 </a>
                 <a
                   style={{ display: 'none' }}
-                  href={`/api/share/timetable/calendar?timetable=${selectedTimetable.id}&year=${year}&semester=${semester}`}
+                  href={`/api/share/timetable/calendar?timetable=${selectedTimetable.id}&year=${year}&semester=${semester}&language=${i18n.language}`}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   <i className={classNames('icon', 'icon--share-googlecalendar')} />
                 </a>
                 <a
-                  href={`/api/share/timetable/ical?timetable=${selectedTimetable.id}&year=${year}&semester=${semester}`}
+                  href={`/api/share/timetable/ical?timetable=${selectedTimetable.id}&year=${year}&semester=${semester}&language=${i18n.language}`}
                   download
                 >
                   <i className={classNames('icon', 'icon--share-icalendar')} />

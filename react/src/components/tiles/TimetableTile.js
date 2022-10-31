@@ -133,7 +133,7 @@ TimetableTile.propTypes = {
   onMouseOut: PropTypes.func,
   onClick: PropTypes.func,
   deleteLecture: PropTypes.func.isRequired,
-  occupiedIndices: PropTypes.arrayOf(PropTypes.array),
+  occupiedIndices: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)),
 };
 
 export default withTranslation()(

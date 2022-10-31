@@ -90,7 +90,7 @@ class CourseListSection extends Component {
     const {
       user,
       courseFocus, selectedListCode,
-      searchOpen, lastSearchOption,
+      lastSearchOption,
       readCourses,
     } = this.props;
 
@@ -189,7 +189,7 @@ class CourseListSection extends Component {
     return (
       <div className={classNames('section', 'section--course-list')}>
         <div className={classNames('subsection', 'subsection--flex', 'subsection--course-list')}>
-          { ((selectedListCode === CourseListCode.SEARCH) && searchOpen) ? <CourseSearchSubSection /> : null }
+          { ((selectedListCode === CourseListCode.SEARCH)) ? <CourseSearchSubSection /> : null }
           { getListTitle() }
           { getListElement() }
         </div>
@@ -204,7 +204,6 @@ const mapStateToProps = (state) => ({
   lists: state.dictionary.list.lists,
   readCourses: state.dictionary.list.readCourses,
   courseFocus: state.dictionary.courseFocus,
-  searchOpen: state.dictionary.search.open,
   lastSearchOption: state.dictionary.search.lastSearchOption,
 });
 
@@ -226,7 +225,6 @@ CourseListSection.propTypes = {
   lists: courseListsShape,
   readCourses: PropTypes.arrayOf(courseShape).isRequired,
   courseFocus: courseFocusShape.isRequired,
-  searchOpen: PropTypes.bool.isRequired,
   lastSearchOption: courseLastSearchOptionShape.isRequired,
 
   openSearchDispatch: PropTypes.func.isRequired,

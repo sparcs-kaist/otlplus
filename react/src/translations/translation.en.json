@@ -22,6 +22,7 @@
     "title": {
       "reviews": "Reviews",
       "exams": "Exams",
+      "share": "Share",
       "courseHistory": "Course History",
       "relatedCourses": "Related Courses",
       "takenLectures": "Taken Lectures",
@@ -103,6 +104,8 @@
     "score": {
       "reviewsWritten": "Reviews",
       "language": "Language",
+      "lectureHours": "Lec. Hours",
+      "labHours": "Lab Hours",
       "credit": "Credit",
       "au": "AU",
       "competition": "Competition",
@@ -310,7 +313,8 @@
       "notifications": "Notifications",
       "signIn": "Sign In",
       "credit": "Credit",
-      "licences": "Licences"
+      "licences": "Licences",
+      "privacy": "Privacy"
     }
   }
 }

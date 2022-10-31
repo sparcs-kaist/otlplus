@@ -41,7 +41,13 @@ $font-size-smallest: 10px;
 $line-height-smallest: 11px;
 
 
+$transition-duration-normal: 0.15s;
+$transition-duration-short: 0.06s;
+
+
 $screen-height: var(--window-inner-height, 100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+
+
 $header-height: 55px;
 $footer-height-desktop: 50px;
 $footer-height-mobile: 130px;
@@ -95,6 +101,7 @@ $score-line-height-mobile: calc(#{$score-font-size-mobile} - 2px);
 
 $media-landscape: (min-aspect-ratio: 4/3);
 $media-portrait: (max-aspect-ratio: 4/3);
+$media-no-hover: (hover: none);
 
 $section-width-desktop-1v3-left: calc(15vh + 126px);
 $section-height-desktop-lecture-detail: calc(
@@ -342,33 +349,13 @@ a {
             ;
         }
         @media #{$media-portrait} {
-            grid-template-columns:
-                1fr
-            ;
-            grid-template-rows:
-                1fr
-                $tabs-height-horizontal
-            ;
-            grid-template-areas:
-                "timetable-and-infos"
-                "timetable-and-infos"
-            ;
-            &--mobile-expanded {
-                grid-template-rows:
-                    1fr
-                    $tabs-height-horizontal
-                    $section-margin-bottom
-                    $tabs-height-horizontal
-                    1fr
-                ;
-                grid-template-areas:
-                    "timetable-and-infos"
-                    "timetable-and-infos"
-                    "."
-                    "lecture-list-tabs"
-                    "lecture-list"
-                ;
-            }
+            // See issue #???
+            // Change to grid after grid animation supported
+            display: flex;
+            flex-direction: column;
+            margin-bottom: -$section-margin-bottom;
+            padding-bottom: $section-margin-bottom;
+            overflow: hidden;
         } 
     } 
 
@@ -577,17 +564,32 @@ a {
         text-align: center;
         background-color: $color-tab-background-dark;
         white-space: nowrap;
-        cursor: pointer;
         display:inline-block;
+        @media #{$media-landscape} {
+            touch-action: pinch-zoom;
+        }
+        @media #{$media-portrait} {
+            touch-action: pan-x pinch-zoom;
+        }
         &.tabs__elem--selected {
-            cursor: initial;
             background-color: $color-tab-background;
             color: $color-text-normal;
         }
         &:not(.tabs__elem--selected) {
+            cursor: pointer;
             &:hover {
                 background-color: $color-tab-background-darker;
             }
+        }
+        &.tabs__elem--draggable {
+            &.tabs__elem--selected:not(.tabs__elem--dragging) {
+                cursor: grab;
+            }
+        }
+        &.tabs__elem--dragging {
+            cursor: grabbing;
+            opacity: 0.7;
+            position: relative;
         }
     }
 
@@ -630,7 +632,15 @@ a {
 
 
     &--lecture-list {
-        grid-area: lecture-list-tabs;
+        @media #{$media-landscape} {
+            grid-area: lecture-list-tabs;
+        }
+        @media #{$media-portrait} {
+            // See issue #???
+            // Change to grid after grid animation supported
+            order: 2;
+            flex: 0 0 auto;
+        }
     }
 
 
@@ -884,10 +894,10 @@ a {
 
 
     &--timetable-and-infos {
-        grid-area: timetable-and-infos;
         display: grid;
         @media #{$media-landscape} {
             border-top-left-radius: 0;
+            grid-area: timetable-and-infos;
             grid-template-columns: 1fr min-content calc(#{$section-width-desktop-1v3-left} - (#{$section-padding} * 2));
             grid-template-rows: min-content min-content min-content min-content 1fr min-content min-content;
             grid-template-areas:
@@ -901,6 +911,18 @@ a {
             ;
         }
         @media #{$media-portrait} {
+            // See issue #???
+            // Change to grid after grid animation supported
+            order: 1;
+            flex: 0 0 auto;
+            height: 100%;
+            max-height: 100%;
+            margin-bottom: $section-margin-bottom;
+            transition: max-height $transition-duration-normal ease-out;
+            .page-grid--timetable--mobile-expanded & {
+                max-height: calc((100% - #{$section-margin-bottom}) / 2);
+            }
+
             grid-template-columns: 1fr;
             grid-template-rows: 1fr min-content min-content min-content min-content;
             grid-template-areas:
@@ -927,10 +949,8 @@ a {
             ;
         }
         @media #{$media-portrait} {
-            border-top-left-radius: 0;
-            border-top-right-radius: 0;
             grid-template-columns: 1fr min-content 1fr;
-            grid-template-rows: min-content 12px min-content;
+            grid-template-rows: min-content 12px 1fr;
             grid-template-areas:
                 ".              semester        ."
                 ".              .               ."
@@ -951,14 +971,19 @@ a {
 
 
     &--lecture-list {
-        grid-area: lecture-list;
         position: relative;
         @media #{$media-landscape} {
             border-top-left-radius: 0;
+            grid-area: lecture-list;
         }
         @media #{$media-portrait} {
             border-top-left-radius: 0;
             border-top-right-radius: 0;
+            // See issue #???
+            // Change to grid after grid animation supported
+            order: 3;
+            flex: 0 0 auto;
+            height: calc((100% - #{$section-margin-bottom}) / 2 - #{$tabs-height-horizontal});
         }
     }
 
@@ -1054,13 +1079,18 @@ a {
             position: absolute;
             top: calc((100% + #{$line-height-big} + #{$list-title-margin-bottom} - 12px) / 2);
             right: #{$section-padding};
-            @media #{$media-landscape} {
-                display: none;
+            display: none;
+            @media #{$media-no-hover} {
+                display: initial;
+            }
+
+            &--dimmed {
+                opacity: 0.3;
             }
         }
 
         & > div:last-child {
-            @media #{$media-portrait} {
+            @media #{$media-no-hover} {
                 .block--lecture-group {
                     margin-right: 6px + 10px;
                     &:first-child {
@@ -1436,7 +1466,14 @@ a {
 
             & > * {
                 display:inline-block;
-                margin-right:10px;
+                margin-right: 8px;
+                vertical-align: middle;
+
+                &:first-child {
+                    font-weight: bold;
+                    font-size: $font-size-small;
+                    line-height: $line-height-small;
+                }
             }
         }
 
@@ -1616,25 +1653,28 @@ a {
         &__people-list {
             text-align: center;
 
-            &__elem {
-                margin-top: 6px;
+            &__group {
+                &:not(:last-child) {
+                    margin-bottom: 12px;
+                } 
 
-                & > img {
-                    height: 22px;
-                    vertical-align: top;
+                .title {
+                    margin-bottom: 0;
                 }
-
-                &__name {
-                    color: #888888;
-                    font-weight: bold;
-                    font-size: 13px;
-                    line-height: 1.4;
-                }
-
-                & > .caption {
-                    margin-top: 2px;
-                }
-            }
+                
+                &__elem {
+                    margin-top: 6px;
+    
+                    & > img {
+                        height: 22px;
+                        vertical-align: top;
+                    }
+    
+                    & > .caption {
+                        margin-top: 2px;
+                    }
+                } 
+            } 
         }
     }
 
@@ -1810,6 +1850,40 @@ a {
     &--planner-share {
         grid-area: planner-share;
     }
+
+    &--privacy {
+        display: flex;
+        flex-direction: column;
+        
+        &__content {
+            line-height: $line-height-normal + 4px;
+    
+            a {
+                text-decoration: underline;
+            }
+    
+            ul {
+                padding-left: 8px;
+                list-style-position: inside;
+            }
+    
+            & > p, & > ul {
+                margin-bottom: 2px;
+            }
+    
+            & > ul {
+                list-style-type: disc;
+    
+                & > li > ul { 
+                    list-style-type: circle;
+    
+                    & > li > ul {
+                        list-style-type: square;
+                    }
+                }
+            }
+        }
+    }
 }
 
 
@@ -1825,6 +1899,7 @@ a {
     overflow: hidden;
     font-size: $font-size-small;
     line-height: $line-height-small;
+    transition: margin $transition-duration-short ease-out, box-shadow $transition-duration-short ease-out;
     &.tile--highlighted {
         background-color: #E0546F;
     }
@@ -1964,7 +2039,9 @@ a {
     display: block;
     padding: $block-padding-tb $block-padding-lr;
     position: relative;
+    top: 0;
     overflow: hidden;
+    transition: top $transition-duration-short ease-out, box-shadow $transition-duration-short ease-out;
     &[href]:not(.block--dimmed):hover,
     &.block--clickable:not(.block--dimmed):hover {
         background-color:$color-block-background-dark;
@@ -2296,7 +2373,7 @@ a {
                     line-height: $line-height-smaller;
                     color: $color-text-lighter;
                     display: none;
-                    @media #{$media-portrait} {
+                    @media #{$media-no-hover} {
                         @at-root
                         .block--lecture-group__row--highlighted #{&} {
                             display: block;
@@ -2317,6 +2394,11 @@ a {
                 cursor: pointer;
                 @media #{$media-portrait} {
                     display: none;
+                }
+                @media #{$media-no-hover} {
+                    .block--lecture-group__row:not(.block--lecture-group__row--highlighted) & {
+                        display: none;
+                    }
                 }
 
                 &--disable {
@@ -2627,6 +2709,11 @@ a {
 
     .subsection--license & {
         padding-bottom: 8px;
+    }
+
+    .subsection--privacy & {
+        padding: 0;
+        margin: 8px 0 4px;
     }
 }
 
@@ -3153,10 +3240,16 @@ a {
 .search-area {
     position: absolute;
     top: $section-padding;
-    left: $section-padding;
-    right: $section-padding;
+    left: 0;
+    right: 0;
     height: calc(100% - #{$section-padding} * 2);
     z-index: 20;
+    display: flex;
+    flex-direction: column;
+
+    &--hidden {
+        pointer-events: none;
+    }
 
     & :global(.ScrollbarsCustom) {
         flex: 1 1 auto !important;
@@ -3172,10 +3265,25 @@ a {
     }
 
     & > form {
-        background-color:$color-section-background;
+        flex: 0 0 auto;
         max-height: 100%;
+        padding: 0 $section-padding;
+        background-color:$color-section-background;
         display: flex;
         flex-direction: column;
+        overflow: hidden;
+        transition: flex $transition-duration-normal ease-out;
+    
+        @at-root .search-area--hidden#{&} {
+            flex: 0 1 auto;
+        }
+    }
+
+    &::after {
+        content: '';
+        display: block;
+        height: 100%;
+        flex: 0 0 auto;
     }
 }
 
@@ -3752,6 +3860,7 @@ i.icon {
         width:11px;
         height:11px;
         background-image: url(../static/icons/add_table.svg);
+        margin: 1px 1px;
 
         *:hover > & {
             background-image: url(../static/icons/add_table_hover.svg);

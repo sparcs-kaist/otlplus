@@ -22,6 +22,7 @@
     "title": {
       "reviews": "과목 후기",
       "exams": "시험시간표",
+      "share": "공유",
       "courseHistory": "개설 이력",
       "relatedCourses": "연관 과목",
       "latestReviews": "따끈따끈 과목후기",
@@ -103,6 +104,8 @@
     "score": {
       "reviewsWritten": "작성 후기",
       "language": "언어",
+      "lectureHours": "강의시간",
+      "labHours": "실험시간",
       "credit": "학점",
       "au": "AU",
       "competition": "경쟁률",
@@ -304,7 +307,8 @@
       "notifications": "알림",
       "signIn": "로그인",
       "credit": "만든 사람들",
-      "licences": "라이선스"
+      "licences": "라이선스",
+      "privacy": "개인정보취급방침"
     }
   }
 }

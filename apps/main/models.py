@@ -81,7 +81,7 @@ class FamousHumanityReviewDailyFeed(DailyFeed):
         try:
             feed = cls.objects.get(date=date)
         except cls.DoesNotExist:
-            reviews = HumanityBestReview.objects.filter(review__lecture__type_en=
+            reviews = HumanityBestReview.objects.filter(review__lecture__type_en__startswith=
                                                         "Humanities & Social Elective")
             if reviews.count() < 3:
                 selected_reviews = reviews[:]

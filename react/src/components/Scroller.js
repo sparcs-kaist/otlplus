@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { appBoundClassNames as classNames } from '../common/boundClassNames';
-
 import Scrollbar from 'react-scrollbars-custom';
-
+import { appBoundClassNames as classNames } from '../common/boundClassNames';
 
 
 class Scroller extends Component {

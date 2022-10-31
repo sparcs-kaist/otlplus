@@ -1,5 +1,8 @@
+import math
+
 from django.db import models
 from django.core.cache import cache
+from django.utils import timezone
 
 from apps.subject.models import Course, Lecture
 from apps.session.models import UserProfile
@@ -85,19 +88,26 @@ class Review(models.Model):
     def recalc_like(self):
         self.like = self.votes.all().count()
         self.save()
+    
+    # SYNC: Keep synchronized with React src/utils/scoreUtils.js getWeight()
+    def get_weight(self):
+        base_year = timezone.now().year
+        lecture_year = self.lecture.year
+        year_diff = base_year - lecture_year if (base_year > lecture_year) else 0
+        return (math.sqrt(self.like) + 2) * (0.85 ** year_diff)
 
     # SYNC: Keep synchronized with React src/utils/scoreUtils.js calcAverage()
     @classmethod
     def calc_average(cls, reviews):
         nonzero_reviews = reviews.exclude(grade=0, load=0, speech=0)
         review_num = reviews.count()
-        total_weight = sum((r.like + 1) for r in nonzero_reviews)
-        grade_sum = sum((r.like + 1) * r.grade * 3 for r in nonzero_reviews)
-        load_sum = sum((r.like + 1) * r.load * 3 for r in nonzero_reviews)
-        speech_sum = sum((r.like + 1) * r.speech * 3 for r in nonzero_reviews)
-        grade = (grade_sum + 0.0) / total_weight if (total_weight != 0) else 0.0
-        load = (load_sum + 0.0) / total_weight if (total_weight != 0) else 0.0
-        speech = (speech_sum + 0.0) / total_weight if (total_weight != 0) else 0.0
+        total_weight = sum(r.get_weight() for r in nonzero_reviews)
+        grade_sum = sum(r.get_weight() * r.grade * 3 for r in nonzero_reviews)
+        load_sum = sum(r.get_weight() * r.load * 3 for r in nonzero_reviews)
+        speech_sum = sum(r.get_weight() * r.speech * 3 for r in nonzero_reviews)
+        grade = grade_sum / total_weight if (total_weight != 0) else 0.0
+        load = load_sum / total_weight if (total_weight != 0) else 0.0
+        speech = speech_sum / total_weight if (total_weight != 0) else 0.0
         return (review_num, total_weight, (grade_sum, load_sum, speech_sum), (grade, load, speech))
 
     def __str__(self):

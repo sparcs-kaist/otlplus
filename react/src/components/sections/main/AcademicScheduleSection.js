@@ -93,8 +93,8 @@ class AcademicScheduleSection extends Component {
               {t('ui.button.goToAcademicSystem')}
             </a>
           </div>
-        </div> 
-      </div> 
+        </div>
+      </div>
     );
   }
 }

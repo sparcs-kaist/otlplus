@@ -22,7 +22,7 @@ import Scores from '../../Scores';
 const TAGET_TYPES = ['Basic Required', 'Basic Elective', 'Major Required', 'Major Elective', 'Humanities & Social Elective'];
 
 const indexOfType = (type) => {
-  const index = TAGET_TYPES.indexOf(type);
+  const index = TAGET_TYPES.findIndex((t) => type.startsWith(t));
   if (index === -1) {
     return 5;
   }
@@ -260,13 +260,13 @@ class SummarySubSection extends Component {
         <Scores
           entries={[
             {
-              name: t('ui.score.au'),
+              name: t('ui.score.credit'),
               score: <span className={classNames(((isCreditSingleFocused || isCreditMultiFocused) ? 'focused' : null))}>{overallCredit}</span>,
               onMouseOver: () => this.setFocusOnCredit('Credit'),
               onMouseOut: () => this.clearFocus(),
             },
             {
-              name: t('ui.score.credit'),
+              name: t('ui.score.au'),
               score: <span className={classNames(((isAuSingleFocused || isAuMultiFocused) ? 'focused' : null))}>{overallAu}</span>,
               onMouseOver: () => this.setFocusOnCredit('Credit AU'),
               onMouseOut: () => this.clearFocus(),

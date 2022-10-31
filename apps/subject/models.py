@@ -59,6 +59,13 @@ class Semester(models.Model):
         cache.set(cache_id, result, 60 * 60)
 
         return result
+    
+    def get_name(self, language: str="kr"):
+        if "en" in language:
+            season_name = ["spring", "summer", "fall", "winter"][self.semester-1]
+        else:
+            season_name = ["봄", "여름", "가을", "겨울"][self.semester-1]
+        return f"{self.year} {season_name}"
 
     # SYNC: Keep synchronized with React src/utils/semesterUtils.js getOngoingSemester()
     @classmethod
@@ -146,10 +153,10 @@ class Lecture(models.Model):
     class_title_en = models.CharField(max_length=100, null=True)
 
     # Updated by view when reviews are added/deleted/modified
-    grade_sum = models.IntegerField(default=0)
-    load_sum = models.IntegerField(default=0)
-    speech_sum = models.IntegerField(default=0)
-    review_total_weight = models.IntegerField(default=0)
+    grade_sum = models.FloatField(default=0)
+    load_sum = models.FloatField(default=0)
+    speech_sum = models.FloatField(default=0)
+    review_total_weight = models.FloatField(default=0)
     grade = models.FloatField(default=0.0)
     load = models.FloatField(default=0.0)
     speech = models.FloatField(default=0.0)
@@ -187,6 +194,8 @@ class Lecture(models.Model):
             "limit": self.limit,
             "num_people": self.num_people,
             "is_english": self.is_english,
+            "num_classes": self.num_classes,
+            "num_labs": self.num_labs,
             "credit": self.credit,
             "credit_au": self.credit_au,
             "common_title": self.common_title,
@@ -294,6 +303,14 @@ class Lecture(models.Model):
     def get_professors_short_str(self):
         professors = self.professors.all().order_by("professor_name")
         prof_name_list = [p.professor_name for p in professors]
+        if len(prof_name_list) <= 2:
+            return ", ".join(prof_name_list)
+        return f"{prof_name_list[0]} 외 {len(prof_name_list) - 1} 명"
+
+    # SYNC: Keep synchronized with React src/utils/lectureUtils.js getProfessorsShortStr()
+    def get_professors_short_str_en(self):
+        professors = self.professors.all().order_by("professor_name")
+        prof_name_list = [p.professor_name_en for p in professors]
         if len(prof_name_list) <= 2:
             return ", ".join(prof_name_list)
         return f"{prof_name_list[0]} 외 {len(prof_name_list) - 1} 명"
@@ -528,10 +545,10 @@ class Course(models.Model):
     related_courses_posterior = models.ManyToManyField("Course", related_name="+")
 
     # Updated by view when reviews are added/deleted/modified
-    grade_sum = models.IntegerField(default=0)
-    load_sum = models.IntegerField(default=0)
-    speech_sum = models.IntegerField(default=0)
-    review_total_weight = models.IntegerField(default=0)
+    grade_sum = models.FloatField(default=0)
+    load_sum = models.FloatField(default=0)
+    speech_sum = models.FloatField(default=0)
+    review_total_weight = models.FloatField(default=0)
     grade = models.FloatField(default=0.0)
     load = models.FloatField(default=0.0)
     speech = models.FloatField(default=0.0)
@@ -636,10 +653,10 @@ class Professor(models.Model):
     course_list = models.ManyToManyField("Course", db_index=True)
 
     # Updated by view when reviews are added/deleted/modified
-    grade_sum = models.IntegerField(default=0)
-    load_sum = models.IntegerField(default=0)
-    speech_sum = models.IntegerField(default=0)
-    review_total_weight = models.IntegerField(default=0)
+    grade_sum = models.FloatField(default=0)
+    load_sum = models.FloatField(default=0)
+    speech_sum = models.FloatField(default=0)
+    review_total_weight = models.FloatField(default=0)
     grade = models.FloatField(default=0.0)
     load = models.FloatField(default=0.0)
     speech = models.FloatField(default=0.0)

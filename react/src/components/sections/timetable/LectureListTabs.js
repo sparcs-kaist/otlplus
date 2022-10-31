@@ -245,10 +245,10 @@ class LectureListTabs extends Component {
 
   render() {
     const { t } = this.props;
-    const { user, selectedListCode, mobileIsLectureListOpen } = this.props;
+    const { user, selectedListCode } = this.props;
 
     return (
-      <div className={classNames('tabs', 'tabs--lecture-list', (mobileIsLectureListOpen ? null : 'mobile-hidden'))}>
+      <div className={classNames('tabs', 'tabs--lecture-list')}>
         <Scroller noScrollX={false} noScrollY={true} expandBottom={2}>
           <div className={classNames('tabs__flexbox')}>
             <div className={classNames('tabs__elem', (selectedListCode === LectureListCode.SEARCH ? 'tabs__elem--selected' : null))} onClick={() => this.changeTab(LectureListCode.SEARCH)}>
@@ -286,7 +286,6 @@ const mapStateToProps = (state) => ({
   year: state.timetable.semester.year,
   semester: state.timetable.semester.semester,
   lists: state.timetable.list.lists,
-  mobileIsLectureListOpen: state.timetable.list.mobileIsLectureListOpen,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -316,7 +315,6 @@ LectureListTabs.propTypes = {
   year: PropTypes.number,
   semester: PropTypes.number,
   lists: lectureListsShape,
-  mobileIsLectureListOpen: PropTypes.bool.isRequired,
 
   openSearchDispatch: PropTypes.func.isRequired,
   closeSearchDispatch: PropTypes.func.isRequired,

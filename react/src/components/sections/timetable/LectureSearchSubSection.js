@@ -27,20 +27,23 @@ import { getTypeOptions, getDepartmentOptions, getLevelOptions } from '../../../
 
 
 class LectureSearchSubSection extends Component {
+  INITIAL_STATE = {
+    keyword: '',
+    autocompleteText: '',
+    selectedTypes: new Set(['ALL']),
+    selectedDepartments: new Set(['ALL']),
+    selectedLevels: new Set(['ALL']),
+  }
+
   constructor(props) {
     super(props);
-    this.state = {
-      keyword: '',
-      autocompleteText: '',
-      selectedTypes: new Set(['ALL']),
-      selectedDepartments: new Set(['ALL']),
-      selectedLevels: new Set(['ALL']),
-    };
+    this.state = this.INITIAL_STATE;
   }
 
   hideSearch = () => {
     const { closeSearchDispatch } = this.props;
 
+    this.setState(this.INITIAL_STATE);
     closeSearchDispatch();
   }
 
@@ -77,12 +80,13 @@ class LectureSearchSubSection extends Component {
       keyword: keyword,
       type: Array.from(selectedTypes),
       department: Array.from(selectedDepartments),
-      grade: Array.from(selectedLevels),
+      level: Array.from(selectedLevels),
       day: (classtimeDay !== null) ? classtimeDay : undefined,
       begin: (classtimeBegin !== null) ? (classtimeBegin / 30 - 8 * 2) : undefined,
       end: (classtimeEnd !== null) ? (classtimeEnd / 30 - 8 * 2) : undefined,
     };
 
+    this.setState(this.INITIAL_STATE);
     closeSearchDispatch();
     clearSearchListLecturesDispatch();
     setLastSearchOptionDispatch(option);
@@ -217,7 +221,7 @@ class LectureSearchSubSection extends Component {
   }
 
   render() {
-    const { t } = this.props;
+    const { t, searchOpen } = this.props;
     const {
       keyword,
       autocompleteText,
@@ -226,7 +230,7 @@ class LectureSearchSubSection extends Component {
     const { classtimeBegin, classtimeEnd, classtimeDay } = this.props;
 
     return (
-      <div className={classNames('search-area')}>
+      <div className={classNames('search-area', (searchOpen ? null : 'search-area--hidden'))}>
         <form onSubmit={this.handleSubmit}>
           <div className={classNames('list-title', 'list-title--search-input')}>
             <i className={classNames('icon', 'icon--search')} />
@@ -263,7 +267,7 @@ class LectureSearchSubSection extends Component {
             />
             <SearchFilter
               updateCheckedValues={this.updateCheckedValues('selectedLevels')}
-              inputName="grade"
+              inputName="level"
               titleName={t('ui.search.level')}
               options={getLevelOptions()}
               checkedValues={selectedLevels}
@@ -305,6 +309,7 @@ const mapStateToProps = (state) => ({
   year: state.timetable.semester.year,
   semester: state.timetable.semester.semester,
   lectureFocus: state.timetable.lectureFocus,
+  searchOpen: state.timetable.search.open,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -335,6 +340,7 @@ LectureSearchSubSection.propTypes = {
   year: PropTypes.number,
   semester: PropTypes.number,
   lectureFocus: lectureFocusShape,
+  searchOpen: PropTypes.bool.isRequired,
 
   closeSearchDispatch: PropTypes.func.isRequired,
   clearClasstimeOptionsDispatch: PropTypes.func.isRequired,
