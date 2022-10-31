@@ -28,7 +28,6 @@ import plannerReducer from './reducers/planner/index';
 import { setUser } from './actions/common/user';
 import { setSemesters } from './actions/common/semester';
 import { setIsPortrait } from './actions/common/media';
-import { dumpUser } from './dummy/user';
 
 
 const store = createStore(combineReducers({
@@ -75,7 +74,6 @@ class App extends Component {
       })
       .catch((error) => {
         if (error.response && (error.response.status === 401)) {
-          // store.dispatch(setUser(dumpUser));
           store.dispatch(setUser(null));
         }
       });
