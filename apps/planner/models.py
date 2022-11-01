@@ -6,6 +6,7 @@ from typing import Dict, List, Tuple, Union, cast
 from django.db import models
 
 from apps.session.models import UserProfile
+
 from apps.subject.models import Department
 
 
@@ -164,3 +165,43 @@ class Credit():
                         user, DeptCode[dept.code], track_type)
                     break  # Stop if any type is used
         return credit_list
+
+
+class Planner(models.Model):
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, db_index=True)
+    entrance_year = models.IntegerField(db_index=True)
+    # TODO add track
+    
+
+class PlannerItem(models.Model):
+    class CourseType(models.TextChoices):
+        MAJOR_REQUIRED  = "major_required"
+        MAJOR_ELECTIVE = "major_elective"
+        BASIC_REQUIRED = "basic_required"
+        BASIC_ELECTIVE = "basic_elective"
+        HSS_REQUIRED = "hss_required"
+        HSS_ELECTIVE = "hss_elective"
+        
+    planner = models.ForeignKey(Planner, on_delete=models.PROTECT, db_index=True)
+    year = models.IntegerField(db_index=True)
+    semester = models.IntegerField(db_index=True)
+
+    is_generic = models.BooleanField
+    course = models.ForeignKey(Course, on_delete=models.PROTECT)
+    course_type = models.CharField(choices=CourseType.choices)
+    department = models.ForeignKey(Department, on_delete=models.PROTECT)
+    credit = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(10)])
+    
+    def to_json(self):
+        result = {
+            "planner": self.planner,
+            "year": self.year,
+            "semester": self.semester,
+            "is_generic": self.is_generic,
+            "course": self.course.to_json(nested=True),
+            "course_type": self.course_type,
+            "department": self.department.to_json(),
+            "credit": self.credit,
+        }
+
+        return result

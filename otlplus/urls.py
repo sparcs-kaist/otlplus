@@ -24,6 +24,7 @@ import apps.review.views as review_views
 import apps.subject.views as subject_views
 import apps.support.views as support_views
 import apps.timetable.views as timetable_views
+import apps.planner.views as planner_views
 
 
 urlpatterns = [
@@ -91,6 +92,13 @@ urlpatterns = [
         timetable_views.UserInstanceTimetableInstanceRemoveLectureView.as_view()),
     url(r"^api/users/(?P<user_id>\d+)/timetables/(?P<timetable_id>\d+)/reorder",
         timetable_views.UserInstanceTimetableInstanceReorderView.as_view()),
+    
+    url(r"^api/users/(?P<user_id>\d+)/planners/(?P<planner_id>\d+)$",
+        planner_views.UserInstancePlannerInstanceAddPlannerItemView.as_view()),
+    url(r"^api/users/(?P<user_id>\d+)/planners/(?P<planner_id>\d+)/planner-item/(?P<planner_id>\d+)$",
+        planner_views.UserInstancePlannerInstancePlannerItemView.as_view()),
+    url(r"^api/users/(?P<user_id>\d+)/planners/(?P<planner_id>\d+)/update-history$",
+        planner_views.UserInstancePlannerInstanceApplyHistoryView.as_view()),
 
     url(r"^api/users/(?P<user_id>\d+)/wishlist$",
         timetable_views.UserInstanceWishlistView.as_view()),
