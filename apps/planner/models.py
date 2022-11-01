@@ -3,11 +3,11 @@ from __future__ import annotations
 from enum import Enum, auto
 from typing import Dict, List, Tuple, Union, cast
 
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 
 from apps.session.models import UserProfile
-
-from apps.subject.models import Department
+from apps.subject.models import Department, Course
 
 
 # change into - TODO
@@ -168,10 +168,23 @@ class Credit():
 
 
 class Planner(models.Model):
-    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, db_index=True)
+    user = models.ForeignKey(UserProfile, 
+                             related_name="planners", on_delete=models.CASCADE, db_index=True)
+
     entrance_year = models.IntegerField(db_index=True)
-    # TODO add track
-    # TODO add to_json() function
+    track = models.ForeignKey(Track, on_delete=models.CASCADE, db_index=True)
+    arrange_order = models.SmallIntegerField(db_index=True)
+    
+    def to_json(self, nested=False):
+        result = {
+            "id": self.id,
+            "arrange_order": self.arrange_order,
+        }
+        return result
+
+    @classmethod
+    def get_related_planners(cls, user, entrance_year, track):
+        return Planner.objects.filter(user=user, entrance_year=entrance_year, track=track)
     
 
 class PlannerItem(models.Model):
