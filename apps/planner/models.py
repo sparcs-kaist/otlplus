@@ -171,6 +171,7 @@ class Planner(models.Model):
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, db_index=True)
     entrance_year = models.IntegerField(db_index=True)
     # TODO add track
+    # TODO add to_json() function
     
 
 class PlannerItem(models.Model):

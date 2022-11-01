@@ -93,6 +93,10 @@ urlpatterns = [
     url(r"^api/users/(?P<user_id>\d+)/timetables/(?P<timetable_id>\d+)/reorder",
         timetable_views.UserInstanceTimetableInstanceReorderView.as_view()),
     
+    url(r"^api/users/(?P<user_id>\d+)/planners$",
+        planner_views.UserInstancePlannerListView.as_view()),
+    url(r"^api/users/(?P<user_id>\d+)/planners/(?P<planner_id>\d+)$",
+        planner_views.UserInstancePlannerInstanceView.as_view()),
     url(r"^api/users/(?P<user_id>\d+)/planners/(?P<planner_id>\d+)$",
         planner_views.UserInstancePlannerInstanceAddPlannerItemView.as_view()),
     url(r"^api/users/(?P<user_id>\d+)/planners/(?P<planner_id>\d+)/planner-item/(?P<planner_id>\d+)$",
