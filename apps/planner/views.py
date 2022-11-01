@@ -215,6 +215,7 @@ class UserInstancePlannerInstanceAddPlannerItemView(View):
 
         return HttpResponse()
 
+
 @method_decorator(login_required_ajax, name="dispatch")
 class UserInstancePlannerInstancePlannerItemView(View):
     def patch(self, request, user_id, planner_id, planner_item_id):
@@ -280,6 +281,7 @@ class UserInstancePlannerInstancePlannerItemView(View):
 
         plannerItem.delete()
         return HttpResponse()
+
 
 @method_decorator(login_required_ajax, name="dispatch")
 class UserInstancePlannerInstanceApplyHistoryView(View):
