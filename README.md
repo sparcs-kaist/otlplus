@@ -33,6 +33,8 @@ $ touch keys/sso_secret
 # DB migrate
 $ python manage.py migrate
 ```
+#### 22.09.27 기준 Python 3.10 이상을 사용한다면
+mysqlclient가 제대로 된 버전이 없어서 에러가 날 수 있습니다
 
 ### 개발용 DB 설정 (Optional)
 dump 데이터는 PM에게 요청하세요.  
