@@ -77,25 +77,25 @@ class SummarySubSection extends Component {
                 {
                   name: t('ui.attribute.all'),
                   info: [
-                    { name: '총학점', controller: <CreditStatusBar credit={100} totalCredit={130} focused={singleFocusedTypeCredit(0)} statusColor="#cccccc" /> }],
+                    { name: '총학점', controller: <CreditStatusBar credit={100} totalCredit={130} focusedCredit={singleFocusedTypeCredit(0)} statusColor="#cccccc" /> }],
                 },
                 {
                   name: t('ui.attribute.basic'),
                   info: [
-                    { name: t('ui.type.basicRequired'), controller: <CreditStatusBar credit={10} totalCredit={23} focused={singleFocusedTypeCredit(1)} statusColor="#f3b6b5" /> },
-                    { name: t('ui.type.basicElective'), controller: <CreditStatusBar credit={2} totalCredit={12} focused={singleFocusedTypeCredit(2)} statusColor="#f3c8ae" /> }],
+                    { name: t('ui.type.basicRequired'), controller: <CreditStatusBar credit={10} totalCredit={23} focusedCredit={singleFocusedTypeCredit(1)} statusColor="#f3b6b5" /> },
+                    { name: t('ui.type.basicElective'), controller: <CreditStatusBar credit={2} totalCredit={12} focusedCredit={singleFocusedTypeCredit(2)} statusColor="#f3c8ae" /> }],
                 },
                 {
                   name: `${t('ui.attribute.major')} - ${user.majors[0][t('js.property.name')]}`,
                   info: [
-                    { name: t('ui.type.majorRequired'), controller: <CreditStatusBar credit={12} totalCredit={15} focused={singleFocusedTypeCredit(3)} statusColor="#eee9a0" /> },
-                    { name: t('ui.type.majorElective'), controller: <CreditStatusBar credit={24} totalCredit={25} focused={singleFocusedTypeCredit(4)} statusColor="#e5f2a0" /> }],
+                    { name: t('ui.type.majorRequired'), controller: <CreditStatusBar credit={12} totalCredit={15} focusedCredit={singleFocusedTypeCredit(3)} statusColor="#eee9a0" /> },
+                    { name: t('ui.type.majorElective'), controller: <CreditStatusBar credit={24} totalCredit={25} focusedCredit={singleFocusedTypeCredit(4)} statusColor="#e5f2a0" /> }],
                 },
                 {
                   name: '복수전공',
                   info: [
-                    { name: t('ui.type.majorRequired'), controller: <CreditStatusBar credit={19} totalCredit={19} focused={0} statusColor="#cdf2c1" /> },
-                    { name: t('ui.type.majorElective'), controller: <CreditStatusBar credit={23} totalCredit={21} focused={0} statusColor="#c2ebcd" /> }],
+                    { name: t('ui.type.majorRequired'), controller: <CreditStatusBar credit={19} totalCredit={19} focusedCredit={0} statusColor="#cdf2c1" /> },
+                    { name: t('ui.type.majorElective'), controller: <CreditStatusBar credit={23} totalCredit={21} focusedCredit={0} statusColor="#c2ebcd" /> }],
                 },
               ]}
             />

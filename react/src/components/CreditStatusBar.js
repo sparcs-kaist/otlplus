@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { withTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
 
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
 
@@ -8,7 +9,7 @@ class CreditStatusBar extends Component {
     const {
       credit,
       totalCredit,
-      focused,
+      focusedCredit,
       statusColor,
     } = this.props;
 
@@ -19,12 +20,12 @@ class CreditStatusBar extends Component {
     return (
       <div className={classNames('credit-status--container')}>
         {statusWidth === 100 ? <></> : <div className={classNames('credit-status--back')} />}
-        {focused <= 0 ? null
+        {focusedCredit <= 0 ? null
           : (
             <div
               className={classNames('credit-status--highlight')}
               style={{
-                width: (credit + focused) > totalCredit ? 100 : (credit + focused) / totalCredit * 100,
+                width: (credit + focusedCredit) > totalCredit ? 100 : (credit + focusedCredit) / totalCredit * 100,
               }}
             />
           )
@@ -53,11 +54,11 @@ class CreditStatusBar extends Component {
                   {credit}
                   &nbsp;
                 </div>
-                {focused > 0
+                {focusedCredit > 0
                   ? (
                     <div className={classNames('credit-status--text-focused')}>
                       (
-                      {focused}
+                      {focusedCredit}
                       )
                     </div>
                   )
@@ -76,6 +77,13 @@ class CreditStatusBar extends Component {
     );
   }
 }
+
+CreditStatusBar.propTypes = {
+  credit: PropTypes.number.isRequired,
+  totalCredit: PropTypes.number.isRequired,
+  focusedCredit: PropTypes.number.isRequired,
+  statusColor: PropTypes.string.isRequired,
+};
 
 export default withTranslation()(
   CreditStatusBar
