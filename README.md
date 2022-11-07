@@ -84,6 +84,13 @@ Working directory: `PROJECT_ROOT`
 $ python manage.py runserver 0.0.0.0:8000
 ```
 
+### 에디터 설정 (Optional, but highly recommended)
+VSCode(Visual Studio Code) 및 아래 설정을 권장합니다.
+* Extension 설치
+    * ESLint (https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
+* 설정
+    * Command Palatte (단축키: F1) > Python: Select Linter > pylint
+
 ### 설정 중 오류
 
 #### DB migrate 시 "... SQLite < 3.26 ..." 오류가 발생한다면
