@@ -26,15 +26,15 @@ class CourseStatus extends Component {
                 { e.name }
               </div>
               <div>
-              {
+                {
                   e.info.map((k) => (
                     <div className={classNames('course-status--info')}>
-                        <div className={classNames('course-status--info--name')}>{k.name}</div>
-                        <div/>
-                        {k.controller}
+                      <div className={classNames('course-status--info--name')}>{k.name}</div>
+                      <div />
+                      { k.controller }
                     </div>
                   ))
-              }
+                }
               </div>
             </div>
           ))

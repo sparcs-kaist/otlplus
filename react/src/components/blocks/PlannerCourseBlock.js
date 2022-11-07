@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 
@@ -32,10 +31,9 @@ const PlannerCourseBlock = ({
     }
     : null;
 
-  const RootTag = linkTo ? Link : 'div';
-
   return (
-    <RootTag className={classNames(  //RootTag는 App을 위한 건가?
+    <div
+      className={classNames(
         'block',
         'block--course-simple',
         (onClick ? 'block--clickable' : null),
@@ -53,7 +51,7 @@ const PlannerCourseBlock = ({
       <div className={classNames('block--course-simple__subtitle')}>
         { course.old_code }
       </div>
-    </RootTag>
+    </div>
   );
 };
 

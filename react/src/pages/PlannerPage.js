@@ -23,98 +23,97 @@ import SummarySubSection from '../components/sections/planner/SummarySubSection'
 import ShareSubSection from '../components/sections/planner/ShareSubSection';
 
 class PlannerPage extends Component {
-    componentDidMount() {
-        const { startInMyTable } = this.props.location.state || {};
-        const { user, myTimetable, setSelectedTimetableDispatch } = this.props;
-    
-        if (startInMyTable && user) {
-          setSelectedTimetableDispatch(myTimetable);
-        }
+  componentDidMount() {
+    const { startInMyTable } = this.props.location.state || {};
+    const { user, myTimetable, setSelectedTimetableDispatch } = this.props;
+
+    if (startInMyTable && user) {
+      setSelectedTimetableDispatch(myTimetable);
     }
+  }
 
-    componentWillUnmount() {
-      const {
-        resetLectureFocusDispatch, resetListDispatch, resetSearchDispatch,
-        resetSemesterDispatch, resetTimetableDispatch,
-      } = this.props;
+  componentWillUnmount() {
+    const {
+      resetLectureFocusDispatch, resetListDispatch, resetSearchDispatch,
+      resetSemesterDispatch, resetTimetableDispatch,
+    } = this.props;
 
-      resetLectureFocusDispatch();
-      resetListDispatch();
-      resetSearchDispatch();
-      resetSemesterDispatch();
-      resetTimetableDispatch();
-    }
+    resetLectureFocusDispatch();
+    resetListDispatch();
+    resetSearchDispatch();
+    resetSemesterDispatch();
+    resetTimetableDispatch();
+  }
 
 
-    render() {
-        return(
-            <>
-                <section className={classNames('content', 'content--no-scroll')}>
-                    <div className={classNames('page-grid', 'page-grid--planner')}>
-                        <PlannerTabs/>
-                        <CourseListTabs/>
-                        <div className={classNames('section', 'section--planner-detial')}>
-                            <PlannerSubSection/>
-                            <Divider orientation={{ desktop: Divider.Orientation.VERTICAL, mobile: Divider.Orientation.HORIZONTAL }} isVisible={true} gridArea="divider-main" />
-                            <SettingSubSection/>
-                            <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={{ desktop: true, mobile: false }} gridArea="divider-sub-1" />
-                            <SummarySubSection/>
-                            <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={{ desktop: true, mobile: false }} gridArea="divider-sub-2" />
-                            <ShareSubSection/>
-                        </div>
-                        <CourseListSection/>
-                        {/* <div className={classNames('section', 'section--course-info')}>
-                            <CourseInfoSubSection/>
-                            <Divider orientation={Divider.Orientation.VERTICAL} isVisible={true} gridArea="divider-main" />
-                            <CourseDetailSubSection/>
-                            <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={{ desktop: true, mobile: false }} gridArea="divider-sub-1" />
-                            <CourseSettingSubSection/>
-                        </div> */}
-                        <CourseDetailSection/>
-                    </div>
-                </section>
-            </>
-        )
-    }
+  render() {
+    return (
+      <>
+        <section className={classNames('content', 'content--no-scroll')}>
+          <div className={classNames('page-grid', 'page-grid--planner')}>
+            <PlannerTabs />
+            <CourseListTabs />
+            <div className={classNames('section', 'section--planner-detial')}>
+              <PlannerSubSection />
+              <Divider orientation={{ desktop: Divider.Orientation.VERTICAL, mobile: Divider.Orientation.HORIZONTAL }} isVisible={true} gridArea="divider-main" />
+              <SettingSubSection />
+              <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={{ desktop: true, mobile: false }} gridArea="divider-sub-1" />
+              <SummarySubSection />
+              <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={{ desktop: true, mobile: false }} gridArea="divider-sub-2" />
+              <ShareSubSection />
+            </div>
+            <CourseListSection />
+            {/* <div className={classNames('section', 'section--course-info')}>
+                <CourseInfoSubSection/>
+                <Divider orientation={Divider.Orientation.VERTICAL} isVisible={true} gridArea="divider-main" />
+                <CourseDetailSubSection/>
+                <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={{ desktop: true, mobile: false }} gridArea="divider-sub-1" />
+                <CourseSettingSubSection/>
+            </div> */}
+            <CourseDetailSection />
+          </div>
+        </section>
+      </>
+    );
+  }
 }
 
 const mapStateToProps = (state) => ({
-    user: state.common.user.user,
-    myTimetable: state.timetable.timetable.myTimetable,
-    mobileIsTimetableTabsOpen: state.timetable.timetable.mobileIsTimetableTabsOpen,
-    mobileIsLectureListOpen: state.timetable.list.mobileIsLectureListOpen,
-  });
-  
-  const mapDispatchToProps = (dispatch) => ({
-    setSelectedTimetableDispatch: (timetable) => {
-      dispatch(setSelectedTimetable(timetable));
-    },
-    resetLectureFocusDispatch: () => {
-      dispatch(resetLectureFocus());
-    },
-    resetListDispatch: () => {
-      dispatch(resetList());
-    },
-    resetSearchDispatch: () => {
-      dispatch(resetSearch());
-    },
-    resetSemesterDispatch: () => {
-      dispatch(resetSemester());
-    },
-    resetTimetableDispatch: () => {
-      dispatch(resetTimetable());
-    },
-    setMobileIsTimetableTabsOpenDispatch: (mobileIsTimetableTabsOpen) => {
-      dispatch(setMobileIsTimetableTabsOpen(mobileIsTimetableTabsOpen));
-    },
-  });
+  user: state.common.user.user,
+  myTimetable: state.timetable.timetable.myTimetable,
+  mobileIsTimetableTabsOpen: state.timetable.timetable.mobileIsTimetableTabsOpen,
+  mobileIsLectureListOpen: state.timetable.list.mobileIsLectureListOpen,
+});
 
-  // PlannerPage.PropTypes = {
+const mapDispatchToProps = (dispatch) => ({
+  setSelectedTimetableDispatch: (timetable) => {
+    dispatch(setSelectedTimetable(timetable));
+  },
+  resetLectureFocusDispatch: () => {
+    dispatch(resetLectureFocus());
+  },
+  resetListDispatch: () => {
+    dispatch(resetList());
+  },
+  resetSearchDispatch: () => {
+    dispatch(resetSearch());
+  },
+  resetSemesterDispatch: () => {
+    dispatch(resetSemester());
+  },
+  resetTimetableDispatch: () => {
+    dispatch(resetTimetable());
+  },
+  setMobileIsTimetableTabsOpenDispatch: (mobileIsTimetableTabsOpen) => {
+    dispatch(setMobileIsTimetableTabsOpen(mobileIsTimetableTabsOpen));
+  },
+});
 
-  // }
+// PlannerPage.PropTypes = {
+
+// }
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(
-    PlannerPage
-  );
-  
+  PlannerPage
+);

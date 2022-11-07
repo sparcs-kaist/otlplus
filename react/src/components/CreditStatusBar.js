@@ -4,10 +4,6 @@ import { withTranslation } from 'react-i18next';
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
 
 class CreditStatusBar extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     const {
       credit,
@@ -16,17 +12,13 @@ class CreditStatusBar extends Component {
       statusColor,
     } = this.props;
 
-    let statusWidth = 0;
-
-    {
-      credit >= totalCredit
-        ? statusWidth = 100
-        : statusWidth = credit / totalCredit * 100;
-    }
+    const statusWidth = credit >= totalCredit
+      ? 100
+      : credit / totalCredit * 100;
 
     return (
       <div className={classNames('credit-status--container')}>
-        {statusWidth == 100 ? <></> : <div className={classNames('credit-status--back')} />}
+        {statusWidth === 100 ? <></> : <div className={classNames('credit-status--back')} />}
         {focused <= 0 ? null
           : (
             <div
@@ -38,7 +30,7 @@ class CreditStatusBar extends Component {
           )
         }
         <div
-          className={statusWidth == 100 ? classNames('credit-status--front-full') : classNames('credit-status--front')}
+          className={statusWidth === 100 ? classNames('credit-status--front-full') : classNames('credit-status--front')}
           style={{
             width: statusWidth,
             backgroundColor: statusColor,

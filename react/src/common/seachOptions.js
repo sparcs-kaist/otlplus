@@ -2,12 +2,12 @@ import i18n from 'i18next';
 
 export const getSemesterOptions = () => [
   ['ALL', i18n.t('ui.semesterInfo.normal')],
-  ['Seasonal', i18n.t('ui.semesterInfo.seasonal')]
+  ['Seasonal', i18n.t('ui.semesterInfo.seasonal')],
 ];
 
 export const getRetakeOptions = () => [
   ['ALL', i18n.t('ui.retake.normal')],
-  ['Retake', i18n.t('ui.retake.retake')]
+  ['Retake', i18n.t('ui.retake.retake')],
 ];
 
 export const getTypeOptions = () => [
