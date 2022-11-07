@@ -9,7 +9,7 @@ import Divider from '../../Divider';
 import SearchFilter from '../../SearchFilter';
 import {
   getSemesterOptions, getRetakeOptions,
-} from '../../../common/seachOptions';
+} from '../../../common/searchOptions';
 import CourseStatus from '../../CourseStatus';
 import CountController from '../../CountController';
 

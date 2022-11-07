@@ -24,7 +24,7 @@ import courseLastSearchOptionShape from '../../../shapes/state/CourseLastSearchO
 
 import {
   getLabelOfValue, getDepartmentOptions, getTypeOptions, getLevelOptions, getTermOptions,
-} from '../../../common/seachOptions';
+} from '../../../common/searchOptions';
 
 
 class CourseListSection extends Component {

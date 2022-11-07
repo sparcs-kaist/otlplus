@@ -23,7 +23,7 @@ import { LectureFocusFrom } from '../../../reducers/timetable/lectureFocus';
 
 import lectureFocusShape from '../../../shapes/state/LectureFocusShape';
 
-import { getTypeOptions, getDepartmentOptions, getLevelOptions } from '../../../common/seachOptions';
+import { getTypeOptions, getDepartmentOptions, getLevelOptions } from '../../../common/searchOptions';
 
 
 class LectureSearchSubSection extends Component {

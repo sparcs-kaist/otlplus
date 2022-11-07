@@ -38,7 +38,7 @@ import { getRangeStr } from '../../../utils/timeUtils';
 
 import {
   getLabelOfValue, getDepartmentOptions, getTypeOptions, getLevelOptions,
-} from '../../../common/seachOptions';
+} from '../../../common/searchOptions';
 import LectureGroupBlockRow from '../../blocks/LectureGroupBlockRow';
 import { TIMETABLE_START_HOUR } from '../../../common/constants';
 

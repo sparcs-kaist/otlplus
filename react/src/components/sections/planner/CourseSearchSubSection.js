@@ -18,7 +18,7 @@ import { clearCourseFocus } from '../../../actions/planner/courseFocus';
 
 import {
   getTypeOptions, getDepartmentOptions, getLevelOptions, getTermOptions,
-} from '../../../common/seachOptions';
+} from '../../../common/searchOptions';
 import { performSearchCourses } from '../../../common/commonOperations';
 
 
