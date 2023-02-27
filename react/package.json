@@ -14,7 +14,7 @@
     "i18next-xhr-backend": "^3.2.2",
     "lodash": "^4.17.21",
     "moment": "^2.29.2",
-    "node-sass": "^6.0.0",
+    "node-sass": "^8.0.0",
     "prop-types": "^15.7.2",
     "qs": "^6.9.4",
     "raw.macro": "^0.4.2",
