@@ -22,6 +22,7 @@ Online Timeplanner with Lectures Plus @ KAIST <https://otl.kaist.ac.kr/>
 ### Django 환경 설정
 
 Working directory: `PROJECT_ROOT`
+@sboh1214: python@3.8 과 python@3.11 에서 정상작동 확인하였습니다. (2023-03-10)
 
 ```shell
 # 가상환경 설정
