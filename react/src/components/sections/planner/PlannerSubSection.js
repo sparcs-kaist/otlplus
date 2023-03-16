@@ -6,7 +6,7 @@ import { range } from 'lodash';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 import {
-  TIMETABLE_START_HOUR, TIMETABLE_END_HOUR, PLANNER_START_CREDIT, PLANNER_END_CREDIT,
+  TIMETABLE_START_HOUR, TIMETABLE_END_HOUR, PLANNER_DEFAULT_CREDIT,
 } from '../../../common/constants';
 
 import TimetableTile from '../../tiles/TimetableTile';
@@ -320,8 +320,8 @@ class PlannerSubSection extends Component {
       getUntimedTitle(p.classtime)
     ));
 
-    const plannerCredits = range(PLANNER_START_CREDIT, PLANNER_END_CREDIT);
-    const plannerCreditsReversed = range(PLANNER_END_CREDIT, PLANNER_START_CREDIT);
+    const plannerCredits = range(PLANNER_DEFAULT_CREDIT / 3, 0);
+    const plannerCreditsReversed = range(0, PLANNER_DEFAULT_CREDIT / 3);
     const getHeadColumn = () => {
       const timedArea = [
         <div className={classNames('subsection--planner__table__label__title')} key="title" />,
