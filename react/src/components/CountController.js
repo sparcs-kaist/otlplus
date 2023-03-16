@@ -35,11 +35,8 @@ class CountController extends Component {
 }
 
 CountController.propTypes = {
-  entries: PropTypes.arrayOf(
-    PropTypes.shape({
-      count: PropTypes.number,
-    })
-  ).isRequired,
+  count: PropTypes.number,
+  updateFunct: PropTypes.func,
 };
 
 export default withTranslation()(

@@ -8,10 +8,9 @@ import ReactGA from 'react-ga';
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
 import {
-  setPlanners, clearPlanners, setMyPlannerLectures,
+  setPlanners, clearPlanners,
   setSelectedPlanner,
   createPlanner, deletePlanner, duplicatePlanner,
-  setMobileIsPlannerTabsOpen,
 } from '../../../actions/planner/planner';
 
 import userShape from '../../../shapes/model/UserShape';
@@ -19,15 +18,6 @@ import timetableShape from '../../../shapes/model/TimetableShape';
 
 
 class PlannerTabs extends Component {
-  componentDidMount() {
-    const { user } = this.props;
-
-    if (user) {
-      this._setMyTimetable();
-    }
-  }
-
-
   componentDidUpdate(prevProps, prevState, snapshot) {
     const {
       user,
@@ -42,13 +32,6 @@ class PlannerTabs extends Component {
     else if (!prevProps.user && user) {
       clearTimetablesDispatch();
       this._fetchTables();
-    }
-
-    if (!prevProps.user && user) {
-      this._setMyTimetable();
-    }
-    else if (user && ((prevProps.year !== year) || (semester !== prevProps.semester))) {
-      this._setMyTimetable();
     }
   }
 
@@ -101,23 +84,10 @@ class PlannerTabs extends Component {
     return Math.floor(Math.random() * 100000000);
   }
 
-  _setMyTimetable = () => {
-    const {
-      user,
-      year, semester,
-      setMyTimetableLecturesDispatch,
-    } = this.props;
-
-    const lectures = user.my_timetable_lectures
-      .filter((l) => ((l.year === year) && (l.semester === semester)));
-    setMyTimetableLecturesDispatch(lectures);
-  }
-
   changeTab = (timetable) => {
-    const { setSelectedTimetableDispatch, setMobileIsTimetableTabsOpenDispatch } = this.props;
+    const { setSelectedTimetableDispatch } = this.props;
 
     setSelectedTimetableDispatch(timetable);
-    setMobileIsTimetableTabsOpenDispatch(false);
 
     ReactGA.event({
       category: 'Timetable - Timetable',
@@ -368,9 +338,6 @@ const mapDispatchToProps = (dispatch) => ({
   clearTimetablesDispatch: () => {
     dispatch(clearPlanners());
   },
-  setMyTimetableLecturesDispatch: (lectures) => {
-    dispatch(setMyPlannerLectures(lectures));
-  },
   setSelectedTimetableDispatch: (timetable) => {
     dispatch(setSelectedPlanner(timetable));
   },
@@ -382,9 +349,6 @@ const mapDispatchToProps = (dispatch) => ({
   },
   duplicateTimetableDispatch: (id, timetable) => {
     dispatch(duplicatePlanner(id, timetable));
-  },
-  setMobileIsTimetableTabsOpenDispatch: (mobileIsTimetableTabsOpen) => {
-    dispatch(setMobileIsPlannerTabsOpen(mobileIsTimetableTabsOpen));
   },
 });
 
@@ -398,12 +362,10 @@ PlannerTabs.propTypes = {
 
   setTimetablesDispatch: PropTypes.func.isRequired,
   clearTimetablesDispatch: PropTypes.func.isRequired,
-  setMyTimetableLecturesDispatch: PropTypes.func.isRequired,
   setSelectedTimetableDispatch: PropTypes.func.isRequired,
   createTimetableDispatch: PropTypes.func.isRequired,
   deleteTimetableDispatch: PropTypes.func.isRequired,
   duplicateTimetableDispatch: PropTypes.func.isRequired,
-  setMobileIsTimetableTabsOpenDispatch: PropTypes.func.isRequired,
 };
 
 

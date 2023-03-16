@@ -8,7 +8,6 @@ import { appBoundClassNames as classNames } from '../common/boundClassNames';
 class CourseStatus extends Component {
   render() {
     const {
-      t,
       entries,
     } = this.props;
 

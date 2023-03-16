@@ -32,24 +32,12 @@ class CourseSettingSubSection extends Component {
   componentDidUpdate(prevProps) {
     const { courseFocus } = this.props;
     if (!courseFocus.course || !courseFocus.lectures) {
-      return null;
+      return;
     }
 
     if (!prevProps.courseFocus.lectures && courseFocus.lectures) {
       this.initialize2(courseFocus);
     }
-
-    const {
-      basicElective, basicRequired, majorRequired, majorElective, secondMajorElective, secondMajorRequired, totalCredit,
-    } = this.state;
-    const currTotalCredit = basicElective + basicRequired + majorRequired + majorElective + secondMajorRequired + secondMajorElective;
-    if (currTotalCredit !== totalCredit) {
-      this.setState({
-        totalCredit: currTotalCredit,
-      });
-    }
-
-    return null;
   }
 
   updateCheckedValues = (filterName) => (checkedValues) => {

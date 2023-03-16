@@ -29,7 +29,7 @@ class SummarySubSection extends Component {
     } = this.props;
 
     if (prevProps.selectedListCode !== selectedListCode) {
-      // clearCourseFocusDispatch();
+      clearCourseFocusDispatch();
     }
 
     if (!prevProps.courseFocus.course && courseFocus.course) {
