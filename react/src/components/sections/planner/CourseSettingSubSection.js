@@ -129,33 +129,33 @@ class CourseSettingSubSection extends Component {
           <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
           <CourseStatus
             entries={[
-              { name: '전체', info: [{ name: '총학점', controller: <CountController count={totalCredit} updateFunct={this.updateCredits('totalCredit')} /> }] },
+              { name: '전체', info: [{ name: '총학점', controller: <CountController count={totalCredit} updateCount={this.updateCredits('totalCredit')} /> }] },
               {
                 name: '기초',
                 info: [
-                  { name: '기초필수', controller: <CountController count={basicRequired} updateFunct={this.updateCredits('basicRequired')} /> },
-                  { name: '기초선택', controller: <CountController count={basicElective} updateFunct={this.updateCredits('basicElective')} /> },
+                  { name: '기초필수', controller: <CountController count={basicRequired} updateCount={this.updateCredits('basicRequired')} /> },
+                  { name: '기초선택', controller: <CountController count={basicElective} updateCount={this.updateCredits('basicElective')} /> },
                 ],
               },
               {
                 name: '교양',
                 info: [
-                  { name: '교양필수', controller: <CountController count={generalRequired} updateFunct={this.updateCredits('generalRequired')} /> },
-                  { name: '교양선택', controller: <CountController count={generalElective} updateFunct={this.updateCredits('generalElective')} /> },
+                  { name: '교양필수', controller: <CountController count={generalRequired} updateCount={this.updateCredits('generalRequired')} /> },
+                  { name: '교양선택', controller: <CountController count={generalElective} updateCount={this.updateCredits('generalElective')} /> },
                 ],
               },
               {
                 name: '전공',
                 info: [
-                  { name: '전공필수', controller: <CountController count={majorRequired} updateFunct={this.updateCredits('majorRequired')} /> },
-                  { name: '전공선택', controller: <CountController count={majorElective} updateFunct={this.updateCredits('majorElective')} /> },
+                  { name: '전공필수', controller: <CountController count={majorRequired} updateCount={this.updateCredits('majorRequired')} /> },
+                  { name: '전공선택', controller: <CountController count={majorElective} updateCount={this.updateCredits('majorElective')} /> },
                 ],
               },
               {
                 name: '복수전공',
                 info: [
-                  { name: '전공필수', controller: <CountController count={secondMajorRequired} updateFunct={this.updateCredits('secondMajorRequired')} /> },
-                  { name: '전공선택', controller: <CountController count={secondMajorElective} updateFunct={this.updateCredits('secondMajorElective')} /> },
+                  { name: '전공필수', controller: <CountController count={secondMajorRequired} updateCount={this.updateCredits('secondMajorRequired')} /> },
+                  { name: '전공선택', controller: <CountController count={secondMajorElective} updateCount={this.updateCredits('secondMajorElective')} /> },
                 ],
               },
             ]}

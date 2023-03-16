@@ -9,7 +9,7 @@ class CountController extends Component {
   render() {
     const {
       count,
-      updateFunct,
+      updateCount,
     } = this.props;
 
     return (
@@ -18,7 +18,7 @@ class CountController extends Component {
           className={classNames('icon', 'icon--planner-minus')}
           onClick={() => {
             if (count > 0) {
-              updateFunct(count - 1);
+              updateCount(count - 1);
             }
           }}
         />
@@ -26,7 +26,7 @@ class CountController extends Component {
         <i
           className={classNames('icon', 'icon--planner-plus')}
           onClick={() => {
-            updateFunct(count + 1);
+            updateCount(count + 1);
           }}
         />
       </div>
@@ -36,7 +36,7 @@ class CountController extends Component {
 
 CountController.propTypes = {
   count: PropTypes.number,
-  updateFunct: PropTypes.func,
+  updateCount: PropTypes.func,
 };
 
 export default withTranslation()(
