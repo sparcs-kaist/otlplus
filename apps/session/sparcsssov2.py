@@ -1,6 +1,5 @@
 import hmac
 import time
-import hashlib
 from secrets import token_hex
 from urllib.parse import urlencode
 
@@ -53,7 +52,7 @@ class Client:
             payload.append(timestamp)
 
         msg = ''.join(list(map(str, payload))).encode()
-        sign = hmac.new(self.secret_key, msg, digestmod=hashlib.md5).hexdigest()
+        sign = hmac.new(self.secret_key, msg).hexdigest()
         return sign, timestamp
 
     def _validate_sign(self, payload, timestamp, sign):

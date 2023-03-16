@@ -217,8 +217,6 @@ class Lecture(models.Model):
                 "grade": self.grade,
                 "load": self.load,
                 "speech": self.speech,
-                "num_labs": self.num_labs,
-                "num_classes": self.num_classes,
                 "classtimes": [ct.to_json(nested=True) for ct in self.classtimes.all()],
                 "examtimes": [et.to_json(nested=True) for et in self.examtimes.all()],
             },
