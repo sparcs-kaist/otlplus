@@ -1,12 +1,16 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
+
+import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
+
+import { clearCourseFocus } from '../../../actions/planner/courseFocus';
 
 import courseFocusShape from '../../../shapes/state/CourseFocusShape';
 import userShape from '../../../shapes/model/UserShape';
 
-import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 import CreditStatusBar from '../../CreditStatusBar';
 import CourseStatus from '../../CourseStatus';
 import Scroller from '../../Scroller';
@@ -115,14 +119,16 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  // clearCourseFocusDispatch: () => {
-  //   dispatch(clearCourseFocus());
-  // },
+  clearCourseFocusDispatch: () => {
+    dispatch(clearCourseFocus());
+  },
 });
 
 SummarySubSection.propTypes = {
   user: userShape,
   courseFocus: courseFocusShape.isRequired,
+
+  clearCourseFocusDispatch: PropTypes.func.isRequired,
 };
 
 export default withTranslation()(
