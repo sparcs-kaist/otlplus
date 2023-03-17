@@ -10,14 +10,14 @@ import { reset as resetSearch } from '../actions/planner/search';
 import { reset as resetPlanner } from '../actions/planner/planner';
 
 import Divider from '../components/Divider';
-import PlannerTabs from '../components/sections/planner/PlannerTabs';
-import PlannerSubSection from '../components/sections/planner/PlannerSubSection';
-import CourseListTabs from '../components/sections/planner/CourseListTabs';
-import CourseListSection from '../components/sections/planner/CourseListSection';
-import CourseDetailSection from '../components/sections/planner/CourseDetailSection';
-import SettingSubSection from '../components/sections/planner/SettingSubSection';
-import SummarySubSection from '../components/sections/planner/SummarySubSection';
-import ShareSubSection from '../components/sections/planner/ShareSubSection';
+import PlannerTabs from '../components/sections/planner/plannerandinfos/PlannerTabs';
+import PlannerSubSection from '../components/sections/planner/plannerandinfos/PlannerSubSection';
+import CourseListTabs from '../components/sections/planner/courselist/CourseListTabs';
+import CourseListSection from '../components/sections/planner/courselist/CourseListSection';
+import CourseDetailSection from '../components/sections/planner/coursedetail/CourseDetailSection';
+import SettingSubSection from '../components/sections/planner/plannerandinfos/SettingSubSection';
+import SummarySubSection from '../components/sections/planner/plannerandinfos/SummarySubSection';
+import ShareSubSection from '../components/sections/planner/plannerandinfos/ShareSubSection';
 
 
 class PlannerPage extends Component {
