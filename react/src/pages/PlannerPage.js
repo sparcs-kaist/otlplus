@@ -41,7 +41,7 @@ class PlannerPage extends Component {
           <div className={classNames('page-grid', 'page-grid--planner')}>
             <PlannerTabs />
             <CourseListTabs />
-            <div className={classNames('section', 'section--planner-detial')}>
+            <div className={classNames('section', 'section--planner-and-infos')}>
               <PlannerSubSection />
               <Divider orientation={{ desktop: Divider.Orientation.VERTICAL, mobile: Divider.Orientation.HORIZONTAL }} isVisible={true} gridArea="divider-main" />
               <SettingSubSection />
