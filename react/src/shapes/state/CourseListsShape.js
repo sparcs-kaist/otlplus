@@ -3,19 +3,19 @@ import PropTypes from 'prop-types';
 import courseShape from '../model/CourseShape';
 
 
-const lectureListsShape = PropTypes.shape({
-  search: {
+const courseListsShape = PropTypes.shape({
+  search: PropTypes.shape({
     courses: PropTypes.arrayOf(courseShape),
-  }.isRequired,
-  basic: {
+  }).isRequired,
+  basic: PropTypes.shape({
     courses: PropTypes.arrayOf(courseShape),
-  }.isRequired,
-  humanity: {
+  }).isRequired,
+  humanity: PropTypes.shape({
     courses: PropTypes.arrayOf(courseShape),
-  }.isRequired,
-  taken: {
+  }).isRequired,
+  taken: PropTypes.shape({
     courses: PropTypes.arrayOf(courseShape),
-  }.isRequired,
+  }).isRequired,
 });
 
-export default lectureListsShape;
+export default courseListsShape;

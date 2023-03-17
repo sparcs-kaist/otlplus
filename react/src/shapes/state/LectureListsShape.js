@@ -7,18 +7,18 @@ const lectureGroupShape = PropTypes.arrayOf(lectureShape);
 
 
 const lectureListsShape = PropTypes.shape({
-  search: {
+  search: PropTypes.shape({
     lectureGroups: PropTypes.arrayOf(lectureGroupShape),
-  }.isRequired,
-  basic: {
+  }).isRequired,
+  basic: PropTypes.shape({
     lectureGroups: PropTypes.arrayOf(lectureGroupShape),
-  }.isRequired,
-  humanity: {
+  }).isRequired,
+  humanity: PropTypes.shape({
     lectureGroups: PropTypes.arrayOf(lectureGroupShape),
-  }.isRequired,
-  cart: {
+  }).isRequired,
+  cart: PropTypes.shape({
     lectureGroups: PropTypes.arrayOf(lectureGroupShape),
-  }.isRequired,
+  }).isRequired,
 });
 
 export default lectureListsShape;
