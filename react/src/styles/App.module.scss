@@ -1028,7 +1028,7 @@ a {
         @media #{$media-landscape} {
             grid-area: course-manage;
             display: flex;
-            flex-direction: row-reverse;
+            flex-direction: row;
         }
     }
 
