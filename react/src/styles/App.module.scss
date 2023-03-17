@@ -394,26 +394,28 @@ a {
     &--planner {
         @media #{$media-landscape} {
             margin-left: -$tabs-width-vertical;
+            // TODO: Update template grid size
             grid-template-columns:
                 $tabs-width-vertical
-                1.1fr  // need to modify
+                1.1fr
                 $section-margin-lr
                 2fr
             ;
             grid-template-rows:
                 $tabs-height-horizontal
-                2fr  // need to modify $section planner
+                2fr
                 $section-margin-bottom
                 1fr
             ;
             grid-template-areas:
-                ".                  planner-tabs   .                ."
-                ".                  planner-detial planner-detial   planner-detial"
-                ".                  .              .                ."
-                "course-list-tabs   course-list    .                course-info-detail"
+                ".                  planner-tabs        .                   ."
+                ".                  planner-and-infos   planner-and-infos   planner-and-infos"
+                ".                  .                   .                   ."
+                "course-list-tabs   course-list         .                   course-info-detail"
             ;
         }
-        // @media #{$media-portrait} {  // mobile?
+        // TODO: Implement mobile
+        // @media #{$media-portrait} {
         //     grid-template-columns:
         //         1fr
         //     ;
@@ -993,8 +995,8 @@ a {
         padding: 6px 8px;
     }
 
-    &--planner-detial {   // 수정하기
-        grid-area: planner-detial;
+    &--planner-and-infos {
+        grid-area: planner-and-infos;
         display: grid;
         @media #{$media-landscape} {
             border-top-left-radius: 0;
@@ -1008,17 +1010,18 @@ a {
                 "planner  divider-main    planner-share"
             ;
         }
-        @media #{$media-portrait} {
-            grid-template-columns: 1fr;
-            grid-template-rows: 1fr min-content min-content min-content min-content;
-            grid-template-areas:
-                "timetable"
-                "divider-main"
-                "summary"
-                "divider-sub-3"
-                "share"
-            ;
-        }
+        // TODO: Implement mobile
+        // @media #{$media-portrait} {
+        //     grid-template-columns: 1fr;
+        //     grid-template-rows: 1fr min-content min-content min-content min-content;
+        //     grid-template-areas:
+        //         "timetable"
+        //         "divider-main"
+        //         "summary"
+        //         "divider-sub-3"
+        //         "share"
+        //     ;
+        // }
     }
 
     &--course-info-detail {
@@ -1694,13 +1697,11 @@ a {
     }
 
     &--course-info-sub {
-        grid-area: course-info-sub;
         flex-basis: 1px;
         flex-grow: 1;
     }
 
     &--course-info-setting {
-        grid-area: course-info-setting;
         flex-basis: calc(#{$section-width-desktop-1v3-left} - (#{$section-padding} * 2));
         display: flex;
         flex-direction: column;
@@ -1758,10 +1759,10 @@ a {
                 } 
             }
 
-            &__body {   // for planner
+            &__body {
                 display: flex;
                 flex-direction: column;
-                padding: 0 6px;  // TODO
+                padding: 0 6px;
                 margin-right: 0px;
                 flex: 1 1 0;
                 border-right: 1px solid $color-normal-line;
@@ -1812,9 +1813,6 @@ a {
     
                 &__cell {
                     flex: auto;
-                    &--drag {
-                        touch-action: pan-x pinch-zoom;
-                    } 
                 } 
     
                 &__gap {
@@ -2103,7 +2101,6 @@ a {
         flex-direction: column;
         justify-content: center;
         min-width: 74px;
-        height: 50px;
 
         &:last-child {
             margin-bottom: 0;
@@ -3378,6 +3375,7 @@ a {
 
 
 .otlplus-placeholder {
+    width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -3386,7 +3384,6 @@ a {
     color: $color-text-placeholder;
     font-size: $font-size-normal;
     line-height: $line-height-normal;
-    flex-grow: 1;
 
     & > div {
         flex: none;
@@ -3441,6 +3438,7 @@ a {
         min-height: 218px;
     }
 }
+
 
 .rate {
     text-align: center;
