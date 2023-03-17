@@ -1,7 +1,9 @@
 # OTL PLUS
-Online Timeplanner with Lectures Plus @ KAIST https://otl.kaist.ac.kr/
+
+Online Timeplanner with Lectures Plus @ KAIST <https://otl.kaist.ac.kr/>
 
 ## 채널
+
 * 구글 드라이브 (archived): https://drive.google.com/folderview?id=0By2h7PuCHN8ZUmJ6cjQtQlJUNDA&usp=sharing
   * 팀원들에 한해 doc.google.com에 otlplus 공용계정: otlplus.sparcs.org@gmail.com으로 로그인해서 열람하실 수도 있습니다.
 * Notion: https://www.notion.so/sparcs/OTL-Plus-69724cd9c1434d64ac379e8f6590c885
@@ -9,14 +11,19 @@ Online Timeplanner with Lectures Plus @ KAIST https://otl.kaist.ac.kr/
 * Contact: otlplus@sparcs.org
 
 ## 디자인
+
 * ~~Invision 프로토타입 (deprecated): https://invis.io/7FATPIZHK~~
 * ~~구글 드라이브 (deprecated): https://drive.google.com/drive/folders/0B7OgXXGKTmCOamtPS0NRNzFXdHc?usp=sharing~~
 * XD 프로토타입: https://xd.adobe.com/view/abb6898c-eff7-42c1-b383-b9518d8c68af-fee5/?fullscreen
 * XD 개발 사양: https://xd.adobe.com/view/6a2a4884-ac98-4c59-85ea-950e2f3012d6-3f79/
 
 ## 개발 환경 설정
+
 ### Django 환경 설정
+
 Working directory: `PROJECT_ROOT`
+@sboh1214: python@3.8 과 python@3.11 에서 정상작동 확인하였습니다. (2023-03-10)
+
 ```shell
 # 가상환경 설정
 $ python3 -m venv env # Python 버전 3.6 이상 권장
@@ -34,15 +41,24 @@ $ touch keys/sso_secret
 $ python manage.py migrate
 ```
 
+만약 파이썬 패키지 설치가 정상적으로 이루어지지 않는다면 아래 명령어를 입력해주세요.
+
+```shell
+pip install -r requirements.txt --use-feature=2020-resolver
+```
+
 ### 개발용 DB 설정 (Optional)
+
 dump 데이터는 PM에게 요청하세요.  
 Working directory: `PROJECT_ROOT`
+
 ```shell
 # Dump 파일 불러오기
 $ python manage.py load-dev-data dumps/otldump_DATE_info.json
 ```
 
 ### SPARCS SSO 설정
+
 SSO 설정 방법은 변경될 수 있습니다. SSO 공식 설정 방법을 참고하세요.  
 URL: `sparcssso.kaist.ac.kr > Dev Center > Test Services > Register`
 > Alias: (Any name)  
@@ -50,13 +66,15 @@ URL: `sparcssso.kaist.ac.kr > Dev Center > Test Services > Register`
 > Login Callback URL: http://localhost:8000/session/login/callback  
 > Unregister URL: http://localhost:8000/session/unregister  
 > Cooltime: 0  
-> 
+
 Working directory: `PROJECT_ROOT`
+
 ```shell
 $ vi settings_local.py
 ```
 
 File: `PROJECT_ROOT/settings_local.py`
+
 ```python
 # ...
 
@@ -66,7 +84,9 @@ SSO_SECRET_KEY = "00000000000000000000" # SSO의 'Secret Key' 필드
 ```
 
 ### React 환경 설정
+
 Working directory: `PROJECT_ROOT/react`
+
 ```shell
 # 패키지 설치
 $ npm install
@@ -79,34 +99,55 @@ $ npm run build
 ```
 
 ### 서버 실행
+
 Working directory: `PROJECT_ROOT`
+
 ```shell
 $ python manage.py runserver 0.0.0.0:8000
 ```
 
+이때 반드시 브라우저에서 `http://localhost:8000`으로 접속해야 합니다.
+
+### 에디터 설정 (Optional, but highly recommended)
+
+VSCode(Visual Studio Code) 및 아래 설정을 권장합니다.
+
+* Extension 설치
+    * ESLint (https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
+* 설정
+    * Command Palatte (단축키: F1) > Python: Select Linter > pylint
+
 ### 설정 중 오류
 
 #### DB migrate 시 "... SQLite < 3.26 ..." 오류가 발생한다면
+
 아래 명령어로 python에 적용된 sqlite3 버전 확인
+
 ```shell
 $ python -c "import sqlite3;print(sqlite3.sqlite_version)"
 ```
+
 3.26.0 이하라면 높은 버전의 python으로 재설치 후 처음부터 재설정
 
 #### node-sass 설치 시 오류가 발생한다면
+
 1. [node-sass 호환 node.js 버전](https://github.com/sass/node-sass#node-version-support-policy)을 확인해서 적절한 버전을 사용
 2. `gyp: No Xcode or CLT version detected!` 라는 메시지와 함께 설치에 실패한다면 [관련 이슈](https://github.com/schnerd/d3-scale-cluster/issues/7)의 코멘트 참고
 
 #### mysqlclient 설치 시 오류가 발생한다면
+
 mysql@5.7 ([5.7 버전이어야 하는 이유](https://stackoverflow.com/a/50342229)) 을 설치 후 PATH에 해당 실행 파일 디렉터리를 추가한다. 예를 들면 (macOS 기준),
+
 ```shell
 $ brew install mysql@5.7
 $ export PATH="/opt/homebrew/opt/mysql@5.7/bin:$PATH" # add this line to ~/.bashrc, .zshrc, etc.
 ```
 
 #### 설정 완료 후 no-such-column 오류가 발생한다면
+
 일부 조건에서 `no such column: main_famoushumanityreviewdailyfeed_reviews.review_id` 오류가 발생할 수 있음  
 Working directory: `PROJECT_ROOT`
+
 ```shell
 # DB 초기화
 $ rm db.sqlite3
@@ -115,6 +156,7 @@ $ python manage.py migrate main 0006
 $ python manage.py migrate review 0009
 $ python manage.py migrate
 ```
+
 이후 [개발용 DB 설정](#개발용-db-설정-Optional) 재실행
 
 #### (Apple Silicon) pip install에서 pyobdc가 설치되지 않는다면
