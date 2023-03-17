@@ -411,7 +411,7 @@ a {
                 ".                  planner-tabs        .                   ."
                 ".                  planner-and-infos   planner-and-infos   planner-and-infos"
                 ".                  .                   .                   ."
-                "course-list-tabs   course-list         .                   course-info-detail"
+                "course-list-tabs   course-list         .                   course-manage"
             ;
         }
         // TODO: Implement mobile
@@ -1024,9 +1024,9 @@ a {
         // }
     }
 
-    &--course-info-detail {
+    &--course-manage {
         @media #{$media-landscape} {
-            grid-area: course-info-detail;
+            grid-area: course-manage;
             display: flex;
             flex-direction: row-reverse;
         }

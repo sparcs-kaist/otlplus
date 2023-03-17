@@ -7,22 +7,22 @@ import CourseSettingSubSection from './CourseSettingSubSection';
 import OtlplusPlaceholder from '../../../OtlplusPlaceholder';
 import courseFocusShape from '../../../../shapes/state/CourseFocusShape';
 
-class CourseDetailSection extends Component {
+class CourseManageSection extends Component {
   render() {
     const { courseFocus } = this.props;
     const sectionContent = courseFocus.course
       ? (
         <>
-          <CourseSettingSubSection />
-          <Divider orientation={{ desktop: Divider.Orientation.VERTICAL, mobile: Divider.Orientation.HORIZONTAL }} isVisible={true} gridArea="divider-main" />
           <CourseInfoSubSection />
+          <Divider orientation={{ desktop: Divider.Orientation.VERTICAL, mobile: Divider.Orientation.HORIZONTAL }} isVisible={true} gridArea="divider-main" />
+          <CourseSettingSubSection />
         </>
       )
       : (
         <OtlplusPlaceholder />
       );
     return (
-      <div className={classNames('section', 'section--course-info-detail')}>
+      <div className={classNames('section', 'section--course-manage')}>
         {sectionContent}
       </div>
     );
@@ -33,12 +33,12 @@ const mapStateToProps = (state) => ({
   courseFocus: state.planner.courseFocus,
 });
 
-CourseDetailSection.propTypes = {
+CourseManageSection.propTypes = {
   courseFocus: courseFocusShape.isRequired,
 };
 
 export default (
   connect(mapStateToProps)(
-    CourseDetailSection
+    CourseManageSection
   )
 );
