@@ -1726,8 +1726,9 @@ a {
                 padding-right : 6px;
                 border-right: 1px solid $color-normal-line;
     
-    
-                &__title {
+                &__year,
+                &__toptitle,
+                &__bottomtitle {
                     flex: none;
                     height: $line-height-smallest + 6px;
                 }
@@ -1768,44 +1769,28 @@ a {
                     margin-right: 0;
                 }
 
-                &__title {
-                    flex: none;
-                    height: $line-height-smallest + 6px;
-                    text-align: center;
-                    font-size: $font-size-smallest;
-                    line-height: $line-height-smallest;
-                    color: $color-text-light;
-                    padding-bottom: 6px;
-                    margin: 0 -20px;
-                }
-
-                &__title2 {
-                    flex: none;
-                    height: $line-height-smallest + 6px;
-                    text-align: center;
-                    font-size: $font-size-smallest;
-                    line-height: $line-height-smallest;
-                    color: $color-text-light;
-                    padding-top: 6px;
-                    margin: 0 -20px;
-                }
-
-                &__semester {
-                    flex: 1;
-                    flex-direction: column;
-                    align-items: stretch;
-                }
-
+                &__toptitle,
+                &__bottomtitle,
                 &__year {
                     flex: none;
                     height: $line-height-smallest + 6px;
                     text-align: center;
                     font-size: $font-size-smallest;
-                    line-height: $line-height-smallest + 5px;  //vertical align하는 방법?
+                    line-height: $line-height-smallest;
                     color: $color-text-light;
-                    vertical-align: middle;
-                    padding-top: 0px;
                     margin: 0 -20px;
+                }
+
+                &__toptitle {
+                    padding-bottom: 6px;
+                }
+
+                &__bottomtitle {
+                    padding-top: 6px;
+                }
+
+                &__year {
+                    padding: 3px 0;
                 }
     
                 &__line {

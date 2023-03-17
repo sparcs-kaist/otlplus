@@ -5,42 +5,22 @@ import { withTranslation } from 'react-i18next';
 import { range } from 'lodash';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
-import {
-  TIMETABLE_START_HOUR, TIMETABLE_END_HOUR, PLANNER_DEFAULT_CREDIT,
-} from '../../../common/constants';
-
-import TimetableTile from '../../tiles/TimetableTile';
+import { PLANNER_DEFAULT_CREDIT } from '../../../common/constants';
 
 import { setLectureFocus, clearLectureFocus } from '../../../actions/timetable/lectureFocus';
-import { setSelectedListCode, setMobileIsLectureListOpen } from '../../../actions/timetable/list';
-import { setClasstimeOptions, clearClasstimeOptions, openSearch } from '../../../actions/timetable/search';
-import { setIsDragging, updateCellSize, removeLectureFromTimetable } from '../../../actions/timetable/timetable';
+import { updateCellSize, removeLectureFromTimetable } from '../../../actions/timetable/timetable';
 
 import { LectureFocusFrom } from '../../../reducers/timetable/lectureFocus';
-import { LectureListCode } from '../../../reducers/timetable/list';
 
 import userShape from '../../../shapes/model/UserShape';
 import timetableShape from '../../../shapes/model/TimetableShape';
 import lectureFocusShape from '../../../shapes/state/LectureFocusShape';
-import { getDayStr, getRangeStr } from '../../../utils/timeUtils';
 
-import {
-  inTimetable,
-  isFocused, isTableClicked, isDimmedTableLecture, getOverallLectures,
-} from '../../../utils/lectureUtils';
+import { isTableClicked } from '../../../utils/lectureUtils';
 import { performDeleteFromTable } from '../../../common/commonOperations';
-import TimetableDragTile from '../../tiles/TimetableDragTile';
 
 
 class PlannerSubSection extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      firstDragCell: null,
-      secondDragCell: null,
-    };
-  }
-
   componentDidMount() {
     this.resize();
     window.addEventListener('resize', this.resize);
@@ -59,127 +39,6 @@ class PlannerSubSection extends Component {
 
     const cell = document.getElementsByClassName(classNames('subsection--planner__table__body__cell'))[0].getBoundingClientRect();
     updateCellSizeDispatch(cell.width, cell.height + 1);
-  }
-
-  _getIndexOfMinute = (minute) => {
-    return minute / 30 - (2 * TIMETABLE_START_HOUR);
-  }
-
-  onMouseDown = (e) => {
-    e.stopPropagation();
-    e.preventDefault();
-
-    this._dragStart(e.target);
-  }
-
-  onTouchStart = (e) => {
-    e.stopPropagation();
-    e.preventDefault();
-
-    const elementAtPosition = document.elementFromPoint(e.touches[0].pageX, e.touches[0].pageY);
-    if (elementAtPosition === null) {
-      return;
-    }
-    const targetElementAtPosition = elementAtPosition.closest(`.${classNames('subsection--planner__table__body__cell--drag')}`);
-    if (targetElementAtPosition === null) {
-      return;
-    }
-
-    this._dragStart(targetElementAtPosition);
-  }
-
-  _dragStart = (target) => {
-    const { clearLectureFocusDispatch, setIsDraggingDispatch } = this.props;
-
-    this.setState({ firstDragCell: target, secondDragCell: target });
-    clearLectureFocusDispatch();
-    setIsDraggingDispatch(true);
-  }
-
-  _getOccupiedTimes = (day, begin, end) => {
-    const { selectedTimetable } = this.props;
-
-    if (!selectedTimetable) {
-      return [];
-    }
-
-    const timetableClasstimes = selectedTimetable.lectures
-      .map((l) => l.classtimes)
-      .flat(1);
-    return timetableClasstimes
-      .filter((ct) => ((ct.day === day) && (begin < ct.end) && (end > ct.begin)))
-      .map((ct) => [Math.max(begin, ct.begin), Math.min(end, ct.end)]);
-  }
-
-  onMouseMove = (e) => {
-    this._dragMove(e.target);
-  }
-
-  onTouchMove = (e) => {
-    const elementAtPosition = document.elementFromPoint(e.touches[0].pageX, e.touches[0].pageY);
-    if (elementAtPosition === null) {
-      return;
-    }
-    const targetElementAtPosition = elementAtPosition.closest(`.${classNames('subsection--planner__table__body__cell--drag')}`);
-    if (targetElementAtPosition === null) {
-      return;
-    }
-
-    this._dragMove(targetElementAtPosition);
-  }
-
-  _dragMove = (target) => {
-    const { firstDragCell } = this.state;
-    const { isDragging } = this.props;
-
-    if (!isDragging) return;
-    const day = Number(firstDragCell.dataset.day);
-    const firstCellTime = Number(firstDragCell.dataset.minute);
-    const secondCellTime = Number(target.dataset.minute);
-    const upperTime = Math.min(firstCellTime, secondCellTime);
-    const lowerTime = Math.max(firstCellTime, secondCellTime) + 30;
-    if (this._getOccupiedTimes(day, upperTime, lowerTime).length > 0) {
-      return;
-    }
-    this.setState({ secondDragCell: target });
-  }
-
-  onMouseUp = (e) => {
-    this._dragEnd();
-  }
-
-  onTouchEnd = (e) => {
-    this._dragEnd();
-  }
-
-  _dragEnd = () => {
-    const { firstDragCell, secondDragCell } = this.state;
-    const {
-      isDragging,
-      setIsDraggingDispatch, openSearchDispatch, setClasstimeOptionsDispatch, clearClasstimeOptionsDispatch,
-      setSelectedListCodeDispatch, setMobileIsLectureListOpenDispatch,
-    } = this.props;
-
-    if (!isDragging) {
-      return;
-    }
-    setIsDraggingDispatch(false);
-    this.setState({ firstDragCell: null, secondDragCell: null });
-
-    const day = Number(firstDragCell.dataset.day);
-    const firstCellTime = Number(firstDragCell.dataset.minute);
-    const secondCellTime = Number(secondDragCell.dataset.minute);
-    if (firstCellTime === secondCellTime) {
-      clearClasstimeOptionsDispatch();
-      return;
-    }
-
-    const upperTime = Math.min(firstCellTime, secondCellTime);
-    const lowerTime = Math.max(firstCellTime, secondCellTime) + 30;
-    setClasstimeOptionsDispatch(day, upperTime, lowerTime);
-    setMobileIsLectureListOpenDispatch(true);
-    setSelectedListCodeDispatch(LectureListCode.SEARCH);
-    openSearchDispatch();
   }
 
   focusLectureWithHover = (lecture) => {
@@ -233,197 +92,147 @@ class PlannerSubSection extends Component {
   }
 
   render() {
-    const { t } = this.props;
-    const { firstDragCell, secondDragCell } = this.state;
     const {
-      selectedTimetable, lectureFocus,
-      cellWidth, cellHeight,
+      t,
+      // cellWidth, cellHeight,
       mobileIsLectureListOpen,
     } = this.props;
 
-    const overallLectures = getOverallLectures(selectedTimetable, lectureFocus);
-    const isOutsideTable = (classtime) => (
-      (classtime.day < 0 || classtime.day > 4)
-      || (classtime.begin < 60 * TIMETABLE_START_HOUR || classtime.end > 60 * TIMETABLE_END_HOUR)
-    );
-    const lecCtPairsWithClasstime = overallLectures
-      .map((l) => l.classtimes.map((ct) => ({ lecture: l, classtime: ct })))
-      .flat(1);
-    const lecCtPairsWithoutClasstime = overallLectures
-      .filter((l) => (l.classtimes.length === 0))
-      .map((l) => ({ lecture: l, classtime: null }));
-    const lecCtPairsInsideTable = (
-      lecCtPairsWithClasstime.filter((p) => !isOutsideTable(p.classtime))
-    );
-    const lecCtPairsOutsideTable = [
-      ...lecCtPairsWithClasstime.filter((p) => isOutsideTable(p.classtime)),
-      ...lecCtPairsWithoutClasstime,
-    ];
-
-    const getUntimedTitle = (classtime) => (
-      classtime
-        ? getRangeStr(classtime.day, classtime.begin, classtime.end)
-        : t('ui.others.timeNone')
-    );
-    const getTimetableTile = (lecture, classtime, isUntimed, untimedIndex, isTemp) => {
-      return (
-        <TimetableTile
-          key={classtime ? `${lecture.id}:${classtime.day}:${classtime.begin}` : `${lecture.id}:no-time`}
-          lecture={lecture}
-          classtime={classtime}
-          tableIndex={isUntimed
-            ? Math.floor(untimedIndex / 5) + 1
-            : 0
-          }
-          dayIndex={isUntimed
-            ? (untimedIndex % 5)
-            : classtime.day}
-          beginIndex={isUntimed
-            ? 0
-            : (classtime.begin / 30 - TIMETABLE_START_HOUR * 2)}
-          endIndex={isUntimed
-            ? 3
-            : (classtime.end / 30 - TIMETABLE_START_HOUR * 2)}
-          cellWidth={cellWidth}
-          cellHeight={cellHeight}
-          isTimetableReadonly={!selectedTimetable || Boolean(selectedTimetable.isReadOnly)}
-          isRaised={isTableClicked(lecture, lectureFocus)}
-          isHighlighted={isFocused(lecture, lectureFocus)}
-          isDimmed={isDimmedTableLecture(lecture, lectureFocus)}
-          isTemp={isTemp}
-          isSimple={mobileIsLectureListOpen}
-          onMouseOver={isTemp ? null : this.focusLectureWithHover}
-          onMouseOut={isTemp ? null : this.unfocusLectureWithHover}
-          onClick={isTemp ? null : this.focusLectureWithClick}
-          deleteLecture={this.deleteLectureFromTimetable}
-          occupiedIndices={
-            (isTemp && !isUntimed)
-              ? this._getOccupiedTimes(classtime.day, classtime.begin, classtime.end)
-                .map((ot) => [this._getIndexOfMinute(ot[0]), this._getIndexOfMinute(ot[1])])
-              : undefined
-          }
-        />
-      );
-    };
-    const isTemp = (lecture) => (
-      lectureFocus.from === LectureFocusFrom.LIST
-      && lectureFocus.lecture.id === lecture.id
-      && !inTimetable(lectureFocus.lecture, selectedTimetable)
-    );
-    const tilesInsideTable = lecCtPairsInsideTable.map((p) => (
-      getTimetableTile(p.lecture, p.classtime, false, undefined, isTemp(p.lecture))
-    ));
-    const tilesOutsideTable = lecCtPairsOutsideTable.map((p, i) => (
-      getTimetableTile(p.lecture, p.classtime, true, i, isTemp(p.lecture))
-    ));
-    const untimedTileTitles = lecCtPairsOutsideTable.map((p) => (
-      getUntimedTitle(p.classtime)
-    ));
-
-    const plannerCredits = range(PLANNER_DEFAULT_CREDIT / 3, 0);
-    const plannerCreditsReversed = range(0, PLANNER_DEFAULT_CREDIT / 3);
+    const plannerCreditunits = range(0, PLANNER_DEFAULT_CREDIT / 3);
     const getHeadColumn = () => {
-      const timedArea = [
-        <div className={classNames('subsection--planner__table__label__title')} key="title" />,
-        ...(
-          plannerCredits.map((h) => {
-            const HourTag = ((3 * h) % 12 === 0 && h !== 0) ? 'strong' : 'span';
-            return [
-              <div className={classNames('subsection--planner__table__label__line')} key={`line:${3 * h}`}>
-                <HourTag>{((3 * h - 1) % 24) + 1}</HourTag>
-              </div>,
-              <div className={classNames('subsection--planner__table__label__cell')} key={`cell:${3 * h}`} />,
-              <div className={classNames('subsection--planner__table__label__line')} key={`line:${3 * h + 1}`} />,
-              <div className={classNames('subsection--planner__table__label__cell')} key={`cell:${3 * h + 1}`} />,
-            ];
-          })
-            .flat(1)
-        ),
-        <div className={classNames('subsection--planner__table__label__line')} key="line:1440">
-          <span>{0}</span>
-        </div>,
-        <div className={classNames(
-          'subsection--planner__table__body__cell',
-          'subsection--planner__table__body__cell--drag',
-        )}
-        />,
-      ];
-      const timedAreaReversed = [
-        <div className={classNames('subsection--planner__table__label__title')} key="title" />,
-        ...(
-          plannerCreditsReversed.map((h) => {
-            const HourTag = ((3 * h) % 12 === 0 && h !== 0) ? 'strong' : 'span';
-            return [
-              <div className={classNames('subsection--planner__table__label__line')} key={`line:${3 * h}`}>
-                <HourTag>{((3 * h - 1) % 24) + 1}</HourTag>
-              </div>,
-              <div className={classNames('subsection--planner__table__label__cell')} key={`cell:${3 * h}`} />,
-              <div className={classNames('subsection--planner__table__label__line')} key={`line:${3 * h + 1}`} />,
-              <div className={classNames('subsection--planner__table__label__cell')} key={`cell:${3 * h + 1}`} />,
-            ];
-          })
-            .flat(1)
-        ),
-        <div className={classNames('subsection--planner__table__label__line')} key="line:1440">
+      const springArea = [
+        <div className={classNames('subsection--planner__table__label__toptitle')} key="title" />,
+        <div className={classNames('subsection--planner__table__label__line')} key="line:24">
           <strong>{24}</strong>
         </div>,
-        <div className={classNames('subsection--planner__table__label__title')} key="title" />,
+        ...(
+          // eslint-disable-next-line fp/no-mutating-methods
+          plannerCreditunits.slice().reverse().map((c) => {
+            const CreditTag = ((3 * c) % 12 === 0 && c !== 0) ? 'strong' : 'span';
+            return [
+              <div className={classNames('subsection--planner__table__label__cell')} key={`cell:${3 * c + 3}`} />,
+              <div className={classNames('subsection--planner__table__label__line')} key={`line:${3 * c + 2}`} />,
+              <div className={classNames('subsection--planner__table__label__cell')} key={`cell:${3 * c + 2}`} />,
+              <div className={classNames('subsection--planner__table__label__line')} key={`line:${3 * c + 1}`} />,
+              <div className={classNames('subsection--planner__table__label__cell')} key={`cell:${3 * c + 1}`} />,
+              <div className={classNames('subsection--planner__table__label__line')} key={`line:${3 * c}`}>
+                <CreditTag>{3 * c}</CreditTag>
+              </div>,
+            ];
+          })
+            .flat(1)
+        ),
       ];
-      const untimedArea = range(Math.ceil(untimedTileTitles.length / 5)).map((_, i) => (
-        [
-          <div className={classNames('subsection--planner__table__label__gap')} key="gap" />,
-          <div className={classNames('subsection--planner__table__label__title')} key="title" />,
-          <div className={classNames('subsection--planner__table__label__line')} key="line:1" />,
-          <div className={classNames('subsection--planner__table__label__cell')} key="cell:1" />,
-          <div className={classNames('subsection--planner__table__label__line')} key="line:2" />,
-          <div className={classNames('subsection--planner__table__label__cell')} key="cell:2" />,
-          <div className={classNames('subsection--planner__table__label__line')} key="line:3" />,
-          <div className={classNames('subsection--planner__table__label__cell')} key="cell:3" />,
-          <div className={classNames('subsection--planner__table__label__line')} key="line:4" />,
-        ]
-      ));
+      const fallArea = [
+        ...(
+          plannerCreditunits.map((c) => {
+            const CreditTag = ((3 * c) % 12 === 0 && c !== 0) ? 'strong' : 'span';
+            return [
+              <div className={classNames('subsection--planner__table__label__line')} key={`line:${3 * c}`}>
+                <CreditTag>{3 * c}</CreditTag>
+              </div>,
+              <div className={classNames('subsection--planner__table__label__cell')} key={`cell:${3 * c + 1}`} />,
+              <div className={classNames('subsection--planner__table__label__line')} key={`line:${3 * c + 1}`} />,
+              <div className={classNames('subsection--planner__table__label__cell')} key={`cell:${3 * c + 2}`} />,
+              <div className={classNames('subsection--planner__table__label__line')} key={`line:${3 * c + 2}`} />,
+              <div className={classNames('subsection--planner__table__label__cell')} key={`cell:${3 * c + 3}`} />,
+            ];
+          })
+            .flat(1)
+        ),
+        <div className={classNames('subsection--planner__table__label__line')} key="line:24">
+          <strong>{24}</strong>
+        </div>,
+        <div className={classNames('subsection--planner__table__label__bottomtitle')} key="title" />,
+      ];
       return (
         <div className={classNames('subsection--planner__table__label')}>
-          {timedArea}
-          {untimedArea}
-          {timedAreaReversed}
-          {untimedArea}
+          {springArea}
+          <div className={classNames('subsection--planner__table__label__cell')} />
+          <div className={classNames('subsection--planner__table__label__year')} />
+          <div className={classNames('subsection--planner__table__label__cell')} />
+          {fallArea}
         </div>
       );
     };
-    const semesterInfo = [
-      <div className={classNames('subsection--planner__tabel__body__semester')}>
-        {2020}
-        {10}
-      </div>,
-    ];
-    const getYearColumn = (dayIdx) => {
-      const timedArea = [
-        <div className={classNames('subsection--planner__table__body__title')} key="title">
-          {semesterInfo}
+    const getYearColumn = (yearIdx) => {
+      const springArea = [
+        <div className={classNames('subsection--planner__table__body__toptitle')} key="title">
+          {`${2020 + yearIdx} ${t('ui.semester.spring')}`}
         </div>,
+        <div
+          className={classNames(
+            'subsection--planner__table__body__line',
+            'subsection--planner__table__body__line--bold',
+          )}
+          key="line:24"
+        />,
         ...(
-          plannerCredits.map((h) => {
+          // eslint-disable-next-line fp/no-mutating-methods
+          plannerCreditunits.slice().reverse().map((c) => {
+            return [
+              <div
+                className={classNames(
+                  'subsection--planner__table__body__cell',
+                )}
+                key={`cell:${3 * c + 3}`}
+              />,
+              <div
+                className={classNames(
+                  'subsection--planner__table__body__line',
+                  'subsection--planner__table__body__line--dashed',
+                  (mobileIsLectureListOpen ? 'subsection--planner__table__body__line--mobile-noline' : null),
+                )}
+                key={`line:${3 * c + 2}`}
+              />,
+              <div
+                className={classNames(
+                  'subsection--planner__table__body__cell',
+                )}
+                key={`cell:${3 * c + 2}`}
+              />,
+              <div
+                className={classNames(
+                  'subsection--planner__table__body__line',
+                  'subsection--planner__table__body__line--dashed',
+                  (mobileIsLectureListOpen ? 'subsection--planner__table__body__line--mobile-noline' : null),
+                )}
+                key={`line:${3 * c + 1}`}
+              />,
+              <div
+                className={classNames(
+                  'subsection--planner__table__body__cell',
+                )}
+                key={`cell:${3 * c + 1}`}
+              />,
+              <div
+                className={classNames(
+                  'subsection--planner__table__body__line',
+                  ((3 * c) % 12 === 0) ? 'subsection--planner__table__body__line--bold' : null,
+                )}
+                key={`line:${3 * c}`}
+              />,
+            ];
+          })
+            .flat(1)
+        ),
+      ];
+      const fallArea = [
+        ...(
+          plannerCreditunits.map((c) => {
             return [
               <div
                 className={classNames(
                   'subsection--planner__table__body__line',
-                  ((3 * h) % 12 === 0) ? 'subsection--planner__table__body__line--bold' : null,
+                  ((3 * c) % 12 === 0) ? 'subsection--planner__table__body__line--bold' : null,
                 )}
-                key={`line:${3 * h}`}
+                key={`line:${3 * c}`}
               />,
               <div
                 className={classNames(
                   'subsection--planner__table__body__cell',
-                  'subsection--planner__table__body__cell--drag',
                 )}
-                key={`cell:${3 * h}`}
-                data-day={dayIdx}
-                data-minute={3 * h}
-                onMouseDown={(e) => this.onMouseDown(e)}
-                onTouchStart={(e) => this.onTouchStart(e)}
-                onMouseMove={(e) => this.onMouseMove(e)}
-                onTouchMove={(e) => this.onTouchMove(e)}
+                key={`cell:${3 * c + 1}`}
               />,
               <div
                 className={classNames(
@@ -431,20 +240,13 @@ class PlannerSubSection extends Component {
                   'subsection--planner__table__body__line--dashed',
                   (mobileIsLectureListOpen ? 'subsection--planner__table__body__line--mobile-noline' : null),
                 )}
-                key={`line:${3 * h + 1}`}
+                key={`line:${3 * c + 1}`}
               />,
               <div
                 className={classNames(
                   'subsection--planner__table__body__cell',
-                  'subsection--planner__table__body__cell--drag',
                 )}
-                key={`cell:${3 * h + 1}`}
-                data-day={dayIdx}
-                data-minute={3 * h + 1}
-                onMouseDown={(e) => this.onMouseDown(e)}
-                onTouchStart={(e) => this.onTouchStart(e)}
-                onMouseMove={(e) => this.onMouseMove(e)}
-                onTouchMove={(e) => this.onTouchMove(e)}
+                key={`cell:${3 * c + 2}`}
               />,
               <div
                 className={classNames(
@@ -452,20 +254,13 @@ class PlannerSubSection extends Component {
                   'subsection--planner__table__body__line--dashed',
                   (mobileIsLectureListOpen ? 'subsection--planner__table__body__line--mobile-noline' : null),
                 )}
-                key={`line:${3 * h + 2}`}
+                key={`line:${3 * c + 2}`}
               />,
               <div
                 className={classNames(
                   'subsection--planner__table__body__cell',
-                  'subsection--planner__table__body__cell--drag',
                 )}
-                key={`cell:${3 * h + 2}`}
-                data-day={dayIdx}
-                data-minute={3 * h + 2}
-                onMouseDown={(e) => this.onMouseDown(e)}
-                onTouchStart={(e) => this.onTouchStart(e)}
-                onMouseMove={(e) => this.onMouseMove(e)}
-                onTouchMove={(e) => this.onTouchMove(e)}
+                key={`cell:${3 * c + 3}`}
               />,
             ];
           })
@@ -476,181 +271,27 @@ class PlannerSubSection extends Component {
             'subsection--planner__table__body__line',
             'subsection--planner__table__body__line--bold',
           )}
-          key="line:1440"
+          key="line:24"
         />,
-      ];
-      const timedAreaReversed = [
-        <div
-          className={classNames(
-            'subsection--planner__table__body__cell',
-            //   'subsection--planner__table__body__cell--drag',
-          )}
-        />,
-        <div className={classNames('subsection--planner__table__body__year')} key="year">
-          <strong>{2020}</strong>
-          {/* {getDayStr(dayIdx)} */}
-        </div>,
-        <div
-          className={classNames(
-            'subsection--planner__table__body__cell',
-            //   'subsection--planner__table__body__cell--drag',
-          )}
-        />,
-        ...(
-          plannerCredits.map((h) => {
-            return [
-              <div
-                className={classNames(
-                  'subsection--planner__table__body__line',
-                  ((3 * h) % 12 === 0) ? 'subsection--planner__table__body__line--bold' : null,
-                )}
-                key={`line:${3 * h}`}
-              />,
-              <div
-                className={classNames(
-                  'subsection--planner__table__body__cell',
-                  'subsection--planner__table__body__cell--drag',
-                )}
-                key={`cell:${3 * h}`}
-                data-day={dayIdx}
-                data-minute={3 * h}
-                onMouseDown={(e) => this.onMouseDown(e)}
-                onTouchStart={(e) => this.onTouchStart(e)}
-                onMouseMove={(e) => this.onMouseMove(e)}
-                onTouchMove={(e) => this.onTouchMove(e)}
-              />,
-              <div
-                className={classNames(
-                  'subsection--planner__table__body__line',
-                  'subsection--planner__table__body__line--dashed',
-                  (mobileIsLectureListOpen ? 'subsection--planner__table__body__line--mobile-noline' : null),
-                )}
-                key={`line:${3 * h + 1}`}
-              />,
-              <div
-                className={classNames(
-                  'subsection--planner__table__body__cell',
-                  'subsection--planner__table__body__cell--drag',
-                )}
-                key={`cell:${3 * h + 1}`}
-                data-day={dayIdx}
-                data-minute={3 * h + 1}
-                onMouseDown={(e) => this.onMouseDown(e)}
-                onTouchStart={(e) => this.onTouchStart(e)}
-                onMouseMove={(e) => this.onMouseMove(e)}
-                onTouchMove={(e) => this.onTouchMove(e)}
-              />,
-              <div
-                className={classNames(
-                  'subsection--planner__table__body__line',
-                  'subsection--planner__table__body__line--dashed',
-                  (mobileIsLectureListOpen ? 'subsection--planner__table__body__line--mobile-noline' : null),
-                )}
-                key={`line:${3 * h + 2}`}
-              />,
-              <div
-                className={classNames(
-                  'subsection--planner__table__body__cell',
-                  'subsection--planner__table__body__cell--drag',
-                )}
-                key={`cell:${3 * h + 2}`}
-                data-day={dayIdx}
-                data-minute={3 * h + 2}
-                onMouseDown={(e) => this.onMouseDown(e)}
-                onTouchStart={(e) => this.onTouchStart(e)}
-                onMouseMove={(e) => this.onMouseMove(e)}
-                onTouchMove={(e) => this.onTouchMove(e)}
-              />,
-            ];
-          })
-            .flat(1)
-        ),
-        <div
-          className={classNames(
-            'subsection--planner__table__body__line',
-            'subsection--planner__table__body__line--bold',
-          )}
-          key="line:1440"
-        />,
-        <div className={classNames('subsection--planner__table__body__title2')} key="title">
-          {getDayStr(dayIdx)}
+        <div className={classNames('subsection--planner__table__body__bottomtitle')} key="title">
+          {`${2020 + yearIdx} ${t('ui.semester.fall')}`}
         </div>,
       ];
-      const untimedArea = range(Math.ceil(untimedTileTitles.length / 5)).map((i) => ( // untimedArea 역할?
-        [
-          <div className={classNames('subsection--planner__table__body__gap')} key="gap" />,
-          <div className={classNames('subsection--planner__table__body__title')} key="title">
-            {untimedTileTitles[i * 5 + dayIdx]}
-          </div>,
-          <div
-            className={classNames(
-              'subsection--planner__table__body__line',
-              'subsection--planner__table__body__line--bold',
-            )}
-            key="line:1"
-          />,
-          <div className={classNames('subsection--planner__table__body__cell')} key="cell:1" />,
-          <div
-            className={classNames(
-              'subsection--planner__table__body__line',
-              'subsection--planner__table__body__line--dashed',
-              (mobileIsLectureListOpen ? 'subsection--planner__table__body__line--mobile-noline' : null),
-            )}
-            key="line:2"
-          />,
-          <div className={classNames('subsection--planner__table__body__cell')} key="cell:2" />,
-          <div
-            className={classNames(
-              'subsection--planner__table__body__line',
-              'subsection--planner__table__body__line--dashed',
-              (mobileIsLectureListOpen ? 'subsection--planner__table__body__line--mobile-noline' : null),
-            )}
-            key="line:3"
-          />,
-          <div className={classNames('subsection--planner__table__body__cell')} key="cell:3" />,
-          <div
-            className={classNames(
-              'subsection--planner__table__body__line',
-              'subsection--planner__table__body__line--bold',
-            )}
-            key="line:4"
-          />,
-        ]
-      ));
       return (
         <div className={classNames('subsection--planner__table__body')}>
-          {timedArea}
-          {untimedArea}
-          {timedAreaReversed}
-          {untimedArea}
+          {springArea}
+          <div className={classNames('subsection--planner__table__body__cell')} />
+          <div className={classNames('subsection--planner__table__body__year')}>
+            <strong>{yearIdx + 2020}</strong>
+          </div>
+          <div className={classNames('subsection--planner__table__body__cell')} />
+          {fallArea}
         </div>
       );
     };
 
-    const dragTile = firstDragCell && secondDragCell
-      ? (
-        <TimetableDragTile
-          dayIndex={Number(firstDragCell.dataset.day)}
-          beginIndex={
-            Math.min(
-              this._getIndexOfMinute(Number(firstDragCell.dataset.minute)),
-              this._getIndexOfMinute(Number(secondDragCell.dataset.minute))
-            )
-          }
-          endIndex={
-            Math.max(
-              this._getIndexOfMinute(Number(firstDragCell.dataset.minute)),
-              this._getIndexOfMinute(Number(secondDragCell.dataset.minute))
-            ) + 1
-          }
-          cellWidth={cellWidth}
-          cellHeight={cellHeight}
-        />
-      )
-      : null;
-
     return (
-      <div className={classNames('subsection', 'subsection--planner')} onMouseUp={(e) => this.onMouseUp(e)} onTouchEnd={(e) => this.onTouchEnd(e)}>
+      <div className={classNames('subsection', 'subsection--planner')}>
         <div className={classNames('subsection--planner__table')}>
           {getHeadColumn()}
           {getYearColumn(0)}
@@ -659,9 +300,6 @@ class PlannerSubSection extends Component {
           {getYearColumn(3)}
           {getYearColumn(4)}
         </div>
-        {dragTile}
-        {tilesInsideTable}
-        {tilesOutsideTable}
       </div>
     );
   }
@@ -671,8 +309,8 @@ const mapStateToProps = (state) => ({
   user: state.common.user.user,
   selectedTimetable: state.timetable.timetable.selectedTimetable,
   lectureFocus: state.timetable.lectureFocus,
-  cellWidth: state.timetable.timetable.cellWidth,
-  cellHeight: state.timetable.timetable.cellHeight,
+  // cellWidth: state.timetable.timetable.cellWidth,
+  // cellHeight: state.timetable.timetable.cellHeight,
   isDragging: state.timetable.timetable.isDragging,
   mobileIsLectureListOpen: state.timetable.list.mobileIsLectureListOpen,
 });
@@ -680,18 +318,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   updateCellSizeDispatch: (width, height) => {
     dispatch(updateCellSize(width, height));
-  },
-  openSearchDispatch: () => {
-    dispatch(openSearch());
-  },
-  setClasstimeOptionsDispatch: (day, start, end) => {
-    dispatch(setClasstimeOptions(day, start, end));
-  },
-  clearClasstimeOptionsDispatch: () => {
-    dispatch(clearClasstimeOptions());
-  },
-  setIsDraggingDispatch: (isDragging) => {
-    dispatch(setIsDragging(isDragging));
   },
   setLectureFocusDispatch: (lecture, from, clicked) => {
     dispatch(setLectureFocus(lecture, from, clicked));
@@ -702,33 +328,21 @@ const mapDispatchToProps = (dispatch) => ({
   removeLectureFromTimetableDispatch: (lecture) => {
     dispatch(removeLectureFromTimetable(lecture));
   },
-  setSelectedListCodeDispatch: (listCode) => {
-    dispatch(setSelectedListCode(listCode));
-  },
-  setMobileIsLectureListOpenDispatch: (mobileIsLectureListOpen) => {
-    dispatch(setMobileIsLectureListOpen(mobileIsLectureListOpen));
-  },
 });
 
 PlannerSubSection.propTypes = {
   user: userShape,
   selectedTimetable: timetableShape,
   lectureFocus: lectureFocusShape.isRequired,
-  cellWidth: PropTypes.number.isRequired,
-  cellHeight: PropTypes.number.isRequired,
+  // cellWidth: PropTypes.number.isRequired,
+  // cellHeight: PropTypes.number.isRequired,
   isDragging: PropTypes.bool.isRequired,
   mobileIsLectureListOpen: PropTypes.bool.isRequired,
 
   updateCellSizeDispatch: PropTypes.func.isRequired,
-  openSearchDispatch: PropTypes.func.isRequired,
-  setClasstimeOptionsDispatch: PropTypes.func.isRequired,
-  clearClasstimeOptionsDispatch: PropTypes.func.isRequired,
-  setIsDraggingDispatch: PropTypes.func.isRequired,
   setLectureFocusDispatch: PropTypes.func.isRequired,
   clearLectureFocusDispatch: PropTypes.func.isRequired,
   removeLectureFromTimetableDispatch: PropTypes.func.isRequired,
-  setSelectedListCodeDispatch: PropTypes.func.isRequired,
-  setMobileIsLectureListOpenDispatch: PropTypes.func.isRequired,
 };
 
 
