@@ -13,7 +13,7 @@ import {
 import CourseStatus from '../../../CourseStatus';
 import CountController from '../../../CountController';
 
-class CourseSettingSubSection extends Component {
+class CourseCustomizeSubSection extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -183,6 +183,6 @@ const mapStateToProps = (state) => ({
 
 export default withTranslation()(
   connect(mapStateToProps)(
-    CourseSettingSubSection
+    CourseCustomizeSubSection
   )
 );

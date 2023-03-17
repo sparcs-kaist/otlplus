@@ -15,7 +15,7 @@ import PlannerSubSection from '../components/sections/planner/plannerandinfos/Pl
 import CourseListTabs from '../components/sections/planner/courselist/CourseListTabs';
 import CourseListSection from '../components/sections/planner/courselist/CourseListSection';
 import CourseManageSection from '../components/sections/planner/coursemanage/CourseManageSection';
-import SettingSubSection from '../components/sections/planner/plannerandinfos/SettingSubSection';
+import SettingsSubSection from '../components/sections/planner/plannerandinfos/SettingsSubSection';
 import SummarySubSection from '../components/sections/planner/plannerandinfos/SummarySubSection';
 import ShareSubSection from '../components/sections/planner/plannerandinfos/ShareSubSection';
 
@@ -44,7 +44,7 @@ class PlannerPage extends Component {
             <div className={classNames('section', 'section--planner-and-infos')}>
               <PlannerSubSection />
               <Divider orientation={{ desktop: Divider.Orientation.VERTICAL, mobile: Divider.Orientation.HORIZONTAL }} isVisible={true} gridArea="divider-main" />
-              <SettingSubSection />
+              <SettingsSubSection />
               <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={{ desktop: true, mobile: false }} gridArea="divider-sub-1" />
               <SummarySubSection />
               <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={{ desktop: true, mobile: false }} gridArea="divider-sub-2" />

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { appBoundClassNames as classNames } from '../../../../common/boundClassNames';
 import Divider from '../../../Divider';
 import CourseInfoSubSection from './CourseInfoSubSection';
-import CourseSettingSubSection from './CourseSettingSubSection';
+import CourseCustomizeSubSection from './CourseCustomizeSubSection';
 import OtlplusPlaceholder from '../../../OtlplusPlaceholder';
 import courseFocusShape from '../../../../shapes/state/CourseFocusShape';
 
@@ -15,7 +15,7 @@ class CourseManageSection extends Component {
         <>
           <CourseInfoSubSection />
           <Divider orientation={{ desktop: Divider.Orientation.VERTICAL, mobile: Divider.Orientation.HORIZONTAL }} isVisible={true} gridArea="divider-main" />
-          <CourseSettingSubSection />
+          <CourseCustomizeSubSection />
         </>
       )
       : (

@@ -18,7 +18,7 @@ import courseFocusShape from '../../../../shapes/state/CourseFocusShape';
 import userShape from '../../../../shapes/model/UserShape';
 
 import CourseSummarySubSection from './CourseSummarySubSection';
-import CourseReviewsSubSection from './CourseReviewSubSection';
+import CourseReviewsSubSection from './CourseReviewsSubSection';
 
 
 class CourseInfoSubSection extends Component {

@@ -6,7 +6,7 @@ import { appBoundClassNames as classNames } from '../../../../common/boundClassN
 import userShape from '../../../../shapes/model/UserShape';
 import Attributes from '../../../Attributes';
 
-class SettingSubSection extends Component {
+class SettingsSubSection extends Component {
   render() {
     const { t } = this.props;
     const { user } = this.props;
@@ -42,12 +42,12 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
 });
 
-SettingSubSection.propTypes = {
+SettingsSubSection.propTypes = {
   user: userShape,
 };
 
 export default withTranslation()(
   connect(mapStateToProps, mapDispatchToProps)(
-    SettingSubSection
+    SettingsSubSection
   )
 );
