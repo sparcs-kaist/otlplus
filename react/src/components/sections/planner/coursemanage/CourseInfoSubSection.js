@@ -11,7 +11,7 @@ import Attributes from '../../../Attributes';
 import Scores from '../../../Scores';
 
 
-class CourseSummarySubSection extends Component {
+class CourseInfoSubSection extends Component {
   render() {
     const { t } = this.props;
     const { courseFocus } = this.props;
@@ -23,7 +23,7 @@ class CourseSummarySubSection extends Component {
     const recentLecture = courseFocus.lectures[courseFocus.lectures.length - 1];
 
     return (
-      <div className={classNames('subsection', 'subsection--course-summary')}>
+      <div className={classNames('subsection', 'subsection--course-info')}>
         <Attributes
           entries={[
             { name: t('ui.attribute.classification'), info: `${courseFocus.course.department[t('js.property.name')]}, ${courseFocus.course[t('js.property.type')]}` },
@@ -61,13 +61,13 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
 });
 
-CourseSummarySubSection.propTypes = {
+CourseInfoSubSection.propTypes = {
   courseFocus: courseFocusShape.isRequired,
 };
 
 
 export default withTranslation()(
   connect(mapStateToProps, mapDispatchToProps)(
-    CourseSummarySubSection
+    CourseInfoSubSection
   )
 );

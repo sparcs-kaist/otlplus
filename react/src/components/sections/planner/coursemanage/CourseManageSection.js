@@ -13,7 +13,7 @@ import Scroller from '../../../Scroller';
 import CloseButton from '../../../CloseButton';
 import OtlplusPlaceholder from '../../../OtlplusPlaceholder';
 import CourseCustomizeSubSection from './CourseCustomizeSubSection';
-import CourseSummarySubSection from './CourseSummarySubSection';
+import CourseInfoSubSection from './CourseInfoSubSection';
 import CourseReviewsSubSection from './CourseReviewsSubSection';
 
 import { clearCourseFocus, setLectures, setReviews } from '../../../../actions/planner/courseFocus';
@@ -133,7 +133,7 @@ class CourseManageSection extends Component {
                 </Link>
               </div>
               <Scroller key={courseFocus.course.id}>
-                <CourseSummarySubSection />
+                <CourseInfoSubSection />
                 <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
                 <CourseReviewsSubSection />
               </Scroller>
