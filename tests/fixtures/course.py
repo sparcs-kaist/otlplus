@@ -11,7 +11,7 @@ from apps.subject.models import Department, Course, Lecture, Professor, ClassTim
 
 
 def _open_path(filename: str):
-    return open(path.join(path.dirname(__file__), "data", filename), "r")
+    return open(path.join(path.dirname(__file__), "data", filename), "r", encoding="UTF-8")
 
 
 def _import_professors():
@@ -37,7 +37,7 @@ def _import_departments():
         instances = [Department(**{header[index]: row[index] for index in range(1, len(header))}) for row in reader]
         Department.objects.bulk_create(instances)
     department_map = dict()
-    for department in Department.objects.all():
+    for department in Department.objects.filter(visible=True):
         department_map[department.code] = department
     return department_map
 
