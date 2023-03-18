@@ -7,6 +7,7 @@ import qs from 'qs';
 
 import Header from './common/guideline/components/Header';
 import DictionaryPage from './pages/DictionaryPage';
+import PlannerPage from './pages/PlannerPage';
 import TimetablePage from './pages/TimetablePage';
 import WriteReviewsPage from './pages/WriteReviewsPage';
 import SyllabusPage from './pages/SyllabusPage';
@@ -22,6 +23,7 @@ import dictionaryReducer from './reducers/dictionary/index';
 import timetableReducer from './reducers/timetable/index';
 import writeReviewsReducer from './reducers/write-reviews/index';
 import commonReducer from './reducers/common/index';
+import plannerReducer from './reducers/planner/index';
 
 import { setUser } from './actions/common/user';
 import { setSemesters } from './actions/common/semester';
@@ -33,6 +35,7 @@ const store = createStore(combineReducers({
   dictionary: dictionaryReducer,
   timetable: timetableReducer,
   writeReviews: writeReviewsReducer,
+  planner: plannerReducer,
 }));
 
 class App extends Component {
@@ -148,6 +151,15 @@ class App extends Component {
                 props.location.search
                   ? <Redirect to={{ ...props.location, state: { ...props.location.state, ...parseQueryString(props.location.search) }, search: '' }} />
                   : <DictionaryPage {...props} />
+              )}
+            />
+            <Route
+              exact
+              path="/planner"
+              render={(props) => (
+                props.location.search
+                  ? <Redirect to={{ ...props.location, state: { ...props.location.state, ...parseQueryString(props.location.search) }, search: '' }} />
+                  : <PlannerPage {...props} />
               )}
             />
             <Route

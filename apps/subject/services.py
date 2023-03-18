@@ -1,7 +1,10 @@
 import datetime
+import functools
+import operator
 from typing import List, Dict, Optional
 
-from django.db.models import Q, QuerySet
+from django.db.models import Q, QuerySet, Value
+from django.db.models.functions import Replace
 from django.http import QueryDict
 from django.utils import timezone
 
@@ -60,10 +63,14 @@ def filter_by_type(queryset: QuerySet, types: List[str]) -> QuerySet:
         return queryset
     elif "ETC" in types:
         unselected_types = [TYPE_ACRONYMS[x] for x in TYPE_ACRONYMS if x not in types]
-        return queryset.exclude(type_en__in=unselected_types)
+        return queryset.exclude(
+            functools.reduce(operator.or_, (Q(type_en__startswith=t) for t in unselected_types))
+        )
     else:
         selected_types = [TYPE_ACRONYMS[x] for x in TYPE_ACRONYMS if x in types]
-        return queryset.filter(type_en__in=selected_types)
+        return queryset.filter(
+            functools.reduce(operator.or_, (Q(type_en__startswith=t) for t in selected_types))
+        )
 
 
 def filter_by_level(queryset: QuerySet, levels: Optional[List[str]]) -> QuerySet:
@@ -105,7 +112,7 @@ def filter_by_group(queryset: QuerySet, group: Optional[List[str]]) -> QuerySet:
         query |= Q(type_en__in=filter_type)
     if "Humanity" in group:
         group.remove("Humanity")
-        query |= Q(type_en="Humanities & Social Elective")
+        query |= Q(type_en__startswith="Humanities & Social Elective")
     if len(group) > 0:
         filter_type = ["Major Required", "Major Elective", "Elective(Graduate)"]
         query |= Q(type_en__in=filter_type, department__code__in=group)
@@ -117,13 +124,17 @@ def filter_by_keyword(queryset: QuerySet, keyword: Optional[str]) -> QuerySet:
         return queryset
 
     keyword = keyword.strip()
+    keyword_space_removed = keyword.replace(' ', '')
 
     if len(keyword) == 0:
         return queryset
 
-    return queryset.filter(
-        Q(title__icontains=keyword)
-        | Q(title_en__icontains=keyword)
+    return queryset.annotate(
+        title_space_removed=Replace('title', Value(' '), Value('')),
+        title_en_space_removed=Replace('title_en', Value(' '), Value(''))
+    ).filter(
+        Q(title_space_removed__icontains=keyword_space_removed)
+        | Q(title_en_space_removed__icontains=keyword_space_removed)
         | Q(old_code__istartswith=keyword)
         | Q(department__name__iexact=keyword)
         | Q(department__name_en__iexact=keyword)

@@ -15,16 +15,16 @@ import {
 
 import CloseButton from '../components/CloseButton';
 import Divider from '../components/Divider';
-import LectureDetailSection from '../components/sections/timetable/LectureDetailSection';
-import LectureListTabs from '../components/sections/timetable/LectureListTabs';
-import LectureListSection from '../components/sections/timetable/LectureListSection';
-import TimetableTabs from '../components/sections/timetable/TimetableTabs';
-import SemesterSection from '../components/sections/timetable/SemesterSection';
-import TimetableSubSection from '../components/sections/timetable/TimetableSubSection';
-import MapSubSection from '../components/sections/timetable/MapSubSection';
-import SummarySubSection from '../components/sections/timetable/SummarySubSection';
-import ExamSubSection from '../components/sections/timetable/ExamSubSection';
-import ShareSubSection from '../components/sections/timetable/ShareSubSection';
+import LectureDetailSection from '../components/sections/timetable/lecturedetail/LectureDetailSection';
+import LectureListTabs from '../components/sections/timetable/lecturelist/LectureListTabs';
+import LectureListSection from '../components/sections/timetable/lecturelist/LectureListSection';
+import TimetableTabs from '../components/sections/timetable/timetableandinfos/TimetableTabs';
+import SemesterSection from '../components/sections/timetable/semester/SemesterSection';
+import TimetableSubSection from '../components/sections/timetable/timetableandinfos/TimetableSubSection';
+import MapSubSection from '../components/sections/timetable/timetableandinfos/MapSubSection';
+import SummarySubSection from '../components/sections/timetable/timetableandinfos/SummarySubSection';
+import ExamSubSection from '../components/sections/timetable/timetableandinfos/ExamSubSection';
+import ShareSubSection from '../components/sections/timetable/timetableandinfos/ShareSubSection';
 
 import semesterShape from '../shapes/model/SemesterShape';
 import timetableShape from '../shapes/model/TimetableShape';

@@ -37,7 +37,8 @@
       "writeReview": "Write Review",
       "myInformation": "My Information",
       "academicInformation": "Academic Information",
-      "settings": "Settings"
+      "settings": "Settings",
+      "lectureInformation": "Lecture Information"
     },
     "tab": {
       "search": "Search",
@@ -79,7 +80,8 @@
       "writeMoreReviews": "Write More Reviews",
       "save": "Save",
       "submit": "Submit",
-      "signOut": "Sign Out"
+      "signOut": "Sign Out",
+      "reset": "Reset"
     },
     "attribute": {
       "department": "Dept.",
@@ -93,7 +95,11 @@
       "name": "Name",
       "email": "Email",
       "studentId": "Student ID",
-      "major": "Major"
+      "all": "ALL",
+      "basic": "Basic",
+      "major": "Major",
+      "default": "Default",
+      "additional": "Additional"
     },
     "score": {
       "reviewsWritten": "Reviews",
@@ -107,7 +113,9 @@
       "likes": "Likes",
       "grade": "Grade",
       "load": "Load",
-      "speech": "Speech"
+      "speech": "Speech",
+      "numClasses": "Lecture",
+      "numLabs": "Lab"
     },
     "placeholder": {
       "loading": "Loading",
@@ -124,7 +132,17 @@
       "professor": "Prof.",
       "language": "Lang.",
       "term": "Term",
-      "favoriteDepartment": "Favorite Departments"
+      "favoriteDepartment": "Favorite Departments",
+      "semester": "Semester",
+      "retake": "Retake"
+    },
+    "semesterInfo": {
+      "normal": "Normal",
+      "seasonal": "Seasonal"
+    },
+    "retake": {
+      "normal": "Normal",
+      "retake": "Retake"
     },
     "type": {
       "basicRequired": "Basic Required",
@@ -228,6 +246,8 @@
       "timetableOverlap": "You can't add lecture overlapping.",
       "timetableDelete": "Do you really want to delete? The timetable can't be recovered once deleted.",
       "lastTimetable": "You can't delete the last timetable.",
+      "plannerDelete": "Do you really want to delete? The planner can't be recovered once deleted.",
+      "lastPlanner": "You can't delete the last planner.",
       "alreadyUploading": "The upload is already in progress. Please wait for a moment.",
       "emptyContent": "Please enter the comment.",
       "scoreNotSelected": "Please select all scores.",
@@ -260,6 +280,7 @@
     "others": {
       "table": "Table",
       "myTable": "My Table",
+      "planner": "Planner",
       "examOfDay": "Exams on {{day}}",
       "creditCount": "{{count}} credit",
       "creditCount_plural": "{{count}} credits",
@@ -288,6 +309,7 @@
     "menu": {
       "timetable": "Timetable",
       "dictionary": "Dictionary",
+      "planner": "Planner",
       "writeReviews": "Write Reviews",
       "toggleLang": "한국어",
       "notifications": "Notifications",

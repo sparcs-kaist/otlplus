@@ -121,6 +121,11 @@ class Header extends Component {
                 </Link>
               </span>
               <span>
+                <Link to="/planner">
+                  {t('ui.menu.planner')}
+                </Link>
+              </span>
+              <span>
                 <Link to="/timetable">
                   {t('ui.menu.timetable')}
                 </Link>
