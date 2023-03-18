@@ -101,11 +101,16 @@ class PlannerSubSection extends Component {
     // TODO: Retrieve data from planner
     const plannerStartYear = 2020;
     const plannerEndYear = 2024;
+    const hasSummerSemester = true;
+    const hasWinterSemester = true;
 
     const plannerCreditunits = range(0, PLANNER_DEFAULT_CREDIT / 3);
     const getHeadColumn = () => {
       const springArea = [
-        <div className={classNames('subsection--planner__table__label__toptitle')} key="title" />,
+        hasSummerSemester && (
+          <div className={classNames('subsection--planner__table__label__toptitle')} key="title:summer" />
+        ),
+        <div className={classNames('subsection--planner__table__label__toptitle')} key="title:spring" />,
         <div className={classNames('subsection--planner__table__label__line')} key="line:24">
           <strong>{24}</strong>
         </div>,
@@ -147,7 +152,10 @@ class PlannerSubSection extends Component {
         <div className={classNames('subsection--planner__table__label__line')} key="line:24">
           <strong>{24}</strong>
         </div>,
-        <div className={classNames('subsection--planner__table__label__bottomtitle')} key="title" />,
+        <div className={classNames('subsection--planner__table__label__bottomtitle')} key="title:fall" />,
+        hasWinterSemester && (
+          <div className={classNames('subsection--planner__table__label__bottomtitle')} key="title:winter" />
+        ),
       ];
       return (
         <div className={classNames('subsection--planner__table__label')}>
@@ -161,6 +169,11 @@ class PlannerSubSection extends Component {
     };
     const getYearColumn = (year) => {
       const springArea = [
+        hasSummerSemester && (
+          <div className={classNames('subsection--planner__table__body__toptitle')} key="title:summer">
+            {`${year} ${t('ui.semester.summer')}`}
+          </div>
+        ),
         <div className={classNames('subsection--planner__table__body__toptitle')} key="title:spring">
           {`${year} ${t('ui.semester.spring')}`}
         </div>,
@@ -280,6 +293,11 @@ class PlannerSubSection extends Component {
         <div className={classNames('subsection--planner__table__body__bottomtitle')} key="title:fall">
           {`${year} ${t('ui.semester.fall')}`}
         </div>,
+        hasWinterSemester && (
+          <div className={classNames('subsection--planner__table__body__bottomtitle')} key="title:winter">
+            {`${year} ${t('ui.semester.winter')}`}
+          </div>
+        ),
       ];
       return (
         <div className={classNames('subsection--planner__table__body')}>

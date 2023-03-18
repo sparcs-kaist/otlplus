@@ -1723,10 +1723,22 @@ a {
                 padding-right : 8px;
                 border-right: 1px solid $color-normal-line;
     
-                &__toptitle,
+                &__toptitle {
+                    flex: none;
+                    height: $line-height-smallest + 6px;
+
+                    &:has(+ &) {
+                        height: $line-height-smallest + 4px;
+                    }
+                }
+
                 &__bottomtitle {
                     flex: none;
                     height: $line-height-smallest + 6px;
+
+                    & + & {
+                        height: $line-height-smallest + 4px;
+                    }
                 }
 
                 &__year {
@@ -1778,11 +1790,21 @@ a {
                 &__toptitle {
                     height: $line-height-smallest + 6px;
                     padding-bottom: 6px;
+
+                    &:has(+ &) {
+                        height: $line-height-smallest + 4px;
+                        padding-bottom: 4px;
+                    }
                 }
 
                 &__bottomtitle {
                     height: $line-height-smallest + 6px;
                     padding-top: 6px;
+
+                    & + & {
+                        height: $line-height-smallest + 4px;
+                        padding-top: 4px;
+                    }
                 }
 
                 &__year {
