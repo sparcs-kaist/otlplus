@@ -72,6 +72,21 @@ class PlannerTabs extends Component {
     return Math.floor(Math.random() * 100000000);
   }
 
+  _getPlannerStartYear = (user) => {
+    const currentYear = (new Date()).getFullYear();
+    if (!user) {
+      return currentYear;
+    }
+    if (!user.student_id.length !== 8) {
+      return currentYear;
+    }
+    const userEntranceYear = parseInt(user.student_id.substring(0, 4), 10);
+    if (userEntranceYear < 2000 && userEntranceYear > currentYear) {
+      return currentYear;
+    }
+    return userEntranceYear;
+  }
+
   changeTab = (planner) => {
     const { setSelectedPlannerDispatch } = this.props;
 
@@ -89,14 +104,21 @@ class PlannerTabs extends Component {
       createPlannerDispatch,
     } = this.props;
 
+    const startYear = this._getPlannerStartYear(user);
+    const endYear = startYear + 3;
+
+    console.log(startYear, endYear);
+
     if (!user) {
-      createPlannerDispatch(this._createRandomPlannerId());
+      createPlannerDispatch(this._createRandomPlannerId(), startYear, endYear);
     }
     else {
       axios.post(
         `/api/users/${user.id}/planners`,
         {
-          lectures: [],
+          start_year: startYear,
+          end_year: endYear,
+          // lectures: [],
         },
         {
           metadata: {
@@ -106,7 +128,7 @@ class PlannerTabs extends Component {
         },
       )
         .then((response) => {
-          createPlannerDispatch(response.data.id);
+          createPlannerDispatch(response.data.id, startYear, endYear);
         })
         .catch((error) => {
         });
@@ -279,8 +301,8 @@ const mapDispatchToProps = (dispatch) => ({
   setSelectedPlannerDispatch: (planner) => {
     dispatch(setSelectedPlanner(planner));
   },
-  createPlannerDispatch: (id) => {
-    dispatch(createPlanner(id));
+  createPlannerDispatch: (id, startYear, endYear) => {
+    dispatch(createPlanner(id, startYear, endYear));
   },
   deletePlannerDispatch: (planner) => {
     dispatch(deletePlanner(planner));

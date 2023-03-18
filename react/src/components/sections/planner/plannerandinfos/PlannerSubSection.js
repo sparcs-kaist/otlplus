@@ -13,7 +13,7 @@ import { updateCellSize, removeLectureFromTimetable } from '../../../../actions/
 import { LectureFocusFrom } from '../../../../reducers/timetable/lectureFocus';
 
 import userShape from '../../../../shapes/model/UserShape';
-import timetableShape from '../../../../shapes/model/TimetableShape';
+import plannerShape from '../../../../shapes/model/PlannerShape';
 import lectureFocusShape from '../../../../shapes/state/LectureFocusShape';
 
 import { isTableClicked } from '../../../../utils/lectureUtils';
@@ -69,9 +69,9 @@ class PlannerSubSection extends Component {
   }
 
   deleteLectureFromTimetable = (lecture) => {
-    const { selectedTimetable, user, removeLectureFromTimetableDispatch } = this.props;
+    const { selectedPlanner, user, removeLectureFromTimetableDispatch } = this.props;
 
-    if (!selectedTimetable) {
+    if (!selectedPlanner) {
       return;
     }
 
@@ -79,14 +79,14 @@ class PlannerSubSection extends Component {
     };
     const afterResponse = () => {
       const newProps = this.props;
-      if (!newProps.selectedTimetable || newProps.selectedTimetable.id !== selectedTimetable.id) {
+      if (!newProps.selectedPlanner || newProps.selectedPlanner.id !== selectedPlanner.id) {
         return;
       }
       // TODO: Fix timetable not updated when semester unchanged and timetable changed
       removeLectureFromTimetableDispatch(lecture);
     };
     performDeleteFromTable(
-      lecture, selectedTimetable, user, 'Timetable',
+      lecture, selectedPlanner, user, 'Timetable',
       beforeRequest, afterResponse,
     );
   }
@@ -94,13 +94,16 @@ class PlannerSubSection extends Component {
   render() {
     const {
       t,
+      selectedPlanner,
       // cellWidth, cellHeight,
       mobileIsLectureListOpen,
     } = this.props;
 
+    const currentYear = (new Date()).getFullYear();
+    console.log(selectedPlanner);
+    const plannerStartYear = selectedPlanner ? selectedPlanner.start_year : currentYear;
+    const plannerEndYear = selectedPlanner ? selectedPlanner.end_year : currentYear + 3;
     // TODO: Retrieve data from planner
-    const plannerStartYear = 2020;
-    const plannerEndYear = 2024;
     const hasSummerSemester = true;
     const hasWinterSemester = true;
 
@@ -329,7 +332,7 @@ class PlannerSubSection extends Component {
 
 const mapStateToProps = (state) => ({
   user: state.common.user.user,
-  selectedTimetable: state.timetable.timetable.selectedTimetable,
+  selectedPlanner: state.planner.planner.selectedPlanner,
   lectureFocus: state.timetable.lectureFocus,
   // cellWidth: state.timetable.timetable.cellWidth,
   // cellHeight: state.timetable.timetable.cellHeight,
@@ -354,7 +357,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 PlannerSubSection.propTypes = {
   user: userShape,
-  selectedTimetable: timetableShape,
+  selectedPlanner: plannerShape,
   lectureFocus: lectureFocusShape.isRequired,
   // cellWidth: PropTypes.number.isRequired,
   // cellHeight: PropTypes.number.isRequired,

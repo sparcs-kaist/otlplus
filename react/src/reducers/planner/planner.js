@@ -47,7 +47,9 @@ const planner = (state = initialState, action) => {
         : 0;
       const newPlanner = {
         id: action.id,
-        lectures: [],
+        start_year: action.startYear,
+        end_year: action.endYear,
+        // lectures: [],
         arrange_order: newArrangeOrder,
       };
       return Object.assign({}, state, {
