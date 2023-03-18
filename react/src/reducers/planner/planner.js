@@ -25,7 +25,9 @@ const planner = (state = initialState, action) => {
     case SET_PLANNERS: {
       return Object.assign({}, state, {
         planners: action.planners,
-        selectedPlanner: action.planners[0],
+        selectedPlanner: action.planners.length > 0
+          ? action.planners[0]
+          : null,
       });
     }
     case CLEAR_PLANNERS: {

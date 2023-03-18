@@ -36,10 +36,10 @@ export function removeLectureFromPlanner(lecture) {
 }
 */
 
-export function setPlanners(planenrs) {
+export function setPlanners(planners) {
   return {
     type: SET_PLANNERS,
-    planenrs: planenrs,
+    planners: planners,
   };
 }
 
