@@ -74,7 +74,9 @@ const planner = (state = initialState, action) => {
     case DUPLICATE_PLANNER: {
       const newPlanner = {
         id: action.id,
-        lectures: action.planner.lectures.slice(),
+        start_year: action.planner.start_year,
+        end_year: action.planner.end_year,
+        // lectures: action.planner.lectures.slice(),
         arrange_order: Math.max(...state.planners.map((t) => t.arrange_order)) + 1,
       };
       return Object.assign({}, state, {
