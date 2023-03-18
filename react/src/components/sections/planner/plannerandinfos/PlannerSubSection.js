@@ -100,7 +100,6 @@ class PlannerSubSection extends Component {
     } = this.props;
 
     const currentYear = (new Date()).getFullYear();
-    console.log(selectedPlanner);
     const plannerStartYear = selectedPlanner ? selectedPlanner.start_year : currentYear;
     const plannerEndYear = selectedPlanner ? selectedPlanner.end_year : currentYear + 3;
     // TODO: Retrieve data from planner

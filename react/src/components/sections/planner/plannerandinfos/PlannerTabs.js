@@ -107,8 +107,6 @@ class PlannerTabs extends Component {
     const startYear = this._getPlannerStartYear(user);
     const endYear = startYear + 3;
 
-    console.log(startYear, endYear);
-
     if (!user) {
       createPlannerDispatch(this._createRandomPlannerId(), startYear, endYear);
     }
