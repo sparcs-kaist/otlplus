@@ -25,6 +25,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('planner', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='generic_items', to='planner.Planner')),
+                ('year', models.IntegerField(db_index=True)),
+                ('semester', models.IntegerField(db_index=True)),
             ],
         ),
     ]

@@ -70,9 +70,14 @@ class GenericPlannerItem(models.Model):
     planner = models.ForeignKey(Planner,
                                 related_name="generic_items", on_delete=models.CASCADE,
                                 db_index=True)
+    
+    year = models.IntegerField(db_index=True)
+    semester = models.IntegerField(db_index=True)
 
     def to_json(self):
         result = {
+            "year": self.year,
+            "semester": self.semester,
         }
 
         return result
