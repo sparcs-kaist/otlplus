@@ -246,6 +246,8 @@
       "timetableOverlap": "You can't add lecture overlapping.",
       "timetableDelete": "Do you really want to delete? The timetable can't be recovered once deleted.",
       "lastTimetable": "You can't delete the last timetable.",
+      "plannerDelete": "Do you really want to delete? The planner can't be recovered once deleted.",
+      "lastPlanner": "You can't delete the last planner.",
       "alreadyUploading": "The upload is already in progress. Please wait for a moment.",
       "emptyContent": "Please enter the comment.",
       "scoreNotSelected": "Please select all scores.",

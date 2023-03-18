@@ -300,7 +300,7 @@ class PlannerSubSection extends Component {
         ),
       ];
       return (
-        <div className={classNames('subsection--planner__table__body')}>
+        <div className={classNames('subsection--planner__table__body')} key={year}>
           {springArea}
           <div className={classNames('subsection--planner__table__body__cell')} />
           <div className={classNames('subsection--planner__table__body__year')}>

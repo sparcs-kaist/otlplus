@@ -246,6 +246,8 @@
       "timetableOverlap": "시간표가 겹치는 과목은 추가할 수 없습니다.",
       "timetableDelete": "정말 삭제하시겠습니까? 삭제된 시간표는 복구할 수 없습니다.",
       "lastTimetable": "마지막 시간표는 삭제할 수 없습니다.",
+      "plannerDelete": "정말 삭제하시겠습니까? 삭제된 플래너는 복구할 수 없습니다.",
+      "lastPlanner": "마지막 플래너는 삭제할 수 없습니다.",
       "alreadyUploading": "이미 업로드 중입니다. 잠시만 기다려 주세요.",
       "emptyContent": "후기를 입력해 주세요.",
       "scoreNotSelected": "평가를 선택해 주세요.",

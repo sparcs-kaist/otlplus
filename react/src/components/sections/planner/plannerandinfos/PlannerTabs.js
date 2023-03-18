@@ -14,284 +14,225 @@ import {
 } from '../../../../actions/planner/planner';
 
 import userShape from '../../../../shapes/model/UserShape';
-import timetableShape from '../../../../shapes/model/TimetableShape';
+import plannerShape from '../../../../shapes/model/PlannerShape';
 
 
 class PlannerTabs extends Component {
+  componentDidMount() {
+    this._fetchPlanners();
+  }
+
   componentDidUpdate(prevProps, prevState, snapshot) {
     const {
       user,
-      year, semester,
-      clearTimetablesDispatch,
+      clearPlannersDispatch,
     } = this.props;
 
-    if (year !== prevProps.year || semester !== prevProps.semester) {
-      clearTimetablesDispatch();
-      this._fetchTables();
-    }
-    else if (!prevProps.user && user) {
-      clearTimetablesDispatch();
-      this._fetchTables();
+    if (!prevProps.user && user) {
+      clearPlannersDispatch();
+      this._fetchPlanners();
     }
   }
 
-  _fetchTables = () => {
+  _fetchPlanners = () => {
     const {
       user,
-      year, semester,
-      setTimetablesDispatch,
+      setPlannersDispatch,
     } = this.props;
 
     if (!user) {
-      setTimetablesDispatch([]);
-      this._performCreateTable();
-      return;
-    }
-
-    if ((year == null) || (semester == null)) {
+      setPlannersDispatch([]);
+      this._performCreatePlanner();
       return;
     }
 
     axios.get(
-      `/api/users/${user.id}/timetables`,
+      `/api/users/${user.id}/planners`,
       {
         params: {
-          year: year,
-          semester: semester,
           order: ['id'],
         },
         metadata: {
-          gaCategory: 'Timetable',
+          gaCategory: 'Planner',
           gaVariable: 'GET / List',
         },
       },
     )
       .then((response) => {
-        const newProps = this.props;
-        if (newProps.year !== year || newProps.semester !== semester) {
-          return;
-        }
-        setTimetablesDispatch(response.data);
+        setPlannersDispatch(response.data);
         if (response.data.length === 0) {
-          this._performCreateTable();
+          this._performCreatePlanner();
         }
       })
       .catch((error) => {
       });
   }
 
-  _createRandomTimetableId = () => {
+  _createRandomPlannerId = () => {
     return Math.floor(Math.random() * 100000000);
   }
 
-  changeTab = (timetable) => {
-    const { setSelectedTimetableDispatch } = this.props;
+  changeTab = (planner) => {
+    const { setSelectedPlannerDispatch } = this.props;
 
-    setSelectedTimetableDispatch(timetable);
+    setSelectedPlannerDispatch(planner);
 
     ReactGA.event({
-      category: 'Timetable - Timetable',
-      action: 'Switched Timetable',
+      category: 'Planner - Planner',
+      action: 'Switched Planner',
     });
   }
 
-  _performCreateTable = () => {
+  _performCreatePlanner = () => {
     const {
       user,
-      year, semester,
-      createTimetableDispatch,
+      createPlannerDispatch,
     } = this.props;
 
     if (!user) {
-      createTimetableDispatch(this._createRandomTimetableId());
+      createPlannerDispatch(this._createRandomPlannerId());
     }
     else {
       axios.post(
-        `/api/users/${user.id}/timetables`,
+        `/api/users/${user.id}/planners`,
         {
-          year: year,
-          semester: semester,
           lectures: [],
         },
         {
           metadata: {
-            gaCategory: 'Timetable',
+            gaCategory: 'Planner',
             gaVariable: 'POST / List',
           },
         },
       )
         .then((response) => {
-          const newProps = this.props;
-          if (newProps.year !== year || newProps.semester !== semester) {
-            return;
-          }
-          createTimetableDispatch(response.data.id);
+          createPlannerDispatch(response.data.id);
         })
         .catch((error) => {
         });
     }
   }
 
-  createTable = () => {
-    this._performCreateTable();
+  createPlanner = () => {
+    this._performCreatePlanner();
 
     ReactGA.event({
-      category: 'Timetable - Timetable',
-      action: 'Created Timetable',
+      category: 'Planner - Planner',
+      action: 'Created Planner',
     });
   }
 
-  deleteTable = (event, timetable) => {
+  deletePlanner = (event, planner) => {
     const { t } = this.props;
     const {
       user,
-      timetables,
-      year, semester,
-      deleteTimetableDispatch,
+      planners,
+      deletePlannerDispatch,
     } = this.props;
 
     event.stopPropagation();
 
-    if (timetables.length === 1) {
+    if (planners.length === 1) {
       // eslint-disable-next-line no-alert
-      alert(t('ui.message.lastTimetable'));
+      alert(t('ui.message.lastPlanner'));
       return;
     }
     // eslint-disable-next-line no-alert
-    if (!window.confirm(t('ui.message.timetableDelete'))) {
+    if (!window.confirm(t('ui.message.plannerDelete'))) {
       return;
     }
 
     if (!user) {
-      deleteTimetableDispatch(timetable);
+      deletePlannerDispatch(planner);
     }
     else {
       axios.delete(
-        `/api/users/${user.id}/timetables/${timetable.id}`,
+        `/api/users/${user.id}/planners/${planner.id}`,
         {
           metadata: {
-            gaCategory: 'Timetable',
+            gaCategory: 'Planner',
             gaVariable: 'DELETE / Instance',
           },
         },
       )
         .then((response) => {
-          const newProps = this.props;
-          if (newProps.year !== year || newProps.semester !== semester) {
-            return;
-          }
-          deleteTimetableDispatch(timetable);
+          deletePlannerDispatch(planner);
         })
         .catch((error) => {
         });
     }
 
     ReactGA.event({
-      category: 'Timetable - Timetable',
-      action: 'Deleted Timetable',
+      category: 'Planner - Planner',
+      action: 'Deleted Planner',
     });
   }
 
-  duplicateTable = (event, timetable) => {
+  duplicatePlanner = (event, planner) => {
     const {
       user,
-      year, semester,
-      duplicateTimetableDispatch,
+      duplicatePlannerDispatch,
     } = this.props;
 
     event.stopPropagation();
 
     if (!user) {
-      duplicateTimetableDispatch(this._createRandomTimetableId(), timetable);
+      duplicatePlannerDispatch(this._createRandomPlannerId(), planner);
     }
     else {
       axios.post(
-        `/api/users/${user.id}/timetables`,
+        `/api/users/${user.id}/planners`,
         {
-          year: year,
-          semester: semester,
-          lectures: timetable.lectures.map((l) => l.id),
+          // lectures: planner.lectures.map((l) => l.id),
         },
         {
           metadata: {
-            gaCategory: 'Timetable',
+            gaCategory: 'Planner',
             gaVariable: 'POST / List',
           },
         },
       )
         .then((response) => {
-          const newProps = this.props;
-          if (newProps.year !== year || newProps.semester !== semester) {
-            return;
-          }
-          duplicateTimetableDispatch(response.data.id, timetable);
+          duplicatePlannerDispatch(response.data.id, planner);
         })
         .catch((error) => {
         });
     }
 
     ReactGA.event({
-      category: 'Timetable - Timetable',
-      action: 'Duplicated Timetable',
+      category: 'Planner - Planner',
+      action: 'Duplicated Planner',
     });
   }
 
   render() {
     const { t } = this.props;
     const {
-      user,
-      timetables, selectedTimetable, myTimetable,
+      planners, selectedPlanner,
     } = this.props;
 
-    const myTimetableTab = (
-      user
+    const normalPlannerTabs = (
+      (planners && planners.length)
         ? (
-          <div
-            className={classNames(
-              'tabs__elem',
-              ((selectedTimetable && (myTimetable.id === selectedTimetable.id)) ? 'tabs__elem--selected' : null),
-            )}
-            key={myTimetable.id}
-            onClick={() => this.changeTab(myTimetable)}
-          >
-            <span>
-              {`${t('ui.others.planner')}`}
-            </span>
-            <button onClick={(event) => this.duplicateTable(event, myTimetable)}>
-              <i className={classNames('icon', 'icon--duplicate-table')} />
-              <span>{t('ui.button.duplicateTable')}</span>
-            </button>
-            <button className={classNames('disabled')}>
-              <i className={classNames('icon', 'icon--delete-table')} />
-              <span>{t('ui.button.deleteTable')}</span>
-            </button>
-          </div>
-        )
-        : null
-    );
-
-    const normalTimetableTabs = (
-      (timetables && timetables.length)
-        ? (
-          timetables.map((tt, i) => (
+          planners.map((tt, i) => (
             <div
               className={classNames(
                 'tabs__elem',
-                (tt.id === selectedTimetable.id ? 'tabs__elem--selected' : null),
+                (tt.id === selectedPlanner.id ? 'tabs__elem--selected' : null),
               )}
               key={tt.id}
               onClick={() => this.changeTab(tt)}
             >
               <span>
-                {`${t('ui.others.table')} ${i + 1}`}
+                {`${t('ui.others.planner')} ${i + 1}`}
               </span>
-              <button onClick={(event) => this.duplicateTable(event, tt)}>
+              <button onClick={(event) => this.duplicatePlanner(event, tt)}>
                 <i className={classNames('icon', 'icon--duplicate-table')} />
-                <span>{t('ui.button.duplicateTable')}</span>
+                <span>{t('ui.button.duplicatePlanner')}</span>
               </button>
-              <button onClick={(event) => this.deleteTable(event, tt)}>
+              <button onClick={(event) => this.deletePlanner(event, tt)}>
                 <i className={classNames('icon', 'icon--delete-table')} />
-                <span>{t('ui.button.deleteTable')}</span>
+                <span>{t('ui.button.deletePlanner')}</span>
               </button>
             </div>
           ))
@@ -303,9 +244,9 @@ class PlannerTabs extends Component {
         )
     );
     const addTabButton = (
-      (timetables && timetables.length)
+      (planners && planners.length)
         ? (
-          <div className={classNames('tabs__elem', 'tabs__elem--add-button')} onClick={() => this.createTable()}>
+          <div className={classNames('tabs__elem', 'tabs__elem--add-button')} onClick={() => this.createPlanner()}>
             <i className={classNames('icon', 'icon--add-table')} />
           </div>
         )
@@ -314,8 +255,7 @@ class PlannerTabs extends Component {
 
     return (
       <div className={classNames('tabs', 'tabs--planner')}>
-        {myTimetableTab}
-        {normalTimetableTabs}
+        {normalPlannerTabs}
         {addTabButton}
       </div>
     );
@@ -324,48 +264,43 @@ class PlannerTabs extends Component {
 
 const mapStateToProps = (state) => ({
   user: state.common.user.user,
-  timetables: state.timetable.timetable.timetables,
-  selectedTimetable: state.timetable.timetable.selectedTimetable,
-  myTimetable: state.timetable.timetable.myTimetable,
-  year: state.timetable.semester.year,
-  semester: state.timetable.semester.semester,
+  planners: state.planner.planner.planners,
+  selectedPlanner: state.planner.planner.selectedPlanner,
+  myPlanner: state.planner.planner.myPlanner,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  setTimetablesDispatch: (timetables) => {
-    dispatch(setPlanners(timetables));
+  setPlannersDispatch: (planners) => {
+    dispatch(setPlanners(planners));
   },
-  clearTimetablesDispatch: () => {
+  clearPlannersDispatch: () => {
     dispatch(clearPlanners());
   },
-  setSelectedTimetableDispatch: (timetable) => {
-    dispatch(setSelectedPlanner(timetable));
+  setSelectedPlannerDispatch: (planner) => {
+    dispatch(setSelectedPlanner(planner));
   },
-  createTimetableDispatch: (id) => {
+  createPlannerDispatch: (id) => {
     dispatch(createPlanner(id));
   },
-  deleteTimetableDispatch: (timetable) => {
-    dispatch(deletePlanner(timetable));
+  deletePlannerDispatch: (planner) => {
+    dispatch(deletePlanner(planner));
   },
-  duplicateTimetableDispatch: (id, timetable) => {
-    dispatch(duplicatePlanner(id, timetable));
+  duplicatePlannerDispatch: (id, planner) => {
+    dispatch(duplicatePlanner(id, planner));
   },
 });
 
 PlannerTabs.propTypes = {
   user: userShape,
-  timetables: PropTypes.arrayOf(timetableShape),
-  selectedTimetable: timetableShape,
-  myTimetable: timetableShape.isRequired,
-  year: PropTypes.number,
-  semester: PropTypes.number,
+  planners: PropTypes.arrayOf(plannerShape),
+  selectedPlanner: plannerShape,
 
-  setTimetablesDispatch: PropTypes.func.isRequired,
-  clearTimetablesDispatch: PropTypes.func.isRequired,
-  setSelectedTimetableDispatch: PropTypes.func.isRequired,
-  createTimetableDispatch: PropTypes.func.isRequired,
-  deleteTimetableDispatch: PropTypes.func.isRequired,
-  duplicateTimetableDispatch: PropTypes.func.isRequired,
+  setPlannersDispatch: PropTypes.func.isRequired,
+  clearPlannersDispatch: PropTypes.func.isRequired,
+  setSelectedPlannerDispatch: PropTypes.func.isRequired,
+  createPlannerDispatch: PropTypes.func.isRequired,
+  deletePlannerDispatch: PropTypes.func.isRequired,
+  duplicatePlannerDispatch: PropTypes.func.isRequired,
 };
 
 
