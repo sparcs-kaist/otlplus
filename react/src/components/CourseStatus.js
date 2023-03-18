@@ -27,7 +27,7 @@ class CourseStatus extends Component {
               <div>
                 {
                   e.info.map((k) => (
-                    <div className={classNames('course-status--info')}>
+                    <div className={classNames('course-status--info')} key={k.name}>
                       <div className={classNames('course-status--info--name')}>{k.name}</div>
                       <div />
                       { k.controller }
@@ -47,7 +47,8 @@ CourseStatus.propTypes = {
   entries: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string.isRequired,
-      info: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
+      // eslint-disable-next-line react/forbid-prop-types
+      info: PropTypes.any.isRequired,
     })
   ).isRequired,
 };
