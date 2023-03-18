@@ -3,7 +3,7 @@ from __future__ import annotations
 from django.db import models
 
 from apps.session.models import UserProfile
-from apps.subject.models import Course
+from apps.subject.models import Course, Lecture
 
 
 class Planner(models.Model):
@@ -29,6 +29,21 @@ class Planner(models.Model):
         return Planner.objects.filter(user=user)
     
 
+
+class TakenPlannerItem(models.Model):
+    planner = models.ForeignKey(Planner,
+                                related_name="taken_items", on_delete=models.CASCADE, db_index=True)
+
+    lecture = models.ForeignKey(Lecture, on_delete=models.PROTECT)
+    
+    def to_json(self):
+        result = {
+            "lecture": self.lecture.to_json(nested=True),
+        }
+
+        return result
+
+
 class FuturePlannerItem(models.Model):
     planner = models.ForeignKey(Planner,
                                 related_name="future_items", on_delete=models.CASCADE, db_index=True)
@@ -42,6 +57,18 @@ class FuturePlannerItem(models.Model):
             "year": self.year,
             "semester": self.semester,
             "course": self.course.to_json(nested=True),
+        }
+
+        return result
+
+
+class GenericPlannerItem(models.Model):
+    planner = models.ForeignKey(Planner,
+                                related_name="generic_items", on_delete=models.CASCADE,
+                                db_index=True)
+
+    def to_json(self):
+        result = {
         }
 
         return result
