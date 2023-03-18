@@ -40,8 +40,6 @@ $ touch keys/sso_secret
 # DB migrate
 $ python manage.py migrate
 ```
-#### 22.09.27 기준 Python 3.10 이상을 사용한다면
-mysqlclient가 제대로 된 버전이 없어서 에러가 날 수 있습니다
 
 만약 파이썬 패키지 설치가 정상적으로 이루어지지 않는다면 아래 명령어를 입력해주세요.
 

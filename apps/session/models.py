@@ -20,7 +20,7 @@ class UserProfile(models.Model):
                                                related_name="specialized_major_user_set")  # 심화전공.
     email = models.EmailField(max_length=255, blank=True, null=True)  # Email
 
-    student_id = models.CharField(max_length=10, db_index=True) # TODO - why max_length != 8? 대학원생은 사람이 아닌가? 그런 듯 하다
+    student_id = models.CharField(max_length=10, db_index=True)
     sid = models.CharField(max_length=30)  # 서비스에 대해 고유하게 부여받은 ID
     language = models.CharField(max_length=15)
     favorite_departments = models.ManyToManyField("subject.Department",
