@@ -1719,16 +1719,19 @@ a {
             &__label {
                 display: flex;
                 flex-direction: column;
-                width: 20px;
-                // margin-right: 7px;
-                padding-right : 6px;
+                width: 10px + 8px + 1px;
+                padding-right : 8px;
                 border-right: 1px solid $color-normal-line;
     
-                &__year,
                 &__toptitle,
                 &__bottomtitle {
                     flex: none;
                     height: $line-height-smallest + 6px;
+                }
+
+                &__year {
+                    flex: none;
+                    height: $line-height-smallest;
                 }
     
                 &__line {
@@ -1750,10 +1753,6 @@ a {
                 &__cell {
                     flex: auto;
                 } 
-    
-                &__gap {
-                    flex: auto;
-                } 
             }
 
             &__body {
@@ -1771,29 +1770,36 @@ a {
                 &__bottomtitle,
                 &__year {
                     flex: none;
-                    height: $line-height-smallest + 6px;
-                    text-align: center;
                     font-size: $font-size-smallest;
                     line-height: $line-height-smallest;
-                    color: $color-text-light;
-                    margin: 0 -20px;
+                    color: $color-text-lighter;
                 }
 
                 &__toptitle {
+                    height: $line-height-smallest + 6px;
                     padding-bottom: 6px;
                 }
 
                 &__bottomtitle {
+                    height: $line-height-smallest + 6px;
                     padding-top: 6px;
                 }
 
                 &__year {
-                    padding: 3px 0;
+                    flex: none;
+                    height: $line-height-smallest;
+                    padding: 0;
+                    text-align: center;
+                    font-size: $font-size-smaller;
+                    font-weight: bold;
+                    line-height: $line-height-smaller;
+                    color: $color-text-normal;
                 }
     
                 &__line {
                     flex: none;
                     height: 1px;
+                    margin: 0 1px;
                     border-bottom: 1px solid $color-normal-line;
                     &--bold {
                         border-bottom-color: $color-normal-line-dark;
@@ -1810,10 +1816,7 @@ a {
     
                 &__cell {
                     flex: auto;
-                } 
-    
-                &__gap {
-                    flex: auto;
+                    margin: 0 1px;
                 } 
             }
         }

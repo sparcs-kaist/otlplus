@@ -208,7 +208,7 @@ class PlannerSubSection extends Component {
               <div
                 className={classNames(
                   'subsection--planner__table__body__line',
-                  ((3 * c) % 12 === 0) ? 'subsection--planner__table__body__line--bold' : null,
+                  ((3 * c) % 12 === 0 && c !== 0) ? 'subsection--planner__table__body__line--bold' : null,
                 )}
                 key={`line:${3 * c}`}
               />,
@@ -224,7 +224,7 @@ class PlannerSubSection extends Component {
               <div
                 className={classNames(
                   'subsection--planner__table__body__line',
-                  ((3 * c) % 12 === 0) ? 'subsection--planner__table__body__line--bold' : null,
+                  ((3 * c) % 12 === 0 && c !== 0) ? 'subsection--planner__table__body__line--bold' : null,
                 )}
                 key={`line:${3 * c}`}
               />,
