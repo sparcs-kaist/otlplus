@@ -43,11 +43,32 @@ class PlannerPage extends Component {
             <CourseListTabs />
             <div className={classNames('section', 'section--planner-and-infos')}>
               <PlannerSubSection />
-              <Divider orientation={{ desktop: Divider.Orientation.VERTICAL, mobile: Divider.Orientation.HORIZONTAL }} isVisible={true} gridArea="divider-main" />
+              <Divider
+                orientation={{
+                  desktop: Divider.Orientation.VERTICAL,
+                  mobile: Divider.Orientation.HORIZONTAL,
+                }}
+                isVisible={true}
+                gridArea="divider-main"
+              />
               <SettingsSubSection />
-              <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={{ desktop: true, mobile: false }} gridArea="divider-sub-1" />
+              <Divider
+                orientation={Divider.Orientation.HORIZONTAL}
+                isVisible={{
+                  desktop: true,
+                  mobile: false,
+                }}
+                gridArea="divider-sub-1"
+              />
               <SummarySubSection />
-              <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={{ desktop: true, mobile: false }} gridArea="divider-sub-2" />
+              <Divider
+                orientation={Divider.Orientation.HORIZONTAL}
+                isVisible={{
+                  desktop: true,
+                  mobile: false,
+                }}
+                gridArea="divider-sub-2"
+              />
               <ShareSubSection />
             </div>
             <CourseListSection />
