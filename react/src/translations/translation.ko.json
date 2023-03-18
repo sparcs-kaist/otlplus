@@ -37,7 +37,8 @@
       "writeReview": "후기 작성",
       "myInformation": "내 정보",
       "academicInformation": "학사 정보",
-      "settings": "설정"
+      "settings": "설정",
+      "lectureInformation": "수강 정보"
     },
     "tab": {
       "search": "검색",
@@ -79,7 +80,8 @@
       "writeMoreReviews": "후기 더 작성하기",
       "save": "저장",
       "submit": "제출하기",
-      "signOut": "로그아웃"
+      "signOut": "로그아웃",
+      "reset": "초기화"
     },
     "attribute": {
       "department": "학과",
@@ -93,7 +95,11 @@
       "name": "이름",
       "email": "메일",
       "studentId": "학번",
-      "major": "전공"
+      "all": "전체",
+      "basic": "기초",
+      "major": "전공",
+      "default": "기본",
+      "additional": "추가"
     },
     "score": {
       "reviewsWritten": "작성 후기",
@@ -107,7 +113,9 @@
       "likes": "추천",
       "grade": "성적",
       "load": "널널",
-      "speech": "강의"
+      "speech": "강의",
+      "numClasses": "강의 시간",
+      "numLabs": "실습 시간"
     },
     "placeholder": {
       "loading": "불러오는 중",
@@ -124,7 +132,17 @@
       "professor": "교수",
       "language": "언어",
       "term": "기간",
-      "favoriteDepartment": "관심학과"
+      "favoriteDepartment": "관심학과",
+      "semester": "학기",
+      "retake": "회차"
+    },
+    "semesterInfo": {
+      "normal": "일반",
+      "seasonal": "계절학기"
+    },
+    "retake": {
+      "normal": "일반",
+      "retake": "재수강"
     },
     "type": {
       "basicRequired": "기초필수",
@@ -260,6 +278,7 @@
     "others": {
       "table": "시간표",
       "myTable": "내 시간표",
+      "planner": "플래너",
       "examOfDay": "{{day}} 시험",
       "creditCount": "{{count}}학점",
       "auCount": "{{count}}AU",
@@ -282,6 +301,7 @@
     "menu": {
       "timetable": "모의시간표",
       "dictionary": "과목사전",
+      "planner": "졸업플래너",
       "writeReviews": "과목후기 작성하기",
       "toggleLang": "English",
       "notifications": "알림",
