@@ -10,12 +10,14 @@ class Planner(models.Model):
     user = models.ForeignKey(UserProfile,
                              related_name="planners", on_delete=models.CASCADE, db_index=True)
     start_year = models.IntegerField(db_index=True)
+    end_year = models.IntegerField(db_index=True)
     arrange_order = models.SmallIntegerField(db_index=True)
 
     def to_json(self, nested=False):
         result = {
             "id": self.id,
             "start_year": self.start_year,
+            "end_year": self.end_year,
             "arrange_order": self.arrange_order,
         }
         return result
