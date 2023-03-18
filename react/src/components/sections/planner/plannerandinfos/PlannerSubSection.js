@@ -98,6 +98,10 @@ class PlannerSubSection extends Component {
       mobileIsLectureListOpen,
     } = this.props;
 
+    // TODO: Retrieve data from planner
+    const plannerStartYear = 2020;
+    const plannerEndYear = 2024;
+
     const plannerCreditunits = range(0, PLANNER_DEFAULT_CREDIT / 3);
     const getHeadColumn = () => {
       const springArea = [
@@ -155,10 +159,10 @@ class PlannerSubSection extends Component {
         </div>
       );
     };
-    const getYearColumn = (yearIdx) => {
+    const getYearColumn = (year) => {
       const springArea = [
-        <div className={classNames('subsection--planner__table__body__toptitle')} key="title">
-          {`${2020 + yearIdx} ${t('ui.semester.spring')}`}
+        <div className={classNames('subsection--planner__table__body__toptitle')} key="title:spring">
+          {`${year} ${t('ui.semester.spring')}`}
         </div>,
         <div
           className={classNames(
@@ -273,8 +277,8 @@ class PlannerSubSection extends Component {
           )}
           key="line:24"
         />,
-        <div className={classNames('subsection--planner__table__body__bottomtitle')} key="title">
-          {`${2020 + yearIdx} ${t('ui.semester.fall')}`}
+        <div className={classNames('subsection--planner__table__body__bottomtitle')} key="title:fall">
+          {`${year} ${t('ui.semester.fall')}`}
         </div>,
       ];
       return (
@@ -282,7 +286,7 @@ class PlannerSubSection extends Component {
           {springArea}
           <div className={classNames('subsection--planner__table__body__cell')} />
           <div className={classNames('subsection--planner__table__body__year')}>
-            <strong>{yearIdx + 2020}</strong>
+            <strong>{year}</strong>
           </div>
           <div className={classNames('subsection--planner__table__body__cell')} />
           {fallArea}
@@ -294,11 +298,11 @@ class PlannerSubSection extends Component {
       <div className={classNames('subsection', 'subsection--planner')}>
         <div className={classNames('subsection--planner__table')}>
           {getHeadColumn()}
-          {getYearColumn(0)}
-          {getYearColumn(1)}
-          {getYearColumn(2)}
-          {getYearColumn(3)}
-          {getYearColumn(4)}
+          {
+            range(plannerStartYear, plannerEndYear + 1).map((y) => (
+              getYearColumn(y)
+            ))
+          }
         </div>
       </div>
     );
