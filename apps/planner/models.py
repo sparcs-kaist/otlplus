@@ -12,6 +12,14 @@ class Planner(models.Model):
     start_year = models.IntegerField(db_index=True)
     arrange_order = models.SmallIntegerField(db_index=True)
 
+    def to_json(self, nested=False):
+        result = {
+            "id": self.id,
+            "start_year": self.start_year,
+            "arrange_order": self.arrange_order,
+        }
+        return result
+
     @classmethod
     def get_related_planners(cls, user):
         return Planner.objects.filter(user=user)
