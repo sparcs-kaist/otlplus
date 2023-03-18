@@ -10,6 +10,7 @@ class Planner(models.Model):
     user = models.ForeignKey(UserProfile,
                              related_name="planners", on_delete=models.CASCADE, db_index=True)
     start_year = models.IntegerField(db_index=True)
+    arrange_order = models.SmallIntegerField(db_index=True)
 
     @classmethod
     def get_related_planners(cls, user):
