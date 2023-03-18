@@ -34,6 +34,24 @@ class PlannerSubSection extends Component {
     window.removeEventListener('resize', this.resize);
   }
 
+  _getItemsForSemester = (planner, year, semester) => {
+    if (!planner) {
+      return [];
+    }
+
+    return [
+      ...planner.taken_items.filter((i) => (
+        i.lecture.year === year && i.lecture.semester === semester
+      )),
+      ...planner.future_items.filter((i) => (
+        i.year === year && i.semester === semester
+      )),
+      ...planner.generic_items.filter((i) => (
+        i.year === year && i.semester === semester
+      )),
+    ];
+  }
+
   resize = () => {
     const { updateCellSizeDispatch } = this.props;
 
@@ -102,9 +120,14 @@ class PlannerSubSection extends Component {
     const currentYear = (new Date()).getFullYear();
     const plannerStartYear = selectedPlanner ? selectedPlanner.start_year : currentYear;
     const plannerEndYear = selectedPlanner ? selectedPlanner.end_year : currentYear + 3;
-    // TODO: Retrieve data from planner
-    const hasSummerSemester = true;
-    const hasWinterSemester = true;
+    const plannerYears = range(plannerStartYear, plannerEndYear + 1);
+
+    const hasSummerSemester = plannerYears
+      .map((y) => this._getItemsForSemester(selectedPlanner, y, 2).length)
+      .some((l) => (l > 0));
+    const hasWinterSemester = plannerYears
+      .map((y) => this._getItemsForSemester(selectedPlanner, y, 4).length)
+      .some((l) => (l > 0));
 
     const plannerCreditunits = range(0, PLANNER_DEFAULT_CREDIT / 3);
     const getHeadColumn = () => {
@@ -319,7 +342,7 @@ class PlannerSubSection extends Component {
         <div className={classNames('subsection--planner__table')}>
           {getHeadColumn()}
           {
-            range(plannerStartYear, plannerEndYear + 1).map((y) => (
+            plannerYears.map((y) => (
               getYearColumn(y)
             ))
           }
