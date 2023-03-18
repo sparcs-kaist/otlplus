@@ -18,6 +18,8 @@ class Planner(models.Model):
             "id": self.id,
             "start_year": self.start_year,
             "end_year": self.end_year,
+            "future_items": [futurePlannerItem.toJson()
+                             for futurePlannerItem in self.future_items.all()],
             "arrange_order": self.arrange_order,
         }
         return result
@@ -27,16 +29,16 @@ class Planner(models.Model):
         return Planner.objects.filter(user=user)
     
 
-class PlannerItem(models.Model):
-    planner = models.ForeignKey(Planner, on_delete=models.PROTECT, db_index=True)
+class FuturePlannerItem(models.Model):
+    planner = models.ForeignKey(Planner,
+                                related_name="future_items", on_delete=models.CASCADE, db_index=True)
+
     year = models.IntegerField(db_index=True)
     semester = models.IntegerField(db_index=True)
-
     course = models.ForeignKey(Course, on_delete=models.PROTECT)
     
     def to_json(self):
         result = {
-            "planner": self.planner,
             "year": self.year,
             "semester": self.semester,
             "course": self.course.to_json(nested=True),
