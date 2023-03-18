@@ -39,14 +39,14 @@ class UserInstancePlannerListView(View):
 
     def post(self, request, user_id):
         BODY_STRUCTURE = [
-            ("entrance_year", ParseType.INT, True, []),
+            ("start_year", ParseType.INT, True, []),
         ]
 
         userprofile = request.user.userprofile
         if userprofile.id != int(user_id):
             return HttpResponse(status=401)
 
-        entrance_year, = parse_body(request.body, BODY_STRUCTURE)
+        start_year, = parse_body(request.body, BODY_STRUCTURE)
 
         related_timetables = Planner.get_related_planners(userprofile)
         if related_timetables.exists():
@@ -54,7 +54,7 @@ class UserInstancePlannerListView(View):
         else:
             arrange_order = 0
 
-        planner = Planner.objects.create(user=userprofile, entrance_year=entrance_year,
+        planner = Planner.objects.create(user=userprofile, start_year=start_year,
                                          arrange_order=arrange_order)
 
         return JsonResponse(planner.to_json())
@@ -76,10 +76,10 @@ class UserInstancePlannerInstanceView(View):
 
     def patch(self, request, user_id, planner_id):
         BODY_STRUCTURE = [
-            ("entrance_year", ParseType.INT, True, []),
+            ("start_year", ParseType.INT, True, []),
         ]
 
-        entrance_year, = parse_body(request.body, BODY_STRUCTURE)
+        start_year, = parse_body(request.body, BODY_STRUCTURE)
 
         userprofile = request.user.userprofile
         if userprofile.id != int(user_id):
@@ -90,7 +90,7 @@ class UserInstancePlannerInstanceView(View):
         patch_object(
             planner,
             {
-                "entrance_year": entrance_year,
+                "start_year": start_year,
             },
         )
         return JsonResponse(planner.to_json(user=request.user), safe=False)
