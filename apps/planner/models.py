@@ -18,8 +18,12 @@ class Planner(models.Model):
             "id": self.id,
             "start_year": self.start_year,
             "end_year": self.end_year,
+            "taken_items": [futurePlannerItem.toJson()
+                             for futurePlannerItem in self.taken_items.all()],
             "future_items": [futurePlannerItem.toJson()
                              for futurePlannerItem in self.future_items.all()],
+            "generic_items": [futurePlannerItem.toJson()
+                             for futurePlannerItem in self.generic_items.all()],
             "arrange_order": self.arrange_order,
         }
         return result

@@ -49,7 +49,9 @@ const planner = (state = initialState, action) => {
         id: action.id,
         start_year: action.startYear,
         end_year: action.endYear,
-        // lectures: [],
+        taken_items: [],
+        future_items: [],
+        generic_items: [],
         arrange_order: newArrangeOrder,
       };
       return Object.assign({}, state, {
@@ -76,7 +78,10 @@ const planner = (state = initialState, action) => {
         id: action.id,
         start_year: action.planner.start_year,
         end_year: action.planner.end_year,
-        // lectures: action.planner.lectures.slice(),
+        // TODO: Implement duplicating items
+        taken_items: [],
+        future_items: [],
+        generic_items: [],
         arrange_order: Math.max(...state.planners.map((t) => t.arrange_order)) + 1,
       };
       return Object.assign({}, state, {

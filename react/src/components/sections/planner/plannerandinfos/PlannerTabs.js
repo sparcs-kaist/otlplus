@@ -116,7 +116,9 @@ class PlannerTabs extends Component {
         {
           start_year: startYear,
           end_year: endYear,
-          // lectures: [],
+          taken_items: [],
+          future_items: [],
+          generic_items: [],
         },
         {
           metadata: {
@@ -203,7 +205,11 @@ class PlannerTabs extends Component {
       axios.post(
         `/api/users/${user.id}/planners`,
         {
-          // lectures: planner.lectures.map((l) => l.id),
+          start_year: planner.start_year,
+          end_year: planner.end_year,
+          taken_items: planner.taken_items.map((i) => i.id),
+          future_items: planner.future_items.map((i) => i.id),
+          generic_items: planner.generic_items.map((i) => i.id),
         },
         {
           metadata: {

@@ -40,13 +40,17 @@ class UserInstancePlannerListView(View):
     def post(self, request, user_id):
         BODY_STRUCTURE = [
             ("start_year", ParseType.INT, True, []),
+            ("end_year", ParseType.INT, True, []),
+            ("taken_items", ParseType.LIST_INT, True, []),
+            ("future_items", ParseType.LIST_INT, True, []),
+            ("generic_items", ParseType.LIST_INT, True, []),
         ]
 
         userprofile = request.user.userprofile
         if userprofile.id != int(user_id):
             return HttpResponse(status=401)
 
-        start_year, = parse_body(request.body, BODY_STRUCTURE)
+        start_year, end_year, taken_items, future_items, generic_items = parse_body(request.body, BODY_STRUCTURE)
 
         related_timetables = Planner.get_related_planners(userprofile)
         if related_timetables.exists():
@@ -54,8 +58,10 @@ class UserInstancePlannerListView(View):
         else:
             arrange_order = 0
 
-        planner = Planner.objects.create(user=userprofile, start_year=start_year,
+        planner = Planner.objects.create(user=userprofile, start_year=start_year, end_year=end_year,
                                          arrange_order=arrange_order)
+        
+        # TODO: Implement adding items
 
         return JsonResponse(planner.to_json())
 
