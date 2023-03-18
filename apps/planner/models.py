@@ -7,7 +7,8 @@ from apps.subject.models import Course
 
 
 class Planner(models.Model):
-    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, db_index=True)
+    user = models.ForeignKey(UserProfile,
+                             related_name="planners", on_delete=models.CASCADE, db_index=True)
     start_year = models.IntegerField(db_index=True)
 
     @classmethod
