@@ -9,7 +9,6 @@ import { appBoundClassNames as classNames } from '../../../../common/boundClassN
 import { clearCourseFocus } from '../../../../actions/planner/courseFocus';
 
 import courseFocusShape from '../../../../shapes/state/CourseFocusShape';
-import userShape from '../../../../shapes/model/UserShape';
 
 import CreditStatusBar from '../../../CreditStatusBar';
 import CourseStatus from '../../../CourseStatus';
@@ -45,12 +44,11 @@ class SummarySubSection extends Component {
   }
 
   render() {
-    const { t, user } = this.props;
+    const { t } = this.props;
     const { courseFocus } = this.props;
 
-    if (user == null) {
-      return null;
-    }
+    // TODO: Retrieve data from planner
+    const majors = [];
 
     const singleFocusedTypeCredit = (index) => {
       if (courseFocus.course && courseFocus.lectures) {
@@ -58,7 +56,7 @@ class SummarySubSection extends Component {
           case 0:
             return courseFocus.lectures.at(-1).credit;// total credit
           case 3: case 4:
-            if (user.majors[0].name_en.toUpperCase() === courseFocus.course.department.name_en.toUpperCase()
+            if (majors[0].name_en.toUpperCase() === courseFocus.course.department.name_en.toUpperCase()
               && indexOfType(courseFocus.course.type_en) === index) {
               return courseFocus.lectures.at(-1).credit;
             } return 0;
@@ -89,12 +87,14 @@ class SummarySubSection extends Component {
                     { name: t('ui.type.basicRequired'), controller: <CreditStatusBar credit={10} totalCredit={23} focusedCredit={singleFocusedTypeCredit(1)} statusColor="#f3b6b5" /> },
                     { name: t('ui.type.basicElective'), controller: <CreditStatusBar credit={2} totalCredit={12} focusedCredit={singleFocusedTypeCredit(2)} statusColor="#f3c8ae" /> }],
                 },
-                {
-                  name: `${t('ui.attribute.major')} - ${user.majors[0][t('js.property.name')]}`,
-                  info: [
-                    { name: t('ui.type.majorRequired'), controller: <CreditStatusBar credit={12} totalCredit={15} focusedCredit={singleFocusedTypeCredit(3)} statusColor="#eee9a0" /> },
-                    { name: t('ui.type.majorElective'), controller: <CreditStatusBar credit={24} totalCredit={25} focusedCredit={singleFocusedTypeCredit(4)} statusColor="#e5f2a0" /> }],
-                },
+                ...majors.map((d) => (
+                  {
+                    name: `${t('ui.attribute.major')} - ${majors[0][t('js.property.name')]}`,
+                    info: [
+                      { name: t('ui.type.majorRequired'), controller: <CreditStatusBar credit={12} totalCredit={15} focusedCredit={singleFocusedTypeCredit(3)} statusColor="#eee9a0" /> },
+                      { name: t('ui.type.majorElective'), controller: <CreditStatusBar credit={24} totalCredit={25} focusedCredit={singleFocusedTypeCredit(4)} statusColor="#e5f2a0" /> }],
+                  }
+                )),
                 {
                   name: '복수전공',
                   info: [
@@ -113,7 +113,6 @@ class SummarySubSection extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  user: state.common.user.user,
   courseFocus: state.planner.courseFocus,
   selectedListCode: state.planner.list.selectedListCode,
 });
@@ -125,7 +124,6 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 SummarySubSection.propTypes = {
-  user: userShape,
   courseFocus: courseFocusShape.isRequired,
 
   clearCourseFocusDispatch: PropTypes.func.isRequired,
