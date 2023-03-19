@@ -1,7 +1,7 @@
 import {
   RESET,
   SET_ITEM_FOCUS, CLEAR_ITEM_FOCUS,
-  SET_REVIEWS, UPDATE_REVIEW, SET_LECTURES,
+  SET_REVIEWS, SET_LECTURES,
 } from '../../actions/planner/itemFocus';
 
 const initialState = {
@@ -35,29 +35,6 @@ const itemFocus = (state = initialState, action) => {
     case SET_REVIEWS: {
       return Object.assign({}, state, {
         reviews: action.reviews,
-      });
-    }
-    case UPDATE_REVIEW: {
-      const originalReviews = state.reviews;
-      const { review, isNew } = action;
-      const foundIndex = originalReviews.findIndex((r) => (r.id === review.id));
-      const newReviews = (foundIndex !== -1)
-        ? [
-          ...originalReviews.slice(0, foundIndex),
-          review,
-          ...originalReviews.slice(foundIndex + 1, originalReviews.length),
-        ]
-        : (isNew
-          ? [
-            review,
-            ...originalReviews.slice(),
-          ]
-          : [
-            ...originalReviews.slice(),
-          ]
-        );
-      return Object.assign({}, state, {
-        reviews: newReviews,
       });
     }
     case SET_LECTURES: {

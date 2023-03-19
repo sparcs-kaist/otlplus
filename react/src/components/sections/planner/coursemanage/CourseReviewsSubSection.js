@@ -1,20 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 import ReactGA from 'react-ga';
 
 import { appBoundClassNames as classNames } from '../../../../common/boundClassNames';
 
 import ReviewBlock from '../../../blocks/ReviewBlock';
-import ReviewWriteBlock from '../../../blocks/ReviewWriteBlock';
 import SearchFilter from '../../../SearchFilter';
 
-import { updateReview } from '../../../../actions/planner/itemFocus';
-import { updateUserReview } from '../../../../actions/common/user';
-
 import itemFocusShape from '../../../../shapes/state/ItemFocusShape';
-import userShape from '../../../../shapes/model/UserShape';
 import { calcAverage, getAverageScoreLabel } from '../../../../utils/scoreUtils';
 import Scores from '../../../Scores';
 
@@ -70,16 +64,10 @@ class CourseReviewsSubSection extends Component {
     return false;
   }
 
-  updateOnReviewSubmit = (review, isNew) => {
-    const { updateUserReviewDispatch, updateReviewDispatch } = this.props;
-    updateUserReviewDispatch(review);
-    updateReviewDispatch(review, isNew);
-  }
-
   render() {
     const { t } = this.props;
     const { selectedProfessors, selectedLanguages } = this.state;
-    const { user, itemFocus } = this.props;
+    const { itemFocus } = this.props;
 
     if (!itemFocus.course) {
       return null;
@@ -95,31 +83,6 @@ class CourseReviewsSubSection extends Component {
       ['ALL', t('ui.language.allShort')],
       ['ENG', t('ui.language.englishShort')],
     ];
-
-    const takenLecturesOfCourse = user
-      ? user.review_writable_lectures.filter((l) => (
-        this._checkLectureCourse(l) && this._checkLectureProfessor(l)
-      ))
-      : [];
-    const reviewWriteBlocksArea = (
-      takenLecturesOfCourse.length === 0
-        ? undefined
-        : (
-          <div className={classNames('block-list')}>
-            {
-              takenLecturesOfCourse.map((l) => (
-                <ReviewWriteBlock
-                  lecture={l}
-                  key={l.id}
-                  review={user.reviews.find((r) => (r.lecture.id === l.id))}
-                  pageFrom="Dictionary"
-                  updateOnSubmit={this.updateOnReviewSubmit}
-                />
-              ))
-            }
-          </div>
-        )
-    );
 
     const filteredReviews = itemFocus.reviews == null
       ? null
@@ -176,7 +139,6 @@ class CourseReviewsSubSection extends Component {
           ]}
           big
         />
-        {reviewWriteBlocksArea}
         {reviewBlocksArea}
       </div>
     );
@@ -184,25 +146,14 @@ class CourseReviewsSubSection extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  user: state.common.user.user,
   itemFocus: state.planner.itemFocus,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  updateUserReviewDispatch: (review) => {
-    dispatch(updateUserReview(review));
-  },
-  updateReviewDispatch: (review, isNew) => {
-    dispatch(updateReview(review, isNew));
-  },
 });
 
 CourseReviewsSubSection.propTypes = {
-  user: userShape,
   itemFocus: itemFocusShape.isRequired,
-
-  updateUserReviewDispatch: PropTypes.func.isRequired,
-  updateReviewDispatch: PropTypes.func.isRequired,
 };
 
 
