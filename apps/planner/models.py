@@ -44,7 +44,7 @@ class TakenPlannerItem(models.Model):
         result = {
             "id": self.id,
             "type": "TAKEN",
-            "lecture": self.lecture.to_json(nested=True),
+            "lecture": self.lecture.to_json(nested=False),
         }
 
         return result
@@ -64,7 +64,7 @@ class FuturePlannerItem(models.Model):
             "type": "FUTURE",
             "year": self.year,
             "semester": self.semester,
-            "course": self.course.to_json(nested=True),
+            "course": self.course.to_json(nested=False),
         }
 
         return result
