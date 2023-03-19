@@ -9,10 +9,11 @@ import { appBoundClassNames as classNames } from '../../../../common/boundClassN
 import Scroller from '../../../Scroller';
 
 import userShape from '../../../../shapes/model/UserShape';
+import semesterShape from '../../../../shapes/model/SemesterShape';
 import plannerShape from '../../../../shapes/model/PlannerShape';
 import itemFocusShape from '../../../../shapes/state/ItemFocusShape';
 
-import { getSemesterName } from '../../../../utils/semesterUtils';
+import { getSemesterName, getTimetableSemester } from '../../../../utils/semesterUtils';
 import Attributes from '../../../Attributes';
 import { addItemToPlanner } from '../../../../actions/planner/planner';
 import { ItemFocusFrom } from '../../../../reducers/planner/itemFocus';
@@ -76,13 +77,22 @@ class CourseCustomizeSubSection extends Component {
 
 
   render() {
-    const { t, selectedPlanner, itemFocus } = this.props;
+    const {
+      t,
+      selectedPlanner, itemFocus, semesters,
+    } = this.props;
 
     if (!selectedPlanner) {
       return null;
     }
 
     const plannerYears = range(selectedPlanner.start_year, selectedPlanner.end_year + 1);
+
+    const firstEditableSemester = getTimetableSemester(semesters);
+    const isEditable = (year, semester) => (
+      (year > firstEditableSemester.year)
+        || (year === firstEditableSemester.year && semester > firstEditableSemester.semester)
+    );
 
     const sectionHead = (
       <>
@@ -105,6 +115,7 @@ class CourseCustomizeSubSection extends Component {
                   name: `${y} ${getSemesterName(s)}`,
                   info: '추가하기',
                   onInfoClick: () => this.addCourseToPlanner(itemFocus.course, y, s),
+                  isInfoClickDisabled: !isEditable(y, s),
                 }))
               )).flat()
             }
@@ -126,6 +137,7 @@ class CourseCustomizeSubSection extends Component {
 
 const mapStateToProps = (state) => ({
   user: state.common.user.user,
+  semesters: state.common.semester.semesters,
   selectedPlanner: state.planner.planner.selectedPlanner,
   itemFocus: state.planner.itemFocus,
 });
@@ -141,6 +153,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 CourseCustomizeSubSection.propTypes = {
   user: userShape,
+  semesters: PropTypes.arrayOf(semesterShape),
   selectedPlanner: plannerShape,
   itemFocus: itemFocusShape,
 
