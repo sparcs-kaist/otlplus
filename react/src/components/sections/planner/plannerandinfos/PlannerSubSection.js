@@ -14,7 +14,7 @@ import { ItemFocusFrom } from '../../../../reducers/planner/itemFocus';
 
 // import userShape from '../../../../shapes/model/UserShape';
 import plannerShape from '../../../../shapes/model/PlannerShape';
-import itemFocusShape from '../../../../shapes/state/LectureFocusShape';
+import itemFocusShape from '../../../../shapes/state/ItemFocusShape';
 
 import { isDimmedTableItem, isFocused, isTableClicked } from '../../../../utils/itemUtils';
 import PlannerTile from '../../../tiles/PlannerTile';
@@ -139,8 +139,10 @@ class PlannerSubSection extends Component {
       t,
       selectedPlanner, itemFocus,
       cellWidth, cellHeight,
-      mobileIsLectureListOpen,
+      // mobileIsLectureListOpen,
     } = this.props;
+
+    const mobileIsLectureListOpen = false;
 
     const currentYear = (new Date()).getFullYear();
     const plannerStartYear = selectedPlanner ? selectedPlanner.start_year : currentYear;
@@ -415,7 +417,7 @@ const mapStateToProps = (state) => ({
   cellWidth: state.planner.planner.cellWidth,
   cellHeight: state.planner.planner.cellHeight,
   isDragging: state.planner.planner.isDragging,
-  mobileIsLectureListOpen: state.planner.list.mobileIsLectureListOpen,
+  // mobileIsLectureListOpen: state.planner.list.mobileIsLectureListOpen,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -437,7 +439,7 @@ PlannerSubSection.propTypes = {
   cellWidth: PropTypes.number.isRequired,
   cellHeight: PropTypes.number.isRequired,
   isDragging: PropTypes.bool.isRequired,
-  mobileIsLectureListOpen: PropTypes.bool.isRequired,
+  // mobileIsLectureListOpen: PropTypes.bool.isRequired,
 
   updateCellSizeDispatch: PropTypes.func.isRequired,
   setItemFocusDispatch: PropTypes.func.isRequired,
