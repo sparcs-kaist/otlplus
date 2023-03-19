@@ -25,6 +25,7 @@ import courseLastSearchOptionShape from '../../../../shapes/state/CourseLastSear
 import {
   getLabelOfValue, getDepartmentOptions, getTypeOptions, getLevelOptions, getTermOptions,
 } from '../../../../common/searchOptions';
+import { ItemFocusFrom } from '../../../../reducers/planner/itemFocus';
 
 
 class CourseListSection extends Component {
@@ -41,7 +42,7 @@ class CourseListSection extends Component {
     } = this.props;
 
     if (!isFocused(course, itemFocus)) {
-      setItemFocusDispatch(course);
+      setItemFocusDispatch(course, ItemFocusFrom.LIST);
 
       const labelOfTabs = new Map([
         [CourseListCode.SEARCH, 'Search'],
@@ -222,8 +223,8 @@ const mapDispatchToProps = (dispatch) => ({
   openSearchDispatch: () => {
     dispatch(openSearch());
   },
-  setItemFocusDispatch: (course) => {
-    dispatch(setItemFocus(course));
+  setItemFocusDispatch: (course, from) => {
+    dispatch(setItemFocus(course, from));
   },
   clearItemFocusDispatch: () => {
     dispatch(clearItemFocus());
