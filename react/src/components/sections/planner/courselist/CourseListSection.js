@@ -12,11 +12,10 @@ import Scroller from '../../../Scroller';
 import CourseSearchSubSection from './CourseSearchSubSection';
 import PlannerCourseBlock from '../../../blocks/PlannerCourseBlock';
 
-import { isFocused, isDimmedCourse } from '../../../../utils/courseUtils';
+import { isDimmedListCourse, isClickedListCourse } from '../../../../utils/itemUtils';
 import { setItemFocus, clearItemFocus } from '../../../../actions/planner/itemFocus';
 import { openSearch } from '../../../../actions/planner/search';
 
-import courseShape from '../../../../shapes/model/CourseShape';
 import itemFocusShape from '../../../../shapes/state/ItemFocusShape';
 import courseListsShape from '../../../../shapes/state/CourseListsShape';
 import userShape from '../../../../shapes/model/UserShape';
@@ -34,6 +33,23 @@ class CourseListSection extends Component {
     openSearchDispatch();
   }
 
+  focusCourseWithHover = (course) => {
+    const { itemFocus, setItemFocusDispatch } = this.props;
+
+    if (itemFocus.clicked) {
+      return;
+    }
+    setItemFocusDispatch(null, course, ItemFocusFrom.LIST, false);
+  }
+
+  unfocusCourseWithHover = (course) => {
+    const { itemFocus, clearItemFocusDispatch } = this.props;
+
+    if (itemFocus.clicked) {
+      return;
+    }
+    clearItemFocusDispatch();
+  }
 
   focusCourseWithClick = (course) => {
     const {
@@ -41,7 +57,7 @@ class CourseListSection extends Component {
       setItemFocusDispatch, clearItemFocusDispatch,
     } = this.props;
 
-    if (!isFocused(course, itemFocus)) {
+    if (!isClickedListCourse(course, itemFocus)) {
       setItemFocusDispatch(null, course, ItemFocusFrom.LIST, true);
 
       const labelOfTabs = new Map([
@@ -92,7 +108,6 @@ class CourseListSection extends Component {
       user,
       itemFocus, selectedListCode,
       searchOpen, lastSearchOption,
-      readCourses,
     } = this.props;
 
     const getListTitle = () => {
@@ -179,9 +194,10 @@ class CourseListSection extends Component {
                   course={c}
                   key={c.id}
                   shouldShowReadStatus={true}
-                  isRead={c.userspecific_is_read || readCourses.some((c2) => (c2.id === c.id))}
-                  isRaised={isFocused(c, itemFocus)}
-                  isDimmed={isDimmedCourse(c, itemFocus)}
+                  isRaised={isClickedListCourse(c, itemFocus)}
+                  isDimmed={isDimmedListCourse(c, itemFocus)}
+                  onMouseOver={this.focusCourseWithHover}
+                  onMouseOut={this.unfocusCourseWithHover}
                   onClick={this.focusCourseWithClick}
                 // inCart={inCart(l, lists[CourseListCode.CART])}
                 // fromCart={(selectedListCode === CourseListCode.CART)}
@@ -213,7 +229,6 @@ const mapStateToProps = (state) => ({
   user: state.common.user.user,
   selectedListCode: state.planner.list.selectedListCode,
   lists: state.planner.list.lists,
-  readCourses: state.planner.list.readCourses,
   itemFocus: state.planner.itemFocus,
   searchOpen: state.planner.search.open,
   lastSearchOption: state.planner.search.lastSearchOption,
@@ -235,7 +250,6 @@ CourseListSection.propTypes = {
   user: userShape,
   selectedListCode: PropTypes.string.isRequired,
   lists: courseListsShape,
-  readCourses: PropTypes.arrayOf(courseShape).isRequired,
   itemFocus: itemFocusShape.isRequired,
   searchOpen: PropTypes.bool.isRequired,
   lastSearchOption: courseLastSearchOptionShape.isRequired,

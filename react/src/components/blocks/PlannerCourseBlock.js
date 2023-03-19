@@ -35,7 +35,7 @@ const PlannerCourseBlock = ({
     <div
       className={classNames(
         'block',
-        'block--course-simple',
+        'block--planner-course',
         (onClick ? 'block--clickable' : null),
         (isRaised ? 'block--raised' : null),
         (isDimmed ? 'block--dimmed' : null),
@@ -45,10 +45,10 @@ const PlannerCourseBlock = ({
       onMouseOut={handleMouseOut}
       to={linkTo}
     >
-      <div className={classNames('block--course-simple__title')}>
+      <div className={classNames('block--planner-course__title')}>
         { course[t('js.property.title')] }
       </div>
-      <div className={classNames('block--course-simple__subtitle')}>
+      <div className={classNames('block--planner-course__subtitle')}>
         { course.old_code }
       </div>
     </div>

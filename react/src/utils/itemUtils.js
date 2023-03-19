@@ -40,3 +40,20 @@ export const isDimmedTableItem = (item, itemFocus) => (
   !isFocused(item, itemFocus)
   && itemFocus.clicked === true
 );
+
+export const isFocusedListCourse = (course, itemFocus) => (
+  itemFocus.from === ItemFocusFrom.LIST
+  && itemFocus.course.id === course.id
+);
+
+export const isClickedListCourse = (course, itemFocus) => (
+  itemFocus.from === ItemFocusFrom.LIST
+  && itemFocus.course.id === course.id
+  && itemFocus.clicked === true
+);
+
+export const isDimmedListCourse = (course, itemFocus) => (
+  itemFocus.from === ItemFocusFrom.LIST
+  && itemFocus.clicked === true
+  && itemFocus.course.id !== course.id
+);

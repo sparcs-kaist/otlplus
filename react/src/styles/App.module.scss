@@ -2156,6 +2156,28 @@ a {
     }
 
 
+    &--planner-course {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        min-width: 74px;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+
+        &__title {
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 2px;
+        }
+
+        &__subtitle {
+            text-align: center;
+        }
+    }
+
+
     &--course-simple {
         display: flex;
         flex-direction: column;
