@@ -58,6 +58,36 @@ export const isDimmedListCourse = (course, itemFocus) => (
   && itemFocus.course.id !== course.id
 );
 
+export const getDefaultCredit = (item) => {
+  if (item.type === 'TAKEN') {
+    return item.lecture.credit;
+  }
+  if (item.type === 'FUTURE') {
+    return item.course.credit;
+  }
+  if (item.type === 'GENERIC') {
+    return 3; // TODO: Update this
+  }
+  return 0;
+};
+
+export const getCredit = (item) => {
+  return getDefaultCredit(item); // TODO: Implement additional customization
+};
+
+export const getCreditAndAu = (item) => {
+  if (item.type === 'TAKEN') {
+    return getDefaultCredit(item) + item.lecture.credit_au;
+  }
+  if (item.type === 'FUTURE') {
+    return getDefaultCredit(item) + item.course.credit_au;
+  }
+  if (item.type === 'GENERIC') {
+    return 3; // TODO: Update this
+  }
+  return 0;
+};
+
 export const getCategory = (planner, item) => {
   const type = (
     item.type === 'TAKEN'

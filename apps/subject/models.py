@@ -586,6 +586,8 @@ class Course(models.Model):
             if not nested:
                 add_userspecific_data(result_cached, user)
             return result_cached
+        
+        representative_lecture = self.lectures.order_by("-year", "-semester").first()
 
         # Don't change this into model_to_dict: for security and performance
         result = {
@@ -598,6 +600,8 @@ class Course(models.Model):
             "title_en": self.title_en,
             "summary": self.summury if len(self.summury) > 0 else "등록되지 않았습니다.",
             "review_total_weight": self.review_total_weight,
+            "credit": representative_lecture.credit,
+            "credit_au": representative_lecture.credit_au,
         }
 
         if nested:

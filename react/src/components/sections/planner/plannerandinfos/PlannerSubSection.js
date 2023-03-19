@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import { withTranslation } from 'react-i18next';
-import { range } from 'lodash';
+import { range, sum } from 'lodash';
 
 import { appBoundClassNames as classNames } from '../../../../common/boundClassNames';
 import { PLANNER_DEFAULT_CREDIT } from '../../../../common/constants';
@@ -17,7 +17,9 @@ import userShape from '../../../../shapes/model/UserShape';
 import plannerShape from '../../../../shapes/model/PlannerShape';
 import itemFocusShape from '../../../../shapes/state/ItemFocusShape';
 
-import { isDimmedTableItem, isFocused, isTableClicked } from '../../../../utils/itemUtils';
+import {
+  getCreditAndAu, isDimmedTableItem, isFocused, isTableClicked,
+} from '../../../../utils/itemUtils';
 import PlannerTile from '../../../tiles/PlannerTile';
 
 
@@ -378,13 +380,14 @@ class PlannerSubSection extends Component {
 
     const getTiles = (year, semester) => {
       const items = this._getItemsForSemester(selectedPlanner, year, semester);
+      const sizes = items.map((i) => getCreditAndAu(i));
       return items.map((i, index) => (
         <PlannerTile
           item={i}
           yearIndex={year - plannerStartYear}
           semesterIndex={semester <= 2 ? 0 : 1}
-          beginIndex={index * 3}
-          endIndex={index * 3 + 3}
+          beginIndex={sum(sizes.slice(0, index))}
+          endIndex={sum(sizes.slice(0, index)) + sizes[index]}
           cellWidth={cellWidth}
           cellHeight={cellHeight}
           isRaised={isTableClicked(i, itemFocus)}
