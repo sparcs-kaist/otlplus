@@ -3026,6 +3026,14 @@ a {
                     min-width: 23px;
                 }
             }
+            .subsection--course-info-setting & {
+                &.fixed-ko {
+                    min-width: 55px;
+                }
+                &.fixed-en {
+                    min-width: 70px;
+                }
+            }
         }
 
         & > *:last-child {

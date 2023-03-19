@@ -19,6 +19,8 @@ import CourseReviewsSubSection from './CourseReviewsSubSection';
 import { clearItemFocus, setLectures, setReviews } from '../../../../actions/planner/itemFocus';
 
 import itemFocusShape from '../../../../shapes/state/ItemFocusShape';
+import { ItemFocusFrom } from '../../../../reducers/planner/itemFocus';
+import CourseAddSubSection from './CourseAddSubSection';
 
 
 class CourseManageSection extends Component {
@@ -141,7 +143,11 @@ class CourseManageSection extends Component {
             </div>
           </div>
           <Divider orientation={{ desktop: Divider.Orientation.VERTICAL, mobile: Divider.Orientation.HORIZONTAL }} isVisible={true} gridArea="divider-main" />
-          <CourseCustomizeSubSection />
+          {
+            itemFocus.from === ItemFocusFrom.LIST
+              ? <CourseAddSubSection />
+              : <CourseCustomizeSubSection />
+          }
         </>
       )
       : (
