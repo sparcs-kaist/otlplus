@@ -42,7 +42,7 @@ class CourseListSection extends Component {
     } = this.props;
 
     if (!isFocused(course, itemFocus)) {
-      setItemFocusDispatch(course, ItemFocusFrom.LIST);
+      setItemFocusDispatch(null, course, ItemFocusFrom.LIST, true);
 
       const labelOfTabs = new Map([
         [CourseListCode.SEARCH, 'Search'],
@@ -223,8 +223,8 @@ const mapDispatchToProps = (dispatch) => ({
   openSearchDispatch: () => {
     dispatch(openSearch());
   },
-  setItemFocusDispatch: (course, from) => {
-    dispatch(setItemFocus(course, from));
+  setItemFocusDispatch: (item, course, from, clicked) => {
+    dispatch(setItemFocus(item, course, from, clicked));
   },
   clearItemFocusDispatch: () => {
     dispatch(clearItemFocus());

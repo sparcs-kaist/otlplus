@@ -15,11 +15,13 @@ export function reset() {
   };
 }
 
-export function setItemFocus(course, from) {
+export function setItemFocus(item, course, from, clicked) {
   return {
     type: SET_ITEM_FOCUS,
+    item: item,
     course: course,
     from: from,
+    clicked: clicked,
   };
 }
 

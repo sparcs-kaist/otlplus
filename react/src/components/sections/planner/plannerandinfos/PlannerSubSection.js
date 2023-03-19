@@ -7,17 +7,16 @@ import { range } from 'lodash';
 import { appBoundClassNames as classNames } from '../../../../common/boundClassNames';
 import { PLANNER_DEFAULT_CREDIT } from '../../../../common/constants';
 
-import { setLectureFocus, clearLectureFocus } from '../../../../actions/timetable/lectureFocus';
-import { updateCellSize, removeLectureFromTimetable } from '../../../../actions/timetable/timetable';
+import { setItemFocus, clearItemFocus } from '../../../../actions/planner/itemFocus';
+import { updateCellSize } from '../../../../actions/planner/planner';
 
-import { LectureFocusFrom } from '../../../../reducers/timetable/lectureFocus';
+import { ItemFocusFrom } from '../../../../reducers/planner/itemFocus';
 
-import userShape from '../../../../shapes/model/UserShape';
+// import userShape from '../../../../shapes/model/UserShape';
 import plannerShape from '../../../../shapes/model/PlannerShape';
-import lectureFocusShape from '../../../../shapes/state/LectureFocusShape';
+import itemFocusShape from '../../../../shapes/state/LectureFocusShape';
 
-import { isTableClicked } from '../../../../utils/lectureUtils';
-import { performDeleteFromTable } from '../../../../common/commonOperations';
+import { isDimmedTableItem, isFocused, isTableClicked } from '../../../../utils/itemUtils';
 import PlannerTile from '../../../tiles/PlannerTile';
 
 
@@ -60,33 +59,57 @@ class PlannerSubSection extends Component {
     updateCellSizeDispatch(cell.width, cell.height + 1);
   }
 
-  focusLectureWithHover = (lecture) => {
-    const { lectureFocus, isDragging, setLectureFocusDispatch } = this.props;
+  _getCourseOfItem = (item) => {
+    if (item.type === 'TAKEN') {
+      return item.lecture.course;
+    }
+    if (item.type === 'FUTURE') {
+      return item.course;
+    }
+    return null;
+  }
 
-    if (!lectureFocus.clicked && !isDragging) {
-      setLectureFocusDispatch(lecture, LectureFocusFrom.TABLE, false);
+  _getFromOfItem = (item) => {
+    if (item.type === 'TAKEN') {
+      return ItemFocusFrom.TABLE_TAKEN;
+    }
+    if (item.type === 'FUTURE') {
+      return ItemFocusFrom.TABLE_FUTURE;
+    }
+    if (item.type === 'GENERIC') {
+      return ItemFocusFrom.TABLE_GENERIC;
+    }
+    return '';
+  }
+
+  focusItemWithHover = (item) => {
+    const { itemFocus, isDragging, setItemFocusDispatch } = this.props;
+
+    if (!itemFocus.clicked && !isDragging) {
+      setItemFocusDispatch(item, this._getCourseOfItem(item), this._getFromOfItem(item), false);
     }
   }
 
-  unfocusLectureWithHover = (lecture) => {
-    const { lectureFocus, clearLectureFocusDispatch } = this.props;
+  unfocusItemWithHover = (item) => {
+    const { itemFocus, clearItemFocusDispatch } = this.props;
 
-    if (!lectureFocus.clicked) {
-      clearLectureFocusDispatch();
+    if (!itemFocus.clicked) {
+      clearItemFocusDispatch();
     }
   }
 
-  focusLectureWithClick = (lecture) => {
-    const { lectureFocus, setLectureFocusDispatch } = this.props;
+  focusItemWithClick = (item) => {
+    const { itemFocus, setItemFocusDispatch } = this.props;
 
-    if (isTableClicked(lecture, lectureFocus)) {
-      setLectureFocusDispatch(lecture, LectureFocusFrom.TABLE, false);
+    if (isTableClicked(item, itemFocus)) {
+      setItemFocusDispatch(item, this._getCourseOfItem(item), this._getFromOfItem(item), false);
     }
     else {
-      setLectureFocusDispatch(lecture, LectureFocusFrom.TABLE, true);
+      setItemFocusDispatch(item, this._getCourseOfItem(item), this._getFromOfItem(item), true);
     }
   }
 
+  /*
   deleteLectureFromTimetable = (lecture) => {
     const { selectedPlanner, user, removeLectureFromTimetableDispatch } = this.props;
 
@@ -109,11 +132,12 @@ class PlannerSubSection extends Component {
       beforeRequest, afterResponse,
     );
   }
+  */
 
   render() {
     const {
       t,
-      selectedPlanner,
+      selectedPlanner, itemFocus,
       cellWidth, cellHeight,
       mobileIsLectureListOpen,
     } = this.props;
@@ -349,16 +373,15 @@ class PlannerSubSection extends Component {
           endIndex={index * 3 + 3}
           cellWidth={cellWidth}
           cellHeight={cellHeight}
-          // TODO: Implement below
-          isRaised={false}
-          isHighlighted={false}
-          isDimmed={false}
-          isSimple={false}
-          onMouseOver={() => null}
-          onMouseOut={() => null}
-          onClick={() => null}
-          deleteLecture={() => null}
-          key={`Tile:${year}-${semester}-${i.id}`}
+          isRaised={isTableClicked(i, itemFocus)}
+          isHighlighted={isFocused(i, itemFocus)}
+          isDimmed={isDimmedTableItem(i, itemFocus)}
+          isSimple={false} // TODO: Implement this
+          onMouseOver={this.focusItemWithHover}
+          onMouseOut={this.unfocusItemWithHover}
+          onClick={this.focusItemWithClick}
+          deleteLecture={() => null} // TODO: Implement this
+          key={`Tile:${year}-${semester}-${i.type}-${i.id}`}
         />
       ));
     };
@@ -386,43 +409,39 @@ class PlannerSubSection extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  user: state.common.user.user,
+  // user: state.common.user.user,
   selectedPlanner: state.planner.planner.selectedPlanner,
-  lectureFocus: state.timetable.lectureFocus,
-  cellWidth: state.timetable.timetable.cellWidth,
-  cellHeight: state.timetable.timetable.cellHeight,
-  isDragging: state.timetable.timetable.isDragging,
-  mobileIsLectureListOpen: state.timetable.list.mobileIsLectureListOpen,
+  itemFocus: state.planner.itemFocus,
+  cellWidth: state.planner.planner.cellWidth,
+  cellHeight: state.planner.planner.cellHeight,
+  isDragging: state.planner.planner.isDragging,
+  mobileIsLectureListOpen: state.planner.list.mobileIsLectureListOpen,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   updateCellSizeDispatch: (width, height) => {
     dispatch(updateCellSize(width, height));
   },
-  setLectureFocusDispatch: (lecture, from, clicked) => {
-    dispatch(setLectureFocus(lecture, from, clicked));
+  setItemFocusDispatch: (item, course, from, clicked) => {
+    dispatch(setItemFocus(item, course, from, clicked));
   },
-  clearLectureFocusDispatch: () => {
-    dispatch(clearLectureFocus());
-  },
-  removeLectureFromTimetableDispatch: (lecture) => {
-    dispatch(removeLectureFromTimetable(lecture));
+  clearItemFocusDispatch: () => {
+    dispatch(clearItemFocus());
   },
 });
 
 PlannerSubSection.propTypes = {
-  user: userShape,
+  // user: userShape,
   selectedPlanner: plannerShape,
-  lectureFocus: lectureFocusShape.isRequired,
+  itemFocus: itemFocusShape.isRequired,
   cellWidth: PropTypes.number.isRequired,
   cellHeight: PropTypes.number.isRequired,
   isDragging: PropTypes.bool.isRequired,
   mobileIsLectureListOpen: PropTypes.bool.isRequired,
 
   updateCellSizeDispatch: PropTypes.func.isRequired,
-  setLectureFocusDispatch: PropTypes.func.isRequired,
-  clearLectureFocusDispatch: PropTypes.func.isRequired,
-  removeLectureFromTimetableDispatch: PropTypes.func.isRequired,
+  setItemFocusDispatch: PropTypes.func.isRequired,
+  clearItemFocusDispatch: PropTypes.func.isRequired,
 };
 
 

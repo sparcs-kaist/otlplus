@@ -16,6 +16,8 @@ export const ItemFocusFrom = {
 
 const initialState = {
   from: ItemFocusFrom.NONE,
+  clicked: false,
+  item: null,
   course: null,
   reviews: null,
   lectures: null,
@@ -30,6 +32,8 @@ const itemFocus = (state = initialState, action) => {
       const courseChanged = !state.course || (state.course.id !== action.course.id);
       return Object.assign({}, state, {
         from: action.from,
+        clicked: action.clicked,
+        item: action.item,
         course: action.course,
       },
       (courseChanged
@@ -40,6 +44,8 @@ const itemFocus = (state = initialState, action) => {
     case CLEAR_ITEM_FOCUS: {
       return Object.assign({}, state, {
         from: ItemFocusFrom.NONE,
+        clicked: false,
+        item: null,
         course: null,
         reviews: null,
         lectures: null,
