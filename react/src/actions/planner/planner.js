@@ -73,9 +73,10 @@ export function duplicatePlanner(id, planner) {
   };
 }
 
-export function addCourseToPlanner(course, year, semester) {
+export function addCourseToPlanner(id, course, year, semester) {
   return {
     type: ADD_COURSE_TO_PLANNER,
+    id: id,
     course: course,
     year: year,
     semester: semester,

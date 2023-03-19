@@ -18,6 +18,11 @@ import { addCourseToPlanner } from '../../../../actions/planner/planner';
 
 
 class CourseCustomizeSubSection extends Component {
+  _createRandomItemId = () => {
+    return Math.floor(Math.random() * 100000000);
+  }
+
+
   addCourseToPlanner = (course, year, semester) => {
     const {
       user,
@@ -25,8 +30,10 @@ class CourseCustomizeSubSection extends Component {
       addCourseToPlannerDispatch,
     } = this.props;
 
+
     if (!user) {
-      addCourseToPlannerDispatch(course, year, semester);
+      const id = this._createRandomItemId();
+      addCourseToPlannerDispatch(id, course, year, semester);
     }
     else {
       axios.post(
@@ -48,7 +55,7 @@ class CourseCustomizeSubSection extends Component {
           if (!newProps.selectedPlanner || newProps.selectedPlanner.id !== selectedPlanner.id) {
             return;
           }
-          addCourseToPlannerDispatch(course, year, semester);
+          addCourseToPlannerDispatch(response.data.id, course, year, semester);
         })
         .catch((error) => {
         });
@@ -112,8 +119,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  addCourseToPlannerDispatch: (course, year, semester) => {
-    dispatch(addCourseToPlanner(course, year, semester));
+  addCourseToPlannerDispatch: (id, course, year, semester) => {
+    dispatch(addCourseToPlanner(id, course, year, semester));
   },
 });
 

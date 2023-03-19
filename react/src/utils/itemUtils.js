@@ -1,28 +1,12 @@
 import { ItemFocusFrom } from '../reducers/planner/itemFocus';
 
 
-export const isIdenticalItem = (item1, item2) => {
-  if (!item1 || !item2) {
-    return false;
-  }
-  if (item1.type !== item2.type) {
-    return false;
-  }
-  switch (item1.type) {
-    case 'TAKEN':
-      return item1.lecture.id === item2.lecture.id;
-    case 'FUTURE':
-      return item1.course.id === item2.course.id
-        && item1.year === item2.year
-        && item1.semester === item2.semester;
-    case 'GENERIC':
-      // TODO: Update below
-      return item1.year === item2.year
-      && item1.semester === item2.semester;
-    default:
-      return false;
-  }
-};
+export const isIdenticalItem = (item1, item2) => (
+  item1 != null
+  && item2 != null
+  && item1.type === item2.type
+  && item1.id === item2.id
+);
 
 export const isFocused = (item, itemFocus) => (
   isIdenticalItem(item, itemFocus.item)

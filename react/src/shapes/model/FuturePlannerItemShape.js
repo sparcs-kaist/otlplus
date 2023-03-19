@@ -3,6 +3,7 @@ import nestedCourseShape from './NestedCourseShape';
 
 
 const futurePlannerItemShape = PropTypes.shape({
+  id: PropTypes.number.isRequired,
   type: PropTypes.string.isRequired,
   year: PropTypes.number.isRequired,
   semester: PropTypes.number.isRequired,

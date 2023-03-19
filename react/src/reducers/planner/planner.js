@@ -96,6 +96,7 @@ const planner = (state = initialState, action) => {
       const newPlanner = {
         ...state.selectedPlanner,
         future_items: state.selectedPlanner.future_items.concat([{
+          id: action.id,
           type: 'FUTURE',
           year: action.year,
           semester: action.semester,
